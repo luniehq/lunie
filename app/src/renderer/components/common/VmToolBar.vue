@@ -1,25 +1,21 @@
 <template lang="pug">
-  tm-tool-bar
+  .tm-tool-bar
     a.back(@click="back" :disabled="user.history.length === 0" v-tooltip.bottom="'Back'")
       i.material-icons arrow_back
     slot
     a.help(@click="enableModalHelp" v-tooltip.bottom="'Help'")
       i.material-icons help_outline
-    router-link.settings(to="/preferences" v-tooltip.bottom="'Preferences'")
-      i.material-icons#settings settings
+    router-link#settings(to="/preferences" v-tooltip.bottom="'Preferences'")
+      i.material-icons settings
     a#signOut-btn(@click="signOut" v-tooltip.bottom.end="'Sign Out'")
       i.material-icons exit_to_app
 </template>
 
 <script>
-import { TmToolBar } from "@tendermint/ui"
 import { mapGetters, mapMutations } from "vuex"
 export default {
   // the name needs to be different from TmToolBar (tm-tool-bar) or else recursive rendering takes place
   name: `vm-tool-bar`,
-  components: {
-    TmToolBar
-  },
   methods: {
     ...mapMutations([`pauseHistory`, `popHistory`]),
     back() {
@@ -43,6 +39,21 @@ export default {
 }
 </script>
 <style lang="stylus">
-.tm-tool-bar-container a
-  margin-top 0 !important
+
+.tm-tool-bar
+  height 100%
+
+.tm-page-header-text
+  padding-right 1rem
+
+  a
+    cursor pointer
+
+  i
+    padding 1rem
+    color var(--dim)
+
+    &:hover
+      color var(--bright)
+
 </style>

@@ -51,16 +51,16 @@ describe(`Module: Votes`, () => {
     proposals.forEach(async (proposal, i) => {
       await actions.submitVote(
         { rootState, dispatch },
-        proposal.proposal_id,
-        `yes`
+        { proposal_id: proposal.proposal_id, option: `Yes` }
       )
       expect(dispatch.mock.calls[i]).toEqual([
         `sendTx`,
         {
           type: `submitProposalVote`,
+          to: proposal.proposal_id,
           proposal_id: proposal.proposal_id,
           voter: addresses[0],
-          option: `yes`
+          option: `Yes`
         }
       ])
 

@@ -1,5 +1,3 @@
-"use strict"
-
 /* mocking electron differently in one file apparently didn't work so I had to split the App tests in 2 files */
 
 jest.mock(
@@ -55,12 +53,15 @@ describe(`App without analytics`, () => {
     electron.remote.getGlobal = () => ({
       env: { NODE_ENV: `test` },
       mocked: true,
-      node_lcd: `https://awesomenode.de:12345`
+      node_lcd: `https://awesomenode.de:12345`,
+      development: false,
+      lcd_port_prod: `8080`
     })
     let Node = require(`renderer/connectors/node.js`)
     require(`renderer/main.js`)
     expect(Node).toHaveBeenCalledWith(
-      `http://localhost:8080`,
+      expect.any(Function),
+      `https://localhost:8080`, // axios or axios proxy
       `https://awesomenode.de:12345`,
       true
     )

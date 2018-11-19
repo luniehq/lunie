@@ -1,7 +1,7 @@
 <template lang="pug">
 tm-page(data-title='Transactions')
-  template(slot="menu-body"): tm-balance
-  div(slot="menu")
+  template(slot="menu-body")
+    tm-balance
     vm-tool-bar
       a(@click='connected && refreshTransactions()' v-tooltip.bottom="'Refresh'" :disabled="!connected")
         i.material-icons refresh
@@ -112,12 +112,10 @@ export default {
         let unbondingDelegation = this.delegation.unbondingDelegations[
           tx.validator_addr
         ]
-        // TODO hack, use creation_height when https://github.com/cosmos/cosmos-sdk/issues/2314 is resolved
         if (
           unbondingDelegation &&
-          new Date(unbondingDelegation.min_time).getTime() -
-            new Date(copiedTransaction.time).getTime() ===
-            0
+          unbondingDelegation.creation_height ===
+            String(copiedTransaction.height)
         )
           copiedTransaction.unbondingDelegation = unbondingDelegation
       }

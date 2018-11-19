@@ -1,47 +1,38 @@
 <template lang="pug">
-  .delegation-modal#delegation-modal(v-click-outside="close")
-    .delegation-modal-header
-      img.icon(class='delegation-modal-atom' src="~assets/images/cosmos-logo.png")
-      span.tm-modal-title Delegation
+  .modal-deposit#modal-deposit(v-click-outside="close")
+    .modal-deposit-header
+      img.icon(class='modal-deposit-atom' src="~assets/images/cosmos-logo.png")
+      span.tm-modal-title Deposit
       .tm-modal-icon.tm-modal-close#closeBtn(@click="close()")
         i.material-icons close
 
-    tm-form-group.delegation-modal-form-group(
+    div
+      h2 Title: {{ proposalTitle }}
+      h3 Proposal ID: {{ `#` + proposalId }}
+
+    tm-form-group.modal-deposit-form-group(
       field-id='amount'
       field-label='Amount'
     )
       tm-field#denom(
         type="text"
-        :placeholder="bondingDenom"
+        :placeholder="denom"
         readonly)
 
       tm-field#amount(
         type="number"
-        :max="fromOptions[selectedIndex].maximum"
+        :max="balance"
         :min="0"
         step="any"
         v-model="amount"
         v-focus)
 
-    tm-form-group.delegation-modal-form-group(
-      field-id='to' field-label='To')
-      tm-field#to(readonly v-model="to")
-
-    tm-form-group.delegation-modal-form-group(
-      field-id='from' field-label='From')
-      tm-field#from(
-        type="select"
-        v-model="selectedIndex"
-        :title="fromOptions[selectedIndex].address"
-        :options="fromOptions"
-      )
-
-    .delegation-modal-footer
-      tm-btn#submit-delegation(
-        @click.native="onDelegation"
+    .modal-deposit-footer
+      tm-btn#submit-deposit(
+        @click.native="onDeposit"
         :disabled="$v.amount.$invalid"
         color="primary"
-        value="Confirm Delegation"
+        value="Deposit"
         size="lg")
 </template>
 
@@ -50,24 +41,33 @@ import { mapGetters } from "vuex"
 import ClickOutside from "vue-click-outside"
 import { required, between } from "vuelidate/lib/validators"
 import Modal from "common/TmModal"
-import { TmBtn, TmField, TmFormGroup, TmFormMsg } from "@tendermint/ui"
+import { TmBtn, TmField, TmFormGroup } from "@tendermint/ui"
 
 export default {
-  name: `delegation-modal`,
-  props: [`fromOptions`, `to`],
+  name: `modal-deposit`,
+  props: [`proposalId`, `proposalTitle`, `denom`],
   computed: {
-    ...mapGetters([`bondingDenom`])
+    // TODO: get coin denom from governance params
+    ...mapGetters([`wallet`]),
+    balance() {
+      // TODO: refactor to get the selected coin when multicooin deposit is enabled
+      if (!this.wallet.balancesLoading && !!this.wallet.balances.length) {
+        let balance = this.wallet.balances.find(
+          coin => coin.denom === this.denom
+        )
+        if (balance) return parseFloat(balance.amount)
+      }
+      return 0
+    }
   },
   components: {
     Modal,
     TmBtn,
     TmField,
-    TmFormGroup,
-    TmFormMsg
+    TmFormGroup
   },
   data: () => ({
-    amount: 0,
-    selectedIndex: 0
+    amount: 0
   }),
   validations() {
     return {
@@ -75,20 +75,23 @@ export default {
         required,
         between: between(
           0.0000000001,
-          this.fromOptions[this.selectedIndex].maximum
+          this.balance > 0 ? this.balance : 0.0000000001
         )
       }
     }
   },
   methods: {
     close() {
-      this.$emit(`update:showDelegationModal`, false)
+      this.$emit(`update:showModalDeposit`, false)
     },
-    onDelegation() {
-      this.$emit(`submitDelegation`, {
-        amount: this.amount,
-        from: this.fromOptions[this.selectedIndex].address
-      })
+    onDeposit() {
+      let amount = [
+        {
+          denom: this.denom,
+          amount: String(this.amount)
+        }
+      ]
+      this.$emit(`submitDeposit`, { amount })
       this.close()
     }
   },
@@ -101,7 +104,7 @@ export default {
 <style lang="stylus">
 @import '~variables'
 
-.delegation-modal
+.modal-deposit
   background var(--app-nav)
   display flex
   flex-direction column

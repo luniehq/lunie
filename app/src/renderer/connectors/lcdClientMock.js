@@ -215,7 +215,7 @@ let state = {
         {
           delegator_addr: addresses[0],
           validator_addr: validators[0],
-          shares: `140000000000`,
+          shares: `14`,
           height: 123
         }
       ],
@@ -228,8 +228,8 @@ let state = {
       operator_address: validators[0],
       pub_key: `cosmosvalpub1234`,
       revoked: false,
-      tokens: `140000000000`,
-      delegator_shares: `140000000000`,
+      tokens: `14`,
+      delegator_shares: `14`,
       description: {
         website: `www.monty.ca`,
         details: `Mr Mounty`,
@@ -275,8 +275,8 @@ let state = {
     {
       operator_address: validators[2],
       pub_key: `cosmosvalpub8910`,
-      tokens: `190000000000`,
-      delegator_shares: `190000000000`,
+      tokens: `19`,
+      delegator_shares: `19`,
       description: {
         details: `Herr Schmidt`,
         website: `www.schmidt.de`,
@@ -312,6 +312,25 @@ let state = {
     unbonding_time: `72h0m0s`,
     max_validators: 100,
     bond_denom: `steak`
+  },
+  govParameters: {
+    deposit: {
+      min_deposit: [
+        {
+          denom: `stake`,
+          amount: `coin`
+        }
+      ],
+      max_deposit_period: `86400000000000`
+    },
+    tallying: {
+      threshold: `0.5000000000`,
+      veto: `0.3340000000`,
+      governance_penalty: `0.0100000000`
+    },
+    voting: {
+      voting_period: `86400000000000`
+    }
   },
   sendHeight: 2,
   signing_info: {
@@ -351,7 +370,7 @@ let state = {
     {
       proposal_id: `2`,
       proposal_type: `Text`,
-      title: `Active proposal`,
+      title: `VotingPeriod proposal`,
       description: `custom text proposal description`,
       initial_deposit: [
         {
@@ -367,7 +386,7 @@ let state = {
       ],
       submit_block: `10`,
       voting_start_block: `10`,
-      proposal_status: `Active`,
+      proposal_status: `VotingPeriod`,
       tally_result: {
         yes: `0`,
         no: `0`,
@@ -394,7 +413,7 @@ let state = {
       ],
       submit_block: `10`,
       voting_start_block: `-1`,
-      proposal_status: `Pending`,
+      proposal_status: `DepositPeriod`,
       tally_result: {
         yes: `0`,
         no: `0`,
@@ -640,9 +659,6 @@ module.exports = {
         delegator.delegations.push(delegation)
       }
 
-      // TODO remove after sdk.Dec parsing is fixed
-      amount = amount * 10000000000
-
       let shares = parseInt(delegation.shares)
       delegation.shares = (shares + amount).toString()
       let candidate = state.candidates.find(
@@ -688,9 +704,6 @@ module.exports = {
       )
 
       coinBalance.amount = String(parseInt(coinBalance.amount) + amount)
-
-      // TODO remove after sdk.Dec parsing is fixed
-      amount = amount * 10000000000
 
       let shares = parseInt(delegation.shares)
       delegation.shares = (+shares - amount).toString()
@@ -758,8 +771,8 @@ module.exports = {
       }
 
       // check if there's an existing redelegation
-      let summary = this.getDelegator(tx.delegator_addr)
-      let red = summary.redelegations.find(
+      let redelegations = this.getRedelegations(tx.delegator_addr)
+      let red = redelegations.find(
         red =>
           red.validator_src_addr === tx.validator_src_addr &&
           red.validator_dst_addr === tx.validator_dst_addr
@@ -848,9 +861,17 @@ module.exports = {
     )
   },
   // Get all delegations information from a delegator
-  getDelegator(delegatorAddress) {
+  getDelegations(delegatorAddress) {
     let delegator = state.stake[delegatorAddress] || {}
-    return delegator
+    return delegator.delegations || []
+  },
+  getUndelegations(delegatorAddress) {
+    let delegator = state.stake[delegatorAddress] || {}
+    return delegator.unbonding_delegations || []
+  },
+  getRedelegations(delegatorAddress) {
+    let delegator = state.stake[delegatorAddress] || {}
+    return delegator.redelegations || []
   },
   async getDelegatorTxs(addr, types = []) {
     // filter for transactions belonging to that delegator and are staking
@@ -903,10 +924,74 @@ module.exports = {
   async getProposals() {
     return state.proposals || []
   },
+  async submitProposal({
+    base_req,
+    title,
+    description,
+    proposal_type,
+    proposer,
+    initial_deposit
+  }) {
+    let results = []
+    // get new proposal id
+    let proposal_id = `1`
+    let proposalsLen = state.proposals.length
+    if (state.proposals && proposalsLen > 0) {
+      proposal_id = String(
+        parseInt(state.proposals[proposalsLen - 1].proposal_id) + 1
+      )
+    }
+
+    if (
+      proposal_type !== `Text` &&
+      proposal_type !== `ParameterChange` &&
+      proposal_type !== `SoftwareUpgrade`
+    ) {
+      results.push(txResult(2, `${proposal_type} is not a valid proposal type`))
+      return results
+    }
+
+    let tally_result = {
+      yes: `0`,
+      no: `0`,
+      no_with_veto: `0`,
+      abstain: `0`
+    }
+    let submit_time = Date.now()
+    let deposit_end_time = moment(submit_time)
+      .add(86400000, `ms`)
+      .toDate()
+
+    let proposal = {
+      proposal_id,
+      title,
+      description,
+      proposal_type,
+      proposal_status: `DepositPeriod`,
+      tally_result,
+      submit_time,
+      deposit_end_time,
+      voting_start_time: undefined,
+      voting_end_time: undefined,
+      total_deposit: []
+    }
+
+    // we add the proposal to the state to make it available for the submitProposalDeposit function
+    state.proposals.push(proposal)
+    results = await this.submitProposalDeposit({
+      base_req,
+      proposal_id,
+      depositer: proposer,
+      amount: initial_deposit
+    })
+    // remove proposal from state if it fails
+    if (results[0].check_tx.code !== 0) {
+      state.proposals.pop()
+    }
+    return results
+  },
   async getProposal(proposalId) {
-    return state.proposals.find(
-      proposal => proposal.proposal_id === String(proposalId)
-    )
+    return state.proposals.find(proposal => proposal.proposal_id === proposalId)
   },
   async getProposalDeposits(proposalId) {
     return state.deposits[proposalId] || []
@@ -947,8 +1032,8 @@ module.exports = {
       results.push(txResult(3, `Nonexistent proposal`))
       return results
     } else if (
-      proposal.proposal_status != `Pending` &&
-      proposal.proposal_status != `Active`
+      proposal.proposal_status != `DepositPeriod` &&
+      proposal.proposal_status != `VotingPeriod`
     ) {
       results.push(txResult(3, `Proposal #${proposal_id} already finished`))
       return results
@@ -994,12 +1079,15 @@ module.exports = {
 
       // ============= USER'S DEPOSITS =============
       // check if there's an existing deposit by the depositer
-      let prevDeposit = state.deposits[proposal_id].find(
-        deposit => deposit.depositer === depositer
-      )
+      let prevDeposit =
+        state.deposits[proposal_id] &&
+        state.deposits[proposal_id].find(
+          deposit => deposit.depositer === depositer
+        )
 
       if (!prevDeposit) {
         // if no previous deposit by the depositer, we add it to the existing deposits
+        if (!state.deposits[proposal_id]) state.deposits[proposal_id] = []
         state.deposits[proposal_id].push(submittedDeposit)
         break // break since no need to iterate over other coins
       } else {
@@ -1021,14 +1109,14 @@ module.exports = {
     incrementSequence(fromAccount)
 
     // check if the propoposal is now active
-    if (proposal.proposal_status === `Pending`) {
+    if (proposal.proposal_status === `DepositPeriod`) {
       // TODO: get min deposit denom from gov params instead of stake params
       let depositCoinAmt = proposal.total_deposit.find(coin => {
         return coin.denom === `steak`
       }).amount
       // TODO: get min deposit amount from gov params
       if (parseInt(depositCoinAmt) >= 10) {
-        proposal.proposal_status = `Active`
+        proposal.proposal_status = `VotingPeriod`
         // TODO: get voting time from gov params
         proposal.voting_start_block = Date.now()
         proposal.voting_end_block = moment(proposal.voting_start_block)
@@ -1075,7 +1163,7 @@ module.exports = {
     if (!proposal) {
       results.push(txResult(3, `Nonexistent proposal`))
       return results
-    } else if (proposal.proposal_status != `Active`) {
+    } else if (proposal.proposal_status != `VotingPeriod`) {
       results.push(txResult(3, `Proposal #${proposal_id} is inactive`))
       return results
     } else if (
@@ -1115,18 +1203,29 @@ module.exports = {
       }
     })
   },
-  async getGovernaceTxs(addr) {
-    return state.txs.filter(tx => {
-      let type = tx.tx.value.msg[0].type
+  async getGovernanceTxs(addr) {
+    return (
+      state.txs.filter(tx => {
+        let type = tx.tx.value.msg[0].type
 
-      if (type === `cosmos-sdk/MsgSubmitProposal`) {
-        return tx.tx.value.msg[0].value.proposer === addr
-      } else if (type === `cosmos-sdk/MsgDeposit`) {
-        return tx.tx.value.msg[0].value.depositer === addr
-      }
+        if (type === `cosmos-sdk/MsgSubmitProposal`) {
+          return tx.tx.value.msg[0].value.proposer === addr
+        } else if (type === `cosmos-sdk/MsgDeposit`) {
+          return tx.tx.value.msg[0].value.depositer === addr
+        }
 
-      return false
-    })
+        return false
+      }) || []
+    )
+  },
+  async getGovDepositParameters() {
+    return state.govParameters.deposit
+  },
+  async getGovTallyingParameters() {
+    return state.govParameters.tallying
+  },
+  async getGovVotingParameters() {
+    return state.govParameters.voting
   },
   // exports to be used in tests
   state,

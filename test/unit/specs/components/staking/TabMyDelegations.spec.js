@@ -3,7 +3,7 @@ import TabMyDelegations from "renderer/components/staking/TabMyDelegations"
 
 const delegates = lcdClientMock.candidates
 
-test(`undelegatedValidators`, () => {
+it(`undelegatedValidators`, () => {
   expect(
     TabMyDelegations.computed.undelegatedValidators({
       delegation: {
@@ -17,7 +17,7 @@ test(`undelegatedValidators`, () => {
   ).toEqual([delegates[1], delegates[2]])
 })
 
-test(`yourValidators`, () => {
+it(`yourValidators`, () => {
   expect(
     TabMyDelegations.computed.yourValidators({
       committedDelegations: {

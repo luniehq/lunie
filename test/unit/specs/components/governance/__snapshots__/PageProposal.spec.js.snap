@@ -140,7 +140,7 @@ exports[`PageProposal with magic has the expected html structure 1`] = `
               <div
                 class="validator-profile__header__name__title"
               >
-                Proposal Title
+                Proposal Title (#1)
               </div>
             </div>
           </div>
@@ -171,7 +171,7 @@ exports[`PageProposal with magic has the expected html structure 1`] = `
           class="row description"
         >
           <p>
-            This text proposal (#1) was submitted at block #120 and voting started at block #135.
+            Submitted a few seconds ago. Voting started a few seconds ago
           </p>
         </div>
         <div
@@ -254,6 +254,7 @@ exports[`PageProposal with magic has the expected html structure 1`] = `
         </div>
       </div>
     </div>
+    <!---->
     <!---->
     <div
       class="ps__rail-x"

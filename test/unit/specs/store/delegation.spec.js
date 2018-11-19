@@ -160,7 +160,7 @@ describe(`Module: Delegations`, () => {
     let resolveDelegationRequest
 
     // mock returning some delegations
-    node.getDelegator = () =>
+    node.getDelegations = () =>
       new Promise(resolve => {
         resolveDelegationRequest = () =>
           resolve({

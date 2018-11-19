@@ -3,7 +3,8 @@
 const Client = (axios, localLcdURL, remoteLcdURL) => {
   async function request(method, path, data, useRemote) {
     const url = useRemote ? remoteLcdURL : localLcdURL
-    return (await axios[method.toLowerCase()](url + path, data)).data
+    const result = await axios({ data, method, url: url + path })
+    return result.data
   }
 
   // returns an async function which makes a request for the given
@@ -19,13 +20,6 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
   // to the path (/foo/{arg}/...)
   function argReq(method, prefix, suffix = ``, useRemote) {
     return function(args, data) {
-      // `args` can either be a single value or an array
-      if (Array.isArray(args)) {
-        args = args.join(`/`)
-      }
-      if (method === `DELETE`) {
-        data = { data }
-      }
       return request(method, `${prefix}/${args}${suffix}`, data, useRemote)
     }
   }
@@ -34,8 +28,6 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
 
   const keys = {
     add: req(`POST`, `/keys`),
-
-    // axios handles DELETE requests different then other requests, we have to but the body in a config object with the prop data
     delete: argReq(`DELETE`, `/keys`),
 
     get: async key => {
@@ -63,6 +55,8 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
     lcdConnected: function() {
       return keys.values().then(() => true, () => false)
     },
+
+    nodeVersion: req(`GET`, `/node_version`),
 
     // tx
     postTx: req(`POST`, `/tx`),
@@ -95,8 +89,18 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
     /* ============ STAKE ============ */
 
     // Get all delegations information from a delegator
-    getDelegator: function(addr) {
-      return req(`GET`, `/stake/delegators/${addr}`, true)()
+    getDelegations: function(addr) {
+      return req(`GET`, `/stake/delegators/${addr}/delegations`, true)()
+    },
+    getUndelegations: function(addr) {
+      return req(
+        `GET`,
+        `/stake/delegators/${addr}/unbonding_delegations`,
+        true
+      )()
+    },
+    getRedelegations: function(addr) {
+      return req(`GET`, `/stake/delegators/${addr}/redelegations`, true)()
     },
     // Get all txs from a delegator
     getDelegatorTxs: function(addr, types) {
@@ -154,7 +158,7 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
     /* ============ Slashing ============ */
 
     queryValidatorSigningInfo: function(pubKey) {
-      return req(`GET`, `/slashing/signing_info/${pubKey}`, true)()
+      return req(`GET`, `/slashing/validators/${pubKey}/signing_info`, true)()
     },
 
     /* ============ Governance ============ */
@@ -179,16 +183,9 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
         true
       )()
     },
-    getGovernanceTxs: function(addr) {
-      return Promise.all([
-        req(
-          `GET`,
-          `/txs?tag=action=submit-proposal&proposer='${addr}'`,
-          true
-        )(),
-        req(`GET`, `/txs?tag=action=deposit&depositer='${addr}'`, true)()
-      ]).then(([proposalTxs, depositTxs]) => [].concat(proposalTxs, depositTxs))
-    },
+    getGovDepositParameters: req(`GET`, `/gov/parameters/deposit`, true),
+    getGovTallyingParameters: req(`GET`, `/gov/parameters/tallying`, true),
+    getGovVotingParameters: req(`GET`, `/gov/parameters/voting`, true),
     submitProposal: function(data) {
       return req(`POST`, `/gov/proposals`, true)(data)
     },
@@ -197,6 +194,21 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
     },
     submitProposalDeposit: function(proposalId, data) {
       return req(`POST`, `/gov/proposals/${proposalId}/deposits`, true)(data)
+    },
+    getGovernanceTxs: async function(address) {
+      let [depositerTxs, proposerTxs] = await Promise.all([
+        req(
+          `GET`,
+          `/txs?tag=action='submit-proposal'&tag=proposer='${address}'`,
+          true
+        )(),
+        req(
+          `GET`,
+          `/txs?tag=action='deposit'&tag=depositer='${address}'`,
+          true
+        )()
+      ])
+      return depositerTxs.concat(proposerTxs)
     }
   }
 }

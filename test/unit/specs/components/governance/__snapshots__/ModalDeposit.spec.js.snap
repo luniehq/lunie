@@ -1,24 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`UndelegationModal component matches snapshot has the expected html structure 1`] = `
+exports[`ModalDeposit component matches snapshot has the expected html structure 1`] = `
 <div
-  class="undelegation-modal"
-  id="undelegation-modal"
+  class="modal-deposit"
+  id="modal-deposit"
 >
   <div
-    class="undelegation-modal-header"
+    class="modal-deposit-header"
   >
     <img
-      class="icon undelegation-modal-atom"
+      class="icon modal-deposit-atom"
       src="~assets/images/cosmos-logo.png"
     />
     <span
       class="tm-modal-title"
     >
-      Undelegate
+      Deposit
     </span>
     <div
       class="tm-modal-icon tm-modal-close"
+      id="closeBtn"
     >
       <i
         class="material-icons"
@@ -27,25 +28,38 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
       </i>
     </div>
   </div>
+  <div>
+    <h2>
+      Title: Proposal Title
+    </h2>
+    <h3>
+      Proposal ID: #1
+    </h3>
+  </div>
   <div
-    class="undelegation-modal-form-group tm-form-group"
+    class="modal-deposit-form-group tm-form-group"
   >
     <!---->
-    <!---->
+    <label
+      class="tm-form-group__label"
+      for="amount"
+    >
+      Amount
+    </label>
     <div
       class="tm-form-group__field"
     >
       <input
         class="tm-field"
         id="denom"
-        placeholder="Steak"
+        placeholder="stake"
         readonly="readonly"
         type="text"
       />
       <input
         class="tm-field"
         id="amount"
-        max="100"
+        max="20"
         min="0"
         step="any"
         type="number"
@@ -53,32 +67,12 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
     </div>
   </div>
   <div
-    class="undelegation-modal-form-group tm-form-group"
-  >
-    <!---->
-    <label
-      class="tm-form-group__label"
-      for="to"
-    >
-      To
-    </label>
-    <div
-      class="tm-form-group__field"
-    >
-      <input
-        class="tm-field"
-        id="to"
-        readonly="readonly"
-      />
-    </div>
-  </div>
-  <div
-    class="undelegation-modal-footer"
+    class="modal-deposit-footer"
   >
     <button
       class="tm-btn"
       disabled="disabled"
-      id="submit-undelegation"
+      id="submit-deposit"
     >
       <span
         class="tm-btn__container tm-btn--size-lg tm-btn--primary"
@@ -88,7 +82,7 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
         <span
           class="tm-btn__value"
         >
-          Undelegate
+          Deposit
         </span>
       </span>
     </button>
