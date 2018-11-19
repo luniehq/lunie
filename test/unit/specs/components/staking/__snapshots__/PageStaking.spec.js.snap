@@ -50,7 +50,7 @@ exports[`PageStaking has the expected html structure 1`] = `
 </div>
 </div>
    <div class=\\"tm-tool-bar\\">
-      <a disabled=\\"disabled\\" class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i></a><a><i class=\\"material-icons\\">refresh</i></a><a><i class=\\"search material-icons\\">search</i></a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a><a id=\\"settings\\"><i class=\\"material-icons\\">settings</i></a><a id=\\"signOut-btn\\"><i class=\\"material-icons\\">exit_to_app</i></a>
+      <a disabled=\\"disabled\\" class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i></a><a><i class=\\"material-icons\\">refresh</i></a><a><i class=\\"search material-icons\\">search</i></a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a><a href=\\"#/preferences\\" class=\\"\\" id=\\"settings\\"><i class=\\"material-icons\\">settings</i></a><a id=\\"signOut-btn\\"><i class=\\"material-icons\\">exit_to_app</i></a>
    </div>
 </div>
 </div>
@@ -103,7 +103,7 @@ exports[`PageStaking has the expected html structure 1`] = `
       <div class=\\"tabs\\"></div>
 </div>
       <div class=\\"tm-tool-bar\\">
-         <a disabled=\\"disabled\\" class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i></a><a><i class=\\"material-icons\\">refresh</i></a><a disabled=\\"disabled\\"><i class=\\"material-icons\\">search</i></a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a><a id=\\"settings\\"><i class=\\"material-icons\\">settings</i></a><a id=\\"signOut-btn\\"><i class=\\"material-icons\\">exit_to_app</i></a>
+         <a disabled=\\"disabled\\" class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i></a><a><i class=\\"material-icons\\">refresh</i></a><a disabled=\\"disabled\\"><i class=\\"material-icons\\">search</i></a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a><a href=\\"#/preferences\\" class=\\"\\" id=\\"settings\\"><i class=\\"material-icons\\">settings</i></a><a id=\\"signOut-btn\\"><i class=\\"material-icons\\">exit_to_app</i></a>
       </div>
 </div>
 </div>

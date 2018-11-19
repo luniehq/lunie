@@ -63,11 +63,7 @@ module.exports = {
     await module.exports.openMenu(app)
     // click link
     await app.client.waitForExist(`#settings`, 1000)
-    try {
-      await app.client.$(`#settings`).click()
-    } catch (err) {
-      console.log(`error on clicking settings: ${err}`)
-    }
+    await app.client.$(`#settings`).click()
     console.log(`navigated to preferences`)
   },
   sleep,

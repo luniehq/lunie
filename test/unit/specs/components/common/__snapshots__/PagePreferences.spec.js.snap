@@ -105,6 +105,8 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
               </i>
             </a>
             <a
+              class=""
+              href="#/preferences"
               id="settings"
             >
               <i
