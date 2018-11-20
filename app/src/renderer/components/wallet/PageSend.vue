@@ -48,7 +48,7 @@ tm-page(data-title='Send')
       p(v-if="mockedConnector")
         span Try sending to the address "
         strong(style="font-weight: bold") cosmos1p6zajjw6xged056andyhn62lm7axwzyspkzjq0
-        span ", it"s a friendly bot which will send the money back to you!
+        span ", it's a friendly bot which will send the money back to you!
       br(v-if="mockedConnector")
 
     div(slot="footer")
