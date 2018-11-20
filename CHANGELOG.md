@@ -50,6 +50,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1543](https://github.com/cosmos/voyager/issues/1543) updated unit tests to use `describe` and `it` instead of `test` @fedekunze
 - [\#1377](https://github.com/cosmos/voyager/issues/1377) deleted AppFooter page @fedekunze
 - [\#1582](https://github.com/cosmos/voyager/issues/1582) proposals now use time instead of block number @fedekunze
+- [\#1547](https://github.com/cosmos/voyager/issues/1547) removed unused media queries @jbibla
+- [\#1547](https://github.com/cosmos/voyager/issues/1547) deleted archive directory of old components @jbibla
 
 ### Fixed
 

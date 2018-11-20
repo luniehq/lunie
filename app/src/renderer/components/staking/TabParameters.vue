@@ -140,16 +140,7 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
-@media screen and (min-width: 640px)
-  #parameters .tm-part-main
-    display flex
-    flex-flow row-reverse nowrap
-
-    .list-items
-      flex 1
-
 .parameters
-
   &__details
     > .row
       > .column
@@ -198,7 +189,4 @@ h3
 
     &.info_dl__text-box
       min-height 6.91rem
-
-@media screen and (min-width: 768px)
-  padding-bottom 4rem
 </style>

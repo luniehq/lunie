@@ -382,14 +382,6 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
-@media screen and (min-width: 640px)
-  #validator-profile .tm-part-main
-    display flex
-    flex-flow row-reverse nowrap
-
-    .list-items
-      flex 1
-
 .validator-profile__section
   background-color var(--app-fg)
   display flex
