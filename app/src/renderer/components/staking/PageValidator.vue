@@ -2,7 +2,7 @@
 tm-page(data-title="Validator")
   template(slot="menu-body"): tm-balance
   div(slot="menu"): tm-tool-bar
-    router-link(to="/staking" exact): i.material-icons arrow_back
+    router-link(to="/staking/validators" exact): i.material-icons arrow_back
 
   tm-data-error(v-if="!validator")
 

@@ -2,6 +2,7 @@
 
 exports[`Module: Transactions should have an empty state by default 1`] = `
 Object {
+  "error": false,
   "governance": Array [
     Object {
       "hash": "QSDFGE5CA923AF08E6088F1348047F16BAHH8K31",
