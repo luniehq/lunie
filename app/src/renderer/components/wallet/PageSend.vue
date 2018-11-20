@@ -212,7 +212,7 @@ export default {
     }
   },
   watch: {
-    // TODO ignored while we don"t have IBC
+    // TODO ignored while we don't have IBC
     // // if the zoneId gets added at a later time
     // "wallet.zoneIds": () => {
     //   this.fields.zoneId = this.wallet.zoneIds[0]
@@ -222,7 +222,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@require "~variables"
+@require '~variables'
 
 .tm-form-footer
   max-width width-main-max
