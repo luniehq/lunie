@@ -9,7 +9,8 @@ export default ({ node }) => {
   const emptyState = {
     delegates: [],
     globalPower: null,
-    loading: false
+    loading: false,
+    error: null
   }
   const state = JSON.parse(JSON.stringify(emptyState))
 
@@ -69,28 +70,40 @@ export default ({ node }) => {
     },
     async getDelegates({ commit, dispatch }) {
       commit(`setDelegateLoading`, true)
-      let validators = await node.getCandidates()
-      let { validators: validatorSet } = await node.getValidatorSet()
-      for (let validator of validators) {
-        validator.isValidator = false
-        if (validatorSet.find(v => v.pub_key === validator.pub_key)) {
-          validator.isValidator = true
+      try {
+        let validators = await node.getCandidates()
+        let { validators: validatorSet } = await node.getValidatorSet()
+        state.error = null
+
+        for (let validator of validators) {
+          validator.isValidator = false
+          if (validatorSet.find(v => v.pub_key === validator.pub_key)) {
+            validator.isValidator = true
+          }
         }
-      }
-      // the tokens and shares are currently served in a weird format that is a amino representation of a float value
-      validators = validators.map(validator => {
-        return Object.assign(JSON.parse(JSON.stringify(validator)), {
-          tokens: validator.tokens,
-          delegator_shares: validator.delegator_shares
+        // the tokens and shares are currently served in a weird format that is a amino representation of a float value
+        validators = validators.map(validator => {
+          return Object.assign(JSON.parse(JSON.stringify(validator)), {
+            tokens: validator.tokens,
+            delegator_shares: validator.delegator_shares
+          })
         })
-      })
 
-      commit(`setDelegates`, validators)
-      commit(`setDelegateLoading`, false)
-      dispatch(`getKeybaseIdentities`, validators)
-      dispatch(`updateSigningInfo`, validators)
+        commit(`setDelegates`, validators)
+        commit(`setDelegateLoading`, false)
+        dispatch(`getKeybaseIdentities`, validators)
+        dispatch(`updateSigningInfo`, validators)
 
-      return validators
+        return validators
+      } catch (err) {
+        commit(`notifyError`, {
+          title: `Error fetching validators`,
+          body: err.message
+        })
+        commit(`setDelegateLoading`, false)
+        state.error = err
+        return []
+      }
     },
     async getSelfBond({ commit }, validator) {
       if (validator.selfBond) return validator.selfBond

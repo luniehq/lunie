@@ -138,7 +138,7 @@ describe(`Module: Delegations`, () => {
   it(`should query delegated atoms on reconnection`, () => {
     jest.resetModules()
     let axios = require(`axios`)
-    store.state.node.stopConnecting = true
+    store.state.connection.stopConnecting = true
     store.state.delegation.loading = true
     jest.spyOn(axios, `get`)
     store.dispatch(`reconnected`)
@@ -148,7 +148,7 @@ describe(`Module: Delegations`, () => {
   it(`should not query delegated atoms on reconnection if not stuck in loading`, () => {
     jest.resetModules()
     let axios = require(`axios`)
-    store.state.node.stopConnecting = true
+    store.state.connection.stopConnecting = true
     store.state.delegation.loading = false
     jest.spyOn(axios, `get`)
     store.dispatch(`reconnected`)
@@ -319,5 +319,50 @@ describe(`Module: Delegations`, () => {
     await store.dispatch(`submitDelegation`, { stakingTransactions })
     jest.runAllTimers()
     expect(store._actions.updateDelegates[0].mock.calls).toHaveLength(1)
+  })
+
+  it(`should store an error if failed to load delegations`, async () => {
+    const node = lcdClientMock
+    const { state, actions } = delegationModule({ node })
+    jest
+      .spyOn(node, `getDelegations`)
+      .mockImplementationOnce(async () => Promise.reject(`Error`))
+    await actions.getBondedDelegates({
+      state,
+      rootState: { user: { address: `x` } },
+      commit: jest.fn(),
+      dispatch: jest.fn()
+    })
+    expect(state.error).toBe(`Error`)
+  })
+
+  it(`should store an error if failed to load undelegations`, async () => {
+    const node = lcdClientMock
+    const { state, actions } = delegationModule({ node })
+    jest
+      .spyOn(node, `getUndelegations`)
+      .mockImplementationOnce(async () => Promise.reject(`Error`))
+    await actions.getBondedDelegates({
+      state,
+      rootState: { user: { address: `x` } },
+      commit: jest.fn(),
+      dispatch: jest.fn()
+    })
+    expect(state.error).toBe(`Error`)
+  })
+
+  it(`should store an error if failed to load redelegations`, async () => {
+    const node = lcdClientMock
+    const { state, actions } = delegationModule({ node })
+    jest
+      .spyOn(node, `getRedelegations`)
+      .mockImplementationOnce(async () => Promise.reject(`Error`))
+    await actions.getBondedDelegates({
+      state,
+      rootState: { user: { address: `x` } },
+      commit: jest.fn(),
+      dispatch: jest.fn()
+    })
+    expect(state.error).toBe(`Error`)
   })
 })

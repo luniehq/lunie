@@ -3,7 +3,7 @@ import { uniqBy } from "lodash"
 export default ({ node }) => {
   let emptyState = {
     loading: false,
-    error: false,
+    error: null,
     wallet: [], // {height, result: { gas, tags }, tx: { type, value: { fee: { amount: [{denom, amount}], gas}, msg: {type, inputs, outputs}}, signatures} }}
     staking: [],
     governance: []
@@ -76,26 +76,37 @@ export default ({ node }) => {
       {
         rootState: {
           user: { address }
-        }
+        },
+        commit
       },
       type
     ) {
-      let response
-      switch (type) {
-        case `staking`:
-          response = await node.getDelegatorTxs(address)
-          break
-        case `governance`:
-          response = await node.getGovernanceTxs(address)
-          break
-        case `wallet`:
-          response = await node.txs(address)
-          break
-        default:
-          throw new Error(`Unknown transaction type`)
+      try {
+        let response
+        switch (type) {
+          case `staking`:
+            response = await node.getDelegatorTxs(address)
+            break
+          case `governance`:
+            response = await node.getGovernanceTxs(address)
+            break
+          case `wallet`:
+            response = await node.txs(address)
+            break
+          default:
+            throw new Error(`Unknown transaction type`)
+        }
+        state.error = null
+        const transactionsPlusType = response.map(fp.set(`type`, type))
+        return response ? uniqBy(transactionsPlusType, `hash`) : []
+      } catch (err) {
+        commit(`notifyError`, {
+          title: `Error fetching ${type} transactions`,
+          body: err.message
+        })
+        state.error = err
+        return []
       }
-      const transactionsPlusType = response.map(fp.set(`type`, type))
-      return response ? uniqBy(transactionsPlusType, `hash`) : []
     },
     async enrichTransactions({ dispatch }, { transactions }) {
       const blockHeights = new Set(transactions.map(({ height }) => height))

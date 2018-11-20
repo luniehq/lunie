@@ -3,7 +3,8 @@
 export default ({ node }) => {
   const emptyState = {
     pool: {},
-    loading: false
+    loading: false,
+    error: null
   }
   const state = JSON.parse(JSON.stringify(emptyState))
 
@@ -14,6 +15,11 @@ export default ({ node }) => {
   }
 
   const actions = {
+    reconnected({ state, dispatch }) {
+      if (state.loading) {
+        dispatch(`getPool`)
+      }
+    },
     async getPool({ state, commit }) {
       state.loading = true
       try {
@@ -21,9 +27,10 @@ export default ({ node }) => {
         commit(`setPool`, pool)
       } catch (err) {
         commit(`notifyError`, {
-          title: `Error fetching staking pool`,
+          title: `Error fetching staking pool information`,
           body: err.message
         })
+        state.error = err
       }
       state.loading = false
     }

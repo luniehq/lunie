@@ -79,8 +79,8 @@ describe(`Module: Wallet`, () => {
   })
 
   it(`should query the balances on reconnection`, () => {
-    store.state.node.stopConnecting = true
-    store.state.wallet.balancesLoading = true
+    store.state.connection.stopConnecting = true
+    store.state.wallet.loading = true
     store.state.wallet.address = `12345678901234567890`
     jest.spyOn(node, `queryAccount`)
     store.dispatch(`reconnected`)
@@ -88,8 +88,8 @@ describe(`Module: Wallet`, () => {
   })
 
   it(`should not query the balances on reconnection if not stuck in loading`, () => {
-    store.state.node.stopConnecting = true
-    store.state.wallet.balancesLoading = false
+    store.state.connection.stopConnecting = true
+    store.state.wallet.loading = false
     jest.spyOn(node, `queryAccount`)
     store.dispatch(`reconnected`)
     expect(node.queryAccount).not.toHaveBeenCalled()
@@ -106,16 +106,16 @@ describe(`Module: Wallet`, () => {
         ]
       })
 
-    expect(store.state.wallet.balancesLoading).toBe(true)
+    expect(store.state.wallet.loading).toBe(true)
     await store.dispatch(`initializeWallet`, `tb1wdhk6e2pv3j8yetnwv0yr6s6`)
-    expect(store.state.wallet.balancesLoading).toBe(false)
+    expect(store.state.wallet.loading).toBe(false)
   })
 
   it(`should query wallet data at specified height`, async done => {
     jest.useFakeTimers()
-    let height = store.state.node.lastHeader.height
+    let height = store.state.connection.lastHeader.height
     store.dispatch(`queryWalletStateAfterHeight`, height + 1).then(() => done())
-    store.state.node.lastHeader.height++
+    store.state.connection.lastHeader.height++
     jest.runAllTimers()
     jest.useRealTimers()
   })
@@ -173,5 +173,14 @@ describe(`Module: Wallet`, () => {
       store.dispatch(`walletSubscribe`)
       jest.runAllTimers()
     })
+  })
+
+  it(`should store an error if failed to load balances`, async () => {
+    store.state.wallet.address = `x`
+    jest
+      .spyOn(node, `queryAccount`)
+      .mockImplementationOnce(() => Promise.reject(new Error(`Error`)))
+    await store.dispatch(`queryWalletBalances`)
+    expect(store.state.wallet.error.message).toBe(`Error`)
   })
 })

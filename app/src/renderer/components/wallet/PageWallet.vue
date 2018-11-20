@@ -19,7 +19,7 @@ tm-page(data-title="Wallet")
       btn-receive(slot="btn-receive")
 
   tm-part#part-available-balances(title="Available Balances")
-    tm-data-loading(v-if="wallet.balancesLoading")
+    tm-data-loading(v-if="wallet.loading")
     tm-data-msg(id="account_empty_msg" v-else-if="wallet.balances.length === 0" icon="help_outline")
       div(slot="title") Account empty
       div(slot="subtitle")
@@ -81,7 +81,7 @@ export default {
       `connected`
     ]),
     somethingToSearch() {
-      return !this.wallet.balancesLoading && !!this.wallet.balances.length
+      return !this.wallet.loading && !!this.wallet.balances.length
     },
     allDenomBalances() {
       // for denoms not in balances, add empty balance
