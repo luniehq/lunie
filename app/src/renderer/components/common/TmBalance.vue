@@ -26,6 +26,8 @@
         :class="{'tab-selected': $route.name === tab}",
       )
         router-link(:to="{name: tab}") {{ tab }}
+
+    slot
 </template>
 <script>
 import num from "scripts/num"
@@ -36,13 +38,13 @@ export default {
   components: {
     ShortBech32
   },
+  props: [`totalEarnings`, `totalRewards`, `tabs`],
   data() {
     return {
       num,
       tabIndex: 1
     }
   },
-  props: [`totalEarnings`, `totalRewards`, `tabs`],
   computed: {
     ...mapGetters([`bondingDenom`, `user`, `totalAtoms`]),
     address() {
@@ -133,4 +135,9 @@ export default {
 
       a
         color var(--bright)
+
+.tm-btn
+  position absolute
+  right 0rem
+  bottom 1rem
 </style>

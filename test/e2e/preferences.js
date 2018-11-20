@@ -10,8 +10,8 @@ let {
 } = require(`./common.js`)
 
 /*
-* NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
-*/
+ * NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
+ */
 
 test(`preferences`, async function(t) {
   let { app } = await getApp(t)

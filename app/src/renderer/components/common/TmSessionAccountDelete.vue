@@ -45,6 +45,9 @@ export default {
     TmFormStruct
   },
   data: () => ({ fields: { deletionPassword: `` } }),
+  mounted() {
+    this.$el.querySelector(`#sign-in-password`).focus()
+  },
   methods: {
     help() {
       this.$store.commit(`setModalHelp`, true)
@@ -73,9 +76,6 @@ export default {
         })
       }
     }
-  },
-  mounted() {
-    this.$el.querySelector(`#sign-in-password`).focus()
   },
   validations: () => ({
     fields: {

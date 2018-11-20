@@ -48,6 +48,9 @@ export default {
       return this.user.accounts.length > 0
     }
   },
+  mounted() {
+    new PerfectScrollbar(this.$el.querySelector(`.tm-session-main`))
+  },
   methods: {
     help() {
       this.$store.commit(`setModalHelp`, true)
@@ -55,9 +58,6 @@ export default {
     setState(value) {
       this.$store.commit(`setModalSessionState`, value)
     }
-  },
-  mounted() {
-    new PerfectScrollbar(this.$el.querySelector(`.tm-session-main`))
   }
 }
 </script>

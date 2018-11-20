@@ -1,4 +1,5 @@
 "use strict"
+import Vue from "vue"
 
 export default ({ node }) => {
   let emptyState = {
@@ -9,7 +10,7 @@ export default ({ node }) => {
 
   const mutations = {
     setProposal(state, proposal) {
-      state.proposals[proposal.proposal_id] = proposal
+      Vue.set(state.proposals, proposal.proposal_id, proposal)
     }
   }
   let actions = {
@@ -37,19 +38,17 @@ export default ({ node }) => {
         rootState: { wallet },
         dispatch
       },
-      proposal
+      { title, description, type, initial_deposit }
     ) {
       await dispatch(`sendTx`, {
         type: `submitProposal`,
         proposer: wallet.address,
-        proposal_type: proposal.proposal_type,
-        title: proposal.title,
-        description: proposal.description,
-        initial_deposit: proposal.initial_deposit
+        proposal_type: type,
+        title,
+        description,
+        initial_deposit
       })
-      setTimeout(async () => {
-        dispatch(`getProposals`)
-      }, 5000)
+      await dispatch(`getProposals`)
     }
   }
   return {

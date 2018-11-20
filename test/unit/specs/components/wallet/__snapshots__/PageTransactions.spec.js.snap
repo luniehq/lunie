@@ -82,86 +82,78 @@ exports[`PageTransactions has the expected html structure 1`] = `
               class="tabs"
             />
           </div>
+          <div
+            class="tm-tool-bar"
+          >
+            <a
+              class="back"
+              disabled="disabled"
+            >
+              <i
+                class="material-icons"
+              >
+                arrow_back
+              </i>
+            </a>
+            <a>
+              <i
+                class="material-icons"
+              >
+                refresh
+              </i>
+            </a>
+            <a>
+              <i
+                class="material-icons"
+              >
+                search
+              </i>
+            </a>
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+            <a
+              class=""
+              href="#/preferences"
+              id="settings"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </a>
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+          </div>
         </div>
       </div>
       <menu
         class="tm-page-header-menu"
       >
-        <div>
-          <div>
-            <div
-              class="tm-tool-bar"
-            >
-              <div
-                class="tm-tool-bar-container"
-              >
-                <div
-                  class="main"
-                >
-                  <a
-                    class="back"
-                    disabled="disabled"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                  </a>
-                  <a>
-                    <i
-                      class="material-icons"
-                    >
-                      refresh
-                    </i>
-                  </a>
-                  <a>
-                    <i
-                      class="material-icons"
-                    >
-                      search
-                    </i>
-                  </a>
-                  <a
-                    class="help"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      help_outline
-                    </i>
-                  </a>
-                  <a
-                    class="settings"
-                    href="#/preferences"
-                  >
-                    <i
-                      class="material-icons"
-                      id="settings"
-                    >
-                      settings
-                    </i>
-                  </a>
-                  <a
-                    id="signOut-btn"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      exit_to_app
-                    </i>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div />
       </menu>
     </div>
   </header>
   <main
     class="tm-page-main ps"
   >
+    <!---->
+    <!---->
+    <!---->
     <!---->
     <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
@@ -309,80 +301,69 @@ exports[`PageTransactions should filter the transactions 1`] = `
               class="tabs"
             />
           </div>
+          <div
+            class="tm-tool-bar"
+          >
+            <a
+              class="back"
+              disabled="disabled"
+            >
+              <i
+                class="material-icons"
+              >
+                arrow_back
+              </i>
+            </a>
+            <a>
+              <i
+                class="material-icons"
+              >
+                refresh
+              </i>
+            </a>
+            <a>
+              <i
+                class="material-icons"
+              >
+                search
+              </i>
+            </a>
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+            <a
+              class=""
+              href="#/preferences"
+              id="settings"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </a>
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+          </div>
         </div>
       </div>
       <menu
         class="tm-page-header-menu"
       >
-        <div>
-          <div>
-            <div
-              class="tm-tool-bar"
-            >
-              <div
-                class="tm-tool-bar-container"
-              >
-                <div
-                  class="main"
-                >
-                  <a
-                    class="back"
-                    disabled="disabled"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                  </a>
-                  <a>
-                    <i
-                      class="material-icons"
-                    >
-                      refresh
-                    </i>
-                  </a>
-                  <a>
-                    <i
-                      class="material-icons"
-                    >
-                      search
-                    </i>
-                  </a>
-                  <a
-                    class="help"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      help_outline
-                    </i>
-                  </a>
-                  <a
-                    class="settings"
-                    href="#/preferences"
-                  >
-                    <i
-                      class="material-icons"
-                      id="settings"
-                    >
-                      settings
-                    </i>
-                  </a>
-                  <a
-                    id="signOut-btn"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      exit_to_app
-                    </i>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div />
       </menu>
     </div>
   </header>
@@ -433,6 +414,9 @@ exports[`PageTransactions should filter the transactions 1`] = `
         </div>
       </div>
     </div>
+    <!---->
+    <!---->
+    <!---->
     <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
       bondingdenom="Steak"

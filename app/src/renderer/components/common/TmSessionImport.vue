@@ -74,9 +74,6 @@ export default {
     TmFormMsg,
     TmFormStruct
   },
-  computed: {
-    ...mapGetters([`connected`])
-  },
   data: () => ({
     fields: {
       importName: ``,
@@ -85,6 +82,13 @@ export default {
       importSeed: ``
     }
   }),
+  computed: {
+    ...mapGetters([`connected`])
+  },
+  mounted() {
+    this.$el.querySelector(`#import-name`).focus()
+    new PerfectScrollbar(this.$el.querySelector(`.tm-session-main`))
+  },
   methods: {
     help() {
       this.$store.commit(`setModalHelp`, true)
@@ -123,10 +127,6 @@ export default {
         })
       }
     }
-  },
-  mounted() {
-    this.$el.querySelector(`#import-name`).focus()
-    new PerfectScrollbar(this.$el.querySelector(`.tm-session-main`))
   },
   validations: () => ({
     fields: {

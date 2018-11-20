@@ -20,27 +20,19 @@ export default ({ node }) => {
     },
     async submitDeposit(
       {
-        rootState: { config, wallet },
+        rootState: { wallet },
         dispatch
       },
-      proposalId,
-      depositAmount
+      { proposal_id, amount }
     ) {
-      const denom = config.bondingDenom.toLowerCase()
       await dispatch(`sendTx`, {
         type: `submitProposalDeposit`,
-        proposal_id: proposalId,
+        to: proposal_id,
+        proposal_id,
         depositer: wallet.address,
-        amount: [
-          {
-            denom: denom,
-            amount: depositAmount
-          }
-        ]
+        amount
       })
-      setTimeout(async () => {
-        dispatch(`getProposalDeposits`, proposalId)
-      }, 5000)
+      await dispatch(`getProposalDeposits`, proposal_id)
     }
   }
   return {

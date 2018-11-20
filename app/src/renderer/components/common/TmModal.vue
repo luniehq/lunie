@@ -7,16 +7,17 @@ div(:class='cssClass' @click.self="close()")
       .tm-modal-title
         slot(name='title')
       .tm-modal-icon.tm-modal-close(@click="close()")
-        i.material-icons close
+        i.material-icons(v-if="close") close
     main.tm-modal-main
       slot
-    footer.tm-modal-footer
-      slot(name='footer')
+      footer.tm-modal-footer
+        slot(name='footer')
 </template>
 
 <script>
 export default {
   name: `tm-modal`,
+  props: [`size`, `icon`, `close`],
   computed: {
     cssClass() {
       let value = `tm-modal`
@@ -25,8 +26,7 @@ export default {
       }
       return value
     }
-  },
-  props: [`size`, `icon`, `close`]
+  }
 }
 </script>
 
@@ -60,50 +60,35 @@ export default {
   box-shadow hsla(0,0,0,0.25) 0 0.25rem 1rem
   display flex
   flex-flow column nowrap
-  min-width 20rem
-  max-width 40rem
+  width 30rem
 
 .tm-modal-header
   display flex
   flex-flow row nowrap
   align-items center
-  flex 0 0 3rem + 0.0625rem
-  padding 2rem 1rem
+  padding 1rem 1.5rem
   background var(--app-nav)
 
 .tm-modal-icon
-  height 3rem
   display flex
   align-items center
   justify-content center
-
   i
     font-size lg
+
   &.tm-modal-close
     cursor pointer
-    i
-      color var(--txt)
     &:hover i
       color var(--link)
-
-.tm-modal-icon + .tm-modal-title
-  padding-left 0
 
 .tm-modal-title
   flex 1
   font-size h3
   font-weight 500
   color var(--bright)
-  padding 0 1rem
 
 .tm-modal-main
-  padding 2rem 1rem
-
-.tm-modal-main + .tm-modal-footer
-  border-top px solid var(--bc)
-
-.tm-modal-main
-  flex 1
+  padding 1rem 1.5rem
   display flex
   flex-flow column
   justify-content center
@@ -111,22 +96,12 @@ export default {
   .ps-scrollbar-y-rail
     display none
 
-.tm-modal-main p
-  margin-bottom 1rem
-  padding 0 1rem
-  word-wrap break-word
-  color var(--txt)
+  p
+    margin-bottom 1rem
+    word-wrap break-word
 
 .tm-modal-footer
-  padding 1rem
-
-  button
-    padding-left 1rem
-
-  &:empty
-    display none
-
-.tm-modal-footer > div
+  padding-top 2rem
   display flex
   justify-content flex-end
 </style>

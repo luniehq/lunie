@@ -1,16 +1,18 @@
 import setup from "../../helpers/vuex-setup"
+import transactionsModule from "renderer/vuex/modules/transactions.js"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 import walletTxs from "./json/txs.js"
 
 let instance = setup()
 
 describe(`Module: Transactions`, () => {
-  let store, node
+  let store, node, module
 
   beforeEach(async () => {
     let test = instance.shallow(null)
     store = test.store
     node = test.node
+    module = transactionsModule({ node })
 
     await store.dispatch(`signIn`, {
       account: `default`,
@@ -28,8 +30,6 @@ describe(`Module: Transactions`, () => {
     store.commit(`setStakingTxs`, lcdClientMock.state.txs.slice(4))
     store.commit(`setGovernanceTxs`, lcdClientMock.state.txs.slice(2, 4))
   })
-
-  // DEFAULT
 
   it(`should have an empty state by default`, () => {
     expect(store.state.transactions).toMatchSnapshot()
@@ -109,5 +109,27 @@ describe(`Module: Transactions`, () => {
     jest.spyOn(node, `txs`)
     await store.dispatch(`reconnected`)
     expect(node.txs).not.toHaveBeenCalled()
+  })
+
+  it(`should set error to true if dispatches fail`, () => {
+    let err = new Error(`unexpected error`)
+    let { actions } = module
+
+    const commit = jest.fn()
+    const dispatch = jest.fn(() => {
+      throw err
+    })
+    actions.getAllTxs({ commit, dispatch })
+
+    expect(commit).toHaveBeenCalledWith(`setError`, `unexpected error`)
+  })
+
+  it(`should set error to error message`, () => {
+    const error = new Error(`unexpected error`)
+    const { mutations, state } = module
+
+    mutations.setError(state, error)
+
+    expect(state.error).toEqual(error)
   })
 })

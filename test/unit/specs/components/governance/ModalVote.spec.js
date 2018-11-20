@@ -48,23 +48,23 @@ describe(`ModalVote`, () => {
     })
 
     it(`enables the 'Vote' button if the user selected a valid option`, () => {
-      wrapper.setData({ option: `yes` })
+      wrapper.setData({ option: `Yes` })
       let voteBtn = wrapper.find(`#vote-yes`)
       let submitButton = wrapper.find(`#cast-vote`)
       expect(voteBtn.html()).toContain(`active`)
       expect(submitButton.html()).not.toContain(`disabled="disabled"`)
 
-      wrapper.setData({ option: `no` })
+      wrapper.setData({ option: `No` })
       voteBtn = wrapper.find(`#vote-no`)
       expect(voteBtn.html()).toContain(`active`)
       expect(submitButton.html()).not.toContain(`disabled="disabled"`)
 
-      wrapper.setData({ option: `no_with_veto` })
+      wrapper.setData({ option: `NoWithVeto` })
       voteBtn = wrapper.find(`#vote-veto`)
       expect(voteBtn.html()).toContain(`active`)
       expect(submitButton.html()).not.toContain(`disabled="disabled"`)
 
-      wrapper.setData({ option: `abstain` })
+      wrapper.setData({ option: `Abstain` })
       voteBtn = wrapper.find(`#vote-abstain`)
       expect(voteBtn.html()).toContain(`active`)
       expect(submitButton.html()).not.toContain(`disabled="disabled"`)
@@ -86,30 +86,30 @@ describe(`ModalVote`, () => {
 
   describe(`Vote`, () => {
     it(`updates the selected option on click`, () => {
-      wrapper.vm.vote(`yes`)
-      expect(wrapper.vm.option).toEqual(`yes`)
+      wrapper.vm.vote(`Yes`)
+      expect(wrapper.vm.option).toEqual(`Yes`)
 
-      wrapper.vm.vote(`no`)
-      expect(wrapper.vm.option).toEqual(`no`)
+      wrapper.vm.vote(`No`)
+      expect(wrapper.vm.option).toEqual(`No`)
 
-      wrapper.vm.vote(`no_with_veto`)
-      expect(wrapper.vm.option).toEqual(`no_with_veto`)
+      wrapper.vm.vote(`NoWithVeto`)
+      expect(wrapper.vm.option).toEqual(`NoWithVeto`)
 
-      wrapper.vm.vote(`abstain`)
-      expect(wrapper.vm.option).toEqual(`abstain`)
+      wrapper.vm.vote(`Abstain`)
+      expect(wrapper.vm.option).toEqual(`Abstain`)
 
-      wrapper.vm.vote(`abstain`)
+      wrapper.vm.vote(`Abstain`)
       expect(wrapper.vm.option).toEqual(``)
     })
 
     it(`Vote button casts a vote and closes modal`, () => {
-      wrapper.setData({ option: `yes` })
+      wrapper.setData({ option: `Yes` })
       wrapper.vm.onVote()
 
       expect(wrapper.emittedByOrder()).toEqual([
         {
           name: `castVote`,
-          args: [{ option: `yes` }]
+          args: [{ option: `Yes` }]
         },
         {
           name: `update:showModalVote`,

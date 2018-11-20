@@ -61,6 +61,12 @@ export default {
       return accounts.map(({ name }) => ({ key: name, value: name }))
     }
   },
+  mounted() {
+    this.setDefaultAccount(this.accounts)
+    if (this.mockedConnector) {
+      this.fields.signInPassword = `1234567890`
+    }
+  },
   methods: {
     help() {
       this.$store.commit(`setModalHelp`, true)
@@ -105,12 +111,6 @@ export default {
       } else {
         this.$el.querySelector(`#sign-in-name`).focus()
       }
-    }
-  },
-  mounted() {
-    this.setDefaultAccount(this.accounts)
-    if (this.mockedConnector) {
-      this.fields.signInPassword = `1234567890`
     }
   },
   validations: () => ({

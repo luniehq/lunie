@@ -5,18 +5,19 @@ let { getApp, refresh } = require(`./launch.js`)
 let { openMenu, login, sleep } = require(`./common.js`)
 
 /*
-* NOTE: For some strange reason element.click() does not always work. In some cases I needed to use client.leftClick(selector). But this will be deprecated and pollutes the console with a deprecation warning.
-*/
+ * NOTE: For some strange reason element.click() does not always work. In some cases I needed to use client.leftClick(selector). But this will be deprecated and pollutes the console with a deprecation warning.
+ */
 
 /*
-* NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
-*/
+ * NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
+ */
 
 test(`sign in`, async function(t) {
   let { app } = await getApp(t)
-
   await refresh(app)
   let el = (...args) => app.client.$(...args)
+  app.browserWindow.setBounds({ x: 0, y: 0, width: 1600, height: 1024 })
+  app.browserWindow.setSize(1600, 1024)
   // clicking the button does fail in webdriver as there is no actual click handler on the button
   async function clickContinue() {
     return app.client.submitForm(`.tm-session form`)
@@ -164,10 +165,11 @@ test(`sign in`, async function(t) {
 
   t.test(`sign out`, async function(t) {
     await refresh(app)
+    app.browserWindow.setBounds({ x: 0, y: 0, width: 1600, height: 1024 })
+    app.browserWindow.setSize(1600, 1024)
     await login(app, `testkey`)
     await app.client.waitForExist(`#signOut-btn`, 1000)
     await app.client.$(`#signOut-btn`).click()
-
     await app.client.waitForExist(`.tm-session`, 1000)
 
     t.end()

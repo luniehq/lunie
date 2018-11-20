@@ -45,7 +45,19 @@ import { TmBtn, TmField, TmFormGroup } from "@tendermint/ui"
 
 export default {
   name: `modal-deposit`,
+  components: {
+    Modal,
+    TmBtn,
+    TmField,
+    TmFormGroup
+  },
+  directives: {
+    ClickOutside
+  },
   props: [`proposalId`, `proposalTitle`, `denom`],
+  data: () => ({
+    amount: 0
+  }),
   computed: {
     // TODO: get coin denom from governance params
     ...mapGetters([`wallet`]),
@@ -60,15 +72,6 @@ export default {
       return 0
     }
   },
-  components: {
-    Modal,
-    TmBtn,
-    TmField,
-    TmFormGroup
-  },
-  data: () => ({
-    amount: 0
-  }),
   validations() {
     return {
       amount: {
@@ -85,12 +88,15 @@ export default {
       this.$emit(`update:showModalDeposit`, false)
     },
     onDeposit() {
-      this.$emit(`submitDeposit`, { amount: this.amount })
+      let amount = [
+        {
+          denom: this.denom,
+          amount: String(this.amount)
+        }
+      ]
+      this.$emit(`submitDeposit`, { amount })
       this.close()
     }
-  },
-  directives: {
-    ClickOutside
   }
 }
 </script>

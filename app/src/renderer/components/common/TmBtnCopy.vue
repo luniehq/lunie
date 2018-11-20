@@ -10,6 +10,7 @@ import { clipboard } from "electron"
 import { TmBtn } from "@tendermint/ui"
 export default {
   components: { TmBtn },
+  props: [`value`, `title`, `body`],
   computed: {
     notifyTitle() {
       if (this.title) return this.title
@@ -34,7 +35,6 @@ export default {
         body: this.notifyBody
       })
     }
-  },
-  props: [`value`, `title`, `body`]
+  }
 }
 </script>

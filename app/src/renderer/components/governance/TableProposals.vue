@@ -20,13 +20,11 @@ import { includes, orderBy } from "lodash"
 import LiProposal from "./LiProposal"
 import { TmDataEmpty, TmDataLoading } from "@tendermint/ui"
 import DataEmptySearch from "common/TmDataEmptySearch"
-import { ratToBigNumber } from "scripts/common"
 import ModalSearch from "common/TmModalSearch"
 import PanelSort from "staking/PanelSort"
 import VmToolBar from "common/VmToolBar"
 export default {
   name: `table-proposals`,
-  props: [`proposals`, `loading`],
   components: {
     LiProposal,
     TmDataEmpty,
@@ -36,6 +34,7 @@ export default {
     PanelSort,
     VmToolBar
   },
+  props: [`proposals`, `loading`],
   data: () => ({
     query: ``,
     sort: {
@@ -54,18 +53,12 @@ export default {
 
       let copiedProposals = JSON.parse(JSON.stringify(this.proposals))
       return Object.values(copiedProposals).map(p => {
-        p.tally_result.yes = Math.round(
-          ratToBigNumber(p.tally_result.yes).toNumber()
-        )
-        p.tally_result.no = Math.round(
-          ratToBigNumber(p.tally_result.no).toNumber()
-        )
+        p.tally_result.yes = Math.round(parseFloat(p.tally_result.yes))
+        p.tally_result.no = Math.round(parseFloat(p.tally_result.no))
         p.tally_result.no_with_veto = Math.round(
-          ratToBigNumber(p.tally_result.no_with_veto).toNumber()
+          parseFloat(p.tally_result.no_with_veto)
         )
-        p.tally_result.abstain = Math.round(
-          ratToBigNumber(p.tally_result.abstain).toNumber()
-        )
+        p.tally_result.abstain = Math.round(parseFloat(p.tally_result.abstain))
         return p
       })
     },
@@ -95,10 +88,10 @@ export default {
           class: `proposal_title`
         },
         {
-          title: `Submitted Block`,
-          value: `submit_block`,
-          tooltip: `Block height when proposal was submitted`,
-          class: `submit_block`
+          title: `Proposal id`,
+          value: `proposal_id`,
+          tooltip: `Id of the proposal`,
+          class: `proposal_id`
         },
         {
           title: `Yes`,
@@ -127,6 +120,12 @@ export default {
       ]
     }
   },
+  mounted() {
+    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
+    Mousetrap.bind([`command+n`, `ctrl+n`], () => this.newProposal())
+    Mousetrap.bind(`esc`, () => this.setSearch(false))
+    this.$store.dispatch(`getProposals`)
+  },
   methods: {
     setSearch(
       bool = !this.filters[`proposals`].search.visible,
@@ -136,13 +135,6 @@ export default {
         $store.commit(`setSearchVisible`, [`proposals`, bool])
       }
     }
-  },
-  mounted() {
-    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
-    Mousetrap.bind([`command+n`, `ctrl+n`], () => this.newProposal())
-    Mousetrap.bind(`esc`, () => this.setSearch(false))
-
-    this.$store.dispatch(`getProposals`)
   }
 }
 </script>
