@@ -39,23 +39,23 @@ export default {
     TmListItem,
     UserPane
   },
+  data: () => ({
+    ps: {}
+  }),
   computed: {
     ...mapGetters([`validators`, `config`, `lastHeader`, `mockedConnector`]),
     isValidatorPage() {
       return this.$route.params.validator
     }
   },
-  data: () => ({
-    ps: {}
-  }),
+  mounted() {
+    this.ps = new PerfectScrollbar(this.$el.querySelector(`.app-menu-main`))
+  },
   methods: {
     close() {
       this.$store.commit(`setActiveMenu`, ``)
       noScroll.off()
     }
-  },
-  mounted() {
-    this.ps = new PerfectScrollbar(this.$el.querySelector(`.app-menu-main`))
   }
 }
 </script>

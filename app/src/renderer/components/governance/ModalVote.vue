@@ -63,7 +63,6 @@ const isValid = option =>
 
 export default {
   name: `modal-vote`,
-  props: [`proposalId`, `proposalTitle`],
   components: {
     Modal,
     TmBtn,
@@ -71,6 +70,10 @@ export default {
     TmFormGroup,
     TmFormMsg
   },
+  directives: {
+    ClickOutside
+  },
+  props: [`proposalId`, `proposalTitle`],
   data: () => ({
     option: ``
   }),
@@ -97,9 +100,6 @@ export default {
       this.$emit(`castVote`, { option: this.option })
       this.close()
     }
-  },
-  directives: {
-    ClickOutside
   }
 }
 </script>

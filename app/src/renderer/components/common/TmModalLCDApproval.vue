@@ -31,6 +31,7 @@ export default {
     TmBtn,
     TmField
   },
+  props: [`hash`],
   computed: {},
   methods: {
     approve() {
@@ -39,8 +40,7 @@ export default {
     newNode() {
       this.$store.dispatch(`disapproveNodeHash`, this.hash)
     }
-  },
-  props: [`hash`]
+  }
 }
 </script>
 

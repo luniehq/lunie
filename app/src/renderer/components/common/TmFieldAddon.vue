@@ -1,4 +1,4 @@
-<template lang='pug'>
+<template lang="pug">
 .tm-field-addon: slot
 </template>
 

@@ -38,13 +38,13 @@ export default {
   components: {
     ShortBech32
   },
+  props: [`totalEarnings`, `totalRewards`, `tabs`],
   data() {
     return {
       num,
       tabIndex: 1
     }
   },
-  props: [`totalEarnings`, `totalRewards`, `tabs`],
   computed: {
     ...mapGetters([`bondingDenom`, `user`, `totalAtoms`]),
     address() {

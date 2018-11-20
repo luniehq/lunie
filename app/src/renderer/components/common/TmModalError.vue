@@ -26,6 +26,11 @@ import { TmBtn } from "@tendermint/ui"
 export default {
   name: `tm-modal-error`,
   components: { TmBtn },
+  props: [`icon`, `title`, `body`],
+  data: () => ({
+    logPath: ``,
+    issueUrl: `https://github.com/cosmos/voyager/issues`
+  }),
   computed: {
     ...mapGetters([`config`, `lastHeader`]),
     errorIcon() {
@@ -42,19 +47,14 @@ export default {
         return `Voyager has encountered a critical error that blocks the app from running. Please create an issue and include a copy of the app logs.`
     }
   },
-  data: () => ({
-    logPath: ``,
-    issueUrl: `https://github.com/cosmos/voyager/issues`
-  }),
+  mounted() {
+    this.logPath = remote.getGlobal(`root`) + `/main.log`
+  },
   methods: {
     viewLogs() {
       shell.openItem(this.logPath)
     }
-  },
-  mounted() {
-    this.logPath = remote.getGlobal(`root`) + `/main.log`
-  },
-  props: [`icon`, `title`, `body`]
+  }
 }
 </script>
 

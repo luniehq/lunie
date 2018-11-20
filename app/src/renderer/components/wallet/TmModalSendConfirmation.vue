@@ -23,12 +23,12 @@ import { TmBtn, TmListItem } from "@tendermint/ui"
 import Modal from "common/TmModal"
 export default {
   name: `tm-modal-send-confirmation`,
-  props: [`amount`, `denom`, `recipient`],
   components: {
     TmBtn,
     TmListItem,
     Modal
   },
+  props: [`amount`, `denom`, `recipient`],
   methods: {
     close() {
       this.$emit(`canceled`)

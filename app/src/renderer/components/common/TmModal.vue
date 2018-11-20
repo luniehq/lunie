@@ -17,6 +17,7 @@ div(:class='cssClass' @click.self="close()")
 <script>
 export default {
   name: `tm-modal`,
+  props: [`size`, `icon`, `close`],
   computed: {
     cssClass() {
       let value = `tm-modal`
@@ -25,8 +26,7 @@ export default {
       }
       return value
     }
-  },
-  props: [`size`, `icon`, `close`]
+  }
 }
 </script>
 

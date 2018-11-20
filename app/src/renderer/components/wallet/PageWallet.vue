@@ -57,7 +57,6 @@ import ModalSearch from "common/TmModalSearch"
 import VmToolBar from "common/VmToolBar"
 export default {
   name: `page-wallet`,
-  data: () => ({ num }),
   components: {
     TmBalance,
     TmDataLoading,
@@ -71,6 +70,7 @@ export default {
     VmToolBar,
     BtnReceive
   },
+  data: () => ({ num }),
   computed: {
     ...mapGetters([
       `filters`,
@@ -109,6 +109,12 @@ export default {
       }
     }
   },
+  mounted() {
+    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
+    Mousetrap.bind(`esc`, () => this.setSearch(false))
+    this.updateDelegates()
+    this.queryWalletState()
+  },
   methods: {
     ...mapActions([`updateDelegates`, `queryWalletState`]),
     setSearch(bool = !this.filters[`balances`].search.visible) {
@@ -118,12 +124,6 @@ export default {
     updateBalances() {
       this.queryWalletState()
     }
-  },
-  mounted() {
-    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
-    Mousetrap.bind(`esc`, () => this.setSearch(false))
-    this.updateDelegates()
-    this.queryWalletState()
   }
 }
 </script>

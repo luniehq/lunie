@@ -11,15 +11,6 @@ import { TmField } from "@tendermint/ui"
 export default {
   name: `tm-field-seed`,
   components: { TmField },
-  methods: {
-    update(value) {
-      this.$emit(`input`, value)
-    }
-  },
-  mounted() {
-    // adjust the textarea element height to match content
-    autosize(this.$el)
-  },
   props: [`value`],
   watch: {
     value: {
@@ -28,10 +19,19 @@ export default {
         autosize.update(this.$el)
       }
     }
+  },
+  mounted() {
+    // adjust the textarea element height to match content
+    autosize(this.$el)
+  },
+  methods: {
+    update(value) {
+      this.$emit(`input`, value)
+    }
   }
 }
 </script>
 <style lang="stylus">
-  .tm-field:disabled.tm-field-seed
-    border 1px solid var(--bc)
+.tm-field:disabled.tm-field-seed
+  border 1px solid var(--bc)
 </style>

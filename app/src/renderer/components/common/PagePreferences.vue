@@ -65,16 +65,6 @@ export default {
     VmToolBar,
     TmModal
   },
-  computed: {
-    ...mapGetters([
-      `user`,
-      `themes`,
-      `onboarding`,
-      `mockedConnector`,
-      `config`,
-      `nodeURL`
-    ])
-  },
   data: () => ({
     themeSelectActive: null,
     themeSelectOptions: [
@@ -99,6 +89,16 @@ export default {
       }
     ]
   }),
+  computed: {
+    ...mapGetters([
+      `user`,
+      `themes`,
+      `onboarding`,
+      `mockedConnector`,
+      `config`,
+      `nodeURL`
+    ])
+  },
   mounted() {
     this.networkSelectActive = this.mockedConnector ? `mock` : `live`
     this.themeSelectActive = this.themes.active
@@ -135,5 +135,4 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
-</style>
+<style lang="stylus"></style>

@@ -38,15 +38,15 @@ export default {
     TmBtn,
     VmToolBar
   },
-  computed: {
-    // TODO: get min deposit denom from gov params
-    ...mapGetters([`proposals`, `filters`, `bondingDenom`])
-  },
   data: () => ({
     query: ``,
     tabs: [`Proposals`],
     showModalPropose: false
   }),
+  computed: {
+    // TODO: get min deposit denom from gov params
+    ...mapGetters([`proposals`, `filters`, `bondingDenom`])
+  },
   methods: {
     onPropose() {
       this.showModalPropose = true
