@@ -33,7 +33,12 @@ export default {
     PanelSort,
     VmToolBar
   },
-  props: [`validators`],
+  props: {
+    validators: {
+      type: Array,
+      required: true
+    }
+  },
   data: () => ({
     num: num,
     query: ``,

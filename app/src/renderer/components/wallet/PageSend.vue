@@ -91,7 +91,12 @@ export default {
     VmToolBar,
     TmModalSendConfirmation
   },
-  props: [`denom`],
+  props: {
+    denom: {
+      type: String,
+      required: true
+    }
+  },
   data: () => ({
     bech32error: null,
     fields: {

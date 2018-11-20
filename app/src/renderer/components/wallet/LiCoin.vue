@@ -25,7 +25,12 @@ export default {
   components: {
     TmBtn
   },
-  props: [`coin`],
+  props: {
+    coin: {
+      type: Object,
+      required: true
+    }
+  },
   data: () => ({ num }),
   computed: {
     amount() {

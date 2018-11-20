@@ -26,7 +26,16 @@ export default {
   components: {
     ShortBech32
   },
-  props: [`validator`, `disabled`],
+  props: {
+    validator: {
+      type: Object,
+      required: true
+    },
+    disabled: {
+      type: Boolean,
+      required: true
+    }
+  },
   data: () => ({ num }),
   computed: {
     ...mapGetters([`delegates`, `committedDelegations`]),
@@ -60,8 +69,8 @@ export default {
       return this.validator.revoked
         ? `Revoked`
         : this.validator.isValidator
-          ? `Validator`
-          : `Candidate`
+        ? `Validator`
+        : `Candidate`
     },
     powerRatio() {
       return ratToBigNumber(this.validator.tokens)
