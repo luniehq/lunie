@@ -25,6 +25,7 @@ export default {
   components: {
     TmBtn
   },
+  props: [`coin`],
   data: () => ({ num }),
   computed: {
     amount() {
@@ -36,8 +37,7 @@ export default {
         this.coin.denom.substring(1).toLowerCase()
       )
     }
-  },
-  props: [`coin`]
+  }
 }
 </script>
 
