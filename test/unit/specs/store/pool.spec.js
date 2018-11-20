@@ -40,4 +40,16 @@ describe(`Module: Pool`, () => {
     })
     expect(state.error).toBe(`Error`)
   })
+
+  it(`should load pool data on reconnection`, async () => {
+    const node = lcdClientMock
+    const { actions } = poolModule({ node })
+    let dispatch = jest.fn()
+
+    await actions.reconnected({
+      state: { loading: true },
+      dispatch
+    })
+    expect(dispatch).toHaveBeenCalledWith(`getPool`)
+  })
 })

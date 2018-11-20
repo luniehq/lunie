@@ -36,9 +36,6 @@ export default ({ node }) => {
     },
     async queryBlockInfo({ state, commit }, height) {
       try {
-        if (!height) {
-          throw new Error(`Couldn't query block. No Height Provided.`)
-        }
         let blockMetaInfo = state.blockMetas[height]
         if (blockMetaInfo) {
           return blockMetaInfo
@@ -98,9 +95,9 @@ export default ({ node }) => {
 
         // only subscribe if the node is not catching up anymore
         node.rpc.subscribe({ query: `tm.event = 'NewBlock'` }, err => {
-          if (err) return error(err)
+          commit(`setSubscription`, true)
 
-          if (!state.subscription) commit(`setSubscription`, true)
+          if (err) return error(err)
         })
       })
       return true
