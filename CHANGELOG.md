@@ -51,28 +51,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1377](https://github.com/cosmos/voyager/issues/1377) deleted AppFooter page @fedekunze
 - [\#1566](https://github.com/cosmos/voyager/issues/1566) putting loading errors in the store instead of showing notifications @faboweb
 
-* Changed minor component of version number to match testnet version. @NodeGuy
-* [\#1433](https://github.com/cosmos/voyager/issues/1433) Migrated to latest SDK commit 6c9e71b654995b22e3ba4d121553ab20432616a9. @faboweb
-* [\#1183](https://github.com/cosmos/voyager/issues/1183) Changed a bunch of JavaScript files to strict mode. @NodeGuy
-* Updated contribution guidelines. @faboweb
-* [\#1447](https://github.com/cosmos/voyager/issues/1447) Removed titles from all pages. @faboweb
-* Updated PR template @fedekunze
-* [\#1454](https://github.com/cosmos/voyager/issues/1454) Updated a bunch of words to (hopefully) be clearer. @jbibla
-* [\#1473](https://github.com/cosmos/voyager/issues/1473) added "percent of vote" to validator in vuex module instead of in component @jbibla
-* [\#1497](https://github.com/cosmos/voyager/issues/1451) Using an html table for table validators component @jbibla
-* [\#1496](https://github.com/cosmos/voyager/issues/1496) display validator pub_key instead of operator_address on livalidator and validator profile @jbibla
-* made running a local node easier by reducing it to 2 commands and presetting an account. @faboweb
-* [\#1504](https://github.com/cosmos/voyager/issues/1504) updates @tendermint/UI library to 0.4.1 @faboweb
-* [\#1504](https://github.com/cosmos/voyager/issues/1504) updates @tendermint/UI library @faboweb
-* [\#1410](https://github.com/cosmos/voyager/issues/1410) removed end undelegations as not needed in the SDK anymore
-* [\#1543](https://github.com/cosmos/voyager/issues/1543) updated unit tests to use `describe` and `it` instead of `test` @fedekunze
-* [\#1377](https://github.com/cosmos/voyager/issues/1377) deleted AppFooter page @fedekunze
-* [\#1582](https://github.com/cosmos/voyager/issues/1582) proposals now use time instead of block number @fedekunze
-* [\#1547](https://github.com/cosmos/voyager/issues/1547) removed unused media queries @jbibla
-* [\#1547](https://github.com/cosmos/voyager/issues/1547) deleted archive directory of old components @jbibla
-* removed unit tests from prepush hook @faboweb
-* [\#1566](https://github.com/cosmos/voyager/issues/1566) putting querying errors in the store instead of showing notifications @faboweb
-
 ### Fixed
 
 - Fixed gaia binary not be found on linux and windows in development @faboweb
