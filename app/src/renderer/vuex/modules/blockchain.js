@@ -53,6 +53,7 @@ export default ({ node }) => {
             }
           )
         })
+        state.loading = false
 
         commit(`setBlockMetas`, {
           ...state.blockMetas,
