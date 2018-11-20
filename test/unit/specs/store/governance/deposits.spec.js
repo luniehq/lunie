@@ -81,4 +81,18 @@ describe(`Module: Deposits`, () => {
       ])
     })
   })
+
+  it(`should store an error if failed to load deposits`, async () => {
+    module = depositsModule({
+      node: {
+        queryProposalDeposits: () => Promise.reject(new Error(`Error`))
+      }
+    })
+    let { actions, state } = module
+    await actions.getProposalDeposits({
+      state,
+      commit: jest.fn()
+    })
+    expect(state.error.message).toBe(`Error`)
+  })
 })

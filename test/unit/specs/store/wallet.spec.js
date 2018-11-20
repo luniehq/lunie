@@ -176,11 +176,11 @@ describe(`Module: Wallet`, () => {
   })
 
   it(`should store an error if failed to load balances`, async () => {
-    jest.spyOn(console, `error`).mockImplementation(() => {})
     store.state.wallet.address = `x`
-    node.queryAccount = async () => Promise.reject(`Error`)
+    jest
+      .spyOn(node, `queryAccount`)
+      .mockImplementationOnce(() => Promise.reject(new Error(`Error`)))
     await store.dispatch(`queryWalletBalances`)
-    expect(store.state.wallet.error).toBe(`Error`)
-    console.error.mockReset()
+    expect(store.state.wallet.error.message).toBe(`Error`)
   })
 })

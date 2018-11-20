@@ -68,7 +68,8 @@ export default ({ node }) => {
       {
         rootState: {
           user: { address }
-        }
+        },
+        commit
       },
       type
     ) {
@@ -91,7 +92,10 @@ export default ({ node }) => {
         const transactionsPlusType = response.map(fp.set(`type`, type))
         return response ? uniqBy(transactionsPlusType, `hash`) : []
       } catch (err) {
-        console.error(err)
+        commit(`notifyError`, {
+          title: `Error fetching ${type} transactions`,
+          body: err.message
+        })
         state.error = err
         return []
       }

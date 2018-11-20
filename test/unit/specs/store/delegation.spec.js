@@ -320,4 +320,49 @@ describe(`Module: Delegations`, () => {
     jest.runAllTimers()
     expect(store._actions.updateDelegates[0].mock.calls).toHaveLength(1)
   })
+
+  it(`should store an error if failed to load delegations`, async () => {
+    const node = lcdClientMock
+    const { state, actions } = delegationModule({ node })
+    jest
+      .spyOn(node, `getDelegations`)
+      .mockImplementationOnce(async () => Promise.reject(`Error`))
+    await actions.getBondedDelegates({
+      state,
+      rootState: { user: { address: `x` } },
+      commit: jest.fn(),
+      dispatch: jest.fn()
+    })
+    expect(state.error).toBe(`Error`)
+  })
+
+  it(`should store an error if failed to load undelegations`, async () => {
+    const node = lcdClientMock
+    const { state, actions } = delegationModule({ node })
+    jest
+      .spyOn(node, `getUndelegations`)
+      .mockImplementationOnce(async () => Promise.reject(`Error`))
+    await actions.getBondedDelegates({
+      state,
+      rootState: { user: { address: `x` } },
+      commit: jest.fn(),
+      dispatch: jest.fn()
+    })
+    expect(state.error).toBe(`Error`)
+  })
+
+  it(`should store an error if failed to load redelegations`, async () => {
+    const node = lcdClientMock
+    const { state, actions } = delegationModule({ node })
+    jest
+      .spyOn(node, `getRedelegations`)
+      .mockImplementationOnce(async () => Promise.reject(`Error`))
+    await actions.getBondedDelegates({
+      state,
+      rootState: { user: { address: `x` } },
+      commit: jest.fn(),
+      dispatch: jest.fn()
+    })
+    expect(state.error).toBe(`Error`)
+  })
 })

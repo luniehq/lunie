@@ -19,7 +19,10 @@ export default ({ node }) => {
         state.error = null
         commit(`setParameters`, parameters)
       } catch (err) {
-        console.error(err)
+        commit(`notifyError`, {
+          title: `Error fetching staking parameters`,
+          body: err.message
+        })
         state.error = err
       }
       state.loading = false

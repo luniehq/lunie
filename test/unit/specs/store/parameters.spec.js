@@ -1,5 +1,6 @@
 import setup from "../../helpers/vuex-setup"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+import parametersModule from "renderer/vuex/modules/parameters.js"
 
 let instance = setup()
 
@@ -25,5 +26,18 @@ describe(`Module: Parameters`, () => {
   it(`should set parameters`, () => {
     store.commit(`setParameters`, mockParameters)
     expect(store.state.parameters.parameters).toEqual(mockParameters)
+  })
+
+  it(`should store an error if failed to load parameters`, async () => {
+    const node = lcdClientMock
+    const { state, actions } = parametersModule({ node })
+    jest
+      .spyOn(node, `getParameters`)
+      .mockImplementationOnce(async () => Promise.reject(`Error`))
+    await actions.getParameters({
+      state,
+      commit: jest.fn()
+    })
+    expect(state.error).toBe(`Error`)
   })
 })

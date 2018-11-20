@@ -84,10 +84,10 @@ describe(`Module: Validators`, () => {
   })
 
   it(`should store an error if failed to load validators`, async () => {
-    jest.spyOn(console, `error`).mockImplementation(() => {})
-    node.getValidatorSet = () => Promise.reject(`Error`)
+    jest
+      .spyOn(node, `getValidatorSet`)
+      .mockImplementationOnce(() => Promise.reject(new Error(`Error`)))
     await store.dispatch(`getValidators`)
-    expect(store.state.validators.error).toBe(`Error`)
-    console.error.mockReset()
+    expect(store.state.validators.error.message).toBe(`Error`)
   })
 })

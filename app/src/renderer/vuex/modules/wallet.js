@@ -75,7 +75,10 @@ export default ({ node }) => {
           }
         }
       } catch (err) {
-        console.error(err)
+        commit(`notifyError`, {
+          title: `Error fetching balances`,
+          body: err.message
+        })
         state.error = err
       }
 

@@ -20,7 +20,10 @@ export default ({ node }) => {
         commit(`setProposalVotes`, proposalId, votes)
         state.error = null
       } catch (err) {
-        console.error(err)
+        commit(`notifyError`, {
+          title: `Error fetching votes`,
+          body: err.message
+        })
         state.error = err
       }
       state.loading = false

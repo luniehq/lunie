@@ -26,7 +26,10 @@ export default ({ node }) => {
         state.error = null
         commit(`setGovParameters`, { deposit, tallying, voting })
       } catch (err) {
-        console.error(err)
+        commit(`notifyError`, {
+          title: `Error fetching governance parameters`,
+          body: err.message
+        })
         state.error = err
       }
       state.loading = false

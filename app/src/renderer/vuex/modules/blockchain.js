@@ -63,7 +63,10 @@ export default ({ node }) => {
         })
         return blockMetaInfo
       } catch (err) {
-        console.error(err)
+        commit(`notifyError`, {
+          title: `Error fetching block information`,
+          body: err.message
+        })
         state.loading = false
         state.error = err
         return null

@@ -96,7 +96,10 @@ export default ({ node }) => {
 
         return validators
       } catch (err) {
-        console.error(err)
+        commit(`notifyError`, {
+          title: `Error fetching validators`,
+          body: err.message
+        })
         commit(`setDelegateLoading`, false)
         state.error = err
         return []

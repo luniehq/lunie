@@ -117,26 +117,26 @@ describe(`Module: Transactions`, () => {
   })
 
   it(`should store an error if failed to load wallet transactions`, async () => {
-    jest.spyOn(console, `error`).mockImplementation(() => {})
-    node.txs = () => Promise.reject(`Error`)
+    jest
+      .spyOn(node, `txs`)
+      .mockImplementationOnce(() => Promise.reject(new Error(`Error`)))
     await store.dispatch(`getTx`, `wallet`)
-    expect(store.state.transactions.error).toBe(`Error`)
-    console.error.mockReset()
+    expect(store.state.transactions.error.message).toBe(`Error`)
   })
 
   it(`should store an error if failed to load staking transactions`, async () => {
-    jest.spyOn(console, `error`).mockImplementation(() => {})
-    node.getDelegatorTxs = () => Promise.reject(`Error`)
+    jest
+      .spyOn(node, `getDelegatorTxs`)
+      .mockImplementationOnce(() => Promise.reject(new Error(`Error`)))
     await store.dispatch(`getTx`, `staking`)
-    expect(store.state.transactions.error).toBe(`Error`)
-    console.error.mockReset()
+    expect(store.state.transactions.error.message).toBe(`Error`)
   })
 
   it(`should store an error if failed to load governance transactions`, async () => {
-    jest.spyOn(console, `error`).mockImplementation(() => {})
-    node.getGovernanceTxs = () => Promise.reject(`Error`)
+    jest
+      .spyOn(node, `getGovernanceTxs`)
+      .mockImplementationOnce(() => Promise.reject(new Error(`Error`)))
     await store.dispatch(`getTx`, `governance`)
-    expect(store.state.transactions.error).toBe(`Error`)
-    console.error.mockReset()
+    expect(store.state.transactions.error.message).toBe(`Error`)
   })
 })

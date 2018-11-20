@@ -35,7 +35,10 @@ export default ({ node }) => {
         state.error = null
         commit(`setValidators`, validators)
       } catch (err) {
-        console.error(err)
+        commit(`notifyError`, {
+          title: `Error fetching validator set`,
+          body: err.message
+        })
         state.error = err
       }
       state.loading = false

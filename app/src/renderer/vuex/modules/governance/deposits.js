@@ -20,7 +20,10 @@ export default ({ node }) => {
         state.error = null
         commit(`setProposalDeposits`, proposalId, deposits)
       } catch (err) {
-        console.error(err)
+        commit(`notifyError`, {
+          title: `Error fetching deposits on proposals`,
+          body: err.message
+        })
         state.error = err
       }
       state.loading = false

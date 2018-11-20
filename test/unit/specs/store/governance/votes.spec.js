@@ -71,4 +71,18 @@ describe(`Module: Votes`, () => {
       ])
     })
   })
+
+  it(`should store an error if failed to load proposals`, async () => {
+    module = votesModule({
+      node: {
+        queryProposalVotes: () => Promise.reject(new Error(`Error`))
+      }
+    })
+    let { actions, state } = module
+    await actions.getProposalVotes({
+      state,
+      commit: jest.fn()
+    })
+    expect(state.error.message).toBe(`Error`)
+  })
 })

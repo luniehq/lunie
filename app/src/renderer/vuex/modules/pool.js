@@ -26,7 +26,10 @@ export default ({ node }) => {
         let pool = await node.getPool()
         commit(`setPool`, pool)
       } catch (err) {
-        console.error(err)
+        commit(`notifyError`, {
+          title: `Error fetching staking pool information`,
+          body: err.message
+        })
         state.error = err
       }
       state.loading = false

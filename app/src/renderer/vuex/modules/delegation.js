@@ -141,7 +141,10 @@ export default ({ node }) => {
         })
         state.loadedOnce = true
       } catch (err) {
-        console.error(err)
+        commit(`notifyError`, {
+          title: `Error fetching delegations`,
+          body: err.message
+        })
         state.error = err
       }
 

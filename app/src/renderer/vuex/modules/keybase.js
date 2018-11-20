@@ -51,7 +51,10 @@ export default ({}) => {
         state.error = null
         commit(`setKeybaseIdentities`, identities.filter(x => !!x))
       } catch (err) {
-        console.error(err)
+        commit(`notifyError`, {
+          title: `Error fetching keybase information for validators`,
+          body: err.message
+        })
         state.error = err
       }
     }

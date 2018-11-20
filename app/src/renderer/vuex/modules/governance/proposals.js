@@ -34,7 +34,10 @@ export default ({ node }) => {
           })
         }
       } catch (err) {
-        console.error(err)
+        commit(`notifyError`, {
+          title: `Error fetching proposals`,
+          body: err.message
+        })
         state.error = err
       }
       state.loading = false
