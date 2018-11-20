@@ -1,4 +1,4 @@
-<template lang='pug'>
+<template lang="pug">
 .tm-hardware-state
   i.tm-hardware-state__icon.material-icons(:class="iconClass") {{ icon }}
   .tm-hardware-state__label {{ value }}
@@ -6,14 +6,14 @@
 
 <script>
 export default {
+  props: [`icon`, `value`, `spin`],
   computed: {
     iconClass() {
       if (this.spin) {
         return `fa-spin`
       }
     }
-  },
-  props: [`icon`, `value`, `spin`]
+  }
 }
 </script>
 

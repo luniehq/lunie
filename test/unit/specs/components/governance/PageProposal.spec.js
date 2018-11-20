@@ -1,5 +1,6 @@
 "use strict"
 
+import moment from "moment"
 import Vuelidate from "vuelidate"
 import setup from "../../../helpers/vuex-setup"
 import PageProposal from "renderer/components/governance/PageProposal"
@@ -49,20 +50,22 @@ describe(`PageProposal`, () => {
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
 
-    it(`should return the block number`, () => {
-      expect(wrapper.vm.voteBlock).toBe(`block #135`)
+    it(`should return the time of submission `, () => {
+      expect(wrapper.vm.submittedAgo).toEqual(
+        moment(new Date(proposal.submit_time)).fromNow()
+      )
     })
 
-    it(`should return the end of the sentence`, () => {
-      proposal.submit_block = `135`
-      let { wrapper } = mount(PageProposal, {
-        propsData: {
-          proposal,
-          status
-        }
-      })
-      wrapper.update()
-      expect(wrapper.vm.voteBlock).toBe(`the same block`)
+    it(`should return the time that voting started`, () => {
+      expect(wrapper.vm.votingStartedAgo).toEqual(
+        moment(new Date(proposal.voting_start_block)).fromNow()
+      )
+    })
+
+    it(`should return the time when deposits end`, () => {
+      expect(wrapper.vm.depositEndsIn).toEqual(
+        moment(new Date(proposal.deposit_end_time)).fromNow()
+      )
     })
 
     describe(`Modal onVote`, () => {
@@ -124,17 +127,17 @@ describe(`PageProposal`, () => {
             }
           })
 
-          await wrapper.vm.castVote({ option: `no_with_veto` })
+          await wrapper.vm.castVote({ option: `NoWithVeto` })
 
           expect($store.dispatch.mock.calls).toEqual([
-            [`submitVote`, { option: `no_with_veto`, proposalId: `1` }]
+            [`submitVote`, { option: `NoWithVeto`, proposal_id: `1` }]
           ])
 
           expect($store.commit.mock.calls).toEqual([
             [
               `notify`,
               {
-                body: `You have successfully voted no_with_veto on proposal #1`,
+                body: `You have successfully voted NoWithVeto on proposal #1`,
                 title: `Successful vote!`
               }
             ]
@@ -164,10 +167,10 @@ describe(`PageProposal`, () => {
             }
           })
 
-          await wrapper.vm.castVote({ option: `abstain` })
+          await wrapper.vm.castVote({ option: `Abstain` })
 
           expect($store.dispatch.mock.calls).toEqual([
-            [`submitVote`, { option: `abstain`, proposalId: `1` }]
+            [`submitVote`, { option: `Abstain`, proposal_id: `1` }]
           ])
 
           expect($store.commit.mock.calls).toEqual([
@@ -204,10 +207,23 @@ describe(`PageProposal`, () => {
             }
           })
 
-          await wrapper.vm.deposit({ amount: 15 })
+          let amount = [
+            {
+              amount: `15`,
+              denom: `atom`
+            }
+          ]
+
+          await wrapper.vm.deposit({ amount })
 
           expect($store.dispatch.mock.calls).toEqual([
-            [`submitDeposit`, { amount: 15, proposalId: `2` }]
+            [
+              `submitDeposit`,
+              {
+                amount,
+                proposal_id: `2`
+              }
+            ]
           ])
 
           expect($store.commit.mock.calls).toEqual([
@@ -243,11 +259,23 @@ describe(`PageProposal`, () => {
               status: { message: `message` }
             }
           })
+          let amount = [
+            {
+              amount: `9`,
+              denom: `atom`
+            }
+          ]
 
-          await wrapper.vm.deposit({ amount: 9 })
+          await wrapper.vm.deposit({ amount })
 
           expect($store.dispatch.mock.calls).toEqual([
-            [`submitDeposit`, { amount: 9, proposalId: `2` }]
+            [
+              `submitDeposit`,
+              {
+                amount,
+                proposal_id: `2`
+              }
+            ]
           ])
 
           expect($store.commit.mock.calls).toEqual([

@@ -573,7 +573,7 @@ describe(`onDelegation`, () => {
 
           $store.dispatch.mockClear()
           $store.dispatch = jest.fn(() => {
-            throw new Error(`one\ntwo\nthree\nfour\nfive\nsix\nseven`)
+            throw new Error(`unexpected error`)
           })
 
           await submitDelegation({
@@ -589,7 +589,7 @@ describe(`onDelegation`, () => {
             [
               `notifyError`,
               {
-                body: `six`,
+                body: `unexpected error`,
                 title: `Error while delegating ${getterValues.bondingDenom}s`
               }
             ]
@@ -841,7 +841,7 @@ describe(`onDelegation`, () => {
 
           $store.dispatch.mockClear()
           $store.dispatch = jest.fn(() => {
-            throw new Error(`one\ntwo\nthree\nfour\nfive\nsix\nseven`)
+            throw new Error(`unexpected error`)
           })
 
           await submitDelegation({
@@ -857,7 +857,7 @@ describe(`onDelegation`, () => {
             [
               `notifyError`,
               {
-                body: `six`,
+                body: `unexpected error`,
                 title: `Error while redelegating ${getterValues.bondingDenom}s`
               }
             ]
@@ -1113,7 +1113,7 @@ describe(`onUnstake`, () => {
 
         $store.dispatch.mockClear()
         $store.dispatch = jest.fn(() => {
-          throw new Error(`one\ntwo\nthree\nfour\nfive\nsix"seven`)
+          throw new Error(`unexpected error`)
         })
 
         await submitUndelegation({ amount: 10 })
@@ -1131,7 +1131,7 @@ describe(`onUnstake`, () => {
           [
             `notifyError`,
             {
-              body: `Seven`,
+              body: `unexpected error`,
               title: `Error while undelegating atoms`
             }
           ]

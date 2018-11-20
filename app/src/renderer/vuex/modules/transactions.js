@@ -26,6 +26,9 @@ export default ({ node }) => {
     setHistoryLoading(state, loading) {
       state.loading = loading
     },
+    setError(state, error) {
+      state.error = error
+    },
     setTransactionTime(state, { blockHeight, blockMetaInfo }) {
       txCategories.forEach(category => {
         state[category].forEach(t => {
@@ -49,19 +52,24 @@ export default ({ node }) => {
     },
     async getAllTxs({ commit, dispatch }) {
       commit(`setHistoryLoading`, true)
-      const stakingTxs = await dispatch(`getTx`, `staking`)
-      commit(`setStakingTxs`, stakingTxs)
 
-      const governanceTxs = await dispatch(`getTx`, `governance`)
-      commit(`setGovernanceTxs`, governanceTxs)
+      try {
+        const stakingTxs = await dispatch(`getTx`, `staking`)
+        commit(`setStakingTxs`, stakingTxs)
 
-      const walletTxs = await dispatch(`getTx`, `wallet`)
-      commit(`setWalletTxs`, walletTxs)
+        const governanceTxs = await dispatch(`getTx`, `governance`)
+        commit(`setGovernanceTxs`, governanceTxs)
 
-      const allTxs = stakingTxs.concat(governanceTxs.concat(walletTxs))
-      await dispatch(`enrichTransactions`, {
-        transactions: allTxs
-      })
+        const walletTxs = await dispatch(`getTx`, `wallet`)
+        commit(`setWalletTxs`, walletTxs)
+
+        const allTxs = stakingTxs.concat(governanceTxs.concat(walletTxs))
+        await dispatch(`enrichTransactions`, {
+          transactions: allTxs
+        })
+      } catch (error) {
+        commit(`setError`, error.message.slice(0))
+      }
       commit(`setHistoryLoading`, false)
     },
     async getTx(

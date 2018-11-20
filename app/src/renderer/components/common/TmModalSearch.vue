@@ -1,4 +1,4 @@
-<template lang='pug'>
+<template lang="pug">
 .tm-modal-search(v-if="open")
   form.tm-modal-search-container(
     v-if="type === 'blocks'"
@@ -38,6 +38,7 @@ export default {
     TmFormGroup,
     TmFormMsg
   },
+  props: [`type`],
   computed: {
     ...mapGetters([`filters`, `lastHeader`]),
     open() {
@@ -49,6 +50,16 @@ export default {
       },
       set(string) {
         this.$store.commit(`setSearchQuery`, [this.type, string])
+      }
+    }
+  },
+  watch: {
+    open(open) {
+      if (open) {
+        setTimeout(() => {
+          let el = this.$el.querySelector(`.tm-field`)
+          el.select()
+        })
       }
     }
   },
@@ -76,18 +87,7 @@ export default {
         }
       }
     }
-  }),
-  watch: {
-    open(open) {
-      if (open) {
-        setTimeout(() => {
-          let el = this.$el.querySelector(`.tm-field`)
-          el.select()
-        })
-      }
-    }
-  },
-  props: [`type`]
+  })
 }
 </script>
 

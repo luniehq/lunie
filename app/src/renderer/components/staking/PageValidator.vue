@@ -2,7 +2,7 @@
 tm-page(data-title="Validator")
   template(slot="menu-body"): tm-balance
   div(slot="menu"): tm-tool-bar
-    router-link(to="/staking" exact): i.material-icons arrow_back
+    router-link(to="/staking/validators" exact): i.material-icons arrow_back
 
   tm-data-error(v-if="!validator")
 
@@ -101,8 +101,8 @@ tm-page(data-title="Validator")
       :maximum="myBond"
       :to="this.wallet.address"
     )
-    tm-modal(:close="closeCannotModal" icon="warning" v-if="showCannotModal")
-      div(slot='title') Cannot Complete {{ action == `delegate`? `Delegation` : `Undelegation` }}
+    tm-modal(:close="closeCannotModal" v-if="showCannotModal")
+      div(slot='title') Cannot {{ action == `delegate`? `Delegate` : `Undelegate` }}
       p You have no {{ bondingDenom }}s {{ action == `undelegate` ? `delegated `: `` }}to {{ action == `delegate` ? `delegate.` : `this validator.` }}
       div(slot='footer')
         tmBtn(
@@ -226,6 +226,15 @@ export default {
       return this.totalAtoms - this.oldBondedAtoms
     }
   },
+  watch: {
+    validator: {
+      immediate: true,
+      handler(validator) {
+        if (!validator) return
+        this.$store.dispatch(`getSelfBond`, validator)
+      }
+    }
+  },
   methods: {
     closeCannotModal() {
       this.showCannotModal = false
@@ -291,23 +300,11 @@ export default {
           title: `Successful ${txTitle}!`,
           body: `You have successfully ${txBody} your ${this.bondingDenom}s`
         })
-      } catch (exception) {
-        const { message } = exception
-        let errData = message.split(`\n`)[5]
-        if (errData) {
-          let parsedErr = errData.split(`"`)[1]
-          this.$store.commit(`notifyError`, {
-            title: `Error while ${txAction} ${this.bondingDenom}s`,
-            body: parsedErr
-              ? parsedErr[0].toUpperCase() + parsedErr.slice(1)
-              : errData
-          })
-        } else {
-          this.$store.commit(`notifyError`, {
-            title: `Error while ${txAction} ${this.bondingDenom}s`,
-            body: message
-          })
-        }
+      } catch ({ message }) {
+        this.$store.commit(`notifyError`, {
+          title: `Error while ${txAction} ${this.bondingDenom}s`,
+          body: message
+        })
       }
     },
     async submitUndelegation({ amount }) {
@@ -329,23 +326,11 @@ export default {
             this.bondingDenom
           }s.`
         })
-      } catch (exception) {
-        const { message } = exception
-        let errData = message.split(`\n`)[5]
-
-        if (errData) {
-          let parsedErr = errData.split(`"`)[1]
-
-          this.$store.commit(`notifyError`, {
-            title: `Error while undelegating ${this.bondingDenom}s`,
-            body: parsedErr[0].toUpperCase() + parsedErr.slice(1)
-          })
-        } else {
-          this.$store.commit(`notifyError`, {
-            title: `Error while undelegating ${this.bondingDenom}s`,
-            body: message
-          })
-        }
+      } catch ({ message }) {
+        this.$store.commit(`notifyError`, {
+          title: `Error while undelegating ${this.bondingDenom}s`,
+          body: message
+        })
       }
     },
     delegationTargetOptions() {
@@ -390,29 +375,12 @@ export default {
       if (!value || value === `[do-not-modify]`) return `n/a`
       return value
     }
-  },
-  watch: {
-    validator: {
-      immediate: true,
-      handler(validator) {
-        if (!validator) return
-        this.$store.dispatch(`getSelfBond`, validator)
-      }
-    }
   }
 }
 </script>
 
 <style lang="stylus">
 @require '~variables'
-
-@media screen and (min-width: 640px)
-  #validator-profile .tm-part-main
-    display flex
-    flex-flow row-reverse nowrap
-
-    .list-items
-      flex 1
 
 .validator-profile__section
   background-color var(--app-fg)

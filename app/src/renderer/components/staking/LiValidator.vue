@@ -1,4 +1,4 @@
-<template lang='pug'>
+<template lang="pug">
 tr.li-validator
   td.li-validator__moniker-container
     img.li-validator__avatar(v-if="validator.keybase" :src="validator.keybase.avatarUrl" width="48" height="48")
@@ -23,10 +23,11 @@ import ShortBech32 from "common/ShortBech32"
 import BigNumber from "bignumber.js"
 export default {
   name: `li-validator`,
-  props: [`validator`, `disabled`],
   components: {
     ShortBech32
   },
+  props: [`validator`, `disabled`],
+  data: () => ({ num }),
   computed: {
     ...mapGetters([`delegates`, `committedDelegations`]),
     commission() {
@@ -89,8 +90,7 @@ export default {
       // status: active
       return `green`
     }
-  },
-  data: () => ({ num })
+  }
 }
 </script>
 

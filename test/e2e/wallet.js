@@ -14,8 +14,8 @@ let {
 console.log(addresses)
 
 /*
-* NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
-*/
+ * NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
+ */
 
 test(`wallet`, async function(t) {
   let { app, accounts } = await getApp(t)

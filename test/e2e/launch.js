@@ -26,8 +26,8 @@ let {
 let app, started, crashed
 
 /*
-* NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
-*/
+ * NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
+ */
 
 function launch(t) {
   if (!started) {
@@ -232,6 +232,12 @@ async function writeLogs(app, location) {
 async function startApp(app, awaitingSelector = `.tm-session`) {
   console.log(`Starting app`)
   await app.start()
+  if (!app.browserWindow) {
+    console.log(`No browser window`)
+    return
+  }
+  app.browserWindow.setBounds({ x: 0, y: 0, width: 1600, height: 1024 })
+  app.browserWindow.setSize(1600, 1024)
 
   await app.client.waitForExist(awaitingSelector, 10 * 1000).catch(async e => {
     await handleCrash(app, e)
@@ -370,6 +376,8 @@ module.exports = {
     console.log(`restarting app`)
     await stop(app)
     await startApp(app, awaitingSelector)
+    app.browserWindow.setBounds({ x: 0, y: 0, width: 1600, height: 1024 })
+    app.browserWindow.setSize(1600, 1024)
   },
   refresh: async function(app, awaitingSelector = `.tm-session-title=Sign In`) {
     console.log(`refreshing app`)

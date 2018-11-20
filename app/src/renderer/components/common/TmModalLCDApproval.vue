@@ -31,6 +31,7 @@ export default {
     TmBtn,
     TmField
   },
+  props: [`hash`],
   computed: {},
   methods: {
     approve() {
@@ -39,8 +40,7 @@ export default {
     newNode() {
       this.$store.dispatch(`disapproveNodeHash`, this.hash)
     }
-  },
-  props: [`hash`]
+  }
 }
 </script>
 
@@ -109,22 +109,6 @@ export default {
 
   #node-hash {
     margin-top: 3rem;
-  }
-}
-
-@media screen and (min-width: 768px) {
-  .tm-modal-lcd-approval {
-    &__icon i.material-icons {
-      font-size: 20vw + 20vh;
-    }
-
-    &__footer {
-      min-width: 31rem;
-    }
-
-    &__footer .tm-btn {
-      margin-bottom: 0;
-    }
   }
 }
 </style>
