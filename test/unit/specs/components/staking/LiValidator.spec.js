@@ -41,7 +41,8 @@ describe(`LiValidator`, () => {
             jailed_until: `1970-01-01T00:00:00Z`,
             signed_blocks_counter: 9878
           }
-        }
+        },
+        disabled: false
       }
     })
     wrapper = instance.wrapper

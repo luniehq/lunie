@@ -28,16 +28,14 @@ export default {
   components: { TmBtn },
   props: {
     title: {
-      type: String,
-      required: true
+      type: String
     },
     body: {
       type: String,
       required: true
     },
     icon: {
-      type: String,
-      required: true
+      type: String
     }
   },
   data: () => ({

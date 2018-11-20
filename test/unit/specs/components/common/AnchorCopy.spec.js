@@ -7,7 +7,13 @@ describe(`AnchorCopy`, () => {
 
   beforeEach(() => {
     let test = instance.mount(AnchorCopy, {
-      propsData: { value: `this is a test` }
+      propsData: {
+        title: `title`,
+        body: `body`,
+        value: `this is a test`,
+        label: `label`,
+        icon: `icon`
+      }
     })
     wrapper = test.wrapper
     store = test.store
@@ -18,6 +24,7 @@ describe(`AnchorCopy`, () => {
   })
 
   it(`should open a notification`, () => {
+    wrapper.setProps({ body: `` })
     wrapper.trigger(`click`)
     expect(store.commit).toHaveBeenCalled()
     expect(store.commit.mock.calls[0][0]).toBe(`notify`)

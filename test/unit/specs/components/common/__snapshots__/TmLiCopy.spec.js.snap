@@ -7,7 +7,7 @@ exports[`TmLiCopy has the expected html structure 1`] = `
   <div
     class="value"
   >
-    
+    hallo
   </div>
   <menu>
     <button

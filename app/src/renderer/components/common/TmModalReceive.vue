@@ -15,12 +15,6 @@ export default {
     LiCopy,
     Modal
   },
-  props: {
-    value: {
-      type: String,
-      required: true
-    }
-  },
   computed: {
     ...mapGetters([`config`, `wallet`]),
     active() {
