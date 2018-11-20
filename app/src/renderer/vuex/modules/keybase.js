@@ -3,7 +3,8 @@ import axios from "axios"
 export default ({}) => {
   const emptyState = {
     identities: {},
-    loading: false
+    loading: false,
+    error: null
   }
   const state = JSON.parse(JSON.stringify(emptyState))
 
@@ -35,19 +36,27 @@ export default ({}) => {
         }
       }
     },
-    async getKeybaseIdentities({ dispatch, commit }, validators) {
-      return Promise.all(
-        validators.map(async validator => {
-          if (validator.description.identity) {
-            return dispatch(
-              `getKeybaseIdentity`,
-              validator.description.identity
-            )
-          }
-        })
-      ).then(identities => {
+    async getKeybaseIdentities({ dispatch, commit, state }, validators) {
+      try {
+        const identities = await Promise.all(
+          validators.map(async validator => {
+            if (validator.description.identity) {
+              return dispatch(
+                `getKeybaseIdentity`,
+                validator.description.identity
+              )
+            }
+          })
+        )
+        state.error = null
         commit(`setKeybaseIdentities`, identities.filter(x => !!x))
-      })
+      } catch (err) {
+        commit(`notifyError`, {
+          title: `Error fetching keybase information for validators`,
+          body: err.message
+        })
+        state.error = err
+      }
     }
   }
 

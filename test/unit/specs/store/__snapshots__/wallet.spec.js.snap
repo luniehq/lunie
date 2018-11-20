@@ -17,8 +17,9 @@ exports[`Module: Wallet should have an empty state by default 1`] = `
 Object {
   "address": null,
   "balances": Array [],
-  "balancesLoading": true,
   "denoms": Array [],
+  "error": null,
+  "loading": true,
   "subscribedRPC": null,
   "zoneIds": Array [
     "basecoind-demo1",

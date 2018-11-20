@@ -3,6 +3,7 @@
 export default ({ node }) => {
   const state = {
     loading: false,
+    error: null,
     votes: {}
   }
 
@@ -14,8 +15,17 @@ export default ({ node }) => {
   let actions = {
     async getProposalVotes({ state, commit }, proposalId) {
       state.loading = true
-      let votes = await node.queryProposalVotes(proposalId)
-      commit(`setProposalVotes`, proposalId, votes)
+      try {
+        let votes = await node.queryProposalVotes(proposalId)
+        commit(`setProposalVotes`, proposalId, votes)
+        state.error = null
+      } catch (err) {
+        commit(`notifyError`, {
+          title: `Error fetching votes`,
+          body: err.message
+        })
+        state.error = err
+      }
       state.loading = false
     },
     async submitVote({ rootState, dispatch }, { proposal_id, option }) {

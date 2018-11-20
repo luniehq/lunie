@@ -192,4 +192,18 @@ describe(`Module: Delegates`, () => {
       )
     ).toHaveProperty(`selfBond`, BN(0.1))
   })
+
+  it(`should store an error if failed to load delegates`, async () => {
+    let { actions, state } = module
+    node.getCandidates = async () => Promise.reject(`Error`)
+    await actions.getDelegates({ commit: jest.fn(), dispatch: jest.fn() })
+    expect(state.error).toBe(`Error`)
+  })
+
+  it(`should store an error if failed to load validator set`, async () => {
+    let { actions, state } = module
+    node.getValidatorSet = async () => Promise.reject(`Error`)
+    await actions.getDelegates({ commit: jest.fn(), dispatch: jest.fn() })
+    expect(state.error).toBe(`Error`)
+  })
 })

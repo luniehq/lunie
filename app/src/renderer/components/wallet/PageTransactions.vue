@@ -61,7 +61,7 @@ export default {
     proposalsURL: `/governance/proposals`
   }),
   computed: {
-    ...mapState([`transactions`, `node`]),
+    ...mapState([`transactions`]),
     ...mapGetters([
       `filters`,
       `allTransactions`,
