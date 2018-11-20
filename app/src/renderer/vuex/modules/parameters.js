@@ -16,12 +16,14 @@ export default ({ node }) => {
       state.loading = true
       try {
         let parameters = await node.getParameters()
+        state.error = null
         commit(`setParameters`, parameters)
-      } catch ({ message }) {
+      } catch (err) {
         commit(`notifyError`, {
           title: `Error fetching staking parameters`,
-          body: message
+          body: err.message
         })
+        state.error = err
       }
       state.loading = false
     }

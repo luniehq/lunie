@@ -19,7 +19,7 @@ tm-page(data-title="Wallet")
       btn-receive(slot="btn-receive")
 
   tm-part#part-available-balances(title="Available Balances")
-    tm-data-loading(v-if="wallet.balancesLoading")
+    tm-data-loading(v-if="wallet.loading")
     tm-data-msg(id="account_empty_msg" v-else-if="wallet.balances.length === 0" icon="help_outline")
       div(slot="title") Account empty
       div(slot="subtitle")
@@ -57,7 +57,6 @@ import ModalSearch from "common/TmModalSearch"
 import VmToolBar from "common/VmToolBar"
 export default {
   name: `page-wallet`,
-  data: () => ({ num }),
   components: {
     TmBalance,
     TmDataLoading,
@@ -72,6 +71,7 @@ export default {
     VmToolBar,
     BtnReceive
   },
+  data: () => ({ num }),
   computed: {
     ...mapGetters([
       `filters`,
@@ -82,7 +82,7 @@ export default {
       `connected`
     ]),
     somethingToSearch() {
-      return !this.wallet.balancesLoading && !!this.wallet.balances.length
+      return !this.wallet.loading && !!this.wallet.balances.length
     },
     allDenomBalances() {
       // for denoms not in balances, add empty balance
@@ -110,6 +110,12 @@ export default {
       }
     }
   },
+  mounted() {
+    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
+    Mousetrap.bind(`esc`, () => this.setSearch(false))
+    this.updateDelegates()
+    this.queryWalletState()
+  },
   methods: {
     ...mapActions([`updateDelegates`, `queryWalletState`]),
     setSearch(bool = !this.filters[`balances`].search.visible) {
@@ -119,12 +125,6 @@ export default {
     updateBalances() {
       this.queryWalletState()
     }
-  },
-  mounted() {
-    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
-    Mousetrap.bind(`esc`, () => this.setSearch(false))
-    this.updateDelegates()
-    this.queryWalletState()
   }
 }
 </script>

@@ -22,7 +22,7 @@ export default ({ node }) => {
       name: rootState.user.account,
       password: rootState.user.password,
       account_number: rootState.wallet.accountNumber, // TODO move into LCD?
-      chain_id: rootState.node.lastHeader.chain_id
+      chain_id: rootState.connection.lastHeader.chain_id
     }
     args.base_req = requestMetaData
 
@@ -39,7 +39,17 @@ export default ({ node }) => {
     let req = to ? node[type](to, args) : node[type](args)
 
     let res = await req.catch(err => {
-      throw new Error(err.message)
+      let message
+      // TODO: get rid of this logic once the appended message is actually included inside the object message
+      let idxColon = err.response.data.indexOf(`:`)
+      let indexOpenBracket = err.response.data.indexOf(`{`)
+      if (idxColon < indexOpenBracket) {
+        // e.g => Msg 0 failed: {"codespace":4,"code":102,"abci_code":262246,"message":"existing unbonding delegation found"}
+        message = JSON.parse(err.response.data.substr(idxColon + 1)).message
+      } else {
+        message = err.response.data
+      }
+      throw new Error(message)
     })
 
     // check response code

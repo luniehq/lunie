@@ -24,7 +24,6 @@ import PanelSort from "staking/PanelSort"
 import VmToolBar from "common/VmToolBar"
 export default {
   name: `table-validators`,
-  props: [`validators`],
   components: {
     LiValidator,
     TmDataEmpty,
@@ -34,6 +33,7 @@ export default {
     PanelSort,
     VmToolBar
   },
+  props: [`validators`],
   data: () => ({
     num: num,
     query: ``,
@@ -159,6 +159,13 @@ export default {
       address && this.updateDelegates()
     }
   },
+  async mounted() {
+    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
+    Mousetrap.bind(`esc`, () => this.setSearch(false))
+
+    // XXX temporary because querying the shares shows old shares after bonding
+    // this.updateDelegates()
+  },
   methods: {
     updateDelegates() {
       this.$store.dispatch(`updateDelegates`)
@@ -171,13 +178,6 @@ export default {
         $store.commit(`setSearchVisible`, [`delegates`, bool])
       }
     }
-  },
-  async mounted() {
-    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
-    Mousetrap.bind(`esc`, () => this.setSearch(false))
-
-    // XXX temporary because querying the shares shows old shares after bonding
-    // this.updateDelegates()
   }
 }
 </script>

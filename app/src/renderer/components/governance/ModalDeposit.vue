@@ -45,13 +45,25 @@ import { TmBtn, TmField, TmFormGroup } from "@tendermint/ui"
 
 export default {
   name: `modal-deposit`,
+  components: {
+    Modal,
+    TmBtn,
+    TmField,
+    TmFormGroup
+  },
+  directives: {
+    ClickOutside
+  },
   props: [`proposalId`, `proposalTitle`, `denom`],
+  data: () => ({
+    amount: 0
+  }),
   computed: {
     // TODO: get coin denom from governance params
     ...mapGetters([`wallet`]),
     balance() {
       // TODO: refactor to get the selected coin when multicooin deposit is enabled
-      if (!this.wallet.balancesLoading && !!this.wallet.balances.length) {
+      if (!this.wallet.loading && !!this.wallet.balances.length) {
         let balance = this.wallet.balances.find(
           coin => coin.denom === this.denom
         )
@@ -60,15 +72,6 @@ export default {
       return 0
     }
   },
-  components: {
-    Modal,
-    TmBtn,
-    TmField,
-    TmFormGroup
-  },
-  data: () => ({
-    amount: 0
-  }),
   validations() {
     return {
       amount: {
@@ -94,9 +97,6 @@ export default {
       this.$emit(`submitDeposit`, { amount })
       this.close()
     }
-  },
-  directives: {
-    ClickOutside
   }
 }
 </script>

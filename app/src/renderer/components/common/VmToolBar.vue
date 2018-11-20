@@ -16,6 +16,9 @@ import { mapGetters, mapMutations } from "vuex"
 export default {
   // the name needs to be different from TmToolBar (tm-tool-bar) or else recursive rendering takes place
   name: `vm-tool-bar`,
+  computed: {
+    ...mapGetters([`user`, `lastPage`])
+  },
   methods: {
     ...mapMutations([`pauseHistory`, `popHistory`]),
     back() {
@@ -32,9 +35,6 @@ export default {
     signOut() {
       this.$store.dispatch(`signOut`)
     }
-  },
-  computed: {
-    ...mapGetters([`user`, `lastPage`])
   }
 }
 </script>
@@ -55,5 +55,4 @@ export default {
 
     &:hover
       color var(--bright)
-
 </style>

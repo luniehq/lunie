@@ -88,17 +88,4 @@ export default {
 
     &:last-child
       margin-bottom 0
-
-@media screen and (min-width: 768px)
-  .tm-modal-error__icon i.material-icons
-    font-size 20vw + 20vh
-
-  .tm-modal-error__body
-    margin-bottom 4.5rem
-
-  .tm-modal-error__footer
-    min-width 31rem
-
-  .tm-modal-error__footer .tm-btn
-    margin-bottom 0
 </style>

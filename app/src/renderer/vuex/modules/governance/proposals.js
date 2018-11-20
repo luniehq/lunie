@@ -1,15 +1,17 @@
 "use strict"
+import Vue from "vue"
 
 export default ({ node }) => {
   let emptyState = {
     loading: false,
+    error: null,
     proposals: {}
   }
   const state = JSON.parse(JSON.stringify(emptyState))
 
   const mutations = {
     setProposal(state, proposal) {
-      state.proposals[proposal.proposal_id] = proposal
+      Vue.set(state.proposals, proposal.proposal_id, proposal)
     }
   }
   let actions = {
@@ -24,11 +26,20 @@ export default ({ node }) => {
     },
     async getProposals({ state, commit }) {
       state.loading = true
-      let proposals = await node.queryProposals()
-      if (proposals.length > 0) {
-        proposals.forEach(proposal => {
-          commit(`setProposal`, proposal.value)
+      try {
+        let proposals = await node.queryProposals()
+        state.error = null
+        if (proposals.length > 0) {
+          proposals.forEach(proposal => {
+            commit(`setProposal`, proposal.value)
+          })
+        }
+      } catch (err) {
+        commit(`notifyError`, {
+          title: `Error fetching proposals`,
+          body: err.message
         })
+        state.error = err
       }
       state.loading = false
     },

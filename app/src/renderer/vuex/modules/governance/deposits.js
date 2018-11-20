@@ -3,6 +3,7 @@
 export default ({ node }) => {
   const state = {
     loading: false,
+    error: null,
     deposits: {}
   }
 
@@ -14,8 +15,17 @@ export default ({ node }) => {
   let actions = {
     async getProposalDeposits({ state, commit }, proposalId) {
       state.loading = true
-      let deposits = await node.queryProposalDeposits(proposalId)
-      commit(`setProposalDeposits`, proposalId, deposits)
+      try {
+        let deposits = await node.queryProposalDeposits(proposalId)
+        state.error = null
+        commit(`setProposalDeposits`, proposalId, deposits)
+      } catch (err) {
+        commit(`notifyError`, {
+          title: `Error fetching deposits on proposals`,
+          body: err.message
+        })
+        state.error = err
+      }
       state.loading = false
     },
     async submitDeposit(

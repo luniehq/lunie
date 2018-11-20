@@ -5,8 +5,8 @@ function sleep(ms) {
 }
 
 /*
-* NOTE: don't use a global `let client = app.client` and don't pass around the client as the client object changes when restarting the app. Always use `app.client`.
-*/
+ * NOTE: don't use a global `let client = app.client` and don't pass around the client as the client object changes when restarting the app. Always use `app.client`.
+ */
 
 module.exports = {
   async closeNotifications(app) {

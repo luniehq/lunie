@@ -1,4 +1,4 @@
-<template lang='pug'>
+<template lang="pug">
 .tm-field-addon: slot
 </template>
 
@@ -28,8 +28,4 @@ export default { name: `tm-field-addon` }
 
 .tm-field-addon + .tm-btn
   margin-left 1rem
-
-@media screen and (min-width: 768px)
-  .tm-field-addon
-    padding 0 0.75rem
 </style>

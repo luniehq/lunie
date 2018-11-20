@@ -5,7 +5,9 @@ export default ({ node }) => {
     subscription: false,
     syncing: true,
     blockMetas: {},
-    subscribedRPC: null
+    subscribedRPC: null,
+    loading: false,
+    error: null
   }
 
   const mutations = {
@@ -33,36 +35,39 @@ export default ({ node }) => {
       dispatch(`subscribeToBlocks`)
     },
     async queryBlockInfo({ state, commit }, height) {
-      if (!height) {
-        commit(`notifyError`, {
-          title: `Couldn't query block`,
-          body: `No Height Provided`
-        })
-        return
-      }
-      let blockMetaInfo = state.blockMetas[height]
-      if (blockMetaInfo) {
-        return blockMetaInfo
-      }
-      blockMetaInfo = await new Promise(resolve => {
-        node.rpc.blockchain(
-          { minHeight: height, maxHeight: height },
-          (err, data) => {
-            if (err) {
-              commit(`notifyError`, {
-                title: `Couldn't query block`,
-                body: err.message
-              })
-              resolve(null)
-            } else {
-              resolve(data.block_metas && data.block_metas[0])
+      try {
+        let blockMetaInfo = state.blockMetas[height]
+        if (blockMetaInfo) {
+          return blockMetaInfo
+        }
+        state.loading = true
+        blockMetaInfo = await new Promise((resolve, reject) => {
+          node.rpc.blockchain(
+            { minHeight: height, maxHeight: height },
+            (err, data) => {
+              if (err) {
+                reject(`Couldn't query block. ${err.message}`)
+              } else {
+                resolve(data.block_metas && data.block_metas[0])
+              }
             }
-          }
-        )
-      })
+          )
+        })
 
-      commit(`setBlockMetas`, { ...state.blockMetas, [height]: blockMetaInfo })
-      return blockMetaInfo
+        commit(`setBlockMetas`, {
+          ...state.blockMetas,
+          [height]: blockMetaInfo
+        })
+        return blockMetaInfo
+      } catch (err) {
+        commit(`notifyError`, {
+          title: `Error fetching block information`,
+          body: err.message
+        })
+        state.loading = false
+        state.error = err
+        return null
+      }
     },
     subscribeToBlocks({ state, commit, dispatch }) {
       // ensure we never subscribe twice
@@ -72,7 +77,7 @@ export default ({ node }) => {
 
       function error(err) {
         dispatch(`nodeHasHalted`)
-        console.error(err.message)
+        state.error = err
       }
 
       node.rpc.status((err, status) => {

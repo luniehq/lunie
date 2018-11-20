@@ -15,6 +15,7 @@ tr.li-proposal
 <script>
 export default {
   name: `li-proposal`,
+  props: [`proposal`],
   computed: {
     status() {
       if (this.proposal.proposal_status === `Passed`)
@@ -53,8 +54,7 @@ export default {
         ? this.proposal.description.substring(0, 100) + `…`
         : this.proposal.description.substring(0, 100)
     }
-  },
-  props: [`proposal`]
+  }
 }
 </script>
 
@@ -72,13 +72,13 @@ export default {
 
   .validator-profile__status
     position relative
-    left 0
-    top inherit
+    left 1px
+    top -2px
     display inline-block
 
   h2
     display inline-block
-    padding-left 0.5rem
+    padding-left 0.25rem
 
   td
     padding 1rem 0.5rem

@@ -1,10 +1,10 @@
 import setup from "../../helpers/vuex-setup"
-import nodeModule from "renderer/vuex/modules/node.js"
+import connectionModule from "renderer/vuex/modules/connection.js"
 import nodeMock from "../../helpers/node_mock.js"
 
 let instance = setup()
 
-describe(`Module: Node`, () => {
+describe(`Module: Connection`, () => {
   let store, node
 
   beforeEach(() => {
@@ -25,37 +25,38 @@ describe(`Module: Node`, () => {
       height: 5,
       chain_id: `test-chain`
     })
-    expect(store.state.node.lastHeader.height).toBe(5)
-    expect(store.state.node.lastHeader.chain_id).toBe(`test-chain`)
+    expect(store.state.connection.lastHeader.height).toBe(5)
+    expect(store.state.connection.lastHeader.chain_id).toBe(`test-chain`)
   })
 
-  it(`checks for new validators`, async done => {
-    node.getValidatorSet = () => done()
+  it(`checks for new validators`, async () => {
+    jest.spyOn(node, `getValidatorSet`)
     // checks for validators only after having signed in
     await store.dispatch(`signIn`, {
       account: `default`,
       password: `1234567890`
     })
-    store.dispatch(`setLastHeader`, {
+    await store.dispatch(`setLastHeader`, {
       height: 5,
       chain_id: `test-chain`,
       validators_hash: `1234567890123456789012345678901234567890`
     })
+    expect(node.getValidatorSet).toHaveBeenCalled()
   })
 
   it(`sets connection state`, () => {
-    expect(store.state.node.connected).toBe(false)
+    expect(store.state.connection.connected).toBe(false)
     store.commit(`setConnected`, true)
-    expect(store.state.node.connected).toBe(true)
+    expect(store.state.connection.connected).toBe(true)
   })
 
   it(`sets the connected node`, () => {
-    expect(store.state.node.node).toBe(null)
+    expect(store.state.connection.node).toBe(null)
     store.commit(`setNode`, {
       remoteLcdURL: `123.123.123.123`,
       localLcdURL: `124.124.124.124`
     })
-    expect(store.state.node.node).toEqual({
+    expect(store.state.connection.node).toEqual({
       remoteLcdURL: `123.123.123.123`,
       localLcdURL: `124.124.124.124`
     })
@@ -89,7 +90,7 @@ describe(`Module: Node`, () => {
       if (value === `error` && !failed) {
         failed = true
         cb({ message: `disconnected` })
-        expect(store.state.node.connected).toBe(false)
+        expect(store.state.connection.connected).toBe(false)
       }
     })
     store.dispatch(`rpcSubscribe`)
@@ -102,7 +103,7 @@ describe(`Module: Node`, () => {
     node.rpc.on = jest.fn((value, cb) => {
       if (value === `error`) {
         cb({ message: `some message` })
-        expect(store.state.node.connected).toBe(true)
+        expect(store.state.connection.connected).toBe(true)
         done()
       }
     })
@@ -118,19 +119,19 @@ describe(`Module: Node`, () => {
         node_info: { network: `test-net` }
       })
     store.dispatch(`rpcSubscribe`)
-    expect(store.state.node.connected).toBe(true)
-    expect(store.state.node.node.remoteLcdURL).toBe(
+    expect(store.state.connection.connected).toBe(true)
+    expect(store.state.connection.node.remoteLcdURL).toBe(
       `http://awesomenode.de:12345`
     )
-    expect(store.state.node.lastHeader.height).toBe(42)
-    expect(store.state.node.lastHeader.chain_id).toBe(`test-net`)
+    expect(store.state.connection.lastHeader.height).toBe(42)
+    expect(store.state.connection.lastHeader.chain_id).toBe(`test-net`)
   })
 
   it(`should react to failing status calls`, async () => {
     let spy = jest.spyOn(console, `error`).mockImplementation(() => {})
     node.rpc.status = cb => cb({ message: `Expected` }, null)
     await store.dispatch(`rpcSubscribe`)
-    store.state.node.stopConnecting = true // prevent connection attempt loops
+    store.state.connection.stopConnecting = true // prevent connection attempt loops
     expect(spy).toHaveBeenCalledWith({
       message: `Expected`
     })
@@ -154,9 +155,9 @@ describe(`Module: Node`, () => {
       }
     }
     store.dispatch(`rpcSubscribe`)
-    expect(store.state.node.connected).toBe(true)
-    expect(store.state.node.lastHeader.height).toBe(43)
-    expect(store.state.node.lastHeader.chain_id).toBe(`test-net2`)
+    expect(store.state.connection.connected).toBe(true)
+    expect(store.state.connection.lastHeader.height).toBe(43)
+    expect(store.state.connection.lastHeader.chain_id).toBe(`test-net2`)
   })
 
   it(`should react to status updates errors`, () => {
@@ -195,7 +196,7 @@ describe(`Module: Node`, () => {
   it(`should ping the node to check connection status`, done => {
     node.rpc.status = () => done()
     store.dispatch(`pollRPCConnection`)
-    expect(store.state.node.nodeTimeout).toBeDefined()
+    expect(store.state.connection.nodeTimeout).toBeDefined()
   })
 
   it(`should continue polling the connection status`, () => {
@@ -203,7 +204,7 @@ describe(`Module: Node`, () => {
     node.rpc.status = cb => cb()
     store.dispatch(`pollRPCConnection`)
     jest.runOnlyPendingTimers()
-    expect(store.state.node.nodeTimeout).toBeDefined()
+    expect(store.state.connection.nodeTimeout).toBeDefined()
   })
 
   it(`should signal if the rpc connection times out`, () => {
@@ -211,7 +212,7 @@ describe(`Module: Node`, () => {
     node.rpc.status = () => {}
     store.dispatch(`pollRPCConnection`, 10)
     jest.runOnlyPendingTimers()
-    expect(store.state.node.connected).toBe(false)
+    expect(store.state.connection.connected).toBe(false)
   })
 
   it(`should signal connected state if pinging rpc endpoint is successful`, () => {
@@ -220,7 +221,7 @@ describe(`Module: Node`, () => {
       cb(null, { node_info: {} })
     }
     store.dispatch(`pollRPCConnection`, 50)
-    expect(store.state.node.connected).toBe(true)
+    expect(store.state.connection.connected).toBe(true)
   })
 
   it(`should not subscribe if stopConnecting active`, () => {
@@ -234,7 +235,7 @@ describe(`Module: Node`, () => {
   it(`should set approval required state`, () => {
     store.commit(`setNodeApprovalRequired`, `abc`)
 
-    expect(store.state.node.approvalRequired).toBe(`abc`)
+    expect(store.state.connection.approvalRequired).toBe(`abc`)
   })
 
   it(`should send approval of node hash`, () => {
@@ -244,7 +245,7 @@ describe(`Module: Node`, () => {
     store.dispatch(`approveNodeHash`, `abc`)
 
     expect(spy).toHaveBeenCalledWith(`hash-approved`, `abc`)
-    expect(store.state.node.approvalRequired).toBe(null)
+    expect(store.state.connection.approvalRequired).toBe(null)
   })
 
   it(`should send disapproval of node hash`, () => {
@@ -254,7 +255,7 @@ describe(`Module: Node`, () => {
     store.dispatch(`disapproveNodeHash`, `abc`)
 
     expect(spy).toHaveBeenCalledWith(`hash-disapproved`, `abc`)
-    expect(store.state.node.approvalRequired).toBe(null)
+    expect(store.state.connection.approvalRequired).toBe(null)
   })
 
   it(`should switch to the mocked node implemenation`, () => {
@@ -284,7 +285,7 @@ describe(`Module: Node`, () => {
 
   it(`should check if the node has positively halted`, async () => {
     jest.useFakeTimers()
-    let instance = nodeModule({ node: nodeMock })
+    let instance = connectionModule({ node: nodeMock })
     let state = instance.state
     let dispatch = jest.fn()
     instance.actions.checkNodeHalted({ state, dispatch }, 100000)
@@ -296,7 +297,7 @@ describe(`Module: Node`, () => {
 
   it(`should check if the node has negatively halted`, async () => {
     jest.useFakeTimers()
-    let instance = nodeModule({ node: nodeMock })
+    let instance = connectionModule({ node: nodeMock })
     let state = instance.state
     let dispatch = jest.fn()
     instance.actions.checkNodeHalted({ state, dispatch }, 100000)
@@ -308,7 +309,7 @@ describe(`Module: Node`, () => {
 
   it(`should signal that a node has halted`, async () => {
     jest.useFakeTimers()
-    let instance = nodeModule({ node: nodeMock })
+    let instance = connectionModule({ node: nodeMock })
     let state = instance.state
     let commit = jest.fn()
     let timeout = setTimeout(() => {}, 100000)
