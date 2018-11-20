@@ -36,12 +36,16 @@ const copyGaia = options => (
   callback
 ) => {
   const platformPath = platform === `win32` ? `windows` : platform
+  const binaryName = platform === `win32` ? `gaiacli.exe` : `gaiacli`
 
   const binaryPath =
     options.binaryPath === `default`
-      ? path.join(__dirname, `../../builds/Gaia/${platformPath}_amd64`)
+      ? path.join(
+          __dirname,
+          `../../builds/Gaia/${platformPath}_amd64/${binaryName}`
+        )
       : options.binaryPath
-  fs.copy(binaryPath, `${buildPath}/bin`, callback)
+  fs.copy(binaryPath, `${buildPath}/bin/${binaryName}`, callback)
 }
 
 /**
@@ -272,7 +276,7 @@ const buildAllPlatforms = async options => {
 const optionsSpecification = {
   network: [`name of the default network to use`, `unspecified`],
   os: [`os to build`, `all`],
-  binaryPath: [`parent dir path of gaiacli binary`, `default`]
+  binaryPath: [`path of gaiacli binary`, `default`]
 }
 
 if (require.main === module) {
