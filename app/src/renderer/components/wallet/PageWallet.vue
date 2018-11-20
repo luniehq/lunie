@@ -27,11 +27,12 @@ tm-page(data-title="Wallet")
         a(href="https://gaia.faucetcosmos.network/") token faucet
         | &nbsp;to aquire tokens to play with.
     data-empty-search(v-else-if="filteredBalances.length === 0")
-    li-coin.tm-li-balance(
-      v-for="i in filteredBalances"
-      v-if="wallet.balances.length > 0 && i.amount > 0"
-      :key="i.denom"
-      :coin="i"
+    ul
+      li-coin.tm-li-balance(
+      v-for="coin in filteredBalances"
+      v-if="wallet.balances.length > 0 && coin.amount > 0"
+      :key="coin.denom"
+      :coin="coin"
       )
 </template>
 
@@ -127,15 +128,3 @@ export default {
   }
 }
 </script>
-
-<style lang="stylus">
-@require '~variables'
-
-@media screen and (min-width: 640px)
-  #validator-profile .tm-part-main
-    display flex
-    flex-flow row-reverse nowrap
-
-    .list-items
-      flex 1
-</style>

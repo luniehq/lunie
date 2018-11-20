@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`LiCoin has the expected html structure 1`] = `
-<div
+<li
   class="li-coin"
 >
   <div
@@ -58,5 +58,5 @@ exports[`LiCoin has the expected html structure 1`] = `
       </button>
     </a>
   </div>
-</div>
+</li>
 `;

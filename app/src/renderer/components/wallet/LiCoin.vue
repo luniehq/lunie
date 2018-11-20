@@ -1,5 +1,5 @@
 <template lang="pug">
-.li-coin
+li.li-coin
   .li-coin__icon
     img(src="../../assets/images/cosmos-logo.png")
   .li-coin__content
