@@ -6,7 +6,20 @@
 
 <script>
 export default {
-  props: [`icon`, `value`, `spin`],
+  props: {
+    icon: {
+      type: String,
+      required: true
+    },
+    spin: {
+      type: Boolean,
+      required: true
+    },
+    value: {
+      type: String,
+      required: true
+    }
+  },
   computed: {
     iconClass() {
       if (this.spin) {

@@ -26,7 +26,20 @@ import { TmBtn } from "@tendermint/ui"
 export default {
   name: `tm-modal-error`,
   components: { TmBtn },
-  props: [`icon`, `title`, `body`],
+  props: {
+    title: {
+      type: String,
+      required: true
+    },
+    body: {
+      type: String,
+      required: true
+    },
+    icon: {
+      type: String,
+      required: true
+    }
+  },
   data: () => ({
     logPath: ``,
     issueUrl: `https://github.com/cosmos/voyager/issues`

@@ -11,7 +11,12 @@ import { TmField } from "@tendermint/ui"
 export default {
   name: `tm-field-seed`,
   components: { TmField },
-  props: [`value`],
+  props: {
+    value: {
+      type: String,
+      required: true
+    }
+  },
   watch: {
     value: {
       handler: async function() {
