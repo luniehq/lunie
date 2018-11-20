@@ -101,8 +101,8 @@ tm-page(data-title="Validator")
       :maximum="myBond"
       :to="this.wallet.address"
     )
-    tm-modal(:close="closeCannotModal" icon="warning" v-if="showCannotModal")
-      div(slot='title') Cannot Complete {{ action == `delegate`? `Delegation` : `Undelegation` }}
+    tm-modal(:close="closeCannotModal" v-if="showCannotModal")
+      div(slot='title') Cannot {{ action == `delegate`? `Delegate` : `Undelegate` }}
       p You have no {{ bondingDenom }}s {{ action == `undelegate` ? `delegated `: `` }}to {{ action == `delegate` ? `delegate.` : `this validator.` }}
       div(slot='footer')
         tmBtn(
