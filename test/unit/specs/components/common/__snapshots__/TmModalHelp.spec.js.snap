@@ -49,10 +49,10 @@ exports[`TmModalHelp has the expected html structure 1`] = `
       <p>
         Thanks for improving Cosmos Voyager!
       </p>
+      <footer
+        class="tm-modal-footer"
+      />
     </main>
-    <footer
-      class="tm-modal-footer"
-    />
   </div>
 </div>
 `;

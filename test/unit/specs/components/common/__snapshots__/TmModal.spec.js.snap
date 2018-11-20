@@ -26,10 +26,11 @@ exports[`TmModal has the expected html structure 1`] = `
     </header>
     <main
       class="tm-modal-main"
-    />
-    <footer
-      class="tm-modal-footer"
-    />
+    >
+      <footer
+        class="tm-modal-footer"
+      />
+    </main>
   </div>
 </div>
 `;
