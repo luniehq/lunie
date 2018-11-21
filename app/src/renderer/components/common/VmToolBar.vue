@@ -39,10 +39,6 @@ export default {
 }
 </script>
 <style lang="stylus">
-
-.tm-tool-bar
-  height 100%
-
 .tm-page-header-text
   padding-right 1rem
 
