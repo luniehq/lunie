@@ -30,9 +30,8 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@import '~variables'
-
-.tm-modal.tm-modal-receive
-  z-index z(modalError)
+<style>
+.tm-modal.tm-modal-receive {
+  z-index: z(modalError);
+}
 </style>

@@ -58,28 +58,31 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@require '~variables'
+<style>
+.li-proposal {
+  margin: 0.5rem 0rem 0.5rem 2rem;
+  background-color: var(--app-fg);
+  border-radius: 0.25rem;
+  border: 1px solid var(--bc-dim);
+}
 
-.li-proposal
-  margin 0.5rem 0rem 0.5rem 2rem
-  background-color var(--app-fg)
-  border-radius 0.25rem
-  border 1px solid var(--bc-dim)
+.li-proposal:hover {
+  background: var(--hover-bg);
+}
 
-  &:hover
-    background var(--hover-bg)
+.li-proposal .validator-profile__status {
+  position: relative;
+  left: 1px;
+  top: -2px;
+  display: inline-block;
+}
 
-  .validator-profile__status
-    position relative
-    left 1px
-    top -2px
-    display inline-block
+.li-proposal h2 {
+  display: inline-block;
+  padding-left: 0.25rem;
+}
 
-  h2
-    display inline-block
-    padding-left 0.25rem
-
-  td
-    padding 1rem 0.5rem
+.li-proposal td {
+  padding: 1rem 0.5rem;
+}
 </style>

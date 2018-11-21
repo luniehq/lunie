@@ -101,47 +101,53 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@import '~variables'
+<style>
+.modal-deposit {
+  background: var(--app-nav);
+  display: flex;
+  flex-direction: column;
+  height: 50%;
+  justify-content: space-between;
+  left: 50%;
+  padding: 2rem;
+  position: fixed;
+  top: 50%;
+  width: 40%;
+  z-index: z(modal);
+}
 
-.modal-deposit
-  background var(--app-nav)
-  display flex
-  flex-direction column
-  height 50%
-  justify-content space-between
-  left 50%
-  padding 2rem
-  position fixed
-  top 50%
-  width 40%
-  z-index z(modal)
+.modal-deposit-header {
+  align-items: center;
+  display: flex;
+}
 
-  &-header
-    align-items center
-    display flex
+.modal-deposit-atom {
+  height: 4rem;
+  width: 4rem;
+}
 
-  &-atom
-    height 4rem
-    width 4rem
+.modal-deposit-form-group {
+  display: block;
+  padding: 0;
+}
 
-  &-form-group
-    display block
-    padding 0
+.modal-deposit #amount {
+  margin-top: -32px;
+}
 
-  #amount
-    margin-top -32px
+.modal-deposit #denom {
+  border: none;
+  margin-left: 80%;
+  text-align: right;
+  width: 72px;
+}
 
-  #denom
-    border none
-    margin-left 80%
-    text-align right
-    width 72px
+.modal-deposit-footer {
+  display: flex;
+  justify-content: flex-end;
+}
 
-  &-footer
-    display flex
-    justify-content flex-end
-
-    button
-      margin-left 1rem
+.modal-deposit-footer button {
+  margin-left: 1rem;
+}
 </style>

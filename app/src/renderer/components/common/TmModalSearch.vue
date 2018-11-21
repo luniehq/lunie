@@ -91,27 +91,35 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@require '~variables'
-.tm-modal-search
-  position sticky
-  top 0
-  z-index z(modal)
-  width 100%
-.tm-modal-search-container
-  background var(--app-fg)
-  margin-bottom 1rem
-  padding 0.5rem 0
+<style>
+.tm-modal-search {
+  position: sticky;
+  top: 0;
+  z-index: z(modal);
+  width: 100%;
+}
 
-  .tm-btn
-    margin-left 0.5rem
-  .tm-field
-    background var(--app-bg)
+.tm-modal-search-container {
+  background: var(--app-fg);
+  margin-bottom: 1rem;
+  padding: 0.5rem 0;
+}
 
-.tm-modal-search-field
-  display flex
-  flex 1
-  .tm-field
-    width auto
-    flex 1
+.tm-modal-search-container .tm-btn {
+  margin-left: 0.5rem;
+}
+
+.tm-modal-search-container .tm-field {
+  background: var(--app-bg);
+}
+
+.tm-modal-search-field {
+  display: flex;
+  flex: 1;
+}
+
+.tm-modal-search-field .tm-field {
+  width: auto;
+  flex: 1;
+}
 </style>

@@ -221,11 +221,10 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@require '~variables'
-
-.tm-form-footer
-  max-width width-main-max
-  display flex
-  justify-content flex-end
+<style>
+.tm-form-footer {
+  max-width: width-main-max;
+  display: flex;
+  justify-content: flex-end;
+}
 </style>

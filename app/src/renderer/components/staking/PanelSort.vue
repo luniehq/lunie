@@ -37,30 +37,34 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@require '~variables'
+<style>
+.panel-sort-container {
+  padding: 1rem;
+}
 
-.panel-sort-container
-  padding 1rem
+.sort-by {
+  font-size: sm;
+}
 
-.sort-by
-  font-size sm
+.sort-by a {
+  cursor: pointer;
+  user-select: none;
+}
 
-  a
-    cursor pointer
-    user-select none
+.sort-by:after {
+  content: "\f0d8";
+  color: var(--link);
+  display: inline-block;
+  font-family: FontAwesome;
+  padding-left: 4px;
+}
 
-  &:after
-    content '\f0d8'
-    color var(--link)
-    display inline-block
-    font-family FontAwesome
-    padding-left 4px
+.sort-by.asc:after {
+  color: var(--tertiary);
+}
 
-  &.asc:after
-    color var(--tertiary)
-
-  &.desc:after
-    content '\f0d7'
-    color var(--tertiary)
+.sort-by.desc:after {
+  content: "\f0d7";
+  color: var(--tertiary);
+}
 </style>

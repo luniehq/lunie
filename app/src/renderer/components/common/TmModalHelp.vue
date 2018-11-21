@@ -29,9 +29,8 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@import '~variables'
-
-.tm-modal.tm-modal-help
-  z-index z(modalHelp)
+<style>
+.tm-modal.tm-modal-help {
+  z-index: z(modalHelp);
+}
 </style>

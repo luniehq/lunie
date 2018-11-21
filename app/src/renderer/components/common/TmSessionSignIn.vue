@@ -121,8 +121,8 @@ export default {
   })
 }
 </script>
-<style lang="stylus">
-.tm-form-group
-  a
-    cursor pointer
+<style>
+.tm-form-group a {
+  cursor: pointer;
+}
 </style>

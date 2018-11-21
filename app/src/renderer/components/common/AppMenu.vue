@@ -60,71 +60,85 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@require '~variables'
+<style>
+.app-menu {
+  background: var(--app-nav);
+  z-index: z(appMenu);
+  user-select: none;
+  display: flex;
+  flex-flow: column nowrap;
+}
 
-.app-menu
-  background var(--app-nav)
-  z-index z(appMenu)
-  user-select none
-  display flex
-  flex-flow column nowrap
+.app-menu .app-menu-main {
+  flex: 1;
+  position: relative;
+}
 
-  .app-menu-main
-    flex 1
-    position relative // for perfect-scrollbar
+.app-menu .app-menu-main .tm-li {
+  border-bottom: 1px solid var(--bc-dim);
+}
 
-    .tm-li
-      border-bottom 1px solid var(--bc-dim)
+.app-menu .tm-user {
+  border-top: 1px solid var(--bc);
+  padding: 1rem;
+  display: flex;
+}
 
-  .tm-user
-    border-top 1px solid var(--bc)
-    padding 1rem
-    display flex
+.app-menu .tm-user .tm-user-info {
+  flex: 1;
+  display: flex;
+}
 
-    .tm-user-info
-      flex 1
-      display flex
+.app-menu .tm-user .avatar {
+  background: var(--link);
+  width: 2rem;
+  height: 2rem;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-    .avatar
-      background var(--link)
-      width 2rem
-      height 2rem
-      border-radius 1rem
-      display flex
-      align-items center
-      justify-content center
+.app-menu .tm-user .avatar i {
+  color: var(--txt);
+}
 
-      i
-        color var(--txt)
+.app-menu .tm-user .text {
+  padding: 0 0.5rem;
+}
 
-    .text
-      padding 0 0.5rem
+.app-menu .tm-user .title {
+  color: var(--txt);
+}
 
-    .title
-      color var(--txt)
+.app-menu .tm-user .subtitle {
+  font-size: xs;
+  color: var(--dim);
+}
 
-    .subtitle
-      font-size xs
-      color var(--dim)
+.app-menu .tm-user .tm-btn {
+  margin-right: 0.5rem;
+}
 
-    .tm-btn
-      margin-right 0.5rem
+.tm-li.tm-li-link.router-link-exact-active {
+  color: var(--tertiary);
+}
 
-.tm-li.tm-li-link.router-link-exact-active
-  color var(--tertiary)
+@media screen and (max-width: 1023px) {
+  .app-menu {
+    position: fixed;
+    top: 3rem;
+    left: 0;
+    bottom: 0;
+    width: 100vw;
+    background: var(--app-bg);
+    user-select: none;
+  }
+}
 
-@media screen and (max-width: 1023px)
-  .app-menu
-    position fixed
-    top 3rem
-    left 0
-    bottom 0
-    width 100vw
-    background var(--app-bg)
-    user-select none
-
-@media screen and (min-width: 1024px)
-  .app-menu
-    flex 1
+@media screen and (min-width: 1024px) {
+  .app-menu {
+    flex: 1;
+  }
+}
 </style>

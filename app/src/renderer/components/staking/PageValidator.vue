@@ -379,153 +379,176 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@require '~variables'
+<style>
+.validator-profile__section {
+  background-color: var(--app-fg);
+  display: flex;
+  margin-bottom: 1rem;
+  padding: 2rem;
+  width: 100%;
+}
 
-.validator-profile__section
-  background-color var(--app-fg)
-  display flex
-  margin-bottom 1rem
-  padding 2rem
-  width 100%
+.column {
+  display: flex;
+  flex-flow: column;
+  position: relative;
+}
 
-.column
-  display flex
-  flex-flow column
-  position relative
+.row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
 
-.row
-  display flex
-  flex-direction row
-  width 100%
+.validator-profile__header .avatar {
+  background: var(--app-nav);
+  border-radius: 50%;
+  height: 155px;
+  margin-right: 2rem;
+  padding: 1rem;
+  width: 155px;
+}
 
-.validator-profile
-  &__header
-    .avatar
-      background var(--app-nav)
-      border-radius 50%
-      height 155px
-      margin-right 2rem
-      padding 1rem
-      width 155px
+.validator-profile__header__info {
+  flex: 1;
+}
 
-    &__info
-      flex 1
+.validator-profile__header__name {
+  margin-bottom: 2rem;
+}
 
-    &__name
-      margin-bottom 2rem
+.validator-profile__header__name__title {
+  color: #fff;
+  display: inline-block;
+  font-size: h1;
+  line-height: h1;
+  font-weight: 400;
+  padding: 0 0.5rem 0.5rem 0;
+}
 
-      &__title
-        color white
-        display inline-block
-        font-size h1
-        line-height h1
-        font-weight 400
-        padding 0 0.5rem 0.5rem 0
+.validator-profile__header__name__address {
+  font-size: small;
+}
 
-      &__address
-        font-size small
+.validator-profile__header__actions {
+  flex-flow: column;
+  margin-left: auto;
+}
 
-    &__actions
-      flex-flow column
-      margin-left auto
+.validator-profile__header__actions button:not(:last-child) {
+  margin-bottom: 0.5rem;
+}
 
-      button:not(:last-child)
-        margin-bottom 0.5rem
+.validator-profile__header__data__break {
+  border-right: 1px solid var(--bc-dim);
+  margin-right: 1rem;
+}
 
-  &__header__data__break
-    border-right 1px solid var(--bc-dim)
-    margin-right 1rem
+.validator-profile__status {
+  border-radius: 50%;
+  display: inline-block;
+  height: 0.5rem;
+  left: -1rem;
+  position: absolute;
+  width: 0.5rem;
+}
 
-  &__status
-    border-radius 50%
-    display inline-block
-    height 0.5rem
-    left -1rem
-    position absolute
-    width 0.5rem
+.validator-profile__status.red {
+  background: var(--danger);
+}
 
-    &.red
-      background var(--danger)
+.validator-profile__status.yellow {
+  background: var(--warning);
+}
 
-    &.yellow
-      background var(--warning)
+.validator-profile__status.green {
+  background: var(--success);
+}
 
-    &.green
-      background var(--success)
+.validator-profile__status.blue {
+  background: var(--primary);
+}
 
-    &.blue
-      background var(--primary)
+.validator-profile__status-and-title {
+  align-items: center;
+  display: flex;
+}
 
-  &__status-and-title
-    align-items center
-    display flex
+.validator-profile__details > .row > .column {
+  flex: 1;
+}
 
-  &__details
-    > .row
-      > .column
-        flex 1
+.info_dl {
+  display: flex;
+  flex-flow: column;
+  margin-bottom: 1.5rem;
+  margin-right: 1rem;
+}
 
-.info_dl
-  display flex
-  flex-flow column
-  margin-bottom 1.5rem
-  margin-right 1rem
+.info_dl dt {
+  color: var(--dim);
+  font-size: small;
+  margin-bottom: 4px;
+}
 
-  dt
-    color var(--dim)
-    font-size small
-    margin-bottom 4px
+.info_dl dd {
+  border: solid 1px #31354e;
+  border-radius: 2px;
+  font-size: 1rem;
+  line-height: 1rem;
+  padding: 0.5rem;
+}
 
-  dd
-    border solid 1px #31354e
-    border-radius 2px
-    font-size 1rem
-    line-height 1rem
-    padding 0.5rem
+.info_dl dd.info_dl__text-box {
+  min-height: 6.91rem;
+}
 
-    &.info_dl__text-box
-      min-height 6.91rem
+.colored_dl {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 6rem;
+}
 
-.colored_dl
-  align-items center
-  display flex
-  flex-direction column
-  width 6rem
+.colored_dl:not(:last-child) {
+  margin-right: 1rem;
+}
 
-  &:not(:last-child)
-    margin-right 1rem
+.colored_dl dt {
+  color: var(--dim);
+  font-size: small;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
 
-  dt
-    color var(--dim)
-    font-size small
-    margin-bottom 0.5rem
-    text-align center
+.colored_dl dd {
+  background-color: var(--white-fade-1);
+  border: 1px solid var(--white-fade-2);
+  border-radius: 4px;
+  color: var(--dim);
+  display: block;
+  font-size: h6;
+  line-height: h6;
+  padding: 4px 4px;
+  text-align: right;
+  width: 100%;
+}
 
-  dd
-    background-color var(--white-fade-1)
-    border 1px solid var(--white-fade-2)
-    border-radius 4px
-    color var(--dim)
-    display block
-    font-size h6
-    line-height h6
-    padding 4px 4px
-    text-align right
-    width 100%
+.colored_dl dd.red {
+  background-color: rgba(209, 2, 0, 0.15);
+  border: solid 0.5px rgba(209, 2, 0, 0.25);
+  color: #ff0200;
+}
 
-    &.red
-      background-color rgba(209, 2, 0, 0.15)
-      border solid 0.5px rgba(209, 2, 0, 0.25)
-      color #ff0200
+.colored_dl dd.yellow {
+  background-color: rgba(255, 149, 2, 0.15);
+  border: solid 0.5px rgba(255, 149, 2, 0.25);
+  color: #ff9502;
+}
 
-    &.yellow
-      background-color rgba(255, 149, 2, 0.15)
-      border solid 0.5px rgba(255, 149, 2, 0.25)
-      color #ff9502
-
-    &.green
-      background-color rgba(46, 164, 45, 0.15)
-      border solid 0.5px rgba(46, 164, 45, 0.25)
-      color #2ea42d
+.colored_dl dd.green {
+  background-color: rgba(46, 164, 45, 0.15);
+  border: solid 0.5px rgba(46, 164, 45, 0.25);
+  color: #2ea42d;
+}
 </style>

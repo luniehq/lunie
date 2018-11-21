@@ -60,25 +60,26 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
-@require '~variables'
+<style>
+.tab-header {
+  color: var(--dim);
+  font-size: 14px;
+  font-weight: 500;
+  margin: 1rem 1rem 0 2rem;
+}
 
-.tab-header
-  color var(--dim)
-  font-size 14px
-  font-weight 500
-  margin 1rem 1rem 0 2rem
+.info-button {
+  color: var(--link);
+}
 
-.info-button
-  color var(--link)
-
-.check-out-message
-  background var(--app-fg)
-  border 1px solid var(--bc-dim)
-  border-radius 0.25rem
-  font-size sm
-  margin-bottom 4rem
-  margin-left 2rem
-  padding 0.5rem
-  text-align center
+.check-out-message {
+  background: var(--app-fg);
+  border: 1px solid var(--bc-dim);
+  border-radius: 0.25rem;
+  font-size: sm;
+  margin-bottom: 4rem;
+  margin-left: 2rem;
+  padding: 0.5rem;
+  text-align: center;
+}
 </style>

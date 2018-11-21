@@ -60,53 +60,60 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@require '~variables'
+<style>
+.tm-connected-network {
+  align-items: center;
+  background: var(--app-fg);
+  border-radius: 0.25rem;
+  color: var(--dim);
+  display: flex;
+  font-size: sm;
+  justify-content: space-between;
+  margin: 0.5rem;
+  padding: 0.5rem;
+}
 
-.tm-connected-network
-  align-items center
-  background var(--app-fg)
-  border-radius 0.25rem
-  color var(--dim)
-  display flex
-  font-size sm
-  justify-content space-between
-  margin 0.5rem
-  padding 0.5rem
+.tm-connected-network .chain-id {
+  font-weight: 500;
+  padding-right: 1rem;
+}
 
-  .chain-id
-    font-weight 500
-    padding-right 1rem
+.tm-connected-network .exit {
+  font-size: sm;
+}
 
-  .exit
-    font-size sm
+.tm-connected-network__icon {
+  align-items: center;
+  color: var(--success-bc);
+  display: flex;
+  font-size: m;
+  justify-content: center;
+  padding-right: 0.25rem;
+}
 
-.tm-connected-network__icon
-  align-items center
-  color var(--success-bc)
-  display flex
-  font-size m
-  justify-content center
-  padding-right 0.25rem
+.tm-connected-network__icon .fa-spin {
+  color: var(--warning);
+}
 
-  .fa-spin
-    color var(--warning)
+.tm-connected-network--mocked .tm-connected-network__icon {
+  color: var(--warning);
+}
 
-.tm-connected-network--mocked
-  .tm-connected-network__icon
-    color var(--warning)
+.tm-connected-network__connection {
+  display: flex;
+}
 
-.tm-connected-network__connection
-  display flex
+.tm-disconnected-network {
+  justify-content: start;
+}
 
-.tm-disconnected-network
-  justify-content start
+.tm-connected-network__string--connecting {
+  color: var(--warning);
+}
 
-.tm-connected-network__string--connecting
-  color var(--warning)
-
-.tm-connected-network-loader
-  height 1rem
-  margin-right 0.5rem
-  width 1rem
+.tm-connected-network-loader {
+  height: 1rem;
+  margin-right: 0.5rem;
+  width: 1rem;
+}
 </style>

@@ -85,47 +85,53 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@import '~variables'
+<style>
+.undelegation-modal {
+  background: var(--app-nav);
+  display: flex;
+  flex-direction: column;
+  height: 50%;
+  justify-content: space-between;
+  left: 50%;
+  padding: 2rem;
+  position: fixed;
+  top: 50%;
+  width: 40%;
+  z-index: z(modal);
+}
 
-.undelegation-modal
-  background var(--app-nav)
-  display flex
-  flex-direction column
-  height 50%
-  justify-content space-between
-  left 50%
-  padding 2rem
-  position fixed
-  top 50%
-  width 40%
-  z-index z(modal)
+.undelegation-modal-header {
+  align-items: center;
+  display: flex;
+}
 
-  &-header
-    align-items center
-    display flex
+.undelegation-modal-atom {
+  height: 4rem;
+  width: 4rem;
+}
 
-  &-atom
-    height 4rem
-    width 4rem
+.undelegation-modal-form-group {
+  display: block;
+  padding: 0;
+}
 
-  &-form-group
-    display block
-    padding 0
+.undelegation-modal #amount {
+  margin-top: -32px;
+}
 
-  #amount
-    margin-top -32px
+.undelegation-modal #denom {
+  text-align: right;
+  width: 72px;
+  margin-left: 80%;
+  border: none;
+}
 
-  #denom
-    text-align right
-    width 72px
-    margin-left 80%
-    border none
+.undelegation-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+}
 
-  &-footer
-    display flex
-    justify-content flex-end
-
-    button
-      margin-left 1rem
+.undelegation-modal-footer button {
+  margin-left: 1rem;
+}
 </style>

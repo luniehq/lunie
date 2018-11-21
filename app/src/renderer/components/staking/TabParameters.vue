@@ -137,56 +137,61 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
-@require '~variables'
+<style>
+.parameters__details > .row > .column {
+  flex: 1;
+}
 
-.parameters
-  &__details
-    > .row
-      > .column
-        flex 1
+.parameters__section {
+  background-color: var(--app-fg);
+  display: flex;
+  margin-bottom: 1rem;
+  padding: 2rem;
+  width: 100%;
+}
 
-  &__section
-    background-color var(--app-fg)
-    display flex
-    margin-bottom 1rem
-    padding 2rem
-    width 100%
+h3 {
+  margin: 1em auto;
+}
 
-h3
-  margin 1em auto
+.info-button {
+  color: var(--link);
+}
 
-.info-button
-  color var(--link)
+.column {
+  display: flex;
+  flex-flow: column;
+  position: relative;
+}
 
-.column
-  display flex
-  flex-flow column
-  position relative
+.row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
 
-.row
-  display flex
-  flex-direction row
-  width 100%
+.info_dl {
+  display: flex;
+  flex-flow: column;
+  margin-bottom: 1.5rem;
+  margin-right: 1rem;
+}
 
-.info_dl
-  display flex
-  flex-flow column
-  margin-bottom 1.5rem
-  margin-right 1rem
+.info_dl dt {
+  color: var(--dim);
+  font-size: small;
+  margin-bottom: 4px;
+}
 
-  dt
-    color var(--dim)
-    font-size small
-    margin-bottom 4px
+.info_dl dd {
+  border: 1px solid var(--white-fade-2);
+  border-radius: 2px;
+  font-size: 1rem;
+  line-height: 1rem;
+  padding: 0.5rem;
+}
 
-  dd
-    border 1px solid var(--white-fade-2)
-    border-radius 2px
-    font-size 1rem
-    line-height 1rem
-    padding 0.5rem
-
-    &.info_dl__text-box
-      min-height 6.91rem
+.info_dl dd.info_dl__text-box {
+  min-height: 6.91rem;
+}
 </style>

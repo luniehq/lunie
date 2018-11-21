@@ -44,71 +44,69 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@import '~variables';
-
+<style>
 .tm-modal-lcd-approval {
   padding: 1.5rem;
   max-width: 40rem;
+}
 
-  &__wrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: z(modalError);
-    background: app-bg;
-    width: 100vw;
-    height: 100vh;
-    max-width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+.tm-modal-lcd-approval__wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: var(--z-modalError);
+  background: var(--app-bg);
+  width: 100vw;
+  height: 100vh;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  &__icon {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: z(below);
+.tm-modal-lcd-approval__icon {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: z(below);
+}
 
-    i.material-icons {
-      font-size: 25vw + 25vh;
-      line-height: 1;
-      color: bc-dim;
-    }
-  }
+.tm-modal-lcd-approval__icon i.material-icons {
+  font-size: 50vw;
+  line-height: 1;
+  color: var(--bc-dim);
+}
 
-  &__title {
-    font-size: h1;
-    font-weight: 500;
-    line-height: 1;
-    margin-bottom: 1.5rem;
-  }
+.tm-modal-lcd-approval__title {
+  font-size: var(--h1);
+  font-weight: 500;
+  line-height: 1;
+  margin-bottom: 1.5rem;
+}
 
-  &__body {
-    font-size: lg;
-    color: dim;
-    margin-bottom: 2.5rem;
-  }
+.tm-modal-lcd-approval__body {
+  font-size: var(--lg);
+  color: var(--dim);
+  margin-bottom: 2.5rem;
+}
 
-  &__footer {
-    flex-direction: row;
-    justify-content: flex-start;
+.tm-modal-lcd-approval__footer {
+  flex-direction: row;
+  justify-content: flex-start;
+}
 
-    .tm-btn {
-      width: 100%;
-      margin-right: 1.5rem;
-      margin-bottom: 1rem;
-      max-width: 14rem;
+.tm-modal-lcd-approval__footer .tm-btn {
+  width: 100%;
+  margin-right: 1.5rem;
+  margin-bottom: 1rem;
+  max-width: 14rem;
+}
 
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-  }
+.tm-modal-lcd-approval__footer .tm-btn:last-child {
+  margin-bottom: 0;
+}
 
-  #node-hash {
-    margin-top: 3rem;
-  }
+.tm-modal-lcd-approval #node-hash {
+  margin-top: 3rem;
 }
 </style>

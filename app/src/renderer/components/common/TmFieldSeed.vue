@@ -31,7 +31,8 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
-.tm-field:disabled.tm-field-seed
-  border 1px solid var(--bc)
+<style>
+.tm-field:disabled.tm-field-seed {
+  border: 1px solid var(--bc);
+}
 </style>

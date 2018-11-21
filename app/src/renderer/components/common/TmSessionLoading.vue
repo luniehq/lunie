@@ -25,13 +25,14 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
-.tm-session-loading
-  .tm-session-main
-    text-align center
+<style>
+.tm-session-loading .tm-session-main {
+  text-align: center;
+}
 
-.tm-session-main--loading
-  display flex
-  flex-direction column
-  justify-content center
+.tm-session-main--loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 </style>

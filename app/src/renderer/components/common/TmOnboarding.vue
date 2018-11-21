@@ -72,12 +72,12 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@require '~variables'
+<style>
+#onboarding .tm-session-main {
+  position: relative;
+}
 
-#onboarding .tm-session-main
-  position relative
-
-.tm-bar-discrete__node--active
-  border-color var(--tertiary) !important
+.tm-bar-discrete__node--active {
+  border-color: var(--tertiary) !important;
+}
 </style>

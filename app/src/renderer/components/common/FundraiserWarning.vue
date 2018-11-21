@@ -8,21 +8,21 @@
 export default { name: `fundraiser-warning` }
 </script>
 
-<style lang="stylus">
-@import '~variables'
+<style>
+.fundraiser-warning {
+  margin-top: 2rem;
+  padding: 0.75rem 1rem 0.875rem;
+  background: var(--app-fg);
+}
 
-.fundraiser-warning
-  margin-top 2rem
-  padding 0.75rem 1rem 0.875rem
+.fundraiser-warning__title {
+  padding: 0 0 0.625rem;
+  font-weight: bold;
+  color: var(--danger);
+}
 
-  background var(--app-fg)
-
-.fundraiser-warning__title
-  padding 0 0 0.625rem
-  font-weight bold
-  color var(--danger)
-
-.fundraiser-warning__subtitle
-  color var(--dim)
-  font-size sm
+.fundraiser-warning__subtitle {
+  color: var(--dim);
+  font-size: sm;
+}
 </style>

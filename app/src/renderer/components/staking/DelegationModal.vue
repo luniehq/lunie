@@ -98,47 +98,53 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@import '~variables'
+<style>
+.delegation-modal {
+  background: var(--app-nav);
+  display: flex;
+  flex-direction: column;
+  height: 50%;
+  justify-content: space-between;
+  left: 50%;
+  padding: 2rem;
+  position: fixed;
+  top: 50%;
+  width: 40%;
+  z-index: z(modal);
+}
 
-.delegation-modal
-  background var(--app-nav)
-  display flex
-  flex-direction column
-  height 50%
-  justify-content space-between
-  left 50%
-  padding 2rem
-  position fixed
-  top 50%
-  width 40%
-  z-index z(modal)
+.delegation-modal-header {
+  align-items: center;
+  display: flex;
+}
 
-  &-header
-    align-items center
-    display flex
+.delegation-modal-atom {
+  height: 4rem;
+  width: 4rem;
+}
 
-  &-atom
-    height 4rem
-    width 4rem
+.delegation-modal-form-group {
+  display: block;
+  padding: 0;
+}
 
-  &-form-group
-    display block
-    padding 0
+.delegation-modal #amount {
+  margin-top: -32px;
+}
 
-  #amount
-    margin-top -32px
+.delegation-modal #denom {
+  border: none;
+  margin-left: 80%;
+  text-align: right;
+  width: 72px;
+}
 
-  #denom
-    border none
-    margin-left 80%
-    text-align right
-    width 72px
+.delegation-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+}
 
-  &-footer
-    display flex
-    justify-content flex-end
-
-    button
-      margin-left 1rem
+.delegation-modal-footer button {
+  margin-left: 1rem;
+}
 </style>

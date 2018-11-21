@@ -104,52 +104,59 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@import '~variables'
+<style>
+.modal-vote {
+  background: var(--app-nav);
+  display: flex;
+  flex-direction: column;
+  height: 50%;
+  justify-content: space-between;
+  left: 50%;
+  padding: 2rem;
+  position: fixed;
+  top: 50%;
+  width: 40%;
+  z-index: z(modal);
+}
 
-.modal-vote
-  background var(--app-nav)
-  display flex
-  flex-direction column
-  height 50%
-  justify-content space-between
-  left 50%
-  padding 2rem
-  position fixed
-  top 50%
-  width 40%
-  z-index z(modal)
+.modal-vote-header {
+  align-items: center;
+  display: flex;
+}
 
-  &-header
-    align-items center
-    display flex
+.modal-vote-atom {
+  height: 4rem;
+  width: 4rem;
+}
 
-  &-atom
-    height 4rem
-    width 4rem
+.modal-vote-form-group {
+  display: block;
+  padding: 0;
+}
 
-  &-form-group
-    display block
-    padding 0
+.modal-vote-footer {
+  display: flex;
+  justify-content: flex-end;
+}
 
-  &-footer
-    display flex
-    justify-content flex-end
+.modal-vote h3 {
+  margin: 0;
+}
 
-  h3
-    margin 0
+.modal-vote button {
+  margin: 0;
+  min-width: 50%;
+}
 
-  button
-    margin 0
-    min-width 50%
+.modal-vote button span {
+  margin: 0.25rem;
+}
 
-    span
-      margin 0.25rem
+.modal-vote button.active span {
+  background: var(--tertiary);
+}
 
-    &.active
-      span
-        background var(--tertiary)
-
-    .tm-btn__container
-      padding 0.5rem
+.modal-vote button .tm-btn__container {
+  padding: 0.5rem;
+}
 </style>

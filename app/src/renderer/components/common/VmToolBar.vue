@@ -38,21 +38,25 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
+<style>
+.tm-tool-bar {
+  height: 100%;
+}
 
-.tm-tool-bar
-  height 100%
+.tm-page-header-text {
+  padding-right: 1rem;
+}
 
-.tm-page-header-text
-  padding-right 1rem
+.tm-page-header-text a {
+  cursor: pointer;
+}
 
-  a
-    cursor pointer
+.tm-page-header-text i {
+  padding: 1rem;
+  color: var(--dim);
+}
 
-  i
-    padding 1rem
-    color var(--dim)
-
-    &:hover
-      color var(--bright)
+.tm-page-header-text i:hover {
+  color: var(--bright);
+}
 </style>

@@ -151,57 +151,66 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@import '~variables'
+<style>
+.modal-propose {
+  background: var(--app-nav);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  left: 50%;
+  padding: 2rem;
+  position: fixed;
+  bottom: 0;
+  width: 50%;
+  z-index: z(modal);
+}
 
-.modal-propose
-  background var(--app-nav)
-  display flex
-  flex-direction column
-  justify-content space-between
-  left 50%
-  padding 2rem
-  position fixed
-  bottom 0
-  width 50%
-  z-index z(modal)
+.modal-propose-header {
+  align-items: center;
+  display: flex;
+}
 
-  &-header
-    align-items center
-    display flex
+.modal-propose-atom {
+  height: 4rem;
+  width: 4rem;
+}
 
-  &-atom
-    height 4rem
-    width 4rem
+.modal-propose-form-group {
+  display: block;
+  padding: 0;
+}
 
-  &-form-group
-    display block
-    padding 0
+.modal-propose #amount {
+  margin-top: -32px;
+}
 
-  #amount
-    margin-top -32px
+.modal-propose #denom {
+  border: none;
+  margin-left: 80%;
+  text-align: right;
+  width: 72px;
+}
 
-  #denom
-    border none
-    margin-left 80%
-    text-align right
-    width 72px
+.modal-propose-footer {
+  display: flex;
+  justify-content: flex-end;
+}
 
-  &-footer
-    display flex
-    justify-content flex-end
+.modal-propose-footer button {
+  margin-left: 1rem;
+  margin-top: 1rem;
+}
 
-    button
-      margin-left 1rem
-      margin-top 1rem
+.modal-propose .page-proposal-form-group {
+  display: block;
+  padding: 0;
+}
 
-  .page-proposal-form-group
-    display block
-    padding 0
+.modal-propose .page-proposal-form-group textarea {
+  min-height: 300px;
+}
 
-    textarea
-      min-height 300px
-
-  .tm-form-group
-    margin 0.5rem 0
+.modal-propose .tm-form-group {
+  margin: 0.5rem 0;
+}
 </style>
