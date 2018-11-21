@@ -357,8 +357,10 @@ let state = {
           amount: `100`
         }
       ],
-      submit_block: `120`,
-      voting_start_block: `135`,
+      submit_time: `2018-11-21T13:29:24.66404Z`,
+      deposit_end_time: `2018-11-23T13:29:24.66404Z`,
+      voting_start_time: `2018-11-23T13:29:24.66404Z`,
+      voting_end_time: `2018-11-25T13:29:24.66404Z`,
       proposal_status: `Passed`,
       tally_result: {
         yes: `500`,
@@ -384,8 +386,10 @@ let state = {
           amount: `200`
         }
       ],
-      submit_block: `10`,
-      voting_start_block: `10`,
+      submit_time: `2018-11-21T13:29:24.66404Z`,
+      deposit_end_time: `2018-11-23T13:29:24.66404Z`,
+      voting_start_time: `2018-11-23T13:29:24.66404Z`,
+      voting_end_time: `2018-11-23T13:29:24.66404Z`,
       proposal_status: `VotingPeriod`,
       tally_result: {
         yes: `0`,
@@ -411,8 +415,10 @@ let state = {
           amount: `170`
         }
       ],
-      submit_block: `10`,
-      voting_start_block: `-1`,
+      submit_time: `2018-11-21T13:29:24.66404Z`,
+      deposit_end_time: `2018-11-23T13:29:24.66404Z`,
+      voting_start_time: `0001-01-01T00:00:00Z`,
+      voting_end_time: `0001-01-01T00:00:00Z`,
       proposal_status: `DepositPeriod`,
       tally_result: {
         yes: `0`,
@@ -993,6 +999,10 @@ module.exports = {
   async getProposal(proposalId) {
     return state.proposals.find(proposal => proposal.proposal_id === proposalId)
   },
+  async getProposalTally(proposalId) {
+    let proposal = await this.getProposal(proposalId)
+    return proposal.tally_result
+  },
   async getProposalDeposits(proposalId) {
     return state.deposits[proposalId] || []
   },
@@ -1025,9 +1035,7 @@ module.exports = {
       return results
     }
 
-    let proposal = state.proposals.find(
-      proposal => proposal.proposal_id === proposal_id
-    )
+    let proposal = await this.getProposal(proposal_id)
     if (!proposal) {
       results.push(txResult(3, `Nonexistent proposal`))
       return results
@@ -1118,8 +1126,8 @@ module.exports = {
       if (parseInt(depositCoinAmt) >= 10) {
         proposal.proposal_status = `VotingPeriod`
         // TODO: get voting time from gov params
-        proposal.voting_start_block = Date.now()
-        proposal.voting_end_block = moment(proposal.voting_start_block)
+        proposal.voting_start_time = Date.now()
+        proposal.voting_end_time = moment(proposal.voting_start_time)
           .add(86400000, `ms`)
           .toDate()
       }
@@ -1156,9 +1164,7 @@ module.exports = {
       return results
     }
 
-    let proposal = state.proposals.find(
-      proposal => proposal.proposal_id === proposal_id
-    )
+    let proposal = await this.getProposal(proposal_id)
 
     if (!proposal) {
       results.push(txResult(3, `Nonexistent proposal`))

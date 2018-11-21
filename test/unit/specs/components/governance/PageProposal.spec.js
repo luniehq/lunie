@@ -11,7 +11,6 @@ import { mount } from "@vue/test-utils"
 
 let proposal = lcdClientMock.state.proposals[0]
 let status = {
-  button: null,
   message: `This proposal has passed`,
   color: `green`
 }

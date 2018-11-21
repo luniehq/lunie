@@ -58,6 +58,11 @@ describe(`Module: Proposals`, () => {
             proposals.map(proposal => ({
               value: proposal
             }))
+          ),
+        queryProposalTally: proposalId =>
+          Promise.resolve(
+            proposals.find(proposal => proposal.proposal_id == proposalId)
+              .tally_result
           )
       }
     })
@@ -71,6 +76,7 @@ describe(`Module: Proposals`, () => {
       [`setProposal`, proposals[0]],
       [`setProposal`, proposals[1]],
       [`setProposal`, proposals[2]]
+      // [`setProposalTally`, proposals[1].proposal_id, proposals[1].tally_result]
     ])
   })
 

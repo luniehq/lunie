@@ -461,7 +461,7 @@ describe(`LCD Client`, () => {
       })
     })
 
-    describe(`governance`, () => {
+    describe(`Governance`, () => {
       it(`fetches all governance proposals`, async () => {
         axios.mockReturnValue({})
         await client.queryProposals()
@@ -479,7 +479,7 @@ describe(`LCD Client`, () => {
 
       it(`queries a single proposal`, async () => {
         axios.mockReturnValue({})
-        await client.queryProposal(1)
+        await client.queryProposal(`1`)
 
         expect(axios.mock.calls).toEqual([
           [
@@ -492,9 +492,24 @@ describe(`LCD Client`, () => {
         ])
       })
 
+      it(`queries a proposal's tally`, async () => {
+        axios.mockReturnValue({})
+        await client.queryProposalTally(`1`)
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/gov/proposals/1/tally`
+            }
+          ]
+        ])
+      })
+
       it(`queries a proposal votes`, async () => {
         axios.mockReturnValue({})
-        await client.queryProposalVotes(1)
+        await client.queryProposalVotes(`1`)
 
         expect(axios.mock.calls).toEqual([
           [
@@ -510,7 +525,7 @@ describe(`LCD Client`, () => {
       it(`queries a proposal vote from an address`, async () => {
         axios.mockReturnValue({})
         await client.queryProposalVote(
-          1,
+          `1`,
           `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
         )
 
@@ -527,7 +542,7 @@ describe(`LCD Client`, () => {
 
       it(`queries a proposal deposits`, async () => {
         axios.mockReturnValue({})
-        await client.queryProposalDeposits(1)
+        await client.queryProposalDeposits(`1`)
 
         expect(axios.mock.calls).toEqual([
           [
@@ -543,7 +558,7 @@ describe(`LCD Client`, () => {
       it(`queries a proposal deposit from an address`, async () => {
         axios.mockReturnValue({})
         await client.queryProposalDeposit(
-          1,
+          `1`,
           `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
         )
 
