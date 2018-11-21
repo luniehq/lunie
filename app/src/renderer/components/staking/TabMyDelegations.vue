@@ -1,17 +1,17 @@
 <template lang="pug">
   div
-    div(v-if="yourValidators > 0")
+    div(v-if="yourValidators.length > 0")
       h3.tab-header
         | Active Delegations
         |
         i.material-icons.info-button(v-tooltip.top="bondInfo") info_outline
       table-validators(:validators="yourValidators")
 
-    tm-data-msg(v-if="yourValidators < 1", icon="info_outline")
+    tm-data-msg(v-if="yourValidators.length < 1", icon="info_outline")
       div(slot="title") No Active Delegations
       div(slot="subtitle") Looks like you haven't delegated any {{ this.bondingDenom }}s yet. Head over to the #[router-link(:to="{name: 'Validators'}") validator list] to make your first delegation!
 
-    .check-out-message(v-if="yourValidators > 0")
+    .check-out-message(v-if="yourValidators.length > 0")
       | Check out
       |
       router-link(:to="{name: 'Validators'}") the validator list
