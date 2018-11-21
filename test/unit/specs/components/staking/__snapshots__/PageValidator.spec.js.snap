@@ -3,6 +3,7 @@
 exports[`PageValidator has the expected html structure 1`] = `
 <div
   class="tm-page"
+  data-title="Validator"
 >
   <header
     class="tm-page-header"
@@ -24,10 +25,14 @@ exports[`PageValidator has the expected html structure 1`] = `
             <div
               class="top"
             >
-              <img
-                class="icon"
-                src="~assets/images/cosmos-logo.png"
-              />
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
               <div
                 class="total-atoms top-section"
               >
@@ -35,24 +40,33 @@ exports[`PageValidator has the expected html structure 1`] = `
                   Total Steak
                 </h3>
                 <h2>
-                  0.00
+                  123.4568…
+                </h2>
+              </div>
+              <div
+                class="unbonded-atoms top-section"
+              >
+                <h3>
+                  Available Steak
+                </h3>
+                <h2>
+                  0.0000…
                 </h2>
               </div>
               <!---->
               <!---->
-              <!---->
             </div>
             <div
-              class="bottom"
+              class="short-bech32"
             >
               <div
                 class="address"
                 id="address"
               >
-                
+                Address Not Found
               </div>
               <div
-                class="success"
+                class="copied"
               >
                 <i
                   class="material-icons"
@@ -86,23 +100,13 @@ exports[`PageValidator has the expected html structure 1`] = `
                 >
                   <a
                     class=""
-                    href="#/staking"
+                    href="#/staking/validators"
                   >
                     <i
                       class="material-icons"
                     >
                       arrow_back
                     </i>
-                  </a>
-                  <a
-                    class="anchor-copy"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      content_copy
-                    </i>
-                    
                   </a>
                 </div>
               </div>
@@ -147,16 +151,28 @@ exports[`PageValidator has the expected html structure 1`] = `
                 herr_schmidt_revoked
               </div>
             </div>
-            <a
-              class="anchor-copy validator-profile__header__name__address"
+            <div
+              class="short-bech32"
             >
-              <i
-                class="material-icons"
+              <div
+                class="address"
+                id="address"
               >
-                
-              </i>
-              …2b3c
-            </a>
+                cosmosvaladdr…8yqw
+              </div>
+              <div
+                class="copied"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
           </div>
           <div
             class="column validator-profile__header__actions"
@@ -202,10 +218,10 @@ exports[`PageValidator has the expected html structure 1`] = `
             class="colored_dl"
           >
             <dt>
-              Bonded Steak
+              Delegated Steak
             </dt>
             <dd>
-              123.46
+              123.4568…
             </dd>
           </dl>
           <dl
@@ -283,10 +299,10 @@ exports[`PageValidator has the expected html structure 1`] = `
             class="info_dl"
           >
             <dt>
-              Owner
+              Operator
             </dt>
             <dd>
-              1a2b3c
+              cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
             </dd>
           </dl>
           <dl
@@ -359,7 +375,7 @@ exports[`PageValidator has the expected html structure 1`] = `
             class="info_dl"
           >
             <dt>
-              Commission Change Today
+              Max Daily Commission Change
             </dt>
             <dd>
               0.005 %
@@ -369,29 +385,29 @@ exports[`PageValidator has the expected html structure 1`] = `
             class="info_dl"
           >
             <dt>
-              Max Daily Commission Change
+              Last Commission Change
             </dt>
             <dd>
-              0.01 %
+              a few seconds ago
             </dd>
           </dl>
           <dl
             class="info_dl"
           >
             <dt>
-              Self Bonded Steak
+              Self Delegated Steak
             </dt>
             <dd
               id="validator-profile__self-bond"
             >
-              0 %
+              0.00 %
             </dd>
           </dl>
           <dl
             class="info_dl"
           >
             <dt>
-              Minimum Self Bonded Steak
+              Minimum Self Delegated Steak
             </dt>
             <dd>
               0 %
@@ -430,6 +446,7 @@ exports[`PageValidator has the expected html structure 1`] = `
 exports[`PageValidator shows a default avatar 1`] = `
 <div
   class="tm-page"
+  data-title="Validator"
 >
   <header
     class="tm-page-header"
@@ -451,10 +468,14 @@ exports[`PageValidator shows a default avatar 1`] = `
             <div
               class="top"
             >
-              <img
-                class="icon"
-                src="~assets/images/cosmos-logo.png"
-              />
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
               <div
                 class="total-atoms top-section"
               >
@@ -462,24 +483,33 @@ exports[`PageValidator shows a default avatar 1`] = `
                   Total Steak
                 </h3>
                 <h2>
-                  0.00
+                  123.4568…
+                </h2>
+              </div>
+              <div
+                class="unbonded-atoms top-section"
+              >
+                <h3>
+                  Available Steak
+                </h3>
+                <h2>
+                  0.0000…
                 </h2>
               </div>
               <!---->
               <!---->
-              <!---->
             </div>
             <div
-              class="bottom"
+              class="short-bech32"
             >
               <div
                 class="address"
                 id="address"
               >
-                
+                Address Not Found
               </div>
               <div
-                class="success"
+                class="copied"
               >
                 <i
                   class="material-icons"
@@ -513,23 +543,13 @@ exports[`PageValidator shows a default avatar 1`] = `
                 >
                   <a
                     class=""
-                    href="#/staking"
+                    href="#/staking/validators"
                   >
                     <i
                       class="material-icons"
                     >
                       arrow_back
                     </i>
-                  </a>
-                  <a
-                    class="anchor-copy"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      content_copy
-                    </i>
-                    
                   </a>
                 </div>
               </div>
@@ -574,16 +594,28 @@ exports[`PageValidator shows a default avatar 1`] = `
                 herr_schmidt_revoked
               </div>
             </div>
-            <a
-              class="anchor-copy validator-profile__header__name__address"
+            <div
+              class="short-bech32"
             >
-              <i
-                class="material-icons"
+              <div
+                class="address"
+                id="address"
               >
-                
-              </i>
-              …2b3c
-            </a>
+                cosmosvaladdr…8yqw
+              </div>
+              <div
+                class="copied"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
           </div>
           <div
             class="column validator-profile__header__actions"
@@ -629,10 +661,10 @@ exports[`PageValidator shows a default avatar 1`] = `
             class="colored_dl"
           >
             <dt>
-              Bonded Steak
+              Delegated Steak
             </dt>
             <dd>
-              123.46
+              123.4568…
             </dd>
           </dl>
           <dl
@@ -710,10 +742,10 @@ exports[`PageValidator shows a default avatar 1`] = `
             class="info_dl"
           >
             <dt>
-              Owner
+              Operator
             </dt>
             <dd>
-              1a2b3c
+              cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
             </dd>
           </dl>
           <dl
@@ -786,7 +818,7 @@ exports[`PageValidator shows a default avatar 1`] = `
             class="info_dl"
           >
             <dt>
-              Commission Change Today
+              Max Daily Commission Change
             </dt>
             <dd>
               0.005 %
@@ -796,29 +828,29 @@ exports[`PageValidator shows a default avatar 1`] = `
             class="info_dl"
           >
             <dt>
-              Max Daily Commission Change
+              Last Commission Change
             </dt>
             <dd>
-              0.01 %
+              a few seconds ago
             </dd>
           </dl>
           <dl
             class="info_dl"
           >
             <dt>
-              Self Bonded Steak
+              Self Delegated Steak
             </dt>
             <dd
               id="validator-profile__self-bond"
             >
-              0 %
+              0.00 %
             </dd>
           </dl>
           <dl
             class="info_dl"
           >
             <dt>
-              Minimum Self Bonded Steak
+              Minimum Self Delegated Steak
             </dt>
             <dd>
               0 %
@@ -834,11 +866,12 @@ exports[`PageValidator shows a default avatar 1`] = `
 </div>
 `;
 
-exports[`PageValidator shows a validator as candidate if he has no voting_power 1`] = `"This validator has declared candidacy but does not have enough voting power yet"`;
+exports[`PageValidator shows a validator as candidate if he has no voting_power 1`] = `"This validator does not have enough voting power yet and is inactive"`;
 
 exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
 <div
   class="tm-page"
+  data-title="Validator"
 >
   <header
     class="tm-page-header"
@@ -851,7 +884,73 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
       >
         <!---->
         <!---->
-        <!---->
+        <div
+          class="tm-page-header-body"
+        >
+          <div
+            class="header-balance"
+          >
+            <div
+              class="top"
+            >
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
+              <div
+                class="total-atoms top-section"
+              >
+                <h3>
+                  Total Steak
+                </h3>
+                <h2>
+                  0.0000…
+                </h2>
+              </div>
+              <div
+                class="unbonded-atoms top-section"
+              >
+                <h3>
+                  Available Steak
+                </h3>
+                <h2>
+                  0.0000…
+                </h2>
+              </div>
+              <!---->
+              <!---->
+            </div>
+            <div
+              class="short-bech32"
+            >
+              <div
+                class="address"
+                id="address"
+              >
+                Address Not Found
+              </div>
+              <div
+                class="copied"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+            <div
+              class="tabs"
+            />
+          </div>
+        </div>
       </div>
       <menu
         class="tm-page-header-menu"
@@ -869,7 +968,7 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
                 >
                   <a
                     class=""
-                    href="#/staking"
+                    href="#/staking/validators"
                   >
                     <i
                       class="material-icons"
@@ -877,7 +976,6 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
                       arrow_back
                     </i>
                   </a>
-                  <!---->
                 </div>
               </div>
             </div>
@@ -889,8 +987,43 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
   <main
     class="tm-page-main"
   >
-    <!---->
-    <tm-data-error />
+    <div
+      class="tm-data-msg"
+    >
+      <div
+        class="tm-data-msg__icon"
+      >
+        <i
+          class="material-icons"
+        >
+          sentiment_very_dissatisfied
+        </i>
+      </div>
+      <div
+        class="tm-data-msg__text"
+      >
+        <div
+          class="tm-data-msg__title"
+        >
+          <div>
+            Aw shucks!
+          </div>
+        </div>
+        <div
+          class="tm-data-msg__subtitle"
+        >
+          <div>
+            Even though you're connected a full node, we can't display this data for you right now. Please try again later or 
+            <a
+              href="https://github.com/cosmos/voyager/issues"
+            >
+              file a bug report
+            </a>
+            . Apologies!
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
 </div>
 `;
@@ -900,8 +1033,8 @@ exports[`PageValidator shows that a validator is revoked 1`] = `"This validator 
 exports[`delegationTargetOptions always shows wallet in the first position 1`] = `
 Array [
   Object {
-    "address": "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-    "key": "My Wallet - cosmosaccaddr…3p4mqpjyrm5ctpesxxn9",
+    "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+    "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
     "maximum": 50,
     "value": 0,
   },
@@ -911,8 +1044,8 @@ Array [
 exports[`delegationTargetOptions hides displayed validator if bonded 1`] = `
 Array [
   Object {
-    "address": "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-    "key": "My Wallet - cosmosaccaddr…3p4mqpjyrm5ctpesxxn9",
+    "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+    "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
     "maximum": 50,
     "value": 0,
   },
@@ -922,8 +1055,8 @@ Array [
 exports[`delegationTargetOptions shows bonded validators for redelegation options 1`] = `
 Array [
   Object {
-    "address": "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-    "key": "My Wallet - cosmosaccaddr…3p4mqpjyrm5ctpesxxn9",
+    "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+    "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
     "maximum": 50,
     "value": 0,
   },

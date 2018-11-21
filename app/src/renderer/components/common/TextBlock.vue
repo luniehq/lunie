@@ -1,19 +1,18 @@
 <template lang="pug">
-.text-block: pre {{ content }}
-  slot
+.text-block(v-html="htmlContent")
 </template>
 
 <script>
 import MarkdownIt from "markdown-it"
 export default {
   name: `text-block`,
+  props: [`content`, `author`],
   computed: {
     htmlContent() {
       let md = new MarkdownIt()
       return md.render(this.content)
     }
-  },
-  props: [`content`, `author`]
+  }
 }
 </script>
 

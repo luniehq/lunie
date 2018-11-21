@@ -1,57 +1,160 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
-"<div id=\\"delegation-modal\\" class=\\"delegation-modal\\">
-   <div class=\\"delegation-modal-header\\">
-      <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"icon delegation-modal-atom\\"><span class=\\"tm-modal-title\\">Delegation</span>
-      <div id=\\"closeBtn\\" class=\\"tm-modal-icon tm-modal-close\\">
-         <i class=\\"material-icons\\">close</i>
-      </div>
-</div>
-<div class=\\"delegation-modal-form-group tm-form-group\\">
-   <!---->
-   <!---->
-   <div class=\\"tm-form-group__field\\">
-      <input type=\\"number\\" placeholder=\\"atom\\" class=\\"tm-field\\" id=\\"denom\\" readonly=\\"readonly\\"><input type=\\"number\\" max=\\"100\\" min=\\"0\\" class=\\"tm-field\\" id=\\"amount\\" step=\\"1\\">
-   </div>
-</div>
-<div class=\\"delegation-modal-form-group tm-form-group\\">
-   <!---->
-   <label for=\\"to\\" class=\\"tm-form-group__label\\">To</label>
-   <div class=\\"tm-form-group__field\\">
-      <input class=\\"tm-field\\" id=\\"to\\" readonly=\\"readonly\\">
-   </div>
-</div>
-<div class=\\"delegation-modal-form-group tm-form-group\\">
-   <!---->
-   <label for=\\"from\\" class=\\"tm-form-group__label\\">From</label>
-   <div class=\\"tm-form-group__field\\">
-      <div class=\\"tm-select\\" id=\\"from\\" title=\\"cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9\\">
-         <select class=\\"tm-field tm-field-select\\">
-         <option value=\\"\\" disabled=\\"disabled\\" selected=\\"selected\\" hidden=\\"hidden\\">
+exports[`DelegationModal component matches snapshot has the expected html structure 1`] = `
+<div
+  class="delegation-modal"
+  id="delegation-modal"
+>
+  <div
+    class="delegation-modal-header"
+  >
+    <img
+      class="icon delegation-modal-atom"
+      src="~assets/images/cosmos-logo.png"
+    />
+    <span
+      class="tm-modal-title"
+    >
+      Delegation
+    </span>
+    <div
+      class="tm-modal-icon tm-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons"
+      >
+        close
+      </i>
+    </div>
+  </div>
+  <div
+    class="delegation-modal-form-group tm-form-group"
+  >
+    <!---->
+    <label
+      class="tm-form-group__label"
+      for="amount"
+    >
+      Amount
+    </label>
+    <div
+      class="tm-form-group__field"
+    >
+      <input
+        class="tm-field"
+        id="denom"
+        placeholder="Steak"
+        readonly="readonly"
+        type="text"
+      />
+      <input
+        class="tm-field"
+        id="amount"
+        max="100"
+        min="0"
+        step="any"
+        type="number"
+      />
+    </div>
+  </div>
+  <div
+    class="delegation-modal-form-group tm-form-group"
+  >
+    <!---->
+    <label
+      class="tm-form-group__label"
+      for="to"
+    >
+      To
+    </label>
+    <div
+      class="tm-form-group__field"
+    >
+      <input
+        class="tm-field"
+        id="to"
+        readonly="readonly"
+      />
+    </div>
+  </div>
+  <div
+    class="delegation-modal-form-group tm-form-group"
+  >
+    <!---->
+    <label
+      class="tm-form-group__label"
+      for="from"
+    >
+      From
+    </label>
+    <div
+      class="tm-form-group__field"
+    >
+      <div
+        class="tm-select"
+        id="from"
+        title="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      >
+        <select
+          class="tm-field tm-field-select"
+        >
+          <option
+            disabled="disabled"
+            hidden="hidden"
+            selected="selected"
+            value=""
+          >
             Select option...
-         </option>
-         <option value=\\"0\\">
-            My Wallet - cosmosaccaddr…3p4mqpjyrm5ctpesxxn9
-         </option>
-         <option value=\\"1\\">
-            Billy the Bill - cosmosaccaddr…psjr9565ef72pv9g20yx
-         </option>
-         <option value=\\"2\\">
-            Kentucky - cosmosaccaddr…np9rldprgant57ryzag7
-         </option>
-         </select>
-         <div class=\\"tm-field-select-addon\\">
-            <i class=\\"material-icons\\">arrow_drop_down</i>
-         </div>
+          </option>
+          <option
+            value="0"
+          >
+            My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9
+          </option>
+          <option
+            value="1"
+          >
+            Billy the Bill - cosmos…psjr9565ef72pv9g20yx
+          </option>
+          <option
+            value="2"
+          >
+            Kentucky - cosmos…np9rldprgant57ryzag7
+          </option>
+        </select>
+        <div
+          class="tm-field-select-addon"
+        >
+          <i
+            class="material-icons"
+          >
+            arrow_drop_down
+          </i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="delegation-modal-footer"
+  >
+    <button
+      class="tm-btn"
+      disabled="disabled"
+      id="submit-delegation"
+    >
+      <span
+        class="tm-btn__container tm-btn--size-lg tm-btn--primary"
+      >
+        <!---->
+        <!---->
+        <span
+          class="tm-btn__value"
+        >
+          Confirm Delegation
+        </span>
+      </span>
+    </button>
+  </div>
 </div>
-</div>
-</div>
-<div class=\\"delegation-modal-footer\\">
-   <button class=\\"tm-btn\\" disabled=\\"disabled\\"><span class=\\"tm-btn__container tm-btn--size-lg tm-btn--primary\\">
-   <!---->
-   <!---->
-   <span class=\\"tm-btn__value\\">Confirm Delegation</span></span></button>
-</div>
-</div>"
 `;

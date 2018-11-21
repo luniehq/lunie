@@ -9,7 +9,8 @@ let { sleep } = require(`scripts/common.js`)
 export default ({ node }) => {
   let emptyState = {
     balances: [],
-    balancesLoading: true,
+    loading: true,
+    error: null,
     denoms: [],
     address: null,
     zoneIds: [`basecoind-demo1`, `basecoind-demo2`],
@@ -20,7 +21,7 @@ export default ({ node }) => {
   let mutations = {
     setWalletBalances(state, balances) {
       state.balances = balances
-      state.balancesLoading = false
+      state.loading = false
     },
     setWalletAddress(state, address) {
       state.address = address
@@ -35,7 +36,7 @@ export default ({ node }) => {
 
   let actions = {
     reconnected({ state, dispatch }) {
-      if (state.balancesLoading && state.address) {
+      if (state.loading && state.address) {
         dispatch(`queryWalletBalances`)
       }
     },
@@ -55,23 +56,33 @@ export default ({ node }) => {
     async queryWalletBalances({ state, rootState, commit }) {
       if (!state.address) return
 
-      let res = await node.queryAccount(state.address)
-      if (!res) {
-        state.balancesLoading = false
-        return
-      }
-      let coins = res.coins || []
-      commit(`setNonce`, res.sequence)
-      commit(`setAccountNumber`, res.account_number)
-      commit(`setWalletBalances`, coins)
-      for (let coin of coins) {
-        if (coin.denom === rootState.config.bondingDenom.toLowerCase()) {
-          commit(`setAtoms`, parseFloat(coin.amount))
-          break
+      try {
+        let res = await node.queryAccount(state.address)
+        if (!res) {
+          state.loading = false
+          return
         }
+
+        state.error = null
+        let coins = res.coins || []
+        commit(`setNonce`, res.sequence)
+        commit(`setAccountNumber`, res.account_number)
+        commit(`setWalletBalances`, coins)
+        for (let coin of coins) {
+          if (coin.denom === rootState.config.bondingDenom.toLowerCase()) {
+            commit(`setAtoms`, parseFloat(coin.amount))
+            break
+          }
+        }
+      } catch (err) {
+        commit(`notifyError`, {
+          title: `Error fetching balances`,
+          body: err.message
+        })
+        state.error = err
       }
 
-      state.balancesLoading = false
+      state.loading = false
     },
     async loadDenoms({ commit }) {
       // read genesis.json to get default denoms
@@ -104,7 +115,7 @@ export default ({ node }) => {
       return new Promise(resolve => {
         // wait until height is >= `height`
         let interval = setInterval(() => {
-          if (rootState.node.lastHeader.height < height) return
+          if (rootState.connection.lastHeader.height < height) return
           clearInterval(interval)
           dispatch(`queryWalletState`)
           resolve()

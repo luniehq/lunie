@@ -1,3 +1,5 @@
+"use strict"
+
 let mockValidators = require(`src/helpers/json/mock_validators.json`)
 let mockLcd = require(`../../../app/src/renderer/connectors/lcdClientMock.js`)
 
@@ -5,16 +7,9 @@ module.exports = {
   // REST
   relayPort: `9060`,
   lcdPort: `9070`,
+  remoteLcdURL: `http://awesomenode.de:12345`,
+  localLcdURL: `https://localhost:9876`,
   lcdConnected: () => Promise.resolve(true),
-  getKey: () => ({ address: `someaddress` }),
-  generateSeed: () => `a b c d e f g h i j k l`,
-  updateKey: () => {},
-  listKeys: () => [],
-  storeKey: () => ({
-    key: `123`,
-    password: `1234567890`,
-    seed_phrase: `a b c d e f g h i j k l`
-  }),
   queryAccount: () => null,
   buildDelegate: () => Promise.resolve(null),
   buildUnbond: () => Promise.resolve(null),
@@ -54,8 +49,7 @@ module.exports = {
   },
   rpcInfo: {
     connected: true,
-    connecting: false,
-    nodeIP: `127.0.0.1`
+    connecting: false
   },
   rpcConnect: () => {},
   rpcDisconnect: () => {},

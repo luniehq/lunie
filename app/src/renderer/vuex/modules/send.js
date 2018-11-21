@@ -17,15 +17,14 @@ export default ({ node }) => {
 
   async function doSend({ state, dispatch, commit, rootState }, args) {
     await dispatch(`queryWalletBalances`) // the nonce was getting out of sync, this is to force a sync
-    args.sequence = state.nonce
-    args.name = rootState.user.account
-    args.password = rootState.user.password
-    args.account_number = rootState.wallet.accountNumber // TODO move into LCD?
-
-    let chainId = rootState.node.lastHeader.chain_id
-    args.chain_id = chainId
-    // TODO enable again when IBC is enabled
-    // args.src_chain_id = chainId // for IBC transfer
+    let requestMetaData = {
+      sequence: state.nonce,
+      name: rootState.user.account,
+      password: rootState.user.password,
+      account_number: rootState.wallet.accountNumber, // TODO move into LCD?
+      chain_id: rootState.connection.lastHeader.chain_id
+    }
+    args.base_req = requestMetaData
 
     // extract type
     let type = args.type || `send`
@@ -35,11 +34,22 @@ export default ({ node }) => {
     let to = args.to
     delete args.to
     args.gas = `50000000`
+
     // submit to LCD to build, sign, and broadcast
     let req = to ? node[type](to, args) : node[type](args)
 
     let res = await req.catch(err => {
-      throw new Error(err.message)
+      let message
+      // TODO: get rid of this logic once the appended message is actually included inside the object message
+      let idxColon = err.response.data.indexOf(`:`)
+      let indexOpenBracket = err.response.data.indexOf(`{`)
+      if (idxColon < indexOpenBracket) {
+        // e.g => Msg 0 failed: {"codespace":4,"code":102,"abci_code":262246,"message":"existing unbonding delegation found"}
+        message = JSON.parse(err.response.data.substr(idxColon + 1)).message
+      } else {
+        message = err.response.data
+      }
+      throw new Error(message)
     })
 
     // check response code
@@ -87,13 +97,13 @@ export default ({ node }) => {
 
 function assertOk(res) {
   if (Array.isArray(res)) {
-    if (res.length === 0) throw new Error(`Error sending transaction.`)
+    if (res.length === 0) throw new Error(`Error sending transaction`)
 
     return res.forEach(assertOk)
   }
 
   if (res.check_tx.code || res.deliver_tx.code) {
     let message = res.check_tx.log || res.deliver_tx.log
-    throw new Error(`Error sending transaction: ` + message)
+    throw new Error(message)
   }
 }

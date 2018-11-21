@@ -6,13 +6,14 @@ import CryptoJS from "crypto-js"
 import _ from "lodash"
 import * as getters from "./getters"
 import modules from "./modules"
+import Raven from "raven-js"
 
 Vue.use(Vuex)
 
 export default (opts = {}) => {
   opts.commit = (...args) => store.commit(...args)
   opts.dispatch = (...args) => store.dispatch(...args)
-  var store = new Vuex.Store({
+  const store = new Vuex.Store({
     getters,
     // strict: true,
     modules: modules(opts),
@@ -30,8 +31,12 @@ export default (opts = {}) => {
       `setCommittedDelegation`,
       `setUnbondingDelegations`,
       `setDelegates`,
+      `setProposal`,
+      `setProposalDeposits`,
+      `setProposalVotes`,
       `setKeybaseIdentities`
     ]
+
     if (updatingMutations.indexOf(mutation.type) === -1) return
 
     // if the user is logged in cache the balances and the tx-history for that user
@@ -49,35 +54,45 @@ export default (opts = {}) => {
 }
 
 function persistState(state) {
-  const encryptedState = CryptoJS.AES.encrypt(
-    JSON.stringify({
-      transactions: {
-        wallet: state.transactions.wallet,
-        staking: state.transactions.staking
-      },
-      wallet: {
-        balances: state.wallet.balances
-      },
-      delegation: {
-        loadedOnce: state.delegation.loadedOnce,
-        committedDelegates: state.delegation.committedDelegates,
-        unbondingDelegations: state.delegation.unbondingDelegations
-      },
-      delegates: {
-        delegates: state.delegates.delegates
-      },
-      keybase: {
-        identities: state.keybase.identities
-      }
-    }),
-    state.user.password
-  )
-  // Store the state object as a JSON string
-  localStorage.setItem(getStorageKey(state), encryptedState)
+  try {
+    const encryptedState = CryptoJS.AES.encrypt(
+      JSON.stringify({
+        transactions: {
+          wallet: state.transactions.wallet,
+          staking: state.transactions.staking
+        },
+        wallet: {
+          balances: state.wallet.balances
+        },
+        delegation: {
+          loadedOnce: state.delegation.loadedOnce,
+          committedDelegates: state.delegation.committedDelegates,
+          unbondingDelegations: state.delegation.unbondingDelegations
+        },
+        delegates: {
+          delegates: state.delegates.delegates
+        },
+        keybase: {
+          identities: state.keybase.identities
+        },
+        proposals: state.proposals,
+        deposits: state.deposits,
+        votes: state.votes
+      }),
+      state.user.password
+    )
+    // Store the state object as a JSON string
+    localStorage.setItem(getStorageKey(state), encryptedState)
+  } catch (err) {
+    console.error(`Encrypting the state failed, removing cached state.`)
+    Raven.captureException(err)
+    // if encrypting the state fails, we cleanup
+    localStorage.removeItem(getStorageKey(state))
+  }
 }
 
 function getStorageKey(state) {
-  const chainId = state.node.lastHeader.chain_id
+  const chainId = state.connection.lastHeader.chain_id
   const address = state.user.address
   return `store_${chainId}_${address}`
 }
@@ -96,9 +111,12 @@ function loadPersistedState({ state, commit }, { password }) {
         loading: false
       },
       wallet: {
-        balancesLoading: false
+        loading: false
       },
       delegates: {
+        loading: false
+      },
+      proposals: {
         loading: false
       }
     })
@@ -106,7 +124,7 @@ function loadPersistedState({ state, commit }, { password }) {
 
     // add all delegates the user has bond with already to the cart
     state.delegates.delegates
-      .filter(d => state.delegation.committedDelegates[d.owner])
+      .filter(d => state.delegation.committedDelegates[d.operator_address])
       .forEach(d => {
         commit(`addToCart`, d)
       })

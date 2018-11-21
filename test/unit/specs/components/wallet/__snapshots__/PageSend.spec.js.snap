@@ -3,6 +3,7 @@
 exports[`PageSend disables sending if not connected 1`] = `
 <div
   class="tm-page"
+  data-title="Send"
 >
   <header
     class="tm-page-header"
@@ -13,13 +14,7 @@ exports[`PageSend disables sending if not connected 1`] = `
       <div
         class="tm-page-header-text"
       >
-        <div
-          class="tm-page-header-title"
-        >
-          <h2>
-            Send
-          </h2>
-        </div>
+        <!---->
         <!---->
         <!---->
       </div>
@@ -31,53 +26,45 @@ exports[`PageSend disables sending if not connected 1`] = `
             <div
               class="tm-tool-bar"
             >
-              <div
-                class="tm-tool-bar-container"
+              <a
+                class="back"
+                disabled="disabled"
               >
-                <div
-                  class="main"
+                <i
+                  class="material-icons"
                 >
-                  <a
-                    class="back"
-                    disabled="disabled"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                  </a>
-                  <a
-                    class="help"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      help_outline
-                    </i>
-                  </a>
-                  <a
-                    class="settings"
-                    href="#/preferences"
-                  >
-                    <i
-                      class="material-icons"
-                      id="settings"
-                    >
-                      settings
-                    </i>
-                  </a>
-                  <a
-                    id="signOut-btn"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      exit_to_app
-                    </i>
-                  </a>
-                </div>
-              </div>
+                  arrow_back
+                </i>
+              </a>
+              <a
+                class="help"
+              >
+                <i
+                  class="material-icons"
+                >
+                  help_outline
+                </i>
+              </a>
+              <a
+                class=""
+                href="#/preferences"
+                id="settings"
+              >
+                <i
+                  class="material-icons"
+                >
+                  settings
+                </i>
+              </a>
+              <a
+                id="signOut-btn"
+              >
+                <i
+                  class="material-icons"
+                >
+                  exit_to_app
+                </i>
+              </a>
             </div>
           </div>
         </div>
@@ -347,6 +334,7 @@ exports[`PageSend disables sending if not connected 1`] = `
 exports[`PageSend has the expected html structure 1`] = `
 <div
   class="tm-page"
+  data-title="Send"
 >
   <header
     class="tm-page-header"
@@ -357,13 +345,7 @@ exports[`PageSend has the expected html structure 1`] = `
       <div
         class="tm-page-header-text"
       >
-        <div
-          class="tm-page-header-title"
-        >
-          <h2>
-            Send
-          </h2>
-        </div>
+        <!---->
         <!---->
         <!---->
       </div>
@@ -375,53 +357,45 @@ exports[`PageSend has the expected html structure 1`] = `
             <div
               class="tm-tool-bar"
             >
-              <div
-                class="tm-tool-bar-container"
+              <a
+                class="back"
+                disabled="disabled"
               >
-                <div
-                  class="main"
+                <i
+                  class="material-icons"
                 >
-                  <a
-                    class="back"
-                    disabled="disabled"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                  </a>
-                  <a
-                    class="help"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      help_outline
-                    </i>
-                  </a>
-                  <a
-                    class="settings"
-                    href="#/preferences"
-                  >
-                    <i
-                      class="material-icons"
-                      id="settings"
-                    >
-                      settings
-                    </i>
-                  </a>
-                  <a
-                    id="signOut-btn"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      exit_to_app
-                    </i>
-                  </a>
-                </div>
-              </div>
+                  arrow_back
+                </i>
+              </a>
+              <a
+                class="help"
+              >
+                <i
+                  class="material-icons"
+                >
+                  help_outline
+                </i>
+              </a>
+              <a
+                class=""
+                href="#/preferences"
+                id="settings"
+              >
+                <i
+                  class="material-icons"
+                >
+                  settings
+                </i>
+              </a>
+              <a
+                id="signOut-btn"
+              >
+                <i
+                  class="material-icons"
+                >
+                  exit_to_app
+                </i>
+              </a>
             </div>
           </div>
         </div>
@@ -719,6 +693,7 @@ exports[`PageSend has the expected html structure 1`] = `
 exports[`PageSend should show address required error 1`] = `
 <div
   class="tm-page"
+  data-title="Send"
 >
   <header
     class="tm-page-header"
@@ -729,13 +704,7 @@ exports[`PageSend should show address required error 1`] = `
       <div
         class="tm-page-header-text"
       >
-        <div
-          class="tm-page-header-title"
-        >
-          <h2>
-            Send
-          </h2>
-        </div>
+        <!---->
         <!---->
         <!---->
       </div>
@@ -747,53 +716,45 @@ exports[`PageSend should show address required error 1`] = `
             <div
               class="tm-tool-bar"
             >
-              <div
-                class="tm-tool-bar-container"
+              <a
+                class="back"
+                disabled="disabled"
               >
-                <div
-                  class="main"
+                <i
+                  class="material-icons"
                 >
-                  <a
-                    class="back"
-                    disabled="disabled"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                  </a>
-                  <a
-                    class="help"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      help_outline
-                    </i>
-                  </a>
-                  <a
-                    class="settings"
-                    href="#/preferences"
-                  >
-                    <i
-                      class="material-icons"
-                      id="settings"
-                    >
-                      settings
-                    </i>
-                  </a>
-                  <a
-                    id="signOut-btn"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      exit_to_app
-                    </i>
-                  </a>
-                </div>
-              </div>
+                  arrow_back
+                </i>
+              </a>
+              <a
+                class="help"
+              >
+                <i
+                  class="material-icons"
+                >
+                  help_outline
+                </i>
+              </a>
+              <a
+                class=""
+                href="#/preferences"
+                id="settings"
+              >
+                <i
+                  class="material-icons"
+                >
+                  settings
+                </i>
+              </a>
+              <a
+                id="signOut-btn"
+              >
+                <i
+                  class="material-icons"
+                >
+                  exit_to_app
+                </i>
+              </a>
             </div>
           </div>
         </div>
@@ -1061,6 +1022,7 @@ exports[`PageSend should show address required error 1`] = `
 exports[`PageSend should show bech32 error when address length is too long 1`] = `
 <div
   class="tm-page"
+  data-title="Send"
 >
   <header
     class="tm-page-header"
@@ -1071,13 +1033,7 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
       <div
         class="tm-page-header-text"
       >
-        <div
-          class="tm-page-header-title"
-        >
-          <h2>
-            Send
-          </h2>
-        </div>
+        <!---->
         <!---->
         <!---->
       </div>
@@ -1089,53 +1045,45 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
             <div
               class="tm-tool-bar"
             >
-              <div
-                class="tm-tool-bar-container"
+              <a
+                class="back"
+                disabled="disabled"
               >
-                <div
-                  class="main"
+                <i
+                  class="material-icons"
                 >
-                  <a
-                    class="back"
-                    disabled="disabled"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                  </a>
-                  <a
-                    class="help"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      help_outline
-                    </i>
-                  </a>
-                  <a
-                    class="settings"
-                    href="#/preferences"
-                  >
-                    <i
-                      class="material-icons"
-                      id="settings"
-                    >
-                      settings
-                    </i>
-                  </a>
-                  <a
-                    id="signOut-btn"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      exit_to_app
-                    </i>
-                  </a>
-                </div>
-              </div>
+                  arrow_back
+                </i>
+              </a>
+              <a
+                class="help"
+              >
+                <i
+                  class="material-icons"
+                >
+                  help_outline
+                </i>
+              </a>
+              <a
+                class=""
+                href="#/preferences"
+                id="settings"
+              >
+                <i
+                  class="material-icons"
+                >
+                  settings
+                </i>
+              </a>
+              <a
+                id="signOut-btn"
+              >
+                <i
+                  class="material-icons"
+                >
+                  exit_to_app
+                </i>
+              </a>
             </div>
           </div>
         </div>
@@ -1403,6 +1351,7 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
 exports[`PageSend should show bech32 error when address length is too short 1`] = `
 <div
   class="tm-page"
+  data-title="Send"
 >
   <header
     class="tm-page-header"
@@ -1413,13 +1362,7 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
       <div
         class="tm-page-header-text"
       >
-        <div
-          class="tm-page-header-title"
-        >
-          <h2>
-            Send
-          </h2>
-        </div>
+        <!---->
         <!---->
         <!---->
       </div>
@@ -1431,53 +1374,45 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
             <div
               class="tm-tool-bar"
             >
-              <div
-                class="tm-tool-bar-container"
+              <a
+                class="back"
+                disabled="disabled"
               >
-                <div
-                  class="main"
+                <i
+                  class="material-icons"
                 >
-                  <a
-                    class="back"
-                    disabled="disabled"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                  </a>
-                  <a
-                    class="help"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      help_outline
-                    </i>
-                  </a>
-                  <a
-                    class="settings"
-                    href="#/preferences"
-                  >
-                    <i
-                      class="material-icons"
-                      id="settings"
-                    >
-                      settings
-                    </i>
-                  </a>
-                  <a
-                    id="signOut-btn"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      exit_to_app
-                    </i>
-                  </a>
-                </div>
-              </div>
+                  arrow_back
+                </i>
+              </a>
+              <a
+                class="help"
+              >
+                <i
+                  class="material-icons"
+                >
+                  help_outline
+                </i>
+              </a>
+              <a
+                class=""
+                href="#/preferences"
+                id="settings"
+              >
+                <i
+                  class="material-icons"
+                >
+                  settings
+                </i>
+              </a>
+              <a
+                id="signOut-btn"
+              >
+                <i
+                  class="material-icons"
+                >
+                  exit_to_app
+                </i>
+              </a>
             </div>
           </div>
         </div>
@@ -1745,6 +1680,7 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
 exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
 <div
   class="tm-page"
+  data-title="Send"
 >
   <header
     class="tm-page-header"
@@ -1755,13 +1691,7 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
       <div
         class="tm-page-header-text"
       >
-        <div
-          class="tm-page-header-title"
-        >
-          <h2>
-            Send
-          </h2>
-        </div>
+        <!---->
         <!---->
         <!---->
       </div>
@@ -1773,53 +1703,45 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
             <div
               class="tm-tool-bar"
             >
-              <div
-                class="tm-tool-bar-container"
+              <a
+                class="back"
+                disabled="disabled"
               >
-                <div
-                  class="main"
+                <i
+                  class="material-icons"
                 >
-                  <a
-                    class="back"
-                    disabled="disabled"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                  </a>
-                  <a
-                    class="help"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      help_outline
-                    </i>
-                  </a>
-                  <a
-                    class="settings"
-                    href="#/preferences"
-                  >
-                    <i
-                      class="material-icons"
-                      id="settings"
-                    >
-                      settings
-                    </i>
-                  </a>
-                  <a
-                    id="signOut-btn"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      exit_to_app
-                    </i>
-                  </a>
-                </div>
-              </div>
+                  arrow_back
+                </i>
+              </a>
+              <a
+                class="help"
+              >
+                <i
+                  class="material-icons"
+                >
+                  help_outline
+                </i>
+              </a>
+              <a
+                class=""
+                href="#/preferences"
+                id="settings"
+              >
+                <i
+                  class="material-icons"
+                >
+                  settings
+                </i>
+              </a>
+              <a
+                id="signOut-btn"
+              >
+                <i
+                  class="material-icons"
+                >
+                  exit_to_app
+                </i>
+              </a>
             </div>
           </div>
         </div>
@@ -2086,11 +2008,11 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
 
 exports[`PageSend should show notification for unsuccessful send 1`] = `
 Object {
-  "body": "An error occurred while trying to send: \\"Cannot read property 'amount' of undefined\\"",
+  "body": "Not enough coins in your account",
   "icon": "error",
   "layout": "alert",
   "time": 42000,
-  "title": "Error Sending",
+  "title": "Error Sending transaction",
   "type": "error",
 }
 `;
@@ -2098,6 +2020,7 @@ Object {
 exports[`PageSend should trigger confirmation modal if form is corect 1`] = `
 <div
   class="tm-page"
+  data-title="Send"
 >
   <header
     class="tm-page-header"
@@ -2108,13 +2031,7 @@ exports[`PageSend should trigger confirmation modal if form is corect 1`] = `
       <div
         class="tm-page-header-text"
       >
-        <div
-          class="tm-page-header-title"
-        >
-          <h2>
-            Send
-          </h2>
-        </div>
+        <!---->
         <!---->
         <!---->
       </div>
@@ -2126,53 +2043,45 @@ exports[`PageSend should trigger confirmation modal if form is corect 1`] = `
             <div
               class="tm-tool-bar"
             >
-              <div
-                class="tm-tool-bar-container"
+              <a
+                class="back"
+                disabled="disabled"
               >
-                <div
-                  class="main"
+                <i
+                  class="material-icons"
                 >
-                  <a
-                    class="back"
-                    disabled="disabled"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                  </a>
-                  <a
-                    class="help"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      help_outline
-                    </i>
-                  </a>
-                  <a
-                    class="settings"
-                    href="#/preferences"
-                  >
-                    <i
-                      class="material-icons"
-                      id="settings"
-                    >
-                      settings
-                    </i>
-                  </a>
-                  <a
-                    id="signOut-btn"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      exit_to_app
-                    </i>
-                  </a>
-                </div>
-              </div>
+                  arrow_back
+                </i>
+              </a>
+              <a
+                class="help"
+              >
+                <i
+                  class="material-icons"
+                >
+                  help_outline
+                </i>
+              </a>
+              <a
+                class=""
+                href="#/preferences"
+                id="settings"
+              >
+                <i
+                  class="material-icons"
+                >
+                  settings
+                </i>
+              </a>
+              <a
+                id="signOut-btn"
+              >
+                <i
+                  class="material-icons"
+                >
+                  exit_to_app
+                </i>
+              </a>
             </div>
           </div>
         </div>
@@ -2480,47 +2389,47 @@ exports[`PageSend should trigger confirmation modal if form is corect 1`] = `
           >
             This transaction cannot be undone.
           </p>
+          <footer
+            class="tm-modal-footer"
+          >
+            <div>
+              <button
+                class="tm-btn"
+                id="send-cancel-btn"
+                type="button"
+              >
+                <span
+                  class="tm-btn__container"
+                >
+                  <!---->
+                  <!---->
+                  <span
+                    class="tm-btn__value"
+                  >
+                    Cancel
+                  </span>
+                </span>
+              </button>
+              <button
+                class="tm-btn"
+                id="send-confirmation-btn"
+                type="button"
+              >
+                <span
+                  class="tm-btn__container tm-btn--primary"
+                >
+                  <!---->
+                  <!---->
+                  <span
+                    class="tm-btn__value"
+                  >
+                    Confirm
+                  </span>
+                </span>
+              </button>
+            </div>
+          </footer>
         </main>
-        <footer
-          class="tm-modal-footer"
-        >
-          <div>
-            <button
-              class="tm-btn"
-              id="send-cancel-btn"
-              type="button"
-            >
-              <span
-                class="tm-btn__container"
-              >
-                <!---->
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Cancel
-                </span>
-              </span>
-            </button>
-            <button
-              class="tm-btn"
-              id="send-confirmation-btn"
-              type="button"
-            >
-              <span
-                class="tm-btn__container tm-btn--primary"
-              >
-                <!---->
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Confirm
-                </span>
-              </span>
-            </button>
-          </div>
-        </footer>
       </div>
     </div>
   </main>
@@ -2530,6 +2439,7 @@ exports[`PageSend should trigger confirmation modal if form is corect 1`] = `
 exports[`PageSend should work without providing a default denom 1`] = `
 <div
   class="tm-page"
+  data-title="Send"
 >
   <header
     class="tm-page-header"
@@ -2540,13 +2450,7 @@ exports[`PageSend should work without providing a default denom 1`] = `
       <div
         class="tm-page-header-text"
       >
-        <div
-          class="tm-page-header-title"
-        >
-          <h2>
-            Send
-          </h2>
-        </div>
+        <!---->
         <!---->
         <!---->
       </div>
@@ -2558,53 +2462,45 @@ exports[`PageSend should work without providing a default denom 1`] = `
             <div
               class="tm-tool-bar"
             >
-              <div
-                class="tm-tool-bar-container"
+              <a
+                class="back"
+                disabled="disabled"
               >
-                <div
-                  class="main"
+                <i
+                  class="material-icons"
                 >
-                  <a
-                    class="back"
-                    disabled="disabled"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                  </a>
-                  <a
-                    class="help"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      help_outline
-                    </i>
-                  </a>
-                  <a
-                    class="settings"
-                    href="#/preferences"
-                  >
-                    <i
-                      class="material-icons"
-                      id="settings"
-                    >
-                      settings
-                    </i>
-                  </a>
-                  <a
-                    id="signOut-btn"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      exit_to_app
-                    </i>
-                  </a>
-                </div>
-              </div>
+                  arrow_back
+                </i>
+              </a>
+              <a
+                class="help"
+              >
+                <i
+                  class="material-icons"
+                >
+                  help_outline
+                </i>
+              </a>
+              <a
+                class=""
+                href="#/preferences"
+                id="settings"
+              >
+                <i
+                  class="material-icons"
+                >
+                  settings
+                </i>
+              </a>
+              <a
+                id="signOut-btn"
+              >
+                <i
+                  class="material-icons"
+                >
+                  exit_to_app
+                </i>
+              </a>
             </div>
           </div>
         </div>

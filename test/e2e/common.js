@@ -1,14 +1,17 @@
+"use strict"
+
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
 /*
-* NOTE: don't use a global `let client = app.client` and don't pass around the client as the client object changes when restarting the app. Always use `app.client`.
-*/
+ * NOTE: don't use a global `let client = app.client` and don't pass around the client as the client object changes when restarting the app. Always use `app.client`.
+ */
 
 module.exports = {
   async closeNotifications(app) {
     // close notifications as they overlay the menu button
+    console.log(`closing notifications`)
     await sleep(100)
     while (await app.client.isExisting(`.tm-notification`)) {
       await app.client.$(`.tm-notification`).click()
@@ -48,19 +51,18 @@ module.exports = {
     await module.exports.openMenu(app)
     // click link
     await app.client.$(`a*=${linkText}`).click()
-    try {
-      await app.client.waitUntilTextExists(`.tm-page-header-title`, titleText)
-    } catch (error) {
-      // if .tm-page-header-title doeesn't exist with titleText it may be using
-      // the new UI. if that's the case it should use a data-title parameter
-      // with the same titleText.
-      await app.client.waitForExist(`[data-title='${titleText}']`)
-    }
+    await app.client.waitForExist(`[data-title='${titleText}']`).catch(err => {
+      console.error(
+        `Couldn't approve that current page is correct. Does the target page has a 'data-title' attribute with the name of the link from the menu?`
+      )
+      throw err
+    })
     console.log(`navigated to "${linkText}"`)
   },
   async navigateToPreferences(app) {
     await module.exports.openMenu(app)
     // click link
+    await app.client.waitForExist(`#settings`, 1000)
     await app.client.$(`#settings`).click()
     console.log(`navigated to preferences`)
   },

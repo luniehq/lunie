@@ -18,10 +18,10 @@ menu.app-menu
       @click.native="close" title="Staking"
       v-bind:class="{ 'active': isValidatorPage }")
     tm-list-item#app-menu__proposals(
-      to="/proposals"
+      to="/governance"
       exact @click.native="close"
-      title="Proposals"
-      v-if="config.devMode")
+      title="Governance"
+      v-if="config.devMode || mockedConnector")
   connected-network
 </template>
 
@@ -39,29 +39,23 @@ export default {
     TmListItem,
     UserPane
   },
+  data: () => ({
+    ps: {}
+  }),
   computed: {
-    ...mapGetters([
-      `proposals`,
-      `validators`,
-      `config`,
-      `lastHeader`,
-      `mockedConnector`
-    ]),
+    ...mapGetters([`validators`, `config`, `lastHeader`, `mockedConnector`]),
     isValidatorPage() {
       return this.$route.params.validator
     }
   },
-  data: () => ({
-    ps: {}
-  }),
+  mounted() {
+    this.ps = new PerfectScrollbar(this.$el.querySelector(`.app-menu-main`))
+  },
   methods: {
     close() {
       this.$store.commit(`setActiveMenu`, ``)
       noScroll.off()
     }
-  },
-  mounted() {
-    this.ps = new PerfectScrollbar(this.$el.querySelector(`.app-menu-main`))
   }
 }
 </script>

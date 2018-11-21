@@ -17,9 +17,15 @@ describe(`App without analytics`, () => {
     captureException: err => console.error(err)
   }))
   jest.mock(`renderer/google-analytics.js`, () => () => {})
+  // popper.js is used by tooltips and causes some errors if
+  // not mocked because it requires a real DOM
+  jest.mock(`popper.js`, () => () => {})
   jest.mock(`electron`, () => ({
     remote: {
-      getGlobal: () => ({ mocked: false }),
+      getGlobal: () => ({
+        mocked: false,
+        node_lcd: `https://awesomenode.de:12345`
+      }),
       app: {
         getPath: () => {
           return `$HOME`
@@ -45,21 +51,23 @@ describe(`App without analytics`, () => {
     await require(`renderer/main.js`)
   })
 
-  it(`reads the lcd port from the url`, async () => {
-    let Node = require(`renderer/connectors/node.js`)
-    require(`renderer/main.js`)
-    expect(Node).toHaveBeenCalledWith(`8080`, false) // second argument is a switch for a mocked node implementation
-  })
-
   it(`uses a mocked connector implementation if set in config`, async () => {
     let electron = require(`electron`)
     electron.remote.getGlobal = () => ({
       env: { NODE_ENV: `test` },
-      mocked: true
+      mocked: true,
+      node_lcd: `https://awesomenode.de:12345`,
+      development: false,
+      lcd_port_prod: `8080`
     })
     let Node = require(`renderer/connectors/node.js`)
     require(`renderer/main.js`)
-    expect(Node).toHaveBeenCalledWith(`8080`, true)
+    expect(Node).toHaveBeenCalledWith(
+      expect.any(Function),
+      `https://localhost:8080`, // axios or axios proxy
+      `https://awesomenode.de:12345`,
+      true
+    )
     jest.resetModules()
   })
 
@@ -110,7 +118,7 @@ describe(`App without analytics`, () => {
     }
 
     const { store } = require(`renderer/main.js`)
-    expect(store.state.node.approvalRequired).toBe(`THISISSOMEHASH`)
+    expect(store.state.connection.approvalRequired).toBe(`THISISSOMEHASH`)
   })
 
   it(`sends a message to the main thread, that the app has loaded`, () => {

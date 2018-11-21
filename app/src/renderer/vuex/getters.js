@@ -63,13 +63,18 @@ export const delegates = state => state.delegates
 export const shoppingCart = state => state.delegation.delegates
 export const validators = state => state.validators.validators
 export const keybase = state => state.keybase.identities
+export const pool = state => state.pool
+export const parameters = state => state.parameters
 
-// govern
-export const proposals = state => state.proposals
+// governance
+export const proposals = state => state.proposals.proposals
+export const votes = state => state.votes.votes
+export const deposits = state => state.deposits.deposits
 
 // status
-export const approvalRequired = state => state.node.approvalRequired
-export const connected = state => state.node.connected
-export const lastHeader = state => state.node.lastHeader
-export const nodeIP = state => state.node.nodeIP
-export const mockedConnector = state => state.node.mocked
+export const approvalRequired = state => state.connection.approvalRequired
+export const connected = state => state.connection.connected
+export const lastHeader = state => state.connection.lastHeader
+export const nodeURL = state =>
+  state.connection.node ? state.connection.node.remoteLcdURL : undefined
+export const mockedConnector = state => state.connection.mocked

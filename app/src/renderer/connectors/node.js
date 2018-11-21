@@ -1,19 +1,21 @@
 "use strict"
+
 const RestClient = require(`./lcdClient.js`)
 const mockedRestClient = require(`./lcdClientMock.js`)
 const RpcWrapper = require(`./rpcWrapper.js`)
 const MockedRpcWrapper = require(`./rpcWrapperMock.js`)
 
-module.exports = function(lcdPort, mocked = false) {
-  const LCD_SERVER = `http://localhost:` + lcdPort
-
+module.exports = function(axios, localLcdURL, remoteLcdURL, mocked = false) {
   let connector = {
     mocked,
-    lcdPort,
+    localLcdURL,
+    remoteLcdURL,
     // activate or deactivate the mocked lcdClient
     setup: mocked => {
       console.log(`Setting connector to state:` + (mocked ? `mocked` : `live`))
-      let newRestClient = mocked ? mockedRestClient : new RestClient(LCD_SERVER)
+      let newRestClient = mocked
+        ? mockedRestClient
+        : new RestClient(axios, localLcdURL, remoteLcdURL)
       let newRpcClient = mocked
         ? MockedRpcWrapper(connector)
         : RpcWrapper(connector)

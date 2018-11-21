@@ -142,4 +142,34 @@ describe(`Store`, () => {
       localStorage.getItem(`store_test-net_` + lcdClientMock.addresses[0])
     ).toBeTruthy()
   })
+
+  it(`should remove the cache if failing to encrypt the cache`, async () => {
+    jest.resetModules()
+    jest.useFakeTimers()
+    jest.doMock(`crypto-js`, () => ({
+      AES: {
+        encrypt: () => {
+          throw Error(`Failed to encrypt`)
+        }
+      }
+    }))
+    let Raven = require(`raven-js`)
+    // the error will be logged, which is confusing in the test output
+    jest.spyOn(console, `error`).mockImplementation(() => {})
+
+    let spy = jest.spyOn(Raven, `captureException`)
+    let opts = { node: { keys: { get: () => ({}) } } }
+    require(`renderer/vuex/store.js`).default(opts)
+
+    // only triggers encryption if signed in
+    await opts.dispatch(`signIn`, {
+      account: `default`,
+      password: `1234567890`
+    })
+    opts.commit(`setWalletBalances`)
+    jest.runAllTimers()
+
+    expect(spy).toHaveBeenCalled()
+    console.error.mockReset()
+  })
 })

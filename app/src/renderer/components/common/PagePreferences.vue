@@ -1,6 +1,8 @@
 <template lang="pug">
-tm-page(title="Preferences")
-  div(slot="menu"): vm-tool-bar
+tm-page(data-title="Preferences")
+  template(slot="menu-body")
+    tm-balance
+    vm-tool-bar
 
   tm-part(title='Settings')
     tm-list-item(type="field" title="Select network to connect to")
@@ -16,7 +18,7 @@ tm-page(title="Preferences")
         icon='exit_to_app'
         type='button'
         @click.native=""
-        :value='nodeIP')
+        :value='nodeURL')
     tm-list-item(type="field" title="View tutorial for Voyager")
       tm-btn#toggle-onboarding(
         @click.native="setOnboarding"
@@ -48,11 +50,13 @@ tm-page(title="Preferences")
 import { mapGetters } from "vuex"
 import { TmListItem, TmBtn, TmPage, TmPart, TmField } from "@tendermint/ui"
 import VmToolBar from "common/VmToolBar"
+import TmBalance from "common/TmBalance"
 import TmModal from "common/TmModal"
 
 export default {
   name: `page-preferences`,
   components: {
+    TmBalance,
     TmBtn,
     TmField,
     TmListItem,
@@ -60,16 +64,6 @@ export default {
     TmPart,
     VmToolBar,
     TmModal
-  },
-  computed: {
-    ...mapGetters([
-      `user`,
-      `themes`,
-      `onboarding`,
-      `mockedConnector`,
-      `config`,
-      `nodeIP`
-    ])
   },
   data: () => ({
     themeSelectActive: null,
@@ -95,6 +89,16 @@ export default {
       }
     ]
   }),
+  computed: {
+    ...mapGetters([
+      `user`,
+      `themes`,
+      `onboarding`,
+      `mockedConnector`,
+      `config`,
+      `nodeURL`
+    ])
+  },
   mounted() {
     this.networkSelectActive = this.mockedConnector ? `mock` : `live`
     this.themeSelectActive = this.themes.active
@@ -121,15 +125,14 @@ export default {
       this.$store.commit(`setOnboardingState`, 0)
       this.$store.commit(`setOnboardingActive`, true)
     },
+
     setMockedConnector() {
-      if (this.networkSelectActive === `mock` && !this.mockedConnector) {
-        this.$store.dispatch(`setMockedConnector`, true)
-      } else if (this.networkSelectActive === `live` && this.mockedConnector) {
-        this.$store.dispatch(`setMockedConnector`, false)
-      }
+      this.$store.dispatch(
+        `setMockedConnector`,
+        this.networkSelectActive === `mock`
+      )
     }
   }
 }
 </script>
-<style lang="stylus">
-</style>
+<style lang="stylus"></style>

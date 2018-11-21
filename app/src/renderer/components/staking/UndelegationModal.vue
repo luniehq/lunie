@@ -17,6 +17,7 @@
       tm-field#amount(
         :max="maximum"
         :min="0"
+        step="any"
         type="number"
         v-model="amount"
         v-focus)
@@ -28,7 +29,7 @@
 
     //- Footer
     .undelegation-modal-footer
-      tm-btn(
+      tm-btn#submit-undelegation(
         @click.native="onUndelegate"
         :disabled="$v.amount.$invalid"
         color="primary"
@@ -45,9 +46,8 @@ import { TmBtn, TmField, TmFormGroup, TmFormMsg } from "@tendermint/ui"
 
 export default {
   name: `undelegation-modal`,
-  props: [`maximum`, `to`],
-  computed: {
-    ...mapGetters([`bondingDenom`])
+  directives: {
+    ClickOutside
   },
   components: {
     Modal,
@@ -56,9 +56,13 @@ export default {
     TmFormGroup,
     TmFormMsg
   },
+  props: [`maximum`, `to`],
   data: () => ({
     amount: 0
   }),
+  computed: {
+    ...mapGetters([`bondingDenom`])
+  },
   validations() {
     return {
       amount: {
@@ -77,9 +81,6 @@ export default {
       })
       this.close()
     }
-  },
-  directives: {
-    ClickOutside
   }
 }
 </script>

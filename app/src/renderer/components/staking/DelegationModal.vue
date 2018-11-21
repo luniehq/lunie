@@ -7,10 +7,11 @@
         i.material-icons close
 
     tm-form-group.delegation-modal-form-group(
+      field-id='amount'
       field-label='Amount'
     )
       tm-field#denom(
-        type="number"
+        type="text"
         :placeholder="bondingDenom"
         readonly)
 
@@ -18,7 +19,7 @@
         type="number"
         :max="fromOptions[selectedIndex].maximum"
         :min="0"
-        step="1"
+        step="any"
         v-model="amount"
         v-focus)
 
@@ -36,7 +37,7 @@
       )
 
     .delegation-modal-footer
-      tm-btn(
+      tm-btn#submit-delegation(
         @click.native="onDelegation"
         :disabled="$v.amount.$invalid"
         color="primary"
@@ -53,9 +54,8 @@ import { TmBtn, TmField, TmFormGroup, TmFormMsg } from "@tendermint/ui"
 
 export default {
   name: `delegation-modal`,
-  props: [`fromOptions`, `to`],
-  computed: {
-    ...mapGetters([`bondingDenom`])
+  directives: {
+    ClickOutside
   },
   components: {
     Modal,
@@ -64,16 +64,22 @@ export default {
     TmFormGroup,
     TmFormMsg
   },
+  props: [`fromOptions`, `to`],
   data: () => ({
     amount: 0,
     selectedIndex: 0
   }),
+  computed: {
+    ...mapGetters([`bondingDenom`])
+  },
   validations() {
     return {
       amount: {
         required,
-        integer: value => Number.isInteger(value),
-        between: between(1, this.fromOptions[this.selectedIndex].maximum)
+        between: between(
+          0.0000000001,
+          this.fromOptions[this.selectedIndex].maximum
+        )
       }
     }
   },
@@ -88,9 +94,6 @@ export default {
       })
       this.close()
     }
-  },
-  directives: {
-    ClickOutside
   }
 }
 </script>
@@ -127,10 +130,10 @@ export default {
     margin-top -32px
 
   #denom
+    border none
+    margin-left 80%
     text-align right
     width 72px
-    margin-left 80%
-    border none
 
   &-footer
     display flex

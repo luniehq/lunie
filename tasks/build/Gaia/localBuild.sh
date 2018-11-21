@@ -11,4 +11,4 @@ docker run \
   --env TARGET \
   --mount type=bind,source="$source",target="$TARGET" \
   --rm \
-  golang:1.10.2 < build.sh
+  golang:1.11.1 < build.sh

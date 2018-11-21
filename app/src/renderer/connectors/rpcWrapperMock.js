@@ -41,7 +41,6 @@ module.exports = function setRPCWrapperMock(container) {
     // RPC
     // made this a subobject so we can manipulate it in here while assigning it to the outer node object
     rpcInfo: {
-      nodeIP: `127.0.0.1`,
       connecting: false,
       connected: true
     },
@@ -129,10 +128,10 @@ async function produceBlocks(cb) {
 }
 
 function makeBlockHash() {
-  var text = ``
-  var possible = `ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789`
+  let text = ``
+  const possible = `ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789`
 
-  for (var i = 0; i < 40; i++) {
+  for (let i = 0; i < 40; i++) {
     text += possible.charAt(Math.floor(Math.random() * possible.length))
   }
 

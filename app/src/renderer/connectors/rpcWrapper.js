@@ -7,12 +7,11 @@ module.exports = function setRpcWrapper(container) {
   let rpcWrapper = {
     // RPC
     rpcInfo: {
-      nodeIP: undefined,
       connecting: false,
       connected: true
     },
     rpcDisconnect() {
-      if (!container.rpc) return
+      if (!container.rpc || !container.rpc.ws) return
 
       console.log(`removing old websocket`)
 
@@ -24,15 +23,18 @@ module.exports = function setRpcWrapper(container) {
 
       rpcWrapper.rpcInfo.connected = false
     },
-    rpcConnect(nodeIP) {
-      rpcWrapper.rpcInfo.nodeIP = nodeIP
+    rpcConnect(rpcURL) {
+      let rpcHost =
+        rpcURL.startsWith(`http`) && rpcURL.indexOf(`//`) !== -1
+          ? rpcURL.split(`//`)[1]
+          : rpcURL
 
       if (container.rpc) {
         rpcWrapper.rpcDisconnect()
       }
 
-      console.log(`init rpc with ` + nodeIP)
-      let newRpc = new RpcClient(`ws://${nodeIP}`)
+      console.log(`init rpc with ` + rpcURL)
+      let newRpc = new RpcClient(`ws://${rpcHost}`)
       rpcWrapper.rpcInfo.connected = true
       // we need to check immediately if the connection fails. later we will not be able to check this error
       newRpc.on(`error`, err => {

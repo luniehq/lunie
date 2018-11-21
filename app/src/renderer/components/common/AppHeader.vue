@@ -1,4 +1,4 @@
-<template lang='pug'>
+<template lang="pug">
 nav#app-header(v-bind:class="{ mobile: !config.desktop, windows: isWin }"): .container
   template(v-if="!config.desktop")
     .header-item
@@ -30,6 +30,10 @@ export default {
       return navigator.platform.toUpperCase().indexOf(`WIN`) >= 0
     }
   },
+  mounted() {
+    this.watchWindowSize()
+    window.onresize = this.watchWindowSize
+  },
   methods: {
     close() {
       this.$store.commit(`setActiveMenu`, ``)
@@ -53,10 +57,6 @@ export default {
         this.$store.commit(`setConfigDesktop`, false)
       }
     }
-  },
-  mounted() {
-    this.watchWindowSize()
-    window.onresize = this.watchWindowSize
   }
 }
 </script>

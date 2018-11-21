@@ -25,10 +25,14 @@ exports[`PageWallet has the expected html structure 1`] = `
             <div
               class="top"
             >
-              <img
-                class="icon"
-                src="~assets/images/cosmos-logo.png"
-              />
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
               <div
                 class="total-atoms top-section"
               >
@@ -36,33 +40,33 @@ exports[`PageWallet has the expected html structure 1`] = `
                   Total Steak
                 </h3>
                 <h2>
-                  1,014.00
+                  1,014.0000…
                 </h2>
               </div>
               <div
                 class="unbonded-atoms top-section"
               >
                 <h3>
-                  Unbonded Steak
+                  Available Steak
                 </h3>
                 <h2>
-                  1000
+                  1,000.0000…
                 </h2>
               </div>
               <!---->
               <!---->
             </div>
             <div
-              class="bottom"
+              class="short-bech32"
             >
               <div
                 class="address"
                 id="address"
               >
-                cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
+                cosmos…xxn9
               </div>
               <div
-                class="success"
+                class="copied"
               >
                 <i
                   class="material-icons"
@@ -78,80 +82,69 @@ exports[`PageWallet has the expected html structure 1`] = `
               class="tabs"
             />
           </div>
+          <div
+            class="tm-tool-bar"
+          >
+            <a
+              class="back"
+              disabled="disabled"
+            >
+              <i
+                class="material-icons"
+              >
+                arrow_back
+              </i>
+            </a>
+            <a>
+              <i
+                class="material-icons"
+              >
+                refresh
+              </i>
+            </a>
+            <a>
+              <i
+                class="material-icons"
+              >
+                search
+              </i>
+            </a>
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+            <a
+              class=""
+              href="#/preferences"
+              id="settings"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </a>
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+          </div>
         </div>
       </div>
       <menu
         class="tm-page-header-menu"
       >
-        <div>
-          <div>
-            <div
-              class="tm-tool-bar"
-            >
-              <div
-                class="tm-tool-bar-container"
-              >
-                <div
-                  class="main"
-                >
-                  <a
-                    class="back"
-                    disabled="disabled"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                  </a>
-                  <a>
-                    <i
-                      class="material-icons"
-                    >
-                      refresh
-                    </i>
-                  </a>
-                  <a>
-                    <i
-                      class="material-icons"
-                    >
-                      search
-                    </i>
-                  </a>
-                  <a
-                    class="help"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      help_outline
-                    </i>
-                  </a>
-                  <a
-                    class="settings"
-                    href="#/preferences"
-                  >
-                    <i
-                      class="material-icons"
-                      id="settings"
-                    >
-                      settings
-                    </i>
-                  </a>
-                  <a
-                    id="signOut-btn"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      exit_to_app
-                    </i>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div />
       </menu>
     </div>
   </header>
@@ -203,7 +196,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 <div
                   class="tm-li-title"
                 >
-                  cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
+                  cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
                 </div>
                 <div
                   class="tm-li-subtitle"
@@ -286,7 +279,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 <div
                   class="tm-li-dd"
                 >
-                  2300
+                  2,300.0000000000
                 </div>
               </div>
               <button
@@ -334,7 +327,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 <div
                   class="tm-li-dd"
                 >
-                  1000
+                  1,000.0000000000
                 </div>
               </div>
               <button
@@ -382,7 +375,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 <div
                   class="tm-li-dd"
                 >
-                  1000
+                  1,000.0000000000
                 </div>
               </div>
               <button
@@ -459,10 +452,14 @@ exports[`PageWallet should filter the balances 1`] = `
             <div
               class="top"
             >
-              <img
-                class="icon"
-                src="~assets/images/cosmos-logo.png"
-              />
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
               <div
                 class="total-atoms top-section"
               >
@@ -470,33 +467,33 @@ exports[`PageWallet should filter the balances 1`] = `
                   Total Steak
                 </h3>
                 <h2>
-                  1,014.00
+                  1,014.0000…
                 </h2>
               </div>
               <div
                 class="unbonded-atoms top-section"
               >
                 <h3>
-                  Unbonded Steak
+                  Available Steak
                 </h3>
                 <h2>
-                  1000
+                  1,000.0000…
                 </h2>
               </div>
               <!---->
               <!---->
             </div>
             <div
-              class="bottom"
+              class="short-bech32"
             >
               <div
                 class="address"
                 id="address"
               >
-                cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
+                cosmos…xxn9
               </div>
               <div
-                class="success"
+                class="copied"
               >
                 <i
                   class="material-icons"
@@ -512,80 +509,69 @@ exports[`PageWallet should filter the balances 1`] = `
               class="tabs"
             />
           </div>
+          <div
+            class="tm-tool-bar"
+          >
+            <a
+              class="back"
+              disabled="disabled"
+            >
+              <i
+                class="material-icons"
+              >
+                arrow_back
+              </i>
+            </a>
+            <a>
+              <i
+                class="material-icons"
+              >
+                refresh
+              </i>
+            </a>
+            <a>
+              <i
+                class="material-icons"
+              >
+                search
+              </i>
+            </a>
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+            <a
+              class=""
+              href="#/preferences"
+              id="settings"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </a>
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+          </div>
         </div>
       </div>
       <menu
         class="tm-page-header-menu"
       >
-        <div>
-          <div>
-            <div
-              class="tm-tool-bar"
-            >
-              <div
-                class="tm-tool-bar-container"
-              >
-                <div
-                  class="main"
-                >
-                  <a
-                    class="back"
-                    disabled="disabled"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                  </a>
-                  <a>
-                    <i
-                      class="material-icons"
-                    >
-                      refresh
-                    </i>
-                  </a>
-                  <a>
-                    <i
-                      class="material-icons"
-                    >
-                      search
-                    </i>
-                  </a>
-                  <a
-                    class="help"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      help_outline
-                    </i>
-                  </a>
-                  <a
-                    class="settings"
-                    href="#/preferences"
-                  >
-                    <i
-                      class="material-icons"
-                      id="settings"
-                    >
-                      settings
-                    </i>
-                  </a>
-                  <a
-                    id="signOut-btn"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      exit_to_app
-                    </i>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div />
       </menu>
     </div>
   </header>
@@ -637,7 +623,7 @@ exports[`PageWallet should filter the balances 1`] = `
                 <div
                   class="tm-li-title"
                 >
-                  cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
+                  cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
                 </div>
                 <div
                   class="tm-li-subtitle"
@@ -720,7 +706,7 @@ exports[`PageWallet should filter the balances 1`] = `
                 <div
                   class="tm-li-dd"
                 >
-                  1000
+                  1,000.0000000000
                 </div>
               </div>
               <button

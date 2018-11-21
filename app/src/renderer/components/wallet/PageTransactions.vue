@@ -1,7 +1,7 @@
 <template lang="pug">
 tm-page(data-title='Transactions')
-  template(slot="menu-body"): tm-balance
-  div(slot="menu")
+  template(slot="menu-body")
+    tm-balance
     vm-tool-bar
       a(@click='connected && refreshTransactions()' v-tooltip.bottom="'Refresh'" :disabled="!connected")
         i.material-icons refresh
@@ -11,17 +11,19 @@ tm-page(data-title='Transactions')
   modal-search(type="transactions" v-if="somethingToSearch")
 
   tm-data-loading(v-if="transactions.loading")
-  data-empty-tx(v-else-if='allTransactions.length === 0')
-  data-empty-search(v-else-if="filteredTransactions.length === 0")
+  tm-data-error(v-if="!transactions.loading && transactions.error")
+  data-empty-tx(v-if='!transactions.loading && allTransactions.length === 0 && !transactions.error')
+  data-empty-search(v-if="!transactions.loading && !transactions.error && filteredTransactions.length === 0")
+
   template(v-else v-for="(tx, i) in filteredTransactions")
     tm-li-any-transaction(
       :validators="delegates.delegates"
       :validatorURL='validatorURL'
+      :proposalsURL='proposalsURL'
       :key="shortid.generate()"
       :transaction="tx"
       :address="wallet.address"
-      :bondingDenom="bondingDenom"
-      v-on:end-unbonding="endUnbonding(tx)")
+      :bondingDenom="bondingDenom")
 </template>
 
 <script>
@@ -33,6 +35,7 @@ import DataEmptySearch from "common/TmDataEmptySearch"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import ModalSearch from "common/TmModalSearch"
 import TmBalance from "common/TmBalance"
+import TmDataError from "common/TmDataError"
 import { TmPage, TmDataLoading, TmLiAnyTransaction } from "@tendermint/ui"
 import VmToolBar from "common/VmToolBar"
 export default {
@@ -41,14 +44,24 @@ export default {
     TmBalance,
     TmLiAnyTransaction,
     TmDataLoading,
+    TmDataError,
     DataEmptySearch,
     DataEmptyTx,
     ModalSearch,
     TmPage,
     VmToolBar
   },
+  data: () => ({
+    shortid: shortid,
+    sort: {
+      property: `height`,
+      order: `desc`
+    },
+    validatorURL: `/staking/validators`,
+    proposalsURL: `/governance/proposals`
+  }),
   computed: {
-    ...mapState([`transactions`, `node`]),
+    ...mapState([`transactions`]),
     ...mapGetters([
       `filters`,
       `allTransactions`,
@@ -87,21 +100,14 @@ export default {
       }
     }
   },
-  data: () => ({
-    shortid: shortid,
-    sort: {
-      property: `height`,
-      order: `desc`
-    },
-    validatorURL: `/staking/validators`
-  }),
+  mounted() {
+    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
+    Mousetrap.bind(`esc`, () => this.setSearch(false))
+    this.refreshTransactions()
+  },
   methods: {
     refreshTransactions() {
       this.$store.dispatch(`getAllTxs`)
-    },
-    async endUnbonding(transaction) {
-      let validatorAddr = transaction.tx.value.msg[0].value.validator_addr
-      await this.$store.dispatch(`endUnbonding`, validatorAddr)
     },
     enrichUnbondingTransactions(transaction) {
       let copiedTransaction = JSON.parse(JSON.stringify(transaction))
@@ -111,12 +117,10 @@ export default {
         let unbondingDelegation = this.delegation.unbondingDelegations[
           tx.validator_addr
         ]
-        // TODO hack, use creation_height when https://github.com/cosmos/cosmos-sdk/issues/2314 is resolved
         if (
           unbondingDelegation &&
-          new Date(unbondingDelegation.min_time).getTime() -
-            new Date(copiedTransaction.time).getTime() ===
-            0
+          unbondingDelegation.creation_height ===
+            String(copiedTransaction.height)
         )
           copiedTransaction.unbondingDelegation = unbondingDelegation
       }
@@ -126,11 +130,6 @@ export default {
       if (!this.somethingToSearch) return false
       this.$store.commit(`setSearchVisible`, [`transactions`, bool])
     }
-  },
-  mounted() {
-    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
-    Mousetrap.bind(`esc`, () => this.setSearch(false))
-    this.refreshTransactions()
   }
 }
 </script>

@@ -36,10 +36,16 @@ cli(optionsSpecification, async options => {
   fs.ensureDirSync(path.join(builds, `Voyager`))
 
   // Expand '~' if preset and resolve to absolute pathnames for Docker.
-  const resolved = fp.mapValues(fp.pipe(untildify, path.resolve), {
-    git: path.join(__dirname, `../../.git`),
-    builds
-  })
+  const resolved = fp.mapValues(
+    fp.pipe(
+      untildify,
+      path.resolve
+    ),
+    {
+      git: path.join(__dirname, `../../.git`),
+      builds
+    }
+  )
 
   const optionsString = Object.entries(options)
     .map(([key, value]) => `--${key}=${value}`)

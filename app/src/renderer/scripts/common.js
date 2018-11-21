@@ -20,9 +20,12 @@ module.exports.shortAddress = function(address, length = 4) {
 
 // convert rat format ('123/456') to big number
 module.exports.ratToBigNumber = function(rat) {
-  let n = new BN(rat.split(`/`)[0])
-  let d = new BN(rat.split(`/`)[1] || 1)
-  return n.div(d)
+  if (rat.indexOf(`/`) !== -1) {
+    let n = new BN(rat.split(`/`)[0])
+    let d = new BN(rat.split(`/`)[1] || 1)
+    return n.div(d)
+  }
+  return new BN(rat)
 }
 // TODO uncomment when validator comission is done
 // module.exports.parseValidatorShares = function(validator) {

@@ -1,5 +1,5 @@
-<template lang='pug'>
-tm-page(title='Send')
+<template lang="pug">
+tm-page(data-title='Send')
   div(slot="menu"): vm-tool-bar
   tm-form-struct(:submit="onSubmit")
     tm-part(title='Denomination Options')
@@ -47,7 +47,7 @@ tm-page(title='Send')
 
       p(v-if='mockedConnector')
         span Try sending to the address "
-        strong(style="font-weight: bold") cosmosaccaddr1p6zajjw6xged056andyhn62lm7axwzyspkzjq0
+        strong(style="font-weight: bold") cosmos1p6zajjw6xged056andyhn62lm7axwzyspkzjq0
         span ", it's a friendly bot which will send the money back to you!
       br(v-if='mockedConnector')
 
@@ -91,6 +91,18 @@ export default {
     VmToolBar,
     TmModalSendConfirmation
   },
+  props: [`denom`],
+  data: () => ({
+    bech32error: null,
+    fields: {
+      address: ``,
+      amount: null,
+      denom: ``,
+      zoneId: `cosmos-hub-1`
+    },
+    confirmationPending: false,
+    sending: false
+  }),
   computed: {
     ...mapGetters([
       `wallet`,
@@ -113,17 +125,19 @@ export default {
       return this.wallet.zoneIds.map(z => ({ key: z, value: z }))
     }
   },
-  data: () => ({
-    bech32error: null,
-    fields: {
-      address: ``,
-      amount: null,
-      denom: ``,
-      zoneId: `cosmos-hub-1`
-    },
-    confirmationPending: false,
-    sending: false
-  }),
+  watch: {
+    // TODO ignored while we don't have IBC
+    // // if the zoneId gets added at a later time
+    // "wallet.zoneIds": () => {
+    //   this.fields.zoneId = this.wallet.zoneIds[0]
+    // }
+  },
+  mounted() {
+    if (this.denom) {
+      this.fields.denom = this.denom
+    }
+    this.fields.zoneId = this.wallet.zoneIds[0]
+  },
   methods: {
     resetForm() {
       this.fields.address = ``
@@ -168,8 +182,8 @@ export default {
       } catch (err) {
         this.sending = false
         this.$store.commit(`notifyError`, {
-          title: `Error Sending`,
-          body: `An error occurred while trying to send: "${err.message}"`
+          title: `Error Sending transaction`,
+          body: err.message
         })
       }
     },
@@ -181,19 +195,12 @@ export default {
         b32.decode(param)
         this.bech32error = null
         return true
-      } catch (error) {
-        this.bech32error = error.message
+      } catch (err) {
+        this.bech32error = err.message
         return false
       }
     },
     ...mapActions([`sendTx`])
-  },
-  props: [`denom`],
-  mounted() {
-    if (this.denom) {
-      this.fields.denom = this.denom
-    }
-    this.fields.zoneId = this.wallet.zoneIds[0]
   },
   validations() {
     return {
@@ -210,13 +217,6 @@ export default {
         zoneId: { required }
       }
     }
-  },
-  watch: {
-    // TODO ignored while we don't have IBC
-    // // if the zoneId gets added at a later time
-    // "wallet.zoneIds": () => {
-    //   this.fields.zoneId = this.wallet.zoneIds[0]
-    // }
   }
 }
 </script>

@@ -93,10 +93,12 @@ describe(`TmConnectedNetwork`, () => {
     router = instance.router
     wrapper = instance.wrapper
 
-    Object.assign(store.state.node, {
+    Object.assign(store.state.connection, {
       mocked: false,
-      nodeIP: `123.123.123.123`,
-      lastHeader: Object.assign(store.state.node.lastHeader, {
+      node: {
+        remoteLcdURL: `123.123.123.123`
+      },
+      lastHeader: Object.assign(store.state.connection.lastHeader, {
         chain_id: `chain_id`
       }),
       connected: true
@@ -117,9 +119,11 @@ describe(`TmConnectedNetwork`, () => {
       TmConnectedNetwork.computed.networkTooltip({
         chainId: `chainId`,
         connected: true,
-        nodeIP: `nodeIP`
+        nodeURL: `http://awesomenode.de`
       })
-    ).toEqual(`You\'re connected to the chainId testnet via node nodeIP.`)
+    ).toEqual(
+      `You\'re connected to the chainId testnet via node http://awesomenode.de.`
+    )
 
     expect(
       TmConnectedNetwork.computed.networkTooltip({

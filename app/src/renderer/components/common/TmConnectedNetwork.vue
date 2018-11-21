@@ -1,4 +1,4 @@
-<template lang='pug'>
+<template lang="pug">
 .tm-connected-network#tm-connected-network(v-if='connected' :class="cssClass")
   .tm-connected-network__connection
     .tm-connected-network__icon#tm-connected-network__icon: i.material-icons lock
@@ -19,30 +19,31 @@ import num from "scripts/num"
 import { startCase, toLower } from "lodash"
 export default {
   name: `tm-connected-network`,
+  data: () => ({
+    num: num
+  }),
   computed: {
-    ...mapGetters([`lastHeader`, `nodeIP`, `connected`, `mockedConnector`]),
+    ...mapGetters([`lastHeader`, `nodeURL`, `connected`, `mockedConnector`]),
     cssClass() {
       if (this.mockedConnector) {
         return `tm-connected-network--mocked`
       }
     },
-
-    networkTooltip({ mockedConnector, connected, nodeIP, chainId } = this) {
+    networkTooltip({ mockedConnector, connected, nodeURL, chainId } = this) {
       if (mockedConnector) {
         return `You\'re using the offline demo and are not connected to any real nodes.`
       } else if (connected) {
-        return `You\'re connected to the ${chainId} testnet via node ${nodeIP}.`
+        return `You\'re connected to the ${chainId} testnet via node ${nodeURL}.`
       } else if (!mockedConnector && !connected) {
         return `We\'re pinging nodes to try to connect you to ${chainId}.`
       }
     },
-
     chainId() {
       if (this.mockedConnector) {
         return startCase(toLower(this.lastHeader.chain_id))
+      } else {
+        return this.lastHeader.chain_id
       }
-
-      return this.lastHeader.chain_id
     },
     blockHeight() {
       return `#` + num.prettyInt(this.lastHeader.height)
@@ -51,18 +52,9 @@ export default {
       return `https://explorecosmos.network/blocks/` + this.lastHeader.height
     }
   },
-  data: () => ({
-    num: num,
-    onPreferencesPage: false
-  }),
   methods: {
     closeMenu() {
       this.$store.commit(`setActiveMenu`, ``)
-    }
-  },
-  watch: {
-    "$route.name"(newName) {
-      this.onPreferencesPage = newName === `preferences`
     }
   }
 }

@@ -8,6 +8,7 @@ a.anchor-copy(@click="click")
 import { clipboard } from "electron"
 export default {
   name: `anchor-copy`,
+  props: [`value`, `label`, `icon`, `title`, `body`],
   computed: {
     notifyTitle() {
       if (this.title) return this.title
@@ -27,7 +28,6 @@ export default {
         body: this.notifyBody
       })
     }
-  },
-  props: [`value`, `label`, `icon`, `title`, `body`]
+  }
 }
 </script>

@@ -1,9 +1,10 @@
 "use strict"
 
-import { calculateShares, calculateTokens } from "scripts/common"
+import { calculateShares } from "scripts/common"
 export default ({ node }) => {
   let emptyState = {
     loading: false,
+    error: null,
     loadedOnce: false,
 
     // our delegations, maybe not yet committed
@@ -40,12 +41,19 @@ export default ({ node }) => {
       }
       state.committedDelegates = committedDelegates
     },
-    setUnbondingDelegations(state, { validator_addr, min_time, balance }) {
+    setUnbondingDelegations(
+      state,
+      { validator_addr, min_time, balance, creation_height }
+    ) {
       let unbondingDelegations = Object.assign({}, state.unbondingDelegations)
       if (balance.amount === 0) {
         delete unbondingDelegations[validator_addr]
       } else {
-        unbondingDelegations[validator_addr] = { min_time, balance }
+        unbondingDelegations[validator_addr] = {
+          min_time,
+          balance,
+          creation_height
+        }
       }
       state.unbondingDelegations = unbondingDelegations
     }
@@ -69,66 +77,77 @@ export default ({ node }) => {
       let address = rootState.user.address
       candidates = candidates || (await dispatch(`getDelegates`))
 
-      let delegator = await node.getDelegator(address)
-      // the request runs that long, that the user might sign out and back in again
-      // the result is, that the new users state gets updated by the old users request
-      // here we check if the user is still the same
-      if (rootState.user.address !== address) return
+      try {
+        let delegations = await node.getDelegations(address)
+        let unbonding_delegations = await node.getUndelegations(address)
+        let redelegations = await node.getRedelegations(address)
+        let delegator = {
+          delegations,
+          unbonding_delegations,
+          redelegations
+        }
+        state.error = null
 
-      if (delegator.delegations) {
-        delegator.delegations.forEach(({ validator_addr, shares }) => {
-          commit(`setCommittedDelegation`, {
-            candidateId: validator_addr,
-            value: parseFloat(shares)
-          })
-          if (shares > 0) {
-            const delegate = candidates.find(
-              ({ owner }) => owner === validator_addr // this should change to address instead of owner
-            )
-            commit(`addToCart`, delegate)
-          }
-        })
-      }
-      // delete delegations not present anymore
-      Object.keys(state.committedDelegates).forEach(validatorAddr => {
-        if (
-          !delegator.delegations ||
-          !delegator.delegations.find(
-            ({ validator_addr }) => validator_addr === validatorAddr
-          )
-        )
-          commit(`setCommittedDelegation`, {
-            candidateId: validatorAddr,
-            value: 0
-          })
-      })
+        // the request runs that long, that the user might sign out and back in again
+        // the result is, that the new users state gets updated by the old users request
+        // here we check if the user is still the same
+        if (rootState.user.address !== address) return
 
-      if (delegator.unbonding_delegations) {
-        delegator.unbonding_delegations.forEach(
-          ({ validator_addr, balance, min_time }) => {
-            commit(`setUnbondingDelegations`, {
-              validator_addr,
-              balance,
-              min_time
+        if (delegator.delegations) {
+          delegator.delegations.forEach(({ validator_addr, shares }) => {
+            commit(`setCommittedDelegation`, {
+              candidateId: validator_addr,
+              value: parseFloat(shares)
             })
-          }
-        )
-      }
-      // delete undelegations not present anymore
-      Object.keys(state.unbondingDelegations).forEach(validatorAddr => {
-        if (
-          !delegator.unbonding_delegations ||
-          !delegator.unbonding_delegations.find(
-            ({ validator_addr }) => validator_addr === validatorAddr
-          )
-        )
-          commit(`setUnbondingDelegations`, {
-            validator_addr: validatorAddr,
-            balance: { amount: 0 }
+            if (shares > 0) {
+              const delegate = candidates.find(
+                ({ operator_address }) => operator_address === validator_addr // this should change to address instead of operator_address
+              )
+              commit(`addToCart`, delegate)
+            }
           })
-      })
+        }
+        // delete delegations not present anymore
+        Object.keys(state.committedDelegates).forEach(validatorAddr => {
+          if (
+            !delegator.delegations ||
+            !delegator.delegations.find(
+              ({ validator_addr }) => validator_addr === validatorAddr
+            )
+          )
+            commit(`setCommittedDelegation`, {
+              candidateId: validatorAddr,
+              value: 0
+            })
+        })
 
-      state.loadedOnce = true
+        if (delegator.unbonding_delegations) {
+          delegator.unbonding_delegations.forEach(ubd => {
+            commit(`setUnbondingDelegations`, ubd)
+          })
+        }
+        // delete undelegations not present anymore
+        Object.keys(state.unbondingDelegations).forEach(validatorAddr => {
+          if (
+            !delegator.unbonding_delegations ||
+            !delegator.unbonding_delegations.find(
+              ({ validator_addr }) => validator_addr === validatorAddr
+            )
+          )
+            commit(`setUnbondingDelegations`, {
+              validator_addr: validatorAddr,
+              balance: { amount: 0 }
+            })
+        })
+        state.loadedOnce = true
+      } catch (err) {
+        commit(`notifyError`, {
+          title: `Error fetching delegations`,
+          body: err.message
+        })
+        state.error = err
+      }
+
       state.loading = false
     },
     async updateDelegates({ dispatch }) {
@@ -152,7 +171,7 @@ export default ({ node }) => {
         stakingTransactions.delegations &&
         stakingTransactions.delegations.map(({ atoms, validator }) => ({
           delegator_addr: delegatorAddr,
-          validator_addr: validator.owner,
+          validator_addr: validator.operator_address,
           delegation: {
             denom,
             amount: String(atoms)
@@ -163,8 +182,10 @@ export default ({ node }) => {
         stakingTransactions.unbondings &&
         stakingTransactions.unbondings.map(({ atoms, validator }) => ({
           delegator_addr: delegatorAddr,
-          validator_addr: validator.owner,
-          shares: String(Math.abs(calculateShares(validator, atoms)).toFixed(8)) // TODO change to 10 when available https://github.com/cosmos/cosmos-sdk/issues/2317
+          validator_addr: validator.operator_address,
+          shares: String(
+            Math.abs(calculateShares(validator, atoms)).toFixed(10)
+          ) // TODO change to 10 when available https://github.com/cosmos/cosmos-sdk/issues/2317
         }))
 
       const mappedRedelegations =
@@ -172,9 +193,13 @@ export default ({ node }) => {
         stakingTransactions.redelegations.map(
           ({ atoms, validatorSrc, validatorDst }) => ({
             delegator_addr: delegatorAddr,
-            validator_src_addr: validatorSrc.owner,
-            validator_dst_addr: validatorDst.owner,
-            shares: String(calculateShares(validatorSrc, atoms).toFixed(8)) // TODO change to 10 when available https://github.com/cosmos/cosmos-sdk/issues/2317
+            validator_src_addr: validatorSrc.operator_address,
+            validator_dst_addr: validatorDst.operator_address,
+            shares: String(
+              calculateShares(validatorSrc, atoms)
+                .multipliedBy(10000000000)
+                .toFixed(10)
+            )
           })
         )
 
@@ -188,62 +213,25 @@ export default ({ node }) => {
 
       if (mappedDelegations) {
         // (optimistic update) we update the atoms of the user before we get the new values from chain
-        let atomsDiff =
-          stakingTransactions.delegations &&
-          stakingTransactions.delegations
-            // compare old and new delegations and diff against old atoms
-            .map(
-              delegation =>
-                calculateTokens(
-                  delegation.validator,
-                  state.committedDelegates[delegation.validator.owner]
-                ) - delegation.atoms
-            )
-            .reduce((sum, diff) => sum + diff, 0)
-        commit(`setAtoms`, user.atoms + atomsDiff)
+
+        let atomsSum = stakingTransactions.delegations.reduce(
+          (sum, delegation) => sum + delegation.atoms,
+          0
+        )
+        commit(`setAtoms`, user.atoms - atomsSum)
+
+        // optimistically update the committed delegations
+        stakingTransactions.delegations.forEach(delegation => {
+          state.committedDelegates[delegation.validator.operator_address] +=
+            delegation.atoms
+        })
       }
 
       // we optimistically update the committed delegations
       // TODO usually I would just query the new state through the LCD and update the state with the result, but at this point we still get the old shares
       setTimeout(async () => {
-        dispatch(`updateDelegates`) //.then(() =>
-        // updateCommittedDelegations(
-        //   delegations,
-        //   commit
-        // )
-        // )
+        dispatch(`updateDelegates`)
       }, 5000)
-    },
-    async endUnbonding({ rootState, state, dispatch, commit }, validatorAddr) {
-      try {
-        await dispatch(`sendTx`, {
-          type: `updateDelegations`,
-          to: rootState.wallet.address, // TODO strange syntax
-          complete_unbondings: [
-            {
-              delegator_addr: rootState.wallet.address,
-              validator_addr: validatorAddr
-            }
-          ]
-        })
-
-        let balance = state.unbondingDelegations[validatorAddr].balance
-        commit(`setUnbondingDelegations`, {
-          validator_addr: validatorAddr,
-          balance: { amount: 0 }
-        })
-        commit(`notify`, {
-          title: `Ending undelegation successful`,
-          body: `You successfully undelegated ${balance.amount} ${
-            balance.denom
-          }s from ${validatorAddr}`
-        })
-      } catch (err) {
-        commit(`notifyError`, {
-          title: `Ending undelegation failed`,
-          body: err
-        })
-      }
     }
   }
 
@@ -253,12 +241,3 @@ export default ({ node }) => {
     actions
   }
 }
-// needed for optimistic updates, uncomment or delete this when that issue is addressed
-// function updateCommittedDelegations(delegations, commit) {
-//   for (let delegation of delegations) {
-//     commit("setCommittedDelegation", {
-//       candidateId: delegation.delegate.owner,
-//       value: delegation.atoms
-//     })
-//   }
-// }

@@ -6,6 +6,10 @@ const path = require(`path`)
 const webpack = require(`webpack`)
 
 let mainConfig = {
+  devtool:
+    process.env.NODE_ENV === `production`
+      ? `#source-map`
+      : `#inline-source-map`,
   entry: {
     main: path.join(__dirname, `app/src/main/index.js`)
   },

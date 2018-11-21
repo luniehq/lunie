@@ -2,12 +2,15 @@
 
 import BN from "bignumber.js"
 import { ratToBigNumber } from "scripts/common"
+import num from "scripts/num"
 import { isEmpty } from "lodash"
+import b32 from "scripts/b32"
 export default ({ node }) => {
   const emptyState = {
     delegates: [],
     globalPower: null,
-    loading: false
+    loading: false,
+    error: null
   }
   const state = JSON.parse(JSON.stringify(emptyState))
 
@@ -15,50 +18,40 @@ export default ({ node }) => {
     setDelegateLoading(state, loading) {
       state.loading = loading
     },
-    setDelegates(state, delegates) {
-      state.delegates = delegates
-
+    setDelegates(state, validators) {
       // update global power for quick access
-      state.globalPower = state.delegates
+      state.globalPower = validators
         .reduce((sum, validator) => {
           return sum.plus(ratToBigNumber(validator.tokens))
         }, new BN(0))
         .toNumber()
+
+      validators.forEach(validator => {
+        validator.id = validator.operator_address
+        validator.voting_power = ratToBigNumber(validator.tokens)
+        validator.percent_of_vote = num.percent(
+          validator.voting_power / state.globalPower
+        )
+      })
+      state.delegates = validators
     },
-    addDelegate(state, delegate) {
-      delegate.id = delegate.owner
-
-      // TODO: calculate voting power
-      let divIdx = delegate.tokens.indexOf(`/`)
-      let tokens
-      if (divIdx == -1) {
-        tokens = Number(delegate.tokens)
-      } else {
-        tokens =
-          Number(delegate.tokens.substring(0, divIdx)) /
-          Number(delegate.tokens.substring(divIdx + 1))
+    setSelfBond(
+      state,
+      {
+        validator: { operator_address },
+        ratio
       }
-      delegate.voting_power = tokens.toFixed(2)
-
-      // update if we already have this delegate
-      for (let existingDelegate of state.delegates) {
-        if (existingDelegate.id === delegate.id) {
-          Object.assign(existingDelegate, delegate)
-          return
-        }
-      }
-
-      state.delegates.push(delegate)
-    },
-    setSelfBond(state, { validator, ratio }) {
-      state.delegates.find(c => c.owner === validator.owner).selfBond = ratio
+    ) {
+      state.delegates.find(
+        validator => validator.operator_address === operator_address
+      ).selfBond = ratio
     }
   }
 
   const actions = {
-    reconnected({ state, dispatch }) {
+    async reconnected({ state, dispatch }) {
       if (state.loading) {
-        dispatch(`getDelegates`)
+        await dispatch(`getDelegates`)
       }
     },
     resetSessionData({ rootState }) {
@@ -66,42 +59,64 @@ export default ({ node }) => {
     },
     async updateSigningInfo({ commit }, validators) {
       for (let validator of validators) {
-        let signing_info = await node.queryValidatorSigningInfo(
-          validator.pub_key
-        )
-        if (!isEmpty(signing_info)) validator.signing_info = signing_info
-        commit(`addDelegate`, validator)
-      }
-    },
-    async getDelegates({ state, commit, dispatch }) {
-      commit(`setDelegateLoading`, true)
-      let candidates = await node.getCandidates()
-      let { validators } = await node.getValidatorSet()
-      for (let delegate of candidates) {
-        delegate.isValidator = false
-        if (validators.find(v => v.pub_key === delegate.pub_key)) {
-          delegate.isValidator = true
+        if (validator.consensus_pubkey) {
+          let signing_info = await node.queryValidatorSigningInfo(
+            validator.consensus_pubkey
+          )
+          if (!isEmpty(signing_info)) validator.signing_info = signing_info
         }
-        commit(`addDelegate`, delegate)
       }
+      commit(`setDelegates`, validators)
+    },
+    async getDelegates({ commit, dispatch }) {
+      commit(`setDelegateLoading`, true)
+      try {
+        let validators = await node.getCandidates()
+        let { validators: validatorSet } = await node.getValidatorSet()
+        state.error = null
 
-      commit(`setDelegates`, candidates)
-      commit(`setDelegateLoading`, false)
-      dispatch(`getKeybaseIdentities`, candidates)
-      dispatch(`updateSigningInfo`, candidates)
+        for (let validator of validators) {
+          validator.isValidator = false
+          if (validatorSet.find(v => v.pub_key === validator.pub_key)) {
+            validator.isValidator = true
+          }
+        }
+        // the tokens and shares are currently served in a weird format that is a amino representation of a float value
+        validators = validators.map(validator => {
+          return Object.assign(JSON.parse(JSON.stringify(validator)), {
+            tokens: validator.tokens,
+            delegator_shares: validator.delegator_shares
+          })
+        })
 
-      return state.delegates
+        commit(`setDelegates`, validators)
+        commit(`setDelegateLoading`, false)
+        dispatch(`getKeybaseIdentities`, validators)
+        dispatch(`updateSigningInfo`, validators)
+
+        return validators
+      } catch (err) {
+        commit(`notifyError`, {
+          title: `Error fetching validators`,
+          body: err.message
+        })
+        commit(`setDelegateLoading`, false)
+        state.error = err
+        return []
+      }
     },
     async getSelfBond({ commit }, validator) {
       if (validator.selfBond) return validator.selfBond
       else {
+        let hexAddr = b32.decode(validator.operator_address)
+        let operatorCosmosAddr = b32.encode(hexAddr, `cosmos`)
         let delegation = await node.queryDelegation(
-          validator.owner,
-          validator.owner
+          operatorCosmosAddr,
+          validator.operator_address
         )
-        let ratio = new BN(delegation.shares)
-          .div(ratToBigNumber(validator.delegator_shares))
-          .toNumber()
+        let ratio = new BN(delegation.shares).div(
+          ratToBigNumber(validator.delegator_shares)
+        )
 
         commit(`setSelfBond`, { validator, ratio })
         return ratio

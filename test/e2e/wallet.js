@@ -1,3 +1,5 @@
+"use strict"
+
 let test = require(`tape-promise/tape`)
 let { getApp, restart } = require(`./launch.js`)
 let {
@@ -12,8 +14,8 @@ let {
 console.log(addresses)
 
 /*
-* NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
-*/
+ * NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
+ */
 
 test(`wallet`, async function(t) {
   let { app, accounts } = await getApp(t)
@@ -41,7 +43,7 @@ test(`wallet`, async function(t) {
       await navigate(app, `Wallet`)
 
       await $(`#part-available-balances`)
-        .$(`.tm-li-dt=LOCAL_1TOKEN`)
+        .$(`.tm-li-dt=LOCALCOIN`)
         .$(`..`)
         .$(`..`)
         .click()
@@ -52,15 +54,15 @@ test(`wallet`, async function(t) {
     let sendBtn = () => $(`.tm-form-footer button`)
     let addressInput = () => $(`#send-address`)
     let amountInput = () => $(`#send-amount`)
-    let defaultBalance = 1000
-    t.test(`LOCAL_1TOKEN balance before sending`, async function(t) {
+    let defaultBalance = 1000.0
+    t.test(`LOCALCOIN balance before sending`, async function(t) {
       await app.client.waitForExist(
         `//span[contains(text(), "Send")]`,
-        15 * 1000
+        15 * defaultBalance
       )
 
-      let LOCAL_1TOKENEl = balanceEl(`LOCAL_1TOKEN`)
-      await waitForText(() => LOCAL_1TOKENEl, defaultBalance.toString())
+      let LOCALCOINEl = balanceEl(`LOCALCOIN`)
+      await waitForText(() => LOCALCOINEl, `1,000.0000000000`)
       t.end()
     })
 
@@ -155,8 +157,8 @@ test(`wallet`, async function(t) {
     t.test(`own balance updated`, async function(t) {
       await navigate(app, `Wallet`)
 
-      let mycoinEl = () => balanceEl(`LOCAL_1TOKEN`)
-      await waitForText(mycoinEl, (defaultBalance - 100).toString(), 10000)
+      let mycoinEl = () => balanceEl(`LOCALCOIN`)
+      await waitForText(mycoinEl, `900.0000000000`, 10000)
       t.pass(`balance is reduced by 100`)
       t.end()
     })
@@ -165,18 +167,18 @@ test(`wallet`, async function(t) {
   })
 
   t.test(`receive`, async function(t) {
-    t.test(`LOCAL_1TOKEN balance after receiving`, async function(t) {
+    t.test(`LOCALCOIN balance after receiving`, async function(t) {
       await restart(app)
       await login(app, `testreceiver`)
       await navigate(app, `Wallet`)
 
-      let LOCAL_1TOKENEl = () => balanceEl(`LOCAL_1TOKEN`)
+      let LOCALCOINEl = () => balanceEl(`LOCALCOIN`)
       await app.client.waitForExist(
         `//span[contains(text(), "Send")]`,
         15 * 1000
       )
 
-      await waitForText(LOCAL_1TOKENEl, `100`, 5000)
+      await waitForText(LOCALCOINEl, `100.0000000000`, 5000)
       t.pass(`received mycoin transaction`)
       t.end()
     })

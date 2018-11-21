@@ -1,33 +1,54 @@
 import setup from "../../../helpers/vuex-setup"
+import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 import LiValidator from "renderer/components/staking/LiValidator"
 
 describe(`LiValidator`, () => {
-  let wrapper, store, validator
-  let instance = setup()
+  let wrapper, store
+  let { mount } = setup()
 
-  beforeEach(async () => {
-    let test = instance.mount(LiValidator, {
+  beforeEach(() => {
+    let instance = mount(LiValidator, {
       propsData: {
         validator: {
           id: `abc`,
-          description: {}
+          pub_key: `cosmosvalpub12345`,
+          operator_address: lcdClientMock.validators[1],
+          tokens: `190000000000`,
+          delegator_shares: `190000000000`,
+          description: {
+            details: `Herr Schmidt`,
+            website: `www.schmidt.de`,
+            moniker: `herr_schmidt_revoked`,
+            country: `DE`
+          },
+          revoked: false,
+          status: 2,
+          bond_height: `0`,
+          bond_intra_tx_counter: 6,
+          proposer_reward_pool: null,
+          commission: {
+            rate: `0.05`,
+            max_rate: `0.1`,
+            max_change_rate: `0.005`,
+            update_time: `1970-01-01T00:00:00Z`
+          },
+          prev_bonded_shares: `0`,
+          voting_power: `10`,
+          percent_of_vote: `22%`,
+          signing_info: {
+            start_height: 0,
+            index_offset: 465400,
+            jailed_until: `1970-01-01T00:00:00Z`,
+            signed_blocks_counter: 9878
+          }
         }
       }
     })
-    wrapper = test.wrapper
-    store = test.store
+    wrapper = instance.wrapper
+    store = instance.store
 
-    store.commit(`setAtoms`, 1337)
-    await store.dispatch(`getDelegates`)
-    validator = store.state.delegates.delegates[0]
-    validator.percent_of_vote = `22%`
-    validator.signing_info = {
-      start_height: 0,
-      index_offset: 465400,
-      jailed_until: `1970-01-01T00:00:00Z`,
-      signed_blocks_counter: 9878
-    }
-    wrapper.setData({ validator })
+    store.state.delegates.globalPower = 9000
+    wrapper.update()
   })
 
   it(`has the expected html structure`, () => {
@@ -57,17 +78,36 @@ describe(`LiValidator`, () => {
       voting_power: 0
     }
     expect(wrapper.vm.status).toBe(
-      `This validator has declared candidacy but does not have enough voting power yet`
+      `This validator does not have enough voting power yet and is inactive`
     )
+  })
+
+  it(`should show the validator status with color`, () => {
+    expect(wrapper.vm.statusColor).toBe(`green`)
+    // Jailed
+    wrapper.vm.validator = {
+      revoked: true
+    }
+    expect(wrapper.vm.statusColor).toBe(`red`)
+    // Is not a validator
+    wrapper.vm.validator = {
+      voting_power: 0
+    }
+    expect(wrapper.vm.statusColor).toBe(`yellow`)
   })
 
   it(`should show the validator's uptime`, () => {
     expect(wrapper.vm.uptime).toBe(`98.78%`)
     expect(wrapper.html()).toContain(`98.78%`)
+
+    wrapper.vm.validator.signing_info = null
+    wrapper.update()
+
+    expect(wrapper.vm.uptime).toBe(`n/a`)
   })
 
-  it(`should show the validator's comission`, () => {
-    expect(wrapper.html()).toContain(`0%`)
+  it(`should show the validator's commission`, () => {
+    expect(wrapper.html()).toContain(wrapper.vm.validator.commission.rate)
   })
 
   it(`should show the type of the candidate`, () => {

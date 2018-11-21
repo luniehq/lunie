@@ -10,14 +10,16 @@ exports[`Module: Delegations fetches current undelegations 1`] = `
 Object {
   "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au": Object {
     "balance": Object {
-      "amount": "356.00000000",
+      "amount": "356.0000000000",
     },
+    "creation_height": undefined,
     "min_time": undefined,
   },
   "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw": Object {
     "balance": Object {
-      "amount": "113.00000000",
+      "amount": "113.0000000000",
     },
+    "creation_height": undefined,
     "min_time": undefined,
   },
 }
@@ -29,17 +31,22 @@ exports[`Module: Delegations submits delegation transaction 1`] = `
 Array [
   Array [
     Object {
-      "account_number": "1",
+      "base_req": Object {
+        "account_number": "1",
+        "chain_id": "test-chain",
+        "name": "default",
+        "password": "bar",
+        "sequence": "1",
+      },
       "begin_redelegates": undefined,
       "begin_unbondings": undefined,
-      "chain_id": "test-chain",
       "delegations": Array [
         Object {
           "delegation": Object {
             "amount": "109",
             "denom": "steak",
           },
-          "delegator_addr": "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+          "delegator_addr": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
           "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
         },
         Object {
@@ -47,14 +54,11 @@ Array [
             "amount": "456",
             "denom": "steak",
           },
-          "delegator_addr": "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+          "delegator_addr": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
           "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
         },
       ],
       "gas": "50000000",
-      "name": "default",
-      "password": "bar",
-      "sequence": "1",
     },
   ],
 ]
@@ -64,26 +68,28 @@ exports[`Module: Delegations submits undelegation transaction 1`] = `
 Array [
   Array [
     Object {
-      "account_number": "1",
+      "base_req": Object {
+        "account_number": "1",
+        "chain_id": "test-chain",
+        "name": "default",
+        "password": "bar",
+        "sequence": "3",
+      },
       "begin_redelegates": undefined,
       "begin_unbondings": Array [
         Object {
-          "delegator_addr": "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-          "shares": "113.00000000",
+          "delegator_addr": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+          "shares": "113.0000000000",
           "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
         },
         Object {
-          "delegator_addr": "cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-          "shares": "356.00000000",
+          "delegator_addr": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+          "shares": "356.0000000000",
           "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
         },
       ],
-      "chain_id": "test-chain",
       "delegations": undefined,
       "gas": "50000000",
-      "name": "default",
-      "password": "bar",
-      "sequence": "3",
     },
   ],
 ]

@@ -32,15 +32,16 @@ describe(`PanelSort`, () => {
 
   it(`should show an arrow according to ordering`, () => {
     let firstCol = wrapper.vm.$el.querySelector(`.sort-by`)
+    let link = wrapper.vm.$el.querySelector(`.sort-by-link`)
     expect(firstCol.className.split(` `)).not.toContain(`asc`)
     expect(firstCol.className.split(` `)).not.toContain(`desc`)
-    firstCol.click()
+    link.click()
     expect(firstCol.className.split(` `)).not.toContain(`desc`)
     expect(firstCol.className.split(` `)).toContain(`asc`)
-    firstCol.click()
+    link.click()
     expect(firstCol.className.split(` `)).not.toContain(`asc`)
     expect(firstCol.className.split(` `)).toContain(`desc`)
-    firstCol.click()
+    link.click()
     expect(firstCol.className.split(` `)).toContain(`asc`)
     expect(firstCol.className.split(` `)).not.toContain(`desc`)
   })
@@ -48,8 +49,10 @@ describe(`PanelSort`, () => {
   it(`should only sort one col actively`, () => {
     let firstCol = wrapper.vm.$el.querySelectorAll(`.sort-by`)[0]
     let secondCol = wrapper.vm.$el.querySelectorAll(`.sort-by`)[1]
-    firstCol.click()
-    secondCol.click()
+    let firstLink = wrapper.vm.$el.querySelectorAll(`.sort-by-link`)[0]
+    let secondLink = wrapper.vm.$el.querySelectorAll(`.sort-by-link`)[1]
+    firstLink.click()
+    secondLink.click()
     expect(firstCol.className.split(` `)).not.toContain(`asc`)
     expect(secondCol.className.split(` `)).toContain(`asc`)
   })

@@ -1,87 +1,83 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`LiValidator has the expected html structure 1`] = `
-<li
-  class="li-validator li-validator-validator "
+<tr
+  class="li-validator"
 >
-  <a
-    class=""
-    href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+  <td
+    class="li-validator__moniker-container"
   >
+    <img
+      class="li-validator__avatar no-img"
+      height="48"
+      src="~assets/images/validator-icon.svg"
+      width="48"
+    />
     <div
-      class="li-validator__value name"
+      class="li-validator__name-container"
     >
       <span
         class="validator-profile__status green"
       />
-      <img
-        class="avatar"
-        height="48"
-        src="~assets/images/validator-icon.svg"
-        width="48"
-      />
+      <a
+        class="li-validator__moniker"
+        href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+      >
+        herr_schmidt_revoked
+      </a>
       <div
-        class="vert"
+        class="short-bech32 li-validator__address"
       >
         <div
-          class="top"
+          class="address"
+          id="address"
         >
-          mr_mounty
+          cosmosvaladdr…n3au
         </div>
         <div
-          class="bottom"
+          class="copied"
         >
-          cosmosvaladdr…8yqw
+          <i
+            class="material-icons"
+          >
+            check
+          </i>
+          <span>
+            Copied
+          </span>
         </div>
       </div>
     </div>
-    <div
-      class="li-validator__value your-votes"
-    >
-      <span>
-        0.00
-      </span>
-    </div>
-    <div
-      class="li-validator__value your-rewards"
-    >
-      <span>
-        n/a
-      </span>
-    </div>
-    <div
-      class="li-validator__break"
-    >
-      <span />
-    </div>
-    <div
-      class="li-validator__value percent_of_vote"
-    >
-      <span>
-        22%
-      </span>
-    </div>
-    <div
-      class="li-validator__value uptime"
-    >
-      <span>
-        98.78%
-      </span>
-    </div>
-    <div
-      class="li-validator__value commission"
-    >
-      <span>
-        0.00%
-      </span>
-    </div>
-    <div
-      class="li-validator__value slashes"
-    >
-      <span>
-        n/a
-      </span>
-    </div>
-  </a>
-</li>
+  </td>
+  <td
+    class="li-validator__delegated-steak"
+  >
+    0.0000…
+  </td>
+  <td
+    class="li-validator__rewards"
+  >
+    n/a
+  </td>
+  <td
+    class="li-validator__voting-power"
+  >
+    22%
+  </td>
+  <td
+    class="li-validator__uptime"
+  >
+    98.78%
+  </td>
+  <td
+    class="li-validator__commission"
+  >
+    0.05%
+  </td>
+  <td
+    class="li-validator__slashes"
+  >
+    n/a
+  </td>
+</tr>
 `;

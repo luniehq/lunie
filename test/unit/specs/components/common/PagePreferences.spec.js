@@ -66,20 +66,35 @@ describe(`PagePreferences`, () => {
     expect(wrapper.find(`#onboarding`)).toBeDefined()
   })
 
-  it(`switches mocked mode`, () => {
-    wrapper.vm.networkSelectActive = `mock`
-    wrapper.vm.setMockedConnector()
-    expect(wrapper.vm.mockedConnector).toBe(true)
-    expect(store.dispatch).toHaveBeenCalledWith(`setMockedConnector`, true)
+  describe(`Select network to connect to`, () => {
+    it(`Live Testnet`, () => {
+      const instance = {
+        networkSelectActive: `live`,
+        $store: {
+          dispatch: jest.fn()
+        }
+      }
 
-    wrapper.vm.networkSelectActive = `live`
-    wrapper.vm.setMockedConnector()
-    expect(wrapper.vm.mockedConnector).toBe(false)
-    expect(store.dispatch).toHaveBeenCalledWith(`setMockedConnector`, true)
+      PagePreferences.methods.setMockedConnector.call(instance)
 
-    // dont update without switch
-    wrapper.vm.setMockedConnector()
-    expect(wrapper.vm.mockedConnector).toBe(false)
+      expect(instance.$store.dispatch.mock.calls).toEqual([
+        [`setMockedConnector`, false]
+      ])
+    })
+    it(`Offline Mode`, () => {
+      const instance = {
+        networkSelectActive: `mock`,
+        $store: {
+          dispatch: jest.fn()
+        }
+      }
+
+      PagePreferences.methods.setMockedConnector.call(instance)
+
+      expect(instance.$store.dispatch.mock.calls).toEqual([
+        [`setMockedConnector`, true]
+      ])
+    })
   })
 
   it(`switches mocked mode again`, async () => {

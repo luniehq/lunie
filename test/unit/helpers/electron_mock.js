@@ -1,7 +1,14 @@
+"use strict"
+
 // this mocks the IPC layer and isolates the mainthread from the renderer thread in tests
 jest.mock(`electron`, () => ({
   clipboard: { writeText: jest.fn() },
-  ipcRenderer: { send: jest.fn(), once: jest.fn(), on: jest.fn() },
+  ipcRenderer: {
+    send: jest.fn(),
+    once: jest.fn(),
+    on: jest.fn(),
+    removeAllListeners: jest.fn()
+  },
   ipcMain: { on: jest.fn() },
   remote: {
     getGlobal(name) {

@@ -1,5 +1,6 @@
 import setup from "../../helpers/vuex-setup"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+import delegationModule from "renderer/vuex/modules/delegation.js"
 
 let instance = setup()
 
@@ -137,7 +138,7 @@ describe(`Module: Delegations`, () => {
   it(`should query delegated atoms on reconnection`, () => {
     jest.resetModules()
     let axios = require(`axios`)
-    store.state.node.stopConnecting = true
+    store.state.connection.stopConnecting = true
     store.state.delegation.loading = true
     jest.spyOn(axios, `get`)
     store.dispatch(`reconnected`)
@@ -147,7 +148,7 @@ describe(`Module: Delegations`, () => {
   it(`should not query delegated atoms on reconnection if not stuck in loading`, () => {
     jest.resetModules()
     let axios = require(`axios`)
-    store.state.node.stopConnecting = true
+    store.state.connection.stopConnecting = true
     store.state.delegation.loading = false
     jest.spyOn(axios, `get`)
     store.dispatch(`reconnected`)
@@ -159,7 +160,7 @@ describe(`Module: Delegations`, () => {
     let resolveDelegationRequest
 
     // mock returning some delegations
-    node.getDelegator = () =>
+    node.getDelegations = () =>
       new Promise(resolve => {
         resolveDelegationRequest = () =>
           resolve({
@@ -199,7 +200,7 @@ describe(`Module: Delegations`, () => {
     stakingTransactions.unbondings = [
       {
         validator: {
-          owner: lcdClientMock.validators[0],
+          operator_address: lcdClientMock.validators[0],
           delegator_shares: `100`,
           tokens: `100`
         },
@@ -217,10 +218,6 @@ describe(`Module: Delegations`, () => {
     expect(
       store.state.delegation.unbondingDelegations[lcdClientMock.validators[0]]
     ).toBeTruthy()
-    await store.dispatch(`endUnbonding`, lcdClientMock.validators[0])
-    expect(
-      store.state.delegation.unbondingDelegations[lcdClientMock.validators[0]]
-    ).toBeFalsy()
   })
 
   it(`should remove dead delegations and undelegations`, async () => {
@@ -254,5 +251,118 @@ describe(`Module: Delegations`, () => {
     store.state.delegation.committedDelegates = {}
     await store.dispatch(`updateDelegates`)
     expect(store.state.delegation.committedDelegates).toBeTruthy()
+  })
+
+  it(`should update the atoms on a delegation optimistically`, async () => {
+    const commit = jest.fn()
+    const delegates = store.state.delegates.delegates
+    let stakingTransactions = {}
+    stakingTransactions.delegations = [
+      {
+        validator: delegates[0],
+        atoms: 109
+      },
+      {
+        validator: delegates[1],
+        atoms: 456
+      }
+    ]
+    let committedDelegates = {
+      [delegates[0].operator_address]: 10,
+      [delegates[1].operator_address]: 50
+    }
+
+    await delegationModule({}).actions.submitDelegation(
+      {
+        rootState: {
+          config: {
+            bondingDenom: `atom`
+          },
+          user: {
+            atoms: 1000
+          },
+          wallet: {}
+        },
+        state: {
+          committedDelegates
+        },
+        dispatch: () => {},
+        commit
+      },
+      { stakingTransactions }
+    )
+
+    expect(commit).toHaveBeenCalledWith(`setAtoms`, 435)
+    expect(committedDelegates).toEqual({
+      [delegates[0].operator_address]: 119,
+      [delegates[1].operator_address]: 506
+    })
+  })
+
+  it(`should update updateDelegates after delegation`, async () => {
+    jest.useFakeTimers()
+    let stakingTransactions = {}
+    stakingTransactions.unbondings = [
+      {
+        validator: {
+          operator_address: lcdClientMock.validators[0],
+          delegator_shares: `100`,
+          tokens: `100`
+        },
+        balance: {
+          amount: `100`
+        }
+      }
+    ]
+    jest.spyOn(store._actions.updateDelegates, `0`)
+
+    await store.dispatch(`submitDelegation`, { stakingTransactions })
+    jest.runAllTimers()
+    expect(store._actions.updateDelegates[0].mock.calls).toHaveLength(1)
+  })
+
+  it(`should store an error if failed to load delegations`, async () => {
+    const node = lcdClientMock
+    const { state, actions } = delegationModule({ node })
+    jest
+      .spyOn(node, `getDelegations`)
+      .mockImplementationOnce(async () => Promise.reject(`Error`))
+    await actions.getBondedDelegates({
+      state,
+      rootState: { user: { address: `x` } },
+      commit: jest.fn(),
+      dispatch: jest.fn()
+    })
+    expect(state.error).toBe(`Error`)
+  })
+
+  it(`should store an error if failed to load undelegations`, async () => {
+    const node = lcdClientMock
+    const { state, actions } = delegationModule({ node })
+    jest
+      .spyOn(node, `getUndelegations`)
+      .mockImplementationOnce(async () => Promise.reject(`Error`))
+    await actions.getBondedDelegates({
+      state,
+      rootState: { user: { address: `x` } },
+      commit: jest.fn(),
+      dispatch: jest.fn()
+    })
+    expect(state.error).toBe(`Error`)
+  })
+
+  it(`should store an error if failed to load redelegations`, async () => {
+    const node = lcdClientMock
+    const { state, actions } = delegationModule({ node })
+    jest
+      .spyOn(node, `getRedelegations`)
+      .mockImplementationOnce(async () => Promise.reject(`Error`))
+    await actions.getBondedDelegates({
+      state,
+      rootState: { user: { address: `x` } },
+      commit: jest.fn(),
+      dispatch: jest.fn()
+    })
+    expect(state.error).toBe(`Error`)
   })
 })

@@ -219,20 +219,16 @@ describe(`PageSend`, () => {
     node.sign = () => Promise.reject()
     await wrapper.vm.onApproved()
     expect(store.state.notifications.length).toBe(1)
-    expect(store.state.notifications[0].title).toBe(`Error Sending`)
+    expect(store.state.notifications[0].title).toBe(`Error Sending transaction`)
     expect(store.state.notifications[0]).toMatchSnapshot()
   })
 
   it(`validates bech32 addresses`, () => {
     expect(
-      wrapper.vm.bech32Validate(
-        `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
-      )
+      wrapper.vm.bech32Validate(`cosmos1x7wzdumfj8pncd99mqc0mkqfrrps3l3pjz8tk6`)
     ).toBe(true)
     expect(
-      wrapper.vm.bech32Validate(
-        `cosmosaccaddr15ky9du8a2wlstz6fpx3p4mqprm5ctpesxxn9`
-      )
+      wrapper.vm.bech32Validate(`cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`)
     ).toBe(false)
   })
 
