@@ -11,7 +11,9 @@ describe(`PageTransactions`, () => {
       stubs: {
         "tm-li-any-transaction": `<tm-li-any-transaction />`,
         "tm-li-staking-transaction": `<tm-li-staking-transaction />`,
-        "data-empty-tx": `<data-empty-tx />`
+        "data-empty-tx": `<data-empty-tx />`,
+        "data-empty-search": `<data-empty-search />`,
+        "tm-data-error": `<tm-data-error />`
       },
       methods: {
         refreshTransactions: jest.fn() // we don't want to call getAllTxs on mount
@@ -99,6 +101,7 @@ describe(`PageTransactions`, () => {
     store.commit(`setGovernanceTxs`, [])
     wrapper.update()
     expect(wrapper.contains(`data-empty-tx`)).toBe(true)
+    expect(wrapper.contains(`data-empty-search`)).toBe(false)
   })
 
   it(`should not show search when there is nothing to search`, () => {
