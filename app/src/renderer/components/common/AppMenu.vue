@@ -1,28 +1,40 @@
-<template lang="pug">
-menu.app-menu
-  .app-menu-main
-    tm-list-item#app-menu__wallet(
-      to="/"
-      exact
-      @click.native="close"
-      title="Wallet")
-    tm-list-item#app-menu__transactions(
-      to="/wallet/transactions"
-      exact
-      @click.native="close"
-      title="Transactions"
-      v-if="config.devMode || mockedConnector")
-    tm-list-item#app-menu__staking(
-      to="/staking"
-      exact
-      @click.native="close" title="Staking"
-      v-bind:class="{ 'active': isValidatorPage }")
-    tm-list-item#app-menu__proposals(
-      to="/governance"
-      exact @click.native="close"
-      title="Governance"
-      v-if="config.devMode || mockedConnector")
-  connected-network
+<template>
+  <menu class="app-menu">
+    <div class="app-menu-main">
+      <tm-list-item
+        id="app-menu__wallet"
+        to="/"
+        exact="exact"
+        @click.native="close"
+        title="Wallet"
+      ></tm-list-item>
+      <tm-list-item
+        id="app-menu__transactions"
+        to="/wallet/transactions"
+        exact="exact"
+        @click.native="close"
+        title="Transactions"
+        v-if="config.devMode || mockedConnector"
+      ></tm-list-item>
+      <tm-list-item
+        id="app-menu__staking"
+        to="/staking"
+        exact="exact"
+        @click.native="close"
+        title="Staking"
+        v-bind:class="{ active: isValidatorPage }"
+      ></tm-list-item>
+      <tm-list-item
+        id="app-menu__proposals"
+        to="/governance"
+        exact="exact"
+        @click.native="close"
+        title="Governance"
+        v-if="config.devMode || mockedConnector"
+      ></tm-list-item>
+    </div>
+    <connected-network></connected-network>
+  </menu>
 </template>
 
 <script>

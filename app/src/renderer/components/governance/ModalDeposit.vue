@@ -1,39 +1,50 @@
-<template lang="pug">
-  .modal-deposit#modal-deposit(v-click-outside="close")
-    .modal-deposit-header
-      img.icon(class='modal-deposit-atom' src="~assets/images/cosmos-logo.png")
-      span.tm-modal-title Deposit
-      .tm-modal-icon.tm-modal-close#closeBtn(@click="close()")
-        i.material-icons close
-
-    div
-      h2 Title: {{ proposalTitle }}
-      h3 Proposal ID: {{ `#` + proposalId }}
-
-    tm-form-group.modal-deposit-form-group(
-      field-id='amount'
-      field-label='Amount'
-    )
-      tm-field#denom(
+<template>
+  <div class="modal-deposit" id="modal-deposit" v-click-outside="close">
+    <div class="modal-deposit-header">
+      <img
+        class="icon modal-deposit-atom"
+        src="~assets/images/cosmos-logo.png"
+      /><span class="tm-modal-title">Deposit</span>
+      <div class="tm-modal-icon tm-modal-close" id="closeBtn" @click="close()">
+        <i class="material-icons">close</i>
+      </div>
+    </div>
+    <div>
+      <h2>Title: {{ proposalTitle }}</h2>
+      <h3>Proposal ID: {{ `#` + proposalId }}</h3>
+    </div>
+    <tm-form-group
+      class="modal-deposit-form-group"
+      field-id="amount"
+      field-label="Amount"
+    >
+      <tm-field
+        id="denom"
         type="text"
         :placeholder="denom"
-        readonly)
-
-      tm-field#amount(
+        readonly="readonly"
+      ></tm-field>
+      <tm-field
+        id="amount"
         type="number"
         :max="balance"
         :min="0"
         step="any"
         v-model="amount"
-        v-focus)
-
-    .modal-deposit-footer
-      tm-btn#submit-deposit(
+        v-focus="v - focus"
+      ></tm-field>
+    </tm-form-group>
+    <div class="modal-deposit-footer">
+      <tm-btn
+        id="submit-deposit"
         @click.native="onDeposit"
         :disabled="$v.amount.$invalid"
         color="primary"
         value="Deposit"
-        size="lg")
+        size="lg"
+      ></tm-btn>
+    </div>
+  </div>
 </template>
 
 <script>

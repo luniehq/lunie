@@ -1,40 +1,53 @@
-<template lang="pug">
-  .undelegation-modal#undelegation-modal(v-click-outside="close")
-    .undelegation-modal-header
-      img.icon(class='undelegation-modal-atom' src="~assets/images/cosmos-logo.png")
-      span.tm-modal-title Undelegate
-      .tm-modal-icon.tm-modal-close(@click="close()")
-        i.material-icons close
-
-    tm-form-group.undelegation-modal-form-group(
-      field-label='Amount'
-    )
-      tm-field#denom(
+<template>
+  <div
+    class="undelegation-modal"
+    id="undelegation-modal"
+    v-click-outside="close"
+  >
+    <div class="undelegation-modal-header">
+      <img
+        class="icon undelegation-modal-atom"
+        src="~assets/images/cosmos-logo.png"
+      /><span class="tm-modal-title">Undelegate</span>
+      <div class="tm-modal-icon tm-modal-close" @click="close()">
+        <i class="material-icons">close</i>
+      </div>
+    </div>
+    <tm-form-group class="undelegation-modal-form-group" field-label="Amount">
+      <tm-field
+        id="denom"
         type="text"
         :placeholder="bondingDenom"
-        readonly)
-
-      tm-field#amount(
+        readonly="readonly"
+      ></tm-field>
+      <tm-field
+        id="amount"
         :max="maximum"
         :min="0"
         step="any"
         type="number"
         v-model="amount"
-        v-focus)
-
-    //- To
-    tm-form-group.undelegation-modal-form-group(
-      field-id='to' field-label='To')
-      tm-field#to(readonly v-model="to")
-
-    //- Footer
-    .undelegation-modal-footer
-      tm-btn#submit-undelegation(
+        v-focus="v - focus"
+      ></tm-field>
+    </tm-form-group>
+    <tm-form-group
+      class="undelegation-modal-form-group"
+      field-id="to"
+      field-label="To"
+    >
+      <tm-field id="to" readonly="readonly" v-model="to"></tm-field>
+    </tm-form-group>
+    <div class="undelegation-modal-footer">
+      <tm-btn
+        id="submit-undelegation"
         @click.native="onUndelegate"
         :disabled="$v.amount.$invalid"
         color="primary"
         value="Undelegate"
-        size="lg")
+        size="lg"
+      ></tm-btn>
+    </div>
+  </div>
 </template>
 
 <script>

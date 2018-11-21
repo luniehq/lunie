@@ -1,52 +1,64 @@
-<template lang="pug">
-  .modal-vote#modal-vote(v-click-outside="close")
-    .modal-vote-header
-      img.icon(class='modal-vote-atom' src="~assets/images/cosmos-logo.png")
-      span.tm-modal-title Vote
-      .tm-modal-icon.tm-modal-close#closeBtn(@click="close()")
-        i.material-icons close
-
-    div
-      h2 Title: {{ proposalTitle }}
-      h3 Proposal ID: {{ `#` + proposalId }}
-
-    tm-form-group.modal-vote-form-group.options
-      tm-btn#vote-yes(
+<template>
+  <div class="modal-vote" id="modal-vote" v-click-outside="close">
+    <div class="modal-vote-header">
+      <img
+        class="icon modal-vote-atom"
+        src="~assets/images/cosmos-logo.png"
+      /><span class="tm-modal-title">Vote</span>
+      <div class="tm-modal-icon tm-modal-close" id="closeBtn" @click="close()">
+        <i class="material-icons">close</i>
+      </div>
+    </div>
+    <div>
+      <h2>Title: {{ proposalTitle }}</h2>
+      <h3>Proposal ID: {{ `#` + proposalId }}</h3>
+    </div>
+    <tm-form-group class="modal-vote-form-group options">
+      <tm-btn
+        id="vote-yes"
         @click.native="vote('Yes')"
-        :class="[option ===  `Yes` ? 'active' : '']"
+        :class="[option === `Yes` ? 'active' : '']"
         color="secondary"
         value="Yes"
-        size="md")
-
-      tm-btn#vote-no(
+        size="md"
+      ></tm-btn>
+      <tm-btn
+        id="vote-no"
         @click.native="vote('No')"
         :class="[option === `No` ? 'active' : '']"
         color="secondary"
         value="No"
-        size="md")
-
-      tm-btn#vote-veto(
+        size="md"
+      ></tm-btn>
+      <tm-btn
+        id="vote-veto"
         @click.native="vote('NoWithVeto')"
         :class="[option === `NoWithVeto` ? 'active' : '']"
         color="secondary"
         value="No With Veto"
-        size="md")
-
-      tm-btn#vote-abstain(
+        size="md"
+      ></tm-btn>
+      <tm-btn
+        id="vote-abstain"
         @click.native="vote('Abstain')"
         :class="[option === `Abstain` ? 'active' : '']"
         color="secondary"
         value="Abstain"
-        size="md")
-
-    tm-form-group.modal-vote-form-group
-    .modal-vote-footer
-      tm-btn#cast-vote(
+        size="md"
+      ></tm-btn>
+    </tm-form-group>
+    <tm-form-group class="modal-vote-form-group"></tm-form-group>
+    <div class="modal-vote-footer">
+      <tm-btn
+        id="cast-vote"
         @click.native="onVote"
         :disabled="$v.option.$invalid"
         color="primary"
         value="Vote"
-        size="lg")
+        size="lg"
+      ></tm-btn>
+    </div>
+  </div>
 </template>
 
 <script>

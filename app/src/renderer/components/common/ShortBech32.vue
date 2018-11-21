@@ -1,9 +1,17 @@
-<template lang="pug">
-.short-bech32
-  .address(@click.prevent.stop="copy" v-tooltip.top="address")#address {{ shortBech32 }}
-  .copied(:class="{active:showSuccess}")
-    i.material-icons check
-    span Copied
+<template>
+  <div class="short-bech32">
+    <div
+      class="address"
+      @click.prevent.stop="copy"
+      v-tooltip.top="address"
+      id="address"
+    >
+      {{ shortBech32 }}
+    </div>
+    <div class="copied" :class="{ active: showSuccess }">
+      <i class="material-icons">check</i><span>Copied</span>
+    </div>
+  </div>
 </template>
 
 <script>

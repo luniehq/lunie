@@ -1,11 +1,13 @@
-<template lang="pug">
-tm-list-item.tm-li-user(
-  v-if="user.signedIn"
-  type="link"
-  to="/preferences"
-  @click.native="close"
-  title="Preferences"
-  :subtitle="user.account")
+<template>
+  <tm-list-item
+    class="tm-li-user"
+    v-if="user.signedIn"
+    type="link"
+    to="/preferences"
+    @click.native="close"
+    title="Preferences"
+    :subtitle="user.account"
+  ></tm-list-item>
 </template>
 
 <script>

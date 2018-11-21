@@ -1,29 +1,44 @@
-<template lang="pug">
-tm-page(data-title='Transactions')
-  template(slot="menu-body")
-    tm-balance
-    vm-tool-bar
-      a(@click='connected && refreshTransactions()' v-tooltip.bottom="'Refresh'" :disabled="!connected")
-        i.material-icons refresh
-      a(@click='setSearch()' v-tooltip.bottom="'Search'" :disabled="!somethingToSearch")
-        i.material-icons search
-
-  modal-search(type="transactions" v-if="somethingToSearch")
-
-  tm-data-loading(v-if="transactions.loading")
-  tm-data-error(v-if="!transactions.loading && transactions.error")
-  data-empty-tx(v-if='!transactions.loading && allTransactions.length === 0 && !transactions.error')
-  data-empty-search(v-if="!transactions.loading && !transactions.error && filteredTransactions.length === 0")
-
-  template(v-else v-for="(tx, i) in filteredTransactions")
-    tm-li-any-transaction(
-      :validators="delegates.delegates"
-      :validatorURL='validatorURL'
-      :proposalsURL='proposalsURL'
-      :key="shortid.generate()"
-      :transaction="tx"
-      :address="wallet.address"
-      :bondingDenom="bondingDenom")
+<template>
+  <tm-page data-title="Transactions"
+    ><template slot="menu-body">
+      <tm-balance></tm-balance>
+      <vm-tool-bar
+        ><a
+          @click="connected &amp;&amp; refreshTransactions()"
+          v-tooltip.bottom="'Refresh'"
+          :disabled="!connected"
+          ><i class="material-icons">refresh</i></a
+        ><a
+          @click="setSearch()"
+          v-tooltip.bottom="'Search'"
+          :disabled="!somethingToSearch"
+          ><i class="material-icons">search</i></a
+        ></vm-tool-bar
+      >
+    </template>
+    <modal-search type="transactions" v-if="somethingToSearch"></modal-search>
+    <tm-data-loading v-if="transactions.loading"></tm-data-loading>
+    <tm-data-error
+      v-if="!transactions.loading &amp;&amp; transactions.error"
+    ></tm-data-error>
+    <data-empty-tx
+      v-if="!transactions.loading &amp;&amp; allTransactions.length === 0 &amp;&amp; !transactions.error"
+    ></data-empty-tx>
+    <data-empty-search
+      v-if="!transactions.loading &amp;&amp; !transactions.error &amp;&amp; filteredTransactions.length === 0"
+    ></data-empty-search
+    ><template v-else="v-else" v-for="(tx, i) in filteredTransactions">
+      <tm-li-any-transaction
+        :validators="delegates.delegates"
+        :validatorURL="validatorURL"
+        :proposalsURL="proposalsURL"
+        :key="shortid.generate()"
+        :transaction="tx"
+        :address="wallet.address"
+        :bondingDenom="bondingDenom"
+      ></tm-li-any-transaction>
+    </template>
+  </tm-page>
 </template>
 
 <script>

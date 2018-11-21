@@ -1,8 +1,8 @@
-<template lang="pug">
-.tm-li-copy
-  .value {{ value }}
-  menu
-    btn-copy(:value='value')
+<template>
+  <div class="tm-li-copy">
+    <div class="value">{{ value }}</div>
+    <menu> <btn-copy :value="value"></btn-copy> </menu>
+  </div>
 </template>
 
 <script>

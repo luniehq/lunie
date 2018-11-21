@@ -1,14 +1,25 @@
-<template lang="pug">
-  .tm-tool-bar
-    a.back(@click="back" :disabled="user.history.length === 0" v-tooltip.bottom="'Back'")
-      i.material-icons arrow_back
-    slot
-    a.help(@click="enableModalHelp" v-tooltip.bottom="'Help'")
-      i.material-icons help_outline
-    router-link#settings(to="/preferences" v-tooltip.bottom="'Preferences'")
-      i.material-icons settings
-    a#signOut-btn(@click="signOut" v-tooltip.bottom.end="'Sign Out'")
-      i.material-icons exit_to_app
+<template>
+  <div class="tm-tool-bar">
+    <a
+      class="back"
+      @click="back"
+      :disabled="user.history.length === 0"
+      v-tooltip.bottom="'Back'"
+      ><i class="material-icons">arrow_back</i></a
+    >
+    <slot></slot
+    ><a class="help" @click="enableModalHelp" v-tooltip.bottom="'Help'"
+      ><i class="material-icons">help_outline</i></a
+    >
+    <router-link
+      id="settings"
+      to="/preferences"
+      v-tooltip.bottom="'Preferences'"
+      ><i class="material-icons">settings</i></router-link
+    ><a id="signOut-btn" @click="signOut" v-tooltip.bottom.end="'Sign Out'"
+      ><i class="material-icons">exit_to_app</i></a
+    >
+  </div>
 </template>
 
 <script>

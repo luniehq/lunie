@@ -1,5 +1,5 @@
-<template lang="pug">
-.text-block(v-html="htmlContent")
+<template>
+  <div class="text-block" v-html="htmlContent"></div>
 </template>
 
 <script>

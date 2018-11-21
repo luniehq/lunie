@@ -1,7 +1,10 @@
-<template lang="pug">
-.tm-hardware-state
-  i.tm-hardware-state__icon.material-icons(:class="iconClass") {{ icon }}
-  .tm-hardware-state__label {{ value }}
+<template>
+  <div class="tm-hardware-state">
+    <i class="tm-hardware-state__icon material-icons" :class="iconClass">{{
+      icon
+    }}</i>
+    <div class="tm-hardware-state__label">{{ value }}</div>
+  </div>
 </template>
 
 <script>

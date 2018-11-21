@@ -1,9 +1,18 @@
-<template lang="pug">
-tr.panel-sort-container
-  th.sort-by(
-    v-for="(property, i) in properties",
-    :class="property.class")
-      a.sort-by-link(v-tooltip.top="property.tooltip", @click="orderBy(property.value)") {{ property.title }}
+<template>
+  <tr class="panel-sort-container">
+    <th
+      class="sort-by"
+      v-for="(property, i) in properties"
+      :class="property.class"
+    >
+      <a
+        class="sort-by-link"
+        v-tooltip.top="property.tooltip"
+        @click="orderBy(property.value)"
+        >{{ property.title }}</a
+      >
+    </th>
+  </tr>
 </template>
 
 <script>

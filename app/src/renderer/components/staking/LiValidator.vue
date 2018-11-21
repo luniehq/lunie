@@ -1,18 +1,55 @@
-<template lang="pug">
-tr.li-validator
-  td.li-validator__moniker-container
-    img.li-validator__avatar(v-if="validator.keybase" :src="validator.keybase.avatarUrl" width="48" height="48")
-    img.li-validator__avatar.no-img(v-else src="~assets/images/validator-icon.svg" width="48" height="48")
-    .li-validator__name-container
-      span.validator-profile__status(v-bind:class="statusColor" v-tooltip.top="status")
-      router-link.li-validator__moniker(:to="{ name: 'validator', params: { validator: validator.operator_address }}", :class='styles') {{ validator.description.moniker }}
-      short-bech32.li-validator__address(:address="validator.operator_address")
-  td.li-validator__delegated-steak {{ yourVotes.isLessThan(0.01) && yourVotes.isGreaterThan(0) ? '< ' + num.shortNumber(0.01) : num.shortNumber(yourVotes) }}
-  td.li-validator__rewards n/a
-  td.li-validator__voting-power {{ validator.percent_of_vote ? validator.percent_of_vote : `n/a` }}
-  td.li-validator__uptime {{ uptime }}
-  td.li-validator__commission {{ commission }}
-  td.li-validator__slashes n/a
+<template>
+  <tr class="li-validator">
+    <td class="li-validator__moniker-container">
+      <img
+        class="li-validator__avatar"
+        v-if="validator.keybase"
+        :src="validator.keybase.avatarUrl"
+        width="48"
+        height="48"
+      /><img
+        class="li-validator__avatar no-img"
+        v-else="v-else"
+        src="~assets/images/validator-icon.svg"
+        width="48"
+        height="48"
+      />
+      <div class="li-validator__name-container">
+        <span
+          class="validator-profile__status"
+          v-bind:class="statusColor"
+          v-tooltip.top="status"
+        ></span>
+        <router-link
+          class="li-validator__moniker"
+          :to="{
+            name: 'validator',
+            params: { validator: validator.operator_address }
+          }"
+          :class="styles"
+          >{{ validator.description.moniker }}</router-link
+        >
+        <short-bech32
+          class="li-validator__address"
+          :address="validator.operator_address"
+        ></short-bech32>
+      </div>
+    </td>
+    <td class="li-validator__delegated-steak">
+      {{
+        yourVotes.isLessThan(0.01) && yourVotes.isGreaterThan(0)
+          ? "< " + num.shortNumber(0.01)
+          : num.shortNumber(yourVotes)
+      }}
+    </td>
+    <td class="li-validator__rewards">n/a</td>
+    <td class="li-validator__voting-power">
+      {{ validator.percent_of_vote ? validator.percent_of_vote : `n/a` }}
+    </td>
+    <td class="li-validator__uptime">{{ uptime }}</td>
+    <td class="li-validator__commission">{{ commission }}</td>
+    <td class="li-validator__slashes">n/a</td>
+  </tr>
 </template>
 
 <script>

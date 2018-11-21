@@ -1,86 +1,188 @@
-<template lang="pug">
-  div(v-if="config.devMode")
-    div
-      h3
-        | Staking Parameters
-        |
-        i.material-icons.info-button(v-tooltip.top="paramsTooltips.description") info_outline
-      .parameters__details.parameters__section
-        .row
-          .column
-            dl.info_dl
-              dt
-                | Inflation Rate Change
-                |
-                i.material-icons.info-button(v-tooltip.top="paramsTooltips.inflation_rate_change") info_outline
-              dd {{ parameters.inflation_rate_change ? parameters.inflation_rate_change : `n/a` }}
-            dl.info_dl
-              dt Minimum Inflation Rate
-              dd {{ parameters.inflation_min ? parameters.inflation_min : `n/a` }}
-            dl.info_dl
-              dt Maximum Inflation Rate
-              dd {{ parameters.inflation_max ? parameters.inflation_max : `n/a` }}
-            dl.info_dl
-              dt Goal For Delegated {{ bondingDenom }}s
-              dd {{ parameters.goal_bonded ? parameters.goal_bonded : `n/a` }}
-          .column
-            dl.info_dl
-              dt
-                | Unbonding Time
-                |
-                i.material-icons.info-button(v-tooltip.top="paramsTooltips.unbonding_time") info_outline
-              dd {{ parameters.unbonding_time ? parameters.unbonding_time : `n/a` }}
-            dl.info_dl
-              dt Max Number of Validators
-              dd {{ parameters.max_validators ? parameters.max_validators : `n/a` }}
-            dl.info_dl
-              dt Current Staking Denomination
-              dd {{ parameters.bond_denom ? parameters.bond_denom : `n/a` }}
-    div
-      h3
-        | Staking Pool
-        |
-        i.material-icons.info-button(v-tooltip.top="poolTooltips.description") info_outline
-      .parameters__details.parameters__section
-        .row
-          .column
-            dl.info_dl
-              dt
-                | Inflation
-                |
-                i.material-icons.info-button(v-tooltip.top="poolTooltips.inflation") info_outline
-              dd {{ pool.inflation ? pool.inflation : `n/a` }}
-            dl.info_dl
-              dt
-                | Inflation Last Block
-                |
-                i.material-icons.info-button(v-tooltip.top="poolTooltips.inflation_last_time") info_outline
-              dd {{ pool.inflation_last_time ? pool.inflation_last_time : `n/a` }}
-            dl.info_dl
-              dt
-                | Date of Last Commission Reset
-                |
-                i.material-icons.info-button(v-tooltip.top="poolTooltips.date_last_commission_reset") info_outline
-              dd {{ pool.date_last_commission_reset ? timeAgo(pool.date_last_commission_reset) : `n/a` }}
-          .column
-            dl.info_dl
-              dt
-                | Loose {{ bondingDenom }}
-                |
-                i.material-icons.info-button(v-tooltip.top="poolTooltips.loose_tokens") info_outline
-              dd {{ pool.loose_tokens ? pool.loose_tokens : `n/a` }}
-            dl.info_dl
-              dt
-                | Delegated {{ bondingDenom }}
-                |
-                i.material-icons.info-button(v-tooltip.top="poolTooltips.bonded_tokens") info_outline
-              dd {{ pool.bonded_tokens ? pool.bonded_tokens : `n/a` }}
-            dl.info_dl
-              dt
-                | Previous delegated shares
-                |
-                i.material-icons.info-button(v-tooltip.top="poolTooltips.prev_bonded_shares") info_outline
-              dd {{ pool.prev_bonded_shares ? pool.prev_bonded_shares : `n/a` }}
+<template>
+  <div v-if="config.devMode">
+    <div>
+      <h3>
+        Staking Parameters
+        <i
+          class="material-icons info-button"
+          v-tooltip.top="paramsTooltips.description"
+          >info_outline</i
+        >
+      </h3>
+      <div class="parameters__details parameters__section">
+        <div class="row">
+          <div class="column">
+            <dl class="info_dl">
+              <dt>
+                Inflation Rate Change
+                <i
+                  class="material-icons info-button"
+                  v-tooltip.top="paramsTooltips.inflation_rate_change"
+                  >info_outline</i
+                >
+              </dt>
+              <dd>
+                {{
+                  parameters.inflation_rate_change
+                    ? parameters.inflation_rate_change
+                    : `n/a`
+                }}
+              </dd>
+            </dl>
+            <dl class="info_dl">
+              <dt>Minimum Inflation Rate</dt>
+              <dd>
+                {{
+                  parameters.inflation_min ? parameters.inflation_min : `n/a`
+                }}
+              </dd>
+            </dl>
+            <dl class="info_dl">
+              <dt>Maximum Inflation Rate</dt>
+              <dd>
+                {{
+                  parameters.inflation_max ? parameters.inflation_max : `n/a`
+                }}
+              </dd>
+            </dl>
+            <dl class="info_dl">
+              <dt>Goal For Delegated {{ bondingDenom }}s</dt>
+              <dd>
+                {{ parameters.goal_bonded ? parameters.goal_bonded : `n/a` }}
+              </dd>
+            </dl>
+          </div>
+          <div class="column">
+            <dl class="info_dl">
+              <dt>
+                Unbonding Time
+                <i
+                  class="material-icons info-button"
+                  v-tooltip.top="paramsTooltips.unbonding_time"
+                  >info_outline</i
+                >
+              </dt>
+              <dd>
+                {{
+                  parameters.unbonding_time ? parameters.unbonding_time : `n/a`
+                }}
+              </dd>
+            </dl>
+            <dl class="info_dl">
+              <dt>Max Number of Validators</dt>
+              <dd>
+                {{
+                  parameters.max_validators ? parameters.max_validators : `n/a`
+                }}
+              </dd>
+            </dl>
+            <dl class="info_dl">
+              <dt>Current Staking Denomination</dt>
+              <dd>
+                {{ parameters.bond_denom ? parameters.bond_denom : `n/a` }}
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h3>
+        Staking Pool
+        <i
+          class="material-icons info-button"
+          v-tooltip.top="poolTooltips.description"
+          >info_outline</i
+        >
+      </h3>
+      <div class="parameters__details parameters__section">
+        <div class="row">
+          <div class="column">
+            <dl class="info_dl">
+              <dt>
+                Inflation
+                <i
+                  class="material-icons info-button"
+                  v-tooltip.top="poolTooltips.inflation"
+                  >info_outline</i
+                >
+              </dt>
+              <dd>{{ pool.inflation ? pool.inflation : `n/a` }}</dd>
+            </dl>
+            <dl class="info_dl">
+              <dt>
+                Inflation Last Block
+                <i
+                  class="material-icons info-button"
+                  v-tooltip.top="poolTooltips.inflation_last_time"
+                  >info_outline</i
+                >
+              </dt>
+              <dd>
+                {{
+                  pool.inflation_last_time ? pool.inflation_last_time : `n/a`
+                }}
+              </dd>
+            </dl>
+            <dl class="info_dl">
+              <dt>
+                Date of Last Commission Reset
+                <i
+                  class="material-icons info-button"
+                  v-tooltip.top="poolTooltips.date_last_commission_reset"
+                  >info_outline</i
+                >
+              </dt>
+              <dd>
+                {{
+                  pool.date_last_commission_reset
+                    ? timeAgo(pool.date_last_commission_reset)
+                    : `n/a`
+                }}
+              </dd>
+            </dl>
+          </div>
+          <div class="column">
+            <dl class="info_dl">
+              <dt>
+                Loose {{ bondingDenom }}
+                <i
+                  class="material-icons info-button"
+                  v-tooltip.top="poolTooltips.loose_tokens"
+                  >info_outline</i
+                >
+              </dt>
+              <dd>{{ pool.loose_tokens ? pool.loose_tokens : `n/a` }}</dd>
+            </dl>
+            <dl class="info_dl">
+              <dt>
+                Delegated {{ bondingDenom }}
+                <i
+                  class="material-icons info-button"
+                  v-tooltip.top="poolTooltips.bonded_tokens"
+                  >info_outline</i
+                >
+              </dt>
+              <dd>{{ pool.bonded_tokens ? pool.bonded_tokens : `n/a` }}</dd>
+            </dl>
+            <dl class="info_dl">
+              <dt>
+                Previous delegated shares
+                <i
+                  class="material-icons info-button"
+                  v-tooltip.top="poolTooltips.prev_bonded_shares"
+                  >info_outline</i
+                >
+              </dt>
+              <dd>
+                {{ pool.prev_bonded_shares ? pool.prev_bonded_shares : `n/a` }}
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>

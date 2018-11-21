@@ -1,29 +1,71 @@
-<template lang="pug">
-.tm-session: tm-form-struct(:submit='onSubmit').tm-session-container
-  .tm-session-header
-    a(@click="setState('sign-in')"): i.material-icons arrow_back
-    .tm-session-title Remove Account
-    a(@click="help"): i.material-icons help_outline
-  .tm-session-main
-    tm-form-group(:error='$v.fields.deletionPassword.$error'
-      field-id='sign-in-password' field-label='Password')
-      tm-field#sign-in-password(
-        type="password"
-        placeholder="Enter your password"
-        v-model="fields.deletionPassword")
-      tm-form-msg(name='Password' type='required' v-if='!$v.fields.deletionPassword.required')
-      tm-form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.deletionPassword.minLength')
-
-    tm-form-group(field-id="sign-up-warning" field-label=' '
-      :error='$v.fields.deletionWarning.$error')
-      .tm-field-checkbox
-        .tm-field-checkbox-input
-          input#sign-up-warning(type="checkbox" v-model="fields.deletionWarning")
-        label.tm-field-checkbox-label(for="sign-up-warning")
-          | I understand that Cosmos cannot recover deleted accounts without the passphrase.
-      tm-form-msg(name='Deletion confirmation' type='required' v-if='!$v.fields.deletionWarning.required')
-  .tm-session-footer
-    tm-btn(icon="exit_to_app" value="Sign Out and Remove Account" size="lg")
+<template>
+  <div class="tm-session">
+    <tm-form-struct class="tm-session-container" :submit="onSubmit">
+      <div class="tm-session-header">
+        <a @click="setState('sign-in')"
+          ><i class="material-icons">arrow_back</i></a
+        >
+        <div class="tm-session-title">Remove Account</div>
+        <a @click="help"><i class="material-icons">help_outline</i></a>
+      </div>
+      <div class="tm-session-main">
+        <tm-form-group
+          :error="$v.fields.deletionPassword.$error"
+          field-id="sign-in-password"
+          field-label="Password"
+        >
+          <tm-field
+            id="sign-in-password"
+            type="password"
+            placeholder="Enter your password"
+            v-model="fields.deletionPassword"
+          ></tm-field>
+          <tm-form-msg
+            name="Password"
+            type="required"
+            v-if="!$v.fields.deletionPassword.required"
+          ></tm-form-msg>
+          <tm-form-msg
+            name="Password"
+            type="minLength"
+            min="10"
+            v-if="!$v.fields.deletionPassword.minLength"
+          ></tm-form-msg>
+        </tm-form-group>
+        <tm-form-group
+          field-id="sign-up-warning"
+          field-label=" "
+          :error="$v.fields.deletionWarning.$error"
+        >
+          <div class="tm-field-checkbox">
+            <div class="tm-field-checkbox-input">
+              <input
+                id="sign-up-warning"
+                type="checkbox"
+                v-model="fields.deletionWarning"
+              />
+            </div>
+            <label class="tm-field-checkbox-label" for="sign-up-warning"
+              >I understand that Cosmos cannot recover deleted accounts without
+              the passphrase.</label
+            >
+          </div>
+          <tm-form-msg
+            name="Deletion confirmation"
+            type="required"
+            v-if="!$v.fields.deletionWarning.required"
+          ></tm-form-msg>
+        </tm-form-group>
+      </div>
+      <div class="tm-session-footer">
+        <tm-btn
+          icon="exit_to_app"
+          value="Sign Out and Remove Account"
+          size="lg"
+        ></tm-btn>
+      </div>
+    </tm-form-struct>
+  </div>
 </template>
 
 <script>

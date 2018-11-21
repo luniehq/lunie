@@ -1,8 +1,10 @@
-<template lang="pug">
-tm-btn.btn-copy(
-  icon="content_copy"
-  @click.native="click"
-  value="Copy")
+<template>
+  <tm-btn
+    class="btn-copy"
+    icon="content_copy"
+    @click.native="click"
+    value="Copy"
+  ></tm-btn>
 </template>
 
 <script>

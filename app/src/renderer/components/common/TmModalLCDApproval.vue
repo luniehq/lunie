@@ -1,26 +1,39 @@
-<template lang="pug">
-.tm-modal-lcd-approval__wrapper
-  .tm-modal-lcd-approval
-    .tm-modal-lcd-approval__icon: i.material-icons sync problem
-    .tm-modal-lcd-approval__title Node approval required
-    .tm-modal-lcd-approval__body
-      | Voyager needs to approve the node you're trying to connect to. Please compare the hash below against the hash from a trusted source. If you are 100% sure that the hashes match, click approve to proceed.
-
-      tm-field#node-hash(type="textarea" :value="hash" disabled)
-
-    .tm-modal-lcd-approval__footer
-
-      tm-btn#tm-modal-lcd-approval__btn-approve(
-        size="lg"
-        icon="check"
-        color="primary"
-        value="Approve Node"
-        @click.native="approve")
-      tm-btn#tm-modal-lcd-approval__btn-disapprove(
-        size="lg"
-        icon="skip_next"
-        value="Switch Node"
-        @click.native="newNode")
+<template>
+  <div class="tm-modal-lcd-approval__wrapper">
+    <div class="tm-modal-lcd-approval">
+      <div class="tm-modal-lcd-approval__icon">
+        <i class="material-icons">sync problem</i>
+      </div>
+      <div class="tm-modal-lcd-approval__title">Node approval required</div>
+      <div class="tm-modal-lcd-approval__body">
+        Voyager needs to approve the node you're trying to connect to. Please
+        compare the hash below against the hash from a trusted source. If you
+        are 100% sure that the hashes match, click approve to proceed.<tm-field
+          id="node-hash"
+          type="textarea"
+          :value="hash"
+          disabled="disabled"
+        ></tm-field>
+      </div>
+      <div class="tm-modal-lcd-approval__footer">
+        <tm-btn
+          id="tm-modal-lcd-approval__btn-approve"
+          size="lg"
+          icon="check"
+          color="primary"
+          value="Approve Node"
+          @click.native="approve"
+        ></tm-btn>
+        <tm-btn
+          id="tm-modal-lcd-approval__btn-disapprove"
+          size="lg"
+          icon="skip_next"
+          value="Switch Node"
+          @click.native="newNode"
+        ></tm-btn>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>

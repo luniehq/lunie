@@ -1,5 +1,5 @@
-<template lang="pug">
-.tm-field-addon: slot
+<template>
+  <div class="tm-field-addon"><slot></slot></div>
 </template>
 
 <script>

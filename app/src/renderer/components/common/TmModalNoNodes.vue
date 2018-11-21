@@ -1,21 +1,33 @@
-<template lang="pug">
-.tm-modal-error__wrapper
-  .tm-modal-error
-    .tm-modal-error__icon: i.material-icons sync_problem
-    .tm-modal-error__title No nodes found
-    .tm-modal-error__body All known nodes are offline or incompatible. You can retry to connect or switch to a demo connection so you can try out Voyager.
-    .tm-modal-error__footer
-      tm-btn#tm-modal-error__btn-retry(
-        size="lg"
-        icon="autorenew"
-        color="primary"
-        value="Retry Connection"
-        @click.native="retry")
-      tm-btn#tm-modal-error__btn-mock(
-        size="lg"
-        icon="pageview"
-        value="Try Demo"
-        @click.native="useMock")
+<template>
+  <div class="tm-modal-error__wrapper">
+    <div class="tm-modal-error">
+      <div class="tm-modal-error__icon">
+        <i class="material-icons">sync_problem</i>
+      </div>
+      <div class="tm-modal-error__title">No nodes found</div>
+      <div class="tm-modal-error__body">
+        All known nodes are offline or incompatible. You can retry to connect or
+        switch to a demo connection so you can try out Voyager.
+      </div>
+      <div class="tm-modal-error__footer">
+        <tm-btn
+          id="tm-modal-error__btn-retry"
+          size="lg"
+          icon="autorenew"
+          color="primary"
+          value="Retry Connection"
+          @click.native="retry"
+        ></tm-btn>
+        <tm-btn
+          id="tm-modal-error__btn-mock"
+          size="lg"
+          icon="pageview"
+          value="Try Demo"
+          @click.native="useMock"
+        ></tm-btn>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>

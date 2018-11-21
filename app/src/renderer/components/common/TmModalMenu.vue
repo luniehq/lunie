@@ -1,5 +1,5 @@
-<template lang="pug">
-.tm-modal-menu: slot
+<template>
+  <div class="tm-modal-menu"><slot></slot></div>
 </template>
 
 <script>

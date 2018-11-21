@@ -1,15 +1,32 @@
-<template lang="pug">
-tr.li-proposal
-  td.li-proposal__value
-    span.validator-profile__status(v-bind:class="status.color" v-tooltip.top="status.message")
-    h2
-      router-link(:to="{ name: 'Proposal', params: { proposalId: proposal.proposal_id, proposal, status }}") {{ proposal.title }}
-    p {{ description }}
-  td {{ `#` + proposal.proposal_id }}
-  td.li-proposal__value.yes {{ proposal.tally_result.yes }}
-  td.li-proposal__value.no {{ proposal.tally_result.no }}
-  td.li-proposal__value.no_with_veto {{ proposal.tally_result.no_with_veto }}
-  td.li-proposal__value.abstain {{ proposal.tally_result.abstain }}
+<template>
+  <tr class="li-proposal">
+    <td class="li-proposal__value">
+      <span
+        class="validator-profile__status"
+        v-bind:class="status.color"
+        v-tooltip.top="status.message"
+      ></span>
+      <h2>
+        <router-link
+          :to="{
+            name: 'Proposal',
+            params: { proposalId: proposal.proposal_id, proposal, status }
+          }"
+          >{{ proposal.title }}</router-link
+        >
+      </h2>
+      <p>{{ description }}</p>
+    </td>
+    <td>{{ `#` + proposal.proposal_id }}</td>
+    <td class="li-proposal__value yes">{{ proposal.tally_result.yes }}</td>
+    <td class="li-proposal__value no">{{ proposal.tally_result.no }}</td>
+    <td class="li-proposal__value no_with_veto">
+      {{ proposal.tally_result.no_with_veto }}
+    </td>
+    <td class="li-proposal__value abstain">
+      {{ proposal.tally_result.abstain }}
+    </td>
+  </tr>
 </template>
 
 <script>

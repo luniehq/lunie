@@ -1,29 +1,38 @@
-<template lang="pug">
-  div
-    div(v-if="yourValidators > 0")
-      h3.tab-header
-        | Active Delegations
-        |
-        i.material-icons.info-button(v-tooltip.top="bondInfo") info_outline
-      table-validators(:validators="yourValidators")
-
-    tm-data-msg(v-if="yourValidators < 1", icon="info_outline")
-      div(slot="title") No Active Delegations
-      div(slot="subtitle") Looks like you haven't delegated any {{ this.bondingDenom }}s yet. Head over to the #[router-link(:to="{name: 'Validators'}") validator list] to make your first delegation!
-
-    .check-out-message(v-if="yourValidators > 0")
-      | Check out
-      |
-      router-link(:to="{name: 'Validators'}") the validator list
-      |
-      | to spread some of your Atoms around.
-
-    div(v-if="undelegatedValidators.length")
-      h3.tab-header
-        | Inactive Delegations
-        |
-        i.material-icons.info-button(v-tooltip.top="unbondInfo") info_outline
-      table-validators(:validators="undelegatedValidators")
+<template>
+  <div>
+    <div v-if="yourValidators &gt; 0">
+      <h3 class="tab-header">
+        Active Delegations
+        <i class="material-icons info-button" v-tooltip.top="bondInfo"
+          >info_outline</i
+        >
+      </h3>
+      <table-validators :validators="yourValidators"></table-validators>
+    </div>
+    <tm-data-msg v-if="yourValidators &lt; 1" icon="info_outline">
+      <div slot="title">No Active Delegations</div>
+      <div slot="subtitle">
+        Looks like you haven't delegated any {{ this.bondingDenom }}s yet. Head
+        over to the
+        <router-link :to="{ name: 'Validators' }">validator list</router-link>
+        to make your first delegation!
+      </div>
+    </tm-data-msg>
+    <div class="check-out-message" v-if="yourValidators &gt; 0">
+      Check out
+      <router-link :to="{ name: 'Validators' }">the validator list</router-link>
+      to spread some of your Atoms around.
+    </div>
+    <div v-if="undelegatedValidators.length">
+      <h3 class="tab-header">
+        Inactive Delegations
+        <i class="material-icons info-button" v-tooltip.top="unbondInfo"
+          >info_outline</i
+        >
+      </h3>
+      <table-validators :validators="undelegatedValidators"></table-validators>
+    </div>
+  </div>
 </template>
 
 <script>

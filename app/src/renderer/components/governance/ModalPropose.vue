@@ -1,49 +1,62 @@
-<template lang="pug">
-  .modal-propose#modal-propose(v-click-outside="close")
-    .modal-propose-header
-      img.icon(class='modal-propose-atom' src="~assets/images/cosmos-logo.png")
-      span.tm-modal-title Create Proposal
-      .tm-modal-icon.tm-modal-close#closeBtn(@click="close()")
-        i.material-icons close
-
-    tm-form-group.page-proposal-form-group
-      span Title
-      tm-field#title(
+<template>
+  <div class="modal-propose" id="modal-propose" v-click-outside="close">
+    <div class="modal-propose-header">
+      <img
+        class="icon modal-propose-atom"
+        src="~assets/images/cosmos-logo.png"
+      /><span class="tm-modal-title">Create Proposal</span>
+      <div class="tm-modal-icon tm-modal-close" id="closeBtn" @click="close()">
+        <i class="material-icons">close</i>
+      </div>
+    </div>
+    <tm-form-group class="page-proposal-form-group"
+      ><span>Title</span>
+      <tm-field
+        id="title"
         type="text"
         placeholder="Proposal title"
         v-model="title"
-        v-focus)
-
-    tm-form-group.page-proposal-form-group
-      span Description
-      tm-field#description(
+        v-focus="v - focus"
+      ></tm-field>
+    </tm-form-group>
+    <tm-form-group class="page-proposal-form-group"
+      ><span>Description</span>
+      <tm-field
+        id="description"
         type="textarea"
         placeholder="Write your proposal here..."
-        v-model="description")
-
-    tm-form-group.modal-propose-form-group(
-      field-id='amount')
-      span Deposit amount
-      tm-field#denom(
+        v-model="description"
+      ></tm-field>
+    </tm-form-group>
+    <tm-form-group class="modal-propose-form-group" field-id="amount"
+      ><span>Deposit amount</span>
+      <tm-field
+        id="denom"
         type="text"
         :placeholder="denom"
-        readonly)
-
-      tm-field#amount(
+        readonly="readonly"
+      ></tm-field>
+      <tm-field
+        id="amount"
         type="number"
         :max="balance"
         :min="0"
         step="any"
         v-model="amount"
-        v-focus)
-
-    .modal-propose-footer
-      tm-btn#submit-proposal(
+        v-focus="v - focus"
+      ></tm-field>
+    </tm-form-group>
+    <div class="modal-propose-footer">
+      <tm-btn
+        id="submit-proposal"
         @click.native="onPropose"
         :disabled="$v.$invalid"
         color="primary"
         value="Submit proposal"
-        size="lg")
+        size="lg"
+      ></tm-btn>
+    </div>
+  </div>
 </template>
 
 <script>

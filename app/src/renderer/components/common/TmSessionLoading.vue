@@ -1,12 +1,17 @@
-<template lang="pug">
-.tm-session: .tm-session-container.tm-session-loading
-  .tm-session-header
-    .tm-session-title Connecting to '{{config.default_network}}'&hellip;
-  .tm-session-main.tm-session-main--loading
-    img(src="~assets/images/loader.svg")
-    br
-    | {{message}} &nbsp
-  .tm-session-footer &nbsp;
+<template>
+  <div class="tm-session">
+    <div class="tm-session-container tm-session-loading">
+      <div class="tm-session-header">
+        <div class="tm-session-title">
+          Connecting to '{{ config.default_network }}'&hellip;
+        </div>
+      </div>
+      <div class="tm-session-main tm-session-main--loading">
+        <img src="~assets/images/loader.svg" /><br />{{ message }} &nbsp
+      </div>
+      <div class="tm-session-footer">&nbsp;</div>
+    </div>
+  </div>
 </template>
 
 <script>

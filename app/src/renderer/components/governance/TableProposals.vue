@@ -1,16 +1,23 @@
-<template lang="pug">
-div
-  tm-data-loading(v-if="loading")
-  tm-data-empty(v-else-if="proposals.length === 0")
-  data-empty-search(v-else-if="filteredProposals.length === 0")
-  table(v-else)
-    thead
-      panel-sort(:sort='sort', :properties="properties")
-    tbody
-      li-proposal(
-        v-for="(value, key) in filteredProposals"
-           :key="key"
-           :proposal="value")
+<template>
+  <div>
+    <tm-data-loading v-if="loading"></tm-data-loading>
+    <tm-data-empty v-else-if="proposals.length === 0"></tm-data-empty>
+    <data-empty-search
+      v-else-if="filteredProposals.length === 0"
+    ></data-empty-search>
+    <table v-else="v-else">
+      <thead>
+        <panel-sort :sort="sort" :properties="properties"></panel-sort>
+      </thead>
+      <tbody>
+        <li-proposal
+          v-for="(value, key) in filteredProposals"
+          :key="key"
+          :proposal="value"
+        ></li-proposal>
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <script>

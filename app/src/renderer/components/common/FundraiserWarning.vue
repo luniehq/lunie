@@ -1,7 +1,17 @@
-<template lang="pug">
-.fundraiser-warning
-  .fundraiser-warning__title Warning &ndash; Do not enter your fundraiser seed. This software has not been audited. Never enter your 12-word seed while your computer is connected to the internet.
-  .fundraiser-warning__subtitle Even when we do start supporting fundraiser seeds, don't use it except for testing or with small amounts. Soon we will release a command line interface to use for the signing of transactions offline including support for certain hardware ledgers.
+<template>
+  <div class="fundraiser-warning">
+    <div class="fundraiser-warning__title">
+      Warning &ndash; Do not enter your fundraiser seed. This software has not
+      been audited. Never enter your 12-word seed while your computer is
+      connected to the internet.
+    </div>
+    <div class="fundraiser-warning__subtitle">
+      Even when we do start supporting fundraiser seeds, don't use it except for
+      testing or with small amounts. Soon we will release a command line
+      interface to use for the signing of transactions offline including support
+      for certain hardware ledgers.
+    </div>
+  </div>
 </template>
 
 <script>

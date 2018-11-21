@@ -1,16 +1,48 @@
-<template lang="pug">
-.tm-connected-network#tm-connected-network(v-if='connected' :class="cssClass")
-  .tm-connected-network__connection
-    .tm-connected-network__icon#tm-connected-network__icon: i.material-icons lock
-    .tm-connected-network__string#tm-connected-network__string
-      span.chain-id(v-tooltip.top="networkTooltip") {{ chainId }}
-  .tm-connected-network__string#tm-connected-network__block
-    span(v-if="mockedConnector" v-tooltip.top="'Current block number'") {{ blockHeight }}
-    a(:href="explorerLink" v-if="!mockedConnector" v-tooltip.top="'View block details on the Cosmos explorer.'") {{ blockHeight }}
-      i.material-icons.exit exit_to_app
-.tm-connected-network.tm-disconnected-network#tm-disconnected-network(v-else)
-  img(class="tm-connected-network-loader" src="~assets/images/loader.svg")
-  .tm-connected-network__string.tm-connected-network__string--connecting(v-tooltip.top="networkTooltip") Connecting to {{ chainId }}&hellip;
+<template>
+  <div
+    class="tm-connected-network"
+    id="tm-connected-network"
+    v-if="connected"
+    :class="cssClass"
+  >
+    <div class="tm-connected-network__connection">
+      <div class="tm-connected-network__icon" id="tm-connected-network__icon">
+        <i class="material-icons">lock</i>
+      </div>
+      <div
+        class="tm-connected-network__string"
+        id="tm-connected-network__string"
+      >
+        <span class="chain-id" v-tooltip.top="networkTooltip">{{
+          chainId
+        }}</span>
+      </div>
+    </div>
+    <div class="tm-connected-network__string" id="tm-connected-network__block">
+      <span v-if="mockedConnector" v-tooltip.top="'Current block number'">{{
+        blockHeight
+      }}</span
+      ><a
+        :href="explorerLink"
+        v-if="!mockedConnector"
+        v-tooltip.top="'View block details on the Cosmos explorer.'"
+        >{{ blockHeight }}<i class="material-icons exit">exit_to_app</i></a
+      >
+    </div>
+  </div>
+  <div
+    class="tm-connected-network tm-disconnected-network"
+    id="tm-disconnected-network"
+    v-else="v-else"
+  >
+    <img class="tm-connected-network-loader" src="~assets/images/loader.svg" />
+    <div
+      class="tm-connected-network__string tm-connected-network__string--connecting"
+      v-tooltip.top="networkTooltip"
+    >
+      Connecting to {{ chainId }}&hellip;
+    </div>
+  </div>
 </template>
 
 <script>

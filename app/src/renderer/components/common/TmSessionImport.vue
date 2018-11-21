@@ -1,55 +1,137 @@
-<template lang="pug">
-.tm-session: tm-form-struct(:submit='onSubmit').tm-session-container
-  .tm-session-header
-    a(@click="setState('welcome')"): i.material-icons arrow_back
-    .tm-session-title Import with Seed
-    a(@click="help"): i.material-icons help_outline
-  .tm-session-main
-    tm-form-group(field-id='import-name' field-label='Account Name' :error='$v.fields.importName.$error')
-      tm-field#import-name(
-        type="text"
-        placeholder="Must have at least 5 characters"
-        v-model="fields.importName")
-      tm-form-msg(name='Name' type='required' v-if='!$v.fields.importName.required')
-      tm-form-msg(name='Name' type='minLength' min="5" v-if='!$v.fields.importName.minLength')
-
-    tm-form-group(:error='$v.fields.importPassword.$error'
-      field-id='import-password' field-label='Password')
-      tm-field#import-password(
-        type="password"
-        placeholder="Must be at least 10 characters"
-        v-model="fields.importPassword")
-      tm-form-msg(name='Password' type='required' v-if='!$v.fields.importPassword.required')
-      tm-form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.importPassword.minLength')
-
-    tm-form-group(:error='$v.fields.importPasswordConfirm.$error'
-      field-id='import-password-confirmation' field-label='Confirm Password')
-      tm-field#import-password-confirmation(
-        type="password"
-        placeholder="Enter password again"
-        v-model="fields.importPasswordConfirm")
-      tm-form-msg(name='Password confirmation' type='match' v-if='!$v.fields.importPasswordConfirm.sameAsPassword')
-
-    tm-form-group(:error='$v.fields.importSeed.$error'
-      field-id='import-seed' field-label='Seed Phrase')
-      field-seed#import-seed(
-        :value="fields.importSeed"
-        @input="val => fields.importSeed = val"
-        placeholder="Must be exactly 24 words")
-      tm-form-msg(name='Seed' type='required' v-if='!$v.fields.importSeed.required')
-      tm-form-msg(name='Seed' type='words24' v-else-if='!$v.fields.importSeed.words24')
-
-    tm-form-group(field-id="error-collection" field-label=''
-      :error='$v.fields.errorCollection.$error')
-      .tm-field-checkbox
-        .tm-field-checkbox-input
-          input#error-collection(type="checkbox" v-model="fields.errorCollection")
-        label.tm-field-checkbox-label(for="error-collection")
-          | I'd like to opt in for remote error tracking to help improve Voyager.
-
-  .tm-session-footer
-    tm-btn(v-if="connected" icon="arrow_forward" icon-pos="right" value="Next" size="lg")
-    tm-btn(v-else icon-pos="right" value="Connecting..." size="lg" disabled="true")
+<template>
+  <div class="tm-session">
+    <tm-form-struct class="tm-session-container" :submit="onSubmit">
+      <div class="tm-session-header">
+        <a @click="setState('welcome')"
+          ><i class="material-icons">arrow_back</i></a
+        >
+        <div class="tm-session-title">Import with Seed</div>
+        <a @click="help"><i class="material-icons">help_outline</i></a>
+      </div>
+      <div class="tm-session-main">
+        <tm-form-group
+          field-id="import-name"
+          field-label="Account Name"
+          :error="$v.fields.importName.$error"
+        >
+          <tm-field
+            id="import-name"
+            type="text"
+            placeholder="Must have at least 5 characters"
+            v-model="fields.importName"
+          ></tm-field>
+          <tm-form-msg
+            name="Name"
+            type="required"
+            v-if="!$v.fields.importName.required"
+          ></tm-form-msg>
+          <tm-form-msg
+            name="Name"
+            type="minLength"
+            min="5"
+            v-if="!$v.fields.importName.minLength"
+          ></tm-form-msg>
+        </tm-form-group>
+        <tm-form-group
+          :error="$v.fields.importPassword.$error"
+          field-id="import-password"
+          field-label="Password"
+        >
+          <tm-field
+            id="import-password"
+            type="password"
+            placeholder="Must be at least 10 characters"
+            v-model="fields.importPassword"
+          ></tm-field>
+          <tm-form-msg
+            name="Password"
+            type="required"
+            v-if="!$v.fields.importPassword.required"
+          ></tm-form-msg>
+          <tm-form-msg
+            name="Password"
+            type="minLength"
+            min="10"
+            v-if="!$v.fields.importPassword.minLength"
+          ></tm-form-msg>
+        </tm-form-group>
+        <tm-form-group
+          :error="$v.fields.importPasswordConfirm.$error"
+          field-id="import-password-confirmation"
+          field-label="Confirm Password"
+        >
+          <tm-field
+            id="import-password-confirmation"
+            type="password"
+            placeholder="Enter password again"
+            v-model="fields.importPasswordConfirm"
+          ></tm-field>
+          <tm-form-msg
+            name="Password confirmation"
+            type="match"
+            v-if="!$v.fields.importPasswordConfirm.sameAsPassword"
+          ></tm-form-msg>
+        </tm-form-group>
+        <tm-form-group
+          :error="$v.fields.importSeed.$error"
+          field-id="import-seed"
+          field-label="Seed Phrase"
+        >
+          <field-seed
+            id="import-seed"
+            :value="fields.importSeed"
+            @input="val =&gt; fields.importSeed = val"
+            placeholder="Must be exactly 24 words"
+          ></field-seed>
+          <tm-form-msg
+            name="Seed"
+            type="required"
+            v-if="!$v.fields.importSeed.required"
+          ></tm-form-msg>
+          <tm-form-msg
+            name="Seed"
+            type="words24"
+            v-else-if="!$v.fields.importSeed.words24"
+          ></tm-form-msg>
+        </tm-form-group>
+        <tm-form-group
+          field-id="error-collection"
+          field-label=""
+          :error="$v.fields.errorCollection.$error"
+        >
+          <div class="tm-field-checkbox">
+            <div class="tm-field-checkbox-input">
+              <input
+                id="error-collection"
+                type="checkbox"
+                v-model="fields.errorCollection"
+              />
+            </div>
+            <label class="tm-field-checkbox-label" for="error-collection"
+              >I'd like to opt in for remote error tracking to help improve
+              Voyager.</label
+            >
+          </div>
+        </tm-form-group>
+      </div>
+      <div class="tm-session-footer">
+        <tm-btn
+          v-if="connected"
+          icon="arrow_forward"
+          icon-pos="right"
+          value="Next"
+          size="lg"
+        ></tm-btn>
+        <tm-btn
+          v-else="v-else"
+          icon-pos="right"
+          value="Connecting..."
+          size="lg"
+          disabled="true"
+        ></tm-btn>
+      </div>
+    </tm-form-struct>
+  </div>
 </template>
 
 <script>

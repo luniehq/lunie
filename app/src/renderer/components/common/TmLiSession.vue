@@ -1,9 +1,13 @@
-<template lang="pug">
-.tm-li-session
-  .tm-li-session-icon: i.material-icons {{ icon }}
-  .tm-li-session-text
-    .tm-li-session-title {{ title }}
-    .tm-li-session-subtitle {{ subtitle }}
+<template>
+  <div class="tm-li-session">
+    <div class="tm-li-session-icon">
+      <i class="material-icons">{{ icon }}</i>
+    </div>
+    <div class="tm-li-session-text">
+      <div class="tm-li-session-title">{{ title }}</div>
+      <div class="tm-li-session-subtitle">{{ subtitle }}</div>
+    </div>
+  </div>
 </template>
 
 <script>

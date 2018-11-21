@@ -1,17 +1,21 @@
-<template lang="pug">
-div(:class='cssClass' @click.self="close()")
-  .tm-modal-container
-    header.tm-modal-header
-      .tm-modal-icon(v-if='icon')
-        i.material-icons {{ icon }}
-      .tm-modal-title
-        slot(name='title')
-      .tm-modal-icon.tm-modal-close(@click="close()")
-        i.material-icons(v-if="close") close
-    main.tm-modal-main
-      slot
-      footer.tm-modal-footer
-        slot(name='footer')
+<template>
+  <div :class="cssClass" @click.self="close()">
+    <div class="tm-modal-container">
+      <header class="tm-modal-header">
+        <div class="tm-modal-icon" v-if="icon">
+          <i class="material-icons">{{ icon }}</i>
+        </div>
+        <div class="tm-modal-title"><slot name="title"></slot></div>
+        <div class="tm-modal-icon tm-modal-close" @click="close()">
+          <i class="material-icons" v-if="close">close</i>
+        </div>
+      </header>
+      <main class="tm-modal-main">
+        <slot></slot>
+        <footer class="tm-modal-footer"><slot name="footer"></slot></footer>
+      </main>
+    </div>
+  </div>
 </template>
 
 <script>

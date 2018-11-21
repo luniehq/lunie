@@ -1,48 +1,66 @@
-<template lang="pug">
-  .delegation-modal#delegation-modal(v-click-outside="close")
-    .delegation-modal-header
-      img.icon(class='delegation-modal-atom' src="~assets/images/cosmos-logo.png")
-      span.tm-modal-title Delegation
-      .tm-modal-icon.tm-modal-close#closeBtn(@click="close()")
-        i.material-icons close
-
-    tm-form-group.delegation-modal-form-group(
-      field-id='amount'
-      field-label='Amount'
-    )
-      tm-field#denom(
+<template>
+  <div class="delegation-modal" id="delegation-modal" v-click-outside="close">
+    <div class="delegation-modal-header">
+      <img
+        class="icon delegation-modal-atom"
+        src="~assets/images/cosmos-logo.png"
+      /><span class="tm-modal-title">Delegation</span>
+      <div class="tm-modal-icon tm-modal-close" id="closeBtn" @click="close()">
+        <i class="material-icons">close</i>
+      </div>
+    </div>
+    <tm-form-group
+      class="delegation-modal-form-group"
+      field-id="amount"
+      field-label="Amount"
+    >
+      <tm-field
+        id="denom"
         type="text"
         :placeholder="bondingDenom"
-        readonly)
-
-      tm-field#amount(
+        readonly="readonly"
+      ></tm-field>
+      <tm-field
+        id="amount"
         type="number"
         :max="fromOptions[selectedIndex].maximum"
         :min="0"
         step="any"
         v-model="amount"
-        v-focus)
-
-    tm-form-group.delegation-modal-form-group(
-      field-id='to' field-label='To')
-      tm-field#to(readonly v-model="to")
-
-    tm-form-group.delegation-modal-form-group(
-      field-id='from' field-label='From')
-      tm-field#from(
+        v-focus="v - focus"
+      ></tm-field>
+    </tm-form-group>
+    <tm-form-group
+      class="delegation-modal-form-group"
+      field-id="to"
+      field-label="To"
+    >
+      <tm-field id="to" readonly="readonly" v-model="to"></tm-field>
+    </tm-form-group>
+    <tm-form-group
+      class="delegation-modal-form-group"
+      field-id="from"
+      field-label="From"
+    >
+      <tm-field
+        id="from"
         type="select"
         v-model="selectedIndex"
         :title="fromOptions[selectedIndex].address"
         :options="fromOptions"
-      )
-
-    .delegation-modal-footer
-      tm-btn#submit-delegation(
+      ></tm-field>
+    </tm-form-group>
+    <div class="delegation-modal-footer">
+      <tm-btn
+        id="submit-delegation"
         @click.native="onDelegation"
         :disabled="$v.amount.$invalid"
         color="primary"
         value="Confirm Delegation"
-        size="lg")
+        size="lg"
+      ></tm-btn>
+    </div>
+  </div>
 </template>
 
 <script>

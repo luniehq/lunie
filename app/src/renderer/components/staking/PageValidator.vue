@@ -1,115 +1,206 @@
-<template lang="pug">
-tm-page(data-title="Validator")
-  template(slot="menu-body"): tm-balance
-  div(slot="menu"): tm-tool-bar
-    router-link(to="/staking/validators" exact): i.material-icons arrow_back
-
-  tm-data-error(v-if="!validator")
-
-  template(v-else)
-    .validator-profile__header.validator-profile__section
-      .column
-        img.avatar(v-if="validator.keybase" :src="validator.keybase.avatarUrl")
-        img.avatar(v-else src="~assets/images/validator-icon.svg")
-      .column.validator-profile__header__info
-        .row.validator-profile__header__name
-          .column
-            div.validator-profile__status-and-title
-              span.validator-profile__status(v-bind:class="statusColor" v-tooltip.top="status")
-              .validator-profile__header__name__title {{ validator.description.moniker }}
-            short-bech32(:address="validator.operator_address")
-          .column.validator-profile__header__actions
-            tm-btn#delegation-btn(value="Delegate" color="primary" @click.native="onDelegation")
-
-            tm-btn#undelegation-btn(
-              value="Undelegate"
-              color="secondary"
-              @click.native="onUndelegation"
-            )
-
-        .row.validator-profile__header__data
-          dl.colored_dl
-            dt Delegated {{bondingDenom}}
-            dd {{myBond.isLessThan(0.01) && myBond.isGreaterThan(0) ? '< ' + 0.01 : num.shortNumber(myBond)}}
-          dl.colored_dl(v-if="config.devMode")
-            dt My Rewards
-            dd n/a
-          .validator-profile__header__data__break
-          dl.colored_dl
-            dt Voting Power
-            dd(id="validator-profile__power") {{ pretty(powerRatio * 100)}} %
-          dl.colored_dl(v-if="config.devMode")
-            dt Uptime
-            dd(id="validator-profile__uptime") {{ validator.signing_info ? pretty(validator.signing_info.signed_blocks_counter/100) : `n/a`}} %
-          dl.colored_dl
-            dt Commission
-            dd(id="validator-profile__commission") {{ validator.commission.rate }} %
-          dl.colored_dl(v-if="config.devMode")
-            dt Slashes
-            dd n/a
-
-    .validator-profile__details.validator-profile__section
-      .row
-        .column
-          dl.info_dl
-            dt Operator
-            dd {{validator.operator_address}}
-          dl.info_dl
-            dt Keybase ID
-            dd {{translateEmptyDescription(validator.description.identity)}}
-          dl.info_dl(v-if="config.devMode")
-            dt First Seen
-            dd n/a
-          dl.info_dl
-            dt Website
-            dd {{translateEmptyDescription(validator.description.website)}}
-          dl.info_dl
-            dt Details
-            dd.info_dl__text-box {{translateEmptyDescription(validator.description.details)}}
-        .column
-          dl.info_dl
-            dt Commission Rate
-            dd {{validator.commission.rate}} %
-          dl.info_dl
-            dt Max Commission Rate
-            dd {{validator.commission.max_rate}} %
-          dl.info_dl
-            dt Max Daily Commission Change
-            dd {{validator.commission.max_change_rate}} %
-          dl.info_dl
-            dt Last Commission Change
-            dd {{new Date(validator.commission.update_time).getTime() === 0 ? 'Never' : moment(new Date(validator.commission.update_time)).fromNow() }}
-          dl.info_dl
-            dt Self Delegated {{bondingDenom}}
-            dd(id="validator-profile__self-bond") {{selfBond}} %
-          dl.info_dl(v-if="config.devMode")
-            dt Minimum Self Delegated {{bondingDenom}}
-            dd 0 %
-
-    delegation-modal(
-      v-if="showDelegationModal"
-      v-on:submitDelegation="submitDelegation"
-      :showDelegationModal.sync="showDelegationModal"
-      :fromOptions="delegationTargetOptions()"
-      :to="validator.operator_address"
-    )
-
-    undelegation-modal(
-      v-if="showUndelegationModal"
-      v-on:submitUndelegation="submitUndelegation"
-      :showUndelegationModal.sync="showUndelegationModal"
-      :maximum="myBond"
-      :to="this.wallet.address"
-    )
-    tm-modal(:close="closeCannotModal" v-if="showCannotModal")
-      div(slot='title') Cannot {{ action == `delegate`? `Delegate` : `Undelegate` }}
-      p You have no {{ bondingDenom }}s {{ action == `undelegate` ? `delegated `: `` }}to {{ action == `delegate` ? `delegate.` : `this validator.` }}
-      div(slot='footer')
-        tmBtn(
-          id="no-atoms-modal__btn"
-          @click.native="closeCannotModal"
-          value="OK"
-        )
+<template>
+  <tm-page data-title="Validator"
+    ><template slot="menu-body">
+      <tm-balance></tm-balance>
+    </template>
+    <div slot="menu">
+      <tm-tool-bar>
+        <router-link to="/staking/validators" exact="exact"
+          ><i class="material-icons">arrow_back</i></router-link
+        >
+      </tm-tool-bar>
+    </div>
+    <tm-data-error v-if="!validator"></tm-data-error
+    ><template v-else="v-else">
+      <div class="validator-profile__header validator-profile__section">
+        <div class="column">
+          <img
+            class="avatar"
+            v-if="validator.keybase"
+            :src="validator.keybase.avatarUrl"
+          /><img
+            class="avatar"
+            v-else="v-else"
+            src="~assets/images/validator-icon.svg"
+          />
+        </div>
+        <div class="column validator-profile__header__info">
+          <div class="row validator-profile__header__name">
+            <div class="column">
+              <div class="validator-profile__status-and-title">
+                <span
+                  class="validator-profile__status"
+                  v-bind:class="statusColor"
+                  v-tooltip.top="status"
+                ></span>
+                <div class="validator-profile__header__name__title">
+                  {{ validator.description.moniker }}
+                </div>
+              </div>
+              <short-bech32
+                :address="validator.operator_address"
+              ></short-bech32>
+            </div>
+            <div class="column validator-profile__header__actions">
+              <tm-btn
+                id="delegation-btn"
+                value="Delegate"
+                color="primary"
+                @click.native="onDelegation"
+              ></tm-btn>
+              <tm-btn
+                id="undelegation-btn"
+                value="Undelegate"
+                color="secondary"
+                @click.native="onUndelegation"
+              ></tm-btn>
+            </div>
+          </div>
+          <div class="row validator-profile__header__data">
+            <dl class="colored_dl">
+              <dt>Delegated {{ bondingDenom }}</dt>
+              <dd>
+                {{
+                  myBond.isLessThan(0.01) && myBond.isGreaterThan(0)
+                    ? "< " + 0.01
+                    : num.shortNumber(myBond)
+                }}
+              </dd>
+            </dl>
+            <dl class="colored_dl" v-if="config.devMode">
+              <dt>My Rewards</dt>
+              <dd>n/a</dd>
+            </dl>
+            <div class="validator-profile__header__data__break"></div>
+            <dl class="colored_dl">
+              <dt>Voting Power</dt>
+              <dd id="validator-profile__power">
+                {{ pretty(powerRatio * 100) }} %
+              </dd>
+            </dl>
+            <dl class="colored_dl" v-if="config.devMode">
+              <dt>Uptime</dt>
+              <dd id="validator-profile__uptime">
+                {{
+                  validator.signing_info
+                    ? pretty(validator.signing_info.signed_blocks_counter / 100)
+                    : `n/a`
+                }}
+                %
+              </dd>
+            </dl>
+            <dl class="colored_dl">
+              <dt>Commission</dt>
+              <dd id="validator-profile__commission">
+                {{ validator.commission.rate }} %
+              </dd>
+            </dl>
+            <dl class="colored_dl" v-if="config.devMode">
+              <dt>Slashes</dt>
+              <dd>n/a</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+      <div class="validator-profile__details validator-profile__section">
+        <div class="row">
+          <div class="column">
+            <dl class="info_dl">
+              <dt>Operator</dt>
+              <dd>{{ validator.operator_address }}</dd>
+            </dl>
+            <dl class="info_dl">
+              <dt>Keybase ID</dt>
+              <dd>
+                {{ translateEmptyDescription(validator.description.identity) }}
+              </dd>
+            </dl>
+            <dl class="info_dl" v-if="config.devMode">
+              <dt>First Seen</dt>
+              <dd>n/a</dd>
+            </dl>
+            <dl class="info_dl">
+              <dt>Website</dt>
+              <dd>
+                {{ translateEmptyDescription(validator.description.website) }}
+              </dd>
+            </dl>
+            <dl class="info_dl">
+              <dt>Details</dt>
+              <dd class="info_dl__text-box">
+                {{ translateEmptyDescription(validator.description.details) }}
+              </dd>
+            </dl>
+          </div>
+          <div class="column">
+            <dl class="info_dl">
+              <dt>Commission Rate</dt>
+              <dd>{{ validator.commission.rate }} %</dd>
+            </dl>
+            <dl class="info_dl">
+              <dt>Max Commission Rate</dt>
+              <dd>{{ validator.commission.max_rate }} %</dd>
+            </dl>
+            <dl class="info_dl">
+              <dt>Max Daily Commission Change</dt>
+              <dd>{{ validator.commission.max_change_rate }} %</dd>
+            </dl>
+            <dl class="info_dl">
+              <dt>Last Commission Change</dt>
+              <dd>
+                {{
+                  new Date(validator.commission.update_time).getTime() === 0
+                    ? "Never"
+                    : moment(
+                        new Date(validator.commission.update_time)
+                      ).fromNow()
+                }}
+              </dd>
+            </dl>
+            <dl class="info_dl">
+              <dt>Self Delegated {{ bondingDenom }}</dt>
+              <dd id="validator-profile__self-bond">{{ selfBond }} %</dd>
+            </dl>
+            <dl class="info_dl" v-if="config.devMode">
+              <dt>Minimum Self Delegated {{ bondingDenom }}</dt>
+              <dd>0 %</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+      <delegation-modal
+        v-if="showDelegationModal"
+        v-on:submitDelegation="submitDelegation"
+        :showDelegationModal.sync="showDelegationModal"
+        :fromOptions="delegationTargetOptions()"
+        :to="validator.operator_address"
+      ></delegation-modal>
+      <undelegation-modal
+        v-if="showUndelegationModal"
+        v-on:submitUndelegation="submitUndelegation"
+        :showUndelegationModal.sync="showUndelegationModal"
+        :maximum="myBond"
+        :to="this.wallet.address"
+      ></undelegation-modal>
+      <tm-modal :close="closeCannotModal" v-if="showCannotModal">
+        <div slot="title">
+          Cannot {{ action == `delegate` ? `Delegate` : `Undelegate` }}
+        </div>
+        <p>
+          You have no {{ bondingDenom }}s
+          {{ action == `undelegate` ? `delegated ` : `` }}to
+          {{ action == `delegate` ? `delegate.` : `this validator.` }}
+        </p>
+        <div slot="footer">
+          <tmBtn
+            id="no-atoms-modal__btn"
+            @click.native="closeCannotModal"
+            value="OK"
+          ></tmBtn>
+        </div>
+      </tm-modal>
+    </template>
+  </tm-page>
 </template>
 
 <script>

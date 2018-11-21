@@ -1,21 +1,34 @@
-<template lang="pug">
-.tm-modal-error__wrapper
-  .tm-modal-error
-    .tm-modal-error__icon: i.material-icons sync_problem
-    .tm-modal-error__title Node has halted
-    .tm-modal-error__body The node your are connected to appears to have halted. You can try to connect to another node or switch to a demo connection so you can try out Voyager.
-    .tm-modal-error__footer
-      tm-btn#tm-modal-error__btn-retry(
-        size="lg"
-        icon="autorenew"
-        color="primary"
-        value="Switch Node"
-        @click.native="switchNode")
-      tm-btn#tm-modal-error__btn-mock(
-        size="lg"
-        icon="pageview"
-        value="Try Demo"
-        @click.native="useMock")
+<template>
+  <div class="tm-modal-error__wrapper">
+    <div class="tm-modal-error">
+      <div class="tm-modal-error__icon">
+        <i class="material-icons">sync_problem</i>
+      </div>
+      <div class="tm-modal-error__title">Node has halted</div>
+      <div class="tm-modal-error__body">
+        The node your are connected to appears to have halted. You can try to
+        connect to another node or switch to a demo connection so you can try
+        out Voyager.
+      </div>
+      <div class="tm-modal-error__footer">
+        <tm-btn
+          id="tm-modal-error__btn-retry"
+          size="lg"
+          icon="autorenew"
+          color="primary"
+          value="Switch Node"
+          @click.native="switchNode"
+        ></tm-btn>
+        <tm-btn
+          id="tm-modal-error__btn-mock"
+          size="lg"
+          icon="pageview"
+          value="Try Demo"
+          @click.native="useMock"
+        ></tm-btn>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>

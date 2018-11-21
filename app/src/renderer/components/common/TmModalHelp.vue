@@ -1,8 +1,14 @@
-<template lang="pug">
-modal.tm-modal-help(v-if="active" :close="close")
-  div(slot='title') Need Help?
-  p Something in the app not working correctly? Tell us what went wrong in our <a href="https://riot.im/app/#/room/#cosmos:matrix.org">developer chat</a> or create an issue on <a href="https://github.com/cosmos/voyager/issues">GitHub</a>.
-  p Thanks for improving Cosmos Voyager!
+<template>
+  <modal class="tm-modal-help" v-if="active" :close="close">
+    <div slot="title">Need Help?</div>
+    <p>
+      Something in the app not working correctly? Tell us what went wrong in our
+      <a href="https://riot.im/app/#/room/#cosmos:matrix.org">developer chat</a>
+      or create an issue on
+      <a href="https://github.com/cosmos/voyager/issues">GitHub</a>.
+    </p>
+    <p>Thanks for improving Cosmos Voyager!</p>
+  </modal>
 </template>
 
 <script>

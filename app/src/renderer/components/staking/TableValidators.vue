@@ -1,13 +1,28 @@
-<template lang="pug">
-  div
-    tm-data-loading(v-if="delegates.loading && sortedFilteredEnrichedDelegates.length === 0")
-    tm-data-empty(v-else-if="!delegates.loading && validators.length === 0")
-    data-empty-search(v-else-if="!delegates.loading && sortedFilteredEnrichedDelegates.length === 0")
-    table(v-else)
-      thead
-        panel-sort(:sort='sort', :properties="properties")
-      tbody
-        li-validator(v-for='i in sortedFilteredEnrichedDelegates', :disabled="!userCanDelegate" :key='i.id' :validator='i')
+<template>
+  <div>
+    <tm-data-loading
+      v-if="delegates.loading &amp;&amp; sortedFilteredEnrichedDelegates.length === 0"
+    ></tm-data-loading>
+    <tm-data-empty
+      v-else-if="!delegates.loading &amp;&amp; validators.length === 0"
+    ></tm-data-empty>
+    <data-empty-search
+      v-else-if="!delegates.loading &amp;&amp; sortedFilteredEnrichedDelegates.length === 0"
+    ></data-empty-search>
+    <table v-else="v-else">
+      <thead>
+        <panel-sort :sort="sort" :properties="properties"></panel-sort>
+      </thead>
+      <tbody>
+        <li-validator
+          v-for="i in sortedFilteredEnrichedDelegates"
+          :disabled="!userCanDelegate"
+          :key="i.id"
+          :validator="i"
+        ></li-validator>
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <script>

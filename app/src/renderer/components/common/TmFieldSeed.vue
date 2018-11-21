@@ -1,8 +1,10 @@
-<template lang="pug">
-tm-field.tm-field-seed(
-  type="textarea"
-  @input="update($event)"
-  :value="value")
+<template>
+  <tm-field
+    class="tm-field-seed"
+    type="textarea"
+    @input="update($event)"
+    :value="value"
+  ></tm-field>
 </template>
 
 <script>
