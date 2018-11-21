@@ -1,5 +1,6 @@
 import setup from "../../helpers/vuex-setup"
 import { getTxHash } from "../../../../app/src/renderer/scripts/tx-utils.js"
+import blockchainModule from "renderer/vuex/modules/blockchain.js"
 let instance = setup()
 
 describe(`Module: Blockchain`, () => {
@@ -113,5 +114,41 @@ describe(`Module: Blockchain`, () => {
     let txString = `4wHwYl3uCloqLIf6CikKFIPMHcOoYjqQbmtzFFdU3g967Y0/EhEKCmxvY2FsVG9rZW4SAzEwMBIpChSDzB3DqGI6kG5rcxRXVN4Peu2NPxIRCgpsb2NhbFRva2VuEgMxMDASCQoDEgEwEMCEPRp2CibrWumHIQLUKUS5mPDRAdBIB5lAw9AIh/aaAL9PTqArOWGO5fpsphJMf8SklUcwRQIhAM9qzjJSTxzXatI3ncHcb1cwIdCTU+oVP4V8RO6lzjcXAiAoS9XZ4e3I/1e/HonfHucRNYE65ioGk88q4dWPs9Z5LA==`
     let hash = await getTxHash(txString)
     expect(hash).toBe(expectedHash)
+  })
+
+  it(`should dispatch successful subscription only if the subscription is inactive`, async () => {
+    const node = {
+      rpc: {
+        status: cb => {
+          cb(null, {
+            sync_info: {
+              latest_block_height: 0,
+              catching_up: false
+            }
+          })
+        },
+        subscribe: (query, cb) => {
+          cb()
+          expect(commit).toBeCalledWith(`setSubscription`, true)
+          module.state.subscription = true
+          cb()
+        }
+      }
+    }
+    const module = blockchainModule({
+      node
+    })
+    const commit = jest.fn()
+    await module.actions.subscribeToBlocks({
+      state: module.state,
+      dispatch: jest.fn(),
+      commit
+    })
+    expect(commit.mock.calls).toEqual([
+      [`setSubscribedRPC`, node.rpc],
+      [`setBlockHeight`, 0],
+      [`setSyncing`, false],
+      [`setSubscription`, true]
+    ])
   })
 })
