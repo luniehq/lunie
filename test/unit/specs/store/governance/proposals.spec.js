@@ -50,28 +50,86 @@ describe(`Module: Proposals`, () => {
     )
   })
 
-  it(`fetches all proposals`, async () => {
-    module = proposalsModule({
-      node: {
-        queryProposals: () =>
-          Promise.resolve(
-            proposals.map(proposal => ({
-              value: proposal
-            }))
-          )
-      }
+  describe(`Fetches all proposal`, () => {
+    it(`when the request is successful`, async () => {
+      module = proposalsModule({
+        node: {
+          queryProposals: () =>
+            Promise.resolve(
+              proposals.map(proposal => ({
+                value: proposal
+              }))
+            )
+        }
+      })
+
+      let { actions, state } = module
+      let commit = jest.fn()
+      let dispatch = jest.fn()
+
+      await actions.getProposals({ state, commit, dispatch })
+      expect(commit.mock.calls).toEqual([
+        [`setProposal`, proposals[0]],
+        [`setProposal`, proposals[1]],
+        [`setProposal`, proposals[2]]
+      ])
     })
 
-    let { actions, state } = module
-    let commit = jest.fn()
-    let dispatch = jest.fn()
+    it(`throws and stores error if the request fails`, async () => {
+      module = proposalsModule({
+        node: {
+          queryProposals: () => Promise.reject(new Error(`Error`))
+        }
+      })
+      let { actions, state } = module
+      await actions.getProposals({
+        state,
+        commit: jest.fn()
+      })
+      expect(state.error.message).toBe(`Error`)
+    })
+  })
 
-    await actions.getProposals({ state, commit, dispatch })
-    expect(commit.mock.calls).toEqual([
-      [`setProposal`, proposals[0]],
-      [`setProposal`, proposals[1]],
-      [`setProposal`, proposals[2]]
-    ])
+  describe(`Fetch a single proposal`, () => {
+    it(`when the request is successful`, async () => {
+      module = proposalsModule({
+        node: {
+          queryProposal: proposal_id => {
+            let stateProposals = proposals.map(proposal => ({
+              value: proposal
+            }))
+
+            return Promise.resolve(
+              stateProposals.find(
+                proposal => proposal.value.proposal_id === proposal_id
+              )
+            )
+          }
+        }
+      })
+
+      let { actions, state } = module
+      let commit = jest.fn()
+      let dispatch = jest.fn()
+
+      await actions.getProposal({ state, commit, dispatch }, `1`)
+      expect(commit.mock.calls).toEqual([[`setProposal`, proposals[0]]])
+    })
+
+    it(`throws and stores error if the request fails`, async () => {
+      module = proposalsModule({
+        node: {
+          queryProposal: () => Promise.reject(new Error(`Error`))
+        }
+      })
+
+      let { actions, state } = module
+      let commit = jest.fn()
+      let dispatch = jest.fn()
+
+      await actions.getProposal({ state, commit, dispatch }, `1`)
+      expect(state.error.message).toBe(`Error`)
+    })
   })
 
   it(`submits a new proposal`, async () => {
@@ -111,19 +169,5 @@ describe(`Module: Proposals`, () => {
         `getProposals`
       ])
     })
-  })
-
-  it(`should store an error if failed to load proposals`, async () => {
-    module = proposalsModule({
-      node: {
-        queryProposals: () => Promise.reject(new Error(`Error`))
-      }
-    })
-    let { actions, state } = module
-    await actions.getProposals({
-      state,
-      commit: jest.fn()
-    })
-    expect(state.error.message).toBe(`Error`)
   })
 })
