@@ -53,6 +53,7 @@ export default ({ node }) => {
             }
           )
         })
+        state.loading = false
 
         commit(`setBlockMetas`, {
           ...state.blockMetas,
@@ -95,9 +96,9 @@ export default ({ node }) => {
 
         // only subscribe if the node is not catching up anymore
         node.rpc.subscribe({ query: `tm.event = 'NewBlock'` }, err => {
-          commit(`setSubscription`, true)
-
           if (err) return error(err)
+
+          if (state.subscription === false) commit(`setSubscription`, true)
         })
       })
       return true

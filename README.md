@@ -13,6 +13,10 @@
 
 🎉 Binary releases are [available here](https://github.com/cosmos/voyager/releases). After downloading and untar/unzip-ing, navigate to the source directory and click on the `Cosmos Voyager` icon to launch Voyager.
 
+# ⚠️ NO ACTIVE TESTNET ⚠️
+
+Currently there is no active testnet. You have to run a [local node](#local-node) to test Voyager out.
+
 ---
 
 ## Voyager Prerequisites
@@ -167,7 +171,7 @@ To see the console output of the view in your terminal, set the environment vari
 
 ---
 
-## Run a local node
+## Run a local node<a name="local-node"></a>
 
 Sometimes you may want to run a local node, i.e. in the case there is no available network. To do so first [Build Gaia](#build-gaia), then use our automatic script or the manual process to set up your node.
 
