@@ -117,7 +117,7 @@ export default {
 
   .validator-profile__status
     left 0
-    top 0.5rem
+    top 9px
 
 .li-validator__name-container
   position relative
@@ -130,6 +130,7 @@ export default {
   display flex
   align-items center
   width 100%
+  min-width 284px
 
 .li-validator__moniker
   max-width 200px

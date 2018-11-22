@@ -1,10 +1,6 @@
 <template lang="pug">
   div
     div(v-if="yourValidators.length > 0")
-      h3.tab-header
-        | Active Delegations
-        |
-        i.material-icons.info-button(v-tooltip.top="bondInfo") info_outline
       table-validators(:validators="yourValidators")
 
     tm-data-msg(v-if="yourValidators.length < 1", icon="info_outline")
@@ -16,7 +12,7 @@
       |
       router-link(:to="{name: 'Validators'}") the validator list
       |
-      | to spread some of your Atoms around.
+      | to find other validators to delegate to.
 
     div(v-if="undelegatedValidators.length")
       h3.tab-header
