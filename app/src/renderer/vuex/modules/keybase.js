@@ -1,4 +1,5 @@
 import axios from "axios"
+import Raven from "raven-js"
 
 export default ({}) => {
   const emptyState = {
@@ -57,6 +58,7 @@ export default ({}) => {
           title: `Error fetching keybase information for validators`,
           body: err.message
         })
+        Raven.captureException(err)
         state.error = err
       }
     }

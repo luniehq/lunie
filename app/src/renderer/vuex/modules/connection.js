@@ -1,6 +1,5 @@
-"use strict"
-
 import { ipcRenderer, remote } from "electron"
+import Raven from "raven-js"
 import { sleep } from "scripts/common.js"
 
 const config = remote.getGlobal(`config`)
@@ -73,15 +72,15 @@ export default function({ node }) {
       commit(`setNode`, node)
 
       // TODO: get event from light-client websocket instead of RPC connection (once that exists)
-      node.rpc.on(`error`, err => {
-        if (err.message.indexOf(`disconnected`) !== -1) {
+      node.rpc.on(`error`, error => {
+        if (error.message.indexOf(`disconnected`) !== -1) {
           commit(`setConnected`, false)
           dispatch(`reconnect`)
         }
       })
-      node.rpc.status((err, res) => {
-        if (err) return console.error(err)
-        let status = res
+      node.rpc.status((error, result) => {
+        if (error) return console.error(error)
+        let status = result
         dispatch(`setLastHeader`, {
           height: status.sync_info.latest_block_height,
           chain_id: status.node_info.network
@@ -90,9 +89,10 @@ export default function({ node }) {
 
       node.rpc.subscribe(
         { query: `tm.event = 'NewBlockHeader'` },
-        (err, event) => {
-          if (err) {
-            return console.error(`error subscribing to headers`, err)
+        (error, event) => {
+          if (error) {
+            Raven.captureException(error)
+            return console.error(`error subscribing to headers`, error)
           }
           dispatch(`setLastHeader`, event.data.value.header)
         }
@@ -119,7 +119,7 @@ export default function({ node }) {
       commit(`setModalNodeHalted`, true)
     },
     async checkConnection({ commit }) {
-      let error = () =>
+      let errorHandler = () =>
         commit(`notifyError`, {
           title: `Critical Error`,
           body: `Couldn't initialize the blockchain client. If the problem persists, please make an issue on GitHub.`
@@ -128,11 +128,11 @@ export default function({ node }) {
         if (await node.lcdConnected()) {
           return true
         } else {
-          error()
+          errorHandler()
           return false
         }
-      } catch (err) {
-        error()
+      } catch (error) {
+        errorHandler()
         return false
       }
     },
@@ -147,8 +147,12 @@ export default function({ node }) {
           dispatch(`pollRPCConnection`)
         }
       }, timeout)
-      node.rpc.status(err => {
-        if (err) return console.error(`Couldn't get status via RPC:`, err)
+      node.rpc.status(error => {
+        if (error) {
+          Raven.captureException(error)
+          console.error(`Couldn't get status via RPC:`, error)
+          return
+        }
 
         state.nodeTimeout = null
         state.connected = true

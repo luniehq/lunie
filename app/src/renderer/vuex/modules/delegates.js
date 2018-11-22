@@ -1,10 +1,10 @@
-"use strict"
-
+import Raven from "raven-js"
 import BN from "bignumber.js"
 import { ratToBigNumber } from "scripts/common"
 import num from "scripts/num"
 import { isEmpty } from "lodash"
 import b32 from "scripts/b32"
+
 export default ({ node }) => {
   const emptyState = {
     delegates: [],
@@ -95,13 +95,14 @@ export default ({ node }) => {
         dispatch(`updateSigningInfo`, validators)
 
         return validators
-      } catch (err) {
+      } catch (error) {
         commit(`notifyError`, {
           title: `Error fetching validators`,
-          body: err.message
+          body: error.message
         })
+        Raven.captureException(error)
         commit(`setDelegateLoading`, false)
-        state.error = err
+        state.error = error
         return []
       }
     },

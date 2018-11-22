@@ -1,3 +1,5 @@
+import Raven from "raven-js"
+
 export default ({ node }) => {
   const emptyState = {
     parameters: {},
@@ -23,6 +25,7 @@ export default ({ node }) => {
           title: `Error fetching staking parameters`,
           body: err.message
         })
+        Raven.captureException(err)
         state.error = err
       }
       state.loading = false
