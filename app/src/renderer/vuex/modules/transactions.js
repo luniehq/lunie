@@ -1,4 +1,5 @@
-import { uniqBy, fp } from "lodash"
+import fp from "lodash/fp"
+import { uniqBy } from "lodash"
 import Raven from "raven-js"
 export default ({ node }) => {
   let emptyState = {
@@ -47,26 +48,26 @@ export default ({ node }) => {
         await dispatch(`getAllTxs`)
       }
     },
-    async getAllTxs({ commit, dispatch }) {
-      commit(`setHistoryLoading`, true)
-
-      const stakingTxs = await dispatch(`getTx`, `staking`)
-      commit(`setStakingTxs`, stakingTxs)
-
-      const governanceTxs = await dispatch(`getTx`, `governance`)
-      commit(`setGovernanceTxs`, governanceTxs)
-
-      const walletTxs = await dispatch(`getTx`, `wallet`)
-      commit(`setWalletTxs`, walletTxs)
-
+    async getAllTxs({ commit, dispatch, state }) {
       try {
+        commit(`setHistoryLoading`, true)
+
+        const stakingTxs = await dispatch(`getTx`, `staking`)
+        commit(`setStakingTxs`, stakingTxs)
+
+        const governanceTxs = await dispatch(`getTx`, `governance`)
+        commit(`setGovernanceTxs`, governanceTxs)
+
+        const walletTxs = await dispatch(`getTx`, `wallet`)
+        commit(`setWalletTxs`, walletTxs)
+
         const allTxs = stakingTxs.concat(governanceTxs.concat(walletTxs))
         await dispatch(`enrichTransactions`, {
           transactions: allTxs
         })
       } catch (error) {
         commit(`notifyError`, {
-          title: `Error enriching transactions`,
+          title: `Error getting transactions`,
           body: error.message
         })
         Raven.captureException(error)
@@ -78,38 +79,26 @@ export default ({ node }) => {
       {
         rootState: {
           user: { address }
-        },
-        commit
+        }
       },
       type
     ) {
-      try {
-        let response
-        switch (type) {
-          case `staking`:
-            response = await node.getDelegatorTxs(address)
-            break
-          case `governance`:
-            response = await node.getGovernanceTxs(address)
-            break
-          case `wallet`:
-            response = await node.txs(address)
-            break
-          default:
-            throw new Error(`Unknown transaction type`)
-        }
-        state.error = null
-        const transactionsPlusType = response.map(fp.set(`type`, type))
-        return response ? uniqBy(transactionsPlusType, `hash`) : []
-      } catch (err) {
-        commit(`notifyError`, {
-          title: `Error fetching ${type} transactions`,
-          body: err.message
-        })
-        Raven.captureException(err)
-        state.error = err
-        return []
+      let response
+      switch (type) {
+        case `staking`:
+          response = await node.getDelegatorTxs(address)
+          break
+        case `governance`:
+          response = await node.getGovernanceTxs(address)
+          break
+        case `wallet`:
+          response = await node.txs(address)
+          break
+        default:
+          throw new Error(`Unknown transaction type`)
       }
+      const transactionsPlusType = response.map(fp.set(`type`, type))
+      return response ? uniqBy(transactionsPlusType, `hash`) : []
     },
     async enrichTransactions({ dispatch }, { transactions }) {
       const blockHeights = new Set(transactions.map(({ height }) => height))

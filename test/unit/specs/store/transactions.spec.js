@@ -90,13 +90,14 @@ describe(`Module: Transactions`, () => {
     expect(store.state.transactions.governance).toMatchSnapshot()
   })
 
-  it(`should fail if trying to get transactions of wrong type`, async () => {
-    jest.spyOn(console, `error`).mockImplementation(() => {})
-    await store.dispatch(`getTx`, `unknown`)
-    expect(store.state.transactions.error).toEqual(
-      new Error(`Unknown transaction type`)
-    )
-    console.error.mockReset()
+  it(`should fail if trying to get transactions of wrong type`, done => {
+    store
+      .dispatch(`getTx`, `unknown`)
+      .then(() => done.fail())
+      .catch(error => {
+        expect(error).toEqual(new Error(`Unknown transaction type`))
+        done()
+      })
   })
 
   it(`should query the txs on reconnection`, async () => {
@@ -116,25 +117,16 @@ describe(`Module: Transactions`, () => {
     expect(node.txs).not.toHaveBeenCalled()
   })
 
-  it(`should set error to true if dispatches fail`, () => {
+  it(`should set error to true if enriching transactions fail`, async () => {
     let err = new Error(`unexpected error`)
-    let { actions } = module
+    let { actions, state } = module
 
     const commit = jest.fn()
     const dispatch = jest.fn(() => {
       throw err
     })
-    actions.getAllTxs({ commit, dispatch })
+    await actions.getAllTxs({ commit, dispatch, state })
 
-    expect(commit).toHaveBeenCalledWith(`setError`, `unexpected error`)
-  })
-
-  it(`should set error to error message`, () => {
-    const error = new Error(`unexpected error`)
-    const { mutations, state } = module
-
-    mutations.setError(state, error)
-
-    expect(state.error).toEqual(error)
+    expect(state.error).toBe(err)
   })
 })
