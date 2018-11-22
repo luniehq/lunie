@@ -38,6 +38,7 @@ export default ({}) => {
     },
     async getKeybaseIdentities({ dispatch, commit, state }, validators) {
       try {
+        state.loading = true
         const identities = await Promise.all(
           validators.map(async validator => {
             if (validator.description.identity) {
@@ -48,6 +49,7 @@ export default ({}) => {
             }
           })
         )
+        state.loading = false
         state.error = null
         commit(`setKeybaseIdentities`, identities.filter(x => !!x))
       } catch (err) {

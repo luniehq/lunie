@@ -152,9 +152,6 @@ exports[`PageTransactions has the expected html structure 1`] = `
     class="tm-page-main ps"
   >
     <!---->
-    <!---->
-    <!---->
-    <!---->
     <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
       bondingdenom="Steak"
@@ -414,9 +411,6 @@ exports[`PageTransactions should filter the transactions 1`] = `
         </div>
       </div>
     </div>
-    <!---->
-    <!---->
-    <!---->
     <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
       bondingdenom="Steak"
