@@ -58,10 +58,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - removed unit tests from prepush hook @faboweb
 - [\#1566](https://github.com/cosmos/voyager/issues/1566) putting querying errors in the store instead of showing notifications @faboweb
 - [\1612](https://github.com/cosmos/voyager/issues/1612) defined props types on components
-- [\#1547](https://github.com/cosmos/voyager/issues/1547) removed unused media queries @jbibla
-- [\#1547](https://github.com/cosmos/voyager/issues/1547) deleted archive directory of old components @jbibla
-- removed unit tests from prepush hook @faboweb
-- [\#1566](https://github.com/cosmos/voyager/issues/1566) putting querying errors in the store instead of showing notifications and update loading @faboweb
 
 ### Fixed
 
