@@ -28,6 +28,32 @@ exports[`TabProposals has the expected html structure 1`] = `
       <tbody>
          <tr class=\\"li-proposal\\">
             <td class=\\"li-proposal__value\\">
+               <span class=\\"validator-profile__status red\\"></span>
+               <h2>
+                  <a href=\\"#/governance/6\\" class=\\"\\">Rejected proposal</a>
+               </h2>
+               <p>
+                  this proposal was rejected
+               </p>
+</td>
+            <td>
+               #6
+            </td>
+            <td class=\\"li-proposal__value yes\\">
+               10
+            </td>
+            <td class=\\"li-proposal__value no\\">
+               30
+            </td>
+            <td class=\\"li-proposal__value no_with_veto\\">
+               100
+            </td>
+            <td class=\\"li-proposal__value abstain\\">
+               20
+            </td>
+</tr>
+         <tr class=\\"li-proposal\\">
+            <td class=\\"li-proposal__value\\">
                <span class=\\"validator-profile__status yellow\\"></span>
                <h2>
                   <a href=\\"#/governance/5\\" class=\\"\\">Custom text proposal</a>

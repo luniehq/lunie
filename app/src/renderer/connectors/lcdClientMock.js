@@ -426,6 +426,35 @@ let state = {
         no_with_veto: `0`,
         abstain: `0`
       }
+    },
+    {
+      proposal_id: `6`,
+      proposal_type: `Text`,
+      title: `Rejected proposal`,
+      description: `this proposal was rejected`,
+      initial_deposit: [
+        {
+          denom: `stake`,
+          amount: `100`
+        }
+      ],
+      total_deposit: [
+        {
+          denom: `stake`,
+          amount: `100`
+        }
+      ],
+      submit_time: `2018-11-21T13:29:24.66404Z`,
+      deposit_end_time: `2018-11-23T13:29:24.66404Z`,
+      voting_start_time: `2018-11-23T13:29:24.66404Z`,
+      voting_end_time: `2018-11-25T13:29:24.66404Z`,
+      proposal_status: `Rejected`,
+      tally_result: {
+        yes: `10`,
+        no: `30`,
+        no_with_veto: `100`,
+        abstain: `20`
+      }
     }
   ],
   votes: {
@@ -433,12 +462,12 @@ let state = {
       {
         proposal_id: `1`,
         voter: validators[0],
-        option: `yes`
+        option: `Yes`
       },
       {
         proposal_id: `1`,
         voter: validators[1],
-        option: `no_with_veto`
+        option: `NoWithVeto`
       }
     ],
     2: [],
@@ -446,12 +475,24 @@ let state = {
       {
         proposal_id: `5`,
         voter: validators[0],
-        option: `no`
+        option: `No`
       },
       {
         proposal_id: `5`,
         voter: validators[1],
-        option: `abstain`
+        option: `Abstain`
+      }
+    ],
+    6: [
+      {
+        proposal_id: `6`,
+        voter: validators[0],
+        option: `No`
+      },
+      {
+        proposal_id: `6`,
+        voter: validators[1],
+        option: `NoWithVeto`
       }
     ]
   },
@@ -512,6 +553,18 @@ let state = {
           {
             denom: `stake`,
             amount: `150`
+          }
+        ]
+      }
+    ],
+    6: [
+      {
+        proposal_id: `6`,
+        depositer: validators[0],
+        amount: [
+          {
+            denom: `steak`,
+            amount: `100`
           }
         ]
       }

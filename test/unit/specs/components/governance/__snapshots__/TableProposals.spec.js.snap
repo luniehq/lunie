@@ -28,6 +28,32 @@ exports[`TableProposals has the expected html structure 1`] = `
       <tbody>
          <tr class=\\"li-proposal\\">
             <td class=\\"li-proposal__value\\">
+               <span class=\\"validator-profile__status red\\"></span>
+               <h2>
+                  <a href=\\"#/governance/6\\" class=\\"\\">Rejected proposal</a>
+               </h2>
+               <p>
+                  this proposal was rejected
+               </p>
+</td>
+            <td>
+               #6
+            </td>
+            <td class=\\"li-proposal__value yes\\">
+               10
+            </td>
+            <td class=\\"li-proposal__value no\\">
+               30
+            </td>
+            <td class=\\"li-proposal__value no_with_veto\\">
+               100
+            </td>
+            <td class=\\"li-proposal__value abstain\\">
+               20
+            </td>
+</tr>
+         <tr class=\\"li-proposal\\">
+            <td class=\\"li-proposal__value\\">
                <span class=\\"validator-profile__status yellow\\"></span>
                <h2>
                   <a href=\\"#/governance/5\\" class=\\"\\">Custom text proposal</a>
@@ -180,42 +206,42 @@ exports[`TableProposals should filter the proposals 1`] = `
           class="li-proposal__value"
         >
           <span
-            class="validator-profile__status yellow"
+            class="validator-profile__status red"
           />
           <h2>
             <a
               class=""
-              href="#/governance/5"
+              href="#/governance/6"
             >
-              Custom text proposal
+              Rejected proposal
             </a>
           </h2>
           <p>
-            custom text proposal description
+            this proposal was rejected
           </p>
         </td>
         <td>
-          #5
+          #6
         </td>
         <td
           class="li-proposal__value yes"
         >
-          0
+          10
         </td>
         <td
           class="li-proposal__value no"
         >
-          0
+          30
         </td>
         <td
           class="li-proposal__value no_with_veto"
         >
-          0
+          100
         </td>
         <td
           class="li-proposal__value abstain"
         >
-          0
+          20
         </td>
       </tr>
     </tbody>

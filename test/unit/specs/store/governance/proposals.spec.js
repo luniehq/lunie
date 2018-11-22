@@ -71,7 +71,8 @@ describe(`Module: Proposals`, () => {
       expect(commit.mock.calls).toEqual([
         [`setProposal`, proposals[0]],
         [`setProposal`, proposals[1]],
-        [`setProposal`, proposals[2]]
+        [`setProposal`, proposals[2]],
+        [`setProposal`, proposals[3]]
       ])
     })
 
