@@ -120,6 +120,16 @@ $ yarn test:exe {path to the unpacked executable}
 
 To make an official release, follow the instructions in `docs/release.md`.
 
+#### Building without Docker
+
+You can also skip docker for bundling the Electron application but the builds will no longer be deterministic.
+
+```bash
+node tasks/build/build.js --os darwin --binaryPath $GOPATH/bin/gaiacli
+```
+
+`--os` can be `darwin`, `linux`, `win32`.
+
 ---
 
 ## Testing
