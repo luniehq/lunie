@@ -15,9 +15,9 @@ tm-page(data-title='Proposal')
               span.validator-profile__status(v-bind:class="status.color" v-tooltip.top="status.message")
               .validator-profile__header__name__title {{ proposal.title }} {{ `(#` + proposalId + `)`}}
           .column.validator-profile__header__actions
-            tm-btn#vote-btn(v-if="status.button === 'vote'" value="Vote" color="primary" @click.native="onVote")
-            tm-btn#deposit-btn(v-if="status.button === 'deposit'" value="Deposit" color="primary" @click.native="onDeposit")
-            tm-btn(v-if="!status.button" disabled value="Deposit / Vote" color="primary")
+            tm-btn#vote-btn(v-if="proposal.proposal_status === 'VotingPeriod'" value="Vote" color="primary" @click.native="onVote")
+            tm-btn#deposit-btn(v-if="proposal.proposal_status === 'DepositPeriod'" value="Deposit" color="primary" @click.native="onDeposit")
+            tm-btn(v-if="proposal.proposal_status === 'Passed' || proposal.proposal_status === 'Rejected'" disabled value="Deposit / Vote" color="primary")
 
         .row.description
           p Submitted {{ submittedAgo }}. {{ proposal.proposal_status === `DepositPeriod` ? `Deposit ends ` + depositEndsIn : `Voting started ` + votingStartedAgo }}
@@ -85,7 +85,12 @@ export default {
     TmPage,
     TextBlock
   },
-  props: [`proposalId`],
+  props: {
+    proposalId: {
+      type: String,
+      required: true
+    }
+  },
   data: () => ({
     showModalDeposit: false,
     showModalVote: false
@@ -95,18 +100,20 @@ export default {
     ...mapGetters([`bondingDenom`, `proposals`]),
     proposal() {
       let proposal = this.proposals[this.proposalId]
-      proposal.tally_result.yes = Math.round(
-        parseFloat(proposal.tally_result.yes)
-      )
-      proposal.tally_result.no = Math.round(
-        parseFloat(proposal.tally_result.no)
-      )
-      proposal.tally_result.no_with_veto = Math.round(
-        parseFloat(proposal.tally_result.no_with_veto)
-      )
-      proposal.tally_result.abstain = Math.round(
-        parseFloat(proposal.tally_result.abstain)
-      )
+      if (proposal) {
+        proposal.tally_result.yes = String(
+          Math.round(parseFloat(proposal.tally_result.yes))
+        )
+        proposal.tally_result.no = String(
+          Math.round(parseFloat(proposal.tally_result.no))
+        )
+        proposal.tally_result.no_with_veto = String(
+          Math.round(parseFloat(proposal.tally_result.no_with_veto))
+        )
+        proposal.tally_result.abstain = String(
+          Math.round(parseFloat(proposal.tally_result.abstain))
+        )
+      }
       return proposal
     },
     proposalType() {
@@ -148,34 +155,37 @@ export default {
     status() {
       if (this.proposal.proposal_status === `Passed`)
         return {
-          button: null,
           message: `This proposal has passed`,
           color: `green`
         }
       if (this.proposal.proposal_status === `Rejected`)
         return {
-          button: null,
           message: `This proposal has been rejected and voting is closed`,
           color: `red`
         }
       if (this.proposal.proposal_status === `DepositPeriod`)
         return {
-          button: `deposit`,
           message: `Deposits are open for this proposal`,
           color: `yellow`
         }
       if (this.proposal.proposal_status === `VotingPeriod`)
         return {
-          button: `vote`,
           message: `Voting for this proposal is open`,
           color: `blue`
         }
       else
         return {
-          button: null,
           message: `There was an error determining the status of this proposal.`,
           color: `grey`
         }
+    }
+  },
+  watch: {
+    proposal: {
+      immediate: true,
+      handler(proposal) {
+        if (!proposal) return
+      }
     }
   },
   methods: {
