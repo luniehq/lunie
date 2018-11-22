@@ -10,7 +10,12 @@
 import { clipboard } from "electron"
 export default {
   name: `short-bech32`,
-  props: [`address`],
+  props: {
+    address: {
+      type: String,
+      required: true
+    }
+  },
   data: () => ({
     showSuccess: false
   }),

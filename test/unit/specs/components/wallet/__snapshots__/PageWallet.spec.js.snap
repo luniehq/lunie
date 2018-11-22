@@ -256,150 +256,182 @@ exports[`PageWallet has the expected html structure 1`] = `
           class="tm-part-main"
         >
           <!---->
-          <a
-            class="tm-li tm-li-link tm-li-balance"
-            href="#/wallet/send/fermion"
-          >
-            <div
-              class="tm-li-container"
+          <ul>
+            <li
+              class="li-coin tm-li-balance"
             >
               <div
-                class="tm-li-thumb"
+                class="li-coin__icon"
               >
-                <!---->
+                <img
+                  src="../../assets/images/cosmos-logo.png"
+                />
               </div>
               <div
-                class="tm-li-dl"
+                class="li-coin__content"
               >
                 <div
-                  class="tm-li-dt"
+                  class="li-coin__content__left__denom"
                 >
-                  FERMION
+                  <p
+                    class="coin-denom"
+                  >
+                    Fermion
+                  </p>
                 </div>
                 <div
-                  class="tm-li-dd"
+                  class="li-coin__content__left__amount"
                 >
-                  2,300.0000000000
+                  <p
+                    class="coin-amount"
+                  >
+                    2,300.0000000000
+                  </p>
                 </div>
+                <a
+                  class=""
+                  href="#/wallet/send/fermion"
+                >
+                  <button
+                    class="tm-btn sendTx-btn"
+                  >
+                    <span
+                      class="tm-btn__container tm-btn__icon-right tm-btn--primary"
+                    >
+                      <i
+                        aria-hidden="true"
+                        class="tm-btn__icon material-icons"
+                      >
+                        chevron_right
+                      </i>
+                      <!---->
+                      <span
+                        class="tm-btn__value"
+                      >
+                        Send
+                      </span>
+                    </span>
+                  </button>
+                </a>
               </div>
-              <button
-                class="tm-btn"
-              >
-                <span
-                  class="tm-btn__container tm-btn__icon-right tm-btn--primary"
-                >
-                  <i
-                    aria-hidden="true"
-                    class="tm-btn__icon material-icons"
-                  >
-                    chevron_right
-                  </i>
-                  <!---->
-                  <span
-                    class="tm-btn__value"
-                  >
-                    Send
-                  </span>
-                </span>
-              </button>
-            </div>
-          </a>
-          <a
-            class="tm-li tm-li-link tm-li-balance"
-            href="#/wallet/send/mycoin"
-          >
-            <div
-              class="tm-li-container"
+            </li>
+            <li
+              class="li-coin tm-li-balance"
             >
               <div
-                class="tm-li-thumb"
+                class="li-coin__icon"
               >
-                <!---->
+                <img
+                  src="../../assets/images/cosmos-logo.png"
+                />
               </div>
               <div
-                class="tm-li-dl"
+                class="li-coin__content"
               >
                 <div
-                  class="tm-li-dt"
+                  class="li-coin__content__left__denom"
                 >
-                  MYCOIN
+                  <p
+                    class="coin-denom"
+                  >
+                    Mycoin
+                  </p>
                 </div>
                 <div
-                  class="tm-li-dd"
+                  class="li-coin__content__left__amount"
                 >
-                  1,000.0000000000
+                  <p
+                    class="coin-amount"
+                  >
+                    1,000.0000000000
+                  </p>
                 </div>
+                <a
+                  class=""
+                  href="#/wallet/send/mycoin"
+                >
+                  <button
+                    class="tm-btn sendTx-btn"
+                  >
+                    <span
+                      class="tm-btn__container tm-btn__icon-right tm-btn--primary"
+                    >
+                      <i
+                        aria-hidden="true"
+                        class="tm-btn__icon material-icons"
+                      >
+                        chevron_right
+                      </i>
+                      <!---->
+                      <span
+                        class="tm-btn__value"
+                      >
+                        Send
+                      </span>
+                    </span>
+                  </button>
+                </a>
               </div>
-              <button
-                class="tm-btn"
-              >
-                <span
-                  class="tm-btn__container tm-btn__icon-right tm-btn--primary"
-                >
-                  <i
-                    aria-hidden="true"
-                    class="tm-btn__icon material-icons"
-                  >
-                    chevron_right
-                  </i>
-                  <!---->
-                  <span
-                    class="tm-btn__value"
-                  >
-                    Send
-                  </span>
-                </span>
-              </button>
-            </div>
-          </a>
-          <a
-            class="tm-li tm-li-link tm-li-balance"
-            href="#/wallet/send/steak"
-          >
-            <div
-              class="tm-li-container"
+            </li>
+            <li
+              class="li-coin tm-li-balance"
             >
               <div
-                class="tm-li-thumb"
+                class="li-coin__icon"
               >
-                <!---->
+                <img
+                  src="../../assets/images/cosmos-logo.png"
+                />
               </div>
               <div
-                class="tm-li-dl"
+                class="li-coin__content"
               >
                 <div
-                  class="tm-li-dt"
+                  class="li-coin__content__left__denom"
                 >
-                  STEAK
+                  <p
+                    class="coin-denom"
+                  >
+                    Steak
+                  </p>
                 </div>
                 <div
-                  class="tm-li-dd"
+                  class="li-coin__content__left__amount"
                 >
-                  1,000.0000000000
+                  <p
+                    class="coin-amount"
+                  >
+                    1,000.0000000000
+                  </p>
                 </div>
+                <a
+                  class=""
+                  href="#/wallet/send/steak"
+                >
+                  <button
+                    class="tm-btn sendTx-btn"
+                  >
+                    <span
+                      class="tm-btn__container tm-btn__icon-right tm-btn--primary"
+                    >
+                      <i
+                        aria-hidden="true"
+                        class="tm-btn__icon material-icons"
+                      >
+                        chevron_right
+                      </i>
+                      <!---->
+                      <span
+                        class="tm-btn__value"
+                      >
+                        Send
+                      </span>
+                    </span>
+                  </button>
+                </a>
               </div>
-              <button
-                class="tm-btn"
-              >
-                <span
-                  class="tm-btn__container tm-btn__icon-right tm-btn--primary"
-                >
-                  <i
-                    aria-hidden="true"
-                    class="tm-btn__icon material-icons"
-                  >
-                    chevron_right
-                  </i>
-                  <!---->
-                  <span
-                    class="tm-btn__value"
-                  >
-                    Send
-                  </span>
-                </span>
-              </button>
-            </div>
-          </a>
+            </li>
+          </ul>
         </main>
       </div>
     </section>
@@ -683,54 +715,66 @@ exports[`PageWallet should filter the balances 1`] = `
           class="tm-part-main"
         >
           <!---->
-          <a
-            class="tm-li tm-li-link tm-li-balance"
-            href="#/wallet/send/steak"
-          >
-            <div
-              class="tm-li-container"
+          <ul>
+            <li
+              class="li-coin tm-li-balance"
             >
               <div
-                class="tm-li-thumb"
+                class="li-coin__icon"
               >
-                <!---->
+                <img
+                  src="../../assets/images/cosmos-logo.png"
+                />
               </div>
               <div
-                class="tm-li-dl"
+                class="li-coin__content"
               >
                 <div
-                  class="tm-li-dt"
+                  class="li-coin__content__left__denom"
                 >
-                  STEAK
+                  <p
+                    class="coin-denom"
+                  >
+                    Steak
+                  </p>
                 </div>
                 <div
-                  class="tm-li-dd"
+                  class="li-coin__content__left__amount"
                 >
-                  1,000.0000000000
+                  <p
+                    class="coin-amount"
+                  >
+                    1,000.0000000000
+                  </p>
                 </div>
+                <a
+                  class=""
+                  href="#/wallet/send/steak"
+                >
+                  <button
+                    class="tm-btn sendTx-btn"
+                  >
+                    <span
+                      class="tm-btn__container tm-btn__icon-right tm-btn--primary"
+                    >
+                      <i
+                        aria-hidden="true"
+                        class="tm-btn__icon material-icons"
+                      >
+                        chevron_right
+                      </i>
+                      <!---->
+                      <span
+                        class="tm-btn__value"
+                      >
+                        Send
+                      </span>
+                    </span>
+                  </button>
+                </a>
               </div>
-              <button
-                class="tm-btn"
-              >
-                <span
-                  class="tm-btn__container tm-btn__icon-right tm-btn--primary"
-                >
-                  <i
-                    aria-hidden="true"
-                    class="tm-btn__icon material-icons"
-                  >
-                    chevron_right
-                  </i>
-                  <!---->
-                  <span
-                    class="tm-btn__value"
-                  >
-                    Send
-                  </span>
-                </span>
-              </button>
-            </div>
-          </a>
+            </li>
+          </ul>
         </main>
       </div>
     </section>

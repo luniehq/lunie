@@ -15,7 +15,12 @@ tr.li-proposal
 <script>
 export default {
   name: `li-proposal`,
-  props: [`proposal`],
+  props: {
+    proposal: {
+      type: Object,
+      required: true
+    }
+  },
   computed: {
     status() {
       if (this.proposal.proposal_status === `Passed`)

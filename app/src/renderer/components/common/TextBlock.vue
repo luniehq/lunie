@@ -6,7 +6,12 @@
 import MarkdownIt from "markdown-it"
 export default {
   name: `text-block`,
-  props: [`content`, `author`],
+  props: {
+    content: {
+      type: String,
+      required: true
+    }
+  },
   computed: {
     htmlContent() {
       let md = new MarkdownIt()

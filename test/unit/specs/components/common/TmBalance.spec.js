@@ -18,6 +18,11 @@ describe(`TmBalance`, () => {
         totalAtoms: () => {
           return 321
         }
+      },
+      propsData: {
+        totalEarnings: 100,
+        totalRewards: 50,
+        tabs: []
       }
     })
     wrapper = instance.wrapper
@@ -31,12 +36,10 @@ describe(`TmBalance`, () => {
   it(`shows correct stats depending on props`, () => {
     expect(wrapper.contains(`.unbonded-atoms`)).toBe(true)
 
-    expect(wrapper.contains(`.total-earnings`)).toBe(false)
     wrapper.setProps({ totalEarnings: 1337 })
     wrapper.update()
     expect(wrapper.contains(`.total-earnings`)).toBe(true)
 
-    expect(wrapper.contains(`.total-rewards`)).toBe(false)
     wrapper.setProps({ totalRewards: 1337 })
     wrapper.update()
     expect(wrapper.contains(`.total-rewards`)).toBe(true)
