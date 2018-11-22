@@ -1,4 +1,4 @@
-"use strict"
+import Raven from "raven-js"
 import Vue from "vue"
 
 export default ({ node }) => {
@@ -34,12 +34,13 @@ export default ({ node }) => {
             commit(`setProposal`, proposal.value)
           })
         }
-      } catch (err) {
+      } catch (error) {
         commit(`notifyError`, {
           title: `Error fetching proposals`,
-          body: err.message
+          body: error.message
         })
-        state.error = err
+        Raven.captureException(error)
+        state.error = error
       }
       state.loading = false
     },

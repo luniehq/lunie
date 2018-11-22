@@ -2,59 +2,59 @@
 tm-page(data-title='Send')
   div(slot="menu"): vm-tool-bar
   tm-form-struct(:submit="onSubmit")
-    tm-part(title='Denomination Options')
-      tm-form-group(:error='$v.fields.denom.$error'
-        field-id='send-denomination' field-label='Denomination')
+    tm-part(title="Denomination Options")
+      tm-form-group(:error="$v.fields.denom.$error"
+        field-id="send-denomination" field-label="Denomination")
         tm-field#send-denomination(
           type="select"
           v-model="fields.denom"
           :options="denominations"
           placeholder="Select token...")
-        tm-form-msg(name='Denomination' type='required' v-if='!$v.fields.denom.required')
+        tm-form-msg(name="Denomination" type="required" v-if="!$v.fields.denom.required")
 
-    tm-part(title='Transaction Details')
-      tm-form-group(:error='$v.fields.zoneId.$error'
+    tm-part(title="Transaction Details")
+      tm-form-group(:error="$v.fields.zoneId.$error"
         v-if="config.devMode"
-        field-id='send-zone-id' field-label='Zone ID')
+        field-id="send-zone-id" field-label="Zone ID")
         tm-field#send-zone-id(
           type="select"
           v-model="fields.zoneId"
           :options="zoneIds"
           placeholder="Select zone...")
-        tm-form-msg(name='Zone' type='required' v-if='!$v.fields.zoneId.required')
-      tm-form-group(:error='$v.fields.address.$error'
-        field-id='send-address' field-label='Send To')
+        tm-form-msg(name="Zone" type="required" v-if="!$v.fields.zoneId.required")
+      tm-form-group(:error="$v.fields.address.$error"
+        field-id="send-address" field-label="Send To")
         tm-field-group
           tm-field#send-address(
-            type='text'
-            v-model='fields.address'
-            placeholder='Address')
-        tm-form-msg(name='Address' type='required' v-if='!$v.fields.address.required')
-        tm-form-msg(name='Address' type='bech32' :body="bech32error" v-else-if='!$v.fields.address.bech32Validate')
+            type="text"
+            v-model="fields.address"
+            placeholder="Address")
+        tm-form-msg(name="Address" type="required" v-if="!$v.fields.address.required")
+        tm-form-msg(name="Address" type="bech32" :body="bech32error" v-else-if="!$v.fields.address.bech32Validate")
 
-      tm-form-group(:error='$v.fields.amount.$error'
-        field-id='send-amount' field-label='Amount')
+      tm-form-group(:error="$v.fields.amount.$error"
+        field-id="send-amount" field-label="Amount")
         tm-field-group
           tm-field#send-amount(
-            type='number'
+            type="number"
             :max="max"
-            :min='max ? 1 : 0'
-            v-model='fields.amount'
-            placeholder='Amount')
-        tm-form-msg(name='Amount' type='required' v-if='!$v.fields.amount.required')
-        tm-form-msg(name='Amount' type='between' :min='max ? 1 : 0' :max='max'
-          v-if='!$v.fields.amount.between')
+            :min="max ? 1 : 0"
+            v-model="fields.amount"
+            placeholder="Amount")
+        tm-form-msg(name="Amount" type="required" v-if="!$v.fields.amount.required")
+        tm-form-msg(name="Amount" type="between" :min="max ? 1 : 0" :max="max"
+          v-if="!$v.fields.amount.between")
 
-      p(v-if='mockedConnector')
+      p(v-if="mockedConnector")
         span Try sending to the address "
         strong(style="font-weight: bold") cosmos1p6zajjw6xged056andyhn62lm7axwzyspkzjq0
         span ", it's a friendly bot which will send the money back to you!
-      br(v-if='mockedConnector')
+      br(v-if="mockedConnector")
 
-    div(slot='footer')
-      tm-btn(v-if='sending' value='Sending...' disabled color="primary")
-      tm-btn(v-else-if='!connected' value='Connecting...' disabled color="primary")
-      tm-btn(v-else id="send-btn" @click='onSubmit' value="Send Tokens" color="primary")
+    div(slot="footer")
+      tm-btn(v-if="sending" value="Sending..." disabled color="primary")
+      tm-btn(v-else-if="!connected" value="Connecting..." disabled color="primary")
+      tm-btn(v-else id="send-btn" @click="onSubmit" value="Send Tokens" color="primary")
 
   tm-modal-send-confirmation(v-if="confirmationPending" @approved="onApproved" @canceled="onCancel" :amount="fields.amount" :recipient="fields.address" :denom="fields.denom")
 </template>
@@ -91,7 +91,12 @@ export default {
     VmToolBar,
     TmModalSendConfirmation
   },
-  props: [`denom`],
+  props: {
+    denom: {
+      type: String,
+      required: true
+    }
+  },
   data: () => ({
     bech32error: null,
     fields: {
@@ -179,11 +184,11 @@ export default {
         })
         // resets send transaction form
         this.resetForm()
-      } catch (err) {
+      } catch (error) {
         this.sending = false
         this.$store.commit(`notifyError`, {
           title: `Error Sending transaction`,
-          body: err.message
+          body: error.message
         })
       }
     },
@@ -195,8 +200,8 @@ export default {
         b32.decode(param)
         this.bech32error = null
         return true
-      } catch (err) {
-        this.bech32error = err.message
+      } catch (error) {
+        this.bech32error = error.message
         return false
       }
     },

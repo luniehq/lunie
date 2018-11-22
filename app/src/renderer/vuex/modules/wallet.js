@@ -1,10 +1,9 @@
-"use strict"
-
-let fs = require(`fs-extra`)
-let { join } = require(`path`)
-const { remote } = require(`electron`)
+import Raven from "raven-js"
+import fs from "fs-extra"
+import { join } from "path"
+import { remote } from "electron"
+import { sleep } from "scripts/common.js"
 const root = remote.getGlobal(`root`)
-let { sleep } = require(`scripts/common.js`)
 
 export default ({ node }) => {
   let emptyState = {
@@ -74,29 +73,40 @@ export default ({ node }) => {
             break
           }
         }
-      } catch (err) {
+      } catch (error) {
         commit(`notifyError`, {
           title: `Error fetching balances`,
-          body: err.message
+          body: error.message
         })
-        state.error = err
+        Raven.captureException(error)
+        state.error = error
       }
 
       state.loading = false
     },
-    async loadDenoms({ commit }) {
+    async loadDenoms({ commit, state }, maxIterations = 10) {
       // read genesis.json to get default denoms
 
       // wait for genesis.json to exist
       let genesisPath = join(root, `genesis.json`)
-      while (true) {
+
+      // wait for the genesis and load it
+      // at some point give up and throw an error
+      while (maxIterations) {
         try {
           await fs.pathExists(genesisPath)
           break
-        } catch (err) {
-          console.log(`waiting for genesis`, err, genesisPath)
+        } catch (error) {
+          console.log(`waiting for genesis`, error, genesisPath)
+          maxIterations--
           await sleep(500)
         }
+      }
+      if (maxIterations === 0) {
+        const error = new Error(`Couldn't load genesis at path ${genesisPath}`)
+        Raven.captureException(error)
+        state.error = error
+        return
       }
 
       let genesis = await fs.readJson(genesisPath)
@@ -130,9 +140,11 @@ export default ({ node }) => {
 
       state.subscribedRPC = node.rpc
 
-      function onTx(err, event) {
-        if (err) {
-          return console.error(`error subscribing to transactions`, err)
+      function onTx(error, event) {
+        if (error) {
+          Raven.captureException(error)
+          console.error(`error subscribing to transactions`, error)
+          return
         }
         dispatch(
           `queryWalletStateAfterHeight`,

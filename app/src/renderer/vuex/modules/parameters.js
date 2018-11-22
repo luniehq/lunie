@@ -1,3 +1,5 @@
+import Raven from "raven-js"
+
 export default ({ node }) => {
   const emptyState = {
     parameters: {},
@@ -18,12 +20,13 @@ export default ({ node }) => {
         let parameters = await node.getParameters()
         state.error = null
         commit(`setParameters`, parameters)
-      } catch (err) {
+      } catch (error) {
         commit(`notifyError`, {
           title: `Error fetching staking parameters`,
-          body: err.message
+          body: error.message
         })
-        state.error = err
+        Raven.captureException(error)
+        state.error = error
       }
       state.loading = false
     }

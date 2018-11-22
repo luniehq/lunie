@@ -151,6 +151,7 @@ exports[`PageStaking has the expected html structure 1`] = `
       </div>
 </div>
 </div>
+      <ul></ul>
 </main>
 </div>
 </section>

@@ -38,7 +38,20 @@ export default {
   components: {
     ShortBech32
   },
-  props: [`totalEarnings`, `totalRewards`, `tabs`],
+  props: {
+    totalEarnings: {
+      type: [String, Number],
+      required: true
+    },
+    totalRewards: {
+      type: [String, Number],
+      required: true
+    },
+    tabs: {
+      type: Array,
+      required: true
+    }
+  },
   data() {
     return {
       num,

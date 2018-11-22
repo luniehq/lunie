@@ -148,8 +148,8 @@ describe(`Module: Send`, () => {
       let error1
       try {
         await store.dispatch(`sendTx`, args)
-      } catch (err) {
-        error1 = err
+      } catch (error) {
+        error1 = error
       }
       expect(error1).toBeDefined()
 
@@ -158,8 +158,8 @@ describe(`Module: Send`, () => {
       let error2
       try {
         await store.dispatch(`sendTx`, args)
-      } catch (err) {
-        error2 = err
+      } catch (error) {
+        error2 = error
       }
       expect(error2).toBeUndefined()
     })

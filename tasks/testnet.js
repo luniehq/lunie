@@ -30,6 +30,6 @@ async function main() {
   children.forEach(child => child.on(`exit`, () => process.exit()))
 }
 
-main().catch(function(err) {
-  console.error(`Starting the application failed`, err)
+main().catch(function(error) {
+  console.error(`Starting the application failed`, error)
 })

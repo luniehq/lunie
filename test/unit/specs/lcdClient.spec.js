@@ -253,8 +253,8 @@ describe(`LCD Client`, () => {
 
         try {
           await await client.keys.values()
-        } catch (err) {
-          expect(err.response.data).toBe(`foo`)
+        } catch (error) {
+          expect(error.response.data).toBe(`foo`)
         }
         expect(axios.mock.calls).toEqual([
           [{ data: undefined, method: `GET`, url: `http://localhost/keys` }]
@@ -733,8 +733,8 @@ describe(`LCD Client`, () => {
         )
         try {
           await client.queryAccount(`address`)
-        } catch (err) {
-          expect(err.response.data).toBe(`something failed`)
+        } catch (error) {
+          expect(error.response.data).toBe(`something failed`)
         }
       })
     })

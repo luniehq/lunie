@@ -34,7 +34,16 @@ export default {
     PanelSort,
     VmToolBar
   },
-  props: [`proposals`, `loading`],
+  props: {
+    proposals: {
+      type: Array,
+      required: true
+    },
+    loading: {
+      type: Boolean,
+      required: true
+    }
+  },
   data: () => ({
     query: ``,
     sort: {
