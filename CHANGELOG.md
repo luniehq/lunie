@@ -33,7 +33,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - added build option for single os to electron bundle script @faboweb
 - [\#1611](https://github.com/cosmos/voyager/issues/1611) added no testnet warning @faboweb
 - [\#1573](https://github.com/cosmos/voyager/issues/1573) added remote error collection for several catched errors in Voyager @faboweb
-- added FAQ about broken symlink to networks folder @faboweb
+- [\#1632](https://github.com/cosmos/voyager/pull/1632) added FAQ about broken symlink to networks folder @faboweb
 
 ### Changed
 
