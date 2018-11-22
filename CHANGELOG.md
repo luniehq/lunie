@@ -50,10 +50,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1543](https://github.com/cosmos/voyager/issues/1543) updated unit tests to use `describe` and `it` instead of `test` @fedekunze
 - [\#1377](https://github.com/cosmos/voyager/issues/1377) deleted AppFooter page @fedekunze
 - [\#1582](https://github.com/cosmos/voyager/issues/1582) proposals now use time instead of block number @fedekunze
+- [\#1585](https://github.com/cosmos/voyager/issues/1585) updated style in coin balances from wallet page @fedekunze
 - [\#1547](https://github.com/cosmos/voyager/issues/1547) removed unused media queries @jbibla
 - [\#1547](https://github.com/cosmos/voyager/issues/1547) deleted archive directory of old components @jbibla
 - removed unit tests from prepush hook @faboweb
-- [\#1566](https://github.com/cosmos/voyager/issues/1566) putting querying errors in the store instead of showing notifications and update loading @faboweb
+- [\#1566](https://github.com/cosmos/voyager/issues/1566) putting querying errors in the store instead of showing notifications @faboweb
+- [\1612](https://github.com/cosmos/voyager/issues/1612) defined props types on components
 
 ### Fixed
 

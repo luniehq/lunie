@@ -11,7 +11,6 @@ let {
 let {
   addresses
 } = require(`../../app/src/renderer/connectors/lcdClientMock.js`)
-console.log(addresses)
 
 /*
  * NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
@@ -27,25 +26,39 @@ test(`wallet`, async function(t) {
   await login(app, `testkey`)
 
   let balanceEl = denom => {
-    let balanceElemSlector = `//div[contains(text(), "${denom.toUpperCase()}")]`
-    // app.client.getHTML("#part-available-balances").then(result => {
-    //   console.log(result)
-    // })
-    return app.client.waitForExist(balanceElemSlector, 20000).then(() =>
-      $(balanceElemSlector)
+    return app.client.waitForExist(`.coin-denom=${denom}`, 20000).then(() =>
+      $(`.coin-denom=${denom}`)
         .$(`..`)
-        .$(`div.tm-li-dd`)
+        .$(`..`)
+        .$(`div.li-coin__content__left__amount`)
+        .$(`p`)
     )
   }
+
+  t.test(`Coins`, async function(t) {
+    t.equal((await app.client.$$(`.li-coin`)).length, 2, `it shows all 2 coins`)
+    // denom
+    await t.ok(
+      await app.client.$(`.coin-denom=Steak`).isVisible(),
+      `show coin steak`
+    )
+    await t.ok(
+      await app.client.$(`.coin-denom=Localcoin`).isVisible(),
+      `show coin localcoin`
+    )
+    t.end()
+  })
 
   t.test(`send`, async function(t) {
     async function goToSendPage() {
       await navigate(app, `Wallet`)
 
-      await $(`#part-available-balances`)
-        .$(`.tm-li-dt=LOCALCOIN`)
+      await app.client
+        .$(`.coin-denom=Localcoin`)
         .$(`..`)
         .$(`..`)
+        .$(`a`)
+        .$(`button`)
         .click()
     }
 
@@ -55,14 +68,14 @@ test(`wallet`, async function(t) {
     let addressInput = () => $(`#send-address`)
     let amountInput = () => $(`#send-amount`)
     let defaultBalance = 1000.0
-    t.test(`LOCALCOIN balance before sending`, async function(t) {
+    t.test(`Localcoin balance before sending`, async function(t) {
       await app.client.waitForExist(
         `//span[contains(text(), "Send")]`,
         15 * defaultBalance
       )
 
-      let LOCALCOINEl = balanceEl(`LOCALCOIN`)
-      await waitForText(() => LOCALCOINEl, `1,000.0000000000`)
+      let LocalcoinEl = balanceEl(`Localcoin`)
+      await waitForText(() => LocalcoinEl, `1,000.0000000000`)
       t.end()
     })
 
@@ -132,7 +145,6 @@ test(`wallet`, async function(t) {
       await amountInput().setValue(`100`)
       await sendBtn().click()
       t.equal(await sendBtn().getText(), `Send Tokens`, `not sending`)
-
       t.end()
     })
 
@@ -146,7 +158,6 @@ test(`wallet`, async function(t) {
 
       await app.client.waitForExist(`.tm-notification`, 10 * 1000)
       let msg = await app.client.$(`.tm-notification .body`).getText()
-      console.log(`msg`, msg)
       t.ok(msg.includes(`Success`), `Send successful`)
       // close the notifications to have a clean setup for the next tests
       await closeNotifications(app)
@@ -157,8 +168,14 @@ test(`wallet`, async function(t) {
     t.test(`own balance updated`, async function(t) {
       await navigate(app, `Wallet`)
 
-      let mycoinEl = () => balanceEl(`LOCALCOIN`)
-      await waitForText(mycoinEl, `900.0000000000`, 10000)
+      t.equal(
+        (await app.client.$$(`.li-coin`)).length,
+        2,
+        `it shows all 2 coins`
+      )
+
+      let LocalcoinEl = () => balanceEl(`Localcoin`)
+      await waitForText(LocalcoinEl, `900.0000000000`, 20000)
       t.pass(`balance is reduced by 100`)
       t.end()
     })
@@ -167,18 +184,18 @@ test(`wallet`, async function(t) {
   })
 
   t.test(`receive`, async function(t) {
-    t.test(`LOCALCOIN balance after receiving`, async function(t) {
+    t.test(`Localcoin balance after receiving`, async function(t) {
       await restart(app)
       await login(app, `testreceiver`)
       await navigate(app, `Wallet`)
 
-      let LOCALCOINEl = () => balanceEl(`LOCALCOIN`)
+      let LocalcoinEl = () => balanceEl(`Localcoin`)
       await app.client.waitForExist(
         `//span[contains(text(), "Send")]`,
         15 * 1000
       )
 
-      await waitForText(LOCALCOINEl, `100.0000000000`, 5000)
+      await waitForText(LocalcoinEl, `100.0000000000`, 10000)
       t.pass(`received mycoin transaction`)
       t.end()
     })

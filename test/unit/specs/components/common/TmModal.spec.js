@@ -8,8 +8,8 @@ describe(`TmModal`, () => {
     close = jest.fn()
     wrapper = mount(TmModal, {
       propsData: {
-        size: null,
-        icon: null,
+        size: `fullscreen`,
+        icon: `hallo_icon`,
         close
       }
     })

@@ -85,7 +85,16 @@ export default {
     TmPage,
     TextBlock
   },
-  props: [`proposal`, `status`],
+  props: {
+    proposal: {
+      type: Object,
+      required: true
+    },
+    status: {
+      type: Object,
+      required: true
+    }
+  },
   data: () => ({
     showModalDeposit: false,
     showModalVote: false

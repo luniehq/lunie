@@ -6,7 +6,12 @@ describe(`TmLiCopy`, () => {
   let { mount } = setup()
 
   beforeEach(() => {
-    let instance = mount(TmLiCopy)
+    let instance = mount(TmLiCopy, {
+      propsData: {
+        value: `hallo`,
+        receive: false
+      }
+    })
     wrapper = instance.wrapper
   })
 

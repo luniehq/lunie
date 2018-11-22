@@ -27,14 +27,13 @@ tm-page(data-title="Wallet")
         a(href="https://gaia.faucetcosmos.network/") token faucet
         | &nbsp;to aquire tokens to play with.
     data-empty-search(v-else-if="filteredBalances.length === 0")
-    tm-list-item.tm-li-balance(
-      v-for="i in filteredBalances"
-      v-if="wallet.balances.length > 0 && i.amount > 0"
-      :btn="'Send'"
-      :key="i.denom"
-      :dt="i.denom.toUpperCase()"
-      :dd="num.full(i.amount)"
-      :to="{name: 'send', params: {denom: i.denom}}")
+    ul
+      li-coin.tm-li-balance(
+      v-for="coin in filteredBalances"
+      v-if="wallet.balances.length > 0 && coin.amount > 0"
+      :key="coin.denom"
+      :coin="coin"
+      )
 </template>
 
 <script>
@@ -44,6 +43,7 @@ import { includes, orderBy } from "lodash"
 import Mousetrap from "mousetrap"
 import DataEmptySearch from "common/TmDataEmptySearch"
 import LiCopy from "common/TmLiCopy"
+import LiCoin from "./LiCoin"
 import BtnReceive from "common/TmBtnReceive"
 import {
   TmListItem,
@@ -62,6 +62,7 @@ export default {
     TmDataLoading,
     TmDataMsg,
     DataEmptySearch,
+    LiCoin,
     LiCopy,
     TmListItem,
     ModalSearch,
@@ -103,7 +104,7 @@ export default {
         [`desc`, `asc`]
       )
       if (this.filters.balances.search.visible) {
-        return list.filter(i => includes(i.denom.toLowerCase(), query))
+        return list.filter(coin => includes(coin.denom.toLowerCase(), query))
       } else {
         return list
       }
@@ -127,15 +128,3 @@ export default {
   }
 }
 </script>
-
-<style lang="stylus">
-main
-  .tm-li-label
-    max-width calc(100% - 110px)
-
-  .tm-li-title
-    white-space nowrap
-    overflow hidden
-    text-overflow ellipsis
-    width 100%
-</style>

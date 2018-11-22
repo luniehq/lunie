@@ -9,7 +9,20 @@
 <script>
 export default {
   name: `tm-li-session`,
-  props: [`icon`, `title`, `subtitle`]
+  props: {
+    icon: {
+      type: String,
+      required: true
+    },
+    title: {
+      type: String,
+      required: true
+    },
+    subtitle: {
+      type: String,
+      required: true
+    }
+  }
 }
 </script>
 

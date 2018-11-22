@@ -75,7 +75,12 @@ export default {
     TmField,
     TmFormGroup
   },
-  props: [`denom`],
+  props: {
+    denom: {
+      type: String,
+      required: true
+    }
+  },
   data: () => ({
     titleMinLength: 1,
     titleMaxLength: 64,
