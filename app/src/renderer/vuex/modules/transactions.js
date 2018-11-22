@@ -67,10 +67,10 @@ export default ({ node }) => {
       } catch (error) {
         commit(`notifyError`, {
           title: `Error enriching transactions`,
-          body: err.message
+          body: error.message
         })
-        Raven.captureException(err)
-        state.error = err
+        Raven.captureException(error)
+        state.error = error
       }
       commit(`setHistoryLoading`, false)
     },
