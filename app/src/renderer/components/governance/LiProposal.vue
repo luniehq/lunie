@@ -3,7 +3,7 @@ tr.li-proposal
   td.li-proposal__value
     span.validator-profile__status(v-bind:class="status.color" v-tooltip.top="status.message")
     h2
-      router-link(:to="{ name: 'Proposal', params: { proposalId: proposal.proposal_id, proposal, status }}") {{ proposal.title }}
+      router-link(:to="{ name: 'Proposal', params: { proposalId: proposal.proposal_id }}") {{ proposal.title }}
     p {{ description }}
   td {{ `#` + proposal.proposal_id }}
   td.li-proposal__value.yes {{ proposal.tally_result.yes }}
@@ -20,31 +20,26 @@ export default {
     status() {
       if (this.proposal.proposal_status === `Passed`)
         return {
-          button: null,
           message: `This proposal has passed`,
           color: `green`
         }
       if (this.proposal.proposal_status === `Rejected`)
         return {
-          button: null,
           message: `This proposal has been rejected and voting is closed`,
           color: `red`
         }
       if (this.proposal.proposal_status === `DepositPeriod`)
         return {
-          button: `deposit`,
           message: `Deposits are open for this proposal`,
           color: `yellow`
         }
       if (this.proposal.proposal_status === `VotingPeriod`)
         return {
-          button: `vote`,
           message: `Voting for this proposal is open`,
           color: `blue`
         }
       else
         return {
-          button: null,
           message: `There was an error determining the status of this proposal.`,
           color: `grey`
         }

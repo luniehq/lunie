@@ -47,7 +47,6 @@ export default {
     somethingToSearch() {
       return !!this.proposals.length
     },
-    // TODO delete once tally is changed from Rat --> Dec
     parsedProposals() {
       if (!this.proposals || this.proposals.length === 0) return []
 
