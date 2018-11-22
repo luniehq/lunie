@@ -19,13 +19,13 @@ export default ({ node }) => {
         let deposits = await node.queryProposalDeposits(proposalId)
         state.error = null
         commit(`setProposalDeposits`, proposalId, deposits)
-      } catch (err) {
+      } catch (error) {
         commit(`notifyError`, {
           title: `Error fetching deposits on proposals`,
-          body: err.message
+          body: error.message
         })
-        Raven.captureException(err)
-        state.error = err
+        Raven.captureException(error)
+        state.error = error
       }
       state.loading = false
     },

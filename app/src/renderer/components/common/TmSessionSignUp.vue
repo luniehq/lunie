@@ -131,10 +131,10 @@ export default {
             account: this.fields.signUpName
           })
         }
-      } catch (err) {
+      } catch (error) {
         this.$store.commit(`notifyError`, {
           title: `Couldn't create account`,
-          body: err.message
+          body: error.message
         })
       }
     }

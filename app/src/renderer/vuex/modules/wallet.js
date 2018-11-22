@@ -73,13 +73,13 @@ export default ({ node }) => {
             break
           }
         }
-      } catch (err) {
+      } catch (error) {
         commit(`notifyError`, {
           title: `Error fetching balances`,
-          body: err.message
+          body: error.message
         })
-        Raven.captureException(err)
-        state.error = err
+        Raven.captureException(error)
+        state.error = error
       }
 
       state.loading = false
@@ -96,8 +96,8 @@ export default ({ node }) => {
         try {
           await fs.pathExists(genesisPath)
           break
-        } catch (err) {
-          console.log(`waiting for genesis`, err, genesisPath)
+        } catch (error) {
+          console.log(`waiting for genesis`, error, genesisPath)
           maxIterations--
           await sleep(500)
         }
@@ -140,10 +140,10 @@ export default ({ node }) => {
 
       state.subscribedRPC = node.rpc
 
-      function onTx(err, event) {
-        if (err) {
-          Raven.captureException(err)
-          console.error(`error subscribing to transactions`, err)
+      function onTx(error, event) {
+        if (error) {
+          Raven.captureException(error)
+          console.error(`error subscribing to transactions`, error)
           return
         }
         dispatch(

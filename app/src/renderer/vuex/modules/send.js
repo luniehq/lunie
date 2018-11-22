@@ -74,8 +74,8 @@ export default ({ node }) => {
         // wait for doSend to finish
         let res = await lock
         return res
-      } catch (err) {
-        throw err
+      } catch (error) {
+        throw error
       } finally {
         // get rid of lock whether doSend throws or succeeds
         lock = null

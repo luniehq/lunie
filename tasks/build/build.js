@@ -107,8 +107,8 @@ async function tarFolder(inDir, outDir) {
           resolve
         )
       })
-    } catch (err) {
-      console.error(`Couldn't pack file`, file, err)
+    } catch (error) {
+      console.error(`Couldn't pack file`, file, error)
       // skip this file
     }
   }

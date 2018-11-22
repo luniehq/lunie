@@ -10,8 +10,8 @@ describe(`RPC Wrapper Mock`, () => {
   })
 
   it(`outputs validators`, done => {
-    node.rpc.validators((err, data) => {
-      expect(err).toBeNull()
+    node.rpc.validators((error, data) => {
+      expect(error).toBeNull()
       expect(data.validators).toBeDefined()
       done()
     })
@@ -19,8 +19,8 @@ describe(`RPC Wrapper Mock`, () => {
 
   it(`outputs a block`, done => {
     let height = 5
-    node.rpc.block({ height: height, maxHeight: height }, (err, data) => {
-      expect(err).toBeNull()
+    node.rpc.block({ height: height, maxHeight: height }, (error, data) => {
+      expect(error).toBeNull()
       expect(data.block).toBeDefined()
       done()
     })
@@ -30,8 +30,8 @@ describe(`RPC Wrapper Mock`, () => {
     let height = 5
     node.rpc.blockchain(
       { minHeight: height, maxHeight: height },
-      (err, data) => {
-        expect(err).toBeNull()
+      (error, data) => {
+        expect(error).toBeNull()
         expect(data.block_metas).toBeDefined()
         done()
       }
@@ -39,8 +39,8 @@ describe(`RPC Wrapper Mock`, () => {
   })
 
   it(`outputs a status`, done => {
-    node.rpc.status((err, data) => {
-      expect(err).toBeNull()
+    node.rpc.status((error, data) => {
+      expect(error).toBeNull()
       expect(data.sync_info.latest_block_height).toBeDefined()
       done()
     })
@@ -48,8 +48,8 @@ describe(`RPC Wrapper Mock`, () => {
 
   it(`receives a stream of blocks`, done => {
     let blocks = []
-    node.rpc.subscribe({ query: `tm.event = 'NewBlock'` }, (err, data) => {
-      expect(err).toBeNull()
+    node.rpc.subscribe({ query: `tm.event = 'NewBlock'` }, (error, data) => {
+      expect(error).toBeNull()
       expect(data.data.value.block).toBeDefined()
       blocks.push(data.data.value.block)
       if (blocks.length === 2) {
@@ -62,8 +62,8 @@ describe(`RPC Wrapper Mock`, () => {
     let headers = []
     node.rpc.subscribe(
       { query: `tm.event = 'NewBlockHeader'` },
-      (err, data) => {
-        expect(err).toBeNull()
+      (error, data) => {
+        expect(error).toBeNull()
         expect(data.data.value.header).toBeDefined()
         headers.push(data.data.value.header)
         if (headers.length === 2) {

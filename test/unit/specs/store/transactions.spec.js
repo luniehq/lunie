@@ -118,15 +118,15 @@ describe(`Module: Transactions`, () => {
   })
 
   it(`should set error to true if enriching transactions fail`, async () => {
-    let err = new Error(`unexpected error`)
+    let error = new Error(`unexpected error`)
     let { actions, state } = module
 
     const commit = jest.fn()
     const dispatch = jest.fn(() => {
-      throw err
+      throw error
     })
     await actions.getAllTxs({ commit, dispatch, state })
 
-    expect(state.error).toBe(err)
+    expect(state.error).toBe(error)
   })
 })

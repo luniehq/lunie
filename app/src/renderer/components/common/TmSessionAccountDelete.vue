@@ -69,10 +69,10 @@ export default {
             body: `You have successfully deleted the account 'default'`
           })
         }
-      } catch (err) {
+      } catch (error) {
         this.$store.commit(`notifyError`, {
           title: `Account Deletion Failed`,
-          body: err.message
+          body: error.message
         })
       }
     }

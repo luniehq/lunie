@@ -80,14 +80,14 @@ function logProcess(process, logPath) {
   }
 }
 
-function handleCrash(err) {
+function handleCrash(error) {
   afterBooted(() => {
     if (mainWindow) {
       mainWindow.webContents.send(`error`, {
-        message: err
-          ? err.message
-            ? err.message
-            : err
+        message: error
+          ? error.message
+            ? error.message
+            : error
           : `An unspecified error occurred`
       })
     }
@@ -197,9 +197,9 @@ function startProcess(name, args, env) {
   let child
   try {
     child = childProcess.spawn(binPath, args, env)
-  } catch (err) {
-    log(`Err: Spawning ${name} failed`, err)
-    throw err
+  } catch (error) {
+    log(`Err: Spawning ${name} failed`, error)
+    throw error
   }
   child.stdout.on(`data`, data => !shuttingDown && log(`${name}: ${data}`))
   child.stderr.on(`data`, data => !shuttingDown && log(`${name}: ${data}`))
@@ -218,20 +218,20 @@ function startProcess(name, args, env) {
     `exit`,
     code => !shuttingDown && log(`${name} exited with code ${code}`)
   )
-  child.on(`error`, async function(err) {
-    if (!(shuttingDown && err.code === `ECONNRESET`)) {
+  child.on(`error`, async function(error) {
+    if (!(shuttingDown && error.code === `ECONNRESET`)) {
       // if we throw errors here, they are not handled by the main process
       let errorMessage = [
         `[Uncaught Exception] Child`,
         name,
         `produced an unhandled exception:`,
-        err
+        error
       ]
       logError(...errorMessage)
       console.error(...errorMessage) // also output to console for easier debugging
-      handleCrash(err)
+      handleCrash(error)
 
-      Raven.captureException(err)
+      Raven.captureException(error)
     }
   })
 
@@ -312,9 +312,9 @@ function stopLCD() {
         resolve()
       })
       lcdProcess.kill(`SIGKILL`)
-    } catch (err) {
-      handleCrash(err)
-      reject(`Stopping the LCD resulted in an error: ${err.message}`)
+    } catch (error) {
+      handleCrash(error)
+      reject(`Stopping the LCD resulted in an error: ${error.message}`)
     }
   })
 }
@@ -331,8 +331,8 @@ function exists(path) {
   try {
     fs.accessSync(path)
     return true
-  } catch (err) {
-    if (err.code !== `ENOENT`) throw err
+  } catch (error) {
+    if (error.code !== `ENOENT`) throw error
     return false
   }
 }
@@ -389,15 +389,15 @@ function setupLogging(root) {
 if (!TEST) {
   process.on(`exit`, shutdown)
   // on uncaught exceptions we wait so the sentry event can be sent
-  process.on(`uncaughtException`, async function(err) {
-    logError(`[Uncaught Exception]`, err)
-    Raven.captureException(err)
-    handleCrash(err)
+  process.on(`uncaughtException`, async function(error) {
+    logError(`[Uncaught Exception]`, error)
+    Raven.captureException(error)
+    handleCrash(error)
   })
-  process.on(`unhandledRejection`, async function(err) {
-    logError(`[Unhandled Promise Rejection]`, err)
-    Raven.captureException(err)
-    handleCrash(err)
+  process.on(`unhandledRejection`, async function(error) {
+    logError(`[Unhandled Promise Rejection]`, error)
+    Raven.captureException(error)
+    handleCrash(error)
   })
 }
 
@@ -438,7 +438,7 @@ async function testNodeVersion(client, expectedGaiaVersion) {
   let result
   try {
     result = await client.nodeVersion()
-  } catch (err) {
+  } catch (error) {
     debugger
     return { compatible: false, nodeVersion: null }
   }
@@ -477,8 +477,8 @@ async function pickAndConnect() {
 
   try {
     gaiaLite = await connect(nodeURL)
-  } catch (err) {
-    handleCrash(err)
+  } catch (error) {
+    handleCrash(error)
     return
   }
 
@@ -496,10 +496,10 @@ async function pickAndConnect() {
 
     compatible = out.compatible
     nodeVersion = out.nodeVersion
-  } catch (err) {
+  } catch (error) {
     logError(
       `Error in getting node SDK version, assuming node is incompatible. Error:`,
-      err
+      error
     )
     signalNoNodesAvailable()
     await stopLCD()
@@ -677,9 +677,9 @@ async function main() {
   await pickAndConnect()
 }
 module.exports = main()
-  .catch(err => {
-    logError(err)
-    handleCrash(err)
+  .catch(error => {
+    logError(error)
+    handleCrash(error)
   })
   .then(() => ({
     shutdown,

@@ -19,13 +19,13 @@ export default ({ node }) => {
         let votes = await node.queryProposalVotes(proposalId)
         commit(`setProposalVotes`, proposalId, votes)
         state.error = null
-      } catch (err) {
+      } catch (error) {
         commit(`notifyError`, {
           title: `Error fetching votes`,
-          body: err.message
+          body: error.message
         })
-        Raven.captureException(err)
-        state.error = err
+        Raven.captureException(error)
+        state.error = error
       }
       state.loading = false
     },
