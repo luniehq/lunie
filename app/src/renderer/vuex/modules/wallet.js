@@ -84,12 +84,14 @@ export default ({ node }) => {
 
       state.loading = false
     },
-    async loadDenoms({ commit }) {
+    async loadDenoms({ commit, state }, maxIterations = 10) {
       // read genesis.json to get default denoms
 
       // wait for genesis.json to exist
       let genesisPath = join(root, `genesis.json`)
-      let maxIterations = 10
+
+      // wait for the genesis and load it
+      // at some point give up and throw an error
       while (maxIterations) {
         try {
           await fs.pathExists(genesisPath)
@@ -102,7 +104,6 @@ export default ({ node }) => {
       }
       if (maxIterations === 0) {
         const error = new Error(`Couldn't load genesis at path ${genesisPath}`)
-        console.error(error)
         Raven.captureException(error)
         state.error = error
         return
