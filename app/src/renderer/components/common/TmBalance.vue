@@ -40,16 +40,13 @@ export default {
   },
   props: {
     totalEarnings: {
-      type: [String, Number],
-      required: true
+      type: [String, Number]
     },
     totalRewards: {
-      type: [String, Number],
-      required: true
+      type: [String, Number]
     },
     tabs: {
-      type: Array,
-      required: true
+      type: Array
     }
   },
   data() {
