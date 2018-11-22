@@ -118,7 +118,7 @@ To make an official release, follow the instructions in `docs/release.md`.
 
 #### Building without Docker
 
-You can also skip docker for bundling the Electron application. You loose deterministic builds.
+You can also skip docker for bundling the Electron application but the builds will no longer be deterministic.
 
 ```bash
 node tasks/build/build.js --os darwin --binaryPath $GOPATH/bin/gaiacli
