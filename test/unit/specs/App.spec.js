@@ -5,7 +5,7 @@ jest.mock(
   () => jest.fn(() => require(`../helpers/node_mock`)) // using jest.fn to be able to spy on the constructor call
 )
 
-describe(`App without analytics`, () => {
+describe(`App Start`, () => {
   jest.mock(`../../../app/src/config`, () => ({
     google_analytics_uid: `123`,
     sentry_dsn_public: `456`
@@ -203,7 +203,10 @@ describe(`App without analytics`, () => {
       },
       rpcConnect: () => {},
       rpcReconnect: () => {},
-      lcdConnected: () => Promise.resolve(false)
+      lcdConnected: () => Promise.resolve(false),
+      keys: {
+        values: () => []
+      }
     }))
 
     ipcRenderer.send = jest.fn()
