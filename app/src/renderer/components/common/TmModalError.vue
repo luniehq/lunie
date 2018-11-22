@@ -1,9 +1,9 @@
 <template lang="pug">
 .tm-modal-error__wrapper
   .tm-modal-error
-    .tm-modal-error__icon: i.material-icons {{ errorIcon }}
-    .tm-modal-error__title {{ errorTitle }}
-    .tm-modal-error__body {{ errorBody }}
+    .tm-modal-error__icon: i.material-icons {{ this.icon }}
+    .tm-modal-error__title {{ this.title }}
+    .tm-modal-error__body {{ this.body }}
     .tm-modal-error__footer
       tm-btn#tm-modal-error__btn-issue(
         size="lg"
@@ -28,16 +28,16 @@ export default {
   components: { TmBtn },
   props: {
     title: {
-      type: String,
-      required: true
+      default: `Voyager ran into an error`,
+      type: String
     },
     body: {
-      type: String,
-      required: true
+      default: `Voyager has encountered a critical error that blocks the app from running. Please create an issue and include a copy of the app logs.`,
+      type: String
     },
     icon: {
-      type: String,
-      required: true
+      default: `error_outline`,
+      type: String
     }
   },
   data: () => ({
@@ -45,20 +45,7 @@ export default {
     issueUrl: `https://github.com/cosmos/voyager/issues`
   }),
   computed: {
-    ...mapGetters([`config`, `lastHeader`]),
-    errorIcon() {
-      if (this.icon) return this.icon
-      else return `error_outline`
-    },
-    errorTitle() {
-      if (this.title) return this.title
-      else return `Voyager ran into an error`
-    },
-    errorBody() {
-      if (this.body) return this.body
-      else
-        return `Voyager has encountered a critical error that blocks the app from running. Please create an issue and include a copy of the app logs.`
-    }
+    ...mapGetters([`config`, `lastHeader`])
   },
   mounted() {
     this.logPath = remote.getGlobal(`root`) + `/main.log`

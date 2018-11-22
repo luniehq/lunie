@@ -26,12 +26,7 @@ describe(`TmModalError`, () => {
   beforeEach(() => {
     wrapper = mount(TmModalError, {
       localVue,
-      store,
-      propsData: {
-        size: `title-x`,
-        icon: `icon-x`,
-        body: `body-x`
-      }
+      store
     })
   })
 
@@ -40,7 +35,6 @@ describe(`TmModalError`, () => {
   })
 
   it(`has an icon`, () => {
-    wrapper.setProps({ icon: `` })
     expect(
       wrapper
         .find(`.tm-modal-error__icon i.material-icons`)
@@ -50,6 +44,7 @@ describe(`TmModalError`, () => {
   })
 
   it(`shows an icon if specified`, () => {
+    wrapper.setProps({ icon: `icon-x` })
     expect(
       wrapper
         .find(`.tm-modal-error__icon i.material-icons`)
@@ -68,11 +63,7 @@ describe(`TmModalError`, () => {
   })
 
   it(`shows a title if specified`, () => {
-    wrapper = mount(TmModalError, {
-      localVue,
-      store,
-      propsData: { title: `title-x` }
-    })
+    wrapper.setProps({ title: `title-x` })
     expect(
       wrapper
         .find(`.tm-modal-error__title`)
@@ -82,7 +73,6 @@ describe(`TmModalError`, () => {
   })
 
   it(`has a body`, () => {
-    wrapper.setProps({ body: `` })
     expect(
       wrapper
         .find(`.tm-modal-error__body`)
@@ -94,11 +84,7 @@ describe(`TmModalError`, () => {
   })
 
   it(`shows a body if specified`, () => {
-    wrapper = mount(TmModalError, {
-      localVue,
-      store,
-      propsData: { body: `body-x` }
-    })
+    wrapper.setProps({ body: `body-x` })
     expect(
       wrapper
         .find(`.tm-modal-error__body`)
