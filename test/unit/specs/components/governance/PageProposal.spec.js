@@ -199,14 +199,14 @@ describe(`PageProposal`, () => {
           const wrapper = mount(PageProposal, {
             mocks: { $store },
             propsData: {
-              proposalId: proposal.proposal_id
+              proposalId: lcdClientMock.state.proposals[2].proposal_id
             }
           })
 
           await wrapper.vm.castVote({ option: `Abstain` })
 
           expect($store.dispatch.mock.calls).toEqual([
-            [`submitVote`, { option: `Abstain`, proposal_id: `1` }]
+            [`submitVote`, { option: `Abstain`, proposal_id: `5` }]
           ])
 
           expect($store.commit.mock.calls).toEqual([
@@ -214,7 +214,7 @@ describe(`PageProposal`, () => {
               `notifyError`,
               {
                 body: `unexpected error`,
-                title: `Error while voting on proposal #1`
+                title: `Error while voting on proposal #5`
               }
             ]
           ])
