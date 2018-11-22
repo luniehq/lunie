@@ -57,7 +57,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - removed unit tests from prepush hook @faboweb
 - [\#1566](https://github.com/cosmos/voyager/issues/1566) putting querying errors in the store instead of showing notifications @faboweb
 - [\1612](https://github.com/cosmos/voyager/issues/1612) defined props types on components
-- changed `err` to `error` @faboweb
+- changed `err` to `error` because abbreviations are bad @faboweb
 
 ### Fixed
 
