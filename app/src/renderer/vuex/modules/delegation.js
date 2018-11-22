@@ -140,13 +140,13 @@ export default ({ node }) => {
             })
         })
         state.loadedOnce = true
-      } catch (err) {
+      } catch (error) {
         commit(`notifyError`, {
           title: `Error fetching delegations`,
-          body: err.message
+          body: error.message
         })
-        Raven.captureException(err)
-        state.error = err
+        Raven.captureException(error)
+        state.error = error
       }
 
       state.loading = false

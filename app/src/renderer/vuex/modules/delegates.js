@@ -95,14 +95,14 @@ export default ({ node }) => {
         dispatch(`updateSigningInfo`, validators)
 
         return validators
-      } catch (err) {
+      } catch (error) {
         commit(`notifyError`, {
           title: `Error fetching validators`,
-          body: err.message
+          body: error.message
         })
-        Raven.captureException(err)
+        Raven.captureException(error)
         commit(`setDelegateLoading`, false)
-        state.error = err
+        state.error = error
         return []
       }
     },
