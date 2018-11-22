@@ -39,14 +39,9 @@ export default {
     ShortBech32
   },
   props: {
-    totalEarnings: {
-      type: [String, Number]
-    },
-    totalRewards: {
-      type: [String, Number]
-    },
     tabs: {
-      type: Array
+      type: Array,
+      default: () => []
     }
   },
   data() {
