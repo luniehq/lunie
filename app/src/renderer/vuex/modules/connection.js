@@ -1,6 +1,5 @@
-"use strict"
-
 import { ipcRenderer, remote } from "electron"
+import Raven from "raven-js"
 import { sleep } from "scripts/common.js"
 
 const config = remote.getGlobal(`config`)
@@ -92,6 +91,7 @@ export default function({ node }) {
         { query: `tm.event = 'NewBlockHeader'` },
         (err, event) => {
           if (err) {
+            Raven.captureException(err)
             return console.error(`error subscribing to headers`, err)
           }
           dispatch(`setLastHeader`, event.data.value.header)
@@ -148,7 +148,11 @@ export default function({ node }) {
         }
       }, timeout)
       node.rpc.status(err => {
-        if (err) return console.error(`Couldn't get status via RPC:`, err)
+        if (err) {
+          Raven.captureException(err)
+          console.error(`Couldn't get status via RPC:`, err)
+          return
+        }
 
         state.nodeTimeout = null
         state.connected = true

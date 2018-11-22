@@ -1,5 +1,5 @@
-const fp = require(`lodash/fp`)
-import { uniqBy } from "lodash"
+import { uniqBy, fp } from "lodash"
+import Raven from "raven-js"
 export default ({ node }) => {
   let emptyState = {
     loading: false,
@@ -26,9 +26,6 @@ export default ({ node }) => {
     setHistoryLoading(state, loading) {
       state.loading = loading
     },
-    setError(state, error) {
-      state.error = error
-    },
     setTransactionTime(state, { blockHeight, blockMetaInfo }) {
       txCategories.forEach(category => {
         state[category].forEach(t => {
@@ -53,22 +50,27 @@ export default ({ node }) => {
     async getAllTxs({ commit, dispatch }) {
       commit(`setHistoryLoading`, true)
 
+      const stakingTxs = await dispatch(`getTx`, `staking`)
+      commit(`setStakingTxs`, stakingTxs)
+
+      const governanceTxs = await dispatch(`getTx`, `governance`)
+      commit(`setGovernanceTxs`, governanceTxs)
+
+      const walletTxs = await dispatch(`getTx`, `wallet`)
+      commit(`setWalletTxs`, walletTxs)
+
       try {
-        const stakingTxs = await dispatch(`getTx`, `staking`)
-        commit(`setStakingTxs`, stakingTxs)
-
-        const governanceTxs = await dispatch(`getTx`, `governance`)
-        commit(`setGovernanceTxs`, governanceTxs)
-
-        const walletTxs = await dispatch(`getTx`, `wallet`)
-        commit(`setWalletTxs`, walletTxs)
-
         const allTxs = stakingTxs.concat(governanceTxs.concat(walletTxs))
         await dispatch(`enrichTransactions`, {
           transactions: allTxs
         })
       } catch (error) {
-        commit(`setError`, error.message.slice(0))
+        commit(`notifyError`, {
+          title: `Error enriching transactions`,
+          body: err.message
+        })
+        Raven.captureException(err)
+        state.error = err
       }
       commit(`setHistoryLoading`, false)
     },
@@ -104,6 +106,7 @@ export default ({ node }) => {
           title: `Error fetching ${type} transactions`,
           body: err.message
         })
+        Raven.captureException(err)
         state.error = err
         return []
       }

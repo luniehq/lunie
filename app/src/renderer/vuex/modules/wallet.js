@@ -1,10 +1,9 @@
-"use strict"
-
-let fs = require(`fs-extra`)
-let { join } = require(`path`)
-const { remote } = require(`electron`)
+import Raven from "raven-js"
+import fs from "fs-extra"
+import { join } from "path"
+import { remote } from "electron"
+import { sleep } from "scripts/common.js"
 const root = remote.getGlobal(`root`)
-let { sleep } = require(`scripts/common.js`)
 
 export default ({ node }) => {
   let emptyState = {
@@ -79,6 +78,7 @@ export default ({ node }) => {
           title: `Error fetching balances`,
           body: err.message
         })
+        Raven.captureException(err)
         state.error = err
       }
 
@@ -89,14 +89,23 @@ export default ({ node }) => {
 
       // wait for genesis.json to exist
       let genesisPath = join(root, `genesis.json`)
-      while (true) {
+      let maxIterations = 10
+      while (maxIterations) {
         try {
           await fs.pathExists(genesisPath)
           break
         } catch (err) {
           console.log(`waiting for genesis`, err, genesisPath)
+          maxIterations--
           await sleep(500)
         }
+      }
+      if (maxIterations === 0) {
+        const error = new Error(`Couldn't load genesis at path ${genesisPath}`)
+        console.error(error)
+        Raven.captureException(error)
+        state.error = error
+        return
       }
 
       let genesis = await fs.readJson(genesisPath)
@@ -132,7 +141,9 @@ export default ({ node }) => {
 
       function onTx(err, event) {
         if (err) {
-          return console.error(`error subscribing to transactions`, err)
+          Raven.captureException(err)
+          console.error(`error subscribing to transactions`, err)
+          return
         }
         dispatch(
           `queryWalletStateAfterHeight`,

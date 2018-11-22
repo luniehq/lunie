@@ -1,4 +1,4 @@
-"use strict"
+import Raven from "raven-js"
 
 export default ({ node }) => {
   const state = {
@@ -24,6 +24,7 @@ export default ({ node }) => {
           title: `Error fetching deposits on proposals`,
           body: err.message
         })
+        Raven.captureException(err)
         state.error = err
       }
       state.loading = false

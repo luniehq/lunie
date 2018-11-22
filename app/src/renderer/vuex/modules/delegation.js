@@ -1,6 +1,6 @@
-"use strict"
-
+import Raven from "raven-js"
 import { calculateShares } from "scripts/common"
+
 export default ({ node }) => {
   let emptyState = {
     loading: false,
@@ -145,6 +145,7 @@ export default ({ node }) => {
           title: `Error fetching delegations`,
           body: err.message
         })
+        Raven.captureException(err)
         state.error = err
       }
 
