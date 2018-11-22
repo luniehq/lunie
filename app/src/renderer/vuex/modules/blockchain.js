@@ -1,3 +1,5 @@
+import Raven from "raven-js"
+
 export default ({ node }) => {
   const state = {
     blockMetaInfo: { block_id: {} },
@@ -65,6 +67,7 @@ export default ({ node }) => {
           title: `Error fetching block information`,
           body: err.message
         })
+        Raven.captureException(err)
         state.loading = false
         state.error = err
         return null

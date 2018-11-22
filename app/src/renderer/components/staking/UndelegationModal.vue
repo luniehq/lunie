@@ -56,7 +56,16 @@ export default {
     TmFormGroup,
     TmFormMsg
   },
-  props: [`maximum`, `to`],
+  props: {
+    maximum: {
+      type: Number,
+      required: true
+    },
+    to: {
+      type: String,
+      required: true
+    }
+  },
   data: () => ({
     amount: 0
   }),

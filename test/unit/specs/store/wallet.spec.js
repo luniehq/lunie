@@ -74,8 +74,44 @@ describe(`Module: Wallet`, () => {
   })
 
   it(`should load denoms`, async () => {
-    await store.dispatch(`loadDenoms`)
-    expect(store.state.wallet.denoms).toEqual([`mycoin`, `fermion`, `gregcoin`])
+    jest.resetModules()
+    jest.doMock(`fs-extra`, () => ({
+      pathExists: () => Promise.resolve(true),
+      readJson: () =>
+        Promise.resolve({
+          app_state: {
+            accounts: [
+              {
+                coins: [
+                  {
+                    denom: `mycoin`
+                  },
+                  {
+                    denom: `fermion`
+                  }
+                ]
+              }
+            ]
+          }
+        })
+    }))
+    let walletModule = require(`renderer/vuex/modules/wallet.js`).default
+    let { actions } = walletModule({})
+    let commit = jest.fn()
+    await actions.loadDenoms({ commit })
+    expect(commit).toHaveBeenCalledWith(`setDenoms`, [`mycoin`, `fermion`])
+  })
+
+  it(`should throw an error if can't load genesis`, async () => {
+    jest.resetModules()
+    jest.doMock(`fs-extra`, () => ({
+      pathExists: () => Promise.reject(`didn't found`)
+    }))
+    let walletModule = require(`renderer/vuex/modules/wallet.js`).default
+    let { actions, state } = walletModule({})
+    let commit = jest.fn()
+    await actions.loadDenoms({ commit, state }, 2)
+    expect(state.error).toMatchSnapshot()
   })
 
   it(`should query the balances on reconnection`, () => {

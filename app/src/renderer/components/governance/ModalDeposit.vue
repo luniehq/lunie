@@ -54,7 +54,20 @@ export default {
   directives: {
     ClickOutside
   },
-  props: [`proposalId`, `proposalTitle`, `denom`],
+  props: {
+    proposalId: {
+      type: [Number, String],
+      required: true
+    },
+    proposalTitle: {
+      type: String,
+      required: true
+    },
+    denom: {
+      type: String,
+      required: true
+    }
+  },
   data: () => ({
     amount: 0
   }),

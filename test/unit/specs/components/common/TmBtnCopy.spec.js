@@ -7,7 +7,11 @@ describe(`TmBtnCopy`, () => {
 
   beforeEach(() => {
     let test = instance.mount(TmBtnCopy, {
-      propsData: { value: `this is a test` }
+      propsData: {
+        title: `title`,
+        body: `body`,
+        value: `this is a test`
+      }
     })
     wrapper = test.wrapper
     store = test.store
@@ -18,6 +22,7 @@ describe(`TmBtnCopy`, () => {
   })
 
   it(`should open a notification`, () => {
+    wrapper.setProps({ body: `` })
     wrapper.trigger(`click`)
     expect(store.commit).toHaveBeenCalled()
     expect(store.commit.mock.calls[0][0]).toBe(`notify`)
@@ -25,7 +30,7 @@ describe(`TmBtnCopy`, () => {
   })
 
   it(`should truncate long messages`, () => {
-    wrapper.setProps({ value: `123456789012345678901234567890` })
+    wrapper.setProps({ value: `123456789012345678901234567890`, body: `` })
     wrapper.trigger(`click`)
     expect(store.commit.mock.calls[0][1].body).not.toContain(
       `123456789012345678901234567890`

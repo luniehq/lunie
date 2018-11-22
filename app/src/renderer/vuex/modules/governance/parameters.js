@@ -1,3 +1,5 @@
+import Raven from "raven-js"
+
 export default ({ node }) => {
   const emptyState = {
     govParameters: {
@@ -30,6 +32,7 @@ export default ({ node }) => {
           title: `Error fetching governance parameters`,
           body: err.message
         })
+        Raven.captureException(err)
         state.error = err
       }
       state.loading = false
