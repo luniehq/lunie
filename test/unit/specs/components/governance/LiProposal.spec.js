@@ -32,8 +32,7 @@ describe(`LiProposal`, () => {
     wrapper.update()
     expect(wrapper.vm.status).toEqual({
       button: null,
-      message: `This proposal has passed`,
-      color: `green`
+      message: `This proposal has passed`
     })
   })
 
@@ -63,7 +62,7 @@ describe(`LiProposal`, () => {
     expect(wrapper.vm.status).toEqual({
       button: `vote`,
       message: `Voting for this proposal is open`,
-      color: `blue`
+      color: `green`
     })
   })
 
