@@ -45,7 +45,7 @@ describe(`PageProposal`, () => {
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
 
-    it(`shows an error if the validator couldn't be found`, () => {
+    it(`shows an error if the proposal couldn't be found`, () => {
       let instance = mount(PageProposal, {
         doBefore: ({ router }) => {
           router.push(`/governance/proposals/${proposal.proposal_id}`)
