@@ -83,9 +83,9 @@ function persistState(state) {
     )
     // Store the state object as a JSON string
     localStorage.setItem(getStorageKey(state), encryptedState)
-  } catch (err) {
+  } catch (error) {
     console.error(`Encrypting the state failed, removing cached state.`)
-    Raven.captureException(err)
+    Raven.captureException(error)
     // if encrypting the state fails, we cleanup
     localStorage.removeItem(getStorageKey(state))
   }

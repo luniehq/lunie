@@ -65,13 +65,13 @@ export default ({ node }) => {
       try {
         let keys = await node.keys.values()
         commit(`setAccounts`, keys)
-      } catch (err) {
-        Raven.captureException(err)
+      } catch (error) {
+        Raven.captureException(error)
         commit(`notifyError`, {
           title: `Couldn't read keys`,
-          body: err.message
+          body: error.message
         })
-        state.error = err
+        state.error = error
       } finally {
         state.loading = false
       }
@@ -83,7 +83,7 @@ export default ({ node }) => {
           new_password: password,
           old_password: password
         })
-      } catch (err) {
+      } catch (error) {
         throw Error(`Incorrect passphrase`)
       }
     },

@@ -27,13 +27,13 @@ export default ({ node }) => {
         let voting = await node.getGovVotingParameters()
         state.error = null
         commit(`setGovParameters`, { deposit, tallying, voting })
-      } catch (err) {
+      } catch (error) {
         commit(`notifyError`, {
           title: `Error fetching governance parameters`,
-          body: err.message
+          body: error.message
         })
-        Raven.captureException(err)
-        state.error = err
+        Raven.captureException(error)
+        state.error = error
       }
       state.loading = false
     }

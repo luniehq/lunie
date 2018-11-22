@@ -14,7 +14,7 @@ describe(`App Start`, () => {
     config: () => {
       return { install: () => {} }
     },
-    captureException: err => console.error(err)
+    captureException: error => console.error(error)
   }))
   jest.mock(`renderer/google-analytics.js`, () => () => {})
   // popper.js is used by tooltips and causes some errors if
@@ -89,7 +89,7 @@ describe(`App Start`, () => {
           }
         }
       },
-      captureException: err => console.error(err)
+      captureException: error => console.error(error)
     }))
     require(`renderer/main.js`)
   })

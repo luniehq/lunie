@@ -53,13 +53,13 @@ export default ({}) => {
         state.loading = false
         state.error = null
         commit(`setKeybaseIdentities`, identities.filter(x => !!x))
-      } catch (err) {
+      } catch (error) {
         commit(`notifyError`, {
           title: `Error fetching keybase information for validators`,
-          body: err.message
+          body: error.message
         })
-        Raven.captureException(err)
-        state.error = err
+        Raven.captureException(error)
+        state.error = error
       }
     }
   }

@@ -179,11 +179,11 @@ export default {
         })
         // resets send transaction form
         this.resetForm()
-      } catch (err) {
+      } catch (error) {
         this.sending = false
         this.$store.commit(`notifyError`, {
           title: `Error Sending transaction`,
-          body: err.message
+          body: error.message
         })
       }
     },
@@ -195,8 +195,8 @@ export default {
         b32.decode(param)
         this.bech32error = null
         return true
-      } catch (err) {
-        this.bech32error = err.message
+      } catch (error) {
+        this.bech32error = error.message
         return false
       }
     },
