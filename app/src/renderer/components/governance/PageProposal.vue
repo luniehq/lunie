@@ -229,14 +229,6 @@ export default {
         })
       }
     }
-  },
-  watch: {
-    "$route.params.proposal"(updatedProposal) {
-      this.proposal = updatedProposal
-    },
-    "$route.params.status"(updatedStatus) {
-      this.proposal = updatedStatus
-    }
   }
 }
 </script>
