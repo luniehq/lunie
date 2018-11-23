@@ -280,7 +280,7 @@ exports[`PageProposal with magic has the expected html structure 1`] = `
 </div>
 `;
 
-exports[`PageProposal with magic shows an error if the validator couldn't be found 1`] = `
+exports[`PageProposal with magic shows an error if the proposal couldn't be found 1`] = `
 <div
   class="tm-page"
   data-title="Proposal"
