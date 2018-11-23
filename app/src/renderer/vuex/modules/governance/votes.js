@@ -38,6 +38,7 @@ export default ({ node }) => {
         option
       })
       await dispatch(`getProposalVotes`, proposal_id)
+      await dispatch(`getProposal`, proposal_id)
     }
   }
   return {

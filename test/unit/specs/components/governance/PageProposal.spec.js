@@ -10,15 +10,10 @@ import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 import { mount } from "@vue/test-utils"
 
 let proposal = lcdClientMock.state.proposals[0]
-let status = {
-  button: null,
-  message: `This proposal has passed`,
-  color: `green`
-}
 
 describe(`PageProposal`, () => {
   describe(`with magic`, () => {
-    let wrapper
+    let wrapper, store
     let { mount, localVue } = setup()
     localVue.use(Vuelidate)
 
@@ -30,23 +25,42 @@ describe(`PageProposal`, () => {
     beforeEach(() => {
       let instance = mount(PageProposal, {
         localVue,
+        doBefore: ({ router, store }) => {
+          router.push(`/governance/proposals/${proposal.proposal_id}`)
+          store.commit(`setProposal`, proposal)
+        },
         propsData: {
-          proposal,
-          status
+          proposalId: proposal.proposal_id
         },
         $store
       })
       wrapper = instance.wrapper
+      store = instance.store
       wrapper.update()
     })
 
     it(`has the expected html structure`, async () => {
-      // after importing the @tendermint/ui components from modules
-      // the perfect scroll plugin needs a $nextTick and a wrapper.update
-      // to work properly in the tests (snapshots weren't matching)
-      // this has occured across multiple tests
       await wrapper.vm.$nextTick()
       wrapper.update()
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
+
+    it(`shows an error if the proposal couldn't be found`, () => {
+      let instance = mount(PageProposal, {
+        doBefore: ({ router }) => {
+          router.push(`/governance/proposals/${proposal.proposal_id}`)
+          store.commit(`setProposal`, {})
+        },
+        propsData: {
+          proposalId: proposal.proposal_id
+        },
+        getters: {
+          proposal: () => []
+        }
+      })
+
+      wrapper = instance.wrapper
+
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
 
@@ -68,10 +82,64 @@ describe(`PageProposal`, () => {
       )
     })
 
+    describe(`Proposal status`, () => {
+      it(`displays correctly a proposal that 'Passed'`, () => {
+        expect(wrapper.vm.status).toMatchObject({
+          message: `This proposal has passed`,
+          color: `green`
+        })
+      })
+
+      it(`displays correctly a 'Rejected' proposal`, () => {
+        wrapper.vm.proposal.proposal_status = `Rejected`
+        expect(wrapper.vm.status).toMatchObject({
+          message: `This proposal has been rejected and voting is closed`,
+          color: `red`
+        })
+      })
+
+      it(`displays correctly a proposal on 'DepositPeriod'`, () => {
+        wrapper.vm.proposal.proposal_status = `DepositPeriod`
+        expect(wrapper.vm.status).toMatchObject({
+          message: `Deposits are open for this proposal`,
+          color: `yellow`
+        })
+      })
+
+      it(`displays correctly a proposal on 'VotingPeriod'`, () => {
+        wrapper.vm.proposal.proposal_status = `VotingPeriod`
+        expect(wrapper.vm.status).toMatchObject({
+          message: `Voting for this proposal is open`,
+          color: `blue`
+        })
+      })
+
+      it(`shows error status`, () => {
+        wrapper.vm.proposal.proposal_status = ``
+        expect(wrapper.vm.status).toMatchObject({
+          message: `There was an error determining the status of this proposal.`,
+          color: `grey`
+        })
+      })
+    })
+
     describe(`Modal onVote`, () => {
       it(`enables voting if the proposal is on the 'VotingPeriod'`, () => {
-        let status = { button: `vote` }
-        wrapper.setProps({ status })
+        let proposal = lcdClientMock.state.proposals[1]
+        let instance = mount(PageProposal, {
+          localVue,
+          doBefore: ({ router, store }) => {
+            router.push(`/governance/proposals/${proposal.proposal_id}`)
+            store.commit(`setProposal`, proposal)
+          },
+          propsData: {
+            proposalId: proposal.proposal_id
+          },
+          $store
+        })
+        wrapper = instance.wrapper
+        store = instance.store
+        wrapper.update()
 
         let voteBtn = wrapper.find(`#vote-btn`)
         voteBtn.trigger(`click`)
@@ -80,16 +148,27 @@ describe(`PageProposal`, () => {
       })
 
       it(`disables voting if the proposal is on the 'DepositPeriod'`, () => {
-        let status = { button: `deposit` }
-        wrapper.setProps({ status })
         expect(wrapper.find(`#vote-btn`).exists()).toEqual(false)
       })
     })
 
     describe(`Modal onDeposit`, () => {
       it(`enables deposits if the proposal is 'Active'`, () => {
-        let status = { button: `deposit` }
-        wrapper.setProps({ status })
+        let proposal = lcdClientMock.state.proposals[2]
+        let instance = mount(PageProposal, {
+          localVue,
+          doBefore: ({ router, store }) => {
+            router.push(`/governance/proposals/${proposal.proposal_id}`)
+            store.commit(`setProposal`, proposal)
+          },
+          propsData: {
+            proposalId: proposal.proposal_id
+          },
+          $store
+        })
+        wrapper = instance.wrapper
+        store = instance.store
+        wrapper.update()
 
         let depositBtn = wrapper.find(`#deposit-btn`)
         depositBtn.trigger(`click`)
@@ -98,8 +177,6 @@ describe(`PageProposal`, () => {
       })
 
       it(`disables deposits if the proposal is not active`, () => {
-        let status = { button: `` }
-        wrapper.setProps({ status })
         expect(wrapper.find(`#deposit-btn`).exists()).toEqual(false)
       })
     })
@@ -115,15 +192,15 @@ describe(`PageProposal`, () => {
             getters: {
               bondingDenom: `atom`,
               totalAtoms: 100,
-              user: { atoms: 42 }
+              user: { atoms: 42 },
+              proposals: lcdClientMock.state.proposals
             }
           }
 
           const wrapper = mount(PageProposal, {
             mocks: { $store },
             propsData: {
-              proposal: lcdClientMock.state.proposals[0],
-              status: { message: `message` }
+              proposalId: proposal.proposal_id
             }
           })
 
@@ -155,22 +232,22 @@ describe(`PageProposal`, () => {
             getters: {
               bondingDenom: `atom`,
               totalAtoms: 100,
-              user: { atoms: 42 }
+              user: { atoms: 42 },
+              proposals: lcdClientMock.state.proposals
             }
           }
 
           const wrapper = mount(PageProposal, {
             mocks: { $store },
             propsData: {
-              proposal: lcdClientMock.state.proposals[0],
-              status: { message: `message` }
+              proposalId: lcdClientMock.state.proposals[2].proposal_id
             }
           })
 
           await wrapper.vm.castVote({ option: `Abstain` })
 
           expect($store.dispatch.mock.calls).toEqual([
-            [`submitVote`, { option: `Abstain`, proposal_id: `1` }]
+            [`submitVote`, { option: `Abstain`, proposal_id: `5` }]
           ])
 
           expect($store.commit.mock.calls).toEqual([
@@ -178,7 +255,7 @@ describe(`PageProposal`, () => {
               `notifyError`,
               {
                 body: `unexpected error`,
-                title: `Error while voting on proposal #1`
+                title: `Error while voting on proposal #5`
               }
             ]
           ])
@@ -195,15 +272,15 @@ describe(`PageProposal`, () => {
             getters: {
               bondingDenom: `atom`,
               totalAtoms: 100,
-              user: { atoms: 42 }
+              user: { atoms: 42 },
+              proposals: lcdClientMock.state.proposals
             }
           }
 
           const wrapper = mount(PageProposal, {
             mocks: { $store },
             propsData: {
-              proposal: lcdClientMock.state.proposals[1],
-              status: { message: `message` }
+              proposalId: lcdClientMock.state.proposals[1].proposal_id
             }
           })
 
@@ -248,15 +325,15 @@ describe(`PageProposal`, () => {
             getters: {
               bondingDenom: `atom`,
               totalAtoms: 100,
-              user: { atoms: 42 }
+              user: { atoms: 42 },
+              proposals: lcdClientMock.state.proposals
             }
           }
 
           const wrapper = mount(PageProposal, {
             mocks: { $store },
             propsData: {
-              proposal: lcdClientMock.state.proposals[1],
-              status: { message: `message` }
+              proposalId: lcdClientMock.state.proposals[1].proposal_id
             }
           })
           let amount = [

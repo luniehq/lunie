@@ -31,7 +31,6 @@ describe(`LiProposal`, () => {
     })
     wrapper.update()
     expect(wrapper.vm.status).toEqual({
-      button: null,
       message: `This proposal has passed`
     })
   })
@@ -45,7 +44,6 @@ describe(`LiProposal`, () => {
     })
     wrapper.update()
     expect(wrapper.vm.status).toEqual({
-      button: null,
       message: `This proposal has been rejected and voting is closed`,
       color: `red`
     })
@@ -60,7 +58,6 @@ describe(`LiProposal`, () => {
     })
     wrapper.update()
     expect(wrapper.vm.status).toEqual({
-      button: `vote`,
       message: `Voting for this proposal is open`,
       color: `green`
     })
@@ -75,7 +72,6 @@ describe(`LiProposal`, () => {
     })
     wrapper.update()
     expect(wrapper.vm.status).toEqual({
-      button: `deposit`,
       message: `Deposits are open for this proposal`,
       color: `yellow`
     })
@@ -90,7 +86,6 @@ describe(`LiProposal`, () => {
     })
     wrapper.update()
     expect(wrapper.vm.status).toEqual({
-      button: null,
       message: `There was an error determining the status of this proposal.`,
       color: `grey`
     })

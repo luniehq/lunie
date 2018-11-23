@@ -357,8 +357,10 @@ let state = {
           amount: `100`
         }
       ],
-      submit_block: `120`,
-      voting_start_block: `135`,
+      submit_time: `2018-11-21T13:29:24.66404Z`,
+      deposit_end_time: `2018-11-23T13:29:24.66404Z`,
+      voting_start_time: `2018-11-23T13:29:24.66404Z`,
+      voting_end_time: `2018-11-25T13:29:24.66404Z`,
       proposal_status: `Passed`,
       tally_result: {
         yes: `500`,
@@ -384,8 +386,10 @@ let state = {
           amount: `200`
         }
       ],
-      submit_block: `10`,
-      voting_start_block: `10`,
+      submit_time: `2018-11-21T13:29:24.66404Z`,
+      deposit_end_time: `2018-11-23T13:29:24.66404Z`,
+      voting_start_time: `2018-11-23T13:29:24.66404Z`,
+      voting_end_time: `2018-11-25T13:29:24.66404Z`,
       proposal_status: `VotingPeriod`,
       tally_result: {
         yes: `0`,
@@ -411,14 +415,45 @@ let state = {
           amount: `170`
         }
       ],
-      submit_block: `10`,
-      voting_start_block: `-1`,
+      submit_time: `2018-11-21T13:29:24.66404Z`,
+      deposit_end_time: `2018-11-23T13:29:24.66404Z`,
+      voting_start_time: `0001-01-01T00:00:00Z`,
+      voting_end_time: `0001-01-01T00:00:00Z`,
       proposal_status: `DepositPeriod`,
       tally_result: {
         yes: `0`,
         no: `0`,
         no_with_veto: `0`,
         abstain: `0`
+      }
+    },
+    {
+      proposal_id: `6`,
+      proposal_type: `Text`,
+      title: `Rejected proposal`,
+      description: `this proposal was rejected`,
+      initial_deposit: [
+        {
+          denom: `stake`,
+          amount: `100`
+        }
+      ],
+      total_deposit: [
+        {
+          denom: `stake`,
+          amount: `100`
+        }
+      ],
+      submit_time: `2018-11-21T13:29:24.66404Z`,
+      deposit_end_time: `2018-11-23T13:29:24.66404Z`,
+      voting_start_time: `2018-11-23T13:29:24.66404Z`,
+      voting_end_time: `2018-11-25T13:29:24.66404Z`,
+      proposal_status: `Rejected`,
+      tally_result: {
+        yes: `10`,
+        no: `30`,
+        no_with_veto: `100`,
+        abstain: `20`
       }
     }
   ],
@@ -427,12 +462,12 @@ let state = {
       {
         proposal_id: `1`,
         voter: validators[0],
-        option: `yes`
+        option: `Yes`
       },
       {
         proposal_id: `1`,
         voter: validators[1],
-        option: `no_with_veto`
+        option: `NoWithVeto`
       }
     ],
     2: [],
@@ -440,12 +475,24 @@ let state = {
       {
         proposal_id: `5`,
         voter: validators[0],
-        option: `no`
+        option: `No`
       },
       {
         proposal_id: `5`,
         voter: validators[1],
-        option: `abstain`
+        option: `Abstain`
+      }
+    ],
+    6: [
+      {
+        proposal_id: `6`,
+        voter: validators[0],
+        option: `No`
+      },
+      {
+        proposal_id: `6`,
+        voter: validators[1],
+        option: `NoWithVeto`
       }
     ]
   },
@@ -506,6 +553,18 @@ let state = {
           {
             denom: `stake`,
             amount: `150`
+          }
+        ]
+      }
+    ],
+    6: [
+      {
+        proposal_id: `6`,
+        depositer: validators[0],
+        amount: [
+          {
+            denom: `steak`,
+            amount: `100`
           }
         ]
       }
@@ -1118,8 +1177,8 @@ module.exports = {
       if (parseInt(depositCoinAmt) >= 10) {
         proposal.proposal_status = `VotingPeriod`
         // TODO: get voting time from gov params
-        proposal.voting_start_block = Date.now()
-        proposal.voting_end_block = moment(proposal.voting_start_block)
+        proposal.voting_start_time = Date.now()
+        proposal.voting_end_time = moment(proposal.voting_start_time)
           .add(86400000, `ms`)
           .toDate()
       }

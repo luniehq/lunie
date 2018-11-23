@@ -13,11 +13,11 @@ tm-page(data-title='Proposal')
           .top.column
             div.validator-profile__status-and-title
               span.validator-profile__status(v-bind:class="status.color" v-tooltip.top="status.message")
-              .validator-profile__header__name__title {{ proposal.title }} {{ `(#` + proposal.proposal_id + `)`}}
+              .validator-profile__header__name__title {{ proposal.title }} {{ `(#` + proposalId + `)`}}
           .column.validator-profile__header__actions
-            tm-btn#vote-btn(v-if="status.button === 'vote'" value="Vote" color="primary" @click.native="onVote")
-            tm-btn#deposit-btn(v-if="status.button === 'deposit'" value="Deposit" color="primary" @click.native="onDeposit")
-            tm-btn(v-if="!status.button" disabled value="Deposit / Vote" color="primary")
+            tm-btn#vote-btn(v-if="proposal.proposal_status === 'VotingPeriod'" value="Vote" color="primary" @click.native="onVote")
+            tm-btn#deposit-btn(v-if="proposal.proposal_status === 'DepositPeriod'" value="Deposit" color="primary" @click.native="onDeposit")
+            tm-btn(v-if="proposal.proposal_status === 'Passed' || proposal.proposal_status === 'Rejected'" disabled value="Deposit / Vote" color="primary")
 
         .row.description
           p Submitted {{ submittedAgo }}. {{ proposal.proposal_status === `DepositPeriod` ? `Deposit ends ` + depositEndsIn : `Voting started ` + votingStartedAgo }}
@@ -49,7 +49,7 @@ tm-page(data-title='Proposal')
       v-if="showModalDeposit"
       v-on:submitDeposit="deposit"
       :showModalDeposit.sync="showModalDeposit"
-      :proposalId="proposal.proposal_id"
+      :proposalId="proposalId"
       :proposalTitle="proposal.title"
       :denom="bondingDenom.toLowerCase()"
     )
@@ -58,7 +58,7 @@ tm-page(data-title='Proposal')
       v-if="showModalVote"
       v-on:castVote="castVote"
       :showModalVote.sync="showModalVote"
-      :proposalId="proposal.proposal_id"
+      :proposalId="proposalId"
       :proposalTitle="proposal.title"
     )
 </template>
@@ -86,12 +86,8 @@ export default {
     TextBlock
   },
   props: {
-    proposal: {
-      type: Object,
-      required: true
-    },
-    status: {
-      type: Object,
+    proposalId: {
+      type: String,
       required: true
     }
   },
@@ -101,7 +97,25 @@ export default {
   }),
   computed: {
     // TODO: get denom from governance params
-    ...mapGetters([`bondingDenom`]),
+    ...mapGetters([`bondingDenom`, `proposals`]),
+    proposal() {
+      let proposal = this.proposals[this.proposalId]
+      if (proposal) {
+        proposal.tally_result.yes = Math.round(
+          parseFloat(proposal.tally_result.yes)
+        )
+        proposal.tally_result.no = Math.round(
+          parseFloat(proposal.tally_result.no)
+        )
+        proposal.tally_result.no_with_veto = Math.round(
+          parseFloat(proposal.tally_result.no_with_veto)
+        )
+        proposal.tally_result.abstain = Math.round(
+          parseFloat(proposal.tally_result.abstain)
+        )
+      }
+      return proposal
+    },
     proposalType() {
       return this.proposal.proposal_type.toLowerCase()
     },
@@ -137,6 +151,33 @@ export default {
       return num.percentInt(
         this.proposal.tally_result.abstain / this.totalVotes
       )
+    },
+    status() {
+      if (this.proposal.proposal_status === `Passed`)
+        return {
+          message: `This proposal has passed`,
+          color: `green`
+        }
+      if (this.proposal.proposal_status === `Rejected`)
+        return {
+          message: `This proposal has been rejected and voting is closed`,
+          color: `red`
+        }
+      if (this.proposal.proposal_status === `DepositPeriod`)
+        return {
+          message: `Deposits are open for this proposal`,
+          color: `yellow`
+        }
+      if (this.proposal.proposal_status === `VotingPeriod`)
+        return {
+          message: `Voting for this proposal is open`,
+          color: `blue`
+        }
+      else
+        return {
+          message: `There was an error determining the status of this proposal.`,
+          color: `grey`
+        }
     }
   },
   methods: {
@@ -147,37 +188,45 @@ export default {
       this.showModalDeposit = true
     },
     async deposit({ amount }) {
-      let proposal_id = this.proposal.proposal_id
       try {
         // TODO: support multiple coins
-        await this.$store.dispatch(`submitDeposit`, { proposal_id, amount })
+        await this.$store.dispatch(`submitDeposit`, {
+          proposal_id: this.proposalId,
+          amount
+        })
 
         // TODO: get min deposit denom from gov params
         this.$store.commit(`notify`, {
           title: `Successful deposit!`,
-          body: `You have successfully deposited your ${this.bondingDenom.toLowerCase()}s on proposal #${proposal_id}`
+          body: `You have successfully deposited your ${this.bondingDenom.toLowerCase()}s on proposal #${
+            this.proposalId
+          }`
         })
       } catch ({ message }) {
         this.$store.commit(`notifyError`, {
-          title: `Error while submitting a deposit on proposal #${proposal_id}`,
+          title: `Error while submitting a deposit on proposal #${
+            this.proposalId
+          }`,
           body: message
         })
       }
     },
     async castVote({ option }) {
-      let proposal_id = this.proposal.proposal_id
       try {
-        await this.$store.dispatch(`submitVote`, { proposal_id, option })
+        await this.$store.dispatch(`submitVote`, {
+          proposal_id: this.proposalId,
+          option
+        })
 
         this.$store.commit(`notify`, {
           title: `Successful vote!`,
           body: `You have successfully voted ${option} on proposal #${
-            this.proposal.proposal_id
+            this.proposalId
           }`
         })
       } catch ({ message }) {
         this.$store.commit(`notifyError`, {
-          title: `Error while voting on proposal #${proposal_id}`,
+          title: `Error while voting on proposal #${this.proposalId}`,
           body: message
         })
       }

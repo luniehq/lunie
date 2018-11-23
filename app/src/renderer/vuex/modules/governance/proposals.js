@@ -44,6 +44,21 @@ export default ({ node }) => {
       }
       state.loading = false
     },
+    async getProposal({ state, commit }, proposal_id) {
+      state.loading = true
+      try {
+        state.error = null
+        let proposal = await node.queryProposal(proposal_id)
+        commit(`setProposal`, proposal.value)
+      } catch (error) {
+        commit(`notifyError`, {
+          title: `Error querying proposal with id #${proposal_id}`,
+          body: error.message
+        })
+        state.error = error
+      }
+      state.loading = false
+    },
     async submitProposal(
       {
         rootState: { wallet },

@@ -89,6 +89,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1617](https://github.com/cosmos/voyager/pull/1617) Fixed send buttons not clickable @faboweb
 - [\#1303](https://github.com/cosmos/voyager/issues/1303) Fixed spamming of setSubscription @faboweb
 - [\#1603](https://github.com/cosmos/voyager/issues/1603) Fixed inactive sidebar links @jbibla
+- [\#1614](https://github.com/cosmos/voyager/issues/1614) Fixed an error that prevented a proposal to be updated optimisticaly after a successful deposit or vote @fedekunze
 
 ## [0.10.7] - 2018-10-10
 

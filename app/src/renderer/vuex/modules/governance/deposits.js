@@ -44,6 +44,7 @@ export default ({ node }) => {
         amount
       })
       await dispatch(`getProposalDeposits`, proposal_id)
+      await dispatch(`getProposal`, proposal_id)
     }
   }
   return {
