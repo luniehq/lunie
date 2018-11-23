@@ -101,17 +101,17 @@ export default {
     proposal() {
       let proposal = this.proposals[this.proposalId]
       if (proposal) {
-        proposal.tally_result.yes = String(
-          Math.round(parseFloat(proposal.tally_result.yes))
+        proposal.tally_result.yes = Math.round(
+          parseFloat(proposal.tally_result.yes)
         )
-        proposal.tally_result.no = String(
-          Math.round(parseFloat(proposal.tally_result.no))
+        proposal.tally_result.no = Math.round(
+          parseFloat(proposal.tally_result.no)
         )
-        proposal.tally_result.no_with_veto = String(
-          Math.round(parseFloat(proposal.tally_result.no_with_veto))
+        proposal.tally_result.no_with_veto = Math.round(
+          parseFloat(proposal.tally_result.no_with_veto)
         )
-        proposal.tally_result.abstain = String(
-          Math.round(parseFloat(proposal.tally_result.abstain))
+        proposal.tally_result.abstain = Math.round(
+          parseFloat(proposal.tally_result.abstain)
         )
       }
       return proposal
@@ -178,14 +178,6 @@ export default {
           message: `There was an error determining the status of this proposal.`,
           color: `grey`
         }
-    }
-  },
-  watch: {
-    proposal: {
-      immediate: true,
-      handler(proposal) {
-        if (!proposal) return
-      }
     }
   },
   methods: {
