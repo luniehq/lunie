@@ -85,8 +85,8 @@ export default {
   .tm-session-footer
     justify-content center
 
-.tm-session-label
-  padding 1rem 3rem
+  .tm-session-label
+    padding 1rem 3rem
 
 .tm-bar-discrete__node--active
   border-color var(--tertiary) !important
