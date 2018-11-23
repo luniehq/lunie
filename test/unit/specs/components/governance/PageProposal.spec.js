@@ -82,6 +82,47 @@ describe(`PageProposal`, () => {
       )
     })
 
+    describe(`Proposal status`, () => {
+      it(`displays correctly a proposal that 'Passed'`, () => {
+        expect(wrapper.vm.status).toMatchObject({
+          message: `This proposal has passed`,
+          color: `green`
+        })
+      })
+
+      it(`displays correctly a 'Rejected' proposal`, () => {
+        wrapper.vm.proposal.proposal_status = `Rejected`
+        expect(wrapper.vm.status).toMatchObject({
+          message: `This proposal has been rejected and voting is closed`,
+          color: `red`
+        })
+      })
+
+      it(`displays correctly a proposal on 'DepositPeriod'`, () => {
+        wrapper.vm.proposal.proposal_status = `DepositPeriod`
+        expect(wrapper.vm.status).toMatchObject({
+          message: `Deposits are open for this proposal`,
+          color: `yellow`
+        })
+      })
+
+      it(`displays correctly a proposal on 'VotingPeriod'`, () => {
+        wrapper.vm.proposal.proposal_status = `VotingPeriod`
+        expect(wrapper.vm.status).toMatchObject({
+          message: `Voting for this proposal is open`,
+          color: `blue`
+        })
+      })
+
+      it(`shows error status`, () => {
+        wrapper.vm.proposal.proposal_status = ``
+        expect(wrapper.vm.status).toMatchObject({
+          message: `There was an error determining the status of this proposal.`,
+          color: `grey`
+        })
+      })
+    })
+
     describe(`Modal onVote`, () => {
       it(`enables voting if the proposal is on the 'VotingPeriod'`, () => {
         let proposal = lcdClientMock.state.proposals[1]
