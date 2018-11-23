@@ -34,7 +34,7 @@
                 | Unbonding Time
                 |
                 i.material-icons.info-button(v-tooltip.top="paramsTooltips.unbonding_time") info_outline
-              dd {{ parameters.parameters.unbonding_time ? nanoSecsToDays() + ` days`: `n/a` }}
+              dd {{ parameters.parameters.unbonding_time ? unbondingTimeInDays + ` days`: `n/a` }}
             dl.info_dl
               dt Current Staking Coin Denomination
               dd {{ parameters.parameters.bond_denom ? parameters.parameters.bond_denom : `n/a` }}
@@ -71,19 +71,18 @@ export default {
     }
   }),
   computed: {
-    ...mapGetters([`config`, `parameters`, `pool`])
+    ...mapGetters([`config`, `parameters`, `pool`]),
+    unbondingTimeInDays() {
+      // pool's unbonding time is in nanoseconds and moment only suports ms
+      let ms = parseInt(this.parameters.parameters.unbonding_time) / 10 ** 6
+      return moment.duration(ms).asDays()
+    }
   },
   async mounted() {
     this.getStakingParameters()
     this.getStakingPool()
   },
   methods: {
-    nanoSecsToDays(date) {
-      // pool's unbonding time is in nanoseconds and moment only suports ms
-      let ms = parseInt(this.parameters.parameters.unbonding_time) / 10 ** 6
-      let ubdTime = moment.duration(ms, "milliseconds")
-      return ubdTime.asDays()
-    },
     getStakingParameters() {
       this.$store.dispatch(`getParameters`)
     },
