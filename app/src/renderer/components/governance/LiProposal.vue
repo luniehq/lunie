@@ -1,10 +1,15 @@
 <template lang="pug">
 tr.li-proposal
   td.li-proposal__value
-    span.validator-profile__status(v-bind:class="status.color" v-tooltip.top="status.message")
-    h2
-      router-link(:to="{ name: 'Proposal', params: { proposalId: proposal.proposal_id, proposal, status }}") {{ proposal.title }}
-    p {{ description }}
+    .li-proposal__title-container
+      span.material-icons(
+        v-if="proposal.proposal_status === `Passed`"
+        v-tooltip.top="status.message"
+        v-bind:class="status.color") checkmark
+      span.validator-profile__status(v-else v-bind:class="status.color" v-tooltip.top="status.message")
+      h2
+        router-link(:to="{ name: 'Proposal', params: { proposalId: proposal.proposal_id, proposal, status }}") {{ proposal.title }}
+      p.li-proposal__description {{ description }}
   td {{ `#` + proposal.proposal_id }}
   td.li-proposal__value.yes {{ proposal.tally_result.yes }}
   td.li-proposal__value.no {{ proposal.tally_result.no }}
@@ -26,8 +31,7 @@ export default {
       if (this.proposal.proposal_status === `Passed`)
         return {
           button: null,
-          message: `This proposal has passed`,
-          color: `green`
+          message: `This proposal has passed`
         }
       if (this.proposal.proposal_status === `Rejected`)
         return {
@@ -45,7 +49,7 @@ export default {
         return {
           button: `vote`,
           message: `Voting for this proposal is open`,
-          color: `blue`
+          color: `green`
         }
       else
         return {
@@ -75,16 +79,36 @@ export default {
   &:hover
     background var(--hover-bg)
 
+  &__description
+    font-size 14px
+    padding 0.25rem 0 0 1rem
+    min-width 284px
+    color var(--dim)
+
   .validator-profile__status
-    position relative
-    left 1px
-    top -2px
+    position absolute
+    left 0
+    top 9px
     display inline-block
 
   h2
     display inline-block
-    padding-left 0.25rem
+    font-size 16px
+    padding-left 1rem
 
   td
     padding 1rem 0.5rem
+
+.li-proposal__title-container
+  position relative
+
+  .material-icons
+    display inline-block
+    position absolute
+    width 1rem
+    height 1rem
+    overflow hidden
+    top 4px
+    left -4px
+    color var(--success)
 </style>

@@ -3,7 +3,7 @@ nav#app-header(v-bind:class="{ mobile: !config.desktop, windows: isWin }"): .con
   template(v-if="!config.desktop")
     .header-item
 
-  router-link.header-item.header-item-logo(to="/")
+  .header-item.header-item-logo
     img#logo-black(v-if="themes.active == 'light'"
       src="~@/assets/images/cosmos-wordmark-black.svg")
     img#logo-white(v-else

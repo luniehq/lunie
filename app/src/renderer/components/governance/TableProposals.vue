@@ -171,12 +171,12 @@ table tr td:first-child::before
   left -3rem
 
 table th
-  min-width 130px
+  min-width 122px
   width 100%
   padding 0.5rem
 
 table td
-  min-width 130px
+  min-width 122px
   width 100%
   padding 0 0.5rem
   position relative

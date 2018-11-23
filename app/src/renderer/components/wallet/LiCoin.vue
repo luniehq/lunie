@@ -90,4 +90,5 @@ export default {
         vertical-align middle
         font-size lg
         color var(--bright)
+        font-weight 500
 </style>

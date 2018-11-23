@@ -53,8 +53,6 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                   1,000.0000…
                 </h2>
               </div>
-              <!---->
-              <!---->
             </div>
             <div
               class="short-bech32"

@@ -49,17 +49,6 @@ exports[`Component: TabMyDelegations should show a message if not staked yet to 
 exports[`Component: TabMyDelegations should show committed validators 1`] = `
 <div>
   <div>
-    <h3
-      class="tab-header"
-    >
-      Active Delegations
-
-      <i
-        class="material-icons info-button"
-      >
-        info_outline
-      </i>
-    </h3>
     <div>
       <table>
         <thead>
@@ -228,7 +217,7 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
       the validator list
     </a>
     
-to spread some of your Atoms around.
+to find other validators to delegate to.
   </div>
   <div>
     <h3

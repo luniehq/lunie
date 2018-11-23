@@ -75,7 +75,7 @@ export default [
     component: wallet(`Send`)
   },
   {
-    path: `/wallet/transactions`,
+    path: `/transactions`,
     name: `transactions`,
     component: wallet(`Transactions`)
   },
