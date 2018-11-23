@@ -29,8 +29,6 @@ exports[`PageStaking has the expected html structure 1`] = `
          1,337.0000…
       </h2>
 </div>
-      <!---->
-      <!---->
 </div>
    <div class=\\"short-bech32\\">
       <div id=\\"address\\" class=\\"address\\">
@@ -89,9 +87,7 @@ exports[`PageStaking has the expected html structure 1`] = `
             1,337.0000…
          </h2>
 </div>
-         <!---->
-         <!---->
-   </div>
+</div>
       <div class=\\"short-bech32\\">
          <div id=\\"address\\" class=\\"address\\">
             cosmos…xxn9

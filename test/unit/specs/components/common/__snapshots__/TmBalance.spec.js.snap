@@ -22,8 +22,6 @@ exports[`TmBalance has the expected html structure before adding props 1`] = `
       123.0000…
    </h2>
 </div>
-   <!---->
-   <!---->
 </div>
 <div class=\\"short-bech32\\">
    <div id=\\"address\\" class=\\"address\\">

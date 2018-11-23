@@ -29,8 +29,6 @@ exports[`PageGovernance without magic has the expected html structure 1`] = `
          42.0000…
       </h2>
 </div>
-      <!---->
-      <!---->
 </div>
    <div class=\\"short-bech32\\">
       <div id=\\"address\\" class=\\"address\\">

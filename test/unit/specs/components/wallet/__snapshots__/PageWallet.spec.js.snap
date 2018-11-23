@@ -53,8 +53,6 @@ exports[`PageWallet has the expected html structure 1`] = `
                   1,000.0000…
                 </h2>
               </div>
-              <!---->
-              <!---->
             </div>
             <div
               class="short-bech32"
@@ -408,8 +406,6 @@ exports[`PageWallet should filter the balances 1`] = `
                   1,000.0000…
                 </h2>
               </div>
-              <!---->
-              <!---->
             </div>
             <div
               class="short-bech32"
