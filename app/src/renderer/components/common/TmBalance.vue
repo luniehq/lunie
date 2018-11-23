@@ -9,14 +9,6 @@
       .unbonded-atoms.top-section(v-if="unbondedAtoms")
         h3 Available {{bondingDenom}}
         h2 {{unbondedAtoms}}
-      .total-earnings.top-section(v-if="totalEarnings")
-        h3 Total Earnings
-        h2 {{totalEarnings}}
-      .total-rewards.top-section(v-if="totalRewards")
-        h3 Total Rewards
-        .group
-          h2 {{totalRewards}}
-          router-link(to="claim") Claim
 
     short-bech32(:address="user.address")
 
