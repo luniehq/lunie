@@ -20,8 +20,6 @@ describe(`TmBalance`, () => {
         }
       },
       propsData: {
-        totalEarnings: 100,
-        totalRewards: 50,
         tabs: []
       }
     })
@@ -30,20 +28,6 @@ describe(`TmBalance`, () => {
   })
 
   it(`has the expected html structure before adding props`, () => {
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
-  })
-
-  it(`shows correct stats depending on props`, () => {
-    expect(wrapper.contains(`.unbonded-atoms`)).toBe(true)
-
-    wrapper.setProps({ totalEarnings: 1337 })
-    wrapper.update()
-    expect(wrapper.contains(`.total-earnings`)).toBe(true)
-
-    wrapper.setProps({ totalRewards: 1337 })
-    wrapper.update()
-    expect(wrapper.contains(`.total-rewards`)).toBe(true)
-
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 })

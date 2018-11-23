@@ -2,6 +2,7 @@
 tm-page(data-title="Wallet")
   template(slot="menu-body")
     tm-balance
+
     vm-tool-bar
       a(@click='connected && updateBalances()' v-tooltip.bottom="'Refresh'" :disabled="!connected")
         i.material-icons refresh
@@ -10,30 +11,21 @@ tm-page(data-title="Wallet")
 
   modal-search(type="balances" v-if="somethingToSearch")
 
-  tm-part(title='Your Address')
-    tm-list-item(
-      :title="wallet.address"
-      :btn="'Receive'"
-      :overflow="true")
-
-      btn-receive(slot="btn-receive")
-
-  tm-part#part-available-balances(title="Available Balances")
-    tm-data-loading(v-if="wallet.loading")
-    tm-data-msg(id="account_empty_msg" v-else-if="wallet.balances.length === 0" icon="help_outline")
-      div(slot="title") Account empty
-      div(slot="subtitle")
-        | This account doesn't hold any coins yet. Go to the&nbsp;
-        a(href="https://gaia.faucetcosmos.network/") token faucet
-        | &nbsp;to aquire tokens to play with.
-    data-empty-search(v-else-if="filteredBalances.length === 0")
-    ul
-      li-coin.tm-li-balance(
-      v-for="coin in filteredBalances"
-      v-if="wallet.balances.length > 0 && coin.amount > 0"
-      :key="coin.denom"
-      :coin="coin"
-      )
+  tm-data-loading(v-if="wallet.loading")
+  tm-data-msg(id="account_empty_msg" v-else-if="wallet.balances.length === 0" icon="help_outline")
+    div(slot="title") Account empty
+    div(slot="subtitle")
+      | This account doesn't hold any coins yet. Go to the&nbsp;
+      a(href="https://gaia.faucetcosmos.network/") token faucet
+      | &nbsp;to aquire tokens to play with.
+  data-empty-search(v-else-if="filteredBalances.length === 0")
+  ul
+    li-coin.tm-li-balance(
+    v-for="coin in filteredBalances"
+    v-if="wallet.balances.length > 0 && coin.amount > 0"
+    :key="coin.denom"
+    :coin="coin"
+    )
 </template>
 
 <script>
@@ -44,7 +36,6 @@ import Mousetrap from "mousetrap"
 import DataEmptySearch from "common/TmDataEmptySearch"
 import LiCopy from "common/TmLiCopy"
 import LiCoin from "./LiCoin"
-import BtnReceive from "common/TmBtnReceive"
 import {
   TmListItem,
   TmPage,
@@ -68,8 +59,7 @@ export default {
     ModalSearch,
     TmPage,
     TmPart,
-    VmToolBar,
-    BtnReceive
+    VmToolBar
   },
   data: () => ({ num }),
   computed: {

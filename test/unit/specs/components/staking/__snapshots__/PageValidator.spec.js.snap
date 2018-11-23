@@ -53,8 +53,6 @@ exports[`PageValidator has the expected html structure 1`] = `
                   0.0000…
                 </h2>
               </div>
-              <!---->
-              <!---->
             </div>
             <div
               class="short-bech32"
@@ -496,8 +494,6 @@ exports[`PageValidator shows a default avatar 1`] = `
                   0.0000…
                 </h2>
               </div>
-              <!---->
-              <!---->
             </div>
             <div
               class="short-bech32"
@@ -921,8 +917,6 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
                   0.0000…
                 </h2>
               </div>
-              <!---->
-              <!---->
             </div>
             <div
               class="short-bech32"

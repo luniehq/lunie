@@ -26,7 +26,6 @@ describe(`Component: TabMyDelegations`, () => {
       }
     })
 
-    expect(instance.wrapper.html()).toContain(`Active Delegations`)
     expect(instance.wrapper.vm.$el).toMatchSnapshot()
   })
 
