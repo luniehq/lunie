@@ -46,12 +46,12 @@ describe(`TabParameters`, () => {
   })
 
   it(`shows the staking parameters and pool`, () => {
-    expect(store.state.parameters).toEqual(parameters)
-    expect(store.state.pool).toEqual(pool)
+    expect(store.state.parameters.parameters).toEqual(parameters)
+    expect(store.state.pool.pool).toEqual(pool)
   })
 
   it(`displays unbonding period in days`, () => {
-    let days = moment.duration(parameters.unbonding_time).asDays()
+    let days = parseInt(parameters.unbonding_time) / (10 ** 9 * 60 * 60 * 24)
     expect(wrapper.vm.unbondingTimeInDays).toEqual(days)
   })
 })

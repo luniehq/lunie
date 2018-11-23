@@ -45,7 +45,6 @@
 </template>
 
 <script>
-import moment from "moment"
 import { mapGetters } from "vuex"
 import { TmBtn, TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
 export default {
@@ -73,9 +72,10 @@ export default {
   computed: {
     ...mapGetters([`config`, `parameters`, `pool`]),
     unbondingTimeInDays() {
-      // pool's unbonding time is in nanoseconds and moment only suports ms
-      let ms = parseInt(this.parameters.parameters.unbonding_time) / 10 ** 6
-      return moment.duration(ms).asDays()
+      return (
+        parseInt(this.parameters.parameters.unbonding_time) /
+        (10 ** 9 * 60 * 60 * 24)
+      )
     }
   },
   async mounted() {

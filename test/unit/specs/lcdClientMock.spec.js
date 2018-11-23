@@ -825,9 +825,6 @@ describe(`LCD Client Mock`, () => {
   it(`queries for staking parameters`, async () => {
     let parameters = await client.getParameters()
     expect(Object.keys(parameters)).toContain(
-      `inflation_max`,
-      `inflation_min`,
-      `goal_bonded`,
       `unbonding_time`,
       `max_validators`,
       `bond_denom`
@@ -836,14 +833,7 @@ describe(`LCD Client Mock`, () => {
 
   it(`queries for staking pool`, async () => {
     let pool = await client.getPool()
-    expect(Object.keys(pool)).toContain(
-      `loose_tokens`,
-      `bonded_tokens`,
-      `inflation_last_time`,
-      `inflation`,
-      `date_last_commission_reset`,
-      `prev_bonded_shares`
-    )
+    expect(Object.keys(pool)).toContain(`loose_tokens`, `bonded_tokens`)
   })
 
   it(`queries for validator signing information`, async () => {
