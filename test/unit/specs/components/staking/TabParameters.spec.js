@@ -1,14 +1,25 @@
 import setup from "../../../helpers/vuex-setup"
 import htmlBeautify from "html-beautify"
 import TabParameters from "renderer/components/staking/TabParameters"
-// import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`TabParameters`, () => {
   let wrapper, store
   let { mount } = setup()
 
+  const $store = {
+    commit: jest.fn(),
+    dispatch: jest.fn(),
+    getters: {
+      pool: { pool: lcdClientMock.state.pool },
+      parameters: { parameters: lcdClientMock.state.parameters }
+    }
+  }
+
   beforeEach(() => {
-    let instance = mount(TabParameters)
+    let instance = mount(TabParameters, {
+      $store
+    })
     wrapper = instance.wrapper
     store = instance.store
 
