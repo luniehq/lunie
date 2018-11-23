@@ -79,16 +79,8 @@ export default {
     }
   },
   async mounted() {
-    this.getStakingParameters()
-    this.getStakingPool()
-  },
-  methods: {
-    getStakingParameters() {
-      this.$store.dispatch(`getParameters`)
-    },
-    getStakingPool() {
-      this.$store.dispatch(`getPool`)
-    }
+    this.$store.dispatch(`getParameters`)
+    this.$store.dispatch(`getPool`)
   }
 }
 </script>

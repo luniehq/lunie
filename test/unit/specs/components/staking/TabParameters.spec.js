@@ -1,4 +1,3 @@
-import moment from "moment"
 import Vuelidate from "vuelidate"
 import setup from "../../../helpers/vuex-setup"
 import htmlBeautify from "html-beautify"
@@ -51,7 +50,6 @@ describe(`TabParameters`, () => {
   })
 
   it(`displays unbonding period in days`, () => {
-    let days = parseInt(parameters.unbonding_time) / (10 ** 9 * 60 * 60 * 24)
-    expect(wrapper.vm.unbondingTimeInDays).toEqual(days)
+    expect(wrapper.vm.unbondingTimeInDays).toEqual(3)
   })
 })
