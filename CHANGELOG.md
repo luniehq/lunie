@@ -62,6 +62,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1566](https://github.com/cosmos/voyager/issues/1566) putting querying errors in the store instead of showing notifications @faboweb
 - [\1612](https://github.com/cosmos/voyager/issues/1612) defined props types on components
 - changed `err` to `error` because abbreviations are bad @faboweb
+- [\1609](https://github.com/cosmos/voyager/issues/1609) switched to css and html to onboard users quicker @faboweb
 
 ### Fixed
 
