@@ -52,49 +52,56 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@require "~variables"
+<style>
+.li-coin {
+  display: flex;
+  align-items: center;
+  font-size: var(--m);
+  margin-bottom: 0.5rem;
+  border: 1px solid var(--bc-dim);
+  background: var(--app-fg);
+  min-width: 45rem;
+}
 
-.li-coin
-  display flex
-  align-items center
-  font-size m
-  margin-bottom 0.5rem
-  border 1px solid var(--bc-dim)
-  background var(--app-fg)
-  min-width 45rem
+.li-coin:hover {
+  background: var(--hover-bg);
+}
 
-  &:hover
-    background var(--hover-bg)
+.li-coin b {
+  font-weight: 500;
+}
 
-  b
-    font-weight 500
+.li-coin__icon {
+  padding: 12px 0 12px 1rem;
+}
 
-  &__icon
-    padding 12px 0 12px 1rem
+.li-coin__icon img {
+  max-height: 100%;
+  max-width: 52px;
+  border: 0.5px solid;
+  border-radius: 50%;
+  display: block;
+}
 
-    img
-      max-height 100%
-      max-width 52px
-      border 0.5px solid
-      border-radius 50%
-      display block
+.li-coin__content {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding: 1rem;
+  font-size: var(--m);
+}
 
-  &__content
-    display flex
-    flex-direction row
-    width 100%
-    padding 1rem
-    font-size m
+.li-coin__content__left {
+  display: flex;
+  flex-direction: column;
+}
 
-    &__left
-      display flex
-      flex-direction column
-
-      &__amount, &__denom
-        flex 0.5
-        vertical-align middle
-        font-size lg
-        color var(--bright)
-        font-weight 500
+.li-coin__content__left__amount,
+.li-coin__content__left__denom {
+  flex: 0.5;
+  vertical-align: middle;
+  font-size: var(--lg);
+  color: var(--bright);
+  font-weight: 500;
+}
 </style>

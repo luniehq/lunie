@@ -11,7 +11,7 @@
       </tm-tool-bar>
     </div>
     <tm-data-error v-if="!proposal"></tm-data-error
-    ><template v-else="v-else">
+    ><template v-else>
       <div
         class="validator-profile__header validator-profile__section proposal"
       >
@@ -298,33 +298,38 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
-@require '~variables';
-.proposal
-  b
-    color var(--bright)
+<style>
+.proposal b {
+  color: var(--bright);
+}
 
-  .validator-profile__status
-    position relative
-    left 0
-    margin-right 0.5rem
+.proposal .validator-profile__status {
+  position: relative;
+  left: 0;
+  margin-right: 0.5rem;
+}
 
-  .description
-    max-width 500px
+.proposal .description {
+  max-width: 500px;
+}
 
-  .votes
-    padding-top 2rem
+.proposal .votes {
+  padding-top: 2rem;
+}
 
-.proposal-id
-  color var(--dim)
-  font-size 14px
-  margin 0
-  font-weight 400
-  padding-bottom 0.25rem
+.proposal-id {
+  color: var(--dim);
+  font-size: 14px;
+  margin: 0;
+  font-weight: 400;
+  padding-bottom: 0.25rem;
+}
 
-.text-block
-  padding 0
+.text-block {
+  padding: 0;
+}
 
-.row b
-  font-weight 500
+.row b {
+  font-weight: 500;
+}
 </style>

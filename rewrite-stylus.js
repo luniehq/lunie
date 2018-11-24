@@ -17,13 +17,7 @@ glob(`**/*.vue`, function(err, files) {
       content = content.replace(`@import '~variables'`, ``)
       let match = templateRegExp.exec(content)
       if (!match) return
-      let template = match[1]
-      if (template.split(`\n`)[1].startsWith(`  `)) {
-        template = template
-          .split(`\n`)
-          .map(line => line.slice(2))
-          .join(`\n`)
-      }
+      const template = match[1]
       try {
         let css = stylus.render(template)
         let replaced = content.replace(

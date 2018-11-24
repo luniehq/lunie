@@ -27,10 +27,9 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@import '~variables'
-
-.tm-li.tm-li-user
-  border-top px solid var(--bc)
-  height 3.5rem + px
+<style>
+.tm-li.tm-li-user {
+  border-top: px solid var(--bc);
+  height: calc(3.5rem + var(--px));
+}
 </style>
