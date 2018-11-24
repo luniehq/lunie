@@ -2,7 +2,7 @@
 
 module.exports = {
   root: true,
-  extends: ["prettier", "prettier/standard", "plugin:vue/recommended"],
+  extends: ["plugin:vue/recommended", "prettier", "prettier/vue"],
   parserOptions: {
     ecmaVersion: 2017,
     sourceType: "module",
@@ -21,6 +21,7 @@ module.exports = {
     "no-unused-vars": "error",
     quotes: ["error", "backtick"],
     "no-var": "error",
-    "vue/require-prop-types": "warn"
+    "vue/require-prop-types": "warn",
+    "prettier/prettier": "error"
   }
 }
