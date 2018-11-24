@@ -25,9 +25,9 @@
     node-fetch "^2.1.1"
     url-template "^2.0.8"
 
-"@tendermint/ui@0.4.1":
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/@tendermint/ui/-/ui-0.4.1.tgz#d240999b5056d1e2c43b84c3266dd0aec1452389"
+"@tendermint/ui@0.4.3":
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/@tendermint/ui/-/ui-0.4.3.tgz#4507a9a3293c97f52d1ccf5cde53f977cdf31dd6"
   dependencies:
     axios "^0.18.0"
     bignumber.js "^7.2.1"

@@ -49,18 +49,9 @@ export default {
   }
 }
 </script>
-<style>
-.tm-tool-bar {
-  height: 100%;
-}
-
-.tm-page-header-text {
-  padding-right: 1rem;
-}
-
-.tm-page-header-text a {
-  cursor: pointer;
-}
+<style lang="stylus">
+.tm-page-header-text
+  padding-right 1rem
 
 .tm-page-header-text i {
   padding: 1rem;

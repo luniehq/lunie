@@ -1,4 +1,5 @@
 import axios from "axios"
+import Raven from "raven-js"
 
 export default ({}) => {
   const emptyState = {
@@ -38,6 +39,7 @@ export default ({}) => {
     },
     async getKeybaseIdentities({ dispatch, commit, state }, validators) {
       try {
+        state.loading = true
         const identities = await Promise.all(
           validators.map(async validator => {
             if (validator.description.identity) {
@@ -48,14 +50,16 @@ export default ({}) => {
             }
           })
         )
+        state.loading = false
         state.error = null
         commit(`setKeybaseIdentities`, identities.filter(x => !!x))
-      } catch (err) {
+      } catch (error) {
         commit(`notifyError`, {
           title: `Error fetching keybase information for validators`,
-          body: err.message
+          body: error.message
         })
-        state.error = err
+        Raven.captureException(error)
+        state.error = error
       }
     }
   }

@@ -1,5 +1,3 @@
-"use strict"
-
 export default ({ node }) => {
   let lock = null
 
@@ -41,13 +39,17 @@ export default ({ node }) => {
     let res = await req.catch(err => {
       let message
       // TODO: get rid of this logic once the appended message is actually included inside the object message
-      let idxColon = err.response.data.indexOf(`:`)
-      let indexOpenBracket = err.response.data.indexOf(`{`)
-      if (idxColon < indexOpenBracket) {
-        // e.g => Msg 0 failed: {"codespace":4,"code":102,"abci_code":262246,"message":"existing unbonding delegation found"}
-        message = JSON.parse(err.response.data.substr(idxColon + 1)).message
+      if (!err.response.data.message) {
+        let idxColon = err.response.data.indexOf(`:`)
+        let indexOpenBracket = err.response.data.indexOf(`{`)
+        if (idxColon < indexOpenBracket) {
+          // e.g => Msg 0 failed: {"codespace":4,"code":102,"abci_code":262246,"message":"existing unbonding delegation found"}
+          message = JSON.parse(err.response.data.substr(idxColon + 1)).message
+        } else {
+          message = err.response.data
+        }
       } else {
-        message = err.response.data
+        message = err.response.data.message
       }
       throw new Error(message)
     })
@@ -76,8 +78,8 @@ export default ({ node }) => {
         // wait for doSend to finish
         let res = await lock
         return res
-      } catch (err) {
-        throw err
+      } catch (error) {
+        throw error
       } finally {
         // get rid of lock whether doSend throws or succeeds
         lock = null

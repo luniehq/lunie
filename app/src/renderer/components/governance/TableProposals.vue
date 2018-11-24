@@ -41,7 +41,16 @@ export default {
     PanelSort,
     VmToolBar
   },
-  props: [`proposals`, `loading`],
+  props: {
+    proposals: {
+      type: Array,
+      required: true
+    },
+    loading: {
+      type: Boolean,
+      required: true
+    }
+  },
   data: () => ({
     query: ``,
     sort: {
@@ -54,7 +63,6 @@ export default {
     somethingToSearch() {
       return !!this.proposals.length
     },
-    // TODO delete once tally is changed from Rat --> Dec
     parsedProposals() {
       if (!this.proposals || this.proposals.length === 0) return []
 
@@ -174,18 +182,28 @@ table th {
   padding: 0.5rem;
 }
 
-table td {
-  min-width: 130px;
-  width: 100%;
-  padding: 0 0.5rem;
-  position: relative;
-}
-
-table td a {
-  display: inline-block;
-}
-
-table tr td:nth-child(3):after {
+table
+  th
+  min-width
+  122px
+  width
+  100%
+  padding
+  0.5rem
+  table
+  td
+  min-width
+  122px
+  width
+  100%
+  padding
+  0
+  0.5rem
+  position
+  relative
+  table
+  tr
+  td:nth-child(3):after {
   display: block;
   position: absolute;
   content: "";

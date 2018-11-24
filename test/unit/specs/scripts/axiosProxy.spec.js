@@ -92,8 +92,8 @@ describe(`AxiosProxy`, () => {
       data: { name: `fabo` }
     })
       .then(() => done.fail())
-      .catch(err => {
-        expect(err).toBe(`Error`)
+      .catch(error => {
+        expect(error).toBe(`Error`)
         done()
       })
 

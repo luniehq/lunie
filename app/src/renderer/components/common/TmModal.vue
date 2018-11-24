@@ -21,7 +21,20 @@
 <script>
 export default {
   name: `tm-modal`,
-  props: [`size`, `icon`, `close`],
+  props: {
+    icon: {
+      type: String,
+      required: true
+    },
+    size: {
+      type: String,
+      required: true
+    },
+    close: {
+      type: Function,
+      required: true
+    }
+  },
   computed: {
     cssClass() {
       let value = `tm-modal`

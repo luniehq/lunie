@@ -110,8 +110,8 @@ async function makeValidator(
     try {
       await sleep(1000)
       await getBalance(cliHome, operatorAddress)
-    } catch (err) {
-      console.error(err) // kept in here to see if something unexpected fails
+    } catch (error) {
+      console.error(error) // kept in here to see if something unexpected fails
       continue
     }
     break

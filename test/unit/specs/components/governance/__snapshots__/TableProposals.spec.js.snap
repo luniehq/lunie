@@ -28,81 +28,115 @@ exports[`TableProposals has the expected html structure 1`] = `
       <tbody>
          <tr class=\\"li-proposal\\">
             <td class=\\"li-proposal__value\\">
+               <div class=\\"li-proposal__title-container\\">
+                  <span class=\\"validator-profile__status red\\"></span>
+                  <h2>
+                     <a href=\\"#/governance/6\\" class=\\"\\">Rejected proposal</a>
+                  </h2>
+                  <p class=\\"li-proposal__description\\">
+                     this proposal was rejected
+                  </p>
+</div>
+</td>
+         <td>
+            #6
+         </td>
+         <td class=\\"li-proposal__value yes\\">
+            10
+         </td>
+         <td class=\\"li-proposal__value no\\">
+            30
+         </td>
+         <td class=\\"li-proposal__value no_with_veto\\">
+            100
+         </td>
+         <td class=\\"li-proposal__value abstain\\">
+            20
+         </td>
+</tr>
+      <tr class=\\"li-proposal\\">
+         <td class=\\"li-proposal__value\\">
+            <div class=\\"li-proposal__title-container\\">
                <span class=\\"validator-profile__status yellow\\"></span>
                <h2>
                   <a href=\\"#/governance/5\\" class=\\"\\">Custom text proposal</a>
                </h2>
-               <p>
+               <p class=\\"li-proposal__description\\">
                   custom text proposal description
                </p>
+</div>
 </td>
-            <td>
-               #5
-            </td>
-            <td class=\\"li-proposal__value yes\\">
-               0
-            </td>
-            <td class=\\"li-proposal__value no\\">
-               0
-            </td>
-            <td class=\\"li-proposal__value no_with_veto\\">
-               0
-            </td>
-            <td class=\\"li-proposal__value abstain\\">
-               0
-            </td>
+         <td>
+            #5
+         </td>
+         <td class=\\"li-proposal__value yes\\">
+            0
+         </td>
+         <td class=\\"li-proposal__value no\\">
+            0
+         </td>
+         <td class=\\"li-proposal__value no_with_veto\\">
+            0
+         </td>
+         <td class=\\"li-proposal__value abstain\\">
+            0
+         </td>
 </tr>
-         <tr class=\\"li-proposal\\">
-            <td class=\\"li-proposal__value\\">
-               <span class=\\"validator-profile__status blue\\"></span>
+      <tr class=\\"li-proposal\\">
+         <td class=\\"li-proposal__value\\">
+            <div class=\\"li-proposal__title-container\\">
+               <span class=\\"validator-profile__status green\\"></span>
                <h2>
                   <a href=\\"#/governance/2\\" class=\\"\\">VotingPeriod proposal</a>
                </h2>
-               <p>
+               <p class=\\"li-proposal__description\\">
                   custom text proposal description
                </p>
+</div>
 </td>
-            <td>
-               #2
-            </td>
-            <td class=\\"li-proposal__value yes\\">
-               0
-            </td>
-            <td class=\\"li-proposal__value no\\">
-               0
-            </td>
-            <td class=\\"li-proposal__value no_with_veto\\">
-               0
-            </td>
-            <td class=\\"li-proposal__value abstain\\">
-               0
-            </td>
+         <td>
+            #2
+         </td>
+         <td class=\\"li-proposal__value yes\\">
+            0
+         </td>
+         <td class=\\"li-proposal__value no\\">
+            0
+         </td>
+         <td class=\\"li-proposal__value no_with_veto\\">
+            0
+         </td>
+         <td class=\\"li-proposal__value abstain\\">
+            0
+         </td>
 </tr>
-         <tr class=\\"li-proposal\\">
-            <td class=\\"li-proposal__value\\">
-               <span class=\\"validator-profile__status green\\"></span>
+      <tr class=\\"li-proposal\\">
+         <td class=\\"li-proposal__value\\">
+            <div class=\\"li-proposal__title-container\\">
+               <span class=\\"material-icons\\">checkmark</span>
                <h2>
                   <a href=\\"#/governance/1\\" class=\\"\\">Proposal Title</a>
                </h2>
-               <p>
+               <p class=\\"li-proposal__description\\">
                   Proposal description
                </p>
+</div>
 </td>
-            <td>
-               #1
-            </td>
-            <td class=\\"li-proposal__value yes\\">
-               500
-            </td>
-            <td class=\\"li-proposal__value no\\">
-               25
-            </td>
-            <td class=\\"li-proposal__value no_with_veto\\">
-               10
-            </td>
-            <td class=\\"li-proposal__value abstain\\">
-               56
-            </td>
+         <td>
+            #1
+         </td>
+         <td class=\\"li-proposal__value yes\\">
+            500
+         </td>
+         <td class=\\"li-proposal__value no\\">
+            25
+         </td>
+         <td class=\\"li-proposal__value no_with_veto\\">
+            10
+         </td>
+         <td class=\\"li-proposal__value abstain\\">
+            56
+         </td>
 </tr>
 </tbody>
 </table>
@@ -179,43 +213,49 @@ exports[`TableProposals should filter the proposals 1`] = `
         <td
           class="li-proposal__value"
         >
-          <span
-            class="validator-profile__status yellow"
-          />
-          <h2>
-            <a
-              class=""
-              href="#/governance/5"
+          <div
+            class="li-proposal__title-container"
+          >
+            <span
+              class="validator-profile__status red"
+            />
+            <h2>
+              <a
+                class=""
+                href="#/governance/6"
+              >
+                Rejected proposal
+              </a>
+            </h2>
+            <p
+              class="li-proposal__description"
             >
-              Custom text proposal
-            </a>
-          </h2>
-          <p>
-            custom text proposal description
-          </p>
+              this proposal was rejected
+            </p>
+          </div>
         </td>
         <td>
-          #5
+          #6
         </td>
         <td
           class="li-proposal__value yes"
         >
-          0
+          10
         </td>
         <td
           class="li-proposal__value no"
         >
-          0
+          30
         </td>
         <td
           class="li-proposal__value no_with_veto"
         >
-          0
+          100
         </td>
         <td
           class="li-proposal__value abstain"
         >
-          0
+          20
         </td>
       </tr>
     </tbody>

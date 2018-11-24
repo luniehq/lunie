@@ -35,7 +35,20 @@ export default {
     TmListItem,
     Modal
   },
-  props: [`amount`, `denom`, `recipient`],
+  props: {
+    denom: {
+      type: String,
+      required: true
+    },
+    recipient: {
+      type: String,
+      required: true
+    },
+    amount: {
+      type: [String, Number],
+      required: true
+    }
+  },
   methods: {
     close() {
       this.$emit(`canceled`)

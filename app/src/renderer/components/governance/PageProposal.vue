@@ -1,127 +1,66 @@
-<template>
-  <tm-page data-title="Proposal"
-    ><template slot="menu-body">
-      <tm-balance></tm-balance>
-    </template>
-    <div slot="menu">
-      <tm-tool-bar>
-        <router-link to="/governance" exact="exact"
-          ><i class="material-icons">arrow_back</i></router-link
-        >
-      </tm-tool-bar>
-    </div>
-    <tm-data-error v-if="!proposal"></tm-data-error
-    ><template v-else="v-else">
-      <div
-        class="validator-profile__header validator-profile__section proposal"
-      >
-        <div class="column validator-profile__header__info">
-          <div class="row validator-profile__header__name">
-            <div class="top column">
-              <div class="validator-profile__status-and-title">
-                <span
-                  class="validator-profile__status"
-                  v-bind:class="status.color"
-                  v-tooltip.top="status.message"
-                ></span>
-                <div class="validator-profile__header__name__title">
-                  {{ proposal.title }} {{ `(#` + proposal.proposal_id + `)` }}
-                </div>
-              </div>
-            </div>
-            <div class="column validator-profile__header__actions">
-              <tm-btn
-                id="vote-btn"
-                v-if="status.button === 'vote'"
-                value="Vote"
-                color="primary"
-                @click.native="onVote"
-              ></tm-btn>
-              <tm-btn
-                id="deposit-btn"
-                v-if="status.button === 'deposit'"
-                value="Deposit"
-                color="primary"
-                @click.native="onDeposit"
-              ></tm-btn>
-              <tm-btn
-                v-if="!status.button"
-                disabled="disabled"
-                value="Deposit / Vote"
-                color="primary"
-              ></tm-btn>
-            </div>
-          </div>
-          <div class="row description">
-            <p>
-              Submitted {{ submittedAgo }}.
-              {{
-                proposal.proposal_status === `DepositPeriod`
-                  ? `Deposit ends ` + depositEndsIn
-                  : `Voting started ` + votingStartedAgo
-              }}
-            </p>
-          </div>
-          <div class="row validator-profile__header__data votes">
-            <dl class="colored_dl">
-              <dt>Deposit</dt>
-              <dd>
-                {{
-                  proposal.total_deposit[0].amount +
-                    ` ` +
-                    proposal.total_deposit[0].denom
-                }}
-              </dd>
-            </dl>
-            <div class="validator-profile__header__data__break"></div>
-            <dl class="colored_dl">
-              <dt>Yes</dt>
-              <dd>{{ proposal.tally_result.yes }} / {{ yesPercentage }}</dd>
-            </dl>
-            <dl class="colored_dl">
-              <dt>No</dt>
-              <dd>{{ proposal.tally_result.no }} / {{ noPercentage }}</dd>
-            </dl>
-            <dl class="colored_dl">
-              <dt>No with Veto</dt>
-              <dd>
-                {{ proposal.tally_result.no_with_veto }} /
-                {{ noWithVetoPercentage }}
-              </dd>
-            </dl>
-            <dl class="colored_dl">
-              <dt>Abstain</dt>
-              <dd>
-                {{ proposal.tally_result.abstain }} / {{ abstainPercentage }}
-              </dd>
-            </dl>
-          </div>
-        </div>
-      </div>
-      <div class="validator-profile__details validator-profile__section">
-        <div class="column">
-          <div class="row">
-            <text-block :content="proposal.description"></text-block>
-          </div>
-        </div>
-      </div>
-      <modal-deposit
-        v-if="showModalDeposit"
-        v-on:submitDeposit="deposit"
-        :showModalDeposit.sync="showModalDeposit"
-        :proposalId="proposal.proposal_id"
-        :proposalTitle="proposal.title"
-        :denom="bondingDenom.toLowerCase()"
-      ></modal-deposit>
-      <modal-vote
-        v-if="showModalVote"
-        v-on:castVote="castVote"
-        :showModalVote.sync="showModalVote"
-        :proposalId="proposal.proposal_id"
-        :proposalTitle="proposal.title"
-      ></modal-vote>
-    </template>
-  </tm-page>
+<template lang="pug">
+tm-page(data-title='Proposal')
+  template(slot="menu-body"): tm-balance
+  div(slot="menu"): tm-tool-bar
+    router-link(to="/governance" exact): i.material-icons arrow_back
+
+  tm-data-error(v-if="!proposal")
+
+  template(v-else)
+    .validator-profile__header.validator-profile__section.proposal
+      .column.validator-profile__header__info
+        .row.validator-profile__header__name
+          .top.column
+            div.validator-profile__status-and-title
+              span.validator-profile__status(v-bind:class="status.color" v-tooltip.top="status.message")
+              .validator-profile__header__name__title {{ proposal.title }} {{ `(#` + proposalId + `)`}}
+          .column.validator-profile__header__actions
+            tm-btn#vote-btn(v-if="proposal.proposal_status === 'VotingPeriod'" value="Vote" color="primary" @click.native="onVote")
+            tm-btn#deposit-btn(v-if="proposal.proposal_status === 'DepositPeriod'" value="Deposit" color="primary" @click.native="onDeposit")
+            tm-btn(v-if="proposal.proposal_status === 'Passed' || proposal.proposal_status === 'Rejected'" disabled value="Deposit / Vote" color="primary")
+
+        .row.description
+          p Submitted {{ submittedAgo }}. {{ proposal.proposal_status === `DepositPeriod` ? `Deposit ends ` + depositEndsIn : `Voting started ` + votingStartedAgo }}
+
+        .row.validator-profile__header__data.votes
+          dl.colored_dl
+            dt Deposit
+            dd {{ proposal.total_deposit[0].amount + ` ` + proposal.total_deposit[0].denom }}
+          .validator-profile__header__data__break
+          dl.colored_dl
+            dt Yes
+            dd {{ proposal.tally_result.yes }} / {{ yesPercentage }}
+          dl.colored_dl
+            dt No
+            dd {{ proposal.tally_result.no }} / {{ noPercentage }}
+          dl.colored_dl
+            dt No with Veto
+            dd {{ proposal.tally_result.no_with_veto }} / {{ noWithVetoPercentage }}
+          dl.colored_dl
+            dt Abstain
+            dd {{ proposal.tally_result.abstain }} / {{ abstainPercentage }}
+
+    .validator-profile__details.validator-profile__section
+      .column
+        .row
+          text-block(:content="proposal.description")
+
+    modal-deposit(
+      v-if="showModalDeposit"
+      v-on:submitDeposit="deposit"
+      :showModalDeposit.sync="showModalDeposit"
+      :proposalId="proposalId"
+      :proposalTitle="proposal.title"
+      :denom="bondingDenom.toLowerCase()"
+    )
+
+    modal-vote(
+      v-if="showModalVote"
+      v-on:castVote="castVote"
+      :showModalVote.sync="showModalVote"
+      :proposalId="proposalId"
+      :proposalTitle="proposal.title"
+    )
 </template>
 
 <script>
@@ -146,14 +85,37 @@ export default {
     TmPage,
     TextBlock
   },
-  props: [`proposal`, `status`],
+  props: {
+    proposalId: {
+      type: String,
+      required: true
+    }
+  },
   data: () => ({
     showModalDeposit: false,
     showModalVote: false
   }),
   computed: {
     // TODO: get denom from governance params
-    ...mapGetters([`bondingDenom`]),
+    ...mapGetters([`bondingDenom`, `proposals`]),
+    proposal() {
+      let proposal = this.proposals[this.proposalId]
+      if (proposal) {
+        proposal.tally_result.yes = Math.round(
+          parseFloat(proposal.tally_result.yes)
+        )
+        proposal.tally_result.no = Math.round(
+          parseFloat(proposal.tally_result.no)
+        )
+        proposal.tally_result.no_with_veto = Math.round(
+          parseFloat(proposal.tally_result.no_with_veto)
+        )
+        proposal.tally_result.abstain = Math.round(
+          parseFloat(proposal.tally_result.abstain)
+        )
+      }
+      return proposal
+    },
     proposalType() {
       return this.proposal.proposal_type.toLowerCase()
     },
@@ -189,6 +151,33 @@ export default {
       return num.percentInt(
         this.proposal.tally_result.abstain / this.totalVotes
       )
+    },
+    status() {
+      if (this.proposal.proposal_status === `Passed`)
+        return {
+          message: `This proposal has passed`,
+          color: `green`
+        }
+      if (this.proposal.proposal_status === `Rejected`)
+        return {
+          message: `This proposal has been rejected and voting is closed`,
+          color: `red`
+        }
+      if (this.proposal.proposal_status === `DepositPeriod`)
+        return {
+          message: `Deposits are open for this proposal`,
+          color: `yellow`
+        }
+      if (this.proposal.proposal_status === `VotingPeriod`)
+        return {
+          message: `Voting for this proposal is open`,
+          color: `blue`
+        }
+      else
+        return {
+          message: `There was an error determining the status of this proposal.`,
+          color: `grey`
+        }
     }
   },
   methods: {
@@ -199,37 +188,45 @@ export default {
       this.showModalDeposit = true
     },
     async deposit({ amount }) {
-      let proposal_id = this.proposal.proposal_id
       try {
         // TODO: support multiple coins
-        await this.$store.dispatch(`submitDeposit`, { proposal_id, amount })
+        await this.$store.dispatch(`submitDeposit`, {
+          proposal_id: this.proposalId,
+          amount
+        })
 
         // TODO: get min deposit denom from gov params
         this.$store.commit(`notify`, {
           title: `Successful deposit!`,
-          body: `You have successfully deposited your ${this.bondingDenom.toLowerCase()}s on proposal #${proposal_id}`
+          body: `You have successfully deposited your ${this.bondingDenom.toLowerCase()}s on proposal #${
+            this.proposalId
+          }`
         })
       } catch ({ message }) {
         this.$store.commit(`notifyError`, {
-          title: `Error while submitting a deposit on proposal #${proposal_id}`,
+          title: `Error while submitting a deposit on proposal #${
+            this.proposalId
+          }`,
           body: message
         })
       }
     },
     async castVote({ option }) {
-      let proposal_id = this.proposal.proposal_id
       try {
-        await this.$store.dispatch(`submitVote`, { proposal_id, option })
+        await this.$store.dispatch(`submitVote`, {
+          proposal_id: this.proposalId,
+          option
+        })
 
         this.$store.commit(`notify`, {
           title: `Successful vote!`,
           body: `You have successfully voted ${option} on proposal #${
-            this.proposal.proposal_id
+            this.proposalId
           }`
         })
       } catch ({ message }) {
         this.$store.commit(`notifyError`, {
-          title: `Error while voting on proposal #${proposal_id}`,
+          title: `Error while voting on proposal #${this.proposalId}`,
           body: message
         })
       }

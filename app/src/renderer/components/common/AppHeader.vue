@@ -1,36 +1,20 @@
-<template>
-  <nav
-    id="app-header"
-    v-bind:class="{ mobile: !config.desktop, windows: isWin }"
-  >
-    <div class="container">
-      <template v-if="!config.desktop">
-        <div class="header-item"></div>
-      </template>
-      <router-link class="header-item header-item-logo" to="/"
-        ><img
-          id="logo-black"
-          v-if="themes.active == 'light'"
-          src="~@/assets/images/cosmos-wordmark-black.svg"/><img
-          id="logo-white"
-          v-else="v-else"
-          src="~@/assets/images/cosmos-wordmark-white.svg"
-      /></router-link>
-      <app-menu v-if="config.activeMenu === 'app' || config.desktop"></app-menu
-      ><template v-if="!config.desktop">
-        <div
-          class="header-item"
-          v-if="config.activeMenu === 'app'"
-          @click="close"
-        >
-          <i class="material-icons">close</i>
-        </div>
-        <div class="header-item" v-else="v-else" @click="enableMenu()">
-          <i class="material-icons">menu</i>
-        </div>
-      </template>
-    </div>
-  </nav>
+<template lang="pug">
+nav#app-header(v-bind:class="{ mobile: !config.desktop, windows: isWin }"): .container
+  template(v-if="!config.desktop")
+    .header-item
+
+  .header-item.header-item-logo
+    img#logo-black(v-if="themes.active == 'light'"
+      src="~@/assets/images/cosmos-wordmark-black.svg")
+    img#logo-white(v-else
+      src="~@/assets/images/cosmos-wordmark-white.svg")
+
+  app-menu(v-if="config.activeMenu === 'app' || config.desktop")
+
+  template(v-if="!config.desktop")
+    .header-item(v-if="config.activeMenu === 'app'" @click="close")
+      i.material-icons close
+    .header-item(v-else @click="enableMenu()"): i.material-icons menu
 </template>
 
 <script>

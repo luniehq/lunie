@@ -35,7 +35,7 @@ export default {
   },
   data: () => ({
     query: ``,
-    tabs: [`My Delegations`, `Validators`]
+    tabs: [`My Delegations`, `Validators`, `Parameters`]
   }),
   computed: {
     ...mapGetters([`connected`, `delegates`, `filters`])

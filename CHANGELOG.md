@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1388](https://github.com/cosmos/voyager/issues/1388) Added TmConnectedNetwork to session pages @jbibla
 - [\#1564](https://github.com/cosmos/voyager/issues/1564) Add support to query governance proposals on `lcdClient(Mock).js` @fedekunze
 - [\#1544](https://github.com/cosmos/voyager/issues/1544) Added eslint-plugin-vue for cleaner vue files @jbibla
+- added build option for single os to electron bundle script @faboweb
+- [\#1611](https://github.com/cosmos/voyager/issues/1611) added no testnet warning @faboweb
+- [\#1573](https://github.com/cosmos/voyager/issues/1573) added remote error collection for several catched errors in Voyager @faboweb
+- [\#1632](https://github.com/cosmos/voyager/pull/1632) added FAQ about broken symlink to networks folder @faboweb
 
 ### Changed
 
@@ -46,14 +50,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - made running a local node easier by reducing it to 2 commands and presetting an account. @faboweb
 - [\#1504](https://github.com/cosmos/voyager/issues/1504) updates @tendermint/UI library to 0.4.1 @faboweb
 - [\#1504](https://github.com/cosmos/voyager/issues/1504) updates @tendermint/UI library @faboweb
+- [\#1504](https://github.com/cosmos/voyager/issues/1504) updates @tendermint/UI library to 0.4.3 @faboweb
 - [\#1410](https://github.com/cosmos/voyager/issues/1410) removed end undelegations as not needed in the SDK anymore
 - [\#1543](https://github.com/cosmos/voyager/issues/1543) updated unit tests to use `describe` and `it` instead of `test` @fedekunze
 - [\#1377](https://github.com/cosmos/voyager/issues/1377) deleted AppFooter page @fedekunze
 - [\#1582](https://github.com/cosmos/voyager/issues/1582) proposals now use time instead of block number @fedekunze
+- [\#1585](https://github.com/cosmos/voyager/issues/1585) updated style in coin balances from wallet page @fedekunze
 - [\#1547](https://github.com/cosmos/voyager/issues/1547) removed unused media queries @jbibla
 - [\#1547](https://github.com/cosmos/voyager/issues/1547) deleted archive directory of old components @jbibla
 - removed unit tests from prepush hook @faboweb
 - [\#1566](https://github.com/cosmos/voyager/issues/1566) putting querying errors in the store instead of showing notifications @faboweb
+- [\1612](https://github.com/cosmos/voyager/issues/1612) defined props types on components
+- changed `err` to `error` because abbreviations are bad @faboweb
 
 ### Fixed
 
@@ -78,6 +86,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1590](https://github.com/cosmos/voyager/issues/1590) Fixed empty error notifications caused by latest SDK update @fedekunze
 - [\#1596](https://github.com/cosmos/voyager/issues/1596) Fixed error that prevented from triggering updates after submitting a new proposal @fedekunze
 - [\#1321](https://github.com/cosmos/voyager/issues/1321) Fixed styling on TmModal @jbibla
+- [\#1617](https://github.com/cosmos/voyager/pull/1617) Fixed multiple warnings showing on transactions page @faboweb
+- [\#1617](https://github.com/cosmos/voyager/pull/1617) Fixed my validators not showing @faboweb
+- [\#1617](https://github.com/cosmos/voyager/pull/1617) Fixed send buttons not clickable @faboweb
+- [\#1303](https://github.com/cosmos/voyager/issues/1303) Fixed spamming of setSubscription @faboweb
+- [\#1603](https://github.com/cosmos/voyager/issues/1603) Fixed inactive sidebar links @jbibla
+- [\#1614](https://github.com/cosmos/voyager/issues/1614) Fixed an error that prevented a proposal to be updated optimisticaly after a successful deposit or vote @fedekunze
+- [\#1386](https://github.com/cosmos/voyager/issues/1386) Cleaned up onboarding @jbibla
 
 ## [0.10.7] - 2018-10-10
 

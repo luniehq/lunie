@@ -18,6 +18,11 @@
 <script>
 export default {
   name: `tm-part`,
-  props: [`title`]
+  props: {
+    title: {
+      type: String,
+      required: true
+    }
+  }
 }
 </script>

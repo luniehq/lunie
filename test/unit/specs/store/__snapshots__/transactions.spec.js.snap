@@ -18,7 +18,7 @@ Object {
                 "initial_deposit": Array [
                   Object {
                     "amount": "100",
-                    "denom": "stake",
+                    "denom": "steak",
                   },
                 ],
                 "proposal_type": "Text",
@@ -43,7 +43,7 @@ Object {
                 "amount": Array [
                   Object {
                     "amount": "100",
-                    "denom": "stake",
+                    "denom": "steak",
                   },
                 ],
                 "depositer": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
@@ -494,7 +494,7 @@ Array [
               "initial_deposit": Array [
                 Object {
                   "amount": "100",
-                  "denom": "stake",
+                  "denom": "steak",
                 },
               ],
               "proposal_type": "Text",
@@ -521,7 +521,7 @@ Array [
               "amount": Array [
                 Object {
                   "amount": "100",
-                  "denom": "stake",
+                  "denom": "steak",
                 },
               ],
               "depositer": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",

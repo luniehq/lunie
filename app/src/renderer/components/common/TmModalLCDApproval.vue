@@ -44,7 +44,12 @@ export default {
     TmBtn,
     TmField
   },
-  props: [`hash`],
+  props: {
+    hash: {
+      type: String,
+      required: true
+    }
+  },
   computed: {},
   methods: {
     approve() {

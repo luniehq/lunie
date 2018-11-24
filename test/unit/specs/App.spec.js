@@ -5,7 +5,7 @@ jest.mock(
   () => jest.fn(() => require(`../helpers/node_mock`)) // using jest.fn to be able to spy on the constructor call
 )
 
-describe(`App without analytics`, () => {
+describe(`App Start`, () => {
   jest.mock(`../../../app/src/config`, () => ({
     google_analytics_uid: `123`,
     sentry_dsn_public: `456`
@@ -14,7 +14,7 @@ describe(`App without analytics`, () => {
     config: () => {
       return { install: () => {} }
     },
-    captureException: err => console.error(err)
+    captureException: error => console.error(error)
   }))
   jest.mock(`renderer/google-analytics.js`, () => () => {})
   // popper.js is used by tooltips and causes some errors if
@@ -89,7 +89,7 @@ describe(`App without analytics`, () => {
           }
         }
       },
-      captureException: err => console.error(err)
+      captureException: error => console.error(error)
     }))
     require(`renderer/main.js`)
   })
@@ -203,7 +203,10 @@ describe(`App without analytics`, () => {
       },
       rpcConnect: () => {},
       rpcReconnect: () => {},
-      lcdConnected: () => Promise.resolve(false)
+      lcdConnected: () => Promise.resolve(false),
+      keys: {
+        values: () => []
+      }
     }))
 
     ipcRenderer.send = jest.fn()

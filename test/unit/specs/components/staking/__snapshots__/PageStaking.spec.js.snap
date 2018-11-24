@@ -29,8 +29,6 @@ exports[`PageStaking has the expected html structure 1`] = `
          1,337.0000…
       </h2>
 </div>
-      <!---->
-      <!---->
 </div>
    <div class=\\"short-bech32\\">
       <div id=\\"address\\" class=\\"address\\">
@@ -46,6 +44,9 @@ exports[`PageStaking has the expected html structure 1`] = `
       </div>
    <div class=\\"tab\\">
       <a href=\\"#/staking/Validators\\" class=\\"\\">Validators</a>
+   </div>
+   <div class=\\"tab\\">
+      <a href=\\"#/staking/staking-parameters\\" class=\\"\\">Parameters</a>
    </div>
 </div>
 </div>
@@ -89,9 +90,7 @@ exports[`PageStaking has the expected html structure 1`] = `
             1,337.0000…
          </h2>
 </div>
-         <!---->
-         <!---->
-   </div>
+</div>
       <div class=\\"short-bech32\\">
          <div id=\\"address\\" class=\\"address\\">
             cosmos…xxn9
@@ -114,57 +113,23 @@ exports[`PageStaking has the expected html structure 1`] = `
 </header>
    <main class=\\"tm-page-main ps\\">
       <!---->
-      <section class=\\"tm-part\\">
-         <div class=\\"tm-part-container\\">
-            <header class=\\"tm-part-header\\">
-               <div class=\\"tm-part-header-container\\">
-                  <div class=\\"tm-part-title h5\\">
-                     Your Address
-                  </div>
-            <menu class=\\"tm-part-menu\\"></menu>
-</div>
-</header>
-         <main class=\\"tm-part-main\\">
-            <!---->
-         </main>
-</div>
-</section>
-<section class=\\"tm-part\\" id=\\"part-available-balances\\">
-   <div class=\\"tm-part-container\\">
-      <header class=\\"tm-part-header\\">
-         <div class=\\"tm-part-header-container\\">
-            <div class=\\"tm-part-title h5\\">
-               Available Balances
-            </div>
-      <menu class=\\"tm-part-menu\\"></menu>
-</div>
-</header>
-   <main class=\\"tm-part-main\\">
       <div class=\\"tm-data-msg\\">
-         <div class=\\"tm-data-msg__icon\\">
-            <i class=\\"material-icons fa-spin\\">rotate_right</i>
-         </div>
-      <div class=\\"tm-data-msg__text\\">
-         <div class=\\"tm-data-msg__title\\">
-            <div>
+         <img src=\\"~assets/images/loader.svg\\" class=\\"tm-data-msg__icon\\">
+         <div class=\\"tm-data-msg__text\\">
+            <div slot=\\"title\\" class=\\"tm-data-msg__title\\">
                Data is loading…
             </div>
-</div>
-      <div class=\\"tm-data-msg__subtitle\\">
-         <div>
-            Please wait a moment.
-         </div>
+      <div slot=\\"subtitle\\" class=\\"tm-data-msg__subtitle\\">
+         Please wait a moment.
+      </div>
 </div>
 </div>
+      <ul></ul>
+      <div class=\\"ps__rail-x\\" style=\\"left: 0px; top: 0px;\\">
+         <div class=\\"ps__thumb-x\\" tabindex=\\"0\\" style=\\"left: 0px; width: 0px;\\"></div>
 </div>
-</main>
-</div>
-</section>
-<div class=\\"ps__rail-x\\" style=\\"left: 0px; top: 0px;\\">
-   <div class=\\"ps__thumb-x\\" tabindex=\\"0\\" style=\\"left: 0px; width: 0px;\\"></div>
-</div>
-<div class=\\"ps__rail-y\\" style=\\"top: 0px; left: 0px;\\">
-   <div class=\\"ps__thumb-y\\" tabindex=\\"0\\" style=\\"top: 0px; height: 0px;\\"></div>
+      <div class=\\"ps__rail-y\\" style=\\"top: 0px; left: 0px;\\">
+         <div class=\\"ps__thumb-y\\" tabindex=\\"0\\" style=\\"top: 0px; height: 0px;\\"></div>
 </div>
 </main>
 </div>

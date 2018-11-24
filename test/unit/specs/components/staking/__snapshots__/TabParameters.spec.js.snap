@@ -4,67 +4,27 @@ exports[`TabParameters has the expected html structure 1`] = `
 "<div>
    <div>
       <h3>
-         Staking Parameters<i class=\\"material-icons info-button\\">info_outline</i>
+         Staking Pool<i class=\\"material-icons info-button\\">info_outline</i>
       </h3>
       <div class=\\"parameters__details parameters__section\\">
          <div class=\\"row\\">
             <div class=\\"column\\">
                <dl class=\\"info_dl\\">
                   <dt>
-                     Inflation Rate Change<i class=\\"material-icons info-button\\">info_outline</i>
+                     Loose steak<i class=\\"material-icons info-button\\">info_outline</i>
                   </dt>
                   <dd>
-                     n/a
-                  </dd>
-</dl>
-               <dl class=\\"info_dl\\">
-                  <dt>
-                     Minimum Inflation Rate
-                  </dt>
-                  <dd>
-                     n/a
-                  </dd>
-</dl>
-               <dl class=\\"info_dl\\">
-                  <dt>
-                     Maximum Inflation Rate
-                  </dt>
-                  <dd>
-                     n/a
-                  </dd>
-</dl>
-               <dl class=\\"info_dl\\">
-                  <dt>
-                     Goal For Delegated Steaks
-                  </dt>
-                  <dd>
-                     n/a
+                     100.0000000000
                   </dd>
 </dl>
 </div>
 <div class=\\"column\\">
    <dl class=\\"info_dl\\">
       <dt>
-         Unbonding Time<i class=\\"material-icons info-button\\">info_outline</i>
+         Delegated steak<i class=\\"material-icons info-button\\">info_outline</i>
       </dt>
       <dd>
-         n/a
-      </dd>
-</dl>
-   <dl class=\\"info_dl\\">
-      <dt>
-         Max Number of Validators
-      </dt>
-      <dd>
-         n/a
-      </dd>
-</dl>
-   <dl class=\\"info_dl\\">
-      <dt>
-         Current Staking Denomination
-      </dt>
-      <dd>
-         n/a
+         50.0000000000
       </dd>
 </dl>
 </div>
@@ -73,59 +33,35 @@ exports[`TabParameters has the expected html structure 1`] = `
 </div>
 <div>
    <h3>
-      Staking Pool<i class=\\"material-icons info-button\\">info_outline</i>
+      Staking Parameters<i class=\\"material-icons info-button\\">info_outline</i>
    </h3>
    <div class=\\"parameters__details parameters__section\\">
       <div class=\\"row\\">
          <div class=\\"column\\">
             <dl class=\\"info_dl\\">
                <dt>
-                  Inflation<i class=\\"material-icons info-button\\">info_outline</i>
+                  Unbonding Time<i class=\\"material-icons info-button\\">info_outline</i>
                </dt>
                <dd>
-                  n/a
+                  3 days
                </dd>
 </dl>
             <dl class=\\"info_dl\\">
                <dt>
-                  Inflation Last Block<i class=\\"material-icons info-button\\">info_outline</i>
+                  Current Staking Coin Denomination
                </dt>
                <dd>
-                  n/a
-               </dd>
-</dl>
-            <dl class=\\"info_dl\\">
-               <dt>
-                  Date of Last Commission Reset<i class=\\"material-icons info-button\\">info_outline</i>
-               </dt>
-               <dd>
-                  n/a
+                  steak
                </dd>
 </dl>
 </div>
 <div class=\\"column\\">
    <dl class=\\"info_dl\\">
       <dt>
-         Loose Steak<i class=\\"material-icons info-button\\">info_outline</i>
+         Maximum Number of Validators
       </dt>
       <dd>
-         n/a
-      </dd>
-</dl>
-   <dl class=\\"info_dl\\">
-      <dt>
-         Delegated Steak<i class=\\"material-icons info-button\\">info_outline</i>
-      </dt>
-      <dd>
-         n/a
-      </dd>
-</dl>
-   <dl class=\\"info_dl\\">
-      <dt>
-         Previous delegated shares<i class=\\"material-icons info-button\\">info_outline</i>
-      </dt>
-      <dd>
-         n/a
+         100
       </dd>
 </dl>
 </div>

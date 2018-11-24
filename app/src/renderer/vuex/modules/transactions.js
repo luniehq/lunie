@@ -1,5 +1,6 @@
-const fp = require(`lodash/fp`)
+import fp from "lodash/fp"
 import { uniqBy } from "lodash"
+import Raven from "raven-js"
 export default ({ node }) => {
   let emptyState = {
     loading: false,
@@ -26,9 +27,6 @@ export default ({ node }) => {
     setHistoryLoading(state, loading) {
       state.loading = loading
     },
-    setError(state, error) {
-      state.error = error
-    },
     setTransactionTime(state, { blockHeight, blockMetaInfo }) {
       txCategories.forEach(category => {
         state[category].forEach(t => {
@@ -50,10 +48,10 @@ export default ({ node }) => {
         await dispatch(`getAllTxs`)
       }
     },
-    async getAllTxs({ commit, dispatch }) {
-      commit(`setHistoryLoading`, true)
-
+    async getAllTxs({ commit, dispatch, state }) {
       try {
+        commit(`setHistoryLoading`, true)
+
         const stakingTxs = await dispatch(`getTx`, `staking`)
         commit(`setStakingTxs`, stakingTxs)
 
@@ -68,7 +66,12 @@ export default ({ node }) => {
           transactions: allTxs
         })
       } catch (error) {
-        commit(`setError`, error.message.slice(0))
+        commit(`notifyError`, {
+          title: `Error getting transactions`,
+          body: error.message
+        })
+        Raven.captureException(error)
+        state.error = error
       }
       commit(`setHistoryLoading`, false)
     },
@@ -76,37 +79,26 @@ export default ({ node }) => {
       {
         rootState: {
           user: { address }
-        },
-        commit
+        }
       },
       type
     ) {
-      try {
-        let response
-        switch (type) {
-          case `staking`:
-            response = await node.getDelegatorTxs(address)
-            break
-          case `governance`:
-            response = await node.getGovernanceTxs(address)
-            break
-          case `wallet`:
-            response = await node.txs(address)
-            break
-          default:
-            throw new Error(`Unknown transaction type`)
-        }
-        state.error = null
-        const transactionsPlusType = response.map(fp.set(`type`, type))
-        return response ? uniqBy(transactionsPlusType, `hash`) : []
-      } catch (err) {
-        commit(`notifyError`, {
-          title: `Error fetching ${type} transactions`,
-          body: err.message
-        })
-        state.error = err
-        return []
+      let response
+      switch (type) {
+        case `staking`:
+          response = await node.getDelegatorTxs(address)
+          break
+        case `governance`:
+          response = await node.getGovernanceTxs(address)
+          break
+        case `wallet`:
+          response = await node.txs(address)
+          break
+        default:
+          throw new Error(`Unknown transaction type`)
       }
+      const transactionsPlusType = response.map(fp.set(`type`, type))
+      return response ? uniqBy(transactionsPlusType, `hash`) : []
     },
     async enrichTransactions({ dispatch }, { transactions }) {
       const blockHeights = new Set(transactions.map(({ height }) => height))

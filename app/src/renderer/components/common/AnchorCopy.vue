@@ -9,7 +9,28 @@
 import { clipboard } from "electron"
 export default {
   name: `anchor-copy`,
-  props: [`value`, `label`, `icon`, `title`, `body`],
+  props: {
+    title: {
+      type: String,
+      required: true
+    },
+    body: {
+      type: String,
+      required: true
+    },
+    value: {
+      type: String,
+      required: true
+    },
+    label: {
+      type: String,
+      required: true
+    },
+    icon: {
+      type: String,
+      required: true
+    }
+  },
   computed: {
     notifyTitle() {
       if (this.title) return this.title

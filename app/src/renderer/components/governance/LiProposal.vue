@@ -1,67 +1,54 @@
-<template>
-  <tr class="li-proposal">
-    <td class="li-proposal__value">
-      <span
-        class="validator-profile__status"
-        v-bind:class="status.color"
+<template lang="pug">
+tr.li-proposal
+  td.li-proposal__value
+    .li-proposal__title-container
+      span.material-icons(
+        v-if="proposal.proposal_status === `Passed`"
         v-tooltip.top="status.message"
-      ></span>
-      <h2>
-        <router-link
-          :to="{
-            name: 'Proposal',
-            params: { proposalId: proposal.proposal_id, proposal, status }
-          }"
-          >{{ proposal.title }}</router-link
-        >
-      </h2>
-      <p>{{ description }}</p>
-    </td>
-    <td>{{ `#` + proposal.proposal_id }}</td>
-    <td class="li-proposal__value yes">{{ proposal.tally_result.yes }}</td>
-    <td class="li-proposal__value no">{{ proposal.tally_result.no }}</td>
-    <td class="li-proposal__value no_with_veto">
-      {{ proposal.tally_result.no_with_veto }}
-    </td>
-    <td class="li-proposal__value abstain">
-      {{ proposal.tally_result.abstain }}
-    </td>
-  </tr>
+        v-bind:class="status.color") checkmark
+      span.validator-profile__status(v-else v-bind:class="status.color" v-tooltip.top="status.message")
+      h2
+        router-link(:to="{ name: 'Proposal', params: { proposalId: proposal.proposal_id }}") {{ proposal.title }}
+      p.li-proposal__description {{ description }}
+  td {{ `#` + proposal.proposal_id }}
+  td.li-proposal__value.yes {{ proposal.tally_result.yes }}
+  td.li-proposal__value.no {{ proposal.tally_result.no }}
+  td.li-proposal__value.no_with_veto {{ proposal.tally_result.no_with_veto }}
+  td.li-proposal__value.abstain {{ proposal.tally_result.abstain }}
 </template>
 
 <script>
 export default {
   name: `li-proposal`,
-  props: [`proposal`],
+  props: {
+    proposal: {
+      type: Object,
+      required: true
+    }
+  },
   computed: {
     status() {
       if (this.proposal.proposal_status === `Passed`)
         return {
-          button: null,
-          message: `This proposal has passed`,
-          color: `green`
+          message: `This proposal has passed`
         }
       if (this.proposal.proposal_status === `Rejected`)
         return {
-          button: null,
           message: `This proposal has been rejected and voting is closed`,
           color: `red`
         }
       if (this.proposal.proposal_status === `DepositPeriod`)
         return {
-          button: `deposit`,
           message: `Deposits are open for this proposal`,
           color: `yellow`
         }
       if (this.proposal.proposal_status === `VotingPeriod`)
         return {
-          button: `vote`,
           message: `Voting for this proposal is open`,
-          color: `blue`
+          color: `green`
         }
       else
         return {
-          button: null,
           message: `There was an error determining the status of this proposal.`,
           color: `grey`
         }
@@ -94,12 +81,36 @@ export default {
   display: inline-block;
 }
 
-.li-proposal h2 {
-  display: inline-block;
-  padding-left: 0.25rem;
-}
+  &__description
+    font-size 14px
+    padding 0.25rem 0 0 1rem
+    min-width 284px
+    color var(--dim)
 
-.li-proposal td {
-  padding: 1rem 0.5rem;
-}
+  .validator-profile__status
+    position absolute
+    left 0
+    top 9px
+    display inline-block
+
+  h2
+    display inline-block
+    font-size 16px
+    padding-left 1rem
+
+  td
+    padding 1rem 0.5rem
+
+.li-proposal__title-container
+  position relative
+
+  .material-icons
+    display inline-block
+    position absolute
+    width 1rem
+    height 1rem
+    overflow hidden
+    top 4px
+    left -4px
+    color var(--success)
 </style>

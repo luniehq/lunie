@@ -18,7 +18,16 @@
 <script>
 export default {
   name: `panel-sort`,
-  props: [`sort`, `properties`],
+  props: {
+    sort: {
+      type: Object,
+      required: true
+    },
+    properties: {
+      type: Array,
+      required: true
+    }
+  },
   methods: {
     orderBy(property) {
       let sortBys = this.$el.querySelectorAll(`.sort-by`)

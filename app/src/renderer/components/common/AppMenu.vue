@@ -1,40 +1,34 @@
-<template>
-  <menu class="app-menu">
-    <div class="app-menu-main">
-      <tm-list-item
-        id="app-menu__wallet"
-        to="/"
-        exact="exact"
-        @click.native="close"
-        title="Wallet"
-      ></tm-list-item>
-      <tm-list-item
-        id="app-menu__transactions"
-        to="/wallet/transactions"
-        exact="exact"
-        @click.native="close"
-        title="Transactions"
-        v-if="config.devMode || mockedConnector"
-      ></tm-list-item>
-      <tm-list-item
-        id="app-menu__staking"
-        to="/staking"
-        exact="exact"
-        @click.native="close"
-        title="Staking"
-        v-bind:class="{ active: isValidatorPage }"
-      ></tm-list-item>
-      <tm-list-item
-        id="app-menu__proposals"
-        to="/governance"
-        exact="exact"
-        @click.native="close"
-        title="Governance"
-        v-if="config.devMode || mockedConnector"
-      ></tm-list-item>
-    </div>
-    <connected-network></connected-network>
-  </menu>
+<template lang="pug">
+menu.app-menu
+  .app-menu-main
+    router-link.app-menu-item#app-menu__wallet(
+      to="/"
+      exact
+      @click.native="close"
+      title="Wallet")
+      h2.app-menu-title Wallet
+      i.material-icons chevron_right
+    router-link.app-menu-item#app-menu__transactions(
+      v-if="config.devMode || mockedConnector"
+      to="/transactions"
+      exact
+      @click.native="close"
+      title="Transactions")
+      h2.app-menu-title Transactions
+      i.material-icons chevron_right
+    router-link.app-menu-item#app-menu__staking(
+      to="/staking"
+      @click.native="close"
+      title="Staking")
+      h2.app-menu-title Staking
+      i.material-icons chevron_right
+    router-link.app-menu-item#app-menu__proposals(
+      to="/governance"
+      @click.native="close"
+      title="Governance")
+      h2.app-menu-title Governance
+      i.material-icons chevron_right
+  connected-network
 </template>
 
 <script>
@@ -43,22 +37,17 @@ import PerfectScrollbar from "perfect-scrollbar"
 import noScroll from "no-scroll"
 import ConnectedNetwork from "common/TmConnectedNetwork"
 import { TmListItem } from "@tendermint/ui"
-import UserPane from "common/TmUserPane"
 export default {
   name: `app-menu`,
   components: {
     ConnectedNetwork,
-    TmListItem,
-    UserPane
+    TmListItem
   },
   data: () => ({
     ps: {}
   }),
   computed: {
-    ...mapGetters([`validators`, `config`, `lastHeader`, `mockedConnector`]),
-    isValidatorPage() {
-      return this.$route.params.validator
-    }
+    ...mapGetters([`validators`, `config`, `lastHeader`, `mockedConnector`])
   },
   mounted() {
     this.ps = new PerfectScrollbar(this.$el.querySelector(`.app-menu-main`))
@@ -90,67 +79,11 @@ export default {
   border-bottom: 1px solid var(--bc-dim);
 }
 
-.app-menu .tm-user {
-  border-top: 1px solid var(--bc);
-  padding: 1rem;
-  display: flex;
-}
-
-.app-menu .tm-user .tm-user-info {
-  flex: 1;
-  display: flex;
-}
-
-.app-menu .tm-user .avatar {
-  background: var(--link);
-  width: 2rem;
-  height: 2rem;
-  border-radius: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.app-menu .tm-user .avatar i {
-  color: var(--txt);
-}
-
-.app-menu .tm-user .text {
-  padding: 0 0.5rem;
-}
-
-.app-menu .tm-user .title {
-  color: var(--txt);
-}
-
-.app-menu .tm-user .subtitle {
-  font-size: xs;
-  color: var(--dim);
-}
-
-.app-menu .tm-user .tm-btn {
-  margin-right: 0.5rem;
-}
-
-.tm-li.tm-li-link.router-link-exact-active {
-  color: var(--tertiary);
-}
-
-@media screen and (max-width: 1023px) {
-  .app-menu {
-    position: fixed;
-    top: 3rem;
-    left: 0;
-    bottom: 0;
-    width: 100vw;
-    background: var(--app-bg);
-    user-select: none;
-  }
-}
-
-@media screen and (min-width: 1024px) {
-  .app-menu {
-    flex: 1;
-  }
-}
+.app-menu-item display flex justify-content space-between align-items center
+  border-bottom 1px solid var(--bc-dim) padding 1rem color var(--dim) &: hover
+  color var(--bright) background var(--hover-bg) .router-link-active background
+  var(--hover-bg) i color var(--tertiary) h2 color var(--bright) font-weight 500
+  @media screen and (max-width: 1023px) .app-menu position fixed top 3rem left 0
+  bottom 0 width 100vw background var(--app-bg) user-select none @media screen
+  and (min-width: 1024px) .app-menu flex 1;
 </style>

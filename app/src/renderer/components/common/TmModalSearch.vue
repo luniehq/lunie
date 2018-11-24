@@ -65,7 +65,12 @@ export default {
     TmFormGroup,
     TmFormMsg
   },
-  props: [`type`],
+  props: {
+    type: {
+      type: String,
+      required: true
+    }
+  },
   computed: {
     ...mapGetters([`filters`, `lastHeader`]),
     open() {

@@ -82,7 +82,16 @@ export default {
     TmFormGroup,
     TmFormMsg
   },
-  props: [`fromOptions`, `to`],
+  props: {
+    fromOptions: {
+      type: Array,
+      required: true
+    },
+    to: {
+      type: String,
+      required: true
+    }
+  },
   data: () => ({
     amount: 0,
     selectedIndex: 0

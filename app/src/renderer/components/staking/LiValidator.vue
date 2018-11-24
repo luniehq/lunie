@@ -63,7 +63,16 @@ export default {
   components: {
     ShortBech32
   },
-  props: [`validator`, `disabled`],
+  props: {
+    validator: {
+      type: Object,
+      required: true
+    },
+    disabled: {
+      type: Boolean,
+      required: true
+    }
+  },
   data: () => ({ num }),
   computed: {
     ...mapGetters([`delegates`, `committedDelegations`]),
@@ -148,12 +157,13 @@ export default {
   top: 0.5rem;
 }
 
-.li-validator__name-container {
-  position: relative;
-  margin-left: 0.5rem;
-}
-
-.li-validator__name-container .li-validator__moniker {
+.validator-profile__status
+  left
+  0
+  top
+  9px
+  .li-validator__name-container
+  .li-validator__moniker {
   padding-left: 0.75rem;
 }
 
@@ -163,14 +173,16 @@ export default {
   width: 100%;
 }
 
-.li-validator__moniker {
-  max-width: 200px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.li-validator__avatar {
+.li-validator__moniker-container
+  display
+  flex
+  align-items
+  center
+  width
+  100%
+  min-width
+  284px
+  .li-validator__avatar {
   height: 3rem;
   width: 3rem;
   margin: 1rem 0.5rem;

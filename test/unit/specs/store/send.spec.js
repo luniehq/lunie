@@ -6,13 +6,24 @@ let instance = setup()
 describe(`Module: Send`, () => {
   let store, node
 
-  let errWithObject = {
+  let errMsgWithObject = {
     response: {
       data: `Msg 0 failed: {"codespace":4,"code":102,"abci_code":262246,"message":"existing unbonding delegation found"}`
     }
   }
 
-  let errNoObject = {
+  let errObject = {
+    response: {
+      data: {
+        codespace: 4,
+        code: 102,
+        abci_code: 262246,
+        message: `invalid sequence`
+      }
+    }
+  }
+
+  let errMsgNoObject = {
     response: {
       data: `unexpected error`
     }
@@ -64,7 +75,7 @@ describe(`Module: Send`, () => {
 
     describe(`should fail sending a tx`, () => {
       it(`if the data has an object in message`, async () => {
-        node.updateDelegations = () => Promise.reject(errWithObject)
+        node.updateDelegations = () => Promise.reject(errMsgWithObject)
         const args = {
           type: `updateDelegations`,
           to: lcdClientMock.addresses[0],
@@ -83,14 +94,25 @@ describe(`Module: Send`, () => {
         })
       })
 
-      it(`if the data has a string in message`, async () => {
-        node.send = () => Promise.reject(errNoObject)
+      it(`if the data has a string in 'message'`, async () => {
+        node.send = () => Promise.reject(errMsgNoObject)
         const args = {
           to: `mock_address`,
           amount: [{ denom: `mycoin`, amount: 123 }]
         }
         await store.dispatch(`sendTx`, args).catch(err => {
           expect(err.message).toEqual(`unexpected error`)
+        })
+      })
+
+      it(`if the data is an object and has a 'message' property`, async () => {
+        node.send = () => Promise.reject(errObject)
+        const args = {
+          to: `mock_address`,
+          amount: [{ denom: `mycoin`, amount: 123 }]
+        }
+        await store.dispatch(`sendTx`, args).catch(err => {
+          expect(err.message).toEqual(`invalid sequence`)
         })
       })
 
@@ -148,8 +170,8 @@ describe(`Module: Send`, () => {
       let error1
       try {
         await store.dispatch(`sendTx`, args)
-      } catch (err) {
-        error1 = err
+      } catch (error) {
+        error1 = error
       }
       expect(error1).toBeDefined()
 
@@ -158,8 +180,8 @@ describe(`Module: Send`, () => {
       let error2
       try {
         await store.dispatch(`sendTx`, args)
-      } catch (err) {
-        error2 = err
+      } catch (error) {
+        error2 = error
       }
       expect(error2).toBeUndefined()
     })

@@ -84,15 +84,6 @@ describe(`PageWallet`, () => {
     expect(wrapper.vm.$el.querySelector(`#no-balances`)).toBe(null)
   })
 
-  it(`has a title for available balances`, () => {
-    expect(
-      wrapper
-        .find(`#part-available-balances .tm-part-title`)
-        .text()
-        .trim()
-    ).toBe(`Available Balances`)
-  })
-
   it(`should update 'somethingToSearch' when there's nothing to search`, () => {
     expect(wrapper.vm.somethingToSearch).toBe(true)
     store.commit(`setWalletBalances`, [])

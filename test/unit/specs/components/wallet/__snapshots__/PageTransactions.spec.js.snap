@@ -53,8 +53,6 @@ exports[`PageTransactions has the expected html structure 1`] = `
                   0.0000…
                 </h2>
               </div>
-              <!---->
-              <!---->
             </div>
             <div
               class="short-bech32"
@@ -151,9 +149,6 @@ exports[`PageTransactions has the expected html structure 1`] = `
   <main
     class="tm-page-main ps"
   >
-    <!---->
-    <!---->
-    <!---->
     <!---->
     <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
@@ -272,8 +267,6 @@ exports[`PageTransactions should filter the transactions 1`] = `
                   0.0000…
                 </h2>
               </div>
-              <!---->
-              <!---->
             </div>
             <div
               class="short-bech32"
@@ -414,9 +407,6 @@ exports[`PageTransactions should filter the transactions 1`] = `
         </div>
       </div>
     </div>
-    <!---->
-    <!---->
-    <!---->
     <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
       bondingdenom="Steak"

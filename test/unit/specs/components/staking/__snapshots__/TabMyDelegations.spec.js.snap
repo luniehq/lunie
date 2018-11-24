@@ -1,0 +1,760 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Component: TabMyDelegations should show a message if not staked yet to any validator 1`] = `
+<div>
+  <!---->
+  <div
+    class="tm-data-msg"
+  >
+    <div
+      class="tm-data-msg__icon"
+    >
+      <i
+        class="material-icons"
+      >
+        info_outline
+      </i>
+    </div>
+    <div
+      class="tm-data-msg__text"
+    >
+      <div
+        class="tm-data-msg__title"
+      >
+        <div>
+          No Active Delegations
+        </div>
+      </div>
+      <div
+        class="tm-data-msg__subtitle"
+      >
+        <div>
+          Looks like you haven't delegated any stakes yet. Head over to the 
+          <a
+            class=""
+            href="#/staking/Validators"
+          >
+            validator list
+          </a>
+           to make your first delegation!
+        </div>
+      </div>
+    </div>
+  </div>
+  <!---->
+  <!---->
+</div>
+`;
+
+exports[`Component: TabMyDelegations should show committed validators 1`] = `
+<div>
+  <div>
+    <div>
+      <table>
+        <thead>
+          <tr
+            class="panel-sort-container"
+          >
+            <th
+              class="sort-by name"
+            >
+              <a
+                class="sort-by-link"
+              >
+                Moniker
+              </a>
+            </th>
+            <th
+              class="sort-by your-votes"
+            >
+              <a
+                class="sort-by-link"
+              >
+                Delegated stake
+              </a>
+            </th>
+            <th
+              class="sort-by your-rewards"
+            >
+              <a
+                class="sort-by-link"
+              >
+                Rewards
+              </a>
+            </th>
+            <th
+              class="sort-by percent_of_vote"
+            >
+              <a
+                class="sort-by-link"
+              >
+                Voting Power
+              </a>
+            </th>
+            <th
+              class="sort-by uptime"
+            >
+              <a
+                class="sort-by-link"
+              >
+                Uptime
+              </a>
+            </th>
+            <th
+              class="sort-by commission"
+            >
+              <a
+                class="sort-by-link"
+              >
+                Commission
+              </a>
+            </th>
+            <th
+              class="sort-by slashes"
+            >
+              <a
+                class="sort-by-link"
+              >
+                Slashes
+              </a>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            class="li-validator"
+          >
+            <td
+              class="li-validator__moniker-container"
+            >
+              <img
+                class="li-validator__avatar no-img"
+                height="48"
+                src="~assets/images/validator-icon.svg"
+                width="48"
+              />
+              <div
+                class="li-validator__name-container"
+              >
+                <span
+                  class="validator-profile__status yellow"
+                />
+                <a
+                  class="li-validator__moniker"
+                  href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+                >
+                  mr_mounty
+                </a>
+                <div
+                  class="short-bech32 li-validator__address"
+                >
+                  <div
+                    class="address"
+                    id="address"
+                  >
+                    cosmosvaladdr…8yqw
+                  </div>
+                  <div
+                    class="copied"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      check
+                    </i>
+                    <span>
+                      Copied
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td
+              class="li-validator__delegated-steak"
+            >
+              0.0000…
+            </td>
+            <td
+              class="li-validator__rewards"
+            >
+              n/a
+            </td>
+            <td
+              class="li-validator__voting-power"
+            >
+              0.00%
+            </td>
+            <td
+              class="li-validator__uptime"
+            >
+              n/a
+            </td>
+            <td
+              class="li-validator__commission"
+            >
+              0.00%
+            </td>
+            <td
+              class="li-validator__slashes"
+            >
+              n/a
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!---->
+  <div
+    class="check-out-message"
+  >
+    Check out
+
+    <a
+      class=""
+      href="#/staking/Validators"
+    >
+      the validator list
+    </a>
+    
+to find other validators to delegate to.
+  </div>
+  <div>
+    <h3
+      class="tab-header"
+    >
+      Inactive Delegations
+
+      <i
+        class="material-icons info-button"
+      >
+        info_outline
+      </i>
+    </h3>
+    <div>
+      <table>
+        <thead>
+          <tr
+            class="panel-sort-container"
+          >
+            <th
+              class="sort-by name"
+            >
+              <a
+                class="sort-by-link"
+              >
+                Moniker
+              </a>
+            </th>
+            <th
+              class="sort-by your-votes"
+            >
+              <a
+                class="sort-by-link"
+              >
+                Delegated stake
+              </a>
+            </th>
+            <th
+              class="sort-by your-rewards"
+            >
+              <a
+                class="sort-by-link"
+              >
+                Rewards
+              </a>
+            </th>
+            <th
+              class="sort-by percent_of_vote"
+            >
+              <a
+                class="sort-by-link"
+              >
+                Voting Power
+              </a>
+            </th>
+            <th
+              class="sort-by uptime"
+            >
+              <a
+                class="sort-by-link"
+              >
+                Uptime
+              </a>
+            </th>
+            <th
+              class="sort-by commission"
+            >
+              <a
+                class="sort-by-link"
+              >
+                Commission
+              </a>
+            </th>
+            <th
+              class="sort-by slashes"
+            >
+              <a
+                class="sort-by-link"
+              >
+                Slashes
+              </a>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            class="li-validator"
+          >
+            <td
+              class="li-validator__moniker-container"
+            >
+              <img
+                class="li-validator__avatar no-img"
+                height="48"
+                src="~assets/images/validator-icon.svg"
+                width="48"
+              />
+              <div
+                class="li-validator__name-container"
+              >
+                <span
+                  class="validator-profile__status yellow"
+                />
+                <a
+                  class="li-validator__moniker"
+                  href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+                >
+                  good_greg
+                </a>
+                <div
+                  class="short-bech32 li-validator__address"
+                >
+                  <div
+                    class="address"
+                    id="address"
+                  >
+                    cosmosvaladdr…n3au
+                  </div>
+                  <div
+                    class="copied"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      check
+                    </i>
+                    <span>
+                      Copied
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td
+              class="li-validator__delegated-steak"
+            >
+              0.0000…
+            </td>
+            <td
+              class="li-validator__rewards"
+            >
+              n/a
+            </td>
+            <td
+              class="li-validator__voting-power"
+            >
+              0.00%
+            </td>
+            <td
+              class="li-validator__uptime"
+            >
+              n/a
+            </td>
+            <td
+              class="li-validator__commission"
+            >
+              0.00%
+            </td>
+            <td
+              class="li-validator__slashes"
+            >
+              n/a
+            </td>
+          </tr>
+          <tr
+            class="li-validator"
+          >
+            <td
+              class="li-validator__moniker-container"
+            >
+              <img
+                class="li-validator__avatar no-img"
+                height="48"
+                src="~assets/images/validator-icon.svg"
+                width="48"
+              />
+              <div
+                class="li-validator__name-container"
+              >
+                <span
+                  class="validator-profile__status red"
+                />
+                <a
+                  class="li-validator__moniker"
+                  href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n"
+                >
+                  herr_schmidt_revoked
+                </a>
+                <div
+                  class="short-bech32 li-validator__address"
+                >
+                  <div
+                    class="address"
+                    id="address"
+                  >
+                    cosmosvaladdr…rg7n
+                  </div>
+                  <div
+                    class="copied"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      check
+                    </i>
+                    <span>
+                      Copied
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td
+              class="li-validator__delegated-steak"
+            >
+              0.0000…
+            </td>
+            <td
+              class="li-validator__rewards"
+            >
+              n/a
+            </td>
+            <td
+              class="li-validator__voting-power"
+            >
+              0.00%
+            </td>
+            <td
+              class="li-validator__uptime"
+            >
+              n/a
+            </td>
+            <td
+              class="li-validator__commission"
+            >
+              0.00%
+            </td>
+            <td
+              class="li-validator__slashes"
+            >
+              n/a
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
+<div>
+  <!---->
+  <div
+    class="tm-data-msg"
+  >
+    <div
+      class="tm-data-msg__icon"
+    >
+      <i
+        class="material-icons"
+      >
+        info_outline
+      </i>
+    </div>
+    <div
+      class="tm-data-msg__text"
+    >
+      <div
+        class="tm-data-msg__title"
+      >
+        <div>
+          No Active Delegations
+        </div>
+      </div>
+      <div
+        class="tm-data-msg__subtitle"
+      >
+        <div>
+          Looks like you haven't delegated any stakes yet. Head over to the 
+          <a
+            class=""
+            href="#/staking/Validators"
+          >
+            validator list
+          </a>
+           to make your first delegation!
+        </div>
+      </div>
+    </div>
+  </div>
+  <!---->
+  <div>
+    <h3
+      class="tab-header"
+    >
+      Inactive Delegations
+
+      <i
+        class="material-icons info-button"
+      >
+        info_outline
+      </i>
+    </h3>
+    <div>
+      <table>
+        <thead>
+          <tr
+            class="panel-sort-container"
+          >
+            <th
+              class="sort-by name"
+            >
+              <a
+                class="sort-by-link"
+              >
+                Moniker
+              </a>
+            </th>
+            <th
+              class="sort-by your-votes"
+            >
+              <a
+                class="sort-by-link"
+              >
+                Delegated stake
+              </a>
+            </th>
+            <th
+              class="sort-by your-rewards"
+            >
+              <a
+                class="sort-by-link"
+              >
+                Rewards
+              </a>
+            </th>
+            <th
+              class="sort-by percent_of_vote"
+            >
+              <a
+                class="sort-by-link"
+              >
+                Voting Power
+              </a>
+            </th>
+            <th
+              class="sort-by uptime"
+            >
+              <a
+                class="sort-by-link"
+              >
+                Uptime
+              </a>
+            </th>
+            <th
+              class="sort-by commission"
+            >
+              <a
+                class="sort-by-link"
+              >
+                Commission
+              </a>
+            </th>
+            <th
+              class="sort-by slashes"
+            >
+              <a
+                class="sort-by-link"
+              >
+                Slashes
+              </a>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            class="li-validator"
+          >
+            <td
+              class="li-validator__moniker-container"
+            >
+              <img
+                class="li-validator__avatar no-img"
+                height="48"
+                src="~assets/images/validator-icon.svg"
+                width="48"
+              />
+              <div
+                class="li-validator__name-container"
+              >
+                <span
+                  class="validator-profile__status yellow"
+                />
+                <a
+                  class="li-validator__moniker"
+                  href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+                >
+                  good_greg
+                </a>
+                <div
+                  class="short-bech32 li-validator__address"
+                >
+                  <div
+                    class="address"
+                    id="address"
+                  >
+                    cosmosvaladdr…n3au
+                  </div>
+                  <div
+                    class="copied"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      check
+                    </i>
+                    <span>
+                      Copied
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td
+              class="li-validator__delegated-steak"
+            >
+              0.0000…
+            </td>
+            <td
+              class="li-validator__rewards"
+            >
+              n/a
+            </td>
+            <td
+              class="li-validator__voting-power"
+            >
+              0.00%
+            </td>
+            <td
+              class="li-validator__uptime"
+            >
+              n/a
+            </td>
+            <td
+              class="li-validator__commission"
+            >
+              0.00%
+            </td>
+            <td
+              class="li-validator__slashes"
+            >
+              n/a
+            </td>
+          </tr>
+          <tr
+            class="li-validator"
+          >
+            <td
+              class="li-validator__moniker-container"
+            >
+              <img
+                class="li-validator__avatar no-img"
+                height="48"
+                src="~assets/images/validator-icon.svg"
+                width="48"
+              />
+              <div
+                class="li-validator__name-container"
+              >
+                <span
+                  class="validator-profile__status red"
+                />
+                <a
+                  class="li-validator__moniker"
+                  href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n"
+                >
+                  herr_schmidt_revoked
+                </a>
+                <div
+                  class="short-bech32 li-validator__address"
+                >
+                  <div
+                    class="address"
+                    id="address"
+                  >
+                    cosmosvaladdr…rg7n
+                  </div>
+                  <div
+                    class="copied"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      check
+                    </i>
+                    <span>
+                      Copied
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td
+              class="li-validator__delegated-steak"
+            >
+              0.0000…
+            </td>
+            <td
+              class="li-validator__rewards"
+            >
+              n/a
+            </td>
+            <td
+              class="li-validator__voting-power"
+            >
+              0.00%
+            </td>
+            <td
+              class="li-validator__uptime"
+            >
+              n/a
+            </td>
+            <td
+              class="li-validator__commission"
+            >
+              0.00%
+            </td>
+            <td
+              class="li-validator__slashes"
+            >
+              n/a
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+`;

@@ -1,4 +1,4 @@
-"use strict"
+import Raven from "raven-js"
 
 export default ({ node }) => {
   const emptyState = {
@@ -25,12 +25,13 @@ export default ({ node }) => {
       try {
         let pool = await node.getPool()
         commit(`setPool`, pool)
-      } catch (err) {
+      } catch (error) {
         commit(`notifyError`, {
           title: `Error fetching staking pool information`,
-          body: err.message
+          body: error.message
         })
-        state.error = err
+        Raven.captureException(error)
+        state.error = error
       }
       state.loading = false
     }

@@ -392,8 +392,8 @@ describe(`Startup Process`, () => {
                 this.calls++
                 await registeredIPCListeners[`reconnect`]()
                 return `127.0.0.1:46657`
-              } catch (err) {
-                done.fail(err)
+              } catch (error) {
+                done.fail(error)
               }
             }
           }
