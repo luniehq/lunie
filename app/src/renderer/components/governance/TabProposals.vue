@@ -1,8 +1,5 @@
 <template>
-  <table-proposals
-    :proposals="proposals"
-    :loading="proposals.loading"
-  ></table-proposals>
+  <table-proposals :proposals="proposals" :loading="proposals.loading" />
 </template>
 
 <script>

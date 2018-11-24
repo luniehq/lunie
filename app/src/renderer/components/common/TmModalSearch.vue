@@ -1,52 +1,52 @@
 <template>
-  <div class="tm-modal-search" v-if="open">
+  <div v-if="open" class="tm-modal-search">
     <form
-      class="tm-modal-search-container"
       v-if="type === 'blocks'"
-      v-on:submit.prevent.default="gotoBlock"
+      class="tm-modal-search-container"
+      @submit.prevent="gotoBlock"
     >
       <tm-form-group
+        :error="$v.filters.blocks.search.query.$invalid"
         field-id="search-input"
         field-label=""
-        :error="$v.filters.blocks.search.query.$invalid"
       >
         <div class="tm-modal-search-field">
           <tm-field
-            class="mousetrap"
             id="search-input"
+            v-model="query"
+            class="mousetrap"
             type="number"
             step="1"
             placeholder="View block height..."
-            v-model="query"
-          ></tm-field>
-          <tm-btn value="Find"></tm-btn>
-          <tm-btn type="button" icon="close" @click.native="close"></tm-btn>
+          />
+          <tm-btn value="Find" />
+          <tm-btn type="button" icon="close" @click.native="close" />
         </div>
         <tm-form-msg
+          v-if="!$v.filters.blocks.search.query.numeric"
           name="Query"
           type="numeric"
-          v-if="!$v.filters.blocks.search.query.numeric"
-        ></tm-form-msg>
+        />
         <tm-form-msg
+          v-if="!$v.filters.blocks.search.query.between"
+          :max="$v.filters.blocks.search.query.$params.between.max"
           name="Query"
           type="between"
           min="0"
-          :max="$v.filters.blocks.search.query.$params.between.max"
-          v-if="!$v.filters.blocks.search.query.between"
-        ></tm-form-msg>
+        />
       </tm-form-group>
     </form>
-    <div class="tm-modal-search-container" v-else="v-else">
+    <div v-else class="tm-modal-search-container">
       <tm-form-group field-id="search-input" field-label="">
         <div class="tm-modal-search-field">
           <tm-field
-            class="mousetrap"
             id="search-input"
+            v-model="query"
+            class="mousetrap"
             type="text"
             placeholder="Search..."
-            v-model="query"
-          ></tm-field>
-          <tm-btn icon="close" @click.native="close"></tm-btn>
+          />
+          <tm-btn icon="close" @click.native="close" />
         </div>
       </tm-form-group>
     </div>

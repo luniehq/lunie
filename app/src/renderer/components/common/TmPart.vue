@@ -1,16 +1,16 @@
 <template>
   <section class="tm-part">
     <div class="tm-part-container">
-      <header class="tm-part-header" v-if="$slots['title'] || title">
+      <header v-if="$slots['title'] || title" class="tm-part-header">
         <div class="tm-part-header-container">
           <div class="tm-part-title h5">
             <template v-if="title">{{ title }}</template>
-            <slot name="title" v-else=""></slot>
+            <slot v-else="" name="title" />
           </div>
-          <menu class="tm-part-menu"> <slot name="menu"></slot> </menu>
+          <menu class="tm-part-menu"> <slot name="menu" /> </menu>
         </div>
       </header>
-      <main class="tm-part-main"><slot></slot></main>
+      <main class="tm-part-main"><slot /></main>
     </div>
   </section>
 </template>

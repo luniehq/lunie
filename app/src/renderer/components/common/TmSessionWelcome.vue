@@ -1,5 +1,5 @@
 <template>
-  <div class="tm-session" id="session-welcome">
+  <div id="session-welcome" class="tm-session">
     <div class="tm-session-container">
       <div class="tm-session-header">
         <a>&nbsp;</a>
@@ -9,33 +9,33 @@
       <div class="tm-session-main">
         <li-session
           v-if="accountExists"
-          @click.native="setState('sign-in')"
           icon="lock"
           title="Sign in with password"
           subtitle="If you have an account, choose this option."
-        ></li-session>
+          @click.native="setState('sign-in')"
+        />
         <li-session
-          @click.native="setState('sign-up')"
           icon="person_add"
           title="Create new account"
           subtitle="Generate a brand new seed and create a new account."
-        ></li-session>
+          @click.native="setState('sign-up')"
+        />
         <li-session
-          @click.native="setState('import')"
           icon="settings_backup_restore"
           title="Import with seed"
           subtitle="Use an existing seed phrase to create an account."
-        ></li-session>
+          @click.native="setState('import')"
+        />
         <li-session
           v-if="config.devMode"
-          @click.native="setState('hardware')"
           icon="usb"
           title="Sign in with hardware"
           subtitle="If you have a Ledger Wallet, choose this option."
-        ></li-session>
-        <fundraiser-warning></fundraiser-warning>
+          @click.native="setState('hardware')"
+        />
+        <fundraiser-warning />
       </div>
-      <div class="tm-session-footer"></div>
+      <div class="tm-session-footer" />
     </div>
   </div>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <modal class="tm-modal-help" v-if="active" :close="close">
+  <modal v-if="active" :close="close" class="tm-modal-help">
     <div slot="title">Need Help?</div>
     <p>
       Something in the app not working correctly? Tell us what went wrong in our

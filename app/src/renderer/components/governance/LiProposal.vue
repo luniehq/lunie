@@ -3,17 +3,17 @@
     <td class="li-proposal__value">
       <div class="li-proposal__title-container">
         <span
-          class="material-icons"
-          v-if="proposal.proposal_status === `Passed`"
           v-tooltip.top="status.message"
-          v-bind:class="status.color"
+          v-if="proposal.proposal_status === `Passed`"
+          :class="status.color"
+          class="material-icons"
           >checkmark</span
         ><span
-          class="validator-profile__status"
-          v-else="v-else"
-          v-bind:class="status.color"
           v-tooltip.top="status.message"
-        ></span>
+          v-else
+          :class="status.color"
+          class="validator-profile__status"
+        />
         <h2>
           <router-link
             :to="{

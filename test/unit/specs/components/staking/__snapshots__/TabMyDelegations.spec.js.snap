@@ -3,6 +3,7 @@
 exports[`Component: TabMyDelegations should show a message if not staked yet to any validator 1`] = `
 <div>
   <!---->
+   
   <div
     class="tm-data-msg"
   >
@@ -29,19 +30,26 @@ exports[`Component: TabMyDelegations should show a message if not staked yet to 
         class="tm-data-msg__subtitle"
       >
         <div>
-          Looks like you haven't delegated any stakes yet. Head over to the 
+          
+      Looks like you haven't delegated any stakes yet. Head
+      over to the
+      
           <a
             class=""
             href="#/staking/Validators"
           >
             validator list
           </a>
-           to make your first delegation!
+          
+      to make your first delegation!
+    
         </div>
       </div>
     </div>
   </div>
+   
   <!---->
+   
   <!---->
 </div>
 `;
@@ -120,6 +128,7 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
             </th>
           </tr>
         </thead>
+         
         <tbody>
           <tr
             class="li-validator"
@@ -133,18 +142,21 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
                 src="~assets/images/validator-icon.svg"
                 width="48"
               />
+               
               <div
                 class="li-validator__name-container"
               >
                 <span
                   class="validator-profile__status yellow"
                 />
+                 
                 <a
                   class="li-validator__moniker"
                   href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
                 >
                   mr_mounty
                 </a>
+                 
                 <div
                   class="short-bech32 li-validator__address"
                 >
@@ -152,8 +164,11 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
                     class="address"
                     id="address"
                   >
-                    cosmosvaladdr…8yqw
+                    
+    cosmosvaladdr…8yqw
+  
                   </div>
+                   
                   <div
                     class="copied"
                   >
@@ -169,31 +184,41 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
                 </div>
               </div>
             </td>
+             
             <td
               class="li-validator__delegated-steak"
             >
-              0.0000…
+              
+    0.0000…
+  
             </td>
+             
             <td
               class="li-validator__rewards"
             >
               n/a
             </td>
+             
             <td
               class="li-validator__voting-power"
             >
-              0.00%
+              
+    0.00%
+  
             </td>
+             
             <td
               class="li-validator__uptime"
             >
               n/a
             </td>
+             
             <td
               class="li-validator__commission"
             >
               0.00%
             </td>
+             
             <td
               class="li-validator__slashes"
             >
@@ -204,12 +229,15 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
       </table>
     </div>
   </div>
+   
   <!---->
+   
   <div
     class="check-out-message"
   >
+    
     Check out
-
+    
     <a
       class=""
       href="#/staking/Validators"
@@ -217,20 +245,24 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
       the validator list
     </a>
     
-to find other validators to delegate to.
+    to find other validators to delegate to.
+  
   </div>
+   
   <div>
     <h3
       class="tab-header"
     >
+      
       Inactive Delegations
-
+      
       <i
         class="material-icons info-button"
       >
         info_outline
       </i>
     </h3>
+     
     <div>
       <table>
         <thead>
@@ -302,6 +334,7 @@ to find other validators to delegate to.
             </th>
           </tr>
         </thead>
+         
         <tbody>
           <tr
             class="li-validator"
@@ -315,18 +348,21 @@ to find other validators to delegate to.
                 src="~assets/images/validator-icon.svg"
                 width="48"
               />
+               
               <div
                 class="li-validator__name-container"
               >
                 <span
                   class="validator-profile__status yellow"
                 />
+                 
                 <a
                   class="li-validator__moniker"
                   href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
                 >
                   good_greg
                 </a>
+                 
                 <div
                   class="short-bech32 li-validator__address"
                 >
@@ -334,8 +370,11 @@ to find other validators to delegate to.
                     class="address"
                     id="address"
                   >
-                    cosmosvaladdr…n3au
+                    
+    cosmosvaladdr…n3au
+  
                   </div>
+                   
                   <div
                     class="copied"
                   >
@@ -351,31 +390,41 @@ to find other validators to delegate to.
                 </div>
               </div>
             </td>
+             
             <td
               class="li-validator__delegated-steak"
             >
-              0.0000…
+              
+    0.0000…
+  
             </td>
+             
             <td
               class="li-validator__rewards"
             >
               n/a
             </td>
+             
             <td
               class="li-validator__voting-power"
             >
-              0.00%
+              
+    0.00%
+  
             </td>
+             
             <td
               class="li-validator__uptime"
             >
               n/a
             </td>
+             
             <td
               class="li-validator__commission"
             >
               0.00%
             </td>
+             
             <td
               class="li-validator__slashes"
             >
@@ -394,18 +443,21 @@ to find other validators to delegate to.
                 src="~assets/images/validator-icon.svg"
                 width="48"
               />
+               
               <div
                 class="li-validator__name-container"
               >
                 <span
                   class="validator-profile__status red"
                 />
+                 
                 <a
                   class="li-validator__moniker"
                   href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n"
                 >
                   herr_schmidt_revoked
                 </a>
+                 
                 <div
                   class="short-bech32 li-validator__address"
                 >
@@ -413,8 +465,11 @@ to find other validators to delegate to.
                     class="address"
                     id="address"
                   >
-                    cosmosvaladdr…rg7n
+                    
+    cosmosvaladdr…rg7n
+  
                   </div>
+                   
                   <div
                     class="copied"
                   >
@@ -430,31 +485,41 @@ to find other validators to delegate to.
                 </div>
               </div>
             </td>
+             
             <td
               class="li-validator__delegated-steak"
             >
-              0.0000…
+              
+    0.0000…
+  
             </td>
+             
             <td
               class="li-validator__rewards"
             >
               n/a
             </td>
+             
             <td
               class="li-validator__voting-power"
             >
-              0.00%
+              
+    0.00%
+  
             </td>
+             
             <td
               class="li-validator__uptime"
             >
               n/a
             </td>
+             
             <td
               class="li-validator__commission"
             >
               0.00%
             </td>
+             
             <td
               class="li-validator__slashes"
             >
@@ -471,6 +536,7 @@ to find other validators to delegate to.
 exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
 <div>
   <!---->
+   
   <div
     class="tm-data-msg"
   >
@@ -497,31 +563,40 @@ exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
         class="tm-data-msg__subtitle"
       >
         <div>
-          Looks like you haven't delegated any stakes yet. Head over to the 
+          
+      Looks like you haven't delegated any stakes yet. Head
+      over to the
+      
           <a
             class=""
             href="#/staking/Validators"
           >
             validator list
           </a>
-           to make your first delegation!
+          
+      to make your first delegation!
+    
         </div>
       </div>
     </div>
   </div>
+   
   <!---->
+   
   <div>
     <h3
       class="tab-header"
     >
+      
       Inactive Delegations
-
+      
       <i
         class="material-icons info-button"
       >
         info_outline
       </i>
     </h3>
+     
     <div>
       <table>
         <thead>
@@ -593,6 +668,7 @@ exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
             </th>
           </tr>
         </thead>
+         
         <tbody>
           <tr
             class="li-validator"
@@ -606,18 +682,21 @@ exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
                 src="~assets/images/validator-icon.svg"
                 width="48"
               />
+               
               <div
                 class="li-validator__name-container"
               >
                 <span
                   class="validator-profile__status yellow"
                 />
+                 
                 <a
                   class="li-validator__moniker"
                   href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
                 >
                   good_greg
                 </a>
+                 
                 <div
                   class="short-bech32 li-validator__address"
                 >
@@ -625,8 +704,11 @@ exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
                     class="address"
                     id="address"
                   >
-                    cosmosvaladdr…n3au
+                    
+    cosmosvaladdr…n3au
+  
                   </div>
+                   
                   <div
                     class="copied"
                   >
@@ -642,31 +724,41 @@ exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
                 </div>
               </div>
             </td>
+             
             <td
               class="li-validator__delegated-steak"
             >
-              0.0000…
+              
+    0.0000…
+  
             </td>
+             
             <td
               class="li-validator__rewards"
             >
               n/a
             </td>
+             
             <td
               class="li-validator__voting-power"
             >
-              0.00%
+              
+    0.00%
+  
             </td>
+             
             <td
               class="li-validator__uptime"
             >
               n/a
             </td>
+             
             <td
               class="li-validator__commission"
             >
               0.00%
             </td>
+             
             <td
               class="li-validator__slashes"
             >
@@ -685,18 +777,21 @@ exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
                 src="~assets/images/validator-icon.svg"
                 width="48"
               />
+               
               <div
                 class="li-validator__name-container"
               >
                 <span
                   class="validator-profile__status red"
                 />
+                 
                 <a
                   class="li-validator__moniker"
                   href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n"
                 >
                   herr_schmidt_revoked
                 </a>
+                 
                 <div
                   class="short-bech32 li-validator__address"
                 >
@@ -704,8 +799,11 @@ exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
                     class="address"
                     id="address"
                   >
-                    cosmosvaladdr…rg7n
+                    
+    cosmosvaladdr…rg7n
+  
                   </div>
+                   
                   <div
                     class="copied"
                   >
@@ -721,31 +819,41 @@ exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
                 </div>
               </div>
             </td>
+             
             <td
               class="li-validator__delegated-steak"
             >
-              0.0000…
+              
+    0.0000…
+  
             </td>
+             
             <td
               class="li-validator__rewards"
             >
               n/a
             </td>
+             
             <td
               class="li-validator__voting-power"
             >
-              0.00%
+              
+    0.00%
+  
             </td>
+             
             <td
               class="li-validator__uptime"
             >
               n/a
             </td>
+             
             <td
               class="li-validator__commission"
             >
               0.00%
             </td>
+             
             <td
               class="li-validator__slashes"
             >

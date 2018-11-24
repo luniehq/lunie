@@ -1,47 +1,47 @@
 <template>
-  <tm-page data-title="Wallet"
-    ><template slot="menu-body">
-      <tm-balance></tm-balance>
-      <vm-tool-bar
-        ><a
-          @click="connected &amp;&amp; updateBalances()"
+  <tm-page data-title="Wallet">
+    <template slot="menu-body">
+      <tm-balance />
+      <vm-tool-bar>
+        <a
           v-tooltip.bottom="'Refresh'"
           :disabled="!connected"
-          ><i class="material-icons">refresh</i></a
-        ><a
-          @click="setSearch()"
+          @click="connected &amp;&amp; updateBalances()"
+        >
+          <i class="material-icons">refresh</i>
+        </a>
+        <a
           v-tooltip.bottom="'Search'"
           :disabled="!somethingToSearch"
-          ><i class="material-icons">search</i></a
-        ></vm-tool-bar
-      >
+          @click="setSearch()"
+        >
+          <i class="material-icons">search</i>
+        </a>
+      </vm-tool-bar>
     </template>
-    <modal-search type="balances" v-if="somethingToSearch"></modal-search>
-    <tm-data-loading v-if="wallet.loading"></tm-data-loading>
+    <modal-search v-if="somethingToSearch" type="balances" />
+    <tm-data-loading v-if="wallet.loading" />
     <tm-data-msg
-      id="account_empty_msg"
       v-else-if="wallet.balances.length === 0"
+      id="account_empty_msg"
       icon="help_outline"
     >
       <div slot="title">Account empty</div>
       <div slot="subtitle">
-        This account doesn't hold any coins yet. Go to the&nbsp;<a
-          href="https://gaia.faucetcosmos.network/"
-          >token faucet</a
-        >&nbsp;to aquire tokens to play with.
+        This account doesn't hold any coins yet. Go to the&nbsp;
+        <a href="https://gaia.faucetcosmos.network/">token faucet</a> &nbsp;to
+        aquire tokens to play with.
       </div>
     </tm-data-msg>
-    <data-empty-search
-      v-else-if="filteredBalances.length === 0"
-    ></data-empty-search>
+    <data-empty-search v-else-if="filteredBalances.length === 0" />
     <ul>
       <li-coin
-        class="tm-li-balance"
         v-for="coin in filteredBalances"
         v-if="wallet.balances.length &gt; 0 &amp;&amp; coin.amount &gt; 0"
         :key="coin.denom"
         :coin="coin"
-      ></li-coin>
+        class="tm-li-balance"
+      />
     </ul>
   </tm-page>
 </template>

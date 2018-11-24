@@ -1,20 +1,20 @@
 <template>
   <tm-page class="staking" data-title="Staking"
     ><template slot="menu-body">
-      <tm-balance :tabs="tabs"></tm-balance>
+      <tm-balance :tabs="tabs" />
       <vm-tool-bar
         ><a
-          @click="connected &amp;&amp; updateDelegates()"
           v-tooltip.bottom="'Refresh'"
           :disabled="!connected"
+          @click="connected &amp;&amp; updateDelegates()"
           ><i class="material-icons">refresh</i></a
-        ><a @click="setSearch()" v-tooltip.bottom="'Search'"
+        ><a v-tooltip.bottom="'Search'" @click="setSearch()"
           ><i class="search material-icons">search</i></a
         ></vm-tool-bar
       >
     </template>
-    <modal-search type="delegates"></modal-search>
-    <router-view></router-view>
+    <modal-search type="delegates" />
+    <router-view />
   </tm-page>
 </template>
 

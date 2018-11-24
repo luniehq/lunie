@@ -1,22 +1,21 @@
 <template>
   <div class="tm-tool-bar">
     <a
+      v-tooltip.bottom="'Back'"
+      :disabled="user.history.length === 0"
       class="back"
       @click="back"
-      :disabled="user.history.length === 0"
-      v-tooltip.bottom="'Back'"
       ><i class="material-icons">arrow_back</i></a
     >
-    <slot></slot
-    ><a class="help" @click="enableModalHelp" v-tooltip.bottom="'Help'"
+    <slot /><a v-tooltip.bottom="'Help'" class="help" @click="enableModalHelp"
       ><i class="material-icons">help_outline</i></a
     >
     <router-link
+      v-tooltip.bottom="'Preferences'"
       id="settings"
       to="/preferences"
-      v-tooltip.bottom="'Preferences'"
       ><i class="material-icons">settings</i></router-link
-    ><a id="signOut-btn" @click="signOut" v-tooltip.bottom.end="'Sign Out'"
+    ><a v-tooltip.bottom.end="'Sign Out'" id="signOut-btn" @click="signOut"
       ><i class="material-icons">exit_to_app</i></a
     >
   </div>

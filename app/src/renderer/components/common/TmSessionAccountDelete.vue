@@ -1,6 +1,6 @@
 <template>
   <div class="tm-session">
-    <tm-form-struct class="tm-session-container" :submit="onSubmit">
+    <tm-form-struct :submit="onSubmit" class="tm-session-container">
       <div class="tm-session-header">
         <a @click="setState('sign-in')"
           ><i class="material-icons">arrow_back</i></a
@@ -16,33 +16,33 @@
         >
           <tm-field
             id="sign-in-password"
+            v-model="fields.deletionPassword"
             type="password"
             placeholder="Enter your password"
-            v-model="fields.deletionPassword"
-          ></tm-field>
+          />
           <tm-form-msg
+            v-if="!$v.fields.deletionPassword.required"
             name="Password"
             type="required"
-            v-if="!$v.fields.deletionPassword.required"
-          ></tm-form-msg>
+          />
           <tm-form-msg
+            v-if="!$v.fields.deletionPassword.minLength"
             name="Password"
             type="minLength"
             min="10"
-            v-if="!$v.fields.deletionPassword.minLength"
-          ></tm-form-msg>
+          />
         </tm-form-group>
         <tm-form-group
+          :error="$v.fields.deletionWarning.$error"
           field-id="sign-up-warning"
           field-label=" "
-          :error="$v.fields.deletionWarning.$error"
         >
           <div class="tm-field-checkbox">
             <div class="tm-field-checkbox-input">
               <input
                 id="sign-up-warning"
-                type="checkbox"
                 v-model="fields.deletionWarning"
+                type="checkbox"
               />
             </div>
             <label class="tm-field-checkbox-label" for="sign-up-warning"
@@ -51,10 +51,10 @@
             >
           </div>
           <tm-form-msg
+            v-if="!$v.fields.deletionWarning.required"
             name="Deletion confirmation"
             type="required"
-            v-if="!$v.fields.deletionWarning.required"
-          ></tm-form-msg>
+          />
         </tm-form-group>
       </div>
       <div class="tm-session-footer">
@@ -62,7 +62,7 @@
           icon="exit_to_app"
           value="Sign Out and Remove Account"
           size="lg"
-        ></tm-btn>
+        />
       </div>
     </tm-form-struct>
   </div>

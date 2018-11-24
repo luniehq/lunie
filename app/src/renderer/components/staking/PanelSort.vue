@@ -1,13 +1,14 @@
 <template>
   <tr class="panel-sort-container">
     <th
-      class="sort-by"
-      v-for="(property, i) in properties"
+      v-for="property in properties"
+      :key="property.value"
       :class="property.class"
+      class="sort-by"
     >
       <a
-        class="sort-by-link"
         v-tooltip.top="property.tooltip"
+        class="sort-by-link"
         @click="orderBy(property.value)"
         >{{ property.title }}</a
       >

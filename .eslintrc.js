@@ -2,7 +2,7 @@
 
 module.exports = {
   root: true,
-  extends: ["plugin:vue/recommended"],
+  extends: ["prettier", "prettier/standard", "plugin:vue/recommended"],
   parserOptions: {
     ecmaVersion: 2017,
     sourceType: "module",
@@ -13,7 +13,7 @@ module.exports = {
     es6: true,
     node: true
   },
-  plugins: ["vue"],
+  plugins: ["vue", "prettier"],
   rules: {
     // allow debugger during development
     "no-debugger": process.env.NODE_ENV === "production" ? 2 : 0,

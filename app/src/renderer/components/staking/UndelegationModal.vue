@@ -1,8 +1,8 @@
 <template>
   <div
-    class="undelegation-modal"
-    id="undelegation-modal"
     v-click-outside="close"
+    id="undelegation-modal"
+    class="undelegation-modal"
   >
     <div class="undelegation-modal-header">
       <img
@@ -16,36 +16,36 @@
     <tm-form-group class="undelegation-modal-form-group" field-label="Amount">
       <tm-field
         id="denom"
-        type="text"
         :placeholder="bondingDenom"
+        type="text"
         readonly="readonly"
-      ></tm-field>
+      />
       <tm-field
+        v-focus="v - focus"
         id="amount"
         :max="maximum"
         :min="0"
+        v-model="amount"
         step="any"
         type="number"
-        v-model="amount"
-        v-focus="v - focus"
-      ></tm-field>
+      />
     </tm-form-group>
     <tm-form-group
       class="undelegation-modal-form-group"
       field-id="to"
       field-label="To"
     >
-      <tm-field id="to" readonly="readonly" v-model="to"></tm-field>
+      <tm-field id="to" v-model="to" readonly="readonly" />
     </tm-form-group>
     <div class="undelegation-modal-footer">
       <tm-btn
         id="submit-undelegation"
-        @click.native="onUndelegate"
         :disabled="$v.amount.$invalid"
         color="primary"
         value="Undelegate"
         size="lg"
-      ></tm-btn>
+        @click.native="onUndelegate"
+      />
     </div>
   </div>
 </template>

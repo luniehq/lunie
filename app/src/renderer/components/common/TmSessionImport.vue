@@ -1,6 +1,6 @@
 <template>
   <div class="tm-session">
-    <tm-form-struct class="tm-session-container" :submit="onSubmit">
+    <tm-form-struct :submit="onSubmit" class="tm-session-container">
       <div class="tm-session-header">
         <a @click="setState('welcome')"
           ><i class="material-icons">arrow_back</i></a
@@ -10,27 +10,27 @@
       </div>
       <div class="tm-session-main">
         <tm-form-group
+          :error="$v.fields.importName.$error"
           field-id="import-name"
           field-label="Account Name"
-          :error="$v.fields.importName.$error"
         >
           <tm-field
             id="import-name"
+            v-model="fields.importName"
             type="text"
             placeholder="Must have at least 5 characters"
-            v-model="fields.importName"
-          ></tm-field>
+          />
           <tm-form-msg
+            v-if="!$v.fields.importName.required"
             name="Name"
             type="required"
-            v-if="!$v.fields.importName.required"
-          ></tm-form-msg>
+          />
           <tm-form-msg
+            v-if="!$v.fields.importName.minLength"
             name="Name"
             type="minLength"
             min="5"
-            v-if="!$v.fields.importName.minLength"
-          ></tm-form-msg>
+          />
         </tm-form-group>
         <tm-form-group
           :error="$v.fields.importPassword.$error"
@@ -39,21 +39,21 @@
         >
           <tm-field
             id="import-password"
+            v-model="fields.importPassword"
             type="password"
             placeholder="Must be at least 10 characters"
-            v-model="fields.importPassword"
-          ></tm-field>
+          />
           <tm-form-msg
+            v-if="!$v.fields.importPassword.required"
             name="Password"
             type="required"
-            v-if="!$v.fields.importPassword.required"
-          ></tm-form-msg>
+          />
           <tm-form-msg
+            v-if="!$v.fields.importPassword.minLength"
             name="Password"
             type="minLength"
             min="10"
-            v-if="!$v.fields.importPassword.minLength"
-          ></tm-form-msg>
+          />
         </tm-form-group>
         <tm-form-group
           :error="$v.fields.importPasswordConfirm.$error"
@@ -62,15 +62,15 @@
         >
           <tm-field
             id="import-password-confirmation"
+            v-model="fields.importPasswordConfirm"
             type="password"
             placeholder="Enter password again"
-            v-model="fields.importPasswordConfirm"
-          ></tm-field>
+          />
           <tm-form-msg
+            v-if="!$v.fields.importPasswordConfirm.sameAsPassword"
             name="Password confirmation"
             type="match"
-            v-if="!$v.fields.importPasswordConfirm.sameAsPassword"
-          ></tm-form-msg>
+          />
         </tm-form-group>
         <tm-form-group
           :error="$v.fields.importSeed.$error"
@@ -80,31 +80,31 @@
           <field-seed
             id="import-seed"
             :value="fields.importSeed"
-            @input="val =&gt; fields.importSeed = val"
             placeholder="Must be exactly 24 words"
-          ></field-seed>
+            @input="val =&gt; fields.importSeed = val"
+          />
           <tm-form-msg
+            v-if="!$v.fields.importSeed.required"
             name="Seed"
             type="required"
-            v-if="!$v.fields.importSeed.required"
-          ></tm-form-msg>
+          />
           <tm-form-msg
+            v-else-if="!$v.fields.importSeed.words24"
             name="Seed"
             type="words24"
-            v-else-if="!$v.fields.importSeed.words24"
-          ></tm-form-msg>
+          />
         </tm-form-group>
         <tm-form-group
+          :error="$v.fields.errorCollection.$error"
           field-id="error-collection"
           field-label=""
-          :error="$v.fields.errorCollection.$error"
         >
           <div class="tm-field-checkbox">
             <div class="tm-field-checkbox-input">
               <input
                 id="error-collection"
-                type="checkbox"
                 v-model="fields.errorCollection"
+                type="checkbox"
               />
             </div>
             <label class="tm-field-checkbox-label" for="error-collection"
@@ -121,14 +121,14 @@
           icon-pos="right"
           value="Next"
           size="lg"
-        ></tm-btn>
+        />
         <tm-btn
-          v-else="v-else"
+          v-else
           icon-pos="right"
           value="Connecting..."
           size="lg"
           disabled="true"
-        ></tm-btn>
+        />
       </div>
     </tm-form-struct>
   </div>

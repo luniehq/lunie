@@ -1,5 +1,5 @@
 <template>
-  <modal class="tm-modal-send-confirmation" :close="close">
+  <modal :close="close" class="tm-modal-send-confirmation">
     <div slot="title">Confirm Your Transaction</div>
     <p>
       Please confirm that you would like to send
@@ -11,16 +11,16 @@
       <tm-btn
         id="send-cancel-btn"
         type="button"
-        @click.native="close"
         value="Cancel"
-      ></tm-btn>
+        @click.native="close"
+      />
       <tm-btn
         id="send-confirmation-btn"
         type="button"
         color="primary"
-        @click.native="approve"
         value="Confirm"
-      ></tm-btn>
+        @click.native="approve"
+      />
     </div>
   </modal>
 </template>

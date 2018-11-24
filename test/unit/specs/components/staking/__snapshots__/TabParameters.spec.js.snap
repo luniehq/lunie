@@ -4,27 +4,27 @@ exports[`TabParameters has the expected html structure 1`] = `
 "<div>
    <div>
       <h3>
-         Staking Pool<i class=\\"material-icons info-button\\">info_outline</i>
+         Staking Pool      <i class=\\"material-icons info-button\\">info_outline</i>
       </h3>
       <div class=\\"parameters__details parameters__section\\">
          <div class=\\"row\\">
             <div class=\\"column\\">
                <dl class=\\"info_dl\\">
                   <dt>
-                     Loose steak<i class=\\"material-icons info-button\\">info_outline</i>
+                     Loose steak              <i class=\\"material-icons info-button\\">info_outline</i>
                   </dt>
                   <dd>
-                     100.0000000000
+                     100.0000000000            
                   </dd>
 </dl>
 </div>
 <div class=\\"column\\">
    <dl class=\\"info_dl\\">
       <dt>
-         Delegated steak<i class=\\"material-icons info-button\\">info_outline</i>
+         Delegated steak              <i class=\\"material-icons info-button\\">info_outline</i>
       </dt>
       <dd>
-         50.0000000000
+         50.0000000000            
       </dd>
 </dl>
 </div>
@@ -33,17 +33,17 @@ exports[`TabParameters has the expected html structure 1`] = `
 </div>
 <div>
    <h3>
-      Staking Parameters<i class=\\"material-icons info-button\\">info_outline</i>
+      Staking Parameters      <i class=\\"material-icons info-button\\">info_outline</i>
    </h3>
    <div class=\\"parameters__details parameters__section\\">
       <div class=\\"row\\">
          <div class=\\"column\\">
             <dl class=\\"info_dl\\">
                <dt>
-                  Unbonding Time<i class=\\"material-icons info-button\\">info_outline</i>
+                  Unbonding Time              <i class=\\"material-icons info-button\\">info_outline</i>
                </dt>
                <dd>
-                  3 days
+                  3 days            
                </dd>
 </dl>
             <dl class=\\"info_dl\\">
@@ -51,7 +51,7 @@ exports[`TabParameters has the expected html structure 1`] = `
                   Current Staking Coin Denomination
                </dt>
                <dd>
-                  steak
+                  steak            
                </dd>
 </dl>
 </div>
@@ -61,7 +61,7 @@ exports[`TabParameters has the expected html structure 1`] = `
          Maximum Number of Validators
       </dt>
       <dd>
-         100
+         100            
       </dd>
 </dl>
 </div>

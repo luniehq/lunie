@@ -13,18 +13,21 @@ exports[`LiValidator has the expected html structure 1`] = `
       src="~assets/images/validator-icon.svg"
       width="48"
     />
+     
     <div
       class="li-validator__name-container"
     >
       <span
         class="validator-profile__status green"
       />
+       
       <a
         class="li-validator__moniker"
         href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
       >
         herr_schmidt_revoked
       </a>
+       
       <div
         class="short-bech32 li-validator__address"
       >
@@ -32,8 +35,11 @@ exports[`LiValidator has the expected html structure 1`] = `
           class="address"
           id="address"
         >
-          cosmosvaladdr…n3au
+          
+    cosmosvaladdr…n3au
+  
         </div>
+         
         <div
           class="copied"
         >
@@ -49,31 +55,41 @@ exports[`LiValidator has the expected html structure 1`] = `
       </div>
     </div>
   </td>
+   
   <td
     class="li-validator__delegated-steak"
   >
+    
     0.0000…
+  
   </td>
+   
   <td
     class="li-validator__rewards"
   >
     n/a
   </td>
+   
   <td
     class="li-validator__voting-power"
   >
+    
     22%
+  
   </td>
+   
   <td
     class="li-validator__uptime"
   >
     98.78%
   </td>
+   
   <td
     class="li-validator__commission"
   >
     0.05%
   </td>
+   
   <td
     class="li-validator__slashes"
   >

@@ -15,6 +15,7 @@ exports[`LiProposal has the expected html structure 1`] = `
       >
         checkmark
       </span>
+       
       <h2>
         <a
           class=""
@@ -23,6 +24,7 @@ exports[`LiProposal has the expected html structure 1`] = `
           Proposal Title
         </a>
       </h2>
+       
       <p
         class="li-proposal__description"
       >
@@ -30,28 +32,37 @@ exports[`LiProposal has the expected html structure 1`] = `
       </p>
     </div>
   </td>
+   
   <td>
     #1
   </td>
+   
   <td
     class="li-proposal__value yes"
   >
     500
   </td>
+   
   <td
     class="li-proposal__value no"
   >
     25
   </td>
+   
   <td
     class="li-proposal__value no_with_veto"
   >
+    
     10
+  
   </td>
+   
   <td
     class="li-proposal__value abstain"
   >
+    
     56
+  
   </td>
 </tr>
 `;

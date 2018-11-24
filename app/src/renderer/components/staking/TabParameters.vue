@@ -4,8 +4,8 @@
       <h3>
         Staking Pool
         <i
-          class="material-icons info-button"
           v-tooltip.top="poolTooltips.description"
+          class="material-icons info-button"
           >info_outline</i
         >
       </h3>
@@ -16,15 +16,13 @@
               <dt>
                 Loose {{ parameters.parameters.bond_denom }}
                 <i
-                  class="material-icons info-button"
                   v-tooltip.top="poolTooltips.loose_tokens"
+                  class="material-icons info-button"
                   >info_outline</i
                 >
               </dt>
               <dd>
-                {{
-                  this.pool.pool.loose_tokens ? pool.pool.loose_tokens : `n/a`
-                }}
+                {{ pool.pool.loose_tokens ? pool.pool.loose_tokens : `n/a` }}
               </dd>
             </dl>
           </div>
@@ -33,8 +31,8 @@
               <dt>
                 Delegated {{ parameters.parameters.bond_denom }}
                 <i
-                  class="material-icons info-button"
                   v-tooltip.top="poolTooltips.bonded_tokens"
+                  class="material-icons info-button"
                   >info_outline</i
                 >
               </dt>
@@ -50,8 +48,8 @@
       <h3>
         Staking Parameters
         <i
-          class="material-icons info-button"
           v-tooltip.top="paramsTooltips.description"
+          class="material-icons info-button"
           >info_outline</i
         >
       </h3>
@@ -62,8 +60,8 @@
               <dt>
                 Unbonding Time
                 <i
-                  class="material-icons info-button"
                   v-tooltip.top="paramsTooltips.unbonding_time"
+                  class="material-icons info-button"
                   >info_outline</i
                 >
               </dt>

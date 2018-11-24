@@ -6,24 +6,25 @@
       </div>
       <div class="total-atoms top-section">
         <h3>Total {{ bondingDenom }}</h3>
-        <h2>{{ this.num.shortNumber(totalAtoms) }}</h2>
+        <h2>{{ num.shortNumber(totalAtoms) }}</h2>
       </div>
-      <div class="unbonded-atoms top-section" v-if="unbondedAtoms">
+      <div v-if="unbondedAtoms" class="unbonded-atoms top-section">
         <h3>Available {{ bondingDenom }}</h3>
         <h2>{{ unbondedAtoms }}</h2>
       </div>
     </div>
-    <short-bech32 :address="user.address"></short-bech32>
+    <short-bech32 :address="user.address" />
     <div class="tabs">
       <div
-        class="tab"
         v-for="tab in tabs"
+        :key="tab"
         :class="{ 'tab-selected': $route.name === tab }"
+        class="tab"
       >
         <router-link :to="{ name: tab }">{{ tab }}</router-link>
       </div>
     </div>
-    <slot></slot>
+    <slot />
   </div>
 </template>
 <script>

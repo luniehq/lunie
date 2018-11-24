@@ -17,6 +17,7 @@ exports[`DelegationModal component matches snapshot has the expected html struct
     >
       Delegation
     </span>
+     
     <div
       class="tm-modal-icon tm-modal-close"
       id="closeBtn"
@@ -28,6 +29,7 @@ exports[`DelegationModal component matches snapshot has the expected html struct
       </i>
     </div>
   </div>
+   
   <div
     class="delegation-modal-form-group tm-form-group"
   >
@@ -48,6 +50,7 @@ exports[`DelegationModal component matches snapshot has the expected html struct
         readonly="readonly"
         type="text"
       />
+       
       <input
         class="tm-field"
         id="amount"
@@ -58,6 +61,7 @@ exports[`DelegationModal component matches snapshot has the expected html struct
       />
     </div>
   </div>
+   
   <div
     class="delegation-modal-form-group tm-form-group"
   >
@@ -78,6 +82,7 @@ exports[`DelegationModal component matches snapshot has the expected html struct
       />
     </div>
   </div>
+   
   <div
     class="delegation-modal-form-group tm-form-group"
   >
@@ -135,6 +140,7 @@ exports[`DelegationModal component matches snapshot has the expected html struct
       </div>
     </div>
   </div>
+   
   <div
     class="delegation-modal-footer"
   >

@@ -2,16 +2,16 @@
   <div>
     <tm-data-loading
       v-if="delegates.loading &amp;&amp; sortedFilteredEnrichedDelegates.length === 0"
-    ></tm-data-loading>
+    />
     <tm-data-empty
       v-else-if="!delegates.loading &amp;&amp; validators.length === 0"
-    ></tm-data-empty>
+    />
     <data-empty-search
       v-else-if="!delegates.loading &amp;&amp; sortedFilteredEnrichedDelegates.length === 0"
-    ></data-empty-search>
-    <table v-else="v-else">
+    />
+    <table v-else>
       <thead>
-        <panel-sort :sort="sort" :properties="properties"></panel-sort>
+        <panel-sort :sort="sort" :properties="properties" />
       </thead>
       <tbody>
         <li-validator
@@ -19,7 +19,7 @@
           :disabled="!userCanDelegate"
           :key="i.id"
           :validator="i"
-        ></li-validator>
+        />
       </tbody>
     </table>
   </div>

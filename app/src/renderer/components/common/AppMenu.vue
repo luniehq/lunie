@@ -2,50 +2,50 @@
   <menu class="app-menu">
     <div class="app-menu-main">
       <router-link
-        class="app-menu-item"
         id="app-menu__wallet"
+        class="app-menu-item"
         to="/"
         exact="exact"
-        @click.native="close"
         title="Wallet"
+        @click.native="close"
       >
         <h2 class="app-menu-title">Wallet</h2>
         <i class="material-icons">chevron_right</i>
       </router-link>
       <router-link
-        class="app-menu-item"
-        id="app-menu__transactions"
         v-if="config.devMode || mockedConnector"
+        id="app-menu__transactions"
+        class="app-menu-item"
         to="/transactions"
         exact="exact"
-        @click.native="close"
         title="Transactions"
+        @click.native="close"
       >
         <h2 class="app-menu-title">Transactions</h2>
         <i class="material-icons">chevron_right</i>
       </router-link>
       <router-link
-        class="app-menu-item"
         id="app-menu__staking"
+        class="app-menu-item"
         to="/staking"
-        @click.native="close"
         title="Staking"
+        @click.native="close"
       >
         <h2 class="app-menu-title">Staking</h2>
         <i class="material-icons">chevron_right</i>
       </router-link>
       <router-link
-        class="app-menu-item"
         id="app-menu__proposals"
+        class="app-menu-item"
         to="/governance"
-        @click.native="close"
         title="Governance"
+        @click.native="close"
       >
         <h2 class="app-menu-title">Governance</h2>
         <i class="material-icons">chevron_right</i>
       </router-link>
     </div>
-    <connected-network></connected-network>
+    <connected-network />
   </menu>
 </template>
 

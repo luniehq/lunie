@@ -1,10 +1,10 @@
 <template>
   <tm-field
+    :value="value"
     class="tm-field-seed"
     type="textarea"
     @input="update($event)"
-    :value="value"
-  ></tm-field>
+  />
 </template>
 
 <script>

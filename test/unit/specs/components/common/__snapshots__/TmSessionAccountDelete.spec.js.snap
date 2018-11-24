@@ -33,7 +33,7 @@ exports[`TmSessionAccountDelete has the expected html structure 1`] = `
                <div class=\\"tm-field-checkbox-input\\">
                   <input id=\\"sign-up-warning\\" type=\\"checkbox\\">
                </div>
-      <label for=\\"sign-up-warning\\" class=\\"tm-field-checkbox-label\\">I understand that Cosmos cannot recover deleted accounts without the passphrase.</label>
+      <label for=\\"sign-up-warning\\" class=\\"tm-field-checkbox-label\\">I understand that Cosmos cannot recover deleted accounts without          the passphrase.</label>
    </div>
       <div class=\\"tm-form-msg sm tm-form-msg--error\\">
          Deletion confirmation is required

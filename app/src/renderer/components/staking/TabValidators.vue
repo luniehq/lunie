@@ -1,5 +1,5 @@
 <template>
-  <table-validators :validators="delegates.delegates"></table-validators>
+  <table-validators :validators="delegates.delegates" />
 </template>
 
 <script>

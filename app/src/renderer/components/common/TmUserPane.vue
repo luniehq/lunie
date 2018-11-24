@@ -1,13 +1,13 @@
 <template>
   <tm-list-item
-    class="tm-li-user"
     v-if="user.signedIn"
+    :subtitle="user.account"
+    class="tm-li-user"
     type="link"
     to="/preferences"
-    @click.native="close"
     title="Preferences"
-    :subtitle="user.account"
-  ></tm-list-item>
+    @click.native="close"
+  />
 </template>
 
 <script>

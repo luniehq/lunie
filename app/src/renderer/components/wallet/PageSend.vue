@@ -1,6 +1,6 @@
 <template>
   <tm-page data-title="Send">
-    <div slot="menu"><vm-tool-bar></vm-tool-bar></div>
+    <div slot="menu"><vm-tool-bar /></div>
     <tm-form-struct :submit="onSubmit">
       <tm-part title="Denomination Options">
         <tm-form-group
@@ -10,37 +10,37 @@
         >
           <tm-field
             id="send-denomination"
-            type="select"
             v-model="fields.denom"
             :options="denominations"
+            type="select"
             placeholder="Select token..."
-          ></tm-field>
+          />
           <tm-form-msg
+            v-if="!$v.fields.denom.required"
             name="Denomination"
             type="required"
-            v-if="!$v.fields.denom.required"
-          ></tm-form-msg>
+          />
         </tm-form-group>
       </tm-part>
       <tm-part title="Transaction Details">
         <tm-form-group
-          :error="$v.fields.zoneId.$error"
           v-if="config.devMode"
+          :error="$v.fields.zoneId.$error"
           field-id="send-zone-id"
           field-label="Zone ID"
         >
           <tm-field
             id="send-zone-id"
-            type="select"
             v-model="fields.zoneId"
             :options="zoneIds"
+            type="select"
             placeholder="Select zone..."
-          ></tm-field>
+          />
           <tm-form-msg
+            v-if="!$v.fields.zoneId.required"
             name="Zone"
             type="required"
-            v-if="!$v.fields.zoneId.required"
-          ></tm-form-msg>
+          />
         </tm-form-group>
         <tm-form-group
           :error="$v.fields.address.$error"
@@ -50,22 +50,22 @@
           <tm-field-group>
             <tm-field
               id="send-address"
-              type="text"
               v-model="fields.address"
+              type="text"
               placeholder="Address"
-            ></tm-field>
+            />
           </tm-field-group>
           <tm-form-msg
+            v-if="!$v.fields.address.required"
             name="Address"
             type="required"
-            v-if="!$v.fields.address.required"
-          ></tm-form-msg>
+          />
           <tm-form-msg
+            v-else-if="!$v.fields.address.bech32Validate"
+            :body="bech32error"
             name="Address"
             type="bech32"
-            :body="bech32error"
-            v-else-if="!$v.fields.address.bech32Validate"
-          ></tm-form-msg>
+          />
         </tm-form-group>
         <tm-form-group
           :error="$v.fields.amount.$error"
@@ -75,25 +75,25 @@
           <tm-field-group>
             <tm-field
               id="send-amount"
-              type="number"
               :max="max"
               :min="max ? 1 : 0"
               v-model="fields.amount"
+              type="number"
               placeholder="Amount"
-            ></tm-field>
+            />
           </tm-field-group>
           <tm-form-msg
+            v-if="!$v.fields.amount.required"
             name="Amount"
             type="required"
-            v-if="!$v.fields.amount.required"
-          ></tm-form-msg>
+          />
           <tm-form-msg
-            name="Amount"
-            type="between"
+            v-if="!$v.fields.amount.between"
             :min="max ? 1 : 0"
             :max="max"
-            v-if="!$v.fields.amount.between"
-          ></tm-form-msg>
+            name="Amount"
+            type="between"
+          />
         </tm-form-group>
         <p v-if="mockedConnector">
           <span>Try sending to the address "</span
@@ -111,30 +111,30 @@
           value="Sending..."
           disabled="disabled"
           color="primary"
-        ></tm-btn>
+        />
         <tm-btn
           v-else-if="!connected"
           value="Connecting..."
           disabled="disabled"
           color="primary"
-        ></tm-btn>
+        />
         <tm-btn
-          v-else="v-else"
+          v-else
           id="send-btn"
-          @click="onSubmit"
           value="Send Tokens"
           color="primary"
-        ></tm-btn>
+          @click="onSubmit"
+        />
       </div>
     </tm-form-struct>
     <tm-modal-send-confirmation
       v-if="confirmationPending"
-      @approved="onApproved"
-      @canceled="onCancel"
       :amount="fields.amount"
       :recipient="fields.address"
       :denom="fields.denom"
-    ></tm-modal-send-confirmation>
+      @approved="onApproved"
+      @canceled="onCancel"
+    />
   </tm-page>
 </template>
 

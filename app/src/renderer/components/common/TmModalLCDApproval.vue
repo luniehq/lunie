@@ -10,10 +10,10 @@
         compare the hash below against the hash from a trusted source. If you
         are 100% sure that the hashes match, click approve to proceed.<tm-field
           id="node-hash"
-          type="textarea"
           :value="hash"
+          type="textarea"
           disabled="disabled"
-        ></tm-field>
+        />
       </div>
       <div class="tm-modal-lcd-approval__footer">
         <tm-btn
@@ -23,14 +23,14 @@
           color="primary"
           value="Approve Node"
           @click.native="approve"
-        ></tm-btn>
+        />
         <tm-btn
           id="tm-modal-lcd-approval__btn-disapprove"
           size="lg"
           icon="skip_next"
           value="Switch Node"
           @click.native="newNode"
-        ></tm-btn>
+        />
       </div>
     </div>
   </div>

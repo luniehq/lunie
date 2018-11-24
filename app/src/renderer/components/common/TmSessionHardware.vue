@@ -11,25 +11,25 @@
       <div class="tm-session-main">
         <hardware-state
           v-if="status == 'connect'"
-          @click.native="setStatus('detect')"
           icon="usb"
           value="Please plug in your Ledger Wallet"
-        ></hardware-state>
+          @click.native="setStatus('detect')"
+        />
         <hardware-state
           v-if="status == 'detect'"
-          @click.native="setStatus('success')"
           icon="rotate_right"
           spin="true"
           value="Detecting your Ledger Wallet"
-        ></hardware-state>
+          @click.native="setStatus('success')"
+        />
         <hardware-state
           v-if="status == 'success'"
-          @click.native="onSubmit"
           icon="check_circle"
           value="Ledger Wallet successfully loaded"
-        ></hardware-state>
+          @click.native="onSubmit"
+        />
       </div>
-      <div class="tm-session-footer"></div>
+      <div class="tm-session-footer" />
     </div>
   </div>
 </template>

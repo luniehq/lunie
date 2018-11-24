@@ -1,28 +1,14 @@
 <template>
   <div class="tm-session-wrapper">
     <img class="tm-session-backdrop" src="~assets/images/cosmos-logo.png" />
-    <session-loading
-      v-if="config.modals.session.state == 'loading'"
-    ></session-loading>
-    <session-welcome
-      v-if="config.modals.session.state == 'welcome'"
-    ></session-welcome>
-    <session-sign-up
-      v-if="config.modals.session.state == 'sign-up'"
-    ></session-sign-up>
-    <session-sign-in
-      v-if="config.modals.session.state == 'sign-in'"
-    ></session-sign-in>
-    <session-account-delete
-      v-if="config.modals.session.state == 'delete'"
-    ></session-account-delete>
-    <session-hardware
-      v-if="config.modals.session.state == 'hardware'"
-    ></session-hardware>
-    <session-import
-      v-if="config.modals.session.state == 'import'"
-    ></session-import>
-    <connected-network></connected-network>
+    <session-loading v-if="config.modals.session.state == 'loading'" />
+    <session-welcome v-if="config.modals.session.state == 'welcome'" />
+    <session-sign-up v-if="config.modals.session.state == 'sign-up'" />
+    <session-sign-in v-if="config.modals.session.state == 'sign-in'" />
+    <session-account-delete v-if="config.modals.session.state == 'delete'" />
+    <session-hardware v-if="config.modals.session.state == 'hardware'" />
+    <session-import v-if="config.modals.session.state == 'import'" />
+    <connected-network />
   </div>
 </template>
 

@@ -1,18 +1,18 @@
 <template>
   <div>
     <div v-if="yourValidators.length &gt; 0">
-      <table-validators :validators="yourValidators"></table-validators>
+      <table-validators :validators="yourValidators" />
     </div>
     <tm-data-msg v-if="yourValidators.length &lt; 1" icon="info_outline">
       <div slot="title">No Active Delegations</div>
       <div slot="subtitle">
-        Looks like you haven't delegated any {{ this.bondingDenom }}s yet. Head
-        over to the
+        Looks like you haven't delegated any {{ bondingDenom }}s yet. Head over
+        to the
         <router-link :to="{ name: 'Validators' }">validator list</router-link>
         to make your first delegation!
       </div>
     </tm-data-msg>
-    <div class="check-out-message" v-if="yourValidators.length &gt; 0">
+    <div v-if="yourValidators.length &gt; 0" class="check-out-message">
       Check out
       <router-link :to="{ name: 'Validators' }">the validator list</router-link>
       to find other validators to delegate to.
@@ -20,11 +20,11 @@
     <div v-if="undelegatedValidators.length">
       <h3 class="tab-header">
         Inactive Delegations
-        <i class="material-icons info-button" v-tooltip.top="unbondInfo"
+        <i v-tooltip.top="unbondInfo" class="material-icons info-button"
           >info_outline</i
         >
       </h3>
-      <table-validators :validators="undelegatedValidators"></table-validators>
+      <table-validators :validators="undelegatedValidators" />
     </div>
   </div>
 </template>

@@ -1,11 +1,11 @@
 <template>
-  <div class="modal-vote" id="modal-vote" v-click-outside="close">
+  <div v-click-outside="close" id="modal-vote" class="modal-vote">
     <div class="modal-vote-header">
       <img
         class="icon modal-vote-atom"
         src="~assets/images/cosmos-logo.png"
       /><span class="tm-modal-title">Vote</span>
-      <div class="tm-modal-icon tm-modal-close" id="closeBtn" @click="close()">
+      <div id="closeBtn" class="tm-modal-icon tm-modal-close" @click="close()">
         <i class="material-icons">close</i>
       </div>
     </div>
@@ -16,47 +16,47 @@
     <tm-form-group class="modal-vote-form-group options">
       <tm-btn
         id="vote-yes"
-        @click.native="vote('Yes')"
         :class="[option === `Yes` ? 'active' : '']"
         color="secondary"
         value="Yes"
         size="md"
-      ></tm-btn>
+        @click.native="vote('Yes')"
+      />
       <tm-btn
         id="vote-no"
-        @click.native="vote('No')"
         :class="[option === `No` ? 'active' : '']"
         color="secondary"
         value="No"
         size="md"
-      ></tm-btn>
+        @click.native="vote('No')"
+      />
       <tm-btn
         id="vote-veto"
-        @click.native="vote('NoWithVeto')"
         :class="[option === `NoWithVeto` ? 'active' : '']"
         color="secondary"
         value="No With Veto"
         size="md"
-      ></tm-btn>
+        @click.native="vote('NoWithVeto')"
+      />
       <tm-btn
         id="vote-abstain"
-        @click.native="vote('Abstain')"
         :class="[option === `Abstain` ? 'active' : '']"
         color="secondary"
         value="Abstain"
         size="md"
-      ></tm-btn>
+        @click.native="vote('Abstain')"
+      />
     </tm-form-group>
-    <tm-form-group class="modal-vote-form-group"></tm-form-group>
+    <tm-form-group class="modal-vote-form-group" />
     <div class="modal-vote-footer">
       <tm-btn
         id="cast-vote"
-        @click.native="onVote"
         :disabled="$v.option.$invalid"
         color="primary"
         value="Vote"
         size="lg"
-      ></tm-btn>
+        @click.native="onVote"
+      />
     </div>
   </div>
 </template>

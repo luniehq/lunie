@@ -18,14 +18,14 @@
           color="primary"
           value="Switch Node"
           @click.native="switchNode"
-        ></tm-btn>
+        />
         <tm-btn
           id="tm-modal-error__btn-mock"
           size="lg"
           icon="pageview"
           value="Try Demo"
           @click.native="useMock"
-        ></tm-btn>
+        />
       </div>
     </div>
   </div>

@@ -32,7 +32,7 @@ exports[`PageStaking has the expected html structure 1`] = `
 </div>
    <div class=\\"short-bech32\\">
       <div id=\\"address\\" class=\\"address\\">
-         cosmos…xxn9
+         cosmos…xxn9  
       </div>
    <div class=\\"copied\\">
       <i class=\\"material-icons\\">check</i><span>Copied</span>
@@ -93,7 +93,7 @@ exports[`PageStaking has the expected html structure 1`] = `
 </div>
       <div class=\\"short-bech32\\">
          <div id=\\"address\\" class=\\"address\\">
-            cosmos…xxn9
+            cosmos…xxn9  
          </div>
       <div class=\\"copied\\">
          <i class=\\"material-icons\\">check</i><span>Copied</span>

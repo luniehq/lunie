@@ -2,43 +2,43 @@
   <tr class="li-validator">
     <td class="li-validator__moniker-container">
       <img
-        class="li-validator__avatar"
         v-if="validator.keybase"
         :src="validator.keybase.avatarUrl"
+        class="li-validator__avatar"
         width="48"
         height="48"
       /><img
+        v-else
         class="li-validator__avatar no-img"
-        v-else="v-else"
         src="~assets/images/validator-icon.svg"
         width="48"
         height="48"
       />
       <div class="li-validator__name-container">
         <span
-          class="validator-profile__status"
-          v-bind:class="statusColor"
           v-tooltip.top="status"
-        ></span>
+          :class="statusColor"
+          class="validator-profile__status"
+        />
         <router-link
-          class="li-validator__moniker"
           :to="{
             name: 'validator',
             params: { validator: validator.operator_address }
           }"
           :class="styles"
+          class="li-validator__moniker"
           >{{ validator.description.moniker }}</router-link
         >
         <short-bech32
-          class="li-validator__address"
           :address="validator.operator_address"
-        ></short-bech32>
+          class="li-validator__address"
+        />
       </div>
     </td>
     <td class="li-validator__delegated-steak">
       {{
         yourVotes.isLessThan(0.01) && yourVotes.isGreaterThan(0)
-          ? "< " + num.shortNumber(0.01)
+          ? "< " + num.shortNumber(0.01) // eslint-disable-line
           : num.shortNumber(yourVotes)
       }}
     </td>

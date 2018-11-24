@@ -1,5 +1,5 @@
 <template>
-  <div class="tm-modal-menu"><slot></slot></div>
+  <div class="tm-modal-menu"><slot /></div>
 </template>
 
 <script>

@@ -2,27 +2,27 @@
   <div class="tm-modal-error__wrapper">
     <div class="tm-modal-error">
       <div class="tm-modal-error__icon">
-        <i class="material-icons">{{ this.icon }}</i>
+        <i class="material-icons">{{ icon }}</i>
       </div>
-      <div class="tm-modal-error__title">{{ this.title }}</div>
-      <div class="tm-modal-error__body">{{ this.body }}</div>
+      <div class="tm-modal-error__title">{{ title }}</div>
+      <div class="tm-modal-error__body">{{ body }}</div>
       <div class="tm-modal-error__footer">
         <tm-btn
           id="tm-modal-error__btn-issue"
+          :href="issueUrl"
           size="lg"
           icon="bug_report"
           color="primary"
           value="Create an issue"
           type="anchor"
-          :href="issueUrl"
-        ></tm-btn>
+        />
         <tm-btn
           id="tm-modal-error__btn-logs"
           size="lg"
           icon="info_outline"
           value="View app logs"
           @click.native="viewLogs"
-        ></tm-btn>
+        />
       </div>
     </div>
   </div>

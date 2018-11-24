@@ -1,35 +1,30 @@
 <template>
   <tm-page data-title="Preferences"
     ><template slot="menu-body">
-      <tm-balance></tm-balance>
-      <vm-tool-bar></vm-tool-bar>
+      <tm-balance />
+      <vm-tool-bar />
     </template>
     <tm-part title="Settings">
       <tm-list-item type="field" title="Select network to connect to">
         <tm-field
           id="select-network"
-          type="select"
           v-model="networkSelectActive"
           :options="networkSelectOptions"
+          type="select"
           placeholder="Select network..."
           @change.native="setMockedConnector"
-        ></tm-field>
+        />
       </tm-list-item>
       <tm-list-item type="field" title="Node IP">
-        <tm-btn
-          icon="exit_to_app"
-          type="button"
-          @click.native=""
-          :value="nodeURL"
-        ></tm-btn>
+        <tm-btn :value="nodeURL" icon="exit_to_app" type="button" />
       </tm-list-item>
       <tm-list-item type="field" title="View tutorial for Voyager">
         <tm-btn
           id="toggle-onboarding"
-          @click.native="setOnboarding"
           value="Launch Tutorial"
           icon="open_in_new"
-        ></tm-btn>
+          @click.native="setOnboarding"
+        />
       </tm-list-item>
       <tm-list-item
         type="field"
@@ -37,15 +32,15 @@
         subtitle="to the Voyager development team"
       >
         <tm-field
-          type="toggle"
           :style="{ margin: '1em auto 0 auto' }"
           :options="{
             checked: ' ',
             unchecked: ' '
           }"
           :value="user.errorCollection || undefined"
+          type="toggle"
           @change.native="setErrorCollection"
-        ></tm-field>
+        />
       </tm-list-item>
     </tm-part>
     <tm-part title="Account">
@@ -54,9 +49,9 @@
           id="signOut-btn"
           icon="exit_to_app"
           type="button"
-          @click.native="signOut"
           value="Sign Out"
-        ></tm-btn>
+          @click.native="signOut"
+        />
       </tm-list-item>
     </tm-part>
   </tm-page>

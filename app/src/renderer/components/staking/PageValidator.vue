@@ -1,7 +1,7 @@
 <template>
   <tm-page data-title="Validator"
     ><template slot="menu-body">
-      <tm-balance></tm-balance>
+      <tm-balance />
     </template>
     <div slot="menu">
       <tm-tool-bar>
@@ -10,17 +10,16 @@
         >
       </tm-tool-bar>
     </div>
-    <tm-data-error v-if="!validator"></tm-data-error
-    ><template v-else="v-else">
+    <tm-data-error v-if="!validator" /><template v-else>
       <div class="validator-profile__header validator-profile__section">
         <div class="column">
           <img
-            class="avatar"
             v-if="validator.keybase"
             :src="validator.keybase.avatarUrl"
-          /><img
             class="avatar"
-            v-else="v-else"
+          /><img
+            v-else
+            class="avatar"
             src="~assets/images/validator-icon.svg"
           />
         </div>
@@ -29,17 +28,15 @@
             <div class="column">
               <div class="validator-profile__status-and-title">
                 <span
-                  class="validator-profile__status"
-                  v-bind:class="statusColor"
                   v-tooltip.top="status"
-                ></span>
+                  :class="statusColor"
+                  class="validator-profile__status"
+                />
                 <div class="validator-profile__header__name__title">
                   {{ validator.description.moniker }}
                 </div>
               </div>
-              <short-bech32
-                :address="validator.operator_address"
-              ></short-bech32>
+              <short-bech32 :address="validator.operator_address" />
             </div>
             <div class="column validator-profile__header__actions">
               <tm-btn
@@ -47,13 +44,13 @@
                 value="Delegate"
                 color="primary"
                 @click.native="onDelegation"
-              ></tm-btn>
+              />
               <tm-btn
                 id="undelegation-btn"
                 value="Undelegate"
                 color="secondary"
                 @click.native="onUndelegation"
-              ></tm-btn>
+              />
             </div>
           </div>
           <div class="row validator-profile__header__data">
@@ -62,23 +59,23 @@
               <dd>
                 {{
                   myBond.isLessThan(0.01) && myBond.isGreaterThan(0)
-                    ? "< " + 0.01
+                    ? `< 0.01` // eslint-disable-line
                     : num.shortNumber(myBond)
                 }}
               </dd>
             </dl>
-            <dl class="colored_dl" v-if="config.devMode">
+            <dl v-if="config.devMode" class="colored_dl">
               <dt>My Rewards</dt>
               <dd>n/a</dd>
             </dl>
-            <div class="validator-profile__header__data__break"></div>
+            <div class="validator-profile__header__data__break" />
             <dl class="colored_dl">
               <dt>Voting Power</dt>
               <dd id="validator-profile__power">
                 {{ pretty(powerRatio * 100) }} %
               </dd>
             </dl>
-            <dl class="colored_dl" v-if="config.devMode">
+            <dl v-if="config.devMode" class="colored_dl">
               <dt>Uptime</dt>
               <dd id="validator-profile__uptime">
                 {{
@@ -95,7 +92,7 @@
                 {{ validator.commission.rate }} %
               </dd>
             </dl>
-            <dl class="colored_dl" v-if="config.devMode">
+            <dl v-if="config.devMode" class="colored_dl">
               <dt>Slashes</dt>
               <dd>n/a</dd>
             </dl>
@@ -115,7 +112,7 @@
                 {{ translateEmptyDescription(validator.description.identity) }}
               </dd>
             </dl>
-            <dl class="info_dl" v-if="config.devMode">
+            <dl v-if="config.devMode" class="info_dl">
               <dt>First Seen</dt>
               <dd>n/a</dd>
             </dl>
@@ -161,7 +158,7 @@
               <dt>Self Delegated {{ bondingDenom }}</dt>
               <dd id="validator-profile__self-bond">{{ selfBond }} %</dd>
             </dl>
-            <dl class="info_dl" v-if="config.devMode">
+            <dl v-if="config.devMode" class="info_dl">
               <dt>Minimum Self Delegated {{ bondingDenom }}</dt>
               <dd>0 %</dd>
             </dl>
@@ -170,19 +167,19 @@
       </div>
       <delegation-modal
         v-if="showDelegationModal"
-        v-on:submitDelegation="submitDelegation"
-        :showDelegationModal.sync="showDelegationModal"
-        :fromOptions="delegationTargetOptions()"
+        :show-delegation-modal.sync="showDelegationModal"
+        :from-options="delegationTargetOptions()"
         :to="validator.operator_address"
-      ></delegation-modal>
+        @submitDelegation="submitDelegation"
+      />
       <undelegation-modal
         v-if="showUndelegationModal"
-        v-on:submitUndelegation="submitUndelegation"
-        :showUndelegationModal.sync="showUndelegationModal"
+        :show-undelegation-modal.sync="showUndelegationModal"
         :maximum="myBond"
-        :to="this.wallet.address"
-      ></undelegation-modal>
-      <tm-modal :close="closeCannotModal" v-if="showCannotModal">
+        :to="wallet.address"
+        @submitUndelegation="submitUndelegation"
+      />
+      <tm-modal v-if="showCannotModal" :close="closeCannotModal">
         <div slot="title">
           Cannot {{ action == `delegate` ? `Delegate` : `Undelegate` }}
         </div>
@@ -194,9 +191,9 @@
         <div slot="footer">
           <tmBtn
             id="no-atoms-modal__btn"
-            @click.native="closeCannotModal"
             value="OK"
-          ></tmBtn>
+            @click.native="closeCannotModal"
+          />
         </div>
       </tm-modal>
     </template>

@@ -1,5 +1,5 @@
 <template>
-  <div class="tm-session-wrapper" id="onboarding">
+  <div id="onboarding" class="tm-session-wrapper">
     <img class="tm-session-backdrop" src="~assets/images/cosmos-logo.png" />
     <div class="tm-session">
       <div class="tm-session-container">
@@ -9,35 +9,31 @@
         <div class="tm-session-main">
           <div class="tm-session-label">{{ activeValue }}</div>
           <img :src="activeImg" />
-          <tm-bar-discrete
-            :nodes="nodes"
-            :click-fn="go"
-            :active="activeKey"
-          ></tm-bar-discrete>
+          <tm-bar-discrete :nodes="nodes" :click-fn="go" :active="activeKey" />
         </div>
-        <div class="tm-session-footer" v-if="activeKey === nodes.length - 1">
+        <div v-if="activeKey === nodes.length - 1" class="tm-session-footer">
           <tm-btn
             value="Restart"
-            @click.native="go(0)"
             icon="settings_backup_restore"
-          ></tm-btn>
+            @click.native="go(0)"
+          />
           <tm-btn
             value="Finish"
-            @click.native="finish"
             color="primary"
             icon="chevron_right"
             icon-pos="right"
-          ></tm-btn>
+            @click.native="finish"
+          />
         </div>
-        <div class="tm-session-footer" v-else="v-else">
-          <tm-btn value="Skip" @click.native="finish" icon="close"></tm-btn>
+        <div v-else class="tm-session-footer">
+          <tm-btn value="Skip" icon="close" @click.native="finish" />
           <tm-btn
             value="Next"
-            @click.native="next"
             color="primary"
             icon="chevron_right"
             icon-pos="right"
-          ></tm-btn>
+            @click.native="next"
+          />
         </div>
       </div>
     </div>

@@ -7,22 +7,22 @@
           value="Create Proposal"
           color="primary"
           @click.native="onPropose"
-        ></tm-btn>
+        />
       </tm-balance>
       <vm-tool-bar
-        ><a @click="setSearch()" v-tooltip.bottom="'Search'"
+        ><a v-tooltip.bottom="'Search'" @click="setSearch()"
           ><i class="search material-icons">search</i></a
         ></vm-tool-bar
       >
     </template>
-    <modal-search type="proposals"></modal-search>
+    <modal-search type="proposals" />
     <modal-propose
       v-if="showModalPropose"
-      v-on:createProposal="propose"
-      :showModalPropose.sync="showModalPropose"
+      :show-modal-propose.sync="showModalPropose"
       :denom="bondingDenom.toLowerCase()"
-    ></modal-propose>
-    <router-view></router-view>
+      @createProposal="propose"
+    />
+    <router-view />
   </tm-page>
 </template>
 

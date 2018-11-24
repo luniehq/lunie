@@ -5,10 +5,10 @@
     </div>
     <div class="li-coin__content">
       <div class="li-coin__content__left__denom">
-        <p class="coin-denom">{{ this.denomination }}</p>
+        <p class="coin-denom">{{ denomination }}</p>
       </div>
       <div class="li-coin__content__left__amount">
-        <p class="coin-amount">{{ this.amount }}</p>
+        <p class="coin-amount">{{ amount }}</p>
       </div>
       <router-link :to="{ name: 'send', params: { denom: coin.denom } }">
         <tm-btn
@@ -17,7 +17,7 @@
           icon="chevron_right"
           icon-pos="right"
           color="primary"
-        ></tm-btn>
+        />
       </router-link>
     </div>
   </li>

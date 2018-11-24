@@ -1,12 +1,12 @@
 <template>
   <tm-btn
     class="btn-receive"
-    @click.native.stop="openModal"
     value="Receive"
     icon="file_download"
     icon-pos="right"
     color="primary"
-  ></tm-btn>
+    @click.native.stop="openModal"
+  />
 </template>
 
 <script>

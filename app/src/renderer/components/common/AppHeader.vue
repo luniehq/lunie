@@ -1,33 +1,31 @@
 <template>
-  <nav
-    id="app-header"
-    v-bind:class="{ mobile: !config.desktop, windows: isWin }"
-  >
+  <nav id="app-header" :class="{ mobile: !config.desktop, windows: isWin }">
     <div class="container">
       <template v-if="!config.desktop">
-        <div class="header-item"></div>
+        <div class="header-item" />
       </template>
       <div class="header-item header-item-logo">
         <img
-          id="logo-black"
           v-if="themes.active == 'light'"
+          id="logo-black"
           src="~@/assets/images/cosmos-wordmark-black.svg"
         /><img
+          v-else
           id="logo-white"
-          v-else="v-else"
           src="~@/assets/images/cosmos-wordmark-white.svg"
         />
       </div>
-      <app-menu v-if="config.activeMenu === 'app' || config.desktop"></app-menu
-      ><template v-if="!config.desktop">
+      <app-menu v-if="config.activeMenu === 'app' || config.desktop" /><template
+        v-if="!config.desktop"
+      >
         <div
-          class="header-item"
           v-if="config.activeMenu === 'app'"
+          class="header-item"
           @click="close"
         >
           <i class="material-icons">close</i>
         </div>
-        <div class="header-item" v-else="v-else" @click="enableMenu()">
+        <div v-else class="header-item" @click="enableMenu()">
           <i class="material-icons">menu</i>
         </div>
       </template>

@@ -1,60 +1,60 @@
 <template>
-  <div class="modal-propose" id="modal-propose" v-click-outside="close">
+  <div v-click-outside="close" id="modal-propose" class="modal-propose">
     <div class="modal-propose-header">
       <img
         class="icon modal-propose-atom"
         src="~assets/images/cosmos-logo.png"
       /><span class="tm-modal-title">Create Proposal</span>
-      <div class="tm-modal-icon tm-modal-close" id="closeBtn" @click="close()">
+      <div id="closeBtn" class="tm-modal-icon tm-modal-close" @click="close()">
         <i class="material-icons">close</i>
       </div>
     </div>
     <tm-form-group class="page-proposal-form-group"
       ><span>Title</span>
       <tm-field
+        v-focus="v - focus"
         id="title"
+        v-model="title"
         type="text"
         placeholder="Proposal title"
-        v-model="title"
-        v-focus="v - focus"
-      ></tm-field>
+      />
     </tm-form-group>
     <tm-form-group class="page-proposal-form-group"
       ><span>Description</span>
       <tm-field
         id="description"
+        v-model="description"
         type="textarea"
         placeholder="Write your proposal here..."
-        v-model="description"
-      ></tm-field>
+      />
     </tm-form-group>
     <tm-form-group class="modal-propose-form-group" field-id="amount"
       ><span>Deposit amount</span>
       <tm-field
         id="denom"
-        type="text"
         :placeholder="denom"
+        type="text"
         readonly="readonly"
-      ></tm-field>
+      />
       <tm-field
+        v-focus="v - focus"
         id="amount"
-        type="number"
         :max="balance"
         :min="0"
-        step="any"
         v-model="amount"
-        v-focus="v - focus"
-      ></tm-field>
+        type="number"
+        step="any"
+      />
     </tm-form-group>
     <div class="modal-propose-footer">
       <tm-btn
         id="submit-proposal"
-        @click.native="onPropose"
         :disabled="$v.$invalid"
         color="primary"
         value="Submit proposal"
         size="lg"
-      ></tm-btn>
+        @click.native="onPropose"
+      />
     </div>
   </div>
 </template>

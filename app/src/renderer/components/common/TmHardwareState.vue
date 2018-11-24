@@ -1,6 +1,6 @@
 <template>
   <div class="tm-hardware-state">
-    <i class="tm-hardware-state__icon material-icons" :class="iconClass">{{
+    <i :class="iconClass" class="tm-hardware-state__icon material-icons">{{
       icon
     }}</i>
     <div class="tm-hardware-state__label">{{ value }}</div>

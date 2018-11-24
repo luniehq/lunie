@@ -1,14 +1,14 @@
 <template>
   <div class="short-bech32">
     <div
-      class="address"
-      @click.prevent.stop="copy"
       v-tooltip.top="address"
       id="address"
+      class="address"
+      @click.prevent.stop="copy"
     >
       {{ shortBech32 }}
     </div>
-    <div class="copied" :class="{ active: showSuccess }">
+    <div :class="{ active: showSuccess }" class="copied">
       <i class="material-icons">check</i><span>Copied</span>
     </div>
   </div>

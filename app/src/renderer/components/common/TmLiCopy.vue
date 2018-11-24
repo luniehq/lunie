@@ -1,7 +1,7 @@
 <template>
   <div class="tm-li-copy">
     <div class="value">{{ value }}</div>
-    <menu> <btn-copy :value="value"></btn-copy> </menu>
+    <menu> <btn-copy :value="value" /> </menu>
   </div>
 </template>
 

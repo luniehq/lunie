@@ -1,44 +1,44 @@
 <template>
   <div
-    class="tm-connected-network"
-    id="tm-connected-network"
     v-if="connected"
+    id="tm-connected-network"
     :class="cssClass"
+    class="tm-connected-network"
   >
     <div class="tm-connected-network__connection">
-      <div class="tm-connected-network__icon" id="tm-connected-network__icon">
+      <div id="tm-connected-network__icon" class="tm-connected-network__icon">
         <i class="material-icons">lock</i>
       </div>
       <div
-        class="tm-connected-network__string"
         id="tm-connected-network__string"
+        class="tm-connected-network__string"
       >
-        <span class="chain-id" v-tooltip.top="networkTooltip">{{
+        <span v-tooltip.top="networkTooltip" class="chain-id">{{
           chainId
         }}</span>
       </div>
     </div>
-    <div class="tm-connected-network__string" id="tm-connected-network__block">
-      <span v-if="mockedConnector" v-tooltip.top="'Current block number'">{{
+    <div id="tm-connected-network__block" class="tm-connected-network__string">
+      <span v-tooltip.top="'Current block number'" v-if="mockedConnector">{{
         blockHeight
       }}</span
       ><a
-        :href="explorerLink"
-        v-if="!mockedConnector"
         v-tooltip.top="'View block details on the Cosmos explorer.'"
+        v-if="!mockedConnector"
+        :href="explorerLink"
         >{{ blockHeight }}<i class="material-icons exit">exit_to_app</i></a
       >
     </div>
   </div>
   <div
-    class="tm-connected-network tm-disconnected-network"
+    v-else
     id="tm-disconnected-network"
-    v-else="v-else"
+    class="tm-connected-network tm-disconnected-network"
   >
     <img class="tm-connected-network-loader" src="~assets/images/loader.svg" />
     <div
-      class="tm-connected-network__string tm-connected-network__string--connecting"
       v-tooltip.top="networkTooltip"
+      class="tm-connected-network__string tm-connected-network__string--connecting"
     >
       Connecting to {{ chainId }}&hellip;
     </div>

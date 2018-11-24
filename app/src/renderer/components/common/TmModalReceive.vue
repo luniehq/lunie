@@ -1,10 +1,10 @@
 <template>
-  <modal class="tm-modal-receive" v-if="active" :close="close">
+  <modal v-if="active" :close="close" class="tm-modal-receive">
     <div slot="title">Receive Tokens</div>
     <p>
       You can receive Cosmos tokens of any denomination by sharing this address.
     </p>
-    <li-copy class="receive-modal" :value="wallet.address"></li-copy>
+    <li-copy :value="wallet.address" class="receive-modal" />
   </modal>
 </template>
 

@@ -2,6 +2,7 @@
 
 exports[`TabProposals has the expected html structure 1`] = `
 "<div>
+   <!---->
    <table>
       <thead>
          <tr class=\\"panel-sort-container\\">
@@ -48,10 +49,10 @@ exports[`TabProposals has the expected html structure 1`] = `
             30
          </td>
          <td class=\\"li-proposal__value no_with_veto\\">
-            100
+            100  
          </td>
          <td class=\\"li-proposal__value abstain\\">
-            20
+            20  
          </td>
 </tr>
       <tr class=\\"li-proposal\\">
@@ -76,10 +77,10 @@ exports[`TabProposals has the expected html structure 1`] = `
             0
          </td>
          <td class=\\"li-proposal__value no_with_veto\\">
-            0
+            0  
          </td>
          <td class=\\"li-proposal__value abstain\\">
-            0
+            0  
          </td>
 </tr>
       <tr class=\\"li-proposal\\">
@@ -104,10 +105,10 @@ exports[`TabProposals has the expected html structure 1`] = `
             0
          </td>
          <td class=\\"li-proposal__value no_with_veto\\">
-            0
+            0  
          </td>
          <td class=\\"li-proposal__value abstain\\">
-            0
+            0  
          </td>
 </tr>
       <tr class=\\"li-proposal\\">
@@ -132,10 +133,10 @@ exports[`TabProposals has the expected html structure 1`] = `
             25
          </td>
          <td class=\\"li-proposal__value no_with_veto\\">
-            10
+            10  
          </td>
          <td class=\\"li-proposal__value abstain\\">
-            56
+            56  
          </td>
 </tr>
 </tbody>

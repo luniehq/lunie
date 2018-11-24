@@ -2,17 +2,17 @@
   <div :class="cssClass" @click.self="close()">
     <div class="tm-modal-container">
       <header class="tm-modal-header">
-        <div class="tm-modal-icon" v-if="icon">
+        <div v-if="icon" class="tm-modal-icon">
           <i class="material-icons">{{ icon }}</i>
         </div>
-        <div class="tm-modal-title"><slot name="title"></slot></div>
+        <div class="tm-modal-title"><slot name="title" /></div>
         <div class="tm-modal-icon tm-modal-close" @click="close()">
-          <i class="material-icons" v-if="close">close</i>
+          <i v-if="close" class="material-icons">close</i>
         </div>
       </header>
       <main class="tm-modal-main">
-        <slot></slot>
-        <footer class="tm-modal-footer"><slot name="footer"></slot></footer>
+        <slot />
+        <footer class="tm-modal-footer"><slot name="footer" /></footer>
       </main>
     </div>
   </div>

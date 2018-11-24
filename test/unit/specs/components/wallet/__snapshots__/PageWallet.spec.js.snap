@@ -33,27 +33,32 @@ exports[`PageWallet has the expected html structure 1`] = `
                   src="~assets/images/cosmos-logo.png"
                 />
               </div>
+               
               <div
                 class="total-atoms top-section"
               >
                 <h3>
                   Total Steak
                 </h3>
+                 
                 <h2>
                   1,014.0000…
                 </h2>
               </div>
+               
               <div
                 class="unbonded-atoms top-section"
               >
                 <h3>
                   Available Steak
                 </h3>
+                 
                 <h2>
                   1,000.0000…
                 </h2>
               </div>
             </div>
+             
             <div
               class="short-bech32"
             >
@@ -61,8 +66,11 @@ exports[`PageWallet has the expected html structure 1`] = `
                 class="address"
                 id="address"
               >
-                cosmos…xxn9
+                
+    cosmos…xxn9
+  
               </div>
+               
               <div
                 class="copied"
               >
@@ -76,10 +84,13 @@ exports[`PageWallet has the expected html structure 1`] = `
                 </span>
               </div>
             </div>
+             
             <div
               class="tabs"
             />
+             
           </div>
+           
           <div
             class="tm-tool-bar"
           >
@@ -93,6 +104,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 arrow_back
               </i>
             </a>
+             
             <a>
               <i
                 class="material-icons"
@@ -100,6 +112,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 refresh
               </i>
             </a>
+             
             <a>
               <i
                 class="material-icons"
@@ -116,6 +129,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 help_outline
               </i>
             </a>
+             
             <a
               class=""
               href="#/preferences"
@@ -149,10 +163,13 @@ exports[`PageWallet has the expected html structure 1`] = `
   <main
     class="tm-page-main ps"
   >
+     
     <modal-search
       type="balances"
     />
+     
     <!---->
+     
     <ul>
       <li
         class="li-coin tm-li-balance"
@@ -164,6 +181,7 @@ exports[`PageWallet has the expected html structure 1`] = `
             src="../../assets/images/cosmos-logo.png"
           />
         </div>
+         
         <div
           class="li-coin__content"
         >
@@ -176,6 +194,7 @@ exports[`PageWallet has the expected html structure 1`] = `
               Fermion
             </p>
           </div>
+           
           <div
             class="li-coin__content__left__amount"
           >
@@ -185,6 +204,7 @@ exports[`PageWallet has the expected html structure 1`] = `
               2,300.0000000000
             </p>
           </div>
+           
           <a
             class=""
             href="#/wallet/send/fermion"
@@ -222,6 +242,7 @@ exports[`PageWallet has the expected html structure 1`] = `
             src="../../assets/images/cosmos-logo.png"
           />
         </div>
+         
         <div
           class="li-coin__content"
         >
@@ -234,6 +255,7 @@ exports[`PageWallet has the expected html structure 1`] = `
               Mycoin
             </p>
           </div>
+           
           <div
             class="li-coin__content__left__amount"
           >
@@ -243,6 +265,7 @@ exports[`PageWallet has the expected html structure 1`] = `
               1,000.0000000000
             </p>
           </div>
+           
           <a
             class=""
             href="#/wallet/send/mycoin"
@@ -280,6 +303,7 @@ exports[`PageWallet has the expected html structure 1`] = `
             src="../../assets/images/cosmos-logo.png"
           />
         </div>
+         
         <div
           class="li-coin__content"
         >
@@ -292,6 +316,7 @@ exports[`PageWallet has the expected html structure 1`] = `
               Steak
             </p>
           </div>
+           
           <div
             class="li-coin__content__left__amount"
           >
@@ -301,6 +326,7 @@ exports[`PageWallet has the expected html structure 1`] = `
               1,000.0000000000
             </p>
           </div>
+           
           <a
             class=""
             href="#/wallet/send/steak"
@@ -386,27 +412,32 @@ exports[`PageWallet should filter the balances 1`] = `
                   src="~assets/images/cosmos-logo.png"
                 />
               </div>
+               
               <div
                 class="total-atoms top-section"
               >
                 <h3>
                   Total Steak
                 </h3>
+                 
                 <h2>
                   1,014.0000…
                 </h2>
               </div>
+               
               <div
                 class="unbonded-atoms top-section"
               >
                 <h3>
                   Available Steak
                 </h3>
+                 
                 <h2>
                   1,000.0000…
                 </h2>
               </div>
             </div>
+             
             <div
               class="short-bech32"
             >
@@ -414,8 +445,11 @@ exports[`PageWallet should filter the balances 1`] = `
                 class="address"
                 id="address"
               >
-                cosmos…xxn9
+                
+    cosmos…xxn9
+  
               </div>
+               
               <div
                 class="copied"
               >
@@ -429,10 +463,13 @@ exports[`PageWallet should filter the balances 1`] = `
                 </span>
               </div>
             </div>
+             
             <div
               class="tabs"
             />
+             
           </div>
+           
           <div
             class="tm-tool-bar"
           >
@@ -446,6 +483,7 @@ exports[`PageWallet should filter the balances 1`] = `
                 arrow_back
               </i>
             </a>
+             
             <a>
               <i
                 class="material-icons"
@@ -453,6 +491,7 @@ exports[`PageWallet should filter the balances 1`] = `
                 refresh
               </i>
             </a>
+             
             <a>
               <i
                 class="material-icons"
@@ -469,6 +508,7 @@ exports[`PageWallet should filter the balances 1`] = `
                 help_outline
               </i>
             </a>
+             
             <a
               class=""
               href="#/preferences"
@@ -502,10 +542,13 @@ exports[`PageWallet should filter the balances 1`] = `
   <main
     class="tm-page-main ps"
   >
+     
     <modal-search
       type="balances"
     />
+     
     <!---->
+     
     <ul>
       <li
         class="li-coin tm-li-balance"
@@ -517,6 +560,7 @@ exports[`PageWallet should filter the balances 1`] = `
             src="../../assets/images/cosmos-logo.png"
           />
         </div>
+         
         <div
           class="li-coin__content"
         >
@@ -529,6 +573,7 @@ exports[`PageWallet should filter the balances 1`] = `
               Steak
             </p>
           </div>
+           
           <div
             class="li-coin__content__left__amount"
           >
@@ -538,6 +583,7 @@ exports[`PageWallet should filter the balances 1`] = `
               1,000.0000000000
             </p>
           </div>
+           
           <a
             class=""
             href="#/wallet/send/steak"

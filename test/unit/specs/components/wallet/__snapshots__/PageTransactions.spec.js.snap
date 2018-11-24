@@ -33,27 +33,32 @@ exports[`PageTransactions has the expected html structure 1`] = `
                   src="~assets/images/cosmos-logo.png"
                 />
               </div>
+               
               <div
                 class="total-atoms top-section"
               >
                 <h3>
                   Total Steak
                 </h3>
+                 
                 <h2>
                   0.0000…
                 </h2>
               </div>
+               
               <div
                 class="unbonded-atoms top-section"
               >
                 <h3>
                   Available Steak
                 </h3>
+                 
                 <h2>
                   0.0000…
                 </h2>
               </div>
             </div>
+             
             <div
               class="short-bech32"
             >
@@ -61,8 +66,11 @@ exports[`PageTransactions has the expected html structure 1`] = `
                 class="address"
                 id="address"
               >
-                Address Not Found
+                
+    Address Not Found
+  
               </div>
+               
               <div
                 class="copied"
               >
@@ -76,10 +84,13 @@ exports[`PageTransactions has the expected html structure 1`] = `
                 </span>
               </div>
             </div>
+             
             <div
               class="tabs"
             />
+             
           </div>
+           
           <div
             class="tm-tool-bar"
           >
@@ -93,6 +104,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
                 arrow_back
               </i>
             </a>
+             
             <a>
               <i
                 class="material-icons"
@@ -116,6 +128,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
                 help_outline
               </i>
             </a>
+             
             <a
               class=""
               href="#/preferences"
@@ -149,46 +162,48 @@ exports[`PageTransactions has the expected html structure 1`] = `
   <main
     class="tm-page-main ps"
   >
+     
     <!---->
+     
     <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
-      bondingdenom="Steak"
-      proposalsurl="/governance/proposals"
+      bonding-denom="Steak"
+      proposals-url="/governance/proposals"
       transaction="[object Object]"
+      validator-url="/staking/validators"
       validators=""
-      validatorurl="/staking/validators"
     />
     <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
-      bondingdenom="Steak"
-      proposalsurl="/governance/proposals"
+      bonding-denom="Steak"
+      proposals-url="/governance/proposals"
       transaction="[object Object]"
+      validator-url="/staking/validators"
       validators=""
-      validatorurl="/staking/validators"
     />
     <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
-      bondingdenom="Steak"
-      proposalsurl="/governance/proposals"
+      bonding-denom="Steak"
+      proposals-url="/governance/proposals"
       transaction="[object Object]"
+      validator-url="/staking/validators"
       validators=""
-      validatorurl="/staking/validators"
     />
     <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
-      bondingdenom="Steak"
-      proposalsurl="/governance/proposals"
+      bonding-denom="Steak"
+      proposals-url="/governance/proposals"
       transaction="[object Object]"
+      validator-url="/staking/validators"
       validators=""
-      validatorurl="/staking/validators"
     />
     <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
-      bondingdenom="Steak"
-      proposalsurl="/governance/proposals"
+      bonding-denom="Steak"
+      proposals-url="/governance/proposals"
       transaction="[object Object]"
+      validator-url="/staking/validators"
       validators=""
-      validatorurl="/staking/validators"
     />
     <div
       class="ps__rail-x"
@@ -247,27 +262,32 @@ exports[`PageTransactions should filter the transactions 1`] = `
                   src="~assets/images/cosmos-logo.png"
                 />
               </div>
+               
               <div
                 class="total-atoms top-section"
               >
                 <h3>
                   Total Steak
                 </h3>
+                 
                 <h2>
                   0.0000…
                 </h2>
               </div>
+               
               <div
                 class="unbonded-atoms top-section"
               >
                 <h3>
                   Available Steak
                 </h3>
+                 
                 <h2>
                   0.0000…
                 </h2>
               </div>
             </div>
+             
             <div
               class="short-bech32"
             >
@@ -275,8 +295,11 @@ exports[`PageTransactions should filter the transactions 1`] = `
                 class="address"
                 id="address"
               >
-                Address Not Found
+                
+    Address Not Found
+  
               </div>
+               
               <div
                 class="copied"
               >
@@ -290,10 +313,13 @@ exports[`PageTransactions should filter the transactions 1`] = `
                 </span>
               </div>
             </div>
+             
             <div
               class="tabs"
             />
+             
           </div>
+           
           <div
             class="tm-tool-bar"
           >
@@ -307,6 +333,7 @@ exports[`PageTransactions should filter the transactions 1`] = `
                 arrow_back
               </i>
             </a>
+             
             <a>
               <i
                 class="material-icons"
@@ -330,6 +357,7 @@ exports[`PageTransactions should filter the transactions 1`] = `
                 help_outline
               </i>
             </a>
+             
             <a
               class=""
               href="#/preferences"
@@ -363,6 +391,7 @@ exports[`PageTransactions should filter the transactions 1`] = `
   <main
     class="tm-page-main"
   >
+     
     <div
       class="tm-modal-search"
     >
@@ -386,6 +415,7 @@ exports[`PageTransactions should filter the transactions 1`] = `
                 placeholder="Search..."
                 type="text"
               />
+               
               <button
                 class="tm-btn"
               >
@@ -407,13 +437,14 @@ exports[`PageTransactions should filter the transactions 1`] = `
         </div>
       </div>
     </div>
+     
     <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
-      bondingdenom="Steak"
-      proposalsurl="/governance/proposals"
+      bonding-denom="Steak"
+      proposals-url="/governance/proposals"
       transaction="[object Object]"
+      validator-url="/staking/validators"
       validators=""
-      validatorurl="/staking/validators"
     />
   </main>
 </div>

@@ -1,42 +1,41 @@
 <template>
   <tm-page data-title="Transactions"
     ><template slot="menu-body">
-      <tm-balance></tm-balance>
+      <tm-balance />
       <vm-tool-bar
         ><a
-          @click="connected &amp;&amp; refreshTransactions()"
           v-tooltip.bottom="'Refresh'"
           :disabled="!connected"
+          @click="connected &amp;&amp; refreshTransactions()"
           ><i class="material-icons">refresh</i></a
         ><a
-          @click="setSearch()"
           v-tooltip.bottom="'Search'"
           :disabled="!somethingToSearch"
+          @click="setSearch()"
           ><i class="material-icons">search</i></a
         ></vm-tool-bar
       >
     </template>
-    <modal-search type="transactions" v-if="somethingToSearch"></modal-search>
-    <tm-data-loading v-if="transactions.loading"></tm-data-loading>
+    <modal-search v-if="somethingToSearch" type="transactions" />
+    <tm-data-loading v-if="transactions.loading" />
     <tm-data-error
       v-else-if="!transactions.loading &amp;&amp; transactions.error"
-    ></tm-data-error>
+    />
     <data-empty-tx
       v-else-if="!transactions.loading &amp;&amp; allTransactions.length === 0 &amp;&amp; !transactions.error"
-    ></data-empty-tx>
+    />
     <data-empty-search
       v-else-if="!transactions.loading &amp;&amp; !transactions.error &amp;&amp; filteredTransactions.length === 0"
-    ></data-empty-search
-    ><template v-else="v-else" v-for="(tx, i) in filteredTransactions">
+    /><template v-for="tx in filteredTransactions" v-else>
       <tm-li-any-transaction
         :validators="delegates.delegates"
-        :validatorURL="validatorURL"
-        :proposalsURL="proposalsURL"
-        :key="shortid.generate()"
+        :validator-url="validatorURL"
+        :proposals-url="proposalsURL"
+        :key="tx.hash"
         :transaction="tx"
         :address="wallet.address"
-        :bondingDenom="bondingDenom"
-      ></tm-li-any-transaction>
+        :bonding-denom="bondingDenom"
+      />
     </template>
   </tm-page>
 </template>

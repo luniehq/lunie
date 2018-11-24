@@ -1,29 +1,21 @@
 <template>
   <div id="app">
-    <modal-help></modal-help>
-    <session v-if="config.modals.session.active"></session>
-    <onboarding v-else-if="onboarding.active"></onboarding
-    ><template v-else="v-else">
-      <app-header></app-header>
-      <div id="app-content"><router-view></router-view></div>
-      <modal-receive></modal-receive>
+    <modal-help />
+    <session v-if="config.modals.session.active" />
+    <onboarding v-else-if="onboarding.active" />
+    <template v-else>
+      <app-header />
+      <div id="app-content"><router-view /></div>
+      <modal-receive />
     </template>
-    <tm-notifications
-      :notifications="notifications"
-      theme="cosmos"
-    ></tm-notifications>
+    <tm-notifications :notifications="notifications" theme="cosmos" />
     <modal-error
       v-if="config.modals.error.active"
       :body="config.modals.error.message"
-    ></modal-error>
-    <modal-no-nodes v-if="config.modals.noNodes.active"></modal-no-nodes>
-    <modal-node-halted
-      v-if="config.modals.nodeHalted.active"
-    ></modal-node-halted>
-    <modal-lcd-approval
-      v-if="approvalRequired"
-      :hash="approvalRequired"
-    ></modal-lcd-approval>
+    />
+    <modal-no-nodes v-if="config.modals.noNodes.active" />
+    <modal-node-halted v-if="config.modals.nodeHalted.active" />
+    <modal-lcd-approval v-if="approvalRequired" :hash="approvalRequired" />
   </div>
 </template>
 

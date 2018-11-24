@@ -17,14 +17,14 @@
           color="primary"
           value="Retry Connection"
           @click.native="retry"
-        ></tm-btn>
+        />
         <tm-btn
           id="tm-modal-error__btn-mock"
           size="lg"
           icon="pageview"
           value="Try Demo"
           @click.native="useMock"
-        ></tm-btn>
+        />
       </div>
     </div>
   </div>

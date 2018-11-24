@@ -1,7 +1,7 @@
 <template>
   <tm-page data-title="Proposal"
     ><template slot="menu-body">
-      <tm-balance></tm-balance>
+      <tm-balance />
     </template>
     <div slot="menu">
       <tm-tool-bar>
@@ -10,8 +10,7 @@
         >
       </tm-tool-bar>
     </div>
-    <tm-data-error v-if="!proposal"></tm-data-error
-    ><template v-else>
+    <tm-data-error v-if="!proposal" /><template v-else>
       <div
         class="validator-profile__header validator-profile__section proposal"
       >
@@ -20,10 +19,10 @@
             <div class="top column">
               <div class="validator-profile__status-and-title">
                 <span
-                  class="validator-profile__status"
-                  v-bind:class="status.color"
                   v-tooltip.top="status.message"
-                ></span>
+                  :class="status.color"
+                  class="validator-profile__status"
+                />
                 <div class="validator-profile__header__name__title">
                   {{ proposal.title }} {{ `(#` + proposalId + `)` }}
                 </div>
@@ -31,19 +30,19 @@
             </div>
             <div class="column validator-profile__header__actions">
               <tm-btn
-                id="vote-btn"
                 v-if="proposal.proposal_status === 'VotingPeriod'"
+                id="vote-btn"
                 value="Vote"
                 color="primary"
                 @click.native="onVote"
-              ></tm-btn>
+              />
               <tm-btn
-                id="deposit-btn"
                 v-if="proposal.proposal_status === 'DepositPeriod'"
+                id="deposit-btn"
                 value="Deposit"
                 color="primary"
                 @click.native="onDeposit"
-              ></tm-btn>
+              />
               <tm-btn
                 v-if="
                   proposal.proposal_status === 'Passed' ||
@@ -52,7 +51,7 @@
                 disabled="disabled"
                 value="Deposit / Vote"
                 color="primary"
-              ></tm-btn>
+              />
             </div>
           </div>
           <div class="row description">
@@ -76,7 +75,7 @@
                 }}
               </dd>
             </dl>
-            <div class="validator-profile__header__data__break"></div>
+            <div class="validator-profile__header__data__break" />
             <dl class="colored_dl">
               <dt>Yes</dt>
               <dd>{{ proposal.tally_result.yes }} / {{ yesPercentage }}</dd>
@@ -103,26 +102,24 @@
       </div>
       <div class="validator-profile__details validator-profile__section">
         <div class="column">
-          <div class="row">
-            <text-block :content="proposal.description"></text-block>
-          </div>
+          <div class="row"><text-block :content="proposal.description" /></div>
         </div>
       </div>
       <modal-deposit
         v-if="showModalDeposit"
-        v-on:submitDeposit="deposit"
-        :showModalDeposit.sync="showModalDeposit"
-        :proposalId="proposalId"
-        :proposalTitle="proposal.title"
+        :show-modal-deposit.sync="showModalDeposit"
+        :proposal-id="proposalId"
+        :proposal-title="proposal.title"
         :denom="bondingDenom.toLowerCase()"
-      ></modal-deposit>
+        @submitDeposit="deposit"
+      />
       <modal-vote
         v-if="showModalVote"
-        v-on:castVote="castVote"
-        :showModalVote.sync="showModalVote"
-        :proposalId="proposalId"
-        :proposalTitle="proposal.title"
-      ></modal-vote>
+        :show-modal-vote.sync="showModalVote"
+        :proposal-id="proposalId"
+        :proposal-title="proposal.title"
+        @castVote="castVote"
+      />
     </template>
   </tm-page>
 </template>

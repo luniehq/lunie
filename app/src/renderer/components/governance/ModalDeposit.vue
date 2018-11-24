@@ -1,11 +1,11 @@
 <template>
-  <div class="modal-deposit" id="modal-deposit" v-click-outside="close">
+  <div v-click-outside="close" id="modal-deposit" class="modal-deposit">
     <div class="modal-deposit-header">
       <img
         class="icon modal-deposit-atom"
         src="~assets/images/cosmos-logo.png"
       /><span class="tm-modal-title">Deposit</span>
-      <div class="tm-modal-icon tm-modal-close" id="closeBtn" @click="close()">
+      <div id="closeBtn" class="tm-modal-icon tm-modal-close" @click="close()">
         <i class="material-icons">close</i>
       </div>
     </div>
@@ -20,29 +20,29 @@
     >
       <tm-field
         id="denom"
-        type="text"
         :placeholder="denom"
+        type="text"
         readonly="readonly"
-      ></tm-field>
+      />
       <tm-field
+        v-focus="v - focus"
         id="amount"
-        type="number"
         :max="balance"
         :min="0"
-        step="any"
         v-model="amount"
-        v-focus="v - focus"
-      ></tm-field>
+        type="number"
+        step="any"
+      />
     </tm-form-group>
     <div class="modal-deposit-footer">
       <tm-btn
         id="submit-deposit"
-        @click.native="onDeposit"
         :disabled="$v.amount.$invalid"
         color="primary"
         value="Deposit"
         size="lg"
-      ></tm-btn>
+        @click.native="onDeposit"
+      />
     </div>
   </div>
 </template>

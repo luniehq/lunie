@@ -1,6 +1,6 @@
 <template>
   <div class="tm-session">
-    <tm-form-struct class="tm-session-container" :submit="onSubmit">
+    <tm-form-struct :submit="onSubmit" class="tm-session-container">
       <div class="tm-session-header">
         <a @click="setState('welcome')"
           ><i class="material-icons">arrow_back</i></a
@@ -12,17 +12,17 @@
         <tm-form-group field-id="sign-in-name" field-label="Select Account">
           <tm-field
             id="sign-in-name"
-            type="select"
             v-model="fields.signInName"
-            placeholder="Select account…"
             :options="accounts"
+            type="select"
+            placeholder="Select account…"
             vue-focus="vue-focus"
-          ></tm-field>
+          />
           <tm-form-msg
+            v-if="!$v.fields.signInName.required"
             name="Name"
             type="required"
-            v-if="!$v.fields.signInName.required"
-          ></tm-form-msg>
+          />
         </tm-form-group>
         <tm-form-group
           :error="$v.fields.signInPassword.$error"
@@ -31,20 +31,20 @@
         >
           <tm-field
             id="sign-in-password"
-            type="password"
             v-model="fields.signInPassword"
-          ></tm-field>
+            type="password"
+          />
           <tm-form-msg
+            v-if="!$v.fields.signInPassword.required"
             name="Password"
             type="required"
-            v-if="!$v.fields.signInPassword.required"
-          ></tm-form-msg>
+          />
           <tm-form-msg
+            v-if="!$v.fields.signInPassword.minLength"
             name="Password"
             type="minLength"
             min="10"
-            v-if="!$v.fields.signInPassword.minLength"
-          ></tm-form-msg>
+          />
           <tm-form-msg v-if="mockedConnector"
             >default password is 1234567890</tm-form-msg
           >
@@ -57,14 +57,14 @@
           icon-pos="right"
           value="Next"
           size="lg"
-        ></tm-btn>
+        />
         <tm-btn
-          v-else="v-else"
+          v-else
           icon-pos="right"
           value="Connecting..."
           size="lg"
           disabled="true"
-        ></tm-btn>
+        />
       </div>
     </tm-form-struct>
   </div>

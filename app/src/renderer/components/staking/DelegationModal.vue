@@ -1,11 +1,11 @@
 <template>
-  <div class="delegation-modal" id="delegation-modal" v-click-outside="close">
+  <div v-click-outside="close" id="delegation-modal" class="delegation-modal">
     <div class="delegation-modal-header">
       <img
         class="icon delegation-modal-atom"
         src="~assets/images/cosmos-logo.png"
       /><span class="tm-modal-title">Delegation</span>
-      <div class="tm-modal-icon tm-modal-close" id="closeBtn" @click="close()">
+      <div id="closeBtn" class="tm-modal-icon tm-modal-close" @click="close()">
         <i class="material-icons">close</i>
       </div>
     </div>
@@ -16,26 +16,26 @@
     >
       <tm-field
         id="denom"
-        type="text"
         :placeholder="bondingDenom"
+        type="text"
         readonly="readonly"
-      ></tm-field>
+      />
       <tm-field
+        v-focus="v - focus"
         id="amount"
-        type="number"
         :max="fromOptions[selectedIndex].maximum"
         :min="0"
-        step="any"
         v-model="amount"
-        v-focus="v - focus"
-      ></tm-field>
+        type="number"
+        step="any"
+      />
     </tm-form-group>
     <tm-form-group
       class="delegation-modal-form-group"
       field-id="to"
       field-label="To"
     >
-      <tm-field id="to" readonly="readonly" v-model="to"></tm-field>
+      <tm-field id="to" v-model="to" readonly="readonly" />
     </tm-form-group>
     <tm-form-group
       class="delegation-modal-form-group"
@@ -44,21 +44,21 @@
     >
       <tm-field
         id="from"
-        type="select"
         v-model="selectedIndex"
         :title="fromOptions[selectedIndex].address"
         :options="fromOptions"
-      ></tm-field>
+        type="select"
+      />
     </tm-form-group>
     <div class="delegation-modal-footer">
       <tm-btn
         id="submit-delegation"
-        @click.native="onDelegation"
         :disabled="$v.amount.$invalid"
         color="primary"
         value="Confirm Delegation"
         size="lg"
-      ></tm-btn>
+        @click.native="onDelegation"
+      />
     </div>
   </div>
 </template>
