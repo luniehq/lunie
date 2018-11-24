@@ -8,18 +8,18 @@ export default ({ node }) => {
   const state = JSON.parse(JSON.stringify(emptyState))
 
   const mutations = {
-    setParameters(state, parameters) {
+    setStakingParameters(state, parameters) {
       state.parameters = parameters
     }
   }
 
   const actions = {
-    async getParameters({ state, commit }) {
+    async getStakingParameters({ state, commit }) {
       state.loading = true
       try {
-        let parameters = await node.getParameters()
+        let parameters = await node.getStakingParameters()
         state.error = null
-        commit(`setParameters`, parameters)
+        commit(`setStakingParameters`, parameters)
       } catch (error) {
         commit(`notifyError`, {
           title: `Error fetching staking parameters`,

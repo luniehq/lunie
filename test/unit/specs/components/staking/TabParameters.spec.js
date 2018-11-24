@@ -28,7 +28,7 @@ describe(`TabParameters`, () => {
       localVue,
       doBefore: ({ store }) => {
         store.commit(`setPool`, pool)
-        store.commit(`setParameters`, parameters)
+        store.commit(`setStakingParameters`, parameters)
       },
       $store
     })

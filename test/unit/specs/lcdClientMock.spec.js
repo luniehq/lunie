@@ -823,7 +823,7 @@ describe(`LCD Client Mock`, () => {
   })
 
   it(`queries for staking parameters`, async () => {
-    let parameters = await client.getParameters()
+    let parameters = await client.getStakingParameters()
     expect(Object.keys(parameters)).toContain(
       `unbonding_time`,
       `max_validators`,

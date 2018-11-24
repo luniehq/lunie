@@ -153,7 +153,7 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
       )()
     },
     getPool: req(`GET`, `/stake/pool`, true),
-    getParameters: req(`GET`, `/stake/parameters`, true),
+    getStakingParameters: req(`GET`, `/stake/parameters`, true),
 
     /* ============ Slashing ============ */
 

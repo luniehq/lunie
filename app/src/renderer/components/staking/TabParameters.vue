@@ -79,7 +79,7 @@ export default {
     }
   },
   async mounted() {
-    this.$store.dispatch(`getParameters`)
+    this.$store.dispatch(`getStakingParameters`)
     this.$store.dispatch(`getPool`)
   }
 }

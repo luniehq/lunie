@@ -432,7 +432,7 @@ describe(`LCD Client`, () => {
 
       it(`queries for staking parameters`, async () => {
         axios.mockReturnValue({})
-        await client.getParameters()
+        await client.getStakingParameters()
 
         expect(axios.mock.calls).toEqual([
           [

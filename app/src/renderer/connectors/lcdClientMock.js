@@ -911,7 +911,7 @@ module.exports = {
   async getPool() {
     return state.pool
   },
-  async getParameters() {
+  async getStakingParameters() {
     return state.parameters
   },
   async getProposals() {
