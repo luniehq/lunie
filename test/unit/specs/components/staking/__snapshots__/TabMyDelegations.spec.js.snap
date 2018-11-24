@@ -31,8 +31,8 @@ exports[`Component: TabMyDelegations should show a message if not staked yet to 
       >
         <div>
           
-      Looks like you haven't delegated any stakes yet. Head
-      over to the
+      Looks like you haven't delegated any stakes yet. Head over
+      to the
       
           <a
             class=""
@@ -564,8 +564,8 @@ exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
       >
         <div>
           
-      Looks like you haven't delegated any stakes yet. Head
-      over to the
+      Looks like you haven't delegated any stakes yet. Head over
+      to the
       
           <a
             class=""

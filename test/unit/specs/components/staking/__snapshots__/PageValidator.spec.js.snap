@@ -1230,3 +1230,1907 @@ Array [
   },
 ]
 `;
+
+exports[`onDelegation make sure we have enough atoms to delegate is not enough 1`] = `
+<div
+  class="tm-page"
+  data-title="Validator"
+>
+  <header
+    class="tm-page-header"
+  >
+    <div
+      class="tm-page-header-container"
+    >
+      <div
+        class="tm-page-header-text"
+      >
+        <!---->
+        <!---->
+        <div
+          class="tm-page-header-body"
+        >
+          <div
+            class="header-balance"
+          >
+            <div
+              class="top"
+            >
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
+               
+              <div
+                class="total-atoms top-section"
+              >
+                <h3>
+                  Total atom
+                </h3>
+                 
+                <h2>
+                  100.0000…
+                </h2>
+              </div>
+               
+              <div
+                class="unbonded-atoms top-section"
+              >
+                <h3>
+                  Available atom
+                </h3>
+                 
+                <h2>
+                  42.0000…
+                </h2>
+              </div>
+            </div>
+             
+            <div
+              class="short-bech32"
+            >
+              <div
+                class="address"
+                id="address"
+              >
+                
+    Address Not Found
+  
+              </div>
+               
+              <div
+                class="copied"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+             
+            <div
+              class="tabs"
+            />
+             
+          </div>
+        </div>
+      </div>
+      <menu
+        class="tm-page-header-menu"
+      >
+        <div>
+          <div>
+            <div
+              class="tm-tool-bar"
+            >
+              <div
+                class="tm-tool-bar-container"
+              >
+                <div
+                  class="main"
+                >
+                  <router-link
+                    exact="exact"
+                    to="/staking/validators"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                  </router-link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </menu>
+    </div>
+  </header>
+  <main
+    class="tm-page-main"
+  >
+      
+    <div
+      class="validator-profile__header validator-profile__section"
+    >
+      <div
+        class="column"
+      >
+        <img
+          class="avatar"
+          src="~assets/images/validator-icon.svg"
+        />
+      </div>
+       
+      <div
+        class="column validator-profile__header__info"
+      >
+        <div
+          class="row validator-profile__header__name"
+        >
+          <div
+            class="column"
+          >
+            <div
+              class="validator-profile__status-and-title"
+            >
+              <span
+                class="validator-profile__status green"
+              />
+               
+              <div
+                class="validator-profile__header__name__title"
+              >
+                
+                herr_schmidt_revoked
+              
+              </div>
+            </div>
+             
+            <div
+              class="short-bech32"
+            >
+              <div
+                class="address"
+                id="address"
+              >
+                
+    cosmosvaladdr…8yqw
+  
+              </div>
+               
+              <div
+                class="copied"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+          </div>
+           
+          <div
+            class="column validator-profile__header__actions"
+          >
+            <button
+              class="tm-btn"
+              id="delegation-btn"
+            >
+              <span
+                class="tm-btn__container tm-btn--primary"
+              >
+                <!---->
+                <!---->
+                <span
+                  class="tm-btn__value"
+                >
+                  Delegate
+                </span>
+              </span>
+            </button>
+             
+            <button
+              class="tm-btn"
+              id="undelegation-btn"
+            >
+              <span
+                class="tm-btn__container tm-btn--secondary"
+              >
+                <!---->
+                <!---->
+                <span
+                  class="tm-btn__value"
+                >
+                  Undelegate
+                </span>
+              </span>
+            </button>
+          </div>
+        </div>
+         
+        <div
+          class="row validator-profile__header__data"
+        >
+          <dl
+            class="colored_dl"
+          >
+            <dt>
+              Delegated atom
+            </dt>
+             
+            <dd>
+              
+              0.0000…
+            
+            </dd>
+          </dl>
+           
+          <!---->
+           
+          <div
+            class="validator-profile__header__data__break"
+          />
+           
+          <dl
+            class="colored_dl"
+          >
+            <dt>
+              Voting Power
+            </dt>
+             
+            <dd
+              id="validator-profile__power"
+            >
+              
+              0.45 %
+            
+            </dd>
+          </dl>
+           
+          <!---->
+           
+          <dl
+            class="colored_dl"
+          >
+            <dt>
+              Commission
+            </dt>
+             
+            <dd
+              id="validator-profile__commission"
+            >
+              
+              0.05 %
+            
+            </dd>
+          </dl>
+           
+          <!---->
+        </div>
+      </div>
+    </div>
+     
+    <div
+      class="validator-profile__details validator-profile__section"
+    >
+      <div
+        class="row"
+      >
+        <div
+          class="column"
+        >
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Operator
+            </dt>
+             
+            <dd>
+              cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Keybase ID
+            </dt>
+             
+            <dd>
+              
+              n/a
+            
+            </dd>
+          </dl>
+           
+          <!---->
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Website
+            </dt>
+             
+            <dd>
+              
+              www.schmidt.de
+            
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Details
+            </dt>
+             
+            <dd
+              class="info_dl__text-box"
+            >
+              
+              Herr Schmidt
+            
+            </dd>
+          </dl>
+        </div>
+         
+        <div
+          class="column"
+        >
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Commission Rate
+            </dt>
+             
+            <dd>
+              0.05 %
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Max Commission Rate
+            </dt>
+             
+            <dd>
+              0.1 %
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Max Daily Commission Change
+            </dt>
+             
+            <dd>
+              0.005 %
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Last Commission Change
+            </dt>
+             
+            <dd>
+              
+              a few seconds ago
+            
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Self Delegated atom
+            </dt>
+             
+            <dd
+              id="validator-profile__self-bond"
+            >
+              1.00 %
+            </dd>
+          </dl>
+           
+          <!---->
+        </div>
+      </div>
+    </div>
+     
+    <!---->
+     
+    <!---->
+     
+    <div
+      class="tm-modal"
+    >
+      <div
+        class="tm-modal-container"
+      >
+        <header
+          class="tm-modal-header"
+        >
+          <!---->
+           
+          <div
+            class="tm-modal-title"
+          >
+            <div>
+              
+        Cannot Delegate
+      
+            </div>
+          </div>
+           
+          <div
+            class="tm-modal-icon tm-modal-close"
+          >
+            <i
+              class="material-icons"
+            >
+              close
+            </i>
+          </div>
+        </header>
+         
+        <main
+          class="tm-modal-main"
+        >
+           
+          <p>
+            
+        You have no atoms
+         to
+         delegate.
+      
+          </p>
+            
+          <footer
+            class="tm-modal-footer"
+          >
+            <div>
+              <button
+                class="tm-btn"
+                id="no-atoms-modal__btn"
+              >
+                <span
+                  class="tm-btn__container"
+                >
+                  <!---->
+                  <!---->
+                  <span
+                    class="tm-btn__value"
+                  >
+                    OK
+                  </span>
+                </span>
+              </button>
+            </div>
+          </footer>
+        </main>
+      </div>
+    </div>
+  </main>
+</div>
+`;
+
+exports[`onDelegation make sure we have enough atoms to delegate is not enough 2`] = `
+<div
+  class="tm-page"
+  data-title="Validator"
+>
+  <header
+    class="tm-page-header"
+  >
+    <div
+      class="tm-page-header-container"
+    >
+      <div
+        class="tm-page-header-text"
+      >
+        <!---->
+        <!---->
+        <div
+          class="tm-page-header-body"
+        >
+          <div
+            class="header-balance"
+          >
+            <div
+              class="top"
+            >
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
+               
+              <div
+                class="total-atoms top-section"
+              >
+                <h3>
+                  Total atom
+                </h3>
+                 
+                <h2>
+                  100.0000…
+                </h2>
+              </div>
+               
+              <div
+                class="unbonded-atoms top-section"
+              >
+                <h3>
+                  Available atom
+                </h3>
+                 
+                <h2>
+                  42.0000…
+                </h2>
+              </div>
+            </div>
+             
+            <div
+              class="short-bech32"
+            >
+              <div
+                class="address"
+                id="address"
+              >
+                
+    Address Not Found
+  
+              </div>
+               
+              <div
+                class="copied"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+             
+            <div
+              class="tabs"
+            />
+             
+          </div>
+        </div>
+      </div>
+      <menu
+        class="tm-page-header-menu"
+      >
+        <div>
+          <div>
+            <div
+              class="tm-tool-bar"
+            >
+              <div
+                class="tm-tool-bar-container"
+              >
+                <div
+                  class="main"
+                >
+                  <router-link
+                    exact="exact"
+                    to="/staking/validators"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                  </router-link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </menu>
+    </div>
+  </header>
+  <main
+    class="tm-page-main"
+  >
+      
+    <div
+      class="validator-profile__header validator-profile__section"
+    >
+      <div
+        class="column"
+      >
+        <img
+          class="avatar"
+          src="~assets/images/validator-icon.svg"
+        />
+      </div>
+       
+      <div
+        class="column validator-profile__header__info"
+      >
+        <div
+          class="row validator-profile__header__name"
+        >
+          <div
+            class="column"
+          >
+            <div
+              class="validator-profile__status-and-title"
+            >
+              <span
+                class="validator-profile__status green"
+              />
+               
+              <div
+                class="validator-profile__header__name__title"
+              >
+                
+                herr_schmidt_revoked
+              
+              </div>
+            </div>
+             
+            <div
+              class="short-bech32"
+            >
+              <div
+                class="address"
+                id="address"
+              >
+                
+    cosmosvaladdr…8yqw
+  
+              </div>
+               
+              <div
+                class="copied"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+          </div>
+           
+          <div
+            class="column validator-profile__header__actions"
+          >
+            <button
+              class="tm-btn"
+              id="delegation-btn"
+            >
+              <span
+                class="tm-btn__container tm-btn--primary"
+              >
+                <!---->
+                <!---->
+                <span
+                  class="tm-btn__value"
+                >
+                  Delegate
+                </span>
+              </span>
+            </button>
+             
+            <button
+              class="tm-btn"
+              id="undelegation-btn"
+            >
+              <span
+                class="tm-btn__container tm-btn--secondary"
+              >
+                <!---->
+                <!---->
+                <span
+                  class="tm-btn__value"
+                >
+                  Undelegate
+                </span>
+              </span>
+            </button>
+          </div>
+        </div>
+         
+        <div
+          class="row validator-profile__header__data"
+        >
+          <dl
+            class="colored_dl"
+          >
+            <dt>
+              Delegated atom
+            </dt>
+             
+            <dd>
+              
+              0.0000…
+            
+            </dd>
+          </dl>
+           
+          <!---->
+           
+          <div
+            class="validator-profile__header__data__break"
+          />
+           
+          <dl
+            class="colored_dl"
+          >
+            <dt>
+              Voting Power
+            </dt>
+             
+            <dd
+              id="validator-profile__power"
+            >
+              
+              0.45 %
+            
+            </dd>
+          </dl>
+           
+          <!---->
+           
+          <dl
+            class="colored_dl"
+          >
+            <dt>
+              Commission
+            </dt>
+             
+            <dd
+              id="validator-profile__commission"
+            >
+              
+              0.05 %
+            
+            </dd>
+          </dl>
+           
+          <!---->
+        </div>
+      </div>
+    </div>
+     
+    <div
+      class="validator-profile__details validator-profile__section"
+    >
+      <div
+        class="row"
+      >
+        <div
+          class="column"
+        >
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Operator
+            </dt>
+             
+            <dd>
+              cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Keybase ID
+            </dt>
+             
+            <dd>
+              
+              n/a
+            
+            </dd>
+          </dl>
+           
+          <!---->
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Website
+            </dt>
+             
+            <dd>
+              
+              www.schmidt.de
+            
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Details
+            </dt>
+             
+            <dd
+              class="info_dl__text-box"
+            >
+              
+              Herr Schmidt
+            
+            </dd>
+          </dl>
+        </div>
+         
+        <div
+          class="column"
+        >
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Commission Rate
+            </dt>
+             
+            <dd>
+              0.05 %
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Max Commission Rate
+            </dt>
+             
+            <dd>
+              0.1 %
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Max Daily Commission Change
+            </dt>
+             
+            <dd>
+              0.005 %
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Last Commission Change
+            </dt>
+             
+            <dd>
+              
+              a few seconds ago
+            
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Self Delegated atom
+            </dt>
+             
+            <dd
+              id="validator-profile__self-bond"
+            >
+              1.00 %
+            </dd>
+          </dl>
+           
+          <!---->
+        </div>
+      </div>
+    </div>
+     
+    <!---->
+     
+    <!---->
+     
+    <!---->
+  </main>
+</div>
+`;
+
+exports[`onUnstake make sure there are enough atoms to unstake is not enough 1`] = `
+<div
+  class="tm-page"
+  data-title="Validator"
+>
+  <header
+    class="tm-page-header"
+  >
+    <div
+      class="tm-page-header-container"
+    >
+      <div
+        class="tm-page-header-text"
+      >
+        <!---->
+        <!---->
+        <div
+          class="tm-page-header-body"
+        >
+          <div
+            class="header-balance"
+          >
+            <div
+              class="top"
+            >
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
+               
+              <div
+                class="total-atoms top-section"
+              >
+                <h3>
+                  Total atom
+                </h3>
+                 
+                <h2>
+                  100.0000…
+                </h2>
+              </div>
+               
+              <div
+                class="unbonded-atoms top-section"
+              >
+                <h3>
+                  Available atom
+                </h3>
+                 
+                <h2>
+                  42.0000…
+                </h2>
+              </div>
+            </div>
+             
+            <div
+              class="short-bech32"
+            >
+              <div
+                class="address"
+                id="address"
+              >
+                
+    Address Not Found
+  
+              </div>
+               
+              <div
+                class="copied"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+             
+            <div
+              class="tabs"
+            />
+             
+          </div>
+        </div>
+      </div>
+      <menu
+        class="tm-page-header-menu"
+      >
+        <div>
+          <div>
+            <div
+              class="tm-tool-bar"
+            >
+              <div
+                class="tm-tool-bar-container"
+              >
+                <div
+                  class="main"
+                >
+                  <router-link
+                    exact="exact"
+                    to="/staking/validators"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                  </router-link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </menu>
+    </div>
+  </header>
+  <main
+    class="tm-page-main"
+  >
+      
+    <div
+      class="validator-profile__header validator-profile__section"
+    >
+      <div
+        class="column"
+      >
+        <img
+          class="avatar"
+          src="~assets/images/validator-icon.svg"
+        />
+      </div>
+       
+      <div
+        class="column validator-profile__header__info"
+      >
+        <div
+          class="row validator-profile__header__name"
+        >
+          <div
+            class="column"
+          >
+            <div
+              class="validator-profile__status-and-title"
+            >
+              <span
+                class="validator-profile__status green"
+              />
+               
+              <div
+                class="validator-profile__header__name__title"
+              >
+                
+                herr_schmidt_revoked
+              
+              </div>
+            </div>
+             
+            <div
+              class="short-bech32"
+            >
+              <div
+                class="address"
+                id="address"
+              >
+                
+    cosmosvaladdr…8yqw
+  
+              </div>
+               
+              <div
+                class="copied"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+          </div>
+           
+          <div
+            class="column validator-profile__header__actions"
+          >
+            <button
+              class="tm-btn"
+              id="delegation-btn"
+            >
+              <span
+                class="tm-btn__container tm-btn--primary"
+              >
+                <!---->
+                <!---->
+                <span
+                  class="tm-btn__value"
+                >
+                  Delegate
+                </span>
+              </span>
+            </button>
+             
+            <button
+              class="tm-btn"
+              id="undelegation-btn"
+            >
+              <span
+                class="tm-btn__container tm-btn--secondary"
+              >
+                <!---->
+                <!---->
+                <span
+                  class="tm-btn__value"
+                >
+                  Undelegate
+                </span>
+              </span>
+            </button>
+          </div>
+        </div>
+         
+        <div
+          class="row validator-profile__header__data"
+        >
+          <dl
+            class="colored_dl"
+          >
+            <dt>
+              Delegated atom
+            </dt>
+             
+            <dd>
+              
+              0.0000…
+            
+            </dd>
+          </dl>
+           
+          <!---->
+           
+          <div
+            class="validator-profile__header__data__break"
+          />
+           
+          <dl
+            class="colored_dl"
+          >
+            <dt>
+              Voting Power
+            </dt>
+             
+            <dd
+              id="validator-profile__power"
+            >
+              
+              0.45 %
+            
+            </dd>
+          </dl>
+           
+          <!---->
+           
+          <dl
+            class="colored_dl"
+          >
+            <dt>
+              Commission
+            </dt>
+             
+            <dd
+              id="validator-profile__commission"
+            >
+              
+              0.05 %
+            
+            </dd>
+          </dl>
+           
+          <!---->
+        </div>
+      </div>
+    </div>
+     
+    <div
+      class="validator-profile__details validator-profile__section"
+    >
+      <div
+        class="row"
+      >
+        <div
+          class="column"
+        >
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Operator
+            </dt>
+             
+            <dd>
+              cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Keybase ID
+            </dt>
+             
+            <dd>
+              
+              n/a
+            
+            </dd>
+          </dl>
+           
+          <!---->
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Website
+            </dt>
+             
+            <dd>
+              
+              www.schmidt.de
+            
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Details
+            </dt>
+             
+            <dd
+              class="info_dl__text-box"
+            >
+              
+              Herr Schmidt
+            
+            </dd>
+          </dl>
+        </div>
+         
+        <div
+          class="column"
+        >
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Commission Rate
+            </dt>
+             
+            <dd>
+              0.05 %
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Max Commission Rate
+            </dt>
+             
+            <dd>
+              0.1 %
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Max Daily Commission Change
+            </dt>
+             
+            <dd>
+              0.005 %
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Last Commission Change
+            </dt>
+             
+            <dd>
+              
+              a few seconds ago
+            
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Self Delegated atom
+            </dt>
+             
+            <dd
+              id="validator-profile__self-bond"
+            >
+              1.00 %
+            </dd>
+          </dl>
+           
+          <!---->
+        </div>
+      </div>
+    </div>
+     
+    <!---->
+     
+    <!---->
+     
+    <div
+      class="tm-modal"
+    >
+      <div
+        class="tm-modal-container"
+      >
+        <header
+          class="tm-modal-header"
+        >
+          <!---->
+           
+          <div
+            class="tm-modal-title"
+          >
+            <div>
+              
+        Cannot Undelegate
+      
+            </div>
+          </div>
+           
+          <div
+            class="tm-modal-icon tm-modal-close"
+          >
+            <i
+              class="material-icons"
+            >
+              close
+            </i>
+          </div>
+        </header>
+         
+        <main
+          class="tm-modal-main"
+        >
+           
+          <p>
+            
+        You have no atoms
+         delegated to
+         this validator.
+      
+          </p>
+            
+          <footer
+            class="tm-modal-footer"
+          >
+            <div>
+              <button
+                class="tm-btn"
+                id="no-atoms-modal__btn"
+              >
+                <span
+                  class="tm-btn__container"
+                >
+                  <!---->
+                  <!---->
+                  <span
+                    class="tm-btn__value"
+                  >
+                    OK
+                  </span>
+                </span>
+              </button>
+            </div>
+          </footer>
+        </main>
+      </div>
+    </div>
+  </main>
+</div>
+`;
+
+exports[`onUnstake make sure there are enough atoms to unstake is not enough 2`] = `
+<div
+  class="tm-page"
+  data-title="Validator"
+>
+  <header
+    class="tm-page-header"
+  >
+    <div
+      class="tm-page-header-container"
+    >
+      <div
+        class="tm-page-header-text"
+      >
+        <!---->
+        <!---->
+        <div
+          class="tm-page-header-body"
+        >
+          <div
+            class="header-balance"
+          >
+            <div
+              class="top"
+            >
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
+               
+              <div
+                class="total-atoms top-section"
+              >
+                <h3>
+                  Total atom
+                </h3>
+                 
+                <h2>
+                  100.0000…
+                </h2>
+              </div>
+               
+              <div
+                class="unbonded-atoms top-section"
+              >
+                <h3>
+                  Available atom
+                </h3>
+                 
+                <h2>
+                  42.0000…
+                </h2>
+              </div>
+            </div>
+             
+            <div
+              class="short-bech32"
+            >
+              <div
+                class="address"
+                id="address"
+              >
+                
+    Address Not Found
+  
+              </div>
+               
+              <div
+                class="copied"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+             
+            <div
+              class="tabs"
+            />
+             
+          </div>
+        </div>
+      </div>
+      <menu
+        class="tm-page-header-menu"
+      >
+        <div>
+          <div>
+            <div
+              class="tm-tool-bar"
+            >
+              <div
+                class="tm-tool-bar-container"
+              >
+                <div
+                  class="main"
+                >
+                  <router-link
+                    exact="exact"
+                    to="/staking/validators"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                  </router-link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </menu>
+    </div>
+  </header>
+  <main
+    class="tm-page-main"
+  >
+      
+    <div
+      class="validator-profile__header validator-profile__section"
+    >
+      <div
+        class="column"
+      >
+        <img
+          class="avatar"
+          src="~assets/images/validator-icon.svg"
+        />
+      </div>
+       
+      <div
+        class="column validator-profile__header__info"
+      >
+        <div
+          class="row validator-profile__header__name"
+        >
+          <div
+            class="column"
+          >
+            <div
+              class="validator-profile__status-and-title"
+            >
+              <span
+                class="validator-profile__status green"
+              />
+               
+              <div
+                class="validator-profile__header__name__title"
+              >
+                
+                herr_schmidt_revoked
+              
+              </div>
+            </div>
+             
+            <div
+              class="short-bech32"
+            >
+              <div
+                class="address"
+                id="address"
+              >
+                
+    cosmosvaladdr…8yqw
+  
+              </div>
+               
+              <div
+                class="copied"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+          </div>
+           
+          <div
+            class="column validator-profile__header__actions"
+          >
+            <button
+              class="tm-btn"
+              id="delegation-btn"
+            >
+              <span
+                class="tm-btn__container tm-btn--primary"
+              >
+                <!---->
+                <!---->
+                <span
+                  class="tm-btn__value"
+                >
+                  Delegate
+                </span>
+              </span>
+            </button>
+             
+            <button
+              class="tm-btn"
+              id="undelegation-btn"
+            >
+              <span
+                class="tm-btn__container tm-btn--secondary"
+              >
+                <!---->
+                <!---->
+                <span
+                  class="tm-btn__value"
+                >
+                  Undelegate
+                </span>
+              </span>
+            </button>
+          </div>
+        </div>
+         
+        <div
+          class="row validator-profile__header__data"
+        >
+          <dl
+            class="colored_dl"
+          >
+            <dt>
+              Delegated atom
+            </dt>
+             
+            <dd>
+              
+              0.0000…
+            
+            </dd>
+          </dl>
+           
+          <!---->
+           
+          <div
+            class="validator-profile__header__data__break"
+          />
+           
+          <dl
+            class="colored_dl"
+          >
+            <dt>
+              Voting Power
+            </dt>
+             
+            <dd
+              id="validator-profile__power"
+            >
+              
+              0.45 %
+            
+            </dd>
+          </dl>
+           
+          <!---->
+           
+          <dl
+            class="colored_dl"
+          >
+            <dt>
+              Commission
+            </dt>
+             
+            <dd
+              id="validator-profile__commission"
+            >
+              
+              0.05 %
+            
+            </dd>
+          </dl>
+           
+          <!---->
+        </div>
+      </div>
+    </div>
+     
+    <div
+      class="validator-profile__details validator-profile__section"
+    >
+      <div
+        class="row"
+      >
+        <div
+          class="column"
+        >
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Operator
+            </dt>
+             
+            <dd>
+              cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Keybase ID
+            </dt>
+             
+            <dd>
+              
+              n/a
+            
+            </dd>
+          </dl>
+           
+          <!---->
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Website
+            </dt>
+             
+            <dd>
+              
+              www.schmidt.de
+            
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Details
+            </dt>
+             
+            <dd
+              class="info_dl__text-box"
+            >
+              
+              Herr Schmidt
+            
+            </dd>
+          </dl>
+        </div>
+         
+        <div
+          class="column"
+        >
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Commission Rate
+            </dt>
+             
+            <dd>
+              0.05 %
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Max Commission Rate
+            </dt>
+             
+            <dd>
+              0.1 %
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Max Daily Commission Change
+            </dt>
+             
+            <dd>
+              0.005 %
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Last Commission Change
+            </dt>
+             
+            <dd>
+              
+              a few seconds ago
+            
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Self Delegated atom
+            </dt>
+             
+            <dd
+              id="validator-profile__self-bond"
+            >
+              1.00 %
+            </dd>
+          </dl>
+           
+          <!---->
+        </div>
+      </div>
+    </div>
+     
+    <!---->
+     
+    <!---->
+     
+    <!---->
+  </main>
+</div>
+`;

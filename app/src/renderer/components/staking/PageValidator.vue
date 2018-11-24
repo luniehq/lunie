@@ -185,8 +185,8 @@
         </div>
         <p>
           You have no {{ bondingDenom }}s
-          {{ action == `undelegate` ? `delegated ` : `` }}to
-          {{ action == `delegate` ? `delegate.` : `this validator.` }}
+          {{ action == `undelegate` ? ` delegated ` : ` ` }}to
+          {{ action == `delegate` ? ` delegate.` : ` this validator.` }}
         </p>
         <div slot="footer">
           <tmBtn
