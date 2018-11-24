@@ -135,7 +135,7 @@ let state = {
                 description: `This is a test proposal`,
                 initial_deposit: [
                   {
-                    denom: `stake`,
+                    denom: `steak`,
                     amount: `100`
                   }
                 ]
@@ -159,7 +159,7 @@ let state = {
                 proposal_id: `1`,
                 amount: [
                   {
-                    denom: `stake`,
+                    denom: `steak`,
                     amount: `100`
                   }
                 ]
@@ -304,13 +304,13 @@ let state = {
   parameters: {
     unbonding_time: `259200000000000`,
     max_validators: 100,
-    bond_denom: `stake`
+    bond_denom: `steak`
   },
   govParameters: {
     deposit: {
       min_deposit: [
         {
-          denom: `stake`,
+          denom: `steak`,
           amount: `coin`
         }
       ],
@@ -340,13 +340,13 @@ let state = {
       description: `Proposal description`,
       initial_deposit: [
         {
-          denom: `stake`,
+          denom: `steak`,
           amount: `100`
         }
       ],
       total_deposit: [
         {
-          denom: `stake`,
+          denom: `steak`,
           amount: `100`
         }
       ],
@@ -394,13 +394,13 @@ let state = {
       description: `custom text proposal description`,
       initial_deposit: [
         {
-          denom: `stake`,
+          denom: `steak`,
           amount: `20`
         }
       ],
       total_deposit: [
         {
-          denom: `stake`,
+          denom: `steak`,
           amount: `170`
         }
       ],
@@ -449,11 +449,11 @@ let state = {
         depositer: validators[0],
         amount: [
           {
-            denom: `stake`,
+            denom: `steak`,
             amount: `15`
           },
           {
-            denom: `stake`,
+            denom: `steak`,
             amount: `5`
           }
         ]
@@ -463,7 +463,7 @@ let state = {
         depositer: validators[1],
         amount: [
           {
-            denom: `stake`,
+            denom: `steak`,
             amount: `5`
           }
         ]
@@ -487,7 +487,7 @@ let state = {
         depositer: validators[0],
         amount: [
           {
-            denom: `stake`,
+            denom: `steak`,
             amount: `20`
           }
         ]
@@ -497,7 +497,7 @@ let state = {
         depositer: validators[1],
         amount: [
           {
-            denom: `stake`,
+            denom: `steak`,
             amount: `150`
           }
         ]

@@ -1182,7 +1182,7 @@ describe(`LCD Client Mock`, () => {
             `5`,
             lcdClientMock.addresses[0]
           )
-          expect(totalDepositBefore).not.toBeDefined()
+          expect(totalDepositBefore).toEqual({ amount: `170`, denom: `steak` })
           expect(userDepositBefore).not.toBeDefined()
 
           let deposit = {
@@ -1210,7 +1210,7 @@ describe(`LCD Client Mock`, () => {
           let totalDepositAfter = proposalAfter.total_deposit.find(coin => {
             return coin.denom === `steak`
           })
-          expect(totalDepositAfter).toEqual(deposit.amount[0])
+          expect(totalDepositAfter).toEqual({ amount: `370`, denom: `steak` }) // 170 before + 200 new
 
           // should have updated the status of the proposal from `DepositPeriod` to `VotingPeriod`
           expect(proposalAfter.proposal_status).toEqual(`VotingPeriod`)
