@@ -4,7 +4,6 @@ process.env.BABEL_ENV = `renderer`
 
 const path = require(`path`)
 const webpack = require(`webpack`)
-const stylus = require(`stylus`)
 const fs = require(`fs-extra`)
 
 const HtmlWebpackPlugin = require(`html-webpack-plugin`)
