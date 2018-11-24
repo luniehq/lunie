@@ -40,6 +40,10 @@ let rendererConfig = {
         }
       },
       {
+        test: /\.pug$/,
+        loader: `pug-plain-loader`
+      },
+      {
         test: /\.styl(us)?$/,
         use: [`style-loader`, `css-loader`, `stylus-loader`]
       },
