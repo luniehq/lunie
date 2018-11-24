@@ -147,42 +147,33 @@ export default {
   border-radius: 0.25rem;
   border: 1px solid var(--bc-dim);
 }
-
 .li-validator:hover {
   background: var(--hover-bg);
 }
-
 .li-validator .validator-profile__status {
   left: 0;
-  top: 0.5rem;
+  top: 9px;
 }
-
-.validator-profile__status
-  left
-  0
-  top
-  9px
-  .li-validator__name-container
-  .li-validator__moniker {
+.li-validator__name-container {
+  position: relative;
+  margin-left: 0.5rem;
+}
+.li-validator__name-container .li-validator__moniker {
   padding-left: 0.75rem;
 }
-
 .li-validator__moniker-container {
   display: flex;
   align-items: center;
   width: 100%;
+  min-width: 284px;
 }
-
-.li-validator__moniker-container
-  display
-  flex
-  align-items
-  center
-  width
-  100%
-  min-width
-  284px
-  .li-validator__avatar {
+.li-validator__moniker {
+  max-width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.li-validator__avatar {
   height: 3rem;
   width: 3rem;
   margin: 1rem 0.5rem;
@@ -190,12 +181,10 @@ export default {
   display: block;
   background: var(--app-nav);
 }
-
 .li-validator__avatar.no-img {
   padding: 0.5rem;
 }
-
 .li-validator__address .address {
-  font-size: sm;
+  font-size: var(--sm);
 }
 </style>

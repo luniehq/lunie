@@ -71,4 +71,6 @@ export default {
 }
 </script>
 
-<style src="./styles/app.css"></style>
+<style>
+@import "./styles/app.css";
+</style>

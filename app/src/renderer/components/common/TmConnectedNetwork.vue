@@ -99,7 +99,7 @@ export default {
   border-radius: 0.25rem;
   color: var(--dim);
   display: flex;
-  font-size: sm;
+  font-size: var(--sm);
   justify-content: space-between;
   margin: 0.5rem;
   padding: 0.5rem;
@@ -111,14 +111,14 @@ export default {
 }
 
 .tm-connected-network .exit {
-  font-size: sm;
+  font-size: var(--sm);
 }
 
 .tm-connected-network__icon {
   align-items: center;
   color: var(--success-bc);
   display: flex;
-  font-size: m;
+  font-size: var(--m);
   justify-content: center;
   padding-right: 0.25rem;
 }

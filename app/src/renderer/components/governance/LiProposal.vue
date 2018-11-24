@@ -90,48 +90,40 @@ export default {
   border-radius: 0.25rem;
   border: 1px solid var(--bc-dim);
 }
-
 .li-proposal:hover {
   background: var(--hover-bg);
 }
-
+.li-proposal__description {
+  font-size: 14px;
+  padding: 0.25rem 0 0 1rem;
+  min-width: 284px;
+  color: var(--dim);
+}
 .li-proposal .validator-profile__status {
-  position: relative;
-  left: 1px;
-  top: -2px;
+  position: absolute;
+  left: 0;
+  top: 9px;
   display: inline-block;
 }
-
-  &__description
-    font-size 14px
-    padding 0.25rem 0 0 1rem
-    min-width 284px
-    color var(--dim)
-
-  .validator-profile__status
-    position absolute
-    left 0
-    top 9px
-    display inline-block
-
-  h2
-    display inline-block
-    font-size 16px
-    padding-left 1rem
-
-  td
-    padding 1rem 0.5rem
-
-.li-proposal__title-container
-  position relative
-
-  .material-icons
-    display inline-block
-    position absolute
-    width 1rem
-    height 1rem
-    overflow hidden
-    top 4px
-    left -4px
-    color var(--success)
+.li-proposal h2 {
+  display: inline-block;
+  font-size: 16px;
+  padding-left: 1rem;
+}
+.li-proposal td {
+  padding: 1rem 0.5rem;
+}
+.li-proposal__title-container {
+  position: relative;
+}
+.li-proposal__title-container .material-icons {
+  display: inline-block;
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  overflow: hidden;
+  top: 4px;
+  left: -4px;
+  color: var(--success);
+}
 </style>

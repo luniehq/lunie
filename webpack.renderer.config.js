@@ -41,6 +41,18 @@ let rendererConfig = {
         }
       },
       {
+        test: /\.pug$/,
+        loader: `pug-plain-loader`
+      },
+      {
+        test: /\.styl(us)?$/,
+        use: [`style-loader`, `css-loader`, `stylus-loader`]
+      },
+      {
+        test: /\.css$/,
+        use: [`style-loader`, `css-loader`]
+      },
+      {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         use: [
           {
@@ -63,14 +75,6 @@ let rendererConfig = {
             }
           }
         ]
-      },
-      {
-        test: /\.pug$/,
-        loader: `pug-plain-loader`
-      },
-      {
-        test: /\.styl(us)?$/,
-        use: [`vue-style-loader`, `css-loader`, `stylus-loader`]
       }
     ]
   },

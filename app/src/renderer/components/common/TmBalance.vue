@@ -58,88 +58,87 @@ export default {
   }
 }
 </script>
-<style lang="stylus" scoped>
-@import '~variables'
-
-.header-balance
-  align-items baseline
-  display flex
-  flex-direction column
-  flex-grow 1
-  padding-top 1rem
-  padding-left 2rem
-
-  .top
-    display flex
-    flex-direction row
-
-    > .top-section
-      border-right var(--bc-dim) 1px solid
-
-    > div:last-of-type
-      border-right none
-
-    h3
-      color var(--dim)
-      font-size 14px
-      margin 0
-      font-weight 400
-
-    h2
-      color var(--bright)
-      font-size h1
-      font-weight 500
-
-    .icon-container
-      display block
-      height 100%
-
-    .icon
-      border-right none
-      height 60px
-      margin 0 1rem 0 0
-      padding 0
-      width 60px
-
-    .total-rewards .group
-      align-items baseline
-      display flex
-      flex-direction row
-
-      a
-        padding-left 10px
-
-  .short-bech32
-    padding 0.5rem 0 0.5rem 109px
-
-.top-section
-  padding 0 2rem
-
-.tabs
-  display flex
-  margin-top 2rem
-
-  .tab
-    cursor pointer
-    margin-right 2rem
-    font-size 1rem
-
-    a
-      color var(--dim)
-      display block
-      padding-bottom 1rem
-
-    a:hover
-      color var(--link)
-
-    &.tab-selected
-      border-bottom 2px solid var(--tertiary)
-
-      a
-        color var(--bright)
-
-.tm-btn
-  position absolute
-  right 0rem
-  bottom 1rem
+<style scoped>
+.header-balance {
+  align-items: baseline;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding-top: 1rem;
+  padding-left: 2rem;
+}
+.header-balance .top {
+  display: flex;
+  flex-direction: row;
+}
+.header-balance .top > .top-section {
+  border-right: var(--bc-dim) 1px solid;
+}
+.header-balance .top > div:last-of-type {
+  border-right: none;
+}
+.header-balance .top h3 {
+  color: var(--dim);
+  font-size: 14px;
+  margin: 0;
+  font-weight: 400;
+}
+.header-balance .top h2 {
+  color: var(--bright);
+  font-size: h1;
+  font-weight: 500;
+}
+.header-balance .top .icon-container {
+  display: block;
+  height: 100%;
+}
+.header-balance .top .icon {
+  border-right: none;
+  height: 60px;
+  margin: 0 1rem 0 0;
+  padding: 0;
+  width: 60px;
+}
+.header-balance .top .total-rewards .group {
+  align-items: baseline;
+  display: flex;
+  flex-direction: row;
+}
+.header-balance .top .total-rewards .group a {
+  padding-left: 10px;
+}
+.header-balance .short-bech32 {
+  padding: 0.5rem 0 0.5rem 109px;
+}
+.top-section {
+  padding: 0 2rem;
+}
+.tabs {
+  display: flex;
+  margin-top: 2rem;
+}
+.tabs .tab {
+  cursor: pointer;
+  margin-right: 2rem;
+  font-size: 1rem;
+}
+.tabs .tab a {
+  color: var(--dim);
+  display: block;
+  padding-bottom: 1rem;
+}
+.tabs .tab a:hover {
+  color: var(--link);
+}
+.tabs .tab.tab-selected {
+  border-bottom: 2px solid var(--tertiary);
+}
+.tabs .tab.tab-selected a {
+  color: var(--bright);
+}
+.tm-btn {
+  position: absolute;
+  right: 0rem;
+  bottom: 1rem;
+}
 </style>

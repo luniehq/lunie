@@ -18,6 +18,12 @@ glob(`**/*.vue`, function(err, files) {
       let match = templateRegExp.exec(content)
       if (!match) return
       const template = match[1]
+      if (template.split(`\n`)[1].startsWith(`  `)) {
+        template = template
+          .split(`\n`)
+          .map(line => line.slice(2))
+          .join(`\n`)
+      }
       try {
         let css = stylus.render(template)
         let replaced = content.replace(
