@@ -75,9 +75,22 @@ export default {
 <style lang="stylus">
 @require '~variables'
 
-#onboarding .tm-session-main
-  position relative
+#onboarding
+  .tm-session-main
+    position relative
+
+    img
+      height 300px
+
+  .tm-session-footer
+    justify-content center
+
+  .tm-session-label
+    padding 1rem 3rem
 
 .tm-bar-discrete__node--active
   border-color var(--tertiary) !important
+
+.tm-bar-discrete__node:hover
+  border-color var(--link) !important
 </style>
