@@ -52,7 +52,7 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: z(modal);
+  z-index: var(--z-modal);
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.5);

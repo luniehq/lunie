@@ -81,7 +81,7 @@ export default {
 
 <style>
 #app-header {
-  z-index: z(appHeader);
+  z-index: var(--z-appHeader);
 }
 
 #app-header .container {

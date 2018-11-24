@@ -71,4 +71,4 @@ export default {
 }
 </script>
 
-<style lang="stylus" src="./styles/app.styl"></style>
+<style src="./styles/app.css"></style>

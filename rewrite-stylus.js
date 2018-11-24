@@ -36,3 +36,15 @@ glob(`**/*.vue`, function(err, files) {
     })
   }
 })
+
+glob(`app/src/renderer/styles/**/*.styl`, function(err, files) {
+  files.forEach(async file => {
+    let content = fs.readFileSync(file, `utf8`)
+    try {
+      let css = stylus.render(content)
+      fs.writeFileSync(file.replace(`.styl`, `.css`), css, `utf8`)
+    } catch (err) {
+      console.log(file, `failed`, err)
+    }
+  })
+})

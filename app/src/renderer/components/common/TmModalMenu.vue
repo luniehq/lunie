@@ -9,7 +9,7 @@ export default { name: `tm-modal-menu` }
 <style>
 .tm-modal-menu {
   background: var(--app-bg-alpha);
-  z-index: z(default);
+  z-index: var(--z-default);
   user-select: none;
   backdrop-filter: blur(0.5rem);
   overflow-y: scroll;

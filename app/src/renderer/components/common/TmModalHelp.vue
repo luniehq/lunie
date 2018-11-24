@@ -37,6 +37,6 @@ export default {
 
 <style>
 .tm-modal.tm-modal-help {
-  z-index: z(modalHelp);
+  z-index: var(--z-modalHelp);
 }
 </style>

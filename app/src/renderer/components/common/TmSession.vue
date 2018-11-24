@@ -99,7 +99,7 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: z(default);
+  z-index: var(--z-default);
   background: var(--app-fg);
 }
 

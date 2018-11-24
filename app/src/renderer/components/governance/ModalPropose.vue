@@ -180,7 +180,7 @@ export default {
   position: fixed;
   bottom: 0;
   width: 50%;
-  z-index: z(modal);
+  z-index: var(--z-modal);
 }
 
 .modal-propose-header {

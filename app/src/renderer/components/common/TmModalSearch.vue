@@ -127,7 +127,7 @@ export default {
 .tm-modal-search {
   position: sticky;
   top: 0;
-  z-index: z(modal);
+  z-index: var(--z-modal);
   width: 100%;
 }
 

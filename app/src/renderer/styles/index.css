@@ -1,14 +1,17 @@
-body { margin: 0; }
+body {
+  margin: 0;
+}
 #load {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100vw;
   height: 100vh;
-  background: app-bg;
+  background: var(--app-bg);
 }
 #load-container {
-  font: 16px/1.5 system, -apple-system, BlinkMacSystemFont, "Roboto", "Seogue UI", "Helvetica Neue", "Lucida Grande", sans-serif;
+  font: 16px/1.5 system, -apple-system, BlinkMacSystemFont, "Roboto",
+    "Seogue UI", "Helvetica Neue", "Lucida Grande", sans-serif;
   margin: 0 auto;
   width: 18rem;
   display: flex;
@@ -17,26 +20,25 @@ body { margin: 0; }
   box-sizing: border-box;
 }
 #load-title {
-  font-size: h2;
+  font-size: var(--h2);
   font-weight: 600;
   line-height: 1;
   text-transform: uppercase;
   letter-spacing: 0.25rem;
-  color: bright;
+  color: var(--bright);
   margin-bottom: 1rem;
   padding: 0 0.5rem;
 }
-
 #load-main p {
-  font-size: m;
+  font-size: var(--m);
   line-height: 2rem;
   font-weight: 300;
   padding: 0 0.5rem;
-  color: dim;
-  background: app-fg;
+  color: var(--dim);
+  background: var(--app-fg);
   margin: 0 0 1px;
 }
 #load-main a {
   text-decoration: none;
-  color: link;
+  color: var(--link);
 }

@@ -34,6 +34,6 @@ export default {
 
 <style>
 .tm-modal.tm-modal-receive {
-  z-index: z(modalError);
+  z-index: var(--z-modalError);
 }
 </style>

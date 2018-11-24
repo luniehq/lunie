@@ -86,7 +86,7 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: z(below);
+  z-index: var(--z-below);
 }
 
 .tm-modal-lcd-approval__icon i.material-icons {

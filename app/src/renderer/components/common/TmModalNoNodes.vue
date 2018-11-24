@@ -54,7 +54,7 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: z(modalError);
+  z-index: var(--z-modalError);
   background: var(--app-bg);
   width: 100vw;
   height: 100vh;
@@ -73,7 +73,7 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: z(below);
+  z-index: var(--z-below);
 }
 
 .tm-modal-error__icon i.material-icons {

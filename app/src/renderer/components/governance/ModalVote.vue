@@ -137,7 +137,7 @@ export default {
   position: fixed;
   top: 50%;
   width: 40%;
-  z-index: z(modal);
+  z-index: var(--z-modal);
 }
 
 .modal-vote-header {
