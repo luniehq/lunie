@@ -91,7 +91,7 @@ describe(`App Start`, () => {
           }
         }
       },
-      captureException: error => console.error(error)
+      captureException: error => mockConsole.error(error)
     }))
     require(`renderer/main.js`)
   })
