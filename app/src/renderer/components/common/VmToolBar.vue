@@ -49,9 +49,10 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
-.tm-page-header-text
-  padding-right 1rem
+<style>
+.tm-page-header-text {
+  padding-right: 1rem;
+}
 
 .tm-page-header-text i {
   padding: 1rem;

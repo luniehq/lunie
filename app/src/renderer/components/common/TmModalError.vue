@@ -1,22 +1,31 @@
-<template lang="pug">
-.tm-modal-error__wrapper
-  .tm-modal-error
-    .tm-modal-error__icon: i.material-icons {{ this.icon }}
-    .tm-modal-error__title {{ this.title }}
-    .tm-modal-error__body {{ this.body }}
-    .tm-modal-error__footer
-      tm-btn#tm-modal-error__btn-issue(
-        size="lg"
-        icon="bug_report"
-        color="primary"
-        value="Create an issue"
-        type="anchor"
-        :href="issueUrl")
-      tm-btn#tm-modal-error__btn-logs(
-        size="lg"
-        icon="info_outline"
-        value="View app logs"
-        @click.native="viewLogs")
+<template>
+  <div class="tm-modal-error__wrapper">
+    <div class="tm-modal-error">
+      <div class="tm-modal-error__icon">
+        <i class="material-icons">{{ this.icon }}</i>
+      </div>
+      <div class="tm-modal-error__title">{{ this.title }}</div>
+      <div class="tm-modal-error__body">{{ this.body }}</div>
+      <div class="tm-modal-error__footer">
+        <tm-btn
+          id="tm-modal-error__btn-issue"
+          size="lg"
+          icon="bug_report"
+          color="primary"
+          value="Create an issue"
+          type="anchor"
+          :href="issueUrl"
+        ></tm-btn>
+        <tm-btn
+          id="tm-modal-error__btn-logs"
+          size="lg"
+          icon="info_outline"
+          value="View app logs"
+          @click.native="viewLogs"
+        ></tm-btn>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>

@@ -1,25 +1,30 @@
-<template lang="pug">
-  .header-balance
-    .top
-      .icon-container
-        img.icon(src="~assets/images/cosmos-logo.png")
-      .total-atoms.top-section
-        h3 Total {{bondingDenom}}
-        h2 {{this.num.shortNumber(totalAtoms)}}
-      .unbonded-atoms.top-section(v-if="unbondedAtoms")
-        h3 Available {{bondingDenom}}
-        h2 {{unbondedAtoms}}
-
-    short-bech32(:address="user.address")
-
-    .tabs
-      .tab(
-        v-for="tab in tabs",
-        :class="{'tab-selected': $route.name === tab}",
-      )
-        router-link(:to="{name: tab}") {{ tab }}
-
-    slot
+<template>
+  <div class="header-balance">
+    <div class="top">
+      <div class="icon-container">
+        <img class="icon" src="~assets/images/cosmos-logo.png" />
+      </div>
+      <div class="total-atoms top-section">
+        <h3>Total {{ bondingDenom }}</h3>
+        <h2>{{ this.num.shortNumber(totalAtoms) }}</h2>
+      </div>
+      <div class="unbonded-atoms top-section" v-if="unbondedAtoms">
+        <h3>Available {{ bondingDenom }}</h3>
+        <h2>{{ unbondedAtoms }}</h2>
+      </div>
+    </div>
+    <short-bech32 :address="user.address"></short-bech32>
+    <div class="tabs">
+      <div
+        class="tab"
+        v-for="tab in tabs"
+        :class="{ 'tab-selected': $route.name === tab }"
+      >
+        <router-link :to="{ name: tab }">{{ tab }}</router-link>
+      </div>
+    </div>
+    <slot></slot>
+  </div>
 </template>
 <script>
 import num from "scripts/num"

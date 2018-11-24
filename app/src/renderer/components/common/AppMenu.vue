@@ -1,34 +1,52 @@
-<template lang="pug">
-menu.app-menu
-  .app-menu-main
-    router-link.app-menu-item#app-menu__wallet(
-      to="/"
-      exact
-      @click.native="close"
-      title="Wallet")
-      h2.app-menu-title Wallet
-      i.material-icons chevron_right
-    router-link.app-menu-item#app-menu__transactions(
-      v-if="config.devMode || mockedConnector"
-      to="/transactions"
-      exact
-      @click.native="close"
-      title="Transactions")
-      h2.app-menu-title Transactions
-      i.material-icons chevron_right
-    router-link.app-menu-item#app-menu__staking(
-      to="/staking"
-      @click.native="close"
-      title="Staking")
-      h2.app-menu-title Staking
-      i.material-icons chevron_right
-    router-link.app-menu-item#app-menu__proposals(
-      to="/governance"
-      @click.native="close"
-      title="Governance")
-      h2.app-menu-title Governance
-      i.material-icons chevron_right
-  connected-network
+<template>
+  <menu class="app-menu">
+    <div class="app-menu-main">
+      <router-link
+        class="app-menu-item"
+        id="app-menu__wallet"
+        to="/"
+        exact="exact"
+        @click.native="close"
+        title="Wallet"
+      >
+        <h2 class="app-menu-title">Wallet</h2>
+        <i class="material-icons">chevron_right</i>
+      </router-link>
+      <router-link
+        class="app-menu-item"
+        id="app-menu__transactions"
+        v-if="config.devMode || mockedConnector"
+        to="/transactions"
+        exact="exact"
+        @click.native="close"
+        title="Transactions"
+      >
+        <h2 class="app-menu-title">Transactions</h2>
+        <i class="material-icons">chevron_right</i>
+      </router-link>
+      <router-link
+        class="app-menu-item"
+        id="app-menu__staking"
+        to="/staking"
+        @click.native="close"
+        title="Staking"
+      >
+        <h2 class="app-menu-title">Staking</h2>
+        <i class="material-icons">chevron_right</i>
+      </router-link>
+      <router-link
+        class="app-menu-item"
+        id="app-menu__proposals"
+        to="/governance"
+        @click.native="close"
+        title="Governance"
+      >
+        <h2 class="app-menu-title">Governance</h2>
+        <i class="material-icons">chevron_right</i>
+      </router-link>
+    </div>
+    <connected-network></connected-network>
+  </menu>
 </template>
 
 <script>

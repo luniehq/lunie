@@ -1,20 +1,26 @@
-<template lang="pug">
-li.li-coin
-  .li-coin__icon
-    img(src="../../assets/images/cosmos-logo.png")
-  .li-coin__content
-    .li-coin__content__left__denom
-        p.coin-denom {{ this.denomination }}
-
-    .li-coin__content__left__amount
-        p.coin-amount {{ this.amount }}
-
-    router-link(:to="{ name: 'send', params: { denom: coin.denom }}")
-      tm-btn.sendTx-btn(
-        value="Send"
-        icon="chevron_right"
-        icon-pos="right"
-        color="primary")
+<template>
+  <li class="li-coin">
+    <div class="li-coin__icon">
+      <img src="../../assets/images/cosmos-logo.png" />
+    </div>
+    <div class="li-coin__content">
+      <div class="li-coin__content__left__denom">
+        <p class="coin-denom">{{ this.denomination }}</p>
+      </div>
+      <div class="li-coin__content__left__amount">
+        <p class="coin-amount">{{ this.amount }}</p>
+      </div>
+      <router-link :to="{ name: 'send', params: { denom: coin.denom } }">
+        <tm-btn
+          class="sendTx-btn"
+          value="Send"
+          icon="chevron_right"
+          icon-pos="right"
+          color="primary"
+        ></tm-btn>
+      </router-link>
+    </div>
+  </li>
 </template>
 
 <script>

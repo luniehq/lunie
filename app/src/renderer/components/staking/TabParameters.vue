@@ -1,47 +1,107 @@
-<template lang="pug">
-  div(v-if="config.devMode")
-    div
-      h3
-        | Staking Pool
-        |
-        i.material-icons.info-button(v-tooltip.top="poolTooltips.description") info_outline
-      .parameters__details.parameters__section
-        .row
-          .column
-            dl.info_dl
-              dt
-                | Loose {{ parameters.parameters.bond_denom }}
-                |
-                i.material-icons.info-button(v-tooltip.top="poolTooltips.loose_tokens") info_outline
-              dd {{ this.pool.pool.loose_tokens ? pool.pool.loose_tokens : `n/a` }}
-          .column
-            dl.info_dl
-              dt
-                | Delegated {{ parameters.parameters.bond_denom }}
-                |
-                i.material-icons.info-button(v-tooltip.top="poolTooltips.bonded_tokens") info_outline
-              dd {{ pool.pool.bonded_tokens ? pool.pool.bonded_tokens : `n/a` }}
-    div
-      h3
-        | Staking Parameters
-        |
-        i.material-icons.info-button(v-tooltip.top="paramsTooltips.description") info_outline
-      .parameters__details.parameters__section
-        .row
-          .column
-            dl.info_dl
-              dt
-                | Unbonding Time
-                |
-                i.material-icons.info-button(v-tooltip.top="paramsTooltips.unbonding_time") info_outline
-              dd {{ parameters.parameters.unbonding_time ? unbondingTimeInDays + ` days`: `n/a` }}
-            dl.info_dl
-              dt Current Staking Coin Denomination
-              dd {{ parameters.parameters.bond_denom ? parameters.parameters.bond_denom : `n/a` }}
-          .column
-            dl.info_dl
-              dt Maximum Number of Validators
-              dd {{ parameters.parameters.max_validators ? parameters.parameters.max_validators : `n/a` }}
+<template>
+  <div v-if="config.devMode">
+    <div>
+      <h3>
+        Staking Pool
+        <i
+          class="material-icons info-button"
+          v-tooltip.top="poolTooltips.description"
+          >info_outline</i
+        >
+      </h3>
+      <div class="parameters__details parameters__section">
+        <div class="row">
+          <div class="column">
+            <dl class="info_dl">
+              <dt>
+                Loose {{ parameters.parameters.bond_denom }}
+                <i
+                  class="material-icons info-button"
+                  v-tooltip.top="poolTooltips.loose_tokens"
+                  >info_outline</i
+                >
+              </dt>
+              <dd>
+                {{
+                  this.pool.pool.loose_tokens ? pool.pool.loose_tokens : `n/a`
+                }}
+              </dd>
+            </dl>
+          </div>
+          <div class="column">
+            <dl class="info_dl">
+              <dt>
+                Delegated {{ parameters.parameters.bond_denom }}
+                <i
+                  class="material-icons info-button"
+                  v-tooltip.top="poolTooltips.bonded_tokens"
+                  >info_outline</i
+                >
+              </dt>
+              <dd>
+                {{ pool.pool.bonded_tokens ? pool.pool.bonded_tokens : `n/a` }}
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h3>
+        Staking Parameters
+        <i
+          class="material-icons info-button"
+          v-tooltip.top="paramsTooltips.description"
+          >info_outline</i
+        >
+      </h3>
+      <div class="parameters__details parameters__section">
+        <div class="row">
+          <div class="column">
+            <dl class="info_dl">
+              <dt>
+                Unbonding Time
+                <i
+                  class="material-icons info-button"
+                  v-tooltip.top="paramsTooltips.unbonding_time"
+                  >info_outline</i
+                >
+              </dt>
+              <dd>
+                {{
+                  parameters.parameters.unbonding_time
+                    ? unbondingTimeInDays + ` days`
+                    : `n/a`
+                }}
+              </dd>
+            </dl>
+            <dl class="info_dl">
+              <dt>Current Staking Coin Denomination</dt>
+              <dd>
+                {{
+                  parameters.parameters.bond_denom
+                    ? parameters.parameters.bond_denom
+                    : `n/a`
+                }}
+              </dd>
+            </dl>
+          </div>
+          <div class="column">
+            <dl class="info_dl">
+              <dt>Maximum Number of Validators</dt>
+              <dd>
+                {{
+                  parameters.parameters.max_validators
+                    ? parameters.parameters.max_validators
+                    : `n/a`
+                }}
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
