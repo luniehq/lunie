@@ -135,7 +135,7 @@ let state = {
                 description: `This is a test proposal`,
                 initial_deposit: [
                   {
-                    denom: `stake`,
+                    denom: `steak`,
                     amount: `100`
                   }
                 ]
@@ -159,7 +159,7 @@ let state = {
                 proposal_id: `1`,
                 amount: [
                   {
-                    denom: `stake`,
+                    denom: `steak`,
                     amount: `100`
                   }
                 ]
@@ -298,18 +298,11 @@ let state = {
     }
   ],
   pool: {
-    loose_tokens: 0,
-    bonded_tokens: 0,
-    inflation_last_time: `1970-01-01 01:00:00 +0100 CET`,
-    inflation: `700000000`,
-    date_last_commission_reset: 0,
-    prev_bonded_shares: 0
+    loose_tokens: `100.0000000000`,
+    bonded_tokens: `50.0000000000`
   },
   parameters: {
-    inflation_max: `20000000000`,
-    inflation_min: `700000000`,
-    goal_bonded: `6700000000`,
-    unbonding_time: `72h0m0s`,
+    unbonding_time: `259200000000000`,
     max_validators: 100,
     bond_denom: `steak`
   },
@@ -317,11 +310,11 @@ let state = {
     deposit: {
       min_deposit: [
         {
-          denom: `stake`,
+          denom: `steak`,
           amount: `coin`
         }
       ],
-      max_deposit_period: `86400000000000`
+      max_deposit_period: `86400000000`
     },
     tallying: {
       threshold: `0.5000000000`,
@@ -329,7 +322,7 @@ let state = {
       governance_penalty: `0.0100000000`
     },
     voting: {
-      voting_period: `86400000000000`
+      voting_period: `86400000000`
     }
   },
   sendHeight: 2,
@@ -347,13 +340,13 @@ let state = {
       description: `Proposal description`,
       initial_deposit: [
         {
-          denom: `stake`,
+          denom: `steak`,
           amount: `100`
         }
       ],
       total_deposit: [
         {
-          denom: `stake`,
+          denom: `steak`,
           amount: `100`
         }
       ],
@@ -405,13 +398,13 @@ let state = {
       description: `custom text proposal description`,
       initial_deposit: [
         {
-          denom: `stake`,
+          denom: `steak`,
           amount: `20`
         }
       ],
       total_deposit: [
         {
-          denom: `stake`,
+          denom: `steak`,
           amount: `170`
         }
       ],
@@ -503,11 +496,11 @@ let state = {
         depositer: validators[0],
         amount: [
           {
-            denom: `stake`,
+            denom: `steak`,
             amount: `15`
           },
           {
-            denom: `stake`,
+            denom: `steak`,
             amount: `5`
           }
         ]
@@ -517,7 +510,7 @@ let state = {
         depositer: validators[1],
         amount: [
           {
-            denom: `stake`,
+            denom: `steak`,
             amount: `5`
           }
         ]
@@ -541,7 +534,7 @@ let state = {
         depositer: validators[0],
         amount: [
           {
-            denom: `stake`,
+            denom: `steak`,
             amount: `20`
           }
         ]
@@ -551,7 +544,7 @@ let state = {
         depositer: validators[1],
         amount: [
           {
-            denom: `stake`,
+            denom: `steak`,
             amount: `150`
           }
         ]
@@ -977,7 +970,7 @@ module.exports = {
   async getPool() {
     return state.pool
   },
-  async getParameters() {
+  async getStakingParameters() {
     return state.parameters
   },
   async getProposals() {

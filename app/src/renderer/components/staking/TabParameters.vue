@@ -2,42 +2,6 @@
   div(v-if="config.devMode")
     div
       h3
-        | Staking Parameters
-        |
-        i.material-icons.info-button(v-tooltip.top="paramsTooltips.description") info_outline
-      .parameters__details.parameters__section
-        .row
-          .column
-            dl.info_dl
-              dt
-                | Inflation Rate Change
-                |
-                i.material-icons.info-button(v-tooltip.top="paramsTooltips.inflation_rate_change") info_outline
-              dd {{ parameters.inflation_rate_change ? parameters.inflation_rate_change : `n/a` }}
-            dl.info_dl
-              dt Minimum Inflation Rate
-              dd {{ parameters.inflation_min ? parameters.inflation_min : `n/a` }}
-            dl.info_dl
-              dt Maximum Inflation Rate
-              dd {{ parameters.inflation_max ? parameters.inflation_max : `n/a` }}
-            dl.info_dl
-              dt Goal For Delegated {{ bondingDenom }}s
-              dd {{ parameters.goal_bonded ? parameters.goal_bonded : `n/a` }}
-          .column
-            dl.info_dl
-              dt
-                | Unbonding Time
-                |
-                i.material-icons.info-button(v-tooltip.top="paramsTooltips.unbonding_time") info_outline
-              dd {{ parameters.unbonding_time ? parameters.unbonding_time : `n/a` }}
-            dl.info_dl
-              dt Max Number of Validators
-              dd {{ parameters.max_validators ? parameters.max_validators : `n/a` }}
-            dl.info_dl
-              dt Current Staking Denomination
-              dd {{ parameters.bond_denom ? parameters.bond_denom : `n/a` }}
-    div
-      h3
         | Staking Pool
         |
         i.material-icons.info-button(v-tooltip.top="poolTooltips.description") info_outline
@@ -46,45 +10,41 @@
           .column
             dl.info_dl
               dt
-                | Inflation
+                | Loose {{ parameters.parameters.bond_denom }}
                 |
-                i.material-icons.info-button(v-tooltip.top="poolTooltips.inflation") info_outline
-              dd {{ pool.inflation ? pool.inflation : `n/a` }}
-            dl.info_dl
-              dt
-                | Inflation Last Block
-                |
-                i.material-icons.info-button(v-tooltip.top="poolTooltips.inflation_last_time") info_outline
-              dd {{ pool.inflation_last_time ? pool.inflation_last_time : `n/a` }}
-            dl.info_dl
-              dt
-                | Date of Last Commission Reset
-                |
-                i.material-icons.info-button(v-tooltip.top="poolTooltips.date_last_commission_reset") info_outline
-              dd {{ pool.date_last_commission_reset ? timeAgo(pool.date_last_commission_reset) : `n/a` }}
+                i.material-icons.info-button(v-tooltip.top="poolTooltips.loose_tokens") info_outline
+              dd {{ this.pool.pool.loose_tokens ? pool.pool.loose_tokens : `n/a` }}
           .column
             dl.info_dl
               dt
-                | Loose {{ bondingDenom }}
-                |
-                i.material-icons.info-button(v-tooltip.top="poolTooltips.loose_tokens") info_outline
-              dd {{ pool.loose_tokens ? pool.loose_tokens : `n/a` }}
-            dl.info_dl
-              dt
-                | Delegated {{ bondingDenom }}
+                | Delegated {{ parameters.parameters.bond_denom }}
                 |
                 i.material-icons.info-button(v-tooltip.top="poolTooltips.bonded_tokens") info_outline
-              dd {{ pool.bonded_tokens ? pool.bonded_tokens : `n/a` }}
+              dd {{ pool.pool.bonded_tokens ? pool.pool.bonded_tokens : `n/a` }}
+    div
+      h3
+        | Staking Parameters
+        |
+        i.material-icons.info-button(v-tooltip.top="paramsTooltips.description") info_outline
+      .parameters__details.parameters__section
+        .row
+          .column
             dl.info_dl
               dt
-                | Previous delegated shares
+                | Unbonding Time
                 |
-                i.material-icons.info-button(v-tooltip.top="poolTooltips.prev_bonded_shares") info_outline
-              dd {{ pool.prev_bonded_shares ? pool.prev_bonded_shares : `n/a` }}
+                i.material-icons.info-button(v-tooltip.top="paramsTooltips.unbonding_time") info_outline
+              dd {{ parameters.parameters.unbonding_time ? unbondingTimeInDays + ` days`: `n/a` }}
+            dl.info_dl
+              dt Current Staking Coin Denomination
+              dd {{ parameters.parameters.bond_denom ? parameters.parameters.bond_denom : `n/a` }}
+          .column
+            dl.info_dl
+              dt Maximum Number of Validators
+              dd {{ parameters.parameters.max_validators ? parameters.parameters.max_validators : `n/a` }}
 </template>
 
 <script>
-import moment from "moment"
 import { mapGetters } from "vuex"
 import { TmBtn, TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
 export default {
@@ -99,10 +59,6 @@ export default {
   data: () => ({
     paramsTooltips: {
       description: `Staking parameters define the high level settings for staking`,
-      inflation_rate_change: `Maximum annual change in inflation rate`,
-      inflation_max: `Maximum inflation rate`,
-      inflation_min: `Minimum inflation rate`,
-      goal_bonded: `Goal for percentage of delegated atoms`,
       unbonding_time: `Time to complete an undelegation transaction and claim rewards`,
       max_validators: `Maximum number of validators in the validator set`,
       bond_denom: `The token being used for staking`
@@ -110,30 +66,21 @@ export default {
     poolTooltips: {
       description: `The staking pool represents the dynamic parameters of the Cosmos Hub`,
       loose_tokens: `Total tokens which are not currently delegated to a validator`,
-      bonded_tokens: `Total tokens which are currently delegated to a validator`,
-      inflation_last_time: `The block where inflation was last processed`,
-      inflation: `Current annual inflation rate`,
-      date_last_commission_reset: `Timestamp for last commission accounting reset (daily)`,
-      prev_bonded_shares: `Last recorded delegated shares; used for fee calculations`
+      bonded_tokens: `Total tokens which are currently delegated to a validator`
     }
   }),
   computed: {
-    ...mapGetters([`bondingDenom`, `config`, `parameters`, `pool`])
+    ...mapGetters([`config`, `parameters`, `pool`]),
+    unbondingTimeInDays() {
+      return (
+        parseInt(this.parameters.parameters.unbonding_time) /
+        (10 ** 9 * 60 * 60 * 24)
+      )
+    }
   },
   async mounted() {
-    this.getStakingParameters()
-    this.getStakingPool()
-  },
-  methods: {
-    timeAgo(date) {
-      return moment(date, `x`).fromNow()
-    },
-    getStakingParameters() {
-      this.$store.dispatch(`getParameters`)
-    },
-    getStakingPool() {
-      this.$store.dispatch(`getPool`)
-    }
+    this.$store.dispatch(`getStakingParameters`)
+    this.$store.dispatch(`getPool`)
   }
 }
 </script>
