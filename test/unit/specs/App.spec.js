@@ -5,6 +5,8 @@ jest.mock(
   () => jest.fn(() => require(`../helpers/node_mock`)) // using jest.fn to be able to spy on the constructor call
 )
 
+let _mockConsole = console // needed to use the console in a mock
+
 describe(`App Start`, () => {
   jest.mock(`../../../app/src/config`, () => ({
     google_analytics_uid: `123`,
@@ -14,7 +16,7 @@ describe(`App Start`, () => {
     config: () => {
       return { install: () => {} }
     },
-    captureException: error => console.error(error)
+    captureException: error => _mockConsole.error(error)
   }))
   jest.mock(`renderer/google-analytics.js`, () => () => {})
   // popper.js is used by tooltips and causes some errors if
