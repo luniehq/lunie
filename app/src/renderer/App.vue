@@ -1,18 +1,22 @@
-<template lang="pug">
-#app
-  modal-help
-  session(v-if="config.modals.session.active")
-  onboarding(v-else-if="onboarding.active")
-  template(v-else)
-    app-header
-    #app-content
-      router-view
-    modal-receive
-  tm-notifications(:notifications='notifications' theme='cosmos')
-  modal-error(v-if='config.modals.error.active' :body='config.modals.error.message')
-  modal-no-nodes(v-if='config.modals.noNodes.active')
-  modal-node-halted(v-if='config.modals.nodeHalted.active')
-  modal-lcd-approval(v-if='approvalRequired' :hash='approvalRequired')
+<template>
+  <div id="app">
+    <modal-help />
+    <session v-if="config.modals.session.active" />
+    <onboarding v-else-if="onboarding.active" />
+    <template v-else>
+      <app-header />
+      <div id="app-content"><router-view /></div>
+      <modal-receive />
+    </template>
+    <tm-notifications :notifications="notifications" theme="cosmos" />
+    <modal-error
+      v-if="config.modals.error.active"
+      :body="config.modals.error.message"
+    />
+    <modal-no-nodes v-if="config.modals.noNodes.active" />
+    <modal-node-halted v-if="config.modals.nodeHalted.active" />
+    <modal-lcd-approval v-if="approvalRequired" :hash="approvalRequired" />
+  </div>
 </template>
 
 <script>
@@ -59,4 +63,6 @@ export default {
 }
 </script>
 
-<style lang="stylus" src="./styles/app.styl"></style>
+<style>
+@import "./styles/app.css";
+</style>

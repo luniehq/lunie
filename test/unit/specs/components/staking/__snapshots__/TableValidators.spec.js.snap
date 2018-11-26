@@ -36,7 +36,7 @@ exports[`TableValidators has the expected html structure 1`] = `
                   <span class=\\"validator-profile__status yellow\\"></span><a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au\\" class=\\"li-validator__moniker li-validator-validator \\">good_greg</a>
                   <div class=\\"short-bech32 li-validator__address\\">
                      <div id=\\"address\\" class=\\"address\\">
-                        cosmosvaladdr…n3au
+                        cosmosvaladdr…n3au  
                      </div>
             <div class=\\"copied\\">
                <i class=\\"material-icons\\">check</i><span>Copied</span>
@@ -45,13 +45,13 @@ exports[`TableValidators has the expected html structure 1`] = `
 </div>
 </td>
          <td class=\\"li-validator__delegated-steak\\">
-            0.0000…
+            0.0000…  
          </td>
          <td class=\\"li-validator__rewards\\">
             n/a
          </td>
          <td class=\\"li-validator__voting-power\\">
-            0.00%
+            0.00%  
          </td>
          <td class=\\"li-validator__uptime\\">
             n/a
@@ -70,7 +70,7 @@ exports[`TableValidators has the expected html structure 1`] = `
                <span class=\\"validator-profile__status red\\"></span><a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n\\" class=\\"li-validator__moniker li-validator-validator \\">herr_schmidt_revoked</a>
                <div class=\\"short-bech32 li-validator__address\\">
                   <div id=\\"address\\" class=\\"address\\">
-                     cosmosvaladdr…rg7n
+                     cosmosvaladdr…rg7n  
                   </div>
             <div class=\\"copied\\">
                <i class=\\"material-icons\\">check</i><span>Copied</span>
@@ -79,13 +79,13 @@ exports[`TableValidators has the expected html structure 1`] = `
 </div>
 </td>
          <td class=\\"li-validator__delegated-steak\\">
-            0.0000…
+            0.0000…  
          </td>
          <td class=\\"li-validator__rewards\\">
             n/a
          </td>
          <td class=\\"li-validator__voting-power\\">
-            0.00%
+            0.00%  
          </td>
          <td class=\\"li-validator__uptime\\">
             n/a
@@ -104,7 +104,7 @@ exports[`TableValidators has the expected html structure 1`] = `
                <span class=\\"validator-profile__status yellow\\"></span><a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw\\" class=\\"li-validator__moniker li-validator-validator \\">mr_mounty</a>
                <div class=\\"short-bech32 li-validator__address\\">
                   <div id=\\"address\\" class=\\"address\\">
-                     cosmosvaladdr…8yqw
+                     cosmosvaladdr…8yqw  
                   </div>
             <div class=\\"copied\\">
                <i class=\\"material-icons\\">check</i><span>Copied</span>
@@ -113,13 +113,13 @@ exports[`TableValidators has the expected html structure 1`] = `
 </div>
 </td>
          <td class=\\"li-validator__delegated-steak\\">
-            0.0000…
+            0.0000…  
          </td>
          <td class=\\"li-validator__rewards\\">
             n/a
          </td>
          <td class=\\"li-validator__voting-power\\">
-            0.00%
+            0.00%  
          </td>
          <td class=\\"li-validator__uptime\\">
             n/a
@@ -208,6 +208,7 @@ exports[`TableValidators should filter the delegates 1`] = `
         </th>
       </tr>
     </thead>
+     
     <tbody>
       <tr
         class="li-validator"
@@ -221,18 +222,21 @@ exports[`TableValidators should filter the delegates 1`] = `
             src="~assets/images/validator-icon.svg"
             width="48"
           />
+           
           <div
             class="li-validator__name-container"
           >
             <span
               class="validator-profile__status yellow"
             />
+             
             <a
               class="li-validator__moniker li-validator-validator "
               href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
             >
               mr_mounty
             </a>
+             
             <div
               class="short-bech32 li-validator__address"
             >
@@ -240,8 +244,11 @@ exports[`TableValidators should filter the delegates 1`] = `
                 class="address"
                 id="address"
               >
-                cosmosvaladdr…8yqw
+                
+    cosmosvaladdr…8yqw
+  
               </div>
+               
               <div
                 class="copied"
               >
@@ -257,31 +264,41 @@ exports[`TableValidators should filter the delegates 1`] = `
             </div>
           </div>
         </td>
+         
         <td
           class="li-validator__delegated-steak"
         >
-          0.0000…
+          
+    0.0000…
+  
         </td>
+         
         <td
           class="li-validator__rewards"
         >
           n/a
         </td>
+         
         <td
           class="li-validator__voting-power"
         >
-          0.00%
+          
+    0.00%
+  
         </td>
+         
         <td
           class="li-validator__uptime"
         >
           n/a
         </td>
+         
         <td
           class="li-validator__commission"
         >
           0.00%
         </td>
+         
         <td
           class="li-validator__slashes"
         >

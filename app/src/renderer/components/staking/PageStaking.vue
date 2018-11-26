@@ -1,17 +1,21 @@
-<template lang="pug">
-tm-page(data-title="Staking").staking
-  template(slot="menu-body")
-    tm-balance(:tabs="tabs")
-
-    vm-tool-bar
-      a(@click='connected && updateDelegates()' v-tooltip.bottom="'Refresh'" :disabled="!connected")
-        i.material-icons refresh
-      a(@click='setSearch()' v-tooltip.bottom="'Search'")
-        i.search.material-icons search
-
-  modal-search(type="delegates")
-
-  router-view
+<template>
+  <tm-page class="staking" data-title="Staking"
+    ><template slot="menu-body">
+      <tm-balance :tabs="tabs" />
+      <vm-tool-bar
+        ><a
+          v-tooltip.bottom="'Refresh'"
+          :disabled="!connected"
+          @click="connected &amp;&amp; updateDelegates()"
+          ><i class="material-icons">refresh</i></a
+        ><a v-tooltip.bottom="'Search'" @click="setSearch()"
+          ><i class="search material-icons">search</i></a
+        ></vm-tool-bar
+      >
+    </template>
+    <modal-search type="delegates" />
+    <router-view />
+  </tm-page>
 </template>
 
 <script>

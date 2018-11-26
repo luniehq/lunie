@@ -25,7 +25,7 @@ exports[`TmBalance has the expected html structure before adding props 1`] = `
 </div>
 <div class=\\"short-bech32\\">
    <div id=\\"address\\" class=\\"address\\">
-      useraddress…6876
+      useraddress…6876  
    </div>
 <div class=\\"copied\\">
    <i class=\\"material-icons\\">check</i><span>Copied</span>

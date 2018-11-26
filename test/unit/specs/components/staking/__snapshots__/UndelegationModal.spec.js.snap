@@ -17,6 +17,7 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
     >
       Undelegate
     </span>
+     
     <div
       class="tm-modal-icon tm-modal-close"
     >
@@ -27,6 +28,7 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
       </i>
     </div>
   </div>
+   
   <div
     class="undelegation-modal-form-group tm-form-group"
   >
@@ -42,6 +44,7 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
         readonly="readonly"
         type="text"
       />
+       
       <input
         class="tm-field"
         id="amount"
@@ -52,6 +55,7 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
       />
     </div>
   </div>
+   
   <div
     class="undelegation-modal-form-group tm-form-group"
   >
@@ -72,6 +76,7 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
       />
     </div>
   </div>
+   
   <div
     class="undelegation-modal-footer"
   >

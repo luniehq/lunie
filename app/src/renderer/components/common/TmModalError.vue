@@ -1,22 +1,31 @@
-<template lang="pug">
-.tm-modal-error__wrapper
-  .tm-modal-error
-    .tm-modal-error__icon: i.material-icons {{ this.icon }}
-    .tm-modal-error__title {{ this.title }}
-    .tm-modal-error__body {{ this.body }}
-    .tm-modal-error__footer
-      tm-btn#tm-modal-error__btn-issue(
-        size="lg"
-        icon="bug_report"
-        color="primary"
-        value="Create an issue"
-        type="anchor"
-        :href="issueUrl")
-      tm-btn#tm-modal-error__btn-logs(
-        size="lg"
-        icon="info_outline"
-        value="View app logs"
-        @click.native="viewLogs")
+<template>
+  <div class="tm-modal-error__wrapper">
+    <div class="tm-modal-error">
+      <div class="tm-modal-error__icon">
+        <i class="material-icons">{{ icon }}</i>
+      </div>
+      <div class="tm-modal-error__title">{{ title }}</div>
+      <div class="tm-modal-error__body">{{ body }}</div>
+      <div class="tm-modal-error__footer">
+        <tm-btn
+          id="tm-modal-error__btn-issue"
+          :href="issueUrl"
+          size="lg"
+          icon="bug_report"
+          color="primary"
+          value="Create an issue"
+          type="anchor"
+        />
+        <tm-btn
+          id="tm-modal-error__btn-logs"
+          size="lg"
+          icon="info_outline"
+          value="View app logs"
+          @click.native="viewLogs"
+        />
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -58,55 +67,60 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@import '~variables'
+<style>
+.tm-modal-error__wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: var(--z-modalError);
+  background: var(--app-bg);
+  width: 100vw;
+  height: 100vh;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-.tm-modal-error__wrapper
-  position absolute
-  top 0
-  left 0
+.tm-modal-error {
+  padding: 1.5rem;
+  max-width: 40rem;
+}
 
-  z-index z(modalError)
-  background var(--app-bg)
-  width 100vw
-  height 100vh
-  max-width 100%
+.tm-modal-error__icon {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--z-below);
+}
 
-  display flex
-  align-items center
-  justify-content center
+.tm-modal-error__icon i.material-icons {
+  font-size: 50vw;
+  line-height: 1;
+  color: var(--bc-dim);
+}
 
-.tm-modal-error
-  padding 1.5rem
-  max-width 40rem
+.tm-modal-error__title {
+  font-size: h1;
+  font-weight: 500;
+  line-height: 1;
+  margin-bottom: 1.5rem;
+}
 
-.tm-modal-error__icon
-  position fixed
-  top 0
-  left 0
-  z-index z(below)
-  i.material-icons
-    font-size 25vw + 25vh
-    line-height 1
-    color var(--bc-dim)
+.tm-modal-error__body {
+  font-size: lg;
+  color: var(--dim);
+  margin-bottom: 3rem;
+}
 
-.tm-modal-error__title
-  font-size h1
-  font-weight 500
-  line-height 1
-  margin-bottom 1.5rem
+.tm-modal-error__footer .tm-btn {
+  width: 100%;
+  margin-right: 1.5rem;
+  margin-bottom: 1rem;
+  max-width: 14rem;
+}
 
-.tm-modal-error__body
-  font-size lg
-  color var(--dim)
-  margin-bottom 3rem
-
-.tm-modal-error__footer
-  .tm-btn
-    width 100%
-    margin-right 1.5rem
-    margin-bottom 1rem
-    max-width 14rem
-    &:last-child
-      margin-bottom 0
+.tm-modal-error__footer .tm-btn:last-child {
+  margin-bottom: 0;
+}
 </style>

@@ -2,6 +2,7 @@
 
 exports[`TableProposals has the expected html structure 1`] = `
 "<div>
+   <!---->
    <table>
       <thead>
          <tr class=\\"panel-sort-container\\">
@@ -48,10 +49,10 @@ exports[`TableProposals has the expected html structure 1`] = `
             30
          </td>
          <td class=\\"li-proposal__value no_with_veto\\">
-            100
+            100  
          </td>
          <td class=\\"li-proposal__value abstain\\">
-            20
+            20  
          </td>
 </tr>
       <tr class=\\"li-proposal\\">
@@ -76,10 +77,10 @@ exports[`TableProposals has the expected html structure 1`] = `
             0
          </td>
          <td class=\\"li-proposal__value no_with_veto\\">
-            0
+            0  
          </td>
          <td class=\\"li-proposal__value abstain\\">
-            0
+            0  
          </td>
 </tr>
       <tr class=\\"li-proposal\\">
@@ -104,10 +105,10 @@ exports[`TableProposals has the expected html structure 1`] = `
             0
          </td>
          <td class=\\"li-proposal__value no_with_veto\\">
-            0
+            0  
          </td>
          <td class=\\"li-proposal__value abstain\\">
-            0
+            0  
          </td>
 </tr>
       <tr class=\\"li-proposal\\">
@@ -132,10 +133,10 @@ exports[`TableProposals has the expected html structure 1`] = `
             25
          </td>
          <td class=\\"li-proposal__value no_with_veto\\">
-            10
+            10  
          </td>
          <td class=\\"li-proposal__value abstain\\">
-            56
+            56  
          </td>
 </tr>
 </tbody>
@@ -145,6 +146,8 @@ exports[`TableProposals has the expected html structure 1`] = `
 
 exports[`TableProposals should filter the proposals 1`] = `
 <div>
+  <!---->
+   
   <table>
     <thead>
       <tr
@@ -206,6 +209,7 @@ exports[`TableProposals should filter the proposals 1`] = `
         </th>
       </tr>
     </thead>
+     
     <tbody>
       <tr
         class="li-proposal"
@@ -219,6 +223,7 @@ exports[`TableProposals should filter the proposals 1`] = `
             <span
               class="validator-profile__status red"
             />
+             
             <h2>
               <a
                 class=""
@@ -227,6 +232,7 @@ exports[`TableProposals should filter the proposals 1`] = `
                 Rejected proposal
               </a>
             </h2>
+             
             <p
               class="li-proposal__description"
             >
@@ -234,28 +240,37 @@ exports[`TableProposals should filter the proposals 1`] = `
             </p>
           </div>
         </td>
+         
         <td>
           #6
         </td>
+         
         <td
           class="li-proposal__value yes"
         >
           10
         </td>
+         
         <td
           class="li-proposal__value no"
         >
           30
         </td>
+         
         <td
           class="li-proposal__value no_with_veto"
         >
-          100
+          
+    100
+  
         </td>
+         
         <td
           class="li-proposal__value abstain"
         >
-          20
+          
+    20
+  
         </td>
       </tr>
     </tbody>

@@ -1,16 +1,21 @@
-<template lang="pug">
-div
-  tm-data-loading(v-if="loading")
-  tm-data-empty(v-else-if="proposals.length === 0")
-  data-empty-search(v-else-if="filteredProposals.length === 0")
-  table(v-else)
-    thead
-      panel-sort(:sort='sort', :properties="properties")
-    tbody
-      li-proposal(
-        v-for="(value, key) in filteredProposals"
-           :key="key"
-           :proposal="value")
+<template>
+  <div>
+    <tm-data-loading v-if="loading" />
+    <tm-data-empty v-else-if="proposals.length === 0" />
+    <data-empty-search v-else-if="filteredProposals.length === 0" />
+    <table>
+      <thead>
+        <panel-sort :sort="sort" :properties="properties" />
+      </thead>
+      <tbody>
+        <li-proposal
+          v-for="(value, key) in filteredProposals"
+          :key="key"
+          :proposal="value"
+        />
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <script>
@@ -146,50 +151,64 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
-@require '~variables'
+<style>
+table {
+  border-spacing: 0 0.25rem;
+  margin: 0 0 0 2rem;
+  min-widthpadding: 0;
+  table-layout: auto;
+  counter-reset: rowNumber1;
+}
+
+table tr {
+  counter-increment: rowNumber;
+}
+
+table tr td:first-child::before {
+  content: counter(rowNumber);
+  position: absolute;
+  font-size: sm;
+  width: 2rem;
+  text-align: right;
+  color: var(--dim);
+  left: -3rem;
+}
+
+table th {
+  min-width: 130px;
+  width: 100%;
+  padding: 0.5rem;
+}
 
 table
-  border-spacing 0 0.25rem
-  margin 0 0 0 2rem
+  th
   min-width
-  padding 0
-  table-layout auto
-  counter-reset rowNumber + 1
-
-table tr
-  counter-increment rowNumber
-
-table tr td:first-child::before
-  content counter(rowNumber)
-  position absolute
-  font-size sm
-  width 2rem
-  text-align right
-  color var(--dim)
-  left -3rem
-
-table th
-  min-width 122px
-  width 100%
-  padding 0.5rem
-
-table td
-  min-width 122px
-  width 100%
-  padding 0 0.5rem
-  position relative
-
-  a
-    display inline-block
-
-table tr td:nth-child(3):after
-  display block
-  position absolute
-  content ''
-  height 2rem
-  width 2px
-  top 1.5rem
-  right 2rem
-  background var(--bc-dim)
+  122px
+  width
+  100%
+  padding
+  0.5rem
+  table
+  td
+  min-width
+  122px
+  width
+  100%
+  padding
+  0
+  0.5rem
+  position
+  relative
+  table
+  tr
+  td:nth-child(3):after {
+  display: block;
+  position: absolute;
+  content: "";
+  height: 2rem;
+  width: 2px;
+  top: 1.5rem;
+  right: 2rem;
+  background: var(--bc-dim);
+}
 </style>

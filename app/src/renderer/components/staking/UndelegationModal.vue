@@ -1,40 +1,53 @@
-<template lang="pug">
-  .undelegation-modal#undelegation-modal(v-click-outside="close")
-    .undelegation-modal-header
-      img.icon(class='undelegation-modal-atom' src="~assets/images/cosmos-logo.png")
-      span.tm-modal-title Undelegate
-      .tm-modal-icon.tm-modal-close(@click="close()")
-        i.material-icons close
-
-    tm-form-group.undelegation-modal-form-group(
-      field-label='Amount'
-    )
-      tm-field#denom(
-        type="text"
+<template>
+  <div
+    v-click-outside="close"
+    id="undelegation-modal"
+    class="undelegation-modal"
+  >
+    <div class="undelegation-modal-header">
+      <img
+        class="icon undelegation-modal-atom"
+        src="~assets/images/cosmos-logo.png"
+      /><span class="tm-modal-title">Undelegate</span>
+      <div class="tm-modal-icon tm-modal-close" @click="close()">
+        <i class="material-icons">close</i>
+      </div>
+    </div>
+    <tm-form-group class="undelegation-modal-form-group" field-label="Amount">
+      <tm-field
+        id="denom"
         :placeholder="bondingDenom"
-        readonly)
-
-      tm-field#amount(
+        type="text"
+        readonly="readonly"
+      />
+      <tm-field
+        v-focus="v - focus"
+        id="amount"
         :max="maximum"
         :min="0"
+        v-model="amount"
         step="any"
         type="number"
-        v-model="amount"
-        v-focus)
-
-    //- To
-    tm-form-group.undelegation-modal-form-group(
-      field-id='to' field-label='To')
-      tm-field#to(readonly v-model="to")
-
-    //- Footer
-    .undelegation-modal-footer
-      tm-btn#submit-undelegation(
-        @click.native="onUndelegate"
+      />
+    </tm-form-group>
+    <tm-form-group
+      class="undelegation-modal-form-group"
+      field-id="to"
+      field-label="To"
+    >
+      <tm-field id="to" v-model="to" readonly="readonly" />
+    </tm-form-group>
+    <div class="undelegation-modal-footer">
+      <tm-btn
+        id="submit-undelegation"
         :disabled="$v.amount.$invalid"
         color="primary"
         value="Undelegate"
-        size="lg")
+        size="lg"
+        @click.native="onUndelegate"
+      />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -94,47 +107,53 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@import '~variables'
+<style>
+.undelegation-modal {
+  background: var(--app-nav);
+  display: flex;
+  flex-direction: column;
+  height: 50%;
+  justify-content: space-between;
+  left: 50%;
+  padding: 2rem;
+  position: fixed;
+  top: 50%;
+  width: 40%;
+  z-index: var(--z-modal);
+}
 
-.undelegation-modal
-  background var(--app-nav)
-  display flex
-  flex-direction column
-  height 50%
-  justify-content space-between
-  left 50%
-  padding 2rem
-  position fixed
-  top 50%
-  width 40%
-  z-index z(modal)
+.undelegation-modal-header {
+  align-items: center;
+  display: flex;
+}
 
-  &-header
-    align-items center
-    display flex
+.undelegation-modal-atom {
+  height: 4rem;
+  width: 4rem;
+}
 
-  &-atom
-    height 4rem
-    width 4rem
+.undelegation-modal-form-group {
+  display: block;
+  padding: 0;
+}
 
-  &-form-group
-    display block
-    padding 0
+.undelegation-modal #amount {
+  margin-top: -32px;
+}
 
-  #amount
-    margin-top -32px
+.undelegation-modal #denom {
+  text-align: right;
+  width: 72px;
+  margin-left: 80%;
+  border: none;
+}
 
-  #denom
-    text-align right
-    width 72px
-    margin-left 80%
-    border none
+.undelegation-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+}
 
-  &-footer
-    display flex
-    justify-content flex-end
-
-    button
-      margin-left 1rem
+.undelegation-modal-footer button {
+  margin-left: 1rem;
+}
 </style>

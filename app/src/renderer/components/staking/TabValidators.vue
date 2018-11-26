@@ -1,5 +1,5 @@
-<template lang="pug">
-  table-validators(:validators="delegates.delegates")
+<template>
+  <table-validators :validators="delegates.delegates" />
 </template>
 
 <script>

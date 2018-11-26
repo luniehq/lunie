@@ -33,27 +33,32 @@ exports[`PageProposal with magic has the expected html structure 1`] = `
                   src="~assets/images/cosmos-logo.png"
                 />
               </div>
+               
               <div
                 class="total-atoms top-section"
               >
                 <h3>
                   Total Steak
                 </h3>
+                 
                 <h2>
                   0.0000…
                 </h2>
               </div>
+               
               <div
                 class="unbonded-atoms top-section"
               >
                 <h3>
                   Available Steak
                 </h3>
+                 
                 <h2>
                   0.0000…
                 </h2>
               </div>
             </div>
+             
             <div
               class="short-bech32"
             >
@@ -61,8 +66,11 @@ exports[`PageProposal with magic has the expected html structure 1`] = `
                 class="address"
                 id="address"
               >
-                Address Not Found
+                
+    Address Not Found
+  
               </div>
+               
               <div
                 class="copied"
               >
@@ -76,9 +84,11 @@ exports[`PageProposal with magic has the expected html structure 1`] = `
                 </span>
               </div>
             </div>
+             
             <div
               class="tabs"
             />
+             
           </div>
         </div>
       </div>
@@ -117,6 +127,7 @@ exports[`PageProposal with magic has the expected html structure 1`] = `
   <main
     class="tm-page-main ps"
   >
+      
     <div
       class="validator-profile__header validator-profile__section proposal"
     >
@@ -135,18 +146,24 @@ exports[`PageProposal with magic has the expected html structure 1`] = `
               <span
                 class="validator-profile__status green"
               />
+               
               <div
                 class="validator-profile__header__name__title"
               >
+                
                 Proposal Title (#1)
+              
               </div>
             </div>
           </div>
+           
           <div
             class="column validator-profile__header__actions"
           >
             <!---->
+             
             <!---->
+             
             <button
               class="tm-btn"
               disabled="disabled"
@@ -165,13 +182,18 @@ exports[`PageProposal with magic has the expected html structure 1`] = `
             </button>
           </div>
         </div>
+         
         <div
           class="row description"
         >
           <p>
-            Submitted a few seconds ago. Voting started a few seconds ago
+            
+            Submitted a few seconds ago.
+            Voting started a few seconds ago
+          
           </p>
         </div>
+         
         <div
           class="row validator-profile__header__data votes"
         >
@@ -181,56 +203,74 @@ exports[`PageProposal with magic has the expected html structure 1`] = `
             <dt>
               Deposit
             </dt>
+             
             <dd>
+              
               100 steak
+            
             </dd>
           </dl>
+           
           <div
             class="validator-profile__header__data__break"
           />
+           
           <dl
             class="colored_dl"
           >
             <dt>
               Yes
             </dt>
+             
             <dd>
               500 / 85%
             </dd>
           </dl>
+           
           <dl
             class="colored_dl"
           >
             <dt>
               No
             </dt>
+             
             <dd>
               25 / 4%
             </dd>
           </dl>
+           
           <dl
             class="colored_dl"
           >
             <dt>
               No with Veto
             </dt>
+             
             <dd>
-              10 / 2%
+              
+              10 /
+              2%
+            
             </dd>
           </dl>
+           
           <dl
             class="colored_dl"
           >
             <dt>
               Abstain
             </dt>
+             
             <dd>
+              
               56 / 9%
+            
             </dd>
           </dl>
         </div>
       </div>
     </div>
+     
     <div
       class="validator-profile__details validator-profile__section"
     >
@@ -252,7 +292,9 @@ exports[`PageProposal with magic has the expected html structure 1`] = `
         </div>
       </div>
     </div>
+     
     <!---->
+     
     <!---->
     <div
       class="ps__rail-x"
@@ -311,27 +353,32 @@ exports[`PageProposal with magic shows an error if the proposal couldn't be foun
                   src="~assets/images/cosmos-logo.png"
                 />
               </div>
+               
               <div
                 class="total-atoms top-section"
               >
                 <h3>
                   Total Steak
                 </h3>
+                 
                 <h2>
                   0.0000…
                 </h2>
               </div>
+               
               <div
                 class="unbonded-atoms top-section"
               >
                 <h3>
                   Available Steak
                 </h3>
+                 
                 <h2>
                   0.0000…
                 </h2>
               </div>
             </div>
+             
             <div
               class="short-bech32"
             >
@@ -339,8 +386,11 @@ exports[`PageProposal with magic shows an error if the proposal couldn't be foun
                 class="address"
                 id="address"
               >
-                Address Not Found
+                
+    Address Not Found
+  
               </div>
+               
               <div
                 class="copied"
               >
@@ -354,9 +404,11 @@ exports[`PageProposal with magic shows an error if the proposal couldn't be foun
                 </span>
               </div>
             </div>
+             
             <div
               class="tabs"
             />
+             
           </div>
         </div>
       </div>
@@ -395,6 +447,7 @@ exports[`PageProposal with magic shows an error if the proposal couldn't be foun
   <main
     class="tm-page-main"
   >
+      
     <div
       class="tm-data-msg"
     >
@@ -421,13 +474,18 @@ exports[`PageProposal with magic shows an error if the proposal couldn't be foun
           class="tm-data-msg__subtitle"
         >
           <div>
-            Even though you're connected a full node, we can't display this data for you right now. Please try again later or 
+            
+    Even though you're connected a full node, we can't display this data for
+    you right now. Please try again later or
+    
             <a
               href="https://github.com/cosmos/voyager/issues"
             >
               file a bug report
             </a>
-            . Apologies!
+            .
+    Apologies!
+  
           </div>
         </div>
       </div>

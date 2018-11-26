@@ -4,7 +4,6 @@ process.env.BABEL_ENV = `renderer`
 
 const path = require(`path`)
 const webpack = require(`webpack`)
-const stylus = require(`stylus`)
 const fs = require(`fs-extra`)
 
 const HtmlWebpackPlugin = require(`html-webpack-plugin`)
@@ -41,6 +40,18 @@ let rendererConfig = {
         }
       },
       {
+        test: /\.pug$/,
+        loader: `pug-plain-loader`
+      },
+      {
+        test: /\.styl(us)?$/,
+        use: [`style-loader`, `css-loader`, `stylus-loader`]
+      },
+      {
+        test: /\.css$/,
+        use: [`style-loader`, `css-loader`]
+      },
+      {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         use: [
           {
@@ -63,14 +74,6 @@ let rendererConfig = {
             }
           }
         ]
-      },
-      {
-        test: /\.pug$/,
-        loader: `pug-plain-loader`
-      },
-      {
-        test: /\.styl(us)?$/,
-        use: [`vue-style-loader`, `css-loader`, `stylus-loader`]
       }
     ]
   },
@@ -90,11 +93,7 @@ let rendererConfig = {
         process.env.NODE_ENV !== `production`
           ? path.resolve(__dirname, `app/node_modules`)
           : false,
-      styles: stylus(
-        fs.readFileSync(`./app/src/renderer/styles/index.styl`, `utf8`)
-      )
-        .import(`./app/src/renderer/styles/variables.styl`)
-        .render()
+      styles: fs.readFileSync(`./app/src/renderer/styles/index.css`, `utf8`)
     }),
     new webpack.NoEmitOnErrorsPlugin(),
     // warnings caused by websocket-stream, which has a server-part that is unavailable on the the client

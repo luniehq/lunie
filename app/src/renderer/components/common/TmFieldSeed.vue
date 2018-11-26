@@ -1,8 +1,10 @@
-<template lang="pug">
-tm-field.tm-field-seed(
-  type="textarea"
-  @input="update($event)"
-  :value="value")
+<template>
+  <tm-field
+    :value="value"
+    class="tm-field-seed"
+    type="textarea"
+    @input="update($event)"
+  />
 </template>
 
 <script>
@@ -36,7 +38,8 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
-.tm-field:disabled.tm-field-seed
-  border 1px solid var(--bc)
+<style>
+.tm-field:disabled.tm-field-seed {
+  border: 1px solid var(--bc);
+}
 </style>

@@ -1,25 +1,32 @@
-<template lang="pug">
-  div
-    div(v-if="yourValidators.length > 0")
-      table-validators(:validators="yourValidators")
-
-    tm-data-msg(v-if="yourValidators.length < 1", icon="info_outline")
-      div(slot="title") No Active Delegations
-      div(slot="subtitle") Looks like you haven't delegated any {{ this.bondingDenom }}s yet. Head over to the #[router-link(:to="{name: 'Validators'}") validator list] to make your first delegation!
-
-    .check-out-message(v-if="yourValidators.length > 0")
-      | Check out
-      |
-      router-link(:to="{name: 'Validators'}") the validator list
-      |
-      | to find other validators to delegate to.
-
-    div(v-if="undelegatedValidators.length")
-      h3.tab-header
-        | Inactive Delegations
-        |
-        i.material-icons.info-button(v-tooltip.top="unbondInfo") info_outline
-      table-validators(:validators="undelegatedValidators")
+<template>
+  <div>
+    <div v-if="yourValidators.length &gt; 0">
+      <table-validators :validators="yourValidators" />
+    </div>
+    <tm-data-msg v-if="yourValidators.length &lt; 1" icon="info_outline">
+      <div slot="title">No Active Delegations</div>
+      <div slot="subtitle">
+        Looks like you haven't delegated any {{ bondingDenom }}s yet. Head over
+        to the
+        <router-link :to="{ name: 'Validators' }">validator list</router-link>
+        to make your first delegation!
+      </div>
+    </tm-data-msg>
+    <div v-if="yourValidators.length &gt; 0" class="check-out-message">
+      Check out
+      <router-link :to="{ name: 'Validators' }">the validator list</router-link>
+      to find other validators to delegate to.
+    </div>
+    <div v-if="undelegatedValidators.length">
+      <h3 class="tab-header">
+        Inactive Delegations
+        <i v-tooltip.top="unbondInfo" class="material-icons info-button"
+          >info_outline</i
+        >
+      </h3>
+      <table-validators :validators="undelegatedValidators" />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -56,25 +63,26 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
-@require '~variables'
+<style>
+.tab-header {
+  color: var(--dim);
+  font-size: 14px;
+  font-weight: 500;
+  margin: 1rem 1rem 0 2rem;
+}
 
-.tab-header
-  color var(--dim)
-  font-size 14px
-  font-weight 500
-  margin 1rem 1rem 0 2rem
+.info-button {
+  color: var(--link);
+}
 
-.info-button
-  color var(--link)
-
-.check-out-message
-  background var(--app-fg)
-  border 1px solid var(--bc-dim)
-  border-radius 0.25rem
-  font-size sm
-  margin-bottom 4rem
-  margin-left 2rem
-  padding 0.5rem
-  text-align center
+.check-out-message {
+  background: var(--app-fg);
+  border: 1px solid var(--bc-dim);
+  border-radius: 0.25rem;
+  font-size: sm;
+  margin-bottom: 4rem;
+  margin-left: 2rem;
+  padding: 0.5rem;
+  text-align: center;
+}
 </style>

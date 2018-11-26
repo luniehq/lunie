@@ -1,7 +1,8 @@
-<template lang="pug">
-tm-data-msg(icon="search")
-  div(slot="title") No Results
-  div(slot="subtitle") Your search did not match any available data.
+<template>
+  <tm-data-msg icon="search">
+    <div slot="title">No Results</div>
+    <div slot="subtitle">Your search did not match any available data.</div>
+  </tm-data-msg>
 </template>
 
 <script>

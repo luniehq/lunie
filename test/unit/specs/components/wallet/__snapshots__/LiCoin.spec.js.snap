@@ -11,6 +11,7 @@ exports[`LiCoin has the expected html structure 1`] = `
       src="../../assets/images/cosmos-logo.png"
     />
   </div>
+   
   <div
     class="li-coin__content"
   >
@@ -23,6 +24,7 @@ exports[`LiCoin has the expected html structure 1`] = `
         Stake
       </p>
     </div>
+     
     <div
       class="li-coin__content__left__amount"
     >
@@ -32,6 +34,7 @@ exports[`LiCoin has the expected html structure 1`] = `
         1,000.0000000000
       </p>
     </div>
+     
     <a
       class=""
       href="#/wallet/send/stake"

@@ -1,66 +1,127 @@
-<template lang="pug">
-tm-page(data-title='Proposal')
-  template(slot="menu-body"): tm-balance
-  div(slot="menu"): tm-tool-bar
-    router-link(to="/governance" exact): i.material-icons arrow_back
-
-  tm-data-error(v-if="!proposal")
-
-  template(v-else)
-    .validator-profile__header.validator-profile__section.proposal
-      .column.validator-profile__header__info
-        .row.validator-profile__header__name
-          .top.column
-            div.validator-profile__status-and-title
-              span.validator-profile__status(v-bind:class="status.color" v-tooltip.top="status.message")
-              .validator-profile__header__name__title {{ proposal.title }} {{ `(#` + proposalId + `)`}}
-          .column.validator-profile__header__actions
-            tm-btn#vote-btn(v-if="proposal.proposal_status === 'VotingPeriod'" value="Vote" color="primary" @click.native="onVote")
-            tm-btn#deposit-btn(v-if="proposal.proposal_status === 'DepositPeriod'" value="Deposit" color="primary" @click.native="onDeposit")
-            tm-btn(v-if="proposal.proposal_status === 'Passed' || proposal.proposal_status === 'Rejected'" disabled value="Deposit / Vote" color="primary")
-
-        .row.description
-          p Submitted {{ submittedAgo }}. {{ proposal.proposal_status === `DepositPeriod` ? `Deposit ends ` + depositEndsIn : `Voting started ` + votingStartedAgo }}
-
-        .row.validator-profile__header__data.votes
-          dl.colored_dl
-            dt Deposit
-            dd {{ proposal.total_deposit[0].amount + ` ` + proposal.total_deposit[0].denom }}
-          .validator-profile__header__data__break
-          dl.colored_dl
-            dt Yes
-            dd {{ proposal.tally_result.yes }} / {{ yesPercentage }}
-          dl.colored_dl
-            dt No
-            dd {{ proposal.tally_result.no }} / {{ noPercentage }}
-          dl.colored_dl
-            dt No with Veto
-            dd {{ proposal.tally_result.no_with_veto }} / {{ noWithVetoPercentage }}
-          dl.colored_dl
-            dt Abstain
-            dd {{ proposal.tally_result.abstain }} / {{ abstainPercentage }}
-
-    .validator-profile__details.validator-profile__section
-      .column
-        .row
-          text-block(:content="proposal.description")
-
-    modal-deposit(
-      v-if="showModalDeposit"
-      v-on:submitDeposit="deposit"
-      :showModalDeposit.sync="showModalDeposit"
-      :proposalId="proposalId"
-      :proposalTitle="proposal.title"
-      :denom="bondingDenom.toLowerCase()"
-    )
-
-    modal-vote(
-      v-if="showModalVote"
-      v-on:castVote="castVote"
-      :showModalVote.sync="showModalVote"
-      :proposalId="proposalId"
-      :proposalTitle="proposal.title"
-    )
+<template>
+  <tm-page data-title="Proposal"
+    ><template slot="menu-body">
+      <tm-balance />
+    </template>
+    <div slot="menu">
+      <tm-tool-bar>
+        <router-link to="/governance" exact="exact"
+          ><i class="material-icons">arrow_back</i></router-link
+        >
+      </tm-tool-bar>
+    </div>
+    <tm-data-error v-if="!proposal" /><template v-else>
+      <div
+        class="validator-profile__header validator-profile__section proposal"
+      >
+        <div class="column validator-profile__header__info">
+          <div class="row validator-profile__header__name">
+            <div class="top column">
+              <div class="validator-profile__status-and-title">
+                <span
+                  v-tooltip.top="status.message"
+                  :class="status.color"
+                  class="validator-profile__status"
+                />
+                <div class="validator-profile__header__name__title">
+                  {{ proposal.title }} {{ `(#` + proposalId + `)` }}
+                </div>
+              </div>
+            </div>
+            <div class="column validator-profile__header__actions">
+              <tm-btn
+                v-if="proposal.proposal_status === 'VotingPeriod'"
+                id="vote-btn"
+                value="Vote"
+                color="primary"
+                @click.native="onVote"
+              />
+              <tm-btn
+                v-if="proposal.proposal_status === 'DepositPeriod'"
+                id="deposit-btn"
+                value="Deposit"
+                color="primary"
+                @click.native="onDeposit"
+              />
+              <tm-btn
+                v-if="
+                  proposal.proposal_status === 'Passed' ||
+                    proposal.proposal_status === 'Rejected'
+                "
+                disabled="disabled"
+                value="Deposit / Vote"
+                color="primary"
+              />
+            </div>
+          </div>
+          <div class="row description">
+            <p>
+              Submitted {{ submittedAgo }}.
+              {{
+                proposal.proposal_status === `DepositPeriod`
+                  ? `Deposit ends ` + depositEndsIn
+                  : `Voting started ` + votingStartedAgo
+              }}
+            </p>
+          </div>
+          <div class="row validator-profile__header__data votes">
+            <dl class="colored_dl">
+              <dt>Deposit</dt>
+              <dd>
+                {{
+                  proposal.total_deposit[0].amount +
+                    ` ` +
+                    proposal.total_deposit[0].denom
+                }}
+              </dd>
+            </dl>
+            <div class="validator-profile__header__data__break" />
+            <dl class="colored_dl">
+              <dt>Yes</dt>
+              <dd>{{ proposal.tally_result.yes }} / {{ yesPercentage }}</dd>
+            </dl>
+            <dl class="colored_dl">
+              <dt>No</dt>
+              <dd>{{ proposal.tally_result.no }} / {{ noPercentage }}</dd>
+            </dl>
+            <dl class="colored_dl">
+              <dt>No with Veto</dt>
+              <dd>
+                {{ proposal.tally_result.no_with_veto }} /
+                {{ noWithVetoPercentage }}
+              </dd>
+            </dl>
+            <dl class="colored_dl">
+              <dt>Abstain</dt>
+              <dd>
+                {{ proposal.tally_result.abstain }} / {{ abstainPercentage }}
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+      <div class="validator-profile__details validator-profile__section">
+        <div class="column">
+          <div class="row"><text-block :content="proposal.description" /></div>
+        </div>
+      </div>
+      <modal-deposit
+        v-if="showModalDeposit"
+        :show-modal-deposit.sync="showModalDeposit"
+        :proposal-id="proposalId"
+        :proposal-title="proposal.title"
+        :denom="bondingDenom.toLowerCase()"
+        @submitDeposit="deposit"
+      />
+      <modal-vote
+        v-if="showModalVote"
+        :show-modal-vote.sync="showModalVote"
+        :proposal-id="proposalId"
+        :proposal-title="proposal.title"
+        @castVote="castVote"
+      />
+    </template>
+  </tm-page>
 </template>
 
 <script>
@@ -234,33 +295,38 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
-@require '~variables';
-.proposal
-  b
-    color var(--bright)
+<style>
+.proposal b {
+  color: var(--bright);
+}
 
-  .validator-profile__status
-    position relative
-    left 0
-    margin-right 0.5rem
+.proposal .validator-profile__status {
+  position: relative;
+  left: 0;
+  margin-right: 0.5rem;
+}
 
-  .description
-    max-width 500px
+.proposal .description {
+  max-width: 500px;
+}
 
-  .votes
-    padding-top 2rem
+.proposal .votes {
+  padding-top: 2rem;
+}
 
-.proposal-id
-  color var(--dim)
-  font-size 14px
-  margin 0
-  font-weight 400
-  padding-bottom 0.25rem
+.proposal-id {
+  color: var(--dim);
+  font-size: 14px;
+  margin: 0;
+  font-weight: 400;
+  padding-bottom: 0.25rem;
+}
 
-.text-block
-  padding 0
+.text-block {
+  padding: 0;
+}
 
-.row b
-  font-weight 500
+.row b {
+  font-weight: 500;
+}
 </style>

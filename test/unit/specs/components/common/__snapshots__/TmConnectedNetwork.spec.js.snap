@@ -9,10 +9,13 @@ exports[`TmConnectedNetwork has a connecting state 1`] = `
     class="tm-connected-network-loader"
     src="~assets/images/loader.svg"
   />
+   
   <div
     class="tm-connected-network__string tm-connected-network__string--connecting"
   >
+    
     Connecting to Test Net…
+  
   </div>
 </div>
 `;
@@ -52,6 +55,7 @@ exports[`TmConnectedNetwork shows the connected node 1`] = `
         lock
       </i>
     </div>
+     
     <div
       class="tm-connected-network__string"
       id="tm-connected-network__string"
@@ -63,6 +67,7 @@ exports[`TmConnectedNetwork shows the connected node 1`] = `
       </span>
     </div>
   </div>
+   
   <div
     class="tm-connected-network__string"
     id="tm-connected-network__block"

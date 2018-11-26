@@ -1,5 +1,5 @@
-<template lang="pug">
-  table-proposals(:proposals="proposals" :loading="proposals.loading")
+<template>
+  <table-proposals :proposals="proposals" :loading="proposals.loading" />
 </template>
 
 <script>

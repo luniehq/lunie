@@ -1,20 +1,29 @@
-<template lang="pug">
-tm-page(data-title='Governance').governance
-  template(slot="menu-body")
-    tm-balance(:tabs="tabs"): tm-btn#propose-btn(value="Create Proposal" color="primary" @click.native="onPropose")
-
-    vm-tool-bar
-      a(@click='setSearch()' v-tooltip.bottom="'Search'")
-        i.search.material-icons search
-
-  modal-search(type="proposals")
-  modal-propose(
-    v-if="showModalPropose"
-    v-on:createProposal="propose"
-    :showModalPropose.sync="showModalPropose"
-    :denom="bondingDenom.toLowerCase()"
-  )
-  router-view
+<template>
+  <tm-page class="governance" data-title="Governance"
+    ><template slot="menu-body">
+      <tm-balance :tabs="tabs">
+        <tm-btn
+          id="propose-btn"
+          value="Create Proposal"
+          color="primary"
+          @click.native="onPropose"
+        />
+      </tm-balance>
+      <vm-tool-bar
+        ><a v-tooltip.bottom="'Search'" @click="setSearch()"
+          ><i class="search material-icons">search</i></a
+        ></vm-tool-bar
+      >
+    </template>
+    <modal-search type="proposals" />
+    <modal-propose
+      v-if="showModalPropose"
+      :show-modal-propose.sync="showModalPropose"
+      :denom="bondingDenom.toLowerCase()"
+      @createProposal="propose"
+    />
+    <router-view />
+  </tm-page>
 </template>
 
 <script>

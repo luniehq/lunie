@@ -1,9 +1,13 @@
-<template lang="pug">
-.tm-li-session
-  .tm-li-session-icon: i.material-icons {{ icon }}
-  .tm-li-session-text
-    .tm-li-session-title {{ title }}
-    .tm-li-session-subtitle {{ subtitle }}
+<template>
+  <div class="tm-li-session">
+    <div class="tm-li-session-icon">
+      <i class="material-icons">{{ icon }}</i>
+    </div>
+    <div class="tm-li-session-text">
+      <div class="tm-li-session-title">{{ title }}</div>
+      <div class="tm-li-session-subtitle">{{ subtitle }}</div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -26,48 +30,57 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@import '~variables'
+<style>
+.tm-li-session {
+  display: flex;
+  flex-flow: row nowrap;
+  user-select: none;
+  border-bottom: 2px solid var(--bc-dim);
+}
 
-.tm-li-session
-  display flex
-  flex-flow row nowrap
-  user-select none
-  border-bottom 2px solid var(--bc-dim)
+.tm-li-session:last-of-type {
+  border-bottom: none;
+}
 
-  &:last-of-type
-    border-bottom none
+.tm-li-session:hover {
+  cursor: pointer;
+  background: var(--hover-bg);
+}
 
-  &:hover
-    cursor pointer
-    background var(--hover-bg)
-    .tm-li-session-icon i
-    .tm-li-session-title
-      color var(--txt)
+.tm-li-session:hover .tm-li-session-icon i,
+.tm-li-session:hover .tm-li-session-title {
+  color: var(--txt);
+}
 
-.tm-li-session-icon
-  height 5rem
-  flex 0 0 5rem
-  display flex
-  align-items center
-  justify-content center
-  i
-    font-size 2rem
+.tm-li-session-icon {
+  height: 5rem;
+  flex: 0 0 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-.tm-li-session-text
-  flex 1
-  display flex
-  justify-content center
-  flex-flow column nowrap
-  padding 1rem 1rem
+.tm-li-session-icon i {
+  font-size: 2rem;
+}
 
-.tm-li-session-title
-  color var(--txt)
-  font-size lg
-  line-height 1.25
-  margin-bottom 0.375rem
+.tm-li-session-text {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  flex-flow: column nowrap;
+  padding: 1rem 1rem;
+}
 
-.tm-li-session-subtitle
-  color var(--dim)
-  font-size sm
+.tm-li-session-title {
+  color: var(--txt);
+  font-size: lg;
+  line-height: 1.25;
+  margin-bottom: 0.375rem;
+}
+
+.tm-li-session-subtitle {
+  color: var(--dim);
+  font-size: sm;
+}
 </style>

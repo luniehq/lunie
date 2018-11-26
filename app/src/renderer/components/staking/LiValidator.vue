@@ -1,18 +1,55 @@
-<template lang="pug">
-tr.li-validator
-  td.li-validator__moniker-container
-    img.li-validator__avatar(v-if="validator.keybase" :src="validator.keybase.avatarUrl" width="48" height="48")
-    img.li-validator__avatar.no-img(v-else src="~assets/images/validator-icon.svg" width="48" height="48")
-    .li-validator__name-container
-      span.validator-profile__status(v-bind:class="statusColor" v-tooltip.top="status")
-      router-link.li-validator__moniker(:to="{ name: 'validator', params: { validator: validator.operator_address }}", :class='styles') {{ validator.description.moniker }}
-      short-bech32.li-validator__address(:address="validator.operator_address")
-  td.li-validator__delegated-steak {{ yourVotes.isLessThan(0.01) && yourVotes.isGreaterThan(0) ? '< ' + num.shortNumber(0.01) : num.shortNumber(yourVotes) }}
-  td.li-validator__rewards n/a
-  td.li-validator__voting-power {{ validator.percent_of_vote ? validator.percent_of_vote : `n/a` }}
-  td.li-validator__uptime {{ uptime }}
-  td.li-validator__commission {{ commission }}
-  td.li-validator__slashes n/a
+<template>
+  <tr class="li-validator">
+    <td class="li-validator__moniker-container">
+      <img
+        v-if="validator.keybase"
+        :src="validator.keybase.avatarUrl"
+        class="li-validator__avatar"
+        width="48"
+        height="48"
+      /><img
+        v-else
+        class="li-validator__avatar no-img"
+        src="~assets/images/validator-icon.svg"
+        width="48"
+        height="48"
+      />
+      <div class="li-validator__name-container">
+        <span
+          v-tooltip.top="status"
+          :class="statusColor"
+          class="validator-profile__status"
+        />
+        <router-link
+          :to="{
+            name: 'validator',
+            params: { validator: validator.operator_address }
+          }"
+          :class="styles"
+          class="li-validator__moniker"
+          >{{ validator.description.moniker }}</router-link
+        >
+        <short-bech32
+          :address="validator.operator_address"
+          class="li-validator__address"
+        />
+      </div>
+    </td>
+    <td class="li-validator__delegated-steak">
+      {{
+        yourVotes.isLessThan(0.01) && yourVotes.isGreaterThan(0)
+          ? "< " + num.shortNumber(0.01) // eslint-disable-line
+          : num.shortNumber(yourVotes)
+      }}
+    </td>
+    <td class="li-validator__rewards">n/a</td>
+    <td class="li-validator__voting-power">
+      {{ validator.percent_of_vote ? validator.percent_of_vote : `n/a` }}
+    </td>
+    <td class="li-validator__uptime">{{ uptime }}</td>
+    <td class="li-validator__commission">{{ commission }}</td>
+    <td class="li-validator__slashes">n/a</td>
+  </tr>
 </template>
 
 <script>
@@ -103,53 +140,51 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@require '~variables'
-
-.li-validator
-  padding 1rem
-  background-color var(--app-fg)
-  border-radius 0.25rem
-  border 1px solid var(--bc-dim)
-
-  &:hover
-    background var(--hover-bg)
-
-  .validator-profile__status
-    left 0
-    top 9px
-
-.li-validator__name-container
-  position relative
-  margin-left 0.5rem
-
-  .li-validator__moniker
-    padding-left 0.75rem
-
-.li-validator__moniker-container
-  display flex
-  align-items center
-  width 100%
-  min-width 284px
-
-.li-validator__moniker
-  max-width 200px
-  overflow hidden
-  white-space nowrap
-  text-overflow ellipsis
-
-.li-validator__avatar
-  height 3rem
-  width 3rem
-  margin 1rem 0.5rem
-  border-radius 50%
-  display block
-  background var(--app-nav)
-
-  &.no-img
-    padding 0.5rem
-
-.li-validator__address
-  .address
-    font-size sm
+<style>
+.li-validator {
+  padding: 1rem;
+  background-color: var(--app-fg);
+  border-radius: 0.25rem;
+  border: 1px solid var(--bc-dim);
+}
+.li-validator:hover {
+  background: var(--hover-bg);
+}
+.li-validator .validator-profile__status {
+  left: 0;
+  top: 9px;
+}
+.li-validator__name-container {
+  position: relative;
+  margin-left: 0.5rem;
+}
+.li-validator__name-container .li-validator__moniker {
+  padding-left: 0.75rem;
+}
+.li-validator__moniker-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-width: 284px;
+}
+.li-validator__moniker {
+  max-width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.li-validator__avatar {
+  height: 3rem;
+  width: 3rem;
+  margin: 1rem 0.5rem;
+  border-radius: 50%;
+  display: block;
+  background: var(--app-nav);
+}
+.li-validator__avatar.no-img {
+  padding: 0.5rem;
+}
+.li-validator__address .address {
+  font-size: var(--sm);
+}
 </style>

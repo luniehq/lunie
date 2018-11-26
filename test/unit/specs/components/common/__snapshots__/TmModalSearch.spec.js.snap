@@ -24,6 +24,7 @@ exports[`TmModalSearch has the expected html structure 1`] = `
             placeholder="Search..."
             type="text"
           />
+           
           <button
             class="tm-btn"
           >

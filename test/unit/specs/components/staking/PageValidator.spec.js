@@ -428,16 +428,14 @@ describe(`onDelegation`, () => {
       wrapper.find(`#delegation-btn`).trigger(`click`)
       expect(wrapper.vm.showCannotModal).toBe(true)
       expect(wrapper.contains(TmModal)).toEqual(true)
-      expect(wrapper.text().includes(`have no atoms to delegate.OK`)).toEqual(
-        true
-      )
+      expect(wrapper.text()).toContain(`delegate.`) // ...no atoms to delegate.
+      expect(wrapper.vm.$el).toMatchSnapshot()
 
       wrapper.find(`#no-atoms-modal__btn`).trigger(`click`)
       expect(wrapper.vm.showCannotModal).toBe(false)
       expect(wrapper.contains(TmModal)).toEqual(false)
-      expect(wrapper.text().includes(`have no atoms to delegate.OK`)).toEqual(
-        false
-      )
+      expect(wrapper.text()).not.toContain(`delegate.`) // ...no atoms to delegate.
+      expect(wrapper.vm.$el).toMatchSnapshot()
     })
   })
 
@@ -1002,15 +1000,13 @@ describe(`onUnstake`, () => {
 
       wrapper.find(`#undelegation-btn`).trigger(`click`)
       expect(wrapper.vm.showCannotModal).toBe(true)
-      expect(wrapper.text()).toContain(
-        `You have no atoms delegated to this validator.`
-      )
+      expect(wrapper.text()).toContain(`delegated to`)
+      expect(wrapper.vm.$el).toMatchSnapshot()
 
       wrapper.find(`#no-atoms-modal__btn`).trigger(`click`)
 
-      expect(wrapper.text()).not.toContain(
-        `You have no atoms delegated to this validator.`
-      )
+      expect(wrapper.text()).not.toContain(`delegated to`)
+      expect(wrapper.vm.$el).toMatchSnapshot()
     })
   })
 

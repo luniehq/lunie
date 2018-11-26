@@ -1,47 +1,105 @@
-<template lang="pug">
-  div(v-if="config.devMode")
-    div
-      h3
-        | Staking Pool
-        |
-        i.material-icons.info-button(v-tooltip.top="poolTooltips.description") info_outline
-      .parameters__details.parameters__section
-        .row
-          .column
-            dl.info_dl
-              dt
-                | Loose {{ parameters.parameters.bond_denom }}
-                |
-                i.material-icons.info-button(v-tooltip.top="poolTooltips.loose_tokens") info_outline
-              dd {{ this.pool.pool.loose_tokens ? pool.pool.loose_tokens : `n/a` }}
-          .column
-            dl.info_dl
-              dt
-                | Delegated {{ parameters.parameters.bond_denom }}
-                |
-                i.material-icons.info-button(v-tooltip.top="poolTooltips.bonded_tokens") info_outline
-              dd {{ pool.pool.bonded_tokens ? pool.pool.bonded_tokens : `n/a` }}
-    div
-      h3
-        | Staking Parameters
-        |
-        i.material-icons.info-button(v-tooltip.top="paramsTooltips.description") info_outline
-      .parameters__details.parameters__section
-        .row
-          .column
-            dl.info_dl
-              dt
-                | Unbonding Time
-                |
-                i.material-icons.info-button(v-tooltip.top="paramsTooltips.unbonding_time") info_outline
-              dd {{ parameters.parameters.unbonding_time ? unbondingTimeInDays + ` days`: `n/a` }}
-            dl.info_dl
-              dt Current Staking Coin Denomination
-              dd {{ parameters.parameters.bond_denom ? parameters.parameters.bond_denom : `n/a` }}
-          .column
-            dl.info_dl
-              dt Maximum Number of Validators
-              dd {{ parameters.parameters.max_validators ? parameters.parameters.max_validators : `n/a` }}
+<template>
+  <div v-if="config.devMode">
+    <div>
+      <h3>
+        Staking Pool
+        <i
+          v-tooltip.top="poolTooltips.description"
+          class="material-icons info-button"
+          >info_outline</i
+        >
+      </h3>
+      <div class="parameters__details parameters__section">
+        <div class="row">
+          <div class="column">
+            <dl class="info_dl">
+              <dt>
+                Loose {{ parameters.parameters.bond_denom }}
+                <i
+                  v-tooltip.top="poolTooltips.loose_tokens"
+                  class="material-icons info-button"
+                  >info_outline</i
+                >
+              </dt>
+              <dd>
+                {{ pool.pool.loose_tokens ? pool.pool.loose_tokens : `n/a` }}
+              </dd>
+            </dl>
+          </div>
+          <div class="column">
+            <dl class="info_dl">
+              <dt>
+                Delegated {{ parameters.parameters.bond_denom }}
+                <i
+                  v-tooltip.top="poolTooltips.bonded_tokens"
+                  class="material-icons info-button"
+                  >info_outline</i
+                >
+              </dt>
+              <dd>
+                {{ pool.pool.bonded_tokens ? pool.pool.bonded_tokens : `n/a` }}
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h3>
+        Staking Parameters
+        <i
+          v-tooltip.top="paramsTooltips.description"
+          class="material-icons info-button"
+          >info_outline</i
+        >
+      </h3>
+      <div class="parameters__details parameters__section">
+        <div class="row">
+          <div class="column">
+            <dl class="info_dl">
+              <dt>
+                Unbonding Time
+                <i
+                  v-tooltip.top="paramsTooltips.unbonding_time"
+                  class="material-icons info-button"
+                  >info_outline</i
+                >
+              </dt>
+              <dd>
+                {{
+                  parameters.parameters.unbonding_time
+                    ? unbondingTimeInDays + ` days`
+                    : `n/a`
+                }}
+              </dd>
+            </dl>
+            <dl class="info_dl">
+              <dt>Current Staking Coin Denomination</dt>
+              <dd>
+                {{
+                  parameters.parameters.bond_denom
+                    ? parameters.parameters.bond_denom
+                    : `n/a`
+                }}
+              </dd>
+            </dl>
+          </div>
+          <div class="column">
+            <dl class="info_dl">
+              <dt>Maximum Number of Validators</dt>
+              <dd>
+                {{
+                  parameters.parameters.max_validators
+                    ? parameters.parameters.max_validators
+                    : `n/a`
+                }}
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -84,56 +142,61 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
-@require '~variables'
+<style>
+.parameters__details > .row > .column {
+  flex: 1;
+}
 
-.parameters
-  &__details
-    > .row
-      > .column
-        flex 1
+.parameters__section {
+  background-color: var(--app-fg);
+  display: flex;
+  margin-bottom: 1rem;
+  padding: 2rem;
+  width: 100%;
+}
 
-  &__section
-    background-color var(--app-fg)
-    display flex
-    margin-bottom 1rem
-    padding 2rem
-    width 100%
+h3 {
+  margin: 1em auto;
+}
 
-h3
-  margin 1em auto
+.info-button {
+  color: var(--link);
+}
 
-.info-button
-  color var(--link)
+.column {
+  display: flex;
+  flex-flow: column;
+  position: relative;
+}
 
-.column
-  display flex
-  flex-flow column
-  position relative
+.row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
 
-.row
-  display flex
-  flex-direction row
-  width 100%
+.info_dl {
+  display: flex;
+  flex-flow: column;
+  margin-bottom: 1.5rem;
+  margin-right: 1rem;
+}
 
-.info_dl
-  display flex
-  flex-flow column
-  margin-bottom 1.5rem
-  margin-right 1rem
+.info_dl dt {
+  color: var(--dim);
+  font-size: small;
+  margin-bottom: 4px;
+}
 
-  dt
-    color var(--dim)
-    font-size small
-    margin-bottom 4px
+.info_dl dd {
+  border: 1px solid var(--white-fade-2);
+  border-radius: 2px;
+  font-size: 1rem;
+  line-height: 1rem;
+  padding: 0.5rem;
+}
 
-  dd
-    border 1px solid var(--white-fade-2)
-    border-radius 2px
-    font-size 1rem
-    line-height 1rem
-    padding 0.5rem
-
-    &.info_dl__text-box
-      min-height 6.91rem
+.info_dl dd.info_dl__text-box {
+  min-height: 6.91rem;
+}
 </style>
