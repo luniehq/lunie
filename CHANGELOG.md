@@ -61,6 +61,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\1612](https://github.com/cosmos/voyager/issues/1612) defined props types on components
 - changed `err` to `error` because abbreviations are bad @faboweb
 - [\1609](https://github.com/cosmos/voyager/issues/1609) switched to css and html to onboard developers faster @faboweb
+- [\1594](https://github.com/cosmos/voyager/issues/1594) disable decimal amount transfers @fedekunze
 
 ### Fixed
 

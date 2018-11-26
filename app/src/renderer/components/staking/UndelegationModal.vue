@@ -21,12 +21,11 @@
         readonly="readonly"
       />
       <tm-field
-        v-focus="v - focus"
+        v-focus
         id="amount"
         :max="maximum"
         :min="0"
         v-model="amount"
-        step="any"
         type="number"
       />
     </tm-form-group>
@@ -56,6 +55,8 @@ import ClickOutside from "vue-click-outside"
 import { required, between } from "vuelidate/lib/validators"
 import Modal from "common/TmModal"
 import { TmBtn, TmField, TmFormGroup, TmFormMsg } from "@tendermint/ui"
+
+const isInteger = amount => Number.isInteger(amount)
 
 export default {
   name: `undelegation-modal`,
@@ -89,7 +90,8 @@ export default {
     return {
       amount: {
         required,
-        between: between(0.0000000001, this.maximum)
+        isInteger,
+        between: between(1, this.maximum)
       }
     }
   },
