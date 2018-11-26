@@ -121,9 +121,9 @@
         <tm-btn
           v-else
           id="send-btn"
+          :disabled="$v.$invalid"
           value="Send Tokens"
           color="primary"
-          :disabled="$v.$invalid"
           @click="onSubmit"
         />
       </div>
