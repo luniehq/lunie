@@ -21,7 +21,6 @@ module.exports = {
     "no-unused-vars": "error",
     quotes: ["error", "backtick"],
     "no-var": "error",
-    "vue/require-prop-types": "warn",
     "prettier/prettier": "error"
   }
 }
