@@ -56,7 +56,6 @@ exports[`DelegationModal component matches snapshot has the expected html struct
         id="amount"
         max="100"
         min="0"
-        step="any"
         type="number"
       />
     </div>
