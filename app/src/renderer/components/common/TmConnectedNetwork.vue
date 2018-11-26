@@ -40,7 +40,7 @@
       v-tooltip.top="networkTooltip"
       class="tm-connected-network__string tm-connected-network__string--connecting"
     >
-      Connecting to {{ chainId }}&hellip;
+      Connecting to {{ chainId }}…
     </div>
   </div>
 </template>

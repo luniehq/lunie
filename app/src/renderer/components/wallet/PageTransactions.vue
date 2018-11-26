@@ -6,7 +6,7 @@
         ><a
           v-tooltip.bottom="'Refresh'"
           :disabled="!connected"
-          @click="connected &amp;&amp; refreshTransactions()"
+          @click="connected && refreshTransactions()"
           ><i class="material-icons">refresh</i></a
         ><a
           v-tooltip.bottom="'Search'"
@@ -18,14 +18,20 @@
     </template>
     <modal-search v-if="somethingToSearch" type="transactions" />
     <tm-data-loading v-if="transactions.loading" />
-    <tm-data-error
-      v-else-if="!transactions.loading &amp;&amp; transactions.error"
-    />
+    <tm-data-error v-else-if="!transactions.loading && transactions.error" />
     <data-empty-tx
-      v-else-if="!transactions.loading &amp;&amp; allTransactions.length === 0 &amp;&amp; !transactions.error"
+      v-else-if="
+        !transactions.loading &&
+          allTransactions.length === 0 &&
+          !transactions.error
+      "
     />
     <data-empty-search
-      v-else-if="!transactions.loading &amp;&amp; !transactions.error &amp;&amp; filteredTransactions.length === 0"
+      v-else-if="
+        !transactions.loading &&
+          !transactions.error &&
+          filteredTransactions.length === 0
+      "
     /><template v-for="tx in filteredTransactions" v-else>
       <tm-li-any-transaction
         :validators="delegates.delegates"

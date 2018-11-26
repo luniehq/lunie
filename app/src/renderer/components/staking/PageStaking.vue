@@ -6,7 +6,7 @@
         ><a
           v-tooltip.bottom="'Refresh'"
           :disabled="!connected"
-          @click="connected &amp;&amp; updateDelegates()"
+          @click="connected && updateDelegates()"
           ><i class="material-icons">refresh</i></a
         ><a v-tooltip.bottom="'Search'" @click="setSearch()"
           ><i class="search material-icons">search</i></a

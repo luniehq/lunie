@@ -81,7 +81,7 @@
             id="import-seed"
             :value="fields.importSeed"
             placeholder="Must be exactly 24 words"
-            @input="val =&gt; fields.importSeed = val"
+            @input="val => (fields.importSeed = val)"
           />
           <tm-form-msg
             v-if="!$v.fields.importSeed.required"
