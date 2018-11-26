@@ -123,6 +123,7 @@
           id="send-btn"
           value="Send Tokens"
           color="primary"
+          :disabled="$v.$invalid"
           @click="onSubmit"
         />
       </div>
@@ -152,10 +153,12 @@ import {
   TmField,
   TmFormMsg
 } from "@tendermint/ui"
-
 import FieldAddon from "common/TmFieldAddon"
 import VmToolBar from "common/VmToolBar"
 import TmModalSendConfirmation from "wallet/TmModalSendConfirmation"
+
+const isInteger = amount => Number.isInteger(amount)
+
 export default {
   components: {
     TmBtn,
@@ -295,6 +298,7 @@ export default {
         },
         amount: {
           required,
+          isInteger,
           between: between(1, this.max)
         },
         denom: { required },

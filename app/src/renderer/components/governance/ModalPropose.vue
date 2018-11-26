@@ -37,13 +37,12 @@
         readonly="readonly"
       />
       <tm-field
-        v-focus="v - focus"
+        v-focus
         id="amount"
         :max="balance"
         :min="0"
         v-model="amount"
         type="number"
-        step="any"
       />
     </tm-form-group>
     <div class="modal-propose-footer">
@@ -76,6 +75,7 @@ const isValid = type =>
   type === `Text` || type === `ParameterChange` || type === `SoftwareUpgrade`
 
 const notBlank = text => !isEmpty(trim(text))
+const isInteger = amount => Number.isInteger(amount)
 
 export default {
   name: `modal-propose`,
@@ -145,10 +145,8 @@ export default {
       },
       amount: {
         required,
-        between: between(
-          0.0000000001,
-          this.balance > 0 ? this.balance : 0.0000000001
-        )
+        isInteger,
+        between: between(1, this.balance > 0 ? this.balance : 1)
       }
     }
   },

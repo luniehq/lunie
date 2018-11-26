@@ -21,13 +21,12 @@
         readonly="readonly"
       />
       <tm-field
-        v-focus="v - focus"
+        v-focus
         id="amount"
         :max="fromOptions[selectedIndex].maximum"
         :min="0"
         v-model="amount"
         type="number"
-        step="any"
       />
     </tm-form-group>
     <tm-form-group
@@ -70,6 +69,8 @@ import { required, between } from "vuelidate/lib/validators"
 import Modal from "common/TmModal"
 import { TmBtn, TmField, TmFormGroup, TmFormMsg } from "@tendermint/ui"
 
+const isInteger = amount => Number.isInteger(amount)
+
 export default {
   name: `delegation-modal`,
   directives: {
@@ -103,10 +104,8 @@ export default {
     return {
       amount: {
         required,
-        between: between(
-          0.0000000001,
-          this.fromOptions[this.selectedIndex].maximum
-        )
+        isInteger,
+        between: between(1, this.fromOptions[this.selectedIndex].maximum)
       }
     }
   },

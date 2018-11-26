@@ -25,13 +25,12 @@
         readonly="readonly"
       />
       <tm-field
-        v-focus="v - focus"
+        v-focus
         id="amount"
         :max="balance"
         :min="0"
         v-model="amount"
         type="number"
-        step="any"
       />
     </tm-form-group>
     <div class="modal-deposit-footer">
@@ -53,6 +52,8 @@ import ClickOutside from "vue-click-outside"
 import { required, between } from "vuelidate/lib/validators"
 import Modal from "common/TmModal"
 import { TmBtn, TmField, TmFormGroup } from "@tendermint/ui"
+
+const isInteger = amount => Number.isInteger(amount)
 
 export default {
   name: `modal-deposit`,
@@ -100,10 +101,8 @@ export default {
     return {
       amount: {
         required,
-        between: between(
-          0.0000000001,
-          this.balance > 0 ? this.balance : 0.0000000001
-        )
+        isInteger,
+        between: between(1, this.balance > 0 ? this.balance : 1)
       }
     }
   },
