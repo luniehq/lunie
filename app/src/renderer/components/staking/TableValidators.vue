@@ -1,13 +1,13 @@
 <template>
   <div>
     <tm-data-loading
-      v-if="delegates.loading &amp;&amp; sortedFilteredEnrichedDelegates.length === 0"
+      v-if="delegates.loading && sortedFilteredEnrichedDelegates.length === 0"
     />
-    <tm-data-empty
-      v-else-if="!delegates.loading &amp;&amp; validators.length === 0"
-    />
+    <tm-data-empty v-else-if="!delegates.loading && validators.length === 0" />
     <data-empty-search
-      v-else-if="!delegates.loading &amp;&amp; sortedFilteredEnrichedDelegates.length === 0"
+      v-else-if="
+        !delegates.loading && sortedFilteredEnrichedDelegates.length === 0
+      "
     />
     <table v-else>
       <thead>

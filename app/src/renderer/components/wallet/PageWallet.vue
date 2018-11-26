@@ -6,7 +6,7 @@
         <a
           v-tooltip.bottom="'Refresh'"
           :disabled="!connected"
-          @click="connected &amp;&amp; updateBalances()"
+          @click="connected && updateBalances()"
         >
           <i class="material-icons">refresh</i>
         </a>
@@ -37,7 +37,7 @@
     <ul>
       <li-coin
         v-for="coin in filteredBalances"
-        v-if="wallet.balances.length &gt; 0 &amp;&amp; coin.amount &gt; 0"
+        v-if="wallet.balances.length > 0 && coin.amount > 0"
         :key="coin.denom"
         :coin="coin"
         class="tm-li-balance"
