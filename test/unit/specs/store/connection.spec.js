@@ -174,15 +174,6 @@ describe(`Module: Connection`, () => {
     spy.mockRestore()
   })
 
-  it(`should check for an existing LCD connection`, async () => {
-    expect(await store.dispatch(`checkConnection`)).toBe(true)
-    node.lcdConnected = () => Promise.resolve(false)
-    expect(await store.dispatch(`checkConnection`)).toBe(false)
-    node.lcdConnected = () => Promise.reject()
-    expect(await store.dispatch(`checkConnection`)).toBe(false)
-    expect(store.state.notifications[0].body).toContain(`Couldn't initialize`)
-  })
-
   it(`should trigger reconnection if it started disconnected`, done => {
     jest.useFakeTimers()
     node.rpcInfo.connected = false

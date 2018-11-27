@@ -118,24 +118,6 @@ export default function({ node }) {
       state.nodeHaltedTimeout = undefined
       commit(`setModalNodeHalted`, true)
     },
-    async checkConnection({ commit }) {
-      let errorHandler = () =>
-        commit(`notifyError`, {
-          title: `Critical Error`,
-          body: `Couldn't initialize the blockchain client. If the problem persists, please make an issue on GitHub.`
-        })
-      try {
-        if (await node.lcdConnected()) {
-          return true
-        } else {
-          errorHandler()
-          return false
-        }
-      } catch (error) {
-        errorHandler()
-        return false
-      }
-    },
     pollRPCConnection({ state, dispatch }, timeout = 3000) {
       if (state.nodeTimeout || state.stopConnecting) return
 
