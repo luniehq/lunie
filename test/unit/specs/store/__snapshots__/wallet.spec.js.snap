@@ -20,11 +20,7 @@ Object {
   "denoms": Array [],
   "error": null,
   "loading": true,
-  "subscribedRPC": null,
-  "zoneIds": Array [
-    "basecoind-demo1",
-    "basecoind-demo2",
-  ],
+  "subscribedRPC": null
 }
 `;
 

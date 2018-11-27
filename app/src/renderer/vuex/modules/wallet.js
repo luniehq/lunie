@@ -12,7 +12,6 @@ export default ({ node }) => {
     error: null,
     denoms: [],
     address: null,
-    zoneIds: [`basecoind-demo1`, `basecoind-demo2`],
     subscribedRPC: null
   }
   let state = JSON.parse(JSON.stringify(emptyState))

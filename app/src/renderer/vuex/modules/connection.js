@@ -39,11 +39,6 @@ export default function({ node }) {
     async setLastHeader({ state, rootState, dispatch }, header) {
       state.lastHeader = header
 
-      // TODO do this somewhere else probably
-      if (!rootState.wallet.zoneIds.find(x => x === header.chain_id)) {
-        rootState.wallet.zoneIds.unshift(header.chain_id)
-      }
-
       // updating the header is done even while the user is not logged in
       // to prevent errors popping up from the LCD before the user is signed on, we skip updating validators before
       // TODO identify why rest calls fail at this point
