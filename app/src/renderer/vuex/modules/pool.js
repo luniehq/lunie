@@ -20,8 +20,11 @@ export default ({ node }) => {
         dispatch(`getPool`)
       }
     },
-    async getPool({ state, commit }) {
+    async getPool({ state, commit, rootState }) {
       state.loading = true
+
+      if (!rootState.connection.connected) return
+
       try {
         let pool = await node.getPool()
         commit(`setPool`, pool)

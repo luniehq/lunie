@@ -24,8 +24,11 @@ export default ({ node }) => {
       // clear previous account state
       rootState.proposals = JSON.parse(JSON.stringify(emptyState))
     },
-    async getProposals({ state, commit }) {
+    async getProposals({ state, commit, rootState }) {
       state.loading = true
+
+      if (!rootState.connection.connected) return
+
       try {
         let proposals = await node.queryProposals()
         state.error = null

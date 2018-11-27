@@ -13,8 +13,11 @@ export default ({ node }) => {
     }
   }
   let actions = {
-    async getProposalDeposits({ state, commit }, proposalId) {
+    async getProposalDeposits({ state, commit, rootState }, proposalId) {
       state.loading = true
+
+      if (!rootState.connection.connected) return
+
       try {
         let deposits = await node.queryProposalDeposits(proposalId)
         state.error = null

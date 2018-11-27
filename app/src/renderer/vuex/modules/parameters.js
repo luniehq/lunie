@@ -14,8 +14,11 @@ export default ({ node }) => {
   }
 
   const actions = {
-    async getStakingParameters({ state, commit }) {
+    async getStakingParameters({ state, commit, rootState }) {
       state.loading = true
+
+      if (!rootState.connection.connected) return
+
       try {
         let parameters = await node.getStakingParameters()
         state.error = null

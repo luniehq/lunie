@@ -74,6 +74,9 @@ export default ({ node }) => {
       candidates
     ) {
       state.loading = true
+
+      if (!rootState.connection.connected) return
+
       let address = rootState.user.address
       candidates = candidates || (await dispatch(`getDelegates`))
 

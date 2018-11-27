@@ -48,9 +48,11 @@ export default ({ node }) => {
         await dispatch(`getAllTxs`)
       }
     },
-    async getAllTxs({ commit, dispatch, state }) {
+    async getAllTxs({ commit, dispatch, state, rootState }) {
       try {
         commit(`setHistoryLoading`, true)
+
+        if (!rootState.connection.connected) return
 
         const stakingTxs = await dispatch(`getTx`, `staking`)
         commit(`setStakingTxs`, stakingTxs)

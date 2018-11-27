@@ -28,8 +28,11 @@ export default ({ node }) => {
       // clear previous account state
       rootState.validators = JSON.parse(JSON.stringify(emptyState))
     },
-    async getValidators({ state, commit }) {
+    async getValidators({ state, commit, rootState }) {
       state.loading = true
+
+      if (!rootState.connection.connected) return
+
       try {
         let validators = (await node.getValidatorSet()).validators
         state.error = null

@@ -68,8 +68,11 @@ export default ({ node }) => {
       }
       commit(`setDelegates`, validators)
     },
-    async getDelegates({ commit, dispatch }) {
+    async getDelegates({ commit, dispatch, rootState }) {
       commit(`setDelegateLoading`, true)
+
+      if (!rootState.connection.connected) return
+
       try {
         let validators = await node.getCandidates()
         let { validators: validatorSet } = await node.getValidatorSet()

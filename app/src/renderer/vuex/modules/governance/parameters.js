@@ -19,8 +19,11 @@ export default ({ node }) => {
   }
 
   const actions = {
-    async getGovParameters({ state, commit }) {
+    async getGovParameters({ state, commit, rootState }) {
       state.loading = true
+
+      if (!rootState.connection.connected) return
+
       try {
         let deposit = await node.getGovDepositParameters()
         let tallying = await node.getGovTallyingParameters()

@@ -61,6 +61,8 @@ export default ({ node }) => {
           return
         }
 
+        if (!rootState.connection.connected) return
+
         state.error = null
         let coins = res.coins || []
         commit(`setNonce`, res.sequence)

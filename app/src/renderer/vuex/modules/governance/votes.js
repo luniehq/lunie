@@ -13,8 +13,11 @@ export default ({ node }) => {
     }
   }
   let actions = {
-    async getProposalVotes({ state, commit }, proposalId) {
+    async getProposalVotes({ state, commit, rootState }, proposalId) {
       state.loading = true
+
+      if (!rootState.connection.connected) return
+
       try {
         let votes = await node.queryProposalVotes(proposalId)
         commit(`setProposalVotes`, proposalId, votes)
