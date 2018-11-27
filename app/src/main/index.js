@@ -94,15 +94,6 @@ function handleCrash(error) {
   })
 }
 
-function signalNoNodesAvailable() {
-  afterBooted(() => {
-    mainWindow.webContents.send(`error`, {
-      code: `NO_NODES_AVAILABLE`,
-      message: `No nodes available to connect to.`
-    })
-  })
-}
-
 async function shutdown() {
   if (shuttingDown) return
 
@@ -501,8 +492,10 @@ async function pickAndConnect() {
       `Error in getting node SDK version, assuming node is incompatible. Error:`,
       error
     )
-    signalNoNodesAvailable()
     await stopLCD()
+
+    // retry
+    setTimeout(pickAndConnect, 2000)
     return
   }
 
@@ -510,21 +503,15 @@ async function pickAndConnect() {
     let message = `Node ${nodeURL} uses SDK version ${nodeVersion} which is incompatible to the version used in Voyager ${expectedGaiaCliVersion}`
     log(message)
     mainWindow.webContents.send(`connection-status`, message)
-    signalNoNodesAvailable()
     await stopLCD()
+
+    // retry
+    setTimeout(pickAndConnect, 2000)
     return
   }
 
   ipcMain.removeAllListeners(`Axios`)
   ipcMain.on(`Axios`, AxiosListener(axiosInstance))
-}
-
-async function connect() {
-  log(`starting gaia rest server with nodeURL ${config.node_lcd}`)
-
-  const gaiaLite = await startLCD(lcdHome, config.node_rpc)
-  lcdProcess = gaiaLite.process
-  log(`gaia rest server ready`)
 
   afterBooted(() => {
     log(`Signaling connected node`)
@@ -533,6 +520,14 @@ async function connect() {
       rpcURL: config.node_rpc
     })
   })
+}
+
+async function connect() {
+  log(`starting gaia rest server with nodeURL ${config.node_lcd}`)
+
+  const gaiaLite = await startLCD(lcdHome, config.node_rpc)
+  lcdProcess = gaiaLite.process
+  log(`gaia rest server ready`)
 
   connecting = false
   return gaiaLite
