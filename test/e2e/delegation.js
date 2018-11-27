@@ -134,6 +134,25 @@ test(`delegation`, async function(t) {
     t.end()
   })
 
+  t.test(`showing transactions`, async function(t) {
+    await navigate(app, `Transactions`)
+
+    // delegated
+    await app.client.waitForExist(
+      `//div[contains(text(), "Delegated")]`,
+      15 * 1000
+    )
+    // unbonded
+    await app.client.waitForExist(
+      `//div[contains(text(), "Unbonded")]`,
+      15 * 1000
+    )
+
+    // TODO redelegation transaction
+
+    t.end()
+  })
+
   // TODO uncomment when redelegation tab is added again
   // t.test(`Parameters`, async function(t) {
   //   // Select the Parameters tab.

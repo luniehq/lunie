@@ -180,6 +180,40 @@ test(`wallet`, async function(t) {
       t.end()
     })
 
+    t.test(`sent to self`, async function(t) {
+      await goToSendPage()
+      await amountInput().setValue(`100`)
+      await addressInput().setValue(accounts[0].address)
+      await sendBtn().click()
+      // the confirmation popup will open
+      await app.client.$(`#send-confirmation-btn`).click()
+
+      await app.client.waitForExist(`.tm-notification`, 10 * 1000)
+      let msg = await app.client.$(`.tm-notification .body`).getText()
+      t.ok(msg.includes(`Success`), `Send successful`)
+      // close the notifications to have a clean setup for the next tests
+      await closeNotifications(app)
+
+      t.end()
+    })
+
+    t.test(`showing transactions`, async function(t) {
+      await navigate(app, `Transactions`)
+
+      // sent to self
+      await app.client.waitForExist(
+        `//span[contains(text(), "To yourself!")]`,
+        15 * 1000
+      )
+      // sent to other account
+      await app.client.waitForExist(
+        `//span[contains(text(), "To ${accounts[1].address}")]`,
+        15 * 1000
+      )
+
+      t.end()
+    })
+
     t.end()
   })
 
@@ -200,6 +234,22 @@ test(`wallet`, async function(t) {
       t.end()
     })
 
+    t.test(`showing transactions`, async function(t) {
+      await navigate(app, `Transactions`)
+
+      // received from other account
+      await app.client.waitForExist(
+        `//span[contains(text(), "From ${accounts[0].address}")]`,
+        15 * 1000
+      )
+
+      t.end()
+    })
+
+    t.end()
+  })
+
+  t.test(`transactions`, async function(t) {
     t.end()
   })
 
