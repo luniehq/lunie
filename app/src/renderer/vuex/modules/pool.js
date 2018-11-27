@@ -25,6 +25,7 @@ export default ({ node }) => {
       try {
         let pool = await node.getPool()
         commit(`setPool`, pool)
+        state.loading = false
       } catch (error) {
         commit(`notifyError`, {
           title: `Error fetching staking pool information`,
@@ -33,7 +34,6 @@ export default ({ node }) => {
         Raven.captureException(error)
         state.error = error
       }
-      state.loading = false
     }
   }
 

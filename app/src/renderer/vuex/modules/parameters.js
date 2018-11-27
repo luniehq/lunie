@@ -20,6 +20,7 @@ export default ({ node }) => {
         let parameters = await node.getStakingParameters()
         state.error = null
         commit(`setStakingParameters`, parameters)
+        state.loading = false
       } catch (error) {
         commit(`notifyError`, {
           title: `Error fetching staking parameters`,
@@ -28,7 +29,6 @@ export default ({ node }) => {
         Raven.captureException(error)
         state.error = error
       }
-      state.loading = false
     }
   }
 

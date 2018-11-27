@@ -17,7 +17,8 @@
       >
     </template>
     <modal-search v-if="somethingToSearch" type="transactions" />
-    <tm-data-loading v-if="transactions.loading" />
+    <tm-data-connecting v-if="transactions.loading && !connected" />
+    <tm-data-loading v-else-if="transactions.loading" />
     <tm-data-error v-else-if="!transactions.loading && transactions.error" />
     <data-empty-tx
       v-else-if="
@@ -56,6 +57,7 @@ import DataEmptyTx from "common/TmDataEmptyTx"
 import ModalSearch from "common/TmModalSearch"
 import TmBalance from "common/TmBalance"
 import TmDataError from "common/TmDataError"
+import TmDataConnecting from "common/TmDataConnecting"
 import { TmPage, TmDataLoading, TmLiAnyTransaction } from "@tendermint/ui"
 import VmToolBar from "common/VmToolBar"
 export default {
@@ -65,6 +67,7 @@ export default {
     TmLiAnyTransaction,
     TmDataLoading,
     TmDataError,
+    TmDataConnecting,
     DataEmptySearch,
     DataEmptyTx,
     ModalSearch,

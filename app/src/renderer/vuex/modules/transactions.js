@@ -65,6 +65,7 @@ export default ({ node }) => {
         await dispatch(`enrichTransactions`, {
           transactions: allTxs
         })
+        commit(`setHistoryLoading`, false)
       } catch (error) {
         commit(`notifyError`, {
           title: `Error getting transactions`,
@@ -73,7 +74,6 @@ export default ({ node }) => {
         Raven.captureException(error)
         state.error = error
       }
-      commit(`setHistoryLoading`, false)
     },
     async getTx(
       {

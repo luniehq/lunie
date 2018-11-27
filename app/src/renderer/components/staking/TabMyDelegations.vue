@@ -3,6 +3,7 @@
     <div v-if="yourValidators.length > 0">
       <table-validators :validators="yourValidators" />
     </div>
+    <tm-data-connecting v-if="delegation.loading && !connected" />
     <tm-data-msg v-if="yourValidators.length < 1" icon="info_outline">
       <div slot="title">No Active Delegations</div>
       <div slot="subtitle">
@@ -33,10 +34,11 @@
 import { mapGetters } from "vuex"
 import { TmDataMsg } from "@tendermint/ui"
 import TableValidators from "staking/TableValidators"
+import TmDataConnecting from "common/TmDataConnecting"
 
 export default {
   name: `tab-my-delegations`,
-  components: { TableValidators, TmDataMsg },
+  components: { TableValidators, TmDataMsg, TmDataConnecting },
   data: () => ({
     bondInfo: `Validators you are currently bonded to`,
     unbondInfo: `Your bonded validators in unbonding process`
@@ -46,7 +48,8 @@ export default {
       `delegates`,
       `delegation`,
       `committedDelegations`,
-      `bondingDenom`
+      `bondingDenom`,
+      `connected`
     ]),
     undelegatedValidators(
       { delegates: { delegates }, delegation: { unbondingDelegations } } = this

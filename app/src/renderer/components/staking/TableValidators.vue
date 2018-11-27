@@ -1,5 +1,6 @@
 <template>
   <div>
+    <tm-data-connecting v-if="delegates.loading && !connected" />
     <tm-data-loading
       v-if="delegates.loading && sortedFilteredEnrichedDelegates.length === 0"
     />
@@ -33,6 +34,7 @@ import Mousetrap from "mousetrap"
 import LiValidator from "staking/LiValidator"
 import { TmDataEmpty, TmDataLoading } from "@tendermint/ui"
 import DataEmptySearch from "common/TmDataEmptySearch"
+import TmDataConnecting from "common/TmDataConnecting"
 import { calculateTokens } from "scripts/common"
 import ModalSearch from "common/TmModalSearch"
 import PanelSort from "staking/PanelSort"
@@ -44,6 +46,7 @@ export default {
     TmDataEmpty,
     DataEmptySearch,
     TmDataLoading,
+    TmDataConnecting,
     ModalSearch,
     PanelSort,
     VmToolBar

@@ -1,9 +1,7 @@
 <template>
   <div>
-    <tm-data-loading v-if="loading" />
-    <tm-data-empty v-else-if="proposals.length === 0" />
-    <data-empty-search v-else-if="filteredProposals.length === 0" />
-    <table>
+    <data-empty-search v-if="filteredProposals.length === 0" />
+    <table v-else>
       <thead>
         <panel-sort :sort="sort" :properties="properties" />
       </thead>
@@ -23,18 +21,15 @@ import { mapGetters } from "vuex"
 import Mousetrap from "mousetrap"
 import { includes, orderBy } from "lodash"
 import LiProposal from "./LiProposal"
-import { TmDataEmpty, TmDataLoading } from "@tendermint/ui"
-import DataEmptySearch from "common/TmDataEmptySearch"
 import ModalSearch from "common/TmModalSearch"
+import DataEmptySearch from "common/TmDataEmptySearch"
 import PanelSort from "staking/PanelSort"
 import VmToolBar from "common/VmToolBar"
 export default {
   name: `table-proposals`,
   components: {
     LiProposal,
-    TmDataEmpty,
     DataEmptySearch,
-    TmDataLoading,
     ModalSearch,
     PanelSort,
     VmToolBar
@@ -42,10 +37,6 @@ export default {
   props: {
     proposals: {
       type: Array,
-      required: true
-    },
-    loading: {
-      type: Boolean,
       required: true
     }
   },
@@ -137,7 +128,6 @@ export default {
     Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
     Mousetrap.bind([`command+n`, `ctrl+n`], () => this.newProposal())
     Mousetrap.bind(`esc`, () => this.setSearch(false))
-    this.$store.dispatch(`getProposals`)
   },
   methods: {
     setSearch(

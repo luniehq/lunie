@@ -16,9 +16,10 @@
       />
       <tm-btn
         id="send-confirmation-btn"
+        :disabled="!connected"
+        :value="connected ? 'Confirm' : 'Connecting...'"
         type="button"
         color="primary"
-        value="Confirm"
         @click.native="approve"
       />
     </div>
@@ -46,6 +47,10 @@ export default {
     },
     amount: {
       type: [String, Number],
+      required: true
+    },
+    connected: {
+      type: Boolean,
       required: true
     }
   },

@@ -4,7 +4,8 @@
       <tm-balance :tabs="tabs">
         <tm-btn
           id="propose-btn"
-          value="Create Proposal"
+          :disabled="!connected"
+          :value="connected ? 'Create Proposal' : 'Connecting...'"
           color="primary"
           @click.native="onPropose"
         />
@@ -54,7 +55,7 @@ export default {
   }),
   computed: {
     // TODO: get min deposit denom from gov params
-    ...mapGetters([`proposals`, `filters`, `bondingDenom`])
+    ...mapGetters([`proposals`, `filters`, `bondingDenom`, `connected`])
   },
   methods: {
     onPropose() {

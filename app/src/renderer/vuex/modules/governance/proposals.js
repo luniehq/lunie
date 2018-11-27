@@ -34,6 +34,7 @@ export default ({ node }) => {
             commit(`setProposal`, proposal.value)
           })
         }
+        state.loading = false
       } catch (error) {
         commit(`notifyError`, {
           title: `Error fetching proposals`,
@@ -42,7 +43,6 @@ export default ({ node }) => {
         Raven.captureException(error)
         state.error = error
       }
-      state.loading = false
     },
     async getProposal({ state, commit }, proposal_id) {
       state.loading = true

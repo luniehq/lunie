@@ -20,7 +20,8 @@
       </vm-tool-bar>
     </template>
     <modal-search v-if="somethingToSearch" type="balances" />
-    <tm-data-loading v-if="wallet.loading" />
+    <tm-data-connecting v-if="wallet.loading && !connected" />
+    <tm-data-loading v-else-if="wallet.loading" />
     <tm-data-msg
       v-else-if="wallet.balances.length === 0"
       id="account_empty_msg"
@@ -34,12 +35,13 @@
       </div>
     </tm-data-msg>
     <data-empty-search v-else-if="filteredBalances.length === 0" />
-    <ul>
+    <ul v-else>
       <li-coin
         v-for="coin in filteredBalances"
         v-if="wallet.balances.length > 0 && coin.amount > 0"
         :key="coin.denom"
         :coin="coin"
+        :connected="connected"
         class="tm-li-balance"
       />
     </ul>
@@ -52,6 +54,7 @@ import { mapGetters, mapActions } from "vuex"
 import { includes, orderBy } from "lodash"
 import Mousetrap from "mousetrap"
 import DataEmptySearch from "common/TmDataEmptySearch"
+import TmDataConnecting from "common/TmDataConnecting"
 import LiCopy from "common/TmLiCopy"
 import LiCoin from "./LiCoin"
 import {
@@ -71,6 +74,7 @@ export default {
     TmDataLoading,
     TmDataMsg,
     DataEmptySearch,
+    TmDataConnecting,
     LiCoin,
     LiCopy,
     TmListItem,
