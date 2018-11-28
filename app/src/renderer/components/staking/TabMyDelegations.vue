@@ -1,9 +1,11 @@
 <template>
   <div>
-    <div v-if="yourValidators.length > 0">
+    <div v-if="delegation.loaded && yourValidators.length > 0">
       <table-validators :validators="yourValidators" />
     </div>
-    <tm-data-connecting v-if="delegation.loading && !connected" />
+    <tm-data-connecting
+      v-if="!delegation.loaded && delegation.loading && !connected"
+    />
     <tm-data-msg v-if="yourValidators.length < 1" icon="info_outline">
       <div slot="title">No Active Delegations</div>
       <div slot="subtitle">
@@ -13,12 +15,15 @@
         to make your first delegation!
       </div>
     </tm-data-msg>
-    <div v-if="yourValidators.length > 0" class="check-out-message">
+    <div
+      v-if="delegation.loaded && yourValidators.length > 0"
+      class="check-out-message"
+    >
       Check out
       <router-link :to="{ name: 'Validators' }">the validator list</router-link>
       to find other validators to delegate to.
     </div>
-    <div v-if="undelegatedValidators.length">
+    <div v-if="delegation.loaded && undelegatedValidators.length > 0">
       <h3 class="tab-header">
         Inactive Delegations
         <i v-tooltip.top="unbondInfo" class="material-icons info-button"

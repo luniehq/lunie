@@ -1,6 +1,6 @@
 <template>
-  <tm-data-connecting v-if="proposals.loading && !connected" />
-  <tm-data-loading v-else-if="loading" />
+  <tm-data-connecting v-if="!proposals.loaded && !connected" />
+  <tm-data-loading v-else-if="!proposals.loaded && proposals.loading" />
   <tm-data-empty v-else-if="Object.keys(proposals.proposals).length === 0" />
   <table-proposals
     v-else

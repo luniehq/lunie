@@ -20,8 +20,8 @@
       </vm-tool-bar>
     </template>
     <modal-search v-if="somethingToSearch" type="balances" />
-    <tm-data-connecting v-if="wallet.loading && !connected" />
-    <tm-data-loading v-else-if="wallet.loading" />
+    <tm-data-connecting v-if="!wallet.loaded && !connected" />
+    <tm-data-loading v-else-if="!wallet.loaded && wallet.loading" />
     <tm-data-msg
       v-else-if="wallet.balances.length === 0"
       id="account_empty_msg"

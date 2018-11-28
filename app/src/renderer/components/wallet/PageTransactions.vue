@@ -17,23 +17,14 @@
       >
     </template>
     <modal-search v-if="somethingToSearch" type="transactions" />
-    <tm-data-connecting v-if="transactions.loading && !connected" />
-    <tm-data-loading v-else-if="transactions.loading" />
-    <tm-data-error v-else-if="!transactions.loading && transactions.error" />
-    <data-empty-tx
-      v-else-if="
-        !transactions.loading &&
-          allTransactions.length === 0 &&
-          !transactions.error
-      "
-    />
-    <data-empty-search
-      v-else-if="
-        !transactions.loading &&
-          !transactions.error &&
-          filteredTransactions.length === 0
-      "
-    /><template v-for="tx in filteredTransactions" v-else>
+    <tm-data-connecting v-if="!transactions.loaded && !connected" />
+    <tm-data-loading v-else-if="!transactions.loaded && transactions.loading" />
+    <tm-data-error v-else-if="transactions.error" />
+    <data-empty-tx v-else-if="allTransactions.length === 0" />
+    <data-empty-search v-else-if="filteredTransactions.length === 0" /><template
+      v-for="tx in filteredTransactions"
+      v-else
+    >
       <tm-li-any-transaction
         :validators="delegates.delegates"
         :validator-url="validatorURL"

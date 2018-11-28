@@ -1,14 +1,7 @@
 <template>
   <div>
-    <tm-data-connecting v-if="delegates.loading && !connected" />
-    <tm-data-loading
-      v-if="delegates.loading && sortedFilteredEnrichedDelegates.length === 0"
-    />
-    <tm-data-empty v-else-if="!delegates.loading && validators.length === 0" />
     <data-empty-search
-      v-else-if="
-        !delegates.loading && sortedFilteredEnrichedDelegates.length === 0
-      "
+      v-if="!delegates.loading && sortedFilteredEnrichedDelegates.length === 0"
     />
     <table v-else>
       <thead>
@@ -32,9 +25,7 @@ import num from "scripts/num"
 import { includes, orderBy } from "lodash"
 import Mousetrap from "mousetrap"
 import LiValidator from "staking/LiValidator"
-import { TmDataEmpty, TmDataLoading } from "@tendermint/ui"
 import DataEmptySearch from "common/TmDataEmptySearch"
-import TmDataConnecting from "common/TmDataConnecting"
 import { calculateTokens } from "scripts/common"
 import ModalSearch from "common/TmModalSearch"
 import PanelSort from "staking/PanelSort"
@@ -43,10 +34,7 @@ export default {
   name: `table-validators`,
   components: {
     LiValidator,
-    TmDataEmpty,
     DataEmptySearch,
-    TmDataLoading,
-    TmDataConnecting,
     ModalSearch,
     PanelSort,
     VmToolBar
