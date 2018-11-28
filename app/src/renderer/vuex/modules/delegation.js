@@ -4,8 +4,8 @@ import { calculateShares } from "scripts/common"
 export default ({ node }) => {
   let emptyState = {
     loading: false,
+    loaded: false,
     error: null,
-    loadedOnce: false,
 
     // our delegations, maybe not yet committed
     delegates: [],
@@ -90,6 +90,8 @@ export default ({ node }) => {
           redelegations
         }
         state.error = null
+        state.loading = false
+        state.loaded = true
 
         // the request runs that long, that the user might sign out and back in again
         // the result is, that the new users state gets updated by the old users request
@@ -142,7 +144,6 @@ export default ({ node }) => {
               balance: { amount: 0 }
             })
         })
-        state.loadedOnce = true
       } catch (error) {
         commit(`notifyError`, {
           title: `Error fetching delegations`,

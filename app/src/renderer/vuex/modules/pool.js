@@ -4,6 +4,7 @@ export default ({ node }) => {
   const emptyState = {
     pool: {},
     loading: false,
+    loaded: false,
     error: null
   }
   const state = JSON.parse(JSON.stringify(emptyState))
@@ -28,7 +29,9 @@ export default ({ node }) => {
       try {
         let pool = await node.getPool()
         commit(`setPool`, pool)
+        state.error = null
         state.loading = false
+        state.loaded = true
       } catch (error) {
         commit(`notifyError`, {
           title: `Error fetching staking pool information`,

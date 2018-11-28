@@ -8,6 +8,7 @@ export default ({ node }) => {
       voting: {}
     },
     loading: false,
+    loaded: false,
     error: null
   }
   const state = JSON.parse(JSON.stringify(emptyState))
@@ -29,6 +30,8 @@ export default ({ node }) => {
         let tallying = await node.getGovTallyingParameters()
         let voting = await node.getGovVotingParameters()
         state.error = null
+        state.loading = false
+        state.loaded = true
         commit(`setGovParameters`, { deposit, tallying, voting })
       } catch (error) {
         commit(`notifyError`, {

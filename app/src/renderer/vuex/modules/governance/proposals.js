@@ -4,6 +4,7 @@ import Vue from "vue"
 export default ({ node }) => {
   let emptyState = {
     loading: false,
+    loaded: false,
     error: null,
     proposals: {}
   }
@@ -31,13 +32,14 @@ export default ({ node }) => {
 
       try {
         let proposals = await node.queryProposals()
-        state.error = null
         if (proposals.length > 0) {
           proposals.forEach(proposal => {
             commit(`setProposal`, proposal.value)
           })
         }
+        state.error = null
         state.loading = false
+        state.loaded = true
       } catch (error) {
         commit(`notifyError`, {
           title: `Error fetching proposals`,
@@ -51,6 +53,8 @@ export default ({ node }) => {
       state.loading = true
       try {
         state.error = null
+        state.loading = false
+        state.loaded = true // TODO make state for only proposal
         let proposal = await node.queryProposal(proposal_id)
         commit(`setProposal`, proposal.value)
       } catch (error) {
@@ -60,7 +64,6 @@ export default ({ node }) => {
         })
         state.error = error
       }
-      state.loading = false
     },
     async submitProposal(
       {

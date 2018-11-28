@@ -4,6 +4,7 @@ export default ({ node }) => {
   const state = {
     loading: false,
     error: null,
+    loaded: false,
     deposits: {}
   }
 
@@ -21,6 +22,8 @@ export default ({ node }) => {
       try {
         let deposits = await node.queryProposalDeposits(proposalId)
         state.error = null
+        state.loading = false
+        state.loaded = true
         commit(`setProposalDeposits`, proposalId, deposits)
       } catch (error) {
         commit(`notifyError`, {
@@ -30,7 +33,6 @@ export default ({ node }) => {
         Raven.captureException(error)
         state.error = error
       }
-      state.loading = false
     },
     async submitDeposit(
       {

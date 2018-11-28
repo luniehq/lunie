@@ -122,7 +122,7 @@ export default {
       }
     },
     userCanDelegate() {
-      return this.user.atoms > 0 && this.delegation.loadedOnce
+      return this.user.atoms > 0 && this.delegation.loaded
     },
     properties() {
       return [

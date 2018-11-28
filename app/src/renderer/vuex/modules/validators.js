@@ -4,6 +4,7 @@ export default ({ node }) => {
   const emptyState = {
     validators: [],
     loading: false,
+    loaded: false,
     error: null,
     validatorHash: null
   }
@@ -36,6 +37,8 @@ export default ({ node }) => {
       try {
         let validators = (await node.getValidatorSet()).validators
         state.error = null
+        state.loading = false
+        state.loaded = true
         commit(`setValidators`, validators)
       } catch (error) {
         commit(`notifyError`, {
@@ -45,7 +48,6 @@ export default ({ node }) => {
         Raven.captureException(error)
         state.error = error
       }
-      state.loading = false
     },
     async maybeUpdateValidators({ state, commit, dispatch }, header) {
       let validatorHash = header.validators_hash

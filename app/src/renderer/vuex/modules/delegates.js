@@ -10,6 +10,7 @@ export default ({ node }) => {
     delegates: [],
     globalPower: null,
     loading: false,
+    loaded: false,
     error: null
   }
   const state = JSON.parse(JSON.stringify(emptyState))
@@ -77,6 +78,8 @@ export default ({ node }) => {
         let validators = await node.getCandidates()
         let { validators: validatorSet } = await node.getValidatorSet()
         state.error = null
+        state.loading = false
+        state.loaded = true
 
         for (let validator of validators) {
           validator.isValidator = false

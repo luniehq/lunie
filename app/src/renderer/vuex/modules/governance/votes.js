@@ -3,6 +3,7 @@ import Raven from "raven-js"
 export default ({ node }) => {
   const state = {
     loading: false,
+    loaded: false,
     error: null,
     votes: {}
   }
@@ -22,6 +23,8 @@ export default ({ node }) => {
         let votes = await node.queryProposalVotes(proposalId)
         commit(`setProposalVotes`, proposalId, votes)
         state.error = null
+        state.loading = false
+        state.loaded = true
       } catch (error) {
         commit(`notifyError`, {
           title: `Error fetching votes`,
@@ -30,7 +33,6 @@ export default ({ node }) => {
         Raven.captureException(error)
         state.error = error
       }
-      state.loading = false
     },
     async submitVote({ rootState, dispatch }, { proposal_id, option }) {
       await dispatch(`sendTx`, {
