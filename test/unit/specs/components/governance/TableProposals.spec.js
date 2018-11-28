@@ -92,17 +92,11 @@ describe(`TableProposals`, () => {
 
   describe(`setSearch`, () => {
     it(`should show search when there is something to search`, () => {
-      const $store = {
-        commit: jest.fn()
-      }
+      wrapper.vm.setSearch()
 
-      TableProposals.methods.setSearch(true, {
-        somethingToSearch: true,
-        $store
-      })
-
-      expect($store.commit.mock.calls).toEqual([
-        [`setSearchVisible`, [`proposals`, true]]
+      expect(store.commit.mock.calls[2]).toEqual([
+        `setSearchVisible`,
+        [`proposals`, true]
       ])
     })
 
@@ -111,11 +105,7 @@ describe(`TableProposals`, () => {
         commit: jest.fn()
       }
 
-      TableProposals.methods.setSearch(true, {
-        somethingToSearch: false,
-        $store
-      })
-
+      wrapper.vm.setSearch()
       expect($store.commit.mock.calls).toEqual([])
     })
   })

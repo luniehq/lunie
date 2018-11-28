@@ -134,8 +134,8 @@ export default {
     }
   },
   mounted() {
-    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
-    Mousetrap.bind(`esc`, () => this.setSearch(false))
+    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch())
+    Mousetrap.bind(`esc`, () => this.setSearch())
     this.$store.dispatch(`getProposals`)
   },
   methods: {
@@ -143,8 +143,6 @@ export default {
       if (this.somethingToSearch) {
         let toggle = !this.filters[`proposals`].search.visible
         this.$store.commit(`setSearchVisible`, [`proposals`, toggle])
-      } else {
-        console.log(this.proposals)
       }
     }
   }
