@@ -97,6 +97,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1386](https://github.com/cosmos/voyager/issues/1386) Cleaned up onboarding @jbibla
 - [\#1640](https://github.com/cosmos/voyager/issues/1640) Hide the table proposals when there are no available ones @fedekunze
 - [\#1640](https://github.com/cosmos/voyager/issues/1640) Fixed an error that prevented the search bar to be displayed using `Ctrl+F` @fedekunze
+- Fixed testnet config build script @faboweb
 
 ## [0.10.7] - 2018-10-10
 
