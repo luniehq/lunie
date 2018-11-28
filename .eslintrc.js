@@ -2,7 +2,7 @@
 
 module.exports = {
   root: true,
-  extends: ["plugin:vue/recommended"],
+  extends: ["plugin:vue/recommended", "prettier", "prettier/vue"],
   parserOptions: {
     ecmaVersion: 2017,
     sourceType: "module",
@@ -13,7 +13,7 @@ module.exports = {
     es6: true,
     node: true
   },
-  plugins: ["vue"],
+  plugins: ["vue", "prettier"],
   rules: {
     // allow debugger during development
     "no-debugger": process.env.NODE_ENV === "production" ? 2 : 0,
@@ -21,6 +21,6 @@ module.exports = {
     "no-unused-vars": "error",
     quotes: ["error", "backtick"],
     "no-var": "error",
-    "vue/require-prop-types": "warn"
+    "prettier/prettier": "error"
   }
 }

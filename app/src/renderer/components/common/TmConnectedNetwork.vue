@@ -1,16 +1,48 @@
-<template lang="pug">
-.tm-connected-network#tm-connected-network(v-if='connected' :class="cssClass")
-  .tm-connected-network__connection
-    .tm-connected-network__icon#tm-connected-network__icon: i.material-icons lock
-    .tm-connected-network__string#tm-connected-network__string
-      span.chain-id(v-tooltip.top="networkTooltip") {{ chainId }}
-  .tm-connected-network__string#tm-connected-network__block
-    span(v-if="mockedConnector" v-tooltip.top="'Current block number'") {{ blockHeight }}
-    a(:href="explorerLink" v-if="!mockedConnector" v-tooltip.top="'View block details on the Cosmos explorer.'") {{ blockHeight }}
-      i.material-icons.exit exit_to_app
-.tm-connected-network.tm-disconnected-network#tm-disconnected-network(v-else)
-  img(class="tm-connected-network-loader" src="~assets/images/loader.svg")
-  .tm-connected-network__string.tm-connected-network__string--connecting(v-tooltip.top="networkTooltip") Connecting to {{ chainId }}&hellip;
+<template>
+  <div
+    v-if="connected"
+    id="tm-connected-network"
+    :class="cssClass"
+    class="tm-connected-network"
+  >
+    <div class="tm-connected-network__connection">
+      <div id="tm-connected-network__icon" class="tm-connected-network__icon">
+        <i class="material-icons">lock</i>
+      </div>
+      <div
+        id="tm-connected-network__string"
+        class="tm-connected-network__string"
+      >
+        <span v-tooltip.top="networkTooltip" class="chain-id">{{
+          chainId
+        }}</span>
+      </div>
+    </div>
+    <div id="tm-connected-network__block" class="tm-connected-network__string">
+      <span v-tooltip.top="'Current block number'" v-if="mockedConnector">{{
+        blockHeight
+      }}</span
+      ><a
+        v-tooltip.top="'View block details on the Cosmos explorer.'"
+        v-if="!mockedConnector"
+        :href="explorerLink"
+        >{{ blockHeight }}<i class="material-icons exit">exit_to_app</i></a
+      >
+    </div>
+  </div>
+  <div
+    v-else
+    id="tm-disconnected-network"
+    class="tm-connected-network tm-disconnected-network"
+  >
+    <img class="tm-connected-network-loader" src="~assets/images/loader.svg" />
+    <div
+      v-tooltip.top="networkTooltip"
+      class="tm-connected-network__string tm-connected-network__string--connecting"
+    >
+      Connecting to {{ chainId }}…
+    </div>
+  </div>
 </template>
 
 <script>
@@ -60,53 +92,60 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@require '~variables'
+<style>
+.tm-connected-network {
+  align-items: center;
+  background: var(--app-fg);
+  border-radius: 0.25rem;
+  color: var(--dim);
+  display: flex;
+  font-size: var(--sm);
+  justify-content: space-between;
+  margin: 0.5rem;
+  padding: 0.5rem;
+}
 
-.tm-connected-network
-  align-items center
-  background var(--app-fg)
-  border-radius 0.25rem
-  color var(--dim)
-  display flex
-  font-size sm
-  justify-content space-between
-  margin 0.5rem
-  padding 0.5rem
+.tm-connected-network .chain-id {
+  font-weight: 500;
+  padding-right: 1rem;
+}
 
-  .chain-id
-    font-weight 500
-    padding-right 1rem
+.tm-connected-network .exit {
+  font-size: var(--sm);
+}
 
-  .exit
-    font-size sm
+.tm-connected-network__icon {
+  align-items: center;
+  color: var(--success-bc);
+  display: flex;
+  font-size: var(--m);
+  justify-content: center;
+  padding-right: 0.25rem;
+}
 
-.tm-connected-network__icon
-  align-items center
-  color var(--success-bc)
-  display flex
-  font-size m
-  justify-content center
-  padding-right 0.25rem
+.tm-connected-network__icon .fa-spin {
+  color: var(--warning);
+}
 
-  .fa-spin
-    color var(--warning)
+.tm-connected-network--mocked .tm-connected-network__icon {
+  color: var(--warning);
+}
 
-.tm-connected-network--mocked
-  .tm-connected-network__icon
-    color var(--warning)
+.tm-connected-network__connection {
+  display: flex;
+}
 
-.tm-connected-network__connection
-  display flex
+.tm-disconnected-network {
+  justify-content: start;
+}
 
-.tm-disconnected-network
-  justify-content start
+.tm-connected-network__string--connecting {
+  color: var(--warning);
+}
 
-.tm-connected-network__string--connecting
-  color var(--warning)
-
-.tm-connected-network-loader
-  height 1rem
-  margin-right 0.5rem
-  width 1rem
+.tm-connected-network-loader {
+  height: 1rem;
+  margin-right: 0.5rem;
+  width: 1rem;
+}
 </style>

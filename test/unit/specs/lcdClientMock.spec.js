@@ -823,11 +823,8 @@ describe(`LCD Client Mock`, () => {
   })
 
   it(`queries for staking parameters`, async () => {
-    let parameters = await client.getParameters()
+    let parameters = await client.getStakingParameters()
     expect(Object.keys(parameters)).toContain(
-      `inflation_max`,
-      `inflation_min`,
-      `goal_bonded`,
       `unbonding_time`,
       `max_validators`,
       `bond_denom`
@@ -836,14 +833,7 @@ describe(`LCD Client Mock`, () => {
 
   it(`queries for staking pool`, async () => {
     let pool = await client.getPool()
-    expect(Object.keys(pool)).toContain(
-      `loose_tokens`,
-      `bonded_tokens`,
-      `inflation_last_time`,
-      `inflation`,
-      `date_last_commission_reset`,
-      `prev_bonded_shares`
-    )
+    expect(Object.keys(pool)).toContain(`loose_tokens`, `bonded_tokens`)
   })
 
   it(`queries for validator signing information`, async () => {
@@ -1201,7 +1191,7 @@ describe(`LCD Client Mock`, () => {
             `5`,
             lcdClientMock.addresses[0]
           )
-          expect(totalDepositBefore).not.toBeDefined()
+          expect(totalDepositBefore).toEqual({ amount: `170`, denom: `steak` })
           expect(userDepositBefore).not.toBeDefined()
 
           let deposit = {
@@ -1229,7 +1219,7 @@ describe(`LCD Client Mock`, () => {
           let totalDepositAfter = proposalAfter.total_deposit.find(coin => {
             return coin.denom === `steak`
           })
-          expect(totalDepositAfter).toEqual(deposit.amount[0])
+          expect(totalDepositAfter).toEqual({ amount: `370`, denom: `steak` }) // 170 before + 200 new
 
           // should have updated the status of the proposal from `DepositPeriod` to `VotingPeriod`
           expect(proposalAfter.proposal_status).toEqual(`VotingPeriod`)

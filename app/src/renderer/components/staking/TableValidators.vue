@@ -1,13 +1,28 @@
-<template lang="pug">
-  div
-    tm-data-loading(v-if="delegates.loading && sortedFilteredEnrichedDelegates.length === 0")
-    tm-data-empty(v-else-if="!delegates.loading && validators.length === 0")
-    data-empty-search(v-else-if="!delegates.loading && sortedFilteredEnrichedDelegates.length === 0")
-    table(v-else)
-      thead
-        panel-sort(:sort='sort', :properties="properties")
-      tbody
-        li-validator(v-for='i in sortedFilteredEnrichedDelegates', :disabled="!userCanDelegate" :key='i.id' :validator='i')
+<template>
+  <div>
+    <tm-data-loading
+      v-if="delegates.loading && sortedFilteredEnrichedDelegates.length === 0"
+    />
+    <tm-data-empty v-else-if="!delegates.loading && validators.length === 0" />
+    <data-empty-search
+      v-else-if="
+        !delegates.loading && sortedFilteredEnrichedDelegates.length === 0
+      "
+    />
+    <table v-else>
+      <thead>
+        <panel-sort :sort="sort" :properties="properties" />
+      </thead>
+      <tbody>
+        <li-validator
+          v-for="i in sortedFilteredEnrichedDelegates"
+          :disabled="!userCanDelegate"
+          :key="i.id"
+          :validator="i"
+        />
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <script>
@@ -33,7 +48,12 @@ export default {
     PanelSort,
     VmToolBar
   },
-  props: [`validators`],
+  props: {
+    validators: {
+      type: Array,
+      required: true
+    }
+  },
   data: () => ({
     num: num,
     query: ``,
@@ -181,50 +201,64 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
-@require '~variables'
+<style>
+table {
+  border-spacing: 0 0.25rem;
+  margin: 0 0 0 2rem;
+  min-widthpadding: 0;
+  table-layout: auto;
+  counter-reset: rowNumber1;
+}
+
+table tr {
+  counter-increment: rowNumber;
+}
+
+table tr td:first-child::before {
+  content: counter(rowNumber);
+  position: absolute;
+  font-size: sm;
+  width: 2rem;
+  text-align: right;
+  color: var(--dim);
+  left: -3rem;
+}
+
+table th {
+  min-width: 130px;
+  width: 100%;
+  padding: 0.5rem;
+}
 
 table
-  border-spacing 0 0.25rem
-  margin 0 0 0 2rem
+  th
   min-width
-  padding 0
-  table-layout auto
-  counter-reset rowNumber + 1
-
-table tr
-  counter-increment rowNumber
-
-table tr td:first-child::before
-  content counter(rowNumber)
-  position absolute
-  font-size sm
-  width 2rem
-  text-align right
-  color var(--dim)
-  left -3rem
-
-table th
-  min-width 130px
-  width 100%
-  padding 0.5rem
-
-table td
-  min-width 130px
-  width 100%
-  padding 0 0.5rem
-  position relative
-
-  a
-    display inline-block
-
-table tr td:nth-child(3):after
-  display block
-  position absolute
-  content ''
-  height 2rem
-  width 2px
-  top 1.5rem
-  right 2rem
-  background var(--bc-dim)
+  122px
+  width
+  100%
+  padding
+  0.5rem
+  table
+  td
+  min-width
+  122px
+  width
+  100%
+  padding
+  0
+  0.5rem
+  position
+  relative
+  table
+  tr
+  td:nth-child(3):after {
+  display: block;
+  position: absolute;
+  content: "";
+  height: 2rem;
+  width: 2px;
+  top: 1.5rem;
+  right: 2rem;
+  background: var(--bc-dim);
+}
 </style>

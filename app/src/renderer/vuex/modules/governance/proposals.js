@@ -1,4 +1,4 @@
-"use strict"
+import Raven from "raven-js"
 import Vue from "vue"
 
 export default ({ node }) => {
@@ -49,6 +49,7 @@ export default ({ node }) => {
           title: `Error fetching proposals`,
           body: error.message
         })
+        Raven.captureException(error)
         state.error = error
       }
       state.loading = false
@@ -64,6 +65,7 @@ export default ({ node }) => {
           title: `Error querying proposal with id #${proposal_id}`,
           body: error.message
         })
+        Raven.captureException(error)
         state.error = error
       }
       state.loading = false

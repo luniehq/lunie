@@ -1,28 +1,52 @@
-<template lang="pug">
-menu.app-menu
-  .app-menu-main
-    tm-list-item#app-menu__wallet(
-      to="/"
-      exact
-      @click.native="close"
-      title="Wallet")
-    tm-list-item#app-menu__transactions(
-      to="/wallet/transactions"
-      exact
-      @click.native="close"
-      title="Transactions"
-      v-if="config.devMode || mockedConnector")
-    tm-list-item#app-menu__staking(
-      to="/staking"
-      exact
-      @click.native="close" title="Staking"
-      v-bind:class="{ 'active': isValidatorPage }")
-    tm-list-item#app-menu__proposals(
-      to="/governance"
-      exact @click.native="close"
-      title="Governance"
-      v-if="config.devMode || mockedConnector")
-  connected-network
+<template>
+  <menu class="app-menu">
+    <div class="app-menu-main">
+      <router-link
+        id="app-menu__wallet"
+        class="app-menu-item"
+        to="/"
+        exact="exact"
+        title="Wallet"
+        @click.native="close"
+      >
+        <h2 class="app-menu-title">Wallet</h2>
+        <i class="material-icons">chevron_right</i>
+      </router-link>
+      <router-link
+        v-if="config.devMode || mockedConnector"
+        id="app-menu__transactions"
+        class="app-menu-item"
+        to="/transactions"
+        exact="exact"
+        title="Transactions"
+        @click.native="close"
+      >
+        <h2 class="app-menu-title">Transactions</h2>
+        <i class="material-icons">chevron_right</i>
+      </router-link>
+      <router-link
+        id="app-menu__staking"
+        class="app-menu-item"
+        to="/staking"
+        title="Staking"
+        @click.native="close"
+      >
+        <h2 class="app-menu-title">Staking</h2>
+        <i class="material-icons">chevron_right</i>
+      </router-link>
+      <router-link
+        id="app-menu__proposals"
+        class="app-menu-item"
+        to="/governance"
+        title="Governance"
+        @click.native="close"
+      >
+        <h2 class="app-menu-title">Governance</h2>
+        <i class="material-icons">chevron_right</i>
+      </router-link>
+    </div>
+    <connected-network />
+  </menu>
 </template>
 
 <script>
@@ -31,22 +55,17 @@ import PerfectScrollbar from "perfect-scrollbar"
 import noScroll from "no-scroll"
 import ConnectedNetwork from "common/TmConnectedNetwork"
 import { TmListItem } from "@tendermint/ui"
-import UserPane from "common/TmUserPane"
 export default {
   name: `app-menu`,
   components: {
     ConnectedNetwork,
-    TmListItem,
-    UserPane
+    TmListItem
   },
   data: () => ({
     ps: {}
   }),
   computed: {
-    ...mapGetters([`validators`, `config`, `lastHeader`, `mockedConnector`]),
-    isValidatorPage() {
-      return this.$route.params.validator
-    }
+    ...mapGetters([`validators`, `config`, `lastHeader`, `mockedConnector`])
   },
   mounted() {
     this.ps = new PerfectScrollbar(this.$el.querySelector(`.app-menu-main`))
@@ -60,71 +79,54 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@require '~variables'
-
-.app-menu
-  background var(--app-nav)
-  z-index z(appMenu)
-  user-select none
-  display flex
-  flex-flow column nowrap
-
-  .app-menu-main
-    flex 1
-    position relative // for perfect-scrollbar
-
-    .tm-li
-      border-bottom 1px solid var(--bc-dim)
-
-  .tm-user
-    border-top 1px solid var(--bc)
-    padding 1rem
-    display flex
-
-    .tm-user-info
-      flex 1
-      display flex
-
-    .avatar
-      background var(--link)
-      width 2rem
-      height 2rem
-      border-radius 1rem
-      display flex
-      align-items center
-      justify-content center
-
-      i
-        color var(--txt)
-
-    .text
-      padding 0 0.5rem
-
-    .title
-      color var(--txt)
-
-    .subtitle
-      font-size xs
-      color var(--dim)
-
-    .tm-btn
-      margin-right 0.5rem
-
-.tm-li.tm-li-link.router-link-exact-active
-  color var(--tertiary)
-
-@media screen and (max-width: 1023px)
-  .app-menu
-    position fixed
-    top 3rem
-    left 0
-    bottom 0
-    width 100vw
-    background var(--app-bg)
-    user-select none
-
-@media screen and (min-width: 1024px)
-  .app-menu
-    flex 1
+<style>
+.app-menu {
+  background: var(--app-nav);
+  z-index: var(--z-appMenu);
+  user-select: none;
+  display: flex;
+  flex-flow: column nowrap;
+}
+.app-menu .app-menu-main {
+  flex: 1;
+  position: relative;
+}
+.app-menu .app-menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--bc-dim);
+  padding: 1rem;
+  color: var(--dim);
+}
+.app-menu .app-menu-item:hover {
+  color: var(--bright);
+  background: var(--hover-bg);
+}
+.app-menu .router-link-active {
+  background: var(--hover-bg);
+}
+.app-menu .router-link-active i {
+  color: var(--tertiary);
+}
+.app-menu .router-link-active h2 {
+  color: var(--bright);
+  font-weight: 500;
+}
+@media screen and (max-width: 1023px) {
+  .app-menu {
+    position: fixed;
+    top: 3rem;
+    left: 0;
+    bottom: 0;
+    width: 100vw;
+    background: var(--app-bg);
+    user-select: none;
+  }
+}
+@media screen and (min-width: 1024px) {
+  .app-menu {
+    flex: 1;
+  }
+}
 </style>

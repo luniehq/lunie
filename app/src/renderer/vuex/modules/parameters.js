@@ -1,3 +1,5 @@
+import Raven from "raven-js"
+
 export default ({ node }) => {
   const emptyState = {
     parameters: {},
@@ -6,24 +8,25 @@ export default ({ node }) => {
   const state = JSON.parse(JSON.stringify(emptyState))
 
   const mutations = {
-    setParameters(state, parameters) {
+    setStakingParameters(state, parameters) {
       state.parameters = parameters
     }
   }
 
   const actions = {
-    async getParameters({ state, commit }) {
+    async getStakingParameters({ state, commit }) {
       state.loading = true
       try {
-        let parameters = await node.getParameters()
+        let parameters = await node.getStakingParameters()
         state.error = null
-        commit(`setParameters`, parameters)
-      } catch (err) {
+        commit(`setStakingParameters`, parameters)
+      } catch (error) {
         commit(`notifyError`, {
           title: `Error fetching staking parameters`,
-          body: err.message
+          body: error.message
         })
-        state.error = err
+        Raven.captureException(error)
+        state.error = error
       }
       state.loading = false
     }

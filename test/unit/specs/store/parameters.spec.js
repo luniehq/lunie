@@ -19,12 +19,12 @@ describe(`Module: Parameters`, () => {
   })
 
   it(`should query parameters`, async () => {
-    await store.dispatch(`getParameters`)
+    await store.dispatch(`getStakingParameters`)
     expect(store.state.parameters.parameters).toEqual(mockParameters)
   })
 
   it(`should set parameters`, () => {
-    store.commit(`setParameters`, mockParameters)
+    store.commit(`setStakingParameters`, mockParameters)
     expect(store.state.parameters.parameters).toEqual(mockParameters)
   })
 
@@ -32,9 +32,9 @@ describe(`Module: Parameters`, () => {
     const node = lcdClientMock
     const { state, actions } = parametersModule({ node })
     jest
-      .spyOn(node, `getParameters`)
+      .spyOn(node, `getStakingParameters`)
       .mockImplementationOnce(async () => Promise.reject(`Error`))
-    await actions.getParameters({
+    await actions.getStakingParameters({
       state,
       commit: jest.fn()
     })

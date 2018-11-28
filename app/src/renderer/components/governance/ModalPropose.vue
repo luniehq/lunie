@@ -1,49 +1,61 @@
-<template lang="pug">
-  .modal-propose#modal-propose(v-click-outside="close")
-    .modal-propose-header
-      img.icon(class='modal-propose-atom' src="~assets/images/cosmos-logo.png")
-      span.tm-modal-title Create Proposal
-      .tm-modal-icon.tm-modal-close#closeBtn(@click="close()")
-        i.material-icons close
-
-    tm-form-group.page-proposal-form-group
-      span Title
-      tm-field#title(
+<template>
+  <div v-click-outside="close" id="modal-propose" class="modal-propose">
+    <div class="modal-propose-header">
+      <img
+        class="icon modal-propose-atom"
+        src="~assets/images/cosmos-logo.png"
+      /><span class="tm-modal-title">Create Proposal</span>
+      <div id="closeBtn" class="tm-modal-icon tm-modal-close" @click="close()">
+        <i class="material-icons">close</i>
+      </div>
+    </div>
+    <tm-form-group class="page-proposal-form-group"
+      ><span>Title</span>
+      <tm-field
+        v-focus="v - focus"
+        id="title"
+        v-model="title"
         type="text"
         placeholder="Proposal title"
-        v-model="title"
-        v-focus)
-
-    tm-form-group.page-proposal-form-group
-      span Description
-      tm-field#description(
+      />
+    </tm-form-group>
+    <tm-form-group class="page-proposal-form-group"
+      ><span>Description</span>
+      <tm-field
+        id="description"
+        v-model="description"
         type="textarea"
         placeholder="Write your proposal here..."
-        v-model="description")
-
-    tm-form-group.modal-propose-form-group(
-      field-id='amount')
-      span Deposit amount
-      tm-field#denom(
-        type="text"
+      />
+    </tm-form-group>
+    <tm-form-group class="modal-propose-form-group" field-id="amount"
+      ><span>Deposit amount</span>
+      <tm-field
+        id="denom"
         :placeholder="denom"
-        readonly)
-
-      tm-field#amount(
-        type="number"
+        type="text"
+        readonly="readonly"
+      />
+      <tm-field
+        v-focus
+        id="amount"
         :max="balance"
         :min="0"
-        step="any"
         v-model="amount"
-        v-focus)
-
-    .modal-propose-footer
-      tm-btn#submit-proposal(
-        @click.native="onPropose"
+        type="number"
+      />
+    </tm-form-group>
+    <div class="modal-propose-footer">
+      <tm-btn
+        id="submit-proposal"
         :disabled="$v.$invalid"
         color="primary"
         value="Submit proposal"
-        size="lg")
+        size="lg"
+        @click.native="onPropose"
+      />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -63,6 +75,7 @@ const isValid = type =>
   type === `Text` || type === `ParameterChange` || type === `SoftwareUpgrade`
 
 const notBlank = text => !isEmpty(trim(text))
+const isInteger = amount => Number.isInteger(amount)
 
 export default {
   name: `modal-propose`,
@@ -75,7 +88,12 @@ export default {
     TmField,
     TmFormGroup
   },
-  props: [`denom`],
+  props: {
+    denom: {
+      type: String,
+      required: true
+    }
+  },
   data: () => ({
     titleMinLength: 1,
     titleMaxLength: 64,
@@ -127,10 +145,8 @@ export default {
       },
       amount: {
         required,
-        between: between(
-          0.0000000001,
-          this.balance > 0 ? this.balance : 0.0000000001
-        )
+        isInteger,
+        between: between(1, this.balance > 0 ? this.balance : 1)
       }
     }
   },
@@ -151,57 +167,66 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@import '~variables'
+<style>
+.modal-propose {
+  background: var(--app-nav);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  left: 50%;
+  padding: 2rem;
+  position: fixed;
+  bottom: 0;
+  width: 50%;
+  z-index: var(--z-modal);
+}
 
-.modal-propose
-  background var(--app-nav)
-  display flex
-  flex-direction column
-  justify-content space-between
-  left 50%
-  padding 2rem
-  position fixed
-  bottom 0
-  width 50%
-  z-index z(modal)
+.modal-propose-header {
+  align-items: center;
+  display: flex;
+}
 
-  &-header
-    align-items center
-    display flex
+.modal-propose-atom {
+  height: 4rem;
+  width: 4rem;
+}
 
-  &-atom
-    height 4rem
-    width 4rem
+.modal-propose-form-group {
+  display: block;
+  padding: 0;
+}
 
-  &-form-group
-    display block
-    padding 0
+.modal-propose #amount {
+  margin-top: -32px;
+}
 
-  #amount
-    margin-top -32px
+.modal-propose #denom {
+  border: none;
+  margin-left: 80%;
+  text-align: right;
+  width: 72px;
+}
 
-  #denom
-    border none
-    margin-left 80%
-    text-align right
-    width 72px
+.modal-propose-footer {
+  display: flex;
+  justify-content: flex-end;
+}
 
-  &-footer
-    display flex
-    justify-content flex-end
+.modal-propose-footer button {
+  margin-left: 1rem;
+  margin-top: 1rem;
+}
 
-    button
-      margin-left 1rem
-      margin-top 1rem
+.modal-propose .page-proposal-form-group {
+  display: block;
+  padding: 0;
+}
 
-  .page-proposal-form-group
-    display block
-    padding 0
+.modal-propose .page-proposal-form-group textarea {
+  min-height: 300px;
+}
 
-    textarea
-      min-height 300px
-
-  .tm-form-group
-    margin 0.5rem 0
+.modal-propose .tm-form-group {
+  margin: 0.5rem 0;
+}
 </style>

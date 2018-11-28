@@ -1,8 +1,6 @@
-"use strict"
-
-import enableGoogleAnalytics from "../../google-analytics.js"
 import Raven from "raven-js"
-const { ipcRenderer, remote } = require(`electron`)
+import { ipcRenderer, remote } from "electron"
+import enableGoogleAnalytics from "../../google-analytics.js"
 const config = remote.getGlobal(`config`)
 
 export default ({ node }) => {
@@ -18,7 +16,8 @@ export default ({ node }) => {
     account: null,
     address: null,
     errorCollection: false,
-    stateLoaded: false // shows if the persisted state is already loaded. used to prevent overwriting the persisted state before it is loaded
+    stateLoaded: false, // shows if the persisted state is already loaded. used to prevent overwriting the persisted state before it is loaded
+    error: null
   }
 
   const mutations = {
@@ -61,15 +60,20 @@ export default ({ node }) => {
           dl: `/session/` + screen
         })
     },
-    async loadAccounts({ commit }) {
+    async loadAccounts({ commit, state }) {
+      state.loading = true
       try {
         let keys = await node.keys.values()
         commit(`setAccounts`, keys)
-      } catch (err) {
+      } catch (error) {
+        Raven.captureException(error)
         commit(`notifyError`, {
           title: `Couldn't read keys`,
-          body: err.message
+          body: error.message
         })
+        state.error = error
+      } finally {
+        state.loading = false
       }
     },
     async testLogin(state, { password, account }) {
@@ -79,7 +83,7 @@ export default ({ node }) => {
           new_password: password,
           old_password: password
         })
-      } catch (err) {
+      } catch (error) {
         throw Error(`Incorrect passphrase`)
       }
     },

@@ -16,16 +16,22 @@ exports[`TmModalNoNodes has the expected html structure 1`] = `
         sync_problem
       </i>
     </div>
+     
     <div
       class="tm-modal-error__title"
     >
       No nodes found
     </div>
+     
     <div
       class="tm-modal-error__body"
     >
-      All known nodes are offline or incompatible. You can retry to connect or switch to a demo connection so you can try out Voyager.
+      
+      All known nodes are offline or incompatible. You can retry to connect or
+      switch to a demo connection so you can try out Voyager.
+    
     </div>
+     
     <div
       class="tm-modal-error__footer"
     >
@@ -50,6 +56,7 @@ exports[`TmModalNoNodes has the expected html structure 1`] = `
           </span>
         </span>
       </button>
+       
       <button
         class="tm-btn"
         id="tm-modal-error__btn-mock"

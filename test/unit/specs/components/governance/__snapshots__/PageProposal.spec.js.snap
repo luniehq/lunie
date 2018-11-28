@@ -33,29 +33,32 @@ exports[`PageProposal with magic has the expected html structure 1`] = `
                   src="~assets/images/cosmos-logo.png"
                 />
               </div>
+               
               <div
                 class="total-atoms top-section"
               >
                 <h3>
                   Total Steak
                 </h3>
+                 
                 <h2>
                   0.0000…
                 </h2>
               </div>
+               
               <div
                 class="unbonded-atoms top-section"
               >
                 <h3>
                   Available Steak
                 </h3>
+                 
                 <h2>
                   0.0000…
                 </h2>
               </div>
-              <!---->
-              <!---->
             </div>
+             
             <div
               class="short-bech32"
             >
@@ -63,8 +66,11 @@ exports[`PageProposal with magic has the expected html structure 1`] = `
                 class="address"
                 id="address"
               >
-                Address Not Found
+                
+    Address Not Found
+  
               </div>
+               
               <div
                 class="copied"
               >
@@ -78,9 +84,11 @@ exports[`PageProposal with magic has the expected html structure 1`] = `
                 </span>
               </div>
             </div>
+             
             <div
               class="tabs"
             />
+             
           </div>
         </div>
       </div>
@@ -119,6 +127,7 @@ exports[`PageProposal with magic has the expected html structure 1`] = `
   <main
     class="tm-page-main ps"
   >
+      
     <div
       class="validator-profile__header validator-profile__section proposal"
     >
@@ -137,18 +146,24 @@ exports[`PageProposal with magic has the expected html structure 1`] = `
               <span
                 class="validator-profile__status green"
               />
+               
               <div
                 class="validator-profile__header__name__title"
               >
+                
                 Proposal Title (#1)
+              
               </div>
             </div>
           </div>
+           
           <div
             class="column validator-profile__header__actions"
           >
             <!---->
+             
             <!---->
+             
             <button
               class="tm-btn"
               disabled="disabled"
@@ -167,13 +182,18 @@ exports[`PageProposal with magic has the expected html structure 1`] = `
             </button>
           </div>
         </div>
+         
         <div
           class="row description"
         >
           <p>
-            Submitted a few seconds ago. Voting started a few seconds ago
+            
+            Submitted a few seconds ago.
+            Voting started a few seconds ago
+          
           </p>
         </div>
+         
         <div
           class="row validator-profile__header__data votes"
         >
@@ -183,56 +203,74 @@ exports[`PageProposal with magic has the expected html structure 1`] = `
             <dt>
               Deposit
             </dt>
+             
             <dd>
-              100 stake
+              
+              100 steak
+            
             </dd>
           </dl>
+           
           <div
             class="validator-profile__header__data__break"
           />
+           
           <dl
             class="colored_dl"
           >
             <dt>
               Yes
             </dt>
+             
             <dd>
               500 / 85%
             </dd>
           </dl>
+           
           <dl
             class="colored_dl"
           >
             <dt>
               No
             </dt>
+             
             <dd>
               25 / 4%
             </dd>
           </dl>
+           
           <dl
             class="colored_dl"
           >
             <dt>
               No with Veto
             </dt>
+             
             <dd>
-              10 / 2%
+              
+              10 /
+              2%
+            
             </dd>
           </dl>
+           
           <dl
             class="colored_dl"
           >
             <dt>
               Abstain
             </dt>
+             
             <dd>
+              
               56 / 9%
+            
             </dd>
           </dl>
         </div>
       </div>
     </div>
+     
     <div
       class="validator-profile__details validator-profile__section"
     >
@@ -254,7 +292,9 @@ exports[`PageProposal with magic has the expected html structure 1`] = `
         </div>
       </div>
     </div>
+     
     <!---->
+     
     <!---->
     <div
       class="ps__rail-x"
@@ -275,6 +315,180 @@ exports[`PageProposal with magic has the expected html structure 1`] = `
         style="top: 0px; height: 0px;"
         tabindex="0"
       />
+    </div>
+  </main>
+</div>
+`;
+
+exports[`PageProposal with magic shows an error if the proposal couldn't be found 1`] = `
+<div
+  class="tm-page"
+  data-title="Proposal"
+>
+  <header
+    class="tm-page-header"
+  >
+    <div
+      class="tm-page-header-container"
+    >
+      <div
+        class="tm-page-header-text"
+      >
+        <!---->
+        <!---->
+        <div
+          class="tm-page-header-body"
+        >
+          <div
+            class="header-balance"
+          >
+            <div
+              class="top"
+            >
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
+               
+              <div
+                class="total-atoms top-section"
+              >
+                <h3>
+                  Total Steak
+                </h3>
+                 
+                <h2>
+                  0.0000…
+                </h2>
+              </div>
+               
+              <div
+                class="unbonded-atoms top-section"
+              >
+                <h3>
+                  Available Steak
+                </h3>
+                 
+                <h2>
+                  0.0000…
+                </h2>
+              </div>
+            </div>
+             
+            <div
+              class="short-bech32"
+            >
+              <div
+                class="address"
+                id="address"
+              >
+                
+    Address Not Found
+  
+              </div>
+               
+              <div
+                class="copied"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+             
+            <div
+              class="tabs"
+            />
+             
+          </div>
+        </div>
+      </div>
+      <menu
+        class="tm-page-header-menu"
+      >
+        <div>
+          <div>
+            <div
+              class="tm-tool-bar"
+            >
+              <div
+                class="tm-tool-bar-container"
+              >
+                <div
+                  class="main"
+                >
+                  <a
+                    class=""
+                    href="#/governance"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      arrow_back
+                    </i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </menu>
+    </div>
+  </header>
+  <main
+    class="tm-page-main"
+  >
+      
+    <div
+      class="tm-data-msg"
+    >
+      <div
+        class="tm-data-msg__icon"
+      >
+        <i
+          class="material-icons"
+        >
+          sentiment_very_dissatisfied
+        </i>
+      </div>
+      <div
+        class="tm-data-msg__text"
+      >
+        <div
+          class="tm-data-msg__title"
+        >
+          <div>
+            Aw shucks!
+          </div>
+        </div>
+        <div
+          class="tm-data-msg__subtitle"
+        >
+          <div>
+            
+    Even though you're connected a full node, we can't display this data for
+    you right now. Please try again later or
+    
+            <a
+              href="https://github.com/cosmos/voyager/issues"
+            >
+              file a bug report
+            </a>
+            .
+    Apologies!
+  
+          </div>
+        </div>
+      </div>
     </div>
   </main>
 </div>

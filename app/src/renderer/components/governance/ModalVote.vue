@@ -1,52 +1,64 @@
-<template lang="pug">
-  .modal-vote#modal-vote(v-click-outside="close")
-    .modal-vote-header
-      img.icon(class='modal-vote-atom' src="~assets/images/cosmos-logo.png")
-      span.tm-modal-title Vote
-      .tm-modal-icon.tm-modal-close#closeBtn(@click="close()")
-        i.material-icons close
-
-    div
-      h2 Title: {{ proposalTitle }}
-      h3 Proposal ID: {{ `#` + proposalId }}
-
-    tm-form-group.modal-vote-form-group.options
-      tm-btn#vote-yes(
-        @click.native="vote('Yes')"
-        :class="[option ===  `Yes` ? 'active' : '']"
+<template>
+  <div v-click-outside="close" id="modal-vote" class="modal-vote">
+    <div class="modal-vote-header">
+      <img
+        class="icon modal-vote-atom"
+        src="~assets/images/cosmos-logo.png"
+      /><span class="tm-modal-title">Vote</span>
+      <div id="closeBtn" class="tm-modal-icon tm-modal-close" @click="close()">
+        <i class="material-icons">close</i>
+      </div>
+    </div>
+    <div>
+      <h2>Title: {{ proposalTitle }}</h2>
+      <h3>Proposal ID: {{ `#` + proposalId }}</h3>
+    </div>
+    <tm-form-group class="modal-vote-form-group options">
+      <tm-btn
+        id="vote-yes"
+        :class="[option === `Yes` ? 'active' : '']"
         color="secondary"
         value="Yes"
-        size="md")
-
-      tm-btn#vote-no(
-        @click.native="vote('No')"
+        size="md"
+        @click.native="vote('Yes')"
+      />
+      <tm-btn
+        id="vote-no"
         :class="[option === `No` ? 'active' : '']"
         color="secondary"
         value="No"
-        size="md")
-
-      tm-btn#vote-veto(
-        @click.native="vote('NoWithVeto')"
+        size="md"
+        @click.native="vote('No')"
+      />
+      <tm-btn
+        id="vote-veto"
         :class="[option === `NoWithVeto` ? 'active' : '']"
         color="secondary"
         value="No With Veto"
-        size="md")
-
-      tm-btn#vote-abstain(
-        @click.native="vote('Abstain')"
+        size="md"
+        @click.native="vote('NoWithVeto')"
+      />
+      <tm-btn
+        id="vote-abstain"
         :class="[option === `Abstain` ? 'active' : '']"
         color="secondary"
         value="Abstain"
-        size="md")
-
-    tm-form-group.modal-vote-form-group
-    .modal-vote-footer
-      tm-btn#cast-vote(
-        @click.native="onVote"
+        size="md"
+        @click.native="vote('Abstain')"
+      />
+    </tm-form-group>
+    <tm-form-group class="modal-vote-form-group" />
+    <div class="modal-vote-footer">
+      <tm-btn
+        id="cast-vote"
         :disabled="$v.option.$invalid"
         color="primary"
         value="Vote"
-        size="lg")
+        size="lg"
+        @click.native="onVote"
+      />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -73,7 +85,16 @@ export default {
   directives: {
     ClickOutside
   },
-  props: [`proposalId`, `proposalTitle`],
+  props: {
+    proposalId: {
+      type: [Number, String],
+      required: true
+    },
+    proposalTitle: {
+      type: String,
+      required: true
+    }
+  },
   data: () => ({
     option: ``
   }),
@@ -104,52 +125,59 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@import '~variables'
+<style>
+.modal-vote {
+  background: var(--app-nav);
+  display: flex;
+  flex-direction: column;
+  height: 50%;
+  justify-content: space-between;
+  left: 50%;
+  padding: 2rem;
+  position: fixed;
+  top: 50%;
+  width: 40%;
+  z-index: var(--z-modal);
+}
 
-.modal-vote
-  background var(--app-nav)
-  display flex
-  flex-direction column
-  height 50%
-  justify-content space-between
-  left 50%
-  padding 2rem
-  position fixed
-  top 50%
-  width 40%
-  z-index z(modal)
+.modal-vote-header {
+  align-items: center;
+  display: flex;
+}
 
-  &-header
-    align-items center
-    display flex
+.modal-vote-atom {
+  height: 4rem;
+  width: 4rem;
+}
 
-  &-atom
-    height 4rem
-    width 4rem
+.modal-vote-form-group {
+  display: block;
+  padding: 0;
+}
 
-  &-form-group
-    display block
-    padding 0
+.modal-vote-footer {
+  display: flex;
+  justify-content: flex-end;
+}
 
-  &-footer
-    display flex
-    justify-content flex-end
+.modal-vote h3 {
+  margin: 0;
+}
 
-  h3
-    margin 0
+.modal-vote button {
+  margin: 0;
+  min-width: 50%;
+}
 
-  button
-    margin 0
-    min-width 50%
+.modal-vote button span {
+  margin: 0.25rem;
+}
 
-    span
-      margin 0.25rem
+.modal-vote button.active span {
+  background: var(--tertiary);
+}
 
-    &.active
-      span
-        background var(--tertiary)
-
-    .tm-btn__container
-      padding 0.5rem
+.modal-vote button .tm-btn__container {
+  padding: 0.5rem;
+}
 </style>

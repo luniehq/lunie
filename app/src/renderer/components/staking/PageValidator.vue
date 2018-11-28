@@ -1,115 +1,203 @@
-<template lang="pug">
-tm-page(data-title="Validator")
-  template(slot="menu-body"): tm-balance
-  div(slot="menu"): tm-tool-bar
-    router-link(to="/staking/validators" exact): i.material-icons arrow_back
-
-  tm-data-error(v-if="!validator")
-
-  template(v-else)
-    .validator-profile__header.validator-profile__section
-      .column
-        img.avatar(v-if="validator.keybase" :src="validator.keybase.avatarUrl")
-        img.avatar(v-else src="~assets/images/validator-icon.svg")
-      .column.validator-profile__header__info
-        .row.validator-profile__header__name
-          .column
-            div.validator-profile__status-and-title
-              span.validator-profile__status(v-bind:class="statusColor" v-tooltip.top="status")
-              .validator-profile__header__name__title {{ validator.description.moniker }}
-            short-bech32(:address="validator.operator_address")
-          .column.validator-profile__header__actions
-            tm-btn#delegation-btn(value="Delegate" color="primary" @click.native="onDelegation")
-
-            tm-btn#undelegation-btn(
-              value="Undelegate"
-              color="secondary"
-              @click.native="onUndelegation"
-            )
-
-        .row.validator-profile__header__data
-          dl.colored_dl
-            dt Delegated {{bondingDenom}}
-            dd {{myBond.isLessThan(0.01) && myBond.isGreaterThan(0) ? '< ' + 0.01 : num.shortNumber(myBond)}}
-          dl.colored_dl(v-if="config.devMode")
-            dt My Rewards
-            dd n/a
-          .validator-profile__header__data__break
-          dl.colored_dl
-            dt Voting Power
-            dd(id="validator-profile__power") {{ pretty(powerRatio * 100)}} %
-          dl.colored_dl(v-if="config.devMode")
-            dt Uptime
-            dd(id="validator-profile__uptime") {{ validator.signing_info ? pretty(validator.signing_info.signed_blocks_counter/100) : `n/a`}} %
-          dl.colored_dl
-            dt Commission
-            dd(id="validator-profile__commission") {{ validator.commission.rate }} %
-          dl.colored_dl(v-if="config.devMode")
-            dt Slashes
-            dd n/a
-
-    .validator-profile__details.validator-profile__section
-      .row
-        .column
-          dl.info_dl
-            dt Operator
-            dd {{validator.operator_address}}
-          dl.info_dl
-            dt Keybase ID
-            dd {{translateEmptyDescription(validator.description.identity)}}
-          dl.info_dl(v-if="config.devMode")
-            dt First Seen
-            dd n/a
-          dl.info_dl
-            dt Website
-            dd {{translateEmptyDescription(validator.description.website)}}
-          dl.info_dl
-            dt Details
-            dd.info_dl__text-box {{translateEmptyDescription(validator.description.details)}}
-        .column
-          dl.info_dl
-            dt Commission Rate
-            dd {{validator.commission.rate}} %
-          dl.info_dl
-            dt Max Commission Rate
-            dd {{validator.commission.max_rate}} %
-          dl.info_dl
-            dt Max Daily Commission Change
-            dd {{validator.commission.max_change_rate}} %
-          dl.info_dl
-            dt Last Commission Change
-            dd {{new Date(validator.commission.update_time).getTime() === 0 ? 'Never' : moment(new Date(validator.commission.update_time)).fromNow() }}
-          dl.info_dl
-            dt Self Delegated {{bondingDenom}}
-            dd(id="validator-profile__self-bond") {{selfBond}} %
-          dl.info_dl(v-if="config.devMode")
-            dt Minimum Self Delegated {{bondingDenom}}
-            dd 0 %
-
-    delegation-modal(
-      v-if="showDelegationModal"
-      v-on:submitDelegation="submitDelegation"
-      :showDelegationModal.sync="showDelegationModal"
-      :fromOptions="delegationTargetOptions()"
-      :to="validator.operator_address"
-    )
-
-    undelegation-modal(
-      v-if="showUndelegationModal"
-      v-on:submitUndelegation="submitUndelegation"
-      :showUndelegationModal.sync="showUndelegationModal"
-      :maximum="myBond"
-      :to="this.wallet.address"
-    )
-    tm-modal(:close="closeCannotModal" v-if="showCannotModal")
-      div(slot='title') Cannot {{ action == `delegate`? `Delegate` : `Undelegate` }}
-      p You have no {{ bondingDenom }}s {{ action == `undelegate` ? `delegated `: `` }}to {{ action == `delegate` ? `delegate.` : `this validator.` }}
-      div(slot='footer')
-        tmBtn(
-          id="no-atoms-modal__btn"
-          @click.native="closeCannotModal"
-          value="OK"
-        )
+<template>
+  <tm-page data-title="Validator"
+    ><template slot="menu-body">
+      <tm-balance />
+    </template>
+    <div slot="menu">
+      <tm-tool-bar>
+        <router-link to="/staking/validators" exact="exact"
+          ><i class="material-icons">arrow_back</i></router-link
+        >
+      </tm-tool-bar>
+    </div>
+    <tm-data-error v-if="!validator" /><template v-else>
+      <div class="validator-profile__header validator-profile__section">
+        <div class="column">
+          <img
+            v-if="validator.keybase"
+            :src="validator.keybase.avatarUrl"
+            class="avatar"
+          /><img
+            v-else
+            class="avatar"
+            src="~assets/images/validator-icon.svg"
+          />
+        </div>
+        <div class="column validator-profile__header__info">
+          <div class="row validator-profile__header__name">
+            <div class="column">
+              <div class="validator-profile__status-and-title">
+                <span
+                  v-tooltip.top="status"
+                  :class="statusColor"
+                  class="validator-profile__status"
+                />
+                <div class="validator-profile__header__name__title">
+                  {{ validator.description.moniker }}
+                </div>
+              </div>
+              <short-bech32 :address="validator.operator_address" />
+            </div>
+            <div class="column validator-profile__header__actions">
+              <tm-btn
+                id="delegation-btn"
+                value="Delegate"
+                color="primary"
+                @click.native="onDelegation"
+              />
+              <tm-btn
+                id="undelegation-btn"
+                value="Undelegate"
+                color="secondary"
+                @click.native="onUndelegation"
+              />
+            </div>
+          </div>
+          <div class="row validator-profile__header__data">
+            <dl class="colored_dl">
+              <dt>Delegated {{ bondingDenom }}</dt>
+              <dd>
+                {{
+                  myBond.isLessThan(0.01) && myBond.isGreaterThan(0)
+                    ? `< 0.01` // eslint-disable-line
+                    : num.shortNumber(myBond)
+                }}
+              </dd>
+            </dl>
+            <dl v-if="config.devMode" class="colored_dl">
+              <dt>My Rewards</dt>
+              <dd>n/a</dd>
+            </dl>
+            <div class="validator-profile__header__data__break" />
+            <dl class="colored_dl">
+              <dt>Voting Power</dt>
+              <dd id="validator-profile__power">
+                {{ pretty(powerRatio * 100) }} %
+              </dd>
+            </dl>
+            <dl v-if="config.devMode" class="colored_dl">
+              <dt>Uptime</dt>
+              <dd id="validator-profile__uptime">
+                {{
+                  validator.signing_info
+                    ? pretty(validator.signing_info.signed_blocks_counter / 100)
+                    : `n/a`
+                }}
+                %
+              </dd>
+            </dl>
+            <dl class="colored_dl">
+              <dt>Commission</dt>
+              <dd id="validator-profile__commission">
+                {{ validator.commission.rate }} %
+              </dd>
+            </dl>
+            <dl v-if="config.devMode" class="colored_dl">
+              <dt>Slashes</dt>
+              <dd>n/a</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+      <div class="validator-profile__details validator-profile__section">
+        <div class="row">
+          <div class="column">
+            <dl class="info_dl">
+              <dt>Operator</dt>
+              <dd>{{ validator.operator_address }}</dd>
+            </dl>
+            <dl class="info_dl">
+              <dt>Keybase ID</dt>
+              <dd>
+                {{ translateEmptyDescription(validator.description.identity) }}
+              </dd>
+            </dl>
+            <dl v-if="config.devMode" class="info_dl">
+              <dt>First Seen</dt>
+              <dd>n/a</dd>
+            </dl>
+            <dl class="info_dl">
+              <dt>Website</dt>
+              <dd>
+                {{ translateEmptyDescription(validator.description.website) }}
+              </dd>
+            </dl>
+            <dl class="info_dl">
+              <dt>Details</dt>
+              <dd class="info_dl__text-box">
+                {{ translateEmptyDescription(validator.description.details) }}
+              </dd>
+            </dl>
+          </div>
+          <div class="column">
+            <dl class="info_dl">
+              <dt>Commission Rate</dt>
+              <dd>{{ validator.commission.rate }} %</dd>
+            </dl>
+            <dl class="info_dl">
+              <dt>Max Commission Rate</dt>
+              <dd>{{ validator.commission.max_rate }} %</dd>
+            </dl>
+            <dl class="info_dl">
+              <dt>Max Daily Commission Change</dt>
+              <dd>{{ validator.commission.max_change_rate }} %</dd>
+            </dl>
+            <dl class="info_dl">
+              <dt>Last Commission Change</dt>
+              <dd>
+                {{
+                  new Date(validator.commission.update_time).getTime() === 0
+                    ? "Never"
+                    : moment(
+                        new Date(validator.commission.update_time)
+                      ).fromNow()
+                }}
+              </dd>
+            </dl>
+            <dl class="info_dl">
+              <dt>Self Delegated {{ bondingDenom }}</dt>
+              <dd id="validator-profile__self-bond">{{ selfBond }} %</dd>
+            </dl>
+            <dl v-if="config.devMode" class="info_dl">
+              <dt>Minimum Self Delegated {{ bondingDenom }}</dt>
+              <dd>0 %</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+      <delegation-modal
+        v-if="showDelegationModal"
+        :show-delegation-modal.sync="showDelegationModal"
+        :from-options="delegationTargetOptions()"
+        :to="validator.operator_address"
+        @submitDelegation="submitDelegation"
+      />
+      <undelegation-modal
+        v-if="showUndelegationModal"
+        :show-undelegation-modal.sync="showUndelegationModal"
+        :maximum="myBond"
+        :to="wallet.address"
+        @submitUndelegation="submitUndelegation"
+      />
+      <tm-modal v-if="showCannotModal" :close="closeCannotModal">
+        <div slot="title">
+          Cannot {{ action == `delegate` ? `Delegate` : `Undelegate` }}
+        </div>
+        <p>
+          You have no {{ bondingDenom }}s
+          {{ action == `undelegate` ? ` delegated ` : ` ` }}to
+          {{ action == `delegate` ? ` delegate.` : ` this validator.` }}
+        </p>
+        <div slot="footer">
+          <tmBtn
+            id="no-atoms-modal__btn"
+            value="OK"
+            @click.native="closeCannotModal"
+          />
+        </div>
+      </tm-modal>
+    </template>
+  </tm-page>
 </template>
 
 <script>
@@ -379,153 +467,176 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@require '~variables'
+<style>
+.validator-profile__section {
+  background-color: var(--app-fg);
+  display: flex;
+  margin-bottom: 1rem;
+  padding: 2rem;
+  width: 100%;
+}
 
-.validator-profile__section
-  background-color var(--app-fg)
-  display flex
-  margin-bottom 1rem
-  padding 2rem
-  width 100%
+.column {
+  display: flex;
+  flex-flow: column;
+  position: relative;
+}
 
-.column
-  display flex
-  flex-flow column
-  position relative
+.row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
 
-.row
-  display flex
-  flex-direction row
-  width 100%
+.validator-profile__header .avatar {
+  background: var(--app-nav);
+  border-radius: 50%;
+  height: 155px;
+  margin-right: 2rem;
+  padding: 1rem;
+  width: 155px;
+}
 
-.validator-profile
-  &__header
-    .avatar
-      background var(--app-nav)
-      border-radius 50%
-      height 155px
-      margin-right 2rem
-      padding 1rem
-      width 155px
+.validator-profile__header__info {
+  flex: 1;
+}
 
-    &__info
-      flex 1
+.validator-profile__header__name {
+  margin-bottom: 2rem;
+}
 
-    &__name
-      margin-bottom 2rem
+.validator-profile__header__name__title {
+  color: #fff;
+  display: inline-block;
+  font-size: h1;
+  line-height: h1;
+  font-weight: 400;
+  padding: 0 0.5rem 0.5rem 0;
+}
 
-      &__title
-        color white
-        display inline-block
-        font-size h1
-        line-height h1
-        font-weight 400
-        padding 0 0.5rem 0.5rem 0
+.validator-profile__header__name__address {
+  font-size: small;
+}
 
-      &__address
-        font-size small
+.validator-profile__header__actions {
+  flex-flow: column;
+  margin-left: auto;
+}
 
-    &__actions
-      flex-flow column
-      margin-left auto
+.validator-profile__header__actions button:not(:last-child) {
+  margin-bottom: 0.5rem;
+}
 
-      button:not(:last-child)
-        margin-bottom 0.5rem
+.validator-profile__header__data__break {
+  border-right: 1px solid var(--bc-dim);
+  margin-right: 1rem;
+}
 
-  &__header__data__break
-    border-right 1px solid var(--bc-dim)
-    margin-right 1rem
+.validator-profile__status {
+  border-radius: 50%;
+  display: inline-block;
+  height: 0.5rem;
+  left: -1rem;
+  position: absolute;
+  width: 0.5rem;
+}
 
-  &__status
-    border-radius 50%
-    display inline-block
-    height 0.5rem
-    left -1rem
-    position absolute
-    width 0.5rem
+.validator-profile__status.red {
+  background: var(--danger);
+}
 
-    &.red
-      background var(--danger)
+.validator-profile__status.yellow {
+  background: var(--warning);
+}
 
-    &.yellow
-      background var(--warning)
+.validator-profile__status.green {
+  background: var(--success);
+}
 
-    &.green
-      background var(--success)
+.validator-profile__status.blue {
+  background: var(--primary);
+}
 
-    &.blue
-      background var(--primary)
+.validator-profile__status-and-title {
+  align-items: center;
+  display: flex;
+}
 
-  &__status-and-title
-    align-items center
-    display flex
+.validator-profile__details > .row > .column {
+  flex: 1;
+}
 
-  &__details
-    > .row
-      > .column
-        flex 1
+.info_dl {
+  display: flex;
+  flex-flow: column;
+  margin-bottom: 1.5rem;
+  margin-right: 1rem;
+}
 
-.info_dl
-  display flex
-  flex-flow column
-  margin-bottom 1.5rem
-  margin-right 1rem
+.info_dl dt {
+  color: var(--dim);
+  font-size: small;
+  margin-bottom: 4px;
+}
 
-  dt
-    color var(--dim)
-    font-size small
-    margin-bottom 4px
+.info_dl dd {
+  border: solid 1px #31354e;
+  border-radius: 2px;
+  font-size: 1rem;
+  line-height: 1rem;
+  padding: 0.5rem;
+}
 
-  dd
-    border solid 1px #31354e
-    border-radius 2px
-    font-size 1rem
-    line-height 1rem
-    padding 0.5rem
+.info_dl dd.info_dl__text-box {
+  min-height: 6.91rem;
+}
 
-    &.info_dl__text-box
-      min-height 6.91rem
+.colored_dl {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 6rem;
+}
 
-.colored_dl
-  align-items center
-  display flex
-  flex-direction column
-  width 6rem
+.colored_dl:not(:last-child) {
+  margin-right: 1rem;
+}
 
-  &:not(:last-child)
-    margin-right 1rem
+.colored_dl dt {
+  color: var(--dim);
+  font-size: small;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
 
-  dt
-    color var(--dim)
-    font-size small
-    margin-bottom 0.5rem
-    text-align center
+.colored_dl dd {
+  background-color: var(--white-fade-1);
+  border: 1px solid var(--white-fade-2);
+  border-radius: 4px;
+  color: var(--dim);
+  display: block;
+  font-size: h6;
+  line-height: h6;
+  padding: 4px 4px;
+  text-align: right;
+  width: 100%;
+}
 
-  dd
-    background-color var(--white-fade-1)
-    border 1px solid var(--white-fade-2)
-    border-radius 4px
-    color var(--dim)
-    display block
-    font-size h6
-    line-height h6
-    padding 4px 4px
-    text-align right
-    width 100%
+.colored_dl dd.red {
+  background-color: rgba(209, 2, 0, 0.15);
+  border: solid 0.5px rgba(209, 2, 0, 0.25);
+  color: #ff0200;
+}
 
-    &.red
-      background-color rgba(209, 2, 0, 0.15)
-      border solid 0.5px rgba(209, 2, 0, 0.25)
-      color #ff0200
+.colored_dl dd.yellow {
+  background-color: rgba(255, 149, 2, 0.15);
+  border: solid 0.5px rgba(255, 149, 2, 0.25);
+  color: #ff9502;
+}
 
-    &.yellow
-      background-color rgba(255, 149, 2, 0.15)
-      border solid 0.5px rgba(255, 149, 2, 0.25)
-      color #ff9502
-
-    &.green
-      background-color rgba(46, 164, 45, 0.15)
-      border solid 0.5px rgba(46, 164, 45, 0.25)
-      color #2ea42d
+.colored_dl dd.green {
+  background-color: rgba(46, 164, 45, 0.15);
+  border: solid 0.5px rgba(46, 164, 45, 0.25);
+  color: #2ea42d;
+}
 </style>

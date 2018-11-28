@@ -1,20 +1,43 @@
-<template lang="pug">
-#onboarding.tm-session-wrapper
-  img.tm-session-backdrop(src="~assets/images/cosmos-logo.png")
-  .tm-session: .tm-session-container
-    .tm-session-header: .tm-session-title Welcome to Voyager
-    .tm-session-main
-      .tm-session-label {{ activeValue }}
-      img(:src="activeImg")
-      tm-bar-discrete(:nodes="nodes" :click-fn="go" :active="activeKey")
-    .tm-session-footer(v-if="activeKey === nodes.length - 1")
-      tm-btn(value="Restart" @click.native="go(0)" icon="settings_backup_restore")
-      tm-btn(value="Finish" @click.native="finish" color="primary"
-        icon="chevron_right" icon-pos="right" )
-    .tm-session-footer(v-else)
-      tm-btn(value="Skip" @click.native="finish" icon="close")
-      tm-btn(value="Next" @click.native="next" color="primary"
-        icon="chevron_right" icon-pos="right" )
+<template>
+  <div id="onboarding" class="tm-session-wrapper">
+    <img class="tm-session-backdrop" src="~assets/images/cosmos-logo.png" />
+    <div class="tm-session">
+      <div class="tm-session-container">
+        <div class="tm-session-header">
+          <div class="tm-session-title">Welcome to Voyager</div>
+        </div>
+        <div class="tm-session-main">
+          <div class="tm-session-label">{{ activeValue }}</div>
+          <img :src="activeImg" />
+          <tm-bar-discrete :nodes="nodes" :click-fn="go" :active="activeKey" />
+        </div>
+        <div v-if="activeKey === nodes.length - 1" class="tm-session-footer">
+          <tm-btn
+            value="Restart"
+            icon="settings_backup_restore"
+            @click.native="go(0)"
+          />
+          <tm-btn
+            value="Finish"
+            color="primary"
+            icon="chevron_right"
+            icon-pos="right"
+            @click.native="finish"
+          />
+        </div>
+        <div v-else class="tm-session-footer">
+          <tm-btn value="Skip" icon="close" @click.native="finish" />
+          <tm-btn
+            value="Next"
+            color="primary"
+            icon="chevron_right"
+            icon-pos="right"
+            @click.native="next"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -72,12 +95,13 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@require '~variables'
+<style>
+#onboarding .tm-session-main {
+  position: relative;
+}
 
-#onboarding .tm-session-main
-  position relative
-
-.tm-bar-discrete__node--active
-  border-color var(--tertiary) !important
+#onboarding .tm-session-main position relative img height 300px
+  .tm-session-footer justify-content center .tm-session-label padding 1rem 3rem
+  .tm-bar-discrete__node--active border-color var(--tertiary)
+  .tm-bar-discrete__node: hover border-color var(--link) !important !important;
 </style>

@@ -37,7 +37,7 @@ describe(`TmDataError`, () => {
         .text()
         .trim()
     ).toContain(
-      `Even though you're connected a full node, we can't display this data for you right now.`
+      `Even though you're connected a full node, we can't display this data`
     )
   })
 })

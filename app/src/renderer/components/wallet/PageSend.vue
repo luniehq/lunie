@@ -1,62 +1,142 @@
-<template lang="pug">
-tm-page(data-title='Send')
-  div(slot="menu"): vm-tool-bar
-  tm-form-struct(:submit="onSubmit")
-    tm-part(title='Denomination Options')
-      tm-form-group(:error='$v.fields.denom.$error'
-        field-id='send-denomination' field-label='Denomination')
-        tm-field#send-denomination(
-          type="select"
-          v-model="fields.denom"
-          :options="denominations"
-          placeholder="Select token...")
-        tm-form-msg(name='Denomination' type='required' v-if='!$v.fields.denom.required')
-
-    tm-part(title='Transaction Details')
-      tm-form-group(:error='$v.fields.zoneId.$error'
-        v-if="config.devMode"
-        field-id='send-zone-id' field-label='Zone ID')
-        tm-field#send-zone-id(
-          type="select"
-          v-model="fields.zoneId"
-          :options="zoneIds"
-          placeholder="Select zone...")
-        tm-form-msg(name='Zone' type='required' v-if='!$v.fields.zoneId.required')
-      tm-form-group(:error='$v.fields.address.$error'
-        field-id='send-address' field-label='Send To')
-        tm-field-group
-          tm-field#send-address(
-            type='text'
-            v-model='fields.address'
-            placeholder='Address')
-        tm-form-msg(name='Address' type='required' v-if='!$v.fields.address.required')
-        tm-form-msg(name='Address' type='bech32' :body="bech32error" v-else-if='!$v.fields.address.bech32Validate')
-
-      tm-form-group(:error='$v.fields.amount.$error'
-        field-id='send-amount' field-label='Amount')
-        tm-field-group
-          tm-field#send-amount(
-            type='number'
+<template>
+  <tm-page data-title="Send">
+    <div slot="menu"><vm-tool-bar /></div>
+    <tm-form-struct :submit="onSubmit">
+      <tm-part title="Denomination Options">
+        <tm-form-group
+          :error="$v.fields.denom.$error"
+          field-id="send-denomination"
+          field-label="Denomination"
+        >
+          <tm-field
+            id="send-denomination"
+            v-model="fields.denom"
+            :options="denominations"
+            type="select"
+            placeholder="Select token..."
+          />
+          <tm-form-msg
+            v-if="!$v.fields.denom.required"
+            name="Denomination"
+            type="required"
+          />
+        </tm-form-group>
+      </tm-part>
+      <tm-part title="Transaction Details">
+        <tm-form-group
+          v-if="config.devMode"
+          :error="$v.fields.zoneId.$error"
+          field-id="send-zone-id"
+          field-label="Zone ID"
+        >
+          <tm-field
+            id="send-zone-id"
+            v-model="fields.zoneId"
+            :options="zoneIds"
+            type="select"
+            placeholder="Select zone..."
+          />
+          <tm-form-msg
+            v-if="!$v.fields.zoneId.required"
+            name="Zone"
+            type="required"
+          />
+        </tm-form-group>
+        <tm-form-group
+          :error="$v.fields.address.$error"
+          field-id="send-address"
+          field-label="Send To"
+        >
+          <tm-field-group>
+            <tm-field
+              id="send-address"
+              v-model="fields.address"
+              type="text"
+              placeholder="Address"
+            />
+          </tm-field-group>
+          <tm-form-msg
+            v-if="!$v.fields.address.required"
+            name="Address"
+            type="required"
+          />
+          <tm-form-msg
+            v-else-if="!$v.fields.address.bech32Validate"
+            :body="bech32error"
+            name="Address"
+            type="bech32"
+          />
+        </tm-form-group>
+        <tm-form-group
+          :error="$v.fields.amount.$error"
+          field-id="send-amount"
+          field-label="Amount"
+        >
+          <tm-field-group>
+            <tm-field
+              id="send-amount"
+              :max="max"
+              :min="max ? 1 : 0"
+              v-model="fields.amount"
+              type="number"
+              placeholder="Amount"
+            />
+          </tm-field-group>
+          <tm-form-msg
+            v-if="!$v.fields.amount.required"
+            name="Amount"
+            type="required"
+          />
+          <tm-form-msg
+            v-if="!$v.fields.amount.between"
+            :min="max ? 1 : 0"
             :max="max"
-            :min='max ? 1 : 0'
-            v-model='fields.amount'
-            placeholder='Amount')
-        tm-form-msg(name='Amount' type='required' v-if='!$v.fields.amount.required')
-        tm-form-msg(name='Amount' type='between' :min='max ? 1 : 0' :max='max'
-          v-if='!$v.fields.amount.between')
-
-      p(v-if='mockedConnector')
-        span Try sending to the address "
-        strong(style="font-weight: bold") cosmos1p6zajjw6xged056andyhn62lm7axwzyspkzjq0
-        span ", it's a friendly bot which will send the money back to you!
-      br(v-if='mockedConnector')
-
-    div(slot='footer')
-      tm-btn(v-if='sending' value='Sending...' disabled color="primary")
-      tm-btn(v-else-if='!connected' value='Connecting...' disabled color="primary")
-      tm-btn(v-else id="send-btn" @click='onSubmit' value="Send Tokens" color="primary")
-
-  tm-modal-send-confirmation(v-if="confirmationPending" @approved="onApproved" @canceled="onCancel" :amount="fields.amount" :recipient="fields.address" :denom="fields.denom")
+            name="Amount"
+            type="between"
+          />
+        </tm-form-group>
+        <p v-if="mockedConnector">
+          <span>Try sending to the address "</span
+          ><strong style="font-weight: bold"
+            >cosmos1p6zajjw6xged056andyhn62lm7axwzyspkzjq0</strong
+          ><span
+            >", it's a friendly bot which will send the money back to you!</span
+          >
+        </p>
+        <br v-if="mockedConnector" />
+      </tm-part>
+      <div slot="footer">
+        <tm-btn
+          v-if="sending"
+          value="Sending..."
+          disabled="disabled"
+          color="primary"
+        />
+        <tm-btn
+          v-else-if="!connected"
+          value="Connecting..."
+          disabled="disabled"
+          color="primary"
+        />
+        <tm-btn
+          v-else
+          id="send-btn"
+          :disabled="$v.$invalid"
+          value="Send Tokens"
+          color="primary"
+          @click="onSubmit"
+        />
+      </div>
+    </tm-form-struct>
+    <tm-modal-send-confirmation
+      v-if="confirmationPending"
+      :amount="fields.amount"
+      :recipient="fields.address"
+      :denom="fields.denom"
+      @approved="onApproved"
+      @canceled="onCancel"
+    />
+  </tm-page>
 </template>
 
 <script>
@@ -73,10 +153,12 @@ import {
   TmField,
   TmFormMsg
 } from "@tendermint/ui"
-
 import FieldAddon from "common/TmFieldAddon"
 import VmToolBar from "common/VmToolBar"
 import TmModalSendConfirmation from "wallet/TmModalSendConfirmation"
+
+const isInteger = amount => Number.isInteger(amount)
+
 export default {
   components: {
     TmBtn,
@@ -91,7 +173,12 @@ export default {
     VmToolBar,
     TmModalSendConfirmation
   },
-  props: [`denom`],
+  props: {
+    denom: {
+      type: String,
+      required: true
+    }
+  },
   data: () => ({
     bech32error: null,
     fields: {
@@ -179,11 +266,11 @@ export default {
         })
         // resets send transaction form
         this.resetForm()
-      } catch (err) {
+      } catch (error) {
         this.sending = false
         this.$store.commit(`notifyError`, {
           title: `Error Sending transaction`,
-          body: err.message
+          body: error.message
         })
       }
     },
@@ -195,8 +282,8 @@ export default {
         b32.decode(param)
         this.bech32error = null
         return true
-      } catch (err) {
-        this.bech32error = err.message
+      } catch (error) {
+        this.bech32error = error.message
         return false
       }
     },
@@ -211,6 +298,7 @@ export default {
         },
         amount: {
           required,
+          isInteger,
           between: between(1, this.max)
         },
         denom: { required },
@@ -221,11 +309,10 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@require '~variables'
-
-.tm-form-footer
-  max-width width-main-max
-  display flex
-  justify-content flex-end
+<style>
+.tm-form-footer {
+  max-width: width-main-max;
+  display: flex;
+  justify-content: flex-end;
+}
 </style>

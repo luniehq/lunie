@@ -1,10 +1,12 @@
-<template lang="pug">
-tm-btn.btn-receive(
-  @click.native.stop="openModal"
-  value="Receive"
-  icon="file_download"
-  icon-pos="right"
-  color="primary")
+<template>
+  <tm-btn
+    class="btn-receive"
+    value="Receive"
+    icon="file_download"
+    icon-pos="right"
+    color="primary"
+    @click.native.stop="openModal"
+  />
 </template>
 
 <script>

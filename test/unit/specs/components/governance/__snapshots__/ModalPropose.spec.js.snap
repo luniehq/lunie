@@ -17,6 +17,7 @@ exports[`ModalPropose component matches snapshot has the expected html structure
     >
       Create Proposal
     </span>
+     
     <div
       class="tm-modal-icon tm-modal-close"
       id="closeBtn"
@@ -28,6 +29,7 @@ exports[`ModalPropose component matches snapshot has the expected html structure
       </i>
     </div>
   </div>
+   
   <div
     class="page-proposal-form-group tm-form-group"
   >
@@ -39,6 +41,7 @@ exports[`ModalPropose component matches snapshot has the expected html structure
       <span>
         Title
       </span>
+       
       <input
         class="tm-field"
         id="title"
@@ -47,6 +50,7 @@ exports[`ModalPropose component matches snapshot has the expected html structure
       />
     </div>
   </div>
+   
   <div
     class="page-proposal-form-group tm-form-group"
   >
@@ -58,6 +62,7 @@ exports[`ModalPropose component matches snapshot has the expected html structure
       <span>
         Description
       </span>
+       
       <textarea
         class="tm-field"
         id="description"
@@ -65,6 +70,7 @@ exports[`ModalPropose component matches snapshot has the expected html structure
       />
     </div>
   </div>
+   
   <div
     class="modal-propose-form-group tm-form-group"
   >
@@ -76,6 +82,7 @@ exports[`ModalPropose component matches snapshot has the expected html structure
       <span>
         Deposit amount
       </span>
+       
       <input
         class="tm-field"
         id="denom"
@@ -83,16 +90,17 @@ exports[`ModalPropose component matches snapshot has the expected html structure
         readonly="readonly"
         type="text"
       />
+       
       <input
         class="tm-field"
         id="amount"
         max="20"
         min="0"
-        step="any"
         type="number"
       />
     </div>
   </div>
+   
   <div
     class="modal-propose-footer"
   >

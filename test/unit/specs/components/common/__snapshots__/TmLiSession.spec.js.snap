@@ -13,6 +13,7 @@ exports[`TmLiSession has the expected html structure 1`] = `
       mood
     </i>
   </div>
+   
   <div
     class="tm-li-session-text"
   >
@@ -21,6 +22,7 @@ exports[`TmLiSession has the expected html structure 1`] = `
     >
       useful title
     </div>
+     
     <div
       class="tm-li-session-subtitle"
     >

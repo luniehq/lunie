@@ -1,14 +1,24 @@
-<template lang="pug">
-  .tm-tool-bar
-    a.back(@click="back" :disabled="user.history.length === 0" v-tooltip.bottom="'Back'")
-      i.material-icons arrow_back
-    slot
-    a.help(@click="enableModalHelp" v-tooltip.bottom="'Help'")
-      i.material-icons help_outline
-    router-link#settings(to="/preferences" v-tooltip.bottom="'Preferences'")
-      i.material-icons settings
-    a#signOut-btn(@click="signOut" v-tooltip.bottom.end="'Sign Out'")
-      i.material-icons exit_to_app
+<template>
+  <div class="tm-tool-bar">
+    <a
+      v-tooltip.bottom="'Back'"
+      :disabled="user.history.length === 0"
+      class="back"
+      @click="back"
+      ><i class="material-icons">arrow_back</i></a
+    >
+    <slot /><a v-tooltip.bottom="'Help'" class="help" @click="enableModalHelp"
+      ><i class="material-icons">help_outline</i></a
+    >
+    <router-link
+      v-tooltip.bottom="'Preferences'"
+      id="settings"
+      to="/preferences"
+      ><i class="material-icons">settings</i></router-link
+    ><a v-tooltip.bottom.end="'Sign Out'" id="signOut-btn" @click="signOut"
+      ><i class="material-icons">exit_to_app</i></a
+    >
+  </div>
 </template>
 
 <script>
@@ -38,21 +48,17 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
+<style>
+.tm-page-header-text {
+  padding-right: 1rem;
+}
 
-.tm-tool-bar
-  height 100%
+.tm-page-header-text i {
+  padding: 1rem;
+  color: var(--dim);
+}
 
-.tm-page-header-text
-  padding-right 1rem
-
-  a
-    cursor pointer
-
-  i
-    padding 1rem
-    color var(--dim)
-
-    &:hover
-      color var(--bright)
+.tm-page-header-text i:hover {
+  color: var(--bright);
+}
 </style>

@@ -1,29 +1,56 @@
-<template lang="pug">
-.tm-modal-search(v-if="open")
-  form.tm-modal-search-container(
-    v-if="type === 'blocks'"
-    v-on:submit.prevent.default="gotoBlock")
-    tm-form-group(field-id="search-input" field-label=""
-      :error="$v.filters.blocks.search.query.$invalid")
-      .tm-modal-search-field
-        tm-field#search-input.mousetrap(
-          type="number"
-          step="1"
-          placeholder="View block height..."
-          v-model="query")
-        tm-btn(value="Find")
-        tm-btn(type="button" icon="close" @click.native="close")
-      tm-form-msg(name="Query" type="numeric"
-        v-if="!$v.filters.blocks.search.query.numeric")
-      tm-form-msg(name="Query" type="between" min="0"
-        :max="$v.filters.blocks.search.query.$params.between.max"
-        v-if="!$v.filters.blocks.search.query.between")
-  .tm-modal-search-container(v-else)
-    tm-form-group(field-id="search-input" field-label="")
-      .tm-modal-search-field
-        tm-field#search-input.mousetrap(
-          type="text" placeholder="Search..." v-model="query")
-        tm-btn(icon="close" @click.native="close")
+<template>
+  <div v-if="open" class="tm-modal-search">
+    <form
+      v-if="type === 'blocks'"
+      class="tm-modal-search-container"
+      @submit.prevent="gotoBlock"
+    >
+      <tm-form-group
+        :error="$v.filters.blocks.search.query.$invalid"
+        field-id="search-input"
+        field-label=""
+      >
+        <div class="tm-modal-search-field">
+          <tm-field
+            id="search-input"
+            v-model="query"
+            class="mousetrap"
+            type="number"
+            step="1"
+            placeholder="View block height..."
+          />
+          <tm-btn value="Find" />
+          <tm-btn type="button" icon="close" @click.native="close" />
+        </div>
+        <tm-form-msg
+          v-if="!$v.filters.blocks.search.query.numeric"
+          name="Query"
+          type="numeric"
+        />
+        <tm-form-msg
+          v-if="!$v.filters.blocks.search.query.between"
+          :max="$v.filters.blocks.search.query.$params.between.max"
+          name="Query"
+          type="between"
+          min="0"
+        />
+      </tm-form-group>
+    </form>
+    <div v-else class="tm-modal-search-container">
+      <tm-form-group field-id="search-input" field-label="">
+        <div class="tm-modal-search-field">
+          <tm-field
+            id="search-input"
+            v-model="query"
+            class="mousetrap"
+            type="text"
+            placeholder="Search..."
+          />
+          <tm-btn icon="close" @click.native="close" />
+        </div>
+      </tm-form-group>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -38,7 +65,12 @@ export default {
     TmFormGroup,
     TmFormMsg
   },
-  props: [`type`],
+  props: {
+    type: {
+      type: String,
+      required: true
+    }
+  },
   computed: {
     ...mapGetters([`filters`, `lastHeader`]),
     open() {
@@ -91,27 +123,35 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@require '~variables'
-.tm-modal-search
-  position sticky
-  top 0
-  z-index z(modal)
-  width 100%
-.tm-modal-search-container
-  background var(--app-fg)
-  margin-bottom 1rem
-  padding 0.5rem 0
+<style>
+.tm-modal-search {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-modal);
+  width: 100%;
+}
 
-  .tm-btn
-    margin-left 0.5rem
-  .tm-field
-    background var(--app-bg)
+.tm-modal-search-container {
+  background: var(--app-fg);
+  margin-bottom: 1rem;
+  padding: 0.5rem 0;
+}
 
-.tm-modal-search-field
-  display flex
-  flex 1
-  .tm-field
-    width auto
-    flex 1
+.tm-modal-search-container .tm-btn {
+  margin-left: 0.5rem;
+}
+
+.tm-modal-search-container .tm-field {
+  background: var(--app-bg);
+}
+
+.tm-modal-search-field {
+  display: flex;
+  flex: 1;
+}
+
+.tm-modal-search-field .tm-field {
+  width: auto;
+  flex: 1;
+}
 </style>

@@ -2,7 +2,7 @@
 
 exports[`TmModal has the expected html structure 1`] = `
 <div
-  class="tm-modal"
+  class="tm-modal tm-modal-fullscreen"
 >
   <div
     class="tm-modal-container"
@@ -10,10 +10,20 @@ exports[`TmModal has the expected html structure 1`] = `
     <header
       class="tm-modal-header"
     >
-      <!---->
+      <div
+        class="tm-modal-icon"
+      >
+        <i
+          class="material-icons"
+        >
+          hallo_icon
+        </i>
+      </div>
+       
       <div
         class="tm-modal-title"
       />
+       
       <div
         class="tm-modal-icon tm-modal-close"
       >
@@ -24,9 +34,11 @@ exports[`TmModal has the expected html structure 1`] = `
         </i>
       </div>
     </header>
+     
     <main
       class="tm-modal-main"
     >
+       
       <footer
         class="tm-modal-footer"
       />

@@ -71,8 +71,8 @@ describe(`Addressbook`, () => {
       let addressbook = new Addressbook(mockConfig, `./config`)
 
       expect(await addressbook.pickNode()).toMatchSnapshot()
-    } catch (err) {
-      throw err
+    } catch (error) {
+      throw error
     } finally {
       delete process.env.COSMOS_NODE
     }
@@ -92,7 +92,7 @@ describe(`Addressbook`, () => {
 
       await addressbook.pickNode()
       done.fail()
-    } catch (err) {
+    } catch (error) {
       done()
     } finally {
       delete process.env.COSMOS_NODE

@@ -13,6 +13,10 @@
 
 🎉 Binary releases are [available here](https://github.com/cosmos/voyager/releases). After downloading and untar/unzip-ing, navigate to the source directory and click on the `Cosmos Voyager` icon to launch Voyager.
 
+# ⚠️ NO ACTIVE TESTNET ⚠️
+
+Currently there is no active testnet. You have to run a [local node](#local-node) to test Voyager out.
+
 ---
 
 ## Voyager Prerequisites
@@ -116,6 +120,16 @@ $ yarn test:exe {path to the unpacked executable}
 
 To make an official release, follow the instructions in `docs/release.md`.
 
+#### Building without Docker
+
+You can also skip docker for bundling the Electron application but the builds will no longer be deterministic.
+
+```bash
+node tasks/build/build.js --os darwin --binaryPath $GOPATH/bin/gaiacli
+```
+
+`--os` can be `darwin`, `linux`, `win32`.
+
 ---
 
 ## Testing
@@ -157,7 +171,7 @@ To see the console output of the view in your terminal, set the environment vari
 
 ---
 
-## Run a local node
+## Run a local node<a name="local-node"></a>
 
 Sometimes you may want to run a local node, i.e. in the case there is no available network. To do so first [Build Gaia](#build-gaia), then use our automatic script or the manual process to set up your node.
 
@@ -231,7 +245,7 @@ A list of all environment variables and their purpose:
 | NODE_ENV                | 'production', 'development'              |                                  |                                                                                                                                                               |
 | LOGGING                 | 'true', 'false'                          | 'true'                           | Disable logging                                                                                                                                               |
 | COSMOS_NETWORK          | {path to network configuration folder}   | '../networks/gaia-7001'          | Network to connect to                                                                                                                                         |
-| COSMOS_HOME             | {path to config persistence folder}      | '$HOME/.cosmos-voyager[-dev]'    |                                                                                                                                                               |
+| COSMOS_HOME             | {path to config persistence folder}      | '\$HOME/.cosmos-voyager[-dev]'   |                                                                                                                                                               |
 | LCD_URL                 | {URL of a Cosmos light client interface} | see 'app/config.toml'            | Cosmos Light Client interface to connect to                                                                                                                   |
 | RPC_URL                 | {URL of a Tendermint rpc interface}      | see 'app/config.toml'            | Tendermint node to connect to                                                                                                                                 |
 | COSMOS_DEVTOOLS         | 'true', 'false'                          | 'false'                          | Open the debug panel in the electron view                                                                                                                     |
@@ -243,9 +257,9 @@ A list of all environment variables and their purpose:
 
 ## FAQ
 
-* If tendermint crashes and the log shows `Tendermint state.AppHash does not match AppHash after replay.` delete the config folders at `$HOME/.cosmos-voyager[-dev]`.
+- If tendermint crashes and the log shows `Tendermint state.AppHash does not match AppHash after replay.` delete the config folders at `$HOME/.cosmos-voyager[-dev]`.
 
-* If you use yarn, the post-install hook may not execute. If this happens you'll have to execute the script manually:
+- If you use yarn, the post-install hook may not execute. If this happens you'll have to execute the script manually:
 
 ```bash
 $ cd app
@@ -254,13 +268,13 @@ $ cd ..
 $ npm run rebuild
 ```
 
-* If electron shows the error: `A DLL initialization routine has failed.` rebuild the electron dependencies:
+- If electron shows the error: `A DLL initialization routine has failed.` rebuild the electron dependencies:
 
 ```bash
 $ npm run rebuild
 ```
 
-* If you have trouble installing dependencies, remove all the lockfiles and try installing again.
+- If you have trouble installing dependencies, remove all the lockfiles and try installing again.
 
 ```bash
 $ rm -rf app/yarn.lock
@@ -269,13 +283,16 @@ $ rm -rf yarn.lock
 $ rm -rf package-lock.json
 ```
 
-* If your components are not found using a short path, check if the path resolution is applied for Webpack (`webpack.renderer.js > rendererConfig.resolve.alias`) and Jest (`package.json > jest.moduleNameMapper`).
+- If your components are not found using a short path, check if the path resolution is applied for Webpack (`webpack.renderer.js > rendererConfig.resolve.alias`) and Jest (`package.json > jest.moduleNameMapper`).
 
-* If starting the development server fails with the error: `Error: listen EADDRINUSE 127.0.0.1:9080`, you have still a development server process running. Kill it with `kill $(lsof -t -i:9080)` on Unix systems. On Windows Powershell first look for the processes with `netstat -a -o -n | Select-String -Pattern "9080"` then kill them with `taskkill /F /PID {PID}`.
+- If starting the development server fails with the error: `Error: listen EADDRINUSE 127.0.0.1:9080`, you have still a development server process running. Kill it with `kill $(lsof -t -i:9080)` on Unix systems. On Windows Powershell first look for the processes with `netstat -a -o -n | Select-String -Pattern "9080"` then kill them with `taskkill /F /PID {PID}`.
 
-- If `yarn test:e2e` outputs an error about ChromeDriver timeout, remove your node_modules folder and reinstall all dependencies.
+* If `yarn test:e2e` outputs an error about ChromeDriver timeout, remove your node_modules folder and reinstall all dependencies.
 
-* The version mismatch (`The network you are trying to connect to requires gaia X, but the version Voyager is using is Y.`) is testing the gaia version in `/builds/Gaia/...` against the one specified in the config dir `~/.cosmos-voyager[-dev]/{NETWORK}/gaiaversion.txt`. If you know that you have the correct version, change it in `gaiaversion.txt`.
+- The version mismatch (`The network you are trying to connect to requires gaia X, but the version Voyager is using is Y.`) is testing the gaia version in `/builds/Gaia/...` against the one specified in the config dir `~/.cosmos-voyager[-dev]/{NETWORK}/gaiaversion.txt`. If you know that you have the correct version, change it in `gaiaversion.txt`.
+
+* You get `The network configuration for the network you want to connect to doesn't exist. Have you run "yarn build:testnets" to download the latest configurations?` but you have run `yarn build:testnets`.
+  The symlink between `app/networks` and `builds/testnets` is broken. Try readding the symlink with `cd app && ln -s ../builds/testnets networks`.
 
 ---
 

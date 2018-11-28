@@ -41,7 +41,6 @@ test(`delegation`, async function(t) {
       .$(`.li-validator__delegated-steak`)
       .getText()
     let myVotes = parseFloat(myVotesText.replace(/,/g, ``))
-    console.log(myVotesText, myVotes)
     await t.equal(
       myVotes,
       parseFloat(bondedStake),
@@ -132,6 +131,25 @@ test(`delegation`, async function(t) {
 
     // Shouldn't be necessary but see
     // https://github.com/jprichardson/tape-promise/issues/17#issuecomment-425276035.
+    t.end()
+  })
+
+  t.test(`showing transactions`, async function(t) {
+    await navigate(app, `Transactions`)
+
+    // delegated
+    await app.client.waitForExist(
+      `//div[contains(text(), "Delegated")]`,
+      15 * 1000
+    )
+    // unbonded
+    await app.client.waitForExist(
+      `//div[contains(text(), "Unbonded")]`,
+      15 * 1000
+    )
+
+    // TODO redelegation transaction
+
     t.end()
   })
 

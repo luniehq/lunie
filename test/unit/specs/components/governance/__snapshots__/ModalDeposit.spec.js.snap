@@ -17,6 +17,7 @@ exports[`ModalDeposit component matches snapshot has the expected html structure
     >
       Deposit
     </span>
+     
     <div
       class="tm-modal-icon tm-modal-close"
       id="closeBtn"
@@ -28,14 +29,17 @@ exports[`ModalDeposit component matches snapshot has the expected html structure
       </i>
     </div>
   </div>
+   
   <div>
     <h2>
       Title: Proposal Title
     </h2>
+     
     <h3>
       Proposal ID: #1
     </h3>
   </div>
+   
   <div
     class="modal-deposit-form-group tm-form-group"
   >
@@ -56,16 +60,17 @@ exports[`ModalDeposit component matches snapshot has the expected html structure
         readonly="readonly"
         type="text"
       />
+       
       <input
         class="tm-field"
         id="amount"
         max="20"
         min="0"
-        step="any"
         type="number"
       />
     </div>
   </div>
+   
   <div
     class="modal-deposit-footer"
   >

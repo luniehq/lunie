@@ -1,4 +1,4 @@
-"use strict"
+import Raven from "raven-js"
 
 export default ({ node }) => {
   const state = {
@@ -19,12 +19,13 @@ export default ({ node }) => {
         let deposits = await node.queryProposalDeposits(proposalId)
         state.error = null
         commit(`setProposalDeposits`, proposalId, deposits)
-      } catch (err) {
+      } catch (error) {
         commit(`notifyError`, {
           title: `Error fetching deposits on proposals`,
-          body: err.message
+          body: error.message
         })
-        state.error = err
+        Raven.captureException(error)
+        state.error = error
       }
       state.loading = false
     },

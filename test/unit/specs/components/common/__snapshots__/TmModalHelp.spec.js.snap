@@ -11,6 +11,7 @@ exports[`TmModalHelp has the expected html structure 1`] = `
       class="tm-modal-header"
     >
       <!---->
+       
       <div
         class="tm-modal-title"
       >
@@ -18,6 +19,7 @@ exports[`TmModalHelp has the expected html structure 1`] = `
           Need Help?
         </div>
       </div>
+       
       <div
         class="tm-modal-icon tm-modal-close"
       >
@@ -28,27 +30,36 @@ exports[`TmModalHelp has the expected html structure 1`] = `
         </i>
       </div>
     </header>
+     
     <main
       class="tm-modal-main"
     >
+       
       <p>
-        Something in the app not working correctly? Tell us what went wrong in our 
+        
+    Something in the app not working correctly? Tell us what went wrong in our
+    
         <a
           href="https://riot.im/app/#/room/#cosmos:matrix.org"
         >
           developer chat
         </a>
-         or create an issue on 
+        
+    or create an issue on
+    
         <a
           href="https://github.com/cosmos/voyager/issues"
         >
           GitHub
         </a>
         .
+  
       </p>
+       
       <p>
         Thanks for improving Cosmos Voyager!
       </p>
+       
       <footer
         class="tm-modal-footer"
       />

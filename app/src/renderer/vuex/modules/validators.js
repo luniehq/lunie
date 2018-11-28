@@ -1,4 +1,4 @@
-"use strict"
+import Raven from "raven-js"
 
 export default ({ node }) => {
   const emptyState = {
@@ -34,12 +34,13 @@ export default ({ node }) => {
         let validators = (await node.getValidatorSet()).validators
         state.error = null
         commit(`setValidators`, validators)
-      } catch (err) {
+      } catch (error) {
         commit(`notifyError`, {
           title: `Error fetching validator set`,
-          body: err.message
+          body: error.message
         })
-        state.error = err
+        Raven.captureException(error)
+        state.error = error
       }
       state.loading = false
     },

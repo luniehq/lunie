@@ -1,39 +1,49 @@
-<template lang="pug">
-  .modal-deposit#modal-deposit(v-click-outside="close")
-    .modal-deposit-header
-      img.icon(class='modal-deposit-atom' src="~assets/images/cosmos-logo.png")
-      span.tm-modal-title Deposit
-      .tm-modal-icon.tm-modal-close#closeBtn(@click="close()")
-        i.material-icons close
-
-    div
-      h2 Title: {{ proposalTitle }}
-      h3 Proposal ID: {{ `#` + proposalId }}
-
-    tm-form-group.modal-deposit-form-group(
-      field-id='amount'
-      field-label='Amount'
-    )
-      tm-field#denom(
-        type="text"
+<template>
+  <div v-click-outside="close" id="modal-deposit" class="modal-deposit">
+    <div class="modal-deposit-header">
+      <img
+        class="icon modal-deposit-atom"
+        src="~assets/images/cosmos-logo.png"
+      /><span class="tm-modal-title">Deposit</span>
+      <div id="closeBtn" class="tm-modal-icon tm-modal-close" @click="close()">
+        <i class="material-icons">close</i>
+      </div>
+    </div>
+    <div>
+      <h2>Title: {{ proposalTitle }}</h2>
+      <h3>Proposal ID: {{ `#` + proposalId }}</h3>
+    </div>
+    <tm-form-group
+      class="modal-deposit-form-group"
+      field-id="amount"
+      field-label="Amount"
+    >
+      <tm-field
+        id="denom"
         :placeholder="denom"
-        readonly)
-
-      tm-field#amount(
-        type="number"
+        type="text"
+        readonly="readonly"
+      />
+      <tm-field
+        v-focus
+        id="amount"
         :max="balance"
         :min="0"
-        step="any"
         v-model="amount"
-        v-focus)
-
-    .modal-deposit-footer
-      tm-btn#submit-deposit(
-        @click.native="onDeposit"
+        type="number"
+      />
+    </tm-form-group>
+    <div class="modal-deposit-footer">
+      <tm-btn
+        id="submit-deposit"
         :disabled="$v.amount.$invalid"
         color="primary"
         value="Deposit"
-        size="lg")
+        size="lg"
+        @click.native="onDeposit"
+      />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -42,6 +52,8 @@ import ClickOutside from "vue-click-outside"
 import { required, between } from "vuelidate/lib/validators"
 import Modal from "common/TmModal"
 import { TmBtn, TmField, TmFormGroup } from "@tendermint/ui"
+
+const isInteger = amount => Number.isInteger(amount)
 
 export default {
   name: `modal-deposit`,
@@ -54,7 +66,20 @@ export default {
   directives: {
     ClickOutside
   },
-  props: [`proposalId`, `proposalTitle`, `denom`],
+  props: {
+    proposalId: {
+      type: [Number, String],
+      required: true
+    },
+    proposalTitle: {
+      type: String,
+      required: true
+    },
+    denom: {
+      type: String,
+      required: true
+    }
+  },
   data: () => ({
     amount: 0
   }),
@@ -76,10 +101,8 @@ export default {
     return {
       amount: {
         required,
-        between: between(
-          0.0000000001,
-          this.balance > 0 ? this.balance : 0.0000000001
-        )
+        isInteger,
+        between: between(1, this.balance > 0 ? this.balance : 1)
       }
     }
   },
@@ -101,47 +124,53 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@import '~variables'
+<style>
+.modal-deposit {
+  background: var(--app-nav);
+  display: flex;
+  flex-direction: column;
+  height: 50%;
+  justify-content: space-between;
+  left: 50%;
+  padding: 2rem;
+  position: fixed;
+  top: 50%;
+  width: 40%;
+  z-index: var(--z-modal);
+}
 
-.modal-deposit
-  background var(--app-nav)
-  display flex
-  flex-direction column
-  height 50%
-  justify-content space-between
-  left 50%
-  padding 2rem
-  position fixed
-  top 50%
-  width 40%
-  z-index z(modal)
+.modal-deposit-header {
+  align-items: center;
+  display: flex;
+}
 
-  &-header
-    align-items center
-    display flex
+.modal-deposit-atom {
+  height: 4rem;
+  width: 4rem;
+}
 
-  &-atom
-    height 4rem
-    width 4rem
+.modal-deposit-form-group {
+  display: block;
+  padding: 0;
+}
 
-  &-form-group
-    display block
-    padding 0
+.modal-deposit #amount {
+  margin-top: -32px;
+}
 
-  #amount
-    margin-top -32px
+.modal-deposit #denom {
+  border: none;
+  margin-left: 80%;
+  text-align: right;
+  width: 72px;
+}
 
-  #denom
-    border none
-    margin-left 80%
-    text-align right
-    width 72px
+.modal-deposit-footer {
+  display: flex;
+  justify-content: flex-end;
+}
 
-  &-footer
-    display flex
-    justify-content flex-end
-
-    button
-      margin-left 1rem
+.modal-deposit-footer button {
+  margin-left: 1rem;
+}
 </style>

@@ -29,12 +29,10 @@ exports[`PageGovernance without magic has the expected html structure 1`] = `
          42.0000…
       </h2>
 </div>
-      <!---->
-      <!---->
 </div>
    <div class=\\"short-bech32\\">
       <div id=\\"address\\" class=\\"address\\">
-         Address Not Found
+         Address Not Found  
       </div>
    <div class=\\"copied\\">
       <i class=\\"material-icons\\">check</i><span>Copied</span>

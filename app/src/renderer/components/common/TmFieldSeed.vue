@@ -1,8 +1,10 @@
-<template lang="pug">
-tm-field.tm-field-seed(
-  type="textarea"
-  @input="update($event)"
-  :value="value")
+<template>
+  <tm-field
+    :value="value"
+    class="tm-field-seed"
+    type="textarea"
+    @input="update($event)"
+  />
 </template>
 
 <script>
@@ -11,7 +13,12 @@ import { TmField } from "@tendermint/ui"
 export default {
   name: `tm-field-seed`,
   components: { TmField },
-  props: [`value`],
+  props: {
+    value: {
+      type: String,
+      required: true
+    }
+  },
   watch: {
     value: {
       handler: async function() {
@@ -31,7 +38,8 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
-.tm-field:disabled.tm-field-seed
-  border 1px solid var(--bc)
+<style>
+.tm-field:disabled.tm-field-seed {
+  border: 1px solid var(--bc);
+}
 </style>
