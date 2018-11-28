@@ -173,7 +173,7 @@ jobs:
 
       - run:
           command: |
-            yarn build:testnet
+            yarn build:testnets
             yarn build:local
             yarn start local-testnet
 
