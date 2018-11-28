@@ -101,12 +101,14 @@ describe(`TableProposals`, () => {
     })
 
     it(`should not show search when there is nothing to search`, () => {
-      const $store = {
-        commit: jest.fn()
-      }
-
+      let { wrapper, store } = mount(TableProposals, {
+        propsData: {
+          proposals: [],
+          loading: false
+        }
+      })
       wrapper.vm.setSearch()
-      expect($store.commit.mock.calls).toEqual([])
+      expect(store.commit.mock.calls).toEqual([])
     })
   })
 })
