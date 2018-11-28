@@ -91,32 +91,40 @@ describe(`TableProposals`, () => {
   })
 
   describe(`setSearch`, () => {
-    it(`should show search when there is something to search`, () => {
-      const $store = {
-        commit: jest.fn()
-      }
+    const $store = {
+      commit: jest.fn()
+    }
 
-      TableProposals.methods.setSearch(true, {
-        somethingToSearch: true,
+    it(`should show search when there is something to search`, () => {
+      let { wrapper, store } = mount(TableProposals, {
+        propsData: {
+          proposals: lcdClientMock.state.proposals,
+          loading: false
+        },
         $store
       })
 
-      expect($store.commit.mock.calls).toEqual([
-        [`setSearchVisible`, [`proposals`, true]]
+      wrapper.vm.setSearch()
+      expect(store.commit).toHaveBeenCalledWith(`setSearchVisible`, [
+        `proposals`,
+        true
       ])
     })
 
     it(`should not show search when there is nothing to search`, () => {
-      const $store = {
-        commit: jest.fn()
-      }
-
-      TableProposals.methods.setSearch(true, {
-        somethingToSearch: false,
+      let { wrapper, store } = mount(TableProposals, {
+        propsData: {
+          proposals: [],
+          loading: false
+        },
         $store
       })
 
-      expect($store.commit.mock.calls).toEqual([])
+      wrapper.vm.setSearch()
+      expect(store.commit).not.toHaveBeenCalledWith(`setSearchVisible`, [
+        `proposals`,
+        true
+      ])
     })
   })
 })

@@ -1,9 +1,13 @@
 <template>
   <div>
     <tm-data-loading v-if="loading" />
-    <tm-data-empty v-else-if="proposals.length === 0" />
+    <tm-data-empty
+      v-else-if="!somethingToSearch"
+      title="No Governance Proposals"
+      subtitle="There're no available governance proposals. Submit a new one by clicking the Create Proposal button above !"
+    />
     <data-empty-search v-else-if="filteredProposals.length === 0" />
-    <table>
+    <table v-else>
       <thead>
         <panel-sort :sort="sort" :properties="properties" />
       </thead>
@@ -59,11 +63,9 @@ export default {
   computed: {
     ...mapGetters([`filters`, `config`]),
     somethingToSearch() {
-      return !!this.proposals.length
+      return Object.keys(this.proposals).length > 0
     },
     parsedProposals() {
-      if (!this.proposals || this.proposals.length === 0) return []
-
       let copiedProposals = JSON.parse(JSON.stringify(this.proposals))
       return Object.values(copiedProposals).map(p => {
         p.tally_result.yes = Math.round(parseFloat(p.tally_result.yes))
@@ -76,8 +78,6 @@ export default {
       })
     },
     filteredProposals() {
-      if (!this.proposals || this.proposals.length === 0) return []
-
       let query = this.filters.proposals.search.query || ``
       let proposals = orderBy(
         this.parsedProposals,
@@ -134,18 +134,15 @@ export default {
     }
   },
   mounted() {
-    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
-    Mousetrap.bind([`command+n`, `ctrl+n`], () => this.newProposal())
-    Mousetrap.bind(`esc`, () => this.setSearch(false))
+    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch())
+    Mousetrap.bind(`esc`, () => this.setSearch())
     this.$store.dispatch(`getProposals`)
   },
   methods: {
-    setSearch(
-      bool = !this.filters[`proposals`].search.visible,
-      { somethingToSearch, $store } = this
-    ) {
-      if (somethingToSearch) {
-        $store.commit(`setSearchVisible`, [`proposals`, bool])
+    setSearch() {
+      if (this.somethingToSearch) {
+        let toggle = !this.filters[`proposals`].search.visible
+        this.$store.commit(`setSearchVisible`, [`proposals`, toggle])
       }
     }
   }

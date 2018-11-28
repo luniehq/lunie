@@ -2,7 +2,6 @@
 
 exports[`TabProposals has the expected html structure 1`] = `
 "<div>
-   <!---->
    <table>
       <thead>
          <tr class=\\"panel-sort-container\\">
