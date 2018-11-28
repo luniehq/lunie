@@ -161,6 +161,22 @@ jobs:
               node tasks/publish.js
             fi
 
+  testOnboarding:
+    docker:
+      - image: circleci/node:10.13.0
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: builds/Gaia
+
+      - run:
+          command: |
+            yarn build:testnet
+            yarn build:local
+            yarn start local-testnet
+
 workflows:
   version: 2
 
@@ -182,6 +198,13 @@ workflows:
               ignore: release
 
       - testE2e:
+          requires:
+            - buildGaia
+          filters:
+            branches:
+              ignore: release
+
+      - testOnboarding:
           requires:
             - buildGaia
           filters:
