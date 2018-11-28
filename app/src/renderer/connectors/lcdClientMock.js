@@ -1045,6 +1045,10 @@ module.exports = {
   async getProposal(proposalId) {
     return state.proposals.find(proposal => proposal.proposal_id === proposalId)
   },
+  async getProposalTally(proposalId) {
+    let proposal = await this.getProposal(proposalId)
+    return proposal.tally_result
+  },
   async getProposalDeposits(proposalId) {
     return state.deposits[proposalId] || []
   },
@@ -1077,9 +1081,7 @@ module.exports = {
       return results
     }
 
-    let proposal = state.proposals.find(
-      proposal => proposal.proposal_id === proposal_id
-    )
+    let proposal = await this.getProposal(proposal_id)
     if (!proposal) {
       results.push(txResult(3, `Nonexistent proposal`))
       return results
@@ -1208,9 +1210,7 @@ module.exports = {
       return results
     }
 
-    let proposal = state.proposals.find(
-      proposal => proposal.proposal_id === proposal_id
-    )
+    let proposal = await this.getProposal(proposal_id)
 
     if (!proposal) {
       results.push(txResult(3, `Nonexistent proposal`))
