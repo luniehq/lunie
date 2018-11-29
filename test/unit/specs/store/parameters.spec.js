@@ -12,6 +12,8 @@ describe(`Module: Parameters`, () => {
   beforeEach(() => {
     let test = instance.shallow(null)
     store = test.store
+
+    store.commit(`setConnected`, true)
   })
 
   it(`should have no parameters by default`, () => {
@@ -36,7 +38,12 @@ describe(`Module: Parameters`, () => {
       .mockImplementationOnce(async () => Promise.reject(`Error`))
     await actions.getStakingParameters({
       state,
-      commit: jest.fn()
+      commit: jest.fn(),
+      rootState: {
+        connection: {
+          connected: true
+        }
+      }
     })
     expect(state.error).toBe(`Error`)
   })
