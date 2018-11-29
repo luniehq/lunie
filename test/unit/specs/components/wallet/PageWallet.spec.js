@@ -7,7 +7,12 @@ describe(`PageWallet`, () => {
   beforeEach(async () => {
     let instance = mount(PageWallet, {
       stubs: {
-        "modal-search": `<modal-search />`
+        "modal-search": `<modal-search />`,
+        "tm-data-connecting": `<tm-data-connecting />`,
+        "tm-data-loading": `<tm-data-loading />`
+      },
+      doBefore: ({ store }) => {
+        store.commit(`setConnected`, true)
       }
     })
     wrapper = instance.wrapper
@@ -17,7 +22,6 @@ describe(`PageWallet`, () => {
       account: `default`,
       password: `1234567890`
     })
-    store.commit(`setConnected`, true)
     store.commit(`setSearchQuery`, [`balances`, ``])
 
     wrapper.update()
@@ -72,14 +76,12 @@ describe(`PageWallet`, () => {
   })
 
   it(`should show the n/a message if there are no denoms`, () => {
-    let { store, wrapper } = mount(PageWallet)
     store.commit(`setWalletBalances`, [])
     wrapper.update()
     expect(wrapper.find(`#account_empty_msg`).exists()).toBeTruthy()
   })
 
   it(`should not show the n/a message if there are denoms`, () => {
-    wrapper.update()
     expect(wrapper.vm.allDenomBalances.length).not.toBe(0)
     expect(wrapper.vm.$el.querySelector(`#no-balances`)).toBe(null)
   })
@@ -94,5 +96,20 @@ describe(`PageWallet`, () => {
     store.commit(`setWalletBalances`, [])
     wrapper.update()
     expect(wrapper.vm.setSearch()).toEqual(false)
+  })
+
+  it(`should show a message when still connecting`, () => {
+    store.state.wallet.loaded = false
+    store.state.connection.connected = false
+    wrapper.update()
+    expect(wrapper.exists(`tm-data-connecting`)).toBe(true)
+  })
+
+  it(`should show a message when still loading`, () => {
+    store.state.wallet.loaded = false
+    store.state.wallet.loading = false
+    store.state.connection.connected = true
+    wrapper.update()
+    expect(wrapper.exists(`tm-data-loading`)).toBe(true)
   })
 })
