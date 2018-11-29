@@ -108,15 +108,19 @@ function loadPersistedState({ state, commit }, { password }) {
     _.merge(state, oldState, {
       // set loading indicators to false
       transactions: {
+        loaded: true,
         loading: false
       },
       wallet: {
+        loaded: true,
         loading: false
       },
       delegates: {
+        loaded: true,
         loading: false
       },
       proposals: {
+        loaded: true,
         loading: false
       }
     })
