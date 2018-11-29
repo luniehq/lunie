@@ -31,6 +31,7 @@ describe(`Module: Connection`, () => {
 
   it(`checks for new validators`, async () => {
     jest.spyOn(node, `getValidatorSet`)
+    store.commit(`setConnected`, true)
     // checks for validators only after having signed in
     await store.dispatch(`signIn`, {
       account: `default`,

@@ -2,6 +2,12 @@ import parametersModule from "renderer/vuex/modules/governance/parameters.js"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 let { govParameters } = lcdClientMock.state
 
+let mockRootState = {
+  connection: {
+    connected: true
+  }
+}
+
 describe(`Module: Governance Parameters`, () => {
   let module, node
 
@@ -25,7 +31,7 @@ describe(`Module: Governance Parameters`, () => {
   it(`fetches all governance parameters`, async () => {
     let { actions, state } = module
     let commit = jest.fn()
-    await actions.getGovParameters({ state, commit })
+    await actions.getGovParameters({ state, commit, rootState: mockRootState })
     expect(commit.mock.calls).toEqual([[`setGovParameters`, govParameters]])
   })
 
