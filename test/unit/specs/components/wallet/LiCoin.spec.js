@@ -12,7 +12,8 @@ describe(`LiCoin`, () => {
         coin: {
           denom: `stake`,
           amount: `1000`
-        }
+        },
+        connected: true
       }
     })
     wrapper = instance.wrapper

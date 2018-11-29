@@ -1,9 +1,14 @@
 <template>
   <div>
     <tm-data-connecting
-      v-if="!parameters.loaded && !pool.loaded && !connected"
+      v-if="(!parameters.loaded || !pool.loaded) && !connected"
     />
-    <tm-data-loading v-else-if="parameters.loading || pool.loading" />
+    <tm-data-loading
+      v-else-if="
+        (!parameters.loaded && parameters.loading) ||
+          (!pool.loaded && pool.loading)
+      "
+    />
     <div v-else>
       <div>
         <h3>

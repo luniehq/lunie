@@ -20,9 +20,11 @@ describe(`Component: TabMyDelegations`, () => {
           unbondingDelegations: {
             [delegates[1].operator_address]: 1,
             [delegates[2].operator_address]: 2
-          }
+          },
+          loaded: true
         }),
-        bondingDenom: () => `stake`
+        bondingDenom: () => `stake`,
+        connected: () => true
       }
     })
 
@@ -40,9 +42,11 @@ describe(`Component: TabMyDelegations`, () => {
           unbondingDelegations: {
             [delegates[1].operator_address]: 1,
             [delegates[2].operator_address]: 2
-          }
+          },
+          loaded: true
         }),
-        bondingDenom: () => `stake`
+        bondingDenom: () => `stake`,
+        connected: () => true
       }
     })
 
@@ -60,12 +64,58 @@ describe(`Component: TabMyDelegations`, () => {
         delegation: () => ({
           unbondingDelegations: {}
         }),
-        bondingDenom: () => `stake`
+        bondingDenom: () => `stake`,
+        connected: () => true
       }
     })
 
     expect(instance.wrapper.html()).toContain(`No Active Delegations`)
     expect(instance.wrapper.vm.$el).toMatchSnapshot()
+  })
+
+  it(`should show a message if not still connecting to a node`, () => {
+    let instance = mount(TabMyDelegations, {
+      getters: {
+        committedDelegations: () => ({}),
+        delegates: () => ({
+          delegates
+        }),
+        delegation: () => ({
+          unbondingDelegations: {},
+          loaded: false
+        }),
+        bondingDenom: () => `stake`,
+        connected: () => false
+      },
+      stubs: {
+        "tm-data-connecting": `<tm-data-connecting />`
+      }
+    })
+
+    expect(instance.wrapper.exists(`tm-data-connecting`)).toBe(true)
+  })
+
+  it(`should show a message if not still loading delegations`, () => {
+    let instance = mount(TabMyDelegations, {
+      getters: {
+        committedDelegations: () => ({}),
+        delegates: () => ({
+          delegates
+        }),
+        delegation: () => ({
+          unbondingDelegations: {},
+          loaded: true,
+          loading: true
+        }),
+        bondingDenom: () => `stake`,
+        connected: () => false
+      },
+      stubs: {
+        "tm-data-loading": `<tm-data-loading />`
+      }
+    })
+
+    expect(instance.wrapper.exists(`tm-data-loading`)).toBe(true)
   })
 
   it(`undelegatedValidators`, () => {

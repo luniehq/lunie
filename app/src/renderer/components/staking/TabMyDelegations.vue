@@ -3,10 +3,9 @@
     <div v-if="delegation.loaded && yourValidators.length > 0">
       <table-validators :validators="yourValidators" />
     </div>
-    <tm-data-connecting
-      v-if="!delegation.loaded && delegation.loading && !connected"
-    />
-    <tm-data-msg v-if="yourValidators.length < 1" icon="info_outline">
+    <tm-data-connecting v-if="!delegation.loaded && !connected" />
+    <tm-data-loading v-else-if="!delegation.loaded && delegation.loading" />
+    <tm-data-msg v-else-if="yourValidators.length === 0" icon="info_outline">
       <div slot="title">No Active Delegations</div>
       <div slot="subtitle">
         Looks like you haven't delegated any {{ bondingDenom }}s yet. Head over
@@ -37,13 +36,13 @@
 
 <script>
 import { mapGetters } from "vuex"
-import { TmDataMsg } from "@tendermint/ui"
+import { TmDataMsg, TmDataLoading } from "@tendermint/ui"
 import TableValidators from "staking/TableValidators"
 import TmDataConnecting from "common/TmDataConnecting"
 
 export default {
   name: `tab-my-delegations`,
-  components: { TableValidators, TmDataMsg, TmDataConnecting },
+  components: { TableValidators, TmDataMsg, TmDataConnecting, TmDataLoading },
   data: () => ({
     bondInfo: `Validators you are currently bonded to`,
     unbondInfo: `Your bonded validators in unbonding process`
