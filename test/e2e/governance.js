@@ -4,7 +4,7 @@ let test = require(`tape-promise/tape`)
 let { getApp, restart } = require(`./launch.js`)
 let {
   navigate,
-  waitForText,
+  // waitForText,
   login
   // closeNotifications
 } = require(`./common.js`)
