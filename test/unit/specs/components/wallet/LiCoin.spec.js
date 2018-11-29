@@ -32,4 +32,9 @@ describe(`LiCoin`, () => {
   it(`should capitalize the coin denomination`, () => {
     expect(wrapper.vm.denomination).toEqual(`Stake`)
   })
+
+  it(`should disable the option to send if not connected`, () => {
+    wrapper.setProps({ connected: false })
+    expect(wrapper.find(`button`).attributes(`disabled`)).toBeDefined()
+  })
 })
