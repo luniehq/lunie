@@ -49,7 +49,7 @@ export default {
   },
   data: () => ({
     query: ``,
-    tabs: [`Proposals`],
+    tabs: [`Proposals`, `Parameters`],
     showModalPropose: false
   }),
   computed: {

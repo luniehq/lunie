@@ -18,6 +18,11 @@ export default [
         path: `proposals`,
         name: `Proposals`,
         component: require(`./components/governance/TabProposals`).default
+      },
+      {
+        path: `governance-parameters`,
+        name: `Parameters`,
+        component: require(`./components/governance/TabParameters`).default
       }
     ]
   },
