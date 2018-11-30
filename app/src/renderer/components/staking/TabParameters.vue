@@ -1,7 +1,7 @@
 <template>
   <div v-if="config.devMode">
     <div>
-      <h3>
+      <h3 class="staking-pool">
         Staking Pool
         <i
           v-tooltip.top="poolTooltips.description"
@@ -45,7 +45,7 @@
       </div>
     </div>
     <div>
-      <h3>
+      <h3 class="staking-parameters">
         Staking Parameters
         <i
           v-tooltip.top="paramsTooltips.description"

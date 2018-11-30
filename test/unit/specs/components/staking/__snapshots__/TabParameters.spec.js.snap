@@ -3,7 +3,7 @@
 exports[`TabParameters has the expected html structure 1`] = `
 "<div>
    <div>
-      <h3>
+      <h3 class=\\"staking-pool\\">
          Staking Pool      <i class=\\"material-icons info-button\\">info_outline</i>
       </h3>
       <div class=\\"parameters__details parameters__section\\">
@@ -32,7 +32,7 @@ exports[`TabParameters has the expected html structure 1`] = `
 </div>
 </div>
 <div>
-   <h3>
+   <h3 class=\\"staking-parameters\\">
       Staking Parameters      <i class=\\"material-icons info-button\\">info_outline</i>
    </h3>
    <div class=\\"parameters__details parameters__section\\">
