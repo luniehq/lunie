@@ -67,6 +67,11 @@ test(`Governance`, async function(t) {
   })
 
   t.test(`deposit`, async function(t) {
+    let deposit = () =>
+      $(`//dt[contains(text(), "Deposit")]`)
+        .$(`..`)
+        .$(`dd`)
+    let amount = parseInt((await deposit().getText()).split(` `)[0])
     await t.ok(
       await app.client.$(`.validator-profile__status.yellow`).isVisible(),
       `the proposal is on deposit period`
@@ -81,18 +86,25 @@ test(`Governance`, async function(t) {
       await app.client
         .$(`#submit-deposit`)
         .click()
-        .waitForVisible(`.tm-notification`, 4 * 1000),
+        .waitForVisible(
+          `//*[. = 'You have successfully deposited your steaks on proposal #1']`,
+          4 * 1000
+        ),
       `successful deposit`
     )
-    // TODO: check if deposit increased
-    // let deposit = app.client.$(`//dd/*[. = 'Deposit']`)
+    let newAmount = parseInt((await deposit().getText()).split(` `)[0])
+    t.equal(
+      newAmount,
+      amount + 10,
+      `increments the deposit displayed on the proposal page`
+    )
     await closeNotifications(app)
     t.end()
   })
 
   t.test(`vote`, async function(t) {
     await t.ok(
-      await app.client.$(`.validator-profile__status.blue`).isVisible(),
+      await app.client.$(`.validator-profile__status.green`).isVisible(),
       `the proposal is on voting period`
     )
     await app.client.$(`#vote-btn`).click()
@@ -100,15 +112,18 @@ test(`Governance`, async function(t) {
       await app.client.$(`#modal-vote`).isVisible(),
       `opens modal vote`
     )
-    // await t.ok(
-    //   await app.client
-    //     .click(`//button/*[. = 'Submit proposal']`)
-    //     .waitForVisible(
-    //       `//*[. = 'You have successfully submitted a new text proposal']`,
-    //       5 * 1000
-    //     ),
-    //   `successful proposal submission`
-    // )
+
+    await app.client.$(`#vote-yes`).click()
+    await t.ok(
+      await app.client
+        .$(`#cast-vote`)
+        .click()
+        .waitForVisible(
+          `//*[. = 'You have successfully voted Yes on proposal #1']`,
+          4 * 1000
+        ),
+      `successful vote`
+    )
     // TODO: check if tally increased, blocked by SDK v.0.27
     t.end()
   })
