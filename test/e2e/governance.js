@@ -79,7 +79,7 @@ test(`Governance`, async function(t) {
     await app.client.$(`#deposit-btn`).click()
     await t.ok(
       await app.client.$(`#modal-deposit`).isVisible(),
-      `opens modal deposit`
+      `opens deposit modal`
     )
     await app.client.setValue(`#amount`, 10)
     await t.ok(
