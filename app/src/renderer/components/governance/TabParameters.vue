@@ -182,7 +182,7 @@ export default {
       max_deposit_period: `Deposits must reach the "minimum deposit" threshold in this period of time`
     },
     tallyingTooltips: {
-      description: `Parameters around tallying votes in governance`,
+      description: `Tally parameters for governance in the Cosmos Hub`,
       threshold: `Percentage of Yes votes for proposal to pass`,
       veto: `Percentage of "No With Veto" votes required for proposal to be vetoed`,
       governance_penalty: `Penalty if validator does not vote`
