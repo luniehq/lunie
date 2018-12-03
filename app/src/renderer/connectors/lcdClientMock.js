@@ -311,10 +311,10 @@ let state = {
       min_deposit: [
         {
           denom: `steak`,
-          amount: `coin`
+          amount: `10.0000000000`
         }
       ],
-      max_deposit_period: `86400000000`
+      max_deposit_period: `86400000000000`
     },
     tallying: {
       threshold: `0.5000000000`,
@@ -322,7 +322,7 @@ let state = {
       governance_penalty: `0.0100000000`
     },
     voting: {
-      voting_period: `86400000000`
+      voting_period: `86400000000000`
     }
   },
   sendHeight: 2,

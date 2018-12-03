@@ -24,7 +24,7 @@
               <dd>
                 {{
                   governanceParameters.parameters.deposit.min_deposit
-                    ? governanceParameters.parameters.deposit.min_deposit
+                    ? minimumDeposit
                     : `n/a`
                 }}
               </dd>
@@ -191,7 +191,7 @@ export default {
   computed: {
     ...mapGetters([`config`, `governanceParameters`]),
     // TODO: a minimum deposit may consist of multiple coin denoms
-    minumimDeposit() {
+    minimumDeposit() {
       let coin = this.governanceParameters.parameters.deposit.min_deposit[0]
       return `${coin.amount} ${coin.denom}`
     },

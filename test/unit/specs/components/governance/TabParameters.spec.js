@@ -31,7 +31,6 @@ describe(`TabParameters`, () => {
     })
     wrapper = instance.wrapper
     store = instance.store
-    console.log(store.state.governanceParameters.parameters)
     store.commit(`setConnected`, true)
     wrapper.update()
   })
@@ -43,17 +42,21 @@ describe(`TabParameters`, () => {
   })
 
   it(`shows the governance parameters`, () => {
-    console.log(store.state.governanceParameters.parameters)
     expect(store.state.governanceParameters.parameters).toEqual(
       governanceParameters
     )
   })
 
+  it(`displays the minimum deposit`, () => {
+    let coin = governanceParameters.deposit.min_deposit[0]
+    expect(wrapper.vm.minimumDeposit).toEqual(`${coin.amount} ${coin.denom}`)
+  })
+
   it(`displays deposit period in days`, () => {
-    expect(wrapper.vm.depositPeriodInDays).toEqual(2)
+    expect(wrapper.vm.depositPeriodInDays).toEqual(1)
   })
 
   it(`displays voting period in days`, () => {
-    expect(wrapper.vm.votingPeriodInDays).toEqual(2)
+    expect(wrapper.vm.votingPeriodInDays).toEqual(1)
   })
 })
