@@ -33,14 +33,16 @@
               <tm-btn
                 v-if="proposal.proposal_status === 'VotingPeriod'"
                 id="vote-btn"
-                value="Vote"
+                :value="connected ? 'Vote' : 'Connecting...'"
+                :disabled="!connected"
                 color="primary"
                 @click.native="onVote"
               />
               <tm-btn
                 v-if="proposal.proposal_status === 'DepositPeriod'"
                 id="deposit-btn"
-                value="Deposit"
+                :value="connected ? 'Deposit' : 'Connecting...'"
+                :disabled="!connected"
                 color="primary"
                 @click.native="onDeposit"
               />
@@ -49,8 +51,8 @@
                   proposal.proposal_status === 'Passed' ||
                     proposal.proposal_status === 'Rejected'
                 "
-                disabled="disabled"
                 value="Deposit / Vote"
+                disabled="disabled"
                 color="primary"
               />
             </div>
@@ -159,7 +161,7 @@ export default {
   }),
   computed: {
     // TODO: get denom from governance params
-    ...mapGetters([`bondingDenom`, `proposals`]),
+    ...mapGetters([`bondingDenom`, `proposals`, `connected`]),
     proposal() {
       let proposal = this.proposals.proposals[this.proposalId]
       if (proposal) {
