@@ -1,7 +1,7 @@
 <template>
   <div v-if="config.devMode">
     <div>
-      <h3>
+      <h3 class="staking-pool">
         Staking Pool
         <i
           v-tooltip.top="poolTooltips.description"
@@ -21,7 +21,7 @@
                   >info_outline</i
                 >
               </dt>
-              <dd>
+              <dd id="loose_tokens">
                 {{ pool.pool.loose_tokens ? pool.pool.loose_tokens : `n/a` }}
               </dd>
             </dl>
@@ -36,7 +36,7 @@
                   >info_outline</i
                 >
               </dt>
-              <dd>
+              <dd id="bonded_tokens">
                 {{ pool.pool.bonded_tokens ? pool.pool.bonded_tokens : `n/a` }}
               </dd>
             </dl>
@@ -45,7 +45,7 @@
       </div>
     </div>
     <div>
-      <h3>
+      <h3 class="staking-parameters">
         Staking Parameters
         <i
           v-tooltip.top="paramsTooltips.description"
@@ -65,7 +65,7 @@
                   >info_outline</i
                 >
               </dt>
-              <dd>
+              <dd id="unbonding_time">
                 {{
                   parameters.parameters.unbonding_time
                     ? unbondingTimeInDays + ` days`
@@ -75,7 +75,7 @@
             </dl>
             <dl class="info_dl">
               <dt>Current Staking Coin Denomination</dt>
-              <dd>
+              <dd id="bond_denom">
                 {{
                   parameters.parameters.bond_denom
                     ? parameters.parameters.bond_denom
@@ -87,7 +87,7 @@
           <div class="column">
             <dl class="info_dl">
               <dt>Maximum Number of Validators</dt>
-              <dd>
+              <dd id="max_validators">
                 {{
                   parameters.parameters.max_validators
                     ? parameters.parameters.max_validators
