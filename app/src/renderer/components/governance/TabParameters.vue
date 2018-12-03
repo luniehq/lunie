@@ -183,7 +183,7 @@ export default {
     },
     tallyingTooltips: {
       description: `Tally parameters for governance in the Cosmos Hub`,
-      threshold: `Percentage of Yes votes for proposal to pass`,
+      threshold: `Percentage of "Yes" votes required for proposal to pass`,
       veto: `Percentage of "No With Veto" votes required for proposal to be vetoed`,
       governance_penalty: `Penalty if validator does not vote`
     },
