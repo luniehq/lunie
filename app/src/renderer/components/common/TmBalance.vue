@@ -17,7 +17,7 @@
     <div class="tabs">
       <div
         v-for="tab in tabs"
-        :key="tab.path"
+        :key="tab.pathName"
         :class="{ 'tab-selected': $route.name === tab.pathName }"
         class="tab"
       >
