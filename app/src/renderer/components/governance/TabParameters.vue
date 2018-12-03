@@ -177,7 +177,7 @@ export default {
   },
   data: () => ({
     depositTooltips: {
-      description: `Parameters around proposals' deposits on governance`,
+      description: `Governance deposit parameters for the Cosmos Hub`,
       min_deposit: `Minimum deposit for a proposal to enter the voting period`,
       max_deposit_period: `Deposits must reach the "minimum deposit" threshold in this period of time`
     },
