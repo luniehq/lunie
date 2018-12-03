@@ -185,7 +185,7 @@ export default {
       description: `Tally parameters for governance in the Cosmos Hub`,
       threshold: `Percentage of "Yes" votes required for proposal to pass`,
       veto: `Percentage of "No With Veto" votes required for proposal to be vetoed`,
-      governance_penalty: `Penalty if validator does not vote`
+      governance_penalty: `Penalty for a validator who fails to vote`
     },
     votingTooltips: {
       description: `Voting parameters for governance in the Cosmos Hub`,
