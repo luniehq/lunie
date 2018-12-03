@@ -64,6 +64,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - changed `err` to `error` because abbreviations are bad @faboweb
 - [\1609](https://github.com/cosmos/voyager/issues/1609) switched to css and html to onboard developers faster @faboweb
 - [\1594](https://github.com/cosmos/voyager/issues/1594) disable decimal amount transfers @fedekunze
+- [\1680](https://github.com/cosmos/voyager/issues/1680) updated `TmBalance` to receive tabs an array of objects to avoid conflicting routes @fedekunze
 
 ### Fixed
 
