@@ -426,13 +426,7 @@ Object.entries(eventHandlers).forEach(([event, handler]) => {
 
 // test an actual node version against the expected one and flag the node if incompatible
 async function testNodeVersion(client, expectedGaiaVersion) {
-  let result
-  try {
-    result = await client.nodeVersion()
-  } catch (error) {
-    debugger
-    return { compatible: false, nodeVersion: null }
-  }
+  let result = await client.nodeVersion()
   let nodeVersion = result.split(`-`)[0]
   let semverDiff = semver.diff(nodeVersion, expectedGaiaVersion)
   if (semverDiff === `patch` || semverDiff === null) {
@@ -502,7 +496,6 @@ async function pickAndConnect() {
   if (!compatible) {
     let message = `Node ${nodeURL} uses SDK version ${nodeVersion} which is incompatible to the version used in Voyager ${expectedGaiaCliVersion}`
     log(message)
-    mainWindow.webContents.send(`connection-status`, message)
     await stopLCD()
 
     // retry
