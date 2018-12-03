@@ -301,12 +301,12 @@ let state = {
     loose_tokens: `100.0000000000`,
     bonded_tokens: `50.0000000000`
   },
-  parameters: {
+  stakingParameters: {
     unbonding_time: `259200000000000`,
     max_validators: 100,
     bond_denom: `steak`
   },
-  govParameters: {
+  governanceParameters: {
     deposit: {
       min_deposit: [
         {
@@ -752,7 +752,7 @@ module.exports = {
 
       // update sender balance
       let coinBalance = fromAccount.coins.find(
-        c => c.denom === state.parameters.bond_denom
+        c => c.denom === state.stakingParameters.bond_denom
       )
 
       coinBalance.amount = String(parseInt(coinBalance.amount) + amount)
@@ -869,7 +869,7 @@ module.exports = {
       // add redelegation object
       let coins = {
         amount: tx.shares, // in mock mode we assume 1 share = 1 token
-        denom: state.parameters.bond_denom
+        denom: state.stakingParameters.bond_denom
       }
       let minTime = Date.now()
       red = {
@@ -1271,13 +1271,13 @@ module.exports = {
     )
   },
   async getGovDepositParameters() {
-    return state.govParameters.deposit
+    return state.governanceParameters.deposit
   },
   async getGovTallyingParameters() {
-    return state.govParameters.tallying
+    return state.governanceParameters.tallying
   },
   async getGovVotingParameters() {
-    return state.govParameters.voting
+    return state.governanceParameters.voting
   },
   // exports to be used in tests
   state,

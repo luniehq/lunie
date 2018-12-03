@@ -4,8 +4,7 @@ import htmlBeautify from "html-beautify"
 import TabParameters from "renderer/components/staking/TabParameters"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
-let pool = lcdClientMock.state.pool
-let parameters = lcdClientMock.state.parameters
+let { pool, stakingParameters } = lcdClientMock.state
 
 describe(`TabParameters`, () => {
   let wrapper, store
@@ -17,7 +16,7 @@ describe(`TabParameters`, () => {
     dispatch: jest.fn(),
     getters: {
       pool,
-      parameters,
+      stakingParameters,
       totalAtoms: 100,
       user: { atoms: 42 }
     }
@@ -28,12 +27,13 @@ describe(`TabParameters`, () => {
       localVue,
       doBefore: ({ store }) => {
         store.commit(`setPool`, pool)
-        store.commit(`setStakingParameters`, parameters)
+        store.commit(`setStakingParameters`, stakingParameters)
       },
       $store
     })
     wrapper = instance.wrapper
     store = instance.store
+    console.log(store.state.stakingParameters.parameters)
     store.commit(`setConnected`, true)
     wrapper.update()
   })
@@ -44,8 +44,9 @@ describe(`TabParameters`, () => {
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
-  it(`shows the staking parameters and pool`, () => {
-    expect(store.state.parameters.parameters).toEqual(parameters)
+  it.only(`shows the staking parameters and pool`, () => {
+    console.log(store.state.stakingParameters.parameters)
+    expect(store.state.stakingParameters.parameters).toEqual(stakingParameters)
     expect(store.state.pool.pool).toEqual(pool)
   })
 

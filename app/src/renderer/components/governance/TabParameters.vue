@@ -1,5 +1,5 @@
 <template>
-  <div v-if="config.devMode">
+  <div>
     <div>
       <h3>
         Deposit Parameters
@@ -23,8 +23,8 @@
               </dt>
               <dd>
                 {{
-                  govParameters.deposit.min_deposit
-                    ? govParameters.deposit.min_deposit
+                  governanceParameters.deposit.min_deposit
+                    ? governanceParameters.deposit.min_deposit
                     : `n/a`
                 }}
               </dd>
@@ -144,7 +144,7 @@
               </dt>
               <dd>
                 {{
-                  govParameters.voting.voting_period
+                  governanceParameters.voting.voting_period
                     ? votingPeriodInDays + ` days`
                     : `n/a`
                 }}
@@ -188,27 +188,27 @@ export default {
     }
   }),
   computed: {
-    ...mapGetters([`config`, `govParameters`]),
+    ...mapGetters([`config`, `governanceParameters`]),
     // TODO: a minimum deposit may consist of multiple coin denoms
     minumimDeposit() {
-      let coin = this.govParameters.deposit.min_deposit[0]
+      let coin = this.governanceParameters.deposit.min_deposit[0]
       return `${coin.amount} ${coin.denom}`
     },
     depositPeriodInDays() {
       return (
-        parseInt(this.govParameters.deposit.max_deposit_period) /
+        parseInt(this.governanceParameters.deposit.max_deposit_period) /
         (10 ** 9 * 60 * 60 * 24)
       )
     },
     votingPeriodInDays() {
       return (
-        parseInt(this.govParameters.voting.voting_period) /
+        parseInt(this.governanceParameters.voting.voting_period) /
         (10 ** 9 * 60 * 60 * 24)
       )
     }
   },
   async mounted() {
-    this.$store.dispatch(`getGovParameters`)
+    this.$store.dispatch(`getgovernanceParameters`)
   }
 }
 </script>
