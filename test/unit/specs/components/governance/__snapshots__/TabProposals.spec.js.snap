@@ -2,7 +2,6 @@
 
 exports[`TabProposals has the expected html structure 1`] = `
 "<div>
-   <!---->
    <table>
       <thead>
          <tr class=\\"panel-sort-container\\">
@@ -141,5 +140,29 @@ exports[`TabProposals has the expected html structure 1`] = `
 </tr>
 </tbody>
 </table>
+</div>"
+`;
+
+exports[`TabProposals shows a message if still connecting 1`] = `"<tm-data-connecting></tm-data-connecting>"`;
+
+exports[`TabProposals shows a message if still loading 1`] = `"<tm-data-loading></tm-data-loading>"`;
+
+exports[`TabProposals shows a message if there is nothing to display 1`] = `
+"<div class=\\"tm-data-msg\\">
+   <div class=\\"tm-data-msg__icon\\">
+      <i class=\\"material-icons\\">info_outline</i>
+   </div>
+<div class=\\"tm-data-msg__text\\">
+   <div class=\\"tm-data-msg__title\\">
+      <h4>
+         N/A
+      </h4>
+</div>
+<div class=\\"tm-data-msg__subtitle\\">
+   <h5>
+      No data available yet.
+   </h5>
+</div>
+</div>
 </div>"
 `;

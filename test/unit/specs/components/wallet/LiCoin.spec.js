@@ -34,7 +34,12 @@ describe(`LiCoin`, () => {
   })
 
   it(`should disable the option to send if not connected`, () => {
+    expect(
+      wrapper.vm.$el.querySelector(`button`).getAttribute(`disabled`)
+    ).toBeNull()
     wrapper.setProps({ connected: false })
-    expect(wrapper.find(`button`).attributes(`disabled`)).toBeDefined()
+    expect(
+      wrapper.vm.$el.querySelector(`button`).getAttribute(`disabled`)
+    ).not.toBeNull()
   })
 })

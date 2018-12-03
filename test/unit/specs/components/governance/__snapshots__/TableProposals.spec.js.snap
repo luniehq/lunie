@@ -2,7 +2,6 @@
 
 exports[`TableProposals has the expected html structure 1`] = `
 "<div>
-   <!---->
    <table>
       <thead>
          <tr class=\\"panel-sort-container\\">
@@ -146,8 +145,6 @@ exports[`TableProposals has the expected html structure 1`] = `
 
 exports[`TableProposals should filter the proposals 1`] = `
 <div>
-  <!---->
-   
   <table>
     <thead>
       <tr

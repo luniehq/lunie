@@ -29,9 +29,31 @@ describe(`PageGovernance`, () => {
       wrapper.update()
     })
 
+    it(`has the expected html structure`, async () => {
+      // after importing the @tendermint/ui components from modules
+      // the perfect scroll plugin needs a $nextTick and a wrapper.update
+      // to work properly in the tests (snapshots weren't matching)
+      // this has occured across multiple tests
+      await wrapper.vm.$nextTick()
+      wrapper.update()
+      expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    })
+
     it(`should show the search on click`, () => {
       wrapper.find(`.tm-tool-bar i.search`).trigger(`click`)
       expect(wrapper.contains(`.tm-modal-search`)).toBe(true)
+    })
+
+    it(`disables proposal creation if not connected`, async () => {
+      expect(
+        wrapper.vm.$el.querySelector(`#propose-btn`).getAttribute(`disabled`)
+      ).toBeNull()
+      store.commit(`setConnected`, false)
+      wrapper.update()
+      expect(
+        wrapper.vm.$el.querySelector(`#propose-btn`).getAttribute(`disabled`)
+      ).not.toBeNull()
+      expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
     })
 
     describe(`Modal onPropose modal on click`, () => {
@@ -64,7 +86,8 @@ describe(`PageGovernance`, () => {
           },
           bondingDenom: `Stake`,
           totalAtoms: 100,
-          user: { atoms: 42, history: [] }
+          user: { atoms: 42, history: [] },
+          connected: true
         }
       }
 
@@ -79,18 +102,6 @@ describe(`PageGovernance`, () => {
         }
       })
     }
-
-    it(`has the expected html structure`, async () => {
-      // after importing the @tendermint/ui components from modules
-      // the perfect scroll plugin needs a $nextTick and a wrapper.update
-      // to work properly in the tests (snapshots weren't matching)
-      // this has occured across multiple tests
-      const wrapper = mountWrapper()
-      await wrapper.vm.$nextTick()
-      wrapper.update()
-      expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
-    })
-
     describe(`Propose`, () => {
       describe(`unit`, () => {
         it(`success`, async () => {
