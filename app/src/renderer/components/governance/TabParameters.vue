@@ -184,7 +184,7 @@ export default {
     tallyingTooltips: {
       description: `Parameters around tallying votes in governance`,
       threshold: `Percentage of Yes votes for proposal to pass`,
-      veto: `Percentage of NoWithVeto votes over the total amount of votes for proposal to be vetoed`,
+      veto: `Percentage of "No With Veto" votes required for proposal to be vetoed`,
       governance_penalty: `Penalty if validator does not vote`
     },
     votingTooltips: {
