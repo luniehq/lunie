@@ -189,7 +189,7 @@ export default {
     },
     votingTooltips: {
       description: `Parameters around voting on governance proposals`,
-      voting_period: `Length of the voting period`
+      voting_period: `Length of the voting period for proposals on the Cosmos Hub`
     }
   }),
   computed: {
