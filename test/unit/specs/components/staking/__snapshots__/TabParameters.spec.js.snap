@@ -3,7 +3,7 @@
 exports[`TabParameters has the expected html structure 1`] = `
 "<div>
    <div>
-      <h3>
+      <h3 class=\\"staking-pool\\">
          Staking Pool      <i class=\\"material-icons info-button\\">info_outline</i>
       </h3>
       <div class=\\"parameters__details parameters__section\\">
@@ -13,7 +13,7 @@ exports[`TabParameters has the expected html structure 1`] = `
                   <dt>
                      Loose steak              <i class=\\"material-icons info-button\\">info_outline</i>
                   </dt>
-                  <dd>
+                  <dd id=\\"loose_tokens\\">
                      100.0000000000            
                   </dd>
 </dl>
@@ -23,7 +23,7 @@ exports[`TabParameters has the expected html structure 1`] = `
       <dt>
          Delegated steak              <i class=\\"material-icons info-button\\">info_outline</i>
       </dt>
-      <dd>
+      <dd id=\\"bonded_tokens\\">
          50.0000000000            
       </dd>
 </dl>
@@ -32,7 +32,7 @@ exports[`TabParameters has the expected html structure 1`] = `
 </div>
 </div>
 <div>
-   <h3>
+   <h3 class=\\"staking-parameters\\">
       Staking Parameters      <i class=\\"material-icons info-button\\">info_outline</i>
    </h3>
    <div class=\\"parameters__details parameters__section\\">
@@ -42,7 +42,7 @@ exports[`TabParameters has the expected html structure 1`] = `
                <dt>
                   Unbonding Time              <i class=\\"material-icons info-button\\">info_outline</i>
                </dt>
-               <dd>
+               <dd id=\\"unbonding_time\\">
                   3 days            
                </dd>
 </dl>
@@ -50,7 +50,7 @@ exports[`TabParameters has the expected html structure 1`] = `
                <dt>
                   Current Staking Coin Denomination
                </dt>
-               <dd>
+               <dd id=\\"bond_denom\\">
                   steak            
                </dd>
 </dl>
@@ -60,7 +60,7 @@ exports[`TabParameters has the expected html structure 1`] = `
       <dt>
          Maximum Number of Validators
       </dt>
-      <dd>
+      <dd id=\\"max_validators\\">
          100            
       </dd>
 </dl>
