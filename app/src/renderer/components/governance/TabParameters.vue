@@ -23,8 +23,8 @@
               </dt>
               <dd>
                 {{
-                  governanceParameters.deposit.min_deposit
-                    ? governanceParameters.deposit.min_deposit
+                  governanceParameters.parameters.deposit.min_deposit
+                    ? governanceParameters.parameters.deposit.min_deposit
                     : `n/a`
                 }}
               </dd>
@@ -42,7 +42,7 @@
               </dt>
               <dd>
                 {{
-                  parameters.parameters.max_deposit_period
+                  governanceParameters.parameters.deposit.max_deposit_period
                     ? depositPeriodInDays + ` days`
                     : `n/a`
                 }}
@@ -75,8 +75,8 @@
               </dt>
               <dd>
                 {{
-                  parameters.parameters.threshold
-                    ? parameters.parameters.threshold
+                  governanceParameters.parameters.tallying.threshold
+                    ? governanceParameters.parameters.tallying.threshold
                     : `n/a`
                 }}
               </dd>
@@ -92,8 +92,8 @@
               </dt>
               <dd>
                 {{
-                  parameters.parameters.veto
-                    ? parameters.parameters.veto
+                  governanceParameters.parameters.tallying.veto
+                    ? governanceParameters.parameters.tallying.veto
                     : `n/a`
                 }}
               </dd>
@@ -111,8 +111,9 @@
               </dt>
               <dd>
                 {{
-                  parameters.parameters.governance_penalty
-                    ? parameters.parameters.governance_penalty
+                  governanceParameters.parameters.tallying.governance_penalty
+                    ? governanceParameters.parameters.tallying
+                        .governance_penalty
                     : `n/a`
                 }}
               </dd>
@@ -144,7 +145,7 @@
               </dt>
               <dd>
                 {{
-                  governanceParameters.voting.voting_period
+                  governanceParameters.parameters.voting.voting_period
                     ? votingPeriodInDays + ` days`
                     : `n/a`
                 }}
@@ -191,24 +192,26 @@ export default {
     ...mapGetters([`config`, `governanceParameters`]),
     // TODO: a minimum deposit may consist of multiple coin denoms
     minumimDeposit() {
-      let coin = this.governanceParameters.deposit.min_deposit[0]
+      let coin = this.governanceParameters.parameters.deposit.min_deposit[0]
       return `${coin.amount} ${coin.denom}`
     },
     depositPeriodInDays() {
       return (
-        parseInt(this.governanceParameters.deposit.max_deposit_period) /
+        parseInt(
+          this.governanceParameters.parameters.deposit.max_deposit_period
+        ) /
         (10 ** 9 * 60 * 60 * 24)
       )
     },
     votingPeriodInDays() {
       return (
-        parseInt(this.governanceParameters.voting.voting_period) /
+        parseInt(this.governanceParameters.parameters.voting.voting_period) /
         (10 ** 9 * 60 * 60 * 24)
       )
     }
   },
   async mounted() {
-    this.$store.dispatch(`getgovernanceParameters`)
+    this.$store.dispatch(`getGovParameters`)
   }
 }
 </script>
