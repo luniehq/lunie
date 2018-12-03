@@ -186,6 +186,17 @@ test(`delegation`, async function(t) {
       !(await app.client.isExisting(`.tm-notification`, 4 * 1000)),
       `should not get an notification error while fetching params and pool`
     )
+    // test that the parameters and pool values are displayed
+    await t.equal(
+      await app.client.$(`#loose_tokens`).getText(),
+      `25.0000000000`,
+      `display pool values`
+    )
+    await t.equal(
+      await app.client.$(`#max_validators`).getText(),
+      `100`,
+      `display params values`
+    )
     t.end()
   })
 
