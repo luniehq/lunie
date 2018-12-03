@@ -79,23 +79,6 @@ describe(`PageSend`, () => {
     ).toBe(coins[1].denom.toUpperCase())
   })
 
-  it(`should populate the select options with networks`, () => {
-    wrapper.update()
-
-    expect(
-      wrapper
-        .findAll(`option`)
-        .at(3)
-        .text()
-    ).toBe(`Select zone...`)
-    expect(
-      wrapper
-        .findAll(`option`)
-        .at(4)
-        .text()
-    ).toBe(`basecoind-demo1`)
-  })
-
   it(`should work without providing a default denom`, () => {
     let { wrapper, store } = mount(PageSend)
     store.commit(`setConnected`, true)
@@ -110,8 +93,7 @@ describe(`PageSend`, () => {
       fields: {
         denom: `mycoin`,
         address: ``,
-        amount: 2,
-        zoneId: `cosmos-hub-1`
+        amount: 2
       }
     })
     wrapper.vm.onSubmit()
@@ -126,8 +108,7 @@ describe(`PageSend`, () => {
       fields: {
         denom: `mycoin`,
         address: `asdf`,
-        amount: 2,
-        zoneId: `cosmos-hub-1`
+        amount: 2
       }
     })
     wrapper.vm.onSubmit()
@@ -142,8 +123,7 @@ describe(`PageSend`, () => {
       fields: {
         denom: `mycoin`,
         address: `asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf`,
-        amount: 2,
-        zoneId: `cosmos-hub-1`
+        amount: 2
       }
     })
     wrapper.vm.onSubmit()
@@ -157,8 +137,7 @@ describe(`PageSend`, () => {
       fields: {
         denom: `mycoin`,
         address: `!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$`,
-        amount: 2,
-        zoneId: `cosmos-hub-1`
+        amount: 2
       }
     })
     wrapper.vm.onSubmit()
@@ -178,8 +157,7 @@ describe(`PageSend`, () => {
       fields: {
         denom: `mycoin`,
         address,
-        amount: 2,
-        zoneId: `cosmos-hub-1`
+        amount: 2
       }
     })
     wrapper.vm.onSubmit()
@@ -198,8 +176,7 @@ describe(`PageSend`, () => {
       fields: {
         denom: `mycoin`,
         address,
-        amount: 2,
-        zoneId: `cosmos-hub-1`
+        amount: 2
       }
     })
     await wrapper.vm.onApproved()
@@ -212,8 +189,7 @@ describe(`PageSend`, () => {
       fields: {
         denom: `notmycoin`,
         address,
-        amount: 2,
-        zoneId: `cosmos-hub-1`
+        amount: 2
       }
     })
     node.sign = () => Promise.reject()
@@ -237,8 +213,7 @@ describe(`PageSend`, () => {
       fields: {
         denom: `mycoin`,
         address,
-        amount: 2,
-        zoneId: `cosmos-hub-1`
+        amount: 2
       }
     })
     expect(wrapper.find(`#send-btn`).exists()).toBe(true)

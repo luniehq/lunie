@@ -271,8 +271,7 @@ export default {
           isInteger,
           between: between(1, this.max)
         },
-        denom: { required },
-        zoneId: { required }
+        denom: { required }
       }
     }
   }
