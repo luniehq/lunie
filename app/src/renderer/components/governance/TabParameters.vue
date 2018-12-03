@@ -179,7 +179,7 @@ export default {
     depositTooltips: {
       description: `Parameters around proposals' deposits on governance`,
       min_deposit: `Minimum deposit for a proposal to enter the voting period`,
-      max_deposit_period: `Maximum period for token holders to deposit on a proposal`
+      max_deposit_period: `Deposits must reach the "minimum deposit" threshold in this period of time`
     },
     tallyingTooltips: {
       description: `Parameters around tallying votes in governance`,
