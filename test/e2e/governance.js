@@ -110,7 +110,7 @@ test(`Governance`, async function(t) {
     await app.client.$(`#vote-btn`).click()
     await t.ok(
       await app.client.$(`#modal-vote`).isVisible(),
-      `opens modal vote`
+      `opens voting modal`
     )
 
     await app.client.$(`#vote-yes`).click()
