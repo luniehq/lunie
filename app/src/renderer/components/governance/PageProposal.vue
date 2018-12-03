@@ -10,7 +10,8 @@
         >
       </tm-tool-bar>
     </div>
-    <tm-data-error v-if="!proposal" /><template v-else>
+    <tm-data-error v-if="!proposal" />
+    <template v-else>
       <div
         class="validator-profile__header validator-profile__section proposal"
       >
@@ -160,7 +161,7 @@ export default {
     // TODO: get denom from governance params
     ...mapGetters([`bondingDenom`, `proposals`]),
     proposal() {
-      let proposal = this.proposals[this.proposalId]
+      let proposal = this.proposals.proposals[this.proposalId]
       if (proposal) {
         proposal.tally_result.yes = Math.round(
           parseFloat(proposal.tally_result.yes)

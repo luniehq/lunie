@@ -7,7 +7,6 @@ import PageProposal from "renderer/components/governance/PageProposal"
 import ModalDeposit from "renderer/components/governance/ModalDeposit"
 import ModalVote from "renderer/components/governance/ModalVote"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
-import { mount } from "@vue/test-utils"
 
 let proposal = lcdClientMock.state.proposals[0]
 
@@ -26,8 +25,9 @@ describe(`PageProposal`, () => {
       let instance = mount(PageProposal, {
         localVue,
         doBefore: ({ router, store }) => {
-          router.push(`/governance/proposals/${proposal.proposal_id}`)
+          store.commit(`setConnected`, true)
           store.commit(`setProposal`, proposal)
+          router.push(`/governance/proposals/${proposal.proposal_id}`)
         },
         propsData: {
           proposalId: proposal.proposal_id
@@ -180,192 +180,119 @@ describe(`PageProposal`, () => {
         expect(wrapper.find(`#deposit-btn`).exists()).toEqual(false)
       })
     })
-  })
 
-  describe(`without magic`, () => {
-    describe(`Vote`, () => {
-      describe(`unit`, () => {
-        it(`success`, async () => {
-          const $store = {
-            commit: jest.fn(),
-            dispatch: jest.fn(),
-            getters: {
-              bondingDenom: `atom`,
-              totalAtoms: 100,
-              user: { atoms: 42 },
-              proposals: lcdClientMock.state.proposals
-            }
+    it(`casts a vote`, async () => {
+      wrapper.vm.$store.commit = jest.fn()
+      wrapper.vm.$store.dispatch = jest.fn()
+
+      await wrapper.vm.castVote({ option: `Abstain` })
+
+      expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
+        [`submitVote`, { option: `Abstain`, proposal_id: `1` }]
+      ])
+
+      expect(wrapper.vm.$store.commit.mock.calls).toEqual([
+        [
+          `notify`,
+          {
+            body: `You have successfully voted Abstain on proposal #1`,
+            title: `Successful vote!`
           }
-
-          const wrapper = mount(PageProposal, {
-            mocks: { $store },
-            propsData: {
-              proposalId: proposal.proposal_id
-            }
-          })
-
-          await wrapper.vm.castVote({ option: `NoWithVeto` })
-
-          expect($store.dispatch.mock.calls).toEqual([
-            [`submitVote`, { option: `NoWithVeto`, proposal_id: `1` }]
-          ])
-
-          expect($store.commit.mock.calls).toEqual([
-            [
-              `notify`,
-              {
-                body: `You have successfully voted NoWithVeto on proposal #1`,
-                title: `Successful vote!`
-              }
-            ]
-          ])
-        })
-
-        it(`error`, async () => {
-          const dispatch = jest.fn(() => {
-            throw new Error(`unexpected error`)
-          })
-
-          const $store = {
-            commit: jest.fn(),
-            dispatch,
-            getters: {
-              bondingDenom: `atom`,
-              totalAtoms: 100,
-              user: { atoms: 42 },
-              proposals: lcdClientMock.state.proposals
-            }
-          }
-
-          const wrapper = mount(PageProposal, {
-            mocks: { $store },
-            propsData: {
-              proposalId: lcdClientMock.state.proposals[2].proposal_id
-            }
-          })
-
-          await wrapper.vm.castVote({ option: `Abstain` })
-
-          expect($store.dispatch.mock.calls).toEqual([
-            [`submitVote`, { option: `Abstain`, proposal_id: `5` }]
-          ])
-
-          expect($store.commit.mock.calls).toEqual([
-            [
-              `notifyError`,
-              {
-                body: `unexpected error`,
-                title: `Error while voting on proposal #5`
-              }
-            ]
-          ])
-        })
-      })
+        ]
+      ])
     })
 
-    describe(`Deposit`, () => {
-      describe(`unit`, () => {
-        it(`success`, async () => {
-          const $store = {
-            commit: jest.fn(),
-            dispatch: jest.fn(),
-            getters: {
-              bondingDenom: `atom`,
-              totalAtoms: 100,
-              user: { atoms: 42 },
-              proposals: lcdClientMock.state.proposals
-            }
-          }
-
-          const wrapper = mount(PageProposal, {
-            mocks: { $store },
-            propsData: {
-              proposalId: lcdClientMock.state.proposals[1].proposal_id
-            }
-          })
-
-          let amount = [
-            {
-              amount: `15`,
-              denom: `atom`
-            }
-          ]
-
-          await wrapper.vm.deposit({ amount })
-
-          expect($store.dispatch.mock.calls).toEqual([
-            [
-              `submitDeposit`,
-              {
-                amount,
-                proposal_id: `2`
-              }
-            ]
-          ])
-
-          expect($store.commit.mock.calls).toEqual([
-            [
-              `notify`,
-              {
-                body: `You have successfully deposited your atoms on proposal #2`,
-                title: `Successful deposit!`
-              }
-            ]
-          ])
-        })
-
-        it(`error`, async () => {
-          const dispatch = jest.fn(() => {
-            throw new Error(`unexpected error`)
-          })
-
-          const $store = {
-            commit: jest.fn(),
-            dispatch,
-            getters: {
-              bondingDenom: `atom`,
-              totalAtoms: 100,
-              user: { atoms: 42 },
-              proposals: lcdClientMock.state.proposals
-            }
-          }
-
-          const wrapper = mount(PageProposal, {
-            mocks: { $store },
-            propsData: {
-              proposalId: lcdClientMock.state.proposals[1].proposal_id
-            }
-          })
-          let amount = [
-            {
-              amount: `9`,
-              denom: `atom`
-            }
-          ]
-
-          await wrapper.vm.deposit({ amount })
-
-          expect($store.dispatch.mock.calls).toEqual([
-            [
-              `submitDeposit`,
-              {
-                amount,
-                proposal_id: `2`
-              }
-            ]
-          ])
-
-          expect($store.commit.mock.calls).toEqual([
-            [
-              `notifyError`,
-              {
-                body: `unexpected error`,
-                title: `Error while submitting a deposit on proposal #2`
-              }
-            ]
-          ])
-        })
+    it(`shows an error if casting a vote fails`, async () => {
+      wrapper.vm.$store.commit = jest.fn()
+      wrapper.vm.$store.dispatch = jest.fn(() => {
+        throw new Error(`unexpected error`)
       })
+
+      await wrapper.vm.castVote({ option: `NoWithVeto` })
+
+      expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
+        [`submitVote`, { option: `NoWithVeto`, proposal_id: `1` }]
+      ])
+
+      expect(wrapper.vm.$store.commit.mock.calls).toEqual([
+        [
+          `notifyError`,
+          {
+            body: `unexpected error`,
+            title: `Error while voting on proposal #1`
+          }
+        ]
+      ])
+    })
+
+    it(`allows the user to deposit on a proposal`, async () => {
+      wrapper.vm.$store.commit = jest.fn()
+      wrapper.vm.$store.dispatch = jest.fn()
+
+      let amount = [
+        {
+          amount: `15`,
+          denom: `atom`
+        }
+      ]
+
+      await wrapper.vm.deposit({ amount })
+
+      expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
+        [
+          `submitDeposit`,
+          {
+            amount,
+            proposal_id: `1`
+          }
+        ]
+      ])
+
+      expect(wrapper.vm.$store.commit.mock.calls).toEqual([
+        [
+          `notify`,
+          {
+            body: `You have successfully deposited your steaks on proposal #1`,
+            title: `Successful deposit!`
+          }
+        ]
+      ])
+    })
+
+    it(`shows an error if depositing on a proposal fails`, async () => {
+      wrapper.vm.$store.commit = jest.fn()
+      wrapper.vm.$store.dispatch = jest.fn(() => {
+        throw new Error(`unexpected error`)
+      })
+
+      let amount = [
+        {
+          amount: `9`,
+          denom: `atom`
+        }
+      ]
+
+      await wrapper.vm.deposit({ amount })
+
+      expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
+        [
+          `submitDeposit`,
+          {
+            amount,
+            proposal_id: `1`
+          }
+        ]
+      ])
+
+      expect(wrapper.vm.$store.commit.mock.calls).toEqual([
+        [
+          `notifyError`,
+          {
+            body: `unexpected error`,
+            title: `Error while submitting a deposit on proposal #1`
+          }
+        ]
+      ])
     })
   })
 })
