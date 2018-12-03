@@ -33,6 +33,8 @@ describe(`Module: Send`, () => {
     let test = instance.shallow(null)
     store = test.store
     node = test.node
+
+    store.commit(`setConnected`, true)
   })
 
   // DEFAULT
