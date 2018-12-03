@@ -114,6 +114,7 @@
       :amount="fields.amount"
       :recipient="fields.address"
       :denom="fields.denom"
+      :connected="connected"
       @approved="onApproved"
       @canceled="onCancel"
     />
