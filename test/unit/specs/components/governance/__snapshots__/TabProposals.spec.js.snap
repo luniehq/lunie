@@ -155,12 +155,12 @@ exports[`TabProposals shows a message if there is nothing to display 1`] = `
 <div class=\\"tm-data-msg__text\\">
    <div class=\\"tm-data-msg__title\\">
       <h4>
-         N/A
+         No Governance Proposals
       </h4>
 </div>
 <div class=\\"tm-data-msg__subtitle\\">
    <h5>
-      No data available yet.
+      There're no available governance proposals. Submit a new one by clicking the Create Proposal button above !
    </h5>
 </div>
 </div>

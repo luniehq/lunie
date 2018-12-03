@@ -50,7 +50,12 @@ export default {
   },
   data: () => ({
     query: ``,
-    tabs: [`Proposals`],
+    tabs: [
+      {
+        displayName: `Proposals`,
+        pathName: `Proposals`
+      }
+    ],
     showModalPropose: false
   }),
   computed: {

@@ -978,6 +978,15 @@ describe(`LCD Client Mock`, () => {
       })
     })
 
+    describe(`Tally`, () => {
+      it(`queries a proposal's tally result`, async () => {
+        let proposal = lcdClientMock.state.proposals[1]
+        let res = await client.getProposalTally(`2`)
+        expect(res).toBeDefined()
+        expect(res).toEqual(proposal.tally_result)
+      })
+    })
+
     describe(`Parameters`, () => {
       it(`queries for governance deposit parameters`, async () => {
         let depositParams = lcdClientMock.state.govParameters.deposit

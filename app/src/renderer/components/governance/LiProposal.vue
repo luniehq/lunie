@@ -49,30 +49,31 @@ export default {
   },
   computed: {
     status() {
-      if (this.proposal.proposal_status === `Passed`)
+      if (this.proposal.proposal_status === `Passed`) {
         return {
           message: `This proposal has passed`
         }
-      if (this.proposal.proposal_status === `Rejected`)
+      } else if (this.proposal.proposal_status === `Rejected`) {
         return {
           message: `This proposal has been rejected and voting is closed`,
           color: `red`
         }
-      if (this.proposal.proposal_status === `DepositPeriod`)
+      } else if (this.proposal.proposal_status === `DepositPeriod`) {
         return {
           message: `Deposits are open for this proposal`,
           color: `yellow`
         }
-      if (this.proposal.proposal_status === `VotingPeriod`)
+      } else if (this.proposal.proposal_status === `VotingPeriod`) {
         return {
           message: `Voting for this proposal is open`,
           color: `green`
         }
-      else
+      } else {
         return {
           message: `There was an error determining the status of this proposal.`,
           color: `grey`
         }
+      }
     },
     description() {
       return this.proposal.description.length > 100

@@ -13,6 +13,9 @@ export default ({ node }) => {
   const mutations = {
     setProposal(state, proposal) {
       Vue.set(state.proposals, proposal.proposal_id, proposal)
+    },
+    setProposalTally(state, proposalId, tally) {
+      state.proposals[proposalId].tally_result = tally
     }
   }
   let actions = {
@@ -35,6 +38,13 @@ export default ({ node }) => {
         if (proposals.length > 0) {
           proposals.forEach(proposal => {
             commit(`setProposal`, proposal.value)
+            // the proposal doesn't hold the tally results until it's inactive (rejected or passed)
+            // TODO: enable after upgrading to latest SDK
+            // if (proposal.value.proposal_status === `VotingPeriod`) {
+            //   node.queryProposalTally(proposal.value.proposal_id).then(tally => {
+            //     commit(`setProposalTally`, proposal.value.proposal_id, tally)
+            //   })
+            // }
           })
         }
         state.error = null
@@ -62,6 +72,7 @@ export default ({ node }) => {
           title: `Error querying proposal with id #${proposal_id}`,
           body: error.message
         })
+        Raven.captureException(error)
         state.error = error
       }
     },

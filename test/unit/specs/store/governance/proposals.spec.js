@@ -31,10 +31,23 @@ describe(`Module: Proposals`, () => {
     expect(instance.dispatch).toHaveBeenCalledWith(`getProposals`)
   })
 
-  it(`adds proposals to state`, () => {
+  it(`adds a proposal to state`, () => {
     let { mutations, state } = module
     mutations.setProposal(state, proposals[0])
     expect(state.proposals[proposals[0].proposal_id]).toEqual(proposals[0])
+  })
+
+  it(`adds a tally result to a proposal already in state`, () => {
+    let { mutations, state } = module
+    mutations.setProposal(state, proposals[1])
+    mutations.setProposalTally(
+      state,
+      proposals[1].proposal_id,
+      proposals[0].tally_result
+    )
+    expect(state.proposals[proposals[1].proposal_id].tally_result).toEqual(
+      proposals[0].tally_result
+    )
   })
 
   it(`replaces existing proposal with same id`, () => {

@@ -1,113 +1,109 @@
 <template>
-  <div>
-    <tm-data-connecting
-      v-if="(!parameters.loaded || !pool.loaded) && !connected"
-    />
-    <tm-data-loading
-      v-else-if="
-        (!parameters.loaded && parameters.loading) ||
-          (!pool.loaded && pool.loading)
-      "
-    />
-    <div v-else>
-      <div>
-        <h3>
-          Staking Pool
-          <i
-            v-tooltip.top="poolTooltips.description"
-            class="material-icons info-button"
-            >info_outline</i
-          >
-        </h3>
-        <div class="parameters__details parameters__section">
-          <div class="row">
-            <div class="column">
-              <dl class="info_dl">
-                <dt>
-                  Loose {{ parameters.parameters.bond_denom }}
-                  <i
-                    v-tooltip.top="poolTooltips.loose_tokens"
-                    class="material-icons info-button"
-                    >info_outline</i
-                  >
-                </dt>
-                <dd>
-                  {{ pool.pool.loose_tokens ? pool.pool.loose_tokens : `n/a` }}
-                </dd>
-              </dl>
-            </div>
-            <div class="column">
-              <dl class="info_dl">
-                <dt>
-                  Delegated {{ parameters.parameters.bond_denom }}
-                  <i
-                    v-tooltip.top="poolTooltips.bonded_tokens"
-                    class="material-icons info-button"
-                    >info_outline</i
-                  >
-                </dt>
-                <dd>
-                  {{
-                    pool.pool.bonded_tokens ? pool.pool.bonded_tokens : `n/a`
-                  }}
-                </dd>
-              </dl>
-            </div>
+  <tm-data-connecting
+    v-if="(!parameters.loaded || !pool.loaded) && !connected"
+  />
+  <tm-data-loading
+    v-else-if="
+      (!parameters.loaded && parameters.loading) ||
+        (!pool.loaded && pool.loading)
+    "
+  />
+  <div v-else>
+    <div>
+      <h3 class="staking-pool">
+        Staking Pool
+        <i
+          v-tooltip.top="poolTooltips.description"
+          class="material-icons info-button"
+          >info_outline</i
+        >
+      </h3>
+      <div class="parameters__details parameters__section">
+        <div class="row">
+          <div class="column">
+            <dl class="info_dl">
+              <dt>
+                Loose {{ parameters.parameters.bond_denom }}
+                <i
+                  v-tooltip.top="poolTooltips.loose_tokens"
+                  class="material-icons info-button"
+                  >info_outline</i
+                >
+              </dt>
+              <dd id="loose_tokens">
+                {{ pool.pool.loose_tokens ? pool.pool.loose_tokens : `n/a` }}
+              </dd>
+            </dl>
+          </div>
+          <div class="column">
+            <dl class="info_dl">
+              <dt>
+                Delegated {{ parameters.parameters.bond_denom }}
+                <i
+                  v-tooltip.top="poolTooltips.bonded_tokens"
+                  class="material-icons info-button"
+                  >info_outline</i
+                >
+              </dt>
+              <dd id="bonded_tokens">
+                {{ pool.pool.bonded_tokens ? pool.pool.bonded_tokens : `n/a` }}
+              </dd>
+            </dl>
           </div>
         </div>
       </div>
-      <div>
-        <h3>
-          Staking Parameters
-          <i
-            v-tooltip.top="paramsTooltips.description"
-            class="material-icons info-button"
-            >info_outline</i
-          >
-        </h3>
-        <div class="parameters__details parameters__section">
-          <div class="row">
-            <div class="column">
-              <dl class="info_dl">
-                <dt>
-                  Unbonding Time
-                  <i
-                    v-tooltip.top="paramsTooltips.unbonding_time"
-                    class="material-icons info-button"
-                    >info_outline</i
-                  >
-                </dt>
-                <dd>
-                  {{
-                    parameters.parameters.unbonding_time
-                      ? unbondingTimeInDays + ` days`
-                      : `n/a`
-                  }}
-                </dd>
-              </dl>
-              <dl class="info_dl">
-                <dt>Current Staking Coin Denomination</dt>
-                <dd>
-                  {{
-                    parameters.parameters.bond_denom
-                      ? parameters.parameters.bond_denom
-                      : `n/a`
-                  }}
-                </dd>
-              </dl>
-            </div>
-            <div class="column">
-              <dl class="info_dl">
-                <dt>Maximum Number of Validators</dt>
-                <dd>
-                  {{
-                    parameters.parameters.max_validators
-                      ? parameters.parameters.max_validators
-                      : `n/a`
-                  }}
-                </dd>
-              </dl>
-            </div>
+    </div>
+    <div>
+      <h3 class="staking-parameters">
+        Staking Parameters
+        <i
+          v-tooltip.top="paramsTooltips.description"
+          class="material-icons info-button"
+          >info_outline</i
+        >
+      </h3>
+      <div class="parameters__details parameters__section">
+        <div class="row">
+          <div class="column">
+            <dl class="info_dl">
+              <dt>
+                Unbonding Time
+                <i
+                  v-tooltip.top="paramsTooltips.unbonding_time"
+                  class="material-icons info-button"
+                  >info_outline</i
+                >
+              </dt>
+              <dd id="unbonding_time">
+                {{
+                  parameters.parameters.unbonding_time
+                    ? unbondingTimeInDays + ` days`
+                    : `n/a`
+                }}
+              </dd>
+            </dl>
+            <dl class="info_dl">
+              <dt>Current Staking Coin Denomination</dt>
+              <dd id="bond_denom">
+                {{
+                  parameters.parameters.bond_denom
+                    ? parameters.parameters.bond_denom
+                    : `n/a`
+                }}
+              </dd>
+            </dl>
+          </div>
+          <div class="column">
+            <dl class="info_dl">
+              <dt>Maximum Number of Validators</dt>
+              <dd id="max_validators">
+                {{
+                  parameters.parameters.max_validators
+                    ? parameters.parameters.max_validators
+                    : `n/a`
+                }}
+              </dd>
+            </dl>
           </div>
         </div>
       </div>

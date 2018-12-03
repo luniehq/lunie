@@ -30,10 +30,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1388](https://github.com/cosmos/voyager/issues/1388) Added TmConnectedNetwork to session pages @jbibla
 - [\#1564](https://github.com/cosmos/voyager/issues/1564) Add support to query governance proposals on `lcdClient(Mock).js` @fedekunze
 - [\#1544](https://github.com/cosmos/voyager/issues/1544) Added eslint-plugin-vue for cleaner vue files @jbibla
+- [\#1607](https://github.com/cosmos/voyager/issues/1607) Add tally endpoint to query voting results @fedekunze
 - added build option for single os to electron bundle script @faboweb
 - [\#1611](https://github.com/cosmos/voyager/issues/1611) added no testnet warning @faboweb
 - [\#1573](https://github.com/cosmos/voyager/issues/1573) added remote error collection for several catched errors in Voyager @faboweb
 - [\#1632](https://github.com/cosmos/voyager/pull/1632) added FAQ about broken symlink to networks folder @faboweb
+- [\#1198](https://github.com/cosmos/voyager/pull/1198) added e2e tests for wallet and staking transactions @faboweb
+- [\#1578](https://github.com/cosmos/voyager/issues/1578) added e2e tests for submit governance proposals @fedekunze
+- [\#1672](https://github.com/cosmos/voyager/issues/1672) added e2e tests for staking parameters tab @fedekunze
 
 ### Changed
 
@@ -62,6 +66,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - changed `err` to `error` because abbreviations are bad @faboweb
 - [\1609](https://github.com/cosmos/voyager/issues/1609) switched to css and html to onboard developers faster @faboweb
 - [\1594](https://github.com/cosmos/voyager/issues/1594) disable decimal amount transfers @fedekunze
+- [\1680](https://github.com/cosmos/voyager/issues/1680) updated `TmBalance` to receive tabs an array of objects to avoid conflicting routes @fedekunze
 
 ### Fixed
 
@@ -93,6 +98,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1603](https://github.com/cosmos/voyager/issues/1603) Fixed inactive sidebar links @jbibla
 - [\#1614](https://github.com/cosmos/voyager/issues/1614) Fixed an error that prevented a proposal to be updated optimisticaly after a successful deposit or vote @fedekunze
 - [\#1386](https://github.com/cosmos/voyager/issues/1386) Cleaned up onboarding @jbibla
+- [\#1640](https://github.com/cosmos/voyager/issues/1640) Hide the table proposals when there are no available ones @fedekunze
+- [\#1640](https://github.com/cosmos/voyager/issues/1640) Fixed an error that prevented the search bar to be displayed using `Ctrl+F` @fedekunze
+- Fixed testnet config build script @faboweb
 
 ## [0.10.7] - 2018-10-10
 
