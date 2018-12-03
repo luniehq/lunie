@@ -40,7 +40,8 @@ describe(`Module: Governance Parameters`, () => {
     let { actions, state } = module
     await actions.getGovParameters({
       state,
-      commit: jest.fn()
+      commit: jest.fn(),
+      rootState: mockRootState
     })
     expect(state.error.message).toBe(`Error`)
   })
@@ -50,7 +51,8 @@ describe(`Module: Governance Parameters`, () => {
     let { actions, state } = module
     await actions.getGovParameters({
       state,
-      commit: jest.fn()
+      commit: jest.fn(),
+      rootState: mockRootState
     })
     expect(state.error.message).toBe(`Error`)
   })
@@ -60,7 +62,8 @@ describe(`Module: Governance Parameters`, () => {
     let { actions, state } = module
     await actions.getGovParameters({
       state,
-      commit: jest.fn()
+      commit: jest.fn(),
+      rootState: mockRootState
     })
     expect(state.error.message).toBe(`Error`)
   })
