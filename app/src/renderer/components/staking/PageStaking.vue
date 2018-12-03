@@ -35,7 +35,20 @@ export default {
   },
   data: () => ({
     query: ``,
-    tabs: [`My Delegations`, `Validators`, `Parameters`]
+    tabs: [
+      {
+        displayName: `My Delegations`,
+        pathName: `My Delegations`
+      },
+      {
+        displayName: `Validators`,
+        pathName: `Validators`
+      },
+      {
+        displayName: `Parameters`,
+        pathName: `Staking Parameters`
+      }
+    ]
   }),
   computed: {
     ...mapGetters([`connected`, `delegates`, `filters`])

@@ -17,11 +17,13 @@
     <div class="tabs">
       <div
         v-for="tab in tabs"
-        :key="tab"
-        :class="{ 'tab-selected': $route.name === tab }"
+        :key="tab.pathName"
+        :class="{ 'tab-selected': $route.name === tab.pathName }"
         class="tab"
       >
-        <router-link :to="{ name: tab }">{{ tab }}</router-link>
+        <router-link :to="{ name: tab.pathName }">{{
+          tab.displayName
+        }}</router-link>
       </div>
     </div>
     <slot />

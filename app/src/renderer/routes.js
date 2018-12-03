@@ -40,13 +40,13 @@ export default [
         component: require(`./components/staking/TabMyDelegations`).default
       },
       {
-        path: `Validators`,
+        path: `validators`,
         name: `Validators`,
         component: require(`./components/staking/TabValidators`).default
       },
       {
         path: `staking-parameters`,
-        name: `Parameters`,
+        name: `Staking Parameters`,
         component: require(`./components/staking/TabParameters`).default
       }
     ]

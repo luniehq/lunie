@@ -36,7 +36,7 @@ exports[`Component: TabMyDelegations should show a message if not staked yet to 
       
           <a
             class=""
-            href="#/staking/Validators"
+            href="#/staking/validators"
           >
             validator list
           </a>
@@ -240,7 +240,7 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
     
     <a
       class=""
-      href="#/staking/Validators"
+      href="#/staking/validators"
     >
       the validator list
     </a>
@@ -569,7 +569,7 @@ exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
       
           <a
             class=""
-            href="#/staking/Validators"
+            href="#/staking/validators"
           >
             validator list
           </a>
