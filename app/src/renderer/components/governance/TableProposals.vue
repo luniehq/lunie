@@ -45,7 +45,7 @@ export default {
   },
   props: {
     proposals: {
-      type: Object,
+      type: Array,
       required: true
     },
     loading: {

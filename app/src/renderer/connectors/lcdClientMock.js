@@ -971,7 +971,7 @@ module.exports = {
     return state.pool
   },
   async getStakingParameters() {
-    return state.parameters
+    return state.stakingParameters
   },
   async getProposals() {
     return state.proposals || []
