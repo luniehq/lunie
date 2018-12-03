@@ -209,5 +209,20 @@ describe(`Module: Send`, () => {
       node.queryAccount = () => done()
       await store.dispatch(`sendTx`, args)
     })
+
+    it(`should throw an error if not connected`, async () => {
+      let args = {
+        to: `mock_address`,
+        amount: [{ denom: `mycoin`, amount: 123 }]
+      }
+      store.state.connection.connected = false
+      let error2
+      try {
+        await store.dispatch(`sendTx`, args)
+      } catch (error) {
+        error2 = error
+      }
+      expect(error2).toBeDefined()
+    })
   })
 })
