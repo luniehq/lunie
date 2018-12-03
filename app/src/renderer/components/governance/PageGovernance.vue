@@ -52,8 +52,13 @@ export default {
     tabs: [
       {
         displayName: `Proposals`,
-        pathName: `Governance Parameters`
+        pathName: `Proposals`
       }
+      // TODO uncomment when updated to latest SDK
+      // {
+      //   displayName: `Parameters`,
+      //   pathName: `Governance Parameters`
+      // }
     ],
     showModalPropose: false
   }),

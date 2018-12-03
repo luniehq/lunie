@@ -76,7 +76,9 @@
               <dd>
                 {{
                   governanceParameters.parameters.tallying.threshold
-                    ? governanceParameters.parameters.tallying.threshold
+                    ? `${parseFloat(
+                        governanceParameters.parameters.tallying.threshold
+                      ) * 100} %`
                     : `n/a`
                 }}
               </dd>
@@ -93,7 +95,9 @@
               <dd>
                 {{
                   governanceParameters.parameters.tallying.veto
-                    ? governanceParameters.parameters.tallying.veto
+                    ? `${parseFloat(
+                        governanceParameters.parameters.tallying.veto
+                      ) * 100} %`
                     : `n/a`
                 }}
               </dd>
@@ -138,7 +142,7 @@
               <dt>
                 Voting Period
                 <i
-                  v-tooltip.top="depositTooltips.voting_period"
+                  v-tooltip.top="votingTooltips.voting_period"
                   class="material-icons info-button"
                   >info_outline</i
                 >
@@ -174,13 +178,13 @@ export default {
   data: () => ({
     depositTooltips: {
       description: `Parameters around proposals' deposits on governance`,
-      min_deposit: `Minimum deposit for a proposal to enter voting period`,
+      min_deposit: `Minimum deposit for a proposal to enter the voting period`,
       max_deposit_period: `Maximum period for token holders to deposit on a proposal`
     },
     tallyingTooltips: {
       description: `Parameters around tallying votes in governance`,
-      threshold: `Minimum propotion of Yes votes for proposal to pass`,
-      veto: `Minimum value of Veto votes to Total votes ratio for proposal to be vetoed`,
+      threshold: `Percentage of Yes votes for proposal to pass`,
+      veto: `Percentage of NoWithVeto votes over the total amount of votes for proposal to be vetoed`,
       governance_penalty: `Penalty if validator does not vote`
     },
     votingTooltips: {

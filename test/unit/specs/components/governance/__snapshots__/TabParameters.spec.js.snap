@@ -43,7 +43,7 @@ exports[`TabParameters has the expected html structure 1`] = `
                   Threshold              <i class=\\"material-icons info-button\\">info_outline</i>
                </dt>
                <dd>
-                  0.5000000000            
+                  50 %            
                </dd>
 </dl>
             <dl class=\\"info_dl\\">
@@ -51,7 +51,7 @@ exports[`TabParameters has the expected html structure 1`] = `
                   Veto              <i class=\\"material-icons info-button\\">info_outline</i>
                </dt>
                <dd>
-                  0.3340000000            
+                  33.4 %            
                </dd>
 </dl>
 </div>
