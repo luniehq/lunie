@@ -96,7 +96,7 @@ test(`Governance`, async function(t) {
     t.equal(
       newAmount,
       amount + 10,
-      `increments the deposit displayed on the proposal page`
+      `increments the deposit count displayed on the proposal page`
     )
     await closeNotifications(app)
     t.end()
