@@ -74,7 +74,7 @@ test(`Governance`, async function(t) {
     let amount = parseInt((await deposit().getText()).split(` `)[0])
     await t.ok(
       await app.client.$(`.validator-profile__status.yellow`).isVisible(),
-      `the proposal is on deposit period`
+      `the proposal is open for deposits`
     )
     await app.client.$(`#deposit-btn`).click()
     await t.ok(
