@@ -188,7 +188,7 @@ export default {
       governance_penalty: `Penalty if validator does not vote`
     },
     votingTooltips: {
-      description: `Parameters around voting on governance proposals`,
+      description: `Voting parameters for governance in the Cosmos Hub`,
       voting_period: `Length of the voting period for proposals on the Cosmos Hub`
     }
   }),
