@@ -193,7 +193,7 @@ export default {
     // TODO: a minimum deposit may consist of multiple coin denoms
     minimumDeposit() {
       let coin = this.governanceParameters.parameters.deposit.min_deposit[0]
-      return `${coin.amount} ${coin.denom}`
+      return `${coin.amount} ${coin.denom}s`
     },
     depositPeriodInDays() {
       return (

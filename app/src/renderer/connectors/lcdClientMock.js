@@ -310,7 +310,7 @@ let state = {
     deposit: {
       min_deposit: [
         {
-          denom: `steak`,
+          denom: `stake`,
           amount: `10.0000000000`
         }
       ],

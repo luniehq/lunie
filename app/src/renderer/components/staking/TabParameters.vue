@@ -18,7 +18,7 @@
                 {{
                   stakingParameters.parameters.bond_denom
                     ? stakingParameters.parameters.bond_denom
-                    : `atoms`
+                    : bondingDenom
                 }}
                 <i
                   v-tooltip.top="poolTooltips.loose_tokens"
@@ -38,7 +38,7 @@
                 {{
                   stakingParameters.parameters.bond_denom
                     ? stakingParameters.parameters.bond_denom
-                    : `atoms`
+                    : bondingDenom
                 }}
                 <i
                   v-tooltip.top="poolTooltips.bonded_tokens"
@@ -138,7 +138,7 @@ export default {
     }
   }),
   computed: {
-    ...mapGetters([`config`, `stakingParameters`, `pool`]),
+    ...mapGetters([`config`, `stakingParameters`, `pool`, `bondingDenom`]),
     unbondingTimeInDays() {
       return (
         parseInt(this.stakingParameters.parameters.unbonding_time) /

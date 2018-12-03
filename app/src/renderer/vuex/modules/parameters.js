@@ -9,7 +9,6 @@ export default ({ node }) => {
 
   const mutations = {
     setStakingParameters(state, parameters) {
-      console.log(parameters)
       state.parameters = parameters
     }
   }

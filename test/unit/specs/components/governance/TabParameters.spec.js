@@ -49,7 +49,7 @@ describe(`TabParameters`, () => {
 
   it(`displays the minimum deposit`, () => {
     let coin = governanceParameters.deposit.min_deposit[0]
-    expect(wrapper.vm.minimumDeposit).toEqual(`${coin.amount} ${coin.denom}`)
+    expect(wrapper.vm.minimumDeposit).toEqual(`${coin.amount} ${coin.denom}s`)
   })
 
   it(`displays deposit period in days`, () => {

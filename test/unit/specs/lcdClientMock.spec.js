@@ -822,7 +822,7 @@ describe(`LCD Client Mock`, () => {
     expect(txs[0].tx.value.msg[0].type).toBe(`cosmos-sdk/BeginUnbonding`)
   })
 
-  it.only(`queries for staking parameters`, async () => {
+  it(`queries for staking parameters`, async () => {
     let parameters = await client.getStakingParameters()
     expect(parameters).toBeDefined()
     expect(parameters).toMatchObject(lcdClientMock.state.stakingParameters)
@@ -831,7 +831,7 @@ describe(`LCD Client Mock`, () => {
   it(`queries for staking pool`, async () => {
     let pool = await client.getPool()
     expect(pool).toBeDefined()
-    expect(Object.keys(pool)).toContain(`loose_tokens`, `bonded_tokens`)
+    expect(pool).toMatchObject(lcdClientMock.state.pool)
   })
 
   it(`queries for validator signing information`, async () => {

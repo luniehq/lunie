@@ -18,7 +18,8 @@ describe(`TabParameters`, () => {
       pool,
       stakingParameters,
       totalAtoms: 100,
-      user: { atoms: 42 }
+      user: { atoms: 42 },
+      bondingDenom: `Stake`
     }
   }
 
@@ -33,7 +34,6 @@ describe(`TabParameters`, () => {
     })
     wrapper = instance.wrapper
     store = instance.store
-    console.log(store.state.stakingParameters.parameters)
     store.commit(`setConnected`, true)
     wrapper.update()
   })
@@ -44,8 +44,7 @@ describe(`TabParameters`, () => {
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
-  it.only(`shows the staking parameters and pool`, () => {
-    console.log(store.state.stakingParameters.parameters)
+  it(`shows the staking parameters and pool`, () => {
     expect(store.state.stakingParameters.parameters).toEqual(stakingParameters)
     expect(store.state.pool.pool).toEqual(pool)
   })

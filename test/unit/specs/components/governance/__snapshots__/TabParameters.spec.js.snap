@@ -14,7 +14,7 @@ exports[`TabParameters has the expected html structure 1`] = `
                      Minimum Deposit              <i class=\\"material-icons info-button\\">info_outline</i>
                   </dt>
                   <dd>
-                     10.0000000000 steak            
+                     10.0000000000 stakes            
                   </dd>
 </dl>
 </div>
