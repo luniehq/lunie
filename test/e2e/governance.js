@@ -105,7 +105,7 @@ test(`Governance`, async function(t) {
   t.test(`vote`, async function(t) {
     await t.ok(
       await app.client.$(`.validator-profile__status.green`).isVisible(),
-      `the proposal is on voting period`
+      `the proposal is open for voting`
     )
     await app.client.$(`#vote-btn`).click()
     await t.ok(
