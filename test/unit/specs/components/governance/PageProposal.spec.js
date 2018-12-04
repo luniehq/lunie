@@ -181,22 +181,6 @@ describe(`PageProposal`, () => {
     })
   })
 
-  describe(`Proposal status`, () => {
-    it(`displays correctly a proposal that 'Passed'`, () => {
-      expect(wrapper.vm.status).toMatchObject({
-        message: `This proposal has passed`
-      })
-    })
-
-    it(`displays correctly a proposal on 'VotingPeriod'`, () => {
-      wrapper.vm.proposal.proposal_status = `VotingPeriod`
-      expect(wrapper.vm.status).toMatchObject({
-        message: `Voting for this proposal is open`,
-        color: `green`
-      })
-    })
-  })
-
   it(`casts a vote`, async () => {
     wrapper.vm.$store.commit = jest.fn()
     wrapper.vm.$store.dispatch = jest.fn()
