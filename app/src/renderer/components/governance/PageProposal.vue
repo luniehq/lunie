@@ -219,8 +219,7 @@ export default {
     status() {
       if (this.proposal.proposal_status === `Passed`)
         return {
-          message: `This proposal has passed`,
-          color: `green`
+          message: `This proposal has passed`
         }
       if (this.proposal.proposal_status === `Rejected`)
         return {
@@ -235,7 +234,7 @@ export default {
       if (this.proposal.proposal_status === `VotingPeriod`)
         return {
           message: `Voting for this proposal is open`,
-          color: `blue`
+          color: `green`
         }
       else
         return {

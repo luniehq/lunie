@@ -84,8 +84,7 @@ describe(`PageProposal`, () => {
   describe(`Proposal status`, () => {
     it(`displays correctly a proposal that 'Passed'`, () => {
       expect(wrapper.vm.status).toMatchObject({
-        message: `This proposal has passed`,
-        color: `green`
+        message: `This proposal has passed`
       })
     })
 
@@ -109,7 +108,7 @@ describe(`PageProposal`, () => {
       wrapper.vm.proposal.proposal_status = `VotingPeriod`
       expect(wrapper.vm.status).toMatchObject({
         message: `Voting for this proposal is open`,
-        color: `blue`
+        color: `green`
       })
     })
 
@@ -179,6 +178,22 @@ describe(`PageProposal`, () => {
 
     it(`disables deposits if the proposal is not active`, () => {
       expect(wrapper.find(`#deposit-btn`).exists()).toEqual(false)
+    })
+  })
+
+  describe(`Proposal status`, () => {
+    it(`displays correctly a proposal that 'Passed'`, () => {
+      expect(wrapper.vm.status).toMatchObject({
+        message: `This proposal has passed`
+      })
+    })
+
+    it(`displays correctly a proposal on 'VotingPeriod'`, () => {
+      wrapper.vm.proposal.proposal_status = `VotingPeriod`
+      expect(wrapper.vm.status).toMatchObject({
+        message: `Voting for this proposal is open`,
+        color: `green`
+      })
     })
   })
 
