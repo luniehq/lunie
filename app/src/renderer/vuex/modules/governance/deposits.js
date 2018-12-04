@@ -34,14 +34,15 @@ export default ({ node }) => {
         rootState: { wallet },
         dispatch
       },
-      { proposal_id, amount }
+      { proposal_id, amount, password }
     ) {
       await dispatch(`sendTx`, {
         type: `submitProposalDeposit`,
         to: proposal_id,
         proposal_id,
         depositer: wallet.address,
-        amount
+        amount,
+        password
       })
       await dispatch(`getProposalDeposits`, proposal_id)
       await dispatch(`getProposal`, proposal_id)

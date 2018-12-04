@@ -129,7 +129,8 @@ export default {
     },
     onUndelegate() {
       this.$emit(`submitUndelegation`, {
-        amount: this.amount
+        amount: this.amount,
+        password: this.password
       })
       this.close()
     }

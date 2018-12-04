@@ -184,7 +184,8 @@ export default {
         title: this.title,
         description: this.description,
         type: this.type,
-        amount: this.amount
+        amount: this.amount,
+        password: this.password
       })
       this.close()
     }

@@ -145,7 +145,7 @@ export default {
           amount: String(this.amount)
         }
       ]
-      this.$emit(`submitDeposit`, { amount })
+      this.$emit(`submitDeposit`, { amount, password: this.password })
       this.close()
     }
   }

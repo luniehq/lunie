@@ -65,7 +65,7 @@ export default {
     onPropose() {
       this.showModalPropose = true
     },
-    async propose({ title, description, type, amount }) {
+    async propose({ title, description, type, amount, password }) {
       try {
         await this.$store.dispatch(`submitProposal`, {
           title,
@@ -76,7 +76,8 @@ export default {
               denom: this.bondingDenom.toLowerCase(),
               amount: String(amount)
             }
-          ]
+          ],
+          password
         })
         this.$store.commit(`notify`, {
           title: `Successful proposal submission!`,

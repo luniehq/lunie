@@ -343,7 +343,7 @@ export default {
         this.showCannotModal = true
       }
     },
-    async submitDelegation({ amount, from }) {
+    async submitDelegation({ amount, from, password }) {
       const delegatorAddr = this.wallet.address
       let stakingTransactions = {}
       let txTitle,
@@ -381,7 +381,8 @@ export default {
 
       try {
         await this.$store.dispatch(`submitDelegation`, {
-          stakingTransactions
+          stakingTransactions,
+          password
         })
 
         this.$store.commit(`notify`, {
@@ -395,7 +396,7 @@ export default {
         })
       }
     },
-    async submitUndelegation({ amount }) {
+    async submitUndelegation({ amount, password }) {
       try {
         await this.$store.dispatch(`submitDelegation`, {
           stakingTransactions: {
@@ -405,7 +406,8 @@ export default {
                 validator: this.validator
               }
             ]
-          }
+          },
+          password
         })
 
         this.$store.commit(`notify`, {

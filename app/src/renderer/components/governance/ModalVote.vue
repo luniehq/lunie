@@ -146,7 +146,7 @@ export default {
       }
     },
     onVote() {
-      this.$emit(`castVote`, { option: this.option })
+      this.$emit(`castVote`, { option: this.option, password: this.password })
       this.close()
     }
   }

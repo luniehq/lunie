@@ -31,7 +31,7 @@
           <tm-field-group>
             <tm-field
               id="send-address"
-              v-model="fields.address"
+              v-model.trim="fields.address"
               type="text"
               placeholder="Address"
             />
@@ -95,9 +95,14 @@
         >
           <tm-field
             id="password"
-            v-model="password"
+            v-model="fields.password"
             placeholder="password..."
             :type="showPassword ? `text` : `password`"
+          />
+          <tm-form-msg
+            v-if="!$v.fields.password.required"
+            name="Password"
+            type="required"
           />
           <input
             id="showPasswordCheckbox"
@@ -124,7 +129,6 @@
         <tm-btn
           v-else
           id="send-btn"
-          :disabled="$v.$invalid"
           value="Send Tokens"
           color="primary"
           @click="onSubmit"
@@ -187,11 +191,11 @@ export default {
     fields: {
       address: ``,
       amount: null,
-      denom: ``
+      denom: ``,
+      password: ``
     },
     confirmationPending: false,
     sending: false,
-    password: ``,
     showPassword: false
   }),
   computed: {
@@ -244,6 +248,7 @@ export default {
         let type = `send`
         await this.sendTx({
           type,
+          password: this.fields.password,
           to: address,
           amount: [{ denom, amount: amount.toString() }]
         })

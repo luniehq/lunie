@@ -144,7 +144,8 @@ export default {
     onDelegation() {
       this.$emit(`submitDelegation`, {
         amount: this.amount,
-        from: this.fromOptions[this.selectedIndex].address
+        from: this.fromOptions[this.selectedIndex].address,
+        password: this.password
       })
       this.close()
     }

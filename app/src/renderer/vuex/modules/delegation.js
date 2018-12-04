@@ -162,7 +162,7 @@ export default ({ node }) => {
         dispatch,
         commit
       },
-      { stakingTransactions }
+      { stakingTransactions, password }
     ) {
       const denom = config.bondingDenom.toLowerCase()
       const delegatorAddr = wallet.address
@@ -209,7 +209,8 @@ export default ({ node }) => {
         to: wallet.address, // TODO strange syntax
         delegations: mappedDelegations,
         begin_unbondings: mappedUnbondings,
-        begin_redelegates: mappedRedelegations
+        begin_redelegates: mappedRedelegations,
+        password
       })
 
       if (mappedDelegations) {
