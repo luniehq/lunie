@@ -39,18 +39,25 @@
               <short-bech32 :address="validator.operator_address" />
             </div>
             <div class="column validator-profile__header__actions">
-              <tm-btn
-                id="delegation-btn"
-                value="Delegate"
-                color="primary"
-                @click.native="onDelegation"
-              />
-              <tm-btn
-                id="undelegation-btn"
-                value="Undelegate"
-                color="secondary"
-                @click.native="onUndelegation"
-              />
+              <span v-tooltip.top="`You cannot do this`">
+                <tm-btn
+                  id="delegation-btn"
+                  :disabled="availableAtoms < 1"
+                  value="Delegate"
+                  color="primary"
+                  @click.native="onDelegation"
+                />
+              </span>
+              <span v-tooltip.top="`You cannot do this`">
+                <tm-btn
+                  id="undelegation-btn"
+                  :disabled="!myBond.isGreaterThan(0)"
+                  v-tooltip.top="`You cannot do this`"
+                  value="Undelegate"
+                  color="secondary"
+                  @click.native="onUndelegation"
+                />
+              </span>
             </div>
           </div>
           <div class="row validator-profile__header__data">
@@ -508,14 +515,14 @@ export default {
 .validator-profile__header__name__title {
   color: #fff;
   display: inline-block;
-  font-size: h1;
-  line-height: h1;
+  font-size: var(--h1);
+  line-height: var(--h1);
   font-weight: 400;
   padding: 0 0.5rem 0.5rem 0;
 }
 
 .validator-profile__header__name__address {
-  font-size: small;
+  font-size: var(--sm);
 }
 
 .validator-profile__header__actions {
@@ -575,7 +582,7 @@ export default {
 
 .info_dl dt {
   color: var(--dim);
-  font-size: small;
+  font-size: var(--sm);
   margin-bottom: 4px;
 }
 
@@ -604,7 +611,7 @@ export default {
 
 .colored_dl dt {
   color: var(--dim);
-  font-size: small;
+  font-size: var(--sm);
   margin-bottom: 0.5rem;
   text-align: center;
 }

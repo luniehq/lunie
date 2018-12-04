@@ -88,7 +88,7 @@ export default {
 }
 .header-balance .top h2 {
   color: var(--bright);
-  font-size: h1;
+  font-size: var(--h1);
   font-weight: 500;
 }
 .header-balance .top .icon-container {

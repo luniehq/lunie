@@ -108,6 +108,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1640](https://github.com/cosmos/voyager/issues/1640) Fixed an error that prevented the search bar to be displayed using `Ctrl+F` @fedekunze
 - Fixed testnet config build script @faboweb
 - [\#1677](https://github.com/cosmos/voyager/issues/1677) Fixed inconstistent status colors on proposals @fedekunze
+- [\#1696](https://github.com/cosmos/voyager/issues/1696) Fixed broken css variables @jbibla
 
 ## [0.10.7] - 2018-10-10
 

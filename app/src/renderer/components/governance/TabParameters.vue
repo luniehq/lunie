@@ -260,7 +260,7 @@ h3 {
 
 .info_dl dt {
   color: var(--dim);
-  font-size: small;
+  font-size: var(--sm);
   margin-bottom: 4px;
 }
 
