@@ -673,5 +673,5 @@ module.exports = main()
     shutdown,
     processes: { gaiaLiteProcess },
     eventHandlers,
-    getLCDProcess: () => gaiaLiteProcess
+    getGaiaLiteProcess: () => gaiaLiteProcess
   }))

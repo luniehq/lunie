@@ -156,7 +156,7 @@ describe(`Startup Process`, () => {
             path.includes(`gaiacli`) && args.includes(`rest-server`)
         )
       ).toBeDefined()
-      expect(main.processes.lcdProcess).toBeDefined()
+      expect(main.processes.gaiaLiteProcess).toBeDefined()
     })
 
     it(`should persist the app_version`, async function() {
@@ -235,7 +235,7 @@ describe(`Startup Process`, () => {
             args.join(`=`).includes(`--chain-id=gaia-6002`)
         )
       ).toBeDefined()
-      expect(main.processes.lcdProcess).toBeDefined()
+      expect(main.processes.gaiaLiteProcess).toBeDefined()
     })
 
     it(`should persist the app_version`, async function() {
@@ -263,7 +263,7 @@ describe(`Startup Process`, () => {
             path.includes(`gaiacli`) && args.includes(`rest-server`)
         )
       ).toBeDefined()
-      expect(main.processes.lcdProcess).toBeDefined()
+      expect(main.processes.gaiaLiteProcess).toBeDefined()
     })
   })
 
@@ -369,7 +369,7 @@ describe(`Startup Process`, () => {
       let process
       while (!process) {
         await new Promise(resolve => setTimeout(resolve, 100))
-        process = main.getLCDProcess()
+        process = main.getGaiaLiteProcess()
       }
       process.kill = jest.fn()
       await registeredIPCListeners[`stop-lcd`]()
