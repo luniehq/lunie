@@ -42,13 +42,13 @@
       <tm-field
         id="password"
         v-model="password"
-        placeholder="password..."
         :type="showPassword ? `text` : `password`"
+        placeholder="password..."
       />
       <input
         id="showPasswordCheckbox"
-        type="checkbox"
         v-model="showPassword"
+        type="checkbox"
         @input="togglePassword"
       />
       <label for="showPasswordCheckbox">Show password</label>

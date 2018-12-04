@@ -96,8 +96,8 @@
           <tm-field
             id="password"
             v-model="fields.password"
-            placeholder="password..."
             :type="showPassword ? `text` : `password`"
+            placeholder="password..."
           />
           <tm-form-msg
             v-if="!$v.fields.password.required"
@@ -106,8 +106,8 @@
           />
           <input
             id="showPasswordCheckbox"
-            type="checkbox"
             v-model="showPassword"
+            type="checkbox"
             @input="togglePassword"
           />
           <label for="showPasswordCheckbox">Show password</label>
