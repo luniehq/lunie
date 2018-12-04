@@ -195,39 +195,44 @@ exports[`PageValidator has the expected html structure 1`] = `
           <div
             class="column validator-profile__header__actions"
           >
-            <button
-              class="tm-btn"
-              id="delegation-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--primary"
+            <span>
+              <button
+                class="tm-btn"
+                disabled="disabled"
+                id="delegation-btn"
               >
-                <!---->
-                <!---->
                 <span
-                  class="tm-btn__value"
+                  class="tm-btn__container tm-btn--primary"
                 >
-                  Delegate
+                  <!---->
+                  <!---->
+                  <span
+                    class="tm-btn__value"
+                  >
+                    Delegate
+                  </span>
                 </span>
-              </span>
-            </button>
+              </button>
+            </span>
              
-            <button
-              class="tm-btn"
-              id="undelegation-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--secondary"
+            <span>
+              <button
+                class="tm-btn"
+                id="undelegation-btn"
               >
-                <!---->
-                <!---->
                 <span
-                  class="tm-btn__value"
+                  class="tm-btn__container tm-btn--secondary"
                 >
-                  Undelegate
+                  <!---->
+                  <!---->
+                  <span
+                    class="tm-btn__value"
+                  >
+                    Undelegate
+                  </span>
                 </span>
-              </span>
-            </button>
+              </button>
+            </span>
           </div>
         </div>
          
@@ -712,39 +717,44 @@ exports[`PageValidator shows a default avatar 1`] = `
           <div
             class="column validator-profile__header__actions"
           >
-            <button
-              class="tm-btn"
-              id="delegation-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--primary"
+            <span>
+              <button
+                class="tm-btn"
+                disabled="disabled"
+                id="delegation-btn"
               >
-                <!---->
-                <!---->
                 <span
-                  class="tm-btn__value"
+                  class="tm-btn__container tm-btn--primary"
                 >
-                  Delegate
+                  <!---->
+                  <!---->
+                  <span
+                    class="tm-btn__value"
+                  >
+                    Delegate
+                  </span>
                 </span>
-              </span>
-            </button>
+              </button>
+            </span>
              
-            <button
-              class="tm-btn"
-              id="undelegation-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--secondary"
+            <span>
+              <button
+                class="tm-btn"
+                id="undelegation-btn"
               >
-                <!---->
-                <!---->
                 <span
-                  class="tm-btn__value"
+                  class="tm-btn__container tm-btn--secondary"
                 >
-                  Undelegate
+                  <!---->
+                  <!---->
+                  <span
+                    class="tm-btn__value"
+                  >
+                    Undelegate
+                  </span>
                 </span>
-              </span>
-            </button>
+              </button>
+            </span>
           </div>
         </div>
          
@@ -1426,39 +1436,45 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
           <div
             class="column validator-profile__header__actions"
           >
-            <button
-              class="tm-btn"
-              id="delegation-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--primary"
+            <span>
+              <button
+                class="tm-btn"
+                disabled="disabled"
+                id="delegation-btn"
               >
-                <!---->
-                <!---->
                 <span
-                  class="tm-btn__value"
+                  class="tm-btn__container tm-btn--primary"
                 >
-                  Delegate
+                  <!---->
+                  <!---->
+                  <span
+                    class="tm-btn__value"
+                  >
+                    Delegate
+                  </span>
                 </span>
-              </span>
-            </button>
+              </button>
+            </span>
              
-            <button
-              class="tm-btn"
-              id="undelegation-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--secondary"
+            <span>
+              <button
+                class="tm-btn"
+                disabled="disabled"
+                id="undelegation-btn"
               >
-                <!---->
-                <!---->
                 <span
-                  class="tm-btn__value"
+                  class="tm-btn__container tm-btn--secondary"
                 >
-                  Undelegate
+                  <!---->
+                  <!---->
+                  <span
+                    class="tm-btn__value"
+                  >
+                    Undelegate
+                  </span>
                 </span>
-              </span>
-            </button>
+              </button>
+            </span>
           </div>
         </div>
          
@@ -1936,39 +1952,45 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
           <div
             class="column validator-profile__header__actions"
           >
-            <button
-              class="tm-btn"
-              id="delegation-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--primary"
+            <span>
+              <button
+                class="tm-btn"
+                disabled="disabled"
+                id="delegation-btn"
               >
-                <!---->
-                <!---->
                 <span
-                  class="tm-btn__value"
+                  class="tm-btn__container tm-btn--primary"
                 >
-                  Delegate
+                  <!---->
+                  <!---->
+                  <span
+                    class="tm-btn__value"
+                  >
+                    Delegate
+                  </span>
                 </span>
-              </span>
-            </button>
+              </button>
+            </span>
              
-            <button
-              class="tm-btn"
-              id="undelegation-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--secondary"
+            <span>
+              <button
+                class="tm-btn"
+                disabled="disabled"
+                id="undelegation-btn"
               >
-                <!---->
-                <!---->
                 <span
-                  class="tm-btn__value"
+                  class="tm-btn__container tm-btn--secondary"
                 >
-                  Undelegate
+                  <!---->
+                  <!---->
+                  <span
+                    class="tm-btn__value"
+                  >
+                    Undelegate
+                  </span>
                 </span>
-              </span>
-            </button>
+              </button>
+            </span>
           </div>
         </div>
          
@@ -2378,39 +2400,44 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 1`]
           <div
             class="column validator-profile__header__actions"
           >
-            <button
-              class="tm-btn"
-              id="delegation-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--primary"
+            <span>
+              <button
+                class="tm-btn"
+                id="delegation-btn"
               >
-                <!---->
-                <!---->
                 <span
-                  class="tm-btn__value"
+                  class="tm-btn__container tm-btn--primary"
                 >
-                  Delegate
+                  <!---->
+                  <!---->
+                  <span
+                    class="tm-btn__value"
+                  >
+                    Delegate
+                  </span>
                 </span>
-              </span>
-            </button>
+              </button>
+            </span>
              
-            <button
-              class="tm-btn"
-              id="undelegation-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--secondary"
+            <span>
+              <button
+                class="tm-btn"
+                disabled="disabled"
+                id="undelegation-btn"
               >
-                <!---->
-                <!---->
                 <span
-                  class="tm-btn__value"
+                  class="tm-btn__container tm-btn--secondary"
                 >
-                  Undelegate
+                  <!---->
+                  <!---->
+                  <span
+                    class="tm-btn__value"
+                  >
+                    Undelegate
+                  </span>
                 </span>
-              </span>
-            </button>
+              </button>
+            </span>
           </div>
         </div>
          
@@ -2888,39 +2915,44 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 2`]
           <div
             class="column validator-profile__header__actions"
           >
-            <button
-              class="tm-btn"
-              id="delegation-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--primary"
+            <span>
+              <button
+                class="tm-btn"
+                id="delegation-btn"
               >
-                <!---->
-                <!---->
                 <span
-                  class="tm-btn__value"
+                  class="tm-btn__container tm-btn--primary"
                 >
-                  Delegate
+                  <!---->
+                  <!---->
+                  <span
+                    class="tm-btn__value"
+                  >
+                    Delegate
+                  </span>
                 </span>
-              </span>
-            </button>
+              </button>
+            </span>
              
-            <button
-              class="tm-btn"
-              id="undelegation-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--secondary"
+            <span>
+              <button
+                class="tm-btn"
+                disabled="disabled"
+                id="undelegation-btn"
               >
-                <!---->
-                <!---->
                 <span
-                  class="tm-btn__value"
+                  class="tm-btn__container tm-btn--secondary"
                 >
-                  Undelegate
+                  <!---->
+                  <!---->
+                  <span
+                    class="tm-btn__value"
+                  >
+                    Undelegate
+                  </span>
                 </span>
-              </span>
-            </button>
+              </button>
+            </span>
           </div>
         </div>
          
