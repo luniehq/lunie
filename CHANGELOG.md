@@ -41,7 +41,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1672](https://github.com/cosmos/voyager/issues/1672) added e2e tests for staking parameters tab @fedekunze
 - [\#1648](https://github.com/cosmos/voyager/issues/1648) added governance parameters tab @fedekunze
 - [\#1550](https://github.com/cosmos/voyager/issues/1550) added e2e tests for voting on governance proposals @fedekunze
-- [\#1555](https://github.com/cosmos/voyager/issues/1578) added e2e tests for submitting a deposit on a governance proposal @fedekunze
+- [\#1555](https://github.com/cosmos/voyager/issues/1555) added e2e tests for submitting a deposit on a governance proposal @fedekunze
 
 ### Changed
 
