@@ -48,40 +48,51 @@ describe(`UndelegationModal`, () => {
         `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`
       )
     })
+
+    it(`account password defaults to an empty string`, () => {
+      expect(wrapper.vm.password).toEqual(``)
+    })
   })
 
   describe(`enables or disables the Delegation button correctly`, () => {
     describe(`disables the 'Delegation' button`, () => {
       it(`with default values`, () => {
-        let delegationBtn = wrapper.find(`#submit-undelegation`)
-        expect(delegationBtn.html()).toContain(`disabled="disabled"`)
+        let undelegationBtn = wrapper.find(`#submit-undelegation`)
+        expect(undelegationBtn.html()).toContain(`disabled="disabled"`)
       })
 
       it(`if the user manually inputs a number greater than the balance`, () => {
+        wrapper.setData({ password: `1234567890` })
         let amountField = wrapper.find(`#amount`)
         amountField.element.value = 142
 
-        let delegationBtn = wrapper.find(`#submit-undelegation`)
-        expect(delegationBtn.html()).toContain(`disabled="disabled"`)
+        let undelegationBtn = wrapper.find(`#submit-undelegation`)
+        expect(undelegationBtn.html()).toContain(`disabled="disabled"`)
 
         amountField.trigger(`input`)
         expect(amountField.element.value).toBe(`100`)
+      })
+
+      it(`if the password field is empty`, () => {
+        wrapper.setData({ amount: 10, password: `` })
+        let undelegationBtn = wrapper.find(`#submit-undelegation`)
+        expect(undelegationBtn.html()).toContain(`disabled="disabled"`)
       })
     })
 
     describe(`enables the 'Delegation' button`, () => {
       it(`if the amout is positive and the user has enough balance`, () => {
-        wrapper.setData({ amount: 50 })
+        wrapper.setData({ amount: 50, password: `1234567890` })
 
-        let delegationBtn = wrapper.find(`#submit-undelegation`)
-        expect(delegationBtn.html()).not.toContain(`disabled="disabled"`)
+        let undelegationBtn = wrapper.find(`#submit-undelegation`)
+        expect(undelegationBtn.html()).not.toContain(`disabled="disabled"`)
       })
     })
   })
 
   describe(`Undelegate`, () => {
     it(`Undelegation button submits an unbonding delegation and closes modal`, () => {
-      wrapper.setData({ amount: 4.2 })
+      wrapper.setData({ amount: 4.2, password: `1234567890` })
       wrapper.vm.onUndelegate()
 
       expect(wrapper.emittedByOrder()).toEqual([
@@ -90,7 +101,7 @@ describe(`UndelegationModal`, () => {
           args: [
             {
               amount: 4.2,
-              password: ``
+              password: `1234567890`
             }
           ]
         },

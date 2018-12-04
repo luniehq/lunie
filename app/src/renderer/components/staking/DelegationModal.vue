@@ -72,7 +72,7 @@
     <div class="delegation-modal-footer">
       <tm-btn
         id="submit-delegation"
-        :disabled="$v.amount.$invalid"
+        :disabled="$v.$invalid"
         color="primary"
         value="Confirm Delegation"
         size="lg"

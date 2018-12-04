@@ -67,6 +67,10 @@ describe(`DelegationModal`, () => {
         `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`
       )
     })
+
+    it(`account password defaults to an empty string`, () => {
+      expect(wrapper.vm.password).toEqual(``)
+    })
   })
 
   describe(`enables or disables the Delegation button correctly`, () => {
@@ -77,6 +81,7 @@ describe(`DelegationModal`, () => {
       })
 
       it(`if the user manually inputs a number greater than the balance`, () => {
+        wrapper.setData({ password: `1234567890` })
         let amountField = wrapper.find(`#amount`)
         amountField.element.value = 142
 
@@ -86,11 +91,17 @@ describe(`DelegationModal`, () => {
         amountField.trigger(`input`)
         expect(amountField.element.value).toBe(`100`)
       })
+
+      it(`if the password field is empty`, () => {
+        wrapper.setData({ amount: 10, password: `` })
+        let delegationBtn = wrapper.find(`#submit-delegation`)
+        expect(delegationBtn.html()).toContain(`disabled="disabled"`)
+      })
     })
 
     describe(`enables the 'Delegation' button`, () => {
       it(`if the amout is positive and the user has enough balance`, () => {
-        wrapper.setData({ amount: 50 })
+        wrapper.setData({ amount: 50, password: `1234567890` })
 
         let delegationBtn = wrapper.find(`#submit-delegation`)
         expect(delegationBtn.html()).not.toContain(`disabled="disabled"`)
@@ -100,7 +111,7 @@ describe(`DelegationModal`, () => {
 
   describe(`(Re)delegate`, () => {
     it(`Delegation button submits a (re)delegation and closes modal`, () => {
-      wrapper.setData({ amount: 50 })
+      wrapper.setData({ amount: 50, password: `1234567890` })
       wrapper.vm.onDelegation()
 
       expect(wrapper.emittedByOrder()).toEqual([
@@ -110,7 +121,7 @@ describe(`DelegationModal`, () => {
             {
               amount: 50,
               from: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-              password: ``
+              password: `1234567890`
             }
           ]
         },
