@@ -59,7 +59,7 @@
     <div class="undelegation-modal-footer">
       <tm-btn
         id="submit-undelegation"
-        :disabled="$v.amount.$invalid"
+        :disabled="$v.$invalid"
         color="primary"
         value="Undelegate"
         size="lg"
