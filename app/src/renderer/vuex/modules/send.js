@@ -15,7 +15,9 @@ export default ({ node }) => {
 
   async function doSend({ state, dispatch, commit, rootState }, args) {
     if (!rootState.connection.connected) {
-      throw Error(`Currently not connected to a secure node. Please try again when Voyager has secured a connection.`)
+      throw Error(
+        `Currently not connected to a secure node. Please try again when Voyager has secured a connection.`
+      )
     }
 
     await dispatch(`queryWalletBalances`) // the nonce was getting out of sync, this is to force a sync

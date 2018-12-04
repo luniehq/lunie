@@ -23,7 +23,7 @@ require(`electron-debug`)()
 
 let shuttingDown = false
 let mainWindow
-let lcdProcess
+let gaiaLiteProcess
 let streams = []
 let connecting = true
 let chainId
@@ -100,7 +100,7 @@ async function shutdown() {
   mainWindow = null
   shuttingDown = true
 
-  if (lcdProcess) {
+  if (gaiaLiteProcess) {
     await stopLCD()
   }
 
@@ -248,7 +248,7 @@ app.on(`ready`, () => createWindow())
 // start lcd REST API
 async function startLCD(home, nodeURL) {
   assert.equal(
-    lcdProcess,
+    gaiaLiteProcess,
     null,
     `Can't start Gaia Lite because it's already running.  Call StopLCD first.`
   )
@@ -290,19 +290,19 @@ async function startLCD(home, nodeURL) {
 
 function stopLCD() {
   return new Promise((resolve, reject) => {
-    if (!lcdProcess) {
+    if (!gaiaLiteProcess) {
       resolve()
       return
     }
     log(`Stopping the LCD server`)
     try {
       // prevent the exit to signal bad termination warnings
-      lcdProcess.removeAllListeners(`exit`)
-      lcdProcess.on(`exit`, () => {
-        lcdProcess = null
+      gaiaLiteProcess.removeAllListeners(`exit`)
+      gaiaLiteProcess.on(`exit`, () => {
+        gaiaLiteProcess = null
         resolve()
       })
-      lcdProcess.kill(`SIGKILL`)
+      gaiaLiteProcess.kill(`SIGKILL`)
     } catch (error) {
       handleCrash(error)
       reject(`Stopping the LCD resulted in an error: ${error.message}`)
@@ -458,10 +458,10 @@ const AxiosListener = axios => {
 async function pickAndConnect() {
   let nodeURL = config.node_lcd
   connecting = true
-  let gaiaLite
+  let certificate
 
   try {
-    gaiaLite = await connect(nodeURL)
+    certificate = (await connect(nodeURL)).ca
   } catch (error) {
     handleCrash(error)
     return
@@ -469,9 +469,9 @@ async function pickAndConnect() {
 
   // make the tls certificate available to the view process
   // https://en.wikipedia.org/wiki/Certificate_authority
-  global.config.ca = gaiaLite.ca
+  global.config.ca = certificate
   const axiosInstance = axios.create({
-    httpsAgent: new https.Agent({ ca: gaiaLite.ca })
+    httpsAgent: new https.Agent({ ca: certificate })
   })
 
   let compatible, nodeVersion
@@ -494,7 +494,7 @@ async function pickAndConnect() {
   }
 
   if (!compatible) {
-    let message = `Node ${nodeURL} is using Cosmos-SDK version ${nodeVersion}, which is incompatible with the version currently being used by Voyager (${expectedGaiaCliVersion}).`
+    let message = `Node ${nodeURL} uses SDK version ${nodeVersion} which is incompatible to the version used in Voyager ${expectedGaiaCliVersion}`
     log(message)
     await stopLCD()
 
@@ -518,12 +518,12 @@ async function pickAndConnect() {
 async function connect() {
   log(`starting gaia rest server with nodeURL ${config.node_lcd}`)
 
-  const gaiaLite = await startLCD(lcdHome, config.node_rpc)
-  lcdProcess = gaiaLite.process
+  const { ca, process } = await startLCD(lcdHome, config.node_rpc)
+  gaiaLiteProcess = process
   log(`gaia rest server ready`)
 
   connecting = false
-  return gaiaLite
+  return { ca, process }
 }
 
 async function reconnect() {
@@ -671,7 +671,7 @@ module.exports = main()
   })
   .then(() => ({
     shutdown,
-    processes: { lcdProcess },
+    processes: { gaiaLiteProcess },
     eventHandlers,
-    getLCDProcess: () => lcdProcess
+    getLCDProcess: () => gaiaLiteProcess
   }))
