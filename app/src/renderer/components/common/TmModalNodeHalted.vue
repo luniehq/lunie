@@ -84,14 +84,14 @@ export default {
 }
 
 .tm-modal-error__title {
-  font-size: h1;
+  font-size: var(--h1);
   font-weight: 500;
   line-height: 1;
   margin-bottom: 1.5rem;
 }
 
 .tm-modal-error__body {
-  font-size: lg;
+  font-size: var(--lg);
   color: var(--dim);
   margin-bottom: 3rem;
 }

@@ -217,7 +217,7 @@ table tr {
 table tr td:first-child::before {
   content: counter(rowNumber);
   position: absolute;
-  font-size: sm;
+  font-size: var(--sm);
   width: 2rem;
   text-align: right;
   color: var(--dim);
