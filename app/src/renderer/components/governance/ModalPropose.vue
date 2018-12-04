@@ -9,27 +9,42 @@
         <i class="material-icons">close</i>
       </div>
     </div>
-    <tm-form-group class="page-proposal-form-group"
-      ><span>Title</span>
+    <tm-form-group :error="$v.title.$invalid" class="page-proposal-form-group">
+      <span>Title</span>
       <tm-field
-        v-focus="v - focus"
+        v-focus
         id="title"
         v-model="title"
         type="text"
         placeholder="Proposal title"
       />
+      <tm-form-msg
+        v-if="!$v.title.maxLength"
+        :max="$v.title.$params.maxLength.max"
+        name="Proposal Title"
+        type="maxLength"
+      />
     </tm-form-group>
-    <tm-form-group class="page-proposal-form-group"
-      ><span>Description</span>
+    <tm-form-group
+      :error="$v.description.$invalid"
+      class="page-proposal-form-group"
+    >
+      <span>Description</span>
       <tm-field
         id="description"
         v-model="description"
         type="textarea"
         placeholder="Write your proposal here..."
       />
+      <tm-form-msg
+        v-if="!$v.description.maxLength"
+        :max="$v.description.$params.maxLength.max"
+        name="Description"
+        type="maxLength"
+      />
     </tm-form-group>
-    <tm-form-group class="modal-propose-form-group" field-id="amount"
-      ><span>Deposit amount</span>
+    <tm-form-group class="modal-propose-form-group" field-id="amount">
+      <span>Deposit amount</span>
       <tm-field
         id="denom"
         :placeholder="denom"
@@ -37,7 +52,6 @@
         readonly="readonly"
       />
       <tm-field
-        v-focus
         id="amount"
         :max="balance"
         :min="0"
@@ -69,7 +83,7 @@ import {
 } from "vuelidate/lib/validators"
 import { isEmpty, trim } from "lodash"
 import Modal from "common/TmModal"
-import { TmBtn, TmField, TmFormGroup } from "@tendermint/ui"
+import { TmBtn, TmField, TmFormGroup, TmFormMsg } from "@tendermint/ui"
 
 const isValid = type =>
   type === `Text` || type === `ParameterChange` || type === `SoftwareUpgrade`
@@ -86,7 +100,8 @@ export default {
     Modal,
     TmBtn,
     TmField,
-    TmFormGroup
+    TmFormGroup,
+    TmFormMsg
   },
   props: {
     denom: {
@@ -122,22 +137,14 @@ export default {
     return {
       title: {
         required,
-        minLength(x) {
-          return minLength(this.titleMinLength)(x)
-        },
-        maxLength(x) {
-          return maxLength(this.titleMaxLength)(x)
-        },
+        minLength: minLength(this.titleMinLength),
+        maxLength: maxLength(this.titleMaxLength),
         notBlank
       },
       description: {
         required,
-        minLength(x) {
-          return minLength(this.descriptionMinLength)(x)
-        },
-        maxLength(x) {
-          return maxLength(this.descriptionMaxLength)(x)
-        },
+        minLength: minLength(this.descriptionMinLength),
+        maxLength: maxLength(this.descriptionMaxLength),
         notBlank
       },
       type: {
@@ -228,5 +235,9 @@ export default {
 
 .modal-propose .tm-form-group {
   margin: 0.5rem 0;
+}
+.invalid {
+  border-color: red;
+  color: red;
 }
 </style>
