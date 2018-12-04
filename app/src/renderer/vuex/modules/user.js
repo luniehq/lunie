@@ -12,7 +12,6 @@ export default ({ node }) => {
     accounts: [],
     pauseHistory: false,
     history: [],
-    password: null,
     account: null,
     address: null,
     errorCollection: false,
@@ -105,7 +104,6 @@ export default ({ node }) => {
       return true
     },
     async signIn({ state, commit, dispatch }, { password, account }) {
-      state.password = password
       state.account = account
       state.signedIn = true
 
@@ -118,7 +116,6 @@ export default ({ node }) => {
       dispatch(`loadErrorCollection`, account)
     },
     signOut({ state, commit, dispatch }) {
-      state.password = null
       state.account = null
       state.signedIn = false
 
@@ -128,7 +125,6 @@ export default ({ node }) => {
     resetSessionData({ state }) {
       state.atoms = 0
       state.history = []
-      state.password = null
       state.account = null
       state.address = null
     },
