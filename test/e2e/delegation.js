@@ -184,7 +184,7 @@ test(`delegation`, async function(t) {
     )
     await t.ok(
       !(await app.client.isExisting(`.tm-notification`, 4 * 1000)),
-      `should not get an notification error while fetching params and pool`
+      `should not get a notification error while fetching params and pool`
     )
     // test that the parameters and pool values are displayed
     await t.equal(
