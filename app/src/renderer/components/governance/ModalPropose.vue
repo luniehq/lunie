@@ -236,8 +236,4 @@ export default {
 .modal-propose .tm-form-group {
   margin: 0.5rem 0;
 }
-.invalid {
-  border-color: red;
-  color: red;
-}
 </style>
