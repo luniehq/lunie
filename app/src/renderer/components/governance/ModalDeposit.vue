@@ -56,7 +56,7 @@
     <div class="modal-deposit-footer">
       <tm-btn
         id="submit-deposit"
-        :disabled="$v.amount.$invalid"
+        :disabled="$v.$invalid"
         color="primary"
         value="Deposit"
         size="lg"

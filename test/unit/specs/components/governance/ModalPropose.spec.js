@@ -9,6 +9,13 @@ describe(`ModalPropose`, () => {
   let { mount, localVue } = setup()
   localVue.use(Vuelidate)
 
+  const proposal = {
+    amount: 15,
+    title: `A new text proposal for Cosmos`,
+    description: `a valid description for the proposal`,
+    password: `1234567890`
+  }
+
   beforeEach(() => {
     const coins = [
       {
@@ -52,6 +59,10 @@ describe(`ModalPropose`, () => {
     it(`the 'amount' defaults to 0`, () => {
       expect(wrapper.vm.amount).toEqual(0)
     })
+
+    it(`account password defaults to an empty string`, () => {
+      expect(wrapper.vm.password).toEqual(``)
+    })
   })
 
   describe(`enables or disables 'Create Proposal' button correctly`, () => {
@@ -61,7 +72,8 @@ describe(`ModalPropose`, () => {
         expect(proposeBtn.html()).toContain(`disabled="disabled"`)
       })
 
-      it(`if the amount for initial deposit is less than the user's balance`, () => {
+      it(`if the amount for initial deposit is higher than the user's balance`, () => {
+        wrapper.setData(proposal)
         wrapper.setData({ amount: 25 })
         let proposeBtn = wrapper.find(`#submit-proposal`)
         expect(proposeBtn.html()).toContain(`disabled="disabled"`)
@@ -74,6 +86,7 @@ describe(`ModalPropose`, () => {
             denom: `otherCoin`
           }
         ]
+        wrapper.setData(proposal)
         store.commit(`setWalletBalances`, otherCoins)
         wrapper.setData({ amount: 25 })
         let proposeBtn = wrapper.find(`#submit-proposal`)
@@ -81,6 +94,7 @@ describe(`ModalPropose`, () => {
       })
 
       it(`if title is blank`, () => {
+        wrapper.setData(proposal)
         wrapper.setData({ title: `     ` })
         let proposeBtn = wrapper.find(`#submit-proposal`)
         expect(proposeBtn.html()).toContain(`disabled="disabled"`)
@@ -93,7 +107,15 @@ describe(`ModalPropose`, () => {
       })
 
       it(`if proposal type is invalid`, () => {
+        wrapper.setData(proposal)
         wrapper.setData({ type: `Other` })
+        let proposeBtn = wrapper.find(`#submit-proposal`)
+        expect(proposeBtn.html()).toContain(`disabled="disabled"`)
+      })
+
+      it(`if the password field is empty`, () => {
+        wrapper.setData(proposal)
+        wrapper.setData({ password: `` })
         let proposeBtn = wrapper.find(`#submit-proposal`)
         expect(proposeBtn.html()).toContain(`disabled="disabled"`)
       })
@@ -101,11 +123,7 @@ describe(`ModalPropose`, () => {
 
     describe(`enables the 'Create Proposal' button`, () => {
       it(`if the user has enough balance and the fields are within the length ranges`, () => {
-        wrapper.setData({
-          amount: 15,
-          title: `A new text proposal for Cosmos`,
-          description: `a valid description for the proposal`
-        })
+        wrapper.setData(proposal)
         let submitButton = wrapper.find(`#submit-proposal`)
         expect(submitButton.html()).not.toContain(`disabled="disabled"`)
       })
@@ -126,20 +144,13 @@ describe(`ModalPropose`, () => {
 
   describe(`Propose`, () => {
     it(`'Create Proposal' button submits a new proposal and closes modal`, () => {
-      let proposalArgs = {
-        amount: 15,
-        title: `A new text proposal for Cosmos`,
-        description: `a valid description for the proposal`,
-        type: `Text`,
-        password: `1234567890`
-      }
-      wrapper.setData(proposalArgs)
+      wrapper.setData(proposal)
       wrapper.vm.onPropose()
 
       expect(wrapper.emittedByOrder()).toEqual([
         {
           name: `createProposal`,
-          args: [proposalArgs]
+          args: [{ type: `Text`, ...proposal }]
         },
         {
           name: `update:showModalPropose`,

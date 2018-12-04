@@ -71,7 +71,7 @@
     <div class="modal-vote-footer">
       <tm-btn
         id="cast-vote"
-        :disabled="$v.option.$invalid"
+        :disabled="$v.$invalid"
         color="primary"
         value="Vote"
         size="lg"

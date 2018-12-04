@@ -34,21 +34,29 @@ describe(`ModalVote`, () => {
     it(`the 'option' defaults to an empty string`, () => {
       expect(wrapper.vm.option).toEqual(``)
     })
+
+    it(`account password defaults to an empty string`, () => {
+      expect(wrapper.vm.password).toEqual(``)
+    })
   })
 
   describe(`enables or disables Vote correctly`, () => {
     it(`disables the 'Vote' button`, () => {
       // default values
       let voteBtn = wrapper.find(`#cast-vote`)
-      expect(voteBtn.html()).not.toContain(`active`)
+      expect(voteBtn.html()).toContain(`disabled="disabled"`)
 
       // non valid option value
-      wrapper.setData({ option: `other` })
-      expect(voteBtn.html()).not.toContain(`active`)
+      wrapper.setData({ option: `other`, password: `1234567890` })
+      expect(voteBtn.html()).toContain(`disabled="disabled"`)
+
+      // no password
+      wrapper.setData({ option: `No`, password: `` })
+      expect(voteBtn.html()).toContain(`disabled="disabled"`)
     })
 
     it(`enables the 'Vote' button if the user selected a valid option`, () => {
-      wrapper.setData({ option: `Yes` })
+      wrapper.setData({ option: `Yes`, password: `1234567890` })
       let voteBtn = wrapper.find(`#vote-yes`)
       let submitButton = wrapper.find(`#cast-vote`)
       expect(voteBtn.html()).toContain(`active`)
@@ -103,13 +111,13 @@ describe(`ModalVote`, () => {
     })
 
     it(`Vote button casts a vote and closes modal`, () => {
-      wrapper.setData({ option: `Yes` })
+      wrapper.setData({ option: `Yes`, password: `1234567890` })
       wrapper.vm.onVote()
 
       expect(wrapper.emittedByOrder()).toEqual([
         {
           name: `castVote`,
-          args: [{ option: `Yes`, password: `` }]
+          args: [{ option: `Yes`, password: `1234567890` }]
         },
         {
           name: `update:showModalVote`,
