@@ -41,7 +41,6 @@
         v-if="wallet.balances.length > 0 && coin.amount > 0"
         :key="coin.denom"
         :coin="coin"
-        :connected="connected"
         class="tm-li-balance"
       />
     </ul>

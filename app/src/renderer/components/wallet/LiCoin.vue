@@ -12,8 +12,7 @@
       </div>
       <router-link :to="{ name: 'send', params: { denom: coin.denom } }">
         <tm-btn
-          :disabled="!connected"
-          :value="connected ? 'Send' : 'Connecting...'"
+          value="Send"
           class="sendTx-btn"
           icon="chevron_right"
           icon-pos="right"
@@ -35,10 +34,6 @@ export default {
   props: {
     coin: {
       type: Object,
-      required: true
-    },
-    connected: {
-      type: Boolean,
       required: true
     }
   },
