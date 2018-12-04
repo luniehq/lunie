@@ -184,7 +184,7 @@ export default {
       return moment(new Date(this.proposal.submit_time)).fromNow()
     },
     votingStartedAgo() {
-      return moment(new Date(this.proposal.voting_start_block)).fromNow()
+      return moment(new Date(this.proposal.voting_start_time)).fromNow()
     },
     depositEndsIn() {
       return moment(new Date(this.proposal.deposit_end_time)).fromNow()
