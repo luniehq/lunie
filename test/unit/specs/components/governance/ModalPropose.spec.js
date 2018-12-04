@@ -130,7 +130,8 @@ describe(`ModalPropose`, () => {
         amount: 15,
         title: `A new text proposal for Cosmos`,
         description: `a valid description for the proposal`,
-        type: `Text`
+        type: `Text`,
+        password: `1234567890`
       }
       wrapper.setData(proposalArgs)
       wrapper.vm.onPropose()

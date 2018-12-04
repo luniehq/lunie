@@ -109,7 +109,8 @@ describe(`DelegationModal`, () => {
           args: [
             {
               amount: 50,
-              from: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+              from: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+              password: ``
             }
           ]
         },

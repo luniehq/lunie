@@ -89,7 +89,8 @@ describe(`UndelegationModal`, () => {
           name: `submitUndelegation`,
           args: [
             {
-              amount: 4.2
+              amount: 4.2,
+              password: ``
             }
           ]
         },

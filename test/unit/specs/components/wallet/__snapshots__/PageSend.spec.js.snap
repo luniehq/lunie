@@ -200,60 +200,6 @@ exports[`PageSend disables sending if not connected 1`] = `
                   <!---->
                   <label
                     class="tm-form-group__label"
-                    for="send-zone-id"
-                  >
-                    Zone ID
-                  </label>
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <div
-                      class="tm-select"
-                      id="send-zone-id"
-                    >
-                      <select
-                        class="tm-field tm-field-select"
-                      >
-                        <option
-                          disabled="disabled"
-                          hidden="hidden"
-                          selected="selected"
-                          value=""
-                        >
-                          Select zone...
-                        </option>
-                        <option
-                          value="basecoind-demo1"
-                        >
-                          basecoind-demo1
-                        </option>
-                        <option
-                          value="basecoind-demo2"
-                        >
-                          basecoind-demo2
-                        </option>
-                      </select>
-                      <div
-                        class="tm-field-select-addon"
-                      >
-                        <i
-                          class="material-icons"
-                        >
-                          arrow_drop_down
-                        </i>
-                      </div>
-                    </div>
-                     
-                    <!---->
-                  </div>
-                </div>
-                 
-                <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
                     for="send-address"
                   >
                     Send To
@@ -311,6 +257,56 @@ exports[`PageSend disables sending if not connected 1`] = `
                 <!---->
                  
                 <!---->
+                 
+                <hr />
+              </main>
+            </div>
+          </section>
+           
+          <section
+            class="tm-part"
+          >
+            <div
+              class="tm-part-container"
+            >
+              <!---->
+              <main
+                class="tm-part-main"
+              >
+                <div
+                  class="tm-form-group"
+                >
+                  <!---->
+                  <label
+                    class="tm-form-group__label"
+                    for="password"
+                  >
+                    Account password
+                  </label>
+                  <div
+                    class="tm-form-group__field"
+                  >
+                    <input
+                      class="tm-field"
+                      id="password"
+                      placeholder="password..."
+                      type="password"
+                    />
+                     
+                    <!---->
+                     
+                    <input
+                      id="showPasswordCheckbox"
+                      type="checkbox"
+                    />
+                     
+                    <label
+                      for="showPasswordCheckbox"
+                    >
+                      Show password
+                    </label>
+                  </div>
+                </div>
               </main>
             </div>
           </section>
@@ -546,60 +542,6 @@ exports[`PageSend has the expected html structure 1`] = `
                   <!---->
                   <label
                     class="tm-form-group__label"
-                    for="send-zone-id"
-                  >
-                    Zone ID
-                  </label>
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <div
-                      class="tm-select"
-                      id="send-zone-id"
-                    >
-                      <select
-                        class="tm-field tm-field-select"
-                      >
-                        <option
-                          disabled="disabled"
-                          hidden="hidden"
-                          selected="selected"
-                          value=""
-                        >
-                          Select zone...
-                        </option>
-                        <option
-                          value="basecoind-demo1"
-                        >
-                          basecoind-demo1
-                        </option>
-                        <option
-                          value="basecoind-demo2"
-                        >
-                          basecoind-demo2
-                        </option>
-                      </select>
-                      <div
-                        class="tm-field-select-addon"
-                      >
-                        <i
-                          class="material-icons"
-                        >
-                          arrow_drop_down
-                        </i>
-                      </div>
-                    </div>
-                     
-                    <!---->
-                  </div>
-                </div>
-                 
-                <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
                     for="send-address"
                   >
                     Send To
@@ -665,6 +607,60 @@ exports[`PageSend has the expected html structure 1`] = `
                 <!---->
                  
                 <!---->
+                 
+                <hr />
+              </main>
+            </div>
+          </section>
+           
+          <section
+            class="tm-part"
+          >
+            <div
+              class="tm-part-container"
+            >
+              <!---->
+              <main
+                class="tm-part-main"
+              >
+                <div
+                  class="tm-form-group"
+                >
+                  <!---->
+                  <label
+                    class="tm-form-group__label"
+                    for="password"
+                  >
+                    Account password
+                  </label>
+                  <div
+                    class="tm-form-group__field"
+                  >
+                    <input
+                      class="tm-field"
+                      id="password"
+                      placeholder="password..."
+                      type="password"
+                    />
+                     
+                    <div
+                      class="tm-form-msg sm tm-form-msg--error"
+                    >
+                      Password is required
+                    </div>
+                     
+                    <input
+                      id="showPasswordCheckbox"
+                      type="checkbox"
+                    />
+                     
+                    <label
+                      for="showPasswordCheckbox"
+                    >
+                      Show password
+                    </label>
+                  </div>
+                </div>
               </main>
             </div>
           </section>
@@ -676,7 +672,6 @@ exports[`PageSend has the expected html structure 1`] = `
           <div>
             <button
               class="tm-btn"
-              disabled="disabled"
               id="send-btn"
             >
               <span
@@ -906,60 +901,6 @@ exports[`PageSend should show address required error 1`] = `
                 class="tm-part-main"
               >
                 <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="send-zone-id"
-                  >
-                    Zone ID
-                  </label>
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <div
-                      class="tm-select"
-                      id="send-zone-id"
-                    >
-                      <select
-                        class="tm-field tm-field-select"
-                      >
-                        <option
-                          disabled="disabled"
-                          hidden="hidden"
-                          selected="selected"
-                          value=""
-                        >
-                          Select zone...
-                        </option>
-                        <option
-                          value="basecoind-demo1"
-                        >
-                          basecoind-demo1
-                        </option>
-                        <option
-                          value="basecoind-demo2"
-                        >
-                          basecoind-demo2
-                        </option>
-                      </select>
-                      <div
-                        class="tm-field-select-addon"
-                      >
-                        <i
-                          class="material-icons"
-                        >
-                          arrow_drop_down
-                        </i>
-                      </div>
-                    </div>
-                     
-                    <!---->
-                  </div>
-                </div>
-                 
-                <div
                   class="tm-form-group tm-form-group--error"
                 >
                   <!---->
@@ -1030,6 +971,56 @@ exports[`PageSend should show address required error 1`] = `
                 <!---->
                  
                 <!---->
+                 
+                <hr />
+              </main>
+            </div>
+          </section>
+           
+          <section
+            class="tm-part"
+          >
+            <div
+              class="tm-part-container"
+            >
+              <!---->
+              <main
+                class="tm-part-main"
+              >
+                <div
+                  class="tm-form-group"
+                >
+                  <!---->
+                  <label
+                    class="tm-form-group__label"
+                    for="password"
+                  >
+                    Account password
+                  </label>
+                  <div
+                    class="tm-form-group__field"
+                  >
+                    <input
+                      class="tm-field"
+                      id="password"
+                      placeholder="password..."
+                      type="password"
+                    />
+                     
+                    <!---->
+                     
+                    <input
+                      id="showPasswordCheckbox"
+                      type="checkbox"
+                    />
+                     
+                    <label
+                      for="showPasswordCheckbox"
+                    >
+                      Show password
+                    </label>
+                  </div>
+                </div>
               </main>
             </div>
           </section>
@@ -1041,7 +1032,6 @@ exports[`PageSend should show address required error 1`] = `
           <div>
             <button
               class="tm-btn"
-              disabled="disabled"
               id="send-btn"
             >
               <span
@@ -1251,60 +1241,6 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                 class="tm-part-main"
               >
                 <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="send-zone-id"
-                  >
-                    Zone ID
-                  </label>
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <div
-                      class="tm-select"
-                      id="send-zone-id"
-                    >
-                      <select
-                        class="tm-field tm-field-select"
-                      >
-                        <option
-                          disabled="disabled"
-                          hidden="hidden"
-                          selected="selected"
-                          value=""
-                        >
-                          Select zone...
-                        </option>
-                        <option
-                          value="basecoind-demo1"
-                        >
-                          basecoind-demo1
-                        </option>
-                        <option
-                          value="basecoind-demo2"
-                        >
-                          basecoind-demo2
-                        </option>
-                      </select>
-                      <div
-                        class="tm-field-select-addon"
-                      >
-                        <i
-                          class="material-icons"
-                        >
-                          arrow_drop_down
-                        </i>
-                      </div>
-                    </div>
-                     
-                    <!---->
-                  </div>
-                </div>
-                 
-                <div
                   class="tm-form-group tm-form-group--error"
                 >
                   <!---->
@@ -1375,6 +1311,56 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                 <!---->
                  
                 <!---->
+                 
+                <hr />
+              </main>
+            </div>
+          </section>
+           
+          <section
+            class="tm-part"
+          >
+            <div
+              class="tm-part-container"
+            >
+              <!---->
+              <main
+                class="tm-part-main"
+              >
+                <div
+                  class="tm-form-group"
+                >
+                  <!---->
+                  <label
+                    class="tm-form-group__label"
+                    for="password"
+                  >
+                    Account password
+                  </label>
+                  <div
+                    class="tm-form-group__field"
+                  >
+                    <input
+                      class="tm-field"
+                      id="password"
+                      placeholder="password..."
+                      type="password"
+                    />
+                     
+                    <!---->
+                     
+                    <input
+                      id="showPasswordCheckbox"
+                      type="checkbox"
+                    />
+                     
+                    <label
+                      for="showPasswordCheckbox"
+                    >
+                      Show password
+                    </label>
+                  </div>
+                </div>
               </main>
             </div>
           </section>
@@ -1386,7 +1372,6 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
           <div>
             <button
               class="tm-btn"
-              disabled="disabled"
               id="send-btn"
             >
               <span
@@ -1596,60 +1581,6 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                 class="tm-part-main"
               >
                 <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="send-zone-id"
-                  >
-                    Zone ID
-                  </label>
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <div
-                      class="tm-select"
-                      id="send-zone-id"
-                    >
-                      <select
-                        class="tm-field tm-field-select"
-                      >
-                        <option
-                          disabled="disabled"
-                          hidden="hidden"
-                          selected="selected"
-                          value=""
-                        >
-                          Select zone...
-                        </option>
-                        <option
-                          value="basecoind-demo1"
-                        >
-                          basecoind-demo1
-                        </option>
-                        <option
-                          value="basecoind-demo2"
-                        >
-                          basecoind-demo2
-                        </option>
-                      </select>
-                      <div
-                        class="tm-field-select-addon"
-                      >
-                        <i
-                          class="material-icons"
-                        >
-                          arrow_drop_down
-                        </i>
-                      </div>
-                    </div>
-                     
-                    <!---->
-                  </div>
-                </div>
-                 
-                <div
                   class="tm-form-group tm-form-group--error"
                 >
                   <!---->
@@ -1720,6 +1651,56 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                 <!---->
                  
                 <!---->
+                 
+                <hr />
+              </main>
+            </div>
+          </section>
+           
+          <section
+            class="tm-part"
+          >
+            <div
+              class="tm-part-container"
+            >
+              <!---->
+              <main
+                class="tm-part-main"
+              >
+                <div
+                  class="tm-form-group"
+                >
+                  <!---->
+                  <label
+                    class="tm-form-group__label"
+                    for="password"
+                  >
+                    Account password
+                  </label>
+                  <div
+                    class="tm-form-group__field"
+                  >
+                    <input
+                      class="tm-field"
+                      id="password"
+                      placeholder="password..."
+                      type="password"
+                    />
+                     
+                    <!---->
+                     
+                    <input
+                      id="showPasswordCheckbox"
+                      type="checkbox"
+                    />
+                     
+                    <label
+                      for="showPasswordCheckbox"
+                    >
+                      Show password
+                    </label>
+                  </div>
+                </div>
               </main>
             </div>
           </section>
@@ -1731,7 +1712,6 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
           <div>
             <button
               class="tm-btn"
-              disabled="disabled"
               id="send-btn"
             >
               <span
@@ -1941,60 +1921,6 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
                 class="tm-part-main"
               >
                 <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="send-zone-id"
-                  >
-                    Zone ID
-                  </label>
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <div
-                      class="tm-select"
-                      id="send-zone-id"
-                    >
-                      <select
-                        class="tm-field tm-field-select"
-                      >
-                        <option
-                          disabled="disabled"
-                          hidden="hidden"
-                          selected="selected"
-                          value=""
-                        >
-                          Select zone...
-                        </option>
-                        <option
-                          value="basecoind-demo1"
-                        >
-                          basecoind-demo1
-                        </option>
-                        <option
-                          value="basecoind-demo2"
-                        >
-                          basecoind-demo2
-                        </option>
-                      </select>
-                      <div
-                        class="tm-field-select-addon"
-                      >
-                        <i
-                          class="material-icons"
-                        >
-                          arrow_drop_down
-                        </i>
-                      </div>
-                    </div>
-                     
-                    <!---->
-                  </div>
-                </div>
-                 
-                <div
                   class="tm-form-group tm-form-group--error"
                 >
                   <!---->
@@ -2065,6 +1991,56 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
                 <!---->
                  
                 <!---->
+                 
+                <hr />
+              </main>
+            </div>
+          </section>
+           
+          <section
+            class="tm-part"
+          >
+            <div
+              class="tm-part-container"
+            >
+              <!---->
+              <main
+                class="tm-part-main"
+              >
+                <div
+                  class="tm-form-group"
+                >
+                  <!---->
+                  <label
+                    class="tm-form-group__label"
+                    for="password"
+                  >
+                    Account password
+                  </label>
+                  <div
+                    class="tm-form-group__field"
+                  >
+                    <input
+                      class="tm-field"
+                      id="password"
+                      placeholder="password..."
+                      type="password"
+                    />
+                     
+                    <!---->
+                     
+                    <input
+                      id="showPasswordCheckbox"
+                      type="checkbox"
+                    />
+                     
+                    <label
+                      for="showPasswordCheckbox"
+                    >
+                      Show password
+                    </label>
+                  </div>
+                </div>
               </main>
             </div>
           </section>
@@ -2076,7 +2052,6 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
           <div>
             <button
               class="tm-btn"
-              disabled="disabled"
               id="send-btn"
             >
               <span
@@ -2312,60 +2287,6 @@ exports[`PageSend should trigger confirmation modal if form is corect 1`] = `
                   <!---->
                   <label
                     class="tm-form-group__label"
-                    for="send-zone-id"
-                  >
-                    Zone ID
-                  </label>
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <div
-                      class="tm-select"
-                      id="send-zone-id"
-                    >
-                      <select
-                        class="tm-field tm-field-select"
-                      >
-                        <option
-                          disabled="disabled"
-                          hidden="hidden"
-                          selected="selected"
-                          value=""
-                        >
-                          Select zone...
-                        </option>
-                        <option
-                          value="basecoind-demo1"
-                        >
-                          basecoind-demo1
-                        </option>
-                        <option
-                          value="basecoind-demo2"
-                        >
-                          basecoind-demo2
-                        </option>
-                      </select>
-                      <div
-                        class="tm-field-select-addon"
-                      >
-                        <i
-                          class="material-icons"
-                        >
-                          arrow_drop_down
-                        </i>
-                      </div>
-                    </div>
-                     
-                    <!---->
-                  </div>
-                </div>
-                 
-                <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
                     for="send-address"
                   >
                     Send To
@@ -2423,6 +2344,56 @@ exports[`PageSend should trigger confirmation modal if form is corect 1`] = `
                 <!---->
                  
                 <!---->
+                 
+                <hr />
+              </main>
+            </div>
+          </section>
+           
+          <section
+            class="tm-part"
+          >
+            <div
+              class="tm-part-container"
+            >
+              <!---->
+              <main
+                class="tm-part-main"
+              >
+                <div
+                  class="tm-form-group"
+                >
+                  <!---->
+                  <label
+                    class="tm-form-group__label"
+                    for="password"
+                  >
+                    Account password
+                  </label>
+                  <div
+                    class="tm-form-group__field"
+                  >
+                    <input
+                      class="tm-field"
+                      id="password"
+                      placeholder="password..."
+                      type="password"
+                    />
+                     
+                    <!---->
+                     
+                    <input
+                      id="showPasswordCheckbox"
+                      type="checkbox"
+                    />
+                     
+                    <label
+                      for="showPasswordCheckbox"
+                    >
+                      Show password
+                    </label>
+                  </div>
+                </div>
               </main>
             </div>
           </section>
@@ -2750,60 +2721,6 @@ exports[`PageSend should work without providing a default denom 1`] = `
                   <!---->
                   <label
                     class="tm-form-group__label"
-                    for="send-zone-id"
-                  >
-                    Zone ID
-                  </label>
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <div
-                      class="tm-select"
-                      id="send-zone-id"
-                    >
-                      <select
-                        class="tm-field tm-field-select"
-                      >
-                        <option
-                          disabled="disabled"
-                          hidden="hidden"
-                          selected="selected"
-                          value=""
-                        >
-                          Select zone...
-                        </option>
-                        <option
-                          value="basecoind-demo1"
-                        >
-                          basecoind-demo1
-                        </option>
-                        <option
-                          value="basecoind-demo2"
-                        >
-                          basecoind-demo2
-                        </option>
-                      </select>
-                      <div
-                        class="tm-field-select-addon"
-                      >
-                        <i
-                          class="material-icons"
-                        >
-                          arrow_drop_down
-                        </i>
-                      </div>
-                    </div>
-                     
-                    <!---->
-                  </div>
-                </div>
-                 
-                <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
                     for="send-address"
                   >
                     Send To
@@ -2869,6 +2786,60 @@ exports[`PageSend should work without providing a default denom 1`] = `
                 <!---->
                  
                 <!---->
+                 
+                <hr />
+              </main>
+            </div>
+          </section>
+           
+          <section
+            class="tm-part"
+          >
+            <div
+              class="tm-part-container"
+            >
+              <!---->
+              <main
+                class="tm-part-main"
+              >
+                <div
+                  class="tm-form-group"
+                >
+                  <!---->
+                  <label
+                    class="tm-form-group__label"
+                    for="password"
+                  >
+                    Account password
+                  </label>
+                  <div
+                    class="tm-form-group__field"
+                  >
+                    <input
+                      class="tm-field"
+                      id="password"
+                      placeholder="password..."
+                      type="password"
+                    />
+                     
+                    <div
+                      class="tm-form-msg sm tm-form-msg--error"
+                    >
+                      Password is required
+                    </div>
+                     
+                    <input
+                      id="showPasswordCheckbox"
+                      type="checkbox"
+                    />
+                     
+                    <label
+                      for="showPasswordCheckbox"
+                    >
+                      Show password
+                    </label>
+                  </div>
+                </div>
               </main>
             </div>
           </section>
@@ -2880,7 +2851,6 @@ exports[`PageSend should work without providing a default denom 1`] = `
           <div>
             <button
               class="tm-btn"
-              disabled="disabled"
               id="send-btn"
             >
               <span

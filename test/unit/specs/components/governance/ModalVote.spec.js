@@ -109,7 +109,7 @@ describe(`ModalVote`, () => {
       expect(wrapper.emittedByOrder()).toEqual([
         {
           name: `castVote`,
-          args: [{ option: `Yes` }]
+          args: [{ option: `Yes`, password: `` }]
         },
         {
           name: `update:showModalVote`,

@@ -15,7 +15,7 @@ Array [
         "account_number": "1",
         "chain_id": "test-chain",
         "name": "default",
-        "password": "1234567890",
+        "password": undefined,
         "sequence": "1",
       },
       "gas": "50000000",

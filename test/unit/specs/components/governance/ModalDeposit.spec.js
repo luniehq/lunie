@@ -108,7 +108,8 @@ describe(`ModalDeposit`, () => {
                   amount: `10`,
                   denom: `stake`
                 }
-              ]
+              ],
+              password: ``
             }
           ]
         },
