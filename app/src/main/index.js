@@ -494,7 +494,7 @@ async function pickAndConnect() {
   }
 
   if (!compatible) {
-    let message = `Node ${nodeURL} uses SDK version ${nodeVersion} which is incompatible to the version used in Voyager ${expectedGaiaCliVersion}`
+    let message = `Node ${nodeURL} is using Cosmos-SDK version ${nodeVersion}, which is incompatible with the version currently being used by Voyager (${expectedGaiaCliVersion}).`
     log(message)
     await stopLCD()
 
