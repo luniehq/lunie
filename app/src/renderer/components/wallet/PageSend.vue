@@ -24,25 +24,6 @@
       </tm-part>
       <tm-part title="Transaction Details">
         <tm-form-group
-          v-if="config.devMode"
-          :error="$v.fields.zoneId.$error"
-          field-id="send-zone-id"
-          field-label="Zone ID"
-        >
-          <tm-field
-            id="send-zone-id"
-            v-model="fields.zoneId"
-            :options="zoneIds"
-            type="select"
-            placeholder="Select zone..."
-          />
-          <tm-form-msg
-            v-if="!$v.fields.zoneId.required"
-            name="Zone"
-            type="required"
-          />
-        </tm-form-group>
-        <tm-form-group
           :error="$v.fields.address.$error"
           field-id="send-address"
           field-label="Send To"
@@ -104,6 +85,28 @@
           >
         </p>
         <br v-if="mockedConnector" />
+        <hr />
+      </tm-part>
+      <tm-part>
+        <tm-form-group
+          :error="$v.fields.password.$error"
+          field-id="password"
+          field-label="Account password"
+        >
+          <tm-field
+            id="password"
+            v-model="password"
+            placeholder="password..."
+            :type="showPassword ? `text` : `password`"
+          />
+          <input
+            id="showPasswordCheckbox"
+            type="checkbox"
+            v-model="showPassword"
+            @input="togglePassword"
+          />
+          <label for="showPasswordCheckbox">Show password</label>
+        </tm-form-group>
       </tm-part>
       <div slot="footer">
         <tm-btn
@@ -184,11 +187,12 @@ export default {
     fields: {
       address: ``,
       amount: null,
-      denom: ``,
-      zoneId: `cosmos-hub-1`
+      denom: ``
     },
     confirmationPending: false,
-    sending: false
+    sending: false,
+    password: ``,
+    showPassword: false
   }),
   computed: {
     ...mapGetters([
@@ -207,23 +211,12 @@ export default {
         key: i.denom.toUpperCase(),
         value: i.denom
       }))
-    },
-    zoneIds() {
-      return this.wallet.zoneIds.map(z => ({ key: z, value: z }))
     }
-  },
-  watch: {
-    // TODO ignored while we don't have IBC
-    // // if the zoneId gets added at a later time
-    // "wallet.zoneIds": () => {
-    //   this.fields.zoneId = this.wallet.zoneIds[0]
-    // }
   },
   mounted() {
     if (this.denom) {
       this.fields.denom = this.denom
     }
-    this.fields.zoneId = this.wallet.zoneIds[0]
   },
   methods: {
     resetForm() {
@@ -231,6 +224,9 @@ export default {
       this.fields.amount = null
       this.sending = false
       this.$v.$reset()
+    },
+    togglePassword() {
+      this.showPassword = !this.showPassword
     },
     onSubmit() {
       this.$v.$touch()
@@ -245,15 +241,7 @@ export default {
       let address = this.fields.address
       let denom = this.fields.denom
       try {
-        // if address has a slash, it is IBC address format
         let type = `send`
-        // TODO reenable when we have IBC
-        // if (this.lastHeader.chain_id !== zoneId) {
-        //   type = "ibcSend"
-        //   address = `${zoneId}/${address}`
-        // } else {
-        //   type = "send"
-        // }
         await this.sendTx({
           type,
           to: address,
@@ -302,7 +290,7 @@ export default {
           between: between(1, this.max)
         },
         denom: { required },
-        zoneId: { required }
+        password: { required }
       }
     }
   }

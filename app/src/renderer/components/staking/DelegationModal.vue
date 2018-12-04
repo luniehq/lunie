@@ -48,6 +48,26 @@
         :options="fromOptions"
         type="select"
       />
+      <hr />
+    </tm-form-group>
+    <tm-form-group
+      class="delegation-modal-form-group"
+      field-id="password"
+      field-label="Account password"
+    >
+      <tm-field
+        id="password"
+        v-model="password"
+        placeholder="password..."
+        :type="showPassword ? `text` : `password`"
+      />
+      <input
+        id="showPasswordCheckbox"
+        type="checkbox"
+        v-model="showPassword"
+        @input="togglePassword"
+      />
+      <label for="showPasswordCheckbox">Show password</label>
     </tm-form-group>
     <div class="delegation-modal-footer">
       <tm-btn
@@ -95,7 +115,9 @@ export default {
   },
   data: () => ({
     amount: 0,
-    selectedIndex: 0
+    selectedIndex: 0,
+    password: ``,
+    showPassword: false
   }),
   computed: {
     ...mapGetters([`bondingDenom`])
@@ -106,12 +128,18 @@ export default {
         required,
         isInteger,
         between: between(1, this.fromOptions[this.selectedIndex].maximum)
+      },
+      password: {
+        required
       }
     }
   },
   methods: {
     close() {
       this.$emit(`update:showDelegationModal`, false)
+    },
+    togglePassword() {
+      this.showPassword = !this.showPassword
     },
     onDelegation() {
       this.$emit(`submitDelegation`, {
