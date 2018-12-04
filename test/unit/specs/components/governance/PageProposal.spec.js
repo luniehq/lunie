@@ -85,8 +85,7 @@ describe(`PageProposal`, () => {
     describe(`Proposal status`, () => {
       it(`displays correctly a proposal that 'Passed'`, () => {
         expect(wrapper.vm.status).toMatchObject({
-          message: `This proposal has passed`,
-          color: `green`
+          message: `This proposal has passed`
         })
       })
 
@@ -110,7 +109,7 @@ describe(`PageProposal`, () => {
         wrapper.vm.proposal.proposal_status = `VotingPeriod`
         expect(wrapper.vm.status).toMatchObject({
           message: `Voting for this proposal is open`,
-          color: `blue`
+          color: `green`
         })
       })
 

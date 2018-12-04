@@ -2,7 +2,7 @@
 
 let test = require(`tape-promise/tape`)
 let { getApp, restart } = require(`./launch.js`)
-let { navigate, login } = require(`./common.js`)
+let { navigate, login, closeNotifications } = require(`./common.js`)
 /*
  * NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
  */
@@ -34,13 +34,13 @@ test(`Governance`, async function(t) {
     )
     await app.client.setValue(`#title`, `E2E test proposal title`)
     await app.client.setValue(`#description`, `E2E test proposal title`)
-    await app.client.setValue(`#amount`, `10`)
+    await app.client.setValue(`#amount`, 5)
     await t.ok(
       await app.client
         .click(`//button/*[. = 'Submit proposal']`)
         .waitForVisible(
           `//*[. = 'You have successfully submitted a new text proposal']`,
-          5 * 1000
+          4 * 1000
         ),
       `successful proposal submission`
     )
@@ -53,6 +53,78 @@ test(`Governance`, async function(t) {
       await app.client.$(`a*=E2E test proposal title`).isVisible(),
       `shows the newly created proposal`
     )
+    await closeNotifications(app)
+    t.end()
+  })
+
+  t.test(`proposal page`, async function(t) {
+    await app.client.$(`a*=E2E test proposal title`).click()
+    await t.ok(
+      await app.client.$(`.proposal`).isVisible(),
+      `shows the proposal page`
+    )
+    t.end()
+  })
+
+  t.test(`deposit`, async function(t) {
+    let deposit = () =>
+      $(`//dt[contains(text(), "Deposit")]`)
+        .$(`..`)
+        .$(`dd`)
+    let amount = parseInt((await deposit().getText()).split(` `)[0])
+    await t.ok(
+      await app.client.$(`.validator-profile__status.yellow`).isVisible(),
+      `the proposal is open for deposits`
+    )
+    await app.client.$(`#deposit-btn`).click()
+    await t.ok(
+      await app.client.$(`#modal-deposit`).isVisible(),
+      `opens deposit modal`
+    )
+    await app.client.setValue(`#amount`, 10)
+    await t.ok(
+      await app.client
+        .$(`#submit-deposit`)
+        .click()
+        .waitForVisible(
+          `//*[. = 'You have successfully deposited your steaks on proposal #1']`,
+          4 * 1000
+        ),
+      `successful deposit`
+    )
+    let newAmount = parseInt((await deposit().getText()).split(` `)[0])
+    t.equal(
+      newAmount,
+      amount + 10,
+      `increments the deposit count displayed on the proposal page`
+    )
+    await closeNotifications(app)
+    t.end()
+  })
+
+  t.test(`vote`, async function(t) {
+    await t.ok(
+      await app.client.$(`.validator-profile__status.green`).isVisible(),
+      `the proposal is open for voting`
+    )
+    await app.client.$(`#vote-btn`).click()
+    await t.ok(
+      await app.client.$(`#modal-vote`).isVisible(),
+      `opens voting modal`
+    )
+
+    await app.client.$(`#vote-yes`).click()
+    await t.ok(
+      await app.client
+        .$(`#cast-vote`)
+        .click()
+        .waitForVisible(
+          `//*[. = 'You have successfully voted Yes on proposal #1']`,
+          4 * 1000
+        ),
+      `successful vote`
+    )
+    // TODO: check if tally increased, blocked by SDK v.0.27
     t.end()
   })
 
