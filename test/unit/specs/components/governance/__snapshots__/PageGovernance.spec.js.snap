@@ -124,7 +124,7 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
 </div>
       <div class=\\"tm-data-msg__subtitle\\">
          <div>
-            You are currently not connected to a node. Voyager will load the data when    the connection is established again.  
+            You are currently not connected to a node. Voyager will load this data    when a connection is established.  
          </div>
 </div>
 </div>
