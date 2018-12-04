@@ -2,7 +2,7 @@ import Raven from "raven-js"
 
 export default ({ node }) => {
   const emptyState = {
-    govParameters: {
+    parameters: {
       deposit: {},
       tallying: {},
       voting: {}
@@ -14,7 +14,7 @@ export default ({ node }) => {
 
   const mutations = {
     setGovParameters(state, parameters) {
-      state.govParameters = parameters
+      state.parameters = parameters
     }
   }
 

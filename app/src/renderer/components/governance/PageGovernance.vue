@@ -54,6 +54,11 @@ export default {
         displayName: `Proposals`,
         pathName: `Proposals`
       }
+      // TODO uncomment when updated to latest SDK
+      // {
+      //   displayName: `Parameters`,
+      //   pathName: `Governance Parameters`
+      // }
     ],
     showModalPropose: false
   }),

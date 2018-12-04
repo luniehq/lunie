@@ -13,12 +13,13 @@ export default opts => ({
   proposals: require(`./governance/proposals.js`).default(opts),
   votes: require(`./governance/votes.js`).default(opts),
   deposits: require(`./governance/deposits.js`).default(opts),
+  governanceParameters: require(`./governance/parameters.js`).default(opts),
   send: require(`./send.js`).default(opts),
   themes: require(`./themes.js`).default(opts),
   user: require(`./user.js`).default(opts),
   validators: require(`./validators.js`).default(opts),
   wallet: require(`./wallet.js`).default(opts),
   keybase: require(`./keybase.js`).default(opts),
-  parameters: require(`./parameters.js`).default(opts),
+  stakingParameters: require(`./parameters.js`).default(opts),
   pool: require(`./pool.js`).default(opts)
 })

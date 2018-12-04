@@ -1,10 +1,10 @@
 import Vuelidate from "vuelidate"
 import setup from "../../../helpers/vuex-setup"
 import htmlBeautify from "html-beautify"
-import TabParameters from "renderer/components/staking/TabParameters"
+import TabParameters from "renderer/components/governance/TabParameters"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
-let { pool, stakingParameters } = lcdClientMock.state
+let { governanceParameters } = lcdClientMock.state
 
 describe(`TabParameters`, () => {
   let wrapper, store
@@ -15,11 +15,9 @@ describe(`TabParameters`, () => {
     commit: jest.fn(),
     dispatch: jest.fn(),
     getters: {
-      pool,
-      stakingParameters,
+      governanceParameters,
       totalAtoms: 100,
-      user: { atoms: 42 },
-      bondingDenom: `Stake`
+      user: { atoms: 42 }
     }
   }
 
@@ -27,8 +25,7 @@ describe(`TabParameters`, () => {
     let instance = mount(TabParameters, {
       localVue,
       doBefore: ({ store }) => {
-        store.commit(`setPool`, pool)
-        store.commit(`setStakingParameters`, stakingParameters)
+        store.commit(`setGovParameters`, governanceParameters)
       },
       $store
     })
@@ -44,12 +41,22 @@ describe(`TabParameters`, () => {
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
-  it(`shows the staking parameters and pool`, () => {
-    expect(store.state.stakingParameters.parameters).toEqual(stakingParameters)
-    expect(store.state.pool.pool).toEqual(pool)
+  it(`shows the governance parameters`, () => {
+    expect(store.state.governanceParameters.parameters).toEqual(
+      governanceParameters
+    )
   })
 
-  it(`displays unbonding period in days`, () => {
-    expect(wrapper.vm.unbondingTimeInDays).toEqual(3)
+  it(`displays the minimum deposit`, () => {
+    let coin = governanceParameters.deposit.min_deposit[0]
+    expect(wrapper.vm.minimumDeposit).toEqual(`${coin.amount} ${coin.denom}s`)
+  })
+
+  it(`displays deposit period in days`, () => {
+    expect(wrapper.vm.depositPeriodInDays).toEqual(1)
+  })
+
+  it(`displays voting period in days`, () => {
+    expect(wrapper.vm.votingPeriodInDays).toEqual(1)
   })
 })
