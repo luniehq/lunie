@@ -124,7 +124,6 @@ exports[`PageStaking has the expected html structure 1`] = `
       </div>
 </div>
 </div>
-      <ul></ul>
       <div class=\\"ps__rail-x\\" style=\\"left: 0px; top: 0px;\\">
          <div class=\\"ps__thumb-x\\" tabindex=\\"0\\" style=\\"left: 0px; width: 0px;\\"></div>
 </div>

@@ -55,6 +55,7 @@ Object {
       },
     },
   ],
+  "loaded": false,
   "loading": false,
   "staking": Array [
     Object {

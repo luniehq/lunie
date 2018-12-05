@@ -11,6 +11,7 @@ describe(`PagePreferences`, () => {
     wrapper = test.wrapper
     store = test.store
 
+    store.commit(`setConnected`, true)
     await store.dispatch(`signIn`, {
       account: `default`,
       password: `1234567890`

@@ -41,13 +41,15 @@
             <div class="column validator-profile__header__actions">
               <tm-btn
                 id="delegation-btn"
-                value="Delegate"
+                :disabled="!connected"
+                :value="connected ? 'Delegate' : 'Connecting...'"
                 color="primary"
                 @click.native="onDelegation"
               />
               <tm-btn
                 id="undelegation-btn"
-                value="Undelegate"
+                :disabled="!connected"
+                :value="connected ? 'Undelegate' : 'Connecting...'"
                 color="secondary"
                 @click.native="onUndelegation"
               />
@@ -250,7 +252,8 @@ export default {
       `keybase`,
       `oldBondedAtoms`,
       `totalAtoms`,
-      `wallet`
+      `wallet`,
+      `connected`
     ]),
     validator() {
       let validator = this.delegates.delegates.find(

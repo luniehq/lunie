@@ -5,6 +5,11 @@ import poolModule from "renderer/vuex/modules/pool.js"
 let instance = setup()
 
 const mockPool = lcdClientMock.state.pool
+const mockRootState = {
+  connection: {
+    connected: true
+  }
+}
 
 describe(`Module: Pool`, () => {
   let store
@@ -12,6 +17,8 @@ describe(`Module: Pool`, () => {
   beforeEach(() => {
     let test = instance.shallow(null)
     store = test.store
+
+    store.commit(`setConnected`, true)
   })
 
   it(`should have no pool by default`, () => {
@@ -36,7 +43,8 @@ describe(`Module: Pool`, () => {
       .mockImplementationOnce(async () => Promise.reject(`Error`))
     await actions.getPool({
       state,
-      commit: jest.fn()
+      commit: jest.fn(),
+      rootState: mockRootState
     })
     expect(state.error).toBe(`Error`)
   })
@@ -48,7 +56,8 @@ describe(`Module: Pool`, () => {
 
     await actions.reconnected({
       state: { loading: true },
-      dispatch
+      dispatch,
+      rootState: mockRootState
     })
     expect(dispatch).toHaveBeenCalledWith(`getPool`)
   })

@@ -9,10 +9,10 @@ export default ({ node }) => {
   let emptyState = {
     balances: [],
     loading: true,
+    loaded: false,
     error: null,
     denoms: [],
     address: null,
-    zoneIds: [`basecoind-demo1`, `basecoind-demo2`],
     subscribedRPC: null
   }
   let state = JSON.parse(JSON.stringify(emptyState))
@@ -55,13 +55,16 @@ export default ({ node }) => {
     async queryWalletBalances({ state, rootState, commit }) {
       if (!state.address) return
 
+      state.loading = true
+      if (!rootState.connection.connected) return
+
       try {
         let res = await node.queryAccount(state.address)
         if (!res) {
           state.loading = false
+          state.loaded = true
           return
         }
-
         state.error = null
         let coins = res.coins || []
         commit(`setNonce`, res.sequence)
@@ -73,6 +76,8 @@ export default ({ node }) => {
             break
           }
         }
+        state.loading = false
+        state.loaded = true
       } catch (error) {
         commit(`notifyError`, {
           title: `Error fetching balances`,
@@ -81,8 +86,6 @@ export default ({ node }) => {
         Raven.captureException(error)
         state.error = error
       }
-
-      state.loading = false
     },
     async loadDenoms({ commit, state }, maxIterations = 10) {
       // read genesis.json to get default denoms

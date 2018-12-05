@@ -3,6 +3,15 @@ import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 let { proposals, deposits } = lcdClientMock.state
 let addresses = lcdClientMock.addresses
 
+let mockRootState = {
+  wallet: {
+    address: addresses[0]
+  },
+  connection: {
+    connected: true
+  }
+}
+
 describe(`Module: Deposits`, () => {
   let module
 
@@ -27,7 +36,10 @@ describe(`Module: Deposits`, () => {
     let commit = jest.fn()
     proposals.forEach(async (proposal, i) => {
       let proposalId = proposal.proposal_id
-      await actions.getProposalDeposits({ state, commit }, proposalId)
+      await actions.getProposalDeposits(
+        { state, commit, rootState: mockRootState },
+        proposalId
+      )
       expect(commit.mock.calls[i]).toEqual([
         `setProposalDeposits`,
         proposalId,
@@ -40,12 +52,6 @@ describe(`Module: Deposits`, () => {
     let { actions } = module
     jest.useFakeTimers()
 
-    const rootState = {
-      wallet: {
-        address: addresses[0]
-      }
-    }
-
     let dispatch = jest.fn()
     const amount = [
       {
@@ -56,7 +62,7 @@ describe(`Module: Deposits`, () => {
 
     proposals.forEach(async (proposal, i) => {
       await actions.submitDeposit(
-        { rootState, dispatch },
+        { rootState: mockRootState, dispatch },
         { proposal_id: proposal.proposal_id, amount }
       )
 
@@ -88,6 +94,7 @@ describe(`Module: Deposits`, () => {
     let { actions, state } = module
     await actions.getProposalDeposits({
       state,
+      rootState: mockRootState,
       commit: jest.fn()
     })
     expect(state.error.message).toBe(`Error`)

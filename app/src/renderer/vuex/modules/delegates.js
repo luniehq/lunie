@@ -10,6 +10,7 @@ export default ({ node }) => {
     delegates: [],
     globalPower: null,
     loading: false,
+    loaded: false,
     error: null
   }
   const state = JSON.parse(JSON.stringify(emptyState))
@@ -68,12 +69,17 @@ export default ({ node }) => {
       }
       commit(`setDelegates`, validators)
     },
-    async getDelegates({ commit, dispatch }) {
+    async getDelegates({ commit, dispatch, rootState }) {
       commit(`setDelegateLoading`, true)
+
+      if (!rootState.connection.connected) return
+
       try {
         let validators = await node.getCandidates()
         let { validators: validatorSet } = await node.getValidatorSet()
         state.error = null
+        state.loading = false
+        state.loaded = true
 
         for (let validator of validators) {
           validator.isValidator = false

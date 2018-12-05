@@ -4,6 +4,11 @@ import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 import walletTxs from "./json/txs.js"
 
 let instance = setup()
+const mockRootState = {
+  connection: {
+    connected: true
+  }
+}
 
 describe(`Module: Transactions`, () => {
   let store, node, module
@@ -29,6 +34,7 @@ describe(`Module: Transactions`, () => {
     )
     store.commit(`setStakingTxs`, lcdClientMock.state.txs.slice(4))
     store.commit(`setGovernanceTxs`, lcdClientMock.state.txs.slice(2, 4))
+    store.commit(`setConnected`, true)
   })
 
   it(`should have an empty state by default`, () => {
@@ -125,7 +131,12 @@ describe(`Module: Transactions`, () => {
     const dispatch = jest.fn(() => {
       throw error
     })
-    await actions.getAllTxs({ commit, dispatch, state })
+    await actions.getAllTxs({
+      commit,
+      dispatch,
+      state,
+      rootState: mockRootState
+    })
 
     expect(state.error).toBe(error)
   })

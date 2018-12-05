@@ -24,25 +24,6 @@
       </tm-part>
       <tm-part title="Transaction Details">
         <tm-form-group
-          v-if="config.devMode"
-          :error="$v.fields.zoneId.$error"
-          field-id="send-zone-id"
-          field-label="Zone ID"
-        >
-          <tm-field
-            id="send-zone-id"
-            v-model="fields.zoneId"
-            :options="zoneIds"
-            type="select"
-            placeholder="Select zone..."
-          />
-          <tm-form-msg
-            v-if="!$v.fields.zoneId.required"
-            name="Zone"
-            type="required"
-          />
-        </tm-form-group>
-        <tm-form-group
           :error="$v.fields.address.$error"
           field-id="send-address"
           field-label="Send To"
@@ -133,6 +114,7 @@
       :amount="fields.amount"
       :recipient="fields.address"
       :denom="fields.denom"
+      :connected="connected"
       @approved="onApproved"
       @canceled="onCancel"
     />
@@ -207,23 +189,12 @@ export default {
         key: i.denom.toUpperCase(),
         value: i.denom
       }))
-    },
-    zoneIds() {
-      return this.wallet.zoneIds.map(z => ({ key: z, value: z }))
     }
-  },
-  watch: {
-    // TODO ignored while we don't have IBC
-    // // if the zoneId gets added at a later time
-    // "wallet.zoneIds": () => {
-    //   this.fields.zoneId = this.wallet.zoneIds[0]
-    // }
   },
   mounted() {
     if (this.denom) {
       this.fields.denom = this.denom
     }
-    this.fields.zoneId = this.wallet.zoneIds[0]
   },
   methods: {
     resetForm() {
@@ -301,8 +272,7 @@ export default {
           isInteger,
           between: between(1, this.max)
         },
-        denom: { required },
-        zoneId: { required }
+        denom: { required }
       }
     }
   }

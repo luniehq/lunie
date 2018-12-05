@@ -1,5 +1,15 @@
 <template>
-  <div>
+  <tm-data-connecting
+    v-if="(!stakingParameters.parameters.loaded || !pool.loaded) && !connected"
+  />
+  <tm-data-loading
+    v-else-if="
+      (!stakingParameters.parameters.loaded &&
+        stakingParameters.parameters.loading) ||
+        (!pool.loaded && pool.loading)
+    "
+  />
+  <div v-else>
     <div>
       <h3 class="staking-pool">
         Staking Pool
@@ -115,6 +125,7 @@
 <script>
 import { mapGetters } from "vuex"
 import { TmBtn, TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
+import TmDataConnecting from "common/TmDataConnecting"
 export default {
   name: `tab-staking-parameters`,
   components: {
@@ -122,7 +133,8 @@ export default {
     TmListItem,
     TmPage,
     TmPart,
-    TmToolBar
+    TmToolBar,
+    TmDataConnecting
   },
   data: () => ({
     paramsTooltips: {
@@ -138,7 +150,13 @@ export default {
     }
   }),
   computed: {
-    ...mapGetters([`config`, `stakingParameters`, `pool`, `bondingDenom`]),
+    ...mapGetters([
+      `config`,
+      `stakingParameters`,
+      `pool`,
+      `bondingDenom`,
+      `connected`
+    ]),
     unbondingTimeInDays() {
       return (
         parseInt(this.stakingParameters.parameters.unbonding_time) /

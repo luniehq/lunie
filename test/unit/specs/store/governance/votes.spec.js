@@ -3,6 +3,15 @@ import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 let { proposals, votes } = lcdClientMock.state
 let addresses = lcdClientMock.addresses
 
+let mockRootState = {
+  wallet: {
+    address: addresses[0]
+  },
+  connection: {
+    connected: true
+  }
+}
+
 describe(`Module: Votes`, () => {
   let module
 
@@ -26,7 +35,10 @@ describe(`Module: Votes`, () => {
     let commit = jest.fn()
     proposals.forEach(async (proposal, i) => {
       let proposalID = proposal.proposal_id
-      await actions.getProposalVotes({ state, commit }, proposalID)
+      await actions.getProposalVotes(
+        { state, commit, rootState: mockRootState },
+        proposalID
+      )
       expect(commit.mock.calls[i]).toEqual([
         `setProposalVotes`,
         proposalID,
@@ -81,7 +93,8 @@ describe(`Module: Votes`, () => {
     let { actions, state } = module
     await actions.getProposalVotes({
       state,
-      commit: jest.fn()
+      commit: jest.fn(),
+      rootState: mockRootState
     })
     expect(state.error.message).toBe(`Error`)
   })
