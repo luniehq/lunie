@@ -23,6 +23,8 @@ describe(`Module: Validators`, () => {
     let test = instance.shallow(null)
     store = test.store
     node = test.node
+
+    store.commit(`setConnected`, true)
   })
 
   it(`should have no validators by default`, () => {

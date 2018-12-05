@@ -1,5 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`TabParameters displays a message if loading 1`] = `<tm-data-loading />`;
+
+exports[`TabParameters displays a message if loading 2`] = `<tm-data-loading />`;
+
+exports[`TabParameters displays a message if waiting for connection 1`] = `<tm-data-connecting />`;
+
+exports[`TabParameters displays a message if waiting for connection 2`] = `<tm-data-connecting />`;
+
 exports[`TabParameters has the expected html structure 1`] = `
 "<div>
    <div>
@@ -11,7 +19,7 @@ exports[`TabParameters has the expected html structure 1`] = `
             <div class=\\"column\\">
                <dl class=\\"info_dl\\">
                   <dt>
-                     Loose steak              <i class=\\"material-icons info-button\\">info_outline</i>
+                     Loose              steak              <i class=\\"material-icons info-button\\">info_outline</i>
                   </dt>
                   <dd id=\\"loose_tokens\\">
                      100.0000000000            
@@ -21,7 +29,7 @@ exports[`TabParameters has the expected html structure 1`] = `
 <div class=\\"column\\">
    <dl class=\\"info_dl\\">
       <dt>
-         Delegated steak              <i class=\\"material-icons info-button\\">info_outline</i>
+         Delegated              steak              <i class=\\"material-icons info-button\\">info_outline</i>
       </dt>
       <dd id=\\"bonded_tokens\\">
          50.0000000000            

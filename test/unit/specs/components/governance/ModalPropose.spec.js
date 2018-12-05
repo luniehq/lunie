@@ -106,6 +106,22 @@ describe(`ModalPropose`, () => {
         expect(proposeBtn.html()).toContain(`disabled="disabled"`)
       })
 
+      it(`if title is too long disable submit button and show error message`, () => {
+        wrapper.setData({ title: `x`.repeat(65) })
+        let proposeBtn = wrapper.find(`#submit-proposal`)
+        expect(proposeBtn.html()).toContain(`disabled="disabled"`)
+        let errorMessage = wrapper.find(`input#title + div`)
+        expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
+      })
+
+      it(`if description is too long disable submit button and show error message`, () => {
+        wrapper.setData({ description: `x`.repeat(201) })
+        let proposeBtn = wrapper.find(`#submit-proposal`)
+        expect(proposeBtn.html()).toContain(`disabled="disabled"`)
+        let errorMessage = wrapper.find(`textarea#description + div`)
+        expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
+      })
+
       it(`if proposal type is invalid`, () => {
         wrapper.setData(proposal)
         wrapper.setData({ type: `Other` })

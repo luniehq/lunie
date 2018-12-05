@@ -81,7 +81,8 @@ const getterValues = {
   oldBondedAtoms: 50,
   totalAtoms: 100,
   user: { atoms: 42 },
-  wallet: { address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9` }
+  wallet: { address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9` },
+  connected: true
 }
 
 describe(`PageValidator`, () => {
@@ -100,6 +101,7 @@ describe(`PageValidator`, () => {
           candidateId: lcdClientMock.validators[0],
           value: `123.45678`
         })
+        store.commit(`setConnected`, true)
         store.commit(`setDelegates`, [validator, validatorTo])
       }
     })
@@ -267,6 +269,23 @@ describe(`PageValidator`, () => {
     // expect(wrapper.find(".validator-profile__status").classes()).toContain(
     //   "red"
     // )
+  })
+
+  it(`disables delegation and undelegation buttons if not connected`, () => {
+    expect(
+      wrapper.vm.$el.querySelector(`#delegation-btn`).getAttribute(`disabled`)
+    ).toBeNull()
+    expect(
+      wrapper.vm.$el.querySelector(`#undelegation-btn`).getAttribute(`disabled`)
+    ).toBeNull()
+    store.state.connection.connected = false
+    wrapper.update()
+    expect(
+      wrapper.vm.$el.querySelector(`#delegation-btn`).getAttribute(`disabled`)
+    ).not.toBeNull()
+    expect(
+      wrapper.vm.$el.querySelector(`#undelegation-btn`).getAttribute(`disabled`)
+    ).not.toBeNull()
   })
 })
 

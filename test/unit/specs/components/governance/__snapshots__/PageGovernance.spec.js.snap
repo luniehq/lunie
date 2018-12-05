@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PageGovernance without magic has the expected html structure 1`] = `
+exports[`PageGovernance disables proposal creation if not connected 1`] = `
 "<div class=\\"tm-page governance\\" data-title=\\"Governance\\">
    <header class=\\"tm-page-header\\">
       <div class=\\"tm-page-header-container\\">
@@ -15,24 +15,24 @@ exports[`PageGovernance without magic has the expected html structure 1`] = `
                      </div>
    <div class=\\"total-atoms top-section\\">
       <h3>
-         Total Stake
+         Total Steak
       </h3>
       <h2>
-         100.0000…
+         1,337.0000…
       </h2>
 </div>
    <div class=\\"unbonded-atoms top-section\\">
       <h3>
-         Available Stake
+         Available Steak
       </h3>
       <h2>
-         42.0000…
+         1,337.0000…
       </h2>
 </div>
 </div>
    <div class=\\"short-bech32\\">
       <div id=\\"address\\" class=\\"address\\">
-         Address Not Found  
+         cosmos…xxn9  
       </div>
    <div class=\\"copied\\">
       <i class=\\"material-icons\\">check</i><span>Copied</span>
@@ -40,10 +40,143 @@ exports[`PageGovernance without magic has the expected html structure 1`] = `
 </div>
    <div class=\\"tabs\\">
       <div class=\\"tab\\">
-         <router-link to=\\"[object Object]\\">
-            Proposals
-         </router-link>
+         <a href=\\"#/governance/proposals\\" class=\\"\\">Proposals</a>
+      </div>
 </div>
+   <button class=\\"tm-btn\\" id=\\"propose-btn\\" disabled=\\"disabled\\"><span class=\\"tm-btn__container tm-btn--primary\\">
+   <!---->
+   <!---->
+   <span class=\\"tm-btn__value\\">Connecting...</span></span></button>
+</div>
+   <div class=\\"tm-tool-bar\\">
+      <a disabled=\\"disabled\\" class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i></a><a><i class=\\"search material-icons\\">search</i></a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a><a href=\\"#/preferences\\" class=\\"\\" id=\\"settings\\"><i class=\\"material-icons\\">settings</i></a><a id=\\"signOut-btn\\"><i class=\\"material-icons\\">exit_to_app</i></a>
+   </div>
+</div>
+</div>
+   <menu class=\\"tm-page-header-menu\\">
+      <div></div>
+</menu>
+</div>
+</header>
+<main class=\\"tm-page-main\\">
+   <!---->
+   <!---->
+   <div class=\\"tm-page\\" data-title=\\"Wallet\\">
+      <header class=\\"tm-page-header\\">
+         <div class=\\"tm-page-header-container\\">
+            <div class=\\"tm-page-header-text\\">
+               <!---->
+               <!---->
+               <div class=\\"tm-page-header-body\\">
+                  <div class=\\"header-balance\\">
+                     <div class=\\"top\\">
+                        <div class=\\"icon-container\\">
+                           <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"icon\\">
+                        </div>
+      <div class=\\"total-atoms top-section\\">
+         <h3>
+            Total Steak
+         </h3>
+         <h2>
+            1,337.0000…
+         </h2>
+</div>
+      <div class=\\"unbonded-atoms top-section\\">
+         <h3>
+            Available Steak
+         </h3>
+         <h2>
+            1,337.0000…
+         </h2>
+</div>
+</div>
+      <div class=\\"short-bech32\\">
+         <div id=\\"address\\" class=\\"address\\">
+            cosmos…xxn9  
+         </div>
+      <div class=\\"copied\\">
+         <i class=\\"material-icons\\">check</i><span>Copied</span>
+      </div>
+</div>
+      <div class=\\"tabs\\"></div>
+</div>
+      <div class=\\"tm-tool-bar\\">
+         <a disabled=\\"disabled\\" class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i></a><a disabled=\\"disabled\\"><i class=\\"material-icons\\">refresh</i></a><a disabled=\\"disabled\\"><i class=\\"material-icons\\">search</i></a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a><a href=\\"#/preferences\\" class=\\"\\" id=\\"settings\\"><i class=\\"material-icons\\">settings</i></a><a id=\\"signOut-btn\\"><i class=\\"material-icons\\">exit_to_app</i></a>
+      </div>
+</div>
+</div>
+      <menu class=\\"tm-page-header-menu\\">
+         <div></div>
+</menu>
+</div>
+</header>
+   <main class=\\"tm-page-main\\">
+      <!---->
+      <div class=\\"tm-data-msg\\">
+         <div class=\\"tm-data-msg__icon\\">
+            <i class=\\"material-icons\\"></i>
+         </div>
+      <div class=\\"tm-data-msg__text\\">
+         <div class=\\"tm-data-msg__title\\">
+            <div>
+               Waiting for connection
+            </div>
+</div>
+      <div class=\\"tm-data-msg__subtitle\\">
+         <div>
+            You are currently not connected to a node. Voyager will load this data    when a connection is established.  
+         </div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</main>
+</div>"
+`;
+
+exports[`PageGovernance has the expected html structure 1`] = `
+"<div class=\\"tm-page governance\\" data-title=\\"Governance\\">
+   <header class=\\"tm-page-header\\">
+      <div class=\\"tm-page-header-container\\">
+         <div class=\\"tm-page-header-text\\">
+            <!---->
+            <!---->
+            <div class=\\"tm-page-header-body\\">
+               <div class=\\"header-balance\\">
+                  <div class=\\"top\\">
+                     <div class=\\"icon-container\\">
+                        <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"icon\\">
+                     </div>
+   <div class=\\"total-atoms top-section\\">
+      <h3>
+         Total Steak
+      </h3>
+      <h2>
+         1,351.0000…
+      </h2>
+</div>
+   <div class=\\"unbonded-atoms top-section\\">
+      <h3>
+         Available Steak
+      </h3>
+      <h2>
+         1,337.0000…
+      </h2>
+</div>
+</div>
+   <div class=\\"short-bech32\\">
+      <div id=\\"address\\" class=\\"address\\">
+         cosmos…xxn9  
+      </div>
+   <div class=\\"copied\\">
+      <i class=\\"material-icons\\">check</i><span>Copied</span>
+   </div>
+</div>
+   <div class=\\"tabs\\">
+      <div class=\\"tab\\">
+         <a href=\\"#/governance/proposals\\" class=\\"\\">Proposals</a>
+      </div>
 </div>
    <button class=\\"tm-btn\\" id=\\"propose-btn\\"><span class=\\"tm-btn__container tm-btn--primary\\">
    <!---->
@@ -51,11 +184,7 @@ exports[`PageGovernance without magic has the expected html structure 1`] = `
    <span class=\\"tm-btn__value\\">Create Proposal</span></span></button>
 </div>
    <div class=\\"tm-tool-bar\\">
-      <a disabled=\\"disabled\\" class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i></a><a><i class=\\"search material-icons\\">search</i></a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a>
-      <router-link id=\\"settings\\" to=\\"/preferences\\">
-         <i class=\\"material-icons\\">settings</i>
-      </router-link>
-      <a id=\\"signOut-btn\\"><i class=\\"material-icons\\">exit_to_app</i></a>
+      <a disabled=\\"disabled\\" class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i></a><a><i class=\\"search material-icons\\">search</i></a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a><a href=\\"#/preferences\\" class=\\"\\" id=\\"settings\\"><i class=\\"material-icons\\">settings</i></a><a id=\\"signOut-btn\\"><i class=\\"material-icons\\">exit_to_app</i></a>
    </div>
 </div>
 </div>
@@ -67,12 +196,81 @@ exports[`PageGovernance without magic has the expected html structure 1`] = `
 <main class=\\"tm-page-main ps\\">
    <!---->
    <!---->
-   <router-view></router-view>
-   <div class=\\"ps__rail-x\\" style=\\"left: 0px; top: 0px;\\">
-      <div class=\\"ps__thumb-x\\" tabindex=\\"0\\" style=\\"left: 0px; width: 0px;\\"></div>
+   <div class=\\"tm-page\\" data-title=\\"Wallet\\">
+      <header class=\\"tm-page-header\\">
+         <div class=\\"tm-page-header-container\\">
+            <div class=\\"tm-page-header-text\\">
+               <!---->
+               <!---->
+               <div class=\\"tm-page-header-body\\">
+                  <div class=\\"header-balance\\">
+                     <div class=\\"top\\">
+                        <div class=\\"icon-container\\">
+                           <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"icon\\">
+                        </div>
+      <div class=\\"total-atoms top-section\\">
+         <h3>
+            Total Steak
+         </h3>
+         <h2>
+            1,351.0000…
+         </h2>
 </div>
-   <div class=\\"ps__rail-y\\" style=\\"top: 0px; left: 0px;\\">
-      <div class=\\"ps__thumb-y\\" tabindex=\\"0\\" style=\\"top: 0px; height: 0px;\\"></div>
+      <div class=\\"unbonded-atoms top-section\\">
+         <h3>
+            Available Steak
+         </h3>
+         <h2>
+            1,337.0000…
+         </h2>
+</div>
+</div>
+      <div class=\\"short-bech32\\">
+         <div id=\\"address\\" class=\\"address\\">
+            cosmos…xxn9  
+         </div>
+      <div class=\\"copied\\">
+         <i class=\\"material-icons\\">check</i><span>Copied</span>
+      </div>
+</div>
+      <div class=\\"tabs\\"></div>
+</div>
+      <div class=\\"tm-tool-bar\\">
+         <a disabled=\\"disabled\\" class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i></a><a><i class=\\"material-icons\\">refresh</i></a><a disabled=\\"disabled\\"><i class=\\"material-icons\\">search</i></a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a><a href=\\"#/preferences\\" class=\\"\\" id=\\"settings\\"><i class=\\"material-icons\\">settings</i></a><a id=\\"signOut-btn\\"><i class=\\"material-icons\\">exit_to_app</i></a>
+      </div>
+</div>
+</div>
+      <menu class=\\"tm-page-header-menu\\">
+         <div></div>
+</menu>
+</div>
+</header>
+   <main class=\\"tm-page-main ps\\">
+      <!---->
+      <div class=\\"tm-data-msg\\">
+         <img src=\\"~assets/images/loader.svg\\" class=\\"tm-data-msg__icon\\">
+         <div class=\\"tm-data-msg__text\\">
+            <div slot=\\"title\\" class=\\"tm-data-msg__title\\">
+               Data is loading…
+            </div>
+      <div slot=\\"subtitle\\" class=\\"tm-data-msg__subtitle\\">
+         Please wait a moment.
+      </div>
+</div>
+</div>
+      <div class=\\"ps__rail-x\\" style=\\"left: 0px; top: 0px;\\">
+         <div class=\\"ps__thumb-x\\" tabindex=\\"0\\" style=\\"left: 0px; width: 0px;\\"></div>
+</div>
+      <div class=\\"ps__rail-y\\" style=\\"top: 0px; left: 0px;\\">
+         <div class=\\"ps__thumb-y\\" tabindex=\\"0\\" style=\\"top: 0px; height: 0px;\\"></div>
+</div>
+</main>
+</div>
+<div class=\\"ps__rail-x\\" style=\\"left: 0px; top: 0px;\\">
+   <div class=\\"ps__thumb-x\\" tabindex=\\"0\\" style=\\"left: 0px; width: 0px;\\"></div>
+</div>
+<div class=\\"ps__rail-y\\" style=\\"top: 0px; left: 0px;\\">
+   <div class=\\"ps__thumb-y\\" tabindex=\\"0\\" style=\\"top: 0px; height: 0px;\\"></div>
 </div>
 </main>
 </div>"

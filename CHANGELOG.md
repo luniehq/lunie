@@ -39,8 +39,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1685](https://github.com/cosmos/voyager/pull/1685) added .idea to .gitignore @sabau
 - [\#1578](https://github.com/cosmos/voyager/issues/1578) added e2e tests for submit governance proposals @fedekunze
 - [\#1672](https://github.com/cosmos/voyager/issues/1672) added e2e tests for staking parameters tab @fedekunze
-- [\#1550](https://github.com/cosmos/voyager/issues/1578) added e2e tests for voting on governance proposals @fedekunze
-- [\#1555](https://github.com/cosmos/voyager/issues/1578) added e2e tests for submitting a deposit on a governance proposal @fedekunze
+- [\#1533](https://github.com/cosmos/voyager/issues/1533) added handling of missing connection to the full node at several places. @faboweb
+- [\#1648](https://github.com/cosmos/voyager/issues/1648) added governance parameters tab @fedekunze
+- [\#1550](https://github.com/cosmos/voyager/issues/1550) added e2e tests for voting on governance proposals @fedekunze
+- [\#1555](https://github.com/cosmos/voyager/issues/1555) added e2e tests for submitting a deposit on a governance proposal @fedekunze
+- [\#1681](https://github.com/cosmos/voyager/issues/1681) Governance: Fixed voting starting date @sabau
+- [\#1690](https://github.com/cosmos/voyager/issues/1690) Governance: Fixed error messages for maxLength @sabau
 
 ### Changed
 
@@ -106,6 +110,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1640](https://github.com/cosmos/voyager/issues/1640) Fixed an error that prevented the search bar to be displayed using `Ctrl+F` @fedekunze
 - Fixed testnet config build script @faboweb
 - [\#1677](https://github.com/cosmos/voyager/issues/1677) Fixed inconstistent status colors on proposals @fedekunze
+- [\#1687](https://github.com/cosmos/voyager/issues/1687) Removing cached state if decrypting fails. @faboweb
+- [\#1662](https://github.com/cosmos/voyager/issues/1662) Fixed wrong node version in readme @faboweb
 
 ## [0.10.7] - 2018-10-10
 

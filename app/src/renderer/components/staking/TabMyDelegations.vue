@@ -1,9 +1,11 @@
 <template>
   <div>
-    <div v-if="yourValidators.length > 0">
+    <div v-if="delegation.loaded && yourValidators.length > 0">
       <table-validators :validators="yourValidators" />
     </div>
-    <tm-data-msg v-if="yourValidators.length < 1" icon="info_outline">
+    <tm-data-connecting v-if="!delegation.loaded && !connected" />
+    <tm-data-loading v-else-if="!delegation.loaded && delegation.loading" />
+    <tm-data-msg v-else-if="yourValidators.length === 0" icon="info_outline">
       <div slot="title">No Active Delegations</div>
       <div slot="subtitle">
         Looks like you haven't delegated any {{ bondingDenom }}s yet. Head over
@@ -12,12 +14,15 @@
         to make your first delegation!
       </div>
     </tm-data-msg>
-    <div v-if="yourValidators.length > 0" class="check-out-message">
+    <div
+      v-if="delegation.loaded && yourValidators.length > 0"
+      class="check-out-message"
+    >
       Check out
       <router-link :to="{ name: 'Validators' }">the validator list</router-link>
       to find other validators to delegate to.
     </div>
-    <div v-if="undelegatedValidators.length">
+    <div v-if="delegation.loaded && undelegatedValidators.length > 0">
       <h3 class="tab-header">
         Inactive Delegations
         <i v-tooltip.top="unbondInfo" class="material-icons info-button"
@@ -31,12 +36,13 @@
 
 <script>
 import { mapGetters } from "vuex"
-import { TmDataMsg } from "@tendermint/ui"
+import { TmDataMsg, TmDataLoading } from "@tendermint/ui"
 import TableValidators from "staking/TableValidators"
+import TmDataConnecting from "common/TmDataConnecting"
 
 export default {
   name: `tab-my-delegations`,
-  components: { TableValidators, TmDataMsg },
+  components: { TableValidators, TmDataMsg, TmDataConnecting, TmDataLoading },
   data: () => ({
     bondInfo: `Validators you are currently bonded to`,
     unbondInfo: `Your bonded validators in unbonding process`
@@ -46,7 +52,8 @@ export default {
       `delegates`,
       `delegation`,
       `committedDelegations`,
-      `bondingDenom`
+      `bondingDenom`,
+      `connected`
     ]),
     undelegatedValidators(
       { delegates: { delegates }, delegation: { unbondingDelegations } } = this

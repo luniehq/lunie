@@ -5,6 +5,7 @@ export default ({}) => {
   const emptyState = {
     identities: {},
     loading: false,
+    loaded: false,
     error: null
   }
   const state = JSON.parse(JSON.stringify(emptyState))
@@ -50,8 +51,9 @@ export default ({}) => {
             }
           })
         )
-        state.loading = false
         state.error = null
+        state.loading = false
+        state.loaded = true
         commit(`setKeybaseIdentities`, identities.filter(x => !!x))
       } catch (error) {
         commit(`notifyError`, {

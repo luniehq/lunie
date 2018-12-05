@@ -824,16 +824,14 @@ describe(`LCD Client Mock`, () => {
 
   it(`queries for staking parameters`, async () => {
     let parameters = await client.getStakingParameters()
-    expect(Object.keys(parameters)).toContain(
-      `unbonding_time`,
-      `max_validators`,
-      `bond_denom`
-    )
+    expect(parameters).toBeDefined()
+    expect(parameters).toMatchObject(lcdClientMock.state.stakingParameters)
   })
 
   it(`queries for staking pool`, async () => {
     let pool = await client.getPool()
-    expect(Object.keys(pool)).toContain(`loose_tokens`, `bonded_tokens`)
+    expect(pool).toBeDefined()
+    expect(pool).toMatchObject(lcdClientMock.state.pool)
   })
 
   it(`queries for validator signing information`, async () => {
@@ -989,21 +987,21 @@ describe(`LCD Client Mock`, () => {
 
     describe(`Parameters`, () => {
       it(`queries for governance deposit parameters`, async () => {
-        let depositParams = lcdClientMock.state.govParameters.deposit
+        let depositParams = lcdClientMock.state.governanceParameters.deposit
         let res = await client.getGovDepositParameters()
         expect(res).toBeDefined()
         expect(res).toEqual(depositParams)
       })
 
       it(`queries for governance tallying parameters`, async () => {
-        let tallyingParams = lcdClientMock.state.govParameters.tallying
+        let tallyingParams = lcdClientMock.state.governanceParameters.tallying
         let res = await client.getGovTallyingParameters()
         expect(res).toBeDefined()
         expect(res).toEqual(tallyingParams)
       })
 
       it(`queries for governance voting parameters`, async () => {
-        let votingParams = lcdClientMock.state.govParameters.voting
+        let votingParams = lcdClientMock.state.governanceParameters.voting
         let res = await client.getGovVotingParameters()
         expect(res).toBeDefined()
         expect(res).toEqual(votingParams)

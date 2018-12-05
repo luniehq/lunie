@@ -19,12 +19,9 @@ Object {
   "balances": Array [],
   "denoms": Array [],
   "error": null,
+  "loaded": false,
   "loading": true,
   "subscribedRPC": null,
-  "zoneIds": Array [
-    "basecoind-demo1",
-    "basecoind-demo2",
-  ],
 }
 `;
 

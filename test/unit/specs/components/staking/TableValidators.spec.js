@@ -73,20 +73,6 @@ describe(`TableValidators`, () => {
     expect(wrapper.vm.somethingToSearch).toBe(false)
   })
 
-  it(`should show placeholder if delegates are loading`, () => {
-    let { wrapper } = mount(TableValidators, {
-      getters: {
-        delegates: () => ({
-          delegates: [],
-          loading: true
-        })
-      },
-      propsData: { validators: [] },
-      stubs: { "tm-data-loading": `<data-loading />` }
-    })
-    expect(wrapper.contains(`data-loading`)).toBe(true)
-  })
-
   describe(`setSearch`, () => {
     it(`should show search when there is something to search`, () => {
       const $store = {

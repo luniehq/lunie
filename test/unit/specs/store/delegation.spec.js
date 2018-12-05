@@ -4,6 +4,21 @@ import delegationModule from "renderer/vuex/modules/delegation.js"
 
 let instance = setup()
 
+let mockRootState = {
+  wallet: {
+    address: `x`
+  },
+  connection: {
+    connected: true
+  },
+  config: {
+    bondingDenom: `atom`
+  },
+  user: {
+    atoms: 1000
+  }
+}
+
 describe(`Module: Delegations`, () => {
   let store, node
 
@@ -13,6 +28,7 @@ describe(`Module: Delegations`, () => {
     node = test.node
 
     await store.dispatch(`signIn`, { password: `bar`, account: `default` })
+    await store.commit(`setConnected`, true)
     await store.dispatch(`getDelegates`)
   })
 
@@ -329,7 +345,7 @@ describe(`Module: Delegations`, () => {
       .mockImplementationOnce(async () => Promise.reject(`Error`))
     await actions.getBondedDelegates({
       state,
-      rootState: { user: { address: `x` } },
+      rootState: mockRootState,
       commit: jest.fn(),
       dispatch: jest.fn()
     })
@@ -344,7 +360,7 @@ describe(`Module: Delegations`, () => {
       .mockImplementationOnce(async () => Promise.reject(`Error`))
     await actions.getBondedDelegates({
       state,
-      rootState: { user: { address: `x` } },
+      rootState: mockRootState,
       commit: jest.fn(),
       dispatch: jest.fn()
     })
@@ -359,7 +375,7 @@ describe(`Module: Delegations`, () => {
       .mockImplementationOnce(async () => Promise.reject(`Error`))
     await actions.getBondedDelegates({
       state,
-      rootState: { user: { address: `x` } },
+      rootState: mockRootState,
       commit: jest.fn(),
       dispatch: jest.fn()
     })

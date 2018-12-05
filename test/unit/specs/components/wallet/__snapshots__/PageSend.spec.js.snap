@@ -2087,7 +2087,7 @@ Object {
 }
 `;
 
-exports[`PageSend should trigger confirmation modal if form is corect 1`] = `
+exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
 <div
   class="tm-page"
   data-title="Send"

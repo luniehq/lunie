@@ -6,7 +6,8 @@ describe(`TmModalSendConfirmation`, () => {
   let propsData = {
     amount: 12345,
     denom: `funkycoin`,
-    recipient: `cosmosacc1tb1d4u5zerywfjhxuc9nudvw`
+    recipient: `cosmosacc1tb1d4u5zerywfjhxuc9nudvw`,
+    connected: true
   }
 
   beforeEach(() => {
@@ -33,5 +34,17 @@ describe(`TmModalSendConfirmation`, () => {
     let spy = jest.spyOn(wrapper.vm, `$emit`)
     wrapper.vm.$el.querySelector(`#send-cancel-btn`).click()
     expect(spy).toHaveBeenCalledWith(`canceled`)
+  })
+
+  it(`disables the send confirmation if not connected`, () => {
+    wrapper.setProps({
+      connected: false
+    })
+    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(
+      wrapper.vm.$el
+        .querySelector(`#send-confirmation-btn`)
+        .getAttribute(`disabled`)
+    ).toBe(`disabled`)
   })
 })

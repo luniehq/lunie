@@ -4,6 +4,7 @@ import Raven from "raven-js"
 export default ({ node }) => {
   let emptyState = {
     loading: false,
+    loaded: false,
     error: null,
     wallet: [], // {height, result: { gas, tags }, tx: { type, value: { fee: { amount: [{denom, amount}], gas}, msg: {type, inputs, outputs}}, signatures} }}
     staking: [],
@@ -48,9 +49,11 @@ export default ({ node }) => {
         await dispatch(`getAllTxs`)
       }
     },
-    async getAllTxs({ commit, dispatch, state }) {
+    async getAllTxs({ commit, dispatch, state, rootState }) {
       try {
-        commit(`setHistoryLoading`, true)
+        state.loading = true
+
+        if (!rootState.connection.connected) return
 
         const stakingTxs = await dispatch(`getTx`, `staking`)
         commit(`setStakingTxs`, stakingTxs)
@@ -65,6 +68,9 @@ export default ({ node }) => {
         await dispatch(`enrichTransactions`, {
           transactions: allTxs
         })
+        state.error = null
+        state.loading = false
+        state.loaded = true
       } catch (error) {
         commit(`notifyError`, {
           title: `Error getting transactions`,
@@ -73,7 +79,6 @@ export default ({ node }) => {
         Raven.captureException(error)
         state.error = error
       }
-      commit(`setHistoryLoading`, false)
     },
     async getTx(
       {

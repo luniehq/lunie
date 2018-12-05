@@ -39,11 +39,6 @@ export default function({ node }) {
     async setLastHeader({ state, rootState, dispatch }, header) {
       state.lastHeader = header
 
-      // TODO do this somewhere else probably
-      if (!rootState.wallet.zoneIds.find(x => x === header.chain_id)) {
-        rootState.wallet.zoneIds.unshift(header.chain_id)
-      }
-
       // updating the header is done even while the user is not logged in
       // to prevent errors popping up from the LCD before the user is signed on, we skip updating validators before
       // TODO identify why rest calls fail at this point
@@ -117,24 +112,6 @@ export default function({ node }) {
       clearTimeout(state.nodeHaltedTimeout)
       state.nodeHaltedTimeout = undefined
       commit(`setModalNodeHalted`, true)
-    },
-    async checkConnection({ commit }) {
-      let errorHandler = () =>
-        commit(`notifyError`, {
-          title: `Critical Error`,
-          body: `Couldn't initialize the blockchain client. If the problem persists, please make an issue on GitHub.`
-        })
-      try {
-        if (await node.lcdConnected()) {
-          return true
-        } else {
-          errorHandler()
-          return false
-        }
-      } catch (error) {
-        errorHandler()
-        return false
-      }
     },
     pollRPCConnection({ state, dispatch }, timeout = 3000) {
       if (state.nodeTimeout || state.stopConnecting) return

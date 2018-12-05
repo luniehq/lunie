@@ -149,7 +149,7 @@ describe(`PageSend`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`should trigger confirmation modal if form is corect`, async () => {
+  it(`should trigger confirmation modal if form is correct`, async () => {
     let { wrapper, store } = mount(PageSend, {
       propsData: {
         denom: `mycoin`

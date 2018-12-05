@@ -10,7 +10,8 @@
         >
       </tm-tool-bar>
     </div>
-    <tm-data-error v-if="!proposal" /><template v-else>
+    <tm-data-error v-if="!proposal" />
+    <template v-else>
       <div
         class="validator-profile__header validator-profile__section proposal"
       >
@@ -32,14 +33,16 @@
               <tm-btn
                 v-if="proposal.proposal_status === 'VotingPeriod'"
                 id="vote-btn"
-                value="Vote"
+                :value="connected ? 'Vote' : 'Connecting...'"
+                :disabled="!connected"
                 color="primary"
                 @click.native="onVote"
               />
               <tm-btn
                 v-if="proposal.proposal_status === 'DepositPeriod'"
                 id="deposit-btn"
-                value="Deposit"
+                :value="connected ? 'Deposit' : 'Connecting...'"
+                :disabled="!connected"
                 color="primary"
                 @click.native="onDeposit"
               />
@@ -48,8 +51,8 @@
                   proposal.proposal_status === 'Passed' ||
                     proposal.proposal_status === 'Rejected'
                 "
-                disabled="disabled"
                 value="Deposit / Vote"
+                disabled="disabled"
                 color="primary"
               />
             </div>
@@ -158,9 +161,9 @@ export default {
   }),
   computed: {
     // TODO: get denom from governance params
-    ...mapGetters([`bondingDenom`, `proposals`]),
+    ...mapGetters([`bondingDenom`, `proposals`, `connected`]),
     proposal() {
-      let proposal = this.proposals[this.proposalId]
+      let proposal = this.proposals.proposals[this.proposalId]
       if (proposal) {
         proposal.tally_result.yes = Math.round(
           parseFloat(proposal.tally_result.yes)
@@ -184,7 +187,7 @@ export default {
       return moment(new Date(this.proposal.submit_time)).fromNow()
     },
     votingStartedAgo() {
-      return moment(new Date(this.proposal.voting_start_block)).fromNow()
+      return moment(new Date(this.proposal.voting_start_time)).fromNow()
     },
     depositEndsIn() {
       return moment(new Date(this.proposal.deposit_end_time)).fromNow()

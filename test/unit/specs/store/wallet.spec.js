@@ -1,6 +1,11 @@
 import setup from "../../helpers/vuex-setup"
 
 let instance = setup()
+const mockRootState = {
+  connection: {
+    connected: true
+  }
+}
 
 describe(`Module: Wallet`, () => {
   let store, node
@@ -9,6 +14,8 @@ describe(`Module: Wallet`, () => {
     let test = instance.shallow(null)
     store = test.store
     node = test.node
+
+    store.commit(`setConnected`, true)
   })
 
   // DEFAULT
@@ -98,20 +105,22 @@ describe(`Module: Wallet`, () => {
     let walletModule = require(`renderer/vuex/modules/wallet.js`).default
     let { actions } = walletModule({})
     let commit = jest.fn()
-    await actions.loadDenoms({ commit })
+    await actions.loadDenoms({ commit, rootState: mockRootState })
     expect(commit).toHaveBeenCalledWith(`setDenoms`, [`mycoin`, `fermion`])
   })
 
   it(`should throw an error if can't load genesis`, async () => {
     jest.resetModules()
+    jest.spyOn(console, `log`)
     jest.doMock(`fs-extra`, () => ({
       pathExists: () => Promise.reject(`didn't found`)
     }))
     let walletModule = require(`renderer/vuex/modules/wallet.js`).default
     let { actions, state } = walletModule({})
     let commit = jest.fn()
-    await actions.loadDenoms({ commit, state }, 2)
+    await actions.loadDenoms({ commit, state, rootState: mockRootState }, 2)
     expect(state.error).toMatchSnapshot()
+    console.log.mockReset()
   })
 
   it(`should query the balances on reconnection`, () => {
