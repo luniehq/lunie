@@ -11,18 +11,6 @@ describe(`TabParameters`, () => {
   let { mount, localVue } = setup()
   localVue.use(Vuelidate)
 
-  const $store = {
-    commit: jest.fn(),
-    dispatch: jest.fn(),
-    getters: {
-      pool,
-      stakingParameters,
-      totalAtoms: 100,
-      user: { atoms: 42 },
-      bondingDenom: `Stake`
-    }
-  }
-
   beforeEach(() => {
     let instance = mount(TabParameters, {
       localVue,
@@ -38,7 +26,7 @@ describe(`TabParameters`, () => {
     })
     wrapper = instance.wrapper
     store = instance.store
-    store.state.parameters.loaded = true
+    store.state.stakingParameters.parameters.loaded = true
     store.state.pool.loaded = true
     wrapper.update()
   })
@@ -60,12 +48,12 @@ describe(`TabParameters`, () => {
 
   it(`displays a message if waiting for connection`, () => {
     store.commit(`setConnected`, false)
-    store.state.parameters.loaded = false
+    store.state.stakingParameters.parameters.loaded = false
     wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
     expect(wrapper.exists(`tm-data-connecting`)).toBe(true)
 
-    store.state.parameters.loaded = true
+    store.state.stakingParameters.parameters.loaded = true
     store.state.pool.loaded = false
     wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
@@ -74,14 +62,14 @@ describe(`TabParameters`, () => {
 
   it(`displays a message if loading`, () => {
     store.commit(`setConnected`, true)
-    store.state.parameters.loaded = false
-    store.state.parameters.loading = true
+    store.state.stakingParameters.parameters.loaded = false
+    store.state.stakingParameters.parameters.loading = true
     wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
     expect(wrapper.exists(`tm-data-loading`)).toBe(true)
 
-    store.state.parameters.loaded = true
-    store.state.parameters.loading = false
+    store.state.stakingParameters.parameters.loaded = true
+    store.state.stakingParameters.parameters.loading = false
     store.state.pool.loaded = false
     store.state.pool.loading = true
     wrapper.update()

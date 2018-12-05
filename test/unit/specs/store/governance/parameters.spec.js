@@ -34,7 +34,9 @@ describe(`Module: Governance Parameters`, () => {
     let { actions, state } = module
     let commit = jest.fn()
     await actions.getGovParameters({ state, commit, rootState: mockRootState })
-    expect(commit.mock.calls).toEqual([[`setGovParameters`, govParameters]])
+    expect(commit.mock.calls).toEqual([
+      [`setGovParameters`, governanceParameters]
+    ])
   })
 
   it(`should store an error if failed to load governance deposit parameters`, async () => {

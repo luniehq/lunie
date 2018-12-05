@@ -1,10 +1,11 @@
 <template>
   <tm-data-connecting
-    v-if="(!parameters.loaded || !pool.loaded) && !connected"
+    v-if="(!stakingParameters.parameters.loaded || !pool.loaded) && !connected"
   />
   <tm-data-loading
     v-else-if="
-      (!parameters.loaded && parameters.loading) ||
+      (!stakingParameters.parameters.loaded &&
+        stakingParameters.parameters.loading) ||
         (!pool.loaded && pool.loading)
     "
   />
@@ -149,7 +150,13 @@ export default {
     }
   }),
   computed: {
-    ...mapGetters([`config`, `stakingParameters`, `pool`, `bondingDenom`, `connected`]),
+    ...mapGetters([
+      `config`,
+      `stakingParameters`,
+      `pool`,
+      `bondingDenom`,
+      `connected`
+    ]),
     unbondingTimeInDays() {
       return (
         parseInt(this.stakingParameters.parameters.unbonding_time) /
