@@ -79,6 +79,7 @@ test(`delegation`, async function(t) {
     await app.client
       .click(`//button/*[. = 'Delegate']`)
       .setValue(`#amount`, 10)
+      .setValue(`#password`, `1234567890`)
       .click(
         `//*[@id = 'delegation-modal']//button//*[. = 'Confirm Delegation']`
       )
@@ -127,6 +128,7 @@ test(`delegation`, async function(t) {
     await app.client
       .click(`//button/*[. = 'Undelegate']`)
       .setValue(`#amount`, 5)
+      .setValue(`#password`, `1234567890`)
       .click(`//*[@id = 'undelegation-modal']//button//*[. = 'Undelegate']`)
       .waitForVisible(
         `//*[. = 'You have successfully undelegated 5 Steaks.']`,
