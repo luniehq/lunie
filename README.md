@@ -47,10 +47,10 @@ yarn build:testnets
 
 ### Check Out Voyager
 
-Voyager requires Node.js `>=9.4.0`. If you have a different version of Node.js installed (e.g. Node.js `8.11 LTS`), you can use `n` to install the correct version. The following command will use `n` to install it alongside your current version of Node.js.
+Voyager requires Node.js `>=10.13.0`. If you have a different version of Node.js installed (e.g. Node.js `8.11 LTS`), you can use `n` to install the correct version. The following command will use `n` to install it alongside your current version of Node.js.
 
 ```bash
-npm i -g n && n 9.4.0
+npm i -g n && n 10.13.0
 ```
 
 Yarn is a JS package packager we use manage Voyager dependencies. [Download it.](https://yarnpkg.com/lang/en/docs/install)
