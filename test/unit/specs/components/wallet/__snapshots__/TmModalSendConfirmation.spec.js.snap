@@ -1,5 +1,108 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`TmModalSendConfirmation disables the send confirmation if not connected 1`] = `
+<div
+  class="tm-modal-send-confirmation tm-modal"
+>
+  <div
+    class="tm-modal-container"
+  >
+    <header
+      class="tm-modal-header"
+    >
+      <!---->
+       
+      <div
+        class="tm-modal-title"
+      >
+        <div>
+          Confirm Your Transaction
+        </div>
+      </div>
+       
+      <div
+        class="tm-modal-icon tm-modal-close"
+      >
+        <i
+          class="material-icons"
+        >
+          close
+        </i>
+      </div>
+    </header>
+     
+    <main
+      class="tm-modal-main"
+    >
+       
+      <p>
+        
+    Please confirm that you would like to send
+    
+        <b>
+          12345 funkycoin
+        </b>
+         to 
+        <b>
+          cosmosacc1tb1d4u5zerywfjhxuc9nudvw
+        </b>
+        .
+  
+      </p>
+       
+      <p
+        class="warning"
+      >
+        This transaction cannot be undone.
+      </p>
+        
+      <footer
+        class="tm-modal-footer"
+      >
+        <div>
+          <button
+            class="tm-btn"
+            id="send-cancel-btn"
+            type="button"
+          >
+            <span
+              class="tm-btn__container"
+            >
+              <!---->
+              <!---->
+              <span
+                class="tm-btn__value"
+              >
+                Cancel
+              </span>
+            </span>
+          </button>
+           
+          <button
+            class="tm-btn"
+            disabled="disabled"
+            id="send-confirmation-btn"
+            type="button"
+          >
+            <span
+              class="tm-btn__container tm-btn--primary"
+            >
+              <!---->
+              <!---->
+              <span
+                class="tm-btn__value"
+              >
+                Connecting...
+              </span>
+            </span>
+          </button>
+        </div>
+      </footer>
+    </main>
+  </div>
+</div>
+`;
+
 exports[`TmModalSendConfirmation has the expected html structure 1`] = `
 <div
   class="tm-modal-send-confirmation tm-modal"

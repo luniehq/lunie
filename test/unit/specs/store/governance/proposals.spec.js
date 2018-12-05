@@ -3,6 +3,15 @@ import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 let proposals = lcdClientMock.state.proposals
 let addresses = lcdClientMock.addresses
 
+let mockRootState = {
+  wallet: {
+    address: addresses[0]
+  },
+  connection: {
+    connected: true
+  }
+}
+
 describe(`Module: Proposals`, () => {
   let module
 
@@ -80,7 +89,12 @@ describe(`Module: Proposals`, () => {
       let commit = jest.fn()
       let dispatch = jest.fn()
 
-      await actions.getProposals({ state, commit, dispatch })
+      await actions.getProposals({
+        state,
+        commit,
+        dispatch,
+        rootState: mockRootState
+      })
       expect(commit.mock.calls).toEqual([
         [`setProposal`, proposals[0]],
         [`setProposal`, proposals[1]],
@@ -98,7 +112,8 @@ describe(`Module: Proposals`, () => {
       let { actions, state } = module
       await actions.getProposals({
         state,
-        commit: jest.fn()
+        commit: jest.fn(),
+        rootState: mockRootState
       })
       expect(state.error.message).toBe(`Error`)
     })
@@ -126,7 +141,10 @@ describe(`Module: Proposals`, () => {
       let commit = jest.fn()
       let dispatch = jest.fn()
 
-      await actions.getProposal({ state, commit, dispatch }, `1`)
+      await actions.getProposal(
+        { state, commit, dispatch, rootState: mockRootState },
+        `1`
+      )
       expect(commit.mock.calls).toEqual([[`setProposal`, proposals[0]]])
     })
 
@@ -141,7 +159,10 @@ describe(`Module: Proposals`, () => {
       let commit = jest.fn()
       let dispatch = jest.fn()
 
-      await actions.getProposal({ state, commit, dispatch }, `1`)
+      await actions.getProposal(
+        { state, commit, dispatch, rootState: mockRootState },
+        `1`
+      )
       expect(state.error.message).toBe(`Error`)
     })
   })
@@ -158,7 +179,7 @@ describe(`Module: Proposals`, () => {
     let dispatch = jest.fn()
     proposals.forEach(async (proposal, i) => {
       await actions.submitProposal(
-        { rootState, dispatch },
+        { rootState, dispatch, rootState: mockRootState },
         {
           type: proposal.proposal_type,
           title: proposal.title,

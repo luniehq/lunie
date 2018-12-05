@@ -2,6 +2,12 @@ import delegatesModule from "renderer/vuex/modules/delegates.js"
 import nodeMock from "../../helpers/node_mock.js"
 import BN from "bignumber.js"
 
+let mockRootState = {
+  connection: {
+    connected: true
+  }
+}
+
 describe(`Module: Delegates`, () => {
   let module
   let node
@@ -77,7 +83,12 @@ describe(`Module: Delegates`, () => {
     let { actions, state } = module
     let commit = jest.fn()
     let dispatch = jest.fn()
-    let candidates = await actions.getDelegates({ state, commit, dispatch })
+    let candidates = await actions.getDelegates({
+      state,
+      commit,
+      dispatch,
+      rootState: mockRootState
+    })
     expect(commit.mock.calls).toEqual([
       [`setDelegateLoading`, true],
       [`setDelegates`, candidates],
@@ -89,7 +100,12 @@ describe(`Module: Delegates`, () => {
     let { actions, state } = module
     let commit = jest.fn()
     let dispatch = jest.fn()
-    let candidates = await actions.getDelegates({ state, commit, dispatch })
+    let candidates = await actions.getDelegates({
+      state,
+      commit,
+      dispatch,
+      rootState: mockRootState
+    })
     expect(dispatch.mock.calls).toEqual([
       [`getKeybaseIdentities`, candidates],
       [`updateSigningInfo`, candidates]
@@ -196,14 +212,22 @@ describe(`Module: Delegates`, () => {
   it(`should store an error if failed to load delegates`, async () => {
     let { actions, state } = module
     node.getCandidates = async () => Promise.reject(`Error`)
-    await actions.getDelegates({ commit: jest.fn(), dispatch: jest.fn() })
+    await actions.getDelegates({
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      rootState: mockRootState
+    })
     expect(state.error).toBe(`Error`)
   })
 
   it(`should store an error if failed to load validator set`, async () => {
     let { actions, state } = module
     node.getValidatorSet = async () => Promise.reject(`Error`)
-    await actions.getDelegates({ commit: jest.fn(), dispatch: jest.fn() })
+    await actions.getDelegates({
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      rootState: mockRootState
+    })
     expect(state.error).toBe(`Error`)
   })
 })

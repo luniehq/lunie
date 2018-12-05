@@ -12,8 +12,8 @@
       </div>
       <router-link :to="{ name: 'send', params: { denom: coin.denom } }">
         <tm-btn
-          class="sendTx-btn"
           value="Send"
+          class="sendTx-btn"
           icon="chevron_right"
           icon-pos="right"
           color="primary"

@@ -67,7 +67,7 @@ export const pool = state => state.pool
 export const stakingParameters = state => state.stakingParameters
 
 // governance
-export const proposals = state => state.proposals.proposals
+export const proposals = state => state.proposals
 export const votes = state => state.votes.votes
 export const deposits = state => state.deposits.deposits
 export const governanceParameters = state => state.governanceParameters

@@ -168,8 +168,6 @@ exports[`PageWallet has the expected html structure 1`] = `
       type="balances"
     />
      
-    <!---->
-     
     <ul>
       <li
         class="li-coin tm-li-balance"
@@ -546,8 +544,6 @@ exports[`PageWallet should filter the balances 1`] = `
     <modal-search
       type="balances"
     />
-     
-    <!---->
      
     <ul>
       <li

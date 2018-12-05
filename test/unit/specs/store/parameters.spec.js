@@ -2,6 +2,12 @@ import parametersModule from "renderer/vuex/modules/parameters.js"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 let { stakingParameters } = lcdClientMock.state
 
+let mockRootState = {
+  connection: {
+    connected: true
+  }
+}
+
 describe(`Module: Staking Parameters`, () => {
   let module, node
 
@@ -15,7 +21,11 @@ describe(`Module: Staking Parameters`, () => {
   it(`should fetch staking parameters`, async () => {
     let { actions, state } = module
     let commit = jest.fn()
-    await actions.getStakingParameters({ state, commit })
+    await actions.getStakingParameters({
+      state,
+      commit,
+      rootState: mockRootState
+    })
     expect(commit.mock.calls).toEqual([
       [`setStakingParameters`, stakingParameters]
     ])
@@ -32,7 +42,8 @@ describe(`Module: Staking Parameters`, () => {
     let { actions, state } = module
     await actions.getStakingParameters({
       state,
-      commit: jest.fn()
+      commit: jest.fn(),
+      rootState: mockRootState
     })
     expect(state.error.message).toBe(`Error`)
   })

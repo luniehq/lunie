@@ -79,15 +79,15 @@ describe(`TableProposals`, () => {
     expect(wrapper.vm.somethingToSearch).toBe(false)
   })
 
-  it(`should show placeholder if delegates are loading`, () => {
+  it(`should show placeholder if no items to display`, () => {
     let { wrapper } = mount(TableProposals, {
       propsData: {
         proposals: [],
         loading: true
       },
-      stubs: { "tm-data-loading": `<data-loading />` }
+      stubs: { "data-empty-search": `<data-empty-search />` }
     })
-    expect(wrapper.contains(`data-loading`)).toBe(true)
+    expect(wrapper.contains(`data-empty-search`)).toBe(true)
   })
 
   describe(`setSearch`, () => {

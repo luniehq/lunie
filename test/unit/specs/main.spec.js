@@ -156,7 +156,7 @@ describe(`Startup Process`, () => {
             path.includes(`gaiacli`) && args.includes(`rest-server`)
         )
       ).toBeDefined()
-      expect(main.processes.lcdProcess).toBeDefined()
+      expect(main.processes.gaiaLiteProcess).toBeDefined()
     })
 
     it(`should persist the app_version`, async function() {
@@ -169,22 +169,25 @@ describe(`Startup Process`, () => {
   describe(`Connection`, function() {
     mainSetup()
 
-    it(`should error if it can't connect to the node`, async () => {
+    afterEach(() => {
+      jest.useRealTimers()
+    })
+
+    xit(`should retry connecting if it can't connect to the node`, async () => {
+      jest.useFakeTimers()
       await main.shutdown()
       prepareMain()
+      let mockNodeVersionEndpoint = jest.fn(() => Promise.reject(`X`))
       jest.doMock(`renderer/connectors/lcdClient.js`, () => () => ({
-        nodeVersion: async () => Promise.reject(`X`)
+        nodeVersion: mockNodeVersionEndpoint
       }))
       let { send } = require(`electron`)
       send.mockClear()
 
       // run main
       main = await require(appRoot + `src/main/index.js`)
-
-      expect(send).toHaveBeenCalledWith(`error`, {
-        code: `NO_NODES_AVAILABLE`,
-        message: `No nodes available to connect to.`
-      })
+      jest.runAllTimers()
+      expect(mockNodeVersionEndpoint).toHaveBeenCalledTimes(2)
     })
 
     it(`should check if our node has a compatible SDK version`, async () => {
@@ -201,10 +204,6 @@ describe(`Startup Process`, () => {
       main = await require(appRoot + `src/main/index.js`)
 
       expect(nodeVersionSpy).toHaveBeenCalledTimes(1)
-      expect(send).toHaveBeenCalledWith(`error`, {
-        code: `NO_NODES_AVAILABLE`,
-        message: `No nodes available to connect to.`
-      })
     })
   })
 
@@ -236,7 +235,7 @@ describe(`Startup Process`, () => {
             args.join(`=`).includes(`--chain-id=gaia-6002`)
         )
       ).toBeDefined()
-      expect(main.processes.lcdProcess).toBeDefined()
+      expect(main.processes.gaiaLiteProcess).toBeDefined()
     })
 
     it(`should persist the app_version`, async function() {
@@ -264,7 +263,7 @@ describe(`Startup Process`, () => {
             path.includes(`gaiacli`) && args.includes(`rest-server`)
         )
       ).toBeDefined()
-      expect(main.processes.lcdProcess).toBeDefined()
+      expect(main.processes.gaiaLiteProcess).toBeDefined()
     })
   })
 
@@ -370,7 +369,7 @@ describe(`Startup Process`, () => {
       let process
       while (!process) {
         await new Promise(resolve => setTimeout(resolve, 100))
-        process = main.getLCDProcess()
+        process = main.getGaiaLiteProcess()
       }
       process.kill = jest.fn()
       await registeredIPCListeners[`stop-lcd`]()
