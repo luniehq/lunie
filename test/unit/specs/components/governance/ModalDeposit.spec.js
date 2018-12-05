@@ -43,6 +43,23 @@ describe(`ModalDeposit`, () => {
     it(`the 'amount' defaults to 0`, () => {
       expect(wrapper.vm.amount).toEqual(0)
     })
+
+    it(`account password defaults to an empty string`, () => {
+      expect(wrapper.vm.password).toEqual(``)
+    })
+
+    it(`password is hidden by default`, () => {
+      expect(wrapper.vm.showPassword).toBe(false)
+    })
+  })
+
+  describe(`Password display`, () => {
+    it(`toggles the password between text and password`, () => {
+      wrapper.vm.togglePassword()
+      expect(wrapper.vm.showPassword).toBe(true)
+      wrapper.vm.togglePassword()
+      expect(wrapper.vm.showPassword).toBe(false)
+    })
   })
 
   describe(`enables or disables 'Deposit' button correctly`, () => {
@@ -52,8 +69,8 @@ describe(`ModalDeposit`, () => {
         expect(depositBtn.html()).toContain(`disabled="disabled"`)
       })
 
-      it(`amount deposited less than the user's balance`, () => {
-        wrapper.setData({ amount: 25 })
+      it(`when the amount deposited higher than the user's balance`, () => {
+        wrapper.setData({ amount: 25, password: `1234567890` })
         let depositBtn = wrapper.find(`#submit-deposit`)
         expect(depositBtn.html()).toContain(`disabled="disabled"`)
       })
@@ -66,7 +83,13 @@ describe(`ModalDeposit`, () => {
           }
         ]
         store.commit(`setWalletBalances`, otherCoins)
-        wrapper.setData({ amount: 25 })
+        wrapper.setData({ amount: 25, password: `1234567890` })
+        let depositBtn = wrapper.find(`#submit-deposit`)
+        expect(depositBtn.html()).toContain(`disabled="disabled"`)
+      })
+
+      it(`when the password field is empty`, () => {
+        wrapper.setData({ amount: 10, password: `` })
         let depositBtn = wrapper.find(`#submit-deposit`)
         expect(depositBtn.html()).toContain(`disabled="disabled"`)
       })
@@ -74,7 +97,7 @@ describe(`ModalDeposit`, () => {
 
     describe(`enables the 'Deposit' button`, () => {
       it(`when the user has enough balance to submit a deposit`, () => {
-        wrapper.setData({ amount: 15 })
+        wrapper.setData({ amount: 15, password: `1234567890` })
         let submitButton = wrapper.find(`#submit-deposit`)
         expect(submitButton.html()).not.toContain(`disabled="disabled"`)
       })
@@ -108,7 +131,8 @@ describe(`ModalDeposit`, () => {
                   amount: `10`,
                   denom: `stake`
                 }
-              ]
+              ],
+              password: ``
             }
           ]
         },

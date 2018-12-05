@@ -32,11 +32,31 @@
         v-model="amount"
         type="number"
       />
+      <hr />
+    </tm-form-group>
+    <tm-form-group
+      class="modal-deposit-form-group"
+      field-id="password"
+      field-label="Account password"
+    >
+      <tm-field
+        id="password"
+        v-model="password"
+        :type="showPassword ? `text` : `password`"
+        placeholder="password..."
+      />
+      <input
+        id="showPasswordCheckbox"
+        v-model="showPassword"
+        type="checkbox"
+        @input="togglePassword"
+      />
+      <label for="showPasswordCheckbox">Show password</label>
     </tm-form-group>
     <div class="modal-deposit-footer">
       <tm-btn
         id="submit-deposit"
-        :disabled="$v.amount.$invalid"
+        :disabled="$v.$invalid"
         color="primary"
         value="Deposit"
         size="lg"
@@ -81,7 +101,9 @@ export default {
     }
   },
   data: () => ({
-    amount: 0
+    amount: 0,
+    password: ``,
+    showPassword: false
   }),
   computed: {
     // TODO: get coin denom from governance params
@@ -103,12 +125,18 @@ export default {
         required,
         isInteger,
         between: between(1, this.balance > 0 ? this.balance : 1)
+      },
+      password: {
+        required
       }
     }
   },
   methods: {
     close() {
       this.$emit(`update:showModalDeposit`, false)
+    },
+    togglePassword() {
+      this.showPassword = !this.showPassword
     },
     onDeposit() {
       let amount = [
@@ -117,7 +145,7 @@ export default {
           amount: String(this.amount)
         }
       ]
-      this.$emit(`submitDeposit`, { amount })
+      this.$emit(`submitDeposit`, { amount, password: this.password })
       this.close()
     }
   }

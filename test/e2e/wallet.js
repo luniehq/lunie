@@ -89,6 +89,7 @@ test(`wallet`, async function(t) {
     t.test(`address w/ less than or greater than 40 chars`, async function(t) {
       await goToSendPage()
       await addressInput().setValue(`012345`)
+      await app.client.setValue(`#password`, `1234567890`)
       await sendBtn().click()
       await $(`div*=Address is invalid (012345 too short)`).waitForExist()
       t.pass(`got correct error message`)
@@ -113,7 +114,7 @@ test(`wallet`, async function(t) {
     t.test(`address not alphaNum`, async function(t) {
       await goToSendPage()
       await addressInput().setValue(`~`.repeat(40))
-
+      await app.client.setValue(`#password`, `1234567890`)
       await $(
         `div*=Address is invalid (No separator character for ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~)`
       ).waitForExist()
@@ -129,7 +130,7 @@ test(`wallet`, async function(t) {
       let validAddress = addresses[0]
       let invalidAddress = validAddress.slice(0, -1) + `4`
       await addressInput().setValue(invalidAddress)
-
+      await app.client.setValue(`#password`, `1234567890`)
       await $(
         `div*=Address is invalid (Invalid checksum for ` + invalidAddress + `)`
       ).waitForExist()
@@ -152,6 +153,7 @@ test(`wallet`, async function(t) {
       await goToSendPage()
       await amountInput().setValue(`100`)
       await addressInput().setValue(accounts[1].address)
+      await app.client.setValue(`#password`, `1234567890`)
       await sendBtn().click()
       // the confirmation popup will open
       await app.client.$(`#send-confirmation-btn`).click()
@@ -184,6 +186,7 @@ test(`wallet`, async function(t) {
       await goToSendPage()
       await amountInput().setValue(`100`)
       await addressInput().setValue(accounts[0].address)
+      await app.client.setValue(`#password`, `1234567890`)
       await sendBtn().click()
       // the confirmation popup will open
       await app.client.$(`#send-confirmation-btn`).click()

@@ -2,11 +2,9 @@
 
 import Vue from "vue"
 import Vuex from "vuex"
-import CryptoJS from "crypto-js"
 import _ from "lodash"
 import * as getters from "./getters"
 import modules from "./modules"
-import Raven from "raven-js"
 
 Vue.use(Vuex)
 
@@ -42,7 +40,7 @@ export default (opts = {}) => {
     if (updatingMutations.indexOf(mutation.type) === -1) return
 
     // if the user is logged in cache the balances and the tx-history for that user
-    if (!state.user.account || !state.user.password) return
+    if (!state.user.account) return
 
     if (pending) {
       clearTimeout(pending)
@@ -56,41 +54,31 @@ export default (opts = {}) => {
 }
 
 function persistState(state) {
-  try {
-    const encryptedState = CryptoJS.AES.encrypt(
-      JSON.stringify({
-        transactions: {
-          wallet: state.transactions.wallet,
-          staking: state.transactions.staking
-        },
-        wallet: {
-          balances: state.wallet.balances
-        },
-        delegation: {
-          loaded: state.delegation.loaded,
-          committedDelegates: state.delegation.committedDelegates,
-          unbondingDelegations: state.delegation.unbondingDelegations
-        },
-        delegates: {
-          delegates: state.delegates.delegates
-        },
-        keybase: {
-          identities: state.keybase.identities
-        },
-        proposals: state.proposals,
-        deposits: state.deposits,
-        votes: state.votes
-      }),
-      state.user.password
-    )
-    // Store the state object as a JSON string
-    localStorage.setItem(getStorageKey(state), encryptedState)
-  } catch (error) {
-    console.error(`Encrypting the state failed, removing cached state.`)
-    Raven.captureException(error)
-    // if encrypting the state fails, we cleanup
-    localStorage.removeItem(getStorageKey(state))
-  }
+  const cachedState = JSON.stringify({
+    transactions: {
+      wallet: state.transactions.wallet,
+      staking: state.transactions.staking
+    },
+    wallet: {
+      balances: state.wallet.balances
+    },
+    delegation: {
+      loaded: state.delegation.loaded,
+      committedDelegates: state.delegation.committedDelegates,
+      unbondingDelegations: state.delegation.unbondingDelegations
+    },
+    delegates: {
+      delegates: state.delegates.delegates
+    },
+    keybase: {
+      identities: state.keybase.identities
+    },
+    proposals: state.proposals,
+    deposits: state.deposits,
+    votes: state.votes
+  })
+  // Store the state object as a JSON string
+  localStorage.setItem(getStorageKey(state), cachedState)
 }
 
 function getStorageKey(state) {
@@ -99,48 +87,42 @@ function getStorageKey(state) {
   return `store_${chainId}_${address}`
 }
 
-function loadPersistedState({ state, commit }, { password }) {
+function loadPersistedState({ state, commit }) {
   const storageKey = getStorageKey(state)
-  const cachedState = localStorage.getItem(storageKey)
+  let cachedState
+  try {
+    cachedState = JSON.parse(localStorage.getItem(storageKey))
+  } catch (err) {
+    console.error(`Couldn't parse the cached state`)
+  }
   if (cachedState) {
-    try {
-      const bytes = CryptoJS.AES.decrypt(cachedState, password)
-      const plaintext = bytes.toString(CryptoJS.enc.Utf8)
+    // Replace the state object with the stored state
+    _.merge(state, cachedState, {
+      // set loading indicators to false
+      transactions: {
+        loaded: true,
+        loading: false
+      },
+      wallet: {
+        loaded: true,
+        loading: false
+      },
+      delegates: {
+        loaded: true,
+        loading: false
+      },
+      proposals: {
+        loaded: true,
+        loading: false
+      }
+    })
+    this.replaceState(state)
 
-      // Replace the state object with the stored state
-      let oldState = JSON.parse(plaintext)
-      _.merge(state, oldState, {
-        // set loading indicators to false
-        transactions: {
-          loaded: true,
-          loading: false
-        },
-        wallet: {
-          loaded: true,
-          loading: false
-        },
-        delegates: {
-          loaded: true,
-          loading: false
-        },
-        proposals: {
-          loaded: true,
-          loading: false
-        }
+    // add all delegates the user has bond with already to the cart
+    state.delegates.delegates
+      .filter(d => state.delegation.committedDelegates[d.operator_address])
+      .forEach(d => {
+        commit(`addToCart`, d)
       })
-      this.replaceState(state)
-
-      // add all delegates the user has bond with already to the cart
-      state.delegates.delegates
-        .filter(d => state.delegation.committedDelegates[d.operator_address])
-        .forEach(d => {
-          commit(`addToCart`, d)
-        })
-    } catch (error) {
-      console.error(`Decrypting the state failed, removing cached state.`)
-      Raven.captureException(error)
-      // if decrypting the state fails, we cleanup
-      localStorage.removeItem(storageKey)
-    }
   }
 }

@@ -93,7 +93,8 @@ describe(`PageSend`, () => {
       fields: {
         denom: `mycoin`,
         address: ``,
-        amount: 2
+        amount: 2,
+        password: `1234567890`
       }
     })
     wrapper.vm.onSubmit()
@@ -108,7 +109,8 @@ describe(`PageSend`, () => {
       fields: {
         denom: `mycoin`,
         address: `asdf`,
-        amount: 2
+        amount: 2,
+        password: `1234567890`
       }
     })
     wrapper.vm.onSubmit()
@@ -123,7 +125,8 @@ describe(`PageSend`, () => {
       fields: {
         denom: `mycoin`,
         address: `asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf`,
-        amount: 2
+        amount: 2,
+        password: `1234567890`
       }
     })
     wrapper.vm.onSubmit()
@@ -137,7 +140,8 @@ describe(`PageSend`, () => {
       fields: {
         denom: `mycoin`,
         address: `!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$`,
-        amount: 2
+        amount: 2,
+        password: `1234567890`
       }
     })
     wrapper.vm.onSubmit()
@@ -157,7 +161,8 @@ describe(`PageSend`, () => {
       fields: {
         denom: `mycoin`,
         address,
-        amount: 2
+        amount: 2,
+        password: `1234567890`
       }
     })
     wrapper.vm.onSubmit()
@@ -176,7 +181,8 @@ describe(`PageSend`, () => {
       fields: {
         denom: `mycoin`,
         address,
-        amount: 2
+        amount: 2,
+        password: `1234567890`
       }
     })
     await wrapper.vm.onApproved()
@@ -189,7 +195,8 @@ describe(`PageSend`, () => {
       fields: {
         denom: `notmycoin`,
         address,
-        amount: 2
+        amount: 2,
+        password: `1234567890`
       }
     })
     node.sign = () => Promise.reject()
@@ -213,7 +220,8 @@ describe(`PageSend`, () => {
       fields: {
         denom: `mycoin`,
         address,
-        amount: 2
+        amount: 2,
+        password: `1234567890`
       }
     })
     expect(wrapper.find(`#send-btn`).exists()).toBe(true)
@@ -221,5 +229,28 @@ describe(`PageSend`, () => {
     wrapper.update()
     expect(wrapper.find(`#send-btn`).exists()).toBe(false)
     expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
+  describe(`default values are set correctly`, () => {
+    it(`the 'amount' defaults to 0`, () => {
+      expect(wrapper.vm.fields.amount).toEqual(0)
+    })
+
+    it(`account password defaults to an empty string`, () => {
+      expect(wrapper.vm.fields.password).toEqual(``)
+    })
+
+    it(`password is hidden by default`, () => {
+      expect(wrapper.vm.showPassword).toBe(false)
+    })
+  })
+
+  describe(`Password display`, () => {
+    it(`toggles the password between text and password`, () => {
+      wrapper.vm.togglePassword()
+      expect(wrapper.vm.showPassword).toBe(true)
+      wrapper.vm.togglePassword()
+      expect(wrapper.vm.showPassword).toBe(false)
+    })
   })
 })

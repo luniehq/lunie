@@ -12,7 +12,6 @@ export default ({ node }) => {
     accounts: [],
     pauseHistory: false,
     history: [],
-    password: null,
     account: null,
     address: null,
     errorCollection: false,
@@ -104,21 +103,19 @@ export default ({ node }) => {
       await node.keys.delete(name, { name, password })
       return true
     },
-    async signIn({ state, commit, dispatch }, { password, account }) {
-      state.password = password
+    async signIn({ state, commit, dispatch }, { account }) {
       state.account = account
       state.signedIn = true
 
       let { address } = await node.keys.get(account)
       state.address = address
 
-      dispatch(`loadPersistedState`, { password })
+      dispatch(`loadPersistedState`)
       commit(`setModalSession`, false)
       dispatch(`initializeWallet`, address)
       dispatch(`loadErrorCollection`, account)
     },
     signOut({ state, commit, dispatch }) {
-      state.password = null
       state.account = null
       state.signedIn = false
 
@@ -128,7 +125,6 @@ export default ({ node }) => {
     resetSessionData({ state }) {
       state.atoms = 0
       state.history = []
-      state.password = null
       state.account = null
       state.address = null
     },

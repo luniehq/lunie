@@ -32,9 +32,11 @@ test(`Governance`, async function(t) {
       await app.client.$(`#modal-propose`).isVisible(),
       `opens modal proposal`
     )
-    await app.client.setValue(`#title`, `E2E test proposal title`)
-    await app.client.setValue(`#description`, `E2E test proposal title`)
-    await app.client.setValue(`#amount`, 5)
+    await app.client
+      .setValue(`#title`, `E2E test proposal title`)
+      .setValue(`#description`, `E2E test proposal title`)
+      .setValue(`#amount`, 5)
+      .setValue(`#password`, `1234567890`)
     await t.ok(
       await app.client
         .click(`//button/*[. = 'Submit proposal']`)
@@ -81,7 +83,7 @@ test(`Governance`, async function(t) {
       await app.client.$(`#modal-deposit`).isVisible(),
       `opens deposit modal`
     )
-    await app.client.setValue(`#amount`, 10)
+    await app.client.setValue(`#amount`, 10).setValue(`#password`, `1234567890`)
     await t.ok(
       await app.client
         .$(`#submit-deposit`)
@@ -114,6 +116,7 @@ test(`Governance`, async function(t) {
     )
 
     await app.client.$(`#vote-yes`).click()
+    await app.client.setValue(`#password`, `1234567890`)
     await t.ok(
       await app.client
         .$(`#cast-vote`)
