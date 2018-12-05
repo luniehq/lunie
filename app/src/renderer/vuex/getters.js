@@ -64,12 +64,13 @@ export const shoppingCart = state => state.delegation.delegates
 export const validators = state => state.validators.validators
 export const keybase = state => state.keybase.identities
 export const pool = state => state.pool
-export const parameters = state => state.parameters
+export const stakingParameters = state => state.stakingParameters
 
 // governance
 export const proposals = state => state.proposals
 export const votes = state => state.votes.votes
 export const deposits = state => state.deposits.deposits
+export const governanceParameters = state => state.governanceParameters
 
 // status
 export const approvalRequired = state => state.connection.approvalRequired

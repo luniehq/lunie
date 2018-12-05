@@ -4,19 +4,32 @@ import htmlBeautify from "html-beautify"
 import TabParameters from "renderer/components/staking/TabParameters"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
-let pool = lcdClientMock.state.pool
-let parameters = lcdClientMock.state.parameters
+let { pool, stakingParameters } = lcdClientMock.state
 
 describe(`TabParameters`, () => {
   let wrapper, store
   let { mount, localVue } = setup()
   localVue.use(Vuelidate)
 
+  const $store = {
+    commit: jest.fn(),
+    dispatch: jest.fn(),
+    getters: {
+      pool,
+      stakingParameters,
+      totalAtoms: 100,
+      user: { atoms: 42 },
+      bondingDenom: `Stake`
+    }
+  }
+
   beforeEach(() => {
     let instance = mount(TabParameters, {
       localVue,
       doBefore: ({ store }) => {
         store.commit(`setConnected`, true)
+        store.commit(`setPool`, pool)
+        store.commit(`setStakingParameters`, stakingParameters)
       },
       stubs: {
         "tm-data-connecting": `<tm-data-connecting />`,
@@ -37,7 +50,7 @@ describe(`TabParameters`, () => {
   })
 
   it(`shows the staking parameters and pool`, () => {
-    expect(store.state.parameters.parameters).toEqual(parameters)
+    expect(store.state.stakingParameters.parameters).toEqual(stakingParameters)
     expect(store.state.pool.pool).toEqual(pool)
   })
 

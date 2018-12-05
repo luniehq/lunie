@@ -1,6 +1,6 @@
 import parametersModule from "renderer/vuex/modules/governance/parameters.js"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
-let { govParameters } = lcdClientMock.state
+let { governanceParameters } = lcdClientMock.state
 
 let mockRootState = {
   connection: {
@@ -13,9 +13,11 @@ describe(`Module: Governance Parameters`, () => {
 
   beforeEach(() => {
     node = {
-      getGovDepositParameters: () => Promise.resolve(govParameters.deposit),
-      getGovTallyingParameters: () => Promise.resolve(govParameters.tallying),
-      getGovVotingParameters: () => Promise.resolve(govParameters.voting)
+      getGovDepositParameters: () =>
+        Promise.resolve(governanceParameters.deposit),
+      getGovTallyingParameters: () =>
+        Promise.resolve(governanceParameters.tallying),
+      getGovVotingParameters: () => Promise.resolve(governanceParameters.voting)
     }
     module = parametersModule({
       node
@@ -24,8 +26,8 @@ describe(`Module: Governance Parameters`, () => {
 
   it(`adds parameters to state`, () => {
     let { mutations, state } = module
-    mutations.setGovParameters(state, govParameters)
-    expect(state.govParameters).toEqual(govParameters)
+    mutations.setGovParameters(state, governanceParameters)
+    expect(state.parameters).toEqual(governanceParameters)
   })
 
   it(`fetches all governance parameters`, async () => {

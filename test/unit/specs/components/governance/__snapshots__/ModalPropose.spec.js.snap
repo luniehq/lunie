@@ -31,7 +31,7 @@ exports[`ModalPropose component matches snapshot has the expected html structure
   </div>
    
   <div
-    class="page-proposal-form-group tm-form-group"
+    class="page-proposal-form-group tm-form-group tm-form-group--error"
   >
     <!---->
     <!---->
@@ -48,11 +48,13 @@ exports[`ModalPropose component matches snapshot has the expected html structure
         placeholder="Proposal title"
         type="text"
       />
+       
+      <!---->
     </div>
   </div>
    
   <div
-    class="page-proposal-form-group tm-form-group"
+    class="page-proposal-form-group tm-form-group tm-form-group--error"
   >
     <!---->
     <!---->
@@ -68,6 +70,8 @@ exports[`ModalPropose component matches snapshot has the expected html structure
         id="description"
         placeholder="Write your proposal here..."
       />
+       
+      <!---->
     </div>
   </div>
    
