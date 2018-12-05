@@ -41,7 +41,7 @@
         <div class="tm-modal-search-field">
           <tm-field
             id="search-input"
-            v-model="query"
+            v-model.trim="query"
             class="mousetrap"
             type="text"
             placeholder="Search..."

@@ -31,7 +31,7 @@
           <tm-field-group>
             <tm-field
               id="send-address"
-              v-model="fields.address"
+              v-model.trim="fields.address"
               type="text"
               placeholder="Address"
             />
