@@ -46,12 +46,32 @@
         size="md"
         @click.native="vote('Abstain')"
       />
+      <hr />
+    </tm-form-group>
+    <tm-form-group
+      class="modal-vote-form-group"
+      field-id="password"
+      field-label="Account password"
+    >
+      <tm-field
+        id="password"
+        v-model="password"
+        :type="showPassword ? `text` : `password`"
+        placeholder="password..."
+      />
+      <input
+        id="showPasswordCheckbox"
+        v-model="showPassword"
+        type="checkbox"
+        @input="togglePassword"
+      />
+      <label for="showPasswordCheckbox">Show password</label>
     </tm-form-group>
     <tm-form-group class="modal-vote-form-group" />
     <div class="modal-vote-footer">
       <tm-btn
         id="cast-vote"
-        :disabled="$v.option.$invalid"
+        :disabled="$v.$invalid"
         color="primary"
         value="Vote"
         size="lg"
@@ -96,19 +116,27 @@ export default {
     }
   },
   data: () => ({
-    option: ``
+    option: ``,
+    password: ``,
+    showPassword: false
   }),
   validations() {
     return {
       option: {
         required,
         isValid
+      },
+      password: {
+        required
       }
     }
   },
   methods: {
     close() {
       this.$emit(`update:showModalVote`, false)
+    },
+    togglePassword() {
+      this.showPassword = !this.showPassword
     },
     vote(option) {
       if (this.option === option) {
@@ -118,7 +146,7 @@ export default {
       }
     },
     onVote() {
-      this.$emit(`castVote`, { option: this.option })
+      this.$emit(`castVote`, { option: this.option, password: this.password })
       this.close()
     }
   }

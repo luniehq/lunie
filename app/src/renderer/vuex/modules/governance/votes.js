@@ -34,13 +34,17 @@ export default ({ node }) => {
         state.error = error
       }
     },
-    async submitVote({ rootState, dispatch }, { proposal_id, option }) {
+    async submitVote(
+      { rootState, dispatch },
+      { proposal_id, option, password }
+    ) {
       await dispatch(`sendTx`, {
         to: proposal_id,
         type: `submitProposalVote`,
         proposal_id,
         voter: rootState.wallet.address,
-        option
+        option,
+        password
       })
       await dispatch(`getProposalVotes`, proposal_id)
       await dispatch(`getProposal`, proposal_id)

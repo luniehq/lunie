@@ -31,7 +31,7 @@
           <tm-field-group>
             <tm-field
               id="send-address"
-              v-model="fields.address"
+              v-model.trim="fields.address"
               type="text"
               placeholder="Address"
             />
@@ -85,6 +85,33 @@
           >
         </p>
         <br v-if="mockedConnector" />
+        <hr />
+      </tm-part>
+      <tm-part>
+        <tm-form-group
+          :error="$v.fields.password.$error"
+          field-id="password"
+          field-label="Account password"
+        >
+          <tm-field
+            id="password"
+            v-model="fields.password"
+            :type="showPassword ? `text` : `password`"
+            placeholder="password..."
+          />
+          <tm-form-msg
+            v-if="!$v.fields.password.required"
+            name="Password"
+            type="required"
+          />
+          <input
+            id="showPasswordCheckbox"
+            v-model="showPassword"
+            type="checkbox"
+            @input="togglePassword"
+          />
+          <label for="showPasswordCheckbox">Show password</label>
+        </tm-form-group>
       </tm-part>
       <div slot="footer">
         <tm-btn
@@ -102,7 +129,6 @@
         <tm-btn
           v-else
           id="send-btn"
-          :disabled="$v.$invalid"
           value="Send Tokens"
           color="primary"
           @click="onSubmit"
@@ -165,12 +191,13 @@ export default {
     bech32error: null,
     fields: {
       address: ``,
-      amount: null,
+      amount: 0,
       denom: ``,
-      zoneId: `cosmos-hub-1`
+      password: ``
     },
     confirmationPending: false,
-    sending: false
+    sending: false,
+    showPassword: false
   }),
   computed: {
     ...mapGetters([
@@ -203,6 +230,9 @@ export default {
       this.sending = false
       this.$v.$reset()
     },
+    togglePassword() {
+      this.showPassword = !this.showPassword
+    },
     onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return
@@ -216,17 +246,10 @@ export default {
       let address = this.fields.address
       let denom = this.fields.denom
       try {
-        // if address has a slash, it is IBC address format
         let type = `send`
-        // TODO reenable when we have IBC
-        // if (this.lastHeader.chain_id !== zoneId) {
-        //   type = "ibcSend"
-        //   address = `${zoneId}/${address}`
-        // } else {
-        //   type = "send"
-        // }
         await this.sendTx({
           type,
+          password: this.fields.password,
           to: address,
           amount: [{ denom, amount: amount.toString() }]
         })
@@ -272,7 +295,8 @@ export default {
           isInteger,
           between: between(1, this.max)
         },
-        denom: { required }
+        denom: { required },
+        password: { required }
       }
     }
   }

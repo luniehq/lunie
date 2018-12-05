@@ -257,6 +257,56 @@ exports[`PageSend disables sending if not connected 1`] = `
                 <!---->
                  
                 <!---->
+                 
+                <hr />
+              </main>
+            </div>
+          </section>
+           
+          <section
+            class="tm-part"
+          >
+            <div
+              class="tm-part-container"
+            >
+              <!---->
+              <main
+                class="tm-part-main"
+              >
+                <div
+                  class="tm-form-group"
+                >
+                  <!---->
+                  <label
+                    class="tm-form-group__label"
+                    for="password"
+                  >
+                    Account password
+                  </label>
+                  <div
+                    class="tm-form-group__field"
+                  >
+                    <input
+                      class="tm-field"
+                      id="password"
+                      placeholder="password..."
+                      type="password"
+                    />
+                     
+                    <!---->
+                     
+                    <input
+                      id="showPasswordCheckbox"
+                      type="checkbox"
+                    />
+                     
+                    <label
+                      for="showPasswordCheckbox"
+                    >
+                      Show password
+                    </label>
+                  </div>
+                </div>
               </main>
             </div>
           </section>
@@ -544,19 +594,73 @@ exports[`PageSend has the expected html structure 1`] = `
                       />
                     </div>
                      
+                    <!---->
+                     
                     <div
                       class="tm-form-msg sm tm-form-msg--error"
                     >
-                      Amount is required
+                      Amount must be between 1 and 2300
                     </div>
-                     
-                    <!---->
                   </div>
                 </div>
                  
                 <!---->
                  
                 <!---->
+                 
+                <hr />
+              </main>
+            </div>
+          </section>
+           
+          <section
+            class="tm-part"
+          >
+            <div
+              class="tm-part-container"
+            >
+              <!---->
+              <main
+                class="tm-part-main"
+              >
+                <div
+                  class="tm-form-group"
+                >
+                  <!---->
+                  <label
+                    class="tm-form-group__label"
+                    for="password"
+                  >
+                    Account password
+                  </label>
+                  <div
+                    class="tm-form-group__field"
+                  >
+                    <input
+                      class="tm-field"
+                      id="password"
+                      placeholder="password..."
+                      type="password"
+                    />
+                     
+                    <div
+                      class="tm-form-msg sm tm-form-msg--error"
+                    >
+                      Password is required
+                    </div>
+                     
+                    <input
+                      id="showPasswordCheckbox"
+                      type="checkbox"
+                    />
+                     
+                    <label
+                      for="showPasswordCheckbox"
+                    >
+                      Show password
+                    </label>
+                  </div>
+                </div>
               </main>
             </div>
           </section>
@@ -568,7 +672,6 @@ exports[`PageSend has the expected html structure 1`] = `
           <div>
             <button
               class="tm-btn"
-              disabled="disabled"
               id="send-btn"
             >
               <span
@@ -868,6 +971,56 @@ exports[`PageSend should show address required error 1`] = `
                 <!---->
                  
                 <!---->
+                 
+                <hr />
+              </main>
+            </div>
+          </section>
+           
+          <section
+            class="tm-part"
+          >
+            <div
+              class="tm-part-container"
+            >
+              <!---->
+              <main
+                class="tm-part-main"
+              >
+                <div
+                  class="tm-form-group"
+                >
+                  <!---->
+                  <label
+                    class="tm-form-group__label"
+                    for="password"
+                  >
+                    Account password
+                  </label>
+                  <div
+                    class="tm-form-group__field"
+                  >
+                    <input
+                      class="tm-field"
+                      id="password"
+                      placeholder="password..."
+                      type="password"
+                    />
+                     
+                    <!---->
+                     
+                    <input
+                      id="showPasswordCheckbox"
+                      type="checkbox"
+                    />
+                     
+                    <label
+                      for="showPasswordCheckbox"
+                    >
+                      Show password
+                    </label>
+                  </div>
+                </div>
               </main>
             </div>
           </section>
@@ -879,7 +1032,6 @@ exports[`PageSend should show address required error 1`] = `
           <div>
             <button
               class="tm-btn"
-              disabled="disabled"
               id="send-btn"
             >
               <span
@@ -1159,6 +1311,56 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                 <!---->
                  
                 <!---->
+                 
+                <hr />
+              </main>
+            </div>
+          </section>
+           
+          <section
+            class="tm-part"
+          >
+            <div
+              class="tm-part-container"
+            >
+              <!---->
+              <main
+                class="tm-part-main"
+              >
+                <div
+                  class="tm-form-group"
+                >
+                  <!---->
+                  <label
+                    class="tm-form-group__label"
+                    for="password"
+                  >
+                    Account password
+                  </label>
+                  <div
+                    class="tm-form-group__field"
+                  >
+                    <input
+                      class="tm-field"
+                      id="password"
+                      placeholder="password..."
+                      type="password"
+                    />
+                     
+                    <!---->
+                     
+                    <input
+                      id="showPasswordCheckbox"
+                      type="checkbox"
+                    />
+                     
+                    <label
+                      for="showPasswordCheckbox"
+                    >
+                      Show password
+                    </label>
+                  </div>
+                </div>
               </main>
             </div>
           </section>
@@ -1170,7 +1372,6 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
           <div>
             <button
               class="tm-btn"
-              disabled="disabled"
               id="send-btn"
             >
               <span
@@ -1450,6 +1651,56 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                 <!---->
                  
                 <!---->
+                 
+                <hr />
+              </main>
+            </div>
+          </section>
+           
+          <section
+            class="tm-part"
+          >
+            <div
+              class="tm-part-container"
+            >
+              <!---->
+              <main
+                class="tm-part-main"
+              >
+                <div
+                  class="tm-form-group"
+                >
+                  <!---->
+                  <label
+                    class="tm-form-group__label"
+                    for="password"
+                  >
+                    Account password
+                  </label>
+                  <div
+                    class="tm-form-group__field"
+                  >
+                    <input
+                      class="tm-field"
+                      id="password"
+                      placeholder="password..."
+                      type="password"
+                    />
+                     
+                    <!---->
+                     
+                    <input
+                      id="showPasswordCheckbox"
+                      type="checkbox"
+                    />
+                     
+                    <label
+                      for="showPasswordCheckbox"
+                    >
+                      Show password
+                    </label>
+                  </div>
+                </div>
               </main>
             </div>
           </section>
@@ -1461,7 +1712,6 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
           <div>
             <button
               class="tm-btn"
-              disabled="disabled"
               id="send-btn"
             >
               <span
@@ -1741,6 +1991,56 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
                 <!---->
                  
                 <!---->
+                 
+                <hr />
+              </main>
+            </div>
+          </section>
+           
+          <section
+            class="tm-part"
+          >
+            <div
+              class="tm-part-container"
+            >
+              <!---->
+              <main
+                class="tm-part-main"
+              >
+                <div
+                  class="tm-form-group"
+                >
+                  <!---->
+                  <label
+                    class="tm-form-group__label"
+                    for="password"
+                  >
+                    Account password
+                  </label>
+                  <div
+                    class="tm-form-group__field"
+                  >
+                    <input
+                      class="tm-field"
+                      id="password"
+                      placeholder="password..."
+                      type="password"
+                    />
+                     
+                    <!---->
+                     
+                    <input
+                      id="showPasswordCheckbox"
+                      type="checkbox"
+                    />
+                     
+                    <label
+                      for="showPasswordCheckbox"
+                    >
+                      Show password
+                    </label>
+                  </div>
+                </div>
               </main>
             </div>
           </section>
@@ -1752,7 +2052,6 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
           <div>
             <button
               class="tm-btn"
-              disabled="disabled"
               id="send-btn"
             >
               <span
@@ -2045,6 +2344,56 @@ exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
                 <!---->
                  
                 <!---->
+                 
+                <hr />
+              </main>
+            </div>
+          </section>
+           
+          <section
+            class="tm-part"
+          >
+            <div
+              class="tm-part-container"
+            >
+              <!---->
+              <main
+                class="tm-part-main"
+              >
+                <div
+                  class="tm-form-group"
+                >
+                  <!---->
+                  <label
+                    class="tm-form-group__label"
+                    for="password"
+                  >
+                    Account password
+                  </label>
+                  <div
+                    class="tm-form-group__field"
+                  >
+                    <input
+                      class="tm-field"
+                      id="password"
+                      placeholder="password..."
+                      type="password"
+                    />
+                     
+                    <!---->
+                     
+                    <input
+                      id="showPasswordCheckbox"
+                      type="checkbox"
+                    />
+                     
+                    <label
+                      for="showPasswordCheckbox"
+                    >
+                      Show password
+                    </label>
+                  </div>
+                </div>
               </main>
             </div>
           </section>
@@ -2424,19 +2773,73 @@ exports[`PageSend should work without providing a default denom 1`] = `
                       />
                     </div>
                      
+                    <!---->
+                     
                     <div
                       class="tm-form-msg sm tm-form-msg--error"
                     >
-                      Amount is required
+                      Amount must be between 0 and 0
                     </div>
-                     
-                    <!---->
                   </div>
                 </div>
                  
                 <!---->
                  
                 <!---->
+                 
+                <hr />
+              </main>
+            </div>
+          </section>
+           
+          <section
+            class="tm-part"
+          >
+            <div
+              class="tm-part-container"
+            >
+              <!---->
+              <main
+                class="tm-part-main"
+              >
+                <div
+                  class="tm-form-group"
+                >
+                  <!---->
+                  <label
+                    class="tm-form-group__label"
+                    for="password"
+                  >
+                    Account password
+                  </label>
+                  <div
+                    class="tm-form-group__field"
+                  >
+                    <input
+                      class="tm-field"
+                      id="password"
+                      placeholder="password..."
+                      type="password"
+                    />
+                     
+                    <div
+                      class="tm-form-msg sm tm-form-msg--error"
+                    >
+                      Password is required
+                    </div>
+                     
+                    <input
+                      id="showPasswordCheckbox"
+                      type="checkbox"
+                    />
+                     
+                    <label
+                      for="showPasswordCheckbox"
+                    >
+                      Show password
+                    </label>
+                  </div>
+                </div>
               </main>
             </div>
           </section>
@@ -2448,7 +2851,6 @@ exports[`PageSend should work without providing a default denom 1`] = `
           <div>
             <button
               class="tm-btn"
-              disabled="disabled"
               id="send-btn"
             >
               <span
