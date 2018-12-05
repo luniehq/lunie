@@ -74,6 +74,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\1609](https://github.com/cosmos/voyager/issues/1609) switched to css and html to onboard developers faster @faboweb
 - [\1594](https://github.com/cosmos/voyager/issues/1594) disable decimal amount transfers @fedekunze
 - [\1680](https://github.com/cosmos/voyager/issues/1680) updated `TmBalance` to receive tabs an array of objects to avoid conflicting routes @fedekunze
+- [\1638](https://github.com/cosmos/voyager/issues/1638) removed account password from the state and now user has to input it on every transaction @fedekunze
 
 ### Fixed
 
@@ -110,6 +111,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fixed testnet config build script @faboweb
 - [\#1677](https://github.com/cosmos/voyager/issues/1677) Fixed inconstistent status colors on proposals @fedekunze
 - [\#1696](https://github.com/cosmos/voyager/issues/1696) Fixed broken css variables @jbibla
+- [\#1687](https://github.com/cosmos/voyager/issues/1687) Removing cached state if decrypting fails. @faboweb
+- [\#1662](https://github.com/cosmos/voyager/issues/1662) Fixed wrong node version in readme @faboweb
 
 ## [0.10.7] - 2018-10-10
 

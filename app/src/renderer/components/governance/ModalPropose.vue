@@ -58,6 +58,23 @@
         v-model="amount"
         type="number"
       />
+      <hr />
+    </tm-form-group>
+    <tm-form-group class="modal-propose-form-group" field-id="password">
+      <span>Account password</span>
+      <tm-field
+        id="password"
+        v-model="password"
+        :type="showPassword ? `text` : `password`"
+        placeholder="password..."
+      />
+      <input
+        id="showPasswordCheckbox"
+        v-model="showPassword"
+        type="checkbox"
+        @input="togglePassword"
+      />
+      <label for="showPasswordCheckbox">Show password</label>
     </tm-form-group>
     <div class="modal-propose-footer">
       <tm-btn
@@ -117,7 +134,9 @@ export default {
     title: ``,
     description: ``,
     type: `Text`,
-    amount: 0
+    amount: 0,
+    password: ``,
+    showPassword: false
   }),
   computed: {
     // TODO: get coin denom from governance params
@@ -154,6 +173,9 @@ export default {
         required,
         isInteger,
         between: between(1, this.balance > 0 ? this.balance : 1)
+      },
+      password: {
+        required
       }
     }
   },
@@ -161,12 +183,16 @@ export default {
     close() {
       this.$emit(`update:showModalPropose`, false)
     },
+    togglePassword() {
+      this.showPassword = !this.showPassword
+    },
     onPropose() {
       this.$emit(`createProposal`, {
         title: this.title,
         description: this.description,
         type: this.type,
-        amount: this.amount
+        amount: this.amount,
+        password: this.password
       })
       this.close()
     }

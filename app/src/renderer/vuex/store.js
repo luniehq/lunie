@@ -2,17 +2,17 @@
 
 import Vue from "vue"
 import Vuex from "vuex"
-import CryptoJS from "crypto-js"
 import _ from "lodash"
 import * as getters from "./getters"
 import modules from "./modules"
-import Raven from "raven-js"
 
 Vue.use(Vuex)
 
 export default (opts = {}) => {
+  // provide commit and dispatch to tests
   opts.commit = (...args) => store.commit(...args)
   opts.dispatch = (...args) => store.dispatch(...args)
+
   const store = new Vuex.Store({
     getters,
     // strict: true,
@@ -40,7 +40,7 @@ export default (opts = {}) => {
     if (updatingMutations.indexOf(mutation.type) === -1) return
 
     // if the user is logged in cache the balances and the tx-history for that user
-    if (!state.user.account || !state.user.password) return
+    if (!state.user.account) return
 
     if (pending) {
       clearTimeout(pending)
@@ -54,41 +54,31 @@ export default (opts = {}) => {
 }
 
 function persistState(state) {
-  try {
-    const encryptedState = CryptoJS.AES.encrypt(
-      JSON.stringify({
-        transactions: {
-          wallet: state.transactions.wallet,
-          staking: state.transactions.staking
-        },
-        wallet: {
-          balances: state.wallet.balances
-        },
-        delegation: {
-          loaded: state.delegation.loaded,
-          committedDelegates: state.delegation.committedDelegates,
-          unbondingDelegations: state.delegation.unbondingDelegations
-        },
-        delegates: {
-          delegates: state.delegates.delegates
-        },
-        keybase: {
-          identities: state.keybase.identities
-        },
-        proposals: state.proposals,
-        deposits: state.deposits,
-        votes: state.votes
-      }),
-      state.user.password
-    )
-    // Store the state object as a JSON string
-    localStorage.setItem(getStorageKey(state), encryptedState)
-  } catch (error) {
-    console.error(`Encrypting the state failed, removing cached state.`)
-    Raven.captureException(error)
-    // if encrypting the state fails, we cleanup
-    localStorage.removeItem(getStorageKey(state))
-  }
+  const cachedState = JSON.stringify({
+    transactions: {
+      wallet: state.transactions.wallet,
+      staking: state.transactions.staking
+    },
+    wallet: {
+      balances: state.wallet.balances
+    },
+    delegation: {
+      loaded: state.delegation.loaded,
+      committedDelegates: state.delegation.committedDelegates,
+      unbondingDelegations: state.delegation.unbondingDelegations
+    },
+    delegates: {
+      delegates: state.delegates.delegates
+    },
+    keybase: {
+      identities: state.keybase.identities
+    },
+    proposals: state.proposals,
+    deposits: state.deposits,
+    votes: state.votes
+  })
+  // Store the state object as a JSON string
+  localStorage.setItem(getStorageKey(state), cachedState)
 }
 
 function getStorageKey(state) {
@@ -97,15 +87,17 @@ function getStorageKey(state) {
   return `store_${chainId}_${address}`
 }
 
-function loadPersistedState({ state, commit }, { password }) {
-  const cachedState = localStorage.getItem(getStorageKey(state))
+function loadPersistedState({ state, commit }) {
+  const storageKey = getStorageKey(state)
+  let cachedState
+  try {
+    cachedState = JSON.parse(localStorage.getItem(storageKey))
+  } catch (err) {
+    console.error(`Couldn't parse the cached state`)
+  }
   if (cachedState) {
-    const bytes = CryptoJS.AES.decrypt(cachedState, password)
-    const plaintext = bytes.toString(CryptoJS.enc.Utf8)
-
     // Replace the state object with the stored state
-    let oldState = JSON.parse(plaintext)
-    _.merge(state, oldState, {
+    _.merge(state, cachedState, {
       // set loading indicators to false
       transactions: {
         loaded: true,
