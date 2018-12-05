@@ -86,7 +86,7 @@ export default {
   background: var(--app-fg);
   border: 1px solid var(--bc-dim);
   border-radius: 0.25rem;
-  font-size: sm;
+  font-size: var(--sm);
   margin-bottom: 4rem;
   margin-left: 2rem;
   padding: 0.5rem;

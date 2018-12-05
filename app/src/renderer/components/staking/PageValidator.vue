@@ -513,14 +513,14 @@ export default {
 .validator-profile__header__name__title {
   color: #fff;
   display: inline-block;
-  font-size: h1;
-  line-height: h1;
+  font-size: var(--h1);
+  line-height: var(--h1);
   font-weight: 400;
   padding: 0 0.5rem 0.5rem 0;
 }
 
 .validator-profile__header__name__address {
-  font-size: small;
+  font-size: var(--sm);
 }
 
 .validator-profile__header__actions {
@@ -580,7 +580,7 @@ export default {
 
 .info_dl dt {
   color: var(--dim);
-  font-size: small;
+  font-size: var(--sm);
   margin-bottom: 4px;
 }
 
@@ -609,7 +609,7 @@ export default {
 
 .colored_dl dt {
   color: var(--dim);
-  font-size: small;
+  font-size: var(--sm);
   margin-bottom: 0.5rem;
   text-align: center;
 }
