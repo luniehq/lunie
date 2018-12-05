@@ -1,6 +1,9 @@
 <template>
   <tm-page data-title="Send">
-    <div slot="menu"><vm-tool-bar /></div>
+    <template slot="menu-body">
+      <tm-balance />
+      <vm-tool-bar />
+    </template>
     <tm-form-struct :submit="onSubmit">
       <tm-part title="Denomination Options">
         <tm-form-group
@@ -161,6 +164,7 @@ import {
   TmField,
   TmFormMsg
 } from "@tendermint/ui"
+import TmBalance from "common/TmBalance"
 import FieldAddon from "common/TmFieldAddon"
 import VmToolBar from "common/VmToolBar"
 import TmModalSendConfirmation from "wallet/TmModalSendConfirmation"
@@ -169,6 +173,7 @@ const isInteger = amount => Number.isInteger(amount)
 
 export default {
   components: {
+    TmBalance,
     TmBtn,
     TmField,
     FieldAddon,
