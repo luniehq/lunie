@@ -594,13 +594,13 @@ exports[`PageSend has the expected html structure 1`] = `
                       />
                     </div>
                      
+                    <!---->
+                     
                     <div
                       class="tm-form-msg sm tm-form-msg--error"
                     >
-                      Amount is required
+                      Amount must be between 1 and 2300
                     </div>
-                     
-                    <!---->
                   </div>
                 </div>
                  
@@ -2773,13 +2773,13 @@ exports[`PageSend should work without providing a default denom 1`] = `
                       />
                     </div>
                      
+                    <!---->
+                     
                     <div
                       class="tm-form-msg sm tm-form-msg--error"
                     >
-                      Amount is required
+                      Amount must be between 0 and 0
                     </div>
-                     
-                    <!---->
                   </div>
                 </div>
                  

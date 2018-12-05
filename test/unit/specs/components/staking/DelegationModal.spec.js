@@ -71,6 +71,19 @@ describe(`DelegationModal`, () => {
     it(`account password defaults to an empty string`, () => {
       expect(wrapper.vm.password).toEqual(``)
     })
+
+    it(`password is hidden by default`, () => {
+      expect(wrapper.vm.showPassword).toBe(false)
+    })
+  })
+
+  describe(`Password display`, () => {
+    it(`toggles the password between text and password`, () => {
+      wrapper.vm.togglePassword()
+      expect(wrapper.vm.showPassword).toBe(true)
+      wrapper.vm.togglePassword()
+      expect(wrapper.vm.showPassword).toBe(false)
+    })
   })
 
   describe(`enables or disables the Delegation button correctly`, () => {

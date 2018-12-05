@@ -191,7 +191,7 @@ export default {
     bech32error: null,
     fields: {
       address: ``,
-      amount: null,
+      amount: 0,
       denom: ``,
       password: ``
     },
