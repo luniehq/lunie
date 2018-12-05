@@ -89,7 +89,12 @@ function getStorageKey(state) {
 
 function loadPersistedState({ state, commit }) {
   const storageKey = getStorageKey(state)
-  const cachedState = JSON.parse(localStorage.getItem(storageKey))
+  let cachedState
+  try {
+    cachedState = JSON.parse(localStorage.getItem(storageKey))
+  } catch (err) {
+    console.error(`Couldn't parse the cached state`)
+  }
   if (cachedState) {
     // Replace the state object with the stored state
     _.merge(state, cachedState, {

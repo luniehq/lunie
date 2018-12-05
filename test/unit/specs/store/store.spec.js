@@ -112,4 +112,18 @@ describe(`Store`, () => {
       localStorage.getItem(`store_test-net_` + lcdClientMock.addresses[0])
     ).toBeTruthy()
   })
+
+  it(`should not crash if the stored cache is invalid`, async () => {
+    store.commit(`setWalletBalances`, [{ denom: `fabocoin`, amount: 42 }])
+    await store.dispatch(`signOut`)
+    localStorage.setItem(`store_test-net_` + lcdClientMock.addresses[0], `xxx`)
+
+    jest.spyOn(console, `error`).mockImplementationOnce(() => {})
+    await store.dispatch(`signIn`, {
+      account: `default`,
+      password: `1234567890`
+    })
+
+    expect(store.state.wallet.balances).toHaveLength(0)
+  })
 })
