@@ -11,8 +11,10 @@ import Raven from "raven-js"
 Vue.use(Vuex)
 
 export default (opts = {}) => {
+  // provide commit and dispatch to tests
   opts.commit = (...args) => store.commit(...args)
   opts.dispatch = (...args) => store.dispatch(...args)
+
   const store = new Vuex.Store({
     getters,
     // strict: true,
@@ -98,39 +100,47 @@ function getStorageKey(state) {
 }
 
 function loadPersistedState({ state, commit }, { password }) {
-  const cachedState = localStorage.getItem(getStorageKey(state))
+  const storageKey = getStorageKey(state)
+  const cachedState = localStorage.getItem(storageKey)
   if (cachedState) {
-    const bytes = CryptoJS.AES.decrypt(cachedState, password)
-    const plaintext = bytes.toString(CryptoJS.enc.Utf8)
+    try {
+      const bytes = CryptoJS.AES.decrypt(cachedState, password)
+      const plaintext = bytes.toString(CryptoJS.enc.Utf8)
 
-    // Replace the state object with the stored state
-    let oldState = JSON.parse(plaintext)
-    _.merge(state, oldState, {
-      // set loading indicators to false
-      transactions: {
-        loaded: true,
-        loading: false
-      },
-      wallet: {
-        loaded: true,
-        loading: false
-      },
-      delegates: {
-        loaded: true,
-        loading: false
-      },
-      proposals: {
-        loaded: true,
-        loading: false
-      }
-    })
-    this.replaceState(state)
-
-    // add all delegates the user has bond with already to the cart
-    state.delegates.delegates
-      .filter(d => state.delegation.committedDelegates[d.operator_address])
-      .forEach(d => {
-        commit(`addToCart`, d)
+      // Replace the state object with the stored state
+      let oldState = JSON.parse(plaintext)
+      _.merge(state, oldState, {
+        // set loading indicators to false
+        transactions: {
+          loaded: true,
+          loading: false
+        },
+        wallet: {
+          loaded: true,
+          loading: false
+        },
+        delegates: {
+          loaded: true,
+          loading: false
+        },
+        proposals: {
+          loaded: true,
+          loading: false
+        }
       })
+      this.replaceState(state)
+
+      // add all delegates the user has bond with already to the cart
+      state.delegates.delegates
+        .filter(d => state.delegation.committedDelegates[d.operator_address])
+        .forEach(d => {
+          commit(`addToCart`, d)
+        })
+    } catch (error) {
+      console.error(`Decrypting the state failed, removing cached state.`)
+      Raven.captureException(error)
+      // if decrypting the state fails, we cleanup
+      localStorage.removeItem(storageKey)
+    }
   }
 }

@@ -5,7 +5,7 @@ import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 describe(`Store`, () => {
   let store
 
-  beforeEach(() => {
+  beforeEach(async () => {
     node.queryAccount = () => new Promise(() => {}) // make balances not return
     node.txs = () => new Promise(() => {}) // make txs not return
     store = Store({ node })
@@ -13,11 +13,7 @@ describe(`Store`, () => {
       `store_test-net_` + lcdClientMock.addresses[0],
       undefined
     )
-  })
 
-  // DEFAULT
-
-  it(`should persist balances et al if the user is logged in`, async () => {
     jest.useFakeTimers()
     await store.dispatch(`setLastHeader`, {
       height: 42,
@@ -27,6 +23,11 @@ describe(`Store`, () => {
       account: `default`,
       password: `1234567890`
     })
+  })
+
+  // DEFAULT
+
+  it(`should persist balances et al if the user is logged in`, async () => {
     store.commit(`setWalletBalances`, [{ denom: `fabocoin`, amount: 42 }])
     jest.runAllTimers() // updating is waiting if more updates coming in, this skips the waiting
     expect(
@@ -35,11 +36,7 @@ describe(`Store`, () => {
   })
 
   it(`should not update cache if not logged in`, async () => {
-    jest.useFakeTimers()
-    await store.dispatch(`setLastHeader`, {
-      height: 42,
-      chain_id: `test-net`
-    })
+    await store.dispatch(`signOut`)
     store.commit(`setWalletBalances`, [{ denom: `fabocoin`, amount: 42 }])
     jest.runAllTimers() // updating is waiting if more updates coming in, this skips the waiting
     expect(
@@ -48,15 +45,6 @@ describe(`Store`, () => {
   })
 
   it(`should restore balances et al after logging in`, async () => {
-    jest.useFakeTimers()
-    await store.dispatch(`setLastHeader`, {
-      height: 42,
-      chain_id: `test-net`
-    })
-    await store.dispatch(`signIn`, {
-      account: `default`,
-      password: `1234567890`
-    })
     store.commit(`setWalletBalances`, [{ denom: `fabocoin`, amount: 42 }])
     store.commit(`setWalletTxs`, [{}])
     jest.runAllTimers() // updating is waiting if more updates coming in, this skips the waiting
@@ -71,15 +59,6 @@ describe(`Store`, () => {
   })
 
   it(`should restore delegates and put committed ones in the cart`, async () => {
-    jest.useFakeTimers()
-    await store.dispatch(`setLastHeader`, {
-      height: 42,
-      chain_id: `test-net`
-    })
-    await store.dispatch(`signIn`, {
-      account: `default`,
-      password: `1234567890`
-    })
     store.commit(`setDelegates`, lcdClientMock.state.candidates)
     store.commit(`setCommittedDelegation`, {
       candidateId: lcdClientMock.validators[0],
@@ -120,15 +99,6 @@ describe(`Store`, () => {
   })
 
   it(`should throttle updating the store cache`, async () => {
-    jest.useFakeTimers()
-    await store.dispatch(`setLastHeader`, {
-      height: 42,
-      chain_id: `test-net`
-    })
-    await store.dispatch(`signIn`, {
-      account: `default`,
-      password: `1234567890`
-    })
     store.commit(`setWalletBalances`, [{ denom: `fabocoin`, amount: 42 }])
 
     // not updating yet, as it waits if there are more updates incoming
@@ -145,7 +115,6 @@ describe(`Store`, () => {
 
   it(`should remove the cache if failing to encrypt the cache`, async () => {
     jest.resetModules()
-    jest.useFakeTimers()
     jest.doMock(`crypto-js`, () => ({
       AES: {
         encrypt: () => {
@@ -167,6 +136,33 @@ describe(`Store`, () => {
       password: `1234567890`
     })
     opts.commit(`setWalletBalances`)
+    jest.runAllTimers()
+
+    expect(spy).toHaveBeenCalled()
+    console.error.mockReset()
+  })
+
+  it(`should remove the cache if failing to decrypt the cache`, async () => {
+    jest.resetModules()
+    jest.useFakeTimers()
+    jest.doMock(`crypto-js`, () => ({
+      AES: {
+        decrypt: () => {
+          throw Error(`Failed to encrypt`)
+        }
+      }
+    }))
+    let Raven = require(`raven-js`)
+    // the error will be logged, which is confusing in the test output
+    jest.spyOn(console, `error`).mockImplementation(() => {})
+
+    let spy = jest.spyOn(Raven, `captureException`)
+    let opts = { node: { keys: { get: () => ({}) } } }
+    require(`renderer/vuex/store.js`).default(opts)
+
+    // the store key is store__null if neither the chain_id or the address is set
+    localStorage.setItem(`store__null`, `xxx`)
+    await opts.dispatch(`loadPersistedState`, { password: `123` })
     jest.runAllTimers()
 
     expect(spy).toHaveBeenCalled()
