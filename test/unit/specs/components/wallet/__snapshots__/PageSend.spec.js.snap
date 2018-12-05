@@ -16,60 +16,132 @@ exports[`PageSend disables sending if not connected 1`] = `
       >
         <!---->
         <!---->
-        <!---->
+        <div
+          class="tm-page-header-body"
+        >
+          <div
+            class="header-balance"
+          >
+            <div
+              class="top"
+            >
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
+               
+              <div
+                class="total-atoms top-section"
+              >
+                <h3>
+                  Total Steak
+                </h3>
+                 
+                <h2>
+                  1,000.0000…
+                </h2>
+              </div>
+               
+              <div
+                class="unbonded-atoms top-section"
+              >
+                <h3>
+                  Available Steak
+                </h3>
+                 
+                <h2>
+                  1,000.0000…
+                </h2>
+              </div>
+            </div>
+             
+            <div
+              class="short-bech32"
+            >
+              <div
+                class="address"
+                id="address"
+              >
+                
+    cosmos…xxn9
+  
+              </div>
+               
+              <div
+                class="copied"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+             
+            <div
+              class="tabs"
+            />
+             
+          </div>
+           
+          <div
+            class="tm-tool-bar"
+          >
+            <a
+              class="back"
+              disabled="disabled"
+            >
+              <i
+                class="material-icons"
+              >
+                arrow_back
+              </i>
+            </a>
+             
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+             
+            <a
+              class=""
+              href="#/preferences"
+              id="settings"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </a>
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+          </div>
+        </div>
       </div>
       <menu
         class="tm-page-header-menu"
       >
-        <div>
-          <div>
-            <div
-              class="tm-tool-bar"
-            >
-              <a
-                class="back"
-                disabled="disabled"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </a>
-               
-              <a
-                class="help"
-              >
-                <i
-                  class="material-icons"
-                >
-                  help_outline
-                </i>
-              </a>
-               
-              <a
-                class=""
-                href="#/preferences"
-                id="settings"
-              >
-                <i
-                  class="material-icons"
-                >
-                  settings
-                </i>
-              </a>
-              <a
-                id="signOut-btn"
-              >
-                <i
-                  class="material-icons"
-                >
-                  exit_to_app
-                </i>
-              </a>
-            </div>
-          </div>
-        </div>
+        <div />
       </menu>
     </div>
   </header>
@@ -308,60 +380,132 @@ exports[`PageSend has the expected html structure 1`] = `
       >
         <!---->
         <!---->
-        <!---->
+        <div
+          class="tm-page-header-body"
+        >
+          <div
+            class="header-balance"
+          >
+            <div
+              class="top"
+            >
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
+               
+              <div
+                class="total-atoms top-section"
+              >
+                <h3>
+                  Total Steak
+                </h3>
+                 
+                <h2>
+                  1,000.0000…
+                </h2>
+              </div>
+               
+              <div
+                class="unbonded-atoms top-section"
+              >
+                <h3>
+                  Available Steak
+                </h3>
+                 
+                <h2>
+                  1,000.0000…
+                </h2>
+              </div>
+            </div>
+             
+            <div
+              class="short-bech32"
+            >
+              <div
+                class="address"
+                id="address"
+              >
+                
+    cosmos…xxn9
+  
+              </div>
+               
+              <div
+                class="copied"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+             
+            <div
+              class="tabs"
+            />
+             
+          </div>
+           
+          <div
+            class="tm-tool-bar"
+          >
+            <a
+              class="back"
+              disabled="disabled"
+            >
+              <i
+                class="material-icons"
+              >
+                arrow_back
+              </i>
+            </a>
+             
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+             
+            <a
+              class=""
+              href="#/preferences"
+              id="settings"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </a>
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+          </div>
+        </div>
       </div>
       <menu
         class="tm-page-header-menu"
       >
-        <div>
-          <div>
-            <div
-              class="tm-tool-bar"
-            >
-              <a
-                class="back"
-                disabled="disabled"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </a>
-               
-              <a
-                class="help"
-              >
-                <i
-                  class="material-icons"
-                >
-                  help_outline
-                </i>
-              </a>
-               
-              <a
-                class=""
-                href="#/preferences"
-                id="settings"
-              >
-                <i
-                  class="material-icons"
-                >
-                  settings
-                </i>
-              </a>
-              <a
-                id="signOut-btn"
-              >
-                <i
-                  class="material-icons"
-                >
-                  exit_to_app
-                </i>
-              </a>
-            </div>
-          </div>
-        </div>
+        <div />
       </menu>
     </div>
   </header>
@@ -629,60 +773,132 @@ exports[`PageSend should show address required error 1`] = `
       >
         <!---->
         <!---->
-        <!---->
+        <div
+          class="tm-page-header-body"
+        >
+          <div
+            class="header-balance"
+          >
+            <div
+              class="top"
+            >
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
+               
+              <div
+                class="total-atoms top-section"
+              >
+                <h3>
+                  Total Steak
+                </h3>
+                 
+                <h2>
+                  0.0000…
+                </h2>
+              </div>
+               
+              <div
+                class="unbonded-atoms top-section"
+              >
+                <h3>
+                  Available Steak
+                </h3>
+                 
+                <h2>
+                  0.0000…
+                </h2>
+              </div>
+            </div>
+             
+            <div
+              class="short-bech32"
+            >
+              <div
+                class="address"
+                id="address"
+              >
+                
+    Address Not Found
+  
+              </div>
+               
+              <div
+                class="copied"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+             
+            <div
+              class="tabs"
+            />
+             
+          </div>
+           
+          <div
+            class="tm-tool-bar"
+          >
+            <a
+              class="back"
+              disabled="disabled"
+            >
+              <i
+                class="material-icons"
+              >
+                arrow_back
+              </i>
+            </a>
+             
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+             
+            <a
+              class=""
+              href="#/preferences"
+              id="settings"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </a>
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+          </div>
+        </div>
       </div>
       <menu
         class="tm-page-header-menu"
       >
-        <div>
-          <div>
-            <div
-              class="tm-tool-bar"
-            >
-              <a
-                class="back"
-                disabled="disabled"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </a>
-               
-              <a
-                class="help"
-              >
-                <i
-                  class="material-icons"
-                >
-                  help_outline
-                </i>
-              </a>
-               
-              <a
-                class=""
-                href="#/preferences"
-                id="settings"
-              >
-                <i
-                  class="material-icons"
-                >
-                  settings
-                </i>
-              </a>
-              <a
-                id="signOut-btn"
-              >
-                <i
-                  class="material-icons"
-                >
-                  exit_to_app
-                </i>
-              </a>
-            </div>
-          </div>
-        </div>
+        <div />
       </menu>
     </div>
   </header>
@@ -920,60 +1136,132 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
       >
         <!---->
         <!---->
-        <!---->
+        <div
+          class="tm-page-header-body"
+        >
+          <div
+            class="header-balance"
+          >
+            <div
+              class="top"
+            >
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
+               
+              <div
+                class="total-atoms top-section"
+              >
+                <h3>
+                  Total Steak
+                </h3>
+                 
+                <h2>
+                  0.0000…
+                </h2>
+              </div>
+               
+              <div
+                class="unbonded-atoms top-section"
+              >
+                <h3>
+                  Available Steak
+                </h3>
+                 
+                <h2>
+                  0.0000…
+                </h2>
+              </div>
+            </div>
+             
+            <div
+              class="short-bech32"
+            >
+              <div
+                class="address"
+                id="address"
+              >
+                
+    Address Not Found
+  
+              </div>
+               
+              <div
+                class="copied"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+             
+            <div
+              class="tabs"
+            />
+             
+          </div>
+           
+          <div
+            class="tm-tool-bar"
+          >
+            <a
+              class="back"
+              disabled="disabled"
+            >
+              <i
+                class="material-icons"
+              >
+                arrow_back
+              </i>
+            </a>
+             
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+             
+            <a
+              class=""
+              href="#/preferences"
+              id="settings"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </a>
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+          </div>
+        </div>
       </div>
       <menu
         class="tm-page-header-menu"
       >
-        <div>
-          <div>
-            <div
-              class="tm-tool-bar"
-            >
-              <a
-                class="back"
-                disabled="disabled"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </a>
-               
-              <a
-                class="help"
-              >
-                <i
-                  class="material-icons"
-                >
-                  help_outline
-                </i>
-              </a>
-               
-              <a
-                class=""
-                href="#/preferences"
-                id="settings"
-              >
-                <i
-                  class="material-icons"
-                >
-                  settings
-                </i>
-              </a>
-              <a
-                id="signOut-btn"
-              >
-                <i
-                  class="material-icons"
-                >
-                  exit_to_app
-                </i>
-              </a>
-            </div>
-          </div>
-        </div>
+        <div />
       </menu>
     </div>
   </header>
@@ -1211,60 +1499,132 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
       >
         <!---->
         <!---->
-        <!---->
+        <div
+          class="tm-page-header-body"
+        >
+          <div
+            class="header-balance"
+          >
+            <div
+              class="top"
+            >
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
+               
+              <div
+                class="total-atoms top-section"
+              >
+                <h3>
+                  Total Steak
+                </h3>
+                 
+                <h2>
+                  0.0000…
+                </h2>
+              </div>
+               
+              <div
+                class="unbonded-atoms top-section"
+              >
+                <h3>
+                  Available Steak
+                </h3>
+                 
+                <h2>
+                  0.0000…
+                </h2>
+              </div>
+            </div>
+             
+            <div
+              class="short-bech32"
+            >
+              <div
+                class="address"
+                id="address"
+              >
+                
+    Address Not Found
+  
+              </div>
+               
+              <div
+                class="copied"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+             
+            <div
+              class="tabs"
+            />
+             
+          </div>
+           
+          <div
+            class="tm-tool-bar"
+          >
+            <a
+              class="back"
+              disabled="disabled"
+            >
+              <i
+                class="material-icons"
+              >
+                arrow_back
+              </i>
+            </a>
+             
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+             
+            <a
+              class=""
+              href="#/preferences"
+              id="settings"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </a>
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+          </div>
+        </div>
       </div>
       <menu
         class="tm-page-header-menu"
       >
-        <div>
-          <div>
-            <div
-              class="tm-tool-bar"
-            >
-              <a
-                class="back"
-                disabled="disabled"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </a>
-               
-              <a
-                class="help"
-              >
-                <i
-                  class="material-icons"
-                >
-                  help_outline
-                </i>
-              </a>
-               
-              <a
-                class=""
-                href="#/preferences"
-                id="settings"
-              >
-                <i
-                  class="material-icons"
-                >
-                  settings
-                </i>
-              </a>
-              <a
-                id="signOut-btn"
-              >
-                <i
-                  class="material-icons"
-                >
-                  exit_to_app
-                </i>
-              </a>
-            </div>
-          </div>
-        </div>
+        <div />
       </menu>
     </div>
   </header>
@@ -1502,60 +1862,132 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
       >
         <!---->
         <!---->
-        <!---->
+        <div
+          class="tm-page-header-body"
+        >
+          <div
+            class="header-balance"
+          >
+            <div
+              class="top"
+            >
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
+               
+              <div
+                class="total-atoms top-section"
+              >
+                <h3>
+                  Total Steak
+                </h3>
+                 
+                <h2>
+                  0.0000…
+                </h2>
+              </div>
+               
+              <div
+                class="unbonded-atoms top-section"
+              >
+                <h3>
+                  Available Steak
+                </h3>
+                 
+                <h2>
+                  0.0000…
+                </h2>
+              </div>
+            </div>
+             
+            <div
+              class="short-bech32"
+            >
+              <div
+                class="address"
+                id="address"
+              >
+                
+    Address Not Found
+  
+              </div>
+               
+              <div
+                class="copied"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+             
+            <div
+              class="tabs"
+            />
+             
+          </div>
+           
+          <div
+            class="tm-tool-bar"
+          >
+            <a
+              class="back"
+              disabled="disabled"
+            >
+              <i
+                class="material-icons"
+              >
+                arrow_back
+              </i>
+            </a>
+             
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+             
+            <a
+              class=""
+              href="#/preferences"
+              id="settings"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </a>
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+          </div>
+        </div>
       </div>
       <menu
         class="tm-page-header-menu"
       >
-        <div>
-          <div>
-            <div
-              class="tm-tool-bar"
-            >
-              <a
-                class="back"
-                disabled="disabled"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </a>
-               
-              <a
-                class="help"
-              >
-                <i
-                  class="material-icons"
-                >
-                  help_outline
-                </i>
-              </a>
-               
-              <a
-                class=""
-                href="#/preferences"
-                id="settings"
-              >
-                <i
-                  class="material-icons"
-                >
-                  settings
-                </i>
-              </a>
-              <a
-                id="signOut-btn"
-              >
-                <i
-                  class="material-icons"
-                >
-                  exit_to_app
-                </i>
-              </a>
-            </div>
-          </div>
-        </div>
+        <div />
       </menu>
     </div>
   </header>
@@ -1804,60 +2236,132 @@ exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
       >
         <!---->
         <!---->
-        <!---->
+        <div
+          class="tm-page-header-body"
+        >
+          <div
+            class="header-balance"
+          >
+            <div
+              class="top"
+            >
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
+               
+              <div
+                class="total-atoms top-section"
+              >
+                <h3>
+                  Total Steak
+                </h3>
+                 
+                <h2>
+                  0.0000…
+                </h2>
+              </div>
+               
+              <div
+                class="unbonded-atoms top-section"
+              >
+                <h3>
+                  Available Steak
+                </h3>
+                 
+                <h2>
+                  0.0000…
+                </h2>
+              </div>
+            </div>
+             
+            <div
+              class="short-bech32"
+            >
+              <div
+                class="address"
+                id="address"
+              >
+                
+    Address Not Found
+  
+              </div>
+               
+              <div
+                class="copied"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+             
+            <div
+              class="tabs"
+            />
+             
+          </div>
+           
+          <div
+            class="tm-tool-bar"
+          >
+            <a
+              class="back"
+              disabled="disabled"
+            >
+              <i
+                class="material-icons"
+              >
+                arrow_back
+              </i>
+            </a>
+             
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+             
+            <a
+              class=""
+              href="#/preferences"
+              id="settings"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </a>
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+          </div>
+        </div>
       </div>
       <menu
         class="tm-page-header-menu"
       >
-        <div>
-          <div>
-            <div
-              class="tm-tool-bar"
-            >
-              <a
-                class="back"
-                disabled="disabled"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </a>
-               
-              <a
-                class="help"
-              >
-                <i
-                  class="material-icons"
-                >
-                  help_outline
-                </i>
-              </a>
-               
-              <a
-                class=""
-                href="#/preferences"
-                id="settings"
-              >
-                <i
-                  class="material-icons"
-                >
-                  settings
-                </i>
-              </a>
-              <a
-                id="signOut-btn"
-              >
-                <i
-                  class="material-icons"
-                >
-                  exit_to_app
-                </i>
-              </a>
-            </div>
-          </div>
-        </div>
+        <div />
       </menu>
     </div>
   </header>
@@ -2194,60 +2698,132 @@ exports[`PageSend should work without providing a default denom 1`] = `
       >
         <!---->
         <!---->
-        <!---->
+        <div
+          class="tm-page-header-body"
+        >
+          <div
+            class="header-balance"
+          >
+            <div
+              class="top"
+            >
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
+               
+              <div
+                class="total-atoms top-section"
+              >
+                <h3>
+                  Total Steak
+                </h3>
+                 
+                <h2>
+                  0.0000…
+                </h2>
+              </div>
+               
+              <div
+                class="unbonded-atoms top-section"
+              >
+                <h3>
+                  Available Steak
+                </h3>
+                 
+                <h2>
+                  0.0000…
+                </h2>
+              </div>
+            </div>
+             
+            <div
+              class="short-bech32"
+            >
+              <div
+                class="address"
+                id="address"
+              >
+                
+    Address Not Found
+  
+              </div>
+               
+              <div
+                class="copied"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+             
+            <div
+              class="tabs"
+            />
+             
+          </div>
+           
+          <div
+            class="tm-tool-bar"
+          >
+            <a
+              class="back"
+              disabled="disabled"
+            >
+              <i
+                class="material-icons"
+              >
+                arrow_back
+              </i>
+            </a>
+             
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+             
+            <a
+              class=""
+              href="#/preferences"
+              id="settings"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </a>
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+          </div>
+        </div>
       </div>
       <menu
         class="tm-page-header-menu"
       >
-        <div>
-          <div>
-            <div
-              class="tm-tool-bar"
-            >
-              <a
-                class="back"
-                disabled="disabled"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </a>
-               
-              <a
-                class="help"
-              >
-                <i
-                  class="material-icons"
-                >
-                  help_outline
-                </i>
-              </a>
-               
-              <a
-                class=""
-                href="#/preferences"
-                id="settings"
-              >
-                <i
-                  class="material-icons"
-                >
-                  settings
-                </i>
-              </a>
-              <a
-                id="signOut-btn"
-              >
-                <i
-                  class="material-icons"
-                >
-                  exit_to_app
-                </i>
-              </a>
-            </div>
-          </div>
-        </div>
+        <div />
       </menu>
     </div>
   </header>
