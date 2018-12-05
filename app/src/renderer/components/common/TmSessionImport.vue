@@ -16,7 +16,7 @@
         >
           <tm-field
             id="import-name"
-            v-model="fields.importName"
+            v-model.trim="fields.importName"
             type="text"
             placeholder="Must have at least 5 characters"
           />

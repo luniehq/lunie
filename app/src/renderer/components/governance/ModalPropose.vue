@@ -14,7 +14,7 @@
       <tm-field
         v-focus
         id="title"
-        v-model="title"
+        v-model.trim="title"
         type="text"
         placeholder="Proposal title"
       />
@@ -32,7 +32,7 @@
       <span>Description</span>
       <tm-field
         id="description"
-        v-model="description"
+        v-model.trim="description"
         type="textarea"
         placeholder="Write your proposal here..."
       />
