@@ -54,23 +54,16 @@ export default {
     setStatus(value) {
       this.status = value
     },
-    async connectLedger() {
+    connectLedger() {
       this.setStatus(`detect`)
       try {
-        let comm = await comm_u2f
-          .create_async(TIMEOUT, true)
-          .then(function(comm) {
-            let app = new App(comm)
-            console.log(app)
-            return app
-              .get_version()
-              .then(function(result) {
-                response = result
-                console.log(response)
-              })
-              .catch(error => console.error(error))
+        comm_u2f.create_async(TIMEOUT, true).then(function(comm) {
+          let app = new App(comm)
+          return app.get_version().then(function(version) {
+            console.log(version)
+            this.setStatus(`success`)
           })
-        this.setStatus(`success`)
+        })
       } catch (error) {
         console.error(error)
       }
