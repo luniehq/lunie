@@ -18,7 +18,7 @@
         <hardware-state
           v-if="status == 'detect'"
           icon="rotate_right"
-          spin="true"
+          :spin="true"
           value="Detecting your Ledger Wallet"
           @click.native="setStatus('connect')"
         />
@@ -36,7 +36,10 @@
 
 <script>
 import HardwareState from "common/TmHardwareState"
-import { App, comm_node } from "ledger-cosmos-js"
+import { App, comm_u2f, comm_node } from "ledger-cosmos-js"
+
+const TIMEOUT = 2
+
 export default {
   name: `tm-session-hardware`,
   components: { HardwareState },
@@ -51,13 +54,23 @@ export default {
     setStatus(value) {
       this.status = value
     },
-    connectLedger() {
+    async connectLedger() {
       this.setStatus(`detect`)
       try {
-        let ledger = new App(comm_node)
-        console.log(ledger)
-        console.log(ledger.get_version())
-        this.setStatus("success")
+        let comm = await comm_u2f
+          .create_async(TIMEOUT, true)
+          .then(function(comm) {
+            let app = new App(comm)
+            console.log(app)
+            return app
+              .get_version()
+              .then(function(result) {
+                response = result
+                console.log(response)
+              })
+              .catch(error => console.error(error))
+          })
+        this.setStatus(`success`)
       } catch (error) {
         console.error(error)
       }
