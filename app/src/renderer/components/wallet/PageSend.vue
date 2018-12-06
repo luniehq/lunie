@@ -1,6 +1,9 @@
 <template>
   <tm-page data-title="Send">
-    <div slot="menu"><vm-tool-bar /></div>
+    <template slot="menu-body">
+      <tm-balance />
+      <vm-tool-bar />
+    </template>
     <tm-form-struct :submit="onSubmit">
       <tm-part title="Denomination Options">
         <tm-form-group
@@ -24,25 +27,28 @@
       </tm-part>
       <tm-part title="Transaction Details">
         <tm-form-group
-          :error="$v.fields.address.$error"
+          :error="$v.fields.address.$invalid"
           field-id="send-address"
           field-label="Send To"
         >
           <tm-field-group>
             <tm-field
               id="send-address"
-              v-model="fields.address"
+              v-model.trim="fields.address"
               type="text"
               placeholder="Address"
             />
           </tm-field-group>
           <tm-form-msg
-            v-if="!$v.fields.address.required"
+            v-if="$v.fields.address.$error && !$v.fields.address.required"
             name="Address"
             type="required"
           />
           <tm-form-msg
-            v-else-if="!$v.fields.address.bech32Validate"
+            v-else-if="
+              fields.address.trim().length > 0 &&
+                !$v.fields.address.bech32Validate
+            "
             :body="bech32error"
             name="Address"
             type="bech32"
@@ -69,9 +75,9 @@
             type="required"
           />
           <tm-form-msg
-            v-if="!$v.fields.amount.between"
-            :min="max ? 1 : 0"
-            :max="max"
+            v-if="!$v.fields.amount.between && fields.amount > 0"
+            :max="$v.fields.amount.$params.between.max"
+            :min="$v.fields.amount.$params.between.min"
             name="Amount"
             type="between"
           />
@@ -85,6 +91,33 @@
           >
         </p>
         <br v-if="mockedConnector" />
+        <hr />
+      </tm-part>
+      <tm-part>
+        <tm-form-group
+          :error="$v.fields.password.$error"
+          field-id="password"
+          field-label="Account password"
+        >
+          <tm-field
+            id="password"
+            v-model="fields.password"
+            :type="showPassword ? `text` : `password`"
+            placeholder="password..."
+          />
+          <tm-form-msg
+            v-if="!$v.fields.password.required"
+            name="Password"
+            type="required"
+          />
+          <input
+            id="showPasswordCheckbox"
+            v-model="showPassword"
+            type="checkbox"
+            @input="togglePassword"
+          />
+          <label for="showPasswordCheckbox">Show password</label>
+        </tm-form-group>
       </tm-part>
       <div slot="footer">
         <tm-btn
@@ -102,7 +135,6 @@
         <tm-btn
           v-else
           id="send-btn"
-          :disabled="$v.$invalid"
           value="Send Tokens"
           color="primary"
           @click="onSubmit"
@@ -135,6 +167,7 @@ import {
   TmField,
   TmFormMsg
 } from "@tendermint/ui"
+import TmBalance from "common/TmBalance"
 import FieldAddon from "common/TmFieldAddon"
 import VmToolBar from "common/VmToolBar"
 import TmModalSendConfirmation from "wallet/TmModalSendConfirmation"
@@ -143,6 +176,7 @@ const isInteger = amount => Number.isInteger(amount)
 
 export default {
   components: {
+    TmBalance,
     TmBtn,
     TmField,
     FieldAddon,
@@ -165,12 +199,13 @@ export default {
     bech32error: null,
     fields: {
       address: ``,
-      amount: null,
+      amount: 0,
       denom: ``,
-      zoneId: `cosmos-hub-1`
+      password: ``
     },
     confirmationPending: false,
-    sending: false
+    sending: false,
+    showPassword: false
   }),
   computed: {
     ...mapGetters([
@@ -203,6 +238,9 @@ export default {
       this.sending = false
       this.$v.$reset()
     },
+    togglePassword() {
+      this.showPassword = !this.showPassword
+    },
     onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return
@@ -216,17 +254,10 @@ export default {
       let address = this.fields.address
       let denom = this.fields.denom
       try {
-        // if address has a slash, it is IBC address format
         let type = `send`
-        // TODO reenable when we have IBC
-        // if (this.lastHeader.chain_id !== zoneId) {
-        //   type = "ibcSend"
-        //   address = `${zoneId}/${address}`
-        // } else {
-        //   type = "send"
-        // }
         await this.sendTx({
           type,
+          password: this.fields.password,
           to: address,
           amount: [{ denom, amount: amount.toString() }]
         })
@@ -270,9 +301,10 @@ export default {
         amount: {
           required,
           isInteger,
-          between: between(1, this.max)
+          between: between(this.max ? 1 : 0, this.max)
         },
-        denom: { required }
+        denom: { required },
+        password: { required }
       }
     }
   }

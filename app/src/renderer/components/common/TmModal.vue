@@ -94,7 +94,7 @@ export default {
 }
 
 .tm-modal-icon i {
-  font-size: lg;
+  font-size: var(--lg);
 }
 
 .tm-modal-icon.tm-modal-close {

@@ -250,12 +250,13 @@ export default {
     onDeposit() {
       this.showModalDeposit = true
     },
-    async deposit({ amount }) {
+    async deposit({ amount, password }) {
       try {
         // TODO: support multiple coins
         await this.$store.dispatch(`submitDeposit`, {
           proposal_id: this.proposalId,
-          amount
+          amount,
+          password
         })
 
         // TODO: get min deposit denom from gov params
@@ -274,11 +275,12 @@ export default {
         })
       }
     },
-    async castVote({ option }) {
+    async castVote({ option, password }) {
       try {
         await this.$store.dispatch(`submitVote`, {
           proposal_id: this.proposalId,
-          option
+          option,
+          password
         })
 
         this.$store.commit(`notify`, {

@@ -35,7 +35,7 @@ Array [
         "account_number": "1",
         "chain_id": "test-chain",
         "name": "default",
-        "password": "bar",
+        "password": undefined,
         "sequence": "1",
       },
       "begin_redelegates": undefined,
@@ -59,6 +59,7 @@ Array [
         },
       ],
       "gas": "50000000",
+      "password": undefined,
     },
   ],
 ]
@@ -72,7 +73,7 @@ Array [
         "account_number": "1",
         "chain_id": "test-chain",
         "name": "default",
-        "password": "bar",
+        "password": undefined,
         "sequence": "3",
       },
       "begin_redelegates": undefined,
@@ -90,6 +91,7 @@ Array [
       ],
       "delegations": undefined,
       "gas": "50000000",
+      "password": undefined,
     },
   ],
 ]

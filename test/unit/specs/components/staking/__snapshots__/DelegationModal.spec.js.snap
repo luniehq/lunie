@@ -31,7 +31,7 @@ exports[`DelegationModal component matches snapshot has the expected html struct
   </div>
    
   <div
-    class="delegation-modal-form-group tm-form-group"
+    class="delegation-modal-form-group tm-form-group tm-form-group--error"
   >
     <!---->
     <label
@@ -58,6 +58,8 @@ exports[`DelegationModal component matches snapshot has the expected html struct
         min="0"
         type="number"
       />
+       
+      <!---->
     </div>
   </div>
    
@@ -137,6 +139,41 @@ exports[`DelegationModal component matches snapshot has the expected html struct
           </i>
         </div>
       </div>
+       
+      <hr />
+    </div>
+  </div>
+   
+  <div
+    class="delegation-modal-form-group tm-form-group"
+  >
+    <!---->
+    <label
+      class="tm-form-group__label"
+      for="password"
+    >
+      Account password
+    </label>
+    <div
+      class="tm-form-group__field"
+    >
+      <input
+        class="tm-field"
+        id="password"
+        placeholder="password..."
+        type="password"
+      />
+       
+      <input
+        id="showPasswordCheckbox"
+        type="checkbox"
+      />
+       
+      <label
+        for="showPasswordCheckbox"
+      >
+        Show password
+      </label>
     </div>
   </div>
    

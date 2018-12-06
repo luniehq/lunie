@@ -3,7 +3,7 @@
   /* colors */
   --tertiary: hsl(325, 96%, 59%);
   --secondary: hsl(277, 92%, 58%);
-  --primar: y hsl(233, 88%, 57%);
+  --primary: hsl(233, 88%, 57%);
   --link: hsl(217, 100%, 70%);
   --hover: rgba(0, 0, 0, 8%);
   --hover-bg: rgba(27, 113, 255, 0.1);

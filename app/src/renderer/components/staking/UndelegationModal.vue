@@ -13,7 +13,11 @@
         <i class="material-icons">close</i>
       </div>
     </div>
-    <tm-form-group class="undelegation-modal-form-group" field-label="Amount">
+    <tm-form-group
+      :error="$v.amount.$invalid"
+      class="undelegation-modal-form-group"
+      field-label="Amount"
+    >
       <tm-field
         id="denom"
         :placeholder="bondingDenom"
@@ -28,6 +32,13 @@
         v-model="amount"
         type="number"
       />
+      <tm-form-msg
+        v-if="!$v.amount.between && amount > 0"
+        :max="$v.amount.$params.between.max"
+        :min="$v.amount.$params.between.min"
+        name="Amount"
+        type="between"
+      />
     </tm-form-group>
     <tm-form-group
       class="undelegation-modal-form-group"
@@ -35,11 +46,31 @@
       field-label="To"
     >
       <tm-field id="to" v-model="to" readonly="readonly" />
+      <hr />
+    </tm-form-group>
+    <tm-form-group
+      class="undelegation-modal-form-group"
+      field-id="password"
+      field-label="Account password"
+    >
+      <tm-field
+        id="password"
+        v-model="password"
+        :type="showPassword ? `text` : `password`"
+        placeholder="password..."
+      />
+      <input
+        id="showPasswordCheckbox"
+        v-model="showPassword"
+        type="checkbox"
+        @input="togglePassword"
+      />
+      <label for="showPasswordCheckbox">Show password</label>
     </tm-form-group>
     <div class="undelegation-modal-footer">
       <tm-btn
         id="submit-undelegation"
-        :disabled="$v.amount.$invalid"
+        :disabled="$v.$invalid"
         color="primary"
         value="Undelegate"
         size="lg"
@@ -81,7 +112,9 @@ export default {
     }
   },
   data: () => ({
-    amount: 0
+    amount: 0,
+    password: ``,
+    showPassword: false
   }),
   computed: {
     ...mapGetters([`bondingDenom`])
@@ -92,6 +125,9 @@ export default {
         required,
         isInteger,
         between: between(1, this.maximum)
+      },
+      password: {
+        required
       }
     }
   },
@@ -99,9 +135,13 @@ export default {
     close() {
       this.$emit(`update:showUndelegationModal`, false)
     },
+    togglePassword() {
+      this.showPassword = !this.showPassword
+    },
     onUndelegate() {
       this.$emit(`submitUndelegation`, {
-        amount: this.amount
+        amount: this.amount,
+        password: this.password
       })
       this.close()
     }
