@@ -62,6 +62,7 @@ export default {
           return app.get_version().then(function(version) {
             console.log(version)
             this.setStatus(`success`)
+            return version
           })
         })
       } catch (error) {
