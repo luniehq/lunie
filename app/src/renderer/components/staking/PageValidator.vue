@@ -91,7 +91,7 @@
             <dl class="colored_dl">
               <dt>Commission</dt>
               <dd id="validator-profile__commission">
-                {{ validator.commission.rate }} %
+                {{ num.shortNumber(validator.commission.rate) }} %
               </dd>
             </dl>
             <dl v-if="config.devMode" class="colored_dl">
@@ -476,7 +476,7 @@ export default {
   display: flex;
   margin-bottom: 1rem;
   padding: 2rem;
-  width: 100%;
+  min-width: 63rem;
 }
 
 .column {
@@ -598,7 +598,7 @@ export default {
   align-items: center;
   display: flex;
   flex-direction: column;
-  width: 6rem;
+  width: 7rem;
 }
 
 .colored_dl:not(:last-child) {
