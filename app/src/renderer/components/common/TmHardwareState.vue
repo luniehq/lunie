@@ -15,8 +15,7 @@ export default {
       required: true
     },
     spin: {
-      type: Boolean,
-      required: true
+      type: Boolean
     },
     value: {
       type: String,
