@@ -70,7 +70,7 @@ export default {
 .short-bech32 .copied {
   align-items: flex-end;
   display: flex;
-  font-size: sm;
+  font-size: var(--sm);
   opacity: 0;
   padding-left: 10px;
   transition: opacity 500ms ease;
@@ -84,7 +84,7 @@ export default {
 
 .short-bech32 .copied i {
   color: var(--success);
-  font-size: m;
+  font-size: var(--m);
   padding-bottom: 2px;
   padding-right: 0;
 }

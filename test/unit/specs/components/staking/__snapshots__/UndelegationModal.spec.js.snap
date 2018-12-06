@@ -30,7 +30,7 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
   </div>
    
   <div
-    class="undelegation-modal-form-group tm-form-group"
+    class="undelegation-modal-form-group tm-form-group tm-form-group--error"
   >
     <!---->
     <!---->
@@ -52,6 +52,8 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
         min="0"
         type="number"
       />
+       
+      <!---->
     </div>
   </div>
    
@@ -73,6 +75,41 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
         id="to"
         readonly="readonly"
       />
+       
+      <hr />
+    </div>
+  </div>
+   
+  <div
+    class="undelegation-modal-form-group tm-form-group"
+  >
+    <!---->
+    <label
+      class="tm-form-group__label"
+      for="password"
+    >
+      Account password
+    </label>
+    <div
+      class="tm-form-group__field"
+    >
+      <input
+        class="tm-field"
+        id="password"
+        placeholder="password..."
+        type="password"
+      />
+       
+      <input
+        id="showPasswordCheckbox"
+        type="checkbox"
+      />
+       
+      <label
+        for="showPasswordCheckbox"
+      >
+        Show password
+      </label>
     </div>
   </div>
    

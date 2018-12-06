@@ -41,7 +41,7 @@ exports[`ModalDeposit component matches snapshot has the expected html structure
   </div>
    
   <div
-    class="modal-deposit-form-group tm-form-group"
+    class="modal-deposit-form-group tm-form-group tm-form-group--error"
   >
     <!---->
     <label
@@ -68,6 +68,43 @@ exports[`ModalDeposit component matches snapshot has the expected html structure
         min="0"
         type="number"
       />
+       
+      <!---->
+       
+      <hr />
+    </div>
+  </div>
+   
+  <div
+    class="modal-deposit-form-group tm-form-group"
+  >
+    <!---->
+    <label
+      class="tm-form-group__label"
+      for="password"
+    >
+      Account password
+    </label>
+    <div
+      class="tm-form-group__field"
+    >
+      <input
+        class="tm-field"
+        id="password"
+        placeholder="password..."
+        type="password"
+      />
+       
+      <input
+        id="showPasswordCheckbox"
+        type="checkbox"
+      />
+       
+      <label
+        for="showPasswordCheckbox"
+      >
+        Show password
+      </label>
     </div>
   </div>
    

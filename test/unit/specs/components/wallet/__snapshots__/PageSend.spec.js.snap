@@ -16,60 +16,132 @@ exports[`PageSend disables sending if not connected 1`] = `
       >
         <!---->
         <!---->
-        <!---->
+        <div
+          class="tm-page-header-body"
+        >
+          <div
+            class="header-balance"
+          >
+            <div
+              class="top"
+            >
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
+               
+              <div
+                class="total-atoms top-section"
+              >
+                <h3>
+                  Total Steak
+                </h3>
+                 
+                <h2>
+                  1,000.0000…
+                </h2>
+              </div>
+               
+              <div
+                class="unbonded-atoms top-section"
+              >
+                <h3>
+                  Available Steak
+                </h3>
+                 
+                <h2>
+                  1,000.0000…
+                </h2>
+              </div>
+            </div>
+             
+            <div
+              class="short-bech32"
+            >
+              <div
+                class="address"
+                id="address"
+              >
+                
+    cosmos…xxn9
+  
+              </div>
+               
+              <div
+                class="copied"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+             
+            <div
+              class="tabs"
+            />
+             
+          </div>
+           
+          <div
+            class="tm-tool-bar"
+          >
+            <a
+              class="back"
+              disabled="disabled"
+            >
+              <i
+                class="material-icons"
+              >
+                arrow_back
+              </i>
+            </a>
+             
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+             
+            <a
+              class=""
+              href="#/preferences"
+              id="settings"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </a>
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+          </div>
+        </div>
       </div>
       <menu
         class="tm-page-header-menu"
       >
-        <div>
-          <div>
-            <div
-              class="tm-tool-bar"
-            >
-              <a
-                class="back"
-                disabled="disabled"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </a>
-               
-              <a
-                class="help"
-              >
-                <i
-                  class="material-icons"
-                >
-                  help_outline
-                </i>
-              </a>
-               
-              <a
-                class=""
-                href="#/preferences"
-                id="settings"
-              >
-                <i
-                  class="material-icons"
-                >
-                  settings
-                </i>
-              </a>
-              <a
-                id="signOut-btn"
-              >
-                <i
-                  class="material-icons"
-                >
-                  exit_to_app
-                </i>
-              </a>
-            </div>
-          </div>
-        </div>
+        <div />
       </menu>
     </div>
   </header>
@@ -257,6 +329,56 @@ exports[`PageSend disables sending if not connected 1`] = `
                 <!---->
                  
                 <!---->
+                 
+                <hr />
+              </main>
+            </div>
+          </section>
+           
+          <section
+            class="tm-part"
+          >
+            <div
+              class="tm-part-container"
+            >
+              <!---->
+              <main
+                class="tm-part-main"
+              >
+                <div
+                  class="tm-form-group"
+                >
+                  <!---->
+                  <label
+                    class="tm-form-group__label"
+                    for="password"
+                  >
+                    Account password
+                  </label>
+                  <div
+                    class="tm-form-group__field"
+                  >
+                    <input
+                      class="tm-field"
+                      id="password"
+                      placeholder="password..."
+                      type="password"
+                    />
+                     
+                    <!---->
+                     
+                    <input
+                      id="showPasswordCheckbox"
+                      type="checkbox"
+                    />
+                     
+                    <label
+                      for="showPasswordCheckbox"
+                    >
+                      Show password
+                    </label>
+                  </div>
+                </div>
               </main>
             </div>
           </section>
@@ -308,60 +430,132 @@ exports[`PageSend has the expected html structure 1`] = `
       >
         <!---->
         <!---->
-        <!---->
+        <div
+          class="tm-page-header-body"
+        >
+          <div
+            class="header-balance"
+          >
+            <div
+              class="top"
+            >
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
+               
+              <div
+                class="total-atoms top-section"
+              >
+                <h3>
+                  Total Steak
+                </h3>
+                 
+                <h2>
+                  1,000.0000…
+                </h2>
+              </div>
+               
+              <div
+                class="unbonded-atoms top-section"
+              >
+                <h3>
+                  Available Steak
+                </h3>
+                 
+                <h2>
+                  1,000.0000…
+                </h2>
+              </div>
+            </div>
+             
+            <div
+              class="short-bech32"
+            >
+              <div
+                class="address"
+                id="address"
+              >
+                
+    cosmos…xxn9
+  
+              </div>
+               
+              <div
+                class="copied"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+             
+            <div
+              class="tabs"
+            />
+             
+          </div>
+           
+          <div
+            class="tm-tool-bar"
+          >
+            <a
+              class="back"
+              disabled="disabled"
+            >
+              <i
+                class="material-icons"
+              >
+                arrow_back
+              </i>
+            </a>
+             
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+             
+            <a
+              class=""
+              href="#/preferences"
+              id="settings"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </a>
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+          </div>
+        </div>
       </div>
       <menu
         class="tm-page-header-menu"
       >
-        <div>
-          <div>
-            <div
-              class="tm-tool-bar"
-            >
-              <a
-                class="back"
-                disabled="disabled"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </a>
-               
-              <a
-                class="help"
-              >
-                <i
-                  class="material-icons"
-                >
-                  help_outline
-                </i>
-              </a>
-               
-              <a
-                class=""
-                href="#/preferences"
-                id="settings"
-              >
-                <i
-                  class="material-icons"
-                >
-                  settings
-                </i>
-              </a>
-              <a
-                id="signOut-btn"
-              >
-                <i
-                  class="material-icons"
-                >
-                  exit_to_app
-                </i>
-              </a>
-            </div>
-          </div>
-        </div>
+        <div />
       </menu>
     </div>
   </header>
@@ -487,7 +681,7 @@ exports[`PageSend has the expected html structure 1`] = `
                 class="tm-part-main"
               >
                 <div
-                  class="tm-form-group"
+                  class="tm-form-group tm-form-group--error"
                 >
                   <!---->
                   <label
@@ -510,11 +704,7 @@ exports[`PageSend has the expected html structure 1`] = `
                       />
                     </div>
                      
-                    <div
-                      class="tm-form-msg sm tm-form-msg--error"
-                    >
-                      Address is required
-                    </div>
+                    <!---->
                   </div>
                 </div>
                  
@@ -544,11 +734,7 @@ exports[`PageSend has the expected html structure 1`] = `
                       />
                     </div>
                      
-                    <div
-                      class="tm-form-msg sm tm-form-msg--error"
-                    >
-                      Amount is required
-                    </div>
+                    <!---->
                      
                     <!---->
                   </div>
@@ -557,6 +743,60 @@ exports[`PageSend has the expected html structure 1`] = `
                 <!---->
                  
                 <!---->
+                 
+                <hr />
+              </main>
+            </div>
+          </section>
+           
+          <section
+            class="tm-part"
+          >
+            <div
+              class="tm-part-container"
+            >
+              <!---->
+              <main
+                class="tm-part-main"
+              >
+                <div
+                  class="tm-form-group"
+                >
+                  <!---->
+                  <label
+                    class="tm-form-group__label"
+                    for="password"
+                  >
+                    Account password
+                  </label>
+                  <div
+                    class="tm-form-group__field"
+                  >
+                    <input
+                      class="tm-field"
+                      id="password"
+                      placeholder="password..."
+                      type="password"
+                    />
+                     
+                    <div
+                      class="tm-form-msg sm tm-form-msg--error"
+                    >
+                      Password is required
+                    </div>
+                     
+                    <input
+                      id="showPasswordCheckbox"
+                      type="checkbox"
+                    />
+                     
+                    <label
+                      for="showPasswordCheckbox"
+                    >
+                      Show password
+                    </label>
+                  </div>
+                </div>
               </main>
             </div>
           </section>
@@ -568,7 +808,6 @@ exports[`PageSend has the expected html structure 1`] = `
           <div>
             <button
               class="tm-btn"
-              disabled="disabled"
               id="send-btn"
             >
               <span
@@ -629,60 +868,132 @@ exports[`PageSend should show address required error 1`] = `
       >
         <!---->
         <!---->
-        <!---->
+        <div
+          class="tm-page-header-body"
+        >
+          <div
+            class="header-balance"
+          >
+            <div
+              class="top"
+            >
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
+               
+              <div
+                class="total-atoms top-section"
+              >
+                <h3>
+                  Total Steak
+                </h3>
+                 
+                <h2>
+                  0.0000…
+                </h2>
+              </div>
+               
+              <div
+                class="unbonded-atoms top-section"
+              >
+                <h3>
+                  Available Steak
+                </h3>
+                 
+                <h2>
+                  0.0000…
+                </h2>
+              </div>
+            </div>
+             
+            <div
+              class="short-bech32"
+            >
+              <div
+                class="address"
+                id="address"
+              >
+                
+    Address Not Found
+  
+              </div>
+               
+              <div
+                class="copied"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+             
+            <div
+              class="tabs"
+            />
+             
+          </div>
+           
+          <div
+            class="tm-tool-bar"
+          >
+            <a
+              class="back"
+              disabled="disabled"
+            >
+              <i
+                class="material-icons"
+              >
+                arrow_back
+              </i>
+            </a>
+             
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+             
+            <a
+              class=""
+              href="#/preferences"
+              id="settings"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </a>
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+          </div>
+        </div>
       </div>
       <menu
         class="tm-page-header-menu"
       >
-        <div>
-          <div>
-            <div
-              class="tm-tool-bar"
-            >
-              <a
-                class="back"
-                disabled="disabled"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </a>
-               
-              <a
-                class="help"
-              >
-                <i
-                  class="material-icons"
-                >
-                  help_outline
-                </i>
-              </a>
-               
-              <a
-                class=""
-                href="#/preferences"
-                id="settings"
-              >
-                <i
-                  class="material-icons"
-                >
-                  settings
-                </i>
-              </a>
-              <a
-                id="signOut-btn"
-              >
-                <i
-                  class="material-icons"
-                >
-                  exit_to_app
-                </i>
-              </a>
-            </div>
-          </div>
-        </div>
+        <div />
       </menu>
     </div>
   </header>
@@ -868,6 +1179,56 @@ exports[`PageSend should show address required error 1`] = `
                 <!---->
                  
                 <!---->
+                 
+                <hr />
+              </main>
+            </div>
+          </section>
+           
+          <section
+            class="tm-part"
+          >
+            <div
+              class="tm-part-container"
+            >
+              <!---->
+              <main
+                class="tm-part-main"
+              >
+                <div
+                  class="tm-form-group"
+                >
+                  <!---->
+                  <label
+                    class="tm-form-group__label"
+                    for="password"
+                  >
+                    Account password
+                  </label>
+                  <div
+                    class="tm-form-group__field"
+                  >
+                    <input
+                      class="tm-field"
+                      id="password"
+                      placeholder="password..."
+                      type="password"
+                    />
+                     
+                    <!---->
+                     
+                    <input
+                      id="showPasswordCheckbox"
+                      type="checkbox"
+                    />
+                     
+                    <label
+                      for="showPasswordCheckbox"
+                    >
+                      Show password
+                    </label>
+                  </div>
+                </div>
               </main>
             </div>
           </section>
@@ -879,7 +1240,6 @@ exports[`PageSend should show address required error 1`] = `
           <div>
             <button
               class="tm-btn"
-              disabled="disabled"
               id="send-btn"
             >
               <span
@@ -920,60 +1280,132 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
       >
         <!---->
         <!---->
-        <!---->
+        <div
+          class="tm-page-header-body"
+        >
+          <div
+            class="header-balance"
+          >
+            <div
+              class="top"
+            >
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
+               
+              <div
+                class="total-atoms top-section"
+              >
+                <h3>
+                  Total Steak
+                </h3>
+                 
+                <h2>
+                  0.0000…
+                </h2>
+              </div>
+               
+              <div
+                class="unbonded-atoms top-section"
+              >
+                <h3>
+                  Available Steak
+                </h3>
+                 
+                <h2>
+                  0.0000…
+                </h2>
+              </div>
+            </div>
+             
+            <div
+              class="short-bech32"
+            >
+              <div
+                class="address"
+                id="address"
+              >
+                
+    Address Not Found
+  
+              </div>
+               
+              <div
+                class="copied"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+             
+            <div
+              class="tabs"
+            />
+             
+          </div>
+           
+          <div
+            class="tm-tool-bar"
+          >
+            <a
+              class="back"
+              disabled="disabled"
+            >
+              <i
+                class="material-icons"
+              >
+                arrow_back
+              </i>
+            </a>
+             
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+             
+            <a
+              class=""
+              href="#/preferences"
+              id="settings"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </a>
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+          </div>
+        </div>
       </div>
       <menu
         class="tm-page-header-menu"
       >
-        <div>
-          <div>
-            <div
-              class="tm-tool-bar"
-            >
-              <a
-                class="back"
-                disabled="disabled"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </a>
-               
-              <a
-                class="help"
-              >
-                <i
-                  class="material-icons"
-                >
-                  help_outline
-                </i>
-              </a>
-               
-              <a
-                class=""
-                href="#/preferences"
-                id="settings"
-              >
-                <i
-                  class="material-icons"
-                >
-                  settings
-                </i>
-              </a>
-              <a
-                id="signOut-btn"
-              >
-                <i
-                  class="material-icons"
-                >
-                  exit_to_app
-                </i>
-              </a>
-            </div>
-          </div>
-        </div>
+        <div />
       </menu>
     </div>
   </header>
@@ -1159,6 +1591,56 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                 <!---->
                  
                 <!---->
+                 
+                <hr />
+              </main>
+            </div>
+          </section>
+           
+          <section
+            class="tm-part"
+          >
+            <div
+              class="tm-part-container"
+            >
+              <!---->
+              <main
+                class="tm-part-main"
+              >
+                <div
+                  class="tm-form-group"
+                >
+                  <!---->
+                  <label
+                    class="tm-form-group__label"
+                    for="password"
+                  >
+                    Account password
+                  </label>
+                  <div
+                    class="tm-form-group__field"
+                  >
+                    <input
+                      class="tm-field"
+                      id="password"
+                      placeholder="password..."
+                      type="password"
+                    />
+                     
+                    <!---->
+                     
+                    <input
+                      id="showPasswordCheckbox"
+                      type="checkbox"
+                    />
+                     
+                    <label
+                      for="showPasswordCheckbox"
+                    >
+                      Show password
+                    </label>
+                  </div>
+                </div>
               </main>
             </div>
           </section>
@@ -1170,7 +1652,6 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
           <div>
             <button
               class="tm-btn"
-              disabled="disabled"
               id="send-btn"
             >
               <span
@@ -1211,60 +1692,132 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
       >
         <!---->
         <!---->
-        <!---->
+        <div
+          class="tm-page-header-body"
+        >
+          <div
+            class="header-balance"
+          >
+            <div
+              class="top"
+            >
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
+               
+              <div
+                class="total-atoms top-section"
+              >
+                <h3>
+                  Total Steak
+                </h3>
+                 
+                <h2>
+                  0.0000…
+                </h2>
+              </div>
+               
+              <div
+                class="unbonded-atoms top-section"
+              >
+                <h3>
+                  Available Steak
+                </h3>
+                 
+                <h2>
+                  0.0000…
+                </h2>
+              </div>
+            </div>
+             
+            <div
+              class="short-bech32"
+            >
+              <div
+                class="address"
+                id="address"
+              >
+                
+    Address Not Found
+  
+              </div>
+               
+              <div
+                class="copied"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+             
+            <div
+              class="tabs"
+            />
+             
+          </div>
+           
+          <div
+            class="tm-tool-bar"
+          >
+            <a
+              class="back"
+              disabled="disabled"
+            >
+              <i
+                class="material-icons"
+              >
+                arrow_back
+              </i>
+            </a>
+             
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+             
+            <a
+              class=""
+              href="#/preferences"
+              id="settings"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </a>
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+          </div>
+        </div>
       </div>
       <menu
         class="tm-page-header-menu"
       >
-        <div>
-          <div>
-            <div
-              class="tm-tool-bar"
-            >
-              <a
-                class="back"
-                disabled="disabled"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </a>
-               
-              <a
-                class="help"
-              >
-                <i
-                  class="material-icons"
-                >
-                  help_outline
-                </i>
-              </a>
-               
-              <a
-                class=""
-                href="#/preferences"
-                id="settings"
-              >
-                <i
-                  class="material-icons"
-                >
-                  settings
-                </i>
-              </a>
-              <a
-                id="signOut-btn"
-              >
-                <i
-                  class="material-icons"
-                >
-                  exit_to_app
-                </i>
-              </a>
-            </div>
-          </div>
-        </div>
+        <div />
       </menu>
     </div>
   </header>
@@ -1450,6 +2003,56 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                 <!---->
                  
                 <!---->
+                 
+                <hr />
+              </main>
+            </div>
+          </section>
+           
+          <section
+            class="tm-part"
+          >
+            <div
+              class="tm-part-container"
+            >
+              <!---->
+              <main
+                class="tm-part-main"
+              >
+                <div
+                  class="tm-form-group"
+                >
+                  <!---->
+                  <label
+                    class="tm-form-group__label"
+                    for="password"
+                  >
+                    Account password
+                  </label>
+                  <div
+                    class="tm-form-group__field"
+                  >
+                    <input
+                      class="tm-field"
+                      id="password"
+                      placeholder="password..."
+                      type="password"
+                    />
+                     
+                    <!---->
+                     
+                    <input
+                      id="showPasswordCheckbox"
+                      type="checkbox"
+                    />
+                     
+                    <label
+                      for="showPasswordCheckbox"
+                    >
+                      Show password
+                    </label>
+                  </div>
+                </div>
               </main>
             </div>
           </section>
@@ -1461,7 +2064,6 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
           <div>
             <button
               class="tm-btn"
-              disabled="disabled"
               id="send-btn"
             >
               <span
@@ -1502,60 +2104,132 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
       >
         <!---->
         <!---->
-        <!---->
+        <div
+          class="tm-page-header-body"
+        >
+          <div
+            class="header-balance"
+          >
+            <div
+              class="top"
+            >
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
+               
+              <div
+                class="total-atoms top-section"
+              >
+                <h3>
+                  Total Steak
+                </h3>
+                 
+                <h2>
+                  0.0000…
+                </h2>
+              </div>
+               
+              <div
+                class="unbonded-atoms top-section"
+              >
+                <h3>
+                  Available Steak
+                </h3>
+                 
+                <h2>
+                  0.0000…
+                </h2>
+              </div>
+            </div>
+             
+            <div
+              class="short-bech32"
+            >
+              <div
+                class="address"
+                id="address"
+              >
+                
+    Address Not Found
+  
+              </div>
+               
+              <div
+                class="copied"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+             
+            <div
+              class="tabs"
+            />
+             
+          </div>
+           
+          <div
+            class="tm-tool-bar"
+          >
+            <a
+              class="back"
+              disabled="disabled"
+            >
+              <i
+                class="material-icons"
+              >
+                arrow_back
+              </i>
+            </a>
+             
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+             
+            <a
+              class=""
+              href="#/preferences"
+              id="settings"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </a>
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+          </div>
+        </div>
       </div>
       <menu
         class="tm-page-header-menu"
       >
-        <div>
-          <div>
-            <div
-              class="tm-tool-bar"
-            >
-              <a
-                class="back"
-                disabled="disabled"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </a>
-               
-              <a
-                class="help"
-              >
-                <i
-                  class="material-icons"
-                >
-                  help_outline
-                </i>
-              </a>
-               
-              <a
-                class=""
-                href="#/preferences"
-                id="settings"
-              >
-                <i
-                  class="material-icons"
-                >
-                  settings
-                </i>
-              </a>
-              <a
-                id="signOut-btn"
-              >
-                <i
-                  class="material-icons"
-                >
-                  exit_to_app
-                </i>
-              </a>
-            </div>
-          </div>
-        </div>
+        <div />
       </menu>
     </div>
   </header>
@@ -1741,6 +2415,56 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
                 <!---->
                  
                 <!---->
+                 
+                <hr />
+              </main>
+            </div>
+          </section>
+           
+          <section
+            class="tm-part"
+          >
+            <div
+              class="tm-part-container"
+            >
+              <!---->
+              <main
+                class="tm-part-main"
+              >
+                <div
+                  class="tm-form-group"
+                >
+                  <!---->
+                  <label
+                    class="tm-form-group__label"
+                    for="password"
+                  >
+                    Account password
+                  </label>
+                  <div
+                    class="tm-form-group__field"
+                  >
+                    <input
+                      class="tm-field"
+                      id="password"
+                      placeholder="password..."
+                      type="password"
+                    />
+                     
+                    <!---->
+                     
+                    <input
+                      id="showPasswordCheckbox"
+                      type="checkbox"
+                    />
+                     
+                    <label
+                      for="showPasswordCheckbox"
+                    >
+                      Show password
+                    </label>
+                  </div>
+                </div>
               </main>
             </div>
           </section>
@@ -1752,7 +2476,6 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
           <div>
             <button
               class="tm-btn"
-              disabled="disabled"
               id="send-btn"
             >
               <span
@@ -1804,60 +2527,132 @@ exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
       >
         <!---->
         <!---->
-        <!---->
+        <div
+          class="tm-page-header-body"
+        >
+          <div
+            class="header-balance"
+          >
+            <div
+              class="top"
+            >
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
+               
+              <div
+                class="total-atoms top-section"
+              >
+                <h3>
+                  Total Steak
+                </h3>
+                 
+                <h2>
+                  0.0000…
+                </h2>
+              </div>
+               
+              <div
+                class="unbonded-atoms top-section"
+              >
+                <h3>
+                  Available Steak
+                </h3>
+                 
+                <h2>
+                  0.0000…
+                </h2>
+              </div>
+            </div>
+             
+            <div
+              class="short-bech32"
+            >
+              <div
+                class="address"
+                id="address"
+              >
+                
+    Address Not Found
+  
+              </div>
+               
+              <div
+                class="copied"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+             
+            <div
+              class="tabs"
+            />
+             
+          </div>
+           
+          <div
+            class="tm-tool-bar"
+          >
+            <a
+              class="back"
+              disabled="disabled"
+            >
+              <i
+                class="material-icons"
+              >
+                arrow_back
+              </i>
+            </a>
+             
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+             
+            <a
+              class=""
+              href="#/preferences"
+              id="settings"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </a>
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+          </div>
+        </div>
       </div>
       <menu
         class="tm-page-header-menu"
       >
-        <div>
-          <div>
-            <div
-              class="tm-tool-bar"
-            >
-              <a
-                class="back"
-                disabled="disabled"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </a>
-               
-              <a
-                class="help"
-              >
-                <i
-                  class="material-icons"
-                >
-                  help_outline
-                </i>
-              </a>
-               
-              <a
-                class=""
-                href="#/preferences"
-                id="settings"
-              >
-                <i
-                  class="material-icons"
-                >
-                  settings
-                </i>
-              </a>
-              <a
-                id="signOut-btn"
-              >
-                <i
-                  class="material-icons"
-                >
-                  exit_to_app
-                </i>
-              </a>
-            </div>
-          </div>
-        </div>
+        <div />
       </menu>
     </div>
   </header>
@@ -2045,6 +2840,56 @@ exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
                 <!---->
                  
                 <!---->
+                 
+                <hr />
+              </main>
+            </div>
+          </section>
+           
+          <section
+            class="tm-part"
+          >
+            <div
+              class="tm-part-container"
+            >
+              <!---->
+              <main
+                class="tm-part-main"
+              >
+                <div
+                  class="tm-form-group"
+                >
+                  <!---->
+                  <label
+                    class="tm-form-group__label"
+                    for="password"
+                  >
+                    Account password
+                  </label>
+                  <div
+                    class="tm-form-group__field"
+                  >
+                    <input
+                      class="tm-field"
+                      id="password"
+                      placeholder="password..."
+                      type="password"
+                    />
+                     
+                    <!---->
+                     
+                    <input
+                      id="showPasswordCheckbox"
+                      type="checkbox"
+                    />
+                     
+                    <label
+                      for="showPasswordCheckbox"
+                    >
+                      Show password
+                    </label>
+                  </div>
+                </div>
               </main>
             </div>
           </section>
@@ -2194,60 +3039,132 @@ exports[`PageSend should work without providing a default denom 1`] = `
       >
         <!---->
         <!---->
-        <!---->
+        <div
+          class="tm-page-header-body"
+        >
+          <div
+            class="header-balance"
+          >
+            <div
+              class="top"
+            >
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
+               
+              <div
+                class="total-atoms top-section"
+              >
+                <h3>
+                  Total Steak
+                </h3>
+                 
+                <h2>
+                  0.0000…
+                </h2>
+              </div>
+               
+              <div
+                class="unbonded-atoms top-section"
+              >
+                <h3>
+                  Available Steak
+                </h3>
+                 
+                <h2>
+                  0.0000…
+                </h2>
+              </div>
+            </div>
+             
+            <div
+              class="short-bech32"
+            >
+              <div
+                class="address"
+                id="address"
+              >
+                
+    Address Not Found
+  
+              </div>
+               
+              <div
+                class="copied"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+             
+            <div
+              class="tabs"
+            />
+             
+          </div>
+           
+          <div
+            class="tm-tool-bar"
+          >
+            <a
+              class="back"
+              disabled="disabled"
+            >
+              <i
+                class="material-icons"
+              >
+                arrow_back
+              </i>
+            </a>
+             
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+             
+            <a
+              class=""
+              href="#/preferences"
+              id="settings"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </a>
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+          </div>
+        </div>
       </div>
       <menu
         class="tm-page-header-menu"
       >
-        <div>
-          <div>
-            <div
-              class="tm-tool-bar"
-            >
-              <a
-                class="back"
-                disabled="disabled"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </a>
-               
-              <a
-                class="help"
-              >
-                <i
-                  class="material-icons"
-                >
-                  help_outline
-                </i>
-              </a>
-               
-              <a
-                class=""
-                href="#/preferences"
-                id="settings"
-              >
-                <i
-                  class="material-icons"
-                >
-                  settings
-                </i>
-              </a>
-              <a
-                id="signOut-btn"
-              >
-                <i
-                  class="material-icons"
-                >
-                  exit_to_app
-                </i>
-              </a>
-            </div>
-          </div>
-        </div>
+        <div />
       </menu>
     </div>
   </header>
@@ -2367,7 +3284,7 @@ exports[`PageSend should work without providing a default denom 1`] = `
                 class="tm-part-main"
               >
                 <div
-                  class="tm-form-group"
+                  class="tm-form-group tm-form-group--error"
                 >
                   <!---->
                   <label
@@ -2390,11 +3307,7 @@ exports[`PageSend should work without providing a default denom 1`] = `
                       />
                     </div>
                      
-                    <div
-                      class="tm-form-msg sm tm-form-msg--error"
-                    >
-                      Address is required
-                    </div>
+                    <!---->
                   </div>
                 </div>
                  
@@ -2424,11 +3337,7 @@ exports[`PageSend should work without providing a default denom 1`] = `
                       />
                     </div>
                      
-                    <div
-                      class="tm-form-msg sm tm-form-msg--error"
-                    >
-                      Amount is required
-                    </div>
+                    <!---->
                      
                     <!---->
                   </div>
@@ -2437,6 +3346,60 @@ exports[`PageSend should work without providing a default denom 1`] = `
                 <!---->
                  
                 <!---->
+                 
+                <hr />
+              </main>
+            </div>
+          </section>
+           
+          <section
+            class="tm-part"
+          >
+            <div
+              class="tm-part-container"
+            >
+              <!---->
+              <main
+                class="tm-part-main"
+              >
+                <div
+                  class="tm-form-group"
+                >
+                  <!---->
+                  <label
+                    class="tm-form-group__label"
+                    for="password"
+                  >
+                    Account password
+                  </label>
+                  <div
+                    class="tm-form-group__field"
+                  >
+                    <input
+                      class="tm-field"
+                      id="password"
+                      placeholder="password..."
+                      type="password"
+                    />
+                     
+                    <div
+                      class="tm-form-msg sm tm-form-msg--error"
+                    >
+                      Password is required
+                    </div>
+                     
+                    <input
+                      id="showPasswordCheckbox"
+                      type="checkbox"
+                    />
+                     
+                    <label
+                      for="showPasswordCheckbox"
+                    >
+                      Show password
+                    </label>
+                  </div>
+                </div>
               </main>
             </div>
           </section>
@@ -2448,7 +3411,6 @@ exports[`PageSend should work without providing a default denom 1`] = `
           <div>
             <button
               class="tm-btn"
-              disabled="disabled"
               id="send-btn"
             >
               <span

@@ -59,6 +59,10 @@ export default {
 }
 
 .tm-page-header-text i:hover {
+  cursor: pointer;
+}
+
+.tm-page-header-text i:hover {
   color: var(--bright);
 }
 </style>

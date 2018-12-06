@@ -49,11 +49,11 @@ describe(`Store`, () => {
     store.commit(`setWalletTxs`, [{}])
     jest.runAllTimers() // updating is waiting if more updates coming in, this skips the waiting
     await store.dispatch(`signOut`)
+    expect(store.state.wallet.balances).toHaveLength(0)
     await store.dispatch(`signIn`, {
       account: `default`,
       password: `1234567890`
     })
-
     expect(store.state.wallet.balances).toHaveLength(1)
     expect(store.state.transactions.wallet).toHaveLength(1)
   })
@@ -113,59 +113,17 @@ describe(`Store`, () => {
     ).toBeTruthy()
   })
 
-  it(`should remove the cache if failing to encrypt the cache`, async () => {
-    jest.resetModules()
-    jest.doMock(`crypto-js`, () => ({
-      AES: {
-        encrypt: () => {
-          throw Error(`Failed to encrypt`)
-        }
-      }
-    }))
-    let Raven = require(`raven-js`)
-    // the error will be logged, which is confusing in the test output
-    jest.spyOn(console, `error`).mockImplementation(() => {})
+  it(`should not crash if the stored cache is invalid`, async () => {
+    store.commit(`setWalletBalances`, [{ denom: `fabocoin`, amount: 42 }])
+    await store.dispatch(`signOut`)
+    localStorage.setItem(`store_test-net_` + lcdClientMock.addresses[0], `xxx`)
 
-    let spy = jest.spyOn(Raven, `captureException`)
-    let opts = { node: { keys: { get: () => ({}) } } }
-    require(`renderer/vuex/store.js`).default(opts)
-
-    // only triggers encryption if signed in
-    await opts.dispatch(`signIn`, {
+    jest.spyOn(console, `error`).mockImplementationOnce(() => {})
+    await store.dispatch(`signIn`, {
       account: `default`,
       password: `1234567890`
     })
-    opts.commit(`setWalletBalances`)
-    jest.runAllTimers()
 
-    expect(spy).toHaveBeenCalled()
-    console.error.mockReset()
-  })
-
-  it(`should remove the cache if failing to decrypt the cache`, async () => {
-    jest.resetModules()
-    jest.useFakeTimers()
-    jest.doMock(`crypto-js`, () => ({
-      AES: {
-        decrypt: () => {
-          throw Error(`Failed to encrypt`)
-        }
-      }
-    }))
-    let Raven = require(`raven-js`)
-    // the error will be logged, which is confusing in the test output
-    jest.spyOn(console, `error`).mockImplementation(() => {})
-
-    let spy = jest.spyOn(Raven, `captureException`)
-    let opts = { node: { keys: { get: () => ({}) } } }
-    require(`renderer/vuex/store.js`).default(opts)
-
-    // the store key is store__null if neither the chain_id or the address is set
-    localStorage.setItem(`store__null`, `xxx`)
-    await opts.dispatch(`loadPersistedState`, { password: `123` })
-    jest.runAllTimers()
-
-    expect(spy).toHaveBeenCalled()
-    console.error.mockReset()
+    expect(store.state.wallet.balances).toHaveLength(0)
   })
 })

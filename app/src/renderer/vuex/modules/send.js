@@ -24,7 +24,7 @@ export default ({ node }) => {
     let requestMetaData = {
       sequence: state.nonce,
       name: rootState.user.account,
-      password: rootState.user.password,
+      password: args.password,
       account_number: rootState.wallet.accountNumber, // TODO move into LCD?
       chain_id: rootState.connection.lastHeader.chain_id
     }

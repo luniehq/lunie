@@ -16,7 +16,7 @@
         >
           <tm-field
             id="sign-up-name"
-            v-model="fields.signUpName"
+            v-model.trim="fields.signUpName"
             type="text"
             placeholder="Must be at least 5 characters"
           />

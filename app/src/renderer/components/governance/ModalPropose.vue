@@ -14,7 +14,7 @@
       <tm-field
         v-focus
         id="title"
-        v-model="title"
+        v-model.trim="title"
         type="text"
         placeholder="Proposal title"
       />
@@ -32,7 +32,7 @@
       <span>Description</span>
       <tm-field
         id="description"
-        v-model="description"
+        v-model.trim="description"
         type="textarea"
         placeholder="Write your proposal here..."
       />
@@ -43,7 +43,11 @@
         type="maxLength"
       />
     </tm-form-group>
-    <tm-form-group class="modal-propose-form-group" field-id="amount">
+    <tm-form-group
+      :error="$v.amount.$invalid"
+      class="modal-propose-form-group"
+      field-id="amount"
+    >
       <span>Deposit amount</span>
       <tm-field
         id="denom"
@@ -58,6 +62,30 @@
         v-model="amount"
         type="number"
       />
+      <tm-form-msg
+        v-if="!$v.amount.between && amount > 0"
+        :max="$v.amount.$params.between.max"
+        :min="$v.amount.$params.between.min"
+        name="Amount"
+        type="between"
+      />
+      <hr />
+    </tm-form-group>
+    <tm-form-group class="modal-propose-form-group" field-id="password">
+      <span>Account password</span>
+      <tm-field
+        id="password"
+        v-model="password"
+        :type="showPassword ? `text` : `password`"
+        placeholder="password..."
+      />
+      <input
+        id="showPasswordCheckbox"
+        v-model="showPassword"
+        type="checkbox"
+        @input="togglePassword"
+      />
+      <label for="showPasswordCheckbox">Show password</label>
     </tm-form-group>
     <div class="modal-propose-footer">
       <tm-btn
@@ -117,7 +145,9 @@ export default {
     title: ``,
     description: ``,
     type: `Text`,
-    amount: 0
+    amount: 0,
+    password: ``,
+    showPassword: false
   }),
   computed: {
     // TODO: get coin denom from governance params
@@ -154,6 +184,9 @@ export default {
         required,
         isInteger,
         between: between(1, this.balance > 0 ? this.balance : 1)
+      },
+      password: {
+        required
       }
     }
   },
@@ -161,12 +194,16 @@ export default {
     close() {
       this.$emit(`update:showModalPropose`, false)
     },
+    togglePassword() {
+      this.showPassword = !this.showPassword
+    },
     onPropose() {
       this.$emit(`createProposal`, {
         title: this.title,
         description: this.description,
         type: this.type,
-        amount: this.amount
+        amount: this.amount,
+        password: this.password
       })
       this.close()
     }

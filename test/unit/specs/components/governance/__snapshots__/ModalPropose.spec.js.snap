@@ -76,7 +76,7 @@ exports[`ModalPropose component matches snapshot has the expected html structure
   </div>
    
   <div
-    class="modal-propose-form-group tm-form-group"
+    class="modal-propose-form-group tm-form-group tm-form-group--error"
   >
     <!---->
     <!---->
@@ -102,6 +102,42 @@ exports[`ModalPropose component matches snapshot has the expected html structure
         min="0"
         type="number"
       />
+       
+      <!---->
+       
+      <hr />
+    </div>
+  </div>
+   
+  <div
+    class="modal-propose-form-group tm-form-group"
+  >
+    <!---->
+    <!---->
+    <div
+      class="tm-form-group__field"
+    >
+      <span>
+        Account password
+      </span>
+       
+      <input
+        class="tm-field"
+        id="password"
+        placeholder="password..."
+        type="password"
+      />
+       
+      <input
+        id="showPasswordCheckbox"
+        type="checkbox"
+      />
+       
+      <label
+        for="showPasswordCheckbox"
+      >
+        Show password
+      </label>
     </div>
   </div>
    

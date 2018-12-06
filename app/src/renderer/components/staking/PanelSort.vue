@@ -62,7 +62,7 @@ export default {
 }
 
 .sort-by {
-  font-size: sm;
+  font-size: var(--sm);
 }
 
 .sort-by a {

@@ -81,7 +81,7 @@ export default ({ node }) => {
         rootState: { wallet },
         dispatch
       },
-      { title, description, type, initial_deposit }
+      { title, description, type, initial_deposit, password }
     ) {
       await dispatch(`sendTx`, {
         type: `submitProposal`,
@@ -89,7 +89,8 @@ export default ({ node }) => {
         proposal_type: type,
         title,
         description,
-        initial_deposit
+        initial_deposit,
+        password
       })
       await dispatch(`getProposals`)
     }

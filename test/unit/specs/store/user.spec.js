@@ -13,8 +13,7 @@ describe(`Module: User`, () => {
   let accounts = [
     {
       address: `tb1zg69v7yszg69v7yszg69v7yszg69v7ysd8ep6q`,
-      name: `ACTIVE_ACCOUNT`,
-      password: `1234567890`
+      name: `ACTIVE_ACCOUNT`
     }
   ]
 
@@ -26,7 +25,6 @@ describe(`Module: User`, () => {
 
   it(`should default to signed out state`, () => {
     expect(store.state.user.signedIn).toBe(false)
-    expect(store.state.user.password).toBe(null)
     expect(store.state.user.account).toBe(null)
     expect(store.state.user.address).toBe(null)
   })
@@ -153,7 +151,6 @@ describe(`Module: User`, () => {
     await store.dispatch(`signIn`, { password, account })
     store.dispatch(`signOut`)
     expect(store.state.user.account).toBe(null)
-    expect(store.state.user.password).toBe(null)
     expect(store.state.user.signedIn).toBe(false)
 
     // hide login

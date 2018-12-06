@@ -69,6 +69,7 @@ describe(`Module: Send`, () => {
     it(`should send from wallet`, async () => {
       const args = {
         to: `mock_address`,
+        password: `1234567890`,
         amount: [{ denom: `mycoin`, amount: 123 }]
       }
       await store.dispatch(`sendTx`, args)
@@ -81,6 +82,7 @@ describe(`Module: Send`, () => {
         const args = {
           type: `updateDelegations`,
           to: lcdClientMock.addresses[0],
+          password: `1234567890`,
           delegations: [],
           begin_unbondings: [],
           begin_redelegates: [
@@ -111,6 +113,7 @@ describe(`Module: Send`, () => {
         node.send = () => Promise.reject(errObject)
         const args = {
           to: `mock_address`,
+          password: `1234567890`,
           amount: [{ denom: `mycoin`, amount: 123 }]
         }
         await store.dispatch(`sendTx`, args).catch(err => {
@@ -121,6 +124,7 @@ describe(`Module: Send`, () => {
       it(`should signal check tx failure`, async done => {
         const args = {
           to: `mock_address`,
+          password: `1234567890`,
           amount: [{ denom: `mycoin`, amount: 123 }]
         }
         node.send = async () => ({
@@ -133,6 +137,7 @@ describe(`Module: Send`, () => {
       it(`should signal deliver tx failure`, async done => {
         const args = {
           to: `mock_address`,
+          password: `1234567890`,
           amount: [{ denom: `mycoin`, amount: 123 }]
         }
         node.send = async () => ({
@@ -145,6 +150,7 @@ describe(`Module: Send`, () => {
       it(`should handle tx failure in multiple tx result`, async done => {
         const args = {
           to: `mock_address`,
+          password: `1234567890`,
           amount: [{ denom: `mycoin`, amount: 123 }]
         }
         node.send = async () => [
@@ -167,6 +173,7 @@ describe(`Module: Send`, () => {
       node.send = () => Promise.reject(true)
       let args = {
         to: `mock_address`,
+        password: `1234567890`,
         amount: [{ denom: `mycoin`, amount: 123 }]
       }
       let error1
@@ -178,7 +185,11 @@ describe(`Module: Send`, () => {
       expect(error1).toBeDefined()
 
       node.send = send
-      args = { to: `mock_address`, amount: [{ denom: `mycoin`, amount: 123 }] }
+      args = {
+        to: `mock_address`,
+        password: `1234567890`,
+        amount: [{ denom: `mycoin`, amount: 123 }]
+      }
       let error2
       try {
         await store.dispatch(`sendTx`, args)
@@ -191,6 +202,7 @@ describe(`Module: Send`, () => {
     it(`should wait for currently sending tx to be sent`, async () => {
       const args = {
         to: `mock_address`,
+        password: `1234567890`,
         amount: [{ denom: `mycoin`, amount: 123 }]
       }
       node.send = async () => ({
@@ -204,6 +216,7 @@ describe(`Module: Send`, () => {
     it(`should query the wallet state after sending`, async done => {
       const args = {
         to: `mock_address`,
+        password: `1234567890`,
         amount: [{ denom: `mycoin`, amount: 123 }]
       }
       node.queryAccount = () => done()

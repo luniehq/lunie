@@ -33,6 +33,6 @@ export default { name: `fundraiser-warning` }
 
 .fundraiser-warning__subtitle {
   color: var(--dim);
-  font-size: sm;
+  font-size: var(--sm);
 }
 </style>
