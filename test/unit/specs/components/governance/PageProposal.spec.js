@@ -8,7 +8,7 @@ import ModalDeposit from "renderer/components/governance/ModalDeposit"
 import ModalVote from "renderer/components/governance/ModalVote"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
-let proposal = lcdClientMock.state.proposals[0]
+let proposal = lcdClientMock.state.proposals[`1`]
 
 describe(`PageProposal`, () => {
   let wrapper, store
@@ -123,7 +123,7 @@ describe(`PageProposal`, () => {
 
   describe(`Modal onVote`, () => {
     it(`enables voting if the proposal is on the 'VotingPeriod'`, () => {
-      let proposal = lcdClientMock.state.proposals[1]
+      let proposal = lcdClientMock.state.proposals[`2`]
       let instance = mount(PageProposal, {
         localVue,
         doBefore: ({ router, store }) => {
@@ -153,7 +153,7 @@ describe(`PageProposal`, () => {
 
   describe(`Modal onDeposit`, () => {
     it(`enables deposits if the proposal is 'Active'`, () => {
-      let proposal = lcdClientMock.state.proposals[2]
+      let proposal = lcdClientMock.state.proposals[`5`]
       let instance = mount(PageProposal, {
         localVue,
         doBefore: ({ router, store }) => {

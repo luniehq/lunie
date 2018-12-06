@@ -218,47 +218,49 @@ exports[`TableProposals should filter the proposals 1`] = `
             class="li-proposal__title-container"
           >
             <span
-              class="validator-profile__status red"
-            />
+              class="material-icons"
+            >
+              checkmark
+            </span>
              
             <h2>
               <a
                 class=""
-                href="#/governance/6"
+                href="#/governance/1"
               >
-                Rejected proposal
+                Proposal Title
               </a>
             </h2>
              
             <p
               class="li-proposal__description"
             >
-              this proposal was rejected
+              Proposal description
             </p>
           </div>
         </td>
          
         <td>
-          #6
+          #1
         </td>
          
         <td
           class="li-proposal__value yes"
         >
-          10
+          500
         </td>
          
         <td
           class="li-proposal__value no"
         >
-          30
+          25
         </td>
          
         <td
           class="li-proposal__value no_with_veto"
         >
           
-    100
+    10
   
         </td>
          
@@ -266,7 +268,7 @@ exports[`TableProposals should filter the proposals 1`] = `
           class="li-proposal__value abstain"
         >
           
-    20
+    56
   
         </td>
       </tr>
