@@ -73,6 +73,8 @@ describe(`ModalDeposit`, () => {
         wrapper.setData({ amount: 25, password: `1234567890` })
         let depositBtn = wrapper.find(`#submit-deposit`)
         expect(depositBtn.html()).toContain(`disabled="disabled"`)
+        let errorMessage = wrapper.find(`input#amount + div`)
+        expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
       })
 
       it(`when the user doesn't have the deposited coin`, () => {

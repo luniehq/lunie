@@ -10,6 +10,7 @@
       </div>
     </div>
     <tm-form-group
+      :error="$v.amount.$invalid"
       class="delegation-modal-form-group"
       field-id="amount"
       field-label="Amount"
@@ -27,6 +28,13 @@
         :min="0"
         v-model="amount"
         type="number"
+      />
+      <tm-form-msg
+        v-if="!$v.amount.between && amount > 0"
+        :max="$v.amount.$params.between.max"
+        :min="$v.amount.$params.between.min"
+        name="Amount"
+        type="between"
       />
     </tm-form-group>
     <tm-form-group
