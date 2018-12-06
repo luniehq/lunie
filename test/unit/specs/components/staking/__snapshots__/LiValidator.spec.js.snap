@@ -2,34 +2,34 @@
 
 exports[`LiValidator has the expected html structure 1`] = `
 <tr
-  class="li-validator"
+  class="data-table__row li-validator"
 >
   <td
-    class="li-validator__moniker-container"
+    class="data-table__row__info"
   >
     <img
-      class="li-validator__avatar no-img"
+      class="data-table__row__info__image data-table__row__info__image--no-img"
       height="48"
       src="~assets/images/validator-icon.svg"
       width="48"
     />
      
     <div
-      class="li-validator__name-container"
+      class="data-table__row__info__container"
     >
       <span
-        class="validator-profile__status green"
+        class="data-table__row__info__container__status green"
       />
        
       <a
-        class="li-validator__moniker"
+        class="data-table__row__info__container__name"
         href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
       >
         herr_schmidt_revoked
       </a>
        
       <div
-        class="short-bech32 li-validator__address"
+        class="short-bech32 data-table__row__info__container__description"
       >
         <div
           class="address"

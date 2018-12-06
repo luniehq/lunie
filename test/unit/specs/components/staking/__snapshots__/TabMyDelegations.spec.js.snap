@@ -58,7 +58,9 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
 <div>
   <div>
     <div>
-      <table>
+      <table
+        class="data-table"
+      >
         <thead>
           <tr
             class="panel-sort-container"
@@ -131,34 +133,34 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
          
         <tbody>
           <tr
-            class="li-validator"
+            class="data-table__row li-validator"
           >
             <td
-              class="li-validator__moniker-container"
+              class="data-table__row__info"
             >
               <img
-                class="li-validator__avatar no-img"
+                class="data-table__row__info__image data-table__row__info__image--no-img"
                 height="48"
                 src="~assets/images/validator-icon.svg"
                 width="48"
               />
                
               <div
-                class="li-validator__name-container"
+                class="data-table__row__info__container"
               >
                 <span
-                  class="validator-profile__status yellow"
+                  class="data-table__row__info__container__status yellow"
                 />
                  
                 <a
-                  class="li-validator__moniker"
+                  class="data-table__row__info__container__name"
                   href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
                 >
                   mr_mounty
                 </a>
                  
                 <div
-                  class="short-bech32 li-validator__address"
+                  class="short-bech32 data-table__row__info__container__description"
                 >
                   <div
                     class="address"
@@ -264,7 +266,9 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
     </h3>
      
     <div>
-      <table>
+      <table
+        class="data-table"
+      >
         <thead>
           <tr
             class="panel-sort-container"
@@ -337,34 +341,34 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
          
         <tbody>
           <tr
-            class="li-validator"
+            class="data-table__row li-validator"
           >
             <td
-              class="li-validator__moniker-container"
+              class="data-table__row__info"
             >
               <img
-                class="li-validator__avatar no-img"
+                class="data-table__row__info__image data-table__row__info__image--no-img"
                 height="48"
                 src="~assets/images/validator-icon.svg"
                 width="48"
               />
                
               <div
-                class="li-validator__name-container"
+                class="data-table__row__info__container"
               >
                 <span
-                  class="validator-profile__status yellow"
+                  class="data-table__row__info__container__status yellow"
                 />
                  
                 <a
-                  class="li-validator__moniker"
+                  class="data-table__row__info__container__name"
                   href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
                 >
                   good_greg
                 </a>
                  
                 <div
-                  class="short-bech32 li-validator__address"
+                  class="short-bech32 data-table__row__info__container__description"
                 >
                   <div
                     class="address"
@@ -432,34 +436,34 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
             </td>
           </tr>
           <tr
-            class="li-validator"
+            class="data-table__row li-validator"
           >
             <td
-              class="li-validator__moniker-container"
+              class="data-table__row__info"
             >
               <img
-                class="li-validator__avatar no-img"
+                class="data-table__row__info__image data-table__row__info__image--no-img"
                 height="48"
                 src="~assets/images/validator-icon.svg"
                 width="48"
               />
                
               <div
-                class="li-validator__name-container"
+                class="data-table__row__info__container"
               >
                 <span
-                  class="validator-profile__status red"
+                  class="data-table__row__info__container__status red"
                 />
                  
                 <a
-                  class="li-validator__moniker"
+                  class="data-table__row__info__container__name"
                   href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n"
                 >
                   herr_schmidt_revoked
                 </a>
                  
                 <div
-                  class="short-bech32 li-validator__address"
+                  class="short-bech32 data-table__row__info__container__description"
                 >
                   <div
                     class="address"
@@ -598,7 +602,9 @@ exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
     </h3>
      
     <div>
-      <table>
+      <table
+        class="data-table"
+      >
         <thead>
           <tr
             class="panel-sort-container"
@@ -671,34 +677,34 @@ exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
          
         <tbody>
           <tr
-            class="li-validator"
+            class="data-table__row li-validator"
           >
             <td
-              class="li-validator__moniker-container"
+              class="data-table__row__info"
             >
               <img
-                class="li-validator__avatar no-img"
+                class="data-table__row__info__image data-table__row__info__image--no-img"
                 height="48"
                 src="~assets/images/validator-icon.svg"
                 width="48"
               />
                
               <div
-                class="li-validator__name-container"
+                class="data-table__row__info__container"
               >
                 <span
-                  class="validator-profile__status yellow"
+                  class="data-table__row__info__container__status yellow"
                 />
                  
                 <a
-                  class="li-validator__moniker"
+                  class="data-table__row__info__container__name"
                   href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
                 >
                   good_greg
                 </a>
                  
                 <div
-                  class="short-bech32 li-validator__address"
+                  class="short-bech32 data-table__row__info__container__description"
                 >
                   <div
                     class="address"
@@ -766,34 +772,34 @@ exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
             </td>
           </tr>
           <tr
-            class="li-validator"
+            class="data-table__row li-validator"
           >
             <td
-              class="li-validator__moniker-container"
+              class="data-table__row__info"
             >
               <img
-                class="li-validator__avatar no-img"
+                class="data-table__row__info__image data-table__row__info__image--no-img"
                 height="48"
                 src="~assets/images/validator-icon.svg"
                 width="48"
               />
                
               <div
-                class="li-validator__name-container"
+                class="data-table__row__info__container"
               >
                 <span
-                  class="validator-profile__status red"
+                  class="data-table__row__info__container__status red"
                 />
                  
                 <a
-                  class="li-validator__moniker"
+                  class="data-table__row__info__container__name"
                   href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n"
                 >
                   herr_schmidt_revoked
                 </a>
                  
                 <div
-                  class="short-bech32 li-validator__address"
+                  class="short-bech32 data-table__row__info__container__description"
                 >
                   <div
                     class="address"

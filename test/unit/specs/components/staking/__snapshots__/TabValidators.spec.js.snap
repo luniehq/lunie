@@ -3,7 +3,7 @@
 exports[`TabValidators has the expected html structure 1`] = `
 "<div>
    <div>
-      <table>
+      <table class=\\"data-table\\">
          <thead>
             <tr class=\\"panel-sort-container\\">
                <th class=\\"sort-by name\\">
@@ -30,12 +30,12 @@ exports[`TabValidators has the expected html structure 1`] = `
 </tr>
 </thead>
          <tbody>
-            <tr class=\\"li-validator\\">
-               <td class=\\"li-validator__moniker-container\\">
-                  <img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"li-validator__avatar no-img\\">
-                  <div class=\\"li-validator__name-container\\">
-                     <span class=\\"validator-profile__status red\\"></span><a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n\\" class=\\"li-validator__moniker li-validator-validator \\">herr_schmidt_revoked</a>
-                     <div class=\\"short-bech32 li-validator__address\\">
+            <tr class=\\"data-table__row li-validator\\">
+               <td class=\\"data-table__row__info\\">
+                  <img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"data-table__row__info__image data-table__row__info__image--no-img\\">
+                  <div class=\\"data-table__row__info__container\\">
+                     <span class=\\"data-table__row__info__container__status red\\"></span><a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n\\" class=\\"data-table__row__info__container__name li-validator-validator \\">herr_schmidt_revoked</a>
+                     <div class=\\"short-bech32 data-table__row__info__container__description\\">
                         <div id=\\"address\\" class=\\"address\\">
                            cosmosvaladdr…rg7n  
                         </div>
@@ -64,12 +64,12 @@ exports[`TabValidators has the expected html structure 1`] = `
             n/a
          </td>
 </tr>
-      <tr class=\\"li-validator\\">
-         <td class=\\"li-validator__moniker-container\\">
-            <img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"li-validator__avatar no-img\\">
-            <div class=\\"li-validator__name-container\\">
-               <span class=\\"validator-profile__status green\\"></span><a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw\\" class=\\"li-validator__moniker li-validator-validator \\">mr_mounty</a>
-               <div class=\\"short-bech32 li-validator__address\\">
+      <tr class=\\"data-table__row li-validator\\">
+         <td class=\\"data-table__row__info\\">
+            <img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"data-table__row__info__image data-table__row__info__image--no-img\\">
+            <div class=\\"data-table__row__info__container\\">
+               <span class=\\"data-table__row__info__container__status green\\"></span><a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw\\" class=\\"data-table__row__info__container__name li-validator-validator \\">mr_mounty</a>
+               <div class=\\"short-bech32 data-table__row__info__container__description\\">
                   <div id=\\"address\\" class=\\"address\\">
                      cosmosvaladdr…8yqw  
                   </div>
@@ -98,12 +98,12 @@ exports[`TabValidators has the expected html structure 1`] = `
             n/a
          </td>
 </tr>
-      <tr class=\\"li-validator\\">
-         <td class=\\"li-validator__moniker-container\\">
-            <img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"li-validator__avatar no-img\\">
-            <div class=\\"li-validator__name-container\\">
-               <span class=\\"validator-profile__status yellow\\"></span><a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au\\" class=\\"li-validator__moniker li-validator-validator \\">good_greg</a>
-               <div class=\\"short-bech32 li-validator__address\\">
+      <tr class=\\"data-table__row li-validator\\">
+         <td class=\\"data-table__row__info\\">
+            <img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"data-table__row__info__image data-table__row__info__image--no-img\\">
+            <div class=\\"data-table__row__info__container\\">
+               <span class=\\"data-table__row__info__container__status yellow\\"></span><a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au\\" class=\\"data-table__row__info__container__name li-validator-validator \\">good_greg</a>
+               <div class=\\"short-bech32 data-table__row__info__container__description\\">
                   <div id=\\"address\\" class=\\"address\\">
                      cosmosvaladdr…n3au  
                   </div>
@@ -147,7 +147,7 @@ exports[`TabValidators shows a message if still connecting 1`] = `
 exports[`TabValidators shows a message if still loading 1`] = `
 "<div>
    <div>
-      <table>
+      <table class=\\"data-table\\">
          <thead>
             <tr class=\\"panel-sort-container\\">
                <th class=\\"sort-by name\\">
@@ -174,12 +174,12 @@ exports[`TabValidators shows a message if still loading 1`] = `
 </tr>
 </thead>
          <tbody>
-            <tr class=\\"li-validator\\">
-               <td class=\\"li-validator__moniker-container\\">
-                  <img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"li-validator__avatar no-img\\">
-                  <div class=\\"li-validator__name-container\\">
-                     <span class=\\"validator-profile__status red\\"></span><a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n\\" class=\\"li-validator__moniker li-validator-validator \\">herr_schmidt_revoked</a>
-                     <div class=\\"short-bech32 li-validator__address\\">
+            <tr class=\\"data-table__row li-validator\\">
+               <td class=\\"data-table__row__info\\">
+                  <img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"data-table__row__info__image data-table__row__info__image--no-img\\">
+                  <div class=\\"data-table__row__info__container\\">
+                     <span class=\\"data-table__row__info__container__status red\\"></span><a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n\\" class=\\"data-table__row__info__container__name li-validator-validator \\">herr_schmidt_revoked</a>
+                     <div class=\\"short-bech32 data-table__row__info__container__description\\">
                         <div id=\\"address\\" class=\\"address\\">
                            cosmosvaladdr…rg7n  
                         </div>
@@ -208,12 +208,12 @@ exports[`TabValidators shows a message if still loading 1`] = `
             n/a
          </td>
 </tr>
-      <tr class=\\"li-validator\\">
-         <td class=\\"li-validator__moniker-container\\">
-            <img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"li-validator__avatar no-img\\">
-            <div class=\\"li-validator__name-container\\">
-               <span class=\\"validator-profile__status green\\"></span><a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw\\" class=\\"li-validator__moniker li-validator-validator \\">mr_mounty</a>
-               <div class=\\"short-bech32 li-validator__address\\">
+      <tr class=\\"data-table__row li-validator\\">
+         <td class=\\"data-table__row__info\\">
+            <img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"data-table__row__info__image data-table__row__info__image--no-img\\">
+            <div class=\\"data-table__row__info__container\\">
+               <span class=\\"data-table__row__info__container__status green\\"></span><a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw\\" class=\\"data-table__row__info__container__name li-validator-validator \\">mr_mounty</a>
+               <div class=\\"short-bech32 data-table__row__info__container__description\\">
                   <div id=\\"address\\" class=\\"address\\">
                      cosmosvaladdr…8yqw  
                   </div>
@@ -242,12 +242,12 @@ exports[`TabValidators shows a message if still loading 1`] = `
             n/a
          </td>
 </tr>
-      <tr class=\\"li-validator\\">
-         <td class=\\"li-validator__moniker-container\\">
-            <img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"li-validator__avatar no-img\\">
-            <div class=\\"li-validator__name-container\\">
-               <span class=\\"validator-profile__status yellow\\"></span><a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au\\" class=\\"li-validator__moniker li-validator-validator \\">good_greg</a>
-               <div class=\\"short-bech32 li-validator__address\\">
+      <tr class=\\"data-table__row li-validator\\">
+         <td class=\\"data-table__row__info\\">
+            <img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"data-table__row__info__image data-table__row__info__image--no-img\\">
+            <div class=\\"data-table__row__info__container\\">
+               <span class=\\"data-table__row__info__container__status yellow\\"></span><a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au\\" class=\\"data-table__row__info__container__name li-validator-validator \\">good_greg</a>
+               <div class=\\"short-bech32 data-table__row__info__container__description\\">
                   <div id=\\"address\\" class=\\"address\\">
                      cosmosvaladdr…n3au  
                   </div>
