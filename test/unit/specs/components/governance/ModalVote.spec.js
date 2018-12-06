@@ -14,8 +14,8 @@ describe(`ModalVote`, () => {
     let instance = mount(ModalVote, {
       localVue,
       propsData: {
-        proposalId: lcdClientMock.state.proposals[0].proposal_id,
-        proposalTitle: lcdClientMock.state.proposals[0].title
+        proposalId: lcdClientMock.state.proposals[`1`].proposal_id,
+        proposalTitle: lcdClientMock.state.proposals[`1`].title
       }
     })
     wrapper = instance.wrapper
