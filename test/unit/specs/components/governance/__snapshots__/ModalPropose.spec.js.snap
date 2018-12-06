@@ -76,7 +76,7 @@ exports[`ModalPropose component matches snapshot has the expected html structure
   </div>
    
   <div
-    class="modal-propose-form-group tm-form-group"
+    class="modal-propose-form-group tm-form-group tm-form-group--error"
   >
     <!---->
     <!---->
@@ -102,6 +102,8 @@ exports[`ModalPropose component matches snapshot has the expected html structure
         min="0"
         type="number"
       />
+       
+      <!---->
        
       <hr />
     </div>

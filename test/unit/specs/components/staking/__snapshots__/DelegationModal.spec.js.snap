@@ -31,7 +31,7 @@ exports[`DelegationModal component matches snapshot has the expected html struct
   </div>
    
   <div
-    class="delegation-modal-form-group tm-form-group"
+    class="delegation-modal-form-group tm-form-group tm-form-group--error"
   >
     <!---->
     <label
@@ -58,6 +58,8 @@ exports[`DelegationModal component matches snapshot has the expected html struct
         min="0"
         type="number"
       />
+       
+      <!---->
     </div>
   </div>
    
