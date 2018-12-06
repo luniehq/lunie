@@ -3,7 +3,7 @@
     <data-empty-search
       v-if="!delegates.loading && sortedFilteredEnrichedDelegates.length === 0"
     />
-    <table v-else>
+    <table v-else class="data-table">
       <thead>
         <panel-sort :sort="sort" :properties="properties" />
       </thead>
