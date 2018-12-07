@@ -33,8 +33,7 @@ describe(`Module: Votes`, () => {
     })
     let { actions, state } = module
     let commit = jest.fn()
-    const proposalIds = Object.keys(proposals)
-    proposalIds.forEach(async (proposal_id, i) => {
+    Object.keys(proposals).forEach(async (proposal_id, i) => {
       await actions.getProposalVotes(
         { state, commit, rootState: mockRootState },
         proposal_id

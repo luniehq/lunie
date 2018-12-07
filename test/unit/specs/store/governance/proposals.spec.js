@@ -163,7 +163,8 @@ describe(`Module: Proposals`, () => {
     jest.useFakeTimers()
 
     let dispatch = jest.fn()
-    Object.values(proposals).forEach(async (proposal, i) => {
+    const proposalsArray = Object.values(proposals)
+    proposalsArray.forEach(async (proposal, i) => {
       await actions.submitProposal(
         { dispatch, rootState: mockRootState },
         {
@@ -186,7 +187,7 @@ describe(`Module: Proposals`, () => {
       ])
 
       jest.runAllTimers()
-      expect(dispatch.mock.calls[i + Object.keys(proposals).length]).toEqual([
+      expect(dispatch.mock.calls[i + proposalsArray.length]).toEqual([
         `getProposals`
       ])
     })
