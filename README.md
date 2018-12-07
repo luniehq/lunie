@@ -134,10 +134,18 @@ node tasks/build/build.js --os darwin --binaryPath $GOPATH/bin/gaiacli
 
 ## Testing
 
-Voyager is using [Jest](https://facebook.github.io/jest) to run unit tests.
+If you would like to run all the tests you can run:
 
 ```bash
 $ yarn test
+```
+
+### Unit Tests
+
+Voyager is using [Jest](https://facebook.github.io/jest) to run unit tests.
+
+```bash
+$ yarn test:unit
 ```
 
 You can run the unit tests for a single file (e.g.,
@@ -147,10 +155,27 @@ PageValidator.spec.js) whenever there are changes like this:
 $ yarn watch PageValidator
 ```
 
+### Coverage
+
 To check test coverage locally run following. It will spin up a webserver and provide you with a link to the coverage report web page.
 
 ```bash
 $ yarn test:coverage
+```
+
+### End to end
+
+End to end testing is performed via `tape`, you can run all of them using:
+
+```bash
+$ yarn test:e2e
+```
+
+If you would like to run a single test please set the TEST variable:
+
+```bash
+
+$ TEST=test/e2e/init.js yarn test:e2e
 ```
 
 ---
