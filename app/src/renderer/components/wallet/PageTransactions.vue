@@ -114,15 +114,14 @@ export default {
       }
     }
   },
+  beforeCreate() {
+    this.$store.dispatch(`getAllTxs`)
+  },
   mounted() {
     Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
     Mousetrap.bind(`esc`, () => this.setSearch(false))
-    this.refreshTransactions()
   },
   methods: {
-    refreshTransactions() {
-      this.$store.dispatch(`getAllTxs`)
-    },
     enrichUnbondingTransactions(transaction) {
       let copiedTransaction = JSON.parse(JSON.stringify(transaction))
       let type = copiedTransaction.tx.value.msg[0].type
