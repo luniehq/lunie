@@ -34,18 +34,14 @@ describe(`Module: Proposals`, () => {
   it(`adds a proposal to state`, () => {
     let { mutations, state } = module
     mutations.setProposal(state, proposals[`1`])
-    expect(state.proposals[proposals[`1`].proposal_id]).toEqual(proposals[`1`])
+    expect(state.proposals[`1`]).toEqual(proposals[`1`])
   })
 
   it(`adds a tally result to a proposal already in state`, () => {
     let { mutations, state } = module
     mutations.setProposal(state, proposals[`2`])
-    mutations.setProposalTally(
-      state,
-      proposals[`2`].proposal_id,
-      proposals[`1`].tally_result
-    )
-    expect(state.proposals[proposals[`2`].proposal_id].tally_result).toEqual(
+    mutations.setProposalTally(state, `2`, proposals[`1`].tally_result)
+    expect(state.proposals[`2`].tally_result).toEqual(
       proposals[`1`].tally_result
     )
   })
@@ -61,15 +57,12 @@ describe(`Module: Proposals`, () => {
       abstain: `4`
     }
     mutations.setProposal(state, newProposal)
-    expect(state.proposals[proposals[`1`].proposal_id]).toHaveProperty(
-      `tally_result`,
-      {
-        yes: `10`,
-        no: `3`,
-        no_with_veto: `1`,
-        abstain: `4`
-      }
-    )
+    expect(state.proposals[`1`]).toHaveProperty(`tally_result`, {
+      yes: `10`,
+      no: `3`,
+      no_with_veto: `1`,
+      abstain: `4`
+    })
   })
 
   describe(`Fetches all proposal`, () => {
