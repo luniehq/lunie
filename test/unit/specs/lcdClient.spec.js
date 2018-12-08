@@ -590,7 +590,7 @@ describe(`LCD Client`, () => {
 
       it(`submits a new vote to a proposal`, async () => {
         axios.mockReturnValue({})
-        await client.submitProposalVote(proposals[`1`].proposal_id, votes[0])
+        await client.submitProposalVote(`1`, votes[0])
 
         expect(axios.mock.calls).toEqual([
           [
@@ -605,10 +605,7 @@ describe(`LCD Client`, () => {
 
       it(`submits a new deposit to a proposal`, async () => {
         axios.mockReturnValue({})
-        await client.submitProposalDeposit(
-          proposals[`1`].proposal_id,
-          deposits[0]
-        )
+        await client.submitProposalDeposit(`1`, deposits[0])
 
         expect(axios.mock.calls).toEqual([
           [

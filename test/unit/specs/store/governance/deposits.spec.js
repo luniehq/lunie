@@ -21,8 +21,8 @@ describe(`Module: Deposits`, () => {
 
   it(`adds deposits to state`, () => {
     let { mutations, state } = module
-    mutations.setProposalDeposits(state, proposals[`1`].proposal_id, deposits)
-    expect(state.deposits[proposals[`1`].proposal_id]).toEqual(deposits)
+    mutations.setProposalDeposits(state, `1`, deposits)
+    expect(state.deposits[`1`]).toEqual(deposits)
   })
 
   it(`fetches all deposits from a proposal`, async () => {
