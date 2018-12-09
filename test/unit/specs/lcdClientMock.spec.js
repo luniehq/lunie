@@ -859,12 +859,12 @@ describe(`LCD Client Mock`, () => {
         let proposals = lcdClientMock.state.proposals
         let proposalRes = await client.getProposal(`1`)
         expect(proposalRes).toBeDefined()
-        expect(proposalRes).toEqual(proposals[0])
+        expect(proposalRes).toEqual(proposals[`1`])
       })
 
       describe(`fails to submit a proposal`, () => {
         it(`if the type is invalid`, async () => {
-          let lenBefore = client.state.proposals.length
+          let lenBefore = Object.keys(client.state.proposals).length
           let res = await client.submitProposal({
             base_req: {
               name: `default`,
@@ -884,11 +884,11 @@ describe(`LCD Client Mock`, () => {
           expect(res).toHaveLength(1)
           expect(res[0].check_tx.code).toBe(2)
           expect(res[0].check_tx.log).toBe(`Other is not a valid proposal type`)
-          expect(client.state.proposals).toHaveLength(lenBefore)
+          expect(Object.keys(client.state.proposals)).toHaveLength(lenBefore)
         })
 
         it(`if the deposit is invalid for whatever reason`, async () => {
-          let lenBefore = client.state.proposals.length
+          let lenBefore = Object.keys(client.state.proposals).length
           let res = await client.submitProposal({
             base_req: {
               name: `default`,
@@ -910,14 +910,17 @@ describe(`LCD Client Mock`, () => {
           expect(res[0].check_tx.log).toBe(
             `Amount of stakes cannot be negative`
           )
-          expect(client.state.proposals).toHaveLength(lenBefore)
+          expect(Object.keys(client.state.proposals)).toHaveLength(lenBefore)
         })
       })
 
       describe(`successfuly submits a proposal`, () => {
         it(`when there are existing proposals`, async () => {
-          let lenBefore = client.state.proposals.length
-          let tailProposal = client.state.proposals[lenBefore - 1]
+          let proposalIdsBefore = Object.keys(client.state.proposals)
+          let maxProposalIdBefore = proposalIdsBefore.reduce(
+            (max_id, id) => (id > max_id ? id : max_id),
+            `0`
+          )
           let proposal = {
             title: `A proposal`,
             description: `A description`,
@@ -937,9 +940,11 @@ describe(`LCD Client Mock`, () => {
             ],
             ...proposal
           })
-          expect(client.state.proposals).toHaveLength(lenBefore + 1)
+          expect(Object.keys(client.state.proposals)).toHaveLength(
+            proposalIdsBefore.length + 1
+          )
 
-          let newProposalId = String(parseInt(tailProposal.proposal_id) + 1)
+          let newProposalId = String(parseInt(maxProposalIdBefore) + 1)
           let res = await client.getProposal(newProposalId)
           expect(res).toBeDefined()
           expect(res).toMatchObject(proposal)
@@ -947,7 +952,7 @@ describe(`LCD Client Mock`, () => {
         })
 
         it(`when there are no previous proposals`, async () => {
-          client.state.proposals = []
+          client.state.proposals = {}
           let proposal = {
             title: `A ParameterChange proposal`,
             description: `A description`,
@@ -967,7 +972,7 @@ describe(`LCD Client Mock`, () => {
             ],
             ...proposal
           })
-          expect(client.state.proposals).toHaveLength(1)
+          expect(Object.keys(client.state.proposals)).toHaveLength(1)
           let res = await client.getProposal(`1`)
           expect(res).toBeDefined()
           expect(res).toMatchObject(proposal)
@@ -978,7 +983,7 @@ describe(`LCD Client Mock`, () => {
 
     describe(`Tally`, () => {
       it(`queries a proposal's tally result`, async () => {
-        let proposal = lcdClientMock.state.proposals[1]
+        let proposal = lcdClientMock.state.proposals[`2`]
         let res = await client.getProposalTally(`2`)
         expect(res).toBeDefined()
         expect(res).toEqual(proposal.tally_result)
