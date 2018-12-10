@@ -308,7 +308,7 @@ exports[`PageValidator has the expected html structure 1`] = `
               id="validator-profile__commission"
             >
               
-              0.05 %
+              0.0500… %
             
             </dd>
           </dl>
@@ -825,7 +825,7 @@ exports[`PageValidator shows a default avatar 1`] = `
               id="validator-profile__commission"
             >
               
-              0.05 %
+              0.0500… %
             
             </dd>
           </dl>
@@ -1514,7 +1514,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
               id="validator-profile__commission"
             >
               
-              0.05 %
+              0.0500… %
             
             </dd>
           </dl>
@@ -2024,7 +2024,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
               id="validator-profile__commission"
             >
               
-              0.05 %
+              0.0500… %
             
             </dd>
           </dl>
@@ -2466,7 +2466,7 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 1`]
               id="validator-profile__commission"
             >
               
-              0.05 %
+              0.0500… %
             
             </dd>
           </dl>
@@ -2976,7 +2976,7 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 2`]
               id="validator-profile__commission"
             >
               
-              0.05 %
+              0.0500… %
             
             </dd>
           </dl>

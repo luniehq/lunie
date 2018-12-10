@@ -94,12 +94,13 @@ describe(`DelegationModal`, () => {
       })
 
       it(`if the user manually inputs a number greater than the balance`, () => {
-        wrapper.setData({ password: `1234567890` })
+        wrapper.setData({ amount: 142, password: `1234567890` })
         let amountField = wrapper.find(`#amount`)
-        amountField.element.value = 142
 
         let delegationBtn = wrapper.find(`#submit-delegation`)
         expect(delegationBtn.html()).toContain(`disabled="disabled"`)
+        let errorMessage = wrapper.find(`input#amount + div`)
+        expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
 
         amountField.trigger(`input`)
         expect(amountField.element.value).toBe(`100`)

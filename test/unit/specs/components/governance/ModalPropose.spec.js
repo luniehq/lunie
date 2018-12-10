@@ -90,6 +90,8 @@ describe(`ModalPropose`, () => {
         wrapper.setData({ amount: 25 })
         let proposeBtn = wrapper.find(`#submit-proposal`)
         expect(proposeBtn.html()).toContain(`disabled="disabled"`)
+        let errorMessage = wrapper.find(`input#amount + div`)
+        expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
       })
 
       it(`if the user doesn't have the deposit coin`, () => {

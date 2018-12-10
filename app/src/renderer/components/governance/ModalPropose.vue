@@ -43,7 +43,11 @@
         type="maxLength"
       />
     </tm-form-group>
-    <tm-form-group class="modal-propose-form-group" field-id="amount">
+    <tm-form-group
+      :error="$v.amount.$invalid"
+      class="modal-propose-form-group"
+      field-id="amount"
+    >
       <span>Deposit amount</span>
       <tm-field
         id="denom"
@@ -57,6 +61,13 @@
         :min="0"
         v-model="amount"
         type="number"
+      />
+      <tm-form-msg
+        v-if="!$v.amount.between && amount > 0"
+        :max="$v.amount.$params.between.max"
+        :min="$v.amount.$params.between.min"
+        name="Amount"
+        type="between"
       />
       <hr />
     </tm-form-group>

@@ -332,8 +332,8 @@ let state = {
     jailed_until: `1970-01-01T00:00:00Z`,
     signed_blocks_counter: 1
   },
-  proposals: [
-    {
+  proposals: {
+    "1": {
       proposal_id: `1`,
       proposal_type: `Text`,
       title: `Proposal Title`,
@@ -362,7 +362,7 @@ let state = {
         abstain: `56`
       }
     },
-    {
+    "2": {
       proposal_id: `2`,
       proposal_type: `Text`,
       title: `VotingPeriod proposal`,
@@ -391,7 +391,7 @@ let state = {
         abstain: `0`
       }
     },
-    {
+    "5": {
       proposal_id: `5`,
       proposal_type: `Text`,
       title: `Custom text proposal`,
@@ -420,7 +420,7 @@ let state = {
         abstain: `0`
       }
     },
-    {
+    "6": {
       proposal_id: `6`,
       proposal_type: `Text`,
       title: `Rejected proposal`,
@@ -449,7 +449,7 @@ let state = {
         abstain: `20`
       }
     }
-  ],
+  },
   votes: {
     1: [
       {
@@ -987,10 +987,12 @@ module.exports = {
     let results = []
     // get new proposal id
     let proposal_id = `1`
-    let proposalsLen = state.proposals.length
-    if (state.proposals && proposalsLen > 0) {
+    const proposalIds = Object.keys(state.proposals)
+    if (state.proposals && proposalIds.length > 0) {
       proposal_id = String(
-        parseInt(state.proposals[proposalsLen - 1].proposal_id) + 1
+        parseInt(
+          proposalIds.reduce((max_id, id) => (id > max_id ? id : max_id), `0`)
+        ) + 1
       )
     }
 
@@ -1029,7 +1031,7 @@ module.exports = {
     }
 
     // we add the proposal to the state to make it available for the submitProposalDeposit function
-    state.proposals.push(proposal)
+    state.proposals[proposal.proposal_id] = proposal
     results = await this.submitProposalDeposit({
       base_req,
       proposal_id,
@@ -1038,12 +1040,12 @@ module.exports = {
     })
     // remove proposal from state if it fails
     if (results[0].check_tx.code !== 0) {
-      state.proposals.pop()
+      delete state.proposals[proposal.proposal_id]
     }
     return results
   },
   async getProposal(proposalId) {
-    return state.proposals.find(proposal => proposal.proposal_id === proposalId)
+    return state.proposals[proposalId]
   },
   async getProposalTally(proposalId) {
     let proposal = await this.getProposal(proposalId)
@@ -1248,9 +1250,9 @@ module.exports = {
   async queryProposals() {
     // TODO: return only value of the `value` property when https://github.com/cosmos/cosmos-sdk/issues/2507 is solved
     let proposals = state.proposals
-    return proposals.map(proposal => {
+    return Object.keys(proposals).map(key => {
       return {
-        value: JSON.parse(JSON.stringify(proposal)),
+        value: JSON.parse(JSON.stringify(proposals[key])),
         type: `gov/TextProposal`
       }
     })

@@ -2,33 +2,33 @@
 
 exports[`LiProposal has the expected html structure 1`] = `
 <tr
-  class="li-proposal"
+  class="data-table__row li-proposal"
 >
   <td
-    class="li-proposal__value"
+    class="data-table__row__info"
   >
     <div
-      class="li-proposal__title-container"
+      class="data-table__row__info__container"
     >
       <span
-        class="material-icons"
+        class="data-table__row__info__container__status material-icons"
       >
         checkmark
       </span>
        
-      <h2>
-        <a
-          class=""
-          href="#/governance/1"
-        >
-          Proposal Title
-        </a>
-      </h2>
+      <a
+        class="data-table__row__info__container__name"
+        href="#/governance/1"
+      >
+        Proposal Title
+      </a>
        
       <p
-        class="li-proposal__description"
+        class="data-table__row__info__container__description"
       >
+        
         Proposal description
+      
       </p>
     </div>
   </td>

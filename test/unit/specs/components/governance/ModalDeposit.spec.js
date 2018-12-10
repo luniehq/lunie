@@ -20,8 +20,8 @@ describe(`ModalDeposit`, () => {
     let instance = mount(ModalDeposit, {
       localVue,
       propsData: {
-        proposalId: lcdClientMock.state.proposals[0].proposal_id,
-        proposalTitle: lcdClientMock.state.proposals[0].title,
+        proposalId: `1`,
+        proposalTitle: lcdClientMock.state.proposals[`1`].title,
         denom: `stake`
       }
     })
@@ -73,6 +73,8 @@ describe(`ModalDeposit`, () => {
         wrapper.setData({ amount: 25, password: `1234567890` })
         let depositBtn = wrapper.find(`#submit-deposit`)
         expect(depositBtn.html()).toContain(`disabled="disabled"`)
+        let errorMessage = wrapper.find(`input#amount + div`)
+        expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
       })
 
       it(`when the user doesn't have the deposited coin`, () => {

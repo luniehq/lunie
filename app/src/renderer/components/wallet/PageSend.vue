@@ -27,7 +27,7 @@
       </tm-part>
       <tm-part title="Transaction Details">
         <tm-form-group
-          :error="$v.fields.address.$error"
+          :error="$v.fields.address.$invalid"
           field-id="send-address"
           field-label="Send To"
         >
@@ -40,12 +40,15 @@
             />
           </tm-field-group>
           <tm-form-msg
-            v-if="!$v.fields.address.required"
+            v-if="$v.fields.address.$error && !$v.fields.address.required"
             name="Address"
             type="required"
           />
           <tm-form-msg
-            v-else-if="!$v.fields.address.bech32Validate"
+            v-else-if="
+              fields.address.trim().length > 0 &&
+                !$v.fields.address.bech32Validate
+            "
             :body="bech32error"
             name="Address"
             type="bech32"
@@ -72,9 +75,9 @@
             type="required"
           />
           <tm-form-msg
-            v-if="!$v.fields.amount.between"
-            :min="max ? 1 : 0"
-            :max="max"
+            v-if="!$v.fields.amount.between && fields.amount > 0"
+            :max="$v.fields.amount.$params.between.max"
+            :min="$v.fields.amount.$params.between.min"
             name="Amount"
             type="between"
           />
@@ -298,7 +301,7 @@ export default {
         amount: {
           required,
           isInteger,
-          between: between(1, this.max)
+          between: between(this.max ? 1 : 0, this.max)
         },
         denom: { required },
         password: { required }
