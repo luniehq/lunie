@@ -48,7 +48,7 @@ exports[`TabValidators has the expected html structure 1`] = `
          <td class=\\"li-validator__delegated-steak\\">
             0.0000…  
          </td>
-         <td class=\\"li-validator__rewards\\">
+         <td class=\\"li-validator__rewards data-table__row__cell__separator\\">
             n/a
          </td>
          <td class=\\"li-validator__voting-power\\">
@@ -82,7 +82,7 @@ exports[`TabValidators has the expected html structure 1`] = `
          <td class=\\"li-validator__delegated-steak\\">
             0.0000…  
          </td>
-         <td class=\\"li-validator__rewards\\">
+         <td class=\\"li-validator__rewards data-table__row__cell__separator\\">
             n/a
          </td>
          <td class=\\"li-validator__voting-power\\">
@@ -116,7 +116,7 @@ exports[`TabValidators has the expected html structure 1`] = `
          <td class=\\"li-validator__delegated-steak\\">
             0.0000…  
          </td>
-         <td class=\\"li-validator__rewards\\">
+         <td class=\\"li-validator__rewards data-table__row__cell__separator\\">
             n/a
          </td>
          <td class=\\"li-validator__voting-power\\">
@@ -192,7 +192,7 @@ exports[`TabValidators shows a message if still loading 1`] = `
          <td class=\\"li-validator__delegated-steak\\">
             0.0000…  
          </td>
-         <td class=\\"li-validator__rewards\\">
+         <td class=\\"li-validator__rewards data-table__row__cell__separator\\">
             n/a
          </td>
          <td class=\\"li-validator__voting-power\\">
@@ -226,7 +226,7 @@ exports[`TabValidators shows a message if still loading 1`] = `
          <td class=\\"li-validator__delegated-steak\\">
             0.0000…  
          </td>
-         <td class=\\"li-validator__rewards\\">
+         <td class=\\"li-validator__rewards data-table__row__cell__separator\\">
             n/a
          </td>
          <td class=\\"li-validator__voting-power\\">
@@ -260,7 +260,7 @@ exports[`TabValidators shows a message if still loading 1`] = `
          <td class=\\"li-validator__delegated-steak\\">
             0.0000…  
          </td>
-         <td class=\\"li-validator__rewards\\">
+         <td class=\\"li-validator__rewards data-table__row__cell__separator\\">
             n/a
          </td>
          <td class=\\"li-validator__voting-power\\">

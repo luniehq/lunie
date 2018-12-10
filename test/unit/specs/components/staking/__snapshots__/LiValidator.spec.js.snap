@@ -65,7 +65,7 @@ exports[`LiValidator has the expected html structure 1`] = `
   </td>
    
   <td
-    class="li-validator__rewards"
+    class="li-validator__rewards data-table__row__cell__separator"
   >
     n/a
   </td>

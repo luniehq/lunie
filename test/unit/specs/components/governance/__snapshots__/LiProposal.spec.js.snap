@@ -11,7 +11,7 @@ exports[`LiProposal has the expected html structure 1`] = `
       class="data-table__row__info__container"
     >
       <span
-        class="material-icons"
+        class="data-table__row__info__container__status material-icons"
       >
         checkmark
       </span>

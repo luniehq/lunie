@@ -47,7 +47,7 @@ exports[`TableValidators has the expected html structure 1`] = `
          <td class=\\"li-validator__delegated-steak\\">
             0.0000…  
          </td>
-         <td class=\\"li-validator__rewards\\">
+         <td class=\\"li-validator__rewards data-table__row__cell__separator\\">
             n/a
          </td>
          <td class=\\"li-validator__voting-power\\">
@@ -81,7 +81,7 @@ exports[`TableValidators has the expected html structure 1`] = `
          <td class=\\"li-validator__delegated-steak\\">
             0.0000…  
          </td>
-         <td class=\\"li-validator__rewards\\">
+         <td class=\\"li-validator__rewards data-table__row__cell__separator\\">
             n/a
          </td>
          <td class=\\"li-validator__voting-power\\">
@@ -115,7 +115,7 @@ exports[`TableValidators has the expected html structure 1`] = `
          <td class=\\"li-validator__delegated-steak\\">
             0.0000…  
          </td>
-         <td class=\\"li-validator__rewards\\">
+         <td class=\\"li-validator__rewards data-table__row__cell__separator\\">
             n/a
          </td>
          <td class=\\"li-validator__voting-power\\">
@@ -276,7 +276,7 @@ exports[`TableValidators should filter the delegates 1`] = `
         </td>
          
         <td
-          class="li-validator__rewards"
+          class="li-validator__rewards data-table__row__cell__separator"
         >
           n/a
         </td>
