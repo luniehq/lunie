@@ -2,7 +2,12 @@
 
 let test = require(`tape-promise/tape`)
 let { getApp, restart } = require(`./launch.js`)
-let { navigate, login, closeNotifications } = require(`./common.js`)
+let {
+  navigate,
+  login,
+  closeNotifications,
+  waitForText
+} = require(`./common.js`)
 /*
  * NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
  */
@@ -27,6 +32,9 @@ test(`Governance`, async function(t) {
   })
 
   t.test(`submit proposal`, async function(t) {
+    let balance = parseInt(
+      (await app.client.$(`.total-atoms__value`).getText()).split(`.`)[0]
+    )
     await app.client.$(`#propose-btn`).click()
     await t.ok(
       await app.client.$(`#modal-propose`).isVisible(),
@@ -56,6 +64,11 @@ test(`Governance`, async function(t) {
       `shows the newly created proposal`
     )
     await closeNotifications(app)
+    // check if balance updates accordingly
+    await waitForText(
+      () => app.client.$(`.total-atoms__value`),
+      `${balance - 5}.0000…`
+    )
     t.end()
   })
 
@@ -69,6 +82,9 @@ test(`Governance`, async function(t) {
   })
 
   t.test(`deposit`, async function(t) {
+    let balance = parseInt(
+      (await app.client.$(`.total-atoms__value`).getText()).split(`.`)[0]
+    )
     let deposit = () =>
       $(`//dt[contains(text(), "Deposit")]`)
         .$(`..`)
@@ -101,6 +117,11 @@ test(`Governance`, async function(t) {
       `increments the deposit count displayed on the proposal page`
     )
     await closeNotifications(app)
+    // check if balance updates accordingly
+    await waitForText(
+      () => app.client.$(`.total-atoms__value`),
+      `${balance - 10}.0000…`
+    )
     t.end()
   })
 

@@ -6,7 +6,7 @@
       </div>
       <div class="total-atoms top-section">
         <h3>Total {{ bondingDenom }}</h3>
-        <h2>{{ num.shortNumber(totalAtoms) }}</h2>
+        <h2 class="total-atoms__value">{{ num.shortNumber(totalAtoms) }}</h2>
       </div>
       <div v-if="unbondedAtoms" class="unbonded-atoms top-section">
         <h3>Available {{ bondingDenom }}</h3>
