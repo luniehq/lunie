@@ -4,16 +4,18 @@
       <div class="data-table__row__info__container">
         <span
           v-tooltip.top="status.message"
-          v-if="proposal.proposal_status === `Passed`"
           :class="status.color"
-          class="material-icons"
+          class="data-table__row__info__container__status material-icons"
           >checkmark</span
-        ><span
-          v-tooltip.top="status.message"
-          v-else
-          :class="status.color"
-          class="data-table__row__info__container__status"
-        />
+        >
+        <!--
+          <span
+            v-tooltip.top="status.message"
+            v-else
+            :class="status.color"
+            class="data-table__row__info__container__status"
+          />
+        -->
         <router-link
           :to="{
             name: 'Proposal',
@@ -88,5 +90,14 @@ export default {
 <style>
 .li-proposal__value.no_with_veto {
   min-width: 8rem;
+}
+.data-table__row__info__container__status.material-icons {
+  width: 1rem;
+  height: 1rem;
+  overflow: hidden;
+  top: 4px;
+  left: -4px;
+  color: var(--success);
+  background: none;
 }
 </style>

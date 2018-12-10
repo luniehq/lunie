@@ -92,10 +92,9 @@
 }
 .data-table__row__info__container {
   position: relative;
-  margin-left: 0.5rem;
 }
 .data-table__row__info__container__name {
-  padding-left: 0.75rem;
+  padding-left: 1rem;
   max-width: 200px;
   overflow: hidden;
   white-space: nowrap;
@@ -114,4 +113,5 @@
 }
 .data-table__row__info__container__description {
   font-size: var(--sm);
+  padding-left: 1rem;
 }
