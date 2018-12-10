@@ -42,7 +42,7 @@
           : num.shortNumber(yourVotes)
       }}
     </td>
-    <td class="li-validator__rewards">n/a</td>
+    <td class="li-validator__rewards data-table__row__cell__separator">n/a</td>
     <td class="li-validator__voting-power">
       {{ validator.percent_of_vote ? validator.percent_of_vote : `n/a` }}
     </td>
@@ -141,16 +141,6 @@ export default {
 </script>
 
 <style>
-.li-validator.data-table__row td:nth-child(3):after {
-  display: block;
-  position: absolute;
-  content: "";
-  height: 2rem;
-  width: 2px;
-  top: 1.5rem;
-  right: 0.5rem;
-  background: var(--bc-dim);
-}
 .li-validator .li-validator__delegated-steak {
   min-width: 10rem;
 }

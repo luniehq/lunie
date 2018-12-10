@@ -41,6 +41,18 @@
 .data-table td:not(:first-child) {
   padding-bottom: 1rem;
 }
+
+.data-table__row__cell__separator:after {
+  display: block;
+  position: absolute;
+  content: "";
+  height: 2rem;
+  width: 2px;
+  top: 1.5rem;
+  right: 0.5rem;
+  background: var(--bc-dim);
+}
+
 .data-table__row {
   padding: 1rem;
   background-color: var(--app-fg);
