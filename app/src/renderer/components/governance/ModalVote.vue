@@ -194,7 +194,7 @@ export default {
 
 .modal-vote button {
   margin: 0;
-  min-width: 50%;
+  min-width: 49%;
 }
 
 .modal-vote button span {

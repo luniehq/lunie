@@ -49,7 +49,7 @@ describe(`TabProposals`, () => {
   })
 
   it(`shows a message if there is nothing to display`, async () => {
-    store.state.proposals.proposals = []
+    store.state.proposals.proposals = {}
     wrapper.update()
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })

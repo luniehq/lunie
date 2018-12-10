@@ -36,7 +36,7 @@ export default {
   },
   props: {
     proposals: {
-      type: Array,
+      type: Object,
       required: true
     }
   },

@@ -229,26 +229,26 @@ exports[`TableProposals should filter the proposals 1`] = `
         </td>
          
         <td>
-          #6
+          #1
         </td>
          
         <td
           class="li-proposal__value yes"
         >
-          10
+          500
         </td>
          
         <td
           class="li-proposal__value no"
         >
-          30
+          25
         </td>
          
         <td
           class="li-proposal__value no_with_veto"
         >
           
-    100
+    10
   
         </td>
          
@@ -256,7 +256,7 @@ exports[`TableProposals should filter the proposals 1`] = `
           class="li-proposal__value abstain"
         >
           
-    20
+    56
   
         </td>
       </tr>

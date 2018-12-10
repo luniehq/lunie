@@ -20,8 +20,8 @@ describe(`ModalDeposit`, () => {
     let instance = mount(ModalDeposit, {
       localVue,
       propsData: {
-        proposalId: lcdClientMock.state.proposals[0].proposal_id,
-        proposalTitle: lcdClientMock.state.proposals[0].title,
+        proposalId: `1`,
+        proposalTitle: lcdClientMock.state.proposals[`1`].title,
         denom: `stake`
       }
     })
