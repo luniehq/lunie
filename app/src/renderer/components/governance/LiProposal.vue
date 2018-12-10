@@ -1,29 +1,30 @@
 <template>
-  <tr class="li-proposal">
-    <td class="li-proposal__value">
-      <div class="li-proposal__title-container">
+  <tr class="data-table__row li-proposal">
+    <td class="data-table__row__info">
+      <div class="data-table__row__info__container">
         <span
           v-tooltip.top="status.message"
           v-if="proposal.proposal_status === `Passed`"
           :class="status.color"
-          class="material-icons"
+          class="data-table__row__info__container__status material-icons"
           >checkmark</span
         ><span
           v-tooltip.top="status.message"
           v-else
           :class="status.color"
-          class="validator-profile__status"
+          class="data-table__row__info__container__status"
         />
-        <h2>
-          <router-link
-            :to="{
-              name: 'Proposal',
-              params: { proposalId: proposal.proposal_id }
-            }"
-            >{{ proposal.title }}</router-link
-          >
-        </h2>
-        <p class="li-proposal__description">{{ description }}</p>
+        <router-link
+          :to="{
+            name: 'Proposal',
+            params: { proposalId: proposal.proposal_id }
+          }"
+          class="data-table__row__info__container__name"
+          >{{ proposal.title }}</router-link
+        >
+        <p class="data-table__row__info__container__description">
+          {{ description }}
+        </p>
       </div>
     </td>
     <td>{{ `#` + proposal.proposal_id }}</td>
@@ -85,46 +86,16 @@ export default {
 </script>
 
 <style>
-.li-proposal {
-  margin: 0.5rem 0rem 0.5rem 2rem;
-  background-color: var(--app-fg);
-  border-radius: 0.25rem;
-  border: 1px solid var(--bc-dim);
+.li-proposal__value.no_with_veto {
+  min-width: 8rem;
 }
-.li-proposal:hover {
-  background: var(--hover-bg);
-}
-.li-proposal__description {
-  font-size: 14px;
-  padding: 0.25rem 0 0 1rem;
-  min-width: 284px;
-  color: var(--dim);
-}
-.li-proposal .validator-profile__status {
-  position: absolute;
-  left: 0;
-  top: 9px;
-  display: inline-block;
-}
-.li-proposal h2 {
-  display: inline-block;
-  font-size: 16px;
-  padding-left: 1rem;
-}
-.li-proposal td {
-  padding: 1rem 0.5rem;
-}
-.li-proposal__title-container {
-  position: relative;
-}
-.li-proposal__title-container .material-icons {
-  display: inline-block;
-  position: absolute;
+.data-table__row__info__container__status.material-icons {
   width: 1rem;
   height: 1rem;
   overflow: hidden;
   top: 4px;
   left: -4px;
   color: var(--success);
+  background: none;
 }
 </style>

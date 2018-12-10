@@ -1,0 +1,117 @@
+.data-table {
+  border-spacing: 0 0.25rem;
+  margin: 0 0 0 2rem;
+  padding: 0;
+  table-layout: auto;
+  counter-reset: rowNumber1;
+}
+
+.data-table tr {
+  counter-increment: rowNumber;
+}
+
+.data-table tr td:first-child::before {
+  content: counter(rowNumber);
+  position: absolute;
+  font-size: sm;
+  width: 2rem;
+  text-align: right;
+  color: var(--dim);
+  left: -3rem;
+}
+
+.data-table th {
+  /* min-width: 130px; */
+  width: 100%;
+  padding: 0.5rem;
+}
+
+.data-table th {
+  min-width: 122px;
+  width: 100%;
+  padding: 0.5rem;
+  text-align: left;
+}
+.data-table td {
+  min-width: 122px;
+  width: 100%;
+  padding: 0.5rem;
+  position: relative;
+  vertical-align: bottom;
+}
+.data-table td:not(:first-child) {
+  padding-bottom: 1rem;
+}
+
+.data-table__row__cell__separator:after {
+  display: block;
+  position: absolute;
+  content: "";
+  height: 2rem;
+  width: 2px;
+  top: 1.5rem;
+  right: 0.5rem;
+  background: var(--bc-dim);
+}
+
+.data-table__row {
+  padding: 1rem;
+  background-color: var(--app-fg);
+  border-radius: 0.25rem;
+  border: 1px solid var(--bc-dim);
+}
+.data-table__row:hover {
+  background: var(--hover-bg);
+}
+.data-table__row__info {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-width: 284px;
+}
+.data-table__row__info__container__status {
+  left: 0;
+  top: 9px;
+  border-radius: 50%;
+  display: inline-block;
+  height: 0.5rem;
+  /* left: -1rem; */
+  position: absolute;
+  width: 0.5rem;
+}
+.data-table__row__info__container__status.red {
+  background: var(--danger);
+}
+
+.data-table__row__info__container__status.yellow {
+  background: var(--warning);
+}
+
+.data-table__row__info__container__status.green {
+  background: var(--success);
+}
+.data-table__row__info__container {
+  position: relative;
+}
+.data-table__row__info__container__name {
+  padding-left: 1rem;
+  max-width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.data-table__row__info__image {
+  height: 3rem;
+  width: 3rem;
+  margin: 0.5rem;
+  border-radius: 50%;
+  display: block;
+  background: var(--app-nav);
+}
+.data-table__row__info__image--no-img {
+  padding: 0.5rem;
+}
+.data-table__row__info__container__description {
+  font-size: var(--sm);
+  padding-left: 1rem;
+}

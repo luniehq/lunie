@@ -1,7 +1,7 @@
 <template>
   <div>
     <data-empty-search v-if="filteredProposals.length === 0" />
-    <table v-else>
+    <table v-else class="data-table">
       <thead>
         <panel-sort :sort="sort" :properties="properties" />
       </thead>
@@ -135,64 +135,3 @@ export default {
   }
 }
 </script>
-<style>
-table {
-  border-spacing: 0 0.25rem;
-  margin: 0 0 0 2rem;
-  min-widthpadding: 0;
-  table-layout: auto;
-  counter-reset: rowNumber1;
-}
-
-table tr {
-  counter-increment: rowNumber;
-}
-
-table tr td:first-child::before {
-  content: counter(rowNumber);
-  position: absolute;
-  font-size: var(--sm);
-  width: 2rem;
-  text-align: right;
-  color: var(--dim);
-  left: -3rem;
-}
-
-table th {
-  min-width: 130px;
-  width: 100%;
-  padding: 0.5rem;
-}
-
-table
-  th
-  min-width
-  122px
-  width
-  100%
-  padding
-  0.5rem
-  table
-  td
-  min-width
-  122px
-  width
-  100%
-  padding
-  0
-  0.5rem
-  position
-  relative
-  table
-  tr
-  td:nth-child(3):after {
-  display: block;
-  position: absolute;
-  content: "";
-  height: 2rem;
-  width: 2px;
-  top: 1.5rem;
-  right: 2rem;
-  background: var(--bc-dim);
-}
-</style>
