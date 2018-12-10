@@ -44,7 +44,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 <h2
                   class="total-atoms__value"
                 >
-                  14.0000…
+                  1,014.0000…
                 </h2>
               </div>
                
@@ -56,7 +56,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 </h3>
                  
                 <h2>
-                  0.0000…
+                  1,000.0000…
                 </h2>
               </div>
             </div>
@@ -252,7 +252,7 @@ exports[`PageWallet has the expected html structure 1`] = `
             <p
               class="coin-denom"
             >
-              Mycoin
+              Stake
             </p>
           </div>
            
@@ -268,7 +268,7 @@ exports[`PageWallet has the expected html structure 1`] = `
            
           <a
             class=""
-            href="#/wallet/send/mycoin"
+            href="#/wallet/send/STAKE"
           >
             <button
               class="tm-btn sendTx-btn"
@@ -313,7 +313,7 @@ exports[`PageWallet has the expected html structure 1`] = `
             <p
               class="coin-denom"
             >
-              Steak
+              Mycoin
             </p>
           </div>
            
@@ -329,7 +329,7 @@ exports[`PageWallet has the expected html structure 1`] = `
            
           <a
             class=""
-            href="#/wallet/send/steak"
+            href="#/wallet/send/mycoin"
           >
             <button
               class="tm-btn sendTx-btn"
@@ -423,7 +423,7 @@ exports[`PageWallet should filter the balances 1`] = `
                 <h2
                   class="total-atoms__value"
                 >
-                  14.0000…
+                  1,014.0000…
                 </h2>
               </div>
                
@@ -435,7 +435,7 @@ exports[`PageWallet should filter the balances 1`] = `
                 </h3>
                  
                 <h2>
-                  0.0000…
+                  1,000.0000…
                 </h2>
               </div>
             </div>
@@ -570,7 +570,7 @@ exports[`PageWallet should filter the balances 1`] = `
             <p
               class="coin-denom"
             >
-              Steak
+              Stake
             </p>
           </div>
            
@@ -586,7 +586,7 @@ exports[`PageWallet should filter the balances 1`] = `
            
           <a
             class=""
-            href="#/wallet/send/steak"
+            href="#/wallet/send/STAKE"
           >
             <button
               class="tm-btn sendTx-btn"

@@ -18,7 +18,7 @@ Object {
                 "initial_deposit": Array [
                   Object {
                     "amount": "100",
-                    "denom": "steak",
+                    "denom": "STAKE",
                   },
                 ],
                 "proposal_type": "Text",
@@ -43,7 +43,7 @@ Object {
                 "amount": Array [
                   Object {
                     "amount": "100",
-                    "denom": "steak",
+                    "denom": "STAKE",
                   },
                 ],
                 "depositer": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
@@ -69,7 +69,7 @@ Object {
               "value": Object {
                 "delegation": Object {
                   "amount": "24",
-                  "denom": "steak",
+                  "denom": "STAKE",
                 },
                 "delegator_addr": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
                 "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
@@ -444,7 +444,7 @@ Array [
             "value": Object {
               "delegation": Object {
                 "amount": "24",
-                "denom": "steak",
+                "denom": "STAKE",
               },
               "delegator_addr": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
               "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
@@ -495,7 +495,7 @@ Array [
               "initial_deposit": Array [
                 Object {
                   "amount": "100",
-                  "denom": "steak",
+                  "denom": "STAKE",
                 },
               ],
               "proposal_type": "Text",
@@ -522,7 +522,7 @@ Array [
               "amount": Array [
                 Object {
                   "amount": "100",
-                  "denom": "steak",
+                  "denom": "STAKE",
                 },
               ],
               "depositer": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",

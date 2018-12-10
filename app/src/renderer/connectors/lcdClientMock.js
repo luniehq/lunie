@@ -35,7 +35,7 @@ let state = {
           amount: `2300`
         },
         {
-          denom: `steak`,
+          denom: `STAKE`,
           amount: `1000`
         }
       ],
@@ -135,7 +135,7 @@ let state = {
                 description: `This is a test proposal`,
                 initial_deposit: [
                   {
-                    denom: `steak`,
+                    denom: `STAKE`,
                     amount: `100`
                   }
                 ]
@@ -159,7 +159,7 @@ let state = {
                 proposal_id: `1`,
                 amount: [
                   {
-                    denom: `steak`,
+                    denom: `STAKE`,
                     amount: `100`
                   }
                 ]
@@ -180,7 +180,7 @@ let state = {
                 delegator_addr: addresses[0],
                 delegation: {
                   amount: `24`,
-                  denom: `steak`
+                  denom: `STAKE`
                 }
               }
             }
@@ -304,7 +304,7 @@ let state = {
   stakingParameters: {
     unbonding_time: `259200000000000`,
     max_validators: 100,
-    bond_denom: `steak`
+    bond_denom: `STAKE`
   },
   governanceParameters: {
     deposit: {
@@ -340,13 +340,13 @@ let state = {
       description: `Proposal description`,
       initial_deposit: [
         {
-          denom: `steak`,
+          denom: `STAKE`,
           amount: `100`
         }
       ],
       total_deposit: [
         {
-          denom: `steak`,
+          denom: `STAKE`,
           amount: `100`
         }
       ],
@@ -369,13 +369,13 @@ let state = {
       description: `custom text proposal description`,
       initial_deposit: [
         {
-          denom: `steak`,
+          denom: `STAKE`,
           amount: `200`
         }
       ],
       total_deposit: [
         {
-          denom: `steak`,
+          denom: `STAKE`,
           amount: `200`
         }
       ],
@@ -398,13 +398,13 @@ let state = {
       description: `custom text proposal description`,
       initial_deposit: [
         {
-          denom: `steak`,
+          denom: `STAKE`,
           amount: `20`
         }
       ],
       total_deposit: [
         {
-          denom: `steak`,
+          denom: `STAKE`,
           amount: `170`
         }
       ],
@@ -496,11 +496,11 @@ let state = {
         depositer: validators[0],
         amount: [
           {
-            denom: `steak`,
+            denom: `STAKE`,
             amount: `15`
           },
           {
-            denom: `steak`,
+            denom: `STAKE`,
             amount: `5`
           }
         ]
@@ -510,7 +510,7 @@ let state = {
         depositer: validators[1],
         amount: [
           {
-            denom: `steak`,
+            denom: `STAKE`,
             amount: `5`
           }
         ]
@@ -522,7 +522,7 @@ let state = {
         depositer: validators[0],
         amount: [
           {
-            denom: `steak`,
+            denom: `STAKE`,
             amount: `200`
           }
         ]
@@ -534,7 +534,7 @@ let state = {
         depositer: validators[0],
         amount: [
           {
-            denom: `steak`,
+            denom: `STAKE`,
             amount: `20`
           }
         ]
@@ -544,7 +544,7 @@ let state = {
         depositer: validators[1],
         amount: [
           {
-            denom: `steak`,
+            denom: `STAKE`,
             amount: `150`
           }
         ]
@@ -556,7 +556,7 @@ let state = {
         depositer: validators[0],
         amount: [
           {
-            denom: `steak`,
+            denom: `STAKE`,
             amount: `100`
           }
         ]
@@ -1168,7 +1168,7 @@ module.exports = {
     if (proposal.proposal_status === `DepositPeriod`) {
       // TODO: get min deposit denom from gov params instead of stake params
       let depositCoinAmt = proposal.total_deposit.find(coin => {
-        return coin.denom === `steak`
+        return coin.denom === `STAKE`
       }).amount
       // TODO: get min deposit amount from gov params
       if (parseInt(depositCoinAmt) >= 10) {

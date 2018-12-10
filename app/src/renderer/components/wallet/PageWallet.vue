@@ -115,7 +115,9 @@ export default {
         [`desc`, `asc`]
       )
       if (this.filters.balances.search.visible) {
-        return list.filter(coin => includes(coin.denom.toLowerCase(), query))
+        return list.filter(coin =>
+          includes(JSON.stringify(coin).toLowerCase(), query.toLowerCase())
+        )
       } else {
         return list
       }

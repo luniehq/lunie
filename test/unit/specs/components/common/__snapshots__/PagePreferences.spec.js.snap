@@ -44,7 +44,7 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                 <h2
                   class="total-atoms__value"
                 >
-                  0.0000…
+                  1,000.0000…
                 </h2>
               </div>
                
@@ -56,7 +56,7 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                 </h3>
                  
                 <h2>
-                  0.0000…
+                  1,000.0000…
                 </h2>
               </div>
             </div>
