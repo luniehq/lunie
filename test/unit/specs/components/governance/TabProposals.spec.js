@@ -9,7 +9,7 @@ describe(`TabProposals`, () => {
 
   beforeEach(() => {
     let instance = mount(TabProposals, {
-      doBefore: ({ store }) => {
+      doBefore: async ({ store }) => {
         store.commit(`setConnected`, true)
       },
       stubs: {
