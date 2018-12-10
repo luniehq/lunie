@@ -41,7 +41,9 @@ exports[`PageValidator has the expected html structure 1`] = `
                   Total Steak
                 </h3>
                  
-                <h2>
+                <h2
+                  class="total-atoms__value"
+                >
                   123.4568…
                 </h2>
               </div>
@@ -558,7 +560,9 @@ exports[`PageValidator shows a default avatar 1`] = `
                   Total Steak
                 </h3>
                  
-                <h2>
+                <h2
+                  class="total-atoms__value"
+                >
                   123.4568…
                 </h2>
               </div>
@@ -1057,7 +1061,9 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
                   Total Steak
                 </h3>
                  
-                <h2>
+                <h2
+                  class="total-atoms__value"
+                >
                   0.0000…
                 </h2>
               </div>
@@ -1272,7 +1278,9 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
                   Total atom
                 </h3>
                  
-                <h2>
+                <h2
+                  class="total-atoms__value"
+                >
                   100.0000…
                 </h2>
               </div>
@@ -1782,7 +1790,9 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
                   Total atom
                 </h3>
                  
-                <h2>
+                <h2
+                  class="total-atoms__value"
+                >
                   100.0000…
                 </h2>
               </div>
@@ -2224,7 +2234,9 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 1`]
                   Total atom
                 </h3>
                  
-                <h2>
+                <h2
+                  class="total-atoms__value"
+                >
                   100.0000…
                 </h2>
               </div>
@@ -2734,7 +2746,9 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 2`]
                   Total atom
                 </h3>
                  
-                <h2>
+                <h2
+                  class="total-atoms__value"
+                >
                   100.0000…
                 </h2>
               </div>

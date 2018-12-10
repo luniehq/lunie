@@ -41,7 +41,9 @@ exports[`PageSend disables sending if not connected 1`] = `
                   Total Steak
                 </h3>
                  
-                <h2>
+                <h2
+                  class="total-atoms__value"
+                >
                   1,000.0000…
                 </h2>
               </div>
@@ -455,7 +457,9 @@ exports[`PageSend has the expected html structure 1`] = `
                   Total Steak
                 </h3>
                  
-                <h2>
+                <h2
+                  class="total-atoms__value"
+                >
                   1,000.0000…
                 </h2>
               </div>
@@ -893,7 +897,9 @@ exports[`PageSend should show address required error 1`] = `
                   Total Steak
                 </h3>
                  
-                <h2>
+                <h2
+                  class="total-atoms__value"
+                >
                   0.0000…
                 </h2>
               </div>
@@ -1305,7 +1311,9 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                   Total Steak
                 </h3>
                  
-                <h2>
+                <h2
+                  class="total-atoms__value"
+                >
                   0.0000…
                 </h2>
               </div>
@@ -1717,7 +1725,9 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                   Total Steak
                 </h3>
                  
-                <h2>
+                <h2
+                  class="total-atoms__value"
+                >
                   0.0000…
                 </h2>
               </div>
@@ -2129,7 +2139,9 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
                   Total Steak
                 </h3>
                  
-                <h2>
+                <h2
+                  class="total-atoms__value"
+                >
                   0.0000…
                 </h2>
               </div>
@@ -2552,7 +2564,9 @@ exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
                   Total Steak
                 </h3>
                  
-                <h2>
+                <h2
+                  class="total-atoms__value"
+                >
                   0.0000…
                 </h2>
               </div>
@@ -3064,7 +3078,9 @@ exports[`PageSend should work without providing a default denom 1`] = `
                   Total Steak
                 </h3>
                  
-                <h2>
+                <h2
+                  class="total-atoms__value"
+                >
                   0.0000…
                 </h2>
               </div>
