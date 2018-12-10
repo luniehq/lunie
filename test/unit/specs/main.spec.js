@@ -105,15 +105,14 @@ const mockSpawnReturnValue = () => {
 
 let stdoutMocks = (path, args) => ({
   on: (type, cb) => {
+    if (type === `line`) {
+      cb(`(cert: "cert/cert.txt"...`)
+    }
     if (args[0] === `version` && type === `data`) {
       cb({ toString: () => `0.13.0` })
     }
   },
-  once: (type, cb) => {
-    if (type === `line`) {
-      cb(`(cert: "cert/cert.txt"...`)
-    }
-  }
+  removeAllListeners: () => {}
 })
 mockConfig()
 

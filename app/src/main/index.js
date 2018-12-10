@@ -459,7 +459,6 @@ const AxiosListener = axios => {
 
 // check if our node is reachable and the SDK version is compatible with the local one
 async function pickAndConnect() {
-  console.log(`X`)
   let nodeURL = config.node_lcd
   connecting = true
   let certificate
@@ -470,7 +469,6 @@ async function pickAndConnect() {
     handleCrash(error)
     return
   }
-  console.log(`XX`)
 
   // make the tls certificate available to the view process
   // https://en.wikipedia.org/wiki/Certificate_authority
@@ -479,7 +477,6 @@ async function pickAndConnect() {
     httpsAgent: new https.Agent({ ca: certificate })
   })
 
-  console.log(`XXX`)
   let compatible, nodeVersion
   try {
     const client = LcdClient(axiosInstance, config.node_lcd)
@@ -488,7 +485,6 @@ async function pickAndConnect() {
     compatible = out.compatible
     nodeVersion = out.nodeVersion
   } catch (error) {
-    console.log(`XXXX`)
     logError(
       `Error in getting node SDK version, assuming node is incompatible. Error:`,
       error
