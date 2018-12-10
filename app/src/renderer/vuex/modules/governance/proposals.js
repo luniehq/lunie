@@ -1,4 +1,4 @@
-import Raven from "raven-js"
+import * as Sentry from "@sentry/browser"
 import Vue from "vue"
 
 export default ({ node }) => {
@@ -55,7 +55,7 @@ export default ({ node }) => {
           title: `Error fetching proposals`,
           body: error.message
         })
-        Raven.captureException(error)
+        Sentry.captureException(error)
         state.error = error
       }
     },
@@ -72,7 +72,7 @@ export default ({ node }) => {
           title: `Error querying proposal with id #${proposal_id}`,
           body: error.message
         })
-        Raven.captureException(error)
+        Sentry.captureException(error)
         state.error = error
       }
     },

@@ -1,5 +1,5 @@
 import axios from "axios"
-import Raven from "raven-js"
+import * as Sentry from "@sentry/browser"
 
 export default ({}) => {
   const emptyState = {
@@ -60,7 +60,7 @@ export default ({}) => {
           title: `Error fetching keybase information for validators`,
           body: error.message
         })
-        Raven.captureException(error)
+        Sentry.captureException(error)
         state.error = error
       }
     }

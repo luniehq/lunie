@@ -12,7 +12,7 @@ describe(`App Start`, () => {
     google_analytics_uid: `123`,
     sentry_dsn_public: `456`
   }))
-  jest.mock(`raven-js`, () => ({
+  jest.mock(`@sentry/browser`, () => ({
     config: () => {
       return { install: () => {} }
     },
@@ -81,8 +81,8 @@ describe(`App Start`, () => {
     mockDone()
   })
 
-  it(`does not set Raven dsn if analytics is disabled`, mockDone => {
-    jest.mock(`raven-js`, () => ({
+  it(`does not set Sentry dsn if analytics is disabled`, mockDone => {
+    jest.mock(`@sentry/browser`, () => ({
       config: dsn => {
         expect(dsn).toBe(``)
         return {

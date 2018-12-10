@@ -1,4 +1,4 @@
-import Raven from "raven-js"
+import * as Sentry from "@sentry/browser"
 import { ipcRenderer, remote } from "electron"
 import enableGoogleAnalytics from "../../google-analytics.js"
 const config = remote.getGlobal(`config`)
@@ -65,7 +65,7 @@ export default ({ node }) => {
         let keys = await node.keys.values()
         commit(`setAccounts`, keys)
       } catch (error) {
-        Raven.captureException(error)
+        Sentry.captureException(error)
         commit(`notifyError`, {
           title: `Couldn't read keys`,
           body: error.message
@@ -147,12 +147,10 @@ export default ({ node }) => {
         state.errorCollection
       )
 
-      Raven.uninstall()
-        .config(state.errorCollection ? config.sentry_dsn_public : ``)
-        .install()
       if (state.errorCollection) {
-        console.log(`Analytics enabled in browser`)
+        Sentry.init({ dsn: config.sentry_dsn })
         enableGoogleAnalytics(config.google_analytics_uid)
+        console.log(`Analytics and error reporting have been enabled`)
         window.analytics &&
           window.analytics.send(`pageview`, {
             dl: window.location.pathname

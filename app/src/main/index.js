@@ -7,7 +7,7 @@ const https = require(`https`)
 let { join, relative } = require(`path`)
 let childProcess = require(`child_process`)
 let semver = require(`semver`)
-let Raven = require(`raven`)
+const Sentry = require("@sentry/node")
 const readline = require(`readline`)
 let axios = require(`axios`)
 
@@ -222,7 +222,7 @@ function startProcess(name, args, env) {
       console.error(...errorMessage) // also output to console for easier debugging
       handleCrash(error)
 
-      Raven.captureException(error)
+      Sentry.captureException(error)
     }
   })
 
@@ -382,12 +382,12 @@ if (!TEST) {
   // on uncaught exceptions we wait so the sentry event can be sent
   process.on(`uncaughtException`, async function(error) {
     logError(`[Uncaught Exception]`, error)
-    Raven.captureException(error)
+    Sentry.captureException(error)
     handleCrash(error)
   })
   process.on(`unhandledRejection`, async function(error) {
     logError(`[Unhandled Promise Rejection]`, error)
-    Raven.captureException(error)
+    Sentry.captureException(error)
     handleCrash(error)
   })
 }
@@ -399,11 +399,13 @@ const eventHandlers = {
   },
 
   "error-collection": (event, optin) => {
-    Raven.uninstall()
-      .config(optin ? config.sentry_dsn : ``, {
-        captureUnhandledRejections: false
+    if (optin) {
+      Sentry.init({
+        dsn: config.sentry_dsn,
+        release: `voyager@0.8001.1`
       })
-      .install()
+      Sentry.captureException(new Error("Good bye"))
+    }
   },
 
   mocked: value => {
@@ -595,8 +597,12 @@ const checkGaiaCompatibility = async gaiacliVersionPath => {
 }
 
 async function main() {
-  // we only enable error collection after users opted in
-  Raven.config(``, { captureUnhandledRejections: false }).install()
+  // Sentry is used for automatic error reporting. It is turned off by default.
+  Sentry.init({
+    dsn: config.sentry_dsn,
+    release: `voyager@0.8001.1`
+  })
+  Sentry.captureException(new Error("TESTING SENTRY"))
 
   let appVersionPath = join(root, `app_version`)
   let genesisPath = join(root, `genesis.json`)

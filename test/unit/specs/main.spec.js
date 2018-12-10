@@ -6,11 +6,11 @@ jest.mock(`readline`, () => ({
   })
 }))
 
-jest.mock(`raven`, () => ({
-  config: () => ({ install: () => {} }),
-  uninstall: () => ({ config: () => ({ install: () => {} }) }),
-  captureException: () => {}
-}))
+// jest.mock(`raven`, () => ({
+//   config: () => ({ install: () => {} }),
+//   uninstall: () => ({ config: () => ({ install: () => {} }) }),
+//   captureException: () => {}
+// }))
 
 // prevents warnings from repeated event handling
 process.setMaxListeners(1000)
