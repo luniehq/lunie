@@ -208,21 +208,23 @@ exports[`TableProposals should filter the proposals 1`] = `
             class="data-table__row__info__container"
           >
             <span
-              class="data-table__row__info__container__status red"
-            />
+              class="data-table__row__info__container__status material-icons"
+            >
+              checkmark
+            </span>
              
             <a
               class="data-table__row__info__container__name"
-              href="#/governance/6"
+              href="#/governance/1"
             >
-              Rejected proposal
+              Proposal Title
             </a>
              
             <p
               class="data-table__row__info__container__description"
             >
               
-        this proposal was rejected
+        Proposal description
       
             </p>
           </div>
