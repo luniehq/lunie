@@ -22,10 +22,10 @@ describe(`Module: Votes`, () => {
   it(`adds votes to state`, () => {
     let { mutations, state } = module
     mutations.setProposalVotes(state, {
-      proposalId: proposals[0].proposal_id,
+      proposalId: proposals[`1`].proposal_id,
       votes
     })
-    expect(state.votes[proposals[0].proposal_id]).toEqual(votes)
+    expect(state.votes[proposals[`1`].proposal_id]).toEqual(votes)
   })
 
   it(`fetches all votes from a proposal`, async () => {
@@ -36,8 +36,7 @@ describe(`Module: Votes`, () => {
     })
     let { actions, state } = module
     let commit = jest.fn()
-    proposals.forEach(async (proposal, i) => {
-      let proposalId = proposal.proposal_id
+    Object.keys(proposals).forEach(async (proposalId, i) => {
       await actions.getProposalVotes(
         { state, commit, rootState: mockRootState },
         proposalId
@@ -65,26 +64,27 @@ describe(`Module: Votes`, () => {
       }
     }
     let dispatch = jest.fn()
-    proposals.forEach(async (proposal, i) => {
+    const proposalIds = Object.keys(proposals)
+    proposalIds.forEach(async (proposal_id, i) => {
       await actions.submitVote(
         { rootState, dispatch },
-        { proposal_id: proposal.proposal_id, option: `Yes` }
+        { proposal_id, option: `Yes` }
       )
       expect(dispatch.mock.calls[i]).toEqual([
         `sendTx`,
         {
           type: `submitProposalVote`,
-          to: proposal.proposal_id,
-          proposal_id: proposal.proposal_id,
+          to: proposal_id,
+          proposal_id,
           voter: addresses[0],
           option: `Yes`
         }
       ])
 
       jest.runAllTimers()
-      expect(dispatch.mock.calls[i + proposals.length]).toEqual([
+      expect(dispatch.mock.calls[i + proposalIds.length]).toEqual([
         `getProposalVotes`,
-        proposal.proposal_id
+        proposal_id
       ])
     })
   })
