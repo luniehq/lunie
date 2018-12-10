@@ -30,6 +30,7 @@
   min-width: 122px;
   width: 100%;
   padding: 0.5rem;
+  text-align: left;
 }
 .data-table td {
   min-width: 122px;
