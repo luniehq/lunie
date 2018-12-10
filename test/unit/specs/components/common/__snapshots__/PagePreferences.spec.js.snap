@@ -38,11 +38,13 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                 class="total-atoms top-section"
               >
                 <h3>
-                  Total Steak
+                  Total STAKE
                 </h3>
                  
-                <h2>
-                  1,000.0000…
+                <h2
+                  class="total-atoms__value"
+                >
+                  0.0000…
                 </h2>
               </div>
                
@@ -50,11 +52,11 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                 class="unbonded-atoms top-section"
               >
                 <h3>
-                  Available Steak
+                  Available STAKE
                 </h3>
                  
                 <h2>
-                  1,000.0000…
+                  0.0000…
                 </h2>
               </div>
             </div>

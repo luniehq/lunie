@@ -38,10 +38,12 @@ exports[`PageTransactions has the expected html structure 1`] = `
                 class="total-atoms top-section"
               >
                 <h3>
-                  Total Steak
+                  Total STAKE
                 </h3>
                  
-                <h2>
+                <h2
+                  class="total-atoms__value"
+                >
                   0.0000…
                 </h2>
               </div>
@@ -50,7 +52,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
                 class="unbonded-atoms top-section"
               >
                 <h3>
-                  Available Steak
+                  Available STAKE
                 </h3>
                  
                 <h2>
@@ -167,7 +169,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
      
     <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
-      bonding-denom="Steak"
+      bonding-denom="STAKE"
       proposals-url="/governance/proposals"
       transaction="[object Object]"
       validator-url="/staking/validators"
@@ -175,7 +177,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
     />
     <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
-      bonding-denom="Steak"
+      bonding-denom="STAKE"
       proposals-url="/governance/proposals"
       transaction="[object Object]"
       validator-url="/staking/validators"
@@ -183,7 +185,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
     />
     <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
-      bonding-denom="Steak"
+      bonding-denom="STAKE"
       proposals-url="/governance/proposals"
       transaction="[object Object]"
       validator-url="/staking/validators"
@@ -191,7 +193,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
     />
     <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
-      bonding-denom="Steak"
+      bonding-denom="STAKE"
       proposals-url="/governance/proposals"
       transaction="[object Object]"
       validator-url="/staking/validators"
@@ -199,7 +201,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
     />
     <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
-      bonding-denom="Steak"
+      bonding-denom="STAKE"
       proposals-url="/governance/proposals"
       transaction="[object Object]"
       validator-url="/staking/validators"
@@ -267,10 +269,12 @@ exports[`PageTransactions should filter the transactions 1`] = `
                 class="total-atoms top-section"
               >
                 <h3>
-                  Total Steak
+                  Total STAKE
                 </h3>
                  
-                <h2>
+                <h2
+                  class="total-atoms__value"
+                >
                   0.0000…
                 </h2>
               </div>
@@ -279,7 +283,7 @@ exports[`PageTransactions should filter the transactions 1`] = `
                 class="unbonded-atoms top-section"
               >
                 <h3>
-                  Available Steak
+                  Available STAKE
                 </h3>
                  
                 <h2>
@@ -440,7 +444,7 @@ exports[`PageTransactions should filter the transactions 1`] = `
      
     <tm-li-any-transaction
       address="tb1d4u5zerywfjhxuc9nudvw"
-      bonding-denom="Steak"
+      bonding-denom="STAKE"
       proposals-url="/governance/proposals"
       transaction="[object Object]"
       validator-url="/staking/validators"

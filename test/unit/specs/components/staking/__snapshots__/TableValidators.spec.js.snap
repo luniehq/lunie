@@ -9,7 +9,7 @@ exports[`TableValidators has the expected html structure 1`] = `
                <a class=\\"sort-by-link\\">Moniker</a>
             </th>
             <th class=\\"sort-by your-votes\\">
-               <a class=\\"sort-by-link\\">Delegated Steak</a>
+               <a class=\\"sort-by-link\\">Delegated STAKE</a>
             </th>
             <th class=\\"sort-by your-rewards\\">
                <a class=\\"sort-by-link\\">Rewards</a>
@@ -158,7 +158,7 @@ exports[`TableValidators should filter the delegates 1`] = `
           <a
             class="sort-by-link"
           >
-            Delegated Steak
+            Delegated STAKE
           </a>
         </th>
         <th

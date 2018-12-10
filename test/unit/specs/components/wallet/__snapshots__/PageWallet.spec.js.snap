@@ -38,11 +38,13 @@ exports[`PageWallet has the expected html structure 1`] = `
                 class="total-atoms top-section"
               >
                 <h3>
-                  Total Steak
+                  Total STAKE
                 </h3>
                  
-                <h2>
-                  1,014.0000…
+                <h2
+                  class="total-atoms__value"
+                >
+                  14.0000…
                 </h2>
               </div>
                
@@ -50,11 +52,11 @@ exports[`PageWallet has the expected html structure 1`] = `
                 class="unbonded-atoms top-section"
               >
                 <h3>
-                  Available Steak
+                  Available STAKE
                 </h3>
                  
                 <h2>
-                  1,000.0000…
+                  0.0000…
                 </h2>
               </div>
             </div>
@@ -415,11 +417,13 @@ exports[`PageWallet should filter the balances 1`] = `
                 class="total-atoms top-section"
               >
                 <h3>
-                  Total Steak
+                  Total STAKE
                 </h3>
                  
-                <h2>
-                  1,014.0000…
+                <h2
+                  class="total-atoms__value"
+                >
+                  14.0000…
                 </h2>
               </div>
                
@@ -427,11 +431,11 @@ exports[`PageWallet should filter the balances 1`] = `
                 class="unbonded-atoms top-section"
               >
                 <h3>
-                  Available Steak
+                  Available STAKE
                 </h3>
                  
                 <h2>
-                  1,000.0000…
+                  0.0000…
                 </h2>
               </div>
             </div>
