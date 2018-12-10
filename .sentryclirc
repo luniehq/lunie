@@ -1,0 +1,6 @@
+[defaults]
+org=tendermint
+project=cosmos-voyager
+
+[auth]
+token=57e17935b9b2459f9da18bdf65367a264d6e9e1ac6c74f59b299dec381307635

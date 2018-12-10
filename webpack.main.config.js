@@ -36,6 +36,7 @@ let mainConfig = {
   },
   output: {
     filename: `[name].js`,
+    sourceMapFilename: "[name].js.map",
     libraryTarget: `commonjs2`,
     path: path.join(__dirname, `app/dist`)
   },

@@ -8,6 +8,7 @@ const fs = require(`fs-extra`)
 
 const HtmlWebpackPlugin = require(`html-webpack-plugin`)
 const VueLoaderPlugin = require(`vue-loader/lib/plugin`)
+const SentryWebpackPlugin = require("@sentry/webpack-plugin")
 
 function resolve(dir) {
   return path.join(__dirname, dir)
@@ -101,10 +102,16 @@ let rendererConfig = {
     // put all modules in node_modules in chunk
     new webpack.optimize.CommonsChunkPlugin({
       name: `vendor`
+    }),
+    new SentryWebpackPlugin({
+      include: "./dist",
+      ignoreFile: ".gitignore",
+      ignore: ["node_modules", "webpack.main.config.js"]
     })
   ],
   output: {
     filename: `[name].js`,
+    sourceMapFilename: "[name].js.map",
     libraryTarget: `commonjs2`,
     path: path.join(__dirname, `app/dist`)
   },

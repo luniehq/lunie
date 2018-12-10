@@ -1,0 +1,5 @@
+{
+  "productName": "Cosmos Voyager",
+  "version": "0.8001.1",
+  "main": "./dist/main.js"
+}
