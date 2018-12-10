@@ -122,7 +122,7 @@ describe(`PageProposal`, () => {
   })
 
   describe(`Modal onVote`, () => {
-    it(`enables voting if the proposal is on the 'VotingPeriod'`, () => {
+    it(`enables voting if the proposal is on the 'VotingPeriod'`, async () => {
       let proposal = lcdClientMock.state.proposals[1]
       let instance = mount(PageProposal, {
         localVue,
@@ -140,8 +140,13 @@ describe(`PageProposal`, () => {
       store = instance.store
       wrapper.update()
 
+      wrapper.vm.$store.dispatch = jest.fn()
       let voteBtn = wrapper.find(`#vote-btn`)
       voteBtn.trigger(`click`)
+
+      expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
+        [`getProposalVotes`, proposal.proposal_id]
+      ])
       expect(wrapper.contains(ModalVote)).toEqual(true)
       expect(voteBtn.html()).not.toContain(`disabled="disabled"`)
     })
