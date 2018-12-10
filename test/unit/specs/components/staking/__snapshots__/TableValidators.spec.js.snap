@@ -34,13 +34,15 @@ exports[`TableValidators has the expected html structure 1`] = `
                <img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"data-table__row__info__image data-table__row__info__image--no-img\\">
                <div class=\\"data-table__row__info__container\\">
                   <span class=\\"data-table__row__info__container__status yellow\\"></span><a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au\\" class=\\"data-table__row__info__container__name li-validator-validator \\">good_greg</a>
-                  <div class=\\"short-bech32 data-table__row__info__container__description\\">
-                     <div id=\\"address\\" class=\\"address\\">
-                        cosmosvaladdr…n3au  
-                     </div>
+                  <div class=\\"data-table__row__info__container__description\\">
+                     <div class=\\"short-bech32\\">
+                        <div id=\\"address\\" class=\\"address\\">
+                           cosmosvaladdr…n3au  
+                        </div>
             <div class=\\"copied\\">
                <i class=\\"material-icons\\">check</i><span>Copied</span>
             </div>
+</div>
 </div>
 </div>
 </td>
@@ -68,13 +70,15 @@ exports[`TableValidators has the expected html structure 1`] = `
             <img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"data-table__row__info__image data-table__row__info__image--no-img\\">
             <div class=\\"data-table__row__info__container\\">
                <span class=\\"data-table__row__info__container__status red\\"></span><a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n\\" class=\\"data-table__row__info__container__name li-validator-validator \\">herr_schmidt_revoked</a>
-               <div class=\\"short-bech32 data-table__row__info__container__description\\">
-                  <div id=\\"address\\" class=\\"address\\">
-                     cosmosvaladdr…rg7n  
-                  </div>
+               <div class=\\"data-table__row__info__container__description\\">
+                  <div class=\\"short-bech32\\">
+                     <div id=\\"address\\" class=\\"address\\">
+                        cosmosvaladdr…rg7n  
+                     </div>
             <div class=\\"copied\\">
                <i class=\\"material-icons\\">check</i><span>Copied</span>
             </div>
+</div>
 </div>
 </div>
 </td>
@@ -102,13 +106,15 @@ exports[`TableValidators has the expected html structure 1`] = `
             <img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"data-table__row__info__image data-table__row__info__image--no-img\\">
             <div class=\\"data-table__row__info__container\\">
                <span class=\\"data-table__row__info__container__status yellow\\"></span><a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw\\" class=\\"data-table__row__info__container__name li-validator-validator \\">mr_mounty</a>
-               <div class=\\"short-bech32 data-table__row__info__container__description\\">
-                  <div id=\\"address\\" class=\\"address\\">
-                     cosmosvaladdr…8yqw  
-                  </div>
+               <div class=\\"data-table__row__info__container__description\\">
+                  <div class=\\"short-bech32\\">
+                     <div id=\\"address\\" class=\\"address\\">
+                        cosmosvaladdr…8yqw  
+                     </div>
             <div class=\\"copied\\">
                <i class=\\"material-icons\\">check</i><span>Copied</span>
             </div>
+</div>
 </div>
 </div>
 </td>
@@ -240,28 +246,32 @@ exports[`TableValidators should filter the delegates 1`] = `
             </a>
              
             <div
-              class="short-bech32 data-table__row__info__container__description"
+              class="data-table__row__info__container__description"
             >
               <div
-                class="address"
-                id="address"
+                class="short-bech32"
               >
-                
+                <div
+                  class="address"
+                  id="address"
+                >
+                  
     cosmosvaladdr…8yqw
   
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
+                </div>
+                 
+                <div
+                  class="copied"
                 >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
+                  <i
+                    class="material-icons"
+                  >
+                    check
+                  </i>
+                  <span>
+                    Copied
+                  </span>
+                </div>
               </div>
             </div>
           </div>

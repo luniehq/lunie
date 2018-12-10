@@ -29,10 +29,9 @@
           class="data-table__row__info__container__name"
           >{{ validator.description.moniker }}</router-link
         >
-        <short-bech32
-          :address="validator.operator_address"
-          class="data-table__row__info__container__description"
-        />
+        <div class="data-table__row__info__container__description">
+          <short-bech32 :address="validator.operator_address" />
+        </div>
       </div>
     </td>
     <td class="li-validator__delegated-steak">

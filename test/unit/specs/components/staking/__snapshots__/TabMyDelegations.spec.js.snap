@@ -160,28 +160,32 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
                 </a>
                  
                 <div
-                  class="short-bech32 data-table__row__info__container__description"
+                  class="data-table__row__info__container__description"
                 >
                   <div
-                    class="address"
-                    id="address"
+                    class="short-bech32"
                   >
-                    
+                    <div
+                      class="address"
+                      id="address"
+                    >
+                      
     cosmosvaladdr…8yqw
   
-                  </div>
-                   
-                  <div
-                    class="copied"
-                  >
-                    <i
-                      class="material-icons"
+                    </div>
+                     
+                    <div
+                      class="copied"
                     >
-                      check
-                    </i>
-                    <span>
-                      Copied
-                    </span>
+                      <i
+                        class="material-icons"
+                      >
+                        check
+                      </i>
+                      <span>
+                        Copied
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -368,28 +372,32 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
                 </a>
                  
                 <div
-                  class="short-bech32 data-table__row__info__container__description"
+                  class="data-table__row__info__container__description"
                 >
                   <div
-                    class="address"
-                    id="address"
+                    class="short-bech32"
                   >
-                    
+                    <div
+                      class="address"
+                      id="address"
+                    >
+                      
     cosmosvaladdr…n3au
   
-                  </div>
-                   
-                  <div
-                    class="copied"
-                  >
-                    <i
-                      class="material-icons"
+                    </div>
+                     
+                    <div
+                      class="copied"
                     >
-                      check
-                    </i>
-                    <span>
-                      Copied
-                    </span>
+                      <i
+                        class="material-icons"
+                      >
+                        check
+                      </i>
+                      <span>
+                        Copied
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -463,28 +471,32 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
                 </a>
                  
                 <div
-                  class="short-bech32 data-table__row__info__container__description"
+                  class="data-table__row__info__container__description"
                 >
                   <div
-                    class="address"
-                    id="address"
+                    class="short-bech32"
                   >
-                    
+                    <div
+                      class="address"
+                      id="address"
+                    >
+                      
     cosmosvaladdr…rg7n
   
-                  </div>
-                   
-                  <div
-                    class="copied"
-                  >
-                    <i
-                      class="material-icons"
+                    </div>
+                     
+                    <div
+                      class="copied"
                     >
-                      check
-                    </i>
-                    <span>
-                      Copied
-                    </span>
+                      <i
+                        class="material-icons"
+                      >
+                        check
+                      </i>
+                      <span>
+                        Copied
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -704,28 +716,32 @@ exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
                 </a>
                  
                 <div
-                  class="short-bech32 data-table__row__info__container__description"
+                  class="data-table__row__info__container__description"
                 >
                   <div
-                    class="address"
-                    id="address"
+                    class="short-bech32"
                   >
-                    
+                    <div
+                      class="address"
+                      id="address"
+                    >
+                      
     cosmosvaladdr…n3au
   
-                  </div>
-                   
-                  <div
-                    class="copied"
-                  >
-                    <i
-                      class="material-icons"
+                    </div>
+                     
+                    <div
+                      class="copied"
                     >
-                      check
-                    </i>
-                    <span>
-                      Copied
-                    </span>
+                      <i
+                        class="material-icons"
+                      >
+                        check
+                      </i>
+                      <span>
+                        Copied
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -799,28 +815,32 @@ exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
                 </a>
                  
                 <div
-                  class="short-bech32 data-table__row__info__container__description"
+                  class="data-table__row__info__container__description"
                 >
                   <div
-                    class="address"
-                    id="address"
+                    class="short-bech32"
                   >
-                    
+                    <div
+                      class="address"
+                      id="address"
+                    >
+                      
     cosmosvaladdr…rg7n
   
-                  </div>
-                   
-                  <div
-                    class="copied"
-                  >
-                    <i
-                      class="material-icons"
+                    </div>
+                     
+                    <div
+                      class="copied"
                     >
-                      check
-                    </i>
-                    <span>
-                      Copied
-                    </span>
+                      <i
+                        class="material-icons"
+                      >
+                        check
+                      </i>
+                      <span>
+                        Copied
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
