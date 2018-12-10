@@ -271,15 +271,14 @@ async function startLCD(home, nodeURL) {
     ])
     logProcess(child, join(home, `lcd.log`))
 
-    async function certReader(line) {
+    child.stdout.on(`line`, line => {
       if (/\(cert: "(.+?)"/.test(line)) {
         const certPath = /\(cert: "(.+?)"/.exec(line)[1]
         resolve({ ca: fs.readFileSync(certPath, `utf8`), process: child })
         lcdStarted = true
-        child.stdout.off(`line`, certReader)
+        child.stdout.removeAllListeners(`line`)
       }
-    }
-    child.stdout.on(`line`, certReader)
+    })
 
     child.stderr.on(`line`, error => {
       let errorMessage = `The gaiacli rest-server (LCD) experienced an error:\n${error.toString(

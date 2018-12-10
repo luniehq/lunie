@@ -186,7 +186,7 @@ function startLocalNode(
   nodeOneId = ``
 ) {
   return new Promise((resolve, reject) => {
-    let command = `${nodeBinary} start --home ${nodeHome}`
+    let command = `${nodeBinary} start --home ${nodeHome} --minimum_fees 1STAKE`
     if (number > 1) {
       // setup different ports
       command += ` --p2p.laddr=tcp://0.0.0.0:${defaultStartPort -
