@@ -42,7 +42,7 @@ global.config.development = DEV || TEST
 // TODO default logging or default disable logging?
 const LOGGING = JSON.parse(process.env.LOGGING || `true`) !== false
 const winURL = DEV
-  ? `http://localhost:${config.wds_port}`
+  ? `https://localhost:${config.wds_port}`
   : `file://${__dirname}/index.html`
 const LCD_PORT = DEV ? config.lcd_port : config.lcd_port_prod
 const MOCK =
@@ -123,7 +123,11 @@ function createWindow() {
     darkTheme: true,
     titleBarStyle: `hidden`,
     backgroundColor: `#15182d`,
-    webPreferences: { webSecurity: false }
+    webPreferences: {
+      allowRunningInsecureContent: true,
+      nodeIntegration: true,
+      webSecurity: false
+    }
   })
   mainWindow.once(`ready-to-show`, () => {
     setTimeout(() => {

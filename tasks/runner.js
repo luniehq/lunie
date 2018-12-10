@@ -45,7 +45,7 @@ function startRendererServer() {
   return new Promise(resolve => {
     console.log(`${YELLOW}Starting webpack-dev-server...\n${END}`)
     let child = run(
-      `webpack-dev-server --hot --colors --config webpack.renderer.config.js --port ${
+      `webpack-dev-server --hot --colors --config webpack.renderer.config.js --https --port ${
         config.wds_port
       } --content-base app/dist`,
       YELLOW,
