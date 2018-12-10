@@ -255,17 +255,11 @@ export default {
     async onVote() {
       this.showModalVote = true
 
-      try {
-        await this.$store.dispatch(`getProposalVotes`, this.proposalId)
-        this.lastVote =
-          this.votes[this.proposalId] &&
-          this.votes[this.proposalId].find(e => e.voter === this.wallet.address)
-      } catch ({ message }) {
-        this.$store.commit(`notifyError`, {
-          title: `Error while getting votes for proposal #${this.proposalId}`,
-          body: message
-        })
-      }
+      // The error is already handled with notifyError in votes.js
+      await this.$store.dispatch(`getProposalVotes`, this.proposalId)
+      this.lastVote =
+        this.votes[this.proposalId] &&
+        this.votes[this.proposalId].find(e => e.voter === this.wallet.address)
     },
     onDeposit() {
       this.showModalDeposit = true
