@@ -271,11 +271,15 @@ async function startLCD(home, nodeURL) {
     ])
     logProcess(child, join(home, `lcd.log`))
 
-    child.stdout.once(`line`, async line => {
-      const certPath = /\(cert: "(.+?)"/.exec(line)[1]
-      resolve({ ca: fs.readFileSync(certPath, `utf8`), process: child })
-      lcdStarted = true
-    })
+    async function certReader(line) {
+      if (/\(cert: "(.+?)"/.test(line)) {
+        const certPath = /\(cert: "(.+?)"/.exec(line)[1]
+        resolve({ ca: fs.readFileSync(certPath, `utf8`), process: child })
+        lcdStarted = true
+        child.stdout.off(`line`, certReader)
+      }
+    }
+    child.stdout.on(`line`, certReader)
 
     child.stderr.on(`line`, error => {
       let errorMessage = `The gaiacli rest-server (LCD) experienced an error:\n${error.toString(
@@ -456,6 +460,7 @@ const AxiosListener = axios => {
 
 // check if our node is reachable and the SDK version is compatible with the local one
 async function pickAndConnect() {
+  console.log(`X`)
   let nodeURL = config.node_lcd
   connecting = true
   let certificate
@@ -466,6 +471,7 @@ async function pickAndConnect() {
     handleCrash(error)
     return
   }
+  console.log(`XX`)
 
   // make the tls certificate available to the view process
   // https://en.wikipedia.org/wiki/Certificate_authority
@@ -474,6 +480,7 @@ async function pickAndConnect() {
     httpsAgent: new https.Agent({ ca: certificate })
   })
 
+  console.log(`XXX`)
   let compatible, nodeVersion
   try {
     const client = LcdClient(axiosInstance, config.node_lcd)
@@ -482,6 +489,7 @@ async function pickAndConnect() {
     compatible = out.compatible
     nodeVersion = out.nodeVersion
   } catch (error) {
+    console.log(`XXXX`)
     logError(
       `Error in getting node SDK version, assuming node is incompatible. Error:`,
       error

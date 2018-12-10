@@ -79,7 +79,7 @@ export default {
           type,
           initial_deposit: [
             {
-              denom: this.bondingDenom.toLowerCase(),
+              denom: this.bondingDenom,
               amount: String(amount)
             }
           ],

@@ -61,7 +61,7 @@ async function initGenesis(
     address,
     coins: [
       {
-        denom: `steak`,
+        denom: `STAKE`,
         amount: `150`
       },
       {
@@ -74,7 +74,8 @@ async function initGenesis(
 
   await makeExecWithInputs(
     `${nodeBinary} gentx --name ${keyName} --home ${nodeHomeDir} --home-client ${clientHomeDir}`,
-    [password]
+    [password],
+    false
   )
 
   await makeExec(`${nodeBinary} collect-gentxs --home ${nodeHomeDir}`)
@@ -216,7 +217,7 @@ function startLocalNode(
     function listener(data) {
       let msg = data.toString()
 
-      if (msg.includes(`Block{`)) {
+      if (msg.includes(`Executed block`)) {
         localnodeProcess.stdout.removeListener(`data`, listener)
         console.log(`Node ` + number + ` is running`)
         clearTimeout(timeout)
@@ -260,7 +261,10 @@ function makeExecWithInputs(command, inputs = [], json = true) {
     })
 
     let resolved = false
-    child.stdout.once(`data`, data => {
+    // child.stderr.on(`data`, data => {
+    //   console.error(`ERROR: `, data.toString())
+    // })
+    child.stderr.once(`data`, data => {
       if (resolved) return
       resolved = true
       resolve(json ? JSON.parse(data) : data)
