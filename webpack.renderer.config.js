@@ -8,7 +8,7 @@ const fs = require(`fs-extra`)
 
 const HtmlWebpackPlugin = require(`html-webpack-plugin`)
 const VueLoaderPlugin = require(`vue-loader/lib/plugin`)
-const SentryWebpackPlugin = require("@sentry/webpack-plugin")
+const SentryWebpackPlugin = require(`@sentry/webpack-plugin`)
 
 function resolve(dir) {
   return path.join(__dirname, dir)
