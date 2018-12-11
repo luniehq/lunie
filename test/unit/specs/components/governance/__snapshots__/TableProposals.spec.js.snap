@@ -2,7 +2,7 @@
 
 exports[`TableProposals has the expected html structure 1`] = `
 "<div>
-   <table>
+   <table class=\\"data-table\\">
       <thead>
          <tr class=\\"panel-sort-container\\">
             <th class=\\"sort-by proposal_title\\">
@@ -26,15 +26,12 @@ exports[`TableProposals has the expected html structure 1`] = `
 </tr>
 </thead>
       <tbody>
-         <tr class=\\"li-proposal\\">
-            <td class=\\"li-proposal__value\\">
-               <div class=\\"li-proposal__title-container\\">
-                  <span class=\\"validator-profile__status red\\"></span>
-                  <h2>
-                     <a href=\\"#/governance/6\\" class=\\"\\">Rejected proposal</a>
-                  </h2>
-                  <p class=\\"li-proposal__description\\">
-                     this proposal was rejected
+         <tr class=\\"data-table__row li-proposal\\">
+            <td class=\\"data-table__row__info\\">
+               <div class=\\"data-table__row__info__container\\">
+                  <span class=\\"data-table__row__info__container__status red\\"></span><a href=\\"#/governance/6\\" class=\\"data-table__row__info__container__name\\">Rejected proposal</a>
+                  <p class=\\"data-table__row__info__container__description\\">
+                     this proposal was rejected      
                   </p>
 </div>
 </td>
@@ -54,15 +51,12 @@ exports[`TableProposals has the expected html structure 1`] = `
             20  
          </td>
 </tr>
-      <tr class=\\"li-proposal\\">
-         <td class=\\"li-proposal__value\\">
-            <div class=\\"li-proposal__title-container\\">
-               <span class=\\"validator-profile__status yellow\\"></span>
-               <h2>
-                  <a href=\\"#/governance/5\\" class=\\"\\">Custom text proposal</a>
-               </h2>
-               <p class=\\"li-proposal__description\\">
-                  custom text proposal description
+      <tr class=\\"data-table__row li-proposal\\">
+         <td class=\\"data-table__row__info\\">
+            <div class=\\"data-table__row__info__container\\">
+               <span class=\\"data-table__row__info__container__status yellow\\"></span><a href=\\"#/governance/5\\" class=\\"data-table__row__info__container__name\\">Custom text proposal</a>
+               <p class=\\"data-table__row__info__container__description\\">
+                  custom text proposal description      
                </p>
 </div>
 </td>
@@ -82,15 +76,12 @@ exports[`TableProposals has the expected html structure 1`] = `
             0  
          </td>
 </tr>
-      <tr class=\\"li-proposal\\">
-         <td class=\\"li-proposal__value\\">
-            <div class=\\"li-proposal__title-container\\">
-               <span class=\\"validator-profile__status green\\"></span>
-               <h2>
-                  <a href=\\"#/governance/2\\" class=\\"\\">VotingPeriod proposal</a>
-               </h2>
-               <p class=\\"li-proposal__description\\">
-                  custom text proposal description
+      <tr class=\\"data-table__row li-proposal\\">
+         <td class=\\"data-table__row__info\\">
+            <div class=\\"data-table__row__info__container\\">
+               <span class=\\"data-table__row__info__container__status green\\"></span><a href=\\"#/governance/2\\" class=\\"data-table__row__info__container__name\\">VotingPeriod proposal</a>
+               <p class=\\"data-table__row__info__container__description\\">
+                  custom text proposal description      
                </p>
 </div>
 </td>
@@ -110,15 +101,12 @@ exports[`TableProposals has the expected html structure 1`] = `
             0  
          </td>
 </tr>
-      <tr class=\\"li-proposal\\">
-         <td class=\\"li-proposal__value\\">
-            <div class=\\"li-proposal__title-container\\">
-               <span class=\\"material-icons\\">checkmark</span>
-               <h2>
-                  <a href=\\"#/governance/1\\" class=\\"\\">Proposal Title</a>
-               </h2>
-               <p class=\\"li-proposal__description\\">
-                  Proposal description
+      <tr class=\\"data-table__row li-proposal\\">
+         <td class=\\"data-table__row__info\\">
+            <div class=\\"data-table__row__info__container\\">
+               <span class=\\"data-table__row__info__container__status material-icons\\">checkmark</span><a href=\\"#/governance/1\\" class=\\"data-table__row__info__container__name\\">Proposal Title</a>
+               <p class=\\"data-table__row__info__container__description\\">
+                  Proposal description      
                </p>
 </div>
 </td>
@@ -145,7 +133,9 @@ exports[`TableProposals has the expected html structure 1`] = `
 
 exports[`TableProposals should filter the proposals 1`] = `
 <div>
-  <table>
+  <table
+    class="data-table"
+  >
     <thead>
       <tr
         class="panel-sort-container"
@@ -209,56 +199,58 @@ exports[`TableProposals should filter the proposals 1`] = `
      
     <tbody>
       <tr
-        class="li-proposal"
+        class="data-table__row li-proposal"
       >
         <td
-          class="li-proposal__value"
+          class="data-table__row__info"
         >
           <div
-            class="li-proposal__title-container"
+            class="data-table__row__info__container"
           >
             <span
-              class="validator-profile__status red"
-            />
+              class="data-table__row__info__container__status material-icons"
+            >
+              checkmark
+            </span>
              
-            <h2>
-              <a
-                class=""
-                href="#/governance/6"
-              >
-                Rejected proposal
-              </a>
-            </h2>
+            <a
+              class="data-table__row__info__container__name"
+              href="#/governance/1"
+            >
+              Proposal Title
+            </a>
              
             <p
-              class="li-proposal__description"
+              class="data-table__row__info__container__description"
             >
-              this proposal was rejected
+              
+        Proposal description
+      
             </p>
           </div>
         </td>
          
         <td>
-          #6
+          #1
         </td>
          
         <td
           class="li-proposal__value yes"
         >
-          10
+          500
         </td>
          
         <td
           class="li-proposal__value no"
         >
-          30
+          25
         </td>
          
         <td
           class="li-proposal__value no_with_veto"
         >
           
-    100
+    10
   
         </td>
          
@@ -266,7 +258,7 @@ exports[`TableProposals should filter the proposals 1`] = `
           class="li-proposal__value abstain"
         >
           
-    20
+    56
   
         </td>
       </tr>

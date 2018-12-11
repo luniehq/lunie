@@ -14,8 +14,8 @@ describe(`ModalVote`, () => {
     let instance = mount(ModalVote, {
       localVue,
       propsData: {
-        proposalId: lcdClientMock.state.proposals[0].proposal_id,
-        proposalTitle: lcdClientMock.state.proposals[0].title
+        proposalId: `1`,
+        proposalTitle: lcdClientMock.state.proposals[`1`].title
       }
     })
     wrapper = instance.wrapper
@@ -89,6 +89,20 @@ describe(`ModalVote`, () => {
       voteBtn = wrapper.find(`#vote-abstain`)
       expect(voteBtn.html()).toContain(`active`)
       expect(submitButton.html()).not.toContain(`disabled="disabled"`)
+    })
+  })
+
+  describe(`Disable already voted options`, () => {
+    it(`disable button if equals the last vote: Abstain`, () => {
+      wrapper.setProps({ lastVoteOption: `Abstain` })
+      let voteBtn = wrapper.find(`#vote-yes`)
+      expect(voteBtn.html()).not.toContain(`disabled="disabled"`)
+      voteBtn = wrapper.find(`#vote-no`)
+      expect(voteBtn.html()).not.toContain(`disabled="disabled"`)
+      voteBtn = wrapper.find(`#vote-veto`)
+      expect(voteBtn.html()).not.toContain(`disabled="disabled"`)
+      voteBtn = wrapper.find(`#vote-abstain`)
+      expect(voteBtn.html()).toContain(`disabled="disabled"`)
     })
   })
 

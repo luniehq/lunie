@@ -2,7 +2,7 @@ import setup from "../../../helpers/vuex-setup"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 import LiProposal from "renderer/components/governance/LiProposal"
 
-let proposal = lcdClientMock.state.proposals[0]
+let proposal = lcdClientMock.state.proposals[`1`]
 
 describe(`LiProposal`, () => {
   let wrapper

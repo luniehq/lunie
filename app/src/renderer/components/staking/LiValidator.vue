@@ -1,24 +1,24 @@
 <template>
-  <tr class="li-validator">
-    <td class="li-validator__moniker-container">
+  <tr class="data-table__row li-validator">
+    <td class="data-table__row__info">
       <img
         v-if="validator.keybase"
         :src="validator.keybase.avatarUrl"
-        class="li-validator__avatar"
+        class="data-table__row__info__image"
         width="48"
         height="48"
       /><img
         v-else
-        class="li-validator__avatar no-img"
+        class="data-table__row__info__image data-table__row__info__image--no-img"
         src="~assets/images/validator-icon.svg"
         width="48"
         height="48"
       />
-      <div class="li-validator__name-container">
+      <div class="data-table__row__info__container">
         <span
           v-tooltip.top="status"
           :class="statusColor"
-          class="validator-profile__status"
+          class="data-table__row__info__container__status"
         />
         <router-link
           :to="{
@@ -26,13 +26,12 @@
             params: { validator: validator.operator_address }
           }"
           :class="styles"
-          class="li-validator__moniker"
+          class="data-table__row__info__container__name"
           >{{ validator.description.moniker }}</router-link
         >
-        <short-bech32
-          :address="validator.operator_address"
-          class="li-validator__address"
-        />
+        <div class="data-table__row__info__container__description">
+          <short-bech32 :address="validator.operator_address" />
+        </div>
       </div>
     </td>
     <td class="li-validator__delegated-steak">
@@ -42,7 +41,7 @@
           : num.shortNumber(yourVotes)
       }}
     </td>
-    <td class="li-validator__rewards">n/a</td>
+    <td class="li-validator__rewards data-table__row__cell__separator">n/a</td>
     <td class="li-validator__voting-power">
       {{ validator.percent_of_vote ? validator.percent_of_vote : `n/a` }}
     </td>
@@ -141,50 +140,10 @@ export default {
 </script>
 
 <style>
-.li-validator {
-  padding: 1rem;
-  background-color: var(--app-fg);
-  border-radius: 0.25rem;
-  border: 1px solid var(--bc-dim);
+.li-validator .li-validator__delegated-steak {
+  min-width: 10rem;
 }
-.li-validator:hover {
-  background: var(--hover-bg);
-}
-.li-validator .validator-profile__status {
-  left: 0;
-  top: 9px;
-}
-.li-validator__name-container {
-  position: relative;
-  margin-left: 0.5rem;
-}
-.li-validator__name-container .li-validator__moniker {
-  padding-left: 0.75rem;
-}
-.li-validator__moniker-container {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  min-width: 284px;
-}
-.li-validator__moniker {
-  max-width: 200px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-.li-validator__avatar {
-  height: 3rem;
-  width: 3rem;
-  margin: 1rem 0.5rem;
-  border-radius: 50%;
-  display: block;
-  background: var(--app-nav);
-}
-.li-validator__avatar.no-img {
-  padding: 0.5rem;
-}
-.li-validator__address .address {
-  font-size: var(--sm);
+.li-validator .li-validator__voting-power {
+  min-width: 9rem;
 }
 </style>

@@ -17,6 +17,7 @@
       <tm-btn
         id="vote-yes"
         :class="[option === `Yes` ? 'active' : '']"
+        :disabled="lastVoteOption === `Yes`"
         color="secondary"
         value="Yes"
         size="md"
@@ -25,6 +26,7 @@
       <tm-btn
         id="vote-no"
         :class="[option === `No` ? 'active' : '']"
+        :disabled="lastVoteOption === `No`"
         color="secondary"
         value="No"
         size="md"
@@ -33,6 +35,7 @@
       <tm-btn
         id="vote-veto"
         :class="[option === `NoWithVeto` ? 'active' : '']"
+        :disabled="lastVoteOption === `NoWithVeto`"
         color="secondary"
         value="No With Veto"
         size="md"
@@ -41,6 +44,7 @@
       <tm-btn
         id="vote-abstain"
         :class="[option === `Abstain` ? 'active' : '']"
+        :disabled="lastVoteOption === `Abstain`"
         color="secondary"
         value="Abstain"
         size="md"
@@ -113,6 +117,11 @@ export default {
     proposalTitle: {
       type: String,
       required: true
+    },
+    lastVoteOption: {
+      default: undefined,
+      type: String,
+      required: false
     }
   },
   data: () => ({
@@ -194,7 +203,7 @@ export default {
 
 .modal-vote button {
   margin: 0;
-  min-width: 50%;
+  min-width: 49%;
 }
 
 .modal-vote button span {

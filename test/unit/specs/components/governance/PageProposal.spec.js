@@ -8,7 +8,7 @@ import ModalDeposit from "renderer/components/governance/ModalDeposit"
 import ModalVote from "renderer/components/governance/ModalVote"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
-let proposal = lcdClientMock.state.proposals[0]
+let proposal = lcdClientMock.state.proposals[`1`]
 
 describe(`PageProposal`, () => {
   let wrapper, store
@@ -122,8 +122,8 @@ describe(`PageProposal`, () => {
   })
 
   describe(`Modal onVote`, () => {
-    it(`enables voting if the proposal is on the 'VotingPeriod'`, () => {
-      let proposal = lcdClientMock.state.proposals[1]
+    it(`enables voting if the proposal is on the 'VotingPeriod'`, async () => {
+      let proposal = lcdClientMock.state.proposals[`2`]
       let instance = mount(PageProposal, {
         localVue,
         doBefore: ({ router, store }) => {
@@ -140,10 +140,42 @@ describe(`PageProposal`, () => {
       store = instance.store
       wrapper.update()
 
+      wrapper.vm.$store.dispatch = jest.fn()
       let voteBtn = wrapper.find(`#vote-btn`)
       voteBtn.trigger(`click`)
+
+      expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
+        [`getProposalVotes`, proposal.proposal_id]
+      ])
+      expect(wrapper.vm.lastVote).not.toBeDefined()
       expect(wrapper.contains(ModalVote)).toEqual(true)
       expect(voteBtn.html()).not.toContain(`disabled="disabled"`)
+    })
+
+    it(`load the last valid vote succesfully`, async () => {
+      wrapper.setProps({ proposalId: `1` })
+      wrapper.vm.wallet.address = lcdClientMock.state.votes[`1`][0].voter
+      await wrapper.vm.onVote()
+      expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
+        [`getProposalVotes`, `1`]
+      ])
+      expect(wrapper.vm.lastVote).toBe(lcdClientMock.state.votes[`1`][0])
+    })
+
+    it(`keeps the last vote undefined if no vote to this proposal happened from the current address`, async () => {
+      wrapper.setProps({ proposalId: `2` })
+      await wrapper.vm.onVote()
+      expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
+        [`getProposalVotes`, `2`]
+      ])
+      expect(wrapper.vm.lastVote).toBe(undefined)
+    })
+
+    it(`throws an error when trying to fetch a wrong proposalId votes`, async () => {
+      wrapper.setProps({ proposalId: `3` })
+      await wrapper.vm.onVote()
+      expect(store.state.notifications.length).toBe(1)
+      expect(store.state.notifications[0].title).toBe(`Error fetching votes`)
     })
 
     it(`disables voting if the proposal is on the 'DepositPeriod'`, () => {
@@ -153,7 +185,7 @@ describe(`PageProposal`, () => {
 
   describe(`Modal onDeposit`, () => {
     it(`enables deposits if the proposal is 'Active'`, () => {
-      let proposal = lcdClientMock.state.proposals[2]
+      let proposal = lcdClientMock.state.proposals[`5`]
       let instance = mount(PageProposal, {
         localVue,
         doBefore: ({ router, store }) => {
