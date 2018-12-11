@@ -174,14 +174,13 @@ $ yarn test:e2e
 If you would like to run a single test please set the TEST variable (Unix systems):
 
 ```bash
-
 $ TEST=test/e2e/init.js yarn test:e2e
 ```
 
-You can also run the `tape` command directly (Windows):
+You can also run the `tape` command directly, but then you need to run the packaging of Voyager before it (i.e. necessary on Windows):
 
 ```bash
-
+$ yarn pack
 $ node_modules/.bin/tape test/e2e/init.js
 ```
 
