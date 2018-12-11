@@ -41,7 +41,9 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                   Total Steak
                 </h3>
                  
-                <h2>
+                <h2
+                  class="total-atoms__value"
+                >
                   1,000.0000…
                 </h2>
               </div>

@@ -155,19 +155,23 @@ export default ({ node }) => {
         )
       }
 
-      node.rpc.subscribe(
-        {
-          query: `tm.event = 'Tx' AND sender = '${state.address}'`
-        },
-        onTx
-      )
+      const queries = [
+        `tm.event = 'Tx' AND sender = '${state.address}'`,
+        `tm.event = 'Tx' AND recipient = '${state.address}'`,
+        `tm.event = 'Tx' AND proposer = '${state.address}'`,
+        `tm.event = 'Tx' AND depositer = '${state.address}'`,
+        `tm.event = 'Tx' AND delegator = '${state.address}'`,
+        `tm.event = 'Tx' AND voter = '${state.address}'`
+      ]
 
-      node.rpc.subscribe(
-        {
-          query: `tm.event = 'Tx' AND recipient = '${state.address}'`
-        },
-        onTx
-      )
+      queries.forEach(query => {
+        node.rpc.subscribe(
+          {
+            query
+          },
+          onTx
+        )
+      })
     }
   }
 
