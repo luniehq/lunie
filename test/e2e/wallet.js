@@ -40,7 +40,7 @@ test(`wallet`, async function(t) {
     // denom
     await t.ok(
       await app.client.$(`.coin-denom=Stake`).isVisible(),
-      `show coin steak`
+      `show coin stake`
     )
     await t.ok(
       await app.client.$(`.coin-denom=Localcoin`).isVisible(),
