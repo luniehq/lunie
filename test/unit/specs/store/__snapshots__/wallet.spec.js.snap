@@ -22,6 +22,10 @@ Array [
     "error subscribing to transactions",
     [Error: foo],
   ],
+  Array [
+    "error subscribing to transactions",
+    [Error: foo],
+  ],
 ]
 `;
 
