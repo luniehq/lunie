@@ -171,11 +171,18 @@ End to end testing is performed via `tape`, you can run all of them using:
 $ yarn test:e2e
 ```
 
-If you would like to run a single test please set the TEST variable:
+If you would like to run a single test please set the TEST variable (Unix systems):
 
 ```bash
 
 $ TEST=test/e2e/init.js yarn test:e2e
+```
+
+You can also run the `tape` command directly (Windows):
+
+```bash
+
+$ node_modules/.bin/tape test/e2e/init.js
 ```
 
 ---
