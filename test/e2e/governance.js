@@ -105,7 +105,7 @@ test(`Governance`, async function(t) {
         .$(`#submit-deposit`)
         .click()
         .waitForVisible(
-          `//*[. = 'You have successfully deposited your steaks on proposal #1']`,
+          `//*[. = 'You have successfully deposited your STAKEs on proposal #1']`,
           4 * 1000
         ),
       `successful deposit`

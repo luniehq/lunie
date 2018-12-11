@@ -84,7 +84,7 @@ test(`delegation`, async function(t) {
         `//*[@id = 'delegation-modal']//button//*[. = 'Confirm Delegation']`
       )
       .waitForVisible(
-        `//*[. = 'You have successfully delegated your Steaks']`,
+        `//*[. = 'You have successfully delegated your STAKEs']`,
         5 * 1000
       )
 
@@ -131,7 +131,7 @@ test(`delegation`, async function(t) {
       .setValue(`#password`, `1234567890`)
       .click(`//*[@id = 'undelegation-modal']//button//*[. = 'Undelegate']`)
       .waitForVisible(
-        `//*[. = 'You have successfully undelegated 5 Steaks.']`,
+        `//*[. = 'You have successfully undelegated 5 STAKEs.']`,
         5 * 1000
       )
 
