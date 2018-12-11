@@ -160,6 +160,7 @@ export default ({ node }) => {
         `tm.event = 'Tx' AND recipient = '${state.address}'`,
         `tm.event = 'Tx' AND proposer = '${state.address}'`,
         `tm.event = 'Tx' AND depositer = '${state.address}'`,
+        `tm.event = 'Tx' AND delegator = '${state.address}'`,
         `tm.event = 'Tx' AND voter = '${state.address}'`
       ]
 
