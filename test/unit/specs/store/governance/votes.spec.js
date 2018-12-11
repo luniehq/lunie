@@ -22,10 +22,10 @@ describe(`Module: Votes`, () => {
   it(`adds votes to state`, () => {
     let { mutations, state } = module
     mutations.setProposalVotes(state, {
-      proposalId: proposals[`1`].proposal_id,
+      proposalId: `1`,
       votes
     })
-    expect(state.votes[proposals[`1`].proposal_id]).toEqual(votes)
+    expect(state.votes[`1`]).toEqual(votes)
   })
 
   it(`fetches all votes from a proposal`, async () => {

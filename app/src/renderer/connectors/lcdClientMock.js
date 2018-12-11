@@ -1187,7 +1187,7 @@ module.exports = {
   async queryProposalVotes(proposalId) {
     return (
       state.votes[proposalId] ||
-      Promise.reject(`Invalid proposalId ${proposalId}`)
+      Promise.reject({ message: `Invalid proposalId #${proposalId}` })
     )
   },
   async submitProposalVote({
