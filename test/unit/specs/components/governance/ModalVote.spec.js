@@ -92,6 +92,20 @@ describe(`ModalVote`, () => {
     })
   })
 
+  describe(`Disable already voted options`, () => {
+    it(`disable button if equals the last vote: Abstain`, () => {
+      wrapper.setProps({ lastVoteOption: `Abstain` })
+      let voteBtn = wrapper.find(`#vote-yes`)
+      expect(voteBtn.html()).not.toContain(`disabled="disabled"`)
+      voteBtn = wrapper.find(`#vote-no`)
+      expect(voteBtn.html()).not.toContain(`disabled="disabled"`)
+      voteBtn = wrapper.find(`#vote-veto`)
+      expect(voteBtn.html()).not.toContain(`disabled="disabled"`)
+      voteBtn = wrapper.find(`#vote-abstain`)
+      expect(voteBtn.html()).toContain(`disabled="disabled"`)
+    })
+  })
+
   describe(`closes modal correctly`, () => {
     it(`X button emits close signal`, () => {
       wrapper.vm.close()

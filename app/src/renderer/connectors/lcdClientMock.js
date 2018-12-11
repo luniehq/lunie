@@ -1184,8 +1184,11 @@ module.exports = {
     results.push(txResult(0))
     return results
   },
-  async getProposalVotes(proposalId) {
-    return state.votes[proposalId] || []
+  async queryProposalVotes(proposalId) {
+    return (
+      state.votes[proposalId] ||
+      Promise.reject({ message: `Invalid proposalId #${proposalId}` })
+    )
   },
   async submitProposalVote({
     proposal_id,
@@ -1250,9 +1253,9 @@ module.exports = {
   async queryProposals() {
     // TODO: return only value of the `value` property when https://github.com/cosmos/cosmos-sdk/issues/2507 is solved
     let proposals = state.proposals
-    return proposals.map(proposal => {
+    return Object.keys(proposals).map(key => {
       return {
-        value: JSON.parse(JSON.stringify(proposal)),
+        value: JSON.parse(JSON.stringify(proposals[key])),
         type: `gov/TextProposal`
       }
     })

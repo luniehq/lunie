@@ -121,6 +121,7 @@
         :show-modal-vote.sync="showModalVote"
         :proposal-id="proposalId"
         :proposal-title="proposal.title"
+        :last-vote-option="lastVote && lastVote.option"
         @castVote="castVote"
       />
     </template>
@@ -157,11 +158,18 @@ export default {
   },
   data: () => ({
     showModalDeposit: false,
-    showModalVote: false
+    showModalVote: false,
+    lastVote: undefined
   }),
   computed: {
     // TODO: get denom from governance params
-    ...mapGetters([`bondingDenom`, `proposals`, `connected`]),
+    ...mapGetters([
+      `bondingDenom`,
+      `proposals`,
+      `connected`,
+      `wallet`,
+      `votes`
+    ]),
     proposal() {
       let proposal = this.proposals.proposals[this.proposalId]
       if (proposal) {
@@ -244,8 +252,14 @@ export default {
     }
   },
   methods: {
-    onVote() {
+    async onVote() {
       this.showModalVote = true
+
+      // The error is already handled with notifyError in votes.js
+      await this.$store.dispatch(`getProposalVotes`, this.proposalId)
+      this.lastVote =
+        this.votes[this.proposalId] &&
+        this.votes[this.proposalId].find(e => e.voter === this.wallet.address)
     },
     onDeposit() {
       this.showModalDeposit = true

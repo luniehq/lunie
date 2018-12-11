@@ -1298,7 +1298,7 @@ describe(`LCD Client Mock`, () => {
     describe(`Votes`, () => {
       it(`queries a proposal votes`, async () => {
         let { votes } = lcdClientMock.state
-        let votesRes = await client.getProposalVotes(`1`)
+        let votesRes = await client.queryProposalVotes(`1`)
         expect(votesRes).toBeDefined()
         expect(votesRes).toEqual(votes[`1`])
       })

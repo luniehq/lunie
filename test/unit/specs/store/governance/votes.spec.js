@@ -21,7 +21,10 @@ describe(`Module: Votes`, () => {
 
   it(`adds votes to state`, () => {
     let { mutations, state } = module
-    mutations.setProposalVotes(state, `1`, votes)
+    mutations.setProposalVotes(state, {
+      proposalId: `1`,
+      votes
+    })
     expect(state.votes[`1`]).toEqual(votes)
   })
 
@@ -33,15 +36,17 @@ describe(`Module: Votes`, () => {
     })
     let { actions, state } = module
     let commit = jest.fn()
-    Object.keys(proposals).forEach(async (proposal_id, i) => {
+    Object.keys(proposals).forEach(async (proposalId, i) => {
       await actions.getProposalVotes(
         { state, commit, rootState: mockRootState },
-        proposal_id
+        proposalId
       )
       expect(commit.mock.calls[i]).toEqual([
         `setProposalVotes`,
-        proposal_id,
-        votes[proposal_id]
+        {
+          proposalId,
+          votes: votes[proposalId]
+        }
       ])
     })
   })

@@ -10,6 +10,10 @@
 /* global-reset() */
 /* reset-html5() */
 
+/* --- MODULES --- */
+@import "table.css";
+
+/* --- BASICS --- */
 * {
   box-sizing: border-box;
 }
