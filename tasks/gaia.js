@@ -261,9 +261,6 @@ function makeExecWithInputs(command, inputs = [], json = true) {
     })
 
     let resolved = false
-    // child.stderr.on(`data`, data => {
-    //   console.error(`ERROR: `, data.toString())
-    // })
     child.stderr.once(`data`, data => {
       if (resolved) return
       resolved = true
