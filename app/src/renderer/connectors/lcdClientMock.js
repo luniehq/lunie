@@ -1184,8 +1184,11 @@ module.exports = {
     results.push(txResult(0))
     return results
   },
-  async getProposalVotes(proposalId) {
-    return state.votes[proposalId] || []
+  async queryProposalVotes(proposalId) {
+    return (
+      state.votes[proposalId] ||
+      Promise.reject({ message: `Invalid proposalId #${proposalId}` })
+    )
   },
   async submitProposalVote({
     proposal_id,
