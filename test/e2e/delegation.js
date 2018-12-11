@@ -96,7 +96,7 @@ test(`delegation`, async function(t) {
     await waitForText(
       () => app.client.$(`.header-balance .total-atoms h2`),
       `${totalAtoms}.0000…`,
-      4 * 1000
+      10 * 1000
     )
     await waitForText(
       () => app.client.$(`.header-balance .unbonded-atoms h2`),
