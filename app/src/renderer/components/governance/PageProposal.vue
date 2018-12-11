@@ -262,9 +262,9 @@ export default {
         // TODO: get min deposit denom from gov params
         this.$store.commit(`notify`, {
           title: `Successful deposit!`,
-          body: `You have successfully deposited your ${this.bondingDenom.toLowerCase()}s on proposal #${
-            this.proposalId
-          }`
+          body: `You have successfully deposited your ${
+            this.bondingDenom
+          }s on proposal #${this.proposalId}`
         })
       } catch ({ message }) {
         this.$store.commit(`notifyError`, {

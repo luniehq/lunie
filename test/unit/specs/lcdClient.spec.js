@@ -636,7 +636,7 @@ describe(`LCD Client`, () => {
             {
               data: undefined,
               method: `GET`,
-              url: `http://remotehost/txs?tag=action='deposit'&tag=depositer='${
+              url: `http://remotehost/txs?tag=action='deposit'&tag=depositor='${
                 lcdClientMock.addresses[0]
               }'`
             }

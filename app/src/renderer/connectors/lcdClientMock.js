@@ -155,7 +155,7 @@ let state = {
             {
               type: `cosmos-sdk/MsgDeposit`,
               value: {
-                depositer: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+                depositor: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
                 proposal_id: `1`,
                 amount: [
                   {
@@ -493,7 +493,7 @@ let state = {
     1: [
       {
         proposal_id: `1`,
-        depositer: validators[0],
+        depositor: validators[0],
         amount: [
           {
             denom: `STAKE`,
@@ -507,7 +507,7 @@ let state = {
       },
       {
         proposal_id: `1`,
-        depositer: validators[1],
+        depositor: validators[1],
         amount: [
           {
             denom: `STAKE`,
@@ -519,7 +519,7 @@ let state = {
     2: [
       {
         proposal_id: `2`,
-        depositer: validators[0],
+        depositor: validators[0],
         amount: [
           {
             denom: `STAKE`,
@@ -531,7 +531,7 @@ let state = {
     5: [
       {
         proposal_id: `5`,
-        depositer: validators[0],
+        depositor: validators[0],
         amount: [
           {
             denom: `STAKE`,
@@ -541,7 +541,7 @@ let state = {
       },
       {
         proposal_id: `5`,
-        depositer: validators[1],
+        depositor: validators[1],
         amount: [
           {
             denom: `STAKE`,
@@ -553,7 +553,7 @@ let state = {
     6: [
       {
         proposal_id: `6`,
-        depositer: validators[0],
+        depositor: validators[0],
         amount: [
           {
             denom: `STAKE`,
@@ -1035,7 +1035,7 @@ module.exports = {
     results = await this.submitProposalDeposit({
       base_req,
       proposal_id,
-      depositer: proposer,
+      depositor: proposer,
       amount: initial_deposit
     })
     // remove proposal from state if it fails
@@ -1056,13 +1056,13 @@ module.exports = {
   },
   async getProposalDeposit(proposalId, address) {
     return state.deposits[proposalId].find(
-      deposit => deposit.depositer === address
+      deposit => deposit.depositor === address
     )
   },
   async submitProposalDeposit({
     proposal_id,
     base_req: { name, sequence },
-    depositer,
+    depositor,
     amount
   }) {
     let results = []
@@ -1098,7 +1098,7 @@ module.exports = {
     let coin
     let submittedDeposit = {
       proposal_id,
-      depositer,
+      depositor,
       amount
     }
 
@@ -1116,7 +1116,7 @@ module.exports = {
         return results
       }
 
-      // update depositer's balance
+      // update depositor's balance
       coinBalance.amount -= depositCoinAmt
 
       // ============= TOTAL PROPOSAL's DEPOSIT =============
@@ -1134,15 +1134,15 @@ module.exports = {
       }
 
       // ============= USER'S DEPOSITS =============
-      // check if there's an existing deposit by the depositer
+      // check if there's an existing deposit by the depositor
       let prevDeposit =
         state.deposits[proposal_id] &&
         state.deposits[proposal_id].find(
-          deposit => deposit.depositer === depositer
+          deposit => deposit.depositor === depositor
         )
 
       if (!prevDeposit) {
-        // if no previous deposit by the depositer, we add it to the existing deposits
+        // if no previous deposit by the depositor, we add it to the existing deposits
         if (!state.deposits[proposal_id]) state.deposits[proposal_id] = []
         state.deposits[proposal_id].push(submittedDeposit)
         break // break since no need to iterate over other coins
@@ -1155,7 +1155,7 @@ module.exports = {
         if (!prevDepCoin) {
           prevDeposit.amount.push(coin)
         } else {
-          // there's a previous deposit from the depositer with the same coin
+          // there's a previous deposit from the depositor with the same coin
           let newAmt = parseInt(prevDepCoin.amount) + parseInt(coin.amount)
           prevDepCoin.amount = String(newAmt)
         }
@@ -1265,7 +1265,7 @@ module.exports = {
         if (type === `cosmos-sdk/MsgSubmitProposal`) {
           return tx.tx.value.msg[0].value.proposer === addr
         } else if (type === `cosmos-sdk/MsgDeposit`) {
-          return tx.tx.value.msg[0].value.depositer === addr
+          return tx.tx.value.msg[0].value.depositor === addr
         }
 
         return false

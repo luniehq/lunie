@@ -252,7 +252,7 @@ describe(`PageProposal`, () => {
       [
         `notify`,
         {
-          body: `You have successfully deposited your stakes on proposal #1`,
+          body: `You have successfully deposited your STAKEs on proposal #1`,
           title: `Successful deposit!`
         }
       ]

@@ -45,7 +45,7 @@ export default ({ node }) => {
         type: `submitProposalDeposit`,
         to: proposal_id,
         proposal_id,
-        depositer: wallet.address,
+        depositor: wallet.address,
         amount,
         password
       })

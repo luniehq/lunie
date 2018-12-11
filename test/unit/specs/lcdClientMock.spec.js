@@ -1025,7 +1025,7 @@ describe(`LCD Client Mock`, () => {
         let { deposits } = lcdClientMock.state
         let depositRes = await client.getProposalDeposit(
           `1`,
-          deposits[`1`][0].depositer
+          deposits[`1`][0].depositor
         )
         expect(depositRes).toBeDefined()
         expect(depositRes).toEqual(deposits[`1`][0])
@@ -1051,7 +1051,7 @@ describe(`LCD Client Mock`, () => {
                 amount: `1`
               }
             ],
-            depositer: lcdClientMock.addresses[0]
+            depositor: lcdClientMock.addresses[0]
           })
           expect(res).toHaveLength(1)
           expect(res[0].check_tx.log).toBe(`Nonexistent account`)
@@ -1071,7 +1071,7 @@ describe(`LCD Client Mock`, () => {
                 amount: `1`
               }
             ],
-            depositer: lcdClientMock.addresses[0]
+            depositor: lcdClientMock.addresses[0]
           })
           expect(res).toHaveLength(1)
           expect(res[0].check_tx.code).toBe(2)
@@ -1091,7 +1091,7 @@ describe(`LCD Client Mock`, () => {
                 amount: `1`
               }
             ],
-            depositer: lcdClientMock.addresses[0]
+            depositor: lcdClientMock.addresses[0]
           })
           expect(res).toHaveLength(1)
           expect(res[0].check_tx.code).toBe(3)
@@ -1111,7 +1111,7 @@ describe(`LCD Client Mock`, () => {
                 amount: `1`
               }
             ],
-            depositer: lcdClientMock.addresses[0]
+            depositor: lcdClientMock.addresses[0]
           })
           expect(res).toHaveLength(1)
           expect(res[0].check_tx.code).toBe(3)
@@ -1131,7 +1131,7 @@ describe(`LCD Client Mock`, () => {
                 amount: `-10`
               }
             ],
-            depositer: lcdClientMock.addresses[0]
+            depositor: lcdClientMock.addresses[0]
           })
           expect(res).toHaveLength(1)
           expect(res[0].check_tx.code).toBe(1)
@@ -1154,7 +1154,7 @@ describe(`LCD Client Mock`, () => {
                 amount: `10`
               }
             ],
-            depositer: lcdClientMock.addresses[0]
+            depositor: lcdClientMock.addresses[0]
           })
           expect(res).toHaveLength(1)
           expect(res[0].check_tx.code).toBe(1)
@@ -1175,7 +1175,7 @@ describe(`LCD Client Mock`, () => {
                 amount: `1500`
               }
             ],
-            depositer: lcdClientMock.addresses[0]
+            depositor: lcdClientMock.addresses[0]
           })
           expect(res).toHaveLength(1)
           expect(res[0].check_tx.code).toBe(1)
@@ -1205,7 +1205,7 @@ describe(`LCD Client Mock`, () => {
                 amount: `200`
               }
             ],
-            depositer: lcdClientMock.addresses[0]
+            depositor: lcdClientMock.addresses[0]
           }
 
           let res = await client.submitProposalDeposit({
@@ -1227,7 +1227,7 @@ describe(`LCD Client Mock`, () => {
           // should have updated the status of the proposal from `DepositPeriod` to `VotingPeriod`
           expect(proposalAfter.proposal_status).toEqual(`VotingPeriod`)
 
-          // should have added the deposit from the depositer
+          // should have added the deposit from the depositor
           let userDepositAfter = await client.getProposalDeposit(
             `5`,
             lcdClientMock.addresses[0]
@@ -1255,7 +1255,7 @@ describe(`LCD Client Mock`, () => {
                 amount: `200`
               }
             ],
-            depositer: lcdClientMock.validators[0]
+            depositor: lcdClientMock.validators[0]
           }
 
           let newTotalAmt =
@@ -1282,7 +1282,7 @@ describe(`LCD Client Mock`, () => {
           })
           expect(totalSTAKEAfter.amount).toEqual(String(newTotalAmt))
 
-          // should have updated the deposit from the depositer
+          // should have updated the deposit from the depositor
           let userDepositAfter = await client.getProposalDeposit(
             `2`,
             lcdClientMock.validators[0]
