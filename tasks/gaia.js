@@ -105,7 +105,7 @@ async function makeValidator(
 ) {
   let valPubKey = await getValPubKey(nodeHome)
   let { address: operatorAddress } = await createKey(operatorSignInfo)
-  await sendTokens(mainSignInfo, `10steak`, operatorAddress)
+  await sendTokens(mainSignInfo, `10STAKE`, operatorAddress)
   while (true) {
     console.log(`Waiting for funds to delegate`)
     try {
@@ -146,10 +146,10 @@ async function declareValidator(
   operatorAddress
 ) {
   let command =
-    `${cliBinary} tx create-validator` +
+    `${cliBinary} tx stake create-validator` +
     ` --home ${clientHomeDir}` +
     ` --from ${keyName}` +
-    ` --amount=10steak` +
+    ` --amount=10STAKE` +
     ` --pubkey=${valPubKey}` +
     ` --address-delegator=${operatorAddress}` +
     ` --moniker=${moniker}` +
