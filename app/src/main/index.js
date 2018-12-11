@@ -7,7 +7,7 @@ const https = require(`https`)
 let { join, relative } = require(`path`)
 let childProcess = require(`child_process`)
 let semver = require(`semver`)
-const Sentry = require("@sentry/node")
+const Sentry = require(`@sentry/node`)
 const readline = require(`readline`)
 let axios = require(`axios`)
 
@@ -404,7 +404,7 @@ const eventHandlers = {
         dsn: config.sentry_dsn,
         release: `voyager@0.8001.1`
       })
-      Sentry.captureException(new Error("Good bye"))
+      Sentry.captureException(new Error(`Good bye`))
     }
   },
 
@@ -602,7 +602,7 @@ async function main() {
     dsn: config.sentry_dsn,
     release: `voyager@0.8001.1`
   })
-  Sentry.captureException(new Error("TESTING SENTRY"))
+  Sentry.captureException(new Error(`TESTING SENTRY`))
 
   let appVersionPath = join(root, `app_version`)
   let genesisPath = join(root, `genesis.json`)
