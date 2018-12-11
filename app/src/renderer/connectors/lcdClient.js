@@ -80,8 +80,8 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
     },
     txs: function(addr) {
       return Promise.all([
-        req(`GET`, `/txs?tag=sender_bech32='${addr}'`, true)(),
-        req(`GET`, `/txs?tag=recipient_bech32='${addr}'`, true)()
+        req(`GET`, `/txs?sender=${addr}`, true)(),
+        req(`GET`, `/txs?recipient=${addr}`, true)()
       ]).then(([senderTxs, recipientTxs]) => [].concat(senderTxs, recipientTxs))
     },
     tx: argReq(`GET`, `/txs`, ``, true),
@@ -200,16 +200,8 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
     },
     getGovernanceTxs: async function(address) {
       let [depositerTxs, proposerTxs] = await Promise.all([
-        req(
-          `GET`,
-          `/txs?tag=action='submit-proposal'&tag=proposer='${address}'`,
-          true
-        )(),
-        req(
-          `GET`,
-          `/txs?tag=action='deposit'&tag=depositer='${address}'`,
-          true
-        )()
+        req(`GET`, `/txs?action=submit-proposal&proposer=${address}`, true)(),
+        req(`GET`, `/txs?action=deposit&depositer=${address}`, true)()
       ])
       return depositerTxs.concat(proposerTxs)
     }

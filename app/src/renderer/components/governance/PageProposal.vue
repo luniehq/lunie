@@ -113,7 +113,7 @@
         :show-modal-deposit.sync="showModalDeposit"
         :proposal-id="proposalId"
         :proposal-title="proposal.title"
-        :denom="bondingDenom.toLowerCase()"
+        :denom="bondingDenom"
         @submitDeposit="deposit"
       />
       <modal-vote

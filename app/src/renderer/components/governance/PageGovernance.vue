@@ -20,7 +20,7 @@
     <modal-propose
       v-if="showModalPropose"
       :show-modal-propose.sync="showModalPropose"
-      :denom="bondingDenom.toLowerCase()"
+      :denom="bondingDenom"
       @createProposal="propose"
     />
     <router-view />
