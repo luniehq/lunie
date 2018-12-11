@@ -199,11 +199,12 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
       return req(`POST`, `/gov/proposals/${proposalId}/deposits`, true)(data)
     },
     getGovernanceTxs: async function(address) {
-      let [depositorTxs, proposerTxs] = await Promise.all([
+      return await Promise.all([
         req(`GET`, `/txs?action=submit-proposal&proposer=${address}`, true)(),
         req(`GET`, `/txs?action=deposit&depositor=${address}`, true)()
-      ])
-      return depositorTxs.concat(proposerTxs)
+      ]).then(([depositorTxs, proposerTxs]) =>
+        [].concat(depositorTxs, proposerTxs)
+      )
     }
   }
 }
