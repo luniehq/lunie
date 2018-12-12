@@ -51,6 +51,8 @@ exports[`Component: TabMyDelegations should show a message if not staked yet to 
   <!---->
    
   <!---->
+   
+  <!---->
 </div>
 `;
 
@@ -546,6 +548,24 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
       </table>
     </div>
   </div>
+   
+  <div>
+    <h3
+      class="tab-header transactions"
+    >
+      
+      Unbounding transactions
+      
+      <i
+        class="material-icons info-button"
+      >
+        
+        info_outline
+      
+      </i>
+    </h3>
+     
+  </div>
 </div>
 `;
 
@@ -889,6 +909,24 @@ exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
         </tbody>
       </table>
     </div>
+  </div>
+   
+  <div>
+    <h3
+      class="tab-header transactions"
+    >
+      
+      Unbounding transactions
+      
+      <i
+        class="material-icons info-button"
+      >
+        
+        info_outline
+      
+      </i>
+    </h3>
+     
   </div>
 </div>
 `;

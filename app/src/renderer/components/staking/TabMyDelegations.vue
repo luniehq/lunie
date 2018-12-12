@@ -31,23 +31,51 @@
       </h3>
       <table-validators :validators="undelegatedValidators" />
     </div>
+    <div v-if="delegation.loaded && undelegatedValidators.length > 0">
+      <h3 class="tab-header transactions">
+        Unbounding transactions
+        <i
+          v-tooltip.top="unbondTransactions"
+          class="material-icons info-button"
+        >
+          info_outline
+        </i>
+      </h3>
+      <template v-for="transaction in unbondingTransactions">
+        <tm-li-stake-transaction
+          :transaction="transaction"
+          :validators="undelegatedValidators"
+          :bonding-denom="bondingDenom"
+          :key="transaction.hash"
+        />
+      </template>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex"
-import { TmDataMsg, TmDataLoading } from "@tendermint/ui"
+import { mapGetters, mapState } from "vuex"
+import { TmDataMsg, TmDataLoading, TmLiStakeTransaction } from "@tendermint/ui"
 import TableValidators from "staking/TableValidators"
 import TmDataConnecting from "common/TmDataConnecting"
+import moment from "moment"
 
 export default {
   name: `tab-my-delegations`,
-  components: { TableValidators, TmDataMsg, TmDataConnecting, TmDataLoading },
+  components: {
+    TableValidators,
+    TmDataMsg,
+    TmDataConnecting,
+    TmDataLoading,
+    TmLiStakeTransaction
+  },
   data: () => ({
     bondInfo: `Validators you are currently bonded to`,
-    unbondInfo: `Your bonded validators in unbonding process`
+    unbondInfo: `Your bonded validators in unbonding process`,
+    unbondTransactions: `The transactions currently in unbounding period`
   }),
   computed: {
+    ...mapState([`transactions`]),
     ...mapGetters([
       `delegates`,
       `delegation`,
@@ -66,7 +94,23 @@ export default {
       return delegates.filter(
         ({ operator_address }) => operator_address in committedDelegations
       )
-    }
+    },
+    unbondingTransactions: ({ transactions, delegation } = this) =>
+      transactions.staking
+        .filter(
+          transaction =>
+            transaction.tx.value.msg[0].type === `cosmos-sdk/BeginUnbonding`
+        )
+        .map(transaction => ({
+          ...transaction,
+          unbondingDelegation:
+            delegation.unbondingDelegations[
+              transaction.tx.value.msg[0].value.validator_addr
+            ]
+        }))
+  },
+  methods: {
+    timeDiff: min_time => moment(min_time).fromNow()
   }
 }
 </script>
@@ -76,6 +120,9 @@ export default {
   font-size: 14px;
   font-weight: 500;
   margin: 1rem 1rem 0 2rem;
+}
+.tab-header.transactions {
+  margin: 2rem;
 }
 
 .info-button {

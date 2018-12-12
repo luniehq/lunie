@@ -132,6 +132,23 @@ describe(`Component: TabMyDelegations`, () => {
     ).toEqual([delegates[1], delegates[2]])
   })
 
+  it(`unbondingTransactions`, async () => {
+    const address = delegates[0].operator_address
+    const transactions = await lcdClientMock.getDelegatorTxs(
+      lcdClientMock.addresses[0]
+    )
+    expect(
+      TabMyDelegations.computed.unbondingTransactions({
+        delegation: {
+          unbondingDelegations: {
+            [address]: 1
+          }
+        },
+        transactions: { staking: transactions }
+      })
+    ).toHaveLength(1)
+  })
+
   it(`yourValidators`, () => {
     expect(
       TabMyDelegations.computed.yourValidators({
