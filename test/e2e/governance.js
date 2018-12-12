@@ -120,7 +120,8 @@ test(`Governance`, async function(t) {
     // check if balance updates accordingly
     await waitForText(
       () => app.client.$(`.total-atoms__value`),
-      `${balance - 10}.0000…`
+      `${balance - 10}.0000…`,
+      10 * 10000
     )
     t.end()
   })
