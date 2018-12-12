@@ -6,12 +6,6 @@ jest.mock(`readline`, () => ({
   })
 }))
 
-// jest.mock(`raven`, () => ({
-//   config: () => ({ install: () => {} }),
-//   uninstall: () => ({ config: () => ({ install: () => {} }) }),
-//   captureException: () => {}
-// }))
-
 // prevents warnings from repeated event handling
 process.setMaxListeners(1000)
 
@@ -667,8 +661,6 @@ function mockConfig() {
     default_network: `gaia-5001`,
     mocked: false,
 
-    google_analytics_uid: `UA-51029217-3`,
-    sentry_dsn: `https://abc:def@sentry.io/288169`,
-    sentry_dsn_public: `https://abc@sentry.io/288169`
+    google_analytics_uid: `UA-51029217-3`
   }))
 }

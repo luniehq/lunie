@@ -11,13 +11,14 @@ const Sentry = require(`@sentry/node`)
 const readline = require(`readline`)
 let axios = require(`axios`)
 
-let pkg = require(`../../../package.json`)
+let { version: pkgVersion } = require(`../../../package.json`)
 let addMenu = require(`./menu.js`)
 let config = require(`../config.js`)
 config.node_lcd = process.env.LCD_URL || config.node_lcd
 config.node_rpc = process.env.RPC_URL || config.node_rpc
 let LcdClient = require(`../renderer/connectors/lcdClient.js`)
 global.config = config // to make the config accessable from renderer
+global.config.version = pkgVersion
 
 require(`electron-debug`)()
 
@@ -402,9 +403,10 @@ const eventHandlers = {
     if (optin) {
       Sentry.init({
         dsn: config.sentry_dsn,
-        release: `voyager@0.8001.1`
+        release: `voyager@${pkgVersion}`
       })
-      Sentry.captureException(new Error(`Good bye`))
+    } else {
+      Sentry.init({})
     }
   },
 
@@ -555,7 +557,7 @@ function checkConsistentConfigDir(
     )
   } else {
     let existingVersion = fs.readFileSync(appVersionPath, `utf8`).trim()
-    let semverDiff = semver.diff(existingVersion, pkg.version)
+    let semverDiff = semver.diff(existingVersion, pkgVersion)
     let compatible = semverDiff !== `major` && semverDiff !== `minor`
     if (compatible) {
       log(`configs are compatible with current app version`)
@@ -563,7 +565,7 @@ function checkConsistentConfigDir(
       // TODO: versions of the app with different data formats will need to learn how to
       // migrate old data
       throw Error(`Data was created with an incompatible app version
-        data=${existingVersion} app=${pkg.version}`)
+        data=${existingVersion} app=${pkgVersion}`)
     }
   }
 }
@@ -657,7 +659,7 @@ async function main() {
     fs.accessSync(networkPath) // crash if invalid path
     fs.copySync(networkPath, root)
 
-    fs.writeFileSync(appVersionPath, pkg.version)
+    fs.writeFileSync(appVersionPath, pkgVersion)
   }
 
   await checkGaiaCompatibility(gaiacliVersionPath)

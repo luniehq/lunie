@@ -148,7 +148,10 @@ export default ({ node }) => {
       )
 
       if (state.errorCollection) {
-        Sentry.init({ dsn: config.sentry_dsn })
+        Sentry.init({
+          dsn: config.sentry_dsn,
+          release: `voyager@${config.version}`
+        })
         enableGoogleAnalytics(config.google_analytics_uid)
         console.log(`Analytics and error reporting have been enabled`)
         window.analytics &&

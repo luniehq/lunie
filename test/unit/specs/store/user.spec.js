@@ -5,12 +5,6 @@ function mockGA() {
   window.analytics = { send: jest.fn() }
 }
 jest.mock(`renderer/google-analytics.js`, () => mockGA)
-let mockConsole = console // needed to use the console in a mock
-jest.mock(`@sentry/browser`, () => ({
-  init: () => {},
-  configureScope: () => {},
-  captureException: error => mockConsole.error(error)
-}))
 
 let instance = setup()
 
@@ -172,7 +166,8 @@ describe(`Module: User`, () => {
     expect(window.analytics).toBeTruthy()
     expect(sentrySpy).toHaveBeenCalled()
     expect(sentrySpy).toHaveBeenCalledWith({
-      dsn: expect.stringMatching(`https://.*@sentry.io/.*`)
+      dsn: expect.stringMatching(`https://.*@sentry.io/.*`),
+      release: `voyager@0.0.1`
     })
 
     sentrySpy.mockClear()
