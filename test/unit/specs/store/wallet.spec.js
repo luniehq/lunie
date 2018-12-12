@@ -178,6 +178,9 @@ describe(`Module: Wallet`, () => {
       .spyOn(console, `error`)
       .mockImplementationOnce(() => {})
       .mockImplementationOnce(() => {})
+      .mockImplementationOnce(() => {})
+      .mockImplementationOnce(() => {})
+      .mockImplementationOnce(() => {})
     node.rpc.subscribe = jest.fn(({}, cb) => {
       //query is param
       cb(Error(`foo`))
