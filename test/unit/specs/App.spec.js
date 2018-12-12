@@ -13,9 +13,8 @@ describe(`App Start`, () => {
     sentry_dsn_public: `456`
   }))
   jest.mock(`@sentry/browser`, () => ({
-    config: () => {
-      return { install: () => {} }
-    },
+    init: () => {},
+    configureScope: () => {},
     captureException: error => mockConsole.error(error)
   }))
   jest.mock(`renderer/google-analytics.js`, () => () => {})
@@ -83,14 +82,11 @@ describe(`App Start`, () => {
 
   it(`does not set Sentry dsn if analytics is disabled`, mockDone => {
     jest.mock(`@sentry/browser`, () => ({
-      config: dsn => {
-        expect(dsn).toBe(``)
-        return {
-          install: () => {
-            mockDone()
-          }
-        }
+      init: config => {
+        expect(config).toEqual({})
+        mockDone()
       },
+      configureScope: () => {},
       captureException: error => mockConsole.error(error)
     }))
     require(`renderer/main.js`)

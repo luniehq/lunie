@@ -16,7 +16,7 @@ function test(executablePath) {
       child.stdout.pipe(process.stdout)
 
       child.stdout.on(`data`, async data => {
-        let msg = new Buffer(data, `utf-8`).toString()
+        let msg = Buffer.from(data, `utf-8`).toString()
         if (msg.indexOf(`[START SUCCESS]`) !== -1) {
           clearTimeout(wait)
           await cleanExitChild(child)

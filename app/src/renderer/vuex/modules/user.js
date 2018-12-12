@@ -1,4 +1,4 @@
-import * as Sentry from "@sentry/browser"
+import Sentry from "@sentry/browser"
 import { ipcRenderer, remote } from "electron"
 import enableGoogleAnalytics from "../../google-analytics.js"
 const config = remote.getGlobal(`config`)
@@ -157,6 +157,7 @@ export default ({ node }) => {
           })
       } else {
         console.log(`Analytics disabled in browser`)
+        Sentry.init({})
         window.analytics = null
       }
 
