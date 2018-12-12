@@ -1,3 +1,4 @@
+import Vue from "vue"
 import * as Sentry from "@sentry/browser"
 
 export default ({ node }) => {
@@ -9,8 +10,8 @@ export default ({ node }) => {
   }
 
   const mutations = {
-    setProposalVotes(state, proposalId, votes) {
-      state.votes[proposalId] = votes
+    setProposalVotes(state, { proposalId, votes }) {
+      Vue.set(state.votes, proposalId, votes)
     }
   }
   let actions = {
@@ -21,7 +22,7 @@ export default ({ node }) => {
 
       try {
         let votes = await node.queryProposalVotes(proposalId)
-        commit(`setProposalVotes`, proposalId, votes)
+        commit(`setProposalVotes`, { proposalId, votes })
         state.error = null
         state.loading = false
         state.loaded = true

@@ -41,7 +41,9 @@ exports[`PageProposal has the expected html structure 1`] = `
                   Total Steak
                 </h3>
                  
-                <h2>
+                <h2
+                  class="total-atoms__value"
+                >
                   0.0000…
                 </h2>
               </div>
@@ -361,7 +363,9 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
                   Total Steak
                 </h3>
                  
-                <h2>
+                <h2
+                  class="total-atoms__value"
+                >
                   0.0000…
                 </h2>
               </div>

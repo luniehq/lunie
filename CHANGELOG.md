@@ -46,6 +46,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1681](https://github.com/cosmos/voyager/issues/1681) Governance: Fixed voting starting date @sabau
 - [\#1690](https://github.com/cosmos/voyager/issues/1690) Governance: Fixed error messages for maxLength @sabau
 - [\#1690](https://github.com/cosmos/voyager/issues/1690) Feedbacks when Amount is not between valid thresholds @sabau
+- [\#1673](https://github.com/cosmos/voyager/issues/1673) Documentation and single command to run one or all tests with fallback for end to end test @sabau
+- [\#1683](https://github.com/cosmos/voyager/issues/1683) Governance: block voting twice for the same option @sabau
 
 ### Changed
 
@@ -124,6 +126,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1641](https://github.com/cosmos/voyager/issues/1641) Fixed styling of validator page (parameters on top and min-width) @faboweb
 - [\#1667](https://github.com/cosmos/voyager/issues/1667) Fixed menu in PageSend + hover cursor for menu @sabau
 - [\#1676](https://github.com/cosmos/voyager/issues/1676) Reduced minWidth css for ModalVote to have 2 buttons per line @sabau
+- [\#1676](https://github.com/cosmos/voyager/issues/1670) Update balance in header after voting and depositing @faboweb
 
 ## [0.10.7] - 2018-10-10
 
