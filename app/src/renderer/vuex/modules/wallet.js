@@ -159,8 +159,9 @@ export default ({ node }) => {
         `tm.event = 'Tx' AND sender = '${state.address}'`,
         `tm.event = 'Tx' AND recipient = '${state.address}'`,
         `tm.event = 'Tx' AND proposer = '${state.address}'`,
-        `tm.event = 'Tx' AND depositor = '${state.address}'`,
-        `tm.event = 'Tx' AND delegator = '${state.address}'`
+        `tm.event = 'Tx' AND depositer = '${state.address}'`,
+        `tm.event = 'Tx' AND delegator = '${state.address}'`,
+        `tm.event = 'Tx' AND voter = '${state.address}'`
       ]
 
       queries.forEach(query => {
