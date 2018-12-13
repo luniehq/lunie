@@ -20,6 +20,7 @@
 
 <script>
 import { mapGetters } from "vuex"
+import * as Sentry from "@sentry/browser"
 import AppHeader from "common/AppHeader"
 import { TmNotifications } from "@tendermint/ui"
 import ModalError from "common/TmModalError"
@@ -53,7 +54,7 @@ export default {
     ])
   },
   mounted() {
-    throw new Error(`Expected`)
+    Sentry.captureException(new Error(`Expected`))
     this.$store.commit(`loadOnboarding`)
     this.$store.commit(`setTheme`, `dark`)
   },
