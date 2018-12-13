@@ -8,8 +8,9 @@ const path = require(`path`)
 const untildify = require(`untildify`)
 
 const optionsSpecification = {
-  commit: [`commit from which to build`],
-  network: [`name of the default network to use`]
+  commit: [`commit from which to build`, `HEAD`],
+  network: [`name of the default network to use`, `unspecified`],
+  os: [`os to build`, `all`]
 }
 
 // Show the exec commands for easier debugging if something goes wrong.

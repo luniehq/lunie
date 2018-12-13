@@ -39,7 +39,7 @@ const copyGaia = options => (
   const binaryFolder = {
     win32: `${binaryBuildPath}/windows_amd64`,
     darwin: `${binaryBuildPath}/darwin_amd64`,
-    mas: `${binaryBuildPath}/darwin_amd64`,
+    mas: `${binaryBuildPath}/darwin_amd64`, // mac app store
     linux: `${binaryBuildPath}/linux_amd64`
   }[platform]
   const binaryName = platform === `win32` ? `gaiacli.exe` : `gaiacli`
