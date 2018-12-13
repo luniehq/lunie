@@ -1,6 +1,7 @@
 import setup from "../../../helpers/vuex-setup"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 import TabMyDelegations from "renderer/components/staking/TabMyDelegations"
+import moment from "moment"
 
 const delegates = lcdClientMock.candidates
 
@@ -147,6 +148,13 @@ describe(`Component: TabMyDelegations`, () => {
         transactions: { staking: transactions }
       })
     ).toHaveLength(1)
+  })
+
+  it(`should return the time diff`, () => {
+    const now = new Date()
+    expect(TabMyDelegations.methods.timeDiff(now)).toEqual(
+      moment(now).fromNow()
+    )
   })
 
   it(`yourValidators`, () => {
