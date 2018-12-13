@@ -5,6 +5,7 @@ process.env.BABEL_ENV = `renderer`
 const path = require(`path`)
 const webpack = require(`webpack`)
 const fs = require(`fs-extra`)
+const { version } = require(`./package.json`)
 
 const HtmlWebpackPlugin = require(`html-webpack-plugin`)
 const VueLoaderPlugin = require(`vue-loader/lib/plugin`)
@@ -145,6 +146,7 @@ if (process.env.NODE_ENV === `production`) {
       minimize: true
     }),
     new SentryWebpackPlugin({
+      release: `voyager@${version}`,
       include: `./dist`,
       ignoreFile: `.gitignore`,
       ignore: [`node_modules`, `webpack.main.config.js`]
