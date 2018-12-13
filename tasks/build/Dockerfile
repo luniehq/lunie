@@ -1,4 +1,4 @@
-FROM node:9.11.1
+FROM node:10.13.0
 
 COPY installWine.sh /
 RUN /installWine.sh
