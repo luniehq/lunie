@@ -24,7 +24,7 @@ import LiProposal from "./LiProposal"
 import ModalSearch from "common/TmModalSearch"
 import DataEmptySearch from "common/TmDataEmptySearch"
 import PanelSort from "staking/PanelSort"
-import VmToolBar from "common/VmToolBar"
+import ToolBar from "common/ToolBar"
 export default {
   name: `table-proposals`,
   components: {
@@ -32,7 +32,7 @@ export default {
     DataEmptySearch,
     ModalSearch,
     PanelSort,
-    VmToolBar
+    ToolBar
   },
   props: {
     proposals: {

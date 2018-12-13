@@ -29,7 +29,7 @@ import DataEmptySearch from "common/TmDataEmptySearch"
 import { calculateTokens } from "scripts/common"
 import ModalSearch from "common/TmModalSearch"
 import PanelSort from "staking/PanelSort"
-import VmToolBar from "common/VmToolBar"
+import ToolBar from "common/ToolBar"
 export default {
   name: `table-validators`,
   components: {
@@ -37,7 +37,7 @@ export default {
     DataEmptySearch,
     ModalSearch,
     PanelSort,
-    VmToolBar
+    ToolBar
   },
   props: {
     validators: {
