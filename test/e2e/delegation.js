@@ -65,11 +65,13 @@ test(`delegation`, async function(t) {
   t.test(`Stake`, async t => {
     let totalAtoms = (await app.client
       .$(`.header-balance .total-atoms h2`)
-      .getText()).split(`.`)[0] // 130.000...
+      .getText()).split(`.`)[0] // 30.000...
     let unbondedAtoms = (await app.client
       .$(`.header-balance .unbonded-atoms h2`)
       .getText()).split(`.`)[0] // 30.000...
 
+    await t.equal(totalAtoms, `30`, `i have 30 Atoms`)
+    await t.equal(unbondedAtoms, `30`, `i have 30 unbbounded Atoms`)
     // Select the second validator.
     await app.client.click(`//*[. = 'local_2']`)
 
@@ -101,11 +103,11 @@ test(`delegation`, async function(t) {
     // then the users has
     await waitForText(
       () => app.client.$(`.header-balance .total-atoms h2`),
-      `${totalAtoms}.0000…`
+      `${parseInt(totalAtoms) - 10}.0000…`
     )
     await waitForText(
       () => app.client.$(`.header-balance .unbonded-atoms h2`),
-      `${unbondedAtoms - 10}.0000…`
+      `${parseInt(unbondedAtoms) - 10}.0000…`
     )
     await closeNotifications(app)
 
