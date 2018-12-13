@@ -43,7 +43,16 @@ describe(`NISessionSignUp`, () => {
   })
 
   it(`should close the modal on successful login`, async () => {
-    wrapper.setData({
+    const commit = jest.fn()
+    await wrapper.vm.onSubmit({
+      $store: {
+        commit,
+        dispatch: jest.fn(() => `key`)
+      },
+      $v: {
+        $touch: () => {},
+        $error: false
+      },
       fields: {
         signUpPassword: `1234567890`,
         signUpPasswordConfirm: `1234567890`,
@@ -52,12 +61,21 @@ describe(`NISessionSignUp`, () => {
         signUpWarning: true
       }
     })
-    await wrapper.vm.onSubmit()
-    expect(store.commit).toHaveBeenCalledWith(`setModalSession`, false)
+    expect(commit).toHaveBeenCalledWith(`setModalSession`, false)
   })
 
   it(`should signal signedin state on successful login`, async () => {
-    wrapper.setData({
+    const commit = jest.fn()
+    const dispatch = jest.fn(() => `key`)
+    await wrapper.vm.onSubmit({
+      $store: {
+        commit,
+        dispatch
+      },
+      $v: {
+        $touch: () => {},
+        $error: false
+      },
       fields: {
         signUpPassword: `1234567890`,
         signUpPasswordConfirm: `1234567890`,
@@ -66,18 +84,25 @@ describe(`NISessionSignUp`, () => {
         signUpWarning: true
       }
     })
-    await wrapper.vm.onSubmit()
-    expect(
-      store.commit.mock.calls.find(([action]) => action === `notify`)[1]
-    ).toMatchSnapshot()
-    expect(store.dispatch).toHaveBeenCalledWith(`signIn`, {
+    expect(commit).toHaveBeenCalledWith(`notify`, expect.any(Object))
+    expect(dispatch).toHaveBeenCalledWith(`signIn`, {
       password: `1234567890`,
       account: `testaccount`
     })
   })
 
   it(`should set error collection opt in state`, async () => {
-    wrapper.setData({
+    const commit = jest.fn()
+    const dispatch = jest.fn(() => `key`)
+    await wrapper.vm.onSubmit({
+      $store: {
+        commit,
+        dispatch
+      },
+      $v: {
+        $touch: () => {},
+        $error: false
+      },
       fields: {
         signUpPassword: `1234567890`,
         signUpPasswordConfirm: `1234567890`,
@@ -87,33 +112,32 @@ describe(`NISessionSignUp`, () => {
         errorCollection: true
       }
     })
-    await wrapper.vm.onSubmit()
-    expect(
-      store.dispatch.mock.calls.find(
-        ([action]) => action === `setErrorCollection`
-      )[1]
-    ).toMatchObject({
+    expect(dispatch).toHaveBeenCalledWith(`setErrorCollection`, {
       account: `testaccount`,
       optin: true
     })
 
-    wrapper.setData({
+    dispatch.mockClear()
+
+    await wrapper.vm.onSubmit({
+      $store: {
+        commit,
+        dispatch
+      },
+      $v: {
+        $touch: () => {},
+        $error: false
+      },
       fields: {
         signUpPassword: `1234567890`,
         signUpPasswordConfirm: `1234567890`,
         signUpSeed: `bar`, // <-- doesn#t check for correctness of seed
         signUpName: `testaccount`,
-        signUpWarning: true,
+        signUpWarning: false,
         errorCollection: false
       }
     })
-    store.dispatch.mockClear()
-    await wrapper.vm.onSubmit()
-    expect(
-      store.dispatch.mock.calls.find(
-        ([action]) => action === `setErrorCollection`
-      )[1]
-    ).toMatchObject({
+    expect(dispatch).toHaveBeenCalledWith(`setErrorCollection`, {
       account: `testaccount`,
       optin: false
     })

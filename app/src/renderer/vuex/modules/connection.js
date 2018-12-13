@@ -1,5 +1,5 @@
 import { ipcRenderer, remote } from "electron"
-import Raven from "raven-js"
+import * as Sentry from "@sentry/browser"
 import { sleep } from "scripts/common.js"
 
 const config = remote.getGlobal(`config`)
@@ -86,7 +86,7 @@ export default function({ node }) {
         { query: `tm.event = 'NewBlockHeader'` },
         (error, event) => {
           if (error) {
-            Raven.captureException(error)
+            Sentry.captureException(error)
             return console.error(`error subscribing to headers`, error)
           }
           dispatch(`setLastHeader`, event.data.value.header)
@@ -126,7 +126,7 @@ export default function({ node }) {
       }, timeout)
       node.rpc.status(error => {
         if (error) {
-          Raven.captureException(error)
+          Sentry.captureException(error)
           console.error(`Couldn't get status via RPC:`, error)
           return
         }
