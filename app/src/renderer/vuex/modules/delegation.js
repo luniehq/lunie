@@ -33,32 +33,26 @@ export default ({ node }) => {
       state.delegates = state.delegates.filter(c => c.id !== delegate)
     },
     setCommittedDelegation(state, { candidateId, value }) {
-      let committedDelegates = Object.assign({}, state.committedDelegates)
+      state.committedDelegates[candidateId] = value
       if (value === 0) {
-        delete committedDelegates[candidateId]
-      } else {
-        committedDelegates[candidateId] = value
+        delete state.committedDelegates[candidateId]
       }
-      state.committedDelegates = committedDelegates
     },
-    setUnbondingDelegations(
-      state,
-      { validator_addr, min_time, balance, creation_height }
-    ) {
-      let unbondingDelegations = Object.assign({}, state.unbondingDelegations)
-      if (balance.amount === 0) {
-        delete unbondingDelegations[validator_addr]
-      } else {
-        unbondingDelegations[validator_addr] = {
-          min_time,
-          balance,
-          creation_height
-        }
-      }
+    setUnbondingDelegations(state, unbondingDelegations) {
       state.unbondingDelegations = unbondingDelegations
+        // building a dict from the array and taking out the transactions with amount 0
+        .reduce(
+          (dict, { validator_addr, ...delegation }) => ({
+            ...dict,
+            // filtering out the transactions with amount 0
+            ...(delegation.balance.amount > 0 && {
+              [validator_addr]: delegation
+            })
+          }),
+          {}
+        )
     }
   }
-
   let actions = {
     reconnected({ state, dispatch }) {
       if (state.loading) {
@@ -82,11 +76,11 @@ export default ({ node }) => {
 
       try {
         let delegations = await node.getDelegations(address)
-        let unbonding_delegations = await node.getUndelegations(address)
+        let unbondingDelegations = await node.getUndelegations(address)
         let redelegations = await node.getRedelegations(address)
         let delegator = {
           delegations,
-          unbonding_delegations,
+          unbondingDelegations,
           redelegations
         }
         state.error = null
@@ -126,24 +120,7 @@ export default ({ node }) => {
             })
         })
 
-        if (delegator.unbonding_delegations) {
-          delegator.unbonding_delegations.forEach(ubd => {
-            commit(`setUnbondingDelegations`, ubd)
-          })
-        }
-        // delete undelegations not present anymore
-        Object.keys(state.unbondingDelegations).forEach(validatorAddr => {
-          if (
-            !delegator.unbonding_delegations ||
-            !delegator.unbonding_delegations.find(
-              ({ validator_addr }) => validator_addr === validatorAddr
-            )
-          )
-            commit(`setUnbondingDelegations`, {
-              validator_addr: validatorAddr,
-              balance: { amount: 0 }
-            })
-        })
+        commit(`setUnbondingDelegations`, unbondingDelegations)
       } catch (error) {
         commit(`notifyError`, {
           title: `Error fetching delegations`,

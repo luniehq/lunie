@@ -64,11 +64,13 @@ describe(`Store`, () => {
       candidateId: lcdClientMock.validators[0],
       value: 1
     })
-    store.commit(`setUnbondingDelegations`, {
-      validator_addr: lcdClientMock.validators[1],
-      balance: { amount: 1 },
-      min_time: new Date().toUTCString()
-    })
+    store.commit(`setUnbondingDelegations`, [
+      {
+        validator_addr: lcdClientMock.validators[1],
+        balance: { amount: 1 },
+        min_time: new Date().toUTCString()
+      }
+    ])
     jest.runAllTimers() // updating is waiting if more updates coming in, this skips the waiting
     await store.dispatch(`signOut`)
 

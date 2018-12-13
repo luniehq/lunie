@@ -44,7 +44,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 <h2
                   class="total-atoms__value"
                 >
-                  1,014.0000…
+                  1,000.0000…
                 </h2>
               </div>
                
@@ -423,7 +423,7 @@ exports[`PageWallet should filter the balances 1`] = `
                 <h2
                   class="total-atoms__value"
                 >
-                  1,014.0000…
+                  1,000.0000…
                 </h2>
               </div>
                
