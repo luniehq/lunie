@@ -876,7 +876,7 @@ describe(`LCD Client Mock`, () => {
             proposer: lcdClientMock.addresses[0],
             initial_deposit: [
               {
-                denom: `stake`,
+                denom: `STAKE`,
                 amount: `1`
               }
             ]
@@ -900,7 +900,7 @@ describe(`LCD Client Mock`, () => {
             proposer: lcdClientMock.addresses[0],
             initial_deposit: [
               {
-                denom: `stake`,
+                denom: `STAKE`,
                 amount: `-1`
               }
             ]
@@ -908,7 +908,7 @@ describe(`LCD Client Mock`, () => {
           expect(res).toHaveLength(1)
           expect(res[0].check_tx.code).toBe(1)
           expect(res[0].check_tx.log).toBe(
-            `Amount of stakes cannot be negative`
+            `Amount of STAKEs cannot be negative`
           )
           expect(Object.keys(client.state.proposals)).toHaveLength(lenBefore)
         })
@@ -934,7 +934,7 @@ describe(`LCD Client Mock`, () => {
             proposer: lcdClientMock.addresses[0],
             initial_deposit: [
               {
-                denom: `steak`, // TODO: use stake
+                denom: `STAKE`, // TODO: use stake
                 amount: `5`
               }
             ],
@@ -966,7 +966,7 @@ describe(`LCD Client Mock`, () => {
             proposer: lcdClientMock.addresses[0],
             initial_deposit: [
               {
-                denom: `steak`, // TODO: use stake
+                denom: `STAKE`, // TODO: use stake
                 amount: `9`
               }
             ],
@@ -1025,7 +1025,7 @@ describe(`LCD Client Mock`, () => {
         let { deposits } = lcdClientMock.state
         let depositRes = await client.getProposalDeposit(
           `1`,
-          deposits[`1`][0].depositer
+          deposits[`1`][0].depositor
         )
         expect(depositRes).toBeDefined()
         expect(depositRes).toEqual(deposits[`1`][0])
@@ -1047,11 +1047,11 @@ describe(`LCD Client Mock`, () => {
             proposal_id: `5`,
             amount: [
               {
-                denom: `stake`,
+                denom: `STAKE`,
                 amount: `1`
               }
             ],
-            depositer: lcdClientMock.addresses[0]
+            depositor: lcdClientMock.addresses[0]
           })
           expect(res).toHaveLength(1)
           expect(res[0].check_tx.log).toBe(`Nonexistent account`)
@@ -1067,11 +1067,11 @@ describe(`LCD Client Mock`, () => {
             proposal_id: `5`,
             amount: [
               {
-                denom: `stake`,
+                denom: `STAKE`,
                 amount: `1`
               }
             ],
-            depositer: lcdClientMock.addresses[0]
+            depositor: lcdClientMock.addresses[0]
           })
           expect(res).toHaveLength(1)
           expect(res[0].check_tx.code).toBe(2)
@@ -1087,11 +1087,11 @@ describe(`LCD Client Mock`, () => {
             proposal_id: `17`,
             amount: [
               {
-                denom: `stake`,
+                denom: `STAKE`,
                 amount: `1`
               }
             ],
-            depositer: lcdClientMock.addresses[0]
+            depositor: lcdClientMock.addresses[0]
           })
           expect(res).toHaveLength(1)
           expect(res[0].check_tx.code).toBe(3)
@@ -1107,11 +1107,11 @@ describe(`LCD Client Mock`, () => {
             proposal_id: `1`,
             amount: [
               {
-                denom: `stake`,
+                denom: `STAKE`,
                 amount: `1`
               }
             ],
-            depositer: lcdClientMock.addresses[0]
+            depositor: lcdClientMock.addresses[0]
           })
           expect(res).toHaveLength(1)
           expect(res[0].check_tx.code).toBe(3)
@@ -1127,16 +1127,16 @@ describe(`LCD Client Mock`, () => {
             proposal_id: `5`,
             amount: [
               {
-                denom: `steak`,
+                denom: `STAKE`,
                 amount: `-10`
               }
             ],
-            depositer: lcdClientMock.addresses[0]
+            depositor: lcdClientMock.addresses[0]
           })
           expect(res).toHaveLength(1)
           expect(res[0].check_tx.code).toBe(1)
           expect(res[0].check_tx.log).toBe(
-            `Amount of steaks cannot be negative`
+            `Amount of STAKEs cannot be negative`
           )
         })
 
@@ -1154,7 +1154,7 @@ describe(`LCD Client Mock`, () => {
                 amount: `10`
               }
             ],
-            depositer: lcdClientMock.addresses[0]
+            depositor: lcdClientMock.addresses[0]
           })
           expect(res).toHaveLength(1)
           expect(res[0].check_tx.code).toBe(1)
@@ -1171,15 +1171,15 @@ describe(`LCD Client Mock`, () => {
             proposal_id: `5`,
             amount: [
               {
-                denom: `steak`,
+                denom: `STAKE`,
                 amount: `1500`
               }
             ],
-            depositer: lcdClientMock.addresses[0]
+            depositor: lcdClientMock.addresses[0]
           })
           expect(res).toHaveLength(1)
           expect(res[0].check_tx.code).toBe(1)
-          expect(res[0].check_tx.log).toBe(`Not enough steaks in your account`)
+          expect(res[0].check_tx.log).toBe(`Not enough STAKEs in your account`)
         })
       })
 
@@ -1187,25 +1187,25 @@ describe(`LCD Client Mock`, () => {
         it(`when user hasn't submitted a previous deposit`, async () => {
           let proposalBefore = await client.getProposal(`5`)
           let totalDepositBefore = proposalBefore.total_deposit.find(coin => {
-            return coin.denom === `steak`
+            return coin.denom === `STAKE`
           })
 
           let userDepositBefore = await client.getProposalDeposit(
             `5`,
             lcdClientMock.addresses[0]
           )
-          expect(totalDepositBefore).toEqual({ amount: `170`, denom: `steak` })
+          expect(totalDepositBefore).toEqual({ amount: `170`, denom: `STAKE` })
           expect(userDepositBefore).not.toBeDefined()
 
           let deposit = {
             proposal_id: `5`,
             amount: [
               {
-                denom: `steak`,
+                denom: `STAKE`,
                 amount: `200`
               }
             ],
-            depositer: lcdClientMock.addresses[0]
+            depositor: lcdClientMock.addresses[0]
           }
 
           let res = await client.submitProposalDeposit({
@@ -1220,14 +1220,14 @@ describe(`LCD Client Mock`, () => {
           // sshould have added the deposit to the proposal's total deposit
           let proposalAfter = await client.getProposal(`5`)
           let totalDepositAfter = proposalAfter.total_deposit.find(coin => {
-            return coin.denom === `steak`
+            return coin.denom === `STAKE`
           })
-          expect(totalDepositAfter).toEqual({ amount: `370`, denom: `steak` }) // 170 before + 200 new
+          expect(totalDepositAfter).toEqual({ amount: `370`, denom: `STAKE` }) // 170 before + 200 new
 
           // should have updated the status of the proposal from `DepositPeriod` to `VotingPeriod`
           expect(proposalAfter.proposal_status).toEqual(`VotingPeriod`)
 
-          // should have added the deposit from the depositer
+          // should have added the deposit from the depositor
           let userDepositAfter = await client.getProposalDeposit(
             `5`,
             lcdClientMock.addresses[0]
@@ -1237,29 +1237,29 @@ describe(`LCD Client Mock`, () => {
 
         it(`when user has previous deposit`, async () => {
           let proposalBefore = await client.getProposal(`2`)
-          let totalSteakBefore = proposalBefore.total_deposit.find(coin => {
-            return coin.denom === `steak`
+          let totalSTAKEBefore = proposalBefore.total_deposit.find(coin => {
+            return coin.denom === `STAKE`
           })
           let userDepositBefore = await client.getProposalDeposit(
             `2`,
             lcdClientMock.validators[0]
           )
-          expect(totalSteakBefore).toBeDefined()
+          expect(totalSTAKEBefore).toBeDefined()
           expect(userDepositBefore).toBeDefined()
 
           let deposit = {
             proposal_id: `2`,
             amount: [
               {
-                denom: `steak`,
+                denom: `STAKE`,
                 amount: `200`
               }
             ],
-            depositer: lcdClientMock.validators[0]
+            depositor: lcdClientMock.validators[0]
           }
 
           let newTotalAmt =
-            parseInt(totalSteakBefore.amount) +
+            parseInt(totalSTAKEBefore.amount) +
             parseInt(deposit.amount[0].amount)
 
           let newDepositAmt =
@@ -1277,12 +1277,12 @@ describe(`LCD Client Mock`, () => {
 
           // should have increased total deposit of the proposal
           let proposalAfter = await client.getProposal(`2`)
-          let totalSteakAfter = proposalAfter.total_deposit.find(coin => {
-            return coin.denom === `steak`
+          let totalSTAKEAfter = proposalAfter.total_deposit.find(coin => {
+            return coin.denom === `STAKE`
           })
-          expect(totalSteakAfter.amount).toEqual(String(newTotalAmt))
+          expect(totalSTAKEAfter.amount).toEqual(String(newTotalAmt))
 
-          // should have updated the deposit from the depositer
+          // should have updated the deposit from the depositor
           let userDepositAfter = await client.getProposalDeposit(
             `2`,
             lcdClientMock.validators[0]

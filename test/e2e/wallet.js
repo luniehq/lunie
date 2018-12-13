@@ -39,8 +39,8 @@ test(`wallet`, async function(t) {
     t.equal((await app.client.$$(`.li-coin`)).length, 2, `it shows all 2 coins`)
     // denom
     await t.ok(
-      await app.client.$(`.coin-denom=Steak`).isVisible(),
-      `show coin steak`
+      await app.client.$(`.coin-denom=Stake`).isVisible(),
+      `show coin stake`
     )
     await t.ok(
       await app.client.$(`.coin-denom=Localcoin`).isVisible(),

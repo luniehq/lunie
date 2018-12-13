@@ -71,7 +71,7 @@ export default ({ node }) => {
         commit(`setAccountNumber`, res.account_number)
         commit(`setWalletBalances`, coins)
         for (let coin of coins) {
-          if (coin.denom === rootState.config.bondingDenom.toLowerCase()) {
+          if (coin.denom === rootState.config.bondingDenom) {
             commit(`setAtoms`, parseFloat(coin.amount))
             break
           }
@@ -159,7 +159,7 @@ export default ({ node }) => {
         `tm.event = 'Tx' AND sender = '${state.address}'`,
         `tm.event = 'Tx' AND recipient = '${state.address}'`,
         `tm.event = 'Tx' AND proposer = '${state.address}'`,
-        `tm.event = 'Tx' AND depositer = '${state.address}'`,
+        `tm.event = 'Tx' AND depositor = '${state.address}'`,
         `tm.event = 'Tx' AND delegator = '${state.address}'`,
         `tm.event = 'Tx' AND voter = '${state.address}'`
       ]

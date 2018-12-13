@@ -38,7 +38,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 class="total-atoms top-section"
               >
                 <h3>
-                  Total Steak
+                  Total STAKE
                 </h3>
                  
                 <h2
@@ -52,7 +52,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 class="unbonded-atoms top-section"
               >
                 <h3>
-                  Available Steak
+                  Available STAKE
                 </h3>
                  
                 <h2>
@@ -252,7 +252,7 @@ exports[`PageWallet has the expected html structure 1`] = `
             <p
               class="coin-denom"
             >
-              Mycoin
+              Stake
             </p>
           </div>
            
@@ -268,7 +268,7 @@ exports[`PageWallet has the expected html structure 1`] = `
            
           <a
             class=""
-            href="#/wallet/send/mycoin"
+            href="#/wallet/send/STAKE"
           >
             <button
               class="tm-btn sendTx-btn"
@@ -313,7 +313,7 @@ exports[`PageWallet has the expected html structure 1`] = `
             <p
               class="coin-denom"
             >
-              Steak
+              Mycoin
             </p>
           </div>
            
@@ -329,7 +329,7 @@ exports[`PageWallet has the expected html structure 1`] = `
            
           <a
             class=""
-            href="#/wallet/send/steak"
+            href="#/wallet/send/mycoin"
           >
             <button
               class="tm-btn sendTx-btn"
@@ -417,7 +417,7 @@ exports[`PageWallet should filter the balances 1`] = `
                 class="total-atoms top-section"
               >
                 <h3>
-                  Total Steak
+                  Total STAKE
                 </h3>
                  
                 <h2
@@ -431,7 +431,7 @@ exports[`PageWallet should filter the balances 1`] = `
                 class="unbonded-atoms top-section"
               >
                 <h3>
-                  Available Steak
+                  Available STAKE
                 </h3>
                  
                 <h2>
@@ -570,7 +570,7 @@ exports[`PageWallet should filter the balances 1`] = `
             <p
               class="coin-denom"
             >
-              Steak
+              Stake
             </p>
           </div>
            
@@ -586,7 +586,7 @@ exports[`PageWallet should filter the balances 1`] = `
            
           <a
             class=""
-            href="#/wallet/send/steak"
+            href="#/wallet/send/STAKE"
           >
             <button
               class="tm-btn sendTx-btn"

@@ -40,21 +40,21 @@ describe(`PageWallet`, () => {
   it(`should sort the balances by denom`, () => {
     expect(wrapper.vm.filteredBalances.map(x => x.denom)).toEqual([
       `fermion`,
-      `mycoin`,
-      `steak`
+      `STAKE`,
+      `mycoin`
     ])
   })
 
   it(`should filter the balances`, async () => {
     store.commit(`setSearchVisible`, [`balances`, true])
-    store.commit(`setSearchQuery`, [`balances`, `steak`])
+    store.commit(`setSearchQuery`, [`balances`, `stake`])
     // after importing the @tendermint/ui components from modules
     // the perfect scroll plugin needs a $nextTick and a wrapper.update
     // to work properly in the tests (snapshots weren't matching)
     // this has occured across multiple tests
     await wrapper.vm.$nextTick()
     wrapper.update()
-    expect(wrapper.vm.filteredBalances.map(x => x.denom)).toEqual([`steak`])
+    expect(wrapper.vm.filteredBalances.map(x => x.denom)).toEqual([`STAKE`])
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 

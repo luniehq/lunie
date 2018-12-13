@@ -40,7 +40,7 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
       <input
         class="tm-field"
         id="denom"
-        placeholder="Steak"
+        placeholder="STAKE"
         readonly="readonly"
         type="text"
       />
