@@ -600,11 +600,7 @@ const checkGaiaCompatibility = async gaiacliVersionPath => {
 
 async function main() {
   // Sentry is used for automatic error reporting. It is turned off by default.
-  Sentry.init({
-    dsn: config.sentry_dsn,
-    release: `voyager@0.8001.1`
-  })
-  Sentry.captureException(new Error(`TESTING SENTRY`))
+  Sentry.init({})
 
   let appVersionPath = join(root, `app_version`)
   let genesisPath = join(root, `genesis.json`)
