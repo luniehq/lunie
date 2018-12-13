@@ -102,11 +102,6 @@ let rendererConfig = {
     // put all modules in node_modules in chunk
     new webpack.optimize.CommonsChunkPlugin({
       name: `vendor`
-    }),
-    new SentryWebpackPlugin({
-      include: `./dist`,
-      ignoreFile: `.gitignore`,
-      ignore: [`node_modules`, `webpack.main.config.js`]
     })
   ],
   output: {
@@ -140,7 +135,7 @@ let rendererConfig = {
  * Adjust rendererConfig for production settings
  */
 if (process.env.NODE_ENV === `production`) {
-  rendererConfig.devtool = ``
+  rendererConfig.devtool = `source-map`
 
   rendererConfig.plugins.push(
     new webpack.DefinePlugin({
@@ -148,6 +143,11 @@ if (process.env.NODE_ENV === `production`) {
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true
+    }),
+    new SentryWebpackPlugin({
+      include: `./dist`,
+      ignoreFile: `.gitignore`,
+      ignore: [`node_modules`, `webpack.main.config.js`]
     })
   )
 }
