@@ -64,7 +64,8 @@ test(`Governance`, async function(t) {
       `shows the newly created proposal`
     )
     await closeNotifications(app)
-    // check if balance updates accordingly
+
+    console.log(`Testing total balance updated`)
     await waitForText(
       () => app.client.$(`.total-atoms__value`),
       `${balance - 5}.0000…`
@@ -117,7 +118,8 @@ test(`Governance`, async function(t) {
       `increments the deposit count displayed on the proposal page`
     )
     await closeNotifications(app)
-    // check if balance updates accordingly
+
+    console.log(`Testing total balance updated`)
     await waitForText(
       () => app.client.$(`.total-atoms__value`),
       `${balance - 10}.0000…`,
