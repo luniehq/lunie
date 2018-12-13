@@ -59,6 +59,21 @@ exports[`Component: TabMyDelegations should show a message if not staked yet to 
 exports[`Component: TabMyDelegations should show committed validators 1`] = `
 <div>
   <div>
+    <h3
+      class="tab-header"
+    >
+      
+      My active validators
+      
+      <i
+        class="material-icons info-button"
+      >
+        
+        info_outline
+      
+      </i>
+    </h3>
+     
     <div>
       <table
         class="data-table"
@@ -262,7 +277,7 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
       class="tab-header"
     >
       
-      Inactive Delegations
+      Unbounding validators
       
       <i
         class="material-icons info-button"
@@ -624,7 +639,7 @@ exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
       class="tab-header"
     >
       
-      Inactive Delegations
+      Unbounding validators
       
       <i
         class="material-icons info-button"

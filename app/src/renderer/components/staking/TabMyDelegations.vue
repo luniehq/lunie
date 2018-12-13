@@ -1,6 +1,12 @@
 <template>
   <div>
     <div v-if="delegation.loaded && yourValidators.length > 0">
+      <h3 class="tab-header">
+        My active validators
+        <i v-tooltip.top="unbondInfo" class="material-icons info-button">
+          info_outline
+        </i>
+      </h3>
       <table-validators :validators="yourValidators" />
     </div>
     <tm-data-connecting v-if="!delegation.loaded && !connected" />
@@ -24,7 +30,7 @@
     </div>
     <div v-if="delegation.loaded && undelegatedValidators.length > 0">
       <h3 class="tab-header">
-        Inactive Delegations
+        Unbounding validators
         <i v-tooltip.top="unbondInfo" class="material-icons info-button"
           >info_outline</i
         >

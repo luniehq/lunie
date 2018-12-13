@@ -51,7 +51,7 @@ describe(`Component: TabMyDelegations`, () => {
       }
     })
 
-    expect(instance.wrapper.html()).toContain(`Inactive Delegations`)
+    expect(instance.wrapper.html()).toContain(`Unbounding validators`)
     expect(instance.wrapper.vm.$el).toMatchSnapshot()
   })
 
