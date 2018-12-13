@@ -1,12 +1,12 @@
 <template>
   <div class="tm-session">
-    <tm-form-struct :submit="onSubmit" class="tm-session-container">
+    <tm-form-struct :submit="() => onSubmit()" class="tm-session-container">
       <div class="tm-session-header">
         <a @click="setState('welcome')"
           ><i class="material-icons">arrow_back</i></a
         >
         <div class="tm-session-title">Create Account</div>
-        <a @click="help"><i class="material-icons">help_outline</i></a>
+        <a @click="help()"><i class="material-icons">help_outline</i></a>
       </div>
       <div class="tm-session-main">
         <tm-form-group
@@ -192,38 +192,38 @@ export default {
     new PerfectScrollbar(this.$el.querySelector(`.tm-session-main`))
   },
   methods: {
-    help() {
-      this.$store.commit(`setModalHelp`, true)
+    help({ $store } = this) {
+      $store.commit(`setModalHelp`, true)
     },
-    setState(value) {
-      this.$store.commit(`setModalSessionState`, value)
+    setState(value, { $store } = this) {
+      $store.commit(`setModalSessionState`, value)
     },
-    async onSubmit() {
-      this.$v.$touch()
-      if (this.$v.$error) return
+    async onSubmit({ $store, $v, fields } = this) {
+      $v.$touch()
+      if ($v.$error) return
       try {
-        let key = await this.$store.dispatch(`createKey`, {
-          seedPhrase: this.fields.signUpSeed,
-          password: this.fields.signUpPassword,
-          name: this.fields.signUpName
+        let key = await $store.dispatch(`createKey`, {
+          seedPhrase: fields.signUpSeed,
+          password: fields.signUpPassword,
+          name: fields.signUpName
         })
         if (key) {
-          this.$store.dispatch(`setErrorCollection`, {
-            account: this.fields.signUpName,
-            optin: this.fields.errorCollection
+          $store.dispatch(`setErrorCollection`, {
+            account: fields.signUpName,
+            optin: fields.errorCollection
           })
-          this.$store.commit(`setModalSession`, false)
-          this.$store.commit(`notify`, {
+          $store.commit(`setModalSession`, false)
+          $store.commit(`notify`, {
             title: `Signed Up`,
             body: `Your account has been created.`
           })
-          this.$store.dispatch(`signIn`, {
-            password: this.fields.signUpPassword,
-            account: this.fields.signUpName
+          $store.dispatch(`signIn`, {
+            password: fields.signUpPassword,
+            account: fields.signUpName
           })
         }
       } catch (error) {
-        this.$store.commit(`notifyError`, {
+        $store.commit(`notifyError`, {
           title: `Couldn't create account`,
           body: error.message
         })

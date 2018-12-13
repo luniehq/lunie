@@ -1,4 +1,4 @@
-import Raven from "raven-js"
+import * as Sentry from "@sentry/browser"
 
 export default ({ node }) => {
   const state = {
@@ -67,7 +67,7 @@ export default ({ node }) => {
           title: `Error fetching block information`,
           body: error.message
         })
-        Raven.captureException(error)
+        Sentry.captureException(error)
         state.loading = false
         state.error = error
         return null

@@ -7,17 +7,18 @@ const https = require(`https`)
 let { join, relative } = require(`path`)
 let childProcess = require(`child_process`)
 let semver = require(`semver`)
-let Raven = require(`raven`)
+const Sentry = require(`@sentry/node`)
 const readline = require(`readline`)
 let axios = require(`axios`)
 
-let pkg = require(`../../../package.json`)
+let { version: pkgVersion } = require(`../../../package.json`)
 let addMenu = require(`./menu.js`)
 let config = require(`../config.js`)
 config.node_lcd = process.env.LCD_URL || config.node_lcd
 config.node_rpc = process.env.RPC_URL || config.node_rpc
 let LcdClient = require(`../renderer/connectors/lcdClient.js`)
 global.config = config // to make the config accessable from renderer
+global.config.version = pkgVersion
 
 require(`electron-debug`)()
 
@@ -222,7 +223,7 @@ function startProcess(name, args, env) {
       console.error(...errorMessage) // also output to console for easier debugging
       handleCrash(error)
 
-      Raven.captureException(error)
+      Sentry.captureException(error)
     }
   })
 
@@ -382,12 +383,12 @@ if (!TEST) {
   // on uncaught exceptions we wait so the sentry event can be sent
   process.on(`uncaughtException`, async function(error) {
     logError(`[Uncaught Exception]`, error)
-    Raven.captureException(error)
+    Sentry.captureException(error)
     handleCrash(error)
   })
   process.on(`unhandledRejection`, async function(error) {
     logError(`[Unhandled Promise Rejection]`, error)
-    Raven.captureException(error)
+    Sentry.captureException(error)
     handleCrash(error)
   })
 }
@@ -399,11 +400,14 @@ const eventHandlers = {
   },
 
   "error-collection": (event, optin) => {
-    Raven.uninstall()
-      .config(optin ? config.sentry_dsn : ``, {
-        captureUnhandledRejections: false
+    if (optin) {
+      Sentry.init({
+        dsn: config.sentry_dsn,
+        release: `voyager@${pkgVersion}`
       })
-      .install()
+    } else {
+      Sentry.init({})
+    }
   },
 
   mocked: value => {
@@ -553,7 +557,7 @@ function checkConsistentConfigDir(
     )
   } else {
     let existingVersion = fs.readFileSync(appVersionPath, `utf8`).trim()
-    let semverDiff = semver.diff(existingVersion, pkg.version)
+    let semverDiff = semver.diff(existingVersion, pkgVersion)
     let compatible = semverDiff !== `major` && semverDiff !== `minor`
     if (compatible) {
       log(`configs are compatible with current app version`)
@@ -561,7 +565,7 @@ function checkConsistentConfigDir(
       // TODO: versions of the app with different data formats will need to learn how to
       // migrate old data
       throw Error(`Data was created with an incompatible app version
-        data=${existingVersion} app=${pkg.version}`)
+        data=${existingVersion} app=${pkgVersion}`)
     }
   }
 }
@@ -595,8 +599,8 @@ const checkGaiaCompatibility = async gaiacliVersionPath => {
 }
 
 async function main() {
-  // we only enable error collection after users opted in
-  Raven.config(``, { captureUnhandledRejections: false }).install()
+  // Sentry is used for automatic error reporting. It is turned off by default.
+  Sentry.init({})
 
   let appVersionPath = join(root, `app_version`)
   let genesisPath = join(root, `genesis.json`)
@@ -651,7 +655,7 @@ async function main() {
     fs.accessSync(networkPath) // crash if invalid path
     fs.copySync(networkPath, root)
 
-    fs.writeFileSync(appVersionPath, pkg.version)
+    fs.writeFileSync(appVersionPath, pkgVersion)
   }
 
   await checkGaiaCompatibility(gaiacliVersionPath)

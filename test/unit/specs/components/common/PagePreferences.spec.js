@@ -41,12 +41,16 @@ describe(`PagePreferences`, () => {
 
   it(`should set the error collection opt in`, async () => {
     let errorCollection = wrapper.vm.user.errorCollection
-    wrapper.vm.setErrorCollection()
-    expect(store.dispatch).toHaveBeenCalledWith(`setErrorCollection`, {
+    const dispatch = jest.fn()
+    wrapper.vm.setErrorCollection({
+      $store: {
+        dispatch
+      }
+    })
+    expect(dispatch).toHaveBeenCalledWith(`setErrorCollection`, {
       account: `default`,
       optin: !errorCollection
     })
-    expect(wrapper.vm.user.errorCollection).not.toBe(errorCollection)
   })
 
   it(`can switch the theme`, () => {

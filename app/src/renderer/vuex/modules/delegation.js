@@ -1,4 +1,4 @@
-import Raven from "raven-js"
+import * as Sentry from "@sentry/browser"
 import { calculateShares } from "scripts/common"
 
 export default ({ node }) => {
@@ -126,7 +126,7 @@ export default ({ node }) => {
           title: `Error fetching delegations`,
           body: error.message
         })
-        Raven.captureException(error)
+        Sentry.captureException(error)
         state.error = error
       }
 

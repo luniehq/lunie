@@ -41,6 +41,7 @@ module.exports = {
     `./test/unit/helpers/console_error_throw.js`,
     `./test/unit/helpers/genesis_mock.js`,
     `./test/unit/helpers/electron_mock.js`,
+    `./test/unit/helpers/sentry_mock.js`,
     `jest-localstorage-mock`
   ]
 }

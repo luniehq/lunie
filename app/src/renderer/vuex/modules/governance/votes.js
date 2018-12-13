@@ -1,5 +1,5 @@
-import Raven from "raven-js"
 import Vue from "vue"
+import * as Sentry from "@sentry/browser"
 
 export default ({ node }) => {
   const state = {
@@ -31,7 +31,7 @@ export default ({ node }) => {
           title: `Error fetching votes`,
           body: error.message
         })
-        Raven.captureException(error)
+        Sentry.captureException(error)
         state.error = error
       }
     },

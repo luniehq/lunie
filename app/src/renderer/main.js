@@ -5,7 +5,7 @@ import Electron from "vue-electron"
 import Router from "vue-router"
 import Tooltip from "vue-directive-tooltip"
 import Vuelidate from "vuelidate"
-import Raven from "raven-js"
+import * as Sentry from "@sentry/browser"
 import { ipcRenderer, remote } from "electron"
 
 import App from "./App"
@@ -21,15 +21,20 @@ let store
 let node
 let router
 
-// Raven serves automatic error reporting. It is turned off by default
-Raven.config(``).install()
+// Sentry is used for automatic error reporting. It is turned off by default.
+Sentry.init({})
+
+// this will pass the state to Sentry when errors are sent.
+Sentry.configureScope(scope => {
+  scope.setExtra(Store.state)
+})
 
 // handle uncaught errors
 window.addEventListener(`unhandledrejection`, function(event) {
-  Raven.captureException(event.reason)
+  Sentry.captureException(event.reason)
 })
 window.addEventListener(`error`, function(event) {
-  Raven.captureException(event.reason)
+  Sentry.captureException(event.reason)
 })
 
 Vue.config.errorHandler = (error, vm, info) => {
@@ -37,7 +42,7 @@ Vue.config.errorHandler = (error, vm, info) => {
 
 Guru Meditation #${info}`)
 
-  Raven.captureException(error)
+  Sentry.captureException(error)
 
   if (store.state.devMode) {
     throw error

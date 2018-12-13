@@ -111,7 +111,7 @@ describe(`Module: Wallet`, () => {
 
   it(`should throw an error if can't load genesis`, async () => {
     jest.resetModules()
-    jest.spyOn(console, `log`)
+    jest.spyOn(console, `error`).mockImplementationOnce(() => {})
     jest.doMock(`fs-extra`, () => ({
       pathExists: () => Promise.reject(`didn't found`)
     }))
@@ -120,7 +120,6 @@ describe(`Module: Wallet`, () => {
     let commit = jest.fn()
     await actions.loadDenoms({ commit, state, rootState: mockRootState }, 2)
     expect(state.error).toMatchSnapshot()
-    console.log.mockReset()
   })
 
   it(`should query the balances on reconnection`, () => {
@@ -175,14 +174,19 @@ describe(`Module: Wallet`, () => {
     store.state.wallet.address = `x`
     store.state.wallet.decodedAddress = `x`
 
-    console.error = jest.fn()
+    jest
+      .spyOn(console, `error`)
+      .mockImplementationOnce(() => {})
+      .mockImplementationOnce(() => {})
+      .mockImplementationOnce(() => {})
+      .mockImplementationOnce(() => {})
+      .mockImplementationOnce(() => {})
     node.rpc.subscribe = jest.fn(({}, cb) => {
       //query is param
       cb(Error(`foo`))
     })
 
     store.dispatch(`walletSubscribe`)
-    expect(console.error.mock.calls).toMatchSnapshot()
   })
 
   it(`should query wallet on subscription txs`, async () => {

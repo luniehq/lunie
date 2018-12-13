@@ -1,4 +1,4 @@
-import Raven from "raven-js"
+import * as Sentry from "@sentry/browser"
 import BN from "bignumber.js"
 import { ratToBigNumber } from "scripts/common"
 import num from "scripts/num"
@@ -106,7 +106,7 @@ export default ({ node }) => {
           title: `Error fetching validators`,
           body: error.message
         })
-        Raven.captureException(error)
+        Sentry.captureException(error)
         commit(`setDelegateLoading`, false)
         state.error = error
         return []
