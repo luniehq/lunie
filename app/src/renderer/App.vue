@@ -53,6 +53,7 @@ export default {
     ])
   },
   mounted() {
+    throw new Error(`Expected`)
     this.$store.commit(`loadOnboarding`)
     this.$store.commit(`setTheme`, `dark`)
   },
