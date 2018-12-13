@@ -52,6 +52,7 @@
       <tm-field
         id="denom"
         :placeholder="denom"
+        :tabindex="-1"
         type="text"
         readonly="readonly"
       />

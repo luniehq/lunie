@@ -99,12 +99,3 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
 </form>
 </div>"
 `;
-
-exports[`NISessionSignUp should signal signedin state on successful login 1`] = `
-Object {
-  "body": "Your account has been created.",
-  "icon": "check_circle",
-  "time": 42000,
-  "title": "Signed Up",
-}
-`;

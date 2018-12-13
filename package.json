@@ -29,7 +29,7 @@
     "pack:renderer": "cross-env NODE_ENV=production webpack --colors --config webpack.renderer.config.js",
     "test": "yarn run lint && yarn test:unit && yarn test:e2e",
     "test:unit": "cross-env LOGGING=false ANALYTICS=false NODE_ENV=testing jest --maxWorkers=2",
-    "test:e2e": "cross-env ANALYTICS=false yarn run pack && tape \"test/e2e/*.js\"",
+    "test:e2e": "cross-env ANALYTICS=false yarn run pack && tape \"${TEST:-test/e2e/*.js}\"",
     "test:exe": "node tasks/test-build.js",
     "test:coverage": "http-server test/unit/coverage/lcov-report",
     "release": "node ./tasks/releasePullRequest.js",
@@ -104,6 +104,8 @@
     "webpack-dev-server": "2.11.2"
   },
   "dependencies": {
+    "@sentry/browser": "4.4.1",
+    "@sentry/node": "4.4.1",
     "@tendermint/ui": "0.4.3",
     "@vue/test-utils": "1.0.0-beta.11",
     "autosize": "4.0.2",
@@ -125,8 +127,6 @@
     "no-scroll": "2.1.0",
     "numeral": "2.0.6",
     "perfect-scrollbar": "1.3.0",
-    "raven": "2.6.0",
-    "raven-js": "3.24.2",
     "semver": "5.5.0",
     "shortid": "2.2.8",
     "tendermint": "2.0.5",

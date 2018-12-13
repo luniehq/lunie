@@ -50,6 +50,7 @@ describe(`Module: User`, () => {
   })
 
   it(`should show an error if loading accounts fails`, async () => {
+    jest.spyOn(console, `error`).mockImplementationOnce(() => {})
     node.keys.values = () => Promise.reject(`Expected Error`)
     await store.dispatch(`loadAccounts`)
     expect(store.state.notifications[0].title).toBe(`Couldn't read keys`)
@@ -158,19 +159,21 @@ describe(`Module: User`, () => {
   })
 
   it(`should set the error collection opt in`, async () => {
-    const Raven = require(`raven-js`)
-    const ravenSpy = jest.spyOn(Raven, `config`)
-    store.dispatch(`setErrorCollection`, { account: `abc`, optin: true })
+    const Sentry = require(`@sentry/browser`)
+    await store.dispatch(`setErrorCollection`, { account: `abc`, optin: true })
     expect(store.state.user.errorCollection).toBe(true)
     expect(window.analytics).toBeTruthy()
-    expect(ravenSpy).toHaveBeenCalled()
-    expect(ravenSpy).not.toHaveBeenCalledWith(``)
-    expect(ravenSpy.mock.calls).toMatchSnapshot()
+    expect(Sentry.init).toHaveBeenCalled()
+    expect(Sentry.init).toHaveBeenCalledWith({
+      dsn: expect.stringMatching(`https://.*@sentry.io/.*`),
+      release: `voyager@0.0.1`
+    })
 
+    Sentry.init.mockClear()
     store.dispatch(`setErrorCollection`, { account: `abc`, optin: false })
     expect(store.state.user.errorCollection).toBe(false)
     expect(window.analytics).toBeFalsy()
-    expect(ravenSpy).toHaveBeenCalledWith(``)
+    expect(Sentry.init).toHaveBeenCalledWith({})
   })
 
   it(`should persist the error collection opt in`, () => {
@@ -203,8 +206,7 @@ describe(`Module: User`, () => {
   })
 
   it(`should not set error collection if in development mode`, async () => {
-    const Raven = require(`raven-js`)
-    const ravenSpy = jest.spyOn(Raven, `config`)
+    const Sentry = require(`@sentry/browser`)
     jest.doMock(`electron`, () => ({
       ipcRenderer: { send: jest.fn() },
       remote: {
@@ -225,10 +227,10 @@ describe(`Module: User`, () => {
     store = test.store
     node = test.node
 
-    ravenSpy.mockClear()
+    Sentry.init.mockClear()
     store.dispatch(`setErrorCollection`, { account: `abc`, optin: true })
     expect(store.state.user.errorCollection).toBe(false)
     expect(window.analytics).toBeFalsy()
-    expect(ravenSpy).not.toHaveBeenCalled()
+    expect(Sentry.init).not.toHaveBeenCalled()
   })
 })

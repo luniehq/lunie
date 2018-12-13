@@ -1,4 +1,4 @@
-import Raven from "raven-js"
+import * as Sentry from "@sentry/browser"
 import fs from "fs-extra"
 import { join } from "path"
 import { remote } from "electron"
@@ -83,7 +83,7 @@ export default ({ node }) => {
           title: `Error fetching balances`,
           body: error.message
         })
-        Raven.captureException(error)
+        Sentry.captureException(error)
         state.error = error
       }
     },
@@ -107,7 +107,7 @@ export default ({ node }) => {
       }
       if (maxIterations === 0) {
         const error = new Error(`Couldn't load genesis at path ${genesisPath}`)
-        Raven.captureException(error)
+        Sentry.captureException(error)
         state.error = error
         return
       }
@@ -145,7 +145,7 @@ export default ({ node }) => {
 
       function onTx(error, event) {
         if (error) {
-          Raven.captureException(error)
+          Sentry.captureException(error)
           console.error(`error subscribing to transactions`, error)
           return
         }
@@ -155,19 +155,23 @@ export default ({ node }) => {
         )
       }
 
-      node.rpc.subscribe(
-        {
-          query: `tm.event = 'Tx' AND sender = '${state.address}'`
-        },
-        onTx
-      )
+      const queries = [
+        `tm.event = 'Tx' AND sender = '${state.address}'`,
+        `tm.event = 'Tx' AND recipient = '${state.address}'`,
+        `tm.event = 'Tx' AND proposer = '${state.address}'`,
+        `tm.event = 'Tx' AND depositer = '${state.address}'`,
+        `tm.event = 'Tx' AND delegator = '${state.address}'`,
+        `tm.event = 'Tx' AND voter = '${state.address}'`
+      ]
 
-      node.rpc.subscribe(
-        {
-          query: `tm.event = 'Tx' AND recipient = '${state.address}'`
-        },
-        onTx
-      )
+      queries.forEach(query => {
+        node.rpc.subscribe(
+          {
+            query
+          },
+          onTx
+        )
+      })
     }
   }
 

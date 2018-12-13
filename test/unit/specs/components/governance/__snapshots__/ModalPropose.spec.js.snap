@@ -92,6 +92,7 @@ exports[`ModalPropose component matches snapshot has the expected html structure
         id="denom"
         placeholder="stake"
         readonly="readonly"
+        tabindex="-1"
         type="text"
       />
        

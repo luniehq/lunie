@@ -12,7 +12,7 @@
           :options="networkSelectOptions"
           type="select"
           placeholder="Select network..."
-          @change.native="setMockedConnector"
+          @change.native="setMockedConnector()"
         />
       </tm-list-item>
       <tm-list-item type="field" title="Node IP">
@@ -23,7 +23,7 @@
           id="toggle-onboarding"
           value="Launch Tutorial"
           icon="open_in_new"
-          @click.native="setOnboarding"
+          @click.native="setOnboarding()"
         />
       </tm-list-item>
       <tm-list-item
@@ -39,7 +39,7 @@
           }"
           :value="user.errorCollection || undefined"
           type="toggle"
-          @change.native="setErrorCollection"
+          @change.native="setErrorCollection()"
         />
       </tm-list-item>
     </tm-part>
@@ -50,7 +50,7 @@
           icon="exit_to_app"
           type="button"
           value="Sign Out"
-          @click.native="signOut"
+          @click.native="signOut()"
         />
       </tm-list-item>
     </tm-part>
@@ -115,33 +115,30 @@ export default {
     this.themeSelectActive = this.themes.active
   },
   methods: {
-    signOut() {
-      this.$store.dispatch(`signOut`)
-      this.$store.commit(`notifySignOut`)
+    signOut({ $store } = this) {
+      $store.dispatch(`signOut`)
+      $store.commit(`notifySignOut`)
     },
-    setAppTheme() {
-      if (this.themes.active === `dark`) {
-        this.$store.commit(`setTheme`, `light`)
+    setAppTheme({ $store, themes } = this) {
+      if (themes.active === `dark`) {
+        $store.commit(`setTheme`, `light`)
       } else {
-        this.$store.commit(`setTheme`, `dark`)
+        $store.commit(`setTheme`, `dark`)
       }
     },
-    setErrorCollection() {
-      this.$store.dispatch(`setErrorCollection`, {
+    setErrorCollection({ $store } = this) {
+      $store.dispatch(`setErrorCollection`, {
         account: this.user.account,
         optin: !this.user.errorCollection
       })
     },
-    setOnboarding() {
-      this.$store.commit(`setOnboardingState`, 0)
-      this.$store.commit(`setOnboardingActive`, true)
+    setOnboarding({ $store } = this) {
+      $store.commit(`setOnboardingState`, 0)
+      $store.commit(`setOnboardingActive`, true)
     },
 
-    setMockedConnector() {
-      this.$store.dispatch(
-        `setMockedConnector`,
-        this.networkSelectActive === `mock`
-      )
+    setMockedConnector({ $store, networkSelectActive } = this) {
+      $store.dispatch(`setMockedConnector`, networkSelectActive === `mock`)
     }
   }
 }

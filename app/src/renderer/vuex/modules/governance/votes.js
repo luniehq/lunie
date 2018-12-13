@@ -1,4 +1,5 @@
-import Raven from "raven-js"
+import Vue from "vue"
+import * as Sentry from "@sentry/browser"
 
 export default ({ node }) => {
   const state = {
@@ -9,8 +10,8 @@ export default ({ node }) => {
   }
 
   const mutations = {
-    setProposalVotes(state, proposalId, votes) {
-      state.votes[proposalId] = votes
+    setProposalVotes(state, { proposalId, votes }) {
+      Vue.set(state.votes, proposalId, votes)
     }
   }
   let actions = {
@@ -21,7 +22,7 @@ export default ({ node }) => {
 
       try {
         let votes = await node.queryProposalVotes(proposalId)
-        commit(`setProposalVotes`, proposalId, votes)
+        commit(`setProposalVotes`, { proposalId, votes })
         state.error = null
         state.loading = false
         state.loaded = true
@@ -30,7 +31,7 @@ export default ({ node }) => {
           title: `Error fetching votes`,
           body: error.message
         })
-        Raven.captureException(error)
+        Sentry.captureException(error)
         state.error = error
       }
     },

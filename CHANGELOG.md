@@ -47,6 +47,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1690](https://github.com/cosmos/voyager/issues/1690) Governance: Fixed error messages for maxLength @sabau
 - [\#1710](https://github.com/cosmos/voyager/issues/1710) Feedbacks when Amount is not between valid thresholds @sabau
 - [\#1625](https://github.com/cosmos/voyager/issues/1625) Sentry CLI and webpack plugin for source maps @jbibla
+- [\#1690](https://github.com/cosmos/voyager/issues/1690) Feedbacks when Amount is not between valid thresholds @sabau
+- [\#1673](https://github.com/cosmos/voyager/issues/1673) Documentation and single command to run one or all tests with fallback for end to end test @sabau
+- [\#1683](https://github.com/cosmos/voyager/issues/1683) Governance: block voting twice for the same option @sabau
 
 ### Changed
 
@@ -74,16 +77,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1612](https://github.com/cosmos/voyager/issues/1612) defined props types on components
 - changed `err` to `error` because abbreviations are bad @faboweb
 - [\#1609](https://github.com/cosmos/voyager/issues/1609) switched to css and html to onboard developers faster @faboweb
-- [\#1594](https://github.com/cosmos/voyager/issues/1594) disable decimal 
-
-
-
+- [\#1594](https://github.com/cosmos/voyager/issues/1594) disable decimal
 
 transfers @fedekunze
+
 - [\#1680](https://github.com/cosmos/voyager/issues/1680) updated `TmBalance` to receive tabs an array of objects to avoid conflicting routes @fedekunze
 - [\#1638](https://github.com/cosmos/voyager/issues/1638) removed account password from the state and now user has to input it on every transaction @fedekunze
 - [\#1655](https://github.com/cosmos/voyager/issues/1655) Text and Textarea fields trimmed @sabau
 - [\#1686](https://github.com/cosmos/voyager/issues/1686) Changed proposals from array to object @sabau
+- [\#1626](https://github.com/cosmos/voyager/issues/1626) upgraded from raven to sentry/browser @jbibla
+- [\#1724](https://github.com/cosmos/voyager/issues/1724) set tabindex attribute to -1 for readonly denom on ModalProposals. tab navgiation now skips element @enyan94
 
 ### Fixed
 
@@ -129,6 +132,7 @@ transfers @fedekunze
 - [\#1641](https://github.com/cosmos/voyager/issues/1641) Fixed styling of validator page (parameters on top and min-width) @faboweb
 - [\#1667](https://github.com/cosmos/voyager/issues/1667) Fixed menu in PageSend + hover cursor for menu @sabau
 - [\#1676](https://github.com/cosmos/voyager/issues/1676) Reduced minWidth css for ModalVote to have 2 buttons per line @sabau
+- [\#1676](https://github.com/cosmos/voyager/issues/1670) Update balance in header after voting and depositing @faboweb
 
 ## [0.10.7] - 2018-10-10
 

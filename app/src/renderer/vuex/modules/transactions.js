@@ -1,6 +1,6 @@
 import fp from "lodash/fp"
 import { uniqBy } from "lodash"
-import Raven from "raven-js"
+import * as Sentry from "@sentry/browser"
 export default ({ node }) => {
   let emptyState = {
     loading: false,
@@ -76,7 +76,7 @@ export default ({ node }) => {
           title: `Error getting transactions`,
           body: error.message
         })
-        Raven.captureException(error)
+        Sentry.captureException(error)
         state.error = error
       }
     },
