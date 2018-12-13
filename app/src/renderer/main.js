@@ -81,8 +81,6 @@ async function main() {
     routes
   })
 
-  throw new Error(`Expected`)
-
   router.beforeEach((to, from, next) => {
     if (from.fullPath !== to.fullPath && !store.getters.user.pauseHistory)
       store.commit(`addHistory`, from.fullPath)
@@ -109,6 +107,8 @@ async function main() {
     node.rpcConnect(rpcURL)
     store.dispatch(`rpcSubscribe`)
     store.dispatch(`subscribeToBlocks`)
+
+    throw new Error(`Expected`)
 
     if (firstStart) {
       store.dispatch(`showInitialScreen`)
