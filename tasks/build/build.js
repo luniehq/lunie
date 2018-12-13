@@ -35,15 +35,18 @@ const copyGaia = options => (
   arch,
   callback
 ) => {
-  const platformPath = platform === `win32` ? `windows` : platform
+  const binaryBuildPath = `../../builds/Gaia`
+  const binaryFolder = {
+    win32: `${binaryBuildPath}/windows_amd64`,
+    darwin: `${binaryBuildPath}/darwin_amd64`,
+    mas: `${binaryBuildPath}/darwin_amd64`,
+    linux: `${binaryBuildPath}/linux_amd64`
+  }[platform]
   const binaryName = platform === `win32` ? `gaiacli.exe` : `gaiacli`
 
   const binaryPath =
     options.binaryPath === `default`
-      ? path.join(
-          __dirname,
-          `../../builds/Gaia/${platformPath}_amd64/${binaryName}`
-        )
+      ? path.join(__dirname, `${binaryFolder}/${binaryName}`)
       : options.binaryPath
   fs.copy(binaryPath, `${buildPath}/bin/${binaryName}`, callback)
 }
@@ -200,6 +203,7 @@ const build = cliOptions => async platform => {
   console.log(
     `\x1b[34mBuilding electron app(s) for platform ${platform}...\n\x1b[0m`
   )
+  console.log(options)
 
   const appPath = await packagerWrapper(packageJson, options)
   console.log(`Build(s) successful!`)
@@ -263,8 +267,7 @@ const buildAllPlatforms = async options => {
   )
 
   pack()
-  const oss =
-    options.os === `unspecified` ? [`darwin`, `linux`, `win32`] : [options.os]
+  const oss = options.os === `all` ? [`darwin`, `linux`, `win32`] : [options.os]
   const buildHashes = await Promise.all(oss.map(build(options)))
   const end = new Date()
 
