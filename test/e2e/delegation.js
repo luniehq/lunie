@@ -49,16 +49,13 @@ test(`delegation`, async function(t) {
         .isVisible(),
       `show validator 3`
     )
-    let myVotesText = await app.client
-      .$(`.li-validator__delegated-steak`)
-      .getText()
-    let myVotes = parseFloat(myVotesText.replace(/,/g, ``))
-    await t.equal(
-      myVotes,
-      parseFloat(bondedStake),
-      `show my stake in the validator`
-    )
 
+    // check if my stake in the validator is correct
+    await waitForText(
+      () => app.client.$(`.li-validator__delegated-steak`),
+      `${bondedStake}.0000…`,
+      10 * 10000
+    )
     t.end()
   })
 
@@ -92,19 +89,20 @@ test(`delegation`, async function(t) {
         `//*[@id = 'delegation-modal']//button//*[. = 'Confirm Delegation']`
       )
       .waitForVisible(
-        `//*[. = 'You have successfully delegated your Steaks']`,
+        `//*[. = 'You have successfully delegated your STAKEs']`,
         5 * 1000
       )
 
       // Go back to Staking page.
       .click(`//a//*[. = 'Staking']`)
 
-    // there was a bug that updated the balances in a way that it would show more atoms,
-    // then the users has
+    console.log(`Testing total balance`)
     await waitForText(
       () => app.client.$(`.header-balance .total-atoms h2`),
-      `${parseInt(totalAtoms) - 10}.0000…`
+      `${parseInt(totalAtoms) - 10}.0000…`,
+      10 * 1000
     )
+    console.log(`Testing unbonded balance`)
     await waitForText(
       () => app.client.$(`.header-balance .unbonded-atoms h2`),
       `${parseInt(unbondedAtoms) - 10}.0000…`
@@ -139,7 +137,7 @@ test(`delegation`, async function(t) {
       .setValue(`#password`, `1234567890`)
       .click(`//*[@id = 'undelegation-modal']//button//*[. = 'Undelegate']`)
       .waitForVisible(
-        `//*[. = 'You have successfully undelegated 5 Steaks.']`,
+        `//*[. = 'You have successfully undelegated 5 STAKEs.']`,
         5 * 1000
       )
 

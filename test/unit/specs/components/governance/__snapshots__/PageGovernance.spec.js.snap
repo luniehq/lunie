@@ -15,7 +15,7 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
                      </div>
    <div class=\\"total-atoms top-section\\">
       <h3>
-         Total Steak
+         Total STAKE
       </h3>
       <h2 class=\\"total-atoms__value\\">
          1,337.0000…
@@ -23,7 +23,7 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
 </div>
    <div class=\\"unbonded-atoms top-section\\">
       <h3>
-         Available Steak
+         Available STAKE
       </h3>
       <h2>
          1,337.0000…
@@ -75,7 +75,7 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
                         </div>
       <div class=\\"total-atoms top-section\\">
          <h3>
-            Total Steak
+            Total STAKE
          </h3>
          <h2 class=\\"total-atoms__value\\">
             1,337.0000…
@@ -83,7 +83,7 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
 </div>
       <div class=\\"unbonded-atoms top-section\\">
          <h3>
-            Available Steak
+            Available STAKE
          </h3>
          <h2>
             1,337.0000…
@@ -150,7 +150,7 @@ exports[`PageGovernance has the expected html structure 1`] = `
                      </div>
    <div class=\\"total-atoms top-section\\">
       <h3>
-         Total Steak
+         Total STAKE
       </h3>
       <h2 class=\\"total-atoms__value\\">
          1,337.0000…
@@ -158,7 +158,7 @@ exports[`PageGovernance has the expected html structure 1`] = `
 </div>
    <div class=\\"unbonded-atoms top-section\\">
       <h3>
-         Available Steak
+         Available STAKE
       </h3>
       <h2>
          1,337.0000…
@@ -210,7 +210,7 @@ exports[`PageGovernance has the expected html structure 1`] = `
                         </div>
       <div class=\\"total-atoms top-section\\">
          <h3>
-            Total Steak
+            Total STAKE
          </h3>
          <h2 class=\\"total-atoms__value\\">
             1,337.0000…
@@ -218,7 +218,7 @@ exports[`PageGovernance has the expected html structure 1`] = `
 </div>
       <div class=\\"unbonded-atoms top-section\\">
          <h3>
-            Available Steak
+            Available STAKE
          </h3>
          <h2>
             1,337.0000…

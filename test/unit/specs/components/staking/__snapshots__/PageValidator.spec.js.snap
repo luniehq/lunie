@@ -38,7 +38,7 @@ exports[`PageValidator has the expected html structure 1`] = `
                 class="total-atoms top-section"
               >
                 <h3>
-                  Total Steak
+                  Total STAKE
                 </h3>
                  
                 <h2
@@ -52,7 +52,7 @@ exports[`PageValidator has the expected html structure 1`] = `
                 class="unbonded-atoms top-section"
               >
                 <h3>
-                  Available Steak
+                  Available STAKE
                 </h3>
                  
                 <h2>
@@ -240,7 +240,7 @@ exports[`PageValidator has the expected html structure 1`] = `
             class="colored_dl"
           >
             <dt>
-              Delegated Steak
+              Delegated STAKE
             </dt>
              
             <dd>
@@ -465,7 +465,7 @@ exports[`PageValidator has the expected html structure 1`] = `
             class="info_dl"
           >
             <dt>
-              Self Delegated Steak
+              Self Delegated STAKE
             </dt>
              
             <dd
@@ -479,7 +479,7 @@ exports[`PageValidator has the expected html structure 1`] = `
             class="info_dl"
           >
             <dt>
-              Minimum Self Delegated Steak
+              Minimum Self Delegated STAKE
             </dt>
              
             <dd>
@@ -557,7 +557,7 @@ exports[`PageValidator shows a default avatar 1`] = `
                 class="total-atoms top-section"
               >
                 <h3>
-                  Total Steak
+                  Total STAKE
                 </h3>
                  
                 <h2
@@ -571,7 +571,7 @@ exports[`PageValidator shows a default avatar 1`] = `
                 class="unbonded-atoms top-section"
               >
                 <h3>
-                  Available Steak
+                  Available STAKE
                 </h3>
                  
                 <h2>
@@ -759,7 +759,7 @@ exports[`PageValidator shows a default avatar 1`] = `
             class="colored_dl"
           >
             <dt>
-              Delegated Steak
+              Delegated STAKE
             </dt>
              
             <dd>
@@ -984,7 +984,7 @@ exports[`PageValidator shows a default avatar 1`] = `
             class="info_dl"
           >
             <dt>
-              Self Delegated Steak
+              Self Delegated STAKE
             </dt>
              
             <dd
@@ -998,7 +998,7 @@ exports[`PageValidator shows a default avatar 1`] = `
             class="info_dl"
           >
             <dt>
-              Minimum Self Delegated Steak
+              Minimum Self Delegated STAKE
             </dt>
              
             <dd>
@@ -1058,7 +1058,7 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
                 class="total-atoms top-section"
               >
                 <h3>
-                  Total Steak
+                  Total STAKE
                 </h3>
                  
                 <h2
@@ -1072,7 +1072,7 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
                 class="unbonded-atoms top-section"
               >
                 <h3>
-                  Available Steak
+                  Available STAKE
                 </h3>
                  
                 <h2>

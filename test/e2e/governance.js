@@ -64,7 +64,8 @@ test(`Governance`, async function(t) {
       `shows the newly created proposal`
     )
     await closeNotifications(app)
-    // check if balance updates accordingly
+
+    console.log(`Testing total balance updated`)
     await waitForText(
       () => app.client.$(`.total-atoms__value`),
       `${balance - 5}.0000…`
@@ -105,7 +106,7 @@ test(`Governance`, async function(t) {
         .$(`#submit-deposit`)
         .click()
         .waitForVisible(
-          `//*[. = 'You have successfully deposited your steaks on proposal #1']`,
+          `//*[. = 'You have successfully deposited your STAKEs on proposal #1']`,
           4 * 1000
         ),
       `successful deposit`
@@ -117,10 +118,12 @@ test(`Governance`, async function(t) {
       `increments the deposit count displayed on the proposal page`
     )
     await closeNotifications(app)
-    // check if balance updates accordingly
+
+    console.log(`Testing total balance updated`)
     await waitForText(
       () => app.client.$(`.total-atoms__value`),
-      `${balance - 10}.0000…`
+      `${balance - 10}.0000…`,
+      10 * 10000
     )
     t.end()
   })

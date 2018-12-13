@@ -13,7 +13,7 @@
         <h2>{{ unbondedAtoms }}</h2>
       </div>
     </div>
-    <short-bech32 :address="user.address" />
+    <short-bech32 :address="user.address || ''" />
     <div class="tabs">
       <div
         v-for="tab in tabs"

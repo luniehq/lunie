@@ -147,7 +147,7 @@ export default ({ node }) => {
       },
       { stakingTransactions, password }
     ) {
-      const denom = config.bondingDenom.toLowerCase()
+      const denom = config.bondingDenom
       const delegatorAddr = wallet.address
       // delegations = [], unbondings = [], redelegations = []
 

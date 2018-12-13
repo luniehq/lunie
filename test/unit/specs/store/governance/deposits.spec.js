@@ -72,7 +72,7 @@ describe(`Module: Deposits`, () => {
           type: `submitProposalDeposit`,
           to: proposal_id,
           proposal_id,
-          depositer: addresses[0],
+          depositor: addresses[0],
           amount
         }
       ])

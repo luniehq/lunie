@@ -35,7 +35,7 @@ let state = {
           amount: `2300`
         },
         {
-          denom: `steak`,
+          denom: `STAKE`,
           amount: `1000`
         }
       ],
@@ -135,7 +135,7 @@ let state = {
                 description: `This is a test proposal`,
                 initial_deposit: [
                   {
-                    denom: `steak`,
+                    denom: `STAKE`,
                     amount: `100`
                   }
                 ]
@@ -155,11 +155,11 @@ let state = {
             {
               type: `cosmos-sdk/MsgDeposit`,
               value: {
-                depositer: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+                depositor: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
                 proposal_id: `1`,
                 amount: [
                   {
-                    denom: `steak`,
+                    denom: `STAKE`,
                     amount: `100`
                   }
                 ]
@@ -180,7 +180,7 @@ let state = {
                 delegator_addr: addresses[0],
                 delegation: {
                   amount: `24`,
-                  denom: `steak`
+                  denom: `STAKE`
                 }
               }
             }
@@ -304,7 +304,7 @@ let state = {
   stakingParameters: {
     unbonding_time: `259200000000000`,
     max_validators: 100,
-    bond_denom: `steak`
+    bond_denom: `STAKE`
   },
   governanceParameters: {
     deposit: {
@@ -340,13 +340,13 @@ let state = {
       description: `Proposal description`,
       initial_deposit: [
         {
-          denom: `steak`,
+          denom: `STAKE`,
           amount: `100`
         }
       ],
       total_deposit: [
         {
-          denom: `steak`,
+          denom: `STAKE`,
           amount: `100`
         }
       ],
@@ -369,13 +369,13 @@ let state = {
       description: `custom text proposal description`,
       initial_deposit: [
         {
-          denom: `steak`,
+          denom: `STAKE`,
           amount: `200`
         }
       ],
       total_deposit: [
         {
-          denom: `steak`,
+          denom: `STAKE`,
           amount: `200`
         }
       ],
@@ -398,13 +398,13 @@ let state = {
       description: `custom text proposal description`,
       initial_deposit: [
         {
-          denom: `steak`,
+          denom: `STAKE`,
           amount: `20`
         }
       ],
       total_deposit: [
         {
-          denom: `steak`,
+          denom: `STAKE`,
           amount: `170`
         }
       ],
@@ -493,24 +493,24 @@ let state = {
     1: [
       {
         proposal_id: `1`,
-        depositer: validators[0],
+        depositor: validators[0],
         amount: [
           {
-            denom: `steak`,
+            denom: `STAKE`,
             amount: `15`
           },
           {
-            denom: `steak`,
+            denom: `STAKE`,
             amount: `5`
           }
         ]
       },
       {
         proposal_id: `1`,
-        depositer: validators[1],
+        depositor: validators[1],
         amount: [
           {
-            denom: `steak`,
+            denom: `STAKE`,
             amount: `5`
           }
         ]
@@ -519,10 +519,10 @@ let state = {
     2: [
       {
         proposal_id: `2`,
-        depositer: validators[0],
+        depositor: validators[0],
         amount: [
           {
-            denom: `steak`,
+            denom: `STAKE`,
             amount: `200`
           }
         ]
@@ -531,20 +531,20 @@ let state = {
     5: [
       {
         proposal_id: `5`,
-        depositer: validators[0],
+        depositor: validators[0],
         amount: [
           {
-            denom: `steak`,
+            denom: `STAKE`,
             amount: `20`
           }
         ]
       },
       {
         proposal_id: `5`,
-        depositer: validators[1],
+        depositor: validators[1],
         amount: [
           {
-            denom: `steak`,
+            denom: `STAKE`,
             amount: `150`
           }
         ]
@@ -553,10 +553,10 @@ let state = {
     6: [
       {
         proposal_id: `6`,
-        depositer: validators[0],
+        depositor: validators[0],
         amount: [
           {
-            denom: `steak`,
+            denom: `STAKE`,
             amount: `100`
           }
         ]
@@ -1035,7 +1035,7 @@ module.exports = {
     results = await this.submitProposalDeposit({
       base_req,
       proposal_id,
-      depositer: proposer,
+      depositor: proposer,
       amount: initial_deposit
     })
     // remove proposal from state if it fails
@@ -1056,13 +1056,13 @@ module.exports = {
   },
   async getProposalDeposit(proposalId, address) {
     return state.deposits[proposalId].find(
-      deposit => deposit.depositer === address
+      deposit => deposit.depositor === address
     )
   },
   async submitProposalDeposit({
     proposal_id,
     base_req: { name, sequence },
-    depositer,
+    depositor,
     amount
   }) {
     let results = []
@@ -1098,7 +1098,7 @@ module.exports = {
     let coin
     let submittedDeposit = {
       proposal_id,
-      depositer,
+      depositor,
       amount
     }
 
@@ -1116,7 +1116,7 @@ module.exports = {
         return results
       }
 
-      // update depositer's balance
+      // update depositor's balance
       coinBalance.amount -= depositCoinAmt
 
       // ============= TOTAL PROPOSAL's DEPOSIT =============
@@ -1134,15 +1134,15 @@ module.exports = {
       }
 
       // ============= USER'S DEPOSITS =============
-      // check if there's an existing deposit by the depositer
+      // check if there's an existing deposit by the depositor
       let prevDeposit =
         state.deposits[proposal_id] &&
         state.deposits[proposal_id].find(
-          deposit => deposit.depositer === depositer
+          deposit => deposit.depositor === depositor
         )
 
       if (!prevDeposit) {
-        // if no previous deposit by the depositer, we add it to the existing deposits
+        // if no previous deposit by the depositor, we add it to the existing deposits
         if (!state.deposits[proposal_id]) state.deposits[proposal_id] = []
         state.deposits[proposal_id].push(submittedDeposit)
         break // break since no need to iterate over other coins
@@ -1155,7 +1155,7 @@ module.exports = {
         if (!prevDepCoin) {
           prevDeposit.amount.push(coin)
         } else {
-          // there's a previous deposit from the depositer with the same coin
+          // there's a previous deposit from the depositor with the same coin
           let newAmt = parseInt(prevDepCoin.amount) + parseInt(coin.amount)
           prevDepCoin.amount = String(newAmt)
         }
@@ -1168,7 +1168,7 @@ module.exports = {
     if (proposal.proposal_status === `DepositPeriod`) {
       // TODO: get min deposit denom from gov params instead of stake params
       let depositCoinAmt = proposal.total_deposit.find(coin => {
-        return coin.denom === `steak`
+        return coin.denom === `STAKE`
       }).amount
       // TODO: get min deposit amount from gov params
       if (parseInt(depositCoinAmt) >= 10) {
@@ -1268,7 +1268,7 @@ module.exports = {
         if (type === `cosmos-sdk/MsgSubmitProposal`) {
           return tx.tx.value.msg[0].value.proposer === addr
         } else if (type === `cosmos-sdk/MsgDeposit`) {
-          return tx.tx.value.msg[0].value.depositer === addr
+          return tx.tx.value.msg[0].value.depositor === addr
         }
 
         return false

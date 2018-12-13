@@ -46,7 +46,7 @@ exports[`DelegationModal component matches snapshot has the expected html struct
       <input
         class="tm-field"
         id="denom"
-        placeholder="Steak"
+        placeholder="STAKE"
         readonly="readonly"
         type="text"
       />

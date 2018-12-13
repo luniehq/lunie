@@ -627,18 +627,18 @@ describe(`LCD Client`, () => {
             {
               data: undefined,
               method: `GET`,
-              url: `http://remotehost/txs?tag=action='submit-proposal'&tag=proposer='${
+              url: `http://remotehost/txs?action=submit-proposal&proposer=${
                 lcdClientMock.addresses[0]
-              }'`
+              }`
             }
           ],
           [
             {
               data: undefined,
               method: `GET`,
-              url: `http://remotehost/txs?tag=action='deposit'&tag=depositer='${
+              url: `http://remotehost/txs?action=deposit&depositor=${
                 lcdClientMock.addresses[0]
-              }'`
+              }`
             }
           ]
         ])

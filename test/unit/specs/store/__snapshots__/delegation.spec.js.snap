@@ -44,7 +44,7 @@ Array [
         Object {
           "delegation": Object {
             "amount": "109",
-            "denom": "steak",
+            "denom": "STAKE",
           },
           "delegator_addr": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
           "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
@@ -52,7 +52,7 @@ Array [
         Object {
           "delegation": Object {
             "amount": "456",
-            "denom": "steak",
+            "denom": "STAKE",
           },
           "delegator_addr": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
           "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
