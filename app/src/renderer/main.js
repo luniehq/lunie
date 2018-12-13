@@ -5,7 +5,7 @@ import Electron from "vue-electron"
 import Router from "vue-router"
 import Tooltip from "vue-directive-tooltip"
 import Vuelidate from "vuelidate"
-import Sentry from "@sentry/browser"
+import * as Sentry from "@sentry/browser"
 import { ipcRenderer, remote } from "electron"
 
 import App from "./App"

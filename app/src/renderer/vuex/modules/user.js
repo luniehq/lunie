@@ -1,4 +1,4 @@
-import Sentry from "@sentry/browser"
+import * as Sentry from "@sentry/browser"
 import { ipcRenderer, remote } from "electron"
 import enableGoogleAnalytics from "../../google-analytics.js"
 const config = remote.getGlobal(`config`)

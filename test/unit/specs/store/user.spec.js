@@ -160,21 +160,20 @@ describe(`Module: User`, () => {
 
   it(`should set the error collection opt in`, async () => {
     const Sentry = require(`@sentry/browser`)
-    const sentrySpy = jest.spyOn(Sentry, `init`)
     await store.dispatch(`setErrorCollection`, { account: `abc`, optin: true })
     expect(store.state.user.errorCollection).toBe(true)
     expect(window.analytics).toBeTruthy()
-    expect(sentrySpy).toHaveBeenCalled()
-    expect(sentrySpy).toHaveBeenCalledWith({
+    expect(Sentry.init).toHaveBeenCalled()
+    expect(Sentry.init).toHaveBeenCalledWith({
       dsn: expect.stringMatching(`https://.*@sentry.io/.*`),
       release: `voyager@0.0.1`
     })
 
-    sentrySpy.mockClear()
+    Sentry.init.mockClear()
     store.dispatch(`setErrorCollection`, { account: `abc`, optin: false })
     expect(store.state.user.errorCollection).toBe(false)
     expect(window.analytics).toBeFalsy()
-    expect(sentrySpy).toHaveBeenCalledWith({})
+    expect(Sentry.init).toHaveBeenCalledWith({})
   })
 
   it(`should persist the error collection opt in`, () => {
@@ -208,7 +207,6 @@ describe(`Module: User`, () => {
 
   it(`should not set error collection if in development mode`, async () => {
     const Sentry = require(`@sentry/browser`)
-    const sentrySpy = jest.spyOn(Sentry, `init`)
     jest.doMock(`electron`, () => ({
       ipcRenderer: { send: jest.fn() },
       remote: {
@@ -229,10 +227,10 @@ describe(`Module: User`, () => {
     store = test.store
     node = test.node
 
-    sentrySpy.mockClear()
+    Sentry.init.mockClear()
     store.dispatch(`setErrorCollection`, { account: `abc`, optin: true })
     expect(store.state.user.errorCollection).toBe(false)
     expect(window.analytics).toBeFalsy()
-    expect(sentrySpy).not.toHaveBeenCalled()
+    expect(Sentry.init).not.toHaveBeenCalled()
   })
 })

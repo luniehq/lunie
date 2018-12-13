@@ -1,5 +1,5 @@
 jest.mock(`@sentry/browser`, () => ({
-  init: () => {},
-  configureScope: () => {},
-  captureException: () => {}
+  init: jest.fn(),
+  configureScope: jest.fn(),
+  captureException: jest.fn()
 }))
