@@ -78,7 +78,7 @@ export default {
   data: () => ({
     bondInfo: `Validators you are currently bonded to`,
     unbondInfo: `Your bonded validators in unbonding process`,
-    unbondTransactions: `The transactions currently in unbounding period`
+    unbondTransactions: `The transactions currently in unbouding period`
   }),
   computed: {
     ...mapState([`transactions`]),

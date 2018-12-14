@@ -277,7 +277,7 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
       class="tab-header"
     >
       
-      Unbounding validators
+      Unbonding validators
       
       <i
         class="material-icons info-button"
@@ -569,7 +569,7 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
       class="tab-header transactions"
     >
       
-      Unbounding transactions
+      Unbonding transactions
       
       <i
         class="material-icons info-button"
@@ -639,7 +639,7 @@ exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
       class="tab-header"
     >
       
-      Unbounding validators
+      Unbonding validators
       
       <i
         class="material-icons info-button"
@@ -931,7 +931,7 @@ exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
       class="tab-header transactions"
     >
       
-      Unbounding transactions
+      Unbonding transactions
       
       <i
         class="material-icons info-button"
