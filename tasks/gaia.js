@@ -17,6 +17,7 @@ let nodeBinary =
   process.env.NODE_BINARY_PATH ||
   path.join(__dirname, `../builds/Gaia/`, osFolderName, `gaiad`)
 const defaultStartPort = 26656
+const getStartPort = nodeNumber => defaultStartPort - (nodeNumber - 1) * 3
 
 // initialise the node config folder and genesis
 async function initNode(
@@ -188,11 +189,10 @@ function startLocalNode(
   return new Promise((resolve, reject) => {
     let command = `${nodeBinary} start --home ${nodeHome}` // TODO add --minimum_fees 1STAKE here
     if (number > 1) {
+      const port = getStartPort(number)
       // setup different ports
-      command += ` --p2p.laddr=tcp://0.0.0.0:${defaultStartPort -
-        (number - 1) * 3} --address=tcp://0.0.0.0:${defaultStartPort -
-        (number - 1) * 3 +
-        1} --rpc.laddr=tcp://0.0.0.0:${defaultStartPort - (number - 1) * 3 + 2}`
+      command += ` --p2p.laddr=tcp://0.0.0.0:${port} --address=tcp://0.0.0.0:${port +
+        1} --rpc.laddr=tcp://0.0.0.0:${port + 2}`
       // set the first node as a persistent peer
       command += ` --p2p.persistent_peers="${nodeOneId}@localhost:${defaultStartPort}"`
     }

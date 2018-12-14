@@ -1,5 +1,7 @@
 "use strict"
 
+import { buildLocalNode } from "./build/local/build"
+
 let runDev = require(`./runner.js`)
 let config = require(`../app/src/config.js`)
 const path = require(`path`)
@@ -18,6 +20,13 @@ async function main() {
     }
     const TESTNET_NODE_FOLDER = path.join(userHome, `.gaiad-testnet`)
     startLocalNode(TESTNET_NODE_FOLDER)
+    if (process.env[`VALIDATORS`] && process.env[`VALIDATORS`] > 1) {
+      // let's re-t
+      await buildLocalNode({
+        overwrite: true,
+        nodes: parseInt(process.env[`VALIDATORS`], 10)
+      })
+    }
   }
 
   // run Voyager in a development environment

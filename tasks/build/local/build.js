@@ -19,24 +19,26 @@ const optionsSpecification = {
   password: [`custom password, default is 1234567890`, 1234567890]
 }
 
-cli(optionsSpecification, async options => {
+export const localTestnetPath = `builds/testnets/local-testnet/`
+
+export const buildLocalNode = async options => {
   try {
     // remove existing config
     if (options.overwrite) {
-      if (fs.existsSync(appDir + `/builds/testnets/local-testnet`)) {
-        await makeExec(`rm -r builds/testnets/local-testnet`)
+      if (fs.existsSync(`${appDir}/${localTestnetPath}`)) {
+        await makeExec(`rm -r ${localTestnetPath}`)
       }
-      if (fs.existsSync(homeDir + `/.gaiad-testnet`)) {
+      if (fs.existsSync(`${homeDir}/.gaiad-testnet`)) {
         await makeExec(`rm -r ~/.gaiad-testnet`)
       }
-      if (fs.existsSync(homeDir + `/.cosmos-voyager-dev/local-testnet`)) {
+      if (fs.existsSync(`${homeDir}/.cosmos-voyager-dev/local-testnet`)) {
         await makeExec(`rm -r ~/.cosmos-voyager-dev/local-testnet`)
       }
     }
 
     const chainId = `local-testnet`
     const moniker = `local`
-    const clientHome = `./builds/testnets/local-testnet/lcd`
+    const clientHome = `./${localTestnetPath}lcd`
     const nodeHome = `${homeDir}/.gaiad-testnet`
     const defaultAccountInfo = {
       keyName: `local`,
@@ -46,7 +48,7 @@ cli(optionsSpecification, async options => {
     await initNode(
       chainId,
       moniker,
-      `${homeDir}/.gaiad-testnet`,
+      `${localTestnetPath}/.gaiad-testnet`,
       options.password,
       options.overwrite
     )
@@ -67,7 +69,9 @@ Default account:
     console.log(`Encountered an Error:`)
     console.error(error.msg ? error : error.toString())
   }
-})
+}
+
+cli(optionsSpecification, buildLocalNode)
 
 async function moveFiles() {
   fs.ensureDirSync(`builds/testnets/local-testnet`)
