@@ -2,7 +2,7 @@
   <tm-page class="staking" data-title="Staking"
     ><template slot="menu-body">
       <tm-balance :tabs="tabs" />
-      <vm-tool-bar
+      <tool-bar
         ><a
           v-tooltip.bottom="'Refresh'"
           :disabled="!connected"
@@ -10,7 +10,7 @@
           ><i class="material-icons">refresh</i></a
         ><a v-tooltip.bottom="'Search'" @click="setSearch()"
           ><i class="search material-icons">search</i></a
-        ></vm-tool-bar
+        ></tool-bar
       >
     </template>
     <modal-search type="delegates" />
@@ -23,7 +23,7 @@ import { mapGetters, mapActions } from "vuex"
 import Mousetrap from "mousetrap"
 import { TmPage } from "@tendermint/ui"
 import ModalSearch from "common/TmModalSearch"
-import VmToolBar from "common/VmToolBar"
+import ToolBar from "common/ToolBar"
 import TmBalance from "common/TmBalance"
 export default {
   name: `page-staking`,
@@ -31,7 +31,7 @@ export default {
     ModalSearch,
     TmPage,
     TmBalance,
-    VmToolBar
+    ToolBar
   },
   data: () => ({
     query: ``,

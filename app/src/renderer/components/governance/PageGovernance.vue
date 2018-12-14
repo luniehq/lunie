@@ -10,10 +10,10 @@
           @click.native="onPropose"
         />
       </tm-balance>
-      <vm-tool-bar
+      <tool-bar
         ><a v-tooltip.bottom="'Search'" @click="setSearch()"
           ><i class="search material-icons">search</i></a
-        ></vm-tool-bar
+        ></tool-bar
       >
     </template>
     <modal-search type="proposals" />
@@ -32,7 +32,7 @@ import { mapGetters } from "vuex"
 import DataEmptySearch from "common/TmDataEmptySearch"
 import ModalSearch from "common/TmModalSearch"
 import ModalPropose from "./ModalPropose"
-import VmToolBar from "common/VmToolBar"
+import ToolBar from "common/ToolBar"
 import TmBalance from "common/TmBalance"
 import { TmPage, TmDataEmpty, TmDataLoading, TmBtn } from "@tendermint/ui"
 export default {
@@ -46,7 +46,7 @@ export default {
     ModalPropose,
     TmPage,
     TmBtn,
-    VmToolBar
+    ToolBar
   },
   data: () => ({
     query: ``,
