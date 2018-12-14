@@ -106,10 +106,6 @@ describe(`Store`, () => {
     jest.runAllTimers() // updating is waiting if more updates coming in, this skips the waiting
     await store.dispatch(`signOut`)
 
-    expect(store.state.stakingParameters.parameters).toBeFalsy()
-    expect(store.state.pool.pool).toBeFalsy()
-    expect(store.state.governanceParameters.parameters).toBeFalsy()
-
     await store.dispatch(`signIn`, {
       account: `default`,
       password: `1234567890`
