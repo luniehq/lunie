@@ -30,7 +30,7 @@
     </div>
     <div v-if="delegation.loaded && undelegatedValidators.length > 0">
       <h3 class="tab-header">
-        Unbounding validators
+        Unbonding validators
         <i v-tooltip.top="unbondInfo" class="material-icons info-button"
           >info_outline</i
         >
@@ -39,7 +39,7 @@
     </div>
     <div v-if="delegation.loaded && undelegatedValidators.length > 0">
       <h3 class="tab-header transactions">
-        Unbounding transactions
+        Unbonding transactions
         <i
           v-tooltip.top="unbondTransactions"
           class="material-icons info-button"
