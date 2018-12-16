@@ -1,22 +1,17 @@
 "use strict"
 
-let { makeExec } = require(`../../tasks/gaia`)
 let { Application } = require(`spectron`)
 let test = require(`tape-promise/tape`)
 let electron = require(`electron`)
 let { join } = require(`path`)
 let fs = require(`fs-extra`)
+const buildNodes = require(`../../tasks/build/local/helper`).buildNodes
+const startNodes = require(`../../tasks/build/local/helper`).startNodes
 
-const testDir = join(__dirname, `../../testArtifacts`)
+const testDir = join(__dirname, `..`, `..`, `testArtifacts`)
 let {
-  initNode,
   createKey,
   getKeys,
-  initGenesis,
-  getGenesis,
-  startLocalNode,
-  makeValidator,
-  getNodeId,
 
   cliBinary,
   nodeBinary,
@@ -37,56 +32,10 @@ function launch(t) {
     })
 
     started = new Promise(async resolve => {
-      console.log(`using cli binary`, cliBinary)
-      console.log(`using node binary`, nodeBinary)
-
-      const cliHomePrefix = join(testDir, `cli_home`)
-      const nodeHomePrefix = join(testDir, `node_home`)
-
-      fs.removeSync(`testArtifacts`)
-
-      // setup first node
-      const nodeOneHome = nodeHomePrefix + `_1`
-      const nodeOneCliHome = cliHomePrefix + `_1`
-      const operatorKeyName = `testkey`
-      console.log(`ui home: ${nodeOneCliHome}`)
-      console.log(`node home: ${nodeOneHome}`)
-
-      await setupLocalNode(nodeOneHome, 1)
-      const nodeOneId = await getNodeId(nodeOneHome)
-      await saveVersion(nodeOneHome)
-
-      // create address to delegate staking tokens to 2nd and 3rd validator
-      let mainAccountSignInfo = {
-        keyName: operatorKeyName,
-        password: `1234567890`,
-        clientHomeDir: nodeOneCliHome
-      }
-      let { address } = await createKey(mainAccountSignInfo)
-      const genesis = await initGenesis(
-        mainAccountSignInfo,
-        address,
-        nodeOneHome
+      const { cliHomePrefix, cliHome, home } = await bootLocalNetwork(
+        testDir,
+        `test_chain`
       )
-
-      // wait till the first node produces blocks
-      await startLocalNode(nodeOneHome, 1)
-
-      for (let i = 2; i < 4; i++) {
-        // setup additional nodes
-        await setupLocalNode(`${nodeHomePrefix}_${i}`, i, genesis, address)
-        // start secondary nodes and connect to node one
-        // wait until all nodes are showing blocks, so we know they are running
-        await startLocalNode(`${nodeHomePrefix}_${i}`, i, nodeOneId)
-        // make our secondary nodes also to validators
-        await makeValidator(
-          mainAccountSignInfo,
-          `${nodeHomePrefix}_${i}`,
-          `${cliHomePrefix}_${i}`,
-          `local_${i}`
-        )
-      }
-      console.log(`Declared secondary nodes to be validators.`)
 
       app = new Application({
         path: electron,
@@ -103,7 +52,7 @@ function launch(t) {
           PREVIEW: `true`,
           COSMOS_DEVTOOLS: 0, // open devtools will cause issues with spectron, you can open them later manually
           COSMOS_HOME: cliHomePrefix,
-          COSMOS_NETWORK: join(nodeOneHome, `config`),
+          COSMOS_NETWORK: join(home, `config`),
           COSMOS_MOCKED: false, // the e2e tests expect mocking to be switched off
           BINARY_PATH: cliBinary,
           LCD_URL: `https://localhost:9071`,
@@ -115,10 +64,7 @@ function launch(t) {
       await stop(app)
 
       // setup additional accounts for testing
-      let accounts = await setupAccounts(
-        nodeOneCliHome,
-        join(cliHomePrefix, `lcd`)
-      )
+      let accounts = await setupAccounts(cliHome, join(cliHomePrefix, `lcd`))
 
       await startApp(app, `.tm-session-title=Sign In`)
       t.ok(app.isRunning(), `app is running`)
@@ -146,6 +92,28 @@ test.onFinish(async () => {
   // tape doesn't finish properly because of open processes like gaia
   process.exit(0)
 })
+
+const bootLocalNetwork = async (targetDir, chainId) => {
+  console.log(`using cli binary`, cliBinary)
+  console.log(`using node binary`, nodeBinary)
+
+  const { nodes, cliHomePrefix, mainAccountSignInfo } = await buildNodes(
+    targetDir,
+    chainId,
+    3
+  )
+
+  console.log(`Done with initialization, start the nodes`)
+
+  await startNodes(nodes, mainAccountSignInfo)
+
+  console.log(`Declared secondary nodes to be validators.`)
+
+  return {
+    cliHomePrefix,
+    ...nodes[1]
+  }
+}
 
 async function setupAccounts(nodeOneClientDir, voyagerCLIDir) {
   // use the master account that holds funds from node 1
@@ -266,73 +234,6 @@ async function handleCrash(app, error) {
 
     process.exit(1)
   }
-}
-
-async function initLocalNode(nodeHome, number = 1) {
-  await initNode(`test_chain`, `local_${number}`, nodeHome, `1234567890`, true)
-
-  return getGenesis(nodeHome)
-}
-
-// init a node and define it as a validator
-async function setupLocalNode(nodeHome, number, mainGenesis = undefined) {
-  await initLocalNode(nodeHome, number)
-  mainGenesis &&
-    (await fs.writeJSON(join(nodeHome, `config`, `genesis.json`), mainGenesis))
-  await reduceTimeouts(nodeHome)
-}
-
-// declare candidacy for node
-
-function reduceTimeouts(nodeHome, strictAddressbook = false) {
-  const configPath = join(nodeHome, `config`, `config.toml`)
-  let configToml = fs.readFileSync(configPath, `utf8`)
-
-  const timeouts = [
-    `timeout_propose`,
-    `timeout_propose_delta`,
-    `timeout_prevote`,
-    `timeout_prevote_delta`,
-    `timeout_precommit`,
-    `timeout_precommit_delta`,
-    `timeout_commit`,
-    `flush_throttle_timeout`
-  ]
-  const updatedConfigToml = configToml
-    .split(`\n`)
-    .map(line => {
-      let [key, value] = line.split(` = `)
-
-      if (key === `addr_book_strict`) {
-        return `${key} = ${strictAddressbook ? `true` : `false`}`
-      }
-
-      if (!timeouts.includes(key)) {
-        return line
-      }
-
-      // timeouts are in the format "100ms" or "5s"
-      value = value.replace(/"/g, ``)
-      if (value.trim().endsWith(`ms`)) {
-        value = parseInt(value.trim().substr(0, value.length - 2))
-      } else if (value.trim().endsWith(`s`)) {
-        value = parseInt(value.trim().substr(0, value.length - 1)) * 1000
-      }
-
-      return `${key} = "${value / 10}ms"`
-    })
-    .join(`\n`)
-
-  fs.writeFileSync(configPath, updatedConfigToml, `utf8`)
-}
-
-// save the version of the currently used gaia into the newly created network config folder
-function saveVersion(nodeHome) {
-  const versionPath = join(nodeHome, `config`)
-  let versionFilePath = join(versionPath, `gaiaversion.txt`) // nodeHome/config is used to copy created config files from
-  makeExec(
-    `mkdir -p ${versionPath} && ${nodeBinary} version > ${versionFilePath}`
-  )
 }
 
 module.exports = {
