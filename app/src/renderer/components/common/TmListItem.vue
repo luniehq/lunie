@@ -287,12 +287,12 @@ export default {
   flex-flow row nowrap
   align-items center
   position relative
-  min-height 3rem - calc(2 * var(--px))
+  min-height calc(3rem - 2 * var(--px))
   max-width 60rem
 
 // type: anchor & link
 .tm-li-thumb, .tm-li-label, .tm-li-icon
-  min-height 3rem - calc(2 * var(--px))
+  min-height calc(3rem - 2 * var(--px))
 
 .tm-li-thumb:empty
   display none
