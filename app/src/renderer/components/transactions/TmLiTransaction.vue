@@ -1,18 +1,26 @@
-<template lang="pug">
-.tm-li-tx
-  .tm-li-tx__icon
-    img(src="../../assets/cosmos-logo.png" :style="{ borderColor: color }")
-  .tm-li-tx__content
-    .tm-li-tx__content__left
-      .tm-li-tx__content__caption
-        p.tm-li-tx__content__caption__title
-          slot(name="caption")
-      .tm-li-tx__content__information
-        slot(name="details")
-    
-    .tm-li-tx__content__block
-      a(:href="'https://explorecosmos.network/blocks/' + block") Block \#{{block}}&nbsp;
-      | @ {{date}}
+<template>
+  <div class="tm-li-tx">
+    <div class="tm-li-tx__icon">
+      <img src="../../assets/cosmos-logo.png" :style="{ borderColor: color }" />
+    </div>
+    <div class="tm-li-tx__content">
+      <div class="tm-li-tx__content__left">
+        <div class="tm-li-tx__content__caption">
+          <p class="tm-li-tx__content__caption__title">
+            <slot name="caption"></slot>
+          </p>
+        </div>
+        <div class="tm-li-tx__content__information">
+          <slot name="details"></slot>
+        </div>
+      </div>
+      <div class="tm-li-tx__content__block">
+        <a :href="'https://explorecosmos.network/blocks/' + block"
+          >Block #{{ block }}&nbsp;</a
+        >@ {{ date }}
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>

@@ -1,11 +1,15 @@
-<template lang="pug">
-.tm-page
-  tm-page-header
-    h2(v-if="title", slot='title') {{ title }}
-    h3(v-if="subtitle", slot='subtitle') {{ subtitle }}
-    template(slot='menu-body'): slot(name="menu-body")
-    div(slot="menu"): slot(name="menu")
-  main.tm-page-main: slot
+<template>
+  <div class="tm-page">
+    <tm-page-header>
+      <h2 v-if="title" slot="title">{{ title }}</h2>
+      <h3 v-if="subtitle" slot="subtitle">{{ subtitle }}</h3>
+      <template slot="menu-body">
+        <slot name="menu-body"></slot>
+      </template>
+      <div slot="menu"><slot name="menu"></slot></div>
+    </tm-page-header>
+    <main class="tm-page-main"><slot></slot></main>
+  </div>
 </template>
 
 <script>

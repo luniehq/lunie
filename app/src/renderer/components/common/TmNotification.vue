@@ -1,12 +1,17 @@
-<template lang="pug">
-div(:class='cssClass' @click='deactivate' v-if='active')
-  header
-    .icon(v-if='data.icon'): i.material-icons {{ data.icon }}
-    .title(v-if='data.title') {{ data.title }}
-    menu
-      .time(v-if='data.time') {{ fromNow }}
-      i.close.material-icons close
-  .body {{ data.body }}
+<template>
+  <div :class="cssClass" @click="deactivate" v-if="active">
+    <header>
+      <div class="icon" v-if="data.icon">
+        <i class="material-icons">{{ data.icon }}</i>
+      </div>
+      <div class="title" v-if="data.title">{{ data.title }}</div>
+      <menu>
+        <div class="time" v-if="data.time">{{ fromNow }}</div>
+        <i class="close material-icons">close</i>
+      </menu>
+    </header>
+    <div class="body">{{ data.body }}</div>
+  </div>
 </template>
 
 <script>

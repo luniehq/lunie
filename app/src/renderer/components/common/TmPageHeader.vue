@@ -1,15 +1,20 @@
-<template lang="pug">
-header.tm-page-header
-  .tm-page-header-container
-    .tm-page-header-text
-      .tm-page-header-title(v-if="$slots['title']")
-        slot(name='title')
-      .tm-page-header-subtitle(v-if="$slots['subtitle']")
-        slot(name='subtitle')
-      .tm-page-header-body(v-if="$slots['menu-body']")
-        slot(name='menu-body')
-    menu.tm-page-header-menu
-      slot(name="menu")
+<template>
+  <header class="tm-page-header">
+    <div class="tm-page-header-container">
+      <div class="tm-page-header-text">
+        <div class="tm-page-header-title" v-if="$slots['title']">
+          <slot name="title"></slot>
+        </div>
+        <div class="tm-page-header-subtitle" v-if="$slots['subtitle']">
+          <slot name="subtitle"></slot>
+        </div>
+        <div class="tm-page-header-body" v-if="$slots['menu-body']">
+          <slot name="menu-body"></slot>
+        </div>
+      </div>
+      <menu class="tm-page-header-menu"> <slot name="menu"></slot> </menu>
+    </div>
+  </header>
 </template>
 
 <script>

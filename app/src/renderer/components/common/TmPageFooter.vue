@@ -1,7 +1,7 @@
-<template lang="pug">
-footer.tm-page-footer
-  .container
-    slot
+<template>
+  <footer class="tm-page-footer">
+    <div class="container"><slot></slot></div>
+  </footer>
 </template>
 
 <script>

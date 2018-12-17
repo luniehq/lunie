@@ -1,11 +1,16 @@
-<template lang="pug">
-.tm-bar-discrete: .tm-bar-discrete__container
-  .tm-bar-discrete__edge
-  .tm-bar-discrete__node(
-    v-for="(node, key) in nodes"
-    :key="key"
-    @click="clickFn(key)"
-    v-bind:class="classObject(key)")
+<template>
+  <div class="tm-bar-discrete">
+    <div class="tm-bar-discrete__container">
+      <div class="tm-bar-discrete__edge"></div>
+      <div
+        class="tm-bar-discrete__node"
+        v-for="(node, key) in nodes"
+        :key="key"
+        @click="clickFn(key)"
+        v-bind:class="classObject(key)"
+      ></div>
+    </div>
+  </div>
 </template>
 
 <script>

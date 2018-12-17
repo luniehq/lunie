@@ -1,10 +1,14 @@
-<template lang="pug">
-div(:class='cssClass')
-  span.tm-form-group__sub-label(v-if="subLabel")
-    | {{ subLabel }}
-  label.tm-form-group__label(:for='fieldId' v-if="fieldId && fieldLabel")
-    | {{ fieldLabel }}
-  .tm-form-group__field: slot
+<template>
+  <div :class="cssClass">
+    <span class="tm-form-group__sub-label" v-if="subLabel">{{ subLabel }}</span
+    ><label
+      class="tm-form-group__label"
+      :for="fieldId"
+      v-if="fieldId &amp;&amp; fieldLabel"
+      >{{ fieldLabel }}</label
+    >
+    <div class="tm-form-group__field"><slot></slot></div>
+  </div>
 </template>
 
 <script>

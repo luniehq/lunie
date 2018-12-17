@@ -1,20 +1,41 @@
-<template lang="pug">
-.tm-select(v-if="type === 'select' || type === 'countries'")
-  select(
-    :class="css"
-    :value="value"
-    @input="updateValue($event.target.value)"
-    @change="onChange"
-    @keyup="onKeyup"
-    @keydown="onKeydown")
-    option(value="" disabled selected hidden) {{ selectPlaceholder }}
-    option(v-if="options" v-for="(option, index) in options" :key="index" :value="option.value") {{ option.key }}
-    option(v-else-if="type === 'countries'" v-for="i in countries" :value="i.value"
-    :key="i.key") {{ i.key }}
-  .tm-field-select-addon: i.material-icons arrow_drop_down
-
-// .tm-datetime(v-else-if="type === 'datetime'")
-  input(
+<template>
+  <div class="tm-select" v-if="type === 'select' || type === 'countries'">
+    <select
+      :class="css"
+      :value="value"
+      @input="updateValue($event.target.value)"
+      @change="onChange"
+      @keyup="onKeyup"
+      @keydown="onKeydown"
+    >
+      <option
+        value=""
+        disabled="disabled"
+        selected="selected"
+        hidden="hidden"
+        >{{ selectPlaceholder }}</option
+      >
+      <option
+        v-if="options"
+        v-for="(option, index) in options"
+        :key="index"
+        :value="option.value"
+        >{{ option.key }}</option
+      >
+      <option
+        v-else-if="type === 'countries'"
+        v-for="i in countries"
+        :value="i.value"
+        :key="i.key"
+        >{{ i.key }}</option
+      >
+    </select>
+    <div class="tm-field-select-addon">
+      <i class="material-icons">arrow_drop_down</i>
+    </div>
+  </div>
+  <!--
+    .tm-datetime(v-else-if="type === 'datetime'")input(
     type="text"
     :class="css"
     @change="onChange"
@@ -23,42 +44,42 @@
     :placeholder="placeholder"
     :value="value"
     @input="updateValue($event.target.value)")
-
-textarea(v-else-if="type === 'textarea'"
-  :class="css"
-  @change="onChange"
-  @keyup="onKeyup"
-  @keydown="onKeydown"
-  :placeholder="placeholder"
-  :value="value"
-  @input="updateValue($event.target.value)")
-
-label.tm-toggle(
-  v-else-if="type === 'toggle'"
-  :class="toggleClass")
-  .tm-toggle-wrapper
-    span {{toggleLongerWord}}
-    .toggle-option-checked: div {{toggleOptions.checked}}
-    .toggle-option-unchecked: div {{toggleOptions.unchecked}}
-    .toggle-handle
-    input(
-      type="checkbox"
-      @change="onChange"
-      :value="value"
-    )
-
-input(v-else
-  ref="numTextInput"
-  :type="type"
-  :class="css"
-  @change="onChange"
-  @keyup="onKeyup"
-  @keydown="onKeydown"
-  :placeholder="placeholder"
-  :value="value"
-  :max="max"
-  :min="min"
-  @input="updateValue($event.target.value)")
+  --><textarea
+    v-else-if="type === 'textarea'"
+    :class="css"
+    @change="onChange"
+    @keyup="onKeyup"
+    @keydown="onKeydown"
+    :placeholder="placeholder"
+    :value="value"
+    @input="updateValue($event.target.value)"
+  ></textarea
+  ><label class="tm-toggle" v-else-if="type === 'toggle'" :class="toggleClass">
+    <div class="tm-toggle-wrapper">
+      <span>{{ toggleLongerWord }}</span>
+      <div class="toggle-option-checked">
+        <div>{{ toggleOptions.checked }}</div>
+      </div>
+      <div class="toggle-option-unchecked">
+        <div>{{ toggleOptions.unchecked }}</div>
+      </div>
+      <div class="toggle-handle"></div>
+      <input type="checkbox" @change="onChange" :value="value" />
+    </div> </label
+  ><input
+    v-else="v-else"
+    ref="numTextInput"
+    :type="type"
+    :class="css"
+    @change="onChange"
+    @keyup="onKeyup"
+    @keydown="onKeydown"
+    :placeholder="placeholder"
+    :value="value"
+    :max="max"
+    :min="min"
+    @input="updateValue($event.target.value)"
+  />
 </template>
 
 <script>

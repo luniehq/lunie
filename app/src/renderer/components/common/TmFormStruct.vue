@@ -1,16 +1,17 @@
-<template lang="pug">
-form(:class='cssClass' v-on:submit.prevent.default='submit')
-  .tm-form-container
-    slot(name='overlay')
-    header.tm-form-header(v-if='hasHeader')
-      .tm-form-title
-        slot(name='title')
-      .tm-form-subtitle
-        slot(name='subtitle')
-    main.tm-form-main
-      slot
-    footer.tm-form-footer(v-if='hasFooter')
-      slot(name='footer')
+<template>
+  <form :class="cssClass" v-on:submit.prevent.default="submit">
+    <div class="tm-form-container">
+      <slot name="overlay"></slot>
+      <header class="tm-form-header" v-if="hasHeader">
+        <div class="tm-form-title"><slot name="title"></slot></div>
+        <div class="tm-form-subtitle"><slot name="subtitle"></slot></div>
+      </header>
+      <main class="tm-form-main"><slot></slot></main>
+      <footer class="tm-form-footer" v-if="hasFooter">
+        <slot name="footer"></slot>
+      </footer>
+    </div>
+  </form>
 </template>
 
 <script>

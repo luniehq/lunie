@@ -1,75 +1,203 @@
-<template lang="pug">
-mixin tm-li-thumb
-  .tm-li-thumb
-    template(v-if='icon'): i.material-icons(:class="spinClass") {{ icon }}
-    template(v-else-if='image'): img(:src='image')
-    template(v-else-if="$slots['graphic']"): slot(name='graphic')
-mixin tm-li-dl
-  .tm-li-dl
-    .tm-li-dt {{ dt }}
-    .tm-li-dd.tm-li-dd-flush(v-if="$slots['dd']"): slot(name='dd')
-    .tm-li-dd(v-else) {{ dd }}
-mixin tm-li-icon
-  .tm-li-icon
-    i.material-icons.inactive chevron_right
-    i.material-icons.active my_location
-mixin tm-li-label
-  .tm-li-label
-    .tm-li-title {{ title }}
-    .tm-li-subtitle {{ subtitle }}
-//- dt/dd anchor
-a.tm-li.tm-li-link(v-if='dt && href' :href="href"): .tm-li-container
-  +tm-li-thumb
-  +tm-li-dl
-  +tm-li-icon
-
-//- label and input
-.tm-li.tm-li-field(v-else-if="type === 'field'"): .tm-li-container
-  +tm-li-thumb
-  +tm-li-label
-  .tm-li-input: slot
-
-//- dt/dd router-link
-router-link.tm-li.tm-li-link(v-else-if="dt && to && !btn" :to="to"): .tm-li-container
-  +tm-li-thumb
-  +tm-li-dl
-  +tm-li-icon
-
-//- button router-link
-router-link.tm-li.tm-li-link(v-else-if="btn && to" :to="to"): .tm-li-container
-  +tm-li-thumb
-  +tm-li-dl
-  tm-btn(:value="btn" icon="chevron_right" icon-pos="right" color="primary")
-
-//- dt/dd text
-.tm-li(v-else-if='dt'): .tm-li-container
-  +tm-li-thumb
-  +tm-li-dl
-
-//- title/subtitle anchor
-a.tm-li.tm-li-link(v-else-if="href" :href="href"): .tm-li-container
-  +tm-li-thumb
-  +tm-li-label
-  +tm-li-icon
-
-//- title/subtitle router-link
-router-link.tm-li.tm-li-link(v-else-if="to" :to='to'): .tm-li-container
-  +tm-li-thumb
-  +tm-li-label
-  +tm-li-icon
-
-.tm-li.tm-li-receive(v-else-if="title && btn && !to"): .tm-li-container
-  +tm-li-thumb
-  +tm-li-label
-  slot(name="btn-receive")
-
-//- title/subtitle text
-.tm-li(v-else-if='title'): .tm-li-container
-  +tm-li-thumb
-  +tm-li-label
-
-//- image
-.tm-li(v-else-if="type === 'image'"): .tm-li-container: slot
+<template>
+  <a class="tm-li tm-li-link" v-if="dt &amp;&amp; href" :href="href">
+    <div class="tm-li-container">
+      <div class="tm-li-thumb">
+        <template v-if="icon"
+          ><i class="material-icons" :class="spinClass">{{ icon }}</i></template
+        ><template v-else-if="image"
+          ><img :src="image"/></template
+        ><template v-else-if="$slots['graphic']">
+          <slot name="graphic"></slot>
+        </template>
+      </div>
+      <div class="tm-li-dl">
+        <div class="tm-li-dt">{{ dt }}</div>
+        <div class="tm-li-dd tm-li-dd-flush" v-if="$slots['dd']">
+          <slot name="dd"></slot>
+        </div>
+        <div class="tm-li-dd" v-else="v-else">{{ dd }}</div>
+      </div>
+      <div class="tm-li-icon">
+        <i class="material-icons inactive">chevron_right</i
+        ><i class="material-icons active">my_location</i>
+      </div>
+    </div>
+  </a>
+  <div class="tm-li tm-li-field" v-else-if="type === 'field'">
+    <div class="tm-li-container">
+      <div class="tm-li-thumb">
+        <template v-if="icon"
+          ><i class="material-icons" :class="spinClass">{{ icon }}</i></template
+        ><template v-else-if="image"
+          ><img :src="image"/></template
+        ><template v-else-if="$slots['graphic']">
+          <slot name="graphic"></slot>
+        </template>
+      </div>
+      <div class="tm-li-label">
+        <div class="tm-li-title">{{ title }}</div>
+        <div class="tm-li-subtitle">{{ subtitle }}</div>
+      </div>
+      <div class="tm-li-input"><slot></slot></div>
+    </div>
+  </div>
+  <router-link
+    class="tm-li tm-li-link"
+    v-else-if="dt &amp;&amp; to &amp;&amp; !btn"
+    :to="to"
+  >
+    <div class="tm-li-container">
+      <div class="tm-li-thumb">
+        <template v-if="icon"
+          ><i class="material-icons" :class="spinClass">{{ icon }}</i></template
+        ><template v-else-if="image"
+          ><img :src="image"/></template
+        ><template v-else-if="$slots['graphic']">
+          <slot name="graphic"></slot>
+        </template>
+      </div>
+      <div class="tm-li-dl">
+        <div class="tm-li-dt">{{ dt }}</div>
+        <div class="tm-li-dd tm-li-dd-flush" v-if="$slots['dd']">
+          <slot name="dd"></slot>
+        </div>
+        <div class="tm-li-dd" v-else="v-else">{{ dd }}</div>
+      </div>
+      <div class="tm-li-icon">
+        <i class="material-icons inactive">chevron_right</i
+        ><i class="material-icons active">my_location</i>
+      </div>
+    </div>
+  </router-link>
+  <router-link class="tm-li tm-li-link" v-else-if="btn &amp;&amp; to" :to="to">
+    <div class="tm-li-container">
+      <div class="tm-li-thumb">
+        <template v-if="icon"
+          ><i class="material-icons" :class="spinClass">{{ icon }}</i></template
+        ><template v-else-if="image"
+          ><img :src="image"/></template
+        ><template v-else-if="$slots['graphic']">
+          <slot name="graphic"></slot>
+        </template>
+      </div>
+      <div class="tm-li-dl">
+        <div class="tm-li-dt">{{ dt }}</div>
+        <div class="tm-li-dd tm-li-dd-flush" v-if="$slots['dd']">
+          <slot name="dd"></slot>
+        </div>
+        <div class="tm-li-dd" v-else="v-else">{{ dd }}</div>
+      </div>
+      <tm-btn
+        :value="btn"
+        icon="chevron_right"
+        icon-pos="right"
+        color="primary"
+      ></tm-btn>
+    </div>
+  </router-link>
+  <div class="tm-li" v-else-if="dt">
+    <div class="tm-li-container">
+      <div class="tm-li-thumb">
+        <template v-if="icon"
+          ><i class="material-icons" :class="spinClass">{{ icon }}</i></template
+        ><template v-else-if="image"
+          ><img :src="image"/></template
+        ><template v-else-if="$slots['graphic']">
+          <slot name="graphic"></slot>
+        </template>
+      </div>
+      <div class="tm-li-dl">
+        <div class="tm-li-dt">{{ dt }}</div>
+        <div class="tm-li-dd tm-li-dd-flush" v-if="$slots['dd']">
+          <slot name="dd"></slot>
+        </div>
+        <div class="tm-li-dd" v-else="v-else">{{ dd }}</div>
+      </div>
+    </div>
+  </div>
+  <a class="tm-li tm-li-link" v-else-if="href" :href="href">
+    <div class="tm-li-container">
+      <div class="tm-li-thumb">
+        <template v-if="icon"
+          ><i class="material-icons" :class="spinClass">{{ icon }}</i></template
+        ><template v-else-if="image"
+          ><img :src="image"/></template
+        ><template v-else-if="$slots['graphic']">
+          <slot name="graphic"></slot>
+        </template>
+      </div>
+      <div class="tm-li-label">
+        <div class="tm-li-title">{{ title }}</div>
+        <div class="tm-li-subtitle">{{ subtitle }}</div>
+      </div>
+      <div class="tm-li-icon">
+        <i class="material-icons inactive">chevron_right</i
+        ><i class="material-icons active">my_location</i>
+      </div>
+    </div>
+  </a>
+  <router-link class="tm-li tm-li-link" v-else-if="to" :to="to">
+    <div class="tm-li-container">
+      <div class="tm-li-thumb">
+        <template v-if="icon"
+          ><i class="material-icons" :class="spinClass">{{ icon }}</i></template
+        ><template v-else-if="image"
+          ><img :src="image"/></template
+        ><template v-else-if="$slots['graphic']">
+          <slot name="graphic"></slot>
+        </template>
+      </div>
+      <div class="tm-li-label">
+        <div class="tm-li-title">{{ title }}</div>
+        <div class="tm-li-subtitle">{{ subtitle }}</div>
+      </div>
+      <div class="tm-li-icon">
+        <i class="material-icons inactive">chevron_right</i
+        ><i class="material-icons active">my_location</i>
+      </div>
+    </div>
+  </router-link>
+  <div
+    class="tm-li tm-li-receive"
+    v-else-if="title &amp;&amp; btn &amp;&amp; !to"
+  >
+    <div class="tm-li-container">
+      <div class="tm-li-thumb">
+        <template v-if="icon"
+          ><i class="material-icons" :class="spinClass">{{ icon }}</i></template
+        ><template v-else-if="image"
+          ><img :src="image"/></template
+        ><template v-else-if="$slots['graphic']">
+          <slot name="graphic"></slot>
+        </template>
+      </div>
+      <div class="tm-li-label">
+        <div class="tm-li-title">{{ title }}</div>
+        <div class="tm-li-subtitle">{{ subtitle }}</div>
+      </div>
+      <slot name="btn-receive"></slot>
+    </div>
+  </div>
+  <div class="tm-li" v-else-if="title">
+    <div class="tm-li-container">
+      <div class="tm-li-thumb">
+        <template v-if="icon"
+          ><i class="material-icons" :class="spinClass">{{ icon }}</i></template
+        ><template v-else-if="image"
+          ><img :src="image"/></template
+        ><template v-else-if="$slots['graphic']">
+          <slot name="graphic"></slot>
+        </template>
+      </div>
+      <div class="tm-li-label">
+        <div class="tm-li-title">{{ title }}</div>
+        <div class="tm-li-subtitle">{{ subtitle }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="tm-li" v-else-if="type === 'image'">
+    <div class="tm-li-container"><slot></slot></div>
+  </div>
 </template>
 
 <script>

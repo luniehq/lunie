@@ -1,9 +1,17 @@
-<template lang="pug">
-.tm-data-msg
-  .tm-data-msg__icon: i.material-icons(:class="iconCssClass") {{ icon }}
-  .tm-data-msg__text
-    .tm-data-msg__title: slot(name="title") {{ title }}
-    .tm-data-msg__subtitle: slot(name="subtitle") {{ subtitle }}
+<template>
+  <div class="tm-data-msg">
+    <div class="tm-data-msg__icon">
+      <i class="material-icons" :class="iconCssClass">{{ icon }}</i>
+    </div>
+    <div class="tm-data-msg__text">
+      <div class="tm-data-msg__title">
+        <slot name="title">{{ title }}</slot>
+      </div>
+      <div class="tm-data-msg__subtitle">
+        <slot name="subtitle">{{ subtitle }}</slot>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>

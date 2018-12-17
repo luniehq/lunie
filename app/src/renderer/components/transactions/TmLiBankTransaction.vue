@@ -1,19 +1,28 @@
-<template lang="pug">
-tm-li-transaction(:color="color" :time="transaction.time" :block="transaction.height")
-  template(v-if="sent")
-    div(slot="caption")
-      | Sent&nbsp;
-      b {{coinsSent.amount}}
-      span &nbsp;{{coinsSent.denom.toUpperCase()}}
-    span(slot="details")
-      template(v-if="sentSelf") To yourself!
-      template(v-else) To {{receiver}}
-  template(v-else)
-    div(slot="caption")
-      | Received&nbsp;
-      b {{coinsReceived.amount}}
-      span &nbsp;{{coinsReceived.denom.toUpperCase()}}
-    span(slot="details") From {{sender}}
+<template>
+  <tm-li-transaction
+    :color="color"
+    :time="transaction.time"
+    :block="transaction.height"
+    ><template v-if="sent">
+      <div slot="caption">
+        Sent&nbsp;<b>{{ coinsSent.amount }}</b
+        ><span>&nbsp;{{ coinsSent.denom.toUpperCase() }}</span>
+      </div>
+      <span slot="details"
+        ><template v-if="sentSelf"
+          >To yourself!</template
+        ><template v-else="v-else"
+          >To {{ receiver }}</template
+        ></span
+      > </template
+    ><template v-else="v-else">
+      <div slot="caption">
+        Received&nbsp;<b>{{ coinsReceived.amount }}</b
+        ><span>&nbsp;{{ coinsReceived.denom.toUpperCase() }}</span>
+      </div>
+      <span slot="details">From {{ sender }}</span>
+    </template></tm-li-transaction
+  >
 </template>
 
 <script>

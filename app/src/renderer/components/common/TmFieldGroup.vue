@@ -1,5 +1,5 @@
-<template lang="pug">
-.tm-field-group: slot
+<template>
+  <div class="tm-field-group"><slot></slot></div>
 </template>
 
 <script>

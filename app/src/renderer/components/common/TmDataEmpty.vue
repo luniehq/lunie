@@ -1,10 +1,10 @@
-<template lang="pug">
-tm-data-msg(icon="info_outline")
-  h4(v-if="title" slot="title") {{ title }}
-  h4(v-else slot="title") N/A
-
-  h5(v-if="subtitle" slot="subtitle") {{ subtitle }}
-  h5(v-else slot="subtitle") No data available yet.
+<template>
+  <tm-data-msg icon="info_outline">
+    <h4 v-if="title" slot="title">{{ title }}</h4>
+    <h4 v-else="v-else" slot="title">N/A</h4>
+    <h5 v-if="subtitle" slot="subtitle">{{ subtitle }}</h5>
+    <h5 v-else="v-else" slot="subtitle">No data available yet.</h5>
+  </tm-data-msg>
 </template>
 
 <script>

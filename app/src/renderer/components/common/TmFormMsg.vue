@@ -1,7 +1,10 @@
-<template lang="pug">
-div(:class='cssClass')
-  template(v-if='name') {{ name }} {{ error }}
-  slot(v-else='')
+<template>
+  <div :class="cssClass">
+    <template v-if="name"
+      >{{ name }} {{ error }}</template
+    >
+    <slot v-else=""></slot>
+  </div>
 </template>
 
 <script>

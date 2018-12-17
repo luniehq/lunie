@@ -1,41 +1,60 @@
-<template lang="pug">
-tm-li-transaction(:color="color" :time="transaction.time" :block="transaction.height")
-  template(v-if="delegation")
-    div(slot="caption")
-      | Delegated&nbsp;
-      b {{ prettify(tx.delegation.amount) }}
-      span &nbsp;{{ bondingDenom }}s
-    div(slot="details")
-      | To&nbsp;
-      router-link(:to="this.URL + '/' + tx.validator_addr") {{moniker(tx.validator_addr)}}
-  template(v-if="redelegation")
-    div(slot="caption")
-      | Redelegated&nbsp;
-      template
-        b {{ calculatePrettifiedTokens(tx.validator_src_addr, tx.shares_amount) }}
-        span &nbsp;{{ bondingDenom }}s
-    div(slot="details")
-      | From&nbsp;
-      router-link(:to="this.URL + '/' + tx.validator_src_addr") {{moniker(tx.validator_src_addr)}}
-      |  to&nbsp;
-      router-link(:to="this.URL + '/' + tx.validator_dst_addr") {{moniker(tx.validator_dst_addr)}}
-  template(v-if="unbonding")
-    div(slot="caption")
-      | Unbonded&nbsp;
-      template
-        b {{ calculatePrettifiedTokens(tx.validator_addr, tx.shares_amount) }}
-        span &nbsp;{{ bondingDenom }}s
-      template(v-if="timeDiff")
-        span &nbsp;- {{timeDiff}}
-    div(slot="details")
-      | From&nbsp;
-      router-link(:to="this.URL + '/' + tx.validator_addr") {{moniker(tx.validator_addr)}}
-  template(v-if="endUnbonding")
-    div(slot="caption")
-      | Ended Unbonding&nbsp;
-    div(slot="details")
-      | From&nbsp;
-      router-link(:to="this.URL + '/' + tx.validator_addr") {{moniker(tx.validator_addr)}}
+<template>
+  <tm-li-transaction
+    :color="color"
+    :time="transaction.time"
+    :block="transaction.height"
+    ><template v-if="delegation">
+      <div slot="caption">
+        Delegated&nbsp;<b>{{ prettify(tx.delegation.amount) }}</b
+        ><span>&nbsp;{{ bondingDenom }}s</span>
+      </div>
+      <div slot="details">
+        To&nbsp;<router-link :to="this.URL + '/' + tx.validator_addr">{{
+          moniker(tx.validator_addr)
+        }}</router-link>
+      </div> </template
+    ><template v-if="redelegation">
+      <div slot="caption">
+        Redelegated&nbsp;<template
+          ><b>{{
+            calculatePrettifiedTokens(tx.validator_src_addr, tx.shares_amount)
+          }}</b
+          ><span>&nbsp;{{ bondingDenom }}s</span></template
+        >
+      </div>
+      <div slot="details">
+        From&nbsp;<router-link :to="this.URL + '/' + tx.validator_src_addr">{{
+          moniker(tx.validator_src_addr)
+        }}</router-link>
+        to&nbsp;<router-link :to="this.URL + '/' + tx.validator_dst_addr">{{
+          moniker(tx.validator_dst_addr)
+        }}</router-link>
+      </div> </template
+    ><template v-if="unbonding">
+      <div slot="caption">
+        Unbonded&nbsp;<template
+          ><b>{{
+            calculatePrettifiedTokens(tx.validator_addr, tx.shares_amount)
+          }}</b
+          ><span>&nbsp;{{ bondingDenom }}s</span></template
+        ><template v-if="timeDiff"
+          ><span>&nbsp;- {{ timeDiff }}</span></template
+        >
+      </div>
+      <div slot="details">
+        From&nbsp;<router-link :to="this.URL + '/' + tx.validator_addr">{{
+          moniker(tx.validator_addr)
+        }}</router-link>
+      </div> </template
+    ><template v-if="endUnbonding">
+      <div slot="caption">Ended Unbonding&nbsp;</div>
+      <div slot="details">
+        From&nbsp;<router-link :to="this.URL + '/' + tx.validator_addr">{{
+          moniker(tx.validator_addr)
+        }}</router-link>
+      </div>
+    </template></tm-li-transaction
+  >
 </template>
 
 <script>

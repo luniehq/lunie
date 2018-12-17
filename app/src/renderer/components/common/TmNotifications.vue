@@ -1,9 +1,12 @@
-<template lang="pug">
-.tm-notifications
-  tm-notification(v-for='notification in notifications'
-    :key='notification.time'
-    :data='notification'
-    :theme='theme')
+<template>
+  <div class="tm-notifications">
+    <tm-notification
+      v-for="notification in notifications"
+      :key="notification.time"
+      :data="notification"
+      :theme="theme"
+    ></tm-notification>
+  </div>
 </template>
 
 <script>

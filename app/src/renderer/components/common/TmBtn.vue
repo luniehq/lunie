@@ -1,17 +1,37 @@
-<template lang="pug">
-router-link.tm-btn(:to='to' v-if="type === 'link'" exact)
-  span(:class='btnClass')
-    i(v-if='icon', :class="'tm-btn__icon material-icons'" aria-hidden='true') {{ icon }}
-    span.tm-btn__value(v-if='value') {{ value }}
-a.tm-btn(v-else-if="type === 'anchor'")
-  span(:class='btnClass')
-    i(v-if='icon', :class="'tm-btn__icon material-icons'" aria-hidden='true') {{ icon }}
-    span.tm-btn__value(v-if='value') {{ value }}
-button.tm-btn(:type='type' v-else)
-  span(:class='btnClass')
-    i(v-if='icon', :class="'tm-btn__icon material-icons'" aria-hidden='true') {{ icon }}
-    img(v-if='!icon && img', :src="img" :class="'tm-btn__img'" aria-hidden='true')
-    span.tm-btn__value(v-if='value') {{ value }}
+<template>
+  <router-link class="tm-btn" :to="to" v-if="type === 'link'" exact="exact"
+    ><span :class="btnClass"
+      ><i
+        v-if="icon"
+        :class="'tm-btn__icon material-icons'"
+        aria-hidden="true"
+        >{{ icon }}</i
+      ><span class="tm-btn__value" v-if="value">{{ value }}</span></span
+    ></router-link
+  ><a class="tm-btn" v-else-if="type === 'anchor'"
+    ><span :class="btnClass"
+      ><i
+        v-if="icon"
+        :class="'tm-btn__icon material-icons'"
+        aria-hidden="true"
+        >{{ icon }}</i
+      ><span class="tm-btn__value" v-if="value">{{ value }}</span></span
+    ></a
+  ><button class="tm-btn" :type="type" v-else="v-else">
+    <span :class="btnClass"
+      ><i
+        v-if="icon"
+        :class="'tm-btn__icon material-icons'"
+        aria-hidden="true"
+        >{{ icon }}</i
+      ><img
+        v-if="!icon &amp;&amp; img"
+        :src="img"
+        :class="'tm-btn__img'"
+        aria-hidden="true"
+      /><span class="tm-btn__value" v-if="value">{{ value }}</span></span
+    >
+  </button>
 </template>
 
 <script>
