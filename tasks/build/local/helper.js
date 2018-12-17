@@ -98,12 +98,13 @@ const buildNodes = async (targetDir, chainId, numberNodes = 1) => {
   let genesis = undefined
 
   const nodes = [{ id: `dummy` }]
-  for (let i = 1; i < numberNodes; i++) {
+  for (let i = 1; i < numberNodes + 1; i++) {
     // setup additional nodes
     const home = `${nodeHomePrefix}_${i}`
+    const cliHome = `${cliHomePrefix}_${i}`
     nodes.push({
       home,
-      cliHome: `${cliHomePrefix}_${i}`,
+      cliHome,
       id: await setupLocalNode(home, i, chainId, true, genesis)
     })
     if (i === 1) {
@@ -111,7 +112,7 @@ const buildNodes = async (targetDir, chainId, numberNodes = 1) => {
       mainAccountSignInfo = {
         keyName: `testkey`,
         password: `1234567890`,
-        clientHomeDir: home
+        clientHomeDir: cliHome
       }
       let { address } = await createKey(mainAccountSignInfo)
       genesis = await initGenesis(mainAccountSignInfo, address, home)
