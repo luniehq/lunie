@@ -15,7 +15,9 @@ exports[`PageWallet has the expected html structure 1`] = `
         class="tm-page-header-text"
       >
         <!---->
+         
         <!---->
+         
         <div
           class="tm-page-header-body"
         >
@@ -155,6 +157,7 @@ exports[`PageWallet has the expected html structure 1`] = `
           </div>
         </div>
       </div>
+       
       <menu
         class="tm-page-header-menu"
       >
@@ -162,8 +165,9 @@ exports[`PageWallet has the expected html structure 1`] = `
       </menu>
     </div>
   </header>
+   
   <main
-    class="tm-page-main ps"
+    class="tm-page-main"
   >
      
     <modal-search
@@ -355,26 +359,6 @@ exports[`PageWallet has the expected html structure 1`] = `
         </div>
       </li>
     </ul>
-    <div
-      class="ps__rail-x"
-      style="left: 0px; top: 0px;"
-    >
-      <div
-        class="ps__thumb-x"
-        style="left: 0px; width: 0px;"
-        tabindex="0"
-      />
-    </div>
-    <div
-      class="ps__rail-y"
-      style="top: 0px; left: 0px;"
-    >
-      <div
-        class="ps__thumb-y"
-        style="top: 0px; height: 0px;"
-        tabindex="0"
-      />
-    </div>
   </main>
 </div>
 `;
@@ -394,7 +378,9 @@ exports[`PageWallet should filter the balances 1`] = `
         class="tm-page-header-text"
       >
         <!---->
+         
         <!---->
+         
         <div
           class="tm-page-header-body"
         >
@@ -534,6 +520,7 @@ exports[`PageWallet should filter the balances 1`] = `
           </div>
         </div>
       </div>
+       
       <menu
         class="tm-page-header-menu"
       >
@@ -541,8 +528,9 @@ exports[`PageWallet should filter the balances 1`] = `
       </menu>
     </div>
   </header>
+   
   <main
-    class="tm-page-main ps"
+    class="tm-page-main"
   >
      
     <modal-search
@@ -612,26 +600,6 @@ exports[`PageWallet should filter the balances 1`] = `
         </div>
       </li>
     </ul>
-    <div
-      class="ps__rail-x"
-      style="left: 0px; top: 0px;"
-    >
-      <div
-        class="ps__thumb-x"
-        style="left: 0px; width: 0px;"
-        tabindex="0"
-      />
-    </div>
-    <div
-      class="ps__rail-y"
-      style="top: 0px; left: 0px;"
-    >
-      <div
-        class="ps__thumb-y"
-        style="top: 0px; height: 0px;"
-        tabindex="0"
-      />
-    </div>
   </main>
 </div>
 `;
