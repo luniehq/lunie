@@ -81,24 +81,19 @@
             <div class="validator-profile__header__data__break" />
             <dl class="colored_dl">
               <dt>Yes</dt>
-              <dd>{{ proposal.tally_result.yes }} / {{ yesPercentage }}</dd>
+              <dd>{{ tally.yes }} / {{ yesPercentage }}</dd>
             </dl>
             <dl class="colored_dl">
               <dt>No</dt>
-              <dd>{{ proposal.tally_result.no }} / {{ noPercentage }}</dd>
+              <dd>{{ tally.no }} / {{ noPercentage }}</dd>
             </dl>
             <dl class="colored_dl">
               <dt>No with Veto</dt>
-              <dd>
-                {{ proposal.tally_result.no_with_veto }} /
-                {{ noWithVetoPercentage }}
-              </dd>
+              <dd>{{ tally.no_with_veto }} / {{ noWithVetoPercentage }}</dd>
             </dl>
             <dl class="colored_dl">
               <dt>Abstain</dt>
-              <dd>
-                {{ proposal.tally_result.abstain }} / {{ abstainPercentage }}
-              </dd>
+              <dd>{{ tally.abstain }} / {{ abstainPercentage }}</dd>
             </dl>
           </div>
         </div>
@@ -172,7 +167,7 @@ export default {
     ]),
     proposal() {
       let proposal = this.proposals.proposals[this.proposalId]
-      if (proposal) {
+      if (proposal && proposal.tally_result) {
         proposal.tally_result.yes = Math.round(
           parseFloat(proposal.tally_result.yes)
         )
@@ -223,6 +218,21 @@ export default {
       return num.percentInt(
         this.proposal.tally_result.abstain / this.totalVotes
       )
+    },
+    tally() {
+      let proposalTally
+      if (this.proposal.proposal_status === `VotingPeriod`) {
+        proposalTally = this.proposals.tallies[this.proposalId]
+      } else {
+        proposalTally = this.proposal.tally_result
+      }
+      proposalTally.yes = Math.round(parseFloat(proposalTally.yes))
+      proposalTally.no = Math.round(parseFloat(proposalTally.no))
+      proposalTally.no_with_veto = Math.round(
+        parseFloat(proposalTally.no_with_veto)
+      )
+      proposalTally.abstain = Math.round(parseFloat(proposalTally.abstain))
+      return this.proposal.tally_result
     },
     status() {
       if (this.proposal.proposal_status === `Passed`)

@@ -6,7 +6,8 @@ export default ({ node }) => {
     loading: false,
     loaded: false,
     error: null,
-    proposals: {}
+    proposals: {},
+    tallies: {}
   }
   const state = JSON.parse(JSON.stringify(emptyState))
 
@@ -14,8 +15,10 @@ export default ({ node }) => {
     setProposal(state, proposal) {
       Vue.set(state.proposals, proposal.proposal_id, proposal)
     },
-    setProposalTally(state, proposalId, tally) {
-      state.proposals[proposalId].tally_result = tally
+    setProposalTally(state, proposalId, tally_result) {
+      if (tally_result !== undefined) {
+        Vue.set(state.tallies, proposalId, tally_result)
+      }
     }
   }
   let actions = {
@@ -25,7 +28,6 @@ export default ({ node }) => {
       }
     },
     resetSessionData({ rootState }) {
-      // clear previous account state
       rootState.proposals = JSON.parse(JSON.stringify(emptyState))
     },
     async getProposals({ state, commit, rootState }) {
@@ -34,18 +36,30 @@ export default ({ node }) => {
       if (!rootState.connection.connected) return
 
       try {
+        let tally_result
         let proposals = await node.queryProposals()
         if (proposals.length > 0) {
-          proposals.forEach(proposal => {
-            commit(`setProposal`, proposal.value)
-            // the proposal doesn't hold the tally results until it's inactive (rejected or passed)
-            // TODO: enable after upgrading to latest SDK
-            // if (proposal.value.proposal_status === `VotingPeriod`) {
-            //   node.queryProposalTally(proposal.value.proposal_id).then(tally => {
-            //     commit(`setProposalTally`, proposal.value.proposal_id, tally)
-            //   })
-            // }
-          })
+          await Promise.all(
+            proposals.map(async proposal => {
+              commit(`setProposal`, proposal.value)
+              if (proposal.value.proposal_status === `VotingPeriod`) {
+                tally_result = await node.queryProposalTally(
+                  proposal.value.proposal_id
+                )
+                console.log(tally_result)
+                if (tally_result === undefined) {
+                  tally_result = JSON.parse(
+                    JSON.stringify(proposal.value.tally_result)
+                  )
+                }
+                commit(
+                  `setProposalTally`,
+                  proposal.value.proposal_id,
+                  tally_result
+                )
+              }
+            })
+          )
         }
         state.error = null
         state.loading = false
