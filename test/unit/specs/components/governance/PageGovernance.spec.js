@@ -23,6 +23,7 @@ describe(`PageGovernance`, () => {
     store = instance.store
     store.commit(`setConnected`, true)
     store.state.user.address = lcdClientMock.addresses[0]
+    store.dispatch(`updateDelegates`)
     store.commit(`setAtoms`, 1337)
     wrapper.update()
   })

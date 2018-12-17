@@ -15,7 +15,9 @@ exports[`PageProposal has the expected html structure 1`] = `
         class="tm-page-header-text"
       >
         <!---->
+         
         <!---->
+         
         <div
           class="tm-page-header-body"
         >
@@ -94,6 +96,7 @@ exports[`PageProposal has the expected html structure 1`] = `
           </div>
         </div>
       </div>
+       
       <menu
         class="tm-page-header-menu"
       >
@@ -102,32 +105,65 @@ exports[`PageProposal has the expected html structure 1`] = `
             <div
               class="tm-tool-bar"
             >
-              <div
-                class="tm-tool-bar-container"
+              <a
+                class="back"
               >
-                <div
-                  class="main"
+                <i
+                  class="material-icons"
                 >
-                  <a
-                    class=""
-                    href="#/governance"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                  </a>
-                </div>
-              </div>
+                  arrow_back
+                </i>
+              </a>
+               
+              <a
+                class=""
+                href="#/governance"
+              >
+                <i
+                  class="material-icons"
+                >
+                  arrow_back
+                </i>
+              </a>
+              <a
+                class="help"
+              >
+                <i
+                  class="material-icons"
+                >
+                  help_outline
+                </i>
+              </a>
+               
+              <a
+                class=""
+                href="#/preferences"
+                id="settings"
+              >
+                <i
+                  class="material-icons"
+                >
+                  settings
+                </i>
+              </a>
+              <a
+                id="signOut-btn"
+              >
+                <i
+                  class="material-icons"
+                >
+                  exit_to_app
+                </i>
+              </a>
             </div>
           </div>
         </div>
       </menu>
     </div>
   </header>
+   
   <main
-    class="tm-page-main ps"
+    class="tm-page-main"
   >
       
     <div
@@ -298,26 +334,6 @@ exports[`PageProposal has the expected html structure 1`] = `
     <!---->
      
     <!---->
-    <div
-      class="ps__rail-x"
-      style="left: 0px; top: 0px;"
-    >
-      <div
-        class="ps__thumb-x"
-        style="left: 0px; width: 0px;"
-        tabindex="0"
-      />
-    </div>
-    <div
-      class="ps__rail-y"
-      style="top: 0px; left: 0px;"
-    >
-      <div
-        class="ps__thumb-y"
-        style="top: 0px; height: 0px;"
-        tabindex="0"
-      />
-    </div>
   </main>
 </div>
 `;
@@ -337,7 +353,9 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
         class="tm-page-header-text"
       >
         <!---->
+         
         <!---->
+         
         <div
           class="tm-page-header-body"
         >
@@ -416,6 +434,7 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
           </div>
         </div>
       </div>
+       
       <menu
         class="tm-page-header-menu"
       >
@@ -424,30 +443,63 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
             <div
               class="tm-tool-bar"
             >
-              <div
-                class="tm-tool-bar-container"
+              <a
+                class="back"
               >
-                <div
-                  class="main"
+                <i
+                  class="material-icons"
                 >
-                  <a
-                    class=""
-                    href="#/governance"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                  </a>
-                </div>
-              </div>
+                  arrow_back
+                </i>
+              </a>
+               
+              <a
+                class=""
+                href="#/governance"
+              >
+                <i
+                  class="material-icons"
+                >
+                  arrow_back
+                </i>
+              </a>
+              <a
+                class="help"
+              >
+                <i
+                  class="material-icons"
+                >
+                  help_outline
+                </i>
+              </a>
+               
+              <a
+                class=""
+                href="#/preferences"
+                id="settings"
+              >
+                <i
+                  class="material-icons"
+                >
+                  settings
+                </i>
+              </a>
+              <a
+                id="signOut-btn"
+              >
+                <i
+                  class="material-icons"
+                >
+                  exit_to_app
+                </i>
+              </a>
             </div>
           </div>
         </div>
       </menu>
     </div>
   </header>
+   
   <main
     class="tm-page-main"
   >
@@ -464,6 +516,7 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
           sentiment_very_dissatisfied
         </i>
       </div>
+       
       <div
         class="tm-data-msg__text"
       >
@@ -474,6 +527,7 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
             Aw shucks!
           </div>
         </div>
+         
         <div
           class="tm-data-msg__subtitle"
         >

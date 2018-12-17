@@ -35,6 +35,7 @@ exports[`ModalPropose component matches snapshot has the expected html structure
   >
     <!---->
     <!---->
+     
     <div
       class="tm-form-group__field"
     >
@@ -58,6 +59,7 @@ exports[`ModalPropose component matches snapshot has the expected html structure
   >
     <!---->
     <!---->
+     
     <div
       class="tm-form-group__field"
     >
@@ -80,6 +82,7 @@ exports[`ModalPropose component matches snapshot has the expected html structure
   >
     <!---->
     <!---->
+     
     <div
       class="tm-form-group__field"
     >
@@ -115,6 +118,7 @@ exports[`ModalPropose component matches snapshot has the expected html structure
   >
     <!---->
     <!---->
+     
     <div
       class="tm-form-group__field"
     >
