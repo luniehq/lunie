@@ -49,16 +49,13 @@ describe(`PageSend`, () => {
 
   it(`has the expected html structure`, async () => {
     // after importing the @tendermint/ui components from modules
-    // the perfect scroll plugin needs a $nextTick and a wrapper.update
     // to work properly in the tests (snapshots weren't matching)
     // this has occured across multiple tests
     await wrapper.vm.$nextTick()
-    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should populate the select options with denoms`, () => {
-    wrapper.update()
     expect(
       wrapper
         .findAll(`option`)
@@ -82,7 +79,6 @@ describe(`PageSend`, () => {
   it(`should work without providing a default denom`, () => {
     let { wrapper, store } = mount(PageSend)
     store.commit(`setConnected`, true)
-    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -98,7 +94,6 @@ describe(`PageSend`, () => {
       }
     })
     wrapper.vm.onSubmit()
-    wrapper.update()
     expect(wrapper.vm.$v.$error).toBe(true)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
@@ -114,7 +109,6 @@ describe(`PageSend`, () => {
       }
     })
     wrapper.vm.onSubmit()
-    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -130,7 +124,6 @@ describe(`PageSend`, () => {
       }
     })
     wrapper.vm.onSubmit()
-    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
   it(`should show bech32 error when alphanumeric is wrong`, async () => {
@@ -145,7 +138,6 @@ describe(`PageSend`, () => {
       }
     })
     wrapper.vm.onSubmit()
-    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -166,7 +158,6 @@ describe(`PageSend`, () => {
       }
     })
     wrapper.vm.onSubmit()
-    wrapper.update()
     expect(wrapper.vm.confirmationPending).toBe(true)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
@@ -226,7 +217,6 @@ describe(`PageSend`, () => {
     })
     expect(wrapper.find(`#send-btn`).exists()).toBe(true)
     store.commit(`setConnected`, false)
-    wrapper.update()
     expect(wrapper.find(`#send-btn`).exists()).toBe(false)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })

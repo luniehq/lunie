@@ -27,16 +27,13 @@ describe(`PageTransactions`, () => {
     store.commit(`setWalletTxs`, mockTransactions)
     store.commit(`setStakingTxs`, lcdClientMock.state.txs.slice(4))
     store.commit(`setGovernanceTxs`, lcdClientMock.state.txs.slice(2, 4))
-    wrapper.update()
   })
 
   it(`has the expected html structure`, async () => {
     // after importing the @tendermint/ui components from modules
-    // the perfect scroll plugin needs a $nextTick and a wrapper.update
     // to work properly in the tests (snapshots weren't matching)
     // this has occured across multiple tests
     await wrapper.vm.$nextTick()
-    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -45,7 +42,6 @@ describe(`PageTransactions`, () => {
       .findAll(`.tm-tool-bar i`)
       .at(2)
       .trigger(`click`)
-    wrapper.update()
     expect(wrapper.contains(`.tm-modal-search`)).toBe(true)
   })
 
@@ -75,7 +71,6 @@ describe(`PageTransactions`, () => {
   it(`should filter the transactions`, () => {
     store.commit(`setSearchVisible`, [`transactions`, true])
     store.commit(`setSearchQuery`, [`transactions`, `fabo`])
-    wrapper.update()
     expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual([466])
     // reflects the filter in the view
     expect(wrapper.vm.$el).toMatchSnapshot()
@@ -99,7 +94,6 @@ describe(`PageTransactions`, () => {
     store.commit(`setWalletTxs`, [])
     store.commit(`setStakingTxs`, [])
     store.commit(`setGovernanceTxs`, [])
-    wrapper.update()
     expect(wrapper.contains(`data-empty-tx`)).toBe(true)
     expect(wrapper.contains(`data-empty-search`)).toBe(false)
   })
@@ -117,7 +111,6 @@ describe(`PageTransactions`, () => {
     store.commit(`setWalletTxs`, [])
     store.commit(`setStakingTxs`, [])
     store.commit(`setGovernanceTxs`, [])
-    wrapper.update()
     expect(wrapper.vm.setSearch()).toEqual(false)
   })
 })

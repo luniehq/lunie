@@ -49,7 +49,6 @@ describe(`LiValidator`, () => {
     store = instance.store
 
     store.state.delegates.globalPower = 9000
-    wrapper.update()
   })
 
   it(`has the expected html structure`, () => {
@@ -96,7 +95,6 @@ describe(`LiValidator`, () => {
     expect(wrapper.html()).toContain(`98.78%`)
 
     wrapper.vm.validator.signing_info = null
-    wrapper.update()
 
     expect(wrapper.vm.uptime).toBe(`n/a`)
   })
@@ -108,19 +106,15 @@ describe(`LiValidator`, () => {
   it(`should show the type of the candidate`, () => {
     wrapper.vm.validator.revoked = false
     wrapper.vm.validator.isValidator = false
-    wrapper.update()
     expect(wrapper.vm.delegateType).toBe(`Candidate`)
     wrapper.vm.validator.revoked = false
     wrapper.vm.validator.isValidator = true
-    wrapper.update()
     expect(wrapper.vm.delegateType).toBe(`Validator`)
     wrapper.vm.validator.revoked = true
     wrapper.vm.validator.isValidator = false
-    wrapper.update()
     expect(wrapper.vm.delegateType).toBe(`Revoked`)
     wrapper.vm.validator.revoked = true
     wrapper.vm.validator.isValidator = true
-    wrapper.update()
     expect(wrapper.vm.delegateType).toBe(`Revoked`)
   })
 })

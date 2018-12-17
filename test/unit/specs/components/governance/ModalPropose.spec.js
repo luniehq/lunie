@@ -32,13 +32,11 @@ describe(`ModalPropose`, () => {
     wrapper = instance.wrapper
     store = instance.store
     store.commit(`setWalletBalances`, coins)
-    wrapper.update()
   })
 
   describe(`component matches snapshot`, () => {
     it(`has the expected html structure`, async () => {
       await wrapper.vm.$nextTick()
-      wrapper.update()
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
   })

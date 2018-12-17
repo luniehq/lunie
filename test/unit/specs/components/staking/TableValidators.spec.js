@@ -18,16 +18,13 @@ describe(`TableValidators`, () => {
     store.commit(`setConnected`, true)
     store.state.user.address = `address1234`
     store.commit(`setAtoms`, 1337)
-    wrapper.update()
   })
 
   it(`has the expected html structure`, async () => {
     // after importing the @tendermint/ui components from modules
-    // the perfect scroll plugin needs a $nextTick and a wrapper.update
     // to work properly in the tests (snapshots weren't matching)
     // this has occured across multiple tests
     await wrapper.vm.$nextTick()
-    wrapper.update()
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
@@ -56,7 +53,6 @@ describe(`TableValidators`, () => {
     expect(
       wrapper.vm.sortedFilteredEnrichedDelegates.map(x => x.operator_address)
     ).toEqual([lcdClientMock.validators[2]])
-    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
     store.commit(`setSearchQuery`, [
       `delegates`,

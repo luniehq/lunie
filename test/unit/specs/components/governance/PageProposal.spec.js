@@ -14,6 +14,8 @@ describe(`PageProposal`, () => {
   let wrapper, store
   let { mount, localVue } = setup()
   localVue.use(Vuelidate)
+  localVue.directive(`tooltip`, () => {})
+  localVue.directive(`focus`, () => {})
 
   const $store = {
     commit: jest.fn(),
@@ -23,10 +25,9 @@ describe(`PageProposal`, () => {
   beforeEach(() => {
     let instance = mount(PageProposal, {
       localVue,
-      doBefore: ({ router, store }) => {
+      doBefore: ({ store }) => {
         store.commit(`setConnected`, true)
         store.commit(`setProposal`, proposal)
-        router.push(`/governance/proposals/${proposal.proposal_id}`)
       },
       propsData: {
         proposalId: proposal.proposal_id
@@ -35,19 +36,16 @@ describe(`PageProposal`, () => {
     })
     wrapper = instance.wrapper
     store = instance.store
-    wrapper.update()
   })
 
   it(`has the expected html structure`, async () => {
     await wrapper.vm.$nextTick()
-    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`shows an error if the proposal couldn't be found`, () => {
     let instance = mount(PageProposal, {
-      doBefore: ({ router }) => {
-        router.push(`/governance/proposals/${proposal.proposal_id}`)
+      doBefore: ({}) => {
         store.commit(`setProposal`, {})
       },
       propsData: {
@@ -126,9 +124,8 @@ describe(`PageProposal`, () => {
       let proposal = lcdClientMock.state.proposals[`2`]
       let instance = mount(PageProposal, {
         localVue,
-        doBefore: ({ router, store }) => {
+        doBefore: ({ store }) => {
           store.commit(`setConnected`, true)
-          router.push(`/governance/proposals/${proposal.proposal_id}`)
           store.commit(`setProposal`, proposal)
         },
         propsData: {
@@ -138,7 +135,6 @@ describe(`PageProposal`, () => {
       })
       wrapper = instance.wrapper
       store = instance.store
-      wrapper.update()
 
       wrapper.vm.$store.dispatch = jest.fn()
       let voteBtn = wrapper.find(`#vote-btn`)
@@ -188,9 +184,8 @@ describe(`PageProposal`, () => {
       let proposal = lcdClientMock.state.proposals[`5`]
       let instance = mount(PageProposal, {
         localVue,
-        doBefore: ({ router, store }) => {
+        doBefore: ({ store }) => {
           store.commit(`setConnected`, true)
-          router.push(`/governance/proposals/${proposal.proposal_id}`)
           store.commit(`setProposal`, proposal)
         },
         propsData: {
@@ -200,7 +195,6 @@ describe(`PageProposal`, () => {
       })
       wrapper = instance.wrapper
       store = instance.store
-      wrapper.update()
 
       let depositBtn = wrapper.find(`#deposit-btn`)
       depositBtn.trigger(`click`)
@@ -336,7 +330,6 @@ describe(`PageProposal`, () => {
         proposal_status: `VotingPeriod`
       })
     )
-    wrapper.update()
     expect(
       wrapper.vm.$el.querySelector(`#vote-btn`).getAttribute(`disabled`)
     ).toBe(`disabled`)
@@ -347,7 +340,6 @@ describe(`PageProposal`, () => {
         proposal_status: `DepositPeriod`
       })
     )
-    wrapper.update()
     expect(
       wrapper.vm.$el.querySelector(`#deposit-btn`).getAttribute(`disabled`)
     ).toBe(`disabled`)

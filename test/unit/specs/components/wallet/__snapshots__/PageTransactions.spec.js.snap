@@ -133,17 +133,16 @@ exports[`PageTransactions has the expected html structure 1`] = `
               </i>
             </a>
              
-            <a
-              class=""
-              href="#/preferences"
+            <router-link
               id="settings"
+              to="/preferences"
             >
               <i
                 class="material-icons"
               >
                 settings
               </i>
-            </a>
+            </router-link>
             <a
               id="signOut-btn"
             >
@@ -348,17 +347,16 @@ exports[`PageTransactions should filter the transactions 1`] = `
               </i>
             </a>
              
-            <a
-              class=""
-              href="#/preferences"
+            <router-link
               id="settings"
+              to="/preferences"
             >
               <i
                 class="material-icons"
               >
                 settings
               </i>
-            </a>
+            </router-link>
             <a
               id="signOut-btn"
             >

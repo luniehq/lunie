@@ -15,11 +15,11 @@ export default {
   props: {
     title: {
       type: String,
-      required: true
+      default: null
     },
     body: {
       type: String,
-      required: true
+      default: null
     },
     value: {
       type: String,

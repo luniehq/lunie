@@ -8,6 +8,8 @@ describe(`UndelegationModal`, () => {
   let wrapper
   let { mount, localVue } = setup()
   localVue.use(Vuelidate)
+  localVue.directive(`tooltip`, () => {})
+  localVue.directive(`focus`, () => {})
 
   beforeEach(() => {
     let instance = mount(UndelegationModal, {
@@ -25,13 +27,11 @@ describe(`UndelegationModal`, () => {
       }
     })
     wrapper = instance.wrapper
-    wrapper.update()
   })
 
   describe(`component matches snapshot`, () => {
     it(`has the expected html structure`, async () => {
       await wrapper.vm.$nextTick()
-      wrapper.update()
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
   })

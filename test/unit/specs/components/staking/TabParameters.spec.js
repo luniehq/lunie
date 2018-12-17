@@ -10,6 +10,8 @@ describe(`TabParameters`, () => {
   let wrapper, store
   let { mount, localVue } = setup()
   localVue.use(Vuelidate)
+  localVue.directive(`tooltip`, () => {})
+  localVue.directive(`focus`, () => {})
 
   beforeEach(() => {
     let instance = mount(TabParameters, {
@@ -28,12 +30,10 @@ describe(`TabParameters`, () => {
     store = instance.store
     store.state.stakingParameters.parameters.loaded = true
     store.state.pool.loaded = true
-    wrapper.update()
   })
 
   it(`has the expected html structure`, async () => {
     await wrapper.vm.$nextTick()
-    wrapper.update()
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
@@ -49,13 +49,11 @@ describe(`TabParameters`, () => {
   it(`displays a message if waiting for connection`, () => {
     store.commit(`setConnected`, false)
     store.state.stakingParameters.parameters.loaded = false
-    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
     expect(wrapper.exists(`tm-data-connecting`)).toBe(true)
 
     store.state.stakingParameters.parameters.loaded = true
     store.state.pool.loaded = false
-    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
     expect(wrapper.exists(`tm-data-connecting`)).toBe(true)
   })
@@ -64,7 +62,6 @@ describe(`TabParameters`, () => {
     store.commit(`setConnected`, true)
     store.state.stakingParameters.parameters.loaded = false
     store.state.stakingParameters.parameters.loading = true
-    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
     expect(wrapper.exists(`tm-data-loading`)).toBe(true)
 
@@ -72,7 +69,6 @@ describe(`TabParameters`, () => {
     store.state.stakingParameters.parameters.loading = false
     store.state.pool.loaded = false
     store.state.pool.loading = true
-    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
     expect(wrapper.exists(`tm-data-loading`)).toBe(true)
   })

@@ -2,14 +2,8 @@
   <tm-page data-title="Validator"
     ><template slot="menu-body">
       <tm-balance />
+      <tool-bar />
     </template>
-    <div slot="menu">
-      <tool-bar>
-        <router-link to="/staking/validators" exact="exact"
-          ><i class="material-icons">arrow_back</i></router-link
-        >
-      </tool-bar>
-    </div>
     <tm-data-error v-if="!validator" /><template v-else>
       <div class="validator-profile__header validator-profile__section">
         <div class="column">

@@ -12,7 +12,6 @@ describe(`TmSessionLoading`, () => {
       }
     }
     wrapper = mount(TmSessionLoading)
-    wrapper.update()
   })
 
   it(`has the expected html structure`, () => {
@@ -20,7 +19,6 @@ describe(`TmSessionLoading`, () => {
   })
 
   it(`should show connection status`, () => {
-    wrapper.update()
     expect(wrapper.html()).toContain(`HALLO WORLD`)
   })
 })

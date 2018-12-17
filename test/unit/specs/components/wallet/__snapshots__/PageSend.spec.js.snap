@@ -119,17 +119,16 @@ exports[`PageSend disables sending if not connected 1`] = `
               </i>
             </a>
              
-            <a
-              class=""
-              href="#/preferences"
+            <router-link
               id="settings"
+              to="/preferences"
             >
               <i
                 class="material-icons"
               >
                 settings
               </i>
-            </a>
+            </router-link>
             <a
               id="signOut-btn"
             >
@@ -553,17 +552,16 @@ exports[`PageSend has the expected html structure 1`] = `
               </i>
             </a>
              
-            <a
-              class=""
-              href="#/preferences"
+            <router-link
               id="settings"
+              to="/preferences"
             >
               <i
                 class="material-icons"
               >
                 settings
               </i>
-            </a>
+            </router-link>
             <a
               id="signOut-btn"
             >
@@ -991,17 +989,16 @@ exports[`PageSend should show address required error 1`] = `
               </i>
             </a>
              
-            <a
-              class=""
-              href="#/preferences"
+            <router-link
               id="settings"
+              to="/preferences"
             >
               <i
                 class="material-icons"
               >
                 settings
               </i>
-            </a>
+            </router-link>
             <a
               id="signOut-btn"
             >
@@ -1423,17 +1420,16 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
               </i>
             </a>
              
-            <a
-              class=""
-              href="#/preferences"
+            <router-link
               id="settings"
+              to="/preferences"
             >
               <i
                 class="material-icons"
               >
                 settings
               </i>
-            </a>
+            </router-link>
             <a
               id="signOut-btn"
             >
@@ -1855,17 +1851,16 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
               </i>
             </a>
              
-            <a
-              class=""
-              href="#/preferences"
+            <router-link
               id="settings"
+              to="/preferences"
             >
               <i
                 class="material-icons"
               >
                 settings
               </i>
-            </a>
+            </router-link>
             <a
               id="signOut-btn"
             >
@@ -2287,17 +2282,16 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
               </i>
             </a>
              
-            <a
-              class=""
-              href="#/preferences"
+            <router-link
               id="settings"
+              to="/preferences"
             >
               <i
                 class="material-icons"
               >
                 settings
               </i>
-            </a>
+            </router-link>
             <a
               id="signOut-btn"
             >
@@ -2730,17 +2724,16 @@ exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
               </i>
             </a>
              
-            <a
-              class=""
-              href="#/preferences"
+            <router-link
               id="settings"
+              to="/preferences"
             >
               <i
                 class="material-icons"
               >
                 settings
               </i>
-            </a>
+            </router-link>
             <a
               id="signOut-btn"
             >
@@ -3262,17 +3255,16 @@ exports[`PageSend should work without providing a default denom 1`] = `
               </i>
             </a>
              
-            <a
-              class=""
-              href="#/preferences"
+            <router-link
               id="settings"
+              to="/preferences"
             >
               <i
                 class="material-icons"
               >
                 settings
               </i>
-            </a>
+            </router-link>
             <a
               id="signOut-btn"
             >

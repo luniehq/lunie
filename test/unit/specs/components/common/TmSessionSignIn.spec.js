@@ -101,7 +101,6 @@ describe(`TmSessionSignIn`, () => {
     await wrapper.vm.onSubmit()
     expect(store.state.user.history.length).toBe(0)
     wrapper.vm.$router.push(`/staking`)
-    wrapper.update()
     expect(store.state.user.history.length).toBe(1)
     store.dispatch(`signOut`)
     expect(store.state.user.history.length).toBe(0)

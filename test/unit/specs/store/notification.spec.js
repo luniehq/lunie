@@ -4,6 +4,8 @@ import notifications from "renderer/vuex/modules/notifications"
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
+localVue.directive(`tooltip`, () => {})
+localVue.directive(`focus`, () => {})
 
 describe(`Module: Notification`, () => {
   let store

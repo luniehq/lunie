@@ -15,7 +15,6 @@ describe(`TmUserPane`, () => {
       account: `default`,
       password: `1234567890`
     })
-    wrapper.update()
   })
 
   it(`has the expected html structure`, () => {
@@ -28,7 +27,6 @@ describe(`TmUserPane`, () => {
 
   it(`should not show the active account name if signed out`, async () => {
     await store.dispatch(`signOut`)
-    wrapper.update()
     expect(wrapper.html()).toBeUndefined()
   })
 

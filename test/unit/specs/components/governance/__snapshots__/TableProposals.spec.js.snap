@@ -29,7 +29,10 @@ exports[`TableProposals has the expected html structure 1`] = `
          <tr class=\\"data-table__row li-proposal\\">
             <td class=\\"data-table__row__info\\">
                <div class=\\"data-table__row__info__container\\">
-                  <span class=\\"data-table__row__info__container__status red\\"></span><a href=\\"#/governance/6\\" class=\\"data-table__row__info__container__name\\">Rejected proposal</a>
+                  <span class=\\"data-table__row__info__container__status red\\"></span>
+                  <router-link-stub to=\\"[object Object]\\" class=\\"data-table__row__info__container__name\\">
+                     Rejected proposal
+                  </router-link-stub>
                   <p class=\\"data-table__row__info__container__description\\">
                      this proposal was rejected      
                   </p>
@@ -54,7 +57,10 @@ exports[`TableProposals has the expected html structure 1`] = `
       <tr class=\\"data-table__row li-proposal\\">
          <td class=\\"data-table__row__info\\">
             <div class=\\"data-table__row__info__container\\">
-               <span class=\\"data-table__row__info__container__status yellow\\"></span><a href=\\"#/governance/5\\" class=\\"data-table__row__info__container__name\\">Custom text proposal</a>
+               <span class=\\"data-table__row__info__container__status yellow\\"></span>
+               <router-link-stub to=\\"[object Object]\\" class=\\"data-table__row__info__container__name\\">
+                  Custom text proposal
+               </router-link-stub>
                <p class=\\"data-table__row__info__container__description\\">
                   custom text proposal description      
                </p>
@@ -79,7 +85,10 @@ exports[`TableProposals has the expected html structure 1`] = `
       <tr class=\\"data-table__row li-proposal\\">
          <td class=\\"data-table__row__info\\">
             <div class=\\"data-table__row__info__container\\">
-               <span class=\\"data-table__row__info__container__status green\\"></span><a href=\\"#/governance/2\\" class=\\"data-table__row__info__container__name\\">VotingPeriod proposal</a>
+               <span class=\\"data-table__row__info__container__status green\\"></span>
+               <router-link-stub to=\\"[object Object]\\" class=\\"data-table__row__info__container__name\\">
+                  VotingPeriod proposal
+               </router-link-stub>
                <p class=\\"data-table__row__info__container__description\\">
                   custom text proposal description      
                </p>
@@ -104,7 +113,10 @@ exports[`TableProposals has the expected html structure 1`] = `
       <tr class=\\"data-table__row li-proposal\\">
          <td class=\\"data-table__row__info\\">
             <div class=\\"data-table__row__info__container\\">
-               <span class=\\"data-table__row__info__container__status material-icons\\">checkmark</span><a href=\\"#/governance/1\\" class=\\"data-table__row__info__container__name\\">Proposal Title</a>
+               <span class=\\"data-table__row__info__container__status material-icons\\">checkmark</span>
+               <router-link-stub to=\\"[object Object]\\" class=\\"data-table__row__info__container__name\\">
+                  Proposal Title
+               </router-link-stub>
                <p class=\\"data-table__row__info__container__description\\">
                   Proposal description      
                </p>
@@ -213,12 +225,12 @@ exports[`TableProposals should filter the proposals 1`] = `
               checkmark
             </span>
              
-            <a
+            <router-link-stub
               class="data-table__row__info__container__name"
-              href="#/governance/1"
+              to="[object Object]"
             >
               Proposal Title
-            </a>
+            </router-link-stub>
              
             <p
               class="data-table__row__info__container__description"
