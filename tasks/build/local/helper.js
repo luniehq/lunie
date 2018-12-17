@@ -1,7 +1,7 @@
 "use strict"
 
 const fs = require(`fs-extra`)
-const path = require(`path`)
+const { join } = require(`path`)
 const {
   startLocalNode,
   getNodeId,
@@ -10,6 +10,7 @@ const {
   createKey,
   initGenesis,
   makeExec,
+  getKeys,
   nodeBinary
 } = require(`../../gaia`)
 
@@ -44,8 +45,8 @@ Default account:
 
 // save the version of the currently used gaia into the newly created network config folder
 const saveVersion = nodeHome => {
-  const versionPath = path.join(nodeHome, `config`)
-  let versionFilePath = path.join(versionPath, `gaiaversion.txt`) // nodeHome/config is used to copy created config files from
+  const versionPath = join(nodeHome, `config`)
+  let versionFilePath = join(versionPath, `gaiaversion.txt`) // nodeHome/config is used to copy created config files from
   return makeExec(
     `mkdir -p ${versionPath} && ${nodeBinary} version > ${versionFilePath}`
   )
@@ -82,8 +83,8 @@ const buildNodes = async (
   numberNodes = 1,
   isTest = false
 ) => {
-  const cliHomePrefix = path.join(targetDir, `cli_home`)
-  const nodeHomePrefix = path.join(targetDir, `node_home`)
+  const cliHomePrefix = join(targetDir, `cli_home`)
+  const nodeHomePrefix = join(targetDir, `node_home`)
 
   fs.removeSync(targetDir)
   // fs.removeSync(`${os.home}/.cosmos-voyager-dev/${network}`)
@@ -135,10 +136,7 @@ async function setupLocalNode(
     options.overwrite
   )
   mainGenesis &&
-    (await fs.writeJSON(
-      path.join(nodeHome, `config`, `genesis.json`),
-      mainGenesis
-    ))
+    (await fs.writeJSON(join(nodeHome, `config`, `genesis.json`), mainGenesis))
   await adjustConfig(nodeHome, isTest)
 
   return await getNodeId(nodeHome)
@@ -147,7 +145,7 @@ async function setupLocalNode(
 // declare candidacy for node
 
 function adjustConfig(nodeHome, isTest = false, strictAddressbook = false) {
-  const configPath = path.join(nodeHome, `config`, `config.toml`)
+  const configPath = join(nodeHome, `config`, `config.toml`)
   let configToml = fs.readFileSync(configPath, `utf8`)
 
   const timeouts = [
@@ -198,9 +196,28 @@ function adjustConfig(nodeHome, isTest = false, strictAddressbook = false) {
   fs.writeFileSync(configPath, updatedConfigToml, `utf8`)
 }
 
+const setupAccounts = async (srcClientDir, dstClientDir, options) => {
+  // use the master account that holds funds from node 1
+  // to use it, we copy the key database from node one to our Voyager cli config folder
+  fs.copySync(srcClientDir, dstClientDir)
+
+  // this account is later used to send funds to, to test token sending
+  await createKey({
+    keyName: (options && options.keyName) || `testreceiver`,
+    password: (options && options.password) || `1234567890`,
+    clientHomeDir: dstClientDir
+  })
+
+  let accounts = await getKeys(dstClientDir)
+  console.log(`setup test accounts`, accounts)
+
+  return accounts
+}
+
 module.exports = {
   buildLocalNode,
   buildNodes,
   saveVersion,
+  setupAccounts,
   startNodes
 }

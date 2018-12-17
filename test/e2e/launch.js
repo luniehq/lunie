@@ -5,19 +5,14 @@ let test = require(`tape-promise/tape`)
 let electron = require(`electron`)
 let { join } = require(`path`)
 let fs = require(`fs-extra`)
-const buildNodes = require(`../../tasks/build/local/helper`).buildNodes
-const startNodes = require(`../../tasks/build/local/helper`).startNodes
+const {
+  setupAccounts,
+  buildNodes,
+  startNodes
+} = require(`../../tasks/build/local/helper`)
+let { cliBinary, nodeBinary, defaultStartPort } = require(`../../tasks/gaia.js`)
 
 const testDir = join(__dirname, `..`, `..`, `testArtifacts`)
-let {
-  createKey,
-  getKeys,
-
-  cliBinary,
-  nodeBinary,
-  defaultStartPort
-} = require(`../../tasks/gaia.js`)
-
 let app, started, crashed
 
 /*
@@ -117,24 +112,6 @@ const bootLocalNetwork = async (targetDir, options) => {
     cliHomePrefix,
     ...nodes[1]
   }
-}
-
-async function setupAccounts(nodeOneClientDir, voyagerCLIDir) {
-  // use the master account that holds funds from node 1
-  // to use it, we copy the key database from node one to our Voyager cli config folde
-  fs.copySync(nodeOneClientDir, voyagerCLIDir)
-
-  // this account is later used to send funds to, to test token sending
-  await createKey({
-    keyName: `testreceiver`,
-    password: `1234567890`,
-    clientHomeDir: voyagerCLIDir
-  })
-
-  let accounts = await getKeys(voyagerCLIDir)
-  console.log(`setup test accounts`, accounts)
-
-  return accounts
 }
 
 async function stop(app) {
