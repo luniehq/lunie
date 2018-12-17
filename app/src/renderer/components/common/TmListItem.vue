@@ -229,185 +229,216 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@require '~variables'
+<style>
+.tm-li {
+  display: block;
+  min-height: 3rem;
+  position: relative;
+  border-bottom: calc(2 * var(--px)) solid var(--bc-dim);
+}
 
-.tm-li
-  display block
-  min-height 3rem
-  position relative
-  border-bottom calc(2 * var(--px)) solid var(--bc-dim)
+.tm-li:last-child {
+  border-bottom: calc(2 * var(--px)) solid transparent;
+}
 
-  &:last-child
-    border-bottom calc(2 * var(--px)) solid transparent
+.tm-li.tm-li-link:hover,
+.tm-li.tm-li-link.router-link-exact-active {
+  background: var(--hover-bg);
+}
 
-  &.tm-li-link
-    &:hover, &.router-link-exact-active
-      background var(--hover-bg)
+.tm-li.tm-li-link:hover .tm-li-label,
+.tm-li.tm-li-link.router-link-exact-active .tm-li-label {
+  cursor: pointer;
+}
 
-      .tm-li-label
-        cursor pointer
+.tm-li.tm-li-link:hover .tm-li-title,
+.tm-li.tm-li-link.router-link-exact-active .tm-li-title {
+  color: var(--bright);
+}
 
-      .tm-li-title
-        color var(--bright)
+.tm-li.tm-li-link:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 3rem;
+  width: var(--bw);
+  background: transparent;
+  z-index: var(--z-listItem);
+}
 
-    &:before
-      content ''
-      display block
-      position absolute
-      top 0
-      left 0
-      height 3rem
-      width var(--bw)
-      background transparent
-      z-index var(--z-listItem)
+.tm-li.tm-li-link .tm-li-dt,
+.tm-li.tm-li-link .tm-li-dd {
+  color: var(--link);
+}
 
-    .tm-li-dt, .tm-li-dd
-      color var(--link)
+.tm-li.router-link-exact-active .tm-li-title {
+  color: var(--bright);
+}
 
-  &.router-link-exact-active
-    .tm-li-title
-      color var(--bright)
+.tm-li.router-link-exact-active:before {
+  background: var(--mc);
+}
 
-    &:before
-      background var(--mc)
+.tm-li.router-link-exact-active .tm-li-icon i.material-icons {
+  color: var(--mc);
+}
 
-    .tm-li-icon
-      i.material-icons
-        color var(--mc)
+.tm-li-label .tm-btn,
+.tm-li-dl .tm-btn {
+  position: absolute;
+  top: calc(0.5rem - var(--px));
+  right: 1rem;
+}
 
-.tm-li-label, .tm-li-dl
-  .tm-btn
-    position absolute
-    top calc(0.5rem - var(--px))
-    right 1rem
+.tm-li-container {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  position: relative;
+  min-height: calc(3rem - 2 * var(--px));
+  max-width: 60rem;
+}
 
-.tm-li-container
-  display flex
-  flex-flow row nowrap
-  align-items center
-  position relative
-  min-height calc(3rem - 2 * var(--px))
-  max-width 60rem
+.tm-li-thumb,
+.tm-li-label,
+.tm-li-icon {
+  min-height: calc(3rem - 2 * var(--px));
+}
 
-// type: anchor & link
-.tm-li-thumb, .tm-li-label, .tm-li-icon
-  min-height calc(3rem - 2 * var(--px))
+.tm-li-thumb:empty {
+  display: none;
+}
 
-.tm-li-thumb:empty
-  display none
+.tm-li-thumb {
+  width: calc(3rem - var(--px));
+}
 
-.tm-li-thumb
-  width calc(3rem - var(--px))
+.tm-li-thumb i.material-icons,
+.tm-li-thumb img {
+  display: block;
+  width: calc(3rem - var(--px));
+  height: calc(3rem - var(--px));
+}
 
-  i.material-icons, img
-    display block
-    width calc(3rem - var(--px))
-    height calc(3rem - var(--px))
+.tm-li-thumb i.material-icons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--txt);
+}
 
-  i.material-icons
-    display flex
-    align-items center
-    justify-content center
-    color var(--txt)
+.tm-li-label {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0 1rem;
+  flex-flow: column nowrap;
+}
 
-.tm-li-label
-  flex 1
-  display flex
-  align-items flex-start
-  justify-content center
-  padding 0 1rem
-  flex-flow column nowrap
+.tm-li-label .tm-li-title {
+  color: var(--txt);
+  line-height: 1.25;
+}
 
-  .tm-li-title
-    color var(--txt)
-    line-height 1.25
+.tm-li-label .tm-li-subtitle {
+  color: var(--dim);
+  font-size: var(--xs);
+  line-height: 1.25;
+}
 
-  .tm-li-subtitle
-    color var(--dim)
-    font-size var(--xs)
-    line-height 1.25
+.tm-li-field .tm-li-container {
+  display: flex;
+}
 
-.tm-li-link
-  .tm-li-label
-    // padding 0 1rem 0 0
+.tm-li-field .tm-li-container .tm-li-label {
+  flex: 2;
+}
 
-// type: field
-.tm-li-field .tm-li-container
-  display flex
+.tm-li-field .tm-li-container .tm-li-input {
+  flex: 1;
+  display: flex;
+}
 
-  .tm-li-label
-    flex 2
+.tm-li-field .tm-li-container .tm-li-input .tm-btn {
+  flex: 1;
+}
 
-  .tm-li-input
-    flex 1
-    display flex
+.tm-li-field .tm-li-container .tm-li-input .tm-select {
+  width: 100%;
+}
 
-    .tm-btn
-      flex 1
+.tm-li-dl {
+  flex: 1;
+  height: calc(3rem - var(--px));
+  padding: 0 0.5rem;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
 
-    .tm-select
-      width 100%
+.tm-li-dt,
+.tm-li-dd {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: var(--txt);
+}
 
-// type: dl definition list
-.tm-li-dl
-  flex 1
-  height calc(3rem - var(--px))
-  padding 0 0.5rem
-  display flex
-  align-items center
-  // truncate
-  min-width 0
+.tm-li-dt:empty,
+.tm-li-dd:empty {
+  display: none;
+}
 
-.tm-li-dt, .tm-li-dd
-  // truncate
-  white-space nowrap
-  text-overflow ellipsis
-  overflow hidden
-  color var(--txt)
+.no-overflow .tm-li-dt,
+.no-overflow .tm-li-dd {
+  overflow: visible;
+}
 
-.tm-li-dt, .tm-li-dd
-  &:empty
-    display none
+.tm-li-dt {
+  padding-left: 0.5rem;
+  padding-right: 0.25rem;
+  max-width: width-side;
+  flex: 2;
+}
 
-.no-overflow
-  .tm-li-dt, .tm-li-dd
-    overflow visible
+.tm-li-dd {
+  padding-left: 0.25rem;
+  padding-right: 0.5rem;
+  flex: 3;
+  line-height: 1.25;
+}
 
-.tm-li-dt
-  padding-left 0.5rem
-  padding-right 0.25rem
-  max-width width-side
-  flex 2
+.tm-li-dd.tm-li-dd-flush {
+  padding: 0;
+}
 
-.tm-li-dd
-  padding-left 0.25rem
-  padding-right 0.5rem
-  flex 3
-  line-height 1.25
+.tm-li-dd.tm-li-dd-flush > div {
+  display: flex;
+  height: calc(3rem - var(--px));
+}
 
-  &.tm-li-dd-flush
-    padding 0
+a.tm-li-dd {
+  color: var(--mc);
+  cursor: pointer;
+}
 
-  &.tm-li-dd-flush > div
-    display flex
-    height calc(3rem - var(--px))
+.tm-li-icon {
+  width: 1.5rem;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
 
-a.tm-li-dd
-  color var(--mc)
-  cursor pointer
+.tm-li-icon .inactive {
+  display: block;
+}
 
-.tm-li-icon
-  width 1.5rem
-  display flex
-  align-items center
-  position absolute
-  top 0
-  right 0
-
-  .inactive
-    display block
-
-  .active
-    display none
+.tm-li-icon .active {
+  display: none;
+}
 </style>

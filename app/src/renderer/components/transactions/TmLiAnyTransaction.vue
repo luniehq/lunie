@@ -1,4 +1,4 @@
-<template>
+s<template>
   <tm-li-bank-transaction
     v-if="bankTx"
     :transaction="transaction"
@@ -36,7 +36,7 @@ import TmLiTransaction from "../TmLiTransaction/TmLiTransaction"
 import colors from "../TmLiTransaction/transaction-colors.js"
 
 export default {
-  name: "TmLiAnyTransaction",
+  name: `TmLiAnyTransaction`,
   components: {
     TmLiBankTransaction,
     TmLiGovTransaction,
@@ -49,15 +49,15 @@ export default {
     validators: Array,
     validatorsURL: {
       type: String,
-      default: ""
+      default: ``
     },
     proposalsURL: {
       type: String,
-      default: ""
+      default: ``
     },
     bondingDenom: {
       type: String,
-      default: "atom"
+      default: `atom`
     },
     unbonding_time: String
   },
@@ -67,14 +67,14 @@ export default {
       return this.transaction.tx.value.msg[0].type
     },
     bankTx() {
-      return ["cosmos-sdk/Send"].includes(this.type)
+      return [`cosmos-sdk/Send`].includes(this.type)
     },
     stakingTx() {
       return [
-        "cosmos-sdk/MsgDelegate",
-        "cosmos-sdk/BeginUnbonding",
-        "cosmos-sdk/CompleteUnbonding",
-        "cosmos-sdk/BeginRedelegate"
+        `cosmos-sdk/MsgDelegate`,
+        `cosmos-sdk/BeginUnbonding`,
+        `cosmos-sdk/CompleteUnbonding`,
+        `cosmos-sdk/BeginRedelegate`
       ].includes(this.type)
     },
     governanceTx() {
@@ -86,4 +86,4 @@ export default {
 }
 </script>
 
-<style lang="stylus"></style>
+<style></style>
