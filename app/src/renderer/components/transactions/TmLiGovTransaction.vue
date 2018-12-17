@@ -1,22 +1,31 @@
-<template lang="pug">
-tm-li-transaction(:color="color" :time="transaction.time" :block="transaction.height")
-  template(v-if="propose")
-    div(slot="caption")
-      | Submitted {{ tx.proposal_type.toLowerCase()}} proposal initial deposit&nbsp;
-      b {{ prettify(tx.initial_deposit[0].amount) }}
-      span &nbsp;{{ tx.initial_deposit[0].denom }}s
-    div(slot="details")
-      | Title:&nbsp;
-      i {{ tx.title }}
-  template(v-if="deposit")
-    div(slot="caption")
-      | Deposited&nbsp;
-      template
-        b {{ prettify(tx.amount[0].amount) }}
-        span &nbsp;{{ tx.amount[0].denom }}s
-    div(slot="details")
-      | On&nbsp;
-      router-link(:to="this.URL + '/' + tx.proposal_id") Proposal &#35;{{ tx.proposal_id }}
+<template>
+  <tm-li-transaction
+    :color="color"
+    :time="transaction.time"
+    :block="transaction.height"
+    ><template v-if="propose">
+      <div slot="caption">
+        Submitted {{ tx.proposal_type.toLowerCase() }} proposal initial
+        deposit&nbsp;<b>{{ prettify(tx.initial_deposit[0].amount) }}</b
+        ><span>&nbsp;{{ tx.initial_deposit[0].denom }}s</span>
+      </div>
+      <div slot="details">
+        Title:&nbsp;<i>{{ tx.title }}</i>
+      </div> </template
+    ><template v-if="deposit">
+      <div slot="caption">
+        Deposited&nbsp;<template
+          ><b>{{ prettify(tx.amount[0].amount) }}</b
+          ><span>&nbsp;{{ tx.amount[0].denom }}s</span></template
+        >
+      </div>
+      <div slot="details">
+        On&nbsp;<router-link :to="URL + '/' + tx.proposal_id"
+          >Proposal &#35;{{ tx.proposal_id }}</router-link
+        >
+      </div>
+    </template></tm-li-transaction
+  >
 </template>
 
 <script>
@@ -67,85 +76,99 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@require '~variables'
+<style>
+.tm-li-tx {
+  display: flex;
+  font-size: sm;
+}
 
-.tm-li-tx
-  display flex
-  font-size sm
+.tm-li-tx .tx-icon {
+  padding: 0 0.5rem;
+  background: var(--app-fg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  .tx-icon
-    padding 0 0.5rem
-    background var(--app-fg)
-    display flex
-    align-items center
-    justify-content center
+.tm-li-tx .tx-container {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  padding: 0.5rem 0;
+  margin: 0.5rem 0;
+  display: flex;
+  width: 100%;
+  min-width: 0;
+}
 
-  .tx-container
-    flex-direction column
-    flex-wrap nowrap
-    padding 0.5rem 0
-    margin 0.5rem 0
-    display flex
-    width 100%
-    min-width 0 // fix text-overflow
+.tm-li-tx .tx-element {
+  padding: 0 2rem 0 1.5rem;
+  line-height: 1.5rem;
+}
 
-  .tx-element
-    padding 0 2rem 0 1.5rem
-    line-height 1.5rem
+.tm-li-tx .tx-coin .value {
+  flex: 0 0 100%;
+  font-size: var(--sm);
+  color: var(--dim);
+}
 
-  .tx-coin
-    .value
-      flex 0 0 100%
-      font-size var(--sm)
-      color var(--dim)
+.tm-li-tx .tx-coin .value:before {
+  content: "";
+  display: inline;
+}
 
-      &:before
-        content ''
-        display inline
+.tm-li-tx .tx-coin .key {
+  font-weight: 500;
+  font-size: var(--m);
+}
 
-    .key
-      font-weight 500
-      font-size var(--m)
+.tm-li-tx .tx-coin .value,
+.tm-li-tx .tx-coin .key {
+  line-height: 1.5rem;
+}
 
-    .value, .key
-      line-height 1.5rem
+.tm-li-tx.tm-li-tx-sent .tx-coin .value:before {
+  content: "-";
+}
 
-  &.tm-li-tx-sent
-    .tx-coin .value
-      &:before
-        content '-'
+.tm-li-tx.tm-li-tx-received .tx-icon {
+  background: var(--app-fg);
+}
 
-  &.tm-li-tx-received
-    .tx-icon
-      background var(--app-fg)
+.tm-li-tx.tm-li-tx-received .tx-coin .value {
+  color: var(--success);
+}
 
-    .tx-coin .value
-      color var(--success)
+.tm-li-tx.tm-li-tx-received .tx-coin .value:before {
+  content: "+";
+}
 
-      &:before
-        content '+'
+.tm-li-tx:hover {
+  cursor: pointer;
+}
 
-  &:hover
-    cursor pointer
+@media screen and (min-width: 700px) {
+  .tm-li-tx {
+    font-size: 0.875rem;
+  }
 
-@media screen and (min-width: 700px)
-  .tm-li-tx
-    font-size 0.875rem
+  .tm-li-tx .tx-container {
+    flex-direction: row;
+  }
 
-    .tx-container
-      flex-direction row
+  .tm-li-tx .tx-container .tx-coins {
+    flex: 0 0 9rem;
+    padding: 0;
+    min-width: 0;
+  }
 
-      .tx-coins
-        flex 0 0 9rem
-        padding 0
-        min-width 0
+  .tm-li-tx .tx-container .tx-coins .tx-coin {
+    padding: 0 1.5rem 0;
+  }
 
-        .tx-coin
-          padding 0 1.5rem 0
-
-          .key
-            white-space nowrap
-            overflow hidden
-            text-overflow ellipsis
+  .tm-li-tx .tx-container .tx-coins .tx-coin .key {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
 </style>
