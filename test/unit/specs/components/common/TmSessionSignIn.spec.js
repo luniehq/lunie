@@ -89,7 +89,6 @@ describe(`TmSessionSignIn`, () => {
 
     expect(wrapper.vm.fields.signInPassword).toBe(`1234567890`)
     expect(wrapper.html()).toContain(`1234567890`)
-    expect(wrapper.html()).toMatchSnapshot()
   })
   it(`should reset history after signin`, async () => {
     expect(store.state.user.history.length).toBe(0)

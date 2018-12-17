@@ -42,6 +42,7 @@ module.exports = {
     `./test/unit/helpers/genesis_mock.js`,
     `./test/unit/helpers/electron_mock.js`,
     `./test/unit/helpers/sentry_mock.js`,
+    `./test/unit/helpers/mock_perfect-scrollbar.js`,
     `jest-localstorage-mock`
   ]
 }

@@ -10,7 +10,7 @@ exports[`TmOnboarding has the expected html structure 0 1`] = `
                Welcome to Voyager
             </div>
 </div>
-<div class=\\"tm-session-main ps\\">
+<div class=\\"tm-session-main\\">
    <div class=\\"tm-session-label\\">
       This is a quick tour of the primary features of Cosmos Voyager.
    </div>
@@ -24,12 +24,6 @@ exports[`TmOnboarding has the expected html structure 0 1`] = `
 <div class=\\"tm-bar-discrete__node\\"></div>
 <div class=\\"tm-bar-discrete__node\\"></div>
 </div>
-</div>
-<div class=\\"ps__rail-x\\" style=\\"left: 0px; top: 0px;\\">
-   <div class=\\"ps__thumb-x\\" tabindex=\\"0\\" style=\\"left: 0px; width: 0px;\\"></div>
-</div>
-<div class=\\"ps__rail-y\\" style=\\"top: 0px; left: 0px;\\">
-   <div class=\\"ps__thumb-y\\" tabindex=\\"0\\" style=\\"top: 0px; height: 0px;\\"></div>
 </div>
 </div>
 <div class=\\"tm-session-footer\\">
@@ -54,7 +48,7 @@ exports[`TmOnboarding has the expected html structure 1 1`] = `
                Welcome to Voyager
             </div>
 </div>
-<div class=\\"tm-session-main ps\\">
+<div class=\\"tm-session-main\\">
    <div class=\\"tm-session-label\\">
       You can send and receive Cosmos tokens from anyone around the world.
    </div>
@@ -68,12 +62,6 @@ exports[`TmOnboarding has the expected html structure 1 1`] = `
 <div class=\\"tm-bar-discrete__node\\"></div>
 <div class=\\"tm-bar-discrete__node\\"></div>
 </div>
-</div>
-<div class=\\"ps__rail-x\\" style=\\"left: 0px; top: 0px;\\">
-   <div class=\\"ps__thumb-x\\" tabindex=\\"0\\" style=\\"left: 0px; width: 0px;\\"></div>
-</div>
-<div class=\\"ps__rail-y\\" style=\\"top: 0px; left: 0px;\\">
-   <div class=\\"ps__thumb-y\\" tabindex=\\"0\\" style=\\"top: 0px; height: 0px;\\"></div>
 </div>
 </div>
 <div class=\\"tm-session-footer\\">
@@ -98,7 +86,7 @@ exports[`TmOnboarding has the expected html structure 2 1`] = `
                Welcome to Voyager
             </div>
 </div>
-<div class=\\"tm-session-main ps\\">
+<div class=\\"tm-session-main\\">
    <div class=\\"tm-session-label\\">
       You can delegate your STAKE to Cosmos Validators to earn even more STAKE.
    </div>
@@ -112,12 +100,6 @@ exports[`TmOnboarding has the expected html structure 2 1`] = `
 <div class=\\"tm-bar-discrete__node\\"></div>
 <div class=\\"tm-bar-discrete__node\\"></div>
 </div>
-</div>
-<div class=\\"ps__rail-x\\" style=\\"left: 0px; top: 0px;\\">
-   <div class=\\"ps__thumb-x\\" tabindex=\\"0\\" style=\\"left: 0px; width: 0px;\\"></div>
-</div>
-<div class=\\"ps__rail-y\\" style=\\"top: 0px; left: 0px;\\">
-   <div class=\\"ps__thumb-y\\" tabindex=\\"0\\" style=\\"top: 0px; height: 0px;\\"></div>
 </div>
 </div>
 <div class=\\"tm-session-footer\\">
@@ -142,7 +124,7 @@ exports[`TmOnboarding has the expected html structure 3 1`] = `
                Welcome to Voyager
             </div>
 </div>
-<div class=\\"tm-session-main ps\\">
+<div class=\\"tm-session-main\\">
    <div class=\\"tm-session-label\\">
       Through governance, you can vote on the future of the Cosmos Network.
    </div>
@@ -156,12 +138,6 @@ exports[`TmOnboarding has the expected html structure 3 1`] = `
 <div class=\\"tm-bar-discrete__node\\"></div>
 <div class=\\"tm-bar-discrete__node\\"></div>
 </div>
-</div>
-<div class=\\"ps__rail-x\\" style=\\"left: 0px; top: 0px;\\">
-   <div class=\\"ps__thumb-x\\" tabindex=\\"0\\" style=\\"left: 0px; width: 0px;\\"></div>
-</div>
-<div class=\\"ps__rail-y\\" style=\\"top: 0px; left: 0px;\\">
-   <div class=\\"ps__thumb-y\\" tabindex=\\"0\\" style=\\"top: 0px; height: 0px;\\"></div>
 </div>
 </div>
 <div class=\\"tm-session-footer\\">
@@ -186,7 +162,7 @@ exports[`TmOnboarding has the expected html structure 4 1`] = `
                Welcome to Voyager
             </div>
 </div>
-<div class=\\"tm-session-main ps\\">
+<div class=\\"tm-session-main\\">
    <div class=\\"tm-session-label\\">
       Start using Voyager to explore the Cosmos Network!
    </div>
@@ -200,12 +176,6 @@ exports[`TmOnboarding has the expected html structure 4 1`] = `
 <div class=\\"tm-bar-discrete__node\\"></div>
 <div class=\\"tm-bar-discrete__node\\"></div>
 </div>
-</div>
-<div class=\\"ps__rail-x\\" style=\\"left: 0px; top: 0px;\\">
-   <div class=\\"ps__thumb-x\\" tabindex=\\"0\\" style=\\"left: 0px; width: 0px;\\"></div>
-</div>
-<div class=\\"ps__rail-y\\" style=\\"top: 0px; left: 0px;\\">
-   <div class=\\"ps__thumb-y\\" tabindex=\\"0\\" style=\\"top: 0px; height: 0px;\\"></div>
 </div>
 </div>
 <div class=\\"tm-session-footer\\">
