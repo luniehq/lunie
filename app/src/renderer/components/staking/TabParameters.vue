@@ -128,7 +128,7 @@ import TmBtn from "common/TmBtn"
 import TmListItem from "common/TmListItem"
 import TmPage from "common/TmPage"
 import TmPart from "common/TmPart"
-import TmToolBar from "common/TmToolBar"
+import ToolBar from "common/ToolBar"
 import TmDataConnecting from "common/TmDataConnecting"
 export default {
   name: `tab-staking-parameters`,
@@ -137,7 +137,7 @@ export default {
     TmListItem,
     TmPage,
     TmPart,
-    TmToolBar,
+    ToolBar,
     TmDataConnecting
   },
   data: () => ({

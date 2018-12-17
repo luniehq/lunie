@@ -9,12 +9,12 @@ module.exports = {
     "^app/(.*)$": `<rootDir>/app/$1`,
     "^renderer/(.*)$": `<rootDir>/app/src/renderer/$1`,
     "^common/(.*)$": `<rootDir>/app/src/renderer/components/common/$1`,
+    "^transactions/(.*)$": `<rootDir>/app/src/renderer/components/transactions/$1`,
     "^govern/(.*)$": `<rootDir>/app/src/renderer/components/govern/$1`,
     "^monitor/(.*)$": `<rootDir>/app/src/renderer/components/monitor/$1`,
     "^staking/(.*)$": `<rootDir>/app/src/renderer/components/staking/$1`,
     "^scripts/(.*)$": `<rootDir>/app/src/renderer/scripts/$1`,
-    "^wallet/(.*)$": `<rootDir>/app/src/renderer/components/wallet/$1`,
-    "^variables$": `<rootDir>/app/src/renderer/styles/variables.styl`
+    "^wallet/(.*)$": `<rootDir>/app/src/renderer/components/wallet/$1`
   },
 
   transform: {

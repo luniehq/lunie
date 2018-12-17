@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="to" class="tm-btn" v-if="type === 'link'" exact="exact"
+  <router-link v-if="type === 'link'" :to="to" class="tm-btn" exact="exact"
     ><span :class="btnClass"
       ><i
         v-if="icon"
@@ -17,7 +17,7 @@
         >{{ icon }}</i
       ><span v-if="value" class="tm-btn__value">{{ value }}</span></span
     ></a
-  ><button :type="type" class="tm-btn" v-else>
+  ><button v-else :type="type" class="tm-btn">
     <span :class="btnClass"
       ><i
         v-if="icon"
@@ -36,21 +36,21 @@
 
 <script>
 export default {
-  name: "TmBtn",
+  name: `TmBtn`,
   props: [
-    "value",
-    "icon",
-    "icon-pos",
-    "img",
-    "type",
-    "size",
-    "theme",
-    "to",
-    "color"
+    `value`,
+    `icon`,
+    `icon-pos`,
+    `img`,
+    `type`,
+    `size`,
+    `theme`,
+    `to`,
+    `color`
   ],
   computed: {
     btnClass() {
-      let value = "tm-btn__container"
+      let value = `tm-btn__container`
       if (this.iconPos) value += ` tm-btn__icon-${this.iconPos}`
       if (this.size) value += ` tm-btn--size-${this.size}`
       if (this.theme) value += ` tm-btn--theme-${this.theme}`

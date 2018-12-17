@@ -51,7 +51,7 @@ import TmDataError from "common/TmDataError"
 import TmDataConnecting from "common/TmDataConnecting"
 import TmPage from "common/TmPage"
 import TmDataLoading from "common/TmDataLoading"
-import TmLiAnyTransaction from "common/TmLiAnyTransaction"
+import TmLiAnyTransaction from "transactions/TmLiAnyTransaction"
 import ToolBar from "common/ToolBar"
 export default {
   name: `page-transactions`,

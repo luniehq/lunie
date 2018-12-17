@@ -211,7 +211,7 @@ import TmBtn from "common/TmBtn"
 import TmListItem from "common/TmListItem"
 import TmPage from "common/TmPage"
 import TmPart from "common/TmPart"
-import TmToolBar from "common/TmToolBar"
+import ToolBar from "common/ToolBar"
 import TmModal from "common/TmModal"
 import TmDataError from "common/TmDataError"
 import { shortAddress, ratToBigNumber } from "scripts/common"
@@ -232,7 +232,7 @@ export default {
     TmModal,
     TmPage,
     TmPart,
-    TmToolBar,
+    ToolBar,
     TmDataError,
     TmBalance
   },

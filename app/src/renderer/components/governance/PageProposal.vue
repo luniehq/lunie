@@ -134,7 +134,7 @@ import { mapGetters } from "vuex"
 import num from "scripts/num"
 import TmBtn from "common/TmBtn"
 import TmPage from "common/TmPage"
-import TmToolBar from "common/TmToolBar"
+import ToolBar from "common/ToolBar"
 import TmBalance from "common/TmBalance"
 import TmDataError from "common/TmDataError"
 import TextBlock from "common/TextBlock"
@@ -147,7 +147,7 @@ export default {
     TmBtn,
     ModalDeposit,
     ModalVote,
-    TmToolBar,
+    ToolBar,
     TmDataError,
     TmPage,
     TextBlock

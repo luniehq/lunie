@@ -167,7 +167,7 @@
 import { mapGetters } from "vuex"
 import TmBtn from "common/TmBtn"
 import TmPage from "common/TmPage"
-import TmToolBar from "common/TmToolBar"
+import ToolBar from "common/ToolBar"
 import TmPart from "common/TmPart"
 import TmListItem from "common/TmListItem"
 export default {
@@ -177,7 +177,7 @@ export default {
     TmListItem,
     TmPage,
     TmPart,
-    TmToolBar
+    ToolBar
   },
   data: () => ({
     depositTooltips: {

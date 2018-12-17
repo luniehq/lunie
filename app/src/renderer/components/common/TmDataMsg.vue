@@ -17,11 +17,11 @@
 <script>
 export default {
   name: `tm-data-msg`,
-  props: ["title", "subtitle", "icon", "spin"],
+  props: [`title`, `subtitle`, `icon`, `spin`],
   computed: {
     iconCssClass() {
       if (this.spin) {
-        return "fa-spin"
+        return `fa-spin`
       }
     }
   }

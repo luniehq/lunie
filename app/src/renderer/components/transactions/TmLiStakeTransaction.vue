@@ -9,7 +9,7 @@
         ><span>&nbsp;{{ bondingDenom }}s</span>
       </div>
       <div slot="details">
-        To&nbsp;<router-link :to="this.URL + '/' + tx.validator_addr">{{
+        To&nbsp;<router-link :to="URL + '/' + tx.validator_addr">{{
           moniker(tx.validator_addr)
         }}</router-link>
       </div> </template
@@ -23,10 +23,10 @@
         >
       </div>
       <div slot="details">
-        From&nbsp;<router-link :to="this.URL + '/' + tx.validator_src_addr">{{
+        From&nbsp;<router-link :to="URL + '/' + tx.validator_src_addr">{{
           moniker(tx.validator_src_addr)
         }}</router-link>
-        to&nbsp;<router-link :to="this.URL + '/' + tx.validator_dst_addr">{{
+        to&nbsp;<router-link :to="URL + '/' + tx.validator_dst_addr">{{
           moniker(tx.validator_dst_addr)
         }}</router-link>
       </div> </template
@@ -42,14 +42,14 @@
         >
       </div>
       <div slot="details">
-        From&nbsp;<router-link :to="this.URL + '/' + tx.validator_addr">{{
+        From&nbsp;<router-link :to="URL + '/' + tx.validator_addr">{{
           moniker(tx.validator_addr)
         }}</router-link>
       </div> </template
     ><template v-if="endUnbonding">
       <div slot="caption">Ended Unbonding&nbsp;</div>
       <div slot="details">
-        From&nbsp;<router-link :to="this.URL + '/' + tx.validator_addr">{{
+        From&nbsp;<router-link :to="URL + '/' + tx.validator_addr">{{
           moniker(tx.validator_addr)
         }}</router-link>
       </div>
@@ -61,7 +61,7 @@
 import TmLiTransaction from "./TmLiTransaction"
 import colors from "./transaction-colors.js"
 import moment from "moment"
-import TmBtn from "./TmBtn.vue"
+import TmBtn from "common/TmBtn.vue"
 import numeral from "numeral"
 import { BigNumber } from "bignumber.js"
 
