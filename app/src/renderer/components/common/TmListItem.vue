@@ -201,7 +201,7 @@
 </template>
 
 <script>
-import TmBtn from "../TmBtn/TmBtn.vue"
+import TmBtn from "./TmBtn.vue"
 export default {
   name: `tm-list-item`,
   components: { TmBtn },

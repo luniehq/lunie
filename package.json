@@ -104,7 +104,6 @@
   "dependencies": {
     "@sentry/browser": "4.4.1",
     "@sentry/node": "4.4.1",
-    "@tendermint/ui": "0.4.3",
     "@vue/test-utils": "1.0.0-beta.11",
     "autosize": "4.0.2",
     "axios": "0.18.0",

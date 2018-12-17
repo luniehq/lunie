@@ -56,13 +56,11 @@ import DataEmptySearch from "common/TmDataEmptySearch"
 import TmDataConnecting from "common/TmDataConnecting"
 import LiCopy from "common/TmLiCopy"
 import LiCoin from "./LiCoin"
-import {
-  TmListItem,
-  TmPage,
-  TmPart,
-  TmDataLoading,
-  TmDataMsg
-} from "@tendermint/ui"
+import TmListItem from "common/TmListItem"
+import TmPage from "common/TmPage"
+import TmPart from "common/TmPart"
+import TmDataLoading from "common/TmDataLoading"
+import TmDataMsg from "common/TmDataMsg"
 import TmBalance from "common/TmBalance"
 import ModalSearch from "common/TmModalSearch"
 import ToolBar from "common/ToolBar"

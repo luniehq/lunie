@@ -14,7 +14,7 @@
 
 <script>
 import PerfectScrollbar from "perfect-scrollbar"
-import TmPageHeader from "../TmPageHeader/TmPageHeader.vue"
+import TmPageHeader from "./TmPageHeader.vue"
 export default {
   name: `tm-page`,
   components: {

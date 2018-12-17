@@ -56,7 +56,10 @@
 <script>
 import { between, numeric } from "vuelidate/lib/validators"
 import { mapGetters } from "vuex"
-import { TmBtn, TmFormGroup, TmField, TmFormMsg } from "@tendermint/ui"
+import TmBtn from "common/TmBtn"
+import TmFormGroup from "common/TmFormGroup"
+import TmField from "common/TmField"
+import TmFormMsg from "common/TmFormMsg"
 export default {
   name: `modal-search`,
   components: {

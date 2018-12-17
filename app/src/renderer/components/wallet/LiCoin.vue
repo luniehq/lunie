@@ -25,7 +25,7 @@
 
 <script>
 import num from "scripts/num"
-import { TmBtn } from "@tendermint/ui"
+import TmBtn from "common/TmBtn"
 export default {
   name: `li-coin`,
   components: {

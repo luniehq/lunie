@@ -9,7 +9,7 @@
 
 <script>
 import autosize from "autosize"
-import { TmField } from "@tendermint/ui"
+import TmField from "common/TmField"
 export default {
   name: `tm-field-seed`,
   components: { TmField },

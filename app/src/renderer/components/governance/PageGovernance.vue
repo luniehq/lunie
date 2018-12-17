@@ -34,7 +34,10 @@ import ModalSearch from "common/TmModalSearch"
 import ModalPropose from "./ModalPropose"
 import ToolBar from "common/ToolBar"
 import TmBalance from "common/TmBalance"
-import { TmPage, TmDataEmpty, TmDataLoading, TmBtn } from "@tendermint/ui"
+import TmBtn from "common/TmBtn"
+import TmPage from "common/TmPage"
+import TmDataEmpty from "common/TmDataEmpty"
+import TmDataLoading from "common/TmDataLoading"
 export default {
   name: `page-governance`,
   components: {

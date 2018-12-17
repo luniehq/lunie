@@ -157,16 +157,14 @@
 import b32 from "scripts/b32"
 import { required, between } from "vuelidate/lib/validators"
 import { mapActions, mapGetters } from "vuex"
-import {
-  TmBtn,
-  TmFieldGroup,
-  TmFormGroup,
-  TmFormStruct,
-  TmPage,
-  TmPart,
-  TmField,
-  TmFormMsg
-} from "@tendermint/ui"
+import TmBtn from "common/TmBtn"
+import TmFieldGroup from "common/TmFieldGroup"
+import TmFormGroup from "common/TmFormGroup"
+import TmFormStruct from "common/TmFormStruct"
+import TmPage from "common/TmPage"
+import TmPart from "common/TmPart"
+import TmField from "common/TmField"
+import TmFormMsg from "common/TmFormMsg"
 import TmBalance from "common/TmBalance"
 import FieldAddon from "common/TmFieldAddon"
 import ToolBar from "common/ToolBar"

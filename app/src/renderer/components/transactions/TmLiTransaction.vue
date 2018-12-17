@@ -1,7 +1,7 @@
 <template>
   <div class="tm-li-tx">
     <div class="tm-li-tx__icon">
-      <img src="../../assets/cosmos-logo.png" :style="{ borderColor: color }" />
+      <img :style="{ borderColor: color }" src="~@/assets/cosmos-logo.png" />
     </div>
     <div class="tm-li-tx__content">
       <div class="tm-li-tx__content__left">
@@ -27,13 +27,13 @@
 import moment from "moment"
 
 export default {
-  name: "tm-li-transaction",
+  name: `tm-li-transaction`,
+  props: [`color`, `time`, `block`],
   computed: {
     date() {
-      return moment(this.time).format("h:mm a")
+      return moment(this.time).format(`h:mm a`)
     }
-  },
-  props: ["color", "time", "block"]
+  }
 }
 </script>
 

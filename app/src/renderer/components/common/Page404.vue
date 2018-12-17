@@ -8,7 +8,9 @@
 </template>
 
 <script>
-import { TmListItem, TmPage, TmPart } from "@tendermint/ui"
+import TmListItem from "common/TmListItem"
+import TmPage from "common/TmPage"
+import TmPart from "common/TmPart"
 export default {
   name: `page-404`,
   components: {

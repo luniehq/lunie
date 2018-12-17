@@ -22,7 +22,7 @@ module.exports = {
     ".*\\.vue$": `<rootDir>/node_modules/vue-jest`
   },
 
-  transformIgnorePatterns: [`node_modules/(?!@tendermint/ui|.*vue)`],
+  transformIgnorePatterns: [`node_modules`],
 
   collectCoverage: true,
   mapCoverage: true,

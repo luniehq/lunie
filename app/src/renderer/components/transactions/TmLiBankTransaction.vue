@@ -21,8 +21,8 @@
         ><span>&nbsp;{{ coinsReceived.denom.toUpperCase() }}</span>
       </div>
       <span slot="details">From {{ sender }}</span>
-    </template></tm-li-transaction
-  >
+    </template>
+  </tm-li-transaction>
 </template>
 
 <script>
@@ -54,12 +54,22 @@ const defaultTransaction = {
   }
 }
 
-import TmLiTransaction from "../TmLiTransaction/TmLiTransaction"
-import colors from "../TmLiTransaction/transaction-colors.js"
+import TmLiTransaction from "./TmLiTransaction"
+import colors from "./transaction-colors.js"
 
 export default {
-  name: "tm-li-bank-transaction",
+  name: `tm-li-bank-transaction`,
   components: { TmLiTransaction },
+  props: {
+    transaction: {
+      type: Object,
+      default: () => defaultTransaction
+    },
+    address: {
+      type: String,
+      default: null
+    }
+  },
   computed: {
     tx() {
       return this.transaction.tx.value.msg[0].value
@@ -96,20 +106,10 @@ export default {
   },
   methods: {
     pretty(num) {
-      return numeral(num).format("0,0.00")
+      return numeral(num).format(`0,0.00`)
     },
     viewTransaction() {
       // console.log("TODO: implement tx viewer")
-    }
-  },
-  props: {
-    transaction: {
-      type: Object,
-      default: () => defaultTransaction
-    },
-    address: {
-      type: String,
-      default: null
     }
   }
 }

@@ -124,7 +124,11 @@
 
 <script>
 import { mapGetters } from "vuex"
-import { TmBtn, TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
+import TmBtn from "common/TmBtn"
+import TmListItem from "common/TmListItem"
+import TmPage from "common/TmPage"
+import TmPart from "common/TmPart"
+import TmToolBar from "common/TmToolBar"
 import TmDataConnecting from "common/TmDataConnecting"
 export default {
   name: `tab-staking-parameters`,

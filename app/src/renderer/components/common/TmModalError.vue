@@ -31,7 +31,7 @@
 <script>
 import { remote, shell } from "electron"
 import { mapGetters } from "vuex"
-import { TmBtn } from "@tendermint/ui"
+import TmBtn from "common/TmBtn"
 export default {
   name: `tm-modal-error`,
   components: { TmBtn },

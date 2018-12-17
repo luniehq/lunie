@@ -1,5 +1,5 @@
 import TmUserPane from "common/TmUserPane"
-import { TmListItem } from "@tendermint/ui"
+import TmListItem from "common/TmListItem"
 import setup from "../../../helpers/vuex-setup"
 
 describe(`TmUserPane`, () => {

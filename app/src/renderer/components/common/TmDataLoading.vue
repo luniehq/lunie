@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import TmDataMsg from "../TmDataMsg/TmDataMsg.vue"
+import TmDataMsg from "./TmDataMsg.vue"
 export default {
   name: `tm-data-loading`,
   components: { TmDataMsg },

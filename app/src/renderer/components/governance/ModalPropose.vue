@@ -112,7 +112,10 @@ import {
 } from "vuelidate/lib/validators"
 import { isEmpty, trim } from "lodash"
 import Modal from "common/TmModal"
-import { TmBtn, TmField, TmFormGroup, TmFormMsg } from "@tendermint/ui"
+import TmBtn from "common/TmBtn"
+import TmField from "common/TmField"
+import TmFormGroup from "common/TmFormGroup"
+import TmFormMsg from "common/TmFormMsg"
 
 const isValid = type =>
   type === `Text` || type === `ParameterChange` || type === `SoftwareUpgrade`

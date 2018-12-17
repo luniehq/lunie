@@ -29,11 +29,11 @@ s<template>
 </template>
 
 <script>
-import TmLiBankTransaction from "../TmLiBankTransaction/TmLiBankTransaction"
-import TmLiStakeTransaction from "../TmLiStakeTransaction/TmLiStakeTransaction"
-import TmLiGovTransaction from "../TmLiGovTransaction"
-import TmLiTransaction from "../TmLiTransaction/TmLiTransaction"
-import colors from "../TmLiTransaction/transaction-colors.js"
+import TmLiBankTransaction from "./TmLiBankTransaction"
+import TmLiStakeTransaction from "./TmLiStakeTransaction"
+import TmLiGovTransaction from "./TmLiGovTransaction"
+import TmLiTransaction from "./TmLiTransaction"
+import colors from "./transaction-colors.js"
 
 export default {
   name: `TmLiAnyTransaction`,

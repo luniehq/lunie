@@ -49,7 +49,9 @@ import ModalSearch from "common/TmModalSearch"
 import TmBalance from "common/TmBalance"
 import TmDataError from "common/TmDataError"
 import TmDataConnecting from "common/TmDataConnecting"
-import { TmPage, TmDataLoading, TmLiAnyTransaction } from "@tendermint/ui"
+import TmPage from "common/TmPage"
+import TmDataLoading from "common/TmDataLoading"
+import TmLiAnyTransaction from "common/TmLiAnyTransaction"
 import ToolBar from "common/ToolBar"
 export default {
   name: `page-transactions`,

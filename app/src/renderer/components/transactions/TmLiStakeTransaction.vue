@@ -58,10 +58,10 @@
 </template>
 
 <script>
-import TmLiTransaction from "../TmLiTransaction/TmLiTransaction"
-import colors from "../TmLiTransaction/transaction-colors.js"
+import TmLiTransaction from "./TmLiTransaction"
+import colors from "./transaction-colors.js"
 import moment from "moment"
-import TmBtn from "../TmBtn/TmBtn.vue"
+import TmBtn from "./TmBtn.vue"
 import numeral from "numeral"
 import { BigNumber } from "bignumber.js"
 
@@ -70,8 +70,20 @@ import { BigNumber } from "bignumber.js"
  */
 
 export default {
-  name: "tm-li-stake-transaction",
+  name: `TmLiStakeTransaction`,
   components: { TmLiTransaction, TmBtn },
+  props: {
+    transaction: Object,
+    validators: Array,
+    URL: {
+      type: String,
+      default: ``
+    },
+    bondingDenom: {
+      type: String,
+      default: `atom`
+    }
+  },
   computed: {
     tx() {
       return this.transaction.tx.value.msg[0].value
@@ -80,36 +92,36 @@ export default {
       return this.transaction.tx.value.msg[0].type
     },
     delegation() {
-      return this.type === "cosmos-sdk/MsgDelegate"
+      return this.type === `cosmos-sdk/MsgDelegate`
     },
     redelegation() {
-      return this.type === "cosmos-sdk/BeginRedelegate"
+      return this.type === `cosmos-sdk/BeginRedelegate`
     },
     unbonding() {
-      return this.type === "cosmos-sdk/BeginUnbonding"
+      return this.type === `cosmos-sdk/BeginUnbonding`
     },
     endUnbonding() {
-      return this.type === "cosmos-sdk/CompleteUnbonding"
+      return this.type === `cosmos-sdk/CompleteUnbonding`
     },
     timeDiff() {
       // only show time diff if still waiting to be terminated
-      if (this.state !== "locked") return ""
+      if (this.state !== `locked`) return ``
 
       return this.transaction.unbondingDelegation
         ? moment(this.transaction.unbondingDelegation.min_time).fromNow()
-        : ""
+        : ``
     },
     // state needs to be calculated by a wrapping application
     // unbonding requires state to be 'locked', 'ready', 'ended'
     state() {
-      if (!this.transaction.unbondingDelegation) return "ended"
+      if (!this.transaction.unbondingDelegation) return `ended`
       if (
         moment(this.transaction.unbondingDelegation.min_time).valueOf() -
           moment().valueOf() <=
         0
       )
-        return "ready"
-      return "locked"
+        return `ready`
+      return `locked`
     },
     color() {
       if (this.delegation) return colors.stake.bonded
@@ -165,18 +177,6 @@ export default {
           .toNumber()
       }
       return this.prettify(tokens)
-    }
-  },
-  props: {
-    transaction: Object,
-    validators: Array,
-    URL: {
-      type: String,
-      default: ""
-    },
-    bondingDenom: {
-      type: String,
-      default: "atom"
     }
   }
 }

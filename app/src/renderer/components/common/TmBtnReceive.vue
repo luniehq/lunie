@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { TmBtn } from "@tendermint/ui"
+import TmBtn from "common/TmBtn"
 export default {
   components: { TmBtn },
   methods: {
