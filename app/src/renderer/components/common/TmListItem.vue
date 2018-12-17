@@ -298,12 +298,12 @@ export default {
   display none
 
 .tm-li-thumb
-  width 3rem - var(--px)
+  width calc(3rem - var(--px))
 
   i.material-icons, img
     display block
-    width 3rem - var(--px)
-    height 3rem - var(--px)
+    width calc(3rem - var(--px))
+    height calc(3rem - var(--px))
 
   i.material-icons
     display flex
@@ -352,7 +352,7 @@ export default {
 // type: dl definition list
 .tm-li-dl
   flex 1
-  height 3rem - var(--px)
+  height calc(3rem - var(--px))
   padding 0 0.5rem
   display flex
   align-items center
@@ -391,7 +391,7 @@ export default {
 
   &.tm-li-dd-flush > div
     display flex
-    height 3rem - var(--px)
+    height calc(3rem - var(--px))
 
 a.tm-li-dd
   color var(--mc)
