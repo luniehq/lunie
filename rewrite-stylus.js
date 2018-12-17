@@ -10,21 +10,21 @@ glob(`**/*.vue`, function(err, files) {
     // a list of paths to javaScript files in the current working directory
 
     files.forEach(async file => {
-      let templateRegExp = /.*<style lang="stylus">([\s\S\n]*)<\/style>.*/
-      let content = fs.readFileSync(file, `utf8`)
-      //   console.log(content)
-      content = content.replace(`@require '~variables'`, ``)
-      content = content.replace(`@import '~variables'`, ``)
-      let match = templateRegExp.exec(content)
-      if (!match) return
-      const template = match[1]
-      if (template.split(`\n`)[1].startsWith(`  `)) {
-        template = template
-          .split(`\n`)
-          .map(line => line.slice(2))
-          .join(`\n`)
-      }
       try {
+        let templateRegExp = /.*<style lang="stylus">([\s\S\n]*)<\/style>.*/
+        let content = fs.readFileSync(file, `utf8`)
+        //   console.log(content)
+        content = content.replace(`@require '~variables'`, ``)
+        content = content.replace(`@import '~variables'`, ``)
+        let match = templateRegExp.exec(content)
+        if (!match) return
+        const template = match[1]
+        if (template.trim() && template.split(`\n`)[1].startsWith(`  `)) {
+          template = template
+            .split(`\n`)
+            .map(line => line.slice(2))
+            .join(`\n`)
+        }
         let css = stylus.render(template)
         let replaced = content.replace(
           templateRegExp,
