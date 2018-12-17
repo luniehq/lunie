@@ -4,11 +4,11 @@
       <tm-balance />
     </template>
     <div slot="menu">
-      <tm-tool-bar>
+      <tool-bar>
         <router-link to="/staking/validators" exact="exact"
           ><i class="material-icons">arrow_back</i></router-link
         >
-      </tm-tool-bar>
+      </tool-bar>
     </div>
     <tm-data-error v-if="!validator" /><template v-else>
       <div class="validator-profile__header validator-profile__section">

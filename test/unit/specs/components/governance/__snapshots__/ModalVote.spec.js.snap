@@ -45,6 +45,7 @@ exports[`ModalVote component matches snapshot has the expected html structure 1`
   >
     <!---->
     <!---->
+     
     <div
       class="tm-form-group__field"
     >
@@ -130,6 +131,7 @@ exports[`ModalVote component matches snapshot has the expected html structure 1`
     >
       Account password
     </label>
+     
     <div
       class="tm-form-group__field"
     >
@@ -158,6 +160,7 @@ exports[`ModalVote component matches snapshot has the expected html structure 1`
   >
     <!---->
     <!---->
+     
     <div
       class="tm-form-group__field"
     />

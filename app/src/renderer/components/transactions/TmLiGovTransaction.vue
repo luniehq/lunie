@@ -29,8 +29,8 @@
 </template>
 
 <script>
-import TmLiTransaction from "./TmLiTransaction/TmLiTransaction"
-import colors from "./TmLiTransaction/transaction-colors.js"
+import TmLiTransaction from "./TmLiTransaction"
+import colors from "./transaction-colors.js"
 import numeral from "numeral"
 
 export default {

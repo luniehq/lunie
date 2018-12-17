@@ -12,6 +12,7 @@ exports[`TmModalSearch has the expected html structure 1`] = `
     >
       <!---->
       <!---->
+       
       <div
         class="tm-form-group__field"
       >

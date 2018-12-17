@@ -68,16 +68,13 @@ describe(`LiValidator`, () => {
   it(`should show the validator status`, () => {
     expect(wrapper.vm.status).toBe(`This validator is actively validating`)
     // Jailed
-    wrapper.vm.validator = {
-      revoked: true
-    }
+    wrapper.vm.validator.revoked = true
     expect(wrapper.vm.status).toBe(
       `This validator has been jailed and is not currently validating`
     )
     // Is not a validator
-    wrapper.vm.validator = {
-      voting_power: 0
-    }
+    wrapper.vm.validator.revoked = false
+    wrapper.vm.validator.voting_power = 0
     expect(wrapper.vm.status).toBe(
       `This validator does not have enough voting power yet and is inactive`
     )
@@ -86,14 +83,11 @@ describe(`LiValidator`, () => {
   it(`should show the validator status with color`, () => {
     expect(wrapper.vm.statusColor).toBe(`green`)
     // Jailed
-    wrapper.vm.validator = {
-      revoked: true
-    }
+    wrapper.vm.validator.revoked = true
     expect(wrapper.vm.statusColor).toBe(`red`)
     // Is not a validator
-    wrapper.vm.validator = {
-      voting_power: 0
-    }
+    wrapper.vm.validator.revoked = false
+    wrapper.vm.validator.voting_power = 0
     expect(wrapper.vm.statusColor).toBe(`yellow`)
   })
 
@@ -112,25 +106,21 @@ describe(`LiValidator`, () => {
   })
 
   it(`should show the type of the candidate`, () => {
-    wrapper.vm.validator = {
-      revoked: false,
-      isValidator: false
-    }
+    wrapper.vm.validator.revoked = false
+    wrapper.vm.validator.isValidator = false
+    wrapper.update()
     expect(wrapper.vm.delegateType).toBe(`Candidate`)
-    wrapper.vm.validator = {
-      revoked: false,
-      isValidator: true
-    }
+    wrapper.vm.validator.revoked = false
+    wrapper.vm.validator.isValidator = true
+    wrapper.update()
     expect(wrapper.vm.delegateType).toBe(`Validator`)
-    wrapper.vm.validator = {
-      revoked: true,
-      isValidator: false
-    }
+    wrapper.vm.validator.revoked = true
+    wrapper.vm.validator.isValidator = false
+    wrapper.update()
     expect(wrapper.vm.delegateType).toBe(`Revoked`)
-    wrapper.vm.validator = {
-      revoked: true,
-      isValidator: true
-    }
+    wrapper.vm.validator.revoked = true
+    wrapper.vm.validator.isValidator = true
+    wrapper.update()
     expect(wrapper.vm.delegateType).toBe(`Revoked`)
   })
 })

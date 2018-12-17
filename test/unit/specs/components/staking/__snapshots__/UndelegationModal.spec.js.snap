@@ -34,6 +34,7 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
   >
     <!---->
     <!---->
+     
     <div
       class="tm-form-group__field"
     >
@@ -67,6 +68,7 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
     >
       To
     </label>
+     
     <div
       class="tm-form-group__field"
     >
@@ -90,6 +92,7 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
     >
       Account password
     </label>
+     
     <div
       class="tm-form-group__field"
     >

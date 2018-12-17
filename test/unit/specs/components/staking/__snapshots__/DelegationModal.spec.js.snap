@@ -40,6 +40,7 @@ exports[`DelegationModal component matches snapshot has the expected html struct
     >
       Amount
     </label>
+     
     <div
       class="tm-form-group__field"
     >
@@ -73,6 +74,7 @@ exports[`DelegationModal component matches snapshot has the expected html struct
     >
       To
     </label>
+     
     <div
       class="tm-form-group__field"
     >
@@ -94,6 +96,7 @@ exports[`DelegationModal component matches snapshot has the expected html struct
     >
       From
     </label>
+     
     <div
       class="tm-form-group__field"
     >
@@ -113,6 +116,7 @@ exports[`DelegationModal component matches snapshot has the expected html struct
           >
             Select option...
           </option>
+           
           <option
             value="0"
           >
@@ -129,6 +133,7 @@ exports[`DelegationModal component matches snapshot has the expected html struct
             Kentucky - cosmos…np9rldprgant57ryzag7
           </option>
         </select>
+         
         <div
           class="tm-field-select-addon"
         >
@@ -154,6 +159,7 @@ exports[`DelegationModal component matches snapshot has the expected html struct
     >
       Account password
     </label>
+     
     <div
       class="tm-form-group__field"
     >

@@ -36,7 +36,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import TmDataMsg from "common/TmBtn"
+import TmDataMsg from "common/TmDataMsg"
 import TmDataLoading from "common/TmDataLoading"
 import TableValidators from "staking/TableValidators"
 import TmDataConnecting from "common/TmDataConnecting"

@@ -972,6 +972,7 @@ describe(`onDelegation`, () => {
   })
 })
 
+// TODO return the magic
 describe(`onUnstake`, () => {
   const localVue = createLocalVue()
   localVue.use(Vuelidate)

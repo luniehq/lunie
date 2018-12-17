@@ -13,6 +13,7 @@ exports[`TmUserPane has the expected html structure 1`] = `
     >
       <!---->
     </div>
+     
     <div
       class="tm-li-label"
     >
@@ -21,12 +22,14 @@ exports[`TmUserPane has the expected html structure 1`] = `
       >
         Preferences
       </div>
+       
       <div
         class="tm-li-subtitle"
       >
         default
       </div>
     </div>
+     
     <div
       class="tm-li-icon"
     >
