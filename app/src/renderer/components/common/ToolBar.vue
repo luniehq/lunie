@@ -25,7 +25,7 @@
 import { mapGetters, mapMutations } from "vuex"
 export default {
   // the name needs to be different from TmToolBar (tm-tool-bar) or else recursive rendering takes place
-  name: `vm-tool-bar`,
+  name: `tool-bar`,
   computed: {
     ...mapGetters([`user`, `lastPage`])
   },

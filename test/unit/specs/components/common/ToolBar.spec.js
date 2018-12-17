@@ -1,12 +1,12 @@
 import setup from "../../../helpers/vuex-setup"
 import htmlBeautify from "html-beautify"
-import VmToolBar from "common/VmToolBar"
-describe(`VmToolBar`, () => {
+import ToolBar from "common/ToolBar"
+describe(`ToolBar`, () => {
   let wrapper, store, router
   let { mount } = setup()
 
   beforeEach(() => {
-    let instance = mount(VmToolBar)
+    let instance = mount(ToolBar)
     router = instance.router
     wrapper = instance.wrapper
     store = instance.store

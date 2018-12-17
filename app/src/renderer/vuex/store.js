@@ -31,9 +31,12 @@ export default (opts = {}) => {
       `setCommittedDelegation`,
       `setUnbondingDelegations`,
       `setDelegates`,
+      `setStakingParameters`,
+      `setPool`,
       `setProposal`,
       `setProposalDeposits`,
       `setProposalVotes`,
+      `setGovParameters`,
       `setKeybaseIdentities`
     ]
 
@@ -73,9 +76,12 @@ function persistState(state) {
     keybase: {
       identities: state.keybase.identities
     },
+    stakingParameters: state.stakingParameters,
+    pool: state.pool,
     proposals: state.proposals,
     deposits: state.deposits,
-    votes: state.votes
+    votes: state.votes,
+    governanceParameters: state.governanceParameters
   })
   // Store the state object as a JSON string
   localStorage.setItem(getStorageKey(state), cachedState)
@@ -112,6 +118,18 @@ function loadPersistedState({ state, commit }) {
         loading: false
       },
       proposals: {
+        loaded: true,
+        loading: false
+      },
+      pool: {
+        loaded: true,
+        loading: false
+      },
+      governanceParameters: {
+        loaded: true,
+        loading: false
+      },
+      stakingParameters: {
         loaded: true,
         loading: false
       }
