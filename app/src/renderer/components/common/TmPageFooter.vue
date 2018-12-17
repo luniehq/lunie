@@ -5,7 +5,7 @@
 </template>
 
 <script>
-export default { name: "tm-page-footer" }
+export default { name: `tm-page-footer` }
 </script>
 
 <style lang="stylus">
@@ -17,8 +17,8 @@ export default { name: "tm-page-footer" }
     height 3rem
     display flex
     align-items center
-
     padding 0 1rem
+
     &:empty
       display none
 </style>

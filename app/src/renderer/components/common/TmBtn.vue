@@ -1,23 +1,23 @@
 <template>
-  <router-link class="tm-btn" :to="to" v-if="type === 'link'" exact="exact"
+  <router-link :to="to" class="tm-btn" v-if="type === 'link'" exact="exact"
     ><span :class="btnClass"
       ><i
         v-if="icon"
         :class="'tm-btn__icon material-icons'"
         aria-hidden="true"
         >{{ icon }}</i
-      ><span class="tm-btn__value" v-if="value">{{ value }}</span></span
+      ><span v-if="value" class="tm-btn__value">{{ value }}</span></span
     ></router-link
-  ><a class="tm-btn" v-else-if="type === 'anchor'"
+  ><a v-else-if="type === 'anchor'" class="tm-btn"
     ><span :class="btnClass"
       ><i
         v-if="icon"
         :class="'tm-btn__icon material-icons'"
         aria-hidden="true"
         >{{ icon }}</i
-      ><span class="tm-btn__value" v-if="value">{{ value }}</span></span
+      ><span v-if="value" class="tm-btn__value">{{ value }}</span></span
     ></a
-  ><button class="tm-btn" :type="type" v-else="v-else">
+  ><button :type="type" class="tm-btn" v-else>
     <span :class="btnClass"
       ><i
         v-if="icon"
@@ -29,24 +29,14 @@
         :src="img"
         :class="'tm-btn__img'"
         aria-hidden="true"
-      /><span class="tm-btn__value" v-if="value">{{ value }}</span></span
+      /><span v-if="value" class="tm-btn__value">{{ value }}</span></span
     >
   </button>
 </template>
 
 <script>
 export default {
-  name: "tm-btn",
-  computed: {
-    btnClass() {
-      let value = "tm-btn__container"
-      if (this.iconPos) value += ` tm-btn__icon-${this.iconPos}`
-      if (this.size) value += ` tm-btn--size-${this.size}`
-      if (this.theme) value += ` tm-btn--theme-${this.theme}`
-      if (this.color) value += ` tm-btn--${this.color}`
-      return value
-    }
-  },
+  name: "TmBtn",
   props: [
     "value",
     "icon",
@@ -57,13 +47,21 @@ export default {
     "theme",
     "to",
     "color"
-  ]
+  ],
+  computed: {
+    btnClass() {
+      let value = "tm-btn__container"
+      if (this.iconPos) value += ` tm-btn__icon-${this.iconPos}`
+      if (this.size) value += ` tm-btn--size-${this.size}`
+      if (this.theme) value += ` tm-btn--theme-${this.theme}`
+      if (this.color) value += ` tm-btn--${this.color}`
+      return value
+    }
+  }
 }
 </script>
 
 <style lang="stylus">
-@require '~variables'
-
 .tm-btn
   padding 0
   border none
@@ -79,13 +77,12 @@ export default {
   padding 0
   border 0
 
-.tm-btn__container::before,
-.tm-btn__container::after
+.tm-btn__container::before, .tm-btn__container::after
   content ''
   flex 1 0 auto
 
 .tm-btn__container
-  font-family sans
+  font-family var(--sans)
   font-size 1rem !important
   font-weight 400
   height 2em
@@ -126,8 +123,7 @@ export default {
   overflow hidden
 
 /* disabled */
-.tm-btn.disabled
-.tm-btn[disabled]
+.tm-btn.disabled, .tm-btn[disabled]
   opacity 0.333
   user-select none
   color var(--dim, #666) !important
@@ -135,8 +131,7 @@ export default {
   &:focus:enabled
     outline none
 
-.tm-btn.disabled .tm-btn__container
-.tm-btn[disabled] .tm-btn__container
+.tm-btn.disabled .tm-btn__container, .tm-btn[disabled] .tm-btn__container
   cursor not-allowed
 
 /* right aligned icons */
@@ -157,6 +152,7 @@ export default {
   i.fa, i.material-icons
     font-size 0.75rem
     line-height 1
+
   .tm-btn__value
     font-size 0.75rem
 
@@ -168,24 +164,29 @@ export default {
 
 .tm-btn__container.tm-btn--primary
   background var(--primary, #99f)
-  border-color hsla(0,0,100%,0.15)
+  border-color hsla(0, 0, 100%, 0.15) // TODO convert to variables
+
   i.fa, i.material-icons
-    color hsla(0,0,100%,0.667)
+    color hsla(0, 0, 100%, 0.667) // TODO convert to variables
+
   .tm-btn__value
     color #fff
 
 .tm-btn__container.tm-btn--success
   border-color var(--success-bc, #0f0)
+
   .tm-btn__value
     color var(--bright, #000)
 
 .tm-btn__container.tm-btn--warning
   border-color var(--warning-bc, #f90)
+
   .tm-btn__value
     color var(--bright, #000)
 
 .tm-btn__container.tm-btn--danger
   border-color var(--danger-bc, #f00)
+
   .tm-btn__value
     color var(--bright, #000)
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="tm-data-msg">
     <div class="tm-data-msg__icon">
-      <i class="material-icons" :class="iconCssClass">{{ icon }}</i>
+      <i :class="iconCssClass" class="material-icons">{{ icon }}</i>
     </div>
     <div class="tm-data-msg__text">
       <div class="tm-data-msg__title">
@@ -16,15 +16,15 @@
 
 <script>
 export default {
-  name: "tm-data-msg",
+  name: `tm-data-msg`,
+  props: ["title", "subtitle", "icon", "spin"],
   computed: {
     iconCssClass() {
       if (this.spin) {
         return "fa-spin"
       }
     }
-  },
-  props: ["title", "subtitle", "icon", "spin"]
+  }
 }
 </script>
 
@@ -37,6 +37,7 @@ export default {
 
 .tm-data-msg__icon
   margin-bottom 0.5rem
+
   i.material-icons
     font-size 3rem
     color var(--txt)
@@ -59,6 +60,7 @@ export default {
   .tm-data-msg__icon
     margin-bottom 0
     margin-right 1.5rem
+
     i.material-icons
       font-size 4rem
 </style>

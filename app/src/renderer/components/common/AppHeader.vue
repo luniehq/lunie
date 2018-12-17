@@ -89,7 +89,7 @@ export default {
 #app-header.windows:before {
   display: block;
   content: "";
-  height: var(px);
+  height: var(--px);
   background: var(--bc);
   width: 100vw;
   position: absolute;
@@ -112,7 +112,7 @@ export default {
     margin: 0 auto;
     display: flex;
     flex-flow: row nowrap;
-    border-bottom: px solid var(--bc);
+    border-bottom: var(--px) solid var(--bc);
     justify-content: space-between;
   }
 

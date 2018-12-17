@@ -2,13 +2,13 @@
   <header class="tm-page-header">
     <div class="tm-page-header-container">
       <div class="tm-page-header-text">
-        <div class="tm-page-header-title" v-if="$slots['title']">
+        <div v-if="$slots['title']" class="tm-page-header-title">
           <slot name="title"></slot>
         </div>
-        <div class="tm-page-header-subtitle" v-if="$slots['subtitle']">
+        <div v-if="$slots['subtitle']" class="tm-page-header-subtitle">
           <slot name="subtitle"></slot>
         </div>
-        <div class="tm-page-header-body" v-if="$slots['menu-body']">
+        <div v-if="$slots['menu-body']" class="tm-page-header-body">
           <slot name="menu-body"></slot>
         </div>
       </div>
@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  name: "tm-page-header"
+  name: `tm-page-header`
 }
 </script>
 
@@ -30,7 +30,8 @@ export default {
   -webkit-app-region drag
 
 .tm-page-header-title
-  font-size xl
+  font-size var(--xl)
+
   > div
     display inline-block
 
@@ -44,12 +45,14 @@ export default {
   display flex
   min-width 0 // fix truncation
   padding 11px 0 0 1rem
-  align-items: center
+  align-items center
+
   .tm-page-header-body
     flex 1
     display flex
+
   i.material-icons
-    font-size 1.375 * x
+    font-size calc(1.375 * var(--x)) // TODO to variable
     padding-right 0.375rem
 
   > div
@@ -58,7 +61,7 @@ export default {
     text-overflow ellipsis
 
   h2
-    font-size xl
+    font-size var(--xl)
     font-weight 500
     color var(--bright)
 
@@ -72,5 +75,5 @@ export default {
   .tm-page-header-menu
     display flex
     align-items flex-start
-    padding-top: 11px
+    padding-top 11px
 </style>

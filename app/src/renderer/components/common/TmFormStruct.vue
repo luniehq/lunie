@@ -1,13 +1,13 @@
 <template>
-  <form :class="cssClass" v-on:submit.prevent.default="submit">
+  <form :class="cssClass" @submit.prevent.default="submit">
     <div class="tm-form-container">
       <slot name="overlay"></slot>
-      <header class="tm-form-header" v-if="hasHeader">
+      <header v-if="hasHeader" class="tm-form-header">
         <div class="tm-form-title"><slot name="title"></slot></div>
         <div class="tm-form-subtitle"><slot name="subtitle"></slot></div>
       </header>
       <main class="tm-form-main"><slot></slot></main>
-      <footer class="tm-form-footer" v-if="hasFooter">
+      <footer v-if="hasFooter" class="tm-form-footer">
         <slot name="footer"></slot>
       </footer>
     </div>
@@ -19,21 +19,21 @@
 // Remember that v-on:submit will NOT work on this component
 // Use :submit="onSubmit on the parent component and it'll save you headaches
 export default {
-  name: "tm-form-struct",
+  name: `tm-form-struct`,
+  props: [`width`, `submit`],
   computed: {
     cssClass() {
-      let value = "tm-form"
-      if (this.width === "narrow") value += " tm-form-narrow"
+      let value = `tm-form`
+      if (this.width === `narrow`) value += ` tm-form-narrow`
       return value
     },
     hasHeader() {
-      return this.$slots["title"] || this.$slots["subtitle"]
+      return this.$slots[`title`] || this.$slots[`subtitle`]
     },
     hasFooter() {
-      return this.$slots["footer"]
+      return this.$slots[`footer`]
     }
-  },
-  props: ["width", "submit"]
+  }
 }
 </script>
 
@@ -43,7 +43,7 @@ export default {
 .tm-form
   display flex
   position relative
-  width width-main
+  width var(--width-main)
 
 .tm-form-container
   flex 1
@@ -51,11 +51,7 @@ export default {
   flex-flow column
   position relative
 
-.tm-form-header
-.tm-form-title
-.tm-form-subtitle
-.tm-form-main
-.tm-form-footer
+.tm-form-header, .tm-form-title, .tm-form-subtitle, .tm-form-main, .tm-form-footer
   &:empty
     display none
 
@@ -65,7 +61,7 @@ export default {
 .tm-form-header
   display flex
   flex-flow column nowrap
-  border-bottom px solid var(--bc)
+  border-bottom var(--px) solid var(--bc)
   position relative
   padding 1rem 0
 
@@ -75,12 +71,12 @@ export default {
 
 .tm-form-subtitle
   color var(--dim)
-  font-size sm
+  font-size var(--sm)
   line-height 1rem
 
 .tm-form-footer
   > div
-    padding 1rem 1rem 1rem - px
+    padding 1rem 1rem 1rem - var(--px)
     display flex
     justify-content space-between
     align-items center
@@ -94,7 +90,7 @@ export default {
     margin-bottom 0.5rem
 
   .tm-form-subtitle
-    font-size m
+    font-size var(--m)
 
   .tm-form-main
     p

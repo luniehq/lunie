@@ -1,10 +1,10 @@
 <template>
   <div :class="cssClass">
-    <span class="tm-form-group__sub-label" v-if="subLabel">{{ subLabel }}</span
+    <span v-if="subLabel" class="tm-form-group__sub-label">{{ subLabel }}</span
     ><label
-      class="tm-form-group__label"
       :for="fieldId"
       v-if="fieldId &amp;&amp; fieldLabel"
+      class="tm-form-group__label"
       >{{ fieldLabel }}</label
     >
     <div class="tm-form-group__field"><slot></slot></div>
@@ -13,20 +13,21 @@
 
 <script>
 export default {
-  name: "tm-form-group",
+  name: `tm-form-group`,
+  props: [`error`, `field-id`, `field-label`, `sub-label`],
   computed: {
     cssClass() {
-      let value = "tm-form-group"
-      if (this.error) value += " tm-form-group--error"
+      let value = `tm-form-group`
+      if (this.error) value += ` tm-form-group--error`
       return value
     }
-  },
-  props: ["error", "field-id", "field-label", "sub-label"]
+  }
 }
 </script>
 
 <style lang="stylus">
 @import '~variables'
+
 .tm-form-group
   padding 0.5rem 1rem
   position relative
@@ -44,7 +45,7 @@ export default {
     position absolute
     bottom 0.5rem
     left 1rem
-    font-size xs
+    font-size var(--xs)
     color var(--dim)
 
 .tm-form-group__sub-label ~ .tm-form-group__label
@@ -52,7 +53,7 @@ export default {
 
 .tm-form-group--error
   .tm-field, .tm-select
-    border-color danger
+    border-color var(--danger)
 
   .tm-form-msg--error
     display flex
@@ -73,7 +74,6 @@ export default {
   .tm-form-group__field
     flex 1
 
-    > .tm-field
-    > .tm-field-group
+    > .tm-field, > .tm-field-group
       width 100%
 </style>

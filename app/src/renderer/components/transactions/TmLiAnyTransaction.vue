@@ -8,19 +8,19 @@
     v-else-if="stakingTx"
     :transaction="transaction"
     :validators="validators"
-    :URL="validatorsURL"
+    :url="validatorsURL"
     :unbonding_time="unbonding_time"
-    :bondingDenom="bondingDenom"
-    v-on:end-unbonding="$emit('end-unbonding')"
+    :bonding-denom="bondingDenom"
+    @end-unbonding="$emit('end-unbonding')"
   ></tm-li-stake-transaction>
   <tm-li-gov-transaction
     v-else-if="governanceTx"
     :transaction="transaction"
-    :bondingDenom="bondingDenom"
-    :URL="proposalsURL"
+    :bonding-denom="bondingDenom"
+    :url="proposalsURL"
   ></tm-li-gov-transaction>
   <tm-li-transaction
-    v-else="v-else"
+    v-else
     :color="colors.grey"
     :time="transaction.time"
     :block="transaction.height"
@@ -36,12 +36,30 @@ import TmLiTransaction from "../TmLiTransaction/TmLiTransaction"
 import colors from "../TmLiTransaction/transaction-colors.js"
 
 export default {
-  name: "tm-li-any-transaction",
+  name: "TmLiAnyTransaction",
   components: {
     TmLiBankTransaction,
     TmLiGovTransaction,
     TmLiStakeTransaction,
     TmLiTransaction
+  },
+  props: {
+    transaction: Object,
+    address: String,
+    validators: Array,
+    validatorsURL: {
+      type: String,
+      default: ""
+    },
+    proposalsURL: {
+      type: String,
+      default: ""
+    },
+    bondingDenom: {
+      type: String,
+      default: "atom"
+    },
+    unbonding_time: String
   },
   data: () => ({ colors }),
   computed: {
@@ -64,24 +82,6 @@ export default {
         this.type
       )
     }
-  },
-  props: {
-    transaction: Object,
-    address: String,
-    validators: Array,
-    validatorsURL: {
-      type: String,
-      default: ""
-    },
-    proposalsURL: {
-      type: String,
-      default: ""
-    },
-    bondingDenom: {
-      type: String,
-      default: "atom"
-    },
-    unbonding_time: String
   }
 }
 </script>

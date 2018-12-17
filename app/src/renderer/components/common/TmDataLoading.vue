@@ -2,8 +2,8 @@
   <div class="tm-data-msg">
     <img class="tm-data-msg__icon" src="~assets/images/loader.svg" />
     <div class="tm-data-msg__text">
-      <div class="tm-data-msg__title" slot="title">{{ title }}</div>
-      <div class="tm-data-msg__subtitle" slot="subtitle">
+      <div slot="title" class="tm-data-msg__title">{{ title }}</div>
+      <div slot="subtitle" class="tm-data-msg__subtitle">
         Please wait a moment.
       </div>
     </div>
@@ -13,12 +13,12 @@
 <script>
 import TmDataMsg from "../TmDataMsg/TmDataMsg.vue"
 export default {
-  name: "tm-data-loading",
+  name: `tm-data-loading`,
   components: { TmDataMsg },
   props: {
     title: {
       type: String,
-      default: "Data is loading…"
+      default: `Data is loading…`
     }
   }
 }

@@ -99,9 +99,16 @@ export default {
 #onboarding .tm-session-main {
   position: relative;
 }
-
-#onboarding .tm-session-main position relative img height 300px
-  .tm-session-footer justify-content center .tm-session-label padding 1rem 3rem
-  .tm-bar-discrete__node--active border-color var(--tertiary)
-  .tm-bar-discrete__node: hover border-color var(--link) !important !important;
+#onboarding .tm-session-main img {
+  height: 300px;
+}
+#onboarding .tm-session-main .tm-session-footer {
+  justify-content: center;
+}
+#onboarding .tm-session-main .tm-bar-discrete__node--active {
+  border-color: var(--tertiary);
+}
+#onboarding .tm-session-main .tm-bar-discrete__node:hover {
+  border-color: var(--link) !important;
+}
 </style>

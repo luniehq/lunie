@@ -3,11 +3,11 @@
     <div class="tm-bar-discrete__container">
       <div class="tm-bar-discrete__edge"></div>
       <div
-        class="tm-bar-discrete__node"
         v-for="(node, key) in nodes"
+        class="tm-bar-discrete__node"
         :key="key"
-        @click="clickFn(key)"
         v-bind:class="classObject(key)"
+        @click="clickFn(key)"
       ></div>
     </div>
   </div>
@@ -15,21 +15,19 @@
 
 <script>
 export default {
-  name: "tm-bar-discrete",
+  name: "TmBarDiscrete",
+  props: ["nodes", "active", "click-fn"],
   methods: {
     classObject(key) {
       return {
         "tm-bar-discrete__node--active": key === this.active
       }
     }
-  },
-  props: ["nodes", "active", "click-fn"]
+  }
 }
 </script>
 
 <style lang="stylus">
-@require '~variables'
-
 .tm-bar-discrete
   padding 0 3rem
   width 100%
@@ -80,6 +78,7 @@ export default {
 
   &.tm-bar-discrete__node--active
     border-color var(--mc)
+
   &.tm-bar-discrete__node--active:before
     background var(--mc)
 </style>

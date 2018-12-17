@@ -1,5 +1,5 @@
 <template>
-  <div class="tm-select" v-if="type === 'select' || type === 'countries'">
+  <div v-if="type === 'select' || type === 'countries'" class="tm-select">
     <select
       :class="css"
       :value="value"
@@ -16,15 +16,15 @@
         >{{ selectPlaceholder }}</option
       >
       <option
-        v-if="options"
         v-for="(option, index) in options"
+        v-if="options"
         :key="index"
         :value="option.value"
         >{{ option.key }}</option
       >
       <option
-        v-else-if="type === 'countries'"
         v-for="i in countries"
+        v-else-if="type === 'countries'"
         :value="i.value"
         :key="i.key"
         >{{ i.key }}</option
@@ -47,14 +47,14 @@
   --><textarea
     v-else-if="type === 'textarea'"
     :class="css"
+    :placeholder="placeholder"
+    :value="value"
     @change="onChange"
     @keyup="onKeyup"
     @keydown="onKeydown"
-    :placeholder="placeholder"
-    :value="value"
     @input="updateValue($event.target.value)"
   ></textarea
-  ><label class="tm-toggle" v-else-if="type === 'toggle'" :class="toggleClass">
+  ><label v-else-if="type === 'toggle'" :class="toggleClass" class="tm-toggle">
     <div class="tm-toggle-wrapper">
       <span>{{ toggleLongerWord }}</span>
       <div class="toggle-option-checked">
@@ -64,20 +64,20 @@
         <div>{{ toggleOptions.unchecked }}</div>
       </div>
       <div class="toggle-handle"></div>
-      <input type="checkbox" @change="onChange" :value="value" />
+      <input :value="value" type="checkbox" @change="onChange" />
     </div> </label
   ><input
-    v-else="v-else"
+    v-else
     ref="numTextInput"
     :type="type"
     :class="css"
-    @change="onChange"
-    @keyup="onKeyup"
-    @keydown="onKeydown"
     :placeholder="placeholder"
     :value="value"
     :max="max"
     :min="min"
+    @change="onChange"
+    @keyup="onKeyup"
+    @keydown="onKeydown"
     @input="updateValue($event.target.value)"
   />
 </template>
@@ -86,28 +86,31 @@
 // import flatpickr from 'flatpickr'
 import countries from "./countries.json"
 export default {
-  name: "tm-field",
+  name: `tm-field`,
   props: [
-    "placeholder",
-    "type",
-    "size",
-    "value",
-    "theme",
-    "options",
-    "change",
-    "keyup",
-    "keydown",
-    "max",
-    "min"
+    `placeholder`,
+    `type`,
+    `size`,
+    `value`,
+    `theme`,
+    `options`,
+    `change`,
+    `keyup`,
+    `keydown`,
+    `max`,
+    `min`
   ],
+  data: () => ({
+    countries: countries
+  }),
   computed: {
     css() {
-      let value = "tm-field"
-      if (this.type === "select" || this.type === "countries") {
-        value += " tm-field-select"
+      let value = `tm-field`
+      if (this.type === `select` || this.type === `countries`) {
+        value += ` tm-field-select`
       }
-      if (this.type === "toggle") {
-        value += " tm-field-toggle"
+      if (this.type === `toggle`) {
+        value += ` tm-field-toggle`
       }
       if (this.size) value += ` tm-field-size-${this.size}`
       if (this.theme) value += ` tm-field-theme-${this.theme}`
@@ -126,20 +129,33 @@ export default {
     },
     selectPlaceholder() {
       if (this.placeholder) return this.placeholder
-      else return "Select option..."
+      else return `Select option...`
     },
     toggleOptions() {
       if (this.options && this.options.checked && this.options.unchecked)
         return this.options
       return {
-        checked: "on",
-        unchecked: "off"
+        checked: `on`,
+        unchecked: `off`
       }
     }
   },
-  data: () => ({
-    countries: countries
-  }),
+  mounted() {
+    let el = this.$el
+    if (this.type === `number`) {
+      el.addEventListener(`focus`, function() {
+        el.select()
+      })
+    }
+    /* if (this.type === 'datetime') {
+      this.picker = flatpickr(el, {
+        enableTime: true,
+        dateFormat: 'Y-m-d H:i',
+        onChange: (dateObj, dateStr) => this.updateValue(dateStr)
+      })
+      // console.log('its a datetime!', el)
+    } */
+  },
   methods: {
     toggle() {
       this.value = !this.value
@@ -152,7 +168,7 @@ export default {
         this.$refs.numTextInput.value = formattedValue
       }
       // Emit the number value through the input event
-      this.$emit("input", formattedValue)
+      this.$emit(`input`, formattedValue)
     },
     onChange(...args) {
       if (this.change) return this.change(...args)
@@ -164,7 +180,7 @@ export default {
       if (this.keydown) return this.keydown(...args)
     },
     forceMinMax(value) {
-      if (this.type !== "number") return value
+      if (this.type !== `number`) return value
       value = value ? Number(value.trim()) : value
       if (this.max && value > this.max) {
         value = Number(this.max)
@@ -173,22 +189,6 @@ export default {
       }
       return value
     }
-  },
-  mounted() {
-    let el = this.$el
-    if (this.type === "number") {
-      el.addEventListener("focus", function() {
-        el.select()
-      })
-    }
-    /* if (this.type === 'datetime') {
-      this.picker = flatpickr(el, {
-        enableTime: true,
-        dateFormat: 'Y-m-d H:i',
-        onChange: (dateObj, dateStr) => this.updateValue(dateStr)
-      })
-      // console.log('its a datetime!', el)
-    } */
   }
 }
 </script>
@@ -303,7 +303,7 @@ textarea.tm-field
         top 2px
         transition right 500ms ease, left 500ms ease
         width 1.625rem
-        z-index z(listItem)
+        z-index var(--z-listItem)
         // content 'drag_handle'
         // font-size x
         // font-family 'Material Icons'
@@ -340,7 +340,7 @@ textarea.tm-field
     option
       background var(--input-bg, #fff)
       color txt
-      font-family sans
+      font-family var(--sans)
 
       &:checked
         background var(--hover-bg, #ccf)
@@ -438,7 +438,7 @@ textarea.tm-field
 /* ============================================================================== */
 /* tendermint styles */
 .tm-field.tm-field-theme-tendermint
-  background hsl(210, 70%, 18%)
+  background hsl(210, 70%, 18%) // TODO convert all colors to variables
   border-color hsl(210, 70%, 38%)
   color #fff
 

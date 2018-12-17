@@ -11,11 +11,11 @@
       <span slot="details"
         ><template v-if="sentSelf"
           >To yourself!</template
-        ><template v-else="v-else"
+        ><template v-else
           >To {{ receiver }}</template
         ></span
       > </template
-    ><template v-else="v-else">
+    ><template v-else>
       <div slot="caption">
         Received&nbsp;<b>{{ coinsReceived.amount }}</b
         ><span>&nbsp;{{ coinsReceived.denom.toUpperCase() }}</span>

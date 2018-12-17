@@ -16,28 +16,28 @@
 import PerfectScrollbar from "perfect-scrollbar"
 import TmPageHeader from "../TmPageHeader/TmPageHeader.vue"
 export default {
-  name: "tm-page",
-  props: {
-    title: {
-      type: String,
-      default: ""
-    },
-    subtitle: {
-      type: String,
-      default: ""
-    },
-    "menu-body": {
-      type: String,
-      default: ""
-    }
-  },
+  name: `tm-page`,
   components: {
     TmPageHeader
   },
-  data: () => ({ ps: "" }),
+  props: {
+    title: {
+      type: String,
+      default: ``
+    },
+    subtitle: {
+      type: String,
+      default: ``
+    },
+    "menu-body": {
+      type: String,
+      default: ``
+    }
+  },
+  data: () => ({ ps: `` }),
   async mounted() {
     await this.$nextTick()
-    const container = this.$el.querySelector(".tm-page-main")
+    const container = this.$el.querySelector(`.tm-page-main`)
     this.ps = new PerfectScrollbar(container)
   }
 }
@@ -64,7 +64,7 @@ export default {
 
 .tm-page-subtitle > div
   color var(--dim)
-  font-size sm
+  font-size var(--sm)
 
 @media screen and (min-width: 768px)
   .tm-page-main
