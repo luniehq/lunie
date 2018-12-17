@@ -2,56 +2,38 @@
 
 const fs = require(`fs-extra`)
 const path = require(`path`)
-const startLocalNode = require(`../../gaia`).startLocalNode
-const getNodeId = require(`../../gaia`).getNodeId
-const makeValidator = require(`../../gaia`).makeValidator
-
-let {
+const {
+  startLocalNode,
+  getNodeId,
+  makeValidator,
   initNode,
   createKey,
   initGenesis,
   makeExec,
   nodeBinary
-} = require(`../../gaia.js`)
+} = require(`../../gaia`)
 
-const buildLocalNode = buildTestnetPath => async options => {
+const buildLocalNode = buildTestnetPath => async ({
+  numberNodes,
+  ...options
+}) => {
   try {
-    const chainId = `local-testnet`
-    const moniker = `local`
-    const localTestnetPath = `${buildTestnetPath}/${chainId}`
-    // remove existing config
-    if (options.overwrite) {
-      fs.removeSync(localTestnetPath)
-    }
-
-    const clientHome = `./${localTestnetPath}/main-node-cli/lcd`
-    const nodeHome = `${localTestnetPath}/main-node-home`
-    const defaultAccountInfo = {
-      keyName: `local`,
-      password: options.password,
-      clientHomeDir: clientHome
-    }
-    await initNode(
-      chainId,
-      moniker,
-      nodeHome,
-      options.password,
-      options.overwrite
+    const { nodes, mainAccountSignInfo } = await buildNodes(
+      buildTestnetPath,
+      options,
+      numberNodes,
+      false
     )
-    const { address } = await createKey(defaultAccountInfo)
-    await initGenesis(defaultAccountInfo, address, nodeHome)
-    await makeExec(
-      `sed -i.bak 's/seeds = ""/seeds = "localhost"/g' ${nodeHome}/config.toml`
-    )
-    saveVersion(nodeHome)
     console.log(`\n    🎉  SUCCESS 🎉\n`)
     console.log(
-      `To start Voyager with a local node please run:
+      `To start Voyager with ${nodes.length - 1} local node${
+        nodes.length > 2 ? `s` : ``
+      } please run:
   yarn start local-testnet
 
 Default account:
-  username: '${defaultAccountInfo.keyName}'
-  password: '${defaultAccountInfo.password}'
+  username: '${mainAccountSignInfo.keyName}'
+  password: '${mainAccountSignInfo.password}'
 `
     )
   } catch (error) {
@@ -71,7 +53,7 @@ const saveVersion = nodeHome => {
 
 // nodes[0] is a placeholder just to be aligned with the enumeration used in gaia
 // TODO: next PR refactor also gaia to simplify numeration
-const startNodes = async (nodes, mainAccountSignInfo) => {
+const startNodes = async (nodes, mainAccountSignInfo, chainId) => {
   for (let i = 1; i < nodes.length; i++) {
     // start secondary nodes and connect to node one
     // wait until all nodes are showing blocks, so we know they are running
@@ -82,16 +64,29 @@ const startNodes = async (nodes, mainAccountSignInfo) => {
         mainAccountSignInfo,
         nodes[i].home,
         nodes[i].cliHome,
-        `local_${i}`
+        nodes[i].moniker,
+        chainId
       ))
   }
 }
 
-const buildNodes = async (targetDir, chainId, numberNodes = 1) => {
+const buildNodes = async (
+  targetDir,
+  options = {
+    chainId: `default-testnet`,
+    password: `1234567890`,
+    overwrite: true,
+    moniker: `local`,
+    keyName: `main-account`
+  },
+  numberNodes = 1,
+  isTest = false
+) => {
   const cliHomePrefix = path.join(targetDir, `cli_home`)
   const nodeHomePrefix = path.join(targetDir, `node_home`)
 
   fs.removeSync(targetDir)
+  // fs.removeSync(`${os.home}/.cosmos-voyager-dev/${network}`)
 
   // create address to delegate staking tokens to 2nd and 3rd validator
   let mainAccountSignInfo = undefined
@@ -102,16 +97,18 @@ const buildNodes = async (targetDir, chainId, numberNodes = 1) => {
     // setup additional nodes
     const home = `${nodeHomePrefix}_${i}`
     const cliHome = `${cliHomePrefix}_${i}`
+    const moniker = `${options.moniker}_${i}`
     nodes.push({
       home,
       cliHome,
-      id: await setupLocalNode(home, i, chainId, true, genesis)
+      moniker,
+      id: await setupLocalNode(home, options, moniker, isTest, genesis)
     })
     if (i === 1) {
       await saveVersion(home)
       mainAccountSignInfo = {
-        keyName: `testkey`,
-        password: `1234567890`,
+        keyName: options.keyName,
+        password: options.password,
         clientHomeDir: cliHome
       }
       let { address } = await createKey(mainAccountSignInfo)
@@ -125,25 +122,31 @@ const buildNodes = async (targetDir, chainId, numberNodes = 1) => {
 // init a node and define it as a validator
 async function setupLocalNode(
   nodeHome,
-  number = 1,
-  chainId = `local-testnet`,
+  options,
+  moniker,
   isTest = false,
   mainGenesis = undefined
 ) {
-  await initNode(chainId, `local_${number}`, nodeHome, `1234567890`, true)
+  await initNode(
+    options.chainId,
+    moniker,
+    nodeHome,
+    options.password,
+    options.overwrite
+  )
   mainGenesis &&
     (await fs.writeJSON(
       path.join(nodeHome, `config`, `genesis.json`),
       mainGenesis
     ))
-  isTest && (await reduceTimeouts(nodeHome))
+  await adjustConfig(nodeHome, isTest)
 
   return await getNodeId(nodeHome)
 }
 
 // declare candidacy for node
 
-function reduceTimeouts(nodeHome, strictAddressbook = false) {
+function adjustConfig(nodeHome, isTest = false, strictAddressbook = false) {
   const configPath = path.join(nodeHome, `config`, `config.toml`)
   let configToml = fs.readFileSync(configPath, `utf8`)
 
@@ -161,6 +164,16 @@ function reduceTimeouts(nodeHome, strictAddressbook = false) {
     .split(`\n`)
     .map(line => {
       let [key, value] = line.split(` = `)
+
+      if (!isTest) {
+        // TODO: this was happening on ./builds/testnets/local-testnet/config.toml
+        //  but then the network was launched through the config ~/.gaiad-testnet/config/config.toml
+        //  and it had seeds=""
+        //  What was the goal of this replacement? is mentioned also in the readme
+        // if (key === `seeds`) return `${key} = "localhost"`
+        if (key === `index_all_tags`) return `${key} = true`
+        return line
+      }
 
       if (key === `addr_book_strict`) {
         return `${key} = ${strictAddressbook ? `true` : `false`}`

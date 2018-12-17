@@ -1,36 +1,41 @@
 "use strict"
 
-import { buildLocalNode } from "./build/local/build"
-
-let runDev = require(`./runner.js`)
+let runner = require(`./runner.js`)
 let config = require(`../app/src/config.js`)
 const path = require(`path`)
-const userHome = require(`user-home`)
-const { startLocalNode } = require(`./gaia.js`)
+const { startNodes, buildNodes } = require(`./build/local/helper`)
+const appDir = path.resolve(`${__dirname}/../`)
+const buildTestnetPath = path.join(appDir, `builds`, `testnets`)
 
 async function main() {
   const network = process.argv[2] || config.default_network
+  const numberNodes = parseInt(process.argv[3], 10) || 1
 
   let extendedEnv = {}
+  let networkPath = `./app/networks/${network}/`
 
   if (network === `local-testnet`) {
     extendedEnv = {
       LCD_URL: `https://localhost:9070`,
       RPC_URL: `http://localhost:26657`
     }
-    const TESTNET_NODE_FOLDER = path.join(userHome, `.gaiad-testnet`)
-    startLocalNode(TESTNET_NODE_FOLDER)
-    if (process.env[`VALIDATORS`] && process.env[`VALIDATORS`] > 1) {
-      // let's re-t
-      await buildLocalNode({
-        overwrite: true,
-        nodes: parseInt(process.env[`VALIDATORS`], 10)
-      })
-    }
+    const { nodes, mainAccountSignInfo } = await buildNodes(
+      path.join(buildTestnetPath, network),
+      {
+        chainId: network,
+        password: `1234567890`,
+        overwrite: false,
+        moniker: `local`,
+        keyName: `main-account`
+      },
+      numberNodes
+    )
+    await startNodes(nodes, mainAccountSignInfo, network)
+    networkPath = path.join(nodes[1].home, `config`)
   }
 
   // run Voyager in a development environment
-  let children = await runDev(`./app/networks/${network}/`, extendedEnv)
+  let children = await runner(networkPath, extendedEnv)
 
   // kill all development processes if master process fails
   process.on(`exit`, () => {

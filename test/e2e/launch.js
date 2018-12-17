@@ -32,10 +32,13 @@ function launch(t) {
     })
 
     started = new Promise(async resolve => {
-      const { cliHomePrefix, cliHome, home } = await bootLocalNetwork(
-        testDir,
-        `test_chain`
-      )
+      const { cliHomePrefix, cliHome, home } = await bootLocalNetwork(testDir, {
+        chainId: `test_chain`,
+        password: `1234567890`,
+        overwrite: true,
+        moniker: `local`,
+        keyName: `testkey`
+      })
 
       app = new Application({
         path: electron,
@@ -93,19 +96,20 @@ test.onFinish(async () => {
   process.exit(0)
 })
 
-const bootLocalNetwork = async (targetDir, chainId) => {
+const bootLocalNetwork = async (targetDir, options) => {
   console.log(`using cli binary`, cliBinary)
   console.log(`using node binary`, nodeBinary)
 
   const { nodes, cliHomePrefix, mainAccountSignInfo } = await buildNodes(
     targetDir,
-    chainId,
-    3
+    options,
+    3,
+    true
   )
 
   console.log(`Done with initialization, start the nodes`)
 
-  await startNodes(nodes, mainAccountSignInfo)
+  await startNodes(nodes, mainAccountSignInfo, options.chainId)
 
   console.log(`Declared secondary nodes to be validators.`)
 
