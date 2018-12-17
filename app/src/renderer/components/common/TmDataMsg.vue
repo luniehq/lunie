@@ -28,39 +28,47 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@require '~variables'
+<style>
+.tm-data-msg {
+  background: var(--app-fg);
+  padding: 1rem;
+}
 
-.tm-data-msg
-  background var(--app-fg)
-  padding 1rem
+.tm-data-msg__icon {
+  margin-bottom: 0.5rem;
+}
 
-.tm-data-msg__icon
-  margin-bottom 0.5rem
+.tm-data-msg__icon i.material-icons {
+  font-size: 3rem;
+  color: var(--txt);
+}
 
-  i.material-icons
-    font-size 3rem
-    color var(--txt)
+.tm-data-msg__text {
+  max-width: 30rem;
+}
 
-.tm-data-msg__text
-  max-width 30rem
+.tm-data-msg__title {
+  color: var(--bright);
+  font-size: h2;
+}
 
-.tm-data-msg__title
-  color var(--bright)
-  font-size h2
+.tm-data-msg__subtitle {
+  color: var(--dim);
+}
 
-.tm-data-msg__subtitle
-  color var(--dim)
+@media screen and (min-width: 768px) {
+  .tm-data-msg {
+    display: flex;
+    padding: 3rem;
+  }
 
-@media screen and (min-width: 768px)
-  .tm-data-msg
-    display flex
-    padding 3rem
+  .tm-data-msg__icon {
+    margin-bottom: 0;
+    margin-right: 1.5rem;
+  }
 
-  .tm-data-msg__icon
-    margin-bottom 0
-    margin-right 1.5rem
-
-    i.material-icons
-      font-size 4rem
+  .tm-data-msg__icon i.material-icons {
+    font-size: 4rem;
+  }
+}
 </style>

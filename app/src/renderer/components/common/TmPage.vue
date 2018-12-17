@@ -43,30 +43,34 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@require '~variables'
+<style>
+.tm-page {
+  flex: 1;
+  display: flex;
+  flex-flow: column nowrap;
+  position: relative;
+  width: 100%;
+}
 
-.tm-page
-  flex 1
-  display flex
-  flex-flow column nowrap
-  position relative
-  width 100%
+.tm-page-main {
+  flex: 1;
+  position: relative;
+}
 
-.tm-page-main
-  flex 1
-  position relative
+.tm-page-title {
+  color: var(--bright);
+  font-size: h2;
+  padding: 0.5rem 1rem 1rem;
+}
 
-.tm-page-title
-  color var(--bright)
-  font-size h2
-  padding 0.5rem 1rem 1rem
+.tm-page-subtitle > div {
+  color: var(--dim);
+  font-size: var(--sm);
+}
 
-.tm-page-subtitle > div
-  color var(--dim)
-  font-size var(--sm)
-
-@media screen and (min-width: 768px)
-  .tm-page-main
-    padding 1rem
+@media screen and (min-width: 768px) {
+  .tm-page-main {
+    padding: 1rem;
+  }
+}
 </style>

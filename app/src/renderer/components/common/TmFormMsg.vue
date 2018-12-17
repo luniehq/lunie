@@ -78,31 +78,38 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-.tm-form-msg
-  padding 0.25rem 0 0
-  display flex
-  margin 0 !important
+<style>
+.tm-form-msg {
+  padding: 0.25rem 0 0;
+  display: flex;
+  margin: 0 !important;
+}
 
-  &.sm
-    font-size var(--sm)
+.tm-form-msg.sm {
+  font-size: var(--sm);
+}
 
-.tm-form-msg:before
-  content ''
-  font-family 'Material Icons'
-  padding-right 0.35rem
+.tm-form-msg:before {
+  content: "";
+  font-family: "Material Icons";
+  padding-right: 0.35rem;
+}
 
-.tm-form-msg.tm-form-msg--error
-  color var(--danger)
+.tm-form-msg.tm-form-msg--error {
+  color: var(--danger);
+}
 
-.tm-form-msg.tm-form-msg--error:before
-  content 'error'
-  color var(--danger)
+.tm-form-msg.tm-form-msg--error:before {
+  content: "error";
+  color: var(--danger);
+}
 
-.tm-form-msg.tm-form-msg--desc
-  color var(--warning)
+.tm-form-msg.tm-form-msg--desc {
+  color: var(--warning);
+}
 
-.tm-form-msg.tm-form-msg--desc:before
-  content 'priority_high'
-  color var(--warning)
+.tm-form-msg.tm-form-msg--desc:before {
+  content: "priority_high";
+  color: var(--warning);
+}
 </style>

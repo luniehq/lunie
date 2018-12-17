@@ -76,7 +76,7 @@ export default {
 
 .tm-form-footer
   > div
-    padding 1rem 1rem 1rem - var(--px)
+    padding 1rem 1rem calc(1rem - var(--px))
     display flex
     justify-content space-between
     align-items center

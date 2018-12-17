@@ -61,90 +61,108 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@require '~variables'
+<style>
+.tm-notification {
+  background: var(--app-fg);
+  font-size: 0.75rem;
+  cursor: pointer;
+  user-select: none;
+  margin: 0.5rem 0.5rem 0;
+  border-radius: 0.25rem;
+}
 
-.tm-notification
-  background var(--app-fg)
-  font-size 0.75rem
-  cursor pointer
-  user-select none
-  margin 0.5rem 0.5rem 0
-  border-radius 0.25rem
-  shadow()
+.tm-notification.tm-notification-warning header {
+  background: var(--warning);
+}
 
-  &.tm-notification-warning
-    header
-      background var(--warning)
+.tm-notification.tm-notification-error header {
+  background: var(--danger);
+}
 
-  &.tm-notification-error
-    header
-      background var(--danger)
+.tm-notification header {
+  display: flex;
+  align-items: center;
+  padding: 0 0.375rem;
+  height: 2em;
+  border-radius: 0.25rem 0.25rem 0 0;
+  background: var(--success);
+}
 
-.tm-notification header
-  display flex
-  align-items center
-  padding 0 0.375rem
-  height 2em
-  border-radius 0.25rem 0.25rem 0 0
-  background var(--success)
+.tm-notification header .icon,
+.tm-notification header .title {
+  color: var(--bright);
+}
 
-  .icon, .title
-    color var(--bright)
+.tm-notification header .icon {
+  width: 1rem;
+  display: flex;
+  align-items: center;
+  margin-right: 0.5rem;
+}
 
-.tm-notification header .icon
-  width 1rem
-  display flex
-  align-items center
-  margin-right 0.5rem
+.tm-notification header .title {
+  flex: 1;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  padding-right: 0.375rem;
+}
 
-.tm-notification header .title
-  flex 1
-  font-weight 500
-  text-overflow ellipsis
-  overflow hidden
-  white-space nowrap
-  padding-right 0.375rem
+.tm-notification header menu {
+  color: rgba(255, 255, 255, 0.67);
+  font-size: 0.75rem;
+}
 
-.tm-notification header menu
-  color hsla(0, 0, 100%, 0.67) // TODO to variable
-  font-size 0.75rem
+.tm-notification header menu .close {
+  display: none;
+}
 
-.tm-notification header menu .close
-  display none
+.tm-notification .body {
+  padding: 0.375rem;
+  color: var(--txt);
+}
 
-.tm-notification .body
-  padding 0.375rem
-  color var(--txt)
+.tm-notification:hover menu .time {
+  display: none;
+}
 
-.tm-notification:hover menu .time
-  display none
+.tm-notification:hover menu .close {
+  display: block;
+}
 
-.tm-notification:hover menu .close
-  display block
+@media screen and (min-width: 360px) {
+  .tm-notification {
+    font-size: 0.875rem;
+    margin: 0.625rem 0.625rem 0;
+  }
 
-@media screen and (min-width: 360px)
-  .tm-notification
-    font-size 0.875rem
-    margin 0.625rem 0.625rem 0
+  .tm-notification header {
+    padding: 0 0.5rem;
+  }
 
-  .tm-notification header
-    padding 0 0.5rem
+  .tm-notification .body {
+    padding: 0 0.5rem;
+  }
+}
 
-  .tm-notification .body
-    padding 0 0.5rem
+@media screen and (min-width: 400px) {
+  .tm-notification {
+    margin: 0.75rem 0.75rem 0;
+  }
 
-@media screen and (min-width: 400px)
-  .tm-notification
-    margin 0.75rem 0.75rem 0
+  .tm-notification header {
+    padding: 0 0.75rem;
+  }
 
-  .tm-notification header
-    padding 0 0.75rem
+  .tm-notification .body {
+    padding: 0.75rem;
+  }
+}
 
-  .tm-notification .body
-    padding 0.75rem
-
-@media screen and (min-width: 720px)
-  .tm-notification
-    margin 1rem 1rem 0
+@media screen and (min-width: 720px) {
+  .tm-notification {
+    margin: 1rem 1rem 0;
+  }
+}
 </style>

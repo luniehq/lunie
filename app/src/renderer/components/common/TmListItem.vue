@@ -279,7 +279,7 @@ export default {
 .tm-li-label, .tm-li-dl
   .tm-btn
     position absolute
-    top 0.5rem - var(--px)
+    top calc(0.5rem - var(--px))
     right 1rem
 
 .tm-li-container
