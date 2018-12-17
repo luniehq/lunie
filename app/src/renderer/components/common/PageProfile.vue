@@ -14,7 +14,7 @@
 import { TmPageHeader } from "@tendermint/ui"
 
 export default {
-  name: "page-profile",
+  name: `page-profile`,
   components: {
     TmPageHeader
   }
