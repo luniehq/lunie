@@ -1,6 +1,7 @@
 import TmOnboarding from "common/TmOnboarding.vue"
 import htmlBeautify from "html-beautify"
 import setup from "../../../helpers/vuex-setup"
+import { wrap } from "module"
 
 jest.mock(
   `../../../../../app/src/renderer/assets/images/onboarding/step-0.png`,
