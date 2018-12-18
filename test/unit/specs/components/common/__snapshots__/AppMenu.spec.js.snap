@@ -3,30 +3,30 @@
 exports[`AppMenu has the expected html structure 1`] = `
 "<menu class=\\"app-menu\\">
    <div class=\\"app-menu-main\\">
-      <router-link id=\\"app-menu__wallet\\" to=\\"/\\" exact=\\"exact\\" title=\\"Wallet\\" class=\\"app-menu-item\\">
+      <router-link-stub id=\\"app-menu__wallet\\" to=\\"/\\" exact=\\"exact\\" title=\\"Wallet\\" class=\\"app-menu-item\\">
          <h2 class=\\"app-menu-title\\">
             Wallet
          </h2>
          <i class=\\"material-icons\\">chevron_right</i>
-      </router-link>
-      <router-link id=\\"app-menu__transactions\\" to=\\"/transactions\\" exact=\\"exact\\" title=\\"Transactions\\" class=\\"app-menu-item\\">
+      </router-link-stub>
+      <router-link-stub id=\\"app-menu__transactions\\" to=\\"/transactions\\" exact=\\"exact\\" title=\\"Transactions\\" class=\\"app-menu-item\\">
          <h2 class=\\"app-menu-title\\">
             Transactions
          </h2>
          <i class=\\"material-icons\\">chevron_right</i>
-      </router-link>
-      <router-link id=\\"app-menu__staking\\" to=\\"/staking\\" title=\\"Staking\\" class=\\"app-menu-item\\">
+      </router-link-stub>
+      <router-link-stub id=\\"app-menu__staking\\" to=\\"/staking\\" title=\\"Staking\\" class=\\"app-menu-item\\">
          <h2 class=\\"app-menu-title\\">
             Staking
          </h2>
          <i class=\\"material-icons\\">chevron_right</i>
-      </router-link>
-      <router-link id=\\"app-menu__proposals\\" to=\\"/governance\\" title=\\"Governance\\" class=\\"app-menu-item\\">
+      </router-link-stub>
+      <router-link-stub id=\\"app-menu__proposals\\" to=\\"/governance\\" title=\\"Governance\\" class=\\"app-menu-item\\">
          <h2 class=\\"app-menu-title\\">
             Governance
          </h2>
          <i class=\\"material-icons\\">chevron_right</i>
-      </router-link>
+      </router-link-stub>
 </div>
    <div id=\\"tm-connected-network\\" class=\\"tm-connected-network\\">
       <div class=\\"tm-connected-network__connection\\">

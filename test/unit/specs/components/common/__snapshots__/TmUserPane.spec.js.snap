@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TmUserPane has the expected html structure 1`] = `
-<router-link
+<router-link-stub
   class="tm-li tm-li-link tm-li-user"
   to="/preferences"
 >
@@ -45,5 +45,5 @@ exports[`TmUserPane has the expected html structure 1`] = `
       </i>
     </div>
   </div>
-</router-link>
+</router-link-stub>
 `;
