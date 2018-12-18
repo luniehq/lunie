@@ -23,6 +23,7 @@ import { mapGetters, mapActions } from "vuex"
 import Mousetrap from "mousetrap"
 import { TmPage } from "@tendermint/ui"
 import ModalSearch from "common/TmModalSearch"
+import PerfectScrollbar from "perfect-scrollbar"
 import ToolBar from "common/ToolBar"
 import TmBalance from "common/TmBalance"
 export default {
@@ -53,7 +54,9 @@ export default {
   computed: {
     ...mapGetters([`connected`, `delegates`, `filters`])
   },
-  async mounted() {
+  mounted() {
+    this.ps = new PerfectScrollbar(this.$el.querySelector(`.tm-page-main`))
+
     Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
     Mousetrap.bind(`esc`, () => this.setSearch(false))
 
@@ -65,6 +68,9 @@ export default {
       this.$store.commit(`setSearchVisible`, [`delegates`, bool])
     },
     ...mapActions([`updateDelegates`])
+  },
+  updated() {
+    this.$el.querySelector(`.tm-page-main`).scrollTop = 0
   }
 }
 </script>
