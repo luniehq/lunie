@@ -63,14 +63,14 @@ export default {
     // XXX temporary because querying the shares shows old shares after bonding
     // this.updateDelegates()
   },
+  updated() {
+    this.$el.querySelector(`.tm-page-main`).scrollTop = 0
+  },
   methods: {
     setSearch(bool = !this.filters[`delegates`].search.visible) {
       this.$store.commit(`setSearchVisible`, [`delegates`, bool])
     },
     ...mapActions([`updateDelegates`])
-  },
-  updated() {
-    this.$el.querySelector(`.tm-page-main`).scrollTop = 0
   }
 }
 </script>

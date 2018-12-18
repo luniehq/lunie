@@ -70,6 +70,9 @@ export default {
   mounted() {
     this.ps = new PerfectScrollbar(this.$el.querySelector(`.tm-page-main`))
   },
+  updated() {
+    this.$el.querySelector(`.tm-page-main`).scrollTop = 0
+  },
   methods: {
     onPropose() {
       this.showModalPropose = true
@@ -102,9 +105,6 @@ export default {
     setSearch(bool = !this.filters[`proposals`].search.visible) {
       this.$store.commit(`setSearchVisible`, [`proposals`, bool])
     }
-  },
-  updated() {
-    this.$el.querySelector(`.tm-page-main`).scrollTop = 0
   }
 }
 </script>
