@@ -2,7 +2,7 @@
   <tm-page data-title="Wallet">
     <template slot="menu-body">
       <tm-balance />
-      <vm-tool-bar>
+      <tool-bar>
         <a
           v-tooltip.bottom="'Refresh'"
           :disabled="!connected"
@@ -17,7 +17,7 @@
         >
           <i class="material-icons">search</i>
         </a>
-      </vm-tool-bar>
+      </tool-bar>
     </template>
     <modal-search v-if="somethingToSearch" type="balances" />
     <tm-data-connecting v-if="!wallet.loaded && !connected" />
@@ -65,7 +65,7 @@ import {
 } from "@tendermint/ui"
 import TmBalance from "common/TmBalance"
 import ModalSearch from "common/TmModalSearch"
-import VmToolBar from "common/VmToolBar"
+import ToolBar from "common/ToolBar"
 export default {
   name: `page-wallet`,
   components: {
@@ -80,7 +80,7 @@ export default {
     ModalSearch,
     TmPage,
     TmPart,
-    VmToolBar
+    ToolBar
   },
   data: () => ({ num }),
   computed: {

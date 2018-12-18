@@ -2,7 +2,7 @@
   <tm-page data-title="Transactions"
     ><template slot="menu-body">
       <tm-balance />
-      <vm-tool-bar
+      <tool-bar
         ><a
           v-tooltip.bottom="'Refresh'"
           :disabled="!connected"
@@ -13,7 +13,7 @@
           :disabled="!somethingToSearch"
           @click="setSearch()"
           ><i class="material-icons">search</i></a
-        ></vm-tool-bar
+        ></tool-bar
       >
     </template>
     <modal-search v-if="somethingToSearch" type="transactions" />
@@ -50,7 +50,7 @@ import TmBalance from "common/TmBalance"
 import TmDataError from "common/TmDataError"
 import TmDataConnecting from "common/TmDataConnecting"
 import { TmPage, TmDataLoading, TmLiAnyTransaction } from "@tendermint/ui"
-import VmToolBar from "common/VmToolBar"
+import ToolBar from "common/ToolBar"
 export default {
   name: `page-transactions`,
   components: {
@@ -63,7 +63,7 @@ export default {
     DataEmptyTx,
     ModalSearch,
     TmPage,
-    VmToolBar
+    ToolBar
   },
   data: () => ({
     shortid: shortid,

@@ -2,7 +2,7 @@
   <tm-page data-title="Preferences"
     ><template slot="menu-body">
       <tm-balance />
-      <vm-tool-bar />
+      <tool-bar />
     </template>
     <tm-part title="Settings">
       <tm-list-item type="field" title="Select network to connect to">
@@ -60,7 +60,7 @@
 <script>
 import { mapGetters } from "vuex"
 import { TmListItem, TmBtn, TmPage, TmPart, TmField } from "@tendermint/ui"
-import VmToolBar from "common/VmToolBar"
+import ToolBar from "common/ToolBar"
 import TmBalance from "common/TmBalance"
 import TmModal from "common/TmModal"
 
@@ -73,7 +73,7 @@ export default {
     TmListItem,
     TmPage,
     TmPart,
-    VmToolBar,
+    ToolBar,
     TmModal
   },
   data: () => ({
