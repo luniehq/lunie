@@ -12,19 +12,11 @@ let END = `\x1b[0m`
 let NPM_BIN = path.join(path.dirname(__dirname), `node_modules`, `.bin`)
 let PATH = `${NPM_BIN}:${process.env.PATH}`
 
-function format(command, data, color) {
-  return (
-    color +
-    command +
-    END +
-    `  ` + // Two space offset
-    data
-      .toString()
-      .trim()
-      .replace(/\n/g, `\n` + ` `.repeat(command.length + 2)) +
-    `\n`
-  )
-}
+const format = (command, data, color) =>
+  `${color}${command}${END}  ${data
+    .toString()
+    .trim()
+    .replace(/\n/g, `\n${` `.repeat(command.length + 2)}`)}\n`
 
 function run(command, color, name, env) {
   env = Object.assign({ PATH }, env)
@@ -76,7 +68,7 @@ module.exports = async function(networkPath, extendedEnv = {}) {
   const packageJSON = require(`../package.json`)
   const voyagerVersion = packageJSON.version
   const gaiaVersion = fs
-    .readFileSync(networkPath + `gaiaversion.txt`)
+    .readFileSync(path.join(networkPath, `gaiaversion.txt`))
     .toString()
     .split(`-`)[0]
   let env = Object.assign(

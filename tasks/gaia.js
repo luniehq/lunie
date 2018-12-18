@@ -17,6 +17,7 @@ let nodeBinary =
   process.env.NODE_BINARY_PATH ||
   path.join(__dirname, `../builds/Gaia/`, osFolderName, `gaiad`)
 const defaultStartPort = 26656
+const getStartPort = nodeNumber => defaultStartPort - (nodeNumber - 1) * 3
 
 // initialise the node config folder and genesis
 async function initNode(
@@ -97,6 +98,7 @@ async function makeValidator(
   nodeHome,
   cliHome,
   moniker,
+  chainId,
   operatorSignInfo = {
     keyName: `local`,
     password: `1234567890`,
@@ -104,13 +106,13 @@ async function makeValidator(
   }
 ) {
   let valPubKey = await getValPubKey(nodeHome)
-  let { address: operatorAddress } = await createKey(operatorSignInfo)
-  await sendTokens(mainSignInfo, `10STAKE`, operatorAddress)
+  let { address } = await createKey(operatorSignInfo)
+  await sendTokens(mainSignInfo, `10STAKE`, address, chainId)
   while (true) {
     console.log(`Waiting for funds to delegate`)
     try {
       await sleep(1000)
-      await getBalance(cliHome, operatorAddress)
+      await getBalance(cliHome, address)
     } catch (error) {
       console.error(error) // kept in here to see if something unexpected fails
       continue
@@ -121,7 +123,8 @@ async function makeValidator(
     operatorSignInfo, // key name that holds funds and is the same address as the operator address
     moniker,
     valPubKey,
-    operatorAddress
+    address,
+    chainId
   )
 }
 
@@ -143,7 +146,8 @@ async function declareValidator(
   { keyName, password, clientHomeDir }, // operatorSignInfo
   moniker,
   valPubKey,
-  operatorAddress
+  operatorAddress,
+  chainId
 ) {
   let command =
     `${cliBinary} tx stake create-validator` +
@@ -153,7 +157,7 @@ async function declareValidator(
     ` --pubkey=${valPubKey}` +
     ` --address-delegator=${operatorAddress}` +
     ` --moniker=${moniker}` +
-    ` --chain-id=test_chain` +
+    ` --chain-id=${chainId}` +
     ` --commission-max-change-rate=0` +
     ` --commission-max-rate=0` +
     ` --commission-rate=0` +
@@ -165,7 +169,8 @@ async function declareValidator(
 async function sendTokens(
   { keyName, password, clientHomeDir }, // senderSignInfo
   tokenString, // like "10stake" <- amount followed by denomination
-  toAddress
+  toAddress,
+  chainId
 ) {
   let command =
     `${cliBinary} tx send` +
@@ -173,7 +178,7 @@ async function sendTokens(
     ` --from ${keyName}` +
     ` --amount=${tokenString}` +
     ` --to=${toAddress}` +
-    ` --chain-id=test_chain`
+    ` --chain-id=${chainId}`
   return makeExecWithInputs(command, [password], false)
 }
 
@@ -188,11 +193,10 @@ function startLocalNode(
   return new Promise((resolve, reject) => {
     let command = `${nodeBinary} start --home ${nodeHome}` // TODO add --minimum_fees 1STAKE here
     if (number > 1) {
+      const port = getStartPort(number)
       // setup different ports
-      command += ` --p2p.laddr=tcp://0.0.0.0:${defaultStartPort -
-        (number - 1) * 3} --address=tcp://0.0.0.0:${defaultStartPort -
-        (number - 1) * 3 +
-        1} --rpc.laddr=tcp://0.0.0.0:${defaultStartPort - (number - 1) * 3 + 2}`
+      command += ` --p2p.laddr=tcp://0.0.0.0:${port} --address=tcp://0.0.0.0:${port +
+        1} --rpc.laddr=tcp://0.0.0.0:${port + 2}`
       // set the first node as a persistent peer
       command += ` --p2p.persistent_peers="${nodeOneId}@localhost:${defaultStartPort}"`
     }
