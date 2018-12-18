@@ -171,7 +171,7 @@
       <undelegation-modal
         v-if="showUndelegationModal"
         :show-undelegation-modal.sync="showUndelegationModal"
-        :maximum="myBond"
+        :maximum="myBond.toNumber()"
         :to="wallet.address"
         @submitUndelegation="submitUndelegation"
       />

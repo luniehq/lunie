@@ -119,7 +119,7 @@ exports[`PageValidator has the expected html structure 1`] = `
               </i>
             </a>
              
-            <router-link
+            <router-link-stub
               id="settings"
               to="/preferences"
             >
@@ -128,7 +128,7 @@ exports[`PageValidator has the expected html structure 1`] = `
               >
                 settings
               </i>
-            </router-link>
+            </router-link-stub>
             <a
               id="signOut-btn"
             >
@@ -495,7 +495,7 @@ exports[`PageValidator has the expected html structure 1`] = `
             <dd
               id="validator-profile__self-bond"
             >
-              0.00 %
+              1.00 %
             </dd>
           </dl>
            
@@ -642,7 +642,7 @@ exports[`PageValidator shows a default avatar 1`] = `
               </i>
             </a>
              
-            <router-link
+            <router-link-stub
               id="settings"
               to="/preferences"
             >
@@ -651,7 +651,7 @@ exports[`PageValidator shows a default avatar 1`] = `
               >
                 settings
               </i>
-            </router-link>
+            </router-link-stub>
             <a
               id="signOut-btn"
             >
@@ -1018,7 +1018,7 @@ exports[`PageValidator shows a default avatar 1`] = `
             <dd
               id="validator-profile__self-bond"
             >
-              0.00 %
+              1.00 %
             </dd>
           </dl>
            
@@ -1167,7 +1167,7 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
               </i>
             </a>
              
-            <router-link
+            <router-link-stub
               id="settings"
               to="/preferences"
             >
@@ -1176,7 +1176,7 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
               >
                 settings
               </i>
-            </router-link>
+            </router-link-stub>
             <a
               id="signOut-btn"
             >
@@ -1786,7 +1786,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
             <dd
               id="validator-profile__self-bond"
             >
-              0.00 %
+              1.00 %
             </dd>
           </dl>
            
@@ -2377,7 +2377,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
             <dd
               id="validator-profile__self-bond"
             >
-              0.00 %
+              1.00 %
             </dd>
           </dl>
            
@@ -2405,7 +2405,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
 </div>
 `;
 
-exports[`onUnstake make sure there are enough atoms to unstake is not enough 1`] = `
+exports[`onDelegation onUnstake make sure there are enough atoms to unstake is not enough 1`] = `
 <div
   class="tm-page"
   data-title="Validator"
@@ -2445,13 +2445,13 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 1`]
                 class="total-atoms top-section"
               >
                 <h3>
-                  Total atom
+                  Total STAKE
                 </h3>
                  
                 <h2
                   class="total-atoms__value"
                 >
-                  100.0000…
+                  1,337.0000…
                 </h2>
               </div>
                
@@ -2459,11 +2459,11 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 1`]
                 class="unbonded-atoms top-section"
               >
                 <h3>
-                  Available atom
+                  Available STAKE
                 </h3>
                  
                 <h2>
-                  42.0000…
+                  1,337.0000…
                 </h2>
               </div>
             </div>
@@ -2505,6 +2505,7 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 1`]
           >
             <a
               class="back"
+              disabled="disabled"
             >
               <i
                 class="material-icons"
@@ -2523,7 +2524,7 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 1`]
               </i>
             </a>
              
-            <router-link
+            <router-link-stub
               id="settings"
               to="/preferences"
             >
@@ -2532,7 +2533,7 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 1`]
               >
                 settings
               </i>
-            </router-link>
+            </router-link-stub>
             <a
               id="signOut-btn"
             >
@@ -2668,7 +2669,7 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 1`]
             class="colored_dl"
           >
             <dt>
-              Delegated atom
+              Delegated STAKE
             </dt>
              
             <dd>
@@ -2678,7 +2679,17 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 1`]
             </dd>
           </dl>
            
-          <!---->
+          <dl
+            class="colored_dl"
+          >
+            <dt>
+              My Rewards
+            </dt>
+             
+            <dd>
+              n/a
+            </dd>
+          </dl>
            
           <div
             class="validator-profile__header__data__break"
@@ -2695,12 +2706,27 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 1`]
               id="validator-profile__power"
             >
               
-              0.45 %
+              65.52 %
             
             </dd>
           </dl>
            
-          <!---->
+          <dl
+            class="colored_dl"
+          >
+            <dt>
+              Uptime
+            </dt>
+             
+            <dd
+              id="validator-profile__uptime"
+            >
+              
+              n/a
+              %
+            
+            </dd>
+          </dl>
            
           <dl
             class="colored_dl"
@@ -2718,7 +2744,17 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 1`]
             </dd>
           </dl>
            
-          <!---->
+          <dl
+            class="colored_dl"
+          >
+            <dt>
+              Slashes
+            </dt>
+             
+            <dd>
+              n/a
+            </dd>
+          </dl>
         </div>
       </div>
     </div>
@@ -2758,7 +2794,17 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 1`]
             </dd>
           </dl>
            
-          <!---->
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              First Seen
+            </dt>
+             
+            <dd>
+              n/a
+            </dd>
+          </dl>
            
           <dl
             class="info_dl"
@@ -2848,7 +2894,7 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 1`]
             class="info_dl"
           >
             <dt>
-              Self Delegated atom
+              Self Delegated STAKE
             </dt>
              
             <dd
@@ -2858,7 +2904,17 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 1`]
             </dd>
           </dl>
            
-          <!---->
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Minimum Self Delegated STAKE
+            </dt>
+             
+            <dd>
+              0 %
+            </dd>
+          </dl>
         </div>
       </div>
     </div>
@@ -2905,7 +2961,7 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 1`]
            
           <p>
             
-        You have no atoms
+        You have no STAKEs
          delegated to
          this validator.
       
@@ -2940,7 +2996,7 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 1`]
 </div>
 `;
 
-exports[`onUnstake make sure there are enough atoms to unstake is not enough 2`] = `
+exports[`onDelegation onUnstake make sure there are enough atoms to unstake is not enough 2`] = `
 <div
   class="tm-page"
   data-title="Validator"
@@ -2980,13 +3036,13 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 2`]
                 class="total-atoms top-section"
               >
                 <h3>
-                  Total atom
+                  Total STAKE
                 </h3>
                  
                 <h2
                   class="total-atoms__value"
                 >
-                  100.0000…
+                  1,337.0000…
                 </h2>
               </div>
                
@@ -2994,11 +3050,11 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 2`]
                 class="unbonded-atoms top-section"
               >
                 <h3>
-                  Available atom
+                  Available STAKE
                 </h3>
                  
                 <h2>
-                  42.0000…
+                  1,337.0000…
                 </h2>
               </div>
             </div>
@@ -3040,6 +3096,7 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 2`]
           >
             <a
               class="back"
+              disabled="disabled"
             >
               <i
                 class="material-icons"
@@ -3058,7 +3115,7 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 2`]
               </i>
             </a>
              
-            <router-link
+            <router-link-stub
               id="settings"
               to="/preferences"
             >
@@ -3067,7 +3124,7 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 2`]
               >
                 settings
               </i>
-            </router-link>
+            </router-link-stub>
             <a
               id="signOut-btn"
             >
@@ -3203,7 +3260,7 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 2`]
             class="colored_dl"
           >
             <dt>
-              Delegated atom
+              Delegated STAKE
             </dt>
              
             <dd>
@@ -3213,7 +3270,17 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 2`]
             </dd>
           </dl>
            
-          <!---->
+          <dl
+            class="colored_dl"
+          >
+            <dt>
+              My Rewards
+            </dt>
+             
+            <dd>
+              n/a
+            </dd>
+          </dl>
            
           <div
             class="validator-profile__header__data__break"
@@ -3230,12 +3297,27 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 2`]
               id="validator-profile__power"
             >
               
-              0.45 %
+              65.52 %
             
             </dd>
           </dl>
            
-          <!---->
+          <dl
+            class="colored_dl"
+          >
+            <dt>
+              Uptime
+            </dt>
+             
+            <dd
+              id="validator-profile__uptime"
+            >
+              
+              n/a
+              %
+            
+            </dd>
+          </dl>
            
           <dl
             class="colored_dl"
@@ -3253,7 +3335,17 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 2`]
             </dd>
           </dl>
            
-          <!---->
+          <dl
+            class="colored_dl"
+          >
+            <dt>
+              Slashes
+            </dt>
+             
+            <dd>
+              n/a
+            </dd>
+          </dl>
         </div>
       </div>
     </div>
@@ -3293,7 +3385,17 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 2`]
             </dd>
           </dl>
            
-          <!---->
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              First Seen
+            </dt>
+             
+            <dd>
+              n/a
+            </dd>
+          </dl>
            
           <dl
             class="info_dl"
@@ -3383,7 +3485,7 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 2`]
             class="info_dl"
           >
             <dt>
-              Self Delegated atom
+              Self Delegated STAKE
             </dt>
              
             <dd
@@ -3393,7 +3495,17 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 2`]
             </dd>
           </dl>
            
-          <!---->
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Minimum Self Delegated STAKE
+            </dt>
+             
+            <dd>
+              0 %
+            </dd>
+          </dl>
         </div>
       </div>
     </div>
