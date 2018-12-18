@@ -52,6 +52,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1661](https://github.com/cosmos/voyager/issues/1661) Boot: multinode available for local-testnet @sabau
 - [\#1748](https://github.com/cosmos/voyager/issues/1748) display governance parameters on tab @fedekunze
 - [\#1660](https://github.com/cosmos/voyager/issues/1660) Add parameters and pool to store @fedekunze
+- [\#1674](https://github.com/cosmos/voyager/issues/1674) Add PageProfile component with shared styles for validator and proposal profiles @jbibla
 
 ### Changed
 
