@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TabParameters displays a message if loading 1`] = `<tm-data-loading />`;
+exports[`TabParameters displays a message if loading 1`] = `<tm-data-loading-stub />`;
 
-exports[`TabParameters displays a message if loading 2`] = `<tm-data-loading />`;
+exports[`TabParameters displays a message if loading 2`] = `<tm-data-loading-stub />`;
 
-exports[`TabParameters displays a message if waiting for connection 1`] = `<tm-data-connecting />`;
+exports[`TabParameters displays a message if waiting for connection 1`] = `<tm-data-connecting-stub />`;
 
-exports[`TabParameters displays a message if waiting for connection 2`] = `<tm-data-connecting />`;
+exports[`TabParameters displays a message if waiting for connection 2`] = `<tm-data-connecting-stub />`;
 
 exports[`TabParameters has the expected html structure 1`] = `
 "<div>
