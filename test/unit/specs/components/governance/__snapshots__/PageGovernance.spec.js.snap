@@ -40,9 +40,9 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
 </div>
    <div class=\\"tabs\\">
       <div class=\\"tab\\">
-         <router-link to=\\"[object Object]\\">
+         <router-link-stub to=\\"[object Object]\\">
             Proposals
-         </router-link>
+         </router-link-stub>
 </div>
 </div>
    <button class=\\"tm-btn\\" id=\\"propose-btn\\" disabled=\\"disabled\\"><span class=\\"tm-btn__container tm-btn--primary\\">
@@ -52,9 +52,9 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
 </div>
    <div class=\\"tm-tool-bar\\">
       <a disabled=\\"disabled\\" class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i></a><a><i class=\\"search material-icons\\">search</i></a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a>
-      <router-link id=\\"settings\\" to=\\"/preferences\\">
+      <router-link-stub id=\\"settings\\" to=\\"/preferences\\">
          <i class=\\"material-icons\\">settings</i>
-      </router-link>
+      </router-link-stub>
       <a id=\\"signOut-btn\\"><i class=\\"material-icons\\">exit_to_app</i></a>
    </div>
 </div>
@@ -67,7 +67,7 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
 <main class=\\"tm-page-main\\">
    <!---->
    <!---->
-   <router-view></router-view>
+   <router-view-stub></router-view-stub>
 </main>
 </div>"
 `;
@@ -112,9 +112,9 @@ exports[`PageGovernance has the expected html structure 1`] = `
 </div>
    <div class=\\"tabs\\">
       <div class=\\"tab\\">
-         <router-link to=\\"[object Object]\\">
+         <router-link-stub to=\\"[object Object]\\">
             Proposals
-         </router-link>
+         </router-link-stub>
 </div>
 </div>
    <button class=\\"tm-btn\\" id=\\"propose-btn\\"><span class=\\"tm-btn__container tm-btn--primary\\">
@@ -124,9 +124,9 @@ exports[`PageGovernance has the expected html structure 1`] = `
 </div>
    <div class=\\"tm-tool-bar\\">
       <a disabled=\\"disabled\\" class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i></a><a><i class=\\"search material-icons\\">search</i></a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a>
-      <router-link id=\\"settings\\" to=\\"/preferences\\">
+      <router-link-stub id=\\"settings\\" to=\\"/preferences\\">
          <i class=\\"material-icons\\">settings</i>
-      </router-link>
+      </router-link-stub>
       <a id=\\"signOut-btn\\"><i class=\\"material-icons\\">exit_to_app</i></a>
    </div>
 </div>
@@ -139,7 +139,7 @@ exports[`PageGovernance has the expected html structure 1`] = `
 <main class=\\"tm-page-main\\">
    <!---->
    <!---->
-   <router-view></router-view>
+   <router-view-stub></router-view-stub>
 </main>
 </div>"
 `;

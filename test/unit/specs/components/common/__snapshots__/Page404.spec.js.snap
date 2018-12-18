@@ -59,7 +59,7 @@ exports[`Page404 has the expected html structure 1`] = `
         <main
           class="tm-part-main"
         >
-          <router-link
+          <router-link-stub
             class="tm-li tm-li-link"
             to="/"
           >
@@ -103,9 +103,9 @@ exports[`Page404 has the expected html structure 1`] = `
                 </i>
               </div>
             </div>
-          </router-link>
+          </router-link-stub>
            
-          <router-link
+          <router-link-stub
             class="tm-li tm-li-link"
             to="/staking"
           >
@@ -149,7 +149,7 @@ exports[`Page404 has the expected html structure 1`] = `
                 </i>
               </div>
             </div>
-          </router-link>
+          </router-link-stub>
         </main>
       </div>
     </section>

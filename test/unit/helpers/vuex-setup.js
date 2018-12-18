@@ -16,12 +16,12 @@ export default function vuexSetup() {
   function init(
     componentConstructor,
     testType = shallow,
-    { stubs, getters = {}, propsData, methods, doBefore = () => {}, mocks } // doBefore receives store
+    { doBefore = () => {}, ...args } // doBefore receives store
   ) {
     const node = Object.assign({}, require(`../helpers/node_mock`))
     const modules = Modules({ node })
     let store = new Vuex.Store({
-      getters: Object.assign({}, Getters, getters),
+      getters: Object.assign({}, Getters, args.getters),
       modules,
       actions: {
         loadPersistedState: () => {}
@@ -44,6 +44,7 @@ export default function vuexSetup() {
       wrapper:
         componentConstructor &&
         testType(componentConstructor, {
+          ...args,
           localVue,
           store,
           stubs: Object.assign(
@@ -51,15 +52,13 @@ export default function vuexSetup() {
               "router-link": true,
               "router-view": true
             },
-            stubs
+            args.stubs
           ),
-          propsData,
-          methods,
           mocks: Object.assign(
             {
               $route: {}
             },
-            mocks
+            args.mocks
           )
         })
     }
@@ -67,28 +66,9 @@ export default function vuexSetup() {
 
   return {
     localVue,
-    shallow: (
-      componentConstructor,
-      { stubs, getters, propsData, methods, doBefore, mocks } = {}
-    ) =>
-      init(componentConstructor, shallow, {
-        stubs,
-        getters,
-        propsData,
-        methods,
-        doBefore
-      }),
-    mount: (
-      componentConstructor,
-      { stubs, getters, propsData, methods, doBefore, mocks } = {}
-    ) =>
-      init(componentConstructor, mount, {
-        stubs,
-        getters,
-        propsData,
-        methods,
-        doBefore,
-        mocks
-      })
+    shallow: (componentConstructor, args = {}) =>
+      init(componentConstructor, shallow, args),
+    mount: (componentConstructor, args = {}) =>
+      init(componentConstructor, mount, args)
   }
 }
