@@ -10,9 +10,9 @@ describe(`TabValidators`, () => {
   beforeEach(async () => {
     let instance = mount(TabValidators, {
       stubs: {
-        "tm-data-connecting": `<tm-data-connecting />`,
-        "tm-data-loading": `<tm-data-loading />`,
-        "tm-data-empty": `<tm-data-empty />`
+        "tm-data-connecting": true,
+        "tm-data-loading": true,
+        "tm-data-empty": true
       }
     })
     wrapper = instance.wrapper
@@ -23,10 +23,6 @@ describe(`TabValidators`, () => {
   })
 
   it(`has the expected html structure`, async () => {
-    // after importing the @tendermint/ui components from modules
-    // to work properly in the tests (snapshots weren't matching)
-    // this has occured across multiple tests
-    await wrapper.vm.$nextTick()
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 

@@ -7,7 +7,7 @@ exports[`AppHeader has the expected html structure 1 1`] = `
       <div class=\\"header-item header-item-logo\\">
          <img id=\\"logo-white\\" src=\\"~@/assets/images/cosmos-wordmark-white.svg\\">
       </div>
-   <app-menu></app-menu>
+   <app-menu-stub></app-menu-stub>
       <!---->
 </div>
 </nav>"
@@ -20,7 +20,7 @@ exports[`AppHeader has the expected html structure 2 1`] = `
    <div class=\\"header-item header-item-logo\\">
       <img id=\\"logo-white\\" src=\\"~@/assets/images/cosmos-wordmark-white.svg\\">
    </div>
-   <app-menu></app-menu>
+   <app-menu-stub></app-menu-stub>
    <div class=\\"header-item\\">
       <i class=\\"material-icons\\">close</i>
    </div>
@@ -35,7 +35,7 @@ exports[`AppHeader has the expected html structure 3 1`] = `
       <div class=\\"header-item header-item-logo\\">
          <img id=\\"logo-white\\" src=\\"~@/assets/images/cosmos-wordmark-white.svg\\">
       </div>
-   <app-menu></app-menu>
+   <app-menu-stub></app-menu-stub>
       <!---->
 </div>
 </nav>"
