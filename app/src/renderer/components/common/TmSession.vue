@@ -234,10 +234,4 @@ export default {
     display: block !important;
   }
 }
-
-.tm-connected-network {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-}
 </style>
