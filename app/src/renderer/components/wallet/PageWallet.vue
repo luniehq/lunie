@@ -6,7 +6,7 @@
         <a
           v-tooltip.bottom="'Refresh'"
           :disabled="!connected"
-          @click="connected && updateBalances()"
+          @click="connected && queryWalletBalances()"
         >
           <i class="material-icons">refresh</i>
         </a>
@@ -125,16 +125,13 @@ export default {
     Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
     Mousetrap.bind(`esc`, () => this.setSearch(false))
     this.updateDelegates()
-    this.queryWalletState()
+    this.queryWalletBalances()
   },
   methods: {
-    ...mapActions([`updateDelegates`, `queryWalletState`]),
+    ...mapActions([`updateDelegates`, `queryWalletBalances`]),
     setSearch(bool = !this.filters[`balances`].search.visible) {
       if (!this.somethingToSearch) return false
       this.$store.commit(`setSearchVisible`, [`balances`, bool])
-    },
-    updateBalances() {
-      this.queryWalletState()
     }
   }
 }

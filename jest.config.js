@@ -14,7 +14,8 @@ module.exports = {
     "^monitor/(.*)$": `<rootDir>/app/src/renderer/components/monitor/$1`,
     "^staking/(.*)$": `<rootDir>/app/src/renderer/components/staking/$1`,
     "^scripts/(.*)$": `<rootDir>/app/src/renderer/scripts/$1`,
-    "^wallet/(.*)$": `<rootDir>/app/src/renderer/components/wallet/$1`
+    "^wallet/(.*)$": `<rootDir>/app/src/renderer/components/wallet/$1`,
+    "^modules/(.*)$": `<rootDir>/app/src/renderer/vuex/modules/$1`
   },
 
   transform: {
