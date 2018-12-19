@@ -30,6 +30,18 @@ import ModalReceive from "common/TmModalReceive"
 import Onboarding from "common/TmOnboarding"
 import Session from "common/TmSession"
 import store from "./vuex/store"
+/**
+ * Main App component
+ * @vue-prop {String} propname Just an example
+ * @vue-prop {Number} [niceProp=1] - A very cool incoerent prop not required but with 1 as default
+ * @vue-data {Object} nothing
+ * @vue-computed {function} notifications mapGetter
+ * @vue-computed {function} config mapGetter
+ * @vue-computed {function} themes mapGetter
+ * @vue-computed {function} approval mapGetter
+ * @vue-computed {function} required mapGetter
+ * @vue-computed {function} onboarding mapGetter
+ */
 export default {
   name: `app`,
   components: {

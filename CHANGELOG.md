@@ -51,6 +51,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1683](https://github.com/cosmos/voyager/issues/1683) Governance: block voting twice for the same option @sabau
 - [\#1748](https://github.com/cosmos/voyager/issues/1748) display governance parameters on tab @fedekunze
 - [\#1660](https://github.com/cosmos/voyager/issues/1660) Add parameters and pool to store @fedekunze
+- [\#1739](https://github.com/cosmos/voyager/issues/1739) Init jsDoc into project @sabau
 
 ### Changed
 

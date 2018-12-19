@@ -66,6 +66,25 @@ import {
 import TmBalance from "common/TmBalance"
 import ModalSearch from "common/TmModalSearch"
 import ToolBar from "common/ToolBar"
+/**
+ * Page Wallet
+ * @vue-prop {Number} num Module that implements all the numerical methods
+ * @vue-computed {function} filters mapGetter
+ * @vue-computed {function} wallet mapGetter
+ * @vue-computed {function} committedDelegations mapGetter
+ * @vue-computed {function} oldBondedAtoms mapGetter
+ * @vue-computed {function} config mapGetter
+ * @vue-computed {function} connected mapGetter
+ *
+ * @vue-computed {function} somethingToSearch returns a boolean stating true if we have data and we are not in loading phase
+ * @vue-computed {function} allDenomBalances for denoms not in balances, add empty balance
+ * @vue-computed {function} filteredBalances filter the balance per coin name, returns an ordered list
+ *
+ * @vue-methods {function} updateDelegates mapAction
+ * @vue-methods {function} updateDelegates mapAction
+ * @vue-methods {function} setSearch launches the setSearchVisible action if somethingToSearch returns true
+ * @vue-methods {function} updateBalances dispatch a queryWalletBalances action to update the informations
+ */
 export default {
   name: `page-wallet`,
   components: {
@@ -96,7 +115,6 @@ export default {
       return !this.wallet.loading && !!this.wallet.balances.length
     },
     allDenomBalances() {
-      // for denoms not in balances, add empty balance
       let balances = this.wallet.balances.slice(0)
       let hasDenom = denom => {
         return !!balances.filter(balance => balance.denom === denom)[0]

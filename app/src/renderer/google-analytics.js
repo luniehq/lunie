@@ -1,4 +1,8 @@
 "use strict"
+/**
+ * Google analytics gets injected here
+ * @module google-analytics
+ */
 
 import Analytics from "electron-ga"
 
