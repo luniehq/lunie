@@ -122,7 +122,6 @@ exports[`ModalDeposit component matches snapshot has the expected html structure
         class="tm-btn__container tm-btn--size-lg tm-btn--primary"
       >
         <!---->
-        <!---->
         <span
           class="tm-btn__value"
         >

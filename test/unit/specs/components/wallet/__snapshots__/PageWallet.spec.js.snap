@@ -225,7 +225,6 @@ exports[`PageWallet has the expected html structure 1`] = `
                 >
                   chevron_right
                 </i>
-                <!---->
                 <span
                   class="tm-btn__value"
                 >
@@ -286,7 +285,6 @@ exports[`PageWallet has the expected html structure 1`] = `
                 >
                   chevron_right
                 </i>
-                <!---->
                 <span
                   class="tm-btn__value"
                 >
@@ -347,7 +345,6 @@ exports[`PageWallet has the expected html structure 1`] = `
                 >
                   chevron_right
                 </i>
-                <!---->
                 <span
                   class="tm-btn__value"
                 >
@@ -588,7 +585,6 @@ exports[`PageWallet should filter the balances 1`] = `
                 >
                   chevron_right
                 </i>
-                <!---->
                 <span
                   class="tm-btn__value"
                 >

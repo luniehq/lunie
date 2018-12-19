@@ -422,7 +422,6 @@ exports[`PageTransactions should filter the transactions 1`] = `
                     close
                   </i>
                   <!---->
-                  <!---->
                 </span>
               </button>
             </div>

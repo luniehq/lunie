@@ -241,7 +241,6 @@ exports[`PageValidator has the expected html structure 1`] = `
                 class="tm-btn__container tm-btn--primary"
               >
                 <!---->
-                <!---->
                 <span
                   class="tm-btn__value"
                 >
@@ -257,7 +256,6 @@ exports[`PageValidator has the expected html structure 1`] = `
               <span
                 class="tm-btn__container tm-btn--secondary"
               >
-                <!---->
                 <!---->
                 <span
                   class="tm-btn__value"
@@ -774,7 +772,6 @@ exports[`PageValidator shows a default avatar 1`] = `
                 class="tm-btn__container tm-btn--primary"
               >
                 <!---->
-                <!---->
                 <span
                   class="tm-btn__value"
                 >
@@ -790,7 +787,6 @@ exports[`PageValidator shows a default avatar 1`] = `
               <span
                 class="tm-btn__container tm-btn--secondary"
               >
-                <!---->
                 <!---->
                 <span
                   class="tm-btn__value"
@@ -1564,7 +1560,6 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
                 class="tm-btn__container tm-btn--primary"
               >
                 <!---->
-                <!---->
                 <span
                   class="tm-btn__value"
                 >
@@ -1580,7 +1575,6 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
               <span
                 class="tm-btn__container tm-btn--secondary"
               >
-                <!---->
                 <!---->
                 <span
                   class="tm-btn__value"
@@ -1907,7 +1901,6 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
                   class="tm-btn__container"
                 >
                   <!---->
-                  <!---->
                   <span
                     class="tm-btn__value"
                   >
@@ -2165,7 +2158,6 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
                 class="tm-btn__container tm-btn--primary"
               >
                 <!---->
-                <!---->
                 <span
                   class="tm-btn__value"
                 >
@@ -2181,7 +2173,6 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
               <span
                 class="tm-btn__container tm-btn--secondary"
               >
-                <!---->
                 <!---->
                 <span
                   class="tm-btn__value"
@@ -2698,7 +2689,6 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
                 class="tm-btn__container tm-btn--primary"
               >
                 <!---->
-                <!---->
                 <span
                   class="tm-btn__value"
                 >
@@ -2714,7 +2704,6 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
               <span
                 class="tm-btn__container tm-btn--secondary"
               >
-                <!---->
                 <!---->
                 <span
                   class="tm-btn__value"
@@ -3041,7 +3030,6 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
                   class="tm-btn__container"
                 >
                   <!---->
-                  <!---->
                   <span
                     class="tm-btn__value"
                   >
@@ -3299,7 +3287,6 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
                 class="tm-btn__container tm-btn--primary"
               >
                 <!---->
-                <!---->
                 <span
                   class="tm-btn__value"
                 >
@@ -3315,7 +3302,6 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
               <span
                 class="tm-btn__container tm-btn--secondary"
               >
-                <!---->
                 <!---->
                 <span
                   class="tm-btn__value"
