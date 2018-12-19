@@ -10,15 +10,12 @@ export default ({ node }) => {
     tallies: {}
   }
   const state = JSON.parse(JSON.stringify(emptyState))
-
   const mutations = {
     setProposal(state, proposal) {
       Vue.set(state.proposals, proposal.proposal_id, proposal)
     },
-    setProposalTally(state, proposalId, tally_result) {
-      if (tally_result !== undefined) {
-        Vue.set(state.tallies, proposalId, tally_result)
-      }
+    setProposalTally(state, { proposal_id, tally_result }) {
+      Vue.set(state.tallies, proposal_id, tally_result)
     }
   }
   let actions = {
@@ -46,18 +43,15 @@ export default ({ node }) => {
                 tally_result = await node.queryProposalTally(
                   proposal.value.proposal_id
                 )
-                console.log(tally_result)
-                if (tally_result === undefined) {
-                  tally_result = JSON.parse(
-                    JSON.stringify(proposal.value.tally_result)
-                  )
-                }
-                commit(
-                  `setProposalTally`,
-                  proposal.value.proposal_id,
-                  tally_result
+              } else {
+                tally_result = JSON.parse(
+                  JSON.stringify(proposal.value.tally_result)
                 )
               }
+              commit(`setProposalTally`, {
+                proposal_id: proposal.value.proposal_id,
+                tally_result
+              })
             })
           )
         }
@@ -76,11 +70,20 @@ export default ({ node }) => {
     async getProposal({ state, commit }, proposal_id) {
       state.loading = true
       try {
+        let tally_result
         state.error = null
         state.loading = false
-        state.loaded = true // TODO make state for only proposal
+        state.loaded = true // TODO make state for single proposal
         let proposal = await node.queryProposal(proposal_id)
         commit(`setProposal`, proposal.value)
+        if (proposal.value.proposal_status === `VotingPeriod`) {
+          tally_result = await node.queryProposalTally(
+            proposal.value.proposal_id
+          )
+        } else {
+          tally_result = JSON.parse(JSON.stringify(proposal.value.tally_result))
+        }
+        commit(`setProposalTally`, { proposal_id, tally_result })
       } catch (error) {
         commit(`notifyError`, {
           title: `Error querying proposal with id #${proposal_id}`,

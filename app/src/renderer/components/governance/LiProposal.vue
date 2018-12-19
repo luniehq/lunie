@@ -49,19 +49,14 @@ export default {
     ...mapGetters([`proposals`]),
     tally() {
       let proposalTally
-      if (this.proposal.proposal_status === `VotingPeriod`) {
-        proposalTally = this.proposals.tallies[this.proposalId]
-      } else if (this.proposal.proposal_status !== `VotingPeriod`) {
-        proposalTally = this.proposal.tally_result
-      }
-      console.log(proposalTally)
+      proposalTally = this.proposals.tallies[this.proposal.proposal_id]
       proposalTally.yes = Math.round(parseFloat(proposalTally.yes))
       proposalTally.no = Math.round(parseFloat(proposalTally.no))
       proposalTally.no_with_veto = Math.round(
         parseFloat(proposalTally.no_with_veto)
       )
       proposalTally.abstain = Math.round(parseFloat(proposalTally.abstain))
-      return this.proposal.tally_result
+      return proposalTally
     },
     status() {
       if (this.proposal.proposal_status === `Passed`) {

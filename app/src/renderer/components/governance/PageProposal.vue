@@ -151,6 +151,7 @@ export default {
     }
   },
   data: () => ({
+    proposal: undefined,
     showModalDeposit: false,
     showModalVote: false,
     lastVote: undefined
@@ -164,24 +165,6 @@ export default {
       `wallet`,
       `votes`
     ]),
-    proposal() {
-      let proposal = this.proposals.proposals[this.proposalId]
-      if (proposal && proposal.tally_result) {
-        proposal.tally_result.yes = Math.round(
-          parseFloat(proposal.tally_result.yes)
-        )
-        proposal.tally_result.no = Math.round(
-          parseFloat(proposal.tally_result.no)
-        )
-        proposal.tally_result.no_with_veto = Math.round(
-          parseFloat(proposal.tally_result.no_with_veto)
-        )
-        proposal.tally_result.abstain = Math.round(
-          parseFloat(proposal.tally_result.abstain)
-        )
-      }
-      return proposal
-    },
     proposalType() {
       return this.proposal.proposal_type.toLowerCase()
     },
@@ -196,27 +179,23 @@ export default {
     },
     totalVotes() {
       return (
-        Number(this.proposal.tally_result.yes) +
-        Number(this.proposal.tally_result.no) +
-        Number(this.proposal.tally_result.no_with_veto) +
-        Number(this.proposal.tally_result.abstain)
+        this.tally.yes +
+        this.tally.no +
+        this.tally.no_with_veto +
+        this.tally.abstain
       )
     },
     yesPercentage() {
-      return num.percentInt(this.proposal.tally_result.yes / this.totalVotes)
+      return num.percentInt(this.tally.yes / this.totalVotes)
     },
     noPercentage() {
-      return num.percentInt(this.proposal.tally_result.no / this.totalVotes)
+      return num.percentInt(this.tally.no / this.totalVotes)
     },
     noWithVetoPercentage() {
-      return num.percentInt(
-        this.proposal.tally_result.no_with_veto / this.totalVotes
-      )
+      return num.percentInt(this.tally.no_with_veto / this.totalVotes)
     },
     abstainPercentage() {
-      return num.percentInt(
-        this.proposal.tally_result.abstain / this.totalVotes
-      )
+      return num.percentInt(this.tally.abstain / this.totalVotes)
     },
     tally() {
       let proposalTally
@@ -231,7 +210,7 @@ export default {
         parseFloat(proposalTally.no_with_veto)
       )
       proposalTally.abstain = Math.round(parseFloat(proposalTally.abstain))
-      return this.proposal.tally_result
+      return proposalTally
     },
     status() {
       if (this.proposal.proposal_status === `Passed`)
@@ -260,10 +239,15 @@ export default {
         }
     }
   },
+  mounted() {
+    this.proposal = this.proposals.proposals[this.proposalId]
+  },
+  updated() {
+    this.proposal = this.proposals.proposals[this.proposalId]
+  },
   methods: {
     async onVote() {
       this.showModalVote = true
-
       // The error is already handled with notifyError in votes.js
       await this.$store.dispatch(`getProposalVotes`, this.proposalId)
       this.lastVote =
@@ -282,6 +266,7 @@ export default {
           password
         })
 
+        this.proposal = this.proposals.proposals[this.proposalId]
         // TODO: get min deposit denom from gov params
         this.$store.commit(`notify`, {
           title: `Successful deposit!`,
@@ -306,6 +291,7 @@ export default {
           password
         })
 
+        this.proposal = this.proposals.proposals[this.proposalId]
         this.$store.commit(`notify`, {
           title: `Successful vote!`,
           body: `You have successfully voted ${option} on proposal #${
