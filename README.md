@@ -267,6 +267,14 @@ $ yarn start local-testnet
 
 Import the account with the 12 word seed phrase you wrote down earlier.
 
+### Run several nodes
+
+This command will build and run several nodes at once. All nodes will be validators:
+
+```bash
+$ yarn start local-testnet 5
+```
+
 ## Flags
 
 A list of all environment variables and their purpose:

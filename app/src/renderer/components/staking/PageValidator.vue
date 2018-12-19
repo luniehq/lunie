@@ -1,5 +1,5 @@
 <template>
-  <tm-page data-title="Validator"
+  <page-profile data-title="Validator"
     ><template slot="menu-body">
       <tm-balance />
     </template>
@@ -11,7 +11,7 @@
       </tm-tool-bar>
     </div>
     <tm-data-error v-if="!validator" /><template v-else>
-      <div class="validator-profile__header validator-profile__section">
+      <div class="page-profile__header page-profile__section">
         <div class="column">
           <img
             v-if="validator.keybase"
@@ -23,22 +23,22 @@
             src="~assets/images/validator-icon.svg"
           />
         </div>
-        <div class="column validator-profile__header__info">
-          <div class="row validator-profile__header__name">
+        <div class="column page-profile__header__info">
+          <div class="row page-profile__header__name">
             <div class="column">
-              <div class="validator-profile__status-and-title">
+              <div class="page-profile__status-and-title">
                 <span
                   v-tooltip.top="status"
                   :class="statusColor"
-                  class="validator-profile__status"
+                  class="page-profile__status"
                 />
-                <div class="validator-profile__header__name__title">
+                <div class="page-profile__header__name__title">
                   {{ validator.description.moniker }}
                 </div>
               </div>
               <short-bech32 :address="validator.operator_address" />
             </div>
-            <div class="column validator-profile__header__actions">
+            <div class="column page-profile__header__actions">
               <tm-btn
                 id="delegation-btn"
                 :disabled="!connected"
@@ -55,7 +55,7 @@
               />
             </div>
           </div>
-          <div class="row validator-profile__header__data">
+          <div class="row page-profile__header__data">
             <dl class="colored_dl">
               <dt>Delegated {{ bondingDenom }}</dt>
               <dd>
@@ -70,16 +70,14 @@
               <dt>My Rewards</dt>
               <dd>n/a</dd>
             </dl>
-            <div class="validator-profile__header__data__break" />
+            <div class="page-profile__header__data__break" />
             <dl class="colored_dl">
               <dt>Voting Power</dt>
-              <dd id="validator-profile__power">
-                {{ pretty(powerRatio * 100) }} %
-              </dd>
+              <dd id="page-profile__power">{{ pretty(powerRatio * 100) }} %</dd>
             </dl>
             <dl v-if="config.devMode" class="colored_dl">
               <dt>Uptime</dt>
-              <dd id="validator-profile__uptime">
+              <dd id="page-profile__uptime">
                 {{
                   validator.signing_info
                     ? pretty(validator.signing_info.signed_blocks_counter / 100)
@@ -90,7 +88,7 @@
             </dl>
             <dl class="colored_dl">
               <dt>Commission</dt>
-              <dd id="validator-profile__commission">
+              <dd id="page-profile__commission">
                 {{ num.shortNumber(validator.commission.rate) }} %
               </dd>
             </dl>
@@ -101,7 +99,7 @@
           </div>
         </div>
       </div>
-      <div class="validator-profile__details validator-profile__section">
+      <div class="page-profile__details page-profile__section">
         <div class="row">
           <div class="column">
             <dl class="info_dl">
@@ -158,7 +156,7 @@
             </dl>
             <dl class="info_dl">
               <dt>Self Delegated {{ bondingDenom }}</dt>
-              <dd id="validator-profile__self-bond">{{ selfBond }} %</dd>
+              <dd id="page-profile__self-bond">{{ selfBond }} %</dd>
             </dl>
             <dl v-if="config.devMode" class="info_dl">
               <dt>Minimum Self Delegated {{ bondingDenom }}</dt>
@@ -199,7 +197,7 @@
         </div>
       </tm-modal>
     </template>
-  </tm-page>
+  </page-profile>
 </template>
 
 <script>
@@ -207,7 +205,7 @@ import moment from "moment"
 import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
 import num from "scripts/num"
-import { TmBtn, TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
+import { TmBtn, TmListItem, TmPart, TmToolBar } from "@tendermint/ui"
 import TmModal from "common/TmModal"
 import TmDataError from "common/TmDataError"
 import { shortAddress, ratToBigNumber } from "scripts/common"
@@ -216,6 +214,7 @@ import UndelegationModal from "staking/UndelegationModal"
 import numeral from "numeral"
 import ShortBech32 from "common/ShortBech32"
 import TmBalance from "common/TmBalance"
+import PageProfile from "common/PageProfile"
 import { isEmpty } from "lodash"
 export default {
   name: `page-validator`,
@@ -226,11 +225,11 @@ export default {
     TmBtn,
     TmListItem,
     TmModal,
-    TmPage,
     TmPart,
     TmToolBar,
     TmDataError,
-    TmBalance
+    TmBalance,
+    PageProfile
   },
   data: () => ({
     num,
@@ -471,177 +470,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.validator-profile__section {
-  background-color: var(--app-fg);
-  display: flex;
-  margin-bottom: 1rem;
-  padding: 2rem;
-  min-width: 63rem;
-}
-
-.column {
-  display: flex;
-  flex-flow: column;
-  position: relative;
-}
-
-.row {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-}
-
-.validator-profile__header .avatar {
-  background: var(--app-nav);
-  border-radius: 50%;
-  height: 155px;
-  margin-right: 2rem;
-  padding: 1rem;
-  width: 155px;
-}
-
-.validator-profile__header__info {
-  flex: 1;
-}
-
-.validator-profile__header__name {
-  margin-bottom: 2rem;
-}
-
-.validator-profile__header__name__title {
-  color: #fff;
-  display: inline-block;
-  font-size: var(--h1);
-  line-height: var(--h1);
-  font-weight: 400;
-  padding: 0 0.5rem 0.5rem 0;
-}
-
-.validator-profile__header__name__address {
-  font-size: var(--sm);
-}
-
-.validator-profile__header__actions {
-  flex-flow: column;
-  margin-left: auto;
-}
-
-.validator-profile__header__actions button:not(:last-child) {
-  margin-bottom: 0.5rem;
-}
-
-.validator-profile__header__data__break {
-  border-right: 1px solid var(--bc-dim);
-  margin-right: 1rem;
-}
-
-.validator-profile__status {
-  border-radius: 50%;
-  display: inline-block;
-  height: 0.5rem;
-  left: -1rem;
-  position: absolute;
-  width: 0.5rem;
-}
-
-.validator-profile__status.red {
-  background: var(--danger);
-}
-
-.validator-profile__status.yellow {
-  background: var(--warning);
-}
-
-.validator-profile__status.green {
-  background: var(--success);
-}
-
-.validator-profile__status.blue {
-  background: var(--primary);
-}
-
-.validator-profile__status-and-title {
-  align-items: center;
-  display: flex;
-}
-
-.validator-profile__details > .row > .column {
-  flex: 1;
-}
-
-.info_dl {
-  display: flex;
-  flex-flow: column;
-  margin-bottom: 1.5rem;
-  margin-right: 1rem;
-}
-
-.info_dl dt {
-  color: var(--dim);
-  font-size: var(--sm);
-  margin-bottom: 4px;
-}
-
-.info_dl dd {
-  border: solid 1px #31354e;
-  border-radius: 2px;
-  font-size: 1rem;
-  line-height: 1rem;
-  padding: 0.5rem;
-}
-
-.info_dl dd.info_dl__text-box {
-  min-height: 6.91rem;
-}
-
-.colored_dl {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  width: 7rem;
-}
-
-.colored_dl:not(:last-child) {
-  margin-right: 1rem;
-}
-
-.colored_dl dt {
-  color: var(--dim);
-  font-size: var(--sm);
-  margin-bottom: 0.5rem;
-  text-align: center;
-}
-
-.colored_dl dd {
-  background-color: var(--white-fade-1);
-  border: 1px solid var(--white-fade-2);
-  border-radius: 4px;
-  color: var(--dim);
-  display: block;
-  font-size: h6;
-  line-height: h6;
-  padding: 4px 4px;
-  text-align: right;
-  width: 100%;
-}
-
-.colored_dl dd.red {
-  background-color: rgba(209, 2, 0, 0.15);
-  border: solid 0.5px rgba(209, 2, 0, 0.25);
-  color: #ff0200;
-}
-
-.colored_dl dd.yellow {
-  background-color: rgba(255, 149, 2, 0.15);
-  border: solid 0.5px rgba(255, 149, 2, 0.25);
-  color: #ff9502;
-}
-
-.colored_dl dd.green {
-  background-color: rgba(46, 164, 45, 0.15);
-  border: solid 0.5px rgba(46, 164, 45, 0.25);
-  color: #2ea42d;
-}
-</style>

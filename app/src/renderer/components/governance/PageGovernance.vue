@@ -31,6 +31,7 @@
 import { mapGetters } from "vuex"
 import DataEmptySearch from "common/TmDataEmptySearch"
 import ModalSearch from "common/TmModalSearch"
+import PerfectScrollbar from "perfect-scrollbar"
 import ModalPropose from "./ModalPropose"
 import ToolBar from "common/ToolBar"
 import TmBalance from "common/TmBalance"
@@ -54,18 +55,23 @@ export default {
       {
         displayName: `Proposals`,
         pathName: `Proposals`
+      },
+      {
+        displayName: `Parameters`,
+        pathName: `Governance Parameters`
       }
-      // TODO uncomment when updated to latest SDK
-      // {
-      //   displayName: `Parameters`,
-      //   pathName: `Governance Parameters`
-      // }
     ],
     showModalPropose: false
   }),
   computed: {
     // TODO: get min deposit denom from gov params
     ...mapGetters([`proposals`, `filters`, `bondingDenom`, `connected`])
+  },
+  mounted() {
+    this.ps = new PerfectScrollbar(this.$el.querySelector(`.tm-page-main`))
+  },
+  updated() {
+    this.$el.querySelector(`.tm-page-main`).scrollTop = 0
   },
   methods: {
     onPropose() {
