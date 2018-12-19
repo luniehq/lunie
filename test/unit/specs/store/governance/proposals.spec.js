@@ -76,8 +76,7 @@ describe(`Module: Proposals`, () => {
                 value: proposal
               }))
             ),
-          queryProposalTally: proposal_id =>
-            Promise.resolve(tallies[proposal_id])
+          getProposalTally: proposal_id => Promise.resolve(tallies[proposal_id])
         }
       })
 

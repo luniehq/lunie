@@ -3,6 +3,8 @@ import htmlBeautify from "html-beautify"
 import TableProposals from "renderer/components/governance/TableProposals"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
+let { proposals } = lcdClientMock.state
+
 describe(`TableProposals`, () => {
   let wrapper, store
   let { mount } = setup()
@@ -10,7 +12,7 @@ describe(`TableProposals`, () => {
   beforeEach(() => {
     let instance = mount(TableProposals, {
       propsData: {
-        proposals: lcdClientMock.state.proposals,
+        proposals,
         loading: false
       }
     })
@@ -98,7 +100,7 @@ describe(`TableProposals`, () => {
     it(`should show search when there is something to search`, () => {
       let { wrapper, store } = mount(TableProposals, {
         propsData: {
-          proposals: lcdClientMock.state.proposals,
+          proposals,
           loading: false
         },
         $store

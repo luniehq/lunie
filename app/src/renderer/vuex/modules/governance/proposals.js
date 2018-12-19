@@ -40,7 +40,7 @@ export default ({ node }) => {
             proposals.map(async proposal => {
               commit(`setProposal`, proposal.value)
               if (proposal.value.proposal_status === `VotingPeriod`) {
-                tally_result = await node.queryProposalTally(
+                tally_result = await node.getProposalTally(
                   proposal.value.proposal_id
                 )
               } else {
