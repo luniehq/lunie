@@ -2,8 +2,8 @@
   <tm-page data-title="Wallet">
     <template slot="menu-body">
       <tm-balance />
-      <tool-bar>
-        <a
+      <tool-bar
+        ><a
           v-tooltip.bottom="'Refresh'"
           :disabled="!connected"
           @click="connected && queryWalletBalances()"
@@ -14,10 +14,9 @@
           v-tooltip.bottom="'Search'"
           :disabled="!somethingToSearch"
           @click="setSearch()"
-        >
-          <i class="material-icons">search</i>
-        </a>
-      </tool-bar>
+          ><i class="material-icons">search</i></a
+        ></tool-bar
+      >
     </template>
     <modal-search v-if="somethingToSearch" type="balances" />
     <tm-data-connecting v-if="!wallet.loaded && !connected" />

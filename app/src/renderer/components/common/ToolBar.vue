@@ -1,5 +1,5 @@
 <template>
-  <div class="tm-tool-bar">
+  <div class="tool-bar">
     <a
       v-tooltip.bottom="'Back'"
       :disabled="user.history.length === 0"
@@ -7,7 +7,8 @@
       @click="back"
       ><i class="material-icons">arrow_back</i></a
     >
-    <slot /><a v-tooltip.bottom="'Help'" class="help" @click="enableModalHelp"
+    <slot />
+    <a v-tooltip.bottom="'Help'" class="help" @click="enableModalHelp"
       ><i class="material-icons">help_outline</i></a
     >
     <router-link
@@ -49,12 +50,18 @@ export default {
 }
 </script>
 <style>
-.tm-page-header-text {
-  padding-right: 1rem;
+.tool-bar {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .tm-page-header-text i {
-  padding: 1rem;
+  padding-left: 0.5rem;
+  position: relative;
+  top: 1rem;
+  right: 1rem;
   color: var(--dim);
 }
 
