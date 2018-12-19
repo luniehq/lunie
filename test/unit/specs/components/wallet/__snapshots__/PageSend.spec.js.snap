@@ -1603,7 +1603,7 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                     <div
                       class="tm-form-msg sm tm-form-msg--error"
                     >
-                      Address is invalid (No separator character for asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf)
+                      Address is invalid bech32
                     </div>
                   </div>
                 </div>
@@ -2035,7 +2035,7 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                     <div
                       class="tm-form-msg sm tm-form-msg--error"
                     >
-                      Address is invalid (asdf too short)
+                      Address is invalid bech32
                     </div>
                   </div>
                 </div>
@@ -2467,7 +2467,7 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
                     <div
                       class="tm-form-msg sm tm-form-msg--error"
                     >
-                      Address is invalid (No separator character for !@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$)
+                      Address is invalid bech32
                     </div>
                   </div>
                 </div>

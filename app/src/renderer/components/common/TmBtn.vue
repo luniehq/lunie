@@ -44,7 +44,7 @@ export default {
     },
     type: {
       type: String,
-      required: true
+      default: null
     },
     icon: {
       type: String,

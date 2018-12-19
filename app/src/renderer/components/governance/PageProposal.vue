@@ -1,5 +1,5 @@
 <template>
-  <tm-page data-title="Proposal"
+  <page-profile data-title="Proposal"
     ><template slot="menu-body">
       <tm-balance />
     </template>
@@ -12,24 +12,22 @@
     </div>
     <tm-data-error v-if="!proposal" />
     <template v-else>
-      <div
-        class="validator-profile__header validator-profile__section proposal"
-      >
-        <div class="column validator-profile__header__info">
-          <div class="row validator-profile__header__name">
+      <div class="page-profile__header page-profile__section proposal">
+        <div class="column page-profile__header__info">
+          <div class="row page-profile__header__name">
             <div class="top column">
-              <div class="validator-profile__status-and-title">
+              <div class="page-profile__status-and-title">
                 <span
                   v-tooltip.top="status.message"
                   :class="status.color"
-                  class="validator-profile__status"
+                  class="page-profile__status"
                 />
-                <div class="validator-profile__header__name__title">
+                <div class="page-profile__header__name__title">
                   {{ proposal.title }} {{ `(#` + proposalId + `)` }}
                 </div>
               </div>
             </div>
-            <div class="column validator-profile__header__actions">
+            <div class="column page-profile__header__actions">
               <tm-btn
                 v-if="proposal.proposal_status === 'VotingPeriod'"
                 id="vote-btn"
@@ -67,7 +65,7 @@
               }}
             </p>
           </div>
-          <div class="row validator-profile__header__data votes">
+          <div class="row page-profile__header__data votes">
             <dl class="colored_dl">
               <dt>Deposit</dt>
               <dd>
@@ -78,7 +76,7 @@
                 }}
               </dd>
             </dl>
-            <div class="validator-profile__header__data__break" />
+            <div class="page-profile__header__data__break" />
             <dl class="colored_dl">
               <dt>Yes</dt>
               <dd>{{ proposal.tally_result.yes }} / {{ yesPercentage }}</dd>
@@ -103,7 +101,7 @@
           </div>
         </div>
       </div>
-      <div class="validator-profile__details validator-profile__section">
+      <div class="page-profile__details page-profile__section">
         <div class="column">
           <div class="row"><text-block :content="proposal.description" /></div>
         </div>
@@ -125,7 +123,7 @@
         @castVote="castVote"
       />
     </template>
-  </tm-page>
+  </page-profile>
 </template>
 
 <script>
@@ -133,13 +131,13 @@ import moment from "moment"
 import { mapGetters } from "vuex"
 import num from "scripts/num"
 import TmBtn from "common/TmBtn"
-import TmPage from "common/TmPage"
 import ToolBar from "common/ToolBar"
 import TmBalance from "common/TmBalance"
 import TmDataError from "common/TmDataError"
 import TextBlock from "common/TextBlock"
 import ModalDeposit from "./ModalDeposit"
 import ModalVote from "./ModalVote"
+import PageProfile from "common/PageProfile"
 export default {
   name: `page-proposal`,
   components: {
@@ -149,7 +147,7 @@ export default {
     ModalVote,
     ToolBar,
     TmDataError,
-    TmPage,
+    PageProfile,
     TextBlock
   },
   props: {
@@ -320,7 +318,7 @@ export default {
   color: var(--bright);
 }
 
-.proposal .validator-profile__status {
+.proposal .page-profile__status {
   position: relative;
   left: 0;
   margin-right: 0.5rem;

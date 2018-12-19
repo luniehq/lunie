@@ -57,12 +57,11 @@ export default {
       {
         displayName: `Proposals`,
         pathName: `Proposals`
+      },
+      {
+        displayName: `Parameters`,
+        pathName: `Governance Parameters`
       }
-      // TODO uncomment when updated to latest SDK
-      // {
-      //   displayName: `Parameters`,
-      //   pathName: `Governance Parameters`
-      // }
     ],
     showModalPropose: false
   }),

@@ -87,13 +87,17 @@ import countries from "./countries.json"
 export default {
   name: `tm-field`,
   props: {
-    placeholder: {
-      type: String,
-      default: null
-    },
     type: {
       type: String,
       required: true
+    },
+    value: {
+      type: String,
+      required: true
+    },
+    placeholder: {
+      type: String,
+      default: null
     },
     size: {
       type: String,
@@ -104,7 +108,7 @@ export default {
       default: null
     },
     options: {
-      type: Object,
+      type: [Array, Object],
       default: () => ({
         checked: {
           type: Boolean,

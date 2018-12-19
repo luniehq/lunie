@@ -14,6 +14,10 @@ export default {
       type: String,
       required: true
     },
+    name: {
+      type: String,
+      default: null
+    },
     min: {
       type: Number,
       default: null
@@ -83,7 +87,7 @@ export default {
           msg = `must be a valid URL (http:// required)`
           break
         case `bech32`:
-          msg = `the provided address is invalid bech32`
+          msg = `is invalid bech32`
           break
         default:
           msg = `must be valid`
