@@ -378,25 +378,32 @@ describe(`delegationTargetOptions`, () => {
 
 describe(`onDelegation`, () => {
   describe(`make sure we have enough atoms to delegate`, () => {
-    it(`is enough`, () => {
-      let { wrapper } = mount(PageValidator, {
-        doBefore: ({ store }) => {
+    let wrapper, store
+
+    beforeEach(() => {
+      let { mount } = setup()
+      let instance = mount(PageValidator, {
+        doBefore: ({ store, router }) => {
           store.commit(`setCommittedDelegation`, {
-            candidateId: lcdClientMock.validators[0],
+            candidateId: validator.operator_address,
             value: 100
           })
           store.commit(`setAtoms`, 1337)
           store.commit(`setConnected`, true)
           store.commit(`setDelegates`, [validator, validatorTo])
           store.state.wallet.address = lcdClientMock.addresses[0]
-        },
-        mocks: {
-          $route: {
-            params: { validator: validator.operator_address }
-          }
+
+          router.push(`/staking/validators/${lcdClientMock.validators[0]}`)
         }
       })
 
+      wrapper = instance.wrapper
+      store = instance.store
+
+      wrapper.update()
+    })
+
+    it(`is enough`, () => {
       wrapper.find(`#delegation-btn`).trigger(`click`)
       expect(wrapper.contains(DelegationModal)).toEqual(true)
     })
@@ -404,12 +411,7 @@ describe(`onDelegation`, () => {
     it(`is not enough`, () => {
       store.commit(`setAtoms`, 0)
 
-      const wrapper = mount(PageValidator, {
-        mocks: {
-          $route: { params: { validator: lcdClientMock.validators[0] } },
-          $store
-        }
-      })
+      wrapper.update()
 
       wrapper.find(`#delegation-btn`).trigger(`click`)
       expect(wrapper.vm.showCannotModal).toBe(true)
@@ -452,13 +454,6 @@ describe(`onDelegation`, () => {
             { atoms: 10, validator: validator }
           ]
 
-          $store.dispatch.mockClear()
-
-          await submitDelegation({
-            amount: 10,
-            from: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
-          })
-
           expect($store.dispatch.mock.calls).toEqual([
             [`submitDelegation`, { stakingTransactions }]
           ])
@@ -479,7 +474,9 @@ describe(`onDelegation`, () => {
         it(`error`, async () => {
           const $store = {
             commit: jest.fn(),
-            dispatch: jest.fn(),
+            dispatch: jest.fn(() => {
+              throw new Error(`message`)
+            }),
             getters: getterValues
           }
 
@@ -497,18 +494,8 @@ describe(`onDelegation`, () => {
 
           let stakingTransactions = {}
           stakingTransactions.delegations = [
-            { atoms: 10, validator: validator }
+            { atoms: 10000000, validator: validator }
           ]
-
-          $store.dispatch.mockClear()
-          $store.dispatch = jest.fn(() => {
-            throw new Error(`message`)
-          })
-
-          await submitDelegation({
-            amount: 10,
-            from: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
-          })
 
           expect($store.dispatch.mock.calls).toEqual([
             [`submitDelegation`, { stakingTransactions }]
@@ -519,57 +506,6 @@ describe(`onDelegation`, () => {
               `notifyError`,
               {
                 body: `message`,
-                title: `Error while delegating ${getterValues.bondingDenom}s`
-              }
-            ]
-          ])
-        })
-
-        it(`error with data`, async () => {
-          const $store = {
-            commit: jest.fn(),
-            dispatch: jest.fn(),
-            getters: getterValues
-          }
-
-          const {
-            vm: { submitDelegation }
-          } = mount(PageValidator, {
-            mocks: {
-              $route: {
-                params: {
-                  validator: lcdClientMock.validators[0],
-                  delegator_shares: `19`
-                }
-              },
-              $store
-            }
-          })
-
-          let stakingTransactions = {}
-          stakingTransactions.delegations = [
-            { atoms: 10, validator: validator }
-          ]
-
-          $store.dispatch.mockClear()
-          $store.dispatch = jest.fn(() => {
-            throw new Error(`unexpected error`)
-          })
-
-          await submitDelegation({
-            amount: 10,
-            from: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
-          })
-
-          expect($store.dispatch.mock.calls).toEqual([
-            [`submitDelegation`, { stakingTransactions }]
-          ])
-
-          expect($store.commit.mock.calls).toEqual([
-            [
-              `notifyError`,
-              {
-                body: `unexpected error`,
                 title: `Error while delegating ${getterValues.bondingDenom}s`
               }
             ]
@@ -609,13 +545,6 @@ describe(`onDelegation`, () => {
               from: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
             }
           )
-
-          $store.dispatch.mockClear()
-
-          await submitDelegation({
-            amount: 10,
-            from: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
-          })
 
           expect($store.dispatch.mock.calls).toEqual([
             [
@@ -864,6 +793,31 @@ describe(`onDelegation`, () => {
 
   describe(`onUnstake`, () => {
     describe(`make sure there are enough atoms to unstake`, () => {
+      let wrapper, store
+
+      beforeEach(() => {
+        let { mount } = setup()
+        let instance = mount(PageValidator, {
+          doBefore: ({ store, router }) => {
+            store.commit(`setCommittedDelegation`, {
+              candidateId: validator.operator_address,
+              value: 100
+            })
+            store.commit(`setAtoms`, 1337)
+            store.commit(`setConnected`, true)
+            store.commit(`setDelegates`, [validator, validatorTo])
+            store.state.wallet.address = lcdClientMock.addresses[0]
+
+            router.push(`/staking/validators/${lcdClientMock.validators[0]}`)
+          }
+        })
+
+        wrapper = instance.wrapper
+        store = instance.store
+
+        wrapper.update()
+      })
+
       it(`is enough`, () => {
         store.commit(`setCommittedDelegation`, {
           candidateId: lcdClientMock.validators[0],

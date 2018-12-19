@@ -1342,7 +1342,9 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
         class="tm-page-header-text"
       >
         <!---->
+         
         <!---->
+         
         <div
           class="tm-page-header-body"
         >
@@ -1365,7 +1367,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
                 class="total-atoms top-section"
               >
                 <h3>
-                  Total atom
+                  Total STAKE
                 </h3>
                  
                 <h2
@@ -1379,11 +1381,11 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
                 class="unbonded-atoms top-section"
               >
                 <h3>
-                  Available atom
+                  Available STAKE
                 </h3>
                  
                 <h2>
-                  42.0000…
+                  0.0000…
                 </h2>
               </div>
             </div>
@@ -1421,6 +1423,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
           </div>
         </div>
       </div>
+       
       <menu
         class="tm-page-header-menu"
       >
@@ -1429,30 +1432,63 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
             <div
               class="tm-tool-bar"
             >
-              <div
-                class="tm-tool-bar-container"
+              <a
+                class="back"
               >
-                <div
-                  class="main"
+                <i
+                  class="material-icons"
                 >
-                  <router-link
-                    exact="exact"
-                    to="/staking/validators"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                  </router-link>
-                </div>
-              </div>
+                  arrow_back
+                </i>
+              </a>
+               
+              <a
+                class=""
+                href="#/staking/validators"
+              >
+                <i
+                  class="material-icons"
+                >
+                  arrow_back
+                </i>
+              </a>
+              <a
+                class="help"
+              >
+                <i
+                  class="material-icons"
+                >
+                  help_outline
+                </i>
+              </a>
+               
+              <a
+                class=""
+                href="#/preferences"
+                id="settings"
+              >
+                <i
+                  class="material-icons"
+                >
+                  settings
+                </i>
+              </a>
+              <a
+                id="signOut-btn"
+              >
+                <i
+                  class="material-icons"
+                >
+                  exit_to_app
+                </i>
+              </a>
             </div>
           </div>
         </div>
       </menu>
     </div>
   </header>
+   
   <main
     class="tm-page-main"
   >
@@ -1567,17 +1603,27 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
             class="colored_dl"
           >
             <dt>
-              Delegated atom
+              Delegated STAKE
             </dt>
              
             <dd>
               
-              0.0000…
+              100.0000…
             
             </dd>
           </dl>
            
-          <!---->
+          <dl
+            class="colored_dl"
+          >
+            <dt>
+              My Rewards
+            </dt>
+             
+            <dd>
+              n/a
+            </dd>
+          </dl>
            
           <div
             class="validator-profile__header__data__break"
@@ -1594,12 +1640,27 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
               id="validator-profile__power"
             >
               
-              0.45 %
+              65.52 %
             
             </dd>
           </dl>
            
-          <!---->
+          <dl
+            class="colored_dl"
+          >
+            <dt>
+              Uptime
+            </dt>
+             
+            <dd
+              id="validator-profile__uptime"
+            >
+              
+              n/a
+              %
+            
+            </dd>
+          </dl>
            
           <dl
             class="colored_dl"
@@ -1617,7 +1678,17 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
             </dd>
           </dl>
            
-          <!---->
+          <dl
+            class="colored_dl"
+          >
+            <dt>
+              Slashes
+            </dt>
+             
+            <dd>
+              n/a
+            </dd>
+          </dl>
         </div>
       </div>
     </div>
@@ -1657,7 +1728,17 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
             </dd>
           </dl>
            
-          <!---->
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              First Seen
+            </dt>
+             
+            <dd>
+              n/a
+            </dd>
+          </dl>
            
           <dl
             class="info_dl"
@@ -1747,7 +1828,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
             class="info_dl"
           >
             <dt>
-              Self Delegated atom
+              Self Delegated STAKE
             </dt>
              
             <dd
@@ -1757,7 +1838,17 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
             </dd>
           </dl>
            
-          <!---->
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Minimum Self Delegated STAKE
+            </dt>
+             
+            <dd>
+              0 %
+            </dd>
+          </dl>
         </div>
       </div>
     </div>
@@ -1804,7 +1895,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
            
           <p>
             
-        You have no atoms
+        You have no STAKEs
          to
          delegate.
       
@@ -1854,7 +1945,9 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
         class="tm-page-header-text"
       >
         <!---->
+         
         <!---->
+         
         <div
           class="tm-page-header-body"
         >
@@ -1877,7 +1970,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
                 class="total-atoms top-section"
               >
                 <h3>
-                  Total atom
+                  Total STAKE
                 </h3>
                  
                 <h2
@@ -1891,11 +1984,11 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
                 class="unbonded-atoms top-section"
               >
                 <h3>
-                  Available atom
+                  Available STAKE
                 </h3>
                  
                 <h2>
-                  42.0000…
+                  0.0000…
                 </h2>
               </div>
             </div>
@@ -1933,6 +2026,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
           </div>
         </div>
       </div>
+       
       <menu
         class="tm-page-header-menu"
       >
@@ -1941,30 +2035,63 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
             <div
               class="tm-tool-bar"
             >
-              <div
-                class="tm-tool-bar-container"
+              <a
+                class="back"
               >
-                <div
-                  class="main"
+                <i
+                  class="material-icons"
                 >
-                  <router-link
-                    exact="exact"
-                    to="/staking/validators"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                  </router-link>
-                </div>
-              </div>
+                  arrow_back
+                </i>
+              </a>
+               
+              <a
+                class=""
+                href="#/staking/validators"
+              >
+                <i
+                  class="material-icons"
+                >
+                  arrow_back
+                </i>
+              </a>
+              <a
+                class="help"
+              >
+                <i
+                  class="material-icons"
+                >
+                  help_outline
+                </i>
+              </a>
+               
+              <a
+                class=""
+                href="#/preferences"
+                id="settings"
+              >
+                <i
+                  class="material-icons"
+                >
+                  settings
+                </i>
+              </a>
+              <a
+                id="signOut-btn"
+              >
+                <i
+                  class="material-icons"
+                >
+                  exit_to_app
+                </i>
+              </a>
             </div>
           </div>
         </div>
       </menu>
     </div>
   </header>
+   
   <main
     class="tm-page-main"
   >
@@ -2079,17 +2206,27 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
             class="colored_dl"
           >
             <dt>
-              Delegated atom
+              Delegated STAKE
             </dt>
              
             <dd>
               
-              0.0000…
+              100.0000…
             
             </dd>
           </dl>
            
-          <!---->
+          <dl
+            class="colored_dl"
+          >
+            <dt>
+              My Rewards
+            </dt>
+             
+            <dd>
+              n/a
+            </dd>
+          </dl>
            
           <div
             class="validator-profile__header__data__break"
@@ -2106,12 +2243,27 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
               id="validator-profile__power"
             >
               
-              0.45 %
+              65.52 %
             
             </dd>
           </dl>
            
-          <!---->
+          <dl
+            class="colored_dl"
+          >
+            <dt>
+              Uptime
+            </dt>
+             
+            <dd
+              id="validator-profile__uptime"
+            >
+              
+              n/a
+              %
+            
+            </dd>
+          </dl>
            
           <dl
             class="colored_dl"
@@ -2129,7 +2281,17 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
             </dd>
           </dl>
            
-          <!---->
+          <dl
+            class="colored_dl"
+          >
+            <dt>
+              Slashes
+            </dt>
+             
+            <dd>
+              n/a
+            </dd>
+          </dl>
         </div>
       </div>
     </div>
@@ -2169,7 +2331,17 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
             </dd>
           </dl>
            
-          <!---->
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              First Seen
+            </dt>
+             
+            <dd>
+              n/a
+            </dd>
+          </dl>
            
           <dl
             class="info_dl"
@@ -2259,7 +2431,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
             class="info_dl"
           >
             <dt>
-              Self Delegated atom
+              Self Delegated STAKE
             </dt>
              
             <dd
@@ -2269,7 +2441,17 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
             </dd>
           </dl>
            
-          <!---->
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Minimum Self Delegated STAKE
+            </dt>
+             
+            <dd>
+              0 %
+            </dd>
+          </dl>
         </div>
       </div>
     </div>
@@ -2298,7 +2480,9 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
         class="tm-page-header-text"
       >
         <!---->
+         
         <!---->
+         
         <div
           class="tm-page-header-body"
         >
@@ -2375,53 +2559,9 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
             />
              
           </div>
-           
-          <div
-            class="tm-tool-bar"
-          >
-            <a
-              class="back"
-              disabled="disabled"
-            >
-              <i
-                class="material-icons"
-              >
-                arrow_back
-              </i>
-            </a>
-             
-            <a
-              class="help"
-            >
-              <i
-                class="material-icons"
-              >
-                help_outline
-              </i>
-            </a>
-             
-            <router-link-stub
-              id="settings"
-              to="/preferences"
-            >
-              <i
-                class="material-icons"
-              >
-                settings
-              </i>
-            </router-link-stub>
-            <a
-              id="signOut-btn"
-            >
-              <i
-                class="material-icons"
-              >
-                exit_to_app
-              </i>
-            </a>
-          </div>
         </div>
       </div>
+       
       <menu
         class="tm-page-header-menu"
       >
@@ -2430,30 +2570,63 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
             <div
               class="tm-tool-bar"
             >
-              <div
-                class="tm-tool-bar-container"
+              <a
+                class="back"
               >
-                <div
-                  class="main"
+                <i
+                  class="material-icons"
                 >
-                  <router-link
-                    exact="exact"
-                    to="/staking/validators"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                  </router-link>
-                </div>
-              </div>
+                  arrow_back
+                </i>
+              </a>
+               
+              <a
+                class=""
+                href="#/staking/validators"
+              >
+                <i
+                  class="material-icons"
+                >
+                  arrow_back
+                </i>
+              </a>
+              <a
+                class="help"
+              >
+                <i
+                  class="material-icons"
+                >
+                  help_outline
+                </i>
+              </a>
+               
+              <a
+                class=""
+                href="#/preferences"
+                id="settings"
+              >
+                <i
+                  class="material-icons"
+                >
+                  settings
+                </i>
+              </a>
+              <a
+                id="signOut-btn"
+              >
+                <i
+                  class="material-icons"
+                >
+                  exit_to_app
+                </i>
+              </a>
             </div>
           </div>
         </div>
       </menu>
     </div>
   </header>
+   
   <main
     class="tm-page-main"
   >
@@ -2910,7 +3083,9 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
         class="tm-page-header-text"
       >
         <!---->
+         
         <!---->
+         
         <div
           class="tm-page-header-body"
         >
@@ -2987,53 +3162,9 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
             />
              
           </div>
-           
-          <div
-            class="tm-tool-bar"
-          >
-            <a
-              class="back"
-              disabled="disabled"
-            >
-              <i
-                class="material-icons"
-              >
-                arrow_back
-              </i>
-            </a>
-             
-            <a
-              class="help"
-            >
-              <i
-                class="material-icons"
-              >
-                help_outline
-              </i>
-            </a>
-             
-            <router-link-stub
-              id="settings"
-              to="/preferences"
-            >
-              <i
-                class="material-icons"
-              >
-                settings
-              </i>
-            </router-link-stub>
-            <a
-              id="signOut-btn"
-            >
-              <i
-                class="material-icons"
-              >
-                exit_to_app
-              </i>
-            </a>
-          </div>
         </div>
       </div>
+       
       <menu
         class="tm-page-header-menu"
       >
@@ -3042,30 +3173,63 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
             <div
               class="tm-tool-bar"
             >
-              <div
-                class="tm-tool-bar-container"
+              <a
+                class="back"
               >
-                <div
-                  class="main"
+                <i
+                  class="material-icons"
                 >
-                  <router-link
-                    exact="exact"
-                    to="/staking/validators"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                  </router-link>
-                </div>
-              </div>
+                  arrow_back
+                </i>
+              </a>
+               
+              <a
+                class=""
+                href="#/staking/validators"
+              >
+                <i
+                  class="material-icons"
+                >
+                  arrow_back
+                </i>
+              </a>
+              <a
+                class="help"
+              >
+                <i
+                  class="material-icons"
+                >
+                  help_outline
+                </i>
+              </a>
+               
+              <a
+                class=""
+                href="#/preferences"
+                id="settings"
+              >
+                <i
+                  class="material-icons"
+                >
+                  settings
+                </i>
+              </a>
+              <a
+                id="signOut-btn"
+              >
+                <i
+                  class="material-icons"
+                >
+                  exit_to_app
+                </i>
+              </a>
             </div>
           </div>
         </div>
       </menu>
     </div>
   </header>
+   
   <main
     class="tm-page-main"
   >
