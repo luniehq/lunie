@@ -9,7 +9,24 @@
 
 <script>
 export default {
-  props: [`type`, `body`, `name`, `min`, `max`, `length`],
+  props: {
+    type: {
+      type: String,
+      required: true
+    },
+    min: {
+      type: Number,
+      default: null
+    },
+    max: {
+      type: Number,
+      default: null
+    },
+    length: {
+      type: Number,
+      default: null
+    }
+  },
   computed: {
     cssClass() {
       let value = `tm-form-msg sm`
@@ -66,7 +83,7 @@ export default {
           msg = `must be a valid URL (http:// required)`
           break
         case `bech32`:
-          msg = `is invalid (` + this.body + `)`
+          msg = `the provided address is invalid bech32`
           break
         default:
           msg = `must be valid`

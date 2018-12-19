@@ -3,7 +3,8 @@
     :color="color"
     :time="transaction.time"
     :block="transaction.height"
-    ><template v-if="propose">
+  >
+    <template v-if="propose">
       <div slot="caption">
         Submitted {{ tx.proposal_type.toLowerCase() }} proposal initial
         deposit&nbsp;<b>{{ prettify(tx.initial_deposit[0].amount) }}</b
@@ -11,21 +12,24 @@
       </div>
       <div slot="details">
         Title:&nbsp;<i>{{ tx.title }}</i>
-      </div> </template
-    ><template v-if="deposit">
+      </div>
+    </template>
+    <template v-if="deposit">
       <div slot="caption">
-        Deposited&nbsp;<template
-          ><b>{{ prettify(tx.amount[0].amount) }}</b
-          ><span>&nbsp;{{ tx.amount[0].denom }}s</span></template
-        >
+        Deposited&nbsp;
+        <template>
+          <b>{{ prettify(tx.amount[0].amount) }}</b>
+          <span>&nbsp;{{ tx.amount[0].denom }}s</span>
+        </template>
       </div>
       <div slot="details">
-        On&nbsp;<router-link :to="URL + '/' + tx.proposal_id"
-          >Proposal &#35;{{ tx.proposal_id }}</router-link
-        >
+        On&nbsp;
+        <router-link :to="URL + '/' + tx.proposal_id">
+          Proposal &#35;{{ tx.proposal_id }}
+        </router-link>
       </div>
-    </template></tm-li-transaction
-  >
+    </template>
+  </tm-li-transaction>
 </template>
 
 <script>
@@ -37,14 +41,17 @@ export default {
   name: `tm-li-gov-transaction`,
   components: { TmLiTransaction },
   props: {
-    transaction: Object,
+    transaction: {
+      type: Object,
+      required: true
+    },
     URL: {
       type: String,
-      default: ``
+      required: true
     },
     bondingDenom: {
       type: String,
-      default: `atom`
+      required: true
     }
   },
   computed: {

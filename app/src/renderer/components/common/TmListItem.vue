@@ -1,5 +1,5 @@
 <template>
-  <a v-if="dt &amp;&amp; href" :href="href" class="tm-li tm-li-link">
+  <a v-if="dt && href" :href="href" class="tm-li tm-li-link">
     <div class="tm-li-container">
       <div class="tm-li-thumb">
         <template v-if="icon"
@@ -41,11 +41,7 @@
       <div class="tm-li-input"><slot></slot></div>
     </div>
   </div>
-  <router-link
-    v-else-if="dt &amp;&amp; to &amp;&amp; !btn"
-    :to="to"
-    class="tm-li tm-li-link"
-  >
+  <router-link v-else-if="dt && to && !btn" :to="to" class="tm-li tm-li-link">
     <div class="tm-li-container">
       <div class="tm-li-thumb">
         <template v-if="icon"
@@ -69,7 +65,7 @@
       </div>
     </div>
   </router-link>
-  <router-link v-else-if="btn &amp;&amp; to" :to="to" class="tm-li tm-li-link">
+  <router-link v-else-if="btn && to" :to="to" class="tm-li tm-li-link">
     <div class="tm-li-container">
       <div class="tm-li-thumb">
         <template v-if="icon"
@@ -157,10 +153,7 @@
       </div>
     </div>
   </router-link>
-  <div
-    v-else-if="title &amp;&amp; btn &amp;&amp; !to"
-    class="tm-li tm-li-receive"
-  >
+  <div v-else-if="title && btn && !to" class="tm-li tm-li-receive">
     <div class="tm-li-container">
       <div class="tm-li-thumb">
         <template v-if="icon"
@@ -205,20 +198,52 @@ import TmBtn from "./TmBtn.vue"
 export default {
   name: `tm-list-item`,
   components: { TmBtn },
-  props: [
-    `type`,
-    `title`,
-    `subtitle`,
-    `image`,
-    `icon`,
-    `to`,
-    `dt`,
-    `dd`,
-    `href`,
-    `btn`,
-    `spin`,
-    `overflow`
-  ],
+  props: {
+    type: {
+      type: String,
+      required: true
+    },
+    title: {
+      type: String,
+      default: null
+    },
+    subtitle: {
+      type: String,
+      default: null
+    },
+    image: {
+      type: String,
+      default: null
+    },
+    icon: {
+      type: String,
+      default: null
+    },
+    to: {
+      type: String,
+      default: null
+    },
+    dt: {
+      type: String,
+      default: null
+    },
+    dd: {
+      type: String,
+      default: null
+    },
+    href: {
+      type: String,
+      default: null
+    },
+    btn: {
+      type: String,
+      default: null
+    },
+    spin: {
+      type: Boolean,
+      default: false
+    }
+  },
   computed: {
     spinClass() {
       if (this.spin) {

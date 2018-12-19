@@ -28,7 +28,20 @@ import moment from "moment"
 
 export default {
   name: `tm-li-transaction`,
-  props: [`color`, `time`, `block`],
+  props: {
+    color: {
+      type: String,
+      default: null
+    },
+    time: {
+      type: String,
+      default: null
+    },
+    block: {
+      type: String,
+      required: true
+    }
+  },
   computed: {
     date() {
       return moment(this.time).format(`h:mm a`)

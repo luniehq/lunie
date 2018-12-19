@@ -4,9 +4,9 @@
       <div class="tm-bar-discrete__edge"></div>
       <div
         v-for="(node, key) in nodes"
-        class="tm-bar-discrete__node"
         :key="key"
-        v-bind:class="classObject(key)"
+        :class="classObject(key)"
+        class="tm-bar-discrete__node"
         @click="clickFn(key)"
       ></div>
     </div>
@@ -15,8 +15,21 @@
 
 <script>
 export default {
-  name: "TmBarDiscrete",
-  props: ["nodes", "active", "click-fn"],
+  name: `TmBarDiscrete`,
+  props: {
+    nodes: {
+      type: Array,
+      required: true
+    },
+    active: {
+      type: Number,
+      default: 0
+    },
+    "click-fn": {
+      type: Function,
+      required: true
+    }
+  },
   methods: {
     classObject(key) {
       return {

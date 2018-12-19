@@ -1,5 +1,5 @@
 <template>
-  <form :class="cssClass" @submit.prevent.default="submit">
+  <form :class="cssClass" @submit.prevent="submit">
     <div class="tm-form-container">
       <slot name="overlay"></slot>
       <header v-if="hasHeader" class="tm-form-header">
@@ -20,7 +20,16 @@
 // Use :submit="onSubmit on the parent component and it'll save you headaches
 export default {
   name: `tm-form-struct`,
-  props: [`width`, `submit`],
+  props: {
+    width: {
+      type: String,
+      default: ``
+    },
+    submit: {
+      type: Function,
+      required: true
+    }
+  },
   computed: {
     cssClass() {
       let value = `tm-form`

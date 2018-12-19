@@ -49,7 +49,6 @@
               fields.address.trim().length > 0 &&
                 !$v.fields.address.bech32Validate
             "
-            :body="bech32error"
             name="Address"
             type="bech32"
           />

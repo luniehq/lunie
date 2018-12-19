@@ -2,8 +2,8 @@
   <div :class="cssClass">
     <span v-if="subLabel" class="tm-form-group__sub-label">{{ subLabel }}</span
     ><label
+      v-if="fieldId && fieldLabel"
       :for="fieldId"
-      v-if="fieldId &amp;&amp; fieldLabel"
       class="tm-form-group__label"
       >{{ fieldLabel }}</label
     >
@@ -14,7 +14,24 @@
 <script>
 export default {
   name: `tm-form-group`,
-  props: [`error`, `field-id`, `field-label`, `sub-label`],
+  props: {
+    error: {
+      type: Boolean,
+      default: false
+    },
+    "field-id": {
+      type: String,
+      default: null
+    },
+    "field-label": {
+      type: String,
+      default: null
+    },
+    "sub-label": {
+      type: String,
+      default: null
+    }
+  },
   computed: {
     cssClass() {
       let value = `tm-form-group`

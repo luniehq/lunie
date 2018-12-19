@@ -16,7 +16,16 @@ export default {
   components: {
     TmNotification
   },
-  props: [`notifications`, `theme`]
+  props: {
+    notifications: {
+      type: Array,
+      required: true
+    },
+    theme: {
+      type: String,
+      default: null
+    }
+  }
 }
 </script>
 

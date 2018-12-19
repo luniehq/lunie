@@ -25,7 +25,7 @@
         aria-hidden="true"
         >{{ icon }}</i
       ><img
-        v-if="!icon &amp;&amp; img"
+        v-if="!icon && img"
         :src="img"
         :class="'tm-btn__img'"
         aria-hidden="true"
@@ -37,17 +37,40 @@
 <script>
 export default {
   name: `TmBtn`,
-  props: [
-    `value`,
-    `icon`,
-    `icon-pos`,
-    `img`,
-    `type`,
-    `size`,
-    `theme`,
-    `to`,
-    `color`
-  ],
+  props: {
+    value: {
+      type: String,
+      required: true
+    },
+    type: {
+      type: String,
+      required: true
+    },
+    icon: {
+      type: String,
+      default: null
+    },
+    "icon-pos": {
+      type: String,
+      default: null
+    },
+    size: {
+      type: String,
+      default: null
+    },
+    theme: {
+      type: String,
+      default: null
+    },
+    to: {
+      type: String,
+      default: null
+    },
+    color: {
+      type: String,
+      default: null
+    }
+  },
   computed: {
     btnClass() {
       let value = `tm-btn__container`

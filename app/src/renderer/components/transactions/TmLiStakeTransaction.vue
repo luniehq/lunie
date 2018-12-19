@@ -73,15 +73,21 @@ export default {
   name: `TmLiStakeTransaction`,
   components: { TmLiTransaction, TmBtn },
   props: {
-    transaction: Object,
-    validators: Array,
+    transaction: {
+      type: Object,
+      required: true
+    },
+    validators: {
+      type: Array,
+      required: true
+    },
     URL: {
       type: String,
-      default: ``
+      required: true
     },
     bondingDenom: {
       type: String,
-      default: `atom`
+      required: true
     }
   },
   computed: {

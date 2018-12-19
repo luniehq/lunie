@@ -17,7 +17,24 @@
 <script>
 export default {
   name: `tm-data-msg`,
-  props: [`title`, `subtitle`, `icon`, `spin`],
+  props: {
+    title: {
+      type: String,
+      default: null
+    },
+    subtitle: {
+      type: String,
+      default: null
+    },
+    icon: {
+      type: String,
+      default: null
+    },
+    spin: {
+      type: Boolean,
+      default: false
+    }
+  },
   computed: {
     iconCssClass() {
       if (this.spin) {

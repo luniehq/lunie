@@ -18,7 +18,41 @@
 import moment from "moment"
 export default {
   name: `TmNotification`,
-  props: [`data`, `theme`],
+  props: {
+    data: {
+      type: {
+        type: {
+          type: String,
+          default: null
+        },
+        layout: {
+          type: String,
+          default: null
+        },
+        icon: {
+          type: String,
+          default: null
+        },
+        time: {
+          type: String,
+          default: null
+        },
+        title: {
+          type: String,
+          default: null
+        },
+        body: {
+          type: String,
+          required: true
+        }
+      },
+      required: true
+    },
+    theme: {
+      type: String,
+      default: null
+    }
+  },
   data: () => ({
     duration: 5000,
     active: true
@@ -39,7 +73,6 @@ export default {
   },
   methods: {
     deactivate() {
-      // console.log('destroying myself!')
       this.active = false
     },
     setDeactivation() {

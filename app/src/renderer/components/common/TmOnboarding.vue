@@ -9,7 +9,11 @@
         <div class="tm-session-main">
           <div class="tm-session-label">{{ activeValue }}</div>
           <img :src="activeImg" />
-          <tm-bar-discrete :nodes="nodes" :click-fn="go" :active="activeKey" />
+          <tm-bar-discrete
+            :nodes="nodes"
+            :click-fn="go"
+            :active="parseInt(activeKey)"
+          />
         </div>
         <div v-if="activeKey === nodes.length - 1" class="tm-session-footer">
           <tm-btn

@@ -13,6 +13,15 @@ import TmDataMsg from "./TmDataMsg.vue"
 export default {
   name: `tm-data-empty`,
   components: { TmDataMsg },
-  props: [`title`, `subtitle`]
+  props: {
+    title: {
+      type: String,
+      default: null
+    },
+    subtitle: {
+      type: String,
+      default: null
+    }
+  }
 }
 </script>

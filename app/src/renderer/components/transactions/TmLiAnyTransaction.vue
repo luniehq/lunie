@@ -44,22 +44,34 @@ export default {
     TmLiTransaction
   },
   props: {
-    transaction: Object,
-    address: String,
-    validators: Array,
+    transaction: {
+      type: Object,
+      required: true
+    },
+    address: {
+      type: String,
+      default: null
+    },
+    validators: {
+      type: Array,
+      required: true
+    },
     validatorsURL: {
       type: String,
-      default: ``
+      default: null
     },
     proposalsURL: {
       type: String,
-      default: ``
+      default: null
     },
     bondingDenom: {
       type: String,
-      default: `atom`
+      required: true
     },
-    unbonding_time: String
+    unbonding_time: {
+      type: String,
+      default: null
+    }
   },
   data: () => ({ colors }),
   computed: {

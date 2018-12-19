@@ -15,20 +15,19 @@
         hidden="hidden"
         >{{ selectPlaceholder }}</option
       >
-      <option
-        v-for="(option, index) in options"
-        v-if="options"
-        :key="index"
-        :value="option.value"
-        >{{ option.key }}</option
-      >
-      <option
-        v-for="i in countries"
-        v-else-if="type === 'countries'"
-        :value="i.value"
-        :key="i.key"
-        >{{ i.key }}</option
-      >
+      <template v-if="options">
+        <option
+          v-for="(option, index) in options"
+          :key="index"
+          :value="option.value"
+          >{{ option.key }}</option
+        >
+      </template>
+      <template v-else-if="type === 'countries'">
+        <option v-for="i in countries" :value="i.value" :key="i.key">{{
+          i.key
+        }}</option>
+      </template>
     </select>
     <div class="tm-field-select-addon">
       <i class="material-icons">arrow_drop_down</i>
@@ -87,19 +86,57 @@
 import countries from "./countries.json"
 export default {
   name: `tm-field`,
-  props: [
-    `placeholder`,
-    `type`,
-    `size`,
-    `value`,
-    `theme`,
-    `options`,
-    `change`,
-    `keyup`,
-    `keydown`,
-    `max`,
-    `min`
-  ],
+  props: {
+    placeholder: {
+      type: String,
+      default: null
+    },
+    type: {
+      type: String,
+      required: true
+    },
+    size: {
+      type: String,
+      default: null
+    },
+    theme: {
+      type: String,
+      default: null
+    },
+    options: {
+      type: Object,
+      default: () => ({
+        checked: {
+          type: Boolean,
+          default: false
+        },
+        unchecked: {
+          type: Boolean,
+          default: false
+        }
+      })
+    },
+    change: {
+      type: Function,
+      default: null
+    },
+    keyup: {
+      type: Function,
+      default: null
+    },
+    keydown: {
+      type: Function,
+      default: null
+    },
+    max: {
+      type: Number,
+      default: null
+    },
+    min: {
+      type: Number,
+      default: null
+    }
+  },
   data: () => ({
     countries: countries
   }),
