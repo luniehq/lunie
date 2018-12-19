@@ -1,7 +1,7 @@
-var glob = require(`glob`)
-var fs = require(`fs`)
-var pug = require(`pug`)
-var beautify_html = require(`js-beautify`).html
+let glob = require(`glob`)
+let fs = require(`fs`)
+let pug = require(`pug`)
+let beautify_html = require(`js-beautify`).html
 
 glob(`**/*.vue`, function(err, files) {
   if (err) {
@@ -23,7 +23,7 @@ glob(`**/*.vue`, function(err, files) {
           .join(`\n`)
       }
       try {
-        var html = pug.render(template)
+        let html = pug.render(template)
         let replaced = content.replace(
           templateRegExp,
           `<template>\n` +
