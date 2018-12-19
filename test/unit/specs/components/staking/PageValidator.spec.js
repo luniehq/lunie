@@ -156,7 +156,7 @@ describe(`PageValidator`, () => {
       ratio: 0.01
     })
     wrapper.update()
-    expect(wrapper.find(`#validator-profile__self-bond`).text()).toBe(`1.00 %`)
+    expect(wrapper.find(`#page-profile__self-bond`).text()).toBe(`1.00 %`)
   })
 
   it(`should show the validator status`, () => {
@@ -191,7 +191,7 @@ describe(`PageValidator`, () => {
   //     })
   //   ]
   //   wrapper.update()
-  //   expect(wrapper.find("#validator-profile__commission").classes()).toContain(
+  //   expect(wrapper.find("#page-profile__commission").classes()).toContain(
   //     "green"
   //   )
   //
@@ -201,7 +201,7 @@ describe(`PageValidator`, () => {
   //     })
   //   ]
   //   wrapper.update()
-  //   expect(wrapper.find("#validator-profile__commission").classes()).toContain(
+  //   expect(wrapper.find("#page-profile__commission").classes()).toContain(
   //     "yellow"
   //   )
   //
@@ -211,7 +211,7 @@ describe(`PageValidator`, () => {
   //     })
   //   ]
   //   wrapper.update()
-  //   expect(wrapper.find("#validator-profile__commission").classes()).toContain(
+  //   expect(wrapper.find("#page-profile__commission").classes()).toContain(
   //     "red"
   //   )
   //
@@ -222,7 +222,7 @@ describe(`PageValidator`, () => {
   //     })
   //   ]
   //   wrapper.update()
-  //   expect(wrapper.find("#validator-profile__power").classes()).toContain("red")
+  //   expect(wrapper.find("#page-profile__power").classes()).toContain("red")
   //
   //   store.state.delegates.delegates = [
   //     Object.assign({}, delegate, {
@@ -230,7 +230,7 @@ describe(`PageValidator`, () => {
   //     })
   //   ]
   //   wrapper.update()
-  //   expect(wrapper.find("#validator-profile__power").classes()).toContain(
+  //   expect(wrapper.find("#page-profile__power").classes()).toContain(
   //     "yellow"
   //   )
   //
@@ -240,7 +240,7 @@ describe(`PageValidator`, () => {
   //     })
   //   ]
   //   wrapper.update()
-  //   expect(wrapper.find("#validator-profile__power").classes()).toContain(
+  //   expect(wrapper.find("#page-profile__power").classes()).toContain(
   //     "green"
   //   )
   // })
@@ -253,7 +253,7 @@ describe(`PageValidator`, () => {
     ]
     wrapper.update()
     expect(wrapper.vm.status).toMatchSnapshot()
-    // expect(wrapper.find(".validator-profile__status").classes()).toContain(
+    // expect(wrapper.find(".page-profile__status").classes()).toContain(
     //   "yellow"
     // )
   })
@@ -266,7 +266,7 @@ describe(`PageValidator`, () => {
     ]
     wrapper.update()
     wrapper.vm.status = expect(wrapper.vm.status).toMatchSnapshot()
-    // expect(wrapper.find(".validator-profile__status").classes()).toContain(
+    // expect(wrapper.find(".page-profile__status").classes()).toContain(
     //   "red"
     // )
   })
