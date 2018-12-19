@@ -27,7 +27,7 @@
       </tm-part>
       <tm-part title="Transaction Details">
         <tm-form-group
-          :error="$v.fields.address.$invalid"
+          :error="$v.fields.address.$error && $v.fields.address.$invalid"
           field-id="send-address"
           field-label="Send To"
         >
@@ -146,8 +146,8 @@
       :recipient="fields.address"
       :denom="fields.denom"
       :connected="connected"
-      @approved="onApproved"
-      @canceled="onCancel"
+      @approved="onApproved()"
+      @canceled="onCancel()"
     />
   </tm-page>
 </template>

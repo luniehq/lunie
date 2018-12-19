@@ -92,8 +92,8 @@ export default {
       required: true
     },
     value: {
-      type: String,
-      required: true
+      type: [String, Number],
+      default: null
     },
     placeholder: {
       type: String,
@@ -133,11 +133,11 @@ export default {
       default: null
     },
     max: {
-      type: Number,
+      type: [String, Number], // for convenience you can provide a string
       default: null
     },
     min: {
-      type: Number,
+      type: [String, Number], // for convenience you can provide a string
       default: null
     }
   },

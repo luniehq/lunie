@@ -8,6 +8,7 @@ module.exports = {
     "^src/(.*)$": `<rootDir>/app/src/$1`,
     "^app/(.*)$": `<rootDir>/app/$1`,
     "^renderer/(.*)$": `<rootDir>/app/src/renderer/$1`,
+    "^assets/(.*)$": `<rootDir>/app/src/renderer/assets/$1`,
     "^common/(.*)$": `<rootDir>/app/src/renderer/components/common/$1`,
     "^transactions/(.*)$": `<rootDir>/app/src/renderer/components/transactions/$1`,
     "^govern/(.*)$": `<rootDir>/app/src/renderer/components/govern/$1`,

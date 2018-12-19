@@ -25,7 +25,7 @@
         aria-hidden="true"
         >{{ icon }}</i
       ><img
-        v-if="!icon && img"
+        v-else-if="img"
         :src="img"
         :class="'tm-btn__img'"
         aria-hidden="true"
@@ -51,6 +51,10 @@ export default {
       default: null
     },
     "icon-pos": {
+      type: String,
+      default: null
+    },
+    img: {
       type: String,
       default: null
     },

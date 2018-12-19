@@ -19,11 +19,11 @@ export default {
       default: null
     },
     min: {
-      type: Number,
+      type: [String, Number], // for convenience you can provide a string
       default: null
     },
     max: {
-      type: Number,
+      type: [String, Number], // for convenience you can provide a string
       default: null
     },
     length: {

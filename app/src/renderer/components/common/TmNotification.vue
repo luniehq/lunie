@@ -1,5 +1,5 @@
 <template>
-  <div v-if="active" :class="cssClass" @click="deactivate">
+  <div v-if="active" :class="cssClass" @click="deactivate()">
     <header>
       <div v-if="data.icon" class="icon">
         <i class="material-icons">{{ data.icon }}</i>
@@ -20,7 +20,8 @@ export default {
   name: `TmNotification`,
   props: {
     data: {
-      type: {
+      type: Object,
+      /* {
         type: {
           type: String,
           default: null
@@ -45,7 +46,7 @@ export default {
           type: String,
           required: true
         }
-      },
+      } */
       required: true
     },
     theme: {
@@ -87,7 +88,7 @@ export default {
         }
 
         // otherwise self destruct after duration
-        setTimeout(this.deactivate, activeDuration)
+        setTimeout(() => this.deactivate(), activeDuration)
       }
     }
   }

@@ -1,7 +1,10 @@
 <template>
   <div class="tm-li-tx">
     <div class="tm-li-tx__icon">
-      <img :style="{ borderColor: color }" src="~@/assets/cosmos-logo.png" />
+      <img
+        :style="{ borderColor: color }"
+        src="~assets/images/cosmos-logo.png"
+      />
     </div>
     <div class="tm-li-tx__content">
       <div class="tm-li-tx__content__left">
@@ -38,7 +41,7 @@ export default {
       default: null
     },
     block: {
-      type: String,
+      type: [String, Number], // for convenience we allow strings and numbers
       required: true
     }
   },
