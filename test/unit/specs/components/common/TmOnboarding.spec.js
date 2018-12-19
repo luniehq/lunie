@@ -1,6 +1,7 @@
 import TmOnboarding from "common/TmOnboarding.vue"
 import htmlBeautify from "html-beautify"
 import setup from "../../../helpers/vuex-setup"
+import { wrap } from "module"
 
 jest.mock(
   `../../../../../app/src/renderer/assets/images/onboarding/step-0.png`,
@@ -31,7 +32,6 @@ describe(`TmOnboarding`, () => {
     instance = mount(TmOnboarding)
     wrapper = instance.wrapper
     store = instance.store
-    wrapper.update()
   })
 
   it(`has the expected html structure 0`, () => {
@@ -41,25 +41,21 @@ describe(`TmOnboarding`, () => {
 
   it(`has the expected html structure 1`, () => {
     store.commit(`setOnboardingState`, `1`)
-    wrapper.update()
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
   it(`has the expected html structure 2`, () => {
     store.commit(`setOnboardingState`, `2`)
-    wrapper.update()
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
   it(`has the expected html structure 3`, () => {
     store.commit(`setOnboardingState`, `3`)
-    wrapper.update()
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
   it(`has the expected html structure 4`, () => {
     store.commit(`setOnboardingState`, `4`)
-    wrapper.update()
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 

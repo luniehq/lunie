@@ -24,7 +24,6 @@ describe(`TmBalance`, () => {
       }
     })
     wrapper = instance.wrapper
-    wrapper.update()
   })
 
   it(`has the expected html structure before adding props`, () => {

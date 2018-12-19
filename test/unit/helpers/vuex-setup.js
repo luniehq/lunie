@@ -1,10 +1,8 @@
 import Vuex from "vuex"
 import Vuelidate from "vuelidate"
-import VueRouter from "vue-router"
 import { shallow, mount, createLocalVue } from "@vue/test-utils"
 import { getCommits, getDispatches } from "./vuex-helpers.js"
 
-import routes from "renderer/routes"
 const Modules = require(`renderer/vuex/modules`).default
 const Getters = require(`renderer/vuex/getters`)
 
@@ -12,7 +10,6 @@ export default function vuexSetup() {
   const localVue = createLocalVue()
   localVue.use(Vuex)
   localVue.use(Vuelidate)
-  localVue.use(VueRouter)
   localVue.directive(`tooltip`, () => {})
   localVue.directive(`focus`, () => {})
 
@@ -39,27 +36,30 @@ export default function vuexSetup() {
     store.getCommits = getCommits.bind(this, store)
     store.getDispatches = getDispatches.bind(this, store)
 
-    let router = new VueRouter({ routes })
-    router.beforeEach((to, from, next) => {
-      if (from.fullPath !== to.fullPath && !store.getters.user.pauseHistory)
-        store.commit(`addHistory`, from.fullPath)
-      next()
-    })
-
-    // execute some preparation logic on the store or router before mounting
-    doBefore({ store, router })
+    doBefore({ store })
 
     return {
       node,
       store,
-      router,
       wrapper:
         componentConstructor &&
         testType(componentConstructor, {
           ...args,
           localVue,
           store,
-          router
+          stubs: Object.assign(
+            {
+              "router-link": true,
+              "router-view": true
+            },
+            args.stubs
+          ),
+          mocks: Object.assign(
+            {
+              $route: {}
+            },
+            args.mocks
+          )
         })
     }
   }

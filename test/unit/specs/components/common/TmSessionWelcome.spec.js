@@ -6,6 +6,8 @@ import LiSession from "common/TmLiSession"
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
+localVue.directive(`tooltip`, () => {})
+localVue.directive(`focus`, () => {})
 
 describe(`NISessionWelcome`, () => {
   let wrapper, store, getters
@@ -51,7 +53,6 @@ describe(`NISessionWelcome`, () => {
   describe(`with accounts`, () => {
     beforeAll(() => {
       accounts.push(`foo`, `bar`)
-      wrapper.update()
     })
 
     it(`should show sign-in link since we have accounts`, () => {

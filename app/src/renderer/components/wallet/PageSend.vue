@@ -189,7 +189,7 @@ export default {
   props: {
     denom: {
       type: String,
-      required: true
+      default: ``
     }
   },
   data: () => ({

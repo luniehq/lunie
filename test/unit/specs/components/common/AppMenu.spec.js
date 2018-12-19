@@ -14,7 +14,6 @@ describe(`AppMenu`, () => {
       account: `default`,
       password: `1234567890`
     })
-    wrapper.update()
   })
 
   it(`has the expected html structure`, () => {
@@ -29,7 +28,6 @@ describe(`AppMenu`, () => {
       connected: true
     })
 
-    wrapper.update()
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 

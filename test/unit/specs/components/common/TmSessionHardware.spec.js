@@ -7,6 +7,8 @@ import NISessionHardware from "common/TmSessionHardware"
 const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.use(Vuelidate)
+localVue.directive(`tooltip`, () => {})
+localVue.directive(`focus`, () => {})
 
 describe(`NISessionHardware`, () => {
   let wrapper, store
@@ -43,15 +45,12 @@ describe(`NISessionHardware`, () => {
 
   it(`should show a state indicator for different states of the hardware connection`, () => {
     wrapper.setData({ status: `connect` })
-    wrapper.update()
     expect(wrapper.html()).toMatchSnapshot()
 
     wrapper.setData({ status: `detect` })
-    wrapper.update()
     expect(wrapper.html()).toMatchSnapshot()
 
     wrapper.setData({ status: `success` })
-    wrapper.update()
     expect(wrapper.html()).toMatchSnapshot()
   })
 

@@ -5,6 +5,8 @@ import TmModalError from "common/TmModalError"
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
+localVue.directive(`tooltip`, () => {})
+localVue.directive(`focus`, () => {})
 
 jest.mock(`electron`, () => ({
   remote: {

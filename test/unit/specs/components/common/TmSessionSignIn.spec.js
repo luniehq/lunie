@@ -13,6 +13,11 @@ describe(`TmSessionSignIn`, () => {
     let test = instance.mount(TmSessionSignIn, {
       getters: {
         connected: () => true
+      },
+      mocks: {
+        $router: {
+          push: jest.fn()
+        }
       }
     })
     store = test.store
@@ -90,6 +95,7 @@ describe(`TmSessionSignIn`, () => {
     expect(wrapper.vm.fields.signInPassword).toBe(`1234567890`)
     expect(wrapper.html()).toContain(`1234567890`)
   })
+
   it(`should reset history after signin`, async () => {
     expect(store.state.user.history.length).toBe(0)
     wrapper.setData({
@@ -100,8 +106,7 @@ describe(`TmSessionSignIn`, () => {
     })
     await wrapper.vm.onSubmit()
     expect(store.state.user.history.length).toBe(0)
-    wrapper.vm.$router.push(`/staking`)
-    wrapper.update()
+    store.commit(`addHistory`, `/staking`)
     expect(store.state.user.history.length).toBe(1)
     store.dispatch(`signOut`)
     expect(store.state.user.history.length).toBe(0)

@@ -94,70 +94,58 @@ exports[`PageValidator has the expected html structure 1`] = `
             />
              
           </div>
+           
+          <div
+            class="tm-tool-bar"
+          >
+            <a
+              class="back"
+              disabled="disabled"
+            >
+              <i
+                class="material-icons"
+              >
+                arrow_back
+              </i>
+            </a>
+             
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+             
+            <router-link-stub
+              id="settings"
+              to="/preferences"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </router-link-stub>
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+          </div>
         </div>
       </div>
        
       <menu
         class="tm-page-header-menu"
       >
-        <div>
-          <div>
-            <div
-              class="tm-tool-bar"
-            >
-              <a
-                class="back"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </a>
-               
-              <a
-                class=""
-                href="#/staking/validators"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </a>
-              <a
-                class="help"
-              >
-                <i
-                  class="material-icons"
-                >
-                  help_outline
-                </i>
-              </a>
-               
-              <a
-                class=""
-                href="#/preferences"
-                id="settings"
-              >
-                <i
-                  class="material-icons"
-                >
-                  settings
-                </i>
-              </a>
-              <a
-                id="signOut-btn"
-              >
-                <i
-                  class="material-icons"
-                >
-                  exit_to_app
-                </i>
-              </a>
-            </div>
-          </div>
-        </div>
+        <div />
       </menu>
     </div>
   </header>
@@ -165,7 +153,7 @@ exports[`PageValidator has the expected html structure 1`] = `
   <main
     class="tm-page-main"
   >
-      
+     
     <div
       class="page-profile__header page-profile__section"
     >
@@ -503,7 +491,7 @@ exports[`PageValidator has the expected html structure 1`] = `
             <dd
               id="page-profile__self-bond"
             >
-              0 %
+              1.00 %
             </dd>
           </dl>
            
@@ -625,70 +613,58 @@ exports[`PageValidator shows a default avatar 1`] = `
             />
              
           </div>
+           
+          <div
+            class="tm-tool-bar"
+          >
+            <a
+              class="back"
+              disabled="disabled"
+            >
+              <i
+                class="material-icons"
+              >
+                arrow_back
+              </i>
+            </a>
+             
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+             
+            <router-link-stub
+              id="settings"
+              to="/preferences"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </router-link-stub>
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+          </div>
         </div>
       </div>
        
       <menu
         class="tm-page-header-menu"
       >
-        <div>
-          <div>
-            <div
-              class="tm-tool-bar"
-            >
-              <a
-                class="back"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </a>
-               
-              <a
-                class=""
-                href="#/staking/validators"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </a>
-              <a
-                class="help"
-              >
-                <i
-                  class="material-icons"
-                >
-                  help_outline
-                </i>
-              </a>
-               
-              <a
-                class=""
-                href="#/preferences"
-                id="settings"
-              >
-                <i
-                  class="material-icons"
-                >
-                  settings
-                </i>
-              </a>
-              <a
-                id="signOut-btn"
-              >
-                <i
-                  class="material-icons"
-                >
-                  exit_to_app
-                </i>
-              </a>
-            </div>
-          </div>
-        </div>
+        <div />
       </menu>
     </div>
   </header>
@@ -696,7 +672,7 @@ exports[`PageValidator shows a default avatar 1`] = `
   <main
     class="tm-page-main"
   >
-      
+     
     <div
       class="page-profile__header page-profile__section"
     >
@@ -1034,7 +1010,7 @@ exports[`PageValidator shows a default avatar 1`] = `
             <dd
               id="page-profile__self-bond"
             >
-              0.00 %
+              1.00 %
             </dd>
           </dl>
            
@@ -1158,70 +1134,58 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
             />
              
           </div>
+           
+          <div
+            class="tm-tool-bar"
+          >
+            <a
+              class="back"
+              disabled="disabled"
+            >
+              <i
+                class="material-icons"
+              >
+                arrow_back
+              </i>
+            </a>
+             
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+             
+            <router-link-stub
+              id="settings"
+              to="/preferences"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </router-link-stub>
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+          </div>
         </div>
       </div>
        
       <menu
         class="tm-page-header-menu"
       >
-        <div>
-          <div>
-            <div
-              class="tm-tool-bar"
-            >
-              <a
-                class="back"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </a>
-               
-              <a
-                class=""
-                href="#/staking/validators"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </a>
-              <a
-                class="help"
-              >
-                <i
-                  class="material-icons"
-                >
-                  help_outline
-                </i>
-              </a>
-               
-              <a
-                class=""
-                href="#/preferences"
-                id="settings"
-              >
-                <i
-                  class="material-icons"
-                >
-                  settings
-                </i>
-              </a>
-              <a
-                id="signOut-btn"
-              >
-                <i
-                  class="material-icons"
-                >
-                  exit_to_app
-                </i>
-              </a>
-            </div>
-          </div>
-        </div>
+        <div />
       </menu>
     </div>
   </header>
@@ -1229,7 +1193,7 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
   <main
     class="tm-page-main"
   >
-      
+     
     <div
       class="tm-data-msg"
     >
@@ -1413,70 +1377,58 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
             />
              
           </div>
+           
+          <div
+            class="tm-tool-bar"
+          >
+            <a
+              class="back"
+              disabled="disabled"
+            >
+              <i
+                class="material-icons"
+              >
+                arrow_back
+              </i>
+            </a>
+             
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+             
+            <router-link-stub
+              id="settings"
+              to="/preferences"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </router-link-stub>
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+          </div>
         </div>
       </div>
        
       <menu
         class="tm-page-header-menu"
       >
-        <div>
-          <div>
-            <div
-              class="tm-tool-bar"
-            >
-              <a
-                class="back"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </a>
-               
-              <a
-                class=""
-                href="#/staking/validators"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </a>
-              <a
-                class="help"
-              >
-                <i
-                  class="material-icons"
-                >
-                  help_outline
-                </i>
-              </a>
-               
-              <a
-                class=""
-                href="#/preferences"
-                id="settings"
-              >
-                <i
-                  class="material-icons"
-                >
-                  settings
-                </i>
-              </a>
-              <a
-                id="signOut-btn"
-              >
-                <i
-                  class="material-icons"
-                >
-                  exit_to_app
-                </i>
-              </a>
-            </div>
-          </div>
-        </div>
+        <div />
       </menu>
     </div>
   </header>
@@ -1484,7 +1436,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
   <main
     class="tm-page-main"
   >
-      
+     
     <div
       class="page-profile__header page-profile__section"
     >
@@ -1642,6 +1594,22 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
              
             <dd
               id="page-profile__uptime"
+            >
+              
+              65.52 %
+            
+            </dd>
+          </dl>
+           
+          <dl
+            class="colored_dl"
+          >
+            <dt>
+              Uptime
+            </dt>
+             
+            <dd
+              id="validator-profile__uptime"
             >
               
               n/a
@@ -2011,70 +1979,58 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
             />
              
           </div>
+           
+          <div
+            class="tm-tool-bar"
+          >
+            <a
+              class="back"
+              disabled="disabled"
+            >
+              <i
+                class="material-icons"
+              >
+                arrow_back
+              </i>
+            </a>
+             
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+             
+            <router-link-stub
+              id="settings"
+              to="/preferences"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </router-link-stub>
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+          </div>
         </div>
       </div>
        
       <menu
         class="tm-page-header-menu"
       >
-        <div>
-          <div>
-            <div
-              class="tm-tool-bar"
-            >
-              <a
-                class="back"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </a>
-               
-              <a
-                class=""
-                href="#/staking/validators"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </a>
-              <a
-                class="help"
-              >
-                <i
-                  class="material-icons"
-                >
-                  help_outline
-                </i>
-              </a>
-               
-              <a
-                class=""
-                href="#/preferences"
-                id="settings"
-              >
-                <i
-                  class="material-icons"
-                >
-                  settings
-                </i>
-              </a>
-              <a
-                id="signOut-btn"
-              >
-                <i
-                  class="material-icons"
-                >
-                  exit_to_app
-                </i>
-              </a>
-            </div>
-          </div>
-        </div>
+        <div />
       </menu>
     </div>
   </header>
@@ -2082,7 +2038,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
   <main
     class="tm-page-main"
   >
-      
+     
     <div
       class="page-profile__header page-profile__section"
     >
@@ -2240,6 +2196,22 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
              
             <dd
               id="page-profile__uptime"
+            >
+              
+              65.52 %
+            
+            </dd>
+          </dl>
+           
+          <dl
+            class="colored_dl"
+          >
+            <dt>
+              Uptime
+            </dt>
+             
+            <dd
+              id="validator-profile__uptime"
             >
               
               n/a
@@ -2542,70 +2514,58 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
             />
              
           </div>
+           
+          <div
+            class="tm-tool-bar"
+          >
+            <a
+              class="back"
+              disabled="disabled"
+            >
+              <i
+                class="material-icons"
+              >
+                arrow_back
+              </i>
+            </a>
+             
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+             
+            <router-link-stub
+              id="settings"
+              to="/preferences"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </router-link-stub>
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+          </div>
         </div>
       </div>
        
       <menu
         class="tm-page-header-menu"
       >
-        <div>
-          <div>
-            <div
-              class="tm-tool-bar"
-            >
-              <a
-                class="back"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </a>
-               
-              <a
-                class=""
-                href="#/staking/validators"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </a>
-              <a
-                class="help"
-              >
-                <i
-                  class="material-icons"
-                >
-                  help_outline
-                </i>
-              </a>
-               
-              <a
-                class=""
-                href="#/preferences"
-                id="settings"
-              >
-                <i
-                  class="material-icons"
-                >
-                  settings
-                </i>
-              </a>
-              <a
-                id="signOut-btn"
-              >
-                <i
-                  class="material-icons"
-                >
-                  exit_to_app
-                </i>
-              </a>
-            </div>
-          </div>
-        </div>
+        <div />
       </menu>
     </div>
   </header>
@@ -2613,7 +2573,7 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
   <main
     class="tm-page-main"
   >
-      
+     
     <div
       class="page-profile__header page-profile__section"
     >
@@ -2771,6 +2731,22 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
              
             <dd
               id="page-profile__uptime"
+            >
+              
+              65.52 %
+            
+            </dd>
+          </dl>
+           
+          <dl
+            class="colored_dl"
+          >
+            <dt>
+              Uptime
+            </dt>
+             
+            <dd
+              id="validator-profile__uptime"
             >
               
               n/a
@@ -3140,70 +3116,58 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
             />
              
           </div>
+           
+          <div
+            class="tm-tool-bar"
+          >
+            <a
+              class="back"
+              disabled="disabled"
+            >
+              <i
+                class="material-icons"
+              >
+                arrow_back
+              </i>
+            </a>
+             
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+             
+            <router-link-stub
+              id="settings"
+              to="/preferences"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </router-link-stub>
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+          </div>
         </div>
       </div>
        
       <menu
         class="tm-page-header-menu"
       >
-        <div>
-          <div>
-            <div
-              class="tm-tool-bar"
-            >
-              <a
-                class="back"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </a>
-               
-              <a
-                class=""
-                href="#/staking/validators"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </a>
-              <a
-                class="help"
-              >
-                <i
-                  class="material-icons"
-                >
-                  help_outline
-                </i>
-              </a>
-               
-              <a
-                class=""
-                href="#/preferences"
-                id="settings"
-              >
-                <i
-                  class="material-icons"
-                >
-                  settings
-                </i>
-              </a>
-              <a
-                id="signOut-btn"
-              >
-                <i
-                  class="material-icons"
-                >
-                  exit_to_app
-                </i>
-              </a>
-            </div>
-          </div>
-        </div>
+        <div />
       </menu>
     </div>
   </header>
@@ -3211,7 +3175,7 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
   <main
     class="tm-page-main"
   >
-      
+     
     <div
       class="page-profile__header page-profile__section"
     >
@@ -3369,6 +3333,22 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
              
             <dd
               id="page-profile__uptime"
+            >
+              
+              65.52 %
+            
+            </dd>
+          </dl>
+           
+          <dl
+            class="colored_dl"
+          >
+            <dt>
+              Uptime
+            </dt>
+             
+            <dd
+              id="validator-profile__uptime"
             >
               
               n/a

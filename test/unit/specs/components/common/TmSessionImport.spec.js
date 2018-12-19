@@ -8,6 +8,8 @@ const seed = `goose toward escape engine wheel board help torch avocado educate 
 const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.use(Vuelidate)
+localVue.directive(`tooltip`, () => {})
+localVue.directive(`focus`, () => {})
 
 describe(`TmSessionImport`, () => {
   let wrapper, store

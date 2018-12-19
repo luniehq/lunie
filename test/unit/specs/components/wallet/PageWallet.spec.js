@@ -7,9 +7,9 @@ describe(`PageWallet`, () => {
   beforeEach(async () => {
     let instance = mount(PageWallet, {
       stubs: {
-        "modal-search": `<modal-search />`,
-        "tm-data-connecting": `<tm-data-connecting />`,
-        "tm-data-loading": `<tm-data-loading />`
+        "modal-search": true,
+        "tm-data-connecting": true,
+        "tm-data-loading": true
       },
       doBefore: ({ store }) => {
         store.commit(`setConnected`, true)
@@ -23,17 +23,9 @@ describe(`PageWallet`, () => {
       password: `1234567890`
     })
     store.commit(`setSearchQuery`, [`balances`, ``])
-
-    wrapper.update()
   })
 
   it(`has the expected html structure`, async () => {
-    // after importing the @tendermint/ui components from modules
-    // the perfect scroll plugin needs a $nextTick and a wrapper.update
-    // to work properly in the tests (snapshots weren't matching)
-    // this has occured across multiple tests
-    await wrapper.vm.$nextTick()
-    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -48,12 +40,6 @@ describe(`PageWallet`, () => {
   it(`should filter the balances`, async () => {
     store.commit(`setSearchVisible`, [`balances`, true])
     store.commit(`setSearchQuery`, [`balances`, `stake`])
-    // after importing the @tendermint/ui components from modules
-    // the perfect scroll plugin needs a $nextTick and a wrapper.update
-    // to work properly in the tests (snapshots weren't matching)
-    // this has occured across multiple tests
-    await wrapper.vm.$nextTick()
-    wrapper.update()
     expect(wrapper.vm.filteredBalances.map(x => x.denom)).toEqual([`STAKE`])
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
@@ -77,7 +63,6 @@ describe(`PageWallet`, () => {
 
   it(`should show the n/a message if there are no denoms`, () => {
     store.commit(`setWalletBalances`, [])
-    wrapper.update()
     expect(wrapper.find(`#account_empty_msg`).exists()).toBeTruthy()
   })
 
@@ -94,14 +79,12 @@ describe(`PageWallet`, () => {
 
   it(`should not show search when there's nothing to search`, () => {
     store.commit(`setWalletBalances`, [])
-    wrapper.update()
     expect(wrapper.vm.setSearch()).toEqual(false)
   })
 
   it(`should show a message when still connecting`, () => {
     store.state.wallet.loaded = false
     store.state.connection.connected = false
-    wrapper.update()
     expect(wrapper.exists(`tm-data-connecting`)).toBe(true)
   })
 
@@ -109,7 +92,6 @@ describe(`PageWallet`, () => {
     store.state.wallet.loaded = false
     store.state.wallet.loading = false
     store.state.connection.connected = true
-    wrapper.update()
     expect(wrapper.exists(`tm-data-loading`)).toBe(true)
   })
 })

@@ -42,15 +42,12 @@ export default ({ node }) => {
     initializeWallet({ commit, dispatch }, address) {
       commit(`setWalletAddress`, address)
       dispatch(`loadDenoms`)
-      dispatch(`queryWalletState`)
+      dispatch(`queryWalletBalances`)
       dispatch(`walletSubscribe`)
     },
     resetSessionData({ rootState }) {
       // clear previous account state
       rootState.wallet = JSON.parse(JSON.stringify(emptyState))
-    },
-    queryWalletState({ dispatch }) {
-      dispatch(`queryWalletBalances`)
     },
     async queryWalletBalances({ state, rootState, commit }) {
       if (!state.address) return

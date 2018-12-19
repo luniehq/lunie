@@ -7,6 +7,8 @@ import TmSessionAccountDelete from "common/TmSessionAccountDelete"
 const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.use(Vuelidate)
+localVue.directive(`tooltip`, () => {})
+localVue.directive(`focus`, () => {})
 
 describe(`TmSessionAccountDelete`, () => {
   let wrapper, store
@@ -19,7 +21,6 @@ describe(`TmSessionAccountDelete`, () => {
     })
     store.commit = jest.fn()
     store.dispatch = jest.fn(async () => true)
-    wrapper.update()
   })
 
   it(`has the expected html structure`, () => {

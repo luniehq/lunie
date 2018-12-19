@@ -33,7 +33,10 @@ exports[`TableValidators has the expected html structure 1`] = `
             <td class=\\"data-table__row__info\\">
                <img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"data-table__row__info__image data-table__row__info__image--no-img\\">
                <div class=\\"data-table__row__info__container\\">
-                  <span class=\\"data-table__row__info__container__status yellow\\"></span><a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au\\" class=\\"data-table__row__info__container__name li-validator-validator \\">good_greg</a>
+                  <span class=\\"data-table__row__info__container__status yellow\\"></span>
+                  <router-link-stub to=\\"[object Object]\\" class=\\"data-table__row__info__container__name\\">
+                     good_greg
+                  </router-link-stub>
                   <div class=\\"data-table__row__info__container__description\\">
                      <div class=\\"short-bech32\\">
                         <div id=\\"address\\" class=\\"address\\">
@@ -69,7 +72,10 @@ exports[`TableValidators has the expected html structure 1`] = `
          <td class=\\"data-table__row__info\\">
             <img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"data-table__row__info__image data-table__row__info__image--no-img\\">
             <div class=\\"data-table__row__info__container\\">
-               <span class=\\"data-table__row__info__container__status red\\"></span><a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n\\" class=\\"data-table__row__info__container__name li-validator-validator \\">herr_schmidt_revoked</a>
+               <span class=\\"data-table__row__info__container__status red\\"></span>
+               <router-link-stub to=\\"[object Object]\\" class=\\"data-table__row__info__container__name\\">
+                  herr_schmidt_revoked
+               </router-link-stub>
                <div class=\\"data-table__row__info__container__description\\">
                   <div class=\\"short-bech32\\">
                      <div id=\\"address\\" class=\\"address\\">
@@ -105,7 +111,10 @@ exports[`TableValidators has the expected html structure 1`] = `
          <td class=\\"data-table__row__info\\">
             <img src=\\"~assets/images/validator-icon.svg\\" width=\\"48\\" height=\\"48\\" class=\\"data-table__row__info__image data-table__row__info__image--no-img\\">
             <div class=\\"data-table__row__info__container\\">
-               <span class=\\"data-table__row__info__container__status yellow\\"></span><a href=\\"#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw\\" class=\\"data-table__row__info__container__name li-validator-validator \\">mr_mounty</a>
+               <span class=\\"data-table__row__info__container__status yellow\\"></span>
+               <router-link-stub to=\\"[object Object]\\" class=\\"data-table__row__info__container__name\\">
+                  mr_mounty
+               </router-link-stub>
                <div class=\\"data-table__row__info__container__description\\">
                   <div class=\\"short-bech32\\">
                      <div id=\\"address\\" class=\\"address\\">
@@ -238,12 +247,12 @@ exports[`TableValidators should filter the delegates 1`] = `
               class="data-table__row__info__container__status yellow"
             />
              
-            <a
+            <router-link-stub
               class="data-table__row__info__container__name li-validator-validator "
-              href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+              to="[object Object]"
             >
               mr_mounty
-            </a>
+            </router-link-stub>
              
             <div
               class="data-table__row__info__container__description"

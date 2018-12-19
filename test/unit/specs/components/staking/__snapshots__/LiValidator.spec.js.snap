@@ -21,12 +21,12 @@ exports[`LiValidator has the expected html structure 1`] = `
         class="data-table__row__info__container__status green"
       />
        
-      <a
+      <router-link-stub
         class="data-table__row__info__container__name"
-        href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+        to="[object Object]"
       >
         herr_schmidt_revoked
-      </a>
+      </router-link-stub>
        
       <div
         class="data-table__row__info__container__description"

@@ -10,7 +10,6 @@ describe(`ToolBar`, () => {
     router = instance.router
     wrapper = instance.wrapper
     store = instance.store
-    wrapper.update()
   })
 
   it(`has the expected html structure`, () => {
@@ -19,29 +18,33 @@ describe(`ToolBar`, () => {
 
   it(`sets the helper modal`, () => {
     wrapper.vm.enableModalHelp()
-    wrapper.update()
     expect(store.state.config.modals.help.active).toBe(true)
   })
 
   it(`call dispatch to sign the user out`, () => {
     wrapper.vm.signOut()
-    wrapper.update()
     expect(store.dispatch).toHaveBeenCalledWith(`signOut`)
   })
 
   it(`goes back correctly and updates the state`, () => {
-    expect(router.currentRoute.fullPath).toBe(`/`)
+    // this mocks the values that would come from the store through `getters.js`
+    let getterValues = {
+      lastPage: `/staking`,
+      $router: {
+        push: jest.fn((route, cb) => cb())
+      },
+      pauseHistory: jest.fn(),
+      popHistory: jest.fn()
+    }
 
-    router.push(`/staking`)
-    expect(store.state.user.history.length).toBe(1)
-    expect(router.currentRoute.fullPath).toBe(`/staking/my-delegations/`)
-
-    wrapper.vm.back()
-    expect(store.state.user.history.length).toBe(0)
-    expect(router.currentRoute.fullPath).toBe(`/`)
-
-    wrapper.vm.back()
-    expect(store.state.user.history.length).toBe(0)
-    expect(router.currentRoute.fullPath).toBe(`/`)
+    ToolBar.methods.back.call({
+      ...getterValues
+    })
+    expect(getterValues.$router.push).toHaveBeenCalledWith(
+      `/staking`,
+      expect.any(Function)
+    )
+    expect(getterValues.pauseHistory).toHaveBeenCalled()
+    expect(getterValues.popHistory).toHaveBeenCalled()
   })
 })

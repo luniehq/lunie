@@ -8,18 +8,15 @@ describe(`AppHeader`, () => {
 
   beforeEach(() => {
     instance = mount(AppHeader, {
-      stubs: { "app-menu": `<app-menu />` }
+      stubs: { "app-menu": true }
     })
     wrapper = instance.wrapper
     store = instance.store
-
-    wrapper.update()
   })
 
   it(`has the expected html structure 1`, () => {
     store.commit(`setConfigDesktop`, true)
     store.commit(`setActiveMenu`, `app`)
-    wrapper.update()
 
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
@@ -27,7 +24,6 @@ describe(`AppHeader`, () => {
   it(`has the expected html structure 2`, () => {
     store.commit(`setConfigDesktop`, false)
     store.commit(`setActiveMenu`, `app`)
-    wrapper.update()
 
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
@@ -35,7 +31,6 @@ describe(`AppHeader`, () => {
   it(`has the expected html structure 3`, () => {
     store.commit(`setConfigDesktop`, true)
     store.commit(`setActiveMenu`, ``)
-    wrapper.update()
 
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
@@ -43,7 +38,6 @@ describe(`AppHeader`, () => {
   it(`has the expected html structure 4`, () => {
     store.commit(`setConfigDesktop`, false)
     store.commit(`setActiveMenu`, ``)
-    wrapper.update()
 
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
@@ -51,7 +45,6 @@ describe(`AppHeader`, () => {
   it(`should close the app menu`, () => {
     store.commit(`setConfigDesktop`, false)
     store.commit(`setActiveMenu`, `app`)
-    wrapper.update()
 
     wrapper
       .findAll(`.header-item`)
@@ -63,7 +56,6 @@ describe(`AppHeader`, () => {
   it(`should open the app menu on mobile`, () => {
     store.commit(`setConfigDesktop`, false)
     store.commit(`setActiveMenu`, `notapp`)
-    wrapper.update()
 
     wrapper
       .findAll(`.header-item`)
@@ -92,7 +84,6 @@ describe(`AppHeader`, () => {
 
   it(`handles light theme`, () => {
     store.commit(`setTheme`, `light`)
-    wrapper.update()
     expect(wrapper.find(`#logo-black`).exists()).toBeTruthy()
   })
 })

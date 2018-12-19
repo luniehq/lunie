@@ -1,82 +1,89 @@
-import setup from "../../helpers/vuex-setup"
+import walletModule from "modules/wallet.js"
 
-let instance = setup()
 const mockRootState = {
+  config: { bondingDenom: `STAKE` },
   connection: {
     connected: true
   }
 }
 
 describe(`Module: Wallet`, () => {
-  let store, node
+  let module
 
   beforeEach(() => {
-    let test = instance.shallow(null)
-    store = test.store
-    node = test.node
-
-    store.commit(`setConnected`, true)
+    module = walletModule({ node: {} })
   })
 
   // DEFAULT
 
   it(`should have an empty state by default`, () => {
-    expect(store.state.wallet).toMatchSnapshot()
+    let { state } = module
+    expect(state).toMatchSnapshot()
   })
 
   // MUTATIONS
 
   it(`should set wallet balances `, () => {
+    let { state, mutations } = module
     const balances = [{ denom: `leetcoin`, amount: `1337` }]
-    store.commit(`setWalletBalances`, balances)
-    expect(store.state.wallet.balances).toBe(balances)
+    mutations.setWalletBalances(state, balances)
+    expect(state.balances).toBe(balances)
   })
 
   it(`should set wallet key and clear balance `, () => {
+    let { state, mutations } = module
     const address = `tb1v9jxgun9wdenzv3nu98g8r`
-    store.commit(`setWalletAddress`, address)
-    expect(store.state.wallet.address).toBe(address)
-    expect(store.state.wallet.balances).toEqual([])
+    mutations.setWalletAddress(state, address)
+    expect(state.address).toBe(address)
+    expect(state.balances).toEqual([])
   })
 
   it(`should set denoms`, () => {
+    let { state, mutations } = module
     const denoms = [`acoin`, `bcoin`, `ccoin`]
-    store.commit(`setDenoms`, denoms)
-    expect(store.state.wallet.denoms).toBe(denoms)
+    mutations.setDenoms(state, denoms)
+    expect(state.denoms).toBe(denoms)
   })
 
   // ACTIONS
 
   it(`should initialize wallet`, async () => {
+    let { state, actions } = module
     const address = `tb1mjt6dcdru8lgdz64h2fu0lrzvd5zv8sfcvkv2l`
-    await store.dispatch(`initializeWallet`, address)
-    expect(store.state.wallet.address).toEqual(address)
-  })
-
-  it(`should query wallet state`, async () => {
-    store.dispatch(`queryWalletState`)
-    expect(store.state.wallet.balances).toEqual([])
-    expect(store.state.transactions.wallet).toEqual([])
-    expect(store.state.send.nonce).toBe(`0`)
+    const commit = jest.fn()
+    const dispatch = jest.fn()
+    await actions.initializeWallet({ commit, dispatch }, address)
+    expect(state.address).toEqual(address)
   })
 
   it(`should query wallet balances`, async () => {
-    store.commit(`setWalletAddress`, `abcd`)
-    node.queryAccount = () =>
-      Promise.resolve({
-        coins: [
-          {
-            denom: `fermion`,
-            amount: 42
-          }
-        ]
-      })
-    await store.dispatch(`queryWalletBalances`)
-    expect(store.state.wallet.balances).toEqual([
+    const coins = [
       {
-        amount: 42,
-        denom: `fermion`
+        denom: `fermion`,
+        amount: 42
       }
+    ]
+    module = walletModule({
+      node: {
+        queryAccount: () =>
+          Promise.resolve({
+            coins,
+            sequence: `1`,
+            account_number: `2`
+          })
+      }
+    })
+    const { state, actions } = module
+    const commit = jest.fn()
+    await actions.queryWalletBalances({
+      state,
+      rootState: mockRootState,
+      commit
+    })
+    expect(commit).toHaveBeenCalledWith([
+      [`setNonce`, `1`],
+      [`setAccountNumber`, `2`],
+      [`setWalletBalances`, coins]
     ])
   })
 
@@ -102,7 +109,6 @@ describe(`Module: Wallet`, () => {
           }
         })
     }))
-    let walletModule = require(`renderer/vuex/modules/wallet.js`).default
     let { actions } = walletModule({})
     let commit = jest.fn()
     await actions.loadDenoms({ commit, rootState: mockRootState })
@@ -115,7 +121,6 @@ describe(`Module: Wallet`, () => {
     jest.doMock(`fs-extra`, () => ({
       pathExists: () => Promise.reject(`didn't found`)
     }))
-    let walletModule = require(`renderer/vuex/modules/wallet.js`).default
     let { actions, state } = walletModule({})
     let commit = jest.fn()
     await actions.loadDenoms({ commit, state, rootState: mockRootState }, 2)
@@ -158,7 +163,9 @@ describe(`Module: Wallet`, () => {
   it(`should query wallet data at specified height`, async done => {
     jest.useFakeTimers()
     let height = store.state.connection.lastHeader.height
-    store.dispatch(`queryWalletStateAfterHeight`, height + 1).then(() => done())
+    await store
+      .dispatch(`queryWalletStateAfterHeight`, height + 1)
+      .then(() => done())
     store.state.connection.lastHeader.height++
     jest.runAllTimers()
     jest.useRealTimers()
@@ -167,7 +174,7 @@ describe(`Module: Wallet`, () => {
   it(`should not error when subscribing with no address`, async () => {
     store.state.wallet.address = null
     store.state.wallet.decodedAddress = null
-    store.dispatch(`walletSubscribe`)
+    await store.dispatch(`walletSubscribe`)
   })
 
   it(`should handle subscription errors`, async () => {
@@ -186,14 +193,14 @@ describe(`Module: Wallet`, () => {
       cb(Error(`foo`))
     })
 
-    store.dispatch(`walletSubscribe`)
+    await store.dispatch(`walletSubscribe`)
   })
 
   it(`should query wallet on subscription txs`, async () => {
     store.state.wallet.address = `x`
     store.state.wallet.decodedAddress = `x`
 
-    await new Promise(resolve => {
+    await new Promise(async resolve => {
       node.queryAccount = jest.fn(() => {
         if (node.queryAccount.mock.calls.length < 2) return
         resolve()
@@ -204,7 +211,7 @@ describe(`Module: Wallet`, () => {
         cb(null, { data: { value: { TxResult: { height: -1 } } } })
       })
 
-      store.dispatch(`walletSubscribe`)
+      await store.dispatch(`walletSubscribe`)
     })
   })
 
@@ -213,13 +220,13 @@ describe(`Module: Wallet`, () => {
     store.state.wallet.address = `x`
     store.state.wallet.decodedAddress = `x`
 
-    await new Promise(resolve => {
+    await new Promise(async resolve => {
       node.queryAccount = jest.fn(() => {
         if (node.queryAccount.mock.calls.length < 2) return
         resolve()
       })
 
-      store.dispatch(`walletSubscribe`)
+      await store.dispatch(`walletSubscribe`)
       jest.runAllTimers()
     })
   })

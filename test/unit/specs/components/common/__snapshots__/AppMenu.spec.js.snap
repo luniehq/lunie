@@ -3,24 +3,31 @@
 exports[`AppMenu has the expected html structure 1`] = `
 "<menu class=\\"app-menu\\">
    <div class=\\"app-menu-main\\">
-      <a href=\\"#/\\" class=\\"app-menu-item router-link-exact-active router-link-active\\" id=\\"app-menu__wallet\\" title=\\"Wallet\\">
-      <h2 class=\\"app-menu-title\\">
-         Wallet
-      </h2>
-      <i class=\\"material-icons\\">chevron_right</i></a><a href=\\"#/transactions\\" class=\\"app-menu-item\\" id=\\"app-menu__transactions\\" title=\\"Transactions\\">
-      <h2 class=\\"app-menu-title\\">
-         Transactions
-      </h2>
-      <i class=\\"material-icons\\">chevron_right</i></a><a href=\\"#/staking\\" class=\\"app-menu-item\\" id=\\"app-menu__staking\\" title=\\"Staking\\">
-      <h2 class=\\"app-menu-title\\">
-         Staking
-      </h2>
-      <i class=\\"material-icons\\">chevron_right</i></a><a href=\\"#/governance\\" class=\\"app-menu-item\\" id=\\"app-menu__proposals\\" title=\\"Governance\\">
-      <h2 class=\\"app-menu-title\\">
-         Governance
-      </h2>
-      <i class=\\"material-icons\\">chevron_right</i></a>
-   </div>
+      <router-link-stub id=\\"app-menu__wallet\\" to=\\"/\\" exact=\\"exact\\" title=\\"Wallet\\" class=\\"app-menu-item\\">
+         <h2 class=\\"app-menu-title\\">
+            Wallet
+         </h2>
+         <i class=\\"material-icons\\">chevron_right</i>
+      </router-link-stub>
+      <router-link-stub id=\\"app-menu__transactions\\" to=\\"/transactions\\" exact=\\"exact\\" title=\\"Transactions\\" class=\\"app-menu-item\\">
+         <h2 class=\\"app-menu-title\\">
+            Transactions
+         </h2>
+         <i class=\\"material-icons\\">chevron_right</i>
+      </router-link-stub>
+      <router-link-stub id=\\"app-menu__staking\\" to=\\"/staking\\" title=\\"Staking\\" class=\\"app-menu-item\\">
+         <h2 class=\\"app-menu-title\\">
+            Staking
+         </h2>
+         <i class=\\"material-icons\\">chevron_right</i>
+      </router-link-stub>
+      <router-link-stub id=\\"app-menu__proposals\\" to=\\"/governance\\" title=\\"Governance\\" class=\\"app-menu-item\\">
+         <h2 class=\\"app-menu-title\\">
+            Governance
+         </h2>
+         <i class=\\"material-icons\\">chevron_right</i>
+      </router-link-stub>
+</div>
    <div id=\\"tm-connected-network\\" class=\\"tm-connected-network\\">
       <div class=\\"tm-connected-network__connection\\">
          <div id=\\"tm-connected-network__icon\\" class=\\"tm-connected-network__icon\\">
