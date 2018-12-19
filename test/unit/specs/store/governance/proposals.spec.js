@@ -1,6 +1,6 @@
 import proposalsModule from "renderer/vuex/modules/governance/proposals.js"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
-let proposals = lcdClientMock.state.proposals
+let { proposals, tallies } = lcdClientMock.state
 let addresses = lcdClientMock.addresses
 
 let mockRootState = {
@@ -40,10 +40,11 @@ describe(`Module: Proposals`, () => {
   it(`adds a tally result to a proposal already in state`, () => {
     let { mutations, state } = module
     mutations.setProposal(state, proposals[`2`])
-    mutations.setProposalTally(state, `2`, proposals[`1`].tally_result)
-    expect(state.proposals[`2`].tally_result).toEqual(
-      proposals[`1`].tally_result
-    )
+    mutations.setProposalTally(state, {
+      proposal_id: `2`,
+      tally_result: tallies[`1`]
+    })
+    expect(state.tallies[`2`]).toEqual(tallies[`1`])
   })
 
   it(`replaces existing proposal with same id`, () => {
@@ -74,7 +75,9 @@ describe(`Module: Proposals`, () => {
               Object.values(proposals).map(proposal => ({
                 value: proposal
               }))
-            )
+            ),
+          queryProposalTally: proposal_id =>
+            Promise.resolve(tallies[proposal_id])
         }
       })
 
@@ -88,12 +91,27 @@ describe(`Module: Proposals`, () => {
         dispatch,
         rootState: mockRootState
       })
-      expect(commit.mock.calls).toEqual([
-        [`setProposal`, proposals[`1`]],
-        [`setProposal`, proposals[`2`]],
-        [`setProposal`, proposals[`5`]],
-        [`setProposal`, proposals[`6`]]
-      ])
+      expect(commit.mock.calls).toEqual(
+        expect.arrayContaining([
+          [`setProposal`, proposals[`1`]],
+          [
+            `setProposalTally`,
+            { proposal_id: `1`, tally_result: tallies[`1`] }
+          ],
+          [`setProposal`, proposals[`2`]],
+          [
+            `setProposalTally`,
+            { proposal_id: `2`, tally_result: tallies[`2`] }
+          ],
+          [`setProposal`, proposals[`5`]],
+          [
+            `setProposalTally`,
+            { proposal_id: `5`, tally_result: tallies[`5`] }
+          ],
+          [`setProposal`, proposals[`6`]],
+          [`setProposalTally`, { proposal_id: `6`, tally_result: tallies[`6`] }]
+        ])
+      )
     })
 
     it(`throws and stores error if the request fails`, async () => {
@@ -117,7 +135,9 @@ describe(`Module: Proposals`, () => {
       module = proposalsModule({
         node: {
           queryProposal: proposal_id =>
-            Promise.resolve({ value: proposals[proposal_id] })
+            Promise.resolve({ value: proposals[proposal_id] }),
+          queryProposalTally: proposal_id =>
+            Promise.resolve(tallies[proposal_id])
         }
       })
 
@@ -129,7 +149,10 @@ describe(`Module: Proposals`, () => {
         { state, commit, dispatch, rootState: mockRootState },
         `1`
       )
-      expect(commit.mock.calls).toEqual([[`setProposal`, proposals[`1`]]])
+      expect(commit.mock.calls).toEqual([
+        [`setProposal`, proposals[`1`]],
+        [`setProposalTally`, { proposal_id: `1`, tally_result: tallies[`1`] }]
+      ])
     })
 
     it(`throws and stores error if the request fails`, async () => {
