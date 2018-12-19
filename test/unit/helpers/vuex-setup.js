@@ -52,6 +52,7 @@ export default function vuexSetup() {
     return {
       node,
       store,
+      router,
       wrapper:
         componentConstructor &&
         testType(componentConstructor, {
