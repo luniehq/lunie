@@ -58,32 +58,32 @@ export default [
   {
     path: `/staking/validators/:validator`,
     name: `validator`,
-    component: require(`./components/staking/PageValidator`)
+    component: require(`./components/staking/PageValidator`).default
   },
 
   {
     path: `/preferences`,
     name: `preferences`,
-    component: require(`./components/common/PagePreferences`)
+    component: require(`./components/common/PagePreferences`).default
   },
 
   {
     path: `/`,
     name: `wallet`,
-    component: require(`./components/wallet/PageWallet`)
+    component: require(`./components/wallet/PageWallet`).default
   },
   {
     path: `/wallet/send/:denom?`,
     name: `send`,
     props: true,
-    component: require(`./components/wallet/PageSend`)
+    component: require(`./components/wallet/PageSend`).default
   },
   {
     path: `/transactions`,
     name: `transactions`,
-    component: require(`./components/wallet/PageTransactions`)
+    component: require(`./components/wallet/PageTransactions`).default
   },
 
-  { path: `/404`, component: require(`./components/common/Page404`) },
-  { path: `*`, component: require(`./components/common/Page404`) }
+  { path: `/404`, component: require(`./components/common/Page404`).default },
+  { path: `*`, component: require(`./components/common/Page404`).default }
 ]
