@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmLiBankTransaction has the expected html structure 1`] = `
+<tm-li-transaction-stub
+  block="3436"
+  color="#215C2F"
+  devmode="true"
+  time="2042"
+>
+  <div>
+    
+      Received 
+    <b>
+      1234
+    </b>
+    <span>
+       JBCOINS
+    </span>
+  </div>
+   
+  <span>
+    From tb1da6xsetjg9jxgun9wdesexv05j
+  </span>
+</tm-li-transaction-stub>
+`;
+
+exports[`TmLiBankTransaction should show outgoing transactions 1`] = `
+<tm-li-transaction-stub
+  block="3438"
+  color="#25293F"
+  devmode="true"
+  time="2052"
+>
+  <div
+    slot="caption"
+  >
+    
+      Sent 
+    <b>
+      1234
+    </b>
+    <span>
+       JBCOINS
+    </span>
+  </div>
+   
+  <span
+    slot="details"
+  >
+    To tb1da6xsetjg9jxgun9wdesexv05j
+  </span>
+</tm-li-transaction-stub>
+`;
+
+exports[`TmLiBankTransaction should show transactions sent to the sender 1`] = `
+<tm-li-transaction-stub
+  block="466"
+  color="#215C2F"
+  devmode="true"
+  time="1142"
+>
+  <div
+    slot="caption"
+  >
+    
+      Received 
+    <b>
+      1234
+    </b>
+    <span>
+       JBCOINS
+    </span>
+  </div>
+   
+  <span
+    slot="details"
+  >
+    From tb1da6xsetjg9jxgun9wdesexv05j
+  </span>
+</tm-li-transaction-stub>
+`;

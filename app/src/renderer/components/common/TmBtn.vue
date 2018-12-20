@@ -35,6 +35,7 @@
 </template>
 
 <script>
+// TODO refactor btn content into mixin?
 export default {
   name: `TmBtn`,
   props: {
@@ -62,10 +63,6 @@ export default {
       type: String,
       default: null
     },
-    theme: {
-      type: String,
-      default: null
-    },
     to: {
       type: String,
       default: null
@@ -80,7 +77,6 @@ export default {
       let value = `tm-btn__container`
       if (this.iconPos) value += ` tm-btn__icon-${this.iconPos}`
       if (this.size) value += ` tm-btn--size-${this.size}`
-      if (this.theme) value += ` tm-btn--theme-${this.theme}`
       if (this.color) value += ` tm-btn--${this.color}`
       return value
     }

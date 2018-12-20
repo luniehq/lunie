@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmLiTransaction has the expected html structure 1`] = `
+<div
+  class="tm-li-tx"
+>
+  <div
+    class="tm-li-tx__icon"
+  >
+    <img
+      src="~assets/images/cosmos-logo.png"
+      style="border-color: #ffffff;"
+    />
+  </div>
+   
+  <div
+    class="tm-li-tx__content"
+  >
+    <div
+      class="tm-li-tx__content__left"
+    >
+      <div
+        class="tm-li-tx__content__caption"
+      >
+        <p
+          class="tm-li-tx__content__caption__title"
+        >
+          <span>
+            Some Caption
+          </span>
+        </p>
+      </div>
+       
+      <div
+        class="tm-li-tx__content__information"
+      >
+        <span>
+          Some Details
+        </span>
+      </div>
+    </div>
+     
+    <div
+      class="tm-li-tx__content__block"
+    >
+      <a
+        href="https://explorecosmos.network/blocks/500"
+      >
+        Block #500 
+      </a>
+      @ 12:00 am
+    
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmField has the expected html structure 1`] = `
+<input
+  class="tm-field"
+  type="text"
+/>
+`;

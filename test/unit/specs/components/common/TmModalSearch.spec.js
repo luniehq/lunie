@@ -1,16 +1,12 @@
 import TmModalSearch from "common/TmModalSearch"
 import setup from "../../../helpers/vuex-setup"
-import Vuelidate from "vuelidate"
 
 describe(`TmModalSearch`, () => {
   let wrapper, store
-  let { mount, localVue } = setup()
+  let { mount } = setup()
 
   beforeEach(() => {
     let instance = mount(TmModalSearch, { propsData: { type: `transactions` } })
-    localVue.use(Vuelidate)
-    localVue.directive(`tooltip`, () => {})
-    localVue.directive(`focus`, () => {})
     store = instance.store
     wrapper = instance.wrapper
     store.commit(`setSearchVisible`, [`transactions`, true])
@@ -19,6 +15,17 @@ describe(`TmModalSearch`, () => {
   it(`has the expected html structure`, () => {
     expect(wrapper.html()).not.toBeUndefined()
     expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
+  it(`should focus search on opening`, async () => {
+    jest.useFakeTimers()
+    document.body.focus()
+    store.commit(`setSearchVisible`, [`transactions`, false])
+    store.commit(`setSearchVisible`, [`transactions`, true])
+    jest.runAllTimers()
+    expect(document.activeElement).toBe(
+      wrapper.vm.$el.querySelector(`.tm-field`)
+    )
   })
 
   it(`should close`, () => {
