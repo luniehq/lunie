@@ -119,17 +119,16 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
               </i>
             </a>
              
-            <a
-              class=""
-              href="#/preferences"
+            <router-link-stub
               id="settings"
+              to="/preferences"
             >
               <i
                 class="material-icons"
               >
                 settings
               </i>
-            </a>
+            </router-link-stub>
             <a
               id="signOut-btn"
             >
@@ -300,7 +299,6 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                       exit_to_app
                     </i>
                     <!---->
-                    <!---->
                   </span>
                 </button>
               </div>
@@ -351,7 +349,6 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                     >
                       open_in_new
                     </i>
-                    <!---->
                     <span
                       class="tm-btn__value"
                     >
@@ -427,6 +424,7 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                      
                     <input
                       type="checkbox"
+                      value=""
                     />
                   </div>
                 </label>
@@ -509,7 +507,6 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                     >
                       exit_to_app
                     </i>
-                    <!---->
                     <span
                       class="tm-btn__value"
                     >

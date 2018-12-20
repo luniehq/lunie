@@ -107,6 +107,7 @@ exports[`PageProposal has the expected html structure 1`] = `
             >
               <a
                 class="back"
+                disabled="disabled"
               >
                 <i
                   class="material-icons"
@@ -115,16 +116,16 @@ exports[`PageProposal has the expected html structure 1`] = `
                 </i>
               </a>
                
-              <a
-                class=""
-                href="#/governance"
+              <router-link-stub
+                exact="exact"
+                to="/governance"
               >
                 <i
                   class="material-icons"
                 >
                   arrow_back
                 </i>
-              </a>
+              </router-link-stub>
               <a
                 class="help"
               >
@@ -135,17 +136,16 @@ exports[`PageProposal has the expected html structure 1`] = `
                 </i>
               </a>
                
-              <a
-                class=""
-                href="#/preferences"
+              <router-link-stub
                 id="settings"
+                to="/preferences"
               >
                 <i
                   class="material-icons"
                 >
                   settings
                 </i>
-              </a>
+              </router-link-stub>
               <a
                 id="signOut-btn"
               >
@@ -209,7 +209,6 @@ exports[`PageProposal has the expected html structure 1`] = `
               <span
                 class="tm-btn__container tm-btn--primary"
               >
-                <!---->
                 <!---->
                 <span
                   class="tm-btn__value"
@@ -445,6 +444,7 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
             >
               <a
                 class="back"
+                disabled="disabled"
               >
                 <i
                   class="material-icons"
@@ -453,16 +453,16 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
                 </i>
               </a>
                
-              <a
-                class=""
-                href="#/governance"
+              <router-link-stub
+                exact="exact"
+                to="/governance"
               >
                 <i
                   class="material-icons"
                 >
                   arrow_back
                 </i>
-              </a>
+              </router-link-stub>
               <a
                 class="help"
               >
@@ -473,17 +473,16 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
                 </i>
               </a>
                
-              <a
-                class=""
-                href="#/preferences"
+              <router-link-stub
                 id="settings"
+                to="/preferences"
               >
                 <i
                   class="material-icons"
                 >
                   settings
                 </i>
-              </a>
+              </router-link-stub>
               <a
                 id="signOut-btn"
               >

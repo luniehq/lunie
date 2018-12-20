@@ -1,5 +1,4 @@
 import setup from "../../../helpers/vuex-setup"
-import htmlBeautify from "html-beautify"
 import TableProposals from "renderer/components/governance/TableProposals"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
@@ -21,17 +20,14 @@ describe(`TableProposals`, () => {
     store.commit(`setConnected`, true)
     store.state.user.address = `address1234`
     store.commit(`setAtoms`, 1337)
-    wrapper.update()
   })
 
   it(`has the expected html structure`, async () => {
     // after importing the @tendermint/ui components from modules
-    // the perfect scroll plugin needs a $nextTick and a wrapper.update
     // to work properly in the tests (snapshots weren't matching)
     // this has occured across multiple tests
     await wrapper.vm.$nextTick()
-    wrapper.update()
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should sort the proposals by selected property`, () => {
@@ -59,7 +55,6 @@ describe(`TableProposals`, () => {
     expect(wrapper.vm.filteredProposals[0].description).toBe(
       lcdClientMock.state.proposals[`1`].description
     )
-    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
     store.commit(`setSearchQuery`, [
       `proposals`,
@@ -85,9 +80,9 @@ describe(`TableProposals`, () => {
         proposals: {},
         loading: true
       },
-      stubs: { "data-empty-search": `<data-empty-search />` }
+      stubs: { "data-empty-search": true }
     })
-    expect(wrapper.contains(`data-empty-search`)).toBe(true)
+    expect(wrapper.contains(`data-empty-search-stub`)).toBe(true)
   })
 
   describe(`setSearch`, () => {

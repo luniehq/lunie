@@ -9,10 +9,11 @@ describe(`TmModalSearch`, () => {
   beforeEach(() => {
     let instance = mount(TmModalSearch, { propsData: { type: `transactions` } })
     localVue.use(Vuelidate)
+    localVue.directive(`tooltip`, () => {})
+    localVue.directive(`focus`, () => {})
     store = instance.store
     wrapper = instance.wrapper
     store.commit(`setSearchVisible`, [`transactions`, true])
-    wrapper.update()
   })
 
   it(`has the expected html structure`, () => {

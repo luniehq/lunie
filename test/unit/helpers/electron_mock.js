@@ -24,5 +24,8 @@ jest.mock(`electron`, () => ({
     app: {
       getVersion: jest.fn(() => `0.5.5`)
     }
+  },
+  shell: {
+    openItem: jest.fn()
   }
 }))

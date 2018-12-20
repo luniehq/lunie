@@ -32,10 +32,11 @@ describe(`App Start`, () => {
   }))
 
   beforeEach(() => {
-    Object.defineProperty(window.location, `search`, {
-      writable: true,
-      value: `?node=localhost&lcd_port=8080`
-    })
+    window.history.pushState(
+      {},
+      `Mock Voyager`,
+      `/?node=localhost&lcd_port=8080`
+    )
     document.body.innerHTML = `<div id="app"></div>`
     jest.resetModules()
   })

@@ -1,11 +1,10 @@
 <template>
   <tm-data-connecting
-    v-if="(!stakingParameters.parameters.loaded || !pool.loaded) && !connected"
+    v-if="(!stakingParameters.loaded || !pool.loaded) && !connected"
   />
   <tm-data-loading
     v-else-if="
-      (!stakingParameters.parameters.loaded &&
-        stakingParameters.parameters.loading) ||
+      (!stakingParameters.loaded && stakingParameters.loading) ||
         (!pool.loaded && pool.loading)
     "
   />

@@ -76,6 +76,7 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
         class="tm-field"
         id="to"
         readonly="readonly"
+        type="text"
       />
        
       <hr />
@@ -127,7 +128,6 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
       <span
         class="tm-btn__container tm-btn--size-lg tm-btn--primary"
       >
-        <!---->
         <!---->
         <span
           class="tm-btn__value"

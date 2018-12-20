@@ -39,7 +39,6 @@ exports[`TmModalSearch has the expected html structure 1`] = `
                 close
               </i>
               <!---->
-              <!---->
             </span>
           </button>
         </div>

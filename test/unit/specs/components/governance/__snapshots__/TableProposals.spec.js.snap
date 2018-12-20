@@ -1,134 +1,325 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TableProposals has the expected html structure 1`] = `
-"<div>
-   <table class=\\"data-table\\">
-      <thead>
-         <tr class=\\"panel-sort-container\\">
-            <th class=\\"sort-by proposal_title\\">
-               <a class=\\"sort-by-link\\">Title</a>
-            </th>
-            <th class=\\"sort-by proposal_id\\">
-               <a class=\\"sort-by-link\\">Proposal id</a>
-            </th>
-            <th class=\\"sort-by yes_votes\\">
-               <a class=\\"sort-by-link\\">Yes</a>
-            </th>
-            <th class=\\"sort-by no_votes\\">
-               <a class=\\"sort-by-link\\">No</a>
-            </th>
-            <th class=\\"sort-by no_veto_votes\\">
-               <a class=\\"sort-by-link\\">No with Veto</a>
-            </th>
-            <th class=\\"sort-by abstain_votes\\">
-               <a class=\\"sort-by-link\\">Abstain</a>
-            </th>
-</tr>
-</thead>
-      <tbody>
-         <tr class=\\"data-table__row li-proposal\\">
-            <td class=\\"data-table__row__info\\">
-               <div class=\\"data-table__row__info__container\\">
-                  <span class=\\"data-table__row__info__container__status red\\"></span><a href=\\"#/governance/6\\" class=\\"data-table__row__info__container__name\\">Rejected proposal</a>
-                  <p class=\\"data-table__row__info__container__description\\">
-                     this proposal was rejected      
-                  </p>
+<div>
+  <table
+    class="data-table"
+  >
+    <thead>
+      <tr
+        class="panel-sort-container"
+      >
+        <th
+          class="sort-by proposal_title"
+        >
+          <a
+            class="sort-by-link"
+          >
+            Title
+          </a>
+        </th>
+        <th
+          class="sort-by proposal_id"
+        >
+          <a
+            class="sort-by-link"
+          >
+            Proposal id
+          </a>
+        </th>
+        <th
+          class="sort-by yes_votes"
+        >
+          <a
+            class="sort-by-link"
+          >
+            Yes
+          </a>
+        </th>
+        <th
+          class="sort-by no_votes"
+        >
+          <a
+            class="sort-by-link"
+          >
+            No
+          </a>
+        </th>
+        <th
+          class="sort-by no_veto_votes"
+        >
+          <a
+            class="sort-by-link"
+          >
+            No with Veto
+          </a>
+        </th>
+        <th
+          class="sort-by abstain_votes"
+        >
+          <a
+            class="sort-by-link"
+          >
+            Abstain
+          </a>
+        </th>
+      </tr>
+    </thead>
+     
+    <tbody>
+      <tr
+        class="data-table__row li-proposal"
+      >
+        <td
+          class="data-table__row__info"
+        >
+          <div
+            class="data-table__row__info__container"
+          >
+            <span
+              class="data-table__row__info__container__status red"
+            />
+             
+            <router-link-stub
+              class="data-table__row__info__container__name"
+              to="[object Object]"
+            >
+              Rejected proposal
+            </router-link-stub>
+             
+            <p
+              class="data-table__row__info__container__description"
+            >
+              
+        this proposal was rejected
+      
+            </p>
+          </div>
+        </td>
+         
+        <td>
+          #6
+        </td>
+         
+        <td
+          class="li-proposal__value yes"
+        >
+          10
+        </td>
+         
+        <td
+          class="li-proposal__value no"
+        >
+          30
+        </td>
+         
+        <td
+          class="li-proposal__value no_with_veto"
+        >
+          
+    100
+  
+        </td>
+         
+        <td
+          class="li-proposal__value abstain"
+        >
+          
+    20
+  
+        </td>
+      </tr>
+      <tr
+        class="data-table__row li-proposal"
+      >
+        <td
+          class="data-table__row__info"
+        >
+          <div
+            class="data-table__row__info__container"
+          >
+            <span
+              class="data-table__row__info__container__status yellow"
+            />
+             
+            <router-link-stub
+              class="data-table__row__info__container__name"
+              to="[object Object]"
+            >
+              Custom text proposal
+            </router-link-stub>
+             
+            <p
+              class="data-table__row__info__container__description"
+            >
+              
+        custom text proposal description
+      
+            </p>
+          </div>
+        </td>
+         
+        <td>
+          #5
+        </td>
+         
+        <td
+          class="li-proposal__value yes"
+        >
+          0
+        </td>
+         
+        <td
+          class="li-proposal__value no"
+        >
+          0
+        </td>
+         
+        <td
+          class="li-proposal__value no_with_veto"
+        >
+          
+    0
+  
+        </td>
+         
+        <td
+          class="li-proposal__value abstain"
+        >
+          
+    0
+  
+        </td>
+      </tr>
+      <tr
+        class="data-table__row li-proposal"
+      >
+        <td
+          class="data-table__row__info"
+        >
+          <div
+            class="data-table__row__info__container"
+          >
+            <span
+              class="data-table__row__info__container__status green"
+            />
+             
+            <router-link-stub
+              class="data-table__row__info__container__name"
+              to="[object Object]"
+            >
+              VotingPeriod proposal
+            </router-link-stub>
+             
+            <p
+              class="data-table__row__info__container__description"
+            >
+              
+        custom text proposal description
+      
+            </p>
+          </div>
+        </td>
+         
+        <td>
+          #2
+        </td>
+         
+        <td
+          class="li-proposal__value yes"
+        >
+          0
+        </td>
+         
+        <td
+          class="li-proposal__value no"
+        >
+          0
+        </td>
+         
+        <td
+          class="li-proposal__value no_with_veto"
+        >
+          
+    0
+  
+        </td>
+         
+        <td
+          class="li-proposal__value abstain"
+        >
+          
+    0
+  
+        </td>
+      </tr>
+      <tr
+        class="data-table__row li-proposal"
+      >
+        <td
+          class="data-table__row__info"
+        >
+          <div
+            class="data-table__row__info__container"
+          >
+            <span
+              class="data-table__row__info__container__status material-icons"
+            >
+              checkmark
+            </span>
+             
+            <router-link-stub
+              class="data-table__row__info__container__name"
+              to="[object Object]"
+            >
+              Proposal Title
+            </router-link-stub>
+             
+            <p
+              class="data-table__row__info__container__description"
+            >
+              
+        Proposal description
+      
+            </p>
+          </div>
+        </td>
+         
+        <td>
+          #1
+        </td>
+         
+        <td
+          class="li-proposal__value yes"
+        >
+          500
+        </td>
+         
+        <td
+          class="li-proposal__value no"
+        >
+          25
+        </td>
+         
+        <td
+          class="li-proposal__value no_with_veto"
+        >
+          
+    10
+  
+        </td>
+         
+        <td
+          class="li-proposal__value abstain"
+        >
+          
+    56
+  
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
-</td>
-         <td>
-            #6
-         </td>
-         <td class=\\"li-proposal__value yes\\">
-            10
-         </td>
-         <td class=\\"li-proposal__value no\\">
-            30
-         </td>
-         <td class=\\"li-proposal__value no_with_veto\\">
-            100  
-         </td>
-         <td class=\\"li-proposal__value abstain\\">
-            20  
-         </td>
-</tr>
-      <tr class=\\"data-table__row li-proposal\\">
-         <td class=\\"data-table__row__info\\">
-            <div class=\\"data-table__row__info__container\\">
-               <span class=\\"data-table__row__info__container__status yellow\\"></span><a href=\\"#/governance/5\\" class=\\"data-table__row__info__container__name\\">Custom text proposal</a>
-               <p class=\\"data-table__row__info__container__description\\">
-                  custom text proposal description      
-               </p>
-</div>
-</td>
-         <td>
-            #5
-         </td>
-         <td class=\\"li-proposal__value yes\\">
-            0
-         </td>
-         <td class=\\"li-proposal__value no\\">
-            0
-         </td>
-         <td class=\\"li-proposal__value no_with_veto\\">
-            0  
-         </td>
-         <td class=\\"li-proposal__value abstain\\">
-            0  
-         </td>
-</tr>
-      <tr class=\\"data-table__row li-proposal\\">
-         <td class=\\"data-table__row__info\\">
-            <div class=\\"data-table__row__info__container\\">
-               <span class=\\"data-table__row__info__container__status green\\"></span><a href=\\"#/governance/2\\" class=\\"data-table__row__info__container__name\\">VotingPeriod proposal</a>
-               <p class=\\"data-table__row__info__container__description\\">
-                  custom text proposal description      
-               </p>
-</div>
-</td>
-         <td>
-            #2
-         </td>
-         <td class=\\"li-proposal__value yes\\">
-            0
-         </td>
-         <td class=\\"li-proposal__value no\\">
-            0
-         </td>
-         <td class=\\"li-proposal__value no_with_veto\\">
-            0  
-         </td>
-         <td class=\\"li-proposal__value abstain\\">
-            0  
-         </td>
-</tr>
-      <tr class=\\"data-table__row li-proposal\\">
-         <td class=\\"data-table__row__info\\">
-            <div class=\\"data-table__row__info__container\\">
-               <span class=\\"data-table__row__info__container__status material-icons\\">checkmark</span><a href=\\"#/governance/1\\" class=\\"data-table__row__info__container__name\\">Proposal Title</a>
-               <p class=\\"data-table__row__info__container__description\\">
-                  Proposal description      
-               </p>
-</div>
-</td>
-         <td>
-            #1
-         </td>
-         <td class=\\"li-proposal__value yes\\">
-            500
-         </td>
-         <td class=\\"li-proposal__value no\\">
-            25
-         </td>
-         <td class=\\"li-proposal__value no_with_veto\\">
-            10  
-         </td>
-         <td class=\\"li-proposal__value abstain\\">
-            56  
-         </td>
-</tr>
-</tbody>
-</table>
-</div>"
 `;
 
 exports[`TableProposals should filter the proposals 1`] = `
@@ -213,12 +404,12 @@ exports[`TableProposals should filter the proposals 1`] = `
               checkmark
             </span>
              
-            <a
+            <router-link-stub
               class="data-table__row__info__container__name"
-              href="#/governance/1"
+              to="[object Object]"
             >
               Proposal Title
-            </a>
+            </router-link-stub>
              
             <p
               class="data-table__row__info__container__description"

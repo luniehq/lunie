@@ -1,5 +1,4 @@
 import setup from "../../../helpers/vuex-setup"
-import htmlBeautify from "html-beautify"
 import TmBalance from "common/TmBalance"
 
 describe(`TmBalance`, () => {
@@ -24,10 +23,9 @@ describe(`TmBalance`, () => {
       }
     })
     wrapper = instance.wrapper
-    wrapper.update()
   })
 
   it(`has the expected html structure before adding props`, () => {
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 })

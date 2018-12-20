@@ -1,5 +1,4 @@
 import setup from "../../../helpers/vuex-setup"
-import htmlBeautify from "html-beautify"
 import Vuelidate from "vuelidate"
 import PageGovernance from "renderer/components/governance/PageGovernance"
 import ModalPropose from "renderer/components/governance/ModalPropose"
@@ -16,6 +15,8 @@ describe(`PageGovernance`, () => {
   let wrapper, store
   let { mount, localVue } = setup()
   localVue.use(Vuelidate)
+  localVue.directive(`tooltip`, () => {})
+  localVue.directive(`focus`, () => {})
 
   beforeEach(() => {
     let instance = mount(PageGovernance)
@@ -25,17 +26,14 @@ describe(`PageGovernance`, () => {
     store.state.user.address = lcdClientMock.addresses[0]
     store.dispatch(`updateDelegates`)
     store.commit(`setAtoms`, 1337)
-    wrapper.update()
   })
 
   it(`has the expected html structure`, async () => {
     // after importing the @tendermint/ui components from modules
-    // the perfect scroll plugin needs a $nextTick and a wrapper.update
     // to work properly in the tests (snapshots weren't matching)
     // this has occured across multiple tests
     await wrapper.vm.$nextTick()
-    wrapper.update()
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should show the search on click`, () => {
@@ -48,11 +46,10 @@ describe(`PageGovernance`, () => {
       wrapper.vm.$el.querySelector(`#propose-btn`).getAttribute(`disabled`)
     ).toBeNull()
     store.commit(`setConnected`, false)
-    wrapper.update()
     expect(
       wrapper.vm.$el.querySelector(`#propose-btn`).getAttribute(`disabled`)
     ).not.toBeNull()
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   describe(`Modal onPropose modal on click`, () => {

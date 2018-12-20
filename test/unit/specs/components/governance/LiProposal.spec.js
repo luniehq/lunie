@@ -15,7 +15,6 @@ describe(`LiProposal`, () => {
       }
     })
     wrapper = instance.wrapper
-    wrapper.update()
   })
 
   it(`has the expected html structure`, () => {
@@ -29,7 +28,6 @@ describe(`LiProposal`, () => {
         proposal
       }
     })
-    wrapper.update()
     expect(wrapper.vm.status).toEqual({
       message: `This proposal has passed`
     })
@@ -42,7 +40,6 @@ describe(`LiProposal`, () => {
         proposal
       }
     })
-    wrapper.update()
     expect(wrapper.vm.status).toEqual({
       message: `This proposal has been rejected and voting is closed`,
       color: `red`
@@ -56,7 +53,6 @@ describe(`LiProposal`, () => {
         proposal
       }
     })
-    wrapper.update()
     expect(wrapper.vm.status).toEqual({
       message: `Voting for this proposal is open`,
       color: `green`
@@ -70,7 +66,6 @@ describe(`LiProposal`, () => {
         proposal
       }
     })
-    wrapper.update()
     expect(wrapper.vm.status).toEqual({
       message: `Deposits are open for this proposal`,
       color: `yellow`
@@ -84,7 +79,6 @@ describe(`LiProposal`, () => {
         proposal
       }
     })
-    wrapper.update()
     expect(wrapper.vm.status).toEqual({
       message: `There was an error determining the status of this proposal.`,
       color: `grey`
@@ -102,7 +96,6 @@ describe(`LiProposal`, () => {
         proposal
       }
     })
-    wrapper.update()
     expect(wrapper.vm.description).toEqual(
       `this is some kind of long description. longer than 100 characters for optimum-maximum-ideal truncati…`
     )

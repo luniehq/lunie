@@ -15,7 +15,8 @@ module.exports = {
     "^monitor/(.*)$": `<rootDir>/app/src/renderer/components/monitor/$1`,
     "^staking/(.*)$": `<rootDir>/app/src/renderer/components/staking/$1`,
     "^scripts/(.*)$": `<rootDir>/app/src/renderer/scripts/$1`,
-    "^wallet/(.*)$": `<rootDir>/app/src/renderer/components/wallet/$1`
+    "^wallet/(.*)$": `<rootDir>/app/src/renderer/components/wallet/$1`,
+    "^modules/(.*)$": `<rootDir>/app/src/renderer/vuex/modules/$1`
   },
 
   transform: {
@@ -26,7 +27,6 @@ module.exports = {
   transformIgnorePatterns: [`node_modules`],
 
   collectCoverage: true,
-  mapCoverage: true,
   coverageDirectory: `./test/unit/coverage`,
   coverageReporters: [`lcov`],
   coveragePathIgnorePatterns: [
@@ -44,6 +44,7 @@ module.exports = {
     `./test/unit/helpers/electron_mock.js`,
     `./test/unit/helpers/sentry_mock.js`,
     `./test/unit/helpers/mock_perfect-scrollbar.js`,
+    `./test/unit/helpers/window_mock.js`,
     `jest-localstorage-mock`
   ]
 }

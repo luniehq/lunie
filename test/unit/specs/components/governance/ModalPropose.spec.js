@@ -1,13 +1,11 @@
 "use strict"
 
-import Vuelidate from "vuelidate"
 import setup from "../../../helpers/vuex-setup"
 import ModalPropose from "renderer/components/governance/ModalPropose"
 
 describe(`ModalPropose`, () => {
   let wrapper, store
-  let { mount, localVue } = setup()
-  localVue.use(Vuelidate)
+  let { mount } = setup()
 
   const proposal = {
     amount: 15,
@@ -24,21 +22,18 @@ describe(`ModalPropose`, () => {
       }
     ]
     let instance = mount(ModalPropose, {
-      localVue,
       propsData: {
         denom: `stake`
-      }
+      },
+      sync: false
     })
     wrapper = instance.wrapper
     store = instance.store
     store.commit(`setWalletBalances`, coins)
-    wrapper.update()
   })
 
   describe(`component matches snapshot`, () => {
     it(`has the expected html structure`, async () => {
-      await wrapper.vm.$nextTick()
-      wrapper.update()
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
   })
@@ -85,16 +80,17 @@ describe(`ModalPropose`, () => {
         expect(proposeBtn.html()).toContain(`disabled="disabled"`)
       })
 
-      it(`if the amount for initial deposit is higher than the user's balance`, () => {
+      it(`if the amount for initial deposit is higher than the user's balance`, async () => {
         wrapper.setData(proposal)
         wrapper.setData({ amount: 25 })
+        await wrapper.vm.$nextTick()
         let proposeBtn = wrapper.find(`#submit-proposal`)
         expect(proposeBtn.html()).toContain(`disabled="disabled"`)
         let errorMessage = wrapper.find(`input#amount + div`)
         expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
       })
 
-      it(`if the user doesn't have the deposit coin`, () => {
+      it(`if the user doesn't have the deposit coin`, async () => {
         const otherCoins = [
           {
             amount: `20`,
@@ -104,6 +100,7 @@ describe(`ModalPropose`, () => {
         wrapper.setData(proposal)
         store.commit(`setWalletBalances`, otherCoins)
         wrapper.setData({ amount: 25 })
+        await wrapper.vm.$nextTick()
         let proposeBtn = wrapper.find(`#submit-proposal`)
         expect(proposeBtn.html()).toContain(`disabled="disabled"`)
       })
@@ -121,16 +118,18 @@ describe(`ModalPropose`, () => {
         expect(proposeBtn.html()).toContain(`disabled="disabled"`)
       })
 
-      it(`if title is too long disable submit button and show error message`, () => {
+      it(`if title is too long disable submit button and show error message`, async () => {
         wrapper.setData({ title: `x`.repeat(65) })
+        await wrapper.vm.$nextTick()
         let proposeBtn = wrapper.find(`#submit-proposal`)
         expect(proposeBtn.html()).toContain(`disabled="disabled"`)
         let errorMessage = wrapper.find(`input#title + div`)
         expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
       })
 
-      it(`if description is too long disable submit button and show error message`, () => {
+      it(`if description is too long disable submit button and show error message`, async () => {
         wrapper.setData({ description: `x`.repeat(201) })
+        await wrapper.vm.$nextTick()
         let proposeBtn = wrapper.find(`#submit-proposal`)
         expect(proposeBtn.html()).toContain(`disabled="disabled"`)
         let errorMessage = wrapper.find(`textarea#description + div`)
@@ -153,8 +152,9 @@ describe(`ModalPropose`, () => {
     })
 
     describe(`enables the 'Create Proposal' button`, () => {
-      it(`if the user has enough balance and the fields are within the length ranges`, () => {
+      it(`if the user has enough balance and the fields are within the length ranges`, async () => {
         wrapper.setData(proposal)
+        await wrapper.vm.$nextTick()
         let submitButton = wrapper.find(`#submit-proposal`)
         expect(submitButton.html()).not.toContain(`disabled="disabled"`)
       })

@@ -3,11 +3,11 @@
     <div class="tm-bar-discrete__container">
       <div class="tm-bar-discrete__edge"></div>
       <div
-        v-for="(node, key) in nodes"
-        :key="key"
-        :class="classObject(key)"
+        v-for="(node, index) in nodes"
+        :key="index"
+        :class="classObject(index)"
         class="tm-bar-discrete__node"
-        @click="clickFn(key)"
+        @click="clickFn(index)"
       ></div>
     </div>
   </div>
@@ -31,9 +31,9 @@ export default {
     }
   },
   methods: {
-    classObject(key) {
+    classObject(index) {
       return {
-        "tm-bar-discrete__node--active": key === this.active
+        "tm-bar-discrete__node--active": index === parseInt(this.active)
       }
     }
   }

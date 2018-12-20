@@ -1,6 +1,4 @@
-import Vuelidate from "vuelidate"
 import setup from "../../../helpers/vuex-setup"
-import htmlBeautify from "html-beautify"
 import TabParameters from "renderer/components/staking/TabParameters"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
@@ -8,33 +6,28 @@ let { pool, stakingParameters } = lcdClientMock.state
 
 describe(`TabParameters`, () => {
   let wrapper, store
-  let { mount, localVue } = setup()
-  localVue.use(Vuelidate)
+  let { mount } = setup()
 
   beforeEach(() => {
     let instance = mount(TabParameters, {
-      localVue,
       doBefore: ({ store }) => {
         store.commit(`setConnected`, true)
         store.commit(`setPool`, pool)
         store.commit(`setStakingParameters`, stakingParameters)
       },
       stubs: {
-        "tm-data-connecting": `<tm-data-connecting />`,
-        "tm-data-loading": `<tm-data-loading />`
+        "tm-data-connecting": true,
+        "tm-data-loading": true
       }
     })
     wrapper = instance.wrapper
     store = instance.store
-    store.state.stakingParameters.parameters.loaded = true
+    store.state.stakingParameters.loaded = true
     store.state.pool.loaded = true
-    wrapper.update()
   })
 
   it(`has the expected html structure`, async () => {
-    await wrapper.vm.$nextTick()
-    wrapper.update()
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`shows the staking parameters and pool`, () => {
@@ -48,32 +41,30 @@ describe(`TabParameters`, () => {
 
   it(`displays a message if waiting for connection`, () => {
     store.commit(`setConnected`, false)
-    store.state.stakingParameters.parameters.loaded = false
-    wrapper.update()
+    store.state.stakingParameters.loaded = false
+    expect(wrapper.contains(`tm-data-connecting-stub`)).toBe(true)
     expect(wrapper.vm.$el).toMatchSnapshot()
-    expect(wrapper.exists(`tm-data-connecting`)).toBe(true)
 
-    store.state.stakingParameters.parameters.loaded = true
+    store.state.stakingParameters.loaded = true
     store.state.pool.loaded = false
-    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
-    expect(wrapper.exists(`tm-data-connecting`)).toBe(true)
+    expect(wrapper.contains(`tm-data-connecting-stub`)).toBe(true)
   })
 
   it(`displays a message if loading`, () => {
     store.commit(`setConnected`, true)
-    store.state.stakingParameters.parameters.loaded = false
-    store.state.stakingParameters.parameters.loading = true
-    wrapper.update()
+    store.state.stakingParameters.loaded = false
+    store.state.stakingParameters.loading = true
+    store.state.pool.loaded = true
+    store.state.pool.loading = true
     expect(wrapper.vm.$el).toMatchSnapshot()
-    expect(wrapper.exists(`tm-data-loading`)).toBe(true)
+    expect(wrapper.contains(`tm-data-loading-stub`)).toBe(true)
 
-    store.state.stakingParameters.parameters.loaded = true
-    store.state.stakingParameters.parameters.loading = false
+    store.state.stakingParameters.loaded = true
+    store.state.stakingParameters.loading = false
     store.state.pool.loaded = false
     store.state.pool.loading = true
-    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
-    expect(wrapper.exists(`tm-data-loading`)).toBe(true)
+    expect(wrapper.contains(`tm-data-loading-stub`)).toBe(true)
   })
 })

@@ -6,11 +6,13 @@
         ><a
           v-tooltip.bottom="'Refresh'"
           :disabled="!connected"
+          class="refresh-button"
           @click="connected && refreshTransactions()"
           ><i class="material-icons">refresh</i></a
         ><a
           v-tooltip.bottom="'Search'"
           :disabled="!somethingToSearch"
+          class="search-button"
           @click="setSearch()"
           ><i class="material-icons">search</i></a
         ></tool-bar
@@ -85,8 +87,7 @@ export default {
       `bondingDenom`,
       `delegation`,
       `delegates`,
-      `connected`,
-      `validators`
+      `connected`
     ]),
     somethingToSearch() {
       return !this.transactions.loading && !!this.allTransactions.length

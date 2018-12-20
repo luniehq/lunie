@@ -1,5 +1,5 @@
 <template>
-  <div v-if="type === 'select' || type === 'countries'" class="tm-select">
+  <div v-if="type === 'select'" class="tm-select">
     <select
       :class="css"
       :value="value"
@@ -23,27 +23,12 @@
           >{{ option.key }}</option
         >
       </template>
-      <template v-else-if="type === 'countries'">
-        <option v-for="i in countries" :value="i.value" :key="i.key">{{
-          i.key
-        }}</option>
-      </template>
     </select>
     <div class="tm-field-select-addon">
       <i class="material-icons">arrow_drop_down</i>
     </div>
   </div>
-  <!--
-    .tm-datetime(v-else-if="type === 'datetime'")input(
-    type="text"
-    :class="css"
-    @change="onChange"
-    @keyup="onKeyup"
-    @keydown="onKeydown"
-    :placeholder="placeholder"
-    :value="value"
-    @input="updateValue($event.target.value)")
-  --><textarea
+  <textarea
     v-else-if="type === 'textarea'"
     :class="css"
     :placeholder="placeholder"
@@ -82,14 +67,12 @@
 </template>
 
 <script>
-// import flatpickr from 'flatpickr'
-import countries from "./countries.json"
 export default {
   name: `tm-field`,
   props: {
     type: {
       type: String,
-      required: true
+      default: `text`
     },
     value: {
       type: [String, Number],
@@ -141,13 +124,10 @@ export default {
       default: null
     }
   },
-  data: () => ({
-    countries: countries
-  }),
   computed: {
     css() {
       let value = `tm-field`
-      if (this.type === `select` || this.type === `countries`) {
+      if (this.type === `select`) {
         value += ` tm-field-select`
       }
       if (this.type === `toggle`) {
