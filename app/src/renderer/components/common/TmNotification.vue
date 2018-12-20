@@ -36,7 +36,7 @@ export default {
         },
         time: {
           type: String,
-          default: null
+          required: true
         },
         title: {
           type: String,
@@ -48,10 +48,6 @@ export default {
         }
       } */
       required: true
-    },
-    theme: {
-      type: String,
-      default: null
     }
   },
   data: () => ({
@@ -65,7 +61,6 @@ export default {
     cssClass() {
       let value = `tm-notification`
       if (this.data.type) value += ` tm-notification-${this.data.type}`
-      if (this.theme) value += ` tm-notification-theme-${this.theme}`
       return value
     }
   },
