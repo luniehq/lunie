@@ -27,7 +27,6 @@ module.exports = {
   transformIgnorePatterns: [`node_modules`],
 
   collectCoverage: true,
-  mapCoverage: true,
   coverageDirectory: `./test/unit/coverage`,
   coverageReporters: [`lcov`],
   coveragePathIgnorePatterns: [
@@ -45,6 +44,7 @@ module.exports = {
     `./test/unit/helpers/electron_mock.js`,
     `./test/unit/helpers/sentry_mock.js`,
     `./test/unit/helpers/mock_perfect-scrollbar.js`,
+    `./test/unit/helpers/window_mock.js`,
     `jest-localstorage-mock`
   ]
 }
