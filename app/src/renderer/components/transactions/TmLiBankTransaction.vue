@@ -26,8 +26,6 @@
 </template>
 
 <script>
-import numeral from "numeral"
-
 import TmLiTransaction from "./TmLiTransaction"
 import colors from "./transaction-colors.js"
 
@@ -79,9 +77,6 @@ export default {
     }
   },
   methods: {
-    pretty(num) {
-      return numeral(num).format(`0,0.00`)
-    },
     viewTransaction() {
       // console.log("TODO: implement tx viewer")
     }

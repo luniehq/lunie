@@ -5,7 +5,7 @@
     :block="transaction.height"
     ><template v-if="delegation">
       <div slot="caption">
-        Delegated&nbsp;<b>{{ prettify(tx.delegation.amount) }}</b
+        Delegated&nbsp;<b>{{ pretty(tx.delegation.amount) }}</b
         ><span>&nbsp;{{ bondingDenom }}s</span>
       </div>
       <div slot="details">
@@ -55,10 +55,10 @@
 <script>
 import TmLiTransaction from "./TmLiTransaction"
 import colors from "./transaction-colors.js"
+import { pretty } from "../../scripts/num.js"
 import { calculateTokens } from "../../scripts/common.js"
 import moment from "moment"
 import TmBtn from "common/TmBtn.vue"
-import numeral from "numeral"
 
 /*
  * undelegation tx need a preprocessing, where shares are translated into transaction.balance: {amount, denom}
@@ -85,6 +85,9 @@ export default {
       required: true
     }
   },
+  data: () => ({
+    pretty
+  }),
   computed: {
     tx() {
       return this.transaction.tx.value.msg[0].value
@@ -129,13 +132,6 @@ export default {
         c => c.operator_address === validatorAddr
       )
       return (validator && validator.description.moniker) || validatorAddr
-    },
-    prettify(amount) {
-      const amountNumber = Number(amount)
-      if (Number.isInteger(amountNumber)) {
-        return numeral(amountNumber).format(`0,0`)
-      }
-      return numeral(amountNumber).format(`0,0.00`)
     },
     calculatePrettifiedTokens(validatorAddr, shares) {
       let validator = this.validators.find(

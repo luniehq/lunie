@@ -30,7 +30,7 @@ exports[`TmLiGovTransaction deposits should show deposits 1`] = `
       Deposited 
       
             <b>
-              100
+              100.00
             </b>
              
             <span>
@@ -103,7 +103,7 @@ exports[`TmLiGovTransaction proposals should show proposals submission transacti
       Submitted text proposal initial
       deposit 
             <b>
-              100
+              100.00
             </b>
             <span>
                stakes

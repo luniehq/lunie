@@ -7,7 +7,7 @@
     <template v-if="propose">
       <div slot="caption">
         Submitted {{ tx.proposal_type.toLowerCase() }} proposal initial
-        deposit&nbsp;<b>{{ prettify(tx.initial_deposit[0].amount) }}</b
+        deposit&nbsp;<b>{{ pretty(tx.initial_deposit[0].amount) }}</b
         ><span>&nbsp;{{ tx.initial_deposit[0].denom }}s</span>
       </div>
       <div slot="details">
@@ -18,7 +18,7 @@
       <div slot="caption">
         Deposited&nbsp;
         <template>
-          <b>{{ prettify(tx.amount[0].amount) }}</b>
+          <b>{{ pretty(tx.amount[0].amount) }}</b>
           <span>&nbsp;{{ tx.amount[0].denom }}s</span>
         </template>
       </div>
@@ -35,7 +35,7 @@
 <script>
 import TmLiTransaction from "./TmLiTransaction"
 import colors from "./transaction-colors.js"
-import numeral from "numeral"
+import { pretty } from "../../scripts/num.js"
 
 export default {
   name: `tm-li-gov-transaction`,
@@ -54,6 +54,9 @@ export default {
       required: true
     }
   },
+  data: () => ({
+    pretty
+  }),
   computed: {
     tx() {
       return this.transaction.tx.value.msg[0].value
@@ -69,15 +72,7 @@ export default {
     },
     color() {
       if (this.propose) return colors.gov.propose
-      if (this.deposit) return colors.gov.deposit
-    }
-  },
-  methods: {
-    prettify(amount) {
-      const amountNumber = Number(amount)
-      return numeral(amountNumber).format(
-        Number.isInteger(amountNumber) ? `0,0` : `0,0.00`
-      )
+      return colors.gov.deposit
     }
   }
 }
