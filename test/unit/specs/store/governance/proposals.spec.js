@@ -135,8 +135,7 @@ describe(`Module: Proposals`, () => {
         node: {
           queryProposal: proposal_id =>
             Promise.resolve({ value: proposals[proposal_id] }),
-          getProposalTally: proposal_id =>
-            Promise.resolve(tallies[proposal_id])
+          getProposalTally: proposal_id => Promise.resolve(tallies[proposal_id])
         }
       })
 
