@@ -351,6 +351,7 @@ exports[`PageWallet has the expected html structure 1`] = `
           </router-link-stub>
         </div>
       </li>
+      <!---->
     </ul>
   </main>
 </div>

@@ -14,7 +14,7 @@ exports[`TmOnboarding has the expected html structure 0 1`] = `
    <div class=\\"tm-session-label\\">
       This is a quick tour of the primary features of Cosmos Voyager.
    </div>
-<img src=\\"function () {        return fn.apply(this, arguments);      }\\">
+<img src=\\"function() {        return fn.apply(this, arguments);      }\\">
 <div class=\\"tm-bar-discrete\\">
    <div class=\\"tm-bar-discrete__container\\">
       <div class=\\"tm-bar-discrete__edge\\"></div>
@@ -48,7 +48,7 @@ exports[`TmOnboarding has the expected html structure 1 1`] = `
    <div class=\\"tm-session-label\\">
       You can send and receive Cosmos tokens from anyone around the world.
    </div>
-<img src=\\"function () {        return fn.apply(this, arguments);      }\\">
+<img src=\\"function() {        return fn.apply(this, arguments);      }\\">
 <div class=\\"tm-bar-discrete\\">
    <div class=\\"tm-bar-discrete__container\\">
       <div class=\\"tm-bar-discrete__edge\\"></div>
@@ -82,7 +82,7 @@ exports[`TmOnboarding has the expected html structure 2 1`] = `
    <div class=\\"tm-session-label\\">
       You can delegate your STAKE to Cosmos Validators to earn even more STAKE.
    </div>
-<img src=\\"function () {        return fn.apply(this, arguments);      }\\">
+<img src=\\"function() {        return fn.apply(this, arguments);      }\\">
 <div class=\\"tm-bar-discrete\\">
    <div class=\\"tm-bar-discrete__container\\">
       <div class=\\"tm-bar-discrete__edge\\"></div>
@@ -116,7 +116,7 @@ exports[`TmOnboarding has the expected html structure 3 1`] = `
    <div class=\\"tm-session-label\\">
       Through governance, you can vote on the future of the Cosmos Network.
    </div>
-<img src=\\"function () {        return fn.apply(this, arguments);      }\\">
+<img src=\\"function() {        return fn.apply(this, arguments);      }\\">
 <div class=\\"tm-bar-discrete\\">
    <div class=\\"tm-bar-discrete__container\\">
       <div class=\\"tm-bar-discrete__edge\\"></div>
@@ -150,7 +150,7 @@ exports[`TmOnboarding has the expected html structure 4 1`] = `
    <div class=\\"tm-session-label\\">
       Start using Voyager to explore the Cosmos Network!
    </div>
-<img src=\\"function () {        return fn.apply(this, arguments);      }\\">
+<img src=\\"function() {        return fn.apply(this, arguments);      }\\">
 <div class=\\"tm-bar-discrete\\">
    <div class=\\"tm-bar-discrete__container\\">
       <div class=\\"tm-bar-discrete__edge\\"></div>

@@ -1,5 +1,6 @@
 import setup from "../../../helpers/vuex-setup"
 import PageWallet from "renderer/components/wallet/PageWallet"
+
 describe(`PageWallet`, () => {
   let wrapper, store
   let { mount } = setup()
@@ -23,6 +24,10 @@ describe(`PageWallet`, () => {
       password: `1234567890`
     })
     store.commit(`setSearchQuery`, [`balances`, ``])
+
+    // we need to wait for the denoms to have loaded
+    // of not they load async and produce errors when the tests already passed
+    await store.dispatch(`loadDenoms`)
   })
 
   it(`has the expected html structure`, async () => {
@@ -33,20 +38,18 @@ describe(`PageWallet`, () => {
     expect(wrapper.vm.filteredBalances.map(x => x.denom)).toEqual([
       `fermion`,
       `STAKE`,
-      `mycoin`
+      `mycoin`,
+      `gregcoin`
     ])
   })
 
   it(`should filter the balances`, async () => {
     store.commit(`setSearchVisible`, [`balances`, true])
     store.commit(`setSearchQuery`, [`balances`, `stake`])
+    await wrapper.vm.$nextTick()
+
     expect(wrapper.vm.filteredBalances.map(x => x.denom)).toEqual([`STAKE`])
     expect(wrapper.vm.$el).toMatchSnapshot()
-  })
-
-  it(`should update balances by querying wallet state`, () => {
-    wrapper.vm.queryWalletBalances()
-    expect(store.dispatch).toHaveBeenCalledWith(`queryWalletBalances`)
   })
 
   it(`should show the search on click`, () => {
@@ -61,7 +64,7 @@ describe(`PageWallet`, () => {
     expect(wrapper.findAll(`.tm-li-balance`).length).toBe(3)
   })
 
-  it(`should show the n/a message if there are no denoms`, () => {
+  it(`should show the n/a message if there are no denoms`, async () => {
     store.commit(`setWalletBalances`, [])
     expect(wrapper.find(`#account_empty_msg`).exists()).toBeTruthy()
   })
@@ -71,13 +74,13 @@ describe(`PageWallet`, () => {
     expect(wrapper.vm.$el.querySelector(`#no-balances`)).toBe(null)
   })
 
-  it(`should update 'somethingToSearch' when there's nothing to search`, () => {
+  it(`should update 'somethingToSearch' when there's nothing to search`, async () => {
     expect(wrapper.vm.somethingToSearch).toBe(true)
     store.commit(`setWalletBalances`, [])
     expect(wrapper.vm.somethingToSearch).toBe(false)
   })
 
-  it(`should not show search when there's nothing to search`, () => {
+  it(`should not show search when there's nothing to search`, async () => {
     store.commit(`setWalletBalances`, [])
     expect(wrapper.vm.setSearch()).toEqual(false)
   })

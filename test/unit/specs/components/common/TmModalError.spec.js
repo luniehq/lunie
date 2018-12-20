@@ -12,6 +12,9 @@ jest.mock(`electron`, () => ({
     getGlobal: () => {
       return `$HOME/.cosmos-voyager-dev`
     }
+  },
+  shell: {
+    openItem: jest.fn()
   }
 }))
 

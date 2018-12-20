@@ -424,6 +424,7 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                      
                     <input
                       type="checkbox"
+                      value=""
                     />
                   </div>
                 </label>
