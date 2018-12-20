@@ -127,8 +127,10 @@ describe(`PageProposal`, () => {
   })
 
   describe(`Modal onVote`, () => {
-    it(`enables voting if the proposal is on the 'VotingPeriod'`, async () => {
+    it(`enables voting if the proposal is on the 'VotingPeriod'`, () => {
       let proposal = proposals[`2`]
+      proposal.proposal_status = `VotingPeriod`
+      console.log(proposal.proposal_status)
       let instance = mount(PageProposal, {
         localVue,
         doBefore: ({ router, store }) => {
@@ -140,14 +142,15 @@ describe(`PageProposal`, () => {
             tally_result: tallies[`2`]
           })
         },
-        propsData: { proposalId: `2` },
+        propsData: {
+          proposalId: proposal.proposal_id
+        },
         $store
       })
       wrapper = instance.wrapper
       store = instance.store
       wrapper.update()
 
-      wrapper.vm.$store.dispatch = jest.fn()
       let voteBtn = wrapper.find(`#vote-btn`)
       voteBtn.trigger(`click`)
 
@@ -186,12 +189,13 @@ describe(`PageProposal`, () => {
     })
 
     it(`disables voting if the proposal is on the 'DepositPeriod'`, () => {
+      wrapper.setProps({ proposalId: `5` })
       expect(wrapper.find(`#vote-btn`).exists()).toEqual(false)
     })
   })
 
   describe(`Modal onDeposit`, () => {
-    it(`enables deposits if the proposal is 'Active'`, () => {
+    it(`enables deposits if the proposal on 'DepositPeriod'`, () => {
       let proposal = proposals[`5`]
       let instance = mount(PageProposal, {
         localVue,
@@ -199,6 +203,10 @@ describe(`PageProposal`, () => {
           store.commit(`setConnected`, true)
           router.push(`/governance/proposals/${proposal.proposal_id}`)
           store.commit(`setProposal`, proposal)
+          store.commit(`setProposalTally`, {
+            proposal_id: `5`,
+            tally_result: tallies[`5`]
+          })
         },
         propsData: {
           proposalId: proposal.proposal_id
@@ -207,10 +215,10 @@ describe(`PageProposal`, () => {
       })
       wrapper = instance.wrapper
       store = instance.store
+      wrapper.vm.proposal.proposal_status = `DepositPeriod`
       wrapper.update()
 
       let depositBtn = wrapper.find(`#deposit-btn`)
-      expect(depositBtn).toBeDefined()
       depositBtn.trigger(`click`)
       expect(wrapper.contains(ModalDeposit)).toEqual(true)
       expect(depositBtn.html()).not.toContain(`disabled="disabled"`)
