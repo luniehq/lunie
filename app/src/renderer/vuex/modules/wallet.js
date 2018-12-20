@@ -127,7 +127,7 @@ export default ({ node }) => {
         let interval = setInterval(() => {
           if (rootState.connection.lastHeader.height < height) return
           clearInterval(interval)
-          dispatch(`queryWalletState`)
+          dispatch(`queryWalletBalances`)
           resolve()
         }, 1000)
       })
@@ -146,6 +146,7 @@ export default ({ node }) => {
           console.error(`error subscribing to transactions`, error)
           return
         }
+        console.log(`TX: ` + JSON.stringify(event.data))
         dispatch(
           `queryWalletStateAfterHeight`,
           event.data.value.TxResult.height + 1
