@@ -1,8 +1,6 @@
-import Vue from "vue"
 import setup from "../../../helpers/vuex-setup"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 import LiValidator from "renderer/components/staking/LiValidator"
-import { iterate } from "when"
 
 describe(`LiValidator`, () => {
   let wrapper, store
