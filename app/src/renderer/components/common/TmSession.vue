@@ -190,6 +190,7 @@ export default {
   color: var(--dim);
   font-size: var(--sm);
   line-height: var(--xl);
+  display: inline;
 }
 
 .tm-session-footer > div {

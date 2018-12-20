@@ -57,7 +57,7 @@ export default {
   align-items: center;
 }
 
-.tm-page-header-text i {
+.tool-bar a {
   padding-left: 0.5rem;
   position: relative;
   top: 1rem;
@@ -65,11 +65,8 @@ export default {
   color: var(--dim);
 }
 
-.tm-page-header-text i:hover {
+.tool-bar a:hover {
   cursor: pointer;
-}
-
-.tm-page-header-text i:hover {
   color: var(--bright);
 }
 </style>

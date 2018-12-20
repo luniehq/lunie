@@ -30,7 +30,7 @@ a {
   text-decoration: none;
 }
 a:hover {
-  color: #1f75ff;
+  color: var(--link-hover);
 }
 .desktop-only {
   display: none;
