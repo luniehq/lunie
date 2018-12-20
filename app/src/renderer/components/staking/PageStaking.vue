@@ -23,6 +23,7 @@ import { mapGetters, mapActions } from "vuex"
 import Mousetrap from "mousetrap"
 import TmPage from "common/TmPage"
 import ModalSearch from "common/TmModalSearch"
+import PerfectScrollbar from "perfect-scrollbar"
 import ToolBar from "common/ToolBar"
 import TmBalance from "common/TmBalance"
 export default {
@@ -53,12 +54,17 @@ export default {
   computed: {
     ...mapGetters([`connected`, `delegates`, `filters`])
   },
-  async mounted() {
+  mounted() {
+    this.ps = new PerfectScrollbar(this.$el.querySelector(`.tm-page-main`))
+
     Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
     Mousetrap.bind(`esc`, () => this.setSearch(false))
 
     // XXX temporary because querying the shares shows old shares after bonding
     // this.updateDelegates()
+  },
+  updated() {
+    this.$el.querySelector(`.tm-page-main`).scrollTop = 0
   },
   methods: {
     setSearch(bool = !this.filters[`delegates`].search.visible) {
