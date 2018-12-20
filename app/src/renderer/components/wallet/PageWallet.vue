@@ -6,7 +6,7 @@
         ><a
           v-tooltip.bottom="'Refresh'"
           :disabled="!connected"
-          @click="connected && queryWalletBalances()"
+          @click="connected && updateBalances()"
         >
           <i class="material-icons">refresh</i>
         </a>
@@ -34,6 +34,7 @@
       </div>
     </tm-data-msg>
     <data-empty-search v-else-if="filteredBalances.length === 0" />
+
     <ul v-else>
       <li-coin
         v-for="coin in filteredBalances"
@@ -41,8 +42,15 @@
         :key="coin.denom"
         :coin="coin"
         class="tm-li-balance"
+        v-on:show-modal="showModal"
       />
     </ul>
+
+    <page-send
+      v-if="showSendModal"
+      :show-send-modal.sync="showSendModal"
+      :denom="denomination"
+    />
   </tm-page>
 </template>
 
@@ -53,6 +61,7 @@ import { includes, orderBy } from "lodash"
 import Mousetrap from "mousetrap"
 import DataEmptySearch from "common/TmDataEmptySearch"
 import TmDataConnecting from "common/TmDataConnecting"
+import PageSend from "wallet/PageSend"
 import LiCopy from "common/TmLiCopy"
 import LiCoin from "./LiCoin"
 import TmListItem from "common/TmListItem"
@@ -77,9 +86,10 @@ export default {
     ModalSearch,
     TmPage,
     TmPart,
-    ToolBar
+    ToolBar,
+    PageSend
   },
-  data: () => ({ num }),
+  data: () => ({ num, showSendModal: false, denomination: null }),
   computed: {
     ...mapGetters([
       `filters`,
@@ -131,6 +141,13 @@ export default {
     setSearch(bool = !this.filters[`balances`].search.visible) {
       if (!this.somethingToSearch) return false
       this.$store.commit(`setSearchVisible`, [`balances`, bool])
+    },
+    updateBalances() {
+      this.queryWalletState()
+    },
+    showModal(denomination) {
+      this.showSendModal = true
+      this.denomination = denomination.toLowerCase()
     }
   }
 }

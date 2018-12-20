@@ -10,15 +10,11 @@
       <div class="li-coin__content__left__amount">
         <p class="coin-amount">{{ amount }}</p>
       </div>
-      <router-link :to="{ name: 'send', params: { denom: coin.denom } }">
-        <tm-btn
-          value="Send"
-          class="sendTx-btn"
-          icon="chevron_right"
-          icon-pos="right"
-          color="primary"
-        />
-      </router-link>
+      <tm-btn
+        value="Send"
+        color="primary"
+        @click.native="$emit(`show-modal`, denomination)"
+      />
     </div>
   </li>
 </template>
