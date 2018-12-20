@@ -1,10 +1,12 @@
 import setup from "../../../helpers/vuex-setup"
 import htmlBeautify from "html-beautify"
+import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 import TabProposals from "renderer/components/governance/TabProposals"
 
+let { tallies } = lcdClientMock.state
+
 describe(`TabProposals`, () => {
-  let wrapper
-  let store
+  let wrapper, store
   let { mount } = setup()
 
   beforeEach(() => {
@@ -20,7 +22,7 @@ describe(`TabProposals`, () => {
     wrapper = instance.wrapper
     store = instance.store
 
-    // store.state.proposals.loaded = true
+    store.state.proposals.tallies = tallies
     wrapper.update()
   })
 
@@ -49,7 +51,11 @@ describe(`TabProposals`, () => {
   })
 
   it(`shows a message if there is nothing to display`, async () => {
-    store.state.proposals.proposals = {}
+    store.state.proposals = {
+      proposals: {},
+      tallies: {},
+      loaded: true
+    }
     wrapper.update()
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })

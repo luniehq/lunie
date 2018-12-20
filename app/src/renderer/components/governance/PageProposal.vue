@@ -79,24 +79,19 @@
             <div class="page-profile__header__data__break" />
             <dl class="colored_dl">
               <dt>Yes</dt>
-              <dd>{{ proposal.tally_result.yes }} / {{ yesPercentage }}</dd>
+              <dd>{{ tally.yes }} / {{ yesPercentage }}</dd>
             </dl>
             <dl class="colored_dl">
               <dt>No</dt>
-              <dd>{{ proposal.tally_result.no }} / {{ noPercentage }}</dd>
+              <dd>{{ tally.no }} / {{ noPercentage }}</dd>
             </dl>
             <dl class="colored_dl">
               <dt>No with Veto</dt>
-              <dd>
-                {{ proposal.tally_result.no_with_veto }} /
-                {{ noWithVetoPercentage }}
-              </dd>
+              <dd>{{ tally.no_with_veto }} / {{ noWithVetoPercentage }}</dd>
             </dl>
             <dl class="colored_dl">
               <dt>Abstain</dt>
-              <dd>
-                {{ proposal.tally_result.abstain }} / {{ abstainPercentage }}
-              </dd>
+              <dd>{{ tally.abstain }} / {{ abstainPercentage }}</dd>
             </dl>
           </div>
         </div>
@@ -170,22 +165,7 @@ export default {
       `votes`
     ]),
     proposal() {
-      let proposal = this.proposals.proposals[this.proposalId]
-      if (proposal) {
-        proposal.tally_result.yes = Math.round(
-          parseFloat(proposal.tally_result.yes)
-        )
-        proposal.tally_result.no = Math.round(
-          parseFloat(proposal.tally_result.no)
-        )
-        proposal.tally_result.no_with_veto = Math.round(
-          parseFloat(proposal.tally_result.no_with_veto)
-        )
-        proposal.tally_result.abstain = Math.round(
-          parseFloat(proposal.tally_result.abstain)
-        )
-      }
-      return proposal
+      return this.proposals.proposals[this.proposalId]
     },
     proposalType() {
       return this.proposal.proposal_type.toLowerCase()
@@ -201,27 +181,33 @@ export default {
     },
     totalVotes() {
       return (
-        Number(this.proposal.tally_result.yes) +
-        Number(this.proposal.tally_result.no) +
-        Number(this.proposal.tally_result.no_with_veto) +
-        Number(this.proposal.tally_result.abstain)
+        this.tally.yes +
+        this.tally.no +
+        this.tally.no_with_veto +
+        this.tally.abstain
       )
     },
     yesPercentage() {
-      return num.percentInt(this.proposal.tally_result.yes / this.totalVotes)
+      return num.percentInt(this.tally.yes / this.totalVotes)
     },
     noPercentage() {
-      return num.percentInt(this.proposal.tally_result.no / this.totalVotes)
+      return num.percentInt(this.tally.no / this.totalVotes)
     },
     noWithVetoPercentage() {
-      return num.percentInt(
-        this.proposal.tally_result.no_with_veto / this.totalVotes
-      )
+      return num.percentInt(this.tally.no_with_veto / this.totalVotes)
     },
     abstainPercentage() {
-      return num.percentInt(
-        this.proposal.tally_result.abstain / this.totalVotes
+      return num.percentInt(this.tally.abstain / this.totalVotes)
+    },
+    tally() {
+      let proposalTally = this.proposals.tallies[this.proposalId]
+      proposalTally.yes = Math.round(parseFloat(proposalTally.yes))
+      proposalTally.no = Math.round(parseFloat(proposalTally.no))
+      proposalTally.no_with_veto = Math.round(
+        parseFloat(proposalTally.no_with_veto)
       )
+      proposalTally.abstain = Math.round(parseFloat(proposalTally.abstain))
+      return proposalTally
     },
     status() {
       if (this.proposal.proposal_status === `Passed`)
@@ -253,7 +239,6 @@ export default {
   methods: {
     async onVote() {
       this.showModalVote = true
-
       // The error is already handled with notifyError in votes.js
       await this.$store.dispatch(`getProposalVotes`, this.proposalId)
       this.lastVote =
@@ -272,6 +257,7 @@ export default {
           password
         })
 
+        this.proposal = this.proposals.proposals[this.proposalId]
         // TODO: get min deposit denom from gov params
         this.$store.commit(`notify`, {
           title: `Successful deposit!`,
@@ -302,6 +288,7 @@ export default {
             this.proposalId
           }`
         })
+        this.proposal = this.proposals.proposals[this.proposalId]
       } catch ({ message }) {
         this.$store.commit(`notifyError`, {
           title: `Error while voting on proposal #${this.proposalId}`,
