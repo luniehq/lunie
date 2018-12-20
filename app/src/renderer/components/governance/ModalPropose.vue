@@ -9,7 +9,10 @@
         <i class="material-icons">close</i>
       </div>
     </div>
-    <tm-form-group :error="$v.title.$invalid" class="page-proposal-form-group">
+    <tm-form-group
+      :error="$v.title.error && $v.title.$invalid"
+      class="page-proposal-form-group"
+    >
       <span>Title</span>
       <tm-field
         v-focus
@@ -26,7 +29,7 @@
       />
     </tm-form-group>
     <tm-form-group
-      :error="$v.description.$invalid"
+      :error="$v.description.error && $v.description.$invalid"
       class="page-proposal-form-group"
     >
       <span>Description</span>
@@ -44,7 +47,7 @@
       />
     </tm-form-group>
     <tm-form-group
-      :error="$v.amount.$invalid"
+      :error="$v.amount.error && $v.amount.$invalid"
       class="modal-propose-form-group"
       field-id="amount"
     >

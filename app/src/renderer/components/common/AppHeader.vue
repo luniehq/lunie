@@ -8,11 +8,11 @@
         <img
           v-if="themes.active == 'light'"
           id="logo-black"
-          src="~@/assets/images/cosmos-wordmark-black.svg"
+          src="~assets/images/cosmos-wordmark-black.svg"
         /><img
           v-else
           id="logo-white"
-          src="~@/assets/images/cosmos-wordmark-white.svg"
+          src="~assets/images/cosmos-wordmark-white.svg"
         />
       </div>
       <app-menu v-if="config.activeMenu === 'app' || config.desktop" /><template

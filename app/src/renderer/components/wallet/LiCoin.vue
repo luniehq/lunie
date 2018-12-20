@@ -1,6 +1,8 @@
 <template>
   <li class="li-coin">
-    <div class="li-coin__icon"><img src="assets/images/cosmos-logo.png" /></div>
+    <div class="li-coin__icon">
+      <img src="~assets/images/cosmos-logo.png" />
+    </div>
     <div class="li-coin__content">
       <div class="li-coin__content__left__denom">
         <p class="coin-denom">{{ denomination }}</p>
