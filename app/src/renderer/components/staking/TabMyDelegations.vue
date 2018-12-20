@@ -29,15 +29,6 @@
       to find other validators to delegate to.
     </div>
     <div v-if="delegation.loaded && undelegatedValidators.length > 0">
-      <h3 class="tab-header">
-        Unbonding validators
-        <i v-tooltip.top="unbondInfo" class="material-icons info-button"
-          >info_outline</i
-        >
-      </h3>
-      <table-validators :validators="undelegatedValidators" />
-    </div>
-    <div v-if="delegation.loaded && undelegatedValidators.length > 0">
       <h3 class="tab-header transactions">
         Unbonding transactions
         <i
@@ -47,14 +38,16 @@
           info_outline
         </i>
       </h3>
-      <template v-for="transaction in unbondingTransactions">
-        <tm-li-stake-transaction
-          :transaction="transaction"
-          :validators="undelegatedValidators"
-          :bonding-denom="bondingDenom"
-          :key="transaction.hash"
-        />
-      </template>
+      <div class="transactions">
+        <template v-for="transaction in unbondingTransactions">
+          <tm-li-stake-transaction
+            :transaction="transaction"
+            :validators="undelegatedValidators"
+            :bonding-denom="bondingDenom"
+            :key="transaction.hash"
+          />
+        </template>
+      </div>
     </div>
   </div>
 </template>
@@ -128,7 +121,7 @@ export default {
   margin: 1rem 1rem 0 2rem;
 }
 .tab-header.transactions {
-  margin: 2rem;
+  margin: 2rem 0 1rem 2rem;
 }
 
 .info-button {
@@ -140,9 +133,24 @@ export default {
   border: 1px solid var(--bc-dim);
   border-radius: 0.25rem;
   font-size: var(--sm);
-  margin-bottom: 4rem;
   margin-left: 2rem;
   padding: 0.5rem;
   text-align: center;
+}
+
+.transactions {
+  margin-left: 2rem;
+  counter-reset: transaction;
+}
+.transactions .tm-li-tx {
+  counter-increment: transaction;
+}
+.tm-li-tx::before {
+  content: counter(transaction);
+  position: absolute;
+  width: 2rem;
+  text-align: right;
+  color: var(--dim);
+  left: 0;
 }
 </style>
