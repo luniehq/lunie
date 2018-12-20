@@ -201,7 +201,7 @@ export default {
   props: {
     type: {
       type: String,
-      required: true
+      default: null
     },
     title: {
       type: String,

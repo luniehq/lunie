@@ -82,6 +82,7 @@ exports[`DelegationModal component matches snapshot has the expected html struct
         class="tm-field"
         id="to"
         readonly="readonly"
+        type="text"
       />
     </div>
   </div>

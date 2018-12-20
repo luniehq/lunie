@@ -1,4 +1,4 @@
-import { shallow } from "@vue/test-utils"
+import { shallowMount } from "@vue/test-utils"
 import htmlBeautify from "html-beautify"
 import FundraiserWarning from "renderer/components/common/FundraiserWarning"
 
@@ -6,7 +6,7 @@ describe(`FundraiserWarning`, () => {
   let wrapper
 
   beforeEach(() => {
-    wrapper = shallow(FundraiserWarning)
+    wrapper = shallowMount(FundraiserWarning)
   })
 
   it(`has the expected html structure`, () => {

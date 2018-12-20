@@ -12,7 +12,7 @@ export default {
   props: {
     type: {
       type: String,
-      required: true
+      default: null
     },
     name: {
       type: String,

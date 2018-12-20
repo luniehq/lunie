@@ -44,6 +44,11 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
             Proposals
          </router-link-stub>
 </div>
+   <div class=\\"tab\\">
+      <router-link-stub to=\\"[object Object]\\">
+         Parameters
+      </router-link-stub>
+</div>
 </div>
    <button class=\\"tm-btn\\" id=\\"propose-btn\\" disabled=\\"disabled\\"><span class=\\"tm-btn__container tm-btn--primary\\">
    <!---->
@@ -114,6 +119,11 @@ exports[`PageGovernance has the expected html structure 1`] = `
          <router-link-stub to=\\"[object Object]\\">
             Proposals
          </router-link-stub>
+</div>
+   <div class=\\"tab\\">
+      <router-link-stub to=\\"[object Object]\\">
+         Parameters
+      </router-link-stub>
 </div>
 </div>
    <button class=\\"tm-btn\\" id=\\"propose-btn\\"><span class=\\"tm-btn__container tm-btn--primary\\">

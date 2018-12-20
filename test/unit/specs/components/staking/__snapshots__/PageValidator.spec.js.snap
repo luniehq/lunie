@@ -1596,22 +1596,6 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
               id="page-profile__uptime"
             >
               
-              65.52 %
-            
-            </dd>
-          </dl>
-           
-          <dl
-            class="colored_dl"
-          >
-            <dt>
-              Uptime
-            </dt>
-             
-            <dd
-              id="validator-profile__uptime"
-            >
-              
               n/a
               %
             
@@ -2198,22 +2182,6 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
               id="page-profile__uptime"
             >
               
-              65.52 %
-            
-            </dd>
-          </dl>
-           
-          <dl
-            class="colored_dl"
-          >
-            <dt>
-              Uptime
-            </dt>
-             
-            <dd
-              id="validator-profile__uptime"
-            >
-              
               n/a
               %
             
@@ -2731,22 +2699,6 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
              
             <dd
               id="page-profile__uptime"
-            >
-              
-              65.52 %
-            
-            </dd>
-          </dl>
-           
-          <dl
-            class="colored_dl"
-          >
-            <dt>
-              Uptime
-            </dt>
-             
-            <dd
-              id="validator-profile__uptime"
             >
               
               n/a
@@ -3333,22 +3285,6 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
              
             <dd
               id="page-profile__uptime"
-            >
-              
-              65.52 %
-            
-            </dd>
-          </dl>
-           
-          <dl
-            class="colored_dl"
-          >
-            <dt>
-              Uptime
-            </dt>
-             
-            <dd
-              id="validator-profile__uptime"
             >
               
               n/a

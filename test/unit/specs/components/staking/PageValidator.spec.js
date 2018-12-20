@@ -151,7 +151,7 @@ describe(`PageValidator`, () => {
       },
       ratio: 0.01
     })
-    expect(wrapper.find(`#validator-profile__self-bond`).text()).toBe(`1.00 %`)
+    expect(wrapper.find(`#page-profile__self-bond`).text()).toBe(`1.00 %`)
   })
 
   it(`should show the validator status`, () => {

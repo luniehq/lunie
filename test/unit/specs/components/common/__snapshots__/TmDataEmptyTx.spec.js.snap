@@ -14,9 +14,9 @@ exports[`TmDataEmptyTx has the expected html structure 1`] = `
 <div class=\\"tm-data-msg__subtitle\\">
    <div>
       Looks like you haven't sent or received any transactions yet. Head over to    your 
-      <router-link to=\\"[object Object]\\">
+      <router-link-stub to=\\"[object Object]\\">
          Wallet
-      </router-link>
+      </router-link-stub>
 to make    your first transaction!  
    </div>
 </div>

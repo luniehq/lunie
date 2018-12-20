@@ -5,7 +5,11 @@ import TmDataEmptyTx from "common/TmDataEmptyTx"
 describe(`TmDataEmptyTx`, () => {
   let wrapper
   beforeEach(() => {
-    wrapper = mount(TmDataEmptyTx)
+    wrapper = mount(TmDataEmptyTx, {
+      stubs: {
+        "router-link": true
+      }
+    })
   })
 
   it(`has the expected html structure`, () => {

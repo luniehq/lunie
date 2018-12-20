@@ -76,6 +76,7 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
         class="tm-field"
         id="to"
         readonly="readonly"
+        type="text"
       />
        
       <hr />

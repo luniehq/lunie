@@ -45,8 +45,8 @@ describe(`PageWallet`, () => {
   })
 
   it(`should update balances by querying wallet state`, () => {
-    wrapper.vm.updateBalances()
-    expect(store.dispatch).toHaveBeenCalledWith(`queryWalletState`)
+    wrapper.vm.queryWalletBalances()
+    expect(store.dispatch).toHaveBeenCalledWith(`queryWalletBalances`)
   })
 
   it(`should show the search on click`, () => {
