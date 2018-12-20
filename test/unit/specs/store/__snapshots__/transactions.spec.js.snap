@@ -436,7 +436,7 @@ Object {
             Object {
               "type": "cosmos-sdk/BeginUnbonding",
               "value": Object {
-                "shares_amount": "1000/100000",
+                "shares_amount": "1000",
                 "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
               },
             },
@@ -492,7 +492,7 @@ Object {
             Object {
               "type": "cosmos-sdk/BeginRedelegate",
               "value": Object {
-                "shares_amount": "3/20",
+                "shares_amount": "3",
                 "validator_dst_addr": "cosmosvaladdr157mg9hnhchfrqvk3enrvmvj29yhmlwf759xrgw",
                 "validator_src_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
               },
