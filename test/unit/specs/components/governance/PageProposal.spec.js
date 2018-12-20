@@ -130,7 +130,6 @@ describe(`PageProposal`, () => {
     it(`enables voting if the proposal is on the 'VotingPeriod'`, () => {
       let proposal = proposals[`2`]
       proposal.proposal_status = `VotingPeriod`
-      console.log(proposal.proposal_status)
       let instance = mount(PageProposal, {
         localVue,
         doBefore: ({ router, store }) => {
