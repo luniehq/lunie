@@ -1,5 +1,4 @@
 import setup from "../../../helpers/vuex-setup"
-import htmlBeautify from "html-beautify"
 import TableValidators from "renderer/components/staking/TableValidators"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
@@ -25,7 +24,7 @@ describe(`TableValidators`, () => {
     // to work properly in the tests (snapshots weren't matching)
     // this has occured across multiple tests
     await wrapper.vm.$nextTick()
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should sort the delegates by selected property`, () => {

@@ -1,5 +1,4 @@
 import setup from "../../../helpers/vuex-setup"
-import htmlBeautify from "html-beautify"
 import Vuelidate from "vuelidate"
 import PageGovernance from "renderer/components/governance/PageGovernance"
 import ModalPropose from "renderer/components/governance/ModalPropose"
@@ -34,7 +33,7 @@ describe(`PageGovernance`, () => {
     // to work properly in the tests (snapshots weren't matching)
     // this has occured across multiple tests
     await wrapper.vm.$nextTick()
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should show the search on click`, () => {
@@ -50,7 +49,7 @@ describe(`PageGovernance`, () => {
     expect(
       wrapper.vm.$el.querySelector(`#propose-btn`).getAttribute(`disabled`)
     ).not.toBeNull()
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   describe(`Modal onPropose modal on click`, () => {

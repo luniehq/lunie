@@ -1,5 +1,4 @@
 import TmConnectedNetwork from "common/TmConnectedNetwork"
-import htmlBeautify from "html-beautify"
 import setup from "../../../helpers/vuex-setup"
 
 describe(`TmConnectedNetwork`, () => {
@@ -15,7 +14,7 @@ describe(`TmConnectedNetwork`, () => {
   })
 
   it(`has the expected html structure`, () => {
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`has a network icon`, () => {

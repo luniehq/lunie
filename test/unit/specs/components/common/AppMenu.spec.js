@@ -1,5 +1,4 @@
 import AppMenu from "common/AppMenu"
-import htmlBeautify from "html-beautify"
 import setup from "../../../helpers/vuex-setup"
 
 describe(`AppMenu`, () => {
@@ -28,7 +27,7 @@ describe(`AppMenu`, () => {
       connected: true
     })
 
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`checks whether current page is validators`, () => {

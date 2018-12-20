@@ -1,6 +1,5 @@
 import setup from "../../../helpers/vuex-setup"
 import Vuelidate from "vuelidate"
-import htmlBeautify from "html-beautify"
 import TmSessionSignIn from "common/TmSessionSignIn"
 
 let instance = setup()
@@ -25,7 +24,7 @@ describe(`TmSessionSignIn`, () => {
   })
 
   it(`has the expected html structure`, () => {
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should open the help modal on click`, () => {

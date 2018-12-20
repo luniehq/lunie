@@ -1,5 +1,4 @@
 import AppHeader from "common/AppHeader"
-import htmlBeautify from "html-beautify"
 import setup from "../../../helpers/vuex-setup"
 
 describe(`AppHeader`, () => {
@@ -18,28 +17,28 @@ describe(`AppHeader`, () => {
     store.commit(`setConfigDesktop`, true)
     store.commit(`setActiveMenu`, `app`)
 
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`has the expected html structure 2`, () => {
     store.commit(`setConfigDesktop`, false)
     store.commit(`setActiveMenu`, `app`)
 
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`has the expected html structure 3`, () => {
     store.commit(`setConfigDesktop`, true)
     store.commit(`setActiveMenu`, ``)
 
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`has the expected html structure 4`, () => {
     store.commit(`setConfigDesktop`, false)
     store.commit(`setActiveMenu`, ``)
 
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should close the app menu`, () => {

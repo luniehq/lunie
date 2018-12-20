@@ -1,5 +1,4 @@
 import setup from "../../../helpers/vuex-setup"
-import htmlBeautify from "html-beautify"
 import ToolBar from "common/ToolBar"
 describe(`ToolBar`, () => {
   let wrapper, store
@@ -12,7 +11,7 @@ describe(`ToolBar`, () => {
   })
 
   it(`has the expected html structure`, () => {
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`sets the helper modal`, () => {

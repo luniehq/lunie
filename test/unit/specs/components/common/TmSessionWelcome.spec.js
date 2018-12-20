@@ -1,6 +1,5 @@
 import Vuex from "vuex"
 import { mount, createLocalVue } from "@vue/test-utils"
-import htmlBeautify from "html-beautify"
 import NISessionWelcome from "common/TmSessionWelcome"
 import LiSession from "common/TmLiSession"
 
@@ -46,7 +45,7 @@ describe(`NISessionWelcome`, () => {
     })
 
     it(`has the expected html structure`, () => {
-      expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+      expect(wrapper.vm.$el).toMatchSnapshot()
     })
   })
 
@@ -72,7 +71,7 @@ describe(`NISessionWelcome`, () => {
     })
 
     it(`has the expected html structure`, () => {
-      expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+      expect(wrapper.vm.$el).toMatchSnapshot()
     })
   })
 })

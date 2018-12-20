@@ -1,6 +1,5 @@
 import Vuelidate from "vuelidate"
 import setup from "../../../helpers/vuex-setup"
-import htmlBeautify from "html-beautify"
 import TabParameters from "renderer/components/governance/TabParameters"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
@@ -38,7 +37,7 @@ describe(`TabParameters`, () => {
 
   it(`has the expected html structure`, async () => {
     await wrapper.vm.$nextTick()
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`shows the governance parameters`, () => {

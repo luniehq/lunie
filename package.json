@@ -67,7 +67,6 @@
     "express": "4.16.4",
     "express-mung": "0.5.1",
     "file-loader": "1.1.11",
-    "html-beautify": "1.0.4",
     "html-webpack-plugin": "2.30.1",
     "http-server": "0.11.1",
     "husky": "0.14.3",
