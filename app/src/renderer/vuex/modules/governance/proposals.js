@@ -77,9 +77,7 @@ export default ({ node }) => {
         let proposal = await node.queryProposal(proposal_id)
         commit(`setProposal`, proposal.value)
         if (proposal.value.proposal_status === `VotingPeriod`) {
-          tally_result = await node.queryProposalTally(
-            proposal.value.proposal_id
-          )
+          tally_result = await node.getProposalTally(proposal.value.proposal_id)
         } else {
           tally_result = JSON.parse(JSON.stringify(proposal.value.tally_result))
         }

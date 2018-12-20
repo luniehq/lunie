@@ -151,7 +151,6 @@ export default {
     }
   },
   data: () => ({
-    proposal: undefined,
     showModalDeposit: false,
     showModalVote: false,
     lastVote: undefined
@@ -165,6 +164,9 @@ export default {
       `wallet`,
       `votes`
     ]),
+    proposal() {
+      return this.proposals.proposals[this.proposalId]
+    },
     proposalType() {
       return this.proposal.proposal_type.toLowerCase()
     },
@@ -198,12 +200,7 @@ export default {
       return num.percentInt(this.tally.abstain / this.totalVotes)
     },
     tally() {
-      let proposalTally
-      if (this.proposal.proposal_status === `VotingPeriod`) {
-        proposalTally = this.proposals.tallies[this.proposalId]
-      } else {
-        proposalTally = this.proposal.tally_result
-      }
+      let proposalTally = this.proposals.tallies[this.proposalId]
       proposalTally.yes = Math.round(parseFloat(proposalTally.yes))
       proposalTally.no = Math.round(parseFloat(proposalTally.no))
       proposalTally.no_with_veto = Math.round(
@@ -238,12 +235,6 @@ export default {
           color: `grey`
         }
     }
-  },
-  mounted() {
-    this.proposal = this.proposals.proposals[this.proposalId]
-  },
-  updated() {
-    this.proposal = this.proposals.proposals[this.proposalId]
   },
   methods: {
     async onVote() {
@@ -291,13 +282,13 @@ export default {
           password
         })
 
-        this.proposal = this.proposals.proposals[this.proposalId]
         this.$store.commit(`notify`, {
           title: `Successful vote!`,
           body: `You have successfully voted ${option} on proposal #${
             this.proposalId
           }`
         })
+        this.proposal = this.proposals.proposals[this.proposalId]
       } catch ({ message }) {
         this.$store.commit(`notifyError`, {
           title: `Error while voting on proposal #${this.proposalId}`,
