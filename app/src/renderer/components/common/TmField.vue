@@ -94,12 +94,12 @@ export default {
       type: [Array, Object],
       default: () => ({
         checked: {
-          type: Boolean,
-          default: false
+          type: String,
+          default: `off`
         },
         unchecked: {
-          type: Boolean,
-          default: false
+          type: String,
+          default: `off`
         }
       })
     },
@@ -168,14 +168,6 @@ export default {
         el.select()
       })
     }
-    /* if (this.type === 'datetime') {
-      this.picker = flatpickr(el, {
-        enableTime: true,
-        dateFormat: 'Y-m-d H:i',
-        onChange: (dateObj, dateStr) => this.updateValue(dateStr)
-      })
-      // console.log('its a datetime!', el)
-    } */
   },
   methods: {
     toggle() {
