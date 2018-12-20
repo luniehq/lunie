@@ -140,9 +140,6 @@ export default {
     close() {
       this.$emit(`update:showDelegationModal`, false)
     },
-    togglePassword() {
-      this.showPassword = !this.showPassword
-    },
     onDelegation() {
       this.$emit(`submitDelegation`, {
         amount: this.amount,

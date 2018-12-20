@@ -43,15 +43,6 @@ describe(`ModalVote`, () => {
     })
   })
 
-  describe(`Password display`, () => {
-    it(`toggles the password between text and password`, () => {
-      wrapper.vm.togglePassword()
-      expect(wrapper.vm.showPassword).toBe(true)
-      wrapper.vm.togglePassword()
-      expect(wrapper.vm.showPassword).toBe(false)
-    })
-  })
-
   describe(`enables or disables Vote correctly`, () => {
     it(`disables the 'Vote' button`, () => {
       // default values

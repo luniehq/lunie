@@ -147,9 +147,6 @@ export default {
     close() {
       this.$emit(`update:showModalDeposit`, false)
     },
-    togglePassword() {
-      this.showPassword = !this.showPassword
-    },
     onDeposit() {
       let amount = [
         {

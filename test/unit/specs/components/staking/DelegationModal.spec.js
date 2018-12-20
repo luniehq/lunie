@@ -76,15 +76,6 @@ describe(`DelegationModal`, () => {
     })
   })
 
-  describe(`Password display`, () => {
-    it(`toggles the password between text and password`, () => {
-      wrapper.vm.togglePassword()
-      expect(wrapper.vm.showPassword).toBe(true)
-      wrapper.vm.togglePassword()
-      expect(wrapper.vm.showPassword).toBe(false)
-    })
-  })
-
   describe(`enables or disables the Delegation button correctly`, () => {
     describe(`disables the 'Delegation' button`, () => {
       it(`with default values`, () => {

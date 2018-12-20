@@ -64,15 +64,6 @@ describe(`ModalPropose`, () => {
     })
   })
 
-  describe(`Password display`, () => {
-    it(`toggles the password between text and password`, () => {
-      wrapper.vm.togglePassword()
-      expect(wrapper.vm.showPassword).toBe(true)
-      wrapper.vm.togglePassword()
-      expect(wrapper.vm.showPassword).toBe(false)
-    })
-  })
-
   describe(`enables or disables 'Create Proposal' button correctly`, () => {
     describe(`disables the 'Create Proposal' button`, () => {
       it(`with the default values`, () => {

@@ -52,15 +52,6 @@ describe(`ModalDeposit`, () => {
     })
   })
 
-  describe(`Password display`, () => {
-    it(`toggles the password between text and password`, () => {
-      wrapper.vm.togglePassword()
-      expect(wrapper.vm.showPassword).toBe(true)
-      wrapper.vm.togglePassword()
-      expect(wrapper.vm.showPassword).toBe(false)
-    })
-  })
-
   describe(`enables or disables 'Deposit' button correctly`, () => {
     describe(`disables the 'Deposit' button`, () => {
       it(`with default values`, () => {

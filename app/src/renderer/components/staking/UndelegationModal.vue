@@ -130,9 +130,6 @@ export default {
     close() {
       this.$emit(`update:showUndelegationModal`, false)
     },
-    togglePassword() {
-      this.showPassword = !this.showPassword
-    },
     onUndelegate() {
       this.$emit(`submitUndelegation`, {
         amount: this.amount,
