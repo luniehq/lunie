@@ -322,7 +322,7 @@ export default [
             type: `cosmos-sdk/BeginUnbonding`,
             value: {
               validator_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
-              shares_amount: `1000/100000`
+              shares_amount: `1000`
             }
           }
         ],
@@ -381,7 +381,7 @@ export default [
             value: {
               validator_src_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
               validator_dst_addr: `cosmosvaladdr157mg9hnhchfrqvk3enrvmvj29yhmlwf759xrgw`,
-              shares_amount: `3/20`
+              shares_amount: `3`
             }
           }
         ],

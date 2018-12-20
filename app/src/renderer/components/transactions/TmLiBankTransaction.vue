@@ -28,32 +28,6 @@
 <script>
 import numeral from "numeral"
 
-const defaultCoin = {
-  denom: null,
-  amount: null
-}
-
-const defaultInput = {
-  address: null,
-  coins: [defaultCoin, defaultCoin, defaultCoin]
-}
-
-const defaultTransaction = {
-  tx: {
-    value: {
-      msg: [
-        {
-          value: {
-            time: null,
-            inputs: [defaultInput, defaultInput, defaultInput],
-            outputs: [defaultInput, defaultInput, defaultInput]
-          }
-        }
-      ]
-    }
-  }
-}
-
 import TmLiTransaction from "./TmLiTransaction"
 import colors from "./transaction-colors.js"
 
@@ -63,7 +37,7 @@ export default {
   props: {
     transaction: {
       type: Object,
-      default: () => defaultTransaction
+      required: true
     },
     address: {
       type: String,

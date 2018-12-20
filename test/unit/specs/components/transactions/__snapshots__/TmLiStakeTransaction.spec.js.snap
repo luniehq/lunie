@@ -97,7 +97,7 @@ exports[`TmLiStakeTransaction redelegations should show redelegations and calcul
             
       Redelegated 
             <b>
-              0.15
+              3
             </b>
             <span>
                stakes
@@ -143,6 +143,75 @@ exports[`TmLiStakeTransaction redelegations should show redelegations and calcul
 </div>
 `;
 
+exports[`TmLiStakeTransaction unbonding delegations should show unbonding delegations as ended 1`] = `
+<div
+  class="tm-li-tx"
+>
+  <div
+    class="tm-li-tx__icon"
+  >
+    <img
+      src="~assets/images/cosmos-logo.png"
+      style="border-color: #9d5c19;"
+    />
+  </div>
+   
+  <div
+    class="tm-li-tx__content"
+  >
+    <div
+      class="tm-li-tx__content__left"
+    >
+      <div
+        class="tm-li-tx__content__caption"
+      >
+        <p
+          class="tm-li-tx__content__caption__title"
+        >
+          <div>
+            
+      Unbonded 
+            <b>
+              1000
+            </b>
+            <span>
+               stakes
+            </span>
+            <!---->
+          </div>
+        </p>
+      </div>
+       
+      <div
+        class="tm-li-tx__content__information"
+      >
+        <div>
+          
+      From 
+          <router-link-stub
+            to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+          >
+            cool validator
+          </router-link-stub>
+        </div>
+      </div>
+    </div>
+     
+    <div
+      class="tm-li-tx__content__block"
+    >
+      <a
+        href="https://explorecosmos.network/blocks/569"
+      >
+        Block #569 
+      </a>
+      @ 12:00 am
+    
+    </div>
+  </div>
+</div>
+`;
+
 exports[`TmLiStakeTransaction unbonding delegations should show unbondings and calculate tokens from shares 1`] = `
 <div
   class="tm-li-tx"
@@ -172,12 +241,16 @@ exports[`TmLiStakeTransaction unbonding delegations should show unbondings and c
             
       Unbonded 
             <b>
-              0.01
+              1000
             </b>
             <span>
                stakes
             </span>
-            <!---->
+            <span
+              class="tx-unbonding__time-dif"
+            >
+               - a few seconds ago
+            </span>
           </div>
         </p>
       </div>

@@ -41,10 +41,26 @@ describe(`TmLiStakeTransaction`, () => {
 
   describe(`unbonding delegations`, () => {
     it(`should show unbondings and calculate tokens from shares`, () => {
+      let transaction = JSON.parse(JSON.stringify(transactions[4]))
+      transaction.unbondingDelegation = {
+        min_time: Date.now() + 1000
+      }
       wrapper.setProps({
-        transaction: transactions[4]
+        transaction
       })
       expect(wrapper.vm.unbonding).toBe(true)
+      expect(wrapper.contains(`.tx-unbonding__time-dif`)).toBe(true)
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
+
+    it(`should show unbonding delegations as ended`, () => {
+      let transaction = JSON.parse(JSON.stringify(transactions[4]))
+      transaction.unbondingDelegation = {
+        min_time: Date.now() - 1000
+      }
+      wrapper.setProps({
+        transaction
+      })
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
   })

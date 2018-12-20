@@ -29,6 +29,11 @@ describe(`TmDataMsg`, () => {
     )
   })
 
+  it(`has shows a spinner`, () => {
+    wrapper.setProps({ spin: true })
+    expect(wrapper.contains(`.fa-spin`)).toBe(true)
+  })
+
   it(`doesn't have a spinning icon`, () => {
     expect(
       wrapper.find(`.tm-data-msg__icon`).contains(`i.material-icons.fa-spin`)

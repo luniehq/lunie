@@ -38,16 +38,11 @@
           }}</b
           ><span>&nbsp;{{ bondingDenom }}s</span></template
         ><template v-if="timeDiff"
-          ><span>&nbsp;- {{ timeDiff }}</span></template
+          ><span class="tx-unbonding__time-dif"
+            >&nbsp;- {{ timeDiff }}</span
+          ></template
         >
       </div>
-      <div slot="details">
-        From&nbsp;<router-link :to="URL + '/' + tx.validator_addr">{{
-          moniker(tx.validator_addr)
-        }}</router-link>
-      </div> </template
-    ><template v-if="endUnbonding">
-      <div slot="caption">Ended Unbonding&nbsp;</div>
       <div slot="details">
         From&nbsp;<router-link :to="URL + '/' + tx.validator_addr">{{
           moniker(tx.validator_addr)
@@ -60,10 +55,10 @@
 <script>
 import TmLiTransaction from "./TmLiTransaction"
 import colors from "./transaction-colors.js"
+import { calculateTokens } from "../../scripts/common.js"
 import moment from "moment"
 import TmBtn from "common/TmBtn.vue"
 import numeral from "numeral"
-import { BigNumber } from "bignumber.js"
 
 /*
  * undelegation tx need a preprocessing, where shares are translated into transaction.balance: {amount, denom}
@@ -106,34 +101,26 @@ export default {
     unbonding() {
       return this.type === `cosmos-sdk/BeginUnbonding`
     },
-    endUnbonding() {
-      return this.type === `cosmos-sdk/CompleteUnbonding`
-    },
     timeDiff() {
       // only show time diff if still waiting to be terminated
       if (this.state !== `locked`) return ``
 
       return this.transaction.unbondingDelegation
-        ? moment(this.transaction.unbondingDelegation.min_time).fromNow()
+        ? moment(this.transaction.unbondingDelegation.min_time).toNow()
         : ``
     },
-    // state needs to be calculated by a wrapping application
-    // unbonding requires state to be 'locked', 'ready', 'ended'
+    // unbonding transactions can be in the state 'locked', 'ended'
+    // the transaction needs to be enriched from the outside with `unbondingDelegation`
     state() {
       if (!this.transaction.unbondingDelegation) return `ended`
-      if (
-        moment(this.transaction.unbondingDelegation.min_time).valueOf() -
-          moment().valueOf() <=
-        0
-      )
-        return `ready`
+      if (this.transaction.unbondingDelegation.min_time - Date.now() <= 0)
+        return `ended`
       return `locked`
     },
     color() {
       if (this.delegation) return colors.stake.bonded
       if (this.redelegation) return colors.stake.redelegate
       if (this.unbonding) return colors.stake.unbonded
-      if (this.endUnbonding) return colors.stake.unbonded
     }
   },
   methods: {
@@ -150,39 +137,11 @@ export default {
       }
       return numeral(amountNumber).format(`0,0.00`)
     },
-    // TODO duplicated code from voyager. Delete when the two repositories are merged
     calculatePrettifiedTokens(validatorAddr, shares) {
-      // this is the based on the idea that tokens should equal
-      // (myShares / totalShares) * totalTokens where totalShares
-      // and totalTokens are both represented as fractions
-      let tokens
       let validator = this.validators.find(
         val => val.operator_address === validatorAddr
       )
-
-      let sharesN = new BigNumber(shares.split(`/`)[0])
-      let sharesD = new BigNumber(shares.split(`/`)[1] || 1)
-      let myShares = sharesN.div(sharesD)
-
-      let totalSharesN = new BigNumber(validator.delegator_shares.split(`/`)[0])
-      let totalSharesD = new BigNumber(
-        validator.delegator_shares.split(`/`)[1] || 1
-      )
-      let totalShares = totalSharesN.div(totalSharesD)
-
-      let totalTokensN = new BigNumber(validator.tokens.split(`/`)[0])
-      let totalTokensD = new BigNumber(validator.tokens.split(`/`)[1] || 1)
-      let totalTokens = totalTokensN.div(totalTokensD)
-
-      if (totalSharesN.eq(0)) {
-        tokens = 0
-      } else {
-        tokens = myShares
-          .times(totalTokens)
-          .div(totalShares)
-          .toNumber()
-      }
-      return this.prettify(tokens)
+      return calculateTokens(validator, shares).toNumber()
     }
   }
 }
