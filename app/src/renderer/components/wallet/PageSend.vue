@@ -87,26 +87,18 @@
         <tm-form-group
           :error="$v.fields.password.$error"
           field-id="password"
-          field-label="Account password"
+          field-label="Password"
         >
           <tm-field
             id="password"
             v-model="fields.password"
-            :type="showPassword ? `text` : `password`"
-            placeholder="password..."
+            placeholder="Password"
           />
           <tm-form-msg
             v-if="!$v.fields.password.required"
             name="Password"
             type="required"
           />
-          <input
-            id="showPasswordCheckbox"
-            v-model="showPassword"
-            type="checkbox"
-            @input="togglePassword"
-          />
-          <label for="showPasswordCheckbox">Show password</label>
         </tm-form-group>
       </tm-part>
       <div slot="footer">

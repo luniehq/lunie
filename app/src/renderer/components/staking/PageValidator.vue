@@ -428,7 +428,7 @@ export default {
         {
           address: this.wallet.address,
           maximum: Math.floor(this.totalAtoms - this.oldBondedAtoms),
-          key: `My Wallet - ${shortAddress(this.wallet.address, 20)}`,
+          key: `My Wallet - ${this.wallet.address}`,
           value: 0
         }
       ]

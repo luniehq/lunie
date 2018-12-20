@@ -55,9 +55,6 @@ a:hover {
 input.tm-field {
   height: inherit !important;
 }
-.tm-select .tm-field {
-  border: 1px solid var(--bc, #ddd);
-}
 .tm-select .tm-field-select-addon {
   height: 100% !important;
   border-left: 1px solid var(--bc, #ddd);

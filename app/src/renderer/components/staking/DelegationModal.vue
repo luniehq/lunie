@@ -42,7 +42,7 @@
       field-id="to"
       field-label="To"
     >
-      <tm-field id="to" v-model="to" readonly="readonly" />
+      <tm-field id="to" v-model="to" readonly="readonly" type="text" />
     </tm-form-group>
     <tm-form-group
       class="delegation-modal-form-group"
@@ -56,34 +56,25 @@
         :options="fromOptions"
         type="select"
       />
-      <hr />
     </tm-form-group>
     <tm-form-group
       class="delegation-modal-form-group"
       field-id="password"
-      field-label="Account password"
+      field-label="Password"
     >
       <tm-field
         id="password"
         v-model="password"
-        :type="showPassword ? `text` : `password`"
-        placeholder="password..."
+        type="password"
+        placeholder="Password"
       />
-      <input
-        id="showPasswordCheckbox"
-        v-model="showPassword"
-        type="checkbox"
-        @input="togglePassword"
-      />
-      <label for="showPasswordCheckbox">Show password</label>
     </tm-form-group>
     <div class="delegation-modal-footer">
       <tm-btn
         id="submit-delegation"
         :disabled="$v.$invalid"
         color="primary"
-        value="Confirm Delegation"
-        size="lg"
+        value="Submit"
         @click.native="onDelegation"
       />
     </div>
@@ -169,29 +160,30 @@ export default {
   background: var(--app-nav);
   display: flex;
   flex-direction: column;
-  height: 50%;
   justify-content: space-between;
-  left: 50%;
-  padding: 2rem;
+  right: 2rem;
+  padding: 3rem;
   position: fixed;
-  top: 50%;
-  width: 40%;
+  bottom: 0;
+  width: 100%;
+  max-width: 600px;
   z-index: var(--z-modal);
 }
 
 .delegation-modal-header {
   align-items: center;
   display: flex;
+  padding-bottom: 2rem;
 }
 
 .delegation-modal-atom {
-  height: 4rem;
-  width: 4rem;
+  height: 3rem;
+  width: 3rem;
 }
 
 .delegation-modal-form-group {
   display: block;
-  padding: 0;
+  padding: 0.5rem 0;
 }
 
 .delegation-modal #amount {
@@ -208,6 +200,7 @@ export default {
 .delegation-modal-footer {
   display: flex;
   justify-content: flex-end;
+  padding: 2rem 0 0;
 }
 
 .delegation-modal-footer button {

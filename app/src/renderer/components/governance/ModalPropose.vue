@@ -12,8 +12,9 @@
     <tm-form-group
       :error="$v.title.error && $v.title.$invalid"
       class="page-proposal-form-group"
+      field-id="title"
+      field-label="Title"
     >
-      <span>Title</span>
       <tm-field
         v-focus
         id="title"
@@ -31,8 +32,9 @@
     <tm-form-group
       :error="$v.description.error && $v.description.$invalid"
       class="page-proposal-form-group"
+      field-id="description"
+      field-label="Description"
     >
-      <span>Description</span>
       <tm-field
         id="description"
         v-model.trim="description"
@@ -50,8 +52,8 @@
       :error="$v.amount.error && $v.amount.$invalid"
       class="modal-propose-form-group"
       field-id="amount"
+      field-label="Amount"
     >
-      <span>Deposit amount</span>
       <tm-field
         id="denom"
         :placeholder="denom"
@@ -73,31 +75,25 @@
         name="Amount"
         type="between"
       />
-      <hr />
     </tm-form-group>
-    <tm-form-group class="modal-propose-form-group" field-id="password">
-      <span>Account password</span>
+    <tm-form-group
+      class="modal-propose-form-group"
+      field-id="password"
+      field-label="Password"
+    >
       <tm-field
         id="password"
         v-model="password"
-        :type="showPassword ? `text` : `password`"
-        placeholder="password..."
+        type="password"
+        placeholder="Password"
       />
-      <input
-        id="showPasswordCheckbox"
-        v-model="showPassword"
-        type="checkbox"
-        @input="togglePassword"
-      />
-      <label for="showPasswordCheckbox">Show password</label>
     </tm-form-group>
     <div class="modal-propose-footer">
       <tm-btn
         id="submit-proposal"
         :disabled="$v.$invalid"
         color="primary"
-        value="Submit proposal"
-        size="lg"
+        value="Submit"
         @click.native="onPropose"
       />
     </div>
@@ -200,9 +196,6 @@ export default {
   methods: {
     close() {
       this.$emit(`update:showModalPropose`, false)
-    },
-    togglePassword() {
-      this.showPassword = !this.showPassword
     },
     onPropose() {
       this.$emit(`createProposal`, {

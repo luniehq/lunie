@@ -46,26 +46,18 @@
       field-label="To"
     >
       <tm-field id="to" v-model="to" readonly="readonly" />
-      <hr />
     </tm-form-group>
     <tm-form-group
       class="undelegation-modal-form-group"
       field-id="password"
-      field-label="Account password"
+      field-label="Password"
     >
       <tm-field
         id="password"
         v-model="password"
-        :type="showPassword ? `text` : `password`"
-        placeholder="password..."
+        type="password"
+        placeholder="Password"
       />
-      <input
-        id="showPasswordCheckbox"
-        v-model="showPassword"
-        type="checkbox"
-        @input="togglePassword"
-      />
-      <label for="showPasswordCheckbox">Show password</label>
     </tm-form-group>
     <div class="undelegation-modal-footer">
       <tm-btn

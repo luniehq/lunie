@@ -10,8 +10,7 @@
       </div>
     </div>
     <div>
-      <h2>Title: {{ proposalTitle }}</h2>
-      <h3>Proposal ID: {{ `#` + proposalId }}</h3>
+      <h2>{{ proposalTitle }} ({{ `#` + proposalId }})</h2>
     </div>
     <tm-form-group class="modal-vote-form-group options">
       <tm-btn
@@ -50,7 +49,6 @@
         size="md"
         @click.native="vote('Abstain')"
       />
-      <hr />
     </tm-form-group>
     <tm-form-group
       class="modal-vote-form-group"
@@ -60,16 +58,9 @@
       <tm-field
         id="password"
         v-model="password"
-        :type="showPassword ? `text` : `password`"
-        placeholder="password..."
+        type="password"
+        placeholder="Password"
       />
-      <input
-        id="showPasswordCheckbox"
-        v-model="showPassword"
-        type="checkbox"
-        @input="togglePassword"
-      />
-      <label for="showPasswordCheckbox">Show password</label>
     </tm-form-group>
     <tm-form-group class="modal-vote-form-group" />
     <div class="modal-vote-footer">
@@ -78,7 +69,6 @@
         :disabled="$v.$invalid"
         color="primary"
         value="Vote"
-        size="lg"
         @click.native="onVote"
       />
     </div>
@@ -147,9 +137,6 @@ export default {
     close() {
       this.$emit(`update:showModalVote`, false)
     },
-    togglePassword() {
-      this.showPassword = !this.showPassword
-    },
     vote(option) {
       if (this.option === option) {
         this.option = ``
@@ -180,14 +167,18 @@ export default {
   z-index: var(--z-modal);
 }
 
+.modal-vote h2 {
+  font-weight: 500;
+}
+
 .modal-vote-header {
   align-items: center;
   display: flex;
 }
 
 .modal-vote-atom {
-  height: 4rem;
-  width: 4rem;
+  height: 3rem;
+  width: 3rem;
 }
 
 .modal-vote-form-group {
@@ -206,7 +197,7 @@ export default {
 
 .modal-vote button {
   margin: 0;
-  min-width: 49%;
+  /* min-width: 24%; */
 }
 
 .modal-vote button span {

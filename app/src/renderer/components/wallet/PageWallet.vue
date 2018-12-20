@@ -28,8 +28,8 @@
     >
       <div slot="title">Account empty</div>
       <div slot="subtitle">
-        This account doesn't hold any coins yet. Go to the&nbsp;
-        <a href="https://gaia.faucetcosmos.network/">token faucet</a> &nbsp;to
+        This account doesn't hold any coins yet. Visit the
+        <a href="https://gaia.faucetcosmos.network/">token&nbsp;faucet</a> to
         aquire tokens to play with.
       </div>
     </tm-data-msg>

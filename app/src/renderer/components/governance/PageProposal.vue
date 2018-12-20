@@ -60,8 +60,8 @@
               Submitted {{ submittedAgo }}.
               {{
                 proposal.proposal_status === `DepositPeriod`
-                  ? `Deposit ends ` + depositEndsIn
-                  : `Voting started ` + votingStartedAgo
+                  ? `Deposit ends ${depositEndsIn}.`
+                  : `Voting started ${votingStartedAgo}.`
               }}
             </p>
           </div>
