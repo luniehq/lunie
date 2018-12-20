@@ -143,6 +143,7 @@ describe(`Module: Proposals`, () => {
       let commit = jest.fn()
       let dispatch = jest.fn()
 
+      // not on VotingPeriod
       await actions.getProposal(
         { state, commit, dispatch, rootState: mockRootState },
         `1`
@@ -150,6 +151,16 @@ describe(`Module: Proposals`, () => {
       expect(commit.mock.calls).toEqual([
         [`setProposal`, proposals[`1`]],
         [`setProposalTally`, { proposal_id: `1`, tally_result: tallies[`1`] }]
+      ])
+
+      // on VotingPeriod
+      await actions.getProposal(
+        { state, commit, dispatch, rootState: mockRootState },
+        `2`
+      )
+      expect(commit.mock.calls.slice(2)).toEqual([
+        [`setProposal`, proposals[`2`]],
+        [`setProposalTally`, { proposal_id: `2`, tally_result: tallies[`2`] }]
       ])
     })
 
