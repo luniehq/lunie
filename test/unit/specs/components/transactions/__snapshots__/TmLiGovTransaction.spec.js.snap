@@ -62,9 +62,9 @@ exports[`TmLiGovTransaction deposits should show deposits 1`] = `
       class="tm-li-tx__content__block"
     >
       <a
-        href="https://explorecosmos.network/blocks/56673"
+        href="https://explorecosmos.network/blocks/56675"
       >
-        Block #56673 
+        Block #56675 
       </a>
       @ 12:00 am
     

@@ -252,7 +252,7 @@ export default [
     hash: `not a real hash4`,
 
     time: 1042 + 150, // set by Voyager
-    height: `566`,
+    height: `568`,
     tx: {
       type: `8EFE47F0625DE8`,
       value: {
@@ -313,7 +313,7 @@ export default [
     hash: `not a real hash5`,
 
     time: 1042 + 150, // set by Voyager
-    height: `566`,
+    height: `569`,
     tx: {
       type: `8EFE47F0625DE8`,
       value: {
@@ -371,7 +371,7 @@ export default [
     hash: `not a real hash6`,
 
     time: 1042 + 150, // set by Voyager
-    height: `566`,
+    height: `567`,
     tx: {
       type: `8EFE47F0625DE8`,
       value: {
@@ -494,7 +494,7 @@ export default [
   {
     hash: `not a real hash8`,
     time: 1042 + 150, // set by Voyager
-    height: `56673`,
+    height: `56675`,
     tx: {
       type: `8EFE47F0625DE8`,
       value: {

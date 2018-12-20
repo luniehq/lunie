@@ -24,7 +24,7 @@ describe(`PageTransactions`, () => {
 
     store.commit(`setConnected`, true)
     store.commit(`setWalletAddress`, `tb1d4u5zerywfjhxuc9nudvw`)
-    store.commit(`setWalletTxs`, mockTransactions)
+    store.commit(`setWalletTxs`, lcdClientMock.state.txs.slice(0, 2))
     store.commit(`setStakingTxs`, lcdClientMock.state.txs.slice(4))
     store.commit(`setGovernanceTxs`, lcdClientMock.state.txs.slice(2, 4))
   })
@@ -45,29 +45,28 @@ describe(`PageTransactions`, () => {
   })
 
   it(`should show transactions`, () => {
-    expect(wrapper.findAll(`tm-li-any-transaction-stub`).length).toBe(7)
+    expect(wrapper.findAll(`tm-li-any-transaction-stub`).length).toBe(6)
   })
 
   it(`should sort the transaction by time`, () => {
     expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual([
       56673,
-      3438,
-      3436,
-      466,
       213,
       170,
-      160
+      160,
+      150,
+      1
     ])
   })
 
   it(`should filter the transactions`, () => {
     store.commit(`setSearchVisible`, [`transactions`, true])
     store.commit(`setSearchQuery`, [`transactions`, `fabo`])
-    expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual([466])
+    expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual([150])
     // reflects the filter in the view
     expect(wrapper.vm.$el).toMatchSnapshot()
-    store.commit(`setSearchQuery`, [`transactions`, `mattc`])
-    expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual([466])
+    store.commit(`setSearchQuery`, [`transactions`, `jb`])
+    expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual([1])
   })
 
   it(`should update 'somethingToSearch' when there's nothing to search`, () => {

@@ -6,11 +6,9 @@ describe(`TmFormMsg`, () => {
   let propsData = [
     {
       type: `length`,
-      body: ``,
       name: `Password`,
       min: 16,
       max: 255,
-      length: ``,
       error: `Password must be between 16 and 255 characters`
     },
     {
@@ -104,7 +102,8 @@ describe(`TmFormMsg`, () => {
 
   for (let i = 0; i < propsData.length; i++) {
     it(`shows correct message for ` + propsData[i].type, () => {
-      wrapper.setData(propsData[i])
+      let { type, name, min, max, length } = propsData[i]
+      wrapper.setProps({ type, name, min, max, length })
       expect(
         wrapper
           .find(`.tm-form-msg`)

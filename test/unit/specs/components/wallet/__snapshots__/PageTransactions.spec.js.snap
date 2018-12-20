@@ -224,14 +224,6 @@ exports[`PageTransactions has the expected html structure 1`] = `
       validator-url="/staking/validators"
       validators=""
     />
-    <tm-li-any-transaction-stub
-      address="tb1d4u5zerywfjhxuc9nudvw"
-      bondingdenom="STAKE"
-      proposals-url="/governance/proposals"
-      transaction="[object Object]"
-      validator-url="/staking/validators"
-      validators=""
-    />
   </main>
 </div>
 `;

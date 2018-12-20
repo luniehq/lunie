@@ -119,9 +119,9 @@ exports[`TmLiAnyTransaction shows stake transactions 1`] = `
       class="tm-li-tx__content__block"
     >
       <a
-        href="https://explorecosmos.network/blocks/566"
+        href="https://explorecosmos.network/blocks/568"
       >
-        Block #566 
+        Block #568 
       </a>
       @ 12:00 am
     

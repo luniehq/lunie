@@ -57,9 +57,9 @@ exports[`TmLiStakeTransaction delegations should show delegations 1`] = `
       class="tm-li-tx__content__block"
     >
       <a
-        href="https://explorecosmos.network/blocks/566"
+        href="https://explorecosmos.network/blocks/568"
       >
-        Block #566 
+        Block #568 
       </a>
       @ 12:00 am
     
@@ -132,9 +132,9 @@ exports[`TmLiStakeTransaction redelegations should show redelegations and calcul
       class="tm-li-tx__content__block"
     >
       <a
-        href="https://explorecosmos.network/blocks/566"
+        href="https://explorecosmos.network/blocks/567"
       >
-        Block #566 
+        Block #567 
       </a>
       @ 12:00 am
     
@@ -201,9 +201,9 @@ exports[`TmLiStakeTransaction unbonding delegations should show unbondings and c
       class="tm-li-tx__content__block"
     >
       <a
-        href="https://explorecosmos.network/blocks/566"
+        href="https://explorecosmos.network/blocks/569"
       >
-        Block #566 
+        Block #569 
       </a>
       @ 12:00 am
     
