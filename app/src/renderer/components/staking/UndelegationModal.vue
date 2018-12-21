@@ -20,7 +20,7 @@
     >
       <tm-field
         id="denom"
-        :placeholder="stakingParameters"
+        :placeholder="stakingParameters.parameters.bond_denom"
         type="text"
         readonly="readonly"
       />

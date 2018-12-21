@@ -464,7 +464,9 @@ exports[`PageValidator has the expected html structure 1`] = `
             class="info_dl"
           >
             <dt>
+              
               Self Delegated STAKE
+            
             </dt>
              
             <dd
@@ -478,7 +480,10 @@ exports[`PageValidator has the expected html structure 1`] = `
             class="info_dl"
           >
             <dt>
-              Minimum Self Delegated STAKE
+              
+              Minimum Self Delegated
+              STAKE
+            
             </dt>
              
             <dd>
@@ -962,7 +967,9 @@ exports[`PageValidator shows a default avatar 1`] = `
             class="info_dl"
           >
             <dt>
+              
               Self Delegated STAKE
+            
             </dt>
              
             <dd
@@ -976,7 +983,10 @@ exports[`PageValidator shows a default avatar 1`] = `
             class="info_dl"
           >
             <dt>
-              Minimum Self Delegated STAKE
+              
+              Minimum Self Delegated
+              STAKE
+            
             </dt>
              
             <dd>
@@ -1254,7 +1264,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
                 class="total-atoms top-section"
               >
                 <h3>
-                  Total atom
+                  Total STAKE
                 </h3>
                  
                 <h2
@@ -1268,7 +1278,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
                 class="unbonded-atoms top-section"
               >
                 <h3>
-                  Available atom
+                  Available STAKE
                 </h3>
                  
                 <h2>
@@ -1457,7 +1467,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
             class="colored_dl"
           >
             <dt>
-              Delegated atom
+              Delegated STAKE
             </dt>
              
             <dd>
@@ -1635,7 +1645,9 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
             class="info_dl"
           >
             <dt>
-              Self Delegated atom
+              
+              Self Delegated STAKE
+            
             </dt>
              
             <dd
@@ -1692,7 +1704,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
            
           <p>
             
-        You have no atoms
+        You have no STAKEs
          to
          delegate.
       
@@ -1765,7 +1777,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
                 class="total-atoms top-section"
               >
                 <h3>
-                  Total atom
+                  Total STAKE
                 </h3>
                  
                 <h2
@@ -1779,7 +1791,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
                 class="unbonded-atoms top-section"
               >
                 <h3>
-                  Available atom
+                  Available STAKE
                 </h3>
                  
                 <h2>
@@ -1968,7 +1980,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
             class="colored_dl"
           >
             <dt>
-              Delegated atom
+              Delegated STAKE
             </dt>
              
             <dd>
@@ -2146,7 +2158,9 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
             class="info_dl"
           >
             <dt>
-              Self Delegated atom
+              
+              Self Delegated STAKE
+            
             </dt>
              
             <dd
@@ -2208,7 +2222,7 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 1`]
                 class="total-atoms top-section"
               >
                 <h3>
-                  Total atom
+                  Total STAKE
                 </h3>
                  
                 <h2
@@ -2222,7 +2236,7 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 1`]
                 class="unbonded-atoms top-section"
               >
                 <h3>
-                  Available atom
+                  Available STAKE
                 </h3>
                  
                 <h2>
@@ -2411,7 +2425,7 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 1`]
             class="colored_dl"
           >
             <dt>
-              Delegated atom
+              Delegated STAKE
             </dt>
              
             <dd>
@@ -2589,7 +2603,9 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 1`]
             class="info_dl"
           >
             <dt>
-              Self Delegated atom
+              
+              Self Delegated STAKE
+            
             </dt>
              
             <dd
@@ -2646,7 +2662,7 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 1`]
            
           <p>
             
-        You have no atoms
+        You have no STAKEs
          delegated to
          this validator.
       
@@ -2719,7 +2735,7 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 2`]
                 class="total-atoms top-section"
               >
                 <h3>
-                  Total atom
+                  Total STAKE
                 </h3>
                  
                 <h2
@@ -2733,7 +2749,7 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 2`]
                 class="unbonded-atoms top-section"
               >
                 <h3>
-                  Available atom
+                  Available STAKE
                 </h3>
                  
                 <h2>
@@ -2922,7 +2938,7 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 2`]
             class="colored_dl"
           >
             <dt>
-              Delegated atom
+              Delegated STAKE
             </dt>
              
             <dd>
@@ -3100,7 +3116,9 @@ exports[`onUnstake make sure there are enough atoms to unstake is not enough 2`]
             class="info_dl"
           >
             <dt>
-              Self Delegated atom
+              
+              Self Delegated STAKE
+            
             </dt>
              
             <dd

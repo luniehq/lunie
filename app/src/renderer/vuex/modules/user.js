@@ -114,6 +114,8 @@ export default ({ node }) => {
       commit(`setModalSession`, false)
       dispatch(`initializeWallet`, address)
       dispatch(`loadErrorCollection`, account)
+      await dispatch(`getStakingParameters`)
+      await dispatch(`getGovParameters`)
     },
     signOut({ state, commit, dispatch }) {
       state.account = null
