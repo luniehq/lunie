@@ -25,7 +25,7 @@ describe(`TmLiBankTransaction`, () => {
   it(`should show outgoing transactions`, () => {
     wrapper.setProps({
       transaction: transactions[1],
-      address: `tb1d4u5zerywfjhxuc9nudvw`
+      address: transactions[1].tx.value.msg[0].value.inputs[0].address
     })
     expect(wrapper.vm.sent).toBe(true)
     expect(wrapper.vm.$el).toMatchSnapshot()
@@ -34,7 +34,7 @@ describe(`TmLiBankTransaction`, () => {
   it(`should show transactions sent to the sender`, () => {
     wrapper.setProps({
       transaction: transactions[2],
-      address: `tb1d4u5zerywfjhxuc9nudvw`
+      address: `tb1da6xsetjg9jxgun9wdesexv05j`
     })
     expect(wrapper.vm.sentSelf).toBe(true)
     expect(wrapper.vm.$el).toMatchSnapshot()

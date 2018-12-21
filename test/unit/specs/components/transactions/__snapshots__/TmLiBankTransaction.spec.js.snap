@@ -55,7 +55,7 @@ exports[`TmLiBankTransaction should show outgoing transactions 1`] = `
 exports[`TmLiBankTransaction should show transactions sent to the sender 1`] = `
 <tm-li-transaction-stub
   block="466"
-  color="#215C2F"
+  color="#25293F"
   devmode="true"
   time="1142"
 >
@@ -63,7 +63,7 @@ exports[`TmLiBankTransaction should show transactions sent to the sender 1`] = `
     slot="caption"
   >
     
-      Received 
+      Sent 
     <b>
       1234
     </b>
@@ -75,7 +75,7 @@ exports[`TmLiBankTransaction should show transactions sent to the sender 1`] = `
   <span
     slot="details"
   >
-    From tb1da6xsetjg9jxgun9wdesexv05j
+    To yourself!
   </span>
 </tm-li-transaction-stub>
 `;

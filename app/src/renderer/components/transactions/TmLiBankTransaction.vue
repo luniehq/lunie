@@ -68,17 +68,6 @@ export default {
     color() {
       if (this.sent) return colors.bank.sent
       return colors.bank.received
-    },
-    details() {
-      if (this.sent) {
-        return `To ${this.receiver}`
-      }
-      return `From ${this.sender}`
-    }
-  },
-  methods: {
-    viewTransaction() {
-      // console.log("TODO: implement tx viewer")
     }
   }
 }
