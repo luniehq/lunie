@@ -63,6 +63,13 @@ describe(`TmLiStakeTransaction`, () => {
       })
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
+
+    it(`should default to ended if no unbonding delegation is present`, () => {
+      wrapper.setProps({
+        transaction: transactions[4]
+      })
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
   })
 
   describe(`redelegations`, () => {
