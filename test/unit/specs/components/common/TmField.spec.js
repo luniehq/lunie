@@ -11,6 +11,14 @@ describe(`TmField`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
+  it(`emits updates`, () => {
+    const wrapper = shallowMount(TmField)
+    wrapper.vm.updateValue(`Hallo World`)
+    expect(wrapper.emittedByOrder()).toEqual([
+      { args: [`Hallo World`], name: `input` }
+    ])
+  })
+
   it(`allows for callbacks`, () => {
     const change = jest.fn()
     const keyup = jest.fn()
