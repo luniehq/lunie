@@ -15,9 +15,9 @@
         hidden="hidden"
         >{{ selectPlaceholder }}</option
       >
-      <template v-if="options">
+      <template>
         <option
-          v-for="(option, index) in options"
+          v-for="(option, index) in resolvedOptions"
           :key="index"
           :value="option.value"
           >{{ option.key }}</option
@@ -28,6 +28,7 @@
       <i class="material-icons">arrow_drop_down</i>
     </div>
   </div>
+
   <textarea
     v-else-if="type === 'textarea'"
     :class="css"
@@ -37,20 +38,25 @@
     @keyup="onKeyup"
     @keydown="onKeydown"
     @input="updateValue($event.target.value)"
-  ></textarea
-  ><label v-else-if="type === 'toggle'" :class="toggleClass" class="tm-toggle">
-    <div class="tm-toggle-wrapper">
-      <span>{{ toggleLongerWord }}</span>
+  ></textarea>
+
+  <label v-else-if="type === 'toggle'" :class="toggleClass" class="tm-toggle">
+    <div class="tm-toggle-wrapper" @click.prevent="toggle">
+      <span>{{
+        currentToggleState ? resolvedOptions.checked : resolvedOptions.unchecked
+      }}</span>
       <div class="toggle-option-checked">
-        <div>{{ toggleOptions.checked }}</div>
+        <div>{{ resolvedOptions.checked }}</div>
       </div>
       <div class="toggle-option-unchecked">
-        <div>{{ toggleOptions.unchecked }}</div>
+        <div>{{ resolvedOptions.unchecked }}</div>
       </div>
       <div class="toggle-handle"></div>
-      <input :value="value" type="checkbox" @change="onChange" />
-    </div> </label
-  ><input
+      <input :value="currentToggleState" type="checkbox" @change="onChange" />
+    </div>
+  </label>
+
+  <input
     v-else
     ref="numTextInput"
     :type="type"
@@ -92,16 +98,7 @@ export default {
     },
     options: {
       type: [Array, Object],
-      default: () => ({
-        checked: {
-          type: String,
-          default: `off`
-        },
-        unchecked: {
-          type: String,
-          default: `off`
-        }
-      })
+      default: null
     },
     change: {
       type: Function,
@@ -124,57 +121,60 @@ export default {
       default: null
     }
   },
+  data: () => ({
+    defaultToggleOptions: {
+      checked: `on`,
+      unchecked: `off`
+    },
+    currentToggleState: false
+  }),
   computed: {
     css() {
       let value = `tm-field`
       if (this.type === `select`) {
         value += ` tm-field-select`
       }
-      if (this.type === `toggle`) {
-        value += ` tm-field-toggle`
-      }
+      // not used and screws with css when used
+      // if (this.type === `toggle`) {
+      //   value += ` tm-field-toggle`
+      // }
       if (this.size) value += ` tm-field-size-${this.size}`
       if (this.theme) value += ` tm-field-theme-${this.theme}`
       return value
     },
     toggleClass() {
-      return {
-        unchecked: !this.value
-      }
+      return !this.currentToggleState ? `unchecked` : undefined
     },
-    toggleLongerWord() {
-      return this.toggleOptions.checked.length >
-        this.toggleOptions.unchecked.length
-        ? this.toggleOptions.checked
-        : this.toggleOptions.unchecked
+    resolvedOptions() {
+      if (this.type === `select`) {
+        return this.options || []
+      }
+      if (this.type === `toggle`) {
+        return this.options || this.defaultToggleOptions
+      }
     },
     selectPlaceholder() {
       if (this.placeholder) return this.placeholder
       else return `Select option...`
-    },
-    toggleOptions() {
-      if (this.options && this.options.checked && this.options.unchecked)
-        return this.options
-      return {
-        checked: `on`,
-        unchecked: `off`
-      }
+    }
+  },
+  watch: {
+    value(newValue) {
+      this.currentToggleState = !!newValue
     }
   },
   mounted() {
-    let el = this.$el
-    if (this.type === `number`) {
-      el.addEventListener(`focus`, function() {
-        el.select()
-      })
-    }
+    this.currentToggleState = !!this.value
   },
   methods: {
     toggle() {
-      this.value = !this.value
+      this.currentToggleState = !this.currentToggleState
     },
     updateValue(value) {
-      let formattedValue = this.forceMinMax(value)
+      let formattedValue = value
+      if (this.type == `number`) {
+        formattedValue = this.forceMinMax(value)
+      }
       // so that the user can type in "-" and it isn't removed
       if (formattedValue && this.$refs.numTextInput) {
         // so the actual text box displays the correct number
@@ -193,8 +193,7 @@ export default {
       if (this.keydown) return this.keydown(...args)
     },
     forceMinMax(value) {
-      if (this.type !== `number`) return value
-      value = value ? Number(value.trim()) : value
+      value = typeof value === `string` ? Number(value.trim()) : value
       if (this.max && value > this.max) {
         value = Number(this.max)
       } else if (this.min && value && value < this.min) {

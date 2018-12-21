@@ -1,5 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`TmField allows for style customization 1`] = `
+<input
+  class="tm-field tm-field-size-lg tm-field-theme-light"
+  type="text"
+/>
+`;
+
 exports[`TmField displays a number input 1`] = `
 <input
   class="tm-field"
@@ -21,7 +28,7 @@ exports[`TmField displays a toggle 1`] = `
     class="tm-toggle-wrapper"
   >
     <span>
-      on
+      off
     </span>
      
     <div
@@ -36,7 +43,7 @@ exports[`TmField displays a toggle 1`] = `
       class="toggle-option-unchecked"
     >
       <div>
-        on
+        off
       </div>
     </div>
      
@@ -46,7 +53,7 @@ exports[`TmField displays a toggle 1`] = `
      
     <input
       type="checkbox"
-      value=""
+      value="false"
     />
   </div>
 </label>
@@ -60,14 +67,14 @@ exports[`TmField displays a toggle 2`] = `
     class="tm-toggle-wrapper"
   >
     <span>
-      on
+      bad
     </span>
      
     <div
       class="toggle-option-checked"
     >
       <div>
-        on
+        cool
       </div>
     </div>
      
@@ -75,7 +82,7 @@ exports[`TmField displays a toggle 2`] = `
       class="toggle-option-unchecked"
     >
       <div>
-        on
+        bad
       </div>
     </div>
      
@@ -85,7 +92,46 @@ exports[`TmField displays a toggle 2`] = `
      
     <input
       type="checkbox"
-      value=""
+      value="false"
+    />
+  </div>
+</label>
+`;
+
+exports[`TmField displays a toggle 3`] = `
+<label
+  class="tm-toggle"
+>
+  <div
+    class="tm-toggle-wrapper"
+  >
+    <span>
+      cool
+    </span>
+     
+    <div
+      class="toggle-option-checked"
+    >
+      <div>
+        cool
+      </div>
+    </div>
+     
+    <div
+      class="toggle-option-unchecked"
+    >
+      <div>
+        bad
+      </div>
+    </div>
+     
+    <div
+      class="toggle-handle"
+    />
+     
+    <input
+      type="checkbox"
+      value="true"
     />
   </div>
 </label>
@@ -107,15 +153,85 @@ exports[`TmField displays as a select 1`] = `
       Select option...
     </option>
      
+  </select>
+   
+  <div
+    class="tm-field-select-addon"
+  >
+    <i
+      class="material-icons"
+    >
+      arrow_drop_down
+    </i>
+  </div>
+</div>
+`;
+
+exports[`TmField displays as a select 2`] = `
+<div
+  class="tm-select"
+>
+  <select
+    class="tm-field tm-field-select"
+  >
+    <option
+      disabled="disabled"
+      hidden="hidden"
+      selected="selected"
+      value=""
+    >
+      Select option...
+    </option>
+     
     <option
       value="1"
     >
       1
     </option>
     <option
+      value="2"
+    >
+      2
+    </option>
+  </select>
+   
+  <div
+    class="tm-field-select-addon"
+  >
+    <i
+      class="material-icons"
+    >
+      arrow_drop_down
+    </i>
+  </div>
+</div>
+`;
+
+exports[`TmField displays as a select 3`] = `
+<div
+  class="tm-select"
+>
+  <select
+    class="tm-field tm-field-select"
+  >
+    <option
+      disabled="disabled"
+      hidden="hidden"
+      selected="selected"
+      value=""
+    >
+      Select a number...
+    </option>
+     
+    <option
       value="1"
     >
       1
+    </option>
+    <option
+      value="2"
+    >
+      2
     </option>
   </select>
    
