@@ -149,9 +149,8 @@ export default {
       if (this.type === `select`) {
         return this.options || []
       }
-      if (this.type === `toggle`) {
-        return this.options || this.defaultToggleOptions
-      }
+      // else is always `toggle`
+      return this.options || this.defaultToggleOptions
     },
     selectPlaceholder() {
       if (this.placeholder) return this.placeholder
@@ -174,11 +173,6 @@ export default {
       let formattedValue = value
       if (this.type == `number`) {
         formattedValue = this.forceMinMax(value)
-      }
-      // so that the user can type in "-" and it isn't removed
-      if (formattedValue && this.$refs.numTextInput) {
-        // so the actual text box displays the correct number
-        this.$refs.numTextInput.value = formattedValue
       }
       // Emit the number value through the input event
       this.$emit(`input`, formattedValue)

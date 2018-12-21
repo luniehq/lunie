@@ -42,6 +42,18 @@ describe(`TmField`, () => {
     expect(change).toHaveBeenCalledTimes(1)
   })
 
+  it(`shouldn't crash if no callbacks defined`, () => {
+    wrapper.find(`input`).trigger(`keyup`, {
+      key: `1`,
+      code: `Digit1`
+    })
+    wrapper.find(`input`).trigger(`keydown`, {
+      key: `2`,
+      code: `Digit2`
+    })
+    wrapper.find(`input`).trigger(`change`, {})
+  })
+
   it(`displays as a select`, () => {
     const wrapper = shallowMount(TmField, {
       propsData: {
