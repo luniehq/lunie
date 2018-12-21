@@ -116,17 +116,13 @@ exports[`TableProposals has the expected html structure 1`] = `
         <td
           class="li-proposal__value no_with_veto"
         >
-          
-    100
-  
+          100
         </td>
          
         <td
           class="li-proposal__value abstain"
         >
-          
-    20
-  
+          20
         </td>
       </tr>
       <tr
@@ -178,17 +174,13 @@ exports[`TableProposals has the expected html structure 1`] = `
         <td
           class="li-proposal__value no_with_veto"
         >
-          
-    0
-  
+          0
         </td>
          
         <td
           class="li-proposal__value abstain"
         >
-          
-    0
-  
+          0
         </td>
       </tr>
       <tr
@@ -240,17 +232,13 @@ exports[`TableProposals has the expected html structure 1`] = `
         <td
           class="li-proposal__value no_with_veto"
         >
-          
-    0
-  
+          0
         </td>
          
         <td
           class="li-proposal__value abstain"
         >
-          
-    0
-  
+          0
         </td>
       </tr>
       <tr
@@ -304,17 +292,13 @@ exports[`TableProposals has the expected html structure 1`] = `
         <td
           class="li-proposal__value no_with_veto"
         >
-          
-    10
-  
+          10
         </td>
          
         <td
           class="li-proposal__value abstain"
         >
-          
-    56
-  
+          56
         </td>
       </tr>
     </tbody>
@@ -440,17 +424,13 @@ exports[`TableProposals should filter the proposals 1`] = `
         <td
           class="li-proposal__value no_with_veto"
         >
-          
-    10
-  
+          10
         </td>
          
         <td
           class="li-proposal__value abstain"
         >
-          
-    56
-  
+          56
         </td>
       </tr>
     </tbody>

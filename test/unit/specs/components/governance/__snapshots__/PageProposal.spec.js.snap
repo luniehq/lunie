@@ -182,14 +182,14 @@ exports[`PageProposal has the expected html structure 1`] = `
               class="page-profile__status-and-title"
             >
               <span
-                class="page-profile__status"
+                class="page-profile__status green"
               />
                
               <div
                 class="page-profile__header__name__title"
               >
                 
-                Proposal Title (#1)
+                VotingPeriod proposal (#2)
               
               </div>
             </div>
@@ -198,13 +198,9 @@ exports[`PageProposal has the expected html structure 1`] = `
           <div
             class="column page-profile__header__actions"
           >
-            <!---->
-             
-            <!---->
-             
             <button
               class="tm-btn"
-              disabled="disabled"
+              id="vote-btn"
             >
               <span
                 class="tm-btn__container tm-btn--primary"
@@ -213,10 +209,14 @@ exports[`PageProposal has the expected html structure 1`] = `
                 <span
                   class="tm-btn__value"
                 >
-                  Deposit / Vote
+                  Vote
                 </span>
               </span>
             </button>
+             
+            <!---->
+             
+            <!---->
           </div>
         </div>
          
@@ -243,7 +243,7 @@ exports[`PageProposal has the expected html structure 1`] = `
              
             <dd>
               
-              100 STAKE
+              200 STAKE
             
             </dd>
           </dl>
@@ -260,7 +260,7 @@ exports[`PageProposal has the expected html structure 1`] = `
             </dt>
              
             <dd>
-              500 / 85%
+              0 / 0%
             </dd>
           </dl>
            
@@ -272,7 +272,7 @@ exports[`PageProposal has the expected html structure 1`] = `
             </dt>
              
             <dd>
-              25 / 4%
+              0 / 0%
             </dd>
           </dl>
            
@@ -284,10 +284,7 @@ exports[`PageProposal has the expected html structure 1`] = `
             </dt>
              
             <dd>
-              
-              10 /
-              2%
-            
+              0 / 0%
             </dd>
           </dl>
            
@@ -299,9 +296,7 @@ exports[`PageProposal has the expected html structure 1`] = `
             </dt>
              
             <dd>
-              
-              56 / 9%
-            
+              0 / 0%
             </dd>
           </dl>
         </div>
@@ -321,7 +316,7 @@ exports[`PageProposal has the expected html structure 1`] = `
             class="text-block"
           >
             <p>
-              Proposal description
+              custom text proposal description
             </p>
             
 

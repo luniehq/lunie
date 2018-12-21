@@ -2,6 +2,8 @@ import setup from "../../../helpers/vuex-setup"
 import TabProposals from "renderer/components/governance/TabProposals"
 const lcdClientMock = require(`renderer/connectors/lcdClientMock.js`)
 
+let { tallies } = lcdClientMock.state
+
 describe(`TabProposals`, () => {
   let { mount } = setup()
 
@@ -11,7 +13,8 @@ describe(`TabProposals`, () => {
         proposals: () => ({
           loading: false,
           loaded: false,
-          proposals: lcdClientMock.state.proposals
+          proposals: lcdClientMock.state.proposals,
+          tallies
         }),
         connected: () => true
       },
@@ -28,7 +31,8 @@ describe(`TabProposals`, () => {
         proposals: () => ({
           loading: false,
           loaded: false,
-          proposals: {}
+          proposals: {},
+          tallies: {}
         }),
         connected: () => false
       },
@@ -45,7 +49,8 @@ describe(`TabProposals`, () => {
         proposals: () => ({
           loading: true,
           loaded: false,
-          proposals: {}
+          proposals: {},
+          tallies: {}
         }),
         connected: () => true
       },
@@ -62,6 +67,7 @@ describe(`TabProposals`, () => {
         proposals: () => ({
           loading: false,
           loaded: false,
+          tallies: {},
           proposals: {}
         }),
         connected: () => true

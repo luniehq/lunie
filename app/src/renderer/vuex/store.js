@@ -36,6 +36,7 @@ export default (opts = {}) => {
       `setProposal`,
       `setProposalDeposits`,
       `setProposalVotes`,
+      `setProposalTally`,
       `setGovParameters`,
       `setKeybaseIdentities`
     ]

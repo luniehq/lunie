@@ -2,31 +2,38 @@ import setup from "../../../helpers/vuex-setup"
 import TableProposals from "renderer/components/governance/TableProposals"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
+let { proposals, tallies } = lcdClientMock.state
+
 describe(`TableProposals`, () => {
   let wrapper, store
   let { mount } = setup()
 
+  const $store = {
+    commit: jest.fn(),
+    dispatch: jest.fn(),
+    getters: {
+      proposals: { proposals, tallies }
+    }
+  }
+
   beforeEach(() => {
     let instance = mount(TableProposals, {
-      propsData: {
-        proposals: lcdClientMock.state.proposals,
-        loading: false
-      }
+      doBefore: ({ store }) => {
+        store.commit(`setConnected`, true)
+        store.state.user.address = `address1234`
+        store.commit(`setAtoms`, 1337)
+        for (const [proposal_id, tally_result] of Object.entries(tallies)) {
+          store.commit(`setProposalTally`, { proposal_id, tally_result })
+        }
+      },
+      propsData: { proposals },
+      $store
     })
-
     wrapper = instance.wrapper
     store = instance.store
-
-    store.commit(`setConnected`, true)
-    store.state.user.address = `address1234`
-    store.commit(`setAtoms`, 1337)
   })
 
   it(`has the expected html structure`, async () => {
-    // after importing the @tendermint/ui components from modules
-    // to work properly in the tests (snapshots weren't matching)
-    // this has occured across multiple tests
-    await wrapper.vm.$nextTick()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -67,38 +74,25 @@ describe(`TableProposals`, () => {
 
   it(`should update 'somethingToSearch' when there's nothing to search`, () => {
     expect(wrapper.vm.somethingToSearch).toBe(true)
-    wrapper.setProps({
-      proposals: {},
-      loading: true
-    })
+    wrapper.setProps({ proposals: {} })
     expect(wrapper.vm.somethingToSearch).toBe(false)
   })
 
   it(`should show placeholder if no items to display`, () => {
     let { wrapper } = mount(TableProposals, {
-      propsData: {
-        proposals: {},
-        loading: true
+      doBefore: ({ store }) => {
+        store.commit(`setConnected`, true)
+        store.state.user.address = `address1234`
+        store.commit(`setAtoms`, 1337)
       },
+      propsData: { proposals: {} },
       stubs: { "data-empty-search": true }
     })
     expect(wrapper.contains(`data-empty-search-stub`)).toBe(true)
   })
 
   describe(`setSearch`, () => {
-    const $store = {
-      commit: jest.fn()
-    }
-
     it(`should show search when there is something to search`, () => {
-      let { wrapper, store } = mount(TableProposals, {
-        propsData: {
-          proposals: lcdClientMock.state.proposals,
-          loading: false
-        },
-        $store
-      })
-
       wrapper.vm.setSearch()
       expect(store.commit).toHaveBeenCalledWith(`setSearchVisible`, [
         `proposals`,
@@ -107,14 +101,7 @@ describe(`TableProposals`, () => {
     })
 
     it(`should not show search when there is nothing to search`, () => {
-      let { wrapper, store } = mount(TableProposals, {
-        propsData: {
-          proposals: {},
-          loading: false
-        },
-        $store
-      })
-
+      wrapper.setProps({ proposals: {} })
       wrapper.vm.setSearch()
       expect(store.commit).not.toHaveBeenCalledWith(`setSearchVisible`, [
         `proposals`,

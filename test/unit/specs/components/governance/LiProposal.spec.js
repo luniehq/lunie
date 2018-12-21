@@ -2,7 +2,16 @@ import setup from "../../../helpers/vuex-setup"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 import LiProposal from "renderer/components/governance/LiProposal"
 
-let proposal = lcdClientMock.state.proposals[`1`]
+let { proposals, tallies } = lcdClientMock.state
+let proposal = proposals[`2`]
+
+const $store = {
+  commit: jest.fn(),
+  dispatch: jest.fn(),
+  getters: {
+    proposals: { proposals, tallies }
+  }
+}
 
 describe(`LiProposal`, () => {
   let wrapper
@@ -10,9 +19,16 @@ describe(`LiProposal`, () => {
 
   beforeEach(() => {
     let instance = mount(LiProposal, {
-      propsData: {
-        proposal
-      }
+      doBefore: ({ store }) => {
+        store.commit(`setConnected`, true)
+        store.commit(`setProposal`, proposal)
+        store.commit(`setProposalTally`, {
+          proposal_id: `2`,
+          tally_result: tallies[`2`]
+        })
+      },
+      propsData: { proposal },
+      $store
     })
     wrapper = instance.wrapper
   })
@@ -23,11 +39,8 @@ describe(`LiProposal`, () => {
 
   it(`should return status info for passed proposals`, () => {
     proposal.proposal_status = `Passed`
-    let { wrapper } = mount(LiProposal, {
-      propsData: {
-        proposal
-      }
-    })
+    wrapper.setProps({ proposal })
+    wrapper.update()
     expect(wrapper.vm.status).toEqual({
       message: `This proposal has passed`
     })
@@ -35,11 +48,8 @@ describe(`LiProposal`, () => {
 
   it(`should return status info for rejected proposals`, () => {
     proposal.proposal_status = `Rejected`
-    let { wrapper } = mount(LiProposal, {
-      propsData: {
-        proposal
-      }
-    })
+    wrapper.setProps({ proposal })
+    wrapper.update()
     expect(wrapper.vm.status).toEqual({
       message: `This proposal has been rejected and voting is closed`,
       color: `red`
@@ -48,11 +58,8 @@ describe(`LiProposal`, () => {
 
   it(`should return status info for active proposals`, () => {
     proposal.proposal_status = `VotingPeriod`
-    let { wrapper } = mount(LiProposal, {
-      propsData: {
-        proposal
-      }
-    })
+    wrapper.setProps({ proposal })
+    wrapper.update()
     expect(wrapper.vm.status).toEqual({
       message: `Voting for this proposal is open`,
       color: `green`
@@ -61,11 +68,8 @@ describe(`LiProposal`, () => {
 
   it(`should return status info for 'DepositPeriod' proposals`, () => {
     proposal.proposal_status = `DepositPeriod`
-    let { wrapper } = mount(LiProposal, {
-      propsData: {
-        proposal
-      }
-    })
+    wrapper.setProps({ proposal })
+    wrapper.update()
     expect(wrapper.vm.status).toEqual({
       message: `Deposits are open for this proposal`,
       color: `yellow`
@@ -74,11 +78,8 @@ describe(`LiProposal`, () => {
 
   it(`should return status info for an unknown proposal type`, () => {
     proposal.proposal_status = `Unknown`
-    let { wrapper } = mount(LiProposal, {
-      propsData: {
-        proposal
-      }
-    })
+    wrapper.setProps({ proposal })
+    wrapper.update()
     expect(wrapper.vm.status).toEqual({
       message: `There was an error determining the status of this proposal.`,
       color: `grey`
@@ -86,16 +87,13 @@ describe(`LiProposal`, () => {
   })
 
   it(`should not truncate the description or add an ellipsis`, () => {
-    expect(wrapper.vm.description).toEqual(`Proposal description`)
+    expect(wrapper.vm.description).toEqual(`custom text proposal description`)
   })
 
   it(`should truncate the description and add an ellipsis`, () => {
     proposal.description = `this is some kind of long description. longer than 100 characters for optimum-maximum-ideal truncation.`
-    let { wrapper } = mount(LiProposal, {
-      propsData: {
-        proposal
-      }
-    })
+    wrapper.setProps({ proposal })
+    wrapper.update()
     expect(wrapper.vm.description).toEqual(
       `this is some kind of long description. longer than 100 characters for optimum-maximum-ideal truncati…`
     )

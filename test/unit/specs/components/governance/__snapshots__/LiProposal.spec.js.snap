@@ -11,10 +11,8 @@ exports[`LiProposal has the expected html structure 1`] = `
       class="data-table__row__info__container"
     >
       <span
-        class="data-table__row__info__container__status material-icons"
-      >
-        checkmark
-      </span>
+        class="data-table__row__info__container__status green"
+      />
        
       <router-link-stub
         class="data-table__row__info__container__name"
@@ -27,42 +25,38 @@ exports[`LiProposal has the expected html structure 1`] = `
         class="data-table__row__info__container__description"
       >
         
-        Proposal description
+        custom text proposal description
       
       </p>
     </div>
   </td>
    
   <td>
-    #1
+    #2
   </td>
    
   <td
     class="li-proposal__value yes"
   >
-    500
+    0
   </td>
    
   <td
     class="li-proposal__value no"
   >
-    25
+    0
   </td>
    
   <td
     class="li-proposal__value no_with_veto"
   >
-    
-    10
-  
+    0
   </td>
    
   <td
     class="li-proposal__value abstain"
   >
-    
-    56
-  
+    0
   </td>
 </tr>
 `;
