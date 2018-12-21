@@ -113,6 +113,8 @@ describe(`PageValidator`, () => {
     })
     wrapper = instance.wrapper
     store = instance.store
+    store.state.stakingParameters = stakingParameters
+    wrapper.update()
   })
 
   it(`has the expected html structure`, async () => {
@@ -120,7 +122,6 @@ describe(`PageValidator`, () => {
     // the perfect scroll plugin needs a $nextTick and a wrapper.update
     // to work properly in the tests (snapshots weren't matching)
     // this has occured across multiple tests
-    store.state.stakingParameters = stakingParameters
     await wrapper.vm.$nextTick()
     wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
@@ -131,8 +132,6 @@ describe(`PageValidator`, () => {
   })
 
   it(`shows a default avatar`, () => {
-    store.state.stakingParameters = stakingParameters
-    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 

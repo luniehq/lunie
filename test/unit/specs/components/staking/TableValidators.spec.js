@@ -3,21 +3,24 @@ import htmlBeautify from "html-beautify"
 import TableValidators from "renderer/components/staking/TableValidators"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
+let { stakingParameters } = lcdClientMock.state
+
 describe(`TableValidators`, () => {
   let wrapper, store
   let { mount } = setup()
 
   beforeEach(() => {
     let instance = mount(TableValidators, {
+      doBefore: ({ store }) => {
+        store.commit(`setConnected`, true)
+        store.commit(`setAtoms`, 1337)
+      },
       propsData: { validators: lcdClientMock.candidates }
     })
-
     wrapper = instance.wrapper
     store = instance.store
-
-    store.commit(`setConnected`, true)
     store.state.user.address = `address1234`
-    store.commit(`setAtoms`, 1337)
+    store.state.stakingParameters = stakingParameters
     wrapper.update()
   })
 

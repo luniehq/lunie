@@ -17,7 +17,7 @@ describe(`TabParameters`, () => {
       doBefore: ({ store }) => {
         store.commit(`setConnected`, true)
         store.commit(`setPool`, pool)
-        store.commit(`setStakingParameters`, stakingParameters)
+        store.commit(`setStakingParameters`, stakingParameters.parameters)
       },
       stubs: {
         "tm-data-connecting": `<tm-data-connecting />`,
@@ -26,14 +26,13 @@ describe(`TabParameters`, () => {
     })
     wrapper = instance.wrapper
     store = instance.store
-    store.state.stakingParameters.parameters.loaded = true
+    store.state.stakingParameters = stakingParameters
+    store.state.stakingParameters.loaded = true
     store.state.pool.loaded = true
     wrapper.update()
   })
 
   it(`has the expected html structure`, async () => {
-    await wrapper.vm.$nextTick()
-    wrapper.update()
     expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
   })
 
@@ -48,12 +47,12 @@ describe(`TabParameters`, () => {
 
   it(`displays a message if waiting for connection`, () => {
     store.commit(`setConnected`, false)
-    store.state.stakingParameters.parameters.loaded = false
+    store.state.stakingParameters.loaded = false
     wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
     expect(wrapper.exists(`tm-data-connecting`)).toBe(true)
 
-    store.state.stakingParameters.parameters.loaded = true
+    store.state.stakingParameters.loaded = true
     store.state.pool.loaded = false
     wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
@@ -62,14 +61,14 @@ describe(`TabParameters`, () => {
 
   it(`displays a message if loading`, () => {
     store.commit(`setConnected`, true)
-    store.state.stakingParameters.parameters.loaded = false
-    store.state.stakingParameters.parameters.loading = true
+    store.state.stakingParameters.loaded = false
+    store.state.stakingParameters.loading = true
     wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
     expect(wrapper.exists(`tm-data-loading`)).toBe(true)
 
-    store.state.stakingParameters.parameters.loaded = true
-    store.state.stakingParameters.parameters.loading = false
+    store.state.stakingParameters.loaded = true
+    store.state.stakingParameters.loading = false
     store.state.pool.loaded = false
     store.state.pool.loading = true
     wrapper.update()

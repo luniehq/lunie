@@ -1,6 +1,9 @@
 import setup from "../../../helpers/vuex-setup"
 import htmlBeautify from "html-beautify"
 import TabValidators from "renderer/components/staking/TabValidators"
+import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+
+let { stakingParameters } = lcdClientMock.state
 
 describe(`TabValidators`, () => {
   let wrapper
@@ -9,6 +12,9 @@ describe(`TabValidators`, () => {
 
   beforeEach(async () => {
     let instance = mount(TabValidators, {
+      doBefore: ({ store }) => {
+        store.commit(`setConnected`, true)
+      },
       stubs: {
         "tm-data-connecting": `<tm-data-connecting />`,
         "tm-data-loading": `<tm-data-loading />`,
@@ -17,9 +23,9 @@ describe(`TabValidators`, () => {
     })
     wrapper = instance.wrapper
     store = instance.store
-
-    store.commit(`setConnected`, true)
+    store.state.stakingParameters = stakingParameters
     await store.dispatch(`getDelegates`)
+    wrapper.update()
   })
 
   it(`has the expected html structure`, async () => {

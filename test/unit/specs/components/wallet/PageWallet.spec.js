@@ -1,5 +1,9 @@
 import setup from "../../../helpers/vuex-setup"
 import PageWallet from "renderer/components/wallet/PageWallet"
+import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+
+let { stakingParameters } = lcdClientMock.state
+
 describe(`PageWallet`, () => {
   let wrapper, store
   let { mount } = setup()
@@ -13,7 +17,8 @@ describe(`PageWallet`, () => {
       },
       doBefore: ({ store }) => {
         store.commit(`setConnected`, true)
-      }
+      },
+      $store: { getters: { stakingParameters } }
     })
     wrapper = instance.wrapper
     store = instance.store
@@ -23,7 +28,7 @@ describe(`PageWallet`, () => {
       password: `1234567890`
     })
     store.commit(`setSearchQuery`, [`balances`, ``])
-
+    store.state.stakingParameters = stakingParameters
     wrapper.update()
   })
 

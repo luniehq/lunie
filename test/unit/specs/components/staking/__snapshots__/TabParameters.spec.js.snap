@@ -19,7 +19,7 @@ exports[`TabParameters has the expected html structure 1`] = `
             <div class=\\"column\\">
                <dl class=\\"info_dl\\">
                   <dt>
-                     Loose              STAKE              <i class=\\"material-icons info-button\\">info_outline</i>
+                     Loose STAKE              <i class=\\"material-icons info-button\\">info_outline</i>
                   </dt>
                   <dd id=\\"loose_tokens\\">
                      100.0000000000            
@@ -29,7 +29,7 @@ exports[`TabParameters has the expected html structure 1`] = `
 <div class=\\"column\\">
    <dl class=\\"info_dl\\">
       <dt>
-         Delegated              STAKE              <i class=\\"material-icons info-button\\">info_outline</i>
+         Delegated STAKE              <i class=\\"material-icons info-button\\">info_outline</i>
       </dt>
       <dd id=\\"bonded_tokens\\">
          50.0000000000            
