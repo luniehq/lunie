@@ -24,12 +24,7 @@
           <div class="column">
             <dl class="info_dl">
               <dt>
-                Loose
-                {{
-                  stakingParameters.parameters.bond_denom
-                    ? stakingParameters.parameters.bond_denom
-                    : bondingDenom
-                }}
+                Loose {{ stakingParameters.parameters.bond_denom }}
                 <i
                   v-tooltip.top="poolTooltips.loose_tokens"
                   class="material-icons info-button"
@@ -44,12 +39,7 @@
           <div class="column">
             <dl class="info_dl">
               <dt>
-                Delegated
-                {{
-                  stakingParameters.parameters.bond_denom
-                    ? stakingParameters.parameters.bond_denom
-                    : bondingDenom
-                }}
+                Delegated {{ stakingParameters.parameters.bond_denom }}
                 <i
                   v-tooltip.top="poolTooltips.bonded_tokens"
                   class="material-icons info-button"
@@ -150,13 +140,7 @@ export default {
     }
   }),
   computed: {
-    ...mapGetters([
-      `config`,
-      `stakingParameters`,
-      `pool`,
-      `bondingDenom`,
-      `connected`
-    ]),
+    ...mapGetters([`config`, `stakingParameters`, `pool`, `connected`]),
     unbondingTimeInDays() {
       return (
         parseInt(this.stakingParameters.parameters.unbonding_time) /

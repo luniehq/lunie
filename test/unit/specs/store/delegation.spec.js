@@ -11,12 +11,10 @@ let mockRootState = {
   connection: {
     connected: true
   },
-  config: {
-    bondingDenom: `atom`
-  },
   user: {
     atoms: 1000
-  }
+  },
+  stakingParameters: lcdClientMock.state.stakingParameters
 }
 
 describe(`Module: Delegations`, () => {
@@ -291,9 +289,7 @@ describe(`Module: Delegations`, () => {
     await delegationModule({}).actions.submitDelegation(
       {
         rootState: {
-          config: {
-            bondingDenom: `atom`
-          },
+          stakingParameters: lcdClientMock.state.stakingParameters,
           user: {
             atoms: 1000
           },

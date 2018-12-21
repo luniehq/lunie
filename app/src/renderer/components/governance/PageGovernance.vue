@@ -67,7 +67,6 @@ export default {
     ...mapGetters([
       `proposals`,
       `filters`,
-      `bondingDenom`,
       `connected`,
       `governanceParameters`
     ]),

@@ -32,7 +32,7 @@
         :key="tx.hash"
         :transaction="tx"
         :address="wallet.address"
-        :bonding-denom="bondingDenom"
+        :bonding-denom="stakingParameters.parameters.bond_denom"
       />
     </template>
   </tm-page>
@@ -80,7 +80,7 @@ export default {
       `filters`,
       `allTransactions`,
       `wallet`,
-      `bondingDenom`,
+      `stakingParameters`,
       `delegation`,
       `delegates`,
       `connected`,

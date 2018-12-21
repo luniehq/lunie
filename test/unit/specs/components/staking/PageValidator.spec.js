@@ -61,11 +61,8 @@ const validatorTo = {
 }
 
 const getterValues = {
-  bondingDenom: `atom`,
-  config: {
-    bondingDenom: `atom`,
-    desktop: false
-  },
+  stakingParameters: lcdClientMock.state.stakingParameters,
+  config: { desktop: false },
   delegates: {
     delegates: [validator, validatorTo],
     globalPower: 4200
@@ -503,7 +500,7 @@ describe(`onDelegation`, () => {
               `notify`,
               {
                 body: `You have successfully delegated your ${
-                  getterValues.bondingDenom
+                  getterValues.stakingParameters.parameters.bond_denom
                 }s`,
                 title: `Successful delegation!`
               }
@@ -556,7 +553,9 @@ describe(`onDelegation`, () => {
               `notifyError`,
               {
                 body: `message`,
-                title: `Error while delegating ${getterValues.bondingDenom}s`
+                title: `Error while delegating ${
+                  getterValues.stakingParameters.parameters.bond_denom
+                }s`
               }
             ]
           ])
@@ -607,7 +606,9 @@ describe(`onDelegation`, () => {
               `notifyError`,
               {
                 body: `unexpected error`,
-                title: `Error while delegating ${getterValues.bondingDenom}s`
+                title: `Error while delegating ${
+                  getterValues.stakingParameters.parameters.bond_denom
+                }s`
               }
             ]
           ])
@@ -717,7 +718,7 @@ describe(`onDelegation`, () => {
               `notify`,
               {
                 body: `You have successfully delegated your ${
-                  getterValues.bondingDenom
+                  getterValues.stakingParameters.parameters.bond_denom
                 }s`,
                 title: `Successful delegation!`
               }
@@ -772,7 +773,7 @@ describe(`onDelegation`, () => {
               {
                 title: `Successful redelegation!`,
                 body: `You have successfully redelegated your ${
-                  getterValues.bondingDenom
+                  getterValues.stakingParameters.parameters.bond_denom
                 }s`
               }
             ]
@@ -823,7 +824,9 @@ describe(`onDelegation`, () => {
             [
               `notifyError`,
               {
-                title: `Error while redelegating ${getterValues.bondingDenom}s`,
+                title: `Error while redelegating ${
+                  getterValues.stakingParameters.parameters.bond_denom
+                }s`,
                 body: `message`
               }
             ]
@@ -875,7 +878,9 @@ describe(`onDelegation`, () => {
               `notifyError`,
               {
                 body: `unexpected error`,
-                title: `Error while redelegating ${getterValues.bondingDenom}s`
+                title: `Error while redelegating ${
+                  getterValues.stakingParameters.parameters.bond_denom
+                }s`
               }
             ]
           ])

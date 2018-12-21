@@ -23,7 +23,7 @@ describe(`Component: TabMyDelegations`, () => {
           },
           loaded: true
         }),
-        bondingDenom: () => `stake`,
+        stakingParameters: () => lcdClientMock.state.stakingParameters,
         connected: () => true
       }
     })
@@ -45,7 +45,7 @@ describe(`Component: TabMyDelegations`, () => {
           },
           loaded: true
         }),
-        bondingDenom: () => `stake`,
+        stakingParameters: () => lcdClientMock.state.stakingParameters,
         connected: () => true
       }
     })
@@ -64,7 +64,7 @@ describe(`Component: TabMyDelegations`, () => {
         delegation: () => ({
           unbondingDelegations: {}
         }),
-        bondingDenom: () => `stake`,
+        stakingParameters: () => lcdClientMock.state.stakingParameters,
         connected: () => true
       }
     })
@@ -84,7 +84,7 @@ describe(`Component: TabMyDelegations`, () => {
           unbondingDelegations: {},
           loaded: false
         }),
-        bondingDenom: () => `stake`,
+        stakingParameters: () => lcdClientMock.state.stakingParameters,
         connected: () => false
       },
       stubs: {
@@ -107,7 +107,7 @@ describe(`Component: TabMyDelegations`, () => {
           loaded: true,
           loading: true
         }),
-        bondingDenom: () => `stake`,
+        stakingParameters: () => lcdClientMock.state.stakingParameters,
         connected: () => false
       },
       stubs: {

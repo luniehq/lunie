@@ -161,14 +161,14 @@ export default ({ node }) => {
     },
     async submitDelegation(
       {
-        rootState: { config, user, wallet },
+        rootState: { stakingParameters, user, wallet },
         state,
         dispatch,
         commit
       },
       { stakingTransactions, password }
     ) {
-      const denom = config.bondingDenom
+      const denom = stakingParameters.parameters.bond_denom
       const delegatorAddr = wallet.address
       // delegations = [], unbondings = [], redelegations = []
 

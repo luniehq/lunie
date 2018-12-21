@@ -2,9 +2,6 @@ import BN from "bignumber.js"
 import { calculateTokens } from "scripts/common"
 // ui
 export const config = state => state.config
-export const bondingDenom = state =>
-  state.config.bondingDenom.charAt(0).toUpperCase() +
-  state.config.bondingDenom.slice(1)
 
 export const filters = state => state.filters
 export const notifications = state => state.notifications

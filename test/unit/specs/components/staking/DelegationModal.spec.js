@@ -3,6 +3,7 @@
 import setup from "../../../helpers/vuex-setup"
 import DelegationModal from "staking/DelegationModal"
 import Vuelidate from "vuelidate"
+import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`DelegationModal`, () => {
   let wrapper
@@ -38,7 +39,7 @@ describe(`DelegationModal`, () => {
       mocks: {
         $store: {
           getters: {
-            bondingDenom: `atom`
+            stakingParameters: lcdClientMock.state.stakingParameters
           }
         }
       }

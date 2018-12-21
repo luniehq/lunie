@@ -5,11 +5,11 @@
         <img class="icon" src="~assets/images/cosmos-logo.png" />
       </div>
       <div class="total-atoms top-section">
-        <h3>Total {{ bondingDenom }}</h3>
+        <h3>Total {{ stakingParameters.parameters.bond_denom }}</h3>
         <h2 class="total-atoms__value">{{ num.shortNumber(totalAtoms) }}</h2>
       </div>
       <div v-if="unbondedAtoms" class="unbonded-atoms top-section">
-        <h3>Available {{ bondingDenom }}</h3>
+        <h3>Available {{ stakingParameters.parameters.bond_denom }}</h3>
         <h2>{{ unbondedAtoms }}</h2>
       </div>
     </div>
@@ -51,7 +51,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([`bondingDenom`, `user`, `totalAtoms`]),
+    ...mapGetters([`user`, `totalAtoms`, `stakingParameters`]),
     address() {
       return this.user.address
     },

@@ -8,8 +8,8 @@
     <tm-data-msg v-else-if="yourValidators.length === 0" icon="info_outline">
       <div slot="title">No Active Delegations</div>
       <div slot="subtitle">
-        Looks like you haven't delegated any {{ bondingDenom }}s yet. Head over
-        to the
+        Looks like you haven't delegated any
+        {{ stakingParameters.parameters.bond_denom }}s yet. Head over to the
         <router-link :to="{ name: 'Validators' }">validator list</router-link>
         to make your first delegation!
       </div>
@@ -52,7 +52,7 @@ export default {
       `delegates`,
       `delegation`,
       `committedDelegations`,
-      `bondingDenom`,
+      `stakingParameters`,
       `connected`
     ]),
     undelegatedValidators(

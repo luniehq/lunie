@@ -302,9 +302,11 @@ let state = {
     bonded_tokens: `50.0000000000`
   },
   stakingParameters: {
-    unbonding_time: `259200000000000`,
-    max_validators: 100,
-    bond_denom: `STAKE`
+    parameters: {
+      unbonding_time: `259200000000000`,
+      max_validators: 100,
+      bond_denom: `STAKE`
+    }
   },
   governanceParameters: {
     deposit: {
@@ -1196,10 +1198,10 @@ module.exports = {
       let depositCoinAmt = proposal.total_deposit.find(coin => {
         return coin.denom === `STAKE`
       }).amount
-      // TODO: get min deposit amount from gov params
-      if (parseInt(depositCoinAmt) >= 10) {
+
+      let minDepositCoin = state.governanceParameters.deposit.min_deposit[0]
+      if (parseInt(depositCoinAmt) >= parseInt(minDepositCoin.amount)) {
         proposal.proposal_status = `VotingPeriod`
-        // TODO: get voting time from gov params
         proposal.voting_start_time = Date.now()
         proposal.voting_end_time = moment(proposal.voting_start_time)
           .add(86400000, `ms`)
