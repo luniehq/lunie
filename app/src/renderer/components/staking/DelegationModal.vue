@@ -1,26 +1,38 @@
 <template>
-  <div v-click-outside="close" id="delegation-modal" class="delegation-modal">
-    <div class="delegation-modal-header">
-      <img
-        class="icon delegation-modal-atom"
-        src="~assets/images/cosmos-logo.png"
-      /><span class="tm-modal-title">Delegation</span>
-      <div id="closeBtn" class="tm-modal-icon tm-modal-close" @click="close()">
-        <i class="material-icons">close</i>
-      </div>
-    </div>
+  <action-modal
+    title="Delegation"
+    id="delegation-modal"
+    class="delegation-modal"
+  >
+    <tm-form-group
+      class="action-modal-form-group"
+      field-id="to"
+      field-label="To"
+    >
+      <tm-field id="to" v-model="to" type="text" readonly />
+    </tm-form-group>
+
+    <tm-form-group
+      class="action-modal-form-group"
+      field-id="from"
+      field-label="From"
+    >
+      <tm-field
+        id="from"
+        v-model="selectedIndex"
+        :title="fromOptions[selectedIndex].address"
+        :options="fromOptions"
+        type="select"
+      />
+    </tm-form-group>
+
     <tm-form-group
       :error="$v.amount.$invalid"
-      class="delegation-modal-form-group"
+      class="action-modal-form-group"
       field-id="amount"
       field-label="Amount"
     >
-      <tm-field
-        id="denom"
-        :placeholder="bondingDenom"
-        type="text"
-        readonly="readonly"
-      />
+      <span class="input-suffix">{{ bondingDenom }}</span>
       <tm-field
         v-focus
         id="amount"
@@ -37,28 +49,9 @@
         type="between"
       />
     </tm-form-group>
+
     <tm-form-group
-      class="delegation-modal-form-group"
-      field-id="to"
-      field-label="To"
-    >
-      <tm-field id="to" v-model="to" readonly="readonly" type="text" />
-    </tm-form-group>
-    <tm-form-group
-      class="delegation-modal-form-group"
-      field-id="from"
-      field-label="From"
-    >
-      <tm-field
-        id="from"
-        v-model="selectedIndex"
-        :title="fromOptions[selectedIndex].address"
-        :options="fromOptions"
-        type="select"
-      />
-    </tm-form-group>
-    <tm-form-group
-      class="delegation-modal-form-group"
+      class="action-modal-form-group"
       field-id="password"
       field-label="Password"
     >
@@ -69,7 +62,7 @@
         placeholder="Password"
       />
     </tm-form-group>
-    <div class="delegation-modal-footer">
+    <div class="action-modal-footer">
       <tm-btn
         id="submit-delegation"
         :disabled="$v.$invalid"
@@ -78,7 +71,7 @@
         @click.native="onDelegation"
       />
     </div>
-  </div>
+  </action-modal>
 </template>
 
 <script>
@@ -90,6 +83,7 @@ import TmBtn from "common/TmBtn"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
+import ActionModal from "common/ActionModal"
 
 const isInteger = amount => Number.isInteger(amount)
 
@@ -103,7 +97,8 @@ export default {
     TmBtn,
     TmField,
     TmFormGroup,
-    TmFormMsg
+    TmFormMsg,
+    ActionModal
   },
   props: {
     fromOptions: {
@@ -151,56 +146,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.delegation-modal {
-  background: var(--app-nav);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  right: 2rem;
-  padding: 3rem;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  max-width: 600px;
-  z-index: var(--z-modal);
-}
-
-.delegation-modal-header {
-  align-items: center;
-  display: flex;
-  padding-bottom: 2rem;
-}
-
-.delegation-modal-atom {
-  height: 3rem;
-  width: 3rem;
-}
-
-.delegation-modal-form-group {
-  display: block;
-  padding: 0.5rem 0;
-}
-
-.delegation-modal #amount {
-  margin-top: -32px;
-}
-
-.delegation-modal #denom {
-  border: none;
-  margin-left: 80%;
-  text-align: right;
-  width: 72px;
-}
-
-.delegation-modal-footer {
-  display: flex;
-  justify-content: flex-end;
-  padding: 2rem 0 0;
-}
-
-.delegation-modal-footer button {
-  margin-left: 1rem;
-}
-</style>

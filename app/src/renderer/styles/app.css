@@ -52,12 +52,22 @@ a:hover {
 .tm-field {
   border-radius: 0.25rem !important;
 }
+input[readonly],
+input[disabled] {
+  background: var(--bc-dim) !important;
+  border-color: var(--bc) !important;
+}
+
+input[type="radio"] {
+  margin: 0;
+}
 input.tm-field {
   height: inherit !important;
 }
 .tm-select .tm-field-select-addon {
   height: 100% !important;
-  border-left: 1px solid var(--bc, #ddd);
+  border-left: 1px solid var(--input-bc, #ccc);
+  width: 29px !important;
 }
 .tm-part-main {
   padding-right: 0 !important;
@@ -78,6 +88,19 @@ input.tm-field {
 }
 .tm-li-container {
   margin-right: 1rem;
+}
+.input-suffix {
+  background: var(--bc-dim);
+  display: inline-block;
+  position: absolute;
+  padding: 6px 8px;
+  font-size: var(--sm);
+  bottom: 9px;
+  right: 30px;
+  letter-spacing: 1px;
+  text-align: right;
+  font-weight: 500;
+  border-radius: 2px;
 }
 #app-content {
   flex: 1;

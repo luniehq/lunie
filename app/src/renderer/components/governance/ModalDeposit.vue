@@ -1,30 +1,12 @@
 <template>
-  <div v-click-outside="close" id="modal-deposit" class="modal-deposit">
-    <div class="modal-deposit-header">
-      <img
-        class="icon modal-deposit-atom"
-        src="~assets/images/cosmos-logo.png"
-      /><span class="tm-modal-title">Deposit</span>
-      <div id="closeBtn" class="tm-modal-icon tm-modal-close" @click="close()">
-        <i class="material-icons">close</i>
-      </div>
-    </div>
-    <div>
-      <h2>Title: {{ proposalTitle }}</h2>
-      <h3>Proposal ID: {{ `#` + proposalId }}</h3>
-    </div>
+  <action-modal title="Deposit" class="modal-deposit">
     <tm-form-group
       :error="$v.amount.$invalid"
-      class="modal-deposit-form-group"
+      class="action-modal-form-group"
       field-id="amount"
       field-label="Amount"
     >
-      <tm-field
-        id="denom"
-        :placeholder="denom"
-        type="text"
-        readonly="readonly"
-      />
+      <span class="input-suffix">{{ bondingDenom }}</span>
       <tm-field
         v-focus
         id="amount"
@@ -40,38 +22,29 @@
         name="Amount"
         type="between"
       />
-      <hr />
     </tm-form-group>
     <tm-form-group
-      class="modal-deposit-form-group"
+      class="action-modal-form-group"
       field-id="password"
-      field-label="Account password"
+      field-label="Password"
     >
       <tm-field
         id="password"
         v-model="password"
-        :type="showPassword ? `text` : `password`"
-        placeholder="password..."
+        type="password"
+        placeholder="Password"
       />
-      <input
-        id="showPasswordCheckbox"
-        v-model="showPassword"
-        type="checkbox"
-        @input="togglePassword"
-      />
-      <label for="showPasswordCheckbox">Show password</label>
     </tm-form-group>
-    <div class="modal-deposit-footer">
+    <div class="action-modal-footer">
       <tm-btn
         id="submit-deposit"
         :disabled="$v.$invalid"
         color="primary"
         value="Deposit"
-        size="lg"
         @click.native="onDeposit"
       />
     </div>
-  </div>
+  </action-modal>
 </template>
 
 <script>
@@ -83,12 +56,14 @@ import TmBtn from "common/TmBtn"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
+import ActionModal from "common/ActionModal"
 
 const isInteger = amount => Number.isInteger(amount)
 
 export default {
   name: `modal-deposit`,
   components: {
+    ActionModal,
     Modal,
     TmBtn,
     TmField,
@@ -119,7 +94,7 @@ export default {
   }),
   computed: {
     // TODO: get coin denom from governance params
-    ...mapGetters([`wallet`]),
+    ...mapGetters([`wallet`, `bondingDenom`]),
     balance() {
       // TODO: refactor to get the selected coin when multicooin deposit is enabled
       if (!this.wallet.loading && !!this.wallet.balances.length) {
@@ -160,54 +135,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.modal-deposit {
-  background: var(--app-nav);
-  display: flex;
-  flex-direction: column;
-  height: 50%;
-  justify-content: space-between;
-  left: 50%;
-  padding: 2rem;
-  position: fixed;
-  top: 50%;
-  width: 40%;
-  z-index: var(--z-modal);
-}
-
-.modal-deposit-header {
-  align-items: center;
-  display: flex;
-}
-
-.modal-deposit-atom {
-  height: 4rem;
-  width: 4rem;
-}
-
-.modal-deposit-form-group {
-  display: block;
-  padding: 0;
-}
-
-.modal-deposit #amount {
-  margin-top: -32px;
-}
-
-.modal-deposit #denom {
-  border: none;
-  margin-left: 80%;
-  text-align: right;
-  width: 72px;
-}
-
-.modal-deposit-footer {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.modal-deposit-footer button {
-  margin-left: 1rem;
-}
-</style>

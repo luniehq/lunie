@@ -59,11 +59,11 @@ export default {
   position: fixed;
   bottom: 0;
   width: 100%;
-  max-width: 600px;
+  max-width: 664px;
   z-index: var(--z-modal);
   border-top-left-radius: 0.25rem;
   border-top-right-radius: 0.25rem;
-  box-shadow: 0 8px 16px rgba(200, 200, 200, 0.15);
+  box-shadow: 0 8px 16px rgba(200, 200, 200, 0.1);
 }
 
 .action-modal-header {
@@ -112,10 +112,6 @@ export default {
   display: flex;
   justify-content: flex-end;
   padding: 2rem 0 0;
-}
-
-.action-modal-form .tm-form-group button {
-  margin-left: 1rem;
 }
 
 /* Enter and leave animations can use different */

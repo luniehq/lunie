@@ -1,17 +1,8 @@
 <template>
-  <div v-click-outside="close" id="modal-propose" class="modal-propose">
-    <div class="modal-propose-header">
-      <img
-        class="icon modal-propose-atom"
-        src="~assets/images/cosmos-logo.png"
-      /><span class="tm-modal-title">Create Proposal</span>
-      <div id="closeBtn" class="tm-modal-icon tm-modal-close" @click="close()">
-        <i class="material-icons">close</i>
-      </div>
-    </div>
+  <action-modal title="Proposal">
     <tm-form-group
       :error="$v.title.error && $v.title.$invalid"
-      class="page-proposal-form-group"
+      class="action-modal-form-group"
       field-id="title"
       field-label="Title"
     >
@@ -31,7 +22,7 @@
     </tm-form-group>
     <tm-form-group
       :error="$v.description.error && $v.description.$invalid"
-      class="page-proposal-form-group"
+      class="action-modal-form-group"
       field-id="description"
       field-label="Description"
     >
@@ -39,6 +30,7 @@
         id="description"
         v-model.trim="description"
         type="textarea"
+        class="textarea-large"
         placeholder="Write your proposal here..."
       />
       <tm-form-msg
@@ -50,17 +42,11 @@
     </tm-form-group>
     <tm-form-group
       :error="$v.amount.error && $v.amount.$invalid"
-      class="modal-propose-form-group"
+      class="action-modal-form-group"
       field-id="amount"
       field-label="Amount"
     >
-      <tm-field
-        id="denom"
-        :placeholder="denom"
-        :tabindex="-1"
-        type="text"
-        readonly="readonly"
-      />
+      <span class="input-suffix">{{ bondingDenom }}</span>
       <tm-field
         id="amount"
         :max="balance"
@@ -88,7 +74,7 @@
         placeholder="Password"
       />
     </tm-form-group>
-    <div class="modal-propose-footer">
+    <div class="action-modal-footer">
       <tm-btn
         id="submit-proposal"
         :disabled="$v.$invalid"
@@ -97,7 +83,7 @@
         @click.native="onPropose"
       />
     </div>
-  </div>
+  </action-modal>
 </template>
 
 <script>
@@ -115,6 +101,7 @@ import TmBtn from "common/TmBtn"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
+import ActionModal from "common/ActionModal"
 
 const isValid = type =>
   type === `Text` || type === `ParameterChange` || type === `SoftwareUpgrade`
@@ -128,6 +115,7 @@ export default {
     ClickOutside
   },
   components: {
+    ActionModal,
     Modal,
     TmBtn,
     TmField,
@@ -154,7 +142,7 @@ export default {
   }),
   computed: {
     // TODO: get coin denom from governance params
-    ...mapGetters([`wallet`]),
+    ...mapGetters([`wallet`, `bondingDenom`]),
     balance() {
       // TODO: refactor to get the selected coin when multicoin deposit is enabled
       if (!this.wallet.balancesLoading && !!this.wallet.balances.length) {
@@ -210,67 +198,8 @@ export default {
   }
 }
 </script>
-
 <style>
-.modal-propose {
-  background: var(--app-nav);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  left: 50%;
-  padding: 2rem;
-  position: fixed;
-  bottom: 0;
-  width: 50%;
-  z-index: var(--z-modal);
-}
-
-.modal-propose-header {
-  align-items: center;
-  display: flex;
-}
-
-.modal-propose-atom {
-  height: 4rem;
-  width: 4rem;
-}
-
-.modal-propose-form-group {
-  display: block;
-  padding: 0;
-}
-
-.modal-propose #amount {
-  margin-top: -32px;
-}
-
-.modal-propose #denom {
-  border: none;
-  margin-left: 80%;
-  text-align: right;
-  width: 72px;
-}
-
-.modal-propose-footer {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.modal-propose-footer button {
-  margin-left: 1rem;
-  margin-top: 1rem;
-}
-
-.modal-propose .page-proposal-form-group {
-  display: block;
-  padding: 0;
-}
-
-.modal-propose .page-proposal-form-group textarea {
-  min-height: 300px;
-}
-
-.modal-propose .tm-form-group {
-  margin: 0.5rem 0;
+.textarea-large {
+  min-height: 240px;
 }
 </style>

@@ -1,59 +1,55 @@
 <template>
-  <div v-click-outside="close" id="modal-vote" class="modal-vote">
-    <div class="modal-vote-header">
-      <img
-        class="icon modal-vote-atom"
-        src="~assets/images/cosmos-logo.png"
-      /><span class="tm-modal-title">Vote</span>
-      <div id="closeBtn" class="tm-modal-icon tm-modal-close" @click="close()">
-        <i class="material-icons">close</i>
+  <action-modal title="Vote" class="modal-vote">
+    <tm-form-group class="action-modal-group vote-options">
+      <div class="radio-container">
+        <input
+          type="radio"
+          id="vote-yes"
+          :disabled="lastVoteOption === `Yes`"
+          name="Yes"
+          value="Yes"
+          v-model="vote"
+        />
+        <label for="vote-yes">Yes</label>
       </div>
-    </div>
-    <div>
-      <h2>{{ proposalTitle }} ({{ `#` + proposalId }})</h2>
-    </div>
-    <tm-form-group class="modal-vote-form-group options">
-      <tm-btn
-        id="vote-yes"
-        :class="[option === `Yes` ? 'active' : '']"
-        :disabled="lastVoteOption === `Yes`"
-        color="secondary"
-        value="Yes"
-        size="md"
-        @click.native="vote('Yes')"
-      />
-      <tm-btn
-        id="vote-no"
-        :class="[option === `No` ? 'active' : '']"
-        :disabled="lastVoteOption === `No`"
-        color="secondary"
-        value="No"
-        size="md"
-        @click.native="vote('No')"
-      />
-      <tm-btn
-        id="vote-veto"
-        :class="[option === `NoWithVeto` ? 'active' : '']"
-        :disabled="lastVoteOption === `NoWithVeto`"
-        color="secondary"
-        value="No With Veto"
-        size="md"
-        @click.native="vote('NoWithVeto')"
-      />
-      <tm-btn
-        id="vote-abstain"
-        :class="[option === `Abstain` ? 'active' : '']"
-        :disabled="lastVoteOption === `Abstain`"
-        color="secondary"
-        value="Abstain"
-        size="md"
-        @click.native="vote('Abstain')"
-      />
+      <div class="radio-container">
+        <input
+          type="radio"
+          id="vote-no"
+          :disabled="lastVoteOption === `No`"
+          name="No"
+          value="No"
+          v-model="vote"
+        />
+        <label for="vote-no">No</label>
+      </div>
+      <div class="radio-container">
+        <input
+          type="radio"
+          id="vote-veto"
+          :disabled="lastVoteOption === `NoWithVeto`"
+          name="NoWithVeto"
+          value="NoWithVeto"
+          v-model="vote"
+        />
+        <label for="vote-veto">No With Veto</label>
+      </div>
+      <div class="radio-container">
+        <input
+          type="radio"
+          id="vote-abstain"
+          :disabled="lastVoteOption === `Abstain`"
+          name="Abstain"
+          value="Abstain"
+          v-model="vote"
+        />
+        <label for="vote-abstain">Abstain</label>
+      </div>
     </tm-form-group>
     <tm-form-group
-      class="modal-vote-form-group"
+      class="action-modal-group"
       field-id="password"
-      field-label="Account password"
+      field-label="Password"
     >
       <tm-field
         id="password"
@@ -62,22 +58,24 @@
         placeholder="Password"
       />
     </tm-form-group>
-    <tm-form-group class="modal-vote-form-group" />
-    <div class="modal-vote-footer">
-      <tm-btn
-        id="cast-vote"
-        :disabled="$v.$invalid"
-        color="primary"
-        value="Vote"
-        @click.native="onVote"
-      />
-    </div>
-  </div>
+    <tm-form-group class="action-modal-group">
+      <div class="action-modal-footer">
+        <tm-btn
+          id="cast-vote"
+          :disabled="$v.$invalid"
+          color="primary"
+          value="Vote"
+          @click.native="onVote"
+        />
+      </div>
+    </tm-form-group>
+  </action-modal>
 </template>
 
 <script>
 import ClickOutside from "vue-click-outside"
 import { required } from "vuelidate/lib/validators"
+import ActionModal from "common/ActionModal"
 import Modal from "common/TmModal"
 import TmBtn from "common/TmBtn"
 import TmField from "common/TmField"
@@ -93,6 +91,7 @@ const isValid = option =>
 export default {
   name: `modal-vote`,
   components: {
+    ActionModal,
     Modal,
     TmBtn,
     TmField,
@@ -120,11 +119,12 @@ export default {
   data: () => ({
     option: ``,
     password: ``,
-    showPassword: false
+    showPassword: false,
+    vote: null
   }),
   validations() {
     return {
-      option: {
+      vote: {
         required,
         isValid
       },
@@ -137,13 +137,6 @@ export default {
     close() {
       this.$emit(`update:showModalVote`, false)
     },
-    vote(option) {
-      if (this.option === option) {
-        this.option = ``
-      } else {
-        this.option = option
-      }
-    },
     onVote() {
       this.$emit(`castVote`, { option: this.option, password: this.password })
       this.close()
@@ -153,62 +146,21 @@ export default {
 </script>
 
 <style>
-.modal-vote {
-  background: var(--app-nav);
-  display: flex;
-  flex-direction: column;
-  height: 50%;
-  justify-content: space-between;
-  left: 50%;
-  padding: 2rem;
-  position: fixed;
-  top: 50%;
-  width: 40%;
-  z-index: var(--z-modal);
-}
-
-.modal-vote h2 {
+.proposal-title {
   font-weight: 500;
 }
 
-.modal-vote-header {
+.action-modal-group.tm-form-group.vote-options {
+  padding: 2rem 0;
+}
+
+.radio-container {
+  display: flex;
   align-items: center;
-  display: flex;
+  padding: 0.25rem 0;
 }
 
-.modal-vote-atom {
-  height: 3rem;
-  width: 3rem;
-}
-
-.modal-vote-form-group {
-  display: block;
-  padding: 0;
-}
-
-.modal-vote-footer {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.modal-vote h3 {
-  margin: 0;
-}
-
-.modal-vote button {
-  margin: 0;
-  /* min-width: 24%; */
-}
-
-.modal-vote button span {
-  margin: 0.25rem;
-}
-
-.modal-vote button.active span {
-  background: var(--tertiary);
-}
-
-.modal-vote button .tm-btn__container {
-  padding: 0.5rem;
+.radio-container label {
+  padding-left: 0.5rem;
 }
 </style>

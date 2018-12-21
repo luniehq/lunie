@@ -1,29 +1,37 @@
 <template>
-  <div
-    v-click-outside="close"
+  <action-modal
+    title="Undelegation"
     id="undelegation-modal"
     class="undelegation-modal"
   >
-    <div class="undelegation-modal-header">
-      <img
-        class="icon undelegation-modal-atom"
-        src="~assets/images/cosmos-logo.png"
-      /><span class="tm-modal-title">Undelegate</span>
-      <div class="tm-modal-icon tm-modal-close" @click="close()">
-        <i class="material-icons">close</i>
-      </div>
-    </div>
     <tm-form-group
-      :error="$v.amount.$invalid"
-      class="undelegation-modal-form-group"
-      field-label="Amount"
+      class="action-modal-form-group"
+      field-id="from"
+      field-label="From"
     >
       <tm-field
-        id="denom"
-        :placeholder="bondingDenom"
-        type="text"
-        readonly="readonly"
+        id="from"
+        v-model="selectedIndex"
+        :title="fromOptions[selectedIndex].address"
+        :options="fromOptions"
+        type="select"
       />
+    </tm-form-group>
+    <tm-form-group
+      class="action-modal-form-group"
+      field-id="to"
+      field-label="To"
+    >
+      <tm-field id="to" v-model="to" readonly="readonly" />
+    </tm-form-group>
+
+    <tm-form-group
+      :error="$v.amount.$invalid"
+      class="action-modal-form-group"
+      field-id="amount"
+      field-label="Amount"
+    >
+      <span class="input-suffix">{{ bondingDenom }}</span>
       <tm-field
         v-focus
         id="amount"
@@ -40,15 +48,9 @@
         type="between"
       />
     </tm-form-group>
+
     <tm-form-group
-      class="undelegation-modal-form-group"
-      field-id="to"
-      field-label="To"
-    >
-      <tm-field id="to" v-model="to" readonly="readonly" />
-    </tm-form-group>
-    <tm-form-group
-      class="undelegation-modal-form-group"
+      class="action-modal-form-group"
       field-id="password"
       field-label="Password"
     >
@@ -59,23 +61,23 @@
         placeholder="Password"
       />
     </tm-form-group>
-    <div class="undelegation-modal-footer">
+    <div class="action-modal-footer">
       <tm-btn
         id="submit-undelegation"
         :disabled="$v.$invalid"
         color="primary"
         value="Undelegate"
-        size="lg"
         @click.native="onUndelegate"
       />
     </div>
-  </div>
+  </action-modal>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
 import ClickOutside from "vue-click-outside"
 import { required, between } from "vuelidate/lib/validators"
+import ActionModal from "common/ActionModal"
 import Modal from "common/TmModal"
 import TmBtn from "common/TmBtn"
 import TmField from "common/TmField"
@@ -90,6 +92,7 @@ export default {
     ClickOutside
   },
   components: {
+    ActionModal,
     Modal,
     TmBtn,
     TmField,
@@ -98,7 +101,11 @@ export default {
   },
   props: {
     maximum: {
-      type: Number,
+      type: Object,
+      required: true
+    },
+    fromOptions: {
+      type: Array,
       required: true
     },
     to: {
@@ -109,7 +116,8 @@ export default {
   data: () => ({
     amount: 0,
     password: ``,
-    showPassword: false
+    showPassword: false,
+    selectedIndex: 0
   }),
   computed: {
     ...mapGetters([`bondingDenom`])
@@ -140,54 +148,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.undelegation-modal {
-  background: var(--app-nav);
-  display: flex;
-  flex-direction: column;
-  height: 50%;
-  justify-content: space-between;
-  left: 50%;
-  padding: 2rem;
-  position: fixed;
-  top: 50%;
-  width: 40%;
-  z-index: var(--z-modal);
-}
-
-.undelegation-modal-header {
-  align-items: center;
-  display: flex;
-}
-
-.undelegation-modal-atom {
-  height: 4rem;
-  width: 4rem;
-}
-
-.undelegation-modal-form-group {
-  display: block;
-  padding: 0;
-}
-
-.undelegation-modal #amount {
-  margin-top: -32px;
-}
-
-.undelegation-modal #denom {
-  text-align: right;
-  width: 72px;
-  margin-left: 80%;
-  border: none;
-}
-
-.undelegation-modal-footer {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.undelegation-modal-footer button {
-  margin-left: 1rem;
-}
-</style>
