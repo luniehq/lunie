@@ -56,11 +56,17 @@
         type="text"
         readonly="readonly"
       />
-      <tm-field id="amount" :min="0" v-model="amount" type="number" />
+      <tm-field
+        id="amount"
+        :min="0"
+        :max="balance"
+        v-model="amount"
+        type="number"
+      />
       <tm-form-msg
         v-if="!$v.amount.between && amount > 0"
         :max="$v.amount.$params.between.max"
-        :min="1"
+        :min="$v.amount.$params.between.min"
         name="Amount"
         type="between"
       />
@@ -176,7 +182,7 @@ export default {
       amount: {
         required,
         isInteger,
-        between: between(1, this.balance > 0 ? this.balance : null)
+        between: between(1, this.balance > 0 ? this.balance : 1)
       },
       password: {
         required

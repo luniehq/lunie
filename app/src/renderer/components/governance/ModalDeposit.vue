@@ -25,11 +25,18 @@
         type="text"
         readonly="readonly"
       />
-      <tm-field v-focus id="amount" :min="0" v-model="amount" type="number" />
+      <tm-field
+        v-focus
+        id="amount"
+        :min="0"
+        :max="balance"
+        v-model="amount"
+        type="number"
+      />
       <tm-form-msg
         v-if="!$v.amount.between && amount > 0"
         :max="$v.amount.$params.between.max"
-        :min="1"
+        :min="$v.amount.$params.between.min"
         name="Amount"
         type="between"
       />
