@@ -57,4 +57,16 @@ describe(`TmNotification.vue`, () => {
     jest.runAllTimers()
     expect(wrapper.vm.active).toBe(false)
   })
+
+  it(`is hidden if timed out`, () => {
+    let wrapper = mount(TmNotification, {
+      propsData: {
+        data: {
+          time: 100,
+          body: `asdf`
+        }
+      }
+    })
+    expect(wrapper.vm.active).toBe(false)
+  })
 })
