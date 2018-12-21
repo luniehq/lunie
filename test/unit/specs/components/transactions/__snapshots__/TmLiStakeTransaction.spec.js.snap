@@ -68,6 +68,74 @@ exports[`TmLiStakeTransaction delegations should show delegations 1`] = `
 </div>
 `;
 
+exports[`TmLiStakeTransaction delegations should show the validator address if no validator with that address in store 1`] = `
+<div
+  class="tm-li-tx"
+>
+  <div
+    class="tm-li-tx__icon"
+  >
+    <img
+      src="~assets/images/cosmos-logo.png"
+      style="border-color: #512584;"
+    />
+  </div>
+   
+  <div
+    class="tm-li-tx__content"
+  >
+    <div
+      class="tm-li-tx__content__left"
+    >
+      <div
+        class="tm-li-tx__content__caption"
+      >
+        <p
+          class="tm-li-tx__content__caption__title"
+        >
+          <div>
+            
+      Delegated 
+            <b>
+              4,200.00
+            </b>
+            <span>
+               stakes
+            </span>
+          </div>
+        </p>
+      </div>
+       
+      <div
+        class="tm-li-tx__content__information"
+      >
+        <div>
+          
+      To 
+          <router-link-stub
+            to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+          >
+            cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
+          </router-link-stub>
+        </div>
+      </div>
+    </div>
+     
+    <div
+      class="tm-li-tx__content__block"
+    >
+      <a
+        href="https://explorecosmos.network/blocks/568"
+      >
+        Block #568 
+      </a>
+      @ 12:00 am
+    
+    </div>
+  </div>
+</div>
+`;
+
 exports[`TmLiStakeTransaction redelegations should show redelegations and calculate tokens from shares 1`] = `
 <div
   class="tm-li-tx"

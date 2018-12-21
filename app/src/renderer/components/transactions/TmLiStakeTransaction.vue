@@ -108,9 +108,7 @@ export default {
       // only show time diff if still waiting to be terminated
       if (this.state !== `locked`) return ``
 
-      return this.transaction.unbondingDelegation
-        ? moment(this.transaction.unbondingDelegation.min_time).toNow()
-        : ``
+      return moment(this.transaction.unbondingDelegation.min_time).toNow()
     },
     // unbonding transactions can be in the state 'locked', 'ended'
     // the transaction needs to be enriched from the outside with `unbondingDelegation`
@@ -123,7 +121,8 @@ export default {
     color() {
       if (this.delegation) return colors.stake.bonded
       if (this.redelegation) return colors.stake.redelegate
-      if (this.unbonding) return colors.stake.unbonded
+      // if (this.unbonding)
+      return colors.stake.unbonded
     }
   },
   methods: {
@@ -131,7 +130,7 @@ export default {
       let validator = this.validators.find(
         c => c.operator_address === validatorAddr
       )
-      return (validator && validator.description.moniker) || validatorAddr
+      return validator ? validator.description.moniker : validatorAddr
     },
     calculatePrettifiedTokens(validatorAddr, shares) {
       let validator = this.validators.find(

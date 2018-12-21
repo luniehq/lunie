@@ -37,6 +37,19 @@ describe(`TmLiStakeTransaction`, () => {
       expect(wrapper.vm.delegation).toBe(true)
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
+
+    it(`should show the validator address if no validator with that address in store`, () => {
+      wrapper.setProps({
+        validators: []
+      })
+      expect(
+        wrapper
+          .text()
+          .indexOf(
+            `To cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`
+          ) === -1
+      ).toBe(true)
+    })
   })
 
   describe(`unbonding delegations`, () => {
