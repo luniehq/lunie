@@ -16,6 +16,11 @@ export default ({ node }) => {
   }
 
   const actions = {
+    async reconnected({ state, dispatch }) {
+      if (state.loading) {
+        await dispatch(`getStakingParameters`)
+      }
+    },
     async getStakingParameters({ state, commit, rootState }) {
       state.loading = true
 

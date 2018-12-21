@@ -1,0 +1,180 @@
+{
+  "genesis_time": "2018-12-19T15:29:15.145318Z",
+  "chain_id": "default-testnet",
+  "consensus_params": {
+    "block_size": {
+      "max_bytes": "22020096",
+      "max_gas": "-1"
+    },
+    "evidence": {
+      "max_age": "100000"
+    },
+    "validator": {
+      "pub_key_types": ["ed25519"]
+    }
+  },
+  "app_hash": "",
+  "app_state": {
+    "accounts": [
+      {
+        "address": "cosmos1g62mlvetsmmtlgjhn09e8yrly2g3ur28dsvcx5",
+        "coins": [
+          {
+            "denom": "STAKE",
+            "amount": "150"
+          },
+          {
+            "denom": "localcoin",
+            "amount": "1000"
+          }
+        ],
+        "sequence_number": "0",
+        "account_number": "0"
+      }
+    ],
+    "auth": {
+      "collected_fees": null
+    },
+    "stake": {
+      "pool": {
+        "loose_tokens": "150.0000000000",
+        "bonded_tokens": "0.0000000000"
+      },
+      "params": {
+        "unbonding_time": "259200000000000",
+        "max_validators": 100,
+        "bond_denom": "STAKE"
+      },
+      "last_total_power": "0",
+      "last_validator_powers": null,
+      "validators": null,
+      "bonds": null,
+      "unbonding_delegations": null,
+      "redelegations": null,
+      "exported": false
+    },
+    "mint": {
+      "minter": {
+        "inflation": "0.1300000000",
+        "annual_provisions": "0.0000000000"
+      },
+      "params": {
+        "mint_denom": "STAKE",
+        "inflation_rate_change": "0.1300000000",
+        "inflation_max": "0.2000000000",
+        "inflation_min": "0.0700000000",
+        "goal_bonded": "0.6700000000",
+        "blocks_per_year": "6311520"
+      }
+    },
+    "distr": {
+      "fee_pool": {
+        "val_accum": {
+          "update_height": "0",
+          "accum": "0.0000000000"
+        },
+        "val_pool": null,
+        "community_pool": null
+      },
+      "community_tax": "0.0200000000",
+      "base_proposer_reward": "0.0100000000",
+      "bonus_proposer_reward": "0.0400000000",
+      "validator_dist_infos": null,
+      "delegator_dist_infos": null,
+      "delegator_withdraw_infos": null,
+      "previous_proposer": "cosmosvalcons1m46yrx"
+    },
+    "gov": {
+      "starting_proposal_id": "1",
+      "deposits": null,
+      "votes": null,
+      "proposals": null,
+      "deposit_params": {
+        "min_deposit": [
+          {
+            "denom": "STAKE",
+            "amount": "10"
+          }
+        ],
+        "max_deposit_period": "172800000000000"
+      },
+      "voting_params": {
+        "voting_period": "172800000000000"
+      },
+      "tally_params": {
+        "quorum": "0.3340000000",
+        "threshold": "0.5000000000",
+        "veto": "0.3340000000",
+        "governance_penalty": "0.0100000000"
+      }
+    },
+    "slashing": {
+      "params": {
+        "max-evidence-age": "120000000000",
+        "signed-blocks-window": "100",
+        "min-signed-per-window": "0.5000000000",
+        "double-sign-unbond-duration": "300000000000",
+        "downtime-unbond-duration": "600000000000",
+        "slash-fraction-double-sign": "0.0500000000",
+        "slash-fraction-downtime": "0.0100000000"
+      },
+      "signing_infos": {},
+      "missed_blocks": {},
+      "slashing_periods": null
+    },
+    "gentxs": [
+      {
+        "type": "auth/StdTx",
+        "value": {
+          "msg": [
+            {
+              "type": "cosmos-sdk/MsgCreateValidator",
+              "value": {
+                "Description": {
+                  "moniker": "local_1",
+                  "identity": "",
+                  "website": "",
+                  "details": ""
+                },
+                "Commission": {
+                  "rate": "0.1000000000",
+                  "max_rate": "0.2000000000",
+                  "max_change_rate": "0.0100000000"
+                },
+                "delegator_address": "cosmos1g62mlvetsmmtlgjhn09e8yrly2g3ur28dsvcx5",
+                "validator_address": "cosmosvaloper1g62mlvetsmmtlgjhn09e8yrly2g3ur28gycd28",
+                "pubkey": {
+                  "type": "tendermint/PubKeyEd25519",
+                  "value": "xaw5RhyeOsHRpqQbwpbkbDPvWLLMp0XAuMOxjrhBqsQ="
+                },
+                "delegation": {
+                  "denom": "STAKE",
+                  "amount": "100"
+                }
+              }
+            }
+          ],
+          "fee": {
+            "amount": [
+              {
+                "denom": "",
+                "amount": "0"
+              }
+            ],
+            "gas": "200000"
+          },
+          "signatures": [
+            {
+              "pub_key": {
+                "type": "tendermint/PubKeySecp256k1",
+                "value": "Akjnzjcl9yTu2KESe36E/D2BIz360ucNS1Uucv52akJ2"
+              },
+              "signature": "E5zW/5KQQIwg1Y4PXgDvACatm0eJxTDWW2h5fsTClttJFhV/4gGLlYhoZT6sAbTmE5ZcXzjKocB7Le/AcA23xg=="
+            }
+          ],
+          "memo": "dc2f092a72aea073694219496c2e0b2a1f442860@192.168.0.188:26656"
+        }
+      }
+    ]
+  }
+}
