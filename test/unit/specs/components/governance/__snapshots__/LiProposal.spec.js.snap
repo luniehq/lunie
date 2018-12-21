@@ -18,7 +18,7 @@ exports[`LiProposal has the expected html structure 1`] = `
         class="data-table__row__info__container__name"
         to="[object Object]"
       >
-        Proposal Title
+        VotingPeriod proposal
       </router-link-stub>
        
       <p

@@ -258,7 +258,6 @@ export default {
           password
         })
 
-        this.proposal = this.proposals.proposals[this.proposalId]
         // TODO: get min deposit denom from gov params
         this.$store.commit(`notify`, {
           title: `Successful deposit!`,
@@ -289,7 +288,6 @@ export default {
             this.proposalId
           }`
         })
-        this.proposal = this.proposals.proposals[this.proposalId]
       } catch ({ message }) {
         this.$store.commit(`notifyError`, {
           title: `Error while voting on proposal #${this.proposalId}`,
