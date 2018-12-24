@@ -19,31 +19,35 @@
         </a>
       </tool-bar>
     </template>
-    <modal-search v-if="somethingToSearch" type="balances" />
-    <tm-data-connecting v-if="!wallet.loaded && !connected" />
-    <tm-data-loading v-else-if="!wallet.loaded && wallet.loading" />
-    <tm-data-msg
-      v-else-if="wallet.balances.length === 0"
-      id="account_empty_msg"
-      icon="help_outline"
+    <managed-body
+      :connected="connected"
+      :loading="wallet.loading"
+      :loaded="wallet.loaded"
+      :error="wallet.error"
+      :data="wallet.balances"
+      :filtered-data="filteredBalances"
+      :search="{ somethingToSearch: somethingToSearch, type: `balances` }"
     >
-      <div slot="title">Account empty</div>
-      <div slot="subtitle">
-        This account doesn't hold any coins yet. Go to the&nbsp;
-        <a href="https://gaia.faucetcosmos.network/">token faucet</a> &nbsp;to
-        aquire tokens to play with.
-      </div>
-    </tm-data-msg>
-    <data-empty-search v-else-if="filteredBalances.length === 0" />
-    <ul v-else>
-      <li-coin
-        v-for="coin in filteredBalances"
-        v-if="wallet.balances.length > 0 && coin.amount > 0"
-        :key="coin.denom"
-        :coin="coin"
-        class="tm-li-balance"
-      />
-    </ul>
+      <template slot="no-data">
+        <tm-data-msg id="account_empty_msg" icon="help_outline">
+          <div slot="title">Account empty</div>
+          <div slot="subtitle">
+            This account doesn't hold any coins yet. Go to the&nbsp;
+            <a href="https://gaia.faucetcosmos.network/">token faucet</a>
+            &nbsp;to aquire tokens to play with.
+          </div>
+        </tm-data-msg>
+      </template>
+      <ul slot="data-body">
+        <li-coin
+          v-for="coin in filteredBalances"
+          v-if="wallet.balances.length > 0 && coin.amount > 0"
+          :key="coin.denom"
+          :coin="coin"
+          class="tm-li-balance"
+        />
+      </ul>
+    </managed-body>
   </tm-page>
 </template>
 
@@ -66,9 +70,11 @@ import {
 import TmBalance from "common/TmBalance"
 import ModalSearch from "common/TmModalSearch"
 import ToolBar from "common/ToolBar"
+import ManagedBody from "../common/ManagedBody"
 export default {
   name: `page-wallet`,
   components: {
+    ManagedBody,
     TmBalance,
     TmDataLoading,
     TmDataMsg,

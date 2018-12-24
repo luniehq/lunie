@@ -1,27 +1,25 @@
 <template>
-  <page-profile data-title="Validator"
-    ><template slot="menu-body">
+  <page-profile data-title="Validator">
+    <template slot="menu-body">
       <tm-balance />
     </template>
     <div slot="menu">
       <tm-tool-bar>
-        <router-link to="/staking/validators" exact="exact"
-          ><i class="material-icons">arrow_back</i></router-link
-        >
+        <router-link to="/staking/validators" exact="exact">
+          <i class="material-icons">arrow_back</i>
+        </router-link>
       </tm-tool-bar>
     </div>
-    <tm-data-error v-if="!validator" /><template v-else>
+    <tm-data-error v-if="!validator" />
+    <template v-else>
       <div class="page-profile__header page-profile__section">
         <div class="column">
           <img
             v-if="validator.keybase"
             :src="validator.keybase.avatarUrl"
             class="avatar"
-          /><img
-            v-else
-            class="avatar"
-            src="~assets/images/validator-icon.svg"
           />
+          <img v-else class="avatar" src="~assets/images/validator-icon.svg" />
         </div>
         <div class="column page-profile__header__info">
           <div class="row page-profile__header__name">

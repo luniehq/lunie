@@ -1,40 +1,47 @@
 <template>
-  <tm-page data-title="Transactions"
-    ><template slot="menu-body">
+  <tm-page data-title="Transactions">
+    <template slot="menu-body">
       <tm-balance />
-      <tool-bar
-        ><a
+      <tool-bar>
+        <a
           v-tooltip.bottom="'Refresh'"
           :disabled="!connected"
           @click="connected && refreshTransactions()"
-          ><i class="material-icons">refresh</i></a
-        ><a
+        >
+          <i class="material-icons">refresh</i>
+        </a>
+        <a
           v-tooltip.bottom="'Search'"
           :disabled="!somethingToSearch"
           @click="setSearch()"
-          ><i class="material-icons">search</i></a
-        ></tool-bar
-      >
+        >
+          <i class="material-icons">search</i>
+        </a>
+      </tool-bar>
     </template>
-    <modal-search v-if="somethingToSearch" type="transactions" />
-    <tm-data-connecting v-if="!transactions.loaded && !connected" />
-    <tm-data-loading v-else-if="!transactions.loaded && transactions.loading" />
-    <tm-data-error v-else-if="transactions.error" />
-    <data-empty-tx v-else-if="allTransactions.length === 0" />
-    <data-empty-search v-else-if="filteredTransactions.length === 0" /><template
-      v-for="tx in filteredTransactions"
-      v-else
+
+    <managed-body
+      :connected="connected"
+      :loading="transactions.loading"
+      :loaded="transactions.loaded"
+      :error="transactions.error"
+      :data="allTransactions"
+      :filtered-data="filteredTransactions"
+      :search="{ somethingToSearch: somethingToSearch, type: `transactions` }"
     >
-      <tm-li-any-transaction
-        :validators="delegates.delegates"
-        :validator-url="validatorURL"
-        :proposals-url="proposalsURL"
-        :key="tx.hash"
-        :transaction="tx"
-        :address="wallet.address"
-        :bonding-denom="bondingDenom"
-      />
-    </template>
+      <data-empty-tx slot="no-data" />
+      <template v-for="tx in filteredTransactions" slot="data-body">
+        <tm-li-any-transaction
+          :validators="delegates.delegates"
+          :validator-url="validatorURL"
+          :proposals-url="proposalsURL"
+          :key="tx.hash"
+          :transaction="tx"
+          :address="wallet.address"
+          :bonding-denom="bondingDenom"
+        />
+      </template>
+    </managed-body>
   </tm-page>
 </template>
 
@@ -43,25 +50,18 @@ import shortid from "shortid"
 import { mapGetters, mapState } from "vuex"
 import { includes, orderBy } from "lodash"
 import Mousetrap from "mousetrap"
-import DataEmptySearch from "common/TmDataEmptySearch"
 import DataEmptyTx from "common/TmDataEmptyTx"
-import ModalSearch from "common/TmModalSearch"
 import TmBalance from "common/TmBalance"
-import TmDataError from "common/TmDataError"
-import TmDataConnecting from "common/TmDataConnecting"
-import { TmPage, TmDataLoading, TmLiAnyTransaction } from "@tendermint/ui"
+import { TmPage, TmLiAnyTransaction } from "@tendermint/ui"
 import ToolBar from "common/ToolBar"
+import ManagedBody from "../common/ManagedBody"
 export default {
   name: `page-transactions`,
   components: {
+    ManagedBody,
     TmBalance,
     TmLiAnyTransaction,
-    TmDataLoading,
-    TmDataError,
-    TmDataConnecting,
-    DataEmptySearch,
     DataEmptyTx,
-    ModalSearch,
     TmPage,
     ToolBar
   },

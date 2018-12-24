@@ -313,7 +313,7 @@ export default {
 
 <style>
 .tm-form-footer {
-  max-width: width-main-max;
+  max-width: var(--width-main-max);
   display: flex;
   justify-content: flex-end;
 }

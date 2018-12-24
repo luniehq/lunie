@@ -1,6 +1,6 @@
 /* @import '../../../../node_modules/nib/index.styl' */
-@import "reset";
-@import "variables";
+@import "reset.css";
+@import "variables.css";
 @import "vendor/font-awesome-adblock-bypass.css";
 @import "vendor/font-awesome.css";
 @import "vendor/font-awesome.min.css";

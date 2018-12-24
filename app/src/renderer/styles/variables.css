@@ -5,7 +5,7 @@
   --secondary: hsl(277, 92%, 58%);
   --primary: hsl(233, 88%, 57%);
   --link: hsl(217, 100%, 70%);
-  --hover: rgba(0, 0, 0, 8%);
+  --hover: rgba(0, 0, 0, 0.08);
   --hover-bg: rgba(27, 113, 255, 0.1);
   --bright: hsl(0, 100%, 100%);
   --txt: hsla(0, 100%, 100%, 0.8);
@@ -19,7 +19,7 @@
   --grey: hsl(234, 13%, 85%);
   --white-fade-1: rgba(177, 179, 187, 0.25);
   --white-fade-2: rgba(208, 209, 214, 0.15);
-  --green: hsl(105, 60%, 44%, 1);
+  --green: hsl(105, 60%, 44%);
   --green-fade-1: hsla(105, 60%, 44%, 0.25);
   --green-fade-2: hsla(105, 60%, 44%, 0.15);
   --orange: hsla(34, 100%, 50%, 1);
@@ -62,7 +62,7 @@
   --width-main: 100%;
   --width-main-max: 48rem;
   --width-side: 16rem;
-  --bw: 3 * var(--px);
+  /* --bw: 3 * var(--px); */
   /* ============================================================================= */
   /* z-index */
   --z-modalError: 1002;
