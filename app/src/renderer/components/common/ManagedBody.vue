@@ -1,6 +1,9 @@
 <template>
   <div>
-    <modal-search v-if="search.somethingToSearch" :type="search.type" />
+    <modal-search
+      v-if="search && search.somethingToSearch"
+      :type="search.type"
+    />
 
     <tm-data-connecting v-if="!loaded && !connected" />
     <tm-data-loading v-else-if="!loaded && loading" />

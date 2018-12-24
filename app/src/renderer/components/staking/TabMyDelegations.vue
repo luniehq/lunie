@@ -1,36 +1,43 @@
 <template>
   <div>
-    <div v-if="delegation.loaded && yourValidators.length > 0">
-      <table-validators :validators="yourValidators" />
-    </div>
-    <tm-data-connecting v-if="!delegation.loaded && !connected" />
-    <tm-data-loading v-else-if="!delegation.loaded && delegation.loading" />
-    <tm-data-msg v-else-if="yourValidators.length === 0" icon="info_outline">
-      <div slot="title">No Active Delegations</div>
-      <div slot="subtitle">
-        Looks like you haven't delegated any {{ bondingDenom }}s yet. Head over
-        to the
-        <router-link :to="{ name: 'Validators' }">validator list</router-link>
-        to make your first delegation!
-      </div>
-    </tm-data-msg>
-    <div
-      v-if="delegation.loaded && yourValidators.length > 0"
-      class="check-out-message"
+    <managed-body
+      :connected="connected"
+      :loading="delegation.loading"
+      :loaded="delegation.loaded"
+      :error="delegation.error"
+      :data="yourValidators"
+      :filtered-data="yourValidators"
     >
-      Check out
-      <router-link :to="{ name: 'Validators' }">the validator list</router-link>
-      to find other validators to delegate to.
-    </div>
-    <div v-if="delegation.loaded && undelegatedValidators.length > 0">
-      <h3 class="tab-header">
-        Inactive Delegations
-        <i v-tooltip.top="unbondInfo" class="material-icons info-button"
-          >info_outline</i
-        >
-      </h3>
-      <table-validators :validators="undelegatedValidators" />
-    </div>
+      <tm-data-msg slot="no-data">
+        <div slot="title">No Active Delegations</div>
+        <div slot="subtitle">
+          Looks like you haven't delegated any {{ bondingDenom }}s yet. Head
+          over to the
+          <router-link :to="{ name: 'Validators' }">validator list</router-link>
+          to make your first delegation!
+        </div>
+      </tm-data-msg>
+      <div slot="data-body">
+        <table-validators :validators="yourValidators" />
+        <div class="check-out-message">
+          Check out&nbsp;
+          <router-link :to="{ name: 'Validators' }">
+            the validator list
+          </router-link>
+          &nbsp;to find other validators to delegate to.
+        </div>
+
+        <div>
+          <h3 class="tab-header">
+            Inactive Delegations
+            <i v-tooltip.top="unbondInfo" class="material-icons info-button">
+              info_outline
+            </i>
+          </h3>
+          <table-validators :validators="undelegatedValidators" />
+        </div>
+      </div>
+    </managed-body>
   </div>
 </template>
 
@@ -39,10 +46,17 @@ import { mapGetters } from "vuex"
 import { TmDataMsg, TmDataLoading } from "@tendermint/ui"
 import TableValidators from "staking/TableValidators"
 import TmDataConnecting from "common/TmDataConnecting"
+import ManagedBody from "../common/ManagedBody"
 
 export default {
   name: `tab-my-delegations`,
-  components: { TableValidators, TmDataMsg, TmDataConnecting, TmDataLoading },
+  components: {
+    TableValidators,
+    TmDataMsg,
+    TmDataConnecting,
+    TmDataLoading,
+    ManagedBody
+  },
   data: () => ({
     bondInfo: `Validators you are currently bonded to`,
     unbondInfo: `Your bonded validators in unbonding process`
