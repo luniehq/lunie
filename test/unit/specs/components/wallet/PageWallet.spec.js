@@ -26,7 +26,7 @@ describe(`PageWallet`, () => {
     store.commit(`setSearchQuery`, [`balances`, ``])
 
     // we need to wait for the denoms to have loaded
-    // of not they load async and produce errors when the tests already passed
+    // if not they load async and produce errors when the tests already passed
     await store.dispatch(`loadDenoms`)
   })
 
