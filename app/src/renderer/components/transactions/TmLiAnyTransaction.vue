@@ -8,8 +8,8 @@ s<template>
     v-else-if="stakingTx"
     :transaction="transaction"
     :validators="validators"
-    :url="validatorsURL"
-    :unbonding_time="unbonding_time"
+    :url="validatorsUrl"
+    :unbonding-time="unbondingTime"
     :bonding-denom="bondingDenom"
     @end-unbonding="$emit('end-unbonding')"
   ></tm-li-stake-transaction>
@@ -17,7 +17,7 @@ s<template>
     v-else-if="governanceTx"
     :transaction="transaction"
     :bonding-denom="bondingDenom"
-    :url="proposalsURL"
+    :url="proposalsUrl"
   ></tm-li-gov-transaction>
   <tm-li-transaction
     v-else
@@ -56,11 +56,11 @@ export default {
       type: Array,
       required: true
     },
-    validatorsURL: {
+    validatorsUrl: {
       type: String,
       default: null
     },
-    proposalsURL: {
+    proposalsUrl: {
       type: String,
       default: null
     },
@@ -68,8 +68,8 @@ export default {
       type: String,
       required: true
     },
-    unbonding_time: {
-      type: String,
+    unbondingTime: {
+      type: Number,
       default: null
     }
   },

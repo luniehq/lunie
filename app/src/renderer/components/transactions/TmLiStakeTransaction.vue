@@ -9,7 +9,7 @@
         ><span>&nbsp;{{ bondingDenom }}s</span>
       </div>
       <div slot="details">
-        To&nbsp;<router-link :to="URL + '/' + tx.validator_addr">{{
+        To&nbsp;<router-link :to="url + '/' + tx.validator_addr">{{
           moniker(tx.validator_addr)
         }}</router-link>
       </div> </template
@@ -23,10 +23,10 @@
         >
       </div>
       <div slot="details">
-        From&nbsp;<router-link :to="URL + '/' + tx.validator_src_addr">{{
+        From&nbsp;<router-link :to="url + '/' + tx.validator_src_addr">{{
           moniker(tx.validator_src_addr)
         }}</router-link>
-        to&nbsp;<router-link :to="URL + '/' + tx.validator_dst_addr">{{
+        to&nbsp;<router-link :to="url + '/' + tx.validator_dst_addr">{{
           moniker(tx.validator_dst_addr)
         }}</router-link>
       </div> </template
@@ -44,7 +44,7 @@
         >
       </div>
       <div slot="details">
-        From&nbsp;<router-link :to="URL + '/' + tx.validator_addr">{{
+        From&nbsp;<router-link :to="url + '/' + tx.validator_addr">{{
           moniker(tx.validator_addr)
         }}</router-link>
       </div>
@@ -76,13 +76,17 @@ export default {
       type: Array,
       required: true
     },
-    URL: {
+    url: {
       type: String,
       required: true
     },
     bondingDenom: {
       type: String,
       required: true
+    },
+    unbondingTime: {
+      type: Number,
+      default: null
     }
   },
   data: () => ({
@@ -108,14 +112,13 @@ export default {
       // only show time diff if still waiting to be terminated
       if (this.state !== `locked`) return ``
 
-      return moment(this.transaction.unbondingDelegation.min_time).toNow()
+      return moment(this.unbondingTime).fromNow()
     },
     // unbonding transactions can be in the state 'locked', 'ended'
     // the transaction needs to be enriched from the outside with `unbondingDelegation`
     state() {
-      if (!this.transaction.unbondingDelegation) return `ended`
-      if (this.transaction.unbondingDelegation.min_time - Date.now() <= 0)
-        return `ended`
+      if (!this.unbondingTime) return `ended`
+      if (this.unbondingTime - Date.now() <= 0) return `ended`
       return `locked`
     },
     color() {

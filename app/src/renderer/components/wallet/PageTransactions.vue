@@ -29,12 +29,13 @@
     >
       <tm-li-any-transaction
         :validators="delegates.delegates"
-        :validator-url="validatorURL"
+        :validators-url="validatorURL"
         :proposals-url="proposalsURL"
         :key="tx.hash"
         :transaction="tx"
         :address="wallet.address"
         :bonding-denom="bondingDenom"
+        :unbonding-time="getUnbondingTime(tx)"
       />
     </template>
   </tm-page>
@@ -92,12 +93,9 @@ export default {
     somethingToSearch() {
       return !this.transactions.loading && !!this.allTransactions.length
     },
-    enrichedTransactions() {
-      return this.allTransactions.map(this.enrichUnbondingTransactions)
-    },
     orderedTransactions() {
       return orderBy(
-        this.enrichedTransactions.map(t => {
+        this.allTransactions.map(t => {
           t.height = parseInt(t.height)
           return t // TODO what happens if block height is bigger then int?
         }),
@@ -126,7 +124,7 @@ export default {
     refreshTransactions() {
       this.$store.dispatch(`getAllTxs`)
     },
-    enrichUnbondingTransactions(transaction) {
+    getUnbondingTime(transaction) {
       let copiedTransaction = JSON.parse(JSON.stringify(transaction))
       let type = copiedTransaction.tx.value.msg[0].type
       if (type === `cosmos-sdk/BeginUnbonding`) {
@@ -139,9 +137,8 @@ export default {
           unbondingDelegation.creation_height ===
             String(copiedTransaction.height)
         )
-          copiedTransaction.unbondingDelegation = unbondingDelegation
+          return new Date(unbondingDelegation.min_time).getTime()
       }
-      return copiedTransaction
     },
     setSearch(bool = !this.filters[`transactions`].search.visible) {
       if (!this.somethingToSearch) return false
