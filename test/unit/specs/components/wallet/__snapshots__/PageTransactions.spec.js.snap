@@ -179,50 +179,50 @@ exports[`PageTransactions has the expected html structure 1`] = `
     <tm-li-any-transaction-stub
       address="tb1d4u5zerywfjhxuc9nudvw"
       bondingdenom="STAKE"
-      proposals-url="/governance/proposals"
+      proposalsurl="/governance/proposals"
       transaction="[object Object]"
-      validator-url="/staking/validators"
       validators=""
+      validatorsurl="/staking/validators"
     />
     <tm-li-any-transaction-stub
       address="tb1d4u5zerywfjhxuc9nudvw"
       bondingdenom="STAKE"
-      proposals-url="/governance/proposals"
+      proposalsurl="/governance/proposals"
       transaction="[object Object]"
-      validator-url="/staking/validators"
       validators=""
+      validatorsurl="/staking/validators"
     />
     <tm-li-any-transaction-stub
       address="tb1d4u5zerywfjhxuc9nudvw"
       bondingdenom="STAKE"
-      proposals-url="/governance/proposals"
+      proposalsurl="/governance/proposals"
       transaction="[object Object]"
-      validator-url="/staking/validators"
       validators=""
+      validatorsurl="/staking/validators"
     />
     <tm-li-any-transaction-stub
       address="tb1d4u5zerywfjhxuc9nudvw"
       bondingdenom="STAKE"
-      proposals-url="/governance/proposals"
+      proposalsurl="/governance/proposals"
       transaction="[object Object]"
-      validator-url="/staking/validators"
       validators=""
+      validatorsurl="/staking/validators"
     />
     <tm-li-any-transaction-stub
       address="tb1d4u5zerywfjhxuc9nudvw"
       bondingdenom="STAKE"
-      proposals-url="/governance/proposals"
+      proposalsurl="/governance/proposals"
       transaction="[object Object]"
-      validator-url="/staking/validators"
       validators=""
+      validatorsurl="/staking/validators"
     />
     <tm-li-any-transaction-stub
       address="tb1d4u5zerywfjhxuc9nudvw"
       bondingdenom="STAKE"
-      proposals-url="/governance/proposals"
+      proposalsurl="/governance/proposals"
       transaction="[object Object]"
-      validator-url="/staking/validators"
       validators=""
+      validatorsurl="/staking/validators"
     />
   </main>
 </div>
@@ -407,10 +407,10 @@ exports[`PageTransactions should filter the transactions 1`] = `
     <tm-li-any-transaction-stub
       address="tb1d4u5zerywfjhxuc9nudvw"
       bondingdenom="STAKE"
-      proposals-url="/governance/proposals"
+      proposalsurl="/governance/proposals"
       transaction="[object Object]"
-      validator-url="/staking/validators"
       validators=""
+      validatorsurl="/staking/validators"
     />
   </main>
 </div>

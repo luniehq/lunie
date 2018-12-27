@@ -38,8 +38,8 @@
             unchecked: ' '
           }"
           :value="user.errorCollection || undefined"
+          :change="() => setErrorCollection()"
           type="toggle"
-          @change.native="setErrorCollection()"
         />
       </tm-list-item>
     </tm-part>

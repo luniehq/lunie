@@ -650,7 +650,6 @@ Array [
   Object {
     "hash": "999ADECC2DE8C3AC2FD4F45E5E1081747BBE504A",
     "height": 1,
-    "time": undefined,
     "tx": Object {
       "value": Object {
         "msg": Array [
@@ -689,7 +688,6 @@ Array [
   Object {
     "hash": "A7C6DE5CA923AF08E6088F1348047F16BABB9F48",
     "height": 150,
-    "time": undefined,
     "tx": Object {
       "value": Object {
         "msg": Array [
@@ -781,7 +779,6 @@ Array [
   Object {
     "hash": "QSDFGE5CA923AF08E6088F1348047F16BAHH8K31",
     "height": 56673,
-    "time": undefined,
     "tx": Object {
       "type": "8EFE47F0625DE8",
       "value": Object {
@@ -809,7 +806,6 @@ Array [
   Object {
     "hash": "QASDE5CA923AF08EEE38F1348047F16BAHH8K31",
     "height": 213,
-    "time": undefined,
     "tx": Object {
       "type": "8EFE47F0625DE8",
       "value": Object {

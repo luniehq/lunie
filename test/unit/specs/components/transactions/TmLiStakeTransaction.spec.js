@@ -8,7 +8,7 @@ describe(`TmLiStakeTransaction`, () => {
   let propsData = {
     transaction: transactions[3],
     validators: state.candidates,
-    URL: `/validator`,
+    url: `/validator`,
     bondingDenom: `stake`
   }
 
@@ -38,12 +38,9 @@ describe(`TmLiStakeTransaction`, () => {
 
   describe(`unbonding delegations`, () => {
     it(`should show unbondings and calculate tokens from shares`, () => {
-      let transaction = JSON.parse(JSON.stringify(transactions[4]))
-      transaction.unbondingDelegation = {
-        min_time: Date.now() + 1000
-      }
       wrapper.setProps({
-        transaction
+        transaction: transactions[4],
+        unbondingTime: Date.now() + 1000
       })
       expect(wrapper.vm.unbonding).toBe(true)
       expect(wrapper.contains(`.tx-unbonding__time-dif`)).toBe(true)
@@ -51,12 +48,9 @@ describe(`TmLiStakeTransaction`, () => {
     })
 
     it(`should show unbonding delegations as ended`, () => {
-      let transaction = JSON.parse(JSON.stringify(transactions[4]))
-      transaction.unbondingDelegation = {
-        min_time: Date.now() - 1000
-      }
       wrapper.setProps({
-        transaction
+        transaction: transactions[4],
+        unbondingTime: Date.now() - 1000
       })
       expect(wrapper.vm.$el).toMatchSnapshot()
     })

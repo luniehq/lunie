@@ -9,7 +9,8 @@ describe(`TmLiAnyTransaction`, () => {
     transaction: transactions[0],
     validators: state.candidates,
     address: `tb1da6xsetjg9jxgun9wdesexv05j`,
-    bondingDenom: `atom`
+    bondingDenom: `atom`,
+    validatorsUrl: `/validators`
   }
 
   beforeEach(() => {
