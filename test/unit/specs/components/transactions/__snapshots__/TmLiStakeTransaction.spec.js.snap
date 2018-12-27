@@ -47,7 +47,7 @@ exports[`TmLiStakeTransaction delegations should show delegations 1`] = `
           <router-link-stub
             to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
           >
-            cool validator
+            mr_mounty
           </router-link-stub>
         </div>
       </div>
@@ -115,14 +115,14 @@ exports[`TmLiStakeTransaction redelegations should show redelegations and calcul
           <router-link-stub
             to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
           >
-            cool validator
+            mr_mounty
           </router-link-stub>
           
       to 
           <router-link-stub
-            to="/validator/cosmosvaladdr157mg9hnhchfrqvk3enrvmvj29yhmlwf759xrgw"
+            to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
           >
-            Kentucky val
+            good_greg
           </router-link-stub>
         </div>
       </div>
@@ -191,7 +191,7 @@ exports[`TmLiStakeTransaction unbonding delegations should default to ended if n
           <router-link-stub
             to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
           >
-            cool validator
+            mr_mounty
           </router-link-stub>
         </div>
       </div>
@@ -260,7 +260,7 @@ exports[`TmLiStakeTransaction unbonding delegations should show unbonding delega
           <router-link-stub
             to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
           >
-            cool validator
+            mr_mounty
           </router-link-stub>
         </div>
       </div>
@@ -333,7 +333,7 @@ exports[`TmLiStakeTransaction unbonding delegations should show unbondings and c
           <router-link-stub
             to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
           >
-            cool validator
+            mr_mounty
           </router-link-stub>
         </div>
       </div>

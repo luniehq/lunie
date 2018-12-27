@@ -39,6 +39,7 @@
           }"
           :value="user.errorCollection || undefined"
           type="toggle"
+          @change.native="setErrorCollection()"
         />
       </tm-list-item>
     </tm-part>

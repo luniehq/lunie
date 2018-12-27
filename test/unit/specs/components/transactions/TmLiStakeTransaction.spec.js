@@ -1,29 +1,13 @@
 import { mount } from "@vue/test-utils"
 import TmLiStakeTransaction from "transactions/TmLiStakeTransaction"
 import transactions from "../../store/json/txs"
+import { state } from "renderer/connectors/lcdClientMock.js"
 
 describe(`TmLiStakeTransaction`, () => {
   let wrapper
   let propsData = {
     transaction: transactions[3],
-    validators: [
-      {
-        operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
-        description: {
-          moniker: `cool validator`
-        },
-        tokens: `100000`,
-        delegator_shares: `100000`
-      },
-      {
-        operator_address: `cosmosvaladdr157mg9hnhchfrqvk3enrvmvj29yhmlwf759xrgw`,
-        description: {
-          moniker: `Kentucky val`
-        },
-        tokens: `20`,
-        delegator_shares: `100`
-      }
-    ],
+    validators: state.candidates,
     URL: `/validator`,
     bondingDenom: `stake`
   }

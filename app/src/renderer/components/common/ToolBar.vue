@@ -2,7 +2,7 @@
   <div class="tm-tool-bar">
     <a
       v-tooltip.bottom="'Back'"
-      :disabled="user.history && user.history.length === 0"
+      :disabled="user.history.length === 0"
       class="back"
       @click="back"
       ><i class="material-icons">arrow_back</i></a
