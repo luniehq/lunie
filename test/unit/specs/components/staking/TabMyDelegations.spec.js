@@ -51,7 +51,7 @@ describe(`Component: TabMyDelegations`, () => {
       }
     })
 
-    expect(instance.wrapper.html()).toContain(`Unbonding validators`)
+    expect(instance.wrapper.html()).toContain(`Unbonding transactions`)
     expect(instance.wrapper.vm.$el).toMatchSnapshot()
   })
 
