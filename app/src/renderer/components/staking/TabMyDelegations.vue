@@ -1,44 +1,43 @@
 <template>
-  <div>
-    <managed-body
-      :connected="connected"
-      :loading="delegation.loading"
-      :loaded="delegation.loaded"
-      :error="delegation.error"
-      :data="yourValidators"
-      :filtered-data="yourValidators"
-    >
-      <tm-data-msg slot="no-data">
-        <div slot="title">No Active Delegations</div>
-        <div slot="subtitle">
-          Looks like you haven't delegated any {{ bondingDenom }}s yet. Head
-          over to the
-          <router-link :to="{ name: 'Validators' }">validator list</router-link>
-          to make your first delegation!
-        </div>
-      </tm-data-msg>
-      <div slot="data-body">
-        <table-validators :validators="yourValidators" />
-        <div class="check-out-message">
-          Check out&nbsp;
-          <router-link :to="{ name: 'Validators' }">
-            the validator list
-          </router-link>
-          &nbsp;to find other validators to delegate to.
-        </div>
-
-        <div>
-          <h3 class="tab-header">
-            Inactive Delegations
-            <i v-tooltip.top="unbondInfo" class="material-icons info-button">
-              info_outline
-            </i>
-          </h3>
-          <table-validators :validators="undelegatedValidators" />
-        </div>
+  <managed-body
+    :connected="connected"
+    :loading="delegation.loading"
+    :loaded="delegation.loaded"
+    :error="delegation.error"
+    :data="yourValidators"
+    :filtered-data="yourValidators"
+    :search="{ type: `delegation` }"
+  >
+    <tm-data-msg slot="no-data">
+      <div slot="title">No Active Delegations</div>
+      <div slot="subtitle">
+        Looks like you haven't delegated any {{ bondingDenom }}s yet. Head over
+        to the
+        <router-link :to="{ name: 'Validators' }">validator list</router-link>
+        to make your first delegation!
       </div>
-    </managed-body>
-  </div>
+    </tm-data-msg>
+    <div slot="data-body">
+      <table-validators :validators="filteredValidators" />
+      <div class="check-out-message">
+        Check out&nbsp;
+        <router-link :to="{ name: 'Validators' }">
+          the validator list
+        </router-link>
+        &nbsp;to find other validators to delegate to.
+      </div>
+
+      <div>
+        <h3 class="tab-header">
+          Inactive Delegations
+          <i v-tooltip.top="unbondInfo" class="material-icons info-button">
+            info_outline
+          </i>
+        </h3>
+        <table-validators :validators="undelegatedValidators" />
+      </div>
+    </div>
+  </managed-body>
 </template>
 
 <script>
@@ -47,6 +46,7 @@ import { TmDataMsg, TmDataLoading } from "@tendermint/ui"
 import TableValidators from "staking/TableValidators"
 import TmDataConnecting from "common/TmDataConnecting"
 import ManagedBody from "../common/ManagedBody"
+import { includes } from "lodash"
 
 export default {
   name: `tab-my-delegations`,
@@ -80,6 +80,16 @@ export default {
       return delegates.filter(
         ({ operator_address }) => operator_address in committedDelegations
       )
+    },
+    filteredValidators() {
+      const validators = this.yourValidators
+      if (this.filters.delegates.search.visible) {
+        let query = this.filters.delegates.search.query || ``
+        return validators.filter(i =>
+          includes(JSON.stringify(i).toLowerCase(), query.toLowerCase())
+        )
+      }
+      return validators
     }
   }
 }

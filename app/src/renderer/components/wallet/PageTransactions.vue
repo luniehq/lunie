@@ -27,7 +27,7 @@
       :error="transactions.error"
       :data="allTransactions"
       :filtered-data="filteredTransactions"
-      :search="{ somethingToSearch: somethingToSearch, type: `transactions` }"
+      :search="{ type: `transactions` }"
     >
       <data-empty-tx slot="no-data" />
       <tm-li-any-transaction
@@ -49,7 +49,6 @@
 import shortid from "shortid"
 import { mapGetters, mapState } from "vuex"
 import { includes, orderBy } from "lodash"
-import Mousetrap from "mousetrap"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import TmBalance from "common/TmBalance"
 import { TmPage, TmLiAnyTransaction } from "@tendermint/ui"
@@ -86,9 +85,6 @@ export default {
       `connected`,
       `validators`
     ]),
-    somethingToSearch() {
-      return !this.transactions.loading && !!this.allTransactions.length
-    },
     enrichedTransactions() {
       return this.allTransactions.map(this.enrichUnbondingTransactions)
     },
@@ -115,8 +111,6 @@ export default {
     }
   },
   mounted() {
-    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
-    Mousetrap.bind(`esc`, () => this.setSearch(false))
     this.refreshTransactions()
   },
   methods: {
@@ -139,10 +133,6 @@ export default {
           copiedTransaction.unbondingDelegation = unbondingDelegation
       }
       return copiedTransaction
-    },
-    setSearch(bool = !this.filters[`transactions`].search.visible) {
-      if (!this.somethingToSearch) return false
-      this.$store.commit(`setSearchVisible`, [`transactions`, bool])
     }
   }
 }

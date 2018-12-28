@@ -22,8 +22,7 @@
 <script>
 import { mapGetters } from "vuex"
 import num from "scripts/num"
-import { includes, orderBy } from "lodash"
-import Mousetrap from "mousetrap"
+import { orderBy } from "lodash"
 import LiValidator from "staking/LiValidator"
 import DataEmptySearch from "common/TmDataEmptySearch"
 import { calculateTokens } from "scripts/common"
@@ -68,9 +67,6 @@ export default {
     address() {
       return this.user.address
     },
-    somethingToSearch() {
-      return !!this.validators.length
-    },
     vpTotal() {
       return this.validators
         .slice(0)
@@ -95,19 +91,11 @@ export default {
       )
     },
     sortedFilteredEnrichedDelegates() {
-      let query = this.filters.delegates.search.query || ``
-      let sortedEnrichedDelegates = orderBy(
+      return orderBy(
         this.enrichedDelegates.slice(0),
         [this.sort.property, `small_moniker`],
         [this.sort.order, `asc`]
       )
-      if (this.filters.delegates.search.visible) {
-        return sortedEnrichedDelegates.filter(i =>
-          includes(JSON.stringify(i).toLowerCase(), query.toLowerCase())
-        )
-      } else {
-        return sortedEnrichedDelegates
-      }
     },
     userCanDelegate() {
       return this.user.atoms > 0 && this.delegation.loaded
@@ -170,24 +158,9 @@ export default {
       address && this.updateDelegates()
     }
   },
-  async mounted() {
-    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
-    Mousetrap.bind(`esc`, () => this.setSearch(false))
-
-    // XXX temporary because querying the shares shows old shares after bonding
-    // this.updateDelegates()
-  },
   methods: {
     updateDelegates() {
       this.$store.dispatch(`updateDelegates`)
-    },
-    setSearch(
-      bool = !this.filters[`delegates`].search.visible,
-      { somethingToSearch, $store } = this
-    ) {
-      if (somethingToSearch) {
-        $store.commit(`setSearchVisible`, [`delegates`, bool])
-      }
     }
   }
 }

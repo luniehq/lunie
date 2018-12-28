@@ -2,49 +2,47 @@
 
 exports[`Component: TabMyDelegations should show a message if not staked yet to any validator 1`] = `
 <div>
-  <div>
-    <!---->
-     
+  <!---->
+   
+  <div
+    class="tm-data-msg"
+  >
     <div
-      class="tm-data-msg"
+      class="tm-data-msg__icon"
+    >
+      <i
+        class="material-icons"
+      >
+        
+      </i>
+    </div>
+    <div
+      class="tm-data-msg__text"
     >
       <div
-        class="tm-data-msg__icon"
+        class="tm-data-msg__title"
       >
-        <i
-          class="material-icons"
-        >
-          
-        </i>
+        <div>
+          No Active Delegations
+        </div>
       </div>
       <div
-        class="tm-data-msg__text"
+        class="tm-data-msg__subtitle"
       >
-        <div
-          class="tm-data-msg__title"
-        >
-          <div>
-            No Active Delegations
-          </div>
-        </div>
-        <div
-          class="tm-data-msg__subtitle"
-        >
-          <div>
-            
-        Looks like you haven't delegated any stakes yet. Head
-        over to the
-        
-            <a
-              class=""
-              href="#/staking/validators"
-            >
-              validator list
-            </a>
-            
-        to make your first delegation!
+        <div>
+          
+      Looks like you haven't delegated any stakes yet. Head over
+      to the
       
-          </div>
+          <a
+            class=""
+            href="#/staking/validators"
+          >
+            validator list
+          </a>
+          
+      to make your first delegation!
+    
         </div>
       </div>
     </div>
@@ -54,511 +52,222 @@ exports[`Component: TabMyDelegations should show a message if not staked yet to 
 
 exports[`Component: TabMyDelegations should show committed validators 1`] = `
 <div>
+  <!---->
+   
   <div>
-    <!---->
-     
     <div>
-      <div>
-        <table
-          class="data-table"
-        >
-          <thead>
-            <tr
-              class="panel-sort-container"
+      <table
+        class="data-table"
+      >
+        <thead>
+          <tr
+            class="panel-sort-container"
+          >
+            <th
+              class="sort-by name"
             >
-              <th
-                class="sort-by name"
+              <a
+                class="sort-by-link"
               >
-                <a
-                  class="sort-by-link"
-                >
-                  Moniker
-                </a>
-              </th>
-              <th
-                class="sort-by your-votes"
-              >
-                <a
-                  class="sort-by-link"
-                >
-                  Delegated stake
-                </a>
-              </th>
-              <th
-                class="sort-by your-rewards"
-              >
-                <a
-                  class="sort-by-link"
-                >
-                  Rewards
-                </a>
-              </th>
-              <th
-                class="sort-by percent_of_vote"
-              >
-                <a
-                  class="sort-by-link"
-                >
-                  Voting Power
-                </a>
-              </th>
-              <th
-                class="sort-by uptime"
-              >
-                <a
-                  class="sort-by-link"
-                >
-                  Uptime
-                </a>
-              </th>
-              <th
-                class="sort-by commission"
-              >
-                <a
-                  class="sort-by-link"
-                >
-                  Commission
-                </a>
-              </th>
-              <th
-                class="sort-by slashes"
-              >
-                <a
-                  class="sort-by-link"
-                >
-                  Slashes
-                </a>
-              </th>
-            </tr>
-          </thead>
-           
-          <tbody>
-            <tr
-              class="data-table__row li-validator"
+                Moniker
+              </a>
+            </th>
+            <th
+              class="sort-by your-votes"
             >
-              <td
-                class="data-table__row__info"
+              <a
+                class="sort-by-link"
               >
-                <img
-                  class="data-table__row__info__image data-table__row__info__image--no-img"
-                  height="48"
-                  src="~assets/images/validator-icon.svg"
-                  width="48"
+                Delegated stake
+              </a>
+            </th>
+            <th
+              class="sort-by your-rewards"
+            >
+              <a
+                class="sort-by-link"
+              >
+                Rewards
+              </a>
+            </th>
+            <th
+              class="sort-by percent_of_vote"
+            >
+              <a
+                class="sort-by-link"
+              >
+                Voting Power
+              </a>
+            </th>
+            <th
+              class="sort-by uptime"
+            >
+              <a
+                class="sort-by-link"
+              >
+                Uptime
+              </a>
+            </th>
+            <th
+              class="sort-by commission"
+            >
+              <a
+                class="sort-by-link"
+              >
+                Commission
+              </a>
+            </th>
+            <th
+              class="sort-by slashes"
+            >
+              <a
+                class="sort-by-link"
+              >
+                Slashes
+              </a>
+            </th>
+          </tr>
+        </thead>
+         
+        <tbody>
+          <tr
+            class="data-table__row li-validator"
+          >
+            <td
+              class="data-table__row__info"
+            >
+              <img
+                class="data-table__row__info__image data-table__row__info__image--no-img"
+                height="48"
+                src="~assets/images/validator-icon.svg"
+                width="48"
+              />
+               
+              <div
+                class="data-table__row__info__container"
+              >
+                <span
+                  class="data-table__row__info__container__status yellow"
                 />
                  
-                <div
-                  class="data-table__row__info__container"
+                <a
+                  class="data-table__row__info__container__name"
+                  href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
                 >
-                  <span
-                    class="data-table__row__info__container__status yellow"
-                  />
-                   
-                  <a
-                    class="data-table__row__info__container__name"
-                    href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
-                  >
-                    mr_mounty
-                  </a>
-                   
+                  mr_mounty
+                </a>
+                 
+                <div
+                  class="data-table__row__info__container__description"
+                >
                   <div
-                    class="data-table__row__info__container__description"
+                    class="short-bech32"
                   >
                     <div
-                      class="short-bech32"
+                      class="address"
+                      id="address"
                     >
-                      <div
-                        class="address"
-                        id="address"
-                      >
-                        
+                      
     cosmosvaladdr…8yqw
   
-                      </div>
-                       
-                      <div
-                        class="copied"
+                    </div>
+                     
+                    <div
+                      class="copied"
+                    >
+                      <i
+                        class="material-icons"
                       >
-                        <i
-                          class="material-icons"
-                        >
-                          check
-                        </i>
-                        <span>
-                          Copied
-                        </span>
-                      </div>
+                        check
+                      </i>
+                      <span>
+                        Copied
+                      </span>
                     </div>
                   </div>
                 </div>
-              </td>
-               
-              <td
-                class="li-validator__delegated-steak"
-              >
-                
+              </div>
+            </td>
+             
+            <td
+              class="li-validator__delegated-steak"
+            >
+              
     0.0000…
   
-              </td>
-               
-              <td
-                class="li-validator__rewards data-table__row__cell__separator"
-              >
-                n/a
-              </td>
-               
-              <td
-                class="li-validator__voting-power"
-              >
-                
+            </td>
+             
+            <td
+              class="li-validator__rewards data-table__row__cell__separator"
+            >
+              n/a
+            </td>
+             
+            <td
+              class="li-validator__voting-power"
+            >
+              
     0.00%
   
-              </td>
-               
-              <td
-                class="li-validator__uptime"
-              >
-                n/a
-              </td>
-               
-              <td
-                class="li-validator__commission"
-              >
-                0.00%
-              </td>
-               
-              <td
-                class="li-validator__slashes"
-              >
-                n/a
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-       
-      <div
-        class="check-out-message"
+            </td>
+             
+            <td
+              class="li-validator__uptime"
+            >
+              n/a
+            </td>
+             
+            <td
+              class="li-validator__commission"
+            >
+              0.00%
+            </td>
+             
+            <td
+              class="li-validator__slashes"
+            >
+              n/a
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+     
+    <div
+      class="check-out-message"
+    >
+      
+      Check out 
+      
+      <a
+        class=""
+        href="#/staking/validators"
       >
         
-        Check out 
-        
-        <a
-          class=""
-          href="#/staking/validators"
-        >
-          
-          the validator list
-        
-        </a>
-        
-         to find other validators to delegate to.
+        the validator list
       
-      </div>
-       
-      <div>
-        <h3
-          class="tab-header"
-        >
-          
-          Inactive Delegations
-          
-          <i
-            class="material-icons info-button"
-          >
-            
-            info_outline
-          
-          </i>
-        </h3>
-         
-        <div>
-          <table
-            class="data-table"
-          >
-            <thead>
-              <tr
-                class="panel-sort-container"
-              >
-                <th
-                  class="sort-by name"
-                >
-                  <a
-                    class="sort-by-link"
-                  >
-                    Moniker
-                  </a>
-                </th>
-                <th
-                  class="sort-by your-votes"
-                >
-                  <a
-                    class="sort-by-link"
-                  >
-                    Delegated stake
-                  </a>
-                </th>
-                <th
-                  class="sort-by your-rewards"
-                >
-                  <a
-                    class="sort-by-link"
-                  >
-                    Rewards
-                  </a>
-                </th>
-                <th
-                  class="sort-by percent_of_vote"
-                >
-                  <a
-                    class="sort-by-link"
-                  >
-                    Voting Power
-                  </a>
-                </th>
-                <th
-                  class="sort-by uptime"
-                >
-                  <a
-                    class="sort-by-link"
-                  >
-                    Uptime
-                  </a>
-                </th>
-                <th
-                  class="sort-by commission"
-                >
-                  <a
-                    class="sort-by-link"
-                  >
-                    Commission
-                  </a>
-                </th>
-                <th
-                  class="sort-by slashes"
-                >
-                  <a
-                    class="sort-by-link"
-                  >
-                    Slashes
-                  </a>
-                </th>
-              </tr>
-            </thead>
-             
-            <tbody>
-              <tr
-                class="data-table__row li-validator"
-              >
-                <td
-                  class="data-table__row__info"
-                >
-                  <img
-                    class="data-table__row__info__image data-table__row__info__image--no-img"
-                    height="48"
-                    src="~assets/images/validator-icon.svg"
-                    width="48"
-                  />
-                   
-                  <div
-                    class="data-table__row__info__container"
-                  >
-                    <span
-                      class="data-table__row__info__container__status yellow"
-                    />
-                     
-                    <a
-                      class="data-table__row__info__container__name"
-                      href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
-                    >
-                      good_greg
-                    </a>
-                     
-                    <div
-                      class="data-table__row__info__container__description"
-                    >
-                      <div
-                        class="short-bech32"
-                      >
-                        <div
-                          class="address"
-                          id="address"
-                        >
-                          
-    cosmosvaladdr…n3au
-  
-                        </div>
-                         
-                        <div
-                          class="copied"
-                        >
-                          <i
-                            class="material-icons"
-                          >
-                            check
-                          </i>
-                          <span>
-                            Copied
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                 
-                <td
-                  class="li-validator__delegated-steak"
-                >
-                  
-    0.0000…
-  
-                </td>
-                 
-                <td
-                  class="li-validator__rewards data-table__row__cell__separator"
-                >
-                  n/a
-                </td>
-                 
-                <td
-                  class="li-validator__voting-power"
-                >
-                  
-    0.00%
-  
-                </td>
-                 
-                <td
-                  class="li-validator__uptime"
-                >
-                  n/a
-                </td>
-                 
-                <td
-                  class="li-validator__commission"
-                >
-                  0.00%
-                </td>
-                 
-                <td
-                  class="li-validator__slashes"
-                >
-                  n/a
-                </td>
-              </tr>
-              <tr
-                class="data-table__row li-validator"
-              >
-                <td
-                  class="data-table__row__info"
-                >
-                  <img
-                    class="data-table__row__info__image data-table__row__info__image--no-img"
-                    height="48"
-                    src="~assets/images/validator-icon.svg"
-                    width="48"
-                  />
-                   
-                  <div
-                    class="data-table__row__info__container"
-                  >
-                    <span
-                      class="data-table__row__info__container__status red"
-                    />
-                     
-                    <a
-                      class="data-table__row__info__container__name"
-                      href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n"
-                    >
-                      herr_schmidt_revoked
-                    </a>
-                     
-                    <div
-                      class="data-table__row__info__container__description"
-                    >
-                      <div
-                        class="short-bech32"
-                      >
-                        <div
-                          class="address"
-                          id="address"
-                        >
-                          
-    cosmosvaladdr…rg7n
-  
-                        </div>
-                         
-                        <div
-                          class="copied"
-                        >
-                          <i
-                            class="material-icons"
-                          >
-                            check
-                          </i>
-                          <span>
-                            Copied
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                 
-                <td
-                  class="li-validator__delegated-steak"
-                >
-                  
-    0.0000…
-  
-                </td>
-                 
-                <td
-                  class="li-validator__rewards data-table__row__cell__separator"
-                >
-                  n/a
-                </td>
-                 
-                <td
-                  class="li-validator__voting-power"
-                >
-                  
-    0.00%
-  
-                </td>
-                 
-                <td
-                  class="li-validator__uptime"
-                >
-                  n/a
-                </td>
-                 
-                <td
-                  class="li-validator__commission"
-                >
-                  0.00%
-                </td>
-                 
-                <td
-                  class="li-validator__slashes"
-                >
-                  n/a
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+      </a>
+      
+       to find other validators to delegate to.
+    
     </div>
-  </div>
-</div>
-`;
-
-exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
-<div>
-  <div>
-    <!---->
      
     <div>
+      <h3
+        class="tab-header"
+      >
+        
+        Inactive Delegations
+        
+        <i
+          class="material-icons info-button"
+        >
+          
+          info_outline
+        
+        </i>
+      </h3>
+       
       <div>
         <table
           class="data-table"
@@ -835,318 +544,603 @@ exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
           </tbody>
         </table>
       </div>
-       
-      <div
-        class="check-out-message"
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
+<div>
+  <!---->
+   
+  <div>
+    <div>
+      <table
+        class="data-table"
       >
-        
-        Check out 
-        
-        <a
-          class=""
-          href="#/staking/validators"
-        >
-          
-          the validator list
-        
-        </a>
-        
-         to find other validators to delegate to.
-      
-      </div>
-       
-      <div>
-        <h3
-          class="tab-header"
-        >
-          
-          Inactive Delegations
-          
-          <i
-            class="material-icons info-button"
+        <thead>
+          <tr
+            class="panel-sort-container"
           >
-            
-            info_outline
-          
-          </i>
-        </h3>
+            <th
+              class="sort-by name"
+            >
+              <a
+                class="sort-by-link"
+              >
+                Moniker
+              </a>
+            </th>
+            <th
+              class="sort-by your-votes"
+            >
+              <a
+                class="sort-by-link"
+              >
+                Delegated stake
+              </a>
+            </th>
+            <th
+              class="sort-by your-rewards"
+            >
+              <a
+                class="sort-by-link"
+              >
+                Rewards
+              </a>
+            </th>
+            <th
+              class="sort-by percent_of_vote"
+            >
+              <a
+                class="sort-by-link"
+              >
+                Voting Power
+              </a>
+            </th>
+            <th
+              class="sort-by uptime"
+            >
+              <a
+                class="sort-by-link"
+              >
+                Uptime
+              </a>
+            </th>
+            <th
+              class="sort-by commission"
+            >
+              <a
+                class="sort-by-link"
+              >
+                Commission
+              </a>
+            </th>
+            <th
+              class="sort-by slashes"
+            >
+              <a
+                class="sort-by-link"
+              >
+                Slashes
+              </a>
+            </th>
+          </tr>
+        </thead>
          
-        <div>
-          <table
-            class="data-table"
+        <tbody>
+          <tr
+            class="data-table__row li-validator"
           >
-            <thead>
-              <tr
-                class="panel-sort-container"
+            <td
+              class="data-table__row__info"
+            >
+              <img
+                class="data-table__row__info__image data-table__row__info__image--no-img"
+                height="48"
+                src="~assets/images/validator-icon.svg"
+                width="48"
+              />
+               
+              <div
+                class="data-table__row__info__container"
               >
-                <th
-                  class="sort-by name"
+                <span
+                  class="data-table__row__info__container__status yellow"
+                />
+                 
+                <a
+                  class="data-table__row__info__container__name"
+                  href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
                 >
-                  <a
-                    class="sort-by-link"
-                  >
-                    Moniker
-                  </a>
-                </th>
-                <th
-                  class="sort-by your-votes"
+                  good_greg
+                </a>
+                 
+                <div
+                  class="data-table__row__info__container__description"
                 >
-                  <a
-                    class="sort-by-link"
-                  >
-                    Delegated stake
-                  </a>
-                </th>
-                <th
-                  class="sort-by your-rewards"
-                >
-                  <a
-                    class="sort-by-link"
-                  >
-                    Rewards
-                  </a>
-                </th>
-                <th
-                  class="sort-by percent_of_vote"
-                >
-                  <a
-                    class="sort-by-link"
-                  >
-                    Voting Power
-                  </a>
-                </th>
-                <th
-                  class="sort-by uptime"
-                >
-                  <a
-                    class="sort-by-link"
-                  >
-                    Uptime
-                  </a>
-                </th>
-                <th
-                  class="sort-by commission"
-                >
-                  <a
-                    class="sort-by-link"
-                  >
-                    Commission
-                  </a>
-                </th>
-                <th
-                  class="sort-by slashes"
-                >
-                  <a
-                    class="sort-by-link"
-                  >
-                    Slashes
-                  </a>
-                </th>
-              </tr>
-            </thead>
-             
-            <tbody>
-              <tr
-                class="data-table__row li-validator"
-              >
-                <td
-                  class="data-table__row__info"
-                >
-                  <img
-                    class="data-table__row__info__image data-table__row__info__image--no-img"
-                    height="48"
-                    src="~assets/images/validator-icon.svg"
-                    width="48"
-                  />
-                   
                   <div
-                    class="data-table__row__info__container"
+                    class="short-bech32"
                   >
-                    <span
-                      class="data-table__row__info__container__status yellow"
-                    />
-                     
-                    <a
-                      class="data-table__row__info__container__name"
-                      href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
-                    >
-                      good_greg
-                    </a>
-                     
                     <div
-                      class="data-table__row__info__container__description"
+                      class="address"
+                      id="address"
                     >
-                      <div
-                        class="short-bech32"
-                      >
-                        <div
-                          class="address"
-                          id="address"
-                        >
-                          
+                      
     cosmosvaladdr…n3au
   
-                        </div>
-                         
-                        <div
-                          class="copied"
-                        >
-                          <i
-                            class="material-icons"
-                          >
-                            check
-                          </i>
-                          <span>
-                            Copied
-                          </span>
-                        </div>
-                      </div>
                     </div>
-                  </div>
-                </td>
-                 
-                <td
-                  class="li-validator__delegated-steak"
-                >
-                  
-    0.0000…
-  
-                </td>
-                 
-                <td
-                  class="li-validator__rewards data-table__row__cell__separator"
-                >
-                  n/a
-                </td>
-                 
-                <td
-                  class="li-validator__voting-power"
-                >
-                  
-    0.00%
-  
-                </td>
-                 
-                <td
-                  class="li-validator__uptime"
-                >
-                  n/a
-                </td>
-                 
-                <td
-                  class="li-validator__commission"
-                >
-                  0.00%
-                </td>
-                 
-                <td
-                  class="li-validator__slashes"
-                >
-                  n/a
-                </td>
-              </tr>
-              <tr
-                class="data-table__row li-validator"
-              >
-                <td
-                  class="data-table__row__info"
-                >
-                  <img
-                    class="data-table__row__info__image data-table__row__info__image--no-img"
-                    height="48"
-                    src="~assets/images/validator-icon.svg"
-                    width="48"
-                  />
-                   
-                  <div
-                    class="data-table__row__info__container"
-                  >
-                    <span
-                      class="data-table__row__info__container__status red"
-                    />
-                     
-                    <a
-                      class="data-table__row__info__container__name"
-                      href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n"
-                    >
-                      herr_schmidt_revoked
-                    </a>
                      
                     <div
-                      class="data-table__row__info__container__description"
+                      class="copied"
                     >
-                      <div
-                        class="short-bech32"
+                      <i
+                        class="material-icons"
                       >
-                        <div
-                          class="address"
-                          id="address"
-                        >
-                          
+                        check
+                      </i>
+                      <span>
+                        Copied
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+             
+            <td
+              class="li-validator__delegated-steak"
+            >
+              
+    0.0000…
+  
+            </td>
+             
+            <td
+              class="li-validator__rewards data-table__row__cell__separator"
+            >
+              n/a
+            </td>
+             
+            <td
+              class="li-validator__voting-power"
+            >
+              
+    0.00%
+  
+            </td>
+             
+            <td
+              class="li-validator__uptime"
+            >
+              n/a
+            </td>
+             
+            <td
+              class="li-validator__commission"
+            >
+              0.00%
+            </td>
+             
+            <td
+              class="li-validator__slashes"
+            >
+              n/a
+            </td>
+          </tr>
+          <tr
+            class="data-table__row li-validator"
+          >
+            <td
+              class="data-table__row__info"
+            >
+              <img
+                class="data-table__row__info__image data-table__row__info__image--no-img"
+                height="48"
+                src="~assets/images/validator-icon.svg"
+                width="48"
+              />
+               
+              <div
+                class="data-table__row__info__container"
+              >
+                <span
+                  class="data-table__row__info__container__status red"
+                />
+                 
+                <a
+                  class="data-table__row__info__container__name"
+                  href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n"
+                >
+                  herr_schmidt_revoked
+                </a>
+                 
+                <div
+                  class="data-table__row__info__container__description"
+                >
+                  <div
+                    class="short-bech32"
+                  >
+                    <div
+                      class="address"
+                      id="address"
+                    >
+                      
     cosmosvaladdr…rg7n
   
-                        </div>
-                         
-                        <div
-                          class="copied"
+                    </div>
+                     
+                    <div
+                      class="copied"
+                    >
+                      <i
+                        class="material-icons"
+                      >
+                        check
+                      </i>
+                      <span>
+                        Copied
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+             
+            <td
+              class="li-validator__delegated-steak"
+            >
+              
+    0.0000…
+  
+            </td>
+             
+            <td
+              class="li-validator__rewards data-table__row__cell__separator"
+            >
+              n/a
+            </td>
+             
+            <td
+              class="li-validator__voting-power"
+            >
+              
+    0.00%
+  
+            </td>
+             
+            <td
+              class="li-validator__uptime"
+            >
+              n/a
+            </td>
+             
+            <td
+              class="li-validator__commission"
+            >
+              0.00%
+            </td>
+             
+            <td
+              class="li-validator__slashes"
+            >
+              n/a
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+     
+    <div
+      class="check-out-message"
+    >
+      
+      Check out 
+      
+      <a
+        class=""
+        href="#/staking/validators"
+      >
+        
+        the validator list
+      
+      </a>
+      
+       to find other validators to delegate to.
+    
+    </div>
+     
+    <div>
+      <h3
+        class="tab-header"
+      >
+        
+        Inactive Delegations
+        
+        <i
+          class="material-icons info-button"
+        >
+          
+          info_outline
+        
+        </i>
+      </h3>
+       
+      <div>
+        <table
+          class="data-table"
+        >
+          <thead>
+            <tr
+              class="panel-sort-container"
+            >
+              <th
+                class="sort-by name"
+              >
+                <a
+                  class="sort-by-link"
+                >
+                  Moniker
+                </a>
+              </th>
+              <th
+                class="sort-by your-votes"
+              >
+                <a
+                  class="sort-by-link"
+                >
+                  Delegated stake
+                </a>
+              </th>
+              <th
+                class="sort-by your-rewards"
+              >
+                <a
+                  class="sort-by-link"
+                >
+                  Rewards
+                </a>
+              </th>
+              <th
+                class="sort-by percent_of_vote"
+              >
+                <a
+                  class="sort-by-link"
+                >
+                  Voting Power
+                </a>
+              </th>
+              <th
+                class="sort-by uptime"
+              >
+                <a
+                  class="sort-by-link"
+                >
+                  Uptime
+                </a>
+              </th>
+              <th
+                class="sort-by commission"
+              >
+                <a
+                  class="sort-by-link"
+                >
+                  Commission
+                </a>
+              </th>
+              <th
+                class="sort-by slashes"
+              >
+                <a
+                  class="sort-by-link"
+                >
+                  Slashes
+                </a>
+              </th>
+            </tr>
+          </thead>
+           
+          <tbody>
+            <tr
+              class="data-table__row li-validator"
+            >
+              <td
+                class="data-table__row__info"
+              >
+                <img
+                  class="data-table__row__info__image data-table__row__info__image--no-img"
+                  height="48"
+                  src="~assets/images/validator-icon.svg"
+                  width="48"
+                />
+                 
+                <div
+                  class="data-table__row__info__container"
+                >
+                  <span
+                    class="data-table__row__info__container__status yellow"
+                  />
+                   
+                  <a
+                    class="data-table__row__info__container__name"
+                    href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+                  >
+                    good_greg
+                  </a>
+                   
+                  <div
+                    class="data-table__row__info__container__description"
+                  >
+                    <div
+                      class="short-bech32"
+                    >
+                      <div
+                        class="address"
+                        id="address"
+                      >
+                        
+    cosmosvaladdr…n3au
+  
+                      </div>
+                       
+                      <div
+                        class="copied"
+                      >
+                        <i
+                          class="material-icons"
                         >
-                          <i
-                            class="material-icons"
-                          >
-                            check
-                          </i>
-                          <span>
-                            Copied
-                          </span>
-                        </div>
+                          check
+                        </i>
+                        <span>
+                          Copied
+                        </span>
                       </div>
                     </div>
                   </div>
-                </td>
-                 
-                <td
-                  class="li-validator__delegated-steak"
-                >
-                  
+                </div>
+              </td>
+               
+              <td
+                class="li-validator__delegated-steak"
+              >
+                
     0.0000…
   
-                </td>
-                 
-                <td
-                  class="li-validator__rewards data-table__row__cell__separator"
-                >
-                  n/a
-                </td>
-                 
-                <td
-                  class="li-validator__voting-power"
-                >
-                  
+              </td>
+               
+              <td
+                class="li-validator__rewards data-table__row__cell__separator"
+              >
+                n/a
+              </td>
+               
+              <td
+                class="li-validator__voting-power"
+              >
+                
     0.00%
   
-                </td>
+              </td>
+               
+              <td
+                class="li-validator__uptime"
+              >
+                n/a
+              </td>
+               
+              <td
+                class="li-validator__commission"
+              >
+                0.00%
+              </td>
+               
+              <td
+                class="li-validator__slashes"
+              >
+                n/a
+              </td>
+            </tr>
+            <tr
+              class="data-table__row li-validator"
+            >
+              <td
+                class="data-table__row__info"
+              >
+                <img
+                  class="data-table__row__info__image data-table__row__info__image--no-img"
+                  height="48"
+                  src="~assets/images/validator-icon.svg"
+                  width="48"
+                />
                  
-                <td
-                  class="li-validator__uptime"
+                <div
+                  class="data-table__row__info__container"
                 >
-                  n/a
-                </td>
-                 
-                <td
-                  class="li-validator__commission"
-                >
-                  0.00%
-                </td>
-                 
-                <td
-                  class="li-validator__slashes"
-                >
-                  n/a
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+                  <span
+                    class="data-table__row__info__container__status red"
+                  />
+                   
+                  <a
+                    class="data-table__row__info__container__name"
+                    href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n"
+                  >
+                    herr_schmidt_revoked
+                  </a>
+                   
+                  <div
+                    class="data-table__row__info__container__description"
+                  >
+                    <div
+                      class="short-bech32"
+                    >
+                      <div
+                        class="address"
+                        id="address"
+                      >
+                        
+    cosmosvaladdr…rg7n
+  
+                      </div>
+                       
+                      <div
+                        class="copied"
+                      >
+                        <i
+                          class="material-icons"
+                        >
+                          check
+                        </i>
+                        <span>
+                          Copied
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+               
+              <td
+                class="li-validator__delegated-steak"
+              >
+                
+    0.0000…
+  
+              </td>
+               
+              <td
+                class="li-validator__rewards data-table__row__cell__separator"
+              >
+                n/a
+              </td>
+               
+              <td
+                class="li-validator__voting-power"
+              >
+                
+    0.00%
+  
+              </td>
+               
+              <td
+                class="li-validator__uptime"
+              >
+                n/a
+              </td>
+               
+              <td
+                class="li-validator__commission"
+              >
+                0.00%
+              </td>
+               
+              <td
+                class="li-validator__slashes"
+              >
+                n/a
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

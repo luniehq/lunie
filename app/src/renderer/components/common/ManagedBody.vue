@@ -21,6 +21,7 @@
 <script>
 import { TmDataMsg, TmDataLoading, TmDataEmpty } from "@tendermint/ui"
 import DataEmptySearch from "common/TmDataEmptySearch"
+import Mousetrap from "mousetrap"
 import TmDataError from "common/TmDataError"
 import ModalSearch from "common/TmModalSearch"
 import TmDataConnecting from "common/TmDataConnecting"
@@ -63,6 +64,23 @@ export default {
     filteredData: {
       type: Array,
       default: () => []
+    }
+  },
+  async mounted() {
+    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
+    Mousetrap.bind(`esc`, () => this.setSearch(false))
+  },
+  methods: {
+    setSearch(
+      bool = !this.filters[this.search.type].search.visible,
+      { somethingToSearch, $store } = this
+    ) {
+      if (somethingToSearch) {
+        $store.commit(`setSearchVisible`, [this.search.type, bool])
+      }
+    },
+    somethingToSearch() {
+      return this.data.length > 0
     }
   }
 }
