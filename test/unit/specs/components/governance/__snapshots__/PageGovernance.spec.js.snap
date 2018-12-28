@@ -114,11 +114,12 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
 </div>
 </header>
    <main class=\\"tm-page-main\\">
-      <!---->
-      <div class=\\"tm-data-msg\\">
-         <div class=\\"tm-data-msg__icon\\">
-            <i class=\\"material-icons\\"></i>
-         </div>
+      <div>
+         <!---->
+         <div class=\\"tm-data-msg\\">
+            <div class=\\"tm-data-msg__icon\\">
+               <i class=\\"material-icons\\"></i>
+            </div>
       <div class=\\"tm-data-msg__text\\">
          <div class=\\"tm-data-msg__title\\">
             <div>
@@ -129,6 +130,7 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
          <div>
             You are currently not connected to a node. Voyager will load this data    when a connection is established.  
          </div>
+</div>
 </div>
 </div>
 </div>
@@ -258,16 +260,18 @@ exports[`PageGovernance has the expected html structure 1`] = `
 </div>
 </header>
    <main class=\\"tm-page-main ps\\">
-      <!---->
-      <div class=\\"tm-data-msg\\">
-         <img src=\\"~assets/images/loader.svg\\" class=\\"tm-data-msg__icon\\">
-         <div class=\\"tm-data-msg__text\\">
-            <div slot=\\"title\\" class=\\"tm-data-msg__title\\">
-               Data is loading…
-            </div>
+      <div>
+         <!---->
+         <div class=\\"tm-data-msg\\">
+            <img src=\\"~assets/images/loader.svg\\" class=\\"tm-data-msg__icon\\">
+            <div class=\\"tm-data-msg__text\\">
+               <div slot=\\"title\\" class=\\"tm-data-msg__title\\">
+                  Data is loading…
+               </div>
       <div slot=\\"subtitle\\" class=\\"tm-data-msg__subtitle\\">
          Please wait a moment.
       </div>
+</div>
 </div>
 </div>
       <div class=\\"ps__rail-x\\" style=\\"left: 0px; top: 0px;\\">

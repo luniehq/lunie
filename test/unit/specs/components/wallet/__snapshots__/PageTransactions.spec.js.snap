@@ -114,6 +114,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
                 refresh
               </i>
             </a>
+             
             <a>
               <i
                 class="material-icons"
@@ -165,48 +166,50 @@ exports[`PageTransactions has the expected html structure 1`] = `
     class="tm-page-main ps"
   >
      
-    <!---->
-     
-    <tm-li-any-transaction
-      address="tb1d4u5zerywfjhxuc9nudvw"
-      bonding-denom="STAKE"
-      proposals-url="/governance/proposals"
-      transaction="[object Object]"
-      validator-url="/staking/validators"
-      validators=""
-    />
-    <tm-li-any-transaction
-      address="tb1d4u5zerywfjhxuc9nudvw"
-      bonding-denom="STAKE"
-      proposals-url="/governance/proposals"
-      transaction="[object Object]"
-      validator-url="/staking/validators"
-      validators=""
-    />
-    <tm-li-any-transaction
-      address="tb1d4u5zerywfjhxuc9nudvw"
-      bonding-denom="STAKE"
-      proposals-url="/governance/proposals"
-      transaction="[object Object]"
-      validator-url="/staking/validators"
-      validators=""
-    />
-    <tm-li-any-transaction
-      address="tb1d4u5zerywfjhxuc9nudvw"
-      bonding-denom="STAKE"
-      proposals-url="/governance/proposals"
-      transaction="[object Object]"
-      validator-url="/staking/validators"
-      validators=""
-    />
-    <tm-li-any-transaction
-      address="tb1d4u5zerywfjhxuc9nudvw"
-      bonding-denom="STAKE"
-      proposals-url="/governance/proposals"
-      transaction="[object Object]"
-      validator-url="/staking/validators"
-      validators=""
-    />
+    <div>
+      <!---->
+       
+      <tm-li-any-transaction
+        address="tb1d4u5zerywfjhxuc9nudvw"
+        bonding-denom="STAKE"
+        proposals-url="/governance/proposals"
+        transaction="[object Object]"
+        validator-url="/staking/validators"
+        validators=""
+      />
+      <tm-li-any-transaction
+        address="tb1d4u5zerywfjhxuc9nudvw"
+        bonding-denom="STAKE"
+        proposals-url="/governance/proposals"
+        transaction="[object Object]"
+        validator-url="/staking/validators"
+        validators=""
+      />
+      <tm-li-any-transaction
+        address="tb1d4u5zerywfjhxuc9nudvw"
+        bonding-denom="STAKE"
+        proposals-url="/governance/proposals"
+        transaction="[object Object]"
+        validator-url="/staking/validators"
+        validators=""
+      />
+      <tm-li-any-transaction
+        address="tb1d4u5zerywfjhxuc9nudvw"
+        bonding-denom="STAKE"
+        proposals-url="/governance/proposals"
+        transaction="[object Object]"
+        validator-url="/staking/validators"
+        validators=""
+      />
+      <tm-li-any-transaction
+        address="tb1d4u5zerywfjhxuc9nudvw"
+        bonding-denom="STAKE"
+        proposals-url="/governance/proposals"
+        transaction="[object Object]"
+        validator-url="/staking/validators"
+        validators=""
+      />
+    </div>
     <div
       class="ps__rail-x"
       style="left: 0px; top: 0px;"
@@ -345,6 +348,7 @@ exports[`PageTransactions should filter the transactions 1`] = `
                 refresh
               </i>
             </a>
+             
             <a>
               <i
                 class="material-icons"
@@ -396,60 +400,62 @@ exports[`PageTransactions should filter the transactions 1`] = `
     class="tm-page-main"
   >
      
-    <div
-      class="tm-modal-search"
-    >
+    <div>
       <div
-        class="tm-modal-search-container"
+        class="tm-modal-search"
       >
         <div
-          class="tm-form-group"
+          class="tm-modal-search-container"
         >
-          <!---->
-          <!---->
           <div
-            class="tm-form-group__field"
+            class="tm-form-group"
           >
+            <!---->
+            <!---->
             <div
-              class="tm-modal-search-field"
+              class="tm-form-group__field"
             >
-              <input
-                class="mousetrap tm-field"
-                id="search-input"
-                placeholder="Search..."
-                type="text"
-              />
-               
-              <button
-                class="tm-btn"
+              <div
+                class="tm-modal-search-field"
               >
-                <span
-                  class="tm-btn__container"
+                <input
+                  class="mousetrap tm-field"
+                  id="search-input"
+                  placeholder="Search..."
+                  type="text"
+                />
+                 
+                <button
+                  class="tm-btn"
                 >
-                  <i
-                    aria-hidden="true"
-                    class="tm-btn__icon material-icons"
+                  <span
+                    class="tm-btn__container"
                   >
-                    close
-                  </i>
-                  <!---->
-                  <!---->
-                </span>
-              </button>
+                    <i
+                      aria-hidden="true"
+                      class="tm-btn__icon material-icons"
+                    >
+                      close
+                    </i>
+                    <!---->
+                    <!---->
+                  </span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
+       
+      <tm-li-any-transaction
+        address="tb1d4u5zerywfjhxuc9nudvw"
+        bonding-denom="STAKE"
+        proposals-url="/governance/proposals"
+        transaction="[object Object]"
+        validator-url="/staking/validators"
+        validators=""
+      />
     </div>
-     
-    <tm-li-any-transaction
-      address="tb1d4u5zerywfjhxuc9nudvw"
-      bonding-denom="STAKE"
-      proposals-url="/governance/proposals"
-      transaction="[object Object]"
-      validator-url="/staking/validators"
-      validators=""
-    />
   </main>
 </div>
 `;

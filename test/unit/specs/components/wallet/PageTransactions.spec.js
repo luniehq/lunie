@@ -96,6 +96,7 @@ describe(`PageTransactions`, () => {
   })
 
   it(`should show an error if there are no transactions`, () => {
+    store.commit(`setConnected`, true)
     store.commit(`setWalletTxs`, [])
     store.commit(`setStakingTxs`, [])
     store.commit(`setGovernanceTxs`, [])

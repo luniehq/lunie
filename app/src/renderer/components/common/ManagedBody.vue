@@ -48,6 +48,10 @@ export default {
       type: Boolean,
       default: () => false
     },
+    connected: {
+      type: Boolean,
+      default: () => undefined
+    },
     loaded: {
       type: Boolean,
       default: () => undefined

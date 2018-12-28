@@ -30,17 +30,17 @@
       :search="{ somethingToSearch: somethingToSearch, type: `transactions` }"
     >
       <data-empty-tx slot="no-data" />
-      <template v-for="tx in filteredTransactions" slot="data-body">
-        <tm-li-any-transaction
-          :validators="delegates.delegates"
-          :validator-url="validatorURL"
-          :proposals-url="proposalsURL"
-          :key="tx.hash"
-          :transaction="tx"
-          :address="wallet.address"
-          :bonding-denom="bondingDenom"
-        />
-      </template>
+      <tm-li-any-transaction
+        v-for="tx in filteredTransactions"
+        slot="data-body"
+        :validators="delegates.delegates"
+        :validator-url="validatorURL"
+        :proposals-url="proposalsURL"
+        :key="tx.hash"
+        :transaction="tx"
+        :address="wallet.address"
+        :bonding-denom="bondingDenom"
+      />
     </managed-body>
   </tm-page>
 </template>

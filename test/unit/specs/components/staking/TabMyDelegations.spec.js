@@ -34,7 +34,10 @@ describe(`Component: TabMyDelegations`, () => {
   it(`should show unbonding validators`, () => {
     let instance = mount(TabMyDelegations, {
       getters: {
-        committedDelegations: () => ({}),
+        committedDelegations: () => ({
+          [delegates[1].operator_address]: 2,
+          [delegates[2].operator_address]: 2
+        }),
         delegates: () => ({
           delegates
         }),
