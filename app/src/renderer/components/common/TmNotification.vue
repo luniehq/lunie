@@ -1,16 +1,16 @@
 <template>
   <div v-if="active" :class="cssClass" @click="deactivate()">
     <header>
-      <div v-if="data.icon" class="icon">
-        <i class="material-icons">{{ data.icon }}</i>
+      <div v-if="icon" class="icon">
+        <i class="material-icons">{{ icon }}</i>
       </div>
-      <div v-if="data.title" class="title">{{ data.title }}</div>
+      <div v-if="title" class="title">{{ title }}</div>
       <menu>
-        <div v-if="data.time" class="time">{{ fromNow }}</div>
+        <div v-if="time" class="time">{{ fromNow }}</div>
         <i class="close material-icons">close</i>
       </menu>
     </header>
-    <div class="body">{{ data.body }}</div>
+    <div class="body">{{ body }}</div>
   </div>
 </template>
 
@@ -19,34 +19,28 @@ import moment from "moment"
 export default {
   name: `TmNotification`,
   props: {
-    data: {
-      type: Object,
-      /* {
-        type: {
-          type: String,
-          default: null
-        },
-        layout: {
-          type: String,
-          default: null
-        },
-        icon: {
-          type: String,
-          default: null
-        },
-        time: {
-          type: String,
-          required: true
-        },
-        title: {
-          type: String,
-          default: null
-        },
-        body: {
-          type: String,
-          required: true
-        }
-      } */
+    type: {
+      type: String,
+      default: null
+    },
+    layout: {
+      type: String,
+      default: null
+    },
+    icon: {
+      type: String,
+      default: null
+    },
+    time: {
+      type: Number,
+      required: true
+    },
+    title: {
+      type: String,
+      default: null
+    },
+    body: {
+      type: String,
       required: true
     }
   },
@@ -56,11 +50,11 @@ export default {
   }),
   computed: {
     fromNow() {
-      return moment(this.data.time).fromNow()
+      return moment(this.time).fromNow()
     },
     cssClass() {
       let value = `tm-notification`
-      if (this.data.type) value += ` tm-notification-${this.data.type}`
+      if (this.type) value += ` tm-notification-${this.type}`
       return value
     }
   },
@@ -72,9 +66,9 @@ export default {
       this.active = false
     },
     setDeactivation() {
-      if (!this.data.layout || this.data.layout === `banner`) {
+      if (!this.layout || this.layout === `banner`) {
         // notification active duration is 5 seconds - (time since creation)
-        let activeDuration = this.duration - (Date.now() - this.data.time)
+        let activeDuration = this.duration - (Date.now() - this.time)
 
         // disable visibility if it's an old notification
         if (activeDuration < 0) {

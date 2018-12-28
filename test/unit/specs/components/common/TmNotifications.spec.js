@@ -6,10 +6,12 @@ describe(`TmNotifications.vue`, () => {
   beforeEach(async () => {
     const notifications = [
       {
-        body: `asdf`
+        body: `asdf`,
+        time: 44000
       },
       {
-        body: `sadf`
+        body: `sadf`,
+        time: 44000
       }
     ]
     wrapper = mount(TmNotifications, {

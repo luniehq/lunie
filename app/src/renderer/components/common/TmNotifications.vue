@@ -2,8 +2,13 @@
   <div class="tm-notifications">
     <tm-notification
       v-for="notification in notifications"
-      :key="notification.time"
-      :data="notification"
+      :key="notification.key"
+      :type="notification.type"
+      :body="notification.body"
+      :icon="notification.icon"
+      :layout="notification.layout"
+      :title="notification.title"
+      :time="notification.time"
       :theme="theme"
     ></tm-notification>
   </div>

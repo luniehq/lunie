@@ -37,7 +37,7 @@ describe(`TmNotification.vue`, () => {
   it(`has the expected html structure`, () => {
     notifications.forEach(notification => {
       let wrapper = mount(TmNotification, {
-        propsData: { data: notification }
+        propsData: { ...notification }
       })
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
@@ -47,10 +47,8 @@ describe(`TmNotification.vue`, () => {
     jest.useFakeTimers()
     let wrapper = mount(TmNotification, {
       propsData: {
-        data: {
-          time: 44000,
-          body: `asdf`
-        }
+        time: 44000,
+        body: `asdf`
       }
     })
     expect(wrapper.vm.active).toBe(true)
@@ -61,10 +59,8 @@ describe(`TmNotification.vue`, () => {
   it(`is hidden if timed out`, () => {
     let wrapper = mount(TmNotification, {
       propsData: {
-        data: {
-          time: 100,
-          body: `asdf`
-        }
+        time: 100,
+        body: `asdf`
       }
     })
     expect(wrapper.vm.active).toBe(false)
