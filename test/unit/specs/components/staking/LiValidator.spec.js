@@ -5,23 +5,7 @@ import LiValidator from "renderer/components/staking/LiValidator"
 describe(`LiValidator`, () => {
   let wrapper, store
   let { mount } = setup()
-  const validator = {
-    id: `abc`,
-    pub_key: `cosmosvalpub12345`,
-    operator_address: lcdClientMock.validators[1],
-    tokens: `190000000000`,
-    delegator_shares: `190000000000`,
-    description: {
-      details: `Herr Schmidt`,
-      website: `www.schmidt.de`,
-      moniker: `herr_schmidt_revoked`,
-      country: `DE`
-    },
-    revoked: false,
-    status: 2,
-    bond_height: `0`,
-    bond_intra_tx_counter: 6,
-    proposer_reward_pool: null,
+  const validator = Object.assign({}, lcdClientMock.state.candidates[1], {
     commission: {
       rate: `0.05`,
       max_rate: `0.1`,
@@ -37,7 +21,7 @@ describe(`LiValidator`, () => {
       jailed_until: `1970-01-01T00:00:00Z`,
       signed_blocks_counter: 9878
     }
-  }
+  })
 
   beforeEach(() => {
     let instance = mount(LiValidator, {

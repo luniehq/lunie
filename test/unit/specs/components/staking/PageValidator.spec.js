@@ -5,24 +5,8 @@ import TmModal from "common/TmModal"
 import setup from "../../../helpers/vuex-setup"
 import PageValidator from "renderer/components/staking/PageValidator"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
-import BigNumber from "bignumber.js"
 
-const validator = {
-  operator_address: lcdClientMock.validators[0],
-  pub_key: `cosmoschiapudding123456789`,
-  tokens: `19`,
-  delegator_shares: `19`,
-  description: {
-    details: `Herr Schmidt`,
-    website: `www.schmidt.de`,
-    moniker: `herr_schmidt_revoked`,
-    country: `DE`
-  },
-  revoked: false,
-  status: 2,
-  bond_height: `0`,
-  bond_intra_tx_counter: 6,
-  proposer_reward_pool: null,
+const validator = Object.assign({}, lcdClientMock.state.candidates[0], {
   commission: {
     rate: `0.05`,
     max_rate: `0.1`,
@@ -32,32 +16,8 @@ const validator = {
   prev_bonded_shares: `0`,
   voting_power: `10`,
   selfBond: 0.01
-}
-
-const validatorTo = {
-  operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
-  pub_key: `cosmosvalpub123456789`,
-  tokens: `10`,
-  delegator_shares: `10`,
-  description: {
-    website: `www.greg.com`,
-    details: `Good Guy Greg`,
-    moniker: `good_greg`,
-    country: `USA`
-  },
-  revoked: false,
-  status: 2,
-  bond_height: `0`,
-  bond_intra_tx_counter: 6,
-  proposer_reward_pool: null,
-  commission: {
-    rate: `0`,
-    max_rate: `0`,
-    max_change_rate: `0`,
-    update_time: `1970-01-01T00:00:00Z`
-  },
-  prev_bonded_shares: `0`
-}
+})
+const validatorTo = lcdClientMock.state.candidates[1]
 
 const getterValues = {
   bondingDenom: `atom`,
@@ -528,78 +488,8 @@ describe(`onDelegation`, () => {
             }
           )
 
-          expect($store.dispatch.mock.calls).toEqual([
-            [
-              `submitDelegation`,
-              {
-                stakingTransactions: {
-                  delegations: [
-                    {
-                      atoms: 10,
-                      validator: {
-                        bond_height: `0`,
-                        bond_intra_tx_counter: 6,
-                        commission: {
-                          rate: `0.05`,
-                          max_rate: `0.1`,
-                          max_change_rate: `0.005`,
-                          update_time: `1970-01-01T00:00:00Z`
-                        },
-                        delegator_shares: `19`,
-                        description: {
-                          country: `DE`,
-                          details: `Herr Schmidt`,
-                          moniker: `herr_schmidt_revoked`,
-                          website: `www.schmidt.de`
-                        },
-                        selfBond: 0.01,
-                        id: lcdClientMock.validators[0],
-                        keybase: undefined,
-                        operator_address: lcdClientMock.validators[0],
-                        percent_of_vote: `65.52%`,
-                        prev_bonded_shares: `0`,
-                        proposer_reward_pool: null,
-                        pub_key: `cosmoschiapudding123456789`,
-                        revoked: false,
-                        status: 2,
-                        tokens: `19`,
-                        voting_power: BigNumber(19)
-                      }
-                    }
-                  ]
-                }
-              }
-            ],
-            [
-              `sendTx`,
-              {
-                begin_unbondings: undefined,
-                begin_redelegates: undefined,
-                delegations: [
-                  {
-                    delegation: { amount: `10`, denom: `atom` },
-                    delegator_addr: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-                    validator_addr: lcdClientMock.validators[0]
-                  }
-                ],
-                to: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-                type: `updateDelegations`
-              }
-            ]
-          ])
-
-          expect($store.commit.mock.calls).toEqual([
-            [`setAtoms`, 32],
-            [
-              `notify`,
-              {
-                body: `You have successfully delegated your ${
-                  getterValues.bondingDenom
-                }s`,
-                title: `Successful delegation!`
-              }
-            ]
-          ])
+          expect($store.dispatch.mock.calls).toMatchSnapshot()
+          expect($store.commit.mock.calls).toMatchSnapshot()
         })
       })
     })
@@ -723,51 +613,8 @@ describe(`onDelegation`, () => {
             }
           )
 
-          expect($store.dispatch.mock.calls).toEqual([
-            [
-              `submitDelegation`,
-              {
-                password: undefined,
-                stakingTransactions: {
-                  redelegations: [
-                    {
-                      atoms: 5,
-                      validatorSrc: validator,
-                      validatorDst: validatorTo
-                    }
-                  ]
-                }
-              }
-            ],
-            [
-              `sendTx`,
-              {
-                delegations: undefined,
-                password: undefined,
-                begin_unbondings: undefined,
-                begin_redelegates: [
-                  {
-                    delegator_addr: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-                    validator_src_addr: lcdClientMock.validators[0],
-                    validator_dst_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
-                    shares: `50000000000.0000000000`
-                  }
-                ],
-                to: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-                type: `updateDelegations`
-              }
-            ]
-          ])
-
-          expect($store.commit.mock.calls).toEqual([
-            [
-              `notify`,
-              {
-                title: `Successful redelegation!`,
-                body: `You have successfully redelegated your atoms`
-              }
-            ]
-          ])
+          expect($store.dispatch.mock.calls).toMatchSnapshot()
+          expect($store.commit.mock.calls).toMatchSnapshot()
         })
       })
     })
@@ -916,46 +763,8 @@ describe(`onDelegation`, () => {
             }
           )
 
-          expect($store.dispatch.mock.calls).toEqual([
-            [
-              `submitDelegation`,
-              {
-                stakingTransactions: {
-                  unbondings: [
-                    {
-                      atoms: -10,
-                      validator
-                    }
-                  ]
-                }
-              }
-            ],
-            [
-              `sendTx`,
-              {
-                begin_unbondings: [
-                  {
-                    delegator_addr: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-                    shares: `10.0000000000`,
-                    validator_addr: lcdClientMock.validators[0]
-                  }
-                ],
-                delegations: undefined,
-                to: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-                type: `updateDelegations`
-              }
-            ]
-          ])
-
-          expect($store.commit.mock.calls).toEqual([
-            [
-              `notify`,
-              {
-                body: `You have successfully undelegated 10 atoms.`,
-                title: `Successful Undelegation!`
-              }
-            ]
-          ])
+          expect($store.dispatch.mock.calls).toMatchSnapshot()
+          expect($store.commit.mock.calls).toMatchSnapshot()
         })
       })
     })
