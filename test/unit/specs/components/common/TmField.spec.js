@@ -96,7 +96,6 @@ describe(`TmField`, () => {
       }
     })
     expect(wrapper.vm.$el).toMatchSnapshot()
-    await wrapper.vm.$nextTick()
   })
 
   it(`trims number values`, () => {

@@ -36,7 +36,6 @@ describe(`TabParameters`, () => {
   })
 
   it(`has the expected html structure`, async () => {
-    await wrapper.vm.$nextTick()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 

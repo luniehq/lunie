@@ -46,7 +46,6 @@ describe(`PageWallet`, () => {
   it(`should filter the balances`, async () => {
     store.commit(`setSearchVisible`, [`balances`, true])
     store.commit(`setSearchQuery`, [`balances`, `stake`])
-    await wrapper.vm.$nextTick()
 
     expect(wrapper.vm.filteredBalances.map(x => x.denom)).toEqual([`STAKE`])
     expect(wrapper.vm.$el).toMatchSnapshot()

@@ -50,7 +50,6 @@ describe(`DelegationModal`, () => {
 
   describe(`component matches snapshot`, () => {
     it(`has the expected html structure`, async () => {
-      await wrapper.vm.$nextTick()
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
   })

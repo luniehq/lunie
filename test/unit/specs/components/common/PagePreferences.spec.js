@@ -19,10 +19,6 @@ describe(`PagePreferences`, () => {
   })
 
   it(`has the expected html structure if connected`, async () => {
-    // after importing the @tendermint/ui components  modules
-    // to work properly in the tests (snapshots weren't matching)
-    // this has occured across multiple tests
-    await wrapper.vm.$nextTick()
     expect(wrapper.vm.$el).toMatchSnapshot()
     expect(wrapper.vm.$el.outerHTML).toContain(`Select network`)
     expect(wrapper.vm.$el.outerHTML).toContain(`View tutorial`)

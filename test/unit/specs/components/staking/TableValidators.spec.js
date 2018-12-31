@@ -20,10 +20,6 @@ describe(`TableValidators`, () => {
   })
 
   it(`has the expected html structure`, async () => {
-    // after importing the @tendermint/ui components from modules
-    // to work properly in the tests (snapshots weren't matching)
-    // this has occured across multiple tests
-    await wrapper.vm.$nextTick()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
