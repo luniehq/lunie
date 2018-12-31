@@ -134,7 +134,6 @@
     "vue-directive-tooltip": "1.4.5",
     "vue-electron": "1.0.6",
     "vue-router": "3.0.1",
-    "vue-test-utils": "1.0.0-beta.11",
     "vuelidate": "0.6.2",
     "vuex": "3.0.1"
   }
