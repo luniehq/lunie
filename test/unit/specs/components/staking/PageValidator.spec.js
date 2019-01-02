@@ -6,6 +6,8 @@ import setup from "../../../helpers/vuex-setup"
 import PageValidator from "renderer/components/staking/PageValidator"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
+let { stakingParameters } = lcdClientMock.state
+
 const validator = Object.assign({}, lcdClientMock.state.candidates[0], {
   commission: {
     rate: `0.05`,
@@ -20,18 +22,18 @@ const validator = Object.assign({}, lcdClientMock.state.candidates[0], {
 const validatorTo = lcdClientMock.state.candidates[1]
 
 const getterValues = {
-  stakingParameters: lcdClientMock.state.stakingParameters,
+  stakingParameters: stakingParameters,
   config: { desktop: false },
   delegates: {
     delegates: [validator, validatorTo],
     globalPower: 4200
   },
   delegation: {
-    committedDelegates: { [validators[0]]: 0 },
+    committedDelegates: { [lcdClientMock.validators[0]]: 0 },
     unbondingDelegations: {}
   },
   committedDelegations: {
-    [validators[0]]: 0
+    [lcdClientMock.validators[0]]: 0
   },
   keybase: `keybase`,
   oldBondedAtoms: 50,
@@ -50,7 +52,7 @@ describe(`PageValidator`, () => {
     let instance = mount(PageValidator, {
       doBefore: ({ store }) => {
         store.commit(`setCommittedDelegation`, {
-          candidateId: validators[0],
+          candidateId: lcdClientMock.validators[0],
           value: `123.45678`
         })
         store.commit(`setConnected`, true)
@@ -64,8 +66,7 @@ describe(`PageValidator`, () => {
     })
     wrapper = instance.wrapper
     store = instance.store
-    store.state.stakingParameters = stakingParameters
-    wrapper.update()
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
   })
 
   it(`has the expected html structure`, async () => {
@@ -73,7 +74,9 @@ describe(`PageValidator`, () => {
   })
 
   it(`should return one delegate based on route params`, () => {
-    expect(wrapper.vm.validator.operator_address).toEqual(validators[0])
+    expect(wrapper.vm.validator.operator_address).toEqual(
+      lcdClientMock.validators[0]
+    )
   })
 
   it(`shows a default avatar`, () => {
@@ -96,14 +99,15 @@ describe(`PageValidator`, () => {
     })
 
     wrapper = instance.wrapper
-
+    store = instance.store
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`shows the selfBond`, async () => {
     await store.commit(`setSelfBond`, {
       validator: {
-        operator_address: validators[0],
+        operator_address: lcdClientMock.validators[0],
         delegator_shares: `4242`
       },
       ratio: 0.01
@@ -346,6 +350,7 @@ describe(`onDelegation`, () => {
 
     wrapper = instance.wrapper
     store = instance.store
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
   })
 
   describe(`make sure we have enough atoms to delegate`, () => {
@@ -402,7 +407,9 @@ describe(`onDelegation`, () => {
             [
               `notify`,
               {
-                body: `You have successfully delegated your ${bond_denom}s`,
+                body: `You have successfully delegated your ${
+                  stakingParameters.parameters.bond_denom
+                }s`,
                 title: `Successful delegation!`
               }
             ]
@@ -425,7 +432,8 @@ describe(`onDelegation`, () => {
             },
             {
               amount: 10000000,
-              from: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+              from: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+              password: `12345`
             }
           )
 
@@ -443,7 +451,9 @@ describe(`onDelegation`, () => {
               `notifyError`,
               {
                 body: `message`,
-                title: `Error while delegating ${bond_denom}s`
+                title: `Error while delegating ${
+                  stakingParameters.parameters.bond_denom
+                }s`
               }
             ]
           ])
@@ -466,7 +476,7 @@ describe(`onDelegation`, () => {
             getters: getterValues,
             rootState: getterValues,
             state: {
-              committedDelegates: { [validators[0]]: 0 },
+              committedDelegates: { [lcdClientMock.validators[0]]: 0 },
               unbondingDelegations: {}
             }
           }
@@ -505,7 +515,8 @@ describe(`onDelegation`, () => {
             },
             {
               amount: 5,
-              from: validator.operator_address
+              from: validator.operator_address,
+              password: `12345`
             }
           )
 
@@ -515,7 +526,7 @@ describe(`onDelegation`, () => {
           ]
 
           expect($store.dispatch.mock.calls).toEqual([
-            [`submitDelegation`, { password: undefined, stakingTransactions }]
+            [`submitDelegation`, { password: `12345`, stakingTransactions }]
           ])
 
           expect($store.commit.mock.calls).toEqual([
@@ -523,7 +534,9 @@ describe(`onDelegation`, () => {
               `notify`,
               {
                 title: `Successful redelegation!`,
-                body: `You have successfully redelegated your ${bond_denom}s`
+                body: `You have successfully redelegated your ${
+                  stakingParameters.parameters.bond_denom
+                }s`
               }
             ]
           ])
@@ -548,7 +561,8 @@ describe(`onDelegation`, () => {
             },
             {
               amount: 5,
-              from: validator.operator_address
+              from: validator.operator_address,
+              password: `12345`
             }
           )
 
@@ -565,7 +579,9 @@ describe(`onDelegation`, () => {
             [
               `notifyError`,
               {
-                title: `Error while redelegating ${bond_denom}s`,
+                title: `Error while redelegating ${
+                  stakingParameters.parameters.bond_denom
+                }s`,
                 body: `message`
               }
             ]
@@ -589,7 +605,7 @@ describe(`onDelegation`, () => {
             getters: getterValues,
             rootState: getterValues,
             state: {
-              committedDelegates: { [validators[0]]: 10 },
+              committedDelegates: { [lcdClientMock.validators[0]]: 10 },
               unbondingDelegations: {}
             }
           }
@@ -602,7 +618,8 @@ describe(`onDelegation`, () => {
             },
             {
               amount: 5,
-              from: validator.operator_address
+              from: validator.operator_address,
+              password: `12345`
             }
           )
 
@@ -677,7 +694,9 @@ describe(`onDelegation`, () => {
             [
               `notify`,
               {
-                body: `You have successfully undelegated 10 atoms.`,
+                body: `You have successfully undelegated 10 ${
+                  stakingParameters.parameters.bond_denom
+                }s.`,
                 title: `Successful Undelegation!`
               }
             ]
@@ -717,7 +736,9 @@ describe(`onDelegation`, () => {
               `notifyError`,
               {
                 body: `message`,
-                title: `Error while undelegating atoms`
+                title: `Error while undelegating ${
+                  stakingParameters.parameters.bond_denom
+                }s`
               }
             ]
           ])

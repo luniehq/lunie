@@ -53,12 +53,6 @@ describe(`TabParameters`, () => {
   })
 
   it(`displays a message if loading`, () => {
-    let { wrapper, store } = mount(TabParameters, {
-      stubs: {
-        "tm-data-connecting": `<tm-data-connecting />`,
-        "tm-data-loading": `<tm-data-loading />`
-      }
-    })
     store.commit(`setConnected`, true)
     store.state.stakingParameters.loaded = false
     store.state.stakingParameters.loading = true

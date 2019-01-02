@@ -24,7 +24,6 @@ describe(`TabValidators`, () => {
     store = instance.store
     store.state.stakingParameters = stakingParameters
     await store.dispatch(`getDelegates`)
-    wrapper.update()
   })
 
   it(`has the expected html structure`, async () => {
