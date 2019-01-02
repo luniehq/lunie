@@ -16,6 +16,7 @@ exports[`Component: TabMyDelegations should show a message if not staked yet to 
         info_outline
       </i>
     </div>
+     
     <div
       class="tm-data-msg__text"
     >
@@ -26,6 +27,7 @@ exports[`Component: TabMyDelegations should show a message if not staked yet to 
           No Active Delegations
         </div>
       </div>
+       
       <div
         class="tm-data-msg__subtitle"
       >
@@ -34,12 +36,11 @@ exports[`Component: TabMyDelegations should show a message if not staked yet to 
       Looks like you haven't delegated any stakes yet. Head over
       to the
       
-          <a
-            class=""
-            href="#/staking/validators"
+          <router-link-stub
+            to="[object Object]"
           >
             validator list
-          </a>
+          </router-link-stub>
           
       to make your first delegation!
     
@@ -152,12 +153,12 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
                   class="data-table__row__info__container__status yellow"
                 />
                  
-                <a
+                <router-link-stub
                   class="data-table__row__info__container__name"
-                  href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+                  to="[object Object]"
                 >
                   mr_mounty
-                </a>
+                </router-link-stub>
                  
                 <div
                   class="data-table__row__info__container__description"
@@ -244,12 +245,11 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
     
     Check out
     
-    <a
-      class=""
-      href="#/staking/validators"
+    <router-link-stub
+      to="[object Object]"
     >
       the validator list
-    </a>
+    </router-link-stub>
     
     to find other validators to delegate to.
   
@@ -364,12 +364,12 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
                   class="data-table__row__info__container__status yellow"
                 />
                  
-                <a
+                <router-link-stub
                   class="data-table__row__info__container__name"
-                  href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+                  to="[object Object]"
                 >
                   good_greg
-                </a>
+                </router-link-stub>
                  
                 <div
                   class="data-table__row__info__container__description"
@@ -463,12 +463,12 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
                   class="data-table__row__info__container__status red"
                 />
                  
-                <a
+                <router-link-stub
                   class="data-table__row__info__container__name"
-                  href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n"
+                  to="[object Object]"
                 >
                   herr_schmidt_revoked
-                </a>
+                </router-link-stub>
                  
                 <div
                   class="data-table__row__info__container__description"
@@ -565,6 +565,7 @@ exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
         info_outline
       </i>
     </div>
+     
     <div
       class="tm-data-msg__text"
     >
@@ -575,6 +576,7 @@ exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
           No Active Delegations
         </div>
       </div>
+       
       <div
         class="tm-data-msg__subtitle"
       >
@@ -583,12 +585,11 @@ exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
       Looks like you haven't delegated any stakes yet. Head over
       to the
       
-          <a
-            class=""
-            href="#/staking/validators"
+          <router-link-stub
+            to="[object Object]"
           >
             validator list
-          </a>
+          </router-link-stub>
           
       to make your first delegation!
     
@@ -708,12 +709,12 @@ exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
                   class="data-table__row__info__container__status yellow"
                 />
                  
-                <a
+                <router-link-stub
                   class="data-table__row__info__container__name"
-                  href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+                  to="[object Object]"
                 >
                   good_greg
-                </a>
+                </router-link-stub>
                  
                 <div
                   class="data-table__row__info__container__description"
@@ -807,12 +808,12 @@ exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
                   class="data-table__row__info__container__status red"
                 />
                  
-                <a
+                <router-link-stub
                   class="data-table__row__info__container__name"
-                  href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n"
+                  to="[object Object]"
                 >
                   herr_schmidt_revoked
-                </a>
+                </router-link-stub>
                  
                 <div
                   class="data-table__row__info__container__description"

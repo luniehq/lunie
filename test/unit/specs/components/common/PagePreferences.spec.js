@@ -19,12 +19,6 @@ describe(`PagePreferences`, () => {
   })
 
   it(`has the expected html structure if connected`, async () => {
-    // after importing the @tendermint/ui components  modules
-    // the perfect scroll plugin needs a $nextTick and a wrapper.update
-    // to work properly in the tests (snapshots weren't matching)
-    // this has occured across multiple tests
-    await wrapper.vm.$nextTick()
-    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
     expect(wrapper.vm.$el.outerHTML).toContain(`Select network`)
     expect(wrapper.vm.$el.outerHTML).toContain(`View tutorial`)
@@ -67,7 +61,6 @@ describe(`PagePreferences`, () => {
     wrapper.find(`#toggle-onboarding`).trigger(`click`)
     expect(store.commit).toHaveBeenCalledWith(`setOnboardingState`, 0)
     expect(store.commit).toHaveBeenCalledWith(`setOnboardingActive`, true)
-    wrapper.update()
     expect(wrapper.find(`#onboarding`)).toBeDefined()
   })
 

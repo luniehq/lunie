@@ -15,7 +15,9 @@ exports[`PageProposal has the expected html structure 1`] = `
         class="tm-page-header-text"
       >
         <!---->
+         
         <!---->
+         
         <div
           class="tm-page-header-body"
         >
@@ -94,6 +96,7 @@ exports[`PageProposal has the expected html structure 1`] = `
           </div>
         </div>
       </div>
+       
       <menu
         class="tm-page-header-menu"
       >
@@ -102,24 +105,56 @@ exports[`PageProposal has the expected html structure 1`] = `
             <div
               class="tm-tool-bar"
             >
-              <div
-                class="tm-tool-bar-container"
+              <a
+                class="back"
+                disabled="disabled"
               >
-                <div
-                  class="main"
+                <i
+                  class="material-icons"
                 >
-                  <a
-                    class=""
-                    href="#/governance"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                  </a>
-                </div>
-              </div>
+                  arrow_back
+                </i>
+              </a>
+               
+              <router-link-stub
+                exact="exact"
+                to="/governance"
+              >
+                <i
+                  class="material-icons"
+                >
+                  arrow_back
+                </i>
+              </router-link-stub>
+              <a
+                class="help"
+              >
+                <i
+                  class="material-icons"
+                >
+                  help_outline
+                </i>
+              </a>
+               
+              <router-link-stub
+                id="settings"
+                to="/preferences"
+              >
+                <i
+                  class="material-icons"
+                >
+                  settings
+                </i>
+              </router-link-stub>
+              <a
+                id="signOut-btn"
+              >
+                <i
+                  class="material-icons"
+                >
+                  exit_to_app
+                </i>
+              </a>
             </div>
           </div>
         </div>
@@ -170,7 +205,6 @@ exports[`PageProposal has the expected html structure 1`] = `
               <span
                 class="tm-btn__container tm-btn--primary"
               >
-                <!---->
                 <!---->
                 <span
                   class="tm-btn__value"
@@ -313,7 +347,9 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
         class="tm-page-header-text"
       >
         <!---->
+         
         <!---->
+         
         <div
           class="tm-page-header-body"
         >
@@ -392,6 +428,7 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
           </div>
         </div>
       </div>
+       
       <menu
         class="tm-page-header-menu"
       >
@@ -400,24 +437,56 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
             <div
               class="tm-tool-bar"
             >
-              <div
-                class="tm-tool-bar-container"
+              <a
+                class="back"
+                disabled="disabled"
               >
-                <div
-                  class="main"
+                <i
+                  class="material-icons"
                 >
-                  <a
-                    class=""
-                    href="#/governance"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                  </a>
-                </div>
-              </div>
+                  arrow_back
+                </i>
+              </a>
+               
+              <router-link-stub
+                exact="exact"
+                to="/governance"
+              >
+                <i
+                  class="material-icons"
+                >
+                  arrow_back
+                </i>
+              </router-link-stub>
+              <a
+                class="help"
+              >
+                <i
+                  class="material-icons"
+                >
+                  help_outline
+                </i>
+              </a>
+               
+              <router-link-stub
+                id="settings"
+                to="/preferences"
+              >
+                <i
+                  class="material-icons"
+                >
+                  settings
+                </i>
+              </router-link-stub>
+              <a
+                id="signOut-btn"
+              >
+                <i
+                  class="material-icons"
+                >
+                  exit_to_app
+                </i>
+              </a>
             </div>
           </div>
         </div>
@@ -441,6 +510,7 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
           sentiment_very_dissatisfied
         </i>
       </div>
+       
       <div
         class="tm-data-msg__text"
       >
@@ -451,6 +521,7 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
             Aw shucks!
           </div>
         </div>
+         
         <div
           class="tm-data-msg__subtitle"
         >

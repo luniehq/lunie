@@ -1,5 +1,4 @@
 import setup from "../../../helpers/vuex-setup"
-import htmlBeautify from "html-beautify"
 import TableProposals from "renderer/components/governance/TableProposals"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
@@ -32,13 +31,10 @@ describe(`TableProposals`, () => {
     })
     wrapper = instance.wrapper
     store = instance.store
-    wrapper.update()
   })
 
   it(`has the expected html structure`, async () => {
-    await wrapper.vm.$nextTick()
-    wrapper.update()
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should sort the proposals by selected property`, () => {
@@ -66,7 +62,6 @@ describe(`TableProposals`, () => {
     expect(wrapper.vm.filteredProposals[0].description).toBe(
       lcdClientMock.state.proposals[`1`].description
     )
-    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
     store.commit(`setSearchQuery`, [
       `proposals`,
@@ -91,9 +86,9 @@ describe(`TableProposals`, () => {
         store.commit(`setAtoms`, 1337)
       },
       propsData: { proposals: {} },
-      stubs: { "data-empty-search": `<data-empty-search />` }
+      stubs: { "data-empty-search": true }
     })
-    expect(wrapper.contains(`data-empty-search`)).toBe(true)
+    expect(wrapper.contains(`data-empty-search-stub`)).toBe(true)
   })
 
   describe(`setSearch`, () => {

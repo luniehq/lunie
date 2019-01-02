@@ -115,12 +115,12 @@ let rendererConfig = {
       assets: resolve(`app/src/renderer/assets`),
       scripts: resolve(`app/src/renderer/scripts`),
       common: resolve(`app/src/renderer/components/common`),
+      transactions: resolve(`app/src/renderer/components/transactions`),
       govern: resolve(`app/src/renderer/components/govern`),
       staking: resolve(`app/src/renderer/components/staking`),
-      wallet: resolve(`app/src/renderer/components/wallet`),
-      variables: resolve(`app/src/renderer/styles/variables.styl`)
+      wallet: resolve(`app/src/renderer/components/wallet`)
     },
-    extensions: [`.js`, `.vue`, `.json`, `.css`, `.node`, `.styl`],
+    extensions: [`.js`, `.vue`, `.json`, `.css`, `.node`],
     modules: [
       path.join(__dirname, `app/node_modules`),
       path.join(__dirname, `node_modules`)

@@ -53,7 +53,6 @@ exports[`TmModalLCDApproval has the expected html structure 1`] = `
           >
             check
           </i>
-          <!---->
           <span
             class="tm-btn__value"
           >
@@ -75,7 +74,6 @@ exports[`TmModalLCDApproval has the expected html structure 1`] = `
           >
             skip_next
           </i>
-          <!---->
           <span
             class="tm-btn__value"
           >

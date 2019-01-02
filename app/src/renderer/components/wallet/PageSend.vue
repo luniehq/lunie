@@ -27,7 +27,7 @@
       </tm-part>
       <tm-part title="Transaction Details">
         <tm-form-group
-          :error="$v.fields.address.$invalid"
+          :error="$v.fields.address.$error && $v.fields.address.$invalid"
           field-id="send-address"
           field-label="Send To"
         >
@@ -49,7 +49,6 @@
               fields.address.trim().length > 0 &&
                 !$v.fields.address.bech32Validate
             "
-            :body="bech32error"
             name="Address"
             type="bech32"
           />
@@ -147,8 +146,8 @@
       :recipient="fields.address"
       :denom="fields.denom"
       :connected="connected"
-      @approved="onApproved"
-      @canceled="onCancel"
+      @approved="onApproved()"
+      @canceled="onCancel()"
     />
   </tm-page>
 </template>
@@ -157,16 +156,14 @@
 import b32 from "scripts/b32"
 import { required, between } from "vuelidate/lib/validators"
 import { mapActions, mapGetters } from "vuex"
-import {
-  TmBtn,
-  TmFieldGroup,
-  TmFormGroup,
-  TmFormStruct,
-  TmPage,
-  TmPart,
-  TmField,
-  TmFormMsg
-} from "@tendermint/ui"
+import TmBtn from "common/TmBtn"
+import TmFieldGroup from "common/TmFieldGroup"
+import TmFormGroup from "common/TmFormGroup"
+import TmFormStruct from "common/TmFormStruct"
+import TmPage from "common/TmPage"
+import TmPart from "common/TmPart"
+import TmField from "common/TmField"
+import TmFormMsg from "common/TmFormMsg"
 import TmBalance from "common/TmBalance"
 import FieldAddon from "common/TmFieldAddon"
 import ToolBar from "common/ToolBar"
@@ -192,7 +189,7 @@ export default {
   props: {
     denom: {
       type: String,
-      required: true
+      default: ``
     }
   },
   data: () => ({

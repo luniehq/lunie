@@ -1,0 +1,141 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmLiGovTransaction deposits should show deposits 1`] = `
+<div
+  class="tm-li-tx"
+>
+  <div
+    class="tm-li-tx__icon"
+  >
+    <img
+      src="~assets/images/cosmos-logo.png"
+      style="border-color: #5effe9;"
+    />
+  </div>
+   
+  <div
+    class="tm-li-tx__content"
+  >
+    <div
+      class="tm-li-tx__content__left"
+    >
+      <div
+        class="tm-li-tx__content__caption"
+      >
+        <p
+          class="tm-li-tx__content__caption__title"
+        >
+          <div>
+            
+      Deposited 
+      
+            <b>
+              100.00
+            </b>
+             
+            <span>
+               stakes
+            </span>
+          </div>
+        </p>
+      </div>
+       
+      <div
+        class="tm-li-tx__content__information"
+      >
+        <div>
+          
+      On 
+      
+          <router-link
+            to="/proposals/1"
+          >
+            
+        Proposal #1
+      
+          </router-link>
+        </div>
+      </div>
+    </div>
+     
+    <div
+      class="tm-li-tx__content__block"
+    >
+      <a
+        href="https://explorecosmos.network/blocks/56675"
+      >
+        Block #56675 
+      </a>
+      @ 12:00 am
+    
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TmLiGovTransaction proposals should show proposals submission transactions 1`] = `
+<div
+  class="tm-li-tx"
+>
+  <div
+    class="tm-li-tx__icon"
+  >
+    <img
+      src="~assets/images/cosmos-logo.png"
+      style="border-color: #3cb371;"
+    />
+  </div>
+   
+  <div
+    class="tm-li-tx__content"
+  >
+    <div
+      class="tm-li-tx__content__left"
+    >
+      <div
+        class="tm-li-tx__content__caption"
+      >
+        <p
+          class="tm-li-tx__content__caption__title"
+        >
+          <div>
+            
+      Submitted text proposal initial
+      deposit 
+            <b>
+              100.00
+            </b>
+            <span>
+               stakes
+            </span>
+          </div>
+        </p>
+      </div>
+       
+      <div
+        class="tm-li-tx__content__information"
+      >
+        <div>
+          
+      Title: 
+          <i>
+            Test Proposal
+          </i>
+        </div>
+      </div>
+    </div>
+     
+    <div
+      class="tm-li-tx__content__block"
+    >
+      <a
+        href="https://explorecosmos.network/blocks/56673"
+      >
+        Block #56673 
+      </a>
+      @ 12:00 am
+    
+    </div>
+  </div>
+</div>
+`;

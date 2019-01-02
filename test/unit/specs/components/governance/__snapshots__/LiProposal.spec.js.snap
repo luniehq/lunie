@@ -14,12 +14,12 @@ exports[`LiProposal has the expected html structure 1`] = `
         class="data-table__row__info__container__status green"
       />
        
-      <a
+      <router-link-stub
         class="data-table__row__info__container__name"
-        href="#/governance/2"
+        to="[object Object]"
       >
         VotingPeriod proposal
-      </a>
+      </router-link-stub>
        
       <p
         class="data-table__row__info__container__description"

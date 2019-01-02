@@ -32,7 +32,7 @@ describe(`LCD Client`, () => {
       const application = Express()
 
       const middleware = await promisify(createMiddleware)(
-        path.join(__dirname, `../helpers/Gaia-Lite.yaml`),
+        path.join(__dirname, `../../helpers/Gaia-Lite.yaml`),
         application
       )
 

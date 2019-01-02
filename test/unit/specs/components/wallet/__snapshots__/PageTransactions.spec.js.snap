@@ -15,7 +15,9 @@ exports[`PageTransactions has the expected html structure 1`] = `
         class="tm-page-header-text"
       >
         <!---->
+         
         <!---->
+         
         <div
           class="tm-page-header-body"
         >
@@ -107,14 +109,18 @@ exports[`PageTransactions has the expected html structure 1`] = `
               </i>
             </a>
              
-            <a>
+            <a
+              class="refresh-button"
+            >
               <i
                 class="material-icons"
               >
                 refresh
               </i>
             </a>
-            <a>
+            <a
+              class="search-button"
+            >
               <i
                 class="material-icons"
               >
@@ -131,17 +137,16 @@ exports[`PageTransactions has the expected html structure 1`] = `
               </i>
             </a>
              
-            <a
-              class=""
-              href="#/preferences"
+            <router-link-stub
               id="settings"
+              to="/preferences"
             >
               <i
                 class="material-icons"
               >
                 settings
               </i>
-            </a>
+            </router-link-stub>
             <a
               id="signOut-btn"
             >
@@ -154,6 +159,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
           </div>
         </div>
       </div>
+       
       <menu
         class="tm-page-header-menu"
       >
@@ -161,72 +167,63 @@ exports[`PageTransactions has the expected html structure 1`] = `
       </menu>
     </div>
   </header>
+   
   <main
-    class="tm-page-main ps"
+    class="tm-page-main"
   >
      
-    <!---->
+    <modal-search-stub
+      type="transactions"
+    />
      
-    <tm-li-any-transaction
+    <tm-li-any-transaction-stub
       address="tb1d4u5zerywfjhxuc9nudvw"
-      bonding-denom="STAKE"
-      proposals-url="/governance/proposals"
+      bondingdenom="STAKE"
+      proposalsurl="/governance/proposals"
       transaction="[object Object]"
-      validator-url="/staking/validators"
       validators=""
+      validatorsurl="/staking/validators"
     />
-    <tm-li-any-transaction
+    <tm-li-any-transaction-stub
       address="tb1d4u5zerywfjhxuc9nudvw"
-      bonding-denom="STAKE"
-      proposals-url="/governance/proposals"
+      bondingdenom="STAKE"
+      proposalsurl="/governance/proposals"
       transaction="[object Object]"
-      validator-url="/staking/validators"
       validators=""
+      validatorsurl="/staking/validators"
     />
-    <tm-li-any-transaction
+    <tm-li-any-transaction-stub
       address="tb1d4u5zerywfjhxuc9nudvw"
-      bonding-denom="STAKE"
-      proposals-url="/governance/proposals"
+      bondingdenom="STAKE"
+      proposalsurl="/governance/proposals"
       transaction="[object Object]"
-      validator-url="/staking/validators"
       validators=""
+      validatorsurl="/staking/validators"
     />
-    <tm-li-any-transaction
+    <tm-li-any-transaction-stub
       address="tb1d4u5zerywfjhxuc9nudvw"
-      bonding-denom="STAKE"
-      proposals-url="/governance/proposals"
+      bondingdenom="STAKE"
+      proposalsurl="/governance/proposals"
       transaction="[object Object]"
-      validator-url="/staking/validators"
       validators=""
+      validatorsurl="/staking/validators"
     />
-    <tm-li-any-transaction
+    <tm-li-any-transaction-stub
       address="tb1d4u5zerywfjhxuc9nudvw"
-      bonding-denom="STAKE"
-      proposals-url="/governance/proposals"
+      bondingdenom="STAKE"
+      proposalsurl="/governance/proposals"
       transaction="[object Object]"
-      validator-url="/staking/validators"
       validators=""
+      validatorsurl="/staking/validators"
     />
-    <div
-      class="ps__rail-x"
-      style="left: 0px; top: 0px;"
-    >
-      <div
-        class="ps__thumb-x"
-        style="left: 0px; width: 0px;"
-        tabindex="0"
-      />
-    </div>
-    <div
-      class="ps__rail-y"
-      style="top: 0px; left: 0px;"
-    >
-      <div
-        class="ps__thumb-y"
-        style="top: 0px; height: 0px;"
-        tabindex="0"
-      />
-    </div>
+    <tm-li-any-transaction-stub
+      address="tb1d4u5zerywfjhxuc9nudvw"
+      bondingdenom="STAKE"
+      proposalsurl="/governance/proposals"
+      transaction="[object Object]"
+      validators=""
+      validatorsurl="/staking/validators"
+    />
   </main>
 </div>
 `;
@@ -246,7 +243,9 @@ exports[`PageTransactions should filter the transactions 1`] = `
         class="tm-page-header-text"
       >
         <!---->
+         
         <!---->
+         
         <div
           class="tm-page-header-body"
         >
@@ -338,14 +337,18 @@ exports[`PageTransactions should filter the transactions 1`] = `
               </i>
             </a>
              
-            <a>
+            <a
+              class="refresh-button"
+            >
               <i
                 class="material-icons"
               >
                 refresh
               </i>
             </a>
-            <a>
+            <a
+              class="search-button"
+            >
               <i
                 class="material-icons"
               >
@@ -362,17 +365,16 @@ exports[`PageTransactions should filter the transactions 1`] = `
               </i>
             </a>
              
-            <a
-              class=""
-              href="#/preferences"
+            <router-link-stub
               id="settings"
+              to="/preferences"
             >
               <i
                 class="material-icons"
               >
                 settings
               </i>
-            </a>
+            </router-link-stub>
             <a
               id="signOut-btn"
             >
@@ -385,6 +387,7 @@ exports[`PageTransactions should filter the transactions 1`] = `
           </div>
         </div>
       </div>
+       
       <menu
         class="tm-page-header-menu"
       >
@@ -392,63 +395,22 @@ exports[`PageTransactions should filter the transactions 1`] = `
       </menu>
     </div>
   </header>
+   
   <main
     class="tm-page-main"
   >
      
-    <div
-      class="tm-modal-search"
-    >
-      <div
-        class="tm-modal-search-container"
-      >
-        <div
-          class="tm-form-group"
-        >
-          <!---->
-          <!---->
-          <div
-            class="tm-form-group__field"
-          >
-            <div
-              class="tm-modal-search-field"
-            >
-              <input
-                class="mousetrap tm-field"
-                id="search-input"
-                placeholder="Search..."
-                type="text"
-              />
-               
-              <button
-                class="tm-btn"
-              >
-                <span
-                  class="tm-btn__container"
-                >
-                  <i
-                    aria-hidden="true"
-                    class="tm-btn__icon material-icons"
-                  >
-                    close
-                  </i>
-                  <!---->
-                  <!---->
-                </span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <modal-search-stub
+      type="transactions"
+    />
      
-    <tm-li-any-transaction
+    <tm-li-any-transaction-stub
       address="tb1d4u5zerywfjhxuc9nudvw"
-      bonding-denom="STAKE"
-      proposals-url="/governance/proposals"
+      bondingdenom="STAKE"
+      proposalsurl="/governance/proposals"
       transaction="[object Object]"
-      validator-url="/staking/validators"
       validators=""
+      validatorsurl="/staking/validators"
     />
   </main>
 </div>

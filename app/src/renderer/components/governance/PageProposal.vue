@@ -4,11 +4,11 @@
       <tm-balance />
     </template>
     <div slot="menu">
-      <tm-tool-bar>
+      <tool-bar>
         <router-link to="/governance" exact="exact"
           ><i class="material-icons">arrow_back</i></router-link
         >
-      </tm-tool-bar>
+      </tool-bar>
     </div>
     <tm-data-error v-if="!proposal" />
     <template v-else>
@@ -125,7 +125,8 @@
 import moment from "moment"
 import { mapGetters } from "vuex"
 import num from "scripts/num"
-import { TmBtn, TmToolBar } from "@tendermint/ui"
+import TmBtn from "common/TmBtn"
+import ToolBar from "common/ToolBar"
 import TmBalance from "common/TmBalance"
 import TmDataError from "common/TmDataError"
 import TextBlock from "common/TextBlock"
@@ -139,7 +140,7 @@ export default {
     TmBtn,
     ModalDeposit,
     ModalVote,
-    TmToolBar,
+    ToolBar,
     TmDataError,
     PageProfile,
     TextBlock
@@ -257,7 +258,6 @@ export default {
           password
         })
 
-        this.proposal = this.proposals.proposals[this.proposalId]
         // TODO: get min deposit denom from gov params
         this.$store.commit(`notify`, {
           title: `Successful deposit!`,
@@ -288,7 +288,6 @@ export default {
             this.proposalId
           }`
         })
-        this.proposal = this.proposals.proposals[this.proposalId]
       } catch ({ message }) {
         this.$store.commit(`notifyError`, {
           title: `Error while voting on proposal #${this.proposalId}`,

@@ -9,11 +9,11 @@ describe(`PageTransactions`, () => {
   beforeEach(async () => {
     let instance = mount(PageTransactions, {
       stubs: {
-        "tm-li-any-transaction": `<tm-li-any-transaction />`,
-        "tm-li-staking-transaction": `<tm-li-staking-transaction />`,
-        "data-empty-tx": `<data-empty-tx />`,
-        "data-empty-search": `<data-empty-search />`,
-        "tm-data-error": `<tm-data-error />`
+        "tm-li-any-transaction": true,
+        "data-empty-tx": true,
+        "data-empty-search": true,
+        "tm-data-error": true,
+        "modal-search": true
       },
       methods: {
         refreshTransactions: jest.fn() // we don't want to call getAllTxs on mount
@@ -24,63 +24,49 @@ describe(`PageTransactions`, () => {
 
     store.commit(`setConnected`, true)
     store.commit(`setWalletAddress`, `tb1d4u5zerywfjhxuc9nudvw`)
-    store.commit(`setWalletTxs`, mockTransactions)
+    store.commit(`setWalletTxs`, lcdClientMock.state.txs.slice(0, 2))
     store.commit(`setStakingTxs`, lcdClientMock.state.txs.slice(4))
     store.commit(`setGovernanceTxs`, lcdClientMock.state.txs.slice(2, 4))
-    wrapper.update()
   })
 
   it(`has the expected html structure`, async () => {
-    // after importing the @tendermint/ui components from modules
-    // the perfect scroll plugin needs a $nextTick and a wrapper.update
-    // to work properly in the tests (snapshots weren't matching)
-    // this has occured across multiple tests
-    await wrapper.vm.$nextTick()
-    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should show the search on click`, () => {
-    wrapper
-      .findAll(`.tm-tool-bar i`)
-      .at(2)
-      .trigger(`click`)
-    wrapper.update()
-    expect(wrapper.contains(`.tm-modal-search`)).toBe(true)
+    wrapper.find(`.search-button`).trigger(`click`)
+    expect(wrapper.contains(`modal-search-stub`)).toBe(true)
   })
 
   it(`should refresh the transaction history`, () => {
     wrapper.vm.refreshTransactions = jest.fn()
-    wrapper
-      .findAll(`.tm-tool-bar i`)
-      .at(1)
-      .trigger(`click`)
+    wrapper.find(`.refresh-button`).trigger(`click`)
     expect(wrapper.vm.refreshTransactions).toHaveBeenCalled()
   })
 
   it(`should show transactions`, () => {
-    expect(wrapper.findAll(`tm-li-any-transaction`).length).toBe(5)
+    expect(wrapper.findAll(`tm-li-any-transaction-stub`).length).toBe(6)
   })
 
   it(`should sort the transaction by time`, () => {
     expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual([
-      3438,
-      3436,
-      466,
+      56673,
+      213,
       170,
-      160
+      160,
+      150,
+      1
     ])
   })
 
   it(`should filter the transactions`, () => {
     store.commit(`setSearchVisible`, [`transactions`, true])
     store.commit(`setSearchQuery`, [`transactions`, `fabo`])
-    wrapper.update()
-    expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual([466])
+    expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual([150])
     // reflects the filter in the view
     expect(wrapper.vm.$el).toMatchSnapshot()
-    store.commit(`setSearchQuery`, [`transactions`, `mattc`])
-    expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual([466])
+    store.commit(`setSearchQuery`, [`transactions`, `jb`])
+    expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual([1])
   })
 
   it(`should update 'somethingToSearch' when there's nothing to search`, () => {
@@ -99,25 +85,15 @@ describe(`PageTransactions`, () => {
     store.commit(`setWalletTxs`, [])
     store.commit(`setStakingTxs`, [])
     store.commit(`setGovernanceTxs`, [])
-    wrapper.update()
-    expect(wrapper.contains(`data-empty-tx`)).toBe(true)
-    expect(wrapper.contains(`data-empty-search`)).toBe(false)
+    expect(wrapper.contains(`data-empty-tx-stub`)).toBe(true)
+    expect(wrapper.contains(`data-empty-search-stub`)).toBe(false)
   })
 
   it(`should not show search when there is nothing to search`, () => {
-    mount(PageTransactions, {
-      stubs: {
-        "tm-li-transaction": `<tm-li-transaction />`,
-        "data-empty-tx": `<data-empty-tx />`
-      },
-      methods: {
-        refreshTransactions: jest.fn() // we don't want to call getAllTxs on mount
-      }
-    })
     store.commit(`setWalletTxs`, [])
     store.commit(`setStakingTxs`, [])
     store.commit(`setGovernanceTxs`, [])
-    wrapper.update()
-    expect(wrapper.vm.setSearch()).toEqual(false)
+    wrapper.find(`.search-button`).trigger(`click`)
+    expect(wrapper.contains(`modal-search-stub`)).toBe(false)
   })
 })
