@@ -84,6 +84,7 @@ describe(`Module: Delegations`, () => {
       chain_id: `test-chain`
     })
     await store.dispatch(`getBondedDelegates`)
+    await store.dispatch(`getStakingParameters`)
 
     jest.spyOn(store._actions.sendTx, `0`)
 
@@ -101,7 +102,10 @@ describe(`Module: Delegations`, () => {
       }
     ]
 
-    await store.dispatch(`submitDelegation`, { stakingTransactions })
+    await store.dispatch(`submitDelegation`, {
+      stakingTransactions,
+      password: `12345`
+    })
 
     expect(store._actions.sendTx[0].mock.calls).toMatchSnapshot()
   })
@@ -128,7 +132,10 @@ describe(`Module: Delegations`, () => {
       }
     ]
 
-    await store.dispatch(`submitDelegation`, { stakingTransactions })
+    await store.dispatch(`submitDelegation`, {
+      stakingTransactions,
+      password: `12345`
+    })
     expect(store._actions.sendTx[0].mock.calls).toMatchSnapshot()
   })
 

@@ -1,7 +1,9 @@
 import walletModule from "modules/wallet.js"
+import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+let { stakingParameters } = lcdClientMock.state
 
 const mockRootState = {
-  config: { bondingDenom: `STAKE` },
+  stakingParameters,
   connection: {
     connected: true
   }

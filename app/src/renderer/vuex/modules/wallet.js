@@ -148,7 +148,6 @@ export default ({ node }) => {
           console.error(`error subscribing to transactions`, error)
           return
         }
-        console.log(`TX: ` + JSON.stringify(event.data))
         dispatch(
           `queryWalletStateAfterHeight`,
           event.data.value.TxResult.height + 1

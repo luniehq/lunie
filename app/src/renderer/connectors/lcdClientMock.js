@@ -710,8 +710,8 @@ module.exports = {
       )
       return results
     }
+    let denom = state.stakingParameters.parameters.bond_denom
     for (let tx of delegations) {
-      let { denom } = tx.delegation
       let amount = parseInt(tx.delegation.amount)
       if (amount < 0) {
         results.push(txResult(1, `Amount cannot be negative`))
@@ -780,7 +780,7 @@ module.exports = {
 
       // update sender balance
       let coinBalance = fromAccount.coins.find(
-        c => c.denom === state.stakingParameters.bond_denom
+        c => c.denom === state.stakingParameters.parameters.bond_denom
       )
 
       coinBalance.amount = String(parseInt(coinBalance.amount) + amount)
@@ -897,7 +897,7 @@ module.exports = {
       // add redelegation object
       let coins = {
         amount: tx.shares, // in mock mode we assume 1 share = 1 token
-        denom: state.stakingParameters.bond_denom
+        denom: state.stakingParameters.parameters.bond_denom
       }
       let minTime = Date.now()
       red = {
@@ -999,7 +999,7 @@ module.exports = {
     return state.pool
   },
   async getStakingParameters() {
-    return state.stakingParameters
+    return state.stakingParameters.parameters
   },
   async getProposals() {
     return state.proposals || []
