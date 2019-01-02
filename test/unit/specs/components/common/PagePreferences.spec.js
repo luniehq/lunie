@@ -1,17 +1,21 @@
 import setup from "../../../helpers/vuex-setup"
 import PagePreferences from "renderer/components/common/PagePreferences"
+import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+
 jest.mock(`renderer/google-analytics.js`, () => () => {})
 
 describe(`PagePreferences`, () => {
   let wrapper, store
-  let instance = setup()
+  let { stakingParameters } = lcdClientMock.state
+  let { mount } = setup()
 
   beforeEach(async () => {
-    let test = instance.mount(PagePreferences)
-    wrapper = test.wrapper
-    store = test.store
+    let instance = mount(PagePreferences)
+    wrapper = instance.wrapper
+    store = instance.store
 
     store.commit(`setConnected`, true)
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
     await store.dispatch(`signIn`, {
       account: `default`,
       password: `1234567890`
@@ -23,6 +27,7 @@ describe(`PagePreferences`, () => {
     // the perfect scroll plugin needs a $nextTick and a wrapper.update
     // to work properly in the tests (snapshots weren't matching)
     // this has occured across multiple tests
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
     await wrapper.vm.$nextTick()
     wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
@@ -103,13 +108,13 @@ describe(`PagePreferences`, () => {
   })
 
   it(`switches mocked mode again`, async () => {
-    let test = instance.mount(PagePreferences, {
+    let instance = mount(PagePreferences, {
       getters: {
         mockedConnector: () => true
       }
     })
-    wrapper = test.wrapper
-    store = test.store
+    wrapper = instance.wrapper
+    store = instance.store
     await store.dispatch(`signIn`, {
       account: `default`,
       password: `1234567890`

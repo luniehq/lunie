@@ -6,7 +6,8 @@ import Vuelidate from "vuelidate"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`DelegationModal`, () => {
-  let wrapper
+  let wrapper, store
+  let { stakingParameters } = lcdClientMock.state
   let { mount, localVue } = setup()
   localVue.use(Vuelidate)
 
@@ -39,12 +40,14 @@ describe(`DelegationModal`, () => {
       mocks: {
         $store: {
           getters: {
-            stakingParameters: lcdClientMock.state.stakingParameters
+            stakingParameters
           }
         }
       }
     })
     wrapper = instance.wrapper
+    store = instance.store
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
     wrapper.update()
   })
 

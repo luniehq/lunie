@@ -42,9 +42,7 @@ describe(`TabParameters`, () => {
   })
 
   it(`shows the governance parameters`, () => {
-    expect(store.state.governanceParameters.parameters).toEqual(
-      governanceParameters
-    )
+    expect(store.state.governanceParameters).toEqual(governanceParameters)
   })
 
   it(`displays the minimum deposit`, () => {
