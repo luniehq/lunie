@@ -28,7 +28,7 @@
       <router-link :to="{ name: 'Validators' }">the validator list</router-link>
       to find other validators to delegate to.
     </div>
-    <div v-if="delegation.loaded && undelegatedValidators.length > 0">
+    <div v-if="delegation.loaded && unbondingTransactions.length > 0">
       <h3 class="tab-header transactions">
         Unbonding transactions
         <i
@@ -42,7 +42,7 @@
         <template v-for="transaction in unbondingTransactions">
           <tm-li-stake-transaction
             :transaction="transaction"
-            :validators="undelegatedValidators"
+            :validators="yourValidators"
             :bonding-denom="bondingDenom"
             :key="transaction.hash"
           />
@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from "vuex"
+import { mapGetters } from "vuex"
 import { TmDataMsg, TmDataLoading, TmLiStakeTransaction } from "@tendermint/ui"
 import TableValidators from "staking/TableValidators"
 import TmDataConnecting from "common/TmDataConnecting"
@@ -74,28 +74,21 @@ export default {
     unbondTransactions: `The transactions currently in unbonding period`
   }),
   computed: {
-    ...mapState([`transactions`]),
     ...mapGetters([
+      `allTransactions`,
       `delegates`,
       `delegation`,
       `committedDelegations`,
       `bondingDenom`,
       `connected`
     ]),
-    undelegatedValidators(
-      { delegates: { delegates }, delegation: { unbondingDelegations } } = this
-    ) {
-      return delegates.filter(
-        ({ operator_address }) => operator_address in unbondingDelegations
-      )
-    },
     yourValidators({ committedDelegations, delegates: { delegates } } = this) {
       return delegates.filter(
         ({ operator_address }) => operator_address in committedDelegations
       )
     },
-    unbondingTransactions: ({ transactions, delegation } = this) =>
-      transactions.staking
+    unbondingTransactions: ({ allTransactions, delegation } = this) =>
+      allTransactions
         .filter(
           transaction =>
             transaction.tx.value.msg[0].type === `cosmos-sdk/BeginUnbonding`
