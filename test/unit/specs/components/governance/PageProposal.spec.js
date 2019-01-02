@@ -8,50 +8,54 @@ import ModalDeposit from "renderer/components/governance/ModalDeposit"
 import ModalVote from "renderer/components/governance/ModalVote"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
-let { proposals, tallies } = lcdClientMock.state
+let {
+  proposals,
+  tallies,
+  stakingParameters,
+  governanceParameters
+} = lcdClientMock.state
 let proposal = proposals[`2`]
 
 describe(`PageProposal`, () => {
   let wrapper, store
   let { mount, localVue } = setup()
   localVue.use(Vuelidate)
+  localVue.directive(`tooltip`, () => {})
+  localVue.directive(`focus`, () => {})
 
   const $store = {
     commit: jest.fn(),
     dispatch: jest.fn(),
-    getters: { proposals: { proposals, tallies } }
+    getters: { proposals: { proposals, tallies, stakingParameters } }
   }
 
   beforeEach(() => {
     let instance = mount(PageProposal, {
       localVue,
-      doBefore: ({ router, store }) => {
+      doBefore: ({ store }) => {
         store.commit(`setConnected`, true)
+        store.commit(`setGovParameters`, governanceParameters)
+        store.commit(`setStakingParameters`, stakingParameters.parameters)
         store.commit(`setProposal`, proposal)
         store.commit(`setProposalTally`, {
           proposal_id: `2`,
           tally_result: tallies[`2`]
         })
-        router.push(`/governance/proposals/${proposal.proposal_id}`)
       },
       propsData: { proposalId: proposal.proposal_id },
       $store
     })
     wrapper = instance.wrapper
     store = instance.store
-    wrapper.update()
   })
 
   it(`has the expected html structure`, async () => {
-    await wrapper.vm.$nextTick()
-    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`shows an error if the proposal couldn't be found`, () => {
     let instance = mount(PageProposal, {
-      doBefore: ({ router }) => {
-        router.push(`/governance/proposals/${proposal.proposal_id}`)
+      doBefore: ({}) => {
         store.commit(`setProposal`, {})
       },
       propsData: {
@@ -63,6 +67,8 @@ describe(`PageProposal`, () => {
     })
 
     wrapper = instance.wrapper
+    store = instance.store
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
 
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
@@ -132,9 +138,8 @@ describe(`PageProposal`, () => {
       proposal.proposal_status = `VotingPeriod`
       let instance = mount(PageProposal, {
         localVue,
-        doBefore: ({ router, store }) => {
+        doBefore: ({ store }) => {
           store.commit(`setConnected`, true)
-          router.push(`/governance/proposals/${proposal.proposal_id}`)
           store.commit(`setProposal`, proposal)
           store.commit(`setProposalTally`, {
             proposal_id: `2`,
@@ -148,7 +153,6 @@ describe(`PageProposal`, () => {
       })
       wrapper = instance.wrapper
       store = instance.store
-      wrapper.update()
 
       let voteBtn = wrapper.find(`#vote-btn`)
       voteBtn.trigger(`click`)
@@ -198,9 +202,8 @@ describe(`PageProposal`, () => {
       let proposal = proposals[`5`]
       let instance = mount(PageProposal, {
         localVue,
-        doBefore: ({ router, store }) => {
+        doBefore: ({ store }) => {
           store.commit(`setConnected`, true)
-          router.push(`/governance/proposals/${proposal.proposal_id}`)
           store.commit(`setProposal`, proposal)
           store.commit(`setProposalTally`, {
             proposal_id: `5`,
@@ -214,9 +217,8 @@ describe(`PageProposal`, () => {
       })
       wrapper = instance.wrapper
       store = instance.store
+      store.commit(`setGovParameters`, governanceParameters)
       wrapper.vm.proposal.proposal_status = `DepositPeriod`
-      wrapper.update()
-
       let depositBtn = wrapper.find(`#deposit-btn`)
       depositBtn.trigger(`click`)
       expect(wrapper.contains(ModalDeposit)).toEqual(true)
@@ -303,7 +305,7 @@ describe(`PageProposal`, () => {
       [
         `notify`,
         {
-          body: `You have successfully deposited your STAKEs on proposal #2`,
+          body: `You have successfully deposited your stakes on proposal #2`,
           title: `Successful deposit!`
         }
       ]
@@ -349,9 +351,16 @@ describe(`PageProposal`, () => {
 
   it(`disables interaction buttons if not connected`, () => {
     store.commit(`setConnected`, false)
-    wrapper.update()
-    let voteBtn = wrapper.find(`#vote-btn`)
-    expect(voteBtn.html()).toContain(`disabled="disabled"`)
+
+    store.commit(
+      `setProposal`,
+      Object.assign({}, proposal, {
+        proposal_status: `VotingPeriod`
+      })
+    )
+    expect(
+      wrapper.vm.$el.querySelector(`#vote-btn`).getAttribute(`disabled`)
+    ).toBe(`disabled`)
 
     store.commit(
       `setProposal`,
@@ -359,8 +368,8 @@ describe(`PageProposal`, () => {
         proposal_status: `DepositPeriod`
       })
     )
-    wrapper.update()
-    let depositBtn = wrapper.find(`#deposit-btn`)
-    expect(depositBtn.html()).toContain(`disabled="disabled"`)
+    expect(
+      wrapper.vm.$el.querySelector(`#deposit-btn`).getAttribute(`disabled`)
+    ).toBe(`disabled`)
   })
 })

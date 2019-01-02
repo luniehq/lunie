@@ -16,7 +16,8 @@
 <script>
 import TableProposals from "./TableProposals"
 import TmDataConnecting from "common/TmDataConnecting"
-import { TmDataLoading, TmDataEmpty } from "@tendermint/ui"
+import TmDataEmpty from "common/TmDataEmpty"
+import TmDataLoading from "common/TmDataLoading"
 import { mapGetters } from "vuex"
 export default {
   name: `tab-proposals`,

@@ -122,23 +122,23 @@ Object {
           "fee": Object {
             "amount": Array [
               Object {
-                "amount": 0,
+                "amount": "0",
                 "denom": "",
               },
             ],
-            "gas": 500000,
+            "gas": "500000",
           },
-          "gas": 500000,
+          "gas": "500000",
           "msg": Array [
             Object {
-              "type": "EAFDE32A2C87F8",
+              "type": "cosmos-sdk/Send",
               "value": Object {
                 "inputs": Array [
                   Object {
                     "address": "tb1da6xsetjg9jxgun9wdesexv05j",
                     "coins": Array [
                       Object {
-                        "amount": 1234,
+                        "amount": "1234",
                         "denom": "jbcoins",
                       },
                     ],
@@ -149,7 +149,7 @@ Object {
                     "address": "tb1d4u5zerywfjhxuc9nudvw",
                     "coins": Array [
                       Object {
-                        "amount": 1234,
+                        "amount": "1234",
                         "denom": "jbcoins",
                       },
                     ],
@@ -160,12 +160,12 @@ Object {
           ],
           "signatures": Array [
             Object {
-              "account_number": 28,
+              "account_number": "28",
               "pub_key": Object {
                 "type": "AC26791624DE60",
                 "value": "70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=",
               },
-              "sequence": 0,
+              "sequence": "0",
               "signature": Object {
                 "type": "6BF5903DA1DB28",
                 "value": "oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==",
@@ -198,23 +198,23 @@ Object {
           "fee": Object {
             "amount": Array [
               Object {
-                "amount": 0,
+                "amount": "0",
                 "denom": "",
               },
             ],
-            "gas": 500000,
+            "gas": "500000",
           },
-          "gas": 500000,
+          "gas": "500000",
           "msg": Array [
             Object {
-              "type": "EAFDE32A2C87F8",
+              "type": "cosmos-sdk/Send",
               "value": Object {
                 "inputs": Array [
                   Object {
                     "address": "tb1d4u5zerywfjhxuc9nudvw",
                     "coins": Array [
                       Object {
-                        "amount": 1234,
+                        "amount": "1234",
                         "denom": "jbcoins",
                       },
                     ],
@@ -225,7 +225,7 @@ Object {
                     "address": "tb1da6xsetjg9jxgun9wdesexv05j",
                     "coins": Array [
                       Object {
-                        "amount": 1234,
+                        "amount": "1234",
                         "denom": "jbcoins",
                       },
                     ],
@@ -236,12 +236,12 @@ Object {
           ],
           "signatures": Array [
             Object {
-              "account_number": 28,
+              "account_number": "28",
               "pub_key": Object {
                 "type": "AC26791624DE60",
                 "value": "70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=",
               },
-              "sequence": 0,
+              "sequence": "0",
               "signature": Object {
                 "type": "6BF5903DA1DB28",
                 "value": "oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==",
@@ -274,31 +274,31 @@ Object {
           "fee": Object {
             "amount": Array [
               Object {
-                "amount": 0,
+                "amount": "0",
                 "denom": "",
               },
             ],
-            "gas": 500000,
+            "gas": "500000",
           },
-          "gas": 500000,
+          "gas": "500000",
           "msg": Array [
             Object {
-              "type": "EAFDE32A2C87F8",
+              "type": "cosmos-sdk/Send",
               "value": Object {
                 "inputs": Array [
                   Object {
                     "address": "tb1da6xsetjg9jxgun9wdesexv05j",
                     "coins": Array [
                       Object {
-                        "amount": 1234,
+                        "amount": "1234",
                         "denom": "jbcoins",
                       },
                       Object {
-                        "amount": 1,
+                        "amount": "1",
                         "denom": "fabocoins",
                       },
                       Object {
-                        "amount": 42,
+                        "amount": "42",
                         "denom": "mattcoins",
                       },
                     ],
@@ -306,18 +306,18 @@ Object {
                 ],
                 "outputs": Array [
                   Object {
-                    "address": "tb1d4u5zerywfjhxuc9nudvw",
+                    "address": "tb1da6xsetjg9jxgun9wdesexv05j",
                     "coins": Array [
                       Object {
-                        "amount": 1234,
+                        "amount": "1234",
                         "denom": "jbcoins",
                       },
                       Object {
-                        "amount": 1,
+                        "amount": "1",
                         "denom": "fabocoins",
                       },
                       Object {
-                        "amount": 42,
+                        "amount": "42",
                         "denom": "mattcoins",
                       },
                     ],
@@ -328,12 +328,310 @@ Object {
           ],
           "signatures": Array [
             Object {
-              "account_number": 28,
+              "account_number": "28",
               "pub_key": Object {
                 "type": "AC26791624DE60",
                 "value": "70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=",
               },
-              "sequence": 0,
+              "sequence": "0",
+              "signature": Object {
+                "type": "6BF5903DA1DB28",
+                "value": "oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==",
+              },
+            },
+          ],
+        },
+      },
+    },
+    Object {
+      "hash": "not a real hash4",
+      "height": "568",
+      "tx": Object {
+        "result": Object {
+          "fee": Object {},
+          "gasUsed": "3324",
+          "tags": Array [
+            Object {
+              "key": "c2VuZGVy",
+              "value": "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==",
+            },
+            Object {
+              "key": "cmVjaXBpZW50",
+              "value": "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==",
+            },
+          ],
+        },
+        "type": "8EFE47F0625DE8",
+        "value": Object {
+          "fee": Object {
+            "amount": Array [
+              Object {
+                "amount": "0",
+                "denom": "",
+              },
+            ],
+            "gas": "500000",
+          },
+          "gas": 500000,
+          "msg": Array [
+            Object {
+              "type": "cosmos-sdk/MsgDelegate",
+              "value": Object {
+                "delegation": Object {
+                  "amount": "4200",
+                  "denom": "steak",
+                },
+                "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+              },
+            },
+          ],
+          "signatures": Array [
+            Object {
+              "account_number": "28",
+              "pub_key": Object {
+                "type": "AC26791624DE60",
+                "value": "70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=",
+              },
+              "sequence": "0",
+              "signature": Object {
+                "type": "6BF5903DA1DB28",
+                "value": "oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==",
+              },
+            },
+          ],
+        },
+      },
+    },
+    Object {
+      "hash": "not a real hash5",
+      "height": "569",
+      "tx": Object {
+        "result": Object {
+          "fee": Object {},
+          "gasUsed": "3324",
+          "tags": Array [
+            Object {
+              "key": "c2VuZGVy",
+              "value": "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==",
+            },
+            Object {
+              "key": "cmVjaXBpZW50",
+              "value": "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==",
+            },
+          ],
+        },
+        "type": "8EFE47F0625DE8",
+        "value": Object {
+          "fee": Object {
+            "amount": Array [
+              Object {
+                "amount": "0",
+                "denom": "",
+              },
+            ],
+            "gas": "500000",
+          },
+          "gas": "500000",
+          "msg": Array [
+            Object {
+              "type": "cosmos-sdk/BeginUnbonding",
+              "value": Object {
+                "shares_amount": "1000",
+                "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+              },
+            },
+          ],
+          "signatures": Array [
+            Object {
+              "account_number": "28",
+              "pub_key": Object {
+                "type": "AC26791624DE60",
+                "value": "70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=",
+              },
+              "sequence": "0",
+              "signature": Object {
+                "type": "6BF5903DA1DB28",
+                "value": "oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==",
+              },
+            },
+          ],
+        },
+      },
+    },
+    Object {
+      "hash": "not a real hash6",
+      "height": "567",
+      "tx": Object {
+        "result": Object {
+          "fee": Object {},
+          "gasUsed": "3324",
+          "tags": Array [
+            Object {
+              "key": "c2VuZGVy",
+              "value": "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==",
+            },
+            Object {
+              "key": "cmVjaXBpZW50",
+              "value": "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==",
+            },
+          ],
+        },
+        "type": "8EFE47F0625DE8",
+        "value": Object {
+          "fee": Object {
+            "amount": Array [
+              Object {
+                "amount": "0",
+                "denom": "",
+              },
+            ],
+            "gas": "500000",
+          },
+          "gas": "500000",
+          "msg": Array [
+            Object {
+              "type": "cosmos-sdk/BeginRedelegate",
+              "value": Object {
+                "shares_amount": "3",
+                "validator_dst_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
+                "validator_src_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+              },
+            },
+          ],
+          "signatures": Array [
+            Object {
+              "account_number": "28",
+              "pub_key": Object {
+                "type": "AC26791624DE60",
+                "value": "70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=",
+              },
+              "sequence": "0",
+              "signature": Object {
+                "type": "6BF5903DA1DB28",
+                "value": "oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==",
+              },
+            },
+          ],
+        },
+      },
+    },
+    Object {
+      "hash": "not a real hash7",
+      "height": "56673",
+      "tx": Object {
+        "result": Object {
+          "fee": Object {},
+          "gasUsed": "3324",
+          "tags": Array [
+            Object {
+              "key": "c2VuZGVy",
+              "value": "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==",
+            },
+            Object {
+              "key": "cmVjaXBpZW50",
+              "value": "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==",
+            },
+          ],
+        },
+        "type": "8EFE47F0625DE8",
+        "value": Object {
+          "fee": Object {
+            "amount": Array [
+              Object {
+                "amount": "0",
+                "denom": "",
+              },
+            ],
+            "gas": "500000",
+          },
+          "gas": "500000",
+          "msg": Array [
+            Object {
+              "type": "cosmos-sdk/MsgSubmitProposal",
+              "value": Object {
+                "description": "This is a test proposal",
+                "initial_deposit": Array [
+                  Object {
+                    "amount": "100",
+                    "denom": "stake",
+                  },
+                ],
+                "proposal_type": "Text",
+                "proposer": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+                "title": "Test Proposal",
+              },
+            },
+          ],
+          "signatures": Array [
+            Object {
+              "account_number": "28",
+              "pub_key": Object {
+                "type": "AC26791624DE60",
+                "value": "70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=",
+              },
+              "sequence": "0",
+              "signature": Object {
+                "type": "6BF5903DA1DB28",
+                "value": "oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==",
+              },
+            },
+          ],
+        },
+      },
+    },
+    Object {
+      "hash": "not a real hash8",
+      "height": "56675",
+      "tx": Object {
+        "result": Object {
+          "fee": Object {},
+          "gasUsed": "3324",
+          "tags": Array [
+            Object {
+              "key": "c2VuZGVy",
+              "value": "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==",
+            },
+            Object {
+              "key": "cmVjaXBpZW50",
+              "value": "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==",
+            },
+          ],
+        },
+        "type": "8EFE47F0625DE8",
+        "value": Object {
+          "fee": Object {
+            "amount": Array [
+              Object {
+                "amount": "0",
+                "denom": "",
+              },
+            ],
+            "gas": "500000",
+          },
+          "gas": "500000",
+          "msg": Array [
+            Object {
+              "type": "cosmos-sdk/MsgDeposit",
+              "value": Object {
+                "amount": Array [
+                  Object {
+                    "amount": "100",
+                    "denom": "stake",
+                  },
+                ],
+                "depositer": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+                "proposal_id": "1",
+              },
+            },
+          ],
+          "signatures": Array [
+            Object {
+              "account_number": "28",
+              "pub_key": Object {
+                "type": "AC26791624DE60",
+                "value": "70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=",
+              },
+              "sequence": "0",
               "signature": Object {
                 "type": "6BF5903DA1DB28",
                 "value": "oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==",
@@ -352,7 +650,6 @@ Array [
   Object {
     "hash": "999ADECC2DE8C3AC2FD4F45E5E1081747BBE504A",
     "height": 1,
-    "time": undefined,
     "tx": Object {
       "value": Object {
         "msg": Array [
@@ -391,7 +688,6 @@ Array [
   Object {
     "hash": "A7C6DE5CA923AF08E6088F1348047F16BABB9F48",
     "height": 150,
-    "time": undefined,
     "tx": Object {
       "value": Object {
         "msg": Array [
@@ -483,7 +779,6 @@ Array [
   Object {
     "hash": "QSDFGE5CA923AF08E6088F1348047F16BAHH8K31",
     "height": 56673,
-    "time": undefined,
     "tx": Object {
       "type": "8EFE47F0625DE8",
       "value": Object {
@@ -511,7 +806,6 @@ Array [
   Object {
     "hash": "QASDE5CA923AF08EEE38F1348047F16BAHH8K31",
     "height": 213,
-    "time": undefined,
     "tx": Object {
       "type": "8EFE47F0625DE8",
       "value": Object {

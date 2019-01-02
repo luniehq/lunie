@@ -1,28 +1,67 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`NISessionHardware has the expected html structure 1`] = `
-"<div class=\\"tm-session\\">
-   <div class=\\"tm-session-container\\">
-      <div class=\\"tm-session-header\\">
-         <a><i class=\\"material-icons\\">arrow_back</i></a>
-         <div class=\\"tm-session-title\\">
-            Sign In
-         </div>
-<a><i class=\\"material-icons\\">help_outline</i></a>
-</div>
-<div class=\\"tm-session-main\\">
-   <div class=\\"tm-hardware-state\\">
-      <i class=\\"tm-hardware-state__icon material-icons\\">usb</i>
-      <div class=\\"tm-hardware-state__label\\">
-         Please plug in your Ledger Wallet
+<div
+  class="tm-session"
+>
+  <div
+    class="tm-session-container"
+  >
+    <div
+      class="tm-session-header"
+    >
+      <a>
+        <i
+          class="material-icons"
+        >
+          arrow_back
+        </i>
+      </a>
+       
+      <div
+        class="tm-session-title"
+      >
+        Sign In
       </div>
+       
+      <a>
+        <i
+          class="material-icons"
+        >
+          help_outline
+        </i>
+      </a>
+    </div>
+     
+    <div
+      class="tm-session-main"
+    >
+      <div
+        class="tm-hardware-state"
+      >
+        <i
+          class="tm-hardware-state__icon material-icons"
+        >
+          usb
+        </i>
+         
+        <div
+          class="tm-hardware-state__label"
+        >
+          Please plug in your Ledger Wallet
+        </div>
+      </div>
+       
+      <!---->
+       
+      <!---->
+    </div>
+     
+    <div
+      class="tm-session-footer"
+    />
+  </div>
 </div>
-<!---->
-<!---->
-</div>
-<div class=\\"tm-session-footer\\"></div>
-</div>
-</div>"
 `;
 
 exports[`NISessionHardware should show a state indicator for different states of the hardware connection 1`] = `"<div class=\\"tm-session\\"><div class=\\"tm-session-container\\"><div class=\\"tm-session-header\\"><a><i class=\\"material-icons\\">arrow_back</i></a> <div class=\\"tm-session-title\\">Sign In</div> <a><i class=\\"material-icons\\">help_outline</i></a></div> <div class=\\"tm-session-main\\"><div class=\\"tm-hardware-state\\"><i class=\\"tm-hardware-state__icon material-icons\\">usb</i> <div class=\\"tm-hardware-state__label\\">Please plug in your Ledger Wallet</div></div> <!----> <!----></div> <div class=\\"tm-session-footer\\"></div></div></div>"`;

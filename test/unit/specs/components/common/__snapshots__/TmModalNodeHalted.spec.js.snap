@@ -49,7 +49,6 @@ exports[`TmModalNodeHalted has the expected html structure 1`] = `
           >
             autorenew
           </i>
-          <!---->
           <span
             class="tm-btn__value"
           >
@@ -71,7 +70,6 @@ exports[`TmModalNodeHalted has the expected html structure 1`] = `
           >
             pageview
           </i>
-          <!---->
           <span
             class="tm-btn__value"
           >

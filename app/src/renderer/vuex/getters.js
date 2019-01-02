@@ -17,7 +17,10 @@ export const onboarding = state => state.onboarding
 
 // wallet
 export const allTransactions = state =>
-  state.transactions.wallet.concat(state.transactions.staking)
+  state.transactions.wallet.concat(
+    state.transactions.staking,
+    state.transactions.governance
+  )
 export const wallet = state => state.wallet
 
 // staking

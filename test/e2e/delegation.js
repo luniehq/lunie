@@ -103,7 +103,8 @@ test(`delegation`, async function(t) {
     console.log(`Testing unbonded balance`)
     await waitForText(
       () => app.client.$(`.header-balance .unbonded-atoms h2`),
-      `${unbondedAtoms - 10}.0000…`
+      `${unbondedAtoms - 10}.0000…`,
+      10 * 1000
     )
     await closeNotifications(app)
 

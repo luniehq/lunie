@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TmUserPane has the expected html structure 1`] = `
-<a
+<router-link-stub
   class="tm-li tm-li-link tm-li-user"
-  href="#/preferences"
+  to="/preferences"
 >
   <div
     class="tm-li-container"
@@ -13,6 +13,7 @@ exports[`TmUserPane has the expected html structure 1`] = `
     >
       <!---->
     </div>
+     
     <div
       class="tm-li-label"
     >
@@ -21,12 +22,14 @@ exports[`TmUserPane has the expected html structure 1`] = `
       >
         Preferences
       </div>
+       
       <div
         class="tm-li-subtitle"
       >
         default
       </div>
     </div>
+     
     <div
       class="tm-li-icon"
     >
@@ -42,5 +45,5 @@ exports[`TmUserPane has the expected html structure 1`] = `
       </i>
     </div>
   </div>
-</a>
+</router-link-stub>
 `;

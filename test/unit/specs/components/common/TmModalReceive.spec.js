@@ -18,7 +18,6 @@ describe(`TmModalReceive`, () => {
 
   it(`should hide`, () => {
     wrapper.vm.close()
-    wrapper.update()
     expect(store.commit).toHaveBeenCalledWith(`setModalReceive`, false)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })

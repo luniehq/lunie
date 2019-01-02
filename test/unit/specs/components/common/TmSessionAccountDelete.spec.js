@@ -1,29 +1,21 @@
-import Vuex from "vuex"
-import Vuelidate from "vuelidate"
-import { mount, createLocalVue } from "@vue/test-utils"
-import htmlBeautify from "html-beautify"
+import setup from "../../../helpers/vuex-setup.js"
 import TmSessionAccountDelete from "common/TmSessionAccountDelete"
-
-const localVue = createLocalVue()
-localVue.use(Vuex)
-localVue.use(Vuelidate)
 
 describe(`TmSessionAccountDelete`, () => {
   let wrapper, store
 
   beforeEach(() => {
-    store = new Vuex.Store()
-    wrapper = mount(TmSessionAccountDelete, {
-      localVue,
-      store
-    })
+    let { mount } = setup()
+    let instance = mount(TmSessionAccountDelete)
+    wrapper = instance.wrapper
+    store = instance.store
+
     store.commit = jest.fn()
     store.dispatch = jest.fn(async () => true)
-    wrapper.update()
   })
 
   it(`has the expected html structure`, () => {
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should go back to the login screen on click`, () => {

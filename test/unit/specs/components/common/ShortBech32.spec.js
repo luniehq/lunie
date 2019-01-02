@@ -18,24 +18,21 @@ describe(`ShortBech32`, () => {
 
   it(`should return 'address not found'`, () => {
     wrapper.setProps({ address: null })
-    wrapper.update()
     expect(wrapper.vm.shortBech32).toBe(`Address Not Found`)
   })
 
   it(`should return a validation error message`, () => {
     wrapper.setProps({ address: `cosmosaddress2asdfasdfasdf` })
-    wrapper.update()
     expect(wrapper.vm.shortBech32).toBe(`Not A Valid Bech32 Address`)
   })
 
   it(`should return a short address with everything before the 1`, () => {
     wrapper.setProps({ address: `cosmosaddress1asdfasdfasdf` })
-    wrapper.update()
     expect(wrapper.vm.shortBech32).toBe(`cosmosaddress…asdf`)
   })
 
-  jest.useFakeTimers()
-  it(`clicking copy copies the address`, async () => {
+  it(`clicking copy copies the address`, () => {
+    jest.useFakeTimers()
     expect(
       wrapper
         .find(`.copied`)

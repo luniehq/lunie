@@ -42,15 +42,12 @@ export default ({ node }) => {
     initializeWallet({ commit, dispatch }, address) {
       commit(`setWalletAddress`, address)
       dispatch(`loadDenoms`)
-      dispatch(`queryWalletState`)
+      dispatch(`queryWalletBalances`)
       dispatch(`walletSubscribe`)
     },
     resetSessionData({ rootState }) {
       // clear previous account state
       rootState.wallet = JSON.parse(JSON.stringify(emptyState))
-    },
-    queryWalletState({ dispatch }) {
-      dispatch(`queryWalletBalances`)
     },
     async queryWalletBalances({ state, rootState, commit }) {
       if (!state.address) return
@@ -132,7 +129,7 @@ export default ({ node }) => {
         let interval = setInterval(() => {
           if (rootState.connection.lastHeader.height < height) return
           clearInterval(interval)
-          dispatch(`queryWalletState`)
+          dispatch(`queryWalletBalances`)
           resolve()
         }, 1000)
       })
@@ -151,6 +148,7 @@ export default ({ node }) => {
           console.error(`error subscribing to transactions`, error)
           return
         }
+        console.log(`TX: ` + JSON.stringify(event.data))
         dispatch(
           `queryWalletStateAfterHeight`,
           event.data.value.TxResult.height + 1

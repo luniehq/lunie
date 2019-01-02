@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { TmDataMsg } from "@tendermint/ui"
+import TmDataMsg from "common/TmDataMsg"
 export default {
   name: `tm-data-empty-search`,
   components: { TmDataMsg }

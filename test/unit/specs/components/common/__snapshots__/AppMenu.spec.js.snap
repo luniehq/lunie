@@ -1,45 +1,137 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`AppMenu has the expected html structure 1`] = `
-"<menu class=\\"app-menu\\">
-   <div class=\\"app-menu-main ps\\">
-      <a href=\\"#/\\" class=\\"app-menu-item router-link-exact-active router-link-active\\" id=\\"app-menu__wallet\\" title=\\"Wallet\\">
-      <h2 class=\\"app-menu-title\\">
-         Wallet
+<menu
+  class="app-menu"
+>
+  <div
+    class="app-menu-main"
+  >
+    <router-link-stub
+      class="app-menu-item"
+      exact="exact"
+      id="app-menu__wallet"
+      title="Wallet"
+      to="/"
+    >
+      <h2
+        class="app-menu-title"
+      >
+        Wallet
       </h2>
-      <i class=\\"material-icons\\">chevron_right</i></a><a href=\\"#/transactions\\" class=\\"app-menu-item\\" id=\\"app-menu__transactions\\" title=\\"Transactions\\">
-      <h2 class=\\"app-menu-title\\">
-         Transactions
+       
+      <i
+        class="material-icons"
+      >
+        chevron_right
+      </i>
+    </router-link-stub>
+     
+    <router-link-stub
+      class="app-menu-item"
+      exact="exact"
+      id="app-menu__transactions"
+      title="Transactions"
+      to="/transactions"
+    >
+      <h2
+        class="app-menu-title"
+      >
+        Transactions
       </h2>
-      <i class=\\"material-icons\\">chevron_right</i></a><a href=\\"#/staking\\" class=\\"app-menu-item\\" id=\\"app-menu__staking\\" title=\\"Staking\\">
-      <h2 class=\\"app-menu-title\\">
-         Staking
+       
+      <i
+        class="material-icons"
+      >
+        chevron_right
+      </i>
+    </router-link-stub>
+     
+    <router-link-stub
+      class="app-menu-item"
+      id="app-menu__staking"
+      title="Staking"
+      to="/staking"
+    >
+      <h2
+        class="app-menu-title"
+      >
+        Staking
       </h2>
-      <i class=\\"material-icons\\">chevron_right</i></a><a href=\\"#/governance\\" class=\\"app-menu-item\\" id=\\"app-menu__proposals\\" title=\\"Governance\\">
-      <h2 class=\\"app-menu-title\\">
-         Governance
+       
+      <i
+        class="material-icons"
+      >
+        chevron_right
+      </i>
+    </router-link-stub>
+     
+    <router-link-stub
+      class="app-menu-item"
+      id="app-menu__proposals"
+      title="Governance"
+      to="/governance"
+    >
+      <h2
+        class="app-menu-title"
+      >
+        Governance
       </h2>
-      <i class=\\"material-icons\\">chevron_right</i></a>
-      <div class=\\"ps__rail-x\\" style=\\"left: 0px; top: 0px;\\">
-         <div class=\\"ps__thumb-x\\" tabindex=\\"0\\" style=\\"left: 0px; width: 0px;\\"></div>
-</div>
-   <div class=\\"ps__rail-y\\" style=\\"top: 0px; left: 0px;\\">
-      <div class=\\"ps__thumb-y\\" tabindex=\\"0\\" style=\\"top: 0px; height: 0px;\\"></div>
-</div>
-</div>
-   <div id=\\"tm-connected-network\\" class=\\"tm-connected-network\\">
-      <div class=\\"tm-connected-network__connection\\">
-         <div id=\\"tm-connected-network__icon\\" class=\\"tm-connected-network__icon\\">
-            <i class=\\"material-icons\\">lock</i>
-         </div>
-   <div id=\\"tm-connected-network__string\\" class=\\"tm-connected-network__string\\">
-      <span class=\\"chain-id\\">chain_id</span>
-   </div>
-</div>
-   <div class=\\"tm-connected-network__string\\" id=\\"tm-connected-network__block\\">
+       
+      <i
+        class="material-icons"
+      >
+        chevron_right
+      </i>
+    </router-link-stub>
+  </div>
+   
+  <div
+    class="tm-connected-network"
+    id="tm-connected-network"
+  >
+    <div
+      class="tm-connected-network__connection"
+    >
+      <div
+        class="tm-connected-network__icon"
+        id="tm-connected-network__icon"
+      >
+        <i
+          class="material-icons"
+        >
+          lock
+        </i>
+      </div>
+       
+      <div
+        class="tm-connected-network__string"
+        id="tm-connected-network__string"
+      >
+        <span
+          class="chain-id"
+        >
+          chain_id
+        </span>
+      </div>
+    </div>
+     
+    <div
+      class="tm-connected-network__string"
+      id="tm-connected-network__block"
+    >
       <!---->
-      <a href=\\"https://explorecosmos.network/blocks/0\\">#0<i class=\\"material-icons exit\\">exit_to_app</i></a>
-   </div>
-</div>
-</menu>"
+      <a
+        href="https://explorecosmos.network/blocks/0"
+      >
+        #0
+        <i
+          class="material-icons exit"
+        >
+          exit_to_app
+        </i>
+      </a>
+    </div>
+  </div>
+</menu>
 `;

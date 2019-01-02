@@ -1,5 +1,4 @@
 import setup from "../../../helpers/vuex-setup"
-import Vuelidate from "vuelidate"
 import PageSend from "renderer/components/wallet/PageSend"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
@@ -21,14 +20,14 @@ describe(`PageSend`, () => {
     }
   ]
 
-  let { mount, localVue } = setup()
-  localVue.use(Vuelidate)
+  let { mount } = setup()
 
   beforeEach(async () => {
     let instance = mount(PageSend, {
       propsData: {
         denom: `fermion`
-      }
+      },
+      sync: false
     })
     wrapper = instance.wrapper
     store = instance.store
@@ -51,17 +50,10 @@ describe(`PageSend`, () => {
   })
 
   it(`has the expected html structure`, async () => {
-    // after importing the @tendermint/ui components from modules
-    // the perfect scroll plugin needs a $nextTick and a wrapper.update
-    // to work properly in the tests (snapshots weren't matching)
-    // this has occured across multiple tests
-    await wrapper.vm.$nextTick()
-    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should populate the select options with denoms`, () => {
-    wrapper.update()
     expect(
       wrapper
         .findAll(`option`)
@@ -82,16 +74,18 @@ describe(`PageSend`, () => {
     ).toBe(coins[1].denom.toUpperCase())
   })
 
-  it(`should work without providing a default denom`, () => {
-    let { wrapper, store } = mount(PageSend)
+  it(`should work without providing a default denom`, async () => {
+    let { wrapper, store } = mount(PageSend, {
+      sync: false
+    })
     store.commit(`setConnected`, true)
     store.commit(`setStakingParameters`, stakingParameters.parameters)
-    wrapper.update()
+    await wrapper.vm.$nextTick()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should show address required error`, async () => {
-    let { wrapper, store } = mount(PageSend)
+    let { wrapper, store } = mount(PageSend, { sync: false })
     store.commit(`setConnected`, true)
     store.commit(`setStakingParameters`, stakingParameters.parameters)
     wrapper.setData({
@@ -103,12 +97,11 @@ describe(`PageSend`, () => {
       }
     })
     wrapper.vm.onSubmit()
-    wrapper.update()
+    await wrapper.vm.$nextTick()
     expect(wrapper.vm.$v.$error).toBe(true)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
   it(`should show bech32 error when address length is too short`, async () => {
-    let { wrapper, store } = mount(PageSend)
     store.commit(`setConnected`, true)
     store.commit(`setStakingParameters`, stakingParameters.parameters)
     wrapper.setData({
@@ -120,12 +113,11 @@ describe(`PageSend`, () => {
       }
     })
     wrapper.vm.onSubmit()
-    wrapper.update()
+    await wrapper.vm.$nextTick()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should show bech32 error when address length is too long`, async () => {
-    let { wrapper, store } = mount(PageSend)
     store.commit(`setConnected`, true)
     store.commit(`setStakingParameters`, stakingParameters.parameters)
     wrapper.setData({
@@ -137,11 +129,10 @@ describe(`PageSend`, () => {
       }
     })
     wrapper.vm.onSubmit()
-    wrapper.update()
+    await wrapper.vm.$nextTick()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
   it(`should show bech32 error when alphanumeric is wrong`, async () => {
-    let { wrapper, store } = mount(PageSend)
     store.commit(`setConnected`, true)
     store.commit(`setStakingParameters`, stakingParameters.parameters)
     wrapper.setData({
@@ -153,13 +144,14 @@ describe(`PageSend`, () => {
       }
     })
     wrapper.vm.onSubmit()
-    wrapper.update()
+    await wrapper.vm.$nextTick()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should trigger confirmation modal if form is correct`, async () => {
     store.commit(`setStakingParameters`, stakingParameters.parameters)
-    wrapper.setProps({ denom: `mycoin` })
+    store.commit(`setConnected`, true)
+    store.commit(`setWalletBalances`, coins)
     wrapper.setData({
       fields: {
         denom: `mycoin`,
@@ -169,7 +161,7 @@ describe(`PageSend`, () => {
       }
     })
     wrapper.vm.onSubmit()
-    wrapper.update()
+    await wrapper.vm.$nextTick()
     expect(wrapper.vm.confirmationPending).toBe(true)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
@@ -228,9 +220,10 @@ describe(`PageSend`, () => {
         password: `1234567890`
       }
     })
+    await wrapper.vm.$nextTick()
     expect(wrapper.find(`#send-btn`).exists()).toBe(true)
     store.commit(`setConnected`, false)
-    wrapper.update()
+    await wrapper.vm.$nextTick()
     expect(wrapper.find(`#send-btn`).exists()).toBe(false)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })

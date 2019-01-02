@@ -10,6 +10,8 @@ describe(`DelegationModal`, () => {
   let { stakingParameters } = lcdClientMock.state
   let { mount, localVue } = setup()
   localVue.use(Vuelidate)
+  localVue.directive(`tooltip`, () => {})
+  localVue.directive(`focus`, () => {})
 
   beforeEach(() => {
     let instance = mount(DelegationModal, {
@@ -48,13 +50,10 @@ describe(`DelegationModal`, () => {
     wrapper = instance.wrapper
     store = instance.store
     store.commit(`setStakingParameters`, stakingParameters.parameters)
-    wrapper.update()
   })
 
   describe(`component matches snapshot`, () => {
     it(`has the expected html structure`, async () => {
-      await wrapper.vm.$nextTick()
-      wrapper.update()
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
   })
