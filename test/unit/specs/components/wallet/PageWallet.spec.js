@@ -17,8 +17,9 @@ describe(`PageWallet`, () => {
       },
       doBefore: ({ store }) => {
         store.commit(`setConnected`, true)
-      },
-      $store: { getters: { stakingParameters } }
+        store.commit(`setSearchQuery`, [`balances`, ``])
+        store.commit(`setStakingParameters`, stakingParameters.parameters)
+      }
     })
     wrapper = instance.wrapper
     store = instance.store
@@ -27,8 +28,6 @@ describe(`PageWallet`, () => {
       account: `default`,
       password: `1234567890`
     })
-    store.commit(`setSearchQuery`, [`balances`, ``])
-    store.state.stakingParameters = stakingParameters
     wrapper.update()
   })
 
@@ -38,6 +37,7 @@ describe(`PageWallet`, () => {
     // to work properly in the tests (snapshots weren't matching)
     // this has occured across multiple tests
     await wrapper.vm.$nextTick()
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
     wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
@@ -53,6 +53,8 @@ describe(`PageWallet`, () => {
   it(`should filter the balances`, async () => {
     store.commit(`setSearchVisible`, [`balances`, true])
     store.commit(`setSearchQuery`, [`balances`, `stake`])
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
+
     // after importing the @tendermint/ui components from modules
     // the perfect scroll plugin needs a $nextTick and a wrapper.update
     // to work properly in the tests (snapshots weren't matching)

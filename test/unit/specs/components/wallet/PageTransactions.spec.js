@@ -5,6 +5,8 @@ import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`PageTransactions`, () => {
   let wrapper, store
+  let { stakingParameters, txs } = lcdClientMock.state
+
   let { mount } = setup()
   beforeEach(async () => {
     let instance = mount(PageTransactions, {
@@ -25,8 +27,9 @@ describe(`PageTransactions`, () => {
     store.commit(`setConnected`, true)
     store.commit(`setWalletAddress`, `tb1d4u5zerywfjhxuc9nudvw`)
     store.commit(`setWalletTxs`, mockTransactions)
-    store.commit(`setStakingTxs`, lcdClientMock.state.txs.slice(4))
-    store.commit(`setGovernanceTxs`, lcdClientMock.state.txs.slice(2, 4))
+    store.commit(`setStakingTxs`, txs.slice(4))
+    store.commit(`setGovernanceTxs`, txs.slice(2, 4))
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
     wrapper.update()
   })
 

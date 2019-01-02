@@ -1,12 +1,14 @@
 import setup from "../../../helpers/vuex-setup"
 import Vuelidate from "vuelidate"
 import PageSend from "renderer/components/wallet/PageSend"
+import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`PageSend`, () => {
   let wrapper, store, node
   const name = `default`
   const password = `1234567890`
   const address = `tb1mjt6dcdru8lgdz64h2fu0lrzvd5zv8sfcvkv2l`
+  let { stakingParameters } = lcdClientMock.state
 
   const coins = [
     {
@@ -23,14 +25,18 @@ describe(`PageSend`, () => {
   localVue.use(Vuelidate)
 
   beforeEach(async () => {
-    let test = mount(PageSend, {
+    let instance = mount(PageSend, {
       propsData: {
         denom: `fermion`
       }
     })
-    wrapper = test.wrapper
-    store = test.store
-    node = test.node
+    wrapper = instance.wrapper
+    store = instance.store
+    node = instance.node
+    await store.dispatch(`signIn`, {
+      account: name,
+      password
+    })
     store.commit(`setAccounts`, [
       {
         address,
@@ -39,11 +45,8 @@ describe(`PageSend`, () => {
       }
     ])
     store.commit(`setConnected`, true)
-    await store.dispatch(`signIn`, {
-      account: name,
-      password
-    })
     store.commit(`setWalletBalances`, coins)
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
     store.commit(`setNonce`, `1`)
   })
 
@@ -82,6 +85,7 @@ describe(`PageSend`, () => {
   it(`should work without providing a default denom`, () => {
     let { wrapper, store } = mount(PageSend)
     store.commit(`setConnected`, true)
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
     wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
@@ -89,6 +93,7 @@ describe(`PageSend`, () => {
   it(`should show address required error`, async () => {
     let { wrapper, store } = mount(PageSend)
     store.commit(`setConnected`, true)
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
     wrapper.setData({
       fields: {
         denom: `mycoin`,
@@ -105,6 +110,7 @@ describe(`PageSend`, () => {
   it(`should show bech32 error when address length is too short`, async () => {
     let { wrapper, store } = mount(PageSend)
     store.commit(`setConnected`, true)
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
     wrapper.setData({
       fields: {
         denom: `mycoin`,
@@ -121,6 +127,7 @@ describe(`PageSend`, () => {
   it(`should show bech32 error when address length is too long`, async () => {
     let { wrapper, store } = mount(PageSend)
     store.commit(`setConnected`, true)
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
     wrapper.setData({
       fields: {
         denom: `mycoin`,
@@ -136,6 +143,7 @@ describe(`PageSend`, () => {
   it(`should show bech32 error when alphanumeric is wrong`, async () => {
     let { wrapper, store } = mount(PageSend)
     store.commit(`setConnected`, true)
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
     wrapper.setData({
       fields: {
         denom: `mycoin`,
@@ -150,13 +158,8 @@ describe(`PageSend`, () => {
   })
 
   it(`should trigger confirmation modal if form is correct`, async () => {
-    let { wrapper, store } = mount(PageSend, {
-      propsData: {
-        denom: `mycoin`
-      }
-    })
-    store.commit(`setConnected`, true)
-    store.commit(`setWalletBalances`, coins)
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
+    wrapper.setProps({ denom: `mycoin` })
     wrapper.setData({
       fields: {
         denom: `mycoin`,
@@ -216,6 +219,7 @@ describe(`PageSend`, () => {
   })
 
   it(`disables sending if not connected`, async () => {
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
     wrapper.setData({
       fields: {
         denom: `mycoin`,
