@@ -57,7 +57,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 - Changed minor component of version number to match testnet version. @NodeGuy
-- [\#1433](https://github.com/cosmos/voyager/issues/1433) Migrated to latest SDK commit 6c9e71b654995b22e3ba4d121553ab20432616a9. @faboweb
+- [\#1433](https://github.com/cosmos/voyager/issues/1433) Migrated to SDK 0.29. @faboweb
 - [\#1183](https://github.com/cosmos/voyager/issues/1183) Changed a bunch of JavaScript files to strict mode. @NodeGuy
 - Updated contribution guidelines. @faboweb
 - [\#1447](https://github.com/cosmos/voyager/issues/1447) Removed titles from all pages. @faboweb
@@ -67,7 +67,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1497](https://github.com/cosmos/voyager/issues/1451) Using an html table for table validators component @jbibla
 - [\#1496](https://github.com/cosmos/voyager/issues/1496) display validator pub_key instead of operator_address on livalidator and validator profile @jbibla
 - made running a local node easier by reducing it to 2 commands and presetting an account. @faboweb
-- [\#1504](https://github.com/cosmos/voyager/issues/1504) updates @tendermint/UI library to 0.4.3 @faboweb
 - [\#1410](https://github.com/cosmos/voyager/issues/1410) removed end undelegations as not needed in the SDK anymore
 - [\#1543](https://github.com/cosmos/voyager/issues/1543) updated unit tests to use `describe` and `it` instead of `test` @fedekunze
 - [\#1377](https://github.com/cosmos/voyager/issues/1377) deleted AppFooter page @fedekunze
