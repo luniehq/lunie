@@ -10,7 +10,6 @@ describe(`TmConnectedNetwork`, () => {
     store = instance.store
     wrapper = instance.wrapper
     wrapper.setData({ lastHeader: { chain_id: `Test Net`, height: 42 } })
-    await store.dispatch(`setMockedConnector`, true)
   })
 
   it(`has the expected html structure`, () => {
@@ -42,25 +41,6 @@ describe(`TmConnectedNetwork`, () => {
         .text()
         .trim()
     ).toContain(`#42`)
-  })
-
-  it(`has a certain style for mockedConnector`, () => {
-    expect(wrapper.find(`#tm-connected-network`).classes()).toContain(
-      `tm-connected-network--mocked`
-    )
-  })
-  it(`has a network tooltip for mockedConnector`, () => {
-    expect(wrapper.vm.networkTooltip).toBe(
-      `You're using the offline demo and are not connected to any real nodes.`
-    )
-  })
-
-  it(`has a chain id for mockedConnector`, () => {
-    expect(wrapper.vm.chainId).toBe(`Test Net`)
-  })
-
-  it(`has a block height for mockedConnector`, () => {
-    expect(wrapper.vm.blockHeight).toBe(`#42`)
   })
 
   it(`has link to the external block explorer`, () => {
@@ -103,29 +83,5 @@ describe(`TmConnectedNetwork`, () => {
     })
 
     expect(wrapper.vm.$el).toMatchSnapshot()
-  })
-
-  it(`networkTooltip`, () => {
-    expect(
-      TmConnectedNetwork.computed.networkTooltip({ mockedConnector: true })
-    ).toEqual(
-      `You\'re using the offline demo and are not connected to any real nodes.`
-    )
-
-    expect(
-      TmConnectedNetwork.computed.networkTooltip({
-        chainId: `chainId`,
-        connected: true,
-        nodeURL: `http://awesomenode.de`
-      })
-    ).toEqual(
-      `You\'re connected to the chainId testnet via node http://awesomenode.de.`
-    )
-
-    expect(
-      TmConnectedNetwork.computed.networkTooltip({
-        chainId: `chainId`
-      })
-    ).toEqual(`We\'re pinging nodes to try to connect you to chainId.`)
   })
 })

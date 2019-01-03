@@ -1,10 +1,5 @@
 <template>
-  <div
-    v-if="connected"
-    id="tm-connected-network"
-    :class="cssClass"
-    class="tm-connected-network"
-  >
+  <div v-if="connected" id="tm-connected-network" class="tm-connected-network">
     <div class="tm-connected-network__connection">
       <div id="tm-connected-network__icon" class="tm-connected-network__icon">
         <i class="material-icons">lock</i>
@@ -14,17 +9,13 @@
         class="tm-connected-network__string"
       >
         <span v-tooltip.top="networkTooltip" class="chain-id">{{
-          chainId
+          this.lastHeader.chain_id
         }}</span>
       </div>
     </div>
     <div id="tm-connected-network__block" class="tm-connected-network__string">
-      <span v-tooltip.top="'Current block number'" v-if="mockedConnector">{{
-        blockHeight
-      }}</span
-      ><a
+      <a
         v-tooltip.top="'View block details on the Cosmos explorer.'"
-        v-if="!mockedConnector"
         :href="explorerLink"
         >{{ blockHeight }}<i class="material-icons exit">exit_to_app</i></a
       >
@@ -40,7 +31,7 @@
       v-tooltip.top="networkTooltip"
       class="tm-connected-network__string tm-connected-network__string--connecting"
     >
-      Connecting to {{ chainId }}…
+      Connecting to {{ this.lastHeader.chain_id }}…
     </div>
   </div>
 </template>
@@ -55,27 +46,16 @@ export default {
     num: num
   }),
   computed: {
-    ...mapGetters([`lastHeader`, `nodeURL`, `connected`, `mockedConnector`]),
-    cssClass() {
-      if (this.mockedConnector) {
-        return `tm-connected-network--mocked`
+    ...mapGetters([`lastHeader`, `nodeURL`, `connected`]),
+    networkTooltip({ connected, nodeURL } = this) {
+      if (connected) {
+        return `You\'re connected to the ${
+          this.lastHeader.chain_id
+        } testnet via node ${nodeURL}.`
       }
-    },
-    networkTooltip({ mockedConnector, connected, nodeURL, chainId } = this) {
-      if (mockedConnector) {
-        return `You\'re using the offline demo and are not connected to any real nodes.`
-      } else if (connected) {
-        return `You\'re connected to the ${chainId} testnet via node ${nodeURL}.`
-      } else if (!mockedConnector && !connected) {
-        return `We\'re pinging nodes to try to connect you to ${chainId}.`
-      }
-    },
-    chainId() {
-      if (this.mockedConnector) {
-        return startCase(toLower(this.lastHeader.chain_id))
-      } else {
-        return this.lastHeader.chain_id
-      }
+      return `We\'re pinging nodes to try to connect you to ${
+        this.lastHeader.chain_id
+      }.`
     },
     blockHeight() {
       return `#` + num.prettyInt(this.lastHeader.height)

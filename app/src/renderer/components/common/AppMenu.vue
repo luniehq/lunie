@@ -13,7 +13,7 @@
         <i class="material-icons">chevron_right</i>
       </router-link>
       <router-link
-        v-if="config.devMode || mockedConnector"
+        v-if="config.devMode"
         id="app-menu__transactions"
         class="app-menu-item"
         to="/transactions"
@@ -65,7 +65,7 @@ export default {
     ps: {}
   }),
   computed: {
-    ...mapGetters([`validators`, `config`, `lastHeader`, `mockedConnector`])
+    ...mapGetters([`validators`, `config`, `lastHeader`])
   },
   mounted() {
     this.ps = new PerfectScrollbar(this.$el.querySelector(`.app-menu-main`))
