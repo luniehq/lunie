@@ -124,7 +124,7 @@ exports[`PageStaking has the expected html structure 1`] = `
           </div>
            
           <div
-            class="tm-tool-bar"
+            class="tool-bar"
           >
             <a
               class="back"
@@ -151,6 +151,7 @@ exports[`PageStaking has the expected html structure 1`] = `
                 search
               </i>
             </a>
+             
             <a
               class="help"
             >

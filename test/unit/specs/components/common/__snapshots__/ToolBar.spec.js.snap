@@ -2,7 +2,7 @@
 
 exports[`ToolBar has the expected html structure 1`] = `
 <div
-  class="tm-tool-bar"
+  class="tool-bar"
 >
   <a
     class="back"
@@ -14,7 +14,7 @@ exports[`ToolBar has the expected html structure 1`] = `
       arrow_back
     </i>
   </a>
-   
+    
   <a
     class="help"
   >

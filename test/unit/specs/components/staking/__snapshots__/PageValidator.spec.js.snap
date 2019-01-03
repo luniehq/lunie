@@ -96,7 +96,7 @@ exports[`PageValidator has the expected html structure 1`] = `
           </div>
            
           <div
-            class="tm-tool-bar"
+            class="tool-bar"
           >
             <a
               class="back"
@@ -108,7 +108,7 @@ exports[`PageValidator has the expected html structure 1`] = `
                 arrow_back
               </i>
             </a>
-             
+              
             <a
               class="help"
             >
@@ -615,7 +615,7 @@ exports[`PageValidator shows a default avatar 1`] = `
           </div>
            
           <div
-            class="tm-tool-bar"
+            class="tool-bar"
           >
             <a
               class="back"
@@ -627,7 +627,7 @@ exports[`PageValidator shows a default avatar 1`] = `
                 arrow_back
               </i>
             </a>
-             
+              
             <a
               class="help"
             >
@@ -1136,7 +1136,7 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
           </div>
            
           <div
-            class="tm-tool-bar"
+            class="tool-bar"
           >
             <a
               class="back"
@@ -1148,7 +1148,7 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
                 arrow_back
               </i>
             </a>
-             
+              
             <a
               class="help"
             >
@@ -1248,7 +1248,7 @@ exports[`delegationTargetOptions always shows wallet in the first position 1`] =
 Array [
   Object {
     "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-    "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
+    "key": "My Wallet - cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
     "maximum": 50,
     "value": 0,
   },
@@ -1259,7 +1259,7 @@ exports[`delegationTargetOptions hides displayed validator if bonded 1`] = `
 Array [
   Object {
     "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-    "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
+    "key": "My Wallet - cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
     "maximum": 50,
     "value": 0,
   },
@@ -1270,7 +1270,7 @@ exports[`delegationTargetOptions shows bonded validators for redelegation option
 Array [
   Object {
     "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-    "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
+    "key": "My Wallet - cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
     "maximum": 50,
     "value": 0,
   },
@@ -1379,7 +1379,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
           </div>
            
           <div
-            class="tm-tool-bar"
+            class="tool-bar"
           >
             <a
               class="back"
@@ -1391,7 +1391,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
                 arrow_back
               </i>
             </a>
-             
+              
             <a
               class="help"
             >
@@ -1965,7 +1965,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
           </div>
            
           <div
-            class="tm-tool-bar"
+            class="tool-bar"
           >
             <a
               class="back"
@@ -1977,7 +1977,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
                 arrow_back
               </i>
             </a>
-             
+              
             <a
               class="help"
             >
@@ -2484,7 +2484,7 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
           </div>
            
           <div
-            class="tm-tool-bar"
+            class="tool-bar"
           >
             <a
               class="back"
@@ -2496,7 +2496,7 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
                 arrow_back
               </i>
             </a>
-             
+              
             <a
               class="help"
             >
@@ -3070,7 +3070,7 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
           </div>
            
           <div
-            class="tm-tool-bar"
+            class="tool-bar"
           >
             <a
               class="back"
@@ -3082,7 +3082,7 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
                 arrow_back
               </i>
             </a>
-             
+              
             <a
               class="help"
             >

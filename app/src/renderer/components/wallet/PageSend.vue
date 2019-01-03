@@ -180,11 +180,7 @@ export default {
     showPassword: false
   }),
   computed: {
-<<<<<<< HEAD
-    ...mapGetters([`wallet`, `lastHeader`, `config`, `connected`]),
-=======
-    ...mapGetters([`wallet`, `config`, `mockedConnector`, `connected`]),
->>>>>>> created ActionModal component, now using action modal for send!!!
+    ...mapGetters([`wallet`, `mockedConnector`, `connected`]),
     max() {
       let denom = this.wallet.balances.find(b => b.denom === this.denom)
       return (denom && denom.amount) || 0

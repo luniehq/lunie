@@ -2,24 +2,24 @@
 
 exports[`ModalVote component matches snapshot has the expected html structure 1`] = `
 <div
-  class="modal-vote"
-  id="modal-vote"
+  class="action-modal modal-vote"
+  name="slide-fade"
 >
   <div
-    class="modal-vote-header"
+    class="action-modal-header"
   >
     <img
-      class="icon modal-vote-atom"
+      class="icon action-modal-atom"
       src="~assets/images/cosmos-logo.png"
     />
     <span
-      class="tm-modal-title"
+      class="action-modal-title"
     >
       Vote
     </span>
      
     <div
-      class="tm-modal-icon tm-modal-close"
+      class="action-modal-icon action-modal-close"
       id="closeBtn"
     >
       <i
@@ -30,157 +30,146 @@ exports[`ModalVote component matches snapshot has the expected html structure 1`
     </div>
   </div>
    
-  <div>
-    <h2>
-      Title: Proposal Title
-    </h2>
-     
-    <h3>
-      Proposal ID: #1
-    </h3>
-  </div>
-   
   <div
-    class="modal-vote-form-group options tm-form-group"
+    class="action-modal-form"
   >
-    <!---->
-    <!---->
-     
     <div
-      class="tm-form-group__field"
+      class="action-modal-group vote-options tm-form-group"
     >
-      <button
-        class="tm-btn"
-        id="vote-yes"
+      <!---->
+      <!---->
+       
+      <div
+        class="tm-form-group__field"
       >
-        <span
-          class="tm-btn__container tm-btn--size-md tm-btn--secondary"
+        <div
+          class="radio-container"
         >
-          <!---->
-          <span
-            class="tm-btn__value"
+          <input
+            id="vote-yes"
+            name="Yes"
+            type="radio"
+            value="Yes"
+          />
+           
+          <label
+            for="vote-yes"
           >
             Yes
-          </span>
-        </span>
-      </button>
-       
-      <button
-        class="tm-btn"
-        id="vote-no"
-      >
-        <span
-          class="tm-btn__container tm-btn--size-md tm-btn--secondary"
+          </label>
+        </div>
+         
+        <div
+          class="radio-container"
         >
-          <!---->
-          <span
-            class="tm-btn__value"
+          <input
+            id="vote-no"
+            name="No"
+            type="radio"
+            value="No"
+          />
+           
+          <label
+            for="vote-no"
           >
             No
-          </span>
-        </span>
-      </button>
-       
-      <button
-        class="tm-btn"
-        id="vote-veto"
-      >
-        <span
-          class="tm-btn__container tm-btn--size-md tm-btn--secondary"
+          </label>
+        </div>
+         
+        <div
+          class="radio-container"
         >
-          <!---->
-          <span
-            class="tm-btn__value"
+          <input
+            id="vote-veto"
+            name="NoWithVeto"
+            type="radio"
+            value="NoWithVeto"
+          />
+           
+          <label
+            for="vote-veto"
           >
             No With Veto
-          </span>
-        </span>
-      </button>
-       
-      <button
-        class="tm-btn"
-        id="vote-abstain"
-      >
-        <span
-          class="tm-btn__container tm-btn--size-md tm-btn--secondary"
+          </label>
+        </div>
+         
+        <div
+          class="radio-container"
         >
-          <!---->
-          <span
-            class="tm-btn__value"
+          <input
+            id="vote-abstain"
+            name="Abstain"
+            type="radio"
+            value="Abstain"
+          />
+           
+          <label
+            for="vote-abstain"
           >
             Abstain
-          </span>
-        </span>
-      </button>
-       
-      <hr />
+          </label>
+        </div>
+      </div>
     </div>
-  </div>
-   
-  <div
-    class="modal-vote-form-group tm-form-group"
-  >
-    <!---->
-    <label
-      class="tm-form-group__label"
-      for="password"
-    >
-      Account password
-    </label>
      
     <div
-      class="tm-form-group__field"
+      class="action-modal-group tm-form-group"
     >
-      <input
-        class="tm-field"
-        id="password"
-        placeholder="password..."
-        type="password"
-      />
-       
-      <input
-        id="showPasswordCheckbox"
-        type="checkbox"
-      />
-       
+      <!---->
       <label
-        for="showPasswordCheckbox"
+        class="tm-form-group__label"
+        for="password"
       >
-        Show password
+        Password
       </label>
+       
+      <div
+        class="tm-form-group__field"
+      >
+        <input
+          class="tm-field"
+          id="password"
+          placeholder="Password"
+          type="password"
+        />
+      </div>
+    </div>
+     
+    <div
+      class="action-modal-group tm-form-group"
+    >
+      <!---->
+      <!---->
+       
+      <div
+        class="tm-form-group__field"
+      >
+        <div
+          class="action-modal-footer"
+        >
+          <button
+            class="tm-btn"
+            disabled="disabled"
+            id="cast-vote"
+          >
+            <span
+              class="tm-btn__container tm-btn--primary"
+            >
+              <!---->
+              <span
+                class="tm-btn__value"
+              >
+                Vote
+              </span>
+            </span>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
    
   <div
-    class="modal-vote-form-group tm-form-group"
-  >
-    <!---->
-    <!---->
-     
-    <div
-      class="tm-form-group__field"
-    />
-  </div>
-   
-  <div
-    class="modal-vote-footer"
-  >
-    <button
-      class="tm-btn"
-      disabled="disabled"
-      id="cast-vote"
-    >
-      <span
-        class="tm-btn__container tm-btn--size-lg tm-btn--primary"
-      >
-        <!---->
-        <span
-          class="tm-btn__value"
-        >
-          Vote
-        </span>
-      </span>
-    </button>
-  </div>
+    class="action-modal-footer"
+  />
 </div>
 `;
