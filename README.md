@@ -11,15 +11,33 @@
 
 💻 Voyager runs on macOS 10.9+, Windows 7+, and Debian-based Linux distros.
 
-🎉 Binary releases are [available here](https://github.com/cosmos/voyager/releases). After downloading and untar/unzip-ing, navigate to the source directory and click on the `Cosmos Voyager` icon to launch Voyager.
+<!-- 🎉 Binary releases are [available here](https://github.com/cosmos/voyager/releases). After downloading and untar/unzip-ing, navigate to the source directory and click on the `Cosmos Voyager` icon to launch Voyager. -->
 
 # ⚠️ NO ACTIVE TESTNET ⚠️
 
-Currently there is no active testnet. You have to run a [local node](#local-node) to test Voyager out.
+Currently there is no active testnet. You have to [prepare Voyager](#prerequesists) and then run a [local node](#local-node) to test Voyager out. This is only recommended for developers.
 
 ---
 
-## Voyager Prerequisites
+## Voyager Prerequisites<a name="prerequesists"></a>
+
+### Check Out Voyager
+
+Voyager requires Node.js `>=10.13.0`. If you have a different version of Node.js installed (e.g. Node.js `8.11 LTS`), you can use `n` to install the correct version. The following command will use `n` to install it alongside your current version of Node.js.
+
+```bash
+npm i -g n && n 10.13.0
+```
+
+Yarn is a JS package packager we use manage Voyager dependencies. [Download it.](https://yarnpkg.com/lang/en/docs/install)
+
+With Node.js and Yarn installed, you're ready to check out the source code:
+
+```bash
+git clone https://github.com/cosmos/voyager.git
+cd voyager
+yarn install
+```
 
 ### Docker
 
@@ -43,24 +61,6 @@ To connect to a testnet, Voyager needs the configuration files of those networks
 
 ```bash
 yarn build:testnets
-```
-
-### Check Out Voyager
-
-Voyager requires Node.js `>=10.13.0`. If you have a different version of Node.js installed (e.g. Node.js `8.11 LTS`), you can use `n` to install the correct version. The following command will use `n` to install it alongside your current version of Node.js.
-
-```bash
-npm i -g n && n 10.13.0
-```
-
-Yarn is a JS package packager we use manage Voyager dependencies. [Download it.](https://yarnpkg.com/lang/en/docs/install)
-
-With Node.js and Yarn installed, you're ready to check out the source code:
-
-```bash
-git clone https://github.com/cosmos/voyager.git
-cd voyager
-yarn install
 ```
 
 ---
