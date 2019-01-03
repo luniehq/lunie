@@ -62,13 +62,13 @@ test(`delegation`, async function(t) {
   t.test(`Stake`, async t => {
     let totalAtoms = (await app.client
       .$(`.header-balance .total-atoms h2`)
-      .getText()).split(`.`)[0] // 30.000...
+      .getText()).split(`.`)[0] // 130.000...
     let unbondedAtoms = (await app.client
       .$(`.header-balance .unbonded-atoms h2`)
       .getText()).split(`.`)[0] // 30.000...
 
-    await t.equal(totalAtoms, `30`, `i have 30 Atoms`)
-    await t.equal(unbondedAtoms, `30`, `i have 30 unbbounded Atoms`)
+    await t.equal(totalAtoms, `130`, `i have 130 Atoms`)
+    await t.equal(unbondedAtoms, `30`, `i have 30 unbounded Atoms`)
     // Select the second validator.
     await app.client.click(`//*[. = 'local_2']`)
 
