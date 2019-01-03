@@ -137,13 +137,11 @@
 <script>
 import { required, minLength, sameAs } from "vuelidate/lib/validators"
 import PerfectScrollbar from "perfect-scrollbar"
-import {
-  TmBtn,
-  TmFormGroup,
-  TmFormStruct,
-  TmField,
-  TmFormMsg
-} from "@tendermint/ui"
+import TmBtn from "common/TmBtn"
+import TmFormGroup from "common/TmFormGroup"
+import TmFormStruct from "common/TmFormStruct"
+import TmField from "common/TmField"
+import TmFormMsg from "common/TmFormMsg"
 import FieldSeed from "common/TmFieldSeed"
 import { mapGetters } from "vuex"
 export default {

@@ -6,6 +6,7 @@
         <a
           v-tooltip.bottom="'Refresh'"
           :disabled="!connected"
+          class="refresh-button"
           @click="connected && refreshTransactions()"
         >
           <i class="material-icons">refresh</i>
@@ -13,6 +14,7 @@
         <a
           v-tooltip.bottom="'Search'"
           :disabled="!somethingToSearch"
+          class="search-button"
           @click="setSearch()"
         >
           <i class="material-icons">search</i>
@@ -34,12 +36,13 @@
         v-for="tx in filteredTransactions"
         slot="data-body"
         :validators="delegates.delegates"
-        :validator-url="validatorURL"
+        :validators-url="validatorURL"
         :proposals-url="proposalsURL"
         :key="tx.hash"
         :transaction="tx"
         :address="wallet.address"
         :bonding-denom="bondingDenom"
+        :unbonding-time="getUnbondingTime(tx)"
       />
     </managed-body>
   </tm-page>
@@ -51,7 +54,8 @@ import { mapGetters, mapState } from "vuex"
 import { includes, orderBy } from "lodash"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import TmBalance from "common/TmBalance"
-import { TmPage, TmLiAnyTransaction } from "@tendermint/ui"
+import TmPage from "common/TmPage"
+import TmLiAnyTransaction from "transactions/TmLiAnyTransaction"
 import ToolBar from "common/ToolBar"
 import ManagedBody from "../common/ManagedBody"
 export default {
@@ -82,15 +86,14 @@ export default {
       `bondingDenom`,
       `delegation`,
       `delegates`,
-      `connected`,
-      `validators`
+      `connected`
     ]),
     enrichedTransactions() {
       return this.allTransactions.map(this.enrichUnbondingTransactions)
     },
     orderedTransactions() {
       return orderBy(
-        this.enrichedTransactions.map(t => {
+        this.allTransactions.map(t => {
           t.height = parseInt(t.height)
           return t // TODO what happens if block height is bigger then int?
         }),
@@ -117,7 +120,7 @@ export default {
     refreshTransactions() {
       this.$store.dispatch(`getAllTxs`)
     },
-    enrichUnbondingTransactions(transaction) {
+    getUnbondingTime(transaction) {
       let copiedTransaction = JSON.parse(JSON.stringify(transaction))
       let type = copiedTransaction.tx.value.msg[0].type
       if (type === `cosmos-sdk/BeginUnbonding`) {
@@ -130,7 +133,7 @@ export default {
           unbondingDelegation.creation_height ===
             String(copiedTransaction.height)
         )
-          copiedTransaction.unbondingDelegation = unbondingDelegation
+          return new Date(unbondingDelegation.min_time).getTime()
       }
       return copiedTransaction
     }

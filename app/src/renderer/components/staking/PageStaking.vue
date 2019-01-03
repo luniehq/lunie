@@ -21,7 +21,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex"
 import Mousetrap from "mousetrap"
-import { TmPage } from "@tendermint/ui"
+import TmPage from "common/TmPage"
 import ModalSearch from "common/TmModalSearch"
 import PerfectScrollbar from "perfect-scrollbar"
 import ToolBar from "common/ToolBar"

@@ -1,9 +1,7 @@
 import Vuex from "vuex"
-import VueRouter from "vue-router"
+import Vuelidate from "vuelidate"
 import { shallow, mount, createLocalVue } from "@vue/test-utils"
 import { getCommits, getDispatches } from "./vuex-helpers.js"
-
-import routes from "renderer/routes"
 
 const Modules = require(`renderer/vuex/modules`).default
 const Getters = require(`renderer/vuex/getters`)
@@ -11,17 +9,19 @@ const Getters = require(`renderer/vuex/getters`)
 export default function vuexSetup() {
   const localVue = createLocalVue()
   localVue.use(Vuex)
-  localVue.use(VueRouter)
+  localVue.use(Vuelidate)
+  localVue.directive(`tooltip`, () => {})
+  localVue.directive(`focus`, () => {})
 
   function init(
     componentConstructor,
     testType = shallow,
-    { stubs, getters = {}, propsData, methods, doBefore = () => {} } // doBefore receives router and store
+    { doBefore = () => {}, ...args } // doBefore receives store
   ) {
     const node = Object.assign({}, require(`../helpers/node_mock`))
     const modules = Modules({ node })
     let store = new Vuex.Store({
-      getters: Object.assign({}, Getters, getters),
+      getters: Object.assign({}, Getters, args.getters),
       modules,
       actions: {
         loadPersistedState: () => {}
@@ -36,56 +36,39 @@ export default function vuexSetup() {
     store.getCommits = getCommits.bind(this, store)
     store.getDispatches = getDispatches.bind(this, store)
 
-    let router = new VueRouter({ routes })
-    router.beforeEach((to, from, next) => {
-      if (from.fullPath !== to.fullPath && !store.getters.user.pauseHistory)
-        store.commit(`addHistory`, from.fullPath)
-      next()
-    })
-
-    // execute some preparation logic on the store or router before mounting
-    doBefore({ store, router })
+    doBefore({ store })
 
     return {
       node,
       store,
-      router,
       wrapper:
         componentConstructor &&
         testType(componentConstructor, {
+          ...args,
           localVue,
           store,
-          router,
-          stubs,
-          propsData,
-          methods
+          stubs: Object.assign(
+            {
+              "router-link": true,
+              "router-view": true
+            },
+            args.stubs
+          ),
+          mocks: Object.assign(
+            {
+              $route: {}
+            },
+            args.mocks
+          )
         })
     }
   }
 
   return {
     localVue,
-    shallow: (
-      componentConstructor,
-      { stubs, getters, propsData, methods, doBefore } = {}
-    ) =>
-      init(componentConstructor, shallow, {
-        stubs,
-        getters,
-        propsData,
-        methods,
-        doBefore
-      }),
-    mount: (
-      componentConstructor,
-      { stubs, getters, propsData, methods, doBefore } = {}
-    ) =>
-      init(componentConstructor, mount, {
-        stubs,
-        getters,
-        propsData,
-        methods,
-        doBefore
-      })
+    shallow: (componentConstructor, args = {}) =>
+      init(componentConstructor, shallow, args),
+    mount: (componentConstructor, args = {}) =>
+      init(componentConstructor, mount, args)
   }
 }

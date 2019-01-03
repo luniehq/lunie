@@ -27,7 +27,8 @@
 </template>
 
 <script>
-import { TmBtn, TmListItem } from "@tendermint/ui"
+import TmListItem from "common/TmListItem"
+import TmBtn from "common/TmBtn"
 import Modal from "common/TmModal"
 export default {
   name: `tm-modal-send-confirmation`,

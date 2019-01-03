@@ -1,4 +1,5 @@
 import * as Sentry from "@sentry/browser"
+import Vue from "vue"
 
 export default ({ node }) => {
   const state = {
@@ -10,7 +11,7 @@ export default ({ node }) => {
 
   const mutations = {
     setProposalDeposits(state, proposalId, deposits) {
-      state.deposits[proposalId] = deposits
+      Vue.set(state.deposits, proposalId, deposits)
     }
   }
   let actions = {

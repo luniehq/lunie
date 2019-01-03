@@ -45,7 +45,7 @@ export default ({ node }) => {
         state.loading = true
         blockMetaInfo = await new Promise((resolve, reject) => {
           node.rpc.blockchain(
-            { minHeight: height, maxHeight: height },
+            { minHeight: String(height), maxHeight: String(height) },
             (error, data) => {
               if (error) {
                 reject(`Couldn't query block. ${error.message}`)

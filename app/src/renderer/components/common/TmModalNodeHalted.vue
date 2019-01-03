@@ -33,7 +33,7 @@
 
 <script>
 import { ipcRenderer } from "electron"
-import { TmBtn } from "@tendermint/ui"
+import TmBtn from "common/TmBtn"
 export default {
   name: `modal-node-halted`,
   components: { TmBtn },

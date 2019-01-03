@@ -8,7 +8,7 @@ exports[`LiCoin has the expected html structure 1`] = `
     class="li-coin__icon"
   >
     <img
-      src="../../assets/images/cosmos-logo.png"
+      src="~assets/images/cosmos-logo.png"
     />
   </div>
    
@@ -35,9 +35,8 @@ exports[`LiCoin has the expected html structure 1`] = `
       </p>
     </div>
      
-    <a
-      class=""
-      href="#/wallet/send/stake"
+    <router-link-stub
+      to="[object Object]"
     >
       <button
         class="tm-btn sendTx-btn"
@@ -51,7 +50,6 @@ exports[`LiCoin has the expected html structure 1`] = `
           >
             chevron_right
           </i>
-          <!---->
           <span
             class="tm-btn__value"
           >
@@ -59,7 +57,7 @@ exports[`LiCoin has the expected html structure 1`] = `
           </span>
         </span>
       </button>
-    </a>
+    </router-link-stub>
   </div>
 </li>
 `;

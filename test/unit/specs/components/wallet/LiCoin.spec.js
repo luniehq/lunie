@@ -16,7 +16,6 @@ describe(`LiCoin`, () => {
       }
     })
     wrapper = instance.wrapper
-    wrapper.update()
   })
 
   it(`has the expected html structure`, () => {

@@ -13,7 +13,7 @@
 <script>
 import { mapGetters } from "vuex"
 import noScroll from "no-scroll"
-import { TmListItem } from "@tendermint/ui"
+import TmListItem from "common/TmListItem"
 export default {
   name: `tm-user-pane`,
   components: { TmListItem },

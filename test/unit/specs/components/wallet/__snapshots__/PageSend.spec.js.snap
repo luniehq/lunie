@@ -15,7 +15,9 @@ exports[`PageSend disables sending if not connected 1`] = `
         class="tm-page-header-text"
       >
         <!---->
+         
         <!---->
+         
         <div
           class="tm-page-header-body"
         >
@@ -117,17 +119,16 @@ exports[`PageSend disables sending if not connected 1`] = `
               </i>
             </a>
              
-            <a
-              class=""
-              href="#/preferences"
+            <router-link-stub
               id="settings"
+              to="/preferences"
             >
               <i
                 class="material-icons"
               >
                 settings
               </i>
-            </a>
+            </router-link-stub>
             <a
               id="signOut-btn"
             >
@@ -140,6 +141,7 @@ exports[`PageSend disables sending if not connected 1`] = `
           </div>
         </div>
       </div>
+       
       <menu
         class="tm-page-header-menu"
       >
@@ -147,6 +149,7 @@ exports[`PageSend disables sending if not connected 1`] = `
       </menu>
     </div>
   </header>
+   
   <main
     class="tm-page-main"
   >
@@ -157,7 +160,9 @@ exports[`PageSend disables sending if not connected 1`] = `
       <div
         class="tm-form-container"
       >
+         
         <!---->
+         
         <main
           class="tm-form-main"
         >
@@ -178,11 +183,13 @@ exports[`PageSend disables sending if not connected 1`] = `
                   >
                     Denomination Options
                   </div>
+                   
                   <menu
                     class="tm-part-menu"
                   />
                 </div>
               </header>
+               
               <main
                 class="tm-part-main"
               >
@@ -196,6 +203,7 @@ exports[`PageSend disables sending if not connected 1`] = `
                   >
                     Denomination
                   </label>
+                   
                   <div
                     class="tm-form-group__field"
                   >
@@ -214,6 +222,7 @@ exports[`PageSend disables sending if not connected 1`] = `
                         >
                           Select token...
                         </option>
+                         
                         <option
                           value="mycoin"
                         >
@@ -225,6 +234,7 @@ exports[`PageSend disables sending if not connected 1`] = `
                           FERMION
                         </option>
                       </select>
+                       
                       <div
                         class="tm-field-select-addon"
                       >
@@ -260,11 +270,13 @@ exports[`PageSend disables sending if not connected 1`] = `
                   >
                     Transaction Details
                   </div>
+                   
                   <menu
                     class="tm-part-menu"
                   />
                 </div>
               </header>
+               
               <main
                 class="tm-part-main"
               >
@@ -278,6 +290,7 @@ exports[`PageSend disables sending if not connected 1`] = `
                   >
                     Send To
                   </label>
+                   
                   <div
                     class="tm-form-group__field"
                   >
@@ -306,6 +319,7 @@ exports[`PageSend disables sending if not connected 1`] = `
                   >
                     Amount
                   </label>
+                   
                   <div
                     class="tm-form-group__field"
                   >
@@ -344,6 +358,7 @@ exports[`PageSend disables sending if not connected 1`] = `
               class="tm-part-container"
             >
               <!---->
+               
               <main
                 class="tm-part-main"
               >
@@ -357,6 +372,7 @@ exports[`PageSend disables sending if not connected 1`] = `
                   >
                     Account password
                   </label>
+                   
                   <div
                     class="tm-form-group__field"
                   >
@@ -386,6 +402,7 @@ exports[`PageSend disables sending if not connected 1`] = `
           </section>
            
         </main>
+         
         <footer
           class="tm-form-footer"
         >
@@ -397,7 +414,6 @@ exports[`PageSend disables sending if not connected 1`] = `
               <span
                 class="tm-btn__container tm-btn--primary"
               >
-                <!---->
                 <!---->
                 <span
                   class="tm-btn__value"
@@ -431,7 +447,9 @@ exports[`PageSend has the expected html structure 1`] = `
         class="tm-page-header-text"
       >
         <!---->
+         
         <!---->
+         
         <div
           class="tm-page-header-body"
         >
@@ -533,17 +551,16 @@ exports[`PageSend has the expected html structure 1`] = `
               </i>
             </a>
              
-            <a
-              class=""
-              href="#/preferences"
+            <router-link-stub
               id="settings"
+              to="/preferences"
             >
               <i
                 class="material-icons"
               >
                 settings
               </i>
-            </a>
+            </router-link-stub>
             <a
               id="signOut-btn"
             >
@@ -556,6 +573,7 @@ exports[`PageSend has the expected html structure 1`] = `
           </div>
         </div>
       </div>
+       
       <menu
         class="tm-page-header-menu"
       >
@@ -563,8 +581,9 @@ exports[`PageSend has the expected html structure 1`] = `
       </menu>
     </div>
   </header>
+   
   <main
-    class="tm-page-main ps"
+    class="tm-page-main"
   >
      
     <form
@@ -573,7 +592,9 @@ exports[`PageSend has the expected html structure 1`] = `
       <div
         class="tm-form-container"
       >
+         
         <!---->
+         
         <main
           class="tm-form-main"
         >
@@ -594,11 +615,13 @@ exports[`PageSend has the expected html structure 1`] = `
                   >
                     Denomination Options
                   </div>
+                   
                   <menu
                     class="tm-part-menu"
                   />
                 </div>
               </header>
+               
               <main
                 class="tm-part-main"
               >
@@ -612,6 +635,7 @@ exports[`PageSend has the expected html structure 1`] = `
                   >
                     Denomination
                   </label>
+                   
                   <div
                     class="tm-form-group__field"
                   >
@@ -630,6 +654,7 @@ exports[`PageSend has the expected html structure 1`] = `
                         >
                           Select token...
                         </option>
+                         
                         <option
                           value="mycoin"
                         >
@@ -641,6 +666,7 @@ exports[`PageSend has the expected html structure 1`] = `
                           FERMION
                         </option>
                       </select>
+                       
                       <div
                         class="tm-field-select-addon"
                       >
@@ -676,16 +702,18 @@ exports[`PageSend has the expected html structure 1`] = `
                   >
                     Transaction Details
                   </div>
+                   
                   <menu
                     class="tm-part-menu"
                   />
                 </div>
               </header>
+               
               <main
                 class="tm-part-main"
               >
                 <div
-                  class="tm-form-group tm-form-group--error"
+                  class="tm-form-group"
                 >
                   <!---->
                   <label
@@ -694,6 +722,7 @@ exports[`PageSend has the expected html structure 1`] = `
                   >
                     Send To
                   </label>
+                   
                   <div
                     class="tm-form-group__field"
                   >
@@ -722,6 +751,7 @@ exports[`PageSend has the expected html structure 1`] = `
                   >
                     Amount
                   </label>
+                   
                   <div
                     class="tm-form-group__field"
                   >
@@ -760,6 +790,7 @@ exports[`PageSend has the expected html structure 1`] = `
               class="tm-part-container"
             >
               <!---->
+               
               <main
                 class="tm-part-main"
               >
@@ -773,6 +804,7 @@ exports[`PageSend has the expected html structure 1`] = `
                   >
                     Account password
                   </label>
+                   
                   <div
                     class="tm-form-group__field"
                   >
@@ -806,6 +838,7 @@ exports[`PageSend has the expected html structure 1`] = `
           </section>
            
         </main>
+         
         <footer
           class="tm-form-footer"
         >
@@ -817,7 +850,6 @@ exports[`PageSend has the expected html structure 1`] = `
               <span
                 class="tm-btn__container tm-btn--primary"
               >
-                <!---->
                 <!---->
                 <span
                   class="tm-btn__value"
@@ -832,26 +864,6 @@ exports[`PageSend has the expected html structure 1`] = `
     </form>
      
     <!---->
-    <div
-      class="ps__rail-x"
-      style="left: 0px; top: 0px;"
-    >
-      <div
-        class="ps__thumb-x"
-        style="left: 0px; width: 0px;"
-        tabindex="0"
-      />
-    </div>
-    <div
-      class="ps__rail-y"
-      style="top: 0px; left: 0px;"
-    >
-      <div
-        class="ps__thumb-y"
-        style="top: 0px; height: 0px;"
-        tabindex="0"
-      />
-    </div>
   </main>
 </div>
 `;
@@ -871,7 +883,9 @@ exports[`PageSend should show address required error 1`] = `
         class="tm-page-header-text"
       >
         <!---->
+         
         <!---->
+         
         <div
           class="tm-page-header-body"
         >
@@ -973,17 +987,16 @@ exports[`PageSend should show address required error 1`] = `
               </i>
             </a>
              
-            <a
-              class=""
-              href="#/preferences"
+            <router-link-stub
               id="settings"
+              to="/preferences"
             >
               <i
                 class="material-icons"
               >
                 settings
               </i>
-            </a>
+            </router-link-stub>
             <a
               id="signOut-btn"
             >
@@ -996,6 +1009,7 @@ exports[`PageSend should show address required error 1`] = `
           </div>
         </div>
       </div>
+       
       <menu
         class="tm-page-header-menu"
       >
@@ -1003,6 +1017,7 @@ exports[`PageSend should show address required error 1`] = `
       </menu>
     </div>
   </header>
+   
   <main
     class="tm-page-main"
   >
@@ -1013,7 +1028,9 @@ exports[`PageSend should show address required error 1`] = `
       <div
         class="tm-form-container"
       >
+         
         <!---->
+         
         <main
           class="tm-form-main"
         >
@@ -1034,11 +1051,13 @@ exports[`PageSend should show address required error 1`] = `
                   >
                     Denomination Options
                   </div>
+                   
                   <menu
                     class="tm-part-menu"
                   />
                 </div>
               </header>
+               
               <main
                 class="tm-part-main"
               >
@@ -1052,6 +1071,7 @@ exports[`PageSend should show address required error 1`] = `
                   >
                     Denomination
                   </label>
+                   
                   <div
                     class="tm-form-group__field"
                   >
@@ -1070,7 +1090,9 @@ exports[`PageSend should show address required error 1`] = `
                         >
                           Select token...
                         </option>
+                         
                       </select>
+                       
                       <div
                         class="tm-field-select-addon"
                       >
@@ -1106,11 +1128,13 @@ exports[`PageSend should show address required error 1`] = `
                   >
                     Transaction Details
                   </div>
+                   
                   <menu
                     class="tm-part-menu"
                   />
                 </div>
               </header>
+               
               <main
                 class="tm-part-main"
               >
@@ -1124,6 +1148,7 @@ exports[`PageSend should show address required error 1`] = `
                   >
                     Send To
                   </label>
+                   
                   <div
                     class="tm-form-group__field"
                   >
@@ -1156,6 +1181,7 @@ exports[`PageSend should show address required error 1`] = `
                   >
                     Amount
                   </label>
+                   
                   <div
                     class="tm-form-group__field"
                   >
@@ -1198,6 +1224,7 @@ exports[`PageSend should show address required error 1`] = `
               class="tm-part-container"
             >
               <!---->
+               
               <main
                 class="tm-part-main"
               >
@@ -1211,6 +1238,7 @@ exports[`PageSend should show address required error 1`] = `
                   >
                     Account password
                   </label>
+                   
                   <div
                     class="tm-form-group__field"
                   >
@@ -1240,6 +1268,7 @@ exports[`PageSend should show address required error 1`] = `
           </section>
            
         </main>
+         
         <footer
           class="tm-form-footer"
         >
@@ -1251,7 +1280,6 @@ exports[`PageSend should show address required error 1`] = `
               <span
                 class="tm-btn__container tm-btn--primary"
               >
-                <!---->
                 <!---->
                 <span
                   class="tm-btn__value"
@@ -1285,7 +1313,9 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
         class="tm-page-header-text"
       >
         <!---->
+         
         <!---->
+         
         <div
           class="tm-page-header-body"
         >
@@ -1314,7 +1344,7 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                 <h2
                   class="total-atoms__value"
                 >
-                  0.0000…
+                  1,000.0000…
                 </h2>
               </div>
                
@@ -1326,7 +1356,7 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                 </h3>
                  
                 <h2>
-                  0.0000…
+                  1,000.0000…
                 </h2>
               </div>
             </div>
@@ -1339,7 +1369,7 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                 id="address"
               >
                 
-    Address Not Found
+    cosmos…xxn9
   
               </div>
                
@@ -1387,17 +1417,16 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
               </i>
             </a>
              
-            <a
-              class=""
-              href="#/preferences"
+            <router-link-stub
               id="settings"
+              to="/preferences"
             >
               <i
                 class="material-icons"
               >
                 settings
               </i>
-            </a>
+            </router-link-stub>
             <a
               id="signOut-btn"
             >
@@ -1410,6 +1439,7 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
           </div>
         </div>
       </div>
+       
       <menu
         class="tm-page-header-menu"
       >
@@ -1417,6 +1447,7 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
       </menu>
     </div>
   </header>
+   
   <main
     class="tm-page-main"
   >
@@ -1427,7 +1458,9 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
       <div
         class="tm-form-container"
       >
+         
         <!---->
+         
         <main
           class="tm-form-main"
         >
@@ -1448,11 +1481,13 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                   >
                     Denomination Options
                   </div>
+                   
                   <menu
                     class="tm-part-menu"
                   />
                 </div>
               </header>
+               
               <main
                 class="tm-part-main"
               >
@@ -1466,6 +1501,7 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                   >
                     Denomination
                   </label>
+                   
                   <div
                     class="tm-form-group__field"
                   >
@@ -1484,7 +1520,19 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                         >
                           Select token...
                         </option>
+                         
+                        <option
+                          value="mycoin"
+                        >
+                          MYCOIN
+                        </option>
+                        <option
+                          value="fermion"
+                        >
+                          FERMION
+                        </option>
                       </select>
+                       
                       <div
                         class="tm-field-select-addon"
                       >
@@ -1520,11 +1568,13 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                   >
                     Transaction Details
                   </div>
+                   
                   <menu
                     class="tm-part-menu"
                   />
                 </div>
               </header>
+               
               <main
                 class="tm-part-main"
               >
@@ -1538,6 +1588,7 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                   >
                     Send To
                   </label>
+                   
                   <div
                     class="tm-form-group__field"
                   >
@@ -1555,13 +1606,13 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                     <div
                       class="tm-form-msg sm tm-form-msg--error"
                     >
-                      Address is invalid (No separator character for asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf)
+                      Address is invalid bech32
                     </div>
                   </div>
                 </div>
                  
                 <div
-                  class="tm-form-group tm-form-group--error"
+                  class="tm-form-group"
                 >
                   <!---->
                   <label
@@ -1570,6 +1621,7 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                   >
                     Amount
                   </label>
+                   
                   <div
                     class="tm-form-group__field"
                   >
@@ -1579,8 +1631,8 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                       <input
                         class="tm-field"
                         id="send-amount"
-                        max="0"
-                        min="0"
+                        max="2300"
+                        min="1"
                         placeholder="Amount"
                         type="number"
                       />
@@ -1588,11 +1640,7 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                      
                     <!---->
                      
-                    <div
-                      class="tm-form-msg sm tm-form-msg--error"
-                    >
-                      Amount must be between 0 and 0
-                    </div>
+                    <!---->
                   </div>
                 </div>
                  
@@ -1612,6 +1660,7 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
               class="tm-part-container"
             >
               <!---->
+               
               <main
                 class="tm-part-main"
               >
@@ -1625,6 +1674,7 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                   >
                     Account password
                   </label>
+                   
                   <div
                     class="tm-form-group__field"
                   >
@@ -1654,6 +1704,7 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
           </section>
            
         </main>
+         
         <footer
           class="tm-form-footer"
         >
@@ -1665,7 +1716,6 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
               <span
                 class="tm-btn__container tm-btn--primary"
               >
-                <!---->
                 <!---->
                 <span
                   class="tm-btn__value"
@@ -1699,7 +1749,9 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
         class="tm-page-header-text"
       >
         <!---->
+         
         <!---->
+         
         <div
           class="tm-page-header-body"
         >
@@ -1728,7 +1780,7 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                 <h2
                   class="total-atoms__value"
                 >
-                  0.0000…
+                  1,000.0000…
                 </h2>
               </div>
                
@@ -1740,7 +1792,7 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                 </h3>
                  
                 <h2>
-                  0.0000…
+                  1,000.0000…
                 </h2>
               </div>
             </div>
@@ -1753,7 +1805,7 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                 id="address"
               >
                 
-    Address Not Found
+    cosmos…xxn9
   
               </div>
                
@@ -1801,17 +1853,16 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
               </i>
             </a>
              
-            <a
-              class=""
-              href="#/preferences"
+            <router-link-stub
               id="settings"
+              to="/preferences"
             >
               <i
                 class="material-icons"
               >
                 settings
               </i>
-            </a>
+            </router-link-stub>
             <a
               id="signOut-btn"
             >
@@ -1824,6 +1875,7 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
           </div>
         </div>
       </div>
+       
       <menu
         class="tm-page-header-menu"
       >
@@ -1831,6 +1883,7 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
       </menu>
     </div>
   </header>
+   
   <main
     class="tm-page-main"
   >
@@ -1841,7 +1894,9 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
       <div
         class="tm-form-container"
       >
+         
         <!---->
+         
         <main
           class="tm-form-main"
         >
@@ -1862,11 +1917,13 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                   >
                     Denomination Options
                   </div>
+                   
                   <menu
                     class="tm-part-menu"
                   />
                 </div>
               </header>
+               
               <main
                 class="tm-part-main"
               >
@@ -1880,6 +1937,7 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                   >
                     Denomination
                   </label>
+                   
                   <div
                     class="tm-form-group__field"
                   >
@@ -1898,7 +1956,19 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                         >
                           Select token...
                         </option>
+                         
+                        <option
+                          value="mycoin"
+                        >
+                          MYCOIN
+                        </option>
+                        <option
+                          value="fermion"
+                        >
+                          FERMION
+                        </option>
                       </select>
+                       
                       <div
                         class="tm-field-select-addon"
                       >
@@ -1934,11 +2004,13 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                   >
                     Transaction Details
                   </div>
+                   
                   <menu
                     class="tm-part-menu"
                   />
                 </div>
               </header>
+               
               <main
                 class="tm-part-main"
               >
@@ -1952,6 +2024,7 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                   >
                     Send To
                   </label>
+                   
                   <div
                     class="tm-form-group__field"
                   >
@@ -1969,13 +2042,13 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                     <div
                       class="tm-form-msg sm tm-form-msg--error"
                     >
-                      Address is invalid (asdf too short)
+                      Address is invalid bech32
                     </div>
                   </div>
                 </div>
                  
                 <div
-                  class="tm-form-group tm-form-group--error"
+                  class="tm-form-group"
                 >
                   <!---->
                   <label
@@ -1984,6 +2057,7 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                   >
                     Amount
                   </label>
+                   
                   <div
                     class="tm-form-group__field"
                   >
@@ -1993,8 +2067,8 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                       <input
                         class="tm-field"
                         id="send-amount"
-                        max="0"
-                        min="0"
+                        max="2300"
+                        min="1"
                         placeholder="Amount"
                         type="number"
                       />
@@ -2002,11 +2076,7 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                      
                     <!---->
                      
-                    <div
-                      class="tm-form-msg sm tm-form-msg--error"
-                    >
-                      Amount must be between 0 and 0
-                    </div>
+                    <!---->
                   </div>
                 </div>
                  
@@ -2026,6 +2096,7 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
               class="tm-part-container"
             >
               <!---->
+               
               <main
                 class="tm-part-main"
               >
@@ -2039,6 +2110,7 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                   >
                     Account password
                   </label>
+                   
                   <div
                     class="tm-form-group__field"
                   >
@@ -2068,6 +2140,7 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
           </section>
            
         </main>
+         
         <footer
           class="tm-form-footer"
         >
@@ -2079,7 +2152,6 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
               <span
                 class="tm-btn__container tm-btn--primary"
               >
-                <!---->
                 <!---->
                 <span
                   class="tm-btn__value"
@@ -2113,7 +2185,9 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
         class="tm-page-header-text"
       >
         <!---->
+         
         <!---->
+         
         <div
           class="tm-page-header-body"
         >
@@ -2142,7 +2216,7 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
                 <h2
                   class="total-atoms__value"
                 >
-                  0.0000…
+                  1,000.0000…
                 </h2>
               </div>
                
@@ -2154,7 +2228,7 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
                 </h3>
                  
                 <h2>
-                  0.0000…
+                  1,000.0000…
                 </h2>
               </div>
             </div>
@@ -2167,7 +2241,7 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
                 id="address"
               >
                 
-    Address Not Found
+    cosmos…xxn9
   
               </div>
                
@@ -2215,17 +2289,16 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
               </i>
             </a>
              
-            <a
-              class=""
-              href="#/preferences"
+            <router-link-stub
               id="settings"
+              to="/preferences"
             >
               <i
                 class="material-icons"
               >
                 settings
               </i>
-            </a>
+            </router-link-stub>
             <a
               id="signOut-btn"
             >
@@ -2238,6 +2311,7 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
           </div>
         </div>
       </div>
+       
       <menu
         class="tm-page-header-menu"
       >
@@ -2245,6 +2319,7 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
       </menu>
     </div>
   </header>
+   
   <main
     class="tm-page-main"
   >
@@ -2255,7 +2330,9 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
       <div
         class="tm-form-container"
       >
+         
         <!---->
+         
         <main
           class="tm-form-main"
         >
@@ -2276,11 +2353,13 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
                   >
                     Denomination Options
                   </div>
+                   
                   <menu
                     class="tm-part-menu"
                   />
                 </div>
               </header>
+               
               <main
                 class="tm-part-main"
               >
@@ -2294,6 +2373,7 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
                   >
                     Denomination
                   </label>
+                   
                   <div
                     class="tm-form-group__field"
                   >
@@ -2312,431 +2392,7 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
                         >
                           Select token...
                         </option>
-                      </select>
-                      <div
-                        class="tm-field-select-addon"
-                      >
-                        <i
-                          class="material-icons"
-                        >
-                          arrow_drop_down
-                        </i>
-                      </div>
-                    </div>
-                     
-                    <!---->
-                  </div>
-                </div>
-              </main>
-            </div>
-          </section>
-           
-          <section
-            class="tm-part"
-          >
-            <div
-              class="tm-part-container"
-            >
-              <header
-                class="tm-part-header"
-              >
-                <div
-                  class="tm-part-header-container"
-                >
-                  <div
-                    class="tm-part-title h5"
-                  >
-                    Transaction Details
-                  </div>
-                  <menu
-                    class="tm-part-menu"
-                  />
-                </div>
-              </header>
-              <main
-                class="tm-part-main"
-              >
-                <div
-                  class="tm-form-group tm-form-group--error"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="send-address"
-                  >
-                    Send To
-                  </label>
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <div
-                      class="tm-field-group"
-                    >
-                      <input
-                        class="tm-field"
-                        id="send-address"
-                        placeholder="Address"
-                        type="text"
-                      />
-                    </div>
-                     
-                    <div
-                      class="tm-form-msg sm tm-form-msg--error"
-                    >
-                      Address is invalid (No separator character for !@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$)
-                    </div>
-                  </div>
-                </div>
-                 
-                <div
-                  class="tm-form-group tm-form-group--error"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="send-amount"
-                  >
-                    Amount
-                  </label>
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <div
-                      class="tm-field-group"
-                    >
-                      <input
-                        class="tm-field"
-                        id="send-amount"
-                        max="0"
-                        min="0"
-                        placeholder="Amount"
-                        type="number"
-                      />
-                    </div>
-                     
-                    <!---->
-                     
-                    <div
-                      class="tm-form-msg sm tm-form-msg--error"
-                    >
-                      Amount must be between 0 and 0
-                    </div>
-                  </div>
-                </div>
-                 
-                <!---->
-                 
-                <!---->
-                 
-                <hr />
-              </main>
-            </div>
-          </section>
-           
-          <section
-            class="tm-part"
-          >
-            <div
-              class="tm-part-container"
-            >
-              <!---->
-              <main
-                class="tm-part-main"
-              >
-                <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="password"
-                  >
-                    Account password
-                  </label>
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <input
-                      class="tm-field"
-                      id="password"
-                      placeholder="password..."
-                      type="password"
-                    />
-                     
-                    <!---->
-                     
-                    <input
-                      id="showPasswordCheckbox"
-                      type="checkbox"
-                    />
-                     
-                    <label
-                      for="showPasswordCheckbox"
-                    >
-                      Show password
-                    </label>
-                  </div>
-                </div>
-              </main>
-            </div>
-          </section>
-           
-        </main>
-        <footer
-          class="tm-form-footer"
-        >
-          <div>
-            <button
-              class="tm-btn"
-              id="send-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--primary"
-              >
-                <!---->
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Send Tokens
-                </span>
-              </span>
-            </button>
-          </div>
-        </footer>
-      </div>
-    </form>
-     
-    <!---->
-  </main>
-</div>
-`;
-
-exports[`PageSend should show notification for unsuccessful send 1`] = `
-Object {
-  "body": "Not enough coins in your account",
-  "icon": "error",
-  "layout": "alert",
-  "time": 42000,
-  "title": "Error Sending transaction",
-  "type": "error",
-}
-`;
-
-exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
-<div
-  class="tm-page"
-  data-title="Send"
->
-  <header
-    class="tm-page-header"
-  >
-    <div
-      class="tm-page-header-container"
-    >
-      <div
-        class="tm-page-header-text"
-      >
-        <!---->
-        <!---->
-        <div
-          class="tm-page-header-body"
-        >
-          <div
-            class="header-balance"
-          >
-            <div
-              class="top"
-            >
-              <div
-                class="icon-container"
-              >
-                <img
-                  class="icon"
-                  src="~assets/images/cosmos-logo.png"
-                />
-              </div>
-               
-              <div
-                class="total-atoms top-section"
-              >
-                <h3>
-                  Total STAKE
-                </h3>
-                 
-                <h2
-                  class="total-atoms__value"
-                >
-                  0.0000…
-                </h2>
-              </div>
-               
-              <div
-                class="unbonded-atoms top-section"
-              >
-                <h3>
-                  Available STAKE
-                </h3>
-                 
-                <h2>
-                  0.0000…
-                </h2>
-              </div>
-            </div>
-             
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    Address Not Found
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
-             
-            <div
-              class="tabs"
-            />
-             
-          </div>
-           
-          <div
-            class="tm-tool-bar"
-          >
-            <a
-              class="back"
-              disabled="disabled"
-            >
-              <i
-                class="material-icons"
-              >
-                arrow_back
-              </i>
-            </a>
-             
-            <a
-              class="help"
-            >
-              <i
-                class="material-icons"
-              >
-                help_outline
-              </i>
-            </a>
-             
-            <a
-              class=""
-              href="#/preferences"
-              id="settings"
-            >
-              <i
-                class="material-icons"
-              >
-                settings
-              </i>
-            </a>
-            <a
-              id="signOut-btn"
-            >
-              <i
-                class="material-icons"
-              >
-                exit_to_app
-              </i>
-            </a>
-          </div>
-        </div>
-      </div>
-      <menu
-        class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
-    </div>
-  </header>
-  <main
-    class="tm-page-main"
-  >
-     
-    <form
-      class="tm-form"
-    >
-      <div
-        class="tm-form-container"
-      >
-        <!---->
-        <main
-          class="tm-form-main"
-        >
-          <section
-            class="tm-part"
-          >
-            <div
-              class="tm-part-container"
-            >
-              <header
-                class="tm-part-header"
-              >
-                <div
-                  class="tm-part-header-container"
-                >
-                  <div
-                    class="tm-part-title h5"
-                  >
-                    Denomination Options
-                  </div>
-                  <menu
-                    class="tm-part-menu"
-                  />
-                </div>
-              </header>
-              <main
-                class="tm-part-main"
-              >
-                <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="send-denomination"
-                  >
-                    Denomination
-                  </label>
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <div
-                      class="tm-select"
-                      id="send-denomination"
-                    >
-                      <select
-                        class="tm-field tm-field-select"
-                      >
-                        <option
-                          disabled="disabled"
-                          hidden="hidden"
-                          selected="selected"
-                          value=""
-                        >
-                          Select token...
-                        </option>
+                         
                         <option
                           value="mycoin"
                         >
@@ -2748,6 +2404,7 @@ exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
                           FERMION
                         </option>
                       </select>
+                       
                       <div
                         class="tm-field-select-addon"
                       >
@@ -2783,16 +2440,18 @@ exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
                   >
                     Transaction Details
                   </div>
+                   
                   <menu
                     class="tm-part-menu"
                   />
                 </div>
               </header>
+               
               <main
                 class="tm-part-main"
               >
                 <div
-                  class="tm-form-group"
+                  class="tm-form-group tm-form-group--error"
                 >
                   <!---->
                   <label
@@ -2801,6 +2460,7 @@ exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
                   >
                     Send To
                   </label>
+                   
                   <div
                     class="tm-form-group__field"
                   >
@@ -2815,7 +2475,11 @@ exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
                       />
                     </div>
                      
-                    <!---->
+                    <div
+                      class="tm-form-msg sm tm-form-msg--error"
+                    >
+                      Address is invalid bech32
+                    </div>
                   </div>
                 </div>
                  
@@ -2829,6 +2493,7 @@ exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
                   >
                     Amount
                   </label>
+                   
                   <div
                     class="tm-form-group__field"
                   >
@@ -2838,7 +2503,7 @@ exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
                       <input
                         class="tm-field"
                         id="send-amount"
-                        max="1000"
+                        max="2300"
                         min="1"
                         placeholder="Amount"
                         type="number"
@@ -2867,6 +2532,7 @@ exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
               class="tm-part-container"
             >
               <!---->
+               
               <main
                 class="tm-part-main"
               >
@@ -2880,6 +2546,7 @@ exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
                   >
                     Account password
                   </label>
+                   
                   <div
                     class="tm-form-group__field"
                   >
@@ -2909,6 +2576,7 @@ exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
           </section>
            
         </main>
+         
         <footer
           class="tm-form-footer"
         >
@@ -2921,6 +2589,449 @@ exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
                 class="tm-btn__container tm-btn--primary"
               >
                 <!---->
+                <span
+                  class="tm-btn__value"
+                >
+                  Send Tokens
+                </span>
+              </span>
+            </button>
+          </div>
+        </footer>
+      </div>
+    </form>
+     
+    <!---->
+  </main>
+</div>
+`;
+
+exports[`PageSend should show notification for unsuccessful send 1`] = `
+Object {
+  "body": "Not enough coins in your account",
+  "icon": "error",
+  "key": 0,
+  "layout": "alert",
+  "time": 42000,
+  "title": "Error Sending transaction",
+  "type": "error",
+}
+`;
+
+exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
+<div
+  class="tm-page"
+  data-title="Send"
+>
+  <header
+    class="tm-page-header"
+  >
+    <div
+      class="tm-page-header-container"
+    >
+      <div
+        class="tm-page-header-text"
+      >
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="tm-page-header-body"
+        >
+          <div
+            class="header-balance"
+          >
+            <div
+              class="top"
+            >
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
+               
+              <div
+                class="total-atoms top-section"
+              >
+                <h3>
+                  Total STAKE
+                </h3>
+                 
+                <h2
+                  class="total-atoms__value"
+                >
+                  1,000.0000…
+                </h2>
+              </div>
+               
+              <div
+                class="unbonded-atoms top-section"
+              >
+                <h3>
+                  Available STAKE
+                </h3>
+                 
+                <h2>
+                  1,000.0000…
+                </h2>
+              </div>
+            </div>
+             
+            <div
+              class="short-bech32"
+            >
+              <div
+                class="address"
+                id="address"
+              >
+                
+    cosmos…xxn9
+  
+              </div>
+               
+              <div
+                class="copied"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+             
+            <div
+              class="tabs"
+            />
+             
+          </div>
+           
+          <div
+            class="tm-tool-bar"
+          >
+            <a
+              class="back"
+              disabled="disabled"
+            >
+              <i
+                class="material-icons"
+              >
+                arrow_back
+              </i>
+            </a>
+             
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+             
+            <router-link-stub
+              id="settings"
+              to="/preferences"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </router-link-stub>
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+          </div>
+        </div>
+      </div>
+       
+      <menu
+        class="tm-page-header-menu"
+      >
+        <div />
+      </menu>
+    </div>
+  </header>
+   
+  <main
+    class="tm-page-main"
+  >
+     
+    <form
+      class="tm-form"
+    >
+      <div
+        class="tm-form-container"
+      >
+         
+        <!---->
+         
+        <main
+          class="tm-form-main"
+        >
+          <section
+            class="tm-part"
+          >
+            <div
+              class="tm-part-container"
+            >
+              <header
+                class="tm-part-header"
+              >
+                <div
+                  class="tm-part-header-container"
+                >
+                  <div
+                    class="tm-part-title h5"
+                  >
+                    Denomination Options
+                  </div>
+                   
+                  <menu
+                    class="tm-part-menu"
+                  />
+                </div>
+              </header>
+               
+              <main
+                class="tm-part-main"
+              >
+                <div
+                  class="tm-form-group"
+                >
+                  <!---->
+                  <label
+                    class="tm-form-group__label"
+                    for="send-denomination"
+                  >
+                    Denomination
+                  </label>
+                   
+                  <div
+                    class="tm-form-group__field"
+                  >
+                    <div
+                      class="tm-select"
+                      id="send-denomination"
+                    >
+                      <select
+                        class="tm-field tm-field-select"
+                      >
+                        <option
+                          disabled="disabled"
+                          hidden="hidden"
+                          selected="selected"
+                          value=""
+                        >
+                          Select token...
+                        </option>
+                         
+                        <option
+                          value="mycoin"
+                        >
+                          MYCOIN
+                        </option>
+                        <option
+                          value="fermion"
+                        >
+                          FERMION
+                        </option>
+                      </select>
+                       
+                      <div
+                        class="tm-field-select-addon"
+                      >
+                        <i
+                          class="material-icons"
+                        >
+                          arrow_drop_down
+                        </i>
+                      </div>
+                    </div>
+                     
+                    <!---->
+                  </div>
+                </div>
+              </main>
+            </div>
+          </section>
+           
+          <section
+            class="tm-part"
+          >
+            <div
+              class="tm-part-container"
+            >
+              <header
+                class="tm-part-header"
+              >
+                <div
+                  class="tm-part-header-container"
+                >
+                  <div
+                    class="tm-part-title h5"
+                  >
+                    Transaction Details
+                  </div>
+                   
+                  <menu
+                    class="tm-part-menu"
+                  />
+                </div>
+              </header>
+               
+              <main
+                class="tm-part-main"
+              >
+                <div
+                  class="tm-form-group"
+                >
+                  <!---->
+                  <label
+                    class="tm-form-group__label"
+                    for="send-address"
+                  >
+                    Send To
+                  </label>
+                   
+                  <div
+                    class="tm-form-group__field"
+                  >
+                    <div
+                      class="tm-field-group"
+                    >
+                      <input
+                        class="tm-field"
+                        id="send-address"
+                        placeholder="Address"
+                        type="text"
+                      />
+                    </div>
+                     
+                    <!---->
+                  </div>
+                </div>
+                 
+                <div
+                  class="tm-form-group"
+                >
+                  <!---->
+                  <label
+                    class="tm-form-group__label"
+                    for="send-amount"
+                  >
+                    Amount
+                  </label>
+                   
+                  <div
+                    class="tm-form-group__field"
+                  >
+                    <div
+                      class="tm-field-group"
+                    >
+                      <input
+                        class="tm-field"
+                        id="send-amount"
+                        max="2300"
+                        min="1"
+                        placeholder="Amount"
+                        type="number"
+                      />
+                    </div>
+                     
+                    <!---->
+                     
+                    <!---->
+                  </div>
+                </div>
+                 
+                <!---->
+                 
+                <!---->
+                 
+                <hr />
+              </main>
+            </div>
+          </section>
+           
+          <section
+            class="tm-part"
+          >
+            <div
+              class="tm-part-container"
+            >
+              <!---->
+               
+              <main
+                class="tm-part-main"
+              >
+                <div
+                  class="tm-form-group"
+                >
+                  <!---->
+                  <label
+                    class="tm-form-group__label"
+                    for="password"
+                  >
+                    Account password
+                  </label>
+                   
+                  <div
+                    class="tm-form-group__field"
+                  >
+                    <input
+                      class="tm-field"
+                      id="password"
+                      placeholder="password..."
+                      type="password"
+                    />
+                     
+                    <!---->
+                     
+                    <input
+                      id="showPasswordCheckbox"
+                      type="checkbox"
+                    />
+                     
+                    <label
+                      for="showPasswordCheckbox"
+                    >
+                      Show password
+                    </label>
+                  </div>
+                </div>
+              </main>
+            </div>
+          </section>
+           
+        </main>
+         
+        <footer
+          class="tm-form-footer"
+        >
+          <div>
+            <button
+              class="tm-btn"
+              id="send-btn"
+            >
+              <span
+                class="tm-btn__container tm-btn--primary"
+              >
                 <!---->
                 <span
                   class="tm-btn__value"
@@ -3002,7 +3113,6 @@ exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
                   class="tm-btn__container"
                 >
                   <!---->
-                  <!---->
                   <span
                     class="tm-btn__value"
                   >
@@ -3019,7 +3129,6 @@ exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
                 <span
                   class="tm-btn__container tm-btn--primary"
                 >
-                  <!---->
                   <!---->
                   <span
                     class="tm-btn__value"
@@ -3052,7 +3161,9 @@ exports[`PageSend should work without providing a default denom 1`] = `
         class="tm-page-header-text"
       >
         <!---->
+         
         <!---->
+         
         <div
           class="tm-page-header-body"
         >
@@ -3154,17 +3265,16 @@ exports[`PageSend should work without providing a default denom 1`] = `
               </i>
             </a>
              
-            <a
-              class=""
-              href="#/preferences"
+            <router-link-stub
               id="settings"
+              to="/preferences"
             >
               <i
                 class="material-icons"
               >
                 settings
               </i>
-            </a>
+            </router-link-stub>
             <a
               id="signOut-btn"
             >
@@ -3177,6 +3287,7 @@ exports[`PageSend should work without providing a default denom 1`] = `
           </div>
         </div>
       </div>
+       
       <menu
         class="tm-page-header-menu"
       >
@@ -3184,6 +3295,7 @@ exports[`PageSend should work without providing a default denom 1`] = `
       </menu>
     </div>
   </header>
+   
   <main
     class="tm-page-main"
   >
@@ -3194,7 +3306,9 @@ exports[`PageSend should work without providing a default denom 1`] = `
       <div
         class="tm-form-container"
       >
+         
         <!---->
+         
         <main
           class="tm-form-main"
         >
@@ -3215,11 +3329,13 @@ exports[`PageSend should work without providing a default denom 1`] = `
                   >
                     Denomination Options
                   </div>
+                   
                   <menu
                     class="tm-part-menu"
                   />
                 </div>
               </header>
+               
               <main
                 class="tm-part-main"
               >
@@ -3233,6 +3349,7 @@ exports[`PageSend should work without providing a default denom 1`] = `
                   >
                     Denomination
                   </label>
+                   
                   <div
                     class="tm-form-group__field"
                   >
@@ -3251,7 +3368,9 @@ exports[`PageSend should work without providing a default denom 1`] = `
                         >
                           Select token...
                         </option>
+                         
                       </select>
+                       
                       <div
                         class="tm-field-select-addon"
                       >
@@ -3291,16 +3410,18 @@ exports[`PageSend should work without providing a default denom 1`] = `
                   >
                     Transaction Details
                   </div>
+                   
                   <menu
                     class="tm-part-menu"
                   />
                 </div>
               </header>
+               
               <main
                 class="tm-part-main"
               >
                 <div
-                  class="tm-form-group tm-form-group--error"
+                  class="tm-form-group"
                 >
                   <!---->
                   <label
@@ -3309,6 +3430,7 @@ exports[`PageSend should work without providing a default denom 1`] = `
                   >
                     Send To
                   </label>
+                   
                   <div
                     class="tm-form-group__field"
                   >
@@ -3337,6 +3459,7 @@ exports[`PageSend should work without providing a default denom 1`] = `
                   >
                     Amount
                   </label>
+                   
                   <div
                     class="tm-form-group__field"
                   >
@@ -3375,6 +3498,7 @@ exports[`PageSend should work without providing a default denom 1`] = `
               class="tm-part-container"
             >
               <!---->
+               
               <main
                 class="tm-part-main"
               >
@@ -3388,6 +3512,7 @@ exports[`PageSend should work without providing a default denom 1`] = `
                   >
                     Account password
                   </label>
+                   
                   <div
                     class="tm-form-group__field"
                   >
@@ -3421,6 +3546,7 @@ exports[`PageSend should work without providing a default denom 1`] = `
           </section>
            
         </main>
+         
         <footer
           class="tm-form-footer"
         >
@@ -3432,7 +3558,6 @@ exports[`PageSend should work without providing a default denom 1`] = `
               <span
                 class="tm-btn__container tm-btn--primary"
               >
-                <!---->
                 <!---->
                 <span
                   class="tm-btn__value"
