@@ -2606,18 +2606,6 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
 </div>
 `;
 
-exports[`PageSend should show notification for unsuccessful send 1`] = `
-Object {
-  "body": "Not enough coins in your account",
-  "icon": "error",
-  "key": 0,
-  "layout": "alert",
-  "time": 42000,
-  "title": "Error Sending transaction",
-  "type": "error",
-}
-`;
-
 exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
 <div
   class="tm-page"

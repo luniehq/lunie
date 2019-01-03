@@ -177,19 +177,30 @@ describe(`PageSend`, () => {
   })
 
   it(`should show notification for unsuccessful send`, async () => {
-    wrapper.setData({
+    let $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn()
+    }
+
+    let self = {
       fields: {
         denom: `notmycoin`,
         address,
         amount: 2,
         password: `1234567890`
+      },
+      $store,
+      methods: {
+        sendTx: () => Promise.reject()
       }
+    }
+    PageSend.methods.onApproved.call(self)
+
+    expect($store.commit).toHaveBeenCalledWith(`notifyError`, {
+      title: `Error Sending transaction`,
+      body: expect.stringContaining(``)
     })
-    node.sign = () => Promise.reject()
-    await wrapper.vm.onApproved()
-    expect(store.state.notifications.length).toBe(1)
-    expect(store.state.notifications[0].title).toBe(`Error Sending transaction`)
-    expect(store.state.notifications[0]).toMatchSnapshot()
+    expect(self.sending).toBe(false)
   })
 
   it(`validates bech32 addresses`, () => {
