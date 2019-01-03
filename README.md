@@ -15,11 +15,11 @@
 
 # ⚠️ NO ACTIVE TESTNET ⚠️
 
-Currently there is no active testnet. You have to run a [local node](#local-node) to test Voyager out. This is only recommended for developers.
+Currently there is no active testnet. You have to [prepare Voyager](#prerequesists) and then run a [local node](#local-node) to test Voyager out. This is only recommended for developers.
 
 ---
 
-## Voyager Prerequisites
+## Voyager Prerequisites<a name="prerequesists"></a>
 
 ### Check Out Voyager
 
