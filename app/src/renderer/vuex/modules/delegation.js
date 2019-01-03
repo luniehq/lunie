@@ -1,5 +1,6 @@
 import * as Sentry from "@sentry/browser"
 import { calculateShares } from "scripts/common"
+import Vue from "vue"
 
 export default ({ node }) => {
   let emptyState = {
@@ -33,9 +34,10 @@ export default ({ node }) => {
       state.delegates = state.delegates.filter(c => c.id !== delegate)
     },
     setCommittedDelegation(state, { candidateId, value }) {
-      state.committedDelegates[candidateId] = value
+      Vue.set(state.committedDelegates, candidateId, value)
       if (value === 0) {
         delete state.committedDelegates[candidateId]
+        Vue.set(state, `committedDelegates`, state.committedDelegates)
       }
     },
     setUnbondingDelegations(state, unbondingDelegations) {

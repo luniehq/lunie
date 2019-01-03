@@ -45,6 +45,7 @@
             :validators="yourValidators"
             :bonding-denom="bondingDenom"
             :key="transaction.hash"
+            :url="validatorURL"
           />
         </template>
       </div>
@@ -54,7 +55,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import TmLiStakeTransaction from "common/TmLiStakeTransaction"
+import TmLiStakeTransaction from "../transactions/TmLiStakeTransaction"
 import TmDataMsg from "common/TmDataMsg"
 import TmDataLoading from "common/TmDataLoading"
 import TableValidators from "staking/TableValidators"
@@ -73,7 +74,8 @@ export default {
   data: () => ({
     bondInfo: `Validators you are currently bonded to`,
     unbondInfo: `Your bonded validators in unbonding process`,
-    unbondTransactions: `The transactions currently in unbonding period`
+    unbondTransactions: `The transactions currently in unbonding period`,
+    validatorURL: `/staking/validators`
   }),
   computed: {
     ...mapGetters([
