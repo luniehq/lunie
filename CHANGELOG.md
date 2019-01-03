@@ -90,6 +90,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1277](https://github.com/cosmos/voyager/issues/1277) change name of VmToolBar to ToolBar, update all snapshots and import statements @coreycosman
 - [\#1432](https://github.com/cosmos/voyager/issues/1432) Moved @tendermint/UI components back into the Voyager repository @faboweb
 - Improved the readme @faboweb
+- [\#1792](https://github.com/cosmos/voyager/pull/1792) removed mocked demo mode @fedekunze
 
 ### Fixed
 
