@@ -232,7 +232,8 @@ describe(`Module: User`, () => {
 
     // we need to reset the module to use the mocked electron dependency
     jest.resetModules()
-    let { actions, state } = require(`renderer/vuex/modules/user.js`).default({
+    const userModule = require(`renderer/vuex/modules/user.js`).default
+    let { actions, state } = userModule({
       node: {
         keys: {
           values: () => Promise.reject(new Error(`Expected Error`))
