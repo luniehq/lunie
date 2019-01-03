@@ -35,7 +35,7 @@ describe(`PageGovernance`, () => {
   })
 
   it(`should show the search on click`, () => {
-    wrapper.find(`.tm-tool-bar i.search`).trigger(`click`)
+    wrapper.find(`.tool-bar i.search`).trigger(`click`)
     expect(wrapper.contains(`.tm-modal-search`)).toBe(true)
   })
 

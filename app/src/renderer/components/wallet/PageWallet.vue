@@ -42,7 +42,7 @@
         :key="coin.denom"
         :coin="coin"
         class="tm-li-balance"
-        v-on:show-modal="showModal"
+        @:show-modal="showModal"
       />
     </ul>
 

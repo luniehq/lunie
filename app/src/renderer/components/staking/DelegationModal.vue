@@ -1,9 +1,9 @@
 <template>
   <action-modal
-    title="Delegation"
     id="delegation-modal"
+    title="Delegation"
     class="delegation-modal"
-    v-on:close-action-modal="close()"
+    @:close-action-modal="close()"
   >
     <tm-form-group
       class="action-modal-form-group"

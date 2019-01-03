@@ -1,51 +1,47 @@
 <template>
-  <action-modal
-    title="Vote"
-    class="modal-vote"
-    v-on:close-action-modal="close()"
-  >
+  <action-modal title="Vote" class="modal-vote" @:close-action-modal="close()">
     <tm-form-group class="action-modal-group vote-options">
       <div class="radio-container">
         <input
-          type="radio"
           id="vote-yes"
+          v-model="vote"
           :disabled="lastVoteOption === `Yes`"
+          type="radio"
           name="Yes"
           value="Yes"
-          v-model="vote"
         />
         <label for="vote-yes">Yes</label>
       </div>
       <div class="radio-container">
         <input
-          type="radio"
           id="vote-no"
+          v-model="vote"
           :disabled="lastVoteOption === `No`"
+          type="radio"
           name="No"
           value="No"
-          v-model="vote"
         />
         <label for="vote-no">No</label>
       </div>
       <div class="radio-container">
         <input
-          type="radio"
           id="vote-veto"
+          v-model="vote"
           :disabled="lastVoteOption === `NoWithVeto`"
+          type="radio"
           name="NoWithVeto"
           value="NoWithVeto"
-          v-model="vote"
         />
         <label for="vote-veto">No With Veto</label>
       </div>
       <div class="radio-container">
         <input
-          type="radio"
           id="vote-abstain"
+          v-model="vote"
           :disabled="lastVoteOption === `Abstain`"
+          type="radio"
           name="Abstain"
           value="Abstain"
-          v-model="vote"
         />
         <label for="vote-abstain">Abstain</label>
       </div>

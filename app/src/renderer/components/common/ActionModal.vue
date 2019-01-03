@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     close() {
-      this.$emit("close-action-modal")
+      this.$emit(`close-action-modal`)
     }
   }
 }
