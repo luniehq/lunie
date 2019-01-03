@@ -2,18 +2,24 @@ import TmConnectedNetwork from "common/TmConnectedNetwork"
 import setup from "../../../helpers/vuex-setup"
 
 describe(`TmConnectedNetwork`, () => {
-  let wrapper, store, instance
+  let wrapper, store
   let { mount } = setup()
 
   beforeEach(async () => {
-    instance = mount(TmConnectedNetwork)
+    let instance = mount(TmConnectedNetwork, {
+      getters: {
+        lastHeader: () => ({ chain_id: `Test Net`, height: 42 }),
+        nodeUrl: () => `https://faboNode.de`,
+        connected: () => true
+      }
+    })
     store = instance.store
     wrapper = instance.wrapper
-    wrapper.setData({ lastHeader: { chain_id: `Test Net`, height: 42 } })
   })
 
   it(`has the expected html structure`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
+    console.log(wrapper.vm.$el.outerHTML)
   })
 
   it(`has a network icon`, () => {
@@ -50,7 +56,12 @@ describe(`TmConnectedNetwork`, () => {
   })
 
   it(`has a connecting state`, async () => {
-    await store.commit(`setConnected`, false)
+    let { wrapper } = mount(TmConnectedNetwork, {
+      getters: {
+        lastHeader: () => ({ chain_id: `Test Net`, height: 0 }),
+        connected: () => false
+      }
+    })
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -67,7 +78,7 @@ describe(`TmConnectedNetwork`, () => {
   })
 
   it(`shows the connected node`, async () => {
-    instance = mount(TmConnectedNetwork)
+    let instance = mount(TmConnectedNetwork)
     store = instance.store
     wrapper = instance.wrapper
 
