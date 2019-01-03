@@ -38,8 +38,8 @@
             unchecked: ' '
           }"
           :value="user.errorCollection || undefined"
+          :change="() => setErrorCollection()"
           type="toggle"
-          @change.native="setErrorCollection()"
         />
       </tm-list-item>
     </tm-part>
@@ -59,7 +59,11 @@
 
 <script>
 import { mapGetters } from "vuex"
-import { TmListItem, TmBtn, TmPage, TmPart, TmField } from "@tendermint/ui"
+import TmListItem from "common/TmListItem"
+import TmBtn from "common/TmBtn"
+import TmPage from "common/TmPage"
+import TmPart from "common/TmPart"
+import TmField from "common/TmField"
 import ToolBar from "common/ToolBar"
 import TmBalance from "common/TmBalance"
 import TmModal from "common/TmModal"

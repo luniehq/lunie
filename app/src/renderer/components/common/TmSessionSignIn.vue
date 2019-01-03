@@ -73,13 +73,11 @@
 <script>
 import { mapGetters } from "vuex"
 import { required, minLength } from "vuelidate/lib/validators"
-import {
-  TmBtn,
-  TmFormGroup,
-  TmFormStruct,
-  TmField,
-  TmFormMsg
-} from "@tendermint/ui"
+import TmBtn from "common/TmBtn"
+import TmFormGroup from "common/TmFormGroup"
+import TmFormStruct from "common/TmFormStruct"
+import TmField from "common/TmField"
+import TmFormMsg from "common/TmFormMsg"
 export default {
   name: `tm-session-sign-in`,
   components: {

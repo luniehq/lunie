@@ -450,8 +450,34 @@ let state = {
       }
     }
   },
+  tallies: {
+    "1": {
+      yes: `500`,
+      no: `25`,
+      no_with_veto: `10`,
+      abstain: `56`
+    },
+    "2": {
+      yes: `0`,
+      no: `0`,
+      no_with_veto: `0`,
+      abstain: `0`
+    },
+    "5": {
+      yes: `0`,
+      no: `0`,
+      no_with_veto: `0`,
+      abstain: `0`
+    },
+    "6": {
+      yes: `10`,
+      no: `30`,
+      no_with_veto: `100`,
+      abstain: `20`
+    }
+  },
   votes: {
-    1: [
+    "1": [
       {
         proposal_id: `1`,
         voter: validators[0],
@@ -463,8 +489,8 @@ let state = {
         option: `NoWithVeto`
       }
     ],
-    2: [],
-    5: [
+    "2": [],
+    "5": [
       {
         proposal_id: `5`,
         voter: validators[0],
@@ -476,7 +502,7 @@ let state = {
         option: `Abstain`
       }
     ],
-    6: [
+    "6": [
       {
         proposal_id: `6`,
         voter: validators[0],
@@ -490,7 +516,7 @@ let state = {
     ]
   },
   deposits: {
-    1: [
+    "1": [
       {
         proposal_id: `1`,
         depositor: validators[0],
@@ -516,7 +542,7 @@ let state = {
         ]
       }
     ],
-    2: [
+    "2": [
       {
         proposal_id: `2`,
         depositor: validators[0],
@@ -528,7 +554,7 @@ let state = {
         ]
       }
     ],
-    5: [
+    "5": [
       {
         proposal_id: `5`,
         depositor: validators[0],
@@ -550,7 +576,7 @@ let state = {
         ]
       }
     ],
-    6: [
+    "6": [
       {
         proposal_id: `6`,
         depositor: validators[0],

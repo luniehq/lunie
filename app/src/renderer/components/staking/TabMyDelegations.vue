@@ -54,7 +54,9 @@
 
 <script>
 import { mapGetters } from "vuex"
-import { TmDataMsg, TmDataLoading, TmLiStakeTransaction } from "@tendermint/ui"
+import TmLiStakeTransaction from "common/TmLiStakeTransaction"
+import TmDataMsg from "common/TmDataMsg"
+import TmDataLoading from "common/TmDataLoading"
 import TableValidators from "staking/TableValidators"
 import TmDataConnecting from "common/TmDataConnecting"
 import moment from "moment"

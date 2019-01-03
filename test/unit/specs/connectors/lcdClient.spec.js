@@ -32,7 +32,7 @@ describe(`LCD Client`, () => {
       const application = Express()
 
       const middleware = await promisify(createMiddleware)(
-        path.join(__dirname, `../helpers/Gaia-Lite.yaml`),
+        path.join(__dirname, `../../helpers/Gaia-Lite.yaml`),
         application
       )
 
@@ -494,7 +494,7 @@ describe(`LCD Client`, () => {
 
       it(`queries a proposal's tally`, async () => {
         axios.mockReturnValue({})
-        await client.queryProposalTally(`1`)
+        await client.getProposalTally(`1`)
 
         expect(axios.mock.calls).toEqual([
           [

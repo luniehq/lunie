@@ -99,7 +99,7 @@ describe(`Component: TabMyDelegations`, () => {
         connected: () => false
       },
       stubs: {
-        "tm-data-connecting": `<tm-data-connecting />`
+        "tm-data-connecting": true
       }
     })
 
@@ -122,7 +122,7 @@ describe(`Component: TabMyDelegations`, () => {
         connected: () => false
       },
       stubs: {
-        "tm-data-loading": `<tm-data-loading />`
+        "tm-data-loading": true
       }
     })
 

@@ -2,14 +2,8 @@
   <page-profile data-title="Validator"
     ><template slot="menu-body">
       <tm-balance />
+      <tool-bar />
     </template>
-    <div slot="menu">
-      <tm-tool-bar>
-        <router-link to="/staking/validators" exact="exact"
-          ><i class="material-icons">arrow_back</i></router-link
-        >
-      </tm-tool-bar>
-    </div>
     <tm-data-error v-if="!validator" /><template v-else>
       <div class="page-profile__header page-profile__section">
         <div class="column">
@@ -175,7 +169,7 @@
       <undelegation-modal
         v-if="showUndelegationModal"
         :show-undelegation-modal.sync="showUndelegationModal"
-        :maximum="myBond"
+        :maximum="myBond.toNumber()"
         :to="wallet.address"
         @submitUndelegation="submitUndelegation"
       />
@@ -205,7 +199,10 @@ import moment from "moment"
 import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
 import num from "scripts/num"
-import { TmBtn, TmListItem, TmPart, TmToolBar } from "@tendermint/ui"
+import TmBtn from "common/TmBtn"
+import TmListItem from "common/TmListItem"
+import TmPart from "common/TmPart"
+import ToolBar from "common/ToolBar"
 import TmModal from "common/TmModal"
 import TmDataError from "common/TmDataError"
 import { shortAddress, ratToBigNumber } from "scripts/common"
@@ -226,7 +223,7 @@ export default {
     TmListItem,
     TmModal,
     TmPart,
-    TmToolBar,
+    ToolBar,
     TmDataError,
     TmBalance,
     PageProfile

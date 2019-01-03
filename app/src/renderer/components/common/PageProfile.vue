@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { TmPageHeader } from "@tendermint/ui"
+import TmPageHeader from "common/TmPageHeader.vue"
 
 export default {
   name: `page-profile`,

@@ -14,9 +14,12 @@ exports[`PageProfile has the expected html structure 1`] = `
         class="tm-page-header-text"
       >
         <!---->
+         
         <!---->
+         
         <!---->
       </div>
+       
       <menu
         class="tm-page-header-menu"
       >

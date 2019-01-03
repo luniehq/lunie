@@ -1,16 +1,20 @@
 import Vuex from "vuex"
 import { mount, createLocalVue } from "@vue/test-utils"
-import htmlBeautify from "html-beautify"
 import TmModalError from "common/TmModalError"
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
+localVue.directive(`tooltip`, () => {})
+localVue.directive(`focus`, () => {})
 
 jest.mock(`electron`, () => ({
   remote: {
     getGlobal: () => {
       return `$HOME/.cosmos-voyager-dev`
     }
+  },
+  shell: {
+    openItem: jest.fn()
   }
 }))
 
@@ -31,7 +35,7 @@ describe(`TmModalError`, () => {
   })
 
   it(`has the expected html structure`, () => {
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`has an icon`, () => {

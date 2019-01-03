@@ -1,5 +1,4 @@
 import { mount } from "@vue/test-utils"
-import htmlBeautify from "html-beautify"
 import TmFieldSeed from "common/TmFieldSeed"
 
 describe(`TmFieldSeed`, () => {
@@ -20,7 +19,7 @@ describe(`TmFieldSeed`, () => {
   })
 
   it(`has the expected html structure`, () => {
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`has the correct class`, () => {

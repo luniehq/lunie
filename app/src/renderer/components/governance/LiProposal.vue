@@ -28,18 +28,15 @@
       </div>
     </td>
     <td>{{ `#` + proposal.proposal_id }}</td>
-    <td class="li-proposal__value yes">{{ proposal.tally_result.yes }}</td>
-    <td class="li-proposal__value no">{{ proposal.tally_result.no }}</td>
-    <td class="li-proposal__value no_with_veto">
-      {{ proposal.tally_result.no_with_veto }}
-    </td>
-    <td class="li-proposal__value abstain">
-      {{ proposal.tally_result.abstain }}
-    </td>
+    <td class="li-proposal__value yes">{{ tally.yes }}</td>
+    <td class="li-proposal__value no">{{ tally.no }}</td>
+    <td class="li-proposal__value no_with_veto">{{ tally.no_with_veto }}</td>
+    <td class="li-proposal__value abstain">{{ tally.abstain }}</td>
   </tr>
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 export default {
   name: `li-proposal`,
   props: {
@@ -49,6 +46,18 @@ export default {
     }
   },
   computed: {
+    ...mapGetters([`proposals`]),
+    tally() {
+      let proposalTally
+      proposalTally = this.proposals.tallies[this.proposal.proposal_id]
+      proposalTally.yes = Math.round(parseFloat(proposalTally.yes))
+      proposalTally.no = Math.round(parseFloat(proposalTally.no))
+      proposalTally.no_with_veto = Math.round(
+        parseFloat(proposalTally.no_with_veto)
+      )
+      proposalTally.abstain = Math.round(parseFloat(proposalTally.abstain))
+      return proposalTally
+    },
     status() {
       if (this.proposal.proposal_status === `Passed`) {
         return {

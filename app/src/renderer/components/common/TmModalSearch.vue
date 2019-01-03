@@ -1,42 +1,6 @@
 <template>
   <div v-if="open" class="tm-modal-search">
-    <form
-      v-if="type === 'blocks'"
-      class="tm-modal-search-container"
-      @submit.prevent="gotoBlock"
-    >
-      <tm-form-group
-        :error="$v.filters.blocks.search.query.$invalid"
-        field-id="search-input"
-        field-label=""
-      >
-        <div class="tm-modal-search-field">
-          <tm-field
-            id="search-input"
-            v-model="query"
-            class="mousetrap"
-            type="number"
-            step="1"
-            placeholder="View block height..."
-          />
-          <tm-btn value="Find" />
-          <tm-btn type="button" icon="close" @click.native="close" />
-        </div>
-        <tm-form-msg
-          v-if="!$v.filters.blocks.search.query.numeric"
-          name="Query"
-          type="numeric"
-        />
-        <tm-form-msg
-          v-if="!$v.filters.blocks.search.query.between"
-          :max="$v.filters.blocks.search.query.$params.between.max"
-          name="Query"
-          type="between"
-          min="0"
-        />
-      </tm-form-group>
-    </form>
-    <div v-else class="tm-modal-search-container">
+    <div class="tm-modal-search-container">
       <tm-form-group field-id="search-input" field-label="">
         <div class="tm-modal-search-field">
           <tm-field
@@ -54,9 +18,11 @@
 </template>
 
 <script>
-import { between, numeric } from "vuelidate/lib/validators"
 import { mapGetters } from "vuex"
-import { TmBtn, TmFormGroup, TmField, TmFormMsg } from "@tendermint/ui"
+import TmBtn from "common/TmBtn"
+import TmFormGroup from "common/TmFormGroup"
+import TmField from "common/TmField"
+import TmFormMsg from "common/TmFormMsg"
 export default {
   name: `modal-search`,
   components: {
@@ -90,7 +56,7 @@ export default {
       if (open) {
         setTimeout(() => {
           let el = this.$el.querySelector(`.tm-field`)
-          el.select()
+          el.focus()
         })
       }
     }
@@ -98,28 +64,8 @@ export default {
   methods: {
     close() {
       this.$store.commit(`setSearchVisible`, [this.type, false])
-    },
-    gotoBlock() {
-      this.$router.push({
-        name: `block`,
-        params: { block: this.filters.blocks.search.query }
-      })
     }
-  },
-  validations: () => ({
-    filters: {
-      blocks: {
-        search: {
-          query: {
-            numeric,
-            between(height) {
-              return between(1, this.lastHeader.height)(height)
-            }
-          }
-        }
-      }
-    }
-  })
+  }
 }
 </script>
 
