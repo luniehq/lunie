@@ -9,7 +9,7 @@
         class="tm-connected-network__string"
       >
         <span v-tooltip.top="networkTooltip" class="chain-id">{{
-          this.lastHeader.chain_id
+          lastHeader.chain_id
         }}</span>
       </div>
     </div>
@@ -31,15 +31,13 @@
       v-tooltip.top="networkTooltip"
       class="tm-connected-network__string tm-connected-network__string--connecting"
     >
-      Connecting to {{ this.lastHeader.chain_id }}…
+      Connecting to {{ lastHeader.chain_id }}…
     </div>
   </div>
 </template>
-
 <script>
 import { mapGetters } from "vuex"
 import num from "scripts/num"
-import { startCase, toLower } from "lodash"
 export default {
   name: `tm-connected-network`,
   data: () => ({
