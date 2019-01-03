@@ -105,7 +105,7 @@ let rendererConfig = {
   ],
   output: {
     filename: `[name].js`,
-    libraryTarget: `commonjs2`,
+    // libraryTarget: `commonjs2`,
     path: path.join(__dirname, `app/dist`)
   },
   resolve: {
@@ -125,8 +125,8 @@ let rendererConfig = {
       path.join(__dirname, `app/node_modules`),
       path.join(__dirname, `node_modules`)
     ]
-  },
-  target: `electron-renderer`
+  }
+  // target: `electron-renderer`
 }
 
 /**

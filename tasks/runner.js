@@ -33,13 +33,13 @@ function run(command, color, name, env) {
   return child
 }
 
-function startRendererServer() {
+module.exports = function startRendererServer() {
   return new Promise(resolve => {
     console.log(`${YELLOW}Starting webpack-dev-server...\n${END}`)
     let child = run(
       `webpack-dev-server --hot --colors --config webpack.renderer.config.js --port ${
         config.wds_port
-      } --content-base app/dist`,
+      } --content-base app/dist --https`,
       YELLOW,
       `webpack`
     )
@@ -52,49 +52,49 @@ function startRendererServer() {
   })
 }
 
-module.exports = async function(networkPath, extendedEnv = {}) {
-  if (!fs.existsSync(networkPath)) {
-    console.error(
-      `The network configuration for the network you want to connect to doesn't exist. Have you run \`yarn build:testnets\` to download the latest configurations?`
-    )
-    process.exit()
-  }
+// module.exports = async function(networkPath, extendedEnv = {}) {
+//   if (!fs.existsSync(networkPath)) {
+//     console.error(
+//       `The network configuration for the network you want to connect to doesn't exist. Have you run \`yarn build:testnets\` to download the latest configurations?`
+//     )
+//     process.exit()
+//   }
 
-  let renderProcess = await startRendererServer()
+//   let renderProcess = await startRendererServer()
 
-  console.log(
-    `${BLUE}Starting electron...\n  (network path: ${networkPath})\n${END}`
-  )
-  const packageJSON = require(`../package.json`)
-  const voyagerVersion = packageJSON.version
-  const gaiaVersion = fs
-    .readFileSync(path.join(networkPath, `gaiaversion.txt`))
-    .toString()
-    .split(`-`)[0]
-  let env = Object.assign(
-    {},
-    {
-      NODE_ENV: `development`,
-      COSMOS_NETWORK: networkPath,
-      GAIA_VERSION: gaiaVersion,
-      VOYAGER_VERSION: voyagerVersion
-    },
-    extendedEnv,
-    process.env
-  )
-  let mainProcess = run(
-    `electron app/src/main/index.dev.js`,
-    BLUE,
-    `electron`,
-    env
-  )
+//   console.log(
+//     `${BLUE}Starting electron...\n  (network path: ${networkPath})\n${END}`
+//   )
+//   const packageJSON = require(`../package.json`)
+//   const voyagerVersion = packageJSON.version
+//   const gaiaVersion = fs
+//     .readFileSync(path.join(networkPath, `gaiaversion.txt`))
+//     .toString()
+//     .split(`-`)[0]
+//   let env = Object.assign(
+//     {},
+//     {
+//       NODE_ENV: `development`,
+//       COSMOS_NETWORK: networkPath,
+//       GAIA_VERSION: gaiaVersion,
+//       VOYAGER_VERSION: voyagerVersion
+//     },
+//     extendedEnv,
+//     process.env
+//   )
+//   let mainProcess = run(
+//     `electron app/src/main/index.dev.js`,
+//     BLUE,
+//     `electron`,
+//     env
+//   )
 
-  // terminate running processes on exit of main process
-  mainProcess.on(`exit`, async () => {
-    await cleanExitChild(renderProcess)
-    // webpack-dev-server spins up an own process we have no access to. so we kill all processes on our port
-    process.exit(0)
-  })
+//   // terminate running processes on exit of main process
+//   mainProcess.on(`exit`, async () => {
+//     await cleanExitChild(renderProcess)
+//     // webpack-dev-server spins up an own process we have no access to. so we kill all processes on our port
+//     process.exit(0)
+//   })
 
-  return [renderProcess, mainProcess]
-}
+//   return [renderProcess, mainProcess]
+// }

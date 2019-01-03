@@ -25,18 +25,21 @@ export function generateWalletFromSeed(mnemonic) {
   }
 }
 
-export function generateWallet(randomByteFunc) {
-  console.log(randomByteFunc)
-  const randomBytes = Buffer.from(randomByteFunc(32), `base64`)
+export function generateSeed(randomBytesFunc) {
+  const randomBytes = Buffer.from(randomBytesFunc(32), `hex`)
   if (randomBytes.length !== 32) throw Error(`Entropy has incorrect length`)
 
   const mnemonic = bip39.entropyToMnemonic(randomBytes.toString(`hex`))
   if (mnemonic.split(` `).length !== 24)
     throw Error(`Mnemonic needs to have a length of 24 words.`)
 
-  return generateWalletFromSeed(mnemonic)
+  return mnemonic
 }
 
+export function generateWallet(randomBytesFunc) {
+  const mnemonic = generateSeed(randomBytesFunc)
+  return generateWalletFromSeed(mnemonic)
+}
 /* vectors
 pub 52FDFC072182654F163F5F0F9A621D729566C74D10037C4D7BBB0407D1E2C64981
 acc cosmos1v3z3242hq7xrms35gu722v4nt8uux8nvug5gye

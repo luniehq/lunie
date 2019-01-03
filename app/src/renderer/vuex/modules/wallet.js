@@ -1,8 +1,8 @@
 import * as Sentry from "@sentry/browser"
-import fs from "fs-extra"
-import { join } from "path"
+// import fs from "fs-extra"
+// import { join } from "path"
 // import { remote } from "electron"
-import { sleep } from "scripts/common.js"
+// import { sleep } from "scripts/common.js"
 // const root = remote.getGlobal(`root`)
 
 export default ({ node }) => {

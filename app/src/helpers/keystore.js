@@ -9,22 +9,27 @@ import { generateWallet, generateWalletFromSeed } from "./wallet.js"
 
 export async function storeKeyNames(keys) {
   // async
-  await localStorage.set({
-    key: `keys`,
-    value: JSON.stringify(keys)
-  })
+  await localStorage.setItem(`keys`, JSON.stringify(keys))
 }
 export async function loadKeyNames() {
-  return await localStorage.get({
-    key: `keys`
-  })
+  return JSON.parse((await localStorage.getItem(`keys`)) || `[]`)
 }
+
 async function storeKey(wallet, name, password) {
   let ciphertext = AES.encrypt(JSON.stringify(wallet), password).toString()
-  await localStorage.set({
-    key: `key_` + name,
-    value: ciphertext
-  })
+  await localStorage.setItem(`key_` + name, ciphertext)
+}
+
+export async function testPassword(name, password) {
+  const key = localStorage.getItem(`key_` + name)
+  try {
+    const bytes = AES.decrypt(key, password)
+    return true
+  } catch (err) {
+    return false
+  }
+  // const originalText = bytes.toString(CryptoJS.enc.Utf8);
+  // return JSON.parse(originalText);
 }
 export async function addKey(name, password, wallet) {
   let keysString = (await loadKeyNames()) || `[]`

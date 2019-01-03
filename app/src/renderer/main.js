@@ -39,27 +39,27 @@ window.addEventListener(`error`, function(event) {
   Sentry.captureException(event.reason)
 })
 
-Vue.config.errorHandler = (error, vm, info) => {
-  console.error(`An error has occurred: ${error}
+// Vue.config.errorHandler = (error, vm, info) => {
+//   console.error(`An error has occurred: ${error}
 
-Guru Meditation #${info}`)
+// Guru Meditation #${info}`)
 
-  Sentry.captureException(error)
+//   Sentry.captureException(error)
 
-  if (store.state.devMode) {
-    throw error
-  }
-}
+//   if (store.state.devMode) {
+//     throw error
+//   }
+// }
 
-Vue.config.warnHandler = (msg, vm, trace) => {
-  console.warn(`A warning has occurred: ${msg}
+// Vue.config.warnHandler = (msg, vm, trace) => {
+//   console.warn(`A warning has occurred: ${msg}
 
-Guru Meditation #${trace}`)
+// Guru Meditation #${trace}`)
 
-  if (store.state.devMode) {
-    throw new Error(msg)
-  }
-}
+//   if (store.state.devMode) {
+//     throw new Error(msg)
+//   }
+// }
 
 // Vue.use(Electron)
 Vue.use(Router)
@@ -133,13 +133,13 @@ async function main() {
 
   // ipcRenderer.send(`booted`)
 
-  while (true) {
-    try {
-      await axios(`https://localhost:9070/keys`)
-      break
-    } catch (err) {}
-    await sleep(1000)
-  }
+  // while (true) {
+  //   try {
+  //     await axios(`https://localhost:9070/keys`)
+  //     break
+  //   } catch (err) {}
+  //   await sleep(1000)
+  // }
   store.dispatch(`showInitialScreen`)
 
   return new Vue({

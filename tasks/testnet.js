@@ -47,13 +47,13 @@ async function main() {
   }
 
   // run Voyager in a development environment
-  let children = await runner(networkPath, extendedEnv)
+  let child = await runner(networkPath, extendedEnv)
 
   // kill all development processes if master process fails
   process.on(`exit`, () => {
-    children.forEach(child => child.kill(`SIGKILL`))
+    child.kill(`SIGKILL`)
   })
-  children.forEach(child => child.on(`exit`, () => process.exit()))
+  child.on(`exit`, () => process.exit())
 }
 
 main().catch(function(error) {

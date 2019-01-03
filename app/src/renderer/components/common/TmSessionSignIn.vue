@@ -51,20 +51,7 @@
         </tm-form-group>
       </div>
       <div class="tm-session-footer">
-        <tm-btn
-          v-if="connected"
-          icon="arrow_forward"
-          icon-pos="right"
-          value="Next"
-          size="lg"
-        />
-        <tm-btn
-          v-else
-          icon-pos="right"
-          value="Connecting..."
-          size="lg"
-          disabled="true"
-        />
+        <tm-btn icon="arrow_forward" icon-pos="right" value="Next" size="lg" />
       </div>
     </tm-form-struct>
   </div>
@@ -94,7 +81,7 @@ export default {
     }
   }),
   computed: {
-    ...mapGetters([`user`, `mockedConnector`, `lastHeader`, `connected`]),
+    ...mapGetters([`user`, `mockedConnector`, `lastHeader`]),
     accounts() {
       let accounts = this.user.accounts
       accounts = accounts.filter(({ name }) => name !== `trunk`)
@@ -117,11 +104,12 @@ export default {
     async onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return
-      try {
-        await this.$store.dispatch(`testLogin`, {
-          password: this.fields.signInPassword,
-          account: this.fields.signInName
-        })
+      // try {
+      let passwrodCorrect = await this.$store.dispatch(`testLogin`, {
+        password: this.fields.signInPassword,
+        account: this.fields.signInName
+      })
+      if (passwrodCorrect) {
         this.$store.dispatch(`signIn`, {
           password: this.fields.signInPassword,
           account: this.fields.signInName
@@ -129,12 +117,14 @@ export default {
         localStorage.setItem(`prevAccountKey`, this.fields.signInName)
         this.$router.push(`/`)
         this.$store.commit(`setModalSession`, false)
-      } catch (error) {
+      } else {
         this.$store.commit(`notifyError`, {
           title: `Signing In Failed`,
           body: error.message
         })
       }
+      // } catch (error) {
+      // }
     },
     setDefaultAccount() {
       let prevAccountKey = localStorage.getItem(`prevAccountKey`)

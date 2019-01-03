@@ -3,6 +3,13 @@ import * as Sentry from "@sentry/browser"
 import enableGoogleAnalytics from "../../google-analytics.js"
 // const config = remote.getGlobal(`config`)
 const config = require(`../../../config.json`)
+import {
+  loadKeyNames,
+  importKey,
+  testPassword
+} from "../../../helpers/keystore.js"
+import { generateSeed } from "../../../helpers/wallet.js"
+import CryptoJS from "crypto-js"
 
 export default ({ node }) => {
   const ERROR_COLLECTION_KEY = `voyager_error_collection`
@@ -63,7 +70,7 @@ export default ({ node }) => {
     async loadAccounts({ commit, state }) {
       state.loading = true
       try {
-        let keys = await node.keys.values()
+        let keys = (await loadKeyNames()) || []
         commit(`setAccounts`, keys)
       } catch (error) {
         Sentry.captureException(error)
@@ -77,26 +84,13 @@ export default ({ node }) => {
       }
     },
     async testLogin(state, { password, account }) {
-      try {
-        return await node.keys.set(account, {
-          name: account,
-          new_password: password,
-          old_password: password
-        })
-      } catch (error) {
-        throw Error(`Incorrect passphrase`)
-      }
+      return await testPassword(account, password)
     },
     createSeed() {
-      // generate seed phrase
-      return node.keys.seed()
+      return generateSeed(x => CryptoJS.lib.WordArray.random(x).toString())
     },
     async createKey({ dispatch }, { seedPhrase, password, name }) {
-      let { address } = await node.keys.add({
-        name,
-        password,
-        seed: seedPhrase
-      })
+      let { address } = await importKey(name, password, seedPhrase)
       dispatch(`initializeWallet`, address)
       return address
     },
@@ -164,8 +158,6 @@ export default ({ node }) => {
         Sentry.init({})
         window.analytics = null
       }
-
-      ipcRenderer.send(`error-collection`, state.errorCollection)
     }
   }
 
