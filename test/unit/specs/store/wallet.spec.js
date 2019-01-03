@@ -58,8 +58,8 @@ describe(`Module: Wallet`, () => {
     await actions.initializeWallet({ commit, dispatch }, address)
     expect(commit).toHaveBeenCalledWith(`setWalletAddress`, address)
     expect(dispatch.mock.calls).toEqual([
-      [`loadDenoms`],
       [`queryWalletBalances`],
+      [`loadDenoms`],
       [`walletSubscribe`]
     ])
   })

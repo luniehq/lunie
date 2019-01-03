@@ -39,10 +39,10 @@ export default ({ node }) => {
         dispatch(`queryWalletBalances`)
       }
     },
-    initializeWallet({ commit, dispatch }, address) {
+    async initializeWallet({ commit, dispatch }, address) {
       commit(`setWalletAddress`, address)
-      dispatch(`loadDenoms`)
-      dispatch(`queryWalletBalances`)
+      await dispatch(`queryWalletBalances`)
+      await dispatch(`loadDenoms`)
       dispatch(`walletSubscribe`)
     },
     resetSessionData({ rootState }) {
