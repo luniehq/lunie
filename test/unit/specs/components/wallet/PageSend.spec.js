@@ -2,7 +2,7 @@ import setup from "../../../helpers/vuex-setup"
 import PageSend from "renderer/components/wallet/PageSend"
 
 describe(`PageSend`, () => {
-  let wrapper, store, node
+  let wrapper, store
   const name = `default`
   const password = `1234567890`
   const address = `tb1mjt6dcdru8lgdz64h2fu0lrzvd5zv8sfcvkv2l`
@@ -29,7 +29,6 @@ describe(`PageSend`, () => {
     })
     wrapper = test.wrapper
     store = test.store
-    node = test.node
     store.commit(`setAccounts`, [
       {
         address,
