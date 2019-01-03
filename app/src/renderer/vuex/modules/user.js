@@ -113,7 +113,7 @@ export default ({ node }) => {
       dispatch(`loadPersistedState`)
       commit(`setModalSession`, false)
       await dispatch(`getStakingParameters`)
-      await dispatch(`initializeWallet`, address)
+      dispatch(`initializeWallet`, address)
       await dispatch(`getGovParameters`)
       dispatch(`loadErrorCollection`, account)
     },
