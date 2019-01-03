@@ -1,6 +1,7 @@
 <template>
   <action-modal
     title="Undelegation"
+    v-on:close-action-modal="close()"
     id="undelegation-modal"
     class="undelegation-modal"
   >
@@ -101,7 +102,7 @@ export default {
   },
   props: {
     maximum: {
-      type: Object,
+      type: Number,
       required: true
     },
     fromOptions: {
