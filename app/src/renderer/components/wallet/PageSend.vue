@@ -1,5 +1,5 @@
 <template>
-  <action-modal title="Send">
+  <action-modal title="Send" v-on:close-action-modal="close()">
     <tm-form-group
       :error="$v.fields.denom.$error"
       field-id="send-denomination"
@@ -198,6 +198,9 @@ export default {
     }
   },
   methods: {
+    close() {
+      this.$emit(`update:showSendModal`, false)
+    },
     resetForm() {
       this.fields.address = ``
       this.fields.amount = null

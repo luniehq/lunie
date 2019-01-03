@@ -1,9 +1,9 @@
 <template>
   <action-modal
     title="Undelegation"
-    v-on:close-action-modal="close()"
     id="undelegation-modal"
     class="undelegation-modal"
+    v-on:close-action-modal="close()"
   >
     <tm-form-group
       class="action-modal-form-group"

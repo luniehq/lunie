@@ -1,5 +1,9 @@
 <template>
-  <action-modal title="Deposit" class="modal-deposit">
+  <action-modal
+    title="Deposit"
+    class="modal-deposit"
+    v-on:close-action-modal="close()"
+  >
     <tm-form-group
       :error="$v.amount.$invalid"
       class="action-modal-form-group"

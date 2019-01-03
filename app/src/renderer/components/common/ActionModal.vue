@@ -30,9 +30,6 @@ export default {
   directives: {
     ClickOutside
   },
-  data: () => ({
-    showActionModal: false
-  }),
   props: {
     title: {
       type: String,
@@ -41,8 +38,7 @@ export default {
   },
   methods: {
     close() {
-      console.log("close me")
-      this.showActionModal = false
+      this.$emit("close-action-modal")
     }
   }
 }

@@ -3,6 +3,7 @@
     title="Delegation"
     id="delegation-modal"
     class="delegation-modal"
+    v-on:close-action-modal="close()"
   >
     <tm-form-group
       class="action-modal-form-group"
