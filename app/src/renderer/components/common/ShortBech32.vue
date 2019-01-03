@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import { clipboard } from "electron"
 export default {
   name: `short-bech32`,
   props: {
@@ -39,7 +38,7 @@ export default {
   },
   methods: {
     copy() {
-      clipboard.writeText(this.address)
+      navigator.clipboard.writeText(this.address)
       this.showSuccess = true
       setTimeout(() => {
         this.showSuccess = false

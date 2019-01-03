@@ -1,8 +1,8 @@
-import { ipcRenderer, remote } from "electron"
+// import { ipcRenderer, remote } from "electron"
 import * as Sentry from "@sentry/browser"
 import { sleep } from "scripts/common.js"
 
-const config = remote.getGlobal(`config`)
+const config = require(`../../../config.json`)
 const NODE_HALTED_TIMEOUT = config.node_halted_timeout
 
 export default function({ node }) {
@@ -138,19 +138,19 @@ export default function({ node }) {
         }, timeout)
       })
     },
-    approveNodeHash({ state }, hash) {
-      state.approvalRequired = null
-      ipcRenderer.send(`hash-approved`, hash)
-    },
-    disapproveNodeHash({ state }, hash) {
-      state.approvalRequired = null
-      ipcRenderer.send(`hash-disapproved`, hash)
-    },
+    // approveNodeHash({ state }, hash) {
+    //   state.approvalRequired = null
+    //   ipcRenderer.send(`hash-approved`, hash)
+    // },
+    // disapproveNodeHash({ state }, hash) {
+    //   state.approvalRequired = null
+    //   ipcRenderer.send(`hash-disapproved`, hash)
+    // },
     async setMockedConnector({ state, dispatch, commit }, mocked) {
       state.mocked = mocked
 
       // Tell the main process our status in case of reload.
-      ipcRenderer.send(`mocked`, mocked)
+      // ipcRenderer.send(`mocked`, mocked)
 
       // disable updates from the live node
       node.rpcDisconnect()
@@ -163,7 +163,7 @@ export default function({ node }) {
 
       if (mocked) {
         // if we run a mocked version only, we don't want the lcd to run in the meantime
-        ipcRenderer.send(`stop-lcd`)
+        // ipcRenderer.send(`stop-lcd`)
 
         // we need to trigger this event for the mocked mode as it is usually triggered by the "connected" event from the main thread
         dispatch(`rpcSubscribe`)
@@ -173,7 +173,7 @@ export default function({ node }) {
       } else {
         // if we switch to a live connector, we need to wait for the process to have started up again so we can access the KMS
         commit(`setModalSession`, `loading`)
-        await new Promise(resolve => ipcRenderer.once(`connected`, resolve))
+        // await new Promise(resolve => ipcRenderer.once(`connected`, resolve))
       }
 
       // sign user out, as when switching from mocked to live node, the account address needs to be clarified again

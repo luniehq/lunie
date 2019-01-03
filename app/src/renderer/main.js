@@ -1,20 +1,22 @@
 "use strict"
 
 import Vue from "vue"
-import Electron from "vue-electron"
+// import Electron from "vue-electron"
 import Router from "vue-router"
 import Tooltip from "vue-directive-tooltip"
 import Vuelidate from "vuelidate"
 import * as Sentry from "@sentry/browser"
-import { ipcRenderer, remote } from "electron"
+// import { ipcRenderer, remote } from "electron"
 
 import App from "./App"
 import routes from "./routes"
 import Node from "./connectors/node"
 import Store from "./vuex/store"
-import AxiosProxy from "./scripts/axiosProxy"
+import axios from "axios"
+import { sleep } from "./scripts/common"
 
-const config = remote.getGlobal(`config`)
+// const config = remote.getGlobal(`config`)
+const config = require(`../../src/config.json`)
 
 // exporting this for testing
 let store
@@ -59,7 +61,7 @@ Guru Meditation #${trace}`)
   }
 }
 
-Vue.use(Electron)
+// Vue.use(Electron)
 Vue.use(Router)
 Vue.use(Tooltip, { delay: 1 })
 Vue.use(Vuelidate)
@@ -76,7 +78,7 @@ async function main() {
   let localLcdURL = `https://localhost:${lcdPort}`
   console.log(`Expecting lcd-server on port: ` + lcdPort)
 
-  node = Node(AxiosProxy(), localLcdURL, config.node_lcd, config.mocked)
+  node = Node(axios, localLcdURL, config.node_lcd, config.mocked)
 
   store = Store({ node })
   store.dispatch(`loadTheme`)
@@ -92,44 +94,53 @@ async function main() {
     next()
   })
 
-  ipcRenderer.on(`error`, (event, err) => {
-    switch (err.code) {
-      case `NO_NODES_AVAILABLE`:
-        store.commit(`setModalNoNodes`, true)
-        break
-      default:
-        store.commit(`setModalError`, true)
-        store.commit(`setModalErrorMessage`, err.message)
-    }
-  })
-  ipcRenderer.on(`approve-hash`, (event, hash) => {
-    console.log(hash)
-    store.commit(`setNodeApprovalRequired`, hash)
-  })
+  // ipcRenderer.on(`error`, (event, err) => {
+  //   switch (err.code) {
+  //     case `NO_NODES_AVAILABLE`:
+  //       store.commit(`setModalNoNodes`, true)
+  //       break
+  //     default:
+  //       store.commit(`setModalError`, true)
+  //       store.commit(`setModalErrorMessage`, err.message)
+  //   }
+  // })
+  // ipcRenderer.on(`approve-hash`, (event, hash) => {
+  //   console.log(hash)
+  //   store.commit(`setNodeApprovalRequired`, hash)
+  // })
 
-  let firstStart = true
-  ipcRenderer.on(`connected`, (event, { rpcURL }) => {
-    node.rpcConnect(rpcURL)
-    store.dispatch(`rpcSubscribe`)
-    store.dispatch(`subscribeToBlocks`)
+  // let firstStart = true
+  // ipcRenderer.on(`connected`, (event, { rpcURL }) => {
+  //   node.rpcConnect(rpcURL)
+  //   store.dispatch(`rpcSubscribe`)
+  //   store.dispatch(`subscribeToBlocks`)
 
-    if (firstStart) {
-      store.dispatch(`showInitialScreen`)
+  //   if (firstStart) {
+  //     store.dispatch(`showInitialScreen`)
 
-      // test connection
-      node.lcdConnected().then(connected => {
-        if (connected) {
-          ipcRenderer.send(`successful-launch`)
-        }
-      })
+  //     // test connection
+  //     node.lcdConnected().then(connected => {
+  //       if (connected) {
+  //         ipcRenderer.send(`successful-launch`)
+  //       }
+  //     })
 
-      firstStart = false
-    } else {
-      store.dispatch(`reconnected`)
-    }
-  })
+  //     firstStart = false
+  //   } else {
+  //     store.dispatch(`reconnected`)
+  //   }
+  // })
 
-  ipcRenderer.send(`booted`)
+  // ipcRenderer.send(`booted`)
+
+  while (true) {
+    try {
+      await axios(`https://localhost:9070/keys`)
+      break
+    } catch (err) {}
+    await sleep(1000)
+  }
+  store.dispatch(`showInitialScreen`)
 
   return new Vue({
     router,

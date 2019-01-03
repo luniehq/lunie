@@ -1,7 +1,7 @@
 "use strict"
 
 const RpcClient = require(`tendermint`)
-const { ipcRenderer } = require(`electron`)
+// const { ipcRenderer } = require(`electron`)
 
 module.exports = function setRpcWrapper(container) {
   let rpcWrapper = {
@@ -53,7 +53,7 @@ module.exports = function setRpcWrapper(container) {
 
       console.log(`trying to reconnect`)
 
-      ipcRenderer.send(`reconnect`)
+      // ipcRenderer.send(`reconnect`) // TODO
     }
   }
 

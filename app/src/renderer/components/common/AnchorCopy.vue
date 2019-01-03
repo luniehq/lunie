@@ -6,7 +6,6 @@
 </template>
 
 <script>
-import { clipboard } from "electron"
 export default {
   name: `anchor-copy`,
   props: {
@@ -43,7 +42,7 @@ export default {
   },
   methods: {
     click() {
-      clipboard.writeText(this.value)
+      navigator.clipboard.writeText(this.value)
 
       this.$store.commit(`notify`, {
         title: this.notifyTitle,

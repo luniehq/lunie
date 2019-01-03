@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import { clipboard } from "electron"
 import TmBtn from "common/TmBtn"
 export default {
   components: { TmBtn },
@@ -43,7 +42,7 @@ export default {
       return value
     },
     click() {
-      clipboard.writeText(this.value)
+      navigator.clipboard.writeText(this.value)
 
       this.$store.commit(`notify`, {
         title: this.notifyTitle,

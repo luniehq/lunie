@@ -1,7 +1,8 @@
 import * as Sentry from "@sentry/browser"
-import { ipcRenderer, remote } from "electron"
+// import { ipcRenderer, remote } from "electron"
 import enableGoogleAnalytics from "../../google-analytics.js"
-const config = remote.getGlobal(`config`)
+// const config = remote.getGlobal(`config`)
+const config = require(`../../../config.json`)
 
 export default ({ node }) => {
   const ERROR_COLLECTION_KEY = `voyager_error_collection`
