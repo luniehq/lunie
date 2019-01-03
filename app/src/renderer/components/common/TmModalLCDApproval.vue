@@ -37,7 +37,8 @@
 </template>
 
 <script>
-import { TmBtn, TmField } from "@tendermint/ui"
+import TmBtn from "common/TmBtn"
+import TmField from "common/TmField"
 export default {
   name: `modal-lcd-approval`,
   components: {

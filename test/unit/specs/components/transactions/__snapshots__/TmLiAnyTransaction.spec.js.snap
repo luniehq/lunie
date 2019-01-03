@@ -1,0 +1,181 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmLiAnyTransaction shows bank transactions 1`] = `
+<div
+  class="tm-li-tx"
+>
+  <div
+    class="tm-li-tx__icon"
+  >
+    <img
+      src="~assets/images/cosmos-logo.png"
+      style="border-color: #25293f;"
+    />
+  </div>
+   
+  <div
+    class="tm-li-tx__content"
+  >
+    <div
+      class="tm-li-tx__content__left"
+    >
+      <div
+        class="tm-li-tx__content__caption"
+      >
+        <p
+          class="tm-li-tx__content__caption__title"
+        >
+          <div>
+            
+      Sent 
+            <b>
+              1234
+            </b>
+            <span>
+               JBCOINS
+            </span>
+          </div>
+        </p>
+      </div>
+       
+      <div
+        class="tm-li-tx__content__information"
+      >
+        <span>
+          To tb1d4u5zerywfjhxuc9nudvw
+        </span>
+      </div>
+    </div>
+     
+    <div
+      class="tm-li-tx__content__block"
+    >
+      <a
+        href="https://explorecosmos.network/blocks/3436"
+      >
+        Block #3436 
+      </a>
+      @ 12:00 am
+    
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TmLiAnyTransaction shows stake transactions 1`] = `
+<div
+  class="tm-li-tx"
+>
+  <div
+    class="tm-li-tx__icon"
+  >
+    <img
+      src="~assets/images/cosmos-logo.png"
+      style="border-color: #512584;"
+    />
+  </div>
+   
+  <div
+    class="tm-li-tx__content"
+  >
+    <div
+      class="tm-li-tx__content__left"
+    >
+      <div
+        class="tm-li-tx__content__caption"
+      >
+        <p
+          class="tm-li-tx__content__caption__title"
+        >
+          <div>
+            
+      Delegated 
+            <b>
+              4,200.00
+            </b>
+            <span>
+               atoms
+            </span>
+          </div>
+        </p>
+      </div>
+       
+      <div
+        class="tm-li-tx__content__information"
+      >
+        <div>
+          
+      To 
+          <router-link
+            to="/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+          >
+            mr_mounty
+          </router-link>
+        </div>
+      </div>
+    </div>
+     
+    <div
+      class="tm-li-tx__content__block"
+    >
+      <a
+        href="https://explorecosmos.network/blocks/568"
+      >
+        Block #568 
+      </a>
+      @ 12:00 am
+    
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TmLiAnyTransaction shows unknown transactions 1`] = `
+<div
+  class="tm-li-tx"
+>
+  <div
+    class="tm-li-tx__icon"
+  >
+    <img
+      src="~assets/images/cosmos-logo.png"
+    />
+  </div>
+   
+  <div
+    class="tm-li-tx__content"
+  >
+    <div
+      class="tm-li-tx__content__left"
+    >
+      <div
+        class="tm-li-tx__content__caption"
+      >
+        <p
+          class="tm-li-tx__content__caption__title"
+        >
+          <span>
+            Unknown Transaction Type
+          </span>
+        </p>
+      </div>
+       
+      <div
+        class="tm-li-tx__content__information"
+      />
+    </div>
+     
+    <div
+      class="tm-li-tx__content__block"
+    >
+      <a
+        href="https://explorecosmos.network/blocks/3436"
+      >
+        Block #3436 
+      </a>
+      @ 12:00 am
+    
+    </div>
+  </div>
+</div>
+`;

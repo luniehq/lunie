@@ -43,8 +43,11 @@ describe(`TmModal`, () => {
   it(`should use slots`, () => {
     wrapper = mount(TmModal, {
       slots: {
-        title: `<custom-title />`,
-        footer: `<custom-footer />`
+        title: `<div class="hello" />`,
+        footer: `<div class="world" />`
+      },
+      propsData: {
+        close
       }
     })
     expect(wrapper.find(`custom-title`)).toBeDefined()

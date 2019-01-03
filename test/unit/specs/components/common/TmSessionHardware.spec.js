@@ -1,12 +1,13 @@
 import Vuex from "vuex"
 import Vuelidate from "vuelidate"
 import { mount, createLocalVue } from "@vue/test-utils"
-import htmlBeautify from "html-beautify"
 import NISessionHardware from "common/TmSessionHardware"
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.use(Vuelidate)
+localVue.directive(`tooltip`, () => {})
+localVue.directive(`focus`, () => {})
 
 describe(`NISessionHardware`, () => {
   let wrapper, store
@@ -21,7 +22,7 @@ describe(`NISessionHardware`, () => {
   })
 
   it(`has the expected html structure`, () => {
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should go back to the welcome screen on click`, () => {
@@ -43,15 +44,12 @@ describe(`NISessionHardware`, () => {
 
   it(`should show a state indicator for different states of the hardware connection`, () => {
     wrapper.setData({ status: `connect` })
-    wrapper.update()
     expect(wrapper.html()).toMatchSnapshot()
 
     wrapper.setData({ status: `detect` })
-    wrapper.update()
     expect(wrapper.html()).toMatchSnapshot()
 
     wrapper.setData({ status: `success` })
-    wrapper.update()
     expect(wrapper.html()).toMatchSnapshot()
   })
 

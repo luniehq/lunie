@@ -1,6 +1,5 @@
 import setup from "../../../helpers/vuex-setup"
 import Vuelidate from "vuelidate"
-import htmlBeautify from "html-beautify"
 import NISessionSignUp from "common/TmSessionSignUp"
 jest.mock(`renderer/google-analytics.js`, () => () => {})
 
@@ -21,8 +20,7 @@ describe(`NISessionSignUp`, () => {
   })
 
   it(`has the expected html structure`, () => {
-    wrapper.update()
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should go back to the welcome screen on click`, () => {

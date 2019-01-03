@@ -1,13 +1,14 @@
 import Vuex from "vuex"
 import Vuelidate from "vuelidate"
 import { mount, createLocalVue } from "@vue/test-utils"
-import htmlBeautify from "html-beautify"
 import TmSessionImport from "common/TmSessionImport"
 jest.mock(`renderer/google-analytics.js`, () => () => {})
 const seed = `goose toward escape engine wheel board help torch avocado educate rose rebel rigid side aspect abandon grace admit inherit female grant pledge shine inquiry`
 const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.use(Vuelidate)
+localVue.directive(`tooltip`, () => {})
+localVue.directive(`focus`, () => {})
 
 describe(`TmSessionImport`, () => {
   let wrapper, store
@@ -27,7 +28,7 @@ describe(`TmSessionImport`, () => {
   })
 
   it(`has the expected html structure`, () => {
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should go back to the welcome screen on click`, () => {

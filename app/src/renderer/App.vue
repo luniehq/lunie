@@ -21,7 +21,7 @@
 <script>
 import { mapGetters } from "vuex"
 import AppHeader from "common/AppHeader"
-import { TmNotifications } from "@tendermint/ui"
+import TmNotifications from "common/TmNotifications"
 import ModalError from "common/TmModalError"
 import ModalHelp from "common/TmModalHelp"
 import ModalLcdApproval from "common/TmModalLCDApproval"

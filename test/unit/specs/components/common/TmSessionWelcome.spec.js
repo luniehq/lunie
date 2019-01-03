@@ -1,11 +1,12 @@
 import Vuex from "vuex"
 import { mount, createLocalVue } from "@vue/test-utils"
-import htmlBeautify from "html-beautify"
 import NISessionWelcome from "common/TmSessionWelcome"
 import LiSession from "common/TmLiSession"
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
+localVue.directive(`tooltip`, () => {})
+localVue.directive(`focus`, () => {})
 
 describe(`NISessionWelcome`, () => {
   let wrapper, store, getters
@@ -44,14 +45,13 @@ describe(`NISessionWelcome`, () => {
     })
 
     it(`has the expected html structure`, () => {
-      expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+      expect(wrapper.vm.$el).toMatchSnapshot()
     })
   })
 
   describe(`with accounts`, () => {
     beforeAll(() => {
       accounts.push(`foo`, `bar`)
-      wrapper.update()
     })
 
     it(`should show sign-in link since we have accounts`, () => {
@@ -71,7 +71,7 @@ describe(`NISessionWelcome`, () => {
     })
 
     it(`has the expected html structure`, () => {
-      expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+      expect(wrapper.vm.$el).toMatchSnapshot()
     })
   })
 })

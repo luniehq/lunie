@@ -89,6 +89,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1626](https://github.com/cosmos/voyager/issues/1626) upgraded from raven to sentry/browser @jbibla
 - [\#1724](https://github.com/cosmos/voyager/issues/1724) set tabindex attribute to -1 for readonly denom on ModalProposals. tab navgiation now skips element @enyan94
 - [\#1277](https://github.com/cosmos/voyager/issues/1277) change name of VmToolBar to ToolBar, update all snapshots and import statements @coreycosman
+- [\#1432](https://github.com/cosmos/voyager/issues/1432) Moved @tendermint/UI components back into the Voyager repository @faboweb
 
 ### Fixed
 
@@ -135,6 +136,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1667](https://github.com/cosmos/voyager/issues/1667) Fixed menu in PageSend + hover cursor for menu @sabau
 - [\#1676](https://github.com/cosmos/voyager/issues/1676) Reduced minWidth css for ModalVote to have 2 buttons per line @sabau
 - [\#1676](https://github.com/cosmos/voyager/issues/1670) Update balance in header after voting and depositing @faboweb
+- [\#1572](https://github.com/cosmos/voyager/issues/1572) Fixed scroll bug when switching between tabs @jbibla
+- [\#1749](https://github.com/cosmos/voyager/issues/1749) Fixed proposal tally update after voting @fedekunze
+- [\#1765](https://github.com/cosmos/voyager/pull/1765) Fixed proposal deposit update after submitting a deposit @fedekunze
 
 ## [0.10.7] - 2018-10-10
 

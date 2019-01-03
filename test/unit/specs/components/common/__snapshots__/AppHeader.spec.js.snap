@@ -1,57 +1,121 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`AppHeader has the expected html structure 1 1`] = `
-"<nav id=\\"app-header\\" class=\\"\\">
-   <div class=\\"container\\">
-      <!---->
-      <div class=\\"header-item header-item-logo\\">
-         <img id=\\"logo-white\\" src=\\"~@/assets/images/cosmos-wordmark-white.svg\\">
-      </div>
-   <app-menu></app-menu>
-      <!---->
-</div>
-</nav>"
+<nav
+  class=""
+  id="app-header"
+>
+  <div
+    class="container"
+  >
+    <!---->
+     
+    <div
+      class="header-item header-item-logo"
+    >
+      <img
+        id="logo-white"
+        src="~assets/images/cosmos-wordmark-white.svg"
+      />
+    </div>
+     
+    <app-menu-stub />
+    <!---->
+  </div>
+</nav>
 `;
 
 exports[`AppHeader has the expected html structure 2 1`] = `
-"<nav id=\\"app-header\\" class=\\"mobile\\">
-   <div class=\\"container\\">
-      <div class=\\"header-item\\"></div>
-   <div class=\\"header-item header-item-logo\\">
-      <img id=\\"logo-white\\" src=\\"~@/assets/images/cosmos-wordmark-white.svg\\">
-   </div>
-   <app-menu></app-menu>
-   <div class=\\"header-item\\">
-      <i class=\\"material-icons\\">close</i>
-   </div>
-</div>
-</nav>"
+<nav
+  class="mobile"
+  id="app-header"
+>
+  <div
+    class="container"
+  >
+    <div
+      class="header-item"
+    />
+     
+    <div
+      class="header-item header-item-logo"
+    >
+      <img
+        id="logo-white"
+        src="~assets/images/cosmos-wordmark-white.svg"
+      />
+    </div>
+     
+    <app-menu-stub />
+    <div
+      class="header-item"
+    >
+      <i
+        class="material-icons"
+      >
+        close
+      </i>
+    </div>
+  </div>
+</nav>
 `;
 
 exports[`AppHeader has the expected html structure 3 1`] = `
-"<nav id=\\"app-header\\" class=\\"\\">
-   <div class=\\"container\\">
-      <!---->
-      <div class=\\"header-item header-item-logo\\">
-         <img id=\\"logo-white\\" src=\\"~@/assets/images/cosmos-wordmark-white.svg\\">
-      </div>
-   <app-menu></app-menu>
-      <!---->
-</div>
-</nav>"
+<nav
+  class=""
+  id="app-header"
+>
+  <div
+    class="container"
+  >
+    <!---->
+     
+    <div
+      class="header-item header-item-logo"
+    >
+      <img
+        id="logo-white"
+        src="~assets/images/cosmos-wordmark-white.svg"
+      />
+    </div>
+     
+    <app-menu-stub />
+    <!---->
+  </div>
+</nav>
 `;
 
 exports[`AppHeader has the expected html structure 4 1`] = `
-"<nav id=\\"app-header\\" class=\\"mobile\\">
-   <div class=\\"container\\">
-      <div class=\\"header-item\\"></div>
-   <div class=\\"header-item header-item-logo\\">
-      <img id=\\"logo-white\\" src=\\"~@/assets/images/cosmos-wordmark-white.svg\\">
-   </div>
-      <!---->
-   <div class=\\"header-item\\">
-      <i class=\\"material-icons\\">menu</i>
-   </div>
-</div>
-</nav>"
+<nav
+  class="mobile"
+  id="app-header"
+>
+  <div
+    class="container"
+  >
+    <div
+      class="header-item"
+    />
+     
+    <div
+      class="header-item header-item-logo"
+    >
+      <img
+        id="logo-white"
+        src="~assets/images/cosmos-wordmark-white.svg"
+      />
+    </div>
+     
+    <!---->
+    <div
+      class="header-item"
+    >
+      <i
+        class="material-icons"
+      >
+        menu
+      </i>
+    </div>
+  </div>
+</nav>
 `;

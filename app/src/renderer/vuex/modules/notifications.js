@@ -26,6 +26,7 @@ export default () => {
     time: 0
   }
 
+  let key = 0
   const state = []
 
   const mutations = {
@@ -36,7 +37,7 @@ export default () => {
           note.body
         }`
       )
-      state.push(note)
+      state.push(Object.assign({}, note, { key: key++ }))
     },
     notify(state, data) {
       let note = data
