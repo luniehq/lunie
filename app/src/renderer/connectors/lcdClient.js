@@ -24,7 +24,7 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
     }
   }
 
-  let fetchAccount = argReq(`GET`, `/auth/accounts`)
+  let fetchAccount = argReq(`GET`, `/auth/accounts`, ``, true)
 
   const keys = {
     add: req(`POST`, `/keys`),
