@@ -250,31 +250,6 @@ describe(`Module: Connection`, () => {
     expect(store.state.connection.approvalRequired).toBe(null)
   })
 
-  it(`should switch to the mocked node implemenation`, () => {
-    let spy = jest.spyOn(node, `setup`)
-
-    store.dispatch(`setMockedConnector`, true)
-
-    expect(spy).toHaveBeenCalledWith(true)
-  })
-
-  it(`should stop the lcd if in mocked mode`, () => {
-    let { ipcRenderer } = require(`electron`)
-    let spy = jest.spyOn(ipcRenderer, `send`)
-
-    store.dispatch(`setMockedConnector`, true)
-
-    expect(spy).toHaveBeenCalledWith(`stop-lcd`)
-  })
-
-  it(`should log the user out if switched to live mode`, () => {
-    store.dispatch(`setMockedConnector`, true)
-    store.dispatch(`setMockedConnector`, false)
-
-    expect(store.state.config.modals.session.state).toBe(`loading`)
-    expect(store.state.user.signedIn).toBe(false)
-  })
-
   it(`should check if the node has positively halted`, async () => {
     jest.useFakeTimers()
     let instance = connectionModule({ node: nodeMock })

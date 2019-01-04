@@ -20,7 +20,6 @@ describe(`PagePreferences`, () => {
 
   it(`has the expected html structure if connected`, async () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
-    expect(wrapper.vm.$el.outerHTML).toContain(`Select network`)
     expect(wrapper.vm.$el.outerHTML).toContain(`View tutorial`)
     expect(wrapper.vm.$el.outerHTML).toContain(`Automatically send`)
     expect(wrapper.vm.$el.outerHTML).toContain(`Switch account`)
@@ -62,53 +61,5 @@ describe(`PagePreferences`, () => {
     expect(store.commit).toHaveBeenCalledWith(`setOnboardingState`, 0)
     expect(store.commit).toHaveBeenCalledWith(`setOnboardingActive`, true)
     expect(wrapper.find(`#onboarding`)).toBeDefined()
-  })
-
-  describe(`Select network to connect to`, () => {
-    it(`Live Testnet`, () => {
-      const instance = {
-        networkSelectActive: `live`,
-        $store: {
-          dispatch: jest.fn()
-        }
-      }
-
-      PagePreferences.methods.setMockedConnector.call(instance)
-
-      expect(instance.$store.dispatch.mock.calls).toEqual([
-        [`setMockedConnector`, false]
-      ])
-    })
-    it(`Offline Mode`, () => {
-      const instance = {
-        networkSelectActive: `mock`,
-        $store: {
-          dispatch: jest.fn()
-        }
-      }
-
-      PagePreferences.methods.setMockedConnector.call(instance)
-
-      expect(instance.$store.dispatch.mock.calls).toEqual([
-        [`setMockedConnector`, true]
-      ])
-    })
-  })
-
-  it(`switches mocked mode again`, async () => {
-    let test = instance.mount(PagePreferences, {
-      getters: {
-        mockedConnector: () => true
-      }
-    })
-    wrapper = test.wrapper
-    store = test.store
-    await store.dispatch(`signIn`, {
-      account: `default`,
-      password: `1234567890`
-    })
-    wrapper.vm.networkSelectActive = `live`
-    wrapper.vm.setMockedConnector()
-    expect(store.dispatch).toHaveBeenCalledWith(`setMockedConnector`, false)
   })
 })

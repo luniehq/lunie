@@ -81,20 +81,6 @@ describe(`TmSessionSignIn`, () => {
     expect(store.commit.mock.calls[0][0]).toBe(`notifyError`)
   })
 
-  it(`should set the default password in mocked mode`, async () => {
-    let test = instance.mount(TmSessionSignIn, {
-      getters: {
-        mockedConnector: () => true,
-        connected: () => true
-      }
-    })
-    store = test.store
-    wrapper = test.wrapper
-
-    expect(wrapper.vm.fields.signInPassword).toBe(`1234567890`)
-    expect(wrapper.html()).toContain(`1234567890`)
-  })
-
   it(`should reset history after signin`, async () => {
     expect(store.state.user.history.length).toBe(0)
     wrapper.setData({

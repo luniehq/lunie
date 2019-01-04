@@ -120,7 +120,6 @@ exports[`AppMenu has the expected html structure 1`] = `
       class="tm-connected-network__string"
       id="tm-connected-network__block"
     >
-      <!---->
       <a
         href="https://explorecosmos.network/blocks/0"
       >

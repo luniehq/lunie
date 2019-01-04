@@ -124,8 +124,6 @@ exports[`TmSessionSignIn has the expected html structure 1`] = `
               </div>
                
               <!---->
-               
-              <!---->
             </div>
           </div>
         </div>
