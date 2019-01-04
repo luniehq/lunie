@@ -70,7 +70,7 @@ export default ({ node }) => {
     async loadAccounts({ commit, state }) {
       state.loading = true
       try {
-        let keys = (await loadKeyNames()) || []
+        let keys = await loadKeyNames()
         commit(`setAccounts`, keys)
       } catch (error) {
         Sentry.captureException(error)
@@ -102,7 +102,10 @@ export default ({ node }) => {
       state.account = account
       state.signedIn = true
 
-      let { address } = await node.keys.get(account)
+      let keys = await loadKeyNames()
+      debugger
+      let { address } = keys.find(({ name }) => name === account)
+
       state.address = address
 
       dispatch(`loadPersistedState`)

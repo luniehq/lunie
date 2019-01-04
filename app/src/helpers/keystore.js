@@ -23,7 +23,7 @@ async function storeKey(wallet, name, password) {
 export async function testPassword(name, password) {
   const key = localStorage.getItem(`key_` + name)
   try {
-    const bytes = AES.decrypt(key, password)
+    AES.decrypt(key, password)
     return true
   } catch (err) {
     return false
@@ -32,8 +32,7 @@ export async function testPassword(name, password) {
   // return JSON.parse(originalText);
 }
 export async function addKey(name, password, wallet) {
-  let keysString = (await loadKeyNames()) || `[]`
-  let keys = JSON.parse(keysString)
+  let keys = await loadKeyNames()
 
   keys.push({
     name,
