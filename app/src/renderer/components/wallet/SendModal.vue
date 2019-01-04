@@ -147,7 +147,7 @@ import ActionModal from "common/ActionModal"
 const isInteger = amount => Number.isInteger(amount)
 
 export default {
-  name: `page-send`,
+  name: `send-modal`,
   components: {
     TmBalance,
     TmBtn,

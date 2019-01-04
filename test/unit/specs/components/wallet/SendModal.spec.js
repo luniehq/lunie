@@ -1,8 +1,8 @@
 import setup from "../../../helpers/vuex-setup"
-import PageSend from "renderer/components/wallet/PageSend"
+import SendModal from "renderer/components/wallet/SendModal"
 
-describe(`PageSend`, () => {
-  let wrapper, store
+describe(`SendModal`, () => {
+  let wrapper, store, node
   const name = `default`
   const password = `1234567890`
   const address = `tb1mjt6dcdru8lgdz64h2fu0lrzvd5zv8sfcvkv2l`
@@ -21,7 +21,7 @@ describe(`PageSend`, () => {
   let { mount } = setup()
 
   beforeEach(async () => {
-    let test = mount(PageSend, {
+    let test = mount(SendModal, {
       propsData: {
         denom: `fermion`
       },
@@ -71,7 +71,7 @@ describe(`PageSend`, () => {
   })
 
   it(`should work without providing a default denom`, async () => {
-    let { wrapper, store } = mount(PageSend, {
+    let { wrapper, store } = mount(SendModal, {
       sync: false
     })
     store.commit(`setConnected`, true)
@@ -80,7 +80,7 @@ describe(`PageSend`, () => {
   })
 
   it(`should show address required error`, async () => {
-    let { wrapper, store } = mount(PageSend, { sync: false })
+    let { wrapper, store } = mount(SendModal, { sync: false })
     store.commit(`setConnected`, true)
     wrapper.setData({
       fields: {
@@ -156,11 +156,6 @@ describe(`PageSend`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`should close confirmation modal on cancel`, async () => {
-    wrapper.vm.onCancel()
-    expect(wrapper.vm.confirmationPending).toBe(false)
-  })
-
   it(`should show notification for successful send`, async () => {
     wrapper.setData({
       fields: {
@@ -170,7 +165,6 @@ describe(`PageSend`, () => {
         password: `1234567890`
       }
     })
-    await wrapper.vm.onApproved()
     // walletSend is async so we need to wait until it is resolved
     expect(store.commit).toHaveBeenCalledWith(`notify`, expect.any(Object))
   })
@@ -199,7 +193,10 @@ describe(`PageSend`, () => {
       title: `Error Sending transaction`,
       body: expect.stringContaining(``)
     })
-    expect(self.sending).toBe(false)
+    node.sign = () => Promise.reject()
+    expect(store.state.notifications.length).toBe(1)
+    expect(store.state.notifications[0].title).toBe(`Error Sending transaction`)
+    expect(store.state.notifications[0]).toMatchSnapshot()
   })
 
   it(`validates bech32 addresses`, () => {

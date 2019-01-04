@@ -46,7 +46,7 @@
       />
     </ul>
 
-    <page-send
+    <send-modal
       v-if="showSendModal"
       :show-send-modal.sync="showSendModal"
       :denom="denomination"
@@ -61,7 +61,7 @@ import { includes, orderBy } from "lodash"
 import Mousetrap from "mousetrap"
 import DataEmptySearch from "common/TmDataEmptySearch"
 import TmDataConnecting from "common/TmDataConnecting"
-import PageSend from "wallet/PageSend"
+import SendModal from "wallet/SendModal"
 import LiCopy from "common/TmLiCopy"
 import LiCoin from "./LiCoin"
 import TmListItem from "common/TmListItem"
@@ -87,7 +87,7 @@ export default {
     TmPage,
     TmPart,
     ToolBar,
-    PageSend
+    SendModal
   },
   data: () => ({ num, showSendModal: false, denomination: null }),
   computed: {
