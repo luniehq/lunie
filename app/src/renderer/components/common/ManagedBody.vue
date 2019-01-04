@@ -19,7 +19,9 @@
 </template>
 
 <script>
-import { TmDataMsg, TmDataLoading, TmDataEmpty } from "@tendermint/ui"
+import TmDataMsg from "common/TmDataMsg"
+import TmDataLoading from "common/TmDataLoading"
+import TmDataEmpty from "common/TmDataEmpty"
 import DataEmptySearch from "common/TmDataEmptySearch"
 import Mousetrap from "mousetrap"
 import TmDataError from "common/TmDataError"

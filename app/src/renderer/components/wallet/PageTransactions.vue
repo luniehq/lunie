@@ -1,5 +1,14 @@
 <template>
-  <tm-page data-title="Transactions">
+  <tm-page
+    :connected="connected"
+    :loading="transactions.loading"
+    :loaded="transactions.loaded"
+    :error="transactions.error"
+    :data="allTransactions"
+    :filtered-data="filteredTransactions"
+    :search="{ type: `transactions` }"
+    data-title="Transactions"
+  >
     <template slot="menu-body">
       <tm-balance />
       <tool-bar>
@@ -21,30 +30,19 @@
         </a>
       </tool-bar>
     </template>
-
-    <managed-body
-      :connected="connected"
-      :loading="transactions.loading"
-      :loaded="transactions.loaded"
-      :error="transactions.error"
-      :data="allTransactions"
-      :filtered-data="filteredTransactions"
-      :search="{ type: `transactions` }"
-    >
-      <data-empty-tx slot="no-data" />
-      <tm-li-any-transaction
-        v-for="tx in filteredTransactions"
-        slot="data-body"
-        :validators="delegates.delegates"
-        :validators-url="validatorURL"
-        :proposals-url="proposalsURL"
-        :key="tx.hash"
-        :transaction="tx"
-        :address="wallet.address"
-        :bonding-denom="bondingDenom"
-        :unbonding-time="getUnbondingTime(tx)"
-      />
-    </managed-body>
+    <data-empty-tx slot="no-data" />
+    <tm-li-any-transaction
+      v-for="tx in filteredTransactions"
+      slot="managed-body"
+      :validators="delegates.delegates"
+      :validators-url="validatorURL"
+      :proposals-url="proposalsURL"
+      :key="tx.hash"
+      :transaction="tx"
+      :address="wallet.address"
+      :bonding-denom="bondingDenom"
+      :unbonding-time="getUnbondingTime(tx)"
+    />
   </tm-page>
 </template>
 
@@ -57,11 +55,9 @@ import TmBalance from "common/TmBalance"
 import TmPage from "common/TmPage"
 import TmLiAnyTransaction from "transactions/TmLiAnyTransaction"
 import ToolBar from "common/ToolBar"
-import ManagedBody from "../common/ManagedBody"
 export default {
   name: `page-transactions`,
   components: {
-    ManagedBody,
     TmBalance,
     TmLiAnyTransaction,
     DataEmptyTx,
@@ -135,7 +131,7 @@ export default {
         )
           return new Date(unbondingDelegation.min_time).getTime()
       }
-      return copiedTransaction
+      return null
     }
   }
 }

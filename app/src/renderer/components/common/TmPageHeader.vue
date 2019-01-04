@@ -2,17 +2,23 @@
   <header class="tm-page-header">
     <div class="tm-page-header-container">
       <div class="tm-page-header-text">
-        <div v-if="$slots['title']" class="tm-page-header-title">
-          <slot name="title"></slot>
-        </div>
-        <div v-if="$slots['subtitle']" class="tm-page-header-subtitle">
-          <slot name="subtitle"></slot>
-        </div>
-        <div v-if="$slots['menu-body']" class="tm-page-header-body">
-          <slot name="menu-body"></slot>
-        </div>
+        <slot
+          v-if="$slots['title']"
+          class="tm-page-header-title"
+          name="title"
+        />
+        <slot
+          v-if="$slots['subtitle']"
+          class="tm-page-header-subtitle"
+          name="subtitle"
+        />
+        <slot
+          v-if="$slots['menu-body']"
+          class="tm-page-header-body"
+          name="menu-body"
+        />
       </div>
-      <menu class="tm-page-header-menu"> <slot name="menu"></slot> </menu>
+      <menu class="tm-page-header-menu"> <slot name="menu" /> </menu>
     </div>
   </header>
 </template>

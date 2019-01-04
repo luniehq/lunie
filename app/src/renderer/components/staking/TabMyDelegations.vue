@@ -5,7 +5,7 @@
     :loaded="delegation.loaded"
     :error="delegation.error"
     :data="yourValidators"
-    :filtered-data="yourValidators"
+    :filtered-data="filteredValidators"
     :search="{ type: `delegation` }"
   >
     <tm-data-msg slot="no-data">
@@ -68,7 +68,8 @@ export default {
       `delegation`,
       `committedDelegations`,
       `bondingDenom`,
-      `connected`
+      `connected`,
+      `filters`
     ]),
     undelegatedValidators(
       { delegates: { delegates }, delegation: { unbondingDelegations } } = this
