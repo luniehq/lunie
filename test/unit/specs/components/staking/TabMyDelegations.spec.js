@@ -1,7 +1,6 @@
 import setup from "../../../helpers/vuex-setup"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 import TabMyDelegations from "renderer/components/staking/TabMyDelegations"
-import moment from "moment"
 
 const delegates = lcdClientMock.candidates
 
@@ -40,18 +39,22 @@ describe(`Component: TabMyDelegations`, () => {
   })
 
   it(`should show unbonding validators and the current committed validator`, () => {
+    const address = delegates[0].operator_address
     let instance = mount(TabMyDelegations, {
       getters: {
         // We decided that is should not be possible to undelegate from something that is not committed
         committedDelegations: () => ({
-          [delegates[0].operator_address]: 1
+          [address]: 1
         }),
         delegates: () => ({
           delegates
         }),
         delegation: () => ({
           unbondingDelegations: {
-            [delegates[0].operator_address]: 1
+            [address]: {
+              creation_height: `170`,
+              min_time: new Date().toISOString()
+            }
           },
           loaded: true
         }),
@@ -134,23 +137,20 @@ describe(`Component: TabMyDelegations`, () => {
     const transactions = await lcdClientMock.getDelegatorTxs(
       lcdClientMock.addresses[0]
     )
+
     expect(
       TabMyDelegations.computed.unbondingTransactions({
         delegation: {
           unbondingDelegations: {
-            [address]: 1
+            [address]: {
+              creation_height: `170`,
+              min_time: new Date().toISOString()
+            }
           }
         },
         allTransactions: transactions
       })
     ).toHaveLength(1)
-  })
-
-  it(`should return the time diff`, () => {
-    const now = new Date()
-    expect(TabMyDelegations.methods.timeDiff(now)).toEqual(
-      moment(now).fromNow()
-    )
   })
 
   it(`yourValidators`, () => {

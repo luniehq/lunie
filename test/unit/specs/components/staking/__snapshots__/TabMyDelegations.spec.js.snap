@@ -506,7 +506,7 @@ exports[`Component: TabMyDelegations should show unbonding validators and the cu
     </h3>
      
     <div
-      class="transactions"
+      class="unbonding-transactions"
     >
       <div
         class="tm-li-tx"

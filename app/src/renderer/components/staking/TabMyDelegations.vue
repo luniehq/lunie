@@ -38,7 +38,7 @@
           info_outline
         </i>
       </h3>
-      <div class="transactions">
+      <div class="unbonding-transactions">
         <template v-for="transaction in unbondingTransactions">
           <tm-li-stake-transaction
             :transaction="transaction"
@@ -46,6 +46,12 @@
             :bonding-denom="bondingDenom"
             :key="transaction.hash"
             :url="validatorURL"
+            :unbonding-time="
+              time.getUnbondingTime(
+                transaction,
+                delegation.unbondingDelegations
+              )
+            "
           />
         </template>
       </div>
@@ -60,7 +66,7 @@ import TmDataMsg from "common/TmDataMsg"
 import TmDataLoading from "common/TmDataLoading"
 import TableValidators from "staking/TableValidators"
 import TmDataConnecting from "common/TmDataConnecting"
-import moment from "moment"
+import time from "scripts/time"
 
 export default {
   name: `tab-my-delegations`,
@@ -73,9 +79,10 @@ export default {
   },
   data: () => ({
     bondInfo: `Validators you are currently bonded to`,
-    unbondInfo: `Your bonded validators in unbonding process`,
-    unbondTransactions: `The transactions currently in unbonding period`,
-    validatorURL: `/staking/validators`
+    unbondInfo: `Your bonded validators in undelegation process`,
+    unbondTransactions: `The transactions currently in undelegation period`,
+    validatorURL: `/staking/validators`,
+    time
   }),
   computed: {
     ...mapGetters([
@@ -95,7 +102,13 @@ export default {
       allTransactions
         .filter(
           transaction =>
-            transaction.tx.value.msg[0].type === `cosmos-sdk/BeginUnbonding`
+            // Checking the type of transaction
+            transaction.tx.value.msg[0].type === `cosmos-sdk/BeginUnbonding` &&
+            // getting the unbonding time and checking if it has passed already
+            time.getUnbondingTime(
+              transaction,
+              delegation.unbondingDelegations
+            ) >= Date.now()
         )
         .map(transaction => ({
           ...transaction,
@@ -104,9 +117,6 @@ export default {
               transaction.tx.value.msg[0].value.validator_addr
             ]
         }))
-  },
-  methods: {
-    timeDiff: min_time => moment(min_time).fromNow()
   }
 }
 </script>
@@ -135,14 +145,14 @@ export default {
   text-align: center;
 }
 
-.transactions {
+.unbonding-transactions {
   margin-left: 2rem;
   counter-reset: transaction;
 }
-.transactions .tm-li-tx {
+.unbonding-transactions .tm-li-tx {
   counter-increment: transaction;
 }
-.tm-li-tx::before {
+.unbonding-transactions .tm-li-tx::before {
   content: counter(transaction);
   position: absolute;
   width: 2rem;
