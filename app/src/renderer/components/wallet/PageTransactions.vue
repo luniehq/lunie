@@ -41,7 +41,9 @@
       :transaction="tx"
       :address="wallet.address"
       :bonding-denom="bondingDenom"
-      :unbonding-time="getUnbondingTime(tx)"
+      :unbonding-time="
+        time.getUnbondingTime(tx, delegation.unbondingDelegations)
+      "
     />
   </tm-page>
 </template>
@@ -55,6 +57,8 @@ import TmBalance from "common/TmBalance"
 import TmPage from "common/TmPage"
 import TmLiAnyTransaction from "transactions/TmLiAnyTransaction"
 import ToolBar from "common/ToolBar"
+import time from "scripts/time"
+
 export default {
   name: `page-transactions`,
   components: {
@@ -71,7 +75,8 @@ export default {
       order: `desc`
     },
     validatorURL: `/staking/validators`,
-    proposalsURL: `/governance/proposals`
+    proposalsURL: `/governance/proposals`,
+    time
   }),
   computed: {
     ...mapState([`transactions`]),
@@ -89,7 +94,7 @@ export default {
     },
     orderedTransactions() {
       return orderBy(
-        this.allTransactions.map(t => {
+        this.enrichedTransactions.map(t => {
           t.height = parseInt(t.height)
           return t // TODO what happens if block height is bigger then int?
         }),

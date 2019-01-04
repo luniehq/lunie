@@ -12,15 +12,15 @@ Object {
     "balance": Object {
       "amount": "356.0000000000",
     },
-    "creation_height": undefined,
-    "min_time": undefined,
+    "delegator_addr": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+    "shares": "356.0000000000",
   },
   "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw": Object {
     "balance": Object {
       "amount": "113.0000000000",
     },
-    "creation_height": undefined,
-    "min_time": undefined,
+    "delegator_addr": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+    "shares": "113.0000000000",
   },
 }
 `;
