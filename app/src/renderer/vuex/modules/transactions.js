@@ -33,7 +33,8 @@ export default ({ node }) => {
       txCategories.forEach(category => {
         state[category].forEach(t => {
           if (t.height === blockHeight && blockMetaInfo) {
-            Vue.set(t, `time`, blockMetaInfo.header.time)
+            // time seems to be an ISO string, but we are expecting a Number type
+            Vue.set(t, `time`, new Date(blockMetaInfo.header.time).getTime())
           }
         })
       })

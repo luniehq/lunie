@@ -48,7 +48,7 @@ exports[`TmLiTransaction has the expected html structure 1`] = `
       >
         Block #500 
       </a>
-      @ 12:00 am
+      @ 00:00
     
     </div>
   </div>

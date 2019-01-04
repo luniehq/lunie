@@ -47,7 +47,7 @@ export default {
   },
   computed: {
     date() {
-      return moment(this.time).format(`h:mm a`)
+      return moment(this.time).format(`HH:mm`)
     }
   }
 }
