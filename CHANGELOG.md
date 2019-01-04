@@ -49,6 +49,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added compatibility to Gaia/SDK version 0.28.0-rc2 @faboweb
 - [\#1673](https://github.com/cosmos/voyager/issues/1673) Documentation and single command to run one or all tests with fallback for end to end test @sabau
 - [\#1683](https://github.com/cosmos/voyager/issues/1683) Governance: block voting twice for the same option @sabau
+- [\#1387](https://github.com/cosmos/voyager/issues/1387) Staking: Added list of undelegation transactions @sabau
 - [\#1661](https://github.com/cosmos/voyager/issues/1661) Boot: multinode available for local-testnet @sabau
 - [\#1748](https://github.com/cosmos/voyager/issues/1748) display governance parameters on tab @fedekunze
 - [\#1660](https://github.com/cosmos/voyager/issues/1660) Add parameters and pool to store @fedekunze
@@ -85,6 +86,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1638](https://github.com/cosmos/voyager/issues/1638) removed account password from the state and now user has to input it on every transaction @fedekunze
 - [\#1655](https://github.com/cosmos/voyager/issues/1655) Text and Textarea fields trimmed @sabau
 - [\#1686](https://github.com/cosmos/voyager/issues/1686) Changed proposals from array to object @sabau
+- [\#1387](https://github.com/cosmos/voyager/issues/1387) Delegation: modifiers simplified, setUnbondingDelegations takes an array as input now as the name suggest and replace the current dictionary with a new one @sabau
 - [\#1626](https://github.com/cosmos/voyager/issues/1626) upgraded from raven to sentry/browser @jbibla
 - [\#1724](https://github.com/cosmos/voyager/issues/1724) set tabindex attribute to -1 for readonly denom on ModalProposals. tab navgiation now skips element @enyan94
 - [\#1277](https://github.com/cosmos/voyager/issues/1277) change name of VmToolBar to ToolBar, update all snapshots and import statements @coreycosman

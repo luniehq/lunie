@@ -181,6 +181,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
       bondingdenom="STAKE"
       proposalsurl="/governance/proposals"
       transaction="[object Object]"
+      unbondingtime="NaN"
       validators=""
       validatorsurl="/staking/validators"
     />
@@ -189,6 +190,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
       bondingdenom="STAKE"
       proposalsurl="/governance/proposals"
       transaction="[object Object]"
+      unbondingtime="NaN"
       validators=""
       validatorsurl="/staking/validators"
     />
@@ -197,6 +199,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
       bondingdenom="STAKE"
       proposalsurl="/governance/proposals"
       transaction="[object Object]"
+      unbondingtime="NaN"
       validators=""
       validatorsurl="/staking/validators"
     />
@@ -205,6 +208,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
       bondingdenom="STAKE"
       proposalsurl="/governance/proposals"
       transaction="[object Object]"
+      unbondingtime="NaN"
       validators=""
       validatorsurl="/staking/validators"
     />
@@ -213,6 +217,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
       bondingdenom="STAKE"
       proposalsurl="/governance/proposals"
       transaction="[object Object]"
+      unbondingtime="NaN"
       validators=""
       validatorsurl="/staking/validators"
     />
@@ -221,6 +226,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
       bondingdenom="STAKE"
       proposalsurl="/governance/proposals"
       transaction="[object Object]"
+      unbondingtime="NaN"
       validators=""
       validatorsurl="/staking/validators"
     />
@@ -409,6 +415,7 @@ exports[`PageTransactions should filter the transactions 1`] = `
       bondingdenom="STAKE"
       proposalsurl="/governance/proposals"
       transaction="[object Object]"
+      unbondingtime="NaN"
       validators=""
       validatorsurl="/staking/validators"
     />
