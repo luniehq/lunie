@@ -6,7 +6,7 @@ describe(`TmConnectedNetwork`, () => {
   let { mount } = setup()
 
   beforeEach(async () => {
-    let instance = mount(TmConnectedNetwork, {
+    const instance = mount(TmConnectedNetwork, {
       getters: {
         lastHeader: () => ({ chain_id: `Test Net`, height: 42 }),
         nodeUrl: () => `https://faboNode.de`,
@@ -19,7 +19,6 @@ describe(`TmConnectedNetwork`, () => {
 
   it(`has the expected html structure`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
-    console.log(wrapper.vm.$el.outerHTML)
   })
 
   it(`has a network icon`, () => {
