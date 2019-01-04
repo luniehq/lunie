@@ -15,23 +15,27 @@
 
 # ⚠️ NO ACTIVE TESTNET ⚠️
 
-Currently there is no active testnet. You have to [prepare Voyager](#prerequesists) and then run a [local node](#local-node) to test Voyager out. This is only recommended for developers.
+Currently there is no active testnet. You have to [prepare Voyager](#prerequisites) and then run a [local testnet](#local-testnet) to test Voyager out. This is only recommended for developers.
 
 ---
 
-## Voyager Prerequisites<a name="prerequesists"></a>
+## Voyager Prerequisites<a name="prerequisites"></a>
 
-### Check Out Voyager
+Install the following developer dependencies.
 
-Voyager requires Node.js `>=10.13.0`. If you have a different version of Node.js installed (e.g. Node.js `8.11 LTS`), you can use `n` to install the correct version. The following command will use `n` to install it alongside your current version of Node.js.
+### Node
+
+Voyager requires Node.js `>=10.13.0`. If you have a different version of Node.js installed, you can use `n` to install the correct version. The following command will use `n` to install it alongside your current version of Node.js.
 
 ```bash
 npm i -g n && n 10.13.0
 ```
 
-Yarn is a JS package packager we use manage Voyager dependencies. [Download it.](https://yarnpkg.com/lang/en/docs/install)
+### Yarn
 
-With Node.js and Yarn installed, you're ready to check out the source code:
+Yarn is a JS package packager we use manage Voyager dependencies. Download i [here](https://yarnpkg.com/lang/en/docs/install).
+
+With Node and Yarn installed, you're ready to check out the source code:
 
 ```bash
 git clone https://github.com/cosmos/voyager.git
@@ -43,7 +47,11 @@ yarn install
 
 Building Voyager and its dependencies requires [Docker](https://www.docker.com/get-docker) installed.
 
-#### Build Gaia (Cosmos SDK)<a name="build-gaia"></a>
+---
+
+To run Voyager we need to install Gaia (the Cosmos Hub application) and download the supported testnets.
+
+### Gaia (Cosmos SDK)<a name="build-gaia"></a>
 
 Build the Gaia CLI (`gaiacli`) and full node (`gaiad`), which are part of the
 Cosmos SDK, with the following command:
@@ -55,7 +63,7 @@ yarn build:gaia
 The version built is specified in `tasks/build/Gaia/COMMIT.sh` and the programs
 are placed in the `builds/Gaia` directory.
 
-### Testnet Configurations<a name="download-testnets"></a>
+### Testnets <a name="download-testnets"></a>
 
 To connect to a testnet, Voyager needs the configuration files of those networks in the folder `app/networks/{network_name}`. Gaia has a Git repository that holds the configuration files. Voyager has script to download those configurations for you:
 
@@ -67,68 +75,90 @@ yarn build:testnets
 
 ## Voyager Development
 
-To run Voyager on the default testnet:
+### Active testnets
+
+To run Voyager on the default testnet (if active):
 
 ```bash
-$ yarn start
+yarn start
 ```
 
-To run Voyager on a specific testnet, see the [status page](https://github.com/cosmos/cosmos-sdk/blob/develop/cmd/gaia/testnets/STATUS.md) for a list of available testnets.
+To run Voyager on a specific testnet you can use the following command. Click [here](https://github.com/cosmos/testnets) for a complete list of the supported official and community testnets.
 
 ```bash
-$ yarn start <networkName>
+yarn start <network_name>
 ```
 
-To run Voyager on a local node:
+## Local testnet<a name="local-testnet"></a>
 
-<!-- This way would be desired but local nodes apparently do not work (do not produce blocks)```bash
-# First start a local node using the the configuration provided in Voyager.
-$ gaia node start --home=./app/networks/local
-# Then start Voyager connecting to your local node.
-$ yarn start local
-``` -->
+Sometimes you may want to run a local node, i.e. in the case there is no available network. To do so first [Build Gaia](#build-gaia), then use our automatic script or the manual process to set up your node.
 
-First, start a full node following the [testnet instructions](https://cosmos.network/join-testnet).
+### Build
 
-Then start Voyager pointing at your local node.
+#### Automatically
+
+You can do the entire process in one command by running:
 
 ```bash
-$ COSMOS_NODE=localhost yarn start
+yarn build:local --overwrite=true
 ```
 
----
+(Be careful with the --overwrite flag as it will remove previous local node configurations)
 
-### Building Voyager Binaries
+#### Manually
 
-First [Build Gaia](#build-gaia) and [Download the testnet configurations](#download-testnets).
+You can do the entire process manually by following these steps:
 
-Here's an example build command:
+First initialize your node:
 
 ```bash
-yarn run build --commit=HEAD --network=gaia-8001
+builds/Gaia/{OS}/gaiad init --home ~/.gaiad-testnet --name local
 ```
 
-You can specify `--help` to see all options with explanations.
+Write down the 12 word secret phrase to be able to import an account that holds tokens later on.
 
-When the build is complete, you can find the files in `builds/Voyager`.
-
-To test if your build worked run:
+Copy the configuration files (assuming you are in the Voyager dir):
 
 ```bash
-$ yarn test:exe {path to the unpacked executable}
+mkdir builds/testnets/local-testnet
+cp ~/.gaiad-testnet/config/{genesis.json,config.toml} builds/testnets/local-testnet/
 ```
 
-To make an official release, follow the instructions in `docs/release.md`.
-
-#### Building without Docker
-
-You can also skip docker for bundling the Electron application but the builds will no longer be deterministic.
+Enter your local node as a seed:
 
 ```bash
-node tasks/build/build.js --os darwin --binaryPath $GOPATH/bin/gaiacli
+sed -i.bak 's/seeds = ""/seeds = "localhost"/g' ./builds/testnets/local-testnet/config.toml
 ```
 
-`--os` can be `darwin`, `linux`, `win32`.
+Activate TX indexing in your local node:
+
+```bash
+sed -i.bak 's/index_all_tags = false/index_all_tags = true/g'  ~/.gaiad-testnet/config/config.toml
+```
+
+Store the gaia version used in your local testnet:
+
+```bash
+./builds/Gaia/{OS}/gaiad version > ./builds/testnets/local-testnet/gaiaversion.txt
+```
+
+### Deploy
+
+Run Voyager for your local testnet:
+
+```bash
+yarn start local-testnet
+```
+
+Import the account with the 12 word seed phrase you wrote down earlier.
+
+### Running several nodes
+
+This command will build and run several nodes at once on the local testnet. All nodes will be validators:
+
+```bash
+yarn start local-testnet <number>
+```
 
 ---
 
@@ -137,61 +167,61 @@ node tasks/build/build.js --os darwin --binaryPath $GOPATH/bin/gaiacli
 If you would like to run all the tests you can run:
 
 ```bash
-$ yarn test
+yarn test
 ```
 
-### Unit Tests
+### Unit tests
 
 Voyager is using [Jest](https://facebook.github.io/jest) to run unit tests.
 
 ```bash
-$ yarn test:unit
+yarn test:unit
 ```
 
 You can run the unit tests for a single file (e.g.,
 PageValidator.spec.js) whenever there are changes like this:
 
-```shell
-$ yarn watch PageValidator
+```bash
+yarn watch PageValidator
 ```
 
-### Coverage
+### End to end tests
 
-To check test coverage locally run following. It will spin up a webserver and provide you with a link to the coverage report web page.
-
-```bash
-$ yarn test:coverage
-```
-
-### End to end
-
-End to end testing is performed via `tape`, you can run all of them using:
+End to end (e2e) testing is performed via `tape`, you can run all of them using:
 
 ```bash
-$ yarn test:e2e
+yarn test:e2e
 ```
 
 If you would like to run a single test please set the TEST variable (Unix systems):
 
 ```bash
-$ TEST=test/e2e/init.js yarn test:e2e
+TEST=test/e2e/init.js yarn test:e2e
 ```
 
 You can also run the `tape` command directly, but then you need to run the packaging of Voyager before it (i.e. necessary on Windows):
 
 ```bash
-$ yarn pack
-$ node_modules/.bin/tape test/e2e/init.js
+yarn pack
+node_modules/.bin/tape test/e2e/init.js
+```
+
+### Code coverage
+
+To check test coverage locally run following. It will spin up a webserver and provide you with a link to the coverage report web page.
+
+```bash
+yarn test:coverage
 ```
 
 ---
 
-## Debug
+## Debugging
 
-To debug the electron application, build it and run the node inspector for the built files:
+To debug the Electron application, build it and run the node inspector for the built files:
 
 ```bash
-$ electron --inspect-brk builds/{{your build}}/resources/app/dist/main.js
+electron --inspect-brk builds/{{your build}}/resources/app/dist/main.js
 ```
 
 Then attach to the debugger via the posted url in Chrome.
@@ -201,79 +231,6 @@ To debug the electron view, set the environment variable `COSMOS_DEVTOOLS` to so
 To see the console output of the view in your terminal, set the environment variable `ELECTRON_ENABLE_LOGGING` to something truthy like `1`.
 
 ---
-
-## Run a local node<a name="local-node"></a>
-
-Sometimes you may want to run a local node, i.e. in the case there is no available network. To do so first [Build Gaia](#build-gaia), then use our automatic script or the manual process to set up your node.
-
-### Automatically
-
-You can do the entire process in one command by running:
-
-```bash
-$ yarn build:local --overwrite=true
-```
-
-(Be careful with the --overwrite flag as it will remove previous local node configurations)
-
-### Manually
-
-You can do the entire process manually by following these steps:
-
-First initialize your node:
-
-```bash
-$ builds/Gaia/{OS}/gaiad init --home ~/.gaiad-testnet --name local
-```
-
-Write down the 12 word secret phrase to be able to import an account that holds tokens later on.
-
-Copy the configuration files (assuming you are in the Voyager dir):
-
-```bash
-$ mkdir builds/testnets/local-testnet
-$ cp ~/.gaiad-testnet/config/{genesis.json,config.toml} builds/testnets/local-testnet/
-```
-
-Enter your local node as a seed:
-
-```bash
-$ sed -i.bak 's/seeds = ""/seeds = "localhost"/g' ./builds/testnets/local-testnet/config.toml
-```
-
-Activate TX indexing in your local node:
-
-```bash
-$ sed -i.bak 's/index_all_tags = false/index_all_tags = true/g'  ~/.gaiad-testnet/config/config.toml
-```
-
-Store the gaia version used in your local testnet:
-
-```bash
-$ ./builds/Gaia/{OS}/gaiad version > ./builds/testnets/local-testnet/gaiaversion.txt
-```
-
-Start your local node:
-
-```bash
-$ ./builds/Gaia/{OS}/gaiad start --home ~/.gaiad-testnet
-```
-
-Then run Voyager for your local testnet:
-
-```bash
-$ yarn start local-testnet
-```
-
-Import the account with the 12 word seed phrase you wrote down earlier.
-
-### Run several nodes
-
-This command will build and run several nodes at once. All nodes will be validators:
-
-```bash
-$ yarn start local-testnet 5
-```
 
 ## Flags
 
@@ -301,38 +258,34 @@ A list of all environment variables and their purpose:
 - If you use yarn, the post-install hook may not execute. If this happens you'll have to execute the script manually:
 
 ```bash
-$ cd app
-$ yarn
-$ cd ..
-$ npm run rebuild
+cd app
+yarn
+cd ..
+npm run rebuild
 ```
 
 - If electron shows the error: `A DLL initialization routine has failed.` rebuild the electron dependencies:
 
 ```bash
-$ npm run rebuild
+npm run rebuild
 ```
 
 - If you have trouble installing dependencies, remove all the lockfiles and try installing again.
 
 ```bash
-$ rm -rf app/yarn.lock
-$ rm -rf app/package-lock.json
-$ rm -rf yarn.lock
-$ rm -rf package-lock.json
+rm -rf app/yarn.lock
+rm -rf app/package-lock.json
+rm -rf yarn.lock
+rm -rf package-lock.json
 ```
 
 - If your components are not found using a short path, check if the path resolution is applied for Webpack (`webpack.renderer.js > rendererConfig.resolve.alias`) and Jest (`package.json > jest.moduleNameMapper`).
 
 - If starting the development server fails with the error: `Error: listen EADDRINUSE 127.0.0.1:9080`, you have still a development server process running. Kill it with `kill $(lsof -t -i:9080)` on Unix systems. On Windows Powershell first look for the processes with `netstat -a -o -n | Select-String -Pattern "9080"` then kill them with `taskkill /F /PID {PID}`.
 
-* If `yarn test:e2e` outputs an error about ChromeDriver timeout, remove your node_modules folder and reinstall all dependencies.
+- If `yarn test:e2e` outputs an error about ChromeDriver timeout, remove your `node_modules` folder and reinstall all dependencies with `yarn`.
 
 - The version mismatch (`The network you are trying to connect to requires gaia X, but the version Voyager is using is Y.`) is testing the gaia version in `/builds/Gaia/...` against the one specified in the config dir `~/.cosmos-voyager[-dev]/{NETWORK}/gaiaversion.txt`. If you know that you have the correct version, change it in `gaiaversion.txt`.
 
-* You get `The network configuration for the network you want to connect to doesn't exist. Have you run "yarn build:testnets" to download the latest configurations?` but you have run `yarn build:testnets`.
+- You get `The network configuration for the network you want to connect to doesn't exist. Have you run "yarn build:testnets" to download the latest configurations?` but you have run `yarn build:testnets`.
   The symlink between `app/networks` and `builds/testnets` is broken. Try readding the symlink with `cd app && ln -s ../builds/testnets networks`.
-
----
-
-## ✌️
