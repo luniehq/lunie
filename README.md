@@ -99,7 +99,9 @@ You can do the entire process in one command by running:
 yarn build:local --overwrite=true
 ```
 
-(Be careful with the --overwrite flag as it will remove previous local node configurations)
+Once the build is done, it will print a success message on the Terminal with the default username/account and password to connect to the local testnet.
+
+**Note:** the `--overwrite` flag as it will remove previous local node configurations
 
 #### Manually
 
@@ -111,7 +113,7 @@ First initialize your node:
 builds/Gaia/{OS}/gaiad init --home ~/.gaiad-testnet --name local
 ```
 
-Write down the 12 word secret phrase to be able to import an account that holds tokens later on.
+Write down the 24 word secret phrase to be able to import an account that holds tokens later on.
 
 Copy the configuration files (assuming you are in the Voyager dir):
 
@@ -146,7 +148,7 @@ Run Voyager for your local testnet:
 yarn start local-testnet
 ```
 
-Import the account with the 12 word seed phrase you wrote down earlier.
+Once the app is running it will redirect you to the `Sign In` page. Here you need to select an account and input the password given (if you used the [auto build](#automatically); default `1234567890`).
 
 ### Running several nodes
 
