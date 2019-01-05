@@ -3,7 +3,19 @@
 const Client = (axios, localLcdURL, remoteLcdURL) => {
   async function request(method, path, data, useRemote) {
     const url = useRemote ? remoteLcdURL : localLcdURL
-    const result = await axios({ data, method, url: url + path })
+    const result = await axios({ data, method, url: url + path }).catch(
+      async err => {
+        // HACK
+        if (err.response.data.startsWith(`failed to prove merkle proof`)) {
+          return { data: {} }
+        }
+        if (err.response.status === 502) {
+          // retry
+          return { data: await request(method, path, data, useRemote) }
+        }
+        throw err
+      }
+    )
     return result.data
   }
 
@@ -24,7 +36,7 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
     }
   }
 
-  let fetchAccount = argReq(`GET`, `/auth/accounts`)
+  let fetchAccount = argReq(`GET`, `/auth/accounts`, ``, true)
 
   const keys = {
     add: req(`POST`, `/keys`),
