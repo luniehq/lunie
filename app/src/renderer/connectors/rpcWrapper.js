@@ -1,6 +1,6 @@
 "use strict"
 
-const RpcClient = require(`tendermint`)
+const { RpcClient } = require(`../../helpers/tendermint.min.js`)
 // const { ipcRenderer } = require(`electron`)
 
 module.exports = function setRpcWrapper(container) {
@@ -29,12 +29,14 @@ module.exports = function setRpcWrapper(container) {
           ? rpcURL.split(`//`)[1]
           : rpcURL
 
+      let https = rpcURL.startsWith(`https`)
+
       if (container.rpc) {
         rpcWrapper.rpcDisconnect()
       }
 
       console.log(`init rpc with ` + rpcURL)
-      let newRpc = new RpcClient(`ws://${rpcHost}`)
+      let newRpc = new RpcClient(`${https ? `wss` : `ws`}://${rpcHost}`)
       rpcWrapper.rpcInfo.connected = true
       // we need to check immediately if the connection fails. later we will not be able to check this error
       newRpc.on(`error`, err => {

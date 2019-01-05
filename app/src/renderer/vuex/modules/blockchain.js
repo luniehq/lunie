@@ -43,18 +43,9 @@ export default ({ node }) => {
           return blockMetaInfo
         }
         state.loading = true
-        blockMetaInfo = await new Promise((resolve, reject) => {
-          node.rpc.blockchain(
-            { minHeight: String(height), maxHeight: String(height) },
-            (error, data) => {
-              if (error) {
-                reject(`Couldn't query block. ${error.message}`)
-              } else {
-                resolve(data.block_metas && data.block_metas[0])
-              }
-            }
-          )
-        })
+        blockMetaInfo = await node.rpc
+          .blockchain({ minHeight: String(height), maxHeight: String(height) })
+          .then(({ block_metas }) => (block_metas ? block_metas[0] : undefined))
         state.loading = false
 
         commit(`setBlockMetas`, {
@@ -84,8 +75,7 @@ export default ({ node }) => {
         state.error = error
       }
 
-      node.rpc.status((error, status) => {
-        if (error) return handleError(error)
+      node.rpc.status().then(status => {
         commit(`setBlockHeight`, status.sync_info.latest_block_height)
         if (status.sync_info.catching_up) {
           // still syncing, let's try subscribing again in 30 seconds
@@ -98,12 +88,11 @@ export default ({ node }) => {
         commit(`setSyncing`, false)
 
         // only subscribe if the node is not catching up anymore
-        node.rpc.subscribe({ query: `tm.event = 'NewBlock'` }, error => {
-          if (error) return handleError(error)
-
+        node.rpc.subscribe({ query: `tm.event = 'NewBlock'` }, () => {
           if (state.subscription === false) commit(`setSubscription`, true)
         })
       })
+
       return true
     }
   }

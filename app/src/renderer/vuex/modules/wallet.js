@@ -140,17 +140,8 @@ export default ({ node }) => {
 
       state.subscribedRPC = node.rpc
 
-      function onTx(error, event) {
-        if (error) {
-          Sentry.captureException(error)
-          console.error(`error subscribing to transactions`, error)
-          return
-        }
-        console.log(`TX: ` + JSON.stringify(event.data))
-        dispatch(
-          `queryWalletStateAfterHeight`,
-          event.data.value.TxResult.height + 1
-        )
+      function onTx(data) {
+        dispatch(`queryWalletStateAfterHeight`, data.TxResult.height + 1)
       }
 
       const queries = [

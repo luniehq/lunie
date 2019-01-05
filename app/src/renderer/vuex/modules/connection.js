@@ -73,9 +73,7 @@ export default function({ node }) {
           dispatch(`reconnect`)
         }
       })
-      node.rpc.status((error, result) => {
-        if (error) return console.error(error)
-        let status = result
+      node.rpc.status().then(status => {
         dispatch(`setLastHeader`, {
           height: status.sync_info.latest_block_height,
           chain_id: status.node_info.network
@@ -84,12 +82,8 @@ export default function({ node }) {
 
       node.rpc.subscribe(
         { query: `tm.event = 'NewBlockHeader'` },
-        (error, event) => {
-          if (error) {
-            Sentry.captureException(error)
-            return console.error(`error subscribing to headers`, error)
-          }
-          dispatch(`setLastHeader`, event.data.value.header)
+        ({ header }) => {
+          dispatch(`setLastHeader`, header)
         }
       )
 
@@ -116,21 +110,15 @@ export default function({ node }) {
     pollRPCConnection({ state, dispatch }, timeout = 3000) {
       if (state.nodeTimeout || state.stopConnecting) return
 
-      state.nodeTimeout = setTimeout(() => {
-        // clear timeout doesn't work
-        if (state.nodeTimeout && !state.mocked) {
-          state.connected = false
-          state.nodeTimeout = null
-          dispatch(`pollRPCConnection`)
-        }
-      }, timeout)
-      node.rpc.status(error => {
-        if (error) {
-          Sentry.captureException(error)
-          console.error(`Couldn't get status via RPC:`, error)
-          return
-        }
-
+      // state.nodeTimeout = setTimeout(() => {
+      //   // clear timeout doesn't work
+      //   if (state.nodeTimeout && !state.mocked) {
+      //     state.connected = false
+      //     state.nodeTimeout = null
+      //     dispatch(`pollRPCConnection`)
+      //   }
+      // }, timeout)
+      node.rpc.status().then(status => {
         state.nodeTimeout = null
         state.connected = true
         setTimeout(() => {
