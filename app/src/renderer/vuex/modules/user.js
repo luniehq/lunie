@@ -103,7 +103,6 @@ export default ({ node }) => {
       state.signedIn = true
 
       let keys = await loadKeyNames()
-      debugger
       let { address } = keys.find(({ name }) => name === account)
 
       state.address = address

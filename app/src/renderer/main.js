@@ -133,14 +133,21 @@ async function main() {
 
   // ipcRenderer.send(`booted`)
 
-  // while (true) {
-  //   try {
-  //     await axios(`https://localhost:9070/keys`)
-  //     break
-  //   } catch (err) {}
-  //   await sleep(1000)
-  // }
-  store.dispatch(`showInitialScreen`)
+  new Promise(async () => {
+    while (true) {
+      try {
+        await axios(config.node_lcd + `/node_version`)
+        break
+      } catch (err) {}
+      await sleep(1000)
+    }
+
+    node.rpcConnect(config.node_rpc)
+    store.dispatch(`rpcSubscribe`)
+    store.dispatch(`subscribeToBlocks`)
+
+    store.dispatch(`showInitialScreen`)
+  })
 
   return new Vue({
     router,
