@@ -5,7 +5,7 @@
 [![CircleCI](https://circleci.com/gh/cosmos/voyager.svg?style=svg)](https://circleci.com/gh/cosmos/voyager)
 [![codecov](https://codecov.io/gh/cosmos/voyager/branch/develop/graph/badge.svg)](https://codecov.io/gh/cosmos/voyager)
 
-👋 Welcome to Voyager, the official desktop application for the [Cosmos Network](https://cosmos.network/).
+👋 Welcome to Voyager, the official wallet and UI for the [Cosmos Hub](https://cosmos.network/).
 
 ⚠️ This is still alpha-level software. **DO NOT** enter your Cosmos fundraiser seed into Voyager.
 
@@ -13,15 +13,15 @@
 
 <!-- 🎉 Binary releases are [available here](https://github.com/cosmos/voyager/releases). After downloading and untar/unzip-ing, navigate to the source directory and click on the `Cosmos Voyager` icon to launch Voyager. -->
 
-# ⚠️ NO ACTIVE TESTNET ⚠️
+<!-- Comment the section below once we support a default testnet -->
 
-Currently there is no active testnet. You have to [prepare Voyager](#prerequisites) and then run a [local testnet](#local-testnet) to test Voyager out. This is only recommended for developers.
+## ⚠️ NO ACTIVE TESTNET ⚠️
 
----
+**NOTE:** Currently there is no active testnet. You have to [install Voyager dependencies](#voyager-dependencies) and then run a [local testnet](#local-testnet) to test Voyager out. This is only recommended for developers.
 
-## Voyager Prerequisites<a name="prerequisites"></a>
+## Voyager Dependencies
 
-Install the following developer dependencies.
+Install the following dependencies if you wish to run voyager on developer mode or [contribute](https://github.com/cosmos/voyager/blob/develop/CONTRIBUTING.md).
 
 ### Node
 
@@ -33,9 +33,15 @@ npm i -g n && n 10.13.0
 
 ### Yarn
 
-Yarn is a JS package packager we use manage Voyager dependencies. Download i [here](https://yarnpkg.com/lang/en/docs/install).
+Yarn is a JS package packager we use manage Voyager dependencies. Download it [here](https://yarnpkg.com/lang/en/docs/install).
 
-With Node and Yarn installed, you're ready to check out the source code:
+### Docker
+
+Building Voyager and its dependencies requires [Docker](https://www.docker.com/) installed. You can download it [here](https://www.docker.com/get-docker).
+
+### Check out Voyager
+
+With Node, Yarn and Docker installed, you're ready to check out the source code:
 
 ```bash
 git clone https://github.com/cosmos/voyager.git
@@ -43,35 +49,25 @@ cd voyager
 yarn install
 ```
 
-### Docker
+### Gaia (Cosmos SDK)
 
-Building Voyager and its dependencies requires [Docker](https://www.docker.com/get-docker) installed.
+Since Voyager runs on top of the Cosmos Hub blockchain, we also need to install Gaia (the Cosmos Hub application) and download the supported testnets.
 
----
-
-To run Voyager we need to install Gaia (the Cosmos Hub application) and download the supported testnets.
-
-### Gaia (Cosmos SDK)<a name="build-gaia"></a>
-
-Build the Gaia CLI (`gaiacli`) and full node (`gaiad`), which are part of the
-Cosmos SDK, with the following command:
+Open the Docker App and build the Gaia CLI (`gaiacli`) and the full node (`gaiad`), which are part of the Cosmos SDK, with the following command:
 
 ```bash
 yarn build:gaia
 ```
 
-The version built is specified in `tasks/build/Gaia/COMMIT.sh` and the programs
-are placed in the `builds/Gaia` directory.
+The version built is specified in `tasks/build/Gaia/COMMIT.sh` and the programs are placed in the `builds/Gaia` directory.
 
-### Testnets <a name="download-testnets"></a>
+### Testnets
 
 To connect to a testnet, Voyager needs the configuration files of those networks in the folder `app/networks/{network_name}`. Gaia has a Git repository that holds the configuration files. Voyager has script to download those configurations for you:
 
 ```bash
 yarn build:testnets
 ```
-
----
 
 ## Voyager Development
 
@@ -89,9 +85,9 @@ To run Voyager on a specific testnet you can use the following command. Click [h
 yarn start <network_name>
 ```
 
-## Local testnet<a name="local-testnet"></a>
+## Local testnet
 
-Sometimes you may want to run a local node, i.e. in the case there is no available network. To do so first [Build Gaia](#build-gaia), then use our automatic script or the manual process to set up your node.
+Sometimes you may want to run a local node, i.e. in the case there is no available network. To do so first [Build Gaia](#gaia-cosmos-sdk), then use our automatic script or the manual process to set up your node.
 
 ### Build
 
@@ -160,8 +156,6 @@ This command will build and run several nodes at once on the local testnet. All 
 yarn start local-testnet <number>
 ```
 
----
-
 ## Testing
 
 If you would like to run all the tests you can run:
@@ -172,14 +166,13 @@ yarn test
 
 ### Unit tests
 
-Voyager is using [Jest](https://facebook.github.io/jest) to run unit tests.
+Voyager uses [Jest](https://facebook.github.io/jest) to run unit tests. You can run _all_ the unit tests with the following command:
 
 ```bash
 yarn test:unit
 ```
 
-You can run the unit tests for a single file (e.g.,
-PageValidator.spec.js) whenever there are changes like this:
+For a single test file (e.g. `PageValidator.spec.js` ) run the unit tests like this to watch the tests whenever there are changes:
 
 ```bash
 yarn watch PageValidator
@@ -187,7 +180,7 @@ yarn watch PageValidator
 
 ### End to end tests
 
-End to end (e2e) testing is performed via `tape`, you can run all of them using:
+End to end (e2e) testing is performed via [`tape`](https://github.com/substack/tape), you can run all of them using:
 
 ```bash
 yarn test:e2e
@@ -199,7 +192,7 @@ If you would like to run a single test please set the TEST variable (Unix system
 TEST=test/e2e/init.js yarn test:e2e
 ```
 
-You can also run the `tape` command directly, but then you need to run the packaging of Voyager before it (i.e. necessary on Windows):
+You can also run the `tape` command directly, but then you need to run the packaging of Voyager before it (_i.e._ necessary on Windows):
 
 ```bash
 yarn pack
@@ -214,8 +207,6 @@ To check test coverage locally run following. It will spin up a webserver and pr
 yarn test:coverage
 ```
 
----
-
 ## Debugging
 
 To debug the Electron application, build it and run the node inspector for the built files:
@@ -224,32 +215,30 @@ To debug the Electron application, build it and run the node inspector for the b
 electron --inspect-brk builds/{{your build}}/resources/app/dist/main.js
 ```
 
-Then attach to the debugger via the posted url in Chrome.
+Then attach to the debugger via the posted URL in Chrome.
 
 To debug the electron view, set the environment variable `COSMOS_DEVTOOLS` to something truthy like `"true"`. The Chrome DevTools will appear when you start Voyager.
 
 To see the console output of the view in your terminal, set the environment variable `ELECTRON_ENABLE_LOGGING` to something truthy like `1`.
 
----
-
 ## Flags
 
 A list of all environment variables and their purpose:
 
-| Variable                | Values                                   | default                          | Purpose                                                                                                                                                       |
-| ----------------------- | ---------------------------------------- | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| NODE_ENV                | 'production', 'development'              |                                  |                                                                                                                                                               |
-| LOGGING                 | 'true', 'false'                          | 'true'                           | Disable logging                                                                                                                                               |
-| COSMOS_NETWORK          | {path to network configuration folder}   | '../networks/gaia-7001'          | Network to connect to                                                                                                                                         |
-| COSMOS_HOME             | {path to config persistence folder}      | '\$HOME/.cosmos-voyager[-dev]'   |                                                                                                                                                               |
-| LCD_URL                 | {URL of a Cosmos light client interface} | see 'app/config.toml'            | Cosmos Light Client interface to connect to                                                                                                                   |
-| RPC_URL                 | {URL of a Tendermint rpc interface}      | see 'app/config.toml'            | Tendermint node to connect to                                                                                                                                 |
-| COSMOS_DEVTOOLS         | 'true', 'false'                          | 'false'                          | Open the debug panel in the electron view                                                                                                                     |
-| ELECTRON_ENABLE_LOGGING | 'true', 'false'                          | 'false'                          | Redirect the browser view console output to the console                                                                                                       |
-| PREVIEW                 | 'true', 'false'                          | 'true' if NODE_ENV 'development' | Show/Hide features that are in development                                                                                                                    |
-| COSMOS_E2E_KEEP_OPEN    | 'true', 'false'                          | 'false'                          | Keep the Window open in local E2E test to see the state in which the application broke.                                                                       |
-| CI                      | 'true', 'false'                          | 'false'                          | Adds better structured output, makes a screenshot and adds logs to files (used on CircleCI).                                                                  |
-| ALLOW_CONSOLE           | 'true', 'false'                          | 'false'                          | Unit tests fail if they use console.error or console.warn. To see the initial use/occurences of those callings, you can escape this behavior using this flag. |
+| Variable                  | Values                                   | default                          | Purpose                                                                                                                                                           |
+| ------------------------- | ---------------------------------------- | -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `NODE_ENV`                | 'production', 'development'              |                                  |                                                                                                                                                                   |
+| `LOGGING`                 | 'true', 'false'                          | 'true'                           | Disable logging                                                                                                                                                   |
+| `COSMOS_NETWORK`          | {path to network configuration folder}   | '../networks/gaia-7001'          | Network to connect to                                                                                                                                             |
+| `COSMOS_HOME`             | {path to config persistence folder}      | '\$HOME/.cosmos-voyager[-dev]'   |                                                                                                                                                                   |
+| `LCD_URL`                 | {URL of a Cosmos light client interface} | see 'app/config.toml'            | Cosmos Light Client interface to connect to                                                                                                                       |
+| `RPC_URL`                 | {URL of a Tendermint rpc interface}      | see 'app/config.toml'            | Tendermint node to connect to                                                                                                                                     |
+| `COSMOS_DEVTOOLS`         | 'true', 'false'                          | 'false'                          | Open the debug panel in the electron view                                                                                                                         |
+| `ELECTRON_ENABLE_LOGGING` | 'true', 'false'                          | 'false'                          | Redirect the browser view console output to the console                                                                                                           |
+| `PREVIEW`                 | 'true', 'false'                          | 'true' if NODE_ENV 'development' | Show/Hide features that are in development                                                                                                                        |
+| `COSMOS_E2E_KEEP_OPEN`    | 'true', 'false'                          | 'false'                          | Keep the Window open in local E2E test to see the state in which the application broke.                                                                           |
+| `CI`                      | 'true', 'false'                          | 'false'                          | Adds better structured output, makes a screenshot and adds logs to files (used on CircleCI).                                                                      |
+| `ALLOW_CONSOLE`           | 'true', 'false'                          | 'false'                          | Unit tests fail if they use `console.error` or `console.warn`. To see the initial use/occurences of those callings, you can escape this behavior using this flag. |
 
 ## FAQ
 
