@@ -30,22 +30,10 @@ let rendererConfig = {
         exclude: /node_modules/
       },
       {
-        test: /\.json$/,
-        use: `json-loader`
-      },
-      {
         test: /\.vue$/,
         use: {
           loader: `vue-loader`
         }
-      },
-      {
-        test: /\.pug$/,
-        loader: `pug-plain-loader`
-      },
-      {
-        test: /\.styl(us)?$/,
-        use: [`style-loader`, `css-loader`, `stylus-loader`]
       },
       {
         test: /\.css$/,
@@ -97,11 +85,7 @@ let rendererConfig = {
     }),
     new webpack.NoEmitOnErrorsPlugin(),
     // warnings caused by websocket-stream, which has a server-part that is unavailable on the the client
-    new webpack.IgnorePlugin(/(bufferutil|utf-8-validate)/),
-    // put all modules in node_modules in chunk
-    new webpack.optimize.CommonsChunkPlugin({
-      name: `vendor`
-    })
+    new webpack.IgnorePlugin(/(bufferutil|utf-8-validate)/)
   ],
   output: {
     filename: `[name].js`,
