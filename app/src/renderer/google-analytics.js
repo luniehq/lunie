@@ -1,10 +1,12 @@
+/* global ga */
 "use strict"
 
-// import Analytics from "electron-ga"
-
-module.exports = function() //gaUID
-{
-  // TODO
-  // const analytics = new Analytics(gaUID)
-  // window.analytics = analytics
+module.exports = function(gaUID) {
+  window.ga =
+    window.ga ||
+    function() {
+      ;(ga.q = ga.q || []).push(arguments)
+    }
+  ga.l = +new Date()
+  ga(`create`, gaUID, `auto`)
 }

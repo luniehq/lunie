@@ -1,7 +1,5 @@
 import * as Sentry from "@sentry/browser"
-// import { ipcRenderer, remote } from "electron"
-import enableGoogleAnalytics from "../../google-analytics.js"
-// const config = remote.getGlobal(`config`)
+import addGoogleAnalytics from "../../google-analytics.js"
 const config = require(`../../../config.json`)
 import {
   loadKeyNames,
@@ -149,7 +147,8 @@ export default ({ node }) => {
           dsn: config.sentry_dsn,
           release: `voyager@${config.version}`
         })
-        enableGoogleAnalytics(config.google_analytics_uid)
+        window[`ga-disable-${config.google_analytics_uid}`] = false
+        addGoogleAnalytics(config.google_analytics_uid)
         console.log(`Analytics and error reporting have been enabled`)
         window.analytics &&
           window.analytics.send(`pageview`, {
@@ -158,7 +157,7 @@ export default ({ node }) => {
       } else {
         console.log(`Analytics disabled in browser`)
         Sentry.init({})
-        window.analytics = null
+        window[`ga-disable-${config.google_analytics_uid}`] = true
       }
     }
   }

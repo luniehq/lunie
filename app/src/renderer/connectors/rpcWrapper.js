@@ -1,7 +1,6 @@
 "use strict"
 
-const { RpcClient } = require(`../../helpers/tendermint.min.js`)
-// const { ipcRenderer } = require(`electron`)
+const { RpcClient } = require(`../../dependencies/tendermint.min.js`)
 
 module.exports = function setRpcWrapper(container) {
   let rpcWrapper = {
