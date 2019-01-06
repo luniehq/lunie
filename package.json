@@ -100,7 +100,7 @@
     "vue-template-es2015-compiler": "1.6.0",
     "webpack": "4.28.3",
     "webpack-cli": "3.2.0",
-    "webpack-dev-server": "2.11.2"
+    "webpack-dev-server": "3.1.14"
   },
   "dependencies": {
     "@sentry/browser": "4.4.1",
