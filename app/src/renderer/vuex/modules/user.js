@@ -114,6 +114,7 @@ export default ({ node }) => {
       state.account = null
       state.signedIn = false
 
+      dispatch(`removeSubscriptions`)
       commit(`setModalSession`, true)
       dispatch(`showInitialScreen`)
     },

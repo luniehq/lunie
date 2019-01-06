@@ -49,6 +49,10 @@ export default function({ node }) {
       commit(`setConnected`, false)
       node.rpcReconnect()
     },
+    async removeSubscriptions() {
+      node.rpcDisconnect()
+      node.rpcConnect(config.node_rpc)
+    },
     async rpcSubscribe({ commit, dispatch }) {
       if (state.stopConnecting) return
 
