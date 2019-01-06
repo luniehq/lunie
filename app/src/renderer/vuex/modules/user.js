@@ -150,10 +150,10 @@ export default ({ node }) => {
         window[`ga-disable-${config.google_analytics_uid}`] = false
         addGoogleAnalytics(config.google_analytics_uid)
         console.log(`Analytics and error reporting have been enabled`)
-        window.analytics &&
-          window.analytics.send(`pageview`, {
-            dl: window.location.pathname
-          })
+        // eslint-disable-next-line no-undef
+        ga(`send`, `pageview`, {
+          dl: window.location.pathname
+        })
       } else {
         console.log(`Analytics disabled in browser`)
         Sentry.init({})
