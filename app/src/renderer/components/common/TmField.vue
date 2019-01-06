@@ -81,7 +81,7 @@ export default {
       default: `text`
     },
     value: {
-      type: [String, Number],
+      type: [String, Number, Boolean],
       default: null
     },
     placeholder: {
@@ -168,6 +168,7 @@ export default {
   methods: {
     toggle() {
       this.currentToggleState = !this.currentToggleState
+      this.onChange(this.currentToggleState)
     },
     updateValue(value) {
       let formattedValue = value
