@@ -105,7 +105,7 @@ export default function({ node }) {
       state.nodeHaltedTimeout = undefined
       commit(`setModalNodeHalted`, true)
     },
-    pollRPCConnection({ state, dispatch }, timeout = 3000) {
+    pollRPCConnection({ state, dispatch }, timeout = config.block_timeout) {
       if (state.nodeTimeout || state.stopConnecting) return
 
       state.nodeTimeout = setTimeout(() => {
