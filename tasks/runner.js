@@ -36,7 +36,7 @@ module.exports = function startRendererServer() {
     let child = run(
       `webpack-dev-server --hot --colors --config webpack.renderer.config.js --port ${
         config.wds_port
-      } --content-base app/dist --https`,
+      } --content-base app/dist --https --mode=development`,
       YELLOW,
       `webpack`
     )

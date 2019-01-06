@@ -6,7 +6,7 @@
   "relay_port": 9060,
   "relay_port_prod": 9061,
   "default_tendermint_port": 26657,
-  "default_network": "gaia-8001",
+  "default_network": "game_of_stakes_3",
   "node_lcd": "https://lcd.nylira.net",
   "node_rpc": "https://rpc.nylira.net:443",
   "google_analytics_uid": "UA-51029217-3",

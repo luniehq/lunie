@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/browser"
 // for now importing the fixed genesis for the network from the config.json
-import { genesis } from "../../../network.js"
+import network from "../../../network.js"
 
 export default ({ node }) => {
   let emptyState = {
@@ -82,6 +82,7 @@ export default ({ node }) => {
       }
     },
     async loadDenoms({ commit }) {
+      const { genesis } = await network()
       let denoms = []
       for (let account of genesis.app_state.accounts) {
         if (account.coins) {

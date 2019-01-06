@@ -109,6 +109,9 @@ let rendererConfig = {
       path.join(__dirname, `app/node_modules`),
       path.join(__dirname, `node_modules`)
     ]
+  },
+  devServer: {
+    contentBase: [path.join(__dirname, `app/dist`), path.join(__dirname, `app`)]
   }
   // target: `electron-renderer`
 }
