@@ -1,7 +1,6 @@
 import * as Sentry from "@sentry/browser"
-import { path } from "../../../network.js"
 // for now importing the fixed genesis for the network from the config.json
-const genesis = require(path + `genesis.json`)
+import { genesis } from "../../../network.js"
 
 export default ({ node }) => {
   let emptyState = {
