@@ -70,11 +70,6 @@ export default ({ node }) => {
       if (state.subscribedRPC === node.rpc) return false
       commit(`setSubscribedRPC`, node.rpc)
 
-      function handleError(error) {
-        dispatch(`nodeHasHalted`)
-        state.error = error
-      }
-
       node.rpc.status().then(status => {
         commit(`setBlockHeight`, status.sync_info.latest_block_height)
         if (status.sync_info.catching_up) {

@@ -1,12 +1,9 @@
 "use strict"
-const fs = require(`fs`)
 const config = require(`../app/src/config`)
 const spawn = require(`child_process`).spawn
 const path = require(`path`)
-const { cleanExitChild } = require(`./common.js`)
 
 let YELLOW = `\x1b[33m`
-let BLUE = `\x1b[34m`
 let END = `\x1b[0m`
 
 let NPM_BIN = path.join(path.dirname(__dirname), `node_modules`, `.bin`)
@@ -51,50 +48,3 @@ module.exports = function startRendererServer() {
     child.stdout.on(`data`, waitForCompile)
   })
 }
-
-// module.exports = async function(networkPath, extendedEnv = {}) {
-//   if (!fs.existsSync(networkPath)) {
-//     console.error(
-//       `The network configuration for the network you want to connect to doesn't exist. Have you run \`yarn build:testnets\` to download the latest configurations?`
-//     )
-//     process.exit()
-//   }
-
-//   let renderProcess = await startRendererServer()
-
-//   console.log(
-//     `${BLUE}Starting electron...\n  (network path: ${networkPath})\n${END}`
-//   )
-//   const packageJSON = require(`../package.json`)
-//   const voyagerVersion = packageJSON.version
-//   const gaiaVersion = fs
-//     .readFileSync(path.join(networkPath, `gaiaversion.txt`))
-//     .toString()
-//     .split(`-`)[0]
-//   let env = Object.assign(
-//     {},
-//     {
-//       NODE_ENV: `development`,
-//       COSMOS_NETWORK: networkPath,
-//       GAIA_VERSION: gaiaVersion,
-//       VOYAGER_VERSION: voyagerVersion
-//     },
-//     extendedEnv,
-//     process.env
-//   )
-//   let mainProcess = run(
-//     `electron app/src/main/index.dev.js`,
-//     BLUE,
-//     `electron`,
-//     env
-//   )
-
-//   // terminate running processes on exit of main process
-//   mainProcess.on(`exit`, async () => {
-//     await cleanExitChild(renderProcess)
-//     // webpack-dev-server spins up an own process we have no access to. so we kill all processes on our port
-//     process.exit(0)
-//   })
-
-//   return [renderProcess, mainProcess]
-// }

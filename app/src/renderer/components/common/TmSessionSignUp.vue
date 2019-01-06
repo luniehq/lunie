@@ -143,7 +143,6 @@ import TmFormStruct from "common/TmFormStruct"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import FieldSeed from "common/TmFieldSeed"
-import { mapGetters } from "vuex"
 export default {
   name: `tm-session-sign-up`,
   components: {

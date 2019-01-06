@@ -1,5 +1,3 @@
-// import { ipcRenderer, remote } from "electron"
-import * as Sentry from "@sentry/browser"
 import { sleep } from "scripts/common.js"
 
 const config = require(`../../../config.json`)
@@ -110,15 +108,15 @@ export default function({ node }) {
     pollRPCConnection({ state, dispatch }, timeout = 3000) {
       if (state.nodeTimeout || state.stopConnecting) return
 
-      // state.nodeTimeout = setTimeout(() => {
-      //   // clear timeout doesn't work
-      //   if (state.nodeTimeout && !state.mocked) {
-      //     state.connected = false
-      //     state.nodeTimeout = null
-      //     dispatch(`pollRPCConnection`)
-      //   }
-      // }, timeout)
-      node.rpc.status().then(status => {
+      state.nodeTimeout = setTimeout(() => {
+        // clear timeout doesn't work
+        if (state.nodeTimeout && !state.mocked) {
+          state.connected = false
+          state.nodeTimeout = null
+          dispatch(`pollRPCConnection`)
+        }
+      }, timeout)
+      node.rpc.status().then(() => {
         state.nodeTimeout = null
         state.connected = true
         setTimeout(() => {
@@ -126,14 +124,6 @@ export default function({ node }) {
         }, timeout)
       })
     },
-    // approveNodeHash({ state }, hash) {
-    //   state.approvalRequired = null
-    //   ipcRenderer.send(`hash-approved`, hash)
-    // },
-    // disapproveNodeHash({ state }, hash) {
-    //   state.approvalRequired = null
-    //   ipcRenderer.send(`hash-disapproved`, hash)
-    // },
     async setMockedConnector({ state, dispatch, commit }, mocked) {
       state.mocked = mocked
 

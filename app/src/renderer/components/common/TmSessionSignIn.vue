@@ -104,12 +104,11 @@ export default {
     async onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return
-      // try {
-      let passwrodCorrect = await this.$store.dispatch(`testLogin`, {
+      let passwordCorrect = await this.$store.dispatch(`testLogin`, {
         password: this.fields.signInPassword,
         account: this.fields.signInName
       })
-      if (passwrodCorrect) {
+      if (passwordCorrect) {
         this.$store.dispatch(`signIn`, {
           password: this.fields.signInPassword,
           account: this.fields.signInName
@@ -120,11 +119,9 @@ export default {
       } else {
         this.$store.commit(`notifyError`, {
           title: `Signing In Failed`,
-          body: error.message
+          body: `The provided password is wrong.`
         })
       }
-      // } catch (error) {
-      // }
     },
     setDefaultAccount() {
       let prevAccountKey = localStorage.getItem(`prevAccountKey`)
