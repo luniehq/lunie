@@ -48,7 +48,7 @@ export default ({ node }) => {
             { minHeight: String(height), maxHeight: String(height) },
             (error, data) => {
               if (error) {
-                reject(`Couldn't query block. ${error.message}`)
+                reject(new Error(`Couldn't query block. ${error.message}`))
               } else {
                 resolve(data.block_metas && data.block_metas[0])
               }
@@ -69,7 +69,7 @@ export default ({ node }) => {
         })
         Sentry.captureException(error)
         state.loading = false
-        state.error = error
+        state.error = error.message
         return null
       }
     },
