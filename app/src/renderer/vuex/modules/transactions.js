@@ -108,7 +108,9 @@ export default ({ node }) => {
       return response ? uniqBy(transactionsPlusType, `hash`) : []
     },
     async enrichTransactions({ dispatch }, { transactions }) {
-      const blockHeights = new Set(transactions.map(({ height }) => height))
+      const blockHeights = new Set(
+        transactions.map(({ height }) => parseInt(height))
+      )
       await Promise.all(
         [...blockHeights].map(blockHeight =>
           dispatch(`queryTransactionTime`, { blockHeight })
