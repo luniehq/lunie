@@ -92,9 +92,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1277](https://github.com/cosmos/voyager/issues/1277) change name of VmToolBar to ToolBar, update all snapshots and import statements @coreycosman
 - [\#1432](https://github.com/cosmos/voyager/issues/1432) Moved @tendermint/UI components back into the Voyager repository @faboweb
 - [\#1769](https://github.com/cosmos/voyager/issues/1769) Removed hardcoded parameters values @fedekunze
-- Improved the `README` @faboweb
+- [\#1694](https://github.com/cosmos/voyager/issues/1694) Improved the `README` @faboweb @fedekunze
 - [\#1379](https://github.com/cosmos/voyager/issues/1379) Changed some tests so they don't display errors on the console to better identify real errors @faboweb
-- Improved the readme @faboweb
 - [\#1792](https://github.com/cosmos/voyager/pull/1792) removed mocked demo mode @fedekunze
 - [\#1720](https://github.com/cosmos/voyager/issues/1720) Time format from 12 to 24h @sabau
 
