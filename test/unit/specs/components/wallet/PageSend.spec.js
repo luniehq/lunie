@@ -11,7 +11,7 @@ describe(`PageSend`, () => {
 
   const coins = [
     {
-      denom: `mycoin`,
+      denom: stakingParameters.parameters.bond_denom,
       amount: 1000
     },
     {
@@ -44,6 +44,7 @@ describe(`PageSend`, () => {
     ])
     store.commit(`setConnected`, true)
     store.commit(`setWalletBalances`, coins)
+    store.commit(`setAtoms`, 1000)
     store.commit(`setStakingParameters`, stakingParameters.parameters)
     store.commit(`setNonce`, `1`)
   })
@@ -89,7 +90,7 @@ describe(`PageSend`, () => {
     store.commit(`setStakingParameters`, stakingParameters.parameters)
     wrapper.setData({
       fields: {
-        denom: `mycoin`,
+        denom: stakingParameters.parameters.bond_denom,
         address: ``,
         amount: 2,
         password: `1234567890`
@@ -105,7 +106,7 @@ describe(`PageSend`, () => {
     store.commit(`setStakingParameters`, stakingParameters.parameters)
     wrapper.setData({
       fields: {
-        denom: `mycoin`,
+        denom: stakingParameters.parameters.bond_denom,
         address: `asdf`,
         amount: 2,
         password: `1234567890`
@@ -121,7 +122,7 @@ describe(`PageSend`, () => {
     store.commit(`setStakingParameters`, stakingParameters.parameters)
     wrapper.setData({
       fields: {
-        denom: `mycoin`,
+        denom: stakingParameters.parameters.bond_denom,
         address: `asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf`,
         amount: 2,
         password: `1234567890`
@@ -136,7 +137,7 @@ describe(`PageSend`, () => {
     store.commit(`setStakingParameters`, stakingParameters.parameters)
     wrapper.setData({
       fields: {
-        denom: `mycoin`,
+        denom: stakingParameters.parameters.bond_denom,
         address: `!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$`,
         amount: 2,
         password: `1234567890`
@@ -153,7 +154,7 @@ describe(`PageSend`, () => {
     store.commit(`setWalletBalances`, coins)
     wrapper.setData({
       fields: {
-        denom: `mycoin`,
+        denom: stakingParameters.parameters.bond_denom,
         address,
         amount: 2,
         password: `1234567890`
@@ -173,7 +174,7 @@ describe(`PageSend`, () => {
   it(`should show notification for successful send`, async () => {
     wrapper.setData({
       fields: {
-        denom: `mycoin`,
+        denom: stakingParameters.parameters.bond_denom,
         address,
         amount: 2,
         password: `1234567890`
@@ -224,7 +225,7 @@ describe(`PageSend`, () => {
     store.commit(`setStakingParameters`, stakingParameters.parameters)
     wrapper.setData({
       fields: {
-        denom: `mycoin`,
+        denom: stakingParameters.parameters.bond_denom,
         address,
         amount: 2,
         password: `1234567890`

@@ -46,7 +46,7 @@ exports[`PageSend disables sending if not connected 1`] = `
                 <h2
                   class="total-atoms__value"
                 >
-                  0.0000…
+                  1,000.0000…
                 </h2>
               </div>
                
@@ -58,7 +58,7 @@ exports[`PageSend disables sending if not connected 1`] = `
                 </h3>
                  
                 <h2>
-                  0.0000…
+                  1,000.0000…
                 </h2>
               </div>
             </div>
@@ -224,9 +224,9 @@ exports[`PageSend disables sending if not connected 1`] = `
                         </option>
                          
                         <option
-                          value="mycoin"
+                          value="STAKE"
                         >
-                          MYCOIN
+                          STAKE
                         </option>
                         <option
                           value="fermion"
@@ -474,7 +474,7 @@ exports[`PageSend has the expected html structure 1`] = `
                 <h2
                   class="total-atoms__value"
                 >
-                  0.0000…
+                  1,000.0000…
                 </h2>
               </div>
                
@@ -486,7 +486,7 @@ exports[`PageSend has the expected html structure 1`] = `
                 </h3>
                  
                 <h2>
-                  0.0000…
+                  1,000.0000…
                 </h2>
               </div>
             </div>
@@ -652,9 +652,9 @@ exports[`PageSend has the expected html structure 1`] = `
                         </option>
                          
                         <option
-                          value="mycoin"
+                          value="STAKE"
                         >
-                          MYCOIN
+                          STAKE
                         </option>
                         <option
                           value="fermion"
@@ -1332,7 +1332,7 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                 <h2
                   class="total-atoms__value"
                 >
-                  0.0000…
+                  1,000.0000…
                 </h2>
               </div>
                
@@ -1344,7 +1344,7 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                 </h3>
                  
                 <h2>
-                  0.0000…
+                  1,000.0000…
                 </h2>
               </div>
             </div>
@@ -1510,9 +1510,9 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                         </option>
                          
                         <option
-                          value="mycoin"
+                          value="STAKE"
                         >
-                          MYCOIN
+                          STAKE
                         </option>
                         <option
                           value="fermion"
@@ -1764,7 +1764,7 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                 <h2
                   class="total-atoms__value"
                 >
-                  0.0000…
+                  1,000.0000…
                 </h2>
               </div>
                
@@ -1776,7 +1776,7 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                 </h3>
                  
                 <h2>
-                  0.0000…
+                  1,000.0000…
                 </h2>
               </div>
             </div>
@@ -1942,9 +1942,9 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                         </option>
                          
                         <option
-                          value="mycoin"
+                          value="STAKE"
                         >
-                          MYCOIN
+                          STAKE
                         </option>
                         <option
                           value="fermion"
@@ -2196,7 +2196,7 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
                 <h2
                   class="total-atoms__value"
                 >
-                  0.0000…
+                  1,000.0000…
                 </h2>
               </div>
                
@@ -2208,7 +2208,7 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
                 </h3>
                  
                 <h2>
-                  0.0000…
+                  1,000.0000…
                 </h2>
               </div>
             </div>
@@ -2374,9 +2374,9 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
                         </option>
                          
                         <option
-                          value="mycoin"
+                          value="STAKE"
                         >
-                          MYCOIN
+                          STAKE
                         </option>
                         <option
                           value="fermion"
@@ -2628,7 +2628,7 @@ exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
                 <h2
                   class="total-atoms__value"
                 >
-                  0.0000…
+                  1,000.0000…
                 </h2>
               </div>
                
@@ -2640,7 +2640,7 @@ exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
                 </h3>
                  
                 <h2>
-                  0.0000…
+                  1,000.0000…
                 </h2>
               </div>
             </div>
@@ -2806,9 +2806,9 @@ exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
                         </option>
                          
                         <option
-                          value="mycoin"
+                          value="STAKE"
                         >
-                          MYCOIN
+                          STAKE
                         </option>
                         <option
                           value="fermion"
@@ -3044,7 +3044,7 @@ exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
     Please confirm that you would like to send
     
             <b>
-              2 mycoin
+              2 STAKE
             </b>
              to 
             <b>
