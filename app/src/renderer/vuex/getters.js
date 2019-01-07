@@ -65,12 +65,16 @@ export const validators = state => state.validators.validators
 export const keybase = state => state.keybase.identities
 export const pool = state => state.pool
 export const stakingParameters = state => state.stakingParameters
+export const bondDenom = getters =>
+  getters.stakingParameters.parameters.bond_denom
 
 // governance
 export const proposals = state => state.proposals
 export const votes = state => state.votes.votes
 export const deposits = state => state.deposits.deposits
 export const governanceParameters = state => state.governanceParameters
+export const depositDenom = getters =>
+  getters.governanceParameters.parameters.deposit.min_deposit[0].denom
 
 // status
 export const approvalRequired = state => state.connection.approvalRequired

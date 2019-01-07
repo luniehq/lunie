@@ -62,7 +62,7 @@ export default {
       `config`,
       `user`,
       `connected`,
-      `stakingParameters`,
+      `bondDenom`,
       `keybase`
     ]),
     address() {
@@ -121,10 +121,10 @@ export default {
           class: `name`
         },
         {
-          title: `Delegated ${this.stakingParameters.parameters.bond_denom}`,
+          title: `Delegated ${this.bondDenom}`,
           value: `your_votes`,
           tooltip: `Number of ${
-            this.stakingParameters.parameters.bond_denom
+            this.bondDenom
           } you have delegated to the validator`,
           class: `your-votes`
         },
@@ -132,7 +132,7 @@ export default {
           title: `Rewards`,
           value: `your_rewards`, // TODO: use real rewards
           tooltip: `Rewards of ${
-            this.stakingParameters.parameters.bond_denom
+            this.bondDenom
           } you have gained from the validator`,
           class: `your-rewards` // TODO: use real rewards
         },
@@ -140,7 +140,7 @@ export default {
           title: `Voting Power`,
           value: `percent_of_vote`,
           tooltip: `Percentage of ${
-            this.stakingParameters.parameters.bond_denom
+            this.bondDenom
           } the validator has on The Cosmos Hub`,
           class: `percent_of_vote`
         },

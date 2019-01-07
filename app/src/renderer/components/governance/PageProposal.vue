@@ -158,7 +158,7 @@ export default {
   }),
   computed: {
     ...mapGetters([
-      `governanceParameters`,
+      `depositDenom`,
       `proposals`,
       `connected`,
       `wallet`,
@@ -234,9 +234,6 @@ export default {
           message: `There was an error determining the status of this proposal.`,
           color: `grey`
         }
-    },
-    depositDenom() {
-      return this.governanceParameters.parameters.deposit.min_deposit[0].denom
     }
   },
   methods: {

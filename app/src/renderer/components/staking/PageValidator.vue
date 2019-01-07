@@ -51,7 +51,7 @@
           </div>
           <div class="row page-profile__header__data">
             <dl class="colored_dl">
-              <dt>Delegated {{ stakingParameters.parameters.bond_denom }}</dt>
+              <dt>Delegated {{ bondDenom }}</dt>
               <dd>
                 {{
                   myBond.isLessThan(0.01) && myBond.isGreaterThan(0)
@@ -149,16 +149,11 @@
               </dd>
             </dl>
             <dl class="info_dl">
-              <dt>
-                Self Delegated {{ stakingParameters.parameters.bond_denom }}
-              </dt>
+              <dt>Self Delegated {{ bondDenom }}</dt>
               <dd id="page-profile__self-bond">{{ selfBond }} %</dd>
             </dl>
             <dl v-if="config.devMode" class="info_dl">
-              <dt>
-                Minimum Self Delegated
-                {{ stakingParameters.parameters.bond_denom }}
-              </dt>
+              <dt>Minimum Self Delegated {{ bondDenom }}</dt>
               <dd>0 %</dd>
             </dl>
           </div>
@@ -169,6 +164,7 @@
         :show-delegation-modal.sync="showDelegationModal"
         :from-options="delegationTargetOptions()"
         :to="validator.operator_address"
+        :denom="bondDenom"
         @submitDelegation="submitDelegation"
       />
       <undelegation-modal
@@ -176,6 +172,7 @@
         :show-undelegation-modal.sync="showUndelegationModal"
         :maximum="myBond.toNumber()"
         :to="wallet.address"
+        :denom="bondDenom"
         @submitUndelegation="submitUndelegation"
       />
       <tm-modal v-if="showCannotModal" :close="closeCannotModal">
@@ -183,7 +180,7 @@
           Cannot {{ action == `delegate` ? `Delegate` : `Undelegate` }}
         </div>
         <p>
-          You have no {{ stakingParameters.parameters.bond_denom }}s
+          You have no {{ bondDenom }}s
           {{ action == `undelegate` ? ` delegated ` : ` ` }}to
           {{ action == `delegate` ? ` delegate.` : ` this validator.` }}
         </p>
@@ -245,7 +242,7 @@ export default {
   }),
   computed: {
     ...mapGetters([
-      `stakingParameters`,
+      `bondDenom`,
       `delegates`,
       `delegation`,
       `committedDelegations`,
@@ -391,15 +388,11 @@ export default {
 
         this.$store.commit(`notify`, {
           title: `Successful ${txTitle}!`,
-          body: `You have successfully ${txBody} your ${
-            this.stakingParameters.parameters.bond_denom
-          }s`
+          body: `You have successfully ${txBody} your ${this.bondDenom}s`
         })
       } catch ({ message }) {
         this.$store.commit(`notifyError`, {
-          title: `Error while ${txAction} ${
-            this.stakingParameters.parameters.bond_denom
-          }s`,
+          title: `Error while ${txAction} ${this.bondDenom}s`,
           body: message
         })
       }
@@ -421,14 +414,12 @@ export default {
         this.$store.commit(`notify`, {
           title: `Successful Undelegation!`,
           body: `You have successfully undelegated ${amount} ${
-            this.stakingParameters.parameters.bond_denom
+            this.bondDenom
           }s.`
         })
       } catch ({ message }) {
         this.$store.commit(`notifyError`, {
-          title: `Error while undelegating ${
-            this.stakingParameters.parameters.bond_denom
-          }s`,
+          title: `Error while undelegating ${this.bondDenom}s`,
           body: message
         })
       }

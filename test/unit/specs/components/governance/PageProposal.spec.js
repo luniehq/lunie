@@ -26,7 +26,11 @@ describe(`PageProposal`, () => {
   const $store = {
     commit: jest.fn(),
     dispatch: jest.fn(),
-    getters: { proposals: { proposals, tallies, stakingParameters } }
+    getters: {
+      proposals: { proposals, tallies },
+      bondDenom: stakingParameters.parameters.bond_denom,
+      depositDenom: governanceParameters.deposit.min_deposit[0].denom
+    }
   }
 
   beforeEach(() => {

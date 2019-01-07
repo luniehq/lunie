@@ -37,14 +37,8 @@ describe(`DelegationModal`, () => {
             value: 2
           }
         ],
-        to: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`
-      },
-      mocks: {
-        $store: {
-          getters: {
-            stakingParameters
-          }
-        }
+        to: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
+        denom: stakingParameters.parameters.bond_denom
       }
     })
     wrapper = instance.wrapper

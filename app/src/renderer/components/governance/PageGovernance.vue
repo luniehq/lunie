@@ -67,15 +67,7 @@ export default {
     showModalPropose: false
   }),
   computed: {
-    ...mapGetters([
-      `proposals`,
-      `filters`,
-      `connected`,
-      `governanceParameters`
-    ]),
-    depositDenom() {
-      return this.governanceParameters.parameters.deposit.min_deposit[0].denom
-    }
+    ...mapGetters([`proposals`, `filters`, `connected`, `depositDenom`])
   },
   mounted() {
     this.ps = new PerfectScrollbar(this.$el.querySelector(`.tm-page-main`))

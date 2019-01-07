@@ -34,7 +34,7 @@
         :key="tx.hash"
         :transaction="tx"
         :address="wallet.address"
-        :bonding-denom="stakingParameters.parameters.bond_denom"
+        :bonding-denom="bondDenom"
         :unbonding-time="getUnbondingTime(tx)"
       />
     </template>
@@ -85,7 +85,7 @@ export default {
       `filters`,
       `allTransactions`,
       `wallet`,
-      `stakingParameters`,
+      `bondDenom`,
       `delegation`,
       `delegates`,
       `connected`

@@ -6,7 +6,7 @@ import setup from "../../../helpers/vuex-setup"
 import PageValidator from "renderer/components/staking/PageValidator"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
-let { stakingParameters } = lcdClientMock.state
+const { stakingParameters } = lcdClientMock.state
 
 const validator = Object.assign({}, lcdClientMock.state.candidates[0], {
   commission: {
@@ -22,7 +22,6 @@ const validator = Object.assign({}, lcdClientMock.state.candidates[0], {
 const validatorTo = lcdClientMock.state.candidates[1]
 
 const getterValues = {
-  stakingParameters: stakingParameters,
   config: { desktop: false },
   delegates: {
     delegates: [validator, validatorTo],
@@ -41,7 +40,8 @@ const getterValues = {
   user: { atoms: 42 },
   wallet: { address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9` },
   connected: true,
-  lastPage: null
+  lastPage: null,
+  bondDenom: stakingParameters.parameters.bond_denom
 }
 
 describe(`PageValidator`, () => {
@@ -62,11 +62,13 @@ describe(`PageValidator`, () => {
         $route: {
           params: { validator: validator.operator_address }
         }
+      },
+      getters: {
+        bondDenom: () => stakingParameters.parameters.bond_denom
       }
     })
     wrapper = instance.wrapper
     store = instance.store
-    store.commit(`setStakingParameters`, stakingParameters.parameters)
   })
 
   it(`has the expected html structure`, async () => {
@@ -89,7 +91,8 @@ describe(`PageValidator`, () => {
         config: () => ({ desktop: false }),
         delegates: () => ({
           delegates: []
-        })
+        }),
+        bondDenom: () => stakingParameters.parameters.bond_denom
       },
       mocks: {
         $route: {
@@ -100,7 +103,6 @@ describe(`PageValidator`, () => {
 
     wrapper = instance.wrapper
     store = instance.store
-    store.commit(`setStakingParameters`, stakingParameters.parameters)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -341,16 +343,15 @@ describe(`onDelegation`, () => {
         store.commit(`setDelegates`, [validator, validatorTo])
         store.state.wallet.address = lcdClientMock.addresses[0]
       },
+      getters: { bondDenom: () => stakingParameters.parameters.bond_denom },
       mocks: {
         $route: {
           params: { validator: validator.operator_address }
         }
       }
     })
-
     wrapper = instance.wrapper
     store = instance.store
-    store.commit(`setStakingParameters`, stakingParameters.parameters)
   })
 
   describe(`make sure we have enough atoms to delegate`, () => {
@@ -473,7 +474,6 @@ describe(`onDelegation`, () => {
           const $store = {
             commit: jest.fn(),
             dispatch,
-            getters: getterValues,
             rootState: getterValues,
             state: {
               committedDelegates: { [lcdClientMock.validators[0]]: 0 },

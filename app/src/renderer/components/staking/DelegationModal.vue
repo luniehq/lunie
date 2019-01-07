@@ -17,7 +17,7 @@
     >
       <tm-field
         id="denom"
-        :placeholder="stakingParameters.parameters.bond_denom"
+        :placeholder="denom"
         type="text"
         readonly="readonly"
       />
@@ -122,6 +122,10 @@ export default {
     to: {
       type: String,
       required: true
+    },
+    denom: {
+      type: String,
+      required: true
     }
   },
   data: () => ({
@@ -130,9 +134,6 @@ export default {
     password: ``,
     showPassword: false
   }),
-  computed: {
-    ...mapGetters([`stakingParameters`])
-  },
   validations() {
     return {
       amount: {

@@ -3592,7 +3592,7 @@ Array [
   Array [
     "notify",
     Object {
-      "body": "You have successfully undelegated 10 STAKEs.",
+      "body": "You have successfully undelegated 10 undefineds.",
       "title": "Successful Undelegation!",
     },
   ],
@@ -3675,7 +3675,7 @@ Array [
   Array [
     "notify",
     Object {
-      "body": "You have successfully delegated your STAKEs",
+      "body": "You have successfully delegated your undefineds",
       "title": "Successful delegation!",
     },
   ],
@@ -3779,7 +3779,7 @@ Array [
   Array [
     "notify",
     Object {
-      "body": "You have successfully redelegated your STAKEs",
+      "body": "You have successfully redelegated your undefineds",
       "title": "Successful redelegation!",
     },
   ],
