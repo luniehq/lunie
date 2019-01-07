@@ -42,7 +42,7 @@
         :key="coin.denom"
         :coin="coin"
         class="tm-li-balance"
-        @:show-modal="showModal"
+        @show-modal="showModal"
       />
     </ul>
 
@@ -147,7 +147,7 @@ export default {
     },
     showModal(denomination) {
       this.showSendModal = true
-      this.denomination = denomination.toLowerCase()
+      this.denomination = denomination
     }
   }
 }

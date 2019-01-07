@@ -3,7 +3,7 @@
     id="undelegation-modal"
     title="Undelegation"
     class="undelegation-modal"
-    @:close-action-modal="close()"
+    @close-action-modal="close"
   >
     <tm-form-group
       class="action-modal-form-group"

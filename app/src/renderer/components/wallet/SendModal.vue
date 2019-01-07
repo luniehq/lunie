@@ -1,5 +1,5 @@
 <template>
-  <action-modal title="Send" @:close-action-modal="close()">
+  <action-modal title="Send" @close-action-modal="close">
     <tm-form-group
       :error="$v.fields.denom.$error"
       field-id="send-denomination"

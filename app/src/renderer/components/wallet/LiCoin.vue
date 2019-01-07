@@ -39,10 +39,7 @@ export default {
       return num.full(parseFloat(this.coin.amount))
     },
     denomination() {
-      return (
-        this.coin.denom.substring(0, 1).toUpperCase() +
-        this.coin.denom.substring(1).toLowerCase()
-      )
+      return this.coin.denom
     }
   }
 }

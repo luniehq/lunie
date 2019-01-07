@@ -1,5 +1,5 @@
 <template>
-  <action-modal title="Vote" class="modal-vote" @:close-action-modal="close()">
+  <action-modal title="Vote" class="modal-vote" @close-action-modal="close">
     <tm-form-group class="action-modal-group vote-options">
       <div class="radio-container">
         <input

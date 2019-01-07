@@ -2,7 +2,7 @@
   <action-modal
     title="Deposit"
     class="modal-deposit"
-    @:close-action-modal="close()"
+    @close-action-modal="close"
   >
     <tm-form-group
       :error="$v.amount.$invalid"

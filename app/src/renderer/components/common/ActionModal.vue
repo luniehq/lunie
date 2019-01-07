@@ -9,7 +9,7 @@
         <div
           id="closeBtn"
           class="action-modal-icon action-modal-close"
-          @click="close()"
+          @click="close"
         >
           <i class="material-icons">close</i>
         </div>
