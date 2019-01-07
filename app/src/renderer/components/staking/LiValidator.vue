@@ -141,9 +141,9 @@ export default {
 
 <style>
 .li-validator .li-validator__delegated-steak {
-  min-width: 10rem;
+  /* min-width: 10rem; */
 }
 .li-validator .li-validator__voting-power {
-  min-width: 9rem;
+  /* min-width: 9rem; */
 }
 </style>
