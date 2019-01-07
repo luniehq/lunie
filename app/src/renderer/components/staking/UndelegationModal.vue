@@ -81,7 +81,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
 import ClickOutside from "vue-click-outside"
 import { required, between } from "vuelidate/lib/validators"
 import Modal from "common/TmModal"

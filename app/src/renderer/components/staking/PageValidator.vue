@@ -54,9 +54,11 @@
               <dt>Delegated {{ bondDenom }}</dt>
               <dd>
                 {{
+                  /* eslint-disable */
                   myBond.isLessThan(0.01) && myBond.isGreaterThan(0)
-                    ? `< 0.01` // eslint-disable-line
+                    ? `< 0.01`
                     : num.shortNumber(myBond)
+                  /*eslint-enable */
                 }}
               </dd>
             </dl>
@@ -180,15 +182,9 @@
           Cannot {{ action === `delegate` ? `Delegate` : `Undelegate` }}
         </div>
         <p>
-          <<<<<<< HEAD You have no {{ bondDenom }}s
-          {{ action == `undelegate` ? ` delegated ` : ` ` }}to
-          {{ action == `delegate` ? ` delegate.` : ` this validator.` }} =======
-          You have no {{ bondingDenom }}s
+          You have no {{ bondDenom }}s
           {{ action === `undelegate` ? ` delegated ` : ` ` }}to
-          {{
-            action === `delegate` ? ` delegate.` : ` this validator.`
-          }}
-          >>>>>>> 3d406d08381d6cb97b091c1494c4ed91f13f8c09
+          {{ action === `delegate` ? ` delegate.` : ` this validator.` }}
         </p>
         <div slot="footer">
           <tmBtn
