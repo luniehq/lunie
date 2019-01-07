@@ -1,4 +1,5 @@
 import setup from "../../helpers/vuex-setup"
+import validatorsModule from "renderer/vuex/modules/validators.js"
 
 let instance = setup()
 
@@ -86,10 +87,22 @@ describe(`Module: Validators`, () => {
   })
 
   it(`should store an error if failed to load validators`, async () => {
-    jest
-      .spyOn(node, `getValidatorSet`)
-      .mockImplementationOnce(() => Promise.reject(new Error(`Error`)))
-    await store.dispatch(`getValidators`)
-    expect(store.state.validators.error.message).toBe(`Error`)
+    let { actions, state } = validatorsModule({
+      node: {
+        getValidatorSet: () => Promise.reject(new Error(`reason`))
+      }
+    })
+    const commit = jest.fn()
+    const rootState = {
+      connection: {
+        connected: true
+      }
+    }
+    await actions.getValidators({ state, commit, rootState })
+    expect(state.error.message).toBe(`reason`)
+    expect(commit).toHaveBeenCalledWith(`notifyError`, {
+      title: `Error fetching validator set`,
+      body: expect.stringContaining(`reason`)
+    })
   })
 })

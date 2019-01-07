@@ -82,4 +82,3 @@ export const connected = state => state.connection.connected
 export const lastHeader = state => state.connection.lastHeader
 export const nodeURL = state =>
   state.connection.node ? state.connection.node.remoteLcdURL : undefined
-export const mockedConnector = state => state.connection.mocked

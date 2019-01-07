@@ -8,7 +8,7 @@ localVue.use(Vuex)
 localVue.directive(`tooltip`, () => {})
 localVue.directive(`focus`, () => {})
 
-describe(`NISessionWelcome`, () => {
+describe(`TmSessionWelcome`, () => {
   let wrapper, store, getters
   let accounts = []
 
@@ -18,8 +18,7 @@ describe(`NISessionWelcome`, () => {
       lastHeader: () => ({ chain_id: `gaia-test`, height: `31337` }),
       user: () => ({ accounts }),
       connected: () => true,
-      nodeURL: () => `http://nodeUrl`,
-      mockedConnector: () => false
+      nodeURL: () => `http://nodeUrl`
     }
     store = new Vuex.Store({ getters })
     store.commit = jest.fn()

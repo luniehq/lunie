@@ -188,13 +188,6 @@ describe(`PageProposal`, () => {
       expect(wrapper.vm.lastVote).toBe(undefined)
     })
 
-    it(`throws an error when trying to fetch a wrong proposalId votes`, async () => {
-      wrapper.setProps({ proposalId: `3` })
-      await wrapper.vm.onVote()
-      expect(store.state.notifications.length).toBe(1)
-      expect(store.state.notifications[0].title).toBe(`Error fetching votes`)
-    })
-
     it(`disables voting if the proposal is on the 'DepositPeriod'`, () => {
       wrapper.setProps({ proposalId: `5` })
       expect(wrapper.find(`#vote-btn`).exists()).toEqual(false)

@@ -177,12 +177,18 @@
       />
       <tm-modal v-if="showCannotModal" :close="closeCannotModal">
         <div slot="title">
-          Cannot {{ action == `delegate` ? `Delegate` : `Undelegate` }}
+          Cannot {{ action === `delegate` ? `Delegate` : `Undelegate` }}
         </div>
         <p>
-          You have no {{ bondDenom }}s
+          <<<<<<< HEAD You have no {{ bondDenom }}s
           {{ action == `undelegate` ? ` delegated ` : ` ` }}to
-          {{ action == `delegate` ? ` delegate.` : ` this validator.` }}
+          {{ action == `delegate` ? ` delegate.` : ` this validator.` }} =======
+          You have no {{ bondingDenom }}s
+          {{ action === `undelegate` ? ` delegated ` : ` ` }}to
+          {{
+            action === `delegate` ? ` delegate.` : ` this validator.`
+          }}
+          >>>>>>> 3d406d08381d6cb97b091c1494c4ed91f13f8c09
         </p>
         <div slot="footer">
           <tmBtn
