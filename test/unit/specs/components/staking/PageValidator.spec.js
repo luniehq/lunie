@@ -382,6 +382,7 @@ describe(`onDelegation`, () => {
             commit: jest.fn(),
             dispatch: jest.fn()
           }
+          const address = `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
 
           await PageValidator.methods.submitDelegation.call(
             {
@@ -391,15 +392,20 @@ describe(`onDelegation`, () => {
             },
             {
               amount: 10,
-              from: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+              from: address,
+              password: `12345`
             }
           )
 
-          let stakingTransactions = {}
-          stakingTransactions.delegations = [{ atoms: 10, validator }]
-
           expect($store.dispatch.mock.calls).toEqual([
-            [`submitDelegation`, { password: undefined, stakingTransactions }]
+            [
+              `submitDelegation`,
+              {
+                password: `12345`,
+                validator_addr: validator.operator_address,
+                amount: 10
+              }
+            ]
           ])
           expect($store.commit.mock.calls).toEqual([
             [
@@ -421,6 +427,7 @@ describe(`onDelegation`, () => {
               throw new Error(`message`)
             })
           }
+          const address = `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
 
           await PageValidator.methods.submitDelegation.call(
             {
@@ -430,17 +437,20 @@ describe(`onDelegation`, () => {
             },
             {
               amount: 10000000,
-              from: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+              from: address,
+              password: `12345`
             }
           )
 
-          let stakingTransactions = {}
-          stakingTransactions.delegations = [
-            { atoms: 10000000, validator: validator }
-          ]
-
           expect($store.dispatch.mock.calls).toEqual([
-            [`submitDelegation`, { stakingTransactions }]
+            [
+              `submitDelegation`,
+              {
+                password: `12345`,
+                validator_addr: validator.operator_address,
+                amount: 10000000
+              }
+            ]
           ])
 
           expect($store.commit.mock.calls).toEqual([
@@ -458,7 +468,7 @@ describe(`onDelegation`, () => {
       describe(`composition`, () => {
         it(`delegation.submitDelegation`, async () => {
           const delegation = Delegation({})
-
+          const address = `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
           const dispatch = jest.fn((type, payload) => {
             if (type === `submitDelegation`) {
               delegation.actions[type]($store, payload)
@@ -484,7 +494,8 @@ describe(`onDelegation`, () => {
             },
             {
               amount: 10,
-              from: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+              from: address,
+              password: `12345`
             }
           )
 
@@ -510,17 +521,21 @@ describe(`onDelegation`, () => {
             },
             {
               amount: 5,
-              from: validator.operator_address
+              from: validator.operator_address,
+              password: `12345`
             }
           )
 
-          let stakingTransactions = {}
-          stakingTransactions.redelegations = [
-            { atoms: 5, validatorSrc: validator, validatorDst: validatorTo }
-          ]
-
           expect($store.dispatch.mock.calls).toEqual([
-            [`submitDelegation`, { password: undefined, stakingTransactions }]
+            [
+              `submitRedelegation`,
+              {
+                password: `12345`,
+                validatorSrc: validator,
+                validatorDst: validatorTo,
+                amount: 5
+              }
+            ]
           ])
 
           expect($store.commit.mock.calls).toEqual([
@@ -554,18 +569,22 @@ describe(`onDelegation`, () => {
               }
             },
             {
+              password: `12345`,
               amount: 5,
               from: validator.operator_address
             }
           )
 
-          let stakingTransactions = {}
-          stakingTransactions.redelegations = [
-            { atoms: 5, validatorSrc: validator, validatorDst: validatorTo }
-          ]
-
           expect($store.dispatch.mock.calls).toEqual([
-            [`submitDelegation`, { stakingTransactions }]
+            [
+              `submitRedelegation`,
+              {
+                password: `12345`,
+                validatorSrc: validator,
+                validatorDst: validatorTo,
+                amount: 5
+              }
+            ]
           ])
 
           expect($store.commit.mock.calls).toEqual([
@@ -608,6 +627,7 @@ describe(`onDelegation`, () => {
               $store
             },
             {
+              password: `12345`,
               amount: 5,
               from: validator.operator_address
             }
@@ -667,15 +687,18 @@ describe(`onDelegation`, () => {
               $store
             },
             {
-              amount: 10
+              amount: 10,
+              password: `12345`
             }
           )
 
           expect($store.dispatch.mock.calls).toEqual([
             [
-              `submitDelegation`,
+              `submitUnbondingDelegation`,
               {
-                stakingTransactions: { unbondings: [{ atoms: -10, validator }] }
+                password: `12345`,
+                amount: -10,
+                validator
               }
             ]
           ])
@@ -685,7 +708,7 @@ describe(`onDelegation`, () => {
               `notify`,
               {
                 body: `You have successfully undelegated 10 atoms.`,
-                title: `Successful Undelegation!`
+                title: `Successful undelegation!`
               }
             ]
           ])
@@ -706,15 +729,18 @@ describe(`onDelegation`, () => {
               $store
             },
             {
-              amount: 10
+              amount: 10,
+              password: `12345`
             }
           )
 
           expect($store.dispatch.mock.calls).toEqual([
             [
-              `submitDelegation`,
+              `submitUnbondingDelegation`,
               {
-                stakingTransactions: { unbondings: [{ atoms: -10, validator }] }
+                password: `12345`,
+                amount: -10,
+                validator
               }
             ]
           ])
@@ -759,6 +785,7 @@ describe(`onDelegation`, () => {
               $store
             },
             {
+              password: `12345`,
               amount: 10
             }
           )
