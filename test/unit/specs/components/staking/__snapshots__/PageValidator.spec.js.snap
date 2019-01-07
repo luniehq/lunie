@@ -485,9 +485,7 @@ exports[`PageValidator has the expected html structure 1`] = `
             class="info_dl"
           >
             <dt>
-              
               Self Delegated STAKE
-            
             </dt>
              
             <dd
@@ -501,10 +499,7 @@ exports[`PageValidator has the expected html structure 1`] = `
             class="info_dl"
           >
             <dt>
-              
-              Minimum Self Delegated
-              STAKE
-            
+              Minimum Self Delegated STAKE
             </dt>
              
             <dd>
@@ -1009,9 +1004,7 @@ exports[`PageValidator shows a default avatar 1`] = `
             class="info_dl"
           >
             <dt>
-              
               Self Delegated STAKE
-            
             </dt>
              
             <dd
@@ -1025,10 +1018,7 @@ exports[`PageValidator shows a default avatar 1`] = `
             class="info_dl"
           >
             <dt>
-              
-              Minimum Self Delegated
-              STAKE
-            
+              Minimum Self Delegated STAKE
             </dt>
              
             <dd>
@@ -1778,9 +1768,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
             class="info_dl"
           >
             <dt>
-              
               Self Delegated STAKE
-            
             </dt>
              
             <dd
@@ -1794,10 +1782,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
             class="info_dl"
           >
             <dt>
-              
-              Minimum Self Delegated
-              STAKE
-            
+              Minimum Self Delegated STAKE
             </dt>
              
             <dd>
@@ -2369,9 +2354,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
             class="info_dl"
           >
             <dt>
-              
               Self Delegated STAKE
-            
             </dt>
              
             <dd
@@ -2385,10 +2368,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
             class="info_dl"
           >
             <dt>
-              
-              Minimum Self Delegated
-              STAKE
-            
+              Minimum Self Delegated STAKE
             </dt>
              
             <dd>
@@ -2893,9 +2873,7 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
             class="info_dl"
           >
             <dt>
-              
               Self Delegated STAKE
-            
             </dt>
              
             <dd
@@ -2909,10 +2887,7 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
             class="info_dl"
           >
             <dt>
-              
-              Minimum Self Delegated
-              STAKE
-            
+              Minimum Self Delegated STAKE
             </dt>
              
             <dd>
@@ -3484,9 +3459,7 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
             class="info_dl"
           >
             <dt>
-              
               Self Delegated STAKE
-            
             </dt>
              
             <dd
@@ -3500,10 +3473,7 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
             class="info_dl"
           >
             <dt>
-              
-              Minimum Self Delegated
-              STAKE
-            
+              Minimum Self Delegated STAKE
             </dt>
              
             <dd>
@@ -3528,7 +3498,7 @@ Array [
   Array [
     "submitDelegation",
     Object {
-      "password": undefined,
+      "password": "12345",
       "stakingTransactions": Object {
         "unbondings": Array [
           Object {
@@ -3579,7 +3549,7 @@ Array [
         },
       ],
       "delegations": undefined,
-      "password": undefined,
+      "password": "12345",
       "to": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
       "type": "updateDelegations",
     },
@@ -3592,7 +3562,7 @@ Array [
   Array [
     "notify",
     Object {
-      "body": "You have successfully undelegated 10 undefineds.",
+      "body": "You have successfully undelegated 10 STAKEs.",
       "title": "Successful Undelegation!",
     },
   ],
@@ -3604,7 +3574,7 @@ Array [
   Array [
     "submitDelegation",
     Object {
-      "password": undefined,
+      "password": "12345",
       "stakingTransactions": Object {
         "delegations": Array [
           Object {
@@ -3658,7 +3628,7 @@ Array [
           "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
         },
       ],
-      "password": undefined,
+      "password": "12345",
       "to": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
       "type": "updateDelegations",
     },
@@ -3675,7 +3645,7 @@ Array [
   Array [
     "notify",
     Object {
-      "body": "You have successfully delegated your undefineds",
+      "body": "You have successfully delegated your STAKEs",
       "title": "Successful delegation!",
     },
   ],
@@ -3779,7 +3749,7 @@ Array [
   Array [
     "notify",
     Object {
-      "body": "You have successfully redelegated your undefineds",
+      "body": "You have successfully redelegated your STAKEs",
       "title": "Successful redelegation!",
     },
   ],

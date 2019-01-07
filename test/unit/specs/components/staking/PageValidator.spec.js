@@ -41,6 +41,7 @@ const getterValues = {
   wallet: { address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9` },
   connected: true,
   lastPage: null,
+  stakingParameters,
   bondDenom: stakingParameters.parameters.bond_denom
 }
 
@@ -63,9 +64,7 @@ describe(`PageValidator`, () => {
           params: { validator: validator.operator_address }
         }
       },
-      getters: {
-        bondDenom: () => stakingParameters.parameters.bond_denom
-      }
+      getters: { bondDenom: () => stakingParameters.parameters.bond_denom }
     })
     wrapper = instance.wrapper
     store = instance.store
@@ -343,12 +342,12 @@ describe(`onDelegation`, () => {
         store.commit(`setDelegates`, [validator, validatorTo])
         store.state.wallet.address = lcdClientMock.addresses[0]
       },
-      getters: { bondDenom: () => stakingParameters.parameters.bond_denom },
       mocks: {
         $route: {
           params: { validator: validator.operator_address }
         }
-      }
+      },
+      getters: { bondDenom: () => stakingParameters.parameters.bond_denom }
     })
     wrapper = instance.wrapper
     store = instance.store
@@ -489,7 +488,8 @@ describe(`onDelegation`, () => {
             },
             {
               amount: 10,
-              from: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+              from: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+              password: `12345`
             }
           )
 
@@ -773,7 +773,8 @@ describe(`onDelegation`, () => {
               $store
             },
             {
-              amount: 10
+              amount: 10,
+              password: `12345`
             }
           )
 

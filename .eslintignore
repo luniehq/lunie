@@ -2,5 +2,7 @@
 /app/dist/
 /app/networks/
 /builds/
+/tasks/builds/*
 /testArtifacts
 /test/unit/coverage/
+/.vscode/settings.json
