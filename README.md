@@ -33,7 +33,7 @@ npm i -g n && n 10.13.0
 
 ### Yarn
 
-Yarn is a JS package packager we use manage Voyager dependencies. Download it [here](https://yarnpkg.com/lang/en/docs/install).
+Yarn is a JS package manager we use to manage Voyager's dependencies. Download it [here](https://yarnpkg.com/lang/en/docs/install).
 
 ### Docker
 
