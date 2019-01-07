@@ -79,7 +79,7 @@
         id="submit-proposal"
         :disabled="$v.$invalid"
         color="primary"
-        value="Submit"
+        value="Submit Proposal"
         @click.native="onPropose"
       />
     </div>

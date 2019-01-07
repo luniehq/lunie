@@ -64,7 +64,7 @@
           id="cast-vote"
           :disabled="$v.$invalid"
           color="primary"
-          value="Vote"
+          value="Submit Vote"
           @click.native="onVote"
         />
       </div>

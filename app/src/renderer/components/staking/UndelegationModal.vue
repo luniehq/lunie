@@ -67,7 +67,7 @@
         id="submit-undelegation"
         :disabled="$v.$invalid"
         color="primary"
-        value="Undelegate"
+        value="Submit Undelegation"
         @click.native="onUndelegate"
       />
     </div>

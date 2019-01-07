@@ -27,6 +27,7 @@
       <tm-field-group>
         <tm-field
           id="send-address"
+          v-focus
           v-model.trim="fields.address"
           type="text"
           placeholder="Address"

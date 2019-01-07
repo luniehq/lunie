@@ -44,7 +44,7 @@
         id="submit-deposit"
         :disabled="$v.$invalid"
         color="primary"
-        value="Deposit"
+        value="Submit Deposit"
         @click.native="onDeposit"
       />
     </div>

@@ -68,7 +68,7 @@
         id="submit-delegation"
         :disabled="$v.$invalid"
         color="primary"
-        value="Submit"
+        value="Submit Delegation"
         @click.native="onDelegation"
       />
     </div>
