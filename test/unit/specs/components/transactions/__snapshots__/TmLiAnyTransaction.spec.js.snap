@@ -55,7 +55,7 @@ exports[`TmLiAnyTransaction shows bank transactions 1`] = `
       >
         Block #3436 
       </a>
-      @ 12:00 am
+      @ 00:00
     
     </div>
   </div>
@@ -123,7 +123,7 @@ exports[`TmLiAnyTransaction shows stake transactions 1`] = `
       >
         Block #568 
       </a>
-      @ 12:00 am
+      @ 00:00
     
     </div>
   </div>
@@ -173,7 +173,7 @@ exports[`TmLiAnyTransaction shows unknown transactions 1`] = `
       >
         Block #3436 
       </a>
-      @ 12:00 am
+      @ 00:00
     
     </div>
   </div>
