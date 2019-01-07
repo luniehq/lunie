@@ -47,7 +47,10 @@ export default {
   },
   computed: {
     date() {
-      return moment(this.time).format(`h:mm a`)
+      const time = moment(this.time)
+      return time.format(
+        `${moment().isSame(time, `day`) ? `` : `YYYY/MM/DD `}HH:mm`
+      )
     }
   }
 }
