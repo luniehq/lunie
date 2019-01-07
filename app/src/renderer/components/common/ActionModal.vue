@@ -59,7 +59,7 @@ export default {
   z-index: var(--z-modal);
   border-top-left-radius: 0.25rem;
   border-top-right-radius: 0.25rem;
-  box-shadow: 0 8px 16px rgba(200, 200, 200, 0.1);
+  box-shadow: 0 2px 8px rgba(200, 200, 200, 0.1);
 }
 
 .action-modal-header {
