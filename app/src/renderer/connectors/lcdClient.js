@@ -133,8 +133,19 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
     // Get the list of the validators in the latest validator set
     getValidatorSet: req(`GET`, `/validatorsets/latest`, true),
 
-    updateDelegations: function(delegatorAddr, data) {
+    postDelegation: function(delegatorAddr, data) {
       return req(`POST`, `/stake/delegators/${delegatorAddr}/delegations`)(data)
+    },
+    postUnbondingDelegation: function(delegatorAddr, data) {
+      return req(
+        `POST`,
+        `/stake/delegators/${delegatorAddr}/unbonding_delegations`
+      )(data)
+    },
+    postRedelegations: function(delegatorAddr, data) {
+      return req(`POST`, `/stake/delegators/${delegatorAddr}/redelegations`)(
+        data
+      )
     },
 
     // Query a delegation between a delegator and a validator

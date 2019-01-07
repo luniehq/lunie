@@ -343,74 +343,58 @@ export default {
       }
     },
     async submitDelegation({ amount, from, password }) {
-      const delegatorAddr = this.wallet.address
-      let stakingTransactions = {}
-      let txTitle,
-        txBody,
-        txAction = ``
-
       if (from === delegatorAddr) {
-        txTitle = `delegation`
-        txBody = `delegated`
-        txAction = `delegating`
+        try {
+          await this.$store.dispatch(`submitDelegation`, {
+            validator_addr: this.validator.operator_address,
+            amount,
+            password
+          })
 
-        stakingTransactions.delegations = [
-          {
-            atoms: amount,
-            validator: this.validator
-          }
-        ]
+          this.$store.commit(`notify`, {
+            title: `Successful delegation!`,
+            body: `You have successfully delegated your ${this.bondingDenom}s`
+          })
+        } catch ({ message }) {
+          this.$store.commit(`notifyError`, {
+            title: `Error while delegating ${this.bondingDenom}s`,
+            body: message
+          })
+        }
       } else {
-        txTitle = `redelegation`
-        txBody = `redelegated`
-        txAction = `redelegating`
-
-        let validatorFrom = this.delegates.delegates.find(
+        const validatorSrc = this.delegates.delegates.find(
           v => from === v.operator_address
         )
+        try {
+          await this.$store.dispatch(`submitRedelegation`, {
+            validatorSrc,
+            validatorDst: this.validator,
+            amount,
+            password
+          })
 
-        stakingTransactions.redelegations = [
-          {
-            atoms: amount,
-            validatorSrc: validatorFrom,
-            validatorDst: this.validator
-          }
-        ]
-      }
-
-      try {
-        await this.$store.dispatch(`submitDelegation`, {
-          stakingTransactions,
-          password
-        })
-
-        this.$store.commit(`notify`, {
-          title: `Successful ${txTitle}!`,
-          body: `You have successfully ${txBody} your ${this.bondingDenom}s`
-        })
-      } catch ({ message }) {
-        this.$store.commit(`notifyError`, {
-          title: `Error while ${txAction} ${this.bondingDenom}s`,
-          body: message
-        })
+          this.$store.commit(`notify`, {
+            title: `Successful redelegation!`,
+            body: `You have successfully redelegated your ${this.bondingDenom}s`
+          })
+        } catch ({ message }) {
+          this.$store.commit(`notifyError`, {
+            title: `Error while redelegating ${this.bondingDenom}s`,
+            body: message
+          })
+        }
       }
     },
     async submitUndelegation({ amount, password }) {
       try {
-        await this.$store.dispatch(`submitDelegation`, {
-          stakingTransactions: {
-            unbondings: [
-              {
-                atoms: -amount,
-                validator: this.validator
-              }
-            ]
-          },
+        await this.$store.dispatch(`submitUnbondingDelegation`, {
+          amount: -amount,
+          validator: this.validator,
           password
         })
 
         this.$store.commit(`notify`, {
-          title: `Successful Undelegation!`,
+          title: `Successful undelegation!`,
           body: `You have successfully undelegated ${amount} ${
             this.bondingDenom
           }s.`
