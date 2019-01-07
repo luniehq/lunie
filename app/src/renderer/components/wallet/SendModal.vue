@@ -47,6 +47,7 @@
         type="bech32"
       />
     </tm-form-group>
+
     <tm-form-group
       :error="$v.fields.amount.$error"
       field-id="send-amount"
@@ -75,16 +76,6 @@
         type="between"
       />
     </tm-form-group>
-
-    <p v-if="mockedConnector" class="mocked-message">
-      <span>Try sending to the address "</span
-      ><strong style="font-weight: bold"
-        >cosmos1p6zajjw6xged056andyhn62lm7axwzyspkzjq0</strong
-      ><span
-        >", it's a friendly bot who will send some tokens back to you!</span
-      >
-    </p>
-    <br v-if="mockedConnector" />
 
     <tm-form-group
       :error="$v.fields.password.$error"
@@ -181,7 +172,7 @@ export default {
     showPassword: false
   }),
   computed: {
-    ...mapGetters([`wallet`, `mockedConnector`, `connected`]),
+    ...mapGetters([`wallet`, `connected`]),
     max() {
       let denom = this.wallet.balances.find(b => b.denom === this.denom)
       return (denom && denom.amount) || 0
