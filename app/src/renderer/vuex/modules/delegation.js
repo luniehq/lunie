@@ -185,7 +185,7 @@ export default ({ node }) => {
       // optimistic update the atoms of the user before we get the new values from chain
       commit(`setAtoms`, user.atoms - amount)
       // optimistically update the committed delegations
-      state.committedDelegates[delegation.validator.operator_address] += amount
+      state.committedDelegates[validator_addr] += amount
     },
     async submitUnbondingDelegation(
       {
@@ -215,9 +215,7 @@ export default ({ node }) => {
       { validatorSrc, validatorDst, amount, password }
     ) {
       const shares = String(
-        calculateShares(validatorSrc, amount)
-          .multipliedBy(10000000000)
-          .toFixed(10)
+        Math.abs(calculateShares(validatorSrc, amount)).toFixed(10)
       )
 
       await dispatch(`sendTx`, {

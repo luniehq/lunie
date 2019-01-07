@@ -343,7 +343,7 @@ export default {
       }
     },
     async submitDelegation({ amount, from, password }) {
-      if (from === delegatorAddr) {
+      if (from === this.wallet.address) {
         try {
           await this.$store.dispatch(`submitDelegation`, {
             validator_addr: this.validator.operator_address,

@@ -142,7 +142,7 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
         `/stake/delegators/${delegatorAddr}/unbonding_delegations`
       )(data)
     },
-    postRedelegations: function(delegatorAddr, data) {
+    postRedelegation: function(delegatorAddr, data) {
       return req(`POST`, `/stake/delegators/${delegatorAddr}/redelegations`)(
         data
       )
