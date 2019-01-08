@@ -20,11 +20,6 @@ export default ({ node }) => {
   }
 
   const actions = {
-    async reconnected({ state, dispatch }) {
-      if (state.loading) {
-        await dispatch(`getGovParameters`)
-      }
-    },
     async getGovParameters({ state, commit, rootState }) {
       state.loading = true
 

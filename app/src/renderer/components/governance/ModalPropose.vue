@@ -61,8 +61,8 @@
       />
       <tm-field
         id="amount"
-        :min="0"
         :max="balance"
+        :min="0"
         v-model="amount"
         type="number"
       />
@@ -122,6 +122,7 @@ import TmFormMsg from "common/TmFormMsg"
 
 const isValid = type =>
   type === `Text` || type === `ParameterChange` || type === `SoftwareUpgrade`
+
 const notBlank = text => !isEmpty(trim(text))
 const isInteger = amount => Number.isInteger(amount)
 
@@ -156,6 +157,7 @@ export default {
     showPassword: false
   }),
   computed: {
+    // TODO: get coin denom from governance params
     ...mapGetters([`wallet`]),
     balance() {
       // TODO: refactor to get the selected coin when multicoin deposit is enabled

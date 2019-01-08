@@ -16,9 +16,9 @@ export default ({ node }) => {
   }
 
   const actions = {
-    async reconnected({ state, dispatch }) {
+    reconnected({ state, dispatch }) {
       if (state.loading) {
-        await dispatch(`getPool`)
+        dispatch(`getPool`)
       }
     },
     async getPool({ state, commit, rootState }) {

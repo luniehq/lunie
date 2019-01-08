@@ -28,8 +28,8 @@
       <tm-field
         v-focus
         id="amount"
-        :min="0"
         :max="balance"
+        :min="0"
         v-model="amount"
         type="number"
       />
@@ -118,6 +118,7 @@ export default {
     showPassword: false
   }),
   computed: {
+    // TODO: get coin denom from governance params
     ...mapGetters([`wallet`]),
     balance() {
       // TODO: refactor to get the selected coin when multicooin deposit is enabled
