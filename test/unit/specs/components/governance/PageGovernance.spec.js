@@ -27,8 +27,7 @@ describe(`PageGovernance`, () => {
         store.commit(`setGovParameters`, governanceParameters)
         store.commit(`setStakingParameters`, stakingParameters.parameters)
         store.commit(`setConnected`, true)
-      },
-      $store: { getters: { depositDenom } }
+      }
     })
     wrapper = instance.wrapper
     store = instance.store

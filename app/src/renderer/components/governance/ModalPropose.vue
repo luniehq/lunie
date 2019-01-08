@@ -183,7 +183,7 @@ export default {
       amount: {
         required,
         isInteger,
-        between: between(1, this.balance > 0 ? this.balance : 1)
+        between: between(1, this.balance > 0 ? this.balance : null)
       },
       password: {
         required
