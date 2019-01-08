@@ -26,7 +26,8 @@ export default ({ node }) => {
       name: rootState.user.account,
       password: args.password,
       account_number: rootState.wallet.accountNumber, // TODO move into LCD?
-      chain_id: rootState.connection.lastHeader.chain_id
+      chain_id: rootState.connection.lastHeader.chain_id,
+      gas: `50000000`
     }
     args.base_req = requestMetaData
 
@@ -37,7 +38,6 @@ export default ({ node }) => {
     // extract "to" address
     let to = args.to
     delete args.to
-    args.gas = `50000000`
 
     // submit to LCD to build, sign, and broadcast
     let req = to ? node[type](to, args) : node[type](args)
