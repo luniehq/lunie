@@ -113,7 +113,7 @@
         id="send-btn"
         value="Send Tokens"
         color="primary"
-        @click="onSubmit"
+        @click.native="onSubmit"
       />
     </div>
   </action-modal>
