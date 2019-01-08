@@ -1,4 +1,5 @@
 import * as Sentry from "@sentry/browser"
+import Vue from "vue"
 import { calculateShares } from "scripts/common"
 
 export default ({ node }) => {
@@ -185,7 +186,11 @@ export default ({ node }) => {
       // optimistic update the atoms of the user before we get the new values from chain
       commit(`setAtoms`, user.atoms - amount)
       // optimistically update the committed delegations
-      state.committedDelegates[validator_addr] += amount
+      Vue.set(
+        state.committedDelegates,
+        validator_addr,
+        state.committedDelegates[validator_addr] + amount
+      )
     },
     async submitUnbondingDelegation(
       {
