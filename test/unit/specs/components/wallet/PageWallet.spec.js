@@ -38,7 +38,8 @@ describe(`PageWallet`, () => {
     expect(wrapper.vm.filteredBalances.map(x => x.denom)).toEqual([
       `fermion`,
       `STAKE`,
-      `mycoin`
+      `mycoin`,
+      `gregcoin`
     ])
   })
 

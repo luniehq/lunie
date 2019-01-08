@@ -135,6 +135,9 @@ describe(`Module: Delegations`, () => {
       password: `12345`
     })
 
+    // make sure the user has enough stake to redelegate
+    node.state.stake[lcdClientMock.addresses[0]].delegations[0].shares = `100`
+
     await store.dispatch(`submitRedelegation`, {
       validatorSrc: validators[0],
       validatorDst: validators[1],
