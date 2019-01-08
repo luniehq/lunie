@@ -1,8 +1,6 @@
 import { mount } from "@vue/test-utils"
 import htmlBeautify from "html-beautify"
 import TmFieldSeed from "common/TmFieldSeed"
-import autosize from "autosize"
-const spy = jest.spyOn(autosize, `update`)
 
 describe(`TmFieldSeed`, () => {
   let wrapper
@@ -38,9 +36,13 @@ describe(`TmFieldSeed`, () => {
     expect(wrapper.emitted()).toEqual({})
   })
   it(`does not call autosize.update when value does not changes`, async () => {
+    const autosize = require(`autosize`)
+    const spy = jest.spyOn(autosize, `update`)
     expect(spy.mock.calls).toEqual([])
   })
   it(`calls autosize.update when value changes`, async () => {
+    const autosize = require(`autosize`)
+    const spy = jest.spyOn(autosize, `update`)
     wrapper.setProps({ value: `change value` })
     await wrapper.vm.$nextTick()
     expect(spy).toBeCalled()
