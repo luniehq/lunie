@@ -698,8 +698,7 @@ module.exports = {
       delegator = state.stake[fromKey.address]
     }
     if (fromAccount == null) {
-      results.push(txResult(1, `Nonexistent account`))
-      return results
+      return txResult(1, `Nonexistent account`)
     }
     // check nonce
     if (parseInt(fromAccount.sequence) !== parseInt(sequence)) {
@@ -842,7 +841,6 @@ Msg Traces:
       shares
     }
   ) {
-    let results = []
     let fromKey = state.keys.find(a => a.name === name)
     let fromAccount = state.accounts[fromKey.address]
     let delegator = state.stake[fromKey.address]
@@ -854,18 +852,14 @@ Msg Traces:
       delegator = state.stake[fromKey.address]
     }
     if (fromAccount == null) {
-      results.push(txResult(1, `Nonexistent account`))
-      return results
+      return txResult(1, `Nonexistent account`)
     }
     // check nonce
     if (parseInt(fromAccount.sequence) !== parseInt(sequence)) {
-      results.push(
-        txResult(
-          2,
-          `Expected sequence "${fromAccount.sequence}", got "${sequence}"`
-        )
+      return txResult(
+        2,
+        `Expected sequence "${fromAccount.sequence}", got "${sequence}"`
       )
-      return results
     }
     incrementSequence(fromAccount)
 
@@ -875,8 +869,7 @@ Msg Traces:
     )
 
     if (!srcValidator) {
-      results.push(txResult(3, `Nonexistent source validator`))
-      return results
+      return txResult(3, `Nonexistent source validator`)
     }
 
     // check if dest validator exist
@@ -885,8 +878,7 @@ Msg Traces:
     )
 
     if (!dstValidator) {
-      results.push(txResult(3, `Nonexistent destination validator`))
-      return results
+      return txResult(3, `Nonexistent destination validator`)
     }
 
     // TODO: Update error msg
@@ -920,21 +912,17 @@ Msg Traces:
     )
 
     if (red) {
-      results.push(txResult(3, `conflicting redelegation`))
-      return results
+      return txResult(3, `conflicting redelegation`)
     }
 
     let height = getHeight()
 
     // check if amount of shares redelegated is valid
     if (Number(srcDelegation.shares) < shares) {
-      results.push(
-        txResult(
-          3,
-          `cannot redelegate more shares than the current delegated shares amount`
-        )
+      return txResult(
+        3,
+        `cannot redelegate more shares than the current delegated shares amount`
       )
-      return results
     }
     // unbond shares from source validator
     srcDelegation.shares = String(Number(srcDelegation.shares) - shares)

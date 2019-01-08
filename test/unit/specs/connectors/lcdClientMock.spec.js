@@ -431,7 +431,7 @@ describe(`LCD Client Mock`, () => {
         name: `nonexistent_account`,
         sequence: 1
       },
-      delegator_addr: lcdClientMock.addresses[0],
+      delegator_addr: lcdClientMock.addresses[1],
       validator_addr: lcdClientMock.validators[1],
       delegation: { denom: `mycoin`, amount: `10` }
     })
@@ -526,7 +526,7 @@ describe(`LCD Client Mock`, () => {
       shares: `100000000000`
     })
     expect(res.check_tx.code).toBe(3)
-    expect(res[0].check_tx.log).toBe(`Nonexistent source validator`)
+    expect(res.check_tx.log).toBe(`Nonexistent source validator`)
   })
 
   it(`fails redelegation if dest validator doesn't exist`, async () => {
