@@ -3,9 +3,11 @@
 import setup from "../../../helpers/vuex-setup"
 import DelegationModal from "staking/DelegationModal"
 import Vuelidate from "vuelidate"
+import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`DelegationModal`, () => {
-  let wrapper
+  let wrapper, store
+  let { stakingParameters } = lcdClientMock.state
   let { mount, localVue } = setup()
   localVue.use(Vuelidate)
   localVue.directive(`tooltip`, () => {})
@@ -35,17 +37,13 @@ describe(`DelegationModal`, () => {
             value: 2
           }
         ],
-        to: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`
-      },
-      mocks: {
-        $store: {
-          getters: {
-            bondingDenom: `atom`
-          }
-        }
+        to: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
+        denom: stakingParameters.parameters.bond_denom
       }
     })
     wrapper = instance.wrapper
+    store = instance.store
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
   })
 
   describe(`component matches snapshot`, () => {

@@ -2,14 +2,14 @@ import setup from "../../../helpers/vuex-setup"
 import Vuelidate from "vuelidate"
 import TmSessionSignIn from "common/TmSessionSignIn"
 
-let instance = setup()
-instance.localVue.use(Vuelidate)
+let { mount, localVue } = setup()
+localVue.use(Vuelidate)
 
 describe(`TmSessionSignIn`, () => {
   let wrapper, store
 
   beforeEach(() => {
-    let test = instance.mount(TmSessionSignIn, {
+    let instance = mount(TmSessionSignIn, {
       getters: {
         connected: () => true
       },
@@ -19,8 +19,8 @@ describe(`TmSessionSignIn`, () => {
         }
       }
     })
-    store = test.store
-    wrapper = test.wrapper
+    store = instance.store
+    wrapper = instance.wrapper
   })
 
   it(`has the expected html structure`, () => {
@@ -69,30 +69,27 @@ describe(`TmSessionSignIn`, () => {
   })
 
   it(`should show a notification if signin failed`, async () => {
-    store.dispatch = jest.fn(() => Promise.reject(`Planned rejection`))
-    wrapper.setData({
+    let $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(() => Promise.reject({ message: `Planned rejection` }))
+    }
+
+    let self = {
       fields: {
         signInPassword: `1234567890`,
         signInName: `default`
-      }
+      },
+      $v: {
+        $touch: () => {},
+        $error: false
+      },
+      $store
+    }
+    await TmSessionSignIn.methods.onSubmit.call(self)
+    expect($store.commit).toHaveBeenCalledWith(`notifyError`, {
+      title: `Signing In Failed`,
+      body: expect.stringContaining(`Planned rejection`)
     })
-    await wrapper.vm.onSubmit()
-    expect(store.commit).toHaveBeenCalled()
-    expect(store.commit.mock.calls[0][0]).toBe(`notifyError`)
-  })
-
-  it(`should set the default password in mocked mode`, async () => {
-    let test = instance.mount(TmSessionSignIn, {
-      getters: {
-        mockedConnector: () => true,
-        connected: () => true
-      }
-    })
-    store = test.store
-    wrapper = test.wrapper
-
-    expect(wrapper.vm.fields.signInPassword).toBe(`1234567890`)
-    expect(wrapper.html()).toContain(`1234567890`)
   })
 
   it(`should reset history after signin`, async () => {

@@ -656,7 +656,18 @@ async function main() {
 
     // copy predefined genesis.json and config.toml into root
     fs.accessSync(networkPath) // crash if invalid path
-    fs.copySync(networkPath, root)
+    await fs.copyFile(
+      join(networkPath, `config.toml`),
+      join(root, `config.toml`)
+    )
+    await fs.copyFile(
+      join(networkPath, `gaiaversion.txt`),
+      join(root, `gaiaversion.txt`)
+    )
+    await fs.copyFile(
+      join(networkPath, `genesis.json`),
+      join(root, `genesis.json`)
+    )
 
     fs.writeFileSync(appVersionPath, pkgVersion)
   }

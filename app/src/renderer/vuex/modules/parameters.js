@@ -16,6 +16,11 @@ export default ({ node }) => {
   }
 
   const actions = {
+    async reconnected({ state, dispatch }) {
+      if (state.loading) {
+        await dispatch(`getStakingParameters`)
+      }
+    },
     async getStakingParameters({ state, commit, rootState }) {
       state.loading = true
 
@@ -23,7 +28,6 @@ export default ({ node }) => {
 
       try {
         let parameters = await node.getStakingParameters()
-        state.error = null
         commit(`setStakingParameters`, parameters)
         state.error = null
         state.loading = false
