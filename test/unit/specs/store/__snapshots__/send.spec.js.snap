@@ -14,7 +14,7 @@ Array [
       "base_req": Object {
         "account_number": "1",
         "chain_id": "test-chain",
-        "gas": "50000000",
+        "gas": "simulate",
         "name": "default",
         "password": "1234567890",
         "sequence": "1",
