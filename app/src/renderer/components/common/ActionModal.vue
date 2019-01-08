@@ -101,7 +101,7 @@ export default {
 
 .action-modal-form .tm-form-group {
   display: block;
-  padding: 0.5rem 0;
+  padding: 0.5rem 0 1rem;
 }
 
 .action-modal-footer {

@@ -79,6 +79,7 @@ export default {
 
 .tm-form-group--error .tm-form-msg--error {
   display: flex;
+  position: absolute;
 }
 
 .tm-form-group__label {
