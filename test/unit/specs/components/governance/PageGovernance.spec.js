@@ -11,8 +11,8 @@ const proposal = {
   type: `Text`,
   password: `1234567890`
 }
-
-let { governanceParameters, stakingParameters } = lcdClientMock.state
+const { governanceParameters, stakingParameters } = lcdClientMock.state
+const depositDenom = governanceParameters.deposit.min_deposit[0].denom
 
 describe(`PageGovernance`, () => {
   let wrapper, store
@@ -27,7 +27,8 @@ describe(`PageGovernance`, () => {
         store.commit(`setGovParameters`, governanceParameters)
         store.commit(`setStakingParameters`, stakingParameters.parameters)
         store.commit(`setConnected`, true)
-      }
+      },
+      $store: { getters: { depositDenom } }
     })
     wrapper = instance.wrapper
     store = instance.store
@@ -76,7 +77,7 @@ describe(`PageGovernance`, () => {
         `submitProposal`,
         {
           description: `a valid description for the proposal`,
-          initial_deposit: [{ amount: `15`, denom: `stake` }],
+          initial_deposit: [{ amount: `15`, denom: depositDenom }],
           title: `A new text proposal for Cosmos`,
           type: `Text`,
           password: `1234567890`
@@ -107,7 +108,7 @@ describe(`PageGovernance`, () => {
         `submitProposal`,
         {
           description: `a valid description for the proposal`,
-          initial_deposit: [{ amount: `15`, denom: `stake` }],
+          initial_deposit: [{ amount: `15`, denom: depositDenom }],
           title: `A new text proposal for Cosmos`,
           type: `Text`,
           password: `1234567890`

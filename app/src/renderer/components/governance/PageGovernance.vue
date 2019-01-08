@@ -67,7 +67,7 @@ export default {
     showModalPropose: false
   }),
   computed: {
-    ...mapGetters([`proposals`, `filters`, `deposit`, `connected`])
+    ...mapGetters([`proposals`, `filters`, `depositDenom`, `connected`])
   },
   mounted() {
     this.ps = new PerfectScrollbar(this.$el.querySelector(`.tm-page-main`))
