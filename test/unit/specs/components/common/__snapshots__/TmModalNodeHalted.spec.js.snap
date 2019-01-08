@@ -49,33 +49,10 @@ exports[`TmModalNodeHalted has the expected html structure 1`] = `
           >
             autorenew
           </i>
-          <!---->
           <span
             class="tm-btn__value"
           >
             Switch Node
-          </span>
-        </span>
-      </button>
-       
-      <button
-        class="tm-btn"
-        id="tm-modal-error__btn-mock"
-      >
-        <span
-          class="tm-btn__container tm-btn--size-lg"
-        >
-          <i
-            aria-hidden="true"
-            class="tm-btn__icon material-icons"
-          >
-            pageview
-          </i>
-          <!---->
-          <span
-            class="tm-btn__value"
-          >
-            Try Demo
           </span>
         </span>
       </button>

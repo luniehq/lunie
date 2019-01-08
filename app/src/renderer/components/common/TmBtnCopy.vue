@@ -9,17 +9,17 @@
 
 <script>
 import { clipboard } from "electron"
-import { TmBtn } from "@tendermint/ui"
+import TmBtn from "common/TmBtn"
 export default {
   components: { TmBtn },
   props: {
     title: {
       type: String,
-      required: true
+      default: null
     },
     body: {
       type: String,
-      required: true
+      default: null
     },
     value: {
       type: String,

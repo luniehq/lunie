@@ -145,39 +145,6 @@ export default function({ node }) {
     disapproveNodeHash({ state }, hash) {
       state.approvalRequired = null
       ipcRenderer.send(`hash-disapproved`, hash)
-    },
-    async setMockedConnector({ state, dispatch, commit }, mocked) {
-      state.mocked = mocked
-
-      // Tell the main process our status in case of reload.
-      ipcRenderer.send(`mocked`, mocked)
-
-      // disable updates from the live node
-      node.rpcDisconnect()
-
-      // switch to a mocked or live node
-      node.setup(mocked)
-
-      // reconnect to the node
-      node.rpcReconnect()
-
-      if (mocked) {
-        // if we run a mocked version only, we don't want the lcd to run in the meantime
-        ipcRenderer.send(`stop-lcd`)
-
-        // we need to trigger this event for the mocked mode as it is usually triggered by the "connected" event from the main thread
-        dispatch(`rpcSubscribe`)
-
-        // the mocked node is automatically connected
-        dispatch(`reconnected`)
-      } else {
-        // if we switch to a live connector, we need to wait for the process to have started up again so we can access the KMS
-        commit(`setModalSession`, `loading`)
-        await new Promise(resolve => ipcRenderer.once(`connected`, resolve))
-      }
-
-      // sign user out, as when switching from mocked to live node, the account address needs to be clarified again
-      dispatch(`signOut`)
     }
   }
 

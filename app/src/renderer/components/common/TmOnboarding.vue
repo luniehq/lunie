@@ -9,7 +9,11 @@
         <div class="tm-session-main">
           <div class="tm-session-label">{{ activeValue }}</div>
           <img :src="activeImg" />
-          <tm-bar-discrete :nodes="nodes" :click-fn="go" :active="activeKey" />
+          <tm-bar-discrete
+            :nodes="nodes"
+            :click-fn="go"
+            :active="parseInt(activeKey)"
+          />
         </div>
         <div v-if="activeKey === nodes.length - 1" class="tm-session-footer">
           <tm-btn
@@ -43,12 +47,13 @@
 <script>
 import { mapGetters } from "vuex"
 import PerfectScrollbar from "perfect-scrollbar"
-import { TmBarDiscrete, TmBtn } from "@tendermint/ui"
+import TmBarDiscrete from "common/TmBarDiscrete"
+import TmBtn from "common/TmBtn"
 export default {
   name: `tm-onboarding`,
   components: { TmBtn, TmBarDiscrete },
   computed: {
-    ...mapGetters([`onboarding`, `bondingDenom`]),
+    ...mapGetters([`onboarding`, `bondDenom`]),
     activeKey() {
       return this.onboarding.state
     },
@@ -57,8 +62,8 @@ export default {
         `This is a quick tour of the primary features of Cosmos Voyager.`,
         `You can send and receive Cosmos tokens from anyone around the world.`,
         `You can delegate your ${
-          this.bondingDenom
-        } to Cosmos Validators to earn even more ${this.bondingDenom}.`,
+          this.bondDenom
+        } to Cosmos Validators to earn even more ${this.bondDenom}.`,
         `Through governance, you can vote on the future of the Cosmos Network.`,
         `Start using Voyager to explore the Cosmos Network!`
       ]
@@ -99,9 +104,16 @@ export default {
 #onboarding .tm-session-main {
   position: relative;
 }
-
-#onboarding .tm-session-main position relative img height 300px
-  .tm-session-footer justify-content center .tm-session-label padding 1rem 3rem
-  .tm-bar-discrete__node--active border-color var(--tertiary)
-  .tm-bar-discrete__node: hover border-color var(--link) !important !important;
+#onboarding .tm-session-main img {
+  height: 300px;
+}
+#onboarding .tm-session-main .tm-session-footer {
+  justify-content: center;
+}
+#onboarding .tm-session-main .tm-bar-discrete__node--active {
+  border-color: var(--tertiary);
+}
+#onboarding .tm-session-main .tm-bar-discrete__node:hover {
+  border-color: var(--link) !important;
+}
 </style>

@@ -45,9 +45,6 @@
             type="minLength"
             min="10"
           />
-          <tm-form-msg v-if="mockedConnector"
-            >default password is 1234567890</tm-form-msg
-          >
         </tm-form-group>
       </div>
       <div class="tm-session-footer">
@@ -73,13 +70,11 @@
 <script>
 import { mapGetters } from "vuex"
 import { required, minLength } from "vuelidate/lib/validators"
-import {
-  TmBtn,
-  TmFormGroup,
-  TmFormStruct,
-  TmField,
-  TmFormMsg
-} from "@tendermint/ui"
+import TmBtn from "common/TmBtn"
+import TmFormGroup from "common/TmFormGroup"
+import TmFormStruct from "common/TmFormStruct"
+import TmField from "common/TmField"
+import TmFormMsg from "common/TmFormMsg"
 export default {
   name: `tm-session-sign-in`,
   components: {
@@ -96,7 +91,7 @@ export default {
     }
   }),
   computed: {
-    ...mapGetters([`user`, `mockedConnector`, `lastHeader`, `connected`]),
+    ...mapGetters([`user`, `lastHeader`, `connected`]),
     accounts() {
       let accounts = this.user.accounts
       accounts = accounts.filter(({ name }) => name !== `trunk`)
@@ -105,9 +100,6 @@ export default {
   },
   mounted() {
     this.setDefaultAccount(this.accounts)
-    if (this.mockedConnector) {
-      this.fields.signInPassword = `1234567890`
-    }
   },
   methods: {
     help() {

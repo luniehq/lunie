@@ -183,7 +183,7 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
         true
       )()
     },
-    queryProposalTally: function(proposalId) {
+    getProposalTally: function(proposalId) {
       return req(`GET`, `/gov/proposals/${proposalId}/tally`, true)()
     },
     getGovDepositParameters: req(`GET`, `/gov/parameters/deposit`, true),

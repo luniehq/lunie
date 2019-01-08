@@ -27,7 +27,7 @@
       </tm-part>
       <tm-part title="Transaction Details">
         <tm-form-group
-          :error="$v.fields.address.$invalid"
+          :error="$v.fields.address.$error && $v.fields.address.$invalid"
           field-id="send-address"
           field-label="Send To"
         >
@@ -49,7 +49,6 @@
               fields.address.trim().length > 0 &&
                 !$v.fields.address.bech32Validate
             "
-            :body="bech32error"
             name="Address"
             type="bech32"
           />
@@ -82,15 +81,6 @@
             type="between"
           />
         </tm-form-group>
-        <p v-if="mockedConnector">
-          <span>Try sending to the address "</span
-          ><strong style="font-weight: bold"
-            >cosmos1p6zajjw6xged056andyhn62lm7axwzyspkzjq0</strong
-          ><span
-            >", it's a friendly bot which will send the money back to you!</span
-          >
-        </p>
-        <br v-if="mockedConnector" />
         <hr />
       </tm-part>
       <tm-part>
@@ -147,8 +137,8 @@
       :recipient="fields.address"
       :denom="fields.denom"
       :connected="connected"
-      @approved="onApproved"
-      @canceled="onCancel"
+      @approved="onApproved()"
+      @canceled="onCancel()"
     />
   </tm-page>
 </template>
@@ -157,16 +147,14 @@
 import b32 from "scripts/b32"
 import { required, between } from "vuelidate/lib/validators"
 import { mapActions, mapGetters } from "vuex"
-import {
-  TmBtn,
-  TmFieldGroup,
-  TmFormGroup,
-  TmFormStruct,
-  TmPage,
-  TmPart,
-  TmField,
-  TmFormMsg
-} from "@tendermint/ui"
+import TmBtn from "common/TmBtn"
+import TmFieldGroup from "common/TmFieldGroup"
+import TmFormGroup from "common/TmFormGroup"
+import TmFormStruct from "common/TmFormStruct"
+import TmPage from "common/TmPage"
+import TmPart from "common/TmPart"
+import TmField from "common/TmField"
+import TmFormMsg from "common/TmFormMsg"
 import TmBalance from "common/TmBalance"
 import FieldAddon from "common/TmFieldAddon"
 import ToolBar from "common/ToolBar"
@@ -192,7 +180,7 @@ export default {
   props: {
     denom: {
       type: String,
-      required: true
+      default: ``
     }
   },
   data: () => ({
@@ -208,13 +196,7 @@ export default {
     showPassword: false
   }),
   computed: {
-    ...mapGetters([
-      `wallet`,
-      `lastHeader`,
-      `config`,
-      `mockedConnector`,
-      `connected`
-    ]),
+    ...mapGetters([`wallet`, `lastHeader`, `config`, `connected`]),
     max() {
       let denom = this.wallet.balances.find(b => b.denom === this.denom)
       return (denom && denom.amount) || 0

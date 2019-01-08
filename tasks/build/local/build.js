@@ -1,90 +1,18 @@
 "use strict"
-
-const fs = require(`fs-extra`)
+const buildLocalNode = require(`./helper`).buildLocalNode
 const { cli } = require(`@nodeguy/cli`)
 const path = require(`path`)
-const homeDir = require(`os`).homedir()
-const appDir = path.resolve(__dirname + `/../../../`)
 
-let {
-  initNode,
-  createKey,
-  initGenesis,
-  makeExec,
-  nodeBinary
-} = require(`../../gaia.js`)
+const appDir = path.resolve(`${__dirname}/../../`)
+const buildTestnetPath = `${appDir}/builds/testnets`
 
 const optionsSpecification = {
   overwrite: [`overwrite ~/.gaiad-testnet/`, false],
-  password: [`custom password, default is 1234567890`, 1234567890]
+  password: [`custom password, default is 1234567890`, 1234567890],
+  numberNodes: [`number of validators in the network`, 1],
+  moniker: [`The prefix for each node in your network`, `local`],
+  chainId: [`Chain name you want to create`, `default-testnet`],
+  keyName: [`Main account to operate`, `username`]
 }
 
-cli(optionsSpecification, async options => {
-  try {
-    // remove existing config
-    if (options.overwrite) {
-      if (fs.existsSync(appDir + `/builds/testnets/local-testnet`)) {
-        await makeExec(`rm -r builds/testnets/local-testnet`)
-      }
-      if (fs.existsSync(homeDir + `/.gaiad-testnet`)) {
-        await makeExec(`rm -r ~/.gaiad-testnet`)
-      }
-      if (fs.existsSync(homeDir + `/.cosmos-voyager-dev/local-testnet`)) {
-        await makeExec(`rm -r ~/.cosmos-voyager-dev/local-testnet`)
-      }
-    }
-
-    const chainId = `local-testnet`
-    const moniker = `local`
-    const clientHome = `./builds/testnets/local-testnet/lcd`
-    const nodeHome = `${homeDir}/.gaiad-testnet`
-    const defaultAccountInfo = {
-      keyName: `local`,
-      password: options.password,
-      clientHomeDir: clientHome
-    }
-    await initNode(
-      chainId,
-      moniker,
-      `${homeDir}/.gaiad-testnet`,
-      options.password,
-      options.overwrite
-    )
-    const { address } = await createKey(defaultAccountInfo)
-    await initGenesis(defaultAccountInfo, address, nodeHome)
-    await moveFiles()
-    console.log(`\n    🎉  SUCCESS 🎉\n`)
-    console.log(
-      `To start Voyager with a local node please run:
-  yarn start local-testnet
-
-Default account:
-  username: '${defaultAccountInfo.keyName}'
-  password: '${defaultAccountInfo.password}'
-`
-    )
-  } catch (error) {
-    console.log(`Encountered an Error:`)
-    console.error(error.msg ? error : error.toString())
-  }
-})
-
-async function moveFiles() {
-  fs.ensureDirSync(`builds/testnets/local-testnet`)
-
-  await makeExec(
-    `cp ~/.gaiad-testnet/config/{genesis.json,config.toml} builds/testnets/local-testnet/`
-  )
-
-  await makeExec(
-    `sed -i.bak 's/seeds = ""/seeds = "localhost"/g' ./builds/testnets/local-testnet/config.toml`
-  )
-
-  await makeExec(
-    `sed -i.bak 's/index_all_tags = false/index_all_tags = true/g'  ${homeDir}/.gaiad-testnet/config/config.toml`
-  )
-
-  await makeExec(
-    `${nodeBinary} version > ./builds/testnets/local-testnet/gaiaversion.txt`
-  )
-}
+cli(optionsSpecification, buildLocalNode(buildTestnetPath))

@@ -1,6 +1,7 @@
 import fp from "lodash/fp"
 import { uniqBy } from "lodash"
 import * as Sentry from "@sentry/browser"
+import Vue from "vue"
 export default ({ node }) => {
   let emptyState = {
     loading: false,
@@ -31,8 +32,9 @@ export default ({ node }) => {
     setTransactionTime(state, { blockHeight, blockMetaInfo }) {
       txCategories.forEach(category => {
         state[category].forEach(t => {
-          if (t.height === blockHeight) {
-            t.time = blockMetaInfo && blockMetaInfo.header.time
+          if (t.height === blockHeight && blockMetaInfo) {
+            // time seems to be an ISO string, but we are expecting a Number type
+            Vue.set(t, `time`, new Date(blockMetaInfo.header.time).getTime())
           }
         })
       })
@@ -106,7 +108,9 @@ export default ({ node }) => {
       return response ? uniqBy(transactionsPlusType, `hash`) : []
     },
     async enrichTransactions({ dispatch }, { transactions }) {
-      const blockHeights = new Set(transactions.map(({ height }) => height))
+      const blockHeights = new Set(
+        transactions.map(({ height }) => parseInt(height))
+      )
       await Promise.all(
         [...blockHeights].map(blockHeight =>
           dispatch(`queryTransactionTime`, { blockHeight })

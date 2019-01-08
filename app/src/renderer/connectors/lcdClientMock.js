@@ -302,9 +302,11 @@ let state = {
     bonded_tokens: `50.0000000000`
   },
   stakingParameters: {
-    unbonding_time: `259200000000000`,
-    max_validators: 100,
-    bond_denom: `STAKE`
+    parameters: {
+      unbonding_time: `259200000000000`,
+      max_validators: 100,
+      bond_denom: `STAKE`
+    }
   },
   governanceParameters: {
     deposit: {
@@ -450,8 +452,34 @@ let state = {
       }
     }
   },
+  tallies: {
+    "1": {
+      yes: `500`,
+      no: `25`,
+      no_with_veto: `10`,
+      abstain: `56`
+    },
+    "2": {
+      yes: `0`,
+      no: `0`,
+      no_with_veto: `0`,
+      abstain: `0`
+    },
+    "5": {
+      yes: `0`,
+      no: `0`,
+      no_with_veto: `0`,
+      abstain: `0`
+    },
+    "6": {
+      yes: `10`,
+      no: `30`,
+      no_with_veto: `100`,
+      abstain: `20`
+    }
+  },
   votes: {
-    1: [
+    "1": [
       {
         proposal_id: `1`,
         voter: validators[0],
@@ -463,8 +491,8 @@ let state = {
         option: `NoWithVeto`
       }
     ],
-    2: [],
-    5: [
+    "2": [],
+    "5": [
       {
         proposal_id: `5`,
         voter: validators[0],
@@ -476,7 +504,7 @@ let state = {
         option: `Abstain`
       }
     ],
-    6: [
+    "6": [
       {
         proposal_id: `6`,
         voter: validators[0],
@@ -490,7 +518,7 @@ let state = {
     ]
   },
   deposits: {
-    1: [
+    "1": [
       {
         proposal_id: `1`,
         depositor: validators[0],
@@ -516,7 +544,7 @@ let state = {
         ]
       }
     ],
-    2: [
+    "2": [
       {
         proposal_id: `2`,
         depositor: validators[0],
@@ -528,7 +556,7 @@ let state = {
         ]
       }
     ],
-    5: [
+    "5": [
       {
         proposal_id: `5`,
         depositor: validators[0],
@@ -550,7 +578,7 @@ let state = {
         ]
       }
     ],
-    6: [
+    "6": [
       {
         proposal_id: `6`,
         depositor: validators[0],
@@ -682,8 +710,8 @@ module.exports = {
       )
       return results
     }
+    let denom = state.stakingParameters.parameters.bond_denom
     for (let tx of delegations) {
-      let { denom } = tx.delegation
       let amount = parseInt(tx.delegation.amount)
       if (amount < 0) {
         results.push(txResult(1, `Amount cannot be negative`))
@@ -752,7 +780,7 @@ module.exports = {
 
       // update sender balance
       let coinBalance = fromAccount.coins.find(
-        c => c.denom === state.stakingParameters.bond_denom
+        c => c.denom === state.stakingParameters.parameters.bond_denom
       )
 
       coinBalance.amount = String(parseInt(coinBalance.amount) + amount)
@@ -869,7 +897,7 @@ module.exports = {
       // add redelegation object
       let coins = {
         amount: tx.shares, // in mock mode we assume 1 share = 1 token
-        denom: state.stakingParameters.bond_denom
+        denom: state.stakingParameters.parameters.bond_denom
       }
       let minTime = Date.now()
       red = {
@@ -971,7 +999,7 @@ module.exports = {
     return state.pool
   },
   async getStakingParameters() {
-    return state.stakingParameters
+    return state.stakingParameters.parameters
   },
   async getProposals() {
     return state.proposals || []
@@ -1170,10 +1198,10 @@ module.exports = {
       let depositCoinAmt = proposal.total_deposit.find(coin => {
         return coin.denom === `STAKE`
       }).amount
-      // TODO: get min deposit amount from gov params
-      if (parseInt(depositCoinAmt) >= 10) {
+
+      let minDepositCoin = state.governanceParameters.deposit.min_deposit[0]
+      if (parseInt(depositCoinAmt) >= parseInt(minDepositCoin.amount)) {
         proposal.proposal_status = `VotingPeriod`
-        // TODO: get voting time from gov params
         proposal.voting_start_time = Date.now()
         proposal.voting_end_time = moment(proposal.voting_start_time)
           .add(86400000, `ms`)

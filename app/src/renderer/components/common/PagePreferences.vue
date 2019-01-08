@@ -5,16 +5,6 @@
       <tool-bar />
     </template>
     <tm-part title="Settings">
-      <tm-list-item type="field" title="Select network to connect to">
-        <tm-field
-          id="select-network"
-          v-model="networkSelectActive"
-          :options="networkSelectOptions"
-          type="select"
-          placeholder="Select network..."
-          @change.native="setMockedConnector()"
-        />
-      </tm-list-item>
       <tm-list-item type="field" title="Node IP">
         <tm-btn :value="nodeURL" icon="exit_to_app" type="button" />
       </tm-list-item>
@@ -38,8 +28,8 @@
             unchecked: ' '
           }"
           :value="user.errorCollection || undefined"
+          :change="() => setErrorCollection()"
           type="toggle"
-          @change.native="setErrorCollection()"
         />
       </tm-list-item>
     </tm-part>
@@ -59,7 +49,11 @@
 
 <script>
 import { mapGetters } from "vuex"
-import { TmListItem, TmBtn, TmPage, TmPart, TmField } from "@tendermint/ui"
+import TmListItem from "common/TmListItem"
+import TmBtn from "common/TmBtn"
+import TmPage from "common/TmPage"
+import TmPart from "common/TmPart"
+import TmField from "common/TmField"
 import ToolBar from "common/ToolBar"
 import TmBalance from "common/TmBalance"
 import TmModal from "common/TmModal"
@@ -87,31 +81,12 @@ export default {
         value: `dark`,
         key: `Dark`
       }
-    ],
-    networkSelectActive: null,
-    networkSelectOptions: [
-      {
-        value: `live`,
-        key: `Live Testnet`
-      },
-      {
-        value: `mock`,
-        key: `Offline Mode`
-      }
     ]
   }),
   computed: {
-    ...mapGetters([
-      `user`,
-      `themes`,
-      `onboarding`,
-      `mockedConnector`,
-      `config`,
-      `nodeURL`
-    ])
+    ...mapGetters([`user`, `themes`, `onboarding`, `config`, `nodeURL`])
   },
   mounted() {
-    this.networkSelectActive = this.mockedConnector ? `mock` : `live`
     this.themeSelectActive = this.themes.active
   },
   methods: {
@@ -135,10 +110,6 @@ export default {
     setOnboarding({ $store } = this) {
       $store.commit(`setOnboardingState`, 0)
       $store.commit(`setOnboardingActive`, true)
-    },
-
-    setMockedConnector({ $store, networkSelectActive } = this) {
-      $store.dispatch(`setMockedConnector`, networkSelectActive === `mock`)
     }
   }
 }

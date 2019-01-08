@@ -1,11 +1,10 @@
 <template>
   <tm-data-connecting
-    v-if="(!stakingParameters.parameters.loaded || !pool.loaded) && !connected"
+    v-if="(!stakingParameters.loaded || !pool.loaded) && !connected"
   />
   <tm-data-loading
     v-else-if="
-      (!stakingParameters.parameters.loaded &&
-        stakingParameters.parameters.loading) ||
+      (!stakingParameters.loaded && stakingParameters.loading) ||
         (!pool.loaded && pool.loading)
     "
   />
@@ -24,12 +23,7 @@
           <div class="column">
             <dl class="info_dl">
               <dt>
-                Loose
-                {{
-                  stakingParameters.parameters.bond_denom
-                    ? stakingParameters.parameters.bond_denom
-                    : bondingDenom
-                }}
+                Loose {{ stakingParameters.parameters.bond_denom }}
                 <i
                   v-tooltip.top="poolTooltips.loose_tokens"
                   class="material-icons info-button"
@@ -44,12 +38,7 @@
           <div class="column">
             <dl class="info_dl">
               <dt>
-                Delegated
-                {{
-                  stakingParameters.parameters.bond_denom
-                    ? stakingParameters.parameters.bond_denom
-                    : bondingDenom
-                }}
+                Delegated {{ stakingParameters.parameters.bond_denom }}
                 <i
                   v-tooltip.top="poolTooltips.bonded_tokens"
                   class="material-icons info-button"
@@ -124,7 +113,11 @@
 
 <script>
 import { mapGetters } from "vuex"
-import { TmBtn, TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
+import TmBtn from "common/TmBtn"
+import TmListItem from "common/TmListItem"
+import TmPage from "common/TmPage"
+import TmPart from "common/TmPart"
+import ToolBar from "common/ToolBar"
 import TmDataConnecting from "common/TmDataConnecting"
 export default {
   name: `tab-staking-parameters`,
@@ -133,7 +126,7 @@ export default {
     TmListItem,
     TmPage,
     TmPart,
-    TmToolBar,
+    ToolBar,
     TmDataConnecting
   },
   data: () => ({
@@ -150,13 +143,7 @@ export default {
     }
   }),
   computed: {
-    ...mapGetters([
-      `config`,
-      `stakingParameters`,
-      `pool`,
-      `bondingDenom`,
-      `connected`
-    ]),
+    ...mapGetters([`config`, `stakingParameters`, `pool`, `connected`]),
     unbondingTimeInDays() {
       return (
         parseInt(this.stakingParameters.parameters.unbonding_time) /

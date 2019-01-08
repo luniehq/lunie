@@ -1,6 +1,6 @@
 import votesModule from "renderer/vuex/modules/governance/votes.js"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
-let { proposals, votes } = lcdClientMock.state
+let { proposals, votes, stakingParameters } = lcdClientMock.state
 let addresses = lcdClientMock.addresses
 
 let mockRootState = {
@@ -56,9 +56,7 @@ describe(`Module: Votes`, () => {
     jest.useFakeTimers()
 
     const rootState = {
-      config: {
-        bondingDenom: `stake`
-      },
+      stakingParameters,
       wallet: {
         address: addresses[0]
       }
