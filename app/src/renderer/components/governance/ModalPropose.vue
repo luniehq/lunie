@@ -59,17 +59,11 @@
         type="text"
         readonly="readonly"
       />
-      <tm-field
-        id="amount"
-        :max="balance"
-        :min="0"
-        v-model="amount"
-        type="number"
-      />
+      <tm-field id="amount" :min="0" v-model="amount" type="number" />
       <tm-form-msg
         v-if="!$v.amount.between && amount > 0"
         :max="$v.amount.$params.between.max"
-        :min="$v.amount.$params.between.min"
+        :min="1"
         name="Amount"
         type="between"
       />
@@ -157,7 +151,6 @@ export default {
     showPassword: false
   }),
   computed: {
-    // TODO: get coin denom from governance params
     ...mapGetters([`wallet`]),
     balance() {
       // TODO: refactor to get the selected coin when multicoin deposit is enabled
