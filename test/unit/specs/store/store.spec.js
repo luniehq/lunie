@@ -87,7 +87,7 @@ describe(`Store`, () => {
       password: `1234567890`
     })
 
-    expect(store.state.validators.validators).toHaveLength(3)
+    expect(store.state.validators).toHaveLength(3)
     expect(
       store.state.delegation.committedDelegates[lcdClientMock.validators[0]]
     ).toBe(1)

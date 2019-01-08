@@ -2,10 +2,8 @@
   <div>
     <tm-data-connecting v-if="!delegates.loaded && !connected" />
     <tm-data-loading v-else-if="!delegates.loaded && delegates.loading" />
-    <tm-data-empty
-      v-else-if="delegates.loaded && validators.validators.length === 0"
-    />
-    <table-validators v-else :validators="validators.validators" />
+    <tm-data-empty v-else-if="delegates.loaded && validators.length === 0" />
+    <table-validators v-else :validators="validators" />
   </div>
 </template>
 

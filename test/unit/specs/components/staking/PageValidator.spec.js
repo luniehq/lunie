@@ -119,7 +119,7 @@ describe(`PageValidator`, () => {
   it(`should show the validator status`, () => {
     expect(wrapper.vm.status).toBe(`This validator is actively validating`)
     // Jailed
-    store.state.validators.validators = [
+    store.state.validators = [
       Object.assign({}, validator, {
         revoked: true
       })
@@ -128,7 +128,7 @@ describe(`PageValidator`, () => {
       `This validator has been jailed and is not currently validating`
     )
     // Is not a validator
-    store.state.validators.validators = [
+    store.state.validators = [
       Object.assign({}, validator, {
         voting_power: 0
       })
@@ -140,7 +140,7 @@ describe(`PageValidator`, () => {
 
   // TODO enable when we decide on limits are defined
   // it("switches color indicators", async () => {
-  //   store.state.validators.validators = [
+  //   store.state.validators = [
   //     Object.assign({}, delegate, {
   //       commission: "0"
   //     })
@@ -149,7 +149,7 @@ describe(`PageValidator`, () => {
   //     "green"
   //   )
   //
-  //   store.state.validators.validators = [
+  //   store.state.validators = [
   //     Object.assign({}, delegate, {
   //       commission: "0.02"
   //     })
@@ -158,7 +158,7 @@ describe(`PageValidator`, () => {
   //     "yellow"
   //   )
   //
-  //   store.state.validators.validators = [
+  //   store.state.validators = [
   //     Object.assign({}, delegate, {
   //       commission: "1"
   //     })
@@ -168,14 +168,14 @@ describe(`PageValidator`, () => {
   //   )
   //
   //   store.state.delegates.globalPower = 1000
-  //   store.state.validators.validators = [
+  //   store.state.validators = [
   //     Object.assign({}, delegate, {
   //       tokens: "1000"
   //     })
   //   ]
   //   expect(wrapper.find("#validator-profile__power").classes()).toContain("red")
   //
-  //   store.state.validators.validators = [
+  //   store.state.validators = [
   //     Object.assign({}, delegate, {
   //       tokens: "10"
   //     })
@@ -184,7 +184,7 @@ describe(`PageValidator`, () => {
   //     "yellow"
   //   )
   //
-  //   store.state.validators.validators = [
+  //   store.state.validators = [
   //     Object.assign({}, delegate, {
   //       tokens: "1"
   //     })
@@ -195,7 +195,7 @@ describe(`PageValidator`, () => {
   // })
 
   it(`shows a validator as candidate if he has no voting_power`, () => {
-    store.state.validators.validators = [
+    store.state.validators = [
       Object.assign({}, validator, {
         voting_power: `0`
       })
@@ -207,7 +207,7 @@ describe(`PageValidator`, () => {
   })
 
   it(`shows that a validator is revoked`, () => {
-    store.state.validators.validators = [
+    store.state.validators = [
       Object.assign({}, validator, {
         revoked: true
       })

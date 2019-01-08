@@ -72,7 +72,7 @@ function persistState(state) {
       unbondingDelegations: state.delegation.unbondingDelegations
     },
     delegates: {
-      delegates: state.validators.validators
+      delegates: state.validators
     },
     keybase: {
       identities: state.keybase.identities
@@ -138,7 +138,7 @@ function loadPersistedState({ state, commit }) {
     this.replaceState(state)
 
     // add all delegates the user has bond with already to the cart
-    state.validators.validators
+    state.validators
       .filter(d => state.delegation.committedDelegates[d.operator_address])
       .forEach(d => {
         commit(`addToCart`, d)

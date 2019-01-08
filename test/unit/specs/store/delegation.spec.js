@@ -74,10 +74,7 @@ describe(`Module: Delegations`, () => {
   })
 
   it(`fetches bonded delegates`, async () => {
-    await store.dispatch(
-      `getBondedDelegates`,
-      store.state.validators.validators
-    )
+    await store.dispatch(`getBondedDelegates`, store.state.validators)
     expect(store.state.delegation.committedDelegates).toMatchSnapshot()
   })
 
@@ -91,7 +88,7 @@ describe(`Module: Delegations`, () => {
 
     jest.spyOn(store._actions.sendTx, `0`)
 
-    const delegates = store.state.validators.validators
+    const delegates = store.state.validators
 
     let stakingTransactions = {}
     stakingTransactions.delegations = [
@@ -122,7 +119,7 @@ describe(`Module: Delegations`, () => {
 
     jest.spyOn(store._actions.sendTx, `0`)
 
-    const delegates = store.state.validators.validators
+    const delegates = store.state.validators
     let stakingTransactions = {}
     stakingTransactions.unbondings = [
       {
@@ -143,18 +140,12 @@ describe(`Module: Delegations`, () => {
   })
 
   it(`fetches current undelegations`, async () => {
-    await store.dispatch(
-      `getBondedDelegates`,
-      store.state.validators.validators
-    )
+    await store.dispatch(`getBondedDelegates`, store.state.validators)
     expect(store.state.delegation.unbondingDelegations).toMatchSnapshot()
   })
 
   it(`deletes undelegations that are 0`, async () => {
-    await store.dispatch(
-      `getBondedDelegates`,
-      store.state.validators.validators
-    )
+    await store.dispatch(`getBondedDelegates`, store.state.validators)
     store.commit(`setUnbondingDelegations`, [
       {
         validator_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
@@ -210,7 +201,7 @@ describe(`Module: Delegations`, () => {
     // trigger the get call
     let getDelegationsPromise = store.dispatch(
       `getBondedDelegates`,
-      store.state.validators.validators
+      store.state.validators
     )
 
     // sign out - sign in
@@ -291,7 +282,7 @@ describe(`Module: Delegations`, () => {
 
   it(`should update the atoms on a delegation optimistically`, async () => {
     const commit = jest.fn()
-    const delegates = store.state.validators.validators
+    const delegates = store.state.validators
     let stakingTransactions = {}
     stakingTransactions.delegations = [
       {

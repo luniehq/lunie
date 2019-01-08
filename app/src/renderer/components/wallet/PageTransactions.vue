@@ -28,7 +28,7 @@
       v-else
     >
       <tm-li-any-transaction
-        :validators="validators.validators"
+        :validators="validators"
         :validators-url="validatorURL"
         :proposals-url="proposalsURL"
         :key="tx.hash"

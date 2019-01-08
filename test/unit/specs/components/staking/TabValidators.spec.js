@@ -42,7 +42,7 @@ describe(`TabValidators`, () => {
   })
 
   it(`shows a message if there is nothing to display`, async () => {
-    store.state.validators.validators = []
+    store.state.validators = []
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 })

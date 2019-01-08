@@ -37,7 +37,7 @@ describe(`Module: Validators`, () => {
   })
 
   it(`should have no validators by default`, () => {
-    expect(store.state.validators.validators).toEqual([])
+    expect(store.state.validators).toEqual([])
   })
 
   it(`should have a null validator hash by default`, () => {
@@ -46,13 +46,13 @@ describe(`Module: Validators`, () => {
 
   it(`should query validators`, async () => {
     await store.dispatch(`getValidators`)
-    expect(store.state.validators.validators).toHaveLength(3)
+    expect(store.state.validators).toHaveLength(3)
   })
 
   it(`should survive errors in querying validators`, async () => {
     node.rpc.validators = cb => cb({ message: `Expected Error` }, undefined)
     store.dispatch(`getValidators`)
-    expect(store.state.validators.validators).toHaveLength(0)
+    expect(store.state.validators).toHaveLength(0)
   })
 
   it(`should set validators`, () => {
