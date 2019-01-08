@@ -8,8 +8,11 @@ const proposal = {
   amount: 15,
   title: `A new text proposal for Cosmos`,
   description: `a valid description for the proposal`,
-  type: `Text`
+  type: `Text`,
+  password: `1234567890`
 }
+
+let { governanceParameters, stakingParameters } = lcdClientMock.state
 
 describe(`PageGovernance`, () => {
   let wrapper, store
@@ -19,10 +22,15 @@ describe(`PageGovernance`, () => {
   localVue.directive(`focus`, () => {})
 
   beforeEach(() => {
-    let instance = mount(PageGovernance)
+    let instance = mount(PageGovernance, {
+      doBefore: ({ store }) => {
+        store.commit(`setGovParameters`, governanceParameters)
+        store.commit(`setStakingParameters`, stakingParameters.parameters)
+        store.commit(`setConnected`, true)
+      }
+    })
     wrapper = instance.wrapper
     store = instance.store
-    store.commit(`setConnected`, true)
     store.state.user.address = lcdClientMock.addresses[0]
     store.dispatch(`updateDelegates`)
     store.commit(`setAtoms`, 1337)
@@ -68,9 +76,10 @@ describe(`PageGovernance`, () => {
         `submitProposal`,
         {
           description: `a valid description for the proposal`,
-          initial_deposit: [{ amount: `15`, denom: `STAKE` }],
+          initial_deposit: [{ amount: `15`, denom: `stake` }],
           title: `A new text proposal for Cosmos`,
-          type: `Text`
+          type: `Text`,
+          password: `1234567890`
         }
       ]
     ])
@@ -98,9 +107,10 @@ describe(`PageGovernance`, () => {
         `submitProposal`,
         {
           description: `a valid description for the proposal`,
-          initial_deposit: [{ amount: `15`, denom: `STAKE` }],
+          initial_deposit: [{ amount: `15`, denom: `stake` }],
           title: `A new text proposal for Cosmos`,
-          type: `Text`
+          type: `Text`,
+          password: `1234567890`
         }
       ]
     ])

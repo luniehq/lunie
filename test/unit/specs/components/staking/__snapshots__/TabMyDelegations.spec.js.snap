@@ -33,8 +33,8 @@ exports[`Component: TabMyDelegations should show a message if not staked yet to 
       >
         <div>
           
-      Looks like you haven't delegated any stakes yet. Head over
-      to the
+      Looks like you haven't delegated any STAKEs yet. Head over to
+      the
       
           <router-link-stub
             to="[object Object]"
@@ -96,7 +96,7 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
               <a
                 class="sort-by-link"
               >
-                Delegated stake
+                Delegated STAKE
               </a>
             </th>
             <th
@@ -315,7 +315,7 @@ exports[`Component: TabMyDelegations should show unbonding validators and the cu
               <a
                 class="sort-by-link"
               >
-                Delegated stake
+                Delegated STAKE
               </a>
             </th>
             <th
@@ -539,7 +539,7 @@ exports[`Component: TabMyDelegations should show unbonding validators and the cu
                     5
                   </b>
                   <span>
-                     stakes
+                     STAKEs
                   </span>
                   <!---->
                 </div>

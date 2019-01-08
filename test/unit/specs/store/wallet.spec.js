@@ -1,7 +1,9 @@
 import walletModule from "modules/wallet.js"
+import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+let { stakingParameters } = lcdClientMock.state
 
 const mockRootState = {
-  config: { bondingDenom: `STAKE` },
+  stakingParameters,
   connection: {
     connected: true
   }
@@ -56,8 +58,8 @@ describe(`Module: Wallet`, () => {
     await actions.initializeWallet({ commit, dispatch }, address)
     expect(commit).toHaveBeenCalledWith(`setWalletAddress`, address)
     expect(dispatch.mock.calls).toEqual([
-      [`loadDenoms`],
       [`queryWalletBalances`],
+      [`loadDenoms`],
       [`walletSubscribe`]
     ])
   })

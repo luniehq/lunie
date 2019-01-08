@@ -11,12 +11,10 @@ let mockRootState = {
   connection: {
     connected: true
   },
-  config: {
-    bondingDenom: `atom`
-  },
   user: {
     atoms: 1000
-  }
+  },
+  stakingParameters: lcdClientMock.state.stakingParameters
 }
 
 describe(`Module: Delegations`, () => {
@@ -86,6 +84,7 @@ describe(`Module: Delegations`, () => {
       chain_id: `test-chain`
     })
     await store.dispatch(`getBondedDelegates`)
+    await store.dispatch(`getStakingParameters`)
 
     jest.spyOn(store._actions.sendTx, `0`)
 
@@ -103,7 +102,10 @@ describe(`Module: Delegations`, () => {
       }
     ]
 
-    await store.dispatch(`submitDelegation`, { stakingTransactions })
+    await store.dispatch(`submitDelegation`, {
+      stakingTransactions,
+      password: `12345`
+    })
 
     expect(store._actions.sendTx[0].mock.calls).toMatchSnapshot()
   })
@@ -130,7 +132,10 @@ describe(`Module: Delegations`, () => {
       }
     ]
 
-    await store.dispatch(`submitDelegation`, { stakingTransactions })
+    await store.dispatch(`submitDelegation`, {
+      stakingTransactions,
+      password: `12345`
+    })
     expect(store._actions.sendTx[0].mock.calls).toMatchSnapshot()
   })
 
@@ -297,9 +302,7 @@ describe(`Module: Delegations`, () => {
     await delegationModule({}).actions.submitDelegation(
       {
         rootState: {
-          config: {
-            bondingDenom: `atom`
-          },
+          stakingParameters: lcdClientMock.state.stakingParameters,
           user: {
             atoms: 1000
           },

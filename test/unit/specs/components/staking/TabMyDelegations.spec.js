@@ -14,6 +14,7 @@ const unbondingTransactions = lcdClientMock.state.txs.slice(5).map(t => {
 describe(`Component: TabMyDelegations`, () => {
   let { mount } = setup()
 
+  const { stakingParameters } = lcdClientMock.state
   it(`should show committed validators`, () => {
     let instance = mount(TabMyDelegations, {
       getters: {
@@ -30,7 +31,7 @@ describe(`Component: TabMyDelegations`, () => {
           },
           loaded: true
         }),
-        bondingDenom: () => `stake`,
+        bondDenom: () => stakingParameters.parameters.bond_denom,
         connected: () => true
       }
     })
@@ -58,7 +59,7 @@ describe(`Component: TabMyDelegations`, () => {
           },
           loaded: true
         }),
-        bondingDenom: () => `stake`,
+        bondDenom: () => stakingParameters.parameters.bond_denom,
         connected: () => true,
         allTransactions: () => unbondingTransactions
       }
@@ -78,7 +79,7 @@ describe(`Component: TabMyDelegations`, () => {
         delegation: () => ({
           unbondingDelegations: {}
         }),
-        bondingDenom: () => `stake`,
+        bondDenom: () => stakingParameters.parameters.bond_denom,
         connected: () => true
       }
     })
@@ -98,7 +99,7 @@ describe(`Component: TabMyDelegations`, () => {
           unbondingDelegations: {},
           loaded: false
         }),
-        bondingDenom: () => `stake`,
+        bondDenom: () => stakingParameters.parameters.bond_denom,
         connected: () => false
       },
       stubs: {
@@ -121,7 +122,7 @@ describe(`Component: TabMyDelegations`, () => {
           loaded: true,
           loading: true
         }),
-        bondingDenom: () => `stake`,
+        bondDenom: () => stakingParameters.parameters.bond_denom,
         connected: () => false
       },
       stubs: {

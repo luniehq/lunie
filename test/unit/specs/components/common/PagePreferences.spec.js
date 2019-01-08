@@ -1,17 +1,21 @@
 import setup from "../../../helpers/vuex-setup"
 import PagePreferences from "renderer/components/common/PagePreferences"
+import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+
 jest.mock(`renderer/google-analytics.js`, () => () => {})
 
 describe(`PagePreferences`, () => {
   let wrapper, store
-  let instance = setup()
+  let { stakingParameters } = lcdClientMock.state
+  let { mount } = setup()
 
   beforeEach(async () => {
-    let test = instance.mount(PagePreferences)
-    wrapper = test.wrapper
-    store = test.store
+    let instance = mount(PagePreferences)
+    wrapper = instance.wrapper
+    store = instance.store
 
     store.commit(`setConnected`, true)
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
     await store.dispatch(`signIn`, {
       account: `default`,
       password: `1234567890`
@@ -19,6 +23,7 @@ describe(`PagePreferences`, () => {
   })
 
   it(`has the expected html structure if connected`, async () => {
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
     expect(wrapper.vm.$el).toMatchSnapshot()
     expect(wrapper.vm.$el.outerHTML).toContain(`View tutorial`)
     expect(wrapper.vm.$el.outerHTML).toContain(`Automatically send`)

@@ -91,6 +91,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1724](https://github.com/cosmos/voyager/issues/1724) set tabindex attribute to -1 for readonly denom on ModalProposals. tab navgiation now skips element @enyan94
 - [\#1277](https://github.com/cosmos/voyager/issues/1277) change name of VmToolBar to ToolBar, update all snapshots and import statements @coreycosman
 - [\#1432](https://github.com/cosmos/voyager/issues/1432) Moved @tendermint/UI components back into the Voyager repository @faboweb
+- [\#1769](https://github.com/cosmos/voyager/issues/1769) Removed hardcoded parameters values @fedekunze
 - [\#1694](https://github.com/cosmos/voyager/issues/1694) Improved the `README` @faboweb @fedekunze
 - [\#1379](https://github.com/cosmos/voyager/issues/1379) Changed some tests so they don't display errors on the console to better identify real errors @faboweb
 - [\#1792](https://github.com/cosmos/voyager/pull/1792) removed mocked demo mode @fedekunze

@@ -3,7 +3,7 @@ import setup from "../../../helpers/vuex-setup"
 import TabParameters from "renderer/components/governance/TabParameters"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
-let { governanceParameters } = lcdClientMock.state
+let { governanceParameters, stakingParameters } = lcdClientMock.state
 
 describe(`TabParameters`, () => {
   let wrapper, store
@@ -27,6 +27,7 @@ describe(`TabParameters`, () => {
       localVue,
       doBefore: ({ store }) => {
         store.commit(`setGovParameters`, governanceParameters)
+        store.commit(`setStakingParameters`, stakingParameters.parameters)
       },
       $store
     })

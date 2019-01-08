@@ -34,7 +34,7 @@
         :key="tx.hash"
         :transaction="tx"
         :address="wallet.address"
-        :bonding-denom="bondingDenom"
+        :bonding-denom="bondDenom"
         :unbonding-time="
           time.getUnbondingTime(tx, delegation.unbondingDelegations)
         "
@@ -90,7 +90,7 @@ export default {
       `filters`,
       `allTransactions`,
       `wallet`,
-      `bondingDenom`,
+      `bondDenom`,
       `delegation`,
       `delegates`,
       `connected`

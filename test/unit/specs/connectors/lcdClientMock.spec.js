@@ -825,7 +825,9 @@ describe(`LCD Client Mock`, () => {
   it(`queries for staking parameters`, async () => {
     let parameters = await client.getStakingParameters()
     expect(parameters).toBeDefined()
-    expect(parameters).toMatchObject(lcdClientMock.state.stakingParameters)
+    expect(parameters).toMatchObject(
+      lcdClientMock.state.stakingParameters.parameters
+    )
   })
 
   it(`queries for staking pool`, async () => {
