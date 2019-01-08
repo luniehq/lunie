@@ -683,7 +683,6 @@ module.exports = {
       delegation
     }
   ) {
-    let results = []
     let fromKey = state.keys.find(a => a.name === name)
     let fromAccount = state.accounts[fromKey.address]
     let delegator = state.stake[fromKey.address]
