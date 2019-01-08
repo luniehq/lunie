@@ -415,9 +415,9 @@ describe(`LCD Client`, () => {
         ])
       })
 
-      it(`updateDelegations`, async () => {
+      it(`postDelegation`, async () => {
         axios.mockReturnValue({})
-        await client.updateDelegations(`abc`)
+        await client.postDelegation(`abc`)
 
         expect(axios.mock.calls).toEqual([
           [
@@ -425,6 +425,36 @@ describe(`LCD Client`, () => {
               data: undefined,
               method: `POST`,
               url: `http://localhost/stake/delegators/abc/delegations`
+            }
+          ]
+        ])
+      })
+
+      it(`postUnbondingDelegation`, async () => {
+        axios.mockReturnValue({})
+        await client.postUnbondingDelegation(`abc`)
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `POST`,
+              url: `http://localhost/stake/delegators/abc/unbonding_delegations`
+            }
+          ]
+        ])
+      })
+
+      it(`postRedelegation`, async () => {
+        axios.mockReturnValue({})
+        await client.postRedelegation(`abc`)
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `POST`,
+              url: `http://localhost/stake/delegators/abc/redelegations`
             }
           ]
         ])
