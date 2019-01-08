@@ -4,9 +4,17 @@ import TabMyDelegations from "renderer/components/staking/TabMyDelegations"
 
 const delegates = lcdClientMock.candidates
 
+// TODO: remove this dirty addition: the real cleanup will be done in a separate PR
+// the problem is mock VS real implementation have different keys: shares in mock, shares_amount in SDK
+const unbondingTransactions = lcdClientMock.state.txs.slice(5).map(t => {
+  t.tx.value.msg[0].value.shares_amount = t.tx.value.msg[0].value.shares
+  return t
+})
+
 describe(`Component: TabMyDelegations`, () => {
   let { mount } = setup()
 
+  const { stakingParameters } = lcdClientMock.state
   it(`should show committed validators`, () => {
     let instance = mount(TabMyDelegations, {
       getters: {
@@ -23,7 +31,7 @@ describe(`Component: TabMyDelegations`, () => {
           },
           loaded: true
         }),
-        bondingDenom: () => `stake`,
+        bondDenom: () => stakingParameters.parameters.bond_denom,
         connected: () => true
       }
     })
@@ -31,26 +39,33 @@ describe(`Component: TabMyDelegations`, () => {
     expect(instance.wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`should show unbonding validators`, () => {
+  it(`should show unbonding validators and the current committed validator`, () => {
+    const address = delegates[0].operator_address
     let instance = mount(TabMyDelegations, {
       getters: {
-        committedDelegations: () => ({}),
+        // We decided that is should not be possible to undelegate from something that is not committed
+        committedDelegations: () => ({
+          [address]: 1
+        }),
         delegates: () => ({
           delegates
         }),
         delegation: () => ({
           unbondingDelegations: {
-            [delegates[1].operator_address]: 1,
-            [delegates[2].operator_address]: 2
+            [address]: {
+              creation_height: `170`,
+              min_time: new Date().toISOString()
+            }
           },
           loaded: true
         }),
-        bondingDenom: () => `stake`,
-        connected: () => true
+        bondDenom: () => stakingParameters.parameters.bond_denom,
+        connected: () => true,
+        allTransactions: () => unbondingTransactions
       }
     })
 
-    expect(instance.wrapper.html()).toContain(`Inactive Delegations`)
+    expect(instance.wrapper.html()).toContain(`Unbonding transactions`)
     expect(instance.wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -64,7 +79,7 @@ describe(`Component: TabMyDelegations`, () => {
         delegation: () => ({
           unbondingDelegations: {}
         }),
-        bondingDenom: () => `stake`,
+        bondDenom: () => stakingParameters.parameters.bond_denom,
         connected: () => true
       }
     })
@@ -84,7 +99,7 @@ describe(`Component: TabMyDelegations`, () => {
           unbondingDelegations: {},
           loaded: false
         }),
-        bondingDenom: () => `stake`,
+        bondDenom: () => stakingParameters.parameters.bond_denom,
         connected: () => false
       },
       stubs: {
@@ -107,7 +122,7 @@ describe(`Component: TabMyDelegations`, () => {
           loaded: true,
           loading: true
         }),
-        bondingDenom: () => `stake`,
+        bondDenom: () => stakingParameters.parameters.bond_denom,
         connected: () => false
       },
       stubs: {
@@ -118,18 +133,25 @@ describe(`Component: TabMyDelegations`, () => {
     expect(instance.wrapper.exists(`tm-data-loading`)).toBe(true)
   })
 
-  it(`undelegatedValidators`, () => {
+  it(`unbondingTransactions`, async () => {
+    const address = delegates[0].operator_address
+    const transactions = await lcdClientMock.getDelegatorTxs(
+      lcdClientMock.addresses[0]
+    )
+
     expect(
-      TabMyDelegations.computed.undelegatedValidators({
+      TabMyDelegations.computed.unbondingTransactions({
         delegation: {
           unbondingDelegations: {
-            [delegates[1].operator_address]: 1,
-            [delegates[2].operator_address]: 2
+            [address]: {
+              creation_height: `170`,
+              min_time: new Date().toISOString()
+            }
           }
         },
-        delegates: { delegates }
+        allTransactions: transactions
       })
-    ).toEqual([delegates[1], delegates[2]])
+    ).toHaveLength(1)
   })
 
   it(`yourValidators`, () => {

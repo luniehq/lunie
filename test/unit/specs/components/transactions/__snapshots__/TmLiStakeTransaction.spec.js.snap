@@ -61,7 +61,7 @@ exports[`TmLiStakeTransaction delegations should show delegations 1`] = `
       >
         Block #568 
       </a>
-      @ 12:00 am
+      @ 00:00
     
     </div>
   </div>
@@ -136,7 +136,7 @@ exports[`TmLiStakeTransaction redelegations should show redelegations and calcul
       >
         Block #567 
       </a>
-      @ 12:00 am
+      @ 00:00
     
     </div>
   </div>
@@ -205,7 +205,7 @@ exports[`TmLiStakeTransaction unbonding delegations should default to ended if n
       >
         Block #569 
       </a>
-      @ 12:00 am
+      @ 00:00
     
     </div>
   </div>
@@ -274,7 +274,7 @@ exports[`TmLiStakeTransaction unbonding delegations should show unbonding delega
       >
         Block #569 
       </a>
-      @ 12:00 am
+      @ 00:00
     
     </div>
   </div>
@@ -347,7 +347,7 @@ exports[`TmLiStakeTransaction unbonding delegations should show unbondings and c
       >
         Block #569 
       </a>
-      @ 12:00 am
+      @ 00:00
     
     </div>
   </div>

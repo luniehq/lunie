@@ -51,12 +51,14 @@
           </div>
           <div class="row page-profile__header__data">
             <dl class="colored_dl">
-              <dt>Delegated {{ bondingDenom }}</dt>
+              <dt>Delegated {{ bondDenom }}</dt>
               <dd>
                 {{
+                  /* eslint-disable */
                   myBond.isLessThan(0.01) && myBond.isGreaterThan(0)
-                    ? `< 0.01` // eslint-disable-line
+                    ? `< 0.01`
                     : num.shortNumber(myBond)
+                  /*eslint-enable */
                 }}
               </dd>
             </dl>
@@ -149,11 +151,11 @@
               </dd>
             </dl>
             <dl class="info_dl">
-              <dt>Self Delegated {{ bondingDenom }}</dt>
+              <dt>Self Delegated {{ bondDenom }}</dt>
               <dd id="page-profile__self-bond">{{ selfBond }} %</dd>
             </dl>
             <dl v-if="config.devMode" class="info_dl">
-              <dt>Minimum Self Delegated {{ bondingDenom }}</dt>
+              <dt>Minimum Self Delegated {{ bondDenom }}</dt>
               <dd>0 %</dd>
             </dl>
           </div>
@@ -164,6 +166,7 @@
         :show-delegation-modal.sync="showDelegationModal"
         :from-options="delegationTargetOptions()"
         :to="validator.operator_address"
+        :denom="bondDenom"
         @submitDelegation="submitDelegation"
       />
       <undelegation-modal
@@ -171,16 +174,17 @@
         :show-undelegation-modal.sync="showUndelegationModal"
         :maximum="myBond.toNumber()"
         :to="wallet.address"
+        :denom="bondDenom"
         @submitUndelegation="submitUndelegation"
       />
       <tm-modal v-if="showCannotModal" :close="closeCannotModal">
         <div slot="title">
-          Cannot {{ action == `delegate` ? `Delegate` : `Undelegate` }}
+          Cannot {{ action === `delegate` ? `Delegate` : `Undelegate` }}
         </div>
         <p>
-          You have no {{ bondingDenom }}s
-          {{ action == `undelegate` ? ` delegated ` : ` ` }}to
-          {{ action == `delegate` ? ` delegate.` : ` this validator.` }}
+          You have no {{ bondDenom }}s
+          {{ action === `undelegate` ? ` delegated ` : ` ` }}to
+          {{ action === `delegate` ? ` delegate.` : ` this validator.` }}
         </p>
         <div slot="footer">
           <tmBtn
@@ -240,7 +244,7 @@ export default {
   }),
   computed: {
     ...mapGetters([
-      `bondingDenom`,
+      `bondDenom`,
       `delegates`,
       `delegation`,
       `committedDelegations`,
@@ -353,11 +357,11 @@ export default {
 
           this.$store.commit(`notify`, {
             title: `Successful delegation!`,
-            body: `You have successfully delegated your ${this.bondingDenom}s`
+            body: `You have successfully delegated your ${this.bondDenom}s`
           })
         } catch ({ message }) {
           this.$store.commit(`notifyError`, {
-            title: `Error while delegating ${this.bondingDenom}s`,
+            title: `Error while delegating ${this.bondDenom}s`,
             body: message
           })
         }
@@ -375,11 +379,11 @@ export default {
 
           this.$store.commit(`notify`, {
             title: `Successful redelegation!`,
-            body: `You have successfully redelegated your ${this.bondingDenom}s`
+            body: `You have successfully redelegated your ${this.bondDenom}s`
           })
         } catch ({ message }) {
           this.$store.commit(`notifyError`, {
-            title: `Error while redelegating ${this.bondingDenom}s`,
+            title: `Error while redelegating ${this.bondDenom}s`,
             body: message
           })
         }
@@ -396,12 +400,12 @@ export default {
         this.$store.commit(`notify`, {
           title: `Successful undelegation!`,
           body: `You have successfully undelegated ${amount} ${
-            this.bondingDenom
+            this.bondDenom
           }s.`
         })
       } catch ({ message }) {
         this.$store.commit(`notifyError`, {
-          title: `Error while undelegating ${this.bondingDenom}s`,
+          title: `Error while undelegating ${this.bondDenom}s`,
           body: message
         })
       }

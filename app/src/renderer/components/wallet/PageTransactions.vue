@@ -34,8 +34,10 @@
         :key="tx.hash"
         :transaction="tx"
         :address="wallet.address"
-        :bonding-denom="bondingDenom"
-        :unbonding-time="getUnbondingTime(tx)"
+        :bonding-denom="bondDenom"
+        :unbonding-time="
+          time.getUnbondingTime(tx, delegation.unbondingDelegations)
+        "
       />
     </template>
   </tm-page>
@@ -56,6 +58,8 @@ import TmPage from "common/TmPage"
 import TmDataLoading from "common/TmDataLoading"
 import TmLiAnyTransaction from "transactions/TmLiAnyTransaction"
 import ToolBar from "common/ToolBar"
+import time from "scripts/time"
+
 export default {
   name: `page-transactions`,
   components: {
@@ -77,7 +81,8 @@ export default {
       order: `desc`
     },
     validatorURL: `/staking/validators`,
-    proposalsURL: `/governance/proposals`
+    proposalsURL: `/governance/proposals`,
+    time
   }),
   computed: {
     ...mapState([`transactions`]),
@@ -85,7 +90,7 @@ export default {
       `filters`,
       `allTransactions`,
       `wallet`,
-      `bondingDenom`,
+      `bondDenom`,
       `delegation`,
       `delegates`,
       `connected`
@@ -123,22 +128,6 @@ export default {
   methods: {
     refreshTransactions() {
       this.$store.dispatch(`getAllTxs`)
-    },
-    getUnbondingTime(transaction) {
-      let copiedTransaction = JSON.parse(JSON.stringify(transaction))
-      let type = copiedTransaction.tx.value.msg[0].type
-      if (type === `cosmos-sdk/BeginUnbonding`) {
-        let tx = copiedTransaction.tx.value.msg[0].value
-        let unbondingDelegation = this.delegation.unbondingDelegations[
-          tx.validator_addr
-        ]
-        if (
-          unbondingDelegation &&
-          unbondingDelegation.creation_height ===
-            String(copiedTransaction.height)
-        )
-          return new Date(unbondingDelegation.min_time).getTime()
-      }
     },
     setSearch(bool = !this.filters[`transactions`].search.visible) {
       if (!this.somethingToSearch) return false

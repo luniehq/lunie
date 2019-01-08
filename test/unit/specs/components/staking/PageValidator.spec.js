@@ -6,6 +6,8 @@ import setup from "../../../helpers/vuex-setup"
 import PageValidator from "renderer/components/staking/PageValidator"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
+const { stakingParameters } = lcdClientMock.state
+
 const validator = Object.assign({}, lcdClientMock.state.candidates[0], {
   commission: {
     rate: `0.05`,
@@ -20,11 +22,7 @@ const validator = Object.assign({}, lcdClientMock.state.candidates[0], {
 const validatorTo = lcdClientMock.state.candidates[1]
 
 const getterValues = {
-  bondingDenom: `atom`,
-  config: {
-    bondingDenom: `atom`,
-    desktop: false
-  },
+  config: { desktop: false },
   delegates: {
     delegates: [validator, validatorTo],
     globalPower: 4200
@@ -42,7 +40,9 @@ const getterValues = {
   user: { atoms: 42 },
   wallet: { address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9` },
   connected: true,
-  lastPage: null
+  lastPage: null,
+  stakingParameters,
+  bondDenom: stakingParameters.parameters.bond_denom
 }
 
 describe(`PageValidator`, () => {
@@ -63,7 +63,8 @@ describe(`PageValidator`, () => {
         $route: {
           params: { validator: validator.operator_address }
         }
-      }
+      },
+      getters: { bondDenom: () => stakingParameters.parameters.bond_denom }
     })
     wrapper = instance.wrapper
     store = instance.store
@@ -89,7 +90,8 @@ describe(`PageValidator`, () => {
         config: () => ({ desktop: false }),
         delegates: () => ({
           delegates: []
-        })
+        }),
+        bondDenom: () => stakingParameters.parameters.bond_denom
       },
       mocks: {
         $route: {
@@ -99,7 +101,7 @@ describe(`PageValidator`, () => {
     })
 
     wrapper = instance.wrapper
-
+    store = instance.store
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -344,9 +346,9 @@ describe(`onDelegation`, () => {
         $route: {
           params: { validator: validator.operator_address }
         }
-      }
+      },
+      getters: { bondDenom: () => stakingParameters.parameters.bond_denom }
     })
-
     wrapper = instance.wrapper
     store = instance.store
   })
@@ -380,7 +382,8 @@ describe(`onDelegation`, () => {
         it(`success`, async () => {
           let $store = {
             commit: jest.fn(),
-            dispatch: jest.fn()
+            dispatch: jest.fn(),
+            getters: { bondDenom: stakingParameters.parameters.bond_denom }
           }
           const address = `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
 
@@ -412,7 +415,7 @@ describe(`onDelegation`, () => {
               `notify`,
               {
                 body: `You have successfully delegated your ${
-                  getterValues.bondingDenom
+                  stakingParameters.parameters.bond_denom
                 }s`,
                 title: `Successful delegation!`
               }
@@ -425,7 +428,8 @@ describe(`onDelegation`, () => {
             commit: jest.fn(),
             dispatch: jest.fn(() => {
               throw new Error(`message`)
-            })
+            }),
+            getters: { bondDenom: stakingParameters.parameters.bond_denom }
           }
           const address = `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
 
@@ -458,7 +462,9 @@ describe(`onDelegation`, () => {
               `notifyError`,
               {
                 body: `message`,
-                title: `Error while delegating ${getterValues.bondingDenom}s`
+                title: `Error while delegating ${
+                  stakingParameters.parameters.bond_denom
+                }s`
               }
             ]
           ])
@@ -478,11 +484,11 @@ describe(`onDelegation`, () => {
           const $store = {
             commit: jest.fn(),
             dispatch,
-            getters: getterValues,
             rootState: getterValues,
             state: {
               committedDelegates: { [lcdClientMock.validators[0]]: 0 },
-              unbondingDelegations: {}
+              unbondingDelegations: {},
+              getters: { bondDenom: stakingParameters.parameters.bond_denom }
             }
           }
 
@@ -510,7 +516,8 @@ describe(`onDelegation`, () => {
         it(`success`, async () => {
           let $store = {
             commit: jest.fn(),
-            dispatch: jest.fn()
+            dispatch: jest.fn(),
+            getters: { bondDenom: stakingParameters.parameters.bond_denom }
           }
 
           await PageValidator.methods.submitDelegation.call(
@@ -544,7 +551,7 @@ describe(`onDelegation`, () => {
               {
                 title: `Successful redelegation!`,
                 body: `You have successfully redelegated your ${
-                  getterValues.bondingDenom
+                  stakingParameters.parameters.bond_denom
                 }s`
               }
             ]
@@ -556,7 +563,8 @@ describe(`onDelegation`, () => {
             commit: jest.fn(),
             dispatch: jest.fn(() => {
               throw new Error(`message`)
-            })
+            }),
+            getters: { bondDenom: stakingParameters.parameters.bond_denom }
           }
 
           await PageValidator.methods.submitDelegation.call(
@@ -571,7 +579,8 @@ describe(`onDelegation`, () => {
             {
               password: `12345`,
               amount: 5,
-              from: validator.operator_address
+              from: validator.operator_address,
+              password: `12345`
             }
           )
 
@@ -591,7 +600,9 @@ describe(`onDelegation`, () => {
             [
               `notifyError`,
               {
-                title: `Error while redelegating ${getterValues.bondingDenom}s`,
+                title: `Error while redelegating ${
+                  stakingParameters.parameters.bond_denom
+                }s`,
                 body: `message`
               }
             ]
@@ -616,7 +627,8 @@ describe(`onDelegation`, () => {
             rootState: getterValues,
             state: {
               committedDelegates: { [lcdClientMock.validators[0]]: 10 },
-              unbondingDelegations: {}
+              unbondingDelegations: {},
+              getters: { bondDenom: stakingParameters.parameters.bond_denom }
             }
           }
 
@@ -629,7 +641,8 @@ describe(`onDelegation`, () => {
             {
               password: `12345`,
               amount: 5,
-              from: validator.operator_address
+              from: validator.operator_address,
+              password: `12345`
             }
           )
 
@@ -677,7 +690,8 @@ describe(`onDelegation`, () => {
         it(`success`, async () => {
           let $store = {
             commit: jest.fn(),
-            dispatch: jest.fn()
+            dispatch: jest.fn(),
+            getters: { bondDenom: stakingParameters.parameters.bond_denom }
           }
 
           await PageValidator.methods.submitUndelegation.call(
@@ -707,7 +721,9 @@ describe(`onDelegation`, () => {
             [
               `notify`,
               {
-                body: `You have successfully undelegated 10 atoms.`,
+                body: `You have successfully undelegated 10 ${
+                  stakingParameters.parameters.bond_denom
+                }s.`,
                 title: `Successful undelegation!`
               }
             ]
@@ -719,7 +735,8 @@ describe(`onDelegation`, () => {
             commit: jest.fn(),
             dispatch: jest.fn(() => {
               throw new Error(`message`)
-            })
+            }),
+            getters: { bondDenom: stakingParameters.parameters.bond_denom }
           }
 
           await PageValidator.methods.submitUndelegation.call(
@@ -750,7 +767,9 @@ describe(`onDelegation`, () => {
               `notifyError`,
               {
                 body: `message`,
-                title: `Error while undelegating atoms`
+                title: `Error while undelegating ${
+                  stakingParameters.parameters.bond_denom
+                }s`
               }
             ]
           ])
@@ -758,7 +777,7 @@ describe(`onDelegation`, () => {
       })
 
       describe(`composition`, () => {
-        it(`delegation.submitDelegation`, async () => {
+        it(`submits a successful undelegation`, async () => {
           const delegation = Delegation({})
 
           const dispatch = jest.fn((type, payload) => {
@@ -774,7 +793,8 @@ describe(`onDelegation`, () => {
             rootState: getterValues,
             state: {
               committedDelegates: { [lcdClientMock.validators[0]]: 10 },
-              unbondingDelegations: {}
+              unbondingDelegations: {},
+              getters: { bondDenom: stakingParameters.parameters.bond_denom }
             }
           }
 

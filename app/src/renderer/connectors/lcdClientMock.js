@@ -302,15 +302,17 @@ let state = {
     bonded_tokens: `50.0000000000`
   },
   stakingParameters: {
-    unbonding_time: `259200000000000`,
-    max_validators: 100,
-    bond_denom: `STAKE`
+    parameters: {
+      unbonding_time: `259200000000000`,
+      max_validators: 100,
+      bond_denom: `STAKE`
+    }
   },
   governanceParameters: {
     deposit: {
       min_deposit: [
         {
-          denom: `stake`,
+          denom: `STAKE`,
           amount: `10.0000000000`
         }
       ],
@@ -427,13 +429,13 @@ let state = {
       description: `this proposal was rejected`,
       initial_deposit: [
         {
-          denom: `stake`,
+          denom: `STAKE`,
           amount: `100`
         }
       ],
       total_deposit: [
         {
-          denom: `stake`,
+          denom: `STAKE`,
           amount: `100`
         }
       ],
@@ -706,7 +708,7 @@ module.exports = {
         `Expected sequence "${fromAccount.sequence}", got "${sequence}"`
       )
     }
-    let { denom } = delegation
+    let denom = state.stakingParameters.parameters.bond_denom
     let amount = parseInt(delegation.amount)
     if (amount < 0) {
       return txResult(1, `Amount cannot be negative`)
@@ -803,7 +805,7 @@ Msg Traces:
 
     // update sender balance
     let coinBalance = fromAccount.coins.find(
-      c => c.denom === state.stakingParameters.bond_denom
+      c => c.denom === state.stakingParameters.parameters.bond_denom
     )
 
     coinBalance.amount = String(parseInt(coinBalance.amount) + amount)
@@ -945,7 +947,7 @@ Msg Traces:
     // add redelegation object
     let coins = {
       amount: shares, // in mock mode we assume 1 share = 1 token
-      denom: state.stakingParameters.bond_denom
+      denom: state.stakingParameters.parameters.bond_denom
     }
     let minTime = Date.now()
     red = {
@@ -1049,7 +1051,7 @@ Msg Traces:
     return state.pool
   },
   async getStakingParameters() {
-    return state.stakingParameters
+    return state.stakingParameters.parameters
   },
   async getProposals() {
     return state.proposals || []
@@ -1248,10 +1250,10 @@ Msg Traces:
       let depositCoinAmt = proposal.total_deposit.find(coin => {
         return coin.denom === `STAKE`
       }).amount
-      // TODO: get min deposit amount from gov params
-      if (parseInt(depositCoinAmt) >= 10) {
+
+      let minDepositCoin = state.governanceParameters.deposit.min_deposit[0]
+      if (parseInt(depositCoinAmt) >= parseInt(minDepositCoin.amount)) {
         proposal.proposal_status = `VotingPeriod`
-        // TODO: get voting time from gov params
         proposal.voting_start_time = Date.now()
         proposal.voting_end_time = moment(proposal.voting_start_time)
           .add(86400000, `ms`)

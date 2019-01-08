@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`NISessionWelcome with accounts has the expected html structure 1`] = `
+exports[`TmSessionWelcome with accounts has the expected html structure 1`] = `
 <div
   class="tm-session"
   id="session-welcome"
@@ -186,7 +186,7 @@ exports[`NISessionWelcome with accounts has the expected html structure 1`] = `
 </div>
 `;
 
-exports[`NISessionWelcome without accounts has the expected html structure 1`] = `
+exports[`TmSessionWelcome without accounts has the expected html structure 1`] = `
 <div
   class="tm-session"
   id="session-welcome"

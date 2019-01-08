@@ -15,6 +15,7 @@ export default function mockFsExtra(fileSystem = {}) {
       }
       create(to, fsExtraMock.fs, file)
     },
+    copyFile: (from, to) => fsExtraMock.copy(from, to),
     ensureFile: path => {
       let { file } = get(path, fsExtraMock.fs)
       if (file === null) {

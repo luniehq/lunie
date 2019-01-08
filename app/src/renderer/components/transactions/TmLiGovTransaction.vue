@@ -24,7 +24,7 @@
       </div>
       <div slot="details">
         On&nbsp;
-        <router-link :to="URL + '/' + tx.proposal_id">
+        <router-link :to="url + '/' + tx.proposal_id">
           Proposal &#35;{{ tx.proposal_id }}
         </router-link>
       </div>
@@ -45,7 +45,7 @@ export default {
       type: Object,
       required: true
     },
-    URL: {
+    url: {
       type: String,
       required: true
     },

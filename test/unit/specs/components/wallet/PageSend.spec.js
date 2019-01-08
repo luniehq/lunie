@@ -1,15 +1,17 @@
 import setup from "../../../helpers/vuex-setup"
 import PageSend from "renderer/components/wallet/PageSend"
+import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`PageSend`, () => {
-  let wrapper, store, node
+  let wrapper, store
   const name = `default`
   const password = `1234567890`
   const address = `tb1mjt6dcdru8lgdz64h2fu0lrzvd5zv8sfcvkv2l`
+  let { stakingParameters } = lcdClientMock.state
 
   const coins = [
     {
-      denom: `mycoin`,
+      denom: stakingParameters.parameters.bond_denom,
       amount: 1000
     },
     {
@@ -21,15 +23,18 @@ describe(`PageSend`, () => {
   let { mount } = setup()
 
   beforeEach(async () => {
-    let test = mount(PageSend, {
+    let instance = mount(PageSend, {
       propsData: {
         denom: `fermion`
       },
       sync: false
     })
-    wrapper = test.wrapper
-    store = test.store
-    node = test.node
+    wrapper = instance.wrapper
+    store = instance.store
+    await store.dispatch(`signIn`, {
+      account: name,
+      password
+    })
     store.commit(`setAccounts`, [
       {
         address,
@@ -38,11 +43,9 @@ describe(`PageSend`, () => {
       }
     ])
     store.commit(`setConnected`, true)
-    await store.dispatch(`signIn`, {
-      account: name,
-      password
-    })
     store.commit(`setWalletBalances`, coins)
+    store.commit(`setAtoms`, 1000)
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
     store.commit(`setNonce`, `1`)
   })
 
@@ -76,6 +79,7 @@ describe(`PageSend`, () => {
       sync: false
     })
     store.commit(`setConnected`, true)
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
     await wrapper.vm.$nextTick()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
@@ -83,9 +87,10 @@ describe(`PageSend`, () => {
   it(`should show address required error`, async () => {
     let { wrapper, store } = mount(PageSend, { sync: false })
     store.commit(`setConnected`, true)
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
     wrapper.setData({
       fields: {
-        denom: `mycoin`,
+        denom: stakingParameters.parameters.bond_denom,
         address: ``,
         amount: 2,
         password: `1234567890`
@@ -98,9 +103,10 @@ describe(`PageSend`, () => {
   })
   it(`should show bech32 error when address length is too short`, async () => {
     store.commit(`setConnected`, true)
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
     wrapper.setData({
       fields: {
-        denom: `mycoin`,
+        denom: stakingParameters.parameters.bond_denom,
         address: `asdf`,
         amount: 2,
         password: `1234567890`
@@ -113,9 +119,10 @@ describe(`PageSend`, () => {
 
   it(`should show bech32 error when address length is too long`, async () => {
     store.commit(`setConnected`, true)
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
     wrapper.setData({
       fields: {
-        denom: `mycoin`,
+        denom: stakingParameters.parameters.bond_denom,
         address: `asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf`,
         amount: 2,
         password: `1234567890`
@@ -127,9 +134,10 @@ describe(`PageSend`, () => {
   })
   it(`should show bech32 error when alphanumeric is wrong`, async () => {
     store.commit(`setConnected`, true)
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
     wrapper.setData({
       fields: {
-        denom: `mycoin`,
+        denom: stakingParameters.parameters.bond_denom,
         address: `!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$`,
         amount: 2,
         password: `1234567890`
@@ -141,11 +149,12 @@ describe(`PageSend`, () => {
   })
 
   it(`should trigger confirmation modal if form is correct`, async () => {
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
     store.commit(`setConnected`, true)
     store.commit(`setWalletBalances`, coins)
     wrapper.setData({
       fields: {
-        denom: `mycoin`,
+        denom: stakingParameters.parameters.bond_denom,
         address,
         amount: 2,
         password: `1234567890`
@@ -165,7 +174,7 @@ describe(`PageSend`, () => {
   it(`should show notification for successful send`, async () => {
     wrapper.setData({
       fields: {
-        denom: `mycoin`,
+        denom: stakingParameters.parameters.bond_denom,
         address,
         amount: 2,
         password: `1234567890`
@@ -177,19 +186,30 @@ describe(`PageSend`, () => {
   })
 
   it(`should show notification for unsuccessful send`, async () => {
-    wrapper.setData({
+    let $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn()
+    }
+
+    let self = {
       fields: {
         denom: `notmycoin`,
         address,
         amount: 2,
         password: `1234567890`
+      },
+      $store,
+      methods: {
+        sendTx: () => Promise.reject()
       }
+    }
+    PageSend.methods.onApproved.call(self)
+
+    expect($store.commit).toHaveBeenCalledWith(`notifyError`, {
+      title: `Error Sending transaction`,
+      body: expect.stringContaining(``)
     })
-    node.sign = () => Promise.reject()
-    await wrapper.vm.onApproved()
-    expect(store.state.notifications.length).toBe(1)
-    expect(store.state.notifications[0].title).toBe(`Error Sending transaction`)
-    expect(store.state.notifications[0]).toMatchSnapshot()
+    expect(self.sending).toBe(false)
   })
 
   it(`validates bech32 addresses`, () => {
@@ -202,9 +222,10 @@ describe(`PageSend`, () => {
   })
 
   it(`disables sending if not connected`, async () => {
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
     wrapper.setData({
       fields: {
-        denom: `mycoin`,
+        denom: stakingParameters.parameters.bond_denom,
         address,
         amount: 2,
         password: `1234567890`

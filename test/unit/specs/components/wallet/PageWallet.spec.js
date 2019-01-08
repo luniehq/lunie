@@ -1,5 +1,8 @@
 import setup from "../../../helpers/vuex-setup"
 import PageWallet from "renderer/components/wallet/PageWallet"
+import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+
+let { stakingParameters } = lcdClientMock.state
 
 describe(`PageWallet`, () => {
   let wrapper, store
@@ -14,6 +17,8 @@ describe(`PageWallet`, () => {
       },
       doBefore: ({ store }) => {
         store.commit(`setConnected`, true)
+        store.commit(`setSearchQuery`, [`balances`, ``])
+        store.commit(`setStakingParameters`, stakingParameters.parameters)
       }
     })
     wrapper = instance.wrapper
@@ -24,7 +29,7 @@ describe(`PageWallet`, () => {
       password: `1234567890`
     })
     store.commit(`setSearchQuery`, [`balances`, ``])
-
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
     // we need to wait for the denoms to have loaded
     // if not they load async and produce errors when the tests already passed
     await store.dispatch(`loadDenoms`)
@@ -46,7 +51,7 @@ describe(`PageWallet`, () => {
   it(`should filter the balances`, async () => {
     store.commit(`setSearchVisible`, [`balances`, true])
     store.commit(`setSearchQuery`, [`balances`, `stake`])
-
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
     expect(wrapper.vm.filteredBalances.map(x => x.denom)).toEqual([`STAKE`])
     expect(wrapper.vm.$el).toMatchSnapshot()
   })

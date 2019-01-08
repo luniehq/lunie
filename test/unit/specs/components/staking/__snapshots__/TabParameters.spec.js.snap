@@ -38,8 +38,7 @@ exports[`TabParameters has the expected html structure 1`] = `
           >
             <dt>
               
-              Loose
-              STAKE
+              Loose STAKE
               
               <i
                 class="material-icons info-button"
@@ -66,8 +65,7 @@ exports[`TabParameters has the expected html structure 1`] = `
           >
             <dt>
               
-              Delegated
-              STAKE
+              Delegated STAKE
               
               <i
                 class="material-icons info-button"

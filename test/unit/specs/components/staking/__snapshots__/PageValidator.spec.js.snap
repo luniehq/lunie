@@ -3493,7 +3493,7 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
 </div>
 `;
 
-exports[`onDelegation onUnstake submitUndelegation composition delegation.submitDelegation 1`] = `
+exports[`onDelegation onUnstake submitUndelegation composition submits a successful undelegation 1`] = `
 Array [
   Array [
     "submitUnbondingDelegation",
@@ -3534,12 +3534,12 @@ Array [
 ]
 `;
 
-exports[`onDelegation onUnstake submitUndelegation composition delegation.submitDelegation 2`] = `
+exports[`onDelegation onUnstake submitUndelegation composition submits a successful undelegation 2`] = `
 Array [
   Array [
     "notify",
     Object {
-      "body": "You have successfully undelegated 10 atoms.",
+      "body": "You have successfully undelegated 10 STAKEs.",
       "title": "Successful undelegation!",
     },
   ],
@@ -3561,7 +3561,7 @@ Array [
     Object {
       "delegation": Object {
         "amount": "10",
-        "denom": "atom",
+        "denom": "STAKE",
       },
       "delegator_addr": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
       "password": "12345",
@@ -3582,7 +3582,7 @@ Array [
   Array [
     "notify",
     Object {
-      "body": "You have successfully delegated your atoms",
+      "body": "You have successfully delegated your STAKEs",
       "title": "Successful delegation!",
     },
   ],
@@ -3662,7 +3662,7 @@ Array [
   Array [
     "notify",
     Object {
-      "body": "You have successfully redelegated your atoms",
+      "body": "You have successfully redelegated your STAKEs",
       "title": "Successful redelegation!",
     },
   ],

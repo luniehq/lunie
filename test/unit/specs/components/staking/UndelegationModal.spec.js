@@ -3,9 +3,11 @@
 import setup from "../../../helpers/vuex-setup"
 import UndelegationModal from "staking/UndelegationModal"
 import Vuelidate from "vuelidate"
+import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`UndelegationModal`, () => {
-  let wrapper
+  let wrapper, store
+  let { stakingParameters } = lcdClientMock.state
   let { mount, localVue } = setup()
   localVue.use(Vuelidate)
   localVue.directive(`tooltip`, () => {})
@@ -16,17 +18,13 @@ describe(`UndelegationModal`, () => {
       localVue,
       propsData: {
         maximum: 100,
-        to: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`
-      },
-      mocks: {
-        $store: {
-          getters: {
-            bondingDenom: `atom`
-          }
-        }
+        to: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
+        denom: stakingParameters.parameters.bond_denom
       }
     })
     wrapper = instance.wrapper
+    store = instance.store
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
   })
 
   describe(`component matches snapshot`, () => {

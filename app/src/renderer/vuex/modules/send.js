@@ -44,6 +44,7 @@ export default ({ node }) => {
 
     let res = await req.catch(err => {
       let message
+      console.log(err)
       // TODO: get rid of this logic once the appended message is actually included inside the object message
       if (!err.response.data.message) {
         let idxColon = err.response.data.indexOf(`:`)

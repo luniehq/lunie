@@ -258,7 +258,6 @@ export default {
           password
         })
 
-        // TODO: get min deposit denom from gov params
         this.$store.commit(`notify`, {
           title: `Successful deposit!`,
           body: `You have successfully deposited your ${

@@ -224,9 +224,9 @@ exports[`PageSend disables sending if not connected 1`] = `
                         </option>
                          
                         <option
-                          value="mycoin"
+                          value="STAKE"
                         >
-                          MYCOIN
+                          STAKE
                         </option>
                         <option
                           value="fermion"
@@ -341,10 +341,6 @@ exports[`PageSend disables sending if not connected 1`] = `
                     <!---->
                   </div>
                 </div>
-                 
-                <!---->
-                 
-                <!---->
                  
                 <hr />
               </main>
@@ -656,9 +652,9 @@ exports[`PageSend has the expected html structure 1`] = `
                         </option>
                          
                         <option
-                          value="mycoin"
+                          value="STAKE"
                         >
-                          MYCOIN
+                          STAKE
                         </option>
                         <option
                           value="fermion"
@@ -773,10 +769,6 @@ exports[`PageSend has the expected html structure 1`] = `
                     <!---->
                   </div>
                 </div>
-                 
-                <!---->
-                 
-                <!---->
                  
                 <hr />
               </main>
@@ -1208,10 +1200,6 @@ exports[`PageSend should show address required error 1`] = `
                   </div>
                 </div>
                  
-                <!---->
-                 
-                <!---->
-                 
                 <hr />
               </main>
             </div>
@@ -1522,9 +1510,9 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                         </option>
                          
                         <option
-                          value="mycoin"
+                          value="STAKE"
                         >
-                          MYCOIN
+                          STAKE
                         </option>
                         <option
                           value="fermion"
@@ -1643,10 +1631,6 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                     <!---->
                   </div>
                 </div>
-                 
-                <!---->
-                 
-                <!---->
                  
                 <hr />
               </main>
@@ -1958,9 +1942,9 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                         </option>
                          
                         <option
-                          value="mycoin"
+                          value="STAKE"
                         >
-                          MYCOIN
+                          STAKE
                         </option>
                         <option
                           value="fermion"
@@ -2079,10 +2063,6 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                     <!---->
                   </div>
                 </div>
-                 
-                <!---->
-                 
-                <!---->
                  
                 <hr />
               </main>
@@ -2394,9 +2374,9 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
                         </option>
                          
                         <option
-                          value="mycoin"
+                          value="STAKE"
                         >
-                          MYCOIN
+                          STAKE
                         </option>
                         <option
                           value="fermion"
@@ -2516,10 +2496,6 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
                   </div>
                 </div>
                  
-                <!---->
-                 
-                <!---->
-                 
                 <hr />
               </main>
             </div>
@@ -2604,18 +2580,6 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
     <!---->
   </main>
 </div>
-`;
-
-exports[`PageSend should show notification for unsuccessful send 1`] = `
-Object {
-  "body": "Not enough coins in your account",
-  "icon": "error",
-  "key": 0,
-  "layout": "alert",
-  "time": 42000,
-  "title": "Error Sending transaction",
-  "type": "error",
-}
 `;
 
 exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
@@ -2842,9 +2806,9 @@ exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
                         </option>
                          
                         <option
-                          value="mycoin"
+                          value="STAKE"
                         >
-                          MYCOIN
+                          STAKE
                         </option>
                         <option
                           value="fermion"
@@ -2959,10 +2923,6 @@ exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
                     <!---->
                   </div>
                 </div>
-                 
-                <!---->
-                 
-                <!---->
                  
                 <hr />
               </main>
@@ -3084,7 +3044,7 @@ exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
     Please confirm that you would like to send
     
             <b>
-              2 mycoin
+              2 STAKE
             </b>
              to 
             <b>
@@ -3481,10 +3441,6 @@ exports[`PageSend should work without providing a default denom 1`] = `
                     <!---->
                   </div>
                 </div>
-                 
-                <!---->
-                 
-                <!---->
                  
                 <hr />
               </main>
