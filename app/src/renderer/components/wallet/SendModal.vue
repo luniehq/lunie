@@ -1,19 +1,22 @@
 <template>
   <action-modal title="Send" @close-action-modal="close">
     <tm-form-group
-      :error="$v.fields.denom.$error"
+      :error="$v.fields.denom.$invalid"
       field-id="send-denomination"
       field-label="Denomination"
     >
       <tm-field
         id="send-denomination"
         v-model="fields.denom"
-        :options="denominations"
-        type="select"
-        placeholder="Select token..."
+        type="text"
+        disabled
       />
       <tm-form-msg
-        v-if="!$v.fields.denom.required"
+        v-if="
+          $v.fields.denom.$error ||
+            !$v.fields.denom.required ||
+            !$v.fields.denom.$invalid
+        "
         name="Denomination"
         type="required"
       />
@@ -34,7 +37,11 @@
         />
       </tm-field-group>
       <tm-form-msg
-        v-if="$v.fields.address.$error && !$v.fields.address.required"
+        v-if="
+          $v.fields.address.$error ||
+            !$v.fields.address.required ||
+            !$v.fields.address.$invalid
+        "
         name="Address"
         type="required"
       />
@@ -49,27 +56,29 @@
     </tm-form-group>
 
     <tm-form-group
-      :error="$v.fields.amount.$error"
+      :error="$v.fields.amount.$invalid"
       field-id="send-amount"
       field-label="Amount"
     >
-      <tm-field-group>
-        <tm-field
-          id="send-amount"
-          :max="max"
-          :min="max ? 1 : 0"
-          v-model="fields.amount"
-          type="number"
-          placeholder="Amount"
-        />
-      </tm-field-group>
+      <tm-field
+        id="send-amount"
+        :max="max"
+        :min="max ? 1 : 0"
+        v-model="fields.amount"
+        type="number"
+        placeholder="Amount"
+      />
       <tm-form-msg
-        v-if="!$v.fields.amount.required"
+        v-if="
+          $v.fields.amount.$error ||
+            !$v.fields.amount.required ||
+            !$v.fields.amount.$invalid
+        "
         name="Amount"
         type="required"
       />
       <tm-form-msg
-        v-if="!$v.fields.amount.between && fields.amount > 0"
+        v-else-if="!$v.fields.amount.between"
         :max="$v.fields.amount.$params.between.max"
         :min="$v.fields.amount.$params.between.min"
         name="Amount"
@@ -78,7 +87,7 @@
     </tm-form-group>
 
     <tm-form-group
-      :error="$v.fields.password.$error"
+      :error="$v.fields.password.$invalid"
       field-id="password"
       field-label="Password"
     >
@@ -121,7 +130,7 @@
 
 <script>
 import b32 from "scripts/b32"
-import { required, between } from "vuelidate/lib/validators"
+import { required, between, integer } from "vuelidate/lib/validators"
 import { mapActions, mapGetters } from "vuex"
 import TmBtn from "common/TmBtn"
 import TmFieldGroup from "common/TmFieldGroup"
@@ -135,8 +144,6 @@ import TmBalance from "common/TmBalance"
 import FieldAddon from "common/TmFieldAddon"
 import ToolBar from "common/ToolBar"
 import ActionModal from "common/ActionModal"
-
-const isInteger = amount => Number.isInteger(amount)
 
 export default {
   name: `send-modal`,
@@ -164,12 +171,11 @@ export default {
     bech32error: null,
     fields: {
       address: ``,
-      amount: 0,
+      amount: ``,
       denom: ``,
       password: ``
     },
-    sending: false,
-    showPassword: false
+    sending: false
   }),
   computed: {
     ...mapGetters([`wallet`, `connected`]),
@@ -248,7 +254,6 @@ export default {
         },
         amount: {
           required,
-          isInteger,
           between: between(this.max ? 1 : 0, this.max)
         },
         denom: { required },
