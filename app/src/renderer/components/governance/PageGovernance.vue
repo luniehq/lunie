@@ -1,22 +1,18 @@
 <template>
-  <tm-page class="governance" data-title="Governance"
-    ><template slot="menu-body">
-      <tm-balance :tabs="tabs">
-        <tm-btn
-          id="propose-btn"
-          :disabled="!connected"
-          :value="connected ? 'Create Proposal' : 'Connecting...'"
-          color="primary"
-          @click.native="onPropose"
-        />
-      </tm-balance>
-      <tool-bar
-        ><a v-tooltip.bottom="'Search'" @click="setSearch()"
-          ><i class="search material-icons">search</i></a
-        ></tool-bar
-      >
-    </template>
-    <modal-search type="proposals" />
+  <tm-page
+    :tabs="tabs"
+    search="proposals"
+    class="governance"
+    title="Governance"
+  >
+    <tm-btn
+      id="propose-btn"
+      slot="header-buttons"
+      :disabled="!connected"
+      :value="connected ? 'Create Proposal' : 'Connecting...'"
+      color="primary"
+      @click.native="onPropose"
+    />
     <modal-propose
       v-if="showModalPropose"
       :show-modal-propose.sync="showModalPropose"
@@ -29,24 +25,17 @@
 
 <script>
 import { mapGetters } from "vuex"
-import DataEmptySearch from "common/TmDataEmptySearch"
-import ModalSearch from "common/TmModalSearch"
 import PerfectScrollbar from "perfect-scrollbar"
 import ModalPropose from "./ModalPropose"
 import ToolBar from "common/ToolBar"
 import TmBalance from "common/TmBalance"
 import TmBtn from "common/TmBtn"
 import TmPage from "common/TmPage"
-import TmDataEmpty from "common/TmDataEmpty"
-import TmDataLoading from "common/TmDataLoading"
+
 export default {
   name: `page-governance`,
   components: {
     TmBalance,
-    TmDataLoading,
-    TmDataEmpty,
-    DataEmptySearch,
-    ModalSearch,
     ModalPropose,
     TmPage,
     TmBtn,
@@ -104,9 +93,6 @@ export default {
           body: message
         })
       }
-    },
-    setSearch(bool = !this.filters[`proposals`].search.visible) {
-      this.$store.commit(`setSearchVisible`, [`proposals`, bool])
     }
   }
 }
