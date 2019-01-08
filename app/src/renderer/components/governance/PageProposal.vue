@@ -106,7 +106,7 @@
         :show-modal-deposit.sync="showModalDeposit"
         :proposal-id="proposalId"
         :proposal-title="proposal.title"
-        :denom="bondingDenom"
+        :denom="bondDenom"
         @submitDeposit="deposit"
       />
       <modal-vote
@@ -158,13 +158,7 @@ export default {
   }),
   computed: {
     // TODO: get denom from governance params
-    ...mapGetters([
-      `bondingDenom`,
-      `proposals`,
-      `connected`,
-      `wallet`,
-      `votes`
-    ]),
+    ...mapGetters([`bondDenom`, `proposals`, `connected`, `wallet`, `votes`]),
     proposal() {
       return this.proposals.proposals[this.proposalId]
     },
@@ -261,7 +255,7 @@ export default {
         this.$store.commit(`notify`, {
           title: `Successful deposit!`,
           body: `You have successfully deposited your ${
-            this.bondingDenom
+            this.bondDenom
           }s on proposal #${this.proposalId}`
         })
       } catch ({ message }) {
