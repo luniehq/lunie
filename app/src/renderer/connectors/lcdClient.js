@@ -120,9 +120,9 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
     // },
 
     // Get a list containing all the validator candidates
-    getCandidates: req(`GET`, `/stake/validators`, true),
+    getValidators: req(`GET`, `/stake/validators`, true),
     // Get information from a validator
-    getCandidate: function(addr) {
+    getValidator: function(addr) {
       return req(`GET`, `/stake/validators/${addr}`, true)()
     },
     // // Get all of the validator bonded delegators
@@ -138,14 +138,14 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
     },
 
     // Query a delegation between a delegator and a validator
-    queryDelegation: function(delegatorAddr, validatorAddr) {
+    getDelegation: function(delegatorAddr, validatorAddr) {
       return req(
         `GET`,
         `/stake/delegators/${delegatorAddr}/delegations/${validatorAddr}`,
         true
       )()
     },
-    queryUnbonding: function(delegatorAddr, validatorAddr) {
+    getUnbondingDelegation: function(delegatorAddr, validatorAddr) {
       return req(
         `GET`,
         `/stake/delegators/${delegatorAddr}/unbonding_delegations/${validatorAddr}`,
@@ -157,26 +157,26 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
 
     /* ============ Slashing ============ */
 
-    queryValidatorSigningInfo: function(pubKey) {
+    getValidatorSigningInfo: function(pubKey) {
       return req(`GET`, `/slashing/validators/${pubKey}/signing_info`, true)()
     },
 
     /* ============ Governance ============ */
 
-    queryProposals: req(`GET`, `/gov/proposals`, true),
-    queryProposal: function(proposalId) {
+    getProposals: req(`GET`, `/gov/proposals`, true),
+    getProposal: function(proposalId) {
       return req(`GET`, `/gov/proposals/${proposalId}`, true)()
     },
-    queryProposalVotes: function(proposalId) {
+    getProposalVotes: function(proposalId) {
       return req(`GET`, `/gov/proposals/${proposalId}/votes`, true)()
     },
-    queryProposalVote: function(proposalId, address) {
+    getProposalVote: function(proposalId, address) {
       return req(`GET`, `/gov/proposals/${proposalId}/votes/${address}`, true)()
     },
-    queryProposalDeposits: function(proposalId) {
+    getProposalDeposits: function(proposalId) {
       return req(`GET`, `/gov/proposals/${proposalId}/deposits`, true)()
     },
-    queryProposalDeposit: function(proposalId, address) {
+    getProposalDeposit: function(proposalId, address) {
       return req(
         `GET`,
         `/gov/proposals/${proposalId}/deposits/${address}`,
@@ -189,13 +189,13 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
     getGovDepositParameters: req(`GET`, `/gov/parameters/deposit`, true),
     getGovTallyingParameters: req(`GET`, `/gov/parameters/tallying`, true),
     getGovVotingParameters: req(`GET`, `/gov/parameters/voting`, true),
-    submitProposal: function(data) {
+    postProposal: function(data) {
       return req(`POST`, `/gov/proposals`, true)(data)
     },
-    submitProposalVote: function(proposalId, data) {
+    postProposalVote: function(proposalId, data) {
       return req(`POST`, `/gov/proposals/${proposalId}/votes`, true)(data)
     },
-    submitProposalDeposit: function(proposalId, data) {
+    postProposalDeposit: function(proposalId, data) {
       return req(`POST`, `/gov/proposals/${proposalId}/deposits`, true)(data)
     },
     getGovernanceTxs: async function(address) {

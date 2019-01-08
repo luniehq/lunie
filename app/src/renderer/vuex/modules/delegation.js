@@ -9,35 +9,35 @@ export default ({ node }) => {
     error: null,
 
     // our delegations, maybe not yet committed
-    delegates: [],
+    validators: [],
 
     // our delegations which are already on the blockchain
-    committedDelegates: {},
+    committedValidators: {},
     unbondingDelegations: {}
   }
   const state = JSON.parse(JSON.stringify(emptyState))
 
   const mutations = {
-    addToCart(state, delegate) {
+    addToCart(state, validator) {
       // don't add to cart if already in cart
-      for (let existingDelegate of state.delegates) {
-        if (delegate.id === existingDelegate.id) return
+      for (let existingValidator of state.validators) {
+        if (validator.id === existingValidator.id) return
       }
 
-      state.delegates.push({
-        id: delegate.id,
-        delegate: Object.assign({}, delegate),
+      state.validators.push({
+        id: validator.id,
+        validator: Object.assign({}, validator),
         atoms: 0
       })
     },
-    removeFromCart(state, delegate) {
-      state.delegates = state.delegates.filter(c => c.id !== delegate)
+    removeFromCart(state, validator) {
+      state.validators = state.validators.filter(c => c.id !== validator)
     },
     setCommittedDelegation(state, { candidateId, value }) {
-      Vue.set(state.committedDelegates, candidateId, value)
+      Vue.set(state.committedValidators, candidateId, value)
       if (value === 0) {
-        delete state.committedDelegates[candidateId]
-        Vue.set(state, `committedDelegates`, state.committedDelegates)
+        delete state.committedValidators[candidateId]
+        Vue.set(state, `committedValidators`, state.committedValidators)
       }
     },
     setUnbondingDelegations(state, unbondingDelegations) {
@@ -60,23 +60,23 @@ export default ({ node }) => {
   let actions = {
     reconnected({ state, dispatch }) {
       if (state.loading) {
-        dispatch(`getBondedDelegates`)
+        dispatch(`getBondedValidators`)
       }
     },
     resetSessionData({ rootState }) {
       rootState.delegation = JSON.parse(JSON.stringify(emptyState))
     },
     // load committed delegations from LCD
-    async getBondedDelegates(
+    async getBondedValidators(
       { state, rootState, commit, dispatch },
-      candidates
+      validators
     ) {
       state.loading = true
 
       if (!rootState.connection.connected) return
 
       let address = rootState.user.address
-      candidates = candidates || (await dispatch(`getDelegates`))
+      validators = validators || (await dispatch(`getValidators`))
 
       try {
         let delegations = await node.getDelegations(address)
@@ -103,15 +103,15 @@ export default ({ node }) => {
               value: parseFloat(shares)
             })
             if (shares > 0) {
-              const delegate = candidates.find(
+              const validator = validators.find(
                 ({ operator_address }) => operator_address === validator_addr // this should change to address instead of operator_address
               )
-              commit(`addToCart`, delegate)
+              commit(`addToCart`, validator)
             }
           })
         }
         // delete delegations not present anymore
-        Object.keys(state.committedDelegates).forEach(validatorAddr => {
+        Object.keys(state.committedValidators).forEach(validatorAddr => {
           if (
             !delegator.delegations ||
             !delegator.delegations.find(
@@ -136,9 +136,9 @@ export default ({ node }) => {
 
       state.loading = false
     },
-    async updateDelegates({ dispatch }) {
-      let candidates = await dispatch(`getDelegates`)
-      return dispatch(`getBondedDelegates`, candidates)
+    async updateValidators({ dispatch }) {
+      let candidates = await dispatch(`getValidators`)
+      return dispatch(`getBondedValidators`, candidates)
     },
     async submitDelegation(
       {
@@ -194,7 +194,7 @@ export default ({ node }) => {
         to: wallet.address, // TODO strange syntax
         delegations: mappedDelegations,
         begin_unbondings: mappedUnbondings,
-        begin_redelegates: mappedRedelegations,
+        begin_revalidators: mappedRedelegations,
         password
       })
 
@@ -209,7 +209,7 @@ export default ({ node }) => {
 
         // optimistically update the committed delegations
         stakingTransactions.delegations.forEach(delegation => {
-          state.committedDelegates[delegation.validator.operator_address] +=
+          state.committedValidators[delegation.validator.operator_address] +=
             delegation.atoms
         })
       }
@@ -217,7 +217,7 @@ export default ({ node }) => {
       // we optimistically update the committed delegations
       // TODO usually I would just query the new state through the LCD and update the state with the result, but at this point we still get the old shares
       setTimeout(async () => {
-        dispatch(`updateDelegates`)
+        dispatch(`updateValidators`)
       }, 5000)
     }
   }

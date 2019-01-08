@@ -923,7 +923,7 @@ module.exports = {
 
     return results
   },
-  async queryDelegation(delegatorAddress, validatorAddress) {
+  async getDelegation(delegatorAddress, validatorAddress) {
     let delegator = state.stake[delegatorAddress]
     if (!delegator)
       return {
@@ -933,7 +933,7 @@ module.exports = {
       ({ validator_addr }) => validator_addr === validatorAddress
     )
   },
-  async queryUnbonding(delegatorAddress, validatorAddress) {
+  async getUnbondingDelegation(delegatorAddress, validatorAddress) {
     let delegator = state.stake[delegatorAddress]
     if (!delegator) return
     return delegator.unbonding_delegations.find(
@@ -979,7 +979,7 @@ module.exports = {
       tx => types.indexOf(tx.tx.value.msg[0].type) !== -1
     )
   },
-  async getCandidates() {
+  async getValidators() {
     return state.candidates
   },
   async getValidatorSet() {
@@ -988,7 +988,7 @@ module.exports = {
       validators: state.candidates
     }
   },
-  async getCandidate(addr) {
+  async getValidator(addr) {
     return state.candidates.find(c => c.operator_address === addr)
   },
   // TODO query with bech32 pubKey
@@ -1212,7 +1212,7 @@ module.exports = {
     results.push(txResult(0))
     return results
   },
-  async queryProposalVotes(proposalId) {
+  async getProposalVotes(proposalId) {
     return (
       state.votes[proposalId] ||
       Promise.reject({ message: `Invalid proposalId #${proposalId}` })
@@ -1278,7 +1278,7 @@ module.exports = {
   async getProposalVote(proposal_id, address) {
     return state.votes[proposal_id].find(vote => vote.voter === address)
   },
-  async queryProposals() {
+  async getProposals() {
     // TODO: return only value of the `value` property when https://github.com/cosmos/cosmos-sdk/issues/2507 is solved
     let proposals = state.proposals
     return Object.keys(proposals).map(key => {

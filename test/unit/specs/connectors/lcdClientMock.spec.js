@@ -300,12 +300,12 @@ describe(`LCD Client Mock`, () => {
   })
 
   it(`queries for all candidates`, async () => {
-    let data = await client.getCandidates()
+    let data = await client.getValidators()
     expect(data.length).toBeGreaterThan(0)
   })
 
   it(`queries for one candidate`, async () => {
-    let validator = await client.getCandidate(lcdClientMock.validators[0])
+    let validator = await client.getValidator(lcdClientMock.validators[0])
     expect(validator).toBe(
       lcdClientMock.state.candidates.find(
         v => v.operator_address === lcdClientMock.validators[0]
@@ -314,7 +314,7 @@ describe(`LCD Client Mock`, () => {
   })
 
   it(`queries bondings per delegator`, async () => {
-    let res = await client.queryDelegation(
+    let res = await client.getDelegation(
       lcdClientMock.addresses[0],
       lcdClientMock.validators[0]
     )
@@ -322,7 +322,7 @@ describe(`LCD Client Mock`, () => {
   })
 
   it(`executes a delegate tx`, async () => {
-    let stake = await client.queryDelegation(
+    let stake = await client.getDelegation(
       lcdClientMock.addresses[0],
       lcdClientMock.validators[1]
     )
@@ -346,7 +346,7 @@ describe(`LCD Client Mock`, () => {
     expect(res[0].check_tx.log).toBe(``)
     expect(res[0].check_tx.code).toBe(0)
 
-    let updatedStake = await client.queryDelegation(
+    let updatedStake = await client.getDelegation(
       lcdClientMock.addresses[0],
       lcdClientMock.validators[1]
     )
@@ -372,7 +372,7 @@ describe(`LCD Client Mock`, () => {
     expect(res[0].check_tx.log).toBe(``)
     expect(res[0].check_tx.code).toBe(0)
 
-    let initialStake = await client.queryDelegation(
+    let initialStake = await client.getDelegation(
       lcdClientMock.addresses[0],
       lcdClientMock.validators[1]
     )
@@ -396,7 +396,7 @@ describe(`LCD Client Mock`, () => {
     expect(res[0].check_tx.log).toBe(``)
     expect(res[0].check_tx.code).toBe(0)
 
-    let updatedStake = await client.queryDelegation(
+    let updatedStake = await client.getDelegation(
       lcdClientMock.addresses[0],
       lcdClientMock.validators[1]
     )
@@ -512,13 +512,13 @@ describe(`LCD Client Mock`, () => {
     expect(res[1].check_tx.log).toBe(``)
     expect(res[1].check_tx.code).toBe(0)
 
-    let stake1 = await client.queryDelegation(
+    let stake1 = await client.getDelegation(
       lcdClientMock.addresses[0],
       lcdClientMock.validators[1]
     )
     expect(stake1.shares).toMatchSnapshot()
 
-    let stake2 = await client.queryDelegation(
+    let stake2 = await client.getDelegation(
       lcdClientMock.addresses[0],
       lcdClientMock.validators[0]
     )
@@ -752,7 +752,7 @@ describe(`LCD Client Mock`, () => {
         }
       ]
     })
-    let undelegations = await client.queryUnbonding(
+    let undelegations = await client.getUnbondingDelegation(
       lcdClientMock.addresses[0],
       lcdClientMock.validators[0]
     )
@@ -775,7 +775,7 @@ describe(`LCD Client Mock`, () => {
         }
       ]
     })
-    let undelegations = await client.queryUnbonding(
+    let undelegations = await client.getUnbondingDelegation(
       lcdClientMock.addresses[0],
       lcdClientMock.validators[0]
     )
@@ -1300,7 +1300,7 @@ describe(`LCD Client Mock`, () => {
     describe(`Votes`, () => {
       it(`queries a proposal votes`, async () => {
         let { votes } = lcdClientMock.state
-        let votesRes = await client.queryProposalVotes(`1`)
+        let votesRes = await client.getProposalVotes(`1`)
         expect(votesRes).toBeDefined()
         expect(votesRes).toEqual(votes[`1`])
       })

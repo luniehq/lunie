@@ -21,7 +21,7 @@ export default ({ node }) => {
       if (!rootState.connection.connected) return
 
       try {
-        let deposits = await node.queryProposalDeposits(proposalId)
+        let deposits = await node.getProposalDeposits(proposalId)
         state.error = null
         state.loading = false
         state.loaded = true
@@ -43,7 +43,7 @@ export default ({ node }) => {
       { proposal_id, amount, password }
     ) {
       await dispatch(`sendTx`, {
-        type: `submitProposalDeposit`,
+        type: `postProposalDeposit`,
         to: proposal_id,
         proposal_id,
         depositor: wallet.address,

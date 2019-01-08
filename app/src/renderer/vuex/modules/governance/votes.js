@@ -21,7 +21,7 @@ export default ({ node }) => {
       if (!rootState.connection.connected) return
 
       try {
-        let votes = await node.queryProposalVotes(proposalId)
+        let votes = await node.getProposalVotes(proposalId)
         commit(`setProposalVotes`, { proposalId, votes })
         state.error = null
         state.loading = false
@@ -41,7 +41,7 @@ export default ({ node }) => {
     ) {
       await dispatch(`sendTx`, {
         to: proposal_id,
-        type: `submitProposalVote`,
+        type: `postProposalVote`,
         proposal_id,
         voter: rootState.wallet.address,
         option,

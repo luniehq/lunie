@@ -28,8 +28,7 @@ describe(`Module: Deposits`, () => {
   it(`fetches all deposits from a proposal`, async () => {
     module = depositsModule({
       node: {
-        queryProposalDeposits: proposalId =>
-          Promise.resolve(deposits[proposalId])
+        getProposalDeposits: proposalId => Promise.resolve(deposits[proposalId])
       }
     })
     let { actions, state } = module
@@ -69,7 +68,7 @@ describe(`Module: Deposits`, () => {
       expect(dispatch.mock.calls[i]).toEqual([
         `sendTx`,
         {
-          type: `submitProposalDeposit`,
+          type: `postProposalDeposit`,
           to: proposal_id,
           proposal_id,
           depositor: addresses[0],
@@ -88,7 +87,7 @@ describe(`Module: Deposits`, () => {
   it(`should store an error if failed to load deposits`, async () => {
     module = depositsModule({
       node: {
-        queryProposalDeposits: () => Promise.reject(new Error(`Error`))
+        getProposalDeposits: () => Promise.reject(new Error(`Error`))
       }
     })
     let { actions, state } = module

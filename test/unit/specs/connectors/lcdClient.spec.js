@@ -273,7 +273,7 @@ describe(`LCD Client`, () => {
             }
           })
         )
-        await client.queryDelegation(`abc`, `efg`)
+        await client.getDelegation(`abc`, `efg`)
 
         expect(axios.mock.calls).toEqual([
           [
@@ -387,7 +387,7 @@ describe(`LCD Client`, () => {
 
       it(`queries for undelegations between a delegator and a validator`, async () => {
         axios.mockReturnValue({})
-        await client.queryUnbonding(`abc`, `def`)
+        await client.getUnbondingDelegation(`abc`, `def`)
 
         expect(axios.mock.calls).toEqual([
           [
@@ -402,7 +402,7 @@ describe(`LCD Client`, () => {
 
       it(`queries for a validator`, async () => {
         axios.mockReturnValue({})
-        await client.getCandidate(`abc`)
+        await client.getValidator(`abc`)
 
         expect(axios.mock.calls).toEqual([
           [
@@ -464,7 +464,7 @@ describe(`LCD Client`, () => {
     describe(`Governance`, () => {
       it(`fetches all governance proposals`, async () => {
         axios.mockReturnValue({})
-        await client.queryProposals()
+        await client.getProposals()
 
         expect(axios.mock.calls).toEqual([
           [
@@ -479,7 +479,7 @@ describe(`LCD Client`, () => {
 
       it(`queries a single proposal`, async () => {
         axios.mockReturnValue({})
-        await client.queryProposal(`1`)
+        await client.getProposal(`1`)
 
         expect(axios.mock.calls).toEqual([
           [
@@ -509,7 +509,7 @@ describe(`LCD Client`, () => {
 
       it(`queries a proposal votes`, async () => {
         axios.mockReturnValue({})
-        await client.queryProposalVotes(`1`)
+        await client.getProposalVotes(`1`)
 
         expect(axios.mock.calls).toEqual([
           [
@@ -524,7 +524,7 @@ describe(`LCD Client`, () => {
 
       it(`queries a proposal vote from an address`, async () => {
         axios.mockReturnValue({})
-        await client.queryProposalVote(
+        await client.getProposalVote(
           `1`,
           `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
         )
@@ -542,7 +542,7 @@ describe(`LCD Client`, () => {
 
       it(`queries a proposal deposits`, async () => {
         axios.mockReturnValue({})
-        await client.queryProposalDeposits(`1`)
+        await client.getProposalDeposits(`1`)
 
         expect(axios.mock.calls).toEqual([
           [
@@ -557,7 +557,7 @@ describe(`LCD Client`, () => {
 
       it(`queries a proposal deposit from an address`, async () => {
         axios.mockReturnValue({})
-        await client.queryProposalDeposit(
+        await client.getProposalDeposit(
           `1`,
           `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
         )
