@@ -194,7 +194,7 @@ export default ({ node }) => {
         to: wallet.address, // TODO strange syntax
         delegations: mappedDelegations,
         begin_unbondings: mappedUnbondings,
-        begin_revalidators: mappedRedelegations,
+        begin_redelegates: mappedRedelegations,
         password
       })
 

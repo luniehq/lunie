@@ -44,9 +44,9 @@ describe(`TableValidators`, () => {
   })
 
   it(`should filter the delegates`, () => {
-    store.commit(`setSearchVisible`, [`delegates`, true])
+    store.commit(`setSearchVisible`, [`validators`, true])
     store.commit(`setSearchQuery`, [
-      `delegates`,
+      `validators`,
       lcdClientMock.validators[2].substr(20, 26)
     ])
     expect(
@@ -54,7 +54,7 @@ describe(`TableValidators`, () => {
     ).toEqual([lcdClientMock.validators[2]])
     expect(wrapper.vm.$el).toMatchSnapshot()
     store.commit(`setSearchQuery`, [
-      `delegates`,
+      `validators`,
       lcdClientMock.validators[1].substr(20, 26)
     ])
     expect(
@@ -80,7 +80,7 @@ describe(`TableValidators`, () => {
       })
 
       expect($store.commit.mock.calls).toEqual([
-        [`setSearchVisible`, [`delegates`, true]]
+        [`setSearchVisible`, [`validators`, true]]
       ])
     })
 

@@ -74,7 +74,7 @@ export default {
   },
   data: () => ({ num }),
   computed: {
-    ...mapGetters([`delegates`, `committedDelegations`]),
+    ...mapGetters([`validators`, `committedDelegations`]),
     commission() {
       return `${this.num.pretty(this.validator.commission.rate)}%`
     },

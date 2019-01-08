@@ -3,9 +3,9 @@
     <tm-data-connecting v-if="!delegates.loaded && !connected" />
     <tm-data-loading v-else-if="!delegates.loaded && delegates.loading" />
     <tm-data-empty
-      v-else-if="delegates.loaded && delegates.delegates.length === 0"
+      v-else-if="delegates.loaded && validators.validators.length === 0"
     />
-    <table-validators v-else :validators="delegates.delegates" />
+    <table-validators v-else :validators="validators.validators" />
   </div>
 </template>
 
@@ -25,7 +25,7 @@ export default {
     TmDataConnecting
   },
   computed: {
-    ...mapGetters([`delegates`, `connected`])
+    ...mapGetters([`validators`, `connected`])
   }
 }
 </script>

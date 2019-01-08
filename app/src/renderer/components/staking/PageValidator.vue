@@ -245,7 +245,7 @@ export default {
   computed: {
     ...mapGetters([
       `bondDenom`,
-      `delegates`,
+      `validators`,
       `delegation`,
       `committedDelegations`,
       `config`,
@@ -256,7 +256,7 @@ export default {
       `connected`
     ]),
     validator() {
-      let validator = this.delegates.delegates.find(
+      let validator = this.validators.validators.find(
         v => this.$route.params.validator === v.operator_address
       )
       if (validator)
@@ -369,7 +369,7 @@ export default {
         txBody = `redelegated`
         txAction = `redelegating`
 
-        let validatorFrom = this.delegates.delegates.find(
+        let validatorFrom = this.validators.validators.find(
           v => from === v.operator_address
         )
 
@@ -445,7 +445,7 @@ export default {
       let redelegationOptions = bondedValidators
         .filter(address => address != this.$route.params.validator)
         .map((address, index) => {
-          let delegate = this.delegates.delegates.find(function(validator) {
+          let delegate = this.validators.validators.find(function(validator) {
             return validator.operator_address === address
           })
           return {

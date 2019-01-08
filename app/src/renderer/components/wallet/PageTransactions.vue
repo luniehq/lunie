@@ -28,7 +28,7 @@
       v-else
     >
       <tm-li-any-transaction
-        :validators="delegates.delegates"
+        :validators="validators.validators"
         :validators-url="validatorURL"
         :proposals-url="proposalsURL"
         :key="tx.hash"
@@ -92,7 +92,7 @@ export default {
       `wallet`,
       `bondDenom`,
       `delegation`,
-      `delegates`,
+      `validators`,
       `connected`
     ]),
     somethingToSearch() {

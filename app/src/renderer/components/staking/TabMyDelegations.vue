@@ -87,7 +87,7 @@ export default {
   computed: {
     ...mapGetters([
       `allTransactions`,
-      `delegates`,
+      `validators`,
       `delegation`,
       `committedDelegations`,
       `bondDenom`,

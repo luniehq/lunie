@@ -33,12 +33,10 @@ export const totalAtoms = (state, getters) => {
 }
 export const oldBondedAtoms = (state, getters) => {
   let totalOldBondedAtoms = new BN(0)
-  Object.keys(getters.delegation.committedDelegates).forEach(
+  Object.keys(getters.delegation.committedValidators).forEach(
     delegatorAddress => {
-      let shares = getters.delegation.committedDelegates[delegatorAddress]
-      let delegator = getters.delegates.delegates.find(
-        d => d.id === delegatorAddress
-      )
+      let shares = getters.delegation.committedValidators[delegatorAddress]
+      let delegator = getters.validators.find(d => d.id === delegatorAddress)
       if (!delegator) {
         return
       }
@@ -58,10 +56,11 @@ export const oldUnbondingAtoms = (state, getters) => {
     0
   )
 }
-export const committedDelegations = state => state.delegation.committedDelegates
-export const delegates = state => state.delegates
-export const shoppingCart = state => state.delegation.delegates
+export const committedDelegations = state =>
+  state.delegation.committedValidators
+export const shoppingCart = state => state.delegation.validators
 export const validators = state => state.validators.validators
+export const validatorSet = state => state.validators.validatorSet
 export const keybase = state => state.keybase.identities
 export const pool = state => state.pool
 export const stakingParameters = state => state.stakingParameters

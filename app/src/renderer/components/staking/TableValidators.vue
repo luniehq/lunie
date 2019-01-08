@@ -55,7 +55,7 @@ export default {
   }),
   computed: {
     ...mapGetters([
-      `delegates`,
+      `validators`,
       `delegation`,
       `filters`,
       `committedDelegations`,
@@ -182,11 +182,11 @@ export default {
       this.$store.dispatch(`updateDelegates`)
     },
     setSearch(
-      bool = !this.filters[`delegates`].search.visible,
+      bool = !this.filters[`validators`].search.visible,
       { somethingToSearch, $store } = this
     ) {
       if (somethingToSearch) {
-        $store.commit(`setSearchVisible`, [`delegates`, bool])
+        $store.commit(`setSearchVisible`, [`validators`, bool])
       }
     }
   }

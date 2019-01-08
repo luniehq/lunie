@@ -52,7 +52,7 @@ export default {
     ]
   }),
   computed: {
-    ...mapGetters([`connected`, `delegates`, `filters`])
+    ...mapGetters([`connected`, `validators`, `filters`])
   },
   mounted() {
     this.ps = new PerfectScrollbar(this.$el.querySelector(`.tm-page-main`))
@@ -67,8 +67,8 @@ export default {
     this.$el.querySelector(`.tm-page-main`).scrollTop = 0
   },
   methods: {
-    setSearch(bool = !this.filters[`delegates`].search.visible) {
-      this.$store.commit(`setSearchVisible`, [`delegates`, bool])
+    setSearch(bool = !this.filters[`validators`].search.visible) {
+      this.$store.commit(`setSearchVisible`, [`validators`, bool])
     },
     ...mapActions([`updateDelegates`])
   }

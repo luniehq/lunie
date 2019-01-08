@@ -29,7 +29,7 @@ describe(`Module: Filters`, () => {
   it(`can set a search type's query`, () => {
     expect(state.delegates.search.query).toBe(``)
 
-    store.commit(`setSearchQuery`, [`delegates`, `validator1`])
+    store.commit(`setSearchQuery`, [`validators`, `validator1`])
     expect(state.delegates.search.query).toBe(`validator1`)
     expect(state.proposals.search.query).toBe(``)
   })
