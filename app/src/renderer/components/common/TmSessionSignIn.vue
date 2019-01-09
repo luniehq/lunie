@@ -104,11 +104,11 @@ export default {
     async onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return
-      let passwordCorrect = await this.$store.dispatch(`testLogin`, {
+      let sessionCorrect = await this.$store.dispatch(`testLogin`, {
         password: this.fields.signInPassword,
         account: this.fields.signInName
       })
-      if (passwordCorrect) {
+      if (sessionCorrect) {
         this.$store.dispatch(`signIn`, {
           password: this.fields.signInPassword,
           account: this.fields.signInName
@@ -119,7 +119,7 @@ export default {
       } else {
         this.$store.commit(`notifyError`, {
           title: `Signing In Failed`,
-          body: `The provided password is wrong.`
+          body: `The provided username or password is wrong.`
         })
       }
     },
