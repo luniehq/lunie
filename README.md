@@ -13,12 +13,6 @@
 
 <!-- 🎉 Binary releases are [available here](https://github.com/cosmos/voyager/releases). After downloading and untar/unzip-ing, navigate to the source directory and click on the `Cosmos Voyager` icon to launch Voyager. -->
 
-<!-- Comment the section below once we support a default testnet -->
-
-## ⚠️ NO ACTIVE TESTNET ⚠️
-
-**NOTE:** Currently there is no active testnet. You have to [install Voyager dependencies](#voyager-dependencies) and then run a [local testnet](#local-testnet) to test Voyager out. This is only recommended for developers.
-
 ## Voyager Dependencies
 
 Install the following dependencies if you wish to run voyager on developer mode or [contribute](https://github.com/cosmos/voyager/blob/develop/CONTRIBUTING.md).
