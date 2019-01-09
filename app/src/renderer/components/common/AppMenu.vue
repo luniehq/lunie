@@ -13,7 +13,6 @@
         <i class="material-icons">chevron_right</i>
       </router-link>
       <router-link
-        v-if="config.devMode || mockedConnector"
         id="app-menu__transactions"
         class="app-menu-item"
         to="/transactions"
