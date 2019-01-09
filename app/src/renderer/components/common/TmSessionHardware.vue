@@ -13,14 +13,14 @@
           v-if="status == 'connect'"
           icon="usb"
           value="Please plug in your Ledger Wallet"
-          @click.native="setStatus('detect')"
+          @click.native="connectLedger()"
         />
         <hardware-state
           v-if="status == 'detect'"
           :spin="true"
           icon="rotate_right"
           value="Detecting your Ledger Wallet"
-          @click.native="setStatus('success')"
+          @click.native="setStatus('connect')"
         />
         <hardware-state
           v-if="status == 'success'"
@@ -36,6 +36,10 @@
 
 <script>
 import HardwareState from "common/TmHardwareState"
+import { App, comm_u2f, comm_node } from "ledger-cosmos-js"
+
+const TIMEOUT = 2
+
 export default {
   name: `tm-session-hardware`,
   components: { HardwareState },
@@ -49,6 +53,21 @@ export default {
     },
     setStatus(value) {
       this.status = value
+    },
+    connectLedger() {
+      this.setStatus(`detect`)
+      try {
+        comm_u2f.create_async(TIMEOUT, true).then(function(comm) {
+          let app = new App(comm)
+          return app.get_version().then(function(version) {
+            console.log(version)
+            this.setStatus(`success`)
+            return version
+          })
+        })
+      } catch (error) {
+        console.error(error)
+      }
     },
     onSubmit() {
       this.$store.commit(`setModalSession`, false)
