@@ -230,41 +230,12 @@ describe(`Module: Connection`, () => {
     expect(store.state.connection.approvalRequired).toBe(`abc`)
   })
 
-  it(`should send approval of node hash`, () => {
-    let { ipcRenderer } = require(`electron`)
-    let spy = jest.spyOn(ipcRenderer, `send`)
-
-    store.dispatch(`approveNodeHash`, `abc`)
-
-    expect(spy).toHaveBeenCalledWith(`hash-approved`, `abc`)
-    expect(store.state.connection.approvalRequired).toBe(null)
-  })
-
-  it(`should send disapproval of node hash`, () => {
-    let { ipcRenderer } = require(`electron`)
-    let spy = jest.spyOn(ipcRenderer, `send`)
-
-    store.dispatch(`disapproveNodeHash`, `abc`)
-
-    expect(spy).toHaveBeenCalledWith(`hash-disapproved`, `abc`)
-    expect(store.state.connection.approvalRequired).toBe(null)
-  })
-
   it(`should switch to the mocked node implemenation`, () => {
     let spy = jest.spyOn(node, `setup`)
 
     store.dispatch(`setMockedConnector`, true)
 
     expect(spy).toHaveBeenCalledWith(true)
-  })
-
-  it(`should stop the lcd if in mocked mode`, () => {
-    let { ipcRenderer } = require(`electron`)
-    let spy = jest.spyOn(ipcRenderer, `send`)
-
-    store.dispatch(`setMockedConnector`, true)
-
-    expect(spy).toHaveBeenCalledWith(`stop-lcd`)
   })
 
   it(`should log the user out if switched to live mode`, () => {

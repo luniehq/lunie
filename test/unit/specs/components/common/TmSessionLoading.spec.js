@@ -5,11 +5,6 @@ describe(`TmSessionLoading`, () => {
   let wrapper
 
   beforeEach(() => {
-    require(`electron`).ipcRenderer.on = (event, cb) => {
-      if (event === `connection-status`) {
-        cb(null, `HALLO WORLD`)
-      }
-    }
     wrapper = mount(TmSessionLoading)
   })
 

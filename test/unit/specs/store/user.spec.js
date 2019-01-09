@@ -207,26 +207,6 @@ describe(`Module: User`, () => {
 
   it(`should not set error collection if in development mode`, async () => {
     const Sentry = require(`@sentry/browser`)
-    jest.doMock(`electron`, () => ({
-      ipcRenderer: { send: jest.fn() },
-      remote: {
-        getGlobal(name) {
-          if (name === `config`)
-            return {
-              development: true
-            }
-        }
-      }
-    }))
-
-    // we need to force resetting of the store modules to enable the new electron mock
-    jest.resetModules()
-    let setup = require(`../../helpers/vuex-setup`).default
-    let instance = setup()
-    let test = instance.shallow()
-    store = test.store
-    node = test.node
-
     Sentry.init.mockClear()
     store.dispatch(`setErrorCollection`, { account: `abc`, optin: true })
     expect(store.state.user.errorCollection).toBe(false)

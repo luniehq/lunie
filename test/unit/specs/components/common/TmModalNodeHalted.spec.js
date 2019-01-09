@@ -16,16 +16,6 @@ describe(`TmModalNodeHalted`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`send a connection retry event`, () => {
-    let { ipcRenderer } = require(`electron`)
-    wrapper.vm.switchNode()
-    let spy = jest.spyOn(ipcRenderer, `send`)
-    expect(spy).toHaveBeenCalledWith(`reconnect`)
-
-    // also closing the modal
-    expect(store.state.config.modals.nodeHalted.active).toBe(false)
-  })
-
   it(`switches to a mock connection`, () => {
     wrapper.vm.useMock()
 

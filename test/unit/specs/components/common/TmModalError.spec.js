@@ -7,17 +7,6 @@ localVue.use(Vuex)
 localVue.directive(`tooltip`, () => {})
 localVue.directive(`focus`, () => {})
 
-jest.mock(`electron`, () => ({
-  remote: {
-    getGlobal: () => {
-      return `$HOME/.cosmos-voyager-dev`
-    }
-  },
-  shell: {
-    openItem: jest.fn()
-  }
-}))
-
 describe(`TmModalError`, () => {
   let wrapper
   let store = new Vuex.Store({

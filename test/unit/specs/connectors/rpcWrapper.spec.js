@@ -17,7 +17,6 @@ describe(`RPC Connector`, () => {
       removeAllListeners() {},
       ws: { destroy() {} }
     }))
-    jest.mock(`electron`, () => ({ ipcRenderer: { send: () => jest.fn() } }))
 
     newConnector()
   })

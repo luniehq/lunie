@@ -185,7 +185,7 @@ describe(`LCD Client`, () => {
     let client
 
     beforeEach(() => {
-      axios = jest.fn()
+      axios = jest.fn(() => new Promise())
       client = LcdClient(axios, `http://localhost`, `http://remotehost`)
     })
 
