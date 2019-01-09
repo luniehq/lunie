@@ -1,49 +1,41 @@
-// require the plugin
-// import { SecureStorage } from "nativescript-secure-storage"
-// instantiate the plugin
-// let secureStorage = new SecureStorage()
 let CryptoJS = require(`crypto-js`)
 let AES = require(`crypto-js/aes`)
 
 import { generateWallet, generateWalletFromSeed } from "./wallet.js"
 
-export async function storeKeyNames(keys) {
-  // async
+export async function storeKeys(keys) {
   await localStorage.setItem(`keys`, JSON.stringify(keys))
 }
-export async function loadKeyNames() {
+export async function loadKeys() {
   return JSON.parse((await localStorage.getItem(`keys`)) || `[]`)
 }
 
-async function storeKey(wallet, name, password) {
+async function addKey(wallet, name, password) {
+  let keys = await loadKeys()
+
   let ciphertext = AES.encrypt(JSON.stringify(wallet), password).toString()
-  await localStorage.setItem(`key_` + name, ciphertext)
+
+  keys.push({
+    name,
+    address: wallet.cosmosAddress,
+    wallet: ciphertext
+  })
+
+  await localStorage.setItem(`keys`, JSON.stringify(keys))
 }
 
 export async function testPassword(name, password) {
-  const key = localStorage.getItem(`key_` + name)
+  let keys = await loadKeys()
+
+  const key = keys.find(key => key.name === name)
   try {
-    AES.decrypt(key, password)
+    AES.decrypt(key.wallet, password)
     return true
   } catch (err) {
     return false
   }
-  // const originalText = bytes.toString(CryptoJS.enc.Utf8);
-  // return JSON.parse(originalText);
 }
-export async function addKey(name, password, wallet) {
-  let keys = await loadKeyNames()
 
-  keys.push({
-    name,
-    address: wallet.cosmosAddress
-  })
-  await storeKeyNames(keys)
-
-  await storeKey(wallet, name, password)
-
-  return wallet
-}
 export async function addNewKey(name, password) {
   const wallet = generateWallet(CryptoJS.lib.WordArray.random)
   await addKey(name, password, wallet)

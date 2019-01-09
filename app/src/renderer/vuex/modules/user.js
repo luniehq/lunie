@@ -1,11 +1,7 @@
 import * as Sentry from "@sentry/browser"
 import addGoogleAnalytics from "../../google-analytics.js"
 const config = require(`../../../config.json`)
-import {
-  loadKeyNames,
-  importKey,
-  testPassword
-} from "../../../helpers/keystore.js"
+import { loadKeys, importKey, testPassword } from "../../../helpers/keystore.js"
 import { generateSeed } from "../../../helpers/wallet.js"
 import CryptoJS from "crypto-js"
 
@@ -68,7 +64,7 @@ export default ({ node }) => {
     async loadAccounts({ commit, state }) {
       state.loading = true
       try {
-        let keys = await loadKeyNames()
+        let keys = await loadKeys()
         commit(`setAccounts`, keys)
       } catch (error) {
         Sentry.captureException(error)
@@ -100,7 +96,7 @@ export default ({ node }) => {
       state.account = account
       state.signedIn = true
 
-      let keys = await loadKeyNames()
+      let keys = await loadKeys()
       let { address } = keys.find(({ name }) => name === account)
 
       state.address = address
