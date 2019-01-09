@@ -52,10 +52,6 @@ module.exports = function setRPCWrapperMock(container) {
       state.connected = true
       rpcWrapper.rpcInfo.connected = true
       container.rpc = RpcClientMock
-    },
-    rpcReconnect: async () => {
-      rpcWrapper.rpcConnect()
-      return `127.0.0.1`
     }
   }
 

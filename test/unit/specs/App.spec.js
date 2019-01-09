@@ -193,7 +193,6 @@ describe(`App Start`, () => {
         status: () => {}
       },
       rpcConnect: () => {},
-      rpcReconnect: () => {},
       lcdConnected: () => Promise.resolve(false),
       keys: {
         values: () => []

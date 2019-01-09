@@ -15,19 +15,12 @@
 </template>
 
 <script>
-// import { remote, ipcRenderer } from "electron"
-// const config = remote.getGlobal(`config`)
 export default {
   name: `tm-session-loading`,
   data: () => ({
-    config: {}, // TODO
+    config: require(`../../../config.json`),
     message: ``
-  }),
-  mounted: function() {
-    // ipcRenderer.on(`connection-status`, (event, message) => {
-    //   this.message = message
-    // })
-  }
+  })
 }
 </script>
 <style>

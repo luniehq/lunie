@@ -32,14 +32,12 @@
 </template>
 
 <script>
-// import { ipcRenderer } from "electron"
 import TmBtn from "common/TmBtn"
 export default {
   name: `modal-node-halted`,
   components: { TmBtn },
   methods: {
     switchNode() {
-      // ipcRenderer.send(`reconnect`)
       this.$store.dispatch(`reconnect`)
       this.$store.commit(`setModalNodeHalted`, false)
     },

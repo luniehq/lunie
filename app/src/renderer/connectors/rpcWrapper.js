@@ -47,14 +47,6 @@ module.exports = function setRpcWrapper(container) {
 
       container.rpc = newRpc
       rpcWrapper.rpcInfo.connecting = false
-    },
-    rpcReconnect: (alreadyConnecting = rpcWrapper.rpcInfo.connecting) => {
-      if (alreadyConnecting) return
-      rpcWrapper.rpcInfo.connecting = true
-
-      console.log(`trying to reconnect`)
-
-      // ipcRenderer.send(`reconnect`) // TODO
     }
   }
 

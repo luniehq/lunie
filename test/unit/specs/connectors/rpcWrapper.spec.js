@@ -66,29 +66,4 @@ describe(`RPC Connector`, () => {
     expect(spyListeners).toHaveBeenCalledWith(`error`)
     expect(spyDestroy).toHaveBeenCalled()
   })
-
-  describe(`reconnect`, () => {
-    beforeEach(() => {
-      jest.mock(`tendermint`, () => () => ({
-        on() {},
-        removeAllListeners() {},
-        ws: { destroy() {} }
-      }))
-    })
-
-    it(`should signal a reconnect intent to the main thread`, async () => {
-      const { ipcRenderer } = require(`electron`)
-      ipcRenderer.send = jest.fn()
-      connector.rpcReconnect()
-      expect(ipcRenderer.send).toHaveBeenCalledWith(`reconnect`)
-    })
-
-    it(`should not reconnect again if already reconnecting`, async () => {
-      const { ipcRenderer } = require(`electron`)
-      ipcRenderer.send = jest.fn()
-      connector.rpcReconnect()
-      connector.rpcReconnect()
-      expect(ipcRenderer.send).toHaveBeenCalledTimes(1)
-    })
-  })
 })

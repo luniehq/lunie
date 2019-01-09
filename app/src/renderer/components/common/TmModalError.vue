@@ -16,22 +16,12 @@
           value="Create an issue"
           type="anchor"
         />
-        <!--
-          <tm-btn
-            id="tm-modal-error__btn-logs"
-            size="lg"
-            icon="info_outline"
-            value="View app logs"
-            @click.native="viewLogs"
-          />
-        -->
       </div>
     </div>
   </div>
 </template>
 
 <script>
-// import { remote, shell } from "electron"
 import { mapGetters } from "vuex"
 import TmBtn from "common/TmBtn"
 export default {
@@ -57,15 +47,7 @@ export default {
   }),
   computed: {
     ...mapGetters([`config`, `lastHeader`])
-  },
-  mounted() {
-    // this.logPath = remote.getGlobal(`root`) + `/main.log`
   }
-  // methods: {
-  //   viewLogs() {
-  //     shell.openItem(this.logPath)
-  //   }
-  // }
 }
 </script>
 

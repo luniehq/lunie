@@ -1,12 +1,10 @@
 "use strict"
 
 import Vue from "vue"
-// import Electron from "vue-electron"
 import Router from "vue-router"
 import Tooltip from "vue-directive-tooltip"
 import Vuelidate from "vuelidate"
 import * as Sentry from "@sentry/browser"
-// import { ipcRenderer, remote } from "electron"
 
 import App from "./App"
 import routes from "./routes"
@@ -15,7 +13,6 @@ import Store from "./vuex/store"
 import axios from "axios"
 import { sleep } from "./scripts/common"
 
-// const config = remote.getGlobal(`config`)
 const config = require(`../../src/config.json`)
 
 // exporting this for testing
@@ -39,29 +36,6 @@ window.addEventListener(`error`, function(event) {
   Sentry.captureException(event.reason)
 })
 
-// Vue.config.errorHandler = (error, vm, info) => {
-//   console.error(`An error has occurred: ${error}
-
-// Guru Meditation #${info}`)
-
-//   Sentry.captureException(error)
-
-//   if (store.state.devMode) {
-//     throw error
-//   }
-// }
-
-// Vue.config.warnHandler = (msg, vm, trace) => {
-//   console.warn(`A warning has occurred: ${msg}
-
-// Guru Meditation #${trace}`)
-
-//   if (store.state.devMode) {
-//     throw new Error(msg)
-//   }
-// }
-
-// Vue.use(Electron)
 Vue.use(Router)
 Vue.use(Tooltip, { delay: 1 })
 Vue.use(Vuelidate)
@@ -94,45 +68,7 @@ async function main() {
     next()
   })
 
-  // ipcRenderer.on(`error`, (event, err) => {
-  //   switch (err.code) {
-  //     case `NO_NODES_AVAILABLE`:
-  //       store.commit(`setModalNoNodes`, true)
-  //       break
-  //     default:
-  //       store.commit(`setModalError`, true)
-  //       store.commit(`setModalErrorMessage`, err.message)
-  //   }
-  // })
-  // ipcRenderer.on(`approve-hash`, (event, hash) => {
-  //   console.log(hash)
-  //   store.commit(`setNodeApprovalRequired`, hash)
-  // })
-
-  // let firstStart = true
-  // ipcRenderer.on(`connected`, (event, { rpcURL }) => {
-  //   node.rpcConnect(rpcURL)
-  //   store.dispatch(`rpcSubscribe`)
-  //   store.dispatch(`subscribeToBlocks`)
-
-  //   if (firstStart) {
-  //     store.dispatch(`showInitialScreen`)
-
-  //     // test connection
-  //     node.lcdConnected().then(connected => {
-  //       if (connected) {
-  //         ipcRenderer.send(`successful-launch`)
-  //       }
-  //     })
-
-  //     firstStart = false
-  //   } else {
-  //     store.dispatch(`reconnected`)
-  //   }
-  // })
-
-  // ipcRenderer.send(`booted`)
-
+  // wait until backend was reached to connect
   new Promise(async () => {
     while (true) {
       try {

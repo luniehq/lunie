@@ -89,7 +89,6 @@ let rendererConfig = {
   ],
   output: {
     filename: `[name].js`,
-    // libraryTarget: `commonjs2`,
     path: path.join(__dirname, `app/dist`)
   },
   resolve: {
@@ -113,15 +112,12 @@ let rendererConfig = {
   devServer: {
     contentBase: [path.join(__dirname, `app/dist`), path.join(__dirname, `app`)]
   }
-  // target: `electron-renderer`
 }
 
 /**
  * Adjust rendererConfig for production settings
  */
 if (process.env.NODE_ENV === `production`) {
-  rendererConfig.devtool = ``
-
   rendererConfig.plugins.push(
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": `"production"`
