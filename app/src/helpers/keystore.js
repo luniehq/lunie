@@ -13,6 +13,9 @@ export async function loadKeys() {
 async function addKey(wallet, name, password) {
   let keys = await loadKeys()
 
+  if (keys.find(key => key.name === name))
+    throw new Error(`Key with that name already exists`)
+
   let ciphertext = AES.encrypt(JSON.stringify(wallet), password).toString()
 
   keys.push({
@@ -38,13 +41,13 @@ export async function testPassword(name, password) {
 
 export async function addNewKey(name, password) {
   const wallet = generateWallet(CryptoJS.lib.WordArray.random)
-  await addKey(name, password, wallet)
+  await addKey(wallet, name, password)
 
   return wallet
 }
 export async function importKey(name, password, seed) {
   const wallet = generateWalletFromSeed(seed)
-  await addKey(name, password, wallet)
+  await addKey(wallet, name, password)
 
   return wallet
 }
