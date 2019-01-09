@@ -1,6 +1,7 @@
 .DS_Store
 app/dist
 builds/*
+task/builds/*
 coverage
 node_modules
 npm-debug.log
@@ -13,3 +14,5 @@ yarn-error.log
 testArtifacts/*
 app/networks/local-testnet/*
 .idea/*
+*.crt
+*.key

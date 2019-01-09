@@ -15,7 +15,9 @@ exports[`PageWallet has the expected html structure 1`] = `
         class="tm-page-header-text"
       >
         <!---->
+         
         <!---->
+         
         <div
           class="tm-page-header-body"
         >
@@ -38,10 +40,12 @@ exports[`PageWallet has the expected html structure 1`] = `
                 class="total-atoms top-section"
               >
                 <h3>
-                  Total Steak
+                  Total STAKE
                 </h3>
                  
-                <h2>
+                <h2
+                  class="total-atoms__value"
+                >
                   1,014.0000…
                 </h2>
               </div>
@@ -50,7 +54,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 class="unbonded-atoms top-section"
               >
                 <h3>
-                  Available Steak
+                  Available STAKE
                 </h3>
                  
                 <h2>
@@ -130,17 +134,16 @@ exports[`PageWallet has the expected html structure 1`] = `
               </i>
             </a>
              
-            <a
-              class=""
-              href="#/preferences"
+            <router-link-stub
               id="settings"
+              to="/preferences"
             >
               <i
                 class="material-icons"
               >
                 settings
               </i>
-            </a>
+            </router-link-stub>
             <a
               id="signOut-btn"
             >
@@ -153,6 +156,7 @@ exports[`PageWallet has the expected html structure 1`] = `
           </div>
         </div>
       </div>
+       
       <menu
         class="tm-page-header-menu"
       >
@@ -160,11 +164,12 @@ exports[`PageWallet has the expected html structure 1`] = `
       </menu>
     </div>
   </header>
+   
   <main
-    class="tm-page-main ps"
+    class="tm-page-main"
   >
      
-    <modal-search
+    <modal-search-stub
       type="balances"
     />
      
@@ -176,7 +181,7 @@ exports[`PageWallet has the expected html structure 1`] = `
           class="li-coin__icon"
         >
           <img
-            src="../../assets/images/cosmos-logo.png"
+            src="~assets/images/cosmos-logo.png"
           />
         </div>
          
@@ -203,9 +208,8 @@ exports[`PageWallet has the expected html structure 1`] = `
             </p>
           </div>
            
-          <a
-            class=""
-            href="#/wallet/send/fermion"
+          <router-link-stub
+            to="[object Object]"
           >
             <button
               class="tm-btn sendTx-btn"
@@ -219,7 +223,6 @@ exports[`PageWallet has the expected html structure 1`] = `
                 >
                   chevron_right
                 </i>
-                <!---->
                 <span
                   class="tm-btn__value"
                 >
@@ -227,7 +230,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 </span>
               </span>
             </button>
-          </a>
+          </router-link-stub>
         </div>
       </li>
       <li
@@ -237,7 +240,66 @@ exports[`PageWallet has the expected html structure 1`] = `
           class="li-coin__icon"
         >
           <img
-            src="../../assets/images/cosmos-logo.png"
+            src="~assets/images/cosmos-logo.png"
+          />
+        </div>
+         
+        <div
+          class="li-coin__content"
+        >
+          <div
+            class="li-coin__content__left__denom"
+          >
+            <p
+              class="coin-denom"
+            >
+              Stake
+            </p>
+          </div>
+           
+          <div
+            class="li-coin__content__left__amount"
+          >
+            <p
+              class="coin-amount"
+            >
+              1,000.0000000000
+            </p>
+          </div>
+           
+          <router-link-stub
+            to="[object Object]"
+          >
+            <button
+              class="tm-btn sendTx-btn"
+            >
+              <span
+                class="tm-btn__container tm-btn__icon-right tm-btn--primary"
+              >
+                <i
+                  aria-hidden="true"
+                  class="tm-btn__icon material-icons"
+                >
+                  chevron_right
+                </i>
+                <span
+                  class="tm-btn__value"
+                >
+                  Send
+                </span>
+              </span>
+            </button>
+          </router-link-stub>
+        </div>
+      </li>
+      <li
+        class="li-coin tm-li-balance"
+      >
+        <div
+          class="li-coin__icon"
+        >
+          <img
+            src="~assets/images/cosmos-logo.png"
           />
         </div>
          
@@ -264,9 +326,8 @@ exports[`PageWallet has the expected html structure 1`] = `
             </p>
           </div>
            
-          <a
-            class=""
-            href="#/wallet/send/mycoin"
+          <router-link-stub
+            to="[object Object]"
           >
             <button
               class="tm-btn sendTx-btn"
@@ -280,7 +341,6 @@ exports[`PageWallet has the expected html structure 1`] = `
                 >
                   chevron_right
                 </i>
-                <!---->
                 <span
                   class="tm-btn__value"
                 >
@@ -288,91 +348,11 @@ exports[`PageWallet has the expected html structure 1`] = `
                 </span>
               </span>
             </button>
-          </a>
+          </router-link-stub>
         </div>
       </li>
-      <li
-        class="li-coin tm-li-balance"
-      >
-        <div
-          class="li-coin__icon"
-        >
-          <img
-            src="../../assets/images/cosmos-logo.png"
-          />
-        </div>
-         
-        <div
-          class="li-coin__content"
-        >
-          <div
-            class="li-coin__content__left__denom"
-          >
-            <p
-              class="coin-denom"
-            >
-              Steak
-            </p>
-          </div>
-           
-          <div
-            class="li-coin__content__left__amount"
-          >
-            <p
-              class="coin-amount"
-            >
-              1,000.0000000000
-            </p>
-          </div>
-           
-          <a
-            class=""
-            href="#/wallet/send/steak"
-          >
-            <button
-              class="tm-btn sendTx-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn__icon-right tm-btn--primary"
-              >
-                <i
-                  aria-hidden="true"
-                  class="tm-btn__icon material-icons"
-                >
-                  chevron_right
-                </i>
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Send
-                </span>
-              </span>
-            </button>
-          </a>
-        </div>
-      </li>
+      <!---->
     </ul>
-    <div
-      class="ps__rail-x"
-      style="left: 0px; top: 0px;"
-    >
-      <div
-        class="ps__thumb-x"
-        style="left: 0px; width: 0px;"
-        tabindex="0"
-      />
-    </div>
-    <div
-      class="ps__rail-y"
-      style="top: 0px; left: 0px;"
-    >
-      <div
-        class="ps__thumb-y"
-        style="top: 0px; height: 0px;"
-        tabindex="0"
-      />
-    </div>
   </main>
 </div>
 `;
@@ -392,7 +372,9 @@ exports[`PageWallet should filter the balances 1`] = `
         class="tm-page-header-text"
       >
         <!---->
+         
         <!---->
+         
         <div
           class="tm-page-header-body"
         >
@@ -415,10 +397,12 @@ exports[`PageWallet should filter the balances 1`] = `
                 class="total-atoms top-section"
               >
                 <h3>
-                  Total Steak
+                  Total STAKE
                 </h3>
                  
-                <h2>
+                <h2
+                  class="total-atoms__value"
+                >
                   1,014.0000…
                 </h2>
               </div>
@@ -427,7 +411,7 @@ exports[`PageWallet should filter the balances 1`] = `
                 class="unbonded-atoms top-section"
               >
                 <h3>
-                  Available Steak
+                  Available STAKE
                 </h3>
                  
                 <h2>
@@ -507,17 +491,16 @@ exports[`PageWallet should filter the balances 1`] = `
               </i>
             </a>
              
-            <a
-              class=""
-              href="#/preferences"
+            <router-link-stub
               id="settings"
+              to="/preferences"
             >
               <i
                 class="material-icons"
               >
                 settings
               </i>
-            </a>
+            </router-link-stub>
             <a
               id="signOut-btn"
             >
@@ -530,6 +513,7 @@ exports[`PageWallet should filter the balances 1`] = `
           </div>
         </div>
       </div>
+       
       <menu
         class="tm-page-header-menu"
       >
@@ -537,11 +521,12 @@ exports[`PageWallet should filter the balances 1`] = `
       </menu>
     </div>
   </header>
+   
   <main
-    class="tm-page-main ps"
+    class="tm-page-main"
   >
      
-    <modal-search
+    <modal-search-stub
       type="balances"
     />
      
@@ -553,7 +538,7 @@ exports[`PageWallet should filter the balances 1`] = `
           class="li-coin__icon"
         >
           <img
-            src="../../assets/images/cosmos-logo.png"
+            src="~assets/images/cosmos-logo.png"
           />
         </div>
          
@@ -566,7 +551,7 @@ exports[`PageWallet should filter the balances 1`] = `
             <p
               class="coin-denom"
             >
-              Steak
+              Stake
             </p>
           </div>
            
@@ -580,9 +565,8 @@ exports[`PageWallet should filter the balances 1`] = `
             </p>
           </div>
            
-          <a
-            class=""
-            href="#/wallet/send/steak"
+          <router-link-stub
+            to="[object Object]"
           >
             <button
               class="tm-btn sendTx-btn"
@@ -596,7 +580,6 @@ exports[`PageWallet should filter the balances 1`] = `
                 >
                   chevron_right
                 </i>
-                <!---->
                 <span
                   class="tm-btn__value"
                 >
@@ -604,30 +587,10 @@ exports[`PageWallet should filter the balances 1`] = `
                 </span>
               </span>
             </button>
-          </a>
+          </router-link-stub>
         </div>
       </li>
     </ul>
-    <div
-      class="ps__rail-x"
-      style="left: 0px; top: 0px;"
-    >
-      <div
-        class="ps__thumb-x"
-        style="left: 0px; width: 0px;"
-        tabindex="0"
-      />
-    </div>
-    <div
-      class="ps__rail-y"
-      style="top: 0px; left: 0px;"
-    >
-      <div
-        class="ps__thumb-y"
-        style="top: 0px; height: 0px;"
-        tabindex="0"
-      />
-    </div>
   </main>
 </div>
 `;

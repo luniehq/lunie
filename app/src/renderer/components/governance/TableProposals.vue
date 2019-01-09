@@ -1,7 +1,7 @@
 <template>
   <div>
     <data-empty-search v-if="filteredProposals.length === 0" />
-    <table v-else>
+    <table v-else class="data-table">
       <thead>
         <panel-sort :sort="sort" :properties="properties" />
       </thead>
@@ -24,7 +24,7 @@ import LiProposal from "./LiProposal"
 import ModalSearch from "common/TmModalSearch"
 import DataEmptySearch from "common/TmDataEmptySearch"
 import PanelSort from "staking/PanelSort"
-import VmToolBar from "common/VmToolBar"
+import ToolBar from "common/ToolBar"
 export default {
   name: `table-proposals`,
   components: {
@@ -32,11 +32,11 @@ export default {
     DataEmptySearch,
     ModalSearch,
     PanelSort,
-    VmToolBar
+    ToolBar
   },
   props: {
     proposals: {
-      type: Array,
+      type: Object,
       required: true
     }
   },
@@ -52,22 +52,10 @@ export default {
     somethingToSearch() {
       return Object.keys(this.proposals).length > 0
     },
-    parsedProposals() {
-      let copiedProposals = JSON.parse(JSON.stringify(this.proposals))
-      return Object.values(copiedProposals).map(p => {
-        p.tally_result.yes = Math.round(parseFloat(p.tally_result.yes))
-        p.tally_result.no = Math.round(parseFloat(p.tally_result.no))
-        p.tally_result.no_with_veto = Math.round(
-          parseFloat(p.tally_result.no_with_veto)
-        )
-        p.tally_result.abstain = Math.round(parseFloat(p.tally_result.abstain))
-        return p
-      })
-    },
     filteredProposals() {
       let query = this.filters.proposals.search.query || ``
       let proposals = orderBy(
-        this.parsedProposals,
+        this.proposals,
         [this.sort.property],
         [this.sort.order]
       )
@@ -135,64 +123,3 @@ export default {
   }
 }
 </script>
-<style>
-table {
-  border-spacing: 0 0.25rem;
-  margin: 0 0 0 2rem;
-  min-widthpadding: 0;
-  table-layout: auto;
-  counter-reset: rowNumber1;
-}
-
-table tr {
-  counter-increment: rowNumber;
-}
-
-table tr td:first-child::before {
-  content: counter(rowNumber);
-  position: absolute;
-  font-size: sm;
-  width: 2rem;
-  text-align: right;
-  color: var(--dim);
-  left: -3rem;
-}
-
-table th {
-  min-width: 130px;
-  width: 100%;
-  padding: 0.5rem;
-}
-
-table
-  th
-  min-width
-  122px
-  width
-  100%
-  padding
-  0.5rem
-  table
-  td
-  min-width
-  122px
-  width
-  100%
-  padding
-  0
-  0.5rem
-  position
-  relative
-  table
-  tr
-  td:nth-child(3):after {
-  display: block;
-  position: absolute;
-  content: "";
-  height: 2rem;
-  width: 2px;
-  top: 1.5rem;
-  right: 2rem;
-  background: var(--bc-dim);
-}
-</style>

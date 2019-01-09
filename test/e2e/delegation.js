@@ -32,27 +32,30 @@ test(`delegation`, async function(t) {
       `it shows all three validators`
     )
     await t.ok(
-      await app.client.$(`.li-validator__moniker=local_1`).isVisible(),
+      await app.client
+        .$(`.data-table__row__info__container__name=local_1`)
+        .isVisible(),
       `show validator 1`
     )
     await t.ok(
-      await app.client.$(`.li-validator__moniker=local_2`).isVisible(),
+      await app.client
+        .$(`.data-table__row__info__container__name=local_2`)
+        .isVisible(),
       `show validator 2`
     )
     await t.ok(
-      await app.client.$(`.li-validator__moniker=local_3`).isVisible(),
+      await app.client
+        .$(`.data-table__row__info__container__name=local_3`)
+        .isVisible(),
       `show validator 3`
     )
-    let myVotesText = await app.client
-      .$(`.li-validator__delegated-steak`)
-      .getText()
-    let myVotes = parseFloat(myVotesText.replace(/,/g, ``))
-    await t.equal(
-      myVotes,
-      parseFloat(bondedStake),
-      `show my stake in the validator`
-    )
 
+    // check if my stake in the validator is correct
+    await waitForText(
+      () => app.client.$(`.li-validator__delegated-steak`),
+      `${bondedStake}.0000…`,
+      10 * 10000
+    )
     t.end()
   })
 
@@ -84,22 +87,24 @@ test(`delegation`, async function(t) {
         `//*[@id = 'delegation-modal']//button//*[. = 'Confirm Delegation']`
       )
       .waitForVisible(
-        `//*[. = 'You have successfully delegated your Steaks']`,
+        `//*[. = 'You have successfully delegated your STAKEs']`,
         5 * 1000
       )
 
       // Go back to Staking page.
       .click(`//a//*[. = 'Staking']`)
 
-    // there was a bug that updated the balances in a way that it would show more atoms,
-    // then the users has
+    console.log(`Testing total balance`)
     await waitForText(
       () => app.client.$(`.header-balance .total-atoms h2`),
-      `${totalAtoms}.0000…`
+      `${totalAtoms}.0000…`,
+      10 * 1000
     )
+    console.log(`Testing unbonded balance`)
     await waitForText(
       () => app.client.$(`.header-balance .unbonded-atoms h2`),
-      `${unbondedAtoms - 10}.0000…`
+      `${unbondedAtoms - 10}.0000…`,
+      10 * 1000
     )
     await closeNotifications(app)
 
@@ -131,7 +136,7 @@ test(`delegation`, async function(t) {
       .setValue(`#password`, `1234567890`)
       .click(`//*[@id = 'undelegation-modal']//button//*[. = 'Undelegate']`)
       .waitForVisible(
-        `//*[. = 'You have successfully undelegated 5 Steaks.']`,
+        `//*[. = 'You have successfully undelegated 5 STAKEs.']`,
         5 * 1000
       )
 

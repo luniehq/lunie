@@ -1,7 +1,13 @@
-import Raven from "raven-js"
-import { ipcRenderer, remote } from "electron"
-import enableGoogleAnalytics from "../../google-analytics.js"
-const config = remote.getGlobal(`config`)
+import * as Sentry from "@sentry/browser"
+import {
+  enableGoogleAnalytics,
+  disableGoogleAnalytics,
+  track
+} from "../../google-analytics.js"
+const config = require(`../../../config.json`)
+import { loadKeys, importKey, testPassword } from "../../scripts/keystore.js"
+import { generateSeed } from "../../scripts/wallet.js"
+import CryptoJS from "crypto-js"
 
 export default ({ node }) => {
   const ERROR_COLLECTION_KEY = `voyager_error_collection`
@@ -28,10 +34,9 @@ export default ({ node }) => {
     },
     addHistory(state, path) {
       state.history.push(path)
-      window.analytics &&
-        window.analytics.send(`pageview`, {
-          dl: path
-        })
+      track(`send`, `pageview`, {
+        dl: path
+      })
     },
     popHistory(state) {
       state.history.pop()
@@ -62,10 +67,10 @@ export default ({ node }) => {
     async loadAccounts({ commit, state }) {
       state.loading = true
       try {
-        let keys = await node.keys.values()
+        let keys = await loadKeys()
         commit(`setAccounts`, keys)
       } catch (error) {
-        Raven.captureException(error)
+        Sentry.captureException(error)
         commit(`notifyError`, {
           title: `Couldn't read keys`,
           body: error.message
@@ -76,26 +81,13 @@ export default ({ node }) => {
       }
     },
     async testLogin(state, { password, account }) {
-      try {
-        return await node.keys.set(account, {
-          name: account,
-          new_password: password,
-          old_password: password
-        })
-      } catch (error) {
-        throw Error(`Incorrect passphrase`)
-      }
+      return await testPassword(account, password)
     },
     createSeed() {
-      // generate seed phrase
-      return node.keys.seed()
+      return generateSeed(x => CryptoJS.lib.WordArray.random(x).toString())
     },
     async createKey({ dispatch }, { seedPhrase, password, name }) {
-      let { address } = await node.keys.add({
-        name,
-        password,
-        seed: seedPhrase
-      })
+      let { address } = await importKey(name, password, seedPhrase)
       dispatch(`initializeWallet`, address)
       return address
     },
@@ -107,7 +99,9 @@ export default ({ node }) => {
       state.account = account
       state.signedIn = true
 
-      let { address } = await node.keys.get(account)
+      let keys = await loadKeys()
+      let { address } = keys.find(({ name }) => name === account)
+
       state.address = address
 
       dispatch(`loadPersistedState`)
@@ -147,22 +141,22 @@ export default ({ node }) => {
         state.errorCollection
       )
 
-      Raven.uninstall()
-        .config(state.errorCollection ? config.sentry_dsn_public : ``)
-        .install()
       if (state.errorCollection) {
-        console.log(`Analytics enabled in browser`)
+        Sentry.init({
+          dsn: config.sentry_dsn,
+          release: `voyager@${config.version}`
+        })
         enableGoogleAnalytics(config.google_analytics_uid)
-        window.analytics &&
-          window.analytics.send(`pageview`, {
-            dl: window.location.pathname
-          })
+        console.log(`Analytics and error reporting have been enabled`)
+        // eslint-disable-next-line no-undef
+        track(`send`, `pageview`, {
+          dl: window.location.pathname
+        })
       } else {
         console.log(`Analytics disabled in browser`)
-        window.analytics = null
+        Sentry.init({})
+        disableGoogleAnalytics(config.google_analytics_uid)
       }
-
-      ipcRenderer.send(`error-collection`, state.errorCollection)
     }
   }
 

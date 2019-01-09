@@ -1,8 +1,6 @@
-import { ipcRenderer, remote } from "electron"
-import Raven from "raven-js"
 import { sleep } from "scripts/common.js"
 
-const config = remote.getGlobal(`config`)
+const config = require(`../../../config.json`)
 const NODE_HALTED_TIMEOUT = config.node_halted_timeout
 
 export default function({ node }) {
@@ -49,7 +47,7 @@ export default function({ node }) {
       if (state.stopConnecting) return
 
       commit(`setConnected`, false)
-      node.rpcReconnect()
+      node.rpcConnect(config.node_rpc)
     },
     async rpcSubscribe({ commit, dispatch }) {
       if (state.stopConnecting) return
@@ -73,9 +71,7 @@ export default function({ node }) {
           dispatch(`reconnect`)
         }
       })
-      node.rpc.status((error, result) => {
-        if (error) return console.error(error)
-        let status = result
+      node.rpc.status().then(status => {
         dispatch(`setLastHeader`, {
           height: status.sync_info.latest_block_height,
           chain_id: status.node_info.network
@@ -84,12 +80,8 @@ export default function({ node }) {
 
       node.rpc.subscribe(
         { query: `tm.event = 'NewBlockHeader'` },
-        (error, event) => {
-          if (error) {
-            Raven.captureException(error)
-            return console.error(`error subscribing to headers`, error)
-          }
-          dispatch(`setLastHeader`, event.data.value.header)
+        ({ header }) => {
+          dispatch(`setLastHeader`, header)
         }
       )
 
@@ -113,7 +105,7 @@ export default function({ node }) {
       state.nodeHaltedTimeout = undefined
       commit(`setModalNodeHalted`, true)
     },
-    pollRPCConnection({ state, dispatch }, timeout = 3000) {
+    pollRPCConnection({ state, dispatch }, timeout = config.block_timeout) {
       if (state.nodeTimeout || state.stopConnecting) return
 
       state.nodeTimeout = setTimeout(() => {
@@ -124,60 +116,13 @@ export default function({ node }) {
           dispatch(`pollRPCConnection`)
         }
       }, timeout)
-      node.rpc.status(error => {
-        if (error) {
-          Raven.captureException(error)
-          console.error(`Couldn't get status via RPC:`, error)
-          return
-        }
-
+      node.rpc.status().then(() => {
         state.nodeTimeout = null
         state.connected = true
         setTimeout(() => {
           dispatch(`pollRPCConnection`)
         }, timeout)
       })
-    },
-    approveNodeHash({ state }, hash) {
-      state.approvalRequired = null
-      ipcRenderer.send(`hash-approved`, hash)
-    },
-    disapproveNodeHash({ state }, hash) {
-      state.approvalRequired = null
-      ipcRenderer.send(`hash-disapproved`, hash)
-    },
-    async setMockedConnector({ state, dispatch, commit }, mocked) {
-      state.mocked = mocked
-
-      // Tell the main process our status in case of reload.
-      ipcRenderer.send(`mocked`, mocked)
-
-      // disable updates from the live node
-      node.rpcDisconnect()
-
-      // switch to a mocked or live node
-      node.setup(mocked)
-
-      // reconnect to the node
-      node.rpcReconnect()
-
-      if (mocked) {
-        // if we run a mocked version only, we don't want the lcd to run in the meantime
-        ipcRenderer.send(`stop-lcd`)
-
-        // we need to trigger this event for the mocked mode as it is usually triggered by the "connected" event from the main thread
-        dispatch(`rpcSubscribe`)
-
-        // the mocked node is automatically connected
-        dispatch(`reconnected`)
-      } else {
-        // if we switch to a live connector, we need to wait for the process to have started up again so we can access the KMS
-        commit(`setModalSession`, `loading`)
-        await new Promise(resolve => ipcRenderer.once(`connected`, resolve))
-      }
-
-      // sign user out, as when switching from mocked to live node, the account address needs to be clarified again
-      dispatch(`signOut`)
     }
   }
 

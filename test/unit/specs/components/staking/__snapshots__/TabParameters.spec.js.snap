@@ -1,80 +1,178 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TabParameters displays a message if loading 1`] = `<tm-data-loading />`;
+exports[`TabParameters displays a message if loading 1`] = `<tm-data-loading-stub />`;
 
-exports[`TabParameters displays a message if loading 2`] = `<tm-data-loading />`;
+exports[`TabParameters displays a message if loading 2`] = `<tm-data-loading-stub />`;
 
-exports[`TabParameters displays a message if waiting for connection 1`] = `<tm-data-connecting />`;
+exports[`TabParameters displays a message if waiting for connection 1`] = `<tm-data-connecting-stub />`;
 
-exports[`TabParameters displays a message if waiting for connection 2`] = `<tm-data-connecting />`;
+exports[`TabParameters displays a message if waiting for connection 2`] = `<tm-data-connecting-stub />`;
 
 exports[`TabParameters has the expected html structure 1`] = `
-"<div>
-   <div>
-      <h3 class=\\"staking-pool\\">
-         Staking Pool      <i class=\\"material-icons info-button\\">info_outline</i>
-      </h3>
-      <div class=\\"parameters__details parameters__section\\">
-         <div class=\\"row\\">
-            <div class=\\"column\\">
-               <dl class=\\"info_dl\\">
-                  <dt>
-                     Loose              steak              <i class=\\"material-icons info-button\\">info_outline</i>
-                  </dt>
-                  <dd id=\\"loose_tokens\\">
-                     100.0000000000            
-                  </dd>
-</dl>
-</div>
-<div class=\\"column\\">
-   <dl class=\\"info_dl\\">
-      <dt>
-         Delegated              steak              <i class=\\"material-icons info-button\\">info_outline</i>
-      </dt>
-      <dd id=\\"bonded_tokens\\">
-         50.0000000000            
-      </dd>
-</dl>
-</div>
-</div>
-</div>
-</div>
 <div>
-   <h3 class=\\"staking-parameters\\">
-      Staking Parameters      <i class=\\"material-icons info-button\\">info_outline</i>
-   </h3>
-   <div class=\\"parameters__details parameters__section\\">
-      <div class=\\"row\\">
-         <div class=\\"column\\">
-            <dl class=\\"info_dl\\">
-               <dt>
-                  Unbonding Time              <i class=\\"material-icons info-button\\">info_outline</i>
-               </dt>
-               <dd id=\\"unbonding_time\\">
-                  3 days            
-               </dd>
-</dl>
-            <dl class=\\"info_dl\\">
-               <dt>
-                  Current Staking Coin Denomination
-               </dt>
-               <dd id=\\"bond_denom\\">
-                  steak            
-               </dd>
-</dl>
+  <div>
+    <h3
+      class="staking-pool"
+    >
+      
+      Staking Pool
+      
+      <i
+        class="material-icons info-button"
+      >
+        info_outline
+      </i>
+    </h3>
+     
+    <div
+      class="parameters__details parameters__section"
+    >
+      <div
+        class="row"
+      >
+        <div
+          class="column"
+        >
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              
+              Loose
+              STAKE
+              
+              <i
+                class="material-icons info-button"
+              >
+                info_outline
+              </i>
+            </dt>
+             
+            <dd
+              id="loose_tokens"
+            >
+              
+              100.0000000000
+            
+            </dd>
+          </dl>
+        </div>
+         
+        <div
+          class="column"
+        >
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              
+              Delegated
+              STAKE
+              
+              <i
+                class="material-icons info-button"
+              >
+                info_outline
+              </i>
+            </dt>
+             
+            <dd
+              id="bonded_tokens"
+            >
+              
+              50.0000000000
+            
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+   
+  <div>
+    <h3
+      class="staking-parameters"
+    >
+      
+      Staking Parameters
+      
+      <i
+        class="material-icons info-button"
+      >
+        info_outline
+      </i>
+    </h3>
+     
+    <div
+      class="parameters__details parameters__section"
+    >
+      <div
+        class="row"
+      >
+        <div
+          class="column"
+        >
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              
+              Unbonding Time
+              
+              <i
+                class="material-icons info-button"
+              >
+                info_outline
+              </i>
+            </dt>
+             
+            <dd
+              id="unbonding_time"
+            >
+              
+              3 days
+            
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Current Staking Coin Denomination
+            </dt>
+             
+            <dd
+              id="bond_denom"
+            >
+              
+              STAKE
+            
+            </dd>
+          </dl>
+        </div>
+         
+        <div
+          class="column"
+        >
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Maximum Number of Validators
+            </dt>
+             
+            <dd
+              id="max_validators"
+            >
+              
+              100
+            
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-<div class=\\"column\\">
-   <dl class=\\"info_dl\\">
-      <dt>
-         Maximum Number of Validators
-      </dt>
-      <dd id=\\"max_validators\\">
-         100            
-      </dd>
-</dl>
-</div>
-</div>
-</div>
-</div>
-</div>"
 `;

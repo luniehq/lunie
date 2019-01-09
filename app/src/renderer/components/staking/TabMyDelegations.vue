@@ -36,7 +36,8 @@
 
 <script>
 import { mapGetters } from "vuex"
-import { TmDataMsg, TmDataLoading } from "@tendermint/ui"
+import TmDataMsg from "common/TmDataMsg"
+import TmDataLoading from "common/TmDataLoading"
 import TableValidators from "staking/TableValidators"
 import TmDataConnecting from "common/TmDataConnecting"
 
@@ -86,7 +87,7 @@ export default {
   background: var(--app-fg);
   border: 1px solid var(--bc-dim);
   border-radius: 0.25rem;
-  font-size: sm;
+  font-size: var(--sm);
   margin-bottom: 4rem;
   margin-left: 2rem;
   padding: 0.5rem;

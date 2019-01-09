@@ -16,6 +16,7 @@ exports[`Component: TabMyDelegations should show a message if not staked yet to 
         info_outline
       </i>
     </div>
+     
     <div
       class="tm-data-msg__text"
     >
@@ -26,6 +27,7 @@ exports[`Component: TabMyDelegations should show a message if not staked yet to 
           No Active Delegations
         </div>
       </div>
+       
       <div
         class="tm-data-msg__subtitle"
       >
@@ -34,12 +36,11 @@ exports[`Component: TabMyDelegations should show a message if not staked yet to 
       Looks like you haven't delegated any stakes yet. Head over
       to the
       
-          <a
-            class=""
-            href="#/staking/validators"
+          <router-link-stub
+            to="[object Object]"
           >
             validator list
-          </a>
+          </router-link-stub>
           
       to make your first delegation!
     
@@ -58,7 +59,9 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
 <div>
   <div>
     <div>
-      <table>
+      <table
+        class="data-table"
+      >
         <thead>
           <tr
             class="panel-sort-container"
@@ -131,55 +134,59 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
          
         <tbody>
           <tr
-            class="li-validator"
+            class="data-table__row li-validator"
           >
             <td
-              class="li-validator__moniker-container"
+              class="data-table__row__info"
             >
               <img
-                class="li-validator__avatar no-img"
+                class="data-table__row__info__image data-table__row__info__image--no-img"
                 height="48"
                 src="~assets/images/validator-icon.svg"
                 width="48"
               />
                
               <div
-                class="li-validator__name-container"
+                class="data-table__row__info__container"
               >
                 <span
-                  class="validator-profile__status yellow"
+                  class="data-table__row__info__container__status yellow"
                 />
                  
-                <a
-                  class="li-validator__moniker"
-                  href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+                <router-link-stub
+                  class="data-table__row__info__container__name"
+                  to="[object Object]"
                 >
                   mr_mounty
-                </a>
+                </router-link-stub>
                  
                 <div
-                  class="short-bech32 li-validator__address"
+                  class="data-table__row__info__container__description"
                 >
                   <div
-                    class="address"
-                    id="address"
+                    class="short-bech32"
                   >
-                    
+                    <div
+                      class="address"
+                      id="address"
+                    >
+                      
     cosmosvaladdr…8yqw
   
-                  </div>
-                   
-                  <div
-                    class="copied"
-                  >
-                    <i
-                      class="material-icons"
+                    </div>
+                     
+                    <div
+                      class="copied"
                     >
-                      check
-                    </i>
-                    <span>
-                      Copied
-                    </span>
+                      <i
+                        class="material-icons"
+                      >
+                        check
+                      </i>
+                      <span>
+                        Copied
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -194,7 +201,7 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
             </td>
              
             <td
-              class="li-validator__rewards"
+              class="li-validator__rewards data-table__row__cell__separator"
             >
               n/a
             </td>
@@ -238,12 +245,11 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
     
     Check out
     
-    <a
-      class=""
-      href="#/staking/validators"
+    <router-link-stub
+      to="[object Object]"
     >
       the validator list
-    </a>
+    </router-link-stub>
     
     to find other validators to delegate to.
   
@@ -264,7 +270,9 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
     </h3>
      
     <div>
-      <table>
+      <table
+        class="data-table"
+      >
         <thead>
           <tr
             class="panel-sort-container"
@@ -337,55 +345,59 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
          
         <tbody>
           <tr
-            class="li-validator"
+            class="data-table__row li-validator"
           >
             <td
-              class="li-validator__moniker-container"
+              class="data-table__row__info"
             >
               <img
-                class="li-validator__avatar no-img"
+                class="data-table__row__info__image data-table__row__info__image--no-img"
                 height="48"
                 src="~assets/images/validator-icon.svg"
                 width="48"
               />
                
               <div
-                class="li-validator__name-container"
+                class="data-table__row__info__container"
               >
                 <span
-                  class="validator-profile__status yellow"
+                  class="data-table__row__info__container__status yellow"
                 />
                  
-                <a
-                  class="li-validator__moniker"
-                  href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+                <router-link-stub
+                  class="data-table__row__info__container__name"
+                  to="[object Object]"
                 >
                   good_greg
-                </a>
+                </router-link-stub>
                  
                 <div
-                  class="short-bech32 li-validator__address"
+                  class="data-table__row__info__container__description"
                 >
                   <div
-                    class="address"
-                    id="address"
+                    class="short-bech32"
                   >
-                    
+                    <div
+                      class="address"
+                      id="address"
+                    >
+                      
     cosmosvaladdr…n3au
   
-                  </div>
-                   
-                  <div
-                    class="copied"
-                  >
-                    <i
-                      class="material-icons"
+                    </div>
+                     
+                    <div
+                      class="copied"
                     >
-                      check
-                    </i>
-                    <span>
-                      Copied
-                    </span>
+                      <i
+                        class="material-icons"
+                      >
+                        check
+                      </i>
+                      <span>
+                        Copied
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -400,7 +412,7 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
             </td>
              
             <td
-              class="li-validator__rewards"
+              class="li-validator__rewards data-table__row__cell__separator"
             >
               n/a
             </td>
@@ -432,55 +444,59 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
             </td>
           </tr>
           <tr
-            class="li-validator"
+            class="data-table__row li-validator"
           >
             <td
-              class="li-validator__moniker-container"
+              class="data-table__row__info"
             >
               <img
-                class="li-validator__avatar no-img"
+                class="data-table__row__info__image data-table__row__info__image--no-img"
                 height="48"
                 src="~assets/images/validator-icon.svg"
                 width="48"
               />
                
               <div
-                class="li-validator__name-container"
+                class="data-table__row__info__container"
               >
                 <span
-                  class="validator-profile__status red"
+                  class="data-table__row__info__container__status red"
                 />
                  
-                <a
-                  class="li-validator__moniker"
-                  href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n"
+                <router-link-stub
+                  class="data-table__row__info__container__name"
+                  to="[object Object]"
                 >
                   herr_schmidt_revoked
-                </a>
+                </router-link-stub>
                  
                 <div
-                  class="short-bech32 li-validator__address"
+                  class="data-table__row__info__container__description"
                 >
                   <div
-                    class="address"
-                    id="address"
+                    class="short-bech32"
                   >
-                    
+                    <div
+                      class="address"
+                      id="address"
+                    >
+                      
     cosmosvaladdr…rg7n
   
-                  </div>
-                   
-                  <div
-                    class="copied"
-                  >
-                    <i
-                      class="material-icons"
+                    </div>
+                     
+                    <div
+                      class="copied"
                     >
-                      check
-                    </i>
-                    <span>
-                      Copied
-                    </span>
+                      <i
+                        class="material-icons"
+                      >
+                        check
+                      </i>
+                      <span>
+                        Copied
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -495,7 +511,7 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
             </td>
              
             <td
-              class="li-validator__rewards"
+              class="li-validator__rewards data-table__row__cell__separator"
             >
               n/a
             </td>
@@ -549,6 +565,7 @@ exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
         info_outline
       </i>
     </div>
+     
     <div
       class="tm-data-msg__text"
     >
@@ -559,6 +576,7 @@ exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
           No Active Delegations
         </div>
       </div>
+       
       <div
         class="tm-data-msg__subtitle"
       >
@@ -567,12 +585,11 @@ exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
       Looks like you haven't delegated any stakes yet. Head over
       to the
       
-          <a
-            class=""
-            href="#/staking/validators"
+          <router-link-stub
+            to="[object Object]"
           >
             validator list
-          </a>
+          </router-link-stub>
           
       to make your first delegation!
     
@@ -598,7 +615,9 @@ exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
     </h3>
      
     <div>
-      <table>
+      <table
+        class="data-table"
+      >
         <thead>
           <tr
             class="panel-sort-container"
@@ -671,55 +690,59 @@ exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
          
         <tbody>
           <tr
-            class="li-validator"
+            class="data-table__row li-validator"
           >
             <td
-              class="li-validator__moniker-container"
+              class="data-table__row__info"
             >
               <img
-                class="li-validator__avatar no-img"
+                class="data-table__row__info__image data-table__row__info__image--no-img"
                 height="48"
                 src="~assets/images/validator-icon.svg"
                 width="48"
               />
                
               <div
-                class="li-validator__name-container"
+                class="data-table__row__info__container"
               >
                 <span
-                  class="validator-profile__status yellow"
+                  class="data-table__row__info__container__status yellow"
                 />
                  
-                <a
-                  class="li-validator__moniker"
-                  href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+                <router-link-stub
+                  class="data-table__row__info__container__name"
+                  to="[object Object]"
                 >
                   good_greg
-                </a>
+                </router-link-stub>
                  
                 <div
-                  class="short-bech32 li-validator__address"
+                  class="data-table__row__info__container__description"
                 >
                   <div
-                    class="address"
-                    id="address"
+                    class="short-bech32"
                   >
-                    
+                    <div
+                      class="address"
+                      id="address"
+                    >
+                      
     cosmosvaladdr…n3au
   
-                  </div>
-                   
-                  <div
-                    class="copied"
-                  >
-                    <i
-                      class="material-icons"
+                    </div>
+                     
+                    <div
+                      class="copied"
                     >
-                      check
-                    </i>
-                    <span>
-                      Copied
-                    </span>
+                      <i
+                        class="material-icons"
+                      >
+                        check
+                      </i>
+                      <span>
+                        Copied
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -734,7 +757,7 @@ exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
             </td>
              
             <td
-              class="li-validator__rewards"
+              class="li-validator__rewards data-table__row__cell__separator"
             >
               n/a
             </td>
@@ -766,55 +789,59 @@ exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
             </td>
           </tr>
           <tr
-            class="li-validator"
+            class="data-table__row li-validator"
           >
             <td
-              class="li-validator__moniker-container"
+              class="data-table__row__info"
             >
               <img
-                class="li-validator__avatar no-img"
+                class="data-table__row__info__image data-table__row__info__image--no-img"
                 height="48"
                 src="~assets/images/validator-icon.svg"
                 width="48"
               />
                
               <div
-                class="li-validator__name-container"
+                class="data-table__row__info__container"
               >
                 <span
-                  class="validator-profile__status red"
+                  class="data-table__row__info__container__status red"
                 />
                  
-                <a
-                  class="li-validator__moniker"
-                  href="#/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n"
+                <router-link-stub
+                  class="data-table__row__info__container__name"
+                  to="[object Object]"
                 >
                   herr_schmidt_revoked
-                </a>
+                </router-link-stub>
                  
                 <div
-                  class="short-bech32 li-validator__address"
+                  class="data-table__row__info__container__description"
                 >
                   <div
-                    class="address"
-                    id="address"
+                    class="short-bech32"
                   >
-                    
+                    <div
+                      class="address"
+                      id="address"
+                    >
+                      
     cosmosvaladdr…rg7n
   
-                  </div>
-                   
-                  <div
-                    class="copied"
-                  >
-                    <i
-                      class="material-icons"
+                    </div>
+                     
+                    <div
+                      class="copied"
                     >
-                      check
-                    </i>
-                    <span>
-                      Copied
-                    </span>
+                      <i
+                        class="material-icons"
+                      >
+                        check
+                      </i>
+                      <span>
+                        Copied
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -829,7 +856,7 @@ exports[`Component: TabMyDelegations should show unbonding validators 1`] = `
             </td>
              
             <td
-              class="li-validator__rewards"
+              class="li-validator__rewards data-table__row__cell__separator"
             >
               n/a
             </td>

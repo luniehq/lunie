@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageProfile has the expected html structure 1`] = `
+<div
+  class="tm-page page-profile"
+>
+  <header
+    class="tm-page-header"
+  >
+    <div
+      class="tm-page-header-container"
+    >
+      <div
+        class="tm-page-header-text"
+      >
+        <!---->
+         
+        <!---->
+         
+        <!---->
+      </div>
+       
+      <menu
+        class="tm-page-header-menu"
+      >
+        <div />
+      </menu>
+    </div>
+  </header>
+   
+  <main
+    class="tm-page-main"
+  />
+</div>
+`;

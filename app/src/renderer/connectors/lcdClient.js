@@ -3,7 +3,19 @@
 const Client = (axios, localLcdURL, remoteLcdURL) => {
   async function request(method, path, data, useRemote) {
     const url = useRemote ? remoteLcdURL : localLcdURL
-    const result = await axios({ data, method, url: url + path })
+    const result = await axios({ data, method, url: url + path }).catch(
+      async err => {
+        // HACK
+        if (err.response.data.startsWith(`failed to prove merkle proof`)) {
+          return { data: {} }
+        }
+        if (err.response.status === 502) {
+          // retry
+          return { data: await request(method, path, data, useRemote) }
+        }
+        throw err
+      }
+    )
     return result.data
   }
 
@@ -24,7 +36,7 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
     }
   }
 
-  let fetchAccount = argReq(`GET`, `/auth/accounts`)
+  let fetchAccount = argReq(`GET`, `/auth/accounts`, ``, true)
 
   const keys = {
     add: req(`POST`, `/keys`),
@@ -80,8 +92,8 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
     },
     txs: function(addr) {
       return Promise.all([
-        req(`GET`, `/txs?tag=sender_bech32='${addr}'`, true)(),
-        req(`GET`, `/txs?tag=recipient_bech32='${addr}'`, true)()
+        req(`GET`, `/txs?sender=${addr}`, true)(),
+        req(`GET`, `/txs?recipient=${addr}`, true)()
       ]).then(([senderTxs, recipientTxs]) => [].concat(senderTxs, recipientTxs))
     },
     tx: argReq(`GET`, `/txs`, ``, true),
@@ -183,7 +195,7 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
         true
       )()
     },
-    queryProposalTally: function(proposalId) {
+    getProposalTally: function(proposalId) {
       return req(`GET`, `/gov/proposals/${proposalId}/tally`, true)()
     },
     getGovDepositParameters: req(`GET`, `/gov/parameters/deposit`, true),
@@ -199,19 +211,12 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
       return req(`POST`, `/gov/proposals/${proposalId}/deposits`, true)(data)
     },
     getGovernanceTxs: async function(address) {
-      let [depositerTxs, proposerTxs] = await Promise.all([
-        req(
-          `GET`,
-          `/txs?tag=action='submit-proposal'&tag=proposer='${address}'`,
-          true
-        )(),
-        req(
-          `GET`,
-          `/txs?tag=action='deposit'&tag=depositer='${address}'`,
-          true
-        )()
-      ])
-      return depositerTxs.concat(proposerTxs)
+      return await Promise.all([
+        req(`GET`, `/txs?action=submit-proposal&proposer=${address}`, true)(),
+        req(`GET`, `/txs?action=deposit&depositor=${address}`, true)()
+      ]).then(([depositorTxs, proposerTxs]) =>
+        [].concat(depositorTxs, proposerTxs)
+      )
     }
   }
 }

@@ -1,5 +1,4 @@
 import { mount } from "@vue/test-utils"
-import htmlBeautify from "html-beautify"
 import TmSessionLoading from "common/TmSessionLoading"
 
 describe(`TmSessionLoading`, () => {
@@ -12,15 +11,13 @@ describe(`TmSessionLoading`, () => {
       }
     }
     wrapper = mount(TmSessionLoading)
-    wrapper.update()
   })
 
   it(`has the expected html structure`, () => {
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should show connection status`, () => {
-    wrapper.update()
     expect(wrapper.html()).toContain(`HALLO WORLD`)
   })
 })

@@ -1,11 +1,10 @@
 <template>
   <tm-data-connecting
-    v-if="(!stakingParameters.parameters.loaded || !pool.loaded) && !connected"
+    v-if="(!stakingParameters.loaded || !pool.loaded) && !connected"
   />
   <tm-data-loading
     v-else-if="
-      (!stakingParameters.parameters.loaded &&
-        stakingParameters.parameters.loading) ||
+      (!stakingParameters.loaded && stakingParameters.loading) ||
         (!pool.loaded && pool.loading)
     "
   />
@@ -124,8 +123,13 @@
 
 <script>
 import { mapGetters } from "vuex"
-import { TmBtn, TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
+import TmBtn from "common/TmBtn"
+import TmListItem from "common/TmListItem"
+import TmPage from "common/TmPage"
+import TmPart from "common/TmPart"
+import ToolBar from "common/ToolBar"
 import TmDataConnecting from "common/TmDataConnecting"
+import TmDataLoading from "common/TmDataLoading"
 export default {
   name: `tab-staking-parameters`,
   components: {
@@ -133,8 +137,9 @@ export default {
     TmListItem,
     TmPage,
     TmPart,
-    TmToolBar,
-    TmDataConnecting
+    ToolBar,
+    TmDataConnecting,
+    TmDataLoading
   },
   data: () => ({
     paramsTooltips: {
@@ -212,7 +217,7 @@ h3 {
 
 .info_dl dt {
   color: var(--dim);
-  font-size: small;
+  font-size: var(--sm);
   margin-bottom: 4px;
 }
 

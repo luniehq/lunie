@@ -31,7 +31,7 @@ exports[`DelegationModal component matches snapshot has the expected html struct
   </div>
    
   <div
-    class="delegation-modal-form-group tm-form-group"
+    class="delegation-modal-form-group tm-form-group tm-form-group--error"
   >
     <!---->
     <label
@@ -40,13 +40,14 @@ exports[`DelegationModal component matches snapshot has the expected html struct
     >
       Amount
     </label>
+     
     <div
       class="tm-form-group__field"
     >
       <input
         class="tm-field"
         id="denom"
-        placeholder="Steak"
+        placeholder="STAKE"
         readonly="readonly"
         type="text"
       />
@@ -58,6 +59,8 @@ exports[`DelegationModal component matches snapshot has the expected html struct
         min="0"
         type="number"
       />
+       
+      <!---->
     </div>
   </div>
    
@@ -71,6 +74,7 @@ exports[`DelegationModal component matches snapshot has the expected html struct
     >
       To
     </label>
+     
     <div
       class="tm-form-group__field"
     >
@@ -78,6 +82,7 @@ exports[`DelegationModal component matches snapshot has the expected html struct
         class="tm-field"
         id="to"
         readonly="readonly"
+        type="text"
       />
     </div>
   </div>
@@ -92,6 +97,7 @@ exports[`DelegationModal component matches snapshot has the expected html struct
     >
       From
     </label>
+     
     <div
       class="tm-form-group__field"
     >
@@ -111,6 +117,7 @@ exports[`DelegationModal component matches snapshot has the expected html struct
           >
             Select option...
           </option>
+           
           <option
             value="0"
           >
@@ -127,6 +134,7 @@ exports[`DelegationModal component matches snapshot has the expected html struct
             Kentucky - cosmos…np9rldprgant57ryzag7
           </option>
         </select>
+         
         <div
           class="tm-field-select-addon"
         >
@@ -152,6 +160,7 @@ exports[`DelegationModal component matches snapshot has the expected html struct
     >
       Account password
     </label>
+     
     <div
       class="tm-form-group__field"
     >
@@ -186,7 +195,6 @@ exports[`DelegationModal component matches snapshot has the expected html struct
       <span
         class="tm-btn__container tm-btn--size-lg tm-btn--primary"
       >
-        <!---->
         <!---->
         <span
           class="tm-btn__value"

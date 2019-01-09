@@ -21,8 +21,8 @@ describe(`Module: Deposits`, () => {
 
   it(`adds deposits to state`, () => {
     let { mutations, state } = module
-    mutations.setProposalDeposits(state, proposals[0].proposal_id, deposits)
-    expect(state.deposits[proposals[0].proposal_id]).toEqual(deposits)
+    mutations.setProposalDeposits(state, `1`, deposits)
+    expect(state.deposits[`1`]).toEqual(deposits)
   })
 
   it(`fetches all deposits from a proposal`, async () => {
@@ -34,16 +34,15 @@ describe(`Module: Deposits`, () => {
     })
     let { actions, state } = module
     let commit = jest.fn()
-    proposals.forEach(async (proposal, i) => {
-      let proposalId = proposal.proposal_id
+    Object.keys(proposals).forEach(async (proposal_id, i) => {
       await actions.getProposalDeposits(
         { state, commit, rootState: mockRootState },
-        proposalId
+        proposal_id
       )
       expect(commit.mock.calls[i]).toEqual([
         `setProposalDeposits`,
-        proposalId,
-        deposits[proposalId]
+        proposal_id,
+        deposits[proposal_id]
       ])
     })
   })
@@ -60,27 +59,28 @@ describe(`Module: Deposits`, () => {
       }
     ]
 
-    proposals.forEach(async (proposal, i) => {
+    const proposalIds = Object.keys(proposals)
+    proposalIds.forEach(async (proposal_id, i) => {
       await actions.submitDeposit(
         { rootState: mockRootState, dispatch },
-        { proposal_id: proposal.proposal_id, amount }
+        { proposal_id, amount }
       )
 
       expect(dispatch.mock.calls[i]).toEqual([
         `sendTx`,
         {
           type: `submitProposalDeposit`,
-          to: proposal.proposal_id,
-          proposal_id: proposal.proposal_id,
-          depositer: addresses[0],
+          to: proposal_id,
+          proposal_id,
+          depositor: addresses[0],
           amount
         }
       ])
 
       jest.runAllTimers()
-      expect(dispatch.mock.calls[i + proposals.length]).toEqual([
+      expect(dispatch.mock.calls[i + proposalIds.length]).toEqual([
         `getProposalDeposits`,
-        proposal.proposal_id
+        proposal_id
       ])
     })
   })

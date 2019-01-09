@@ -10,7 +10,6 @@ describe(`TmModalHelp`, () => {
     wrapper = instance.wrapper
     store = instance.store
     store.commit(`setModalHelp`, true)
-    wrapper.update()
   })
 
   it(`has the expected html structure`, () => {
@@ -19,7 +18,6 @@ describe(`TmModalHelp`, () => {
 
   it(`should hide`, () => {
     wrapper.vm.close()
-    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 })

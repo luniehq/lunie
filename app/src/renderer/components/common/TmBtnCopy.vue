@@ -8,18 +8,17 @@
 </template>
 
 <script>
-import { clipboard } from "electron"
-import { TmBtn } from "@tendermint/ui"
+import TmBtn from "common/TmBtn"
 export default {
   components: { TmBtn },
   props: {
     title: {
       type: String,
-      required: true
+      default: null
     },
     body: {
       type: String,
-      required: true
+      default: null
     },
     value: {
       type: String,
@@ -43,7 +42,7 @@ export default {
       return value
     },
     click() {
-      clipboard.writeText(this.value)
+      navigator.clipboard.writeText(this.value)
 
       this.$store.commit(`notify`, {
         title: this.notifyTitle,

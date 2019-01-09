@@ -165,7 +165,11 @@
 
 <script>
 import { mapGetters } from "vuex"
-import { TmBtn, TmListItem, TmPage, TmPart, TmToolBar } from "@tendermint/ui"
+import TmBtn from "common/TmBtn"
+import TmPage from "common/TmPage"
+import ToolBar from "common/ToolBar"
+import TmPart from "common/TmPart"
+import TmListItem from "common/TmListItem"
 export default {
   name: `tab-staking-parameters`,
   components: {
@@ -173,7 +177,7 @@ export default {
     TmListItem,
     TmPage,
     TmPart,
-    TmToolBar
+    ToolBar
   },
   data: () => ({
     depositTooltips: {
@@ -260,7 +264,7 @@ h3 {
 
 .info_dl dt {
   color: var(--dim);
-  font-size: small;
+  font-size: var(--sm);
   margin-bottom: 4px;
 }
 

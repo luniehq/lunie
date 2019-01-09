@@ -1,8 +1,26 @@
+/* global ga */
 "use strict"
 
-import Analytics from "electron-ga"
+module.exports.enableGoogleAnalytics = function enableGoogleAnalytics(gaUID) {
+  // if set to true disables google analytics
+  window[`ga-disable-${gaUID}`] = false
 
-module.exports = function(gaUID) {
-  const analytics = new Analytics(gaUID)
-  window.analytics = analytics
+  window.ga =
+    window.ga ||
+    function() {
+      ;(ga.q = ga.q || []).push(arguments)
+    }
+  ga.l = +new Date()
+  ga(`create`, gaUID, `auto`)
+}
+
+module.exports.disableGoogleAnalytics = function disableGoogleAnalytics(gaUID) {
+  // if set to true disables google analytics
+  window[`ga-disable-${gaUID}`] = true
+}
+
+module.exports.track = function track(...args) {
+  if (window.ga) {
+    window.ga(...args)
+  }
 }

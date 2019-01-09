@@ -1,4 +1,4 @@
-import Raven from "raven-js"
+import * as Sentry from "@sentry/browser"
 import { calculateShares } from "scripts/common"
 
 export default ({ node }) => {
@@ -149,7 +149,7 @@ export default ({ node }) => {
           title: `Error fetching delegations`,
           body: error.message
         })
-        Raven.captureException(error)
+        Sentry.captureException(error)
         state.error = error
       }
 
@@ -168,7 +168,7 @@ export default ({ node }) => {
       },
       { stakingTransactions, password }
     ) {
-      const denom = config.bondingDenom.toLowerCase()
+      const denom = config.bondingDenom
       const delegatorAddr = wallet.address
       // delegations = [], unbondings = [], redelegations = []
 

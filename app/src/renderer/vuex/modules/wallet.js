@@ -1,9 +1,6 @@
-import Raven from "raven-js"
-import fs from "fs-extra"
-import { join } from "path"
-import { remote } from "electron"
-import { sleep } from "scripts/common.js"
-const root = remote.getGlobal(`root`)
+import * as Sentry from "@sentry/browser"
+// for now importing the fixed genesis for the network from the config.json
+import network from "../../../network.js"
 
 export default ({ node }) => {
   let emptyState = {
@@ -42,15 +39,12 @@ export default ({ node }) => {
     initializeWallet({ commit, dispatch }, address) {
       commit(`setWalletAddress`, address)
       dispatch(`loadDenoms`)
-      dispatch(`queryWalletState`)
+      dispatch(`queryWalletBalances`)
       dispatch(`walletSubscribe`)
     },
     resetSessionData({ rootState }) {
       // clear previous account state
       rootState.wallet = JSON.parse(JSON.stringify(emptyState))
-    },
-    queryWalletState({ dispatch }) {
-      dispatch(`queryWalletBalances`)
     },
     async queryWalletBalances({ state, rootState, commit }) {
       if (!state.address) return
@@ -71,7 +65,7 @@ export default ({ node }) => {
         commit(`setAccountNumber`, res.account_number)
         commit(`setWalletBalances`, coins)
         for (let coin of coins) {
-          if (coin.denom === rootState.config.bondingDenom.toLowerCase()) {
+          if (coin.denom === rootState.config.bondingDenom) {
             commit(`setAtoms`, parseFloat(coin.amount))
             break
           }
@@ -83,36 +77,12 @@ export default ({ node }) => {
           title: `Error fetching balances`,
           body: error.message
         })
-        Raven.captureException(error)
+        Sentry.captureException(error)
         state.error = error
       }
     },
-    async loadDenoms({ commit, state }, maxIterations = 10) {
-      // read genesis.json to get default denoms
-
-      // wait for genesis.json to exist
-      let genesisPath = join(root, `genesis.json`)
-
-      // wait for the genesis and load it
-      // at some point give up and throw an error
-      while (maxIterations) {
-        try {
-          await fs.pathExists(genesisPath)
-          break
-        } catch (error) {
-          console.log(`waiting for genesis`, error, genesisPath)
-          maxIterations--
-          await sleep(500)
-        }
-      }
-      if (maxIterations === 0) {
-        const error = new Error(`Couldn't load genesis at path ${genesisPath}`)
-        Raven.captureException(error)
-        state.error = error
-        return
-      }
-
-      let genesis = await fs.readJson(genesisPath)
+    async loadDenoms({ commit }) {
+      const { genesis } = await network()
       let denoms = []
       for (let account of genesis.app_state.accounts) {
         if (account.coins) {
@@ -130,7 +100,7 @@ export default ({ node }) => {
         let interval = setInterval(() => {
           if (rootState.connection.lastHeader.height < height) return
           clearInterval(interval)
-          dispatch(`queryWalletState`)
+          dispatch(`queryWalletBalances`)
           resolve()
         }, 1000)
       })
@@ -143,31 +113,27 @@ export default ({ node }) => {
 
       state.subscribedRPC = node.rpc
 
-      function onTx(error, event) {
-        if (error) {
-          Raven.captureException(error)
-          console.error(`error subscribing to transactions`, error)
-          return
-        }
-        dispatch(
-          `queryWalletStateAfterHeight`,
-          event.data.value.TxResult.height + 1
-        )
+      function onTx(data) {
+        dispatch(`queryWalletStateAfterHeight`, data.TxResult.height + 1)
       }
 
-      node.rpc.subscribe(
-        {
-          query: `tm.event = 'Tx' AND sender = '${state.address}'`
-        },
-        onTx
-      )
+      const queries = [
+        `tm.event = 'Tx' AND sender = '${state.address}'`,
+        `tm.event = 'Tx' AND recipient = '${state.address}'`,
+        `tm.event = 'Tx' AND proposer = '${state.address}'`,
+        `tm.event = 'Tx' AND depositor = '${state.address}'`,
+        `tm.event = 'Tx' AND delegator = '${state.address}'`,
+        `tm.event = 'Tx' AND voter = '${state.address}'`
+      ]
 
-      node.rpc.subscribe(
-        {
-          query: `tm.event = 'Tx' AND recipient = '${state.address}'`
-        },
-        onTx
-      )
+      queries.forEach(query => {
+        node.rpc.subscribe(
+          {
+            query
+          },
+          onTx
+        )
+      })
     }
   }
 

@@ -98,6 +98,28 @@ describe(`Store`, () => {
     expect(store.state.delegation.delegates).toHaveLength(1)
   })
 
+  it(`should restore parameters and pool`, async () => {
+    store.commit(`setStakingParameters`, lcdClientMock.state.stakingParameters)
+    store.commit(`setGovParameters`, lcdClientMock.state.governanceParameters)
+    store.commit(`setPool`, lcdClientMock.state.pool)
+
+    jest.runAllTimers() // updating is waiting if more updates coming in, this skips the waiting
+    await store.dispatch(`signOut`)
+
+    await store.dispatch(`signIn`, {
+      account: `default`,
+      password: `1234567890`
+    })
+
+    expect(store.state.stakingParameters.parameters).toEqual(
+      lcdClientMock.state.stakingParameters
+    )
+    expect(store.state.pool.pool).toEqual(lcdClientMock.state.pool)
+    expect(store.state.governanceParameters.parameters).toEqual(
+      lcdClientMock.state.governanceParameters
+    )
+  })
+
   it(`should throttle updating the store cache`, async () => {
     store.commit(`setWalletBalances`, [{ denom: `fabocoin`, amount: 42 }])
 

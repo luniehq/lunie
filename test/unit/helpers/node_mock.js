@@ -53,7 +53,6 @@ module.exports = {
   },
   rpcConnect: () => {},
   rpcDisconnect: () => {},
-  rpcReconnect: () => Promise.resolve(`1.1.1.1`),
   setup: () => {},
 
   ...mockLcd

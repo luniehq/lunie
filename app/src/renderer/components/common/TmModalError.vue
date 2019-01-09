@@ -16,22 +16,14 @@
           value="Create an issue"
           type="anchor"
         />
-        <tm-btn
-          id="tm-modal-error__btn-logs"
-          size="lg"
-          icon="info_outline"
-          value="View app logs"
-          @click.native="viewLogs"
-        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { remote, shell } from "electron"
 import { mapGetters } from "vuex"
-import { TmBtn } from "@tendermint/ui"
+import TmBtn from "common/TmBtn"
 export default {
   name: `tm-modal-error`,
   components: { TmBtn },
@@ -55,14 +47,6 @@ export default {
   }),
   computed: {
     ...mapGetters([`config`, `lastHeader`])
-  },
-  mounted() {
-    this.logPath = remote.getGlobal(`root`) + `/main.log`
-  },
-  methods: {
-    viewLogs() {
-      shell.openItem(this.logPath)
-    }
   }
 }
 </script>
@@ -101,14 +85,14 @@ export default {
 }
 
 .tm-modal-error__title {
-  font-size: h1;
+  font-size: var(--h1);
   font-weight: 500;
   line-height: 1;
   margin-bottom: 1.5rem;
 }
 
 .tm-modal-error__body {
-  font-size: lg;
+  font-size: var(--lg);
   color: var(--dim);
   margin-bottom: 3rem;
 }

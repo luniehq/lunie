@@ -9,6 +9,8 @@ describe(`ModalDeposit`, () => {
   let wrapper, store
   let { mount, localVue } = setup()
   localVue.use(Vuelidate)
+  localVue.directive(`tooltip`, () => {})
+  localVue.directive(`focus`, () => {})
 
   beforeEach(() => {
     const coins = [
@@ -20,21 +22,18 @@ describe(`ModalDeposit`, () => {
     let instance = mount(ModalDeposit, {
       localVue,
       propsData: {
-        proposalId: lcdClientMock.state.proposals[0].proposal_id,
-        proposalTitle: lcdClientMock.state.proposals[0].title,
+        proposalId: `1`,
+        proposalTitle: lcdClientMock.state.proposals[`1`].title,
         denom: `stake`
       }
     })
     wrapper = instance.wrapper
     store = instance.store
     store.commit(`setWalletBalances`, coins)
-    wrapper.update()
   })
 
   describe(`component matches snapshot`, () => {
     it(`has the expected html structure`, async () => {
-      await wrapper.vm.$nextTick()
-      wrapper.update()
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
   })
@@ -73,6 +72,8 @@ describe(`ModalDeposit`, () => {
         wrapper.setData({ amount: 25, password: `1234567890` })
         let depositBtn = wrapper.find(`#submit-deposit`)
         expect(depositBtn.html()).toContain(`disabled="disabled"`)
+        let errorMessage = wrapper.find(`input#amount + div`)
+        expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
       })
 
       it(`when the user doesn't have the deposited coin`, () => {

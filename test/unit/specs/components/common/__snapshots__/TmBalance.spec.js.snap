@@ -1,36 +1,77 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TmBalance has the expected html structure before adding props 1`] = `
-"<div class=\\"header-balance\\">
-   <div class=\\"top\\">
-      <div class=\\"icon-container\\">
-         <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"icon\\">
-      </div>
-<div class=\\"total-atoms top-section\\">
-   <h3>
-      Total Steak
-   </h3>
-   <h2>
-      321.0000…
-   </h2>
+<div
+  class="header-balance"
+>
+  <div
+    class="top"
+  >
+    <div
+      class="icon-container"
+    >
+      <img
+        class="icon"
+        src="~assets/images/cosmos-logo.png"
+      />
+    </div>
+     
+    <div
+      class="total-atoms top-section"
+    >
+      <h3>
+        Total STAKE
+      </h3>
+       
+      <h2
+        class="total-atoms__value"
+      >
+        321.0000…
+      </h2>
+    </div>
+     
+    <div
+      class="unbonded-atoms top-section"
+    >
+      <h3>
+        Available STAKE
+      </h3>
+       
+      <h2>
+        123.0000…
+      </h2>
+    </div>
+  </div>
+   
+  <div
+    class="short-bech32"
+  >
+    <div
+      class="address"
+      id="address"
+    >
+      
+    useraddress…6876
+  
+    </div>
+     
+    <div
+      class="copied"
+    >
+      <i
+        class="material-icons"
+      >
+        check
+      </i>
+      <span>
+        Copied
+      </span>
+    </div>
+  </div>
+   
+  <div
+    class="tabs"
+  />
+   
 </div>
-<div class=\\"unbonded-atoms top-section\\">
-   <h3>
-      Available Steak
-   </h3>
-   <h2>
-      123.0000…
-   </h2>
-</div>
-</div>
-<div class=\\"short-bech32\\">
-   <div id=\\"address\\" class=\\"address\\">
-      useraddress…6876  
-   </div>
-<div class=\\"copied\\">
-   <i class=\\"material-icons\\">check</i><span>Copied</span>
-</div>
-</div>
-<div class=\\"tabs\\"></div>
-</div>"
 `;

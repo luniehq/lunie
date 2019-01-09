@@ -30,22 +30,10 @@ let rendererConfig = {
         exclude: /node_modules/
       },
       {
-        test: /\.json$/,
-        use: `json-loader`
-      },
-      {
         test: /\.vue$/,
         use: {
           loader: `vue-loader`
         }
-      },
-      {
-        test: /\.pug$/,
-        loader: `pug-plain-loader`
-      },
-      {
-        test: /\.styl(us)?$/,
-        use: [`style-loader`, `css-loader`, `stylus-loader`]
       },
       {
         test: /\.css$/,
@@ -97,15 +85,10 @@ let rendererConfig = {
     }),
     new webpack.NoEmitOnErrorsPlugin(),
     // warnings caused by websocket-stream, which has a server-part that is unavailable on the the client
-    new webpack.IgnorePlugin(/(bufferutil|utf-8-validate)/),
-    // put all modules in node_modules in chunk
-    new webpack.optimize.CommonsChunkPlugin({
-      name: `vendor`
-    })
+    new webpack.IgnorePlugin(/(bufferutil|utf-8-validate)/)
   ],
   output: {
     filename: `[name].js`,
-    libraryTarget: `commonjs2`,
     path: path.join(__dirname, `app/dist`)
   },
   resolve: {
@@ -115,26 +98,29 @@ let rendererConfig = {
       assets: resolve(`app/src/renderer/assets`),
       scripts: resolve(`app/src/renderer/scripts`),
       common: resolve(`app/src/renderer/components/common`),
+      transactions: resolve(`app/src/renderer/components/transactions`),
       govern: resolve(`app/src/renderer/components/govern`),
       staking: resolve(`app/src/renderer/components/staking`),
-      wallet: resolve(`app/src/renderer/components/wallet`),
-      variables: resolve(`app/src/renderer/styles/variables.styl`)
+      wallet: resolve(`app/src/renderer/components/wallet`)
     },
-    extensions: [`.js`, `.vue`, `.json`, `.css`, `.node`, `.styl`],
+    extensions: [`.js`, `.vue`, `.json`, `.css`, `.node`],
     modules: [
       path.join(__dirname, `app/node_modules`),
       path.join(__dirname, `node_modules`)
     ]
   },
-  target: `electron-renderer`
+  node: {
+    fs: `empty`
+  },
+  devServer: {
+    contentBase: [path.join(__dirname, `app/dist`), path.join(__dirname, `app`)]
+  }
 }
 
 /**
  * Adjust rendererConfig for production settings
  */
 if (process.env.NODE_ENV === `production`) {
-  rendererConfig.devtool = ``
-
   rendererConfig.plugins.push(
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": `"production"`

@@ -6,14 +6,14 @@
       </div>
       <div class="total-atoms top-section">
         <h3>Total {{ bondingDenom }}</h3>
-        <h2>{{ num.shortNumber(totalAtoms) }}</h2>
+        <h2 class="total-atoms__value">{{ num.shortNumber(totalAtoms) }}</h2>
       </div>
       <div v-if="unbondedAtoms" class="unbonded-atoms top-section">
         <h3>Available {{ bondingDenom }}</h3>
         <h2>{{ unbondedAtoms }}</h2>
       </div>
     </div>
-    <short-bech32 :address="user.address" />
+    <short-bech32 :address="user.address || ''" />
     <div class="tabs">
       <div
         v-for="tab in tabs"
@@ -88,7 +88,7 @@ export default {
 }
 .header-balance .top h2 {
   color: var(--bright);
-  font-size: h1;
+  font-size: var(--h1);
   font-weight: 500;
 }
 .header-balance .top .icon-container {

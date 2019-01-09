@@ -41,7 +41,7 @@ exports[`ModalDeposit component matches snapshot has the expected html structure
   </div>
    
   <div
-    class="modal-deposit-form-group tm-form-group"
+    class="modal-deposit-form-group tm-form-group tm-form-group--error"
   >
     <!---->
     <label
@@ -50,6 +50,7 @@ exports[`ModalDeposit component matches snapshot has the expected html structure
     >
       Amount
     </label>
+     
     <div
       class="tm-form-group__field"
     >
@@ -69,6 +70,8 @@ exports[`ModalDeposit component matches snapshot has the expected html structure
         type="number"
       />
        
+      <!---->
+       
       <hr />
     </div>
   </div>
@@ -83,6 +86,7 @@ exports[`ModalDeposit component matches snapshot has the expected html structure
     >
       Account password
     </label>
+     
     <div
       class="tm-form-group__field"
     >
@@ -117,7 +121,6 @@ exports[`ModalDeposit component matches snapshot has the expected html structure
       <span
         class="tm-btn__container tm-btn--size-lg tm-btn--primary"
       >
-        <!---->
         <!---->
         <span
           class="tm-btn__value"

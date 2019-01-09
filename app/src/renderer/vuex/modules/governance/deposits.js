@@ -1,4 +1,5 @@
-import Raven from "raven-js"
+import * as Sentry from "@sentry/browser"
+import Vue from "vue"
 
 export default ({ node }) => {
   const state = {
@@ -10,7 +11,7 @@ export default ({ node }) => {
 
   const mutations = {
     setProposalDeposits(state, proposalId, deposits) {
-      state.deposits[proposalId] = deposits
+      Vue.set(state.deposits, proposalId, deposits)
     }
   }
   let actions = {
@@ -30,7 +31,7 @@ export default ({ node }) => {
           title: `Error fetching deposits on proposals`,
           body: error.message
         })
-        Raven.captureException(error)
+        Sentry.captureException(error)
         state.error = error
       }
     },
@@ -45,7 +46,7 @@ export default ({ node }) => {
         type: `submitProposalDeposit`,
         to: proposal_id,
         proposal_id,
-        depositer: wallet.address,
+        depositor: wallet.address,
         amount,
         password
       })

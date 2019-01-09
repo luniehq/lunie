@@ -35,7 +35,7 @@ let state = {
           amount: `2300`
         },
         {
-          denom: `steak`,
+          denom: `STAKE`,
           amount: `1000`
         }
       ],
@@ -135,7 +135,7 @@ let state = {
                 description: `This is a test proposal`,
                 initial_deposit: [
                   {
-                    denom: `steak`,
+                    denom: `STAKE`,
                     amount: `100`
                   }
                 ]
@@ -155,11 +155,11 @@ let state = {
             {
               type: `cosmos-sdk/MsgDeposit`,
               value: {
-                depositer: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+                depositor: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
                 proposal_id: `1`,
                 amount: [
                   {
-                    denom: `steak`,
+                    denom: `STAKE`,
                     amount: `100`
                   }
                 ]
@@ -180,7 +180,7 @@ let state = {
                 delegator_addr: addresses[0],
                 delegation: {
                   amount: `24`,
-                  denom: `steak`
+                  denom: `STAKE`
                 }
               }
             }
@@ -304,7 +304,7 @@ let state = {
   stakingParameters: {
     unbonding_time: `259200000000000`,
     max_validators: 100,
-    bond_denom: `steak`
+    bond_denom: `STAKE`
   },
   governanceParameters: {
     deposit: {
@@ -332,21 +332,21 @@ let state = {
     jailed_until: `1970-01-01T00:00:00Z`,
     signed_blocks_counter: 1
   },
-  proposals: [
-    {
+  proposals: {
+    "1": {
       proposal_id: `1`,
       proposal_type: `Text`,
       title: `Proposal Title`,
       description: `Proposal description`,
       initial_deposit: [
         {
-          denom: `steak`,
+          denom: `STAKE`,
           amount: `100`
         }
       ],
       total_deposit: [
         {
-          denom: `steak`,
+          denom: `STAKE`,
           amount: `100`
         }
       ],
@@ -362,20 +362,20 @@ let state = {
         abstain: `56`
       }
     },
-    {
+    "2": {
       proposal_id: `2`,
       proposal_type: `Text`,
       title: `VotingPeriod proposal`,
       description: `custom text proposal description`,
       initial_deposit: [
         {
-          denom: `steak`,
+          denom: `STAKE`,
           amount: `200`
         }
       ],
       total_deposit: [
         {
-          denom: `steak`,
+          denom: `STAKE`,
           amount: `200`
         }
       ],
@@ -391,20 +391,20 @@ let state = {
         abstain: `0`
       }
     },
-    {
+    "5": {
       proposal_id: `5`,
       proposal_type: `Text`,
       title: `Custom text proposal`,
       description: `custom text proposal description`,
       initial_deposit: [
         {
-          denom: `steak`,
+          denom: `STAKE`,
           amount: `20`
         }
       ],
       total_deposit: [
         {
-          denom: `steak`,
+          denom: `STAKE`,
           amount: `170`
         }
       ],
@@ -420,7 +420,7 @@ let state = {
         abstain: `0`
       }
     },
-    {
+    "6": {
       proposal_id: `6`,
       proposal_type: `Text`,
       title: `Rejected proposal`,
@@ -449,9 +449,35 @@ let state = {
         abstain: `20`
       }
     }
-  ],
+  },
+  tallies: {
+    "1": {
+      yes: `500`,
+      no: `25`,
+      no_with_veto: `10`,
+      abstain: `56`
+    },
+    "2": {
+      yes: `0`,
+      no: `0`,
+      no_with_veto: `0`,
+      abstain: `0`
+    },
+    "5": {
+      yes: `0`,
+      no: `0`,
+      no_with_veto: `0`,
+      abstain: `0`
+    },
+    "6": {
+      yes: `10`,
+      no: `30`,
+      no_with_veto: `100`,
+      abstain: `20`
+    }
+  },
   votes: {
-    1: [
+    "1": [
       {
         proposal_id: `1`,
         voter: validators[0],
@@ -463,8 +489,8 @@ let state = {
         option: `NoWithVeto`
       }
     ],
-    2: [],
-    5: [
+    "2": [],
+    "5": [
       {
         proposal_id: `5`,
         voter: validators[0],
@@ -476,7 +502,7 @@ let state = {
         option: `Abstain`
       }
     ],
-    6: [
+    "6": [
       {
         proposal_id: `6`,
         voter: validators[0],
@@ -490,73 +516,73 @@ let state = {
     ]
   },
   deposits: {
-    1: [
+    "1": [
       {
         proposal_id: `1`,
-        depositer: validators[0],
+        depositor: validators[0],
         amount: [
           {
-            denom: `steak`,
+            denom: `STAKE`,
             amount: `15`
           },
           {
-            denom: `steak`,
+            denom: `STAKE`,
             amount: `5`
           }
         ]
       },
       {
         proposal_id: `1`,
-        depositer: validators[1],
+        depositor: validators[1],
         amount: [
           {
-            denom: `steak`,
+            denom: `STAKE`,
             amount: `5`
           }
         ]
       }
     ],
-    2: [
+    "2": [
       {
         proposal_id: `2`,
-        depositer: validators[0],
+        depositor: validators[0],
         amount: [
           {
-            denom: `steak`,
+            denom: `STAKE`,
             amount: `200`
           }
         ]
       }
     ],
-    5: [
+    "5": [
       {
         proposal_id: `5`,
-        depositer: validators[0],
+        depositor: validators[0],
         amount: [
           {
-            denom: `steak`,
+            denom: `STAKE`,
             amount: `20`
           }
         ]
       },
       {
         proposal_id: `5`,
-        depositer: validators[1],
+        depositor: validators[1],
         amount: [
           {
-            denom: `steak`,
+            denom: `STAKE`,
             amount: `150`
           }
         ]
       }
     ],
-    6: [
+    "6": [
       {
         proposal_id: `6`,
-        depositer: validators[0],
+        depositor: validators[0],
         amount: [
           {
-            denom: `steak`,
+            denom: `STAKE`,
             amount: `100`
           }
         ]
@@ -987,10 +1013,12 @@ module.exports = {
     let results = []
     // get new proposal id
     let proposal_id = `1`
-    let proposalsLen = state.proposals.length
-    if (state.proposals && proposalsLen > 0) {
+    const proposalIds = Object.keys(state.proposals)
+    if (state.proposals && proposalIds.length > 0) {
       proposal_id = String(
-        parseInt(state.proposals[proposalsLen - 1].proposal_id) + 1
+        parseInt(
+          proposalIds.reduce((max_id, id) => (id > max_id ? id : max_id), `0`)
+        ) + 1
       )
     }
 
@@ -1029,21 +1057,21 @@ module.exports = {
     }
 
     // we add the proposal to the state to make it available for the submitProposalDeposit function
-    state.proposals.push(proposal)
+    state.proposals[proposal.proposal_id] = proposal
     results = await this.submitProposalDeposit({
       base_req,
       proposal_id,
-      depositer: proposer,
+      depositor: proposer,
       amount: initial_deposit
     })
     // remove proposal from state if it fails
     if (results[0].check_tx.code !== 0) {
-      state.proposals.pop()
+      delete state.proposals[proposal.proposal_id]
     }
     return results
   },
   async getProposal(proposalId) {
-    return state.proposals.find(proposal => proposal.proposal_id === proposalId)
+    return state.proposals[proposalId]
   },
   async getProposalTally(proposalId) {
     let proposal = await this.getProposal(proposalId)
@@ -1054,13 +1082,13 @@ module.exports = {
   },
   async getProposalDeposit(proposalId, address) {
     return state.deposits[proposalId].find(
-      deposit => deposit.depositer === address
+      deposit => deposit.depositor === address
     )
   },
   async submitProposalDeposit({
     proposal_id,
     base_req: { name, sequence },
-    depositer,
+    depositor,
     amount
   }) {
     let results = []
@@ -1096,7 +1124,7 @@ module.exports = {
     let coin
     let submittedDeposit = {
       proposal_id,
-      depositer,
+      depositor,
       amount
     }
 
@@ -1114,7 +1142,7 @@ module.exports = {
         return results
       }
 
-      // update depositer's balance
+      // update depositor's balance
       coinBalance.amount -= depositCoinAmt
 
       // ============= TOTAL PROPOSAL's DEPOSIT =============
@@ -1132,15 +1160,15 @@ module.exports = {
       }
 
       // ============= USER'S DEPOSITS =============
-      // check if there's an existing deposit by the depositer
+      // check if there's an existing deposit by the depositor
       let prevDeposit =
         state.deposits[proposal_id] &&
         state.deposits[proposal_id].find(
-          deposit => deposit.depositer === depositer
+          deposit => deposit.depositor === depositor
         )
 
       if (!prevDeposit) {
-        // if no previous deposit by the depositer, we add it to the existing deposits
+        // if no previous deposit by the depositor, we add it to the existing deposits
         if (!state.deposits[proposal_id]) state.deposits[proposal_id] = []
         state.deposits[proposal_id].push(submittedDeposit)
         break // break since no need to iterate over other coins
@@ -1153,7 +1181,7 @@ module.exports = {
         if (!prevDepCoin) {
           prevDeposit.amount.push(coin)
         } else {
-          // there's a previous deposit from the depositer with the same coin
+          // there's a previous deposit from the depositor with the same coin
           let newAmt = parseInt(prevDepCoin.amount) + parseInt(coin.amount)
           prevDepCoin.amount = String(newAmt)
         }
@@ -1166,7 +1194,7 @@ module.exports = {
     if (proposal.proposal_status === `DepositPeriod`) {
       // TODO: get min deposit denom from gov params instead of stake params
       let depositCoinAmt = proposal.total_deposit.find(coin => {
-        return coin.denom === `steak`
+        return coin.denom === `STAKE`
       }).amount
       // TODO: get min deposit amount from gov params
       if (parseInt(depositCoinAmt) >= 10) {
@@ -1182,8 +1210,11 @@ module.exports = {
     results.push(txResult(0))
     return results
   },
-  async getProposalVotes(proposalId) {
-    return state.votes[proposalId] || []
+  async queryProposalVotes(proposalId) {
+    return (
+      state.votes[proposalId] ||
+      Promise.reject({ message: `Invalid proposalId #${proposalId}` })
+    )
   },
   async submitProposalVote({
     proposal_id,
@@ -1248,9 +1279,9 @@ module.exports = {
   async queryProposals() {
     // TODO: return only value of the `value` property when https://github.com/cosmos/cosmos-sdk/issues/2507 is solved
     let proposals = state.proposals
-    return proposals.map(proposal => {
+    return Object.keys(proposals).map(key => {
       return {
-        value: JSON.parse(JSON.stringify(proposal)),
+        value: JSON.parse(JSON.stringify(proposals[key])),
         type: `gov/TextProposal`
       }
     })
@@ -1263,7 +1294,7 @@ module.exports = {
         if (type === `cosmos-sdk/MsgSubmitProposal`) {
           return tx.tx.value.msg[0].value.proposer === addr
         } else if (type === `cosmos-sdk/MsgDeposit`) {
-          return tx.tx.value.msg[0].value.depositer === addr
+          return tx.tx.value.msg[0].value.depositor === addr
         }
 
         return false

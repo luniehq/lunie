@@ -13,7 +13,11 @@
         <i class="material-icons">close</i>
       </div>
     </div>
-    <tm-form-group class="undelegation-modal-form-group" field-label="Amount">
+    <tm-form-group
+      :error="$v.amount.$invalid"
+      class="undelegation-modal-form-group"
+      field-label="Amount"
+    >
       <tm-field
         id="denom"
         :placeholder="bondingDenom"
@@ -27,6 +31,13 @@
         :min="0"
         v-model="amount"
         type="number"
+      />
+      <tm-form-msg
+        v-if="!$v.amount.between && amount > 0"
+        :max="$v.amount.$params.between.max"
+        :min="$v.amount.$params.between.min"
+        name="Amount"
+        type="between"
       />
     </tm-form-group>
     <tm-form-group
@@ -74,7 +85,10 @@ import { mapGetters } from "vuex"
 import ClickOutside from "vue-click-outside"
 import { required, between } from "vuelidate/lib/validators"
 import Modal from "common/TmModal"
-import { TmBtn, TmField, TmFormGroup, TmFormMsg } from "@tendermint/ui"
+import TmBtn from "common/TmBtn"
+import TmField from "common/TmField"
+import TmFormGroup from "common/TmFormGroup"
+import TmFormMsg from "common/TmFormMsg"
 
 const isInteger = amount => Number.isInteger(amount)
 

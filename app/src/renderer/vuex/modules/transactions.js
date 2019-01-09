@@ -1,6 +1,7 @@
 import fp from "lodash/fp"
 import { uniqBy } from "lodash"
-import Raven from "raven-js"
+import * as Sentry from "@sentry/browser"
+import Vue from "vue"
 export default ({ node }) => {
   let emptyState = {
     loading: false,
@@ -31,8 +32,8 @@ export default ({ node }) => {
     setTransactionTime(state, { blockHeight, blockMetaInfo }) {
       txCategories.forEach(category => {
         state[category].forEach(t => {
-          if (t.height === blockHeight) {
-            t.time = blockMetaInfo && blockMetaInfo.header.time
+          if (t.height === blockHeight && blockMetaInfo) {
+            Vue.set(t, `time`, blockMetaInfo.header.time)
           }
         })
       })
@@ -76,7 +77,7 @@ export default ({ node }) => {
           title: `Error getting transactions`,
           body: error.message
         })
-        Raven.captureException(error)
+        Sentry.captureException(error)
         state.error = error
       }
     },

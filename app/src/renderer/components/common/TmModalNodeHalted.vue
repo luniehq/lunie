@@ -32,14 +32,13 @@
 </template>
 
 <script>
-import { ipcRenderer } from "electron"
-import { TmBtn } from "@tendermint/ui"
+import TmBtn from "common/TmBtn"
 export default {
   name: `modal-node-halted`,
   components: { TmBtn },
   methods: {
     switchNode() {
-      ipcRenderer.send(`reconnect`)
+      this.$store.dispatch(`reconnect`)
       this.$store.commit(`setModalNodeHalted`, false)
     },
     useMock() {
@@ -84,14 +83,14 @@ export default {
 }
 
 .tm-modal-error__title {
-  font-size: h1;
+  font-size: var(--h1);
   font-weight: 500;
   line-height: 1;
   margin-bottom: 1.5rem;
 }
 
 .tm-modal-error__body {
-  font-size: lg;
+  font-size: var(--lg);
   color: var(--dim);
   margin-bottom: 3rem;
 }

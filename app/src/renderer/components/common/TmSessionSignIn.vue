@@ -51,20 +51,7 @@
         </tm-form-group>
       </div>
       <div class="tm-session-footer">
-        <tm-btn
-          v-if="connected"
-          icon="arrow_forward"
-          icon-pos="right"
-          value="Next"
-          size="lg"
-        />
-        <tm-btn
-          v-else
-          icon-pos="right"
-          value="Connecting..."
-          size="lg"
-          disabled="true"
-        />
+        <tm-btn icon="arrow_forward" icon-pos="right" value="Next" size="lg" />
       </div>
     </tm-form-struct>
   </div>
@@ -73,13 +60,11 @@
 <script>
 import { mapGetters } from "vuex"
 import { required, minLength } from "vuelidate/lib/validators"
-import {
-  TmBtn,
-  TmFormGroup,
-  TmFormStruct,
-  TmField,
-  TmFormMsg
-} from "@tendermint/ui"
+import TmBtn from "common/TmBtn"
+import TmFormGroup from "common/TmFormGroup"
+import TmFormStruct from "common/TmFormStruct"
+import TmField from "common/TmField"
+import TmFormMsg from "common/TmFormMsg"
 export default {
   name: `tm-session-sign-in`,
   components: {
@@ -96,7 +81,7 @@ export default {
     }
   }),
   computed: {
-    ...mapGetters([`user`, `mockedConnector`, `lastHeader`, `connected`]),
+    ...mapGetters([`user`, `mockedConnector`, `lastHeader`]),
     accounts() {
       let accounts = this.user.accounts
       accounts = accounts.filter(({ name }) => name !== `trunk`)
@@ -119,11 +104,11 @@ export default {
     async onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return
-      try {
-        await this.$store.dispatch(`testLogin`, {
-          password: this.fields.signInPassword,
-          account: this.fields.signInName
-        })
+      let sessionCorrect = await this.$store.dispatch(`testLogin`, {
+        password: this.fields.signInPassword,
+        account: this.fields.signInName
+      })
+      if (sessionCorrect) {
         this.$store.dispatch(`signIn`, {
           password: this.fields.signInPassword,
           account: this.fields.signInName
@@ -131,10 +116,10 @@ export default {
         localStorage.setItem(`prevAccountKey`, this.fields.signInName)
         this.$router.push(`/`)
         this.$store.commit(`setModalSession`, false)
-      } catch (error) {
+      } else {
         this.$store.commit(`notifyError`, {
           title: `Signing In Failed`,
-          body: error.message
+          body: `The provided username or password is wrong.`
         })
       }
     },

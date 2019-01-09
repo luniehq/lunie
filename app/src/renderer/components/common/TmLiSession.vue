@@ -74,13 +74,13 @@ export default {
 
 .tm-li-session-title {
   color: var(--txt);
-  font-size: lg;
+  font-size: var(--lg);
   line-height: 1.25;
   margin-bottom: 0.375rem;
 }
 
 .tm-li-session-subtitle {
   color: var(--dim);
-  font-size: sm;
+  font-size: var(--sm);
 }
 </style>

@@ -39,8 +39,8 @@ test(`wallet`, async function(t) {
     t.equal((await app.client.$$(`.li-coin`)).length, 2, `it shows all 2 coins`)
     // denom
     await t.ok(
-      await app.client.$(`.coin-denom=Steak`).isVisible(),
-      `show coin steak`
+      await app.client.$(`.coin-denom=Stake`).isVisible(),
+      `show coin stake`
     )
     await t.ok(
       await app.client.$(`.coin-denom=Localcoin`).isVisible(),
@@ -89,9 +89,10 @@ test(`wallet`, async function(t) {
     t.test(`address w/ less than or greater than 40 chars`, async function(t) {
       await goToSendPage()
       await addressInput().setValue(`012345`)
+      await amountInput().setValue(`100`)
       await app.client.setValue(`#password`, `1234567890`)
       await sendBtn().click()
-      await $(`div*=Address is invalid (012345 too short)`).waitForExist()
+      await $(`div*=Address is invalid bech32`).waitForExist()
       t.pass(`got correct error message`)
       await sendBtn().click()
       t.equal(await sendBtn().getText(), `Send Tokens`, `not sending`)
@@ -101,9 +102,7 @@ test(`wallet`, async function(t) {
       await addressInput().setValue(fourtyOneZeros)
 
       await sendBtn().click()
-      await $(
-        `div*=Address is invalid (Invalid checksum for ` + fourtyOneZeros + `)`
-      ).waitForExist()
+      await $(`div*=Address is invalid bech32`).waitForExist()
       t.pass(`got correct error message`)
       await sendBtn().click()
       t.equal(await sendBtn().getText(), `Send Tokens`, `not sending`)
@@ -115,9 +114,7 @@ test(`wallet`, async function(t) {
       await goToSendPage()
       await addressInput().setValue(`~`.repeat(40))
       await app.client.setValue(`#password`, `1234567890`)
-      await $(
-        `div*=Address is invalid (No separator character for ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~)`
-      ).waitForExist()
+      await $(`div*=Address is invalid bech32`).waitForExist()
       t.pass(`got correct error message`)
 
       await sendBtn().click()
@@ -130,10 +127,9 @@ test(`wallet`, async function(t) {
       let validAddress = addresses[0]
       let invalidAddress = validAddress.slice(0, -1) + `4`
       await addressInput().setValue(invalidAddress)
+      await amountInput().setValue(`100`)
       await app.client.setValue(`#password`, `1234567890`)
-      await $(
-        `div*=Address is invalid (Invalid checksum for ` + invalidAddress + `)`
-      ).waitForExist()
+      await $(`div*=Address is invalid bech32`).waitForExist()
       t.pass(`got correct error message`)
 
       await sendBtn().click()
@@ -143,6 +139,7 @@ test(`wallet`, async function(t) {
 
     t.test(`amount set`, async function(t) {
       await goToSendPage()
+      await addressInput().setValue(``)
       await amountInput().setValue(`100`)
       await sendBtn().click()
       t.equal(await sendBtn().getText(), `Send Tokens`, `not sending`)

@@ -30,17 +30,18 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
   </div>
    
   <div
-    class="undelegation-modal-form-group tm-form-group"
+    class="undelegation-modal-form-group tm-form-group tm-form-group--error"
   >
     <!---->
     <!---->
+     
     <div
       class="tm-form-group__field"
     >
       <input
         class="tm-field"
         id="denom"
-        placeholder="Steak"
+        placeholder="STAKE"
         readonly="readonly"
         type="text"
       />
@@ -52,6 +53,8 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
         min="0"
         type="number"
       />
+       
+      <!---->
     </div>
   </div>
    
@@ -65,6 +68,7 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
     >
       To
     </label>
+     
     <div
       class="tm-form-group__field"
     >
@@ -72,6 +76,7 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
         class="tm-field"
         id="to"
         readonly="readonly"
+        type="text"
       />
        
       <hr />
@@ -88,6 +93,7 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
     >
       Account password
     </label>
+     
     <div
       class="tm-form-group__field"
     >
@@ -122,7 +128,6 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
       <span
         class="tm-btn__container tm-btn--size-lg tm-btn--primary"
       >
-        <!---->
         <!---->
         <span
           class="tm-btn__value"

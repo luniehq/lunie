@@ -15,7 +15,9 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
         class="tm-page-header-text"
       >
         <!---->
+         
         <!---->
+         
         <div
           class="tm-page-header-body"
         >
@@ -38,10 +40,12 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                 class="total-atoms top-section"
               >
                 <h3>
-                  Total Steak
+                  Total STAKE
                 </h3>
                  
-                <h2>
+                <h2
+                  class="total-atoms__value"
+                >
                   1,000.0000…
                 </h2>
               </div>
@@ -50,7 +54,7 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                 class="unbonded-atoms top-section"
               >
                 <h3>
-                  Available Steak
+                  Available STAKE
                 </h3>
                  
                 <h2>
@@ -115,17 +119,16 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
               </i>
             </a>
              
-            <a
-              class=""
-              href="#/preferences"
+            <router-link-stub
               id="settings"
+              to="/preferences"
             >
               <i
                 class="material-icons"
               >
                 settings
               </i>
-            </a>
+            </router-link-stub>
             <a
               id="signOut-btn"
             >
@@ -138,6 +141,7 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
           </div>
         </div>
       </div>
+       
       <menu
         class="tm-page-header-menu"
       >
@@ -145,8 +149,9 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
       </menu>
     </div>
   </header>
+   
   <main
-    class="tm-page-main ps"
+    class="tm-page-main"
   >
      
     <section
@@ -166,11 +171,13 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
             >
               Settings
             </div>
+             
             <menu
               class="tm-part-menu"
             />
           </div>
         </header>
+         
         <main
           class="tm-part-main"
         >
@@ -185,6 +192,7 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
               >
                 <!---->
               </div>
+               
               <div
                 class="tm-li-label"
               >
@@ -193,12 +201,14 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                 >
                   Select network to connect to
                 </div>
+                 
                 <div
                   class="tm-li-subtitle"
                 >
                   
                 </div>
               </div>
+               
               <div
                 class="tm-li-input"
               >
@@ -217,6 +227,7 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                     >
                       Select network...
                     </option>
+                     
                     <option
                       value="live"
                     >
@@ -228,6 +239,7 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                       Offline Mode
                     </option>
                   </select>
+                   
                   <div
                     class="tm-field-select-addon"
                   >
@@ -253,6 +265,7 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
               >
                 <!---->
               </div>
+               
               <div
                 class="tm-li-label"
               >
@@ -261,12 +274,14 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                 >
                   Node IP
                 </div>
+                 
                 <div
                   class="tm-li-subtitle"
                 >
                   
                 </div>
               </div>
+               
               <div
                 class="tm-li-input"
               >
@@ -283,7 +298,6 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                     >
                       exit_to_app
                     </i>
-                    <!---->
                     <!---->
                   </span>
                 </button>
@@ -302,6 +316,7 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
               >
                 <!---->
               </div>
+               
               <div
                 class="tm-li-label"
               >
@@ -310,12 +325,14 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                 >
                   View tutorial for Voyager
                 </div>
+                 
                 <div
                   class="tm-li-subtitle"
                 >
                   
                 </div>
               </div>
+               
               <div
                 class="tm-li-input"
               >
@@ -332,7 +349,6 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                     >
                       open_in_new
                     </i>
-                    <!---->
                     <span
                       class="tm-btn__value"
                     >
@@ -355,6 +371,7 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
               >
                 <!---->
               </div>
+               
               <div
                 class="tm-li-label"
               >
@@ -363,12 +380,14 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                 >
                   Automatically send usage statistics and crash reports
                 </div>
+                 
                 <div
                   class="tm-li-subtitle"
                 >
                   to the Voyager development team
                 </div>
               </div>
+               
               <div
                 class="tm-li-input"
               >
@@ -382,6 +401,7 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                     <span>
                        
                     </span>
+                     
                     <div
                       class="toggle-option-checked"
                     >
@@ -389,6 +409,7 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                          
                       </div>
                     </div>
+                     
                     <div
                       class="toggle-option-unchecked"
                     >
@@ -396,11 +417,14 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                          
                       </div>
                     </div>
+                     
                     <div
                       class="toggle-handle"
                     />
+                     
                     <input
                       type="checkbox"
+                      value="false"
                     />
                   </div>
                 </label>
@@ -428,11 +452,13 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
             >
               Account
             </div>
+             
             <menu
               class="tm-part-menu"
             />
           </div>
         </header>
+         
         <main
           class="tm-part-main"
         >
@@ -447,6 +473,7 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
               >
                 <!---->
               </div>
+               
               <div
                 class="tm-li-label"
               >
@@ -455,12 +482,14 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                 >
                   Switch account
                 </div>
+                 
                 <div
                   class="tm-li-subtitle"
                 >
                   
                 </div>
               </div>
+               
               <div
                 class="tm-li-input"
               >
@@ -478,7 +507,6 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                     >
                       exit_to_app
                     </i>
-                    <!---->
                     <span
                       class="tm-btn__value"
                     >
@@ -492,26 +520,6 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
         </main>
       </div>
     </section>
-    <div
-      class="ps__rail-x"
-      style="left: 0px; top: 0px;"
-    >
-      <div
-        class="ps__thumb-x"
-        style="left: 0px; width: 0px;"
-        tabindex="0"
-      />
-    </div>
-    <div
-      class="ps__rail-y"
-      style="top: 0px; left: 0px;"
-    >
-      <div
-        class="ps__thumb-y"
-        style="top: 0px; height: 0px;"
-        tabindex="0"
-      />
-    </div>
   </main>
 </div>
 `;

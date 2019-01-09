@@ -14,6 +14,7 @@
       <h3>Proposal ID: {{ `#` + proposalId }}</h3>
     </div>
     <tm-form-group
+      :error="$v.amount.$invalid"
       class="modal-deposit-form-group"
       field-id="amount"
       field-label="Amount"
@@ -31,6 +32,13 @@
         :min="0"
         v-model="amount"
         type="number"
+      />
+      <tm-form-msg
+        v-if="!$v.amount.between && amount > 0"
+        :max="$v.amount.$params.between.max"
+        :min="$v.amount.$params.between.min"
+        name="Amount"
+        type="between"
       />
       <hr />
     </tm-form-group>
@@ -71,7 +79,10 @@ import { mapGetters } from "vuex"
 import ClickOutside from "vue-click-outside"
 import { required, between } from "vuelidate/lib/validators"
 import Modal from "common/TmModal"
-import { TmBtn, TmField, TmFormGroup } from "@tendermint/ui"
+import TmBtn from "common/TmBtn"
+import TmField from "common/TmField"
+import TmFormGroup from "common/TmFormGroup"
+import TmFormMsg from "common/TmFormMsg"
 
 const isInteger = amount => Number.isInteger(amount)
 
@@ -81,7 +92,8 @@ export default {
     Modal,
     TmBtn,
     TmField,
-    TmFormGroup
+    TmFormGroup,
+    TmFormMsg
   },
   directives: {
     ClickOutside

@@ -5,18 +5,9 @@ jest.mock(
   () => jest.fn(() => require(`../helpers/node_mock`)) // using jest.fn to be able to spy on the constructor call
 )
 
-let mockConsole = console // needed to use the console in a mock
-
 describe(`App Start`, () => {
   jest.mock(`../../../app/src/config`, () => ({
-    google_analytics_uid: `123`,
-    sentry_dsn_public: `456`
-  }))
-  jest.mock(`raven-js`, () => ({
-    config: () => {
-      return { install: () => {} }
-    },
-    captureException: error => mockConsole.error(error)
+    google_analytics_uid: `123`
   }))
   jest.mock(`renderer/google-analytics.js`, () => () => {})
   // popper.js is used by tooltips and causes some errors if
@@ -41,10 +32,11 @@ describe(`App Start`, () => {
   }))
 
   beforeEach(() => {
-    Object.defineProperty(window.location, `search`, {
-      writable: true,
-      value: `?node=localhost&lcd_port=8080`
-    })
+    window.history.pushState(
+      {},
+      `Mock Voyager`,
+      `/?node=localhost&lcd_port=8080`
+    )
     document.body.innerHTML = `<div id="app"></div>`
     jest.resetModules()
   })
@@ -81,17 +73,14 @@ describe(`App Start`, () => {
     mockDone()
   })
 
-  it(`does not set Raven dsn if analytics is disabled`, mockDone => {
-    jest.mock(`raven-js`, () => ({
-      config: dsn => {
-        expect(dsn).toBe(``)
-        return {
-          install: () => {
-            mockDone()
-          }
-        }
+  it(`does not set Sentry dsn if analytics is disabled`, mockDone => {
+    jest.mock(`@sentry/browser`, () => ({
+      init: config => {
+        expect(config).toEqual({})
+        mockDone()
       },
-      captureException: error => mockConsole.error(error)
+      configureScope: () => {},
+      captureException: () => {}
     }))
     require(`renderer/main.js`)
   })
@@ -204,7 +193,6 @@ describe(`App Start`, () => {
         status: () => {}
       },
       rpcConnect: () => {},
-      rpcReconnect: () => {},
       lcdConnected: () => Promise.resolve(false),
       keys: {
         values: () => []

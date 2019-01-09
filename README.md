@@ -67,6 +67,30 @@ yarn install
 
 ## Voyager Development
 
+### Generate SSL certificates
+
+To run Voyager please generate some ssl certificates for your local environment:
+
+```bash
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+  -keyout server_dev.key -out server_dev.crt \
+  -subj "/C=US/ST=CA/L=Irvine/O=Acme Inc./CN=localhost" \
+  -reqexts v3_req -reqexts SAN -extensions SAN \
+  -config \
+  <(echo -e '
+    [req]\n
+    distinguished_name=req_distinguished_name\n
+    [req_distinguished_name]\n
+    [SAN]\n
+    subjectKeyIdentifier=hash\n
+    authorityKeyIdentifier=keyid:always,issuer:always\n
+    basicConstraints=CA:TRUE\n
+    subjectAltName=@alt_names
+    [alt_names]
+    DNS.1 = localhost
+  ')
+```
+
 To run Voyager on the default testnet:
 
 ```bash
@@ -134,10 +158,18 @@ node tasks/build/build.js --os darwin --binaryPath $GOPATH/bin/gaiacli
 
 ## Testing
 
-Voyager is using [Jest](https://facebook.github.io/jest) to run unit tests.
+If you would like to run all the tests you can run:
 
 ```bash
 $ yarn test
+```
+
+### Unit Tests
+
+Voyager is using [Jest](https://facebook.github.io/jest) to run unit tests.
+
+```bash
+$ yarn test:unit
 ```
 
 You can run the unit tests for a single file (e.g.,
@@ -147,10 +179,33 @@ PageValidator.spec.js) whenever there are changes like this:
 $ yarn watch PageValidator
 ```
 
+### Coverage
+
 To check test coverage locally run following. It will spin up a webserver and provide you with a link to the coverage report web page.
 
 ```bash
 $ yarn test:coverage
+```
+
+### End to end
+
+End to end testing is performed via `tape`, you can run all of them using:
+
+```bash
+$ yarn test:e2e
+```
+
+If you would like to run a single test please set the TEST variable (Unix systems):
+
+```bash
+$ TEST=test/e2e/init.js yarn test:e2e
+```
+
+You can also run the `tape` command directly, but then you need to run the packaging of Voyager before it (i.e. necessary on Windows):
+
+```bash
+$ yarn pack
+$ node_modules/.bin/tape test/e2e/init.js
 ```
 
 ---
@@ -235,6 +290,14 @@ $ yarn start local-testnet
 ```
 
 Import the account with the 12 word seed phrase you wrote down earlier.
+
+### Run several nodes
+
+This command will build and run several nodes at once. All nodes will be validators:
+
+```bash
+$ yarn start local-testnet 5
+```
 
 ## Flags
 

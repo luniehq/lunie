@@ -2,7 +2,7 @@
 
 exports[`PageProposal has the expected html structure 1`] = `
 <div
-  class="tm-page"
+  class="tm-page page-profile"
   data-title="Proposal"
 >
   <header
@@ -15,7 +15,9 @@ exports[`PageProposal has the expected html structure 1`] = `
         class="tm-page-header-text"
       >
         <!---->
+         
         <!---->
+         
         <div
           class="tm-page-header-body"
         >
@@ -38,10 +40,12 @@ exports[`PageProposal has the expected html structure 1`] = `
                 class="total-atoms top-section"
               >
                 <h3>
-                  Total Steak
+                  Total STAKE
                 </h3>
                  
-                <h2>
+                <h2
+                  class="total-atoms__value"
+                >
                   0.0000…
                 </h2>
               </div>
@@ -50,7 +54,7 @@ exports[`PageProposal has the expected html structure 1`] = `
                 class="unbonded-atoms top-section"
               >
                 <h3>
-                  Available Steak
+                  Available STAKE
                 </h3>
                  
                 <h2>
@@ -92,6 +96,7 @@ exports[`PageProposal has the expected html structure 1`] = `
           </div>
         </div>
       </div>
+       
       <menu
         class="tm-page-header-menu"
       >
@@ -100,86 +105,118 @@ exports[`PageProposal has the expected html structure 1`] = `
             <div
               class="tm-tool-bar"
             >
-              <div
-                class="tm-tool-bar-container"
+              <a
+                class="back"
+                disabled="disabled"
               >
-                <div
-                  class="main"
+                <i
+                  class="material-icons"
                 >
-                  <a
-                    class=""
-                    href="#/governance"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                  </a>
-                </div>
-              </div>
+                  arrow_back
+                </i>
+              </a>
+               
+              <router-link-stub
+                exact="exact"
+                to="/governance"
+              >
+                <i
+                  class="material-icons"
+                >
+                  arrow_back
+                </i>
+              </router-link-stub>
+              <a
+                class="help"
+              >
+                <i
+                  class="material-icons"
+                >
+                  help_outline
+                </i>
+              </a>
+               
+              <router-link-stub
+                id="settings"
+                to="/preferences"
+              >
+                <i
+                  class="material-icons"
+                >
+                  settings
+                </i>
+              </router-link-stub>
+              <a
+                id="signOut-btn"
+              >
+                <i
+                  class="material-icons"
+                >
+                  exit_to_app
+                </i>
+              </a>
             </div>
           </div>
         </div>
       </menu>
     </div>
   </header>
+   
   <main
-    class="tm-page-main ps"
+    class="tm-page-main"
   >
       
     <div
-      class="validator-profile__header validator-profile__section proposal"
+      class="page-profile__header page-profile__section proposal"
     >
       <div
-        class="column validator-profile__header__info"
+        class="column page-profile__header__info"
       >
         <div
-          class="row validator-profile__header__name"
+          class="row page-profile__header__name"
         >
           <div
             class="top column"
           >
             <div
-              class="validator-profile__status-and-title"
+              class="page-profile__status-and-title"
             >
               <span
-                class="validator-profile__status"
+                class="page-profile__status green"
               />
                
               <div
-                class="validator-profile__header__name__title"
+                class="page-profile__header__name__title"
               >
                 
-                Proposal Title (#1)
+                VotingPeriod proposal (#2)
               
               </div>
             </div>
           </div>
            
           <div
-            class="column validator-profile__header__actions"
+            class="column page-profile__header__actions"
           >
-            <!---->
-             
-            <!---->
-             
             <button
               class="tm-btn"
-              disabled="disabled"
+              id="vote-btn"
             >
               <span
                 class="tm-btn__container tm-btn--primary"
               >
                 <!---->
-                <!---->
                 <span
                   class="tm-btn__value"
                 >
-                  Deposit / Vote
+                  Vote
                 </span>
               </span>
             </button>
+             
+            <!---->
+             
+            <!---->
           </div>
         </div>
          
@@ -195,7 +232,7 @@ exports[`PageProposal has the expected html structure 1`] = `
         </div>
          
         <div
-          class="row validator-profile__header__data votes"
+          class="row page-profile__header__data votes"
         >
           <dl
             class="colored_dl"
@@ -206,13 +243,13 @@ exports[`PageProposal has the expected html structure 1`] = `
              
             <dd>
               
-              100 steak
+              200 STAKE
             
             </dd>
           </dl>
            
           <div
-            class="validator-profile__header__data__break"
+            class="page-profile__header__data__break"
           />
            
           <dl
@@ -223,7 +260,7 @@ exports[`PageProposal has the expected html structure 1`] = `
             </dt>
              
             <dd>
-              500 / 85%
+              0 / 0%
             </dd>
           </dl>
            
@@ -235,7 +272,7 @@ exports[`PageProposal has the expected html structure 1`] = `
             </dt>
              
             <dd>
-              25 / 4%
+              0 / 0%
             </dd>
           </dl>
            
@@ -247,10 +284,7 @@ exports[`PageProposal has the expected html structure 1`] = `
             </dt>
              
             <dd>
-              
-              10 /
-              2%
-            
+              0 / 0%
             </dd>
           </dl>
            
@@ -262,9 +296,7 @@ exports[`PageProposal has the expected html structure 1`] = `
             </dt>
              
             <dd>
-              
-              56 / 9%
-            
+              0 / 0%
             </dd>
           </dl>
         </div>
@@ -272,7 +304,7 @@ exports[`PageProposal has the expected html structure 1`] = `
     </div>
      
     <div
-      class="validator-profile__details validator-profile__section"
+      class="page-profile__details page-profile__section"
     >
       <div
         class="column"
@@ -284,7 +316,7 @@ exports[`PageProposal has the expected html structure 1`] = `
             class="text-block"
           >
             <p>
-              Proposal description
+              custom text proposal description
             </p>
             
 
@@ -296,33 +328,13 @@ exports[`PageProposal has the expected html structure 1`] = `
     <!---->
      
     <!---->
-    <div
-      class="ps__rail-x"
-      style="left: 0px; top: 0px;"
-    >
-      <div
-        class="ps__thumb-x"
-        style="left: 0px; width: 0px;"
-        tabindex="0"
-      />
-    </div>
-    <div
-      class="ps__rail-y"
-      style="top: 0px; left: 0px;"
-    >
-      <div
-        class="ps__thumb-y"
-        style="top: 0px; height: 0px;"
-        tabindex="0"
-      />
-    </div>
   </main>
 </div>
 `;
 
 exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
 <div
-  class="tm-page"
+  class="tm-page page-profile"
   data-title="Proposal"
 >
   <header
@@ -335,7 +347,9 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
         class="tm-page-header-text"
       >
         <!---->
+         
         <!---->
+         
         <div
           class="tm-page-header-body"
         >
@@ -358,10 +372,12 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
                 class="total-atoms top-section"
               >
                 <h3>
-                  Total Steak
+                  Total STAKE
                 </h3>
                  
-                <h2>
+                <h2
+                  class="total-atoms__value"
+                >
                   0.0000…
                 </h2>
               </div>
@@ -370,7 +386,7 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
                 class="unbonded-atoms top-section"
               >
                 <h3>
-                  Available Steak
+                  Available STAKE
                 </h3>
                  
                 <h2>
@@ -412,6 +428,7 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
           </div>
         </div>
       </div>
+       
       <menu
         class="tm-page-header-menu"
       >
@@ -420,30 +437,63 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
             <div
               class="tm-tool-bar"
             >
-              <div
-                class="tm-tool-bar-container"
+              <a
+                class="back"
+                disabled="disabled"
               >
-                <div
-                  class="main"
+                <i
+                  class="material-icons"
                 >
-                  <a
-                    class=""
-                    href="#/governance"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                  </a>
-                </div>
-              </div>
+                  arrow_back
+                </i>
+              </a>
+               
+              <router-link-stub
+                exact="exact"
+                to="/governance"
+              >
+                <i
+                  class="material-icons"
+                >
+                  arrow_back
+                </i>
+              </router-link-stub>
+              <a
+                class="help"
+              >
+                <i
+                  class="material-icons"
+                >
+                  help_outline
+                </i>
+              </a>
+               
+              <router-link-stub
+                id="settings"
+                to="/preferences"
+              >
+                <i
+                  class="material-icons"
+                >
+                  settings
+                </i>
+              </router-link-stub>
+              <a
+                id="signOut-btn"
+              >
+                <i
+                  class="material-icons"
+                >
+                  exit_to_app
+                </i>
+              </a>
             </div>
           </div>
         </div>
       </menu>
     </div>
   </header>
+   
   <main
     class="tm-page-main"
   >
@@ -460,6 +510,7 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
           sentiment_very_dissatisfied
         </i>
       </div>
+       
       <div
         class="tm-data-msg__text"
       >
@@ -470,6 +521,7 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
             Aw shucks!
           </div>
         </div>
+         
         <div
           class="tm-data-msg__subtitle"
         >

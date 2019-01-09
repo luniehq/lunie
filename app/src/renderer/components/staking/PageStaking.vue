@@ -2,7 +2,7 @@
   <tm-page class="staking" data-title="Staking"
     ><template slot="menu-body">
       <tm-balance :tabs="tabs" />
-      <vm-tool-bar
+      <tool-bar
         ><a
           v-tooltip.bottom="'Refresh'"
           :disabled="!connected"
@@ -10,7 +10,7 @@
           ><i class="material-icons">refresh</i></a
         ><a v-tooltip.bottom="'Search'" @click="setSearch()"
           ><i class="search material-icons">search</i></a
-        ></vm-tool-bar
+        ></tool-bar
       >
     </template>
     <modal-search type="delegates" />
@@ -21,9 +21,10 @@
 <script>
 import { mapGetters, mapActions } from "vuex"
 import Mousetrap from "mousetrap"
-import { TmPage } from "@tendermint/ui"
+import TmPage from "common/TmPage"
 import ModalSearch from "common/TmModalSearch"
-import VmToolBar from "common/VmToolBar"
+import PerfectScrollbar from "perfect-scrollbar"
+import ToolBar from "common/ToolBar"
 import TmBalance from "common/TmBalance"
 export default {
   name: `page-staking`,
@@ -31,7 +32,7 @@ export default {
     ModalSearch,
     TmPage,
     TmBalance,
-    VmToolBar
+    ToolBar
   },
   data: () => ({
     query: ``,
@@ -53,12 +54,17 @@ export default {
   computed: {
     ...mapGetters([`connected`, `delegates`, `filters`])
   },
-  async mounted() {
+  mounted() {
+    this.ps = new PerfectScrollbar(this.$el.querySelector(`.tm-page-main`))
+
     Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
     Mousetrap.bind(`esc`, () => this.setSearch(false))
 
     // XXX temporary because querying the shares shows old shares after bonding
     // this.updateDelegates()
+  },
+  updated() {
+    this.$el.querySelector(`.tm-page-main`).scrollTop = 0
   },
   methods: {
     setSearch(bool = !this.filters[`delegates`].search.visible) {

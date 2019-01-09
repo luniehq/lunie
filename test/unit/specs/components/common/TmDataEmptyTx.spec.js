@@ -1,15 +1,18 @@
 import { mount } from "@vue/test-utils"
-import htmlBeautify from "html-beautify"
 import TmDataEmptyTx from "common/TmDataEmptyTx"
 
 describe(`TmDataEmptyTx`, () => {
   let wrapper
   beforeEach(() => {
-    wrapper = mount(TmDataEmptyTx)
+    wrapper = mount(TmDataEmptyTx, {
+      stubs: {
+        "router-link": true
+      }
+    })
   })
 
   it(`has the expected html structure`, () => {
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`has an icon`, () => {

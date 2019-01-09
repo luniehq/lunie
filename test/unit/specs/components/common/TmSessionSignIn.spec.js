@@ -1,6 +1,5 @@
 import setup from "../../../helpers/vuex-setup"
 import Vuelidate from "vuelidate"
-import htmlBeautify from "html-beautify"
 import TmSessionSignIn from "common/TmSessionSignIn"
 
 let instance = setup()
@@ -13,6 +12,11 @@ describe(`TmSessionSignIn`, () => {
     let test = instance.mount(TmSessionSignIn, {
       getters: {
         connected: () => true
+      },
+      mocks: {
+        $router: {
+          push: jest.fn()
+        }
       }
     })
     store = test.store
@@ -20,7 +24,7 @@ describe(`TmSessionSignIn`, () => {
   })
 
   it(`has the expected html structure`, () => {
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should open the help modal on click`, () => {
@@ -89,8 +93,8 @@ describe(`TmSessionSignIn`, () => {
 
     expect(wrapper.vm.fields.signInPassword).toBe(`1234567890`)
     expect(wrapper.html()).toContain(`1234567890`)
-    expect(wrapper.html()).toMatchSnapshot()
   })
+
   it(`should reset history after signin`, async () => {
     expect(store.state.user.history.length).toBe(0)
     wrapper.setData({
@@ -101,8 +105,7 @@ describe(`TmSessionSignIn`, () => {
     })
     await wrapper.vm.onSubmit()
     expect(store.state.user.history.length).toBe(0)
-    wrapper.vm.$router.push(`/staking`)
-    wrapper.update()
+    store.commit(`addHistory`, `/staking`)
     expect(store.state.user.history.length).toBe(1)
     store.dispatch(`signOut`)
     expect(store.state.user.history.length).toBe(0)

@@ -1,4 +1,4 @@
-import Raven from "raven-js"
+import * as Sentry from "@sentry/browser"
 
 export default ({ node }) => {
   const state = {
@@ -43,18 +43,9 @@ export default ({ node }) => {
           return blockMetaInfo
         }
         state.loading = true
-        blockMetaInfo = await new Promise((resolve, reject) => {
-          node.rpc.blockchain(
-            { minHeight: height, maxHeight: height },
-            (error, data) => {
-              if (error) {
-                reject(`Couldn't query block. ${error.message}`)
-              } else {
-                resolve(data.block_metas && data.block_metas[0])
-              }
-            }
-          )
-        })
+        blockMetaInfo = await node.rpc
+          .blockchain({ minHeight: String(height), maxHeight: String(height) })
+          .then(({ block_metas }) => (block_metas ? block_metas[0] : undefined))
         state.loading = false
 
         commit(`setBlockMetas`, {
@@ -67,7 +58,7 @@ export default ({ node }) => {
           title: `Error fetching block information`,
           body: error.message
         })
-        Raven.captureException(error)
+        Sentry.captureException(error)
         state.loading = false
         state.error = error
         return null
@@ -79,13 +70,7 @@ export default ({ node }) => {
       if (state.subscribedRPC === node.rpc) return false
       commit(`setSubscribedRPC`, node.rpc)
 
-      function handleError(error) {
-        dispatch(`nodeHasHalted`)
-        state.error = error
-      }
-
-      node.rpc.status((error, status) => {
-        if (error) return handleError(error)
+      node.rpc.status().then(status => {
         commit(`setBlockHeight`, status.sync_info.latest_block_height)
         if (status.sync_info.catching_up) {
           // still syncing, let's try subscribing again in 30 seconds
@@ -98,12 +83,11 @@ export default ({ node }) => {
         commit(`setSyncing`, false)
 
         // only subscribe if the node is not catching up anymore
-        node.rpc.subscribe({ query: `tm.event = 'NewBlock'` }, error => {
-          if (error) return handleError(error)
-
+        node.rpc.subscribe({ query: `tm.event = 'NewBlock'` }, () => {
           if (state.subscription === false) commit(`setSubscription`, true)
         })
       })
+
       return true
     }
   }

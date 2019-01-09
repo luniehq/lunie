@@ -23,7 +23,6 @@ exports[`TmLiCopy has the expected html structure 1`] = `
         >
           content_copy
         </i>
-        <!---->
         <span
           class="tm-btn__value"
         >
@@ -58,7 +57,6 @@ exports[`TmLiCopy should show the receive button 1`] = `
         >
           content_copy
         </i>
-        <!---->
         <span
           class="tm-btn__value"
         >

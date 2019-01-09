@@ -1,37 +1,40 @@
 import setup from "../../../helpers/vuex-setup"
-import htmlBeautify from "html-beautify"
 import TableProposals from "renderer/components/governance/TableProposals"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+
+let { proposals, tallies } = lcdClientMock.state
 
 describe(`TableProposals`, () => {
   let wrapper, store
   let { mount } = setup()
 
+  const $store = {
+    commit: jest.fn(),
+    dispatch: jest.fn(),
+    getters: {
+      proposals: { proposals, tallies }
+    }
+  }
+
   beforeEach(() => {
     let instance = mount(TableProposals, {
-      propsData: {
-        proposals: lcdClientMock.state.proposals,
-        loading: false
-      }
+      doBefore: ({ store }) => {
+        store.commit(`setConnected`, true)
+        store.state.user.address = `address1234`
+        store.commit(`setAtoms`, 1337)
+        for (const [proposal_id, tally_result] of Object.entries(tallies)) {
+          store.commit(`setProposalTally`, { proposal_id, tally_result })
+        }
+      },
+      propsData: { proposals },
+      $store
     })
-
     wrapper = instance.wrapper
     store = instance.store
-
-    store.commit(`setConnected`, true)
-    store.state.user.address = `address1234`
-    store.commit(`setAtoms`, 1337)
-    wrapper.update()
   })
 
   it(`has the expected html structure`, async () => {
-    // after importing the @tendermint/ui components from modules
-    // the perfect scroll plugin needs a $nextTick and a wrapper.update
-    // to work properly in the tests (snapshots weren't matching)
-    // this has occured across multiple tests
-    await wrapper.vm.$nextTick()
-    wrapper.update()
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should sort the proposals by selected property`, () => {
@@ -39,14 +42,14 @@ describe(`TableProposals`, () => {
     wrapper.vm.sort.order = `asc`
 
     expect(wrapper.vm.filteredProposals[0].title).toEqual(
-      lcdClientMock.state.proposals[0].title
+      lcdClientMock.state.proposals[`1`].title
     )
 
     wrapper.vm.sort.property = `proposal_id`
     wrapper.vm.sort.order = `desc`
 
     expect(wrapper.vm.filteredProposals[0].title).toEqual(
-      lcdClientMock.state.proposals.reverse()[0].title
+      lcdClientMock.state.proposals[`6`].title
     )
   })
 
@@ -54,56 +57,42 @@ describe(`TableProposals`, () => {
     store.commit(`setSearchVisible`, [`proposals`, true])
     store.commit(`setSearchQuery`, [
       `proposals`,
-      lcdClientMock.state.proposals[0].title
+      lcdClientMock.state.proposals[`1`].title
     ])
     expect(wrapper.vm.filteredProposals[0].description).toBe(
-      lcdClientMock.state.proposals[0].description
+      lcdClientMock.state.proposals[`1`].description
     )
-    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
     store.commit(`setSearchQuery`, [
       `proposals`,
-      lcdClientMock.state.proposals[1].title
+      lcdClientMock.state.proposals[`2`].title
     ])
     expect(wrapper.vm.filteredProposals[0].description).toBe(
-      lcdClientMock.state.proposals[1].description
+      lcdClientMock.state.proposals[`2`].description
     )
   })
 
   it(`should update 'somethingToSearch' when there's nothing to search`, () => {
     expect(wrapper.vm.somethingToSearch).toBe(true)
-    wrapper.setProps({
-      proposals: [],
-      loading: true
-    })
+    wrapper.setProps({ proposals: {} })
     expect(wrapper.vm.somethingToSearch).toBe(false)
   })
 
   it(`should show placeholder if no items to display`, () => {
     let { wrapper } = mount(TableProposals, {
-      propsData: {
-        proposals: [],
-        loading: true
+      doBefore: ({ store }) => {
+        store.commit(`setConnected`, true)
+        store.state.user.address = `address1234`
+        store.commit(`setAtoms`, 1337)
       },
-      stubs: { "data-empty-search": `<data-empty-search />` }
+      propsData: { proposals: {} },
+      stubs: { "data-empty-search": true }
     })
-    expect(wrapper.contains(`data-empty-search`)).toBe(true)
+    expect(wrapper.contains(`data-empty-search-stub`)).toBe(true)
   })
 
   describe(`setSearch`, () => {
-    const $store = {
-      commit: jest.fn()
-    }
-
     it(`should show search when there is something to search`, () => {
-      let { wrapper, store } = mount(TableProposals, {
-        propsData: {
-          proposals: lcdClientMock.state.proposals,
-          loading: false
-        },
-        $store
-      })
-
       wrapper.vm.setSearch()
       expect(store.commit).toHaveBeenCalledWith(`setSearchVisible`, [
         `proposals`,
@@ -112,14 +101,7 @@ describe(`TableProposals`, () => {
     })
 
     it(`should not show search when there is nothing to search`, () => {
-      let { wrapper, store } = mount(TableProposals, {
-        propsData: {
-          proposals: [],
-          loading: false
-        },
-        $store
-      })
-
+      wrapper.setProps({ proposals: {} })
       wrapper.vm.setSearch()
       expect(store.commit).not.toHaveBeenCalledWith(`setSearchVisible`, [
         `proposals`,

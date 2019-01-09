@@ -1,19 +1,40 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TmSessionLoading has the expected html structure 1`] = `
-"<div class=\\"tm-session\\">
-   <div class=\\"tm-session-container tm-session-loading\\">
-      <div class=\\"tm-session-header\\">
-         <div class=\\"tm-session-title\\">
-            Connecting to 'mock-net'…      
-         </div>
+<div
+  class="tm-session"
+>
+  <div
+    class="tm-session-container tm-session-loading"
+  >
+    <div
+      class="tm-session-header"
+    >
+      <div
+        class="tm-session-title"
+      >
+        
+        Connecting to 'mock-net'…
+      
+      </div>
+    </div>
+     
+    <div
+      class="tm-session-main tm-session-main--loading"
+    >
+      <img
+        src="~assets/images/loader.svg"
+      />
+      <br />
+      HALLO WORLD  
+    
+    </div>
+     
+    <div
+      class="tm-session-footer"
+    >
+       
+    </div>
+  </div>
 </div>
-<div class=\\"tm-session-main tm-session-main--loading\\">
-   <img src=\\"~assets/images/loader.svg\\"><br>HALLO WORLD &nbsp;    
-</div>
-<div class=\\"tm-session-footer\\">
-   &nbsp;
-</div>
-</div>
-</div>"
 `;

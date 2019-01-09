@@ -1,143 +1,204 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PageStaking has the expected html structure 1`] = `
-"<div class=\\"tm-page staking\\" data-title=\\"Staking\\">
-   <header class=\\"tm-page-header\\">
-      <div class=\\"tm-page-header-container\\">
-         <div class=\\"tm-page-header-text\\">
-            <!---->
-            <!---->
-            <div class=\\"tm-page-header-body\\">
-               <div class=\\"header-balance\\">
-                  <div class=\\"top\\">
-                     <div class=\\"icon-container\\">
-                        <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"icon\\">
-                     </div>
-   <div class=\\"total-atoms top-section\\">
-      <h3>
-         Total Steak
-      </h3>
-      <h2>
-         1,351.0000…
-      </h2>
-</div>
-   <div class=\\"unbonded-atoms top-section\\">
-      <h3>
-         Available Steak
-      </h3>
-      <h2>
-         1,337.0000…
-      </h2>
-</div>
-</div>
-   <div class=\\"short-bech32\\">
-      <div id=\\"address\\" class=\\"address\\">
-         cosmos…xxn9  
-      </div>
-   <div class=\\"copied\\">
-      <i class=\\"material-icons\\">check</i><span>Copied</span>
-   </div>
-</div>
-   <div class=\\"tabs\\">
-      <div class=\\"tab\\">
-         <a href=\\"#/staking/my-delegations\\" class=\\"\\">My Delegations</a>
-      </div>
-   <div class=\\"tab\\">
-      <a href=\\"#/staking/validators\\" class=\\"\\">Validators</a>
-   </div>
-   <div class=\\"tab\\">
-      <a href=\\"#/staking/staking-parameters\\" class=\\"\\">Parameters</a>
-   </div>
-</div>
-</div>
-   <div class=\\"tm-tool-bar\\">
-      <a disabled=\\"disabled\\" class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i></a><a><i class=\\"material-icons\\">refresh</i></a><a><i class=\\"search material-icons\\">search</i></a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a><a href=\\"#/preferences\\" class=\\"\\" id=\\"settings\\"><i class=\\"material-icons\\">settings</i></a><a id=\\"signOut-btn\\"><i class=\\"material-icons\\">exit_to_app</i></a>
-   </div>
-</div>
-</div>
-   <menu class=\\"tm-page-header-menu\\">
-      <div></div>
-</menu>
-</div>
-</header>
-<main class=\\"tm-page-main ps\\">
-   <!---->
-   <div class=\\"tm-page\\" data-title=\\"Wallet\\">
-      <header class=\\"tm-page-header\\">
-         <div class=\\"tm-page-header-container\\">
-            <div class=\\"tm-page-header-text\\">
-               <!---->
-               <!---->
-               <div class=\\"tm-page-header-body\\">
-                  <div class=\\"header-balance\\">
-                     <div class=\\"top\\">
-                        <div class=\\"icon-container\\">
-                           <img src=\\"~assets/images/cosmos-logo.png\\" class=\\"icon\\">
-                        </div>
-      <div class=\\"total-atoms top-section\\">
-         <h3>
-            Total Steak
-         </h3>
-         <h2>
-            1,351.0000…
-         </h2>
-</div>
-      <div class=\\"unbonded-atoms top-section\\">
-         <h3>
-            Available Steak
-         </h3>
-         <h2>
-            1,337.0000…
-         </h2>
-</div>
-</div>
-      <div class=\\"short-bech32\\">
-         <div id=\\"address\\" class=\\"address\\">
-            cosmos…xxn9  
-         </div>
-      <div class=\\"copied\\">
-         <i class=\\"material-icons\\">check</i><span>Copied</span>
-      </div>
-</div>
-      <div class=\\"tabs\\"></div>
-</div>
-      <div class=\\"tm-tool-bar\\">
-         <a disabled=\\"disabled\\" class=\\"back\\"><i class=\\"material-icons\\">arrow_back</i></a><a><i class=\\"material-icons\\">refresh</i></a><a disabled=\\"disabled\\"><i class=\\"material-icons\\">search</i></a><a class=\\"help\\"><i class=\\"material-icons\\">help_outline</i></a><a href=\\"#/preferences\\" class=\\"\\" id=\\"settings\\"><i class=\\"material-icons\\">settings</i></a><a id=\\"signOut-btn\\"><i class=\\"material-icons\\">exit_to_app</i></a>
-      </div>
-</div>
-</div>
-      <menu class=\\"tm-page-header-menu\\">
-         <div></div>
-</menu>
-</div>
-</header>
-   <main class=\\"tm-page-main ps\\">
-      <!---->
-      <div class=\\"tm-data-msg\\">
-         <img src=\\"~assets/images/loader.svg\\" class=\\"tm-data-msg__icon\\">
-         <div class=\\"tm-data-msg__text\\">
-            <div slot=\\"title\\" class=\\"tm-data-msg__title\\">
-               Data is loading…
+<div
+  class="tm-page staking"
+  data-title="Staking"
+>
+  <header
+    class="tm-page-header"
+  >
+    <div
+      class="tm-page-header-container"
+    >
+      <div
+        class="tm-page-header-text"
+      >
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="tm-page-header-body"
+        >
+          <div
+            class="header-balance"
+          >
+            <div
+              class="top"
+            >
+              <div
+                class="icon-container"
+              >
+                <img
+                  class="icon"
+                  src="~assets/images/cosmos-logo.png"
+                />
+              </div>
+               
+              <div
+                class="total-atoms top-section"
+              >
+                <h3>
+                  Total STAKE
+                </h3>
+                 
+                <h2
+                  class="total-atoms__value"
+                >
+                  1,351.0000…
+                </h2>
+              </div>
+               
+              <div
+                class="unbonded-atoms top-section"
+              >
+                <h3>
+                  Available STAKE
+                </h3>
+                 
+                <h2>
+                  1,337.0000…
+                </h2>
+              </div>
             </div>
-      <div slot=\\"subtitle\\" class=\\"tm-data-msg__subtitle\\">
-         Please wait a moment.
+             
+            <div
+              class="short-bech32"
+            >
+              <div
+                class="address"
+                id="address"
+              >
+                
+    cosmos…xxn9
+  
+              </div>
+               
+              <div
+                class="copied"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
+             
+            <div
+              class="tabs"
+            >
+              <div
+                class="tab"
+              >
+                <router-link-stub
+                  to="[object Object]"
+                >
+                  My Delegations
+                </router-link-stub>
+              </div>
+              <div
+                class="tab"
+              >
+                <router-link-stub
+                  to="[object Object]"
+                >
+                  Validators
+                </router-link-stub>
+              </div>
+              <div
+                class="tab"
+              >
+                <router-link-stub
+                  to="[object Object]"
+                >
+                  Parameters
+                </router-link-stub>
+              </div>
+            </div>
+             
+          </div>
+           
+          <div
+            class="tm-tool-bar"
+          >
+            <a
+              class="back"
+              disabled="disabled"
+            >
+              <i
+                class="material-icons"
+              >
+                arrow_back
+              </i>
+            </a>
+             
+            <a>
+              <i
+                class="material-icons"
+              >
+                refresh
+              </i>
+            </a>
+            <a>
+              <i
+                class="search material-icons"
+              >
+                search
+              </i>
+            </a>
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+             
+            <router-link-stub
+              id="settings"
+              to="/preferences"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </router-link-stub>
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+          </div>
+        </div>
       </div>
+       
+      <menu
+        class="tm-page-header-menu"
+      >
+        <div />
+      </menu>
+    </div>
+  </header>
+   
+  <main
+    class="tm-page-main"
+  >
+     
+    <!---->
+     
+    <router-view-stub />
+  </main>
 </div>
-</div>
-      <div class=\\"ps__rail-x\\" style=\\"left: 0px; top: 0px;\\">
-         <div class=\\"ps__thumb-x\\" tabindex=\\"0\\" style=\\"left: 0px; width: 0px;\\"></div>
-</div>
-      <div class=\\"ps__rail-y\\" style=\\"top: 0px; left: 0px;\\">
-         <div class=\\"ps__thumb-y\\" tabindex=\\"0\\" style=\\"top: 0px; height: 0px;\\"></div>
-</div>
-</main>
-</div>
-<div class=\\"ps__rail-x\\" style=\\"left: 0px; top: 0px;\\">
-   <div class=\\"ps__thumb-x\\" tabindex=\\"0\\" style=\\"left: 0px; width: 0px;\\"></div>
-</div>
-<div class=\\"ps__rail-y\\" style=\\"top: 0px; left: 0px;\\">
-   <div class=\\"ps__thumb-y\\" tabindex=\\"0\\" style=\\"top: 0px; height: 0px;\\"></div>
-</div>
-</main>
-</div>"
 `;

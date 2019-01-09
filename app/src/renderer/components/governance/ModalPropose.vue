@@ -9,7 +9,10 @@
         <i class="material-icons">close</i>
       </div>
     </div>
-    <tm-form-group :error="$v.title.$invalid" class="page-proposal-form-group">
+    <tm-form-group
+      :error="$v.title.error && $v.title.$invalid"
+      class="page-proposal-form-group"
+    >
       <span>Title</span>
       <tm-field
         v-focus
@@ -26,7 +29,7 @@
       />
     </tm-form-group>
     <tm-form-group
-      :error="$v.description.$invalid"
+      :error="$v.description.error && $v.description.$invalid"
       class="page-proposal-form-group"
     >
       <span>Description</span>
@@ -43,11 +46,16 @@
         type="maxLength"
       />
     </tm-form-group>
-    <tm-form-group class="modal-propose-form-group" field-id="amount">
+    <tm-form-group
+      :error="$v.amount.error && $v.amount.$invalid"
+      class="modal-propose-form-group"
+      field-id="amount"
+    >
       <span>Deposit amount</span>
       <tm-field
         id="denom"
         :placeholder="denom"
+        :tabindex="-1"
         type="text"
         readonly="readonly"
       />
@@ -57,6 +65,13 @@
         :min="0"
         v-model="amount"
         type="number"
+      />
+      <tm-form-msg
+        v-if="!$v.amount.between && amount > 0"
+        :max="$v.amount.$params.between.max"
+        :min="$v.amount.$params.between.min"
+        name="Amount"
+        type="between"
       />
       <hr />
     </tm-form-group>
@@ -100,7 +115,10 @@ import {
 } from "vuelidate/lib/validators"
 import { isEmpty, trim } from "lodash"
 import Modal from "common/TmModal"
-import { TmBtn, TmField, TmFormGroup, TmFormMsg } from "@tendermint/ui"
+import TmBtn from "common/TmBtn"
+import TmField from "common/TmField"
+import TmFormGroup from "common/TmFormGroup"
+import TmFormMsg from "common/TmFormMsg"
 
 const isValid = type =>
   type === `Text` || type === `ParameterChange` || type === `SoftwareUpgrade`

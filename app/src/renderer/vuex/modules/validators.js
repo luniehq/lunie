@@ -1,4 +1,4 @@
-import Raven from "raven-js"
+import * as Sentry from "@sentry/browser"
 
 export default ({ node }) => {
   const emptyState = {
@@ -45,7 +45,7 @@ export default ({ node }) => {
           title: `Error fetching validator set`,
           body: error.message
         })
-        Raven.captureException(error)
+        Sentry.captureException(error)
         state.error = error
       }
     },

@@ -1,22 +1,20 @@
 import TmConnectedNetwork from "common/TmConnectedNetwork"
-import htmlBeautify from "html-beautify"
 import setup from "../../../helpers/vuex-setup"
 
 describe(`TmConnectedNetwork`, () => {
-  let wrapper, router, store, instance
+  let wrapper, store, instance
   let { mount } = setup()
 
   beforeEach(async () => {
     instance = mount(TmConnectedNetwork)
     store = instance.store
-    router = instance.router
     wrapper = instance.wrapper
+    wrapper.setData({ lastHeader: { chain_id: `Test Net`, height: 42 } })
     await store.dispatch(`setMockedConnector`, true)
-    wrapper.update()
   })
 
   it(`has the expected html structure`, () => {
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`has a network icon`, () => {
@@ -73,15 +71,16 @@ describe(`TmConnectedNetwork`, () => {
 
   it(`has a connecting state`, async () => {
     await store.commit(`setConnected`, false)
-    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`shows a link to the preferences page if not on the preferences page`, () => {
     expect(wrapper.find(`#tm-connected-network_preferences-link`)).toBeDefined()
-    router.push(`/preferences`)
-    wrapper.update()
-    expect(wrapper.vm.$route.name).toBe(`preferences`)
+    wrapper.setData({
+      $route: {
+        name: `preferences`
+      }
+    })
     expect(
       wrapper.vm.$el.querySelector(`#tm-connected-network_preferences-link`)
     ).toBeFalsy()
@@ -90,7 +89,6 @@ describe(`TmConnectedNetwork`, () => {
   it(`shows the connected node`, async () => {
     instance = mount(TmConnectedNetwork)
     store = instance.store
-    router = instance.router
     wrapper = instance.wrapper
 
     Object.assign(store.state.connection, {
@@ -104,7 +102,6 @@ describe(`TmConnectedNetwork`, () => {
       connected: true
     })
 
-    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 

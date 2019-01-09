@@ -4,25 +4,15 @@ let { Application } = require(`spectron`)
 let test = require(`tape-promise/tape`)
 let electron = require(`electron`)
 let { join } = require(`path`)
-let { spawn } = require(`child_process`)
 let fs = require(`fs-extra`)
+const {
+  setupAccounts,
+  buildNodes,
+  startNodes
+} = require(`../../tasks/build/local/helper`)
+let { cliBinary, nodeBinary, defaultStartPort } = require(`../../tasks/gaia.js`)
 
-const testDir = join(__dirname, `../../testArtifacts`)
-let {
-  initNode,
-  createKey,
-  getKeys,
-  initGenesis,
-  getGenesis,
-  startLocalNode,
-  makeValidator,
-  getNodeId,
-
-  cliBinary,
-  nodeBinary,
-  defaultStartPort
-} = require(`../../tasks/gaia.js`)
-
+const testDir = join(__dirname, `..`, `..`, `testArtifacts`)
 let app, started, crashed
 
 /*
@@ -37,67 +27,13 @@ function launch(t) {
     })
 
     started = new Promise(async resolve => {
-      console.log(`using cli binary`, cliBinary)
-      console.log(`using node binary`, nodeBinary)
-
-      const cliHomePrefix = join(testDir, `cli_home`)
-      const nodeHomePrefix = join(testDir, `node_home`)
-
-      fs.removeSync(`testArtifacts`)
-
-      // setup first node
-      const nodeOneHome = nodeHomePrefix + `_1`
-      const nodeOneCliHome = cliHomePrefix + `_1`
-      const operatorKeyName = `testkey`
-      console.log(`ui home: ${nodeOneCliHome}`)
-      console.log(`node home: ${nodeOneHome}`)
-
-      await initLocalNode(nodeOneHome, 1)
-      const nodeOneId = await getNodeId(nodeOneHome)
-      reduceTimeouts(nodeOneHome)
-      disableStrictAddressbook(nodeOneHome)
-      await saveVersion(nodeHomePrefix + `_1`)
-
-      // create address to delegate staking tokens to 2nd and 3rd validator
-      let mainAccountSignInfo = {
-        keyName: operatorKeyName,
+      const { cliHomePrefix, cliHome, home } = await bootLocalNetwork(testDir, {
+        chainId: `test_chain`,
         password: `1234567890`,
-        clientHomeDir: nodeOneCliHome
-      }
-      let { address } = await createKey(mainAccountSignInfo)
-      const genesis = await initGenesis(
-        mainAccountSignInfo,
-        address,
-        nodeOneHome
-      )
-
-      // wait till the first node produces blocks
-      await startLocalNode(nodeOneHome, 1)
-
-      // setup additional nodes
-      await initSecondaryLocalNode(`${nodeHomePrefix}_2`, 2, genesis, address)
-      await initSecondaryLocalNode(`${nodeHomePrefix}_3`, 3, genesis, address)
-
-      // start secondary nodes and connect to node one
-      // wait until all nodes are showing blocks, so we know they are running
-      await startLocalNode(`${nodeHomePrefix}_2`, 2, nodeOneId)
-      await startLocalNode(`${nodeHomePrefix}_3`, 3, nodeOneId)
-      console.log(`Started local nodes.`)
-
-      // make our secondary nodes also to validators
-      await makeValidator(
-        mainAccountSignInfo,
-        `${nodeHomePrefix}_2`,
-        `${cliHomePrefix}_2`,
-        `local_2`
-      )
-      await makeValidator(
-        mainAccountSignInfo,
-        `${nodeHomePrefix}_3`,
-        `${cliHomePrefix}_3`,
-        `local_3`
-      )
-      console.log(`Declared secondary nodes to be validators.`)
+        overwrite: true,
+        moniker: `local`,
+        keyName: `testkey`
+      })
 
       app = new Application({
         path: electron,
@@ -114,7 +50,7 @@ function launch(t) {
           PREVIEW: `true`,
           COSMOS_DEVTOOLS: 0, // open devtools will cause issues with spectron, you can open them later manually
           COSMOS_HOME: cliHomePrefix,
-          COSMOS_NETWORK: join(nodeOneHome, `config`),
+          COSMOS_NETWORK: join(home, `config`),
           COSMOS_MOCKED: false, // the e2e tests expect mocking to be switched off
           BINARY_PATH: cliBinary,
           LCD_URL: `https://localhost:9071`,
@@ -126,10 +62,7 @@ function launch(t) {
       await stop(app)
 
       // setup additional accounts for testing
-      let accounts = await setupAccounts(
-        nodeOneCliHome,
-        join(cliHomePrefix, `lcd`)
-      )
+      let accounts = await setupAccounts(cliHome, join(cliHomePrefix, `lcd`))
 
       await startApp(app, `.tm-session-title=Sign In`)
       t.ok(app.isRunning(), `app is running`)
@@ -158,22 +91,27 @@ test.onFinish(async () => {
   process.exit(0)
 })
 
-async function setupAccounts(nodeOneClientDir, voyagerCLIDir) {
-  // use the master account that holds funds from node 1
-  // to use it, we copy the key database from node one to our Voyager cli config folde
-  fs.copySync(nodeOneClientDir, voyagerCLIDir)
+const bootLocalNetwork = async (targetDir, options) => {
+  console.log(`using cli binary`, cliBinary)
+  console.log(`using node binary`, nodeBinary)
 
-  // this account is later used to send funds to, to test token sending
-  await createKey({
-    keyName: `testreceiver`,
-    password: `1234567890`,
-    clientHomeDir: voyagerCLIDir
-  })
+  const { nodes, cliHomePrefix, mainAccountSignInfo } = await buildNodes(
+    targetDir,
+    options,
+    3,
+    true
+  )
 
-  let accounts = await getKeys(voyagerCLIDir)
-  console.log(`setup test accounts`, accounts)
+  console.log(`Done with initialization, start the nodes`)
 
-  return accounts
+  await startNodes(nodes, mainAccountSignInfo, options.chainId)
+
+  console.log(`Declared secondary nodes to be validators.`)
+
+  return {
+    cliHomePrefix,
+    ...nodes[1]
+  }
 }
 
 async function stop(app) {
@@ -277,97 +215,6 @@ async function handleCrash(app, error) {
 
     process.exit(1)
   }
-}
-
-async function initLocalNode(nodeHome, number = 1) {
-  await initNode(`test_chain`, `local_${number}`, nodeHome, `1234567890`, true)
-
-  return getGenesis(nodeHome)
-}
-
-// init a node and define it as a validator
-async function initSecondaryLocalNode(nodeHome, number, mainGenesis) {
-  await initLocalNode(nodeHome, number)
-  fs.writeJSONSync(join(nodeHome, `config/genesis.json`), mainGenesis)
-  reduceTimeouts(nodeHome)
-  disableStrictAddressbook(nodeHome)
-}
-
-// declare candidacy for node
-
-function reduceTimeouts(nodeHome) {
-  const configPath = join(nodeHome, `config`, `config.toml`)
-  let configToml = fs.readFileSync(configPath, `utf8`)
-
-  const timeouts = [
-    `timeout_propose`,
-    `timeout_propose_delta`,
-    `timeout_prevote`,
-    `timeout_prevote_delta`,
-    `timeout_precommit`,
-    `timeout_precommit_delta`,
-    `timeout_commit`,
-    `flush_throttle_timeout`
-  ]
-  const updatedConfigToml = configToml
-    .split(`\n`)
-    .map(line => {
-      let [key, value] = line.split(` = `)
-
-      if (!timeouts.includes(key)) {
-        return line
-      }
-
-      // timeouts are in the format "100ms" or "5s"
-      value = value.replace(/"/g, ``)
-      if (value.trim().endsWith(`ms`)) {
-        value = parseInt(value.trim().substr(0, value.length - 2))
-      } else if (value.trim().endsWith(`s`)) {
-        value = parseInt(value.trim().substr(0, value.length - 1)) * 1000
-      }
-
-      return `${key} = "${value / 10}ms"`
-    })
-    .join(`\n`)
-
-  fs.writeFileSync(configPath, updatedConfigToml, `utf8`)
-}
-
-function disableStrictAddressbook(nodeHome) {
-  const configPath = join(nodeHome, `config`, `config.toml`)
-  let configToml = fs.readFileSync(configPath, `utf8`)
-
-  const updatedConfigToml = configToml
-    .split(`\n`)
-    .map(line => {
-      if (line.startsWith(`addr_book_strict`)) return `addr_book_strict = false`
-      return line
-    })
-    .join(`\n`)
-
-  fs.writeFileSync(configPath, updatedConfigToml, `utf8`)
-}
-
-// save the version of the currently used gaia into the newly created network config folder
-function saveVersion(nodeHome) {
-  return new Promise((resolve, reject) => {
-    let versionFilePath = join(nodeHome, `config`, `gaiaversion.txt`) // nodeHome/config is used to copy created config files from, therefor we copy the version file in there
-    const command = `${nodeBinary} version`
-    console.log(command, `>`, versionFilePath)
-    let child = spawn(command, { shell: true })
-    child.stderr.pipe(process.stderr)
-    child.stdout.once(`data`, data => {
-      let msg = data.toString()
-
-      if (!msg.includes(`Failed`) && !msg.includes(`Error`)) {
-        fs.ensureFileSync(versionFilePath)
-        fs.writeFileSync(versionFilePath, msg, `utf8`)
-        resolve()
-      } else {
-        reject(msg)
-      }
-    })
-  })
 }
 
 module.exports = {

@@ -2,11 +2,11 @@
   <tm-page data-title="Wallet">
     <template slot="menu-body">
       <tm-balance />
-      <vm-tool-bar>
+      <tool-bar>
         <a
           v-tooltip.bottom="'Refresh'"
           :disabled="!connected"
-          @click="connected && updateBalances()"
+          @click="connected && queryWalletBalances()"
         >
           <i class="material-icons">refresh</i>
         </a>
@@ -17,7 +17,7 @@
         >
           <i class="material-icons">search</i>
         </a>
-      </vm-tool-bar>
+      </tool-bar>
     </template>
     <modal-search v-if="somethingToSearch" type="balances" />
     <tm-data-connecting v-if="!wallet.loaded && !connected" />
@@ -56,16 +56,14 @@ import DataEmptySearch from "common/TmDataEmptySearch"
 import TmDataConnecting from "common/TmDataConnecting"
 import LiCopy from "common/TmLiCopy"
 import LiCoin from "./LiCoin"
-import {
-  TmListItem,
-  TmPage,
-  TmPart,
-  TmDataLoading,
-  TmDataMsg
-} from "@tendermint/ui"
+import TmListItem from "common/TmListItem"
+import TmPage from "common/TmPage"
+import TmPart from "common/TmPart"
+import TmDataLoading from "common/TmDataLoading"
+import TmDataMsg from "common/TmDataMsg"
 import TmBalance from "common/TmBalance"
 import ModalSearch from "common/TmModalSearch"
-import VmToolBar from "common/VmToolBar"
+import ToolBar from "common/ToolBar"
 export default {
   name: `page-wallet`,
   components: {
@@ -80,7 +78,7 @@ export default {
     ModalSearch,
     TmPage,
     TmPart,
-    VmToolBar
+    ToolBar
   },
   data: () => ({ num }),
   computed: {
@@ -115,7 +113,9 @@ export default {
         [`desc`, `asc`]
       )
       if (this.filters.balances.search.visible) {
-        return list.filter(coin => includes(coin.denom.toLowerCase(), query))
+        return list.filter(coin =>
+          includes(JSON.stringify(coin).toLowerCase(), query.toLowerCase())
+        )
       } else {
         return list
       }
@@ -125,16 +125,13 @@ export default {
     Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
     Mousetrap.bind(`esc`, () => this.setSearch(false))
     this.updateDelegates()
-    this.queryWalletState()
+    this.queryWalletBalances()
   },
   methods: {
-    ...mapActions([`updateDelegates`, `queryWalletState`]),
+    ...mapActions([`updateDelegates`, `queryWalletBalances`]),
     setSearch(bool = !this.filters[`balances`].search.visible) {
       if (!this.somethingToSearch) return false
       this.$store.commit(`setSearchVisible`, [`balances`, bool])
-    },
-    updateBalances() {
-      this.queryWalletState()
     }
   }
 }
