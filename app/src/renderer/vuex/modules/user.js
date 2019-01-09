@@ -5,8 +5,8 @@ import {
   track
 } from "../../google-analytics.js"
 const config = require(`../../../config.json`)
-import { loadKeys, importKey, testPassword } from "../../../helpers/keystore.js"
-import { generateSeed } from "../../../helpers/wallet.js"
+import { loadKeys, importKey, testPassword } from "../../scripts/keystore.js"
+import { generateSeed } from "../../scripts/wallet.js"
 import CryptoJS from "crypto-js"
 
 export default ({ node }) => {

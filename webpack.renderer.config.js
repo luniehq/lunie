@@ -109,6 +109,9 @@ let rendererConfig = {
       path.join(__dirname, `node_modules`)
     ]
   },
+  node: {
+    fs: `empty`
+  },
   devServer: {
     contentBase: [path.join(__dirname, `app/dist`), path.join(__dirname, `app`)]
   }
