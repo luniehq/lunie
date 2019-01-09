@@ -1,5 +1,9 @@
 import * as Sentry from "@sentry/browser"
-import addGoogleAnalytics from "../../google-analytics.js"
+import {
+  enableGoogleAnalytics,
+  disableGoogleAnalytics,
+  track
+} from "../../google-analytics.js"
 const config = require(`../../../config.json`)
 import { loadKeys, importKey, testPassword } from "../../../helpers/keystore.js"
 import { generateSeed } from "../../../helpers/wallet.js"
@@ -30,10 +34,9 @@ export default ({ node }) => {
     },
     addHistory(state, path) {
       state.history.push(path)
-      window.analytics &&
-        window.analytics.send(`pageview`, {
-          dl: path
-        })
+      track(`send`, `pageview`, {
+        dl: path
+      })
     },
     popHistory(state) {
       state.history.pop()
@@ -143,17 +146,16 @@ export default ({ node }) => {
           dsn: config.sentry_dsn,
           release: `voyager@${config.version}`
         })
-        window[`ga-disable-${config.google_analytics_uid}`] = false
-        addGoogleAnalytics(config.google_analytics_uid)
+        enableGoogleAnalytics(config.google_analytics_uid)
         console.log(`Analytics and error reporting have been enabled`)
         // eslint-disable-next-line no-undef
-        ga(`send`, `pageview`, {
+        track(`send`, `pageview`, {
           dl: window.location.pathname
         })
       } else {
         console.log(`Analytics disabled in browser`)
         Sentry.init({})
-        window[`ga-disable-${config.google_analytics_uid}`] = true
+        disableGoogleAnalytics(config.google_analytics_uid)
       }
     }
   }
