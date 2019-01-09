@@ -158,7 +158,7 @@ export default {
   }),
   computed: {
     // TODO: get denom from governance params
-    ...mapGetters([`bondDenom`, `proposals`, `connected`, `wallet`, `votes`]),
+    ...mapGetters([`depositDenom`, `proposals`, `connected`, `wallet`, `votes`]),
     proposal() {
       return this.proposals.proposals[this.proposalId]
     },
