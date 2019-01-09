@@ -8743,9 +8743,10 @@ vue@2.5.21:
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.21.tgz#3d33dcd03bb813912ce894a8303ab553699c4a85"
   integrity sha512-Aejvyyfhn0zjVeLvXd70h4hrE4zZDx1wfZqia6ekkobLmUZ+vNFQer53B4fu0EjWBSiqApxPejzkO1Znt3joxQ==
 
-vuelidate@0.6.2:
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/vuelidate/-/vuelidate-0.6.2.tgz#b417f5367407b047a2548119b25db56fe2bd5753"
+vuelidate@0.7.3:
+  version "0.7.3"
+  resolved "https://registry.yarnpkg.com/vuelidate/-/vuelidate-0.7.3.tgz#04e3225bb33d3096a8e95a7662c638864980c5df"
+  integrity sha512-/qBrw0UQIVWHvjf31wdQJuHzMHh8Dbn31bOZGQ7C4mvdspNFHJAx4XMpaGOXZD34Zl1v4Ul0c0K1xYfEfxTphQ==
 
 vuex@3.0.1:
   version "3.0.1"
