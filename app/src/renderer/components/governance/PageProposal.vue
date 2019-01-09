@@ -255,7 +255,7 @@ export default {
         this.$store.commit(`notify`, {
           title: `Successful deposit!`,
           body: `You have successfully deposited your ${
-            this.bondDenom
+            this.depositDenom
           }s on proposal #${this.proposalId}`
         })
       } catch ({ message }) {
