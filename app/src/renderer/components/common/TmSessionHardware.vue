@@ -54,17 +54,16 @@ export default {
     setStatus(value) {
       this.status = value
     },
-    connectLedger() {
+    async connectLedger() {
       this.setStatus(`detect`)
+      console.log(`Connecting Ledger...`)
       try {
-        comm_u2f.create_async(TIMEOUT, true).then(function(comm) {
-          let app = new App(comm)
-          return app.get_version().then(function(version) {
-            console.log(version)
-            this.setStatus(`success`)
-            return version
-          })
-        })
+        let comm = await comm_u2f.create_async(TIMEOUT, true)
+        let app = new App(comm)
+        let version = await app.get_version()
+        console.log(
+          `Ledger Version: v${version.major}.${version.minor}.${version.patch} `
+        )
       } catch (error) {
         console.error(error)
       }
@@ -73,7 +72,7 @@ export default {
       this.$store.commit(`setModalSession`, false)
       this.$store.commit(`notify`, {
         title: `Welcome back!`,
-        body: `You are now signed in to your Cosmos account.`
+        body: `You are now signed in to your Cosmos account with your Ledger.`
       })
       this.$store.dispatch(`signIn`, { password: this.fields.signInPassword })
     }
