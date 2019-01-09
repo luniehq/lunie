@@ -106,7 +106,7 @@
         :show-modal-deposit.sync="showModalDeposit"
         :proposal-id="proposalId"
         :proposal-title="proposal.title"
-        :denom="bondDenom"
+        :denom="depositDenom"
         @submitDeposit="deposit"
       />
       <modal-vote
