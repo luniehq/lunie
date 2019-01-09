@@ -6,7 +6,7 @@ describe(`TmLiGovTransaction`, () => {
   let wrapper
   let propsData = {
     transaction: transactions[6],
-    URL: `/proposals`,
+    url: `/proposals`,
     bondingDenom: `stake`
   }
 

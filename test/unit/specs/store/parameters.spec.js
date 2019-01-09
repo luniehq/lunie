@@ -13,7 +13,7 @@ describe(`Module: Staking Parameters`, () => {
 
   beforeEach(() => {
     node = {
-      getStakingParameters: () => Promise.resolve(stakingParameters)
+      getStakingParameters: () => Promise.resolve(stakingParameters.parameters)
     }
     module = parametersModule({ node })
   })
@@ -27,14 +27,14 @@ describe(`Module: Staking Parameters`, () => {
       rootState: mockRootState
     })
     expect(commit.mock.calls).toEqual([
-      [`setStakingParameters`, stakingParameters]
+      [`setStakingParameters`, stakingParameters.parameters]
     ])
   })
 
   it(`should add staking parameters to state`, () => {
     let { mutations, state } = module
-    mutations.setStakingParameters(state, stakingParameters)
-    expect(state.parameters).toEqual(stakingParameters)
+    mutations.setStakingParameters(state, stakingParameters.parameters)
+    expect(state.parameters).toEqual(stakingParameters.parameters)
   })
 
   it(`should store an error if failed to load staking parameters`, async () => {

@@ -4,6 +4,7 @@ import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`PageStaking`, () => {
   let wrapper, store
+  let { stakingParameters } = lcdClientMock.state
   let { mount } = setup()
 
   beforeEach(() => {
@@ -15,6 +16,7 @@ describe(`PageStaking`, () => {
     store.state.user.address = lcdClientMock.addresses[0]
     store.dispatch(`updateDelegates`)
     store.commit(`setAtoms`, 1337)
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
   })
 
   it(`has the expected html structure`, async () => {

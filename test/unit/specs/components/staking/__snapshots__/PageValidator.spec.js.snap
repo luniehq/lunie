@@ -3493,12 +3493,12 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
 </div>
 `;
 
-exports[`onDelegation onUnstake submitUndelegation composition delegation.submitDelegation 1`] = `
+exports[`onDelegation onUnstake submitUndelegation composition submits a successful undelegation 1`] = `
 Array [
   Array [
     "submitDelegation",
     Object {
-      "password": undefined,
+      "password": "12345",
       "stakingTransactions": Object {
         "unbondings": Array [
           Object {
@@ -3549,7 +3549,7 @@ Array [
         },
       ],
       "delegations": undefined,
-      "password": undefined,
+      "password": "12345",
       "to": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
       "type": "updateDelegations",
     },
@@ -3557,12 +3557,12 @@ Array [
 ]
 `;
 
-exports[`onDelegation onUnstake submitUndelegation composition delegation.submitDelegation 2`] = `
+exports[`onDelegation onUnstake submitUndelegation composition submits a successful undelegation 2`] = `
 Array [
   Array [
     "notify",
     Object {
-      "body": "You have successfully undelegated 10 atoms.",
+      "body": "You have successfully undelegated 10 STAKEs.",
       "title": "Successful Undelegation!",
     },
   ],
@@ -3574,7 +3574,7 @@ Array [
   Array [
     "submitDelegation",
     Object {
-      "password": undefined,
+      "password": "12345",
       "stakingTransactions": Object {
         "delegations": Array [
           Object {
@@ -3622,13 +3622,13 @@ Array [
         Object {
           "delegation": Object {
             "amount": "10",
-            "denom": "atom",
+            "denom": "STAKE",
           },
           "delegator_addr": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
           "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
         },
       ],
-      "password": undefined,
+      "password": "12345",
       "to": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
       "type": "updateDelegations",
     },
@@ -3645,7 +3645,7 @@ Array [
   Array [
     "notify",
     Object {
-      "body": "You have successfully delegated your atoms",
+      "body": "You have successfully delegated your STAKEs",
       "title": "Successful delegation!",
     },
   ],
@@ -3657,7 +3657,7 @@ Array [
   Array [
     "submitDelegation",
     Object {
-      "password": undefined,
+      "password": "12345",
       "stakingTransactions": Object {
         "redelegations": Array [
           Object {
@@ -3736,7 +3736,7 @@ Array [
       ],
       "begin_unbondings": undefined,
       "delegations": undefined,
-      "password": undefined,
+      "password": "12345",
       "to": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
       "type": "updateDelegations",
     },
@@ -3749,7 +3749,7 @@ Array [
   Array [
     "notify",
     Object {
-      "body": "You have successfully redelegated your atoms",
+      "body": "You have successfully redelegated your STAKEs",
       "title": "Successful redelegation!",
     },
   ],

@@ -45,14 +45,31 @@ describe(`Module: Blockchain`, () => {
   })
 
   it(`should show an info if block info is unavailable`, async () => {
-    jest.spyOn(console, `error`).mockImplementation(() => {})
-    store.state.blockchain.blockMetas = {}
-    node.rpc.blockchain = (props, cb) => cb(new Error(`Error`))
-    let height = 100
-    let output = await store.dispatch(`queryBlockInfo`, height)
-    expect(output).toBe(null)
-    expect(store.state.blockchain.error).toBe(`Couldn't query block. Error`)
-    console.error.mockReset()
+    jest.spyOn(console, `error`).mockImplementationOnce(() => {})
+
+    const { state, actions } = blockchainModule({
+      node: {
+        rpc: {
+          blockchain: (props, cb) => cb(new Error(`reason`))
+        }
+      }
+    })
+    const commit = jest.fn()
+    const height = 100
+    const result = await actions.queryBlockInfo(
+      {
+        state,
+        dispatch: jest.fn(),
+        commit
+      },
+      height
+    )
+    expect(result).toBe(null)
+    expect(state.error).toBe(`Couldn't query block. reason`)
+    expect(commit).toHaveBeenCalledWith(`notifyError`, {
+      title: `Error fetching block information`,
+      body: expect.stringContaining(`reason`)
+    })
   })
 
   it(`should not subscribe twice`, async () => {

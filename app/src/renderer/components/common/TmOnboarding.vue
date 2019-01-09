@@ -53,7 +53,7 @@ export default {
   name: `tm-onboarding`,
   components: { TmBtn, TmBarDiscrete },
   computed: {
-    ...mapGetters([`onboarding`, `bondingDenom`]),
+    ...mapGetters([`onboarding`, `bondDenom`]),
     activeKey() {
       return this.onboarding.state
     },
@@ -62,8 +62,8 @@ export default {
         `This is a quick tour of the primary features of Cosmos Voyager.`,
         `You can send and receive Cosmos tokens from anyone around the world.`,
         `You can delegate your ${
-          this.bondingDenom
-        } to Cosmos Validators to earn even more ${this.bondingDenom}.`,
+          this.bondDenom
+        } to Cosmos Validators to earn even more ${this.bondDenom}.`,
         `Through governance, you can vote on the future of the Cosmos Network.`,
         `Start using Voyager to explore the Cosmos Network!`
       ]

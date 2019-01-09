@@ -11,12 +11,10 @@ let mockRootState = {
   connection: {
     connected: true
   },
-  config: {
-    bondingDenom: `atom`
-  },
   user: {
     atoms: 1000
-  }
+  },
+  stakingParameters: lcdClientMock.state.stakingParameters
 }
 
 describe(`Module: Delegations`, () => {
@@ -86,6 +84,7 @@ describe(`Module: Delegations`, () => {
       chain_id: `test-chain`
     })
     await store.dispatch(`getBondedDelegates`)
+    await store.dispatch(`getStakingParameters`)
 
     jest.spyOn(store._actions.sendTx, `0`)
 
@@ -103,7 +102,10 @@ describe(`Module: Delegations`, () => {
       }
     ]
 
-    await store.dispatch(`submitDelegation`, { stakingTransactions })
+    await store.dispatch(`submitDelegation`, {
+      stakingTransactions,
+      password: `12345`
+    })
 
     expect(store._actions.sendTx[0].mock.calls).toMatchSnapshot()
   })
@@ -130,7 +132,10 @@ describe(`Module: Delegations`, () => {
       }
     ]
 
-    await store.dispatch(`submitDelegation`, { stakingTransactions })
+    await store.dispatch(`submitDelegation`, {
+      stakingTransactions,
+      password: `12345`
+    })
     expect(store._actions.sendTx[0].mock.calls).toMatchSnapshot()
   })
 
@@ -141,10 +146,12 @@ describe(`Module: Delegations`, () => {
 
   it(`deletes undelegations that are 0`, async () => {
     await store.dispatch(`getBondedDelegates`, store.state.delegates.delegates)
-    store.commit(`setUnbondingDelegations`, {
-      validator_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
-      balance: { amount: 0 }
-    })
+    store.commit(`setUnbondingDelegations`, [
+      {
+        validator_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+        balance: { amount: 0 }
+      }
+    ])
     expect(
       store.state.delegation.unbondingDelegations
         .cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
@@ -227,10 +234,12 @@ describe(`Module: Delegations`, () => {
     ]
     await store.dispatch(`submitDelegation`, { stakingTransactions })
 
-    store.commit(`setUnbondingDelegations`, {
-      validator_addr: lcdClientMock.validators[0],
-      balance: { amount: `100` }
-    })
+    store.commit(`setUnbondingDelegations`, [
+      {
+        validator_addr: lcdClientMock.validators[0],
+        balance: { amount: `100` }
+      }
+    ])
     expect(
       store.state.delegation.unbondingDelegations[lcdClientMock.validators[0]]
     ).toBeTruthy()
@@ -241,12 +250,14 @@ describe(`Module: Delegations`, () => {
       candidateId: lcdClientMock.validators[1],
       value: 1
     })
-    store.commit(`setUnbondingDelegations`, {
-      validator_addr: lcdClientMock.validators[1],
-      balance: {
-        amount: 1
+    store.commit(`setUnbondingDelegations`, [
+      {
+        validator_addr: lcdClientMock.validators[1],
+        balance: {
+          amount: 1
+        }
       }
-    })
+    ])
     expect(
       store.state.delegation.committedDelegates[lcdClientMock.validators[1]]
     ).toBeTruthy()
@@ -291,9 +302,7 @@ describe(`Module: Delegations`, () => {
     await delegationModule({}).actions.submitDelegation(
       {
         rootState: {
-          config: {
-            bondingDenom: `atom`
-          },
+          stakingParameters: lcdClientMock.state.stakingParameters,
           user: {
             atoms: 1000
           },

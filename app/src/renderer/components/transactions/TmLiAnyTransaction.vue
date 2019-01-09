@@ -1,9 +1,9 @@
-s<template>
+<template>
   <tm-li-bank-transaction
     v-if="bankTx"
     :transaction="transaction"
     :address="address"
-  ></tm-li-bank-transaction>
+  />
   <tm-li-stake-transaction
     v-else-if="stakingTx"
     :transaction="transaction"
@@ -12,20 +12,21 @@ s<template>
     :unbonding-time="unbondingTime"
     :bonding-denom="bondingDenom"
     @end-unbonding="$emit('end-unbonding')"
-  ></tm-li-stake-transaction>
+  />
   <tm-li-gov-transaction
     v-else-if="governanceTx"
     :transaction="transaction"
     :bonding-denom="bondingDenom"
     :url="proposalsUrl"
-  ></tm-li-gov-transaction>
+  />
   <tm-li-transaction
     v-else
     :color="colors.grey"
     :time="transaction.time"
     :block="transaction.height"
-    ><span slot="caption">Unknown Transaction Type</span></tm-li-transaction
   >
+    <span slot="caption">Unknown Transaction Type</span>
+  </tm-li-transaction>
 </template>
 
 <script>
