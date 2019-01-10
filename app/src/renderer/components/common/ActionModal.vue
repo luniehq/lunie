@@ -17,6 +17,12 @@
       <div class="action-modal-form"><slot></slot></div>
       <div class="action-modal-footer">
         <slot name="action-modal-footer"></slot>
+        <p
+          v-if="submissionError"
+          class="tm-form-msg sm tm-form-msg--error submission-error"
+        >
+          {{ submissionError }}
+        </p>
       </div>
     </div>
   </transition>
@@ -34,6 +40,10 @@ export default {
     title: {
       type: String,
       required: true
+    },
+    submissionError: {
+      type: String,
+      required: false
     }
   },
   methods: {

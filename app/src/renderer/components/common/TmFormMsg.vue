@@ -89,6 +89,12 @@ export default {
         case `bech32`:
           msg = `is invalid bech32`
           break
+        case `password`:
+          msg = `is invalid`
+          break
+        case `integer`:
+          msg = `must be an integer`
+          break
         default:
           msg = `must be valid`
           break
@@ -114,6 +120,11 @@ export default {
   content: "";
   font-family: "Material Icons";
   padding-right: 0.35rem;
+}
+
+.tm-form-msg--error {
+  display: flex;
+  position: absolute;
 }
 
 .tm-form-msg.tm-form-msg--error {
