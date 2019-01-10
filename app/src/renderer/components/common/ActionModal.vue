@@ -120,6 +120,12 @@ export default {
   padding: 2rem 0 0;
 }
 
+.submission-error {
+  position: absolute;
+  right: 3rem;
+  bottom: 1rem;
+}
+
 /* Enter and leave animations can use different */
 /* durations and timing functions.              */
 .slide-fade-enter-active {

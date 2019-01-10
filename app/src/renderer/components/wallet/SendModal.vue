@@ -1,21 +1,25 @@
 <template>
-  <action-modal title="Send" @close-action-modal="close">
+  <action-modal
+    title="Send"
+    @close-action-modal="close"
+    :submission-error="submissionError"
+  >
     <tm-form-group
-      :error="$v.fields.denom.$invalid"
+      :error="$v.fields.denom.$dirty && $v.fields.denom.$invalid"
       field-id="send-denomination"
       field-label="Denomination"
     >
       <tm-field
         id="send-denomination"
-        v-model="fields.denom"
+        v-model.number="$v.fields.denom.$model"
         type="text"
-        disabled
+        readonly
       />
       <tm-form-msg
         v-if="
-          $v.fields.denom.$error ||
-            !$v.fields.denom.required ||
-            !$v.fields.denom.$invalid
+          $v.fields.denom.$dirty &&
+            $v.fields.denom.$invalid &&
+            !$v.fields.denom.required
         "
         name="Denomination"
         type="required"
@@ -23,24 +27,22 @@
     </tm-form-group>
 
     <tm-form-group
-      :error="$v.fields.address.$invalid"
+      :error="$v.fields.address.$dirty && $v.fields.address.$invalid"
       field-id="send-address"
       field-label="Send To"
     >
-      <tm-field-group>
-        <tm-field
-          id="send-address"
-          v-focus
-          v-model.trim="fields.address"
-          type="text"
-          placeholder="Address"
-        />
-      </tm-field-group>
+      <tm-field
+        id="send-address"
+        v-focus
+        v-model.number="$v.fields.address.$model"
+        type="text"
+        placeholder="Address"
+      />
       <tm-form-msg
         v-if="
-          $v.fields.address.$error ||
-            !$v.fields.address.required ||
-            !$v.fields.address.$invalid
+          $v.fields.address.$dirty &&
+            $v.fields.address.$invalid &&
+            !$v.fields.address.required
         "
         name="Address"
         type="required"
@@ -56,7 +58,7 @@
     </tm-form-group>
 
     <tm-form-group
-      :error="$v.fields.amount.$invalid"
+      :error="$v.fields.amount.$dirty && $v.fields.amount.$invalid"
       field-id="send-amount"
       field-label="Amount"
     >
@@ -64,15 +66,15 @@
         id="send-amount"
         :max="max"
         :min="max ? 1 : 0"
-        v-model="fields.amount"
+        v-model.number="$v.fields.amount.$model"
         type="number"
         placeholder="Amount"
       />
       <tm-form-msg
         v-if="
-          $v.fields.amount.$error ||
-            !$v.fields.amount.required ||
-            !$v.fields.amount.$invalid
+          $v.fields.amount.$dirty &&
+            $v.fields.amount.$invalid &&
+            !$v.fields.amount.required
         "
         name="Amount"
         type="required"
@@ -84,21 +86,34 @@
         name="Amount"
         type="between"
       />
+      <tm-form-msg
+        v-else="!$v.fields.amount.integer"
+        name="Amount"
+        type="integer"
+      />
     </tm-form-group>
 
     <tm-form-group
-      :error="$v.fields.password.$invalid"
+      :error="
+        fields.password.length > 0 &&
+          ($v.fields.password.$dirty && $v.fields.password.$invalid)
+      "
       field-id="password"
       field-label="Password"
     >
       <tm-field
         id="password"
-        v-model="fields.password"
+        v-model="$v.fields.password.$model"
         type="password"
         placeholder="Password"
       />
       <tm-form-msg
-        v-if="!$v.fields.password.required"
+        v-if="
+          $v.fields.password.$dirty &&
+            fields.password.length &&
+            $v.fields.password.$invalid &&
+            !$v.fields.password.required
+        "
         name="Password"
         type="required"
       />
@@ -122,7 +137,8 @@
         id="send-btn"
         value="Send Tokens"
         color="primary"
-        @click.native="onSubmit"
+        :disabled="$v.fields.$invalid"
+        @click.native="validateForm"
       />
     </div>
   </action-modal>
@@ -175,7 +191,8 @@ export default {
       denom: ``,
       password: ``
     },
-    sending: false
+    sending: false,
+    submissionError: ``
   }),
   computed: {
     ...mapGetters([`wallet`, `connected`]),
@@ -202,35 +219,49 @@ export default {
     resetForm() {
       this.fields.address = ``
       this.fields.amount = null
+      this.fields.password = ``
       this.sending = false
+      this.submissionError = ``
       this.$v.$reset()
     },
-    async onSubmit() {
+    validateForm() {
       this.sending = true
-      let amount = +this.fields.amount
-      let address = this.fields.address
-      let denom = this.fields.denom
+      this.$v.$touch()
+
+      if (!this.$v.$invalid) {
+        this.submitForm()
+      } else {
+        this.sending = false
+      }
+    },
+    async submitForm() {
+      const amount = +this.fields.amount
+      const address = this.fields.address
+      const denom = this.fields.denom
+      const type = `send`
+
       try {
-        let type = `send`
         await this.sendTx({
           type,
           password: this.fields.password,
           to: address,
           amount: [{ denom, amount: amount.toString() }]
         })
-        this.sending = false
+
         this.$store.commit(`notify`, {
           title: `Successfully Sent`,
           body: `Successfully sent ${amount} ${denom} to ${address}`
         })
-        // resets send transaction form
-        this.resetForm()
-      } catch (error) {
+
         this.sending = false
-        this.$store.commit(`notifyError`, {
-          title: `Error Sending transaction`,
-          body: error.message
-        })
+        this.resetForm()
+      } catch ({ message }) {
+        this.sending = false
+        this.submissionError = `Send failed: ${message}.`
+
+        setTimeout(() => {
+          this.submissionError = null
+        }, 5000)
       }
     },
     bech32Validate(param) {
@@ -254,6 +285,7 @@ export default {
         },
         amount: {
           required,
+          integer,
           between: between(this.max ? 1 : 0, this.max)
         },
         denom: { required },
