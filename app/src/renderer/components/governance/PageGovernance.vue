@@ -16,7 +16,7 @@
     <modal-propose
       v-if="showModalPropose"
       :show-modal-propose.sync="showModalPropose"
-      :denom="bondingDenom"
+      :denom="depositDenom"
       @createProposal="propose"
     />
     <router-view />
@@ -57,7 +57,7 @@ export default {
   }),
   computed: {
     // TODO: get min deposit denom from gov params
-    ...mapGetters([`proposals`, `filters`, `bondingDenom`, `connected`])
+    ...mapGetters([`proposals`, `filters`, `depositDenom`, `connected`])
   },
   mounted() {
     this.ps = new PerfectScrollbar(this.$el.querySelector(`.tm-page-main`))
@@ -77,7 +77,7 @@ export default {
           type,
           initial_deposit: [
             {
-              denom: this.bondingDenom,
+              denom: this.depositDenom,
               amount: String(amount)
             }
           ],

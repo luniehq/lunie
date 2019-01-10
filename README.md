@@ -201,6 +201,18 @@ yarn pack
 node_modules/.bin/tape test/e2e/init.js
 ```
 
+### Documentation
+
+To produce an up-to date documentation you can run:
+
+```bash
+$ yarn doc
+```
+
+This will store an HTML static website containing all the documented modules and components that you can consult.
+
+The output folder is: `docs/cosmos-voyager/[#version]`
+
 ### Code coverage
 
 To check test coverage locally run following. It will spin up a webserver and provide you with a link to the coverage report web page.
