@@ -211,7 +211,7 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
     },
     getGovernanceTxs: async function(address) {
       return await Promise.all([
-        req(`GET`, `/txs?action=submit-proposal&proposer=${address}`, true)(),
+        req(`GET`, `/txs?action=submit_proposal&proposer=${address}`, true)(),
         req(`GET`, `/txs?action=deposit&depositor=${address}`, true)()
       ]).then(([depositorTxs, proposerTxs]) =>
         [].concat(depositorTxs, proposerTxs)
