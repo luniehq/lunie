@@ -27,7 +27,7 @@ Array [
       "base_req": Object {
         "account_number": "1",
         "chain_id": "test-chain",
-        "gas": "simulate",
+        "gas": "500000",
         "name": "default",
         "password": "12345",
         "sequence": "1",
@@ -52,7 +52,7 @@ Array [
       "base_req": Object {
         "account_number": "1",
         "chain_id": "test-chain",
-        "gas": "simulate",
+        "gas": "500000",
         "name": "default",
         "password": "12345",
         "sequence": "3",
@@ -72,7 +72,7 @@ Array [
       "base_req": Object {
         "account_number": "1",
         "chain_id": "test-chain",
-        "gas": "simulate",
+        "gas": "500000",
         "name": "default",
         "password": "12345",
         "sequence": "4",
@@ -94,7 +94,7 @@ Array [
       "base_req": Object {
         "account_number": "1",
         "chain_id": "test-chain",
-        "gas": "simulate",
+        "gas": "500000",
         "name": "default",
         "password": "12345",
         "sequence": "2",
