@@ -81,18 +81,23 @@ export default ({ node }) => {
         state.error = error
       }
     },
-    async loadDenoms({ commit }) {
-      const { genesis } = await network()
-      let denoms = []
-      for (let account of genesis.app_state.accounts) {
-        if (account.coins) {
-          for (let { denom } of account.coins) {
-            denoms.push(denom)
+    async loadDenoms({ commit, state }) {
+      try {
+        const { genesis } = await network()
+
+        let denoms = []
+        for (let account of genesis.app_state.accounts) {
+          if (account.coins) {
+            for (let { denom } of account.coins) {
+              denoms.push(denom)
+            }
           }
         }
-      }
 
-      commit(`setDenoms`, denoms)
+        commit(`setDenoms`, denoms)
+      } catch (err) {
+        state.error = err
+      }
     },
     queryWalletStateAfterHeight({ rootState, dispatch }, height) {
       return new Promise(resolve => {

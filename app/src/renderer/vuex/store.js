@@ -24,37 +24,41 @@ export default (opts = {}) => {
 
   let pending = null
   store.subscribe((mutation, state) => {
-    // since persisting the state is costly we should only do it on mutations that change the data
-    const updatingMutations = [
-      `setWalletBalances`,
-      `setWalletHistory`,
-      `setCommittedDelegation`,
-      `setUnbondingDelegations`,
-      `setDelegates`,
-      `setStakingParameters`,
-      `setPool`,
-      `setProposal`,
-      `setProposalDeposits`,
-      `setProposalVotes`,
-      `setProposalTally`,
-      `setGovParameters`,
-      `setKeybaseIdentities`
-    ]
-
-    if (updatingMutations.indexOf(mutation.type) === -1) return
-
-    // if the user is logged in cache the balances and the tx-history for that user
-    if (!state.user.account) return
-
-    if (pending) {
-      clearTimeout(pending)
-    }
-    pending = setTimeout(() => {
-      persistState(state)
-    }, 5000)
+    pending = storeUpdateHandler(mutation, state, pending)
   })
 
   return store
+}
+
+export function storeUpdateHandler(mutation, state, pending) {
+  // since persisting the state is costly we should only do it on mutations that change the data
+  const updatingMutations = [
+    `setWalletBalances`,
+    `setWalletHistory`,
+    `setCommittedDelegation`,
+    `setUnbondingDelegations`,
+    `setDelegates`,
+    `setStakingParameters`,
+    `setPool`,
+    `setProposal`,
+    `setProposalDeposits`,
+    `setProposalVotes`,
+    `setProposalTally`,
+    `setGovParameters`,
+    `setKeybaseIdentities`
+  ]
+
+  if (updatingMutations.indexOf(mutation.type) === -1) return
+
+  // if the user is logged in cache the balances and the tx-history for that user
+  if (!state.user.address) return
+
+  if (pending) {
+    clearTimeout(pending)
+  }
+  return setTimeout(() => {
+    persistState(state)
+  }, 5000)
 }
 
 function persistState(state) {
@@ -94,7 +98,7 @@ function getStorageKey(state) {
   return `store_${chainId}_${address}`
 }
 
-function loadPersistedState({ state, commit }) {
+export function loadPersistedState({ state, commit }) {
   const storageKey = getStorageKey(state)
   let cachedState
   try {

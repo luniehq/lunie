@@ -1,7 +1,6 @@
 export default ({ node }) => {
-  let lock = null
-
   let state = {
+    lock: null,
     nonce: `0`
   }
 
@@ -13,86 +12,85 @@ export default ({ node }) => {
     }
   }
 
-  async function doSend({ state, dispatch, commit, rootState }, args) {
-    if (!rootState.connection.connected) {
-      throw Error(
-        `Currently not connected to a secure node. Please try again when Voyager has secured a connection.`
-      )
-    }
-
-    await dispatch(`queryWalletBalances`) // the nonce was getting out of sync, this is to force a sync
-    let requestMetaData = {
-      sequence: state.nonce,
-      name: rootState.user.account,
-      password: args.password,
-      account_number: rootState.wallet.accountNumber, // TODO move into LCD?
-      chain_id: rootState.connection.lastHeader.chain_id
-    }
-    args.base_req = requestMetaData
-
-    // extract type
-    let type = args.type || `send`
-    delete args.type
-
-    // extract "to" address
-    let to = args.to
-    delete args.to
-    args.gas = `50000000`
-
-    // submit to LCD to build, sign, and broadcast
-    let req = to ? node[type](to, args) : node[type](args)
-
-    let res = await req.catch(err => {
-      let message
-      // TODO: get rid of this logic once the appended message is actually included inside the object message
-      if (!err.response.data.message) {
-        let idxColon = err.response.data.indexOf(`:`)
-        let indexOpenBracket = err.response.data.indexOf(`{`)
-        if (idxColon < indexOpenBracket) {
-          // e.g => Msg 0 failed: {"codespace":4,"code":102,"abci_code":262246,"message":"existing unbonding delegation found"}
-          message = JSON.parse(err.response.data.substr(idxColon + 1)).message
-        } else {
-          message = err.response.data
-        }
-      } else {
-        message = err.response.data.message
-      }
-      throw new Error(message)
-    })
-
-    // check response code
-    assertOk(res)
-
-    commit(`setNonce`, (parseInt(state.nonce) + 1).toString())
-  }
-
   let actions = {
     // `lock` is a Promise which is set if we are in the process
     // of sending a transaction, so that we can ensure only one send
     // happens at once. otherwise, we might try to send 2 transactions
     // using the same sequence number, which means 1 of them won't be valid.
-    async sendTx(...args) {
+    async queueTx({ dispatch, state }, args) {
       // wait to acquire lock
-      while (lock != null) {
+      while (state.lock != null) {
         // eslint-disable-line no-unmodified-loop-condition
-        await lock
+        await state.lock
       }
 
       try {
         // send and unlock when done
-        lock = doSend(...args)
-        // wait for doSend to finish
-        let res = await lock
+        state.lock = dispatch(`sendTx`, args)
+        // wait for sendTx to finish
+        let res = await state.lock
         return res
       } catch (error) {
         throw error
       } finally {
         // get rid of lock whether doSend throws or succeeds
-        lock = null
+        state.lock = null
       }
     },
     resetSessionData({ state }) {
       state.nonce = `0`
+    },
+    async sendTx({ state, dispatch, commit, rootState }, args) {
+      if (!rootState.connection.connected) {
+        throw Error(
+          `Currently not connected to a secure node. Please try again when Voyager has secured a connection.`
+        )
+      }
+
+      await dispatch(`queryWalletBalances`) // the nonce was getting out of sync, this is to force a sync
+      let requestMetaData = {
+        sequence: state.nonce,
+        name: rootState.user.account,
+        password: args.password,
+        account_number: rootState.wallet.accountNumber, // TODO move into LCD?
+        chain_id: rootState.connection.lastHeader.chain_id
+      }
+      args.base_req = requestMetaData
+
+      // extract type
+      let type = args.type || `send`
+      delete args.type
+
+      // extract "to" address
+      let to = args.to
+      delete args.to
+      args.gas = `50000000`
+
+      // submit to LCD to build, sign, and broadcast
+      let req = to ? node[type](to, args) : node[type](args)
+
+      let res = await req.catch(err => {
+        let message
+        // TODO: get rid of this logic once the appended message is actually included inside the object message
+        if (!err.response.data.message) {
+          let idxColon = err.response.data.indexOf(`:`)
+          let indexOpenBracket = err.response.data.indexOf(`{`)
+          if (idxColon < indexOpenBracket) {
+            // e.g => Msg 0 failed: {"codespace":4,"code":102,"abci_code":262246,"message":"existing unbonding delegation found"}
+            message = JSON.parse(err.response.data.substr(idxColon + 1)).message
+          } else {
+            message = err.response.data
+          }
+        } else {
+          message = err.response.data.message
+        }
+        throw new Error(message)
+      })
+
+      // check response code
+      assertOk(res)
+
+      commit(`setNonce`, (parseInt(state.nonce) + 1).toString())
     }
   }
 
