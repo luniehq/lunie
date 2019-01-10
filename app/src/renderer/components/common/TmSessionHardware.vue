@@ -37,6 +37,9 @@
 <script>
 import HardwareState from "common/TmHardwareState"
 import { App, comm_u2f, comm_node } from "ledger-cosmos-js"
+const bech32 = require(`bech32`)
+// import { encode, toHexString } from "scripts/bech32.js"
+import HID from "node-hid"
 
 const TIMEOUT = 2
 
@@ -57,13 +60,17 @@ export default {
     async connectLedger() {
       this.setStatus(`detect`)
       console.log(`Connecting Ledger...`)
+      const path = [44, 118, 0, 0, 0]
       try {
         let comm = await comm_u2f.create_async(TIMEOUT, true)
         let app = new App(comm)
         let version = await app.get_version()
+        let pubKey = await app.publicKey(path)
         console.log(
           `Ledger Version: v${version.major}.${version.minor}.${version.patch} `
         )
+        console.log(pubKey.pk)
+        this.setStatus(`success`)
       } catch (error) {
         console.error(error)
       }
