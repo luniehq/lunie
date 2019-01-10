@@ -3,7 +3,7 @@
     :tabs="tabs"
     search="proposals"
     class="governance"
-    title="Governance"
+    data-title="Governance"
   >
     <tm-btn
       id="propose-btn"

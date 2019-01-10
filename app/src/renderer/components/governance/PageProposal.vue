@@ -1,15 +1,5 @@
 <template>
-  <page-profile data-title="Proposal"
-    ><template slot="menu-body">
-      <tm-balance />
-    </template>
-    <div slot="menu">
-      <tool-bar>
-        <router-link to="/governance" exact="exact"
-          ><i class="material-icons">arrow_back</i></router-link
-        >
-      </tool-bar>
-    </div>
+  <page-profile data-title="Proposal">
     <tm-data-error v-if="!proposal" />
     <template v-else>
       <div class="page-profile__header page-profile__section proposal">

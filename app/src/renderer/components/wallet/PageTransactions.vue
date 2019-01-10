@@ -7,7 +7,7 @@
     :refresh="refreshTransactions"
     :filtered-data="filteredTransactions"
     search="transactions"
-    title="Transactions"
+    data-title="Transactions"
   >
     <data-empty-tx slot="no-data" />
     <template slot="managed-body">
@@ -16,7 +16,7 @@
         slot="managed-body"
         :validators="delegates.delegates"
         :validators-url="validatorURL"
-        :proposals-url="proposalsURL"
+        :proposals-url="governanceURL"
         :key="tx.hash"
         :transaction="tx"
         :address="wallet.address"
@@ -52,7 +52,7 @@ export default {
       order: `desc`
     },
     validatorURL: `/staking/validators`,
-    proposalsURL: `/governance/proposals`,
+    governanceURL: `/governance`,
     time
   }),
   computed: {

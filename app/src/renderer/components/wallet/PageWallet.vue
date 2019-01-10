@@ -7,7 +7,7 @@
     :refresh="queryWalletBalances"
     :filtered-data="filteredBalances"
     search="balances"
-    title="Wallet"
+    data-title="Wallet"
   >
     <tm-data-msg id="account_empty_msg" slot="no-data" icon="help_outline">
       <div slot="title">Account empty</div>
