@@ -39,7 +39,7 @@ function startRendererServer() {
     let child = run(
       `webpack-dev-server --hot --colors --config webpack.renderer.config.js --port ${
         config.wds_port
-      } --content-base app/dist`,
+      } --content-base app/dist --mode=development --http`,
       YELLOW,
       `webpack`
     )
