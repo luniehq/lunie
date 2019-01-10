@@ -657,7 +657,7 @@ describe(`LCD Client`, () => {
             {
               data: undefined,
               method: `GET`,
-              url: `http://remotehost/txs?action=submit-proposal&proposer=${
+              url: `http://remotehost/txs?action=submit_proposal&proposer=${
                 lcdClientMock.addresses[0]
               }`
             }
