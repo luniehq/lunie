@@ -1,16 +1,16 @@
 import setup from "../../../helpers/vuex-setup"
 import Vuelidate from "vuelidate"
-import NISessionSignUp from "common/TmSessionSignUp"
+import SessionSignUp from "common/TmSessionSignUp"
 jest.mock(`renderer/google-analytics.js`, () => () => {})
 
 let instance = setup()
 instance.localVue.use(Vuelidate)
 
-describe(`NISessionSignUp`, () => {
+describe(`SessionSignUp`, () => {
   let wrapper, store
 
   beforeEach(() => {
-    let test = instance.mount(NISessionSignUp, {
+    let test = instance.mount(SessionSignUp, {
       getters: {
         connected: () => true
       }
@@ -202,7 +202,9 @@ describe(`NISessionSignUp`, () => {
   })
 
   it(`should not continue if creation failed`, async () => {
-    store.dispatch = jest.fn(() => Promise.resolve(null))
+    store.dispatch = jest.fn(() =>
+      Promise.reject(new Error(`Account already exists`))
+    )
     wrapper.setData({
       fields: {
         signUpPassword: `1234567890`,
@@ -213,7 +215,10 @@ describe(`NISessionSignUp`, () => {
       }
     })
     await wrapper.vm.onSubmit()
-    expect(store.commit).not.toHaveBeenCalled()
+    expect(store.commit).toHaveBeenCalledWith(
+      `notifyError`,
+      expect.objectContaining({ body: `Account already exists` })
+    )
   })
 
   it(`should show a notification if creation failed`, async () => {

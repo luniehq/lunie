@@ -36,16 +36,21 @@ module.exports = {
   rpc: {
     on: () => {},
     subscribe: () => {},
-    validators: cb => cb(null, { validators: mockValidators }),
-    block: (args, cb) => cb({}),
-    blockchain: (args, cb) => cb(null, { block_metas: {} }),
-    status: cb =>
-      cb(null, {
+    async validators() {
+      return { validators: mockValidators }
+    },
+    async block() {},
+    async blockchain() {
+      return { block_metas: {} }
+    },
+    async status() {
+      return {
         sync_info: {
           latest_block_height: 42
         },
         node_info: { network: `test-net` }
-      })
+      }
+    }
   },
   rpcInfo: {
     connected: true,

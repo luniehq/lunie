@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`NISessionSignUp has the expected html structure 1`] = `
+exports[`SessionSignUp has the expected html structure 1`] = `
 <div
   class="tm-session"
 >
