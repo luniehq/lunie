@@ -1,4 +1,8 @@
 "use strict"
+/**
+ * Defines all numerical methods
+ * @module num
+ */
 
 const numeral = require(`numeral`)
 function usd(num) {
