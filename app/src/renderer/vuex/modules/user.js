@@ -47,7 +47,7 @@ export default ({}) => {
     },
     addHistory(state, path) {
       state.history.push(path)
-      track(`send`, `pageview`, {
+      state.externals.track(`send`, `pageview`, {
         dl: path
       })
     },

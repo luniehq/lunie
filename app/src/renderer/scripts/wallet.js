@@ -192,7 +192,6 @@ export function sign(jsonTx, wallet, { sequence, account_number, chain_id }) {
     account_number,
     chain_id
   )
-  console.log(`signMessage`, signMessage)
 
   let signature = createSignature(
     signMessage,
