@@ -3,20 +3,23 @@
 const Client = (axios, localLcdURL, remoteLcdURL) => {
   async function request(method, path, data, useRemote) {
     const url = useRemote ? remoteLcdURL : localLcdURL
-    const result = await axios({ data, method, url: url + path }).catch(
-      async err => {
-        // HACK
-        if (err.response.data.startsWith(`failed to prove merkle proof`)) {
-          return { data: {} }
-        }
-        if (err.response.status === 502) {
-          // retry
-          return { data: await request(method, path, data, useRemote) }
-        }
-        throw err
+    try {
+      const result = await axios({ data, method, url: url + path })
+      return result.data
+    } catch (err) {
+      // HACK
+      if (
+        err.response &&
+        err.response.data.startsWith(`failed to prove merkle proof`)
+      ) {
+        return {}
       }
-    )
-    return result.data
+      if (err.response.status === 502) {
+        // retry
+        return await request(method, path, data, useRemote)
+      }
+      throw err
+    }
   }
 
   // returns an async function which makes a request for the given
@@ -84,7 +87,10 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
         })
         .catch(err => {
           // if account not found, return null instead of throwing
-          if (err.response.data.includes(`account bytes are empty`)) {
+          if (
+            err.response &&
+            err.response.data.includes(`account bytes are empty`)
+          ) {
             return null
           }
           throw err
@@ -145,8 +151,19 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
     // Get the list of the validators in the latest validator set
     getValidatorSet: req(`GET`, `/validatorsets/latest`, true),
 
-    updateDelegations: function(delegatorAddr, data) {
+    postDelegation: function(delegatorAddr, data) {
       return req(`POST`, `/stake/delegators/${delegatorAddr}/delegations`)(data)
+    },
+    postUnbondingDelegation: function(delegatorAddr, data) {
+      return req(
+        `POST`,
+        `/stake/delegators/${delegatorAddr}/unbonding_delegations`
+      )(data)
+    },
+    postRedelegation: function(delegatorAddr, data) {
+      return req(`POST`, `/stake/delegators/${delegatorAddr}/redelegations`)(
+        data
+      )
     },
 
     // Query a delegation between a delegator and a validator
@@ -212,7 +229,7 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
     },
     getGovernanceTxs: async function(address) {
       return await Promise.all([
-        req(`GET`, `/txs?action=submit-proposal&proposer=${address}`, true)(),
+        req(`GET`, `/txs?action=submit_proposal&proposer=${address}`, true)(),
         req(`GET`, `/txs?action=deposit&depositor=${address}`, true)()
       ]).then(([depositorTxs, proposerTxs]) =>
         [].concat(depositorTxs, proposerTxs)

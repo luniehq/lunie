@@ -25,6 +25,11 @@ export default {
       required: true
     }
   },
+  data: () => ({
+    copy(value) {
+      navigator.clipboard.writeText(value)
+    }
+  }),
   computed: {
     notifyTitle() {
       if (this.title) return this.title
@@ -42,7 +47,7 @@ export default {
       return value
     },
     click() {
-      navigator.clipboard.writeText(this.value)
+      this.copy(this.value)
 
       this.$store.commit(`notify`, {
         title: this.notifyTitle,

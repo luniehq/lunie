@@ -1,26 +1,37 @@
-import setup from "../../../helpers/vuex-setup"
+import { shallowMount } from "@vue/test-utils"
 import PagePreferences from "renderer/components/common/PagePreferences"
+
 jest.mock(`renderer/google-analytics.js`, () => () => {})
 
 describe(`PagePreferences`, () => {
-  let wrapper, store
-  let instance = setup()
+  let wrapper, $store
+
+  const getters = {
+    user: {
+      account: `default`,
+      errorCollection: false
+    },
+    onboarding: {},
+    mockedConnector: false,
+    nodeURL: `http://localhost:9070`
+  }
 
   beforeEach(async () => {
-    let test = instance.mount(PagePreferences)
-    wrapper = test.wrapper
-    store = test.store
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters
+    }
 
-    store.commit(`setConnected`, true)
-    await store.dispatch(`signIn`, {
-      account: `default`,
-      password: `1234567890`
+    wrapper = shallowMount(PagePreferences, {
+      mocks: {
+        $store
+      }
     })
   })
 
   it(`has the expected html structure if connected`, async () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
-    expect(wrapper.vm.$el.outerHTML).toContain(`Select network`)
     expect(wrapper.vm.$el.outerHTML).toContain(`View tutorial`)
     expect(wrapper.vm.$el.outerHTML).toContain(`Automatically send`)
     expect(wrapper.vm.$el.outerHTML).toContain(`Switch account`)
@@ -29,8 +40,8 @@ describe(`PagePreferences`, () => {
 
   it(`should sign the user out`, async () => {
     wrapper.vm.signOut()
-    expect(store.dispatch).toHaveBeenCalledWith(`signOut`)
-    expect(store.commit).toHaveBeenCalledWith(`notifySignOut`)
+    expect($store.dispatch).toHaveBeenCalledWith(`signOut`)
+    expect($store.commit).toHaveBeenCalledWith(`notifySignOut`)
   })
 
   it(`should set the error collection opt in`, async () => {
@@ -47,68 +58,10 @@ describe(`PagePreferences`, () => {
     })
   })
 
-  it(`can switch the theme`, () => {
-    wrapper.vm.setAppTheme()
-    expect(store.commit).toHaveBeenCalledWith(`setTheme`, `light`)
-    expect(store.state.themes.active).toBe(`light`)
-    // store.commit.mockClear()
-    wrapper.vm.setAppTheme()
-    expect(store.commit).toHaveBeenCalledWith(`setTheme`, `dark`)
-    expect(store.state.themes.active).toBe(`dark`)
-  })
-
   it(`can show onboarding again`, () => {
     wrapper.find(`#toggle-onboarding`).trigger(`click`)
-    expect(store.commit).toHaveBeenCalledWith(`setOnboardingState`, 0)
-    expect(store.commit).toHaveBeenCalledWith(`setOnboardingActive`, true)
+    expect($store.commit).toHaveBeenCalledWith(`setOnboardingState`, 0)
+    expect($store.commit).toHaveBeenCalledWith(`setOnboardingActive`, true)
     expect(wrapper.find(`#onboarding`)).toBeDefined()
-  })
-
-  describe(`Select network to connect to`, () => {
-    it(`Live Testnet`, () => {
-      const instance = {
-        networkSelectActive: `live`,
-        $store: {
-          dispatch: jest.fn()
-        }
-      }
-
-      PagePreferences.methods.setMockedConnector.call(instance)
-
-      expect(instance.$store.dispatch.mock.calls).toEqual([
-        [`setMockedConnector`, false]
-      ])
-    })
-    it(`Offline Mode`, () => {
-      const instance = {
-        networkSelectActive: `mock`,
-        $store: {
-          dispatch: jest.fn()
-        }
-      }
-
-      PagePreferences.methods.setMockedConnector.call(instance)
-
-      expect(instance.$store.dispatch.mock.calls).toEqual([
-        [`setMockedConnector`, true]
-      ])
-    })
-  })
-
-  it(`switches mocked mode again`, async () => {
-    let test = instance.mount(PagePreferences, {
-      getters: {
-        mockedConnector: () => true
-      }
-    })
-    wrapper = test.wrapper
-    store = test.store
-    await store.dispatch(`signIn`, {
-      account: `default`,
-      password: `1234567890`
-    })
-    wrapper.vm.networkSelectActive = `live`
-    wrapper.vm.setMockedConnector()
-    expect(store.dispatch).toHaveBeenCalledWith(`setMockedConnector`, false)
   })
 })

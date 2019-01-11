@@ -17,7 +17,7 @@
     >
       <tm-field
         id="denom"
-        :placeholder="bondingDenom"
+        :placeholder="denom"
         type="text"
         readonly="readonly"
       />
@@ -92,8 +92,8 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
 import ClickOutside from "vue-click-outside"
+import { mapGetters } from "vuex"
 import { required, between, requiredIf } from "vuelidate/lib/validators"
 import Modal from "common/TmModal"
 import TmBtn from "common/TmBtn"
@@ -123,6 +123,10 @@ export default {
     to: {
       type: String,
       required: true
+    },
+    denom: {
+      type: String,
+      required: true
     }
   },
   data: () => ({
@@ -132,7 +136,7 @@ export default {
     showPassword: false
   }),
   computed: {
-    ...mapGetters([`bondingDenom`, `wallet`])
+    ...mapGetters([`wallet`])
   },
   validations() {
     return {

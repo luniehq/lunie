@@ -66,7 +66,7 @@ exports[`TmLiGovTransaction deposits should show deposits 1`] = `
       >
         Block #56675 
       </a>
-      @ 12:00 am
+      @ 00:00
     
     </div>
   </div>
@@ -133,7 +133,7 @@ exports[`TmLiGovTransaction proposals should show proposals submission transacti
       >
         Block #56673 
       </a>
-      @ 12:00 am
+      @ 00:00
     
     </div>
   </div>

@@ -43,7 +43,7 @@ export default function({ node }) {
       if (rootState.user.signedIn)
         await dispatch(`maybeUpdateValidators`, header)
     },
-    async reconnect({ commit }) {
+    async reconnect({ state, commit }) {
       if (state.stopConnecting) return
 
       commit(`setConnected`, false)

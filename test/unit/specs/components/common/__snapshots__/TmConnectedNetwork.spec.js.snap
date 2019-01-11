@@ -22,7 +22,7 @@ exports[`TmConnectedNetwork has a connecting state 1`] = `
 
 exports[`TmConnectedNetwork has the expected html structure 1`] = `
 <div
-  class="tm-connected-network tm-connected-network--mocked"
+  class="tm-connected-network"
   id="tm-connected-network"
 >
   <div
@@ -55,10 +55,16 @@ exports[`TmConnectedNetwork has the expected html structure 1`] = `
     class="tm-connected-network__string"
     id="tm-connected-network__block"
   >
-    <span>
+    <a
+      href="https://explorecosmos.network/blocks/42"
+    >
       #42
-    </span>
-    <!---->
+      <i
+        class="material-icons exit"
+      >
+        exit_to_app
+      </i>
+    </a>
   </div>
 </div>
 `;
@@ -98,7 +104,6 @@ exports[`TmConnectedNetwork shows the connected node 1`] = `
     class="tm-connected-network__string"
     id="tm-connected-network__block"
   >
-    <!---->
     <a
       href="https://explorecosmos.network/blocks/0"
     >

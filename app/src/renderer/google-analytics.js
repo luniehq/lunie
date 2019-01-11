@@ -21,6 +21,6 @@ module.exports.disableGoogleAnalytics = function disableGoogleAnalytics(gaUID) {
 
 module.exports.track = function track(...args) {
   if (window.ga) {
-    window.ga(...args)
+    window.ga(`send`, ...args)
   }
 }

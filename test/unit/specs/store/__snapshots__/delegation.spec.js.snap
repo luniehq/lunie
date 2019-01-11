@@ -1,66 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Module: Delegations fetches bonded delegates 1`] = `
-Object {
-  "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw": 14,
-}
-`;
-
-exports[`Module: Delegations fetches current undelegations 1`] = `
-Object {
-  "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au": Object {
-    "balance": Object {
-      "amount": "356.0000000000",
-    },
-    "creation_height": undefined,
-    "min_time": undefined,
-  },
-  "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw": Object {
-    "balance": Object {
-      "amount": "113.0000000000",
-    },
-    "creation_height": undefined,
-    "min_time": undefined,
-  },
-}
-`;
-
-exports[`Module: Delegations should query delegated atoms on reconnection 1`] = `Array []`;
-
 exports[`Module: Delegations submits delegation transaction 1`] = `
 Array [
   Array [
+    "sendTx",
     Object {
-      "base_req": Object {
-        "account_number": "1",
-        "chain_id": "test-chain",
-        "name": "default",
-        "password": undefined,
-        "sequence": "1",
+      "delegation": Object {
+        "amount": "undefined",
+        "denom": "STAKE",
       },
-      "begin_redelegates": undefined,
-      "begin_unbondings": undefined,
-      "delegations": Array [
-        Object {
-          "delegation": Object {
-            "amount": "109",
-            "denom": "STAKE",
-          },
-          "delegator_addr": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-          "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
-        },
-        Object {
-          "delegation": Object {
-            "amount": "456",
-            "denom": "STAKE",
-          },
-          "delegator_addr": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-          "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
-        },
-      ],
-      "gas": "50000000",
+      "delegator_addr": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
       "password": undefined,
+      "to": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+      "type": "postDelegation",
+      "validator_addr": undefined,
     },
+  ],
+  Array [
+    "updateDelegates",
   ],
 ]
 `;
@@ -68,31 +25,21 @@ Array [
 exports[`Module: Delegations submits undelegation transaction 1`] = `
 Array [
   Array [
+    "sendTx",
     Object {
-      "base_req": Object {
-        "account_number": "1",
-        "chain_id": "test-chain",
-        "name": "default",
-        "password": undefined,
-        "sequence": "3",
+      "delegation": Object {
+        "amount": "undefined",
+        "denom": "STAKE",
       },
-      "begin_redelegates": undefined,
-      "begin_unbondings": Array [
-        Object {
-          "delegator_addr": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-          "shares": "113.0000000000",
-          "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
-        },
-        Object {
-          "delegator_addr": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-          "shares": "356.0000000000",
-          "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
-        },
-      ],
-      "delegations": undefined,
-      "gas": "50000000",
+      "delegator_addr": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
       "password": undefined,
+      "to": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+      "type": "postDelegation",
+      "validator_addr": undefined,
     },
+  ],
+  Array [
+    "updateDelegates",
   ],
 ]
 `;

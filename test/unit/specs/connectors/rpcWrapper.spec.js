@@ -12,12 +12,13 @@ describe(`RPC Connector`, () => {
   }
 
   beforeEach(() => {
-    jest.mock(`tendermint`, () => () => ({
-      on() {},
-      removeAllListeners() {},
-      ws: { destroy() {} }
+    jest.mock(`tendermint`, () => ({
+      RpcClient: () => ({
+        on() {},
+        removeAllListeners() {},
+        ws: { destroy() {} }
+      })
     }))
-    jest.mock(`electron`, () => ({ ipcRenderer: { send: () => jest.fn() } }))
 
     newConnector()
   })
@@ -29,12 +30,14 @@ describe(`RPC Connector`, () => {
   })
 
   it(`should remember if it could not connect via rpc`, () => {
-    jest.mock(`tendermint`, () => () => ({
-      on(value, cb) {
-        if (value === `error`) {
-          cb({ code: `ECONNREFUSED` })
+    jest.mock(`tendermint`, () => ({
+      RpcClient: () => ({
+        on(value, cb) {
+          if (value === `error`) {
+            cb({ code: `ECONNREFUSED` })
+          }
         }
-      }
+      })
     }))
     newConnector()
     connector.rpcConnect(`localhost`)
@@ -43,12 +46,14 @@ describe(`RPC Connector`, () => {
   })
 
   it(`should not react to error codes not meaning connection failed`, () => {
-    jest.mock(`tendermint`, () => () => ({
-      on(value, cb) {
-        if (value === `error`) {
-          cb({ code: `ABCD` })
+    jest.mock(`tendermint`, () => ({
+      RpcClient: () => ({
+        on(value, cb) {
+          if (value === `error`) {
+            cb({ code: `ABCD` })
+          }
         }
-      }
+      })
     }))
     connector.rpcConnect(`localhost`)
     expect(connector.rpc).toBeDefined()

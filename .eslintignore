@@ -2,6 +2,8 @@
 /app/dist/
 /app/networks/
 /builds/
+/tasks/builds/*
 /testArtifacts
 /test/unit/coverage/
-/app/src/dependencies
+/.vscode/settings.json
+/docs/cosmos-voyager/

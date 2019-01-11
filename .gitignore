@@ -1,7 +1,7 @@
 .DS_Store
 app/dist
 builds/*
-task/builds/*
+task/builds
 coverage
 node_modules
 npm-debug.log
@@ -13,6 +13,7 @@ thumbs.db
 yarn-error.log
 testArtifacts/*
 app/networks/local-testnet/*
+docs/cosmos-voyager
 .idea/*
 *.crt
 *.key

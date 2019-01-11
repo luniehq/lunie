@@ -9,7 +9,7 @@ import { loadKeys, importKey, testPassword } from "../../scripts/keystore.js"
 import { generateSeed } from "../../scripts/wallet.js"
 import CryptoJS from "crypto-js"
 
-export default ({ node }) => {
+export default ({}) => {
   const ERROR_COLLECTION_KEY = `voyager_error_collection`
 
   let state = {
@@ -22,7 +22,20 @@ export default ({ node }) => {
     address: null,
     errorCollection: false,
     stateLoaded: false, // shows if the persisted state is already loaded. used to prevent overwriting the persisted state before it is loaded
-    error: null
+    error: null,
+
+    // import into state to be able to test easier
+    externals: {
+      config,
+      loadKeys,
+      importKey,
+      testPassword,
+      generateSeed,
+      enableGoogleAnalytics,
+      disableGoogleAnalytics,
+      track,
+      Sentry
+    }
   }
 
   const mutations = {
@@ -37,7 +50,7 @@ export default ({ node }) => {
     },
     addHistory(state, path) {
       state.history.push(path)
-      track(`send`, `pageview`, {
+      state.externals.track(`send`, `pageview`, {
         dl: path
       })
     },
@@ -54,7 +67,7 @@ export default ({ node }) => {
       // reload available accounts as the reconnect could be a result of a switch from a mocked connection with mocked accounts
       await dispatch(`loadAccounts`)
     },
-    async showInitialScreen({ dispatch, commit }) {
+    async showInitialScreen({ state, dispatch, commit }) {
       dispatch(`resetSessionData`)
 
       await dispatch(`loadAccounts`)
@@ -62,18 +75,17 @@ export default ({ node }) => {
       let screen = exists ? `sign-in` : `welcome`
       commit(`setModalSessionState`, screen)
 
-      window.analytics &&
-        window.analytics.send(`pageview`, {
-          dl: `/session/` + screen
-        })
+      state.externals.track(`pageview`, {
+        dl: `/session/` + screen
+      })
     },
     async loadAccounts({ commit, state }) {
       state.loading = true
       try {
-        let keys = await loadKeys()
+        let keys = await state.externals.loadKeys()
         commit(`setAccounts`, keys)
       } catch (error) {
-        Sentry.captureException(error)
+        state.externals.Sentry.captureException(error)
         commit(`notifyError`, {
           title: `Couldn't read keys`,
           body: error.message
@@ -83,32 +95,36 @@ export default ({ node }) => {
         state.loading = false
       }
     },
-    async testLogin(state, { password, account }) {
+    async testLogin({}, { password, account }) {
       return await testPassword(account, password)
     },
     createSeed() {
-      return generateSeed(x => CryptoJS.lib.WordArray.random(x).toString())
+      return state.externals.generateSeed(x =>
+        CryptoJS.lib.WordArray.random(x).toString()
+      )
     },
     async createKey({ dispatch }, { seedPhrase, password, name }) {
-      let { address } = await importKey(name, password, seedPhrase)
+      let { address } = await state.externals.importKey(
+        name,
+        password,
+        seedPhrase
+      )
       dispatch(`initializeWallet`, address)
       return address
-    },
-    async deleteKey(ignore, { password, name }) {
-      await node.keys.delete(name, { name, password })
-      return true
     },
     async signIn({ state, commit, dispatch }, { account }) {
       state.account = account
       state.signedIn = true
 
-      let keys = await loadKeys()
+      let keys = await state.externals.loadKeys()
       let { address } = keys.find(({ name }) => name === account)
 
       commit(`setUserAddress`, address)
       dispatch(`loadPersistedState`)
       commit(`setModalSession`, false)
+      await dispatch(`getStakingParameters`)
       dispatch(`initializeWallet`, address)
+      await dispatch(`getGovParameters`)
       dispatch(`loadErrorCollection`, account)
     },
     signInLedger({ commit, dispatch }, { address, version }) {
@@ -142,33 +158,40 @@ export default ({ node }) => {
         dispatch(`setErrorCollection`, { account, optin: errorCollection })
     },
     setErrorCollection({ state, commit }, { account, optin }) {
-      if (state.errorCollection !== optin && config.development) {
+      if (
+        optin &&
+        state.errorCollection === false &&
+        state.externals.config.development
+      ) {
         commit(`notifyError`, {
-          title: `Couldn't switch ${optin ? `on` : `off`} error collection.`,
+          title: `Couldn't switch on error collection.`,
           body: `Error collection is disabled during development.`
         })
       }
-      state.errorCollection = config.development ? false : optin
+      state.errorCollection = state.externals.config.development ? false : optin
       localStorage.setItem(
         `${ERROR_COLLECTION_KEY}_${account}`,
         state.errorCollection
       )
 
       if (state.errorCollection) {
-        Sentry.init({
+        state.externals.Sentry.init({
           dsn: config.sentry_dsn,
-          release: `voyager@${config.version}`
+          release: `voyager@${state.externals.config.version}`
         })
-        enableGoogleAnalytics(config.google_analytics_uid)
+        state.externals.enableGoogleAnalytics(
+          state.externals.config.google_analytics_uid
+        )
         console.log(`Analytics and error reporting have been enabled`)
-        // eslint-disable-next-line no-undef
-        track(`send`, `pageview`, {
+        state.externals.track(`pageview`, {
           dl: window.location.pathname
         })
       } else {
         console.log(`Analytics disabled in browser`)
-        Sentry.init({})
-        disableGoogleAnalytics(config.google_analytics_uid)
+        state.externals.Sentry.init({})
+        state.externals.disableGoogleAnalytics(
+          state.externals.config.google_analytics_uid
+        )
       }
     }
   }

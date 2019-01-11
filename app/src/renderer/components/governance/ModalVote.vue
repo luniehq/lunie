@@ -143,9 +143,7 @@ export default {
         required,
         isValid
       },
-      password: {
-        required: requiredIf(!this.wallet.ledger.connected)
-      }
+      password: { required: requiredIf(!this.wallet.ledger.connected) }
     }
   },
   methods: {

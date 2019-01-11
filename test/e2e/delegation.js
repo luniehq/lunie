@@ -67,6 +67,8 @@ test(`delegation`, async function(t) {
       .$(`.header-balance .unbonded-atoms h2`)
       .getText()).split(`.`)[0] // 30.000...
 
+    await t.equal(totalAtoms, `130`, `i have 130 Atoms`)
+    await t.equal(unbondedAtoms, `30`, `i have 30 unbounded Atoms`)
     // Select the second validator.
     await app.client.click(`//*[. = 'local_2']`)
 
@@ -88,7 +90,7 @@ test(`delegation`, async function(t) {
       )
       .waitForVisible(
         `//*[. = 'You have successfully delegated your STAKEs']`,
-        5 * 1000
+        10 * 1000
       )
 
       // Go back to Staking page.
@@ -97,13 +99,13 @@ test(`delegation`, async function(t) {
     console.log(`Testing total balance`)
     await waitForText(
       () => app.client.$(`.header-balance .total-atoms h2`),
-      `${totalAtoms}.0000…`,
+      `${parseInt(totalAtoms) - 10}.0000…`,
       10 * 1000
     )
     console.log(`Testing unbonded balance`)
     await waitForText(
       () => app.client.$(`.header-balance .unbonded-atoms h2`),
-      `${unbondedAtoms - 10}.0000…`,
+      `${parseInt(unbondedAtoms) - 10}.0000…`,
       10 * 1000
     )
     await closeNotifications(app)

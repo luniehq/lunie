@@ -5,16 +5,6 @@
       <tool-bar />
     </template>
     <tm-part title="Settings">
-      <tm-list-item type="field" title="Select network to connect to">
-        <tm-field
-          id="select-network"
-          v-model="networkSelectActive"
-          :options="networkSelectOptions"
-          type="select"
-          placeholder="Select network..."
-          @change.native="setMockedConnector()"
-        />
-      </tm-list-item>
       <tm-list-item type="field" title="Node IP">
         <tm-btn :value="nodeURL" icon="exit_to_app" type="button" />
       </tm-list-item>
@@ -80,55 +70,13 @@ export default {
     ToolBar,
     TmModal
   },
-  data: () => ({
-    themeSelectActive: null,
-    themeSelectOptions: [
-      {
-        value: `light`,
-        key: `Light`
-      },
-      {
-        value: `dark`,
-        key: `Dark`
-      }
-    ],
-    networkSelectActive: null,
-    networkSelectOptions: [
-      {
-        value: `live`,
-        key: `Live Testnet`
-      },
-      {
-        value: `mock`,
-        key: `Offline Mode`
-      }
-    ]
-  }),
   computed: {
-    ...mapGetters([
-      `user`,
-      `themes`,
-      `onboarding`,
-      `mockedConnector`,
-      `config`,
-      `nodeURL`
-    ])
-  },
-  mounted() {
-    this.networkSelectActive = this.mockedConnector ? `mock` : `live`
-    this.themeSelectActive = this.themes.active
+    ...mapGetters([`user`, `onboarding`, `nodeURL`])
   },
   methods: {
     signOut({ $store } = this) {
       $store.dispatch(`signOut`)
       $store.commit(`notifySignOut`)
-    },
-    setAppTheme({ $store, themes } = this) {
-      if (themes.active === `dark`) {
-        $store.commit(`setTheme`, `light`)
-      } else {
-        $store.commit(`setTheme`, `dark`)
-      }
     },
     setErrorCollection({ $store } = this) {
       $store.dispatch(`setErrorCollection`, {
@@ -139,10 +87,6 @@ export default {
     setOnboarding({ $store } = this) {
       $store.commit(`setOnboardingState`, 0)
       $store.commit(`setOnboardingActive`, true)
-    },
-
-    setMockedConnector({ $store, networkSelectActive } = this) {
-      $store.dispatch(`setMockedConnector`, networkSelectActive === `mock`)
     }
   }
 }

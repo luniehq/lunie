@@ -17,8 +17,7 @@ describe(`TmSessionWelcome`, () => {
         config: () => config.state,
         lastHeader: () => ({ chain_id: `gaia-test`, height: `31337` }),
         connected: () => true,
-        nodeURL: () => `http://nodeUrl`,
-        mockedConnector: () => false
+        nodeURL: () => `http://nodeUrl`
       },
       modules: { config }
     })
@@ -68,12 +67,6 @@ describe(`TmSessionWelcome`, () => {
     store.commit(`setModalSession`, true)
     store.commit(`setModalSessionState`, `hardware`)
     expect(wrapper.contains(`session-hardware-stub`)).toBe(true)
-  })
-
-  it(`should show a account delete screen if selected`, () => {
-    store.commit(`setModalSession`, true)
-    store.commit(`setModalSessionState`, `delete`)
-    expect(wrapper.contains(`session-account-delete-stub`)).toBe(true)
   })
 
   // it('should show a import screen if selected', () => {

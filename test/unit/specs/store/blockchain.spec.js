@@ -1,10 +1,8 @@
-import setup from "../../helpers/vuex-setup"
 import { getTxHash } from "../../../../app/src/renderer/scripts/tx-utils.js"
 import blockchainModule from "renderer/vuex/modules/blockchain.js"
-let instance = setup()
 
 describe(`Module: Blockchain`, () => {
-  let store, node
+  let module, state, actions, node
   let height = 100
   let blockMeta = {
     header: {
@@ -14,98 +12,102 @@ describe(`Module: Blockchain`, () => {
   }
 
   beforeEach(() => {
-    let test = instance.shallow()
-    store = test.store
-    node = test.node
-
-    // prefill block metas
-    store.state.blockchain.blockMetas = {}
-    store.state.blockchain.blockMetas[height] = blockMeta
+    node = {
+      rpc: {
+        status: () => Promise.resolve({ sync_info: {} })
+      }
+    }
+    module = blockchainModule({
+      node
+    })
+    state = module.state
+    actions = module.actions
   })
 
   it(`should query block info`, async () => {
-    store.state.blockchain.blockMetas = {}
-    node.rpc.blockchain = jest.fn((ignored, cb) => {
-      cb(null, { block_metas: [blockMeta] })
-    })
+    state.blockMetas = {}
+    node.rpc.blockchain = () => Promise.resolve({ block_metas: [blockMeta] })
 
-    let output = await store.dispatch(`queryBlockInfo`, 42)
+    let output = await actions.queryBlockInfo({ state, commit: jest.fn() }, 42)
     expect(output).toBe(blockMeta)
   })
 
   it(`should reuse queried block info`, async () => {
-    store.state.blockchain.blockMetas = {}
-    store.state.blockchain.blockMetas[height] = blockMeta
+    state.blockMetas = {}
+    state.blockMetas[100] = blockMeta
 
     node.rpc.blockchain = jest.fn()
 
-    let output = await store.dispatch(`queryBlockInfo`, 100)
+    let output = await actions.queryBlockInfo({ state, commit: jest.fn() }, 100)
     expect(output).toBe(blockMeta)
     expect(node.rpc.blockchain).not.toHaveBeenCalled()
   })
 
   it(`should show an info if block info is unavailable`, async () => {
     jest.spyOn(console, `error`).mockImplementation(() => {})
-    store.state.blockchain.blockMetas = {}
-    node.rpc.blockchain = (props, cb) => cb(new Error(`Error`))
-    let height = 100
-    let output = await store.dispatch(`queryBlockInfo`, height)
+    state.blockMetas = {}
+    node.rpc.blockchain = () => Promise.reject(new Error(`Error`))
+    let output = await actions.queryBlockInfo({ state, commit: jest.fn() }, 100)
     expect(output).toBe(null)
-    expect(store.state.blockchain.error).toBe(`Couldn't query block. Error`)
-    console.error.mockReset()
+    expect(state.error).toEqual(new Error(`Error`))
   })
 
   it(`should not subscribe twice`, async () => {
-    let firstResponse = await store.dispatch(`subscribeToBlocks`)
+    node.rpc.status = () => Promise.resolve({ sync_info: {} })
+    node.rpc.subscribe = (query, cb) => {
+      cb()
+    }
+
+    let commit = jest.fn()
+    let firstResponse = await actions.subscribeToBlocks({
+      state,
+      commit,
+      dispatch: jest.fn()
+    })
     expect(firstResponse).toBe(true)
-    let secondResponse = await store.dispatch(`subscribeToBlocks`)
+    expect(commit).toHaveBeenCalledWith(`setSubscription`, true)
+
+    let secondResponse = await actions.subscribeToBlocks({
+      state: Object.assign({}, state, {
+        subscription: true
+      }),
+      commit: jest.fn(),
+      dispatch: jest.fn()
+    })
     expect(secondResponse).toBe(false)
   })
 
-  it(`should handle errors`, async () => {
-    node.rpc.subscribe = (query, cb) => {
-      cb({ message: `expected error` })
-    }
-    await store.dispatch(`subscribeToBlocks`)
-    expect(store.state.blockchain.error.message).toBe(`expected error`)
-  })
-
-  // test is not working properly and the code is not testing for this
-  xit(`should ignore already subscribed errors`, () => {
-    console.error = jest.fn()
-    node.rpc.subscribe = (query, cb) => {
-      cb({ message: `expected error`, data: `already subscribed` })
-    }
-    store.dispatch(`subscribeToBlocks`)
-    expect(console.error.mock.calls.length).toBe(1)
-    expect(store.dispatch).not.toHaveBeenCalledWith(`nodeHasHalted`)
-  })
-
   it(`should not subscribe if still syncing`, async () => {
-    node.rpc.status = cb => {
-      cb(null, {
+    node.rpc.status = () =>
+      Promise.resolve({
         sync_info: {
           catching_up: true,
           latest_block_height: 42
         }
       })
-    }
     node.rpc.subscribe = jest.fn()
-    store.dispatch(`subscribeToBlocks`)
+    await actions.subscribeToBlocks({
+      state,
+      commit: jest.fn(),
+      dispatch: jest.fn()
+    })
     expect(node.rpc.subscribe.mock.calls.length).toBe(0)
   })
 
   it(`should subscribe if not syncing`, async () => {
-    node.rpc.status = cb => {
-      cb(null, {
+    node.rpc.status = () =>
+      Promise.resolve({
         sync_info: {
           catching_up: false,
           latest_block_height: 42
         }
       })
-    }
     node.rpc.subscribe = jest.fn()
-    store.dispatch(`subscribeToBlocks`)
+    await actions.subscribeToBlocks({
+      state,
+      commit: jest.fn(),
+      dispatch: jest.fn()
+    })
     expect(node.rpc.subscribe.mock.calls.length).toBe(1)
   })
 
@@ -119,14 +121,13 @@ describe(`Module: Blockchain`, () => {
   it(`should dispatch successful subscription only if the subscription is inactive`, async () => {
     const node = {
       rpc: {
-        status: cb => {
-          cb(null, {
+        status: () =>
+          Promise.resolve({
             sync_info: {
               latest_block_height: 0,
               catching_up: false
             }
-          })
-        },
+          }),
         subscribe: (query, cb) => {
           cb()
           expect(commit).toBeCalledWith(`setSubscription`, true)

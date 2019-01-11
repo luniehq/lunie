@@ -81,18 +81,9 @@
             type="between"
           />
         </tm-form-group>
-        <p v-if="mockedConnector">
-          <span>Try sending to the address "</span
-          ><strong style="font-weight: bold"
-            >cosmos1p6zajjw6xged056andyhn62lm7axwzyspkzjq0</strong
-          ><span
-            >", it's a friendly bot which will send the money back to you!</span
-          >
-        </p>
-        <br v-if="mockedConnector" />
-        <hr />
+        <hr v-if="!wallet.ledger.connected" />
       </tm-part>
-      <tm-part>
+      <tm-part v-if="!wallet.ledger.connected">
         <tm-form-group
           :error="$v.fields.password.$error"
           field-id="password"
@@ -154,7 +145,7 @@
 
 <script>
 import b32 from "scripts/b32"
-import { required, between } from "vuelidate/lib/validators"
+import { required, between, requiredIf } from "vuelidate/lib/validators"
 import { mapActions, mapGetters } from "vuex"
 import TmBtn from "common/TmBtn"
 import TmFieldGroup from "common/TmFieldGroup"
@@ -205,13 +196,7 @@ export default {
     showPassword: false
   }),
   computed: {
-    ...mapGetters([
-      `wallet`,
-      `lastHeader`,
-      `config`,
-      `mockedConnector`,
-      `connected`
-    ]),
+    ...mapGetters([`wallet`, `connected`]),
     max() {
       let denom = this.wallet.balances.find(b => b.denom === this.denom)
       return (denom && denom.amount) || 0
@@ -301,7 +286,7 @@ export default {
           between: between(this.max ? 1 : 0, this.max)
         },
         denom: { required },
-        password: { required }
+        password: { required: requiredIf(!this.wallet.ledger.connected) }
       }
     }
   }

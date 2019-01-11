@@ -1,3577 +1,1000 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PageSend disables sending if not connected 1`] = `
-<div
-  class="tm-page"
+<tm-page-stub
   data-title="Send"
+  menubody=""
+  subtitle=""
+  title=""
 >
-  <header
-    class="tm-page-header"
-  >
-    <div
-      class="tm-page-header-container"
-    >
-      <div
-        class="tm-page-header-text"
-      >
-        <!---->
-         
-        <!---->
-         
-        <div
-          class="tm-page-header-body"
-        >
-          <div
-            class="header-balance"
-          >
-            <div
-              class="top"
-            >
-              <div
-                class="icon-container"
-              >
-                <img
-                  class="icon"
-                  src="~assets/images/cosmos-logo.png"
-                />
-              </div>
-               
-              <div
-                class="total-atoms top-section"
-              >
-                <h3>
-                  Total STAKE
-                </h3>
-                 
-                <h2
-                  class="total-atoms__value"
-                >
-                  1,000.0000…
-                </h2>
-              </div>
-               
-              <div
-                class="unbonded-atoms top-section"
-              >
-                <h3>
-                  Available STAKE
-                </h3>
-                 
-                <h2>
-                  1,000.0000…
-                </h2>
-              </div>
-            </div>
-             
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    cosmos…xxn9
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
-             
-            <div
-              class="tabs"
-            />
-             
-          </div>
-           
-          <div
-            class="tm-tool-bar"
-          >
-            <a
-              class="back"
-              disabled="disabled"
-            >
-              <i
-                class="material-icons"
-              >
-                arrow_back
-              </i>
-            </a>
-             
-            <a
-              class="help"
-            >
-              <i
-                class="material-icons"
-              >
-                help_outline
-              </i>
-            </a>
-             
-            <router-link-stub
-              id="settings"
-              to="/preferences"
-            >
-              <i
-                class="material-icons"
-              >
-                settings
-              </i>
-            </router-link-stub>
-            <a
-              id="signOut-btn"
-            >
-              <i
-                class="material-icons"
-              >
-                exit_to_app
-              </i>
-            </a>
-          </div>
-        </div>
-      </div>
-       
-      <menu
-        class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
-    </div>
-  </header>
+  <template>
+    <tm-balance-stub
+      tabs=""
+    />
+     
+    <tool-bar-stub />
+  </template>
    
-  <main
-    class="tm-page-main"
+  <tm-form-struct-stub
+    submit="function () { [native code] }"
+    width=""
   >
-     
-    <form
-      class="tm-form"
+    <tm-part-stub
+      title="Denomination Options"
     >
-      <div
-        class="tm-form-container"
+      <tm-form-group-stub
+        fieldid="send-denomination"
+        fieldlabel="Denomination"
       >
+        <tm-field-stub
+          id="send-denomination"
+          options="[object Object],[object Object]"
+          placeholder="Select token..."
+          type="select"
+          value="mycoin"
+        />
+         
+        <!---->
+      </tm-form-group-stub>
+    </tm-part-stub>
+     
+    <tm-part-stub
+      title="Transaction Details"
+    >
+      <tm-form-group-stub
+        fieldid="send-address"
+        fieldlabel="Send To"
+      >
+        <tm-field-group-stub>
+          <tm-field-stub
+            id="send-address"
+            placeholder="Address"
+            type="text"
+            value="tb1mjt6dcdru8lgdz64h2fu0lrzvd5zv8sfcvkv2l"
+          />
+        </tm-field-group-stub>
+         
+        <!---->
+      </tm-form-group-stub>
+       
+      <tm-form-group-stub
+        fieldid="send-amount"
+        fieldlabel="Amount"
+      >
+        <tm-field-group-stub>
+          <tm-field-stub
+            id="send-amount"
+            max="0"
+            min="0"
+            placeholder="Amount"
+            type="number"
+            value="2"
+          />
+        </tm-field-group-stub>
          
         <!---->
          
-        <main
-          class="tm-form-main"
-        >
-          <section
-            class="tm-part"
-          >
-            <div
-              class="tm-part-container"
-            >
-              <header
-                class="tm-part-header"
-              >
-                <div
-                  class="tm-part-header-container"
-                >
-                  <div
-                    class="tm-part-title h5"
-                  >
-                    Denomination Options
-                  </div>
-                   
-                  <menu
-                    class="tm-part-menu"
-                  />
-                </div>
-              </header>
-               
-              <main
-                class="tm-part-main"
-              >
-                <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="send-denomination"
-                  >
-                    Denomination
-                  </label>
-                   
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <div
-                      class="tm-select"
-                      id="send-denomination"
-                    >
-                      <select
-                        class="tm-field tm-field-select"
-                      >
-                        <option
-                          disabled="disabled"
-                          hidden="hidden"
-                          selected="selected"
-                          value=""
-                        >
-                          Select token...
-                        </option>
-                         
-                        <option
-                          value="mycoin"
-                        >
-                          MYCOIN
-                        </option>
-                        <option
-                          value="fermion"
-                        >
-                          FERMION
-                        </option>
-                      </select>
-                       
-                      <div
-                        class="tm-field-select-addon"
-                      >
-                        <i
-                          class="material-icons"
-                        >
-                          arrow_drop_down
-                        </i>
-                      </div>
-                    </div>
-                     
-                    <!---->
-                  </div>
-                </div>
-              </main>
-            </div>
-          </section>
-           
-          <section
-            class="tm-part"
-          >
-            <div
-              class="tm-part-container"
-            >
-              <header
-                class="tm-part-header"
-              >
-                <div
-                  class="tm-part-header-container"
-                >
-                  <div
-                    class="tm-part-title h5"
-                  >
-                    Transaction Details
-                  </div>
-                   
-                  <menu
-                    class="tm-part-menu"
-                  />
-                </div>
-              </header>
-               
-              <main
-                class="tm-part-main"
-              >
-                <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="send-address"
-                  >
-                    Send To
-                  </label>
-                   
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <div
-                      class="tm-field-group"
-                    >
-                      <input
-                        class="tm-field"
-                        id="send-address"
-                        placeholder="Address"
-                        type="text"
-                      />
-                    </div>
-                     
-                    <!---->
-                  </div>
-                </div>
-                 
-                <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="send-amount"
-                  >
-                    Amount
-                  </label>
-                   
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <div
-                      class="tm-field-group"
-                    >
-                      <input
-                        class="tm-field"
-                        id="send-amount"
-                        max="2300"
-                        min="1"
-                        placeholder="Amount"
-                        type="number"
-                      />
-                    </div>
-                     
-                    <!---->
-                     
-                    <!---->
-                  </div>
-                </div>
-                 
-                <!---->
-                 
-                <!---->
-                 
-                <hr />
-              </main>
-            </div>
-          </section>
-           
-          <section
-            class="tm-part"
-          >
-            <div
-              class="tm-part-container"
-            >
-              <!---->
-               
-              <main
-                class="tm-part-main"
-              >
-                <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="password"
-                  >
-                    Account password
-                  </label>
-                   
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <input
-                      class="tm-field"
-                      id="password"
-                      placeholder="password..."
-                      type="password"
-                    />
-                     
-                    <!---->
-                     
-                    <input
-                      id="showPasswordCheckbox"
-                      type="checkbox"
-                    />
-                     
-                    <label
-                      for="showPasswordCheckbox"
-                    >
-                      Show password
-                    </label>
-                  </div>
-                </div>
-              </main>
-            </div>
-          </section>
-           
-        </main>
-         
-        <footer
-          class="tm-form-footer"
-        >
-          <div>
-            <button
-              class="tm-btn"
-              disabled="disabled"
-            >
-              <span
-                class="tm-btn__container tm-btn--primary"
-              >
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Connecting...
-                </span>
-              </span>
-            </button>
-          </div>
-        </footer>
-      </div>
-    </form>
+        <tm-form-msg-stub
+          max="0"
+          min="0"
+          name="Amount"
+          type="between"
+        />
+      </tm-form-group-stub>
+       
+      <hr />
+    </tm-part-stub>
      
-    <!---->
-  </main>
-</div>
+    <tm-part-stub>
+      <tm-form-group-stub
+        fieldid="password"
+        fieldlabel="Account password"
+      >
+        <tm-field-stub
+          id="password"
+          placeholder="password..."
+          type="password"
+          value="1234567890"
+        />
+         
+        <!---->
+         
+        <input
+          id="showPasswordCheckbox"
+          type="checkbox"
+        />
+         
+        <label
+          for="showPasswordCheckbox"
+        >
+          Show password
+        </label>
+      </tm-form-group-stub>
+    </tm-part-stub>
+     
+    <div>
+      <tm-btn-stub
+        color="primary"
+        disabled="disabled"
+        value="Connecting..."
+      />
+    </div>
+  </tm-form-struct-stub>
+   
+  <!---->
+</tm-page-stub>
 `;
 
 exports[`PageSend has the expected html structure 1`] = `
-<div
-  class="tm-page"
+<tm-page-stub
   data-title="Send"
+  menubody=""
+  subtitle=""
+  title=""
 >
-  <header
-    class="tm-page-header"
-  >
-    <div
-      class="tm-page-header-container"
-    >
-      <div
-        class="tm-page-header-text"
-      >
-        <!---->
-         
-        <!---->
-         
-        <div
-          class="tm-page-header-body"
-        >
-          <div
-            class="header-balance"
-          >
-            <div
-              class="top"
-            >
-              <div
-                class="icon-container"
-              >
-                <img
-                  class="icon"
-                  src="~assets/images/cosmos-logo.png"
-                />
-              </div>
-               
-              <div
-                class="total-atoms top-section"
-              >
-                <h3>
-                  Total STAKE
-                </h3>
-                 
-                <h2
-                  class="total-atoms__value"
-                >
-                  1,000.0000…
-                </h2>
-              </div>
-               
-              <div
-                class="unbonded-atoms top-section"
-              >
-                <h3>
-                  Available STAKE
-                </h3>
-                 
-                <h2>
-                  1,000.0000…
-                </h2>
-              </div>
-            </div>
-             
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    cosmos…xxn9
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
-             
-            <div
-              class="tabs"
-            />
-             
-          </div>
-           
-          <div
-            class="tm-tool-bar"
-          >
-            <a
-              class="back"
-              disabled="disabled"
-            >
-              <i
-                class="material-icons"
-              >
-                arrow_back
-              </i>
-            </a>
-             
-            <a
-              class="help"
-            >
-              <i
-                class="material-icons"
-              >
-                help_outline
-              </i>
-            </a>
-             
-            <router-link-stub
-              id="settings"
-              to="/preferences"
-            >
-              <i
-                class="material-icons"
-              >
-                settings
-              </i>
-            </router-link-stub>
-            <a
-              id="signOut-btn"
-            >
-              <i
-                class="material-icons"
-              >
-                exit_to_app
-              </i>
-            </a>
-          </div>
-        </div>
-      </div>
-       
-      <menu
-        class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
-    </div>
-  </header>
+  <template>
+    <tm-balance-stub
+      tabs=""
+    />
+     
+    <tool-bar-stub />
+  </template>
    
-  <main
-    class="tm-page-main"
+  <tm-form-struct-stub
+    submit="function () { [native code] }"
+    width=""
   >
-     
-    <form
-      class="tm-form"
+    <tm-part-stub
+      title="Denomination Options"
     >
-      <div
-        class="tm-form-container"
+      <tm-form-group-stub
+        fieldid="send-denomination"
+        fieldlabel="Denomination"
       >
+        <tm-field-stub
+          id="send-denomination"
+          options="[object Object],[object Object]"
+          placeholder="Select token..."
+          type="select"
+          value="STAKE"
+        />
+         
+        <!---->
+      </tm-form-group-stub>
+    </tm-part-stub>
+     
+    <tm-part-stub
+      title="Transaction Details"
+    >
+      <tm-form-group-stub
+        fieldid="send-address"
+        fieldlabel="Send To"
+      >
+        <tm-field-group-stub>
+          <tm-field-stub
+            id="send-address"
+            placeholder="Address"
+            type="text"
+            value=""
+          />
+        </tm-field-group-stub>
+         
+        <!---->
+      </tm-form-group-stub>
+       
+      <tm-form-group-stub
+        fieldid="send-amount"
+        fieldlabel="Amount"
+      >
+        <tm-field-group-stub>
+          <tm-field-stub
+            id="send-amount"
+            max="1000"
+            min="1"
+            placeholder="Amount"
+            type="number"
+            value="0"
+          />
+        </tm-field-group-stub>
          
         <!---->
          
-        <main
-          class="tm-form-main"
-        >
-          <section
-            class="tm-part"
-          >
-            <div
-              class="tm-part-container"
-            >
-              <header
-                class="tm-part-header"
-              >
-                <div
-                  class="tm-part-header-container"
-                >
-                  <div
-                    class="tm-part-title h5"
-                  >
-                    Denomination Options
-                  </div>
-                   
-                  <menu
-                    class="tm-part-menu"
-                  />
-                </div>
-              </header>
-               
-              <main
-                class="tm-part-main"
-              >
-                <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="send-denomination"
-                  >
-                    Denomination
-                  </label>
-                   
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <div
-                      class="tm-select"
-                      id="send-denomination"
-                    >
-                      <select
-                        class="tm-field tm-field-select"
-                      >
-                        <option
-                          disabled="disabled"
-                          hidden="hidden"
-                          selected="selected"
-                          value=""
-                        >
-                          Select token...
-                        </option>
-                         
-                        <option
-                          value="mycoin"
-                        >
-                          MYCOIN
-                        </option>
-                        <option
-                          value="fermion"
-                        >
-                          FERMION
-                        </option>
-                      </select>
-                       
-                      <div
-                        class="tm-field-select-addon"
-                      >
-                        <i
-                          class="material-icons"
-                        >
-                          arrow_drop_down
-                        </i>
-                      </div>
-                    </div>
-                     
-                    <!---->
-                  </div>
-                </div>
-              </main>
-            </div>
-          </section>
-           
-          <section
-            class="tm-part"
-          >
-            <div
-              class="tm-part-container"
-            >
-              <header
-                class="tm-part-header"
-              >
-                <div
-                  class="tm-part-header-container"
-                >
-                  <div
-                    class="tm-part-title h5"
-                  >
-                    Transaction Details
-                  </div>
-                   
-                  <menu
-                    class="tm-part-menu"
-                  />
-                </div>
-              </header>
-               
-              <main
-                class="tm-part-main"
-              >
-                <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="send-address"
-                  >
-                    Send To
-                  </label>
-                   
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <div
-                      class="tm-field-group"
-                    >
-                      <input
-                        class="tm-field"
-                        id="send-address"
-                        placeholder="Address"
-                        type="text"
-                      />
-                    </div>
-                     
-                    <!---->
-                  </div>
-                </div>
-                 
-                <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="send-amount"
-                  >
-                    Amount
-                  </label>
-                   
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <div
-                      class="tm-field-group"
-                    >
-                      <input
-                        class="tm-field"
-                        id="send-amount"
-                        max="2300"
-                        min="1"
-                        placeholder="Amount"
-                        type="number"
-                      />
-                    </div>
-                     
-                    <!---->
-                     
-                    <!---->
-                  </div>
-                </div>
-                 
-                <!---->
-                 
-                <!---->
-                 
-                <hr />
-              </main>
-            </div>
-          </section>
-           
-          <section
-            class="tm-part"
-          >
-            <div
-              class="tm-part-container"
-            >
-              <!---->
-               
-              <main
-                class="tm-part-main"
-              >
-                <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="password"
-                  >
-                    Account password
-                  </label>
-                   
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <input
-                      class="tm-field"
-                      id="password"
-                      placeholder="password..."
-                      type="password"
-                    />
-                     
-                    <div
-                      class="tm-form-msg sm tm-form-msg--error"
-                    >
-                      Password is required
-                    </div>
-                     
-                    <input
-                      id="showPasswordCheckbox"
-                      type="checkbox"
-                    />
-                     
-                    <label
-                      for="showPasswordCheckbox"
-                    >
-                      Show password
-                    </label>
-                  </div>
-                </div>
-              </main>
-            </div>
-          </section>
-           
-        </main>
-         
-        <footer
-          class="tm-form-footer"
-        >
-          <div>
-            <button
-              class="tm-btn"
-              id="send-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--primary"
-              >
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Send Tokens
-                </span>
-              </span>
-            </button>
-          </div>
-        </footer>
-      </div>
-    </form>
+        <!---->
+      </tm-form-group-stub>
+       
+      <hr />
+    </tm-part-stub>
      
-    <!---->
-  </main>
-</div>
+    <tm-part-stub>
+      <tm-form-group-stub
+        fieldid="password"
+        fieldlabel="Account password"
+      >
+        <tm-field-stub
+          id="password"
+          placeholder="password..."
+          type="password"
+          value=""
+        />
+         
+        <tm-form-msg-stub
+          name="Password"
+          type="required"
+        />
+         
+        <input
+          id="showPasswordCheckbox"
+          type="checkbox"
+        />
+         
+        <label
+          for="showPasswordCheckbox"
+        >
+          Show password
+        </label>
+      </tm-form-group-stub>
+    </tm-part-stub>
+     
+    <div>
+      <tm-btn-stub
+        color="primary"
+        id="send-btn"
+        value="Send Tokens"
+      />
+    </div>
+  </tm-form-struct-stub>
+   
+  <!---->
+</tm-page-stub>
 `;
 
 exports[`PageSend should show address required error 1`] = `
-<div
-  class="tm-page"
+<tm-page-stub
   data-title="Send"
+  menubody=""
+  subtitle=""
+  title=""
 >
-  <header
-    class="tm-page-header"
-  >
-    <div
-      class="tm-page-header-container"
-    >
-      <div
-        class="tm-page-header-text"
-      >
-        <!---->
-         
-        <!---->
-         
-        <div
-          class="tm-page-header-body"
-        >
-          <div
-            class="header-balance"
-          >
-            <div
-              class="top"
-            >
-              <div
-                class="icon-container"
-              >
-                <img
-                  class="icon"
-                  src="~assets/images/cosmos-logo.png"
-                />
-              </div>
-               
-              <div
-                class="total-atoms top-section"
-              >
-                <h3>
-                  Total STAKE
-                </h3>
-                 
-                <h2
-                  class="total-atoms__value"
-                >
-                  0.0000…
-                </h2>
-              </div>
-               
-              <div
-                class="unbonded-atoms top-section"
-              >
-                <h3>
-                  Available STAKE
-                </h3>
-                 
-                <h2>
-                  0.0000…
-                </h2>
-              </div>
-            </div>
-             
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    Address Not Found
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
-             
-            <div
-              class="tabs"
-            />
-             
-          </div>
-           
-          <div
-            class="tm-tool-bar"
-          >
-            <a
-              class="back"
-              disabled="disabled"
-            >
-              <i
-                class="material-icons"
-              >
-                arrow_back
-              </i>
-            </a>
-             
-            <a
-              class="help"
-            >
-              <i
-                class="material-icons"
-              >
-                help_outline
-              </i>
-            </a>
-             
-            <router-link-stub
-              id="settings"
-              to="/preferences"
-            >
-              <i
-                class="material-icons"
-              >
-                settings
-              </i>
-            </router-link-stub>
-            <a
-              id="signOut-btn"
-            >
-              <i
-                class="material-icons"
-              >
-                exit_to_app
-              </i>
-            </a>
-          </div>
-        </div>
-      </div>
-       
-      <menu
-        class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
-    </div>
-  </header>
+  <template>
+    <tm-balance-stub
+      tabs=""
+    />
+     
+    <tool-bar-stub />
+  </template>
    
-  <main
-    class="tm-page-main"
+  <tm-form-struct-stub
+    submit="function () { [native code] }"
+    width=""
   >
-     
-    <form
-      class="tm-form"
+    <tm-part-stub
+      title="Denomination Options"
     >
-      <div
-        class="tm-form-container"
+      <tm-form-group-stub
+        fieldid="send-denomination"
+        fieldlabel="Denomination"
       >
+        <tm-field-stub
+          id="send-denomination"
+          options="[object Object],[object Object]"
+          placeholder="Select token..."
+          type="select"
+          value="STAKE"
+        />
+         
+        <!---->
+      </tm-form-group-stub>
+    </tm-part-stub>
+     
+    <tm-part-stub
+      title="Transaction Details"
+    >
+      <tm-form-group-stub
+        error="true"
+        fieldid="send-address"
+        fieldlabel="Send To"
+      >
+        <tm-field-group-stub>
+          <tm-field-stub
+            id="send-address"
+            placeholder="Address"
+            type="text"
+            value=""
+          />
+        </tm-field-group-stub>
+         
+        <tm-form-msg-stub
+          name="Address"
+          type="required"
+        />
+      </tm-form-group-stub>
+       
+      <tm-form-group-stub
+        fieldid="send-amount"
+        fieldlabel="Amount"
+      >
+        <tm-field-group-stub>
+          <tm-field-stub
+            id="send-amount"
+            max="1000"
+            min="1"
+            placeholder="Amount"
+            type="number"
+            value="2"
+          />
+        </tm-field-group-stub>
          
         <!---->
          
-        <main
-          class="tm-form-main"
-        >
-          <section
-            class="tm-part"
-          >
-            <div
-              class="tm-part-container"
-            >
-              <header
-                class="tm-part-header"
-              >
-                <div
-                  class="tm-part-header-container"
-                >
-                  <div
-                    class="tm-part-title h5"
-                  >
-                    Denomination Options
-                  </div>
-                   
-                  <menu
-                    class="tm-part-menu"
-                  />
-                </div>
-              </header>
-               
-              <main
-                class="tm-part-main"
-              >
-                <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="send-denomination"
-                  >
-                    Denomination
-                  </label>
-                   
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <div
-                      class="tm-select"
-                      id="send-denomination"
-                    >
-                      <select
-                        class="tm-field tm-field-select"
-                      >
-                        <option
-                          disabled="disabled"
-                          hidden="hidden"
-                          selected="selected"
-                          value=""
-                        >
-                          Select token...
-                        </option>
-                         
-                      </select>
-                       
-                      <div
-                        class="tm-field-select-addon"
-                      >
-                        <i
-                          class="material-icons"
-                        >
-                          arrow_drop_down
-                        </i>
-                      </div>
-                    </div>
-                     
-                    <!---->
-                  </div>
-                </div>
-              </main>
-            </div>
-          </section>
-           
-          <section
-            class="tm-part"
-          >
-            <div
-              class="tm-part-container"
-            >
-              <header
-                class="tm-part-header"
-              >
-                <div
-                  class="tm-part-header-container"
-                >
-                  <div
-                    class="tm-part-title h5"
-                  >
-                    Transaction Details
-                  </div>
-                   
-                  <menu
-                    class="tm-part-menu"
-                  />
-                </div>
-              </header>
-               
-              <main
-                class="tm-part-main"
-              >
-                <div
-                  class="tm-form-group tm-form-group--error"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="send-address"
-                  >
-                    Send To
-                  </label>
-                   
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <div
-                      class="tm-field-group"
-                    >
-                      <input
-                        class="tm-field"
-                        id="send-address"
-                        placeholder="Address"
-                        type="text"
-                      />
-                    </div>
-                     
-                    <div
-                      class="tm-form-msg sm tm-form-msg--error"
-                    >
-                      Address is required
-                    </div>
-                  </div>
-                </div>
-                 
-                <div
-                  class="tm-form-group tm-form-group--error"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="send-amount"
-                  >
-                    Amount
-                  </label>
-                   
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <div
-                      class="tm-field-group"
-                    >
-                      <input
-                        class="tm-field"
-                        id="send-amount"
-                        max="0"
-                        min="0"
-                        placeholder="Amount"
-                        type="number"
-                      />
-                    </div>
-                     
-                    <!---->
-                     
-                    <div
-                      class="tm-form-msg sm tm-form-msg--error"
-                    >
-                      Amount must be between 0 and 0
-                    </div>
-                  </div>
-                </div>
-                 
-                <!---->
-                 
-                <!---->
-                 
-                <hr />
-              </main>
-            </div>
-          </section>
-           
-          <section
-            class="tm-part"
-          >
-            <div
-              class="tm-part-container"
-            >
-              <!---->
-               
-              <main
-                class="tm-part-main"
-              >
-                <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="password"
-                  >
-                    Account password
-                  </label>
-                   
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <input
-                      class="tm-field"
-                      id="password"
-                      placeholder="password..."
-                      type="password"
-                    />
-                     
-                    <!---->
-                     
-                    <input
-                      id="showPasswordCheckbox"
-                      type="checkbox"
-                    />
-                     
-                    <label
-                      for="showPasswordCheckbox"
-                    >
-                      Show password
-                    </label>
-                  </div>
-                </div>
-              </main>
-            </div>
-          </section>
-           
-        </main>
-         
-        <footer
-          class="tm-form-footer"
-        >
-          <div>
-            <button
-              class="tm-btn"
-              id="send-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--primary"
-              >
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Send Tokens
-                </span>
-              </span>
-            </button>
-          </div>
-        </footer>
-      </div>
-    </form>
+        <!---->
+      </tm-form-group-stub>
+       
+      <hr />
+    </tm-part-stub>
      
-    <!---->
-  </main>
-</div>
+    <tm-part-stub>
+      <tm-form-group-stub
+        fieldid="password"
+        fieldlabel="Account password"
+      >
+        <tm-field-stub
+          id="password"
+          placeholder="password..."
+          type="password"
+          value="1234567890"
+        />
+         
+        <!---->
+         
+        <input
+          id="showPasswordCheckbox"
+          type="checkbox"
+        />
+         
+        <label
+          for="showPasswordCheckbox"
+        >
+          Show password
+        </label>
+      </tm-form-group-stub>
+    </tm-part-stub>
+     
+    <div>
+      <tm-btn-stub
+        color="primary"
+        id="send-btn"
+        value="Send Tokens"
+      />
+    </div>
+  </tm-form-struct-stub>
+   
+  <!---->
+</tm-page-stub>
 `;
 
 exports[`PageSend should show bech32 error when address length is too long 1`] = `
-<div
-  class="tm-page"
+<tm-page-stub
   data-title="Send"
+  menubody=""
+  subtitle=""
+  title=""
 >
-  <header
-    class="tm-page-header"
-  >
-    <div
-      class="tm-page-header-container"
-    >
-      <div
-        class="tm-page-header-text"
-      >
-        <!---->
-         
-        <!---->
-         
-        <div
-          class="tm-page-header-body"
-        >
-          <div
-            class="header-balance"
-          >
-            <div
-              class="top"
-            >
-              <div
-                class="icon-container"
-              >
-                <img
-                  class="icon"
-                  src="~assets/images/cosmos-logo.png"
-                />
-              </div>
-               
-              <div
-                class="total-atoms top-section"
-              >
-                <h3>
-                  Total STAKE
-                </h3>
-                 
-                <h2
-                  class="total-atoms__value"
-                >
-                  1,000.0000…
-                </h2>
-              </div>
-               
-              <div
-                class="unbonded-atoms top-section"
-              >
-                <h3>
-                  Available STAKE
-                </h3>
-                 
-                <h2>
-                  1,000.0000…
-                </h2>
-              </div>
-            </div>
-             
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    cosmos…xxn9
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
-             
-            <div
-              class="tabs"
-            />
-             
-          </div>
-           
-          <div
-            class="tm-tool-bar"
-          >
-            <a
-              class="back"
-              disabled="disabled"
-            >
-              <i
-                class="material-icons"
-              >
-                arrow_back
-              </i>
-            </a>
-             
-            <a
-              class="help"
-            >
-              <i
-                class="material-icons"
-              >
-                help_outline
-              </i>
-            </a>
-             
-            <router-link-stub
-              id="settings"
-              to="/preferences"
-            >
-              <i
-                class="material-icons"
-              >
-                settings
-              </i>
-            </router-link-stub>
-            <a
-              id="signOut-btn"
-            >
-              <i
-                class="material-icons"
-              >
-                exit_to_app
-              </i>
-            </a>
-          </div>
-        </div>
-      </div>
-       
-      <menu
-        class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
-    </div>
-  </header>
+  <template>
+    <tm-balance-stub
+      tabs=""
+    />
+     
+    <tool-bar-stub />
+  </template>
    
-  <main
-    class="tm-page-main"
+  <tm-form-struct-stub
+    submit="function () { [native code] }"
+    width=""
   >
-     
-    <form
-      class="tm-form"
+    <tm-part-stub
+      title="Denomination Options"
     >
-      <div
-        class="tm-form-container"
+      <tm-form-group-stub
+        fieldid="send-denomination"
+        fieldlabel="Denomination"
       >
+        <tm-field-stub
+          id="send-denomination"
+          options="[object Object],[object Object]"
+          placeholder="Select token..."
+          type="select"
+          value="STAKE"
+        />
+         
+        <!---->
+      </tm-form-group-stub>
+    </tm-part-stub>
+     
+    <tm-part-stub
+      title="Transaction Details"
+    >
+      <tm-form-group-stub
+        error="true"
+        fieldid="send-address"
+        fieldlabel="Send To"
+      >
+        <tm-field-group-stub>
+          <tm-field-stub
+            id="send-address"
+            placeholder="Address"
+            type="text"
+            value="asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf"
+          />
+        </tm-field-group-stub>
+         
+        <tm-form-msg-stub
+          name="Address"
+          type="bech32"
+        />
+      </tm-form-group-stub>
+       
+      <tm-form-group-stub
+        fieldid="send-amount"
+        fieldlabel="Amount"
+      >
+        <tm-field-group-stub>
+          <tm-field-stub
+            id="send-amount"
+            max="1000"
+            min="1"
+            placeholder="Amount"
+            type="number"
+            value="2"
+          />
+        </tm-field-group-stub>
          
         <!---->
          
-        <main
-          class="tm-form-main"
-        >
-          <section
-            class="tm-part"
-          >
-            <div
-              class="tm-part-container"
-            >
-              <header
-                class="tm-part-header"
-              >
-                <div
-                  class="tm-part-header-container"
-                >
-                  <div
-                    class="tm-part-title h5"
-                  >
-                    Denomination Options
-                  </div>
-                   
-                  <menu
-                    class="tm-part-menu"
-                  />
-                </div>
-              </header>
-               
-              <main
-                class="tm-part-main"
-              >
-                <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="send-denomination"
-                  >
-                    Denomination
-                  </label>
-                   
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <div
-                      class="tm-select"
-                      id="send-denomination"
-                    >
-                      <select
-                        class="tm-field tm-field-select"
-                      >
-                        <option
-                          disabled="disabled"
-                          hidden="hidden"
-                          selected="selected"
-                          value=""
-                        >
-                          Select token...
-                        </option>
-                         
-                        <option
-                          value="mycoin"
-                        >
-                          MYCOIN
-                        </option>
-                        <option
-                          value="fermion"
-                        >
-                          FERMION
-                        </option>
-                      </select>
-                       
-                      <div
-                        class="tm-field-select-addon"
-                      >
-                        <i
-                          class="material-icons"
-                        >
-                          arrow_drop_down
-                        </i>
-                      </div>
-                    </div>
-                     
-                    <!---->
-                  </div>
-                </div>
-              </main>
-            </div>
-          </section>
-           
-          <section
-            class="tm-part"
-          >
-            <div
-              class="tm-part-container"
-            >
-              <header
-                class="tm-part-header"
-              >
-                <div
-                  class="tm-part-header-container"
-                >
-                  <div
-                    class="tm-part-title h5"
-                  >
-                    Transaction Details
-                  </div>
-                   
-                  <menu
-                    class="tm-part-menu"
-                  />
-                </div>
-              </header>
-               
-              <main
-                class="tm-part-main"
-              >
-                <div
-                  class="tm-form-group tm-form-group--error"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="send-address"
-                  >
-                    Send To
-                  </label>
-                   
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <div
-                      class="tm-field-group"
-                    >
-                      <input
-                        class="tm-field"
-                        id="send-address"
-                        placeholder="Address"
-                        type="text"
-                      />
-                    </div>
-                     
-                    <div
-                      class="tm-form-msg sm tm-form-msg--error"
-                    >
-                      Address is invalid bech32
-                    </div>
-                  </div>
-                </div>
-                 
-                <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="send-amount"
-                  >
-                    Amount
-                  </label>
-                   
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <div
-                      class="tm-field-group"
-                    >
-                      <input
-                        class="tm-field"
-                        id="send-amount"
-                        max="2300"
-                        min="1"
-                        placeholder="Amount"
-                        type="number"
-                      />
-                    </div>
-                     
-                    <!---->
-                     
-                    <!---->
-                  </div>
-                </div>
-                 
-                <!---->
-                 
-                <!---->
-                 
-                <hr />
-              </main>
-            </div>
-          </section>
-           
-          <section
-            class="tm-part"
-          >
-            <div
-              class="tm-part-container"
-            >
-              <!---->
-               
-              <main
-                class="tm-part-main"
-              >
-                <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="password"
-                  >
-                    Account password
-                  </label>
-                   
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <input
-                      class="tm-field"
-                      id="password"
-                      placeholder="password..."
-                      type="password"
-                    />
-                     
-                    <!---->
-                     
-                    <input
-                      id="showPasswordCheckbox"
-                      type="checkbox"
-                    />
-                     
-                    <label
-                      for="showPasswordCheckbox"
-                    >
-                      Show password
-                    </label>
-                  </div>
-                </div>
-              </main>
-            </div>
-          </section>
-           
-        </main>
-         
-        <footer
-          class="tm-form-footer"
-        >
-          <div>
-            <button
-              class="tm-btn"
-              id="send-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--primary"
-              >
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Send Tokens
-                </span>
-              </span>
-            </button>
-          </div>
-        </footer>
-      </div>
-    </form>
+        <!---->
+      </tm-form-group-stub>
+       
+      <hr />
+    </tm-part-stub>
      
-    <!---->
-  </main>
-</div>
+    <tm-part-stub>
+      <tm-form-group-stub
+        fieldid="password"
+        fieldlabel="Account password"
+      >
+        <tm-field-stub
+          id="password"
+          placeholder="password..."
+          type="password"
+          value="1234567890"
+        />
+         
+        <!---->
+         
+        <input
+          id="showPasswordCheckbox"
+          type="checkbox"
+        />
+         
+        <label
+          for="showPasswordCheckbox"
+        >
+          Show password
+        </label>
+      </tm-form-group-stub>
+    </tm-part-stub>
+     
+    <div>
+      <tm-btn-stub
+        color="primary"
+        id="send-btn"
+        value="Send Tokens"
+      />
+    </div>
+  </tm-form-struct-stub>
+   
+  <!---->
+</tm-page-stub>
 `;
 
 exports[`PageSend should show bech32 error when address length is too short 1`] = `
-<div
-  class="tm-page"
+<tm-page-stub
   data-title="Send"
+  menubody=""
+  subtitle=""
+  title=""
 >
-  <header
-    class="tm-page-header"
-  >
-    <div
-      class="tm-page-header-container"
-    >
-      <div
-        class="tm-page-header-text"
-      >
-        <!---->
-         
-        <!---->
-         
-        <div
-          class="tm-page-header-body"
-        >
-          <div
-            class="header-balance"
-          >
-            <div
-              class="top"
-            >
-              <div
-                class="icon-container"
-              >
-                <img
-                  class="icon"
-                  src="~assets/images/cosmos-logo.png"
-                />
-              </div>
-               
-              <div
-                class="total-atoms top-section"
-              >
-                <h3>
-                  Total STAKE
-                </h3>
-                 
-                <h2
-                  class="total-atoms__value"
-                >
-                  1,000.0000…
-                </h2>
-              </div>
-               
-              <div
-                class="unbonded-atoms top-section"
-              >
-                <h3>
-                  Available STAKE
-                </h3>
-                 
-                <h2>
-                  1,000.0000…
-                </h2>
-              </div>
-            </div>
-             
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    cosmos…xxn9
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
-             
-            <div
-              class="tabs"
-            />
-             
-          </div>
-           
-          <div
-            class="tm-tool-bar"
-          >
-            <a
-              class="back"
-              disabled="disabled"
-            >
-              <i
-                class="material-icons"
-              >
-                arrow_back
-              </i>
-            </a>
-             
-            <a
-              class="help"
-            >
-              <i
-                class="material-icons"
-              >
-                help_outline
-              </i>
-            </a>
-             
-            <router-link-stub
-              id="settings"
-              to="/preferences"
-            >
-              <i
-                class="material-icons"
-              >
-                settings
-              </i>
-            </router-link-stub>
-            <a
-              id="signOut-btn"
-            >
-              <i
-                class="material-icons"
-              >
-                exit_to_app
-              </i>
-            </a>
-          </div>
-        </div>
-      </div>
-       
-      <menu
-        class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
-    </div>
-  </header>
+  <template>
+    <tm-balance-stub
+      tabs=""
+    />
+     
+    <tool-bar-stub />
+  </template>
    
-  <main
-    class="tm-page-main"
+  <tm-form-struct-stub
+    submit="function () { [native code] }"
+    width=""
   >
-     
-    <form
-      class="tm-form"
+    <tm-part-stub
+      title="Denomination Options"
     >
-      <div
-        class="tm-form-container"
+      <tm-form-group-stub
+        fieldid="send-denomination"
+        fieldlabel="Denomination"
       >
+        <tm-field-stub
+          id="send-denomination"
+          options="[object Object],[object Object]"
+          placeholder="Select token..."
+          type="select"
+          value="STAKE"
+        />
+         
+        <!---->
+      </tm-form-group-stub>
+    </tm-part-stub>
+     
+    <tm-part-stub
+      title="Transaction Details"
+    >
+      <tm-form-group-stub
+        error="true"
+        fieldid="send-address"
+        fieldlabel="Send To"
+      >
+        <tm-field-group-stub>
+          <tm-field-stub
+            id="send-address"
+            placeholder="Address"
+            type="text"
+            value="asdf"
+          />
+        </tm-field-group-stub>
+         
+        <tm-form-msg-stub
+          name="Address"
+          type="bech32"
+        />
+      </tm-form-group-stub>
+       
+      <tm-form-group-stub
+        fieldid="send-amount"
+        fieldlabel="Amount"
+      >
+        <tm-field-group-stub>
+          <tm-field-stub
+            id="send-amount"
+            max="1000"
+            min="1"
+            placeholder="Amount"
+            type="number"
+            value="2"
+          />
+        </tm-field-group-stub>
          
         <!---->
          
-        <main
-          class="tm-form-main"
-        >
-          <section
-            class="tm-part"
-          >
-            <div
-              class="tm-part-container"
-            >
-              <header
-                class="tm-part-header"
-              >
-                <div
-                  class="tm-part-header-container"
-                >
-                  <div
-                    class="tm-part-title h5"
-                  >
-                    Denomination Options
-                  </div>
-                   
-                  <menu
-                    class="tm-part-menu"
-                  />
-                </div>
-              </header>
-               
-              <main
-                class="tm-part-main"
-              >
-                <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="send-denomination"
-                  >
-                    Denomination
-                  </label>
-                   
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <div
-                      class="tm-select"
-                      id="send-denomination"
-                    >
-                      <select
-                        class="tm-field tm-field-select"
-                      >
-                        <option
-                          disabled="disabled"
-                          hidden="hidden"
-                          selected="selected"
-                          value=""
-                        >
-                          Select token...
-                        </option>
-                         
-                        <option
-                          value="mycoin"
-                        >
-                          MYCOIN
-                        </option>
-                        <option
-                          value="fermion"
-                        >
-                          FERMION
-                        </option>
-                      </select>
-                       
-                      <div
-                        class="tm-field-select-addon"
-                      >
-                        <i
-                          class="material-icons"
-                        >
-                          arrow_drop_down
-                        </i>
-                      </div>
-                    </div>
-                     
-                    <!---->
-                  </div>
-                </div>
-              </main>
-            </div>
-          </section>
-           
-          <section
-            class="tm-part"
-          >
-            <div
-              class="tm-part-container"
-            >
-              <header
-                class="tm-part-header"
-              >
-                <div
-                  class="tm-part-header-container"
-                >
-                  <div
-                    class="tm-part-title h5"
-                  >
-                    Transaction Details
-                  </div>
-                   
-                  <menu
-                    class="tm-part-menu"
-                  />
-                </div>
-              </header>
-               
-              <main
-                class="tm-part-main"
-              >
-                <div
-                  class="tm-form-group tm-form-group--error"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="send-address"
-                  >
-                    Send To
-                  </label>
-                   
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <div
-                      class="tm-field-group"
-                    >
-                      <input
-                        class="tm-field"
-                        id="send-address"
-                        placeholder="Address"
-                        type="text"
-                      />
-                    </div>
-                     
-                    <div
-                      class="tm-form-msg sm tm-form-msg--error"
-                    >
-                      Address is invalid bech32
-                    </div>
-                  </div>
-                </div>
-                 
-                <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="send-amount"
-                  >
-                    Amount
-                  </label>
-                   
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <div
-                      class="tm-field-group"
-                    >
-                      <input
-                        class="tm-field"
-                        id="send-amount"
-                        max="2300"
-                        min="1"
-                        placeholder="Amount"
-                        type="number"
-                      />
-                    </div>
-                     
-                    <!---->
-                     
-                    <!---->
-                  </div>
-                </div>
-                 
-                <!---->
-                 
-                <!---->
-                 
-                <hr />
-              </main>
-            </div>
-          </section>
-           
-          <section
-            class="tm-part"
-          >
-            <div
-              class="tm-part-container"
-            >
-              <!---->
-               
-              <main
-                class="tm-part-main"
-              >
-                <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="password"
-                  >
-                    Account password
-                  </label>
-                   
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <input
-                      class="tm-field"
-                      id="password"
-                      placeholder="password..."
-                      type="password"
-                    />
-                     
-                    <!---->
-                     
-                    <input
-                      id="showPasswordCheckbox"
-                      type="checkbox"
-                    />
-                     
-                    <label
-                      for="showPasswordCheckbox"
-                    >
-                      Show password
-                    </label>
-                  </div>
-                </div>
-              </main>
-            </div>
-          </section>
-           
-        </main>
-         
-        <footer
-          class="tm-form-footer"
-        >
-          <div>
-            <button
-              class="tm-btn"
-              id="send-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--primary"
-              >
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Send Tokens
-                </span>
-              </span>
-            </button>
-          </div>
-        </footer>
-      </div>
-    </form>
+        <!---->
+      </tm-form-group-stub>
+       
+      <hr />
+    </tm-part-stub>
      
-    <!---->
-  </main>
-</div>
+    <tm-part-stub>
+      <tm-form-group-stub
+        fieldid="password"
+        fieldlabel="Account password"
+      >
+        <tm-field-stub
+          id="password"
+          placeholder="password..."
+          type="password"
+          value="1234567890"
+        />
+         
+        <!---->
+         
+        <input
+          id="showPasswordCheckbox"
+          type="checkbox"
+        />
+         
+        <label
+          for="showPasswordCheckbox"
+        >
+          Show password
+        </label>
+      </tm-form-group-stub>
+    </tm-part-stub>
+     
+    <div>
+      <tm-btn-stub
+        color="primary"
+        id="send-btn"
+        value="Send Tokens"
+      />
+    </div>
+  </tm-form-struct-stub>
+   
+  <!---->
+</tm-page-stub>
 `;
 
 exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
-<div
-  class="tm-page"
+<tm-page-stub
   data-title="Send"
+  menubody=""
+  subtitle=""
+  title=""
 >
-  <header
-    class="tm-page-header"
-  >
-    <div
-      class="tm-page-header-container"
-    >
-      <div
-        class="tm-page-header-text"
-      >
-        <!---->
-         
-        <!---->
-         
-        <div
-          class="tm-page-header-body"
-        >
-          <div
-            class="header-balance"
-          >
-            <div
-              class="top"
-            >
-              <div
-                class="icon-container"
-              >
-                <img
-                  class="icon"
-                  src="~assets/images/cosmos-logo.png"
-                />
-              </div>
-               
-              <div
-                class="total-atoms top-section"
-              >
-                <h3>
-                  Total STAKE
-                </h3>
-                 
-                <h2
-                  class="total-atoms__value"
-                >
-                  1,000.0000…
-                </h2>
-              </div>
-               
-              <div
-                class="unbonded-atoms top-section"
-              >
-                <h3>
-                  Available STAKE
-                </h3>
-                 
-                <h2>
-                  1,000.0000…
-                </h2>
-              </div>
-            </div>
-             
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    cosmos…xxn9
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
-             
-            <div
-              class="tabs"
-            />
-             
-          </div>
-           
-          <div
-            class="tm-tool-bar"
-          >
-            <a
-              class="back"
-              disabled="disabled"
-            >
-              <i
-                class="material-icons"
-              >
-                arrow_back
-              </i>
-            </a>
-             
-            <a
-              class="help"
-            >
-              <i
-                class="material-icons"
-              >
-                help_outline
-              </i>
-            </a>
-             
-            <router-link-stub
-              id="settings"
-              to="/preferences"
-            >
-              <i
-                class="material-icons"
-              >
-                settings
-              </i>
-            </router-link-stub>
-            <a
-              id="signOut-btn"
-            >
-              <i
-                class="material-icons"
-              >
-                exit_to_app
-              </i>
-            </a>
-          </div>
-        </div>
-      </div>
-       
-      <menu
-        class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
-    </div>
-  </header>
+  <template>
+    <tm-balance-stub
+      tabs=""
+    />
+     
+    <tool-bar-stub />
+  </template>
    
-  <main
-    class="tm-page-main"
+  <tm-form-struct-stub
+    submit="function () { [native code] }"
+    width=""
   >
-     
-    <form
-      class="tm-form"
+    <tm-part-stub
+      title="Denomination Options"
     >
-      <div
-        class="tm-form-container"
+      <tm-form-group-stub
+        fieldid="send-denomination"
+        fieldlabel="Denomination"
       >
+        <tm-field-stub
+          id="send-denomination"
+          options="[object Object],[object Object]"
+          placeholder="Select token..."
+          type="select"
+          value="STAKE"
+        />
+         
+        <!---->
+      </tm-form-group-stub>
+    </tm-part-stub>
+     
+    <tm-part-stub
+      title="Transaction Details"
+    >
+      <tm-form-group-stub
+        error="true"
+        fieldid="send-address"
+        fieldlabel="Send To"
+      >
+        <tm-field-group-stub>
+          <tm-field-stub
+            id="send-address"
+            placeholder="Address"
+            type="text"
+            value=""
+          />
+        </tm-field-group-stub>
+         
+        <tm-form-msg-stub
+          name="Address"
+          type="required"
+        />
+      </tm-form-group-stub>
+       
+      <tm-form-group-stub
+        error="true"
+        fieldid="send-amount"
+        fieldlabel="Amount"
+      >
+        <tm-field-group-stub>
+          <tm-field-stub
+            id="send-amount"
+            max="1000"
+            min="1"
+            placeholder="Amount"
+            type="number"
+            value="0"
+          />
+        </tm-field-group-stub>
          
         <!---->
          
-        <main
-          class="tm-form-main"
-        >
-          <section
-            class="tm-part"
-          >
-            <div
-              class="tm-part-container"
-            >
-              <header
-                class="tm-part-header"
-              >
-                <div
-                  class="tm-part-header-container"
-                >
-                  <div
-                    class="tm-part-title h5"
-                  >
-                    Denomination Options
-                  </div>
-                   
-                  <menu
-                    class="tm-part-menu"
-                  />
-                </div>
-              </header>
-               
-              <main
-                class="tm-part-main"
-              >
-                <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="send-denomination"
-                  >
-                    Denomination
-                  </label>
-                   
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <div
-                      class="tm-select"
-                      id="send-denomination"
-                    >
-                      <select
-                        class="tm-field tm-field-select"
-                      >
-                        <option
-                          disabled="disabled"
-                          hidden="hidden"
-                          selected="selected"
-                          value=""
-                        >
-                          Select token...
-                        </option>
-                         
-                        <option
-                          value="mycoin"
-                        >
-                          MYCOIN
-                        </option>
-                        <option
-                          value="fermion"
-                        >
-                          FERMION
-                        </option>
-                      </select>
-                       
-                      <div
-                        class="tm-field-select-addon"
-                      >
-                        <i
-                          class="material-icons"
-                        >
-                          arrow_drop_down
-                        </i>
-                      </div>
-                    </div>
-                     
-                    <!---->
-                  </div>
-                </div>
-              </main>
-            </div>
-          </section>
-           
-          <section
-            class="tm-part"
-          >
-            <div
-              class="tm-part-container"
-            >
-              <header
-                class="tm-part-header"
-              >
-                <div
-                  class="tm-part-header-container"
-                >
-                  <div
-                    class="tm-part-title h5"
-                  >
-                    Transaction Details
-                  </div>
-                   
-                  <menu
-                    class="tm-part-menu"
-                  />
-                </div>
-              </header>
-               
-              <main
-                class="tm-part-main"
-              >
-                <div
-                  class="tm-form-group tm-form-group--error"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="send-address"
-                  >
-                    Send To
-                  </label>
-                   
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <div
-                      class="tm-field-group"
-                    >
-                      <input
-                        class="tm-field"
-                        id="send-address"
-                        placeholder="Address"
-                        type="text"
-                      />
-                    </div>
-                     
-                    <div
-                      class="tm-form-msg sm tm-form-msg--error"
-                    >
-                      Address is invalid bech32
-                    </div>
-                  </div>
-                </div>
-                 
-                <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="send-amount"
-                  >
-                    Amount
-                  </label>
-                   
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <div
-                      class="tm-field-group"
-                    >
-                      <input
-                        class="tm-field"
-                        id="send-amount"
-                        max="2300"
-                        min="1"
-                        placeholder="Amount"
-                        type="number"
-                      />
-                    </div>
-                     
-                    <!---->
-                     
-                    <!---->
-                  </div>
-                </div>
-                 
-                <!---->
-                 
-                <!---->
-                 
-                <hr />
-              </main>
-            </div>
-          </section>
-           
-          <section
-            class="tm-part"
-          >
-            <div
-              class="tm-part-container"
-            >
-              <!---->
-               
-              <main
-                class="tm-part-main"
-              >
-                <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="password"
-                  >
-                    Account password
-                  </label>
-                   
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <input
-                      class="tm-field"
-                      id="password"
-                      placeholder="password..."
-                      type="password"
-                    />
-                     
-                    <!---->
-                     
-                    <input
-                      id="showPasswordCheckbox"
-                      type="checkbox"
-                    />
-                     
-                    <label
-                      for="showPasswordCheckbox"
-                    >
-                      Show password
-                    </label>
-                  </div>
-                </div>
-              </main>
-            </div>
-          </section>
-           
-        </main>
-         
-        <footer
-          class="tm-form-footer"
-        >
-          <div>
-            <button
-              class="tm-btn"
-              id="send-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--primary"
-              >
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Send Tokens
-                </span>
-              </span>
-            </button>
-          </div>
-        </footer>
-      </div>
-    </form>
+        <!---->
+      </tm-form-group-stub>
+       
+      <hr />
+    </tm-part-stub>
      
-    <!---->
-  </main>
-</div>
-`;
-
-exports[`PageSend should show notification for unsuccessful send 1`] = `
-Object {
-  "body": "Not enough coins in your account",
-  "icon": "error",
-  "key": 0,
-  "layout": "alert",
-  "time": 42000,
-  "title": "Error Sending transaction",
-  "type": "error",
-}
+    <tm-part-stub>
+      <tm-form-group-stub
+        fieldid="password"
+        fieldlabel="Account password"
+      >
+        <tm-field-stub
+          id="password"
+          placeholder="password..."
+          type="password"
+          value=""
+        />
+         
+        <tm-form-msg-stub
+          name="Password"
+          type="required"
+        />
+         
+        <input
+          id="showPasswordCheckbox"
+          type="checkbox"
+        />
+         
+        <label
+          for="showPasswordCheckbox"
+        >
+          Show password
+        </label>
+      </tm-form-group-stub>
+    </tm-part-stub>
+     
+    <div>
+      <tm-btn-stub
+        color="primary"
+        id="send-btn"
+        value="Send Tokens"
+      />
+    </div>
+  </tm-form-struct-stub>
+   
+  <!---->
+</tm-page-stub>
 `;
 
 exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
-<div
-  class="tm-page"
+<tm-page-stub
   data-title="Send"
+  menubody=""
+  subtitle=""
+  title=""
 >
-  <header
-    class="tm-page-header"
-  >
-    <div
-      class="tm-page-header-container"
-    >
-      <div
-        class="tm-page-header-text"
-      >
-        <!---->
-         
-        <!---->
-         
-        <div
-          class="tm-page-header-body"
-        >
-          <div
-            class="header-balance"
-          >
-            <div
-              class="top"
-            >
-              <div
-                class="icon-container"
-              >
-                <img
-                  class="icon"
-                  src="~assets/images/cosmos-logo.png"
-                />
-              </div>
-               
-              <div
-                class="total-atoms top-section"
-              >
-                <h3>
-                  Total STAKE
-                </h3>
-                 
-                <h2
-                  class="total-atoms__value"
-                >
-                  1,000.0000…
-                </h2>
-              </div>
-               
-              <div
-                class="unbonded-atoms top-section"
-              >
-                <h3>
-                  Available STAKE
-                </h3>
-                 
-                <h2>
-                  1,000.0000…
-                </h2>
-              </div>
-            </div>
-             
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    cosmos…xxn9
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
-             
-            <div
-              class="tabs"
-            />
-             
-          </div>
-           
-          <div
-            class="tm-tool-bar"
-          >
-            <a
-              class="back"
-              disabled="disabled"
-            >
-              <i
-                class="material-icons"
-              >
-                arrow_back
-              </i>
-            </a>
-             
-            <a
-              class="help"
-            >
-              <i
-                class="material-icons"
-              >
-                help_outline
-              </i>
-            </a>
-             
-            <router-link-stub
-              id="settings"
-              to="/preferences"
-            >
-              <i
-                class="material-icons"
-              >
-                settings
-              </i>
-            </router-link-stub>
-            <a
-              id="signOut-btn"
-            >
-              <i
-                class="material-icons"
-              >
-                exit_to_app
-              </i>
-            </a>
-          </div>
-        </div>
-      </div>
-       
-      <menu
-        class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
-    </div>
-  </header>
+  <template>
+    <tm-balance-stub
+      tabs=""
+    />
+     
+    <tool-bar-stub />
+  </template>
    
-  <main
-    class="tm-page-main"
+  <tm-form-struct-stub
+    submit="function () { [native code] }"
+    width=""
   >
-     
-    <form
-      class="tm-form"
+    <tm-part-stub
+      title="Denomination Options"
     >
-      <div
-        class="tm-form-container"
+      <tm-form-group-stub
+        fieldid="send-denomination"
+        fieldlabel="Denomination"
       >
+        <tm-field-stub
+          id="send-denomination"
+          options="[object Object],[object Object]"
+          placeholder="Select token..."
+          type="select"
+          value="STAKE"
+        />
+         
+        <!---->
+      </tm-form-group-stub>
+    </tm-part-stub>
+     
+    <tm-part-stub
+      title="Transaction Details"
+    >
+      <tm-form-group-stub
+        fieldid="send-address"
+        fieldlabel="Send To"
+      >
+        <tm-field-group-stub>
+          <tm-field-stub
+            id="send-address"
+            placeholder="Address"
+            type="text"
+            value="tb1mjt6dcdru8lgdz64h2fu0lrzvd5zv8sfcvkv2l"
+          />
+        </tm-field-group-stub>
+         
+        <!---->
+      </tm-form-group-stub>
+       
+      <tm-form-group-stub
+        fieldid="send-amount"
+        fieldlabel="Amount"
+      >
+        <tm-field-group-stub>
+          <tm-field-stub
+            id="send-amount"
+            max="1000"
+            min="1"
+            placeholder="Amount"
+            type="number"
+            value="2"
+          />
+        </tm-field-group-stub>
          
         <!---->
          
-        <main
-          class="tm-form-main"
-        >
-          <section
-            class="tm-part"
-          >
-            <div
-              class="tm-part-container"
-            >
-              <header
-                class="tm-part-header"
-              >
-                <div
-                  class="tm-part-header-container"
-                >
-                  <div
-                    class="tm-part-title h5"
-                  >
-                    Denomination Options
-                  </div>
-                   
-                  <menu
-                    class="tm-part-menu"
-                  />
-                </div>
-              </header>
-               
-              <main
-                class="tm-part-main"
-              >
-                <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="send-denomination"
-                  >
-                    Denomination
-                  </label>
-                   
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <div
-                      class="tm-select"
-                      id="send-denomination"
-                    >
-                      <select
-                        class="tm-field tm-field-select"
-                      >
-                        <option
-                          disabled="disabled"
-                          hidden="hidden"
-                          selected="selected"
-                          value=""
-                        >
-                          Select token...
-                        </option>
-                         
-                        <option
-                          value="mycoin"
-                        >
-                          MYCOIN
-                        </option>
-                        <option
-                          value="fermion"
-                        >
-                          FERMION
-                        </option>
-                      </select>
-                       
-                      <div
-                        class="tm-field-select-addon"
-                      >
-                        <i
-                          class="material-icons"
-                        >
-                          arrow_drop_down
-                        </i>
-                      </div>
-                    </div>
-                     
-                    <!---->
-                  </div>
-                </div>
-              </main>
-            </div>
-          </section>
-           
-          <section
-            class="tm-part"
-          >
-            <div
-              class="tm-part-container"
-            >
-              <header
-                class="tm-part-header"
-              >
-                <div
-                  class="tm-part-header-container"
-                >
-                  <div
-                    class="tm-part-title h5"
-                  >
-                    Transaction Details
-                  </div>
-                   
-                  <menu
-                    class="tm-part-menu"
-                  />
-                </div>
-              </header>
-               
-              <main
-                class="tm-part-main"
-              >
-                <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="send-address"
-                  >
-                    Send To
-                  </label>
-                   
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <div
-                      class="tm-field-group"
-                    >
-                      <input
-                        class="tm-field"
-                        id="send-address"
-                        placeholder="Address"
-                        type="text"
-                      />
-                    </div>
-                     
-                    <!---->
-                  </div>
-                </div>
-                 
-                <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="send-amount"
-                  >
-                    Amount
-                  </label>
-                   
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <div
-                      class="tm-field-group"
-                    >
-                      <input
-                        class="tm-field"
-                        id="send-amount"
-                        max="2300"
-                        min="1"
-                        placeholder="Amount"
-                        type="number"
-                      />
-                    </div>
-                     
-                    <!---->
-                     
-                    <!---->
-                  </div>
-                </div>
-                 
-                <!---->
-                 
-                <!---->
-                 
-                <hr />
-              </main>
-            </div>
-          </section>
-           
-          <section
-            class="tm-part"
-          >
-            <div
-              class="tm-part-container"
-            >
-              <!---->
-               
-              <main
-                class="tm-part-main"
-              >
-                <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="password"
-                  >
-                    Account password
-                  </label>
-                   
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <input
-                      class="tm-field"
-                      id="password"
-                      placeholder="password..."
-                      type="password"
-                    />
-                     
-                    <!---->
-                     
-                    <input
-                      id="showPasswordCheckbox"
-                      type="checkbox"
-                    />
-                     
-                    <label
-                      for="showPasswordCheckbox"
-                    >
-                      Show password
-                    </label>
-                  </div>
-                </div>
-              </main>
-            </div>
-          </section>
-           
-        </main>
-         
-        <footer
-          class="tm-form-footer"
-        >
-          <div>
-            <button
-              class="tm-btn"
-              id="send-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--primary"
-              >
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Send Tokens
-                </span>
-              </span>
-            </button>
-          </div>
-        </footer>
-      </div>
-    </form>
+        <!---->
+      </tm-form-group-stub>
+       
+      <hr />
+    </tm-part-stub>
      
-    <div
-      class="tm-modal-send-confirmation tm-modal"
-    >
-      <div
-        class="tm-modal-container"
+    <tm-part-stub>
+      <tm-form-group-stub
+        fieldid="password"
+        fieldlabel="Account password"
       >
-        <header
-          class="tm-modal-header"
-        >
-          <!---->
-           
-          <div
-            class="tm-modal-title"
-          >
-            <div>
-              Confirm Your Transaction
-            </div>
-          </div>
-           
-          <div
-            class="tm-modal-icon tm-modal-close"
-          >
-            <i
-              class="material-icons"
-            >
-              close
-            </i>
-          </div>
-        </header>
+        <tm-field-stub
+          id="password"
+          placeholder="password..."
+          type="password"
+          value="1234567890"
+        />
          
-        <main
-          class="tm-modal-main"
+        <!---->
+         
+        <input
+          id="showPasswordCheckbox"
+          type="checkbox"
+        />
+         
+        <label
+          for="showPasswordCheckbox"
         >
-           
-          <p>
-            
-    Please confirm that you would like to send
-    
-            <b>
-              2 mycoin
-            </b>
-             to 
-            <b>
-              tb1mjt6dcdru8lgdz64h2fu0lrzvd5zv8sfcvkv2l
-            </b>
-            .
-  
-          </p>
-           
-          <p
-            class="warning"
-          >
-            This transaction cannot be undone.
-          </p>
-            
-          <footer
-            class="tm-modal-footer"
-          >
-            <div>
-              <button
-                class="tm-btn"
-                id="send-cancel-btn"
-                type="button"
-              >
-                <span
-                  class="tm-btn__container"
-                >
-                  <!---->
-                  <span
-                    class="tm-btn__value"
-                  >
-                    Cancel
-                  </span>
-                </span>
-              </button>
-               
-              <button
-                class="tm-btn"
-                id="send-confirmation-btn"
-                type="button"
-              >
-                <span
-                  class="tm-btn__container tm-btn--primary"
-                >
-                  <!---->
-                  <span
-                    class="tm-btn__value"
-                  >
-                    Confirm
-                  </span>
-                </span>
-              </button>
-            </div>
-          </footer>
-        </main>
-      </div>
+          Show password
+        </label>
+      </tm-form-group-stub>
+    </tm-part-stub>
+     
+    <div>
+      <tm-btn-stub
+        color="primary"
+        id="send-btn"
+        value="Send Tokens"
+      />
     </div>
-  </main>
-</div>
+  </tm-form-struct-stub>
+   
+  <tm-modal-send-confirmation-stub
+    amount="2"
+    connected="true"
+    denom="STAKE"
+    recipient="tb1mjt6dcdru8lgdz64h2fu0lrzvd5zv8sfcvkv2l"
+  />
+</tm-page-stub>
 `;
 
 exports[`PageSend should work without providing a default denom 1`] = `
-<div
-  class="tm-page"
+<tm-page-stub
   data-title="Send"
+  menubody=""
+  subtitle=""
+  title=""
 >
-  <header
-    class="tm-page-header"
-  >
-    <div
-      class="tm-page-header-container"
-    >
-      <div
-        class="tm-page-header-text"
-      >
-        <!---->
-         
-        <!---->
-         
-        <div
-          class="tm-page-header-body"
-        >
-          <div
-            class="header-balance"
-          >
-            <div
-              class="top"
-            >
-              <div
-                class="icon-container"
-              >
-                <img
-                  class="icon"
-                  src="~assets/images/cosmos-logo.png"
-                />
-              </div>
-               
-              <div
-                class="total-atoms top-section"
-              >
-                <h3>
-                  Total STAKE
-                </h3>
-                 
-                <h2
-                  class="total-atoms__value"
-                >
-                  0.0000…
-                </h2>
-              </div>
-               
-              <div
-                class="unbonded-atoms top-section"
-              >
-                <h3>
-                  Available STAKE
-                </h3>
-                 
-                <h2>
-                  0.0000…
-                </h2>
-              </div>
-            </div>
-             
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    Address Not Found
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
-             
-            <div
-              class="tabs"
-            />
-             
-          </div>
-           
-          <div
-            class="tm-tool-bar"
-          >
-            <a
-              class="back"
-              disabled="disabled"
-            >
-              <i
-                class="material-icons"
-              >
-                arrow_back
-              </i>
-            </a>
-             
-            <a
-              class="help"
-            >
-              <i
-                class="material-icons"
-              >
-                help_outline
-              </i>
-            </a>
-             
-            <router-link-stub
-              id="settings"
-              to="/preferences"
-            >
-              <i
-                class="material-icons"
-              >
-                settings
-              </i>
-            </router-link-stub>
-            <a
-              id="signOut-btn"
-            >
-              <i
-                class="material-icons"
-              >
-                exit_to_app
-              </i>
-            </a>
-          </div>
-        </div>
-      </div>
-       
-      <menu
-        class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
-    </div>
-  </header>
+  <template>
+    <tm-balance-stub
+      tabs=""
+    />
+     
+    <tool-bar-stub />
+  </template>
    
-  <main
-    class="tm-page-main"
+  <tm-form-struct-stub
+    submit="function () { [native code] }"
+    width=""
   >
-     
-    <form
-      class="tm-form"
+    <tm-part-stub
+      title="Denomination Options"
     >
-      <div
-        class="tm-form-container"
+      <tm-form-group-stub
+        fieldid="send-denomination"
+        fieldlabel="Denomination"
       >
+        <tm-field-stub
+          id="send-denomination"
+          options="[object Object],[object Object]"
+          placeholder="Select token..."
+          type="select"
+          value=""
+        />
+         
+        <tm-form-msg-stub
+          name="Denomination"
+          type="required"
+        />
+      </tm-form-group-stub>
+    </tm-part-stub>
+     
+    <tm-part-stub
+      title="Transaction Details"
+    >
+      <tm-form-group-stub
+        fieldid="send-address"
+        fieldlabel="Send To"
+      >
+        <tm-field-group-stub>
+          <tm-field-stub
+            id="send-address"
+            placeholder="Address"
+            type="text"
+            value=""
+          />
+        </tm-field-group-stub>
+         
+        <!---->
+      </tm-form-group-stub>
+       
+      <tm-form-group-stub
+        fieldid="send-amount"
+        fieldlabel="Amount"
+      >
+        <tm-field-group-stub>
+          <tm-field-stub
+            id="send-amount"
+            max="0"
+            min="0"
+            placeholder="Amount"
+            type="number"
+            value="0"
+          />
+        </tm-field-group-stub>
          
         <!---->
          
-        <main
-          class="tm-form-main"
-        >
-          <section
-            class="tm-part"
-          >
-            <div
-              class="tm-part-container"
-            >
-              <header
-                class="tm-part-header"
-              >
-                <div
-                  class="tm-part-header-container"
-                >
-                  <div
-                    class="tm-part-title h5"
-                  >
-                    Denomination Options
-                  </div>
-                   
-                  <menu
-                    class="tm-part-menu"
-                  />
-                </div>
-              </header>
-               
-              <main
-                class="tm-part-main"
-              >
-                <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="send-denomination"
-                  >
-                    Denomination
-                  </label>
-                   
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <div
-                      class="tm-select"
-                      id="send-denomination"
-                    >
-                      <select
-                        class="tm-field tm-field-select"
-                      >
-                        <option
-                          disabled="disabled"
-                          hidden="hidden"
-                          selected="selected"
-                          value=""
-                        >
-                          Select token...
-                        </option>
-                         
-                      </select>
-                       
-                      <div
-                        class="tm-field-select-addon"
-                      >
-                        <i
-                          class="material-icons"
-                        >
-                          arrow_drop_down
-                        </i>
-                      </div>
-                    </div>
-                     
-                    <div
-                      class="tm-form-msg sm tm-form-msg--error"
-                    >
-                      Denomination is required
-                    </div>
-                  </div>
-                </div>
-              </main>
-            </div>
-          </section>
-           
-          <section
-            class="tm-part"
-          >
-            <div
-              class="tm-part-container"
-            >
-              <header
-                class="tm-part-header"
-              >
-                <div
-                  class="tm-part-header-container"
-                >
-                  <div
-                    class="tm-part-title h5"
-                  >
-                    Transaction Details
-                  </div>
-                   
-                  <menu
-                    class="tm-part-menu"
-                  />
-                </div>
-              </header>
-               
-              <main
-                class="tm-part-main"
-              >
-                <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="send-address"
-                  >
-                    Send To
-                  </label>
-                   
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <div
-                      class="tm-field-group"
-                    >
-                      <input
-                        class="tm-field"
-                        id="send-address"
-                        placeholder="Address"
-                        type="text"
-                      />
-                    </div>
-                     
-                    <!---->
-                  </div>
-                </div>
-                 
-                <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="send-amount"
-                  >
-                    Amount
-                  </label>
-                   
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <div
-                      class="tm-field-group"
-                    >
-                      <input
-                        class="tm-field"
-                        id="send-amount"
-                        max="0"
-                        min="0"
-                        placeholder="Amount"
-                        type="number"
-                      />
-                    </div>
-                     
-                    <!---->
-                     
-                    <!---->
-                  </div>
-                </div>
-                 
-                <!---->
-                 
-                <!---->
-                 
-                <hr />
-              </main>
-            </div>
-          </section>
-           
-          <section
-            class="tm-part"
-          >
-            <div
-              class="tm-part-container"
-            >
-              <!---->
-               
-              <main
-                class="tm-part-main"
-              >
-                <div
-                  class="tm-form-group"
-                >
-                  <!---->
-                  <label
-                    class="tm-form-group__label"
-                    for="password"
-                  >
-                    Account password
-                  </label>
-                   
-                  <div
-                    class="tm-form-group__field"
-                  >
-                    <input
-                      class="tm-field"
-                      id="password"
-                      placeholder="password..."
-                      type="password"
-                    />
-                     
-                    <div
-                      class="tm-form-msg sm tm-form-msg--error"
-                    >
-                      Password is required
-                    </div>
-                     
-                    <input
-                      id="showPasswordCheckbox"
-                      type="checkbox"
-                    />
-                     
-                    <label
-                      for="showPasswordCheckbox"
-                    >
-                      Show password
-                    </label>
-                  </div>
-                </div>
-              </main>
-            </div>
-          </section>
-           
-        </main>
-         
-        <footer
-          class="tm-form-footer"
-        >
-          <div>
-            <button
-              class="tm-btn"
-              id="send-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--primary"
-              >
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Send Tokens
-                </span>
-              </span>
-            </button>
-          </div>
-        </footer>
-      </div>
-    </form>
+        <!---->
+      </tm-form-group-stub>
+       
+      <hr />
+    </tm-part-stub>
      
-    <!---->
-  </main>
-</div>
+    <tm-part-stub>
+      <tm-form-group-stub
+        fieldid="password"
+        fieldlabel="Account password"
+      >
+        <tm-field-stub
+          id="password"
+          placeholder="password..."
+          type="password"
+          value=""
+        />
+         
+        <tm-form-msg-stub
+          name="Password"
+          type="required"
+        />
+         
+        <input
+          id="showPasswordCheckbox"
+          type="checkbox"
+        />
+         
+        <label
+          for="showPasswordCheckbox"
+        >
+          Show password
+        </label>
+      </tm-form-group-stub>
+    </tm-part-stub>
+     
+    <div>
+      <tm-btn-stub
+        color="primary"
+        id="send-btn"
+        value="Send Tokens"
+      />
+    </div>
+  </tm-form-struct-stub>
+   
+  <!---->
+</tm-page-stub>
 `;

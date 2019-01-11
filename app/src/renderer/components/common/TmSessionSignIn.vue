@@ -45,9 +45,6 @@
             type="minLength"
             min="10"
           />
-          <tm-form-msg v-if="mockedConnector"
-            >default password is 1234567890</tm-form-msg
-          >
         </tm-form-group>
       </div>
       <div class="tm-session-footer">
@@ -81,7 +78,7 @@ export default {
     }
   }),
   computed: {
-    ...mapGetters([`user`, `mockedConnector`, `lastHeader`]),
+    ...mapGetters([`user`]),
     accounts() {
       let accounts = this.user.accounts
       accounts = accounts.filter(({ name }) => name !== `trunk`)
@@ -90,9 +87,6 @@ export default {
   },
   mounted() {
     this.setDefaultAccount(this.accounts)
-    if (this.mockedConnector) {
-      this.fields.signInPassword = `1234567890`
-    }
   },
   methods: {
     help() {
