@@ -81,17 +81,6 @@ export default {
     TmModal
   },
   data: () => ({
-    themeSelectActive: null,
-    themeSelectOptions: [
-      {
-        value: `light`,
-        key: `Light`
-      },
-      {
-        value: `dark`,
-        key: `Dark`
-      }
-    ],
     networkSelectActive: null,
     networkSelectOptions: [
       {
@@ -105,30 +94,15 @@ export default {
     ]
   }),
   computed: {
-    ...mapGetters([
-      `user`,
-      `themes`,
-      `onboarding`,
-      `mockedConnector`,
-      `config`,
-      `nodeURL`
-    ])
+    ...mapGetters([`user`, `onboarding`, `mockedConnector`, `nodeURL`])
   },
   mounted() {
     this.networkSelectActive = this.mockedConnector ? `mock` : `live`
-    this.themeSelectActive = this.themes.active
   },
   methods: {
     signOut({ $store } = this) {
       $store.dispatch(`signOut`)
       $store.commit(`notifySignOut`)
-    },
-    setAppTheme({ $store, themes } = this) {
-      if (themes.active === `dark`) {
-        $store.commit(`setTheme`, `light`)
-      } else {
-        $store.commit(`setTheme`, `dark`)
-      }
     },
     setErrorCollection({ $store } = this) {
       $store.dispatch(`setErrorCollection`, {

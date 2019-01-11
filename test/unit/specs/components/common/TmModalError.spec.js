@@ -1,5 +1,5 @@
 import Vuex from "vuex"
-import { mount, createLocalVue } from "@vue/test-utils"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
 import TmModalError from "common/TmModalError"
 
 const localVue = createLocalVue()
@@ -17,7 +17,7 @@ describe(`TmModalError`, () => {
   })
 
   beforeEach(() => {
-    wrapper = mount(TmModalError, {
+    wrapper = shallowMount(TmModalError, {
       localVue,
       store
     })
@@ -86,15 +86,7 @@ describe(`TmModalError`, () => {
     ).toBe(`body-x`)
   })
 
-  it(`knows the path to the app log`, () => {
-    expect(wrapper.vm.logPath).toBe(`$HOME/.cosmos-voyager-dev/main.log`)
-  })
-
   it(`has a button to create an issue`, () => {
     wrapper.find(`#tm-modal-error__btn-issue`).trigger(`click`)
-  })
-
-  it(`has a button to view the app logs`, () => {
-    wrapper.find(`#tm-modal-error__btn-logs`).trigger(`click`)
   })
 })
