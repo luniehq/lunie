@@ -181,12 +181,12 @@ workflows:
             branches:
               ignore: release
 
-      - testE2e:
-          requires:
-            - buildGaia
-          filters:
-            branches:
-              ignore: release
+      # - testE2e:
+      #     requires:
+      #       - buildGaia
+      #     filters:
+      #       branches:
+      #         ignore: release
 
       - publish:
           requires:
