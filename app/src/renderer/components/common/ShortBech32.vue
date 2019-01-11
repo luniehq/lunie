@@ -24,7 +24,8 @@ export default {
     }
   },
   data: () => ({
-    showSuccess: false
+    showSuccess: false,
+    copyToClipboard: value => navigator.clipboard.writeText(value)
   }),
   computed: {
     shortBech32({ address } = this, length = 4) {
@@ -38,7 +39,7 @@ export default {
   },
   methods: {
     copy() {
-      navigator.clipboard.writeText(this.address)
+      this.copyToClipboard(this.address)
       this.showSuccess = true
       setTimeout(() => {
         this.showSuccess = false

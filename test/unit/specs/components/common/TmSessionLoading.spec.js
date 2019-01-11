@@ -1,11 +1,17 @@
-import { mount } from "@vue/test-utils"
+import { shallowMount } from "@vue/test-utils"
 import TmSessionLoading from "common/TmSessionLoading"
 
 describe(`TmSessionLoading`, () => {
   let wrapper
 
   beforeEach(() => {
-    wrapper = mount(TmSessionLoading)
+    wrapper = shallowMount(TmSessionLoading, {
+      data: () => ({
+        config: {
+          default_network: `mock-net`
+        }
+      })
+    })
   })
 
   it(`has the expected html structure`, () => {
@@ -13,6 +19,9 @@ describe(`TmSessionLoading`, () => {
   })
 
   it(`should show connection status`, () => {
+    wrapper.setData({
+      message: `HALLO WORLD`
+    })
     expect(wrapper.html()).toContain(`HALLO WORLD`)
   })
 })
