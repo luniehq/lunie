@@ -1,17 +1,21 @@
 let CryptoJS = require(`crypto-js`)
 let AES = require(`crypto-js/aes`)
 
-import { generateWallet, generateWalletFromSeed } from "./wallet.js"
+import {
+  generateWallet,
+  generateWalletFromSeed,
+  standardRandomBytesFunc
+} from "./wallet.js"
 
-export async function storeKeys(keys) {
-  await localStorage.setItem(`keys`, JSON.stringify(keys))
+export function storeKeys(keys) {
+  localStorage.setItem(`keys`, JSON.stringify(keys))
 }
-export async function loadKeys() {
-  return JSON.parse((await localStorage.getItem(`keys`)) || `[]`)
+export function loadKeys() {
+  return JSON.parse(localStorage.getItem(`keys`) || `[]`)
 }
 
-async function addKey(wallet, name, password) {
-  let keys = await loadKeys()
+function addKey(wallet, name, password) {
+  let keys = loadKeys()
 
   if (keys.find(key => key.name === name))
     throw new Error(`Key with that name already exists`)
@@ -24,30 +28,35 @@ async function addKey(wallet, name, password) {
     wallet: ciphertext
   })
 
-  await localStorage.setItem(`keys`, JSON.stringify(keys))
+  localStorage.setItem(`keys`, JSON.stringify(keys))
 }
 
-export async function testPassword(name, password) {
-  let keys = await loadKeys()
+export function testPassword(name, password) {
+  let keys = loadKeys()
 
   const key = keys.find(key => key.name === name)
   try {
-    AES.decrypt(key.wallet, password)
+    // try to decode and check if is json format to proofs that decoding worked
+    JSON.parse(AES.decrypt(key.wallet, password).toString(CryptoJS.enc.Utf8))
     return true
   } catch (err) {
     return false
   }
 }
 
-export async function addNewKey(name, password) {
-  const wallet = generateWallet(CryptoJS.lib.WordArray.random)
-  await addKey(wallet, name, password)
+export function addNewKey(
+  name,
+  password,
+  randomBytesFunc = standardRandomBytesFunc
+) {
+  const wallet = generateWallet(randomBytesFunc)
+  addKey(wallet, name, password)
 
   return wallet
 }
-export async function importKey(name, password, seed) {
+export function importKey(name, password, seed) {
   const wallet = generateWalletFromSeed(seed)
-  await addKey(wallet, name, password)
+  addKey(wallet, name, password)
 
   return wallet
 }

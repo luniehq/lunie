@@ -8,6 +8,8 @@ import CryptoJS from "crypto-js"
 
 const hdPathAtom = `m/44'/118'/0'/0/0` // key controlling ATOM allocation
 
+const standardRandomBytesFunc = x => CryptoJS.lib.WordArray.random(x).toString()
+
 export function generateWalletFromSeed(mnemonic) {
   const masterKey = deriveMasterKey(mnemonic)
   const { privateKey, publicKey } = deriveKeypair(masterKey)
@@ -20,7 +22,7 @@ export function generateWalletFromSeed(mnemonic) {
   }
 }
 
-export function generateSeed(randomBytesFunc) {
+export function generateSeed(randomBytesFunc = standardRandomBytesFunc) {
   const randomBytes = Buffer.from(randomBytesFunc(32), `hex`)
   if (randomBytes.length !== 32) throw Error(`Entropy has incorrect length`)
 
@@ -29,7 +31,7 @@ export function generateSeed(randomBytesFunc) {
   return mnemonic
 }
 
-export function generateWallet(randomBytesFunc) {
+export function generateWallet(randomBytesFunc = standardRandomBytesFunc) {
   const mnemonic = generateSeed(randomBytesFunc)
   return generateWalletFromSeed(mnemonic)
 }
