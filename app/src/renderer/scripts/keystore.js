@@ -1,5 +1,4 @@
 let CryptoJS = require(`crypto-js`)
-let AES = require(`crypto-js/aes`)
 
 const keySize = 256
 const iterations = 100
