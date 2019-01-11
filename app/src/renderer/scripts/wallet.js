@@ -83,6 +83,7 @@ export function createCosmosAddress(publicKey) {
 
   return cosmosAddress
 }
+
 function deriveMasterKey(mnemonic) {
   // throws if mnemonic is invalid
   bip39.validateMnemonic(mnemonic)

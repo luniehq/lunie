@@ -26,7 +26,7 @@
           v-if="status == 'success'"
           icon="check_circle"
           value="Ledger Wallet successfully loaded"
-          @click.native="onSubmit"
+          @click.native="onLedgerConnected"
         />
       </div>
       <div class="tm-session-footer" />
@@ -37,16 +37,17 @@
 <script>
 import HardwareState from "common/TmHardwareState"
 import { App, comm_u2f, comm_node } from "ledger-cosmos-js"
-const bech32 = require(`bech32`)
-// import { encode, toHexString } from "scripts/bech32.js"
-import HID from "node-hid"
+import { createCosmosAddress } from "../../scripts/wallet.js"
 
 const TIMEOUT = 2
 
 export default {
   name: `tm-session-hardware`,
   components: { HardwareState },
-  data: () => ({ status: `connect` }),
+  data: () => ({
+    status: `connect`,
+    address: ``
+  }),
   methods: {
     help() {
       this.$store.commit(`setModalHelp`, true)
@@ -57,31 +58,35 @@ export default {
     setStatus(value) {
       this.status = value
     },
+    setAddress(address) {
+      this.address = address
+    },
     async connectLedger() {
       this.setStatus(`detect`)
       console.log(`Connecting Ledger...`)
-      const path = [44, 118, 0, 0, 0]
+      const hdPath = [44, 118, 0, 0, 0]
       try {
         let comm = await comm_u2f.create_async(TIMEOUT, true)
         let app = new App(comm)
         let version = await app.get_version()
-        let pubKey = await app.publicKey(path)
+        let pubKey = await app.publicKey(hdPath)
         console.log(
           `Ledger Version: v${version.major}.${version.minor}.${version.patch} `
         )
         console.log(pubKey.pk)
+        let address = createCosmosAddress(pubKey.pk)
+        this.setAddress(address)
         this.setStatus(`success`)
       } catch (error) {
         console.error(error)
       }
     },
-    onSubmit() {
-      this.$store.commit(`setModalSession`, false)
+    onLedgerConnected() {
+      this.$store.dispatch(`signInLedger`, { address: this.address })
       this.$store.commit(`notify`, {
         title: `Welcome back!`,
         body: `You are now signed in to your Cosmos account with your Ledger.`
       })
-      this.$store.dispatch(`signIn`, { password: this.fields.signInPassword })
     }
   }
 }
