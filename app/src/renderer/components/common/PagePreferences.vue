@@ -28,7 +28,7 @@
             unchecked: ' '
           }"
           :value="user.errorCollection || undefined"
-          :change="() => setErrorCollection()"
+          :change="setErrorCollection.bind(this)"
           type="toggle"
         />
       </tm-list-item>

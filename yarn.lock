@@ -9042,7 +9042,12 @@ vue-template-compiler@2.5.21, vue-template-compiler@^2.5.16:
     de-indent "^1.0.2"
     he "^1.1.0"
 
-vue-template-es2015-compiler@1.6.0, vue-template-es2015-compiler@^1.6.0:
+vue-template-es2015-compiler@1.8.1:
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.8.1.tgz#e2ec4f42d16b6c712e61899c6b20bcdb1df128ca"
+  integrity sha512-mxBBMuSaPG9+NkVMbh28r8gvWQJ8UXxqDxVNeLy2KBUZiSNxZsagjYwLL8gjROb4oaaYtwRv3K8gAmw76I/U7Q==
+
+vue-template-es2015-compiler@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.6.0.tgz#dc42697133302ce3017524356a6c61b7b69b4a18"
 

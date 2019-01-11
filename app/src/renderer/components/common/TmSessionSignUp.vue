@@ -1,6 +1,6 @@
 <template>
   <div class="tm-session">
-    <tm-form-struct :submit="() => onSubmit()" class="tm-session-container">
+    <tm-form-struct :submit="onSubmit.bind(this)" class="tm-session-container">
       <div class="tm-session-header">
         <a @click="setState('welcome')"
           ><i class="material-icons">arrow_back</i></a
