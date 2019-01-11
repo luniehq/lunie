@@ -89,7 +89,7 @@ export default {
     }
   },
   mounted() {
-    this.setDefaultAccount(this.accounts)
+    this.setDefaultAccount()
     if (this.mockedConnector) {
       this.fields.signInPassword = `1234567890`
     }

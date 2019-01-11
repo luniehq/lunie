@@ -1,26 +1,35 @@
-import setup from "../../../helpers/vuex-setup"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
 import Vuelidate from "vuelidate"
 import TmSessionSignIn from "common/TmSessionSignIn"
 
-let instance = setup()
-instance.localVue.use(Vuelidate)
-
 describe(`TmSessionSignIn`, () => {
-  let wrapper, store
+  const localVue = createLocalVue()
+  localVue.use(Vuelidate)
+
+  let wrapper, $store
 
   beforeEach(() => {
-    let test = instance.mount(TmSessionSignIn, {
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(() => true),
       getters: {
-        connected: () => true
-      },
+        connected: true,
+        user: {
+          accounts: []
+        },
+        mockedConnector: false
+      }
+    }
+
+    wrapper = shallowMount(TmSessionSignIn, {
+      localVue,
       mocks: {
         $router: {
           push: jest.fn()
-        }
+        },
+        $store
       }
     })
-    store = test.store
-    wrapper = test.wrapper
   })
 
   it(`has the expected html structure`, () => {
@@ -32,7 +41,7 @@ describe(`TmSessionSignIn`, () => {
       .findAll(`.tm-session-header a`)
       .at(1)
       .trigger(`click`)
-    expect(store.commit).toHaveBeenCalledWith(`setModalHelp`, true)
+    expect($store.commit).toHaveBeenCalledWith(`setModalHelp`, true)
   })
 
   it(`should close the modal on successful login`, async () => {
@@ -43,8 +52,7 @@ describe(`TmSessionSignIn`, () => {
       }
     })
     await wrapper.vm.onSubmit()
-    let calls = store.commit.mock.calls.map(args => args[0])
-    expect(calls).toContain(`setModalSession`)
+    expect($store.commit).toHaveBeenCalledWith(`setModalSession`, false)
   })
 
   it(`should signal signedin state on successful login`, async () => {
@@ -55,7 +63,7 @@ describe(`TmSessionSignIn`, () => {
       }
     })
     await wrapper.vm.onSubmit()
-    expect(store.dispatch).toHaveBeenCalledWith(`signIn`, {
+    expect($store.dispatch).toHaveBeenCalledWith(`signIn`, {
       password: `1234567890`,
       account: `default`
     })
@@ -64,12 +72,12 @@ describe(`TmSessionSignIn`, () => {
   it(`should show error if password not 10 long`, () => {
     wrapper.setData({ fields: { signInPassword: `123` } })
     wrapper.vm.onSubmit()
-    expect(store.commit.mock.calls[1]).toBeUndefined()
+    expect($store.commit.mock.calls[1]).toBeUndefined()
     expect(wrapper.find(`.tm-form-msg-error`)).toBeDefined()
   })
 
   it(`should show a notification if signin failed`, async () => {
-    store.dispatch = jest.fn(() => Promise.reject(`Planned rejection`))
+    $store.dispatch = jest.fn().mockResolvedValueOnce(false)
     wrapper.setData({
       fields: {
         signInPassword: `1234567890`,
@@ -77,37 +85,41 @@ describe(`TmSessionSignIn`, () => {
       }
     })
     await wrapper.vm.onSubmit()
-    expect(store.commit).toHaveBeenCalled()
-    expect(store.commit.mock.calls[0][0]).toBe(`notifyError`)
+    expect($store.commit).toHaveBeenCalled()
+    expect($store.commit.mock.calls[0][0]).toBe(`notifyError`)
   })
 
   it(`should set the default password in mocked mode`, async () => {
-    let test = instance.mount(TmSessionSignIn, {
-      getters: {
-        mockedConnector: () => true,
-        connected: () => true
-      }
-    })
-    store = test.store
-    wrapper = test.wrapper
+    const self = {
+      setDefaultAccount: jest.fn(),
+      fields: {},
+      mockedConnector: true
+    }
+    TmSessionSignIn.mounted.call(self)
 
-    expect(wrapper.vm.fields.signInPassword).toBe(`1234567890`)
-    expect(wrapper.html()).toContain(`1234567890`)
+    expect(self.fields.signInPassword).toBe(`1234567890`)
   })
 
-  it(`should reset history after signin`, async () => {
-    expect(store.state.user.history.length).toBe(0)
-    wrapper.setData({
-      fields: {
-        signInPassword: `1234567890`,
-        signInName: `default`
+  it(`should show the last account used`, () => {
+    localStorage.setItem(`prevAccountKey`, `default`)
+
+    const self = {
+      accounts: [
+        {
+          key: `default`
+        }
+      ],
+      fields: {},
+      $el: {
+        querySelector: jest.fn(() => ({
+          focus: jest.fn()
+        }))
       }
-    })
-    await wrapper.vm.onSubmit()
-    expect(store.state.user.history.length).toBe(0)
-    store.commit(`addHistory`, `/staking`)
-    expect(store.state.user.history.length).toBe(1)
-    store.dispatch(`signOut`)
-    expect(store.state.user.history.length).toBe(0)
+    }
+    TmSessionSignIn.methods.setDefaultAccount.call(self)
+
+    expect(self.fields.signInName).toBe(`default`)
+    // the account is preselected so focus on the pw
+    expect(self.$el.querySelector).toHaveBeenCalledWith(`#sign-in-password`)
   })
 })

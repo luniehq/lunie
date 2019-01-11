@@ -4,159 +4,90 @@ exports[`TmSessionSignIn has the expected html structure 1`] = `
 <div
   class="tm-session"
 >
-  <form
-    class="tm-session-container tm-form"
+  <tm-form-struct-stub
+    class="tm-session-container"
+    submit="function () { [native code] }"
+    width=""
   >
     <div
-      class="tm-form-container"
+      class="tm-session-header"
     >
+      <a>
+        <i
+          class="material-icons"
+        >
+          arrow_back
+        </i>
+      </a>
        
-      <!---->
-       
-      <main
-        class="tm-form-main"
+      <div
+        class="tm-session-title"
       >
-        <div
-          class="tm-session-header"
-        >
-          <a>
-            <i
-              class="material-icons"
-            >
-              arrow_back
-            </i>
-          </a>
-           
-          <div
-            class="tm-session-title"
-          >
-            Sign In
-          </div>
-           
-          <a>
-            <i
-              class="material-icons"
-            >
-              help_outline
-            </i>
-          </a>
-        </div>
-         
-        <div
-          class="tm-session-main"
-        >
-          <div
-            class="tm-form-group"
-          >
-            <!---->
-            <label
-              class="tm-form-group__label"
-              for="sign-in-name"
-            >
-              Select Account
-            </label>
-             
-            <div
-              class="tm-form-group__field"
-            >
-              <div
-                class="tm-select"
-                id="sign-in-name"
-                vue-focus="vue-focus"
-              >
-                <select
-                  class="tm-field tm-field-select"
-                >
-                  <option
-                    disabled="disabled"
-                    hidden="hidden"
-                    selected="selected"
-                    value=""
-                  >
-                    Select account…
-                  </option>
-                   
-                </select>
-                 
-                <div
-                  class="tm-field-select-addon"
-                >
-                  <i
-                    class="material-icons"
-                  >
-                    arrow_drop_down
-                  </i>
-                </div>
-              </div>
-               
-              <div
-                class="tm-form-msg sm tm-form-msg--error"
-              >
-                Name is required
-              </div>
-            </div>
-          </div>
-           
-          <div
-            class="tm-form-group"
-          >
-            <!---->
-            <label
-              class="tm-form-group__label"
-              for="sign-in-password"
-            >
-              Password
-            </label>
-             
-            <div
-              class="tm-form-group__field"
-            >
-              <input
-                class="tm-field"
-                id="sign-in-password"
-                type="password"
-              />
-               
-              <div
-                class="tm-form-msg sm tm-form-msg--error"
-              >
-                Password is required
-              </div>
-               
-              <!---->
-               
-              <!---->
-            </div>
-          </div>
-        </div>
-         
-        <div
-          class="tm-session-footer"
-        >
-          <button
-            class="tm-btn"
-          >
-            <span
-              class="tm-btn__container tm-btn__icon-right tm-btn--size-lg"
-            >
-              <i
-                aria-hidden="true"
-                class="tm-btn__icon material-icons"
-              >
-                arrow_forward
-              </i>
-              <span
-                class="tm-btn__value"
-              >
-                Next
-              </span>
-            </span>
-          </button>
-        </div>
-      </main>
+        Sign In
+      </div>
        
-      <!---->
+      <a>
+        <i
+          class="material-icons"
+        >
+          help_outline
+        </i>
+      </a>
     </div>
-  </form>
+     
+    <div
+      class="tm-session-main"
+    >
+      <tm-form-group-stub
+        fieldid="sign-in-name"
+        fieldlabel="Select Account"
+      >
+        <tm-field-stub
+          id="sign-in-name"
+          options=""
+          placeholder="Select account…"
+          type="select"
+          value=""
+          vue-focus="vue-focus"
+        />
+         
+        <tm-form-msg-stub
+          name="Name"
+          type="required"
+        />
+      </tm-form-group-stub>
+       
+      <tm-form-group-stub
+        fieldid="sign-in-password"
+        fieldlabel="Password"
+      >
+        <tm-field-stub
+          id="sign-in-password"
+          type="password"
+          value=""
+        />
+         
+        <tm-form-msg-stub
+          name="Password"
+          type="required"
+        />
+         
+        <!---->
+         
+        <!---->
+      </tm-form-group-stub>
+    </div>
+     
+    <div
+      class="tm-session-footer"
+    >
+      <tm-btn-stub
+        icon="arrow_forward"
+        iconpos="right"
+        size="lg"
+        value="Next"
+      />
+    </div>
+  </tm-form-struct-stub>
 </div>
 `;
