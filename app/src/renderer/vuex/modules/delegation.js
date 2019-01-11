@@ -114,7 +114,6 @@ export default ({ node }) => {
         }
         // delete delegations not present anymore
         Object.keys(state.committedDelegates).forEach(validatorAddr => {
-          console.log(delegator.delegations, validatorAddr)
           if (
             !delegator.delegations ||
             !delegator.delegations.find(

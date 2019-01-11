@@ -70,12 +70,6 @@ describe(`TmSessionWelcome`, () => {
     expect(wrapper.contains(`session-hardware-stub`)).toBe(true)
   })
 
-  it(`should show a account delete screen if selected`, () => {
-    store.commit(`setModalSession`, true)
-    store.commit(`setModalSessionState`, `delete`)
-    expect(wrapper.contains(`session-account-delete-stub`)).toBe(true)
-  })
-
   // it('should show a import screen if selected', () => {
   //   store.commit('setModalSession', true)
   //   store.commit('setModalSessionState', 'import')

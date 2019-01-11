@@ -1,15 +1,7 @@
-import setup from "../../helpers/vuex-setup"
-import b32 from "scripts/b32"
-
-function mockGA() {
-  window.analytics = { send: jest.fn() }
-}
-jest.mock(`renderer/google-analytics.js`, () => mockGA)
-
-let instance = setup()
+import userModule from "renderer/vuex/modules/user.js"
 
 describe(`Module: User`, () => {
-  let store, node
+  let module, state, actions, mutations, node
   let accounts = [
     {
       address: `tb1zg69v7yszg69v7yszg69v7yszg69v7ysd8ep6q`,
@@ -18,199 +10,302 @@ describe(`Module: User`, () => {
   ]
 
   beforeEach(() => {
-    let test = instance.shallow()
-    store = test.store
-    node = test.node
+    node = {}
+    module = userModule({ node })
+    state = module.state
+    actions = module.actions
+    mutations = module.mutations
+
+    state.externals = {
+      Sentry: {
+        init: jest.fn()
+      },
+      enableGoogleAnalytics: jest.fn(),
+      disableGoogleAnalytics: jest.fn(),
+      track: jest.fn(),
+      config: {
+        development: false,
+        google_analytics_uid: `UA-123`,
+        version: `0.0.1`
+      },
+      loadKeys: () => [
+        {
+          name: `def`,
+          address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+        }
+      ],
+      importKey: () => ({
+        address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+      }),
+      testPassword: () => true,
+      generateSeed: () => `xxx`
+    }
   })
 
   it(`should default to signed out state`, () => {
-    expect(store.state.user.signedIn).toBe(false)
-    expect(store.state.user.account).toBe(null)
-    expect(store.state.user.address).toBe(null)
+    expect(state.signedIn).toBe(false)
+    expect(state.account).toBe(null)
+    expect(state.address).toBe(null)
   })
 
   it(`should add and remove history correctly`, () => {
-    expect(store.state.user.history.length).toBe(0)
-    store.commit(`addHistory`, `/`)
-    expect(store.state.user.history.length).toBe(1)
-    store.commit(`popHistory`)
-    expect(store.state.user.history.length).toBe(0)
+    expect(state.history.length).toBe(0)
+    mutations.addHistory(state, `/`)
+    expect(state.history.length).toBe(1)
+    mutations.popHistory(state)
+    expect(state.history.length).toBe(0)
   })
   it(`should pauseHistory correctly`, () => {
-    expect(store.state.user.pauseHistory).toBe(false)
-    store.commit(`pauseHistory`, true)
-    expect(store.state.user.pauseHistory).toBe(true)
-    store.commit(`pauseHistory`, false)
-    expect(store.state.user.pauseHistory).toBe(false)
+    expect(state.pauseHistory).toBe(false)
+    mutations.pauseHistory(state, true)
+    expect(state.pauseHistory).toBe(true)
+    mutations.pauseHistory(state, false)
+    expect(state.pauseHistory).toBe(false)
   })
 
   it(`should set accounts`, () => {
-    store.commit(`setAccounts`, accounts)
-    expect(store.state.user.accounts).toEqual(accounts)
+    mutations.setAccounts(state, accounts)
+    expect(state.accounts).toEqual(accounts)
   })
 
   it(`should show an error if loading accounts fails`, async () => {
     jest.spyOn(console, `error`).mockImplementationOnce(() => {})
-    node.keys.values = () => Promise.reject(`Expected Error`)
-    await store.dispatch(`loadAccounts`)
-    expect(store.state.notifications[0].title).toBe(`Couldn't read keys`)
+
+    jest.resetModules()
+    jest.doMock(`renderer/scripts/keystore.js`, () => ({
+      loadKeys: async () => {
+        throw Error(`Error`)
+      }
+    }))
+
+    const userModule = require(`renderer/vuex/modules/user.js`).default
+    module = userModule({ node })
+    state = module.state
+    actions = module.actions
+
+    const commit = jest.fn()
+    await actions.loadAccounts({ commit, state })
+    expect(commit).toHaveBeenCalledWith(`notifyError`, {
+      body: `Error`,
+      title: `Couldn't read keys`
+    })
   })
 
   it(`should set atoms`, () => {
-    store.commit(`setAtoms`, 42)
-    expect(store.state.user.atoms).toBe(42)
+    mutations.setAtoms(state, 42)
+    expect(state.atoms).toBe(42)
   })
 
   it(`should prepare the signin`, async () => {
-    node.keys.values = () => Promise.resolve(accounts)
-    await store.dispatch(`showInitialScreen`)
-    expect(store.state.config.modals.session.state).toBe(`sign-in`)
-    expect(store.state.config.modals.session.active).toBe(true)
+    const commit = jest.fn()
+    const dispatch = jest.fn()
+    state.accounts = [{}]
+    await actions.showInitialScreen({
+      state,
+      commit,
+      dispatch
+    })
+
+    expect(commit).toHaveBeenCalledWith(`setModalSessionState`, `sign-in`)
+    expect(dispatch).toHaveBeenCalledWith(`resetSessionData`)
   })
 
   it(`should show a welcome screen if there are no accounts yet`, async () => {
-    const previousValues = node.keys.values
-    node.keys.values = () => Promise.resolve([])
-    await store.dispatch(`showInitialScreen`)
-    expect(store.state.config.modals.session.state).toBe(`welcome`)
-    expect(store.state.config.modals.session.active).toBe(true)
-    node.keys.values = previousValues
+    const commit = jest.fn()
+    await actions.showInitialScreen({
+      state,
+      commit,
+      dispatch: jest.fn()
+    })
+
+    expect(commit).toHaveBeenCalledWith(`setModalSessionState`, `welcome`)
   })
 
   it(`should test if the login works`, async () => {
-    node.keys.set = (account, { name, old_password, new_password }) => {
-      expect(account).toBe(name)
-      expect(old_password).toBe(new_password)
-      return true
-    }
-    let output = await store.dispatch(`testLogin`, {
-      account: `default`,
-      password: `1234567890`
-    })
-    expect(output).toBe(true)
-  })
+    jest.resetModules()
+    jest.doMock(`renderer/scripts/keystore.js`, () => ({
+      testPassword: jest
+        .fn()
+        .mockReturnValueOnce(true)
+        .mockReturnValueOnce(false)
+    }))
 
-  it(`should raise an error if login test fails`, done => {
-    node.keys.set = () => Promise.reject(`Expected error`)
-    store.dispatch(`testLogin`, {}).catch(() => done())
+    const userModule = require(`renderer/vuex/modules/user.js`).default
+    module = userModule({ node })
+    state = module.state
+    actions = module.actions
+
+    let output = await actions.testLogin(
+      {},
+      {
+        account: `default`,
+        password: `1234567890`
+      }
+    )
+    expect(output).toBe(true)
+    output = await actions.testLogin(
+      {},
+      {
+        account: `default`,
+        password: `1234567890`
+      }
+    )
+    expect(output).toBe(false)
   })
 
   it(`should create a seed phrase`, async () => {
-    let seed = await store.dispatch(`createSeed`)
-    expect(seed).toBeDefined()
-    expect(seed.split(` `).length).toBe(24)
+    let seed = await actions.createSeed()
+    expect(seed).toBe(`xxx`)
   })
 
   it(`should create a key from a seed phrase`, async () => {
     let seedPhrase = `abc`
     let password = `123`
     let name = `def`
-    node.keys.add = jest.fn(node.keys.add)
-    let address = await store.dispatch(`createKey`, {
-      seedPhrase,
-      password,
-      name
-    })
-    expect(node.keys.add).toHaveBeenCalledWith({
-      seed: seedPhrase,
-      password,
-      name
-    })
-    b32.decode(address)
-    // initialize wallet
-    expect(store.state.wallet.address).toBe(address)
-  })
-
-  it(`should delete a key`, async () => {
-    let password = `123`
-    let name = `def`
-    node.keys.delete = jest.fn()
-    await store.dispatch(`deleteKey`, { password, name })
-    expect(node.keys.delete).toHaveBeenCalledWith(name, { password, name })
+    const dispatch = jest.fn()
+    await actions.createKey(
+      { dispatch },
+      {
+        seedPhrase,
+        password,
+        name
+      }
+    )
+    expect(dispatch).toHaveBeenCalledWith(
+      `initializeWallet`,
+      `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+    )
   })
 
   it(`should sign in`, async () => {
     let password = `123`
     let account = `def`
-    node.keys.get = jest.fn(() =>
-      Promise.resolve({ address: `tb1wdhk6efqv9jxgun9wdesd6m8k8` })
+    const commit = jest.fn()
+    const dispatch = jest.fn()
+    await actions.signIn({ state, commit, dispatch }, { password, account })
+    expect(state.address).toBe(`cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`)
+    expect(commit).toHaveBeenCalledWith(`setModalSession`, false)
+    expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
+    expect(dispatch).toHaveBeenCalledWith(
+      `initializeWallet`,
+      `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
     )
-    await store.dispatch(`signIn`, { password, account })
-    expect(node.keys.get).toHaveBeenCalledWith(account)
-    expect(store.state.user.signedIn).toBe(true)
-
-    // initialize wallet
-    expect(store.state.wallet.address).toEqual(`tb1wdhk6efqv9jxgun9wdesd6m8k8`)
-
-    // hide login
-    expect(store.state.config.modals.session.active).toBe(false)
+    expect(dispatch).toHaveBeenCalledWith(`loadErrorCollection`, account)
   })
 
   it(`should sign out`, async () => {
-    let password = `123`
-    let account = `def`
-    await store.dispatch(`signIn`, { password, account })
-    store.dispatch(`signOut`)
-    expect(store.state.user.account).toBe(null)
-    expect(store.state.user.signedIn).toBe(false)
+    const commit = jest.fn()
+    const dispatch = jest.fn()
+    await actions.signOut({ state, commit, dispatch })
 
-    // hide login
-    expect(store.state.config.modals.session.active).toBe(true)
+    expect(commit).toHaveBeenCalledWith(`setModalSession`, true)
+    expect(dispatch).toHaveBeenCalledWith(`showInitialScreen`)
+    expect(state.account).toBeNull()
+    expect(state.signedIn).toBeFalsy()
   })
 
-  it(`should set the error collection opt in`, async () => {
-    const Sentry = require(`@sentry/browser`)
-    await store.dispatch(`setErrorCollection`, { account: `abc`, optin: true })
-    expect(store.state.user.errorCollection).toBe(true)
-    expect(window.analytics).toBeTruthy()
-    expect(Sentry.init).toHaveBeenCalled()
-    expect(Sentry.init).toHaveBeenCalledWith({
+  it(`should enable error collection`, async () => {
+    const commit = jest.fn()
+    await actions.setErrorCollection(
+      {
+        state,
+        commit
+      },
+      { account: `abc`, optin: true }
+    )
+
+    expect(state.errorCollection).toBe(true)
+    expect(localStorage.getItem(`voyager_error_collection_abc`)).toBe(`true`)
+    expect(state.externals.enableGoogleAnalytics).toHaveBeenCalledWith(`UA-123`)
+    expect(state.externals.track).toHaveBeenCalledWith(`pageview`, {
+      dl: `/`
+    })
+    expect(state.externals.Sentry.init).toHaveBeenCalledWith({
       dsn: expect.stringMatching(`https://.*@sentry.io/.*`),
       release: `voyager@0.0.1`
     })
-
-    Sentry.init.mockClear()
-    store.dispatch(`setErrorCollection`, { account: `abc`, optin: false })
-    expect(store.state.user.errorCollection).toBe(false)
-    expect(window.analytics).toBeFalsy()
-    expect(Sentry.init).toHaveBeenCalledWith({})
   })
 
-  it(`should persist the error collection opt in`, () => {
-    let localStorageSpy = jest.spyOn(localStorage, `setItem`)
-    store.dispatch(`setErrorCollection`, { account: `abc`, optin: true })
-
-    expect(localStorageSpy).toHaveBeenCalledWith(
-      `voyager_error_collection_abc`,
-      true
+  it(`should disable error collection`, async () => {
+    const commit = jest.fn()
+    await actions.setErrorCollection(
+      {
+        state,
+        commit
+      },
+      { account: `abc`, optin: false }
     )
-  })
 
-  it(`should load the persistet error collection opt in`, () => {
-    let localStorageSpy = jest.spyOn(localStorage, `getItem`)
-    store.dispatch(`setErrorCollection`, { account: `abc`, optin: true })
-    store.state.user.errorCollection = false
-    store.dispatch(`loadErrorCollection`, `abc`)
-    expect(store.state.user.errorCollection).toBe(true)
-    expect(localStorageSpy).toHaveBeenCalledWith(`voyager_error_collection_abc`)
-
-    store.dispatch(`setErrorCollection`, { account: `abc`, optin: false })
-    store.state.user.errorCollection = true
-    store.dispatch(`loadErrorCollection`, `abc`)
-    expect(store.state.user.errorCollection).toBe(false)
-  })
-  it(`should reload accounts on reconnect as this could be triggered by a switch from a mocked connection`, async () => {
-    store.state.user.accounts = []
-    await store.dispatch(`reconnected`)
-    expect(store.state.user.accounts.length).toBeGreaterThan(0)
+    expect(state.errorCollection).toBe(false)
+    expect(localStorage.getItem(`voyager_error_collection_abc`)).toBe(`false`)
+    expect(state.externals.disableGoogleAnalytics).toHaveBeenCalledWith(
+      `UA-123`
+    )
+    expect(state.externals.Sentry.init).toHaveBeenCalledWith({})
   })
 
   it(`should not set error collection if in development mode`, async () => {
-    const Sentry = require(`@sentry/browser`)
-    Sentry.init.mockClear()
-    store.dispatch(`setErrorCollection`, { account: `abc`, optin: true })
-    expect(store.state.user.errorCollection).toBe(false)
-    expect(window.analytics).toBeFalsy()
-    expect(Sentry.init).not.toHaveBeenCalled()
+    const commit = jest.fn()
+    state.externals.config.development = true
+    await actions.setErrorCollection(
+      {
+        state,
+        commit
+      },
+      { account: `abc`, optin: true }
+    )
+
+    expect(commit).toHaveBeenCalledWith(`notifyError`, {
+      title: `Couldn't switch on error collection.`,
+      body: `Error collection is disabled during development.`
+    })
+    expect(state.errorCollection).toBe(false)
+    expect(localStorage.getItem(`voyager_error_collection_abc`)).toBe(`false`)
+    expect(state.externals.disableGoogleAnalytics).toHaveBeenCalledWith(
+      `UA-123`
+    )
+    expect(state.externals.Sentry.init).toHaveBeenCalledWith({})
+  })
+
+  it(`should load the persisted error collection opt in`, () => {
+    localStorage.setItem(`voyager_error_collection_abc`, `true`)
+    state.errorCollection = false
+
+    const dispatch = jest.fn()
+    actions.loadErrorCollection(
+      {
+        state,
+        dispatch
+      },
+      `abc`
+    )
+
+    expect(dispatch).toHaveBeenCalledWith(`setErrorCollection`, {
+      account: `abc`,
+      optin: true
+    })
+
+    localStorage.setItem(`voyager_error_collection_abc`, `false`)
+    state.errorCollection = true
+
+    dispatch.mockClear()
+    actions.loadErrorCollection(
+      {
+        state,
+        dispatch
+      },
+      `abc`
+    )
+
+    expect(dispatch).toHaveBeenCalledWith(`setErrorCollection`, {
+      account: `abc`,
+      optin: false
+    })
+  })
+
+  it(`should reload accounts on reconnect as this could be triggered by a switch from a mocked connection`, async () => {
+    const dispatch = jest.fn()
+    await actions.reconnected({ state, dispatch })
+    expect(dispatch).toHaveBeenCalledWith(`loadAccounts`)
   })
 })
