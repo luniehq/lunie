@@ -1,5 +1,6 @@
 import TmOnboarding from "common/TmOnboarding.vue"
 import setup from "../../../helpers/vuex-setup"
+import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 jest.mock(
   `../../../../../app/src/renderer/assets/images/onboarding/step-0.png`,
@@ -24,12 +25,15 @@ jest.mock(
 
 describe(`TmOnboarding`, () => {
   let wrapper, store, instance
+  let { stakingParameters } = lcdClientMock.state
+
   let { mount } = setup()
 
   beforeEach(() => {
     instance = mount(TmOnboarding)
     wrapper = instance.wrapper
     store = instance.store
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
   })
 
   it(`has the expected html structure 0`, () => {

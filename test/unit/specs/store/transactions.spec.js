@@ -34,7 +34,7 @@ describe(`Module: Transactions`, () => {
       blockHeight: `3436`,
       blockMetaInfo: {
         header: {
-          time: 1042
+          time: 42000
         }
       }
     })

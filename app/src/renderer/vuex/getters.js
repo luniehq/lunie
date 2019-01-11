@@ -2,9 +2,6 @@ import BN from "bignumber.js"
 import { calculateTokens } from "scripts/common"
 // ui
 export const config = state => state.config
-export const bondingDenom = state =>
-  state.config.bondingDenom.charAt(0).toUpperCase() +
-  state.config.bondingDenom.slice(1)
 
 export const filters = state => state.filters
 export const notifications = state => state.notifications
@@ -68,12 +65,16 @@ export const validators = state => state.validators.validators
 export const keybase = state => state.keybase.identities
 export const pool = state => state.pool
 export const stakingParameters = state => state.stakingParameters
+export const bondDenom = getters =>
+  getters.stakingParameters.parameters.bond_denom
 
 // governance
 export const proposals = state => state.proposals
 export const votes = state => state.votes.votes
 export const deposits = state => state.deposits.deposits
 export const governanceParameters = state => state.governanceParameters
+export const depositDenom = getters =>
+  getters.governanceParameters.parameters.deposit.min_deposit[0].denom
 
 // status
 export const approvalRequired = state => state.connection.approvalRequired
@@ -81,4 +82,3 @@ export const connected = state => state.connection.connected
 export const lastHeader = state => state.connection.lastHeader
 export const nodeURL = state =>
   state.connection.node ? state.connection.node.remoteLcdURL : undefined
-export const mockedConnector = state => state.connection.mocked

@@ -23,7 +23,6 @@ export default ({ node }) => {
 
       try {
         let parameters = await node.getStakingParameters()
-        state.error = null
         commit(`setStakingParameters`, parameters)
         state.error = null
         state.loading = false

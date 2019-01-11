@@ -120,7 +120,9 @@ export default ({}) => {
 
       dispatch(`loadPersistedState`)
       commit(`setModalSession`, false)
+      await dispatch(`getStakingParameters`)
       dispatch(`initializeWallet`, address)
+      await dispatch(`getGovParameters`)
       dispatch(`loadErrorCollection`, account)
     },
     signOut({ state, commit, dispatch }) {
@@ -139,7 +141,6 @@ export default ({}) => {
     loadErrorCollection({ state, dispatch }, account) {
       let errorCollection =
         localStorage.getItem(`${ERROR_COLLECTION_KEY}_${account}`) === `true`
-      console.log(errorCollection)
       if (state.errorCollection !== errorCollection)
         dispatch(`setErrorCollection`, { account, optin: errorCollection })
     },

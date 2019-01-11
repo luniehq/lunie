@@ -210,23 +210,6 @@ describe(`Module: Connection`, () => {
     expect(node.rpc.subscribe).not.toHaveBeenCalled()
   })
 
-  it(`should switch to the mocked node implemenation`, () => {
-    actions.setMockedConnector(
-      { state, dispatch: jest.fn(), commit: jest.fn() },
-      true
-    )
-
-    expect(node.setup).toHaveBeenCalledWith(true)
-  })
-
-  it(`should log the user out if switched mocked mode`, () => {
-    const commit = jest.fn()
-    const dispatch = jest.fn()
-    actions.setMockedConnector({ state, dispatch, commit }, false)
-
-    expect(dispatch).toHaveBeenCalledWith(`signOut`)
-  })
-
   it(`should check if the node has positively halted`, async () => {
     jest.useFakeTimers()
     let dispatch = jest.fn()

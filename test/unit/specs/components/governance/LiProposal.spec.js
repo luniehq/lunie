@@ -92,4 +92,23 @@ describe(`LiProposal`, () => {
       `this is some kind of long description. longer than 100 characters for optimum-maximum-ideal truncati…`
     )
   })
+
+  it(`survives the tally result not being present yet`, () => {
+    const $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: {
+        proposals: { proposals, tallies: {} }
+      }
+    }
+    let instance = mount(LiProposal, {
+      doBefore: ({ store }) => {
+        store.commit(`setConnected`, true)
+        store.commit(`setProposal`, proposal)
+      },
+      propsData: { proposal },
+      $store
+    })
+    wrapper = instance.wrapper
+  })
 })

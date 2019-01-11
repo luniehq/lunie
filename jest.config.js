@@ -11,7 +11,7 @@ module.exports = {
     "^assets/(.*)$": `<rootDir>/app/src/renderer/assets/$1`,
     "^common/(.*)$": `<rootDir>/app/src/renderer/components/common/$1`,
     "^transactions/(.*)$": `<rootDir>/app/src/renderer/components/transactions/$1`,
-    "^govern/(.*)$": `<rootDir>/app/src/renderer/components/govern/$1`,
+    "^governance/(.*)$": `<rootDir>/app/src/renderer/components/governance/$1`,
     "^monitor/(.*)$": `<rootDir>/app/src/renderer/components/monitor/$1`,
     "^staking/(.*)$": `<rootDir>/app/src/renderer/components/staking/$1`,
     "^scripts/(.*)$": `<rootDir>/app/src/renderer/scripts/$1`,

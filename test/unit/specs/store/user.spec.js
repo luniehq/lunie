@@ -205,6 +205,7 @@ describe(`Module: User`, () => {
   })
 
   it(`should enable error collection`, async () => {
+    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
     const commit = jest.fn()
     await actions.setErrorCollection(
       {
@@ -227,6 +228,7 @@ describe(`Module: User`, () => {
   })
 
   it(`should disable error collection`, async () => {
+    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
     const commit = jest.fn()
     await actions.setErrorCollection(
       {
@@ -245,6 +247,7 @@ describe(`Module: User`, () => {
   })
 
   it(`should not set error collection if in development mode`, async () => {
+    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
     const commit = jest.fn()
     state.externals.config.development = true
     await actions.setErrorCollection(

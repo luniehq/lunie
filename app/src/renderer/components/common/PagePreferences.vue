@@ -5,16 +5,6 @@
       <tool-bar />
     </template>
     <tm-part title="Settings">
-      <tm-list-item type="field" title="Select network to connect to">
-        <tm-field
-          id="select-network"
-          v-model="networkSelectActive"
-          :options="networkSelectOptions"
-          type="select"
-          placeholder="Select network..."
-          @change.native="setMockedConnector()"
-        />
-      </tm-list-item>
       <tm-list-item type="field" title="Node IP">
         <tm-btn :value="nodeURL" icon="exit_to_app" type="button" />
       </tm-list-item>
@@ -80,24 +70,8 @@ export default {
     ToolBar,
     TmModal
   },
-  data: () => ({
-    networkSelectActive: null,
-    networkSelectOptions: [
-      {
-        value: `live`,
-        key: `Live Testnet`
-      },
-      {
-        value: `mock`,
-        key: `Offline Mode`
-      }
-    ]
-  }),
   computed: {
-    ...mapGetters([`user`, `onboarding`, `mockedConnector`, `nodeURL`])
-  },
-  mounted() {
-    this.networkSelectActive = this.mockedConnector ? `mock` : `live`
+    ...mapGetters([`user`, `onboarding`, `nodeURL`])
   },
   methods: {
     signOut({ $store } = this) {
@@ -113,10 +87,6 @@ export default {
     setOnboarding({ $store } = this) {
       $store.commit(`setOnboardingState`, 0)
       $store.commit(`setOnboardingActive`, true)
-    },
-
-    setMockedConnector({ $store, networkSelectActive } = this) {
-      $store.dispatch(`setMockedConnector`, networkSelectActive === `mock`)
     }
   }
 }

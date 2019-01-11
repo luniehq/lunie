@@ -64,8 +64,8 @@ exports[`PageSend disables sending if not connected 1`] = `
         <tm-field-group-stub>
           <tm-field-stub
             id="send-amount"
-            max="1000"
-            min="1"
+            max="0"
+            min="0"
             placeholder="Amount"
             type="number"
             value="2"
@@ -74,7 +74,12 @@ exports[`PageSend disables sending if not connected 1`] = `
          
         <!---->
          
-        <!---->
+        <tm-form-msg-stub
+          max="0"
+          min="0"
+          name="Amount"
+          type="between"
+        />
       </tm-form-group-stub>
        
       <hr />
@@ -151,7 +156,7 @@ exports[`PageSend has the expected html structure 1`] = `
           options="[object Object],[object Object]"
           placeholder="Select token..."
           type="select"
-          value="mycoin"
+          value="STAKE"
         />
          
         <!---->
@@ -274,7 +279,7 @@ exports[`PageSend should show address required error 1`] = `
           options="[object Object],[object Object]"
           placeholder="Select token..."
           type="select"
-          value="mycoin"
+          value="STAKE"
         />
          
         <!---->
@@ -398,7 +403,7 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
           options="[object Object],[object Object]"
           placeholder="Select token..."
           type="select"
-          value="mycoin"
+          value="STAKE"
         />
          
         <!---->
@@ -522,7 +527,7 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
           options="[object Object],[object Object]"
           placeholder="Select token..."
           type="select"
-          value="mycoin"
+          value="STAKE"
         />
          
         <!---->
@@ -646,7 +651,7 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
           options="[object Object],[object Object]"
           placeholder="Select token..."
           type="select"
-          value="mycoin"
+          value="STAKE"
         />
          
         <!---->
@@ -666,17 +671,18 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
             id="send-address"
             placeholder="Address"
             type="text"
-            value="!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$"
+            value=""
           />
         </tm-field-group-stub>
          
         <tm-form-msg-stub
           name="Address"
-          type="bech32"
+          type="required"
         />
       </tm-form-group-stub>
        
       <tm-form-group-stub
+        error="true"
         fieldid="send-amount"
         fieldlabel="Amount"
       >
@@ -687,7 +693,7 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
             min="1"
             placeholder="Amount"
             type="number"
-            value="2"
+            value="0"
           />
         </tm-field-group-stub>
          
@@ -708,10 +714,13 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
           id="password"
           placeholder="password..."
           type="password"
-          value="1234567890"
+          value=""
         />
          
-        <!---->
+        <tm-form-msg-stub
+          name="Password"
+          type="required"
+        />
          
         <input
           id="showPasswordCheckbox"
@@ -770,7 +779,7 @@ exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
           options="[object Object],[object Object]"
           placeholder="Select token..."
           type="select"
-          value="mycoin"
+          value="STAKE"
         />
          
         <!---->
@@ -858,7 +867,7 @@ exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
   <tm-modal-send-confirmation-stub
     amount="2"
     connected="true"
-    denom="mycoin"
+    denom="STAKE"
     recipient="tb1mjt6dcdru8lgdz64h2fu0lrzvd5zv8sfcvkv2l"
   />
 </tm-page-stub>

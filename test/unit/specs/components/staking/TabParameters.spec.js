@@ -10,11 +10,6 @@ describe(`TabParameters`, () => {
 
   beforeEach(() => {
     let instance = mount(TabParameters, {
-      doBefore: ({ store }) => {
-        store.commit(`setConnected`, true)
-        store.commit(`setPool`, pool)
-        store.commit(`setStakingParameters`, stakingParameters)
-      },
       stubs: {
         "tm-data-connecting": true,
         "tm-data-loading": true
@@ -22,6 +17,9 @@ describe(`TabParameters`, () => {
     })
     wrapper = instance.wrapper
     store = instance.store
+    store.commit(`setConnected`, true)
+    store.commit(`setPool`, pool)
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
     store.state.stakingParameters.loaded = true
     store.state.pool.loaded = true
   })
@@ -31,11 +29,14 @@ describe(`TabParameters`, () => {
   })
 
   it(`shows the staking parameters and pool`, () => {
-    expect(store.state.stakingParameters.parameters).toEqual(stakingParameters)
+    expect(store.state.stakingParameters.parameters).toEqual(
+      stakingParameters.parameters
+    )
     expect(store.state.pool.pool).toEqual(pool)
   })
 
   it(`displays unbonding period in days`, () => {
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
     expect(wrapper.vm.unbondingTimeInDays).toEqual(3)
   })
 

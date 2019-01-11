@@ -19,13 +19,6 @@
           value="Switch Node"
           @click.native="switchNode"
         />
-        <tm-btn
-          id="tm-modal-error__btn-mock"
-          size="lg"
-          icon="pageview"
-          value="Try Demo"
-          @click.native="useMock"
-        />
       </div>
     </div>
   </div>
@@ -39,10 +32,6 @@ export default {
   methods: {
     switchNode() {
       this.$store.dispatch(`reconnect`)
-      this.$store.commit(`setModalNodeHalted`, false)
-    },
-    useMock() {
-      this.$store.dispatch(`setMockedConnector`, true)
       this.$store.commit(`setModalNodeHalted`, false)
     }
   }

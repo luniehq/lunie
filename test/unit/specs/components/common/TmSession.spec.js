@@ -17,8 +17,7 @@ describe(`TmSessionWelcome`, () => {
         config: () => config.state,
         lastHeader: () => ({ chain_id: `gaia-test`, height: `31337` }),
         connected: () => true,
-        nodeURL: () => `http://nodeUrl`,
-        mockedConnector: () => false
+        nodeURL: () => `http://nodeUrl`
       },
       modules: { config }
     })

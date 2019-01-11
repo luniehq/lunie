@@ -11,7 +11,7 @@ describe(`PageSend`, () => {
 
   const balances = [
     {
-      denom: `mycoin`,
+      denom: `STAKE`,
       amount: 1000
     },
     {
@@ -38,7 +38,7 @@ describe(`PageSend`, () => {
     wrapper = shallowMount(PageSend, {
       localVue,
       propsData: {
-        denom: `mycoin`
+        denom: `STAKE`
       },
       mocks: {
         $store
@@ -53,8 +53,8 @@ describe(`PageSend`, () => {
   it(`should populate the select options with denoms`, () => {
     expect(wrapper.vm.denominations).toEqual([
       {
-        key: `MYCOIN`,
-        value: `mycoin`
+        key: `STAKE`,
+        value: `STAKE`
       },
       {
         key: `FERMION`,
@@ -78,7 +78,7 @@ describe(`PageSend`, () => {
   it(`should show address required error`, async () => {
     wrapper.setData({
       fields: {
-        denom: `mycoin`,
+        denom: `STAKE`,
         address: ``,
         amount: 2,
         password: `1234567890`
@@ -92,7 +92,7 @@ describe(`PageSend`, () => {
   it(`should show bech32 error when address length is too short`, async () => {
     wrapper.setData({
       fields: {
-        denom: `mycoin`,
+        denom: `STAKE`,
         address: `asdf`,
         amount: 2,
         password: `1234567890`
@@ -107,7 +107,7 @@ describe(`PageSend`, () => {
   it(`should show bech32 error when address length is too long`, async () => {
     wrapper.setData({
       fields: {
-        denom: `mycoin`,
+        denom: `STAKE`,
         address: `asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf`,
         amount: 2,
         password: `1234567890`
@@ -119,14 +119,6 @@ describe(`PageSend`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
   it(`should show bech32 error when alphanumeric is wrong`, async () => {
-    wrapper.setData({
-      fields: {
-        denom: `mycoin`,
-        address: `!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$`,
-        amount: 2,
-        password: `1234567890`
-      }
-    })
     wrapper.vm.onSubmit()
     await wrapper.vm.$nextTick()
     expect(wrapper.vm.$v.$error).toBe(true)
@@ -136,7 +128,7 @@ describe(`PageSend`, () => {
   it(`should trigger confirmation modal if form is correct`, async () => {
     wrapper.setData({
       fields: {
-        denom: `mycoin`,
+        denom: `STAKE`,
         address,
         amount: 2,
         password: `1234567890`
@@ -158,7 +150,7 @@ describe(`PageSend`, () => {
   it(`should show notification for successful send`, async () => {
     wrapper.setData({
       fields: {
-        denom: `mycoin`,
+        denom: `STAKE`,
         address,
         amount: 2,
         password: `1234567890`
@@ -170,22 +162,30 @@ describe(`PageSend`, () => {
   })
 
   it(`should show notification for unsuccessful send`, async () => {
-    wrapper.setData({
+    let $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn()
+    }
+
+    let self = {
       fields: {
         denom: `notmycoin`,
         address,
         amount: 2,
         password: `1234567890`
+      },
+      $store,
+      methods: {
+        sendTx: () => Promise.reject()
       }
-    })
-    wrapper.setMethods({
-      sendTx: () => Promise.reject(new Error(`Error`))
-    })
-    await wrapper.vm.onApproved()
+    }
+    PageSend.methods.onApproved.call(self)
+
     expect($store.commit).toHaveBeenCalledWith(`notifyError`, {
       title: `Error Sending transaction`,
-      body: expect.stringContaining(`Error`)
+      body: expect.stringContaining(``)
     })
+    expect(self.sending).toBe(false)
   })
 
   it(`validates bech32 addresses`, () => {
@@ -217,7 +217,7 @@ describe(`PageSend`, () => {
     })
     wrapper.setData({
       fields: {
-        denom: `mycoin`,
+        denom: `STAKE`,
         address,
         amount: 2,
         password: `1234567890`

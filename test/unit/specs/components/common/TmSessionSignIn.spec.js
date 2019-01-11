@@ -89,17 +89,6 @@ describe(`TmSessionSignIn`, () => {
     expect($store.commit.mock.calls[0][0]).toBe(`notifyError`)
   })
 
-  it(`should set the default password in mocked mode`, async () => {
-    const self = {
-      setDefaultAccount: jest.fn(),
-      fields: {},
-      mockedConnector: true
-    }
-    TmSessionSignIn.mounted.call(self)
-
-    expect(self.fields.signInPassword).toBe(`1234567890`)
-  })
-
   it(`should show the last account used`, () => {
     localStorage.setItem(`prevAccountKey`, `default`)
 

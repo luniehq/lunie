@@ -16,10 +16,9 @@ describe(`TmModalNodeHalted`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`switches to a mock connection`, () => {
-    wrapper.vm.useMock()
-
-    expect(store.state.connection.mocked).toBe(true)
+  it(`send a connection retry event`, () => {
+    wrapper.vm.switchNode()
+    expect(store.dispatch).toHaveBeenCalledWith(`reconnect`)
 
     // also closing the modal
     expect(store.state.config.modals.nodeHalted.active).toBe(false)

@@ -5,30 +5,19 @@ Array [
   Array [
     "sendTx",
     Object {
-      "begin_redelegates": undefined,
-      "begin_unbondings": undefined,
-      "delegations": Array [
-        Object {
-          "delegation": Object {
-            "amount": "109",
-            "denom": "atom",
-          },
-          "delegator_addr": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-          "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
-        },
-        Object {
-          "delegation": Object {
-            "amount": "456",
-            "denom": "atom",
-          },
-          "delegator_addr": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-          "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
-        },
-      ],
+      "delegation": Object {
+        "amount": "undefined",
+        "denom": "STAKE",
+      },
+      "delegator_addr": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
       "password": undefined,
       "to": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-      "type": "updateDelegations",
+      "type": "postDelegation",
+      "validator_addr": undefined,
     },
+  ],
+  Array [
+    "updateDelegates",
   ],
 ]
 `;
@@ -38,30 +27,19 @@ Array [
   Array [
     "sendTx",
     Object {
-      "begin_redelegates": undefined,
-      "begin_unbondings": undefined,
-      "delegations": Array [
-        Object {
-          "delegation": Object {
-            "amount": "-113",
-            "denom": "atom",
-          },
-          "delegator_addr": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-          "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
-        },
-        Object {
-          "delegation": Object {
-            "amount": "-356",
-            "denom": "atom",
-          },
-          "delegator_addr": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-          "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
-        },
-      ],
+      "delegation": Object {
+        "amount": "undefined",
+        "denom": "STAKE",
+      },
+      "delegator_addr": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
       "password": undefined,
       "to": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-      "type": "updateDelegations",
+      "type": "postDelegation",
+      "validator_addr": undefined,
     },
+  ],
+  Array [
+    "updateDelegates",
   ],
 ]
 `;
