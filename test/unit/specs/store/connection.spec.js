@@ -1,5 +1,4 @@
 import connectionModule from "renderer/vuex/modules/connection.js"
-import nodeMock from "../../helpers/node_mock.js"
 
 const mockRootState = {
   user: {

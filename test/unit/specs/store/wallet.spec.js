@@ -35,13 +35,11 @@ jest.mock(`src/network.js`, () => () => ({
 }))
 
 describe(`Module: Wallet`, () => {
-  let module, state, actions, mutations
+  let module, actions
 
   beforeEach(() => {
     module = walletModule({ node: {} })
-    state = module.state
     actions = module.actions
-    mutations = module.mutations
   })
 
   // DEFAULT
