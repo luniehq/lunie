@@ -12,14 +12,14 @@
         <hardware-state
           v-if="status == 'connect'"
           icon="usb"
-          :value="message"
+          value="Please plug in your Ledger Wallet and open the Cosmos app"
           @click.native="connectLedger()"
         />
         <hardware-state
           v-if="status == 'detect'"
           :spin="true"
           icon="rotate_right"
-          :value="message"
+          value="Connecting..."
           @click.native="setStatus('connect')"
         />
       </div>
@@ -34,14 +34,12 @@ import { App, comm_u2f, comm_node } from "ledger-cosmos-js"
 import { createCosmosAddress } from "../../scripts/wallet.js"
 
 const TIMEOUT = 2
+const HDPATH = [44, 118, 0, 0, 0]
 
 export default {
   name: `tm-session-hardware`,
   components: { HardwareState },
-  data: () => ({
-    status: `connect`,
-    message: `Please plug in your Ledger Wallet`
-  }),
+  data: () => ({ status: `connect` }),
   methods: {
     help() {
       this.$store.commit(`setModalHelp`, true)
@@ -52,25 +50,18 @@ export default {
     setStatus(value) {
       this.status = value
     },
-    setMessage(message) {
-      this.message = message
-    },
     async connectLedger() {
       this.setStatus(`detect`)
-      this.setMessage(`Please plug in your Ledger Wallet`)
       console.log(`Connecting Ledger...`)
-      const hdPath = [44, 118, 0, 0, 0]
       try {
         let comm = await comm_u2f.create_async(TIMEOUT, true)
         let app = new App(comm)
         let version = await app.get_version()
-        this.setMessage(`Ledger connected. Open the Cosmos app...`)
-        let pubKey = await app.publicKey(hdPath)
+        let pubKey = await app.publicKey(HDPATH)
         console.log(
           `Ledger Version: v${version.major}.${version.minor}.${version.patch} `
         )
         let address = createCosmosAddress(pubKey.pk)
-        console.log(`Cosmos address: ${address}`)
         this.onLedgerConnected(address, version)
       } catch (error) {
         console.error(error)
@@ -79,7 +70,7 @@ export default {
     onLedgerConnected(address, version) {
       this.$store.dispatch(`signInLedger`, { address, version })
       this.$store.commit(`notify`, {
-        title: `Welcome back!`,
+        title: `Connection succesful`,
         body: `You are now signed in to your Cosmos account with your Ledger.`
       })
     }

@@ -25,8 +25,11 @@ export default ({ node }) => {
       sequence: state.nonce,
       name: rootState.user.account,
       password: args.password,
-      account_number: rootState.wallet.accountNumber, // TODO move into LCD?
-      chain_id: rootState.connection.lastHeader.chain_id
+      account_number: rootState.wallet.accountNumber, // TODO: move into LCD?
+      chain_id: rootState.connection.lastHeader.chain_id,
+      gas: `50000000`,
+      // generate a unsigned transaction to sign usign the Ledger and broadcast it afterwards
+      generate_only: rootState.wallet.ledger.connected
     }
     args.base_req = requestMetaData
 
@@ -37,7 +40,6 @@ export default ({ node }) => {
     // extract "to" address
     let to = args.to
     delete args.to
-    args.gas = `50000000`
 
     // submit to LCD to build, sign, and broadcast
     let req = to ? node[type](to, args) : node[type](args)
@@ -62,8 +64,7 @@ export default ({ node }) => {
 
     // check response code
     assertOk(res)
-
-    commit(`setNonce`, (parseInt(state.nonce) + 1).toString())
+    commit(`setNonce`, String(parseInt(state.nonce) + 1))
   }
 
   let actions = {

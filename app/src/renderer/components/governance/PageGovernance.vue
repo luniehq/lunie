@@ -67,7 +67,6 @@ export default {
     showModalPropose: false
   }),
   computed: {
-    // TODO: get min deposit denom from gov params
     ...mapGetters([`proposals`, `filters`, `bondingDenom`, `connected`])
   },
   mounted() {
