@@ -16,7 +16,6 @@ app.use(`/`, async function(req, res) {
     let url = req.url.substr(1)
     let method = req.method
     let data = req.body
-    console.log(url, req)
 
     const result = await instance({
       method,
