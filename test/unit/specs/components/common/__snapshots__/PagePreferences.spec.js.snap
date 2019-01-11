@@ -46,11 +46,7 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
       type="field"
     >
       <tm-field-stub
-        change="function () {
-        /* istanbul ignore next */cov_2phwcoe3cj.f[7]++;
-        cov_2phwcoe3cj.s[42]++;
-        return _vm.setErrorCollection();
-      }"
+        change="function () { [native code] }"
         options="[object Object]"
         style="margin: 1em auto 0px auto;"
         type="toggle"

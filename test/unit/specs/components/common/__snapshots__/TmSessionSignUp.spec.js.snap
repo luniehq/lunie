@@ -6,11 +6,7 @@ exports[`SessionSignUp has the expected html structure 1`] = `
 >
   <tm-form-struct-stub
     class="tm-session-container"
-    submit="function () {
-        /* istanbul ignore next */cov_2301v7xx90.f[12]++;
-        cov_2301v7xx90.s[71]++;
-        return _vm.onSubmit();
-      }"
+    submit="function () { [native code] }"
     width=""
   >
     <div
