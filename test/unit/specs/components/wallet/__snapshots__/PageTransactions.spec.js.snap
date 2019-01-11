@@ -118,6 +118,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
                 refresh
               </i>
             </a>
+             
             <a
               class="search-button"
             >
@@ -127,6 +128,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
                 search
               </i>
             </a>
+              
             <a
               class="help"
             >
@@ -147,6 +149,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
                 settings
               </i>
             </router-link-stub>
+             
             <a
               id="signOut-btn"
             >
@@ -162,16 +165,19 @@ exports[`PageTransactions has the expected html structure 1`] = `
        
       <menu
         class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
+      />
+       
+      <div
+        class="tabs"
+      />
+       
+      <!---->
     </div>
   </header>
    
   <main
     class="tm-page-main"
   >
-     
     <modal-search-stub
       type="transactions"
     />
@@ -179,7 +185,8 @@ exports[`PageTransactions has the expected html structure 1`] = `
     <tm-li-any-transaction-stub
       address="tb1d4u5zerywfjhxuc9nudvw"
       bondingdenom="STAKE"
-      proposalsurl="/governance/proposals"
+      proposalsurl="/governance"
+      slot="managed-body"
       transaction="[object Object]"
       unbondingtime="NaN"
       validators=""
@@ -188,7 +195,8 @@ exports[`PageTransactions has the expected html structure 1`] = `
     <tm-li-any-transaction-stub
       address="tb1d4u5zerywfjhxuc9nudvw"
       bondingdenom="STAKE"
-      proposalsurl="/governance/proposals"
+      proposalsurl="/governance"
+      slot="managed-body"
       transaction="[object Object]"
       unbondingtime="NaN"
       validators=""
@@ -197,7 +205,8 @@ exports[`PageTransactions has the expected html structure 1`] = `
     <tm-li-any-transaction-stub
       address="tb1d4u5zerywfjhxuc9nudvw"
       bondingdenom="STAKE"
-      proposalsurl="/governance/proposals"
+      proposalsurl="/governance"
+      slot="managed-body"
       transaction="[object Object]"
       unbondingtime="NaN"
       validators=""
@@ -206,7 +215,8 @@ exports[`PageTransactions has the expected html structure 1`] = `
     <tm-li-any-transaction-stub
       address="tb1d4u5zerywfjhxuc9nudvw"
       bondingdenom="STAKE"
-      proposalsurl="/governance/proposals"
+      proposalsurl="/governance"
+      slot="managed-body"
       transaction="[object Object]"
       unbondingtime="NaN"
       validators=""
@@ -215,7 +225,8 @@ exports[`PageTransactions has the expected html structure 1`] = `
     <tm-li-any-transaction-stub
       address="tb1d4u5zerywfjhxuc9nudvw"
       bondingdenom="STAKE"
-      proposalsurl="/governance/proposals"
+      proposalsurl="/governance"
+      slot="managed-body"
       transaction="[object Object]"
       unbondingtime="NaN"
       validators=""
@@ -224,12 +235,14 @@ exports[`PageTransactions has the expected html structure 1`] = `
     <tm-li-any-transaction-stub
       address="tb1d4u5zerywfjhxuc9nudvw"
       bondingdenom="STAKE"
-      proposalsurl="/governance/proposals"
+      proposalsurl="/governance"
+      slot="managed-body"
       transaction="[object Object]"
       unbondingtime="NaN"
       validators=""
       validatorsurl="/staking/validators"
     />
+     
   </main>
 </div>
 `;
@@ -352,6 +365,7 @@ exports[`PageTransactions should filter the transactions 1`] = `
                 refresh
               </i>
             </a>
+             
             <a
               class="search-button"
             >
@@ -361,6 +375,7 @@ exports[`PageTransactions should filter the transactions 1`] = `
                 search
               </i>
             </a>
+              
             <a
               class="help"
             >
@@ -381,6 +396,7 @@ exports[`PageTransactions should filter the transactions 1`] = `
                 settings
               </i>
             </router-link-stub>
+             
             <a
               id="signOut-btn"
             >
@@ -396,16 +412,19 @@ exports[`PageTransactions should filter the transactions 1`] = `
        
       <menu
         class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
+      />
+       
+      <div
+        class="tabs"
+      />
+       
+      <!---->
     </div>
   </header>
    
   <main
     class="tm-page-main"
   >
-     
     <modal-search-stub
       type="transactions"
     />
@@ -413,12 +432,14 @@ exports[`PageTransactions should filter the transactions 1`] = `
     <tm-li-any-transaction-stub
       address="tb1d4u5zerywfjhxuc9nudvw"
       bondingdenom="STAKE"
-      proposalsurl="/governance/proposals"
+      proposalsurl="/governance"
+      slot="managed-body"
       transaction="[object Object]"
       unbondingtime="NaN"
       validators=""
       validatorsurl="/staking/validators"
     />
+     
   </main>
 </div>
 `;

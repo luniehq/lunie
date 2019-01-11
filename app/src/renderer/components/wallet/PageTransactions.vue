@@ -5,7 +5,7 @@
     :error="transactions.error"
     :dataset="allTransactions"
     :refresh="refreshTransactions"
-    :filtered-data="filteredTransactions"
+    :has-filtered-data="hasFilteredData"
     search="transactions"
     data-title="Transactions"
   >
@@ -85,14 +85,17 @@ export default {
       } else {
         return this.orderedTransactions
       }
+    },
+    hasFilteredData({ filteredTransactions } = this) {
+      return filteredTransactions.length > 0
     }
   },
   mounted() {
     this.refreshTransactions()
   },
   methods: {
-    refreshTransactions() {
-      this.$store.dispatch(`getAllTxs`)
+    async refreshTransactions() {
+      await this.$store.dispatch(`getAllTxs`)
     }
   }
 }

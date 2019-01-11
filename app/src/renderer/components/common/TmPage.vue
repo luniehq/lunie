@@ -1,14 +1,11 @@
 <template>
   <div class="tm-page">
-    <tm-page-header :tabs="tabs">
+    <tm-page-header v-if="!hideHeader" :tabs="tabs">
       <h2 v-if="title" slot="title">{{ title }}</h2>
       <h3 v-if="subtitle" slot="subtitle">{{ subtitle }}</h3>
       <slot slot="menu-body" name="menu-body">
         <tm-balance />
-        <tool-bar
-          :refresh="{ connected, refresh }"
-          :searching="{ somethingToSearch, setSearch }"
-        />
+        <tool-bar :refresh="refreshable" :searching="searchable" />
       </slot>
       <slot slot="header-buttons" name="header-buttons" />
       <slot slot="menu" name="menu" />
@@ -25,7 +22,7 @@
           name="no-data"
         />
         <tm-data-empty v-else-if="dataset.length === 0" />
-        <data-empty-search v-else-if="filteredData.length === 0" />
+        <data-empty-search v-else-if="!hasFilteredData" />
         <slot v-else name="managed-body" />
       </template>
       <slot />
@@ -63,6 +60,10 @@ export default {
     ModalSearch
   },
   props: {
+    hideHeader: {
+      type: Boolean,
+      default: false
+    },
     title: {
       type: String,
       default: ``
@@ -85,7 +86,7 @@ export default {
     },
     tabs: {
       type: Array,
-      default: () => []
+      default: undefined
     },
     loading: {
       type: Boolean,
@@ -97,21 +98,27 @@ export default {
     },
     dataset: {
       type: Array,
-      default: () => []
+      default: undefined
     },
-    filteredData: {
-      type: Array,
-      default: () => []
+    hasFilteredData: {
+      type: Boolean,
+      default: false
     },
     refresh: {
       type: Function,
       default: undefined
     }
   },
-  computed: {
-    ...mapGetters([`filters`, `connected`])
-  },
   data: () => ({ ps: `` }),
+  computed: {
+    ...mapGetters([`filters`, `connected`]),
+    searchable({ somethingToSearch, setSearch } = this) {
+      return this.search ? { somethingToSearch, setSearch } : undefined
+    },
+    refreshable({ connected, refresh } = this) {
+      return refresh ? { connected, refresh } : undefined
+    }
+  },
   async mounted() {
     Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
     Mousetrap.bind(`esc`, () => this.setSearch(false))

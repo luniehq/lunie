@@ -94,78 +94,77 @@ exports[`PageProposal has the expected html structure 1`] = `
             />
              
           </div>
+           
+          <div
+            class="tm-tool-bar"
+          >
+            <a
+              class="back"
+              disabled="disabled"
+            >
+              <i
+                class="material-icons"
+              >
+                arrow_back
+              </i>
+            </a>
+             
+            <!---->
+             
+            <!---->
+              
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+             
+            <router-link-stub
+              id="settings"
+              to="/preferences"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </router-link-stub>
+             
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+          </div>
         </div>
       </div>
        
       <menu
         class="tm-page-header-menu"
       >
-        <div>
-          <div>
-            <div
-              class="tm-tool-bar"
-            >
-              <a
-                class="back"
-                disabled="disabled"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </a>
-               
-              <router-link-stub
-                exact="exact"
-                to="/governance"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </router-link-stub>
-              <a
-                class="help"
-              >
-                <i
-                  class="material-icons"
-                >
-                  help_outline
-                </i>
-              </a>
-               
-              <router-link-stub
-                id="settings"
-                to="/preferences"
-              >
-                <i
-                  class="material-icons"
-                >
-                  settings
-                </i>
-              </router-link-stub>
-              <a
-                id="signOut-btn"
-              >
-                <i
-                  class="material-icons"
-                >
-                  exit_to_app
-                </i>
-              </a>
-            </div>
-          </div>
-        </div>
+        <div />
       </menu>
+       
+      <div
+        class="tabs"
+      />
+       
+      <!---->
     </div>
   </header>
    
   <main
     class="tm-page-main"
   >
-      
+     
     <div
       class="page-profile__header page-profile__section proposal"
     >
@@ -426,78 +425,77 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
             />
              
           </div>
+           
+          <div
+            class="tm-tool-bar"
+          >
+            <a
+              class="back"
+              disabled="disabled"
+            >
+              <i
+                class="material-icons"
+              >
+                arrow_back
+              </i>
+            </a>
+             
+            <!---->
+             
+            <!---->
+              
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+             
+            <router-link-stub
+              id="settings"
+              to="/preferences"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </router-link-stub>
+             
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+          </div>
         </div>
       </div>
        
       <menu
         class="tm-page-header-menu"
       >
-        <div>
-          <div>
-            <div
-              class="tm-tool-bar"
-            >
-              <a
-                class="back"
-                disabled="disabled"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </a>
-               
-              <router-link-stub
-                exact="exact"
-                to="/governance"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </router-link-stub>
-              <a
-                class="help"
-              >
-                <i
-                  class="material-icons"
-                >
-                  help_outline
-                </i>
-              </a>
-               
-              <router-link-stub
-                id="settings"
-                to="/preferences"
-              >
-                <i
-                  class="material-icons"
-                >
-                  settings
-                </i>
-              </router-link-stub>
-              <a
-                id="signOut-btn"
-              >
-                <i
-                  class="material-icons"
-                >
-                  exit_to_app
-                </i>
-              </a>
-            </div>
-          </div>
-        </div>
+        <div />
       </menu>
+       
+      <div
+        class="tabs"
+      />
+       
+      <!---->
     </div>
   </header>
    
   <main
     class="tm-page-main"
   >
-      
+     
     <div
       class="tm-data-msg"
     >

@@ -1,6 +1,7 @@
 <template>
   <tm-page
     :tabs="tabs"
+    :dataset="proposalList"
     search="proposals"
     class="governance"
     data-title="Governance"
@@ -57,7 +58,10 @@ export default {
   }),
   computed: {
     // TODO: get min deposit denom from gov params
-    ...mapGetters([`proposals`, `filters`, `depositDenom`, `connected`])
+    ...mapGetters([`proposals`, `filters`, `depositDenom`, `connected`]),
+    proposalList() {
+      return Object.keys(this.proposals.proposals)
+    }
   },
   mounted() {
     this.ps = new PerfectScrollbar(this.$el.querySelector(`.tm-page-main`))

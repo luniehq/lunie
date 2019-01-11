@@ -1,5 +1,9 @@
 <template>
   <page-profile data-title="Proposal">
+    <template slot="menu-body">
+      <tm-balance />
+      <tool-bar />
+    </template>
     <tm-data-error v-if="!proposal" />
     <template v-else>
       <div class="page-profile__header page-profile__section proposal">

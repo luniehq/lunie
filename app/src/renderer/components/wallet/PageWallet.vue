@@ -3,9 +3,9 @@
     :loading="wallet.loading"
     :loaded="wallet.loaded"
     :error="wallet.error"
-    :dataset="wallet.balances"
+    :dataset="allBalances"
     :refresh="queryWalletBalances"
-    :filtered-data="filteredBalances"
+    :has-filtered-data="hasFilteredData"
     search="balances"
     data-title="Wallet"
   >
@@ -83,6 +83,9 @@ export default {
       }
       return balances
     },
+    allBalances() {
+      return this.wallet.balances
+    },
     filteredBalances() {
       let query = this.filters.balances.search.query
       let list = orderBy(
@@ -97,6 +100,9 @@ export default {
       } else {
         return list
       }
+    },
+    hasFilteredData({ filteredBalances } = this) {
+      return filteredBalances.length > 0
     }
   },
   mounted() {

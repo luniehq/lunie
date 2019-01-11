@@ -10,7 +10,7 @@
     </a>
     <a
       v-tooltip.bottom="'Refresh'"
-      v-if="refresh"
+      v-if="!!refresh"
       :disabled="!refresh.connected"
       class="refresh-button"
       @click="refresh.connected && refresh.refresh()"
@@ -19,7 +19,7 @@
     </a>
     <a
       v-tooltip.bottom="'Search'"
-      v-if="searching"
+      v-if="!!searching"
       :disabled="!searching.somethingToSearch"
       class="search-button"
       @click="searching.setSearch()"
@@ -59,7 +59,16 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([`user`, `lastPage`])
+    ...mapGetters([`user`, `lastPage`]),
+    searchEnabled() {
+      return !!this.searching
+    },
+    somethingToSearch() {
+      return this.searching && this.searching.somethingToSearch()
+    },
+    setSearch() {
+      return this.searching && this.searching.setSearch()
+    }
   },
   methods: {
     ...mapMutations([`pauseHistory`, `popHistory`]),

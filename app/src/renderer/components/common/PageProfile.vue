@@ -1,10 +1,7 @@
 <template>
   <div class="tm-page page-profile">
     <tm-page-header>
-      <slot slot="menu-body" name="menu-body">
-        <tm-balance />
-        <tool-bar />
-      </slot>
+      <slot slot="menu-body" name="menu-body" />
       <div slot="menu"><slot name="menu"></slot></div>
     </tm-page-header>
     <main class="tm-page-main"><slot></slot></main>
@@ -13,15 +10,11 @@
 
 <script>
 import TmPageHeader from "common/TmPageHeader.vue"
-import TmBalance from "common/TmBalance"
-import ToolBar from "common/ToolBar"
 
 export default {
   name: `page-profile`,
   components: {
-    TmPageHeader,
-    TmBalance,
-    ToolBar
+    TmPageHeader
   }
 }
 </script>

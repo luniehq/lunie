@@ -109,6 +109,10 @@ exports[`PageValidator has the expected html structure 1`] = `
               </i>
             </a>
              
+            <!---->
+             
+            <!---->
+              
             <a
               class="help"
             >
@@ -129,6 +133,7 @@ exports[`PageValidator has the expected html structure 1`] = `
                 settings
               </i>
             </router-link-stub>
+             
             <a
               id="signOut-btn"
             >
@@ -147,6 +152,12 @@ exports[`PageValidator has the expected html structure 1`] = `
       >
         <div />
       </menu>
+       
+      <div
+        class="tabs"
+      />
+       
+      <!---->
     </div>
   </header>
    
@@ -628,6 +639,10 @@ exports[`PageValidator shows a default avatar 1`] = `
               </i>
             </a>
              
+            <!---->
+             
+            <!---->
+              
             <a
               class="help"
             >
@@ -648,6 +663,7 @@ exports[`PageValidator shows a default avatar 1`] = `
                 settings
               </i>
             </router-link-stub>
+             
             <a
               id="signOut-btn"
             >
@@ -666,6 +682,12 @@ exports[`PageValidator shows a default avatar 1`] = `
       >
         <div />
       </menu>
+       
+      <div
+        class="tabs"
+      />
+       
+      <!---->
     </div>
   </header>
    
@@ -1149,6 +1171,10 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
               </i>
             </a>
              
+            <!---->
+             
+            <!---->
+              
             <a
               class="help"
             >
@@ -1169,6 +1195,7 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
                 settings
               </i>
             </router-link-stub>
+             
             <a
               id="signOut-btn"
             >
@@ -1187,6 +1214,12 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
       >
         <div />
       </menu>
+       
+      <div
+        class="tabs"
+      />
+       
+      <!---->
     </div>
   </header>
    
@@ -1392,6 +1425,10 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
               </i>
             </a>
              
+            <!---->
+             
+            <!---->
+              
             <a
               class="help"
             >
@@ -1412,6 +1449,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
                 settings
               </i>
             </router-link-stub>
+             
             <a
               id="signOut-btn"
             >
@@ -1430,6 +1468,12 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
       >
         <div />
       </menu>
+       
+      <div
+        class="tabs"
+      />
+       
+      <!---->
     </div>
   </header>
    
@@ -1978,6 +2022,10 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
               </i>
             </a>
              
+            <!---->
+             
+            <!---->
+              
             <a
               class="help"
             >
@@ -1998,6 +2046,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
                 settings
               </i>
             </router-link-stub>
+             
             <a
               id="signOut-btn"
             >
@@ -2016,6 +2065,12 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
       >
         <div />
       </menu>
+       
+      <div
+        class="tabs"
+      />
+       
+      <!---->
     </div>
   </header>
    
@@ -2497,6 +2552,10 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
               </i>
             </a>
              
+            <!---->
+             
+            <!---->
+              
             <a
               class="help"
             >
@@ -2517,6 +2576,7 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
                 settings
               </i>
             </router-link-stub>
+             
             <a
               id="signOut-btn"
             >
@@ -2535,6 +2595,12 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
       >
         <div />
       </menu>
+       
+      <div
+        class="tabs"
+      />
+       
+      <!---->
     </div>
   </header>
    
@@ -3083,6 +3149,10 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
               </i>
             </a>
              
+            <!---->
+             
+            <!---->
+              
             <a
               class="help"
             >
@@ -3103,6 +3173,7 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
                 settings
               </i>
             </router-link-stub>
+             
             <a
               id="signOut-btn"
             >
@@ -3121,6 +3192,12 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
       >
         <div />
       </menu>
+       
+      <div
+        class="tabs"
+      />
+       
+      <!---->
     </div>
   </header>
    

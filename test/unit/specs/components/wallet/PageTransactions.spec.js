@@ -41,10 +41,10 @@ describe(`PageTransactions`, () => {
     expect(wrapper.contains(`modal-search-stub`)).toBe(true)
   })
 
-  it(`should refresh the transaction history`, () => {
-    wrapper.vm.refreshTransactions = jest.fn()
-    wrapper.find(`.refresh-button`).trigger(`click`)
-    expect(wrapper.vm.refreshTransactions).toHaveBeenCalled()
+  it(`should refresh the transaction history`, async () => {
+    // store.dispatch = jest.fn(async () => true)
+    await wrapper.vm.refreshTransactions()
+    expect(store.dispatch).toHaveBeenCalledWith(`getAllTxs`)
   })
 
   it(`should show transactions`, () => {
@@ -72,31 +72,19 @@ describe(`PageTransactions`, () => {
     expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual([1])
   })
 
-  it(`should update 'somethingToSearch' when there's nothing to search`, () => {
-    expect(wrapper.vm.somethingToSearch).toBe(true)
-    store.commit(`setWalletTxs`, [])
-    store.commit(`setStakingTxs`, [])
-    store.commit(`setGovernanceTxs`, [])
-    expect(wrapper.vm.somethingToSearch).toBe(false)
-    store.commit(`setWalletTxs`, mockTransactions)
-    expect(wrapper.vm.somethingToSearch).toBe(true)
-    store.commit(`setHistoryLoading`, true)
-    expect(wrapper.vm.somethingToSearch).toBe(false)
-  })
-
-  it(`should show an error if there are no transactions`, () => {
-    store.commit(`setWalletTxs`, [])
-    store.commit(`setStakingTxs`, [])
-    store.commit(`setGovernanceTxs`, [])
-    expect(wrapper.contains(`data-empty-tx-stub`)).toBe(true)
-    expect(wrapper.contains(`data-empty-search-stub`)).toBe(false)
-  })
-
-  it(`should not show search when there is nothing to search`, () => {
-    store.commit(`setWalletTxs`, [])
-    store.commit(`setStakingTxs`, [])
-    store.commit(`setGovernanceTxs`, [])
-    wrapper.find(`.search-button`).trigger(`click`)
-    expect(wrapper.contains(`modal-search-stub`)).toBe(false)
-  })
+  // it(`should show an error if there are no transactions`, () => {
+  //   store.commit(`setWalletTxs`, [])
+  //   store.commit(`setStakingTxs`, [])
+  //   store.commit(`setGovernanceTxs`, [])
+  //   expect(wrapper.contains(`data-empty-tx-stub`)).toBe(true)
+  //   expect(wrapper.contains(`data-empty-search-stub`)).toBe(false)
+  // })
+  //
+  // it(`should not show search when there is nothing to search`, () => {
+  //   store.commit(`setWalletTxs`, [])
+  //   store.commit(`setStakingTxs`, [])
+  //   store.commit(`setGovernanceTxs`, [])
+  //   wrapper.find(`a.search-button i`).trigger(`click`)
+  //   expect(wrapper.contains(`modal-search-stub`)).toBe(false)
+  // })
 })
