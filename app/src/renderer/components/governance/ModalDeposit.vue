@@ -40,9 +40,10 @@
         name="Amount"
         type="between"
       />
-      <hr />
+      <hr v-if="!wallet.ledger.connected" />
     </tm-form-group>
     <tm-form-group
+      v-if="!wallet.ledger.connected"
       class="modal-deposit-form-group"
       field-id="password"
       field-label="Account password"
@@ -77,7 +78,7 @@
 <script>
 import { mapGetters } from "vuex"
 import ClickOutside from "vue-click-outside"
-import { required, between } from "vuelidate/lib/validators"
+import { required, between, requiredIf } from "vuelidate/lib/validators"
 import Modal from "common/TmModal"
 import TmBtn from "common/TmBtn"
 import TmField from "common/TmField"
@@ -118,7 +119,6 @@ export default {
     showPassword: false
   }),
   computed: {
-    // TODO: get coin denom from governance params
     ...mapGetters([`wallet`]),
     balance() {
       // TODO: refactor to get the selected coin when multicooin deposit is enabled
@@ -139,7 +139,7 @@ export default {
         between: between(1, this.balance > 0 ? this.balance : 1)
       },
       password: {
-        required
+        required: requiredIf(!this.wallet.ledger.connected)
       }
     }
   },

@@ -29,7 +29,7 @@ export default ({ node }) => {
     setAccounts(state, accounts) {
       state.accounts = accounts
     },
-    setAddress(state, address) {
+    setUserAddress(state, address) {
       state.address = address
     },
     setAtoms(state, atoms) {
@@ -105,25 +105,28 @@ export default ({ node }) => {
       let keys = await loadKeys()
       let { address } = keys.find(({ name }) => name === account)
 
-      commit(`setAddress`, address)
+      commit(`setUserAddress`, address)
       dispatch(`loadPersistedState`)
       commit(`setModalSession`, false)
       dispatch(`initializeWallet`, address)
       dispatch(`loadErrorCollection`, account)
     },
-    signInLedger({ commit, dispatch }, { address }) {
-      commit(`setAddress`, address)
-      commit(`setWalletAddress`, address)
+    signInLedger({ commit, dispatch }, { address, version }) {
+      commit(`setUserAddress`, address)
+      commit(`setLedgerVersion`, version)
       dispatch(`loadPersistedState`)
       commit(`setModalSession`, false)
       dispatch(`initializeWallet`, address)
       dispatch(`loadErrorCollection`, address)
+      commit(`setLedgerConnection`, true)
     },
     signOut({ state, commit, dispatch }) {
       state.account = null
       state.signedIn = false
 
       commit(`setModalSession`, true)
+      commit(`setLedgerConnection`, false)
+      commit(`setLedgerVersion`, {})
       dispatch(`showInitialScreen`)
     },
     resetSessionData({ state }) {

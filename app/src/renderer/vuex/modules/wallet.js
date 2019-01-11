@@ -10,7 +10,11 @@ export default ({ node }) => {
     error: null,
     denoms: [],
     address: null,
-    subscribedRPC: null
+    subscribedRPC: null,
+    ledger: {
+      connected: false,
+      version: null
+    }
   }
   let state = JSON.parse(JSON.stringify(emptyState))
 
@@ -27,6 +31,12 @@ export default ({ node }) => {
     },
     setDenoms(state, denoms) {
       state.denoms = denoms
+    },
+    setLedgerVersion(state, version) {
+      state.ledger.version = version
+    },
+    setLedgerConnection(state, isConnected) {
+      state.ledger.connected = isConnected
     }
   }
 

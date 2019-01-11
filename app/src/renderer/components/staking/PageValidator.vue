@@ -169,27 +169,29 @@
       <undelegation-modal
         v-if="showUndelegationModal"
         :show-undelegation-modal.sync="showUndelegationModal"
-        :maximum="myBond.toNumber()"
+        :maximum="Number(myBond)"
         :to="wallet.address"
         @submitUndelegation="submitUndelegation"
       />
-      <tm-modal v-if="showCannotModal" :close="closeCannotModal">
-        <div slot="title">
-          Cannot {{ action == `delegate` ? `Delegate` : `Undelegate` }}
-        </div>
-        <p>
-          You have no {{ bondingDenom }}s
-          {{ action == `undelegate` ? ` delegated ` : ` ` }}to
-          {{ action == `delegate` ? ` delegate.` : ` this validator.` }}
-        </p>
-        <div slot="footer">
-          <tmBtn
-            id="no-atoms-modal__btn"
-            value="OK"
-            @click.native="closeCannotModal"
-          />
-        </div>
-      </tm-modal>
+      <!--
+        <tm-modal v-if="showCannotModal" :close="closeCannotModal">
+          <div slot="title">
+            Cannot {{ action == `delegate` ? `Delegate` : `Undelegate` }}
+          </div>
+          <p>
+            You have no {{ bondingDenom }}s
+            {{ action == `undelegate` ? ` delegated ` : ` ` }}to
+            {{ action == `delegate` ? ` delegate.` : ` this validator.` }}
+          </p>
+          <div slot="footer">
+            <tmBtn
+              id="no-atoms-modal__btn"
+              value="OK"
+              @click.native="closeCannotModal"
+            />
+          </div>
+        </tm-modal>
+      -->
     </template>
   </page-profile>
 </template>
@@ -331,7 +333,8 @@ export default {
       if (this.availableAtoms > 0) {
         this.showDelegationModal = true
       } else {
-        this.showCannotModal = true
+        this.showDelegationModal = true
+        // this.showCannotModal = true
       }
     },
     onUndelegation() {
@@ -339,7 +342,8 @@ export default {
       if (this.myBond.isGreaterThan(0)) {
         this.showUndelegationModal = true
       } else {
-        this.showCannotModal = true
+        this.showUndelegationModal = true
+        // this.showCannotModal = true
       }
     },
     async submitDelegation({ amount, from, password }) {

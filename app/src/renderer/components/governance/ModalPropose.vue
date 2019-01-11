@@ -73,9 +73,13 @@
         name="Amount"
         type="between"
       />
-      <hr />
+      <hr v-if="!wallet.ledger.connected" />
     </tm-form-group>
-    <tm-form-group class="modal-propose-form-group" field-id="password">
+    <tm-form-group
+      v-if="!wallet.ledger.connected"
+      class="modal-propose-form-group"
+      field-id="password"
+    >
       <span>Account password</span>
       <tm-field
         id="password"
@@ -111,6 +115,7 @@ import {
   minLength,
   maxLength,
   required,
+  requiredIf,
   between
 } from "vuelidate/lib/validators"
 import { isEmpty, trim } from "lodash"
@@ -157,7 +162,6 @@ export default {
     showPassword: false
   }),
   computed: {
-    // TODO: get coin denom from governance params
     ...mapGetters([`wallet`]),
     balance() {
       // TODO: refactor to get the selected coin when multicoin deposit is enabled
@@ -193,7 +197,7 @@ export default {
         between: between(1, this.balance > 0 ? this.balance : 1)
       },
       password: {
-        required
+        required: requiredIf(!this.wallet.ledger.connected)
       }
     }
   },

@@ -46,9 +46,10 @@
       field-label="To"
     >
       <tm-field id="to" v-model="to" readonly="readonly" />
-      <hr />
+      <hr v-if="!wallet.ledger.connected" />
     </tm-form-group>
     <tm-form-group
+      v-if="!wallet.ledger.connected"
       class="undelegation-modal-form-group"
       field-id="password"
       field-label="Account password"
@@ -65,7 +66,7 @@
         type="checkbox"
         @input="togglePassword"
       />
-      <label for="showPasswordCheckbox">Show password</label>
+      <label for="showPasswordCheckbox"> Show password </label>
     </tm-form-group>
     <div class="undelegation-modal-footer">
       <tm-btn
@@ -83,7 +84,7 @@
 <script>
 import { mapGetters } from "vuex"
 import ClickOutside from "vue-click-outside"
-import { required, between } from "vuelidate/lib/validators"
+import { required, between, requiredIf } from "vuelidate/lib/validators"
 import Modal from "common/TmModal"
 import TmBtn from "common/TmBtn"
 import TmField from "common/TmField"
@@ -120,7 +121,7 @@ export default {
     showPassword: false
   }),
   computed: {
-    ...mapGetters([`bondingDenom`])
+    ...mapGetters([`bondingDenom`, `wallet`])
   },
   validations() {
     return {
@@ -130,7 +131,7 @@ export default {
         between: between(1, this.maximum)
       },
       password: {
-        required
+        required: requiredIf(!this.wallet.ledger.connected)
       }
     }
   },

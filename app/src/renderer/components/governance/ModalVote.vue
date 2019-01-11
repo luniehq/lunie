@@ -50,9 +50,10 @@
         size="md"
         @click.native="vote('Abstain')"
       />
-      <hr />
+      <hr v-if="!wallet.ledger.connected" />
     </tm-form-group>
     <tm-form-group
+      v-if="!wallet.ledger.connected"
       class="modal-vote-form-group"
       field-id="password"
       field-label="Account password"
@@ -87,7 +88,8 @@
 
 <script>
 import ClickOutside from "vue-click-outside"
-import { required } from "vuelidate/lib/validators"
+import { mapGetters } from "vuex"
+import { required, requiredIf } from "vuelidate/lib/validators"
 import Modal from "common/TmModal"
 import TmBtn from "common/TmBtn"
 import TmField from "common/TmField"
@@ -132,6 +134,9 @@ export default {
     password: ``,
     showPassword: false
   }),
+  computed: {
+    ...mapGetters([`wallet`])
+  },
   validations() {
     return {
       option: {
@@ -139,7 +144,7 @@ export default {
         isValid
       },
       password: {
-        required
+        required: requiredIf(!this.wallet.ledger.connected)
       }
     }
   },
