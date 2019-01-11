@@ -312,7 +312,7 @@ let state = {
     deposit: {
       min_deposit: [
         {
-          denom: `stake`,
+          denom: `STAKE`,
           amount: `10.0000000000`
         }
       ],
@@ -429,13 +429,13 @@ let state = {
       description: `this proposal was rejected`,
       initial_deposit: [
         {
-          denom: `stake`,
+          denom: `STAKE`,
           amount: `100`
         }
       ],
       total_deposit: [
         {
-          denom: `stake`,
+          denom: `STAKE`,
           amount: `100`
         }
       ],
@@ -676,16 +676,101 @@ module.exports = {
   },
 
   // staking
-  async updateDelegations(
+  async postDelegation(
     delegatorAddr,
     {
       base_req: { name, sequence },
-      delegations = [],
-      begin_unbondings = [],
-      begin_redelegates = []
+      delegator_addr,
+      validator_addr,
+      delegation
     }
   ) {
-    let results = []
+    let fromKey = state.keys.find(a => a.name === name)
+    let fromAccount = state.accounts[fromKey.address]
+    let delegator = state.stake[fromKey.address]
+    if (delegator_addr !== fromKey.address) {
+      return txResult(1, `Must use own delegator account`)
+    }
+    if (!delegator) {
+      state.stake[fromKey.address] = {
+        delegations: [],
+        unbonding_delegations: []
+      }
+      delegator = state.stake[fromKey.address]
+    }
+    if (fromAccount == null) {
+      return txResult(1, `Nonexistent account`)
+    }
+    // check nonce
+    if (parseInt(fromAccount.sequence) !== parseInt(sequence)) {
+      return txResult(
+        2,
+        `Expected sequence "${fromAccount.sequence}", got "${sequence}"`
+      )
+    }
+    let denom = state.stakingParameters.parameters.bond_denom
+    let amount = parseInt(delegation.amount)
+    if (amount < 0) {
+      return txResult(1, `Amount cannot be negative`)
+    }
+    if (fromAccount.coins.find(c => c.denom === denom).amount < amount) {
+      return txResult(1, `Not enough coins in your account`)
+    }
+    // update sender account
+    incrementSequence(fromAccount)
+    fromAccount.coins.find(c => c.denom === denom).amount -= amount
+
+    // update stake
+    let existingDelegation = delegator.delegations.find(
+      d => d.validator_addr === validator_addr
+    )
+    if (!existingDelegation) {
+      delegation = {
+        delegator_addr: fromKey.address,
+        validator_addr: validator_addr,
+        shares: `0`,
+        height: 0
+      }
+      delegator.delegations.push(delegation)
+    }
+
+    let shares = parseInt(delegation.shares)
+    delegation.shares = (shares + amount).toString()
+    let candidate = state.candidates.find(
+      c => c.operator_address === validator_addr
+    )
+    // TODO: Update error msg
+    if (candidate.revoked) {
+      throw new Error(`checkTx failed: (262245) Msg 0 failed: === ABCI Log ===
+Codespace: 4
+Code:      101
+ABCICode:  262245
+Error:     --= Error =--
+Data: common.FmtError{format:"validator for this address is currently revoked", args:[]interface {}(nil)}
+Msg Traces:
+--= /Error =--
+
+=== /ABCI Log ===`)
+    }
+
+    updateValidatorShares(state, validator_addr, amount)
+
+    storeTx(`cosmos-sdk/MsgDelegate`, {
+      delegator_addr,
+      validator_addr,
+      delegation
+    })
+    return txResult(0)
+  },
+  async postUnbondingDelegation(
+    delegatorAddr,
+    {
+      base_req: { name, sequence },
+      validator_addr,
+      delegator_addr,
+      shares
+    }
+  ) {
     let fromKey = state.keys.find(a => a.name === name)
     let fromAccount = state.accounts[fromKey.address]
     let delegator = state.stake[fromKey.address]
@@ -697,231 +782,198 @@ module.exports = {
       delegator = state.stake[fromKey.address]
     }
     if (fromAccount == null) {
-      results.push(txResult(1, `Nonexistent account`))
-      return results
+      return txResult(1, `Nonexistent account`)
     }
     // check nonce
     if (parseInt(fromAccount.sequence) !== parseInt(sequence)) {
-      results.push(
-        txResult(
-          2,
-          `Expected sequence "${fromAccount.sequence}", got "${sequence}"`
-        )
+      return txResult(
+        2,
+        `Expected sequence "${fromAccount.sequence}", got "${sequence}"`
       )
-      return results
     }
-    let denom = state.stakingParameters.parameters.bond_denom
-    for (let tx of delegations) {
-      let amount = parseInt(tx.delegation.amount)
-      if (amount < 0) {
-        results.push(txResult(1, `Amount cannot be negative`))
-        return results
-      }
-      if (fromAccount.coins.find(c => c.denom === denom).amount < amount) {
-        results.push(txResult(1, `Not enough coins in your account`))
-        return results
-      }
-      // update sender account
-      incrementSequence(fromAccount)
-      fromAccount.coins.find(c => c.denom === denom).amount -= amount
+    incrementSequence(fromAccount)
 
-      // update stake
-      let delegation = delegator.delegations.find(
-        d => d.validator_addr === tx.validator_addr
-      )
-      if (!delegation) {
-        delegation = {
-          delegator_addr: fromKey.address,
-          validator_addr: tx.validator_addr,
-          shares: `0`,
-          height: 0
+    let amount = parseInt(shares)
+
+    // update stake
+    let delegation = delegator.delegations.find(
+      d => d.validator_addr === validator_addr
+    )
+    if (!delegation) {
+      return txResult(2, `Nonexistent delegation`)
+    }
+
+    // update sender balance
+    let coinBalance = fromAccount.coins.find(
+      c => c.denom === state.stakingParameters.parameters.bond_denom
+    )
+
+    coinBalance.amount = String(parseInt(coinBalance.amount) + amount)
+
+    let delegationShares = parseInt(delegation.shares)
+    delegation.shares = (+delegationShares - amount).toString()
+
+    updateValidatorShares(state, validator_addr, amount)
+
+    delegator.unbonding_delegations.push(
+      Object.assign(
+        {},
+        { validator_addr, delegator_addr, shares },
+        {
+          balance: { amount: shares }
         }
-        delegator.delegations.push(delegation)
-      }
-
-      let shares = parseInt(delegation.shares)
-      delegation.shares = (shares + amount).toString()
-      let candidate = state.candidates.find(
-        c => c.operator_address === tx.validator_addr
       )
-      // TODO: Update error msg
-      if (candidate.revoked) {
-        throw new Error(`checkTx failed: (262245) Msg 0 failed: === ABCI Log ===
-  Codespace: 4
-  Code:      101
-  ABCICode:  262245
-  Error:     --= Error =--
-  Data: common.FmtError{format:"validator for this address is currently revoked", args:[]interface {}(nil)}
-  Msg Traces:
-  --= /Error =--
+    )
 
-  === /ABCI Log ===`)
+    storeTx(`cosmos-sdk/BeginUnbonding`, {
+      validator_addr,
+      delegator_addr,
+      shares
+    })
+    return txResult(0)
+  },
+  async postRedelegation(
+    delegatorAddr,
+    {
+      base_req: { name, sequence },
+      validator_src_addr,
+      validator_dst_addr,
+      delegator_addr,
+      shares
+    }
+  ) {
+    let fromKey = state.keys.find(a => a.name === name)
+    let fromAccount = state.accounts[fromKey.address]
+    let delegator = state.stake[fromKey.address]
+    if (!delegator) {
+      state.stake[fromKey.address] = {
+        delegations: [],
+        unbonding_delegations: []
       }
+      delegator = state.stake[fromKey.address]
+    }
+    if (fromAccount == null) {
+      return txResult(1, `Nonexistent account`)
+    }
+    // check nonce
+    if (parseInt(fromAccount.sequence) !== parseInt(sequence)) {
+      return txResult(
+        2,
+        `Expected sequence "${fromAccount.sequence}", got "${sequence}"`
+      )
+    }
+    incrementSequence(fromAccount)
 
-      updateValidatorShares(state, tx.validator_addr, amount)
+    // check if source validator exist
+    let srcValidator = state.candidates.find(
+      c => c.operator_address === validator_src_addr
+    )
 
-      storeTx(`cosmos-sdk/MsgDelegate`, tx)
-      results.push(txResult(0))
+    if (!srcValidator) {
+      return txResult(3, `Nonexistent source validator`)
     }
 
-    for (let tx of begin_unbondings) {
-      incrementSequence(fromAccount)
+    // check if dest validator exist
+    let dstValidator = state.candidates.find(
+      c => c.operator_address === validator_dst_addr
+    )
 
-      let amount = parseInt(tx.shares)
-
-      // update stake
-      let delegation = delegator.delegations.find(
-        d => d.validator_addr === tx.validator_addr
-      )
-      if (!delegation) {
-        results.push(txResult(2, `Nonexistent delegation`))
-        return results
-      }
-
-      // update sender balance
-      let coinBalance = fromAccount.coins.find(
-        c => c.denom === state.stakingParameters.parameters.bond_denom
-      )
-
-      coinBalance.amount = String(parseInt(coinBalance.amount) + amount)
-
-      let shares = parseInt(delegation.shares)
-      delegation.shares = (+shares - amount).toString()
-
-      updateValidatorShares(state, tx.validator_addr, amount)
-
-      delegator.unbonding_delegations.push(
-        Object.assign({}, tx, {
-          balance: {
-            amount: tx.shares
-          }
-        })
-      )
-
-      storeTx(`cosmos-sdk/BeginUnbonding`, tx)
-      results.push(txResult(0))
+    if (!dstValidator) {
+      return txResult(3, `Nonexistent destination validator`)
     }
 
-    for (let tx of begin_redelegates) {
-      incrementSequence(fromAccount)
+    // TODO: Update error msg
+    if (dstValidator.revoked) {
+      throw new Error(`checkTx failed: (262245) Msg 0 failed: === ABCI Log ===
+Codespace: 4
+Code:      101
+ABCICode:  262245
+Error:     --= Error =--
+Data: common.FmtError{format:"validator for this address is currently revoked", args:[]interface {}(nil)}
+Msg Traces:
+--= /Error =--
 
-      // check if source validator exist
-      let srcValidator = state.candidates.find(
-        c => c.operator_address === tx.validator_src_addr
-      )
-
-      if (!srcValidator) {
-        results.push(txResult(3, `Nonexistent source validator`))
-        return results
-      }
-
-      // check if dest validator exist
-      let dstValidator = state.candidates.find(
-        c => c.operator_address === tx.validator_dst_addr
-      )
-
-      if (!dstValidator) {
-        results.push(txResult(3, `Nonexistent destination validator`))
-        return results
-      }
-
-      // TODO: Update error msg
-      if (dstValidator.revoked) {
-        throw new Error(`checkTx failed: (262245) Msg 0 failed: === ABCI Log ===
-  Codespace: 4
-  Code:      101
-  ABCICode:  262245
-  Error:     --= Error =--
-  Data: common.FmtError{format:"validator for this address is currently revoked", args:[]interface {}(nil)}
-  Msg Traces:
-  --= /Error =--
-
-  === /ABCI Log ===`)
-      }
-
-      // check if delegation exists
-      let srcDelegation = delegator.delegations.find(
-        d => d.validator_addr === tx.validator_src_addr
-      )
-      if (!srcDelegation) {
-        results.push(
-          txResult(3, `Nonexistent delegation with source validator`)
-        )
-        return results
-      }
-
-      // check if there's an existing redelegation
-      let redelegations = this.getRedelegations(tx.delegator_addr)
-      let red = redelegations.find(
-        red =>
-          red.validator_src_addr === tx.validator_src_addr &&
-          red.validator_dst_addr === tx.validator_dst_addr
-      )
-
-      if (red) {
-        results.push(txResult(3, `conflicting redelegation`))
-        return results
-      }
-
-      let height = getHeight()
-
-      // check if amount of shares redelegated is valid
-      if (Number(srcDelegation.shares) < tx.shares) {
-        results.push(
-          txResult(
-            3,
-            `cannot redelegate more shares than the current delegated shares amount`
-          )
-        )
-        return results
-      }
-      // unbond shares from source validator
-      srcDelegation.shares = String(Number(srcDelegation.shares) - tx.shares)
-      srcDelegation.height = height
-
-      // delegate to dst validator
-      let dstDelegation = delegator.delegations.find(
-        d => d.validator_addr === tx.validator_dst_addr
-      )
-      if (dstDelegation) {
-        dstDelegation.shares = String(Number(dstDelegation.shares) + tx.shares)
-      } else {
-        delegator.delegations.push({
-          delegator_addr: tx.delegator_addr,
-          validator_addr: tx.validator_dst_addr,
-          shares: tx.shares,
-          height
-        })
-      }
-
-      // add redelegation object
-      let coins = {
-        amount: tx.shares, // in mock mode we assume 1 share = 1 token
-        denom: state.stakingParameters.parameters.bond_denom
-      }
-      let minTime = Date.now()
-      red = {
-        delegator_addr: tx.delegator_addr,
-        validator_src_addr: tx.validator_src_addr,
-        validator_dst_addr: tx.validator_dst_addr,
-        shares_src: tx.shares,
-        shares_dst: tx.shares,
-        min_time: new Date(minTime + 10 * 60 * 1000).getTime(), // uses a 10 min unbonding period
-        creation_height: height,
-        initial_balance: coins,
-        balance: coins
-      }
-      delegator.redelegations.push(red)
-
-      // update validator shares
-      updateValidatorShares(state, tx.validator_src_addr, -tx.shares)
-      updateValidatorShares(state, tx.validator_dst_addr, tx.shares)
-
-      storeTx(`cosmos-sdk/BeginRedelegate`, tx)
-      results.push(txResult(0))
+=== /ABCI Log ===`)
     }
 
-    return results
+    // check if delegation exists
+    let srcDelegation = delegator.delegations.find(
+      d => d.validator_addr === validator_src_addr
+    )
+    if (!srcDelegation) {
+      return txResult(3, `Nonexistent delegation with source validator`)
+    }
+
+    // check if there's an existing redelegation
+    let redelegations = this.getRedelegations(delegator_addr)
+    let red = redelegations.find(
+      red =>
+        red.validator_src_addr === validator_src_addr &&
+        red.validator_dst_addr === validator_dst_addr
+    )
+
+    if (red) {
+      return txResult(3, `conflicting redelegation`)
+    }
+
+    let height = getHeight()
+
+    // check if amount of shares redelegated is valid
+    if (Number(srcDelegation.shares) < shares) {
+      return txResult(
+        3,
+        `cannot redelegate more shares than the current delegated shares amount`
+      )
+    }
+    // unbond shares from source validator
+    srcDelegation.shares = String(Number(srcDelegation.shares) - shares)
+    srcDelegation.height = height
+
+    // delegate to dst validator
+    let dstDelegation = delegator.delegations.find(
+      d => d.validator_addr === validator_dst_addr
+    )
+    if (dstDelegation) {
+      dstDelegation.shares = String(Number(dstDelegation.shares) + shares)
+    } else {
+      delegator.delegations.push({
+        delegator_addr: delegator_addr,
+        validator_addr: validator_dst_addr,
+        shares: shares,
+        height
+      })
+    }
+
+    // add redelegation object
+    let coins = {
+      amount: shares, // in mock mode we assume 1 share = 1 token
+      denom: state.stakingParameters.parameters.bond_denom
+    }
+    let minTime = Date.now()
+    red = {
+      delegator_addr,
+      validator_src_addr,
+      validator_dst_addr,
+      shares_src: shares,
+      shares_dst: shares,
+      min_time: new Date(minTime + 10 * 60 * 1000).getTime(), // uses a 10 min unbonding period
+      creation_height: height,
+      initial_balance: coins,
+      balance: coins
+    }
+    delegator.redelegations.push(red)
+
+    // update validator shares
+    updateValidatorShares(state, validator_src_addr, -shares)
+    updateValidatorShares(state, validator_dst_addr, shares)
+
+    storeTx(`cosmos-sdk/BeginRedelegate`, {
+      delegator_addr,
+      validator_src_addr,
+      validator_dst_addr,
+      shares
+    })
+    return txResult(0)
   },
   async queryDelegation(delegatorAddress, validatorAddress) {
     let delegator = state.stake[delegatorAddress]

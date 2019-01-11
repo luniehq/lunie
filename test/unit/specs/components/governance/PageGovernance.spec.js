@@ -76,7 +76,7 @@ describe(`PageGovernance`, () => {
         `submitProposal`,
         {
           description: `a valid description for the proposal`,
-          initial_deposit: [{ amount: `15`, denom: `stake` }],
+          initial_deposit: [{ amount: `15`, denom: `STAKE` }],
           title: `A new text proposal for Cosmos`,
           type: `Text`,
           password: `1234567890`
@@ -107,7 +107,7 @@ describe(`PageGovernance`, () => {
         `submitProposal`,
         {
           description: `a valid description for the proposal`,
-          initial_deposit: [{ amount: `15`, denom: `stake` }],
+          initial_deposit: [{ amount: `15`, denom: `STAKE` }],
           title: `A new text proposal for Cosmos`,
           type: `Text`,
           password: `1234567890`

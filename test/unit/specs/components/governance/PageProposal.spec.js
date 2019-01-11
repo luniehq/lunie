@@ -201,6 +201,7 @@ describe(`PageProposal`, () => {
         localVue,
         doBefore: ({ store }) => {
           store.commit(`setConnected`, true)
+          store.commit(`setStakingParameters`, stakingParameters.parameters)
           store.commit(`setProposal`, proposal)
           store.commit(`setProposalTally`, {
             proposal_id: `5`,
@@ -302,7 +303,7 @@ describe(`PageProposal`, () => {
       [
         `notify`,
         {
-          body: `You have successfully deposited your stakes on proposal #2`,
+          body: `You have successfully deposited your STAKEs on proposal #2`,
           title: `Successful deposit!`
         }
       ]
