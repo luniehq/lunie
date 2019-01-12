@@ -18,7 +18,7 @@
     "build:testnets": "cd tasks/build/testnets && ./localBuild.sh",
     "build:gaia": "cd tasks/build/Gaia && ./localBuild.sh",
     "build:local": "node tasks/build/local/build",
-    "start": "yarn frontend & yarn proxy & yarn nodes 3 & yarn stargate",
+    "start": "yarn frontend & yarn backend",
     "doc": "jsdoc -r -c jsdoc.json",
     "lint": "yarn lint:eslint && yarn lint:format",
     "lint:eslint": "eslint -f ./node_modules/eslint-friendly-formatter \"{,**/}*.{js,vue}\"",
@@ -40,7 +40,7 @@
     "stargate": "./builds/Gaia/darwin_amd64/gaiacli rest-server --laddr 'tcp://localhost:9070' --home './builds/testnets/local-testnet/cli_home' --node 'http://localhost:26657' --chain-id 'local-testnet' --trust-node true",
     "frontend": "webpack-dev-server --hot --colors --config webpack.renderer.config.js --port 9080 --content-base app/dist --https --mode=development",
     "frontend:fixed-https": "yarn frontend --cert 'server_dev.crt' --key 'server_dev.key'",
-    "backend": "yarn nodes & yarn stargate",
+    "backend": "yarn proxy & yarn nodes 3 & yarn stargate",
     "backend:fixed-https": "yarn nodes & yarn stargate --ssl-certfile 'server_dev.crt' --ssl-keyfile 'server_dev.key'"
   },
   "devDependencies": {
