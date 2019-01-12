@@ -1,9 +1,3 @@
-import {
-  sign,
-  createBroadcastBody,
-  createSignature
-} from "../../scripts/wallet.js"
-
 export default ({ node }) => {
   let state = {
     lock: null,
