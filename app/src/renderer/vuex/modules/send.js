@@ -1,3 +1,9 @@
+import {
+  sign,
+  createBroadcastBody,
+  createSignature
+} from "../../scripts/wallet.js"
+
 export default ({ node }) => {
   let state = {
     lock: null,
@@ -48,13 +54,16 @@ export default ({ node }) => {
       }
 
       await dispatch(`queryWalletBalances`) // the nonce was getting out of sync, this is to force a sync
+
       let requestMetaData = {
         sequence: state.nonce,
-        name: rootState.user.account,
-        password: args.password,
+        name: `anonymous`,
+        // name: rootState.user.account,
+        // password: args.password,
         account_number: rootState.wallet.accountNumber, // TODO move into LCD?
         chain_id: rootState.connection.lastHeader.chain_id,
-        gas: `50000000`
+        gas: `50000000`,
+        generate_only: true
       }
       args.base_req = requestMetaData
 
@@ -86,6 +95,8 @@ export default ({ node }) => {
         }
         throw new Error(message)
       })
+
+      console.log(res)
 
       // check response code
       assertOk(res)
