@@ -17,8 +17,7 @@ export function generateWalletFromSeed(mnemonic) {
   return {
     privateKey: privateKey.toString(`hex`),
     publicKey: publicKey.toString(`hex`),
-    cosmosAddress,
-    mnemonic
+    cosmosAddress
   }
 }
 
