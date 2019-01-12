@@ -106,7 +106,7 @@ export default ({ node }) => {
       const signedTx = createSignedTx(tx, signature)
       const body = createBroadcastBody(signedTx)
 
-      const res = node.postTx(body)
+      const res = await node.postTx(body)
 
       // check response code
       assertOk(res)
