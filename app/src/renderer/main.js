@@ -55,11 +55,9 @@ Vue.directive(`focus`, {
  * Main method to boot the renderer. It act as Entrypoint
  */
 async function main() {
-  let lcdPort = config.development ? config.lcd_port : config.lcd_port_prod
-  let localLcdURL = `https://localhost:${lcdPort}`
-  console.log(`Expecting lcd-server on port: ` + lcdPort)
+  console.log(`Expecting lcd-server at ` + config.node_lcd)
 
-  node = Node(axios, localLcdURL, config.node_lcd, config.mocked)
+  node = Node(axios, config.node_lcd, config.mocked)
 
   store = Store({ node })
   store.dispatch(`loadTheme`)

@@ -1,6 +1,6 @@
 "use strict"
 
-const Client = (axios, localLcdURL, remoteLcdURL) => {
+const Client = (axios, remoteLcdURL) => {
   async function request(method, path, data) {
     const url = remoteLcdURL
     try {
@@ -44,7 +44,7 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
   return {
     // meta
     lcdConnected: function() {
-      return req(`GET`, `/node_version`).then(() => true, () => false)
+      return this.nodeVersion().then(() => true, () => false)
     },
 
     nodeVersion: req(`GET`, `/node_version`),
