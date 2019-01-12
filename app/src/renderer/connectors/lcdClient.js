@@ -79,7 +79,7 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
     keys,
 
     // coins
-    send: argReq(`POST`, `/bank/accounts`, `/transfers`),
+    send: argReq(`POST`, `/bank/accounts`, `/transfers`, true),
     queryAccount(address) {
       return fetchAccount(address)
         .then(res => {
@@ -152,7 +152,11 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
     getValidatorSet: req(`GET`, `/validatorsets/latest`, true),
 
     postDelegation: function(delegatorAddr, data) {
-      return req(`POST`, `/stake/delegators/${delegatorAddr}/delegations`)(data)
+      return req(
+        `POST`,
+        `/stake/delegators/${delegatorAddr}/delegations`,
+        true
+      )(data)
     },
     postUnbondingDelegation: function(delegatorAddr, data) {
       return req(
@@ -161,9 +165,11 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
       )(data)
     },
     postRedelegation: function(delegatorAddr, data) {
-      return req(`POST`, `/stake/delegators/${delegatorAddr}/redelegations`)(
-        data
-      )
+      return req(
+        `POST`,
+        `/stake/delegators/${delegatorAddr}/redelegations`,
+        true
+      )(data)
     },
 
     // Query a delegation between a delegator and a validator
