@@ -1,10 +1,25 @@
 import sendModule from "modules/send.js"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
+jest.mock(`renderer/scripts/keystore.js`, () => ({
+  getKey: () => ({
+    cosmosAddress: `cosmos1r5v5srda7xfth3hn2s26txvrcrntldjumt8mhl`,
+    privateKey: `8088c2ed2149c34f6d6533b774da4e1692eb5cb426fdbaef6898eeda489630b7`,
+    publicKey: `02ba66a84cf7839af172a13e7fc9f5e7008cb8bca1585f8f3bafb3039eda3c1fdd`
+  })
+}))
+
+jest.mock(`renderer/scripts/wallet.js`, () => ({
+  sign: jest.fn(() => []),
+  createBroadcastBody: jest.fn(() => {}),
+  createSignedTx: jest.fn(() => {})
+}))
+
 const mockRootState = {
   user: { account: `default` },
   wallet: {
-    accountNumber: `12`
+    accountNumber: `12`,
+    address: `cosmos1demo`
   },
   connection: {
     connected: true,
@@ -13,6 +28,7 @@ const mockRootState = {
     }
   }
 }
+
 describe(`Module: Send`, () => {
   let module, state, actions, mutations, node
 
@@ -42,6 +58,11 @@ describe(`Module: Send`, () => {
   beforeEach(() => {
     node = {
       send: jest.fn(() =>
+        Promise.resolve({
+          msg: {}
+        })
+      ),
+      postTx: jest.fn(() =>
         Promise.resolve({
           check_tx: { code: 0 },
           deliver_tx: { code: 0 }
