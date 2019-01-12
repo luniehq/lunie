@@ -82,44 +82,44 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
 
     // Get all delegations information from a delegator
     getDelegations: function(addr) {
-      return req(`GET`, `/stake/delegators/${addr}/delegations`)()
+      return req(`GET`, `/staking/delegators/${addr}/delegations`)()
     },
     getUndelegations: function(addr) {
       return req(
         `GET`,
-        `/stake/delegators/${addr}/unbonding_delegations`,
+        `/staking/delegators/${addr}/unbonding_delegations`,
         true
       )()
     },
     getRedelegations: function(addr) {
-      return req(`GET`, `/stake/delegators/${addr}/redelegations`)()
+      return req(`GET`, `/staking/redelegations?delegator=${addr}`)()
     },
     // Get all txs from a delegator
     getDelegatorTxs: function(addr, types) {
       if (!types) {
-        return req(`GET`, `/stake/delegators/${addr}/txs`)()
+        return req(`GET`, `/staking/delegators/${addr}/txs`)()
       } else {
-        return req(`GET`, `/stake/delegators/${addr}/txs?type=${types}`)()
+        return req(`GET`, `/staking/delegators/${addr}/txs?type=${types}`)()
       }
     },
     // Query all validators that a delegator is bonded to
     getDelegatorValidators: function(delegatorAddr) {
-      return req(`GET`, `/stake/delegators/${delegatorAddr}/validators`)()
+      return req(`GET`, `/staking/delegators/${delegatorAddr}/validators`)()
     },
     // // Query a validator info that a delegator is bonded to
     // getDelegatorValidator: function(delegatorAddr, validatorAddr) {
-    //   return req("GET", `/stake/delegators/${delegatorAddr}/validators/${validatorAddr}`)()
+    //   return req("GET", `/staking/delegators/${delegatorAddr}/validators/${validatorAddr}`)()
     // },
 
     // Get a list containing all the validator candidates
-    getCandidates: req(`GET`, `/stake/validators`),
+    getCandidates: req(`GET`, `/staking/validators`),
     // Get information from a validator
     getCandidate: function(addr) {
-      return req(`GET`, `/stake/validators/${addr}`)()
+      return req(`GET`, `/staking/validators/${addr}`)()
     },
     // // Get all of the validator bonded delegators
     // getValidatorDelegators: function(addr) {
-    //   return req("GET", `/stake/validator/${addr}/delegators`)()
+    //   return req("GET", `/staking/validator/${addr}/delegators`)()
     // },
 
     // Get the list of the validators in the latest validator set
@@ -128,20 +128,20 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
     postDelegation: function(delegatorAddr, data) {
       return req(
         `POST`,
-        `/stake/delegators/${delegatorAddr}/delegations`,
+        `/staking/delegators/${delegatorAddr}/delegations`,
         true
       )(data)
     },
     postUnbondingDelegation: function(delegatorAddr, data) {
       return req(
         `POST`,
-        `/stake/delegators/${delegatorAddr}/unbonding_delegations`
+        `/staking/delegators/${delegatorAddr}/unbonding_delegations`
       )(data)
     },
     postRedelegation: function(delegatorAddr, data) {
       return req(
         `POST`,
-        `/stake/delegators/${delegatorAddr}/redelegations`,
+        `/staking/delegators/${delegatorAddr}/redelegations`,
         true
       )(data)
     },
@@ -150,19 +150,19 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
     queryDelegation: function(delegatorAddr, validatorAddr) {
       return req(
         `GET`,
-        `/stake/delegators/${delegatorAddr}/delegations/${validatorAddr}`,
+        `/staking/delegators/${delegatorAddr}/delegations/${validatorAddr}`,
         true
       )()
     },
     queryUnbonding: function(delegatorAddr, validatorAddr) {
       return req(
         `GET`,
-        `/stake/delegators/${delegatorAddr}/unbonding_delegations/${validatorAddr}`,
+        `/staking/delegators/${delegatorAddr}/unbonding_delegations/${validatorAddr}`,
         true
       )()
     },
-    getPool: req(`GET`, `/stake/pool`),
-    getStakingParameters: req(`GET`, `/stake/parameters`),
+    getPool: req(`GET`, `/staking/pool`),
+    getStakingParameters: req(`GET`, `/staking/parameters`),
 
     /* ============ Slashing ============ */
 
