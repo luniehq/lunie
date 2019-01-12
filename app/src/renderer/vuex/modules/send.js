@@ -77,9 +77,8 @@ export default ({ node }) => {
       let to = args.to
       delete args.to
 
-      // submit to LCD to build, sign, and broadcast
+      // get the generated tx by querying it from the backend
       let req = to ? node[type](to, args) : node[type](args)
-
       let generationRes = await req.catch(err => {
         let message
         // TODO: get rid of this logic once the appended message is actually included inside the object message
@@ -98,14 +97,17 @@ export default ({ node }) => {
         throw new Error(message)
       })
 
+      // get private key to sign
       const wallet = getKey(rootState.user.account, args.password)
       delete args.password
 
+      // sign
       const tx = generationRes.value
       const signature = sign(tx, wallet, requestMetaData)
+
+      // broadcast
       const signedTx = createSignedTx(tx, signature)
       const body = createBroadcastBody(signedTx)
-
       const res = await node.postTx(body)
 
       // check response code
