@@ -1,3 +1,10 @@
+import {
+  sign,
+  createBroadcastBody,
+  createSignedTx
+} from "../../scripts/wallet.js"
+import { getKey } from "../../scripts/keystore"
+
 export default ({ node }) => {
   let state = {
     lock: null,
@@ -54,6 +61,7 @@ export default ({ node }) => {
         name: `anonymous`,
         // name: rootState.user.account,
         // password: args.password,
+        from: rootState.wallet.address,
         account_number: rootState.wallet.accountNumber, // TODO move into LCD?
         chain_id: rootState.connection.lastHeader.chain_id,
         gas: `50000000`,
@@ -72,7 +80,7 @@ export default ({ node }) => {
       // submit to LCD to build, sign, and broadcast
       let req = to ? node[type](to, args) : node[type](args)
 
-      let res = await req.catch(err => {
+      let generationRes = await req.catch(err => {
         let message
         // TODO: get rid of this logic once the appended message is actually included inside the object message
         if (!err.response.data.message) {
@@ -90,7 +98,15 @@ export default ({ node }) => {
         throw new Error(message)
       })
 
-      console.log(res)
+      const wallet = getKey(rootState.user.account, args.password)
+      delete args.password
+
+      const tx = generationRes.value
+      const signature = sign(tx, wallet, requestMetaData)
+      const signedTx = createSignedTx(tx, signature)
+      const body = createBroadcastBody(signedTx)
+
+      const res = node.postTx(body)
 
       // check response code
       assertOk(res)

@@ -16,6 +16,15 @@ export function loadKeys() {
   return JSON.parse(localStorage.getItem(`keys`) || `[]`)
 }
 
+export function getKey(name, password) {
+  const keys = loadKeys()
+  const key = keys.find(key => key.name === name)
+  const decrypted = decrypt(key.wallet, password)
+  const wallet = JSON.parse(decrypted)
+
+  return wallet
+}
+
 function addKey(wallet, name, password) {
   let keys = loadKeys()
 
