@@ -67,7 +67,13 @@ To connect to a testnet, Voyager needs the configuration files of those networks
 yarn build:testnets
 ```
 
-## Voyager Development
+### Caddy Proxy
+
+Currently we need a proxy to enable easy local development. We use [Caddy](https://caddyserver.com). To download run:
+
+```bash
+curl https://getcaddy.com | bash -s personal http.cors
+```
 
 ### Active testnets
 
@@ -75,12 +81,6 @@ To run Voyager on the default testnet (if active):
 
 ```bash
 yarn start
-```
-
-To run Voyager on a specific testnet you can use the following command. Click [here](https://github.com/cosmos/testnets) for a complete list of the supported official and community testnets.
-
-```bash
-yarn start <network_name>
 ```
 
 ## Local testnet
