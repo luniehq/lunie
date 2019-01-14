@@ -181,19 +181,19 @@ workflows:
             branches:
               ignore: release
 
-      - testE2e:
-          requires:
-            - buildGaia
-          filters:
-            branches:
-              ignore: release
+      # - testE2e:
+      #     requires:
+      #       - buildGaia
+      #     filters:
+      #       branches:
+      #         ignore: release
 
       - publish:
           requires:
             - changelogUpdated
             - buildGaia
             - testUnit
-            - testE2e
+            # - testE2e
           filters:
             branches:
               only: develop
