@@ -152,8 +152,7 @@ describe(`TmField`, () => {
   it(`allows for style customization`, () => {
     const wrapper = shallowMount(TmField, {
       propsData: {
-        size: `lg`,
-        theme: `light`
+        size: `lg`
       }
     })
     expect(wrapper.vm.$el).toMatchSnapshot()

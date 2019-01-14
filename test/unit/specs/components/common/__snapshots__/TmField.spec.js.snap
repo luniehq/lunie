@@ -2,7 +2,7 @@
 
 exports[`TmField allows for style customization 1`] = `
 <input
-  class="tm-field tm-field-size-lg tm-field-theme-light"
+  class="tm-field tm-field-size-lg"
   type="text"
 />
 `;
