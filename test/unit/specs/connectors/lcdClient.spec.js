@@ -601,6 +601,18 @@ describe(`LCD Client`, () => {
         expect(res).toBe(null)
       })
 
+      it(`does not throw error for failed merkle proof error`, async () => {
+        axios.mockReturnValueOnce(
+          Promise.reject({
+            response: {
+              data: `failed to prove merkle proof`
+            }
+          })
+        )
+        let res = await client.queryAccount(`address`)
+        expect(res).toBe(null)
+      })
+
       it(`throws error for error other than empty account`, async () => {
         axios.mockReturnValueOnce(
           Promise.reject({

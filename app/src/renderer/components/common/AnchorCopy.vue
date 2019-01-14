@@ -31,9 +31,8 @@ export default {
     }
   },
   data: () => ({
-    copy(value) {
-      global.navigator.clipboard.writeText(value)
-    }
+    /* istanbul ignore next */
+    copy: value => global.navigator.clipboard.writeText(value)
   }),
   computed: {
     notifyTitle() {

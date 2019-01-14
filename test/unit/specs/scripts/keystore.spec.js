@@ -3,7 +3,8 @@ import {
   loadKeys,
   addNewKey,
   testPassword,
-  importKey
+  importKey,
+  getKey
 } from "renderer/scripts/keystore.js"
 
 const wallet = {
@@ -12,6 +13,8 @@ const wallet = {
   privateKey: `8088c2ed2149c34f6d6533b774da4e1692eb5cb426fdbaef6898eeda489630b7`,
   publicKey: `02ba66a84cf7839af172a13e7fc9f5e7008cb8bca1585f8f3bafb3039eda3c1fdd`
 }
+const accountName = `test`
+const password = `1234567890`
 
 describe(`Keystore`, () => {
   beforeEach(() => {
@@ -29,37 +32,49 @@ describe(`Keystore`, () => {
   })
 
   it(`imports a key encrypted to localstorage`, () => {
-    importKey(`test`, `1234567890`, wallet.mnemonic)
+    importKey(accountName, password, wallet.mnemonic)
     let keys = loadKeys()
     expect(keys).toEqual([
       {
         address: `cosmos1r5v5srda7xfth3hn2s26txvrcrntldjumt8mhl`,
-        name: `test`,
+        name: accountName,
         wallet: expect.stringContaining(``)
       }
     ])
   })
 
   it(`adds a new key encrypted to localstorage`, () => {
-    addNewKey(`test`, `1234567890`)
+    addNewKey(accountName, password)
     let keys = loadKeys()
     expect(keys).toEqual([
       {
         address: expect.stringMatching(/cosmos1.*/),
-        name: `test`,
+        name: accountName,
         wallet: expect.stringContaining(``)
       }
     ])
   })
 
   it(`tests if a password is correct for a locally stored key`, () => {
-    addNewKey(`test`, `1234567890`)
-    expect(testPassword(`test`, `1234567890`)).toBeTruthy()
-    expect(testPassword(`test`, `false`)).toBeFalsy()
+    addNewKey(accountName, password)
+    expect(testPassword(accountName, password)).toBeTruthy()
+    expect(testPassword(accountName, `false`)).toBeFalsy()
   })
 
   it(`Prevents you from overriding existing key names`, () => {
-    addNewKey(`test`, `1234567890`)
-    expect(() => addNewKey(`test`, `1234567890`)).toThrow()
+    addNewKey(accountName, password)
+    expect(() => addNewKey(accountName, password)).toThrow()
+  })
+
+  it(`loads and decrypts a required key`, () => {
+    addNewKey(accountName, password)
+    let wallet = getKey(accountName, password)
+    expect(wallet).toHaveProperty(`privateKey`)
+    expect(wallet).toHaveProperty(`publicKey`)
+  })
+
+  it(`fails correctly if password is incorrect `, () => {
+    addNewKey(accountName, password)
+    expect(getKey.bind(null, accountName, `1`)).toThrow()
   })
 })

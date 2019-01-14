@@ -8,7 +8,7 @@
       <div id="app-content"><router-view /></div>
       <modal-receive />
     </template>
-    <tm-notifications :notifications="notifications" theme="cosmos" />
+    <tm-notifications :notifications="notifications" />
     <modal-error
       v-if="config.modals.error.active"
       :body="config.modals.error.message"
@@ -55,7 +55,6 @@ export default {
   },
   mounted() {
     this.$store.commit(`loadOnboarding`)
-    this.$store.commit(`setTheme`, `dark`)
   },
   store
 }

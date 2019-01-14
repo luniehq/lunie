@@ -52,7 +52,7 @@ describe(`SessionSignUp`, () => {
     await wrapper.vm.onSubmit({
       $store: {
         commit,
-        dispatch: jest.fn(() => `key`)
+        dispatch: jest.fn()
       },
       $v: {
         $touch: () => {},
@@ -71,8 +71,8 @@ describe(`SessionSignUp`, () => {
 
   it(`should signal signedin state on successful login`, async () => {
     const commit = jest.fn()
-    const dispatch = jest.fn(() => `key`)
-    await wrapper.vm.onSubmit({
+    const dispatch = jest.fn()
+    await TmSessionSignUp.methods.onSubmit({
       $store: {
         commit,
         dispatch
@@ -98,7 +98,7 @@ describe(`SessionSignUp`, () => {
 
   it(`should set error collection opt in state`, async () => {
     const commit = jest.fn()
-    const dispatch = jest.fn(() => `key`)
+    const dispatch = jest.fn()
     await wrapper.vm.onSubmit({
       $store: {
         commit,

@@ -3,23 +3,8 @@
 const Client = (axios, remoteLcdURL) => {
   async function request(method, path, data) {
     const url = remoteLcdURL
-    try {
-      const result = await axios({ data, method, url: url + path })
-      return result.data
-    } catch (err) {
-      // HACK
-      if (
-        err.response &&
-        err.response.data.startsWith(`failed to prove merkle proof`)
-      ) {
-        return {}
-      }
-      if (err.response.status === 502) {
-        // retry
-        return await request(method, path, data)
-      }
-      throw err
-    }
+    const result = await axios({ data, method, url: url + path })
+    return result.data
   }
 
   // returns an async function which makes a request for the given
@@ -63,7 +48,8 @@ const Client = (axios, remoteLcdURL) => {
           // if account not found, return null instead of throwing
           if (
             err.response &&
-            err.response.data.includes(`account bytes are empty`)
+            (err.response.data.includes(`account bytes are empty`) ||
+              err.response.data.includes(`failed to prove merkle proof`))
           ) {
             return null
           }
