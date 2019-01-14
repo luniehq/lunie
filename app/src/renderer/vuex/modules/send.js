@@ -64,7 +64,7 @@ export default ({ node }) => {
         from: rootState.wallet.address,
         account_number: rootState.wallet.accountNumber, // TODO move into LCD?
         chain_id: rootState.connection.lastHeader.chain_id,
-        gas: config.default_gas,
+        gas: String(config.default_gas),
         generate_only: true
       }
       args.base_req = requestMetaData
