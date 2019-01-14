@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 /* global ga */
 "use strict"
 
