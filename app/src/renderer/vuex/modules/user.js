@@ -7,7 +7,6 @@ import {
 const config = require(`../../../config.json`)
 import { loadKeys, importKey, testPassword } from "../../scripts/keystore.js"
 import { generateSeed } from "../../scripts/wallet.js"
-import CryptoJS from "crypto-js"
 
 export default ({}) => {
   const ERROR_COLLECTION_KEY = `voyager_error_collection`
@@ -96,9 +95,7 @@ export default ({}) => {
       return await testPassword(account, password)
     },
     createSeed() {
-      return state.externals.generateSeed(x =>
-        CryptoJS.lib.WordArray.random(x).toString()
-      )
+      return state.externals.generateSeed()
     },
     async createKey({ dispatch }, { seedPhrase, password, name }) {
       let { address } = await state.externals.importKey(
