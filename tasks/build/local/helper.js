@@ -181,6 +181,11 @@ function adjustConfig(nodeHome, isTest = false, strictAddressbook = false) {
         return `prof_laddr = ""`
       }
 
+      // need to allow as all nodes are on localhost
+      if (key === `allow_duplicate_ip`) {
+        return `allow_duplicate_ip = true`
+      }
+
       if (!isTest) {
         // TODO: this was happening on ./builds/testnets/local-testnet/config.toml
         //  but then the network was launched through the config ~/.gaiad-testnet/config/config.toml
