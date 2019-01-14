@@ -9,6 +9,10 @@ jest.mock(`renderer/scripts/keystore.js`, () => ({
   })
 }))
 
+jest.mock(`src/config.json`, () => ({
+  default_gas: 42
+}))
+
 jest.mock(`renderer/scripts/wallet.js`, () => ({
   sign: jest.fn(() => []),
   createBroadcastBody: jest.fn(() => ({
@@ -123,7 +127,7 @@ describe(`Module: Send`, () => {
           account_number: `12`,
           chain_id: `mock-chain`,
           from: `cosmos1demo`,
-          gas: `50000000`,
+          gas: `42`,
           generate_only: true,
           name: `anonymous`,
           sequence: `0`
@@ -156,7 +160,7 @@ describe(`Module: Send`, () => {
           account_number: `12`,
           chain_id: `mock-chain`,
           from: `cosmos1demo`,
-          gas: `50000000`,
+          gas: `42`,
           generate_only: true,
           name: `anonymous`,
           sequence: `0`
