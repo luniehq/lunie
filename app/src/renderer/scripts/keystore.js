@@ -19,10 +19,14 @@ export function loadKeys() {
 export function getKey(name, password) {
   const keys = loadKeys()
   const key = keys.find(key => key.name === name)
-  const decrypted = decrypt(key.wallet, password)
-  const wallet = JSON.parse(decrypted)
+  try {
+    const decrypted = decrypt(key.wallet, password)
+    const wallet = JSON.parse(decrypted)
 
-  return wallet
+    return wallet
+  } catch (err) {
+    throw new Error(`The entered password is not correct for the stored key.`)
+  }
 }
 
 function addKey(wallet, name, password) {
