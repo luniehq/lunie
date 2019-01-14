@@ -4,6 +4,7 @@ import {
   createSignedTx
 } from "../../scripts/wallet.js"
 import { getKey } from "../../scripts/keystore"
+const config = require(`../../../config.json`)
 
 export default ({ node }) => {
   let state = {
@@ -63,7 +64,7 @@ export default ({ node }) => {
         from: rootState.wallet.address,
         account_number: rootState.wallet.accountNumber, // TODO move into LCD?
         chain_id: rootState.connection.lastHeader.chain_id,
-        gas: `50000000`,
+        gas: config.default_gas,
         generate_only: true
       }
       args.base_req = requestMetaData
