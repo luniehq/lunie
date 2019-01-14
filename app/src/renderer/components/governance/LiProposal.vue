@@ -49,7 +49,7 @@ export default {
     ...mapGetters([`proposals`]),
     tally() {
       let proposalTally
-      proposalTally = this.proposals.tallies[this.proposal.proposal_id]
+      proposalTally = this.proposals.tallies[this.proposal.proposal_id] || {}
       proposalTally.yes = Math.round(parseFloat(proposalTally.yes))
       proposalTally.no = Math.round(parseFloat(proposalTally.no))
       proposalTally.no_with_veto = Math.round(

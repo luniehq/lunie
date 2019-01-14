@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/browser"
-import { calculateShares } from "scripts/common"
 import Vue from "vue"
+import { calculateShares } from "scripts/common"
 
 export default ({ node }) => {
   let emptyState = {
@@ -147,78 +147,72 @@ export default ({ node }) => {
         dispatch,
         commit
       },
-      { stakingTransactions, password }
+      { validator_addr, amount, password }
     ) {
       const denom = stakingParameters.parameters.bond_denom
-      const delegatorAddr = wallet.address
-      // delegations = [], unbondings = [], redelegations = []
-
-      const mappedDelegations =
-        stakingTransactions.delegations &&
-        stakingTransactions.delegations.map(({ atoms, validator }) => ({
-          delegator_addr: delegatorAddr,
-          validator_addr: validator.operator_address,
-          delegation: {
-            denom,
-            amount: String(atoms)
-          }
-        }))
-
-      const mappedUnbondings =
-        stakingTransactions.unbondings &&
-        stakingTransactions.unbondings.map(({ atoms, validator }) => ({
-          delegator_addr: delegatorAddr,
-          validator_addr: validator.operator_address,
-          shares: String(
-            Math.abs(calculateShares(validator, atoms)).toFixed(10)
-          ) // TODO change to 10 when available https://github.com/cosmos/cosmos-sdk/issues/2317
-        }))
-
-      const mappedRedelegations =
-        stakingTransactions.redelegations &&
-        stakingTransactions.redelegations.map(
-          ({ atoms, validatorSrc, validatorDst }) => ({
-            delegator_addr: delegatorAddr,
-            validator_src_addr: validatorSrc.operator_address,
-            validator_dst_addr: validatorDst.operator_address,
-            shares: String(
-              calculateShares(validatorSrc, atoms)
-                .multipliedBy(10000000000)
-                .toFixed(10)
-            )
-          })
-        )
-
-      await dispatch(`sendTx`, {
-        type: `updateDelegations`,
-        to: wallet.address, // TODO strange syntax
-        delegations: mappedDelegations,
-        begin_unbondings: mappedUnbondings,
-        begin_redelegates: mappedRedelegations,
-        password
-      })
-
-      if (mappedDelegations) {
-        // (optimistic update) we update the atoms of the user before we get the new values from chain
-
-        let atomsSum = stakingTransactions.delegations.reduce(
-          (sum, delegation) => sum + delegation.atoms,
-          0
-        )
-        commit(`setAtoms`, user.atoms - atomsSum)
-
-        // optimistically update the committed delegations
-        stakingTransactions.delegations.forEach(delegation => {
-          state.committedDelegates[delegation.validator.operator_address] +=
-            delegation.atoms
-        })
+      const delegation = {
+        denom,
+        amount: String(amount)
       }
 
-      // we optimistically update the committed delegations
-      // TODO usually I would just query the new state through the LCD and update the state with the result, but at this point we still get the old shares
-      setTimeout(async () => {
-        dispatch(`updateDelegates`)
-      }, 5000)
+      await dispatch(`sendTx`, {
+        type: `postDelegation`,
+        to: wallet.address, // TODO strange syntax
+        password,
+        delegator_addr: wallet.address,
+        validator_addr,
+        delegation
+      })
+
+      // optimistic update the atoms of the user before we get the new values from chain
+      commit(`setAtoms`, user.atoms - amount)
+      // optimistically update the committed delegations
+      Vue.set(
+        state.committedDelegates,
+        validator_addr,
+        state.committedDelegates[validator_addr] + amount
+      )
+    },
+    async submitUnbondingDelegation(
+      {
+        rootState: { wallet },
+        dispatch
+      },
+      { validator, amount, password }
+    ) {
+      // TODO: change to 10 when available https://github.com/cosmos/cosmos-sdk/issues/2317
+      const shares = String(
+        Math.abs(calculateShares(validator, amount)).toFixed(10)
+      )
+      await dispatch(`sendTx`, {
+        type: `postUnbondingDelegation`,
+        to: wallet.address,
+        delegator_addr: wallet.address,
+        validator_addr: validator.operator_address,
+        shares,
+        password
+      })
+    },
+    async submitRedelegation(
+      {
+        rootState: { wallet },
+        dispatch
+      },
+      { validatorSrc, validatorDst, amount, password }
+    ) {
+      const shares = String(
+        Math.abs(calculateShares(validatorSrc, amount)).toFixed(10)
+      )
+
+      await dispatch(`sendTx`, {
+        type: `postRedelegation`,
+        to: wallet.address,
+        delegator_addr: wallet.address,
+        validator_src_addr: validatorSrc.operator_address,
+        validator_dst_addr: validatorDst.operator_address,
+        shares,
+        password
+      })
     }
   }
 
