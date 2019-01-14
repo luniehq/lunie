@@ -39,6 +39,10 @@ export default (opts = {}) => {
   return store
 }
 
+/*
+ * We want to store a sub-state of the state to local storage to serve data faster for the user.
+ * This function is triggered on all mutations.
+ */
 export function storeUpdateHandler(mutation, state, pending) {
   // since persisting the state is costly we should only do it on mutations that change the data
   const updatingMutations = [
@@ -62,6 +66,8 @@ export function storeUpdateHandler(mutation, state, pending) {
   // if the user is logged in cache the balances and the tx-history for that user
   if (!state.user.address) return
 
+  // throttle updates so we don't write to disk on every mutation
+  // pending is the last updates setTimeout
   if (pending) {
     clearTimeout(pending)
   }
@@ -72,6 +78,7 @@ export function storeUpdateHandler(mutation, state, pending) {
 
 /**
  * Persist the state passed as parameter
+ * Only persists a subset of the state
  * @param state
  */
 function persistState(state) {
