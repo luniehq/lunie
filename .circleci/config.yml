@@ -67,6 +67,10 @@ jobs:
           no_output_timeout: 120
 
       - run:
+          name: Audit
+          command: yarn audit | grep Severity | grep -E -i -w 'high|critical' && exit 1 || exit 0
+
+      - run:
           command: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
           when: on_success
 
