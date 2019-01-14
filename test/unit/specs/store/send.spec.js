@@ -1,10 +1,27 @@
 import sendModule from "modules/send.js"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
+jest.mock(`renderer/scripts/keystore.js`, () => ({
+  getKey: () => ({
+    cosmosAddress: `cosmos1r5v5srda7xfth3hn2s26txvrcrntldjumt8mhl`,
+    privateKey: `8088c2ed2149c34f6d6533b774da4e1692eb5cb426fdbaef6898eeda489630b7`,
+    publicKey: `02ba66a84cf7839af172a13e7fc9f5e7008cb8bca1585f8f3bafb3039eda3c1fdd`
+  })
+}))
+
+jest.mock(`renderer/scripts/wallet.js`, () => ({
+  sign: jest.fn(() => []),
+  createBroadcastBody: jest.fn(() => ({
+    broadcast: `body`
+  })),
+  createSignedTx: jest.fn(() => {})
+}))
+
 const mockRootState = {
   user: { account: `default` },
   wallet: {
-    accountNumber: `12`
+    accountNumber: `12`,
+    address: `cosmos1demo`
   },
   connection: {
     connected: true,
@@ -13,6 +30,7 @@ const mockRootState = {
     }
   }
 }
+
 describe(`Module: Send`, () => {
   let module, state, actions, mutations, node
 
@@ -43,6 +61,11 @@ describe(`Module: Send`, () => {
     node = {
       send: jest.fn(() =>
         Promise.resolve({
+          msg: {}
+        })
+      ),
+      postTx: jest.fn(() =>
+        Promise.resolve({
           check_tx: { code: 0 },
           deliver_tx: { code: 0 }
         })
@@ -56,13 +79,6 @@ describe(`Module: Send`, () => {
     mutations = module.mutations
   })
 
-  // DEFAULT
-
-  it(`should have an empty state by default`, () => {
-    const state = { nonce: `0` }
-    expect(state).toEqual(state)
-  })
-
   // MUTATIONS
 
   it(`should set wallet nonce`, () => {
@@ -71,10 +87,54 @@ describe(`Module: Send`, () => {
     expect(state.nonce).toBe(nonce)
   })
 
+  it(`should prevent from downgrading a wallet nonce`, () => {
+    state.nonce = 959
+    mutations.setNonce(state, 1)
+    expect(state.nonce).toBe(959)
+  })
+
   // ACTIONS
 
+  it(`should reset the nonce if session was changed`, () => {
+    state.nonce = 959
+    actions.resetSessionData({ state })
+    expect(state.nonce).toBe(`0`)
+  })
+
   describe(`send transactions`, () => {
-    it(`should send from wallet`, async () => {
+    it(`should send`, async () => {
+      const args = {
+        type: `send`,
+        password: `1234567890`,
+        amount: [{ denom: `mycoin`, amount: 123 }]
+      }
+      await actions.sendTx(
+        {
+          state,
+          dispatch: jest.fn(),
+          commit: jest.fn(),
+          rootState: mockRootState
+        },
+        args
+      )
+      expect(node.send).toHaveBeenCalledWith({
+        amount: [{ amount: 123, denom: `mycoin` }],
+        base_req: {
+          account_number: `12`,
+          chain_id: `mock-chain`,
+          from: `cosmos1demo`,
+          gas: `50000000`,
+          generate_only: true,
+          name: `anonymous`,
+          sequence: `0`
+        }
+      })
+      expect(node.postTx).toHaveBeenCalledWith({
+        broadcast: `body`
+      })
+    })
+
+    it(`should send using a to parameter`, async () => {
       const args = {
         type: `send`,
         to: `mock_address`,
@@ -90,12 +150,28 @@ describe(`Module: Send`, () => {
         },
         args
       )
-      expect(node.send.mock.calls).toMatchSnapshot()
+      expect(node.send).toHaveBeenCalledWith(`mock_address`, {
+        amount: [{ amount: 123, denom: `mycoin` }],
+        base_req: {
+          account_number: `12`,
+          chain_id: `mock-chain`,
+          from: `cosmos1demo`,
+          gas: `50000000`,
+          generate_only: true,
+          name: `anonymous`,
+          sequence: `0`
+        }
+      })
+      expect(node.postTx).toHaveBeenCalledWith({
+        broadcast: `body`
+      })
     })
 
     describe(`should fail sending a tx`, () => {
       it(`if the data has an object in message`, async () => {
-        node.updateDelegations = jest.fn(() => Promise.reject(errMsgWithObject))
+        node.updateDelegations = jest.fn(() =>
+          Promise.reject(errMsgWithObject.response.data)
+        )
         const args = {
           type: `updateDelegations`,
           to: lcdClientMock.addresses[0],
@@ -110,7 +186,7 @@ describe(`Module: Send`, () => {
             }
           ]
         }
-        expect(
+        await expect(
           actions.sendTx(
             {
               state,
@@ -124,12 +200,12 @@ describe(`Module: Send`, () => {
       })
 
       it(`if the data has a string in 'message'`, async () => {
-        node.send = () => Promise.reject(errMsgNoObject)
+        node.postTx = () => Promise.reject(errMsgNoObject.response.data)
         const args = {
           to: `mock_address`,
           amount: [{ denom: `mycoin`, amount: 123 }]
         }
-        expect(
+        await expect(
           actions.sendTx(
             {
               state,
@@ -143,13 +219,13 @@ describe(`Module: Send`, () => {
       })
 
       it(`if the data is an object and has a 'message' property`, async () => {
-        node.send = () => Promise.reject(errObject)
+        node.postTx = () => Promise.reject(errObject.response.data)
         const args = {
           to: `mock_address`,
           password: `1234567890`,
           amount: [{ denom: `mycoin`, amount: 123 }]
         }
-        expect(
+        await expect(
           actions.sendTx(
             {
               state,
@@ -168,11 +244,11 @@ describe(`Module: Send`, () => {
           password: `1234567890`,
           amount: [{ denom: `mycoin`, amount: 123 }]
         }
-        node.send = async () => ({
+        node.postTx = async () => ({
           check_tx: { code: 1 },
           deliver_tx: { code: 0 }
         })
-        expect(
+        await expect(
           actions.sendTx(
             {
               state,
@@ -191,11 +267,11 @@ describe(`Module: Send`, () => {
           password: `1234567890`,
           amount: [{ denom: `mycoin`, amount: 123 }]
         }
-        node.send = async () => ({
+        node.postTx = async () => ({
           check_tx: { code: 0 },
           deliver_tx: { code: 1 }
         })
-        expect(
+        await expect(
           actions.sendTx(
             {
               state,
@@ -214,7 +290,7 @@ describe(`Module: Send`, () => {
           password: `1234567890`,
           amount: [{ denom: `mycoin`, amount: 123 }]
         }
-        node.send = async () => [
+        node.postTx = async () => [
           {
             check_tx: { code: 0 },
             deliver_tx: { code: 0 }
@@ -224,7 +300,7 @@ describe(`Module: Send`, () => {
             deliver_tx: { code: 1 }
           }
         ]
-        expect(
+        await expect(
           actions.sendTx(
             {
               state,
@@ -238,10 +314,30 @@ describe(`Module: Send`, () => {
       })
     })
 
-    it(`should still send a transaction after failing to send another transaction`, async () => {
-      let send = node.send.bind(node)
+    it(`should interpret a returned empty array as failed delivery`, async () => {
+      const args = {
+        to: `mock_address`,
+        password: `1234567890`,
+        amount: [{ denom: `mycoin`, amount: 123 }]
+      }
+      node.postTx = async () => []
+      await expect(
+        actions.sendTx(
+          {
+            state,
+            dispatch: jest.fn(),
+            commit: jest.fn(),
+            rootState: mockRootState
+          },
+          args
+        )
+      ).rejects.toEqual(new Error(`Error sending transaction`))
+    })
 
-      node.send = () => Promise.reject(true)
+    it(`should still send a transaction after failing to send another transaction`, async () => {
+      let send = node.postTx.bind(node)
+
+      node.postTx = () => Promise.reject(true)
       let args = {
         to: `mock_address`,
         password: `1234567890`,
@@ -263,7 +359,7 @@ describe(`Module: Send`, () => {
       }
       expect(error1).toBeDefined()
 
-      node.send = send
+      node.postTx = send
       args = {
         to: `mock_address`,
         password: `1234567890`,
@@ -343,7 +439,44 @@ describe(`Module: Send`, () => {
       jest.runAllTimers()
     })
 
-    it(`should query the wallet state before sending to aquire nonce`, async () => {
+    it(`should free the lock if sending a tx fails`, async () => {
+      const args = {
+        to: `mock_address`,
+        password: `1234567890`,
+        amount: [{ denom: `mycoin`, amount: 123 }]
+      }
+      const args2 = {
+        to: `mock_address_2`,
+        password: `1234567890`,
+        amount: [{ denom: `mycoin`, amount: 123 }]
+      }
+      const dispatch = jest
+        .fn()
+        .mockRejectedValueOnce(`Error`)
+        .mockResolvedValueOnce({})
+
+      await actions
+        .queueTx(
+          {
+            dispatch,
+            state
+          },
+          args
+        )
+        .catch(err => {
+          expect(err).toEqual(`Error`)
+        })
+      await actions.queueTx(
+        {
+          dispatch,
+          state
+        },
+        args2
+      )
+      expect(dispatch).toHaveBeenCalledTimes(2)
+    })
+
+    it(`should query the wallet state before sending to acquire nonce`, async () => {
       const args = {
         to: `mock_address`,
         password: `1234567890`,

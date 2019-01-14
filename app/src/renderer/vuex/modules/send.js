@@ -1,3 +1,10 @@
+import {
+  sign,
+  createBroadcastBody,
+  createSignedTx
+} from "../../scripts/wallet.js"
+import { getKey } from "../../scripts/keystore"
+
 export default ({ node }) => {
   let state = {
     lock: null,
@@ -25,8 +32,9 @@ export default ({ node }) => {
       }
 
       try {
-        // send and unlock when done
+        // send tx and store lock to prevent other txs to be send meanwhile
         state.lock = dispatch(`sendTx`, args)
+
         // wait for sendTx to finish
         let res = await state.lock
         return res
@@ -48,10 +56,12 @@ export default ({ node }) => {
       }
 
       await dispatch(`queryWalletBalances`) // the nonce was getting out of sync, this is to force a sync
+
       let requestMetaData = {
         sequence: state.nonce,
-        name: rootState.user.account,
-        password: args.password,
+        name: rootState.user.account || `anonymous`,
+        password: args.password || ``,
+        from: rootState.wallet.address,
         account_number: rootState.wallet.accountNumber, // TODO: move into LCD?
         chain_id: rootState.connection.lastHeader.chain_id,
         gas: `50000000`,
@@ -68,26 +78,22 @@ export default ({ node }) => {
       let to = args.to
       delete args.to
 
-      // submit to LCD to build, sign, and broadcast
+      // get the generated tx by querying it from the backend
       let req = to ? node[type](to, args) : node[type](args)
+      let generationRes = await req.catch(handleSDKError)
 
-      let res = await req.catch(err => {
-        let message
-        // TODO: get rid of this logic once the appended message is actually included inside the object message
-        if (!err.response.data.message) {
-          let idxColon = err.response.data.indexOf(`:`)
-          let indexOpenBracket = err.response.data.indexOf(`{`)
-          if (idxColon < indexOpenBracket) {
-            // e.g => Msg 0 failed: {"codespace":4,"code":102,"abci_code":262246,"message":"existing unbonding delegation found"}
-            message = JSON.parse(err.response.data.substr(idxColon + 1)).message
-          } else {
-            message = err.response.data
-          }
-        } else {
-          message = err.response.data.message
-        }
-        throw new Error(message)
-      })
+      // get private key to sign
+      const wallet = getKey(rootState.user.account, args.password)
+      delete args.password
+
+      // sign
+      const tx = generationRes.value
+      const signature = sign(tx, wallet, requestMetaData)
+
+      // broadcast
+      const signedTx = createSignedTx(tx, signature)
+      const body = createBroadcastBody(signedTx)
+      const res = await node.postTx(body).catch(handleSDKError)
 
       // check response code
       assertOk(res)
@@ -114,4 +120,22 @@ function assertOk(res) {
     let message = res.check_tx.log || res.deliver_tx.log
     throw new Error(message)
   }
+}
+
+function handleSDKError(err) {
+  let message
+  // TODO: get rid of this logic once the appended message is actually included inside the object message
+  if (!err.message) {
+    let idxColon = err.indexOf(`:`)
+    let indexOpenBracket = err.indexOf(`{`)
+    if (idxColon < indexOpenBracket) {
+      // e.g => Msg 0 failed: {"codespace":4,"code":102,"abci_code":262246,"message":"existing unbonding delegation found"}
+      message = JSON.parse(err.substr(idxColon + 1)).message
+    } else {
+      message = err
+    }
+  } else {
+    message = err.message
+  }
+  throw new Error(message)
 }

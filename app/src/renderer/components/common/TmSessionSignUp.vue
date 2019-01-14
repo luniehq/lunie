@@ -178,30 +178,30 @@ export default {
     setState(value, { $store } = this) {
       $store.commit(`setModalSessionState`, value)
     },
-    async onSubmit({ $store, $v, fields } = this) {
-      $v.$touch()
-      if ($v.$error) return
+    async onSubmit() {
+      this.$v.$touch()
+      if (this.$v.$error) return
       try {
-        await $store.dispatch(`createKey`, {
-          seedPhrase: fields.signUpSeed,
-          password: fields.signUpPassword,
-          name: fields.signUpName
+        await this.$store.dispatch(`createKey`, {
+          seedPhrase: this.fields.signUpSeed,
+          password: this.fields.signUpPassword,
+          name: this.fields.signUpName
         })
-        $store.dispatch(`setErrorCollection`, {
-          account: fields.signUpName,
-          optin: fields.errorCollection
+        this.$store.dispatch(`setErrorCollection`, {
+          account: this.fields.signUpName,
+          optin: this.fields.errorCollection
         })
-        $store.commit(`setModalSession`, false)
-        $store.commit(`notify`, {
+        this.$store.commit(`setModalSession`, false)
+        this.$store.commit(`notify`, {
           title: `Signed Up`,
           body: `Your account has been created.`
         })
-        $store.dispatch(`signIn`, {
-          password: fields.signUpPassword,
-          account: fields.signUpName
+        this.$store.dispatch(`signIn`, {
+          password: this.fields.signUpPassword,
+          account: this.fields.signUpName
         })
       } catch (error) {
-        $store.commit(`notifyError`, {
+        this.$store.commit(`notifyError`, {
           title: `Couldn't create account`,
           body: error.message
         })

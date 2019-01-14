@@ -40,6 +40,26 @@ window.addEventListener(`error`, function(event) {
   Sentry.captureException(event.reason)
 })
 
+Vue.config.errorHandler = (error, vm, info) => {
+  console.error(`An error has occurred: ${error}
+Guru Meditation #${info}`)
+
+  Sentry.captureException(error)
+
+  if (store.state.devMode) {
+    throw error
+  }
+}
+
+Vue.config.warnHandler = (msg, vm, trace) => {
+  console.warn(`A warning has occurred: ${msg}
+Guru Meditation #${trace}`)
+
+  if (store.state.devMode) {
+    throw new Error(msg)
+  }
+}
+
 Vue.use(Router)
 Vue.use(Tooltip, { delay: 1 })
 Vue.use(Vuelidate)
@@ -55,11 +75,9 @@ Vue.directive(`focus`, {
  * Main method to boot the renderer. It act as Entrypoint
  */
 async function main() {
-  let lcdPort = config.development ? config.lcd_port : config.lcd_port_prod
-  let localLcdURL = `https://localhost:${lcdPort}`
-  console.log(`Expecting lcd-server on port: ` + lcdPort)
+  console.log(`Expecting lcd-server at ` + config.node_lcd)
 
-  node = Node(axios, localLcdURL, config.node_lcd, config.mocked)
+  node = Node(axios, config.node_lcd, config.mocked)
 
   store = Store({ node })
   store.dispatch(`loadTheme`)

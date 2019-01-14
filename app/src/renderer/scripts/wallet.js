@@ -17,8 +17,7 @@ export function generateWalletFromSeed(mnemonic) {
   return {
     privateKey: privateKey.toString(`hex`),
     publicKey: publicKey.toString(`hex`),
-    cosmosAddress,
-    mnemonic
+    cosmosAddress
   }
 }
 
@@ -111,11 +110,17 @@ type StdSignMsg struct {
 }
 */
 export function createSignMessage(jsonTx, sequence, account_number, chain_id) {
+  // sign bytes need amount to be an array
+  const fee = {
+    amount: jsonTx.fee.amount || [],
+    gas: jsonTx.fee.gas
+  }
+
   return JSON.stringify(
     prepareSignBytes({
-      fee: jsonTx.fee,
+      fee,
       memo: jsonTx.memo,
-      msgs: jsonTx.msg,
+      msgs: jsonTx.msg, // weird msg vs. msgs
       sequence,
       account_number,
       chain_id

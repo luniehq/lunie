@@ -1,8 +1,8 @@
 "use strict"
 
-const Client = (axios, localLcdURL, remoteLcdURL) => {
-  async function request(method, path, data, useRemote) {
-    const url = useRemote ? remoteLcdURL : localLcdURL
+const Client = (axios, remoteLcdURL) => {
+  async function request(method, path, data) {
+    const url = remoteLcdURL
     try {
       const result = await axios({ data, method, url: url + path })
       return result.data
@@ -16,7 +16,7 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
       }
       if (err.response.status === 502) {
         // retry
-        return await request(method, path, data, useRemote)
+        return await request(method, path, data)
       }
       throw err
     }
@@ -24,59 +24,33 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
 
   // returns an async function which makes a request for the given
   // HTTP method (GET/POST/DELETE/etc) and path (/foo/bar)
-  function req(method, path, useRemote) {
+  function req(method, path) {
     return async function(data) {
-      return await request(method, path, data, useRemote)
+      return await request(method, path, data)
     }
   }
 
   // returns an async function which makes a request for the given
   // HTTP method and path, which accepts arguments to be appended
   // to the path (/foo/{arg}/...)
-  function argReq(method, prefix, suffix = ``, useRemote) {
+  function argReq(method, prefix, suffix = ``) {
     return function(args, data) {
-      return request(method, `${prefix}/${args}${suffix}`, data, useRemote)
+      return request(method, `${prefix}/${args}${suffix}`, data)
     }
   }
 
-  let fetchAccount = argReq(`GET`, `/auth/accounts`, ``, true)
-
-  const keys = {
-    add: req(`POST`, `/keys`),
-    delete: argReq(`DELETE`, `/keys`),
-
-    get: async key => {
-      try {
-        return await req(`GET`, `/keys/${key}`)()
-      } catch (exception) {
-        if (exception.response.status !== 404) {
-          throw exception
-        }
-      }
-    },
-
-    seed: () => keys.get(`seed`),
-    set: argReq(`PUT`, `/keys`),
-
-    values: async () => {
-      const values = await req(`GET`, `/keys`)()
-      // Workaround for https://github.com/cosmos/cosmos-sdk/issues/2470
-      return values === `[]` ? [] : values
-    }
-  }
+  let fetchAccount = argReq(`GET`, `/auth/accounts`)
 
   return {
     // meta
     lcdConnected: function() {
-      return keys.values().then(() => true, () => false)
+      return this.nodeVersion().then(() => true, () => false)
     },
 
     nodeVersion: req(`GET`, `/node_version`),
 
     // tx
-    postTx: req(`POST`, `/tx`),
-
-    keys,
+    postTx: req(`POST`, `/tx/broadcast`),
 
     // coins
     send: argReq(`POST`, `/bank/accounts`, `/transfers`),
@@ -98,112 +72,118 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
     },
     txs: function(addr) {
       return Promise.all([
-        req(`GET`, `/txs?sender=${addr}`, true)(),
-        req(`GET`, `/txs?recipient=${addr}`, true)()
+        req(`GET`, `/txs?sender=${addr}`)(),
+        req(`GET`, `/txs?recipient=${addr}`)()
       ]).then(([senderTxs, recipientTxs]) => [].concat(senderTxs, recipientTxs))
     },
-    tx: argReq(`GET`, `/txs`, ``, true),
+    tx: argReq(`GET`, `/txs`),
 
     /* ============ STAKE ============ */
 
     // Get all delegations information from a delegator
     getDelegations: function(addr) {
-      return req(`GET`, `/stake/delegators/${addr}/delegations`, true)()
+      return req(`GET`, `/staking/delegators/${addr}/delegations`)()
     },
     getUndelegations: function(addr) {
       return req(
         `GET`,
-        `/stake/delegators/${addr}/unbonding_delegations`,
+        `/staking/delegators/${addr}/unbonding_delegations`,
         true
       )()
     },
     getRedelegations: function(addr) {
-      return req(`GET`, `/stake/delegators/${addr}/redelegations`, true)()
+      return req(`GET`, `/staking/redelegations?delegator=${addr}`)()
     },
     // Get all txs from a delegator
     getDelegatorTxs: function(addr, types) {
       if (!types) {
-        return req(`GET`, `/stake/delegators/${addr}/txs`, true)()
+        return req(`GET`, `/staking/delegators/${addr}/txs`)()
       } else {
-        return req(`GET`, `/stake/delegators/${addr}/txs?type=${types}`, true)()
+        return req(`GET`, `/staking/delegators/${addr}/txs?type=${types}`)()
       }
     },
     // Query all validators that a delegator is bonded to
     getDelegatorValidators: function(delegatorAddr) {
-      return req(`GET`, `/stake/delegators/${delegatorAddr}/validators`, true)()
+      return req(`GET`, `/staking/delegators/${delegatorAddr}/validators`)()
     },
     // // Query a validator info that a delegator is bonded to
     // getDelegatorValidator: function(delegatorAddr, validatorAddr) {
-    //   return req("GET", `/stake/delegators/${delegatorAddr}/validators/${validatorAddr}`)()
+    //   return req("GET", `/staking/delegators/${delegatorAddr}/validators/${validatorAddr}`)()
     // },
 
     // Get a list containing all the validator candidates
-    getCandidates: req(`GET`, `/stake/validators`, true),
+    getCandidates: req(`GET`, `/staking/validators`),
     // Get information from a validator
     getCandidate: function(addr) {
-      return req(`GET`, `/stake/validators/${addr}`, true)()
+      return req(`GET`, `/staking/validators/${addr}`)()
     },
     // // Get all of the validator bonded delegators
     // getValidatorDelegators: function(addr) {
-    //   return req("GET", `/stake/validator/${addr}/delegators`)()
+    //   return req("GET", `/staking/validator/${addr}/delegators`)()
     // },
 
     // Get the list of the validators in the latest validator set
-    getValidatorSet: req(`GET`, `/validatorsets/latest`, true),
+    getValidatorSet: req(`GET`, `/validatorsets/latest`),
 
     postDelegation: function(delegatorAddr, data) {
-      return req(`POST`, `/stake/delegators/${delegatorAddr}/delegations`)(data)
+      return req(
+        `POST`,
+        `/staking/delegators/${delegatorAddr}/delegations`,
+        true
+      )(data)
     },
     postUnbondingDelegation: function(delegatorAddr, data) {
       return req(
         `POST`,
-        `/stake/delegators/${delegatorAddr}/unbonding_delegations`
+        `/staking/delegators/${delegatorAddr}/unbonding_delegations`
       )(data)
     },
     postRedelegation: function(delegatorAddr, data) {
-      return req(`POST`, `/stake/delegators/${delegatorAddr}/redelegations`)(
-        data
-      )
+      return req(
+        `POST`,
+        `/staking/delegators/${delegatorAddr}/redelegations`,
+        true
+      )(data)
     },
 
     // Query a delegation between a delegator and a validator
     queryDelegation: function(delegatorAddr, validatorAddr) {
       return req(
         `GET`,
-        `/stake/delegators/${delegatorAddr}/delegations/${validatorAddr}`,
+        `/staking/delegators/${delegatorAddr}/delegations/${validatorAddr}`,
         true
       )()
     },
     queryUnbonding: function(delegatorAddr, validatorAddr) {
       return req(
         `GET`,
-        `/stake/delegators/${delegatorAddr}/unbonding_delegations/${validatorAddr}`,
+        `/staking/delegators/${delegatorAddr}/unbonding_delegations/${validatorAddr}`,
         true
       )()
     },
-    getPool: req(`GET`, `/stake/pool`, true),
-    getStakingParameters: req(`GET`, `/stake/parameters`, true),
+    getPool: req(`GET`, `/staking/pool`),
+    getStakingParameters: req(`GET`, `/staking/parameters`),
 
     /* ============ Slashing ============ */
 
     queryValidatorSigningInfo: function(pubKey) {
-      return req(`GET`, `/slashing/validators/${pubKey}/signing_info`, true)()
+      return req(`GET`, `/slashing/validators/${pubKey}/signing_info`)()
     },
 
     /* ============ Governance ============ */
 
-    queryProposals: req(`GET`, `/gov/proposals`, true),
+    queryProposals: req(`GET`, `/gov/proposals`),
     queryProposal: function(proposalId) {
-      return req(`GET`, `/gov/proposals/${proposalId}`, true)()
+      return req(`GET`, `/gov/proposals/${proposalId}`)()
     },
     queryProposalVotes: function(proposalId) {
-      return req(`GET`, `/gov/proposals/${proposalId}/votes`, true)()
+      return req(`GET`, `/gov/proposals/${proposalId}/votes`)()
     },
     queryProposalVote: function(proposalId, address) {
-      return req(`GET`, `/gov/proposals/${proposalId}/votes/${address}`, true)()
+      return req(`GET`, `/gov/proposals/${proposalId}/votes/${address}`)()
     },
     queryProposalDeposits: function(proposalId) {
-      return req(`GET`, `/gov/proposals/${proposalId}/deposits`, true)()
+      return req(`GET`, `/gov/proposals/${proposalId}/deposits`)()
     },
     queryProposalDeposit: function(proposalId, address) {
       return req(
@@ -213,24 +193,24 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
       )()
     },
     getProposalTally: function(proposalId) {
-      return req(`GET`, `/gov/proposals/${proposalId}/tally`, true)()
+      return req(`GET`, `/gov/proposals/${proposalId}/tally`)()
     },
-    getGovDepositParameters: req(`GET`, `/gov/parameters/deposit`, true),
-    getGovTallyingParameters: req(`GET`, `/gov/parameters/tallying`, true),
-    getGovVotingParameters: req(`GET`, `/gov/parameters/voting`, true),
+    getGovDepositParameters: req(`GET`, `/gov/parameters/deposit`),
+    getGovTallyingParameters: req(`GET`, `/gov/parameters/tallying`),
+    getGovVotingParameters: req(`GET`, `/gov/parameters/voting`),
     submitProposal: function(data) {
-      return req(`POST`, `/gov/proposals`, true)(data)
+      return req(`POST`, `/gov/proposals`)(data)
     },
     submitProposalVote: function(proposalId, data) {
-      return req(`POST`, `/gov/proposals/${proposalId}/votes`, true)(data)
+      return req(`POST`, `/gov/proposals/${proposalId}/votes`)(data)
     },
     submitProposalDeposit: function(proposalId, data) {
-      return req(`POST`, `/gov/proposals/${proposalId}/deposits`, true)(data)
+      return req(`POST`, `/gov/proposals/${proposalId}/deposits`)(data)
     },
     getGovernanceTxs: async function(address) {
       return await Promise.all([
-        req(`GET`, `/txs?action=submit_proposal&proposer=${address}`, true)(),
-        req(`GET`, `/txs?action=deposit&depositor=${address}`, true)()
+        req(`GET`, `/txs?action=submit_proposal&proposer=${address}`)(),
+        req(`GET`, `/txs?action=deposit&depositor=${address}`)()
       ]).then(([depositorTxs, proposerTxs]) =>
         [].concat(depositorTxs, proposerTxs)
       )
