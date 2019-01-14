@@ -81,7 +81,16 @@ jobs:
 
       - run:
           name: Audit
-          command: yarn audit | grep Severity | grep -E -i -w 'high|critical' && exit 1 || exit 0
+          command: |
+            set -e
+            SUMMARY="$(yarn audit | grep Severity)"
+            VULNERABILITIES=".*(High|Critical).*"
+
+            if [[ $SUMMARY =~ $VULNERABILITIES ]];
+              then
+              echo "Errors in $SUMMARY"
+              exit 1
+            fi
 
   testE2e:
     docker:
