@@ -51,7 +51,7 @@ jobs:
             - v3-dependencies-root-{{ checksum "package.json" }}
             - v3-dependencies-root-
 
-      - run: npm -g uninstall yarn ; npm -g install yarn@1.13.0
+      - run: sudo npm -g uninstall yarn ; sudo npm -g install yarn@1.13.0
       - run: yarn install
       - save_cache:
           paths:
@@ -77,7 +77,7 @@ jobs:
     steps:
       - checkout
 
-      - run: npm -g uninstall yarn ; npm -g install yarn@1.13.0
+      - run: sudo npm -g uninstall yarn ; sudo npm -g install yarn@1.13.0
 
       - run:
           name: Audit
@@ -102,7 +102,7 @@ jobs:
             - v2-dependencies-root-{{ checksum "package.json" }}
             - v2-dependencies-root-
 
-      - run: npm -g uninstall yarn ; npm -g install yarn@1.13.0
+      - run: sudo npm -g uninstall yarn ; sudo npm -g install yarn@1.13.0
       - run: yarn install
       - save_cache:
           paths:
@@ -132,7 +132,7 @@ jobs:
             - v2-dependencies-root-{{ checksum "package.json" }}
             - v2-dependencies-root-
 
-      - run: npm -g uninstall yarn ; npm -g install yarn@1.13.0
+      - run: sudo npm -g uninstall yarn ; sudo npm -g install yarn@1.13.0
       - run: yarn install
       - run: node tasks/createReleasePR.js
 
