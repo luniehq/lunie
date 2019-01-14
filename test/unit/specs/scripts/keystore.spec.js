@@ -3,7 +3,8 @@ import {
   loadKeys,
   addNewKey,
   testPassword,
-  importKey
+  importKey,
+  getKey
 } from "renderer/scripts/keystore.js"
 
 const wallet = {
@@ -63,5 +64,17 @@ describe(`Keystore`, () => {
   it(`Prevents you from overriding existing key names`, () => {
     addNewKey(accountName, password)
     expect(() => addNewKey(accountName, password)).toThrow()
+  })
+
+  it(`loads and decrypts a required key`, () => {
+    addNewKey(accountName, password)
+    let wallet = getKey(accountName, password)
+    expect(wallet).toHaveProperty(`privateKey`)
+    expect(wallet).toHaveProperty(`publicKey`)
+  })
+
+  it(`fails correctly if password is incorrect `, () => {
+    addNewKey(accountName, password)
+    expect(getKey.bind(null, accountName, `1`)).toThrow()
   })
 })
