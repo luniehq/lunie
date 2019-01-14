@@ -2,7 +2,7 @@
 
 const fs = require(`fs-extra`)
 const { join, resolve } = require(`path`)
-const { startNodes, buildNodes } = require(`./build/local/helper`)
+const { startNodes: makeTestnet, buildNodes } = require(`./build/local/helper`)
 const { getNodeId, startLocalNode } = require(`./gaia`)
 const appDir = resolve(`${__dirname}/../`)
 const buildTestnetPath = join(appDir, `builds`, `testnets`)
@@ -29,11 +29,11 @@ async function main() {
         password: `1234567890`,
         overwrite: false,
         moniker: `local`,
-        keyName: `main-account`
+        keyName: `rich-account`
       },
       numberNodes
     )
-    await startNodes(nodes, mainAccountSignInfo, network)
+    await makeTestnet(nodes, mainAccountSignInfo, network)
     fs.copySync(join(nodes[1].home, `config`), cliHomePrefix)
     let { version } = require(`../package.json`)
     fs.writeFileSync(`${cliHomePrefix}/app_version`, version)
