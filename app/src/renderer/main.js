@@ -93,16 +93,8 @@ async function main() {
     next()
   })
 
-  // wait until backend was reached to connect
-  new Promise(async () => {
-    while (true) {
-      try {
-        await axios(config.node_lcd + `/node_version`)
-        break
-      } catch (err) {}
-      await sleep(1000)
-    }
-
+  // in parallel wait for the node to be reachable and then connect to it
+  onBackendAvailable(node, () => {
     node.rpcConnect(config.node_rpc)
     store.dispatch(`rpcSubscribe`)
     store.dispatch(`subscribeToBlocks`)
@@ -123,3 +115,15 @@ main()
 module.exports.store = store
 module.exports.node = node
 module.exports.router = router
+
+async function onBackendAvailable(node, callback) {
+  while (true) {
+    try {
+      await node.lcdConnected()
+      break
+    } catch (err) {}
+    await sleep(1000)
+  }
+
+  callback()
+}
