@@ -25,6 +25,7 @@ export default {
   },
   data: () => ({
     showSuccess: false,
+    /* istanbul ignore next */
     copyToClipboard: value => navigator.clipboard.writeText(value)
   }),
   computed: {
