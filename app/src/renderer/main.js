@@ -4,7 +4,7 @@
  * @module main
  */
 
-import Vue from "vue"
+import _Vue from "vue"
 import Router from "vue-router"
 import Tooltip from "vue-directive-tooltip"
 import Vuelidate from "vuelidate"
@@ -12,12 +12,12 @@ import * as Sentry from "@sentry/browser"
 
 import App from "./App"
 import routes from "./routes"
-import Node from "./connectors/node"
-import Store from "./vuex/store"
+import _Node from "./connectors/node"
+import _Store from "./vuex/store"
 import axios from "axios"
 import { sleep } from "./scripts/common"
 
-const config = require(`../../src/config.json`)
+const _config = require(`../../src/config.json`)
 
 // exporting this for testing
 let store
@@ -28,9 +28,10 @@ let router
 Sentry.init({})
 
 // this will pass the state to Sentry when errors are sent.
-Sentry.configureScope(scope => {
-  scope.setExtra(Store.state)
-})
+// this would also sent passwords...
+// Sentry.configureScope(scope => {
+//   scope.setExtra(_Store.state)
+// })
 
 // handle uncaught errors
 window.addEventListener(`unhandledrejection`, function(event) {
@@ -40,32 +41,12 @@ window.addEventListener(`error`, function(event) {
   Sentry.captureException(event.reason)
 })
 
-Vue.config.errorHandler = (error, vm, info) => {
-  console.error(`An error has occurred: ${error}
-Guru Meditation #${info}`)
-
-  Sentry.captureException(error)
-
-  if (store.state.devMode) {
-    throw error
-  }
-}
-
-Vue.config.warnHandler = (msg, vm, trace) => {
-  console.warn(`A warning has occurred: ${msg}
-Guru Meditation #${trace}`)
-
-  if (store.state.devMode) {
-    throw new Error(msg)
-  }
-}
-
-Vue.use(Router)
-Vue.use(Tooltip, { delay: 1 })
-Vue.use(Vuelidate)
+_Vue.use(Router)
+_Vue.use(Tooltip, { delay: 1 })
+_Vue.use(Vuelidate)
 
 // directive to focus form fields
-Vue.directive(`focus`, {
+_Vue.directive(`focus`, {
   inserted: function(el) {
     el.focus()
   }
@@ -74,13 +55,17 @@ Vue.directive(`focus`, {
 /**
  * Main method to boot the renderer. It act as Entrypoint
  */
-async function main() {
+export async function main(
+  Vue = _Vue,
+  Node = _Node,
+  Store = _Store,
+  config = _config
+) {
   console.log(`Expecting lcd-server at ` + config.node_lcd)
 
   node = Node(axios, config.node_lcd, config.mocked)
 
   store = Store({ node })
-  store.dispatch(`loadTheme`)
 
   router = new Router({
     scrollBehavior: () => ({ y: 0 }),
@@ -109,13 +94,6 @@ async function main() {
   }).$mount(`#app`)
 }
 
-main()
-
-// exporting this for testing
-module.exports.store = store
-module.exports.node = node
-module.exports.router = router
-
 async function onBackendAvailable(node, callback) {
   while (true) {
     try {
@@ -127,3 +105,5 @@ async function onBackendAvailable(node, callback) {
 
   callback()
 }
+
+main()

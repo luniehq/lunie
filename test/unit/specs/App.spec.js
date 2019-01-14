@@ -16,4 +16,32 @@ describe(`App Start`, () => {
   it(`has all dependencies`, async () => {
     await require(`renderer/main.js`)
   })
+
+  it(`waits for the node have connected to init subscription`, async () => {
+    const { main } = await require(`renderer/main.js`)
+
+    const node = {
+      rpcConnect: jest.fn(),
+      lcdConnected: jest.fn()
+    }
+    const Node = () => node
+    const store = {
+      state: {
+        devMode: true
+      },
+      commit: jest.fn(),
+      dispatch: jest.fn()
+    }
+    const Store = () => store
+    const Vue = () => ({ $mount: jest.fn() })
+
+    await main(Vue, Node, Store, {
+      node_rpc: `http://localhost:12344`
+    })
+
+    expect(node.rpcConnect).toHaveBeenCalledWith(`http://localhost:12344`)
+    expect(store.dispatch).toHaveBeenCalledWith(`rpcSubscribe`)
+    expect(store.dispatch).toHaveBeenCalledWith(`subscribeToBlocks`)
+    expect(store.dispatch).toHaveBeenCalledWith(`showInitialScreen`)
+  })
 })
