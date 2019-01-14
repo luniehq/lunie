@@ -1,9 +1,5 @@
 {
   "name": "Cosmos Voyager",
-  "wds_port": 9080,
-  "relay_port": 9060,
-  "relay_port_prod": 9061,
-  "default_tendermint_port": 26657,
   "default_network": "game_of_stakes_3",
   "node_lcd": "http://localhost:8080",
   "node_rpc": "http://localhost:26657",
