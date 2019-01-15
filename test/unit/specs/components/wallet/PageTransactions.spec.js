@@ -1,6 +1,5 @@
 import setup from "../../../helpers/vuex-setup"
 import PageTransactions from "renderer/components/wallet/PageTransactions"
-import mockTransactions from "../../store/json/txs.js"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`PageTransactions`, () => {

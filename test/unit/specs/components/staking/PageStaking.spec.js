@@ -1,6 +1,5 @@
 import setup from "../../../helpers/vuex-setup"
 import PageStaking from "renderer/components/staking/PageStaking"
-import ModalSearch from "renderer/components/common/TmModalSearch"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`PageStaking`, () => {
@@ -9,7 +8,7 @@ describe(`PageStaking`, () => {
   let { mount } = setup()
 
   beforeEach(() => {
-    let instance = mount(PageStaking, )
+    let instance = mount(PageStaking)
     wrapper = instance.wrapper
     store = instance.store
 
