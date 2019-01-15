@@ -1249,7 +1249,7 @@ Array [
   Object {
     "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
     "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
-    "maximum": 50,
+    "maximum": 1337,
     "value": 0,
   },
 ]
@@ -1260,7 +1260,7 @@ Array [
   Object {
     "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
     "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
-    "maximum": 50,
+    "maximum": 1337,
     "value": 0,
   },
 ]
@@ -1271,7 +1271,7 @@ Array [
   Object {
     "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
     "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
-    "maximum": 50,
+    "maximum": 1337,
     "value": 0,
   },
   Object {
@@ -3556,37 +3556,16 @@ Array [
       "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
     },
   ],
-  Array [
-    "sendTx",
-    Object {
-      "delegation": Object {
-        "amount": "10",
-        "denom": "STAKE",
-      },
-      "delegator_addr": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-      "password": "12345",
-      "to": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-      "type": "postDelegation",
-      "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
-    },
-  ],
-  Array [
-    "updateDelegates",
-  ],
 ]
 `;
 
 exports[`onDelegation submitDelegation delegation composition delegation.submitDelegation 2`] = `
 Array [
   Array [
-    "setAtoms",
-    32,
-  ],
-  Array [
-    "notify",
+    "notifyError",
     Object {
-      "body": "You have successfully delegated your STAKEs",
-      "title": "Successful delegation!",
+      "body": "Cannot read property 'liquidAtoms' of undefined",
+      "title": "Error while delegating STAKEs",
     },
   ],
 ]

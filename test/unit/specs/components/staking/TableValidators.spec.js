@@ -12,14 +12,20 @@ describe(`TableValidators`, () => {
     let instance = mount(TableValidators, {
       doBefore: ({ store }) => {
         store.commit(`setConnected`, true)
-        store.commit(`setAtoms`, 1337)
+        store.commit(`updateWalletBalance`, {
+          denom: `atom`,
+          amount: 1337
+        })
       },
       propsData: { validators: lcdClientMock.candidates }
     })
     wrapper = instance.wrapper
     store = instance.store
     store.state.user.address = `address1234`
-    store.commit(`setAtoms`, 1337)
+    store.commit(`updateWalletBalance`, {
+      denom: `atom`,
+      amount: 1337
+    })
     store.commit(`setStakingParameters`, stakingParameters.parameters)
   })
 

@@ -60,6 +60,20 @@ describe(`Module: Wallet`, () => {
     expect(state.balances).toBe(balances)
   })
 
+  it(`update individual wallet balances`, () => {
+    let { state, mutations } = module
+
+    // add new
+    const balance = { denom: `leetcoin`, amount: `1337` }
+    mutations.updateWalletBalance(state, balance)
+    expect(state.balances).toContain(balance)
+
+    // update balance
+    const updatedBalance = { denom: `leetcoin`, amount: `1` }
+    mutations.updateWalletBalance(state, updatedBalance)
+    expect(state.balances).toContain(updatedBalance)
+  })
+
   it(`should set wallet key and clear balance `, () => {
     let { state, mutations } = module
     const address = `tb1v9jxgun9wdenzv3nu98g8r`

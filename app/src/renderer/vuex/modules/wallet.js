@@ -19,6 +19,20 @@ export default ({ node }) => {
       state.balances = balances
       state.loading = false
     },
+    updateWalletBalance(state, balance) {
+      let updated = false
+      state.balances = state.balances.map(oldBalance => {
+        if (oldBalance.denom === balance.denom) {
+          updated = true
+          return balance
+        }
+        return oldBalance
+      })
+
+      if (!updated) {
+        state.balances.push(balance)
+      }
+    },
     setWalletAddress(state, address) {
       state.address = address
     },
@@ -64,14 +78,6 @@ export default ({ node }) => {
         commit(`setNonce`, res.sequence)
         commit(`setAccountNumber`, res.account_number)
         commit(`setWalletBalances`, coins)
-        for (let coin of coins) {
-          if (
-            coin.denom === rootState.stakingParameters.parameters.bond_denom
-          ) {
-            commit(`setAtoms`, parseFloat(coin.amount))
-            break
-          }
-        }
         state.loading = false
         state.loaded = true
       } catch (error) {
@@ -82,6 +88,40 @@ export default ({ node }) => {
         Sentry.captureException(error)
         state.error = error
       }
+    },
+    async sendCoins(
+      { dispatch, commit, state },
+      { receiver, amount, denom, password }
+    ) {
+      await dispatch(`sendTx`, {
+        type: `send`,
+        password,
+        to: receiver,
+        amount: [{ denom, amount: amount.toString() }]
+      })
+
+      // const balanceIndex = state.balances.findIndex(
+      //   balance => balance.denom === denom
+      // )
+
+      // Vue.set(state.balances, balanceIndex, {
+      //   denom,
+      //   amount: state.balances[balanceIndex].amount - amount
+      // })
+
+      // copy array because if we just manipulate the item in it, Vue doesn't recognize the change
+      const newBalances = JSON.parse(JSON.stringify(state.balances)).map(
+        ({ denom: _denom, amount: oldAmount }) => {
+          if (denom === _denom) {
+            return {
+              denom,
+              amount: oldAmount - amount
+            }
+          }
+          return { denom: _denom, amount: oldAmount }
+        }
+      )
+      commit(`setWalletBalances`, newBalances)
     },
     async loadDenoms({ commit, state }) {
       try {
