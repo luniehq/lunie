@@ -16,9 +16,6 @@ describe(`PageTransactions`, () => {
         "data-empty-search": true,
         "tm-data-error": true,
         "modal-search": true
-      },
-      methods: {
-        refreshTransactions: jest.fn() // we don't want to call getAllTxs on mount
       }
     })
     wrapper = instance.wrapper
@@ -30,6 +27,7 @@ describe(`PageTransactions`, () => {
     store.commit(`setWalletTxs`, txs.slice(0, 2))
     store.commit(`setStakingTxs`, txs.slice(4))
     store.commit(`setGovernanceTxs`, txs.slice(2, 4))
+    store.commit(`setHistoryLoading`, false)
   })
 
   it(`has the expected html structure`, async () => {
@@ -42,12 +40,11 @@ describe(`PageTransactions`, () => {
   })
 
   it(`should refresh the transaction history`, async () => {
-    // store.dispatch = jest.fn(async () => true)
     await wrapper.vm.refreshTransactions()
     expect(store.dispatch).toHaveBeenCalledWith(`getAllTxs`)
   })
 
-  it(`should show transactions`, () => {
+  it(`should show transactions`, async () => {
     expect(wrapper.findAll(`tm-li-any-transaction-stub`).length).toBe(6)
   })
 
