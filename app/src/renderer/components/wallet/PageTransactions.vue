@@ -81,7 +81,7 @@ export default {
       order: `desc`
     },
     validatorURL: `/staking/validators`,
-    proposalsURL: `/governance/proposals`,
+    proposalsURL: `/governance`,
     time
   }),
   computed: {

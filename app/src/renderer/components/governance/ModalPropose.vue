@@ -10,7 +10,7 @@
       </div>
     </div>
     <tm-form-group
-      :error="$v.title.error && $v.title.$invalid"
+      :error="$v.title.$invalid && title.length > 0"
       class="page-proposal-form-group"
     >
       <span>Title</span>
@@ -29,7 +29,7 @@
       />
     </tm-form-group>
     <tm-form-group
-      :error="$v.description.error && $v.description.$invalid"
+      :error="$v.description.$invalid && description.length > 0"
       class="page-proposal-form-group"
     >
       <span>Description</span>
@@ -47,7 +47,7 @@
       />
     </tm-form-group>
     <tm-form-group
-      :error="$v.amount.error && $v.amount.$invalid"
+      :error="$v.amount.$invalid"
       class="modal-propose-form-group"
       field-id="amount"
     >
@@ -61,11 +61,17 @@
       />
       <tm-field id="amount" :min="0" v-model="amount" type="number" />
       <tm-form-msg
-        v-if="!$v.amount.between && amount > 0"
+        v-if="!$v.amount.between && amount > 0 && balance > 0"
         :max="$v.amount.$params.between.max"
-        :min="1"
+        :min="$v.amount.$params.between.min"
         name="Amount"
         type="between"
+      />
+      <tm-form-msg
+        v-else-if="balance === 0"
+        :msg="`doesn't hold any ${denom}s`"
+        name="Wallet"
+        type="custom"
       />
       <hr />
     </tm-form-group>

@@ -13,12 +13,6 @@
 
 <!-- 🎉 Binary releases are [available here](https://github.com/cosmos/voyager/releases). After downloading and untar/unzip-ing, navigate to the source directory and click on the `Cosmos Voyager` icon to launch Voyager. -->
 
-<!-- Comment the section below once we support a default testnet -->
-
-## ⚠️ NO ACTIVE TESTNET ⚠️
-
-**NOTE:** Currently there is no active testnet. You have to [install Voyager dependencies](#voyager-dependencies) and then run a [local testnet](#local-testnet) to test Voyager out. This is only recommended for developers.
-
 ## Voyager Dependencies
 
 Install the following dependencies if you wish to run voyager on developer mode or [contribute](https://github.com/cosmos/voyager/blob/develop/CONTRIBUTING.md).
@@ -200,6 +194,18 @@ You can also run the `tape` command directly, but then you need to run the packa
 yarn pack
 node_modules/.bin/tape test/e2e/init.js
 ```
+
+### Documentation
+
+To produce an up-to date documentation you can run:
+
+```bash
+$ yarn doc
+```
+
+This will store an HTML static website containing all the documented modules and components that you can consult.
+
+The output folder is: `docs/cosmos-voyager/[#version]`
 
 ### Code coverage
 

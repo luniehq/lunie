@@ -130,6 +130,7 @@ export default ({ node }) => {
           if (rootState.connection.lastHeader.height < height) return
           clearInterval(interval)
           dispatch(`queryWalletBalances`)
+          dispatch(`getBondedDelegates`)
           resolve()
         }, 1000)
       })

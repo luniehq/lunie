@@ -1,4 +1,8 @@
 "use strict"
+/**
+ * Main module
+ * @module main
+ */
 
 import Vue from "vue"
 import Electron from "vue-electron"
@@ -71,6 +75,9 @@ Vue.directive(`focus`, {
   }
 })
 
+/**
+ * Main method to boot the renderer. It act as Entrypoint
+ */
 async function main() {
   let lcdPort = config.development ? config.lcd_port : config.lcd_port_prod
   let localLcdURL = `https://localhost:${lcdPort}`
