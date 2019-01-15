@@ -38,10 +38,6 @@ export default {
     query: ``,
     tabs: [
       {
-        displayName: `My Delegations`,
-        pathName: `My Delegations`
-      },
-      {
         displayName: `Validators`,
         pathName: `Validators`
       },
@@ -52,16 +48,18 @@ export default {
     ]
   }),
   computed: {
-    ...mapGetters([`connected`, `delegates`, `filters`])
+    ...mapGetters([`connected`, `delegates`, `filters`, `user`])
   },
   mounted() {
     this.ps = new PerfectScrollbar(this.$el.querySelector(`.tm-page-main`))
-
     Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
     Mousetrap.bind(`esc`, () => this.setSearch(false))
-
-    // XXX temporary because querying the shares shows old shares after bonding
-    // this.updateDelegates()
+    if (this.user.signedIn) {
+      this.tabs.unshift({
+        displayName: `My Delegations`,
+        pathName: `My Delegations`
+      })
+    }
   },
   updated() {
     this.$el.querySelector(`.tm-page-main`).scrollTop = 0

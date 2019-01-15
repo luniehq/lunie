@@ -33,23 +33,23 @@ export default [
   },
   // STAKE
   {
-    path: `/staking`,
+    path: `/`,
     name: `Staking`,
     component: require(`./components/staking/PageStaking`).default,
-    redirect: `/staking/my-delegations/`,
+    redirect: `/staking/validators/`,
     children: [
       {
-        path: `my-delegations`,
+        path: `staking/my-delegations`,
         name: `My Delegations`,
         component: require(`./components/staking/TabMyDelegations`).default
       },
       {
-        path: `validators`,
+        path: `staking/validators`,
         name: `Validators`,
         component: require(`./components/staking/TabValidators`).default
       },
       {
-        path: `staking-parameters`,
+        path: `staking/staking-parameters`,
         name: `Staking Parameters`,
         component: require(`./components/staking/TabParameters`).default
       }
@@ -66,9 +66,8 @@ export default [
     name: `preferences`,
     component: require(`./components/common/PagePreferences`).default
   },
-
   {
-    path: `/`,
+    path: `/wallet`,
     name: `wallet`,
     component: require(`./components/wallet/PageWallet`).default
   },

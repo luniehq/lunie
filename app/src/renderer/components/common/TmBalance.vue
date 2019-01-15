@@ -1,6 +1,6 @@
 <template>
   <div class="header-balance">
-    <div class="top">
+    <div class="top" v-if="user.signedIn">
       <div class="icon-container">
         <img class="icon" src="~assets/images/cosmos-logo.png" />
       </div>
