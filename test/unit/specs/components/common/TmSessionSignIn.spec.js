@@ -2,14 +2,14 @@ import setup from "../../../helpers/vuex-setup"
 import Vuelidate from "vuelidate"
 import TmSessionSignIn from "common/TmSessionSignIn"
 
-let { mount, localVue } = setup()
+const { mount, localVue } = setup()
 localVue.use(Vuelidate)
 
 describe(`TmSessionSignIn`, () => {
   let wrapper, store
 
   beforeEach(() => {
-    let instance = mount(TmSessionSignIn, {
+    const instance = mount(TmSessionSignIn, {
       getters: {
         connected: () => true
       },
@@ -43,7 +43,7 @@ describe(`TmSessionSignIn`, () => {
       }
     })
     await wrapper.vm.onSubmit()
-    let calls = store.commit.mock.calls.map(args => args[0])
+    const calls = store.commit.mock.calls.map(args => args[0])
     expect(calls).toContain(`setModalSession`)
   })
 
@@ -69,12 +69,12 @@ describe(`TmSessionSignIn`, () => {
   })
 
   it(`should show a notification if signin failed`, async () => {
-    let $store = {
+    const $store = {
       commit: jest.fn(),
       dispatch: jest.fn(() => Promise.reject({ message: `Planned rejection` }))
     }
 
-    let self = {
+    const self = {
       fields: {
         signInPassword: `1234567890`,
         signInName: `default`

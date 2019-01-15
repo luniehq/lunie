@@ -86,7 +86,7 @@ export default {
       this.$store.commit(`setOnboardingState`, state)
     },
     next() {
-      let nextState = this.onboarding.state + 1
+      const nextState = this.onboarding.state + 1
       this.$store.commit(`setOnboardingState`, nextState)
     },
     restart() {

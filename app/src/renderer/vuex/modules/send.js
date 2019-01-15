@@ -1,7 +1,7 @@
 export default ({ node }) => {
   let lock = null
 
-  let state = {
+  const state = {
     nonce: `0`
   }
 
@@ -21,7 +21,7 @@ export default ({ node }) => {
     }
 
     await dispatch(`queryWalletBalances`) // the nonce was getting out of sync, this is to force a sync
-    let requestMetaData = {
+    const requestMetaData = {
       sequence: state.nonce,
       name: rootState.user.account,
       password: args.password,
@@ -32,22 +32,22 @@ export default ({ node }) => {
     args.base_req = requestMetaData
 
     // extract type
-    let type = args.type || `send`
+    const type = args.type || `send`
     delete args.type
 
     // extract "to" address
-    let to = args.to
+    const to = args.to
     delete args.to
 
     // submit to LCD to build, sign, and broadcast
-    let req = to ? node[type](to, args) : node[type](args)
+    const req = to ? node[type](to, args) : node[type](args)
 
-    let res = await req.catch(err => {
+    const res = await req.catch(err => {
       let message
       // TODO: get rid of this logic once the appended message is actually included inside the object message
       if (!err.response.data.message) {
-        let idxColon = err.response.data.indexOf(`:`)
-        let indexOpenBracket = err.response.data.indexOf(`{`)
+        const idxColon = err.response.data.indexOf(`:`)
+        const indexOpenBracket = err.response.data.indexOf(`{`)
         if (idxColon < indexOpenBracket) {
           // e.g => Msg 0 failed: {"codespace":4,"code":102,"abci_code":262246,"message":"existing unbonding delegation found"}
           message = JSON.parse(err.response.data.substr(idxColon + 1)).message
@@ -66,7 +66,7 @@ export default ({ node }) => {
     commit(`setNonce`, (parseInt(state.nonce) + 1).toString())
   }
 
-  let actions = {
+  const actions = {
     // `lock` is a Promise which is set if we are in the process
     // of sending a transaction, so that we can ensure only one send
     // happens at once. otherwise, we might try to send 2 transactions
@@ -82,7 +82,7 @@ export default ({ node }) => {
         // send and unlock when done
         lock = doSend(...args)
         // wait for doSend to finish
-        let res = await lock
+        const res = await lock
         return res
       } catch (error) {
         throw error
@@ -111,7 +111,7 @@ function assertOk(res) {
   }
 
   if (res.check_tx.code || res.deliver_tx.code) {
-    let message = res.check_tx.log || res.deliver_tx.log
+    const message = res.check_tx.log || res.deliver_tx.log
     throw new Error(message)
   }
 }

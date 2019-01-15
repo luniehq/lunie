@@ -2,7 +2,7 @@ import * as Sentry from "@sentry/browser"
 import Vue from "vue"
 
 export default ({ node }) => {
-  let emptyState = {
+  const emptyState = {
     loading: false,
     loaded: false,
     error: null,
@@ -18,7 +18,7 @@ export default ({ node }) => {
       Vue.set(state.tallies, proposal_id, tally_result)
     }
   }
-  let actions = {
+  const actions = {
     async reconnected({ state, dispatch }) {
       if (state.loading) {
         await dispatch(`getProposals`)
@@ -34,7 +34,7 @@ export default ({ node }) => {
 
       try {
         let tally_result
-        let proposals = await node.queryProposals()
+        const proposals = await node.queryProposals()
         if (proposals.length > 0) {
           await Promise.all(
             proposals.map(async proposal => {
@@ -74,7 +74,7 @@ export default ({ node }) => {
         state.error = null
         state.loading = false
         state.loaded = true // TODO make state for single proposal
-        let proposal = await node.queryProposal(proposal_id)
+        const proposal = await node.queryProposal(proposal_id)
         commit(`setProposal`, proposal.value)
         if (proposal.value.proposal_status === `VotingPeriod`) {
           tally_result = await node.getProposalTally(proposal.value.proposal_id)

@@ -1,7 +1,7 @@
 "use strict"
 
-let runner = require(`./runner.js`)
-let config = require(`../app/src/config.js`)
+const runner = require(`./runner.js`)
+const config = require(`../app/src/config.js`)
 const fs = require(`fs-extra`)
 const { join, resolve } = require(`path`)
 const {
@@ -33,7 +33,7 @@ async function main() {
     )
     await startNodes(nodes, mainAccountSignInfo, network)
     fs.copySync(join(nodes[1].home, `config`), cliHomePrefix)
-    let { version } = require(`../package.json`)
+    const { version } = require(`../package.json`)
     fs.writeFileSync(`${cliHomePrefix}/app_version`, version)
     networkPath = cliHomePrefix // join(nodes[1].home, `config`)
     extendedEnv = {
@@ -47,7 +47,7 @@ async function main() {
   }
 
   // run Voyager in a development environment
-  let children = await runner(networkPath, extendedEnv)
+  const children = await runner(networkPath, extendedEnv)
 
   // kill all development processes if master process fails
   process.on(`exit`, () => {

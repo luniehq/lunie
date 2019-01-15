@@ -1,8 +1,8 @@
 "use strict"
 
-let test = require(`tape-promise/tape`)
-let { getApp, restart } = require(`./launch.js`)
-let {
+const test = require(`tape-promise/tape`)
+const { getApp, restart } = require(`./launch.js`)
+const {
   navigate,
   login,
   closeNotifications,
@@ -13,9 +13,9 @@ let {
  */
 
 test(`Governance`, async function(t) {
-  let { app } = await getApp(t)
+  const { app } = await getApp(t)
   await restart(app)
-  let $ = (...args) => app.client.$(...args)
+  const $ = (...args) => app.client.$(...args)
 
   await login(app, `testkey`)
   await navigate(app, `Governance`)
@@ -32,7 +32,7 @@ test(`Governance`, async function(t) {
   })
 
   t.test(`submit proposal`, async function(t) {
-    let balance = parseInt(
+    const balance = parseInt(
       (await app.client.$(`.total-atoms__value`).getText()).split(`.`)[0]
     )
     await app.client.$(`#propose-btn`).click()
@@ -83,14 +83,14 @@ test(`Governance`, async function(t) {
   })
 
   t.test(`deposit`, async function(t) {
-    let balance = parseInt(
+    const balance = parseInt(
       (await app.client.$(`.total-atoms__value`).getText()).split(`.`)[0]
     )
-    let deposit = () =>
+    const deposit = () =>
       $(`//dt[contains(text(), "Deposit")]`)
         .$(`..`)
         .$(`dd`)
-    let amount = parseInt((await deposit().getText()).split(` `)[0])
+    const amount = parseInt((await deposit().getText()).split(` `)[0])
     await t.ok(
       await app.client.$(`.page-profile__status.yellow`).isVisible(),
       `the proposal is open for deposits`
@@ -111,7 +111,7 @@ test(`Governance`, async function(t) {
         ),
       `successful deposit`
     )
-    let newAmount = parseInt((await deposit().getText()).split(` `)[0])
+    const newAmount = parseInt((await deposit().getText()).split(` `)[0])
     t.equal(
       newAmount,
       amount + 10,

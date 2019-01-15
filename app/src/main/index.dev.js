@@ -16,7 +16,7 @@ require(`babel-register`)({ ignore: /node_modules/ })
 
 // Install `vue-devtools`
 require(`electron`).app.on(`ready`, () => {
-  let installExtension = require(`electron-devtools-installer`)
+  const installExtension = require(`electron-devtools-installer`)
   installExtension
     .default(installExtension.VUEJS_DEVTOOLS)
     .then(() => {})

@@ -6,7 +6,7 @@ import { sleep } from "scripts/common.js"
 const root = remote.getGlobal(`root`)
 
 export default ({ node }) => {
-  let emptyState = {
+  const emptyState = {
     balances: [],
     loading: true,
     loaded: false,
@@ -15,9 +15,9 @@ export default ({ node }) => {
     address: null,
     subscribedRPC: null
   }
-  let state = JSON.parse(JSON.stringify(emptyState))
+  const state = JSON.parse(JSON.stringify(emptyState))
 
-  let mutations = {
+  const mutations = {
     setWalletBalances(state, balances) {
       state.balances = balances
       state.loading = false
@@ -33,7 +33,7 @@ export default ({ node }) => {
     }
   }
 
-  let actions = {
+  const actions = {
     reconnected({ state, dispatch }) {
       if (state.loading && state.address) {
         dispatch(`queryWalletBalances`)
@@ -56,18 +56,18 @@ export default ({ node }) => {
       if (!rootState.connection.connected) return
 
       try {
-        let res = await node.queryAccount(state.address)
+        const res = await node.queryAccount(state.address)
         if (!res) {
           state.loading = false
           state.loaded = true
           return
         }
         state.error = null
-        let coins = res.coins || []
+        const coins = res.coins || []
         commit(`setNonce`, res.sequence)
         commit(`setAccountNumber`, res.account_number)
         commit(`setWalletBalances`, coins)
-        for (let coin of coins) {
+        for (const coin of coins) {
           if (
             coin.denom === rootState.stakingParameters.parameters.bond_denom
           ) {
@@ -90,7 +90,7 @@ export default ({ node }) => {
       // read genesis.json to get default denoms
 
       // wait for genesis.json to exist
-      let genesisPath = join(root, `genesis.json`)
+      const genesisPath = join(root, `genesis.json`)
 
       // wait for the genesis and load it
       // at some point give up and throw an error
@@ -111,11 +111,11 @@ export default ({ node }) => {
         return
       }
 
-      let genesis = await fs.readJson(genesisPath)
-      let denoms = []
-      for (let account of genesis.app_state.accounts) {
+      const genesis = await fs.readJson(genesisPath)
+      const denoms = []
+      for (const account of genesis.app_state.accounts) {
         if (account.coins) {
-          for (let { denom } of account.coins) {
+          for (const { denom } of account.coins) {
             denoms.push(denom)
           }
         }
@@ -126,7 +126,7 @@ export default ({ node }) => {
     queryWalletStateAfterHeight({ rootState, dispatch }, height) {
       return new Promise(resolve => {
         // wait until height is >= `height`
-        let interval = setInterval(() => {
+        const interval = setInterval(() => {
           if (rootState.connection.lastHeader.height < height) return
           clearInterval(interval)
           dispatch(`queryWalletBalances`)

@@ -5,7 +5,7 @@ process.env.BABEL_ENV = `main`
 const path = require(`path`)
 const webpack = require(`webpack`)
 
-let mainConfig = {
+const mainConfig = {
   devtool:
     process.env.NODE_ENV === `production`
       ? `#source-map`

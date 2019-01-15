@@ -1,14 +1,14 @@
 "use strict"
 
-let test = require(`tape-promise/tape`)
-let { getApp, restart } = require(`./launch.js`)
-let {
+const test = require(`tape-promise/tape`)
+const { getApp, restart } = require(`./launch.js`)
+const {
   navigate,
   waitForText,
   login,
   closeNotifications
 } = require(`./common.js`)
-let {
+const {
   addresses
 } = require(`../../app/src/renderer/connectors/lcdClientMock.js`)
 
@@ -17,15 +17,15 @@ let {
  */
 
 test(`wallet`, async function(t) {
-  let { app, accounts } = await getApp(t)
+  const { app, accounts } = await getApp(t)
   // app.env.COSMOS_MOCKED = false
   await restart(app)
 
-  let $ = (...args) => app.client.$(...args)
+  const $ = (...args) => app.client.$(...args)
 
   await login(app, `testkey`)
 
-  let balanceEl = denom => {
+  const balanceEl = denom => {
     return app.client.waitForExist(`.coin-denom=${denom}`, 20000).then(() =>
       $(`.coin-denom=${denom}`)
         .$(`..`)
@@ -64,17 +64,17 @@ test(`wallet`, async function(t) {
 
     await navigate(app, `Wallet`)
 
-    let sendBtn = () => $(`.tm-form-footer button`)
-    let addressInput = () => $(`#send-address`)
-    let amountInput = () => $(`#send-amount`)
-    let defaultBalance = 1000.0
+    const sendBtn = () => $(`.tm-form-footer button`)
+    const addressInput = () => $(`#send-address`)
+    const amountInput = () => $(`#send-amount`)
+    const defaultBalance = 1000.0
     t.test(`Localcoin balance before sending`, async function(t) {
       await app.client.waitForExist(
         `//span[contains(text(), "Send")]`,
         15 * defaultBalance
       )
 
-      let LocalcoinEl = balanceEl(`Localcoin`)
+      const LocalcoinEl = balanceEl(`Localcoin`)
       await waitForText(() => LocalcoinEl, `1,000.0000000000`)
       t.end()
     })
@@ -97,7 +97,7 @@ test(`wallet`, async function(t) {
       await sendBtn().click()
       t.equal(await sendBtn().getText(), `Send Tokens`, `not sending`)
 
-      let fourtyOneZeros = `01234` + `0`.repeat(36)
+      const fourtyOneZeros = `01234` + `0`.repeat(36)
 
       await addressInput().setValue(fourtyOneZeros)
 
@@ -124,8 +124,8 @@ test(`wallet`, async function(t) {
 
     t.test(`correct address mis-typed`, async function(t) {
       await goToSendPage()
-      let validAddress = addresses[0]
-      let invalidAddress = validAddress.slice(0, -1) + `4`
+      const validAddress = addresses[0]
+      const invalidAddress = validAddress.slice(0, -1) + `4`
       await addressInput().setValue(invalidAddress)
       await amountInput().setValue(`100`)
       await app.client.setValue(`#password`, `1234567890`)
@@ -156,7 +156,7 @@ test(`wallet`, async function(t) {
       await app.client.$(`#send-confirmation-btn`).click()
 
       await app.client.waitForExist(`.tm-notification`, 10 * 1000)
-      let msg = await app.client.$(`.tm-notification .body`).getText()
+      const msg = await app.client.$(`.tm-notification .body`).getText()
       t.ok(msg.includes(`Success`), `Send successful`)
       // close the notifications to have a clean setup for the next tests
       await closeNotifications(app)
@@ -173,7 +173,7 @@ test(`wallet`, async function(t) {
         `it shows all 2 coins`
       )
 
-      let LocalcoinEl = () => balanceEl(`Localcoin`)
+      const LocalcoinEl = () => balanceEl(`Localcoin`)
       await waitForText(LocalcoinEl, `900.0000000000`, 20000)
       t.pass(`balance is reduced by 100`)
       t.end()
@@ -189,7 +189,7 @@ test(`wallet`, async function(t) {
       await app.client.$(`#send-confirmation-btn`).click()
 
       await app.client.waitForExist(`.tm-notification`, 10 * 1000)
-      let msg = await app.client.$(`.tm-notification .body`).getText()
+      const msg = await app.client.$(`.tm-notification .body`).getText()
       t.ok(msg.includes(`Success`), `Send successful`)
       // close the notifications to have a clean setup for the next tests
       await closeNotifications(app)
@@ -223,7 +223,7 @@ test(`wallet`, async function(t) {
       await login(app, `testreceiver`)
       await navigate(app, `Wallet`)
 
-      let LocalcoinEl = () => balanceEl(`Localcoin`)
+      const LocalcoinEl = () => balanceEl(`Localcoin`)
       await app.client.waitForExist(
         `//span[contains(text(), "Send")]`,
         15 * 1000

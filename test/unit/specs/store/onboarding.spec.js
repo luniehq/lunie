@@ -1,6 +1,6 @@
 import setup from "../../helpers/vuex-setup"
 
-let instance = setup()
+const instance = setup()
 
 describe(`Module: Onboarding`, () => {
   let store, state

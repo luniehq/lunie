@@ -4,7 +4,7 @@ const { app, Menu, shell, dialog } = require(`electron`)
 const { join } = require(`path`)
 
 module.exports = function() {
-  let template = [
+  const template = [
     {
       label: `Cosmos Voyager`,
       submenu: [
@@ -60,7 +60,7 @@ module.exports = function() {
     }
   ]
 
-  let menu = Menu.buildFromTemplate(template)
+  const menu = Menu.buildFromTemplate(template)
   Menu.setApplicationMenu(menu)
 }
 

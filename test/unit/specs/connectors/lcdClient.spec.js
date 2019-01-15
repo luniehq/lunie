@@ -9,13 +9,13 @@
 // think it's running in a browser, causing some network requests below to fail
 // with only the message "Network Error".
 
-let axios = require(`axios`)
+const axios = require(`axios`)
 const Express = require(`express`)
 const mung = require(`express-mung`)
 const http = require(`http`)
-let LcdClient = require(`renderer/connectors/lcdClient.js`)
-let lcdClientMock = require(`renderer/connectors/lcdClientMock.js`)
-let { proposals, deposits, votes } = lcdClientMock.state
+const LcdClient = require(`renderer/connectors/lcdClient.js`)
+const lcdClientMock = require(`renderer/connectors/lcdClientMock.js`)
+const { proposals, deposits, votes } = lcdClientMock.state
 
 const path = require(`path`)
 const createMiddleware = require(`swagger-express-middleware`)
@@ -192,7 +192,7 @@ describe(`LCD Client`, () => {
     describe(`helper functions`, () => {
       it(`makes a GET request with no args`, async () => {
         axios.mockReturnValueOnce(Promise.resolve({ data: { foo: `bar` } }))
-        let res = await client.keys.values()
+        const res = await client.keys.values()
         expect(res).toEqual({ foo: `bar` })
 
         expect(axios.mock.calls).toEqual([
@@ -202,7 +202,7 @@ describe(`LCD Client`, () => {
 
       it(`makes a GET request with one arg`, async () => {
         axios.mockReturnValueOnce(Promise.resolve({ data: { foo: `bar` } }))
-        let res = await client.keys.get(`myKey`)
+        const res = await client.keys.get(`myKey`)
         expect(res).toEqual({ foo: `bar` })
 
         expect(axios.mock.calls).toEqual([
@@ -218,7 +218,7 @@ describe(`LCD Client`, () => {
 
       it(`makes a POST request`, async () => {
         axios.mockReturnValueOnce(Promise.resolve({ data: { foo: `bar` } }))
-        let res = await client.keys.add()
+        const res = await client.keys.add()
         expect(res).toEqual({ foo: `bar` })
 
         expect(axios.mock.calls).toEqual([
@@ -228,7 +228,7 @@ describe(`LCD Client`, () => {
 
       it(`makes a PUT request with args and data`, async () => {
         axios.mockReturnValueOnce(Promise.resolve({ data: { foo: `bar` } }))
-        let res = await client.keys.set(`myKey`, { abc: 123 })
+        const res = await client.keys.set(`myKey`, { abc: 123 })
         expect(res).toEqual({ foo: `bar` })
 
         expect(axios.mock.calls).toEqual([
@@ -761,7 +761,7 @@ describe(`LCD Client`, () => {
             }
           })
         )
-        let res = await client.queryAccount(`address`)
+        const res = await client.queryAccount(`address`)
         expect(res).toBe(null)
       })
 
@@ -793,7 +793,7 @@ describe(`LCD Client`, () => {
       axios
         .mockReturnValueOnce(Promise.resolve({ data: [] }))
         .mockReturnValueOnce(Promise.resolve({ data: [`abc`] }))
-      let result = await client.txs(`abc`)
+      const result = await client.txs(`abc`)
 
       expect(axios).toHaveBeenCalledTimes(2)
       client.keys.values = () => Promise.resolve()

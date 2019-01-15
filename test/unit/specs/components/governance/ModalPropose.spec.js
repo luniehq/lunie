@@ -5,7 +5,7 @@ import ModalPropose from "renderer/components/governance/ModalPropose"
 
 describe(`ModalPropose`, () => {
   let wrapper, store
-  let { mount } = setup()
+  const { mount } = setup()
 
   const proposal = {
     amount: 15,
@@ -21,7 +21,7 @@ describe(`ModalPropose`, () => {
         denom: `stake`
       }
     ]
-    let instance = mount(ModalPropose, {
+    const instance = mount(ModalPropose, {
       propsData: {
         denom: `stake`
       },
@@ -76,7 +76,7 @@ describe(`ModalPropose`, () => {
   describe(`enables or disables 'Create Proposal' button correctly`, () => {
     describe(`disables the 'Create Proposal' button`, () => {
       it(`with the default values`, () => {
-        let proposeBtn = wrapper.find(`#submit-proposal`)
+        const proposeBtn = wrapper.find(`#submit-proposal`)
         expect(proposeBtn.html()).toContain(`disabled="disabled"`)
       })
 
@@ -84,9 +84,9 @@ describe(`ModalPropose`, () => {
         wrapper.setData(proposal)
         wrapper.setData({ amount: 25 })
         await wrapper.vm.$nextTick()
-        let proposeBtn = wrapper.find(`#submit-proposal`)
+        const proposeBtn = wrapper.find(`#submit-proposal`)
         expect(proposeBtn.html()).toContain(`disabled="disabled"`)
-        let errorMessage = wrapper.find(`input#amount + div`)
+        const errorMessage = wrapper.find(`input#amount + div`)
         expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
       })
 
@@ -101,52 +101,52 @@ describe(`ModalPropose`, () => {
         store.commit(`setWalletBalances`, otherCoins)
         wrapper.setData({ amount: 25 })
         await wrapper.vm.$nextTick()
-        let proposeBtn = wrapper.find(`#submit-proposal`)
+        const proposeBtn = wrapper.find(`#submit-proposal`)
         expect(proposeBtn.html()).toContain(`disabled="disabled"`)
       })
 
       it(`if title is blank`, () => {
         wrapper.setData(proposal)
         wrapper.setData({ title: `     ` })
-        let proposeBtn = wrapper.find(`#submit-proposal`)
+        const proposeBtn = wrapper.find(`#submit-proposal`)
         expect(proposeBtn.html()).toContain(`disabled="disabled"`)
       })
 
       it(`if description is blank`, () => {
         wrapper.setData({ description: `     ` })
-        let proposeBtn = wrapper.find(`#submit-proposal`)
+        const proposeBtn = wrapper.find(`#submit-proposal`)
         expect(proposeBtn.html()).toContain(`disabled="disabled"`)
       })
 
       it(`if title is too long disable submit button and show error message`, async () => {
         wrapper.setData({ title: `x`.repeat(65) })
         await wrapper.vm.$nextTick()
-        let proposeBtn = wrapper.find(`#submit-proposal`)
+        const proposeBtn = wrapper.find(`#submit-proposal`)
         expect(proposeBtn.html()).toContain(`disabled="disabled"`)
-        let errorMessage = wrapper.find(`input#title + div`)
+        const errorMessage = wrapper.find(`input#title + div`)
         expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
       })
 
       it(`if description is too long disable submit button and show error message`, async () => {
         wrapper.setData({ description: `x`.repeat(201) })
         await wrapper.vm.$nextTick()
-        let proposeBtn = wrapper.find(`#submit-proposal`)
+        const proposeBtn = wrapper.find(`#submit-proposal`)
         expect(proposeBtn.html()).toContain(`disabled="disabled"`)
-        let errorMessage = wrapper.find(`textarea#description + div`)
+        const errorMessage = wrapper.find(`textarea#description + div`)
         expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
       })
 
       it(`if proposal type is invalid`, () => {
         wrapper.setData(proposal)
         wrapper.setData({ type: `Other` })
-        let proposeBtn = wrapper.find(`#submit-proposal`)
+        const proposeBtn = wrapper.find(`#submit-proposal`)
         expect(proposeBtn.html()).toContain(`disabled="disabled"`)
       })
 
       it(`if the password field is empty`, () => {
         wrapper.setData(proposal)
         wrapper.setData({ password: `` })
-        let proposeBtn = wrapper.find(`#submit-proposal`)
+        const proposeBtn = wrapper.find(`#submit-proposal`)
         expect(proposeBtn.html()).toContain(`disabled="disabled"`)
       })
     })
@@ -155,7 +155,7 @@ describe(`ModalPropose`, () => {
       it(`if the user has enough balance and the fields are within the length ranges`, async () => {
         wrapper.setData(proposal)
         await wrapper.vm.$nextTick()
-        let submitButton = wrapper.find(`#submit-proposal`)
+        const submitButton = wrapper.find(`#submit-proposal`)
         expect(submitButton.html()).not.toContain(`disabled="disabled"`)
       })
     })

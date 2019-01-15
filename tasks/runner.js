@@ -5,12 +5,12 @@ const spawn = require(`child_process`).spawn
 const path = require(`path`)
 const { cleanExitChild } = require(`./common.js`)
 
-let YELLOW = `\x1b[33m`
-let BLUE = `\x1b[34m`
-let END = `\x1b[0m`
+const YELLOW = `\x1b[33m`
+const BLUE = `\x1b[34m`
+const END = `\x1b[0m`
 
-let NPM_BIN = path.join(path.dirname(__dirname), `node_modules`, `.bin`)
-let PATH = `${NPM_BIN}:${process.env.PATH}`
+const NPM_BIN = path.join(path.dirname(__dirname), `node_modules`, `.bin`)
+const PATH = `${NPM_BIN}:${process.env.PATH}`
 
 const format = (command, data, color) =>
   `${color}${command}${END}  ${data
@@ -20,7 +20,7 @@ const format = (command, data, color) =>
 
 function run(command, color, name, env) {
   env = Object.assign({ PATH }, env)
-  let child = spawn(command, { env, shell: true })
+  const child = spawn(command, { env, shell: true })
   child.stdout.on(`data`, data => {
     console.log(format(name, data, color))
   })
@@ -36,14 +36,14 @@ function run(command, color, name, env) {
 function startRendererServer() {
   return new Promise(resolve => {
     console.log(`${YELLOW}Starting webpack-dev-server...\n${END}`)
-    let child = run(
+    const child = run(
       `webpack-dev-server --hot --colors --config webpack.renderer.config.js --port ${
         config.wds_port
       } --content-base app/dist`,
       YELLOW,
       `webpack`
     )
-    let waitForCompile = data => {
+    const waitForCompile = data => {
       if (!data.toString().includes(`Compiled`)) return
       child.stdout.removeListener(`data`, waitForCompile)
       resolve(child)
@@ -60,7 +60,7 @@ module.exports = async function(networkPath, extendedEnv = {}) {
     process.exit()
   }
 
-  let renderProcess = await startRendererServer()
+  const renderProcess = await startRendererServer()
 
   console.log(
     `${BLUE}Starting electron...\n  (network path: ${networkPath})\n${END}`
@@ -71,7 +71,7 @@ module.exports = async function(networkPath, extendedEnv = {}) {
     .readFileSync(path.join(networkPath, `gaiaversion.txt`))
     .toString()
     .split(`-`)[0]
-  let env = Object.assign(
+  const env = Object.assign(
     {},
     {
       NODE_ENV: `development`,
@@ -82,7 +82,7 @@ module.exports = async function(networkPath, extendedEnv = {}) {
     extendedEnv,
     process.env
   )
-  let mainProcess = run(
+  const mainProcess = run(
     `electron app/src/main/index.dev.js`,
     BLUE,
     `electron`,

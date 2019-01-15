@@ -60,7 +60,7 @@ export default {
       noScroll.on()
     },
     watchWindowSize() {
-      let w = Math.max(
+      const w = Math.max(
         document.documentElement.clientWidth,
         window.innerWidth || 0
       )

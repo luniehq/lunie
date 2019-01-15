@@ -46,7 +46,7 @@ describe(`App Start`, () => {
   })
 
   it(`uses a mocked connector implementation if set in config`, async () => {
-    let electron = require(`electron`)
+    const electron = require(`electron`)
     electron.remote.getGlobal = () => ({
       env: { NODE_ENV: `test` },
       mocked: true,
@@ -54,7 +54,7 @@ describe(`App Start`, () => {
       development: false,
       lcd_port_prod: `8080`
     })
-    let Node = require(`renderer/connectors/node.js`)
+    const Node = require(`renderer/connectors/node.js`)
     require(`renderer/main.js`)
     expect(Node).toHaveBeenCalledWith(
       expect.any(Function),
@@ -152,7 +152,7 @@ describe(`App Start`, () => {
       }
     }
 
-    let { store } = require(`renderer/main.js`)
+    const { store } = require(`renderer/main.js`)
     await connectedCB(null, {
       code: `NO_NODES_AVAILABLE`,
       message: `message`

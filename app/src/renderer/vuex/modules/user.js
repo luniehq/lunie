@@ -6,7 +6,7 @@ const config = remote.getGlobal(`config`)
 export default ({ node }) => {
   const ERROR_COLLECTION_KEY = `voyager_error_collection`
 
-  let state = {
+  const state = {
     atoms: 0,
     signedIn: false,
     accounts: [],
@@ -50,8 +50,8 @@ export default ({ node }) => {
       dispatch(`resetSessionData`)
 
       await dispatch(`loadAccounts`)
-      let exists = state.accounts.length > 0
-      let screen = exists ? `sign-in` : `welcome`
+      const exists = state.accounts.length > 0
+      const screen = exists ? `sign-in` : `welcome`
       commit(`setModalSessionState`, screen)
 
       window.analytics &&
@@ -62,7 +62,7 @@ export default ({ node }) => {
     async loadAccounts({ commit, state }) {
       state.loading = true
       try {
-        let keys = await node.keys.values()
+        const keys = await node.keys.values()
         commit(`setAccounts`, keys)
       } catch (error) {
         Sentry.captureException(error)
@@ -91,7 +91,7 @@ export default ({ node }) => {
       return node.keys.seed()
     },
     async createKey({ dispatch }, { seedPhrase, password, name }) {
-      let { address } = await node.keys.add({
+      const { address } = await node.keys.add({
         name,
         password,
         seed: seedPhrase
@@ -107,7 +107,7 @@ export default ({ node }) => {
       state.account = account
       state.signedIn = true
 
-      let { address } = await node.keys.get(account)
+      const { address } = await node.keys.get(account)
       state.address = address
 
       dispatch(`loadPersistedState`)
@@ -131,7 +131,7 @@ export default ({ node }) => {
       state.address = null
     },
     loadErrorCollection({ state, dispatch }, account) {
-      let errorCollection =
+      const errorCollection =
         localStorage.getItem(`${ERROR_COLLECTION_KEY}_${account}`) === `true`
       if (state.errorCollection !== errorCollection)
         dispatch(`setErrorCollection`, { account, optin: errorCollection })

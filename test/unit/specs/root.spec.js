@@ -9,8 +9,8 @@ describe(`Root UI Directory`, () => {
   })
 
   jest.mock(`fs-extra`, () => {
-    let fs = require(`fs`)
-    let mockFs = mockFsExtra()
+    const fs = require(`fs`)
+    const mockFs = mockFsExtra()
     mockFs.writeFile(
       `./app/networks/gaia-6002/genesis.json`,
       fs.readFileSync(
@@ -22,7 +22,7 @@ describe(`Root UI Directory`, () => {
   })
 
   it(`should create the correct path`, () => {
-    let root = require(`../../../app/src/root.js`)
+    const root = require(`../../../app/src/root.js`)
     const appDir = resolve(`${__dirname}/../../../`)
     expect(root).toBe(
       join(`${appDir}/builds/testnets/gaia-6002/cosmos-voyager-dev`)
@@ -34,7 +34,7 @@ describe(`Root UI Directory`, () => {
       COSMOS_HOME: `./abc`
     })
     jest.resetModules()
-    let root = require(`../../../app/src/root.js`)
+    const root = require(`../../../app/src/root.js`)
     expect(root).toBe(`./abc`)
   })
 })

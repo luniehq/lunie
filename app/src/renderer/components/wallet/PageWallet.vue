@@ -115,19 +115,19 @@ export default {
     },
     allDenomBalances() {
       // for denoms not in balances, add empty balance
-      let balances = this.wallet.balances.slice(0)
-      let hasDenom = denom => {
+      const balances = this.wallet.balances.slice(0)
+      const hasDenom = denom => {
         return !!balances.filter(balance => balance.denom === denom)[0]
       }
-      for (let denom of this.wallet.denoms) {
+      for (const denom of this.wallet.denoms) {
         if (hasDenom(denom)) continue
         balances.push({ denom, amount: 0 })
       }
       return balances
     },
     filteredBalances() {
-      let query = this.filters.balances.search.query
-      let list = orderBy(
+      const query = this.filters.balances.search.query
+      const list = orderBy(
         this.allDenomBalances,
         [`amount`, `denom`],
         [`desc`, `asc`]

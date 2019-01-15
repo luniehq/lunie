@@ -3,10 +3,10 @@ import ShortBech32 from "renderer/components/common/ShortBech32"
 
 describe(`ShortBech32`, () => {
   let wrapper
-  let instance = setup()
+  const instance = setup()
 
   beforeEach(() => {
-    let test = instance.mount(ShortBech32, {
+    const test = instance.mount(ShortBech32, {
       propsData: { address: `cosmosftw123456789` }
     })
     wrapper = test.wrapper

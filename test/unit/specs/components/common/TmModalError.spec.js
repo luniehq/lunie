@@ -20,7 +20,7 @@ jest.mock(`electron`, () => ({
 
 describe(`TmModalError`, () => {
   let wrapper
-  let store = new Vuex.Store({
+  const store = new Vuex.Store({
     getters: {
       config: () => ({ devMode: true }),
       lastHeader: () => ({ chain_id: `gaia-test`, height: `31337` })

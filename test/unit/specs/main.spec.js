@@ -10,8 +10,8 @@ jest.mock(`readline`, () => ({
 process.setMaxListeners(1000)
 
 jest.mock(`fs-extra`, () => {
-  let fs = require(`fs`)
-  let mockFs = mockFsExtra()
+  const fs = require(`fs`)
+  const mockFs = mockFsExtra()
   mockFs.writeFile(
     `./app/networks/gaia-6002/config.toml`,
     fs.readFileSync(`./test/unit/helpers/mockNetworkConfig/config.toml`, `utf8`)
@@ -36,7 +36,7 @@ jest.mock(`fs-extra`, () => {
 let fs = require(`fs-extra`)
 
 jest.mock(`electron`, () => {
-  let electron = {
+  const electron = {
     app: {
       on: (event, cb) => {
         if (event === `ready`) cb()
@@ -97,7 +97,7 @@ const mockSpawnReturnValue = () => {
   )
 }
 
-let stdoutMocks = (path, args) => ({
+const stdoutMocks = (path, args) => ({
   on: (type, cb) => {
     if (type === `line`) {
       cb(`(cert: "cert/cert.txt"...`)
@@ -111,9 +111,9 @@ let stdoutMocks = (path, args) => ({
 mockConfig()
 
 let main
-let root = `../../../`
-let appRoot = root + `app/`
-let testRoot = `./test/unit/tmp/test_root/`
+const root = `../../../`
+const appRoot = root + `app/`
+const testRoot = `./test/unit/tmp/test_root/`
 let childProcess
 
 describe(`Startup Process`, () => {
@@ -154,7 +154,7 @@ describe(`Startup Process`, () => {
 
     it(`should persist the app_version`, async function() {
       expect(fs.existsSync(testRoot + `app_version`)).toBe(true)
-      let appVersion = fs.readFileSync(testRoot + `app_version`, `utf8`)
+      const appVersion = fs.readFileSync(testRoot + `app_version`, `utf8`)
       expect(appVersion).toBe(`0.1.0`)
     })
   })
@@ -170,11 +170,11 @@ describe(`Startup Process`, () => {
       jest.useFakeTimers()
       await main.shutdown()
       prepareMain()
-      let mockNodeVersionEndpoint = jest.fn(() => Promise.reject(`X`))
+      const mockNodeVersionEndpoint = jest.fn(() => Promise.reject(`X`))
       jest.doMock(`renderer/connectors/lcdClient.js`, () => () => ({
         nodeVersion: mockNodeVersionEndpoint
       }))
-      let { send } = require(`electron`)
+      const { send } = require(`electron`)
       send.mockClear()
 
       // run main
@@ -190,7 +190,7 @@ describe(`Startup Process`, () => {
       jest.doMock(`renderer/connectors/lcdClient.js`, () => () => ({
         nodeVersion: nodeVersionSpy
       }))
-      let { send } = require(`electron`)
+      const { send } = require(`electron`)
       send.mockClear()
 
       // run main
@@ -233,7 +233,7 @@ describe(`Startup Process`, () => {
 
     it(`should persist the app_version`, async function() {
       expect(fs.existsSync(testRoot + `app_version`)).toBe(true)
-      let appVersion = fs.readFileSync(testRoot + `app_version`, `utf8`)
+      const appVersion = fs.readFileSync(testRoot + `app_version`, `utf8`)
       expect(appVersion).toBe(`0.1.0`)
     })
   })
@@ -267,7 +267,7 @@ describe(`Startup Process`, () => {
       resetModulesKeepingFS()
       // alter the version so the main thread assumes an update
       jest.mock(root + `package.json`, () => ({ version: `1.1.1` }))
-      let { send } = require(`electron`)
+      const { send } = require(`electron`)
       await require(appRoot + `src/main/index.js`)
 
       expect(send.mock.calls[0][0]).toBe(`error`)
@@ -275,7 +275,7 @@ describe(`Startup Process`, () => {
         `incompatible app version`
       )
 
-      let appVersion = fs.readFileSync(testRoot + `app_version`, `utf8`)
+      const appVersion = fs.readFileSync(testRoot + `app_version`, `utf8`)
       expect(appVersion).toBe(`0.1.0`)
     })
   })
@@ -287,7 +287,7 @@ describe(`Startup Process`, () => {
       resetModulesKeepingFS()
 
       // alter the genesis so the main thread assumes a change
-      let existingGenesis = JSON.parse(
+      const existingGenesis = JSON.parse(
         fs.readFileSync(testRoot + `genesis.json`, `utf8`)
       )
       existingGenesis.genesis_time = new Date().toString()
@@ -295,11 +295,11 @@ describe(`Startup Process`, () => {
         testRoot + `genesis.json`,
         JSON.stringify(existingGenesis)
       )
-      let specifiedGenesis = JSON.parse(
+      const specifiedGenesis = JSON.parse(
         fs.readFileSync(testRoot + `genesis.json`, `utf8`)
       )
 
-      let { send } = require(`electron`)
+      const { send } = require(`electron`)
       await require(appRoot + `src/main/index.js`)
 
       expect(send.mock.calls[0][0]).toBe(`connected`)
@@ -396,7 +396,7 @@ describe(`Startup Process`, () => {
     })
 
     it(`should print a success message if connected to node`, async () => {
-      let consoleSpy = jest.spyOn(console, `log`)
+      const consoleSpy = jest.spyOn(console, `log`)
       registeredIPCListeners[`successful-launch`]()
       expect(consoleSpy.mock.calls[0][0]).toContain(`[START SUCCESS]`)
 
@@ -416,7 +416,7 @@ describe(`Startup Process`, () => {
       // run main
       main = await require(appRoot + `src/main/index.js`)
 
-      let { send } = require(`electron`)
+      const { send } = require(`electron`)
       expect(send.mock.calls[0][0]).toEqual(`error`)
       expect(send.mock.calls[0][1]).toBeTruthy() // TODO fix seeds so we can test nodeIP output
     })
@@ -429,7 +429,7 @@ describe(`Startup Process`, () => {
 
     it(`should error on gaiacli crashing on reconnect instead of breaking`, async () => {
       await initMain()
-      let { send } = require(`electron`)
+      const { send } = require(`electron`)
 
       childProcess.spawn = () =>
         Object.assign(mockSpawnReturnValue(), {
@@ -486,7 +486,7 @@ describe(`Startup Process`, () => {
       }))
 
       main = await require(appRoot + `src/main/index.js`)
-      let { send } = require(`electron`)
+      const { send } = require(`electron`)
 
       expect(send.mock.calls.find(([type]) => type === `error`)).toBeUndefined()
 
@@ -513,7 +513,7 @@ describe(`Startup Process`, () => {
         await main.shutdown()
 
         resetModulesKeepingFS()
-        let { send: _send } = require(`electron`)
+        const { send: _send } = require(`electron`)
         send = _send
       })
       afterEach(async () => {
@@ -569,7 +569,7 @@ describe(`Startup Process`, () => {
           }
         }
       }))
-      let { send } = require(`electron`)
+      const { send } = require(`electron`)
       await require(appRoot + `src/main/index.js`)
 
       expect(send).toHaveBeenCalledWith(`error`, {
@@ -639,7 +639,7 @@ function childProcessMock(mockExtend = () => ({})) {
 // sometime we want to simulate a sequential run of the UI
 // usualy we want to clean up all the modules after each run but in this case, we want to persist the mocked filesystem
 function resetModulesKeepingFS() {
-  let fileSystem = fs.fs
+  const fileSystem = fs.fs
   jest.resetModules()
   fs = require(`fs-extra`)
   fs.fs = fileSystem

@@ -16,7 +16,7 @@ describe(`AxiosProxy`, () => {
   })
 
   it(`should send requests via ipc`, () => {
-    let axios = AxiosProxy()
+    const axios = AxiosProxy()
     axios({ method: `POST`, url: `/keys/add`, data: { name: `fabo` } })
 
     const requestCounter = 1
@@ -32,7 +32,7 @@ describe(`AxiosProxy`, () => {
   })
 
   it(`should send requests with increasing request counters`, () => {
-    let axios = AxiosProxy()
+    const axios = AxiosProxy()
     axios({ method: `POST`, url: `/keys/add`, data: { name: `fabo` } })
     axios({ method: `POST`, url: `/keys/add`, data: { name: `fede` } })
 
@@ -53,8 +53,8 @@ describe(`AxiosProxy`, () => {
       cb(`xxx`, { exception: null, value: `HALLO WORLD` })
     }
 
-    let axios = AxiosProxy()
-    let result = await axios({
+    const axios = AxiosProxy()
+    const result = await axios({
       method: `POST`,
       url: `/keys/add`,
       data: { name: `fabo` }
@@ -68,7 +68,7 @@ describe(`AxiosProxy`, () => {
       cb(`xxx`, { exception: null, value: `HALLO WORLD` })
     }
 
-    let axios = AxiosProxy()
+    const axios = AxiosProxy()
     await axios({
       method: `POST`,
       url: `/keys/add`,
@@ -85,7 +85,7 @@ describe(`AxiosProxy`, () => {
 
     jest.spyOn(console, `error`).mockImplementation(() => {})
 
-    let axios = AxiosProxy()
+    const axios = AxiosProxy()
     await axios({
       method: `POST`,
       url: `/keys/add`,
@@ -101,7 +101,7 @@ describe(`AxiosProxy`, () => {
   })
 
   it(`should reset the requestCounter after max number is reached`, () => {
-    let axios = AxiosProxy(Number.MAX_SAFE_INTEGER - 1)
+    const axios = AxiosProxy(Number.MAX_SAFE_INTEGER - 1)
     axios({
       method: `POST`,
       url: `/keys/add`,

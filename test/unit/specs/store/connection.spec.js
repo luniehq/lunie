@@ -2,14 +2,14 @@ import setup from "../../helpers/vuex-setup"
 import connectionModule from "renderer/vuex/modules/connection.js"
 import nodeMock from "../../helpers/node_mock.js"
 
-let instance = setup()
+const instance = setup()
 
 describe(`Module: Connection`, () => {
   let store, node
 
   beforeEach(() => {
     jest.resetModules()
-    let test = instance.shallow()
+    const test = instance.shallow()
     store = test.store
     node = test.node
 
@@ -129,7 +129,7 @@ describe(`Module: Connection`, () => {
   })
 
   it(`should react to failing status calls`, async () => {
-    let spy = jest.spyOn(console, `error`).mockImplementation(() => {})
+    const spy = jest.spyOn(console, `error`).mockImplementation(() => {})
     node.rpc.status = cb => cb({ message: `Expected` }, null)
     await store.dispatch(`rpcSubscribe`)
     store.state.connection.stopConnecting = true // prevent connection attempt loops
@@ -162,7 +162,7 @@ describe(`Module: Connection`, () => {
   })
 
   it(`should react to status updates errors`, () => {
-    let spy = jest.spyOn(console, `error`).mockImplementation(() => {})
+    const spy = jest.spyOn(console, `error`).mockImplementation(() => {})
     node.rpc.subscribe = (type, cb) => {
       if (type.query === `tm.event = 'NewBlockHeader'`) {
         cb({ message: `Expected` }, null)
@@ -231,8 +231,8 @@ describe(`Module: Connection`, () => {
   })
 
   it(`should send approval of node hash`, () => {
-    let { ipcRenderer } = require(`electron`)
-    let spy = jest.spyOn(ipcRenderer, `send`)
+    const { ipcRenderer } = require(`electron`)
+    const spy = jest.spyOn(ipcRenderer, `send`)
 
     store.dispatch(`approveNodeHash`, `abc`)
 
@@ -241,8 +241,8 @@ describe(`Module: Connection`, () => {
   })
 
   it(`should send disapproval of node hash`, () => {
-    let { ipcRenderer } = require(`electron`)
-    let spy = jest.spyOn(ipcRenderer, `send`)
+    const { ipcRenderer } = require(`electron`)
+    const spy = jest.spyOn(ipcRenderer, `send`)
 
     store.dispatch(`disapproveNodeHash`, `abc`)
 
@@ -252,9 +252,9 @@ describe(`Module: Connection`, () => {
 
   it(`should check if the node has positively halted`, async () => {
     jest.useFakeTimers()
-    let instance = connectionModule({ node: nodeMock })
-    let state = instance.state
-    let dispatch = jest.fn()
+    const instance = connectionModule({ node: nodeMock })
+    const state = instance.state
+    const dispatch = jest.fn()
     instance.actions.checkNodeHalted({ state, dispatch }, 100000)
     expect(state.nodeHaltedTimeout).toBeDefined()
     // expire the halted check before a block was received
@@ -264,9 +264,9 @@ describe(`Module: Connection`, () => {
 
   it(`should check if the node has negatively halted`, async () => {
     jest.useFakeTimers()
-    let instance = connectionModule({ node: nodeMock })
-    let state = instance.state
-    let dispatch = jest.fn()
+    const instance = connectionModule({ node: nodeMock })
+    const state = instance.state
+    const dispatch = jest.fn()
     instance.actions.checkNodeHalted({ state, dispatch }, 100000)
     state.lastHeader.height = 10
     // expire the halted check before a block was received
@@ -276,10 +276,10 @@ describe(`Module: Connection`, () => {
 
   it(`should signal that a node has halted`, async () => {
     jest.useFakeTimers()
-    let instance = connectionModule({ node: nodeMock })
-    let state = instance.state
-    let commit = jest.fn()
-    let timeout = setTimeout(() => {}, 100000)
+    const instance = connectionModule({ node: nodeMock })
+    const state = instance.state
+    const commit = jest.fn()
+    const timeout = setTimeout(() => {}, 100000)
     state.nodeHaltedTimeout = timeout
 
     instance.actions.nodeHasHalted({ state, commit })

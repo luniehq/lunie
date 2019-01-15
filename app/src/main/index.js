@@ -1,22 +1,22 @@
 "use strict"
 
 const assert = require(`assert`)
-let { app, BrowserWindow, ipcMain } = require(`electron`)
-let fs = require(`fs-extra`)
+const { app, BrowserWindow, ipcMain } = require(`electron`)
+const fs = require(`fs-extra`)
 const https = require(`https`)
-let { join, relative } = require(`path`)
-let childProcess = require(`child_process`)
-let semver = require(`semver`)
+const { join, relative } = require(`path`)
+const childProcess = require(`child_process`)
+const semver = require(`semver`)
 const Sentry = require(`@sentry/node`)
 const readline = require(`readline`)
-let axios = require(`axios`)
+const axios = require(`axios`)
 
-let { version: pkgVersion } = require(`../../../package.json`)
-let addMenu = require(`./menu.js`)
-let config = require(`../config.js`)
+const { version: pkgVersion } = require(`../../../package.json`)
+const addMenu = require(`./menu.js`)
+const config = require(`../config.js`)
 config.node_lcd = process.env.LCD_URL || config.node_lcd
 config.node_rpc = process.env.RPC_URL || config.node_rpc
-let LcdClient = require(`../renderer/connectors/lcdClient.js`)
+const LcdClient = require(`../renderer/connectors/lcdClient.js`)
 global.config = config // to make the config accessable from renderer
 global.config.version = pkgVersion
 
@@ -25,7 +25,7 @@ require(`electron-debug`)()
 let shuttingDown = false
 let mainWindow
 let gaiaLiteProcess
-let streams = []
+const streams = []
 let connecting = true
 let chainId
 let booted = false
@@ -57,7 +57,7 @@ const gaiaVersion = fs
   .split(`-`)[0]
 process.env.GAIA_VERSION = gaiaVersion
 
-let LCD_BINARY_NAME = `gaiacli` + (WIN ? `.exe` : ``)
+const LCD_BINARY_NAME = `gaiacli` + (WIN ? `.exe` : ``)
 
 function log(...args) {
   if (LOGGING) {
@@ -74,7 +74,7 @@ function logProcess(process, logPath) {
   fs.ensureFileSync(logPath)
   // Writestreams are blocking fs cleanup in tests, if you get errors, disable logging
   if (LOGGING) {
-    let logStream = fs.createWriteStream(logPath, { flags: `a` }) // 'a' means appending (old data will be preserved)
+    const logStream = fs.createWriteStream(logPath, { flags: `a` }) // 'a' means appending (old data will be preserved)
     streams.push(logStream)
     process.stdout.pipe(logStream)
     process.stderr.pipe(logStream)
@@ -149,8 +149,8 @@ function createWindow() {
   log(`mainWindow opened`)
 
   // handle opening external links in OS's browser
-  let webContents = mainWindow.webContents
-  let handleRedirect = (e, url) => {
+  const webContents = mainWindow.webContents
+  const handleRedirect = (e, url) => {
     if (url !== webContents.getURL()) {
       e.preventDefault()
       require(`electron`).shell.openExternal(url)
@@ -184,7 +184,7 @@ function startProcess(name, args, env) {
     binPath = join(__dirname, `..`, `bin`, name)
   }
 
-  let argString = args.map(arg => JSON.stringify(arg)).join(` `)
+  const argString = args.map(arg => JSON.stringify(arg)).join(` `)
   log(`spawning ${binPath} with args "${argString}"`)
   let child
   try {
@@ -213,7 +213,7 @@ function startProcess(name, args, env) {
   child.on(`error`, async function(error) {
     if (!(shuttingDown && error.code === `ECONNRESET`)) {
       // if we throw errors here, they are not handled by the main process
-      let errorMessage = [
+      const errorMessage = [
         `[Uncaught Exception] Child`,
         name,
         `produced an unhandled exception:`,
@@ -257,7 +257,7 @@ async function startLCD(home, nodeURL) {
   let lcdStarted = false // remember if the lcd has started to toggle the right error handling if it crashes async
   return new Promise(async (resolve, reject) => {
     log(`startLCD`, home)
-    let child = startProcess(LCD_BINARY_NAME, [
+    const child = startProcess(LCD_BINARY_NAME, [
       `rest-server`,
       `--laddr`,
       `tcp://localhost:${LCD_PORT}`,
@@ -282,7 +282,7 @@ async function startLCD(home, nodeURL) {
     })
 
     child.stderr.on(`line`, error => {
-      let errorMessage = `The gaiacli rest-server (LCD) experienced an error:\n${error.toString(
+      const errorMessage = `The gaiacli rest-server (LCD) experienced an error:\n${error.toString(
         `utf8`
       )}`.substr(0, 1000)
       lcdStarted
@@ -315,8 +315,8 @@ function stopLCD() {
 }
 
 async function getGaiacliVersion() {
-  let child = startProcess(LCD_BINARY_NAME, [`version`])
-  let data = await new Promise(resolve => {
+  const child = startProcess(LCD_BINARY_NAME, [`version`])
+  const data = await new Promise(resolve => {
     child.stdout.on(`data`, resolve)
   })
   return data.toString(`utf8`).trim()
@@ -355,9 +355,9 @@ function setupLogging(root) {
   if (!LOGGING) return
 
   // initialize log file
-  let logFilePath = join(root, `main.log`)
+  const logFilePath = join(root, `main.log`)
   fs.ensureFileSync(logFilePath)
-  let mainLog = fs.createWriteStream(logFilePath, { flags: `a` }) // 'a' means appending (old data will be preserved)
+  const mainLog = fs.createWriteStream(logFilePath, { flags: `a` }) // 'a' means appending (old data will be preserved)
   mainLog.write(`${new Date()} Running Cosmos-UI\r\n`)
   // mainLog.write(`${new Date()} Environment: ${JSON.stringify(process.env)}\r\n`) // TODO should be filtered before adding it to the log
   streams.push(mainLog)
@@ -433,9 +433,9 @@ Object.entries(eventHandlers).forEach(([event, handler]) => {
 
 // test an actual node version against the expected one and flag the node if incompatible
 async function testNodeVersion(client, expectedGaiaVersion) {
-  let result = await client.nodeVersion()
-  let nodeVersion = result.split(`-`)[0]
-  let semverDiff = semver.diff(nodeVersion, expectedGaiaVersion)
+  const result = await client.nodeVersion()
+  const nodeVersion = result.split(`-`)[0]
+  const semverDiff = semver.diff(nodeVersion, expectedGaiaVersion)
   if (semverDiff === `patch` || semverDiff === null) {
     return { compatible: true, nodeVersion }
   }
@@ -463,7 +463,7 @@ const AxiosListener = axios => {
 
 // check if our node is reachable and the SDK version is compatible with the local one
 async function pickAndConnect() {
-  let nodeURL = config.node_lcd
+  const nodeURL = config.node_lcd
   connecting = true
   let certificate
 
@@ -505,7 +505,7 @@ async function pickAndConnect() {
   }
 
   if (!compatible) {
-    let message = `Node ${nodeURL} uses SDK version ${nodeVersion} which is incompatible to the version used in Voyager ${expectedGaiaCliVersion}`
+    const message = `Node ${nodeURL} uses SDK version ${nodeVersion} which is incompatible to the version used in Voyager ${expectedGaiaCliVersion}`
     log(message)
     await stopLCD()
 
@@ -553,7 +553,7 @@ function checkConsistentConfigDir(
   configPath,
   gaiacliVersionPath
 ) {
-  let missingFile =
+  const missingFile =
     (!exists(genesisPath) && genesisPath) ||
     (!exists(appVersionPath) && appVersionPath) ||
     (!exists(configPath) && configPath) ||
@@ -563,9 +563,9 @@ function checkConsistentConfigDir(
       `The data directory (${root}) is missing ${relative(root, missingFile)}`
     )
   } else {
-    let existingVersion = fs.readFileSync(appVersionPath, `utf8`).trim()
-    let semverDiff = semver.diff(existingVersion, pkgVersion)
-    let compatible = semverDiff !== `major` && semverDiff !== `minor`
+    const existingVersion = fs.readFileSync(appVersionPath, `utf8`).trim()
+    const semverDiff = semver.diff(existingVersion, pkgVersion)
+    const compatible = semverDiff !== `major` && semverDiff !== `minor`
     if (compatible) {
       log(`configs are compatible with current app version`)
     } else {
@@ -579,7 +579,7 @@ function checkConsistentConfigDir(
 
 const checkGaiaCompatibility = async gaiacliVersionPath => {
   // XXX: currently ignores commit hash
-  let gaiacliVersion = (await getGaiacliVersion()).split(`-`)[0]
+  const gaiacliVersion = (await getGaiacliVersion()).split(`-`)[0]
 
   expectedGaiaCliVersion = fs
     .readFileSync(gaiacliVersionPath, `utf8`)
@@ -590,7 +590,7 @@ const checkGaiaCompatibility = async gaiacliVersionPath => {
     `gaiacli version: "${gaiacliVersion}", expected: "${expectedGaiaCliVersion}"`
   )
 
-  let compatible =
+  const compatible =
     semver.major(gaiacliVersion) == semver.major(expectedGaiaCliVersion) &&
     semver.minor(gaiacliVersion) == semver.minor(expectedGaiaCliVersion)
 
@@ -609,12 +609,12 @@ async function main() {
   // Sentry is used for automatic error reporting. It is turned off by default.
   Sentry.init({})
 
-  let appVersionPath = join(root, `app_version`)
-  let genesisPath = join(root, `genesis.json`)
-  let configPath = join(root, `config.toml`)
-  let gaiacliVersionPath = join(root, `gaiaversion.txt`)
+  const appVersionPath = join(root, `app_version`)
+  const genesisPath = join(root, `genesis.json`)
+  const configPath = join(root, `config.toml`)
+  const gaiacliVersionPath = join(root, `gaiaversion.txt`)
 
-  let rootExists = exists(root)
+  const rootExists = exists(root)
   await fs.ensureDir(root)
 
   setupLogging(root)
@@ -639,11 +639,11 @@ async function main() {
 
     // check to make sure the genesis.json we want to use matches the one
     // we already have. if it has changed, replace it with the new one
-    let existingGenesis = fs.readFileSync(genesisPath, `utf8`)
-    let genesisJSON = JSON.parse(existingGenesis)
+    const existingGenesis = fs.readFileSync(genesisPath, `utf8`)
+    const genesisJSON = JSON.parse(existingGenesis)
     // skip this check for local testnet
     if (genesisJSON.chain_id !== `local`) {
-      let specifiedGenesis = fs.readFileSync(
+      const specifiedGenesis = fs.readFileSync(
         join(networkPath, `genesis.json`),
         `utf8`
       )
@@ -679,8 +679,8 @@ async function main() {
   await checkGaiaCompatibility(gaiacliVersionPath)
 
   // read chainId from genesis.json
-  let genesisText = fs.readFileSync(genesisPath, `utf8`)
-  let genesis = JSON.parse(genesisText)
+  const genesisText = fs.readFileSync(genesisPath, `utf8`)
+  const genesis = JSON.parse(genesisText)
   chainId = genesis.chain_id // is set globaly
 
   // choose one random node to start from

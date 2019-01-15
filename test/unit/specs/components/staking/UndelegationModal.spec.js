@@ -7,14 +7,14 @@ import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`UndelegationModal`, () => {
   let wrapper, store
-  let { stakingParameters } = lcdClientMock.state
-  let { mount, localVue } = setup()
+  const { stakingParameters } = lcdClientMock.state
+  const { mount, localVue } = setup()
   localVue.use(Vuelidate)
   localVue.directive(`tooltip`, () => {})
   localVue.directive(`focus`, () => {})
 
   beforeEach(() => {
-    let instance = mount(UndelegationModal, {
+    const instance = mount(UndelegationModal, {
       localVue,
       propsData: {
         maximum: 100,
@@ -39,7 +39,7 @@ describe(`UndelegationModal`, () => {
     })
 
     it(`displays the user's wallet address as the default`, () => {
-      let toField = wrapper.find(`#to`)
+      const toField = wrapper.find(`#to`)
       expect(toField).toBeDefined()
       expect(toField.element.value).toEqual(
         `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`
@@ -67,16 +67,16 @@ describe(`UndelegationModal`, () => {
   describe(`enables or disables the Delegation button correctly`, () => {
     describe(`disables the 'Delegation' button`, () => {
       it(`with default values`, () => {
-        let undelegationBtn = wrapper.find(`#submit-undelegation`)
+        const undelegationBtn = wrapper.find(`#submit-undelegation`)
         expect(undelegationBtn.html()).toContain(`disabled="disabled"`)
       })
 
       it(`if the user manually inputs a number greater than the balance`, () => {
         wrapper.setData({ amount: 142, password: `1234567890` })
-        let amountField = wrapper.find(`#amount`)
-        let undelegationBtn = wrapper.find(`#submit-undelegation`)
+        const amountField = wrapper.find(`#amount`)
+        const undelegationBtn = wrapper.find(`#submit-undelegation`)
         expect(undelegationBtn.html()).toContain(`disabled="disabled"`)
-        let errorMessage = wrapper.find(`input#amount + div`)
+        const errorMessage = wrapper.find(`input#amount + div`)
         expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
 
         amountField.trigger(`input`)
@@ -85,7 +85,7 @@ describe(`UndelegationModal`, () => {
 
       it(`if the password field is empty`, () => {
         wrapper.setData({ amount: 10, password: `` })
-        let undelegationBtn = wrapper.find(`#submit-undelegation`)
+        const undelegationBtn = wrapper.find(`#submit-undelegation`)
         expect(undelegationBtn.html()).toContain(`disabled="disabled"`)
       })
     })
@@ -94,7 +94,7 @@ describe(`UndelegationModal`, () => {
       it(`if the amout is positive and the user has enough balance`, () => {
         wrapper.setData({ amount: 50, password: `1234567890` })
 
-        let undelegationBtn = wrapper.find(`#submit-undelegation`)
+        const undelegationBtn = wrapper.find(`#submit-undelegation`)
         expect(undelegationBtn.html()).not.toContain(`disabled="disabled"`)
       })
     })

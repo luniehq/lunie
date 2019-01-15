@@ -75,7 +75,7 @@ export default function({ node }) {
       })
       node.rpc.status((error, result) => {
         if (error) return console.error(error)
-        let status = result
+        const status = result
         dispatch(`setLastHeader`, {
           height: status.sync_info.latest_block_height,
           chain_id: status.node_info.network

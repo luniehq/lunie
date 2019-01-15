@@ -4,7 +4,7 @@ import TmFieldSeed from "common/TmFieldSeed"
 describe(`TmFieldSeed`, () => {
   let wrapper
 
-  let propsData = {
+  const propsData = {
     value: `one two three four five six seven eight nine ten eleven twelve`
   }
 

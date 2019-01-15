@@ -10,7 +10,7 @@ localVue.directive(`focus`, () => {})
 
 describe(`TmSessionWelcome`, () => {
   let wrapper, store, getters
-  let accounts = []
+  const accounts = []
 
   beforeEach(() => {
     getters = {

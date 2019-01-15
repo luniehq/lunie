@@ -4,7 +4,7 @@ import TmDataMsg from "common/TmDataMsg"
 describe(`TmDataMsg`, () => {
   let wrapper
 
-  let propsData = {
+  const propsData = {
     title: `sOmEtHiNg Is HaPpEnIng!!!`,
     subtitle: `Oh my! What could it be?`,
     icon: `help`,

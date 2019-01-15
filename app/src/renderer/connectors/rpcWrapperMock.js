@@ -3,7 +3,7 @@
 const mockValidators = require(`../../helpers/json/mock_validators.json`)
 const { sleep } = require(`../scripts/common.js`)
 
-let state = { blockMetas: [], blocks: [], connected: true }
+const state = { blockMetas: [], blocks: [], connected: true }
 createBlockMetas(state)
 
 const RpcClientMock = {
@@ -37,7 +37,7 @@ const RpcClientMock = {
 }
 
 module.exports = function setRPCWrapperMock(container) {
-  let rpcWrapper = {
+  const rpcWrapper = {
     // RPC
     // made this a subobject so we can manipulate it in here while assigning it to the outer node object
     rpcInfo: {
@@ -97,9 +97,9 @@ function createBlock(height) {
 }
 
 function createBlockMetas(state) {
-  let now = new Date()
+  const now = new Date()
   new Array(200).fill(null).forEach((_, i) => {
-    let time = new Date(now)
+    const time = new Date(now)
     time.setMinutes(time.getMinutes() - i)
 
     state.blockMetas[i] = createBlockMeta(time, i)
@@ -110,7 +110,7 @@ function createBlockMetas(state) {
 async function produceBlockHeaders(cb) {
   let height = 200
   while (state.connected) {
-    let newBlockHeader = createBlockMeta(Date.now(), ++height)
+    const newBlockHeader = createBlockMeta(Date.now(), ++height)
     state.blockMetas[newBlockHeader.height] = newBlockHeader
     cb(null, { data: { value: { header: newBlockHeader } } })
     await sleep(1000)
@@ -120,7 +120,7 @@ async function produceBlockHeaders(cb) {
 async function produceBlocks(cb) {
   let height = 200
   while (state.connected) {
-    let newBlock = createBlock(++height)
+    const newBlock = createBlock(++height)
     state.blocks.push(newBlock)
     cb(null, { data: { value: { block: newBlock } } })
     await sleep(1000)

@@ -1,12 +1,12 @@
 import setup from "../../helpers/vuex-setup"
 import { getTxHash } from "../../../../app/src/renderer/scripts/tx-utils.js"
 import blockchainModule from "renderer/vuex/modules/blockchain.js"
-let instance = setup()
+const instance = setup()
 
 describe(`Module: Blockchain`, () => {
   let store, node
-  let height = 100
-  let blockMeta = {
+  const height = 100
+  const blockMeta = {
     header: {
       height,
       time: 42
@@ -14,7 +14,7 @@ describe(`Module: Blockchain`, () => {
   }
 
   beforeEach(() => {
-    let test = instance.shallow()
+    const test = instance.shallow()
     store = test.store
     node = test.node
 
@@ -29,7 +29,7 @@ describe(`Module: Blockchain`, () => {
       cb(null, { block_metas: [blockMeta] })
     })
 
-    let output = await store.dispatch(`queryBlockInfo`, 42)
+    const output = await store.dispatch(`queryBlockInfo`, 42)
     expect(output).toBe(blockMeta)
   })
 
@@ -39,7 +39,7 @@ describe(`Module: Blockchain`, () => {
 
     node.rpc.blockchain = jest.fn()
 
-    let output = await store.dispatch(`queryBlockInfo`, 100)
+    const output = await store.dispatch(`queryBlockInfo`, 100)
     expect(output).toBe(blockMeta)
     expect(node.rpc.blockchain).not.toHaveBeenCalled()
   })
@@ -73,9 +73,9 @@ describe(`Module: Blockchain`, () => {
   })
 
   it(`should not subscribe twice`, async () => {
-    let firstResponse = await store.dispatch(`subscribeToBlocks`)
+    const firstResponse = await store.dispatch(`subscribeToBlocks`)
     expect(firstResponse).toBe(true)
-    let secondResponse = await store.dispatch(`subscribeToBlocks`)
+    const secondResponse = await store.dispatch(`subscribeToBlocks`)
     expect(secondResponse).toBe(false)
   })
 
@@ -127,9 +127,9 @@ describe(`Module: Blockchain`, () => {
   })
 
   it(`should convert tx strings correctly`, async () => {
-    let expectedHash = `0a31fba9f6d7403b41f5e52c12b98246c7c649af`
-    let txString = `4wHwYl3uCloqLIf6CikKFIPMHcOoYjqQbmtzFFdU3g967Y0/EhEKCmxvY2FsVG9rZW4SAzEwMBIpChSDzB3DqGI6kG5rcxRXVN4Peu2NPxIRCgpsb2NhbFRva2VuEgMxMDASCQoDEgEwEMCEPRp2CibrWumHIQLUKUS5mPDRAdBIB5lAw9AIh/aaAL9PTqArOWGO5fpsphJMf8SklUcwRQIhAM9qzjJSTxzXatI3ncHcb1cwIdCTU+oVP4V8RO6lzjcXAiAoS9XZ4e3I/1e/HonfHucRNYE65ioGk88q4dWPs9Z5LA==`
-    let hash = await getTxHash(txString)
+    const expectedHash = `0a31fba9f6d7403b41f5e52c12b98246c7c649af`
+    const txString = `4wHwYl3uCloqLIf6CikKFIPMHcOoYjqQbmtzFFdU3g967Y0/EhEKCmxvY2FsVG9rZW4SAzEwMBIpChSDzB3DqGI6kG5rcxRXVN4Peu2NPxIRCgpsb2NhbFRva2VuEgMxMDASCQoDEgEwEMCEPRp2CibrWumHIQLUKUS5mPDRAdBIB5lAw9AIh/aaAL9PTqArOWGO5fpsphJMf8SklUcwRQIhAM9qzjJSTxzXatI3ncHcb1cwIdCTU+oVP4V8RO6lzjcXAiAoS9XZ4e3I/1e/HonfHucRNYE65ioGk88q4dWPs9Z5LA==`
+    const hash = await getTxHash(txString)
     expect(hash).toBe(expectedHash)
   })
 

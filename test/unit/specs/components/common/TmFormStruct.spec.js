@@ -4,7 +4,7 @@ import TmFormStruct from "common/TmFormStruct"
 describe(`TmFormStruct`, () => {
   let wrapper
 
-  let propsData = {
+  const propsData = {
     width: `narrow`,
     submit: function() {
       // console.log("form successfully submitted")

@@ -7,7 +7,7 @@ import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`ModalDeposit`, () => {
   let wrapper, store
-  let { mount, localVue } = setup()
+  const { mount, localVue } = setup()
   localVue.use(Vuelidate)
   localVue.directive(`tooltip`, () => {})
   localVue.directive(`focus`, () => {})
@@ -19,7 +19,7 @@ describe(`ModalDeposit`, () => {
         denom: `stake`
       }
     ]
-    let instance = mount(ModalDeposit, {
+    const instance = mount(ModalDeposit, {
       localVue,
       propsData: {
         proposalId: `1`,
@@ -64,15 +64,15 @@ describe(`ModalDeposit`, () => {
   describe(`enables or disables 'Deposit' button correctly`, () => {
     describe(`disables the 'Deposit' button`, () => {
       it(`with default values`, () => {
-        let depositBtn = wrapper.find(`#submit-deposit`)
+        const depositBtn = wrapper.find(`#submit-deposit`)
         expect(depositBtn.html()).toContain(`disabled="disabled"`)
       })
 
       it(`when the amount deposited higher than the user's balance`, () => {
         wrapper.setData({ amount: 25, password: `1234567890` })
-        let depositBtn = wrapper.find(`#submit-deposit`)
+        const depositBtn = wrapper.find(`#submit-deposit`)
         expect(depositBtn.html()).toContain(`disabled="disabled"`)
-        let errorMessage = wrapper.find(`input#amount + div`)
+        const errorMessage = wrapper.find(`input#amount + div`)
         expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
       })
 
@@ -85,13 +85,13 @@ describe(`ModalDeposit`, () => {
         ]
         store.commit(`setWalletBalances`, otherCoins)
         wrapper.setData({ amount: 25, password: `1234567890` })
-        let depositBtn = wrapper.find(`#submit-deposit`)
+        const depositBtn = wrapper.find(`#submit-deposit`)
         expect(depositBtn.html()).toContain(`disabled="disabled"`)
       })
 
       it(`when the password field is empty`, () => {
         wrapper.setData({ amount: 10, password: `` })
-        let depositBtn = wrapper.find(`#submit-deposit`)
+        const depositBtn = wrapper.find(`#submit-deposit`)
         expect(depositBtn.html()).toContain(`disabled="disabled"`)
       })
     })
@@ -99,7 +99,7 @@ describe(`ModalDeposit`, () => {
     describe(`enables the 'Deposit' button`, () => {
       it(`when the user has enough balance to submit a deposit`, () => {
         wrapper.setData({ amount: 15, password: `1234567890` })
-        let submitButton = wrapper.find(`#submit-deposit`)
+        const submitButton = wrapper.find(`#submit-deposit`)
         expect(submitButton.html()).not.toContain(`disabled="disabled"`)
       })
     })

@@ -4,7 +4,7 @@ const electronInstaller = require(`electron-winstaller`)
 const { author, version } = require(`../package.json`)
 
 // Installer is customizable: https://github.com/electron/windows-installer
-let resultPromise = electronInstaller.createWindowsInstaller({
+const resultPromise = electronInstaller.createWindowsInstaller({
   appDirectory: `./builds/cosmos-voyager-win32-x64`,
   outputDirectory: `./builds/cosmos/cosmos-voyager-win32`,
   title: `Cosmos Voyager`,

@@ -1,18 +1,18 @@
 import setup from "../../helpers/vuex-setup"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
-let instance = setup()
+const instance = setup()
 
 describe(`Module: Send`, () => {
   let store, node
 
-  let errMsgWithObject = {
+  const errMsgWithObject = {
     response: {
       data: `Msg 0 failed: {"codespace":4,"code":102,"abci_code":262246,"message":"existing unbonding delegation found"}`
     }
   }
 
-  let errObject = {
+  const errObject = {
     response: {
       data: {
         codespace: 4,
@@ -23,14 +23,14 @@ describe(`Module: Send`, () => {
     }
   }
 
-  let errMsgNoObject = {
+  const errMsgNoObject = {
     response: {
       data: `unexpected error`
     }
   }
 
   beforeEach(() => {
-    let test = instance.shallow(null)
+    const test = instance.shallow(null)
     store = test.store
     node = test.node
 
@@ -56,8 +56,8 @@ describe(`Module: Send`, () => {
 
   describe(`send transactions`, () => {
     beforeEach(async () => {
-      let account = `default`
-      let password = `1234567890`
+      const account = `default`
+      const password = `1234567890`
       node.send = jest.fn(node.send)
       await store.dispatch(`signIn`, { account, password })
       store.dispatch(`setLastHeader`, {
@@ -168,7 +168,7 @@ describe(`Module: Send`, () => {
     })
 
     it(`should send a transaction after failing`, async () => {
-      let send = node.send.bind(node)
+      const send = node.send.bind(node)
 
       node.send = () => Promise.reject(true)
       let args = {
@@ -224,7 +224,7 @@ describe(`Module: Send`, () => {
     })
 
     it(`should throw an error if not connected`, async () => {
-      let args = {
+      const args = {
         to: `mock_address`,
         amount: [{ denom: `mycoin`, amount: 123 }]
       }

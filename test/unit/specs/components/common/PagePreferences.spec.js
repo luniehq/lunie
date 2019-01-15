@@ -6,11 +6,11 @@ jest.mock(`renderer/google-analytics.js`, () => () => {})
 
 describe(`PagePreferences`, () => {
   let wrapper, store
-  let { stakingParameters } = lcdClientMock.state
-  let { mount } = setup()
+  const { stakingParameters } = lcdClientMock.state
+  const { mount } = setup()
 
   beforeEach(async () => {
-    let instance = mount(PagePreferences)
+    const instance = mount(PagePreferences)
     wrapper = instance.wrapper
     store = instance.store
 
@@ -38,7 +38,7 @@ describe(`PagePreferences`, () => {
   })
 
   it(`should set the error collection opt in`, async () => {
-    let errorCollection = wrapper.vm.user.errorCollection
+    const errorCollection = wrapper.vm.user.errorCollection
     const dispatch = jest.fn()
     wrapper.vm.setErrorCollection({
       $store: {

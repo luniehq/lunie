@@ -180,7 +180,7 @@ export default {
       this.$v.$touch()
       if (this.$v.$error) return
       try {
-        let key = await this.$store.dispatch(`createKey`, {
+        const key = await this.$store.dispatch(`createKey`, {
           seedPhrase: this.fields.importSeed,
           password: this.fields.importPassword,
           name: this.fields.importName

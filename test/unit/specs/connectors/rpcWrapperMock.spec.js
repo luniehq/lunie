@@ -1,10 +1,10 @@
 describe(`RPC Wrapper Mock`, () => {
-  let node = {}
+  const node = {}
   let wrapper
 
   beforeEach(() => {
     jest.resetModules()
-    let mockedRpcWrapper = require(`renderer/connectors/rpcWrapperMock.js`)
+    const mockedRpcWrapper = require(`renderer/connectors/rpcWrapperMock.js`)
     wrapper = mockedRpcWrapper(node)
     wrapper.rpcConnect(`localhost`)
   })
@@ -18,7 +18,7 @@ describe(`RPC Wrapper Mock`, () => {
   })
 
   it(`outputs a block`, done => {
-    let height = 5
+    const height = 5
     node.rpc.block({ height: height, maxHeight: height }, (error, data) => {
       expect(error).toBeNull()
       expect(data.block).toBeDefined()
@@ -27,7 +27,7 @@ describe(`RPC Wrapper Mock`, () => {
   })
 
   it(`outputs a block header`, done => {
-    let height = 5
+    const height = 5
     node.rpc.blockchain(
       { minHeight: height, maxHeight: height },
       (error, data) => {
@@ -47,7 +47,7 @@ describe(`RPC Wrapper Mock`, () => {
   })
 
   it(`receives a stream of blocks`, done => {
-    let blocks = []
+    const blocks = []
     node.rpc.subscribe({ query: `tm.event = 'NewBlock'` }, (error, data) => {
       expect(error).toBeNull()
       expect(data.data.value.block).toBeDefined()
@@ -59,7 +59,7 @@ describe(`RPC Wrapper Mock`, () => {
   })
 
   it(`receives a stream of block headers`, done => {
-    let headers = []
+    const headers = []
     node.rpc.subscribe(
       { query: `tm.event = 'NewBlockHeader'` },
       (error, data) => {

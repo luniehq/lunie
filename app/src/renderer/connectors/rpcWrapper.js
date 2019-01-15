@@ -4,7 +4,7 @@ const RpcClient = require(`tendermint`)
 const { ipcRenderer } = require(`electron`)
 
 module.exports = function setRpcWrapper(container) {
-  let rpcWrapper = {
+  const rpcWrapper = {
     // RPC
     rpcInfo: {
       connecting: false,
@@ -24,7 +24,7 @@ module.exports = function setRpcWrapper(container) {
       rpcWrapper.rpcInfo.connected = false
     },
     rpcConnect(rpcURL) {
-      let rpcHost =
+      const rpcHost =
         rpcURL.startsWith(`http`) && rpcURL.indexOf(`//`) !== -1
           ? rpcURL.split(`//`)[1]
           : rpcURL
@@ -34,7 +34,7 @@ module.exports = function setRpcWrapper(container) {
       }
 
       console.log(`init rpc with ` + rpcURL)
-      let newRpc = new RpcClient(`ws://${rpcHost}`)
+      const newRpc = new RpcClient(`ws://${rpcHost}`)
       rpcWrapper.rpcInfo.connected = true
       // we need to check immediately if the connection fails. later we will not be able to check this error
       newRpc.on(`error`, err => {

@@ -68,7 +68,7 @@ export default {
     setDeactivation() {
       if (!this.layout || this.layout === `banner`) {
         // notification active duration is 5 seconds - (time since creation)
-        let activeDuration = this.duration - (Date.now() - this.time)
+        const activeDuration = this.duration - (Date.now() - this.time)
 
         // disable visibility if it's an old notification
         if (activeDuration < 0) {

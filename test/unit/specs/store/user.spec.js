@@ -7,11 +7,11 @@ function mockGA() {
 }
 jest.mock(`renderer/google-analytics.js`, () => mockGA)
 
-let instance = setup()
+const instance = setup()
 
 describe(`Module: User`, () => {
   let store, node
-  let accounts = [
+  const accounts = [
     {
       address: `tb1zg69v7yszg69v7yszg69v7yszg69v7ysd8ep6q`,
       name: `ACTIVE_ACCOUNT`
@@ -19,7 +19,7 @@ describe(`Module: User`, () => {
   ]
 
   beforeEach(() => {
-    let test = instance.shallow()
+    const test = instance.shallow()
     store = test.store
     node = test.node
   })
@@ -51,7 +51,7 @@ describe(`Module: User`, () => {
   })
 
   it(`should show an error if loading accounts fails`, async () => {
-    let { actions, state } = userModule({
+    const { actions, state } = userModule({
       node: {
         keys: {
           values: () => Promise.reject(new Error(`Expected Error`))
@@ -94,7 +94,7 @@ describe(`Module: User`, () => {
       expect(old_password).toBe(new_password)
       return true
     }
-    let output = await store.dispatch(`testLogin`, {
+    const output = await store.dispatch(`testLogin`, {
       account: `default`,
       password: `1234567890`
     })
@@ -107,17 +107,17 @@ describe(`Module: User`, () => {
   })
 
   it(`should create a seed phrase`, async () => {
-    let seed = await store.dispatch(`createSeed`)
+    const seed = await store.dispatch(`createSeed`)
     expect(seed).toBeDefined()
     expect(seed.split(` `).length).toBe(24)
   })
 
   it(`should create a key from a seed phrase`, async () => {
-    let seedPhrase = `abc`
-    let password = `123`
-    let name = `def`
+    const seedPhrase = `abc`
+    const password = `123`
+    const name = `def`
     node.keys.add = jest.fn(node.keys.add)
-    let address = await store.dispatch(`createKey`, {
+    const address = await store.dispatch(`createKey`, {
       seedPhrase,
       password,
       name
@@ -133,16 +133,16 @@ describe(`Module: User`, () => {
   })
 
   it(`should delete a key`, async () => {
-    let password = `123`
-    let name = `def`
+    const password = `123`
+    const name = `def`
     node.keys.delete = jest.fn()
     await store.dispatch(`deleteKey`, { password, name })
     expect(node.keys.delete).toHaveBeenCalledWith(name, { password, name })
   })
 
   it(`should sign in`, async () => {
-    let password = `123`
-    let account = `def`
+    const password = `123`
+    const account = `def`
     node.keys.get = jest.fn(() =>
       Promise.resolve({ address: `tb1wdhk6efqv9jxgun9wdesd6m8k8` })
     )
@@ -158,8 +158,8 @@ describe(`Module: User`, () => {
   })
 
   it(`should sign out`, async () => {
-    let password = `123`
-    let account = `def`
+    const password = `123`
+    const account = `def`
     await store.dispatch(`signIn`, { password, account })
     store.dispatch(`signOut`)
     expect(store.state.user.account).toBe(null)
@@ -188,7 +188,7 @@ describe(`Module: User`, () => {
   })
 
   it(`should persist the error collection opt in`, () => {
-    let localStorageSpy = jest.spyOn(localStorage, `setItem`)
+    const localStorageSpy = jest.spyOn(localStorage, `setItem`)
     store.dispatch(`setErrorCollection`, { account: `abc`, optin: true })
 
     expect(localStorageSpy).toHaveBeenCalledWith(
@@ -198,7 +198,7 @@ describe(`Module: User`, () => {
   })
 
   it(`should load the persistet error collection opt in`, () => {
-    let localStorageSpy = jest.spyOn(localStorage, `getItem`)
+    const localStorageSpy = jest.spyOn(localStorage, `getItem`)
     store.dispatch(`setErrorCollection`, { account: `abc`, optin: true })
     store.state.user.errorCollection = false
     store.dispatch(`loadErrorCollection`, `abc`)
@@ -233,7 +233,7 @@ describe(`Module: User`, () => {
     // we need to reset the module to use the mocked electron dependency
     jest.resetModules()
     const userModule = require(`renderer/vuex/modules/user.js`).default
-    let { actions, state } = userModule({
+    const { actions, state } = userModule({
       node: {
         keys: {
           values: () => Promise.reject(new Error(`Expected Error`))

@@ -1,9 +1,9 @@
 import proposalsModule from "renderer/vuex/modules/governance/proposals.js"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
-let { proposals, tallies } = lcdClientMock.state
-let addresses = lcdClientMock.addresses
+const { proposals, tallies } = lcdClientMock.state
+const addresses = lcdClientMock.addresses
 
-let mockRootState = {
+const mockRootState = {
   wallet: {
     address: addresses[0]
   },
@@ -20,8 +20,8 @@ describe(`Module: Proposals`, () => {
   })
 
   it(`should query for proposals on reconnection if was loading before`, async () => {
-    let { actions } = module
-    let instance = {
+    const { actions } = module
+    const instance = {
       state: {
         loading: true
       },
@@ -32,13 +32,13 @@ describe(`Module: Proposals`, () => {
   })
 
   it(`adds a proposal to state`, () => {
-    let { mutations, state } = module
+    const { mutations, state } = module
     mutations.setProposal(state, proposals[`1`])
     expect(state.proposals[`1`]).toEqual(proposals[`1`])
   })
 
   it(`adds a tally result to a proposal already in state`, () => {
-    let { mutations, state } = module
+    const { mutations, state } = module
     mutations.setProposal(state, proposals[`2`])
     mutations.setProposalTally(state, {
       proposal_id: `2`,
@@ -48,9 +48,9 @@ describe(`Module: Proposals`, () => {
   })
 
   it(`replaces existing proposal with same id`, () => {
-    let { mutations, state } = module
+    const { mutations, state } = module
     mutations.setProposal(state, proposals[`1`])
-    let newProposal = JSON.parse(JSON.stringify(proposals[`1`]))
+    const newProposal = JSON.parse(JSON.stringify(proposals[`1`]))
     newProposal.tally_result = {
       yes: `10`,
       no: `3`,
@@ -80,9 +80,9 @@ describe(`Module: Proposals`, () => {
         }
       })
 
-      let { actions, state } = module
-      let commit = jest.fn()
-      let dispatch = jest.fn()
+      const { actions, state } = module
+      const commit = jest.fn()
+      const dispatch = jest.fn()
 
       await actions.getProposals({
         state,
@@ -119,7 +119,7 @@ describe(`Module: Proposals`, () => {
           queryProposals: () => Promise.reject(new Error(`Error`))
         }
       })
-      let { actions, state } = module
+      const { actions, state } = module
       await actions.getProposals({
         state,
         commit: jest.fn(),
@@ -139,9 +139,9 @@ describe(`Module: Proposals`, () => {
         }
       })
 
-      let { actions, state } = module
-      let commit = jest.fn()
-      let dispatch = jest.fn()
+      const { actions, state } = module
+      const commit = jest.fn()
+      const dispatch = jest.fn()
 
       // not on VotingPeriod
       await actions.getProposal(
@@ -171,9 +171,9 @@ describe(`Module: Proposals`, () => {
         }
       })
 
-      let { actions, state } = module
-      let commit = jest.fn()
-      let dispatch = jest.fn()
+      const { actions, state } = module
+      const commit = jest.fn()
+      const dispatch = jest.fn()
 
       await actions.getProposal(
         { state, commit, dispatch, rootState: mockRootState },
@@ -184,10 +184,10 @@ describe(`Module: Proposals`, () => {
   })
 
   it(`submits a new proposal`, async () => {
-    let { actions } = module
+    const { actions } = module
     jest.useFakeTimers()
 
-    let dispatch = jest.fn()
+    const dispatch = jest.fn()
     const proposalsArray = Object.values(proposals)
     proposalsArray.forEach(async (proposal, i) => {
       await actions.submitProposal(

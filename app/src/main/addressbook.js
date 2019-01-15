@@ -53,13 +53,13 @@ module.exports = class Addressbook {
   loadFromDisc() {
     // if there is no address book file yet, there are no peers stored yet
     // the file will be created when persisting any peers to disc
-    let exists = fs.existsSync(this.addressbookPath)
+    const exists = fs.existsSync(this.addressbookPath)
     if (!exists) {
       this.peers = []
       return
     }
-    let content = fs.readFileSync(this.addressbookPath, `utf8`)
-    let peers = JSON.parse(content)
+    const content = fs.readFileSync(this.addressbookPath, `utf8`)
+    const peers = JSON.parse(content)
     this.peers = peers.map(host => ({
       host,
       state: `available`
@@ -67,7 +67,7 @@ module.exports = class Addressbook {
   }
 
   persistToDisc() {
-    let peers = this.peers
+    const peers = this.peers
       // only remember available nodes
       .filter(p => p.state === `available`)
       .map(p => p.host)
@@ -85,7 +85,7 @@ module.exports = class Addressbook {
       curNode = { host: FIXED_NODE }
 
       // ping fixed node
-      let alive = await axios
+      const alive = await axios
         .get(
           `http://${FIXED_NODE}:${
             this.config.default_tendermint_port
@@ -96,7 +96,9 @@ module.exports = class Addressbook {
       if (!alive)
         throw Error(`The fixed node you tried to connect to is not reachable.`)
     } else {
-      let availableNodes = this.peers.filter(node => node.state === `available`)
+      const availableNodes = this.peers.filter(
+        node => node.state === `available`
+      )
       if (availableNodes.length === 0) {
         throw Error(`No nodes available to connect to`)
       }
@@ -105,7 +107,7 @@ module.exports = class Addressbook {
         availableNodes[Math.floor(Math.random() * availableNodes.length)]
 
       try {
-        let peerIP = curNode.host.split(`:`)[0]
+        const peerIP = curNode.host.split(`:`)[0]
         await this.discoverPeers(peerIP)
       } catch (exception) {
         console.log(
@@ -129,12 +131,12 @@ module.exports = class Addressbook {
   }
 
   flagNodeOffline(host) {
-    let peer = this.peers.find(p => p.host === host)
+    const peer = this.peers.find(p => p.host === host)
     if (peer) peer.state = `down`
   }
 
   flagNodeIncompatible(host) {
-    let peer = this.peers.find(p => p.host === host)
+    const peer = this.peers.find(p => p.host === host)
     if (peer) peer.state = `incompatible`
   }
 
@@ -149,14 +151,14 @@ module.exports = class Addressbook {
   async discoverPeers(peerIP) {
     this.onConnectionMessage(`Querying node: ${peerIP}`)
 
-    let subPeers = (await axios.get(
+    const subPeers = (await axios.get(
       `http://${peerIP}:${this.config.default_tendermint_port}/net_info`,
       { timeout: 3000 }
     )).data.result.peers
 
     this.onConnectionMessage(`Node ${peerIP} is alive.`)
 
-    let subPeersHostnames = subPeers.map(peer => peer.node_info.listen_addr)
+    const subPeersHostnames = subPeers.map(peer => peer.node_info.listen_addr)
 
     subPeersHostnames
       // add new peers to state

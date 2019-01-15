@@ -1,13 +1,13 @@
 import setup from "../../../helpers/vuex-setup"
 import TmModalLCDApproval from "common/TmModalLCDApproval"
 
-let instance = setup()
+const instance = setup()
 
 describe(`TmModalLCDApproval`, () => {
   let wrapper, store
 
   beforeEach(() => {
-    let test = instance.mount(TmModalLCDApproval, {
+    const test = instance.mount(TmModalLCDApproval, {
       propsData: { hash: `this_is_a_hash` }
     })
     wrapper = test.wrapper

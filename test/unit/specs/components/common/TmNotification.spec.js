@@ -36,7 +36,7 @@ describe(`TmNotification.vue`, () => {
 
   it(`has the expected html structure`, () => {
     notifications.forEach(notification => {
-      let wrapper = mount(TmNotification, {
+      const wrapper = mount(TmNotification, {
         propsData: { ...notification }
       })
       expect(wrapper.vm.$el).toMatchSnapshot()
@@ -45,7 +45,7 @@ describe(`TmNotification.vue`, () => {
 
   it(`closes after a certain timeout automatically`, () => {
     jest.useFakeTimers()
-    let wrapper = mount(TmNotification, {
+    const wrapper = mount(TmNotification, {
       propsData: {
         time: 44000,
         body: `asdf`
@@ -57,7 +57,7 @@ describe(`TmNotification.vue`, () => {
   })
 
   it(`is hidden if timed out`, () => {
-    let wrapper = mount(TmNotification, {
+    const wrapper = mount(TmNotification, {
       propsData: {
         time: 100,
         body: `asdf`

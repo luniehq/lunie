@@ -6,7 +6,7 @@ describe(`RPC Connector`, () => {
     const RpcWrapper = require(`renderer/connectors/rpcWrapper`)
 
     connector = {}
-    let newRpcClient = RpcWrapper(connector)
+    const newRpcClient = RpcWrapper(connector)
 
     Object.assign(connector, newRpcClient)
   }
@@ -58,8 +58,8 @@ describe(`RPC Connector`, () => {
   it(`should cleanup the old websocket when connecting again`, () => {
     connector.rpcConnect(`localhost`)
 
-    let spyListeners = jest.spyOn(connector.rpc, `removeAllListeners`)
-    let spyDestroy = jest.spyOn(connector.rpc.ws, `destroy`)
+    const spyListeners = jest.spyOn(connector.rpc, `removeAllListeners`)
+    const spyDestroy = jest.spyOn(connector.rpc.ws, `destroy`)
 
     connector.rpcConnect(`localhost`)
 

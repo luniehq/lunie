@@ -5,11 +5,11 @@ import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`PageTransactions`, () => {
   let wrapper, store
-  let { stakingParameters, txs } = lcdClientMock.state
+  const { stakingParameters, txs } = lcdClientMock.state
 
-  let { mount } = setup()
+  const { mount } = setup()
   beforeEach(async () => {
-    let instance = mount(PageTransactions, {
+    const instance = mount(PageTransactions, {
       stubs: {
         "tm-li-any-transaction": true,
         "data-empty-tx": true,

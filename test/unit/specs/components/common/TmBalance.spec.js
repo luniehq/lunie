@@ -4,11 +4,11 @@ import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`TmBalance`, () => {
   let wrapper, store
-  let { stakingParameters } = lcdClientMock.state
-  let { mount } = setup()
+  const { stakingParameters } = lcdClientMock.state
+  const { mount } = setup()
 
   beforeEach(() => {
-    let instance = mount(TmBalance, {
+    const instance = mount(TmBalance, {
       getters: {
         user: () => {
           return {

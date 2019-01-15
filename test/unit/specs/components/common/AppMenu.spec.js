@@ -3,7 +3,7 @@ import setup from "../../../helpers/vuex-setup"
 
 describe(`AppMenu`, () => {
   let wrapper, store, instance
-  let { mount } = setup()
+  const { mount } = setup()
 
   beforeEach(async () => {
     instance = mount(AppMenu)

@@ -2,10 +2,10 @@ import setup from "../../../helpers/vuex-setup"
 import ToolBar from "common/ToolBar"
 describe(`ToolBar`, () => {
   let wrapper, store
-  let { mount } = setup()
+  const { mount } = setup()
 
   beforeEach(() => {
-    let instance = mount(ToolBar)
+    const instance = mount(ToolBar)
     wrapper = instance.wrapper
     store = instance.store
   })
@@ -26,7 +26,7 @@ describe(`ToolBar`, () => {
 
   it(`goes back correctly and updates the state`, () => {
     // this mocks the values that would come from the store through `getters.js`
-    let getterValues = {
+    const getterValues = {
       lastPage: `/staking`,
       $router: {
         push: jest.fn((route, cb) => cb())

@@ -4,11 +4,11 @@ import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`PageStaking`, () => {
   let wrapper, store
-  let { stakingParameters } = lcdClientMock.state
-  let { mount } = setup()
+  const { stakingParameters } = lcdClientMock.state
+  const { mount } = setup()
 
   beforeEach(() => {
-    let instance = mount(PageStaking)
+    const instance = mount(PageStaking)
     wrapper = instance.wrapper
     store = instance.store
 

@@ -3,10 +3,10 @@ import setup from "../../../helpers/vuex-setup"
 
 describe(`TmModalNodeHalted`, () => {
   let wrapper, store
-  let { mount } = setup()
+  const { mount } = setup()
 
   beforeEach(() => {
-    let instance = mount(TmModalNodeHalted)
+    const instance = mount(TmModalNodeHalted)
     store = instance.store
     wrapper = instance.wrapper
   })
@@ -17,9 +17,9 @@ describe(`TmModalNodeHalted`, () => {
   })
 
   it(`send a connection retry event`, () => {
-    let { ipcRenderer } = require(`electron`)
+    const { ipcRenderer } = require(`electron`)
     wrapper.vm.switchNode()
-    let spy = jest.spyOn(ipcRenderer, `send`)
+    const spy = jest.spyOn(ipcRenderer, `send`)
     expect(spy).toHaveBeenCalledWith(`reconnect`)
 
     // also closing the modal

@@ -109,7 +109,7 @@ export default {
       )
     },
     filteredTransactions() {
-      let query = this.filters.transactions.search.query
+      const query = this.filters.transactions.search.query
       if (this.filters.transactions.search.visible) {
         // doing a full text comparison on the transaction data
         return this.orderedTransactions.filter(t =>

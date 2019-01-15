@@ -2,14 +2,14 @@ import setup from "../../../helpers/vuex-setup"
 import PageWallet from "renderer/components/wallet/PageWallet"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
-let { stakingParameters } = lcdClientMock.state
+const { stakingParameters } = lcdClientMock.state
 
 describe(`PageWallet`, () => {
   let wrapper, store
-  let { mount } = setup()
+  const { mount } = setup()
 
   beforeEach(async () => {
-    let instance = mount(PageWallet, {
+    const instance = mount(PageWallet, {
       stubs: {
         "modal-search": true,
         "tm-data-connecting": true,

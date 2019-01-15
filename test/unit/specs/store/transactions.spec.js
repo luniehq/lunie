@@ -3,7 +3,7 @@ import transactionsModule from "renderer/vuex/modules/transactions.js"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 import walletTxs from "./json/txs.js"
 
-let instance = setup()
+const instance = setup()
 const mockRootState = {
   connection: {
     connected: true
@@ -14,7 +14,7 @@ describe(`Module: Transactions`, () => {
   let store, node, module
 
   beforeEach(async () => {
-    let test = instance.shallow(null)
+    const test = instance.shallow(null)
     store = test.store
     node = test.node
     module = transactionsModule({ node })
@@ -124,8 +124,8 @@ describe(`Module: Transactions`, () => {
   })
 
   it(`should set error to true if enriching transactions fail`, async () => {
-    let error = new Error(`unexpected error`)
-    let { actions, state } = module
+    const error = new Error(`unexpected error`)
+    const { actions, state } = module
 
     const commit = jest.fn()
     const dispatch = jest.fn(() => {

@@ -21,7 +21,7 @@ export default () => {
       if (isWin) {
         document.documentElement.style.setProperty(`--font-weight`, 400)
       }
-      for (let key in newTheme) {
+      for (const key in newTheme) {
         document.documentElement.style.setProperty(`--${key}`, newTheme[key])
       }
     }

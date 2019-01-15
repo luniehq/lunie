@@ -2,11 +2,11 @@ import setup from "../../../helpers/vuex-setup"
 import TableProposals from "renderer/components/governance/TableProposals"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
-let { proposals, tallies } = lcdClientMock.state
+const { proposals, tallies } = lcdClientMock.state
 
 describe(`TableProposals`, () => {
   let wrapper, store
-  let { mount } = setup()
+  const { mount } = setup()
 
   const $store = {
     commit: jest.fn(),
@@ -17,7 +17,7 @@ describe(`TableProposals`, () => {
   }
 
   beforeEach(() => {
-    let instance = mount(TableProposals, {
+    const instance = mount(TableProposals, {
       doBefore: ({ store }) => {
         store.commit(`setConnected`, true)
         store.state.user.address = `address1234`
@@ -79,7 +79,7 @@ describe(`TableProposals`, () => {
   })
 
   it(`should show placeholder if no items to display`, () => {
-    let { wrapper } = mount(TableProposals, {
+    const { wrapper } = mount(TableProposals, {
       doBefore: ({ store }) => {
         store.commit(`setConnected`, true)
         store.state.user.address = `address1234`

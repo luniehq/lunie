@@ -31,10 +31,10 @@ export default {
   },
   methods: {
     orderBy(property) {
-      let sortBys = this.$el.querySelectorAll(`.sort-by`)
+      const sortBys = this.$el.querySelectorAll(`.sort-by`)
       sortBys.forEach(el => el.classList.remove(`active`, `desc`, `asc`))
-      let index = this.properties.findIndex(p => p.value === property)
-      let el = sortBys[index]
+      const index = this.properties.findIndex(p => p.value === property)
+      const el = sortBys[index]
 
       if (this.sort.property === property) {
         if (this.sort.order === `asc`) {

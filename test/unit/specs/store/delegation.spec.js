@@ -2,9 +2,9 @@ import setup from "../../helpers/vuex-setup"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 import delegationModule from "renderer/vuex/modules/delegation.js"
 
-let instance = setup()
+const instance = setup()
 
-let mockRootState = {
+const mockRootState = {
   wallet: {
     address: `x`
   },
@@ -21,7 +21,7 @@ describe(`Module: Delegations`, () => {
   let store, node
 
   beforeEach(async () => {
-    let test = instance.shallow()
+    const test = instance.shallow()
     store = test.store
     node = test.node
 
@@ -167,7 +167,7 @@ describe(`Module: Delegations`, () => {
 
   it(`should query delegated atoms on reconnection`, () => {
     jest.resetModules()
-    let axios = require(`axios`)
+    const axios = require(`axios`)
     store.state.connection.stopConnecting = true
     store.state.delegation.loading = true
     jest.spyOn(axios, `get`)
@@ -177,7 +177,7 @@ describe(`Module: Delegations`, () => {
 
   it(`should not query delegated atoms on reconnection if not stuck in loading`, () => {
     jest.resetModules()
-    let axios = require(`axios`)
+    const axios = require(`axios`)
     store.state.connection.stopConnecting = true
     store.state.delegation.loading = false
     jest.spyOn(axios, `get`)
@@ -206,7 +206,7 @@ describe(`Module: Delegations`, () => {
       })
 
     // trigger the get call
-    let getDelegationsPromise = store.dispatch(
+    const getDelegationsPromise = store.dispatch(
       `getBondedDelegates`,
       store.state.delegates.delegates
     )
@@ -263,7 +263,7 @@ describe(`Module: Delegations`, () => {
     const commit = jest.fn()
     const validators = store.state.delegates.delegates
 
-    let committedDelegates = {
+    const committedDelegates = {
       [validators[0].operator_address]: 10
     }
 

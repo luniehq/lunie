@@ -3,7 +3,7 @@ import { uniqBy } from "lodash"
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
 export default ({ node }) => {
-  let emptyState = {
+  const emptyState = {
     loading: false,
     loaded: false,
     error: null,
@@ -11,12 +11,12 @@ export default ({ node }) => {
     staking: [],
     governance: []
   }
-  let state = JSON.parse(JSON.stringify(emptyState))
+  const state = JSON.parse(JSON.stringify(emptyState))
 
   // properties under which txs of different categories are stored
   const txCategories = [`staking`, `wallet`, `governance`]
 
-  let mutations = {
+  const mutations = {
     setWalletTxs(state, txs) {
       state.wallet = txs
     },
@@ -41,7 +41,7 @@ export default ({ node }) => {
     }
   }
 
-  let actions = {
+  const actions = {
     resetSessionData({ rootState }) {
       // clear previous account state
       rootState.transactions = JSON.parse(JSON.stringify(emptyState))
@@ -118,7 +118,7 @@ export default ({ node }) => {
       )
     },
     async queryTransactionTime({ commit, dispatch }, { blockHeight }) {
-      let blockMetaInfo = await dispatch(`queryBlockInfo`, blockHeight)
+      const blockMetaInfo = await dispatch(`queryBlockInfo`, blockHeight)
       commit(`setTransactionTime`, {
         blockHeight,
         blockMetaInfo

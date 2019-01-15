@@ -200,7 +200,7 @@ export default {
       $v.$touch()
       if ($v.$error) return
       try {
-        let key = await $store.dispatch(`createKey`, {
+        const key = await $store.dispatch(`createKey`, {
           seedPhrase: fields.signUpSeed,
           password: fields.signUpPassword,
           name: fields.signUpName

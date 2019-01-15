@@ -2,14 +2,14 @@ import setup from "../../../helpers/vuex-setup"
 import TableValidators from "renderer/components/staking/TableValidators"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
-let { stakingParameters } = lcdClientMock.state
+const { stakingParameters } = lcdClientMock.state
 
 describe(`TableValidators`, () => {
   let wrapper, store
-  let { mount } = setup()
+  const { mount } = setup()
 
   beforeEach(() => {
-    let instance = mount(TableValidators, {
+    const instance = mount(TableValidators, {
       doBefore: ({ store }) => {
         store.commit(`setConnected`, true)
         store.commit(`setAtoms`, 1337)

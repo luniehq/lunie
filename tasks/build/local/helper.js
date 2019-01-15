@@ -46,7 +46,7 @@ Default account:
 // save the version of the currently used gaia into the newly created network config folder
 const saveVersion = nodeHome => {
   const versionPath = join(nodeHome, `config`)
-  let versionFilePath = join(versionPath, `gaiaversion.txt`) // nodeHome/config is used to copy created config files from
+  const versionFilePath = join(versionPath, `gaiaversion.txt`) // nodeHome/config is used to copy created config files from
   return makeExec(
     `mkdir -p ${versionPath} && ${nodeBinary} version > ${versionFilePath}`
   )
@@ -112,7 +112,7 @@ const buildNodes = async (
         password: options.password,
         clientHomeDir: cliHome
       }
-      let { address } = await createKey(mainAccountSignInfo)
+      const { address } = await createKey(mainAccountSignInfo)
       genesis = await initGenesis(mainAccountSignInfo, address, home)
     }
   }
@@ -146,7 +146,7 @@ async function setupLocalNode(
 
 function adjustConfig(nodeHome, isTest = false, strictAddressbook = false) {
   const configPath = join(nodeHome, `config`, `config.toml`)
-  let configToml = fs.readFileSync(configPath, `utf8`)
+  const configToml = fs.readFileSync(configPath, `utf8`)
 
   const timeouts = [
     `timeout_propose`,
@@ -208,7 +208,7 @@ const setupAccounts = async (srcClientDir, dstClientDir, options) => {
     clientHomeDir: dstClientDir
   })
 
-  let accounts = await getKeys(dstClientDir)
+  const accounts = await getKeys(dstClientDir)
   console.log(`setup test accounts`, accounts)
 
   return accounts

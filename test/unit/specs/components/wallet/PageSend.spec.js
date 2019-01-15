@@ -7,7 +7,7 @@ describe(`PageSend`, () => {
   const name = `default`
   const password = `1234567890`
   const address = `tb1mjt6dcdru8lgdz64h2fu0lrzvd5zv8sfcvkv2l`
-  let { stakingParameters } = lcdClientMock.state
+  const { stakingParameters } = lcdClientMock.state
 
   const coins = [
     {
@@ -20,10 +20,10 @@ describe(`PageSend`, () => {
     }
   ]
 
-  let { mount } = setup()
+  const { mount } = setup()
 
   beforeEach(async () => {
-    let instance = mount(PageSend, {
+    const instance = mount(PageSend, {
       propsData: {
         denom: `fermion`
       },
@@ -75,7 +75,7 @@ describe(`PageSend`, () => {
   })
 
   it(`should work without providing a default denom`, async () => {
-    let { wrapper, store } = mount(PageSend, {
+    const { wrapper, store } = mount(PageSend, {
       sync: false
     })
     store.commit(`setConnected`, true)
@@ -85,7 +85,7 @@ describe(`PageSend`, () => {
   })
 
   it(`should show address required error`, async () => {
-    let { wrapper, store } = mount(PageSend, { sync: false })
+    const { wrapper, store } = mount(PageSend, { sync: false })
     store.commit(`setConnected`, true)
     store.commit(`setStakingParameters`, stakingParameters.parameters)
     wrapper.setData({
@@ -186,12 +186,12 @@ describe(`PageSend`, () => {
   })
 
   it(`should show notification for unsuccessful send`, async () => {
-    let $store = {
+    const $store = {
       commit: jest.fn(),
       dispatch: jest.fn()
     }
 
-    let self = {
+    const self = {
       fields: {
         denom: `notmycoin`,
         address,

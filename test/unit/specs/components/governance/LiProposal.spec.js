@@ -2,8 +2,8 @@ import setup from "../../../helpers/vuex-setup"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 import LiProposal from "renderer/components/governance/LiProposal"
 
-let { proposals, tallies } = lcdClientMock.state
-let proposal = proposals[`2`]
+const { proposals, tallies } = lcdClientMock.state
+const proposal = proposals[`2`]
 
 const $store = {
   commit: jest.fn(),
@@ -15,10 +15,10 @@ const $store = {
 
 describe(`LiProposal`, () => {
   let wrapper
-  let { mount } = setup()
+  const { mount } = setup()
 
   beforeEach(() => {
-    let instance = mount(LiProposal, {
+    const instance = mount(LiProposal, {
       doBefore: ({ store }) => {
         store.commit(`setConnected`, true)
         store.commit(`setProposal`, proposal)
@@ -101,7 +101,7 @@ describe(`LiProposal`, () => {
         proposals: { proposals, tallies: {} }
       }
     }
-    let instance = mount(LiProposal, {
+    const instance = mount(LiProposal, {
       doBefore: ({ store }) => {
         store.commit(`setConnected`, true)
         store.commit(`setProposal`, proposal)

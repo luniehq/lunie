@@ -1,13 +1,13 @@
 "use strict"
 
-let test = require(`tape-promise/tape`)
-let fs = require(`fs-extra`)
-let { join } = require(`path`)
-let { getApp, startApp, stop } = require(`./launch.js`)
+const test = require(`tape-promise/tape`)
+const fs = require(`fs-extra`)
+const { join } = require(`path`)
+const { getApp, startApp, stop } = require(`./launch.js`)
 
 // tests for initialization and failover over the application as well as handling of configuration files
 test(`initialization`, async function(t) {
-  let { app, cliHome } = await getApp(t)
+  const { app, cliHome } = await getApp(t)
 
   t.test(`survive config folder mess up`, async function(t) {
     // TODO: uncomment below once we restore initting

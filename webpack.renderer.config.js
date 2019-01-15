@@ -13,7 +13,7 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-let rendererConfig = {
+const rendererConfig = {
   devtool:
     process.env.NODE_ENV === `production`
       ? `#source-map`

@@ -3,14 +3,14 @@ import Vuelidate from "vuelidate"
 import TmSessionSignUp from "common/TmSessionSignUp"
 jest.mock(`renderer/google-analytics.js`, () => () => {})
 
-let instance = setup()
+const instance = setup()
 instance.localVue.use(Vuelidate)
 
 describe(`NISessionSignUp`, () => {
   let wrapper, store
 
   beforeEach(() => {
-    let test = instance.mount(TmSessionSignUp, {
+    const test = instance.mount(TmSessionSignUp, {
       getters: {
         connected: () => true
       }
@@ -217,12 +217,12 @@ describe(`NISessionSignUp`, () => {
   })
 
   it(`should show a notification if creation failed`, async () => {
-    let $store = {
+    const $store = {
       commit: jest.fn(),
       dispatch: jest.fn(() => Promise.reject({ message: `reason` }))
     }
 
-    let self = {
+    const self = {
       fields: {
         signUpPassword: `1234567890`,
         signUpPasswordConfirm: `1234567890`,

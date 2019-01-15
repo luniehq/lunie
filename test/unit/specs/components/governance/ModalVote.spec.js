@@ -7,13 +7,13 @@ import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`ModalVote`, () => {
   let wrapper
-  let { mount, localVue } = setup()
+  const { mount, localVue } = setup()
   localVue.use(Vuelidate)
   localVue.directive(`tooltip`, () => {})
   localVue.directive(`focus`, () => {})
 
   beforeEach(() => {
-    let instance = mount(ModalVote, {
+    const instance = mount(ModalVote, {
       localVue,
       propsData: {
         proposalId: `1`,
@@ -55,7 +55,7 @@ describe(`ModalVote`, () => {
   describe(`enables or disables Vote correctly`, () => {
     it(`disables the 'Vote' button`, () => {
       // default values
-      let voteBtn = wrapper.find(`#cast-vote`)
+      const voteBtn = wrapper.find(`#cast-vote`)
       expect(voteBtn.html()).toContain(`disabled="disabled"`)
 
       // non valid option value
@@ -70,7 +70,7 @@ describe(`ModalVote`, () => {
     it(`enables the 'Vote' button if the user selected a valid option`, () => {
       wrapper.setData({ option: `Yes`, password: `1234567890` })
       let voteBtn = wrapper.find(`#vote-yes`)
-      let submitButton = wrapper.find(`#cast-vote`)
+      const submitButton = wrapper.find(`#cast-vote`)
       expect(voteBtn.html()).toContain(`active`)
       expect(submitButton.html()).not.toContain(`disabled="disabled"`)
 

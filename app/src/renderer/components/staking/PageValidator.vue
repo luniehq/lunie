@@ -256,7 +256,7 @@ export default {
       `connected`
     ]),
     validator() {
-      let validator = this.delegates.delegates.find(
+      const validator = this.delegates.delegates.find(
         v => this.$route.params.validator === v.operator_address
       )
       if (validator)
@@ -412,7 +412,7 @@ export default {
     },
     delegationTargetOptions() {
       //- First option should always be your wallet (i.e normal delegation)
-      let myWallet = [
+      const myWallet = [
         {
           address: this.wallet.address,
           maximum: Math.floor(this.totalAtoms - this.oldBondedAtoms),
@@ -420,16 +420,16 @@ export default {
           value: 0
         }
       ]
-      let bondedValidators = Object.keys(this.committedDelegations)
+      const bondedValidators = Object.keys(this.committedDelegations)
       if (isEmpty(bondedValidators)) {
         return myWallet
       }
       //- The rest of the options are from your other bonded validators
       //- We skip the option of redelegating to the same address
-      let redelegationOptions = bondedValidators
+      const redelegationOptions = bondedValidators
         .filter(address => address != this.$route.params.validator)
         .map((address, index) => {
-          let delegate = this.delegates.delegates.find(function(validator) {
+          const delegate = this.delegates.delegates.find(function(validator) {
             return validator.operator_address === address
           })
           return {

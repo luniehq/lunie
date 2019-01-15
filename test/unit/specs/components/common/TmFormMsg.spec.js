@@ -3,7 +3,7 @@ import TmFormMsg from "common/TmFormMsg"
 
 describe(`TmFormMsg`, () => {
   let wrapper
-  let propsData = [
+  const propsData = [
     {
       type: `length`,
       name: `Password`,
@@ -102,7 +102,7 @@ describe(`TmFormMsg`, () => {
 
   for (let i = 0; i < propsData.length; i++) {
     it(`shows correct message for ` + propsData[i].type, () => {
-      let { type, name, min, max, length } = propsData[i]
+      const { type, name, min, max, length } = propsData[i]
       wrapper.setProps({ type, name, min, max, length })
       expect(
         wrapper

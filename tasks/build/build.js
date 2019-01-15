@@ -76,15 +76,15 @@ const zipFolder = async (inDir, outDir) => {
 }
 
 async function tarFolder(inDir, outDir) {
-  let outFile = path.join(outDir, `${path.basename(inDir)}.tar.gz`)
+  const outFile = path.join(outDir, `${path.basename(inDir)}.tar.gz`)
   const pack = tar.pack()
 
-  let files = glob(inDir + `/**`, { sync: true })
+  const files = glob(inDir + `/**`, { sync: true })
 
   // add files to tar
-  for (let file of files) {
+  for (const file of files) {
     try {
-      let stats = fs.lstatSync(file)
+      const stats = fs.lstatSync(file)
 
       let contents, linkname, type
       if (stats.isDirectory()) {

@@ -198,7 +198,7 @@ export default {
   computed: {
     ...mapGetters([`wallet`, `lastHeader`, `config`, `connected`]),
     max() {
-      let denom = this.wallet.balances.find(b => b.denom === this.denom)
+      const denom = this.wallet.balances.find(b => b.denom === this.denom)
       return (denom && denom.amount) || 0
     },
     denominations() {
@@ -232,11 +232,11 @@ export default {
     async onApproved() {
       this.confirmationPending = false
       this.sending = true
-      let amount = +this.fields.amount
-      let address = this.fields.address
-      let denom = this.fields.denom
+      const amount = +this.fields.amount
+      const address = this.fields.address
+      const denom = this.fields.denom
       try {
-        let type = `send`
+        const type = `send`
         await this.sendTx({
           type,
           password: this.fields.password,

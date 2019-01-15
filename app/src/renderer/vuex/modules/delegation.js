@@ -3,7 +3,7 @@ import Vue from "vue"
 import { calculateShares } from "scripts/common"
 
 export default ({ node }) => {
-  let emptyState = {
+  const emptyState = {
     loading: false,
     loaded: false,
     error: null,
@@ -20,7 +20,7 @@ export default ({ node }) => {
   const mutations = {
     addToCart(state, delegate) {
       // don't add to cart if already in cart
-      for (let existingDelegate of state.delegates) {
+      for (const existingDelegate of state.delegates) {
         if (delegate.id === existingDelegate.id) return
       }
 
@@ -57,7 +57,7 @@ export default ({ node }) => {
         : {}
     }
   }
-  let actions = {
+  const actions = {
     reconnected({ state, dispatch }) {
       if (state.loading) {
         dispatch(`getBondedDelegates`)
@@ -75,14 +75,14 @@ export default ({ node }) => {
 
       if (!rootState.connection.connected) return
 
-      let address = rootState.user.address
+      const address = rootState.user.address
       candidates = candidates || (await dispatch(`getDelegates`))
 
       try {
-        let delegations = await node.getDelegations(address)
-        let unbondingDelegations = await node.getUndelegations(address)
-        let redelegations = await node.getRedelegations(address)
-        let delegator = {
+        const delegations = await node.getDelegations(address)
+        const unbondingDelegations = await node.getUndelegations(address)
+        const redelegations = await node.getRedelegations(address)
+        const delegator = {
           delegations,
           unbondingDelegations,
           redelegations
@@ -137,7 +137,7 @@ export default ({ node }) => {
       state.loading = false
     },
     async updateDelegates({ dispatch }) {
-      let candidates = await dispatch(`getDelegates`)
+      const candidates = await dispatch(`getDelegates`)
       return dispatch(`getBondedDelegates`, candidates)
     },
     async submitDelegation(
