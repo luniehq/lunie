@@ -90,7 +90,7 @@ test(`delegation`, async function(t) {
       )
       .waitForVisible(
         `//*[. = 'You have successfully delegated your STAKEs']`,
-        5 * 1000
+        10 * 1000
       )
 
       // Go back to Staking page.

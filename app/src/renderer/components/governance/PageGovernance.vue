@@ -57,7 +57,6 @@ export default {
     showModalPropose: false
   }),
   computed: {
-    // TODO: get min deposit denom from gov params
     ...mapGetters([`proposals`, `filters`, `depositDenom`, `connected`]),
     proposalList() {
       return Object.keys(this.proposals.proposals)

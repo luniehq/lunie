@@ -118,7 +118,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
                 refresh
               </i>
             </a>
-             
+
             <a
               class="search-button"
             >
@@ -128,7 +128,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
                 search
               </i>
             </a>
-              
+
             <a
               class="help"
             >
@@ -149,7 +149,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
                 settings
               </i>
             </router-link-stub>
-             
+
             <a
               id="signOut-btn"
             >
@@ -166,11 +166,11 @@ exports[`PageTransactions has the expected html structure 1`] = `
       <menu
         class="tm-page-header-menu"
       />
-       
+
       <div
         class="tabs"
       />
-       
+
       <!---->
     </div>
   </header>
@@ -242,7 +242,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
       validators=""
       validatorsurl="/staking/validators"
     />
-     
+
   </main>
 </div>
 `;
@@ -365,7 +365,7 @@ exports[`PageTransactions should filter the transactions 1`] = `
                 refresh
               </i>
             </a>
-             
+
             <a
               class="search-button"
             >
@@ -375,7 +375,7 @@ exports[`PageTransactions should filter the transactions 1`] = `
                 search
               </i>
             </a>
-              
+
             <a
               class="help"
             >
@@ -396,7 +396,7 @@ exports[`PageTransactions should filter the transactions 1`] = `
                 settings
               </i>
             </router-link-stub>
-             
+
             <a
               id="signOut-btn"
             >
@@ -413,11 +413,11 @@ exports[`PageTransactions should filter the transactions 1`] = `
       <menu
         class="tm-page-header-menu"
       />
-       
+
       <div
         class="tabs"
       />
-       
+
       <!---->
     </div>
   </header>
@@ -439,7 +439,7 @@ exports[`PageTransactions should filter the transactions 1`] = `
       validators=""
       validatorsurl="/staking/validators"
     />
-     
+
   </main>
 </div>
 `;
