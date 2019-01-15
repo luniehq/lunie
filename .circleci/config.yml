@@ -82,15 +82,15 @@ jobs:
       - run:
           name: Audit
           command: |
-            set -e
             SUMMARY="$(yarn audit | grep Severity)"
             VULNERABILITIES=".*(High|Critical).*"
 
-            if [[ $SUMMARY =~ $VULNERABILITIES ]];
-              then
-              echo "Errors in $SUMMARY"
+            if [[ $SUMMARY =~ $VULNERABILITIES ]]; then
+              echo "Unsafe dependencies found: $SUMMARY"
               exit 1
             fi
+            echo "Your dependencies are secure enough: $SUMMARY"
+            exit 0
 
   testE2e:
     docker:
