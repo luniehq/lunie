@@ -14,7 +14,7 @@
       <h3>Proposal ID: {{ `#` + proposalId }}</h3>
     </div>
     <tm-form-group
-      :error="$v.amount.$invalid"
+      :error="$v.amount.$invalid && (amount > 0 || balance === 0)"
       class="modal-deposit-form-group"
       field-id="amount"
       field-label="Amount"
@@ -134,7 +134,7 @@ export default {
       amount: {
         required,
         isInteger,
-        between: between(1, this.balance > 0 ? this.balance : null)
+        between: between(1, this.balance)
       },
       password: {
         required

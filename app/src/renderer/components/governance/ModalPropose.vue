@@ -47,7 +47,7 @@
       />
     </tm-form-group>
     <tm-form-group
-      :error="$v.amount.$invalid"
+      :error="$v.amount.$invalid && (amount > 0 || balance === 0)"
       class="modal-propose-form-group"
       field-id="amount"
     >
@@ -189,7 +189,7 @@ export default {
       amount: {
         required,
         isInteger,
-        between: between(1, this.balance > 0 ? this.balance : null)
+        between: between(1, this.balance)
       },
       password: {
         required
