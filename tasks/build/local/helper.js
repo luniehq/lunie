@@ -85,7 +85,7 @@ const buildNodes = async (
     password: `1234567890`,
     overwrite: true,
     moniker: `local`,
-    keyName: `rich-account`
+    keyName: `account-with-funds`
   },
   numberNodes = 1,
   isTest = false

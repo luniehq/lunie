@@ -29,7 +29,7 @@ async function main() {
         password: `1234567890`,
         overwrite: false,
         moniker: `local`,
-        keyName: `rich-account`
+        keyName: `account-with-funds`
       },
       numberNodes
     )
