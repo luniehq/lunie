@@ -30,7 +30,7 @@
 
 <script>
 import HardwareState from "common/TmHardwareState"
-import { App, comm_u2f, comm_node } from "ledger-cosmos-js"
+import { App, comm_u2f } from "ledger-cosmos-js"
 import { createCosmosAddress } from "../../scripts/wallet.js"
 
 const TIMEOUT = 2
