@@ -35,7 +35,7 @@ describe(`TmFieldSeed`, () => {
   it(`does not emit input event when update method not called`, () => {
     expect(wrapper.emitted()).toEqual({})
   })
-  it(`does not call autosize.update when value does not changes`, async () => {
+  it(`does not call autosize.update when value does not change`, async () => {
     const autosize = require(`autosize`)
     const spy = jest.spyOn(autosize, `update`)
     expect(spy.mock.calls).toEqual([])
