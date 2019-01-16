@@ -14,7 +14,7 @@ const proposal = {
 
 let { governanceParameters } = lcdClientMock.state
 
-// TODO refactor according to new unit test standard
+// TODO: refactor according to new unit test standard
 describe(`PageGovernance`, () => {
   let wrapper, store
   let { mount, localVue } = setup()
