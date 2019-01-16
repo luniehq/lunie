@@ -53,7 +53,7 @@ async function initGenesis(
   nodeHomeDir
 ) {
   await makeExec(
-    `${nodeBinary} add-genesis-account ${address} 150stake,1000localcoin  --home ${nodeHomeDir}`
+    `${nodeBinary} add-genesis-account ${address} 150stake,1000photino  --home ${nodeHomeDir}`
   )
 
   await makeExecWithInputs(
