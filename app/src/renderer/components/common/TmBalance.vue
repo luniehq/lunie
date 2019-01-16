@@ -58,10 +58,6 @@ export default {
     unbondedAtoms() {
       return this.num.shortNumber(this.user.atoms)
     }
-    // hasBalance({ user } = this) {
-    //   // TODO: use this to decide if render user-related blocks
-    //   return !!(user && user.atoms)
-    // }
   }
 }
 </script>

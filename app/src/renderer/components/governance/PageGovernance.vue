@@ -59,7 +59,7 @@ export default {
   computed: {
     ...mapGetters([`proposals`, `filters`, `depositDenom`, `connected`]),
     proposalList() {
-      return Object.keys(this.proposals.proposals)
+      return Object.values(this.proposals.proposals)
     }
   },
   mounted() {

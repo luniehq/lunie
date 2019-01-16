@@ -25,11 +25,6 @@ describe(`PageStaking`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  // it(`should show the search on click`, () => {
-  //   wrapper.vm.$el.querySelector(`.tm-tool-bar a.search-button i`).click()
-  //   expect(wrapper.contains(ModalSearch)).toEqual(true)
-  // })
-
   it(`should refresh candidates on click`, () => {
     wrapper
       .findAll(`.tm-tool-bar i`)

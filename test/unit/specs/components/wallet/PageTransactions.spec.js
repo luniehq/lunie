@@ -67,20 +67,4 @@ describe(`PageTransactions`, () => {
     store.commit(`setSearchQuery`, [`transactions`, `jb`])
     expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual([1])
   })
-
-  // it(`should show an error if there are no transactions`, () => {
-  //   store.commit(`setWalletTxs`, [])
-  //   store.commit(`setStakingTxs`, [])
-  //   store.commit(`setGovernanceTxs`, [])
-  //   expect(wrapper.contains(`data-empty-tx-stub`)).toBe(true)
-  //   expect(wrapper.contains(`data-empty-search-stub`)).toBe(false)
-  // })
-  //
-  // it(`should not show search when there is nothing to search`, () => {
-  //   store.commit(`setWalletTxs`, [])
-  //   store.commit(`setStakingTxs`, [])
-  //   store.commit(`setGovernanceTxs`, [])
-  //   wrapper.find(`a.search-button i`).trigger(`click`)
-  //   expect(wrapper.contains(`modal-search-stub`)).toBe(false)
-  // })
 })
