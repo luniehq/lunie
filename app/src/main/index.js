@@ -527,7 +527,7 @@ async function pickAndConnect() {
 }
 
 async function connect() {
-  log(`starting gaia rest server with nodeURL ${config.node_lcd}`)
+  log(`starting gaia rest server with nodeURL ${config.node_rpc}`)
 
   const { ca, process } = await startLCD(lcdHome, config.node_rpc)
   gaiaLiteProcess = process
