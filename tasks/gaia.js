@@ -11,11 +11,11 @@ const osFolderName = {
 }[process.platform]
 let cliBinary =
   process.env.BINARY_PATH ||
-  path.join(__dirname, `../builds/Gaia/`, osFolderName, `gaiacli`)
+  path.join(`./builds/Gaia/`, osFolderName, `gaiacli`)
 
 let nodeBinary =
   process.env.NODE_BINARY_PATH ||
-  path.join(__dirname, `../builds/Gaia/`, osFolderName, `gaiad`)
+  path.join(`./builds/Gaia/`, osFolderName, `gaiad`)
 const defaultStartPort = 26656
 const getStartPort = nodeNumber => defaultStartPort - (nodeNumber - 1) * 3
 
