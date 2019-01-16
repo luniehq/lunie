@@ -1,9 +1,8 @@
 /archive
 /app/dist/
 /app/networks/
-/builds/
-/tasks/builds/*
+**/builds/*
 /testArtifacts
 /test/unit/coverage/
-/.vscode/settings.json
+/.vscode/*
 /docs/cosmos-voyager/
