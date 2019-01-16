@@ -34,6 +34,7 @@ export default ({ node }) => {
       state.delegates = state.delegates.filter(c => c.id !== delegate)
     },
     setCommittedDelegation(state, { candidateId, value }) {
+      Vue.set(state.committedDelegates, candidateId, value)
       if (value === 0) {
         delete state.committedDelegates[candidateId]
       }

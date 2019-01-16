@@ -3,7 +3,7 @@ import SendModal from "renderer/components/wallet/SendModal"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`SendModal`, () => {
-  let wrapper, store, node
+  let wrapper, store
   const name = `default`
   const password = `1234567890`
   const address = `tb1mjt6dcdru8lgdz64h2fu0lrzvd5zv8sfcvkv2l`
@@ -53,39 +53,13 @@ describe(`SendModal`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it.only(`should populate the select options with denoms`, () => {
-    expect(
-      wrapper
-        .findAll(`option`)
-        .at(0)
-        .text()
-    ).toBe(`Select token...`)
-    expect(
-      wrapper
-        .findAll(`option`)
-        .at(1)
-        .text()
-    ).toBe(coins[0].denom.toUpperCase())
-    expect(
-      wrapper
-        .findAll(`option`)
-        .at(2)
-        .text()
-    ).toBe(coins[1].denom.toUpperCase())
-  })
-
-  it(`should work without providing a default denom`, async () => {
+  it(`should show address required error`, async () => {
     let { wrapper, store } = mount(SendModal, {
+      propsData: {
+        denom: `fermion`
+      },
       sync: false
     })
-    store.commit(`setConnected`, true)
-    store.commit(`setStakingParameters`, stakingParameters.parameters)
-    await wrapper.vm.$nextTick()
-    expect(wrapper.vm.$el).toMatchSnapshot()
-  })
-
-  it(`should show address required error`, async () => {
-    let { wrapper, store } = mount(SendModal, { sync: false })
     store.commit(`setConnected`, true)
     store.commit(`setStakingParameters`, stakingParameters.parameters)
     wrapper.setData({
