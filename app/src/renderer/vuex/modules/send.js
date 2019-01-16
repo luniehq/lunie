@@ -60,10 +60,9 @@ export default ({ node }) => {
 
       let requestMetaData = {
         sequence: state.nonce,
-        name: rootState.user.account || ``,
-        password: args.password || ``,
+        name: `anonymous`,
         from: rootState.wallet.address,
-        account_number: rootState.wallet.accountNumber, // TODO: move into LCD?
+        account_number: rootState.wallet.accountNumber, // TODO move into LCD?
         chain_id: rootState.connection.lastHeader.chain_id,
         gas: String(config.default_gas),
         generate_only: true
