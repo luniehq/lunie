@@ -28,7 +28,8 @@
       <router-link
         id="app-menu__staking"
         class="app-menu-item"
-        to="/staking"
+        to="/staking/validators/"
+        exact="exact"
         title="Staking"
         @click.native="close"
       >
@@ -51,6 +52,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 import PerfectScrollbar from "perfect-scrollbar"
 import noScroll from "no-scroll"
 import ConnectedNetwork from "common/TmConnectedNetwork"

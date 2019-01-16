@@ -252,6 +252,7 @@ export default {
       `keybase`,
       `oldBondedAtoms`,
       `totalAtoms`,
+      `user`,
       `wallet`,
       `connected`
     ]),
@@ -331,19 +332,27 @@ export default {
       this.showCannotModal = false
     },
     onDelegation() {
-      this.action = `delegate`
-      if (this.availableAtoms > 0) {
-        this.showDelegationModal = true
+      if (this.user.signedIn) {
+        this.action = `delegate`
+        if (this.availableAtoms > 0) {
+          this.showDelegationModal = true
+        } else {
+          this.showCannotModal = true
+        }
       } else {
-        this.showCannotModal = true
+        this.$store.commit(`setModalSession`, true)
       }
     },
     onUndelegation() {
-      this.action = `undelegate`
-      if (this.myBond.isGreaterThan(0)) {
-        this.showUndelegationModal = true
+      if (this.user.signedIn) {
+        this.action = `undelegate`
+        if (this.myBond.isGreaterThan(0)) {
+          this.showUndelegationModal = true
+        } else {
+          this.showCannotModal = true
+        }
       } else {
-        this.showCannotModal = true
+        this.$store.commit(`setModalSession`, true)
       }
     },
     async submitDelegation({ amount, from, password }) {

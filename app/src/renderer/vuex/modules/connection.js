@@ -49,7 +49,7 @@ export default function({ node }) {
       commit(`setConnected`, false)
       node.rpcConnect(config.node_rpc)
     },
-    async rpcSubscribe({ commit, dispatch }) {
+    async rpcSubscribe({ commit, dispatch, rootState }) {
       if (state.stopConnecting) return
 
       // the rpc socket can be closed before we can even attach a listener
@@ -84,8 +84,9 @@ export default function({ node }) {
           dispatch(`setLastHeader`, header)
         }
       )
-
-      dispatch(`walletSubscribe`)
+      if (rootState.user.signedIn) {
+        dispatch(`walletSubscribe`)
+      }
       dispatch(`checkNodeHalted`)
       dispatch(`pollRPCConnection`)
     },
@@ -100,7 +101,7 @@ export default function({ node }) {
       }, nodeHaltedTimeout) // default 30s
     },
     nodeHasHalted({ commit }) {
-      console.log(`node has halted`)
+      console.error(`node has halted`)
       clearTimeout(state.nodeHaltedTimeout)
       state.nodeHaltedTimeout = undefined
       commit(`setModalNodeHalted`, true)

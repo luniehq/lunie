@@ -1,6 +1,5 @@
 <template>
   <div class="tm-session-wrapper">
-    <img class="tm-session-backdrop" src="~assets/images/cosmos-logo.png" />
     <session-loading v-if="config.modals.session.state == 'loading'" />
     <session-welcome v-if="config.modals.session.state == 'welcome'" />
     <session-sign-up v-if="config.modals.session.state == 'sign-up'" />
@@ -8,12 +7,12 @@
     <session-account-delete v-if="config.modals.session.state == 'delete'" />
     <session-hardware v-if="config.modals.session.state == 'hardware'" />
     <session-import v-if="config.modals.session.state == 'import'" />
-    <connected-network />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
+import ClickOutside from "vue-click-outside"
 import SessionLoading from "common/TmSessionLoading"
 import SessionWelcome from "common/TmSessionWelcome"
 import SessionSignUp from "common/TmSessionSignUp"
@@ -21,7 +20,6 @@ import SessionSignIn from "common/TmSessionSignIn"
 import SessionHardware from "common/TmSessionHardware"
 import SessionImport from "common/TmSessionImport"
 import SessionAccountDelete from "common/TmSessionAccountDelete"
-import ConnectedNetwork from "common/TmConnectedNetwork"
 export default {
   name: `tm-session`,
   components: {
@@ -31,8 +29,10 @@ export default {
     SessionSignIn,
     SessionHardware,
     SessionImport,
-    SessionAccountDelete,
-    ConnectedNetwork
+    SessionAccountDelete
+  },
+  directives: {
+    ClickOutside
   },
   computed: { ...mapGetters([`config`]) }
 }

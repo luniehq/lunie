@@ -58,8 +58,8 @@ export default ({ node }) => {
     }
   }
   let actions = {
-    reconnected({ state, dispatch }) {
-      if (state.loading) {
+    reconnected({ state, dispatch, rootState }) {
+      if (state.loading && rootState.user.signedIn) {
         dispatch(`getBondedDelegates`)
       }
     },

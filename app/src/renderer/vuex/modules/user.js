@@ -63,17 +63,14 @@ export default ({}) => {
       // reload available accounts as the reconnect could be a result of a switch from a mocked connection with mocked accounts
       await dispatch(`loadAccounts`)
     },
-    async showInitialScreen({ state, dispatch, commit }) {
+    async showInitialScreen({ state, commit, dispatch }) {
       dispatch(`resetSessionData`)
-
       await dispatch(`loadAccounts`)
       let exists = state.accounts.length > 0
       let screen = exists ? `sign-in` : `welcome`
+      commit(`setModalSession`, false)
       commit(`setModalSessionState`, screen)
-
-      state.externals.track(`pageview`, {
-        dl: `/session/` + screen
-      })
+      state.externals.track(`pageview`, { dl: `/` })
     },
     async loadAccounts({ commit, state }) {
       state.loading = true

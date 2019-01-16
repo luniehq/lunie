@@ -67,7 +67,7 @@ export default {
     showModalPropose: false
   }),
   computed: {
-    ...mapGetters([`proposals`, `filters`, `depositDenom`, `connected`])
+    ...mapGetters([`proposals`, `filters`, `depositDenom`, `connected`, `user`])
   },
   mounted() {
     this.ps = new PerfectScrollbar(this.$el.querySelector(`.tm-page-main`))
@@ -77,7 +77,11 @@ export default {
   },
   methods: {
     onPropose() {
-      this.showModalPropose = true
+      if (this.user.signedIn) {
+        this.showModalPropose = true
+      } else {
+        this.$store.commit(`setModalSession`, true)
+      }
     },
     async propose({ title, description, type, amount, password }) {
       try {

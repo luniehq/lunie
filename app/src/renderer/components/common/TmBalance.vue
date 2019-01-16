@@ -1,19 +1,25 @@
 <template>
   <div class="header-balance">
-    <div class="top" v-if="user.signedIn">
+    <div class="top">
       <div class="icon-container">
         <img class="icon" src="~assets/images/cosmos-logo.png" />
       </div>
-      <div class="total-atoms top-section">
+      <div v-if="!user.signedIn" class="total-atoms top-section">
+        <h2 class="total-atoms__value">Cosmos Voyager</h2>
+      </div>
+      <div v-if="user.signedIn" class="total-atoms top-section">
         <h3>Total {{ bondDenom }}</h3>
         <h2 class="total-atoms__value">{{ num.shortNumber(totalAtoms) }}</h2>
       </div>
-      <div v-if="unbondedAtoms" class="unbonded-atoms top-section">
+      <div
+        v-if="unbondedAtoms && user.signedIn"
+        class="unbonded-atoms top-section"
+      >
         <h3>Available {{ bondDenom }}</h3>
         <h2>{{ unbondedAtoms }}</h2>
       </div>
     </div>
-    <short-bech32 :address="user.address || ''" />
+    <short-bech32 v-if="user.signedIn" :address="user.address" />
     <div class="tabs">
       <div
         v-for="tab in tabs"

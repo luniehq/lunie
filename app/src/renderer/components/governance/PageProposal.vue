@@ -162,6 +162,7 @@ export default {
       `depositDenom`,
       `proposals`,
       `connected`,
+      `user`,
       `wallet`,
       `votes`
     ]),
@@ -239,15 +240,23 @@ export default {
   },
   methods: {
     async onVote() {
-      this.showModalVote = true
-      // The error is already handled with notifyError in votes.js
-      await this.$store.dispatch(`getProposalVotes`, this.proposalId)
-      this.lastVote =
-        this.votes[this.proposalId] &&
-        this.votes[this.proposalId].find(e => e.voter === this.wallet.address)
+      if (this.user.signedIn) {
+        this.showModalVote = true
+        // The error is already handled with notifyError in votes.js
+        await this.$store.dispatch(`getProposalVotes`, this.proposalId)
+        this.lastVote =
+          this.votes[this.proposalId] &&
+          this.votes[this.proposalId].find(e => e.voter === this.wallet.address)
+      } else {
+        this.$store.commit(`setModalSession`, true)
+      }
     },
     onDeposit() {
-      this.showModalDeposit = true
+      if (this.user.signedIn) {
+        this.showModalDeposit = true
+      } else {
+        this.$store.commit(`setModalSession`, true)
+      }
     },
     async deposit({ amount, password }) {
       try {
