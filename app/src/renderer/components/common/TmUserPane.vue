@@ -17,7 +17,7 @@ import TmListItem from "common/TmListItem"
 export default {
   name: `tm-user-pane`,
   components: { TmListItem },
-  computed: { ...mapGetters([`user`, `config`]) },
+  computed: { ...mapGetters([`user`]) },
   methods: {
     close() {
       this.$store.commit(`setActiveMenu`, ``)

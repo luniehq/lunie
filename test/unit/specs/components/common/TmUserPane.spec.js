@@ -1,17 +1,24 @@
 import TmUserPane from "common/TmUserPane"
-import setup from "../../../helpers/vuex-setup"
+import { shallowMount } from "@vue/test-utils"
 
 describe(`TmUserPane`, () => {
-  let wrapper, store, instance
-  let { mount } = setup()
+  let wrapper, $store
 
   beforeEach(async () => {
-    instance = mount(TmUserPane)
-    store = instance.store
-    wrapper = instance.wrapper
-    await store.dispatch(`signIn`, {
-      account: `default`,
-      password: `1234567890`
+    $store = {
+      commit: jest.fn(),
+      getters: {
+        user: {
+          signedIn: true,
+          account: `default`
+        }
+      }
+    }
+
+    wrapper = shallowMount(TmUserPane, {
+      mocks: {
+        $store
+      }
     })
   })
 
@@ -24,7 +31,11 @@ describe(`TmUserPane`, () => {
   })
 
   it(`should not show the active account name if signed out`, async () => {
-    await store.dispatch(`signOut`)
+    wrapper.setData({
+      user: {
+        signedIn: false
+      }
+    })
     expect(wrapper.html()).toBeUndefined()
   })
 })

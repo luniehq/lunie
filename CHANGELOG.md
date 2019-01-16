@@ -55,6 +55,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1660](https://github.com/cosmos/voyager/issues/1660) Add parameters and pool to store @fedekunze
 - [\#1739](https://github.com/cosmos/voyager/issues/1739) Init jsDoc into project @sabau
 - [\#1674](https://github.com/cosmos/voyager/issues/1674) Add PageProfile component with shared styles for validator and proposal profiles @jbibla
+- [\#1804](https://github.com/cosmos/voyager/issues/1804) Moved Voyager to the web @faboweb
 
 ### Changed
 

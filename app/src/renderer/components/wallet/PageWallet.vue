@@ -102,24 +102,17 @@ export default {
   },
   data: () => ({ num }),
   computed: {
-    ...mapGetters([
-      `filters`,
-      `wallet`,
-      `committedDelegations`,
-      `oldBondedAtoms`,
-      `config`,
-      `connected`
-    ]),
+    ...mapGetters([`filters`, `wallet`, `connected`]),
     somethingToSearch() {
       return !this.wallet.loading && !!this.wallet.balances.length
     },
     allDenomBalances() {
       // for denoms not in balances, add empty balance
-      let balances = this.wallet.balances.slice(0)
-      let hasDenom = denom => {
+      const balances = this.wallet.balances.slice(0)
+      const hasDenom = denom => {
         return !!balances.filter(balance => balance.denom === denom)[0]
       }
-      for (let denom of this.wallet.denoms) {
+      for (const denom of this.wallet.denoms) {
         if (hasDenom(denom)) continue
         balances.push({ denom, amount: 0 })
       }
@@ -129,7 +122,7 @@ export default {
       let query = this.filters.balances.search.query
       let list = orderBy(
         this.allDenomBalances,
-        [`amount`, `denom`],
+        [`amount`, balance => balance.denom.toLowerCase()],
         [`desc`, `asc`]
       )
       if (this.filters.balances.search.visible) {

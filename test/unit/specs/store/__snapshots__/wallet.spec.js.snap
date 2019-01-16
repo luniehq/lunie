@@ -12,4 +12,4 @@ Object {
 }
 `;
 
-exports[`Module: Wallet should throw an error if can't load genesis 1`] = `[Error: Couldn't load genesis at path test/unit/tmp/test_root/genesis.json]`;
+exports[`Module: Wallet should throw an error if can't load genesis 1`] = `"Error"`;

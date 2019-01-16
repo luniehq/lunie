@@ -15,5 +15,5 @@ testArtifacts/*
 app/networks/local-testnet/*
 docs/cosmos-voyager
 .idea/*
-server_dev.key
-server_dev.crt
+*.crt
+*.key

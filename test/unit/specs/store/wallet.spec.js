@@ -8,12 +8,40 @@ const mockRootState = {
     connected: true
   }
 }
+jest.mock(`src/network.js`, () => () => ({
+  genesis: {
+    app_state: {
+      accounts: [
+        {
+          address: `cosmos1qwtatamg8nznvfy9a6nrt0qkdk328qsxexsj5q`,
+          coins: [
+            {
+              denom: `mycoin`,
+              amount: `1000`
+            },
+            {
+              denom: `fermion`,
+              amount: `2300`
+            },
+            {
+              denom: `STAKE`,
+              amount: `1000`
+            }
+          ],
+          sequence_number: `1`,
+          account_number: `49`
+        }
+      ]
+    }
+  }
+}))
 
 describe(`Module: Wallet`, () => {
-  let module
+  let module, actions
 
   beforeEach(() => {
     module = walletModule({ node: {} })
+    actions = module.actions
   })
 
   // DEFAULT
@@ -100,48 +128,24 @@ describe(`Module: Wallet`, () => {
   })
 
   it(`should load denoms`, async () => {
-    jest.resetModules()
-    jest.doMock(`fs-extra`, () => ({
-      pathExists: () => Promise.resolve(true),
-      readJson: () =>
-        Promise.resolve({
-          app_state: {
-            accounts: [
-              {
-                coins: [
-                  {
-                    denom: `mycoin`
-                  },
-                  {
-                    denom: `fermion`
-                  }
-                ]
-              }
-            ]
-          }
-        })
-    }))
-    let { actions } = walletModule({})
     let commit = jest.fn()
     await actions.loadDenoms({ commit, rootState: mockRootState })
     expect(commit).toHaveBeenCalledWith(`setDenoms`, [
       `mycoin`,
       `fermion`,
-      `gregcoin`
+      `STAKE`
     ])
   })
 
   it(`should throw an error if can't load genesis`, async () => {
     jest.resetModules()
-    jest.spyOn(console, `error`).mockImplementationOnce(() => {})
-    jest.doMock(`fs-extra`, () => ({
-      pathExists: () => Promise.reject(`didn't found`)
-    }))
-    // needs to reload the file to import mocked fs-extra
+    const mockPromise = Promise
+    jest.mock(`src/network.js`, () => () => mockPromise.reject(`Error`))
+    // needs to reload the file to import mocked module
     let walletModule = require(`modules/wallet.js`).default
     let { actions, state } = walletModule({})
     let commit = jest.fn()
-    await actions.loadDenoms({ commit, state, rootState: mockRootState }, 2)
+    await actions.loadDenoms({ commit, state })
     expect(state.error).toMatchSnapshot()
   })
 
@@ -199,31 +203,6 @@ describe(`Module: Wallet`, () => {
     await actions.walletSubscribe({ state, dispatch })
   })
 
-  it(`should handle subscription errors`, async () => {
-    const { actions, state } = walletModule({
-      node: {
-        rpc: {
-          subscribe: jest.fn(({}, cb) => {
-            //query is param
-            cb(Error(`foo`))
-          })
-        }
-      }
-    })
-    const dispatch = jest.fn()
-    state.address = `x`
-
-    jest
-      .spyOn(console, `error`)
-      .mockImplementationOnce(() => {})
-      .mockImplementationOnce(() => {})
-      .mockImplementationOnce(() => {})
-      .mockImplementationOnce(() => {})
-      .mockImplementationOnce(() => {})
-
-    await actions.walletSubscribe({ state, dispatch })
-  })
-
   it(`should query wallet on subscription txs`, async () => {
     jest.useFakeTimers()
 
@@ -231,7 +210,7 @@ describe(`Module: Wallet`, () => {
       rpc: {
         subscribe: jest.fn(({}, cb) => {
           //query is param
-          cb(null, { data: { value: { TxResult: { height: -1 } } } })
+          cb({ TxResult: { height: -1 } })
         })
       }
     }

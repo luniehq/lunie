@@ -172,6 +172,8 @@ export default ({ node }) => {
         validator_addr,
         state.committedDelegates[validator_addr] + amount
       )
+
+      dispatch(`updateDelegates`)
     },
     async submitUnbondingDelegation(
       {

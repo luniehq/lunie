@@ -12,12 +12,13 @@ describe(`RPC Connector`, () => {
   }
 
   beforeEach(() => {
-    jest.mock(`tendermint`, () => () => ({
-      on() {},
-      removeAllListeners() {},
-      ws: { destroy() {} }
+    jest.mock(`tendermint`, () => ({
+      RpcClient: () => ({
+        on() {},
+        removeAllListeners() {},
+        ws: { destroy() {} }
+      })
     }))
-    jest.mock(`electron`, () => ({ ipcRenderer: { send: () => jest.fn() } }))
 
     newConnector()
   })
@@ -29,12 +30,14 @@ describe(`RPC Connector`, () => {
   })
 
   it(`should remember if it could not connect via rpc`, () => {
-    jest.mock(`tendermint`, () => () => ({
-      on(value, cb) {
-        if (value === `error`) {
-          cb({ code: `ECONNREFUSED` })
+    jest.mock(`tendermint`, () => ({
+      RpcClient: () => ({
+        on(value, cb) {
+          if (value === `error`) {
+            cb({ code: `ECONNREFUSED` })
+          }
         }
-      }
+      })
     }))
     newConnector()
     connector.rpcConnect(`localhost`)
@@ -43,12 +46,14 @@ describe(`RPC Connector`, () => {
   })
 
   it(`should not react to error codes not meaning connection failed`, () => {
-    jest.mock(`tendermint`, () => () => ({
-      on(value, cb) {
-        if (value === `error`) {
-          cb({ code: `ABCD` })
+    jest.mock(`tendermint`, () => ({
+      RpcClient: () => ({
+        on(value, cb) {
+          if (value === `error`) {
+            cb({ code: `ABCD` })
+          }
         }
-      }
+      })
     }))
     connector.rpcConnect(`localhost`)
     expect(connector.rpc).toBeDefined()
@@ -65,30 +70,5 @@ describe(`RPC Connector`, () => {
 
     expect(spyListeners).toHaveBeenCalledWith(`error`)
     expect(spyDestroy).toHaveBeenCalled()
-  })
-
-  describe(`reconnect`, () => {
-    beforeEach(() => {
-      jest.mock(`tendermint`, () => () => ({
-        on() {},
-        removeAllListeners() {},
-        ws: { destroy() {} }
-      }))
-    })
-
-    it(`should signal a reconnect intent to the main thread`, async () => {
-      const { ipcRenderer } = require(`electron`)
-      ipcRenderer.send = jest.fn()
-      connector.rpcReconnect()
-      expect(ipcRenderer.send).toHaveBeenCalledWith(`reconnect`)
-    })
-
-    it(`should not reconnect again if already reconnecting`, async () => {
-      const { ipcRenderer } = require(`electron`)
-      ipcRenderer.send = jest.fn()
-      connector.rpcReconnect()
-      connector.rpcReconnect()
-      expect(ipcRenderer.send).toHaveBeenCalledTimes(1)
-    })
   })
 })
