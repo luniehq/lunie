@@ -37,10 +37,11 @@ jest.mock(`src/network.js`, () => () => ({
 }))
 
 describe(`Module: Wallet`, () => {
-  let module, actions
+  let module, actions, state
 
   beforeEach(() => {
     module = walletModule({ node: {} })
+    state = module.state
     actions = module.actions
   })
 
@@ -62,6 +63,8 @@ describe(`Module: Wallet`, () => {
 
   it(`update individual wallet balances`, () => {
     let { state, mutations } = module
+
+    state.balances.push({ denom: `coin`, amount: `42` })
 
     // add new
     const balance = { denom: `leetcoin`, amount: `1337` }
@@ -258,5 +261,69 @@ describe(`Module: Wallet`, () => {
       commit
     })
     expect(state.error.message).toBe(`Error`)
+  })
+
+  it(`should send coins`, async () => {
+    state.balances = [
+      {
+        denom: `funcoin`,
+        amount: 1000
+      }
+    ]
+
+    const commit = jest.fn()
+    const dispatch = jest.fn()
+    await actions.sendCoins(
+      {
+        state,
+        rootState: mockRootState,
+        dispatch,
+        commit
+      },
+      {
+        receiver: `cosmos1xxx`,
+        amount: 12,
+        denom: `funcoin`,
+        password: `1234567890`
+      }
+    )
+
+    expect(dispatch).toHaveBeenCalledWith(`sendTx`, {
+      type: `send`,
+      password: `1234567890`,
+      to: `cosmos1xxx`,
+      amount: [{ denom: `funcoin`, amount: `12` }]
+    })
+  })
+
+  it(`should update the state optimistically when sending coins`, async () => {
+    state.balances = [
+      {
+        denom: `funcoin`,
+        amount: 1000
+      }
+    ]
+
+    const commit = jest.fn()
+    const dispatch = jest.fn()
+    await actions.sendCoins(
+      {
+        state,
+        rootState: mockRootState,
+        dispatch,
+        commit
+      },
+      {
+        receiver: `cosmos1xxx`,
+        amount: 12,
+        denom: `funcoin`,
+        password: `1234567890`
+      }
+    )
+
+    expect(commit).toHaveBeenCalledWith(`updateWalletBalance`, {
+      denom: `funcoin`,
+      amount: 988
+    })
   })
 })

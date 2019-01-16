@@ -100,19 +100,11 @@ export default ({ node }) => {
         amount: [{ denom, amount: amount.toString() }]
       })
 
-      // copy array because if we just manipulate the item in it, Vue doesn't recognize the change
-      const newBalances = JSON.parse(JSON.stringify(state.balances)).map(
-        ({ denom: _denom, amount: oldAmount }) => {
-          if (denom === _denom) {
-            return {
-              denom,
-              amount: oldAmount - amount
-            }
-          }
-          return { denom: _denom, amount: oldAmount }
-        }
-      )
-      commit(`setWalletBalances`, newBalances)
+      const oldBalance = state.balances.find(balance => balance.denom === denom)
+      commit(`updateWalletBalance`, {
+        denom,
+        amount: oldBalance.amount - amount
+      })
     },
     async loadDenoms({ commit, state }) {
       try {
