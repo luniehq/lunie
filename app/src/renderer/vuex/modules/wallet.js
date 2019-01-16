@@ -100,15 +100,6 @@ export default ({ node }) => {
         amount: [{ denom, amount: amount.toString() }]
       })
 
-      // const balanceIndex = state.balances.findIndex(
-      //   balance => balance.denom === denom
-      // )
-
-      // Vue.set(state.balances, balanceIndex, {
-      //   denom,
-      //   amount: state.balances[balanceIndex].amount - amount
-      // })
-
       // copy array because if we just manipulate the item in it, Vue doesn't recognize the change
       const newBalances = JSON.parse(JSON.stringify(state.balances)).map(
         ({ denom: _denom, amount: oldAmount }) => {
