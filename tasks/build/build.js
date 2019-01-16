@@ -263,8 +263,7 @@ const buildAllPlatforms = async options => {
   )
 
   pack()
-  const oss =
-    options.os === `unspecified` ? [`darwin`, `linux`, `win32`] : [options.os]
+  const oss = options.os === `all` ? [`darwin`, `linux`, `win32`] : [options.os]
   const buildHashes = await Promise.all(oss.map(build(options)))
   const end = new Date()
 
