@@ -1,7 +1,7 @@
 /archive
 /app/dist/
 /app/networks/
-**/builds/*
+/**/builds/*
 /testArtifacts
 /test/unit/coverage/
 /.vscode/*
