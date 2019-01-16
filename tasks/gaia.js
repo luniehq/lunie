@@ -91,7 +91,6 @@ async function makeValidator(
 ) {
   let valPubKey = await getValPubKey(nodeHome)
   let account = await createKey(operatorSignInfo)
-  console.log(`Created Account:`, account)
 
   const address = account.address
   await sendTokens(mainSignInfo, `10stake`, address, chainId)
