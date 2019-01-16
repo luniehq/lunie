@@ -36,9 +36,6 @@ export default {
   computed: {
     ...mapGetters([`connected`, `delegates`, `filters`])
   },
-  updated() {
-    this.$el.querySelector(`.tm-page-main`).scrollTop = 0
-  },
   methods: {
     ...mapActions([`updateDelegates`])
   }

@@ -4,7 +4,7 @@
       <h2 v-if="title" slot="title">{{ title }}</h2>
       <h3 v-if="subtitle" slot="subtitle">{{ subtitle }}</h3>
       <slot slot="menu-body" name="menu-body">
-        <tm-balance v-if="hasBalance" />
+        <tm-balance />
         <tool-bar :refresh="refreshable" :searching="searchable" />
       </slot>
       <slot slot="header-buttons" name="header-buttons" />
@@ -117,10 +117,10 @@ export default {
     },
     refreshable({ connected, refresh } = this) {
       return refresh ? { connected, refresh } : undefined
-    },
-    hasBalance() {
-      return true // !!(user && user.address)
     }
+  },
+  updated() {
+    this.$el.querySelector(`.tm-page-main`).scrollTop = 0
   },
   async mounted() {
     Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
@@ -137,7 +137,7 @@ export default {
       }
     },
     somethingToSearch() {
-      return this.dataset.length > 0
+      return this.dataset && this.dataset.length > 0
     }
   }
 }
@@ -159,7 +159,7 @@ export default {
 
 .tm-page-title {
   color: var(--bright);
-  font-size: h2;
+  font-size: var(--h2);
   padding: 0.5rem 1rem 1rem;
 }
 
