@@ -42,7 +42,7 @@ const copyGaia = options => (
     options.binaryPath === `default`
       ? path.join(
           __dirname,
-          `../../builds/Gaia/${platformPath}_amd64/${binaryName}`
+          `../../../builds/Gaia/${platformPath}_amd64/${binaryName}`
         )
       : options.binaryPath
   fs.copy(binaryPath, `${buildPath}/bin/${binaryName}`, callback)
