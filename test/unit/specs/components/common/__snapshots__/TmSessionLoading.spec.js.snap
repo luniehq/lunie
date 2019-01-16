@@ -11,7 +11,7 @@ exports[`TmSessionLoading has the expected html structure 1`] = `
       class="tm-session-header"
     >
       <div
-        class="tm-session-title"
+        slot="title"
       >
         
         Connecting to 'mock-net'…

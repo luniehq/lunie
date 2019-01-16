@@ -1,9 +1,7 @@
 <template>
   <div id="app">
     <modal-help />
-    <session v-if="config.modals.session.active" />
-    <onboarding v-else-if="onboarding.active" />
-    <template v-else>
+    <template>
       <app-header />
       <div id="app-content"><router-view /></div>
       <modal-receive />
@@ -25,8 +23,6 @@ import ModalError from "common/TmModalError"
 import ModalHelp from "common/TmModalHelp"
 import ModalNodeHalted from "common/TmModalNodeHalted"
 import ModalReceive from "common/TmModalReceive"
-import Onboarding from "common/TmOnboarding"
-import Session from "common/TmSession"
 import store from "./vuex/store"
 
 /**
@@ -36,7 +32,6 @@ import store from "./vuex/store"
  * @vue-data {Object} nothing
  * @vue-computed {function} notifications mapGetter
  * @vue-computed {function} config mapGetter
- * @vue-computed {function} onboarding mapGetter
  */
 export default {
   name: `app`,
@@ -46,15 +41,10 @@ export default {
     ModalHelp,
     ModalReceive,
     TmNotifications,
-    ModalNodeHalted,
-    Onboarding,
-    Session
+    ModalNodeHalted
   },
   computed: {
-    ...mapGetters([`notifications`, `config`, `onboarding`])
-  },
-  mounted() {
-    this.$store.commit(`loadOnboarding`)
+    ...mapGetters([`notifications`, `config`])
   },
   store
 }

@@ -20,7 +20,7 @@ exports[`TmOnboarding has the expected html structure 0 1`] = `
         class="tm-session-header"
       >
         <div
-          class="tm-session-title"
+          slot="title"
         >
           Welcome to Voyager
         </div>
@@ -138,7 +138,7 @@ exports[`TmOnboarding has the expected html structure 1 1`] = `
         class="tm-session-header"
       >
         <div
-          class="tm-session-title"
+          slot="title"
         >
           Welcome to Voyager
         </div>
@@ -256,7 +256,7 @@ exports[`TmOnboarding has the expected html structure 2 1`] = `
         class="tm-session-header"
       >
         <div
-          class="tm-session-title"
+          slot="title"
         >
           Welcome to Voyager
         </div>
@@ -374,7 +374,7 @@ exports[`TmOnboarding has the expected html structure 3 1`] = `
         class="tm-session-header"
       >
         <div
-          class="tm-session-title"
+          slot="title"
         >
           Welcome to Voyager
         </div>
@@ -492,7 +492,7 @@ exports[`TmOnboarding has the expected html structure 4 1`] = `
         class="tm-session-header"
       >
         <div
-          class="tm-session-title"
+          slot="title"
         >
           Welcome to Voyager
         </div>

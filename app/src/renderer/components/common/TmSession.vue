@@ -1,5 +1,5 @@
 <template>
-  <div class="tm-session-wrapper">
+  <modal v-if="config.modals.session.active" :close="close">
     <session-loading v-if="config.modals.session.state == 'loading'" />
     <session-welcome v-if="config.modals.session.state == 'welcome'" />
     <session-sign-up v-if="config.modals.session.state == 'sign-up'" />
@@ -7,12 +7,12 @@
     <session-account-delete v-if="config.modals.session.state == 'delete'" />
     <session-hardware v-if="config.modals.session.state == 'hardware'" />
     <session-import v-if="config.modals.session.state == 'import'" />
-  </div>
+  </modal>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
-import ClickOutside from "vue-click-outside"
+import Modal from "common/TmModal"
 import SessionLoading from "common/TmSessionLoading"
 import SessionWelcome from "common/TmSessionWelcome"
 import SessionSignUp from "common/TmSessionSignUp"
@@ -23,6 +23,7 @@ import SessionAccountDelete from "common/TmSessionAccountDelete"
 export default {
   name: `tm-session`,
   components: {
+    Modal,
     SessionLoading,
     SessionWelcome,
     SessionSignUp,
@@ -31,27 +32,16 @@ export default {
     SessionImport,
     SessionAccountDelete
   },
-  directives: {
-    ClickOutside
-  },
-  computed: { ...mapGetters([`config`]) }
+  computed: { ...mapGetters([`config`]) },
+  methods: {
+    close() {
+      this.$store.commit(`setModalSession`, false)
+    }
+  }
 }
 </script>
 
 <style>
-.tm-session-wrapper {
-  position: relative;
-  z-index: var(--z-modal);
-}
-
-.tm-session-wrapper .tm-session-backdrop {
-  position: absolute;
-  top: -10vw;
-  left: -10vw;
-  width: 50vw;
-  opacity: 0.25;
-}
-
 .tm-field-checkbox {
   display: flex;
   flex-flow: row nowrap;
@@ -79,28 +69,6 @@ export default {
   line-height: 1.375;
   padding: 0.5rem 1rem;
   font-size: 0.875rem;
-}
-
-.tm-session {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: var(--z-default);
-  background: var(--app-fg);
-}
-
-.tm-session-container:not(.tm-form) {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-flow: column nowrap;
-}
-
-.tm-session-container.tm-form .tm-form-main {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-flow: column nowrap;
 }
 
 .tm-session-header {
@@ -198,18 +166,6 @@ export default {
 }
 
 @media screen and (min-width: 768px) {
-  .tm-session-wrapper {
-    position: fixed;
-    top: 0;
-    left: 0;
-    background: var(--app-bg);
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
   .tm-session {
     position: static;
   }
@@ -233,11 +189,5 @@ export default {
   .tm-session-main .tm-form-group {
     display: block !important;
   }
-}
-
-.tm-connected-network {
-  position: absolute;
-  bottom: 0;
-  left: 0;
 }
 </style>

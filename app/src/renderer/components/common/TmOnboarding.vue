@@ -1,10 +1,10 @@
 <template>
-  <div id="onboarding">
+  <modal v-if="onboarding.active" :close="finish" id="onboarding">
     <img class="tm-session-backdrop" src="~assets/images/cosmos-logo.png" />
     <div class="tm-session">
       <div class="tm-session-container">
         <div class="tm-session-header">
-          <div class="tm-session-title">Welcome to Voyager</div>
+          <div slot="title">Welcome to Voyager</div>
         </div>
         <div class="tm-session-main">
           <div class="tm-session-label">{{ activeValue }}</div>
@@ -41,7 +41,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </modal>
 </template>
 
 <script>
@@ -49,9 +49,10 @@ import { mapGetters } from "vuex"
 import PerfectScrollbar from "perfect-scrollbar"
 import TmBarDiscrete from "common/TmBarDiscrete"
 import TmBtn from "common/TmBtn"
+import Modal from "common/TmModal"
 export default {
   name: `tm-onboarding`,
-  components: { TmBtn, TmBarDiscrete },
+  components: { TmBtn, TmBarDiscrete, Modal },
   computed: {
     ...mapGetters([`onboarding`, `bondDenom`]),
     activeKey() {
@@ -102,6 +103,7 @@ export default {
 
 <style>
 #onboarding .tm-session-main {
+  z-index: var(--z-modalHelp);
   position: relative;
 }
 #onboarding .tm-session-main img {

@@ -21,7 +21,7 @@ exports[`TmSessionSignIn has the expected html structure 1`] = `
       </a>
        
       <div
-        class="tm-session-title"
+        slot="title"
       >
         Sign In
       </div>

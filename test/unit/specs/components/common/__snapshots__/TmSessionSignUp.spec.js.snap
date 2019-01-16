@@ -21,7 +21,7 @@ exports[`SessionSignUp has the expected html structure 1`] = `
       </a>
        
       <div
-        class="tm-session-title"
+        slot="title"
       >
         Create Account
       </div>

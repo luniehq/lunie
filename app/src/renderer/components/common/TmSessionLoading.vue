@@ -2,7 +2,7 @@
   <div class="tm-session">
     <div class="tm-session-container tm-session-loading">
       <div class="tm-session-header">
-        <div class="tm-session-title">
+        <div slot="title">
           Connecting to '{{ config.default_network }}'&hellip;
         </div>
       </div>

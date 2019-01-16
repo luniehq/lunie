@@ -28,7 +28,7 @@ exports[`TmSessionImport has the expected html structure 1`] = `
           </a>
            
           <div
-            class="tm-session-title"
+            slot="title"
           >
             Import with Seed
           </div>

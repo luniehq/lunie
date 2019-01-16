@@ -28,7 +28,7 @@ exports[`TmSessionAccountDelete has the expected html structure 1`] = `
           </a>
            
           <div
-            class="tm-session-title"
+            slot="title"
           >
             Remove Account
           </div>

@@ -3,7 +3,7 @@
     <div class="tm-session-container">
       <div class="tm-session-header">
         <a>&nbsp;</a>
-        <div class="tm-session-title">Sign in to Cosmos Voyager</div>
+        <div slot="title">Sign in to Cosmos Voyager</div>
         <a @click="help"><i class="material-icons">help_outline</i></a>
       </div>
       <div class="tm-session-main">

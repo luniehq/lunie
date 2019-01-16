@@ -5,7 +5,7 @@
         <a @click="setState('welcome')"
           ><i class="material-icons">arrow_back</i></a
         >
-        <div class="tm-session-title">Create Account</div>
+        <div slot="title">Create Account</div>
         <a @click="help()"><i class="material-icons">help_outline</i></a>
       </div>
       <div class="tm-session-main">
