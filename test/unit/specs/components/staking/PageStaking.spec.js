@@ -1,10 +1,10 @@
 import setup from "../../../helpers/vuex-setup"
-import htmlBeautify from "html-beautify"
 import PageStaking from "renderer/components/staking/PageStaking"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`PageStaking`, () => {
   let wrapper, store
+  let { stakingParameters } = lcdClientMock.state
   let { mount } = setup()
 
   beforeEach(() => {
@@ -14,18 +14,15 @@ describe(`PageStaking`, () => {
 
     store.commit(`setConnected`, true)
     store.state.user.address = lcdClientMock.addresses[0]
+    store.dispatch(`updateDelegates`)
     store.commit(`setAtoms`, 1337)
-    wrapper.update()
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
   })
 
   it(`has the expected html structure`, async () => {
-    // after importing the @tendermint/ui components from modules
-    // the perfect scroll plugin needs a $nextTick and a wrapper.update
-    // to work properly in the tests (snapshots weren't matching)
-    // this has occured across multiple tests
+    // somehow we need to wait one tick for the total atoms to update
     await wrapper.vm.$nextTick()
-    wrapper.update()
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should show the search on click`, () => {

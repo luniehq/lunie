@@ -11,12 +11,10 @@ let mockRootState = {
   connection: {
     connected: true
   },
-  config: {
-    bondingDenom: `atom`
-  },
   user: {
     atoms: 1000
-  }
+  },
+  stakingParameters: lcdClientMock.state.stakingParameters
 }
 
 describe(`Module: Delegations`, () => {
@@ -28,6 +26,7 @@ describe(`Module: Delegations`, () => {
     node = test.node
 
     await store.dispatch(`signIn`, { password: `bar`, account: `default` })
+    store.state.wallet.address = lcdClientMock.addresses[0]
     await store.commit(`setConnected`, true)
     await store.dispatch(`getDelegates`)
   })
@@ -86,24 +85,17 @@ describe(`Module: Delegations`, () => {
       chain_id: `test-chain`
     })
     await store.dispatch(`getBondedDelegates`)
+    await store.dispatch(`getStakingParameters`)
 
     jest.spyOn(store._actions.sendTx, `0`)
 
-    const delegates = store.state.delegates.delegates
+    const validators = store.state.delegates.delegates
 
-    let stakingTransactions = {}
-    stakingTransactions.delegations = [
-      {
-        validator: delegates[0],
-        atoms: 109
-      },
-      {
-        validator: delegates[1],
-        atoms: 456
-      }
-    ]
-
-    await store.dispatch(`submitDelegation`, { stakingTransactions })
+    await store.dispatch(`submitDelegation`, {
+      validator_addr: validators[0].operator_address,
+      amount: 213,
+      password: `12345`
+    })
 
     expect(store._actions.sendTx[0].mock.calls).toMatchSnapshot()
   })
@@ -117,23 +109,43 @@ describe(`Module: Delegations`, () => {
 
     jest.spyOn(store._actions.sendTx, `0`)
 
-    const delegates = store.state.delegates.delegates
-    let stakingTransactions = {}
-    stakingTransactions.unbondings = [
-      {
-        validator: delegates[0],
-        atoms: -113
-      },
-      {
-        validator: delegates[1],
-        atoms: -356
-      }
-    ]
-
-    await store.dispatch(`submitDelegation`, { stakingTransactions })
+    const validators = store.state.delegates.delegates
+    await store.dispatch(`submitUnbondingDelegation`, {
+      validator: validators[0],
+      amount: -113,
+      password: `12345`
+    })
     expect(store._actions.sendTx[0].mock.calls).toMatchSnapshot()
   })
 
+  it(`submits redelegation transaction`, async () => {
+    store.dispatch(`setLastHeader`, {
+      height: 42,
+      chain_id: `test-chain`
+    })
+    await store.dispatch(`getBondedDelegates`)
+
+    jest.spyOn(store._actions.sendTx, `0`)
+
+    const validators = store.state.delegates.delegates
+
+    await store.dispatch(`submitDelegation`, {
+      validator_addr: validators[0].operator_address,
+      amount: 20,
+      password: `12345`
+    })
+
+    // make sure the user has enough stake to redelegate
+    node.state.stake[lcdClientMock.addresses[0]].delegations[0].shares = `100`
+
+    await store.dispatch(`submitRedelegation`, {
+      validatorSrc: validators[0],
+      validatorDst: validators[1],
+      amount: 1,
+      password: `12345`
+    })
+    expect(store._actions.sendTx[0].mock.calls).toMatchSnapshot()
+  })
   it(`fetches current undelegations`, async () => {
     await store.dispatch(`getBondedDelegates`, store.state.delegates.delegates)
     expect(store.state.delegation.unbondingDelegations).toMatchSnapshot()
@@ -141,10 +153,12 @@ describe(`Module: Delegations`, () => {
 
   it(`deletes undelegations that are 0`, async () => {
     await store.dispatch(`getBondedDelegates`, store.state.delegates.delegates)
-    store.commit(`setUnbondingDelegations`, {
-      validator_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
-      balance: { amount: 0 }
-    })
+    store.commit(`setUnbondingDelegations`, [
+      {
+        validator_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+        balance: { amount: 0 }
+      }
+    ])
     expect(
       store.state.delegation.unbondingDelegations
         .cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
@@ -210,43 +224,19 @@ describe(`Module: Delegations`, () => {
     )
   })
 
-  it(`should undelegate`, async () => {
-    // store the unbondingDelegation in the lcdclientmock
-    let stakingTransactions = {}
-    stakingTransactions.unbondings = [
-      {
-        validator: {
-          operator_address: lcdClientMock.validators[0],
-          delegator_shares: `100`,
-          tokens: `100`
-        },
-        balance: {
-          amount: `100`
-        }
-      }
-    ]
-    await store.dispatch(`submitDelegation`, { stakingTransactions })
-
-    store.commit(`setUnbondingDelegations`, {
-      validator_addr: lcdClientMock.validators[0],
-      balance: { amount: `100` }
-    })
-    expect(
-      store.state.delegation.unbondingDelegations[lcdClientMock.validators[0]]
-    ).toBeTruthy()
-  })
-
   it(`should remove dead delegations and undelegations`, async () => {
     store.commit(`setCommittedDelegation`, {
       candidateId: lcdClientMock.validators[1],
       value: 1
     })
-    store.commit(`setUnbondingDelegations`, {
-      validator_addr: lcdClientMock.validators[1],
-      balance: {
-        amount: 1
+    store.commit(`setUnbondingDelegations`, [
+      {
+        validator_addr: lcdClientMock.validators[1],
+        balance: {
+          amount: 1
+        }
       }
-    })
+    ])
     expect(
       store.state.delegation.committedDelegates[lcdClientMock.validators[1]]
     ).toBeTruthy()
@@ -271,29 +261,16 @@ describe(`Module: Delegations`, () => {
 
   it(`should update the atoms on a delegation optimistically`, async () => {
     const commit = jest.fn()
-    const delegates = store.state.delegates.delegates
-    let stakingTransactions = {}
-    stakingTransactions.delegations = [
-      {
-        validator: delegates[0],
-        atoms: 109
-      },
-      {
-        validator: delegates[1],
-        atoms: 456
-      }
-    ]
+    const validators = store.state.delegates.delegates
+
     let committedDelegates = {
-      [delegates[0].operator_address]: 10,
-      [delegates[1].operator_address]: 50
+      [validators[0].operator_address]: 10
     }
 
     await delegationModule({}).actions.submitDelegation(
       {
         rootState: {
-          config: {
-            bondingDenom: `atom`
-          },
+          stakingParameters: lcdClientMock.state.stakingParameters,
           user: {
             atoms: 1000
           },
@@ -305,36 +282,17 @@ describe(`Module: Delegations`, () => {
         dispatch: () => {},
         commit
       },
-      { stakingTransactions }
+      {
+        amount: 100,
+        validator_addr: validators[0].operator_address,
+        password: `12345`
+      }
     )
 
-    expect(commit).toHaveBeenCalledWith(`setAtoms`, 435)
+    expect(commit).toHaveBeenCalledWith(`setAtoms`, 900)
     expect(committedDelegates).toEqual({
-      [delegates[0].operator_address]: 119,
-      [delegates[1].operator_address]: 506
+      [validators[0].operator_address]: 110
     })
-  })
-
-  it(`should update updateDelegates after delegation`, async () => {
-    jest.useFakeTimers()
-    let stakingTransactions = {}
-    stakingTransactions.unbondings = [
-      {
-        validator: {
-          operator_address: lcdClientMock.validators[0],
-          delegator_shares: `100`,
-          tokens: `100`
-        },
-        balance: {
-          amount: `100`
-        }
-      }
-    ]
-    jest.spyOn(store._actions.updateDelegates, `0`)
-
-    await store.dispatch(`submitDelegation`, { stakingTransactions })
-    jest.runAllTimers()
-    expect(store._actions.updateDelegates[0].mock.calls).toHaveLength(1)
   })
 
   it(`should store an error if failed to load delegations`, async () => {

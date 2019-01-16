@@ -1,5 +1,4 @@
 import { mount } from "@vue/test-utils"
-import htmlBeautify from "html-beautify"
 import TmDataEmptySearch from "common/TmDataEmptySearch"
 
 describe(`TmDataEmptySearch`, () => {
@@ -9,7 +8,7 @@ describe(`TmDataEmptySearch`, () => {
   })
 
   it(`has the expected html structure`, () => {
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`has an icon`, () => {

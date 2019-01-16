@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LCD Client Mock deletes keys 1`] = `[Error: Passwords do not match]`;
+
+exports[`LCD Client Mock queries bondings per delegator 1`] = `"14"`;
+
+exports[`LCD Client Mock updates keys 1`] = `[Error: Passwords do not match]`;

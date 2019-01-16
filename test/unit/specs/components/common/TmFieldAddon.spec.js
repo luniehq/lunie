@@ -1,5 +1,4 @@
 import { mount } from "@vue/test-utils"
-import htmlBeautify from "html-beautify"
 import TmFieldAddon from "common/TmFieldAddon"
 
 describe(`TmFieldAddon`, () => {
@@ -12,7 +11,7 @@ describe(`TmFieldAddon`, () => {
   })
 
   it(`has the expected html structure`, () => {
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`has a slot with content`, () => {

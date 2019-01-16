@@ -1,7 +1,6 @@
 import setup from "../../../helpers/vuex-setup"
 import Vuelidate from "vuelidate"
-import htmlBeautify from "html-beautify"
-import NISessionSignUp from "common/TmSessionSignUp"
+import TmSessionSignUp from "common/TmSessionSignUp"
 jest.mock(`renderer/google-analytics.js`, () => () => {})
 
 let instance = setup()
@@ -11,7 +10,7 @@ describe(`NISessionSignUp`, () => {
   let wrapper, store
 
   beforeEach(() => {
-    let test = instance.mount(NISessionSignUp, {
+    let test = instance.mount(TmSessionSignUp, {
       getters: {
         connected: () => true
       }
@@ -21,8 +20,7 @@ describe(`NISessionSignUp`, () => {
   })
 
   it(`has the expected html structure`, () => {
-    wrapper.update()
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should go back to the welcome screen on click`, () => {
@@ -219,18 +217,29 @@ describe(`NISessionSignUp`, () => {
   })
 
   it(`should show a notification if creation failed`, async () => {
-    store.dispatch = jest.fn(() => Promise.reject({ message: `test` }))
-    wrapper.setData({
+    let $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(() => Promise.reject({ message: `reason` }))
+    }
+
+    let self = {
       fields: {
         signUpPassword: `1234567890`,
         signUpPasswordConfirm: `1234567890`,
         signUpSeed: `bar`,
         signUpName: `testaccount`,
         signUpWarning: true
-      }
+      },
+      $v: {
+        $touch: () => {},
+        $error: false
+      },
+      $store
+    }
+    await TmSessionSignUp.methods.onSubmit.call(self)
+    expect($store.commit).toHaveBeenCalledWith(`notifyError`, {
+      title: `Couldn't create account`,
+      body: expect.stringContaining(`reason`)
     })
-    await wrapper.vm.onSubmit()
-    expect(store.commit.mock.calls[0][0]).toEqual(`notifyError`)
-    expect(store.commit.mock.calls[0][1].body).toEqual(`test`)
   })
 })

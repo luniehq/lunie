@@ -92,7 +92,7 @@ test(`Governance`, async function(t) {
         .$(`dd`)
     let amount = parseInt((await deposit().getText()).split(` `)[0])
     await t.ok(
-      await app.client.$(`.validator-profile__status.yellow`).isVisible(),
+      await app.client.$(`.page-profile__status.yellow`).isVisible(),
       `the proposal is open for deposits`
     )
     await app.client.$(`#deposit-btn`).click()
@@ -130,7 +130,7 @@ test(`Governance`, async function(t) {
 
   t.test(`vote`, async function(t) {
     await t.ok(
-      await app.client.$(`.validator-profile__status.green`).isVisible(),
+      await app.client.$(`.page-profile__status.green`).isVisible(),
       `the proposal is open for voting`
     )
     await app.client.$(`#vote-btn`).click()

@@ -1,22 +1,24 @@
 import TmConnectedNetwork from "common/TmConnectedNetwork"
-import htmlBeautify from "html-beautify"
 import setup from "../../../helpers/vuex-setup"
 
 describe(`TmConnectedNetwork`, () => {
-  let wrapper, router, store, instance
+  let wrapper, store
   let { mount } = setup()
 
   beforeEach(async () => {
-    instance = mount(TmConnectedNetwork)
+    const instance = mount(TmConnectedNetwork, {
+      getters: {
+        lastHeader: () => ({ chain_id: `Test Net`, height: 42 }),
+        nodeUrl: () => `https://faboNode.de`,
+        connected: () => true
+      }
+    })
     store = instance.store
-    router = instance.router
     wrapper = instance.wrapper
-    await store.dispatch(`setMockedConnector`, true)
-    wrapper.update()
   })
 
   it(`has the expected html structure`, () => {
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`has a network icon`, () => {
@@ -46,25 +48,6 @@ describe(`TmConnectedNetwork`, () => {
     ).toContain(`#42`)
   })
 
-  it(`has a certain style for mockedConnector`, () => {
-    expect(wrapper.find(`#tm-connected-network`).classes()).toContain(
-      `tm-connected-network--mocked`
-    )
-  })
-  it(`has a network tooltip for mockedConnector`, () => {
-    expect(wrapper.vm.networkTooltip).toBe(
-      `You're using the offline demo and are not connected to any real nodes.`
-    )
-  })
-
-  it(`has a chain id for mockedConnector`, () => {
-    expect(wrapper.vm.chainId).toBe(`Test Net`)
-  })
-
-  it(`has a block height for mockedConnector`, () => {
-    expect(wrapper.vm.blockHeight).toBe(`#42`)
-  })
-
   it(`has link to the external block explorer`, () => {
     expect(wrapper.vm.explorerLink).toBe(
       `https://explorecosmos.network/blocks/42`
@@ -72,25 +55,30 @@ describe(`TmConnectedNetwork`, () => {
   })
 
   it(`has a connecting state`, async () => {
-    await store.commit(`setConnected`, false)
-    wrapper.update()
+    let { wrapper } = mount(TmConnectedNetwork, {
+      getters: {
+        lastHeader: () => ({ chain_id: `Test Net`, height: 0 }),
+        connected: () => false
+      }
+    })
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`shows a link to the preferences page if not on the preferences page`, () => {
     expect(wrapper.find(`#tm-connected-network_preferences-link`)).toBeDefined()
-    router.push(`/preferences`)
-    wrapper.update()
-    expect(wrapper.vm.$route.name).toBe(`preferences`)
+    wrapper.setData({
+      $route: {
+        name: `preferences`
+      }
+    })
     expect(
       wrapper.vm.$el.querySelector(`#tm-connected-network_preferences-link`)
     ).toBeFalsy()
   })
 
   it(`shows the connected node`, async () => {
-    instance = mount(TmConnectedNetwork)
+    let instance = mount(TmConnectedNetwork)
     store = instance.store
-    router = instance.router
     wrapper = instance.wrapper
 
     Object.assign(store.state.connection, {
@@ -104,31 +92,6 @@ describe(`TmConnectedNetwork`, () => {
       connected: true
     })
 
-    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
-  })
-
-  it(`networkTooltip`, () => {
-    expect(
-      TmConnectedNetwork.computed.networkTooltip({ mockedConnector: true })
-    ).toEqual(
-      `You\'re using the offline demo and are not connected to any real nodes.`
-    )
-
-    expect(
-      TmConnectedNetwork.computed.networkTooltip({
-        chainId: `chainId`,
-        connected: true,
-        nodeURL: `http://awesomenode.de`
-      })
-    ).toEqual(
-      `You\'re connected to the chainId testnet via node http://awesomenode.de.`
-    )
-
-    expect(
-      TmConnectedNetwork.computed.networkTooltip({
-        chainId: `chainId`
-      })
-    ).toEqual(`We\'re pinging nodes to try to connect you to chainId.`)
   })
 })

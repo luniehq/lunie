@@ -11,7 +11,8 @@
 
 <script>
 import TableValidators from "staking/TableValidators"
-import { TmDataEmpty, TmDataLoading } from "@tendermint/ui"
+import TmDataEmpty from "common/TmDataEmpty"
+import TmDataLoading from "common/TmDataLoading"
 import TmDataConnecting from "common/TmDataConnecting"
 import { mapGetters } from "vuex"
 

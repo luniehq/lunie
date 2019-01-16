@@ -45,6 +45,7 @@ exports[`ModalVote component matches snapshot has the expected html structure 1`
   >
     <!---->
     <!---->
+     
     <div
       class="tm-form-group__field"
     >
@@ -55,7 +56,6 @@ exports[`ModalVote component matches snapshot has the expected html structure 1`
         <span
           class="tm-btn__container tm-btn--size-md tm-btn--secondary"
         >
-          <!---->
           <!---->
           <span
             class="tm-btn__value"
@@ -73,7 +73,6 @@ exports[`ModalVote component matches snapshot has the expected html structure 1`
           class="tm-btn__container tm-btn--size-md tm-btn--secondary"
         >
           <!---->
-          <!---->
           <span
             class="tm-btn__value"
           >
@@ -90,7 +89,6 @@ exports[`ModalVote component matches snapshot has the expected html structure 1`
           class="tm-btn__container tm-btn--size-md tm-btn--secondary"
         >
           <!---->
-          <!---->
           <span
             class="tm-btn__value"
           >
@@ -106,7 +104,6 @@ exports[`ModalVote component matches snapshot has the expected html structure 1`
         <span
           class="tm-btn__container tm-btn--size-md tm-btn--secondary"
         >
-          <!---->
           <!---->
           <span
             class="tm-btn__value"
@@ -130,6 +127,7 @@ exports[`ModalVote component matches snapshot has the expected html structure 1`
     >
       Account password
     </label>
+     
     <div
       class="tm-form-group__field"
     >
@@ -158,6 +156,7 @@ exports[`ModalVote component matches snapshot has the expected html structure 1`
   >
     <!---->
     <!---->
+     
     <div
       class="tm-form-group__field"
     />
@@ -174,7 +173,6 @@ exports[`ModalVote component matches snapshot has the expected html structure 1`
       <span
         class="tm-btn__container tm-btn--size-lg tm-btn--primary"
       >
-        <!---->
         <!---->
         <span
           class="tm-btn__value"

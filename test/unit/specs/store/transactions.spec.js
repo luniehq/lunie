@@ -50,13 +50,13 @@ describe(`Module: Transactions`, () => {
       blockHeight: `3436`,
       blockMetaInfo: {
         header: {
-          time: 1042
+          time: 42000
         }
       }
     })
     expect(
       store.state.transactions.wallet.find(tx => tx.height === `3436`).time
-    ).toBe(1042)
+    ).toBe(42000)
   })
 
   it(`should clear session data`, () => {

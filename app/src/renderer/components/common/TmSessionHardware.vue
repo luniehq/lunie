@@ -17,8 +17,8 @@
         />
         <hardware-state
           v-if="status == 'detect'"
+          :spin="true"
           icon="rotate_right"
-          spin="true"
           value="Detecting your Ledger Wallet"
           @click.native="setStatus('success')"
         />

@@ -50,11 +50,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1673](https://github.com/cosmos/voyager/issues/1673) Documentation and single command to run one or all tests with fallback for end to end test @sabau
 - [\#1683](https://github.com/cosmos/voyager/issues/1683) Governance: block voting twice for the same option @sabau
 - [\#1774](https://github.com/cosmos/voyager/issues/1776) added specs for the TmFieldSeed update method and value watcher @coreycosman
+- [\#1387](https://github.com/cosmos/voyager/issues/1387) Staking: Added list of undelegation transactions @sabau
+- [\#1661](https://github.com/cosmos/voyager/issues/1661) Boot: multinode available for local-testnet @sabau
+- [\#1748](https://github.com/cosmos/voyager/issues/1748) display governance parameters on tab @fedekunze
+- [\#1660](https://github.com/cosmos/voyager/issues/1660) Add parameters and pool to store @fedekunze
+- [\#1739](https://github.com/cosmos/voyager/issues/1739) Init jsDoc into project @sabau
+- [\#1674](https://github.com/cosmos/voyager/issues/1674) Add PageProfile component with shared styles for validator and proposal profiles @jbibla
 
 ### Changed
 
 - Changed minor component of version number to match testnet version. @NodeGuy
-- [\#1433](https://github.com/cosmos/voyager/issues/1433) Migrated to latest SDK commit 6c9e71b654995b22e3ba4d121553ab20432616a9. @faboweb
+- [\#1433](https://github.com/cosmos/voyager/issues/1433) Migrated to latest SDK commit 6bff7082607a2c36439f8b6218816878c41ca6af. @faboweb
 - [\#1183](https://github.com/cosmos/voyager/issues/1183) Changed a bunch of JavaScript files to strict mode. @NodeGuy
 - Updated contribution guidelines. @faboweb
 - [\#1447](https://github.com/cosmos/voyager/issues/1447) Removed titles from all pages. @faboweb
@@ -82,9 +88,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1638](https://github.com/cosmos/voyager/issues/1638) removed account password from the state and now user has to input it on every transaction @fedekunze
 - [\#1655](https://github.com/cosmos/voyager/issues/1655) Text and Textarea fields trimmed @sabau
 - [\#1686](https://github.com/cosmos/voyager/issues/1686) Changed proposals from array to object @sabau
+- [\#1387](https://github.com/cosmos/voyager/issues/1387) Delegation: modifiers simplified, setUnbondingDelegations takes an array as input now as the name suggest and replace the current dictionary with a new one @sabau
 - [\#1626](https://github.com/cosmos/voyager/issues/1626) upgraded from raven to sentry/browser @jbibla
 - [\#1724](https://github.com/cosmos/voyager/issues/1724) set tabindex attribute to -1 for readonly denom on ModalProposals. tab navgiation now skips element @enyan94
 - [\#1277](https://github.com/cosmos/voyager/issues/1277) change name of VmToolBar to ToolBar, update all snapshots and import statements @coreycosman
+- [\#1432](https://github.com/cosmos/voyager/issues/1432) Moved @tendermint/UI components back into the Voyager repository @faboweb
+- [\#1769](https://github.com/cosmos/voyager/issues/1769) Removed hardcoded parameters values @fedekunze
+- [\#1694](https://github.com/cosmos/voyager/issues/1694) Improved the `README` @faboweb @fedekunze
+- [\#1379](https://github.com/cosmos/voyager/issues/1379) Changed some tests so they don't display errors on the console to better identify real errors @faboweb
+- [\#1792](https://github.com/cosmos/voyager/pull/1792) removed mocked demo mode @fedekunze
+- [\#1720](https://github.com/cosmos/voyager/issues/1720) Time format from 12 to 24h @sabau
 
 ### Fixed
 
@@ -131,6 +144,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1667](https://github.com/cosmos/voyager/issues/1667) Fixed menu in PageSend + hover cursor for menu @sabau
 - [\#1676](https://github.com/cosmos/voyager/issues/1676) Reduced minWidth css for ModalVote to have 2 buttons per line @sabau
 - [\#1676](https://github.com/cosmos/voyager/issues/1670) Update balance in header after voting and depositing @faboweb
+- [\#1572](https://github.com/cosmos/voyager/issues/1572) Fixed scroll bug when switching between tabs @jbibla
+- [\#1749](https://github.com/cosmos/voyager/issues/1749) Fixed proposal tally update after voting @fedekunze
+- [\#1765](https://github.com/cosmos/voyager/pull/1765) Fixed proposal deposit update after submitting a deposit @fedekunze
+- [\#1791](https://github.com/cosmos/voyager/pull/1791) Fixed a problem with initializing the Voyager config dir @faboweb
+- [\#1707](https://github.com/cosmos/voyager/issues/1707) Governance txs are now disabled if the user doesn't hold any min_deposit token @fedekunze
+- [\#1815](https://github.com/cosmos/voyager/pull/1815) Fixed getters for proposals denominator, reverted to 945803d586b83d65547cd16f4cd5994eac2957ea until interfaces are ready @sabau
 
 ## [0.10.7] - 2018-10-10
 

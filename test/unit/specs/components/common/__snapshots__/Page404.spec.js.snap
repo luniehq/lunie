@@ -15,9 +15,12 @@ exports[`Page404 has the expected html structure 1`] = `
         class="tm-page-header-text"
       >
         <!---->
+         
         <!---->
+         
         <!---->
       </div>
+       
       <menu
         class="tm-page-header-menu"
       >
@@ -25,8 +28,9 @@ exports[`Page404 has the expected html structure 1`] = `
       </menu>
     </div>
   </header>
+   
   <main
-    class="tm-page-main ps"
+    class="tm-page-main"
   >
     <section
       class="tm-part"
@@ -45,17 +49,19 @@ exports[`Page404 has the expected html structure 1`] = `
             >
               Try another page...
             </div>
+             
             <menu
               class="tm-part-menu"
             />
           </div>
         </header>
+         
         <main
           class="tm-part-main"
         >
-          <a
-            class="tm-li tm-li-link router-link-exact-active router-link-active"
-            href="#/"
+          <router-link-stub
+            class="tm-li tm-li-link"
+            to="/"
           >
             <div
               class="tm-li-container"
@@ -65,6 +71,7 @@ exports[`Page404 has the expected html structure 1`] = `
               >
                 <!---->
               </div>
+               
               <div
                 class="tm-li-label"
               >
@@ -73,12 +80,14 @@ exports[`Page404 has the expected html structure 1`] = `
                 >
                   Wallet
                 </div>
+                 
                 <div
                   class="tm-li-subtitle"
                 >
                   
                 </div>
               </div>
+               
               <div
                 class="tm-li-icon"
               >
@@ -94,11 +103,11 @@ exports[`Page404 has the expected html structure 1`] = `
                 </i>
               </div>
             </div>
-          </a>
+          </router-link-stub>
            
-          <a
+          <router-link-stub
             class="tm-li tm-li-link"
-            href="#/staking"
+            to="/staking"
           >
             <div
               class="tm-li-container"
@@ -108,6 +117,7 @@ exports[`Page404 has the expected html structure 1`] = `
               >
                 <!---->
               </div>
+               
               <div
                 class="tm-li-label"
               >
@@ -116,12 +126,14 @@ exports[`Page404 has the expected html structure 1`] = `
                 >
                   Staking
                 </div>
+                 
                 <div
                   class="tm-li-subtitle"
                 >
                   
                 </div>
               </div>
+               
               <div
                 class="tm-li-icon"
               >
@@ -137,30 +149,10 @@ exports[`Page404 has the expected html structure 1`] = `
                 </i>
               </div>
             </div>
-          </a>
+          </router-link-stub>
         </main>
       </div>
     </section>
-    <div
-      class="ps__rail-x"
-      style="left: 0px; top: 0px;"
-    >
-      <div
-        class="ps__thumb-x"
-        style="left: 0px; width: 0px;"
-        tabindex="0"
-      />
-    </div>
-    <div
-      class="ps__rail-y"
-      style="top: 0px; left: 0px;"
-    >
-      <div
-        class="ps__thumb-y"
-        style="top: 0px; height: 0px;"
-        tabindex="0"
-      />
-    </div>
   </main>
 </div>
 `;

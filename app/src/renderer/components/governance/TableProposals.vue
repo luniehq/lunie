@@ -52,22 +52,10 @@ export default {
     somethingToSearch() {
       return Object.keys(this.proposals).length > 0
     },
-    parsedProposals() {
-      let copiedProposals = JSON.parse(JSON.stringify(this.proposals))
-      return Object.values(copiedProposals).map(p => {
-        p.tally_result.yes = Math.round(parseFloat(p.tally_result.yes))
-        p.tally_result.no = Math.round(parseFloat(p.tally_result.no))
-        p.tally_result.no_with_veto = Math.round(
-          parseFloat(p.tally_result.no_with_veto)
-        )
-        p.tally_result.abstain = Math.round(parseFloat(p.tally_result.abstain))
-        return p
-      })
-    },
     filteredProposals() {
       let query = this.filters.proposals.search.query || ``
       let proposals = orderBy(
-        this.parsedProposals,
+        this.proposals,
         [this.sort.property],
         [this.sort.order]
       )

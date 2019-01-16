@@ -1,5 +1,4 @@
-const { join } = require(`path`)
-const { homedir } = require(`os`)
+const { join, resolve } = require(`path`)
 const mockFsExtra = require(`../helpers/fs-mock`).default
 
 describe(`Root UI Directory`, () => {
@@ -24,7 +23,10 @@ describe(`Root UI Directory`, () => {
 
   it(`should create the correct path`, () => {
     let root = require(`../../../app/src/root.js`)
-    expect(root).toBe(join(homedir(), `.cosmos-voyager-dev/gaia-6002`))
+    const appDir = resolve(`${__dirname}/../../../`)
+    expect(root).toBe(
+      join(`${appDir}/builds/testnets/gaia-6002/cosmos-voyager-dev`)
+    )
   })
 
   it(`should use COSMOS_HOME as default`, () => {

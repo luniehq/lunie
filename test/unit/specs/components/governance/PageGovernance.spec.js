@@ -1,5 +1,4 @@
 import setup from "../../../helpers/vuex-setup"
-import htmlBeautify from "html-beautify"
 import Vuelidate from "vuelidate"
 import PageGovernance from "renderer/components/governance/PageGovernance"
 import ModalPropose from "renderer/components/governance/ModalPropose"
@@ -9,32 +8,38 @@ const proposal = {
   amount: 15,
   title: `A new text proposal for Cosmos`,
   description: `a valid description for the proposal`,
-  type: `Text`
+  type: `Text`,
+  password: `1234567890`
 }
+const { governanceParameters, stakingParameters } = lcdClientMock.state
+const depositDenom = governanceParameters.deposit.min_deposit[0].denom
 
 describe(`PageGovernance`, () => {
   let wrapper, store
   let { mount, localVue } = setup()
   localVue.use(Vuelidate)
+  localVue.directive(`tooltip`, () => {})
+  localVue.directive(`focus`, () => {})
 
   beforeEach(() => {
-    let instance = mount(PageGovernance)
+    let instance = mount(PageGovernance, {
+      doBefore: ({ store }) => {
+        store.commit(`setGovParameters`, governanceParameters)
+        store.commit(`setStakingParameters`, stakingParameters.parameters)
+        store.commit(`setConnected`, true)
+      }
+    })
     wrapper = instance.wrapper
     store = instance.store
-    store.commit(`setConnected`, true)
     store.state.user.address = lcdClientMock.addresses[0]
+    store.dispatch(`updateDelegates`)
     store.commit(`setAtoms`, 1337)
-    wrapper.update()
   })
 
   it(`has the expected html structure`, async () => {
-    // after importing the @tendermint/ui components from modules
-    // the perfect scroll plugin needs a $nextTick and a wrapper.update
-    // to work properly in the tests (snapshots weren't matching)
-    // this has occured across multiple tests
+    // somehow we need to wait one tick for the total atoms to update
     await wrapper.vm.$nextTick()
-    wrapper.update()
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should show the search on click`, () => {
@@ -47,11 +52,10 @@ describe(`PageGovernance`, () => {
       wrapper.vm.$el.querySelector(`#propose-btn`).getAttribute(`disabled`)
     ).toBeNull()
     store.commit(`setConnected`, false)
-    wrapper.update()
     expect(
       wrapper.vm.$el.querySelector(`#propose-btn`).getAttribute(`disabled`)
     ).not.toBeNull()
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   describe(`Modal onPropose modal on click`, () => {
@@ -72,9 +76,10 @@ describe(`PageGovernance`, () => {
         `submitProposal`,
         {
           description: `a valid description for the proposal`,
-          initial_deposit: [{ amount: `15`, denom: `STAKE` }],
+          initial_deposit: [{ amount: `15`, denom: depositDenom }],
           title: `A new text proposal for Cosmos`,
-          type: `Text`
+          type: `Text`,
+          password: `1234567890`
         }
       ]
     ])
@@ -102,9 +107,10 @@ describe(`PageGovernance`, () => {
         `submitProposal`,
         {
           description: `a valid description for the proposal`,
-          initial_deposit: [{ amount: `15`, denom: `STAKE` }],
+          initial_deposit: [{ amount: `15`, denom: depositDenom }],
           title: `A new text proposal for Cosmos`,
-          type: `Text`
+          type: `Text`,
+          password: `1234567890`
         }
       ]
     ])

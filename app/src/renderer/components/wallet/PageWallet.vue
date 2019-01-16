@@ -6,7 +6,7 @@
         <a
           v-tooltip.bottom="'Refresh'"
           :disabled="!connected"
-          @click="connected && updateBalances()"
+          @click="connected && queryWalletBalances()"
         >
           <i class="material-icons">refresh</i>
         </a>
@@ -56,16 +56,34 @@ import DataEmptySearch from "common/TmDataEmptySearch"
 import TmDataConnecting from "common/TmDataConnecting"
 import LiCopy from "common/TmLiCopy"
 import LiCoin from "./LiCoin"
-import {
-  TmListItem,
-  TmPage,
-  TmPart,
-  TmDataLoading,
-  TmDataMsg
-} from "@tendermint/ui"
+import TmListItem from "common/TmListItem"
+import TmPage from "common/TmPage"
+import TmPart from "common/TmPart"
+import TmDataLoading from "common/TmDataLoading"
+import TmDataMsg from "common/TmDataMsg"
 import TmBalance from "common/TmBalance"
 import ModalSearch from "common/TmModalSearch"
 import ToolBar from "common/ToolBar"
+
+/**
+ * Page Wallet
+ * @vue-prop {Number} num Module that implements all the numerical methods
+ * @vue-computed {function} filters mapGetter
+ * @vue-computed {function} wallet mapGetter
+ * @vue-computed {function} committedDelegations mapGetter
+ * @vue-computed {function} oldBondedAtoms mapGetter
+ * @vue-computed {function} config mapGetter
+ * @vue-computed {function} connected mapGetter
+ *
+ * @vue-computed {function} somethingToSearch returns a boolean stating true if we have data and we are not in loading phase
+ * @vue-computed {function} allDenomBalances for denoms not in balances, add empty balance
+ * @vue-computed {function} filteredBalances filter the balance per coin name, returns an ordered list
+ *
+ * @vue-methods {function} updateDelegates mapAction
+ * @vue-methods {function} updateDelegates mapAction
+ * @vue-methods {function} setSearch launches the setSearchVisible action if somethingToSearch returns true
+ * @vue-methods {function} updateBalances dispatch a queryWalletBalances action to update the informations
+ */
 export default {
   name: `page-wallet`,
   components: {
@@ -127,16 +145,13 @@ export default {
     Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
     Mousetrap.bind(`esc`, () => this.setSearch(false))
     this.updateDelegates()
-    this.queryWalletState()
+    this.queryWalletBalances()
   },
   methods: {
-    ...mapActions([`updateDelegates`, `queryWalletState`]),
+    ...mapActions([`updateDelegates`, `queryWalletBalances`]),
     setSearch(bool = !this.filters[`balances`].search.visible) {
       if (!this.somethingToSearch) return false
       this.$store.commit(`setSearchVisible`, [`balances`, bool])
-    },
-    updateBalances() {
-      this.queryWalletState()
     }
   }
 }

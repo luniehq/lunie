@@ -1,5 +1,4 @@
 import { mount } from "@vue/test-utils"
-import htmlBeautify from "html-beautify"
 import TmDataConnecting from "common/TmDataConnecting"
 
 describe(`TmDataConnecting`, () => {
@@ -9,6 +8,6 @@ describe(`TmDataConnecting`, () => {
   })
 
   it(`has the expected html structure`, () => {
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 })

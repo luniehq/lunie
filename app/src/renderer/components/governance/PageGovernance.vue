@@ -20,7 +20,7 @@
     <modal-propose
       v-if="showModalPropose"
       :show-modal-propose.sync="showModalPropose"
-      :denom="bondingDenom"
+      :denom="depositDenom"
       @createProposal="propose"
     />
     <router-view />
@@ -31,10 +31,14 @@
 import { mapGetters } from "vuex"
 import DataEmptySearch from "common/TmDataEmptySearch"
 import ModalSearch from "common/TmModalSearch"
+import PerfectScrollbar from "perfect-scrollbar"
 import ModalPropose from "./ModalPropose"
 import ToolBar from "common/ToolBar"
 import TmBalance from "common/TmBalance"
-import { TmPage, TmDataEmpty, TmDataLoading, TmBtn } from "@tendermint/ui"
+import TmBtn from "common/TmBtn"
+import TmPage from "common/TmPage"
+import TmDataEmpty from "common/TmDataEmpty"
+import TmDataLoading from "common/TmDataLoading"
 export default {
   name: `page-governance`,
   components: {
@@ -54,18 +58,22 @@ export default {
       {
         displayName: `Proposals`,
         pathName: `Proposals`
+      },
+      {
+        displayName: `Parameters`,
+        pathName: `Governance Parameters`
       }
-      // TODO uncomment when updated to latest SDK
-      // {
-      //   displayName: `Parameters`,
-      //   pathName: `Governance Parameters`
-      // }
     ],
     showModalPropose: false
   }),
   computed: {
-    // TODO: get min deposit denom from gov params
-    ...mapGetters([`proposals`, `filters`, `bondingDenom`, `connected`])
+    ...mapGetters([`proposals`, `filters`, `depositDenom`, `connected`])
+  },
+  mounted() {
+    this.ps = new PerfectScrollbar(this.$el.querySelector(`.tm-page-main`))
+  },
+  updated() {
+    this.$el.querySelector(`.tm-page-main`).scrollTop = 0
   },
   methods: {
     onPropose() {
@@ -79,7 +87,7 @@ export default {
           type,
           initial_deposit: [
             {
-              denom: this.bondingDenom,
+              denom: this.depositDenom,
               amount: String(amount)
             }
           ],

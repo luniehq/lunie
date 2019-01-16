@@ -1,7 +1,8 @@
 import setup from "../../../helpers/vuex-setup"
-import htmlBeautify from "html-beautify"
 import TableValidators from "renderer/components/staking/TableValidators"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+
+let { stakingParameters } = lcdClientMock.state
 
 describe(`TableValidators`, () => {
   let wrapper, store
@@ -9,26 +10,21 @@ describe(`TableValidators`, () => {
 
   beforeEach(() => {
     let instance = mount(TableValidators, {
+      doBefore: ({ store }) => {
+        store.commit(`setConnected`, true)
+        store.commit(`setAtoms`, 1337)
+      },
       propsData: { validators: lcdClientMock.candidates }
     })
-
     wrapper = instance.wrapper
     store = instance.store
-
-    store.commit(`setConnected`, true)
     store.state.user.address = `address1234`
     store.commit(`setAtoms`, 1337)
-    wrapper.update()
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
   })
 
   it(`has the expected html structure`, async () => {
-    // after importing the @tendermint/ui components from modules
-    // the perfect scroll plugin needs a $nextTick and a wrapper.update
-    // to work properly in the tests (snapshots weren't matching)
-    // this has occured across multiple tests
-    await wrapper.vm.$nextTick()
-    wrapper.update()
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should sort the delegates by selected property`, () => {
@@ -56,7 +52,6 @@ describe(`TableValidators`, () => {
     expect(
       wrapper.vm.sortedFilteredEnrichedDelegates.map(x => x.operator_address)
     ).toEqual([lcdClientMock.validators[2]])
-    wrapper.update()
     expect(wrapper.vm.$el).toMatchSnapshot()
     store.commit(`setSearchQuery`, [
       `delegates`,

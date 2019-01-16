@@ -9,7 +9,10 @@
         <i class="material-icons">close</i>
       </div>
     </div>
-    <tm-form-group :error="$v.title.$invalid" class="page-proposal-form-group">
+    <tm-form-group
+      :error="$v.title.$invalid && title.length > 0"
+      class="page-proposal-form-group"
+    >
       <span>Title</span>
       <tm-field
         v-focus
@@ -26,7 +29,7 @@
       />
     </tm-form-group>
     <tm-form-group
-      :error="$v.description.$invalid"
+      :error="$v.description.$invalid && description.length > 0"
       class="page-proposal-form-group"
     >
       <span>Description</span>
@@ -44,7 +47,7 @@
       />
     </tm-form-group>
     <tm-form-group
-      :error="$v.amount.$invalid"
+      :error="$v.amount.$invalid && (amount > 0 || balance === 0)"
       class="modal-propose-form-group"
       field-id="amount"
     >
@@ -56,19 +59,19 @@
         type="text"
         readonly="readonly"
       />
-      <tm-field
-        id="amount"
-        :max="balance"
-        :min="0"
-        v-model="amount"
-        type="number"
-      />
+      <tm-field id="amount" :min="0" v-model="amount" type="number" />
       <tm-form-msg
-        v-if="!$v.amount.between && amount > 0"
+        v-if="!$v.amount.between && amount > 0 && balance > 0"
         :max="$v.amount.$params.between.max"
         :min="$v.amount.$params.between.min"
         name="Amount"
         type="between"
+      />
+      <tm-form-msg
+        v-else-if="balance === 0"
+        :msg="`doesn't hold any ${denom}s`"
+        name="Wallet"
+        type="custom"
       />
       <hr />
     </tm-form-group>
@@ -112,7 +115,10 @@ import {
 } from "vuelidate/lib/validators"
 import { isEmpty, trim } from "lodash"
 import Modal from "common/TmModal"
-import { TmBtn, TmField, TmFormGroup, TmFormMsg } from "@tendermint/ui"
+import TmBtn from "common/TmBtn"
+import TmField from "common/TmField"
+import TmFormGroup from "common/TmFormGroup"
+import TmFormMsg from "common/TmFormMsg"
 
 const isValid = type =>
   type === `Text` || type === `ParameterChange` || type === `SoftwareUpgrade`
@@ -151,7 +157,6 @@ export default {
     showPassword: false
   }),
   computed: {
-    // TODO: get coin denom from governance params
     ...mapGetters([`wallet`]),
     balance() {
       // TODO: refactor to get the selected coin when multicoin deposit is enabled
@@ -184,7 +189,7 @@ export default {
       amount: {
         required,
         isInteger,
-        between: between(1, this.balance > 0 ? this.balance : 1)
+        between: between(1, this.balance)
       },
       password: {
         required

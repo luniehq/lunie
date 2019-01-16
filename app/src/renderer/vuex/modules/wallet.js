@@ -41,16 +41,13 @@ export default ({ node }) => {
     },
     initializeWallet({ commit, dispatch }, address) {
       commit(`setWalletAddress`, address)
+      dispatch(`queryWalletBalances`)
       dispatch(`loadDenoms`)
-      dispatch(`queryWalletState`)
       dispatch(`walletSubscribe`)
     },
     resetSessionData({ rootState }) {
       // clear previous account state
       rootState.wallet = JSON.parse(JSON.stringify(emptyState))
-    },
-    queryWalletState({ dispatch }) {
-      dispatch(`queryWalletBalances`)
     },
     async queryWalletBalances({ state, rootState, commit }) {
       if (!state.address) return
@@ -71,7 +68,9 @@ export default ({ node }) => {
         commit(`setAccountNumber`, res.account_number)
         commit(`setWalletBalances`, coins)
         for (let coin of coins) {
-          if (coin.denom === rootState.config.bondingDenom) {
+          if (
+            coin.denom === rootState.stakingParameters.parameters.bond_denom
+          ) {
             commit(`setAtoms`, parseFloat(coin.amount))
             break
           }
@@ -130,7 +129,8 @@ export default ({ node }) => {
         let interval = setInterval(() => {
           if (rootState.connection.lastHeader.height < height) return
           clearInterval(interval)
-          dispatch(`queryWalletState`)
+          dispatch(`queryWalletBalances`)
+          dispatch(`getBondedDelegates`)
           resolve()
         }, 1000)
       })

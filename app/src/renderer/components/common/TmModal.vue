@@ -24,11 +24,11 @@ export default {
   props: {
     icon: {
       type: String,
-      required: true
+      default: null
     },
     size: {
       type: String,
-      required: true
+      default: null
     },
     close: {
       type: Function,

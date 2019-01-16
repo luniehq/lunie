@@ -13,7 +13,6 @@
         <i class="material-icons">chevron_right</i>
       </router-link>
       <router-link
-        v-if="config.devMode || mockedConnector"
         id="app-menu__transactions"
         class="app-menu-item"
         to="/transactions"
@@ -54,7 +53,7 @@ import { mapGetters } from "vuex"
 import PerfectScrollbar from "perfect-scrollbar"
 import noScroll from "no-scroll"
 import ConnectedNetwork from "common/TmConnectedNetwork"
-import { TmListItem } from "@tendermint/ui"
+import TmListItem from "common/TmListItem"
 export default {
   name: `app-menu`,
   components: {
@@ -65,7 +64,7 @@ export default {
     ps: {}
   }),
   computed: {
-    ...mapGetters([`validators`, `config`, `lastHeader`, `mockedConnector`])
+    ...mapGetters([`validators`, `config`, `lastHeader`])
   },
   mounted() {
     this.ps = new PerfectScrollbar(this.$el.querySelector(`.app-menu-main`))

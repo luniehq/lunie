@@ -477,8 +477,12 @@ async function pickAndConnect() {
   // make the tls certificate available to the view process
   // https://en.wikipedia.org/wiki/Certificate_authority
   global.config.ca = certificate
+  // TODO reenable certificate
   const axiosInstance = axios.create({
-    httpsAgent: new https.Agent({ ca: certificate })
+    httpsAgent: new https.Agent({
+      // ca: certificate
+      rejectUnauthorized: false
+    })
   })
 
   let compatible, nodeVersion
@@ -656,7 +660,18 @@ async function main() {
 
     // copy predefined genesis.json and config.toml into root
     fs.accessSync(networkPath) // crash if invalid path
-    fs.copySync(networkPath, root)
+    await fs.copyFile(
+      join(networkPath, `config.toml`),
+      join(root, `config.toml`)
+    )
+    await fs.copyFile(
+      join(networkPath, `gaiaversion.txt`),
+      join(root, `gaiaversion.txt`)
+    )
+    await fs.copyFile(
+      join(networkPath, `genesis.json`),
+      join(root, `genesis.json`)
+    )
 
     fs.writeFileSync(appVersionPath, pkgVersion)
   }

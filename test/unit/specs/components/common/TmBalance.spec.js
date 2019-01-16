@@ -1,9 +1,10 @@
 import setup from "../../../helpers/vuex-setup"
-import htmlBeautify from "html-beautify"
 import TmBalance from "common/TmBalance"
+import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`TmBalance`, () => {
-  let wrapper
+  let wrapper, store
+  let { stakingParameters } = lcdClientMock.state
   let { mount } = setup()
 
   beforeEach(() => {
@@ -24,10 +25,11 @@ describe(`TmBalance`, () => {
       }
     })
     wrapper = instance.wrapper
-    wrapper.update()
+    store = instance.store
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
   })
 
   it(`has the expected html structure before adding props`, () => {
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 })
