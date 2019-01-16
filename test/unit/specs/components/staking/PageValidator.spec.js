@@ -492,6 +492,9 @@ describe(`onDelegation`, () => {
             commit: jest.fn(),
             dispatch,
             rootState: getterValues,
+            getters: {
+              liquidAtoms: 100
+            },
             state: {
               committedDelegates: { [lcdClientMock.validators[0]]: 0 },
               unbondingDelegations: {},

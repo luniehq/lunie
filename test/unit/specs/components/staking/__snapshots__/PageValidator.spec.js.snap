@@ -3556,16 +3556,40 @@ Array [
       "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
     },
   ],
+  Array [
+    "sendTx",
+    Object {
+      "delegation": Object {
+        "amount": "10",
+        "denom": "STAKE",
+      },
+      "delegator_addr": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+      "password": "12345",
+      "to": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+      "type": "postDelegation",
+      "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+    },
+  ],
+  Array [
+    "updateDelegates",
+  ],
 ]
 `;
 
 exports[`onDelegation submitDelegation delegation composition delegation.submitDelegation 2`] = `
 Array [
   Array [
-    "notifyError",
+    "updateWalletBalance",
     Object {
-      "body": "Cannot read property 'liquidAtoms' of undefined",
-      "title": "Error while delegating STAKEs",
+      "amount": 90,
+      "denom": "STAKE",
+    },
+  ],
+  Array [
+    "notify",
+    Object {
+      "body": "You have successfully delegated your STAKEs",
+      "title": "Successful delegation!",
     },
   ],
 ]
