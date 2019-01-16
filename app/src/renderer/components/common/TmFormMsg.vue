@@ -3,7 +3,6 @@
     <template v-if="name"
       >{{ name }} {{ error }}</template
     >
-    <slot v-else=""></slot>
   </div>
 </template>
 
@@ -12,11 +11,11 @@ export default {
   props: {
     type: {
       type: String,
-      default: null
+      required: true
     },
     name: {
       type: String,
-      default: null
+      default: ``
     },
     min: {
       type: [String, Number], // for convenience you can provide a string
@@ -29,6 +28,10 @@ export default {
     length: {
       type: Number,
       default: null
+    },
+    msg: {
+      type: String,
+      default: ``
     }
   },
   computed: {
@@ -89,11 +92,8 @@ export default {
         case `bech32`:
           msg = `is invalid bech32`
           break
-        case `password`:
-          msg = `is invalid`
-          break
-        case `integer`:
-          msg = `must be an integer`
+        case `custom`:
+          msg = this.msg
           break
         default:
           msg = `must be valid`

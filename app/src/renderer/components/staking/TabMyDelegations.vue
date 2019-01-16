@@ -14,8 +14,8 @@
     <tm-data-msg v-else-if="yourValidators.length === 0" icon="info_outline">
       <div slot="title">No Active Delegations</div>
       <div slot="subtitle">
-        Looks like you haven't delegated any {{ bondingDenom }}s yet. Head over
-        to the
+        Looks like you haven't delegated any {{ bondDenom }}s yet. Head over to
+        the
         <router-link :to="{ name: 'Validators' }">validator list</router-link>
         to make your first delegation!
       </div>
@@ -43,7 +43,7 @@
           <tm-li-stake-transaction
             :transaction="transaction"
             :validators="yourValidators"
-            :bonding-denom="bondingDenom"
+            :bonding-denom="bondDenom"
             :key="transaction.hash"
             :url="validatorURL"
             :unbonding-time="
@@ -90,7 +90,7 @@ export default {
       `delegates`,
       `delegation`,
       `committedDelegations`,
-      `bondingDenom`,
+      `bondDenom`,
       `connected`
     ]),
     yourValidators({ committedDelegations, delegates: { delegates } } = this) {

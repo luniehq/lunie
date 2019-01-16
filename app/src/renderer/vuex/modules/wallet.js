@@ -41,8 +41,8 @@ export default ({ node }) => {
     },
     initializeWallet({ commit, dispatch }, address) {
       commit(`setWalletAddress`, address)
-      dispatch(`loadDenoms`)
       dispatch(`queryWalletBalances`)
+      dispatch(`loadDenoms`)
       dispatch(`walletSubscribe`)
     },
     resetSessionData({ rootState }) {
@@ -68,7 +68,9 @@ export default ({ node }) => {
         commit(`setAccountNumber`, res.account_number)
         commit(`setWalletBalances`, coins)
         for (let coin of coins) {
-          if (coin.denom === rootState.config.bondingDenom) {
+          if (
+            coin.denom === rootState.stakingParameters.parameters.bond_denom
+          ) {
             commit(`setAtoms`, parseFloat(coin.amount))
             break
           }
@@ -128,6 +130,7 @@ export default ({ node }) => {
           if (rootState.connection.lastHeader.height < height) return
           clearInterval(interval)
           dispatch(`queryWalletBalances`)
+          dispatch(`getBondedDelegates`)
           resolve()
         }, 1000)
       })
@@ -146,7 +149,6 @@ export default ({ node }) => {
           console.error(`error subscribing to transactions`, error)
           return
         }
-        console.log(`TX: ` + JSON.stringify(event.data))
         dispatch(
           `queryWalletStateAfterHeight`,
           event.data.value.TxResult.height + 1

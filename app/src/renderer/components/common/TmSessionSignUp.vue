@@ -78,10 +78,12 @@
             v-model="fields.signUpSeed"
             disabled="disabled"
           />
-          <tm-form-msg class="sm"
-            >Please back up the seed phrase for this account. This seed phrase
-            cannot be recovered.</tm-form-msg
-          >
+          <tm-form-msg
+            class="sm"
+            type="custom"
+            msg="Please back up the seed phrase for this account. This seed phrase
+            cannot be recovered."
+          ></tm-form-msg>
         </tm-form-group>
         <tm-form-group
           :error="$v.fields.signUpWarning.$error"

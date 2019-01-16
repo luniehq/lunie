@@ -2,14 +2,14 @@ import setup from "../../../helpers/vuex-setup"
 import Vuelidate from "vuelidate"
 import TmSessionSignIn from "common/TmSessionSignIn"
 
-let instance = setup()
-instance.localVue.use(Vuelidate)
+let { mount, localVue } = setup()
+localVue.use(Vuelidate)
 
 describe(`TmSessionSignIn`, () => {
   let wrapper, store
 
   beforeEach(() => {
-    let test = instance.mount(TmSessionSignIn, {
+    let instance = mount(TmSessionSignIn, {
       getters: {
         connected: () => true
       },
@@ -19,8 +19,8 @@ describe(`TmSessionSignIn`, () => {
         }
       }
     })
-    store = test.store
-    wrapper = test.wrapper
+    store = instance.store
+    wrapper = instance.wrapper
   })
 
   it(`has the expected html structure`, () => {

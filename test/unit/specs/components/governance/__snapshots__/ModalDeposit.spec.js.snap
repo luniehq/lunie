@@ -34,7 +34,7 @@ exports[`ModalDeposit component matches snapshot has the expected html structure
     class="action-modal-form"
   >
     <div
-      class="action-modal-form-group tm-form-group tm-form-group--error"
+      class="action-modal-form-group tm-form-group"
     >
       <!---->
       <label
@@ -50,7 +50,7 @@ exports[`ModalDeposit component matches snapshot has the expected html structure
         <span
           class="input-suffix"
         >
-          STAKE
+          stake
         </span>
          
         <input
@@ -62,6 +62,8 @@ exports[`ModalDeposit component matches snapshot has the expected html structure
         />
          
         <!---->
+         
+        <hr />
       </div>
     </div>
      
@@ -103,7 +105,7 @@ exports[`ModalDeposit component matches snapshot has the expected html structure
           <span
             class="tm-btn__value"
           >
-            Deposit
+            Submit Deposit
           </span>
         </span>
       </button>
@@ -112,6 +114,9 @@ exports[`ModalDeposit component matches snapshot has the expected html structure
    
   <div
     class="action-modal-footer"
-  />
+  >
+     
+    <!---->
+  </div>
 </div>
 `;

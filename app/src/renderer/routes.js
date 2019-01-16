@@ -1,17 +1,16 @@
-function r(type, pageName) {
-  return require(`./components/${type}/Page${pageName}`).default
-}
+/**
+ * In this module we took care of the definition of our routes, with parameters, children and component related to them
+ * @module routes
+ */
 
-let common = r.bind(null, `common`)
-let governance = r.bind(null, `governance`)
-let staking = r.bind(null, `staking`)
-let wallet = r.bind(null, `wallet`)
-
+/**
+ * Routes are all defined here
+ */
 export default [
   {
     path: `/governance`,
     name: `Governance`,
-    component: governance(`Governance`),
+    component: require(`./components/governance/PageGovernance`).default,
     redirect: `/governance/proposals`,
     children: [
       {
@@ -35,7 +34,7 @@ export default [
   {
     path: `/staking`,
     name: `Staking`,
-    component: staking(`Staking`),
+    component: require(`./components/staking/PageStaking`).default,
     redirect: `/staking/my-delegations/`,
     children: [
       {
@@ -58,17 +57,17 @@ export default [
   {
     path: `/staking/validators/:validator`,
     name: `validator`,
-    component: staking(`Validator`)
+    component: require(`./components/staking/PageValidator`).default
   },
   {
     path: `/preferences`,
     name: `preferences`,
-    component: common(`Preferences`)
+    component: require(`./components/common/PagePreferences`).default
   },
   {
     path: `/`,
     name: `wallet`,
-    component: wallet(`Wallet`)
+    component: require(`./components/wallet/PageWallet`).default
   },
   {
     path: `/wallet/send/:denom?`,
@@ -79,8 +78,9 @@ export default [
   {
     path: `/transactions`,
     name: `transactions`,
-    component: wallet(`Transactions`)
+    component: require(`./components/wallet/PageTransactions`).default
   },
-  { path: `/404`, component: common(`404`) },
-  { path: `*`, component: common(`404`) }
+
+  { path: `/404`, component: require(`./components/common/Page404`).default },
+  { path: `*`, component: require(`./components/common/Page404`).default }
 ]

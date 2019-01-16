@@ -6,10 +6,11 @@ describe(`SendModal`, () => {
   const name = `default`
   const password = `1234567890`
   const address = `tb1mjt6dcdru8lgdz64h2fu0lrzvd5zv8sfcvkv2l`
+  let { stakingParameters } = lcdClientMock.state
 
   const coins = [
     {
-      denom: `mycoin`,
+      denom: stakingParameters.parameters.bond_denom,
       amount: 1000
     },
     {
@@ -21,14 +22,18 @@ describe(`SendModal`, () => {
   let { mount } = setup()
 
   beforeEach(async () => {
-    let test = mount(SendModal, {
+    let instance = mount(SendModal, {
       propsData: {
         denom: `fermion`
       },
       sync: false
     })
-    wrapper = test.wrapper
-    store = test.store
+    wrapper = instance.wrapper
+    store = instance.store
+    await store.dispatch(`signIn`, {
+      account: name,
+      password
+    })
     store.commit(`setAccounts`, [
       {
         address,
@@ -37,11 +42,9 @@ describe(`SendModal`, () => {
       }
     ])
     store.commit(`setConnected`, true)
-    await store.dispatch(`signIn`, {
-      account: name,
-      password
-    })
     store.commit(`setWalletBalances`, coins)
+    store.commit(`setAtoms`, 1000)
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
     store.commit(`setNonce`, `1`)
   })
 
@@ -75,6 +78,7 @@ describe(`SendModal`, () => {
       sync: false
     })
     store.commit(`setConnected`, true)
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
     await wrapper.vm.$nextTick()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
@@ -82,9 +86,10 @@ describe(`SendModal`, () => {
   it(`should show address required error`, async () => {
     let { wrapper, store } = mount(SendModal, { sync: false })
     store.commit(`setConnected`, true)
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
     wrapper.setData({
       fields: {
-        denom: `mycoin`,
+        denom: stakingParameters.parameters.bond_denom,
         address: ``,
         amount: 2,
         password: `1234567890`
@@ -97,9 +102,10 @@ describe(`SendModal`, () => {
   })
   it(`should show bech32 error when address length is too short`, async () => {
     store.commit(`setConnected`, true)
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
     wrapper.setData({
       fields: {
-        denom: `mycoin`,
+        denom: stakingParameters.parameters.bond_denom,
         address: `asdf`,
         amount: 2,
         password: `1234567890`
@@ -112,9 +118,10 @@ describe(`SendModal`, () => {
 
   it(`should show bech32 error when address length is too long`, async () => {
     store.commit(`setConnected`, true)
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
     wrapper.setData({
       fields: {
-        denom: `mycoin`,
+        denom: stakingParameters.parameters.bond_denom,
         address: `asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf`,
         amount: 2,
         password: `1234567890`
@@ -126,9 +133,10 @@ describe(`SendModal`, () => {
   })
   it(`should show bech32 error when alphanumeric is wrong`, async () => {
     store.commit(`setConnected`, true)
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
     wrapper.setData({
       fields: {
-        denom: `mycoin`,
+        denom: stakingParameters.parameters.bond_denom,
         address: `!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$`,
         amount: 2,
         password: `1234567890`
@@ -140,11 +148,12 @@ describe(`SendModal`, () => {
   })
 
   it(`should trigger confirmation modal if form is correct`, async () => {
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
     store.commit(`setConnected`, true)
     store.commit(`setWalletBalances`, coins)
     wrapper.setData({
       fields: {
-        denom: `mycoin`,
+        denom: stakingParameters.parameters.bond_denom,
         address,
         amount: 2,
         password: `1234567890`
@@ -159,7 +168,7 @@ describe(`SendModal`, () => {
   it(`should show notification for successful send`, async () => {
     wrapper.setData({
       fields: {
-        denom: `mycoin`,
+        denom: stakingParameters.parameters.bond_denom,
         address,
         amount: 2,
         password: `1234567890`
@@ -209,9 +218,10 @@ describe(`SendModal`, () => {
   })
 
   it(`disables sending if not connected`, async () => {
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
     wrapper.setData({
       fields: {
-        denom: `mycoin`,
+        denom: stakingParameters.parameters.bond_denom,
         address,
         amount: 2,
         password: `1234567890`

@@ -477,8 +477,12 @@ async function pickAndConnect() {
   // make the tls certificate available to the view process
   // https://en.wikipedia.org/wiki/Certificate_authority
   global.config.ca = certificate
+  // TODO reenable certificate
   const axiosInstance = axios.create({
-    httpsAgent: new https.Agent({ ca: certificate })
+    httpsAgent: new https.Agent({
+      // ca: certificate
+      rejectUnauthorized: false
+    })
   })
 
   let compatible, nodeVersion
@@ -523,7 +527,7 @@ async function pickAndConnect() {
 }
 
 async function connect() {
-  log(`starting gaia rest server with nodeURL ${config.node_lcd}`)
+  log(`starting gaia rest server with nodeURL ${config.node_rpc}`)
 
   const { ca, process } = await startLCD(lcdHome, config.node_rpc)
   gaiaLiteProcess = process

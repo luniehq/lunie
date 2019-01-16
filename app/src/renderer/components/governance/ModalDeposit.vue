@@ -5,12 +5,12 @@
     @close-action-modal="close"
   >
     <tm-form-group
-      :error="$v.amount.$invalid"
+      :error="$v.amount.$invalid && (amount > 0 || balance === 0)"
       class="action-modal-form-group"
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix">{{ bondingDenom }}</span>
+      <span class="input-suffix">{{ denom }}</span>
       <tm-field
         v-focus
         id="amount"
@@ -20,12 +20,19 @@
         type="number"
       />
       <tm-form-msg
-        v-if="!$v.amount.between && amount > 0"
+        v-if="!$v.amount.between && amount > 0 && balance > 0"
         :max="$v.amount.$params.between.max"
         :min="$v.amount.$params.between.min"
         name="Amount"
         type="between"
       />
+      <tm-form-msg
+        v-else-if="balance === 0"
+        :msg="`doesn't hold any ${denom}s`"
+        name="Wallet"
+        type="custom"
+      />
+      <hr />
     </tm-form-group>
     <tm-form-group
       class="action-modal-form-group"
@@ -97,10 +104,9 @@ export default {
     showPassword: false
   }),
   computed: {
-    // TODO: get coin denom from governance params
-    ...mapGetters([`wallet`, `bondingDenom`]),
+    ...mapGetters([`wallet`]),
     balance() {
-      // TODO: refactor to get the selected coin when multicooin deposit is enabled
+      // TODO: refactor to get the selected coin when multicoin deposit is enabled
       if (!this.wallet.loading && !!this.wallet.balances.length) {
         let balance = this.wallet.balances.find(
           coin => coin.denom === this.denom
@@ -115,7 +121,7 @@ export default {
       amount: {
         required,
         isInteger,
-        between: between(1, this.balance > 0 ? this.balance : 1)
+        between: between(1, this.balance)
       },
       password: {
         required

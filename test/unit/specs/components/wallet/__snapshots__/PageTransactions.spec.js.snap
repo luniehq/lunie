@@ -180,7 +180,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
     <tm-li-any-transaction-stub
       address="tb1d4u5zerywfjhxuc9nudvw"
       bondingdenom="STAKE"
-      proposalsurl="/governance/proposals"
+      proposalsurl="/governance"
       transaction="[object Object]"
       unbondingtime="NaN"
       validators=""
@@ -189,7 +189,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
     <tm-li-any-transaction-stub
       address="tb1d4u5zerywfjhxuc9nudvw"
       bondingdenom="STAKE"
-      proposalsurl="/governance/proposals"
+      proposalsurl="/governance"
       transaction="[object Object]"
       unbondingtime="NaN"
       validators=""
@@ -198,7 +198,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
     <tm-li-any-transaction-stub
       address="tb1d4u5zerywfjhxuc9nudvw"
       bondingdenom="STAKE"
-      proposalsurl="/governance/proposals"
+      proposalsurl="/governance"
       transaction="[object Object]"
       unbondingtime="NaN"
       validators=""
@@ -207,7 +207,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
     <tm-li-any-transaction-stub
       address="tb1d4u5zerywfjhxuc9nudvw"
       bondingdenom="STAKE"
-      proposalsurl="/governance/proposals"
+      proposalsurl="/governance"
       transaction="[object Object]"
       unbondingtime="NaN"
       validators=""
@@ -216,7 +216,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
     <tm-li-any-transaction-stub
       address="tb1d4u5zerywfjhxuc9nudvw"
       bondingdenom="STAKE"
-      proposalsurl="/governance/proposals"
+      proposalsurl="/governance"
       transaction="[object Object]"
       unbondingtime="NaN"
       validators=""
@@ -225,7 +225,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
     <tm-li-any-transaction-stub
       address="tb1d4u5zerywfjhxuc9nudvw"
       bondingdenom="STAKE"
-      proposalsurl="/governance/proposals"
+      proposalsurl="/governance"
       transaction="[object Object]"
       unbondingtime="NaN"
       validators=""
@@ -415,7 +415,7 @@ exports[`PageTransactions should filter the transactions 1`] = `
     <tm-li-any-transaction-stub
       address="tb1d4u5zerywfjhxuc9nudvw"
       bondingdenom="STAKE"
-      proposalsurl="/governance/proposals"
+      proposalsurl="/governance"
       transaction="[object Object]"
       unbondingtime="NaN"
       validators=""

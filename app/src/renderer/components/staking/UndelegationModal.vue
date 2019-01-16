@@ -17,6 +17,12 @@
         :options="fromOptions"
         type="select"
       />
+      <tm-field
+        id="denom"
+        :placeholder="denom"
+        type="text"
+        readonly="readonly"
+      />
     </tm-form-group>
     <tm-form-group
       class="action-modal-form-group"
@@ -75,7 +81,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
 import ClickOutside from "vue-click-outside"
 import { required, between } from "vuelidate/lib/validators"
 import ActionModal from "common/ActionModal"
@@ -112,6 +117,10 @@ export default {
     to: {
       type: String,
       required: true
+    },
+    denom: {
+      type: String,
+      required: true
     }
   },
   data: () => ({
@@ -120,9 +129,6 @@ export default {
     showPassword: false,
     selectedIndex: 0
   }),
-  computed: {
-    ...mapGetters([`bondingDenom`])
-  },
   validations() {
     return {
       amount: {

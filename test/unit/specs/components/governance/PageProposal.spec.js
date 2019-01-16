@@ -8,7 +8,12 @@ import ModalDeposit from "renderer/components/governance/ModalDeposit"
 import ModalVote from "renderer/components/governance/ModalVote"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
-let { proposals, tallies } = lcdClientMock.state
+let {
+  proposals,
+  tallies,
+  stakingParameters,
+  governanceParameters
+} = lcdClientMock.state
 let proposal = proposals[`2`]
 
 describe(`PageProposal`, () => {
@@ -21,7 +26,11 @@ describe(`PageProposal`, () => {
   const $store = {
     commit: jest.fn(),
     dispatch: jest.fn(),
-    getters: { proposals: { proposals, tallies } }
+    getters: {
+      proposals: { proposals, tallies },
+      bondDenom: stakingParameters.parameters.bond_denom,
+      depositDenom: governanceParameters.deposit.min_deposit[0].denom
+    }
   }
 
   beforeEach(() => {
@@ -29,6 +38,8 @@ describe(`PageProposal`, () => {
       localVue,
       doBefore: ({ store }) => {
         store.commit(`setConnected`, true)
+        store.commit(`setGovParameters`, governanceParameters)
+        store.commit(`setStakingParameters`, stakingParameters.parameters)
         store.commit(`setProposal`, proposal)
         store.commit(`setProposalTally`, {
           proposal_id: `2`,
@@ -60,6 +71,8 @@ describe(`PageProposal`, () => {
     })
 
     wrapper = instance.wrapper
+    store = instance.store
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
 
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
@@ -188,6 +201,7 @@ describe(`PageProposal`, () => {
         localVue,
         doBefore: ({ store }) => {
           store.commit(`setConnected`, true)
+          store.commit(`setStakingParameters`, stakingParameters.parameters)
           store.commit(`setProposal`, proposal)
           store.commit(`setProposalTally`, {
             proposal_id: `5`,
@@ -201,8 +215,8 @@ describe(`PageProposal`, () => {
       })
       wrapper = instance.wrapper
       store = instance.store
+      store.commit(`setGovParameters`, governanceParameters)
       wrapper.vm.proposal.proposal_status = `DepositPeriod`
-
       let depositBtn = wrapper.find(`#deposit-btn`)
       depositBtn.trigger(`click`)
       expect(wrapper.contains(ModalDeposit)).toEqual(true)

@@ -27,13 +27,7 @@
         :options="fromOptions"
         type="select"
       />
-      <tm-field
-        v-if="fromOptions.length === 1"
-        id="from"
-        v-model="fromOptions[selectedIndex].address"
-        type="text"
-        readonly
-      />
+      <tm-field id="denom" :placeholder="denom" type="text" readonly />
     </tm-form-group>
 
     <tm-form-group
@@ -109,7 +103,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
 import ClickOutside from "vue-click-outside"
 import { required, between, integer } from "vuelidate/lib/validators"
 import Modal from "common/TmModal"
@@ -143,6 +136,8 @@ export default {
     },
     validator: {
       type: Object,
+    denom: {
+      type: String,
       required: true
     }
   },
@@ -155,7 +150,18 @@ export default {
     sending: false
   }),
   computed: {
-    ...mapGetters([`bondingDenom`, `wallet`, `connected`])
+    ...mapGetters([`wallet`, `connected`]),
+  validations() {
+    return {
+      amount: {
+        required,
+        isInteger,
+        between: between(1, this.fromOptions[this.selectedIndex].maximum)
+      },
+      password: {
+        required
+      }
+    }
   },
   methods: {
     close() {
@@ -173,74 +179,15 @@ export default {
       this.$v.$touch()
 
       if (!this.$v.$invalid) {
-        this.submitDelegation({
-          amount: this.amount,
-          from: this.fromOptions[this.selectedIndex].address,
-          password: this.password
+        this.$emit(`submitDelegation`, {
+            amount: this.amount,
+            from: this.fromOptions[this.selectedIndex].address,
+            password: this.password
         })
       } else {
         this.sending = false
       }
     },
-    async submitDelegation({ amount, from, password }) {
-      const delegatorAddr = this.wallet.address
-      let stakingTransactions = {}
-      let txTitle,
-        txBody,
-        txAction = ``
-
-      if (from === delegatorAddr) {
-        txTitle = `delegation`
-        txBody = `delegated`
-        txAction = `delegating`
-
-        stakingTransactions.delegations = [
-          {
-            atoms: amount,
-            validator: this.validator
-          }
-        ]
-      } else {
-        txTitle = `redelegation`
-        txBody = `redelegated`
-        txAction = `redelegating`
-
-        let validatorFrom = this.delegates.delegates.find(
-          v => from === v.operator_address
-        )
-
-        stakingTransactions.redelegations = [
-          {
-            atoms: amount,
-            validatorSrc: validatorFrom,
-            validatorDst: this.validator
-          }
-        ]
-      }
-
-      try {
-        await this.$store.dispatch(`submitDelegation`, {
-          stakingTransactions,
-          password
-        })
-
-        this.$store.commit(`notify`, {
-          title: `Successful ${txTitle}!`,
-          body: `You have successfully ${txBody} your ${this.bondingDenom}s`
-        })
-
-        this.sending = false
-        this.resetForm()
-      } catch ({ message }) {
-        this.sending = false
-        this.submissionError = `Error submitting delegation: ${message}`
-
-        setTimeout(() => {
-          this.submissionError = null
-        }, 5000)
-      }
-    }
-  },
   validations() {
     return {
       amount: {

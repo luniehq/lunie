@@ -51,12 +51,14 @@
           </div>
           <div class="row page-profile__header__data">
             <dl class="colored_dl">
-              <dt>Delegated {{ bondingDenom }}</dt>
+              <dt>Delegated {{ bondDenom }}</dt>
               <dd>
                 {{
+                  /* eslint-disable */
                   myBond.isLessThan(0.01) && myBond.isGreaterThan(0)
-                    ? `< 0.01` // eslint-disable-line
+                    ? `< 0.01`
                     : num.shortNumber(myBond)
+                  /*eslint-enable */
                 }}
               </dd>
             </dl>
@@ -149,11 +151,11 @@
               </dd>
             </dl>
             <dl class="info_dl">
-              <dt>Self Delegated {{ bondingDenom }}</dt>
+              <dt>Self Delegated {{ bondDenom }}</dt>
               <dd id="page-profile__self-bond">{{ selfBond }} %</dd>
             </dl>
             <dl v-if="config.devMode" class="info_dl">
-              <dt>Minimum Self Delegated {{ bondingDenom }}</dt>
+              <dt>Minimum Self Delegated {{ bondDenom }}</dt>
               <dd>0 %</dd>
             </dl>
           </div>
@@ -165,6 +167,8 @@
         :from-options="delegationTargetOptions()"
         :to="validator.operator_address"
         :validator="validator"
+        :denom="bondDenom"
+        @submitDelegation="submitDelegation"
       />
       <undelegation-modal
         v-if="showUndelegationModal"
@@ -172,6 +176,7 @@
         :maximum="myBond.toNumber()"
         :from-options="delegationTargetOptions()"
         :to="wallet.address"
+        :denom="bondDenom"
         @submitUndelegation="submitUndelegation"
       />
       <tm-modal v-if="showCannotModal" :close="closeCannotModal">
@@ -179,7 +184,7 @@
           Cannot {{ action === `delegate` ? `Delegate` : `Undelegate` }}
         </div>
         <p>
-          You have no {{ bondingDenom }}s
+          You have no {{ bondDenom }}s
           {{ action === `undelegate` ? ` delegated ` : ` ` }}to
           {{ action === `delegate` ? ` delegate.` : ` this validator.` }}
         </p>
@@ -241,7 +246,7 @@ export default {
   }),
   computed: {
     ...mapGetters([
-      `bondingDenom`,
+      `bondDenom`,
       `delegates`,
       `delegation`,
       `committedDelegations`,
@@ -343,30 +348,66 @@ export default {
         this.showCannotModal = true
       }
     },
+    async submitDelegation({ amount, from, password }) {
+      if (from === this.wallet.address) {
+        try {
+          await this.$store.dispatch(`submitDelegation`, {
+            validator_addr: this.validator.operator_address,
+            amount,
+            password
+          })
 
+          this.$store.commit(`notify`, {
+            title: `Successful delegation!`,
+            body: `You have successfully delegated your ${this.bondDenom}s`
+          })
+        } catch ({ message }) {
+          this.$store.commit(`notifyError`, {
+            title: `Error while delegating ${this.bondDenom}s`,
+            body: message
+          })
+        }
+      } else {
+        const validatorSrc = this.delegates.delegates.find(
+          v => from === v.operator_address
+        )
+        try {
+          await this.$store.dispatch(`submitRedelegation`, {
+            validatorSrc,
+            validatorDst: this.validator,
+            amount,
+            password
+          })
+
+          this.$store.commit(`notify`, {
+            title: `Successful redelegation!`,
+            body: `You have successfully redelegated your ${this.bondDenom}s`
+          })
+        } catch ({ message }) {
+          this.$store.commit(`notifyError`, {
+            title: `Error while redelegating ${this.bondDenom}s`,
+            body: message
+          })
+        }
+      }
+    },
     async submitUndelegation({ amount, password }) {
       try {
-        await this.$store.dispatch(`submitDelegation`, {
-          stakingTransactions: {
-            unbondings: [
-              {
-                atoms: -amount,
-                validator: this.validator
-              }
-            ]
-          },
+        await this.$store.dispatch(`submitUnbondingDelegation`, {
+          amount: -amount,
+          validator: this.validator,
           password
         })
 
         this.$store.commit(`notify`, {
-          title: `Successful Undelegation!`,
+          title: `Successful undelegation!`,
           body: `You have successfully undelegated ${amount} ${
-            this.bondingDenom
+            this.bondDenom
           }s.`
         })
       } catch ({ message }) {
         this.$store.commit(`notifyError`, {
-          title: `Error while undelegating ${this.bondingDenom}s`,
+          title: `Error while undelegating ${this.bondDenom}s`,
           body: message
         })
       }

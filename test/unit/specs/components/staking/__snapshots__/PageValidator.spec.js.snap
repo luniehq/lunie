@@ -3493,77 +3493,54 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
 </div>
 `;
 
-exports[`onDelegation onUnstake submitUndelegation composition delegation.submitDelegation 1`] = `
+exports[`onDelegation onUnstake submitUndelegation composition submits a successful undelegation 1`] = `
 Array [
   Array [
-    "submitDelegation",
+    "submitUnbondingDelegation",
     Object {
-      "password": undefined,
-      "stakingTransactions": Object {
-        "unbondings": Array [
-          Object {
-            "atoms": -10,
-            "validator": Object {
-              "bond_height": "0",
-              "bond_intra_tx_counter": 6,
-              "commission": Object {
-                "max_change_rate": "0.005",
-                "max_rate": "0.1",
-                "rate": "0.05",
-                "update_time": "1970-01-01T00:00:00Z",
-              },
-              "delegator_shares": "14",
-              "description": Object {
-                "country": "Canada",
-                "details": "Mr Mounty",
-                "moniker": "mr_mounty",
-                "website": "www.monty.ca",
-              },
-              "id": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
-              "keybase": undefined,
-              "operator_address": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
-              "percent_of_vote": "100.00%",
-              "prev_bonded_shares": "0",
-              "proposer_reward_pool": null,
-              "pub_key": "cosmosvalpub1234",
-              "revoked": false,
-              "selfBond": 0.01,
-              "status": 2,
-              "tokens": "14",
-              "voting_power": "14",
-            },
-          },
-        ],
-      },
-    },
-  ],
-  Array [
-    "sendTx",
-    Object {
-      "begin_redelegates": undefined,
-      "begin_unbondings": Array [
-        Object {
-          "delegator_addr": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-          "shares": "10.0000000000",
-          "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+      "amount": -10,
+      "password": "12345",
+      "validator": Object {
+        "bond_height": "0",
+        "bond_intra_tx_counter": 6,
+        "commission": Object {
+          "max_change_rate": "0.005",
+          "max_rate": "0.1",
+          "rate": "0.05",
+          "update_time": "1970-01-01T00:00:00Z",
         },
-      ],
-      "delegations": undefined,
-      "password": undefined,
-      "to": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-      "type": "updateDelegations",
+        "delegator_shares": "14",
+        "description": Object {
+          "country": "Canada",
+          "details": "Mr Mounty",
+          "moniker": "mr_mounty",
+          "website": "www.monty.ca",
+        },
+        "id": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+        "keybase": undefined,
+        "operator_address": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+        "percent_of_vote": "100.00%",
+        "prev_bonded_shares": "0",
+        "proposer_reward_pool": null,
+        "pub_key": "cosmosvalpub1234",
+        "revoked": false,
+        "selfBond": 0.01,
+        "status": 2,
+        "tokens": "14",
+        "voting_power": "14",
+      },
     },
   ],
 ]
 `;
 
-exports[`onDelegation onUnstake submitUndelegation composition delegation.submitDelegation 2`] = `
+exports[`onDelegation onUnstake submitUndelegation composition submits a successful undelegation 2`] = `
 Array [
   Array [
     "notify",
     Object {
-      "body": "You have successfully undelegated 10 atoms.",
-      "title": "Successful Undelegation!",
+      "body": "You have successfully undelegated 10 STAKEs.",
+      "title": "Successful undelegation!",
     },
   ],
 ]
@@ -3574,63 +3551,23 @@ Array [
   Array [
     "submitDelegation",
     Object {
-      "password": undefined,
-      "stakingTransactions": Object {
-        "delegations": Array [
-          Object {
-            "atoms": 10,
-            "validator": Object {
-              "bond_height": "0",
-              "bond_intra_tx_counter": 6,
-              "commission": Object {
-                "max_change_rate": "0.005",
-                "max_rate": "0.1",
-                "rate": "0.05",
-                "update_time": "1970-01-01T00:00:00Z",
-              },
-              "delegator_shares": "14",
-              "description": Object {
-                "country": "Canada",
-                "details": "Mr Mounty",
-                "moniker": "mr_mounty",
-                "website": "www.monty.ca",
-              },
-              "id": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
-              "keybase": undefined,
-              "operator_address": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
-              "percent_of_vote": "100.00%",
-              "prev_bonded_shares": "0",
-              "proposer_reward_pool": null,
-              "pub_key": "cosmosvalpub1234",
-              "revoked": false,
-              "selfBond": 0.01,
-              "status": 2,
-              "tokens": "14",
-              "voting_power": "14",
-            },
-          },
-        ],
-      },
+      "amount": 10,
+      "password": "12345",
+      "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
     },
   ],
   Array [
     "sendTx",
     Object {
-      "begin_redelegates": undefined,
-      "begin_unbondings": undefined,
-      "delegations": Array [
-        Object {
-          "delegation": Object {
-            "amount": "10",
-            "denom": "atom",
-          },
-          "delegator_addr": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-          "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
-        },
-      ],
-      "password": undefined,
+      "delegation": Object {
+        "amount": "10",
+        "denom": "STAKE",
+      },
+      "delegator_addr": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+      "password": "12345",
       "to": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-      "type": "updateDelegations",
+      "type": "postDelegation",
+      "validator_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
     },
   ],
 ]
@@ -3645,7 +3582,7 @@ Array [
   Array [
     "notify",
     Object {
-      "body": "You have successfully delegated your atoms",
+      "body": "You have successfully delegated your STAKEs",
       "title": "Successful delegation!",
     },
   ],
@@ -3655,90 +3592,66 @@ Array [
 exports[`onDelegation submitDelegation redelegation composition redelegation.submitDelegation 1`] = `
 Array [
   Array [
-    "submitDelegation",
+    "submitRedelegation",
     Object {
-      "password": undefined,
-      "stakingTransactions": Object {
-        "redelegations": Array [
-          Object {
-            "atoms": 5,
-            "validatorDst": Object {
-              "bond_height": "0",
-              "bond_intra_tx_counter": 6,
-              "commission": Object {
-                "max_change_rate": "0",
-                "max_rate": "0",
-                "rate": "0",
-                "update_time": "1970-01-01T00:00:00Z",
-              },
-              "delegator_shares": "0",
-              "description": Object {
-                "country": "USA",
-                "details": "Good Guy Greg",
-                "moniker": "good_greg",
-                "website": "www.greg.com",
-              },
-              "id": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
-              "operator_address": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
-              "percent_of_vote": "0.00%",
-              "prev_bonded_shares": "0",
-              "proposer_reward_pool": null,
-              "pub_key": "cosmosvalpub5678",
-              "revoked": false,
-              "status": 2,
-              "tokens": "0",
-              "voting_power": "0",
-            },
-            "validatorSrc": Object {
-              "bond_height": "0",
-              "bond_intra_tx_counter": 6,
-              "commission": Object {
-                "max_change_rate": "0.005",
-                "max_rate": "0.1",
-                "rate": "0.05",
-                "update_time": "1970-01-01T00:00:00Z",
-              },
-              "delegator_shares": "14",
-              "description": Object {
-                "country": "Canada",
-                "details": "Mr Mounty",
-                "moniker": "mr_mounty",
-                "website": "www.monty.ca",
-              },
-              "id": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
-              "keybase": undefined,
-              "operator_address": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
-              "percent_of_vote": "100.00%",
-              "prev_bonded_shares": "0",
-              "proposer_reward_pool": null,
-              "pub_key": "cosmosvalpub1234",
-              "revoked": false,
-              "selfBond": 0.01,
-              "status": 2,
-              "tokens": "14",
-              "voting_power": "14",
-            },
-          },
-        ],
-      },
-    },
-  ],
-  Array [
-    "sendTx",
-    Object {
-      "begin_redelegates": Array [
-        Object {
-          "delegator_addr": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-          "shares": "50000000000.0000000000",
-          "validator_dst_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
-          "validator_src_addr": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+      "amount": 5,
+      "password": "12345",
+      "validatorDst": Object {
+        "bond_height": "0",
+        "bond_intra_tx_counter": 6,
+        "commission": Object {
+          "max_change_rate": "0",
+          "max_rate": "0",
+          "rate": "0",
+          "update_time": "1970-01-01T00:00:00Z",
         },
-      ],
-      "begin_unbondings": undefined,
-      "delegations": undefined,
-      "password": undefined,
-      "to": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-      "type": "updateDelegations",
+        "delegator_shares": "0",
+        "description": Object {
+          "country": "USA",
+          "details": "Good Guy Greg",
+          "moniker": "good_greg",
+          "website": "www.greg.com",
+        },
+        "id": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
+        "operator_address": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
+        "percent_of_vote": "0.00%",
+        "prev_bonded_shares": "0",
+        "proposer_reward_pool": null,
+        "pub_key": "cosmosvalpub5678",
+        "revoked": false,
+        "status": 2,
+        "tokens": "0",
+        "voting_power": "0",
+      },
+      "validatorSrc": Object {
+        "bond_height": "0",
+        "bond_intra_tx_counter": 6,
+        "commission": Object {
+          "max_change_rate": "0.005",
+          "max_rate": "0.1",
+          "rate": "0.05",
+          "update_time": "1970-01-01T00:00:00Z",
+        },
+        "delegator_shares": "14",
+        "description": Object {
+          "country": "Canada",
+          "details": "Mr Mounty",
+          "moniker": "mr_mounty",
+          "website": "www.monty.ca",
+        },
+        "id": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+        "keybase": undefined,
+        "operator_address": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+        "percent_of_vote": "100.00%",
+        "prev_bonded_shares": "0",
+        "proposer_reward_pool": null,
+        "pub_key": "cosmosvalpub1234",
+        "revoked": false,
+        "selfBond": 0.01,
+        "status": 2,
+        "tokens": "14",
+        "voting_power": "14",
+      },
     },
   ],
 ]
@@ -3749,7 +3662,7 @@ Array [
   Array [
     "notify",
     Object {
-      "body": "You have successfully redelegated your atoms",
+      "body": "You have successfully redelegated your STAKEs",
       "title": "Successful redelegation!",
     },
   ],
