@@ -113,7 +113,11 @@ let rendererConfig = {
     fs: `empty`
   },
   devServer: {
-    contentBase: [path.join(__dirname, `app/dist`), path.join(__dirname, `app`)]
+    contentBase: [
+      path.join(__dirname, `app/dist`),
+      path.join(__dirname, `app`)
+    ],
+    stats: `errors-only`
   }
 }
 

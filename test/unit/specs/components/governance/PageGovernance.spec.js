@@ -11,8 +11,8 @@ const proposal = {
   type: `Text`,
   password: `1234567890`
 }
-
-let { governanceParameters } = lcdClientMock.state
+const { governanceParameters } = lcdClientMock.state
+const depositDenom = governanceParameters.deposit.min_deposit[0].denom
 
 // TODO: refactor according to new unit test standard
 describe(`PageGovernance`, () => {
@@ -78,7 +78,7 @@ describe(`PageGovernance`, () => {
         `submitProposal`,
         {
           description: `a valid description for the proposal`,
-          initial_deposit: [{ amount: `15`, denom: `STAKE` }],
+          initial_deposit: [{ amount: `15`, denom: depositDenom }],
           title: `A new text proposal for Cosmos`,
           type: `Text`,
           password: `1234567890`
@@ -109,7 +109,7 @@ describe(`PageGovernance`, () => {
         `submitProposal`,
         {
           description: `a valid description for the proposal`,
-          initial_deposit: [{ amount: `15`, denom: `STAKE` }],
+          initial_deposit: [{ amount: `15`, denom: depositDenom }],
           title: `A new text proposal for Cosmos`,
           type: `Text`,
           password: `1234567890`

@@ -41,7 +41,7 @@ exports[`ModalDeposit component matches snapshot has the expected html structure
   </div>
    
   <div
-    class="modal-deposit-form-group tm-form-group tm-form-group--error"
+    class="modal-deposit-form-group tm-form-group"
   >
     <!---->
     <label
@@ -65,7 +65,6 @@ exports[`ModalDeposit component matches snapshot has the expected html structure
       <input
         class="tm-field"
         id="amount"
-        max="20"
         min="0"
         type="number"
       />

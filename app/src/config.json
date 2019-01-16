@@ -7,5 +7,5 @@
   "sentry_dsn": "https://4dee9f70a7d94cc0959a265c45902d84:cbf160384aab4cdeafbe9a08dee3b961@sentry.io/288169",
   "node_halted_timeout": 120000,
   "block_timeout": 10000,
-  "default_gas": 50000
+  "default_gas": 500000
 }

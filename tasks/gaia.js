@@ -53,7 +53,7 @@ async function initGenesis(
   nodeHomeDir
 ) {
   await makeExec(
-    `${nodeBinary} add-genesis-account ${address} 150stake,1000localcoin  --home ${nodeHomeDir}`
+    `${nodeBinary} add-genesis-account ${address} 150stake,1000photino  --home ${nodeHomeDir}`
   )
 
   await makeExecWithInputs(
@@ -84,16 +84,18 @@ async function makeValidator(
   moniker,
   chainId,
   operatorSignInfo = {
-    keyName: `local`,
+    keyName: moniker + `-operator`,
     password: `1234567890`,
     clientHomeDir: cliHome
   }
 ) {
   let valPubKey = await getValPubKey(nodeHome)
-  let { address } = await createKey(operatorSignInfo)
+  let account = await createKey(operatorSignInfo)
+
+  const address = account.address
   await sendTokens(mainSignInfo, `10stake`, address, chainId)
+  console.log(`Waiting for funds to delegate`)
   while (true) {
-    console.log(`Waiting for funds to delegate`)
     try {
       await sleep(1000)
       await getBalance(cliHome, address)
@@ -184,7 +186,9 @@ function startLocalNode(
       // set the first node as a persistent peer
       command += ` --p2p.persistent_peers="${nodeOneId}@localhost:${defaultStartPort}"`
     }
-    console.log(command)
+    if (process.env.VERBOSE) {
+      console.log(`$ ` + command)
+    }
     const localnodeProcess = spawn(command, { shell: true })
 
     // log output for debugging
@@ -222,7 +226,10 @@ function startLocalNode(
 
 // execute command and return stdout
 function makeExec(command) {
-  console.log(`$ ` + command)
+  if (process.env.VERBOSE) {
+    console.log(`$ ` + command)
+  }
+
   return util
     .promisify(exec)(command)
     .then(({ stdout }) => stdout.trim())
@@ -230,7 +237,9 @@ function makeExec(command) {
 
 // execute command, write all inputs followed by enter to stdin and return stdout
 function makeExecWithInputs(command, inputs = [], json = true) {
-  console.log(`$ ` + command)
+  if (process.env.VERBOSE) {
+    console.log(`$ ` + command)
+  }
 
   let binary = command.split(` `)[0]
   let args = command.split(` `).slice(1)
@@ -242,8 +251,10 @@ function makeExecWithInputs(command, inputs = [], json = true) {
     child.stdout.on(`error`, console.error)
     child.stdin.on(`error`, console.error)
 
-    child.stderr.pipe(process.stderr)
-    child.stdout.pipe(process.stdout)
+    if (process.env.VERBOSE) {
+      child.stderr.pipe(process.stderr)
+      child.stdout.pipe(process.stdout)
+    }
     inputs.forEach(input => {
       child.stdin.write(`${input}\n`)
     })
