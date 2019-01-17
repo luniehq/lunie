@@ -1,6 +1,5 @@
 import setup from "../../../helpers/vuex-setup"
 import PageWallet from "renderer/components/wallet/PageWallet"
-import ModalSearch from "renderer/components/common/TmModalSearch"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 let { stakingParameters } = lcdClientMock.state

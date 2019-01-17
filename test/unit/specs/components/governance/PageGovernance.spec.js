@@ -2,7 +2,6 @@ import setup from "../../../helpers/vuex-setup"
 import Vuelidate from "vuelidate"
 import PageGovernance from "renderer/components/governance/PageGovernance"
 import ModalPropose from "renderer/components/governance/ModalPropose"
-import ModalSearch from "renderer/components/common/TmModalSearch"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 const proposal = {
