@@ -109,7 +109,9 @@ exports[`PageWallet has the expected html structure 1`] = `
               </i>
             </a>
              
-            <a>
+            <a
+              class="refresh-button"
+            >
               <i
                 class="material-icons"
               >
@@ -117,14 +119,16 @@ exports[`PageWallet has the expected html structure 1`] = `
               </i>
             </a>
              
-            <a>
+            <a
+              class="search-button"
+            >
               <i
                 class="material-icons"
               >
                 search
               </i>
             </a>
-             
+              
             <a
               class="help"
             >
@@ -145,6 +149,7 @@ exports[`PageWallet has the expected html structure 1`] = `
                 settings
               </i>
             </router-link-stub>
+             
             <a
               id="signOut-btn"
             >
@@ -160,175 +165,222 @@ exports[`PageWallet has the expected html structure 1`] = `
        
       <menu
         class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
+      />
+       
+      <div
+        class="tabs"
+      />
+       
+      <!---->
     </div>
   </header>
    
   <main
     class="tm-page-main"
   >
-     
-    <modal-search-stub
-      type="balances"
-    />
-     
-    <ul>
-      <li
-        class="li-coin tm-li-balance"
-      >
-        <div
-          class="li-coin__icon"
-        >
-          <img
-            src="~assets/images/cosmos-logo.png"
-          />
-        </div>
-         
-        <div
-          class="li-coin__content"
-        >
-          <div
-            class="li-coin__content__left__denom"
-          >
-            <p
-              class="coin-denom"
-            >
-              fermion
-            </p>
-          </div>
-           
-          <div
-            class="li-coin__content__left__amount"
-          >
-            <p
-              class="coin-amount"
-            >
-              2,300.0000000000
-            </p>
-          </div>
-           
-          <button
-            class="tm-btn"
-          >
-            <span
-              class="tm-btn__container tm-btn--primary"
-            >
-              <!---->
-              <span
-                class="tm-btn__value"
-              >
-                Send
-              </span>
-            </span>
-          </button>
-        </div>
-      </li>
-      <li
-        class="li-coin tm-li-balance"
-      >
-        <div
-          class="li-coin__icon"
-        >
-          <img
-            src="~assets/images/cosmos-logo.png"
-          />
-        </div>
-         
-        <div
-          class="li-coin__content"
-        >
-          <div
-            class="li-coin__content__left__denom"
-          >
-            <p
-              class="coin-denom"
-            >
-              STAKE
-            </p>
-          </div>
-           
-          <div
-            class="li-coin__content__left__amount"
-          >
-            <p
-              class="coin-amount"
-            >
-              1,000.0000000000
-            </p>
-          </div>
-           
-          <button
-            class="tm-btn"
-          >
-            <span
-              class="tm-btn__container tm-btn--primary"
-            >
-              <!---->
-              <span
-                class="tm-btn__value"
-              >
-                Send
-              </span>
-            </span>
-          </button>
-        </div>
-      </li>
-      <li
-        class="li-coin tm-li-balance"
-      >
-        <div
-          class="li-coin__icon"
-        >
-          <img
-            src="~assets/images/cosmos-logo.png"
-          />
-        </div>
-         
-        <div
-          class="li-coin__content"
-        >
-          <div
-            class="li-coin__content__left__denom"
-          >
-            <p
-              class="coin-denom"
-            >
-              mycoin
-            </p>
-          </div>
-           
-          <div
-            class="li-coin__content__left__amount"
-          >
-            <p
-              class="coin-amount"
-            >
-              1,000.0000000000
-            </p>
-          </div>
-           
-          <button
-            class="tm-btn"
-          >
-            <span
-              class="tm-btn__container tm-btn--primary"
-            >
-              <!---->
-              <span
-                class="tm-btn__value"
-              >
-                Send
-              </span>
-            </span>
-          </button>
-        </div>
-      </li>
-      <!---->
-    </ul>
-     
     <!---->
+     
+    <li
+      class="li-coin tm-li-balance"
+    >
+      <div
+        class="li-coin__icon"
+      >
+        <img
+          src="~assets/images/cosmos-logo.png"
+        />
+      </div>
+       
+      <div
+        class="li-coin__content"
+      >
+        <div
+          class="li-coin__content__left__denom"
+        >
+          <p
+            class="coin-denom"
+          >
+            fermion
+          </p>
+        </div>
+         
+        <div
+          class="li-coin__content__left__amount"
+        >
+          <p
+            class="coin-amount"
+          >
+            2,300.0000000000
+          </p>
+        </div>
+         
+        <button
+          class="tm-btn"
+        >
+          <span
+            class="tm-btn__container tm-btn--primary"
+          >
+            <!---->
+            <span
+              class="tm-btn__value"
+            >
+              Send
+            </span>
+          </span>
+        </button>
+      </div>
+    </li>
+    <li
+      class="li-coin tm-li-balance"
+    >
+      <div
+        class="li-coin__icon"
+      >
+        <img
+          src="~assets/images/cosmos-logo.png"
+        />
+      </div>
+       
+      <div
+        class="li-coin__content"
+      >
+        <div
+          class="li-coin__content__left__denom"
+        >
+          <p
+            class="coin-denom"
+          >
+            STAKE
+          </p>
+        </div>
+         
+        <div
+          class="li-coin__content__left__amount"
+        >
+          <p
+            class="coin-amount"
+          >
+            1,000.0000000000
+          </p>
+        </div>
+         
+        <button
+          class="tm-btn"
+        >
+          <span
+            class="tm-btn__container tm-btn--primary"
+          >
+            <!---->
+            <span
+              class="tm-btn__value"
+            >
+              Send
+            </span>
+          </span>
+        </button>
+      </div>
+    </li>
+    <li
+      class="li-coin tm-li-balance"
+    >
+      <div
+        class="li-coin__icon"
+      >
+        <img
+          src="~assets/images/cosmos-logo.png"
+        />
+      </div>
+       
+      <div
+        class="li-coin__content"
+      >
+        <div
+          class="li-coin__content__left__denom"
+        >
+          <p
+            class="coin-denom"
+          >
+            mycoin
+          </p>
+        </div>
+         
+        <div
+          class="li-coin__content__left__amount"
+        >
+          <p
+            class="coin-amount"
+          >
+            1,000.0000000000
+          </p>
+        </div>
+         
+        <button
+          class="tm-btn"
+        >
+          <span
+            class="tm-btn__container tm-btn--primary"
+          >
+            <!---->
+            <span
+              class="tm-btn__value"
+            >
+              Send
+            </span>
+          </span>
+        </button>
+      </div>
+    </li>
+    <li
+      class="li-coin tm-li-balance"
+    >
+      <div
+        class="li-coin__icon"
+      >
+        <img
+          src="~assets/images/cosmos-logo.png"
+        />
+      </div>
+       
+      <div
+        class="li-coin__content"
+      >
+        <div
+          class="li-coin__content__left__denom"
+        >
+          <p
+            class="coin-denom"
+          >
+            gregcoin
+          </p>
+        </div>
+         
+        <div
+          class="li-coin__content__left__amount"
+        >
+          <p
+            class="coin-amount"
+          >
+            0.0000000000
+          </p>
+        </div>
+         
+        <button
+          class="tm-btn"
+        >
+          <span
+            class="tm-btn__container tm-btn--primary"
+          >
+            <!---->
+            <span
+              class="tm-btn__value"
+            >
+              Send
+            </span>
+          </span>
+        </button>
+      </div>
+    </li>
+     
   </main>
 </div>
 `;
@@ -442,7 +494,9 @@ exports[`PageWallet should filter the balances 1`] = `
               </i>
             </a>
              
-            <a>
+            <a
+              class="refresh-button"
+            >
               <i
                 class="material-icons"
               >
@@ -450,14 +504,16 @@ exports[`PageWallet should filter the balances 1`] = `
               </i>
             </a>
              
-            <a>
+            <a
+              class="search-button"
+            >
               <i
                 class="material-icons"
               >
                 search
               </i>
             </a>
-             
+              
             <a
               class="help"
             >
@@ -478,6 +534,7 @@ exports[`PageWallet should filter the balances 1`] = `
                 settings
               </i>
             </router-link-stub>
+             
             <a
               id="signOut-btn"
             >
@@ -493,74 +550,116 @@ exports[`PageWallet should filter the balances 1`] = `
        
       <menu
         class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
+      />
+       
+      <div
+        class="tabs"
+      />
+       
+      <!---->
     </div>
   </header>
    
   <main
     class="tm-page-main"
   >
-     
-    <modal-search-stub
-      type="balances"
-    />
-     
-    <ul>
-      <li
-        class="li-coin tm-li-balance"
+    <div
+      class="tm-modal-search"
+    >
+      <div
+        class="tm-modal-search-container"
       >
         <div
-          class="li-coin__icon"
+          class="tm-form-group"
         >
-          <img
-            src="~assets/images/cosmos-logo.png"
-          />
+          <!---->
+          <!---->
+           
+          <div
+            class="tm-form-group__field"
+          >
+            <div
+              class="tm-modal-search-field"
+            >
+              <input
+                class="mousetrap tm-field"
+                id="search-input"
+                placeholder="Search..."
+                type="text"
+              />
+               
+              <button
+                class="tm-btn"
+              >
+                <span
+                  class="tm-btn__container"
+                >
+                  <i
+                    aria-hidden="true"
+                    class="tm-btn__icon material-icons"
+                  >
+                    close
+                  </i>
+                  <!---->
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+     
+    <li
+      class="li-coin tm-li-balance"
+    >
+      <div
+        class="li-coin__icon"
+      >
+        <img
+          src="~assets/images/cosmos-logo.png"
+        />
+      </div>
+       
+      <div
+        class="li-coin__content"
+      >
+        <div
+          class="li-coin__content__left__denom"
+        >
+          <p
+            class="coin-denom"
+          >
+            STAKE
+          </p>
         </div>
          
         <div
-          class="li-coin__content"
+          class="li-coin__content__left__amount"
         >
-          <div
-            class="li-coin__content__left__denom"
+          <p
+            class="coin-amount"
           >
-            <p
-              class="coin-denom"
-            >
-              STAKE
-            </p>
-          </div>
-           
-          <div
-            class="li-coin__content__left__amount"
-          >
-            <p
-              class="coin-amount"
-            >
-              1,000.0000000000
-            </p>
-          </div>
-           
-          <button
-            class="tm-btn"
-          >
-            <span
-              class="tm-btn__container tm-btn--primary"
-            >
-              <!---->
-              <span
-                class="tm-btn__value"
-              >
-                Send
-              </span>
-            </span>
-          </button>
+            1,000.0000000000
+          </p>
         </div>
-      </li>
-    </ul>
+         
+        <button
+          class="tm-btn"
+        >
+          <span
+            class="tm-btn__container tm-btn--primary"
+          >
+            <!---->
+            <span
+              class="tm-btn__value"
+            >
+              Send
+            </span>
+          </span>
+        </button>
+      </div>
+    </li>
      
-    <!---->
   </main>
 </div>
 `;

@@ -14,6 +14,10 @@ exports[`ToolBar has the expected html structure 1`] = `
       arrow_back
     </i>
   </a>
+   
+  <!---->
+   
+  <!---->
     
   <a
     class="help"
@@ -35,6 +39,7 @@ exports[`ToolBar has the expected html structure 1`] = `
       settings
     </i>
   </router-link-stub>
+   
   <a
     id="signOut-btn"
   >

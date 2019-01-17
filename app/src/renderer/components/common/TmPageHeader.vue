@@ -3,29 +3,46 @@
     <div class="tm-page-header-container">
       <div class="tm-page-header-text">
         <div v-if="$slots['title']" class="tm-page-header-title">
-          <slot name="title"></slot>
+          <slot name="title" />
         </div>
         <div v-if="$slots['subtitle']" class="tm-page-header-subtitle">
-          <slot name="subtitle"></slot>
+          <slot name="subtitle" />
         </div>
         <div v-if="$slots['menu-body']" class="tm-page-header-body">
-          <slot name="menu-body"></slot>
+          <slot name="menu-body" />
         </div>
       </div>
-      <menu class="tm-page-header-menu"> <slot name="menu"></slot> </menu>
+      <menu class="tm-page-header-menu"><slot name="menu"/></menu>
+      <tabs v-if="tabs" :tabs="tabs" />
+      <div v-if="$slots['header-buttons']" class="header-buttons">
+        <slot name="header-buttons" />
+      </div>
     </div>
   </header>
 </template>
 
 <script>
+import Tabs from "common/Tabs"
 export default {
-  name: `tm-page-header`
+  name: `tm-page-header`,
+  components: { Tabs },
+  props: {
+    tabs: {
+      type: Array,
+      default: () => []
+    }
+  }
 }
 </script>
 
 <style>
 .tm-page-header {
   -webkit-app-region: drag;
+}
+
+.header-buttons {
+  align-self: flex-start;
+  margin-left: auto;
 }
 
 .tm-page-header-title {
@@ -38,15 +55,17 @@ export default {
 
 .tm-page-header-container {
   min-height: 4.22rem;
+  flex-wrap: wrap;
   border-bottom: px solid var(--bc);
   display: flex;
+  padding: 0 1rem 0 1rem;
 }
 
 .tm-page-header-text {
-  flex: 1;
+  flex-basis: 100%;
   display: flex;
   min-width: 0;
-  padding: 11px 0 0 1rem;
+  padding: 11px 0 0 0;
   align-items: center;
 }
 

@@ -108,6 +108,10 @@ exports[`PageProposal has the expected html structure 1`] = `
                 arrow_back
               </i>
             </a>
+             
+            <!---->
+             
+            <!---->
               
             <a
               class="help"
@@ -129,6 +133,7 @@ exports[`PageProposal has the expected html structure 1`] = `
                 settings
               </i>
             </router-link-stub>
+             
             <a
               id="signOut-btn"
             >
@@ -147,6 +152,12 @@ exports[`PageProposal has the expected html structure 1`] = `
       >
         <div />
       </menu>
+       
+      <div
+        class="tabs"
+      />
+       
+      <!---->
     </div>
   </header>
    
@@ -428,6 +439,10 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
                 arrow_back
               </i>
             </a>
+             
+            <!---->
+             
+            <!---->
               
             <a
               class="help"
@@ -449,6 +464,7 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
                 settings
               </i>
             </router-link-stub>
+             
             <a
               id="signOut-btn"
             >
@@ -467,6 +483,12 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
       >
         <div />
       </menu>
+       
+      <div
+        class="tabs"
+      />
+       
+      <!---->
     </div>
   </header>
    

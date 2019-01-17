@@ -1,6 +1,6 @@
 <template>
-  <page-profile data-title="Proposal"
-    ><template slot="menu-body">
+  <page-profile data-title="Proposal">
+    <template slot="menu-body">
       <tm-balance />
       <tool-bar />
     </template>
