@@ -1,8 +1,6 @@
-import { ipcRenderer, remote } from "electron"
-import * as Sentry from "@sentry/browser"
 import { sleep } from "scripts/common.js"
 
-const config = remote.getGlobal(`config`)
+const config = require(`../../../config.json`)
 const NODE_HALTED_TIMEOUT = config.node_halted_timeout
 
 export default function({ node }) {
@@ -45,11 +43,11 @@ export default function({ node }) {
       if (rootState.user.signedIn)
         await dispatch(`maybeUpdateValidators`, header)
     },
-    async reconnect({ commit }) {
+    async reconnect({ state, commit }) {
       if (state.stopConnecting) return
 
       commit(`setConnected`, false)
-      node.rpcReconnect()
+      node.rpcConnect(config.node_rpc)
     },
     async rpcSubscribe({ commit, dispatch }) {
       if (state.stopConnecting) return
@@ -73,9 +71,7 @@ export default function({ node }) {
           dispatch(`reconnect`)
         }
       })
-      node.rpc.status((error, result) => {
-        if (error) return console.error(error)
-        let status = result
+      node.rpc.status().then(status => {
         dispatch(`setLastHeader`, {
           height: status.sync_info.latest_block_height,
           chain_id: status.node_info.network
@@ -84,12 +80,8 @@ export default function({ node }) {
 
       node.rpc.subscribe(
         { query: `tm.event = 'NewBlockHeader'` },
-        (error, event) => {
-          if (error) {
-            Sentry.captureException(error)
-            return console.error(`error subscribing to headers`, error)
-          }
-          dispatch(`setLastHeader`, event.data.value.header)
+        ({ header }) => {
+          dispatch(`setLastHeader`, header)
         }
       )
 
@@ -113,7 +105,7 @@ export default function({ node }) {
       state.nodeHaltedTimeout = undefined
       commit(`setModalNodeHalted`, true)
     },
-    pollRPCConnection({ state, dispatch }, timeout = 3000) {
+    pollRPCConnection({ state, dispatch }, timeout = config.block_timeout) {
       if (state.nodeTimeout || state.stopConnecting) return
 
       state.nodeTimeout = setTimeout(() => {
@@ -124,27 +116,13 @@ export default function({ node }) {
           dispatch(`pollRPCConnection`)
         }
       }, timeout)
-      node.rpc.status(error => {
-        if (error) {
-          Sentry.captureException(error)
-          console.error(`Couldn't get status via RPC:`, error)
-          return
-        }
-
+      node.rpc.status().then(() => {
         state.nodeTimeout = null
         state.connected = true
         setTimeout(() => {
           dispatch(`pollRPCConnection`)
         }, timeout)
       })
-    },
-    approveNodeHash({ state }, hash) {
-      state.approvalRequired = null
-      ipcRenderer.send(`hash-approved`, hash)
-    },
-    disapproveNodeHash({ state }, hash) {
-      state.approvalRequired = null
-      ipcRenderer.send(`hash-disapproved`, hash)
     }
   }
 

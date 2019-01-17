@@ -196,7 +196,7 @@ export default {
     showPassword: false
   }),
   computed: {
-    ...mapGetters([`wallet`, `lastHeader`, `config`, `connected`]),
+    ...mapGetters([`wallet`, `connected`]),
     max() {
       let denom = this.wallet.balances.find(b => b.denom === this.denom)
       return (denom && denom.amount) || 0

@@ -12,7 +12,6 @@ export const lastPage = state => {
     state.user.history[state.user.history.length - 1]
   )
 }
-export const themes = state => state.themes
 export const onboarding = state => state.onboarding
 
 // wallet

@@ -85,6 +85,11 @@ describe(`TmFormMsg`, () => {
       type: `asdf`,
       name: `Asdf`,
       error: `Asdf must be valid`
+    },
+    {
+      type: `bech32`,
+      name: `Asdf`,
+      error: `is invalid bech32`
     }
   ]
 
@@ -112,4 +117,15 @@ describe(`TmFormMsg`, () => {
       ).toContain(propsData[i].error)
     })
   }
+
+  it(`shows the provided content if no type is specified`, () => {
+    wrapper = mount(TmFormMsg, {
+      propsData: {},
+      slots: {
+        default: `HALLO WORLD`
+      }
+    })
+
+    expect(wrapper.html()).toContain(`HALLO WORLD`)
+  })
 })

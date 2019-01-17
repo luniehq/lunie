@@ -157,7 +157,6 @@ export default {
     lastVote: undefined
   }),
   computed: {
-    // TODO: get denom from governance params
     ...mapGetters([
       `depositDenom`,
       `proposals`,

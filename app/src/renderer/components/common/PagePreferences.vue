@@ -28,7 +28,7 @@
             unchecked: ' '
           }"
           :value="user.errorCollection || undefined"
-          :change="() => setErrorCollection()"
+          :change="setErrorCollection.bind(this)"
           type="toggle"
         />
       </tm-list-item>
@@ -70,36 +70,13 @@ export default {
     ToolBar,
     TmModal
   },
-  data: () => ({
-    themeSelectActive: null,
-    themeSelectOptions: [
-      {
-        value: `light`,
-        key: `Light`
-      },
-      {
-        value: `dark`,
-        key: `Dark`
-      }
-    ]
-  }),
   computed: {
-    ...mapGetters([`user`, `themes`, `onboarding`, `config`, `nodeURL`])
-  },
-  mounted() {
-    this.themeSelectActive = this.themes.active
+    ...mapGetters([`user`, `onboarding`, `nodeURL`])
   },
   methods: {
     signOut({ $store } = this) {
       $store.dispatch(`signOut`)
       $store.commit(`notifySignOut`)
-    },
-    setAppTheme({ $store, themes } = this) {
-      if (themes.active === `dark`) {
-        $store.commit(`setTheme`, `light`)
-      } else {
-        $store.commit(`setTheme`, `dark`)
-      }
     },
     setErrorCollection({ $store } = this) {
       $store.dispatch(`setErrorCollection`, {
