@@ -56,8 +56,8 @@ describe(`UndelegationModal`, () => {
     })
   })
 
-  describe(`enables or disables the Delegation button correctly`, () => {
-    describe(`disables the 'Delegation' button`, () => {
+  describe(`only submits on correct form`, () => {
+    describe(`does not submit`, () => {
       it(`with default values`, async () => {
         await wrapper.vm.$nextTick()
         wrapper.vm.submitForm = jest.fn()
@@ -89,12 +89,13 @@ describe(`UndelegationModal`, () => {
       })
     })
 
-    describe(`enables the 'Delegation' button`, () => {
-      it(`if the amout is positive and the user has enough balance`, () => {
+    describe(`submits correctly`, () => {
+      it(`if the amout is positive and the user has enough balance`, async () => {
         wrapper.setData({ amount: 50, password: `1234567890` })
-
-        let undelegationBtn = wrapper.find(`#submit-undelegation`)
-        expect(undelegationBtn.html()).not.toContain(`disabled="disabled"`)
+        await wrapper.vm.$nextTick()
+        wrapper.vm.submitForm = jest.fn()
+        wrapper.vm.validateForm()
+        expect(wrapper.vm.submitForm).toHaveBeenCalled()
       })
     })
   })

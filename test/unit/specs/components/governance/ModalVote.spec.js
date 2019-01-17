@@ -27,42 +27,62 @@ describe(`ModalVote`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  describe(`enables or disables Vote correctly`, () => {
-    it(`disables the 'Vote' button`, () => {
+  describe(`submits form only if inputs are correct`, () => {
+    it(`does not submit in cases`, async () => {
+      wrapper.vm.submitForm = jest.fn()
+
       // default values
-      let voteBtn = wrapper.find(`#cast-vote`)
-      expect(voteBtn.html()).toContain(`disabled="disabled"`)
+      await wrapper.vm.$nextTick()
+      wrapper.vm.validateForm()
+      expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
 
       // non valid option value
       wrapper.setData({ vote: `other`, password: `1234567890` })
-      expect(voteBtn.html()).toContain(`disabled="disabled"`)
+      await wrapper.vm.$nextTick()
+      wrapper.vm.validateForm()
+      expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
 
       // no password
       wrapper.setData({ vote: `No`, password: `` })
-      expect(voteBtn.html()).toContain(`disabled="disabled"`)
+      await wrapper.vm.$nextTick()
+      wrapper.vm.validateForm()
+      expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
     })
 
-    it(`enables the 'Vote' button if the user selected a valid option`, () => {
+    it(`submits if the inputs are correct`, async () => {
+      wrapper.vm.submitForm = jest.fn()
+
       wrapper.setData({ vote: `Yes`, password: `1234567890` })
       let voteBtn = wrapper.find(`#vote-yes`)
-      let submitButton = wrapper.find(`#cast-vote`)
       expect(voteBtn.html()).toContain(`active`)
-      expect(submitButton.html()).not.toContain(`disabled="disabled"`)
+      await wrapper.vm.$nextTick()
+      wrapper.vm.validateForm()
+      expect(wrapper.vm.submitForm).toHaveBeenCalled()
+      wrapper.vm.submitForm.mockClear()
 
       wrapper.setData({ vote: `No` })
       voteBtn = wrapper.find(`#vote-no`)
       expect(voteBtn.html()).toContain(`active`)
-      expect(submitButton.html()).not.toContain(`disabled="disabled"`)
+      await wrapper.vm.$nextTick()
+      wrapper.vm.validateForm()
+      expect(wrapper.vm.submitForm).toHaveBeenCalled()
+      wrapper.vm.submitForm.mockClear()
 
       wrapper.setData({ vote: `NoWithVeto` })
       voteBtn = wrapper.find(`#vote-veto`)
       expect(voteBtn.html()).toContain(`active`)
-      expect(submitButton.html()).not.toContain(`disabled="disabled"`)
+      await wrapper.vm.$nextTick()
+      wrapper.vm.validateForm()
+      expect(wrapper.vm.submitForm).toHaveBeenCalled()
+      wrapper.vm.submitForm.mockClear()
 
       wrapper.setData({ vote: `Abstain` })
       voteBtn = wrapper.find(`#vote-abstain`)
       expect(voteBtn.html()).toContain(`active`)
-      expect(submitButton.html()).not.toContain(`disabled="disabled"`)
+      await wrapper.vm.$nextTick()
+      wrapper.vm.validateForm()
+      expect(wrapper.vm.submitForm).toHaveBeenCalled()
+      wrapper.vm.submitForm.mockClear()
     })
   })
 
@@ -96,7 +116,7 @@ describe(`ModalVote`, () => {
   describe(`Vote`, () => {
     it(`Vote button casts a vote and closes modal`, () => {
       wrapper.setData({ vote: `Yes`, password: `1234567890` })
-      wrapper.vm.onVote()
+      wrapper.vm.submitForm()
 
       expect(wrapper.emittedByOrder()).toEqual([
         {

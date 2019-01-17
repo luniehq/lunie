@@ -54,35 +54,46 @@ describe(`DelegationModal`, () => {
     })
   })
 
-  describe(`enables or disables the Delegation button correctly`, () => {
-    describe(`disables the 'Delegation' button`, () => {
-      it(`with default values`, () => {
-        let delegationBtn = wrapper.find(`#submit-delegation`)
-        expect(delegationBtn.html()).toContain(`disabled="disabled"`)
+  describe(`only submits on correct form`, () => {
+    describe(`does not submit`, () => {
+      it(`with default values`, async () => {
+        await wrapper.vm.$nextTick()
+        wrapper.vm.submitForm = jest.fn()
+        wrapper.vm.validateForm()
+        expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
       })
 
-      it(`if the user manually inputs a number greater than the balance`, () => {
+      it(`if the user manually inputs a number greater than the balance`, async () => {
         wrapper.setData({ amount: 142, password: `1234567890` })
 
-        let delegationBtn = wrapper.find(`#submit-delegation`)
-        expect(delegationBtn.html()).toContain(`disabled="disabled"`)
+        await wrapper.vm.$nextTick()
+        wrapper.vm.submitForm = jest.fn()
+        wrapper.vm.validateForm()
+        expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
+        await wrapper.vm.$nextTick()
         let errorMessage = wrapper.find(`input#amount + div`)
         expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
       })
 
-      it(`if the password field is empty`, () => {
+      it(`if the password field is empty`, async () => {
         wrapper.setData({ amount: 10, password: `` })
-        let delegationBtn = wrapper.find(`#submit-delegation`)
-        expect(delegationBtn.html()).toContain(`disabled="disabled"`)
+
+        await wrapper.vm.$nextTick()
+        wrapper.vm.submitForm = jest.fn()
+        wrapper.vm.validateForm()
+        expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
+        await wrapper.vm.$nextTick()
       })
     })
 
-    describe(`enables the 'Delegation' button`, () => {
-      it(`if the amout is positive and the user has enough balance`, () => {
+    describe(`submits`, () => {
+      it(`if the amount is positive and the user has enough balance`, async () => {
         wrapper.setData({ amount: 50, password: `1234567890` })
 
-        let delegationBtn = wrapper.find(`#submit-delegation`)
-        expect(delegationBtn.html()).not.toContain(`disabled="disabled"`)
+        await wrapper.vm.$nextTick()
+        wrapper.vm.submitForm = jest.fn()
+        wrapper.vm.validateForm()
+        expect(wrapper.vm.submitForm).toHaveBeenCalled()
       })
     })
   })

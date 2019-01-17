@@ -162,15 +162,18 @@ export default {
       this.$v.$touch()
 
       if (!this.$v.$invalid) {
-        this.$emit(`submitDelegation`, {
-          amount: this.amount,
-          from: this.fromOptions[this.selectedIndex].address,
-          password: this.password
-        })
-        this.close()
+        this.submitForm()
       } else {
         this.sending = false
       }
+    },
+    submitForm() {
+      this.$emit(`submitDelegation`, {
+        amount: this.amount,
+        from: this.fromOptions[this.selectedIndex].address,
+        password: this.password
+      })
+      this.close()
     }
   },
   validations() {
