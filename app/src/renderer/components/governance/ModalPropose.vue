@@ -67,8 +67,8 @@
         v-if="
           $v.amount.$error && !$v.amount.between && amount > 0 && balance > 0
         "
-        :max="$v.amount.$params.between.max"
-        :min="$v.amount.$params.between.min"
+        :max="balance"
+        :min="1"
         name="Amount"
         type="between"
       />
