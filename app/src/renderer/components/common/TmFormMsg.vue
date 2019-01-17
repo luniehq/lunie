@@ -124,7 +124,6 @@ export default {
 
 .tm-form-msg--error {
   display: flex;
-  position: absolute;
 }
 
 .tm-form-msg.tm-form-msg--error {

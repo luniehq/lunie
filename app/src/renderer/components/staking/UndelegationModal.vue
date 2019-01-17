@@ -59,7 +59,6 @@
     <div class="action-modal-footer">
       <tm-btn
         id="submit-undelegation"
-        :disabled="$v.$invalid"
         color="primary"
         value="Submit Undelegation"
         @click.native="onUndelegate"

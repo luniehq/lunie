@@ -179,7 +179,6 @@ exports[`DelegationModal component matches snapshot has the expected html struct
     >
       <button
         class="tm-btn"
-        disabled="disabled"
         id="submit-delegation"
       >
         <span

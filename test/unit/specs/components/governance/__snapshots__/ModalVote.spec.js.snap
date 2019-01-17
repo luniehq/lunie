@@ -105,6 +105,8 @@ exports[`ModalVote has the expected html structure 1`] = `
             </span>
           </span>
         </button>
+         
+        <!---->
       </div>
     </div>
      
@@ -128,6 +130,8 @@ exports[`ModalVote has the expected html structure 1`] = `
           placeholder="Password"
           type="password"
         />
+         
+        <!---->
       </div>
     </div>
      
@@ -145,7 +149,6 @@ exports[`ModalVote has the expected html structure 1`] = `
         >
           <button
             class="tm-btn"
-            disabled="disabled"
             id="cast-vote"
           >
             <span

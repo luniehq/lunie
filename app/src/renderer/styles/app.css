@@ -95,7 +95,6 @@ input.tm-field {
   position: absolute;
   padding: 6px 8px;
   font-size: var(--sm);
-  bottom: 1rem;
   right: 30px;
   letter-spacing: 1px;
   text-align: right;

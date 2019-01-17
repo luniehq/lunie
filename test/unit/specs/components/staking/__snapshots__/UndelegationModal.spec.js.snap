@@ -117,7 +117,6 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
     >
       <button
         class="tm-btn"
-        disabled="disabled"
         id="submit-undelegation"
       >
         <span

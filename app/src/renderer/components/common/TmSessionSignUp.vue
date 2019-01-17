@@ -21,12 +21,14 @@
             placeholder="Must be at least 5 characters"
           />
           <tm-form-msg
-            v-if="!$v.fields.signUpName.required"
+            v-if="$v.fields.signUpName.$error && !$v.fields.signUpName.required"
             name="Name"
             type="required"
           />
           <tm-form-msg
-            v-if="!$v.fields.signUpName.minLength"
+            v-if="
+              $v.fields.signUpName.$error && !$v.fields.signUpName.minLength
+            "
             name="Name"
             type="minLength"
             min="5"
@@ -44,12 +46,18 @@
             placeholder="Must be at least 10 characters"
           />
           <tm-form-msg
-            v-if="!$v.fields.signUpPassword.required"
+            v-if="
+              $v.fields.signUpPassword.$error &&
+                !$v.fields.signUpPassword.required
+            "
             name="Password"
             type="required"
           />
           <tm-form-msg
-            v-if="!$v.fields.signUpPassword.minLength"
+            v-if="
+              $v.fields.signUpPassword.$error &&
+                !$v.fields.signUpPassword.minLength
+            "
             name="Password"
             type="minLength"
             min="10"
@@ -67,7 +75,10 @@
             placeholder="Enter password again"
           />
           <tm-form-msg
-            v-if="!$v.fields.signUpPasswordConfirm.sameAsPassword"
+            v-if="
+              $v.fields.signUpPasswordConfirm.$error &&
+                !$v.fields.signUpPasswordConfirm.sameAsPassword
+            "
             name="Password confirmation"
             type="match"
           />

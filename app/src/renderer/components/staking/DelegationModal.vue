@@ -90,7 +90,6 @@
       <tm-btn
         v-else
         id="submit-delegation"
-        :disabled="$v.$invalid"
         value="Submit Delegation"
         color="primary"
         @click.native="validateForm"

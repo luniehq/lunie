@@ -92,6 +92,7 @@ export default {
 
   .tm-form-group__field {
     flex: 1;
+    position: relative;
   }
 
   .tm-form-group__field > .tm-field,

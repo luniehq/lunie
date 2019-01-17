@@ -37,8 +37,14 @@
         size="md"
         @click.native="vote = 'Abstain'"
       />
+      <tm-form-msg
+        v-if="$v.vote.$error && !$v.vote.required"
+        name="Vote"
+        type="required"
+      />
     </tm-form-group>
     <tm-form-group
+      :error="$v.password.$error && $v.password.$invalid"
       class="action-modal-group"
       field-id="password"
       field-label="Password"
@@ -49,15 +55,19 @@
         type="password"
         placeholder="Password"
       />
+      <tm-form-msg
+        v-if="$v.password.$error && !$v.password.required"
+        name="Password"
+        type="required"
+      />
     </tm-form-group>
     <tm-form-group class="action-modal-group">
       <div class="action-modal-footer">
         <tm-btn
           id="cast-vote"
-          :disabled="$v.$invalid"
           color="primary"
           value="Submit Vote"
-          @click.native="onVote"
+          @click.native="validateForm"
         />
       </div>
     </tm-form-group>
@@ -127,7 +137,17 @@ export default {
     close() {
       this.$emit(`update:showModalVote`, false)
     },
-    onVote() {
+    validateForm() {
+      this.sending = true
+      this.$v.$touch()
+
+      if (!this.$v.$invalid) {
+        this.submitForm()
+      } else {
+        this.sending = false
+      }
+    },
+    submitForm() {
       this.$emit(`castVote`, { option: this.vote, password: this.password })
       this.close()
     }

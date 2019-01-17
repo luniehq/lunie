@@ -66,11 +66,7 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
                 type="text"
               />
                
-              <div
-                class="tm-form-msg sm tm-form-msg--error"
-              >
-                Name is required
-              </div>
+              <!---->
                
               <!---->
             </div>
@@ -97,11 +93,7 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
                 type="password"
               />
                
-              <div
-                class="tm-form-msg sm tm-form-msg--error"
-              >
-                Password is required
-              </div>
+              <!---->
                
               <!---->
             </div>
@@ -154,9 +146,9 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
               />
                
               <div
-                class="sm tm-form-msg sm tm-form-msg--desc"
+                class="sm tm-form-msg sm tm-form-msg--error"
               >
-                Please back up the seed phrase for this account. This seed phrase
+                 Please back up the seed phrase for this account. This seed phrase
           cannot be recovered.
               </div>
             </div>
@@ -192,11 +184,7 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
                 </label>
               </div>
                
-              <div
-                class="tm-form-msg sm tm-form-msg--error"
-              >
-                Recovery confirmation is required
-              </div>
+              <!---->
             </div>
           </div>
            

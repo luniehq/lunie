@@ -55,6 +55,8 @@ exports[`ModalPropose component matches snapshot has the expected html structure
         />
          
         <!---->
+         
+        <!---->
       </div>
     </div>
      
@@ -77,6 +79,8 @@ exports[`ModalPropose component matches snapshot has the expected html structure
           id="description"
           placeholder="Write your proposal here..."
         />
+         
+        <!---->
          
         <!---->
       </div>
@@ -110,6 +114,8 @@ exports[`ModalPropose component matches snapshot has the expected html structure
          
         <!---->
          
+        <!---->
+         
         <hr />
       </div>
     </div>
@@ -134,6 +140,8 @@ exports[`ModalPropose component matches snapshot has the expected html structure
           placeholder="Password"
           type="password"
         />
+         
+        <!---->
       </div>
     </div>
      
@@ -142,7 +150,6 @@ exports[`ModalPropose component matches snapshot has the expected html structure
     >
       <button
         class="tm-btn"
-        disabled="disabled"
         id="submit-proposal"
       >
         <span
