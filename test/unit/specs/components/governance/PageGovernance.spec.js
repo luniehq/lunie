@@ -44,11 +44,6 @@ describe(`PageGovernance`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`should show the search on click`, () => {
-    wrapper.find(`.tm-tool-bar a.search-button i`).trigger(`click`)
-    expect(wrapper.contains(ModalSearch)).toEqual(true)
-  })
-
   it(`disables proposal creation if not connected`, async () => {
     expect(
       wrapper.vm.$el.querySelector(`#propose-btn`).getAttribute(`disabled`)

@@ -52,12 +52,6 @@ describe(`PageWallet`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`should show the search on click`, () => {
-    expect(wrapper.find(`.tm-tool-bar a.search-button i`).exists()).toBeTruthy()
-    wrapper.vm.$el.querySelector(`.tm-tool-bar a.search-button i`).click()
-    expect(wrapper.contains(ModalSearch)).toEqual(true)
-  })
-
   it(`should list the denoms that are available`, () => {
     expect(wrapper.findAll(`.tm-li-balance`).length).toBe(4)
   })
