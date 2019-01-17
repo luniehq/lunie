@@ -64,8 +64,6 @@
     >
       <tm-field
         id="send-amount"
-        :max="max"
-        :min="max ? 1 : 0"
         v-model.number="$v.fields.amount.$model"
         type="number"
         placeholder="Amount"

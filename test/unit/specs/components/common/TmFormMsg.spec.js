@@ -85,6 +85,16 @@ describe(`TmFormMsg`, () => {
       type: `asdf`,
       name: `Asdf`,
       error: `Asdf must be valid`
+    },
+    {
+      type: `bech32`,
+      name: `Asdf`,
+      error: `is invalid bech32`
+    },
+    {
+      type: `custom`,
+      msg: `HALLO WORLD`,
+      error: `HALLO WORLD`
     }
   ]
 
@@ -102,8 +112,8 @@ describe(`TmFormMsg`, () => {
 
   for (let i = 0; i < propsData.length; i++) {
     it(`shows correct message for ` + propsData[i].type, () => {
-      let { type, name, min, max, length } = propsData[i]
-      wrapper.setProps({ type, name, min, max, length })
+      let { type, name, min, max, length, msg } = propsData[i]
+      wrapper.setProps({ type, name, min, max, length, msg })
       expect(
         wrapper
           .find(`.tm-form-msg`)

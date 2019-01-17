@@ -10,7 +10,7 @@ describe(`LiCoin`, () => {
     let instance = mount(LiCoin, {
       propsData: {
         coin: {
-          denom: `stake`,
+          denom: `Stake`,
           amount: `1000`
         }
       }

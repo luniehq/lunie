@@ -104,7 +104,10 @@
             >
           </div>
           <tm-form-msg
-            v-if="!$v.fields.signUpWarning.required"
+            v-if="
+              $v.fields.signUpWarning.$error &&
+                !$v.fields.signUpWarning.required
+            "
             name="Recovery confirmation"
             type="required"
           />
@@ -235,7 +238,7 @@ export default {
       signUpName: { required, minLength: minLength(5) },
       signUpPassword: { required, minLength: minLength(10) },
       signUpPasswordConfirm: { sameAsPassword: sameAs(`signUpPassword`) },
-      signUpWarning: { required },
+      signUpWarning: { sameAs: sameAs(() => true) },
       errorCollection: false
     }
   })

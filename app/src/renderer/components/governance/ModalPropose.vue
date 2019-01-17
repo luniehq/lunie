@@ -47,13 +47,7 @@
       field-label="Amount"
     >
       <span class="input-suffix">{{ denom }}</span>
-      <tm-field
-        id="amount"
-        :max="balance"
-        :min="0"
-        v-model="amount"
-        type="number"
-      />
+      <tm-field id="amount" v-model="amount" type="number" />
       <tm-form-msg
         v-if="!$v.amount.between && amount > 0 && balance > 0"
         :max="$v.amount.$params.between.max"

@@ -111,14 +111,6 @@ export default {
     keydown: {
       type: Function,
       default: null
-    },
-    max: {
-      type: [String, Number], // for convenience you can provide a string
-      default: null
-    },
-    min: {
-      type: [String, Number], // for convenience you can provide a string
-      default: null
     }
   },
   data: () => ({
@@ -167,6 +159,10 @@ export default {
     },
     updateValue(value) {
       let formattedValue = value
+
+      if (this.type === `number`) {
+        formattedValue = Number(value)
+      }
 
       // Emit the number value through the input event
       this.$emit(`input`, formattedValue)

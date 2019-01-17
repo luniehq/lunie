@@ -38,15 +38,8 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix">{{ bondingDenom }}</span>
-      <tm-field
-        v-focus
-        id="amount"
-        :max="maximum"
-        :min="0"
-        v-model="amount"
-        type="number"
-      />
+      <span class="input-suffix">{{ denom }}</span>
+      <tm-field v-focus id="amount" v-model="amount" type="number" />
       <tm-form-msg
         v-if="!$v.amount.between && amount > 0"
         :max="$v.amount.$params.between.max"

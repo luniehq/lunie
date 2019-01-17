@@ -1,6 +1,6 @@
 <template>
   <div :class="cssClass">
-    <template v-if="name"
+    <template
       >{{ name }} {{ error }}</template
     >
   </div>

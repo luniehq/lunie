@@ -34,64 +34,7 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
   <div
     class="action-modal-form"
   >
-    <div
-      class="action-modal-form-group tm-form-group"
-    >
-      <!---->
-      <label
-        class="tm-form-group__label"
-        for="from"
-      >
-        From
-      </label>
-       
-      <div
-        class="tm-form-group__field"
-      >
-        <div
-          class="tm-select"
-          id="from"
-          title="cosmosval1234"
-        >
-          <select
-            class="tm-field tm-field-select"
-          >
-            <option
-              disabled="disabled"
-              hidden="hidden"
-              selected="selected"
-              value=""
-            >
-              Select option...
-            </option>
-             
-            <option
-              value=""
-            >
-              
-            </option>
-          </select>
-           
-          <div
-            class="tm-field-select-addon"
-          >
-            <i
-              class="material-icons"
-            >
-              arrow_drop_down
-            </i>
-          </div>
-        </div>
-         
-        <input
-          class="tm-field"
-          id="denom"
-          placeholder="STAKE"
-          readonly="readonly"
-          type="text"
-        />
-      </div>
-    </div>
+    <!---->
      
     <div
       class="action-modal-form-group tm-form-group"
@@ -117,7 +60,7 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
     </div>
      
     <div
-      class="action-modal-form-group tm-form-group tm-form-group--error"
+      class="action-modal-form-group tm-form-group"
     >
       <!---->
       <label
@@ -133,14 +76,12 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
         <span
           class="input-suffix"
         >
-          
+          STAKE
         </span>
          
         <input
           class="tm-field"
           id="amount"
-          max="100"
-          min="0"
           type="number"
         />
          

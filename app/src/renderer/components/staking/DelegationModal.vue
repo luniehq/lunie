@@ -40,8 +40,6 @@
       <tm-field
         v-focus
         id="amount"
-        :max="fromOptions[selectedIndex].maximum"
-        :min="0"
         v-model="$v.amount.$model"
         type="number"
         placeholder="Amount"
