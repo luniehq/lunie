@@ -149,7 +149,8 @@ jobs:
               yarn install
 
               # download network configs
-              tasks/build/testnets/build.sh
+              # skip as this will overwrite game of stakes
+              # tasks/build/testnets/build.sh
 
               # build Voyager
               node tasks/build/build.js

@@ -40,7 +40,10 @@ const copyGaia = options => (
 
   const binaryPath =
     options.binaryPath === `default`
-      ? path.join(`./builds/Gaia/${platformPath}_amd64/${binaryName}`)
+      ? path.join(
+          __dirname,
+          `../../builds/Gaia/${platformPath}_amd64/${binaryName}`
+        )
       : options.binaryPath
   fs.copy(binaryPath, `${buildPath}/bin/${binaryName}`, callback)
 }
@@ -260,8 +263,7 @@ const buildAllPlatforms = async options => {
   )
 
   pack()
-  const oss =
-    options.os === `unspecified` ? [`darwin`, `linux`, `win32`] : [options.os]
+  const oss = options.os === `all` ? [`darwin`, `linux`, `win32`] : [options.os]
   const buildHashes = await Promise.all(oss.map(build(options)))
   const end = new Date()
 
