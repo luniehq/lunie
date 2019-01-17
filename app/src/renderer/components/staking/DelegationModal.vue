@@ -1,10 +1,10 @@
 <template>
   <action-modal
     id="delegation-modal"
+    :submission-error="submissionError"
     title="Delegate"
     class="delegation-modal"
     @close-action-modal="close"
-    :submission-error="submissionError"
   >
     <tm-form-group
       class="action-modal-form-group"
@@ -15,19 +15,18 @@
     </tm-form-group>
 
     <tm-form-group
+      v-if="fromOptions.length > 1"
       class="action-modal-form-group"
       field-id="from"
       field-label="From"
     >
       <tm-field
-        v-if="fromOptions.length > 1"
         id="from"
         v-model="selectedIndex"
         :title="fromOptions[selectedIndex].address"
         :options="fromOptions"
         type="select"
       />
-      <tm-field id="denom" :placeholder="denom" type="text" readonly />
     </tm-form-group>
 
     <tm-form-group
@@ -36,7 +35,7 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix">{{ bondingDenom }}</span>
+      <span class="input-suffix">{{ denom }}</span>
       <tm-field
         v-focus
         id="amount"
@@ -91,9 +90,9 @@
       <tm-btn
         v-else
         id="submit-delegation"
+        :disabled="$v.$invalid"
         value="Submit Delegation"
         color="primary"
-        :disabled="$v.$invalid"
         @click.native="validateForm"
       />
     </div>
@@ -101,6 +100,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 import ClickOutside from "vue-click-outside"
 import { required, between, integer } from "vuelidate/lib/validators"
 import Modal from "common/TmModal"
@@ -145,18 +145,7 @@ export default {
     sending: false
   }),
   computed: {
-    ...mapGetters([`wallet`, `connected`]),
-  validations() {
-    return {
-      amount: {
-        required,
-        isInteger,
-        between: between(1, this.fromOptions[this.selectedIndex].maximum)
-      },
-      password: {
-        required
-      }
-    }
+    ...mapGetters([`wallet`, `connected`])
   },
   methods: {
     close() {
@@ -175,15 +164,16 @@ export default {
 
       if (!this.$v.$invalid) {
         this.$emit(`submitDelegation`, {
-            amount: this.amount,
-            from: this.fromOptions[this.selectedIndex].address,
-            password: this.password
+          amount: this.amount,
+          from: this.fromOptions[this.selectedIndex].address,
+          password: this.password
         })
         this.close()
       } else {
         this.sending = false
       }
-    },
+    }
+  },
   validations() {
     return {
       amount: {

@@ -187,51 +187,19 @@ exports[`SendModal should show address required error 1`] = `
       <div
         class="tm-form-group__field"
       >
-        <div
-          class="tm-select"
+        <input
+          class="tm-field"
           id="send-denomination"
-        >
-          <select
-            class="tm-field tm-field-select"
-          >
-            <option
-              disabled="disabled"
-              hidden="hidden"
-              selected="selected"
-              value=""
-            >
-              Select token...
-            </option>
-             
-            <option
-              value="mycoin"
-            >
-              MYCOIN
-            </option>
-            <option
-              value="fermion"
-            >
-              FERMION
-            </option>
-          </select>
-           
-          <div
-            class="tm-field-select-addon"
-          >
-            <i
-              class="material-icons"
-            >
-              arrow_drop_down
-            </i>
-          </div>
-        </div>
+          readonly="readonly"
+          type="text"
+        />
          
         <!---->
       </div>
     </div>
      
     <div
-      class="tm-form-group tm-form-group--error"
+      class="tm-form-group"
     >
       <!---->
       <label
@@ -244,16 +212,12 @@ exports[`SendModal should show address required error 1`] = `
       <div
         class="tm-form-group__field"
       >
-        <div
-          class="tm-field-group"
-        >
-          <input
-            class="tm-field"
-            id="send-address"
-            placeholder="Address"
-            type="text"
-          />
-        </div>
+        <input
+          class="tm-field"
+          id="send-address"
+          placeholder="Address"
+          type="text"
+        />
          
         <!---->
       </div>
@@ -273,28 +237,18 @@ exports[`SendModal should show address required error 1`] = `
       <div
         class="tm-form-group__field"
       >
-        <div
-          class="tm-field-group"
-        >
-          <input
-            class="tm-field"
-            id="send-amount"
-            max="2300"
-            min="1"
-            placeholder="Amount"
-            type="number"
-          />
-        </div>
-         
-        <!---->
+        <input
+          class="tm-field"
+          id="send-amount"
+          max="2300"
+          min="1"
+          placeholder="Amount"
+          type="number"
+        />
          
         <!---->
       </div>
     </div>
-     
-    <!---->
-     
-    <!---->
      
     <div
       class="tm-form-group"
@@ -317,11 +271,7 @@ exports[`SendModal should show address required error 1`] = `
           type="password"
         />
          
-        <div
-          class="tm-form-msg sm tm-form-msg--error"
-        >
-          Password is required
-        </div>
+        <!---->
       </div>
     </div>
      
@@ -334,6 +284,7 @@ exports[`SendModal should show address required error 1`] = `
     <div>
       <button
         class="tm-btn"
+        disabled="disabled"
         id="send-btn"
       >
         <span
@@ -348,6 +299,8 @@ exports[`SendModal should show address required error 1`] = `
         </span>
       </button>
     </div>
+     
+    <!---->
   </div>
 </action-modal-stub>
 `;
@@ -588,4 +541,172 @@ exports[`SendModal should show bech32 error when alphanumeric is wrong 1`] = `
     />
   </div>
 </action-modal-stub>
+`;
+
+exports[`SendModal should work without providing a default denom 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+>
+  <div
+    class="action-modal-header"
+  >
+    <img
+      class="icon action-modal-atom"
+      src="~assets/images/cosmos-logo.png"
+    />
+    <span
+      class="action-modal-title"
+    >
+      Send
+    </span>
+     
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons"
+      >
+        close
+      </i>
+    </div>
+  </div>
+   
+  <div
+    class="action-modal-form"
+  >
+    <div
+      class="tm-form-group"
+    >
+      <!---->
+      <label
+        class="tm-form-group__label"
+        for="send-denomination"
+      >
+        Denomination
+      </label>
+       
+      <div
+        class="tm-form-group__field"
+      >
+        <input
+          class="tm-field"
+          id="send-denomination"
+          readonly="readonly"
+          type="text"
+        />
+         
+        <!---->
+      </div>
+    </div>
+     
+    <div
+      class="tm-form-group"
+    >
+      <!---->
+      <label
+        class="tm-form-group__label"
+        for="send-address"
+      >
+        Send To
+      </label>
+       
+      <div
+        class="tm-form-group__field"
+      >
+        <input
+          class="tm-field"
+          id="send-address"
+          placeholder="Address"
+          type="text"
+        />
+         
+        <!---->
+      </div>
+    </div>
+     
+    <div
+      class="tm-form-group"
+    >
+      <!---->
+      <label
+        class="tm-form-group__label"
+        for="send-amount"
+      >
+        Amount
+      </label>
+       
+      <div
+        class="tm-form-group__field"
+      >
+        <input
+          class="tm-field"
+          id="send-amount"
+          max="0"
+          min="0"
+          placeholder="Amount"
+          type="number"
+        />
+         
+        <div
+          class="tm-form-msg sm tm-form-msg--error"
+        >
+          Amount must be valid
+        </div>
+      </div>
+    </div>
+     
+    <div
+      class="tm-form-group"
+    >
+      <!---->
+      <label
+        class="tm-form-group__label"
+        for="password"
+      >
+        Password
+      </label>
+       
+      <div
+        class="tm-form-group__field"
+      >
+        <input
+          class="tm-field"
+          id="password"
+          placeholder="Password"
+          type="password"
+        />
+         
+        <!---->
+      </div>
+    </div>
+     
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+    <div>
+      <button
+        class="tm-btn"
+        disabled="disabled"
+        id="send-btn"
+      >
+        <span
+          class="tm-btn__container tm-btn--primary"
+        >
+          <!---->
+          <span
+            class="tm-btn__value"
+          >
+            Send Tokens
+          </span>
+        </span>
+      </button>
+    </div>
+     
+    <!---->
+  </div>
+</div>
 `;

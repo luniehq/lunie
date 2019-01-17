@@ -361,6 +361,8 @@ export default {
             title: `Successful delegation!`,
             body: `You have successfully delegated your ${this.bondDenom}s`
           })
+
+          this.showDelegationModal = false
         } catch ({ message }) {
           this.$store.commit(`notifyError`, {
             title: `Error while delegating ${this.bondDenom}s`,
@@ -405,6 +407,8 @@ export default {
             this.bondDenom
           }s.`
         })
+
+        this.showUndelegationModal = false
       } catch ({ message }) {
         this.$store.commit(`notifyError`, {
           title: `Error while undelegating ${this.bondDenom}s`,

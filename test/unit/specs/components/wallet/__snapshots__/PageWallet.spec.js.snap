@@ -195,7 +195,7 @@ exports[`PageWallet has the expected html structure 1`] = `
             <p
               class="coin-denom"
             >
-              Fermion
+              fermion
             </p>
           </div>
            
@@ -245,7 +245,7 @@ exports[`PageWallet has the expected html structure 1`] = `
             <p
               class="coin-denom"
             >
-              Stake
+              STAKE
             </p>
           </div>
            
@@ -295,7 +295,7 @@ exports[`PageWallet has the expected html structure 1`] = `
             <p
               class="coin-denom"
             >
-              Mycoin
+              mycoin
             </p>
           </div>
            
@@ -528,7 +528,7 @@ exports[`PageWallet should filter the balances 1`] = `
             <p
               class="coin-denom"
             >
-              Stake
+              STAKE
             </p>
           </div>
            

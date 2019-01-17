@@ -1,5 +1,6 @@
 import setup from "../../../helpers/vuex-setup"
 import SendModal from "renderer/components/wallet/SendModal"
+import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`SendModal`, () => {
   let wrapper, store, node
@@ -52,7 +53,7 @@ describe(`SendModal`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`should populate the select options with denoms`, () => {
+  it.only(`should populate the select options with denoms`, () => {
     expect(
       wrapper
         .findAll(`option`)

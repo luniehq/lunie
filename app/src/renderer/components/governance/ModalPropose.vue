@@ -94,7 +94,8 @@ import {
   minLength,
   maxLength,
   required,
-  between
+  between,
+  integer
 } from "vuelidate/lib/validators"
 import { isEmpty, trim } from "lodash"
 import Modal from "common/TmModal"
@@ -108,7 +109,6 @@ const isValid = type =>
   type === `Text` || type === `ParameterChange` || type === `SoftwareUpgrade`
 
 const notBlank = text => !isEmpty(trim(text))
-const isInteger = amount => Number.isInteger(amount)
 
 export default {
   name: `modal-propose`,
@@ -172,7 +172,7 @@ export default {
       },
       amount: {
         required,
-        isInteger,
+        integer,
         between: between(1, this.balance)
       },
       password: {

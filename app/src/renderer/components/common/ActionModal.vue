@@ -43,7 +43,7 @@ export default {
     },
     submissionError: {
       type: String,
-      required: false
+      default: undefined
     }
   },
   methods: {

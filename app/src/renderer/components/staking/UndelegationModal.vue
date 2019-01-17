@@ -6,6 +6,7 @@
     @close-action-modal="close"
   >
     <tm-form-group
+      v-if="fromOptions.length > 1"
       class="action-modal-form-group"
       field-id="from"
       field-label="From"
@@ -17,12 +18,6 @@
         :options="fromOptions"
         type="select"
       />
-      <tm-field
-        id="denom"
-        :placeholder="denom"
-        type="text"
-        readonly="readonly"
-      />
     </tm-form-group>
     <tm-form-group
       class="action-modal-form-group"
@@ -33,7 +28,7 @@
     </tm-form-group>
 
     <tm-form-group
-      :error="$v.amount.$invalid"
+      :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
       field-label="Amount"
@@ -75,15 +70,13 @@
 
 <script>
 import ClickOutside from "vue-click-outside"
-import { required, between } from "vuelidate/lib/validators"
+import { required, between, integer } from "vuelidate/lib/validators"
 import ActionModal from "common/ActionModal"
 import Modal from "common/TmModal"
 import TmBtn from "common/TmBtn"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
-
-const isInteger = amount => Number.isInteger(amount)
 
 export default {
   name: `undelegation-modal`,
@@ -125,7 +118,7 @@ export default {
     return {
       amount: {
         required,
-        isInteger,
+        integer,
         between: between(1, this.maximum)
       },
       password: {

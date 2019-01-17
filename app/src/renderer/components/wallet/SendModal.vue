@@ -1,8 +1,8 @@
 <template>
   <action-modal
+    :submission-error="submissionError"
     title="Send"
     @close-action-modal="close"
-    :submission-error="submissionError"
   >
     <tm-form-group
       :error="$v.fields.denom.$dirty && $v.fields.denom.$invalid"
@@ -32,8 +32,8 @@
       field-label="Send To"
     >
       <tm-field
-        id="send-address"
         v-focus
+        id="send-address"
         v-model.number="$v.fields.address.$model"
         type="text"
         placeholder="Address"
@@ -85,7 +85,7 @@
         type="between"
       />
       <tm-form-msg
-        v-else="!$v.fields.amount.integer"
+        v-else-if="!$v.fields.amount.integer"
         name="Amount"
         type="integer"
       />
@@ -133,9 +133,9 @@
       <tm-btn
         v-else
         id="send-btn"
+        :disabled="$v.fields.$invalid"
         value="Send Tokens"
         color="primary"
-        :disabled="$v.fields.$invalid"
         @click.native="validateForm"
       />
     </div>
