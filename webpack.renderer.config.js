@@ -16,10 +16,7 @@ function resolve(dir) {
 }
 
 let rendererConfig = {
-  devtool:
-    process.env.NODE_ENV === `production`
-      ? `#source-map`
-      : `#inline-source-map`,
+  devtool: process.env.NODE_ENV === `production` ? false : `#inline-source-map`,
   entry: {
     renderer: path.join(__dirname, `app/src/renderer/main.js`)
   },
@@ -106,8 +103,8 @@ let rendererConfig = {
       govern: resolve(`app/src/renderer/components/govern`),
       staking: resolve(`app/src/renderer/components/staking`),
       wallet: resolve(`app/src/renderer/components/wallet`),
-      lodash: `lodash/core`,
-      moment: `moment/src/moment`
+      // moment: `moment/src/moment`, // this will remove locales, we rely on them
+      lodash: `lodash/core`
     },
     extensions: [`.js`, `.vue`, `.json`, `.css`, `.node`],
     modules: [

@@ -17,7 +17,7 @@ import _Store from "./vuex/store"
 import axios from "axios"
 import { sleep } from "./scripts/common"
 
-const _config = require(`../../src/config.json`)
+const _config = require(`../config.json`)
 
 // exporting this for testing
 let store
@@ -63,7 +63,7 @@ export async function main(
 ) {
   console.log(`Expecting lcd-server at ` + config.node_lcd)
 
-  node = Node(axios, config.node_lcd, config.mocked)
+  node = Node(axios, config.node_lcd)
 
   store = Store({ node })
 
