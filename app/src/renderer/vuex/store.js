@@ -6,7 +6,7 @@
 
 import Vue from "vue"
 import Vuex from "vuex"
-import _ from "lodash"
+import { merge } from "lodash"
 import * as getters from "./getters"
 import modules from "./modules"
 
@@ -138,7 +138,7 @@ export function loadPersistedState({ state, commit }) {
   }
   if (cachedState) {
     // Replace the state object with the stored state
-    _.merge(state, cachedState, {
+    merge(state, cachedState, {
       // set loading indicators to false
       transactions: {
         loaded: true,

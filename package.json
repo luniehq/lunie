@@ -18,6 +18,7 @@
     "build:testnets": "cd tasks/build/testnets && ./localBuild.sh",
     "build:gaia": "cd tasks/build/Gaia && ./localBuild.sh",
     "build:local": "node tasks/build/local/build",
+    "build:ui": "cross-env NODE_ENV=production webpack --colors --config webpack.renderer.config.js --mode=production --profile --json > app/dist/build.stats.json",
     "start": "yarn frontend & yarn backend skip-rebuild",
     "start:new": "yarn frontend & yarn backend",
     "doc": "jsdoc -r -c jsdoc.json",
@@ -25,7 +26,6 @@
     "lint:eslint": "eslint -f ./node_modules/eslint-friendly-formatter \"{,**/}*.{js,vue}\"",
     "lint:format": "prettier --list-different \"{,**/}*.{css,js,json,vue}\" \"!testArtifacts/**\" \"!app/networks/**\"",
     "lint:fix": "prettier --write \"{,**/}*.{css,js,json,vue}\" \"!testArtifacts/**\"",
-    "pack": "webpack --colors --config webpack.renderer.config.js --mode=production",
     "test": "yarn run lint && yarn test:unit && yarn test:e2e",
     "test:unit": "cross-env LOGGING=false ANALYTICS=false NODE_ENV=testing jest --maxWorkers=2",
     "test:e2e": "cross-env ANALYTICS=false yarn run pack && tape \"${TEST:-test/e2e/*.js}\"",
@@ -134,6 +134,7 @@
     "vue-directive-tooltip": "1.4.5",
     "vue-router": "3.0.1",
     "vuelidate": "0.6.2",
-    "vuex": "3.0.1"
+    "vuex": "3.0.1",
+    "webpack-bundle-analyzer": "3.0.3"
   }
 }

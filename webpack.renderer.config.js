@@ -8,6 +8,8 @@ const fs = require(`fs-extra`)
 
 const HtmlWebpackPlugin = require(`html-webpack-plugin`)
 const VueLoaderPlugin = require(`vue-loader/lib/plugin`)
+const BundleAnalyzerPlugin = require(`webpack-bundle-analyzer`)
+  .BundleAnalyzerPlugin
 
 function resolve(dir) {
   return path.join(__dirname, dir)
@@ -67,9 +69,11 @@ let rendererConfig = {
   },
   node: {
     __dirname: false,
-    __filename: false
+    __filename: false,
+    fs: `empty`
   },
   plugins: [
+    new BundleAnalyzerPlugin(),
     new VueLoaderPlugin(),
     // the global.GENTLY below fixes a compile issue with superagent + webpack
     // https://github.com/visionmedia/superagent/issues/672
@@ -101,16 +105,15 @@ let rendererConfig = {
       transactions: resolve(`app/src/renderer/components/transactions`),
       govern: resolve(`app/src/renderer/components/govern`),
       staking: resolve(`app/src/renderer/components/staking`),
-      wallet: resolve(`app/src/renderer/components/wallet`)
+      wallet: resolve(`app/src/renderer/components/wallet`),
+      lodash: `lodash/core`,
+      moment: `moment/src/moment`
     },
     extensions: [`.js`, `.vue`, `.json`, `.css`, `.node`],
     modules: [
       path.join(__dirname, `app/node_modules`),
       path.join(__dirname, `node_modules`)
     ]
-  },
-  node: {
-    fs: `empty`
   },
   devServer: {
     contentBase: [
