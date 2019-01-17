@@ -2,6 +2,7 @@ import setup from "../../../helpers/vuex-setup"
 import Vuelidate from "vuelidate"
 import PageGovernance from "renderer/components/governance/PageGovernance"
 import ModalPropose from "renderer/components/governance/ModalPropose"
+import ModalSearch from "renderer/components/common/TmModalSearch"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 const proposal = {
@@ -43,8 +44,8 @@ describe(`PageGovernance`, () => {
   })
 
   it(`should show the search on click`, () => {
-    wrapper.find(`.tm-tool-bar i.search`).trigger(`click`)
-    expect(wrapper.contains(`.tm-modal-search`)).toBe(true)
+    wrapper.find(`.tm-tool-bar a.search-button i`).trigger(`click`)
+    expect(wrapper.contains(ModalSearch)).toEqual(true)
   })
 
   it(`disables proposal creation if not connected`, async () => {
