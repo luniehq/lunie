@@ -132,8 +132,6 @@ export default {
       type: String,
       required: true
     },
-    validator: {
-      type: Object,
     denom: {
       type: String,
       required: true
@@ -143,7 +141,6 @@ export default {
     amount: ``,
     password: ``,
     selectedIndex: 0,
-    showPassword: false,
     submissionError: null,
     sending: false
   }),
@@ -182,6 +179,7 @@ export default {
             from: this.fromOptions[this.selectedIndex].address,
             password: this.password
         })
+        this.close()
       } else {
         this.sending = false
       }

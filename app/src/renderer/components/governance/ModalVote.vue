@@ -1,50 +1,42 @@
 <template>
   <action-modal title="Vote" class="modal-vote" @close-action-modal="close">
     <tm-form-group class="action-modal-group vote-options">
-      <div class="radio-container">
-        <input
-          id="vote-yes"
-          v-model="vote"
-          :disabled="lastVoteOption === `Yes`"
-          type="radio"
-          name="Yes"
-          value="Yes"
-        />
-        <label for="vote-yes">Yes</label>
-      </div>
-      <div class="radio-container">
-        <input
-          id="vote-no"
-          v-model="vote"
-          :disabled="lastVoteOption === `No`"
-          type="radio"
-          name="No"
-          value="No"
-        />
-        <label for="vote-no">No</label>
-      </div>
-      <div class="radio-container">
-        <input
-          id="vote-veto"
-          v-model="vote"
-          :disabled="lastVoteOption === `NoWithVeto`"
-          type="radio"
-          name="NoWithVeto"
-          value="NoWithVeto"
-        />
-        <label for="vote-veto">No With Veto</label>
-      </div>
-      <div class="radio-container">
-        <input
-          id="vote-abstain"
-          v-model="vote"
-          :disabled="lastVoteOption === `Abstain`"
-          type="radio"
-          name="Abstain"
-          value="Abstain"
-        />
-        <label for="vote-abstain">Abstain</label>
-      </div>
+      <tm-btn
+        id="vote-yes"
+        :class="[vote === `Yes` ? 'active' : '']"
+        :disabled="lastVoteOption === `Yes`"
+        color="secondary"
+        value="Yes"
+        size="md"
+        @click.native="vote = 'Yes'"
+      />
+      <tm-btn
+        id="vote-no"
+        :class="[vote === `No` ? 'active' : '']"
+        :disabled="lastVoteOption === `No`"
+        color="secondary"
+        value="No"
+        size="md"
+        @click.native="vote = 'No'"
+      />
+      <tm-btn
+        id="vote-veto"
+        :class="[vote === `NoWithVeto` ? 'active' : '']"
+        :disabled="lastVoteOption === `NoWithVeto`"
+        color="secondary"
+        value="No With Veto"
+        size="md"
+        @click.native="vote = 'NoWithVeto'"
+      />
+      <tm-btn
+        id="vote-abstain"
+        :class="[vote === `Abstain` ? 'active' : '']"
+        :disabled="lastVoteOption === `Abstain`"
+        color="secondary"
+        value="Abstain"
+        size="md"
+        @click.native="vote = 'Abstain'"
+      />
     </tm-form-group>
     <tm-form-group
       class="action-modal-group"
@@ -117,9 +109,7 @@ export default {
     }
   },
   data: () => ({
-    option: ``,
     password: ``,
-    showPassword: false,
     vote: null
   }),
   validations() {
@@ -138,7 +128,7 @@ export default {
       this.$emit(`update:showModalVote`, false)
     },
     onVote() {
-      this.$emit(`castVote`, { option: this.option, password: this.password })
+      this.$emit(`castVote`, { option: this.vote, password: this.password })
       this.close()
     }
   }
@@ -162,5 +152,17 @@ export default {
 
 .radio-container label {
   padding-left: 0.5rem;
+}
+
+.vote-options button.active span {
+  background: var(--tertiary);
+}
+
+.vote-options button {
+  margin: 0;
+  min-width: 49%;
+}
+.vote-options button span {
+  margin: 0.25rem;
 }
 </style>

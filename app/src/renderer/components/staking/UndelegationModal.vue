@@ -119,7 +119,6 @@ export default {
   data: () => ({
     amount: 0,
     password: ``,
-    showPassword: false,
     selectedIndex: 0
   }),
   validations() {

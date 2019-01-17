@@ -23,24 +23,8 @@ describe(`ModalVote`, () => {
     wrapper = instance.wrapper
   })
 
-  describe(`component matches snapshot`, () => {
-    it(`has the expected html structure`, async () => {
-      expect(wrapper.vm.$el).toMatchSnapshot()
-    })
-  })
-
-  describe(`default values are set correctly`, () => {
-    it(`the 'option' defaults to an empty string`, () => {
-      expect(wrapper.vm.option).toEqual(``)
-    })
-
-    it(`account password defaults to an empty string`, () => {
-      expect(wrapper.vm.password).toEqual(``)
-    })
-
-    it(`password is hidden by default`, () => {
-      expect(wrapper.vm.showPassword).toBe(false)
-    })
+  it(`has the expected html structure`, async () => {
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   describe(`enables or disables Vote correctly`, () => {
@@ -50,32 +34,32 @@ describe(`ModalVote`, () => {
       expect(voteBtn.html()).toContain(`disabled="disabled"`)
 
       // non valid option value
-      wrapper.setData({ option: `other`, password: `1234567890` })
+      wrapper.setData({ vote: `other`, password: `1234567890` })
       expect(voteBtn.html()).toContain(`disabled="disabled"`)
 
       // no password
-      wrapper.setData({ option: `No`, password: `` })
+      wrapper.setData({ vote: `No`, password: `` })
       expect(voteBtn.html()).toContain(`disabled="disabled"`)
     })
 
     it(`enables the 'Vote' button if the user selected a valid option`, () => {
-      wrapper.setData({ option: `Yes`, password: `1234567890` })
+      wrapper.setData({ vote: `Yes`, password: `1234567890` })
       let voteBtn = wrapper.find(`#vote-yes`)
       let submitButton = wrapper.find(`#cast-vote`)
       expect(voteBtn.html()).toContain(`active`)
       expect(submitButton.html()).not.toContain(`disabled="disabled"`)
 
-      wrapper.setData({ option: `No` })
+      wrapper.setData({ vote: `No` })
       voteBtn = wrapper.find(`#vote-no`)
       expect(voteBtn.html()).toContain(`active`)
       expect(submitButton.html()).not.toContain(`disabled="disabled"`)
 
-      wrapper.setData({ option: `NoWithVeto` })
+      wrapper.setData({ vote: `NoWithVeto` })
       voteBtn = wrapper.find(`#vote-veto`)
       expect(voteBtn.html()).toContain(`active`)
       expect(submitButton.html()).not.toContain(`disabled="disabled"`)
 
-      wrapper.setData({ option: `Abstain` })
+      wrapper.setData({ vote: `Abstain` })
       voteBtn = wrapper.find(`#vote-abstain`)
       expect(voteBtn.html()).toContain(`active`)
       expect(submitButton.html()).not.toContain(`disabled="disabled"`)
@@ -110,25 +94,8 @@ describe(`ModalVote`, () => {
   })
 
   describe(`Vote`, () => {
-    it(`updates the selected option on click`, () => {
-      wrapper.vm.vote(`Yes`)
-      expect(wrapper.vm.option).toEqual(`Yes`)
-
-      wrapper.vm.vote(`No`)
-      expect(wrapper.vm.option).toEqual(`No`)
-
-      wrapper.vm.vote(`NoWithVeto`)
-      expect(wrapper.vm.option).toEqual(`NoWithVeto`)
-
-      wrapper.vm.vote(`Abstain`)
-      expect(wrapper.vm.option).toEqual(`Abstain`)
-
-      wrapper.vm.vote(`Abstain`)
-      expect(wrapper.vm.option).toEqual(``)
-    })
-
     it(`Vote button casts a vote and closes modal`, () => {
-      wrapper.setData({ option: `Yes`, password: `1234567890` })
+      wrapper.setData({ vote: `Yes`, password: `1234567890` })
       wrapper.vm.onVote()
 
       expect(wrapper.emittedByOrder()).toEqual([

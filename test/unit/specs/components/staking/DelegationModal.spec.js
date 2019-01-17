@@ -43,34 +43,14 @@ describe(`DelegationModal`, () => {
     })
     wrapper = instance.wrapper
     store = instance.store
+
+    store.state.connection.connected = true
     store.commit(`setStakingParameters`, stakingParameters.parameters)
   })
 
   describe(`component matches snapshot`, () => {
     it(`has the expected html structure`, async () => {
       expect(wrapper.vm.$el).toMatchSnapshot()
-    })
-  })
-
-  describe(`default values are set correctly`, () => {
-    it(`the 'amount' defaults to 0`, () => {
-      expect(wrapper.vm.amount).toEqual(0)
-    })
-
-    it(`displays the user's wallet address as the default`, () => {
-      let toField = wrapper.find(`#to`)
-      expect(toField).toBeDefined()
-      expect(toField.element.value).toEqual(
-        `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`
-      )
-    })
-
-    it(`account password defaults to an empty string`, () => {
-      expect(wrapper.vm.password).toEqual(``)
-    })
-
-    it(`password is hidden by default`, () => {
-      expect(wrapper.vm.showPassword).toBe(false)
     })
   })
 
@@ -83,15 +63,11 @@ describe(`DelegationModal`, () => {
 
       it(`if the user manually inputs a number greater than the balance`, () => {
         wrapper.setData({ amount: 142, password: `1234567890` })
-        let amountField = wrapper.find(`#amount`)
 
         let delegationBtn = wrapper.find(`#submit-delegation`)
         expect(delegationBtn.html()).toContain(`disabled="disabled"`)
         let errorMessage = wrapper.find(`input#amount + div`)
         expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
-
-        amountField.trigger(`input`)
-        expect(amountField.element.value).toBe(`100`)
       })
 
       it(`if the password field is empty`, () => {
@@ -114,7 +90,7 @@ describe(`DelegationModal`, () => {
   describe(`(Re)delegate`, () => {
     it(`Delegation button submits a (re)delegation and closes modal`, () => {
       wrapper.setData({ amount: 50, password: `1234567890` })
-      wrapper.vm.onDelegation()
+      wrapper.vm.validateForm()
 
       expect(wrapper.emittedByOrder()).toEqual([
         {

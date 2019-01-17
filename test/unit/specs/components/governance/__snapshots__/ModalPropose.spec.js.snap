@@ -105,8 +105,6 @@ exports[`ModalPropose component matches snapshot has the expected html structure
         <input
           class="tm-field"
           id="amount"
-          max="20"
-          min="0"
           type="number"
         />
          

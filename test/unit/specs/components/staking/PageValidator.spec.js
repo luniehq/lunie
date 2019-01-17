@@ -341,6 +341,7 @@ describe(`onDelegation`, () => {
         store.commit(`setConnected`, true)
         store.commit(`setDelegates`, [validator, validatorTo])
         store.state.wallet.address = lcdClientMock.addresses[0]
+        store.commit(`setStakingParameters`, stakingParameters.parameters)
       },
       mocks: {
         $route: {
@@ -667,7 +668,7 @@ describe(`onDelegation`, () => {
         expect(wrapper.contains(UndelegationModal)).toEqual(true)
       })
 
-      it(`is not enough`, () => {
+      it(`is not enough`, async () => {
         store.commit(`setCommittedDelegation`, {
           candidateId: lcdClientMock.validators[0],
           value: 0

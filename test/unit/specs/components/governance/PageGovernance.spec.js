@@ -25,6 +25,7 @@ describe(`PageGovernance`, () => {
     let instance = mount(PageGovernance, {
       doBefore: ({ store }) => {
         store.commit(`setGovParameters`, governanceParameters)
+        store.state.governanceParameters.loaded = true
         store.commit(`setStakingParameters`, stakingParameters.parameters)
         store.commit(`setConnected`, true)
       }

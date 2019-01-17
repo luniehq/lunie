@@ -58,10 +58,6 @@ describe(`ModalPropose`, () => {
     it(`account password defaults to an empty string`, () => {
       expect(wrapper.vm.password).toEqual(``)
     })
-
-    it(`password is hidden by default`, () => {
-      expect(wrapper.vm.showPassword).toBe(false)
-    })
   })
 
   describe(`enables or disables 'Create Proposal' button correctly`, () => {

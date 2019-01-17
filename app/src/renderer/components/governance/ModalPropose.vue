@@ -138,8 +138,7 @@ export default {
     description: ``,
     type: `Text`,
     amount: 0,
-    password: ``,
-    showPassword: false
+    password: ``
   }),
   computed: {
     ...mapGetters([`wallet`]),

@@ -93,8 +93,7 @@ export default {
   },
   data: () => ({
     amount: 0,
-    password: ``,
-    showPassword: false
+    password: ``
   }),
   computed: {
     ...mapGetters([`wallet`]),

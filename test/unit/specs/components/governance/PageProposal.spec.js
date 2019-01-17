@@ -38,6 +38,7 @@ describe(`PageProposal`, () => {
       localVue,
       doBefore: ({ store }) => {
         store.commit(`setConnected`, true)
+        store.state.governanceParameters.loaded = true
         store.commit(`setGovParameters`, governanceParameters)
         store.commit(`setStakingParameters`, stakingParameters.parameters)
         store.commit(`setProposal`, proposal)

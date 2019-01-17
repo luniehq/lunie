@@ -37,7 +37,6 @@ export default ({ node }) => {
       Vue.set(state.committedDelegates, candidateId, value)
       if (value === 0) {
         delete state.committedDelegates[candidateId]
-        Vue.set(state, `committedDelegates`, state.committedDelegates)
       }
     },
     setUnbondingDelegations(state, unbondingDelegations) {
@@ -172,6 +171,9 @@ export default ({ node }) => {
         validator_addr,
         state.committedDelegates[validator_addr] + amount
       )
+
+      // load delegates after delegation to get new atom distribution on validators
+      dispatch(`updateDelegates`)
     },
     async submitUnbondingDelegation(
       {

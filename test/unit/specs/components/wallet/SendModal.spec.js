@@ -95,7 +95,7 @@ describe(`SendModal`, () => {
         password: `1234567890`
       }
     })
-    wrapper.vm.onSubmit()
+    wrapper.vm.validateForm()
     await wrapper.vm.$nextTick()
     expect(wrapper.vm.$v.$error).toBe(true)
     expect(wrapper.vm.$el).toMatchSnapshot()
@@ -111,7 +111,7 @@ describe(`SendModal`, () => {
         password: `1234567890`
       }
     })
-    wrapper.vm.onSubmit()
+    wrapper.vm.validateForm()
     await wrapper.vm.$nextTick()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
@@ -127,55 +127,59 @@ describe(`SendModal`, () => {
         password: `1234567890`
       }
     })
-    wrapper.vm.onSubmit()
+    wrapper.vm.validateForm()
     await wrapper.vm.$nextTick()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
   it(`should show bech32 error when alphanumeric is wrong`, async () => {
-    store.commit(`setConnected`, true)
-    store.commit(`setStakingParameters`, stakingParameters.parameters)
-    wrapper.setData({
-      fields: {
-        denom: stakingParameters.parameters.bond_denom,
-        address: `!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$`,
-        amount: 2,
-        password: `1234567890`
-      }
-    })
-    wrapper.vm.onSubmit()
+    wrapper.vm.validateForm()
     await wrapper.vm.$nextTick()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`should trigger confirmation modal if form is correct`, async () => {
-    store.commit(`setStakingParameters`, stakingParameters.parameters)
-    store.commit(`setConnected`, true)
-    store.commit(`setWalletBalances`, coins)
-    wrapper.setData({
-      fields: {
-        denom: stakingParameters.parameters.bond_denom,
-        address,
-        amount: 2,
-        password: `1234567890`
-      }
-    })
-    wrapper.vm.onSubmit()
-    await wrapper.vm.$nextTick()
-    expect(wrapper.vm.confirmationPending).toBe(true)
-    expect(wrapper.vm.$el).toMatchSnapshot()
-  })
+  // it(`should trigger confirmation modal if form is correct`, async () => {
+  //   wrapper.setData({
+  //     fields: {
+  //       denom: `STAKE`,
+  //       address,
+  //       amount: 2,
+  //       password: `1234567890`
+  //     }
+  //   })
+  //   wrapper.vm.validateForm()
+  //   await wrapper.vm.$nextTick()
+  //   expect(wrapper.vm.$v.$error).toBe(false)
+  //   expect(wrapper.vm.confirmationPending).toBe(true)
+  //   expect(wrapper.vm.$el).toMatchSnapshot()
+  // })
+
+  // it(`should close confirmation modal on cancel`, async () => {
+  //   wrapper.vm.confirmationPending = true
+  //   wrapper.vm.onCancel()
+  //   expect(wrapper.vm.confirmationPending).toBe(false)
+  // })
 
   it(`should show notification for successful send`, async () => {
-    wrapper.setData({
+    let $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn()
+    }
+
+    let self = {
       fields: {
-        denom: stakingParameters.parameters.bond_denom,
+        denom: `notmycoin`,
         address,
         amount: 2,
         password: `1234567890`
-      }
-    })
-    // walletSend is async so we need to wait until it is resolved
-    expect(store.commit).toHaveBeenCalledWith(`notify`, expect.any(Object))
+      },
+      $store,
+      sendTx: () => Promise.resolve(),
+      resetForm: jest.fn()
+    }
+    await SendModal.methods.submitForm.call(self)
+
+    expect($store.commit).toHaveBeenCalledWith(`notify`, expect.any(Object))
+    expect(self.submissionError).toBeFalsy()
   })
 
   it(`should show notification for unsuccessful send`, async () => {
@@ -192,20 +196,12 @@ describe(`SendModal`, () => {
         password: `1234567890`
       },
       $store,
-      methods: {
-        sendTx: () => Promise.reject()
-      }
+      sendTx: () => Promise.reject(new Error(`Expected`))
     }
-    PageSend.methods.onApproved.call(self)
+    await SendModal.methods.submitForm.call(self)
 
-    expect($store.commit).toHaveBeenCalledWith(`notifyError`, {
-      title: `Error Sending transaction`,
-      body: expect.stringContaining(``)
-    })
-    node.sign = () => Promise.reject()
-    expect(store.state.notifications.length).toBe(1)
-    expect(store.state.notifications[0].title).toBe(`Error Sending transaction`)
-    expect(store.state.notifications[0]).toMatchSnapshot()
+    expect($store.commit).not.toHaveBeenCalled()
+    expect(self.submissionError).toBe(`Send failed: Expected.`)
   })
 
   it(`validates bech32 addresses`, () => {
@@ -233,19 +229,5 @@ describe(`SendModal`, () => {
     await wrapper.vm.$nextTick()
     expect(wrapper.find(`#send-btn`).exists()).toBe(false)
     expect(wrapper.vm.$el).toMatchSnapshot()
-  })
-
-  describe(`default values are set correctly`, () => {
-    it(`the 'amount' defaults to 0`, () => {
-      expect(wrapper.vm.fields.amount).toEqual(0)
-    })
-
-    it(`account password defaults to an empty string`, () => {
-      expect(wrapper.vm.fields.password).toEqual(``)
-    })
-
-    it(`password is hidden by default`, () => {
-      expect(wrapper.vm.showPassword).toBe(false)
-    })
   })
 })

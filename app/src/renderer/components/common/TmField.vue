@@ -63,8 +63,6 @@
     :class="css"
     :placeholder="placeholder"
     :value="value"
-    :max="max"
-    :min="min"
     @change="onChange"
     @keyup="onKeyup"
     @keydown="onKeydown"
