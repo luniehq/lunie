@@ -58,16 +58,21 @@ describe(`UndelegationModal`, () => {
 
   describe(`enables or disables the Delegation button correctly`, () => {
     describe(`disables the 'Delegation' button`, () => {
-      it(`with default values`, () => {
-        let undelegationBtn = wrapper.find(`#submit-undelegation`)
-        expect(undelegationBtn.html()).toContain(`disabled="disabled"`)
+      it(`with default values`, async () => {
+        await wrapper.vm.$nextTick()
+        wrapper.vm.submitForm = jest.fn()
+        wrapper.vm.validateForm()
+        expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
       })
 
-      it(`if the user manually inputs a number greater than the balance`, () => {
+      it(`if the user manually inputs a number greater than the balance`, async () => {
         wrapper.setData({ amount: 142, password: `1234567890` })
         let amountField = wrapper.find(`#amount`)
-        let undelegationBtn = wrapper.find(`#submit-undelegation`)
-        expect(undelegationBtn.html()).toContain(`disabled="disabled"`)
+        await wrapper.vm.$nextTick()
+        wrapper.vm.submitForm = jest.fn()
+        wrapper.vm.validateForm()
+        expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
+        await wrapper.vm.$nextTick()
         let errorMessage = wrapper.find(`input#amount + div`)
         expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
 
@@ -75,10 +80,12 @@ describe(`UndelegationModal`, () => {
         expect(amountField.element.value).toBe(`142`)
       })
 
-      it(`if the password field is empty`, () => {
+      it(`if the password field is empty`, async () => {
         wrapper.setData({ amount: 10, password: `` })
-        let undelegationBtn = wrapper.find(`#submit-undelegation`)
-        expect(undelegationBtn.html()).toContain(`disabled="disabled"`)
+        await wrapper.vm.$nextTick()
+        wrapper.vm.submitForm = jest.fn()
+        wrapper.vm.validateForm()
+        expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
       })
     })
 
@@ -95,7 +102,7 @@ describe(`UndelegationModal`, () => {
   describe(`Undelegate`, () => {
     it(`Undelegation button submits an unbonding delegation and closes modal`, () => {
       wrapper.setData({ amount: 4.2, password: `1234567890` })
-      wrapper.vm.onUndelegate()
+      wrapper.vm.submitForm()
 
       expect(wrapper.emittedByOrder()).toEqual([
         {

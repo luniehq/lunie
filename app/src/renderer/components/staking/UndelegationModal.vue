@@ -36,7 +36,7 @@
       <span class="input-suffix">{{ denom }}</span>
       <tm-field v-focus id="amount" v-model="amount" type="number" />
       <tm-form-msg
-        v-if="!$v.amount.between && amount > 0"
+        v-if="$v.amount.$error && !$v.amount.between && amount > 0"
         :max="$v.amount.$params.between.max"
         :min="$v.amount.$params.between.min"
         name="Amount"
@@ -51,9 +51,15 @@
     >
       <tm-field
         id="password"
+        :error="$v.password.$error && $v.password.$invalid"
         v-model="password"
         type="password"
         placeholder="Password"
+      />
+      <tm-form-msg
+        v-if="$v.password.$error && !$v.password.required"
+        name="Password"
+        type="required"
       />
     </tm-form-group>
     <div class="action-modal-footer">
@@ -111,7 +117,8 @@ export default {
   data: () => ({
     amount: 0,
     password: ``,
-    selectedIndex: 0
+    selectedIndex: 0,
+    sending: false
   }),
   validations() {
     return {
@@ -129,7 +136,17 @@ export default {
     close() {
       this.$emit(`update:showUndelegationModal`, false)
     },
-    onUndelegate() {
+    validateForm() {
+      this.sending = true
+      this.$v.$touch()
+
+      if (!this.$v.$invalid) {
+        this.submitForm()
+      } else {
+        this.sending = false
+      }
+    },
+    submitForm() {
       this.$emit(`submitUndelegation`, {
         amount: this.amount,
         password: this.password
