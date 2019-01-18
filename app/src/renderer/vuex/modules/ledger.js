@@ -20,7 +20,7 @@ export default () => {
     setLedger(state, app) {
       state.app = app
     },
-    setVersion(state, version) {
+    setLedgerCosmosAppVersion(state, version) {
       state.version = version
     },
     setLedgerConnection(state, isConnected) {
@@ -54,7 +54,7 @@ export default () => {
         return !state.error
       }
     },
-    async getCosmosAppVersion({ commit, state }) {
+    async getLedgerCosmosAppVersion({ commit, state }) {
       const version = await state.app.get_version()
       commit(`setVersion`, version)
     },
