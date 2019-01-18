@@ -39,10 +39,10 @@
         name="Wallet"
         type="custom"
       />
-      <hr v-if="!wallet.ledger.connected" />
+      <hr v-if="!ledger.isConnected" />
     </tm-form-group>
     <tm-form-group
-      v-if="!wallet.ledger.connected"
+      v-if="!ledger.isConnected"
       class="modal-deposit-form-group"
       field-id="password"
       field-label="Account password"
@@ -118,7 +118,7 @@ export default {
     showPassword: false
   }),
   computed: {
-    ...mapGetters([`wallet`]),
+    ...mapGetters([`ledger`]),
     balance() {
       // TODO: refactor to get the selected coin when multicoin deposit is enabled
       if (!this.wallet.loading && !!this.wallet.balances.length) {
@@ -138,7 +138,7 @@ export default {
         between: between(1, this.balance)
       },
       password: {
-        required: requiredIf(!this.wallet.ledger.connected)
+        required: requiredIf(!this.ledger.isConnected)
       }
     }
   },

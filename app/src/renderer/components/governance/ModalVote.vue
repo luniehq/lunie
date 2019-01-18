@@ -50,10 +50,10 @@
         size="md"
         @click.native="vote('Abstain')"
       />
-      <hr v-if="!wallet.ledger.connected" />
+      <hr v-if="!ledger.isConnected" />
     </tm-form-group>
     <tm-form-group
-      v-if="!wallet.ledger.connected"
+      v-if="!ledger.isConnected"
       class="modal-vote-form-group"
       field-id="password"
       field-label="Account password"
@@ -135,7 +135,7 @@ export default {
     showPassword: false
   }),
   computed: {
-    ...mapGetters([`wallet`])
+    ...mapGetters([`ledger`])
   },
   validations() {
     return {
@@ -143,7 +143,7 @@ export default {
         required,
         isValid
       },
-      password: { required: requiredIf(!this.wallet.ledger.connected) }
+      password: { required: requiredIf(!this.ledger.isConnected) }
     }
   },
   methods: {

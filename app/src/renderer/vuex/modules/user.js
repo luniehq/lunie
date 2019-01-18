@@ -123,8 +123,7 @@ export default ({}) => {
           break
         default:
           // local keyStore
-          // TODO: why do we have state.account and state.accounts ??
-          state.account = account
+          state.account = account // TODO: why do we have state.account and state.accounts ??
           let keys = await state.externals.loadKeys()
           accountAddress = keys.find(({ name }) => name === account).address
       }

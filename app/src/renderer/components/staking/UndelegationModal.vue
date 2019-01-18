@@ -46,10 +46,10 @@
       field-label="To"
     >
       <tm-field id="to" v-model="to" readonly="readonly" />
-      <hr v-if="!wallet.ledger.connected" />
+      <hr v-if="!ledger.isConnected" />
     </tm-form-group>
     <tm-form-group
-      v-if="!wallet.ledger.connected"
+      v-if="!ledger.isConnected"
       class="undelegation-modal-form-group"
       field-id="password"
       field-label="Account password"
@@ -66,7 +66,7 @@
         type="checkbox"
         @input="togglePassword"
       />
-      <label for="showPasswordCheckbox"> Show password </label>
+      <label for="showPasswordCheckbox">Show password</label>
     </tm-form-group>
     <div class="undelegation-modal-footer">
       <tm-btn
@@ -125,7 +125,7 @@ export default {
     showPassword: false
   }),
   computed: {
-    ...mapGetters([`wallet`])
+    ...mapGetters([`ledger`])
   },
   validations() {
     return {
@@ -135,7 +135,7 @@ export default {
         between: between(1, this.maximum)
       },
       password: {
-        required: requiredIf(!this.wallet.ledger.connected)
+        required: requiredIf(!this.ledger.isConnected)
       }
     }
   },

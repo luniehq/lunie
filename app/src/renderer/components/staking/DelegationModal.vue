@@ -56,10 +56,10 @@
         :options="fromOptions"
         type="select"
       />
-      <hr v-if="!wallet.ledger.connected" />
+      <hr v-if="!ledger.isConnected" />
     </tm-form-group>
     <tm-form-group
-      v-if="!wallet.ledger.connected"
+      v-if="!ledger.isConnected"
       class="delegation-modal-form-group"
       field-id="password"
       field-label="Account password"
@@ -136,7 +136,7 @@ export default {
     showPassword: false
   }),
   computed: {
-    ...mapGetters([`wallet`])
+    ...mapGetters([`ledger`])
   },
   validations() {
     return {
@@ -146,7 +146,7 @@ export default {
         between: between(1, this.fromOptions[this.selectedIndex].maximum)
       },
       password: {
-        required: requiredIf(!this.wallet.ledger.connected)
+        required: requiredIf(!this.ledger.isConnected)
       }
     }
   },

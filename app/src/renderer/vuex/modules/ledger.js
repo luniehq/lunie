@@ -41,8 +41,7 @@ export default () => {
         commit(`setLedger`, app)
         const version = await app.get_version()
         commit(`setVersion`, version)
-        const pubKey = await app.publicKey(HDPATH)
-        let address = createCosmosAddress(pubKey.pk)
+        let address = await dispatch(`getLedgerAddress`)
         dispatch(`signIn`, { sessionType: `ledger`, address })
       } catch (error) {
         commit(`notifyError`, {
@@ -54,6 +53,35 @@ export default () => {
       } finally {
         return !state.error
       }
+    },
+    async getLedgerAddress() {
+      const pubKey = await state.app.publicKey(HDPATH)
+      return createCosmosAddress(pubKey.pk)
+    },
+    async signWithLedger({ commit }, transaction) {
+      let response
+      const app = state.app
+      try {
+        response = await app.sign_get_chunks(HDPATH, transaction)
+      } catch (error) {
+        commit(`notifyError`, {
+          title: `Error signing transaction with Ledger`,
+          body: error.message
+        })
+        Sentry.captureException(error)
+        state.error = error
+      }
+
+      if (response && response.error_message !== `No errors`) {
+        commit(`notifyError`, {
+          title: `Error signing transaction with Ledger`,
+          body: response.error_message
+        })
+        Sentry.captureException(response.error_message)
+        state.error = response.error_message
+      }
+      console.log(response.signature)
+      return response.signature
     }
   }
   return {

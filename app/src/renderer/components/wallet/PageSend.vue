@@ -81,9 +81,9 @@
             type="between"
           />
         </tm-form-group>
-        <hr v-if="!wallet.ledger.connected" />
+        <hr v-if="!ledger.isConnected" />
       </tm-part>
-      <tm-part v-if="!wallet.ledger.connected">
+      <tm-part v-if="!ledger.isConnected">
         <tm-form-group
           :error="$v.fields.password.$error"
           field-id="password"
@@ -196,7 +196,7 @@ export default {
     showPassword: false
   }),
   computed: {
-    ...mapGetters([`wallet`, `connected`]),
+    ...mapGetters([`ledger`, `wallet`, `connected`]),
     max() {
       let denom = this.wallet.balances.find(b => b.denom === this.denom)
       return (denom && denom.amount) || 0
@@ -286,7 +286,7 @@ export default {
           between: between(this.max ? 1 : 0, this.max)
         },
         denom: { required },
-        password: { required: requiredIf(!this.wallet.ledger.connected) }
+        password: { required: requiredIf(!this.ledger.isConnected) }
       }
     }
   }
