@@ -20,6 +20,7 @@ export const allTransactions = state =>
     state.transactions.staking,
     state.transactions.governance
   )
+export const ledger = state => state.ledger
 export const wallet = state => state.wallet
 
 // staking

@@ -38,6 +38,9 @@ export default ({}) => {
   }
 
   const mutations = {
+    setSignIn(state, hasSignedIn) {
+      state.signedIn = hasSignedIn
+    },
     setAccounts(state, accounts) {
       state.accounts = accounts
     },
@@ -109,34 +112,34 @@ export default ({}) => {
       dispatch(`initializeWallet`, address)
       return address
     },
-    async signIn({ state, commit, dispatch }, { account }) {
-      state.account = account
-      state.signedIn = true
-
-      let keys = await state.externals.loadKeys()
-      let { address } = keys.find(({ name }) => name === account)
-
-      commit(`setUserAddress`, address)
+    async signIn(
+      { state, commit, dispatch },
+      { account, sessionType, address }
+    ) {
+      let accountAddress
+      switch (sessionType) {
+        case `ledger`:
+          accountAddress = address
+          break
+        default:
+          // local keyStore
+          // TODO: why do we have state.account and state.accounts ??
+          state.account = account
+          let keys = await state.externals.loadKeys()
+          accountAddress = keys.find(({ name }) => name === account).address
+      }
+      commit(`setSignIn`, true)
+      commit(`setUserAddress`, accountAddress)
       dispatch(`loadPersistedState`)
       commit(`setModalSession`, false)
       await dispatch(`getStakingParameters`)
-      dispatch(`initializeWallet`, address)
+      dispatch(`initializeWallet`, accountAddress)
       await dispatch(`getGovParameters`)
-      dispatch(`loadErrorCollection`, account)
-    },
-    signInLedger({ commit, dispatch }, { address, version }) {
-      commit(`setUserAddress`, address)
-      commit(`setLedgerVersion`, version)
-      dispatch(`loadPersistedState`)
-      commit(`setModalSession`, false)
-      dispatch(`initializeWallet`, address)
-      dispatch(`loadErrorCollection`, address)
-      commit(`setLedgerConnection`, true)
+      dispatch(`loadErrorCollection`, accountAddress)
     },
     signOut({ state, commit, dispatch }) {
       state.account = null
-      state.signedIn = false
-
+      commit(`setSignIn`, false)
       commit(`setModalSession`, true)
       commit(`setLedgerConnection`, false)
       commit(`setLedgerVersion`, {})

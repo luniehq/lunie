@@ -30,12 +30,6 @@
 
 <script>
 import HardwareState from "common/TmHardwareState"
-import { App, comm_u2f } from "ledger-cosmos-js"
-import { createCosmosAddress } from "../../scripts/wallet.js"
-
-const TIMEOUT = 2
-const HDPATH = [44, 118, 0, 0, 0]
-
 export default {
   name: `tm-session-hardware`,
   components: { HardwareState },
@@ -53,26 +47,13 @@ export default {
     async connectLedger() {
       this.setStatus(`detect`)
       console.log(`Connecting Ledger...`)
-      try {
-        let comm = await comm_u2f.create_async(TIMEOUT, true)
-        let app = new App(comm)
-        let version = await app.get_version()
-        let pubKey = await app.publicKey(HDPATH)
-        console.log(
-          `Ledger Version: v${version.major}.${version.minor}.${version.patch} `
-        )
-        let address = createCosmosAddress(pubKey.pk)
-        this.onLedgerConnected(address, version)
-      } catch (error) {
-        console.error(error)
+      const connected = await this.$store.dispatch(`connectLedgerApp`)
+      if (connected) {
+        this.$store.commit(`notify`, {
+          title: `Connection succesful`,
+          body: `You are now signed in to your Cosmos account with your Ledger.`
+        })
       }
-    },
-    onLedgerConnected(address, version) {
-      this.$store.dispatch(`signInLedger`, { address, version })
-      this.$store.commit(`notify`, {
-        title: `Connection succesful`,
-        body: `You are now signed in to your Cosmos account with your Ledger.`
-      })
     }
   }
 }
