@@ -23,7 +23,7 @@ export default () => {
     setVersion(state, version) {
       state.version = version
     },
-    setConnection(state, isConnected) {
+    setLedgerConnection(state, isConnected) {
       state.isConnected = isConnected
     }
   }
@@ -39,8 +39,8 @@ export default () => {
         const comm = await comm_u2f.create_async(TIMEOUT, true)
         let app = new App(comm)
         commit(`setLedger`, app)
-        const version = await app.get_version()
-        commit(`setVersion`, version)
+        await dispatch(`getCosmosAppVersion`)
+        commit(`setLedgerConnection`, true)
         let address = await dispatch(`getLedgerAddress`)
         dispatch(`signIn`, { sessionType: `ledger`, address })
       } catch (error) {
@@ -54,11 +54,15 @@ export default () => {
         return !state.error
       }
     },
-    async getLedgerAddress() {
+    async getCosmosAppVersion({ commit, state }) {
+      const version = await state.app.get_version()
+      commit(`setVersion`, version)
+    },
+    async getLedgerAddress({ state }) {
       const pubKey = await state.app.publicKey(HDPATH)
       return createCosmosAddress(pubKey.pk)
     },
-    async signWithLedger({ commit }, transaction) {
+    async signWithLedger({ commit, state }, transaction) {
       let response
       const app = state.app
       try {

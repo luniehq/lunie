@@ -177,7 +177,6 @@
         :denom="bondDenom"
         @submitUndelegation="submitUndelegation"
       />
-
       <tm-modal v-if="showCannotModal" :close="closeCannotModal">
         <div slot="title">
           Cannot {{ action === `delegate` ? `Delegate` : `Undelegate` }}

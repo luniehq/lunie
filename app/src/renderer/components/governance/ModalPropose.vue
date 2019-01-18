@@ -4,105 +4,125 @@
       <img
         class="icon modal-propose-atom"
         src="~assets/images/cosmos-logo.png"
-      /><span class="tm-modal-title">Create Proposal</span>
+      />
+      <span class="tm-modal-title">Create Proposal</span>
       <div id="closeBtn" class="tm-modal-icon tm-modal-close" @click="close()">
         <i class="material-icons">close</i>
       </div>
     </div>
-    <tm-form-group
-      :error="$v.title.$invalid && title.length > 0"
-      class="page-proposal-form-group"
-    >
-      <span>Title</span>
-      <tm-field
-        v-focus
-        id="title"
-        v-model.trim="title"
-        type="text"
-        placeholder="Proposal title"
-      />
-      <tm-form-msg
-        v-if="!$v.title.maxLength"
-        :max="$v.title.$params.maxLength.max"
-        name="Proposal Title"
-        type="maxLength"
-      />
-    </tm-form-group>
-    <tm-form-group
-      :error="$v.description.$invalid && description.length > 0"
-      class="page-proposal-form-group"
-    >
-      <span>Description</span>
-      <tm-field
-        id="description"
-        v-model.trim="description"
-        type="textarea"
-        placeholder="Write your proposal here..."
-      />
-      <tm-form-msg
-        v-if="!$v.description.maxLength"
-        :max="$v.description.$params.maxLength.max"
-        name="Description"
-        type="maxLength"
-      />
-    </tm-form-group>
-    <tm-form-group
-      :error="$v.amount.$invalid && (amount > 0 || balance === 0)"
-      class="modal-propose-form-group"
-      field-id="amount"
-    >
-      <span>Deposit amount</span>
-      <tm-field
-        id="denom"
-        :placeholder="denom"
-        :tabindex="-1"
-        type="text"
-        readonly="readonly"
-      />
-      <tm-field id="amount" :min="0" v-model="amount" type="number" />
-      <tm-form-msg
-        v-if="!$v.amount.between && amount > 0 && balance > 0"
-        :max="$v.amount.$params.between.max"
-        :min="$v.amount.$params.between.min"
-        name="Amount"
-        type="between"
-      />
-      <tm-form-msg
-        v-else-if="balance === 0"
-        :msg="`doesn't hold any ${denom}s`"
-        name="Wallet"
-        type="custom"
-      />
-      <hr v-if="!ledger.isConnected" />
-    </tm-form-group>
-    <tm-form-group
-      v-if="!ledger.isConnected"
-      class="modal-propose-form-group"
-      field-id="password"
-    >
-      <span>Account password</span>
-      <tm-field
-        id="password"
-        v-model="password"
-        :type="showPassword ? `text` : `password`"
-        placeholder="password..."
-      />
-      <input
-        id="showPasswordCheckbox"
-        v-model="showPassword"
-        type="checkbox"
-        @input="togglePassword"
-      />
-      <label for="showPasswordCheckbox">Show password</label>
-    </tm-form-group>
+    <div v-if="step === `txDetails`">
+      <tm-form-group
+        :error="$v.title.$invalid && title.length > 0"
+        class="page-proposal-form-group"
+      >
+        <span>Title</span>
+        <tm-field
+          v-focus
+          id="title"
+          v-model.trim="title"
+          type="text"
+          placeholder="Proposal title"
+        />
+        <tm-form-msg
+          v-if="!$v.title.maxLength"
+          :max="$v.title.$params.maxLength.max"
+          name="Proposal Title"
+          type="maxLength"
+        />
+      </tm-form-group>
+      <tm-form-group
+        :error="$v.description.$invalid && description.length > 0"
+        class="page-proposal-form-group"
+      >
+        <span>Description</span>
+        <tm-field
+          id="description"
+          v-model.trim="description"
+          type="textarea"
+          placeholder="Write your proposal here..."
+        />
+        <tm-form-msg
+          v-if="!$v.description.maxLength"
+          :max="$v.description.$params.maxLength.max"
+          name="Description"
+          type="maxLength"
+        />
+      </tm-form-group>
+      <tm-form-group
+        :error="$v.amount.$invalid && (amount > 0 || balance === 0)"
+        class="modal-propose-form-group"
+        field-id="amount"
+      >
+        <span>Deposit amount</span>
+        <tm-field
+          id="denom"
+          :placeholder="denom"
+          :tabindex="-1"
+          type="text"
+          readonly="readonly"
+        />
+        <tm-field id="amount" :min="0" v-model="amount" type="number" />
+        <tm-form-msg
+          v-if="!$v.amount.between && amount > 0 && balance > 0"
+          :max="$v.amount.$params.between.max"
+          :min="$v.amount.$params.between.min"
+          name="Amount"
+          type="between"
+        />
+        <tm-form-msg
+          v-else-if="balance === 0"
+          :msg="`doesn't hold any ${denom}s`"
+          name="Wallet"
+          type="custom"
+        />
+        <hr v-if="!ledger.isConnected" />
+      </tm-form-group>
+      <tm-form-group
+        v-if="!ledger.isConnected"
+        class="modal-propose-form-group"
+        field-id="password"
+      >
+        <span>Account password</span>
+        <tm-field
+          id="password"
+          v-model="password"
+          :type="showPassword ? `text` : `password`"
+          placeholder="password..."
+        />
+        <input
+          id="showPasswordCheckbox"
+          v-model="showPassword"
+          type="checkbox"
+          @input="togglePassword"
+        />
+        <label for="showPasswordCheckbox">Show password</label>
+      </tm-form-group>
+    </div>
     <div class="modal-propose-footer">
       <tm-btn
         id="submit-proposal"
+        v-if="step === `txDetails` && !ledger.isConnected"
         :disabled="$v.$invalid"
         color="primary"
         value="Submit proposal"
         size="lg"
-        @click.native="onPropose"
+        @click.native="proposeWithPassword"
+      />
+      <tm-btn
+        id="submit-proposal"
+        v-else-if="step === `txDetails` && ledger.isConnected"
+        :disabled="$v.$invalid"
+        value="Continue to signing"
+        size="lg"
+        @click.native="nextStep"
+      />
+      <tm-btn
+        id="submit-proposal"
+        v-else-if="step === `sign` && ledger.isConnected"
+        :disabled="$v.$invalid"
+        value="Sign"
+        size="lg"
+        @click.native="proposeWithLedger"
       />
     </div>
   </div>
@@ -150,6 +170,7 @@ export default {
     }
   },
   data: () => ({
+    step: `txDetails`,
     titleMinLength: 1,
     titleMaxLength: 64,
     descriptionMinLength: 1,
@@ -162,7 +183,7 @@ export default {
     showPassword: false
   }),
   computed: {
-    ...mapGetters([`ledger`]),
+    ...mapGetters([`ledger`, `wallet`]),
     balance() {
       // TODO: refactor to get the selected coin when multicoin deposit is enabled
       if (!this.wallet.balancesLoading && !!this.wallet.balances.length) {
@@ -207,6 +228,10 @@ export default {
     },
     togglePassword() {
       this.showPassword = !this.showPassword
+    },
+    nextStep() {
+      // TODO: add steps from https://github.com/cosmos/voyager/issues/1735
+      this.step = `sign`
     },
     onPropose() {
       this.$emit(`createProposal`, {
