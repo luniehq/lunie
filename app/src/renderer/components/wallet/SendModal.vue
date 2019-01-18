@@ -139,6 +139,7 @@
         @click.native="validateForm"
       />
     </div>
+    <tm-form-msg v-if="submissionError" :msg="submissionError" type="custom" />
   </action-modal>
 </template>
 

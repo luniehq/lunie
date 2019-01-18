@@ -177,7 +177,6 @@
         :from-options="delegationTargetOptions()"
         :to="wallet.address"
         :denom="bondDenom"
-        @submitUndelegation="submitUndelegation"
       />
       <tm-modal v-if="showCannotModal" :close="closeCannotModal">
         <div slot="title">
@@ -346,74 +345,6 @@ export default {
         this.showUndelegationModal = true
       } else {
         this.showCannotModal = true
-      }
-    },
-    async submitDelegation({ amount, from, password }) {
-      if (from === this.wallet.address) {
-        try {
-          await this.$store.dispatch(`submitDelegation`, {
-            validator_addr: this.validator.operator_address,
-            amount,
-            password
-          })
-
-          this.$store.commit(`notify`, {
-            title: `Successful delegation!`,
-            body: `You have successfully delegated your ${this.bondDenom}s`
-          })
-
-          this.showDelegationModal = false
-        } catch ({ message }) {
-          this.$store.commit(`notifyError`, {
-            title: `Error while delegating ${this.bondDenom}s`,
-            body: message
-          })
-        }
-      } else {
-        const validatorSrc = this.delegates.delegates.find(
-          v => from === v.operator_address
-        )
-        try {
-          await this.$store.dispatch(`submitRedelegation`, {
-            validatorSrc,
-            validatorDst: this.validator,
-            amount,
-            password
-          })
-
-          this.$store.commit(`notify`, {
-            title: `Successful redelegation!`,
-            body: `You have successfully redelegated your ${this.bondDenom}s`
-          })
-        } catch ({ message }) {
-          this.$store.commit(`notifyError`, {
-            title: `Error while redelegating ${this.bondDenom}s`,
-            body: message
-          })
-        }
-      }
-    },
-    async submitUndelegation({ amount, password }) {
-      try {
-        await this.$store.dispatch(`submitUnbondingDelegation`, {
-          amount: -amount,
-          validator: this.validator,
-          password
-        })
-
-        this.$store.commit(`notify`, {
-          title: `Successful undelegation!`,
-          body: `You have successfully undelegated ${amount} ${
-            this.bondDenom
-          }s.`
-        })
-
-        this.showUndelegationModal = false
-      } catch ({ message }) {
-        this.$store.commit(`notifyError`, {
-          title: `Error while undelegating ${this.bondDenom}s`,
-          body: message
-        })
       }
     },
     delegationTargetOptions() {

@@ -94,6 +94,11 @@
         color="primary"
         @click.native="validateForm"
       />
+      <tm-form-msg
+        v-if="submissionError"
+        :msg="submissionError"
+        type="custom"
+      />
     </div>
   </action-modal>
 </template>
@@ -131,6 +136,10 @@ export default {
       type: String,
       required: true
     },
+    validator: {
+      type: Object,
+      required: true
+    },
     denom: {
       type: String,
       required: true
@@ -144,7 +153,10 @@ export default {
     sending: false
   }),
   computed: {
-    ...mapGetters([`wallet`, `connected`])
+    ...mapGetters([`wallet`, `connected`]),
+    from() {
+      return this.fromOptions[this.selectedIndex].address
+    }
   },
   methods: {
     close() {
@@ -167,13 +179,62 @@ export default {
         this.sending = false
       }
     },
+    async submitDelegation() {
+      try {
+        await this.$store.dispatch(`submitDelegation`, {
+          validator_addr: this.validator.operator_address,
+          amount: String(this.amount),
+          password: this.password
+        })
+
+        this.$store.commit(`notify`, {
+          title: `Successful delegation!`,
+          body: `You have successfully delegated your ${this.denom}s`
+        })
+
+        this.close()
+      } catch ({ message }) {
+        this.sending = false
+        this.submissionError = `Submitting proposal failed: ${message}.`
+
+        setTimeout(() => {
+          this.submissionError = null
+        }, 5000)
+      }
+    },
+    async submitRedelegation() {
+      const validatorSrc = this.delegates.delegates.find(
+        v => this.from === v.operator_address
+      )
+      try {
+        await this.$store.dispatch(`submitRedelegation`, {
+          validatorSrc,
+          validatorDst: this.validator,
+          amount: String(this.amount),
+          password: this.password
+        })
+
+        this.$store.commit(`notify`, {
+          title: `Successful redelegation!`,
+          body: `You have successfully redelegated your ${this.denom}s`
+        })
+
+        this.close()
+      } catch ({ message }) {
+        this.sending = false
+        this.submissionError = `Submitting proposal failed: ${message}.`
+
+        setTimeout(() => {
+          this.submissionError = null
+        }, 5000)
+      }
+    },
     submitForm() {
-      this.$emit(`submitDelegation`, {
-        amount: this.amount,
-        from: this.fromOptions[this.selectedIndex].address,
-        password: this.password
-      })
-      this.close()
+      if (this.from === this.wallet.address) {
+        this.submitDelegation()
+      } else {
+        this.submitRedelegation()
+      }
     }
   },
   validations() {

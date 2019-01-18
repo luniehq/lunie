@@ -118,6 +118,11 @@
         value="Submit Proposal"
         @click.native="validateForm"
       />
+      <tm-form-msg
+        v-if="submissionError"
+        :msg="submissionError"
+        type="custom"
+      />
     </div>
   </action-modal>
 </template>
@@ -166,7 +171,8 @@ export default {
     type: `Text`,
     amount: 0,
     password: ``,
-    sending: false
+    sending: false,
+    submissionError: null
   }),
   computed: {
     ...mapGetters([`wallet`, `connected`]),
@@ -221,15 +227,34 @@ export default {
         this.sending = false
       }
     },
-    submitForm() {
-      this.$emit(`createProposal`, {
-        title: this.title,
-        description: this.description,
-        type: this.type,
-        amount: this.amount,
-        password: this.password
-      })
-      this.close()
+    async submitForm() {
+      try {
+        await this.$store.dispatch(`submitProposal`, {
+          title: this.title,
+          description: this.description,
+          type: this.type,
+          initial_deposit: [
+            {
+              denom: this.depositDenom,
+              amount: String(this.amount)
+            }
+          ],
+          password: this.password
+        })
+        this.$store.commit(`notify`, {
+          title: `Successful proposal submission!`,
+          body: `You have successfully submitted a new ${this.type.toLowerCase()} proposal`
+        })
+
+        this.close()
+      } catch ({ message }) {
+        this.sending = false
+        this.submissionError = `Submitting proposal failed: ${message}.`
+
+        setTimeout(() => {
+          this.submissionError = null
+        }, 5000)
+      }
     }
   }
 }

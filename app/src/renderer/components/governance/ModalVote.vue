@@ -64,10 +64,28 @@
     <tm-form-group class="action-modal-group">
       <div class="action-modal-footer">
         <tm-btn
+          v-if="sending"
+          value="Sending..."
+          disabled="disabled"
+          color="primary"
+        />
+        <tm-btn
+          v-else-if="!connected"
+          value="Connecting..."
+          disabled="disabled"
+          color="primary"
+        />
+        <tm-btn
+          v-else
           id="cast-vote"
           color="primary"
           value="Submit Vote"
           @click.native="validateForm"
+        />
+        <tm-form-msg
+          v-if="submissionError"
+          :msg="submissionError"
+          type="custom"
         />
       </div>
     </tm-form-group>
@@ -77,6 +95,7 @@
 <script>
 import ClickOutside from "vue-click-outside"
 import { required } from "vuelidate/lib/validators"
+import { mapGetters } from "vuex"
 import ActionModal from "common/ActionModal"
 import Modal from "common/TmModal"
 import TmBtn from "common/TmBtn"
@@ -120,7 +139,8 @@ export default {
   },
   data: () => ({
     password: ``,
-    vote: null
+    vote: null,
+    submissionError: null
   }),
   validations() {
     return {
@@ -132,6 +152,9 @@ export default {
         required
       }
     }
+  },
+  computed: {
+    ...mapGetters([`connected`])
   },
   methods: {
     close() {
@@ -147,9 +170,30 @@ export default {
         this.sending = false
       }
     },
-    submitForm() {
-      this.$emit(`castVote`, { option: this.vote, password: this.password })
-      this.close()
+    async submitForm() {
+      try {
+        await this.$store.dispatch(`submitVote`, {
+          proposal_id: this.proposalId,
+          option: this.vote,
+          password: this.password
+        })
+
+        this.$store.commit(`notify`, {
+          title: `Successful vote!`,
+          body: `You have successfully voted ${this.vote} on proposal #${
+            this.proposalId
+          }`
+        })
+
+        this.close()
+      } catch ({ message }) {
+        this.sending = false
+        this.submissionError = `Voting failed: ${message}.`
+
+        setTimeout(() => {
+          this.submissionError = null
+        }, 5000)
+      }
     }
   }
 }

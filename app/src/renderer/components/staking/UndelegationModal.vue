@@ -64,10 +64,28 @@
     </tm-form-group>
     <div class="action-modal-footer">
       <tm-btn
+        v-if="sending"
+        value="Sending..."
+        disabled="disabled"
+        color="primary"
+      />
+      <tm-btn
+        v-else-if="!connected"
+        value="Connecting..."
+        disabled="disabled"
+        color="primary"
+      />
+      <tm-btn
+        v-else
         id="submit-undelegation"
         color="primary"
         value="Submit Undelegation"
         @click.native="onUndelegate"
+      />
+      <tm-form-msg
+        v-if="submissionError"
+        :msg="submissionError"
+        type="custom"
       />
     </div>
   </action-modal>
@@ -75,6 +93,7 @@
 
 <script>
 import ClickOutside from "vue-click-outside"
+import { mapGetters } from "vuex"
 import { required, between, integer } from "vuelidate/lib/validators"
 import ActionModal from "common/ActionModal"
 import Modal from "common/TmModal"
@@ -109,6 +128,10 @@ export default {
       type: String,
       required: true
     },
+    validator: {
+      type: Object,
+      required: true
+    },
     denom: {
       type: String,
       required: true
@@ -118,8 +141,12 @@ export default {
     amount: 0,
     password: ``,
     selectedIndex: 0,
-    sending: false
+    sending: false,
+    submissionError: null
   }),
+  computed: {
+    ...mapGetters([`connected`])
+  },
   validations() {
     return {
       amount: {
@@ -146,12 +173,30 @@ export default {
         this.sending = false
       }
     },
-    submitForm() {
-      this.$emit(`submitUndelegation`, {
-        amount: this.amount,
-        password: this.password
-      })
-      this.close()
+    async submitForm() {
+      try {
+        await this.$store.dispatch(`submitUnbondingDelegation`, {
+          amount: -this.amount,
+          validator: this.validator,
+          password: this.password
+        })
+
+        this.$store.commit(`notify`, {
+          title: `Successful undelegation!`,
+          body: `You have successfully undelegated ${this.amount} ${
+            this.bondDenom
+          }s.`
+        })
+
+        this.close()
+      } catch ({ message }) {
+        this.sending = false
+        this.submissionError = `Undelegating failed: ${message}.`
+
+        setTimeout(() => {
+          this.submissionError = null
+        }, 5000)
+      }
     }
   }
 }

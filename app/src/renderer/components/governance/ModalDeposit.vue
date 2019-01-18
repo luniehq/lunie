@@ -5,7 +5,9 @@
     @close-action-modal="close"
   >
     <tm-form-group
-      :error="$v.amount.$invalid && (amount > 0 || balance === 0)"
+      :error="
+        $v.amount.$error && $v.amount.$invalid && (amount > 0 || balance === 0)
+      "
       class="action-modal-form-group"
       field-id="amount"
       field-label="Amount"
@@ -13,7 +15,9 @@
       <span class="input-suffix">{{ denom }}</span>
       <tm-field v-focus id="amount" v-model="amount" type="number" />
       <tm-form-msg
-        v-if="!$v.amount.between && amount > 0 && balance > 0"
+        v-if="
+          $v.amount.$error && !$v.amount.between && amount > 0 && balance > 0
+        "
         :max="$v.amount.$params.between.max"
         :min="$v.amount.$params.between.min"
         name="Amount"
@@ -38,14 +42,36 @@
         type="password"
         placeholder="Password"
       />
+      <tm-form-msg
+        v-if="$v.password.$error && !$v.password.required"
+        name="Password"
+        type="required"
+      />
     </tm-form-group>
     <div class="action-modal-footer">
       <tm-btn
+        v-if="sending"
+        value="Sending..."
+        disabled="disabled"
+        color="primary"
+      />
+      <tm-btn
+        v-else-if="!connected"
+        value="Connecting..."
+        disabled="disabled"
+        color="primary"
+      />
+      <tm-btn
+        v-else
         id="submit-deposit"
-        :disabled="$v.$invalid"
         color="primary"
         value="Submit Deposit"
         @click.native="onDeposit"
+      />
+      <tm-form-msg
+        v-if="submissionError"
+        :msg="submissionError"
+        type="custom"
       />
     </div>
   </action-modal>
@@ -93,10 +119,12 @@ export default {
   },
   data: () => ({
     amount: 0,
-    password: ``
+    password: ``,
+    sending: false,
+    submissionError: null
   }),
   computed: {
-    ...mapGetters([`wallet`]),
+    ...mapGetters([`wallet`, `connected`]),
     balance() {
       // TODO: refactor to get the selected coin when multicoin deposit is enabled
       if (!this.wallet.loading && !!this.wallet.balances.length) {
@@ -124,15 +152,41 @@ export default {
     close() {
       this.$emit(`update:showModalDeposit`, false)
     },
-    onDeposit() {
-      let amount = [
-        {
-          denom: this.denom,
-          amount: String(this.amount)
-        }
-      ]
-      this.$emit(`submitDeposit`, { amount, password: this.password })
-      this.close()
+    validateForm() {
+      this.sending = true
+      this.$v.$touch()
+
+      if (!this.$v.$invalid) {
+        this.submitForm()
+      } else {
+        this.sending = false
+      }
+    },
+    async submitForm() {
+      try {
+        // TODO: support multiple coins
+        await this.$store.dispatch(`submitDeposit`, {
+          proposal_id: this.proposalId,
+          amount: this.amount,
+          password: this.password
+        })
+
+        this.$store.commit(`notify`, {
+          title: `Successful deposit!`,
+          body: `You have successfully deposited your ${
+            this.depositDenom
+          }s on proposal #${this.proposalId}`
+        })
+
+        this.close()
+      } catch ({ message }) {
+        this.sending = false
+        this.submissionError = `Depositing failed: ${message}.`
+
+        setTimeout(() => {
+          this.submissionError = null
+        }, 5000)
+      }
     }
   }
 }
