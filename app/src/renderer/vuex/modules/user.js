@@ -63,7 +63,7 @@ export default ({}) => {
       // reload available accounts as the reconnect could be a result of a switch from a mocked connection with mocked accounts
       await dispatch(`loadAccounts`)
     },
-    async showInitialScreen({ state, commit, dispatch }) {
+    async showInitialScreen({ state, dispatch, commit }) {
       dispatch(`resetSessionData`)
       await dispatch(`loadAccounts`)
       let exists = state.accounts.length > 0

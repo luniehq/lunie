@@ -16,7 +16,7 @@ export default {
     },
     name: {
       type: String,
-      default: null
+      default: ``
     },
     min: {
       type: [String, Number], // for convenience you can provide a string
@@ -29,6 +29,10 @@ export default {
     length: {
       type: Number,
       default: null
+    },
+    msg: {
+      type: String,
+      default: ``
     }
   },
   computed: {
@@ -88,6 +92,9 @@ export default {
           break
         case `bech32`:
           msg = `is invalid bech32`
+          break
+        case `custom`:
+          msg = this.msg
           break
         default:
           msg = `must be valid`
