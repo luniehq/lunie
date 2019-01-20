@@ -20,7 +20,11 @@ describe(`ModalVote`, () => {
         proposalTitle: lcdClientMock.state.proposals[`1`].title
       }
     })
+
+    instance.store.state.connection.connected = true
     wrapper = instance.wrapper
+
+    wrapper.vm.$refs.actionModal.submit = jest.fn(cb => cb())
   })
 
   it(`has the expected html structure`, async () => {
@@ -114,19 +118,28 @@ describe(`ModalVote`, () => {
   })
 
   describe(`Vote`, () => {
-    it(`Vote button casts a vote and closes modal`, () => {
-      wrapper.setData({ vote: `Yes`, password: `1234567890` })
-      wrapper.vm.submitForm()
+    it(`submits a vote`, async () => {
+      wrapper.vm.$store.dispatch = jest.fn()
+      wrapper.vm.$store.commit = jest.fn()
 
-      expect(wrapper.emittedByOrder()).toEqual([
-        {
-          name: `castVote`,
-          args: [{ option: `Yes`, password: `1234567890` }]
-        },
-        {
-          name: `update:showModalVote`,
-          args: [false]
-        }
+      wrapper.setData({ vote: `Yes`, password: `1234567890` })
+      await wrapper.vm.submitForm()
+
+      expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
+        [
+          `submitVote`,
+          { option: `Yes`, proposal_id: `1`, password: `1234567890` }
+        ]
+      ])
+
+      expect(wrapper.vm.$store.commit.mock.calls).toEqual([
+        [
+          `notify`,
+          {
+            body: `You have successfully voted Yes on proposal #1`,
+            title: `Successful vote!`
+          }
+        ]
       ])
     })
   })

@@ -14,7 +14,7 @@ describe(`ModalPropose`, () => {
     password: `1234567890`
   }
 
-  beforeEach(() => {
+  beforeEach(async () => {
     const coins = [
       {
         amount: `20`,
@@ -31,6 +31,9 @@ describe(`ModalPropose`, () => {
     store = instance.store
     store.state.connection.connected = true
     store.commit(`setWalletBalances`, coins)
+
+    await wrapper.vm.$nextTick()
+    wrapper.vm.$refs.actionModal.submit = jest.fn(cb => cb())
   })
 
   describe(`component matches snapshot`, () => {
@@ -62,7 +65,7 @@ describe(`ModalPropose`, () => {
   })
 
   describe(`enables or disables 'Create Proposal' button correctly`, () => {
-    describe(`doesn not submit proposal`, () => {
+    describe(`does not submit proposal`, () => {
       it(`with the default values`, () => {
         wrapper.vm.submitForm = jest.fn()
         wrapper.vm.validateForm()
@@ -151,7 +154,7 @@ describe(`ModalPropose`, () => {
       })
     })
 
-    describe(`enables the 'Create Proposal' button`, () => {
+    describe(`submits a proposal`, () => {
       it(`if the user has enough balance and the fields are within the length ranges`, async () => {
         wrapper.setData(proposal)
         await wrapper.vm.$nextTick()
@@ -175,19 +178,34 @@ describe(`ModalPropose`, () => {
   })
 
   describe(`Propose`, () => {
-    it(`'Create Proposal' button submits a new proposal and closes modal`, () => {
-      wrapper.setData(proposal)
-      wrapper.vm.submitForm()
+    it(`submits a proposal`, async () => {
+      wrapper.vm.$store.dispatch = jest.fn()
+      wrapper.vm.$store.commit = jest.fn()
 
-      expect(wrapper.emittedByOrder()).toEqual([
-        {
-          name: `createProposal`,
-          args: [{ type: `Text`, ...proposal }]
-        },
-        {
-          name: `update:showModalPropose`,
-          args: [false]
-        }
+      wrapper.setData(proposal)
+      await wrapper.vm.submitForm()
+
+      expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
+        [
+          `submitProposal`,
+          {
+            description: `a valid description for the proposal`,
+            initial_deposit: [{ amount: `15`, denom: `stake` }],
+            title: `A new text proposal for Cosmos`,
+            type: `Text`,
+            password: `1234567890`
+          }
+        ]
+      ])
+
+      expect(wrapper.vm.$store.commit.mock.calls).toEqual([
+        [
+          `notify`,
+          {
+            body: `You have successfully submitted a new text proposal`,
+            title: `Successful proposal submission!`
+          }
+        ]
       ])
     })
   })

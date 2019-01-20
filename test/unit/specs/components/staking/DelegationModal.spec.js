@@ -17,6 +17,7 @@ describe(`DelegationModal`, () => {
     let instance = mount(DelegationModal, {
       localVue,
       propsData: {
+        validator: lcdClientMock.state.candidates[0],
         fromOptions: [
           {
             address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
@@ -25,7 +26,7 @@ describe(`DelegationModal`, () => {
             value: 0
           },
           {
-            address: `cosmos126ayk3hse5zvk9gxfmpsjr9565ef72pv9g20yx`,
+            address: lcdClientMock.state.candidates[0].operator_address,
             key: `Billy the Bill - cosmos…psjr9565ef72pv9g20yx`,
             maximum: 23.0484375481,
             value: 1
@@ -45,7 +46,11 @@ describe(`DelegationModal`, () => {
     store = instance.store
 
     store.state.connection.connected = true
+    store.state.wallet.address = `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+    store.state.delegates.delegates = lcdClientMock.state.candidates
     store.commit(`setStakingParameters`, stakingParameters.parameters)
+
+    wrapper.vm.$refs.actionModal.submit = jest.fn(cb => cb())
   })
 
   describe(`component matches snapshot`, () => {
@@ -56,8 +61,7 @@ describe(`DelegationModal`, () => {
 
   describe(`only submits on correct form`, () => {
     describe(`does not submit`, () => {
-      it(`with default values`, async () => {
-        await wrapper.vm.$nextTick()
+      it(`with default values`, () => {
         wrapper.vm.submitForm = jest.fn()
         wrapper.vm.validateForm()
         expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
@@ -65,32 +69,26 @@ describe(`DelegationModal`, () => {
 
       it(`if the user manually inputs a number greater than the balance`, async () => {
         wrapper.setData({ amount: 142, password: `1234567890` })
-
-        await wrapper.vm.$nextTick()
         wrapper.vm.submitForm = jest.fn()
         wrapper.vm.validateForm()
         expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
+
         await wrapper.vm.$nextTick()
         let errorMessage = wrapper.find(`input#amount + div`)
         expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
       })
 
-      it(`if the password field is empty`, async () => {
+      it(`if the password field is empty`, () => {
         wrapper.setData({ amount: 10, password: `` })
-
-        await wrapper.vm.$nextTick()
         wrapper.vm.submitForm = jest.fn()
         wrapper.vm.validateForm()
         expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
-        await wrapper.vm.$nextTick()
       })
     })
 
     describe(`submits`, () => {
-      it(`if the amount is positive and the user has enough balance`, async () => {
+      it(`if the amount is positive and the user has enough balance`, () => {
         wrapper.setData({ amount: 50, password: `1234567890` })
-
-        await wrapper.vm.$nextTick()
         wrapper.vm.submitForm = jest.fn()
         wrapper.vm.validateForm()
         expect(wrapper.vm.submitForm).toHaveBeenCalled()
@@ -99,25 +97,64 @@ describe(`DelegationModal`, () => {
   })
 
   describe(`(Re)delegate`, () => {
-    it(`Delegation button submits a (re)delegation and closes modal`, () => {
-      wrapper.setData({ amount: 50, password: `1234567890` })
-      wrapper.vm.validateForm()
+    it(`submits a delegation`, async () => {
+      wrapper.vm.$store.dispatch = jest.fn()
+      wrapper.vm.$store.commit = jest.fn()
 
-      expect(wrapper.emittedByOrder()).toEqual([
-        {
-          name: `submitDelegation`,
-          args: [
-            {
-              amount: 50,
-              from: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-              password: `1234567890`
-            }
-          ]
-        },
-        {
-          name: `update:showDelegationModal`,
-          args: [false]
-        }
+      wrapper.setData({ amount: 50, password: `1234567890` })
+      await wrapper.vm.submitForm()
+
+      expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
+        [
+          `submitDelegation`,
+          {
+            amount: `50`,
+            // validatorSrc: lcdClientMock.state.candidates[1],
+            // validatorDst: lcdClientMock.state.candidates[0],
+            validator_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+            password: `1234567890`
+          }
+        ]
+      ])
+
+      expect(wrapper.vm.$store.commit.mock.calls).toEqual([
+        [
+          `notify`,
+          {
+            body: `You have successfully delegated your STAKEs`,
+            title: `Successful delegation!`
+          }
+        ]
+      ])
+    })
+
+    it(`submits a redelegation`, async () => {
+      wrapper.vm.$store.dispatch = jest.fn()
+      wrapper.vm.$store.commit = jest.fn()
+
+      wrapper.setData({ amount: 50, password: `1234567890`, selectedIndex: 1 })
+      await wrapper.vm.submitForm()
+
+      expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
+        [
+          `submitRedelegation`,
+          {
+            amount: `50`,
+            validatorSrc: lcdClientMock.state.candidates[0],
+            validatorDst: lcdClientMock.state.candidates[0],
+            password: `1234567890`
+          }
+        ]
+      ])
+
+      expect(wrapper.vm.$store.commit.mock.calls).toEqual([
+        [
+          `notify`,
+          {
+            body: `You have successfully redelegated your STAKEs`,
+            title: `Successful redelegation!`
+          }
+        ]
       ])
     })
   })

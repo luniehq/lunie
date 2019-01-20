@@ -147,7 +147,7 @@ export default {
     sending: false
   }),
   computed: {
-    ...mapGetters([`wallet`, `connected`]),
+    ...mapGetters([`wallet`, `connected`, `delegates`]),
     from() {
       return this.fromOptions[this.selectedIndex].address
     }

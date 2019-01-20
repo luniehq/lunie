@@ -1,9 +1,5 @@
 <template>
-  <action-modal
-    :submission-error="submissionError"
-    title="Send"
-    @close-action-modal="close"
-  >
+  <action-modal title="Send" @close-action-modal="close">
     <tm-form-group
       :error="$v.fields.denom.$dirty && $v.fields.denom.$invalid"
       field-id="send-denomination"
@@ -139,7 +135,6 @@
         @click.native="validateForm"
       />
     </div>
-    <tm-form-msg v-if="submissionError" :msg="submissionError" type="custom" />
   </action-modal>
 </template>
 
@@ -190,8 +185,7 @@ export default {
       denom: ``,
       password: ``
     },
-    sending: false,
-    submissionError: ``
+    sending: false
   }),
   computed: {
     ...mapGetters([`wallet`, `connected`]),
@@ -239,7 +233,7 @@ export default {
       const denom = this.fields.denom
       const type = `send`
 
-      try {
+      await this.$refs.actionModal.submit(async () => {
         await this.sendTx({
           type,
           password: this.fields.password,
@@ -251,17 +245,7 @@ export default {
           title: `Successfully Sent`,
           body: `Successfully sent ${amount} ${denom} to ${address}`
         })
-
-        this.sending = false
-        this.resetForm()
-      } catch ({ message }) {
-        this.sending = false
-        this.submissionError = `Send failed: ${message}.`
-
-        setTimeout(() => {
-          this.submissionError = null
-        }, 5000)
-      }
+      }, `Sending tokens failed`)
     },
     bech32Validate(param) {
       try {

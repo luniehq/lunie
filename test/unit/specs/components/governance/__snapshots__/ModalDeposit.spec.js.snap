@@ -85,6 +85,8 @@ exports[`ModalDeposit component matches snapshot has the expected html structure
           placeholder="Password"
           type="password"
         />
+         
+        <!---->
       </div>
     </div>
      
@@ -93,7 +95,6 @@ exports[`ModalDeposit component matches snapshot has the expected html structure
     >
       <button
         class="tm-btn"
-        disabled="disabled"
         id="submit-deposit"
       >
         <span

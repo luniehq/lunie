@@ -149,34 +149,17 @@ describe(`SendModal`, () => {
       },
       $store,
       sendTx: () => Promise.resolve(),
-      resetForm: jest.fn()
+      resetForm: jest.fn(),
+      $refs: {
+        actionModal: {
+          submit: cb => cb()
+        }
+      }
     }
     await SendModal.methods.submitForm.call(self)
 
     expect($store.commit).toHaveBeenCalledWith(`notify`, expect.any(Object))
     expect(self.submissionError).toBeFalsy()
-  })
-
-  it(`should show notification for unsuccessful send`, async () => {
-    let $store = {
-      commit: jest.fn(),
-      dispatch: jest.fn()
-    }
-
-    let self = {
-      fields: {
-        denom: `notmycoin`,
-        address,
-        amount: 2,
-        password: `1234567890`
-      },
-      $store,
-      sendTx: () => Promise.reject(new Error(`Expected`))
-    }
-    await SendModal.methods.submitForm.call(self)
-
-    expect($store.commit).not.toHaveBeenCalled()
-    expect(self.submissionError).toBe(`Send failed: Expected.`)
   })
 
   it(`validates bech32 addresses`, () => {
