@@ -25,21 +25,24 @@ let store
 let node
 let router
 
-// Sentry is used for automatic error reporting. It is turned off by default.
-Sentry.init({})
+if (process.env.NODE_ENV === `production`) {
+  // Sentry is used for automatic error reporting. It is turned off by default.
+  Sentry.init({})
 
-// this will pass the state to Sentry when errors are sent.
-Sentry.configureScope(scope => {
-  scope.setExtra(Store.state)
-})
+  // this will pass the state to Sentry when errors are sent.
+  // this would also sent passwords...
+  // Sentry.configureScope(scope => {
+  //   scope.setExtra(_Store.state)
+  // })
 
-// handle uncaught errors
-window.addEventListener(`unhandledrejection`, function(event) {
-  Sentry.captureException(event.reason)
-})
-window.addEventListener(`error`, function(event) {
-  Sentry.captureException(event.reason)
-})
+  // handle uncaught errors
+  window.addEventListener(`unhandledrejection`, function(event) {
+    Sentry.captureException(event.reason)
+  })
+  window.addEventListener(`error`, function(event) {
+    Sentry.captureException(event.reason)
+  })
+}
 
 Vue.config.errorHandler = (error, vm, info) => {
   console.error(`An error has occurred: ${error}
