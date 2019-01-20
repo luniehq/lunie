@@ -1,4 +1,5 @@
 import * as Sentry from "@sentry/browser"
+import Vue from "vue"
 // for now importing the fixed genesis for the network from the config.json
 import network from "../../../network.js"
 
@@ -20,18 +21,14 @@ export default ({ node }) => {
       state.loading = false
     },
     updateWalletBalance(state, balance) {
-      let updated = false
-      state.balances = state.balances.map(oldBalance => {
-        if (oldBalance.denom === balance.denom) {
-          updated = true
-          return balance
-        }
-        return oldBalance
-      })
-
-      if (!updated) {
+      const findBalanceIndex = state.balances.findIndex(
+        ({ denom }) => balance.denom === denom
+      )
+      if (findBalanceIndex === -1) {
         state.balances.push(balance)
+        return
       }
+      Vue.set(state.balances, findBalanceIndex, balance)
     },
     setWalletAddress(state, address) {
       state.address = address
