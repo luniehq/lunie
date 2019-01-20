@@ -86,7 +86,7 @@ test(`delegation`, async function(t) {
       .setValue(`#amount`, 10)
       .setValue(`#password`, `1234567890`)
       .click(
-        `//*[@id = 'delegation-modal']//button//*[normalize-space() = 'Confirm Delegation']`
+        `//*[@id = 'delegation-modal']//button//*[normalize-space() = 'Submit Delegation']`
       )
       .waitForVisible(
         `//*[. = 'You have successfully delegated your STAKEs']`,

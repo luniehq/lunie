@@ -209,14 +209,6 @@ export default {
     close() {
       this.$emit(`update:showSendModal`, false)
     },
-    resetForm() {
-      this.fields.address = ``
-      this.fields.amount = null
-      this.fields.password = ``
-      this.sending = false
-      this.submissionError = ``
-      this.$v.$reset()
-    },
     validateForm() {
       this.sending = true
       this.$v.$touch()

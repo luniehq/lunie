@@ -156,12 +156,6 @@ export default {
     close() {
       this.$emit(`update:showDelegationModal`, false)
     },
-    resetForm() {
-      this.amount = null
-      this.password = ``
-      this.sending = false
-      this.$v.$reset()
-    },
     async validateForm() {
       this.$v.$touch()
 

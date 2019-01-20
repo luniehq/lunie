@@ -39,8 +39,6 @@ export default {
       let value = `tm-form-msg sm`
       if (this.type) {
         value += ` tm-form-msg--error`
-      } else {
-        value += ` tm-form-msg--desc`
       }
       return value
     },

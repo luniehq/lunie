@@ -149,7 +149,6 @@ describe(`SendModal`, () => {
       },
       $store,
       sendTx: () => Promise.resolve(),
-      resetForm: jest.fn(),
       $refs: {
         actionModal: {
           submit: cb => cb()
