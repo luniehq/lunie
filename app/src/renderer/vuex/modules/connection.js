@@ -43,11 +43,21 @@ export default function({ node }) {
       if (rootState.user.signedIn)
         await dispatch(`maybeUpdateValidators`, header)
     },
-    async reconnect({ state, commit }) {
+    async connect({ state, commit, dispatch }) {
       if (state.stopConnecting) return
 
       commit(`setConnected`, false)
-      node.rpcConnect(config.node_rpc)
+      try {
+        await node.rpcConnect(config.node_rpc)
+        commit(`setConnected`, true)
+        dispatch(`rpcSubscribe`)
+        dispatch(`subscribeToBlocks`)
+      } catch (err) {
+        console.log(`Failed reconnect attempt`)
+        setTimeout(() => {
+          dispatch(`connect`)
+        }, 1000)
+      }
     },
     async rpcSubscribe({ commit, dispatch }) {
       if (state.stopConnecting) return
@@ -57,7 +67,7 @@ export default function({ node }) {
       // we handle the reconnection here so we can attach all these listeners on reconnect
       if (!node.rpcInfo.connected) {
         await sleep(500)
-        dispatch(`reconnect`)
+        dispatch(`connect`)
         return
       }
 
@@ -66,9 +76,12 @@ export default function({ node }) {
 
       // TODO: get event from light-client websocket instead of RPC connection (once that exists)
       node.rpc.on(`error`, error => {
-        if (error.message.indexOf(`disconnected`) !== -1) {
+        if (
+          error instanceof Event || // this is always a disconnect, strange that it is 2 different types
+          error.message.indexOf(`disconnected`) !== -1
+        ) {
           commit(`setConnected`, false)
-          dispatch(`reconnect`)
+          dispatch(`connect`)
         }
       })
       node.rpc.status().then(status => {
@@ -105,24 +118,24 @@ export default function({ node }) {
       state.nodeHaltedTimeout = undefined
       commit(`setModalNodeHalted`, true)
     },
-    pollRPCConnection({ state, dispatch }, timeout = config.block_timeout) {
-      if (state.nodeTimeout || state.stopConnecting) return
+    async pollRPCConnection(
+      { state, dispatch },
+      timeout = config.block_timeout
+    ) {
+      if (state.stopConnecting) return
 
-      state.nodeTimeout = setTimeout(() => {
-        // clear timeout doesn't work
-        if (state.nodeTimeout && !state.mocked) {
-          state.connected = false
-          state.nodeTimeout = null
-          dispatch(`pollRPCConnection`)
-        }
+      try {
+        await state.node.rpc.health()
+      } catch (err) {
+        console.error(`Error pinging websocket. Assuming connection dropped.`)
+        state.connected = false
+        dispatch(`connect`)
+        return
+      }
+
+      setTimeout(() => {
+        dispatch(`pollRPCConnection`)
       }, timeout)
-      node.rpc.status().then(() => {
-        state.nodeTimeout = null
-        state.connected = true
-        setTimeout(() => {
-          dispatch(`pollRPCConnection`)
-        }, timeout)
-      })
     }
   }
 

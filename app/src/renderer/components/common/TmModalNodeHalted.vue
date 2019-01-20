@@ -31,7 +31,7 @@ export default {
   components: { TmBtn },
   methods: {
     switchNode() {
-      this.$store.dispatch(`reconnect`)
+      this.$store.dispatch(`connect`)
       this.$store.commit(`setModalNodeHalted`, false)
     }
   }
