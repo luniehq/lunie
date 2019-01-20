@@ -1,7 +1,7 @@
 <template>
   <action-modal
     id="delegation-modal"
-    :submission-error="submissionError"
+    ref="actionModal"
     title="Delegate"
     class="delegation-modal"
     @close-action-modal="close"
@@ -94,11 +94,6 @@
         color="primary"
         @click.native="validateForm"
       />
-      <tm-form-msg
-        v-if="submissionError"
-        :msg="submissionError"
-        type="custom"
-      />
     </div>
   </action-modal>
 </template>
@@ -149,7 +144,6 @@ export default {
     amount: ``,
     password: ``,
     selectedIndex: 0,
-    submissionError: null,
     sending: false
   }),
   computed: {
@@ -166,21 +160,17 @@ export default {
       this.amount = null
       this.password = ``
       this.sending = false
-      this.submissionError = ``
       this.$v.$reset()
     },
-    validateForm() {
-      this.sending = true
+    async validateForm() {
       this.$v.$touch()
 
       if (!this.$v.$invalid) {
-        this.submitForm()
-      } else {
-        this.sending = false
+        await this.submitForm()
       }
     },
     async submitDelegation() {
-      try {
+      await this.$refs.actionModal.submit(async () => {
         await this.$store.dispatch(`submitDelegation`, {
           validator_addr: this.validator.operator_address,
           amount: String(this.amount),
@@ -191,22 +181,13 @@ export default {
           title: `Successful delegation!`,
           body: `You have successfully delegated your ${this.denom}s`
         })
-
-        this.close()
-      } catch ({ message }) {
-        this.sending = false
-        this.submissionError = `Submitting proposal failed: ${message}.`
-
-        setTimeout(() => {
-          this.submissionError = null
-        }, 5000)
-      }
+      }, `Submitting proposal failed`)
     },
     async submitRedelegation() {
-      const validatorSrc = this.delegates.delegates.find(
-        v => this.from === v.operator_address
-      )
-      try {
+      await this.$refs.actionModal.submit(async () => {
+        const validatorSrc = this.delegates.delegates.find(
+          v => this.from === v.operator_address
+        )
         await this.$store.dispatch(`submitRedelegation`, {
           validatorSrc,
           validatorDst: this.validator,
@@ -218,23 +199,18 @@ export default {
           title: `Successful redelegation!`,
           body: `You have successfully redelegated your ${this.denom}s`
         })
-
-        this.close()
-      } catch ({ message }) {
-        this.sending = false
-        this.submissionError = `Submitting proposal failed: ${message}.`
-
-        setTimeout(() => {
-          this.submissionError = null
-        }, 5000)
-      }
+      }, `Submitting proposal failed`)
     },
-    submitForm() {
+    async submitForm() {
+      this.sending = true
+
       if (this.from === this.wallet.address) {
-        this.submitDelegation()
+        await this.submitDelegation()
       } else {
-        this.submitRedelegation()
+        await this.submitRedelegation()
       }
+
+      this.sending = false
     }
   },
   validations() {

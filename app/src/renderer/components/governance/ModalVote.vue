@@ -1,5 +1,10 @@
 <template>
-  <action-modal title="Vote" class="modal-vote" @close-action-modal="close">
+  <action-modal
+    ref="actionModal"
+    title="Vote"
+    class="modal-vote"
+    @close-action-modal="close"
+  >
     <tm-form-group class="action-modal-group vote-options">
       <tm-btn
         id="vote-yes"
@@ -82,11 +87,6 @@
           value="Submit Vote"
           @click.native="validateForm"
         />
-        <tm-form-msg
-          v-if="submissionError"
-          :msg="submissionError"
-          type="custom"
-        />
       </div>
     </tm-form-group>
   </action-modal>
@@ -140,7 +140,7 @@ export default {
   data: () => ({
     password: ``,
     vote: null,
-    submissionError: null
+    sending: false
   }),
   validations() {
     return {
@@ -161,17 +161,16 @@ export default {
       this.$emit(`update:showModalVote`, false)
     },
     validateForm() {
-      this.sending = true
       this.$v.$touch()
 
       if (!this.$v.$invalid) {
         this.submitForm()
-      } else {
-        this.sending = false
       }
     },
     async submitForm() {
-      try {
+      this.sending = true
+
+      await this.$refs.actionModal.submit(async () => {
         await this.$store.dispatch(`submitVote`, {
           proposal_id: this.proposalId,
           option: this.vote,
@@ -184,16 +183,9 @@ export default {
             this.proposalId
           }`
         })
+      }, `Voting failed`)
 
-        this.close()
-      } catch ({ message }) {
-        this.sending = false
-        this.submissionError = `Voting failed: ${message}.`
-
-        setTimeout(() => {
-          this.submissionError = null
-        }, 5000)
-      }
+      this.sending = false
     }
   }
 }

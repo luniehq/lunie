@@ -1,5 +1,5 @@
 <template>
-  <action-modal title="Proposal" @close-action-modal="close">
+  <action-modal ref="actionModal" title="Proposal" @close-action-modal="close">
     <tm-form-group
       :error="$v.title.$error && $v.title.$invalid"
       class="action-modal-form-group"
@@ -118,11 +118,6 @@
         value="Submit Proposal"
         @click.native="validateForm"
       />
-      <tm-form-msg
-        v-if="submissionError"
-        :msg="submissionError"
-        type="custom"
-      />
     </div>
   </action-modal>
 </template>
@@ -171,8 +166,7 @@ export default {
     type: `Text`,
     amount: 0,
     password: ``,
-    sending: false,
-    submissionError: null
+    sending: false
   }),
   computed: {
     ...mapGetters([`wallet`, `connected`]),
@@ -206,7 +200,7 @@ export default {
       },
       amount: {
         required,
-        between: x => x > 1 && x <= this.balance
+        between: x => x >= 1 && x <= this.balance
       },
       password: {
         required
@@ -218,24 +212,23 @@ export default {
       this.$emit(`update:showModalPropose`, false)
     },
     validateForm() {
-      this.sending = true
       this.$v.$touch()
 
       if (!this.$v.$invalid) {
         this.submitForm()
-      } else {
-        this.sending = false
       }
     },
     async submitForm() {
-      try {
+      this.sending = true
+
+      await this.$refs.actionModal.submit(async () => {
         await this.$store.dispatch(`submitProposal`, {
           title: this.title,
           description: this.description,
           type: this.type,
           initial_deposit: [
             {
-              denom: this.depositDenom,
+              denom: this.denom,
               amount: String(this.amount)
             }
           ],
@@ -245,16 +238,9 @@ export default {
           title: `Successful proposal submission!`,
           body: `You have successfully submitted a new ${this.type.toLowerCase()} proposal`
         })
+      }, `Submitting proposal failed`)
 
-        this.close()
-      } catch ({ message }) {
-        this.sending = false
-        this.submissionError = `Submitting proposal failed: ${message}.`
-
-        setTimeout(() => {
-          this.submissionError = null
-        }, 5000)
-      }
+      this.sending = false
     }
   }
 }

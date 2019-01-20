@@ -1,6 +1,7 @@
 <template>
   <action-modal
     id="undelegation-modal"
+    ref="actionModal"
     title="Undelegation"
     class="undelegation-modal"
     @close-action-modal="close"
@@ -80,12 +81,7 @@
         id="submit-undelegation"
         color="primary"
         value="Submit Undelegation"
-        @click.native="onUndelegate"
-      />
-      <tm-form-msg
-        v-if="submissionError"
-        :msg="submissionError"
-        type="custom"
+        @click.native="validateForm"
       />
     </div>
   </action-modal>
@@ -141,8 +137,7 @@ export default {
     amount: 0,
     password: ``,
     selectedIndex: 0,
-    sending: false,
-    submissionError: null
+    sending: false
   }),
   computed: {
     ...mapGetters([`connected`])
@@ -163,18 +158,17 @@ export default {
     close() {
       this.$emit(`update:showUndelegationModal`, false)
     },
-    validateForm() {
-      this.sending = true
+    async validateForm() {
       this.$v.$touch()
 
       if (!this.$v.$invalid) {
-        this.submitForm()
-      } else {
-        this.sending = false
+        await this.submitForm()
       }
     },
     async submitForm() {
-      try {
+      this.sending = true
+
+      await this.$refs.actionModal.submit(async () => {
         await this.$store.dispatch(`submitUnbondingDelegation`, {
           amount: -this.amount,
           validator: this.validator,
@@ -187,16 +181,9 @@ export default {
             this.bondDenom
           }s.`
         })
+      }, `Undelegating failed`)
 
-        this.close()
-      } catch ({ message }) {
-        this.sending = false
-        this.submissionError = `Undelegating failed: ${message}.`
-
-        setTimeout(() => {
-          this.submissionError = null
-        }, 5000)
-      }
+      this.sending = false
     }
   }
 }

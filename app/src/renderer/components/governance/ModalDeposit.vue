@@ -1,5 +1,6 @@
 <template>
   <action-modal
+    ref="actionModal"
     title="Deposit"
     class="modal-deposit"
     @close-action-modal="close"
@@ -66,12 +67,7 @@
         id="submit-deposit"
         color="primary"
         value="Submit Deposit"
-        @click.native="onDeposit"
-      />
-      <tm-form-msg
-        v-if="submissionError"
-        :msg="submissionError"
-        type="custom"
+        @click.native="validateForm"
       />
     </div>
   </action-modal>
@@ -120,8 +116,7 @@ export default {
   data: () => ({
     amount: 0,
     password: ``,
-    sending: false,
-    submissionError: null
+    sending: false
   }),
   computed: {
     ...mapGetters([`wallet`, `connected`]),
@@ -153,40 +148,37 @@ export default {
       this.$emit(`update:showModalDeposit`, false)
     },
     validateForm() {
-      this.sending = true
       this.$v.$touch()
 
       if (!this.$v.$invalid) {
         this.submitForm()
-      } else {
-        this.sending = false
       }
     },
     async submitForm() {
-      try {
+      this.sending = true
+
+      await this.$refs.actionModal.submit(async () => {
         // TODO: support multiple coins
         await this.$store.dispatch(`submitDeposit`, {
           proposal_id: this.proposalId,
-          amount: this.amount,
+          amount: [
+            {
+              amount: String(this.amount),
+              denom: this.denom
+            }
+          ],
           password: this.password
         })
 
         this.$store.commit(`notify`, {
           title: `Successful deposit!`,
           body: `You have successfully deposited your ${
-            this.depositDenom
+            this.denom
           }s on proposal #${this.proposalId}`
         })
+      }, `Depositing failed`)
 
-        this.close()
-      } catch ({ message }) {
-        this.sending = false
-        this.submissionError = `Depositing failed: ${message}.`
-
-        setTimeout(() => {
-          this.submissionError = null
-        }, 5000)
-      }
+      this.sending = false
     }
   }
 }

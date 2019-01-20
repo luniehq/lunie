@@ -1,66 +1,31 @@
 <template>
-  <transition name="slide-fade">
-    <div v-click-outside="close" class="action-modal">
-      <div class="action-modal-header">
-        <img
-          class="icon action-modal-atom"
-          src="~assets/images/cosmos-logo.png"
-        /><span class="action-modal-title">{{ title }}</span>
-        <div
-          id="closeBtn"
-          class="action-modal-icon action-modal-close"
-          @click="close"
-        >
-          <i class="material-icons">close</i>
-        </div>
-      </div>
-      <div class="action-modal-form"><slot></slot></div>
-      <div class="action-modal-footer">
-        <slot name="action-modal-footer"></slot>
-        <p
-          v-if="submissionError"
-          class="tm-form-msg sm tm-form-msg--error submission-error"
-        >
-          {{ submissionError }}
-        </p>
-      </div>
-    </div>
-  </transition>
+  <action-modal
+    :title="title"
+    :submission-error="submissionError"
+  ></action-modal>
 </template>
 
 <script>
-import ClickOutside from "vue-click-outside"
+import ActionModal from "./ActionModal"
 
 export default {
   name: `action-modal`,
-  directives: {
-    ClickOutside
+  components: {
+    ActionModal
   },
   props: {
     title: {
       type: String,
       required: true
+    },
+    submissionError: {
+      type: String,
+      default: undefined
     }
   },
-  data: () => ({
-    submissionError: null
-  }),
   methods: {
     close() {
       this.$emit(`close-action-modal`)
-    },
-    async submit(submitFn, submissionErrorPrefix = `Submitting data failed`) {
-      try {
-        await submitFn()
-
-        this.close()
-      } catch ({ message }) {
-        this.submissionError = `${submissionErrorPrefix}: ${message}.`
-
-        setTimeout(() => {
-          this.submissionError = null
-        }, 5000)
-      }
     }
   }
 }

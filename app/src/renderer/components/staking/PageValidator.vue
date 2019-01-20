@@ -168,7 +168,6 @@
         :to="validator.operator_address"
         :validator="validator"
         :denom="bondDenom"
-        @submitDelegation="submitDelegation"
       />
       <undelegation-modal
         v-if="showUndelegationModal"
@@ -176,6 +175,7 @@
         :maximum="myBond.toNumber()"
         :from-options="delegationTargetOptions()"
         :to="wallet.address"
+        :validator="validator"
         :denom="bondDenom"
       />
       <tm-modal v-if="showCannotModal" :close="closeCannotModal">
