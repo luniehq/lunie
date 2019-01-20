@@ -224,7 +224,7 @@ describe(`Module: Delegations`, () => {
         },
         state,
         dispatch,
-        commit: jest.fn()
+        commit: () => {}
       },
       { stakingTransactions }
     )
@@ -352,8 +352,9 @@ describe(`Module: Delegations`, () => {
       denom: `STAKE`,
       amount: 900
     })
-    expect(committedDelegates).toEqual({
-      [delegates[0].operator_address]: 110
+    expect(commit).toHaveBeenCalledWith(`setCommittedDelegation`, {
+      candidateId: delegates[0].operator_address,
+      value: 110
     })
   })
 

@@ -271,8 +271,8 @@ describe(`Module: Wallet`, () => {
       }
     ]
 
-    const commit = jest.fn()
     const dispatch = jest.fn()
+    const commit = jest.fn()
     await actions.sendCoins(
       {
         state,
@@ -294,33 +294,8 @@ describe(`Module: Wallet`, () => {
       to: `cosmos1xxx`,
       amount: [{ denom: `funcoin`, amount: `12` }]
     })
-  })
 
-  it(`should update the state optimistically when sending coins`, async () => {
-    state.balances = [
-      {
-        denom: `funcoin`,
-        amount: 1000
-      }
-    ]
-
-    const commit = jest.fn()
-    const dispatch = jest.fn()
-    await actions.sendCoins(
-      {
-        state,
-        rootState: mockRootState,
-        dispatch,
-        commit
-      },
-      {
-        receiver: `cosmos1xxx`,
-        amount: 12,
-        denom: `funcoin`,
-        password: `1234567890`
-      }
-    )
-
+    // should update the balance optimistically
     expect(commit).toHaveBeenCalledWith(`updateWalletBalance`, {
       denom: `funcoin`,
       amount: 988

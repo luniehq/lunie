@@ -171,11 +171,10 @@ export default ({ node }) => {
         amount: liquidAtoms - amount
       })
       // optimistically update the committed delegations
-      Vue.set(
-        state.committedDelegates,
-        validator_addr,
-        state.committedDelegates[validator_addr] + amount
-      )
+      commit(`setCommittedDelegation`, {
+        candidateId: validator_addr,
+        value: state.committedDelegates[validator_addr] + amount
+      })
 
       dispatch(`updateDelegates`)
     },
