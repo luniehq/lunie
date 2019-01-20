@@ -4,15 +4,7 @@ import PageGovernance from "renderer/components/governance/PageGovernance"
 import ModalPropose from "renderer/components/governance/ModalPropose"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
-const proposal = {
-  amount: 15,
-  title: `A new text proposal for Cosmos`,
-  description: `a valid description for the proposal`,
-  type: `Text`,
-  password: `1234567890`
-}
 const { governanceParameters, stakingParameters } = lcdClientMock.state
-const depositDenom = governanceParameters.deposit.min_deposit[0].denom
 
 describe(`PageGovernance`, () => {
   let wrapper, store

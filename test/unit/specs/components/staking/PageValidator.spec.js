@@ -1,4 +1,3 @@
-import Delegation from "renderer/vuex/modules/delegation"
 import DelegationModal from "staking/DelegationModal"
 import UndelegationModal from "staking/UndelegationModal"
 import TmModal from "common/TmModal"
