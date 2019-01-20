@@ -15,7 +15,6 @@ import routes from "./routes"
 import _Node from "./connectors/node"
 import _Store from "./vuex/store"
 import axios from "axios"
-import { sleep } from "./scripts/common"
 
 const _config = require(`../../src/config.json`)
 
