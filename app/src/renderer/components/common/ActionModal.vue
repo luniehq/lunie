@@ -14,9 +14,71 @@
           <i class="material-icons">close</i>
         </div>
       </div>
-      <div class="action-modal-form"><slot></slot></div>
+      <div class="action-modal-form">
+        <slot></slot>
+
+        <hr />
+
+        <tm-form-group
+          class="action-modal-form-group"
+          field-id="sign-method"
+          field-label="Signing Method"
+        >
+          <tm-field
+            id="sign-method"
+            v-model="selectedIndex"
+            :title="signMethods[selectedSignMethod].value"
+            :options="signMethods"
+            type="select"
+          />
+        </tm-form-group>
+
+        <tm-form-group
+          v-if="selectedSignMethod === `local`"
+          :error="$v.password.$error && $v.password.$invalid"
+          class="action-modal-group"
+          field-id="password"
+          field-label="Password"
+        >
+          <tm-field
+            id="password"
+            v-model="password"
+            type="password"
+            placeholder="Password"
+          />
+          <tm-form-msg
+            v-if="$v.password.$error && !$v.password.required"
+            name="Password"
+            type="required"
+          />
+        </tm-form-group>
+      </div>
       <div class="action-modal-footer">
-        <slot name="action-modal-footer"></slot>
+        <slot name="action-modal-footer">
+          <tm-form-group class="action-modal-group">
+            <div class="action-modal-footer">
+              <tm-btn
+                v-if="sending"
+                value="Sending..."
+                disabled="disabled"
+                color="primary"
+              />
+              <tm-btn
+                v-else-if="!connected"
+                value="Connecting..."
+                disabled="disabled"
+                color="primary"
+              />
+              <tm-btn
+                v-else
+                id="cast-vote"
+                color="primary"
+                value="Submit Vote"
+                @click.native="validateForm"
+              />
+            </div>
+          </tm-form-group>
+        </slot>
         <p
           v-if="submissionError"
           class="tm-form-msg sm tm-form-msg--error submission-error"
@@ -30,39 +92,103 @@
 
 <script>
 import ClickOutside from "vue-click-outside"
+import TmBtn from "common/TmBtn"
+import TmField from "common/TmField"
+import TmFormGroup from "common/TmFormGroup"
+import TmFormMsg from "common/TmFormMsg"
+import { mapGetters } from "vuex"
+import { requiredIf } from "vuelidate/lib/validators"
 
 export default {
   name: `action-modal`,
   directives: {
     ClickOutside
   },
+  components: {
+    TmBtn,
+    TmField,
+    TmFormGroup,
+    TmFormMsg
+  },
   props: {
     title: {
       type: String,
       required: true
+    },
+    submitFn: {
+      type: Function,
+      required: true
+    },
+    validate: {
+      type: Function,
+      required: true
+    },
+    submissionErrorPrefix: {
+      type: String,
+      default: `Submitting data failed`
     }
   },
   data: () => ({
-    submissionError: null
+    signMethod: null,
+    password: null,
+    selectedSignMethod: `ledger`,
+    signMethods: [
+      {
+        value: `(Unsafe) Local Account`,
+        key: `local`
+      },
+      {
+        value: `Ledger`,
+        key: `ledger`
+      },
+      {
+        value: `Cosmos Signer App`,
+        key: `signer-app`
+      }
+    ],
+    sending: false,
+    submissionError: null,
+    show: false
   }),
+  computed: {
+    ...mapGetters([`connected`])
+  },
   methods: {
-    close() {
-      this.$emit(`close-action-modal`)
+    open() {
+      this.show = true
     },
-    async submit(submitFn, submissionErrorPrefix = `Submitting data failed`) {
+    close() {
+      this.show = false
+    },
+    async validateForm() {
+      this.sending = true
+      this.$v.$touch()
+
+      let subFormValid = await this.validate()
+
+      if (!this.$v.$invalid && subFormValid) {
+        await this.submit()
+      } else {
+        this.sending = false
+      }
+    },
+    async submit() {
       try {
-        await submitFn()
+        await this.submitFn(this.selectedSignMethod, this.password)
 
         this.close()
       } catch ({ message }) {
-        this.submissionError = `${submissionErrorPrefix}: ${message}.`
+        this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
 
         setTimeout(() => {
           this.submissionError = null
         }, 5000)
       }
     }
-  }
+  },
+  validations: () => ({
+    password: requiredIf(() => this.selectedSignMethod === `local`)
+  })
 }
 </script>
 
