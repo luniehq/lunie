@@ -3,6 +3,7 @@
 exports[`LiCoin has the expected html structure 1`] = `
 <li
   class="li-coin"
+  id="li-coin--stake"
 >
   <div
     class="li-coin__icon"

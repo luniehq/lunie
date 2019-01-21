@@ -3,6 +3,7 @@
 exports[`ModalVote has the expected html structure 1`] = `
 <div
   class="action-modal modal-vote"
+  id="modal-vote"
   name="slide-fade"
 >
   <div
