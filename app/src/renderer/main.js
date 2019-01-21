@@ -25,6 +25,7 @@ let store
 let node
 let router
 
+/* istanbul ignore next */
 Vue.config.errorHandler = (error, vm, info) => {
   console.error(`An error has occurred: ${error}
 
@@ -37,6 +38,7 @@ Guru Meditation #${info}`)
   }
 }
 
+/* istanbul ignore next */
 Vue.config.warnHandler = (msg, vm, trace) => {
   console.warn(`A warning has occurred: ${msg}
 
@@ -53,6 +55,7 @@ Vue.use(Tooltip, { delay: 1 })
 Vue.use(Vuelidate)
 
 // directive to focus form fields
+/* istanbul ignore next */
 Vue.directive(`focus`, {
   inserted: function(el) {
     el.focus()
@@ -74,9 +77,11 @@ module.exports.main = async function main(env = process.env, Sentry = _Sentry) {
     // })
 
     // handle uncaught errors
+    /* istanbul ignore next */
     window.addEventListener(`unhandledrejection`, function(event) {
       Sentry.captureException(event.reason)
     })
+    /* istanbul ignore next */
     window.addEventListener(`error`, function(event) {
       Sentry.captureException(event.reason)
     })
