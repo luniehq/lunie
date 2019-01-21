@@ -2,7 +2,7 @@ import setup from "../../../helpers/vuex-setup"
 import ActionModal from "renderer/components/common/ActionModal"
 
 describe(`ActionModal`, () => {
-  let wrapper, store
+  let wrapper
   let instance = setup()
 
   beforeEach(() => {
@@ -12,7 +12,6 @@ describe(`ActionModal`, () => {
       }
     })
     wrapper = test.wrapper
-    store = test.store
 
     jest.useFakeTimers()
   })
@@ -51,7 +50,7 @@ describe(`ActionModal`, () => {
   it(`should set the submissionError if the function is rejected`, async () => {
     const submitFn = jest
       .fn()
-      .mockRejectedValue(new Error("some kind of error message"))
+      .mockRejectedValue(new Error(`some kind of error message`))
     await wrapper.vm.submit(submitFn)
 
     expect(wrapper.vm.submissionError).toEqual(
@@ -62,7 +61,7 @@ describe(`ActionModal`, () => {
   it(`should clear the submissionError after a timeout if the function is rejected`, async () => {
     const submitFn = jest
       .fn()
-      .mockRejectedValue(new Error("some kind of error message"))
+      .mockRejectedValue(new Error(`some kind of error message`))
     await wrapper.vm.submit(submitFn)
 
     expect(wrapper.vm.submissionError).toEqual(
