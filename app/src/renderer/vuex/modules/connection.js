@@ -123,7 +123,7 @@ export default function({ node }) {
       if (state.stopConnecting) return
 
       try {
-        // TODO replace with ping when we implement ws connection ourselves
+        // TODO: replace with ping when we implement ws connection ourselves
         await node.rpc.health()
       } catch (err) {
         console.error(`Error pinging websocket. Assuming connection dropped.`)
