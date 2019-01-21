@@ -39,9 +39,6 @@ describe(`App Start`, () => {
       node_rpc: `http://localhost:12344`
     })
 
-    expect(node.rpcConnect).toHaveBeenCalledWith(`http://localhost:12344`)
-    expect(store.dispatch).toHaveBeenCalledWith(`rpcSubscribe`)
-    expect(store.dispatch).toHaveBeenCalledWith(`subscribeToBlocks`)
-    expect(store.dispatch).toHaveBeenCalledWith(`showInitialScreen`)
+    expect(store.dispatch).toHaveBeenCalledWith(`connect`)
   })
 })

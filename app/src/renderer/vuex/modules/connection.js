@@ -7,7 +7,6 @@ export default function({ node }) {
   // get tendermint RPC client from basecoin client
 
   const state = {
-    node: null,
     stopConnecting: false,
     connected: false,
     lastHeader: {
@@ -15,7 +14,12 @@ export default function({ node }) {
       chain_id: ``
     },
     approvalRequired: null,
-    mocked: node.mocked
+    mocked: node.mocked,
+
+    externals: {
+      node,
+      config
+    }
   }
 
   const mutations = {
@@ -24,9 +28,6 @@ export default function({ node }) {
     },
     setConnected(state, connected) {
       state.connected = connected
-    },
-    setNode(state, node) {
-      state.node = node
     },
     setNodeApprovalRequired(state, hash) {
       state.approvalRequired = hash
@@ -44,6 +45,8 @@ export default function({ node }) {
         await dispatch(`maybeUpdateValidators`, header)
     },
     async connect({ state, commit, dispatch }) {
+      const { node, config } = state.externals
+
       if (state.stopConnecting) return
 
       commit(`setConnected`, false)
@@ -60,6 +63,7 @@ export default function({ node }) {
       }
     },
     async rpcSubscribe({ commit, dispatch }) {
+      const { node } = state.externals
       if (state.stopConnecting) return
 
       // the rpc socket can be closed before we can even attach a listener
@@ -72,7 +76,6 @@ export default function({ node }) {
       }
 
       commit(`setConnected`, true)
-      commit(`setNode`, node)
 
       // TODO: get event from light-client websocket instead of RPC connection (once that exists)
       node.rpc.on(`error`, error => {
@@ -119,16 +122,18 @@ export default function({ node }) {
       commit(`setModalNodeHalted`, true)
     },
     async pollRPCConnection(
-      { state, dispatch },
+      { state, dispatch, commit },
       timeout = config.block_timeout
     ) {
+      const { node } = state.externals
       if (state.stopConnecting) return
 
       try {
-        await state.node.rpc.health()
+        // TODO replace with ping when we implement ws connection ourselves
+        await node.rpc.health()
       } catch (err) {
         console.error(`Error pinging websocket. Assuming connection dropped.`)
-        state.connected = false
+        commit(`setConnected`, false)
         dispatch(`connect`)
         return
       }

@@ -16,6 +16,7 @@ describe(`Module: Connection`, () => {
         status: jest.fn(() =>
           Promise.resolve({ sync_info: {}, node_info: {} })
         ),
+        health: jest.fn(),
         subscribe: jest.fn()
       },
       rpcInfo: {
@@ -68,21 +69,9 @@ describe(`Module: Connection`, () => {
     expect(state.connected).toBe(true)
   })
 
-  it(`sets the connected node`, () => {
-    expect(state.node).toBe(null)
-    mutations.setNode(state, {
-      remoteLcdURL: `123.123.123.123`,
-      localLcdURL: `124.124.124.124`
-    })
-    expect(state.node).toEqual({
-      remoteLcdURL: `123.123.123.123`,
-      localLcdURL: `124.124.124.124`
-    })
-  })
-
   it(`triggers a reconnect`, () => {
     const commit = jest.fn()
-    actions.reconnect({ state, commit })
+    actions.connect({ state, commit })
 
     expect(commit).toHaveBeenCalledWith(`setConnected`, false)
     expect(node.rpcConnect).toHaveBeenCalled()
@@ -90,10 +79,10 @@ describe(`Module: Connection`, () => {
 
   it(`should not reconnect if stop reconnecting is set`, () => {
     const commit = jest.fn()
-    actions.reconnect({
-      state: {
+    actions.connect({
+      state: Object.assign({}, state, {
         stopConnecting: true
-      },
+      }),
       commit
     })
 
@@ -110,7 +99,7 @@ describe(`Module: Connection`, () => {
     actions.rpcSubscribe({ commit, dispatch })
 
     expect(commit).toHaveBeenCalledWith(`setConnected`, false)
-    expect(dispatch).toHaveBeenCalledWith(`reconnect`)
+    expect(dispatch).toHaveBeenCalledWith(`connect`)
   })
 
   it(`should not reconnect on errors that do not mean disconnection`, () => {
@@ -122,7 +111,7 @@ describe(`Module: Connection`, () => {
     actions.rpcSubscribe({ commit, dispatch })
 
     expect(commit).not.toHaveBeenCalledWith(`setConnected`, false)
-    expect(dispatch).not.toHaveBeenCalledWith(`reconnect`)
+    expect(dispatch).not.toHaveBeenCalledWith(`connect`)
   })
 
   it(`should set the initial status on subscription`, async () => {
@@ -172,36 +161,44 @@ describe(`Module: Connection`, () => {
     node.rpcInfo.connected = false
 
     const dispatch = jest.fn()
-    actions.rpcSubscribe({ commit: jest.fn(), dispatch }).then(() => {
-      expect(dispatch).toHaveBeenCalledWith(`reconnect`)
-      done()
-    })
+    actions
+      .rpcSubscribe({
+        state,
+        commit: jest.fn(),
+        dispatch
+      })
+      .then(() => {
+        expect(dispatch).toHaveBeenCalledWith(`connect`)
+        done()
+      })
     jest.runAllTimers()
   })
 
-  it(`should ping the node to check connection status`, () => {
-    actions.pollRPCConnection({ state, dispatch: jest.fn() })
-    expect(node.rpc.status).toHaveBeenCalled()
-    expect(state.nodeTimeout).toBeDefined()
-  })
-
-  it(`should continue polling the connection status`, () => {
+  it(`should continue polling the connection status`, async () => {
+    const dispatch = jest.fn()
     jest.useFakeTimers()
-    actions.pollRPCConnection({ state, dispatch: jest.fn() })
+    await actions.pollRPCConnection({ state, dispatch })
     jest.runOnlyPendingTimers()
-    expect(state.nodeTimeout).toBeDefined()
+    expect(dispatch).toHaveBeenCalledWith(`pollRPCConnection`)
   })
 
-  it(`should signal if the rpc connection times out`, () => {
+  it(`should signal if the rpc connection times out`, async () => {
+    jest.spyOn(console, `error`).mockImplementationOnce(() => {})
+    const dispatch = jest.fn()
+    const commit = jest.fn()
     jest.useFakeTimers()
-    actions.pollRPCConnection({ state, dispatch: jest.fn() }, 10)
+    await actions.pollRPCConnection({
+      state: Object.assign({}, state, {
+        externals: {
+          health: jest.fn().mockRejectedValueOnce(new Error(`expected`))
+        }
+      }),
+      commit,
+      dispatch
+    })
     jest.runOnlyPendingTimers()
-    expect(state.connected).toBe(false)
-  })
-
-  it(`should signal connected state if pinging rpc endpoint is successful`, async () => {
-    await actions.pollRPCConnection({ state, dispatch: jest.fn() }, 10)
-    expect(state.connected).toBe(true)
+    expect(commit).toHaveBeenCalledWith(`setConnected`, false)
+    expect(dispatch).toHaveBeenCalledWith(`connect`)
   })
 
   it(`should not subscribe if stopConnecting active`, () => {
