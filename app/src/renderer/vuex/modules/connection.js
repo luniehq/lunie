@@ -115,12 +115,6 @@ export default function({ node }) {
         }
       }, nodeHaltedTimeout) // default 30s
     },
-    nodeHasHalted({ commit }) {
-      console.log(`node has halted`)
-      clearTimeout(state.nodeHaltedTimeout)
-      state.nodeHaltedTimeout = undefined
-      commit(`setModalNodeHalted`, true)
-    },
     async pollRPCConnection(
       { state, dispatch, commit },
       timeout = config.block_timeout

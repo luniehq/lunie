@@ -226,17 +226,4 @@ describe(`Module: Connection`, () => {
     jest.runAllTimers()
     expect(dispatch).not.toHaveBeenCalledWith(`nodeHasHalted`)
   })
-
-  it(`should signal that a node has halted`, async () => {
-    jest.useFakeTimers()
-    let commit = jest.fn()
-    let timeout = setTimeout(() => {}, 100000)
-    state.nodeHaltedTimeout = timeout
-
-    actions.nodeHasHalted({ state, commit })
-
-    expect(state.nodeHaltedTimeout).not.toBeDefined()
-    expect(clearTimeout).toHaveBeenCalledWith(timeout)
-    expect(commit).toHaveBeenCalledWith(`setModalNodeHalted`, true)
-  })
 })
