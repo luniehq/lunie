@@ -82,6 +82,8 @@ jobs:
       - run:
           name: Audit
           command: |
+            set +e
+
             SUMMARY="$(yarn audit | grep Severity)"
             VULNERABILITIES=".*(High|Critical).*"
 
