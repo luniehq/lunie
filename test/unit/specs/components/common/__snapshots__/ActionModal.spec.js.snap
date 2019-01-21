@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ActionModal has the expected html structure 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+>
+  <div
+    class="action-modal-header"
+  >
+    <img
+      class="icon action-modal-atom"
+      src="~assets/images/cosmos-logo.png"
+    />
+    <span
+      class="action-modal-title"
+    >
+      Action Modal
+    </span>
+     
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons"
+      >
+        close
+      </i>
+    </div>
+  </div>
+   
+  <div
+    class="action-modal-form"
+  />
+   
+  <div
+    class="action-modal-footer"
+  >
+     
+    <!---->
+  </div>
+</div>
+`;
