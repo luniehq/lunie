@@ -9,7 +9,7 @@ import Electron from "vue-electron"
 import Router from "vue-router"
 import Tooltip from "vue-directive-tooltip"
 import Vuelidate from "vuelidate"
-import * as Sentry from "@sentry/browser"
+import * as _Sentry from "@sentry/browser"
 import { ipcRenderer, remote } from "electron"
 
 import App from "./App"
@@ -25,63 +25,63 @@ let store
 let node
 let router
 
-if (process.env.NODE_ENV === `production`) {
-  // Sentry is used for automatic error reporting. It is turned off by default.
-  Sentry.init({})
-
-  // this will pass the state to Sentry when errors are sent.
-  // this would also sent passwords...
-  // Sentry.configureScope(scope => {
-  //   scope.setExtra(_Store.state)
-  // })
-
-  // handle uncaught errors
-  window.addEventListener(`unhandledrejection`, function(event) {
-    Sentry.captureException(event.reason)
-  })
-  window.addEventListener(`error`, function(event) {
-    Sentry.captureException(event.reason)
-  })
-}
-
-Vue.config.errorHandler = (error, vm, info) => {
-  console.error(`An error has occurred: ${error}
-
-Guru Meditation #${info}`)
-
-  Sentry.captureException(error)
-
-  if (store.state.devMode) {
-    throw error
-  }
-}
-
-Vue.config.warnHandler = (msg, vm, trace) => {
-  console.warn(`A warning has occurred: ${msg}
-
-Guru Meditation #${trace}`)
-
-  if (store.state.devMode) {
-    throw new Error(msg)
-  }
-}
-
-Vue.use(Electron)
-Vue.use(Router)
-Vue.use(Tooltip, { delay: 1 })
-Vue.use(Vuelidate)
-
-// directive to focus form fields
-Vue.directive(`focus`, {
-  inserted: function(el) {
-    el.focus()
-  }
-})
-
 /**
  * Main method to boot the renderer. It act as Entrypoint
  */
-async function main() {
+module.exports.main = async function main(env = process.env, Sentry = _Sentry) {
+  if (env.NODE_ENV === `production`) {
+    // Sentry is used for automatic error reporting. It is turned off by default.
+    Sentry.init({})
+
+    // this will pass the state to Sentry when errors are sent.
+    // this would also sent passwords...
+    // Sentry.configureScope(scope => {
+    //   scope.setExtra(_Store.state)
+    // })
+
+    // handle uncaught errors
+    window.addEventListener(`unhandledrejection`, function(event) {
+      Sentry.captureException(event.reason)
+    })
+    window.addEventListener(`error`, function(event) {
+      Sentry.captureException(event.reason)
+    })
+  }
+
+  Vue.config.errorHandler = (error, vm, info) => {
+    console.error(`An error has occurred: ${error}
+  
+  Guru Meditation #${info}`)
+
+    Sentry.captureException(error)
+
+    if (store.state.devMode) {
+      throw error
+    }
+  }
+
+  Vue.config.warnHandler = (msg, vm, trace) => {
+    console.warn(`A warning has occurred: ${msg}
+  
+  Guru Meditation #${trace}`)
+
+    if (store.state.devMode) {
+      throw new Error(msg)
+    }
+  }
+
+  Vue.use(Electron)
+  Vue.use(Router)
+  Vue.use(Tooltip, { delay: 1 })
+  Vue.use(Vuelidate)
+
+  // directive to focus form fields
+  Vue.directive(`focus`, {
+    inserted: function(el) {
+      el.focus()
+    }
+  })
+
   let lcdPort = config.development ? config.lcd_port : config.lcd_port_prod
   let localLcdURL = `https://localhost:${lcdPort}`
   console.log(`Expecting lcd-server on port: ` + lcdPort)
@@ -148,7 +148,8 @@ async function main() {
   }).$mount(`#app`)
 }
 
-main()
+// run
+module.exports.main()
 
 // exporting this for testing
 module.exports.store = store
