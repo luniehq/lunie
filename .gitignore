@@ -20,3 +20,4 @@ server_dev.crt
 Cosmos_*
 app/networks/*
 app/package.json
+tasks

@@ -74,7 +74,7 @@
         placeholder="Password"
       />
     </tm-form-group>
-    <div class="action-modal-footer">
+    <div slot="action-modal-footer">
       <tm-btn
         v-if="sending"
         value="Sending..."

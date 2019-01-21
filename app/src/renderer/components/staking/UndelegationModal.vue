@@ -2,23 +2,16 @@
   <action-modal
     id="undelegation-modal"
     ref="actionModal"
-    title="Undelegation"
+    title="Undelegate"
     class="undelegation-modal"
     @close-action-modal="close"
   >
     <tm-form-group
-      v-if="fromOptions.length > 1"
       class="action-modal-form-group"
       field-id="from"
       field-label="From"
     >
-      <tm-field
-        id="from"
-        v-model="selectedIndex"
-        :title="fromOptions[selectedIndex].address"
-        :options="fromOptions"
-        type="select"
-      />
+      <tm-field id="from" v-model="validator.operator_address" readonly />
     </tm-form-group>
     <tm-form-group
       class="action-modal-form-group"
@@ -29,19 +22,37 @@
     </tm-form-group>
 
     <tm-form-group
-      :error="$v.amount.$error && $v.amount.$invalid"
+      :error="$v.amount.$dirty && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix">{{ denom }}</span>
-      <tm-field v-focus id="amount" v-model="amount" type="number" />
+      <span class="input-suffix">{{ bondDenom }}</span>
+      <tm-field
+        v-focus
+        id="amount"
+        :max="maximum"
+        :min="0"
+        v-model="$v.amount.$model"
+        type="number"
+        placeholder="Amount"
+      />
       <tm-form-msg
-        v-if="$v.amount.$error && !$v.amount.between && amount > 0"
+        v-if="$v.amount.$dirty && $v.amount.$invalid && !$v.amount.between"
         :max="$v.amount.$params.between.max"
         :min="$v.amount.$params.between.min"
         name="Amount"
         type="between"
+      />
+      <tm-form-msg
+        v-if="$v.amount.$dirty && $v.amount.$invalid && !$v.amount.required"
+        name="Amount"
+        type="required"
+      />
+      <tm-form-msg
+        v-else-if="$v.amount.$dirty && $v.amount.$invalid && !$v.amount.integer"
+        name="Amount"
+        type="integer"
       />
     </tm-form-group>
 
@@ -52,18 +63,12 @@
     >
       <tm-field
         id="password"
-        :error="$v.password.$error && $v.password.$invalid"
         v-model="password"
         type="password"
         placeholder="Password"
       />
-      <tm-form-msg
-        v-if="$v.password.$error && !$v.password.required"
-        name="Password"
-        type="required"
-      />
     </tm-form-group>
-    <div class="action-modal-footer">
+    <div slot="action-modal-footer">
       <tm-btn
         v-if="sending"
         value="Sending..."
@@ -79,8 +84,9 @@
       <tm-btn
         v-else
         id="submit-undelegation"
-        color="primary"
+        :disabled="$v.$invalid"
         value="Submit Undelegation"
+        color="primary"
         @click.native="validateForm"
       />
     </div>
@@ -134,13 +140,13 @@ export default {
     }
   },
   data: () => ({
-    amount: 0,
+    amount: ``,
     password: ``,
     selectedIndex: 0,
     sending: false
   }),
   computed: {
-    ...mapGetters([`connected`])
+    ...mapGetters([`connected`, `bondDenom`])
   },
   validations() {
     return {
@@ -181,7 +187,7 @@ export default {
             this.denom
           }s.`
         })
-      }, `Undelegating failed`)
+      }, `Undelegation failed`)
 
       this.sending = false
     }
