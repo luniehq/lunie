@@ -65,7 +65,7 @@ Vue.directive(`focus`, {
 /**
  * Main method to boot the renderer. It act as Entrypoint
  */
-module.exports.main = async function main(env = process.env, Sentry = _Sentry) {
+async function main(env = process.env, Sentry = _Sentry) {
   if (env.NODE_ENV === `production`) {
     // Sentry is used for automatic error reporting. It is turned off by default.
     Sentry.init({})
@@ -154,9 +154,10 @@ module.exports.main = async function main(env = process.env, Sentry = _Sentry) {
 }
 
 // run
-module.exports.main()
+main()
 
 // exporting this for testing
 module.exports.store = store
 module.exports.node = node
 module.exports.router = router
+module.exports.main = main
