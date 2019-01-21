@@ -44,9 +44,7 @@
         type="required"
       />
       <tm-form-msg
-        v-else-if="
-          fields.address.trim().length > 0 && !$v.fields.address.bech32Validate
-        "
+        v-else-if="!$v.fields.address.bech32Validate"
         :body="bech32error"
         name="Address"
         type="bech32"
@@ -60,6 +58,8 @@
     >
       <tm-field
         id="send-amount"
+        :max="max"
+        :min="max ? 1 : 0"
         v-model.number="$v.fields.amount.$model"
         type="number"
         placeholder="Amount"
@@ -74,14 +74,18 @@
         type="required"
       />
       <tm-form-msg
-        v-else-if="!$v.fields.amount.between"
+        v-if="!$v.fields.amount.between"
         :max="$v.fields.amount.$params.between.max"
         :min="$v.fields.amount.$params.between.min"
         name="Amount"
         type="between"
       />
       <tm-form-msg
-        v-else-if="!$v.fields.amount.integer"
+        v-else-if="
+          $v.fields.amount.$dirty &&
+            $v.fields.amount.$invalid &&
+            !$v.fields.amount.integer
+        "
         name="Amount"
         type="integer"
       />
@@ -116,14 +120,14 @@
     <div slot="action-modal-footer">
       <tm-btn
         v-if="sending"
-        value="Sending..."
         disabled="disabled"
+        value="Sending..."
         color="primary"
       />
       <tm-btn
         v-else-if="!connected"
-        value="Connecting..."
         disabled="disabled"
+        value="Connecting..."
         color="primary"
       />
       <tm-btn

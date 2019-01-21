@@ -1,5 +1,5 @@
 <template>
-  <li class="li-coin">
+  <li class="li-coin" :id="`li-coin--` + denomination.toLowerCase()">
     <div class="li-coin__icon">
       <img src="~assets/images/cosmos-logo.png" />
     </div>

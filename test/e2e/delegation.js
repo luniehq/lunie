@@ -99,7 +99,7 @@ test(`delegation`, async function(t) {
     console.log(`Testing total balance`)
     await waitForText(
       () => app.client.$(`.header-balance .total-atoms h2`),
-      `${parseInt(totalAtoms) - 10}.0000…`,
+      `${parseInt(totalAtoms)}.0000…`,
       10 * 1000
     )
     console.log(`Testing unbonded balance`)
@@ -137,7 +137,7 @@ test(`delegation`, async function(t) {
       .setValue(`#amount`, 5)
       .setValue(`#password`, `1234567890`)
       .click(
-        `//*[@id = 'undelegation-modal']//button//*[normalize-space() = 'Undelegate']`
+        `//*[@id = 'undelegation-modal']//button//*[normalize-space() = 'Submit Undelegation']`
       )
       .waitForVisible(
         `//*[. = 'You have successfully undelegated 5 STAKEs.']`,
