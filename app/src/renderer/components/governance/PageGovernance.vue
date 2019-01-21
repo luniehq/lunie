@@ -18,7 +18,6 @@
       v-if="showModalPropose"
       :show-modal-propose.sync="showModalPropose"
       :denom="depositDenom"
-      @createProposal="propose"
     />
     <router-view />
   </tm-page>
@@ -68,31 +67,6 @@ export default {
   methods: {
     onPropose() {
       this.showModalPropose = true
-    },
-    async propose({ title, description, type, amount, password }) {
-      try {
-        await this.$store.dispatch(`submitProposal`, {
-          title,
-          description,
-          type,
-          initial_deposit: [
-            {
-              denom: this.depositDenom,
-              amount: String(amount)
-            }
-          ],
-          password
-        })
-        this.$store.commit(`notify`, {
-          title: `Successful proposal submission!`,
-          body: `You have successfully submitted a new ${type.toLowerCase()} proposal`
-        })
-      } catch ({ message }) {
-        this.$store.commit(`notifyError`, {
-          title: `Error while submitting a new ${type.toLowerCase()} proposal`,
-          body: message
-        })
-      }
     }
   }
 }
