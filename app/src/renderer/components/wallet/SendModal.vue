@@ -1,5 +1,5 @@
 <template>
-  <action-modal title="Send" @close-action-modal="close">
+  <action-modal ref="actionModal" title="Send" @close-action-modal="close">
     <tm-form-group
       :error="$v.fields.denom.$dirty && $v.fields.denom.$invalid"
       field-id="send-denomination"
@@ -206,6 +206,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions([`sendTx`]),
     close() {
       this.$emit(`update:showSendModal`, false)
     },
@@ -238,6 +239,8 @@ export default {
           body: `Successfully sent ${amount} ${denom} to ${address}`
         })
       }, `Sending tokens failed`)
+
+      this.sending = false
     },
     bech32Validate(param) {
       try {
@@ -248,8 +251,7 @@ export default {
         this.bech32error = error.message
         return false
       }
-    },
-    ...mapActions([`sendTx`])
+    }
   },
   validations() {
     return {
