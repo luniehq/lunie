@@ -119,9 +119,6 @@ export default {
   },
   methods: {
     ...mapActions([`updateDelegates`, `queryWalletBalances`]),
-    updateBalances() {
-      this.queryWalletState()
-    },
     showModal(denomination) {
       this.showSendModal = true
       this.denomination = denomination
