@@ -84,7 +84,7 @@ jobs:
           command: |
             set +e
             SUMMARY="$(yarn audit | grep Severity)"
-            VULNERABILITIES=".*(High|Critical).*"
+            VULNERABILITIES=".*(High|Critical|Low).*"
 
             if [[ $SUMMARY =~ $VULNERABILITIES ]]; then
               echo "Unsafe dependencies found: $SUMMARY" >&2
