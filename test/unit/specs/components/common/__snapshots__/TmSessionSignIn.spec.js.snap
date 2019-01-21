@@ -52,6 +52,7 @@ exports[`TmSessionSignIn has the expected html structure 1`] = `
         />
          
         <tm-form-msg-stub
+          msg=""
           name="Name"
           type="required"
         />
@@ -68,6 +69,7 @@ exports[`TmSessionSignIn has the expected html structure 1`] = `
         />
          
         <tm-form-msg-stub
+          msg=""
           name="Password"
           type="required"
         />
