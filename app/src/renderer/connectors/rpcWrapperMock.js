@@ -23,7 +23,7 @@ const RpcClientMock = {
     cb(null, {
       block_metas: state.blockMetas.slice(minHeight)
     }),
-  status: cb =>
+  health: cb =>
     cb(null, {
       sync_info: {
         latest_block_height: 42
