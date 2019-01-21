@@ -25,6 +25,40 @@ let store
 let node
 let router
 
+Vue.config.errorHandler = (error, vm, info) => {
+  console.error(`An error has occurred: ${error}
+
+Guru Meditation #${info}`)
+
+  _Sentry.captureException(error)
+
+  if (store.state.devMode) {
+    throw error
+  }
+}
+
+Vue.config.warnHandler = (msg, vm, trace) => {
+  console.warn(`A warning has occurred: ${msg}
+
+Guru Meditation #${trace}`)
+
+  if (store.state.devMode) {
+    throw new Error(msg)
+  }
+}
+
+Vue.use(Electron)
+Vue.use(Router)
+Vue.use(Tooltip, { delay: 1 })
+Vue.use(Vuelidate)
+
+// directive to focus form fields
+Vue.directive(`focus`, {
+  inserted: function(el) {
+    el.focus()
+  }
+})
+
 /**
  * Main method to boot the renderer. It act as Entrypoint
  */
@@ -47,40 +81,6 @@ module.exports.main = async function main(env = process.env, Sentry = _Sentry) {
       Sentry.captureException(event.reason)
     })
   }
-
-  Vue.config.errorHandler = (error, vm, info) => {
-    console.error(`An error has occurred: ${error}
-  
-  Guru Meditation #${info}`)
-
-    Sentry.captureException(error)
-
-    if (store.state.devMode) {
-      throw error
-    }
-  }
-
-  Vue.config.warnHandler = (msg, vm, trace) => {
-    console.warn(`A warning has occurred: ${msg}
-  
-  Guru Meditation #${trace}`)
-
-    if (store.state.devMode) {
-      throw new Error(msg)
-    }
-  }
-
-  Vue.use(Electron)
-  Vue.use(Router)
-  Vue.use(Tooltip, { delay: 1 })
-  Vue.use(Vuelidate)
-
-  // directive to focus form fields
-  Vue.directive(`focus`, {
-    inserted: function(el) {
-      el.focus()
-    }
-  })
 
   let lcdPort = config.development ? config.lcd_port : config.lcd_port_prod
   let localLcdURL = `https://localhost:${lcdPort}`
