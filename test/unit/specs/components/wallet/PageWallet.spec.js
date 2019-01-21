@@ -1,5 +1,6 @@
 import setup from "../../../helpers/vuex-setup"
 import PageWallet from "renderer/components/wallet/PageWallet"
+import ModalSearch from "renderer/components/common/TmModalSearch"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 let { stakingParameters } = lcdClientMock.state
@@ -10,11 +11,6 @@ describe(`PageWallet`, () => {
 
   beforeEach(async () => {
     let instance = mount(PageWallet, {
-      stubs: {
-        "modal-search": true,
-        "tm-data-connecting": true,
-        "tm-data-loading": true
-      },
       doBefore: ({ store }) => {
         store.commit(`setConnected`, true)
         store.commit(`setSearchQuery`, [`balances`, ``])
@@ -57,15 +53,13 @@ describe(`PageWallet`, () => {
   })
 
   it(`should show the search on click`, () => {
-    wrapper.vm.setSearch(true)
-    expect(store.commit).toHaveBeenCalledWith(`setSearchVisible`, [
-      `balances`,
-      true
-    ])
+    expect(wrapper.find(`.tm-tool-bar a.search-button i`).exists()).toBeTruthy()
+    wrapper.vm.$el.querySelector(`.tm-tool-bar a.search-button i`).click()
+    expect(wrapper.contains(ModalSearch)).toEqual(true)
   })
 
   it(`should list the denoms that are available`, () => {
-    expect(wrapper.findAll(`.tm-li-balance`).length).toBe(3)
+    expect(wrapper.findAll(`.tm-li-balance`).length).toBe(4)
   })
 
   it(`should show the n/a message if there are no denoms`, async () => {
@@ -76,17 +70,6 @@ describe(`PageWallet`, () => {
   it(`should not show the n/a message if there are denoms`, () => {
     expect(wrapper.vm.allDenomBalances.length).not.toBe(0)
     expect(wrapper.vm.$el.querySelector(`#no-balances`)).toBe(null)
-  })
-
-  it(`should update 'somethingToSearch' when there's nothing to search`, async () => {
-    expect(wrapper.vm.somethingToSearch).toBe(true)
-    store.commit(`setWalletBalances`, [])
-    expect(wrapper.vm.somethingToSearch).toBe(false)
-  })
-
-  it(`should not show search when there's nothing to search`, async () => {
-    store.commit(`setWalletBalances`, [])
-    expect(wrapper.vm.setSearch()).toEqual(false)
   })
 
   it(`should show a message when still connecting`, () => {

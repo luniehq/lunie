@@ -1,9 +1,5 @@
 <template>
-  <tm-page data-title="Send">
-    <template slot="menu-body">
-      <tm-balance />
-      <tool-bar />
-    </template>
+  <tm-page title="Send">
     <tm-form-struct :submit="onSubmit">
       <tm-part title="Denomination Options">
         <tm-form-group

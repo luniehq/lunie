@@ -91,35 +91,7 @@ exports[`PageStaking has the expected html structure 1`] = `
              
             <div
               class="tabs"
-            >
-              <div
-                class="tab"
-              >
-                <router-link-stub
-                  to="[object Object]"
-                >
-                  My Delegations
-                </router-link-stub>
-              </div>
-              <div
-                class="tab"
-              >
-                <router-link-stub
-                  to="[object Object]"
-                >
-                  Validators
-                </router-link-stub>
-              </div>
-              <div
-                class="tab"
-              >
-                <router-link-stub
-                  to="[object Object]"
-                >
-                  Parameters
-                </router-link-stub>
-              </div>
-            </div>
+            />
              
           </div>
            
@@ -137,20 +109,18 @@ exports[`PageStaking has the expected html structure 1`] = `
               </i>
             </a>
              
-            <a>
+            <a
+              class="refresh-button"
+            >
               <i
                 class="material-icons"
               >
                 refresh
               </i>
             </a>
-            <a>
-              <i
-                class="search material-icons"
-              >
-                search
-              </i>
-            </a>
+             
+            <!---->
+              
             <a
               class="help"
             >
@@ -171,6 +141,7 @@ exports[`PageStaking has the expected html structure 1`] = `
                 settings
               </i>
             </router-link-stub>
+             
             <a
               id="signOut-btn"
             >
@@ -186,15 +157,54 @@ exports[`PageStaking has the expected html structure 1`] = `
        
       <menu
         class="tm-page-header-menu"
+      />
+       
+      <div
+        class="tabs"
       >
-        <div />
-      </menu>
+        <div
+          class="tab"
+        >
+          <router-link-stub
+            to="[object Object]"
+          >
+            
+      My Delegations
+    
+          </router-link-stub>
+        </div>
+        <div
+          class="tab"
+        >
+          <router-link-stub
+            to="[object Object]"
+          >
+            
+      Validators
+    
+          </router-link-stub>
+        </div>
+        <div
+          class="tab"
+        >
+          <router-link-stub
+            to="[object Object]"
+          >
+            
+      Parameters
+    
+          </router-link-stub>
+        </div>
+      </div>
+       
+      <!---->
     </div>
   </header>
    
   <main
     class="tm-page-main"
   >
+    <!---->
      
     <!---->
      
