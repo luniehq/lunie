@@ -7,44 +7,42 @@
     submission-error-prefix="Sending tokens failed"
   >
     <tm-form-group
-      :error="$v.fields.denom.$dirty && $v.fields.denom.$invalid"
+      :error="$v.denom.$dirty && $v.denom.$invalid"
       field-id="send-denomination"
       field-label="Denomination"
     >
       <tm-field
         id="send-denomination"
-        v-model.number="$v.fields.denom.$model"
+        v-model.number="$v.denom.$model"
         type="text"
         readonly
       />
       <tm-form-msg
-        v-if="$v.fields.denom.$error && !$v.fields.denom.required"
+        v-if="$v.denom.$error && !$v.denom.required"
         name="Denomination"
         type="required"
       />
     </tm-form-group>
 
     <tm-form-group
-      :error="$v.fields.address.$error && $v.fields.address.$invalid"
+      :error="$v.address.$error && $v.address.$invalid"
       field-id="send-address"
       field-label="Send To"
     >
       <tm-field
         v-focus
         id="send-address"
-        v-model.number="$v.fields.address.$model"
+        v-model.number="$v.address.$model"
         type="text"
         placeholder="Address"
       />
       <tm-form-msg
-        v-if="$v.fields.address.$error && !$v.fields.address.required"
+        v-if="$v.address.$error && !$v.address.required"
         name="Address"
         type="required"
       />
       <tm-form-msg
-        v-else-if="
-          $v.fields.address.$error && !$v.fields.address.bech32Validate
-        "
+        v-else-if="$v.address.$error && !$v.address.bech32Validate"
         :body="bech32error"
         name="Address"
         type="bech32"
@@ -52,7 +50,7 @@
     </tm-form-group>
 
     <tm-form-group
-      :error="$v.fields.amount.$error && $v.fields.amount.$invalid"
+      :error="$v.amount.$error && $v.amount.$invalid"
       field-id="send-amount"
       field-label="Amount"
     >
@@ -60,28 +58,24 @@
         id="send-amount"
         :max="max"
         :min="max ? 1 : 0"
-        v-model.number="$v.fields.amount.$model"
+        v-model.number="$v.amount.$model"
         type="number"
         placeholder="Amount"
       />
       <tm-form-msg
-        v-if="$v.fields.amount.$error && !$v.fields.amount.required"
+        v-if="$v.amount.$error && !$v.amount.required"
         name="Amount"
         type="required"
       />
       <tm-form-msg
-        v-if="!$v.fields.amount.$error && !$v.fields.amount.$params.between"
-        :max="$v.fields.amount.$params.between.max"
-        :min="$v.fields.amount.$params.between.min"
+        v-if="$v.amount.$error && !$v.amount.between"
+        :max="$v.amount.$params.between.max"
+        :min="$v.amount.$params.between.min"
         name="Amount"
         type="between"
       />
       <tm-form-msg
-        v-else-if="
-          $v.fields.amount.$dirty &&
-            $v.fields.amount.$invalid &&
-            !$v.fields.amount.integer
-        "
+        v-else-if="$v.amount.$error && !$v.amount.integer"
         name="Amount"
         type="integer"
       />
@@ -124,15 +118,12 @@ export default {
   },
   data: () => ({
     bech32error: null,
-    fields: {
-      address: ``,
-      amount: ``,
-      denom: ``
-    },
-    sending: false
+    address: ``,
+    amount: ``,
+    denom: ``
   }),
   computed: {
-    ...mapGetters([`wallet`, `connected`]),
+    ...mapGetters([`wallet`]),
     max() {
       let denom = this.wallet.balances.find(b => b.denom === this.denom)
       return (denom && denom.amount) || 0
@@ -146,13 +137,13 @@ export default {
   },
   mounted() {
     if (this.denom) {
-      this.fields.denom = this.denom
+      this.denom = this.denom
     }
   },
   methods: {
     ...mapActions([`sendTx`]),
     open(denom) {
-      this.fields.denom = denom
+      this.denom = denom
       this.$refs.actionModal.open()
     },
     validateForm() {
@@ -160,15 +151,16 @@ export default {
 
       return !this.$v.$invalid
     },
-    async submitForm() {
-      const amount = +this.fields.amount
-      const address = this.fields.address
-      const denom = this.fields.denom
+    async submitForm(submitType, password) {
+      const amount = +this.amount
+      const address = this.address
+      const denom = this.denom
       const type = `send`
 
       await this.sendTx({
         type,
-        password: this.fields.password,
+        submitType,
+        password: password,
         to: address,
         amount: [{ denom, amount: amount.toString() }]
       })
@@ -191,18 +183,16 @@ export default {
   },
   validations() {
     return {
-      fields: {
-        address: {
-          required,
-          bech32Validate: this.bech32Validate
-        },
-        amount: {
-          required,
-          integer,
-          between: between(this.max ? 1 : 0, this.max)
-        },
-        denom: { required }
-      }
+      address: {
+        required,
+        bech32Validate: this.bech32Validate
+      },
+      amount: {
+        required,
+        integer,
+        between: between(this.max ? 1 : 0, this.max)
+      },
+      denom: { required }
     }
   }
 }

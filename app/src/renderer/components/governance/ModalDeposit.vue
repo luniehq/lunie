@@ -2,9 +2,11 @@
   <action-modal
     id="modal-deposit"
     ref="actionModal"
+    :submit-fn="submitForm"
+    :validate="validateForm"
     title="Deposit"
     class="modal-deposit"
-    @close-action-modal="close"
+    submission-error-prefix="Depositing failed"
   >
     <tm-form-group
       :error="
@@ -33,50 +35,11 @@
       />
       <hr />
     </tm-form-group>
-    <tm-form-group
-      class="action-modal-form-group"
-      field-id="password"
-      field-label="Password"
-    >
-      <tm-field
-        id="password"
-        v-model="password"
-        type="password"
-        placeholder="Password"
-      />
-      <tm-form-msg
-        v-if="$v.password.$error && !$v.password.required"
-        name="Password"
-        type="required"
-      />
-    </tm-form-group>
-    <div class="action-modal-footer">
-      <tm-btn
-        v-if="sending"
-        value="Sending..."
-        disabled="disabled"
-        color="primary"
-      />
-      <tm-btn
-        v-else-if="!connected"
-        value="Connecting..."
-        disabled="disabled"
-        color="primary"
-      />
-      <tm-btn
-        v-else
-        id="submit-deposit"
-        color="primary"
-        value="Submit Deposit"
-        @click.native="validateForm"
-      />
-    </div>
   </action-modal>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
-import ClickOutside from "vue-click-outside"
 import { required, between } from "vuelidate/lib/validators"
 import Modal from "common/TmModal"
 import TmBtn from "common/TmBtn"
@@ -97,9 +60,6 @@ export default {
     TmFormGroup,
     TmFormMsg
   },
-  directives: {
-    ClickOutside
-  },
   props: {
     proposalId: {
       type: [Number, String],
@@ -115,12 +75,10 @@ export default {
     }
   },
   data: () => ({
-    amount: 0,
-    password: ``,
-    sending: false
+    amount: 0
   }),
   computed: {
-    ...mapGetters([`wallet`, `connected`]),
+    ...mapGetters([`wallet`]),
     balance() {
       // TODO: refactor to get the selected coin when multicoin deposit is enabled
       if (!this.wallet.loading && !!this.wallet.balances.length) {
@@ -138,48 +96,38 @@ export default {
         required,
         isInteger,
         between: between(1, this.balance)
-      },
-      password: {
-        required
       }
     }
   },
   methods: {
-    close() {
-      this.$emit(`update:showModalDeposit`, false)
+    open() {
+      this.$refs.actionModal.open()
     },
     validateForm() {
       this.$v.$touch()
 
-      if (!this.$v.$invalid) {
-        this.submitForm()
-      }
+      return !this.$v.$invalid
     },
-    async submitForm() {
-      this.sending = true
+    async submitForm(submitType, password) {
+      // TODO: support multiple coins
+      await this.$store.dispatch(`submitDeposit`, {
+        submitType,
+        password,
+        proposal_id: this.proposalId,
+        amount: [
+          {
+            amount: String(this.amount),
+            denom: this.denom
+          }
+        ]
+      })
 
-      await this.$refs.actionModal.submit(async () => {
-        // TODO: support multiple coins
-        await this.$store.dispatch(`submitDeposit`, {
-          proposal_id: this.proposalId,
-          amount: [
-            {
-              amount: String(this.amount),
-              denom: this.denom
-            }
-          ],
-          password: this.password
-        })
-
-        this.$store.commit(`notify`, {
-          title: `Successful deposit!`,
-          body: `You have successfully deposited your ${
-            this.denom
-          }s on proposal #${this.proposalId}`
-        })
-      }, `Depositing failed`)
-
-      this.sending = false
+      this.$store.commit(`notify`, {
+        title: `Successful deposit!`,
+        body: `You have successfully deposited your ${
+          this.denom
+        }s on proposal #${this.proposalId}`
+      })
     }
   }
 }

@@ -2,9 +2,11 @@
   <action-modal
     id="delegation-modal"
     ref="actionModal"
+    :submit-fn="submitForm"
+    :validate="validateForm"
     title="Delegate"
     class="delegation-modal"
-    @close-action-modal="close"
+    submission-error-prefix="Delegating failed"
   >
     <tm-form-group
       class="action-modal-form-group"
@@ -61,46 +63,11 @@
         type="integer"
       />
     </tm-form-group>
-
-    <tm-form-group
-      class="action-modal-form-group"
-      field-id="password"
-      field-label="Password"
-    >
-      <tm-field
-        id="password"
-        v-model="password"
-        type="password"
-        placeholder="Password"
-      />
-    </tm-form-group>
-    <div slot="action-modal-footer">
-      <tm-btn
-        v-if="sending"
-        value="Sending..."
-        disabled="disabled"
-        color="primary"
-      />
-      <tm-btn
-        v-else-if="!connected"
-        value="Connecting..."
-        disabled="disabled"
-        color="primary"
-      />
-      <tm-btn
-        v-else
-        id="submit-delegation"
-        value="Submit Delegation"
-        color="primary"
-        @click.native="validateForm"
-      />
-    </div>
   </action-modal>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
-import ClickOutside from "vue-click-outside"
 import { required, between, integer } from "vuelidate/lib/validators"
 import Modal from "common/TmModal"
 import TmBtn from "common/TmBtn"
@@ -111,9 +78,6 @@ import ActionModal from "common/ActionModal"
 
 export default {
   name: `delegation-modal`,
-  directives: {
-    ClickOutside
-  },
   components: {
     Modal,
     TmBtn,
@@ -142,66 +106,60 @@ export default {
   },
   data: () => ({
     amount: ``,
-    password: ``,
-    selectedIndex: 0,
-    sending: false
+    selectedIndex: 0
   }),
   computed: {
-    ...mapGetters([`wallet`, `connected`, `delegates`]),
+    ...mapGetters([`wallet`, `delegates`]),
     from() {
       return this.fromOptions[this.selectedIndex].address
     }
   },
   methods: {
-    close() {
-      this.$emit(`update:showDelegationModal`, false)
+    open() {
+      this.$refs.actionModal.open()
     },
     async validateForm() {
       this.$v.$touch()
 
-      if (!this.$v.$invalid) {
-        await this.submitForm()
-      }
+      return !this.$v.$invalid
     },
-    async submitDelegation() {
-      await this.$refs.actionModal.submit(async () => {
-        await this.$store.dispatch(`submitDelegation`, {
-          validator_addr: this.validator.operator_address,
-          amount: String(this.amount),
-          password: this.password
-        })
+    async submitDelegation(submitType, password) {
+      await this.$store.dispatch(`submitDelegation`, {
+        validator_addr: this.validator.operator_address,
+        amount: String(this.amount),
+        submitType,
+        password: password
+      })
 
-        this.$store.commit(`notify`, {
-          title: `Successful delegation!`,
-          body: `You have successfully delegated your ${this.denom}s`
-        })
-      }, `Submitting delegation failed`)
+      this.$store.commit(`notify`, {
+        title: `Successful delegation!`,
+        body: `You have successfully delegated your ${this.denom}s`
+      })
     },
-    async submitRedelegation() {
-      await this.$refs.actionModal.submit(async () => {
-        const validatorSrc = this.delegates.delegates.find(
-          v => this.from === v.operator_address
-        )
-        await this.$store.dispatch(`submitRedelegation`, {
-          validatorSrc,
-          validatorDst: this.validator,
-          amount: String(this.amount),
-          password: this.password
-        })
+    async submitRedelegation(submitType, password) {
+      const validatorSrc = this.delegates.delegates.find(
+        v => this.from === v.operator_address
+      )
+      await this.$store.dispatch(`submitRedelegation`, {
+        validatorSrc,
+        validatorDst: this.validator,
+        amount: String(this.amount),
+        submitType,
+        password: password
+      })
 
-        this.$store.commit(`notify`, {
-          title: `Successful redelegation!`,
-          body: `You have successfully redelegated your ${this.denom}s`
-        })
-      }, `Submitting redelegation failed`)
+      this.$store.commit(`notify`, {
+        title: `Successful redelegation!`,
+        body: `You have successfully redelegated your ${this.denom}s`
+      })
     },
-    async submitForm() {
+    async submitForm(submitType, password) {
       this.sending = true
 
       if (this.from === this.wallet.address) {
-        await this.submitDelegation()
+        await this.submitDelegation(submitType, password)
       } else {
-        await this.submitRedelegation()
+        await this.submitRedelegation(submitType, password)
       }
 
       this.sending = false

@@ -162,16 +162,14 @@
         </div>
       </div>
       <delegation-modal
-        v-if="showDelegationModal"
-        :show-delegation-modal.sync="showDelegationModal"
+        ref="delegationModal"
         :from-options="delegationTargetOptions()"
         :to="validator.operator_address"
         :validator="validator"
         :denom="bondDenom"
       />
       <undelegation-modal
-        v-if="showUndelegationModal"
-        :show-undelegation-modal.sync="showUndelegationModal"
+        ref="undelegationModal"
         :maximum="myBond.toNumber()"
         :from-options="delegationTargetOptions()"
         :to="wallet.address"
@@ -236,8 +234,6 @@ export default {
   data: () => ({
     num,
     showCannotModal: false,
-    showDelegationModal: false,
-    showUndelegationModal: false,
     shortAddress,
     tabIndex: 1,
     action: ``,
@@ -334,7 +330,7 @@ export default {
     onDelegation() {
       this.action = `delegate`
       if (this.availableAtoms > 0) {
-        this.showDelegationModal = true
+        this.$refs.delegationModal.open()
       } else {
         this.showCannotModal = true
       }
@@ -342,7 +338,7 @@ export default {
     onUndelegation() {
       this.action = `undelegate`
       if (this.myBond.isGreaterThan(0)) {
-        this.showUndelegationModal = true
+        this.$refs.undelegationModal.open()
       } else {
         this.showCannotModal = true
       }

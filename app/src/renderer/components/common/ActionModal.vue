@@ -130,20 +130,20 @@ export default {
   data: () => ({
     signMethod: null,
     password: null,
-    selectedSignMethod: `ledger`,
+    selectedSignMethod: `local`,
     signMethods: [
       {
         key: `(Unsafe) Local Account`,
         value: `local`
-      },
-      {
-        key: `Ledger`,
-        value: `ledger`
-      },
-      {
-        key: `Cosmos Signer App`,
-        value: `signer-app`
       }
+      // {
+      //   key: `Ledger`,
+      //   value: `ledger`
+      // },
+      // {
+      //   key: `Cosmos Signer App`,
+      //   value: `signer-app`
+      // }
     ],
     sending: false,
     submissionError: null,
@@ -167,9 +167,8 @@ export default {
 
       if (!this.$v.$invalid && subFormValid) {
         await this.submit()
-      } else {
-        this.sending = false
       }
+      this.sending = false
     },
     async submit() {
       try {
