@@ -5,6 +5,7 @@ const secp256k1 = require(`secp256k1`)
 import sha256 from "crypto-js/sha256"
 import ripemd160 from "crypto-js/ripemd160"
 import CryptoJS from "crypto-js"
+import { type } from "os"
 
 const hdPathAtom = `m/44'/118'/0'/0/0` // key controlling ATOM allocation
 
@@ -109,7 +110,10 @@ type StdSignMsg struct {
   Memo          string      `json:"memo"`
 }
 */
-export function createSignMessage(jsonTx, sequence, account_number, chain_id) {
+export function createSignMessage(
+  jsonTx,
+  { sequence, account_number, chain_id }
+) {
   // sign bytes need amount to be an array
   const fee = {
     amount: jsonTx.fee.amount || [],
@@ -129,35 +133,38 @@ export function createSignMessage(jsonTx, sequence, account_number, chain_id) {
 }
 
 // produces the signature for a message in base64
-export function createSignature(signMessage, privateKey) {
+export function signWithPrivateKey(signMessage, privateKey) {
   const signHash = Buffer.from(sha256(signMessage).toString(), `hex`)
-
   const { signature } = secp256k1.sign(signHash, Buffer.from(privateKey, `hex`))
+  return signature
+}
 
-  return signature.toString(`base64`)
+export function createSignature(
+  signature,
+  sequence,
+  account_number,
+  publicKey
+) {
+  // console.log(Buffer.from(publicKey.buffer).toString(`base64`))
+  return {
+    signature: signature.toString(`base64`),
+    account_number,
+    sequence,
+    pub_key: {
+      type: `tendermint/PubKeySecp256k1`, // TODO allow other keytypes
+      value: Buffer.from(publicKey, `hex`).toString(`base64`)
+    }
+  }
 }
 
 // main function to sign a jsonTx using a wallet object
 // returns the complete signature object to add to the tx
-export function sign(jsonTx, wallet, { sequence, account_number, chain_id }) {
-  const signMessage = createSignMessage(
-    jsonTx,
-    sequence,
-    account_number,
-    chain_id
-  )
+export function sign(jsonTx, wallet, requestMetaData) {
+  let { sequence, account_number } = requestMetaData
+  const signMessage = createSignMessage(jsonTx, requestMetaData)
+  let signature = signWithPrivateKey(signMessage, wallet.privateKey)
 
-  let signature = createSignature(signMessage, wallet.privateKey)
-
-  return {
-    pub_key: {
-      type: `tendermint/PubKeySecp256k1`, // TODO allow other keytypes
-      value: Buffer.from(wallet.publicKey, `hex`).toString(`base64`)
-    },
-    signature,
-    account_number: account_number,
-    sequence
-  }
+  return createSignature(signature, sequence, account_number, wallet.publicKey)
 }
 
 // adds the signature object to the tx

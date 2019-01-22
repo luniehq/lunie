@@ -2,8 +2,11 @@ import * as Sentry from "@sentry/browser"
 import { App, comm_u2f } from "ledger-cosmos-js"
 import { createCosmosAddress } from "../../scripts/wallet.js"
 
-const TIMEOUT = 2
+const TIMEOUT = 50
 const HDPATH = [44, 118, 0, 0, 0]
+const ErrVersion = `Error retrieving Cosmos Ledger app version`
+const ErrPubKey = `Error getting pubKey from Ledger`
+const ErrSign = `Signing transaction with Ledger failed`
 
 export default () => {
   let emptyState = {
@@ -12,6 +15,7 @@ export default () => {
     error: null,
     app: null,
     isConnected: false,
+    pubKey: null,
     version: null
   }
   let state = JSON.parse(JSON.stringify(emptyState))
@@ -20,8 +24,11 @@ export default () => {
     setLedger(state, app) {
       state.app = app
     },
-    setLedgerCosmosAppVersion(state, version) {
+    setLedgerCosmosVersion(state, version) {
       state.version = version
+    },
+    setLedgerPubKey(state, pubKey) {
+      state.pubKey = pubKey
     },
     setLedgerConnection(state, isConnected) {
       state.isConnected = isConnected
@@ -34,14 +41,15 @@ export default () => {
     },
     /* TODO: Create a function to detect ledger is connected (i.e unlocked with
       password and on Home app) */
-    async connectLedgerApp({ commit, dispatch }) {
+    async connectLedgerApp({ commit, dispatch, state }) {
       try {
         const comm = await comm_u2f.create_async(TIMEOUT, true)
         let app = new App(comm)
         commit(`setLedger`, app)
-        await dispatch(`getCosmosAppVersion`)
+        await dispatch(`getLedgerCosmosVersion`)
         commit(`setLedgerConnection`, true)
-        let address = await dispatch(`getLedgerAddress`)
+        await dispatch(`getLedgerPubKey`)
+        let address = createCosmosAddress(state.pubKey)
         dispatch(`signIn`, { sessionType: `ledger`, address })
       } catch (error) {
         commit(`notifyError`, {
@@ -54,38 +62,53 @@ export default () => {
         return !state.error
       }
     },
-    async getLedgerCosmosAppVersion({ commit, state }) {
-      const version = await state.app.get_version()
-      commit(`setVersion`, version)
+    async getLedgerCosmosVersion({ commit, dispatch, state }) {
+      let response = await state.app.get_version()
+      response = await dispatch(`checkLedgerErrors`, response, ErrVersion)
+      if (response) {
+        const { major, minor, patch, test_mode } = response
+        const version = { major, minor, patch, test_mode }
+        commit(`setLedgerCosmosVersion`, version)
+      }
     },
-    async getLedgerAddress({ state }) {
-      const pubKey = await state.app.publicKey(HDPATH)
-      return createCosmosAddress(pubKey.pk)
+    async getLedgerPubKey({ commit, dispatch, state }) {
+      let response = await state.app.publicKey(HDPATH)
+      response = await dispatch(`checkLedgerErrors`, response, ErrPubKey)
+      if (response) {
+        commit(`setLedgerPubKey`, response.pk)
+      }
     },
-    async signWithLedger({ commit, state }, transaction) {
+    // TODO: this assumes Ledger is unlocked and with the Cosmos app open
+    async signWithLedger({ commit, dispatch, state }, transaction) {
       let response
-      const app = state.app
       try {
-        response = await app.sign_get_chunks(HDPATH, transaction)
+        response = await state.app.sign(HDPATH, transaction)
       } catch (error) {
         commit(`notifyError`, {
-          title: `Error signing transaction with Ledger`,
+          title: ErrSign,
           body: error.message
         })
         Sentry.captureException(error)
         state.error = error
       }
 
+      response = await dispatch(`checkLedgerErrors`, response, ErrSign)
+      if (response) {
+        return response.signature
+      }
+      return null
+    },
+    async checkLedgerErrors({ commit }, response, errorTitle) {
       if (response && response.error_message !== `No errors`) {
         commit(`notifyError`, {
-          title: `Error signing transaction with Ledger`,
+          title: errorTitle,
           body: response.error_message
         })
         Sentry.captureException(response.error_message)
         state.error = response.error_message
+        return false
       }
-      console.log(response.signature)
-      return response.signature
+      return response
     }
   }
   return {

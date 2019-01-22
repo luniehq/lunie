@@ -98,31 +98,25 @@
         <label for="showPasswordCheckbox">Show password</label>
       </tm-form-group>
     </div>
+    <hardware-state
+      v-if="step === `sign`"
+      icon="usb"
+      value="Please unlock the Cosmos app and sign with your Ledger"
+    />
+    <hardware-state
+      v-if="step === `connecting`"
+      icon="rotate_right"
+      :spin="true"
+      value="Please unlock the Cosmos app and sign with your Ledger"
+    />
     <div class="modal-propose-footer">
       <tm-btn
         id="submit-proposal"
-        v-if="step === `txDetails` && !ledger.isConnected"
         :disabled="$v.$invalid"
         color="primary"
-        value="Submit proposal"
+        :value="btnMessage"
         size="lg"
-        @click.native="proposeWithPassword"
-      />
-      <tm-btn
-        id="submit-proposal"
-        v-else-if="step === `txDetails` && ledger.isConnected"
-        :disabled="$v.$invalid"
-        value="Continue to signing"
-        size="lg"
-        @click.native="nextStep"
-      />
-      <tm-btn
-        id="submit-proposal"
-        v-else-if="step === `sign` && ledger.isConnected"
-        :disabled="$v.$invalid"
-        value="Sign"
-        size="lg"
-        @click.native="proposeWithLedger"
+        @click.native="ledger.isConnected ? nextStep() : onPropose()"
       />
     </div>
   </div>
@@ -131,6 +125,7 @@
 <script>
 import { mapGetters } from "vuex"
 import ClickOutside from "vue-click-outside"
+import HardwareState from "common/TmHardwareState"
 import {
   minLength,
   maxLength,
@@ -157,6 +152,7 @@ export default {
     ClickOutside
   },
   components: {
+    HardwareState,
     Modal,
     TmBtn,
     TmField,
@@ -171,6 +167,7 @@ export default {
   },
   data: () => ({
     step: `txDetails`,
+    btnMessage: `Submit proposal`,
     titleMinLength: 1,
     titleMaxLength: 64,
     descriptionMinLength: 1,
@@ -229,9 +226,29 @@ export default {
     togglePassword() {
       this.showPassword = !this.showPassword
     },
+    onClick() {
+      if (ledger.isConnected) {
+        this.nextStep()
+      } else {
+        this.onPropose()
+      }
+    },
     nextStep() {
       // TODO: add steps from https://github.com/cosmos/voyager/issues/1735
-      this.step = `sign`
+      switch (this.step) {
+        case `txDetails`:
+          this.step = `sign`
+          this.btnMessage = `Sign`
+          break
+        case `sign`:
+          this.step = `connection`
+          this.btnMessage = `Signing...`
+          this.onPropose()
+          break
+        default:
+          this.step = `txDetails`
+          this.btnMessage = `Submit proposal`
+      }
     },
     onPropose() {
       this.$emit(`createProposal`, {
