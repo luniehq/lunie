@@ -132,11 +132,10 @@ test(`Governance`, async function(t) {
       await app.client.$(`.page-profile__status.green`).isVisible(),
       `the proposal is open for voting`
     )
-    await app.client.$(`#vote-btn`).click()
-    await t.ok(
-      await app.client.$(`#modal-vote`).isVisible(),
-      `opens voting modal`
-    )
+    await app.client
+      .$(`#vote-btn`)
+      .click()
+      .waitForVisible(`#modal-vote`)
 
     await app.client.$(`#vote-yes`).click()
     await app.client.setValue(`#password`, `1234567890`)
