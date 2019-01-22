@@ -3,6 +3,7 @@
 exports[`ModalDeposit component matches snapshot has the expected html structure 1`] = `
 <div
   class="action-modal modal-deposit"
+  id="modal-deposit"
   name="slide-fade"
 >
   <div

@@ -126,11 +126,15 @@ export default {
 
 .tm-form-msg.tm-form-msg--error {
   color: var(--danger);
+  position: absolute;
+  font-style: italic;
+  font-weight: 500;
 }
 
 .tm-form-msg.tm-form-msg--error:before {
   content: "error";
   color: var(--danger);
+  font-style: normal;
 }
 
 .tm-form-msg.tm-form-msg--desc {

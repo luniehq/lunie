@@ -1,5 +1,6 @@
 <template>
   <action-modal
+    id="modal-vote"
     ref="actionModal"
     title="Vote"
     class="modal-vote"

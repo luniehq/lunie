@@ -1,5 +1,10 @@
 <template>
-  <action-modal ref="actionModal" title="Proposal" @close-action-modal="close">
+  <action-modal
+    id="modal-propose"
+    ref="actionModal"
+    title="Proposal"
+    @close-action-modal="close"
+  >
     <tm-form-group
       :error="$v.title.$error && $v.title.$invalid"
       class="action-modal-form-group"

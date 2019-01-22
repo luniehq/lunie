@@ -74,7 +74,7 @@
         placeholder="Password"
       />
     </tm-form-group>
-    <div class="action-modal-footer">
+    <div slot="action-modal-footer">
       <tm-btn
         v-if="sending"
         value="Sending..."
@@ -175,7 +175,7 @@ export default {
           title: `Successful delegation!`,
           body: `You have successfully delegated your ${this.denom}s`
         })
-      }, `Submitting proposal failed`)
+      }, `Submitting delegation failed`)
     },
     async submitRedelegation() {
       await this.$refs.actionModal.submit(async () => {
@@ -193,7 +193,7 @@ export default {
           title: `Successful redelegation!`,
           body: `You have successfully redelegated your ${this.denom}s`
         })
-      }, `Submitting proposal failed`)
+      }, `Submitting redelegation failed`)
     },
     async submitForm() {
       this.sending = true

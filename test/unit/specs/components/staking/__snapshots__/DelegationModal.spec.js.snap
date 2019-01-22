@@ -174,9 +174,12 @@ exports[`DelegationModal component matches snapshot has the expected html struct
       </div>
     </div>
      
-    <div
-      class="action-modal-footer"
-    >
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+    <div>
       <button
         class="tm-btn"
         id="submit-delegation"
@@ -193,11 +196,6 @@ exports[`DelegationModal component matches snapshot has the expected html struct
         </span>
       </button>
     </div>
-  </div>
-   
-  <div
-    class="action-modal-footer"
-  >
      
     <!---->
   </div>

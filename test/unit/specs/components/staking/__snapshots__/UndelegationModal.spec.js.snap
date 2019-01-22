@@ -16,7 +16,7 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
     <span
       class="action-modal-title"
     >
-      Undelegation
+      Undelegate
     </span>
      
     <div
@@ -34,7 +34,28 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
   <div
     class="action-modal-form"
   >
-    <!---->
+    <div
+      class="action-modal-form-group tm-form-group"
+    >
+      <!---->
+      <label
+        class="tm-form-group__label"
+        for="from"
+      >
+        From
+      </label>
+       
+      <div
+        class="tm-form-group__field"
+      >
+        <input
+          class="tm-field"
+          id="from"
+          readonly="readonly"
+          type="text"
+        />
+      </div>
+    </div>
      
     <div
       class="action-modal-form-group tm-form-group"
@@ -82,8 +103,13 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
         <input
           class="tm-field"
           id="amount"
+          max="100"
+          min="0"
+          placeholder="Amount"
           type="number"
         />
+         
+        <!---->
          
         <!---->
       </div>
@@ -109,16 +135,18 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
           placeholder="Password"
           type="password"
         />
-         
-        <!---->
       </div>
     </div>
      
-    <div
-      class="action-modal-footer"
-    >
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+    <div>
       <button
         class="tm-btn"
+        disabled="disabled"
         id="submit-undelegation"
       >
         <span
@@ -133,11 +161,6 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
         </span>
       </button>
     </div>
-  </div>
-   
-  <div
-    class="action-modal-footer"
-  >
      
     <!---->
   </div>

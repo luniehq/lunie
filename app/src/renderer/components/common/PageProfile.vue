@@ -25,7 +25,6 @@ export default {
   display: flex;
   margin-bottom: 1rem;
   padding: 2rem;
-  /* min-width: 63rem; */
 }
 
 .column {

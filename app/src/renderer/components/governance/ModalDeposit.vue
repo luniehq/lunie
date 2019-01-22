@@ -1,5 +1,6 @@
 <template>
   <action-modal
+    id="modal-deposit"
     ref="actionModal"
     title="Deposit"
     class="modal-deposit"

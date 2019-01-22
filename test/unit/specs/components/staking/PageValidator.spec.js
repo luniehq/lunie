@@ -83,6 +83,18 @@ describe(`PageValidator`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
+  it(`should return the self bond based on the validator`, () => {
+    let validator = {
+      selfBond: 10
+    }
+    wrapper.setData({ validator })
+    expect(wrapper.vm.selfBond).toBe(`1000.00`)
+
+    validator.selfBond = undefined
+    wrapper.setData({ validator })
+    expect(wrapper.vm.selfBond).toBe(0)
+  })
+
   it(`shows an error if the validator couldn't be found`, () => {
     let instance = mount(PageValidator, {
       getters: {

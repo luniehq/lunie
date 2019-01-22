@@ -23,6 +23,12 @@
       :key="coin.denom"
       :coin="coin"
       class="tm-li-balance"
+      @show-modal="showModal"
+    />
+    <send-modal
+      v-if="showSendModal"
+      :show-send-modal.sync="showSendModal"
+      :denom="denomination"
     />
   </tm-page>
 </template>
@@ -32,6 +38,7 @@ import num from "scripts/num"
 import { mapGetters, mapActions } from "vuex"
 import { includes, orderBy } from "lodash"
 import LiCoin from "./LiCoin"
+import SendModal from "wallet/SendModal"
 import TmPage from "common/TmPage"
 import TmDataMsg from "common/TmDataMsg"
 
@@ -59,7 +66,8 @@ export default {
   components: {
     TmDataMsg,
     LiCoin,
-    TmPage
+    TmPage,
+    SendModal
   },
   data: () => ({ num, showSendModal: false, denomination: null }),
   computed: {
@@ -110,7 +118,11 @@ export default {
     this.queryWalletBalances()
   },
   methods: {
-    ...mapActions([`updateDelegates`, `queryWalletBalances`])
+    ...mapActions([`updateDelegates`, `queryWalletBalances`]),
+    showModal(denomination) {
+      this.showSendModal = true
+      this.denomination = denomination
+    }
   }
 }
 </script>

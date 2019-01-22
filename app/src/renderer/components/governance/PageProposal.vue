@@ -159,9 +159,6 @@ export default {
     proposal() {
       return this.proposals.proposals[this.proposalId]
     },
-    proposalType() {
-      return this.proposal.proposal_type.toLowerCase()
-    },
     submittedAgo() {
       return moment(new Date(this.proposal.submit_time)).fromNow()
     },

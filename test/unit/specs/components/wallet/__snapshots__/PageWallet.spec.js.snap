@@ -182,6 +182,7 @@ exports[`PageWallet has the expected html structure 1`] = `
      
     <li
       class="li-coin tm-li-balance"
+      id="li-coin--fermion"
     >
       <div
         class="li-coin__icon"
@@ -232,6 +233,7 @@ exports[`PageWallet has the expected html structure 1`] = `
     </li>
     <li
       class="li-coin tm-li-balance"
+      id="li-coin--stake"
     >
       <div
         class="li-coin__icon"
@@ -282,6 +284,7 @@ exports[`PageWallet has the expected html structure 1`] = `
     </li>
     <li
       class="li-coin tm-li-balance"
+      id="li-coin--mycoin"
     >
       <div
         class="li-coin__icon"
@@ -332,6 +335,7 @@ exports[`PageWallet has the expected html structure 1`] = `
     </li>
     <li
       class="li-coin tm-li-balance"
+      id="li-coin--gregcoin"
     >
       <div
         class="li-coin__icon"
@@ -611,6 +615,7 @@ exports[`PageWallet should filter the balances 1`] = `
      
     <li
       class="li-coin tm-li-balance"
+      id="li-coin--stake"
     >
       <div
         class="li-coin__icon"
