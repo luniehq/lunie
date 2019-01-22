@@ -141,7 +141,7 @@ export default {
     }
   },
   data: () => ({
-    amount: ``,
+    amount: null,
     password: ``,
     selectedIndex: 0,
     sending: false
