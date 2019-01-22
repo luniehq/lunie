@@ -44,7 +44,7 @@ describe(`UndelegationModal`, () => {
 
   describe(`default values are set correctly`, () => {
     it(`the 'amount' defaults to empty`, () => {
-      expect(wrapper.vm.amount).toEqual(``)
+      expect(wrapper.vm.amount).toEqual(null)
     })
 
     it(`displays the user's wallet address as the default`, () => {
