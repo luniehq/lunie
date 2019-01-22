@@ -23,7 +23,7 @@
     </tm-form-group>
 
     <tm-form-group
-      :error="$v.fields.address.$dirty && $v.fields.address.$invalid"
+      :error="$v.fields.address.$error && $v.fields.address.$invalid"
       field-id="send-address"
       field-label="Send To"
     >
@@ -35,16 +35,14 @@
         placeholder="Address"
       />
       <tm-form-msg
-        v-if="
-          $v.fields.address.$dirty &&
-            $v.fields.address.$invalid &&
-            !$v.fields.address.required
-        "
+        v-if="$v.fields.address.$error && !$v.fields.address.required"
         name="Address"
         type="required"
       />
       <tm-form-msg
-        v-else-if="!$v.fields.address.bech32Validate"
+        v-else-if="
+          $v.fields.address.$error && !$v.fields.address.bech32Validate
+        "
         :body="bech32error"
         name="Address"
         type="bech32"
@@ -52,7 +50,7 @@
     </tm-form-group>
 
     <tm-form-group
-      :error="$v.fields.amount.$dirty && $v.fields.amount.$invalid"
+      :error="$v.fields.address.$error && $v.fields.address.$invalid"
       field-id="send-amount"
       field-label="Amount"
     >
@@ -65,27 +63,19 @@
         placeholder="Amount"
       />
       <tm-form-msg
-        v-if="
-          $v.fields.amount.$dirty &&
-            $v.fields.amount.$invalid &&
-            !$v.fields.amount.required
-        "
+        v-if="$v.fields.amount.$error && !$v.fields.amount.required"
         name="Amount"
         type="required"
       />
       <tm-form-msg
-        v-if="!$v.fields.amount.between"
+        v-if="$v.fields.amount.$error && !$v.fields.amount.between"
         :max="$v.fields.amount.$params.between.max"
         :min="$v.fields.amount.$params.between.min"
         name="Amount"
         type="between"
       />
       <tm-form-msg
-        v-else-if="
-          $v.fields.amount.$dirty &&
-            $v.fields.amount.$invalid &&
-            !$v.fields.amount.integer
-        "
+        v-else-if="$v.fields.amount.$error && !$v.fields.amount.integer"
         name="Amount"
         type="integer"
       />
