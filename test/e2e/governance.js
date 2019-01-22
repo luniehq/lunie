@@ -95,11 +95,10 @@ test(`Governance`, async function(t) {
       await app.client.$(`.page-profile__status.yellow`).isVisible(),
       `the proposal is open for deposits`
     )
-    await app.client.$(`#deposit-btn`).click()
-    await t.ok(
-      await app.client.$(`#modal-deposit`).isVisible(),
-      `opens deposit modal`
-    )
+    await app.client
+      .$(`#deposit-btn`)
+      .click()
+      .waitForVisible(`#modal-deposit`)
     await app.client.setValue(`#amount`, 10).setValue(`#password`, `1234567890`)
     await t.ok(
       await app.client
