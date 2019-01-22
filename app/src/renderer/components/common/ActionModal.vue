@@ -1,5 +1,5 @@
 <template>
-  <transition name="slide-fade">
+  <transition v-if="show" name="slide-fade">
     <div v-click-outside="close" class="action-modal">
       <div class="action-modal-header">
         <img
@@ -26,8 +26,7 @@
         >
           <tm-field
             id="sign-method"
-            v-model="selectedIndex"
-            :title="signMethods[selectedSignMethod].value"
+            v-model="selectedSignMethod"
             :options="signMethods"
             type="select"
           />
@@ -73,7 +72,7 @@
                 v-else
                 id="cast-vote"
                 color="primary"
-                value="Submit Vote"
+                value="Submit"
                 @click.native="validateForm"
               />
             </div>
@@ -134,16 +133,16 @@ export default {
     selectedSignMethod: `ledger`,
     signMethods: [
       {
-        value: `(Unsafe) Local Account`,
-        key: `local`
+        key: `(Unsafe) Local Account`,
+        value: `local`
       },
       {
-        value: `Ledger`,
-        key: `ledger`
+        key: `Ledger`,
+        value: `ledger`
       },
       {
-        value: `Cosmos Signer App`,
-        key: `signer-app`
+        key: `Cosmos Signer App`,
+        value: `signer-app`
       }
     ],
     sending: false,
@@ -186,9 +185,11 @@ export default {
       }
     }
   },
-  validations: () => ({
-    password: requiredIf(() => this.selectedSignMethod === `local`)
-  })
+  validations() {
+    return {
+      password: requiredIf(() => this.selectedSignMethod === `local`)
+    }
+  }
 }
 </script>
 

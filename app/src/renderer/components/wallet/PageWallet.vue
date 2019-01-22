@@ -25,11 +25,7 @@
       class="tm-li-balance"
       @show-modal="showModal"
     />
-    <send-modal
-      v-if="showSendModal"
-      :show-send-modal.sync="showSendModal"
-      :denom="denomination"
-    />
+    <send-modal ref="sendModal" />
   </tm-page>
 </template>
 
@@ -69,7 +65,7 @@ export default {
     TmPage,
     SendModal
   },
-  data: () => ({ num, showSendModal: false, denomination: null }),
+  data: () => ({ num, showSendModal: false }),
   computed: {
     ...mapGetters([
       `filters`,
@@ -120,8 +116,7 @@ export default {
   methods: {
     ...mapActions([`updateDelegates`, `queryWalletBalances`]),
     showModal(denomination) {
-      this.showSendModal = true
-      this.denomination = denomination
+      this.$refs.sendModal.open(denomination)
     }
   }
 }
