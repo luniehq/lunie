@@ -120,8 +120,8 @@ export default {
   methods: {
     ...mapActions([`updateDelegates`, `queryWalletBalances`]),
     showModal(denomination) {
-      this.showSendModal = true
       this.denomination = denomination
+      this.showSendModal = true
     }
   }
 }

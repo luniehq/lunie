@@ -77,4 +77,10 @@ describe(`PageWallet`, () => {
     store.state.connection.connected = true
     expect(wrapper.exists(`tm-data-loading`)).toBe(true)
   })
+
+  it(`should show the sending modal`, () => {
+    wrapper.vm.showModal(`STAKE`)
+    expect(wrapper.exists(`send-modal`)).toBe(true)
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
 })
