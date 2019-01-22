@@ -60,6 +60,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1660](https://github.com/cosmos/voyager/issues/1660) Add parameters and pool to store @fedekunze
 - [\#1739](https://github.com/cosmos/voyager/issues/1739) Init jsDoc into project @sabau
 - [\#1674](https://github.com/cosmos/voyager/issues/1674) Add PageProfile component with shared styles for validator and proposal profiles @jbibla
+- [\#1835](https://github.com/cosmos/voyager/issues/1835) allow user to use different signing methods @faboweb
 
 ### Changed
 
