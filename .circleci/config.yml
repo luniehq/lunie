@@ -1,4 +1,11 @@
-version: 2
+version: 2.1
+
+aliases:
+  - &CWD ~/voyager
+  - &WORKSPACE /tmp/build_output
+  - &docker-node circleci/node:10.15
+
+commands:
 
 jobs:
   # Build Gaia from the SDK source code specified by tasks/build/Gaia/COMMIT.sh.
@@ -126,8 +133,34 @@ jobs:
           no_output_timeout: 120
 
       - store_artifacts:
+          path: dist/
+          destination: voyager/
+      - persist_to_workspace:
+          root: *CWD
+          paths:
+            - dist
+            - circle.run_deploy.sh
+
+      - store_artifacts:
           path: testArtifacts
           when: on_fail
+
+  deployment-frontend:
+    working_directory: /tmp/build_output
+    machine: true
+    environment:
+      CIRCLE_ARTIFACTS: /tmp/build_output
+    steps:
+      - attach_workspace:
+          at: /tmp/build_output/
+      - run: /tmp/build_output/circle.run_deploy.sh
+      - when:
+        condition: << parameters.deploy >>
+        steps:
+          - run:
+              name: Deploy the latest docker Image
+              command: |
+                bash ./circle.ebs_deploy.sh
 
   # Create release.
   release:
