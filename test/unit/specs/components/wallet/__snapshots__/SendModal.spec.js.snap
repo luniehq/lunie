@@ -244,12 +244,7 @@ exports[`SendModal has the expected html structure 1`] = `
           type="text"
         />
          
-        <div
-          body=" too short"
-          class="tm-form-msg sm tm-form-msg--error"
-        >
-          Address is invalid bech32
-        </div>
+        <!---->
       </div>
     </div>
      
@@ -599,7 +594,7 @@ exports[`SendModal should show bech32 error when address length is too long 1`] 
     </div>
      
     <div
-      class="tm-form-group"
+      class="tm-form-group tm-form-group--error"
     >
       <!---->
       <label
@@ -770,7 +765,7 @@ exports[`SendModal should show bech32 error when address length is too short 1`]
     </div>
      
     <div
-      class="tm-form-group"
+      class="tm-form-group tm-form-group--error"
     >
       <!---->
       <label
