@@ -66,7 +66,7 @@ export default {
 
 .tm-data-msg__title {
   color: var(--bright);
-  font-size: h2;
+  font-size: var(--h2);
 }
 
 .tm-data-msg__subtitle {

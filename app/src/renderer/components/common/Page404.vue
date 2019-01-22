@@ -1,5 +1,5 @@
 <template>
-  <tm-page data-title="404">
+  <tm-page data-title="404" hide-header>
     <tm-part title="Try another page...">
       <tm-list-item to="/" title="Wallet" />
       <tm-list-item to="/staking" title="Staking" />

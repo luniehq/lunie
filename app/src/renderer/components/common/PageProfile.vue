@@ -1,9 +1,7 @@
 <template>
   <div class="tm-page page-profile">
     <tm-page-header>
-      <template slot="menu-body"
-        ><slot name="menu-body"></slot
-      ></template>
+      <slot slot="menu-body" name="menu-body" />
       <div slot="menu"><slot name="menu"></slot></div>
     </tm-page-header>
     <main class="tm-page-main"><slot></slot></main>

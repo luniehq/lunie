@@ -25,6 +25,12 @@ exports[`PageProfile has the expected html structure 1`] = `
       >
         <div />
       </menu>
+       
+      <div
+        class="tabs"
+      />
+       
+      <!---->
     </div>
   </header>
    

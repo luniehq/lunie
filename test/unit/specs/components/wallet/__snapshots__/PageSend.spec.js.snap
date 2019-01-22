@@ -3,7 +3,6 @@
 exports[`PageSend disables sending if not connected 1`] = `
 <div
   class="tm-page"
-  data-title="Send"
 >
   <header
     class="tm-page-header"
@@ -14,7 +13,13 @@ exports[`PageSend disables sending if not connected 1`] = `
       <div
         class="tm-page-header-text"
       >
-        <!---->
+        <div
+          class="tm-page-header-title"
+        >
+          <h2>
+            Send
+          </h2>
+        </div>
          
         <!---->
          
@@ -109,6 +114,10 @@ exports[`PageSend disables sending if not connected 1`] = `
               </i>
             </a>
              
+            <!---->
+             
+            <!---->
+              
             <a
               class="help"
             >
@@ -129,6 +138,7 @@ exports[`PageSend disables sending if not connected 1`] = `
                 settings
               </i>
             </router-link-stub>
+             
             <a
               id="signOut-btn"
             >
@@ -144,15 +154,22 @@ exports[`PageSend disables sending if not connected 1`] = `
        
       <menu
         class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
+      />
+       
+      <div
+        class="tabs"
+      />
+       
+      <!---->
     </div>
   </header>
    
   <main
     class="tm-page-main"
   >
+    <!---->
+     
+    <!---->
      
     <form
       class="tm-form"
@@ -431,7 +448,6 @@ exports[`PageSend disables sending if not connected 1`] = `
 exports[`PageSend has the expected html structure 1`] = `
 <div
   class="tm-page"
-  data-title="Send"
 >
   <header
     class="tm-page-header"
@@ -442,7 +458,13 @@ exports[`PageSend has the expected html structure 1`] = `
       <div
         class="tm-page-header-text"
       >
-        <!---->
+        <div
+          class="tm-page-header-title"
+        >
+          <h2>
+            Send
+          </h2>
+        </div>
          
         <!---->
          
@@ -537,6 +559,10 @@ exports[`PageSend has the expected html structure 1`] = `
               </i>
             </a>
              
+            <!---->
+             
+            <!---->
+              
             <a
               class="help"
             >
@@ -557,6 +583,7 @@ exports[`PageSend has the expected html structure 1`] = `
                 settings
               </i>
             </router-link-stub>
+             
             <a
               id="signOut-btn"
             >
@@ -572,15 +599,22 @@ exports[`PageSend has the expected html structure 1`] = `
        
       <menu
         class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
+      />
+       
+      <div
+        class="tabs"
+      />
+       
+      <!---->
     </div>
   </header>
    
   <main
     class="tm-page-main"
   >
+    <!---->
+     
+    <!---->
      
     <form
       class="tm-form"
@@ -863,7 +897,6 @@ exports[`PageSend has the expected html structure 1`] = `
 exports[`PageSend should show address required error 1`] = `
 <div
   class="tm-page"
-  data-title="Send"
 >
   <header
     class="tm-page-header"
@@ -874,7 +907,13 @@ exports[`PageSend should show address required error 1`] = `
       <div
         class="tm-page-header-text"
       >
-        <!---->
+        <div
+          class="tm-page-header-title"
+        >
+          <h2>
+            Send
+          </h2>
+        </div>
          
         <!---->
          
@@ -969,6 +1008,10 @@ exports[`PageSend should show address required error 1`] = `
               </i>
             </a>
              
+            <!---->
+             
+            <!---->
+              
             <a
               class="help"
             >
@@ -989,6 +1032,7 @@ exports[`PageSend should show address required error 1`] = `
                 settings
               </i>
             </router-link-stub>
+             
             <a
               id="signOut-btn"
             >
@@ -1004,15 +1048,22 @@ exports[`PageSend should show address required error 1`] = `
        
       <menu
         class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
+      />
+       
+      <div
+        class="tabs"
+      />
+       
+      <!---->
     </div>
   </header>
    
   <main
     class="tm-page-main"
   >
+    <!---->
+     
+    <!---->
      
     <form
       class="tm-form"
@@ -1289,7 +1340,6 @@ exports[`PageSend should show address required error 1`] = `
 exports[`PageSend should show bech32 error when address length is too long 1`] = `
 <div
   class="tm-page"
-  data-title="Send"
 >
   <header
     class="tm-page-header"
@@ -1300,7 +1350,13 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
       <div
         class="tm-page-header-text"
       >
-        <!---->
+        <div
+          class="tm-page-header-title"
+        >
+          <h2>
+            Send
+          </h2>
+        </div>
          
         <!---->
          
@@ -1395,6 +1451,10 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
               </i>
             </a>
              
+            <!---->
+             
+            <!---->
+              
             <a
               class="help"
             >
@@ -1415,6 +1475,7 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
                 settings
               </i>
             </router-link-stub>
+             
             <a
               id="signOut-btn"
             >
@@ -1430,15 +1491,22 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
        
       <menu
         class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
+      />
+       
+      <div
+        class="tabs"
+      />
+       
+      <!---->
     </div>
   </header>
    
   <main
     class="tm-page-main"
   >
+    <!---->
+     
+    <!---->
      
     <form
       class="tm-form"
@@ -1721,7 +1789,6 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
 exports[`PageSend should show bech32 error when address length is too short 1`] = `
 <div
   class="tm-page"
-  data-title="Send"
 >
   <header
     class="tm-page-header"
@@ -1732,7 +1799,13 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
       <div
         class="tm-page-header-text"
       >
-        <!---->
+        <div
+          class="tm-page-header-title"
+        >
+          <h2>
+            Send
+          </h2>
+        </div>
          
         <!---->
          
@@ -1827,6 +1900,10 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
               </i>
             </a>
              
+            <!---->
+             
+            <!---->
+              
             <a
               class="help"
             >
@@ -1847,6 +1924,7 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
                 settings
               </i>
             </router-link-stub>
+             
             <a
               id="signOut-btn"
             >
@@ -1862,15 +1940,22 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
        
       <menu
         class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
+      />
+       
+      <div
+        class="tabs"
+      />
+       
+      <!---->
     </div>
   </header>
    
   <main
     class="tm-page-main"
   >
+    <!---->
+     
+    <!---->
      
     <form
       class="tm-form"
@@ -2153,7 +2238,6 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
 exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
 <div
   class="tm-page"
-  data-title="Send"
 >
   <header
     class="tm-page-header"
@@ -2164,7 +2248,13 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
       <div
         class="tm-page-header-text"
       >
-        <!---->
+        <div
+          class="tm-page-header-title"
+        >
+          <h2>
+            Send
+          </h2>
+        </div>
          
         <!---->
          
@@ -2259,6 +2349,10 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
               </i>
             </a>
              
+            <!---->
+             
+            <!---->
+              
             <a
               class="help"
             >
@@ -2279,6 +2373,7 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
                 settings
               </i>
             </router-link-stub>
+             
             <a
               id="signOut-btn"
             >
@@ -2294,15 +2389,22 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
        
       <menu
         class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
+      />
+       
+      <div
+        class="tabs"
+      />
+       
+      <!---->
     </div>
   </header>
    
   <main
     class="tm-page-main"
   >
+    <!---->
+     
+    <!---->
      
     <form
       class="tm-form"
@@ -2585,7 +2687,6 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
 exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
 <div
   class="tm-page"
-  data-title="Send"
 >
   <header
     class="tm-page-header"
@@ -2596,7 +2697,13 @@ exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
       <div
         class="tm-page-header-text"
       >
-        <!---->
+        <div
+          class="tm-page-header-title"
+        >
+          <h2>
+            Send
+          </h2>
+        </div>
          
         <!---->
          
@@ -2691,6 +2798,10 @@ exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
               </i>
             </a>
              
+            <!---->
+             
+            <!---->
+              
             <a
               class="help"
             >
@@ -2711,6 +2822,7 @@ exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
                 settings
               </i>
             </router-link-stub>
+             
             <a
               id="signOut-btn"
             >
@@ -2726,15 +2838,22 @@ exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
        
       <menu
         class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
+      />
+       
+      <div
+        class="tabs"
+      />
+       
+      <!---->
     </div>
   </header>
    
   <main
     class="tm-page-main"
   >
+    <!---->
+     
+    <!---->
      
     <form
       class="tm-form"
@@ -3109,7 +3228,6 @@ exports[`PageSend should trigger confirmation modal if form is correct 1`] = `
 exports[`PageSend should work without providing a default denom 1`] = `
 <div
   class="tm-page"
-  data-title="Send"
 >
   <header
     class="tm-page-header"
@@ -3120,7 +3238,13 @@ exports[`PageSend should work without providing a default denom 1`] = `
       <div
         class="tm-page-header-text"
       >
-        <!---->
+        <div
+          class="tm-page-header-title"
+        >
+          <h2>
+            Send
+          </h2>
+        </div>
          
         <!---->
          
@@ -3215,6 +3339,10 @@ exports[`PageSend should work without providing a default denom 1`] = `
               </i>
             </a>
              
+            <!---->
+             
+            <!---->
+              
             <a
               class="help"
             >
@@ -3235,6 +3363,7 @@ exports[`PageSend should work without providing a default denom 1`] = `
                 settings
               </i>
             </router-link-stub>
+             
             <a
               id="signOut-btn"
             >
@@ -3250,15 +3379,22 @@ exports[`PageSend should work without providing a default denom 1`] = `
        
       <menu
         class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
+      />
+       
+      <div
+        class="tabs"
+      />
+       
+      <!---->
     </div>
   </header>
    
   <main
     class="tm-page-main"
   >
+    <!---->
+     
+    <!---->
      
     <form
       class="tm-form"
