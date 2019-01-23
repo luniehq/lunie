@@ -76,8 +76,8 @@
       />
       <tm-form-msg
         v-else-if="$v.amount.$error && !$v.amount.between && amount > 0"
-        :max="$v.fields.amount.$params.between.max"
-        :min="$v.fields.amount.$params.between.min"
+        :max="$v.amount.$params.between.max"
+        :min="$v.amount.$params.between.min"
         name="Amount"
         type="between"
       />
