@@ -73,12 +73,10 @@ export default ({}) => {
       dispatch(`resetSessionData`)
 
       await dispatch(`loadAccounts`)
-      let exists = state.accounts.length > 0
-      let screen = exists ? `sign-in` : `welcome`
-      commit(`setModalSessionState`, screen)
+      commit(`setModalSessionState`, `welcome`)
 
       state.externals.track(`pageview`, {
-        dl: `/session/` + screen
+        dl: `/session/welcome`
       })
     },
     async loadAccounts({ commit, state }) {

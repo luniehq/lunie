@@ -25,7 +25,7 @@ let node
 let router
 
 // Sentry is used for automatic error reporting. It is turned off by default.
-Sentry.init({})
+// Sentry.init({})
 
 // this will pass the state to Sentry when errors are sent.
 // this would also sent passwords...

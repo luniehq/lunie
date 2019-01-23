@@ -1,9 +1,13 @@
 import * as Sentry from "@sentry/browser"
 import { App, comm_u2f } from "ledger-cosmos-js"
 import { createCosmosAddress } from "../../scripts/wallet.js"
+import { signatureImport, publicKeyVerify, verify } from "secp256k1"
+import sha256 from "crypto-js/sha256"
 
-const TIMEOUT = 50
+// TODO: discuss TIMEOUT value
+const TIMEOUT = 50 // seconds to wait for user action on Ledger
 const HDPATH = [44, 118, 0, 0, 0]
+
 const ErrVersion = `Error retrieving Cosmos Ledger app version`
 const ErrPubKey = `Error getting pubKey from Ledger`
 const ErrSign = `Signing transaction with Ledger failed`
@@ -13,10 +17,11 @@ export default () => {
     loading: true,
     loaded: false,
     error: null,
-    app: null,
+    app: null, // Cosmos ledger app instance
     isConnected: false,
-    pubKey: null,
-    version: null
+    pubKey: null, // 33 bytes; used for broadcasting signed txs
+    uncompressedPubKey: null, // 65 bytes; not used currently
+    version: null // Cosmos app version
   }
   let state = JSON.parse(JSON.stringify(emptyState))
 
@@ -29,6 +34,9 @@ export default () => {
     },
     setLedgerPubKey(state, pubKey) {
       state.pubKey = pubKey
+    },
+    setLedgerUncompressedPubKey(state, uncompressedPubKey) {
+      state.uncompressedPubKey = uncompressedPubKey
     },
     setLedgerConnection(state, isConnected) {
       state.isConnected = isConnected
@@ -77,30 +85,47 @@ export default () => {
     async getLedgerPubKey({ commit, dispatch, state }) {
       let response = await state.app.publicKey(HDPATH)
       response = await dispatch(`checkLedgerErrors`, response, ErrPubKey)
-      if (response) {
-        debugger
-        commit(`setLedgerPubKey`, response.pk)
-      }
-    },
-    // TODO: this assumes Ledger is unlocked and with the Cosmos app open
-    async signWithLedger({ commit, dispatch, state }, transaction) {
-      let response
-      try {
-        response = await state.app.sign(HDPATH, transaction)
-      } catch (error) {
+      if (!publicKeyVerify(response.compressed_pk)) {
+        const error = `Invalid public key`
         commit(`notifyError`, {
-          title: ErrSign,
-          body: error.message
+          title: ErrPubKey,
+          body: error
         })
         Sentry.captureException(error)
         commit(`setLedgerError`, error)
       }
-
-      response = await dispatch(`checkLedgerErrors`, response, ErrSign)
       if (response) {
+        commit(`setLedgerPubKey`, response.compressed_pk)
+        commit(`setLedgerUncompressedPubKey`, response.pk)
+      }
+    },
+    async signWithLedger({ commit, dispatch, state }, message) {
+      let response = await state.app.sign(HDPATH, message)
+      response = await dispatch(`checkLedgerErrors`, response, ErrSign)
+      if (response && response.signature) {
+        const messageHash = Buffer.from(sha256(message).toString(), `hex`)
+        const signatureBuffer = signatureImport(response.signature)
+
+        if (
+          !verify(
+            messageHash,
+            Buffer.from(signatureBuffer.buffer),
+            state.pubKey
+          )
+        ) {
+          debugger
+          const error = `signature verification failed`
+          commit(`notifyError`, {
+            title: ErrSign,
+            body: error
+          })
+          Sentry.captureException(error)
+          commit(`setLedgerError`, error)
+          return null
+        }
         return response.signature
       }
-      return null
+      return undefined
     },
     async checkLedgerErrors({ commit }, response, errorTitle) {
       if (response && response.error_message !== `No errors`) {

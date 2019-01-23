@@ -7,6 +7,7 @@ import {
 } from "../../scripts/wallet.js"
 import { getKey } from "../../scripts/keystore"
 const config = require(`../../../config.json`)
+import { signatureImport } from "secp256k1"
 
 export default ({ node }) => {
   let state = {
@@ -86,10 +87,16 @@ export default ({ node }) => {
 
       let signature
       if (rootState.ledger.isConnected) {
-        const transaction = createSignMessage(tx, requestMetaData)
-        let signatureBuffer = await dispatch(`signWithLedger`, transaction)
+        const signMessage = createSignMessage(tx, requestMetaData)
+        const signatureByteArray = await dispatch(`signWithLedger`, signMessage)
+        // we have to parse the signature from Ledger as it's in DER format
+        const signatureBuffer = signatureImport(signatureByteArray)
+        /* 
+          NOTE: message is not hashed since Ledger needs to display it on screen
+          and then internally hashes the json before signing it
+        */
         signature = createSignature(
-          signatureBuffer,
+          signatureBuffer.buffer,
           requestMetaData.sequence,
           requestMetaData.account_number,
           rootState.ledger.pubKey
@@ -99,8 +106,6 @@ export default ({ node }) => {
         const wallet = getKey(rootState.user.account, args.password)
         signature = sign(tx, wallet, requestMetaData)
       }
-
-      debugger
       // broadcast transaction
       const signedTx = createSignedTx(tx, signature)
       const body = createBroadcastBody(signedTx)

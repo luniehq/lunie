@@ -5,7 +5,6 @@ const secp256k1 = require(`secp256k1`)
 import sha256 from "crypto-js/sha256"
 import ripemd160 from "crypto-js/ripemd160"
 import CryptoJS from "crypto-js"
-import { type } from "os"
 
 const hdPathAtom = `m/44'/118'/0'/0/0` // key controlling ATOM allocation
 
@@ -25,7 +24,6 @@ export function generateWalletFromSeed(mnemonic) {
 export function generateSeed(randomBytesFunc = standardRandomBytesFunc) {
   const randomBytes = Buffer.from(randomBytesFunc(32), `hex`)
   if (randomBytes.length !== 32) throw Error(`Entropy has incorrect length`)
-
   const mnemonic = bip39.entropyToMnemonic(randomBytes.toString(`hex`))
 
   return mnemonic
@@ -36,6 +34,7 @@ export function generateWallet(randomBytesFunc = standardRandomBytesFunc) {
   return generateWalletFromSeed(mnemonic)
 }
 
+// TODO: this only works with a compressed public key (33 bytes) !!
 export function createCosmosAddress(publicKey) {
   let message = CryptoJS.enc.Hex.parse(publicKey.toString(`hex`))
   const hash = ripemd160(sha256(message)).toString()
@@ -82,8 +81,14 @@ export function prepareSignBytes(jsonTx) {
     return jsonTx
   }
 
-  const keys = Object.keys(jsonTx)
-  if (keys.length === 2 && keys.includes(`type`) && keys.includes(`value`)) {
+  if (
+    jsonTx.type === `cosmos-sdk/Send` ||
+    jsonTx.type === `cosmos-sdk/MsgSubmitProposal` ||
+    jsonTx.type === `cosmos-sdk/MsgVote` ||
+    jsonTx.type === `cosmos-sdk/MsgDeposit` ||
+    jsonTx.type === `cosmos-sdk/BeginUnbonding` ||
+    jsonTx.type === `cosmos-sdk/BeginRedelegate`
+  ) {
     return prepareSignBytes(jsonTx.value)
   }
 
@@ -145,14 +150,13 @@ export function createSignature(
   account_number,
   publicKey
 ) {
-  // console.log(Buffer.from(publicKey.buffer).toString(`base64`))
   return {
     signature: signature.toString(`base64`),
     account_number,
     sequence,
     pub_key: {
-      type: `tendermint/PubKeySecp256k1`, // TODO allow other keytypes
-      value: Buffer.from(publicKey, `hex`).toString(`base64`)
+      type: `tendermint/PubKeySecp256k1`, // TODO: allow other keytypes
+      value: publicKey.toString(`base64`)
     }
   }
 }
@@ -162,9 +166,15 @@ export function createSignature(
 export function sign(jsonTx, wallet, requestMetaData) {
   let { sequence, account_number } = requestMetaData
   const signMessage = createSignMessage(jsonTx, requestMetaData)
-  let signature = signWithPrivateKey(signMessage, wallet.privateKey)
-
-  return createSignature(signature, sequence, account_number, wallet.publicKey)
+  const signatureBuffer = signWithPrivateKey(signMessage, wallet.privateKey)
+  const pubKeyBuffer = Buffer.from(wallet.publicKey, `hex`)
+  debugger
+  return createSignature(
+    signatureBuffer,
+    sequence,
+    account_number,
+    pubKeyBuffer
+  )
 }
 
 // adds the signature object to the tx
