@@ -103,7 +103,7 @@ export default {
     open() {
       this.$refs.actionModal.open()
     },
-    validateForm() {
+    async validateForm() {
       this.$v.$touch()
 
       return !this.$v.$invalid

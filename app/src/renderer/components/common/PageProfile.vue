@@ -146,7 +146,6 @@ export default {
   align-items: center;
   display: flex;
   flex-direction: column;
-  /* width: 7rem; */
 }
 
 .colored_dl:not(:last-child) {

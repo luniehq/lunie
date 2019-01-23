@@ -101,15 +101,17 @@ exports[`SendModal has the expected html structure 1`] = `
         <input
           class="tm-field"
           id="send-amount"
-          max="0"
-          min="0"
           placeholder="Amount"
           type="number"
         />
          
         <!---->
          
-        <!---->
+        <div
+          class="tm-form-msg sm tm-form-msg--error"
+        >
+          Wallet doesn't hold any s
+        </div>
       </div>
     </div>
      
@@ -335,8 +337,6 @@ exports[`SendModal validation should show address required error 1`] = `
         <input
           class="tm-field"
           id="send-amount"
-          max="0"
-          min="0"
           placeholder="Amount"
           type="number"
         />
@@ -574,8 +574,6 @@ exports[`SendModal validation should show bech32 error when address length is to
         <input
           class="tm-field"
           id="send-amount"
-          max="1000"
-          min="1"
           placeholder="Amount"
           type="number"
         />
@@ -809,8 +807,6 @@ exports[`SendModal validation should show bech32 error when address length is to
         <input
           class="tm-field"
           id="send-amount"
-          max="1000"
-          min="1"
           placeholder="Amount"
           type="number"
         />
@@ -1047,8 +1043,6 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
         <input
           class="tm-field"
           id="send-amount"
-          max="0"
-          min="0"
           placeholder="Amount"
           type="number"
         />
@@ -1059,7 +1053,11 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
           Amount is required
         </div>
          
-        <!---->
+        <div
+          class="tm-form-msg sm tm-form-msg--error"
+        >
+          Wallet doesn't hold any s
+        </div>
       </div>
     </div>
      

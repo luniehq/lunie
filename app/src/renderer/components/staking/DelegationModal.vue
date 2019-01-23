@@ -32,7 +32,7 @@
     </tm-form-group>
 
     <tm-form-group
-      :error="$v.amount.$dirty && $v.amount.$invalid"
+      :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
       field-label="Amount"
@@ -53,7 +53,7 @@
         type="between"
       />
       <tm-form-msg
-        v-if="$v.amount.$dirty && $v.amount.$invalid && !$v.amount.required"
+        v-if="$v.amount.$error && $v.amount.$invalid && !$v.amount.required"
         name="Amount"
         type="required"
       />

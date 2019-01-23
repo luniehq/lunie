@@ -1154,8 +1154,6 @@ exports[`PageWallet should show the sending modal 1`] = `
             <input
               class="tm-field"
               id="send-amount"
-              max="1000"
-              min="1"
               placeholder="Amount"
               type="number"
             />

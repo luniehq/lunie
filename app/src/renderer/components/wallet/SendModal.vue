@@ -56,8 +56,6 @@
     >
       <tm-field
         id="send-amount"
-        :max="max"
-        :min="max ? 1 : 0"
         v-model.number="$v.amount.$model"
         type="number"
         placeholder="Amount"
@@ -73,6 +71,12 @@
         :min="$v.amount.$params.between.min"
         name="Amount"
         type="between"
+      />
+      <tm-form-msg
+        v-else-if="max === 0"
+        :msg="`doesn't hold any ${denom}s`"
+        name="Wallet"
+        type="custom"
       />
       <tm-form-msg
         v-else-if="$v.amount.$error && !$v.amount.integer"
@@ -174,10 +178,10 @@ export default {
       try {
         b32.decode(param)
         this.bech32error = null
-        return true
       } catch (error) {
         this.bech32error = error.message
-        return false
+      } finally {
+        return !this.bech32error
       }
     }
   },
