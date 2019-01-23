@@ -241,7 +241,7 @@ export default {
       } catch (error) {
         this.bech32error = error.message
       } finally {
-        return !!this.bech32error
+        return !this.bech32error
       }
     }
   },
