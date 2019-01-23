@@ -1,7 +1,7 @@
 <template>
   <action-modal ref="actionModal" title="Send" @close-action-modal="close">
     <tm-form-group
-      :error="$v.fields.denom.$dirty && $v.fields.denom.$invalid"
+      :error="$v.fields.denom.$error && $v.fields.denom.$invalid"
       field-id="send-denomination"
       field-label="Denomination"
     >
@@ -13,7 +13,7 @@
       />
       <tm-form-msg
         v-if="
-          $v.fields.denom.$dirty &&
+          $v.fields.denom.$error &&
             $v.fields.denom.$invalid &&
             !$v.fields.denom.required
         "
@@ -82,7 +82,7 @@
     <tm-form-group
       :error="
         fields.password.length > 0 &&
-          ($v.fields.password.$dirty && $v.fields.password.$invalid)
+          ($v.fields.password.$error && $v.fields.password.$invalid)
       "
       field-id="password"
       field-label="Password"
@@ -95,7 +95,7 @@
       />
       <tm-form-msg
         v-if="
-          $v.fields.password.$dirty &&
+          $v.fields.password.$error &&
             fields.password.length &&
             $v.fields.password.$invalid &&
             !$v.fields.password.required

@@ -22,7 +22,7 @@
     </tm-form-group>
 
     <tm-form-group
-      :error="$v.amount.$dirty && $v.amount.$invalid"
+      :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
       field-label="Amount"
@@ -36,19 +36,19 @@
         placeholder="Amount"
       />
       <tm-form-msg
-        v-if="$v.amount.$dirty && $v.amount.$invalid && !$v.amount.between"
+        v-if="$v.amount.$error && $v.amount.$invalid && !$v.amount.between"
         :max="$v.amount.$params.between.max"
         :min="$v.amount.$params.between.min"
         name="Amount"
         type="between"
       />
       <tm-form-msg
-        v-if="$v.amount.$dirty && $v.amount.$invalid && !$v.amount.required"
+        v-if="$v.amount.$error && $v.amount.$invalid && !$v.amount.required"
         name="Amount"
         type="required"
       />
       <tm-form-msg
-        v-else-if="$v.amount.$dirty && $v.amount.$invalid && !$v.amount.integer"
+        v-else-if="$v.amount.$error && $v.amount.$invalid && !$v.amount.integer"
         name="Amount"
         type="integer"
       />
