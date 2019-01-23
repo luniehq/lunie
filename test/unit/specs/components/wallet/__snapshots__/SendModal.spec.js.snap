@@ -440,7 +440,7 @@ exports[`SendModal should show address required error 1`] = `
         <div
           class="tm-form-msg sm tm-form-msg--error"
         >
-          Amount must be between 0 and 0
+          Wallet doesn't hold any fermions
         </div>
       </div>
     </div>

@@ -66,11 +66,22 @@
         type="required"
       />
       <tm-form-msg
-        v-if="$v.fields.amount.$error && !$v.fields.amount.between"
+        v-if="
+          $v.fields.amount.$error &&
+            !$v.fields.amount.between &&
+            amount > 0 &&
+            balance > 0
+        "
         :max="$v.fields.amount.$params.between.max"
         :min="$v.fields.amount.$params.between.min"
         name="Amount"
         type="between"
+      />
+      <tm-form-msg
+        v-else-if="max === 0"
+        :msg="`doesn't hold any ${denom}s`"
+        name="Wallet"
+        type="custom"
       />
       <tm-form-msg
         v-else-if="$v.fields.amount.$error && !$v.fields.amount.integer"

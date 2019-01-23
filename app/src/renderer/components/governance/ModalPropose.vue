@@ -69,19 +69,17 @@
         type="required"
       />
       <tm-form-msg
-        v-if="
-          $v.amount.$error && !$v.amount.between && amount > 0 && balance > 0
-        "
-        :max="balance"
-        :min="1"
-        name="Amount"
-        type="between"
-      />
-      <tm-form-msg
-        v-else-if="balance === 0"
+        v-if="balance === 0"
         :msg="`doesn't hold any ${denom}s`"
         name="Wallet"
         type="custom"
+      />
+      <tm-form-msg
+        v-else-if="$v.amount.$error && !$v.amount.between && amount > 0"
+        :max="$v.fields.amount.$params.between.max"
+        :min="$v.fields.amount.$params.between.min"
+        name="Amount"
+        type="between"
       />
       <hr />
     </tm-form-group>
@@ -130,7 +128,12 @@
 <script>
 import { mapGetters } from "vuex"
 import ClickOutside from "vue-click-outside"
-import { minLength, maxLength, required } from "vuelidate/lib/validators"
+import {
+  minLength,
+  maxLength,
+  required,
+  between
+} from "vuelidate/lib/validators"
 import { isEmpty, trim } from "lodash"
 import Modal from "common/TmModal"
 import TmBtn from "common/TmBtn"
@@ -205,7 +208,7 @@ export default {
       },
       amount: {
         required,
-        between: x => x >= 1 && x <= this.balance
+        between: between(this.max ? 1 : 0, this.balance)
       },
       password: {
         required

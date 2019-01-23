@@ -141,6 +141,7 @@ describe(`SendModal`, () => {
     }
 
     let self = {
+      max: 10,
       fields: {
         denom: `notmycoin`,
         address,
