@@ -38,6 +38,7 @@ describe(`PageProposal`, () => {
       localVue,
       doBefore: ({ store }) => {
         store.commit(`setConnected`, true)
+        store.state.governanceParameters.loaded = true
         store.commit(`setGovParameters`, governanceParameters)
         store.commit(`setStakingParameters`, stakingParameters.parameters)
         store.commit(`setProposal`, proposal)
@@ -226,125 +227,6 @@ describe(`PageProposal`, () => {
     it(`disables deposits if the proposal is not active`, () => {
       expect(wrapper.find(`#deposit-btn`).exists()).toEqual(false)
     })
-  })
-
-  it(`casts a vote`, async () => {
-    wrapper.vm.$store.commit = jest.fn()
-    wrapper.vm.$store.dispatch = jest.fn()
-
-    await wrapper.vm.castVote({ option: `Abstain`, password: `12345` })
-
-    expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
-      [`submitVote`, { option: `Abstain`, proposal_id: `2`, password: `12345` }]
-    ])
-
-    expect(wrapper.vm.$store.commit.mock.calls).toEqual([
-      [
-        `notify`,
-        {
-          body: `You have successfully voted Abstain on proposal #2`,
-          title: `Successful vote!`
-        }
-      ]
-    ])
-  })
-
-  it(`shows an error if casting a vote fails`, async () => {
-    wrapper.vm.$store.commit = jest.fn()
-    wrapper.vm.$store.dispatch = jest.fn(() => {
-      throw new Error(`unexpected error`)
-    })
-
-    await wrapper.vm.castVote({ option: `NoWithVeto`, password: `12345` })
-
-    expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
-      [
-        `submitVote`,
-        { option: `NoWithVeto`, proposal_id: `2`, password: `12345` }
-      ]
-    ])
-
-    expect(wrapper.vm.$store.commit.mock.calls).toEqual([
-      [
-        `notifyError`,
-        {
-          body: `unexpected error`,
-          title: `Error while voting on proposal #2`
-        }
-      ]
-    ])
-  })
-
-  it(`allows the user to deposit on a proposal`, async () => {
-    wrapper.vm.$store.commit = jest.fn()
-    wrapper.vm.$store.dispatch = jest.fn()
-
-    let amount = [
-      {
-        amount: `15`,
-        denom: `atom`
-      }
-    ]
-
-    await wrapper.vm.deposit({ amount, password: `12345` })
-
-    expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
-      [
-        `submitDeposit`,
-        {
-          amount,
-          proposal_id: `2`,
-          password: `12345`
-        }
-      ]
-    ])
-
-    expect(wrapper.vm.$store.commit.mock.calls).toEqual([
-      [
-        `notify`,
-        {
-          body: `You have successfully deposited your STAKEs on proposal #2`,
-          title: `Successful deposit!`
-        }
-      ]
-    ])
-  })
-
-  it(`shows an error if depositing on a proposal fails`, async () => {
-    wrapper.vm.$store.commit = jest.fn()
-    wrapper.vm.$store.dispatch = jest.fn(() => {
-      throw new Error(`unexpected error`)
-    })
-
-    let amount = [
-      {
-        amount: `9`,
-        denom: `atom`
-      }
-    ]
-
-    await wrapper.vm.deposit({ amount, password: `12345` })
-
-    expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
-      [
-        `submitDeposit`,
-        {
-          amount,
-          proposal_id: `2`,
-          password: `12345`
-        }
-      ]
-    ])
-
-    expect(wrapper.vm.$store.commit.mock.calls).toEqual([
-      [
-        `notifyError`,
-        {
-          body: `unexpected error`,
-          title: `Error while submitting a deposit on proposal #2`
-        }
-      ]
-    ])
   })
 
   it(`disables interaction buttons if not connected`, () => {

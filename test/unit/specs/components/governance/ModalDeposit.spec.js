@@ -12,7 +12,7 @@ describe(`ModalDeposit`, () => {
   localVue.directive(`tooltip`, () => {})
   localVue.directive(`focus`, () => {})
 
-  beforeEach(() => {
+  beforeEach(async () => {
     const coins = [
       {
         amount: `20`,
@@ -25,11 +25,16 @@ describe(`ModalDeposit`, () => {
         proposalId: `1`,
         proposalTitle: lcdClientMock.state.proposals[`1`].title,
         denom: `stake`
-      }
+      },
+      sync: false
     })
     wrapper = instance.wrapper
     store = instance.store
+    store.state.connection.connected = true
     store.commit(`setWalletBalances`, coins)
+
+    await wrapper.vm.$nextTick()
+    wrapper.vm.$refs.actionModal.submit = jest.fn(cb => cb())
   })
 
   describe(`component matches snapshot`, () => {
@@ -46,32 +51,22 @@ describe(`ModalDeposit`, () => {
     it(`account password defaults to an empty string`, () => {
       expect(wrapper.vm.password).toEqual(``)
     })
-
-    it(`password is hidden by default`, () => {
-      expect(wrapper.vm.showPassword).toBe(false)
-    })
-  })
-
-  describe(`Password display`, () => {
-    it(`toggles the password between text and password`, () => {
-      wrapper.vm.togglePassword()
-      expect(wrapper.vm.showPassword).toBe(true)
-      wrapper.vm.togglePassword()
-      expect(wrapper.vm.showPassword).toBe(false)
-    })
   })
 
   describe(`enables or disables 'Deposit' button correctly`, () => {
-    describe(`disables the 'Deposit' button`, () => {
+    describe(`does not submit deposit`, () => {
       it(`with default values`, () => {
-        let depositBtn = wrapper.find(`#submit-deposit`)
-        expect(depositBtn.html()).toContain(`disabled="disabled"`)
+        wrapper.vm.submitForm = jest.fn()
+        wrapper.vm.validateForm()
+        expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
       })
 
-      it(`when the amount deposited higher than the user's balance`, () => {
+      it(`when the amount deposited higher than the user's balance`, async () => {
         wrapper.setData({ amount: 25, password: `1234567890` })
-        let depositBtn = wrapper.find(`#submit-deposit`)
-        expect(depositBtn.html()).toContain(`disabled="disabled"`)
+        wrapper.vm.submitForm = jest.fn()
+        wrapper.vm.validateForm()
+        expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
+        await wrapper.vm.$nextTick()
         let errorMessage = wrapper.find(`input#amount + div`)
         expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
       })
@@ -85,22 +80,25 @@ describe(`ModalDeposit`, () => {
         ]
         store.commit(`setWalletBalances`, otherCoins)
         wrapper.setData({ amount: 25, password: `1234567890` })
-        let depositBtn = wrapper.find(`#submit-deposit`)
-        expect(depositBtn.html()).toContain(`disabled="disabled"`)
+        wrapper.vm.submitForm = jest.fn()
+        wrapper.vm.validateForm()
+        expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
       })
 
       it(`when the password field is empty`, () => {
         wrapper.setData({ amount: 10, password: `` })
-        let depositBtn = wrapper.find(`#submit-deposit`)
-        expect(depositBtn.html()).toContain(`disabled="disabled"`)
+        wrapper.vm.submitForm = jest.fn()
+        wrapper.vm.validateForm()
+        expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
       })
     })
 
-    describe(`enables the 'Deposit' button`, () => {
-      it(`when the user has enough balance to submit a deposit`, () => {
+    describe(`submits deposit`, () => {
+      it(`when the user has enough balance to submit a deposit`, async () => {
         wrapper.setData({ amount: 15, password: `1234567890` })
-        let submitButton = wrapper.find(`#submit-deposit`)
-        expect(submitButton.html()).not.toContain(`disabled="disabled"`)
+        wrapper.vm.submitForm = jest.fn()
+        wrapper.vm.validateForm()
+        expect(wrapper.vm.submitForm).toHaveBeenCalled()
       })
     })
   })
@@ -118,29 +116,37 @@ describe(`ModalDeposit`, () => {
   })
 
   describe(`Deposit`, () => {
-    it(`Deposit button casts a deposit and closes modal`, () => {
-      wrapper.setData({ amount: 10 })
-      wrapper.vm.onDeposit()
+    it(`submits a deposit`, async () => {
+      wrapper.vm.$store.dispatch = jest.fn()
+      wrapper.vm.$store.commit = jest.fn()
 
-      expect(wrapper.emittedByOrder()).toEqual([
-        {
-          name: `submitDeposit`,
-          args: [
-            {
-              amount: [
-                {
-                  amount: `10`,
-                  denom: `stake`
-                }
-              ],
-              password: ``
-            }
-          ]
-        },
-        {
-          name: `update:showModalDeposit`,
-          args: [false]
-        }
+      wrapper.setData({ amount: 10, password: `1234567890` })
+      await wrapper.vm.submitForm()
+
+      expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
+        [
+          `submitDeposit`,
+          {
+            amount: [
+              {
+                amount: `10`,
+                denom: `stake`
+              }
+            ],
+            proposal_id: `1`,
+            password: `1234567890`
+          }
+        ]
+      ])
+
+      expect(wrapper.vm.$store.commit.mock.calls).toEqual([
+        [
+          `notify`,
+          {
+            body: `You have successfully deposited your stakes on proposal #1`,
+            title: `Successful deposit!`
+          }
+        ]
       ])
     })
   })

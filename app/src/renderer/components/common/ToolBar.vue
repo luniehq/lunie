@@ -1,5 +1,5 @@
 <template>
-  <div class="tm-tool-bar">
+  <div class="tool-bar">
     <a
       v-tooltip.bottom="'Back'"
       :disabled="user.history.length === 0"
@@ -46,7 +46,6 @@
 <script>
 import { mapGetters, mapMutations } from "vuex"
 export default {
-  // the name needs to be different from TmToolBar (tm-tool-bar) or else recursive rendering takes place
   name: `tool-bar`,
   props: {
     refresh: {
@@ -97,16 +96,16 @@ export default {
   padding-right: 1rem;
 }
 
-.tm-page-header-text i {
-  padding: 1rem;
+.tool-bar a {
+  padding-left: 0.5rem;
+  position: relative;
+  top: 1rem;
+  right: 1rem;
   color: var(--dim);
 }
 
-.tm-page-header-text i:hover {
+.tool-bar a:hover {
   cursor: pointer;
-}
-
-.tm-page-header-text i:hover {
   color: var(--bright);
 }
 </style>

@@ -27,7 +27,7 @@ describe(`PageStaking`, () => {
 
   it(`should refresh candidates on click`, () => {
     wrapper
-      .findAll(`.tm-tool-bar i`)
+      .findAll(`.tool-bar i`)
       .at(1)
       .trigger(`click`)
     expect(store.dispatch).toHaveBeenCalledWith(`updateDelegates`)

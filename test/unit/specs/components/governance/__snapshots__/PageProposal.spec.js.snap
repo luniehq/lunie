@@ -96,7 +96,7 @@ exports[`PageProposal has the expected html structure 1`] = `
           </div>
            
           <div
-            class="tm-tool-bar"
+            class="tool-bar"
           >
             <a
               class="back"
@@ -225,7 +225,7 @@ exports[`PageProposal has the expected html structure 1`] = `
           <p>
             
             Submitted a few seconds ago.
-            Voting started a few seconds ago
+            Voting started a few seconds ago.
           
           </p>
         </div>
@@ -427,7 +427,7 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
           </div>
            
           <div
-            class="tm-tool-bar"
+            class="tool-bar"
           >
             <a
               class="back"

@@ -25,7 +25,6 @@ export default {
   display: flex;
   margin-bottom: 1rem;
   padding: 2rem;
-  min-width: 63rem;
 }
 
 .column {
@@ -147,7 +146,6 @@ export default {
   align-items: center;
   display: flex;
   flex-direction: column;
-  width: 7rem;
 }
 
 .colored_dl:not(:last-child) {

@@ -12,9 +12,12 @@
     <tm-data-msg id="account_empty_msg" slot="no-data" icon="help_outline">
       <div slot="title">Account empty</div>
       <div slot="subtitle">
-        This account doesn't hold any coins yet. Go to the&nbsp;
-        <a href="https://gaia.faucetcosmos.network/">token faucet</a> &nbsp;to
-        aquire tokens to play with.
+        This account doesn't hold any coins yet.
+        <!--
+          Visit the
+          <a href="https://gaia.faucetcosmos.network/">token&nbsp;faucet</a> to
+          aquire tokens to play with.
+        -->
       </div>
     </tm-data-msg>
     <li-coin
@@ -23,6 +26,12 @@
       :key="coin.denom"
       :coin="coin"
       class="tm-li-balance"
+      @show-modal="showModal"
+    />
+    <send-modal
+      v-if="showSendModal"
+      :show-send-modal.sync="showSendModal"
+      :denom="denomination"
     />
   </tm-page>
 </template>
@@ -32,6 +41,7 @@ import num from "scripts/num"
 import { mapGetters, mapActions } from "vuex"
 import { includes, orderBy } from "lodash"
 import LiCoin from "./LiCoin"
+import SendModal from "wallet/SendModal"
 import TmPage from "common/TmPage"
 import TmDataMsg from "common/TmDataMsg"
 
@@ -59,9 +69,10 @@ export default {
   components: {
     TmDataMsg,
     LiCoin,
-    TmPage
+    TmPage,
+    SendModal
   },
-  data: () => ({ num }),
+  data: () => ({ num, showSendModal: false, denomination: null }),
   computed: {
     ...mapGetters([
       `filters`,
@@ -110,7 +121,11 @@ export default {
     this.queryWalletBalances()
   },
   methods: {
-    ...mapActions([`updateDelegates`, `queryWalletBalances`])
+    ...mapActions([`updateDelegates`, `queryWalletBalances`]),
+    showModal(denomination) {
+      this.denomination = denomination
+      this.showSendModal = true
+    }
   }
 }
 </script>

@@ -96,7 +96,7 @@ exports[`PageTransactions has the expected html structure 1`] = `
           </div>
            
           <div
-            class="tm-tool-bar"
+            class="tool-bar"
           >
             <a
               class="back"
@@ -343,7 +343,7 @@ exports[`PageTransactions should filter the transactions 1`] = `
           </div>
            
           <div
-            class="tm-tool-bar"
+            class="tool-bar"
           >
             <a
               class="back"

@@ -54,8 +54,8 @@
               Submitted {{ submittedAgo }}.
               {{
                 proposal.proposal_status === `DepositPeriod`
-                  ? `Deposit ends ` + depositEndsIn
-                  : `Voting started ` + votingStartedAgo
+                  ? `Deposit ends ${depositEndsIn}.`
+                  : `Voting started ${votingStartedAgo}.`
               }}
             </p>
           </div>
@@ -101,7 +101,6 @@
         :proposal-id="proposalId"
         :proposal-title="proposal.title"
         :denom="depositDenom"
-        @submitDeposit="deposit"
       />
       <modal-vote
         v-if="showModalVote"
@@ -109,7 +108,6 @@
         :proposal-id="proposalId"
         :proposal-title="proposal.title"
         :last-vote-option="lastVote && lastVote.option"
-        @castVote="castVote"
       />
     </template>
   </page-profile>
@@ -160,9 +158,6 @@ export default {
     ]),
     proposal() {
       return this.proposals.proposals[this.proposalId]
-    },
-    proposalType() {
-      return this.proposal.proposal_type.toLowerCase()
     },
     submittedAgo() {
       return moment(new Date(this.proposal.submit_time)).fromNow()
@@ -241,51 +236,6 @@ export default {
     },
     onDeposit() {
       this.showModalDeposit = true
-    },
-    async deposit({ amount, password }) {
-      try {
-        // TODO: support multiple coins
-        await this.$store.dispatch(`submitDeposit`, {
-          proposal_id: this.proposalId,
-          amount,
-          password
-        })
-
-        this.$store.commit(`notify`, {
-          title: `Successful deposit!`,
-          body: `You have successfully deposited your ${
-            this.depositDenom
-          }s on proposal #${this.proposalId}`
-        })
-      } catch ({ message }) {
-        this.$store.commit(`notifyError`, {
-          title: `Error while submitting a deposit on proposal #${
-            this.proposalId
-          }`,
-          body: message
-        })
-      }
-    },
-    async castVote({ option, password }) {
-      try {
-        await this.$store.dispatch(`submitVote`, {
-          proposal_id: this.proposalId,
-          option,
-          password
-        })
-
-        this.$store.commit(`notify`, {
-          title: `Successful vote!`,
-          body: `You have successfully voted ${option} on proposal #${
-            this.proposalId
-          }`
-        })
-      } catch ({ message }) {
-        this.$store.commit(`notifyError`, {
-          title: `Error while voting on proposal #${this.proposalId}`,
-          body: message
-        })
-      }
     }
   }
 }

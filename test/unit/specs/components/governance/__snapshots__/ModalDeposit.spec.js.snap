@@ -2,24 +2,25 @@
 
 exports[`ModalDeposit component matches snapshot has the expected html structure 1`] = `
 <div
-  class="modal-deposit"
+  class="action-modal modal-deposit"
   id="modal-deposit"
+  name="slide-fade"
 >
   <div
-    class="modal-deposit-header"
+    class="action-modal-header"
   >
     <img
-      class="icon modal-deposit-atom"
+      class="icon action-modal-atom"
       src="~assets/images/cosmos-logo.png"
     />
     <span
-      class="tm-modal-title"
+      class="action-modal-title"
     >
       Deposit
     </span>
      
     <div
-      class="tm-modal-icon tm-modal-close"
+      class="action-modal-icon action-modal-close"
       id="closeBtn"
     >
       <i
@@ -30,104 +31,92 @@ exports[`ModalDeposit component matches snapshot has the expected html structure
     </div>
   </div>
    
-  <div>
-    <h2>
-      Title: Proposal Title
-    </h2>
-     
-    <h3>
-      Proposal ID: #1
-    </h3>
-  </div>
-   
   <div
-    class="modal-deposit-form-group tm-form-group"
+    class="action-modal-form"
   >
-    <!---->
-    <label
-      class="tm-form-group__label"
-      for="amount"
-    >
-      Amount
-    </label>
-     
     <div
-      class="tm-form-group__field"
+      class="action-modal-form-group tm-form-group"
     >
-      <input
-        class="tm-field"
-        id="denom"
-        placeholder="stake"
-        readonly="readonly"
-        type="text"
-      />
-       
-      <input
-        class="tm-field"
-        id="amount"
-        min="0"
-        type="number"
-      />
-       
       <!---->
+      <label
+        class="tm-form-group__label"
+        for="amount"
+      >
+        Amount
+      </label>
        
-      <hr />
+      <div
+        class="tm-form-group__field"
+      >
+        <span
+          class="input-suffix"
+        >
+          stake
+        </span>
+         
+        <input
+          class="tm-field"
+          id="amount"
+          type="number"
+        />
+         
+        <!---->
+         
+        <hr />
+      </div>
     </div>
-  </div>
-   
-  <div
-    class="modal-deposit-form-group tm-form-group"
-  >
-    <!---->
-    <label
-      class="tm-form-group__label"
-      for="password"
-    >
-      Account password
-    </label>
      
     <div
-      class="tm-form-group__field"
+      class="action-modal-form-group tm-form-group"
     >
-      <input
-        class="tm-field"
-        id="password"
-        placeholder="password..."
-        type="password"
-      />
-       
-      <input
-        id="showPasswordCheckbox"
-        type="checkbox"
-      />
-       
+      <!---->
       <label
-        for="showPasswordCheckbox"
+        class="tm-form-group__label"
+        for="password"
       >
-        Show password
+        Password
       </label>
+       
+      <div
+        class="tm-form-group__field"
+      >
+        <input
+          class="tm-field"
+          id="password"
+          placeholder="Password"
+          type="password"
+        />
+         
+        <!---->
+      </div>
+    </div>
+     
+    <div
+      class="action-modal-footer"
+    >
+      <button
+        class="tm-btn"
+        id="submit-deposit"
+      >
+        <span
+          class="tm-btn__container tm-btn--primary"
+        >
+          <!---->
+          <span
+            class="tm-btn__value"
+          >
+            Submit Deposit
+          </span>
+        </span>
+      </button>
     </div>
   </div>
    
   <div
-    class="modal-deposit-footer"
+    class="action-modal-footer"
   >
-    <button
-      class="tm-btn"
-      disabled="disabled"
-      id="submit-deposit"
-    >
-      <span
-        class="tm-btn__container tm-btn--size-lg tm-btn--primary"
-      >
-        <!---->
-        <span
-          class="tm-btn__value"
-        >
-          Deposit
-        </span>
-      </span>
-    </button>
+     
+    <!---->
   </div>
 </div>
 `;

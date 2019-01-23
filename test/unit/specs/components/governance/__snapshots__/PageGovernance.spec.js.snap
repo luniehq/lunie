@@ -96,7 +96,7 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
           </div>
            
           <div
-            class="tm-tool-bar"
+            class="tool-bar"
           >
             <a
               class="back"
@@ -319,7 +319,7 @@ exports[`PageGovernance has the expected html structure 1`] = `
           </div>
            
           <div
-            class="tm-tool-bar"
+            class="tool-bar"
           >
             <a
               class="back"

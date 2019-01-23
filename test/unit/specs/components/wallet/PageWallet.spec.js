@@ -1,6 +1,5 @@
 import setup from "../../../helpers/vuex-setup"
 import PageWallet from "renderer/components/wallet/PageWallet"
-import ModalSearch from "renderer/components/common/TmModalSearch"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 let { stakingParameters } = lcdClientMock.state
@@ -52,12 +51,6 @@ describe(`PageWallet`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`should show the search on click`, () => {
-    expect(wrapper.find(`.tm-tool-bar a.search-button i`).exists()).toBeTruthy()
-    wrapper.vm.$el.querySelector(`.tm-tool-bar a.search-button i`).click()
-    expect(wrapper.contains(ModalSearch)).toEqual(true)
-  })
-
   it(`should list the denoms that are available`, () => {
     expect(wrapper.findAll(`.tm-li-balance`).length).toBe(4)
   })
@@ -83,5 +76,11 @@ describe(`PageWallet`, () => {
     store.state.wallet.loading = false
     store.state.connection.connected = true
     expect(wrapper.exists(`tm-data-loading`)).toBe(true)
+  })
+
+  it(`should show the sending modal`, () => {
+    wrapper.vm.showModal(`STAKE`)
+    expect(wrapper.exists(`send-modal`)).toBe(true)
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 })

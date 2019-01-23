@@ -1,25 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ModalVote component matches snapshot has the expected html structure 1`] = `
+exports[`ModalVote has the expected html structure 1`] = `
 <div
-  class="modal-vote"
+  class="action-modal modal-vote"
   id="modal-vote"
+  name="slide-fade"
 >
   <div
-    class="modal-vote-header"
+    class="action-modal-header"
   >
     <img
-      class="icon modal-vote-atom"
+      class="icon action-modal-atom"
       src="~assets/images/cosmos-logo.png"
     />
     <span
-      class="tm-modal-title"
+      class="action-modal-title"
     >
       Vote
     </span>
      
     <div
-      class="tm-modal-icon tm-modal-close"
+      class="action-modal-icon action-modal-close"
       id="closeBtn"
     >
       <i
@@ -30,157 +31,148 @@ exports[`ModalVote component matches snapshot has the expected html structure 1`
     </div>
   </div>
    
-  <div>
-    <h2>
-      Title: Proposal Title
-    </h2>
-     
-    <h3>
-      Proposal ID: #1
-    </h3>
-  </div>
-   
   <div
-    class="modal-vote-form-group options tm-form-group"
+    class="action-modal-form"
   >
-    <!---->
-    <!---->
-     
     <div
-      class="tm-form-group__field"
+      class="action-modal-group vote-options tm-form-group"
     >
-      <button
-        class="tm-btn"
-        id="vote-yes"
+      <!---->
+      <!---->
+       
+      <div
+        class="tm-form-group__field"
       >
-        <span
-          class="tm-btn__container tm-btn--size-md tm-btn--secondary"
+        <button
+          class="tm-btn"
+          id="vote-yes"
         >
-          <!---->
           <span
-            class="tm-btn__value"
+            class="tm-btn__container tm-btn--size-md tm-btn--secondary"
           >
-            Yes
+            <!---->
+            <span
+              class="tm-btn__value"
+            >
+              Yes
+            </span>
           </span>
-        </span>
-      </button>
-       
-      <button
-        class="tm-btn"
-        id="vote-no"
-      >
-        <span
-          class="tm-btn__container tm-btn--size-md tm-btn--secondary"
+        </button>
+         
+        <button
+          class="tm-btn"
+          id="vote-no"
         >
-          <!---->
           <span
-            class="tm-btn__value"
+            class="tm-btn__container tm-btn--size-md tm-btn--secondary"
           >
-            No
+            <!---->
+            <span
+              class="tm-btn__value"
+            >
+              No
+            </span>
           </span>
-        </span>
-      </button>
-       
-      <button
-        class="tm-btn"
-        id="vote-veto"
-      >
-        <span
-          class="tm-btn__container tm-btn--size-md tm-btn--secondary"
+        </button>
+         
+        <button
+          class="tm-btn"
+          id="vote-veto"
         >
-          <!---->
           <span
-            class="tm-btn__value"
+            class="tm-btn__container tm-btn--size-md tm-btn--secondary"
           >
-            No With Veto
+            <!---->
+            <span
+              class="tm-btn__value"
+            >
+              No With Veto
+            </span>
           </span>
-        </span>
-      </button>
-       
-      <button
-        class="tm-btn"
-        id="vote-abstain"
-      >
-        <span
-          class="tm-btn__container tm-btn--size-md tm-btn--secondary"
+        </button>
+         
+        <button
+          class="tm-btn"
+          id="vote-abstain"
         >
-          <!---->
           <span
-            class="tm-btn__value"
+            class="tm-btn__container tm-btn--size-md tm-btn--secondary"
           >
-            Abstain
+            <!---->
+            <span
+              class="tm-btn__value"
+            >
+              Abstain
+            </span>
           </span>
-        </span>
-      </button>
-       
-      <hr />
-    </div>
-  </div>
-   
-  <div
-    class="modal-vote-form-group tm-form-group"
-  >
-    <!---->
-    <label
-      class="tm-form-group__label"
-      for="password"
-    >
-      Account password
-    </label>
-     
-    <div
-      class="tm-form-group__field"
-    >
-      <input
-        class="tm-field"
-        id="password"
-        placeholder="password..."
-        type="password"
-      />
-       
-      <input
-        id="showPasswordCheckbox"
-        type="checkbox"
-      />
-       
-      <label
-        for="showPasswordCheckbox"
-      >
-        Show password
-      </label>
-    </div>
-  </div>
-   
-  <div
-    class="modal-vote-form-group tm-form-group"
-  >
-    <!---->
-    <!---->
-     
-    <div
-      class="tm-form-group__field"
-    />
-  </div>
-   
-  <div
-    class="modal-vote-footer"
-  >
-    <button
-      class="tm-btn"
-      disabled="disabled"
-      id="cast-vote"
-    >
-      <span
-        class="tm-btn__container tm-btn--size-lg tm-btn--primary"
-      >
+        </button>
+         
         <!---->
-        <span
-          class="tm-btn__value"
+      </div>
+    </div>
+     
+    <div
+      class="action-modal-group tm-form-group"
+    >
+      <!---->
+      <label
+        class="tm-form-group__label"
+        for="password"
+      >
+        Password
+      </label>
+       
+      <div
+        class="tm-form-group__field"
+      >
+        <input
+          class="tm-field"
+          id="password"
+          placeholder="Password"
+          type="password"
+        />
+         
+        <!---->
+      </div>
+    </div>
+     
+    <div
+      class="action-modal-group tm-form-group"
+    >
+      <!---->
+      <!---->
+       
+      <div
+        class="tm-form-group__field"
+      >
+        <div
+          class="action-modal-footer"
         >
-          Vote
-        </span>
-      </span>
-    </button>
+          <button
+            class="tm-btn"
+            id="cast-vote"
+          >
+            <span
+              class="tm-btn__container tm-btn--primary"
+            >
+              <!---->
+              <span
+                class="tm-btn__value"
+              >
+                Submit Vote
+              </span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+     
+    <!---->
   </div>
 </div>
 `;
