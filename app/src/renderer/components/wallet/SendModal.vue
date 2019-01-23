@@ -238,10 +238,10 @@ export default {
       try {
         b32.decode(param)
         this.bech32error = null
-        return true
       } catch (error) {
         this.bech32error = error.message
-        return false
+      } finally {
+        return !!this.bech32error
       }
     }
   },
