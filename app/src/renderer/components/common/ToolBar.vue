@@ -31,6 +31,7 @@
       <i class="material-icons">help_outline</i>
     </a>
     <router-link
+      v-if="config.devMode"
       v-tooltip.bottom="'Preferences'"
       id="settings"
       to="/preferences"
@@ -58,7 +59,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([`user`, `lastPage`]),
+    ...mapGetters([`user`, `lastPage`, `config`]),
     searchEnabled() {
       return !!this.searching
     },

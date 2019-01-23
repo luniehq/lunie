@@ -1185,16 +1185,7 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
               </i>
             </a>
              
-            <router-link-stub
-              id="settings"
-              to="/preferences"
-            >
-              <i
-                class="material-icons"
-              >
-                settings
-              </i>
-            </router-link-stub>
+            <!---->
              
             <a
               id="signOut-btn"
