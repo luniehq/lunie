@@ -66,24 +66,23 @@
       <span class="input-suffix">{{ denom }}</span>
       <tm-field id="amount" v-model="amount" type="number" />
       <tm-form-msg
-        v-if="$v.amount.$error && !$v.amount.between && amount === 0"
-        name="Amount"
-        type="required"
-      />
-      <tm-form-msg
         v-if="balance === 0"
         :msg="`doesn't hold any ${denom}s`"
         name="Wallet"
         type="custom"
       />
       <tm-form-msg
-        v-else-if="$v.amount.$error && !$v.amount.between && amount > 0"
+        v-else-if="$v.amount.$error && !$v.amount.between && amount === 0"
+        name="Amount"
+        type="required"
+      />
+      <tm-form-msg
+        v-else-if="$v.amount.$error && !$v.amount.between"
         :max="$v.amount.$params.between.max"
         :min="$v.amount.$params.between.min"
         name="Amount"
         type="between"
       />
-      <hr />
     </tm-form-group>
   </action-modal>
 </template>
@@ -166,9 +165,6 @@ export default {
       amount: {
         required,
         between: between(this.max ? 1 : 0, this.balance)
-      },
-      password: {
-        required
       }
     }
   },
@@ -176,7 +172,7 @@ export default {
     close() {
       this.$emit(`update:showModalPropose`, false)
     },
-    async validateForm() {
+    validateForm() {
       this.$v.$touch()
 
       return !this.$v.$invalid

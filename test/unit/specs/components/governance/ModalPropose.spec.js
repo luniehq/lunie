@@ -7,11 +7,10 @@ describe(`ModalPropose`, () => {
   let wrapper, store
   let { mount } = setup()
 
-  const proposal = {
+  const inputs = {
     amount: 15,
     title: `A new text proposal for Cosmos`,
-    description: `a valid description for the proposal`,
-    password: `1234567890`
+    description: `a valid description for the proposal`
   }
 
   beforeEach(async () => {
@@ -33,7 +32,7 @@ describe(`ModalPropose`, () => {
     store.commit(`setWalletBalances`, coins)
 
     await wrapper.vm.$nextTick()
-    wrapper.vm.$refs.actionModal.submit = jest.fn(cb => cb())
+    wrapper.vm.$refs.actionModal.open()
   })
 
   describe(`component matches snapshot`, () => {
@@ -54,31 +53,19 @@ describe(`ModalPropose`, () => {
     it(`the proposal type defaults to the empty string`, () => {
       expect(wrapper.vm.description).toEqual(``)
     })
-
-    it(`the 'amount' defaults to 0`, () => {
-      expect(wrapper.vm.amount).toEqual(0)
-    })
-
-    it(`account password defaults to an empty string`, () => {
-      expect(wrapper.vm.password).toEqual(``)
-    })
   })
 
-  describe(`enables or disables 'Create Proposal' button correctly`, () => {
-    describe(`does not submit proposal`, () => {
+  describe(`validation`, () => {
+    describe(`fails`, () => {
       it(`with the default values`, () => {
-        wrapper.vm.submitForm = jest.fn()
-        wrapper.vm.validateForm()
-        expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
+        expect(wrapper.vm.validateForm()).toBe(false)
       })
 
       it(`if the amount for initial deposit is higher than the user's balance`, async () => {
-        wrapper.setData(proposal)
+        wrapper.setData(inputs)
         wrapper.setData({ amount: 25 })
         await wrapper.vm.$nextTick()
-        wrapper.vm.submitForm = jest.fn()
-        wrapper.vm.validateForm()
-        expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
+        expect(wrapper.vm.validateForm()).toBe(false)
         await wrapper.vm.$nextTick()
         let errorMessage = wrapper.find(`input#amount + div`)
         expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
@@ -91,36 +78,28 @@ describe(`ModalPropose`, () => {
             denom: `otherCoin`
           }
         ]
-        wrapper.setData(proposal)
+        wrapper.setData(inputs)
         store.commit(`setWalletBalances`, otherCoins)
         wrapper.setData({ amount: 25 })
         await wrapper.vm.$nextTick()
-        wrapper.vm.submitForm = jest.fn()
-        wrapper.vm.validateForm()
-        expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
+        expect(wrapper.vm.validateForm()).toBe(false)
       })
 
       it(`if title is blank`, () => {
-        wrapper.setData(proposal)
+        wrapper.setData(inputs)
         wrapper.setData({ title: `     ` })
-        wrapper.vm.submitForm = jest.fn()
-        wrapper.vm.validateForm()
-        expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
+        expect(wrapper.vm.validateForm()).toBe(false)
       })
 
       it(`if description is blank`, () => {
         wrapper.setData({ description: `     ` })
-        wrapper.vm.submitForm = jest.fn()
-        wrapper.vm.validateForm()
-        expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
+        expect(wrapper.vm.validateForm()).toBe(false)
       })
 
       it(`if title is too long disable submit button and show error message`, async () => {
         wrapper.setData({ title: `x`.repeat(65) })
         await wrapper.vm.$nextTick()
-        wrapper.vm.submitForm = jest.fn()
-        wrapper.vm.validateForm()
-        expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
+        expect(wrapper.vm.validateForm()).toBe(false)
         await wrapper.vm.$nextTick()
         let errorMessage = wrapper.find(`input#title + div`)
         expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
@@ -129,38 +108,23 @@ describe(`ModalPropose`, () => {
       it(`if description is too long disable submit button and show error message`, async () => {
         wrapper.setData({ description: `x`.repeat(201) })
         await wrapper.vm.$nextTick()
-        wrapper.vm.submitForm = jest.fn()
-        wrapper.vm.validateForm()
-        expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
+        expect(wrapper.vm.validateForm()).toBe(false)
         await wrapper.vm.$nextTick()
         let errorMessage = wrapper.find(`textarea#description + div`)
         expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
       })
 
       it(`if proposal type is invalid`, () => {
-        wrapper.setData(proposal)
+        wrapper.setData(inputs)
         wrapper.setData({ type: `Other` })
-        wrapper.vm.submitForm = jest.fn()
-        wrapper.vm.validateForm()
-        expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
-      })
-
-      it(`if the password field is empty`, () => {
-        wrapper.setData(proposal)
-        wrapper.setData({ password: `` })
-        wrapper.vm.submitForm = jest.fn()
-        wrapper.vm.validateForm()
-        expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
+        expect(wrapper.vm.validateForm()).toBe(false)
       })
     })
 
-    describe(`submits a proposal`, () => {
+    describe(`successful`, () => {
       it(`if the user has enough balance and the fields are within the length ranges`, async () => {
-        wrapper.setData(proposal)
-        await wrapper.vm.$nextTick()
-        wrapper.vm.submitForm = jest.fn()
-        wrapper.vm.validateForm()
-        expect(wrapper.vm.submitForm).toHaveBeenCalled()
+        wrapper.setData(inputs)
+        expect(wrapper.vm.validateForm()).toBe(true)
       })
     })
   })
@@ -182,8 +146,8 @@ describe(`ModalPropose`, () => {
       wrapper.vm.$store.dispatch = jest.fn()
       wrapper.vm.$store.commit = jest.fn()
 
-      wrapper.setData(proposal)
-      await wrapper.vm.submitForm()
+      wrapper.setData(inputs)
+      await wrapper.vm.submitForm(`local`, `1234567890`)
 
       expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
         [
@@ -193,7 +157,8 @@ describe(`ModalPropose`, () => {
             initial_deposit: [{ amount: `15`, denom: `stake` }],
             title: `A new text proposal for Cosmos`,
             type: `Text`,
-            password: `1234567890`
+            password: `1234567890`,
+            submitType: `local`
           }
         ]
       ])

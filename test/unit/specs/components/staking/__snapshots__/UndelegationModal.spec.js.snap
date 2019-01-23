@@ -108,13 +108,61 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
         />
          
         <!---->
-         
-        <!---->
       </div>
     </div>
      
     <div
       class="action-modal-form-group tm-form-group"
+    >
+      <!---->
+      <label
+        class="tm-form-group__label"
+        for="sign-method"
+      >
+        Signing Method
+      </label>
+       
+      <div
+        class="tm-form-group__field"
+      >
+        <div
+          class="tm-select"
+          id="sign-method"
+        >
+          <select
+            class="tm-field tm-field-select"
+          >
+            <option
+              disabled="disabled"
+              hidden="hidden"
+              selected="selected"
+              value=""
+            >
+              Select option...
+            </option>
+             
+            <option
+              value="local"
+            >
+              (Unsafe) Local Account
+            </option>
+          </select>
+           
+          <div
+            class="tm-field-select-addon"
+          >
+            <i
+              class="material-icons"
+            >
+              arrow_drop_down
+            </i>
+          </div>
+        </div>
+      </div>
+    </div>
+     
+    <div
+      class="action-modal-group tm-form-group"
     >
       <!---->
       <label
@@ -133,31 +181,44 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
           placeholder="Password"
           type="password"
         />
+         
+        <!---->
       </div>
     </div>
-     
   </div>
    
   <div
     class="action-modal-footer"
   >
-    <div>
-      <button
-        class="tm-btn"
-        disabled="disabled"
-        id="submit-undelegation"
+    <div
+      class="action-modal-group tm-form-group"
+    >
+      <!---->
+      <!---->
+       
+      <div
+        class="tm-form-group__field"
       >
-        <span
-          class="tm-btn__container tm-btn--primary"
+        <div
+          class="action-modal-footer"
         >
-          <!---->
-          <span
-            class="tm-btn__value"
+          <button
+            class="tm-btn"
+            id="cast-vote"
           >
-            Submit Undelegation
-          </span>
-        </span>
-      </button>
+            <span
+              class="tm-btn__container tm-btn--primary"
+            >
+              <!---->
+              <span
+                class="tm-btn__value"
+              >
+                Submit
+              </span>
+            </span>
+          </button>
+        </div>
+      </div>
     </div>
      
     <!---->

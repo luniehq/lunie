@@ -384,7 +384,8 @@ exports[`PageWallet has the expected html structure 1`] = `
         </button>
       </div>
     </li>
-     
+       
+    <send-modal-stub />
   </main>
 </div>
 `;
@@ -664,7 +665,8 @@ exports[`PageWallet should filter the balances 1`] = `
         </button>
       </div>
     </li>
-     
+       
+    <send-modal-stub />
   </main>
 </div>
 `;
@@ -1054,168 +1056,7 @@ exports[`PageWallet should show the sending modal 1`] = `
       </div>
     </li>
        
-    <div
-      class="action-modal"
-      name="slide-fade"
-      show-send-modal="true"
-    >
-      <div
-        class="action-modal-header"
-      >
-        <img
-          class="icon action-modal-atom"
-          src="~assets/images/cosmos-logo.png"
-        />
-        <span
-          class="action-modal-title"
-        >
-          Send
-        </span>
-         
-        <div
-          class="action-modal-icon action-modal-close"
-          id="closeBtn"
-        >
-          <i
-            class="material-icons"
-          >
-            close
-          </i>
-        </div>
-      </div>
-       
-      <div
-        class="action-modal-form"
-      >
-        <div
-          class="tm-form-group"
-        >
-          <!---->
-          <label
-            class="tm-form-group__label"
-            for="send-denomination"
-          >
-            Denomination
-          </label>
-           
-          <div
-            class="tm-form-group__field"
-          >
-            <input
-              class="tm-field"
-              id="send-denomination"
-              readonly="readonly"
-              type="text"
-            />
-             
-            <!---->
-          </div>
-        </div>
-         
-        <div
-          class="tm-form-group"
-        >
-          <!---->
-          <label
-            class="tm-form-group__label"
-            for="send-address"
-          >
-            Send To
-          </label>
-           
-          <div
-            class="tm-form-group__field"
-          >
-            <input
-              class="tm-field"
-              id="send-address"
-              placeholder="Address"
-              type="text"
-            />
-             
-            <!---->
-          </div>
-        </div>
-         
-        <div
-          class="tm-form-group"
-        >
-          <!---->
-          <label
-            class="tm-form-group__label"
-            for="send-amount"
-          >
-            Amount
-          </label>
-           
-          <div
-            class="tm-form-group__field"
-          >
-            <input
-              class="tm-field"
-              id="send-amount"
-              placeholder="Amount"
-              type="number"
-            />
-             
-            <!---->
-             
-            <!---->
-          </div>
-        </div>
-         
-        <div
-          class="tm-form-group"
-        >
-          <!---->
-          <label
-            class="tm-form-group__label"
-            for="password"
-          >
-            Password
-          </label>
-           
-          <div
-            class="tm-form-group__field"
-          >
-            <input
-              class="tm-field"
-              id="password"
-              placeholder="Password"
-              type="password"
-            />
-             
-            <!---->
-          </div>
-        </div>
-         
-      </div>
-       
-      <div
-        class="action-modal-footer"
-      >
-        <div>
-          <button
-            class="tm-btn"
-            disabled="disabled"
-            id="send-btn"
-          >
-            <span
-              class="tm-btn__container tm-btn--primary"
-            >
-              <!---->
-              <span
-                class="tm-btn__value"
-              >
-                Send Tokens
-              </span>
-            </span>
-          </button>
-        </div>
-         
-        <!---->
-      </div>
-    </div>
+    <send-modal-stub />
   </main>
 </div>
 `;

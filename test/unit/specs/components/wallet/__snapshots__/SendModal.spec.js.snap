@@ -35,7 +35,7 @@ exports[`SendModal has the expected html structure 1`] = `
     class="action-modal-form"
   >
     <div
-      class="tm-form-group"
+      class="action-modal-form-group tm-form-group"
     >
       <!---->
       <label
@@ -60,7 +60,7 @@ exports[`SendModal has the expected html structure 1`] = `
     </div>
      
     <div
-      class="tm-form-group"
+      class="action-modal-form-group tm-form-group"
     >
       <!---->
       <label
@@ -85,12 +85,12 @@ exports[`SendModal has the expected html structure 1`] = `
     </div>
      
     <div
-      class="tm-form-group"
+      class="action-modal-form-group tm-form-group"
     >
       <!---->
       <label
         class="tm-form-group__label"
-        for="send-amount"
+        for="amount"
       >
         Amount
       </label>
@@ -99,13 +99,11 @@ exports[`SendModal has the expected html structure 1`] = `
         class="tm-form-group__field"
       >
         <input
-          class="tm-field"
+          class="tm-field tm-field"
           id="send-amount"
           placeholder="Amount"
           type="number"
         />
-         
-        <!---->
          
         <div
           class="tm-form-msg sm tm-form-msg--error"
@@ -114,8 +112,6 @@ exports[`SendModal has the expected html structure 1`] = `
         </div>
       </div>
     </div>
-     
-    <hr />
      
     <div
       class="action-modal-form-group tm-form-group"
@@ -267,7 +263,7 @@ exports[`SendModal validation should show address required error 1`] = `
     class="action-modal-form"
   >
     <div
-      class="tm-form-group"
+      class="action-modal-form-group tm-form-group"
     >
       <!---->
       <label
@@ -292,7 +288,7 @@ exports[`SendModal validation should show address required error 1`] = `
     </div>
      
     <div
-      class="tm-form-group tm-form-group--error"
+      class="action-modal-form-group tm-form-group tm-form-group--error"
     >
       <!---->
       <label
@@ -321,12 +317,12 @@ exports[`SendModal validation should show address required error 1`] = `
     </div>
      
     <div
-      class="tm-form-group tm-form-group--error"
+      class="action-modal-form-group tm-form-group tm-form-group--error"
     >
       <!---->
       <label
         class="tm-form-group__label"
-        for="send-amount"
+        for="amount"
       >
         Amount
       </label>
@@ -335,23 +331,19 @@ exports[`SendModal validation should show address required error 1`] = `
         class="tm-form-group__field"
       >
         <input
-          class="tm-field"
+          class="tm-field tm-field"
           id="send-amount"
           placeholder="Amount"
           type="number"
         />
          
-        <!---->
-         
         <div
           class="tm-form-msg sm tm-form-msg--error"
         >
-          Amount must be between 0 and 0
+          Wallet doesn't hold any STAKEs
         </div>
       </div>
     </div>
-     
-    <hr />
      
     <div
       class="action-modal-form-group tm-form-group"
@@ -503,7 +495,7 @@ exports[`SendModal validation should show bech32 error when address length is to
     class="action-modal-form"
   >
     <div
-      class="tm-form-group"
+      class="action-modal-form-group tm-form-group"
     >
       <!---->
       <label
@@ -528,7 +520,7 @@ exports[`SendModal validation should show bech32 error when address length is to
     </div>
      
     <div
-      class="tm-form-group tm-form-group--error"
+      class="action-modal-form-group tm-form-group tm-form-group--error"
     >
       <!---->
       <label
@@ -558,12 +550,12 @@ exports[`SendModal validation should show bech32 error when address length is to
     </div>
      
     <div
-      class="tm-form-group"
+      class="action-modal-form-group tm-form-group"
     >
       <!---->
       <label
         class="tm-form-group__label"
-        for="send-amount"
+        for="amount"
       >
         Amount
       </label>
@@ -572,19 +564,15 @@ exports[`SendModal validation should show bech32 error when address length is to
         class="tm-form-group__field"
       >
         <input
-          class="tm-field"
+          class="tm-field tm-field"
           id="send-amount"
           placeholder="Amount"
           type="number"
         />
          
         <!---->
-         
-        <!---->
       </div>
     </div>
-     
-    <hr />
      
     <div
       class="action-modal-form-group tm-form-group"
@@ -736,7 +724,7 @@ exports[`SendModal validation should show bech32 error when address length is to
     class="action-modal-form"
   >
     <div
-      class="tm-form-group"
+      class="action-modal-form-group tm-form-group"
     >
       <!---->
       <label
@@ -761,7 +749,7 @@ exports[`SendModal validation should show bech32 error when address length is to
     </div>
      
     <div
-      class="tm-form-group tm-form-group--error"
+      class="action-modal-form-group tm-form-group tm-form-group--error"
     >
       <!---->
       <label
@@ -791,12 +779,12 @@ exports[`SendModal validation should show bech32 error when address length is to
     </div>
      
     <div
-      class="tm-form-group"
+      class="action-modal-form-group tm-form-group"
     >
       <!---->
       <label
         class="tm-form-group__label"
-        for="send-amount"
+        for="amount"
       >
         Amount
       </label>
@@ -805,19 +793,15 @@ exports[`SendModal validation should show bech32 error when address length is to
         class="tm-form-group__field"
       >
         <input
-          class="tm-field"
+          class="tm-field tm-field"
           id="send-amount"
           placeholder="Amount"
           type="number"
         />
          
         <!---->
-         
-        <!---->
       </div>
     </div>
-     
-    <hr />
      
     <div
       class="action-modal-form-group tm-form-group"
@@ -969,7 +953,7 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
     class="action-modal-form"
   >
     <div
-      class="tm-form-group tm-form-group--error"
+      class="action-modal-form-group tm-form-group tm-form-group--error"
     >
       <!---->
       <label
@@ -998,7 +982,7 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
     </div>
      
     <div
-      class="tm-form-group tm-form-group--error"
+      class="action-modal-form-group tm-form-group tm-form-group--error"
     >
       <!---->
       <label
@@ -1027,12 +1011,12 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
     </div>
      
     <div
-      class="tm-form-group tm-form-group--error"
+      class="action-modal-form-group tm-form-group tm-form-group--error"
     >
       <!---->
       <label
         class="tm-form-group__label"
-        for="send-amount"
+        for="amount"
       >
         Amount
       </label>
@@ -1041,7 +1025,7 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
         class="tm-form-group__field"
       >
         <input
-          class="tm-field"
+          class="tm-field tm-field"
           id="send-amount"
           placeholder="Amount"
           type="number"
@@ -1050,18 +1034,10 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
         <div
           class="tm-form-msg sm tm-form-msg--error"
         >
-          Amount is required
-        </div>
-         
-        <div
-          class="tm-form-msg sm tm-form-msg--error"
-        >
           Wallet doesn't hold any s
         </div>
       </div>
     </div>
-     
-    <hr />
      
     <div
       class="action-modal-form-group tm-form-group"

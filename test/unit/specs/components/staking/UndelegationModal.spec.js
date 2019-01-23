@@ -33,7 +33,7 @@ describe(`UndelegationModal`, () => {
     store.state.connection.connected = true
     store.commit(`setStakingParameters`, stakingParameters.parameters)
 
-    wrapper.vm.$refs.actionModal.submit = jest.fn(cb => cb())
+    wrapper.vm.$refs.actionModal.open()
   })
 
   describe(`component matches snapshot`, () => {
@@ -43,10 +43,6 @@ describe(`UndelegationModal`, () => {
   })
 
   describe(`default values are set correctly`, () => {
-    it(`the 'amount' defaults to empty`, () => {
-      expect(wrapper.vm.amount).toEqual(null)
-    })
-
     it(`displays the user's wallet address as the default`, () => {
       let toField = wrapper.find(`#to`)
       expect(toField).toBeDefined()
@@ -54,34 +50,17 @@ describe(`UndelegationModal`, () => {
         `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`
       )
     })
-
-    it(`account password defaults to an empty string`, () => {
-      expect(wrapper.vm.password).toEqual(``)
-    })
   })
 
   describe(`only submits on correct form`, () => {
-    describe(`does not submit`, () => {
-      it(`with default values`, () => {
-        wrapper.vm.submitForm = jest.fn()
-        wrapper.vm.validateForm()
-        expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
+    describe(`validates`, () => {
+      it(`to false with default values`, async () => {
+        expect(wrapper.vm.validateForm()).toBe(false)
       })
 
-      it(`if the password field is empty`, () => {
-        wrapper.setData({ amount: 10, password: `` })
-        wrapper.vm.submitForm = jest.fn()
-        wrapper.vm.validateForm()
-        expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
-      })
-    })
-
-    describe(`submits correctly`, () => {
-      it(`if the amout is positive and the user has enough balance`, () => {
-        wrapper.setData({ amount: 50, password: `1234567890` })
-        wrapper.vm.submitForm = jest.fn()
-        wrapper.vm.validateForm()
-        expect(wrapper.vm.submitForm).toHaveBeenCalled()
+      it(`to true if the amount is positive and the user has enough balance`, async () => {
+        wrapper.setData({ amount: 50 })
+        expect(wrapper.vm.validateForm()).toBe(true)
       })
     })
   })
@@ -91,8 +70,8 @@ describe(`UndelegationModal`, () => {
       wrapper.vm.$store.dispatch = jest.fn()
       wrapper.vm.$store.commit = jest.fn()
 
-      wrapper.setData({ amount: 4.2, password: `1234567890` })
-      await wrapper.vm.submitForm()
+      wrapper.setData({ amount: 4.2 })
+      await wrapper.vm.submitForm(`local`, `1234567890`)
 
       expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
         [
@@ -100,6 +79,7 @@ describe(`UndelegationModal`, () => {
           {
             amount: -4.2,
             validator: lcdClientMock.state.candidates[0],
+            submitType: `local`,
             password: `1234567890`
           }
         ]
@@ -113,18 +93,6 @@ describe(`UndelegationModal`, () => {
             title: `Successful undelegation!`
           }
         ]
-      ])
-    })
-  })
-
-  describe(`closes modal correctly`, () => {
-    it(`X button emits close signal`, () => {
-      wrapper.vm.close()
-      expect(wrapper.emittedByOrder()).toEqual([
-        {
-          name: `update:showUndelegationModal`,
-          args: [false]
-        }
       ])
     })
   })

@@ -48,10 +48,17 @@ describe(`PageProposal`, () => {
         })
       },
       propsData: { proposalId: proposal.proposal_id },
-      $store
+      $store,
+      stubs: {
+        "modal-deposit": true,
+        "modal-vote": true
+      }
     })
     wrapper = instance.wrapper
     store = instance.store
+
+    wrapper.vm.$refs.modalDepoist = { open: jest.fn() }
+    wrapper.vm.$refs.modalVote = { open: jest.fn() }
   })
 
   it(`has the expected html structure`, async () => {

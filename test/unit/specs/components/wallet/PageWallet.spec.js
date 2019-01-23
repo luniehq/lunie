@@ -14,10 +14,15 @@ describe(`PageWallet`, () => {
         store.commit(`setConnected`, true)
         store.commit(`setSearchQuery`, [`balances`, ``])
         store.commit(`setStakingParameters`, stakingParameters.parameters)
+      },
+      stubs: {
+        "send-modal": true
       }
     })
     wrapper = instance.wrapper
     store = instance.store
+
+    wrapper.vm.$refs.sendModal = { open: jest.fn() }
 
     await store.dispatch(`signIn`, {
       account: `default`,

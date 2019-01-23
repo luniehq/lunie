@@ -8,6 +8,7 @@
   >
     <tm-form-group
       :error="$v.denom.$dirty && $v.denom.$invalid"
+      class="action-modal-form-group"
       field-id="send-denomination"
       field-label="Denomination"
     >
@@ -26,6 +27,7 @@
 
     <tm-form-group
       :error="$v.address.$error && $v.address.$invalid"
+      class="action-modal-form-group"
       field-id="send-address"
       field-label="Send To"
     >
@@ -48,40 +50,36 @@
         type="bech32"
       />
     </tm-form-group>
-
     <tm-form-group
       :error="$v.amount.$error && $v.amount.$invalid"
-      field-id="send-amount"
+      class="action-modal-form-group"
+      field-id="amount"
       field-label="Amount"
     >
       <tm-field
         id="send-amount"
-        v-model.number="$v.amount.$model"
-        type="number"
+        v-model="amount"
+        class="tm-field"
         placeholder="Amount"
+        type="number"
       />
       <tm-form-msg
-        v-if="$v.amount.$error && !$v.amount.required"
-        name="Amount"
-        type="required"
-      />
-      <tm-form-msg
-        v-if="$v.amount.$error && !$v.amount.between"
-        :max="$v.amount.$params.between.max"
-        :min="$v.amount.$params.between.min"
-        name="Amount"
-        type="between"
-      />
-      <tm-form-msg
-        v-else-if="max === 0"
+        v-if="balance === 0"
         :msg="`doesn't hold any ${denom}s`"
         name="Wallet"
         type="custom"
       />
       <tm-form-msg
-        v-else-if="$v.amount.$error && !$v.amount.integer"
+        v-else-if="$v.amount.$error && !$v.amount.between && amount === 0"
         name="Amount"
-        type="integer"
+        type="required"
+      />
+      <tm-form-msg
+        v-else-if="$v.amount.$error && !$v.amount.between"
+        :max="$v.amount.$params.between.max"
+        :min="$v.amount.$params.between.min"
+        name="Amount"
+        type="between"
       />
     </tm-form-group>
   </action-modal>
@@ -128,7 +126,7 @@ export default {
   }),
   computed: {
     ...mapGetters([`wallet`]),
-    max() {
+    balance() {
       let denom = this.wallet.balances.find(b => b.denom === this.denom)
       return (denom && denom.amount) || 0
     },
@@ -194,7 +192,7 @@ export default {
       amount: {
         required,
         integer,
-        between: between(this.max ? 1 : 0, this.max)
+        between: between(this.balance ? 1 : 0, this.balance)
       },
       denom: { required }
     }

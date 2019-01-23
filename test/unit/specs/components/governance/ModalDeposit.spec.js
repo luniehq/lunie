@@ -34,7 +34,7 @@ describe(`ModalDeposit`, () => {
     store.commit(`setWalletBalances`, coins)
 
     await wrapper.vm.$nextTick()
-    wrapper.vm.$refs.actionModal.submit = jest.fn(cb => cb())
+    wrapper.vm.$refs.actionModal.open()
   })
 
   describe(`component matches snapshot`, () => {
@@ -43,29 +43,15 @@ describe(`ModalDeposit`, () => {
     })
   })
 
-  describe(`default values are set correctly`, () => {
-    it(`the 'amount' defaults to 0`, () => {
-      expect(wrapper.vm.amount).toEqual(0)
-    })
-
-    it(`account password defaults to an empty string`, () => {
-      expect(wrapper.vm.password).toEqual(``)
-    })
-  })
-
-  describe(`enables or disables 'Deposit' button correctly`, () => {
-    describe(`does not submit deposit`, () => {
+  describe(`validation`, () => {
+    describe(`fails`, () => {
       it(`with default values`, () => {
-        wrapper.vm.submitForm = jest.fn()
-        wrapper.vm.validateForm()
-        expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
+        expect(wrapper.vm.validateForm()).toBe(false)
       })
 
       it(`when the amount deposited higher than the user's balance`, async () => {
-        wrapper.setData({ amount: 25, password: `1234567890` })
-        wrapper.vm.submitForm = jest.fn()
-        wrapper.vm.validateForm()
-        expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
+        wrapper.setData({ amount: 25 })
+        expect(wrapper.vm.validateForm()).toBe(false)
         await wrapper.vm.$nextTick()
         let errorMessage = wrapper.find(`input#amount + div`)
         expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
@@ -79,39 +65,16 @@ describe(`ModalDeposit`, () => {
           }
         ]
         store.commit(`setWalletBalances`, otherCoins)
-        wrapper.setData({ amount: 25, password: `1234567890` })
-        wrapper.vm.submitForm = jest.fn()
-        wrapper.vm.validateForm()
-        expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
-      })
-
-      it(`when the password field is empty`, () => {
-        wrapper.setData({ amount: 10, password: `` })
-        wrapper.vm.submitForm = jest.fn()
-        wrapper.vm.validateForm()
-        expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
+        wrapper.setData({ amount: 25 })
+        expect(wrapper.vm.validateForm()).toBe(false)
       })
     })
 
-    describe(`submits deposit`, () => {
+    describe(`succeeds`, () => {
       it(`when the user has enough balance to submit a deposit`, async () => {
-        wrapper.setData({ amount: 15, password: `1234567890` })
-        wrapper.vm.submitForm = jest.fn()
-        wrapper.vm.validateForm()
-        expect(wrapper.vm.submitForm).toHaveBeenCalled()
+        wrapper.setData({ amount: 15 })
+        expect(wrapper.vm.validateForm()).toBe(true)
       })
-    })
-  })
-
-  describe(`closes modal correctly`, () => {
-    it(`X button emits close signal`, () => {
-      wrapper.vm.close()
-      expect(wrapper.emittedByOrder()).toEqual([
-        {
-          name: `update:showModalDeposit`,
-          args: [false]
-        }
-      ])
     })
   })
 
@@ -120,8 +83,8 @@ describe(`ModalDeposit`, () => {
       wrapper.vm.$store.dispatch = jest.fn()
       wrapper.vm.$store.commit = jest.fn()
 
-      wrapper.setData({ amount: 10, password: `1234567890` })
-      await wrapper.vm.submitForm()
+      wrapper.setData({ amount: 10 })
+      await wrapper.vm.submitForm(`local`, `1234567890`)
 
       expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
         [
@@ -134,7 +97,8 @@ describe(`ModalDeposit`, () => {
               }
             ],
             proposal_id: `1`,
-            password: `1234567890`
+            password: `1234567890`,
+            submitType: `local`
           }
         ]
       ])

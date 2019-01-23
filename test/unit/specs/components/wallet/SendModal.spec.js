@@ -71,7 +71,7 @@ describe(`SendModal`, () => {
         address: ``,
         amount: 2
       })
-      expect(await wrapper.vm.validateForm()).toBe(false)
+      expect(wrapper.vm.validateForm()).toBe(false)
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.$v.$error).toBe(true)
       expect(wrapper.vm.$el).toMatchSnapshot()
@@ -84,7 +84,7 @@ describe(`SendModal`, () => {
         address: `asdf`,
         amount: 2
       })
-      expect(await wrapper.vm.validateForm()).toBe(false)
+      expect(wrapper.vm.validateForm()).toBe(false)
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
@@ -97,12 +97,12 @@ describe(`SendModal`, () => {
         address: `asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf`,
         amount: 2
       })
-      expect(await wrapper.vm.validateForm()).toBe(false)
+      expect(wrapper.vm.validateForm()).toBe(false)
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
     it(`should show bech32 error when alphanumeric is wrong`, async () => {
-      expect(await wrapper.vm.validateForm()).toBe(false)
+      expect(wrapper.vm.validateForm()).toBe(false)
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.$el).toMatchSnapshot()
     })

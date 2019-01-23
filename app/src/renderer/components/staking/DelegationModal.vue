@@ -25,12 +25,11 @@
       <tm-field
         id="from"
         v-model="selectedIndex"
-        :title="fromOptions[selectedIndex].address"
+        :title="from"
         :options="fromOptions"
         type="select"
       />
     </tm-form-group>
-
     <tm-form-group
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
@@ -39,28 +38,28 @@
     >
       <span class="input-suffix">{{ denom }}</span>
       <tm-field
-        v-focus
         id="amount"
-        v-model="$v.amount.$model"
+        v-model="amount"
         type="number"
         placeholder="Amount"
       />
       <tm-form-msg
-        v-if="!$v.amount.between"
-        :max="$v.amount.$params.between.max"
-        :min="$v.amount.$params.between.min"
-        name="Amount"
-        type="between"
+        v-if="balance === 0"
+        :msg="`doesn't hold any ${denom}s`"
+        name="Wallet"
+        type="custom"
       />
       <tm-form-msg
-        v-if="$v.amount.$error && $v.amount.$invalid && !$v.amount.required"
+        v-else-if="$v.amount.$error && !$v.amount.between && amount === 0"
         name="Amount"
         type="required"
       />
       <tm-form-msg
-        v-else-if="!$v.amount.integer"
+        v-else-if="$v.amount.$error && !$v.amount.between"
+        :max="$v.amount.$params.between.max"
+        :min="$v.amount.$params.between.min"
         name="Amount"
-        type="integer"
+        type="between"
       />
     </tm-form-group>
   </action-modal>
@@ -110,6 +109,9 @@ export default {
   }),
   computed: {
     ...mapGetters([`wallet`, `delegates`]),
+    balance() {
+      return this.fromOptions[this.selectedIndex].maximum
+    },
     from() {
       return this.fromOptions[this.selectedIndex].address
     }
@@ -118,7 +120,7 @@ export default {
     open() {
       this.$refs.actionModal.open()
     },
-    async validateForm() {
+    validateForm() {
       this.$v.$touch()
 
       return !this.$v.$invalid
@@ -170,10 +172,7 @@ export default {
       amount: {
         required,
         integer,
-        between: between(1, this.fromOptions[this.selectedIndex].maximum)
-      },
-      password: {
-        required
+        between: between(1, this.balance)
       }
     }
   }

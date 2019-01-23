@@ -9,31 +9,31 @@
     submission-error-prefix="Depositing failed"
   >
     <tm-form-group
-      :error="
-        $v.amount.$error && $v.amount.$invalid && (amount > 0 || balance === 0)
-      "
+      :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
       field-label="Amount"
     >
       <span class="input-suffix">{{ denom }}</span>
-      <tm-field v-focus id="amount" v-model="amount" type="number" />
+      <tm-field id="amount" v-model="amount" type="number" />
       <tm-form-msg
-        v-if="
-          $v.amount.$error && !$v.amount.between && amount > 0 && balance > 0
-        "
+        v-if="balance === 0"
+        :msg="`doesn't hold any ${denom}s`"
+        name="Wallet"
+        type="custom"
+      />
+      <tm-form-msg
+        v-else-if="$v.amount.$error && !$v.amount.between && amount === 0"
+        name="Amount"
+        type="required"
+      />
+      <tm-form-msg
+        v-else-if="$v.amount.$error && !$v.amount.between"
         :max="$v.amount.$params.between.max"
         :min="$v.amount.$params.between.min"
         name="Amount"
         type="between"
       />
-      <tm-form-msg
-        v-else-if="balance === 0"
-        :msg="`doesn't hold any ${denom}s`"
-        name="Wallet"
-        type="custom"
-      />
-      <hr />
     </tm-form-group>
   </action-modal>
 </template>
@@ -103,7 +103,7 @@ export default {
     open() {
       this.$refs.actionModal.open()
     },
-    async validateForm() {
+    validateForm() {
       this.$v.$touch()
 
       return !this.$v.$invalid

@@ -17,8 +17,6 @@
       <div class="action-modal-form">
         <slot></slot>
 
-        <hr />
-
         <tm-form-group
           class="action-modal-form-group"
           field-id="sign-method"
@@ -163,7 +161,7 @@ export default {
       this.sending = true
       this.$v.$touch()
 
-      let subFormValid = await this.validate()
+      let subFormValid = this.validate()
 
       if (!this.$v.$invalid && subFormValid) {
         await this.submit()

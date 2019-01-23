@@ -231,7 +231,7 @@ export default {
         this.votes[this.proposalId].find(e => e.voter === this.wallet.address)
     },
     onDeposit() {
-      this.$refs.ModalDeposit.open()
+      this.$refs.modalDeposit.open()
     }
   }
 }
