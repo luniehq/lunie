@@ -129,18 +129,6 @@ describe(`ModalPropose`, () => {
     })
   })
 
-  describe(`closes modal correctly`, () => {
-    it(`X button emits close signal`, () => {
-      wrapper.vm.close()
-      expect(wrapper.emittedByOrder()).toEqual([
-        {
-          name: `update:showModalPropose`,
-          args: [false]
-        }
-      ])
-    })
-  })
-
   describe(`Propose`, () => {
     it(`submits a proposal`, async () => {
       wrapper.vm.$store.dispatch = jest.fn()

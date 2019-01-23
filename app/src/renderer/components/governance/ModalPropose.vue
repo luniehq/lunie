@@ -169,8 +169,8 @@ export default {
     }
   },
   methods: {
-    close() {
-      this.$emit(`update:showModalPropose`, false)
+    open() {
+      this.$refs.actionModal.open()
     },
     validateForm() {
       this.$v.$touch()
