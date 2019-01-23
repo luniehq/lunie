@@ -53,7 +53,9 @@ a:hover {
   border-radius: 0.25rem !important;
 }
 input[readonly],
-input[disabled] {
+input[disabled],
+textarea[readonly],
+textarea[disabled] {
   background: var(--bc-dim) !important;
   border-color: var(--bc) !important;
 }

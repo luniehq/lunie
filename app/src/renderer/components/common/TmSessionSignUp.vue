@@ -83,7 +83,11 @@
             type="match"
           />
         </tm-form-group>
-        <tm-form-group field-id="sign-up-seed" field-label="Seed Phrase">
+        <tm-form-group
+          field-id="sign-up-seed"
+          class="sign-up-seed-group"
+          field-label="Seed Phrase"
+        >
           <field-seed
             id="sign-up-seed"
             v-model="fields.signUpSeed"
@@ -255,3 +259,9 @@ export default {
   })
 }
 </script>
+
+<style lang="css">
+.sign-up-seed-group {
+  margin-bottom: 2rem;
+}
+</style>

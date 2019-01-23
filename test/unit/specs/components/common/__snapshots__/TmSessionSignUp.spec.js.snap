@@ -125,7 +125,7 @@ exports[`NISessionSignUp has the expected html structure 1`] = `
           </div>
            
           <div
-            class="tm-form-group"
+            class="sign-up-seed-group tm-form-group"
           >
             <!---->
             <label

@@ -128,6 +128,7 @@ export default {
   color: var(--danger);
   font-style: italic;
   font-weight: 500;
+  position: absolute;
 }
 
 .tm-form-msg.tm-form-msg--error:before {
