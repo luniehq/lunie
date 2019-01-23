@@ -17,8 +17,7 @@ test(`preferences`, async function(t) {
   await navigateToPreferences(app)
 
   t.test(`shows preferences`, async function(t) {
-    t.ok(await $(`div*=Settings`).waitForExist(), `shows Settings`)
-    t.ok(await $(`div*=Account`).waitForExist(), `shows Account`)
+    t.ok(await $(`div*=Node IP`).waitForExist(), `shows Node IP`)
     t.end()
   })
 
