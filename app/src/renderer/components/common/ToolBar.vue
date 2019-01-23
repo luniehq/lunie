@@ -31,8 +31,8 @@
       <i class="material-icons">help_outline</i>
     </a>
     <router-link
-      v-if="config.devMode"
       v-tooltip.bottom="'Preferences'"
+      v-if="config.devMode"
       id="settings"
       to="/preferences"
     >

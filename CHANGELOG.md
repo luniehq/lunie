@@ -158,6 +158,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1815](https://github.com/cosmos/voyager/pull/1815) Fixed getters for proposals denominator, reverted to 945803d586b83d65547cd16f4cd5994eac2957ea until interfaces are ready @sabau
 - Fixed build process @ƒaboweb
 - Fixed error locations sucked up by Sentry @faboweb
+- - [\#1815](https://github.com/cosmos/voyager/pull/1785) Fixed small bug on preferences page @jbibla
 
 ## [0.10.7] - 2018-10-10
 
