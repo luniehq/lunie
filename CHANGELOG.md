@@ -159,7 +159,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fixed build process @ƒaboweb
 - [\#1818](https://github.com/cosmos/voyager/issues/1818) Fixed error on validator loading showing as no validators @faboweb
 - Fixed error locations sucked up by Sentry @faboweb
-- - [\#1815](https://github.com/cosmos/voyager/pull/1785) Fixed small bug on preferences page @jbibla
+- [\#1815](https://github.com/cosmos/voyager/pull/1785) Fixed small bug on preferences page @jbibla
 
 ## [0.10.7] - 2018-10-10
 
