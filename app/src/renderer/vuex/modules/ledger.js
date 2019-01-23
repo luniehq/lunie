@@ -32,6 +32,9 @@ export default () => {
     },
     setLedgerConnection(state, isConnected) {
       state.isConnected = isConnected
+    },
+    setLedgerError(state, error) {
+      state.error = error
     }
   }
 
@@ -44,12 +47,12 @@ export default () => {
     async connectLedgerApp({ commit, dispatch, state }) {
       try {
         const comm = await comm_u2f.create_async(TIMEOUT, true)
-        let app = new App(comm)
+        const app = new App(comm)
         commit(`setLedger`, app)
         await dispatch(`getLedgerCosmosVersion`)
         commit(`setLedgerConnection`, true)
         await dispatch(`getLedgerPubKey`)
-        let address = createCosmosAddress(state.pubKey)
+        const address = createCosmosAddress(state.pubKey)
         dispatch(`signIn`, { sessionType: `ledger`, address })
       } catch (error) {
         commit(`notifyError`, {
@@ -57,7 +60,7 @@ export default () => {
           body: error.message
         })
         Sentry.captureException(error)
-        state.error = error
+        commit(`setLedgerError`, error)
       } finally {
         return !state.error
       }
@@ -75,6 +78,7 @@ export default () => {
       let response = await state.app.publicKey(HDPATH)
       response = await dispatch(`checkLedgerErrors`, response, ErrPubKey)
       if (response) {
+        debugger
         commit(`setLedgerPubKey`, response.pk)
       }
     },
@@ -89,7 +93,7 @@ export default () => {
           body: error.message
         })
         Sentry.captureException(error)
-        state.error = error
+        commit(`setLedgerError`, error)
       }
 
       response = await dispatch(`checkLedgerErrors`, response, ErrSign)
@@ -105,7 +109,7 @@ export default () => {
           body: response.error_message
         })
         Sentry.captureException(response.error_message)
-        state.error = response.error_message
+        commit(`setLedgerError`, response.error_message)
         return false
       }
       return response

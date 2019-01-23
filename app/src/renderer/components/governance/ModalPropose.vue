@@ -258,6 +258,7 @@ export default {
         amount: this.amount,
         password: this.password
       })
+      // TODO: this should wait for the user's action on Ledger instead of closing right away
       this.close()
     }
   }
