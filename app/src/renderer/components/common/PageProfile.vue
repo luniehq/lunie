@@ -1,9 +1,7 @@
 <template>
   <div class="tm-page page-profile">
     <tm-page-header>
-      <template slot="menu-body"
-        ><slot name="menu-body"></slot
-      ></template>
+      <slot slot="menu-body" name="menu-body" />
       <div slot="menu"><slot name="menu"></slot></div>
     </tm-page-header>
     <main class="tm-page-main"><slot></slot></main>
@@ -27,7 +25,6 @@ export default {
   display: flex;
   margin-bottom: 1rem;
   padding: 2rem;
-  min-width: 63rem;
 }
 
 .column {
@@ -149,7 +146,6 @@ export default {
   align-items: center;
   display: flex;
   flex-direction: column;
-  width: 7rem;
 }
 
 .colored_dl:not(:last-child) {

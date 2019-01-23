@@ -80,6 +80,7 @@ export default {
 <style>
 #app-header {
   z-index: var(--z-appHeader);
+  position: relative;
 }
 
 #app-header .container {

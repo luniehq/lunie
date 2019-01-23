@@ -96,7 +96,7 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
           </div>
            
           <div
-            class="tm-tool-bar"
+            class="tool-bar"
           >
             <a
               class="back"
@@ -109,6 +109,10 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
               </i>
             </a>
              
+            <!---->
+             
+            <!---->
+              
             <a
               class="help"
             >
@@ -129,6 +133,7 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
                 settings
               </i>
             </router-link-stub>
+             
             <a
               id="signOut-btn"
             >
@@ -144,16 +149,23 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
        
       <menu
         class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
+      />
+       
+      <div
+        class="tabs"
+      />
+       
+      <!---->
     </div>
   </header>
    
   <main
     class="tm-page-main"
   >
+    <!---->
      
+    <!---->
+      
     <section
       class="tm-part"
     >

@@ -4,15 +4,7 @@ import PageGovernance from "renderer/components/governance/PageGovernance"
 import ModalPropose from "renderer/components/governance/ModalPropose"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
-const proposal = {
-  amount: 15,
-  title: `A new text proposal for Cosmos`,
-  description: `a valid description for the proposal`,
-  type: `Text`,
-  password: `1234567890`
-}
 const { governanceParameters, stakingParameters } = lcdClientMock.state
-const depositDenom = governanceParameters.deposit.min_deposit[0].denom
 
 describe(`PageGovernance`, () => {
   let wrapper, store
@@ -25,6 +17,7 @@ describe(`PageGovernance`, () => {
     let instance = mount(PageGovernance, {
       doBefore: ({ store }) => {
         store.commit(`setGovParameters`, governanceParameters)
+        store.state.governanceParameters.loaded = true
         store.commit(`setStakingParameters`, stakingParameters.parameters)
         store.commit(`setConnected`, true)
       }
@@ -40,11 +33,6 @@ describe(`PageGovernance`, () => {
     // somehow we need to wait one tick for the total atoms to update
     await wrapper.vm.$nextTick()
     expect(wrapper.vm.$el).toMatchSnapshot()
-  })
-
-  it(`should show the search on click`, () => {
-    wrapper.find(`.tm-tool-bar i.search`).trigger(`click`)
-    expect(wrapper.contains(`.tm-modal-search`)).toBe(true)
   })
 
   it(`disables proposal creation if not connected`, async () => {
@@ -64,65 +52,5 @@ describe(`PageGovernance`, () => {
       proposeBtn.trigger(`click`)
       expect(wrapper.contains(ModalPropose)).toEqual(true)
     })
-  })
-
-  it(`submits a proposal`, async () => {
-    wrapper.vm.$store.commit = jest.fn()
-    wrapper.vm.$store.dispatch = jest.fn(() => Promise.resolve())
-    await wrapper.vm.propose(proposal)
-
-    expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
-      [
-        `submitProposal`,
-        {
-          description: `a valid description for the proposal`,
-          initial_deposit: [{ amount: `15`, denom: depositDenom }],
-          title: `A new text proposal for Cosmos`,
-          type: `Text`,
-          password: `1234567890`
-        }
-      ]
-    ])
-
-    expect(wrapper.vm.$store.commit.mock.calls).toEqual([
-      [
-        `notify`,
-        {
-          body: `You have successfully submitted a new text proposal`,
-          title: `Successful proposal submission!`
-        }
-      ]
-    ])
-  })
-
-  it(`raises an error when submitting a proposal fails`, async () => {
-    wrapper.vm.$store.commit = jest.fn()
-    wrapper.vm.$store.dispatch = jest.fn(() => {
-      throw new Error(`unexpected error`)
-    })
-    await wrapper.vm.propose(proposal)
-
-    expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
-      [
-        `submitProposal`,
-        {
-          description: `a valid description for the proposal`,
-          initial_deposit: [{ amount: `15`, denom: depositDenom }],
-          title: `A new text proposal for Cosmos`,
-          type: `Text`,
-          password: `1234567890`
-        }
-      ]
-    ])
-
-    expect(wrapper.vm.$store.commit.mock.calls).toEqual([
-      [
-        `notifyError`,
-        {
-          body: `unexpected error`,
-          title: `Error while submitting a new text proposal`
-        }
-      ]
-    ])
   })
 })

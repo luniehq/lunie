@@ -1,6 +1,6 @@
 <template>
-  <tm-page data-title="Preferences"
-    ><template slot="menu-body">
+  <tm-page data-title="Preferences">
+    <template slot="menu-body">
       <tm-balance />
       <tool-bar />
     </template>

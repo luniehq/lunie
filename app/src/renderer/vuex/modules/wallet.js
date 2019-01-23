@@ -3,6 +3,7 @@ import fs from "fs-extra"
 import { join } from "path"
 import { remote } from "electron"
 import { sleep } from "scripts/common.js"
+import Vue from "vue"
 const root = remote.getGlobal(`root`)
 
 export default ({ node }) => {
@@ -19,17 +20,17 @@ export default ({ node }) => {
 
   let mutations = {
     setWalletBalances(state, balances) {
-      state.balances = balances
-      state.loading = false
+      Vue.set(state, `balances`, balances)
+      Vue.set(state, `loading`, false)
     },
     setWalletAddress(state, address) {
-      state.address = address
+      Vue.set(state, `address`, address)
     },
     setAccountNumber(state, accountNumber) {
-      state.accountNumber = accountNumber
+      Vue.set(state, `accountNumber`, accountNumber)
     },
     setDenoms(state, denoms) {
-      state.denoms = denoms
+      Vue.set(state, `denoms`, denoms)
     }
   }
 

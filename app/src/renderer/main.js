@@ -9,7 +9,7 @@ import Electron from "vue-electron"
 import Router from "vue-router"
 import Tooltip from "vue-directive-tooltip"
 import Vuelidate from "vuelidate"
-import * as Sentry from "@sentry/browser"
+import * as _Sentry from "@sentry/browser"
 import { ipcRenderer, remote } from "electron"
 
 import App from "./App"
@@ -25,34 +25,20 @@ let store
 let node
 let router
 
-// Sentry is used for automatic error reporting. It is turned off by default.
-Sentry.init({})
-
-// this will pass the state to Sentry when errors are sent.
-Sentry.configureScope(scope => {
-  scope.setExtra(Store.state)
-})
-
-// handle uncaught errors
-window.addEventListener(`unhandledrejection`, function(event) {
-  Sentry.captureException(event.reason)
-})
-window.addEventListener(`error`, function(event) {
-  Sentry.captureException(event.reason)
-})
-
+/* istanbul ignore next */
 Vue.config.errorHandler = (error, vm, info) => {
   console.error(`An error has occurred: ${error}
 
 Guru Meditation #${info}`)
 
-  Sentry.captureException(error)
+  _Sentry.captureException(error)
 
   if (store.state.devMode) {
     throw error
   }
 }
 
+/* istanbul ignore next */
 Vue.config.warnHandler = (msg, vm, trace) => {
   console.warn(`A warning has occurred: ${msg}
 
@@ -69,6 +55,7 @@ Vue.use(Tooltip, { delay: 1 })
 Vue.use(Vuelidate)
 
 // directive to focus form fields
+/* istanbul ignore next */
 Vue.directive(`focus`, {
   inserted: function(el) {
     el.focus()
@@ -78,7 +65,28 @@ Vue.directive(`focus`, {
 /**
  * Main method to boot the renderer. It act as Entrypoint
  */
-async function main() {
+async function main(env = process.env, Sentry = _Sentry) {
+  if (env.NODE_ENV === `production`) {
+    // Sentry is used for automatic error reporting. It is turned off by default.
+    Sentry.init({})
+
+    // this will pass the state to Sentry when errors are sent.
+    // this would also sent passwords...
+    // Sentry.configureScope(scope => {
+    //   scope.setExtra(_Store.state)
+    // })
+
+    // handle uncaught errors
+    /* istanbul ignore next */
+    window.addEventListener(`unhandledrejection`, function(event) {
+      Sentry.captureException(event.reason)
+    })
+    /* istanbul ignore next */
+    window.addEventListener(`error`, function(event) {
+      Sentry.captureException(event.reason)
+    })
+  }
+
   let lcdPort = config.development ? config.lcd_port : config.lcd_port_prod
   let localLcdURL = `https://localhost:${lcdPort}`
   console.log(`Expecting lcd-server on port: ` + lcdPort)
@@ -145,9 +153,11 @@ async function main() {
   }).$mount(`#app`)
 }
 
+// run
 main()
 
 // exporting this for testing
 module.exports.store = store
 module.exports.node = node
 module.exports.router = router
+module.exports.main = main

@@ -20,74 +20,73 @@ describe(`ModalVote`, () => {
         proposalTitle: lcdClientMock.state.proposals[`1`].title
       }
     })
+
+    instance.store.state.connection.connected = true
     wrapper = instance.wrapper
+
+    wrapper.vm.$refs.actionModal.submit = jest.fn(cb => cb())
   })
 
-  describe(`component matches snapshot`, () => {
-    it(`has the expected html structure`, async () => {
-      expect(wrapper.vm.$el).toMatchSnapshot()
-    })
+  it(`has the expected html structure`, async () => {
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  describe(`default values are set correctly`, () => {
-    it(`the 'option' defaults to an empty string`, () => {
-      expect(wrapper.vm.option).toEqual(``)
-    })
+  describe(`submits form only if inputs are correct`, () => {
+    it(`does not submit in cases`, async () => {
+      wrapper.vm.submitForm = jest.fn()
 
-    it(`account password defaults to an empty string`, () => {
-      expect(wrapper.vm.password).toEqual(``)
-    })
-
-    it(`password is hidden by default`, () => {
-      expect(wrapper.vm.showPassword).toBe(false)
-    })
-  })
-
-  describe(`Password display`, () => {
-    it(`toggles the password between text and password`, () => {
-      wrapper.vm.togglePassword()
-      expect(wrapper.vm.showPassword).toBe(true)
-      wrapper.vm.togglePassword()
-      expect(wrapper.vm.showPassword).toBe(false)
-    })
-  })
-
-  describe(`enables or disables Vote correctly`, () => {
-    it(`disables the 'Vote' button`, () => {
       // default values
-      let voteBtn = wrapper.find(`#cast-vote`)
-      expect(voteBtn.html()).toContain(`disabled="disabled"`)
+      await wrapper.vm.$nextTick()
+      wrapper.vm.validateForm()
+      expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
 
       // non valid option value
-      wrapper.setData({ option: `other`, password: `1234567890` })
-      expect(voteBtn.html()).toContain(`disabled="disabled"`)
+      wrapper.setData({ vote: `other`, password: `1234567890` })
+      await wrapper.vm.$nextTick()
+      wrapper.vm.validateForm()
+      expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
 
       // no password
-      wrapper.setData({ option: `No`, password: `` })
-      expect(voteBtn.html()).toContain(`disabled="disabled"`)
+      wrapper.setData({ vote: `No`, password: `` })
+      await wrapper.vm.$nextTick()
+      wrapper.vm.validateForm()
+      expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
     })
 
-    it(`enables the 'Vote' button if the user selected a valid option`, () => {
-      wrapper.setData({ option: `Yes`, password: `1234567890` })
-      let voteBtn = wrapper.find(`#vote-yes`)
-      let submitButton = wrapper.find(`#cast-vote`)
-      expect(voteBtn.html()).toContain(`active`)
-      expect(submitButton.html()).not.toContain(`disabled="disabled"`)
+    it(`submits if the inputs are correct`, async () => {
+      wrapper.vm.submitForm = jest.fn()
 
-      wrapper.setData({ option: `No` })
+      wrapper.setData({ vote: `Yes`, password: `1234567890` })
+      let voteBtn = wrapper.find(`#vote-yes`)
+      expect(voteBtn.html()).toContain(`active`)
+      await wrapper.vm.$nextTick()
+      wrapper.vm.validateForm()
+      expect(wrapper.vm.submitForm).toHaveBeenCalled()
+      wrapper.vm.submitForm.mockClear()
+
+      wrapper.setData({ vote: `No` })
       voteBtn = wrapper.find(`#vote-no`)
       expect(voteBtn.html()).toContain(`active`)
-      expect(submitButton.html()).not.toContain(`disabled="disabled"`)
+      await wrapper.vm.$nextTick()
+      wrapper.vm.validateForm()
+      expect(wrapper.vm.submitForm).toHaveBeenCalled()
+      wrapper.vm.submitForm.mockClear()
 
-      wrapper.setData({ option: `NoWithVeto` })
+      wrapper.setData({ vote: `NoWithVeto` })
       voteBtn = wrapper.find(`#vote-veto`)
       expect(voteBtn.html()).toContain(`active`)
-      expect(submitButton.html()).not.toContain(`disabled="disabled"`)
+      await wrapper.vm.$nextTick()
+      wrapper.vm.validateForm()
+      expect(wrapper.vm.submitForm).toHaveBeenCalled()
+      wrapper.vm.submitForm.mockClear()
 
-      wrapper.setData({ option: `Abstain` })
+      wrapper.setData({ vote: `Abstain` })
       voteBtn = wrapper.find(`#vote-abstain`)
       expect(voteBtn.html()).toContain(`active`)
-      expect(submitButton.html()).not.toContain(`disabled="disabled"`)
+      await wrapper.vm.$nextTick()
+      wrapper.vm.validateForm()
+      expect(wrapper.vm.submitForm).toHaveBeenCalled()
+      wrapper.vm.submitForm.mockClear()
     })
   })
 
@@ -119,36 +118,28 @@ describe(`ModalVote`, () => {
   })
 
   describe(`Vote`, () => {
-    it(`updates the selected option on click`, () => {
-      wrapper.vm.vote(`Yes`)
-      expect(wrapper.vm.option).toEqual(`Yes`)
+    it(`submits a vote`, async () => {
+      wrapper.vm.$store.dispatch = jest.fn()
+      wrapper.vm.$store.commit = jest.fn()
 
-      wrapper.vm.vote(`No`)
-      expect(wrapper.vm.option).toEqual(`No`)
+      wrapper.setData({ vote: `Yes`, password: `1234567890` })
+      await wrapper.vm.submitForm()
 
-      wrapper.vm.vote(`NoWithVeto`)
-      expect(wrapper.vm.option).toEqual(`NoWithVeto`)
+      expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
+        [
+          `submitVote`,
+          { option: `Yes`, proposal_id: `1`, password: `1234567890` }
+        ]
+      ])
 
-      wrapper.vm.vote(`Abstain`)
-      expect(wrapper.vm.option).toEqual(`Abstain`)
-
-      wrapper.vm.vote(`Abstain`)
-      expect(wrapper.vm.option).toEqual(``)
-    })
-
-    it(`Vote button casts a vote and closes modal`, () => {
-      wrapper.setData({ option: `Yes`, password: `1234567890` })
-      wrapper.vm.onVote()
-
-      expect(wrapper.emittedByOrder()).toEqual([
-        {
-          name: `castVote`,
-          args: [{ option: `Yes`, password: `1234567890` }]
-        },
-        {
-          name: `update:showModalVote`,
-          args: [false]
-        }
+      expect(wrapper.vm.$store.commit.mock.calls).toEqual([
+        [
+          `notify`,
+          {
+            body: `You have successfully voted Yes on proposal #1`,
+            title: `Successful vote!`
+          }
+        ]
       ])
     })
   })

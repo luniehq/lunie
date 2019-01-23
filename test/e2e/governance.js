@@ -47,7 +47,7 @@ test(`Governance`, async function(t) {
       .setValue(`#password`, `1234567890`)
     await t.ok(
       await app.client
-        .click(`//button/*[. = 'Submit proposal']`)
+        .click(`//button/*[. = 'Submit Proposal']`)
         .waitForVisible(
           `//*[. = 'You have successfully submitted a new text proposal']`,
           4 * 1000
@@ -95,11 +95,10 @@ test(`Governance`, async function(t) {
       await app.client.$(`.page-profile__status.yellow`).isVisible(),
       `the proposal is open for deposits`
     )
-    await app.client.$(`#deposit-btn`).click()
-    await t.ok(
-      await app.client.$(`#modal-deposit`).isVisible(),
-      `opens deposit modal`
-    )
+    await app.client
+      .$(`#deposit-btn`)
+      .click()
+      .waitForVisible(`#modal-deposit`)
     await app.client.setValue(`#amount`, 10).setValue(`#password`, `1234567890`)
     await t.ok(
       await app.client
@@ -133,11 +132,10 @@ test(`Governance`, async function(t) {
       await app.client.$(`.page-profile__status.green`).isVisible(),
       `the proposal is open for voting`
     )
-    await app.client.$(`#vote-btn`).click()
-    await t.ok(
-      await app.client.$(`#modal-vote`).isVisible(),
-      `opens voting modal`
-    )
+    await app.client
+      .$(`#vote-btn`)
+      .click()
+      .waitForVisible(`#modal-vote`)
 
     await app.client.$(`#vote-yes`).click()
     await app.client.setValue(`#password`, `1234567890`)

@@ -104,18 +104,6 @@ describe(`TmField`, () => {
     expect(wrapper.emittedByOrder()).toEqual([{ args: [42], name: `input` }])
   })
 
-  it(`limits inputs to min and max`, () => {
-    const wrapper = shallowMount(TmField, {
-      propsData: { type: `number`, min: 5, max: 100 }
-    })
-    wrapper.vm.updateValue(3)
-    wrapper.vm.updateValue(200)
-    expect(wrapper.emittedByOrder()).toEqual([
-      { args: [5], name: `input` },
-      { args: [100], name: `input` }
-    ])
-  })
-
   it(`displays a toggle`, () => {
     const wrapper = shallowMount(TmField, {
       propsData: {

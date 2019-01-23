@@ -25,14 +25,9 @@ describe(`PageStaking`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`should show the search on click`, () => {
-    wrapper.find(`.tm-tool-bar i.search`).trigger(`click`)
-    expect(wrapper.contains(`.tm-modal-search`)).toBe(true)
-  })
-
   it(`should refresh candidates on click`, () => {
     wrapper
-      .findAll(`.tm-tool-bar i`)
+      .findAll(`.tool-bar i`)
       .at(1)
       .trigger(`click`)
     expect(store.dispatch).toHaveBeenCalledWith(`updateDelegates`)

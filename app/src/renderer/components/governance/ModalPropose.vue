@@ -1,19 +1,16 @@
 <template>
-  <div v-click-outside="close" id="modal-propose" class="modal-propose">
-    <div class="modal-propose-header">
-      <img
-        class="icon modal-propose-atom"
-        src="~assets/images/cosmos-logo.png"
-      /><span class="tm-modal-title">Create Proposal</span>
-      <div id="closeBtn" class="tm-modal-icon tm-modal-close" @click="close()">
-        <i class="material-icons">close</i>
-      </div>
-    </div>
+  <action-modal
+    id="modal-propose"
+    ref="actionModal"
+    title="Proposal"
+    @close-action-modal="close"
+  >
     <tm-form-group
-      :error="$v.title.$invalid && title.length > 0"
-      class="page-proposal-form-group"
+      :error="$v.title.$error && $v.title.$invalid"
+      class="action-modal-form-group"
+      field-id="title"
+      field-label="Title"
     >
-      <span>Title</span>
       <tm-field
         v-focus
         id="title"
@@ -22,86 +19,110 @@
         placeholder="Proposal title"
       />
       <tm-form-msg
-        v-if="!$v.title.maxLength"
+        v-if="$v.title.$error && !$v.title.maxLength"
         :max="$v.title.$params.maxLength.max"
         name="Proposal Title"
         type="maxLength"
       />
+      <tm-form-msg
+        v-if="$v.title.$error && !$v.title.required"
+        name="Proposal Title"
+        type="required"
+      />
     </tm-form-group>
     <tm-form-group
-      :error="$v.description.$invalid && description.length > 0"
-      class="page-proposal-form-group"
+      :error="$v.description.$error && $v.description.$invalid"
+      class="action-modal-form-group"
+      field-id="description"
+      field-label="Description"
     >
-      <span>Description</span>
       <tm-field
         id="description"
         v-model.trim="description"
         type="textarea"
+        class="textarea-large"
         placeholder="Write your proposal here..."
       />
       <tm-form-msg
-        v-if="!$v.description.maxLength"
+        v-if="$v.description.$error && !$v.description.maxLength"
         :max="$v.description.$params.maxLength.max"
         name="Description"
         type="maxLength"
       />
+      <tm-form-msg
+        v-if="$v.description.$error && !$v.description.required"
+        name="Description"
+        type="required"
+      />
     </tm-form-group>
     <tm-form-group
-      :error="$v.amount.$invalid && (amount > 0 || balance === 0)"
-      class="modal-propose-form-group"
+      :error="$v.amount.$error && $v.amount.$invalid"
+      class="action-modal-form-group"
       field-id="amount"
+      field-label="Amount"
     >
-      <span>Deposit amount</span>
-      <tm-field
-        id="denom"
-        :placeholder="denom"
-        :tabindex="-1"
-        type="text"
-        readonly="readonly"
-      />
-      <tm-field id="amount" :min="0" v-model="amount" type="number" />
+      <span class="input-suffix">{{ denom }}</span>
+      <tm-field id="amount" v-model="amount" type="number" />
       <tm-form-msg
-        v-if="!$v.amount.between && amount > 0 && balance > 0"
+        v-if="$v.amount.$error && !$v.amount.between && amount === 0"
+        name="Amount"
+        type="required"
+      />
+      <tm-form-msg
+        v-if="balance === 0"
+        :msg="`doesn't hold any ${denom}s`"
+        name="Wallet"
+        type="custom"
+      />
+      <tm-form-msg
+        v-else-if="$v.amount.$error && !$v.amount.between && amount > 0"
         :max="$v.amount.$params.between.max"
         :min="$v.amount.$params.between.min"
         name="Amount"
         type="between"
       />
-      <tm-form-msg
-        v-else-if="balance === 0"
-        :msg="`doesn't hold any ${denom}s`"
-        name="Wallet"
-        type="custom"
-      />
       <hr />
     </tm-form-group>
-    <tm-form-group class="modal-propose-form-group" field-id="password">
-      <span>Account password</span>
+    <tm-form-group
+      :error="$v.password.$error && $v.password.$invalid"
+      class="modal-propose-form-group"
+      field-id="password"
+      field-label="Password"
+    >
       <tm-field
         id="password"
         v-model="password"
-        :type="showPassword ? `text` : `password`"
-        placeholder="password..."
+        type="password"
+        placeholder="Password"
       />
-      <input
-        id="showPasswordCheckbox"
-        v-model="showPassword"
-        type="checkbox"
-        @input="togglePassword"
+      <tm-form-msg
+        v-if="$v.password.$error && !$v.password.required"
+        name="Password"
+        type="required"
       />
-      <label for="showPasswordCheckbox">Show password</label>
     </tm-form-group>
-    <div class="modal-propose-footer">
+    <div class="action-modal-footer">
       <tm-btn
-        id="submit-proposal"
-        :disabled="$v.$invalid"
+        v-if="sending"
+        value="Sending..."
+        disabled="disabled"
         color="primary"
-        value="Submit proposal"
-        size="lg"
-        @click.native="onPropose"
+      />
+      <tm-btn
+        v-else-if="!connected"
+        value="Connecting..."
+        disabled="disabled"
+        color="primary"
+      />
+      <tm-btn
+        v-else
+        id="submit-proposal"
+        color="primary"
+        value="Submit Proposal"
+        @click.native="validateForm"
       />
     </div>
-  </div>
+  </action-modal>
 </template>
 
 <script>
@@ -119,12 +140,12 @@ import TmBtn from "common/TmBtn"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
+import ActionModal from "common/ActionModal"
 
 const isValid = type =>
   type === `Text` || type === `ParameterChange` || type === `SoftwareUpgrade`
 
 const notBlank = text => !isEmpty(trim(text))
-const isInteger = amount => Number.isInteger(amount)
 
 export default {
   name: `modal-propose`,
@@ -132,6 +153,7 @@ export default {
     ClickOutside
   },
   components: {
+    ActionModal,
     Modal,
     TmBtn,
     TmField,
@@ -145,19 +167,17 @@ export default {
     }
   },
   data: () => ({
-    titleMinLength: 1,
     titleMaxLength: 64,
-    descriptionMinLength: 1,
     descriptionMaxLength: 200,
     title: ``,
     description: ``,
     type: `Text`,
     amount: 0,
     password: ``,
-    showPassword: false
+    sending: false
   }),
   computed: {
-    ...mapGetters([`wallet`]),
+    ...mapGetters([`wallet`, `connected`]),
     balance() {
       // TODO: refactor to get the selected coin when multicoin deposit is enabled
       if (!this.wallet.balancesLoading && !!this.wallet.balances.length) {
@@ -173,13 +193,13 @@ export default {
     return {
       title: {
         required,
-        minLength: minLength(this.titleMinLength),
+        minLength: minLength(1),
         maxLength: maxLength(this.titleMaxLength),
         notBlank
       },
       description: {
         required,
-        minLength: minLength(this.descriptionMinLength),
+        minLength: minLength(1),
         maxLength: maxLength(this.descriptionMaxLength),
         notBlank
       },
@@ -188,8 +208,7 @@ export default {
       },
       amount: {
         required,
-        isInteger,
-        between: between(1, this.balance)
+        between: between(this.max ? 1 : 0, this.balance)
       },
       password: {
         required
@@ -200,83 +219,42 @@ export default {
     close() {
       this.$emit(`update:showModalPropose`, false)
     },
-    togglePassword() {
-      this.showPassword = !this.showPassword
+    async validateForm() {
+      this.$v.$touch()
+
+      if (!this.$v.$invalid) {
+        await this.submitForm()
+      }
     },
-    onPropose() {
-      this.$emit(`createProposal`, {
-        title: this.title,
-        description: this.description,
-        type: this.type,
-        amount: this.amount,
-        password: this.password
-      })
-      this.close()
+    async submitForm() {
+      this.sending = true
+
+      await this.$refs.actionModal.submit(async () => {
+        await this.$store.dispatch(`submitProposal`, {
+          title: this.title,
+          description: this.description,
+          type: this.type,
+          initial_deposit: [
+            {
+              denom: this.denom,
+              amount: String(this.amount)
+            }
+          ],
+          password: this.password
+        })
+        this.$store.commit(`notify`, {
+          title: `Successful proposal submission!`,
+          body: `You have successfully submitted a new ${this.type.toLowerCase()} proposal`
+        })
+      }, `Submitting proposal failed`)
+
+      this.sending = false
     }
   }
 }
 </script>
-
 <style>
-.modal-propose {
-  background: var(--app-nav);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  left: 50%;
-  padding: 2rem;
-  position: fixed;
-  bottom: 0;
-  width: 50%;
-  z-index: var(--z-modal);
-}
-
-.modal-propose-header {
-  align-items: center;
-  display: flex;
-}
-
-.modal-propose-atom {
-  height: 4rem;
-  width: 4rem;
-}
-
-.modal-propose-form-group {
-  display: block;
-  padding: 0;
-}
-
-.modal-propose #amount {
-  margin-top: -32px;
-}
-
-.modal-propose #denom {
-  border: none;
-  margin-left: 80%;
-  text-align: right;
-  width: 72px;
-}
-
-.modal-propose-footer {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.modal-propose-footer button {
-  margin-left: 1rem;
-  margin-top: 1rem;
-}
-
-.modal-propose .page-proposal-form-group {
-  display: block;
-  padding: 0;
-}
-
-.modal-propose .page-proposal-form-group textarea {
-  min-height: 300px;
-}
-
-.modal-propose .tm-form-group {
-  margin: 0.5rem 0;
+.textarea-large {
+  min-height: 240px;
 }
 </style>

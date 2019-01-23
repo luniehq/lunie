@@ -14,7 +14,7 @@ describe(`ModalPropose`, () => {
     password: `1234567890`
   }
 
-  beforeEach(() => {
+  beforeEach(async () => {
     const coins = [
       {
         amount: `20`,
@@ -29,7 +29,11 @@ describe(`ModalPropose`, () => {
     })
     wrapper = instance.wrapper
     store = instance.store
+    store.state.connection.connected = true
     store.commit(`setWalletBalances`, coins)
+
+    await wrapper.vm.$nextTick()
+    wrapper.vm.$refs.actionModal.submit = jest.fn(cb => cb())
   })
 
   describe(`component matches snapshot`, () => {
@@ -58,34 +62,24 @@ describe(`ModalPropose`, () => {
     it(`account password defaults to an empty string`, () => {
       expect(wrapper.vm.password).toEqual(``)
     })
-
-    it(`password is hidden by default`, () => {
-      expect(wrapper.vm.showPassword).toBe(false)
-    })
-  })
-
-  describe(`Password display`, () => {
-    it(`toggles the password between text and password`, () => {
-      wrapper.vm.togglePassword()
-      expect(wrapper.vm.showPassword).toBe(true)
-      wrapper.vm.togglePassword()
-      expect(wrapper.vm.showPassword).toBe(false)
-    })
   })
 
   describe(`enables or disables 'Create Proposal' button correctly`, () => {
-    describe(`disables the 'Create Proposal' button`, () => {
+    describe(`does not submit proposal`, () => {
       it(`with the default values`, () => {
-        let proposeBtn = wrapper.find(`#submit-proposal`)
-        expect(proposeBtn.html()).toContain(`disabled="disabled"`)
+        wrapper.vm.submitForm = jest.fn()
+        wrapper.vm.validateForm()
+        expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
       })
 
       it(`if the amount for initial deposit is higher than the user's balance`, async () => {
         wrapper.setData(proposal)
         wrapper.setData({ amount: 25 })
         await wrapper.vm.$nextTick()
-        let proposeBtn = wrapper.find(`#submit-proposal`)
-        expect(proposeBtn.html()).toContain(`disabled="disabled"`)
+        wrapper.vm.submitForm = jest.fn()
+        wrapper.vm.validateForm()
+        expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
+        await wrapper.vm.$nextTick()
         let errorMessage = wrapper.find(`input#amount + div`)
         expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
       })
@@ -101,28 +95,33 @@ describe(`ModalPropose`, () => {
         store.commit(`setWalletBalances`, otherCoins)
         wrapper.setData({ amount: 25 })
         await wrapper.vm.$nextTick()
-        let proposeBtn = wrapper.find(`#submit-proposal`)
-        expect(proposeBtn.html()).toContain(`disabled="disabled"`)
+        wrapper.vm.submitForm = jest.fn()
+        wrapper.vm.validateForm()
+        expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
       })
 
       it(`if title is blank`, () => {
         wrapper.setData(proposal)
         wrapper.setData({ title: `     ` })
-        let proposeBtn = wrapper.find(`#submit-proposal`)
-        expect(proposeBtn.html()).toContain(`disabled="disabled"`)
+        wrapper.vm.submitForm = jest.fn()
+        wrapper.vm.validateForm()
+        expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
       })
 
       it(`if description is blank`, () => {
         wrapper.setData({ description: `     ` })
-        let proposeBtn = wrapper.find(`#submit-proposal`)
-        expect(proposeBtn.html()).toContain(`disabled="disabled"`)
+        wrapper.vm.submitForm = jest.fn()
+        wrapper.vm.validateForm()
+        expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
       })
 
       it(`if title is too long disable submit button and show error message`, async () => {
         wrapper.setData({ title: `x`.repeat(65) })
         await wrapper.vm.$nextTick()
-        let proposeBtn = wrapper.find(`#submit-proposal`)
-        expect(proposeBtn.html()).toContain(`disabled="disabled"`)
+        wrapper.vm.submitForm = jest.fn()
+        wrapper.vm.validateForm()
+        expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
+        await wrapper.vm.$nextTick()
         let errorMessage = wrapper.find(`input#title + div`)
         expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
       })
@@ -130,8 +129,10 @@ describe(`ModalPropose`, () => {
       it(`if description is too long disable submit button and show error message`, async () => {
         wrapper.setData({ description: `x`.repeat(201) })
         await wrapper.vm.$nextTick()
-        let proposeBtn = wrapper.find(`#submit-proposal`)
-        expect(proposeBtn.html()).toContain(`disabled="disabled"`)
+        wrapper.vm.submitForm = jest.fn()
+        wrapper.vm.validateForm()
+        expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
+        await wrapper.vm.$nextTick()
         let errorMessage = wrapper.find(`textarea#description + div`)
         expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
       })
@@ -139,24 +140,27 @@ describe(`ModalPropose`, () => {
       it(`if proposal type is invalid`, () => {
         wrapper.setData(proposal)
         wrapper.setData({ type: `Other` })
-        let proposeBtn = wrapper.find(`#submit-proposal`)
-        expect(proposeBtn.html()).toContain(`disabled="disabled"`)
+        wrapper.vm.submitForm = jest.fn()
+        wrapper.vm.validateForm()
+        expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
       })
 
       it(`if the password field is empty`, () => {
         wrapper.setData(proposal)
         wrapper.setData({ password: `` })
-        let proposeBtn = wrapper.find(`#submit-proposal`)
-        expect(proposeBtn.html()).toContain(`disabled="disabled"`)
+        wrapper.vm.submitForm = jest.fn()
+        wrapper.vm.validateForm()
+        expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
       })
     })
 
-    describe(`enables the 'Create Proposal' button`, () => {
+    describe(`submits a proposal`, () => {
       it(`if the user has enough balance and the fields are within the length ranges`, async () => {
         wrapper.setData(proposal)
         await wrapper.vm.$nextTick()
-        let submitButton = wrapper.find(`#submit-proposal`)
-        expect(submitButton.html()).not.toContain(`disabled="disabled"`)
+        wrapper.vm.submitForm = jest.fn()
+        wrapper.vm.validateForm()
+        expect(wrapper.vm.submitForm).toHaveBeenCalled()
       })
     })
   })
@@ -174,19 +178,34 @@ describe(`ModalPropose`, () => {
   })
 
   describe(`Propose`, () => {
-    it(`'Create Proposal' button submits a new proposal and closes modal`, () => {
-      wrapper.setData(proposal)
-      wrapper.vm.onPropose()
+    it(`submits a proposal`, async () => {
+      wrapper.vm.$store.dispatch = jest.fn()
+      wrapper.vm.$store.commit = jest.fn()
 
-      expect(wrapper.emittedByOrder()).toEqual([
-        {
-          name: `createProposal`,
-          args: [{ type: `Text`, ...proposal }]
-        },
-        {
-          name: `update:showModalPropose`,
-          args: [false]
-        }
+      wrapper.setData(proposal)
+      await wrapper.vm.submitForm()
+
+      expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
+        [
+          `submitProposal`,
+          {
+            description: `a valid description for the proposal`,
+            initial_deposit: [{ amount: `15`, denom: `stake` }],
+            title: `A new text proposal for Cosmos`,
+            type: `Text`,
+            password: `1234567890`
+          }
+        ]
+      ])
+
+      expect(wrapper.vm.$store.commit.mock.calls).toEqual([
+        [
+          `notify`,
+          {
+            body: `You have successfully submitted a new text proposal`,
+            title: `Successful proposal submission!`
+          }
+        ]
       ])
     })
   })

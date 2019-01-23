@@ -89,11 +89,7 @@ exports[`TmSessionSignIn has the expected html structure 1`] = `
                 </div>
               </div>
                
-              <div
-                class="tm-form-msg sm tm-form-msg--error"
-              >
-                Name is required
-              </div>
+              <!---->
             </div>
           </div>
            
@@ -117,11 +113,7 @@ exports[`TmSessionSignIn has the expected html structure 1`] = `
                 type="password"
               />
                
-              <div
-                class="tm-form-msg sm tm-form-msg--error"
-              >
-                Password is required
-              </div>
+              <!---->
                
               <!---->
             </div>
