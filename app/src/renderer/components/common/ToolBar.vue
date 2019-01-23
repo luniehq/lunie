@@ -32,6 +32,7 @@
     </a>
     <router-link
       v-tooltip.bottom="'Preferences'"
+      v-if="config.devMode"
       id="settings"
       to="/preferences"
     >
@@ -58,7 +59,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([`user`, `lastPage`]),
+    ...mapGetters([`user`, `lastPage`, `config`]),
     searchEnabled() {
       return !!this.searching
     },

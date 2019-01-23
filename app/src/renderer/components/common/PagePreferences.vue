@@ -4,15 +4,12 @@
       <tm-balance />
       <tool-bar />
     </template>
-    <tm-part title="Settings">
-      <tm-list-item type="field" title="Node IP">
-        <tm-btn :value="nodeURL" icon="exit_to_app" type="button" />
-      </tm-list-item>
+    <tm-part>
+      <tm-list-item type="field" title="Node IP">{{ nodeURL }}</tm-list-item>
       <tm-list-item type="field" title="View tutorial for Voyager">
         <tm-btn
           id="toggle-onboarding"
           value="Launch Tutorial"
-          icon="open_in_new"
           @click.native="setOnboarding()"
         />
       </tm-list-item>
@@ -30,17 +27,6 @@
           :value="user.errorCollection || undefined"
           :change="() => setErrorCollection()"
           type="toggle"
-        />
-      </tm-list-item>
-    </tm-part>
-    <tm-part title="Account">
-      <tm-list-item type="field" title="Switch account">
-        <tm-btn
-          id="signOut-btn"
-          icon="exit_to_app"
-          type="button"
-          value="Sign Out"
-          @click.native="signOut()"
         />
       </tm-list-item>
     </tm-part>
@@ -90,10 +76,6 @@ export default {
     this.themeSelectActive = this.themes.active
   },
   methods: {
-    signOut({ $store } = this) {
-      $store.dispatch(`signOut`)
-      $store.commit(`notifySignOut`)
-    },
     setAppTheme({ $store, themes } = this) {
       if (themes.active === `dark`) {
         $store.commit(`setTheme`, `light`)

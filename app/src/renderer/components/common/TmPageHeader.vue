@@ -56,7 +56,7 @@ export default {
 .tm-page-header-container {
   min-height: 4.22rem;
   flex-wrap: wrap;
-  border-bottom: px solid var(--bc);
+  border-bottom: 1px solid var(--bc-dim);
   display: flex;
   padding: 0 1rem 0 1rem;
 }
