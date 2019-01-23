@@ -61,7 +61,7 @@ export default {
   },
   methods: {
     onPropose() {
-      this.$refs.ModalPropose.open()
+      this.$refs.modalPropose.open()
     }
   }
 }

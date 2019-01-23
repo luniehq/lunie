@@ -37,7 +37,7 @@ describe(`UndelegationModal`, () => {
   })
 
   describe(`component matches snapshot`, () => {
-    it(`has the expected html structure`, async () => {
+    it(`has the expected html structure`, () => {
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
   })
@@ -54,11 +54,11 @@ describe(`UndelegationModal`, () => {
 
   describe(`only submits on correct form`, () => {
     describe(`validates`, () => {
-      it(`to false with default values`, async () => {
+      it(`to false with default values`, () => {
         expect(wrapper.vm.validateForm()).toBe(false)
       })
 
-      it(`to true if the amount is positive and the user has enough balance`, async () => {
+      it(`to true if the amount is positive and the user has enough balance`, () => {
         wrapper.setData({ amount: 50 })
         expect(wrapper.vm.validateForm()).toBe(true)
       })

@@ -61,25 +61,18 @@ describe(`DelegationModal`, () => {
 
   describe(`validation`, () => {
     describe(`fails`, () => {
-      it(`with default values`, async () => {
+      it(`with default values`, () => {
         expect(wrapper.vm.validateForm()).toBe(false)
       })
 
-      it(`if the user manually inputs a number greater than the balance`, async () => {
+      it(`if the user manually inputs a number greater than the balance`, () => {
         wrapper.setData({ amount: 142 })
         expect(wrapper.vm.validateForm()).toBe(false)
-        console.log(JSON.stringify(wrapper.vm.$v))
-        console.log(wrapper.vm.balance)
-
-        await wrapper.vm.$nextTick()
-        console.log(wrapper.vm.$el.outerHTML)
-        let errorMessage = wrapper.find(`input#amount + div`)
-        expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
       })
     })
 
     describe(`succeeds`, () => {
-      it(`if the amount is positive and the user has enough balance`, async () => {
+      it(`if the amount is positive and the user has enough balance`, () => {
         wrapper.setData({ amount: 50 })
         expect(wrapper.vm.validateForm()).toBe(true)
       })

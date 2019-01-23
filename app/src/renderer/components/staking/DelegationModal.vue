@@ -50,7 +50,7 @@
         type="custom"
       />
       <tm-form-msg
-        v-else-if="$v.amount.$error && !$v.amount.between && amount === 0"
+        v-else-if="$v.amount.$error && (!$v.amount.required || amount === 0)"
         name="Amount"
         type="required"
       />
@@ -104,7 +104,7 @@ export default {
     }
   },
   data: () => ({
-    amount: ``,
+    amount: null,
     selectedIndex: 0
   }),
   computed: {
@@ -156,15 +156,11 @@ export default {
       })
     },
     async submitForm(submitType, password) {
-      this.sending = true
-
       if (this.from === this.wallet.address) {
         await this.submitDelegation(submitType, password)
       } else {
         await this.submitRedelegation(submitType, password)
       }
-
-      this.sending = false
     }
   },
   validations() {

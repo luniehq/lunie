@@ -23,7 +23,7 @@
         type="custom"
       />
       <tm-form-msg
-        v-else-if="$v.amount.$error && !$v.amount.between && amount === 0"
+        v-else-if="$v.amount.$error && (!$v.amount.required || amount === 0)"
         name="Amount"
         type="required"
       />
