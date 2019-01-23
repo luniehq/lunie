@@ -56,8 +56,6 @@
     >
       <tm-field
         id="send-amount"
-        :max="max"
-        :min="max ? 1 : 0"
         v-model.number="$v.fields.amount.$model"
         type="number"
         placeholder="Amount"
@@ -204,12 +202,12 @@ export default {
     close() {
       this.$emit(`update:showSendModal`, false)
     },
-    validateForm() {
+    async validateForm() {
       this.sending = true
       this.$v.$touch()
 
       if (!this.$v.$invalid) {
-        this.submitForm()
+        await this.submitForm()
       } else {
         this.sending = false
       }

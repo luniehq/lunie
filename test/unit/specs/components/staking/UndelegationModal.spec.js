@@ -68,20 +68,6 @@ describe(`UndelegationModal`, () => {
         expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
       })
 
-      xit(`if the user manually inputs a number greater than the balance`, async () => {
-        wrapper.setData({ amount: 142, password: `1234567890` })
-        let amountField = wrapper.find(`#amount`)
-        wrapper.vm.submitForm = jest.fn()
-        wrapper.vm.validateForm()
-        expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
-        await wrapper.vm.$nextTick()
-        let errorMessage = wrapper.find(`input#amount + div`)
-        expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
-
-        amountField.trigger(`input`)
-        expect(amountField.element.value).toBe(`142`)
-      })
-
       it(`if the password field is empty`, () => {
         wrapper.setData({ amount: 10, password: `` })
         wrapper.vm.submitForm = jest.fn()

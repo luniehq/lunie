@@ -249,7 +249,7 @@ export default {
       signUpName: { required, minLength: minLength(5) },
       signUpPassword: { required, minLength: minLength(10) },
       signUpPasswordConfirm: { sameAsPassword: sameAs(`signUpPassword`) },
-      signUpWarning: { sameAs: sameAs(() => true) },
+      signUpWarning: { required: sameAs(() => true) },
       errorCollection: false
     }
   })

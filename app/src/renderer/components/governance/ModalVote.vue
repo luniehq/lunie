@@ -161,11 +161,11 @@ export default {
     close() {
       this.$emit(`update:showModalVote`, false)
     },
-    validateForm() {
+    async validateForm() {
       this.$v.$touch()
 
       if (!this.$v.$invalid) {
-        this.submitForm()
+        await this.submitForm()
       }
     },
     async submitForm() {

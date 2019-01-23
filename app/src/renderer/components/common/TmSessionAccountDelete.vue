@@ -120,7 +120,7 @@ export default {
   validations: () => ({
     fields: {
       deletionPassword: { required, minLength: minLength(10) },
-      deletionWarning: { sameAs: sameAs(() => true) }
+      deletionWarning: { required: sameAs(() => true) }
     }
   })
 }
