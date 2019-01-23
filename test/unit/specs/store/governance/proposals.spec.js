@@ -42,7 +42,7 @@ describe(`Module: Proposals`, () => {
     mutations.setProposal(state, proposals[`2`])
     mutations.setProposalTally(state, {
       proposal_id: `2`,
-      tally_result: tallies[`1`]
+      final_tally_result: tallies[`1`]
     })
     expect(state.tallies[`2`]).toEqual(tallies[`1`])
   })
@@ -51,14 +51,14 @@ describe(`Module: Proposals`, () => {
     let { mutations, state } = module
     mutations.setProposal(state, proposals[`1`])
     let newProposal = JSON.parse(JSON.stringify(proposals[`1`]))
-    newProposal.tally_result = {
+    newProposal.final_tally_result = {
       yes: `10`,
       no: `3`,
       no_with_veto: `1`,
       abstain: `4`
     }
     mutations.setProposal(state, newProposal)
-    expect(state.proposals[`1`]).toHaveProperty(`tally_result`, {
+    expect(state.proposals[`1`]).toHaveProperty(`final_tally_result`, {
       yes: `10`,
       no: `3`,
       no_with_veto: `1`,
@@ -95,20 +95,23 @@ describe(`Module: Proposals`, () => {
           [`setProposal`, proposals[`1`]],
           [
             `setProposalTally`,
-            { proposal_id: `1`, tally_result: tallies[`1`] }
+            { proposal_id: `1`, final_tally_result: tallies[`1`] }
           ],
           [`setProposal`, proposals[`2`]],
           [
             `setProposalTally`,
-            { proposal_id: `2`, tally_result: tallies[`2`] }
+            { proposal_id: `2`, final_tally_result: tallies[`2`] }
           ],
           [`setProposal`, proposals[`5`]],
           [
             `setProposalTally`,
-            { proposal_id: `5`, tally_result: tallies[`5`] }
+            { proposal_id: `5`, final_tally_result: tallies[`5`] }
           ],
           [`setProposal`, proposals[`6`]],
-          [`setProposalTally`, { proposal_id: `6`, tally_result: tallies[`6`] }]
+          [
+            `setProposalTally`,
+            { proposal_id: `6`, final_tally_result: tallies[`6`] }
+          ]
         ])
       )
     })
@@ -150,7 +153,10 @@ describe(`Module: Proposals`, () => {
       )
       expect(commit.mock.calls).toEqual([
         [`setProposal`, proposals[`1`]],
-        [`setProposalTally`, { proposal_id: `1`, tally_result: tallies[`1`] }]
+        [
+          `setProposalTally`,
+          { proposal_id: `1`, final_tally_result: tallies[`1`] }
+        ]
       ])
 
       // on VotingPeriod
@@ -160,7 +166,10 @@ describe(`Module: Proposals`, () => {
       )
       expect(commit.mock.calls.slice(2)).toEqual([
         [`setProposal`, proposals[`2`]],
-        [`setProposalTally`, { proposal_id: `2`, tally_result: tallies[`2`] }]
+        [
+          `setProposalTally`,
+          { proposal_id: `2`, final_tally_result: tallies[`2`] }
+        ]
       ])
     })
 
