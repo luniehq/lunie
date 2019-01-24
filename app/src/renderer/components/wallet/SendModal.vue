@@ -122,7 +122,7 @@ export default {
   data: () => ({
     bech32error: null,
     address: ``,
-    amount: ``,
+    amount: null,
     denom: ``
   }),
   computed: {
@@ -163,9 +163,9 @@ export default {
       await this.sendTx({
         type,
         submitType,
-        password: password,
+        password,
         to: address,
-        amount: [{ denom, amount: amount.toString() }]
+        amount: [{ denom, amount: String(amount) }]
       })
 
       this.$store.commit(`notify`, {

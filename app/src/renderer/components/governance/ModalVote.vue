@@ -117,7 +117,7 @@ export default {
       await this.$store.dispatch(`submitVote`, {
         proposal_id: this.proposalId,
         option: this.vote,
-        password: password,
+        password,
         submitType
       })
 

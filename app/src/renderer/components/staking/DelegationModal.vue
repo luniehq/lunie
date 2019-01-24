@@ -130,7 +130,7 @@ export default {
         validator_addr: this.validator.operator_address,
         amount: String(this.amount),
         submitType,
-        password: password
+        password
       })
 
       this.$store.commit(`notify`, {
@@ -147,7 +147,7 @@ export default {
         validatorDst: this.validator,
         amount: String(this.amount),
         submitType,
-        password: password
+        password
       })
 
       this.$store.commit(`notify`, {

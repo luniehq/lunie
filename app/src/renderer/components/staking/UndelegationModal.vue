@@ -104,7 +104,7 @@ export default {
     }
   },
   data: () => ({
-    amount: ``,
+    amount: null,
     selectedIndex: 0
   }),
   computed: {

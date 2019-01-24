@@ -189,7 +189,7 @@ export default {
             amount: String(this.amount)
           }
         ],
-        password: password
+        password
       })
       this.$store.commit(`notify`, {
         title: `Successful proposal submission!`,
