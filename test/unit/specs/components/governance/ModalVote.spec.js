@@ -31,6 +31,12 @@ describe(`ModalVote`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
+  it(`opens`, () => {
+    wrapper.vm.$refs.actionModal.open = jest.fn()
+    wrapper.vm.open()
+    expect(wrapper.vm.$refs.actionModal.open).toHaveBeenCalled()
+  })
+
   describe(`validation`, () => {
     it(`fails`, () => {
       wrapper.vm.submitForm = jest.fn()

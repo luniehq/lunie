@@ -43,6 +43,12 @@ describe(`ModalDeposit`, () => {
     })
   })
 
+  it(`opens`, () => {
+    wrapper.vm.$refs.actionModal.open = jest.fn()
+    wrapper.vm.open()
+    expect(wrapper.vm.$refs.actionModal.open).toHaveBeenCalled()
+  })
+
   describe(`validation`, () => {
     describe(`fails`, () => {
       it(`with default values`, () => {

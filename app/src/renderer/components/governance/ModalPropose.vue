@@ -164,7 +164,7 @@ export default {
       },
       amount: {
         required,
-        between: between(this.max ? 1 : 0, this.balance)
+        between: between(this.balance ? 1 : 0, this.balance)
       }
     }
   },

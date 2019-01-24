@@ -117,6 +117,7 @@ test(`delegation`, async function(t) {
 
   t.test(`Undelegate`, async t => {
     await app.client
+      .waitForVisible(`//a[normalize-space() = 'Validators']`)
       // Select the Validators tab.
       .click(`//a[normalize-space() = 'Validators']`)
 
