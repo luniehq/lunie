@@ -1249,7 +1249,7 @@ Array [
   Object {
     "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
     "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
-    "maximum": 50,
+    "maximum": 1337,
     "value": 0,
   },
 ]
@@ -1260,7 +1260,7 @@ Array [
   Object {
     "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
     "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
-    "maximum": 50,
+    "maximum": 1337,
     "value": 0,
   },
 ]
@@ -1271,7 +1271,7 @@ Array [
   Object {
     "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
     "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
-    "maximum": 50,
+    "maximum": 1337,
     "value": 0,
   },
   Object {
@@ -3579,8 +3579,18 @@ Array [
 exports[`onDelegation submitDelegation delegation composition delegation.submitDelegation 2`] = `
 Array [
   Array [
-    "setAtoms",
-    32,
+    "updateWalletBalance",
+    Object {
+      "amount": 90,
+      "denom": "STAKE",
+    },
+  ],
+  Array [
+    "setCommittedDelegation",
+    Object {
+      "candidateId": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+      "value": 10,
+    },
   ],
   Array [
     "notify",

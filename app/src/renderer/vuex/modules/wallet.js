@@ -1,4 +1,5 @@
 import * as Sentry from "@sentry/browser"
+import Vue from "vue"
 // for now importing the fixed genesis for the network from the config.json
 import network from "../../../network.js"
 
@@ -18,6 +19,16 @@ export default ({ node }) => {
     setWalletBalances(state, balances) {
       state.balances = balances
       state.loading = false
+    },
+    updateWalletBalance(state, balance) {
+      const findBalanceIndex = state.balances.findIndex(
+        ({ denom }) => balance.denom === denom
+      )
+      if (findBalanceIndex === -1) {
+        state.balances.push(balance)
+        return
+      }
+      Vue.set(state.balances, findBalanceIndex, balance)
     },
     setWalletAddress(state, address) {
       state.address = address
@@ -64,14 +75,6 @@ export default ({ node }) => {
         commit(`setNonce`, res.sequence)
         commit(`setAccountNumber`, res.account_number)
         commit(`setWalletBalances`, coins)
-        for (let coin of coins) {
-          if (
-            coin.denom === rootState.stakingParameters.parameters.bond_denom
-          ) {
-            commit(`setAtoms`, parseFloat(coin.amount))
-            break
-          }
-        }
         state.loading = false
         state.loaded = true
       } catch (error) {
@@ -82,6 +85,23 @@ export default ({ node }) => {
         Sentry.captureException(error)
         state.error = error
       }
+    },
+    async sendCoins(
+      { dispatch, commit, state },
+      { receiver, amount, denom, password }
+    ) {
+      await dispatch(`sendTx`, {
+        type: `send`,
+        password,
+        to: receiver,
+        amount: [{ denom, amount: amount.toString() }]
+      })
+
+      const oldBalance = state.balances.find(balance => balance.denom === denom)
+      commit(`updateWalletBalance`, {
+        denom,
+        amount: oldBalance.amount - amount
+      })
     },
     async loadDenoms({ commit, state }) {
       try {

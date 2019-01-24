@@ -51,12 +51,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([`user`, `totalAtoms`, `bondDenom`]),
+    ...mapGetters([`user`, `liquidAtoms`, `totalAtoms`, `bondDenom`]),
     address() {
       return this.user.address
     },
     unbondedAtoms() {
-      return this.num.shortNumber(this.user.atoms)
+      return this.num.shortNumber(this.liquidAtoms)
     }
   }
 }

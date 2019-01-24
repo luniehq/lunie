@@ -200,7 +200,7 @@ export default {
       return num.percentInt(this.tally.abstain / this.totalVotes)
     },
     tally() {
-      let proposalTally = this.proposals.tallies[this.proposalId]
+      let proposalTally = this.proposals.tallies[this.proposalId] || {}
       proposalTally.yes = Math.round(parseFloat(proposalTally.yes))
       proposalTally.no = Math.round(parseFloat(proposalTally.no))
       proposalTally.no_with_veto = Math.round(

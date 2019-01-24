@@ -15,7 +15,6 @@ import routes from "./routes"
 import _Node from "./connectors/node"
 import _Store from "./vuex/store"
 import axios from "axios"
-import { sleep } from "./scripts/common"
 
 const _config = require(`../config.json`)
 
@@ -78,32 +77,14 @@ export async function main(
     next()
   })
 
-  // in parallel wait for the node to be reachable and then connect to it
-  onBackendAvailable(node, () => {
-    node.rpcConnect(config.node_rpc)
-    store.dispatch(`rpcSubscribe`)
-    store.dispatch(`subscribeToBlocks`)
-
-    store.dispatch(`showInitialScreen`)
-  })
+  store.dispatch(`connect`)
+  store.dispatch(`showInitialScreen`)
 
   return new Vue({
     router,
     ...App,
     store
   }).$mount(`#app`)
-}
-
-async function onBackendAvailable(node, callback) {
-  while (true) {
-    try {
-      await node.lcdConnected()
-      break
-    } catch (err) {}
-    await sleep(1000)
-  }
-
-  callback()
 }
 
 main()
