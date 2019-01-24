@@ -105,16 +105,16 @@
     />
     <hardware-state
       v-if="step === `connecting`"
-      icon="rotate_right"
       :spin="true"
+      icon="rotate_right"
       value="Please unlock the Cosmos app and sign with your Ledger"
     />
     <div class="modal-propose-footer">
       <tm-btn
         id="submit-proposal"
         :disabled="$v.$invalid"
-        color="primary"
         :value="btnMessage"
+        color="primary"
         size="lg"
         @click.native="ledger.isConnected ? nextStep() : onPropose()"
       />
@@ -215,7 +215,7 @@ export default {
         between: between(1, this.balance)
       },
       password: {
-        required: requiredIf(!this.ledger.isConnected)
+        required: requiredIf(() => !this.ledger.isConnected)
       }
     }
   },
@@ -227,7 +227,7 @@ export default {
       this.showPassword = !this.showPassword
     },
     onClick() {
-      if (ledger.isConnected) {
+      if (this.ledger.isConnected) {
         this.nextStep()
       } else {
         this.onPropose()

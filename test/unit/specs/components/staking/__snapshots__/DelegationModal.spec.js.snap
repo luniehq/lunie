@@ -179,7 +179,7 @@ exports[`DelegationModal component matches snapshot has the expected html struct
       <label
         for="showPasswordCheckbox"
       >
-        Show password
+         Show password 
       </label>
     </div>
   </div>

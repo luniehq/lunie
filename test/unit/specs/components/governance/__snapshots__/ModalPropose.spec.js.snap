@@ -12,6 +12,7 @@ exports[`ModalPropose component matches snapshot has the expected html structure
       class="icon modal-propose-atom"
       src="~assets/images/cosmos-logo.png"
     />
+     
     <span
       class="tm-modal-title"
     >
@@ -30,120 +31,126 @@ exports[`ModalPropose component matches snapshot has the expected html structure
     </div>
   </div>
    
-  <div
-    class="page-proposal-form-group tm-form-group"
-  >
-    <!---->
-    <!---->
-     
+  <div>
     <div
-      class="tm-form-group__field"
+      class="page-proposal-form-group tm-form-group"
     >
-      <span>
-        Title
-      </span>
-       
-      <input
-        class="tm-field"
-        id="title"
-        placeholder="Proposal title"
-        type="text"
-      />
-       
       <!---->
-    </div>
-  </div>
-   
-  <div
-    class="page-proposal-form-group tm-form-group"
-  >
-    <!---->
-    <!---->
-     
-    <div
-      class="tm-form-group__field"
-    >
-      <span>
-        Description
-      </span>
-       
-      <textarea
-        class="tm-field"
-        id="description"
-        placeholder="Write your proposal here..."
-      />
-       
-      <!---->
-    </div>
-  </div>
-   
-  <div
-    class="modal-propose-form-group tm-form-group"
-  >
-    <!---->
-    <!---->
-     
-    <div
-      class="tm-form-group__field"
-    >
-      <span>
-        Deposit amount
-      </span>
-       
-      <input
-        class="tm-field"
-        id="denom"
-        placeholder="stake"
-        readonly="readonly"
-        tabindex="-1"
-        type="text"
-      />
-       
-      <input
-        class="tm-field"
-        id="amount"
-        min="0"
-        type="number"
-      />
-       
       <!---->
        
-      <hr />
-    </div>
-  </div>
-   
-  <div
-    class="modal-propose-form-group tm-form-group"
-  >
-    <!---->
-    <!---->
-     
-    <div
-      class="tm-form-group__field"
-    >
-      <span>
-        Account password
-      </span>
-       
-      <input
-        class="tm-field"
-        id="password"
-        placeholder="password..."
-        type="password"
-      />
-       
-      <input
-        id="showPasswordCheckbox"
-        type="checkbox"
-      />
-       
-      <label
-        for="showPasswordCheckbox"
+      <div
+        class="tm-form-group__field"
       >
-        Show password
-      </label>
+        <span>
+          Title
+        </span>
+         
+        <input
+          class="tm-field"
+          id="title"
+          placeholder="Proposal title"
+          type="text"
+        />
+         
+        <!---->
+      </div>
+    </div>
+     
+    <div
+      class="page-proposal-form-group tm-form-group"
+    >
+      <!---->
+      <!---->
+       
+      <div
+        class="tm-form-group__field"
+      >
+        <span>
+          Description
+        </span>
+         
+        <textarea
+          class="tm-field"
+          id="description"
+          placeholder="Write your proposal here..."
+        />
+         
+        <!---->
+      </div>
+    </div>
+     
+    <div
+      class="modal-propose-form-group tm-form-group"
+    >
+      <!---->
+      <!---->
+       
+      <div
+        class="tm-form-group__field"
+      >
+        <span>
+          Deposit amount
+        </span>
+         
+        <input
+          class="tm-field"
+          id="denom"
+          placeholder="stake"
+          readonly="readonly"
+          tabindex="-1"
+          type="text"
+        />
+         
+        <input
+          class="tm-field"
+          id="amount"
+          min="0"
+          type="number"
+        />
+         
+        <!---->
+         
+        <hr />
+      </div>
+    </div>
+     
+    <div
+      class="modal-propose-form-group tm-form-group"
+    >
+      <!---->
+      <!---->
+       
+      <div
+        class="tm-form-group__field"
+      >
+        <span>
+          Account password
+        </span>
+         
+        <input
+          class="tm-field"
+          id="password"
+          placeholder="password..."
+          type="password"
+        />
+         
+        <input
+          id="showPasswordCheckbox"
+          type="checkbox"
+        />
+         
+        <label
+          for="showPasswordCheckbox"
+        >
+          Show password
+        </label>
+      </div>
     </div>
   </div>
+   
+  <!---->
+   
+  <!---->
    
   <div
     class="modal-propose-footer"

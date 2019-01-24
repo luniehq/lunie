@@ -1,8 +1,6 @@
 import * as Sentry from "@sentry/browser"
 import { App, comm_u2f } from "ledger-cosmos-js"
 import { createCosmosAddress } from "../../scripts/wallet.js"
-import { signatureImport, publicKeyVerify, verify } from "secp256k1"
-import sha256 from "crypto-js/sha256"
 
 // TODO: discuss TIMEOUT value
 const TIMEOUT = 50 // seconds to wait for user action on Ledger
@@ -75,7 +73,7 @@ export default () => {
     },
     async getLedgerCosmosVersion({ commit, dispatch, state }) {
       let response = await state.app.get_version()
-      response = await dispatch(`checkLedgerErrors`, response, ErrVersion)
+      response = dispatch(`checkLedgerErrors`, response, ErrVersion)
       if (response) {
         const { major, minor, patch, test_mode } = response
         const version = { major, minor, patch, test_mode }
@@ -84,50 +82,21 @@ export default () => {
     },
     async getLedgerPubKey({ commit, dispatch, state }) {
       let response = await state.app.publicKey(HDPATH)
-      response = await dispatch(`checkLedgerErrors`, response, ErrPubKey)
-      if (!publicKeyVerify(response.compressed_pk)) {
-        const error = `Invalid public key`
-        commit(`notifyError`, {
-          title: ErrPubKey,
-          body: error
-        })
-        Sentry.captureException(error)
-        commit(`setLedgerError`, error)
-      }
-      if (response) {
+      response = dispatch(`checkLedgerErrors`, response, ErrPubKey)
+      if (response && response.compressed_pk && response.pk) {
         commit(`setLedgerPubKey`, response.compressed_pk)
         commit(`setLedgerUncompressedPubKey`, response.pk)
       }
     },
-    async signWithLedger({ commit, dispatch, state }, message) {
+    async signWithLedger({ dispatch, state }, message) {
       let response = await state.app.sign(HDPATH, message)
-      response = await dispatch(`checkLedgerErrors`, response, ErrSign)
+      response = dispatch(`checkLedgerErrors`, response, ErrSign)
       if (response && response.signature) {
-        const messageHash = Buffer.from(sha256(message).toString(), `hex`)
-        const signatureBuffer = signatureImport(response.signature)
-
-        if (
-          !verify(
-            messageHash,
-            Buffer.from(signatureBuffer.buffer),
-            state.pubKey
-          )
-        ) {
-          debugger
-          const error = `signature verification failed`
-          commit(`notifyError`, {
-            title: ErrSign,
-            body: error
-          })
-          Sentry.captureException(error)
-          commit(`setLedgerError`, error)
-          return null
-        }
         return response.signature
       }
       return undefined
     },
-    async checkLedgerErrors({ commit }, response, errorTitle) {
+    checkLedgerErrors({ commit }, response, errorTitle) {
       if (response && response.error_message !== `No errors`) {
         commit(`notifyError`, {
           title: errorTitle,

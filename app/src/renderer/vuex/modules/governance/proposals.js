@@ -45,7 +45,7 @@ export default ({ node }) => {
                 )
               } else {
                 tally_result = JSON.parse(
-                  JSON.stringify(proposal.value.tally_result)
+                  JSON.stringify(proposal.value.final_tally_result)
                 )
               }
               commit(`setProposalTally`, {

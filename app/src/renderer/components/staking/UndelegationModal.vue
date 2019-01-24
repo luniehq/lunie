@@ -135,7 +135,7 @@ export default {
         between: between(1, this.maximum)
       },
       password: {
-        required: requiredIf(!this.ledger.isConnected)
+        required: requiredIf(() => !this.ledger.isConnected)
       }
     }
   },

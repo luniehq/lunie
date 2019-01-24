@@ -143,7 +143,7 @@ export default {
         required,
         isValid
       },
-      password: { required: requiredIf(!this.ledger.isConnected) }
+      password: { required: requiredIf(() => !this.ledger.isConnected) }
     }
   },
   methods: {

@@ -25,7 +25,8 @@ describe(`PageSend`, () => {
       denoms: [`fermion`, `gregcoin`, `mycoin`, `STAKE`],
       balances
     },
-    connected: true
+    connected: true,
+    ledger: { isConnected: false }
   }
 
   beforeEach(async () => {

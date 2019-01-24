@@ -34,7 +34,7 @@ export function generateWallet(randomBytesFunc = standardRandomBytesFunc) {
   return generateWalletFromSeed(mnemonic)
 }
 
-// TODO: this only works with a compressed public key (33 bytes) !!
+// NOTE: this only works with a compressed public key (33 bytes)
 export function createCosmosAddress(publicKey) {
   let message = CryptoJS.enc.Hex.parse(publicKey.toString(`hex`))
   const hash = ripemd160(sha256(message)).toString()
@@ -161,14 +161,13 @@ export function createSignature(
   }
 }
 
-// main function to sign a jsonTx using a wallet object
+// main function to sign a jsonTx using the local keystore wallet
 // returns the complete signature object to add to the tx
 export function sign(jsonTx, wallet, requestMetaData) {
   let { sequence, account_number } = requestMetaData
   const signMessage = createSignMessage(jsonTx, requestMetaData)
   const signatureBuffer = signWithPrivateKey(signMessage, wallet.privateKey)
   const pubKeyBuffer = Buffer.from(wallet.publicKey, `hex`)
-  debugger
   return createSignature(
     signatureBuffer,
     sequence,

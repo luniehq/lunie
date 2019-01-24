@@ -77,6 +77,7 @@ exports[`PageSend disables sending if not connected 1`] = `
         <tm-form-msg-stub
           max="0"
           min="0"
+          msg=""
           name="Amount"
           type="between"
         />
@@ -218,6 +219,7 @@ exports[`PageSend has the expected html structure 1`] = `
         />
          
         <tm-form-msg-stub
+          msg=""
           name="Password"
           type="required"
         />
@@ -304,6 +306,7 @@ exports[`PageSend should show address required error 1`] = `
         </tm-field-group-stub>
          
         <tm-form-msg-stub
+          msg=""
           name="Address"
           type="required"
         />
@@ -428,6 +431,7 @@ exports[`PageSend should show bech32 error when address length is too long 1`] =
         </tm-field-group-stub>
          
         <tm-form-msg-stub
+          msg=""
           name="Address"
           type="bech32"
         />
@@ -552,6 +556,7 @@ exports[`PageSend should show bech32 error when address length is too short 1`] 
         </tm-field-group-stub>
          
         <tm-form-msg-stub
+          msg=""
           name="Address"
           type="bech32"
         />
@@ -676,6 +681,7 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
         </tm-field-group-stub>
          
         <tm-form-msg-stub
+          msg=""
           name="Address"
           type="required"
         />
@@ -718,6 +724,7 @@ exports[`PageSend should show bech32 error when alphanumeric is wrong 1`] = `
         />
          
         <tm-form-msg-stub
+          msg=""
           name="Password"
           type="required"
         />
@@ -908,6 +915,7 @@ exports[`PageSend should work without providing a default denom 1`] = `
         />
          
         <tm-form-msg-stub
+          msg=""
           name="Denomination"
           type="required"
         />
@@ -969,6 +977,7 @@ exports[`PageSend should work without providing a default denom 1`] = `
         />
          
         <tm-form-msg-stub
+          msg=""
           name="Password"
           type="required"
         />

@@ -118,7 +118,7 @@ export default {
     showPassword: false
   }),
   computed: {
-    ...mapGetters([`ledger`]),
+    ...mapGetters([`ledger`, `wallet`]),
     balance() {
       // TODO: refactor to get the selected coin when multicoin deposit is enabled
       if (!this.wallet.loading && !!this.wallet.balances.length) {
@@ -138,7 +138,7 @@ export default {
         between: between(1, this.balance)
       },
       password: {
-        required: requiredIf(!this.ledger.isConnected)
+        required: requiredIf(() => !this.ledger.isConnected)
       }
     }
   },

@@ -63,9 +63,9 @@ export default ({ node }) => {
 
       let requestMetaData = {
         sequence: state.nonce,
-        name: `anonymous`,
+        name: `anonymous`, // TODO: replace with address after https://github.com/cosmos/cosmos-sdk/pull/3287 is merged
         from: rootState.wallet.address,
-        account_number: rootState.wallet.accountNumber, // TODO move into LCD?
+        account_number: rootState.wallet.accountNumber, // TODO: move into LCD?
         chain_id: rootState.connection.lastHeader.chain_id,
         gas: String(config.default_gas),
         generate_only: true
@@ -87,6 +87,7 @@ export default ({ node }) => {
 
       let signature
       if (rootState.ledger.isConnected) {
+        // TODO: move to wallet script
         const signMessage = createSignMessage(tx, requestMetaData)
         const signatureByteArray = await dispatch(`signWithLedger`, signMessage)
         // we have to parse the signature from Ledger as it's in DER format

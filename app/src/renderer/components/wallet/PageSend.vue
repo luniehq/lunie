@@ -286,7 +286,7 @@ export default {
           between: between(this.max ? 1 : 0, this.max)
         },
         denom: { required },
-        password: { required: requiredIf(!this.ledger.isConnected) }
+        password: { required: requiredIf(() => !this.ledger.isConnected) }
       }
     }
   }

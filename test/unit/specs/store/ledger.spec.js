@@ -2,10 +2,11 @@ import ledgerModule from "modules/ledger.js"
 import { App, comm_u2f } from "ledger-cosmos-js"
 
 describe(`Module: Ledger`, () => {
-  let module, state, actions, mutations
+  let module, rootState, state, actions, mutations
 
   beforeEach(() => {
     module = ledgerModule()
+    rootState = module.rootState
     state = module.state
     actions = module.actions
     mutations = module.mutations
@@ -26,9 +27,151 @@ describe(`Module: Ledger`, () => {
     })
 
     it(`sets the account public key`, () => {
-      const pubKey = new Uint8Array([95, 12, 248, 233, 150, 121])
+      /*eslint-disable */
+      const pubKey = Buffer.from([
+        4,
+        228,
+        114,
+        95,
+        12,
+        248,
+        233,
+        150,
+        121,
+        120,
+        108,
+        215,
+        35,
+        230,
+        147,
+        188,
+        25,
+        67,
+        15,
+        209,
+        28,
+        190,
+        133,
+        163,
+        176,
+        205,
+        91,
+        131,
+        112,
+        190,
+        111,
+        120,
+        229,
+        35,
+        85,
+        207,
+        82,
+        109,
+        65,
+        22,
+        237,
+        67,
+        55,
+        19,
+        171,
+        79,
+        225,
+        208,
+        53,
+        24,
+        254,
+        23,
+        97,
+        58,
+        0,
+        18,
+        18,
+        212,
+        152,
+        188,
+        87,
+        18,
+        47,
+        249,
+        17
+      ])
+      /*eslint-enable */
       mutations.setLedgerPubKey(state, pubKey)
       expect(state.pubKey).toBe(pubKey)
+    })
+
+    it(`sets the account public key`, () => {
+      /*eslint-disable */
+      const pubKeyFull = Buffer.from([
+        4,
+        228,
+        114,
+        95,
+        12,
+        248,
+        233,
+        150,
+        121,
+        120,
+        108,
+        215,
+        35,
+        230,
+        147,
+        188,
+        25,
+        67,
+        15,
+        209,
+        28,
+        190,
+        133,
+        163,
+        176,
+        205,
+        91,
+        131,
+        112,
+        190,
+        111,
+        120,
+        229,
+        35,
+        85,
+        207,
+        82,
+        109,
+        65,
+        22,
+        237,
+        67,
+        55,
+        19,
+        171,
+        79,
+        225,
+        208,
+        53,
+        24,
+        254,
+        23,
+        97,
+        58,
+        0,
+        18,
+        18,
+        212,
+        152,
+        188,
+        87,
+        18,
+        47,
+        249,
+        17
+      ])
+      /*eslint-enable */
+      mutations.setLedgerUncompressedPubKey(state, pubKeyFull)
+      expect(state.uncompressedPubKey).toBe(pubKeyFull)
     })
 
     it(`updates the state if the device is connected`, () => {
@@ -39,15 +182,15 @@ describe(`Module: Ledger`, () => {
     it(`sets an error`, () => {
       const error = `Sign/verify error`
       mutations.setLedgerError(state, error)
-      expect(state.isConnected).toBe(error)
+      expect(state.error).toBe(error)
     })
   })
 
   describe(`Actions`, () => {
     it(`resets the session data `, () => {
       state.isConnected = true
-      actions.resetSessionData({ state })
-      expect(state.nonce).toBe(false)
+      actions.resetSessionData({ rootState })
+      expect(state.isConnected).toBe(false)
     })
 
     describe(`checks for errors on Ledger actions`, () => {
@@ -55,7 +198,7 @@ describe(`Module: Ledger`, () => {
         const commit = jest.fn()
         const response = { error_message: `Sign/verify error` }
         const title = `Signing transaction with Ledger failed`
-        await actions.checkLedgerErrors({ commit }, response, title)
+        actions.checkLedgerErrors({ commit }, response, title)
         expect(commit).toHaveBeenCalledWith(`notifyError`, {
           title,
           body: response.error_message
@@ -67,7 +210,8 @@ describe(`Module: Ledger`, () => {
         const commit = jest.fn()
         const response = { error_message: `No errors` }
         const title = `This title shouldn't be notified to the user`
-        await actions.checkLedgerErrors({ commit }, response, title)
+        actions.checkLedgerErrors({ commit }, response, title)
+        console.log(state.error)
         expect(commit).not.toHaveBeenCalledWith(`notifyError`, {
           title,
           body: response.error_message
@@ -78,7 +222,7 @@ describe(`Module: Ledger`, () => {
 
     // describe(`Ledger actions`, () => {
     //   beforeEach(async () => {
-    //     const comm = await comm_u2f.create_async(2, true)
+    //     const comm = await comm_u2f.create_async(10, true)
     //     const app = new App(comm)
     //     state.app = app
     //   })
@@ -107,17 +251,16 @@ describe(`Module: Ledger`, () => {
     //       const dispatch = jest.fn()
     //       await actions.getLedgerPubKey({ commit, dispatch, state })
     //       expect(commit.mock.calls).toContain([`setLedgerPubKey`])
+    //       expect(commit.mock.calls).toContain([`setLedgerUncompressedPubKey`])
     //       expect(commit.mock.calls).not.toContain([`notifyError`])
     //     })
-
-    //     it(`sets an error on failure`, async () => {
-    //       const commit = jest.fn()
-    //       const dispatch = jest.fn()
-    //       await actions.getLedgerPubKey({ commit, dispatch, state })
-    //       expect(commit.mock.calls).not.toContain([`setLedgerPubKey`])
-    //       expect(commit.mock.calls).toContain([`notifyError`])
-    //     })
     //   })
+
+    //   // describe(`sign`, () => {
+    //   //   it(`signs message succesfully`, () => {})
+
+    //   //   it(`fails if message is not JSON`, () => {})
+    //   // })
     // })
   })
 })
