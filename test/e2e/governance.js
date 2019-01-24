@@ -102,7 +102,9 @@ test(`Governance`, async function(t) {
     await app.client.setValue(`#amount`, 10).setValue(`#password`, `1234567890`)
     await t.ok(
       await app.client
-        .$(`#submit-deposit`)
+        .$(
+          `//*[@id = 'modal-deposit']//button//*[normalize-space() = 'Submit']`
+        )
         .click()
         .waitForVisible(
           `//*[. = 'You have successfully deposited your STAKEs on proposal #1']`,
@@ -141,7 +143,7 @@ test(`Governance`, async function(t) {
     await app.client.setValue(`#password`, `1234567890`)
     await t.ok(
       await app.client
-        .$(`#cast-vote`)
+        .$(`//*[@id = 'modal-vote']//button//*[normalize-space() = 'Submit']`)
         .click()
         .waitForVisible(
           `//*[. = 'You have successfully voted Yes on proposal #1']`,
