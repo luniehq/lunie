@@ -47,7 +47,7 @@ test(`Governance`, async function(t) {
       .setValue(`#password`, `1234567890`)
     await t.ok(
       await app.client
-        .click(`//button/*[. = 'Submit Proposal']`)
+        .click(`//button/*[. = 'Submit']`)
         .waitForVisible(
           `//*[. = 'You have successfully submitted a new text proposal']`,
           4 * 1000
