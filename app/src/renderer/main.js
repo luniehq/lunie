@@ -52,6 +52,10 @@ _Vue.directive(`focus`, {
   }
 })
 
+// We want to read the query parameters in the URL
+// If they are there I want to override that part of the configuration
+// I will check if we require the configuration in another place
+
 /**
  * Main method to boot the renderer. It act as Entrypoint
  */
@@ -61,6 +65,7 @@ export async function main(
   Store = _Store,
   config = _config
 ) {
+  // getURLParams(window)
   console.log(`Expecting lcd-server at ` + config.node_lcd)
 
   node = Node(axios, config.node_lcd, config.mocked)
@@ -107,3 +112,9 @@ async function onBackendAvailable(node, callback) {
 }
 
 main()
+
+function getURLParams(window) {
+  console.log(`QUERY`, window.location.query)
+}
+
+module.exports.getURLParams = getURLParams
