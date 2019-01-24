@@ -832,7 +832,7 @@ describe(`LCD Client Mock`, () => {
         let proposal = lcdClientMock.state.proposals[`2`]
         let res = await client.getProposalTally(`2`)
         expect(res).toBeDefined()
-        expect(res).toEqual(proposal.tally_result)
+        expect(res).toEqual(proposal.final_tally_result)
       })
     })
 
@@ -1243,7 +1243,7 @@ describe(`LCD Client Mock`, () => {
         it(`if proposal is in 'VotingPeriod'`, async () => {
           let option = `no_with_veto`
           let proposalBefore = await client.getProposal(`2`)
-          let optionBefore = proposalBefore.tally_result[option]
+          let optionBefore = proposalBefore.final_tally_result[option]
 
           await client.submitProposalVote({
             base_req: {
@@ -1264,7 +1264,7 @@ describe(`LCD Client Mock`, () => {
 
           // check if the tally was updated
           let proposalAfter = await client.getProposal(`2`)
-          let optionAfter = proposalAfter.tally_result[option]
+          let optionAfter = proposalAfter.final_tally_result[option]
           expect(optionAfter).toEqual(String(parseInt(optionBefore) + 1))
         })
       })

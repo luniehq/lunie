@@ -21,97 +21,9 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
         <div
           class="tm-page-header-body"
         >
-          <div
-            class="header-balance"
+          <tm-balance-stub
+            tabs="[object Object],[object Object]"
           >
-            <div
-              class="top"
-            >
-              <div
-                class="icon-container"
-              >
-                <img
-                  class="icon"
-                  src="~assets/images/cosmos-logo.png"
-                />
-              </div>
-               
-              <div
-                class="total-atoms top-section"
-              >
-                <h3>
-                  Total STAKE
-                </h3>
-                 
-                <h2
-                  class="total-atoms__value"
-                >
-                  1,337.0000…
-                </h2>
-              </div>
-               
-              <div
-                class="unbonded-atoms top-section"
-              >
-                <h3>
-                  Available STAKE
-                </h3>
-                 
-                <h2>
-                  1,337.0000…
-                </h2>
-              </div>
-            </div>
-             
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    cosmos…xxn9
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
-             
-            <div
-              class="tabs"
-            >
-              <div
-                class="tab"
-              >
-                <router-link-stub
-                  to="[object Object]"
-                >
-                  Proposals
-                </router-link-stub>
-              </div>
-              <div
-                class="tab"
-              >
-                <router-link-stub
-                  to="[object Object]"
-                >
-                  Parameters
-                </router-link-stub>
-              </div>
-            </div>
-             
             <button
               class="tm-btn"
               disabled="disabled"
@@ -128,7 +40,7 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
                 </span>
               </span>
             </button>
-          </div>
+          </tm-balance-stub>
            
           <div
             class="tm-tool-bar"
@@ -226,97 +138,9 @@ exports[`PageGovernance has the expected html structure 1`] = `
         <div
           class="tm-page-header-body"
         >
-          <div
-            class="header-balance"
+          <tm-balance-stub
+            tabs="[object Object],[object Object]"
           >
-            <div
-              class="top"
-            >
-              <div
-                class="icon-container"
-              >
-                <img
-                  class="icon"
-                  src="~assets/images/cosmos-logo.png"
-                />
-              </div>
-               
-              <div
-                class="total-atoms top-section"
-              >
-                <h3>
-                  Total STAKE
-                </h3>
-                 
-                <h2
-                  class="total-atoms__value"
-                >
-                  1,351.0000…
-                </h2>
-              </div>
-               
-              <div
-                class="unbonded-atoms top-section"
-              >
-                <h3>
-                  Available STAKE
-                </h3>
-                 
-                <h2>
-                  1,337.0000…
-                </h2>
-              </div>
-            </div>
-             
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    cosmos…xxn9
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
-             
-            <div
-              class="tabs"
-            >
-              <div
-                class="tab"
-              >
-                <router-link-stub
-                  to="[object Object]"
-                >
-                  Proposals
-                </router-link-stub>
-              </div>
-              <div
-                class="tab"
-              >
-                <router-link-stub
-                  to="[object Object]"
-                >
-                  Parameters
-                </router-link-stub>
-              </div>
-            </div>
-             
             <button
               class="tm-btn"
               id="propose-btn"
@@ -332,7 +156,7 @@ exports[`PageGovernance has the expected html structure 1`] = `
                 </span>
               </span>
             </button>
-          </div>
+          </tm-balance-stub>
            
           <div
             class="tm-tool-bar"

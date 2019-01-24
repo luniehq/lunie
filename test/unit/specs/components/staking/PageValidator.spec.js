@@ -35,9 +35,9 @@ const getterValues = {
     [lcdClientMock.validators[0]]: 0
   },
   keybase: `keybase`,
-  oldBondedAtoms: 50,
-  totalAtoms: 100,
-  user: { atoms: 42 },
+  liquidAtoms: 1337,
+  oldBondedAtoms: 100,
+  totalAtoms: 1437,
   wallet: { address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9` },
   connected: true,
   lastPage: null,
@@ -45,6 +45,7 @@ const getterValues = {
   bondDenom: stakingParameters.parameters.bond_denom
 }
 
+// TODO refactor tests according to new unit test standard
 describe(`PageValidator`, () => {
   let wrapper, store
   let { mount } = setup()
@@ -337,17 +338,20 @@ describe(`onDelegation`, () => {
           candidateId: lcdClientMock.validators[0],
           value: 100
         })
-        store.commit(`setAtoms`, 1337)
         store.commit(`setConnected`, true)
+        store.commit(`setStakingParameters`, stakingParameters.parameters)
         store.commit(`setDelegates`, [validator, validatorTo])
+        store.commit(`updateWalletBalance`, {
+          denom: `STAKE`,
+          amount: 1337
+        })
         store.state.wallet.address = lcdClientMock.addresses[0]
       },
       mocks: {
         $route: {
           params: { validator: validator.operator_address }
         }
-      },
-      getters: { bondDenom: () => stakingParameters.parameters.bond_denom }
+      }
     })
     wrapper = instance.wrapper
     store = instance.store
@@ -360,7 +364,10 @@ describe(`onDelegation`, () => {
     })
 
     it(`is not enough`, () => {
-      store.commit(`setAtoms`, 0)
+      store.commit(`updateWalletBalance`, {
+        denom: `STAKE`,
+        amount: 0
+      })
 
       wrapper.find(`#delegation-btn`).trigger(`click`)
       expect(wrapper.vm.showCannotModal).toBe(true)
@@ -485,6 +492,9 @@ describe(`onDelegation`, () => {
             commit: jest.fn(),
             dispatch,
             rootState: getterValues,
+            getters: {
+              liquidAtoms: 100
+            },
             state: {
               committedDelegates: { [lcdClientMock.validators[0]]: 0 },
               unbondingDelegations: {},
