@@ -96,7 +96,7 @@ export default ({ node }) => {
           and then internally hashes the json before signing it
         */
         signature = createSignature(
-          signatureBuffer.buffer,
+          signatureBuffer,
           requestMetaData.sequence,
           requestMetaData.account_number,
           rootState.ledger.pubKey

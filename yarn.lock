@@ -5323,7 +5323,7 @@ lcid@^2.0.0:
 
 "ledger-cosmos-js@https://github.com/ZondaX/ledger-cosmos-js":
   version "0.0.1"
-  resolved "https://github.com/ZondaX/ledger-cosmos-js#5dc9e3e8ce64c6712fea8a66bd520b2d65537af8"
+  resolved "https://github.com/ZondaX/ledger-cosmos-js#61b45ae1310c8a8fe4ac65f7beb2771b0cb22b24"
   dependencies:
     chai "^4.2.0"
     mocha "^5.0.1"
