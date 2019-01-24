@@ -25,16 +25,9 @@ describe(`PagePreferences`, () => {
   it(`has the expected html structure if connected`, async () => {
     store.commit(`setStakingParameters`, stakingParameters.parameters)
     expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.vm.$el.outerHTML).toContain(`Node IP`)
     expect(wrapper.vm.$el.outerHTML).toContain(`View tutorial`)
     expect(wrapper.vm.$el.outerHTML).toContain(`Automatically send`)
-    expect(wrapper.vm.$el.outerHTML).toContain(`Switch account`)
-    expect(wrapper.vm.$el.outerHTML).toContain(`Sign Out`)
-  })
-
-  it(`should sign the user out`, async () => {
-    wrapper.vm.signOut()
-    expect(store.dispatch).toHaveBeenCalledWith(`signOut`)
-    expect(store.commit).toHaveBeenCalledWith(`notifySignOut`)
   })
 
   it(`should set the error collection opt in`, async () => {

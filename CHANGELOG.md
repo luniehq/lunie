@@ -104,6 +104,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1792](https://github.com/cosmos/voyager/pull/1792) removed mocked demo mode @fedekunze
 - [\#1720](https://github.com/cosmos/voyager/issues/1720) Time format from 12 to 24h @sabau
 - [\#1688](https://github.com/cosmos/voyager/issues/1688) Moved from every page to TmPage the connected, loading, empty data and search features @sabau
+- [\#1588](https://github.com/cosmos/voyager/issues/1588) 404 page updates @jbibla
 
 ### Fixed
 
@@ -158,6 +159,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1707](https://github.com/cosmos/voyager/issues/1707) Governance txs are now disabled if the user doesn't hold any min_deposit token @fedekunze
 - [\#1815](https://github.com/cosmos/voyager/pull/1815) Fixed getters for proposals denominator, reverted to 945803d586b83d65547cd16f4cd5994eac2957ea until interfaces are ready @sabau
 - Fixed build process @ƒaboweb
+- [\#1818](https://github.com/cosmos/voyager/issues/1818) Fixed error on validator loading showing as no validators @faboweb
+- Fixed error locations sucked up by Sentry @faboweb
+- [\#1815](https://github.com/cosmos/voyager/pull/1785) Fixed small bug on preferences page @jbibla
 
 ## [0.10.7] - 2018-10-10
 

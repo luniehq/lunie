@@ -73,16 +73,16 @@ describe(`App Start`, () => {
     mockDone()
   })
 
-  it(`does not set Sentry dsn if analytics is disabled`, mockDone => {
-    jest.mock(`@sentry/browser`, () => ({
-      init: config => {
-        expect(config).toEqual({})
-        mockDone()
-      },
+  it(`does not set Sentry dsn if analytics is disabled`, () => {
+    const Sentry = {
+      init: jest.fn(),
       configureScope: () => {},
       captureException: () => {}
-    }))
-    require(`renderer/main.js`)
+    }
+    const { main } = require(`renderer/main.js`)
+    main({ NODE_ENV: `production` }, Sentry)
+
+    expect(Sentry.init).toHaveBeenCalledWith({})
   })
 
   it(`opens error modal`, async () => {
