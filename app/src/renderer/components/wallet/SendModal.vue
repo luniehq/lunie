@@ -1,5 +1,6 @@
 <template>
   <action-modal
+    id="send-modal"
     ref="actionModal"
     :submit-fn="submitForm"
     :validate="validateForm"
@@ -57,7 +58,7 @@
       field-label="Amount"
     >
       <tm-field
-        id="send-amount"
+        id="amount"
         v-model="amount"
         class="tm-field"
         placeholder="Amount"

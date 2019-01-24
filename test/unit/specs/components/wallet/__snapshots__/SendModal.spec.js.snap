@@ -4,6 +4,7 @@ exports[`SendModal has the expected html structure 1`] = `
 <div
   class="action-modal"
   denom="fermion"
+  id="send-modal"
   name="slide-fade"
 >
   <div
@@ -100,7 +101,7 @@ exports[`SendModal has the expected html structure 1`] = `
       >
         <input
           class="tm-field tm-field"
-          id="send-amount"
+          id="amount"
           placeholder="Amount"
           type="number"
         />
@@ -232,6 +233,7 @@ exports[`SendModal validation should show address required error 1`] = `
 <div
   class="action-modal"
   denom="fermion"
+  id="send-modal"
   name="slide-fade"
 >
   <div
@@ -332,7 +334,7 @@ exports[`SendModal validation should show address required error 1`] = `
       >
         <input
           class="tm-field tm-field"
-          id="send-amount"
+          id="amount"
           placeholder="Amount"
           type="number"
         />
@@ -464,6 +466,7 @@ exports[`SendModal validation should show bech32 error when address length is to
 <div
   class="action-modal"
   denom="fermion"
+  id="send-modal"
   name="slide-fade"
 >
   <div
@@ -565,7 +568,7 @@ exports[`SendModal validation should show bech32 error when address length is to
       >
         <input
           class="tm-field tm-field"
-          id="send-amount"
+          id="amount"
           placeholder="Amount"
           type="number"
         />
@@ -693,6 +696,7 @@ exports[`SendModal validation should show bech32 error when address length is to
 <div
   class="action-modal"
   denom="fermion"
+  id="send-modal"
   name="slide-fade"
 >
   <div
@@ -794,7 +798,7 @@ exports[`SendModal validation should show bech32 error when address length is to
       >
         <input
           class="tm-field tm-field"
-          id="send-amount"
+          id="amount"
           placeholder="Amount"
           type="number"
         />
@@ -922,6 +926,7 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
 <div
   class="action-modal"
   denom="fermion"
+  id="send-modal"
   name="slide-fade"
 >
   <div
@@ -1026,7 +1031,7 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
       >
         <input
           class="tm-field tm-field"
-          id="send-amount"
+          id="amount"
           placeholder="Amount"
           type="number"
         />
