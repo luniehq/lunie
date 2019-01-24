@@ -33,41 +33,52 @@ export default (opts = {}) => {
 
   let pending = null
   store.subscribe((mutation, state) => {
-    // since persisting the state is costly we should only do it on mutations that change the data
-    const updatingMutations = [
-      `setWalletBalances`,
-      `setWalletHistory`,
-      `setCommittedDelegation`,
-      `setUnbondingDelegations`,
-      `setDelegates`,
-      `setStakingParameters`,
-      `setPool`,
-      `setProposal`,
-      `setProposalDeposits`,
-      `setProposalVotes`,
-      `setProposalTally`,
-      `setGovParameters`,
-      `setKeybaseIdentities`
-    ]
-
-    if (updatingMutations.indexOf(mutation.type) === -1) return
-
-    // if the user is logged in cache the balances and the tx-history for that user
-    if (!state.user.account) return
-
-    if (pending) {
-      clearTimeout(pending)
-    }
-    pending = setTimeout(() => {
-      persistState(state)
-    }, 5000)
+    pending = storeUpdateHandler(mutation, state, pending)
   })
 
   return store
 }
 
+/*
+ * We want to store a sub-state of the state to local storage to serve data faster for the user.
+ * This function is triggered on all mutations.
+ */
+export function storeUpdateHandler(mutation, state, pending) {
+  // since persisting the state is costly we should only do it on mutations that change the data
+  const updatingMutations = [
+    `setWalletBalances`,
+    `setWalletHistory`,
+    `setCommittedDelegation`,
+    `setUnbondingDelegations`,
+    `setDelegates`,
+    `setStakingParameters`,
+    `setPool`,
+    `setProposal`,
+    `setProposalDeposits`,
+    `setProposalVotes`,
+    `setProposalTally`,
+    `setGovParameters`,
+    `setKeybaseIdentities`
+  ]
+
+  if (updatingMutations.indexOf(mutation.type) === -1) return
+
+  // if the user is logged in cache the balances and the tx-history for that user
+  if (!state.user.address) return
+
+  // throttle updates so we don't write to disk on every mutation
+  // pending is the last updates setTimeout
+  if (pending) {
+    clearTimeout(pending)
+  }
+  return setTimeout(() => {
+    persistState(state)
+  }, 5000)
+}
+
 /**
  * Persist the state passed as parameter
+ * Only persists a subset of the state
  * @param state
  */
 function persistState(state) {
@@ -117,7 +128,7 @@ function getStorageKey(state) {
  * @param state
  * @param commit
  */
-function loadPersistedState({ state, commit }) {
+export function loadPersistedState({ state, commit }) {
   const storageKey = getStorageKey(state)
   let cachedState
   try {

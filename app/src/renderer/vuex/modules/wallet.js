@@ -1,10 +1,7 @@
 import * as Sentry from "@sentry/browser"
-import fs from "fs-extra"
-import { join } from "path"
-import { remote } from "electron"
-import { sleep } from "scripts/common.js"
 import Vue from "vue"
-const root = remote.getGlobal(`root`)
+// for now importing the fixed genesis for the network from the config.json
+import network from "../../../network.js"
 
 export default ({ node }) => {
   let emptyState = {
@@ -22,6 +19,16 @@ export default ({ node }) => {
     setWalletBalances(state, balances) {
       Vue.set(state, `balances`, balances)
       Vue.set(state, `loading`, false)
+    },
+    updateWalletBalance(state, balance) {
+      const findBalanceIndex = state.balances.findIndex(
+        ({ denom }) => balance.denom === denom
+      )
+      if (findBalanceIndex === -1) {
+        state.balances.push(balance)
+        return
+      }
+      Vue.set(state.balances, findBalanceIndex, balance)
     },
     setWalletAddress(state, address) {
       Vue.set(state, `address`, address)
@@ -68,14 +75,6 @@ export default ({ node }) => {
         commit(`setNonce`, res.sequence)
         commit(`setAccountNumber`, res.account_number)
         commit(`setWalletBalances`, coins)
-        for (let coin of coins) {
-          if (
-            coin.denom === rootState.stakingParameters.parameters.bond_denom
-          ) {
-            commit(`setAtoms`, parseFloat(coin.amount))
-            break
-          }
-        }
         state.loading = false
         state.loaded = true
       } catch (error) {
@@ -87,42 +86,40 @@ export default ({ node }) => {
         state.error = error
       }
     },
-    async loadDenoms({ commit, state }, maxIterations = 10) {
-      // read genesis.json to get default denoms
+    async sendCoins(
+      { dispatch, commit, state },
+      { receiver, amount, denom, password }
+    ) {
+      await dispatch(`sendTx`, {
+        type: `send`,
+        password,
+        to: receiver,
+        amount: [{ denom, amount: amount.toString() }]
+      })
 
-      // wait for genesis.json to exist
-      let genesisPath = join(root, `genesis.json`)
+      const oldBalance = state.balances.find(balance => balance.denom === denom)
+      commit(`updateWalletBalance`, {
+        denom,
+        amount: oldBalance.amount - amount
+      })
+    },
+    async loadDenoms({ commit, state }) {
+      try {
+        const { genesis } = await network()
 
-      // wait for the genesis and load it
-      // at some point give up and throw an error
-      while (maxIterations) {
-        try {
-          await fs.pathExists(genesisPath)
-          break
-        } catch (error) {
-          console.log(`waiting for genesis`, error, genesisPath)
-          maxIterations--
-          await sleep(500)
-        }
-      }
-      if (maxIterations === 0) {
-        const error = new Error(`Couldn't load genesis at path ${genesisPath}`)
-        Sentry.captureException(error)
-        state.error = error
-        return
-      }
-
-      let genesis = await fs.readJson(genesisPath)
-      let denoms = []
-      for (let account of genesis.app_state.accounts) {
-        if (account.coins) {
-          for (let { denom } of account.coins) {
-            denoms.push(denom)
+        let denoms = []
+        for (let account of genesis.app_state.accounts) {
+          if (account.coins) {
+            for (let { denom } of account.coins) {
+              denoms.push(denom)
+            }
           }
         }
-      }
 
-      commit(`setDenoms`, denoms)
+        commit(`setDenoms`, denoms)
+      } catch (err) {
+        state.error = err
+      }
     },
     queryWalletStateAfterHeight({ rootState, dispatch }, height) {
       return new Promise(resolve => {
@@ -144,16 +141,8 @@ export default ({ node }) => {
 
       state.subscribedRPC = node.rpc
 
-      function onTx(error, event) {
-        if (error) {
-          Sentry.captureException(error)
-          console.error(`error subscribing to transactions`, error)
-          return
-        }
-        dispatch(
-          `queryWalletStateAfterHeight`,
-          event.data.value.TxResult.height + 1
-        )
+      function onTx(data) {
+        dispatch(`queryWalletStateAfterHeight`, data.TxResult.height + 1)
       }
 
       const queries = [

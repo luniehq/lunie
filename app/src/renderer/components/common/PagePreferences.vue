@@ -25,7 +25,7 @@
             unchecked: ' '
           }"
           :value="user.errorCollection || undefined"
-          :change="() => setErrorCollection()"
+          :change="setErrorCollection.bind(this)"
           type="toggle"
         />
       </tm-list-item>
@@ -42,7 +42,6 @@ import TmPart from "common/TmPart"
 import TmField from "common/TmField"
 import ToolBar from "common/ToolBar"
 import TmBalance from "common/TmBalance"
-import TmModal from "common/TmModal"
 
 export default {
   name: `page-preferences`,
@@ -53,36 +52,12 @@ export default {
     TmListItem,
     TmPage,
     TmPart,
-    ToolBar,
-    TmModal
+    ToolBar
   },
-  data: () => ({
-    themeSelectActive: null,
-    themeSelectOptions: [
-      {
-        value: `light`,
-        key: `Light`
-      },
-      {
-        value: `dark`,
-        key: `Dark`
-      }
-    ]
-  }),
   computed: {
-    ...mapGetters([`user`, `themes`, `onboarding`, `config`, `nodeURL`])
-  },
-  mounted() {
-    this.themeSelectActive = this.themes.active
+    ...mapGetters([`user`, `onboarding`, `nodeURL`])
   },
   methods: {
-    setAppTheme({ $store, themes } = this) {
-      if (themes.active === `dark`) {
-        $store.commit(`setTheme`, `light`)
-      } else {
-        $store.commit(`setTheme`, `dark`)
-      }
-    },
     setErrorCollection({ $store } = this) {
       $store.dispatch(`setErrorCollection`, {
         account: this.user.account,

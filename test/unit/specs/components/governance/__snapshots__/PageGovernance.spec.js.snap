@@ -21,79 +21,26 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
         <div
           class="tm-page-header-body"
         >
-          <div
-            class="header-balance"
+          <tm-balance-stub
+            tabs="[object Object],[object Object]"
           >
-            <div
-              class="top"
+            <button
+              class="tm-btn"
+              disabled="disabled"
+              id="propose-btn"
             >
-              <div
-                class="icon-container"
+              <span
+                class="tm-btn__container tm-btn--primary"
               >
-                <img
-                  class="icon"
-                  src="~assets/images/cosmos-logo.png"
-                />
-              </div>
-               
-              <div
-                class="total-atoms top-section"
-              >
-                <h3>
-                  Total STAKE
-                </h3>
-                 
-                <h2
-                  class="total-atoms__value"
+                <!---->
+                <span
+                  class="tm-btn__value"
                 >
-                  1,337.0000…
-                </h2>
-              </div>
-               
-              <div
-                class="unbonded-atoms top-section"
-              >
-                <h3>
-                  Available STAKE
-                </h3>
-                 
-                <h2>
-                  1,337.0000…
-                </h2>
-              </div>
-            </div>
-             
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    cosmos…xxn9
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
+                  Connecting...
                 </span>
-              </div>
-            </div>
-             
-            <div
-              class="tabs"
-            />
-             
-          </div>
+              </span>
+            </button>
+          </tm-balance-stub>
            
           <div
             class="tool-bar"
@@ -244,79 +191,25 @@ exports[`PageGovernance has the expected html structure 1`] = `
         <div
           class="tm-page-header-body"
         >
-          <div
-            class="header-balance"
+          <tm-balance-stub
+            tabs="[object Object],[object Object]"
           >
-            <div
-              class="top"
+            <button
+              class="tm-btn"
+              id="propose-btn"
             >
-              <div
-                class="icon-container"
+              <span
+                class="tm-btn__container tm-btn--primary"
               >
-                <img
-                  class="icon"
-                  src="~assets/images/cosmos-logo.png"
-                />
-              </div>
-               
-              <div
-                class="total-atoms top-section"
-              >
-                <h3>
-                  Total STAKE
-                </h3>
-                 
-                <h2
-                  class="total-atoms__value"
+                <!---->
+                <span
+                  class="tm-btn__value"
                 >
-                  1,351.0000…
-                </h2>
-              </div>
-               
-              <div
-                class="unbonded-atoms top-section"
-              >
-                <h3>
-                  Available STAKE
-                </h3>
-                 
-                <h2>
-                  1,337.0000…
-                </h2>
-              </div>
-            </div>
-             
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    cosmos…xxn9
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
+                  Create Proposal
                 </span>
-              </div>
-            </div>
-             
-            <div
-              class="tabs"
-            />
-             
-          </div>
+              </span>
+            </button>
+          </tm-balance-stub>
            
           <div
             class="tool-bar"

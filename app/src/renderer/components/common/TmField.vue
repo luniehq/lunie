@@ -79,7 +79,7 @@ export default {
       default: `text`
     },
     value: {
-      type: [String, Number],
+      type: [String, Number, Boolean],
       default: null
     },
     placeholder: {
@@ -87,10 +87,6 @@ export default {
       default: null
     },
     size: {
-      type: String,
-      default: null
-    },
-    theme: {
       type: String,
       default: null
     },
@@ -125,7 +121,6 @@ export default {
         value += ` tm-field-select`
       }
       if (this.size) value += ` tm-field-size-${this.size}`
-      if (this.theme) value += ` tm-field-theme-${this.theme}`
       return value
     },
     toggleClass() {
@@ -154,6 +149,7 @@ export default {
   methods: {
     toggle() {
       this.currentToggleState = !this.currentToggleState
+      this.onChange(this.currentToggleState)
     },
     updateValue(value) {
       let formattedValue = value
@@ -447,43 +443,5 @@ textarea.tm-field {
   height: 3rem;
   padding-left: 0.75rem;
   padding-right: 0.75rem;
-}
-
-/* ============================================================================== */
-/* tendermint styles */
-.tm-field.tm-field-theme-tendermint {
-  background: #0e2e4e;
-  border-color: #1d61a5;
-  color: #fff;
-}
-
-.tm-field.tm-field-theme-tendermint:focus {
-  border-color: #216eba;
-}
-
-.tm-field.tm-field-theme-tendermint::-webkit-input-placeholder {
-  color: #7db2e8;
-}
-
-/* Mozilla Firefox 4 to 18 */
-.tm-field.tm-field-theme-tendermint:-moz-placeholder {
-  color: #7db2e8;
-  opacity: 1;
-}
-
-/* Mozilla Firefox 19+ */
-.tm-field.tm-field-theme-tendermint::-moz-placeholder {
-  color: #7db2e8;
-  opacity: 1;
-}
-
-/* Internet Explorer 10-11 */
-.tm-field.tm-field-theme-tendermint:-ms-input-placeholder {
-  color: #7db2e8;
-}
-
-/* Standard (https//drafts.csswg.org/selectors-4/#placeholder) */
-.tm-field.tm-field-theme-tendermint:placeholder-shown {
-  color: #7db2e8;
 }
 </style>

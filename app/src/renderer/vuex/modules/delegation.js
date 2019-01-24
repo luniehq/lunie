@@ -141,7 +141,8 @@ export default ({ node }) => {
     },
     async submitDelegation(
       {
-        rootState: { stakingParameters, user, wallet },
+        rootState: { stakingParameters, wallet },
+        getters: { liquidAtoms },
         state,
         dispatch,
         commit
@@ -164,13 +165,15 @@ export default ({ node }) => {
       })
 
       // optimistic update the atoms of the user before we get the new values from chain
-      commit(`setAtoms`, user.atoms - amount)
+      commit(`updateWalletBalance`, {
+        denom,
+        amount: liquidAtoms - amount
+      })
       // optimistically update the committed delegations
-      Vue.set(
-        state.committedDelegates,
-        validator_addr,
-        state.committedDelegates[validator_addr] + amount
-      )
+      commit(`setCommittedDelegation`, {
+        candidateId: validator_addr,
+        value: state.committedDelegates[validator_addr] + amount
+      })
 
       // load delegates after delegation to get new atom distribution on validators
       dispatch(`updateDelegates`)

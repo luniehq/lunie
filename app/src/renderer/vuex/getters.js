@@ -12,7 +12,6 @@ export const lastPage = state => {
     state.user.history[state.user.history.length - 1]
   )
 }
-export const themes = state => state.themes
 export const onboarding = state => state.onboarding
 
 // wallet
@@ -24,9 +23,15 @@ export const allTransactions = state =>
 export const wallet = state => state.wallet
 
 // staking
+export const liquidAtoms = state =>
+  (
+    state.wallet.balances.find(
+      balance => balance.denom === state.stakingParameters.parameters.bond_denom
+    ) || { amount: 0 }
+  ).amount
 export const delegation = state => state.delegation
 export const totalAtoms = (state, getters) => {
-  return new BN(getters.user.atoms)
+  return new BN(getters.liquidAtoms)
     .plus(new BN(getters.oldBondedAtoms))
     .plus(new BN(getters.oldUnbondingAtoms))
     .toString()

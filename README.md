@@ -43,6 +43,10 @@ cd voyager
 yarn install
 ```
 
+---
+
+## Voyager Development
+
 ### Gaia (Cosmos SDK)
 
 Since Voyager runs on top of the Cosmos Hub blockchain, we also need to install Gaia (the Cosmos Hub application) and download the supported testnets.
@@ -63,7 +67,13 @@ To connect to a testnet, Voyager needs the configuration files of those networks
 yarn build:testnets
 ```
 
-## Voyager Development
+### Caddy Proxy
+
+Currently we need a proxy to enable easy local development. We use [Caddy](https://caddyserver.com). To download run:
+
+```bash
+curl https://getcaddy.com | bash -s personal http.cors
+```
 
 ### Active testnets
 
@@ -73,15 +83,40 @@ To run Voyager on the default testnet (if active):
 yarn start
 ```
 
-To run Voyager on a specific testnet you can use the following command. Click [here](https://github.com/cosmos/testnets) for a complete list of the supported official and community testnets.
-
-```bash
-yarn start <network_name>
-```
-
 ## Local testnet
 
 Sometimes you may want to run a local node, i.e. in the case there is no available network. To do so first [Build Gaia](#gaia-cosmos-sdk), then use our automatic script or the manual process to set up your node.
+
+### Generate SSL certificates
+
+If you want to have a predictable environment for Voyager please generate some ssl certificates:
+
+```bash
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+  -keyout server_dev.key -out server_dev.crt \
+  -subj "/C=US/ST=CA/L=Irvine/O=Acme Inc./CN=localhost" \
+  -reqexts v3_req -reqexts SAN -extensions SAN \
+  -config \
+  <(echo -e '
+    [req]\n
+    distinguished_name=req_distinguished_name\n
+    [req_distinguished_name]\n
+    [SAN]\n
+    subjectKeyIdentifier=hash\n
+    authorityKeyIdentifier=keyid:always,issuer:always\n
+    basicConstraints=CA:TRUE\n
+    subjectAltName=@alt_names
+    [alt_names]
+    DNS.1 = localhost
+  ')
+```
+
+Afterwards you can use:
+
+```bash
+yarn backend:fixed-https
+yarn frontend:fixed-https
+```
 
 ### Build
 

@@ -12,14 +12,20 @@ describe(`TableValidators`, () => {
     let instance = mount(TableValidators, {
       doBefore: ({ store }) => {
         store.commit(`setConnected`, true)
-        store.commit(`setAtoms`, 1337)
+        store.commit(`updateWalletBalance`, {
+          denom: `atom`,
+          amount: 1337
+        })
       },
       propsData: { validators: lcdClientMock.candidates }
     })
     wrapper = instance.wrapper
     store = instance.store
     store.state.user.address = `address1234`
-    store.commit(`setAtoms`, 1337)
+    store.commit(`updateWalletBalance`, {
+      denom: `atom`,
+      amount: 1337
+    })
     store.commit(`setStakingParameters`, stakingParameters.parameters)
   })
 
@@ -66,6 +72,32 @@ describe(`TableValidators`, () => {
     expect(wrapper.vm.somethingToSearch).toBe(true)
     wrapper.setProps({ validators: [] })
     expect(wrapper.vm.somethingToSearch).toBe(false)
+  })
+
+  it(`should disallow delegation if user can't delegate`, () => {
+    let res = TableValidators.computed.userCanDelegate.call({
+      liquidAtoms: 0,
+      delegation: {
+        loaded: true
+      }
+    })
+    expect(res).toBe(false)
+
+    res = TableValidators.computed.userCanDelegate.call({
+      liquidAtoms: 1,
+      delegation: {
+        loaded: true
+      }
+    })
+    expect(res).toBe(true)
+
+    res = TableValidators.computed.userCanDelegate.call({
+      liquidAtoms: 1,
+      delegation: {
+        loaded: false
+      }
+    })
+    expect(res).toBe(false)
   })
 
   describe(`setSearch`, () => {

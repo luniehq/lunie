@@ -14,8 +14,8 @@ export default ({ node }) => {
     setProposal(state, proposal) {
       Vue.set(state.proposals, proposal.proposal_id, proposal)
     },
-    setProposalTally(state, { proposal_id, tally_result }) {
-      Vue.set(state.tallies, proposal_id, tally_result)
+    setProposalTally(state, { proposal_id, final_tally_result }) {
+      Vue.set(state.tallies, proposal_id, final_tally_result)
     }
   }
   let actions = {
@@ -33,24 +33,24 @@ export default ({ node }) => {
       if (!rootState.connection.connected) return
 
       try {
-        let tally_result
+        let final_tally_result
         let proposals = await node.queryProposals()
         if (proposals.length > 0) {
           await Promise.all(
             proposals.map(async proposal => {
               commit(`setProposal`, proposal.value)
               if (proposal.value.proposal_status === `VotingPeriod`) {
-                tally_result = await node.getProposalTally(
+                final_tally_result = await node.getProposalTally(
                   proposal.value.proposal_id
                 )
               } else {
-                tally_result = JSON.parse(
-                  JSON.stringify(proposal.value.tally_result)
+                final_tally_result = JSON.parse(
+                  JSON.stringify(proposal.value.final_tally_result)
                 )
               }
               commit(`setProposalTally`, {
                 proposal_id: proposal.value.proposal_id,
-                tally_result
+                final_tally_result
               })
             })
           )
@@ -70,18 +70,22 @@ export default ({ node }) => {
     async getProposal({ state, commit }, proposal_id) {
       state.loading = true
       try {
-        let tally_result
+        let final_tally_result
         state.error = null
         state.loading = false
         state.loaded = true // TODO make state for single proposal
         let proposal = await node.queryProposal(proposal_id)
         commit(`setProposal`, proposal.value)
         if (proposal.value.proposal_status === `VotingPeriod`) {
-          tally_result = await node.getProposalTally(proposal.value.proposal_id)
+          final_tally_result = await node.getProposalTally(
+            proposal.value.proposal_id
+          )
         } else {
-          tally_result = JSON.parse(JSON.stringify(proposal.value.tally_result))
+          final_tally_result = JSON.parse(
+            JSON.stringify(proposal.value.final_tally_result)
+          )
         }
-        commit(`setProposalTally`, { proposal_id, tally_result })
+        commit(`setProposalTally`, { proposal_id, final_tally_result })
       } catch (error) {
         commit(`notifyError`, {
           title: `Error querying proposal with id #${proposal_id}`,
