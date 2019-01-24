@@ -106,7 +106,7 @@ describe(`Module: User`, () => {
       dispatch
     })
 
-    expect(commit).toHaveBeenCalledWith(`setModalSessionState`, `sign-in`)
+    expect(commit).toHaveBeenCalledWith(`setModalSessionState`, `welcome`)
     expect(dispatch).toHaveBeenCalledWith(`resetSessionData`)
   })
 
@@ -183,14 +183,20 @@ describe(`Module: User`, () => {
     const commit = jest.fn()
     const dispatch = jest.fn()
     await actions.signIn({ state, commit, dispatch }, { password, account })
-    expect(state.address).toBe(`cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`)
+    expect(commit).toHaveBeenCalledWith(
+      `setUserAddress`,
+      `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+    )
     expect(commit).toHaveBeenCalledWith(`setModalSession`, false)
     expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
     expect(dispatch).toHaveBeenCalledWith(
       `initializeWallet`,
       `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
     )
-    expect(dispatch).toHaveBeenCalledWith(`loadErrorCollection`, account)
+    expect(dispatch).toHaveBeenCalledWith(
+      `loadErrorCollection`,
+      `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+    )
   })
 
   it(`should sign out`, async () => {

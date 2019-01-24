@@ -32,7 +32,8 @@ const mockRootState = {
     lastHeader: {
       chain_id: `mock-chain`
     }
-  }
+  },
+  ledger: { isConnected: false }
 }
 
 describe(`Module: Send`, () => {
@@ -123,6 +124,7 @@ describe(`Module: Send`, () => {
       )
       expect(node.send).toHaveBeenCalledWith({
         amount: [{ amount: 123, denom: `mycoin` }],
+        password: `1234567890`,
         base_req: {
           account_number: `12`,
           chain_id: `mock-chain`,
@@ -156,6 +158,7 @@ describe(`Module: Send`, () => {
       )
       expect(node.send).toHaveBeenCalledWith(`mock_address`, {
         amount: [{ amount: 123, denom: `mycoin` }],
+        password: `1234567890`,
         base_req: {
           account_number: `12`,
           chain_id: `mock-chain`,

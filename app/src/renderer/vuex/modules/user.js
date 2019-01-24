@@ -112,7 +112,7 @@ export default ({}) => {
     },
     async signIn(
       { state, commit, dispatch },
-      { account, sessionType, address }
+      { account, address, sessionType = `local` }
     ) {
       let accountAddress
       switch (sessionType) {
