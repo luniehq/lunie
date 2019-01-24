@@ -37,10 +37,11 @@ jest.mock(`src/network.js`, () => () => ({
 }))
 
 describe(`Module: Wallet`, () => {
-  let module, actions
+  let module, actions, state
 
   beforeEach(() => {
     module = walletModule({ node: {} })
+    state = module.state
     actions = module.actions
   })
 
@@ -58,6 +59,22 @@ describe(`Module: Wallet`, () => {
     const balances = [{ denom: `leetcoin`, amount: `1337` }]
     mutations.setWalletBalances(state, balances)
     expect(state.balances).toBe(balances)
+  })
+
+  it(`update individual wallet balances`, () => {
+    let { state, mutations } = module
+
+    state.balances.push({ denom: `coin`, amount: `42` })
+
+    // add new
+    const balance = { denom: `leetcoin`, amount: `1337` }
+    mutations.updateWalletBalance(state, balance)
+    expect(state.balances).toContain(balance)
+
+    // update balance
+    const updatedBalance = { denom: `leetcoin`, amount: `1` }
+    mutations.updateWalletBalance(state, updatedBalance)
+    expect(state.balances).toContain(updatedBalance)
   })
 
   it(`should set wallet key and clear balance `, () => {
@@ -244,5 +261,44 @@ describe(`Module: Wallet`, () => {
       commit
     })
     expect(state.error.message).toBe(`Error`)
+  })
+
+  it(`should send coins`, async () => {
+    state.balances = [
+      {
+        denom: `funcoin`,
+        amount: 1000
+      }
+    ]
+
+    const dispatch = jest.fn()
+    const commit = jest.fn()
+    await actions.sendCoins(
+      {
+        state,
+        rootState: mockRootState,
+        dispatch,
+        commit
+      },
+      {
+        receiver: `cosmos1xxx`,
+        amount: 12,
+        denom: `funcoin`,
+        password: `1234567890`
+      }
+    )
+
+    expect(dispatch).toHaveBeenCalledWith(`sendTx`, {
+      type: `send`,
+      password: `1234567890`,
+      to: `cosmos1xxx`,
+      amount: [{ denom: `funcoin`, amount: `12` }]
+    })
+
+    // should update the balance optimistically
+    expect(commit).toHaveBeenCalledWith(`updateWalletBalance`, {
+      denom: `funcoin`,
+      amount: 988
+    })
   })
 })

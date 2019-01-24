@@ -357,7 +357,7 @@ let state = {
       voting_start_time: `2018-11-23T13:29:24.66404Z`,
       voting_end_time: `2018-11-25T13:29:24.66404Z`,
       proposal_status: `Passed`,
-      tally_result: {
+      final_tally_result: {
         yes: `500`,
         no: `25`,
         no_with_veto: `10`,
@@ -386,7 +386,7 @@ let state = {
       voting_start_time: `2018-11-23T13:29:24.66404Z`,
       voting_end_time: `2018-11-25T13:29:24.66404Z`,
       proposal_status: `VotingPeriod`,
-      tally_result: {
+      final_tally_result: {
         yes: `0`,
         no: `0`,
         no_with_veto: `0`,
@@ -415,7 +415,7 @@ let state = {
       voting_start_time: `0001-01-01T00:00:00Z`,
       voting_end_time: `0001-01-01T00:00:00Z`,
       proposal_status: `DepositPeriod`,
-      tally_result: {
+      final_tally_result: {
         yes: `0`,
         no: `0`,
         no_with_veto: `0`,
@@ -444,7 +444,7 @@ let state = {
       voting_start_time: `2018-11-23T13:29:24.66404Z`,
       voting_end_time: `2018-11-25T13:29:24.66404Z`,
       proposal_status: `Rejected`,
-      tally_result: {
+      final_tally_result: {
         yes: `10`,
         no: `30`,
         no_with_veto: `100`,
@@ -1085,7 +1085,7 @@ Msg Traces:
       return results
     }
 
-    let tally_result = {
+    let final_tally_result = {
       yes: `0`,
       no: `0`,
       no_with_veto: `0`,
@@ -1102,7 +1102,7 @@ Msg Traces:
       description,
       proposal_type,
       proposal_status: `DepositPeriod`,
-      tally_result,
+      final_tally_result,
       submit_time,
       deposit_end_time,
       voting_start_time: undefined,
@@ -1129,7 +1129,7 @@ Msg Traces:
   },
   async getProposalTally(proposalId) {
     let proposal = await this.getProposal(proposalId)
-    return proposal.tally_result
+    return proposal.final_tally_result
   },
   async getProposalDeposits(proposalId) {
     return state.deposits[proposalId] || []
@@ -1320,8 +1320,8 @@ Msg Traces:
     }
 
     state.votes[proposal_id].push(vote)
-    let intTallyResult = parseInt(proposal.tally_result[option])
-    proposal.tally_result[option] = String(intTallyResult + 1)
+    let intTallyResult = parseInt(proposal.final_tally_result[option])
+    proposal.final_tally_result[option] = String(intTallyResult + 1)
 
     storeTx(`cosmos-sdk/MsgVote`, vote)
     results.push(txResult(0))

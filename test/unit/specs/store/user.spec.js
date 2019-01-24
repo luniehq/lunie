@@ -91,11 +91,6 @@ describe(`Module: User`, () => {
     })
   })
 
-  it(`should set atoms`, () => {
-    mutations.setAtoms(state, 42)
-    expect(state.atoms).toBe(42)
-  })
-
   it(`should prepare the signin`, async () => {
     const commit = jest.fn()
     const dispatch = jest.fn()

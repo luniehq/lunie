@@ -237,11 +237,12 @@ export default {
       let denom = this.fields.denom
       try {
         let type = `send`
-        await this.sendTx({
+        await this.sendCoins({
           type,
           password: this.fields.password,
-          to: address,
-          amount: [{ denom, amount: amount.toString() }]
+          receiver: address,
+          denom,
+          amount
         })
         this.sending = false
         this.$store.commit(`notify`, {
@@ -271,7 +272,7 @@ export default {
         return false
       }
     },
-    ...mapActions([`sendTx`])
+    ...mapActions([`sendCoins`])
   },
   validations() {
     return {

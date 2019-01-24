@@ -9,7 +9,7 @@ let mockRootState = {
     connected: true
   },
   user: {
-    atoms: 1000
+    address: `cosmos1234`
   },
   stakingParameters: lcdClientMock.state.stakingParameters
 }
@@ -187,7 +187,15 @@ describe(`Module: Delegations`, () => {
     const dispatch = jest.fn()
 
     await actions.submitDelegation(
-      { rootState: mockRootState, state, dispatch, commit: jest.fn() },
+      {
+        rootState: mockRootState,
+        getters: {
+          liquidAtoms: 1000
+        },
+        state,
+        dispatch,
+        commit: jest.fn()
+      },
       { stakingTransactions }
     )
 
@@ -209,7 +217,15 @@ describe(`Module: Delegations`, () => {
     const dispatch = jest.fn()
 
     await actions.submitDelegation(
-      { rootState: mockRootState, state, dispatch, commit: jest.fn() },
+      {
+        rootState: mockRootState,
+        getters: {
+          liquidAtoms: 1000
+        },
+        state,
+        dispatch,
+        commit: () => {}
+      },
       { stakingTransactions }
     )
 
@@ -320,6 +336,9 @@ describe(`Module: Delegations`, () => {
         state: {
           committedDelegates
         },
+        getters: {
+          liquidAtoms: 1000
+        },
         dispatch: () => {},
         commit
       },
@@ -329,10 +348,13 @@ describe(`Module: Delegations`, () => {
         password: `12345`
       }
     )
-
-    expect(commit).toHaveBeenCalledWith(`setAtoms`, 900)
-    expect(committedDelegates).toEqual({
-      [delegates[0].operator_address]: 110
+    expect(commit).toHaveBeenCalledWith(`updateWalletBalance`, {
+      denom: `STAKE`,
+      amount: 900
+    })
+    expect(commit).toHaveBeenCalledWith(`setCommittedDelegation`, {
+      candidateId: delegates[0].operator_address,
+      value: 110
     })
   })
 
@@ -354,7 +376,15 @@ describe(`Module: Delegations`, () => {
 
     const dispatch = jest.fn()
     await actions.submitDelegation(
-      { rootState: mockRootState, state, dispatch, commit: jest.fn() },
+      {
+        rootState: mockRootState,
+        getters: {
+          liquidAtoms: 1000
+        },
+        state,
+        dispatch,
+        commit: jest.fn()
+      },
       { stakingTransactions }
     )
     jest.runAllTimers()
