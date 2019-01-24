@@ -42,6 +42,12 @@ describe(`UndelegationModal`, () => {
     })
   })
 
+  it(`opens`, () => {
+    wrapper.vm.$refs.actionModal.open = jest.fn()
+    wrapper.vm.open()
+    expect(wrapper.vm.$refs.actionModal.open).toHaveBeenCalled()
+  })
+
   describe(`default values are set correctly`, () => {
     it(`displays the user's wallet address as the default`, () => {
       let toField = wrapper.find(`#to`)
