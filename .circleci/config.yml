@@ -4,14 +4,31 @@ aliases:
   - &CWD ~/voyager
   - &WORKSPACE /tmp/build_output
   - &docker-node circleci/node:10.15
+  - &docker-browsers circleci/node:10.15-browsers
+  - &docker-go circleci/golang:1.11
 
 commands:
+  - yarn-install:
+      description: "[YARN] update and install"
+      run:
+        - restore_cache:
+            keys:
+              - v3-dependencies-root-{{ checksum "package.json" }}
+              - v3-dependencies-root-
+
+        - run: sudo npm -g uninstall yarn ; sudo npm -g install yarn@1.13.0
+        - run: yarn install
+        - save_cache:
+            paths:
+              - yarn.lock
+              - node_modules
+            key: v3-dependencies-root-{{ checksum "package.json" }}
 
 jobs:
   # Build Gaia from the SDK source code specified by tasks/build/Gaia/COMMIT.sh.
   buildGaia:
     docker:
-      - image: circleci/golang
+      - image: *docker-go
 
     steps:
       - checkout
@@ -39,32 +56,20 @@ jobs:
 
   changelogUpdated:
     docker:
-      - image: circleci/node:10.15.0-browsers
+      - image: *docker-browsers
 
     steps:
       - checkout
-
       - run: tasks/changelog-changed-check.sh
 
   testUnit:
     docker:
-      - image: circleci/node:10.15.0-browsers
+      - image: *docker-browsers
 
     steps:
       - checkout
 
-      - restore_cache:
-          keys:
-            - v3-dependencies-root-{{ checksum "package.json" }}
-            - v3-dependencies-root-
-
-      - run: sudo npm -g uninstall yarn ; sudo npm -g install yarn@1.13.0
-      - run: yarn install
-      - save_cache:
-          paths:
-            - yarn.lock
-            - node_modules
-          key: v3-dependencies-root-{{ checksum "package.json" }}
+      - yarn-install
 
       - run: yarn run lint
 
@@ -79,7 +84,7 @@ jobs:
 
   security:
     docker:
-      - image: circleci/node:10.15.0-browsers
+      - image: *docker-browsers
 
     steps:
       - checkout
@@ -90,7 +95,7 @@ jobs:
           name: Audit
           command: |
             set +e
-            
+
             SUMMARY="$(yarn audit | grep Severity)"
             VULNERABILITIES=".*(High|Critical).*"
 
@@ -103,7 +108,7 @@ jobs:
 
   testE2e:
     docker:
-      - image: circleci/node:10.15.0-browsers
+      - image: *docker-browsers
 
     environment:
       - BINARY_PATH: "/home/circleci/project/builds/Gaia/linux_amd64/gaiacli"
@@ -115,18 +120,7 @@ jobs:
       - attach_workspace:
           at: builds/Gaia
 
-      - restore_cache:
-          keys:
-            - v2-dependencies-root-{{ checksum "package.json" }}
-            - v2-dependencies-root-
-
-      - run: sudo npm -g uninstall yarn ; sudo npm -g install yarn@1.13.0
-      - run: yarn install
-      - save_cache:
-          paths:
-            - yarn.lock
-            - node_modules
-          key: v2-dependencies-root-{{ checksum "package.json" }}
+      - yarn-install
 
       - run:
           name: Test
@@ -166,24 +160,18 @@ jobs:
   # Create release.
   release:
     docker:
-      - image: circleci/node:10.15.0
+      - image: *docker-node
 
     steps:
       - checkout
 
-      - restore_cache:
-          keys:
-            - v2-dependencies-root-{{ checksum "package.json" }}
-            - v2-dependencies-root-
-
-      - run: sudo npm -g uninstall yarn ; sudo npm -g install yarn@1.13.0
-      - run: yarn install
+      - yarn-install
       - run: node tasks/createReleasePR.js
 
   # Publish the release to GitHub.
   publish:
     docker:
-      - image: circleci/node:10.15.0
+      - image: *docker-node
 
     steps:
       - checkout
@@ -223,15 +211,15 @@ jobs:
 
 workflows:
   version: 2
-
-  gaia-test-and-publish:
+  build-and-deploy:
     jobs:
+      # Static checks before
       - changelogUpdated:
           filters:
             branches:
               ignore: release
 
-      - buildGaia:
+      - security:
           filters:
             branches:
               ignore: release
@@ -241,6 +229,37 @@ workflows:
             branches:
               ignore: release
 
+      # on develop:
+      #        build
+      #          |
+      #  build-deploy-backend
+      #          |
+      #   deployment-frontend
+      #
+      # in branches: build && build-test-backend
+      - build
+      - build-gaia:
+          deploy: false
+          name: build-test-gaia
+          filters:
+            branches:
+              ignore: develop
+      - build-gaia:
+          deploy: true
+          name: build-deploy-gaia
+          requires:
+            - build
+          filters:
+            branches:
+              only: develop
+      - deployment-frontend:
+          requires:
+            - build
+            - build-deploy-gaia
+          filters:
+            branches:
+              only: develop
+
       # - testE2e:
       #     requires:
       #       - buildGaia
@@ -248,15 +267,10 @@ workflows:
       #       branches:
       #         ignore: release
 
-      - security:
-          filters:
-            branches:
-              ignore: release
-
       - publish:
           requires:
             - changelogUpdated
-            - buildGaia
+            - build
             - testUnit
             # - testE2e
           filters:
