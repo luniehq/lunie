@@ -109,60 +109,12 @@ exports[`SendModal has the expected html structure 1`] = `
         <div
           class="tm-form-msg sm tm-form-msg--error"
         >
-          Wallet doesn't hold any s
+          Wallet doesn't have any s
         </div>
       </div>
     </div>
      
-    <div
-      class="action-modal-form-group tm-form-group"
-    >
-      <!---->
-      <label
-        class="tm-form-group__label"
-        for="sign-method"
-      >
-        Signing Method
-      </label>
-       
-      <div
-        class="tm-form-group__field"
-      >
-        <div
-          class="tm-select"
-          id="sign-method"
-        >
-          <select
-            class="tm-field tm-field-select"
-          >
-            <option
-              disabled="disabled"
-              hidden="hidden"
-              selected="selected"
-              value=""
-            >
-              Select option...
-            </option>
-             
-            <option
-              value="local"
-            >
-              (Unsafe) Local Account
-            </option>
-          </select>
-           
-          <div
-            class="tm-field-select-addon"
-          >
-            <i
-              class="material-icons"
-            >
-              arrow_drop_down
-            </i>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!---->
      
     <div
       class="action-modal-group tm-form-group"
@@ -207,7 +159,6 @@ exports[`SendModal has the expected html structure 1`] = `
         >
           <button
             class="tm-btn"
-            id="cast-vote"
           >
             <span
               class="tm-btn__container tm-btn--primary"
@@ -342,60 +293,12 @@ exports[`SendModal validation should show address required error 1`] = `
         <div
           class="tm-form-msg sm tm-form-msg--error"
         >
-          Wallet doesn't hold any STAKEs
+          Wallet doesn't have any STAKEs
         </div>
       </div>
     </div>
      
-    <div
-      class="action-modal-form-group tm-form-group"
-    >
-      <!---->
-      <label
-        class="tm-form-group__label"
-        for="sign-method"
-      >
-        Signing Method
-      </label>
-       
-      <div
-        class="tm-form-group__field"
-      >
-        <div
-          class="tm-select"
-          id="sign-method"
-        >
-          <select
-            class="tm-field tm-field-select"
-          >
-            <option
-              disabled="disabled"
-              hidden="hidden"
-              selected="selected"
-              value=""
-            >
-              Select option...
-            </option>
-             
-            <option
-              value="local"
-            >
-              (Unsafe) Local Account
-            </option>
-          </select>
-           
-          <div
-            class="tm-field-select-addon"
-          >
-            <i
-              class="material-icons"
-            >
-              arrow_drop_down
-            </i>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!---->
      
     <div
       class="action-modal-group tm-form-group"
@@ -440,7 +343,6 @@ exports[`SendModal validation should show address required error 1`] = `
         >
           <button
             class="tm-btn"
-            id="cast-vote"
           >
             <span
               class="tm-btn__container tm-btn--primary"
@@ -577,55 +479,7 @@ exports[`SendModal validation should show bech32 error when address length is to
       </div>
     </div>
      
-    <div
-      class="action-modal-form-group tm-form-group"
-    >
-      <!---->
-      <label
-        class="tm-form-group__label"
-        for="sign-method"
-      >
-        Signing Method
-      </label>
-       
-      <div
-        class="tm-form-group__field"
-      >
-        <div
-          class="tm-select"
-          id="sign-method"
-        >
-          <select
-            class="tm-field tm-field-select"
-          >
-            <option
-              disabled="disabled"
-              hidden="hidden"
-              selected="selected"
-              value=""
-            >
-              Select option...
-            </option>
-             
-            <option
-              value="local"
-            >
-              (Unsafe) Local Account
-            </option>
-          </select>
-           
-          <div
-            class="tm-field-select-addon"
-          >
-            <i
-              class="material-icons"
-            >
-              arrow_drop_down
-            </i>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!---->
      
     <div
       class="action-modal-group tm-form-group"
@@ -670,7 +524,6 @@ exports[`SendModal validation should show bech32 error when address length is to
         >
           <button
             class="tm-btn"
-            id="cast-vote"
           >
             <span
               class="tm-btn__container tm-btn--primary"
@@ -807,55 +660,7 @@ exports[`SendModal validation should show bech32 error when address length is to
       </div>
     </div>
      
-    <div
-      class="action-modal-form-group tm-form-group"
-    >
-      <!---->
-      <label
-        class="tm-form-group__label"
-        for="sign-method"
-      >
-        Signing Method
-      </label>
-       
-      <div
-        class="tm-form-group__field"
-      >
-        <div
-          class="tm-select"
-          id="sign-method"
-        >
-          <select
-            class="tm-field tm-field-select"
-          >
-            <option
-              disabled="disabled"
-              hidden="hidden"
-              selected="selected"
-              value=""
-            >
-              Select option...
-            </option>
-             
-            <option
-              value="local"
-            >
-              (Unsafe) Local Account
-            </option>
-          </select>
-           
-          <div
-            class="tm-field-select-addon"
-          >
-            <i
-              class="material-icons"
-            >
-              arrow_drop_down
-            </i>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!---->
      
     <div
       class="action-modal-group tm-form-group"
@@ -900,7 +705,6 @@ exports[`SendModal validation should show bech32 error when address length is to
         >
           <button
             class="tm-btn"
-            id="cast-vote"
           >
             <span
               class="tm-btn__container tm-btn--primary"
@@ -1039,60 +843,12 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
         <div
           class="tm-form-msg sm tm-form-msg--error"
         >
-          Wallet doesn't hold any s
+          Wallet doesn't have any s
         </div>
       </div>
     </div>
      
-    <div
-      class="action-modal-form-group tm-form-group"
-    >
-      <!---->
-      <label
-        class="tm-form-group__label"
-        for="sign-method"
-      >
-        Signing Method
-      </label>
-       
-      <div
-        class="tm-form-group__field"
-      >
-        <div
-          class="tm-select"
-          id="sign-method"
-        >
-          <select
-            class="tm-field tm-field-select"
-          >
-            <option
-              disabled="disabled"
-              hidden="hidden"
-              selected="selected"
-              value=""
-            >
-              Select option...
-            </option>
-             
-            <option
-              value="local"
-            >
-              (Unsafe) Local Account
-            </option>
-          </select>
-           
-          <div
-            class="tm-field-select-addon"
-          >
-            <i
-              class="material-icons"
-            >
-              arrow_drop_down
-            </i>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!---->
      
     <div
       class="action-modal-group tm-form-group"
@@ -1137,7 +893,6 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
         >
           <button
             class="tm-btn"
-            id="cast-vote"
           >
             <span
               class="tm-btn__container tm-btn--primary"

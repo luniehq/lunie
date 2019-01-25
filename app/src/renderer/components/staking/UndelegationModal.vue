@@ -37,7 +37,7 @@
       />
       <tm-form-msg
         v-if="balance === 0"
-        :msg="`doesn't hold any ${denom}s`"
+        :msg="`doesn't have any ${denom}s`"
         name="Wallet"
         type="custom"
       />

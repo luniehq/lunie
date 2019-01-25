@@ -18,6 +18,7 @@
         <slot></slot>
 
         <tm-form-group
+          v-if="signMethods.length > 1"
           class="action-modal-form-group"
           field-id="sign-method"
           field-label="Signing Method"
@@ -68,7 +69,6 @@
               />
               <tm-btn
                 v-else
-                id="cast-vote"
                 color="primary"
                 value="Submit"
                 @click.native="validateForm"
@@ -161,9 +161,11 @@ export default {
       this.sending = true
       this.$v.$touch()
 
-      let subFormValid = this.validate()
+      // An ActionModal is only the prototype of a parent modal
+      // here we trigger the validation of the form that this parent modal
+      let childFormValid = this.validate()
 
-      if (!this.$v.$invalid && subFormValid) {
+      if (!this.$v.$invalid && childFormValid) {
         await this.submit()
       }
       this.sending = false
