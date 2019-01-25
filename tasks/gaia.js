@@ -84,7 +84,7 @@ async function makeValidator(
   moniker,
   chainId,
   operatorSignInfo = {
-    keyName: moniker + `-operator`,
+    keyName: `${moniker}-operator`,
     password: `1234567890`,
     clientHomeDir: cliHome
   }
