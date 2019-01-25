@@ -8,32 +8,8 @@ const mockRootState = {
     connected: true
   }
 }
-jest.mock(`src/network.js`, () => () => ({
-  genesis: {
-    app_state: {
-      accounts: [
-        {
-          address: `cosmos1qwtatamg8nznvfy9a6nrt0qkdk328qsxexsj5q`,
-          coins: [
-            {
-              denom: `mycoin`,
-              amount: `1000`
-            },
-            {
-              denom: `fermion`,
-              amount: `2300`
-            },
-            {
-              denom: `STAKE`,
-              amount: `1000`
-            }
-          ],
-          sequence_number: `1`,
-          account_number: `49`
-        }
-      ]
-    }
-  }
+jest.mock(`src/config.json`, () => ({
+  denoms: [`mycoin`, `fermion`, `STAKE`]
 }))
 
 describe(`Module: Wallet`, () => {
@@ -152,18 +128,6 @@ describe(`Module: Wallet`, () => {
       `fermion`,
       `STAKE`
     ])
-  })
-
-  it(`should throw an error if can't load genesis`, async () => {
-    jest.resetModules()
-    const mockPromise = Promise
-    jest.mock(`src/network.js`, () => () => mockPromise.reject(`Error`))
-    // needs to reload the file to import mocked module
-    let walletModule = require(`modules/wallet.js`).default
-    let { actions, state } = walletModule({})
-    let commit = jest.fn()
-    await actions.loadDenoms({ commit, state })
-    expect(state.error).toMatchSnapshot()
   })
 
   it(`should query the balances on reconnection`, async () => {
