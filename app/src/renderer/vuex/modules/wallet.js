@@ -1,7 +1,6 @@
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
-// for now importing the fixed genesis for the network from the config.json
-import network from "../../../network.js"
+const config = require(`../../../config.json`)
 
 export default ({ node }) => {
   let emptyState = {
@@ -103,23 +102,8 @@ export default ({ node }) => {
         amount: oldBalance.amount - amount
       })
     },
-    async loadDenoms({ commit, state }) {
-      try {
-        const { genesis } = await network()
-
-        let denoms = []
-        for (let account of genesis.app_state.accounts) {
-          if (account.coins) {
-            for (let { denom } of account.coins) {
-              denoms.push(denom)
-            }
-          }
-        }
-
-        commit(`setDenoms`, denoms)
-      } catch (err) {
-        state.error = err
-      }
+    async loadDenoms({ commit }) {
+      commit(`setDenoms`, config.denoms)
     },
     queryWalletStateAfterHeight({ rootState, dispatch }, height) {
       return new Promise(resolve => {
