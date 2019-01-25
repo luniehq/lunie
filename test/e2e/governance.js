@@ -35,11 +35,10 @@ test(`Governance`, async function(t) {
     let balance = parseInt(
       (await app.client.$(`.total-atoms__value`).getText()).split(`.`)[0]
     )
-    await app.client.$(`#propose-btn`).click()
-    await t.ok(
-      await app.client.$(`#modal-propose`).isVisible(),
-      `opens modal proposal`
-    )
+    await app.client
+      .$(`#propose-btn`)
+      .click()
+      .waitForVisible(`#modal-propose`)
     await app.client
       .setValue(`#title`, `E2E test proposal title`)
       .setValue(`#description`, `E2E test proposal title`)
@@ -47,7 +46,7 @@ test(`Governance`, async function(t) {
       .setValue(`#password`, `1234567890`)
     await t.ok(
       await app.client
-        .click(`//button/*[. = 'Submit Proposal']`)
+        .click(`//button/*[. = 'Submit']`)
         .waitForVisible(
           `//*[. = 'You have successfully submitted a new text proposal']`,
           4 * 1000
@@ -102,7 +101,9 @@ test(`Governance`, async function(t) {
     await app.client.setValue(`#amount`, 10).setValue(`#password`, `1234567890`)
     await t.ok(
       await app.client
-        .$(`#submit-deposit`)
+        .$(
+          `//*[@id = 'modal-deposit']//button//*[normalize-space() = 'Submit']`
+        )
         .click()
         .waitForVisible(
           `//*[. = 'You have successfully deposited your STAKEs on proposal #1']`,
@@ -141,7 +142,7 @@ test(`Governance`, async function(t) {
     await app.client.setValue(`#password`, `1234567890`)
     await t.ok(
       await app.client
-        .$(`#cast-vote`)
+        .$(`//*[@id = 'modal-vote']//button//*[normalize-space() = 'Submit']`)
         .click()
         .waitForVisible(
           `//*[. = 'You have successfully voted Yes on proposal #1']`,

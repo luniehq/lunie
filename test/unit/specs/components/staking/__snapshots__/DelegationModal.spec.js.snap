@@ -146,13 +146,13 @@ exports[`DelegationModal component matches snapshot has the expected html struct
         />
          
         <!---->
-         
-        <!---->
       </div>
     </div>
      
+    <!---->
+     
     <div
-      class="action-modal-form-group tm-form-group"
+      class="action-modal-group tm-form-group"
     >
       <!---->
       <label
@@ -171,30 +171,43 @@ exports[`DelegationModal component matches snapshot has the expected html struct
           placeholder="Password"
           type="password"
         />
+         
+        <!---->
       </div>
     </div>
-     
   </div>
    
   <div
     class="action-modal-footer"
   >
-    <div>
-      <button
-        class="tm-btn"
-        id="submit-delegation"
+    <div
+      class="action-modal-group tm-form-group"
+    >
+      <!---->
+      <!---->
+       
+      <div
+        class="tm-form-group__field"
       >
-        <span
-          class="tm-btn__container tm-btn--primary"
+        <div
+          class="action-modal-footer"
         >
-          <!---->
-          <span
-            class="tm-btn__value"
+          <button
+            class="tm-btn"
           >
-            Submit Delegation
-          </span>
-        </span>
-      </button>
+            <span
+              class="tm-btn__container tm-btn--primary"
+            >
+              <!---->
+              <span
+                class="tm-btn__value"
+              >
+                Submit
+              </span>
+            </span>
+          </button>
+        </div>
+      </div>
     </div>
      
     <!---->

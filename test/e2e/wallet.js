@@ -55,9 +55,10 @@ test(`wallet`, async function(t) {
       )
     }
 
-    const sendBtn = () => $(`#send-btn`)
+    const sendBtn = () =>
+      $(`//*[@id = 'send-modal']//button//*[normalize-space() = 'Submit']`)
     const addressInput = () => $(`#send-address`)
-    const amountInput = () => $(`#send-amount`)
+    const amountInput = () => $(`#amount`)
     const defaultBalance = 1000.0
 
     t.test(`Localcoin balance before sending`, async function(t) {

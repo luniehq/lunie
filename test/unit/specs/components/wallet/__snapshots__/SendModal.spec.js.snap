@@ -1,171 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SendModal disables sending if not connected 1`] = `
-<div
-  class="action-modal"
-  name="slide-fade"
->
-  <div
-    class="action-modal-header"
-  >
-    <img
-      class="icon action-modal-atom"
-      src="~assets/images/cosmos-logo.png"
-    />
-    <span
-      class="action-modal-title"
-    >
-      Send
-    </span>
-     
-    <div
-      class="action-modal-icon action-modal-close"
-      id="closeBtn"
-    >
-      <i
-        class="material-icons"
-      >
-        close
-      </i>
-    </div>
-  </div>
-   
-  <div
-    class="action-modal-form"
-  >
-    <div
-      class="tm-form-group"
-    >
-      <!---->
-      <label
-        class="tm-form-group__label"
-        for="send-denomination"
-      >
-        Denomination
-      </label>
-       
-      <div
-        class="tm-form-group__field"
-      >
-        <input
-          class="tm-field"
-          id="send-denomination"
-          readonly="readonly"
-          type="text"
-        />
-         
-        <!---->
-      </div>
-    </div>
-     
-    <div
-      class="tm-form-group"
-    >
-      <!---->
-      <label
-        class="tm-form-group__label"
-        for="send-address"
-      >
-        Send To
-      </label>
-       
-      <div
-        class="tm-form-group__field"
-      >
-        <input
-          class="tm-field"
-          id="send-address"
-          placeholder="Address"
-          type="text"
-        />
-         
-        <!---->
-      </div>
-    </div>
-     
-    <div
-      class="tm-form-group"
-    >
-      <!---->
-      <label
-        class="tm-form-group__label"
-        for="send-amount"
-      >
-        Amount
-      </label>
-       
-      <div
-        class="tm-form-group__field"
-      >
-        <input
-          class="tm-field"
-          id="send-amount"
-          placeholder="Amount"
-          type="number"
-        />
-         
-        <!---->
-         
-        <!---->
-      </div>
-    </div>
-     
-    <div
-      class="tm-form-group"
-    >
-      <!---->
-      <label
-        class="tm-form-group__label"
-        for="password"
-      >
-        Password
-      </label>
-       
-      <div
-        class="tm-form-group__field"
-      >
-        <input
-          class="tm-field"
-          id="password"
-          placeholder="Password"
-          type="password"
-        />
-         
-        <!---->
-      </div>
-    </div>
-     
-  </div>
-   
-  <div
-    class="action-modal-footer"
-  >
-    <div>
-      <button
-        class="tm-btn"
-        disabled="disabled"
-      >
-        <span
-          class="tm-btn__container tm-btn--primary"
-        >
-          <!---->
-          <span
-            class="tm-btn__value"
-          >
-            Connecting...
-          </span>
-        </span>
-      </button>
-    </div>
-     
-    <!---->
-  </div>
-</div>
-`;
-
 exports[`SendModal has the expected html structure 1`] = `
 <div
   class="action-modal"
+  denom="fermion"
+  id="send-modal"
   name="slide-fade"
 >
   <div
@@ -197,7 +36,7 @@ exports[`SendModal has the expected html structure 1`] = `
     class="action-modal-form"
   >
     <div
-      class="tm-form-group"
+      class="action-modal-form-group tm-form-group"
     >
       <!---->
       <label
@@ -222,7 +61,7 @@ exports[`SendModal has the expected html structure 1`] = `
     </div>
      
     <div
-      class="tm-form-group"
+      class="action-modal-form-group tm-form-group"
     >
       <!---->
       <label
@@ -247,12 +86,12 @@ exports[`SendModal has the expected html structure 1`] = `
     </div>
      
     <div
-      class="tm-form-group"
+      class="action-modal-form-group tm-form-group"
     >
       <!---->
       <label
         class="tm-form-group__label"
-        for="send-amount"
+        for="amount"
       >
         Amount
       </label>
@@ -261,20 +100,24 @@ exports[`SendModal has the expected html structure 1`] = `
         class="tm-form-group__field"
       >
         <input
-          class="tm-field"
-          id="send-amount"
+          class="tm-field tm-field"
+          id="amount"
           placeholder="Amount"
           type="number"
         />
          
-        <!---->
-         
-        <!---->
+        <div
+          class="tm-form-msg sm tm-form-msg--error"
+        >
+          Wallet doesn't have any s
+        </div>
       </div>
     </div>
      
+    <!---->
+     
     <div
-      class="tm-form-group"
+      class="action-modal-group tm-form-group"
     >
       <!---->
       <label
@@ -297,29 +140,39 @@ exports[`SendModal has the expected html structure 1`] = `
         <!---->
       </div>
     </div>
-     
   </div>
    
   <div
     class="action-modal-footer"
   >
-    <div>
-      <button
-        class="tm-btn"
-        disabled="disabled"
-        id="send-btn"
+    <div
+      class="action-modal-group tm-form-group"
+    >
+      <!---->
+      <!---->
+       
+      <div
+        class="tm-form-group__field"
       >
-        <span
-          class="tm-btn__container tm-btn--primary"
+        <div
+          class="action-modal-footer"
         >
-          <!---->
-          <span
-            class="tm-btn__value"
+          <button
+            class="tm-btn"
           >
-            Send Tokens
-          </span>
-        </span>
-      </button>
+            <span
+              class="tm-btn__container tm-btn--primary"
+            >
+              <!---->
+              <span
+                class="tm-btn__value"
+              >
+                Submit
+              </span>
+            </span>
+          </button>
+        </div>
+      </div>
     </div>
      
     <!---->
@@ -327,9 +180,11 @@ exports[`SendModal has the expected html structure 1`] = `
 </div>
 `;
 
-exports[`SendModal should show address required error 1`] = `
+exports[`SendModal validation should show address required error 1`] = `
 <div
   class="action-modal"
+  denom="fermion"
+  id="send-modal"
   name="slide-fade"
 >
   <div
@@ -361,7 +216,7 @@ exports[`SendModal should show address required error 1`] = `
     class="action-modal-form"
   >
     <div
-      class="tm-form-group"
+      class="action-modal-form-group tm-form-group"
     >
       <!---->
       <label
@@ -386,7 +241,7 @@ exports[`SendModal should show address required error 1`] = `
     </div>
      
     <div
-      class="tm-form-group tm-form-group--error"
+      class="action-modal-form-group tm-form-group tm-form-group--error"
     >
       <!---->
       <label
@@ -415,12 +270,12 @@ exports[`SendModal should show address required error 1`] = `
     </div>
      
     <div
-      class="tm-form-group tm-form-group--error"
+      class="action-modal-form-group tm-form-group tm-form-group--error"
     >
       <!---->
       <label
         class="tm-form-group__label"
-        for="send-amount"
+        for="amount"
       >
         Amount
       </label>
@@ -429,24 +284,24 @@ exports[`SendModal should show address required error 1`] = `
         class="tm-form-group__field"
       >
         <input
-          class="tm-field"
-          id="send-amount"
+          class="tm-field tm-field"
+          id="amount"
           placeholder="Amount"
           type="number"
         />
          
-        <!---->
-         
         <div
           class="tm-form-msg sm tm-form-msg--error"
         >
-          Wallet doesn't hold any fermions
+          Wallet doesn't have any STAKEs
         </div>
       </div>
     </div>
      
+    <!---->
+     
     <div
-      class="tm-form-group"
+      class="action-modal-group tm-form-group"
     >
       <!---->
       <label
@@ -469,29 +324,39 @@ exports[`SendModal should show address required error 1`] = `
         <!---->
       </div>
     </div>
-     
   </div>
    
   <div
     class="action-modal-footer"
   >
-    <div>
-      <button
-        class="tm-btn"
-        disabled="disabled"
-        id="send-btn"
+    <div
+      class="action-modal-group tm-form-group"
+    >
+      <!---->
+      <!---->
+       
+      <div
+        class="tm-form-group__field"
       >
-        <span
-          class="tm-btn__container tm-btn--primary"
+        <div
+          class="action-modal-footer"
         >
-          <!---->
-          <span
-            class="tm-btn__value"
+          <button
+            class="tm-btn"
           >
-            Send Tokens
-          </span>
-        </span>
-      </button>
+            <span
+              class="tm-btn__container tm-btn--primary"
+            >
+              <!---->
+              <span
+                class="tm-btn__value"
+              >
+                Submit
+              </span>
+            </span>
+          </button>
+        </div>
+      </div>
     </div>
      
     <!---->
@@ -499,9 +364,11 @@ exports[`SendModal should show address required error 1`] = `
 </div>
 `;
 
-exports[`SendModal should show bech32 error when address length is too long 1`] = `
+exports[`SendModal validation should show bech32 error when address length is too long 1`] = `
 <div
   class="action-modal"
+  denom="fermion"
+  id="send-modal"
   name="slide-fade"
 >
   <div
@@ -533,7 +400,7 @@ exports[`SendModal should show bech32 error when address length is too long 1`] 
     class="action-modal-form"
   >
     <div
-      class="tm-form-group"
+      class="action-modal-form-group tm-form-group"
     >
       <!---->
       <label
@@ -558,7 +425,7 @@ exports[`SendModal should show bech32 error when address length is too long 1`] 
     </div>
      
     <div
-      class="tm-form-group tm-form-group--error"
+      class="action-modal-form-group tm-form-group tm-form-group--error"
     >
       <!---->
       <label
@@ -588,12 +455,12 @@ exports[`SendModal should show bech32 error when address length is too long 1`] 
     </div>
      
     <div
-      class="tm-form-group tm-form-group--error"
+      class="action-modal-form-group tm-form-group"
     >
       <!---->
       <label
         class="tm-form-group__label"
-        for="send-amount"
+        for="amount"
       >
         Amount
       </label>
@@ -602,20 +469,20 @@ exports[`SendModal should show bech32 error when address length is too long 1`] 
         class="tm-form-group__field"
       >
         <input
-          class="tm-field"
-          id="send-amount"
+          class="tm-field tm-field"
+          id="amount"
           placeholder="Amount"
           type="number"
         />
          
         <!---->
-         
-        <!---->
       </div>
     </div>
      
+    <!---->
+     
     <div
-      class="tm-form-group"
+      class="action-modal-group tm-form-group"
     >
       <!---->
       <label
@@ -638,29 +505,39 @@ exports[`SendModal should show bech32 error when address length is too long 1`] 
         <!---->
       </div>
     </div>
-     
   </div>
    
   <div
     class="action-modal-footer"
   >
-    <div>
-      <button
-        class="tm-btn"
-        disabled="disabled"
-        id="send-btn"
+    <div
+      class="action-modal-group tm-form-group"
+    >
+      <!---->
+      <!---->
+       
+      <div
+        class="tm-form-group__field"
       >
-        <span
-          class="tm-btn__container tm-btn--primary"
+        <div
+          class="action-modal-footer"
         >
-          <!---->
-          <span
-            class="tm-btn__value"
+          <button
+            class="tm-btn"
           >
-            Send Tokens
-          </span>
-        </span>
-      </button>
+            <span
+              class="tm-btn__container tm-btn--primary"
+            >
+              <!---->
+              <span
+                class="tm-btn__value"
+              >
+                Submit
+              </span>
+            </span>
+          </button>
+        </div>
+      </div>
     </div>
      
     <!---->
@@ -668,9 +545,11 @@ exports[`SendModal should show bech32 error when address length is too long 1`] 
 </div>
 `;
 
-exports[`SendModal should show bech32 error when address length is too short 1`] = `
+exports[`SendModal validation should show bech32 error when address length is too short 1`] = `
 <div
   class="action-modal"
+  denom="fermion"
+  id="send-modal"
   name="slide-fade"
 >
   <div
@@ -702,7 +581,7 @@ exports[`SendModal should show bech32 error when address length is too short 1`]
     class="action-modal-form"
   >
     <div
-      class="tm-form-group"
+      class="action-modal-form-group tm-form-group"
     >
       <!---->
       <label
@@ -727,7 +606,7 @@ exports[`SendModal should show bech32 error when address length is too short 1`]
     </div>
      
     <div
-      class="tm-form-group tm-form-group--error"
+      class="action-modal-form-group tm-form-group tm-form-group--error"
     >
       <!---->
       <label
@@ -757,12 +636,12 @@ exports[`SendModal should show bech32 error when address length is too short 1`]
     </div>
      
     <div
-      class="tm-form-group tm-form-group--error"
+      class="action-modal-form-group tm-form-group"
     >
       <!---->
       <label
         class="tm-form-group__label"
-        for="send-amount"
+        for="amount"
       >
         Amount
       </label>
@@ -771,20 +650,20 @@ exports[`SendModal should show bech32 error when address length is too short 1`]
         class="tm-form-group__field"
       >
         <input
-          class="tm-field"
-          id="send-amount"
+          class="tm-field tm-field"
+          id="amount"
           placeholder="Amount"
           type="number"
         />
          
         <!---->
-         
-        <!---->
       </div>
     </div>
      
+    <!---->
+     
     <div
-      class="tm-form-group"
+      class="action-modal-group tm-form-group"
     >
       <!---->
       <label
@@ -807,29 +686,39 @@ exports[`SendModal should show bech32 error when address length is too short 1`]
         <!---->
       </div>
     </div>
-     
   </div>
    
   <div
     class="action-modal-footer"
   >
-    <div>
-      <button
-        class="tm-btn"
-        disabled="disabled"
-        id="send-btn"
+    <div
+      class="action-modal-group tm-form-group"
+    >
+      <!---->
+      <!---->
+       
+      <div
+        class="tm-form-group__field"
       >
-        <span
-          class="tm-btn__container tm-btn--primary"
+        <div
+          class="action-modal-footer"
         >
-          <!---->
-          <span
-            class="tm-btn__value"
+          <button
+            class="tm-btn"
           >
-            Send Tokens
-          </span>
-        </span>
-      </button>
+            <span
+              class="tm-btn__container tm-btn--primary"
+            >
+              <!---->
+              <span
+                class="tm-btn__value"
+              >
+                Submit
+              </span>
+            </span>
+          </button>
+        </div>
+      </div>
     </div>
      
     <!---->
@@ -837,9 +726,11 @@ exports[`SendModal should show bech32 error when address length is too short 1`]
 </div>
 `;
 
-exports[`SendModal should show bech32 error when alphanumeric is wrong 1`] = `
+exports[`SendModal validation should show bech32 error when alphanumeric is wrong 1`] = `
 <div
   class="action-modal"
+  denom="fermion"
+  id="send-modal"
   name="slide-fade"
 >
   <div
@@ -871,7 +762,7 @@ exports[`SendModal should show bech32 error when alphanumeric is wrong 1`] = `
     class="action-modal-form"
   >
     <div
-      class="tm-form-group"
+      class="action-modal-form-group tm-form-group tm-form-group--error"
     >
       <!---->
       <label
@@ -891,12 +782,16 @@ exports[`SendModal should show bech32 error when alphanumeric is wrong 1`] = `
           type="text"
         />
          
-        <!---->
+        <div
+          class="tm-form-msg sm tm-form-msg--error"
+        >
+          Denomination is required
+        </div>
       </div>
     </div>
      
     <div
-      class="tm-form-group tm-form-group--error"
+      class="action-modal-form-group tm-form-group tm-form-group--error"
     >
       <!---->
       <label
@@ -925,12 +820,12 @@ exports[`SendModal should show bech32 error when alphanumeric is wrong 1`] = `
     </div>
      
     <div
-      class="tm-form-group tm-form-group--error"
+      class="action-modal-form-group tm-form-group tm-form-group--error"
     >
       <!---->
       <label
         class="tm-form-group__label"
-        for="send-amount"
+        for="amount"
       >
         Amount
       </label>
@@ -939,8 +834,8 @@ exports[`SendModal should show bech32 error when alphanumeric is wrong 1`] = `
         class="tm-form-group__field"
       >
         <input
-          class="tm-field"
-          id="send-amount"
+          class="tm-field tm-field"
+          id="amount"
           placeholder="Amount"
           type="number"
         />
@@ -948,15 +843,15 @@ exports[`SendModal should show bech32 error when alphanumeric is wrong 1`] = `
         <div
           class="tm-form-msg sm tm-form-msg--error"
         >
-          Amount is required
+          Wallet doesn't have any s
         </div>
-         
-        <!---->
       </div>
     </div>
      
+    <!---->
+     
     <div
-      class="tm-form-group"
+      class="action-modal-group tm-form-group"
     >
       <!---->
       <label
@@ -979,29 +874,39 @@ exports[`SendModal should show bech32 error when alphanumeric is wrong 1`] = `
         <!---->
       </div>
     </div>
-     
   </div>
    
   <div
     class="action-modal-footer"
   >
-    <div>
-      <button
-        class="tm-btn"
-        disabled="disabled"
-        id="send-btn"
+    <div
+      class="action-modal-group tm-form-group"
+    >
+      <!---->
+      <!---->
+       
+      <div
+        class="tm-form-group__field"
       >
-        <span
-          class="tm-btn__container tm-btn--primary"
+        <div
+          class="action-modal-footer"
         >
-          <!---->
-          <span
-            class="tm-btn__value"
+          <button
+            class="tm-btn"
           >
-            Send Tokens
-          </span>
-        </span>
-      </button>
+            <span
+              class="tm-btn__container tm-btn--primary"
+            >
+              <!---->
+              <span
+                class="tm-btn__value"
+              >
+                Submit
+              </span>
+            </span>
+          </button>
+        </div>
+      </div>
     </div>
      
     <!---->

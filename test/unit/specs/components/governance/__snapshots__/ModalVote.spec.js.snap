@@ -111,6 +111,8 @@ exports[`ModalVote has the expected html structure 1`] = `
       </div>
     </div>
      
+    <!---->
+     
     <div
       class="action-modal-group tm-form-group"
     >
@@ -135,7 +137,11 @@ exports[`ModalVote has the expected html structure 1`] = `
         <!---->
       </div>
     </div>
-     
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
     <div
       class="action-modal-group tm-form-group"
     >
@@ -150,7 +156,6 @@ exports[`ModalVote has the expected html structure 1`] = `
         >
           <button
             class="tm-btn"
-            id="cast-vote"
           >
             <span
               class="tm-btn__container tm-btn--primary"
@@ -159,18 +164,13 @@ exports[`ModalVote has the expected html structure 1`] = `
               <span
                 class="tm-btn__value"
               >
-                Submit Vote
+                Submit
               </span>
             </span>
           </button>
         </div>
       </div>
     </div>
-  </div>
-   
-  <div
-    class="action-modal-footer"
-  >
      
     <!---->
   </div>

@@ -521,9 +521,20 @@ exports[`PageValidator has the expected html structure 1`] = `
       </div>
     </div>
      
-    <!---->
+    <delegation-modal-stub
+      denom="STAKE"
+      fromoptions="[object Object]"
+      to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+      validator="[object Object]"
+    />
      
-    <!---->
+    <undelegation-modal-stub
+      denom="STAKE"
+      fromoptions="[object Object]"
+      maximum="123.45678"
+      to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      validator="[object Object]"
+    />
      
     <!---->
   </main>
@@ -1051,9 +1062,20 @@ exports[`PageValidator shows a default avatar 1`] = `
       </div>
     </div>
      
-    <!---->
+    <delegation-modal-stub
+      denom="STAKE"
+      fromoptions="[object Object]"
+      to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+      validator="[object Object]"
+    />
      
-    <!---->
+    <undelegation-modal-stub
+      denom="STAKE"
+      fromoptions="[object Object]"
+      maximum="123.45678"
+      to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      validator="[object Object]"
+    />
      
     <!---->
   </main>
@@ -1828,9 +1850,20 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
       </div>
     </div>
      
-    <!---->
+    <delegation-modal-stub
+      denom="STAKE"
+      fromoptions="[object Object]"
+      to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+      validator="[object Object]"
+    />
      
-    <!---->
+    <undelegation-modal-stub
+      denom="STAKE"
+      fromoptions="[object Object]"
+      maximum="100"
+      to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      validator="[object Object]"
+    />
      
     <div
       class="tm-modal"
@@ -2425,9 +2458,20 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
       </div>
     </div>
      
-    <!---->
+    <delegation-modal-stub
+      denom="STAKE"
+      fromoptions="[object Object]"
+      to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+      validator="[object Object]"
+    />
      
-    <!---->
+    <undelegation-modal-stub
+      denom="STAKE"
+      fromoptions="[object Object]"
+      maximum="100"
+      to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      validator="[object Object]"
+    />
      
     <!---->
   </main>
@@ -2955,9 +2999,20 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
       </div>
     </div>
      
-    <!---->
+    <delegation-modal-stub
+      denom="STAKE"
+      fromoptions="[object Object]"
+      to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+      validator="[object Object]"
+    />
      
-    <!---->
+    <undelegation-modal-stub
+      denom="STAKE"
+      fromoptions="[object Object]"
+      maximum="0"
+      to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      validator="[object Object]"
+    />
      
     <div
       class="tm-modal"
@@ -3552,9 +3607,20 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
       </div>
     </div>
      
-    <!---->
+    <delegation-modal-stub
+      denom="STAKE"
+      fromoptions="[object Object]"
+      to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+      validator="[object Object]"
+    />
      
-    <!---->
+    <undelegation-modal-stub
+      denom="STAKE"
+      fromoptions="[object Object]"
+      maximum="0"
+      to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      validator="[object Object]"
+    />
      
     <!---->
   </main>

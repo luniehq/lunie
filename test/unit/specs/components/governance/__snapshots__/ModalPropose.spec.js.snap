@@ -114,15 +114,13 @@ exports[`ModalPropose component matches snapshot has the expected html structure
         />
          
         <!---->
-         
-        <!---->
-         
-        <hr />
       </div>
     </div>
      
+    <!---->
+     
     <div
-      class="modal-propose-form-group tm-form-group"
+      class="action-modal-group tm-form-group"
     >
       <!---->
       <label
@@ -145,31 +143,40 @@ exports[`ModalPropose component matches snapshot has the expected html structure
         <!---->
       </div>
     </div>
-     
-    <div
-      class="action-modal-footer"
-    >
-      <button
-        class="tm-btn"
-        id="submit-proposal"
-      >
-        <span
-          class="tm-btn__container tm-btn--primary"
-        >
-          <!---->
-          <span
-            class="tm-btn__value"
-          >
-            Submit Proposal
-          </span>
-        </span>
-      </button>
-    </div>
   </div>
    
   <div
     class="action-modal-footer"
   >
+    <div
+      class="action-modal-group tm-form-group"
+    >
+      <!---->
+      <!---->
+       
+      <div
+        class="tm-form-group__field"
+      >
+        <div
+          class="action-modal-footer"
+        >
+          <button
+            class="tm-btn"
+          >
+            <span
+              class="tm-btn__container tm-btn--primary"
+            >
+              <!---->
+              <span
+                class="tm-btn__value"
+              >
+                Submit
+              </span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
      
     <!---->
   </div>

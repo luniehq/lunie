@@ -86,7 +86,7 @@ test(`delegation`, async function(t) {
       .setValue(`#amount`, 10)
       .setValue(`#password`, `1234567890`)
       .click(
-        `//*[@id = 'delegation-modal']//button//*[normalize-space() = 'Submit Delegation']`
+        `//*[@id = 'delegation-modal']//button//*[normalize-space() = 'Submit']`
       )
       .waitForVisible(
         `//*[. = 'You have successfully delegated your STAKEs']`,
@@ -117,6 +117,7 @@ test(`delegation`, async function(t) {
 
   t.test(`Undelegate`, async t => {
     await app.client
+      .waitForVisible(`//a[normalize-space() = 'Validators']`)
       // Select the Validators tab.
       .click(`//a[normalize-space() = 'Validators']`)
 
@@ -137,7 +138,7 @@ test(`delegation`, async function(t) {
       .setValue(`#amount`, 5)
       .setValue(`#password`, `1234567890`)
       .click(
-        `//*[@id = 'undelegation-modal']//button//*[normalize-space() = 'Submit Undelegation']`
+        `//*[@id = 'undelegation-modal']//button//*[normalize-space() = 'Submit']`
       )
       .waitForVisible(
         `//*[. = 'You have successfully undelegated 5 STAKEs.']`,

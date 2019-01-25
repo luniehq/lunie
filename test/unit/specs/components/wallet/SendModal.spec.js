@@ -47,92 +47,66 @@ describe(`SendModal`, () => {
     store.commit(`setAtoms`, 1000)
     store.commit(`setStakingParameters`, stakingParameters.parameters)
     store.commit(`setNonce`, `1`)
+
+    wrapper.vm.$refs.actionModal.open()
   })
 
   it(`has the expected html structure`, async () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`should show address required error`, async () => {
-    let { wrapper, store } = mount(SendModal, {
-      propsData: {
-        denom: `fermion`
-      },
-      sync: false
-    })
-    store.commit(`setConnected`, true)
-    store.commit(`setStakingParameters`, stakingParameters.parameters)
-    wrapper.setData({
-      fields: {
+  describe(`validation`, () => {
+    it(`should show address required error`, async () => {
+      let { wrapper, store } = mount(SendModal, {
+        propsData: {
+          denom: `fermion`
+        },
+        sync: false
+      })
+      wrapper.vm.$refs.actionModal.open()
+      store.commit(`setConnected`, true)
+      store.commit(`setStakingParameters`, stakingParameters.parameters)
+      wrapper.setData({
         denom: stakingParameters.parameters.bond_denom,
         address: ``,
-        amount: 2,
-        password: `1234567890`
-      }
+        amount: 2
+      })
+      expect(wrapper.vm.validateForm()).toBe(false)
+      await wrapper.vm.$nextTick()
+      expect(wrapper.vm.$v.$error).toBe(true)
+      expect(wrapper.vm.$el).toMatchSnapshot()
     })
-    wrapper.vm.validateForm()
-    await wrapper.vm.$nextTick()
-    expect(wrapper.vm.$v.$error).toBe(true)
-    expect(wrapper.vm.$el).toMatchSnapshot()
-  })
-  it(`should show bech32 error when address length is too short`, async () => {
-    store.commit(`setConnected`, true)
-    store.commit(`setStakingParameters`, stakingParameters.parameters)
-    wrapper.setData({
-      fields: {
+    it(`should show bech32 error when address length is too short`, async () => {
+      store.commit(`setConnected`, true)
+      store.commit(`setStakingParameters`, stakingParameters.parameters)
+      wrapper.setData({
         denom: stakingParameters.parameters.bond_denom,
         address: `asdf`,
-        amount: 2,
-        password: `1234567890`
-      }
+        amount: 2
+      })
+      expect(wrapper.vm.validateForm()).toBe(false)
+      await wrapper.vm.$nextTick()
+      expect(wrapper.vm.$el).toMatchSnapshot()
     })
-    wrapper.vm.validateForm()
-    await wrapper.vm.$nextTick()
-    expect(wrapper.vm.$el).toMatchSnapshot()
-  })
 
-  it(`should show bech32 error when address length is too long`, async () => {
-    store.commit(`setConnected`, true)
-    store.commit(`setStakingParameters`, stakingParameters.parameters)
-    wrapper.setData({
-      fields: {
+    it(`should show bech32 error when address length is too long`, async () => {
+      store.commit(`setConnected`, true)
+      store.commit(`setStakingParameters`, stakingParameters.parameters)
+      wrapper.setData({
         denom: stakingParameters.parameters.bond_denom,
         address: `asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf`,
-        amount: 2,
-        password: `1234567890`
-      }
+        amount: 2
+      })
+      expect(wrapper.vm.validateForm()).toBe(false)
+      await wrapper.vm.$nextTick()
+      expect(wrapper.vm.$el).toMatchSnapshot()
     })
-    wrapper.vm.validateForm()
-    await wrapper.vm.$nextTick()
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    it(`should show bech32 error when alphanumeric is wrong`, async () => {
+      expect(wrapper.vm.validateForm()).toBe(false)
+      await wrapper.vm.$nextTick()
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
   })
-  it(`should show bech32 error when alphanumeric is wrong`, async () => {
-    wrapper.vm.validateForm()
-    await wrapper.vm.$nextTick()
-    expect(wrapper.vm.$el).toMatchSnapshot()
-  })
-
-  // it(`should trigger confirmation modal if form is correct`, async () => {
-  //   wrapper.setData({
-  //     fields: {
-  //       denom: `STAKE`,
-  //       address,
-  //       amount: 2,
-  //       password: `1234567890`
-  //     }
-  //   })
-  //   wrapper.vm.validateForm()
-  //   await wrapper.vm.$nextTick()
-  //   expect(wrapper.vm.$v.$error).toBe(false)
-  //   expect(wrapper.vm.confirmationPending).toBe(true)
-  //   expect(wrapper.vm.$el).toMatchSnapshot()
-  // })
-
-  // it(`should close confirmation modal on cancel`, async () => {
-  //   wrapper.vm.confirmationPending = true
-  //   wrapper.vm.onCancel()
-  //   expect(wrapper.vm.confirmationPending).toBe(false)
-  // })
 
   it(`should show notification for successful send`, async () => {
     let $store = {
@@ -141,13 +115,9 @@ describe(`SendModal`, () => {
     }
 
     let self = {
-      max: 10,
-      fields: {
-        denom: `notmycoin`,
-        address,
-        amount: 2,
-        password: `1234567890`
-      },
+      denom: `notmycoin`,
+      address,
+      amount: 2,
       $store,
       sendTx: () => Promise.resolve(),
       $refs: {
@@ -156,7 +126,7 @@ describe(`SendModal`, () => {
         }
       }
     }
-    await SendModal.methods.submitForm.call(self)
+    await SendModal.methods.submitForm.call(self, `local`, password)
 
     expect($store.commit).toHaveBeenCalledWith(`notify`, expect.any(Object))
     expect(self.submissionError).toBeFalsy()
@@ -169,23 +139,5 @@ describe(`SendModal`, () => {
     expect(
       wrapper.vm.bech32Validate(`cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`)
     ).toBe(false)
-  })
-
-  it(`disables sending if not connected`, async () => {
-    store.commit(`setStakingParameters`, stakingParameters.parameters)
-    wrapper.setData({
-      fields: {
-        denom: stakingParameters.parameters.bond_denom,
-        address,
-        amount: 2,
-        password: `1234567890`
-      }
-    })
-    await wrapper.vm.$nextTick()
-    expect(wrapper.find(`#send-btn`).exists()).toBe(true)
-    store.commit(`setConnected`, false)
-    await wrapper.vm.$nextTick()
-    expect(wrapper.find(`#send-btn`).exists()).toBe(false)
-    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 })

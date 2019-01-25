@@ -8,10 +8,13 @@ describe(`ActionModal`, () => {
   beforeEach(() => {
     let test = instance.mount(ActionModal, {
       propsData: {
-        title: `Action Modal`
+        title: `Action Modal`,
+        submitFn: jest.fn(),
+        validate: jest.fn()
       }
     })
     wrapper = test.wrapper
+    wrapper.vm.open()
 
     jest.useFakeTimers()
   })
@@ -24,51 +27,131 @@ describe(`ActionModal`, () => {
     expect(wrapper.vm.submissionError).toBe(null)
   })
 
-  it(`should emit an event to close itself when the close method is called`, () => {
-    wrapper.vm.close()
+  it(`opens`, () => {
+    wrapper.vm.open()
 
-    expect(wrapper.emittedByOrder()).toEqual([
-      {
-        name: `close-action-modal`,
-        args: []
-      }
-    ])
+    expect(wrapper.isEmpty()).not.toBe(true)
   })
 
-  it(`should call the close method if the function resolves`, async () => {
+  it(`closes`, () => {
+    wrapper.vm.open()
+    wrapper.vm.close()
+
+    expect(wrapper.isEmpty()).toBe(true)
+  })
+
+  it(`should close if submitted`, async () => {
+    wrapper.vm.close = jest.fn()
     const submitFn = jest.fn()
     await wrapper.vm.submit(submitFn)
 
-    expect(wrapper.emittedByOrder()).toEqual([
-      {
-        name: `close-action-modal`,
-        args: []
-      }
-    ])
+    expect(wrapper.vm.close).toHaveBeenCalled()
   })
 
-  it(`should set the submissionError if the function is rejected`, async () => {
+  it(`should set the submissionError if the submission is rejected`, async () => {
     const submitFn = jest
       .fn()
       .mockRejectedValue(new Error(`some kind of error message`))
-    await wrapper.vm.submit(submitFn)
+    const self = { submitFn, submissionErrorPrefix: `PREFIX` }
+    await ActionModal.methods.submit.call(self)
 
-    expect(wrapper.vm.submissionError).toEqual(
-      `Submitting data failed: some kind of error message.`
-    )
+    expect(self.submissionError).toEqual(`PREFIX: some kind of error message.`)
   })
 
   it(`should clear the submissionError after a timeout if the function is rejected`, async () => {
     const submitFn = jest
       .fn()
       .mockRejectedValue(new Error(`some kind of error message`))
-    await wrapper.vm.submit(submitFn)
-
-    expect(wrapper.vm.submissionError).toEqual(
-      `Submitting data failed: some kind of error message.`
-    )
+    const self = { submitFn, submissionErrorPrefix: `PREFIX` }
+    await ActionModal.methods.submit.call(self)
 
     jest.runAllTimers()
-    expect(wrapper.vm.submissionError).toEqual(null)
+    expect(self.submissionError).toEqual(null)
+  })
+
+  it(`run validation`, async () => {
+    const validate = jest.fn(() => true)
+    const submit = jest.fn()
+    const self = {
+      validate,
+      submit,
+      $v: {
+        $touch: () => {}
+      }
+    }
+    await ActionModal.methods.validateForm.call(self)
+
+    expect(validate).toHaveBeenCalled()
+    expect(submit).toHaveBeenCalled()
+  })
+
+  it(`not submit on failed validation`, async () => {
+    const validate = jest.fn(() => false)
+    const submit = jest.fn()
+    const self = {
+      validate,
+      submit,
+      $v: {
+        $touch: () => {}
+      }
+    }
+    await ActionModal.methods.validateForm.call(self)
+
+    expect(validate).toHaveBeenCalled()
+    expect(submit).not.toHaveBeenCalled()
+  })
+
+  it(`shows sending indication`, done => {
+    const validate = jest.fn(() => true)
+    const submit = jest.fn(
+      () => new Promise(resolve => setTimeout(resolve, 1000))
+    )
+    const self = {
+      validate,
+      submit,
+      $v: {
+        $touch: () => {}
+      }
+    }
+    ActionModal.methods.validateForm.call(self).then(() => {
+      expect(self.sending).toBe(false)
+      done()
+    })
+    expect(self.sending).toBe(true)
+    jest.runAllTimers()
+  })
+
+  it(`shows sending indication`, done => {
+    let test = instance.mount(ActionModal, {
+      propsData: {
+        title: `Action Modal`,
+        submitFn: jest.fn(
+          () => new Promise(resolve => setTimeout(resolve, 1000))
+        ),
+        validate: jest.fn(() => true)
+      }
+    })
+    wrapper = test.wrapper
+    wrapper.vm.open()
+
+    wrapper.vm.validateForm().then(() => {
+      expect(wrapper.vm.sending).toBe(false)
+      expect(wrapper.vm.$el).toMatchSnapshot()
+      done()
+    })
+    expect(wrapper.vm.sending).toBe(true)
+    expect(wrapper.vm.$el).toMatchSnapshot()
+
+    jest.runAllTimers()
+  })
+
+  it(`shows a password input for local signing`, async () => {
+    expect(wrapper.vm.selectedSignMethod).toBe(`local`)
+    expect(wrapper.find(`#password`).exists()).toBe(true)
+  })
+
+  it(`fails validation if the password is missing`, async () => {
+    wrapper.vm.validateForm()
+    expect(wrapper.vm.submitFn).not.toHaveBeenCalled()
   })
 })

@@ -2,9 +2,11 @@
   <action-modal
     id="undelegation-modal"
     ref="actionModal"
+    :submit-fn="submitForm"
+    :validate="validateForm"
     title="Undelegate"
     class="undelegation-modal"
-    @close-action-modal="close"
+    submission-error-prefix="Undelegating failed"
   >
     <tm-form-group
       class="action-modal-form-group"
@@ -20,74 +22,38 @@
     >
       <tm-field id="to" v-model="to" readonly="readonly" />
     </tm-form-group>
-
     <tm-form-group
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix">{{ bondDenom }}</span>
+      <span class="input-suffix">{{ denom }}</span>
       <tm-field
-        v-focus
         id="amount"
-        v-model="$v.amount.$model"
+        v-model="amount"
         type="number"
         placeholder="Amount"
       />
       <tm-form-msg
-        v-if="$v.amount.$error && $v.amount.$invalid && !$v.amount.between"
+        v-if="balance === 0"
+        :msg="`doesn't have any ${denom}s`"
+        name="Wallet"
+        type="custom"
+      />
+      <tm-form-msg
+        v-else-if="$v.amount.$error && (!$v.amount.required || amount === 0)"
+        name="Amount"
+        type="required"
+      />
+      <tm-form-msg
+        v-else-if="$v.amount.$error && !$v.amount.between"
         :max="$v.amount.$params.between.max"
         :min="$v.amount.$params.between.min"
         name="Amount"
         type="between"
       />
-      <tm-form-msg
-        v-if="$v.amount.$error && $v.amount.$invalid && !$v.amount.required"
-        name="Amount"
-        type="required"
-      />
-      <tm-form-msg
-        v-else-if="$v.amount.$error && $v.amount.$invalid && !$v.amount.integer"
-        name="Amount"
-        type="integer"
-      />
     </tm-form-group>
-
-    <tm-form-group
-      class="action-modal-form-group"
-      field-id="password"
-      field-label="Password"
-    >
-      <tm-field
-        id="password"
-        v-model="password"
-        type="password"
-        placeholder="Password"
-      />
-    </tm-form-group>
-    <div slot="action-modal-footer">
-      <tm-btn
-        v-if="sending"
-        value="Sending..."
-        disabled="disabled"
-        color="primary"
-      />
-      <tm-btn
-        v-else-if="!connected"
-        value="Connecting..."
-        disabled="disabled"
-        color="primary"
-      />
-      <tm-btn
-        v-else
-        id="submit-undelegation"
-        :disabled="$v.$invalid"
-        value="Submit Undelegation"
-        color="primary"
-        @click.native="validateForm"
-      />
-    </div>
   </action-modal>
 </template>
 
@@ -139,12 +105,10 @@ export default {
   },
   data: () => ({
     amount: null,
-    password: ``,
-    selectedIndex: 0,
-    sending: false
+    selectedIndex: 0
   }),
   computed: {
-    ...mapGetters([`connected`, `bondDenom`])
+    ...mapGetters([`bondDenom`])
   },
   validations() {
     return {
@@ -152,42 +116,30 @@ export default {
         required,
         integer,
         between: between(1, this.maximum)
-      },
-      password: {
-        required
       }
     }
   },
   methods: {
-    close() {
-      this.$emit(`update:showUndelegationModal`, false)
+    open() {
+      this.$refs.actionModal.open()
     },
-    async validateForm() {
+    validateForm() {
       this.$v.$touch()
 
-      if (!this.$v.$invalid) {
-        await this.submitForm()
-      }
+      return !this.$v.$invalid
     },
-    async submitForm() {
-      this.sending = true
+    async submitForm(submitType, password) {
+      await this.$store.dispatch(`submitUnbondingDelegation`, {
+        amount: -this.amount,
+        validator: this.validator,
+        submitType,
+        password
+      })
 
-      await this.$refs.actionModal.submit(async () => {
-        await this.$store.dispatch(`submitUnbondingDelegation`, {
-          amount: -this.amount,
-          validator: this.validator,
-          password: this.password
-        })
-
-        this.$store.commit(`notify`, {
-          title: `Successful undelegation!`,
-          body: `You have successfully undelegated ${this.amount} ${
-            this.denom
-          }s.`
-        })
-      }, `Undelegation failed`)
-
-      this.sending = false
+      this.$store.commit(`notify`, {
+        title: `Successful undelegation!`,
+        body: `You have successfully undelegated ${this.amount} ${this.denom}s.`
+      })
     }
   }
 }
