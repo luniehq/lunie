@@ -1,10 +1,11 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import Vuelidate from "vuelidate"
-import PageSend from "renderer/components/wallet/PageSend"
+import SendModal from "renderer/components/wallet/SendModal"
 
-describe(`PageSend`, () => {
+describe(`SendModal`, () => {
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
+  localVue.directive(`focus`, () => {})
 
   let wrapper, $store
   const address = `tb1mjt6dcdru8lgdz64h2fu0lrzvd5zv8sfcvkv2l`
@@ -35,7 +36,7 @@ describe(`PageSend`, () => {
       getters
     }
 
-    wrapper = shallowMount(PageSend, {
+    wrapper = shallowMount(SendModal, {
       localVue,
       propsData: {
         denom: `STAKE`
@@ -44,34 +45,13 @@ describe(`PageSend`, () => {
         $store
       }
     })
+
+    wrapper.vm.$refs.actionModal = {
+      submit: cb => cb()
+    }
   })
 
   it(`has the expected html structure`, async () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
-  })
-
-  it(`should populate the select options with denoms`, () => {
-    expect(wrapper.vm.denominations).toEqual([
-      {
-        key: `STAKE`,
-        value: `STAKE`
-      },
-      {
-        key: `FERMION`,
-        value: `fermion`
-      }
-    ])
-  })
-
-  it(`should work without providing a default denom`, async () => {
-    wrapper = shallowMount(PageSend, {
-      localVue,
-      propsData: {},
-      mocks: {
-        $store
-      }
-    })
-    await wrapper.vm.$nextTick()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -88,6 +68,7 @@ describe(`PageSend`, () => {
     expect(wrapper.vm.$v.$error).toBe(true)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
+
   it(`should show bech32 error when address length is too short`, async () => {
     wrapper.setData({
       fields: {
@@ -117,7 +98,7 @@ describe(`PageSend`, () => {
   })
 
   it(`should show bech32 error when alphanumeric is wrong`, async () => {
-    wrapper.vm.onSubmit()
+    wrapper.vm.validateForm()
     await wrapper.vm.$nextTick()
     expect(wrapper.vm.$v.$error).toBe(true)
     expect(wrapper.vm.$el).toMatchSnapshot()

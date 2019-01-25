@@ -21,9 +21,7 @@ exports[`PageStaking has the expected html structure 1`] = `
         <div
           class="tm-page-header-body"
         >
-          <tm-balance-stub
-            tabs="[object Object],[object Object],[object Object]"
-          />
+          <tm-balance-stub />
            
           <div
             class="tool-bar"

@@ -33,7 +33,14 @@ describe(`App Start`, () => {
       dispatch: jest.fn()
     }
     const Store = () => store
-    const Vue = () => ({ $mount: jest.fn() })
+    const Vue = class {
+      constructor() {
+        this.$mount = jest.fn()
+      }
+      static config = {}
+      static use = () => {}
+      static directive = () => {}
+    }
     const Sentry = {
       init: jest.fn()
     }

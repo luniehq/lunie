@@ -119,3 +119,6 @@ async function main(
 
 // run
 main()
+
+// export for tests only
+module.exports.main = main

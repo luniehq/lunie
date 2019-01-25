@@ -4,6 +4,7 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
 <tm-page-stub
   data-title="Preferences"
   menubody=""
+  search=""
   subtitle=""
   title=""
 >
@@ -15,18 +16,12 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
     <tool-bar-stub />
   </template>
    
-  <tm-part-stub
-    title="Settings"
-  >
+  <tm-part-stub>
     <tm-list-item-stub
       title="Node IP"
       type="field"
     >
-      <tm-btn-stub
-        icon="exit_to_app"
-        type="button"
-        value="http://localhost:9070"
-      />
+      http://localhost:9070
     </tm-list-item-stub>
      
     <tm-list-item-stub
@@ -34,7 +29,6 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
       type="field"
     >
       <tm-btn-stub
-        icon="open_in_new"
         id="toggle-onboarding"
         value="Launch Tutorial"
       />
@@ -50,22 +44,6 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
         options="[object Object]"
         style="margin: 1em auto 0px auto;"
         type="toggle"
-      />
-    </tm-list-item-stub>
-  </tm-part-stub>
-   
-  <tm-part-stub
-    title="Account"
-  >
-    <tm-list-item-stub
-      title="Switch account"
-      type="field"
-    >
-      <tm-btn-stub
-        icon="exit_to_app"
-        id="signOut-btn"
-        type="button"
-        value="Sign Out"
       />
     </tm-list-item-stub>
   </tm-part-stub>

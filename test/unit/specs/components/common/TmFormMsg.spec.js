@@ -122,15 +122,4 @@ describe(`TmFormMsg`, () => {
       ).toContain(propsData[i].error)
     })
   }
-
-  it(`shows the provided content if no type is specified`, () => {
-    wrapper = mount(TmFormMsg, {
-      propsData: {},
-      slots: {
-        default: `HALLO WORLD`
-      }
-    })
-
-    expect(wrapper.html()).toContain(`HALLO WORLD`)
-  })
 })

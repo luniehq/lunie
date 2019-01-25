@@ -53,7 +53,7 @@ describe(`PageWallet`, () => {
   })
 
   it(`should list the denoms that are available`, () => {
-    expect(wrapper.findAll(`.tm-li-balance`).length).toBe(3)
+    expect(wrapper.findAll(`.tm-li-balance`).length).toBe(4)
   })
 
   it(`should filter the balances`, async () => {
@@ -70,10 +70,6 @@ describe(`PageWallet`, () => {
 
     expect(wrapper.vm.filteredBalances.map(x => x.denom)).toEqual([`STAKE`])
     expect(wrapper.vm.$el).toMatchSnapshot()
-  })
-
-  it(`should list the denoms that are available`, () => {
-    expect(wrapper.findAll(`.tm-li-balance`).length).toBe(4)
   })
 
   it(`should show the n/a message if there are no denoms`, async () => {

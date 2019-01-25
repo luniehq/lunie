@@ -22,25 +22,8 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
           class="tm-page-header-body"
         >
           <tm-balance-stub
-            tabs="[object Object],[object Object]"
-          >
-            <button
-              class="tm-btn"
-              disabled="disabled"
-              id="propose-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--primary"
-              >
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Connecting...
-                </span>
-              </span>
-            </button>
-          </tm-balance-stub>
+            tabs=""
+          />
            
           <div
             class="tool-bar"
@@ -192,24 +175,8 @@ exports[`PageGovernance has the expected html structure 1`] = `
           class="tm-page-header-body"
         >
           <tm-balance-stub
-            tabs="[object Object],[object Object]"
-          >
-            <button
-              class="tm-btn"
-              id="propose-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--primary"
-              >
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Create Proposal
-                </span>
-              </span>
-            </button>
-          </tm-balance-stub>
+            tabs=""
+          />
            
           <div
             class="tool-bar"
