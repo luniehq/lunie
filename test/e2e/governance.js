@@ -35,11 +35,10 @@ test(`Governance`, async function(t) {
     let balance = parseInt(
       (await app.client.$(`.total-atoms__value`).getText()).split(`.`)[0]
     )
-    await app.client.$(`#propose-btn`).click()
-    await t.ok(
-      await app.client.$(`#modal-propose`).isVisible(),
-      `opens modal proposal`
-    )
+    await app.client
+      .$(`#propose-btn`)
+      .click()
+      .waitForVisible(`#modal-propose`)
     await app.client
       .setValue(`#title`, `E2E test proposal title`)
       .setValue(`#description`, `E2E test proposal title`)
