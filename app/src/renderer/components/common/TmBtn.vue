@@ -115,10 +115,10 @@ export default {
   height: 2em;
   line-height: 1;
   color: var(--bright, #333) !important;
-  padding: 0 0.75em;
+  padding: 0.5rem 2rem;
   margin: 0;
   background: var(--app-bg, #fff);
-  border: 2px solid var(--bc, #ddd);
+  border: 1px solid var(--bc, #ddd);
   border-radius: 0.25rem;
   cursor: pointer;
   user-select: none;

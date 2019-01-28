@@ -13,10 +13,10 @@
 .data-table tr td:first-child::before {
   content: counter(rowNumber);
   position: absolute;
-  font-size: sm;
+  font-size: var(--sm);
   text-align: right;
   color: var(--dim);
-  left: -3rem;
+  left: -1.5rem;
 }
 
 .data-table th {
@@ -103,7 +103,6 @@
   height: 3rem;
   width: 3rem;
   margin: 0.5rem;
-  border-radius: 50%;
   display: block;
   background: var(--app-nav);
 }

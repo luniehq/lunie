@@ -82,10 +82,6 @@ input.tm-field {
 .tm-data-msg {
   border: 1px solid var(--bc-dim);
 }
-.tm-btn__container {
-  border-width: 1px;
-  padding: 0 2rem;
-}
 .tm-page-header-body {
   position: relative;
 }
