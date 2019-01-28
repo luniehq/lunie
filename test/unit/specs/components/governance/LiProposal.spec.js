@@ -24,7 +24,7 @@ describe(`LiProposal`, () => {
         store.commit(`setProposal`, proposal)
         store.commit(`setProposalTally`, {
           proposal_id: `2`,
-          tally_result: tallies[`2`]
+          final_tally_result: tallies[`2`]
         })
       },
       propsData: { proposal },

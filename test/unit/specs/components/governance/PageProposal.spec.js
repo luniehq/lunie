@@ -44,7 +44,7 @@ describe(`PageProposal`, () => {
         store.commit(`setProposal`, proposal)
         store.commit(`setProposalTally`, {
           proposal_id: `2`,
-          tally_result: tallies[`2`]
+          final_tally_result: tallies[`2`]
         })
       },
       propsData: { proposalId: proposal.proposal_id },
@@ -155,7 +155,7 @@ describe(`PageProposal`, () => {
           store.commit(`setProposal`, proposal)
           store.commit(`setProposalTally`, {
             proposal_id: `2`,
-            tally_result: tallies[`2`]
+            final_tally_result: tallies[`2`]
           })
         },
         propsData: {
@@ -213,7 +213,7 @@ describe(`PageProposal`, () => {
           store.commit(`setProposal`, proposal)
           store.commit(`setProposalTally`, {
             proposal_id: `5`,
-            tally_result: tallies[`5`]
+            final_tally_result: tallies[`5`]
           })
         },
         propsData: {

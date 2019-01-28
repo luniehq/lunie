@@ -23,7 +23,7 @@ const RpcClientMock = {
     cb(null, {
       block_metas: state.blockMetas.slice(minHeight)
     }),
-  status: cb =>
+  health: cb =>
     cb(null, {
       sync_info: {
         latest_block_height: 42
@@ -52,10 +52,6 @@ module.exports = function setRPCWrapperMock(container) {
       state.connected = true
       rpcWrapper.rpcInfo.connected = true
       container.rpc = RpcClientMock
-    },
-    rpcReconnect: async () => {
-      rpcWrapper.rpcConnect()
-      return `127.0.0.1`
     }
   }
 

@@ -247,8 +247,7 @@ export default {
       `committedDelegations`,
       `config`,
       `keybase`,
-      `oldBondedAtoms`,
-      `totalAtoms`,
+      `liquidAtoms`,
       `wallet`,
       `connected`
     ]),
@@ -309,9 +308,6 @@ export default {
 
       // status: active
       return `green`
-    },
-    availableAtoms() {
-      return this.totalAtoms - this.oldBondedAtoms
     }
   },
   watch: {
@@ -329,7 +325,7 @@ export default {
     },
     onDelegation() {
       this.action = `delegate`
-      if (this.availableAtoms > 0) {
+      if (this.liquidAtoms > 0) {
         this.$refs.delegationModal.open()
       } else {
         this.showCannotModal = true
@@ -348,8 +344,8 @@ export default {
       let myWallet = [
         {
           address: this.wallet.address,
-          maximum: Math.floor(this.totalAtoms - this.oldBondedAtoms),
-          key: `My Wallet - ${this.wallet.address}`,
+          maximum: Math.floor(this.liquidAtoms),
+          key: `My Wallet - ${shortAddress(this.wallet.address, 20)}`,
           value: 0
         }
       ]

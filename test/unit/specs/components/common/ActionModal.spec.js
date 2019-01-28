@@ -48,6 +48,12 @@ describe(`ActionModal`, () => {
     expect(wrapper.vm.close).toHaveBeenCalled()
   })
 
+  it(`should erase password on close`, async () => {
+    wrapper.vm.password = `abcd`
+    wrapper.vm.close()
+    expect(wrapper.vm.password).toBeNull()
+  })
+
   it(`should set the submissionError if the submission is rejected`, async () => {
     const submitFn = jest
       .fn()

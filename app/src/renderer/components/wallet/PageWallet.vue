@@ -39,9 +39,6 @@ import TmDataMsg from "common/TmDataMsg"
  * @vue-prop {Number} num Module that implements all the numerical methods
  * @vue-computed {function} filters mapGetter
  * @vue-computed {function} wallet mapGetter
- * @vue-computed {function} committedDelegations mapGetter
- * @vue-computed {function} oldBondedAtoms mapGetter
- * @vue-computed {function} config mapGetter
  * @vue-computed {function} connected mapGetter
  *
  * @vue-computed {function} somethingToSearch returns a boolean stating true if we have data and we are not in loading phase
@@ -49,9 +46,8 @@ import TmDataMsg from "common/TmDataMsg"
  * @vue-computed {function} filteredBalances filter the balance per coin name, returns an ordered list
  *
  * @vue-methods {function} updateDelegates mapAction
- * @vue-methods {function} updateDelegates mapAction
  * @vue-methods {function} setSearch launches the setSearchVisible action if somethingToSearch returns true
- * @vue-methods {function} updateBalances dispatch a queryWalletBalances action to update the informations
+ * @vue-methods {function} queryWalletBalances trigger an update of the balances
  */
 export default {
   name: `page-wallet`,
@@ -63,21 +59,17 @@ export default {
   },
   data: () => ({ num, showSendModal: false }),
   computed: {
-    ...mapGetters([
-      `filters`,
-      `wallet`,
-      `committedDelegations`,
-      `oldBondedAtoms`,
-      `config`,
-      `connected`
-    ]),
+    ...mapGetters([`filters`, `wallet`, `connected`]),
+    somethingToSearch() {
+      return !this.wallet.loading && !!this.wallet.balances.length
+    },
     allDenomBalances() {
       // for denoms not in balances, add empty balance
-      let balances = this.wallet.balances.slice(0)
-      let hasDenom = denom => {
+      const balances = this.wallet.balances.slice(0)
+      const hasDenom = denom => {
         return !!balances.filter(balance => balance.denom === denom)[0]
       }
-      for (let denom of this.wallet.denoms) {
+      for (const denom of this.wallet.denoms) {
         if (hasDenom(denom)) continue
         balances.push({ denom, amount: 0 })
       }
@@ -90,7 +82,7 @@ export default {
       let query = this.filters.balances.search.query
       let list = orderBy(
         this.allDenomBalances,
-        [`amount`, `denom`],
+        [`amount`, balance => balance.denom.toLowerCase()],
         [`desc`, `asc`]
       )
       if (this.filters.balances.search.visible) {

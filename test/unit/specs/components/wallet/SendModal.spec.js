@@ -1,17 +1,18 @@
-import setup from "../../../helpers/vuex-setup"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
+import Vuelidate from "vuelidate"
 import SendModal from "renderer/components/wallet/SendModal"
-import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`SendModal`, () => {
-  let wrapper, store
-  const name = `default`
-  const password = `1234567890`
-  const address = `tb1mjt6dcdru8lgdz64h2fu0lrzvd5zv8sfcvkv2l`
-  let { stakingParameters } = lcdClientMock.state
+  const localVue = createLocalVue()
+  localVue.use(Vuelidate)
+  localVue.directive(`focus`, () => {})
 
-  const coins = [
+  let wrapper, $store
+  const address = `tb1mjt6dcdru8lgdz64h2fu0lrzvd5zv8sfcvkv2l`
+
+  const balances = [
     {
-      denom: stakingParameters.parameters.bond_denom,
+      denom: `STAKE`,
       amount: 1000
     },
     {
@@ -19,36 +20,37 @@ describe(`SendModal`, () => {
       amount: 2300
     }
   ]
-
-  let { mount } = setup()
+  const getters = {
+    wallet: {
+      loading: false,
+      denoms: [`fermion`, `gregcoin`, `mycoin`, `STAKE`],
+      balances
+    },
+    connected: true
+  }
 
   beforeEach(async () => {
-    let instance = mount(SendModal, {
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters
+    }
+
+    wrapper = shallowMount(SendModal, {
+      localVue,
       propsData: {
-        denom: `fermion`
+        denom: `STAKE`
+      },
+      mocks: {
+        $store
       },
       sync: false
     })
-    wrapper = instance.wrapper
-    store = instance.store
-    await store.dispatch(`signIn`, {
-      account: name,
-      password
-    })
-    store.commit(`setAccounts`, [
-      {
-        address,
-        name,
-        password
-      }
-    ])
-    store.commit(`setConnected`, true)
-    store.commit(`setWalletBalances`, coins)
-    store.commit(`setAtoms`, 1000)
-    store.commit(`setStakingParameters`, stakingParameters.parameters)
-    store.commit(`setNonce`, `1`)
 
-    wrapper.vm.$refs.actionModal.open()
+    wrapper.vm.$refs.actionModal = {
+      submit: cb => cb(),
+      open: jest.fn()
+    }
   })
 
   it(`has the expected html structure`, async () => {
@@ -57,48 +59,37 @@ describe(`SendModal`, () => {
 
   describe(`validation`, () => {
     it(`should show address required error`, async () => {
-      let { wrapper, store } = mount(SendModal, {
-        propsData: {
-          denom: `fermion`
-        },
-        sync: false
-      })
-      wrapper.vm.$refs.actionModal.open()
-      store.commit(`setConnected`, true)
-      store.commit(`setStakingParameters`, stakingParameters.parameters)
       wrapper.setData({
-        denom: stakingParameters.parameters.bond_denom,
+        denom: `STAKE`,
         address: ``,
         amount: 2
       })
-      expect(wrapper.vm.validateForm()).toBe(false)
+      wrapper.vm.validateForm()
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.$v.$error).toBe(true)
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
     it(`should show bech32 error when address length is too short`, async () => {
-      store.commit(`setConnected`, true)
-      store.commit(`setStakingParameters`, stakingParameters.parameters)
       wrapper.setData({
-        denom: stakingParameters.parameters.bond_denom,
+        denom: `STAKE`,
         address: `asdf`,
         amount: 2
       })
-      expect(wrapper.vm.validateForm()).toBe(false)
+      wrapper.vm.validateForm()
       await wrapper.vm.$nextTick()
+      expect(wrapper.vm.$v.$error).toBe(true)
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
 
     it(`should show bech32 error when address length is too long`, async () => {
-      store.commit(`setConnected`, true)
-      store.commit(`setStakingParameters`, stakingParameters.parameters)
       wrapper.setData({
-        denom: stakingParameters.parameters.bond_denom,
+        denom: `STAKE`,
         address: `asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf`,
         amount: 2
       })
-      expect(wrapper.vm.validateForm()).toBe(false)
+      wrapper.vm.validateForm()
       await wrapper.vm.$nextTick()
+      expect(wrapper.vm.$v.$error).toBe(true)
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
     it(`should show bech32 error when alphanumeric is wrong`, async () => {
@@ -109,27 +100,14 @@ describe(`SendModal`, () => {
   })
 
   it(`should show notification for successful send`, async () => {
-    let $store = {
-      commit: jest.fn(),
-      dispatch: jest.fn()
-    }
-
-    let self = {
-      denom: `notmycoin`,
+    wrapper.setData({
+      denom: `STAKE`,
       address,
-      amount: 2,
-      $store,
-      sendTx: () => Promise.resolve(),
-      $refs: {
-        actionModal: {
-          submit: cb => cb()
-        }
-      }
-    }
-    await SendModal.methods.submitForm.call(self, `local`, password)
+      amount: 2
+    })
+    await wrapper.vm.submitForm(`local`, `1234567890`)
 
     expect($store.commit).toHaveBeenCalledWith(`notify`, expect.any(Object))
-    expect(self.submissionError).toBeFalsy()
   })
 
   it(`validates bech32 addresses`, () => {

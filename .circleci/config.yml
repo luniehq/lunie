@@ -32,7 +32,7 @@ jobs:
 
   changelogUpdated:
     docker:
-      - image: circleci/node:10.13.0-browsers
+      - image: circleci/node:10.15.0-browsers
 
     steps:
       - checkout
@@ -41,7 +41,7 @@ jobs:
 
   testUnit:
     docker:
-      - image: circleci/node:10.13.0-browsers
+      - image: circleci/node:10.15.0-browsers
 
     steps:
       - checkout
@@ -51,8 +51,8 @@ jobs:
             - v3-dependencies-root-{{ checksum "package.json" }}
             - v3-dependencies-root-
 
+      - run: sudo npm -g uninstall yarn ; sudo npm -g install yarn@1.13.0
       - run: yarn install
-
       - save_cache:
           paths:
             - yarn.lock
@@ -70,9 +70,33 @@ jobs:
           command: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
           when: on_success
 
+  security:
+    docker:
+      - image: circleci/node:10.15.0-browsers
+
+    steps:
+      - checkout
+
+      - run: sudo npm -g uninstall yarn ; sudo npm -g install yarn@1.13.0
+
+      - run:
+          name: Audit
+          command: |
+            set +e
+
+            SUMMARY="$(yarn audit | grep Severity)"
+            VULNERABILITIES=".*(High|Critical).*"
+
+            if [[ $SUMMARY =~ $VULNERABILITIES ]]; then
+              echo "Unsafe dependencies found: $SUMMARY" >&2
+              exit 1
+            fi
+            echo "Your dependencies are secure enough: $SUMMARY"
+            exit 0
+
   testE2e:
     docker:
-      - image: circleci/node:10.13.0-browsers
+      - image: circleci/node:10.15.0-browsers
 
     environment:
       - BINARY_PATH: "/home/circleci/project/builds/Gaia/linux_amd64/gaiacli"
@@ -89,8 +113,8 @@ jobs:
             - v2-dependencies-root-{{ checksum "package.json" }}
             - v2-dependencies-root-
 
+      - run: sudo npm -g uninstall yarn ; sudo npm -g install yarn@1.13.0
       - run: yarn install
-
       - save_cache:
           paths:
             - yarn.lock
@@ -109,7 +133,7 @@ jobs:
   # Create release.
   release:
     docker:
-      - image: circleci/node:10.13.0
+      - image: circleci/node:10.15.0
 
     steps:
       - checkout
@@ -119,13 +143,14 @@ jobs:
             - v2-dependencies-root-{{ checksum "package.json" }}
             - v2-dependencies-root-
 
+      - run: sudo npm -g uninstall yarn ; sudo npm -g install yarn@1.13.0
       - run: yarn install
       - run: node tasks/createReleasePR.js
 
   # Publish the release to GitHub.
   publish:
     docker:
-      - image: circleci/node:10.13.0
+      - image: circleci/node:10.15.0
 
     steps:
       - checkout
@@ -144,6 +169,8 @@ jobs:
               git remote add bot https://${GIT_BOT_TOKEN}@github.com/cosmos/voyager.git
               git tag -d release-candidate
               git push --delete bot release-candidate
+
+              npm -g uninstall yarn ; npm -g install yarn@1.13.0
 
               sudo tasks/build/installWine.sh
               yarn install
@@ -182,9 +209,14 @@ workflows:
             branches:
               ignore: release
 
-      - testE2e:
-          requires:
-            - buildGaia
+      # - testE2e:
+      #     requires:
+      #       - buildGaia
+      #     filters:
+      #       branches:
+      #         ignore: release
+
+      - security:
           filters:
             branches:
               ignore: release
@@ -194,7 +226,7 @@ workflows:
             - changelogUpdated
             - buildGaia
             - testUnit
-            - testE2e
+            # - testE2e
           filters:
             branches:
               only: develop

@@ -21,7 +21,10 @@ describe(`TableProposals`, () => {
       doBefore: ({ store }) => {
         store.commit(`setConnected`, true)
         store.state.user.address = `address1234`
-        store.commit(`setAtoms`, 1337)
+        store.commit(`updateWalletBalance`, {
+          denom: `atom`,
+          amount: 1337
+        })
         for (const [proposal_id, tally_result] of Object.entries(tallies)) {
           store.commit(`setProposalTally`, { proposal_id, tally_result })
         }
@@ -83,7 +86,10 @@ describe(`TableProposals`, () => {
       doBefore: ({ store }) => {
         store.commit(`setConnected`, true)
         store.state.user.address = `address1234`
-        store.commit(`setAtoms`, 1337)
+        store.commit(`updateWalletBalance`, {
+          denom: `atom`,
+          amount: 1337
+        })
       },
       propsData: { proposals: {} },
       stubs: { "data-empty-search": true }

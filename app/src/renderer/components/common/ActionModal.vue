@@ -155,6 +155,7 @@ export default {
       this.show = true
     },
     close() {
+      this.password = null
       this.show = false
     },
     async validateForm() {

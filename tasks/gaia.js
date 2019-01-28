@@ -52,26 +52,9 @@ async function initGenesis(
   address, // this address will have funds after initialization
   nodeHomeDir
 ) {
-  const genesisLocation = path.join(nodeHomeDir, `config/genesis.json`)
-  let genesis = require(genesisLocation)
-  console.log(
-    `Adding tokens to genesis at ${genesisLocation} for address ${address}`
+  await makeExec(
+    `${nodeBinary} add-genesis-account ${address} 150stake,1000photino  --home ${nodeHomeDir}`
   )
-  genesis.app_state.accounts = genesis.app_state.accounts || []
-  genesis.app_state.accounts.push({
-    address,
-    coins: [
-      {
-        denom: `STAKE`,
-        amount: `150`
-      },
-      {
-        denom: `localcoin`,
-        amount: `1000`
-      }
-    ]
-  })
-  fs.writeJSONSync(genesisLocation, genesis)
 
   await makeExecWithInputs(
     `${nodeBinary} gentx --name ${keyName} --home ${nodeHomeDir} --home-client ${clientHomeDir}`,
@@ -81,7 +64,8 @@ async function initGenesis(
 
   await makeExec(`${nodeBinary} collect-gentxs --home ${nodeHomeDir}`)
 
-  genesis = fs.readJSONSync(genesisLocation)
+  const genesisLocation = path.join(nodeHomeDir, `config/genesis.json`)
+  const genesis = require(genesisLocation)
   return genesis
 }
 
@@ -100,21 +84,22 @@ async function makeValidator(
   moniker,
   chainId,
   operatorSignInfo = {
-    keyName: `local`,
+    keyName: `${moniker}-operator`,
     password: `1234567890`,
     clientHomeDir: cliHome
   }
 ) {
   let valPubKey = await getValPubKey(nodeHome)
-  let { address } = await createKey(operatorSignInfo)
-  await sendTokens(mainSignInfo, `10STAKE`, address, chainId)
+  let account = await createKey(operatorSignInfo)
+
+  const address = account.address
+  await sendTokens(mainSignInfo, `10stake`, address, chainId)
+  console.log(`Waiting for funds to delegate`)
   while (true) {
-    console.log(`Waiting for funds to delegate`)
     try {
       await sleep(1000)
       await getBalance(cliHome, address)
     } catch (error) {
-      console.error(error) // kept in here to see if something unexpected fails
       continue
     }
     break
@@ -150,10 +135,10 @@ async function declareValidator(
   chainId
 ) {
   let command =
-    `${cliBinary} tx stake create-validator` +
+    `${cliBinary} tx staking create-validator` +
     ` --home ${clientHomeDir}` +
     ` --from ${keyName}` +
-    ` --amount=10STAKE` +
+    ` --amount=10stake` +
     ` --pubkey=${valPubKey}` +
     ` --address-delegator=${operatorAddress}` +
     ` --moniker=${moniker}` +
@@ -191,7 +176,7 @@ function startLocalNode(
   nodeOneId = ``
 ) {
   return new Promise((resolve, reject) => {
-    let command = `${nodeBinary} start --home ${nodeHome}` // TODO add --minimum_fees 1STAKE here
+    let command = `${nodeBinary} start --home ${nodeHome}` // TODO add --minimum_fees 1stake here
     if (number > 1) {
       const port = getStartPort(number)
       // setup different ports
@@ -200,7 +185,9 @@ function startLocalNode(
       // set the first node as a persistent peer
       command += ` --p2p.persistent_peers="${nodeOneId}@localhost:${defaultStartPort}"`
     }
-    console.log(command)
+    if (process.env.VERBOSE) {
+      console.log(`$ ` + command)
+    }
     const localnodeProcess = spawn(command, { shell: true })
 
     // log output for debugging
@@ -238,7 +225,10 @@ function startLocalNode(
 
 // execute command and return stdout
 function makeExec(command) {
-  console.log(`$ ` + command)
+  if (process.env.VERBOSE) {
+    console.log(`$ ` + command)
+  }
+
   return util
     .promisify(exec)(command)
     .then(({ stdout }) => stdout.trim())
@@ -246,7 +236,9 @@ function makeExec(command) {
 
 // execute command, write all inputs followed by enter to stdin and return stdout
 function makeExecWithInputs(command, inputs = [], json = true) {
-  console.log(`$ ` + command)
+  if (process.env.VERBOSE) {
+    console.log(`$ ` + command)
+  }
 
   let binary = command.split(` `)[0]
   let args = command.split(` `).slice(1)
@@ -258,8 +250,10 @@ function makeExecWithInputs(command, inputs = [], json = true) {
     child.stdout.on(`error`, console.error)
     child.stdin.on(`error`, console.error)
 
-    child.stderr.pipe(process.stderr)
-    child.stdout.pipe(process.stdout)
+    if (process.env.VERBOSE) {
+      child.stderr.pipe(process.stderr)
+      child.stdout.pipe(process.stdout)
+    }
     inputs.forEach(input => {
       child.stdin.write(`${input}\n`)
     })

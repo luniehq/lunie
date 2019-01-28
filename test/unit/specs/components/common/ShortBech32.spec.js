@@ -7,7 +7,11 @@ describe(`ShortBech32`, () => {
 
   beforeEach(() => {
     let test = instance.mount(ShortBech32, {
-      propsData: { address: `cosmosftw123456789` }
+      propsData: { address: `cosmosftw123456789` },
+      data: () => ({
+        showSuccess: false,
+        copyToClipboard: jest.fn()
+      })
     })
     wrapper = test.wrapper
   })

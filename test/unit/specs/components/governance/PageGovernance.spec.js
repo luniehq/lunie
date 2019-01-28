@@ -6,6 +6,7 @@ import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 const { governanceParameters, stakingParameters } = lcdClientMock.state
 
+// TODO: refactor according to new unit test standard
 describe(`PageGovernance`, () => {
   let wrapper, store
   let { mount, localVue } = setup()
@@ -20,13 +21,15 @@ describe(`PageGovernance`, () => {
         store.state.governanceParameters.loaded = true
         store.commit(`setStakingParameters`, stakingParameters.parameters)
         store.commit(`setConnected`, true)
+      },
+      stubs: {
+        "tm-balance": true
       }
     })
     wrapper = instance.wrapper
     store = instance.store
     store.state.user.address = lcdClientMock.addresses[0]
     store.dispatch(`updateDelegates`)
-    store.commit(`setAtoms`, 1337)
 
     wrapper.vm.$refs.modalPropose = { open: () => {} }
   })

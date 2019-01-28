@@ -61,6 +61,7 @@ export default {
       `committedDelegations`,
       `config`,
       `user`,
+      `liquidAtoms`,
       `connected`,
       `bondDenom`,
       `keybase`
@@ -110,7 +111,7 @@ export default {
       }
     },
     userCanDelegate() {
-      return this.user.atoms > 0 && this.delegation.loaded
+      return this.liquidAtoms > 0 && this.delegation.loaded
     },
     properties() {
       return [

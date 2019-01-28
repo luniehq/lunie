@@ -1,6 +1,6 @@
 <template>
   <div class="tm-session">
-    <tm-form-struct :submit="() => onSubmit()" class="tm-session-container">
+    <tm-form-struct :submit="onSubmit.bind(this)" class="tm-session-container">
       <div class="tm-session-header">
         <a @click="setState('welcome')"
           ><i class="material-icons">arrow_back</i></a
@@ -148,21 +148,7 @@
         </tm-form-group>
       </div>
       <div class="tm-session-footer">
-        <tm-btn
-          v-if="connected"
-          :disabled="creating"
-          icon="arrow_forward"
-          icon-pos="right"
-          value="Next"
-          size="lg"
-        />
-        <tm-btn
-          v-else
-          icon-pos="right"
-          value="Connecting..."
-          size="lg"
-          disabled="true"
-        />
+        <tm-btn icon="arrow_forward" icon-pos="right" value="Next" size="lg" />
       </div>
     </tm-form-struct>
   </div>
@@ -177,7 +163,6 @@ import TmFormStruct from "common/TmFormStruct"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import FieldSeed from "common/TmFieldSeed"
-import { mapGetters } from "vuex"
 export default {
   name: `tm-session-sign-up`,
   components: {
@@ -198,9 +183,6 @@ export default {
       signUpWarning: false
     }
   }),
-  computed: {
-    ...mapGetters([`connected`])
-  },
   mounted() {
     this.$el.querySelector(`#sign-up-name`).focus()
     this.$store.dispatch(`createSeed`).then(seedPhrase => {
@@ -210,38 +192,36 @@ export default {
     new PerfectScrollbar(this.$el.querySelector(`.tm-session-main`))
   },
   methods: {
-    help({ $store } = this) {
-      $store.commit(`setModalHelp`, true)
+    help() {
+      this.$store.commit(`setModalHelp`, true)
     },
-    setState(value, { $store } = this) {
-      $store.commit(`setModalSessionState`, value)
+    setState(value) {
+      this.$store.commit(`setModalSessionState`, value)
     },
-    async onSubmit({ $store, $v, fields } = this) {
-      $v.$touch()
-      if ($v.$error) return
+    async onSubmit() {
+      this.$v.$touch()
+      if (this.$v.$error) return
       try {
-        let key = await $store.dispatch(`createKey`, {
-          seedPhrase: fields.signUpSeed,
-          password: fields.signUpPassword,
-          name: fields.signUpName
+        await this.$store.dispatch(`createKey`, {
+          seedPhrase: this.fields.signUpSeed,
+          password: this.fields.signUpPassword,
+          name: this.fields.signUpName
         })
-        if (key) {
-          $store.dispatch(`setErrorCollection`, {
-            account: fields.signUpName,
-            optin: fields.errorCollection
-          })
-          $store.commit(`setModalSession`, false)
-          $store.commit(`notify`, {
-            title: `Signed Up`,
-            body: `Your account has been created.`
-          })
-          $store.dispatch(`signIn`, {
-            password: fields.signUpPassword,
-            account: fields.signUpName
-          })
-        }
+        this.$store.dispatch(`setErrorCollection`, {
+          account: this.fields.signUpName,
+          optin: this.fields.errorCollection
+        })
+        this.$store.commit(`setModalSession`, false)
+        this.$store.commit(`notify`, {
+          title: `Signed Up`,
+          body: `Your account has been created.`
+        })
+        this.$store.dispatch(`signIn`, {
+          password: this.fields.signUpPassword,
+          account: this.fields.signUpName
+        })
       } catch (error) {
-        $store.commit(`notifyError`, {
+        this.$store.commit(`notifyError`, {
           title: `Couldn't create account`,
           body: error.message
         })
