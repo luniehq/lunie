@@ -20,9 +20,7 @@ exports[`PageWallet has the expected html structure 1`] = `
     </div>
      
     <div>
-      
-      This account doesn't hold any coins yet.
-      
+      This account doesn't have anything in it yet.
     </div>
   </tm-data-msg-stub>
    
@@ -43,7 +41,7 @@ exports[`PageWallet has the expected html structure 1`] = `
     coin="[object Object]"
   />
    
-  <!---->
+  <send-modal-stub />
 </tm-page-stub>
 `;
 
@@ -67,9 +65,7 @@ exports[`PageWallet should filter the balances 1`] = `
     </div>
      
     <div>
-      
-      This account doesn't hold any coins yet.
-      
+      This account doesn't have anything in it yet.
     </div>
   </tm-data-msg-stub>
    
@@ -78,7 +74,7 @@ exports[`PageWallet should filter the balances 1`] = `
     coin="[object Object]"
   />
    
-  <!---->
+  <send-modal-stub />
 </tm-page-stub>
 `;
 
@@ -102,9 +98,7 @@ exports[`PageWallet should show the sending modal 1`] = `
     </div>
      
     <div>
-      
-      This account doesn't hold any coins yet.
-      
+      This account doesn't have anything in it yet.
     </div>
   </tm-data-msg-stub>
    
@@ -113,9 +107,6 @@ exports[`PageWallet should show the sending modal 1`] = `
     coin="[object Object]"
   />
    
-  <send-modal-stub
-    denom="STAKE"
-    show-send-modal="true"
-  />
+  <send-modal-stub />
 </tm-page-stub>
 `;

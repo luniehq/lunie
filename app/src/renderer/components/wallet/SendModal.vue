@@ -46,7 +46,6 @@
       />
       <tm-form-msg
         v-else-if="$v.address.$error && !$v.address.bech32Validate"
-        :body="bech32error"
         name="Address"
         type="bech32"
       />
@@ -120,7 +119,6 @@ export default {
     ActionModal
   },
   data: () => ({
-    bech32error: null,
     address: ``,
     amount: null,
     denom: ``
@@ -176,11 +174,9 @@ export default {
     bech32Validate(param) {
       try {
         b32.decode(param)
-        this.bech32error = null
+        return true
       } catch (error) {
-        this.bech32error = error.message
-      } finally {
-        return !this.bech32error
+        return false
       }
     }
   },

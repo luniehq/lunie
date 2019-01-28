@@ -43,7 +43,8 @@ describe(`SendModal`, () => {
       },
       mocks: {
         $store
-      }
+      },
+      sync: false
     })
 
     wrapper.vm.$refs.actionModal = {

@@ -2,9 +2,15 @@
 
 exports[`SendModal has the expected html structure 1`] = `
 <action-modal-stub
+  denom="STAKE"
+  id="send-modal"
+  submissionerrorprefix="Sending tokens failed"
+  submitfn="function () { [native code] }"
   title="Send"
+  validate="function () { [native code] }"
 >
   <tm-form-group-stub
+    class="action-modal-form-group"
     fieldid="send-denomination"
     fieldlabel="Denomination"
   >
@@ -12,13 +18,14 @@ exports[`SendModal has the expected html structure 1`] = `
       id="send-denomination"
       readonly=""
       type="text"
-      value="STAKE"
+      value=""
     />
      
     <!---->
   </tm-form-group-stub>
    
   <tm-form-group-stub
+    class="action-modal-form-group"
     fieldid="send-address"
     fieldlabel="Send To"
   >
@@ -33,50 +40,37 @@ exports[`SendModal has the expected html structure 1`] = `
   </tm-form-group-stub>
    
   <tm-form-group-stub
-    fieldid="send-amount"
+    class="action-modal-form-group"
+    fieldid="amount"
     fieldlabel="Amount"
   >
     <tm-field-stub
-      id="send-amount"
+      class="tm-field"
+      id="amount"
       placeholder="Amount"
       type="number"
     />
      
-    <!---->
-     
-    <!---->
-  </tm-form-group-stub>
-   
-  <tm-form-group-stub
-    fieldid="password"
-    fieldlabel="Password"
-  >
-    <tm-field-stub
-      id="password"
-      placeholder="Password"
-      type="password"
-      value=""
+    <tm-form-msg-stub
+      msg="doesn't have any s"
+      name="Wallet"
+      type="custom"
     />
-     
-    <!---->
   </tm-form-group-stub>
-   
-  <div>
-    <tm-btn-stub
-      color="primary"
-      disabled="true"
-      id="send-btn"
-      value="Send Tokens"
-    />
-  </div>
 </action-modal-stub>
 `;
 
-exports[`SendModal should show address required error 1`] = `
+exports[`SendModal validation should show address required error 1`] = `
 <action-modal-stub
+  denom="STAKE"
+  id="send-modal"
+  submissionerrorprefix="Sending tokens failed"
+  submitfn="function () { [native code] }"
   title="Send"
+  validate="function () { [native code] }"
 >
   <tm-form-group-stub
+    class="action-modal-form-group"
     fieldid="send-denomination"
     fieldlabel="Denomination"
   >
@@ -91,6 +85,7 @@ exports[`SendModal should show address required error 1`] = `
   </tm-form-group-stub>
    
   <tm-form-group-stub
+    class="action-modal-form-group"
     error="true"
     fieldid="send-address"
     fieldlabel="Send To"
@@ -110,52 +105,34 @@ exports[`SendModal should show address required error 1`] = `
   </tm-form-group-stub>
    
   <tm-form-group-stub
-    error="true"
-    fieldid="send-amount"
+    class="action-modal-form-group"
+    fieldid="amount"
     fieldlabel="Amount"
   >
     <tm-field-stub
-      id="send-amount"
+      class="tm-field"
+      id="amount"
       placeholder="Amount"
       type="number"
       value="2"
     />
      
     <!---->
-     
-    <!---->
   </tm-form-group-stub>
-   
-  <tm-form-group-stub
-    fieldid="password"
-    fieldlabel="Password"
-  >
-    <tm-field-stub
-      id="password"
-      placeholder="Password"
-      type="password"
-      value=""
-    />
-     
-    <!---->
-  </tm-form-group-stub>
-   
-  <div>
-    <tm-btn-stub
-      color="primary"
-      disabled="true"
-      id="send-btn"
-      value="Send Tokens"
-    />
-  </div>
 </action-modal-stub>
 `;
 
-exports[`SendModal should show bech32 error when address length is too long 1`] = `
+exports[`SendModal validation should show bech32 error when address length is too long 1`] = `
 <action-modal-stub
+  denom="STAKE"
+  id="send-modal"
+  submissionerrorprefix="Sending tokens failed"
+  submitfn="function () { [native code] }"
   title="Send"
+  validate="function () { [native code] }"
 >
   <tm-form-group-stub
+    class="action-modal-form-group"
     fieldid="send-denomination"
     fieldlabel="Denomination"
   >
@@ -170,6 +147,7 @@ exports[`SendModal should show bech32 error when address length is too long 1`] 
   </tm-form-group-stub>
    
   <tm-form-group-stub
+    class="action-modal-form-group"
     error="true"
     fieldid="send-address"
     fieldlabel="Send To"
@@ -182,7 +160,6 @@ exports[`SendModal should show bech32 error when address length is too long 1`] 
     />
      
     <tm-form-msg-stub
-      body="No separator character for asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf"
       msg=""
       name="Address"
       type="bech32"
@@ -190,52 +167,34 @@ exports[`SendModal should show bech32 error when address length is too long 1`] 
   </tm-form-group-stub>
    
   <tm-form-group-stub
-    error="true"
-    fieldid="send-amount"
+    class="action-modal-form-group"
+    fieldid="amount"
     fieldlabel="Amount"
   >
     <tm-field-stub
-      id="send-amount"
+      class="tm-field"
+      id="amount"
       placeholder="Amount"
       type="number"
       value="2"
     />
      
     <!---->
-     
-    <!---->
   </tm-form-group-stub>
-   
-  <tm-form-group-stub
-    fieldid="password"
-    fieldlabel="Password"
-  >
-    <tm-field-stub
-      id="password"
-      placeholder="Password"
-      type="password"
-      value=""
-    />
-     
-    <!---->
-  </tm-form-group-stub>
-   
-  <div>
-    <tm-btn-stub
-      color="primary"
-      disabled="true"
-      id="send-btn"
-      value="Send Tokens"
-    />
-  </div>
 </action-modal-stub>
 `;
 
-exports[`SendModal should show bech32 error when address length is too short 1`] = `
+exports[`SendModal validation should show bech32 error when address length is too short 1`] = `
 <action-modal-stub
+  denom="STAKE"
+  id="send-modal"
+  submissionerrorprefix="Sending tokens failed"
+  submitfn="function () { [native code] }"
   title="Send"
+  validate="function () { [native code] }"
 >
   <tm-form-group-stub
+    class="action-modal-form-group"
     fieldid="send-denomination"
     fieldlabel="Denomination"
   >
@@ -250,6 +209,7 @@ exports[`SendModal should show bech32 error when address length is too short 1`]
   </tm-form-group-stub>
    
   <tm-form-group-stub
+    class="action-modal-form-group"
     error="true"
     fieldid="send-address"
     fieldlabel="Send To"
@@ -262,7 +222,6 @@ exports[`SendModal should show bech32 error when address length is too short 1`]
     />
      
     <tm-form-msg-stub
-      body="asdf too short"
       msg=""
       name="Address"
       type="bech32"
@@ -270,52 +229,35 @@ exports[`SendModal should show bech32 error when address length is too short 1`]
   </tm-form-group-stub>
    
   <tm-form-group-stub
-    error="true"
-    fieldid="send-amount"
+    class="action-modal-form-group"
+    fieldid="amount"
     fieldlabel="Amount"
   >
     <tm-field-stub
-      id="send-amount"
+      class="tm-field"
+      id="amount"
       placeholder="Amount"
       type="number"
       value="2"
     />
      
     <!---->
-     
-    <!---->
   </tm-form-group-stub>
-   
-  <tm-form-group-stub
-    fieldid="password"
-    fieldlabel="Password"
-  >
-    <tm-field-stub
-      id="password"
-      placeholder="Password"
-      type="password"
-      value=""
-    />
-     
-    <!---->
-  </tm-form-group-stub>
-   
-  <div>
-    <tm-btn-stub
-      color="primary"
-      disabled="true"
-      id="send-btn"
-      value="Send Tokens"
-    />
-  </div>
 </action-modal-stub>
 `;
 
-exports[`SendModal should show bech32 error when alphanumeric is wrong 1`] = `
+exports[`SendModal validation should show bech32 error when alphanumeric is wrong 1`] = `
 <action-modal-stub
+  denom="STAKE"
+  id="send-modal"
+  submissionerrorprefix="Sending tokens failed"
+  submitfn="function () { [native code] }"
   title="Send"
+  validate="function () { [native code] }"
 >
   <tm-form-group-stub
+    class="action-modal-form-group"
+    error="true"
     fieldid="send-denomination"
     fieldlabel="Denomination"
   >
@@ -323,13 +265,18 @@ exports[`SendModal should show bech32 error when alphanumeric is wrong 1`] = `
       id="send-denomination"
       readonly=""
       type="text"
-      value="STAKE"
+      value=""
     />
      
-    <!---->
+    <tm-form-msg-stub
+      msg=""
+      name="Denomination"
+      type="required"
+    />
   </tm-form-group-stub>
    
   <tm-form-group-stub
+    class="action-modal-form-group"
     error="true"
     fieldid="send-address"
     fieldlabel="Send To"
@@ -349,46 +296,23 @@ exports[`SendModal should show bech32 error when alphanumeric is wrong 1`] = `
   </tm-form-group-stub>
    
   <tm-form-group-stub
+    class="action-modal-form-group"
     error="true"
-    fieldid="send-amount"
+    fieldid="amount"
     fieldlabel="Amount"
   >
     <tm-field-stub
-      id="send-amount"
+      class="tm-field"
+      id="amount"
       placeholder="Amount"
       type="number"
     />
      
     <tm-form-msg-stub
-      msg=""
-      name="Amount"
-      type="required"
+      msg="doesn't have any s"
+      name="Wallet"
+      type="custom"
     />
-     
-    <!---->
   </tm-form-group-stub>
-   
-  <tm-form-group-stub
-    fieldid="password"
-    fieldlabel="Password"
-  >
-    <tm-field-stub
-      id="password"
-      placeholder="Password"
-      type="password"
-      value=""
-    />
-     
-    <!---->
-  </tm-form-group-stub>
-   
-  <div>
-    <tm-btn-stub
-      color="primary"
-      disabled="true"
-      id="send-btn"
-      value="Send Tokens"
-    />
-  </div>
 </action-modal-stub>
 `;
