@@ -167,12 +167,12 @@ export default ({ node }) => {
       // optimistic update the atoms of the user before we get the new values from chain
       commit(`updateWalletBalance`, {
         denom,
-        amount: liquidAtoms - amount
+        amount: Number(liquidAtoms) - Number(amount)
       })
       // optimistically update the committed delegations
       commit(`setCommittedDelegation`, {
         candidateId: validator_addr,
-        value: state.committedDelegates[validator_addr] + amount
+        value: state.committedDelegates[validator_addr] + Number(amount)
       })
 
       // load delegates after delegation to get new atom distribution on validators
