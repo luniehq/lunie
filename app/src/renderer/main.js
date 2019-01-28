@@ -15,7 +15,7 @@ import App from "./App"
 import routes from "./routes"
 import _Node from "./connectors/node"
 import _Store from "./vuex/store"
-const _config = require(`../../src/config.json`)
+const _config = require(`../config.json`)
 
 /**
  * Main method to boot the renderer. It act as Entrypoint
