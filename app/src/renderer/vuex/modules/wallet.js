@@ -93,7 +93,7 @@ export default ({ node }) => {
         type: `send`,
         password,
         to: receiver,
-        amount: [{ denom, amount: amount.toString() }]
+        amount: [{ denom, amount: String(amount) }]
       })
 
       const oldBalance = state.balances.find(balance => balance.denom === denom)

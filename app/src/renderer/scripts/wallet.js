@@ -8,7 +8,7 @@ import CryptoJS from "crypto-js"
 
 const hdPathAtom = `m/44'/118'/0'/0/0` // key controlling ATOM allocation
 
-const standardRandomBytesFunc = x => CryptoJS.lib.WordArray.random(x).toString()
+const standardRandomBytesFunc = x => String(CryptoJS.lib.WordArray.random(x))
 
 export function generateWalletFromSeed(mnemonic) {
   const masterKey = deriveMasterKey(mnemonic)
@@ -37,7 +37,7 @@ export function generateWallet(randomBytesFunc = standardRandomBytesFunc) {
 // NOTE: this only works with a compressed public key (33 bytes)
 export function createCosmosAddress(publicKey) {
   let message = CryptoJS.enc.Hex.parse(publicKey.toString(`hex`))
-  const hash = ripemd160(sha256(message)).toString()
+  const hash = String(ripemd160(sha256(message)))
   const address = Buffer.from(hash, `hex`)
   const cosmosAddress = bech32ify(address, `cosmos`)
 
@@ -87,6 +87,7 @@ export function prepareSignBytes(jsonTx) {
     jsonTx.type === `cosmos-sdk/MsgSubmitProposal` ||
     jsonTx.type === `cosmos-sdk/MsgVote` ||
     jsonTx.type === `cosmos-sdk/MsgDeposit` ||
+    jsonTx.type === `cosmos-sdk/MsgDelegate` ||
     jsonTx.type === `cosmos-sdk/BeginUnbonding` ||
     jsonTx.type === `cosmos-sdk/BeginRedelegate`
   ) {

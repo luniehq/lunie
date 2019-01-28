@@ -28,6 +28,11 @@
         type="required"
       />
       <tm-form-msg
+        v-else-if="$v.amount.$error && !$v.amount.integer"
+        name="Amount"
+        type="integer"
+      />
+      <tm-form-msg
         v-else-if="$v.amount.$error && !$v.amount.between"
         :max="$v.amount.$params.between.max"
         :min="$v.amount.$params.between.min"
@@ -40,15 +45,13 @@
 
 <script>
 import { mapGetters } from "vuex"
-import { required, between } from "vuelidate/lib/validators"
+import { required, between, integer } from "vuelidate/lib/validators"
 import Modal from "common/TmModal"
 import TmBtn from "common/TmBtn"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
 import ActionModal from "common/ActionModal"
-
-const isInteger = amount => Number.isInteger(amount)
 
 export default {
   name: `modal-deposit`,
@@ -94,7 +97,7 @@ export default {
     return {
       amount: {
         required,
-        isInteger,
+        integer,
         between: between(1, this.balance)
       }
     }

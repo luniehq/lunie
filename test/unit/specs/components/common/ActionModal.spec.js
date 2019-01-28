@@ -48,10 +48,16 @@ describe(`ActionModal`, () => {
     expect(wrapper.vm.close).toHaveBeenCalled()
   })
 
-  it(`should erase password on close`, async () => {
-    wrapper.vm.password = `abcd`
+  it(`should erase password on close`, () => {
+    wrapper.vm.password = `mySecretPassword`
     wrapper.vm.close()
     expect(wrapper.vm.password).toBeNull()
+  })
+
+  it(`should set the step to transaction details`, () => {
+    wrapper.vm.step = `sign`
+    wrapper.vm.close()
+    expect(wrapper.vm.step).toBe(`txDetails`)
   })
 
   it(`should set the submissionError if the submission is rejected`, async () => {
@@ -75,7 +81,25 @@ describe(`ActionModal`, () => {
     expect(self.submissionError).toEqual(null)
   })
 
-  it(`run validation`, async () => {
+  it(`run validation if connected to local`, async () => {
+    wrapper.vm.selectedSignMethod = `local`
+    const validate = jest.fn(() => true)
+    const submit = jest.fn()
+    const self = {
+      validate,
+      submit,
+      $v: {
+        $touch: () => {}
+      }
+    }
+    await ActionModal.methods.validateForm.call(self)
+    expect(validate).toHaveBeenCalled()
+    expect(submit).toHaveBeenCalled()
+  })
+
+  it(`change step if connected to ledger`, async () => {
+    wrapper.vm.selectedSignMethod = `ledger`
+    wrapper.vm.step = `txDetails`
     const validate = jest.fn(() => true)
     const submit = jest.fn()
     const self = {
@@ -87,6 +111,24 @@ describe(`ActionModal`, () => {
     }
     await ActionModal.methods.validateForm.call(self)
 
+    expect(validate).toHaveBeenCalled()
+    expect(submit).not.toHaveBeenCalled()
+    expect(wrapper.vm.step).toBe(`sign`)
+  })
+
+  it(`run validation if connected to ledger and is on sign step`, async () => {
+    wrapper.vm.selectedSignMethod = `ledger`
+    wrapper.vm.step = `sign`
+    const validate = jest.fn(() => true)
+    const submit = jest.fn()
+    const self = {
+      validate,
+      submit,
+      $v: {
+        $touch: () => {}
+      }
+    }
+    await ActionModal.methods.validateForm.call(self)
     expect(validate).toHaveBeenCalled()
     expect(submit).toHaveBeenCalled()
   })
@@ -107,25 +149,25 @@ describe(`ActionModal`, () => {
     expect(submit).not.toHaveBeenCalled()
   })
 
-  it(`shows sending indication`, done => {
-    const validate = jest.fn(() => true)
-    const submit = jest.fn(
-      () => new Promise(resolve => setTimeout(resolve, 1000))
-    )
-    const self = {
-      validate,
-      submit,
-      $v: {
-        $touch: () => {}
-      }
-    }
-    ActionModal.methods.validateForm.call(self).then(() => {
-      expect(self.sending).toBe(false)
-      done()
-    })
-    expect(self.sending).toBe(true)
-    jest.runAllTimers()
-  })
+  // it(`shows sending indication`, done => {
+  //   const validate = jest.fn(() => true)
+  //   const submit = jest.fn(
+  //     () => new Promise(resolve => setTimeout(resolve, 1000))
+  //   )
+  //   const self = {
+  //     validate,
+  //     submit,
+  //     $v: {
+  //       $touch: () => {}
+  //     }
+  //   }
+  //   ActionModal.methods.validateForm.call(self).then(() => {
+  //     expect(self.sending).toBe(false)
+  //     done()
+  //   })
+  //   expect(self.sending).toBe(true)
+  //   jest.runAllTimers()
+  // })
 
   it(`shows sending indication`, done => {
     let test = instance.mount(ActionModal, {
@@ -159,5 +201,10 @@ describe(`ActionModal`, () => {
   it(`fails validation if the password is missing`, async () => {
     wrapper.vm.validateForm()
     expect(wrapper.vm.submitFn).not.toHaveBeenCalled()
+  })
+
+  it(`hides password input if signing with Ledger`, async () => {
+    wrapper.vm.selectedSignMethod = `ledger`
+    expect(wrapper.find(`#password`).exists()).toBe(false)
   })
 })

@@ -102,6 +102,7 @@ export default ({ node }) => {
           requestMetaData.account_number,
           rootState.ledger.pubKey
         )
+        console.log(signature)
       } else {
         // get private key to sign
         const wallet = getKey(rootState.user.account, args.password)

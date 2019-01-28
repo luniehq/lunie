@@ -6,14 +6,11 @@ import { createCosmosAddress } from "../../scripts/wallet.js"
 const TIMEOUT = 50 // seconds to wait for user action on Ledger
 const HDPATH = [44, 118, 0, 0, 0]
 
-const ErrVersion = `Error retrieving Cosmos Ledger app version`
 const ErrPubKey = `Error getting pubKey from Ledger`
 const ErrSign = `Signing transaction with Ledger failed`
 
 export default () => {
   let emptyState = {
-    loading: true,
-    loaded: false,
     error: null,
     app: null, // Cosmos ledger app instance
     isConnected: false,
@@ -73,7 +70,11 @@ export default () => {
     },
     async getLedgerCosmosVersion({ commit, dispatch, state }) {
       let response = await state.app.get_version()
-      response = dispatch(`checkLedgerErrors`, response, ErrVersion)
+      response = await dispatch(
+        `checkLedgerErrors`,
+        response,
+        `Error retrieving Cosmos Ledger app version`
+      )
       if (response) {
         const { major, minor, patch, test_mode } = response
         const version = { major, minor, patch, test_mode }
@@ -82,21 +83,32 @@ export default () => {
     },
     async getLedgerPubKey({ commit, dispatch, state }) {
       let response = await state.app.publicKey(HDPATH)
-      response = dispatch(`checkLedgerErrors`, response, ErrPubKey)
+      response = await dispatch(
+        `checkLedgerErrors`,
+        response,
+        `Error getting pubKey from Ledger`
+      )
       if (response && response.compressed_pk && response.pk) {
         commit(`setLedgerPubKey`, response.compressed_pk)
         commit(`setLedgerUncompressedPubKey`, response.pk)
       }
     },
     async signWithLedger({ dispatch, state }, message) {
+      console.log(message)
       let response = await state.app.sign(HDPATH, message)
-      response = dispatch(`checkLedgerErrors`, response, ErrSign)
+      response = await dispatch(
+        `checkLedgerErrors`,
+        response,
+        `Signing transaction with Ledger failed`
+      )
       if (response && response.signature) {
         return response.signature
       }
       return undefined
     },
-    checkLedgerErrors({ commit }, response, errorTitle) {
+    async checkLedgerErrors({ commit }, response, errorTitle) {
+      console.log(response)
+      console.log(errorTitle)
       if (response && response.error_message !== `No errors`) {
         commit(`notifyError`, {
           title: errorTitle,

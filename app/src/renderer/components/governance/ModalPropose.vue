@@ -77,6 +77,11 @@
         type="required"
       />
       <tm-form-msg
+        v-else-if="$v.amount.$error && !$v.amount.integer"
+        name="Amount"
+        type="integer"
+      />
+      <tm-form-msg
         v-else-if="$v.amount.$error && !$v.amount.between"
         :max="$v.amount.$params.between.max"
         :min="$v.amount.$params.between.min"
@@ -93,7 +98,8 @@ import {
   minLength,
   maxLength,
   required,
-  between
+  between,
+  integer
 } from "vuelidate/lib/validators"
 import { isEmpty, trim } from "lodash"
 import Modal from "common/TmModal"
@@ -164,6 +170,7 @@ export default {
       },
       amount: {
         required,
+        integer,
         between: between(this.balance ? 1 : 0, this.balance)
       }
     }
