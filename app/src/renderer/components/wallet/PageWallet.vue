@@ -11,14 +11,7 @@
   >
     <tm-data-msg id="account_empty_msg" slot="no-data" icon="help_outline">
       <div slot="title">Account empty</div>
-      <div slot="subtitle">
-        This account doesn't hold any coins yet.
-        <!--
-          Visit the
-          <a href="https://gaia.faucetcosmos.network/">token&nbsp;faucet</a> to
-          aquire tokens to play with.
-        -->
-      </div>
+      <div slot="subtitle">This account doesn't have anything in it yet.</div>
     </tm-data-msg>
     <li-coin
       v-for="coin in filteredBalances"
@@ -28,11 +21,7 @@
       class="tm-li-balance"
       @show-modal="showModal"
     />
-    <send-modal
-      v-if="showSendModal"
-      :show-send-modal.sync="showSendModal"
-      :denom="denomination"
-    />
+    <send-modal ref="sendModal" />
   </tm-page>
 </template>
 
@@ -68,7 +57,7 @@ export default {
     TmPage,
     SendModal
   },
-  data: () => ({ num, showSendModal: false, denomination: null }),
+  data: () => ({ num, showSendModal: false }),
   computed: {
     ...mapGetters([`filters`, `wallet`, `connected`]),
     somethingToSearch() {
@@ -115,8 +104,7 @@ export default {
   methods: {
     ...mapActions([`updateDelegates`, `queryWalletBalances`]),
     showModal(denomination) {
-      this.denomination = denomination
-      this.showSendModal = true
+      this.$refs.sendModal.open(denomination)
     }
   }
 }

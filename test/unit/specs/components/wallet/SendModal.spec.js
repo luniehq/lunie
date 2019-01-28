@@ -47,7 +47,8 @@ describe(`SendModal`, () => {
     })
 
     wrapper.vm.$refs.actionModal = {
-      submit: cb => cb()
+      submit: cb => cb(),
+      open: jest.fn()
     }
   })
 
@@ -55,65 +56,56 @@ describe(`SendModal`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`should show address required error`, async () => {
-    wrapper.setData({
-      fields: {
+  describe(`validation`, () => {
+    it(`should show address required error`, async () => {
+      wrapper.setData({
         denom: `STAKE`,
         address: ``,
         amount: 2
-      }
+      })
+      wrapper.vm.validateForm()
+      await wrapper.vm.$nextTick()
+      expect(wrapper.vm.$v.$error).toBe(true)
+      expect(wrapper.vm.$el).toMatchSnapshot()
     })
-    wrapper.vm.validateForm()
-    await wrapper.vm.$nextTick()
-    expect(wrapper.vm.$v.$error).toBe(true)
-    expect(wrapper.vm.$el).toMatchSnapshot()
-  })
-
-  it(`should show bech32 error when address length is too short`, async () => {
-    wrapper.setData({
-      fields: {
+    it(`should show bech32 error when address length is too short`, async () => {
+      wrapper.setData({
         denom: `STAKE`,
         address: `asdf`,
         amount: 2
-      }
+      })
+      wrapper.vm.validateForm()
+      await wrapper.vm.$nextTick()
+      expect(wrapper.vm.$v.$error).toBe(true)
+      expect(wrapper.vm.$el).toMatchSnapshot()
     })
-    wrapper.vm.validateForm()
-    await wrapper.vm.$nextTick()
-    expect(wrapper.vm.$v.$error).toBe(true)
-    expect(wrapper.vm.$el).toMatchSnapshot()
-  })
 
-  it(`should show bech32 error when address length is too long`, async () => {
-    wrapper.setData({
-      fields: {
+    it(`should show bech32 error when address length is too long`, async () => {
+      wrapper.setData({
         denom: `STAKE`,
         address: `asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf`,
         amount: 2
-      }
+      })
+      wrapper.vm.validateForm()
+      await wrapper.vm.$nextTick()
+      expect(wrapper.vm.$v.$error).toBe(true)
+      expect(wrapper.vm.$el).toMatchSnapshot()
     })
-    wrapper.vm.validateForm()
-    await wrapper.vm.$nextTick()
-    expect(wrapper.vm.$v.$error).toBe(true)
-    expect(wrapper.vm.$el).toMatchSnapshot()
-  })
-
-  it(`should show bech32 error when alphanumeric is wrong`, async () => {
-    wrapper.vm.validateForm()
-    await wrapper.vm.$nextTick()
-    expect(wrapper.vm.$v.$error).toBe(true)
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    it(`should show bech32 error when alphanumeric is wrong`, async () => {
+      expect(wrapper.vm.validateForm()).toBe(false)
+      await wrapper.vm.$nextTick()
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
   })
 
   it(`should show notification for successful send`, async () => {
     wrapper.setData({
-      fields: {
-        denom: `STAKE`,
-        address,
-        amount: 2
-      }
+      denom: `STAKE`,
+      address,
+      amount: 2
     })
     await wrapper.vm.submitForm(`local`, `1234567890`)
-    // walletSend is async so we need to wait until it is resolved
+
     expect($store.commit).toHaveBeenCalledWith(`notify`, expect.any(Object))
   })
 

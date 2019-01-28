@@ -1,5 +1,5 @@
 <template>
-  <transition name="slide-fade">
+  <transition v-if="show" name="slide-fade">
     <div v-click-outside="close" class="action-modal">
       <div class="action-modal-header">
         <img
@@ -14,9 +14,68 @@
           <i class="material-icons">close</i>
         </div>
       </div>
-      <div class="action-modal-form"><slot></slot></div>
+      <div class="action-modal-form">
+        <slot></slot>
+
+        <tm-form-group
+          v-if="signMethods.length > 1"
+          class="action-modal-form-group"
+          field-id="sign-method"
+          field-label="Signing Method"
+        >
+          <tm-field
+            id="sign-method"
+            v-model="selectedSignMethod"
+            :options="signMethods"
+            type="select"
+          />
+        </tm-form-group>
+
+        <tm-form-group
+          v-if="selectedSignMethod === `local`"
+          :error="$v.password.$error && $v.password.$invalid"
+          class="action-modal-group"
+          field-id="password"
+          field-label="Password"
+        >
+          <tm-field
+            id="password"
+            v-model="password"
+            type="password"
+            placeholder="Password"
+          />
+          <tm-form-msg
+            v-if="$v.password.$error && !$v.password.required"
+            name="Password"
+            type="required"
+          />
+        </tm-form-group>
+      </div>
       <div class="action-modal-footer">
-        <slot name="action-modal-footer"></slot>
+        <slot name="action-modal-footer">
+          <tm-form-group class="action-modal-group">
+            <div class="action-modal-footer">
+              <tm-btn
+                v-if="sending"
+                value="Sending..."
+                disabled="disabled"
+                color="primary"
+              />
+              <tm-btn
+                v-else-if="!connected"
+                value="Connecting..."
+                disabled="disabled"
+                color="primary"
+              />
+              <tm-btn
+                v-else
+                color="primary"
+                value="Submit"
+                @click.native="validateForm"
+              />
+            </div>
+          </tm-form-group>
+        </slot>
         <p
           v-if="submissionError"
           class="tm-form-msg sm tm-form-msg--error submission-error"
@@ -30,37 +89,104 @@
 
 <script>
 import ClickOutside from "vue-click-outside"
+import TmBtn from "common/TmBtn"
+import TmField from "common/TmField"
+import TmFormGroup from "common/TmFormGroup"
+import TmFormMsg from "common/TmFormMsg"
+import { mapGetters } from "vuex"
+import { requiredIf } from "vuelidate/lib/validators"
 
 export default {
   name: `action-modal`,
   directives: {
     ClickOutside
   },
+  components: {
+    TmBtn,
+    TmField,
+    TmFormGroup,
+    TmFormMsg
+  },
   props: {
     title: {
       type: String,
       required: true
+    },
+    submitFn: {
+      type: Function,
+      required: true
+    },
+    validate: {
+      type: Function,
+      required: true
+    },
+    submissionErrorPrefix: {
+      type: String,
+      default: `Submitting data failed`
     }
   },
   data: () => ({
-    submissionError: null
+    signMethod: null,
+    password: null,
+    selectedSignMethod: `local`,
+    signMethods: [
+      {
+        key: `(Unsafe) Local Account`,
+        value: `local`
+      }
+      // {
+      //   key: `Ledger`,
+      //   value: `ledger`
+      // },
+      // {
+      //   key: `Cosmos Signer App`,
+      //   value: `signer-app`
+      // }
+    ],
+    sending: false,
+    submissionError: null,
+    show: false
   }),
+  computed: {
+    ...mapGetters([`connected`])
+  },
   methods: {
-    close() {
-      this.$emit(`close-action-modal`)
+    open() {
+      this.show = true
     },
-    async submit(submitFn, submissionErrorPrefix = `Submitting data failed`) {
+    close() {
+      this.show = false
+    },
+    async validateForm() {
+      this.sending = true
+      this.$v.$touch()
+
+      // An ActionModal is only the prototype of a parent modal
+      // here we trigger the validation of the form that this parent modal
+      let childFormValid = this.validate()
+
+      if (!this.$v.$invalid && childFormValid) {
+        await this.submit()
+      }
+      this.sending = false
+    },
+    async submit() {
       try {
-        await submitFn()
+        await this.submitFn(this.selectedSignMethod, this.password)
 
         this.close()
       } catch ({ message }) {
-        this.submissionError = `${submissionErrorPrefix}: ${message}.`
+        this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
 
         setTimeout(() => {
           this.submissionError = null
         }, 5000)
       }
+    }
+  },
+  validations() {
+    return {
+      password: requiredIf(() => this.selectedSignMethod === `local`)
     }
   }
 }

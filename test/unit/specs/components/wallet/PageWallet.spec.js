@@ -13,6 +13,9 @@ describe(`PageWallet`, () => {
         search: {
           query: ``,
           visible: false
+        },
+        stubs: {
+          "send-modal": true
         }
       }
     },
@@ -37,6 +40,7 @@ describe(`PageWallet`, () => {
         $store
       }
     })
+    wrapper.vm.$refs.sendModal = { open: jest.fn() }
   })
 
   it(`has the expected html structure`, async () => {

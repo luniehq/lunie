@@ -2,8 +2,10 @@
   <action-modal
     id="modal-propose"
     ref="actionModal"
+    :submit-fn="submitForm"
+    :validate="validateForm"
     title="Proposal"
-    @close-action-modal="close"
+    submission-error-prefix="Submitting proposal failed"
   >
     <tm-form-group
       :error="$v.title.$error && $v.title.$invalid"
@@ -64,70 +66,29 @@
       <span class="input-suffix">{{ denom }}</span>
       <tm-field id="amount" v-model="amount" type="number" />
       <tm-form-msg
-        v-if="$v.amount.$error && !$v.amount.between && amount === 0"
-        name="Amount"
-        type="required"
-      />
-      <tm-form-msg
         v-if="balance === 0"
-        :msg="`doesn't hold any ${denom}s`"
+        :msg="`doesn't have any ${denom}s`"
         name="Wallet"
         type="custom"
       />
       <tm-form-msg
-        v-else-if="$v.amount.$error && !$v.amount.between && amount > 0"
+        v-else-if="$v.amount.$error && (!$v.amount.required || amount === 0)"
+        name="Amount"
+        type="required"
+      />
+      <tm-form-msg
+        v-else-if="$v.amount.$error && !$v.amount.between"
         :max="$v.amount.$params.between.max"
         :min="$v.amount.$params.between.min"
         name="Amount"
         type="between"
       />
-      <hr />
     </tm-form-group>
-    <tm-form-group
-      :error="$v.password.$error && $v.password.$invalid"
-      class="modal-propose-form-group"
-      field-id="password"
-      field-label="Password"
-    >
-      <tm-field
-        id="password"
-        v-model="password"
-        type="password"
-        placeholder="Password"
-      />
-      <tm-form-msg
-        v-if="$v.password.$error && !$v.password.required"
-        name="Password"
-        type="required"
-      />
-    </tm-form-group>
-    <div class="action-modal-footer">
-      <tm-btn
-        v-if="sending"
-        value="Sending..."
-        disabled="disabled"
-        color="primary"
-      />
-      <tm-btn
-        v-else-if="!connected"
-        value="Connecting..."
-        disabled="disabled"
-        color="primary"
-      />
-      <tm-btn
-        v-else
-        id="submit-proposal"
-        color="primary"
-        value="Submit Proposal"
-        @click.native="validateForm"
-      />
-    </div>
   </action-modal>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
-import ClickOutside from "vue-click-outside"
 import {
   minLength,
   maxLength,
@@ -149,9 +110,6 @@ const notBlank = text => !isEmpty(trim(text))
 
 export default {
   name: `modal-propose`,
-  directives: {
-    ClickOutside
-  },
   components: {
     ActionModal,
     Modal,
@@ -172,12 +130,10 @@ export default {
     title: ``,
     description: ``,
     type: `Text`,
-    amount: 0,
-    password: ``,
-    sending: false
+    amount: 0
   }),
   computed: {
-    ...mapGetters([`wallet`, `connected`]),
+    ...mapGetters([`wallet`]),
     balance() {
       // TODO: refactor to get the selected coin when multicoin deposit is enabled
       if (!this.wallet.balancesLoading && !!this.wallet.balances.length) {
@@ -208,47 +164,37 @@ export default {
       },
       amount: {
         required,
-        between: between(this.max ? 1 : 0, this.balance)
-      },
-      password: {
-        required
+        between: between(this.balance ? 1 : 0, this.balance)
       }
     }
   },
   methods: {
-    close() {
-      this.$emit(`update:showModalPropose`, false)
+    open() {
+      this.$refs.actionModal.open()
     },
-    async validateForm() {
+    validateForm() {
       this.$v.$touch()
 
-      if (!this.$v.$invalid) {
-        await this.submitForm()
-      }
+      return !this.$v.$invalid
     },
-    async submitForm() {
-      this.sending = true
-
-      await this.$refs.actionModal.submit(async () => {
-        await this.$store.dispatch(`submitProposal`, {
-          title: this.title,
-          description: this.description,
-          type: this.type,
-          initial_deposit: [
-            {
-              denom: this.denom,
-              amount: String(this.amount)
-            }
-          ],
-          password: this.password
-        })
-        this.$store.commit(`notify`, {
-          title: `Successful proposal submission!`,
-          body: `You have successfully submitted a new ${this.type.toLowerCase()} proposal`
-        })
-      }, `Submitting proposal failed`)
-
-      this.sending = false
+    async submitForm(submitType, password) {
+      await this.$store.dispatch(`submitProposal`, {
+        title: this.title,
+        description: this.description,
+        type: this.type,
+        submitType,
+        initial_deposit: [
+          {
+            denom: this.denom,
+            amount: String(this.amount)
+          }
+        ],
+        password
+      })
+      this.$store.commit(`notify`, {
+        title: `Successful proposal submission!`,
+        body: `You have successfully submitted a new ${this.type.toLowerCase()} proposal`
+      })
     }
   }
 }

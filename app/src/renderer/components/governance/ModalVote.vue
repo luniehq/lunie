@@ -2,9 +2,11 @@
   <action-modal
     id="modal-vote"
     ref="actionModal"
+    :submit-fn="submitForm"
+    :validate="validateForm"
     title="Vote"
     class="modal-vote"
-    @close-action-modal="close"
+    submission-error-prefix="Voting failed"
   >
     <tm-form-group class="action-modal-group vote-options">
       <tm-btn
@@ -49,54 +51,11 @@
         type="required"
       />
     </tm-form-group>
-    <tm-form-group
-      :error="$v.password.$error && $v.password.$invalid"
-      class="action-modal-group"
-      field-id="password"
-      field-label="Password"
-    >
-      <tm-field
-        id="password"
-        v-model="password"
-        type="password"
-        placeholder="Password"
-      />
-      <tm-form-msg
-        v-if="$v.password.$error && !$v.password.required"
-        name="Password"
-        type="required"
-      />
-    </tm-form-group>
-    <tm-form-group class="action-modal-group">
-      <div class="action-modal-footer">
-        <tm-btn
-          v-if="sending"
-          value="Sending..."
-          disabled="disabled"
-          color="primary"
-        />
-        <tm-btn
-          v-else-if="!connected"
-          value="Connecting..."
-          disabled="disabled"
-          color="primary"
-        />
-        <tm-btn
-          v-else
-          id="cast-vote"
-          color="primary"
-          value="Submit Vote"
-          @click.native="validateForm"
-        />
-      </div>
-    </tm-form-group>
   </action-modal>
 </template>
 
 <script>
-import ClickOutside from "vue-click-outside"
 import { required } from "vuelidate/lib/validators"
-import { mapGetters } from "vuex"
 import ActionModal from "common/ActionModal"
 import Modal from "common/TmModal"
 import TmBtn from "common/TmBtn"
@@ -120,9 +79,6 @@ export default {
     TmFormGroup,
     TmFormMsg
   },
-  directives: {
-    ClickOutside
-  },
   props: {
     proposalId: {
       type: [Number, String],
@@ -134,59 +90,43 @@ export default {
     },
     lastVoteOption: {
       default: undefined,
-      type: String,
-      required: false
+      type: String
     }
   },
   data: () => ({
-    password: ``,
-    vote: null,
-    sending: false
+    vote: null
   }),
   validations() {
     return {
       vote: {
         required,
         isValid
-      },
-      password: {
-        required
       }
     }
   },
-  computed: {
-    ...mapGetters([`connected`])
-  },
   methods: {
-    close() {
-      this.$emit(`update:showModalVote`, false)
+    open() {
+      this.$refs.actionModal.open()
     },
-    async validateForm() {
+    validateForm() {
       this.$v.$touch()
 
-      if (!this.$v.$invalid) {
-        await this.submitForm()
-      }
+      return !this.$v.$invalid
     },
-    async submitForm() {
-      this.sending = true
+    async submitForm(submitType, password) {
+      await this.$store.dispatch(`submitVote`, {
+        proposal_id: this.proposalId,
+        option: this.vote,
+        password,
+        submitType
+      })
 
-      await this.$refs.actionModal.submit(async () => {
-        await this.$store.dispatch(`submitVote`, {
-          proposal_id: this.proposalId,
-          option: this.vote,
-          password: this.password
-        })
-
-        this.$store.commit(`notify`, {
-          title: `Successful vote!`,
-          body: `You have successfully voted ${this.vote} on proposal #${
-            this.proposalId
-          }`
-        })
-      }, `Voting failed`)
-
-      this.sending = false
+      this.$store.commit(`notify`, {
+        title: `Successful vote!`,
+        body: `You have successfully voted ${this.vote} on proposal #${
+          this.proposalId
+        }`
+      })
     }
   }
 }

@@ -324,9 +324,16 @@ exports[`PageProposal has the expected html structure 1`] = `
       </div>
     </div>
      
-    <!---->
+    <modal-deposit-stub
+      denom="STAKE"
+      proposalid="2"
+      proposaltitle="VotingPeriod proposal"
+    />
      
-    <!---->
+    <modal-vote-stub
+      proposalid="2"
+      proposaltitle="VotingPeriod proposal"
+    />
   </main>
 </div>
 `;

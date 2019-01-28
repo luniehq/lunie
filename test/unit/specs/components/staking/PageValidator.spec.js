@@ -64,10 +64,22 @@ describe(`PageValidator`, () => {
           params: { validator: validator.operator_address }
         }
       },
-      getters: { bondDenom: () => stakingParameters.parameters.bond_denom }
+      stubs: {
+        "undelegation-modal": true,
+        "delegation-modal": true
+      },
+      getters: {
+        bondDenom: () => stakingParameters.parameters.bond_denom,
+        wallet: () => ({
+          address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+        })
+      }
     })
     wrapper = instance.wrapper
     store = instance.store
+
+    wrapper.vm.$refs.undelegationModal = { open: () => {} }
+    wrapper.vm.$refs.delegationModal = { open: () => {} }
   })
 
   it(`has the expected html structure`, async () => {
@@ -103,17 +115,28 @@ describe(`PageValidator`, () => {
         delegates: () => ({
           delegates: []
         }),
-        bondDenom: () => stakingParameters.parameters.bond_denom
+        bondDenom: () => stakingParameters.parameters.bond_denom,
+        wallet: () => ({
+          address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+        })
       },
       mocks: {
         $route: {
           params: { validator: validator.operator_address }
         }
+      },
+      stubs: {
+        "undelegation-modal": true,
+        "delegation-modal": true
       }
     })
 
     wrapper = instance.wrapper
     store = instance.store
+
+    wrapper.vm.$refs.undelegationModal = { open: () => {} }
+    wrapper.vm.$refs.delegationModal = { open: () => {} }
+
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -363,10 +386,23 @@ describe(`onDelegation`, () => {
         $route: {
           params: { validator: validator.operator_address }
         }
+      },
+      stubs: {
+        "undelegation-modal": true,
+        "delegation-modal": true
+      },
+      getters: {
+        bondDenom: () => stakingParameters.parameters.bond_denom,
+        wallet: () => ({
+          address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+        })
       }
     })
     wrapper = instance.wrapper
     store = instance.store
+
+    wrapper.vm.$refs.undelegationModal = { open: () => {} }
+    wrapper.vm.$refs.delegationModal = { open: () => {} }
   })
 
   describe(`make sure we have enough atoms to delegate`, () => {
@@ -405,7 +441,6 @@ describe(`onDelegation`, () => {
 
         wrapper.find(`#undelegation-btn`).trigger(`click`)
         expect(wrapper.vm.myBond.isGreaterThan(0)).toBe(true)
-        expect(wrapper.vm.showUndelegationModal).toBe(true)
         expect(wrapper.contains(UndelegationModal)).toEqual(true)
       })
 

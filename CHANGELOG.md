@@ -62,6 +62,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1674](https://github.com/cosmos/voyager/issues/1674) Add PageProfile component with shared styles for validator and proposal profiles @jbibla
 - [\#1806](https://github.com/cosmos/voyager/issues/1806) CircleCI security check in dependencies with yarn audit @sabau
 - [\#1804](https://github.com/cosmos/voyager/issues/1804) Moved Voyager to the web @faboweb
+- [\#1835](https://github.com/cosmos/voyager/issues/1835) allow user to use different signing methods @faboweb
 
 ### Changed
 
@@ -105,6 +106,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1792](https://github.com/cosmos/voyager/pull/1792) removed mocked demo mode @fedekunze
 - [\#1720](https://github.com/cosmos/voyager/issues/1720) Time format from 12 to 24h @sabau
 - [\#1688](https://github.com/cosmos/voyager/issues/1688) Moved from every page to TmPage the connected, loading, empty data and search features @sabau
+- [\#1588](https://github.com/cosmos/voyager/issues/1588) 404 page updates @jbibla
 
 ### Fixed
 

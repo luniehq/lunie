@@ -24,75 +24,53 @@ describe(`ModalVote`, () => {
     instance.store.state.connection.connected = true
     wrapper = instance.wrapper
 
-    wrapper.vm.$refs.actionModal.submit = jest.fn(cb => cb())
+    wrapper.vm.$refs.actionModal.open()
   })
 
   it(`has the expected html structure`, async () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  describe(`submits form only if inputs are correct`, () => {
-    it(`does not submit in cases`, async () => {
+  it(`opens`, () => {
+    wrapper.vm.$refs.actionModal.open = jest.fn()
+    wrapper.vm.open()
+    expect(wrapper.vm.$refs.actionModal.open).toHaveBeenCalled()
+  })
+
+  describe(`validation`, () => {
+    it(`fails`, () => {
       wrapper.vm.submitForm = jest.fn()
 
       // default values
-      await wrapper.vm.$nextTick()
-      wrapper.vm.validateForm()
-      expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
+      expect(wrapper.vm.validateForm()).toBe(false)
 
       // non valid option value
-      wrapper.setData({ vote: `other`, password: `1234567890` })
-      await wrapper.vm.$nextTick()
-      wrapper.vm.validateForm()
-      expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
-
-      // no password
-      wrapper.setData({ vote: `No`, password: `` })
-      await wrapper.vm.$nextTick()
-      wrapper.vm.validateForm()
-      expect(wrapper.vm.submitForm).not.toHaveBeenCalled()
+      wrapper.setData({ vote: `other` })
+      expect(wrapper.vm.validateForm()).toBe(false)
     })
 
-    it(`submits if the inputs are correct`, async () => {
+    it(`succeeds`, async () => {
       wrapper.vm.submitForm = jest.fn()
 
-      wrapper.setData({ vote: `Yes`, password: `1234567890` })
-      let voteBtn = wrapper.find(`#vote-yes`)
-      expect(voteBtn.html()).toContain(`active`)
-      await wrapper.vm.$nextTick()
-      wrapper.vm.validateForm()
-      expect(wrapper.vm.submitForm).toHaveBeenCalled()
-      wrapper.vm.submitForm.mockClear()
+      wrapper.setData({ vote: `Yes` })
+      expect(wrapper.vm.validateForm()).toBe(true)
 
       wrapper.setData({ vote: `No` })
-      voteBtn = wrapper.find(`#vote-no`)
-      expect(voteBtn.html()).toContain(`active`)
-      await wrapper.vm.$nextTick()
-      wrapper.vm.validateForm()
-      expect(wrapper.vm.submitForm).toHaveBeenCalled()
-      wrapper.vm.submitForm.mockClear()
+      expect(wrapper.vm.validateForm()).toBe(true)
 
       wrapper.setData({ vote: `NoWithVeto` })
-      voteBtn = wrapper.find(`#vote-veto`)
-      expect(voteBtn.html()).toContain(`active`)
-      await wrapper.vm.$nextTick()
-      wrapper.vm.validateForm()
-      expect(wrapper.vm.submitForm).toHaveBeenCalled()
-      wrapper.vm.submitForm.mockClear()
+      expect(wrapper.vm.validateForm()).toBe(true)
 
       wrapper.setData({ vote: `Abstain` })
-      voteBtn = wrapper.find(`#vote-abstain`)
-      expect(voteBtn.html()).toContain(`active`)
-      await wrapper.vm.$nextTick()
-      wrapper.vm.validateForm()
-      expect(wrapper.vm.submitForm).toHaveBeenCalled()
-      wrapper.vm.submitForm.mockClear()
+      expect(wrapper.vm.validateForm()).toBe(true)
     })
   })
 
   describe(`Disable already voted options`, () => {
-    it(`disable button if equals the last vote: Abstain`, () => {
+    it(`disable button if equals the last vote: Abstain`, async () => {
       wrapper.setProps({ lastVoteOption: `Abstain` })
+      await wrapper.vm.$nextTick()
+
       let voteBtn = wrapper.find(`#vote-yes`)
       expect(voteBtn.html()).not.toContain(`disabled="disabled"`)
       voteBtn = wrapper.find(`#vote-no`)
@@ -104,31 +82,23 @@ describe(`ModalVote`, () => {
     })
   })
 
-  describe(`closes modal correctly`, () => {
-    it(`X button emits close signal`, () => {
-      wrapper.vm.close()
-
-      expect(wrapper.emittedByOrder()).toEqual([
-        {
-          name: `update:showModalVote`,
-          args: [false]
-        }
-      ])
-    })
-  })
-
   describe(`Vote`, () => {
     it(`submits a vote`, async () => {
       wrapper.vm.$store.dispatch = jest.fn()
       wrapper.vm.$store.commit = jest.fn()
 
-      wrapper.setData({ vote: `Yes`, password: `1234567890` })
-      await wrapper.vm.submitForm()
+      wrapper.setData({ vote: `Yes` })
+      await wrapper.vm.submitForm(`local`, `1234567890`)
 
       expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
         [
           `submitVote`,
-          { option: `Yes`, proposal_id: `1`, password: `1234567890` }
+          {
+            option: `Yes`,
+            proposal_id: `1`,
+            password: `1234567890`,
+            submitType: `local`
+          }
         ]
       ])
 

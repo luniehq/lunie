@@ -14,11 +14,7 @@
       color="primary"
       @click.native="onPropose"
     />
-    <modal-propose
-      v-if="showModalPropose"
-      :show-modal-propose.sync="showModalPropose"
-      :denom="depositDenom"
-    />
+    <modal-propose ref="modalPropose" :denom="depositDenom" />
     <router-view />
   </tm-page>
 </template>
@@ -52,8 +48,7 @@ export default {
         displayName: `Parameters`,
         pathName: `Governance Parameters`
       }
-    ],
-    showModalPropose: false
+    ]
   }),
   computed: {
     ...mapGetters([`proposals`, `filters`, `depositDenom`, `connected`]),
@@ -66,7 +61,7 @@ export default {
   },
   methods: {
     onPropose() {
-      this.showModalPropose = true
+      this.$refs.modalPropose.open()
     }
   }
 }
