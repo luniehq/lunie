@@ -33,15 +33,31 @@ describe(`App Start`, () => {
       dispatch: jest.fn()
     }
     const Store = () => store
-    const Vue = () => ({ $mount: jest.fn() })
+    const Vue = class {
+      constructor() {
+        this.$mount = jest.fn()
+      }
+      static config = {}
+      static use = () => {}
+      static directive = () => {}
+    }
+    const Sentry = {
+      init: jest.fn()
+    }
 
-    await main(Vue, Node, Store, {
-      node_rpc: `http://localhost:12344`
-    })
+    await main(
+      Node,
+      Store,
+      {
+        NODE_ENV: `production`
+      },
+      Sentry,
+      Vue,
+      {
+        node_lcd: `http://localhost:12344`
+      }
+    )
 
-    expect(node.rpcConnect).toHaveBeenCalledWith(`http://localhost:12344`)
-    expect(store.dispatch).toHaveBeenCalledWith(`rpcSubscribe`)
-    expect(store.dispatch).toHaveBeenCalledWith(`subscribeToBlocks`)
-    expect(store.dispatch).toHaveBeenCalledWith(`showInitialScreen`)
+    expect(store.dispatch).toHaveBeenCalledWith(`connect`)
   })
 })

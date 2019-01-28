@@ -49,11 +49,15 @@ exports[`SessionSignUp has the expected html structure 1`] = `
           value=""
         />
          
+<<<<<<< HEAD
         <tm-form-msg-stub
           msg=""
           name="Name"
           type="required"
         />
+=======
+        <!---->
+>>>>>>> fac6aa160408b4f7ee7c2134f36c603fd3ecd3bd
          
         <!---->
       </tm-form-group-stub>
@@ -69,11 +73,15 @@ exports[`SessionSignUp has the expected html structure 1`] = `
           value=""
         />
          
+<<<<<<< HEAD
         <tm-form-msg-stub
           msg=""
           name="Password"
           type="required"
         />
+=======
+        <!---->
+>>>>>>> fac6aa160408b4f7ee7c2134f36c603fd3ecd3bd
          
         <!---->
       </tm-form-group-stub>
@@ -93,6 +101,7 @@ exports[`SessionSignUp has the expected html structure 1`] = `
       </tm-form-group-stub>
        
       <tm-form-group-stub
+        class="sign-up-seed-group"
         fieldid="sign-up-seed"
         fieldlabel="Seed Phrase"
       >
@@ -104,12 +113,20 @@ exports[`SessionSignUp has the expected html structure 1`] = `
          
         <tm-form-msg-stub
           class="sm"
+<<<<<<< HEAD
           msg=""
           name=""
         >
           Please back up the seed phrase for this account. This seed phrase
           cannot be recovered.
         </tm-form-msg-stub>
+=======
+          msg="Please back up the seed phrase for this account. This seed phrase
+          cannot be recovered."
+          name=""
+          type="custom"
+        />
+>>>>>>> fac6aa160408b4f7ee7c2134f36c603fd3ecd3bd
       </tm-form-group-stub>
        
       <tm-form-group-stub
@@ -137,11 +154,15 @@ exports[`SessionSignUp has the expected html structure 1`] = `
           </label>
         </div>
          
+<<<<<<< HEAD
         <tm-form-msg-stub
           msg=""
           name="Recovery confirmation"
           type="required"
         />
+=======
+        <!---->
+>>>>>>> fac6aa160408b4f7ee7c2134f36c603fd3ecd3bd
       </tm-form-group-stub>
        
       <tm-form-group-stub

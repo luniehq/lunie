@@ -3,96 +3,110 @@
 exports[`PageWallet has the expected html structure 1`] = `
 <tm-page-stub
   data-title="Wallet"
+  dataset="[object Object],[object Object],[object Object]"
+  hasfiltereddata="true"
   menubody=""
+  refresh="function () { [native code] }"
+  search="balances"
   subtitle=""
   title=""
 >
-  <template>
-    <tm-balance-stub
-      tabs=""
-    />
+  <tm-data-msg-stub
+    icon="help_outline"
+    id="account_empty_msg"
+  >
+    <div>
+      Account empty
+    </div>
      
-    <tool-bar-stub>
-      <a>
-        <i
-          class="material-icons"
-        >
-          refresh
-        </i>
-      </a>
-       
-      <a>
-        <i
-          class="material-icons"
-        >
-          search
-        </i>
-      </a>
-    </tool-bar-stub>
-  </template>
+    <div>
+      This account doesn't have anything in it yet.
+    </div>
+  </tm-data-msg-stub>
    
-  <modal-search-stub
-    type="balances"
+  <li-coin-stub
+    class="tm-li-balance"
+    coin="[object Object]"
+  />
+  <li-coin-stub
+    class="tm-li-balance"
+    coin="[object Object]"
+  />
+  <li-coin-stub
+    class="tm-li-balance"
+    coin="[object Object]"
+  />
+  <li-coin-stub
+    class="tm-li-balance"
+    coin="[object Object]"
   />
    
-  <ul>
-    <li-coin-stub
-      class="tm-li-balance"
-      coin="[object Object]"
-    />
-    <li-coin-stub
-      class="tm-li-balance"
-      coin="[object Object]"
-    />
-    <li-coin-stub
-      class="tm-li-balance"
-      coin="[object Object]"
-    />
-    <!---->
-  </ul>
+  <send-modal-stub />
 </tm-page-stub>
 `;
 
 exports[`PageWallet should filter the balances 1`] = `
 <tm-page-stub
   data-title="Wallet"
+  dataset="[object Object],[object Object],[object Object]"
+  hasfiltereddata="true"
   menubody=""
+  refresh="function () { [native code] }"
+  search="balances"
   subtitle=""
   title=""
 >
-  <template>
-    <tm-balance-stub
-      tabs=""
-    />
+  <tm-data-msg-stub
+    icon="help_outline"
+    id="account_empty_msg"
+  >
+    <div>
+      Account empty
+    </div>
      
-    <tool-bar-stub>
-      <a>
-        <i
-          class="material-icons"
-        >
-          refresh
-        </i>
-      </a>
-       
-      <a>
-        <i
-          class="material-icons"
-        >
-          search
-        </i>
-      </a>
-    </tool-bar-stub>
-  </template>
+    <div>
+      This account doesn't have anything in it yet.
+    </div>
+  </tm-data-msg-stub>
    
-  <modal-search-stub
-    type="balances"
+  <li-coin-stub
+    class="tm-li-balance"
+    coin="[object Object]"
   />
    
-  <ul>
-    <li-coin-stub
-      class="tm-li-balance"
-      coin="[object Object]"
-    />
-  </ul>
+  <send-modal-stub />
+</tm-page-stub>
+`;
+
+exports[`PageWallet should show the sending modal 1`] = `
+<tm-page-stub
+  data-title="Wallet"
+  dataset=""
+  hasfiltereddata="true"
+  menubody=""
+  refresh="function () { [native code] }"
+  search="balances"
+  subtitle=""
+  title=""
+>
+  <tm-data-msg-stub
+    icon="help_outline"
+    id="account_empty_msg"
+  >
+    <div>
+      Account empty
+    </div>
+     
+    <div>
+      This account doesn't have anything in it yet.
+    </div>
+  </tm-data-msg-stub>
+   
+  <li-coin-stub
+    class="tm-li-balance"
+    coin="[object Object]"
+  />
+   
+  <send-modal-stub />
 </tm-page-stub>
 `;

@@ -142,11 +142,11 @@ export default ({}) => {
       commit(`setLedgerCosmosVersion`, {})
       dispatch(`showInitialScreen`)
     },
-    resetSessionData({ state }) {
+    resetSessionData({ commit, state }) {
       state.atoms = 0
       state.history = []
       state.account = null
-      state.address = null
+      commit(`setUserAddress`, null)
     },
     loadErrorCollection({ state, dispatch }, account) {
       let errorCollection =

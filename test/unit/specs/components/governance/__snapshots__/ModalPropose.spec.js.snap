@@ -2,25 +2,26 @@
 
 exports[`ModalPropose component matches snapshot has the expected html structure 1`] = `
 <div
-  class="modal-propose"
+  class="action-modal"
   id="modal-propose"
+  name="slide-fade"
 >
   <div
-    class="modal-propose-header"
+    class="action-modal-header"
   >
     <img
-      class="icon modal-propose-atom"
+      class="icon action-modal-atom"
       src="~assets/images/cosmos-logo.png"
     />
      
     <span
-      class="tm-modal-title"
+      class="action-modal-title"
     >
-      Create Proposal
+      Proposal
     </span>
      
     <div
-      class="tm-modal-icon tm-modal-close"
+      class="action-modal-icon action-modal-close"
       id="closeBtn"
     >
       <i
@@ -31,20 +32,39 @@ exports[`ModalPropose component matches snapshot has the expected html structure
     </div>
   </div>
    
+<<<<<<< HEAD
   <div>
     <div
       class="page-proposal-form-group tm-form-group"
     >
       <!---->
       <!---->
+=======
+  <div
+    class="action-modal-form"
+  >
+    <div
+      class="action-modal-form-group tm-form-group"
+    >
+      <!---->
+      <label
+        class="tm-form-group__label"
+        for="title"
+      >
+        Title
+      </label>
+>>>>>>> fac6aa160408b4f7ee7c2134f36c603fd3ecd3bd
        
       <div
         class="tm-form-group__field"
       >
+<<<<<<< HEAD
         <span>
           Title
         </span>
          
+=======
+>>>>>>> fac6aa160408b4f7ee7c2134f36c603fd3ecd3bd
         <input
           class="tm-field"
           id="title"
@@ -53,47 +73,93 @@ exports[`ModalPropose component matches snapshot has the expected html structure
         />
          
         <!---->
+<<<<<<< HEAD
+=======
+         
+        <!---->
+>>>>>>> fac6aa160408b4f7ee7c2134f36c603fd3ecd3bd
       </div>
     </div>
      
     <div
+<<<<<<< HEAD
       class="page-proposal-form-group tm-form-group"
     >
       <!---->
       <!---->
+=======
+      class="action-modal-form-group tm-form-group"
+    >
+      <!---->
+      <label
+        class="tm-form-group__label"
+        for="description"
+      >
+        Description
+      </label>
+>>>>>>> fac6aa160408b4f7ee7c2134f36c603fd3ecd3bd
        
       <div
         class="tm-form-group__field"
       >
+<<<<<<< HEAD
         <span>
           Description
         </span>
          
         <textarea
           class="tm-field"
+=======
+        <textarea
+          class="textarea-large tm-field"
+>>>>>>> fac6aa160408b4f7ee7c2134f36c603fd3ecd3bd
           id="description"
           placeholder="Write your proposal here..."
         />
          
         <!---->
+<<<<<<< HEAD
+=======
+         
+        <!---->
+>>>>>>> fac6aa160408b4f7ee7c2134f36c603fd3ecd3bd
       </div>
     </div>
      
     <div
+<<<<<<< HEAD
       class="modal-propose-form-group tm-form-group"
     >
       <!---->
+=======
+      class="action-modal-form-group tm-form-group"
+    >
+>>>>>>> fac6aa160408b4f7ee7c2134f36c603fd3ecd3bd
       <!---->
+      <label
+        class="tm-form-group__label"
+        for="amount"
+      >
+        Amount
+      </label>
        
       <div
         class="tm-form-group__field"
       >
+<<<<<<< HEAD
         <span>
           Deposit amount
+=======
+        <span
+          class="input-suffix"
+        >
+          stake
+>>>>>>> fac6aa160408b4f7ee7c2134f36c603fd3ecd3bd
         </span>
          
         <input
           class="tm-field"
+<<<<<<< HEAD
           id="denom"
           placeholder="stake"
           readonly="readonly"
@@ -105,10 +171,14 @@ exports[`ModalPropose component matches snapshot has the expected html structure
           class="tm-field"
           id="amount"
           min="0"
+=======
+          id="amount"
+>>>>>>> fac6aa160408b4f7ee7c2134f36c603fd3ecd3bd
           type="number"
         />
          
         <!---->
+<<<<<<< HEAD
          
         <hr />
       </div>
@@ -144,6 +214,35 @@ exports[`ModalPropose component matches snapshot has the expected html structure
         >
           Show password
         </label>
+=======
+      </div>
+    </div>
+     
+    <!---->
+     
+    <div
+      class="action-modal-group tm-form-group"
+    >
+      <!---->
+      <label
+        class="tm-form-group__label"
+        for="password"
+      >
+        Password
+      </label>
+       
+      <div
+        class="tm-form-group__field"
+      >
+        <input
+          class="tm-field"
+          id="password"
+          placeholder="Password"
+          type="password"
+        />
+         
+        <!---->
+>>>>>>> fac6aa160408b4f7ee7c2134f36c603fd3ecd3bd
       </div>
     </div>
   </div>
@@ -153,24 +252,39 @@ exports[`ModalPropose component matches snapshot has the expected html structure
   <!---->
    
   <div
-    class="modal-propose-footer"
+    class="action-modal-footer"
   >
-    <button
-      class="tm-btn"
-      disabled="disabled"
-      id="submit-proposal"
+    <div
+      class="action-modal-group tm-form-group"
     >
-      <span
-        class="tm-btn__container tm-btn--size-lg tm-btn--primary"
+      <!---->
+      <!---->
+       
+      <div
+        class="tm-form-group__field"
       >
-        <!---->
-        <span
-          class="tm-btn__value"
+        <div
+          class="action-modal-footer"
         >
-          Submit proposal
-        </span>
-      </span>
-    </button>
+          <button
+            class="tm-btn"
+          >
+            <span
+              class="tm-btn__container tm-btn--primary"
+            >
+              <!---->
+              <span
+                class="tm-btn__value"
+              >
+                Submit
+              </span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+     
+    <!---->
   </div>
 </div>
 `;

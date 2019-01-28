@@ -81,6 +81,7 @@ export function prepareSignBytes(jsonTx) {
     return jsonTx
   }
 
+  // TODO temporary, https://github.com/cosmos/cosmos-sdk/issues/3336
   if (
     jsonTx.type === `cosmos-sdk/Send` ||
     jsonTx.type === `cosmos-sdk/MsgSubmitProposal` ||

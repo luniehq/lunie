@@ -2,24 +2,25 @@
 
 exports[`DelegationModal component matches snapshot has the expected html structure 1`] = `
 <div
-  class="delegation-modal"
+  class="action-modal delegation-modal"
   id="delegation-modal"
+  name="slide-fade"
 >
   <div
-    class="delegation-modal-header"
+    class="action-modal-header"
   >
     <img
-      class="icon delegation-modal-atom"
+      class="icon action-modal-atom"
       src="~assets/images/cosmos-logo.png"
     />
     <span
-      class="tm-modal-title"
+      class="action-modal-title"
     >
-      Delegation
+      Delegate
     </span>
      
     <div
-      class="tm-modal-icon tm-modal-close"
+      class="action-modal-icon action-modal-close"
       id="closeBtn"
     >
       <i
@@ -31,178 +32,189 @@ exports[`DelegationModal component matches snapshot has the expected html struct
   </div>
    
   <div
-    class="delegation-modal-form-group tm-form-group tm-form-group--error"
+    class="action-modal-form"
   >
-    <!---->
-    <label
-      class="tm-form-group__label"
-      for="amount"
-    >
-      Amount
-    </label>
-     
     <div
-      class="tm-form-group__field"
+      class="action-modal-form-group tm-form-group"
     >
-      <input
-        class="tm-field"
-        id="denom"
-        placeholder="STAKE"
-        readonly="readonly"
-        type="text"
-      />
-       
-      <input
-        class="tm-field"
-        id="amount"
-        max="100"
-        min="0"
-        type="number"
-      />
-       
       <!---->
-    </div>
-  </div>
-   
-  <div
-    class="delegation-modal-form-group tm-form-group"
-  >
-    <!---->
-    <label
-      class="tm-form-group__label"
-      for="to"
-    >
-      To
-    </label>
-     
-    <div
-      class="tm-form-group__field"
-    >
-      <input
-        class="tm-field"
-        id="to"
-        readonly="readonly"
-        type="text"
-      />
-    </div>
-  </div>
-   
-  <div
-    class="delegation-modal-form-group tm-form-group"
-  >
-    <!---->
-    <label
-      class="tm-form-group__label"
-      for="from"
-    >
-      From
-    </label>
-     
-    <div
-      class="tm-form-group__field"
-    >
-      <div
-        class="tm-select"
-        id="from"
-        title="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      <label
+        class="tm-form-group__label"
+        for="to"
       >
-        <select
-          class="tm-field tm-field-select"
-        >
-          <option
-            disabled="disabled"
-            hidden="hidden"
-            selected="selected"
-            value=""
-          >
-            Select option...
-          </option>
-           
-          <option
-            value="0"
-          >
-            My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9
-          </option>
-          <option
-            value="1"
-          >
-            Billy the Bill - cosmos…psjr9565ef72pv9g20yx
-          </option>
-          <option
-            value="2"
-          >
-            Kentucky - cosmos…np9rldprgant57ryzag7
-          </option>
-        </select>
-         
+        To
+      </label>
+       
+      <div
+        class="tm-form-group__field"
+      >
+        <input
+          class="tm-field"
+          id="to"
+          readonly="readonly"
+          type="text"
+        />
+      </div>
+    </div>
+     
+    <div
+      class="action-modal-form-group tm-form-group"
+    >
+      <!---->
+      <label
+        class="tm-form-group__label"
+        for="from"
+      >
+        From
+      </label>
+       
+      <div
+        class="tm-form-group__field"
+      >
         <div
-          class="tm-field-select-addon"
+          class="tm-select"
+          id="from"
+          title="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
         >
-          <i
-            class="material-icons"
+          <select
+            class="tm-field tm-field-select"
           >
-            arrow_drop_down
-          </i>
+            <option
+              disabled="disabled"
+              hidden="hidden"
+              selected="selected"
+              value=""
+            >
+              Select option...
+            </option>
+             
+            <option
+              value="0"
+            >
+              My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9
+            </option>
+            <option
+              value="1"
+            >
+              Billy the Bill - cosmos…psjr9565ef72pv9g20yx
+            </option>
+            <option
+              value="2"
+            >
+              Kentucky - cosmos…np9rldprgant57ryzag7
+            </option>
+          </select>
+           
+          <div
+            class="tm-field-select-addon"
+          >
+            <i
+              class="material-icons"
+            >
+              arrow_drop_down
+            </i>
+          </div>
         </div>
       </div>
-       
-      <hr />
     </div>
-  </div>
-   
-  <div
-    class="delegation-modal-form-group tm-form-group"
-  >
-    <!---->
-    <label
-      class="tm-form-group__label"
-      for="password"
-    >
-      Account password
-    </label>
      
     <div
-      class="tm-form-group__field"
+      class="action-modal-form-group tm-form-group"
     >
-      <input
-        class="tm-field"
-        id="password"
-        placeholder="password..."
-        type="password"
-      />
-       
-      <input
-        id="showPasswordCheckbox"
-        type="checkbox"
-      />
-       
+      <!---->
       <label
-        for="showPasswordCheckbox"
+        class="tm-form-group__label"
+        for="amount"
       >
-         Show password 
+        Amount
       </label>
+       
+      <div
+        class="tm-form-group__field"
+      >
+        <span
+          class="input-suffix"
+        >
+          STAKE
+        </span>
+         
+        <input
+          class="tm-field"
+          id="amount"
+          placeholder="Amount"
+          type="number"
+        />
+         
+        <!---->
+      </div>
+    </div>
+     
+    <!---->
+     
+    <div
+      class="action-modal-group tm-form-group"
+    >
+      <!---->
+      <label
+        class="tm-form-group__label"
+        for="password"
+      >
+<<<<<<< HEAD
+         Show password 
+=======
+        Password
+>>>>>>> fac6aa160408b4f7ee7c2134f36c603fd3ecd3bd
+      </label>
+       
+      <div
+        class="tm-form-group__field"
+      >
+        <input
+          class="tm-field"
+          id="password"
+          placeholder="Password"
+          type="password"
+        />
+         
+        <!---->
+      </div>
     </div>
   </div>
    
   <div
-    class="delegation-modal-footer"
+    class="action-modal-footer"
   >
-    <button
-      class="tm-btn"
-      disabled="disabled"
-      id="submit-delegation"
+    <div
+      class="action-modal-group tm-form-group"
     >
-      <span
-        class="tm-btn__container tm-btn--size-lg tm-btn--primary"
+      <!---->
+      <!---->
+       
+      <div
+        class="tm-form-group__field"
       >
-        <!---->
-        <span
-          class="tm-btn__value"
+        <div
+          class="action-modal-footer"
         >
-          Confirm Delegation
-        </span>
-      </span>
-    </button>
+          <button
+            class="tm-btn"
+          >
+            <span
+              class="tm-btn__container tm-btn--primary"
+            >
+              <!---->
+              <span
+                class="tm-btn__value"
+              >
+                Submit
+              </span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+     
+    <!---->
   </div>
 </div>
 `;

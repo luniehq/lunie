@@ -20,80 +20,57 @@ describe(`ModalVote`, () => {
         proposalTitle: lcdClientMock.state.proposals[`1`].title
       }
     })
+
+    instance.store.state.connection.connected = true
     wrapper = instance.wrapper
+
+    wrapper.vm.$refs.actionModal.open()
   })
 
-  describe(`component matches snapshot`, () => {
-    it(`has the expected html structure`, async () => {
-      expect(wrapper.vm.$el).toMatchSnapshot()
-    })
+  it(`has the expected html structure`, async () => {
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  describe(`default values are set correctly`, () => {
-    it(`the 'option' defaults to an empty string`, () => {
-      expect(wrapper.vm.option).toEqual(``)
-    })
-
-    it(`account password defaults to an empty string`, () => {
-      expect(wrapper.vm.password).toEqual(``)
-    })
-
-    it(`password is hidden by default`, () => {
-      expect(wrapper.vm.showPassword).toBe(false)
-    })
+  it(`opens`, () => {
+    wrapper.vm.$refs.actionModal.open = jest.fn()
+    wrapper.vm.open()
+    expect(wrapper.vm.$refs.actionModal.open).toHaveBeenCalled()
   })
 
-  describe(`Password display`, () => {
-    it(`toggles the password between text and password`, () => {
-      wrapper.vm.togglePassword()
-      expect(wrapper.vm.showPassword).toBe(true)
-      wrapper.vm.togglePassword()
-      expect(wrapper.vm.showPassword).toBe(false)
-    })
-  })
+  describe(`validation`, () => {
+    it(`fails`, () => {
+      wrapper.vm.submitForm = jest.fn()
 
-  describe(`enables or disables Vote correctly`, () => {
-    it(`disables the 'Vote' button`, () => {
       // default values
-      let voteBtn = wrapper.find(`#cast-vote`)
-      expect(voteBtn.html()).toContain(`disabled="disabled"`)
+      expect(wrapper.vm.validateForm()).toBe(false)
 
       // non valid option value
-      wrapper.setData({ option: `other`, password: `1234567890` })
-      expect(voteBtn.html()).toContain(`disabled="disabled"`)
-
-      // no password
-      wrapper.setData({ option: `No`, password: `` })
-      expect(voteBtn.html()).toContain(`disabled="disabled"`)
+      wrapper.setData({ vote: `other` })
+      expect(wrapper.vm.validateForm()).toBe(false)
     })
 
-    it(`enables the 'Vote' button if the user selected a valid option`, () => {
-      wrapper.setData({ option: `Yes`, password: `1234567890` })
-      let voteBtn = wrapper.find(`#vote-yes`)
-      let submitButton = wrapper.find(`#cast-vote`)
-      expect(voteBtn.html()).toContain(`active`)
-      expect(submitButton.html()).not.toContain(`disabled="disabled"`)
+    it(`succeeds`, async () => {
+      wrapper.vm.submitForm = jest.fn()
 
-      wrapper.setData({ option: `No` })
-      voteBtn = wrapper.find(`#vote-no`)
-      expect(voteBtn.html()).toContain(`active`)
-      expect(submitButton.html()).not.toContain(`disabled="disabled"`)
+      wrapper.setData({ vote: `Yes` })
+      expect(wrapper.vm.validateForm()).toBe(true)
 
-      wrapper.setData({ option: `NoWithVeto` })
-      voteBtn = wrapper.find(`#vote-veto`)
-      expect(voteBtn.html()).toContain(`active`)
-      expect(submitButton.html()).not.toContain(`disabled="disabled"`)
+      wrapper.setData({ vote: `No` })
+      expect(wrapper.vm.validateForm()).toBe(true)
 
-      wrapper.setData({ option: `Abstain` })
-      voteBtn = wrapper.find(`#vote-abstain`)
-      expect(voteBtn.html()).toContain(`active`)
-      expect(submitButton.html()).not.toContain(`disabled="disabled"`)
+      wrapper.setData({ vote: `NoWithVeto` })
+      expect(wrapper.vm.validateForm()).toBe(true)
+
+      wrapper.setData({ vote: `Abstain` })
+      expect(wrapper.vm.validateForm()).toBe(true)
     })
   })
 
   describe(`Disable already voted options`, () => {
-    it(`disable button if equals the last vote: Abstain`, () => {
+    it(`disable button if equals the last vote: Abstain`, async () => {
       wrapper.setProps({ lastVoteOption: `Abstain` })
+      await wrapper.vm.$nextTick()
+
       let voteBtn = wrapper.find(`#vote-yes`)
       expect(voteBtn.html()).not.toContain(`disabled="disabled"`)
       voteBtn = wrapper.find(`#vote-no`)
@@ -105,50 +82,34 @@ describe(`ModalVote`, () => {
     })
   })
 
-  describe(`closes modal correctly`, () => {
-    it(`X button emits close signal`, () => {
-      wrapper.vm.close()
-
-      expect(wrapper.emittedByOrder()).toEqual([
-        {
-          name: `update:showModalVote`,
-          args: [false]
-        }
-      ])
-    })
-  })
-
   describe(`Vote`, () => {
-    it(`updates the selected option on click`, () => {
-      wrapper.vm.vote(`Yes`)
-      expect(wrapper.vm.option).toEqual(`Yes`)
+    it(`submits a vote`, async () => {
+      wrapper.vm.$store.dispatch = jest.fn()
+      wrapper.vm.$store.commit = jest.fn()
 
-      wrapper.vm.vote(`No`)
-      expect(wrapper.vm.option).toEqual(`No`)
+      wrapper.setData({ vote: `Yes` })
+      await wrapper.vm.submitForm(`local`, `1234567890`)
 
-      wrapper.vm.vote(`NoWithVeto`)
-      expect(wrapper.vm.option).toEqual(`NoWithVeto`)
+      expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
+        [
+          `submitVote`,
+          {
+            option: `Yes`,
+            proposal_id: `1`,
+            password: `1234567890`,
+            submitType: `local`
+          }
+        ]
+      ])
 
-      wrapper.vm.vote(`Abstain`)
-      expect(wrapper.vm.option).toEqual(`Abstain`)
-
-      wrapper.vm.vote(`Abstain`)
-      expect(wrapper.vm.option).toEqual(``)
-    })
-
-    it(`Vote button casts a vote and closes modal`, () => {
-      wrapper.setData({ option: `Yes`, password: `1234567890` })
-      wrapper.vm.onVote()
-
-      expect(wrapper.emittedByOrder()).toEqual([
-        {
-          name: `castVote`,
-          args: [{ option: `Yes`, password: `1234567890` }]
-        },
-        {
-          name: `update:showModalVote`,
-          args: [false]
-        }
+      expect(wrapper.vm.$store.commit.mock.calls).toEqual([
+        [
+          `notify`,
+          {
+            body: `You have successfully voted Yes on proposal #1`,
+            title: `Successful vote!`
+          }
+        ]
       ])
     })
   })

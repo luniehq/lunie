@@ -8,62 +8,91 @@ import _Vue from "vue"
 import Router from "vue-router"
 import Tooltip from "vue-directive-tooltip"
 import Vuelidate from "vuelidate"
-import * as Sentry from "@sentry/browser"
+import * as _Sentry from "@sentry/browser"
+import axios from "axios"
 
 import App from "./App"
 import routes from "./routes"
 import _Node from "./connectors/node"
 import _Store from "./vuex/store"
-import axios from "axios"
-import { sleep } from "./scripts/common"
-
-const _config = require(`../../src/config.json`)
-
-// exporting this for testing
-let store
-let node
-let router
-
-// Sentry is used for automatic error reporting. It is turned off by default.
-// Sentry.init({})
-
-// this will pass the state to Sentry when errors are sent.
-// this would also sent passwords...
-// Sentry.configureScope(scope => {
-//   scope.setExtra(_Store.state)
-// })
-
-// handle uncaught errors
-window.addEventListener(`unhandledrejection`, function(event) {
-  Sentry.captureException(event.reason)
-})
-window.addEventListener(`error`, function(event) {
-  Sentry.captureException(event.reason)
-})
-
-_Vue.use(Router)
-_Vue.use(Tooltip, { delay: 1 })
-_Vue.use(Vuelidate)
-
-// directive to focus form fields
-_Vue.directive(`focus`, {
-  inserted: function(el) {
-    el.focus()
-  }
-})
+const _config = require(`../config.json`)
 
 /**
  * Main method to boot the renderer. It act as Entrypoint
  */
-export async function main(
-  Vue = _Vue,
+async function main(
   Node = _Node,
   Store = _Store,
+  env = process.env,
+  Sentry = _Sentry,
+  Vue = _Vue,
   config = _config
 ) {
-  console.log(`Expecting lcd-server at ` + config.node_lcd)
+  let store
+  let node
+  let router
 
-  node = Node(axios, config.node_lcd, config.mocked)
+  /* istanbul ignore next */
+  Vue.config.errorHandler = (error, vm, info) => {
+    console.error(`An error has occurred: ${error}
+  
+  Guru Meditation #${info}`)
+
+    _Sentry.captureException(error)
+
+    if (store.state.devMode) {
+      throw error
+    }
+  }
+
+  /* istanbul ignore next */
+  Vue.config.warnHandler = (msg, vm, trace) => {
+    console.warn(`A warning has occurred: ${msg}
+  
+  Guru Meditation #${trace}`)
+
+    if (store.state.devMode) {
+      throw new Error(msg)
+    }
+  }
+
+  Vue.use(Router)
+  Vue.use(Tooltip, { delay: 1 })
+  Vue.use(Vuelidate)
+
+  // directive to focus form fields
+  /* istanbul ignore next */
+  Vue.directive(`focus`, {
+    inserted: function(el) {
+      el.focus()
+    }
+  })
+
+  // add error handlers in production
+  if (env.NODE_ENV === `production`) {
+    // Sentry is used for automatic error reporting. It is turned off by default.
+    Sentry.init({})
+
+    // this will pass the state to Sentry when errors are sent.
+    // this would also sent passwords...
+    // Sentry.configureScope(scope => {
+    //   scope.setExtra(_Store.state)
+    // })
+
+    // handle uncaught errors
+    /* istanbul ignore next */
+    window.addEventListener(`unhandledrejection`, function(event) {
+      Sentry.captureException(event.reason)
+    })
+    /* istanbul ignore next */
+    window.addEventListener(`error`, function(event) {
+      Sentry.captureException(event.reason)
+    })
+  }
+
+  console.log(`Expecting stargate at: ${config.node_lcd}`)
+
+  node = Node(axios, config.node_lcd)
 
   store = Store({ node })
 
@@ -78,14 +107,8 @@ export async function main(
     next()
   })
 
-  // in parallel wait for the node to be reachable and then connect to it
-  onBackendAvailable(node, () => {
-    node.rpcConnect(config.node_rpc)
-    store.dispatch(`rpcSubscribe`)
-    store.dispatch(`subscribeToBlocks`)
-
-    store.dispatch(`showInitialScreen`)
-  })
+  store.dispatch(`connect`)
+  store.dispatch(`showInitialScreen`)
 
   return new Vue({
     router,
@@ -94,16 +117,8 @@ export async function main(
   }).$mount(`#app`)
 }
 
-async function onBackendAvailable(node, callback) {
-  while (true) {
-    try {
-      await node.lcdConnected()
-      break
-    } catch (err) {}
-    await sleep(1000)
-  }
-
-  callback()
-}
-
+// run
 main()
+
+// export for tests only
+module.exports.main = main

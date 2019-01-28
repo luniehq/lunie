@@ -138,12 +138,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.li-validator .li-validator__delegated-steak {
-  min-width: 10rem;
-}
-.li-validator .li-validator__voting-power {
-  min-width: 9rem;
-}
-</style>

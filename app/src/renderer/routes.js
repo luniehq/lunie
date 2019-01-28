@@ -31,7 +31,6 @@ export default [
     component: require(`./components/governance/PageProposal`).default,
     props: true
   },
-  // STAKE
   {
     path: `/staking`,
     name: `Staking`,
@@ -60,13 +59,11 @@ export default [
     name: `validator`,
     component: require(`./components/staking/PageValidator`).default
   },
-
   {
     path: `/preferences`,
     name: `preferences`,
     component: require(`./components/common/PagePreferences`).default
   },
-
   {
     path: `/`,
     name: `wallet`,
@@ -76,7 +73,7 @@ export default [
     path: `/wallet/send/:denom?`,
     name: `send`,
     props: true,
-    component: require(`./components/wallet/PageSend`).default
+    component: require(`./components/wallet/SendModal`).default
   },
   {
     path: `/transactions`,

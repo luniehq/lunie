@@ -113,7 +113,7 @@ export default ({ node }) => {
       const res = await node.postTx(body).catch(handleSDKError)
       // check response code
       assertOk(res)
-      commit(`setNonce`, (parseInt(state.nonce) + 1).toString())
+      commit(`setNonce`, String(parseInt(state.nonce) + 1))
     }
   }
 
