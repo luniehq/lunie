@@ -9,7 +9,7 @@ localVue.use(Vuelidate)
 localVue.directive(`tooltip`, () => {})
 localVue.directive(`focus`, () => {})
 
-describe(`NISessionHardware`, () => {
+describe(`TmSessionHardware`, () => {
   let wrapper, store
 
   beforeEach(() => {
@@ -47,9 +47,6 @@ describe(`NISessionHardware`, () => {
     expect(wrapper.html()).toMatchSnapshot()
 
     wrapper.setData({ status: `detect` })
-    expect(wrapper.html()).toMatchSnapshot()
-
-    wrapper.setData({ status: `success` })
     expect(wrapper.html()).toMatchSnapshot()
   })
 

@@ -125,24 +125,34 @@ describe(`Signing`, () => {
     memo: ``
   }
 
-  it(`should create a correct signature`, () => {
+  it(`should create an Object containing the signature and pubkey`, () => {
     let vectors = [
       {
-        privateKey: `2afc5a66b30e7521d553ec8e6f7244f906df97477248c30c103d7b3f2c671fef`,
-        publicKey: `03ab1ebbb21aee35154e36aaebc25067177f783f7e967c9d6493e8920c05e40eb5`,
-        msg: `{"account_number":"1","chain_id":"tendermint_test","fee":{"amount":[{"amount":"0","denom":""}],"gas":"21906"},"memo":"","msgs":[{"inputs":[{"address":"cosmos1qperwt9wrnkg5k9e5gzfgjppzpqhyav5j24d66","coins":[{"amount":"1","denom":"STAKE"}]}],"outputs":[{"address":"cosmos1yeckxz7tapz34kjwnjxvmxzurerquhtrmxmuxt","coins":[{"amount":"1","denom":"STAKE"}]}]}],"sequence":"0"}`,
-        signature: `dRrVzV9ixitWXtXZIgidctjrIPNXMU47eNLolQ1lcRxpFf1crE+b/QrVRwpmiNUdFgPlvWkAJUTygIrFqIVr1w==`
+        sequence: `0`,
+        account_number: `1`,
+        signature: `MEQCIE2f8y5lVAOZu/MDZX3aH+d0sgvTRVrEzdP60NHr7lKJAiBexCiaAsh35R25IhgJMBIp/AD2Lfuk57suV8gnqOSfzg==`,
+        publicKey: `03ab1ebbb21aee35154e36aaebc25067177f783f7e967c9d6493e8920c05e40eb5`
       },
       {
-        privateKey: `6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d`,
-        publicKey: `0243311589af63c2adda04fcd7792c038a05c12a4fe40351b3eb1612ff6b2e5a0e`,
-        msg: `{"account_number":"2","chain_id":"local-testnet","fee":{"amount":[{"amount":"0","denom":""}],"gas":"1"},"memo":"","msgs":[{"inputs":[{"address":"cosmos1qzuezsz32szftzx9j4zrena4sz2nxct2j68565","coins":[{"amount":"10","denom":"localcoin"}]}],"outputs":[{"address":"cosmos194av4adp38js86r8ema8ud3vylzv9s8kt4f0m5","coins":[{"amount":"10","denom":"localcoin"}]}]}],"sequence":"0"}`,
-        signature: `uSw0TI4YGPF1RMcx9hISpniM8vRJc6gm/j1ZC0fOA5stJVPBmFqVTxfu/eHEzCJgcFPDJDh1uNHC+DiPaoK9PQ==`
+        sequence: `1`,
+        account_number: `1`,
+        signature: `MEQCIE2f8y5lVAOZu/MDZX3aH+d0sgvTRVrEzdP60NHr7lKJAiBexCiaAsh35R25IhgJMBIp/AD2Lfuk57suV8gnqOSfzg==`,
+        publicKey: `0243311589af63c2adda04fcd7792c038a05c12a4fe40351b3eb1612ff6b2e5a0e`
       }
     ]
 
-    vectors.forEach(({ msg, privateKey, publicKey, signature }) =>
-      expect(createSignature(msg, privateKey, publicKey)).toBe(signature)
+    vectors.forEach(({ signature, sequence, account_number, publicKey }) =>
+      expect(
+        createSignature(signature, sequence, account_number, publicKey)
+      ).toMatchObject({
+        signature: signature.toString(`base64`),
+        account_number,
+        sequence,
+        pub_key: {
+          type: `tendermint/PubKeySecp256k1`,
+          value: publicKey.toString(`base64`)
+        }
+      })
     )
   })
 
@@ -166,9 +176,9 @@ describe(`Signing`, () => {
 
     vectors.forEach(
       ({ tx, sequence, account_number, chain_id, signMessage }) => {
-        expect(createSignMessage(tx, sequence, account_number, chain_id)).toBe(
-          signMessage
-        )
+        expect(
+          createSignMessage(tx, { sequence, account_number, chain_id })
+        ).toBe(signMessage)
       }
     )
   })
