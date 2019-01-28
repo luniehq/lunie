@@ -51,15 +51,7 @@ exports[`TmSessionSignIn has the expected html structure 1`] = `
           vue-focus="vue-focus"
         />
          
-<<<<<<< HEAD
-        <tm-form-msg-stub
-          msg=""
-          name="Name"
-          type="required"
-        />
-=======
         <!---->
->>>>>>> fac6aa160408b4f7ee7c2134f36c603fd3ecd3bd
       </tm-form-group-stub>
        
       <tm-form-group-stub
@@ -72,15 +64,7 @@ exports[`TmSessionSignIn has the expected html structure 1`] = `
           value=""
         />
          
-<<<<<<< HEAD
-        <tm-form-msg-stub
-          msg=""
-          name="Password"
-          type="required"
-        />
-=======
         <!---->
->>>>>>> fac6aa160408b4f7ee7c2134f36c603fd3ecd3bd
          
         <!---->
       </tm-form-group-stub>

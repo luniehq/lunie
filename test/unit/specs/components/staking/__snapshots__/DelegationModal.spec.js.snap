@@ -159,11 +159,7 @@ exports[`DelegationModal component matches snapshot has the expected html struct
         class="tm-form-group__label"
         for="password"
       >
-<<<<<<< HEAD
-         Show password 
-=======
         Password
->>>>>>> fac6aa160408b4f7ee7c2134f36c603fd3ecd3bd
       </label>
        
       <div

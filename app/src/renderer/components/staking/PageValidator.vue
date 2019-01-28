@@ -168,12 +168,14 @@
         :validator="validator"
         :denom="bondDenom"
       />
-      <undelegation-modal <<<<<<< HEAD v-if="showUndelegationModal"
-      :show-undelegation-modal.sync="showUndelegationModal"
-      :maximum="Number(myBond)" ======= ref="undelegationModal"
-      :maximum="myBond.toNumber()" :from-options="delegationTargetOptions()"
-      >>>>>>> fac6aa160408b4f7ee7c2134f36c603fd3ecd3bd :to="wallet.address"
-      :validator="validator" :denom="bondDenom" />
+      <undelegation-modal
+        ref="undelegationModal"
+        :maximum="Number(myBond)"
+        :from-options="delegationTargetOptions()"
+        :to="wallet.address"
+        :validator="validator"
+        :denom="bondDenom"
+      />
       <tm-modal v-if="showCannotModal" :close="closeCannotModal">
         <div slot="title">
           Cannot {{ action === `delegate` ? `Delegate` : `Undelegate` }}
