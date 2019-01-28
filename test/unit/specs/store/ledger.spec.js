@@ -2,11 +2,10 @@ import ledgerModule from "modules/ledger.js"
 import { App, comm_u2f } from "ledger-cosmos-js"
 
 describe(`Module: Ledger`, () => {
-  let module, rootState, state, actions, mutations
+  let module, state, actions, mutations
 
   beforeEach(() => {
     module = ledgerModule()
-    rootState = module.rootState
     state = module.state
     actions = module.actions
     mutations = module.mutations
@@ -27,7 +26,6 @@ describe(`Module: Ledger`, () => {
     })
 
     it(`sets the account public key`, () => {
-      /*eslint-disable */
       const pubKey = Buffer.from([
         4,
         228,
@@ -95,13 +93,11 @@ describe(`Module: Ledger`, () => {
         249,
         17
       ])
-      /*eslint-enable */
       mutations.setLedgerPubKey(state, pubKey)
       expect(state.pubKey).toBe(pubKey)
     })
 
     it(`sets the account public key`, () => {
-      /*eslint-disable */
       const pubKeyFull = Buffer.from([
         4,
         228,
@@ -169,7 +165,6 @@ describe(`Module: Ledger`, () => {
         249,
         17
       ])
-      /*eslint-enable */
       mutations.setLedgerUncompressedPubKey(state, pubKeyFull)
       expect(state.uncompressedPubKey).toBe(pubKeyFull)
     })
@@ -189,8 +184,9 @@ describe(`Module: Ledger`, () => {
   describe(`Actions`, () => {
     it(`resets the session data `, () => {
       state.isConnected = true
+      let rootState = { ledger: state }
       actions.resetSessionData({ rootState })
-      expect(state.isConnected).toBe(false)
+      expect(rootState.ledger.isConnected).toBe(false)
     })
 
     describe(`checks for errors on Ledger actions`, () => {
@@ -201,9 +197,9 @@ describe(`Module: Ledger`, () => {
         actions.checkLedgerErrors({ commit }, response, title)
         expect(commit).toHaveBeenCalledWith(`notifyError`, {
           title,
-          body: response.error_message
+          body: `Sign/verify error`
         })
-        expect(state.error).toBe(response.error_message)
+        expect(state.error).toBe(null)
       })
 
       it(`just returns on success`, async () => {
@@ -211,10 +207,9 @@ describe(`Module: Ledger`, () => {
         const response = { error_message: `No errors` }
         const title = `This title shouldn't be notified to the user`
         actions.checkLedgerErrors({ commit }, response, title)
-        console.log(state.error)
         expect(commit).not.toHaveBeenCalledWith(`notifyError`, {
           title,
-          body: response.error_message
+          body: `No errors`
         })
         expect(state.error).toBe(null)
       })
