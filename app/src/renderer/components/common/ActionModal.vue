@@ -108,6 +108,7 @@
 
 <script>
 import ClickOutside from "vue-click-outside"
+import HardwareState from "common/TmHardwareState"
 import TmBtn from "common/TmBtn"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"

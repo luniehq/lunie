@@ -78,7 +78,7 @@ export default {
     amount: 0
   }),
   computed: {
-    ...mapGetters([`ledger`, `wallet`]),
+    ...mapGetters([`wallet`]),
     balance() {
       // TODO: refactor to get the selected coin when multicoin deposit is enabled
       if (!this.wallet.loading && !!this.wallet.balances.length) {

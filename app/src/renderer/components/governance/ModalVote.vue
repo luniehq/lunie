@@ -96,9 +96,6 @@ export default {
   data: () => ({
     vote: null
   }),
-  computed: {
-    ...mapGetters([`ledger`])
-  },
   validations() {
     return {
       vote: {
