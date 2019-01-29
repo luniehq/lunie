@@ -74,7 +74,7 @@ exports[`TmSessionImport has the expected html structure 1`] = `
                 placeholder="Must have at least 5 characters"
                 type="text"
               />
-              
+               
               <!---->
                
               <!---->
@@ -164,7 +164,6 @@ exports[`TmSessionImport has the expected html structure 1`] = `
               />
                
               <!---->
-
             </div>
           </div>
            
