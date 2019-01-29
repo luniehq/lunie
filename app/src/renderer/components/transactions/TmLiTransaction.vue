@@ -65,7 +65,6 @@ export default {
   background: var(--app-fg);
   width: 100%;
   font-weight: 400;
-  font-family: "SF Pro Display";
 }
 
 .tm-li-tx:hover {
@@ -135,7 +134,6 @@ export default {
   line-height: 14px;
   font-size: 14px;
   align-items: baseline;
-  font-family: "SF Pro Text";
 }
 
 .tm-li-tx__content__information {
