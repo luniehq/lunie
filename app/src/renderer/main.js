@@ -19,7 +19,7 @@ import * as urlHelpers from "../helpers/url.js"
 const _config = require(`../config.json`)
 
 /**
- * Main method to prepare the boot process. It act as the entrypoint.
+ * Main method to prepare the boot process. It acts as the entrypoint.
  */
 async function main(
   getURLParams = urlHelpers.getURLParams,
