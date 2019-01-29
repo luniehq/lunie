@@ -146,7 +146,7 @@ async function declareValidator(
     ` --commission-max-change-rate=0` +
     ` --commission-max-rate=0` +
     ` --commission-rate=0` +
-    ` --json`
+    ` --output=json`
 
   return makeExecWithInputs(command, [password])
 }
