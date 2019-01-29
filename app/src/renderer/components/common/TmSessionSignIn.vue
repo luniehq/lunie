@@ -19,7 +19,7 @@
             vue-focus="vue-focus"
           />
           <tm-form-msg
-            v-if="!$v.fields.signInName.required"
+            v-if="$v.fields.signInName.$error && !$v.fields.signInName.required"
             name="Name"
             type="required"
           />
@@ -35,12 +35,18 @@
             type="password"
           />
           <tm-form-msg
-            v-if="!$v.fields.signInPassword.required"
+            v-if="
+              $v.fields.signInPassword.$error &&
+                !$v.fields.signInPassword.required
+            "
             name="Password"
             type="required"
           />
           <tm-form-msg
-            v-if="!$v.fields.signInPassword.minLength"
+            v-if="
+              $v.fields.signInPassword.$error &&
+                !$v.fields.signInPassword.minLength
+            "
             name="Password"
             type="minLength"
             min="10"
@@ -48,20 +54,7 @@
         </tm-form-group>
       </div>
       <div class="tm-session-footer">
-        <tm-btn
-          v-if="connected"
-          icon="arrow_forward"
-          icon-pos="right"
-          value="Next"
-          size="lg"
-        />
-        <tm-btn
-          v-else
-          icon-pos="right"
-          value="Connecting..."
-          size="lg"
-          disabled="true"
-        />
+        <tm-btn icon="arrow_forward" icon-pos="right" value="Next" size="lg" />
       </div>
     </tm-form-struct>
   </div>
@@ -91,7 +84,7 @@ export default {
     }
   }),
   computed: {
-    ...mapGetters([`user`, `lastHeader`, `connected`]),
+    ...mapGetters([`user`]),
     accounts() {
       let accounts = this.user.accounts
       accounts = accounts.filter(({ name }) => name !== `trunk`)
@@ -111,11 +104,11 @@ export default {
     async onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return
-      try {
-        await this.$store.dispatch(`testLogin`, {
-          password: this.fields.signInPassword,
-          account: this.fields.signInName
-        })
+      const sessionCorrect = await this.$store.dispatch(`testLogin`, {
+        password: this.fields.signInPassword,
+        account: this.fields.signInName
+      })
+      if (sessionCorrect) {
         this.$store.dispatch(`signIn`, {
           password: this.fields.signInPassword,
           account: this.fields.signInName
@@ -123,16 +116,18 @@ export default {
         localStorage.setItem(`prevAccountKey`, this.fields.signInName)
         this.$router.push(`/`)
         this.$store.commit(`setModalSession`, false)
-      } catch (error) {
+      } else {
         this.$store.commit(`notifyError`, {
           title: `Signing In Failed`,
-          body: error.message
+          body: `The provided username or password is wrong.`
         })
       }
     },
     setDefaultAccount() {
-      let prevAccountKey = localStorage.getItem(`prevAccountKey`)
-      let prevAccountExists = this.accounts.find(a => a.key === prevAccountKey)
+      const prevAccountKey = localStorage.getItem(`prevAccountKey`)
+      const prevAccountExists = this.accounts.find(
+        a => a.key === prevAccountKey
+      )
 
       if (this.accounts.length === 1) {
         this.fields.signInName = this.accounts[0].key

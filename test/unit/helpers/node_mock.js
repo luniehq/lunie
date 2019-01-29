@@ -1,7 +1,7 @@
 "use strict"
 
-let mockValidators = require(`src/helpers/json/mock_validators.json`)
-let mockLcd = require(`../../../app/src/renderer/connectors/lcdClientMock.js`)
+const mockValidators = require(`src/helpers/json/mock_validators.json`)
+const mockLcd = require(`../../../app/src/renderer/connectors/lcdClientMock.js`)
 
 module.exports = {
   // REST
@@ -36,16 +36,21 @@ module.exports = {
   rpc: {
     on: () => {},
     subscribe: () => {},
-    validators: cb => cb(null, { validators: mockValidators }),
-    block: (args, cb) => cb({}),
-    blockchain: (args, cb) => cb(null, { block_metas: {} }),
-    status: cb =>
-      cb(null, {
+    async validators() {
+      return { validators: mockValidators }
+    },
+    async block() {},
+    async blockchain() {
+      return { block_metas: {} }
+    },
+    async status() {
+      return {
         sync_info: {
           latest_block_height: 42
         },
         node_info: { network: `test-net` }
-      })
+      }
+    }
   },
   rpcInfo: {
     connected: true,
@@ -53,7 +58,6 @@ module.exports = {
   },
   rpcConnect: () => {},
   rpcDisconnect: () => {},
-  rpcReconnect: () => Promise.resolve(`1.1.1.1`),
   setup: () => {},
 
   ...mockLcd

@@ -2,24 +2,30 @@ import setup from "../../../helpers/vuex-setup"
 import TableValidators from "renderer/components/staking/TableValidators"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
-let { stakingParameters } = lcdClientMock.state
+const { stakingParameters } = lcdClientMock.state
 
 describe(`TableValidators`, () => {
   let wrapper, store
-  let { mount } = setup()
+  const { mount } = setup()
 
   beforeEach(() => {
-    let instance = mount(TableValidators, {
+    const instance = mount(TableValidators, {
       doBefore: ({ store }) => {
         store.commit(`setConnected`, true)
-        store.commit(`setAtoms`, 1337)
+        store.commit(`updateWalletBalance`, {
+          denom: `atom`,
+          amount: 1337
+        })
       },
       propsData: { validators: lcdClientMock.candidates }
     })
     wrapper = instance.wrapper
     store = instance.store
     store.state.user.address = `address1234`
-    store.commit(`setAtoms`, 1337)
+    store.commit(`updateWalletBalance`, {
+      denom: `atom`,
+      amount: 1337
+    })
     store.commit(`setStakingParameters`, stakingParameters.parameters)
   })
 
@@ -66,6 +72,32 @@ describe(`TableValidators`, () => {
     expect(wrapper.vm.somethingToSearch).toBe(true)
     wrapper.setProps({ validators: [] })
     expect(wrapper.vm.somethingToSearch).toBe(false)
+  })
+
+  it(`should disallow delegation if user can't delegate`, () => {
+    let res = TableValidators.computed.userCanDelegate.call({
+      liquidAtoms: 0,
+      delegation: {
+        loaded: true
+      }
+    })
+    expect(res).toBe(false)
+
+    res = TableValidators.computed.userCanDelegate.call({
+      liquidAtoms: 1,
+      delegation: {
+        loaded: true
+      }
+    })
+    expect(res).toBe(true)
+
+    res = TableValidators.computed.userCanDelegate.call({
+      liquidAtoms: 1,
+      delegation: {
+        loaded: false
+      }
+    })
+    expect(res).toBe(false)
   })
 
   describe(`setSearch`, () => {

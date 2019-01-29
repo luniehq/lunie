@@ -161,7 +161,7 @@ describe(`TmSessionImport`, () => {
   })
 
   it(`should not continue if creation failed`, async () => {
-    store.dispatch = jest.fn(() => Promise.resolve(null))
+    store.dispatch = jest.fn(() => Promise.reject(new Error(`Wrong password`)))
     wrapper.setData({
       fields: {
         importName: `foo123`,
@@ -171,7 +171,10 @@ describe(`TmSessionImport`, () => {
       }
     })
     await wrapper.vm.onSubmit()
-    expect(store.commit).not.toHaveBeenCalled()
+    expect(store.commit).toHaveBeenCalledWith(`notifyError`, {
+      title: `Couldn't create account`,
+      body: expect.stringContaining(`Wrong password`)
+    })
   })
 
   it(`should show a notification if creation failed`, async () => {

@@ -3,7 +3,7 @@ import setup from "../../../helpers/vuex-setup"
 
 describe(`AppHeader`, () => {
   let wrapper, store, instance
-  let { mount } = setup()
+  const { mount } = setup()
 
   beforeEach(() => {
     instance = mount(AppHeader, {
@@ -75,14 +75,5 @@ describe(`AppHeader`, () => {
     global.dispatchEvent(new Event(`resize`))
 
     expect(store.commit).toHaveBeenCalledWith(`setConfigDesktop`, false)
-  })
-
-  it(`handles dark theme`, () => {
-    expect(wrapper.find(`#logo-white`).exists()).toBeTruthy()
-  })
-
-  it(`handles light theme`, () => {
-    store.commit(`setTheme`, `light`)
-    expect(wrapper.find(`#logo-black`).exists()).toBeTruthy()
   })
 })

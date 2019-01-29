@@ -2,4 +2,4 @@
 
 # This is the commit of the SDK version to use for building Gaia.  We use an
 # explicit hash instead of a tag so we don't have to trust GitHub.
-export COMMIT=6bff7082607a2c36439f8b6218816878c41ca6af
+export COMMIT=30aebc1173ed6dae2848d1e845ec2f4e22750355

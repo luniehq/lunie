@@ -190,6 +190,7 @@ export default {
   color: var(--dim);
   font-size: var(--sm);
   line-height: var(--xl);
+  display: inline;
 }
 
 .tm-session-footer > div {
@@ -233,11 +234,5 @@ export default {
   .tm-session-main .tm-form-group {
     display: block !important;
   }
-}
-
-.tm-connected-network {
-  position: absolute;
-  bottom: 0;
-  left: 0;
 }
 </style>

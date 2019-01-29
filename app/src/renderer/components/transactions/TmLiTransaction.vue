@@ -122,8 +122,8 @@ export default {
 }
 
 .tm-li-tx__content__caption {
-  line-height: lg;
-  font-size: lg;
+  line-height: var(--lg);
+  font-size: var(--lg);
   color: var(--bright);
 }
 

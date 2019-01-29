@@ -3,10 +3,10 @@ import TmModalHelp from "common/TmModalHelp"
 
 describe(`TmModalHelp`, () => {
   let wrapper, store
-  let { mount } = setup()
+  const { mount } = setup()
 
   beforeEach(() => {
-    let instance = mount(TmModalHelp)
+    const instance = mount(TmModalHelp)
     wrapper = instance.wrapper
     store = instance.store
     store.commit(`setModalHelp`, true)

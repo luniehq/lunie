@@ -3,10 +3,10 @@ import TmBtnCopy from "renderer/components/common/TmBtnCopy"
 
 describe(`TmBtnCopy`, () => {
   let wrapper, store
-  let instance = setup()
+  const instance = setup()
 
   beforeEach(() => {
-    let test = instance.mount(TmBtnCopy, {
+    const test = instance.mount(TmBtnCopy, {
       propsData: {
         title: `title`,
         body: `body`,
@@ -15,6 +15,8 @@ describe(`TmBtnCopy`, () => {
     })
     wrapper = test.wrapper
     store = test.store
+
+    wrapper.vm.copy = jest.fn()
   })
 
   it(`has the expected html structure`, () => {

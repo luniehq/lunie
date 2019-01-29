@@ -1,9 +1,8 @@
 <template>
   <div :class="cssClass">
-    <template v-if="name"
+    <template
       >{{ name }} {{ error }}</template
     >
-    <slot v-else=""></slot>
   </div>
 </template>
 
@@ -12,11 +11,11 @@ export default {
   props: {
     type: {
       type: String,
-      default: null
+      required: true
     },
     name: {
       type: String,
-      default: null
+      default: ``
     },
     min: {
       type: [String, Number], // for convenience you can provide a string
@@ -29,6 +28,10 @@ export default {
     length: {
       type: Number,
       default: null
+    },
+    msg: {
+      type: String,
+      default: ``
     }
   },
   computed: {
@@ -36,8 +39,6 @@ export default {
       let value = `tm-form-msg sm`
       if (this.type) {
         value += ` tm-form-msg--error`
-      } else {
-        value += ` tm-form-msg--desc`
       }
       return value
     },
@@ -89,6 +90,9 @@ export default {
         case `bech32`:
           msg = `is invalid bech32`
           break
+        case `custom`:
+          msg = this.msg
+          break
         default:
           msg = `must be valid`
           break
@@ -116,13 +120,21 @@ export default {
   padding-right: 0.35rem;
 }
 
+.tm-form-msg--error {
+  display: flex;
+}
+
 .tm-form-msg.tm-form-msg--error {
   color: var(--danger);
+  font-style: italic;
+  font-weight: 500;
+  position: absolute;
 }
 
 .tm-form-msg.tm-form-msg--error:before {
   content: "error";
   color: var(--danger);
+  font-style: normal;
 }
 
 .tm-form-msg.tm-form-msg--desc {

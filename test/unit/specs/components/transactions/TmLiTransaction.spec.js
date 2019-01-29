@@ -3,7 +3,7 @@ import TmLiTransaction from "transactions/TmLiTransaction"
 
 describe(`TmLiTransaction`, () => {
   let wrapper
-  let propsData = {
+  const propsData = {
     color: `#FFFFFF`,
     time: 1003442,
     block: 500

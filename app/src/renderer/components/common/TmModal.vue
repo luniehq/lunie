@@ -107,9 +107,10 @@ export default {
 
 .tm-modal-title {
   flex: 1;
-  font-size: h3;
+  font-size: var(--h3);
   font-weight: 500;
   color: var(--bright);
+  padding-left: 1rem;
 }
 
 .tm-modal-main {

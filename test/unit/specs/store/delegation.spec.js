@@ -1,298 +1,394 @@
-import setup from "../../helpers/vuex-setup"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 import delegationModule from "renderer/vuex/modules/delegation.js"
 
-let instance = setup()
-
-let mockRootState = {
+const mockRootState = {
   wallet: {
-    address: `x`
+    address: lcdClientMock.addresses[0]
   },
   connection: {
     connected: true
   },
   user: {
-    atoms: 1000
+    address: `cosmos1234`
   },
   stakingParameters: lcdClientMock.state.stakingParameters
 }
 
 describe(`Module: Delegations`, () => {
-  let store, node
+  let state, actions, mutations
 
-  beforeEach(async () => {
-    let test = instance.shallow()
-    store = test.store
-    node = test.node
-
-    await store.dispatch(`signIn`, { password: `bar`, account: `default` })
-    store.state.wallet.address = lcdClientMock.addresses[0]
-    await store.commit(`setConnected`, true)
-    await store.dispatch(`getDelegates`)
+  beforeEach(() => {
+    const module = delegationModule({ node: {} })
+    state = module.state
+    actions = module.actions
+    mutations = module.mutations
   })
 
   it(`adds delegate to cart`, () => {
-    store.commit(`addToCart`, { id: `foo`, x: 1 })
-    expect(store.state.delegation.delegates[0]).toEqual({
+    mutations.addToCart(state, { id: `foo`, x: 1 })
+    expect(state.delegates[0]).toEqual({
       id: `foo`,
       delegate: { id: `foo`, x: 1 },
       atoms: 0
     })
-    expect(store.state.delegation.delegates.length).toBe(1)
+    expect(state.delegates.length).toBe(1)
   })
 
   it(`does not add delegate to cart if already exists`, () => {
-    store.commit(`addToCart`, { id: `foo` })
-    store.commit(`addToCart`, { id: `foo`, x: 1 })
-    expect(store.state.delegation.delegates[0].id).toBe(`foo`)
-    expect(store.state.delegation.delegates[0].x).toBe(undefined)
-    expect(store.state.delegation.delegates.length).toBe(1)
+    mutations.addToCart(state, { id: `foo` })
+    mutations.addToCart(state, { id: `foo`, x: 1 })
+    expect(state.delegates[0].id).toBe(`foo`)
+    expect(state.delegates[0].x).toBe(undefined)
+    expect(state.delegates.length).toBe(1)
   })
 
   it(`removes delegate from cart`, () => {
-    store.commit(`addToCart`, { id: `foo` })
-    store.commit(`addToCart`, { id: `bar` })
-    store.commit(`removeFromCart`, `foo`)
-    expect(store.state.delegation.delegates[0]).toEqual({
+    mutations.addToCart(state, { id: `foo` })
+    mutations.addToCart(state, { id: `bar` })
+    mutations.removeFromCart(state, `foo`)
+    expect(state.delegates[0]).toEqual({
       id: `bar`,
       delegate: { id: `bar` },
       atoms: 0
     })
-    expect(store.state.delegation.delegates.length).toBe(1)
+    expect(state.delegates.length).toBe(1)
   })
 
   it(`sets committed atoms for delegate`, () => {
-    store.commit(`addToCart`, { id: `foo` })
-    store.commit(`setCommittedDelegation`, { candidateId: `foo`, value: 123 })
-    expect(store.state.delegation.committedDelegates).toEqual({ foo: 123 })
+    mutations.addToCart(state, { id: `foo` })
+    mutations.setCommittedDelegation(state, { candidateId: `foo`, value: 123 })
+    expect(state.committedDelegates).toEqual({ foo: 123 })
   })
 
   it(`sets committed atoms for delegate to 0`, () => {
-    store.commit(`addToCart`, { id: `foo` })
-    store.commit(`setCommittedDelegation`, { candidateId: `foo`, value: 123 })
-    store.commit(`setCommittedDelegation`, { candidateId: `foo`, value: 0 })
-    expect(store.state.delegation.committedDelegates).toEqual({})
+    mutations.addToCart(state, { id: `foo` })
+    mutations.setCommittedDelegation(state, { candidateId: `foo`, value: 123 })
+    mutations.setCommittedDelegation(state, { candidateId: `foo`, value: 0 })
+    expect(state.committedDelegates).toEqual({})
   })
 
-  it(`fetches bonded delegates`, async () => {
-    await store.dispatch(`getBondedDelegates`, store.state.delegates.delegates)
-    expect(store.state.delegation.committedDelegates).toMatchSnapshot()
+  describe(`fetch delegation data`, () => {
+    let node, commit
+    beforeEach(async () => {
+      node = {
+        getDelegations: jest.fn(
+          () =>
+            lcdClientMock.state.stake[lcdClientMock.addresses[0]].delegations
+        ),
+        getUndelegations: jest.fn(() => [
+          {
+            validator_addr: lcdClientMock.validators[0],
+            balance: { amount: 1 },
+            min_time: new Date().toUTCString()
+          }
+        ]),
+        getRedelegations: jest.fn(
+          () =>
+            lcdClientMock.state.stake[lcdClientMock.addresses[0]].redelegations
+        )
+      }
+      const module = delegationModule({
+        node
+      })
+      state = module.state
+      actions = module.actions
+      mutations = module.mutations
+      commit = jest.fn()
+
+      await actions.getBondedDelegates(
+        {
+          state,
+          rootState: mockRootState,
+          commit,
+          dispatch: jest.fn()
+        },
+        lcdClientMock.state.candidates
+      )
+    })
+
+    it(`fetches bonded delegates`, async () => {
+      expect(node.getDelegations).toHaveBeenCalled()
+      expect(commit).toHaveBeenCalledWith(`setCommittedDelegation`, {
+        candidateId: lcdClientMock.validators[0],
+        value: 14
+      })
+      expect(commit).toHaveBeenCalledWith(
+        `addToCart`,
+        lcdClientMock.state.candidates[0]
+      )
+    })
+
+    it(`fetches current undelegations`, async () => {
+      expect(node.getUndelegations).toHaveBeenCalled()
+      expect(commit).toHaveBeenCalledWith(`setUnbondingDelegations`, [
+        {
+          validator_addr: lcdClientMock.validators[0],
+          balance: { amount: 1 },
+          min_time: new Date().toUTCString()
+        }
+      ])
+    })
+
+    it(`should remove dead delegations and undelegations`, async () => {
+      mutations.setCommittedDelegation(state, {
+        candidateId: lcdClientMock.validators[2],
+        value: 1
+      })
+      mutations.setUnbondingDelegations(state, [
+        {
+          validator_addr: lcdClientMock.validators[2],
+          balance: {
+            amount: 1
+          }
+        }
+      ])
+      expect(state.committedDelegates[lcdClientMock.validators[2]]).toBeTruthy()
+      expect(
+        state.unbondingDelegations[lcdClientMock.validators[2]]
+      ).toBeTruthy()
+
+      const commit = jest.fn()
+      await actions.getBondedDelegates(
+        {
+          state,
+          rootState: mockRootState,
+          commit,
+          dispatch: jest.fn()
+        },
+        lcdClientMock.state.candidates
+      )
+
+      expect(commit).toHaveBeenCalledWith(`setCommittedDelegation`, {
+        candidateId: lcdClientMock.validators[2],
+        value: 0
+      })
+      expect(commit).toHaveBeenCalledWith(`setUnbondingDelegations`, [
+        {
+          validator_addr: lcdClientMock.validators[0],
+          balance: { amount: 1 },
+          min_time: `Thu, 01 Jan 1970 00:00:42 GMT`
+        }
+      ])
+    })
   })
 
   it(`submits delegation transaction`, async () => {
-    store.dispatch(`setLastHeader`, {
-      height: 42,
-      chain_id: `test-chain`
-    })
-    await store.dispatch(`getBondedDelegates`)
-    await store.dispatch(`getStakingParameters`)
+    const stakingTransactions = {}
+    stakingTransactions.delegations = [
+      {
+        validator: lcdClientMock.state.candidates[0],
+        atoms: 109
+      },
+      {
+        validator: lcdClientMock.state.candidates[1],
+        atoms: 456
+      }
+    ]
+    const dispatch = jest.fn()
 
-    jest.spyOn(store._actions.sendTx, `0`)
+    await actions.submitDelegation(
+      {
+        rootState: mockRootState,
+        getters: {
+          liquidAtoms: 1000
+        },
+        state,
+        dispatch,
+        commit: jest.fn()
+      },
+      { stakingTransactions }
+    )
 
-    const validators = store.state.delegates.delegates
-
-    await store.dispatch(`submitDelegation`, {
-      validator_addr: validators[0].operator_address,
-      amount: 213,
-      password: `12345`
-    })
-
-    expect(store._actions.sendTx[0].mock.calls).toMatchSnapshot()
+    expect(dispatch.mock.calls).toMatchSnapshot()
   })
 
   it(`submits undelegation transaction`, async () => {
-    store.dispatch(`setLastHeader`, {
-      height: 42,
-      chain_id: `test-chain`
-    })
-    await store.dispatch(`getBondedDelegates`)
+    const stakingTransactions = {}
+    stakingTransactions.delegations = [
+      {
+        validator: lcdClientMock.state.candidates[0],
+        atoms: -113
+      },
+      {
+        validator: lcdClientMock.state.candidates[1],
+        atoms: -356
+      }
+    ]
+    const dispatch = jest.fn()
 
-    jest.spyOn(store._actions.sendTx, `0`)
+    await actions.submitDelegation(
+      {
+        rootState: mockRootState,
+        getters: {
+          liquidAtoms: 1000
+        },
+        state,
+        dispatch,
+        commit: () => {}
+      },
+      { stakingTransactions }
+    )
 
-    const validators = store.state.delegates.delegates
-    await store.dispatch(`submitUnbondingDelegation`, {
-      validator: validators[0],
-      amount: -113,
-      password: `12345`
-    })
-    expect(store._actions.sendTx[0].mock.calls).toMatchSnapshot()
-  })
-
-  it(`submits redelegation transaction`, async () => {
-    store.dispatch(`setLastHeader`, {
-      height: 42,
-      chain_id: `test-chain`
-    })
-    await store.dispatch(`getBondedDelegates`)
-
-    jest.spyOn(store._actions.sendTx, `0`)
-
-    const validators = store.state.delegates.delegates
-
-    await store.dispatch(`submitDelegation`, {
-      validator_addr: validators[0].operator_address,
-      amount: 20,
-      password: `12345`
-    })
-
-    // make sure the user has enough stake to redelegate
-    node.state.stake[lcdClientMock.addresses[0]].delegations[0].shares = `100`
-
-    await store.dispatch(`submitRedelegation`, {
-      validatorSrc: validators[0],
-      validatorDst: validators[1],
-      amount: 1,
-      password: `12345`
-    })
-    expect(store._actions.sendTx[0].mock.calls).toMatchSnapshot()
-  })
-  it(`fetches current undelegations`, async () => {
-    await store.dispatch(`getBondedDelegates`, store.state.delegates.delegates)
-    expect(store.state.delegation.unbondingDelegations).toMatchSnapshot()
+    expect(dispatch.mock.calls).toMatchSnapshot()
   })
 
   it(`deletes undelegations that are 0`, async () => {
-    await store.dispatch(`getBondedDelegates`, store.state.delegates.delegates)
-    store.commit(`setUnbondingDelegations`, [
+    mutations.setUnbondingDelegations(state, [
       {
         validator_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
         balance: { amount: 0 }
       }
     ])
     expect(
-      store.state.delegation.unbondingDelegations
+      state.unbondingDelegations
         .cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
     ).toBeUndefined()
   })
 
   it(`should query delegated atoms on reconnection`, () => {
-    jest.resetModules()
-    let axios = require(`axios`)
-    store.state.connection.stopConnecting = true
-    store.state.delegation.loading = true
-    jest.spyOn(axios, `get`)
-    store.dispatch(`reconnected`)
-    expect(axios.get.mock.calls).toMatchSnapshot()
+    state.loading = true
+    const dispatch = jest.fn()
+    actions.reconnected({ state, dispatch })
+    expect(dispatch).toHaveBeenCalledWith(`getBondedDelegates`)
   })
 
   it(`should not query delegated atoms on reconnection if not stuck in loading`, () => {
-    jest.resetModules()
-    let axios = require(`axios`)
-    store.state.connection.stopConnecting = true
-    store.state.delegation.loading = false
-    jest.spyOn(axios, `get`)
-    store.dispatch(`reconnected`)
-    expect(axios.get.mock.calls.length).toBe(0)
+    state.loading = false
+    const dispatch = jest.fn()
+    actions.reconnected({ state, dispatch })
+    expect(dispatch).not.toHaveBeenCalledWith(`getBondedDelegates`)
   })
 
   it(`updating delegations should not update another users state after signing out and in again`, async () => {
-    jest.resetModules()
-    let resolveDelegationRequest
+    jest.useFakeTimers()
 
-    // mock returning some delegations
-    node.getDelegations = () =>
-      new Promise(resolve => {
-        resolveDelegationRequest = () =>
-          resolve({
-            delegations: [
-              {
-                delegator_addr: `abc`,
-                validator_addr: `def`,
-                shares: `14`,
-                height: 123
-              }
-            ]
-          })
-      })
+    const node = {
+      getDelegations: jest.fn(
+        () => new Promise(resolve => setTimeout(() => resolve([]), 10000))
+      ),
+      getUndelegations: jest.fn(() => []),
+      getRedelegations: jest.fn(() => [])
+    }
+    const module = delegationModule({
+      node
+    })
+    state = module.state
+    actions = module.actions
+    mutations = module.mutations
+    const commit = jest.fn()
 
-    // trigger the get call
-    let getDelegationsPromise = store.dispatch(
-      `getBondedDelegates`,
-      store.state.delegates.delegates
+    const rootState = JSON.parse(JSON.stringify(mockRootState))
+    actions.getBondedDelegates(
+      {
+        state,
+        rootState,
+        commit,
+        dispatch: jest.fn()
+      },
+      lcdClientMock.state.candidates
     )
 
-    // sign out - sign in
-    store.state.user.address = `some other address`
+    rootState.wallet.address = `other_address`
 
-    // finish the request
-    resolveDelegationRequest()
-    await getDelegationsPromise
+    jest.runAllTimers()
 
-    // expect the delegations to not be updated, as the address changed
-    expect(Object.keys(store.state.delegation.committedDelegates)).toHaveLength(
-      0
-    )
+    expect(commit).not.toHaveBeenCalled()
   })
 
-  it(`should remove dead delegations and undelegations`, async () => {
-    store.commit(`setCommittedDelegation`, {
-      candidateId: lcdClientMock.validators[1],
-      value: 1
-    })
-    store.commit(`setUnbondingDelegations`, [
+  it(`should store a undelegation`, async () => {
+    mutations.setUnbondingDelegations(state, [
       {
-        validator_addr: lcdClientMock.validators[1],
-        balance: {
-          amount: 1
-        }
+        validator_addr: lcdClientMock.validators[0],
+        balance: { amount: `100` },
+        creation_height: `12`,
+        min_time: new Date().toUTCString()
       }
     ])
-    expect(
-      store.state.delegation.committedDelegates[lcdClientMock.validators[1]]
-    ).toBeTruthy()
-    expect(
-      store.state.delegation.unbondingDelegations[lcdClientMock.validators[1]]
-    ).toBeTruthy()
-    await store.dispatch(`getBondedDelegates`) // lcdclientmock doesn't have the delegations we set above so they should be deleted locally
 
-    expect(
-      store.state.delegation.committedDelegates[lcdClientMock.validators[1]]
-    ).toBeFalsy()
-    expect(
-      store.state.delegation.unbondingDelegations[lcdClientMock.validators[1]]
-    ).toBeFalsy()
-  })
-
-  it(`should update delegation status`, async () => {
-    store.state.delegation.committedDelegates = {}
-    await store.dispatch(`updateDelegates`)
-    expect(store.state.delegation.committedDelegates).toBeTruthy()
+    expect(state.unbondingDelegations[lcdClientMock.validators[0]]).toEqual({
+      balance: { amount: `100` },
+      creation_height: `12`,
+      min_time: new Date().toUTCString()
+    })
   })
 
   it(`should update the atoms on a delegation optimistically`, async () => {
     const commit = jest.fn()
-    const validators = store.state.delegates.delegates
-
-    let committedDelegates = {
-      [validators[0].operator_address]: 10
+    const delegates = lcdClientMock.state.candidates
+    const stakingTransactions = {}
+    stakingTransactions.delegations = [
+      {
+        validator: delegates[0],
+        atoms: 109
+      },
+      {
+        validator: delegates[1],
+        atoms: 456
+      }
+    ]
+    const committedDelegates = {
+      [delegates[0].operator_address]: 10
     }
 
-    await delegationModule({}).actions.submitDelegation(
+    await actions.submitDelegation(
       {
-        rootState: {
-          stakingParameters: lcdClientMock.state.stakingParameters,
-          user: {
-            atoms: 1000
-          },
-          wallet: {}
-        },
+        rootState: mockRootState,
         state: {
           committedDelegates
+        },
+        getters: {
+          liquidAtoms: 1000
         },
         dispatch: () => {},
         commit
       },
       {
         amount: 100,
-        validator_addr: validators[0].operator_address,
+        validator_addr: delegates[0].operator_address,
         password: `12345`
       }
     )
-
-    expect(commit).toHaveBeenCalledWith(`setAtoms`, 900)
-    expect(committedDelegates).toEqual({
-      [validators[0].operator_address]: 110
+    expect(commit).toHaveBeenCalledWith(`updateWalletBalance`, {
+      denom: `STAKE`,
+      amount: 900
     })
+    expect(commit).toHaveBeenCalledWith(`setCommittedDelegation`, {
+      candidateId: delegates[0].operator_address,
+      value: 110
+    })
+  })
+
+  it(`should update delegates after delegation`, async () => {
+    jest.useFakeTimers()
+    const stakingTransactions = {}
+    stakingTransactions.unbondings = [
+      {
+        validator: {
+          operator_address: lcdClientMock.validators[0],
+          delegator_shares: `100`,
+          tokens: `100`
+        },
+        balance: {
+          amount: `100`
+        }
+      }
+    ]
+
+    const dispatch = jest.fn()
+    await actions.submitDelegation(
+      {
+        rootState: mockRootState,
+        getters: {
+          liquidAtoms: 1000
+        },
+        state,
+        dispatch,
+        commit: jest.fn()
+      },
+      { stakingTransactions }
+    )
+    jest.runAllTimers()
+    expect(dispatch).toHaveBeenCalledWith(`updateDelegates`)
   })
 
   it(`should store an error if failed to load delegations`, async () => {

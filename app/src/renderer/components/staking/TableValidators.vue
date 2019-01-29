@@ -61,6 +61,7 @@ export default {
       `committedDelegations`,
       `config`,
       `user`,
+      `liquidAtoms`,
       `connected`,
       `bondDenom`,
       `keybase`
@@ -95,8 +96,8 @@ export default {
       )
     },
     sortedFilteredEnrichedDelegates() {
-      let query = this.filters.delegates.search.query || ``
-      let sortedEnrichedDelegates = orderBy(
+      const query = this.filters.delegates.search.query || ``
+      const sortedEnrichedDelegates = orderBy(
         this.enrichedDelegates.slice(0),
         [this.sort.property, `small_moniker`],
         [this.sort.order, `asc`]
@@ -110,7 +111,7 @@ export default {
       }
     },
     userCanDelegate() {
-      return this.user.atoms > 0 && this.delegation.loaded
+      return this.liquidAtoms > 0 && this.delegation.loaded
     },
     properties() {
       return [

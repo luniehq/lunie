@@ -43,18 +43,11 @@ export default ({ node }) => {
           return blockMetaInfo
         }
         state.loading = true
-        blockMetaInfo = await new Promise((resolve, reject) => {
-          node.rpc.blockchain(
-            { minHeight: String(height), maxHeight: String(height) },
-            (error, data) => {
-              if (error) {
-                reject(new Error(`Couldn't query block. ${error.message}`))
-              } else {
-                resolve(data.block_metas && data.block_metas[0])
-              }
-            }
-          )
+        const { block_metas } = await node.rpc.blockchain({
+          minHeight: String(height),
+          maxHeight: String(height)
         })
+        blockMetaInfo = block_metas ? block_metas[0] : undefined
         state.loading = false
 
         commit(`setBlockMetas`, {
@@ -69,41 +62,33 @@ export default ({ node }) => {
         })
         Sentry.captureException(error)
         state.loading = false
-        state.error = error.message
+        state.error = error
         return null
       }
     },
-    subscribeToBlocks({ state, commit, dispatch }) {
+    async subscribeToBlocks({ state, commit, dispatch }) {
       // ensure we never subscribe twice
       if (state.subscription) return false
       if (state.subscribedRPC === node.rpc) return false
       commit(`setSubscribedRPC`, node.rpc)
 
-      function handleError(error) {
-        dispatch(`nodeHasHalted`)
-        state.error = error
+      const status = await node.rpc.status()
+      commit(`setBlockHeight`, status.sync_info.latest_block_height)
+      if (status.sync_info.catching_up) {
+        // still syncing, let's try subscribing again in 30 seconds
+        commit(`setSyncing`, true)
+        commit(`setSubscription`, false)
+        setTimeout(() => dispatch(`subscribeToBlocks`), 30e3)
+        return false
       }
 
-      node.rpc.status((error, status) => {
-        if (error) return handleError(error)
-        commit(`setBlockHeight`, status.sync_info.latest_block_height)
-        if (status.sync_info.catching_up) {
-          // still syncing, let's try subscribing again in 30 seconds
-          commit(`setSyncing`, true)
-          commit(`setSubscription`, false)
-          setTimeout(() => dispatch(`subscribeToBlocks`), 30e3)
-          return false
-        }
+      commit(`setSyncing`, false)
 
-        commit(`setSyncing`, false)
-
-        // only subscribe if the node is not catching up anymore
-        node.rpc.subscribe({ query: `tm.event = 'NewBlock'` }, error => {
-          if (error) return handleError(error)
-
-          if (state.subscription === false) commit(`setSubscription`, true)
-        })
+      // only subscribe if the node is not catching up anymore
+      node.rpc.subscribe({ query: `tm.event = 'NewBlock'` }, () => {
+        if (state.subscription === false) commit(`setSubscription`, true)
       })
+
       return true
     }
   }

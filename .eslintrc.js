@@ -21,6 +21,13 @@ module.exports = {
     "no-unused-vars": "error",
     quotes: ["error", "backtick"],
     "no-var": "error",
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "prefer-const": [
+      "error",
+      {
+        destructuring: "all",
+        ignoreReadBeforeAssign: false
+      }
+    ]
   }
 }

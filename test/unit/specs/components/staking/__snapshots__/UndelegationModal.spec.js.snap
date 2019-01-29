@@ -2,24 +2,26 @@
 
 exports[`UndelegationModal component matches snapshot has the expected html structure 1`] = `
 <div
-  class="undelegation-modal"
+  class="action-modal undelegation-modal"
   id="undelegation-modal"
+  name="slide-fade"
 >
   <div
-    class="undelegation-modal-header"
+    class="action-modal-header"
   >
     <img
-      class="icon undelegation-modal-atom"
+      class="icon action-modal-atom"
       src="~assets/images/cosmos-logo.png"
     />
     <span
-      class="tm-modal-title"
+      class="action-modal-title"
     >
       Undelegate
     </span>
      
     <div
-      class="tm-modal-icon tm-modal-close"
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
     >
       <i
         class="material-icons"
@@ -30,112 +32,147 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
   </div>
    
   <div
-    class="undelegation-modal-form-group tm-form-group tm-form-group--error"
+    class="action-modal-form"
   >
-    <!---->
-    <!---->
-     
     <div
-      class="tm-form-group__field"
+      class="action-modal-form-group tm-form-group"
     >
-      <input
-        class="tm-field"
-        id="denom"
-        placeholder="STAKE"
-        readonly="readonly"
-        type="text"
-      />
-       
-      <input
-        class="tm-field"
-        id="amount"
-        max="100"
-        min="0"
-        type="number"
-      />
-       
       <!---->
-    </div>
-  </div>
-   
-  <div
-    class="undelegation-modal-form-group tm-form-group"
-  >
-    <!---->
-    <label
-      class="tm-form-group__label"
-      for="to"
-    >
-      To
-    </label>
-     
-    <div
-      class="tm-form-group__field"
-    >
-      <input
-        class="tm-field"
-        id="to"
-        readonly="readonly"
-        type="text"
-      />
-       
-      <hr />
-    </div>
-  </div>
-   
-  <div
-    class="undelegation-modal-form-group tm-form-group"
-  >
-    <!---->
-    <label
-      class="tm-form-group__label"
-      for="password"
-    >
-      Account password
-    </label>
-     
-    <div
-      class="tm-form-group__field"
-    >
-      <input
-        class="tm-field"
-        id="password"
-        placeholder="password..."
-        type="password"
-      />
-       
-      <input
-        id="showPasswordCheckbox"
-        type="checkbox"
-      />
-       
       <label
-        for="showPasswordCheckbox"
+        class="tm-form-group__label"
+        for="from"
       >
-        Show password
+        From
       </label>
+       
+      <div
+        class="tm-form-group__field"
+      >
+        <input
+          class="tm-field"
+          id="from"
+          readonly="readonly"
+          type="text"
+        />
+      </div>
+    </div>
+     
+    <div
+      class="action-modal-form-group tm-form-group"
+    >
+      <!---->
+      <label
+        class="tm-form-group__label"
+        for="to"
+      >
+        To
+      </label>
+       
+      <div
+        class="tm-form-group__field"
+      >
+        <input
+          class="tm-field"
+          id="to"
+          readonly="readonly"
+          type="text"
+        />
+      </div>
+    </div>
+     
+    <div
+      class="action-modal-form-group tm-form-group"
+    >
+      <!---->
+      <label
+        class="tm-form-group__label"
+        for="amount"
+      >
+        Amount
+      </label>
+       
+      <div
+        class="tm-form-group__field"
+      >
+        <span
+          class="input-suffix"
+        >
+          STAKE
+        </span>
+         
+        <input
+          class="tm-field"
+          id="amount"
+          placeholder="Amount"
+          type="number"
+        />
+         
+        <!---->
+      </div>
+    </div>
+     
+    <!---->
+     
+    <div
+      class="action-modal-group tm-form-group"
+    >
+      <!---->
+      <label
+        class="tm-form-group__label"
+        for="password"
+      >
+        Password
+      </label>
+       
+      <div
+        class="tm-form-group__field"
+      >
+        <input
+          class="tm-field"
+          id="password"
+          placeholder="Password"
+          type="password"
+        />
+         
+        <!---->
+      </div>
     </div>
   </div>
    
   <div
-    class="undelegation-modal-footer"
+    class="action-modal-footer"
   >
-    <button
-      class="tm-btn"
-      disabled="disabled"
-      id="submit-undelegation"
+    <div
+      class="action-modal-group tm-form-group"
     >
-      <span
-        class="tm-btn__container tm-btn--size-lg tm-btn--primary"
+      <!---->
+      <!---->
+       
+      <div
+        class="tm-form-group__field"
       >
-        <!---->
-        <span
-          class="tm-btn__value"
+        <div
+          class="action-modal-footer"
         >
-          Undelegate
-        </span>
-      </span>
-    </button>
+          <button
+            class="tm-btn"
+          >
+            <span
+              class="tm-btn__container tm-btn--primary"
+            >
+              <!---->
+              <span
+                class="tm-btn__value"
+              >
+                Submit
+              </span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+     
+    <!---->
   </div>
 </div>
 `;

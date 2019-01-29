@@ -1,15 +1,9 @@
 <template>
-  <page-profile data-title="Proposal"
-    ><template slot="menu-body">
+  <page-profile data-title="Proposal">
+    <template slot="menu-body">
       <tm-balance />
+      <tool-bar />
     </template>
-    <div slot="menu">
-      <tool-bar>
-        <router-link to="/governance" exact="exact"
-          ><i class="material-icons">arrow_back</i></router-link
-        >
-      </tool-bar>
-    </div>
     <tm-data-error v-if="!proposal" />
     <template v-else>
       <div class="page-profile__header page-profile__section proposal">
@@ -60,8 +54,8 @@
               Submitted {{ submittedAgo }}.
               {{
                 proposal.proposal_status === `DepositPeriod`
-                  ? `Deposit ends ` + depositEndsIn
-                  : `Voting started ` + votingStartedAgo
+                  ? `Deposit ends ${depositEndsIn}.`
+                  : `Voting started ${votingStartedAgo}.`
               }}
             </p>
           </div>
@@ -102,20 +96,16 @@
         </div>
       </div>
       <modal-deposit
-        v-if="showModalDeposit"
-        :show-modal-deposit.sync="showModalDeposit"
+        ref="modalDeposit"
         :proposal-id="proposalId"
         :proposal-title="proposal.title"
         :denom="depositDenom"
-        @submitDeposit="deposit"
       />
       <modal-vote
-        v-if="showModalVote"
-        :show-modal-vote.sync="showModalVote"
+        ref="modalVote"
         :proposal-id="proposalId"
         :proposal-title="proposal.title"
         :last-vote-option="lastVote && lastVote.option"
-        @castVote="castVote"
       />
     </template>
   </page-profile>
@@ -152,12 +142,9 @@ export default {
     }
   },
   data: () => ({
-    showModalDeposit: false,
-    showModalVote: false,
     lastVote: undefined
   }),
   computed: {
-    // TODO: get denom from governance params
     ...mapGetters([
       `depositDenom`,
       `proposals`,
@@ -167,9 +154,6 @@ export default {
     ]),
     proposal() {
       return this.proposals.proposals[this.proposalId]
-    },
-    proposalType() {
-      return this.proposal.proposal_type.toLowerCase()
     },
     submittedAgo() {
       return moment(new Date(this.proposal.submit_time)).fromNow()
@@ -201,7 +185,7 @@ export default {
       return num.percentInt(this.tally.abstain / this.totalVotes)
     },
     tally() {
-      let proposalTally = this.proposals.tallies[this.proposalId]
+      const proposalTally = this.proposals.tallies[this.proposalId] || {}
       proposalTally.yes = Math.round(parseFloat(proposalTally.yes))
       proposalTally.no = Math.round(parseFloat(proposalTally.no))
       proposalTally.no_with_veto = Math.round(
@@ -239,7 +223,7 @@ export default {
   },
   methods: {
     async onVote() {
-      this.showModalVote = true
+      this.$refs.modalVote.open()
       // The error is already handled with notifyError in votes.js
       await this.$store.dispatch(`getProposalVotes`, this.proposalId)
       this.lastVote =
@@ -247,52 +231,7 @@ export default {
         this.votes[this.proposalId].find(e => e.voter === this.wallet.address)
     },
     onDeposit() {
-      this.showModalDeposit = true
-    },
-    async deposit({ amount, password }) {
-      try {
-        // TODO: support multiple coins
-        await this.$store.dispatch(`submitDeposit`, {
-          proposal_id: this.proposalId,
-          amount,
-          password
-        })
-
-        this.$store.commit(`notify`, {
-          title: `Successful deposit!`,
-          body: `You have successfully deposited your ${
-            this.depositDenom
-          }s on proposal #${this.proposalId}`
-        })
-      } catch ({ message }) {
-        this.$store.commit(`notifyError`, {
-          title: `Error while submitting a deposit on proposal #${
-            this.proposalId
-          }`,
-          body: message
-        })
-      }
-    },
-    async castVote({ option, password }) {
-      try {
-        await this.$store.dispatch(`submitVote`, {
-          proposal_id: this.proposalId,
-          option,
-          password
-        })
-
-        this.$store.commit(`notify`, {
-          title: `Successful vote!`,
-          body: `You have successfully voted ${option} on proposal #${
-            this.proposalId
-          }`
-        })
-      } catch ({ message }) {
-        this.$store.commit(`notifyError`, {
-          title: `Error while voting on proposal #${this.proposalId}`,
-          body: message
-        })
-      }
+      this.$refs.modalDeposit.open()
     }
   }
 }

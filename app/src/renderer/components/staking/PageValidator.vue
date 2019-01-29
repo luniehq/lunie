@@ -1,6 +1,6 @@
 <template>
-  <page-profile data-title="Validator"
-    ><template slot="menu-body">
+  <page-profile data-title="Validator">
+    <template slot="menu-body">
       <tm-balance />
       <tool-bar />
     </template>
@@ -162,20 +162,19 @@
         </div>
       </div>
       <delegation-modal
-        v-if="showDelegationModal"
-        :show-delegation-modal.sync="showDelegationModal"
+        ref="delegationModal"
         :from-options="delegationTargetOptions()"
         :to="validator.operator_address"
+        :validator="validator"
         :denom="bondDenom"
-        @submitDelegation="submitDelegation"
       />
       <undelegation-modal
-        v-if="showUndelegationModal"
-        :show-undelegation-modal.sync="showUndelegationModal"
+        ref="undelegationModal"
         :maximum="myBond.toNumber()"
+        :from-options="delegationTargetOptions()"
         :to="wallet.address"
+        :validator="validator"
         :denom="bondDenom"
-        @submitUndelegation="submitUndelegation"
       />
       <tm-modal v-if="showCannotModal" :close="closeCannotModal">
         <div slot="title">
@@ -235,8 +234,6 @@ export default {
   data: () => ({
     num,
     showCannotModal: false,
-    showDelegationModal: false,
-    showUndelegationModal: false,
     shortAddress,
     tabIndex: 1,
     action: ``,
@@ -250,13 +247,12 @@ export default {
       `committedDelegations`,
       `config`,
       `keybase`,
-      `oldBondedAtoms`,
-      `totalAtoms`,
+      `liquidAtoms`,
       `wallet`,
       `connected`
     ]),
     validator() {
-      let validator = this.delegates.delegates.find(
+      const validator = this.delegates.delegates.find(
         v => this.$route.params.validator === v.operator_address
       )
       if (validator)
@@ -312,9 +308,6 @@ export default {
 
       // status: active
       return `green`
-    },
-    availableAtoms() {
-      return this.totalAtoms - this.oldBondedAtoms
     }
   },
   watch: {
@@ -332,8 +325,8 @@ export default {
     },
     onDelegation() {
       this.action = `delegate`
-      if (this.availableAtoms > 0) {
-        this.showDelegationModal = true
+      if (this.liquidAtoms > 0) {
+        this.$refs.delegationModal.open()
       } else {
         this.showCannotModal = true
       }
@@ -341,95 +334,31 @@ export default {
     onUndelegation() {
       this.action = `undelegate`
       if (this.myBond.isGreaterThan(0)) {
-        this.showUndelegationModal = true
+        this.$refs.undelegationModal.open()
       } else {
         this.showCannotModal = true
       }
     },
-    async submitDelegation({ amount, from, password }) {
-      if (from === this.wallet.address) {
-        try {
-          await this.$store.dispatch(`submitDelegation`, {
-            validator_addr: this.validator.operator_address,
-            amount,
-            password
-          })
-
-          this.$store.commit(`notify`, {
-            title: `Successful delegation!`,
-            body: `You have successfully delegated your ${this.bondDenom}s`
-          })
-        } catch ({ message }) {
-          this.$store.commit(`notifyError`, {
-            title: `Error while delegating ${this.bondDenom}s`,
-            body: message
-          })
-        }
-      } else {
-        const validatorSrc = this.delegates.delegates.find(
-          v => from === v.operator_address
-        )
-        try {
-          await this.$store.dispatch(`submitRedelegation`, {
-            validatorSrc,
-            validatorDst: this.validator,
-            amount,
-            password
-          })
-
-          this.$store.commit(`notify`, {
-            title: `Successful redelegation!`,
-            body: `You have successfully redelegated your ${this.bondDenom}s`
-          })
-        } catch ({ message }) {
-          this.$store.commit(`notifyError`, {
-            title: `Error while redelegating ${this.bondDenom}s`,
-            body: message
-          })
-        }
-      }
-    },
-    async submitUndelegation({ amount, password }) {
-      try {
-        await this.$store.dispatch(`submitUnbondingDelegation`, {
-          amount: -amount,
-          validator: this.validator,
-          password
-        })
-
-        this.$store.commit(`notify`, {
-          title: `Successful undelegation!`,
-          body: `You have successfully undelegated ${amount} ${
-            this.bondDenom
-          }s.`
-        })
-      } catch ({ message }) {
-        this.$store.commit(`notifyError`, {
-          title: `Error while undelegating ${this.bondDenom}s`,
-          body: message
-        })
-      }
-    },
     delegationTargetOptions() {
       //- First option should always be your wallet (i.e normal delegation)
-      let myWallet = [
+      const myWallet = [
         {
           address: this.wallet.address,
-          maximum: Math.floor(this.totalAtoms - this.oldBondedAtoms),
+          maximum: Math.floor(this.liquidAtoms),
           key: `My Wallet - ${shortAddress(this.wallet.address, 20)}`,
           value: 0
         }
       ]
-      let bondedValidators = Object.keys(this.committedDelegations)
+      const bondedValidators = Object.keys(this.committedDelegations)
       if (isEmpty(bondedValidators)) {
         return myWallet
       }
       //- The rest of the options are from your other bonded validators
       //- We skip the option of redelegating to the same address
-      let redelegationOptions = bondedValidators
+      const redelegationOptions = bondedValidators
         .filter(address => address != this.$route.params.validator)
         .map((address, index) => {
-          let delegate = this.delegates.delegates.find(function(validator) {
+          const delegate = this.delegates.delegates.find(function(validator) {
             return validator.operator_address === address
           })
           return {

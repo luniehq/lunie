@@ -1,596 +1,112 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PageWallet has the expected html structure 1`] = `
-<div
-  class="tm-page"
+<tm-page-stub
   data-title="Wallet"
+  dataset="[object Object],[object Object],[object Object]"
+  hasfiltereddata="true"
+  menubody=""
+  refresh="function () { [native code] }"
+  search="balances"
+  subtitle=""
+  title=""
 >
-  <header
-    class="tm-page-header"
+  <tm-data-msg-stub
+    icon="help_outline"
+    id="account_empty_msg"
   >
-    <div
-      class="tm-page-header-container"
-    >
-      <div
-        class="tm-page-header-text"
-      >
-        <!---->
-         
-        <!---->
-         
-        <div
-          class="tm-page-header-body"
-        >
-          <div
-            class="header-balance"
-          >
-            <div
-              class="top"
-            >
-              <div
-                class="icon-container"
-              >
-                <img
-                  class="icon"
-                  src="~assets/images/cosmos-logo.png"
-                />
-              </div>
-               
-              <div
-                class="total-atoms top-section"
-              >
-                <h3>
-                  Total STAKE
-                </h3>
-                 
-                <h2
-                  class="total-atoms__value"
-                >
-                  1,014.0000…
-                </h2>
-              </div>
-               
-              <div
-                class="unbonded-atoms top-section"
-              >
-                <h3>
-                  Available STAKE
-                </h3>
-                 
-                <h2>
-                  1,000.0000…
-                </h2>
-              </div>
-            </div>
-             
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    cosmos…xxn9
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
-             
-            <div
-              class="tabs"
-            />
-             
-          </div>
-           
-          <div
-            class="tm-tool-bar"
-          >
-            <a
-              class="back"
-              disabled="disabled"
-            >
-              <i
-                class="material-icons"
-              >
-                arrow_back
-              </i>
-            </a>
-             
-            <a>
-              <i
-                class="material-icons"
-              >
-                refresh
-              </i>
-            </a>
-             
-            <a>
-              <i
-                class="material-icons"
-              >
-                search
-              </i>
-            </a>
-            <a
-              class="help"
-            >
-              <i
-                class="material-icons"
-              >
-                help_outline
-              </i>
-            </a>
-             
-            <router-link-stub
-              id="settings"
-              to="/preferences"
-            >
-              <i
-                class="material-icons"
-              >
-                settings
-              </i>
-            </router-link-stub>
-            <a
-              id="signOut-btn"
-            >
-              <i
-                class="material-icons"
-              >
-                exit_to_app
-              </i>
-            </a>
-          </div>
-        </div>
-      </div>
-       
-      <menu
-        class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
+    <div>
+      Account empty
     </div>
-  </header>
+     
+    <div>
+      This account doesn't have anything in it yet.
+    </div>
+  </tm-data-msg-stub>
    
-  <main
-    class="tm-page-main"
-  >
-     
-    <modal-search-stub
-      type="balances"
-    />
-     
-    <ul>
-      <li
-        class="li-coin tm-li-balance"
-      >
-        <div
-          class="li-coin__icon"
-        >
-          <img
-            src="~assets/images/cosmos-logo.png"
-          />
-        </div>
-         
-        <div
-          class="li-coin__content"
-        >
-          <div
-            class="li-coin__content__left__denom"
-          >
-            <p
-              class="coin-denom"
-            >
-              Fermion
-            </p>
-          </div>
-           
-          <div
-            class="li-coin__content__left__amount"
-          >
-            <p
-              class="coin-amount"
-            >
-              2,300.0000000000
-            </p>
-          </div>
-           
-          <router-link-stub
-            to="[object Object]"
-          >
-            <button
-              class="tm-btn sendTx-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn__icon-right tm-btn--primary"
-              >
-                <i
-                  aria-hidden="true"
-                  class="tm-btn__icon material-icons"
-                >
-                  chevron_right
-                </i>
-                <span
-                  class="tm-btn__value"
-                >
-                  Send
-                </span>
-              </span>
-            </button>
-          </router-link-stub>
-        </div>
-      </li>
-      <li
-        class="li-coin tm-li-balance"
-      >
-        <div
-          class="li-coin__icon"
-        >
-          <img
-            src="~assets/images/cosmos-logo.png"
-          />
-        </div>
-         
-        <div
-          class="li-coin__content"
-        >
-          <div
-            class="li-coin__content__left__denom"
-          >
-            <p
-              class="coin-denom"
-            >
-              Stake
-            </p>
-          </div>
-           
-          <div
-            class="li-coin__content__left__amount"
-          >
-            <p
-              class="coin-amount"
-            >
-              1,000.0000000000
-            </p>
-          </div>
-           
-          <router-link-stub
-            to="[object Object]"
-          >
-            <button
-              class="tm-btn sendTx-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn__icon-right tm-btn--primary"
-              >
-                <i
-                  aria-hidden="true"
-                  class="tm-btn__icon material-icons"
-                >
-                  chevron_right
-                </i>
-                <span
-                  class="tm-btn__value"
-                >
-                  Send
-                </span>
-              </span>
-            </button>
-          </router-link-stub>
-        </div>
-      </li>
-      <li
-        class="li-coin tm-li-balance"
-      >
-        <div
-          class="li-coin__icon"
-        >
-          <img
-            src="~assets/images/cosmos-logo.png"
-          />
-        </div>
-         
-        <div
-          class="li-coin__content"
-        >
-          <div
-            class="li-coin__content__left__denom"
-          >
-            <p
-              class="coin-denom"
-            >
-              Mycoin
-            </p>
-          </div>
-           
-          <div
-            class="li-coin__content__left__amount"
-          >
-            <p
-              class="coin-amount"
-            >
-              1,000.0000000000
-            </p>
-          </div>
-           
-          <router-link-stub
-            to="[object Object]"
-          >
-            <button
-              class="tm-btn sendTx-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn__icon-right tm-btn--primary"
-              >
-                <i
-                  aria-hidden="true"
-                  class="tm-btn__icon material-icons"
-                >
-                  chevron_right
-                </i>
-                <span
-                  class="tm-btn__value"
-                >
-                  Send
-                </span>
-              </span>
-            </button>
-          </router-link-stub>
-        </div>
-      </li>
-      <!---->
-    </ul>
-  </main>
-</div>
+  <li-coin-stub
+    class="tm-li-balance"
+    coin="[object Object]"
+  />
+  <li-coin-stub
+    class="tm-li-balance"
+    coin="[object Object]"
+  />
+  <li-coin-stub
+    class="tm-li-balance"
+    coin="[object Object]"
+  />
+  <li-coin-stub
+    class="tm-li-balance"
+    coin="[object Object]"
+  />
+   
+  <send-modal-stub />
+</tm-page-stub>
 `;
 
 exports[`PageWallet should filter the balances 1`] = `
-<div
-  class="tm-page"
+<tm-page-stub
   data-title="Wallet"
+  dataset="[object Object],[object Object],[object Object]"
+  hasfiltereddata="true"
+  menubody=""
+  refresh="function () { [native code] }"
+  search="balances"
+  subtitle=""
+  title=""
 >
-  <header
-    class="tm-page-header"
+  <tm-data-msg-stub
+    icon="help_outline"
+    id="account_empty_msg"
   >
-    <div
-      class="tm-page-header-container"
-    >
-      <div
-        class="tm-page-header-text"
-      >
-        <!---->
-         
-        <!---->
-         
-        <div
-          class="tm-page-header-body"
-        >
-          <div
-            class="header-balance"
-          >
-            <div
-              class="top"
-            >
-              <div
-                class="icon-container"
-              >
-                <img
-                  class="icon"
-                  src="~assets/images/cosmos-logo.png"
-                />
-              </div>
-               
-              <div
-                class="total-atoms top-section"
-              >
-                <h3>
-                  Total STAKE
-                </h3>
-                 
-                <h2
-                  class="total-atoms__value"
-                >
-                  1,014.0000…
-                </h2>
-              </div>
-               
-              <div
-                class="unbonded-atoms top-section"
-              >
-                <h3>
-                  Available STAKE
-                </h3>
-                 
-                <h2>
-                  1,000.0000…
-                </h2>
-              </div>
-            </div>
-             
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    cosmos…xxn9
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
-             
-            <div
-              class="tabs"
-            />
-             
-          </div>
-           
-          <div
-            class="tm-tool-bar"
-          >
-            <a
-              class="back"
-              disabled="disabled"
-            >
-              <i
-                class="material-icons"
-              >
-                arrow_back
-              </i>
-            </a>
-             
-            <a>
-              <i
-                class="material-icons"
-              >
-                refresh
-              </i>
-            </a>
-             
-            <a>
-              <i
-                class="material-icons"
-              >
-                search
-              </i>
-            </a>
-            <a
-              class="help"
-            >
-              <i
-                class="material-icons"
-              >
-                help_outline
-              </i>
-            </a>
-             
-            <router-link-stub
-              id="settings"
-              to="/preferences"
-            >
-              <i
-                class="material-icons"
-              >
-                settings
-              </i>
-            </router-link-stub>
-            <a
-              id="signOut-btn"
-            >
-              <i
-                class="material-icons"
-              >
-                exit_to_app
-              </i>
-            </a>
-          </div>
-        </div>
-      </div>
-       
-      <menu
-        class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
+    <div>
+      Account empty
     </div>
-  </header>
+     
+    <div>
+      This account doesn't have anything in it yet.
+    </div>
+  </tm-data-msg-stub>
    
-  <main
-    class="tm-page-main"
+  <li-coin-stub
+    class="tm-li-balance"
+    coin="[object Object]"
+  />
+   
+  <send-modal-stub />
+</tm-page-stub>
+`;
+
+exports[`PageWallet should show the sending modal 1`] = `
+<tm-page-stub
+  data-title="Wallet"
+  dataset=""
+  hasfiltereddata="true"
+  menubody=""
+  refresh="function () { [native code] }"
+  search="balances"
+  subtitle=""
+  title=""
+>
+  <tm-data-msg-stub
+    icon="help_outline"
+    id="account_empty_msg"
   >
+    <div>
+      Account empty
+    </div>
      
-    <modal-search-stub
-      type="balances"
-    />
-     
-    <ul>
-      <li
-        class="li-coin tm-li-balance"
-      >
-        <div
-          class="li-coin__icon"
-        >
-          <img
-            src="~assets/images/cosmos-logo.png"
-          />
-        </div>
-         
-        <div
-          class="li-coin__content"
-        >
-          <div
-            class="li-coin__content__left__denom"
-          >
-            <p
-              class="coin-denom"
-            >
-              Stake
-            </p>
-          </div>
-           
-          <div
-            class="li-coin__content__left__amount"
-          >
-            <p
-              class="coin-amount"
-            >
-              1,000.0000000000
-            </p>
-          </div>
-           
-          <router-link-stub
-            to="[object Object]"
-          >
-            <button
-              class="tm-btn sendTx-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn__icon-right tm-btn--primary"
-              >
-                <i
-                  aria-hidden="true"
-                  class="tm-btn__icon material-icons"
-                >
-                  chevron_right
-                </i>
-                <span
-                  class="tm-btn__value"
-                >
-                  Send
-                </span>
-              </span>
-            </button>
-          </router-link-stub>
-        </div>
-      </li>
-    </ul>
-  </main>
-</div>
+    <div>
+      This account doesn't have anything in it yet.
+    </div>
+  </tm-data-msg-stub>
+   
+  <li-coin-stub
+    class="tm-li-balance"
+    coin="[object Object]"
+  />
+   
+  <send-modal-stub />
+</tm-page-stub>
 `;

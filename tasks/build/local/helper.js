@@ -46,7 +46,7 @@ Default account:
 // save the version of the currently used gaia into the newly created network config folder
 const saveVersion = nodeHome => {
   const versionPath = join(nodeHome, `config`)
-  let versionFilePath = join(versionPath, `gaiaversion.txt`) // nodeHome/config is used to copy created config files from
+  const versionFilePath = join(versionPath, `gaiaversion.txt`) // nodeHome/config is used to copy created config files from
   return makeExec(
     `mkdir -p ${versionPath} && ${nodeBinary} version > ${versionFilePath}`
   )
@@ -55,20 +55,27 @@ const saveVersion = nodeHome => {
 // nodes[0] is a placeholder just to be aligned with the enumeration used in gaia
 // TODO: next PR refactor also gaia to simplify numeration
 const startNodes = async (nodes, mainAccountSignInfo, chainId) => {
+  const startupProcesses = []
   for (let i = 1; i < nodes.length; i++) {
-    // start secondary nodes and connect to node one
-    // wait until all nodes are showing blocks, so we know they are running
-    await startLocalNode(nodes[i].home, i, i > 1 ? nodes[1].id : ``)
-    // make our secondary nodes also to validators
-    i > 1 &&
-      (await makeValidator(
-        mainAccountSignInfo,
-        nodes[i].home,
-        nodes[i].cliHome,
-        nodes[i].moniker,
-        chainId
-      ))
+    startupProcesses.push(
+      (async () => {
+        // start secondary nodes and connect to node one
+        // wait until all nodes are showing blocks, so we know they are running
+        await startLocalNode(nodes[i].home, i, i > 1 ? nodes[1].id : ``)
+        // make our secondary nodes also to validators
+        i > 1 &&
+          (await makeValidator(
+            mainAccountSignInfo,
+            nodes[i].home,
+            nodes[i].cliHome,
+            nodes[i].moniker,
+            chainId
+          ))
+      })()
+    )
   }
+
+  return Promise.all(startupProcesses)
 }
 
 const buildNodes = async (
@@ -78,7 +85,7 @@ const buildNodes = async (
     password: `1234567890`,
     overwrite: true,
     moniker: `local`,
-    keyName: `main-account`
+    keyName: `account-with-funds`
   },
   numberNodes = 1,
   isTest = false
@@ -112,8 +119,9 @@ const buildNodes = async (
         password: options.password,
         clientHomeDir: cliHome
       }
-      let { address } = await createKey(mainAccountSignInfo)
-      genesis = await initGenesis(mainAccountSignInfo, address, home)
+      const account = await createKey(mainAccountSignInfo)
+      console.log(`Created Account:`, account)
+      genesis = await initGenesis(mainAccountSignInfo, account.address, home)
     }
   }
 
@@ -146,7 +154,7 @@ async function setupLocalNode(
 
 function adjustConfig(nodeHome, isTest = false, strictAddressbook = false) {
   const configPath = join(nodeHome, `config`, `config.toml`)
-  let configToml = fs.readFileSync(configPath, `utf8`)
+  const configToml = fs.readFileSync(configPath, `utf8`)
 
   const timeouts = [
     `timeout_propose`,
@@ -163,6 +171,21 @@ function adjustConfig(nodeHome, isTest = false, strictAddressbook = false) {
     .map(line => {
       let [key, value] = line.split(` = `)
 
+      // needs to be turned off when running multiple nodes locally
+      if (key === `addr_book_strict`) {
+        return `${key} = ${strictAddressbook ? `true` : `false`}`
+      }
+
+      // disable profile server which causes port errors when running multiple nodes
+      if (key === `prof_laddr`) {
+        return `prof_laddr = ""`
+      }
+
+      // need to allow as all nodes are on localhost
+      if (key === `allow_duplicate_ip`) {
+        return `allow_duplicate_ip = true`
+      }
+
       if (!isTest) {
         // TODO: this was happening on ./builds/testnets/local-testnet/config.toml
         //  but then the network was launched through the config ~/.gaiad-testnet/config/config.toml
@@ -171,10 +194,6 @@ function adjustConfig(nodeHome, isTest = false, strictAddressbook = false) {
         // if (key === `seeds`) return `${key} = "localhost"`
         if (key === `index_all_tags`) return `${key} = true`
         return line
-      }
-
-      if (key === `addr_book_strict`) {
-        return `${key} = ${strictAddressbook ? `true` : `false`}`
       }
 
       if (!timeouts.includes(key)) {
@@ -208,7 +227,7 @@ const setupAccounts = async (srcClientDir, dstClientDir, options) => {
     clientHomeDir: dstClientDir
   })
 
-  let accounts = await getKeys(dstClientDir)
+  const accounts = await getKeys(dstClientDir)
   console.log(`setup test accounts`, accounts)
 
   return accounts

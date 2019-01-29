@@ -5,7 +5,7 @@ import { state } from "renderer/connectors/lcdClientMock.js"
 
 describe(`TmLiStakeTransaction`, () => {
   let wrapper
-  let propsData = {
+  const propsData = {
     transaction: transactions[3],
     validators: state.candidates,
     url: `/validator`,

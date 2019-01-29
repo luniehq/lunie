@@ -4,7 +4,7 @@ import TmHardwareState from "common/TmHardwareState"
 describe(`TmHardwareState`, () => {
   let wrapper
 
-  let propsData = {
+  const propsData = {
     icon: `rotate_right`,
     spin: true,
     value: `Detecting your Ledger Wallet`

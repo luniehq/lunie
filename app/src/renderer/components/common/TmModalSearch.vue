@@ -55,7 +55,7 @@ export default {
     open(open) {
       if (open) {
         setTimeout(() => {
-          let el = this.$el.querySelector(`.tm-field`)
+          const el = this.$el.querySelector(`.tm-field`)
           el.focus()
         })
       }

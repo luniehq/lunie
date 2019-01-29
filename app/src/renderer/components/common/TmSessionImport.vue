@@ -1,6 +1,6 @@
 <template>
   <div class="tm-session">
-    <tm-form-struct :submit="onSubmit" class="tm-session-container">
+    <tm-form-struct :submit="onSubmit.bind(this)" class="tm-session-container">
       <div class="tm-session-header">
         <a @click="setState('welcome')"
           ><i class="material-icons">arrow_back</i></a
@@ -180,26 +180,24 @@ export default {
       this.$v.$touch()
       if (this.$v.$error) return
       try {
-        let key = await this.$store.dispatch(`createKey`, {
+        await this.$store.dispatch(`createKey`, {
           seedPhrase: this.fields.importSeed,
           password: this.fields.importPassword,
           name: this.fields.importName
         })
-        if (key) {
-          this.$store.dispatch(`setErrorCollection`, {
-            account: this.fields.importName,
-            optin: this.fields.errorCollection
-          })
-          this.$store.commit(`setModalSession`, false)
-          this.$store.commit(`notify`, {
-            title: `Welcome back!`,
-            body: `Your account has been successfully imported.`
-          })
-          this.$store.dispatch(`signIn`, {
-            account: this.fields.importName,
-            password: this.fields.importPassword
-          })
-        }
+        this.$store.dispatch(`setErrorCollection`, {
+          account: this.fields.importName,
+          optin: this.fields.errorCollection
+        })
+        this.$store.commit(`setModalSession`, false)
+        this.$store.commit(`notify`, {
+          title: `Welcome back!`,
+          body: `Your account has been successfully imported.`
+        })
+        this.$store.dispatch(`signIn`, {
+          account: this.fields.importName,
+          password: this.fields.importPassword
+        })
       } catch (error) {
         this.$store.commit(`notifyError`, {
           title: `Couldn't create account`,

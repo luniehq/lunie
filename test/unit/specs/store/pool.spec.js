@@ -2,7 +2,7 @@ import setup from "../../helpers/vuex-setup"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 import poolModule from "renderer/vuex/modules/pool.js"
 
-let instance = setup()
+const instance = setup()
 
 const mockPool = lcdClientMock.state.pool
 const mockRootState = {
@@ -15,7 +15,7 @@ describe(`Module: Pool`, () => {
   let store
 
   beforeEach(() => {
-    let test = instance.shallow(null)
+    const test = instance.shallow(null)
     store = test.store
 
     store.commit(`setConnected`, true)
@@ -52,7 +52,7 @@ describe(`Module: Pool`, () => {
   it(`should load pool data on reconnection`, async () => {
     const node = lcdClientMock
     const { actions } = poolModule({ node })
-    let dispatch = jest.fn()
+    const dispatch = jest.fn()
 
     await actions.reconnected({
       state: { loading: true },

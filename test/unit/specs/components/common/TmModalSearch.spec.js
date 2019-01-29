@@ -3,10 +3,12 @@ import setup from "../../../helpers/vuex-setup"
 
 describe(`TmModalSearch`, () => {
   let wrapper, store
-  let { mount } = setup()
+  const { mount } = setup()
 
   beforeEach(() => {
-    let instance = mount(TmModalSearch, { propsData: { type: `transactions` } })
+    const instance = mount(TmModalSearch, {
+      propsData: { type: `transactions` }
+    })
     store = instance.store
     wrapper = instance.wrapper
     store.commit(`setSearchVisible`, [`transactions`, true])
