@@ -27,13 +27,13 @@ describe(`Keystore`, () => {
 
   it(`loads stored keys`, () => {
     storeKeys([{ x: 1 }])
-    let keys = loadKeys()
+    const keys = loadKeys()
     expect(keys).toEqual([{ x: 1 }])
   })
 
   it(`imports a key encrypted to localstorage`, () => {
     importKey(accountName, password, wallet.mnemonic)
-    let keys = loadKeys()
+    const keys = loadKeys()
     expect(keys).toEqual([
       {
         address: `cosmos1r5v5srda7xfth3hn2s26txvrcrntldjumt8mhl`,
@@ -45,7 +45,7 @@ describe(`Keystore`, () => {
 
   it(`adds a new key encrypted to localstorage`, () => {
     addNewKey(accountName, password)
-    let keys = loadKeys()
+    const keys = loadKeys()
     expect(keys).toEqual([
       {
         address: expect.stringMatching(/cosmos1.*/),
@@ -68,7 +68,7 @@ describe(`Keystore`, () => {
 
   it(`loads and decrypts a required key`, () => {
     addNewKey(accountName, password)
-    let wallet = getKey(accountName, password)
+    const wallet = getKey(accountName, password)
     expect(wallet).toHaveProperty(`privateKey`)
     expect(wallet).toHaveProperty(`publicKey`)
   })

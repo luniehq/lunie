@@ -10,7 +10,7 @@ const config = require(`../../../config.json`)
 import { signatureImport } from "secp256k1"
 
 export default ({ node }) => {
-  let state = {
+  const state = {
     lock: null,
     nonce: `0`
   }
@@ -23,7 +23,7 @@ export default ({ node }) => {
     }
   }
 
-  let actions = {
+  const actions = {
     // `lock` is a Promise which is set if we are in the process
     // of sending a transaction, so that we can ensure only one send
     // happens at once. otherwise, we might try to send 2 transactions
@@ -40,7 +40,7 @@ export default ({ node }) => {
         state.lock = dispatch(`sendTx`, args)
 
         // wait for sendTx to finish
-        let res = await state.lock
+        const res = await state.lock
         return res
       } catch (error) {
         throw error
@@ -61,7 +61,7 @@ export default ({ node }) => {
 
       await dispatch(`queryWalletBalances`) // the nonce was getting out of sync, this is to force a sync
 
-      let requestMetaData = {
+      const requestMetaData = {
         sequence: state.nonce,
         name: `anonymous`, // TODO: replace with address after https://github.com/cosmos/cosmos-sdk/pull/3287 is merged
         from: rootState.wallet.address,
@@ -79,16 +79,16 @@ export default ({ node }) => {
       args.base_req = requestMetaData
 
       // extract type
-      let type = args.type || `send`
+      const type = args.type || `send`
       delete args.type
 
       // extract "to" address
-      let to = args.to
+      const to = args.to
       delete args.to
 
       // get the generated tx by querying it from the backend
-      let req = to ? node[type](to, args) : node[type](args)
-      let generationRes = await req.catch(handleSDKError)
+      const req = to ? node[type](to, args) : node[type](args)
+      const generationRes = await req.catch(handleSDKError)
       const tx = generationRes.value
 
       let signature
@@ -139,7 +139,7 @@ function assertOk(res) {
   }
 
   if (res.check_tx.code || res.deliver_tx.code) {
-    let message = res.check_tx.log || res.deliver_tx.log
+    const message = res.check_tx.log || res.deliver_tx.log
     throw new Error(message)
   }
 }
@@ -148,8 +148,8 @@ function handleSDKError(err) {
   let message
   // TODO: get rid of this logic once the appended message is actually included inside the object message
   if (!err.message) {
-    let idxColon = err.indexOf(`:`)
-    let indexOpenBracket = err.indexOf(`{`)
+    const idxColon = err.indexOf(`:`)
+    const indexOpenBracket = err.indexOf(`{`)
     if (idxColon < indexOpenBracket) {
       // e.g => Msg 0 failed: {"codespace":4,"code":102,"abci_code":262246,"message":"existing unbonding delegation found"}
       message = JSON.parse(err.substr(idxColon + 1)).message

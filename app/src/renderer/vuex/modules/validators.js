@@ -8,7 +8,7 @@ export default ({ node }) => {
     error: null,
     validatorHash: null
   }
-  let state = JSON.parse(JSON.stringify(emptyState))
+  const state = JSON.parse(JSON.stringify(emptyState))
 
   const mutations = {
     setValidators(state, validators) {
@@ -35,7 +35,7 @@ export default ({ node }) => {
       if (!rootState.connection.connected) return
 
       try {
-        let validators = (await node.getValidatorSet()).validators
+        const validators = (await node.getValidatorSet()).validators
         state.error = null
         state.loading = false
         state.loaded = true
@@ -50,7 +50,7 @@ export default ({ node }) => {
       }
     },
     async maybeUpdateValidators({ state, commit, dispatch }, header) {
-      let validatorHash = header.validators_hash
+      const validatorHash = header.validators_hash
       if (validatorHash === state.validatorHash) return
       commit(`setValidatorHash`, validatorHash)
       await dispatch(`getValidators`)

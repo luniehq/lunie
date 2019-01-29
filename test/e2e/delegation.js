@@ -1,6 +1,6 @@
-let test = require(`tape-promise/tape`)
-let { getApp, restart } = require(`./launch.js`)
-let {
+const test = require(`tape-promise/tape`)
+const { getApp, restart } = require(`./launch.js`)
+const {
   navigate,
   login,
   sleep,
@@ -12,7 +12,7 @@ let {
  */
 
 test(`delegation`, async function(t) {
-  let { app } = await getApp(t)
+  const { app } = await getApp(t)
   // app.env.COSMOS_MOCKED = false
   await restart(app)
 
@@ -20,7 +20,7 @@ test(`delegation`, async function(t) {
   await navigate(app, `Staking`)
 
   // default values from e2e mounted node
-  let bondedStake = 100
+  const bondedStake = 100
 
   t.test(`Validators`, async function(t) {
     // Select the Validators tab.
@@ -60,10 +60,10 @@ test(`delegation`, async function(t) {
   })
 
   t.test(`Stake`, async t => {
-    let totalAtoms = (await app.client
+    const totalAtoms = (await app.client
       .$(`.header-balance .total-atoms h2`)
       .getText()).split(`.`)[0] // 130.000...
-    let unbondedAtoms = (await app.client
+    const unbondedAtoms = (await app.client
       .$(`.header-balance .unbonded-atoms h2`)
       .getText()).split(`.`)[0] // 30.000...
 

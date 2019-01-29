@@ -23,11 +23,11 @@ export default ({}) => {
       if (!/.{16}/.test(keybaseId)) return // the keybase id is not correct
       if (state.identities[keybaseId]) return // we already have this identity
 
-      let urlPrefix = `https://keybase.io/_/api/1.0/user/lookup.json?key_suffix=`
-      let fullUrl = urlPrefix + keybaseId
-      let json = await axios.get(fullUrl)
+      const urlPrefix = `https://keybase.io/_/api/1.0/user/lookup.json?key_suffix=`
+      const fullUrl = urlPrefix + keybaseId
+      const json = await axios.get(fullUrl)
       if (json.data.status.name === `OK`) {
-        let user = json.data.them[0]
+        const user = json.data.them[0]
         if (user && user.pictures && user.pictures.primary) {
           return {
             keybaseId,

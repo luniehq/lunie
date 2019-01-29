@@ -20,7 +20,7 @@ export default function vuexSetup() {
   ) {
     const node = Object.assign({}, require(`../helpers/node_mock`))
     const modules = Modules({ node })
-    let store = new Vuex.Store({
+    const store = new Vuex.Store({
       getters: Object.assign({}, Getters, args.getters),
       modules,
       actions: {

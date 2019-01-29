@@ -5,7 +5,7 @@ import { state } from "renderer/connectors/lcdClientMock.js"
 
 describe(`TmLiAnyTransaction`, () => {
   let wrapper
-  let propsData = {
+  const propsData = {
     transaction: transactions[0],
     validators: state.candidates,
     address: `tb1da6xsetjg9jxgun9wdesexv05j`,
@@ -31,7 +31,7 @@ describe(`TmLiAnyTransaction`, () => {
   })
 
   it(`shows unknown transactions`, () => {
-    let unknownTx = JSON.parse(JSON.stringify(transactions[0]))
+    const unknownTx = JSON.parse(JSON.stringify(transactions[0]))
     unknownTx.tx.value.msg[0].type = `UNKNOWN`
     wrapper.setProps({
       transaction: unknownTx

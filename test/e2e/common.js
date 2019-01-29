@@ -68,7 +68,7 @@ module.exports = {
   },
   sleep,
   async waitForText(elGetterFn, text, timeout = 5000) {
-    let start = Date.now()
+    const start = Date.now()
     while ((await elGetterFn().getText()) !== text) {
       if (Date.now() - start >= timeout) {
         throw Error(
@@ -80,7 +80,7 @@ module.exports = {
     }
   },
   async waitForValue(elGetterFn, value, timeout = 5000) {
-    let start = Date.now()
+    const start = Date.now()
     while ((await elGetterFn().getValue()) !== value) {
       if (Date.now() - start >= timeout) {
         throw Error(
@@ -95,7 +95,7 @@ module.exports = {
   },
   async login(app, account = `default`) {
     console.log(`logging into ` + account)
-    let accountsSelect = `#sign-in-name select`
+    const accountsSelect = `#sign-in-name select`
 
     await app.client.waitForExist(accountsSelect, 10000)
 
@@ -112,7 +112,7 @@ module.exports = {
 
     // checking if user is logged in
     await module.exports.openMenu(app)
-    let activeUser = await app.client.$(`#address`).getText()
+    const activeUser = await app.client.$(`#address`).getText()
     if (!activeUser) {
       throw new Error(
         `Incorrect user logged in (` + account + `, ` + activeUser + `)`
@@ -139,7 +139,7 @@ module.exports = {
   },
   async selectOption(app, selectSelector, text) {
     await app.client.$(selectSelector).click()
-    for (let letter of text.split()) {
+    for (const letter of text.split()) {
       if ((await app.client.$(selectSelector).getValue()) === text) break
       await app.client.keys(letter)
     }

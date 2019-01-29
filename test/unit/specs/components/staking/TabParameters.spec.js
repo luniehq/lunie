@@ -2,14 +2,14 @@ import setup from "../../../helpers/vuex-setup"
 import TabParameters from "renderer/components/staking/TabParameters"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
-let { pool, stakingParameters } = lcdClientMock.state
+const { pool, stakingParameters } = lcdClientMock.state
 
 describe(`TabParameters`, () => {
   let wrapper, store
-  let { mount } = setup()
+  const { mount } = setup()
 
   beforeEach(() => {
-    let instance = mount(TabParameters, {
+    const instance = mount(TabParameters, {
       stubs: {
         "tm-data-connecting": true,
         "tm-data-loading": true

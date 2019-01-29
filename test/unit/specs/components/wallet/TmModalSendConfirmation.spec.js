@@ -3,7 +3,7 @@ import TmModalSendConfirmation from "renderer/components/wallet/TmModalSendConfi
 
 describe(`TmModalSendConfirmation`, () => {
   let wrapper
-  let propsData = {
+  const propsData = {
     amount: 12345,
     denom: `funkycoin`,
     recipient: `cosmosacc1tb1d4u5zerywfjhxuc9nudvw`,
@@ -25,13 +25,13 @@ describe(`TmModalSendConfirmation`, () => {
   })
 
   it(`emits an approval event`, () => {
-    let spy = jest.spyOn(wrapper.vm, `$emit`)
+    const spy = jest.spyOn(wrapper.vm, `$emit`)
     wrapper.vm.$el.querySelector(`#send-confirmation-btn`).click()
     expect(spy).toHaveBeenCalledWith(`approved`)
   })
 
   it(`emits an canceled event`, () => {
-    let spy = jest.spyOn(wrapper.vm, `$emit`)
+    const spy = jest.spyOn(wrapper.vm, `$emit`)
     wrapper.vm.$el.querySelector(`#send-cancel-btn`).click()
     expect(spy).toHaveBeenCalledWith(`canceled`)
   })

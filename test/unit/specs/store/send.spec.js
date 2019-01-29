@@ -39,13 +39,13 @@ const mockRootState = {
 describe(`Module: Send`, () => {
   let module, state, actions, mutations, node
 
-  let errMsgWithObject = {
+  const errMsgWithObject = {
     response: {
       data: `Msg 0 failed: {"codespace":4,"code":102,"abci_code":262246,"message":"existing unbonding delegation found"}`
     }
   }
 
-  let errObject = {
+  const errObject = {
     response: {
       data: {
         codespace: 4,
@@ -56,7 +56,7 @@ describe(`Module: Send`, () => {
     }
   }
 
-  let errMsgNoObject = {
+  const errMsgNoObject = {
     response: {
       data: `unexpected error`
     }
@@ -342,7 +342,7 @@ describe(`Module: Send`, () => {
     })
 
     it(`should still send a transaction after failing to send another transaction`, async () => {
-      let send = node.postTx.bind(node)
+      const send = node.postTx.bind(node)
 
       node.postTx = () => Promise.reject(true)
       let args = {
@@ -503,7 +503,7 @@ describe(`Module: Send`, () => {
     })
 
     it(`should throw an error if not connected`, async () => {
-      let args = {
+      const args = {
         to: `mock_address`,
         amount: [{ denom: `mycoin`, amount: 123 }]
       }

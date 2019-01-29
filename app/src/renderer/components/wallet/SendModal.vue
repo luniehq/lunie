@@ -131,7 +131,7 @@ export default {
   computed: {
     ...mapGetters([`wallet`]),
     balance() {
-      let denom = this.wallet.balances.find(b => b.denom === this.denom)
+      const denom = this.wallet.balances.find(b => b.denom === this.denom)
       return (denom && denom.amount) || 0
     },
     denominations() {

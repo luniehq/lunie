@@ -96,8 +96,8 @@ export default {
       )
     },
     sortedFilteredEnrichedDelegates() {
-      let query = this.filters.delegates.search.query || ``
-      let sortedEnrichedDelegates = orderBy(
+      const query = this.filters.delegates.search.query || ``
+      const sortedEnrichedDelegates = orderBy(
         this.enrichedDelegates.slice(0),
         [this.sort.property, `small_moniker`],
         [this.sort.order, `asc`]

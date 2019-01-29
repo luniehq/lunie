@@ -6,16 +6,16 @@ const RpcWrapper = require(`./rpcWrapper.js`)
 const MockedRpcWrapper = require(`./rpcWrapperMock.js`)
 
 module.exports = function(axios, remoteLcdURL, mocked = false) {
-  let connector = {
+  const connector = {
     mocked,
     remoteLcdURL,
     // activate or deactivate the mocked lcdClient
     setup: mocked => {
       console.log(`Setting connector to state:` + (mocked ? `mocked` : `live`))
-      let newRestClient = mocked
+      const newRestClient = mocked
         ? mockedRestClient
         : new RestClient(axios, remoteLcdURL)
-      let newRpcClient = mocked
+      const newRpcClient = mocked
         ? MockedRpcWrapper(connector)
         : RpcWrapper(connector)
       Object.assign(connector, newRestClient, newRpcClient)

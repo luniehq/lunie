@@ -79,8 +79,8 @@ export default {
       return this.wallet.balances
     },
     filteredBalances() {
-      let query = this.filters.balances.search.query
-      let list = orderBy(
+      const query = this.filters.balances.search.query
+      const list = orderBy(
         this.allDenomBalances,
         [`amount`, balance => balance.denom.toLowerCase()],
         [`desc`, `asc`]

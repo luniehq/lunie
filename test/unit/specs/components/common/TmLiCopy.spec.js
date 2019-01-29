@@ -3,10 +3,10 @@ import TmLiCopy from "common/TmLiCopy"
 
 describe(`TmLiCopy`, () => {
   let wrapper
-  let { mount } = setup()
+  const { mount } = setup()
 
   beforeEach(() => {
-    let instance = mount(TmLiCopy, {
+    const instance = mount(TmLiCopy, {
       propsData: {
         value: `hallo`,
         receive: false

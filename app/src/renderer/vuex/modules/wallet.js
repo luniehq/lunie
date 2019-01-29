@@ -3,7 +3,7 @@ import Vue from "vue"
 const config = require(`../../../config.json`)
 
 export default ({ node }) => {
-  let emptyState = {
+  const emptyState = {
     balances: [],
     loading: true,
     loaded: false,
@@ -13,9 +13,9 @@ export default ({ node }) => {
     address: null,
     subscribedRPC: null
   }
-  let state = JSON.parse(JSON.stringify(emptyState))
+  const state = JSON.parse(JSON.stringify(emptyState))
 
-  let mutations = {
+  const mutations = {
     setWalletBalances(state, balances) {
       Vue.set(state, `balances`, balances)
       Vue.set(state, `loading`, false)
@@ -42,7 +42,7 @@ export default ({ node }) => {
     }
   }
 
-  let actions = {
+  const actions = {
     async reconnected({ state, dispatch }) {
       if (state.loading && state.address) {
         await dispatch(`queryWalletBalances`)
@@ -65,7 +65,7 @@ export default ({ node }) => {
       if (!rootState.connection.connected) return
 
       try {
-        let res = await node.queryAccount(state.address)
+        const res = await node.queryAccount(state.address)
         if (!res) {
           state.loading = false
           state.loaded = true
@@ -73,7 +73,7 @@ export default ({ node }) => {
         }
         res = res.value
         state.error = null
-        let coins = res.coins || []
+        const coins = res.coins || []
         commit(`setNonce`, res.sequence)
         commit(`setAccountNumber`, res.account_number)
         commit(`setWalletBalances`, coins)
@@ -111,7 +111,7 @@ export default ({ node }) => {
     queryWalletStateAfterHeight({ rootState, dispatch }, height) {
       return new Promise(resolve => {
         // wait until height is >= `height`
-        let interval = setInterval(() => {
+        const interval = setInterval(() => {
           if (rootState.connection.lastHeader.height < height) return
           clearInterval(interval)
           dispatch(`queryWalletBalances`)

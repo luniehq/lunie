@@ -4,7 +4,7 @@ import transactions from "../../store/json/txs"
 
 describe(`TmLiGovTransaction`, () => {
   let wrapper
-  let propsData = {
+  const propsData = {
     transaction: transactions[6],
     url: `/proposals`,
     bondingDenom: `stake`

@@ -192,7 +192,7 @@ export default {
 
       // An ActionModal is only the prototype of a parent modal
       // here we trigger the validation of the form that this parent modal
-      let childFormValid = this.validate()
+      const childFormValid = this.validate()
 
       if (!this.$v.$invalid && childFormValid) {
         if (
