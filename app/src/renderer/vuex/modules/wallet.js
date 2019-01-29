@@ -9,6 +9,7 @@ export default ({ node }) => {
     loaded: false,
     error: null,
     denoms: [],
+    accountNumber: null,
     address: null,
     subscribedRPC: null
   }
@@ -30,10 +31,11 @@ export default ({ node }) => {
       Vue.set(state.balances, findBalanceIndex, balance)
     },
     setWalletAddress(state, address) {
-      Vue.set(state, `address`, address)
+      state.address = address
     },
     setAccountNumber(state, accountNumber) {
-      Vue.set(state, `accountNumber`, accountNumber)
+      console.log(accountNumber)
+      state.accountNumber = accountNumber
     },
     setDenoms(state, denoms) {
       Vue.set(state, `denoms`, denoms)
@@ -41,15 +43,15 @@ export default ({ node }) => {
   }
 
   let actions = {
-    reconnected({ state, dispatch }) {
+    async reconnected({ state, dispatch }) {
       if (state.loading && state.address) {
-        dispatch(`queryWalletBalances`)
+        await dispatch(`queryWalletBalances`)
       }
     },
-    initializeWallet({ commit, dispatch }, address) {
+    async initializeWallet({ commit, dispatch }, { address }) {
       commit(`setWalletAddress`, address)
-      dispatch(`queryWalletBalances`)
-      dispatch(`loadDenoms`)
+      await dispatch(`queryWalletBalances`)
+      await dispatch(`loadDenoms`)
       dispatch(`walletSubscribe`)
     },
     resetSessionData({ rootState }) {
@@ -57,6 +59,7 @@ export default ({ node }) => {
       rootState.wallet = JSON.parse(JSON.stringify(emptyState))
     },
     async queryWalletBalances({ state, rootState, commit }) {
+      console.log(state.address)
       if (!state.address) return
 
       state.loading = true
@@ -64,6 +67,7 @@ export default ({ node }) => {
 
       try {
         let res = await node.queryAccount(state.address)
+        console.log(res)
         if (!res) {
           state.loading = false
           state.loaded = true

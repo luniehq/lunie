@@ -107,7 +107,7 @@ export default ({}) => {
         password,
         seedPhrase
       )
-      dispatch(`initializeWallet`, address)
+      await dispatch(`initializeWallet`, address)
       return address
     },
     async signIn(
@@ -126,6 +126,7 @@ export default ({}) => {
           accountAddress = keys.find(({ name }) => name === account).address
       }
       commit(`setSignIn`, true)
+      console.log(accountAddress)
       if (setUserAccount) {
         commit(`setUserAddress`, accountAddress)
         dispatch(`loadPersistedState`)
@@ -134,7 +135,7 @@ export default ({}) => {
         await dispatch(`getGovParameters`)
         dispatch(`loadErrorCollection`, accountAddress)
       }
-      dispatch(`initializeWallet`, accountAddress)
+      await dispatch(`initializeWallet`, { address: accountAddress })
     },
     signOut({ state, commit, dispatch }) {
       state.account = null

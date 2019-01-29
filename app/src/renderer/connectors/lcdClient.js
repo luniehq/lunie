@@ -24,8 +24,6 @@ const Client = (axios, remoteLcdURL) => {
     }
   }
 
-  let fetchAccount = argReq(`GET`, `/auth/accounts`)
-
   return {
     // meta
     lcdConnected: function() {
@@ -39,22 +37,14 @@ const Client = (axios, remoteLcdURL) => {
 
     // coins
     send: argReq(`POST`, `/bank/accounts`, `/transfers`),
-    queryAccount(address) {
-      return fetchAccount(address)
-        .then(res => {
-          return res.value
-        })
-        .catch(err => {
-          // if account not found, return null instead of throwing
-          if (
-            err.response &&
-            (err.response.data.includes(`account bytes are empty`) ||
-              err.response.data.includes(`failed to prove merkle proof`))
-          ) {
-            return null
-          }
-          throw err
-        })
+    async queryAccount(address) {
+      let res = await req(`GET`, `/auth/accounts/${address}`)
+      debugger
+      res = await res()
+      if (res) {
+        return res.value
+      }
+      return null
     },
     txs: function(addr) {
       return Promise.all([

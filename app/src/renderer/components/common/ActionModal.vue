@@ -156,7 +156,7 @@ export default {
     step: `txDetails`,
     signMethod: null,
     password: null,
-    selectedSignMethod: this.ledger.isConnected ? `ledger` : `local`,
+    selectedSignMethod: `local`,
     signMethods: [
       {
         key: `(Unsafe) Local Account`,

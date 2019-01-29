@@ -47,7 +47,9 @@ export default {
     async connectLedger() {
       this.setStatus(`detect`)
       console.log(`Connecting Ledger...`)
-      const connected = await this.$store.dispatch(`connectLedgerApp`)
+      const connected = await this.$store.dispatch(`connectLedgerApp`, {
+        setUserAccount: true
+      })
       if (connected) {
         this.$store.commit(`notify`, {
           title: `Connection succesful`,

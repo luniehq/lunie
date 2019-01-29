@@ -65,7 +65,7 @@ export default ({ node }) => {
         sequence: state.nonce,
         name: `anonymous`, // TODO: replace with address after https://github.com/cosmos/cosmos-sdk/pull/3287 is merged
         from: rootState.wallet.address,
-        account_number: rootState.wallet.accountNumber, // TODO: move into LCD?
+        account_number: rootState.wallet.accountNumber,
         chain_id: rootState.connection.lastHeader.chain_id,
         gas: String(config.default_gas),
         generate_only: true
@@ -84,6 +84,7 @@ export default ({ node }) => {
       let req = to ? node[type](to, args) : node[type](args)
       let generationRes = await req.catch(handleSDKError)
       const tx = generationRes.value
+      debugger
 
       let signature
       if (rootState.ledger.isConnected) {

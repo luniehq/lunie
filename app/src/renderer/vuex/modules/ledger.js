@@ -98,8 +98,6 @@ export default () => {
       return undefined
     },
     async checkLedgerErrors({ commit }, { response, title }) {
-      console.log(response)
-      console.log(title)
       if (response && response.error_message !== `No errors`) {
         commit(`notifyError`, {
           title,
