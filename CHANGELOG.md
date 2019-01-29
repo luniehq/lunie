@@ -108,6 +108,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1802](https://github.com/cosmos/voyager/issues/1802) Enable prefer-const eslint rule @sabau
 - [\#1688](https://github.com/cosmos/voyager/issues/1688) Moved from every page to TmPage the connected, loading, empty data and search features @sabau
 - [\#1588](https://github.com/cosmos/voyager/issues/1588) 404 page updates @jbibla
+- [\#1221](https://github.com/cosmos/voyager/issues/1221) individual linter check on GitHub @faboweb
 
 ### Fixed
 
@@ -171,6 +172,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1831](https://github.com/cosmos/voyager/issues/1831) Fixed websocket reconnection @faboweb
 - [\#1850](https://github.com/cosmos/voyager/pull/1850) Snapshots aligned for unit tests @sabau
 - [\#1859](https://github.com/cosmos/voyager/pull/1859) Fix security check in circleci @sabau
+- [\#1892](https://github.com/cosmos/voyager/issues/1892) Fix TmSessionImport form validation @faboweb
+- Fixed signing issues related to https://github.com/cosmos/cosmos-sdk/issues/3336 @faboweb
 - [\#1896](https://github.com/cosmos/voyager/issues/1896) Correctly update balances if account is empty @faboweb
 
 ## [0.10.7] - 2018-10-10

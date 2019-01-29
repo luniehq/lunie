@@ -66,11 +66,7 @@ exports[`TmSessionImport has the expected html structure 1`] = `
                 type="text"
               />
                
-              <div
-                class="tm-form-msg sm tm-form-msg--error"
-              >
-                Name is required
-              </div>
+              <!---->
                
               <!---->
             </div>
@@ -97,11 +93,7 @@ exports[`TmSessionImport has the expected html structure 1`] = `
                 type="password"
               />
                
-              <div
-                class="tm-form-msg sm tm-form-msg--error"
-              >
-                Password is required
-              </div>
+              <!---->
                
               <!---->
             </div>
@@ -153,11 +145,7 @@ exports[`TmSessionImport has the expected html structure 1`] = `
                 style="overflow-x: hidden; word-wrap: break-word; overflow-y: hidden;"
               />
                
-              <div
-                class="tm-form-msg sm tm-form-msg--error"
-              >
-                Seed is required
-              </div>
+              <!---->
             </div>
           </div>
            
