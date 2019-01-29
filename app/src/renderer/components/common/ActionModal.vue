@@ -5,17 +5,18 @@
         <img
           class="icon action-modal-atom"
           src="~assets/images/cosmos-logo.png"
-        /><span class="action-modal-title">{{ title }}</span>
+        />
+        <span class="action-modal-title"> {{ title }} </span>
         <div
           id="closeBtn"
           class="action-modal-icon action-modal-close"
           @click="close"
         >
-          <i class="material-icons">close</i>
+          <i class="material-icons"> close </i>
         </div>
       </div>
       <div class="action-modal-form">
-        <slot></slot>
+        <slot />
 
         <tm-form-group
           v-if="signMethods.length > 1"

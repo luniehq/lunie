@@ -15,10 +15,10 @@
           class="header-item"
           @click="close"
         >
-          <i class="material-icons">close</i>
+          <i class="material-icons"> close </i>
         </div>
         <div v-else class="header-item" @click="enableMenu()">
-          <i class="material-icons">menu</i>
+          <i class="material-icons"> menu </i>
         </div>
       </template>
     </div>

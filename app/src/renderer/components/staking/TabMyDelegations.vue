@@ -16,7 +16,7 @@
       <div slot="subtitle">
         Looks like you haven't delegated any {{ bondDenom }}s yet. Head over to
         the
-        <router-link :to="{ name: 'Validators' }">validator list</router-link>
+        <router-link :to="{ name: 'Validators' }"> validator list </router-link>
         to make your first delegation!
       </div>
     </tm-data-msg>
@@ -25,7 +25,9 @@
       class="check-out-message"
     >
       Check out
-      <router-link :to="{ name: 'Validators' }">the validator list</router-link>
+      <router-link :to="{ name: 'Validators' }">
+        the validator list
+      </router-link>
       to find other validators to delegate to.
     </div>
     <div v-if="delegation.loaded && unbondingTransactions.length > 0">
@@ -41,10 +43,10 @@
       <div class="unbonding-transactions">
         <template v-for="transaction in unbondingTransactions">
           <tm-li-stake-transaction
+            :key="transaction.hash"
             :transaction="transaction"
             :validators="yourValidators"
             :bonding-denom="bondDenom"
-            :key="transaction.hash"
             :url="validatorURL"
             :unbonding-time="
               time.getUnbondingTime(

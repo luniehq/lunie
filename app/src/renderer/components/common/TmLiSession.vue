@@ -1,7 +1,7 @@
 <template>
   <div class="tm-li-session">
     <div class="tm-li-session-icon">
-      <i class="material-icons">{{ icon }}</i>
+      <i class="material-icons"> {{ icon }} </i>
     </div>
     <div class="tm-li-session-text">
       <div class="tm-li-session-title">{{ title }}</div>

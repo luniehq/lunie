@@ -14,7 +14,7 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix">{{ denom }}</span>
+      <span class="input-suffix"> {{ denom }} </span>
       <tm-field id="amount" v-model="amount" type="number" />
       <tm-form-msg
         v-if="balance === 0"
@@ -41,8 +41,6 @@
 <script>
 import { mapGetters } from "vuex"
 import { required, between } from "vuelidate/lib/validators"
-import Modal from "common/TmModal"
-import TmBtn from "common/TmBtn"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
@@ -54,8 +52,6 @@ export default {
   name: `modal-deposit`,
   components: {
     ActionModal,
-    Modal,
-    TmBtn,
     TmField,
     TmFormGroup,
     TmFormMsg

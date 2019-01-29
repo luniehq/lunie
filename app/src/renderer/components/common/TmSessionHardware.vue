@@ -2,11 +2,11 @@
   <div class="tm-session">
     <div class="tm-session-container">
       <div class="tm-session-header">
-        <a @click="setState('welcome')"
-          ><i class="material-icons">arrow_back</i></a
-        >
+        <a @click="setState('welcome')">
+          <i class="material-icons"> arrow_back </i>
+        </a>
         <div class="tm-session-title">Sign In</div>
-        <a @click="help"><i class="material-icons">help_outline</i></a>
+        <a @click="help"> <i class="material-icons"> help_outline </i> </a>
       </div>
       <div class="tm-session-main">
         <hardware-state

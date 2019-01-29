@@ -1,15 +1,15 @@
 <template>
   <div class="short-bech32">
     <div
-      v-tooltip.top="address"
       id="address"
+      v-tooltip.top="address"
       class="address"
       @click.prevent.stop="copy"
     >
       {{ shortBech32 }}
     </div>
     <div :class="{ active: showSuccess }" class="copied">
-      <i class="material-icons">check</i><span>Copied</span>
+      <i class="material-icons"> check </i> <span>Copied</span>
     </div>
   </div>
 </template>

@@ -36,7 +36,7 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix">{{ denom }}</span>
+      <span class="input-suffix"> {{ denom }} </span>
       <tm-field
         id="amount"
         v-model="amount"
@@ -68,8 +68,6 @@
 <script>
 import { mapGetters } from "vuex"
 import { required, between, integer } from "vuelidate/lib/validators"
-import Modal from "common/TmModal"
-import TmBtn from "common/TmBtn"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
@@ -78,8 +76,6 @@ import ActionModal from "common/ActionModal"
 export default {
   name: `delegation-modal`,
   components: {
-    Modal,
-    TmBtn,
     TmField,
     TmFormGroup,
     TmFormMsg,

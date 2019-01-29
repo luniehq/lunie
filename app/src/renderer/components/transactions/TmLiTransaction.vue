@@ -10,16 +10,16 @@
       <div class="tm-li-tx__content__left">
         <div class="tm-li-tx__content__caption">
           <p class="tm-li-tx__content__caption__title">
-            <slot name="caption"></slot>
+            <slot name="caption" />
           </p>
         </div>
         <div class="tm-li-tx__content__information">
-          <slot name="details"></slot>
+          <slot name="details" />
         </div>
       </div>
       <div class="tm-li-tx__content__block">
-        <a :href="'https://explorecosmos.network/blocks/' + block"
-          >Block #{{ block }}&nbsp;</a
+        <a :href="'https://explorecosmos.network/blocks/' + block">
+          Block #{{ block }}&nbsp; </a
         >@ {{ date }}
       </div>
     </div>

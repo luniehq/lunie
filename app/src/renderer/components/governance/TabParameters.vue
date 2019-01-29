@@ -6,8 +6,9 @@
         <i
           v-tooltip.top="depositTooltips.description"
           class="material-icons info-button"
-          >info_outline</i
         >
+          info_outline
+        </i>
       </h3>
       <div class="parameters__details parameters__section">
         <div class="row">
@@ -18,8 +19,9 @@
                 <i
                   v-tooltip.top="depositTooltips.min_deposit"
                   class="material-icons info-button"
-                  >info_outline</i
                 >
+                  info_outline
+                </i>
               </dt>
               <dd>
                 {{
@@ -37,8 +39,9 @@
                 <i
                   v-tooltip.top="depositTooltips.max_deposit_period"
                   class="material-icons info-button"
-                  >info_outline</i
                 >
+                  info_outline
+                </i>
               </dt>
               <dd>
                 {{
@@ -58,8 +61,9 @@
         <i
           v-tooltip.top="tallyingTooltips.description"
           class="material-icons info-button"
-          >info_outline</i
         >
+          info_outline
+        </i>
       </h3>
       <div class="parameters__details parameters__section">
         <div class="row">
@@ -70,8 +74,9 @@
                 <i
                   v-tooltip.top="tallyingTooltips.threshold"
                   class="material-icons info-button"
-                  >info_outline</i
                 >
+                  info_outline
+                </i>
               </dt>
               <dd>
                 {{
@@ -89,8 +94,9 @@
                 <i
                   v-tooltip.top="tallyingTooltips.veto"
                   class="material-icons info-button"
-                  >info_outline</i
                 >
+                  info_outline
+                </i>
               </dt>
               <dd>
                 {{
@@ -110,8 +116,9 @@
                 <i
                   v-tooltip.top="tallyingTooltips.governance_penalty"
                   class="material-icons info-button"
-                  >info_outline</i
                 >
+                  info_outline
+                </i>
               </dt>
               <dd>
                 {{
@@ -132,8 +139,9 @@
         <i
           v-tooltip.top="votingTooltips.description"
           class="material-icons info-button"
-          >info_outline</i
         >
+          info_outline
+        </i>
       </h3>
       <div class="parameters__details parameters__section">
         <div class="row">
@@ -144,8 +152,9 @@
                 <i
                   v-tooltip.top="votingTooltips.voting_period"
                   class="material-icons info-button"
-                  >info_outline</i
                 >
+                  info_outline
+                </i>
               </dt>
               <dd>
                 {{
@@ -156,7 +165,7 @@
               </dd>
             </dl>
           </div>
-          <div class="column"></div>
+          <div class="column" />
         </div>
       </div>
     </div>
@@ -165,20 +174,9 @@
 
 <script>
 import { mapGetters } from "vuex"
-import TmBtn from "common/TmBtn"
-import TmPage from "common/TmPage"
-import ToolBar from "common/ToolBar"
-import TmPart from "common/TmPart"
-import TmListItem from "common/TmListItem"
+
 export default {
   name: `tab-staking-parameters`,
-  components: {
-    TmBtn,
-    TmListItem,
-    TmPage,
-    TmPart,
-    ToolBar
-  },
   data: () => ({
     depositTooltips: {
       description: `Governance deposit parameters for the Cosmos Hub`,

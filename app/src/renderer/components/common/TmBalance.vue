@@ -21,9 +21,9 @@
         :class="{ 'tab-selected': $route.name === tab.pathName }"
         class="tab"
       >
-        <router-link :to="{ name: tab.pathName }">{{
-          tab.displayName
-        }}</router-link>
+        <router-link :to="{ name: tab.pathName }">
+          {{ tab.displayName }}
+        </router-link>
       </div>
     </div>
     <slot />

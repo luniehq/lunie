@@ -23,19 +23,15 @@
 import { mapGetters } from "vuex"
 import PerfectScrollbar from "perfect-scrollbar"
 import ModalPropose from "./ModalPropose"
-import ToolBar from "common/ToolBar"
-import TmBalance from "common/TmBalance"
 import TmBtn from "common/TmBtn"
 import TmPage from "common/TmPage"
 
 export default {
   name: `page-governance`,
   components: {
-    TmBalance,
     ModalPropose,
     TmPage,
-    TmBtn,
-    ToolBar
+    TmBtn
   },
   data: () => ({
     query: ``,

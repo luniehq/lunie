@@ -2,23 +2,24 @@
   <div v-if="connected" id="tm-connected-network" class="tm-connected-network">
     <div class="tm-connected-network__connection">
       <div id="tm-connected-network__icon" class="tm-connected-network__icon">
-        <i class="material-icons">lock</i>
+        <i class="material-icons"> lock </i>
       </div>
       <div
         id="tm-connected-network__string"
         class="tm-connected-network__string"
       >
-        <span v-tooltip.top="networkTooltip" class="chain-id">{{
-          lastHeader.chain_id
-        }}</span>
+        <span v-tooltip.top="networkTooltip" class="chain-id">
+          {{ lastHeader.chain_id }}
+        </span>
       </div>
     </div>
     <div id="tm-connected-network__block" class="tm-connected-network__string">
       <a
         v-tooltip.top="'View block details on the Cosmos explorer.'"
         :href="explorerLink"
-        >{{ blockHeight }}<i class="material-icons exit">exit_to_app</i></a
       >
+        {{ blockHeight }}<i class="material-icons exit"> exit_to_app </i>
+      </a>
     </div>
   </div>
   <div

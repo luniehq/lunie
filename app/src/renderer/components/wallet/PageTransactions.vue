@@ -14,10 +14,10 @@
       <tm-li-any-transaction
         v-for="tx in filteredTransactions"
         slot="managed-body"
+        :key="tx.hash"
         :validators="delegates.delegates"
         :validators-url="validatorURL"
         :proposals-url="governanceURL"
-        :key="tx.hash"
         :transaction="tx"
         :address="wallet.address"
         :bonding-denom="bondDenom"

@@ -1,4 +1,5 @@
 <template>
+  <!-- eslint-disable vue/no-v-html -->
   <div class="text-block" v-html="htmlContent" />
 </template>
 

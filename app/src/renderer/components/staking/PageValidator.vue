@@ -11,11 +11,8 @@
             v-if="validator.keybase"
             :src="validator.keybase.avatarUrl"
             class="avatar"
-          /><img
-            v-else
-            class="avatar"
-            src="~assets/images/validator-icon.svg"
           />
+          <img v-else class="avatar" src="~assets/images/validator-icon.svg" />
         </div>
         <div class="column page-profile__header__info">
           <div class="row page-profile__header__name">
@@ -203,8 +200,6 @@ import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
 import num from "scripts/num"
 import TmBtn from "common/TmBtn"
-import TmListItem from "common/TmListItem"
-import TmPart from "common/TmPart"
 import ToolBar from "common/ToolBar"
 import TmModal from "common/TmModal"
 import TmDataError from "common/TmDataError"
@@ -216,6 +211,7 @@ import ShortBech32 from "common/ShortBech32"
 import TmBalance from "common/TmBalance"
 import PageProfile from "common/PageProfile"
 import { isEmpty } from "lodash"
+
 export default {
   name: `page-validator`,
   components: {
@@ -223,9 +219,7 @@ export default {
     DelegationModal,
     UndelegationModal,
     TmBtn,
-    TmListItem,
     TmModal,
-    TmPart,
     ToolBar,
     TmDataError,
     TmBalance,

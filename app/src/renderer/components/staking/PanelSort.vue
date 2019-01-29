@@ -10,8 +10,9 @@
         v-tooltip.top="property.tooltip"
         class="sort-by-link"
         @click="orderBy(property.value)"
-        >{{ property.title }}</a
       >
+        {{ property.title }}
+      </a>
     </th>
   </tr>
 </template>

@@ -3,53 +3,54 @@
     :color="color"
     :time="transaction.time"
     :block="transaction.height"
-    ><template v-if="delegation">
+  >
+    <template v-if="delegation">
       <div slot="caption">
         Delegated&nbsp;<b>{{ pretty(tx.delegation.amount) }}</b
         ><span>&nbsp;{{ bondingDenom }}s</span>
       </div>
       <div slot="details">
-        To&nbsp;<router-link :to="url + '/' + tx.validator_addr">{{
-          moniker(tx.validator_addr)
-        }}</router-link>
+        To&nbsp;<router-link :to="url + '/' + tx.validator_addr">
+          {{ moniker(tx.validator_addr) }}
+        </router-link>
       </div> </template
     ><template v-if="redelegation">
       <div slot="caption">
-        Redelegated&nbsp;<template
-          ><b>{{
-            calculatePrettifiedTokens(tx.validator_src_addr, tx.shares_amount)
-          }}</b
-          ><span>&nbsp;{{ bondingDenom }}s</span></template
-        >
+        Redelegated&nbsp;<template>
+          <b>
+            {{
+              calculatePrettifiedTokens(tx.validator_src_addr, tx.shares_amount)
+            }} </b
+          ><span>&nbsp;{{ bondingDenom }}s</span>
+        </template>
       </div>
       <div slot="details">
-        From&nbsp;<router-link :to="url + '/' + tx.validator_src_addr">{{
-          moniker(tx.validator_src_addr)
-        }}</router-link>
-        to&nbsp;<router-link :to="url + '/' + tx.validator_dst_addr">{{
-          moniker(tx.validator_dst_addr)
-        }}</router-link>
+        From&nbsp;<router-link :to="url + '/' + tx.validator_src_addr">
+          {{ moniker(tx.validator_src_addr) }}
+        </router-link>
+        to&nbsp;<router-link :to="url + '/' + tx.validator_dst_addr">
+          {{ moniker(tx.validator_dst_addr) }}
+        </router-link>
       </div> </template
     ><template v-if="unbonding">
       <div slot="caption">
-        Unbonded&nbsp;<template
-          ><b>{{
-            calculatePrettifiedTokens(tx.validator_addr, tx.shares_amount)
-          }}</b
-          ><span>&nbsp;{{ bondingDenom }}s</span></template
-        ><template v-if="timeDiff"
-          ><span class="tx-unbonding__time-dif"
-            >&nbsp;- {{ timeDiff }}</span
-          ></template
-        >
+        Unbonded&nbsp;<template>
+          <b>
+            {{
+              calculatePrettifiedTokens(tx.validator_addr, tx.shares_amount)
+            }} </b
+          ><span>&nbsp;{{ bondingDenom }}s</span> </template
+        ><template v-if="timeDiff">
+          <span class="tx-unbonding__time-dif"> &nbsp;- {{ timeDiff }} </span>
+        </template>
       </div>
       <div slot="details">
-        From&nbsp;<router-link :to="url + '/' + tx.validator_addr">{{
-          moniker(tx.validator_addr)
-        }}</router-link>
+        From&nbsp;<router-link :to="url + '/' + tx.validator_addr">
+          {{ moniker(tx.validator_addr) }}
+        </router-link>
       </div>
-    </template></tm-li-transaction
-  >
+    </template>
+  </tm-li-transaction>
 </template>
 
 <script>
@@ -58,7 +59,6 @@ import colors from "./transaction-colors.js"
 import { pretty } from "../../scripts/num.js"
 import { calculateTokens } from "../../scripts/common.js"
 import moment from "moment"
-import TmBtn from "common/TmBtn.vue"
 
 /*
  * undelegation tx need a preprocessing, where shares are translated into transaction.balance: {amount, denom}
@@ -66,7 +66,7 @@ import TmBtn from "common/TmBtn.vue"
 
 export default {
   name: `TmLiStakeTransaction`,
-  components: { TmLiTransaction, TmBtn },
+  components: { TmLiTransaction },
   props: {
     transaction: {
       type: Object,

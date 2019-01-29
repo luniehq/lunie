@@ -4,7 +4,9 @@
       <header v-if="$slots['title'] || title" class="tm-part-header">
         <div class="tm-part-header-container">
           <div class="tm-part-title h5">
-            <template v-if="title">{{ title }}</template>
+            <template v-if="title">
+              {{ title }}
+            </template>
             <slot v-else="" name="title" />
           </div>
           <menu class="tm-part-menu"> <slot name="menu" /> </menu>

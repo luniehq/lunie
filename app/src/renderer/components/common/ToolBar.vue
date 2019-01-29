@@ -6,40 +6,40 @@
       class="back"
       @click="back"
     >
-      <i class="material-icons">arrow_back</i>
+      <i class="material-icons"> arrow_back </i>
     </a>
     <a
-      v-tooltip.bottom="'Refresh'"
       v-if="!!refresh"
+      v-tooltip.bottom="'Refresh'"
       :disabled="!refresh.connected"
       class="refresh-button"
       @click="refresh.connected && refresh.refresh()"
     >
-      <i class="material-icons">refresh</i>
+      <i class="material-icons"> refresh </i>
     </a>
     <a
-      v-tooltip.bottom="'Search'"
       v-if="!!searching"
+      v-tooltip.bottom="'Search'"
       :disabled="!searching.somethingToSearch"
       class="search-button"
       @click="searching.setSearch()"
     >
-      <i class="material-icons">search</i>
+      <i class="material-icons"> search </i>
     </a>
     <slot />
     <a v-tooltip.bottom="'Help'" class="help" @click="enableModalHelp">
-      <i class="material-icons">help_outline</i>
+      <i class="material-icons"> help_outline </i>
     </a>
     <router-link
-      v-tooltip.bottom="'Preferences'"
       v-if="config.devMode"
       id="settings"
+      v-tooltip.bottom="'Preferences'"
       to="/preferences"
     >
-      <i class="material-icons">settings</i>
+      <i class="material-icons"> settings </i>
     </router-link>
-    <a v-tooltip.bottom.end="'Sign Out'" id="signOut-btn" @click="signOut">
-      <i class="material-icons">exit_to_app</i>
+    <a id="signOut-btn" v-tooltip.bottom.end="'Sign Out'" @click="signOut">
+      <i class="material-icons"> exit_to_app </i>
     </a>
   </div>
 </template>

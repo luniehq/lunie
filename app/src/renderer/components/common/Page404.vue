@@ -7,10 +7,10 @@
     <tm-part>
       <p>Here are some helpful links to get you out of here:</p>
       <ul>
-        <li><router-link to="/">Wallet</router-link></li>
-        <li><router-link to="/transactions">Transactions</router-link></li>
-        <li><router-link to="/staking">Staking</router-link></li>
-        <li><router-link to="/governance">Governance</router-link></li>
+        <li><router-link to="/"> Wallet </router-link></li>
+        <li><router-link to="/transactions"> Transactions </router-link></li>
+        <li><router-link to="/staking"> Staking </router-link></li>
+        <li><router-link to="/governance"> Governance </router-link></li>
       </ul>
     </tm-part>
   </tm-page>

@@ -15,8 +15,9 @@
         <i
           v-tooltip.top="poolTooltips.description"
           class="material-icons info-button"
-          >info_outline</i
         >
+          info_outline
+        </i>
       </h3>
       <div class="parameters__details parameters__section">
         <div class="row">
@@ -27,8 +28,9 @@
                 <i
                   v-tooltip.top="poolTooltips.loose_tokens"
                   class="material-icons info-button"
-                  >info_outline</i
                 >
+                  info_outline
+                </i>
               </dt>
               <dd id="loose_tokens">
                 {{ pool.pool.loose_tokens ? pool.pool.loose_tokens : `n/a` }}
@@ -42,8 +44,9 @@
                 <i
                   v-tooltip.top="poolTooltips.bonded_tokens"
                   class="material-icons info-button"
-                  >info_outline</i
                 >
+                  info_outline
+                </i>
               </dt>
               <dd id="bonded_tokens">
                 {{ pool.pool.bonded_tokens ? pool.pool.bonded_tokens : `n/a` }}
@@ -59,8 +62,9 @@
         <i
           v-tooltip.top="paramsTooltips.description"
           class="material-icons info-button"
-          >info_outline</i
         >
+          info_outline
+        </i>
       </h3>
       <div class="parameters__details parameters__section">
         <div class="row">
@@ -71,8 +75,9 @@
                 <i
                   v-tooltip.top="paramsTooltips.unbonding_time"
                   class="material-icons info-button"
-                  >info_outline</i
                 >
+                  info_outline
+                </i>
               </dt>
               <dd id="unbonding_time">
                 {{
@@ -113,21 +118,12 @@
 
 <script>
 import { mapGetters } from "vuex"
-import TmBtn from "common/TmBtn"
-import TmListItem from "common/TmListItem"
-import TmPage from "common/TmPage"
-import TmPart from "common/TmPart"
-import ToolBar from "common/ToolBar"
 import TmDataConnecting from "common/TmDataConnecting"
 import TmDataLoading from "common/TmDataLoading"
+
 export default {
   name: `tab-staking-parameters`,
   components: {
-    TmBtn,
-    TmListItem,
-    TmPage,
-    TmPart,
-    ToolBar,
     TmDataConnecting,
     TmDataLoading
   },

@@ -10,7 +10,7 @@
         @click.native="close"
       >
         <h2 class="app-menu-title">Wallet</h2>
-        <i class="material-icons">chevron_right</i>
+        <i class="material-icons"> chevron_right </i>
       </router-link>
       <router-link
         id="app-menu__transactions"
@@ -21,7 +21,7 @@
         @click.native="close"
       >
         <h2 class="app-menu-title">Transactions</h2>
-        <i class="material-icons">chevron_right</i>
+        <i class="material-icons"> chevron_right </i>
       </router-link>
       <router-link
         id="app-menu__staking"
@@ -31,7 +31,7 @@
         @click.native="close"
       >
         <h2 class="app-menu-title">Staking</h2>
-        <i class="material-icons">chevron_right</i>
+        <i class="material-icons"> chevron_right </i>
       </router-link>
       <router-link
         id="app-menu__proposals"
@@ -41,7 +41,7 @@
         @click.native="close"
       >
         <h2 class="app-menu-title">Governance</h2>
-        <i class="material-icons">chevron_right</i>
+        <i class="material-icons"> chevron_right </i>
       </router-link>
     </div>
     <connected-network />
@@ -52,12 +52,11 @@
 import PerfectScrollbar from "perfect-scrollbar"
 import noScroll from "no-scroll"
 import ConnectedNetwork from "common/TmConnectedNetwork"
-import TmListItem from "common/TmListItem"
+
 export default {
   name: `app-menu`,
   components: {
-    ConnectedNetwork,
-    TmListItem
+    ConnectedNetwork
   },
   data: () => ({
     ps: {}

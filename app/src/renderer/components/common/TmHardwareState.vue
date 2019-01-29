@@ -1,8 +1,8 @@
 <template>
   <div class="tm-hardware-state">
-    <i :class="iconClass" class="tm-hardware-state__icon material-icons">{{
-      icon
-    }}</i>
+    <i :class="iconClass" class="tm-hardware-state__icon material-icons">
+      {{ icon }}
+    </i>
     <div class="tm-hardware-state__label">{{ value }}</div>
   </div>
 </template>
@@ -25,9 +25,7 @@ export default {
   },
   computed: {
     iconClass() {
-      if (this.spin) {
-        return `fa-spin`
-      }
+      return this.spin ? `fa-spin` : ``
     }
   }
 }

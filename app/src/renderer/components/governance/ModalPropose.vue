@@ -14,9 +14,9 @@
       field-label="Title"
     >
       <tm-field
-        v-focus
         id="title"
         v-model.trim="title"
+        v-focus
         type="text"
         placeholder="Proposal title"
       />
@@ -63,7 +63,7 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix">{{ denom }}</span>
+      <span class="input-suffix"> {{ denom }} </span>
       <tm-field id="amount" v-model="amount" type="number" />
       <tm-form-msg
         v-if="balance === 0"
@@ -96,8 +96,6 @@ import {
   between
 } from "vuelidate/lib/validators"
 import { isEmpty, trim } from "lodash"
-import Modal from "common/TmModal"
-import TmBtn from "common/TmBtn"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
@@ -112,8 +110,6 @@ export default {
   name: `modal-propose`,
   components: {
     ActionModal,
-    Modal,
-    TmBtn,
     TmField,
     TmFormGroup,
     TmFormMsg
