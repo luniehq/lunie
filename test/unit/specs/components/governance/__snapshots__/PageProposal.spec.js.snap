@@ -2,7 +2,7 @@
 
 exports[`PageProposal has the expected html structure 1`] = `
 <div
-  class="tm-page page-profile"
+  class="tm-page"
   data-title="Proposal"
 >
   <header
@@ -149,9 +149,7 @@ exports[`PageProposal has the expected html structure 1`] = `
        
       <menu
         class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
+      />
        
       <div
         class="tabs"
@@ -164,7 +162,10 @@ exports[`PageProposal has the expected html structure 1`] = `
   <main
     class="tm-page-main"
   >
+    <!---->
      
+    <!---->
+      
     <div
       class="page-profile__header page-profile__section proposal"
     >
@@ -385,7 +386,7 @@ exports[`PageProposal has the expected html structure 1`] = `
 
 exports[`PageProposal has the expected html structure when voting is open 1`] = `
 <div
-  class="tm-page page-profile"
+  class="tm-page"
   data-title="Proposal"
 >
   <header
@@ -532,9 +533,7 @@ exports[`PageProposal has the expected html structure when voting is open 1`] = 
        
       <menu
         class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
+      />
        
       <div
         class="tabs"
@@ -547,7 +546,10 @@ exports[`PageProposal has the expected html structure when voting is open 1`] = 
   <main
     class="tm-page-main"
   >
+    <!---->
      
+    <!---->
+      
     <div
       class="page-profile__header page-profile__section proposal"
     >
@@ -768,7 +770,7 @@ exports[`PageProposal has the expected html structure when voting is open 1`] = 
 
 exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
 <div
-  class="tm-page page-profile"
+  class="tm-page"
   data-title="Proposal"
 >
   <header
@@ -915,9 +917,7 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
        
       <menu
         class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
+      />
        
       <div
         class="tabs"
@@ -930,7 +930,10 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
   <main
     class="tm-page-main"
   >
+    <!---->
      
+    <!---->
+      
     <div
       class="tm-data-msg"
     >

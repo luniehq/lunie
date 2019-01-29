@@ -1,5 +1,5 @@
 <template>
-  <page-profile data-title="Validator">
+  <tm-page data-title="Validator">
     <template slot="menu-body">
       <tm-balance />
       <tool-bar />
@@ -176,7 +176,7 @@
         </div>
       </tm-modal>
     </template>
-  </page-profile>
+  </tm-page>
 </template>
 
 <script>
@@ -195,7 +195,7 @@ import DelegationModal from "staking/DelegationModal"
 import UndelegationModal from "staking/UndelegationModal"
 import ShortBech32 from "common/ShortBech32"
 import TmBalance from "common/TmBalance"
-import PageProfile from "common/PageProfile"
+import TmPage from "common/TmPage"
 import { isEmpty } from "lodash"
 export default {
   name: `page-validator`,
@@ -210,7 +210,7 @@ export default {
     ToolBar,
     TmDataError,
     TmBalance,
-    PageProfile
+    TmPage
   },
   data: () => ({
     percent,

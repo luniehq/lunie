@@ -2,7 +2,7 @@
 
 exports[`PageValidator has the expected html structure 1`] = `
 <div
-  class="tm-page page-profile"
+  class="tm-page"
   data-title="Validator"
 >
   <header
@@ -149,9 +149,7 @@ exports[`PageValidator has the expected html structure 1`] = `
        
       <menu
         class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
+      />
        
       <div
         class="tabs"
@@ -164,7 +162,10 @@ exports[`PageValidator has the expected html structure 1`] = `
   <main
     class="tm-page-main"
   >
+    <!---->
      
+    <!---->
+      
     <div
       class="page-profile__header page-profile__section"
     >
@@ -520,7 +521,7 @@ exports[`PageValidator has the expected html structure 1`] = `
 
 exports[`PageValidator shows a default avatar 1`] = `
 <div
-  class="tm-page page-profile"
+  class="tm-page"
   data-title="Validator"
 >
   <header
@@ -667,9 +668,7 @@ exports[`PageValidator shows a default avatar 1`] = `
        
       <menu
         class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
+      />
        
       <div
         class="tabs"
@@ -682,7 +681,10 @@ exports[`PageValidator shows a default avatar 1`] = `
   <main
     class="tm-page-main"
   >
+    <!---->
      
+    <!---->
+      
     <div
       class="page-profile__header page-profile__section"
     >
@@ -1040,7 +1042,7 @@ exports[`PageValidator shows a validator as candidate if he has no voting_power 
 
 exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
 <div
-  class="tm-page page-profile"
+  class="tm-page"
   data-title="Validator"
 >
   <header
@@ -1178,9 +1180,7 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
        
       <menu
         class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
+      />
        
       <div
         class="tabs"
@@ -1193,7 +1193,10 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
   <main
     class="tm-page-main"
   >
+    <!---->
      
+    <!---->
+      
     <div
       class="tm-data-msg"
     >
@@ -1285,7 +1288,7 @@ Array [
 
 exports[`onDelegation make sure we have enough atoms to delegate is not enough 1`] = `
 <div
-  class="tm-page page-profile"
+  class="tm-page"
   data-title="Validator"
 >
   <header
@@ -1432,9 +1435,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
        
       <menu
         class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
+      />
        
       <div
         class="tabs"
@@ -1447,7 +1448,10 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
   <main
     class="tm-page-main"
   >
+    <!---->
      
+    <!---->
+      
     <div
       class="page-profile__header page-profile__section"
     >
@@ -1870,7 +1874,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
 
 exports[`onDelegation make sure we have enough atoms to delegate is not enough 2`] = `
 <div
-  class="tm-page page-profile"
+  class="tm-page"
   data-title="Validator"
 >
   <header
@@ -2017,9 +2021,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
        
       <menu
         class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
+      />
        
       <div
         class="tabs"
@@ -2032,7 +2034,10 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
   <main
     class="tm-page-main"
   >
+    <!---->
      
+    <!---->
+      
     <div
       class="page-profile__header page-profile__section"
     >
@@ -2388,7 +2393,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
 
 exports[`onDelegation onUnstake make sure there are enough atoms to unstake is not enough 1`] = `
 <div
-  class="tm-page page-profile"
+  class="tm-page"
   data-title="Validator"
 >
   <header
@@ -2535,9 +2540,7 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
        
       <menu
         class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
+      />
        
       <div
         class="tabs"
@@ -2550,7 +2553,10 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
   <main
     class="tm-page-main"
   >
+    <!---->
      
+    <!---->
+      
     <div
       class="page-profile__header page-profile__section"
     >
@@ -2973,7 +2979,7 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
 
 exports[`onDelegation onUnstake make sure there are enough atoms to unstake is not enough 2`] = `
 <div
-  class="tm-page page-profile"
+  class="tm-page"
   data-title="Validator"
 >
   <header
@@ -3120,9 +3126,7 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
        
       <menu
         class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
+      />
        
       <div
         class="tabs"
@@ -3135,7 +3139,10 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
   <main
     class="tm-page-main"
   >
+    <!---->
      
+    <!---->
+      
     <div
       class="page-profile__header page-profile__section"
     >

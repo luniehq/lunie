@@ -1,5 +1,5 @@
 <template>
-  <page-profile data-title="Proposal">
+  <tm-page data-title="Proposal">
     <template slot="menu-body">
       <tm-balance />
       <tool-bar />
@@ -134,7 +134,7 @@
         :last-vote-option="lastVote && lastVote.option"
       />
     </template>
-  </page-profile>
+  </tm-page>
 </template>
 
 <script>
@@ -148,7 +148,7 @@ import TmDataError from "common/TmDataError"
 import TextBlock from "common/TextBlock"
 import ModalDeposit from "./ModalDeposit"
 import ModalVote from "./ModalVote"
-import PageProfile from "common/PageProfile"
+import TmPage from "common/TmPage"
 export default {
   name: `page-proposal`,
   components: {
@@ -158,7 +158,7 @@ export default {
     ModalVote,
     ToolBar,
     TmDataError,
-    PageProfile,
+    TmPage,
     TextBlock
   },
   props: {
