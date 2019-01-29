@@ -104,10 +104,10 @@ describe(`PageValidator`, () => {
 
   it(`should return the self bond based on the validator`, () => {
     let validator = {
-      selfBond: 10
+      selfBond: 1
     }
     wrapper.setData({ validator })
-    expect(wrapper.vm.selfBond).toBe(`1000.00%`)
+    expect(wrapper.vm.selfBond).toBe(`100.00%`)
 
     validator.selfBond = undefined
     wrapper.setData({ validator })
