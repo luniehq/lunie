@@ -1,24 +1,20 @@
 import setup from "../../../helpers/vuex-setup"
 import PageTransactions from "renderer/components/wallet/PageTransactions"
-import mockTransactions from "../../store/json/txs.js"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`PageTransactions`, () => {
   let wrapper, store
-  let { stakingParameters, txs } = lcdClientMock.state
+  const { stakingParameters, txs } = lcdClientMock.state
 
-  let { mount } = setup()
+  const { mount } = setup()
   beforeEach(async () => {
-    let instance = mount(PageTransactions, {
+    const instance = mount(PageTransactions, {
       stubs: {
         "tm-li-any-transaction": true,
         "data-empty-tx": true,
         "data-empty-search": true,
         "tm-data-error": true,
         "modal-search": true
-      },
-      methods: {
-        refreshTransactions: jest.fn() // we don't want to call getAllTxs on mount
       }
     })
     wrapper = instance.wrapper
@@ -30,6 +26,7 @@ describe(`PageTransactions`, () => {
     store.commit(`setWalletTxs`, txs.slice(0, 2))
     store.commit(`setStakingTxs`, txs.slice(4))
     store.commit(`setGovernanceTxs`, txs.slice(2, 4))
+    store.commit(`setHistoryLoading`, false)
   })
 
   it(`has the expected html structure`, async () => {
@@ -41,13 +38,12 @@ describe(`PageTransactions`, () => {
     expect(wrapper.contains(`modal-search-stub`)).toBe(true)
   })
 
-  it(`should refresh the transaction history`, () => {
-    wrapper.vm.refreshTransactions = jest.fn()
-    wrapper.find(`.refresh-button`).trigger(`click`)
-    expect(wrapper.vm.refreshTransactions).toHaveBeenCalled()
+  it(`should refresh the transaction history`, async () => {
+    await wrapper.vm.refreshTransactions()
+    expect(store.dispatch).toHaveBeenCalledWith(`getAllTxs`)
   })
 
-  it(`should show transactions`, () => {
+  it(`should show transactions`, async () => {
     expect(wrapper.findAll(`tm-li-any-transaction-stub`).length).toBe(6)
   })
 
@@ -70,33 +66,5 @@ describe(`PageTransactions`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
     store.commit(`setSearchQuery`, [`transactions`, `jb`])
     expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual([1])
-  })
-
-  it(`should update 'somethingToSearch' when there's nothing to search`, () => {
-    expect(wrapper.vm.somethingToSearch).toBe(true)
-    store.commit(`setWalletTxs`, [])
-    store.commit(`setStakingTxs`, [])
-    store.commit(`setGovernanceTxs`, [])
-    expect(wrapper.vm.somethingToSearch).toBe(false)
-    store.commit(`setWalletTxs`, mockTransactions)
-    expect(wrapper.vm.somethingToSearch).toBe(true)
-    store.commit(`setHistoryLoading`, true)
-    expect(wrapper.vm.somethingToSearch).toBe(false)
-  })
-
-  it(`should show an error if there are no transactions`, () => {
-    store.commit(`setWalletTxs`, [])
-    store.commit(`setStakingTxs`, [])
-    store.commit(`setGovernanceTxs`, [])
-    expect(wrapper.contains(`data-empty-tx-stub`)).toBe(true)
-    expect(wrapper.contains(`data-empty-search-stub`)).toBe(false)
-  })
-
-  it(`should not show search when there is nothing to search`, () => {
-    store.commit(`setWalletTxs`, [])
-    store.commit(`setStakingTxs`, [])
-    store.commit(`setGovernanceTxs`, [])
-    wrapper.find(`.search-button`).trigger(`click`)
-    expect(wrapper.contains(`modal-search-stub`)).toBe(false)
   })
 })

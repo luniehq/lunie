@@ -2,13 +2,13 @@ import setup from "../../../helpers/vuex-setup"
 import TabProposals from "renderer/components/governance/TabProposals"
 const lcdClientMock = require(`renderer/connectors/lcdClientMock.js`)
 
-let { tallies } = lcdClientMock.state
+const { tallies } = lcdClientMock.state
 
 describe(`TabProposals`, () => {
-  let { mount } = setup()
+  const { mount } = setup()
 
   it(`has the expected html structure`, async () => {
-    let { wrapper } = mount(TabProposals, {
+    const { wrapper } = mount(TabProposals, {
       getters: {
         proposals: () => ({
           loading: false,
@@ -26,7 +26,7 @@ describe(`TabProposals`, () => {
   })
 
   it(`shows a message if still connecting`, async () => {
-    let { wrapper } = mount(TabProposals, {
+    const { wrapper } = mount(TabProposals, {
       getters: {
         proposals: () => ({
           loading: false,
@@ -44,7 +44,7 @@ describe(`TabProposals`, () => {
   })
 
   it(`shows a message if still loading`, async () => {
-    let { wrapper } = mount(TabProposals, {
+    const { wrapper } = mount(TabProposals, {
       getters: {
         proposals: () => ({
           loading: true,
@@ -62,7 +62,7 @@ describe(`TabProposals`, () => {
   })
 
   it(`shows a message if there is nothing to display`, async () => {
-    let { wrapper } = mount(TabProposals, {
+    const { wrapper } = mount(TabProposals, {
       getters: {
         proposals: () => ({
           loading: false,

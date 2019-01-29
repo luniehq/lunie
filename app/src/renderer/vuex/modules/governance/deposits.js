@@ -14,14 +14,14 @@ export default ({ node }) => {
       Vue.set(state.deposits, proposalId, deposits)
     }
   }
-  let actions = {
+  const actions = {
     async getProposalDeposits({ state, commit, rootState }, proposalId) {
       state.loading = true
 
       if (!rootState.connection.connected) return
 
       try {
-        let deposits = await node.queryProposalDeposits(proposalId)
+        const deposits = await node.queryProposalDeposits(proposalId)
         state.error = null
         state.loading = false
         state.loaded = true

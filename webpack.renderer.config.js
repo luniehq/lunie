@@ -15,7 +15,7 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-let rendererConfig = {
+const rendererConfig = {
   devtool: process.env.NODE_ENV === `production` ? false : `#inline-source-map`,
   entry: {
     renderer: path.join(__dirname, `app/src/renderer/main.js`)

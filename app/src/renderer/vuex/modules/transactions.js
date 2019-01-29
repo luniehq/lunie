@@ -2,7 +2,7 @@ import { uniqBy } from "lodash"
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
 export default ({ node }) => {
-  let emptyState = {
+  const emptyState = {
     loading: false,
     loaded: false,
     error: null,
@@ -10,23 +10,23 @@ export default ({ node }) => {
     staking: [],
     governance: []
   }
-  let state = JSON.parse(JSON.stringify(emptyState))
+  const state = JSON.parse(JSON.stringify(emptyState))
 
   // properties under which txs of different categories are stored
   const txCategories = [`staking`, `wallet`, `governance`]
 
-  let mutations = {
+  const mutations = {
     setWalletTxs(state, txs) {
-      state.wallet = txs
+      Vue.set(state, `wallet`, txs)
     },
     setStakingTxs(state, txs) {
-      state.staking = txs
+      Vue.set(state, `staking`, txs)
     },
     setGovernanceTxs(state, txs) {
-      state.governance = txs
+      Vue.set(state, `governance`, txs)
     },
     setHistoryLoading(state, loading) {
-      state.loading = loading
+      Vue.set(state, `loading`, loading)
     },
     setTransactionTime(state, { blockHeight, blockMetaInfo }) {
       txCategories.forEach(category => {
@@ -40,7 +40,7 @@ export default ({ node }) => {
     }
   }
 
-  let actions = {
+  const actions = {
     resetSessionData({ rootState }) {
       // clear previous account state
       rootState.transactions = JSON.parse(JSON.stringify(emptyState))
@@ -52,7 +52,7 @@ export default ({ node }) => {
     },
     async getAllTxs({ commit, dispatch, state, rootState }) {
       try {
-        state.loading = true
+        commit(`setHistoryLoading`, true)
 
         if (!rootState.connection.connected) return
 
@@ -70,7 +70,7 @@ export default ({ node }) => {
           transactions: allTxs
         })
         state.error = null
-        state.loading = false
+        commit(`setHistoryLoading`, false)
         state.loaded = true
       } catch (error) {
         commit(`notifyError`, {
@@ -117,7 +117,7 @@ export default ({ node }) => {
       )
     },
     async queryTransactionTime({ commit, dispatch }, { blockHeight }) {
-      let blockMetaInfo = await dispatch(`queryBlockInfo`, blockHeight)
+      const blockMetaInfo = await dispatch(`queryBlockInfo`, blockHeight)
       commit(`setTransactionTime`, {
         blockHeight,
         blockMetaInfo

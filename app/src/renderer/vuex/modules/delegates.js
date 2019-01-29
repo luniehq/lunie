@@ -59,9 +59,9 @@ export default ({ node }) => {
       rootState.delegates = JSON.parse(JSON.stringify(emptyState))
     },
     async updateSigningInfo({ commit }, validators) {
-      for (let validator of validators) {
+      for (const validator of validators) {
         if (validator.consensus_pubkey) {
-          let signing_info = await node.queryValidatorSigningInfo(
+          const signing_info = await node.queryValidatorSigningInfo(
             validator.consensus_pubkey
           )
           if (!isEmpty(signing_info)) validator.signing_info = signing_info
@@ -76,12 +76,12 @@ export default ({ node }) => {
 
       try {
         let validators = await node.getCandidates()
-        let { validators: validatorSet } = await node.getValidatorSet()
+        const { validators: validatorSet } = await node.getValidatorSet()
         state.error = null
         state.loading = false
         state.loaded = true
 
-        for (let validator of validators) {
+        for (const validator of validators) {
           validator.isValidator = false
           if (validatorSet.find(v => v.pub_key === validator.pub_key)) {
             validator.isValidator = true
@@ -107,7 +107,6 @@ export default ({ node }) => {
           body: error.message
         })
         Sentry.captureException(error)
-        commit(`setDelegateLoading`, false)
         state.error = error
         return []
       }
@@ -115,13 +114,13 @@ export default ({ node }) => {
     async getSelfBond({ commit }, validator) {
       if (validator.selfBond) return validator.selfBond
       else {
-        let hexAddr = b32.decode(validator.operator_address)
-        let operatorCosmosAddr = b32.encode(hexAddr, `cosmos`)
-        let delegation = await node.queryDelegation(
+        const hexAddr = b32.decode(validator.operator_address)
+        const operatorCosmosAddr = b32.encode(hexAddr, `cosmos`)
+        const delegation = await node.queryDelegation(
           operatorCosmosAddr,
           validator.operator_address
         )
-        let ratio = new BN(delegation.shares).div(
+        const ratio = new BN(delegation.shares).div(
           ratToBigNumber(validator.delegator_shares)
         )
 

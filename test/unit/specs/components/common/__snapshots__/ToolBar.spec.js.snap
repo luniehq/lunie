@@ -2,7 +2,7 @@
 
 exports[`ToolBar has the expected html structure 1`] = `
 <div
-  class="tm-tool-bar"
+  class="tool-bar"
 >
   <a
     class="back"
@@ -15,6 +15,10 @@ exports[`ToolBar has the expected html structure 1`] = `
     </i>
   </a>
    
+  <!---->
+   
+  <!---->
+    
   <a
     class="help"
   >
@@ -35,6 +39,7 @@ exports[`ToolBar has the expected html structure 1`] = `
       settings
     </i>
   </router-link-stub>
+   
   <a
     id="signOut-btn"
   >

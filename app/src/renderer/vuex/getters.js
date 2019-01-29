@@ -40,8 +40,8 @@ export const oldBondedAtoms = (state, getters) => {
   let totalOldBondedAtoms = new BN(0)
   Object.keys(getters.delegation.committedDelegates).forEach(
     delegatorAddress => {
-      let shares = getters.delegation.committedDelegates[delegatorAddress]
-      let delegator = getters.delegates.delegates.find(
+      const shares = getters.delegation.committedDelegates[delegatorAddress]
+      const delegator = getters.delegates.delegates.find(
         d => d.id === delegatorAddress
       )
       if (!delegator) {
@@ -79,7 +79,9 @@ export const votes = state => state.votes.votes
 export const deposits = state => state.deposits.deposits
 export const governanceParameters = state => state.governanceParameters
 export const depositDenom = getters =>
-  getters.governanceParameters.parameters.deposit.min_deposit[0].denom
+  getters.governanceParameters.loaded
+    ? getters.governanceParameters.parameters.deposit.min_deposit[0].denom
+    : ``
 
 // status
 export const approvalRequired = state => state.connection.approvalRequired

@@ -1,4 +1,4 @@
-let CryptoJS = require(`crypto-js`)
+const CryptoJS = require(`crypto-js`)
 
 const keySize = 256
 const iterations = 100
@@ -30,12 +30,12 @@ export function getKey(name, password) {
 }
 
 function addKey(wallet, name, password) {
-  let keys = loadKeys()
+  const keys = loadKeys()
 
   if (keys.find(key => key.name === name))
     throw new Error(`Key with that name already exists`)
 
-  let ciphertext = encrypt(JSON.stringify(wallet), password)
+  const ciphertext = encrypt(JSON.stringify(wallet), password)
 
   keys.push({
     name,
@@ -47,12 +47,12 @@ function addKey(wallet, name, password) {
 }
 
 export function testPassword(name, password) {
-  let keys = loadKeys()
+  const keys = loadKeys()
 
   const key = keys.find(key => key.name === name)
   try {
     // try to decode and check if is json format to proofs that decoding worked
-    let decrypted = decrypt(key.wallet, password)
+    const decrypted = decrypt(key.wallet, password)
     JSON.parse(decrypted)
     return true
   } catch (err) {
@@ -79,16 +79,16 @@ export function importKey(name, password, seed) {
 
 // TODO needs proof reading
 function encrypt(msg, pass) {
-  let salt = CryptoJS.lib.WordArray.random(128 / 8)
+  const salt = CryptoJS.lib.WordArray.random(128 / 8)
 
-  let key = CryptoJS.PBKDF2(pass, salt, {
+  const key = CryptoJS.PBKDF2(pass, salt, {
     keySize: keySize / 32,
     iterations: iterations
   })
 
-  let iv = CryptoJS.lib.WordArray.random(128 / 8)
+  const iv = CryptoJS.lib.WordArray.random(128 / 8)
 
-  let encrypted = CryptoJS.AES.encrypt(msg, key, {
+  const encrypted = CryptoJS.AES.encrypt(msg, key, {
     iv: iv,
     padding: CryptoJS.pad.Pkcs7,
     mode: CryptoJS.mode.CBC
@@ -96,21 +96,21 @@ function encrypt(msg, pass) {
 
   // salt, iv will be hex 32 in length
   // append them to the ciphertext for use  in decryption
-  let transitmessage = salt.toString() + iv.toString() + encrypted.toString()
+  const transitmessage = salt.toString() + iv.toString() + encrypted.toString()
   return transitmessage
 }
 
 function decrypt(transitmessage, pass) {
-  let salt = CryptoJS.enc.Hex.parse(transitmessage.substr(0, 32))
-  let iv = CryptoJS.enc.Hex.parse(transitmessage.substr(32, 32))
-  let encrypted = transitmessage.substring(64)
+  const salt = CryptoJS.enc.Hex.parse(transitmessage.substr(0, 32))
+  const iv = CryptoJS.enc.Hex.parse(transitmessage.substr(32, 32))
+  const encrypted = transitmessage.substring(64)
 
-  let key = CryptoJS.PBKDF2(pass, salt, {
+  const key = CryptoJS.PBKDF2(pass, salt, {
     keySize: keySize / 32,
     iterations: iterations
   })
 
-  let decrypted = CryptoJS.AES.decrypt(encrypted, key, {
+  const decrypted = CryptoJS.AES.decrypt(encrypted, key, {
     iv: iv,
     padding: CryptoJS.pad.Pkcs7,
     mode: CryptoJS.mode.CBC

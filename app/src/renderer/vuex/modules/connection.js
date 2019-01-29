@@ -1,4 +1,5 @@
 import { sleep } from "scripts/common.js"
+import Vue from "vue"
 
 const config = require(`../../../config.json`)
 const NODE_HALTED_TIMEOUT = config.node_halted_timeout
@@ -24,13 +25,13 @@ export default function({ node }) {
 
   const mutations = {
     stopConnecting(state, stop) {
-      state.stopConnecting = stop
+      Vue.set(state, `stopConnecting`, stop)
     },
     setConnected(state, connected) {
-      state.connected = connected
+      Vue.set(state, `connected`, connected)
     },
     setNodeApprovalRequired(state, hash) {
-      state.approvalRequired = hash
+      Vue.set(state, `approvalRequired`, hash)
     }
   }
 

@@ -1,6 +1,6 @@
 import fs from "fs-extra"
 
-let testRoot = `./test/unit/tmp/test_root/`
+const testRoot = `./test/unit/tmp/test_root/`
 
 function mockGenesis() {
   process.env.COSMOS_NETWORK = `./networks/gaiaiaiaiaiaia/`

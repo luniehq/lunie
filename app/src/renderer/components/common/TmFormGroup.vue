@@ -56,10 +56,6 @@ export default {
   width: 100%;
 }
 
-.tm-form-group .tm-form-msg--error {
-  display: none;
-}
-
 .tm-form-group__sub-label {
   position: absolute;
   bottom: 0.5rem;
@@ -77,15 +73,12 @@ export default {
   border-color: var(--danger);
 }
 
-.tm-form-group--error .tm-form-msg--error {
-  display: flex;
-}
-
 .tm-form-group__label {
   display: block;
   line-height: 2rem;
   color: var(--txt);
   text-align: left;
+  font-weight: 500;
 }
 
 @media (min-width: 768px) {
@@ -99,6 +92,7 @@ export default {
 
   .tm-form-group__field {
     flex: 1;
+    position: relative;
   }
 
   .tm-form-group__field > .tm-field,

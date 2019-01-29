@@ -3,7 +3,7 @@
 const { RpcClient } = require(`tendermint`)
 
 module.exports = function setRpcWrapper(container) {
-  let rpcWrapper = {
+  const rpcWrapper = {
     // RPC
     rpcInfo: {
       connecting: false,
@@ -23,19 +23,19 @@ module.exports = function setRpcWrapper(container) {
       rpcWrapper.rpcInfo.connected = false
     },
     async rpcConnect(rpcURL) {
-      let rpcHost =
+      const rpcHost =
         rpcURL.startsWith(`http`) && rpcURL.indexOf(`//`) !== -1
           ? rpcURL.split(`//`)[1]
           : rpcURL
 
-      let https = rpcURL.startsWith(`https`)
+      const https = rpcURL.startsWith(`https`)
 
       if (container.rpc) {
         rpcWrapper.rpcDisconnect()
       }
 
       console.log(`init rpc with ` + rpcURL)
-      let newRpc = new RpcClient(`${https ? `wss` : `ws`}://${rpcHost}`)
+      const newRpc = new RpcClient(`${https ? `wss` : `ws`}://${rpcHost}`)
       rpcWrapper.rpcInfo.connected = true
       // we need to check immediately if the connection fails. later we will not be able to check this error
 

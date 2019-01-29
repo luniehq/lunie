@@ -21,12 +21,14 @@
             placeholder="Must be at least 5 characters"
           />
           <tm-form-msg
-            v-if="!$v.fields.signUpName.required"
+            v-if="$v.fields.signUpName.$error && !$v.fields.signUpName.required"
             name="Name"
             type="required"
           />
           <tm-form-msg
-            v-if="!$v.fields.signUpName.minLength"
+            v-if="
+              $v.fields.signUpName.$error && !$v.fields.signUpName.minLength
+            "
             name="Name"
             type="minLength"
             min="5"
@@ -44,12 +46,18 @@
             placeholder="Must be at least 10 characters"
           />
           <tm-form-msg
-            v-if="!$v.fields.signUpPassword.required"
+            v-if="
+              $v.fields.signUpPassword.$error &&
+                !$v.fields.signUpPassword.required
+            "
             name="Password"
             type="required"
           />
           <tm-form-msg
-            v-if="!$v.fields.signUpPassword.minLength"
+            v-if="
+              $v.fields.signUpPassword.$error &&
+                !$v.fields.signUpPassword.minLength
+            "
             name="Password"
             type="minLength"
             min="10"
@@ -67,21 +75,30 @@
             placeholder="Enter password again"
           />
           <tm-form-msg
-            v-if="!$v.fields.signUpPasswordConfirm.sameAsPassword"
+            v-if="
+              $v.fields.signUpPasswordConfirm.$error &&
+                !$v.fields.signUpPasswordConfirm.sameAsPassword
+            "
             name="Password confirmation"
             type="match"
           />
         </tm-form-group>
-        <tm-form-group field-id="sign-up-seed" field-label="Seed Phrase">
+        <tm-form-group
+          field-id="sign-up-seed"
+          class="sign-up-seed-group"
+          field-label="Seed Phrase"
+        >
           <field-seed
             id="sign-up-seed"
             v-model="fields.signUpSeed"
             disabled="disabled"
           />
-          <tm-form-msg class="sm"
-            >Please back up the seed phrase for this account. This seed phrase
-            cannot be recovered.</tm-form-msg
-          >
+          <tm-form-msg
+            class="sm"
+            type="custom"
+            msg="Please back up the seed phrase for this account. This seed phrase
+            cannot be recovered."
+          ></tm-form-msg>
         </tm-form-group>
         <tm-form-group
           :error="$v.fields.signUpWarning.$error"
@@ -102,7 +119,10 @@
             >
           </div>
           <tm-form-msg
-            v-if="!$v.fields.signUpWarning.required"
+            v-if="
+              $v.fields.signUpWarning.$error &&
+                !$v.fields.signUpWarning.required
+            "
             name="Recovery confirmation"
             type="required"
           />
@@ -172,36 +192,36 @@ export default {
     new PerfectScrollbar(this.$el.querySelector(`.tm-session-main`))
   },
   methods: {
-    help({ $store } = this) {
-      $store.commit(`setModalHelp`, true)
+    help() {
+      this.$store.commit(`setModalHelp`, true)
     },
-    setState(value, { $store } = this) {
-      $store.commit(`setModalSessionState`, value)
+    setState(value) {
+      this.$store.commit(`setModalSessionState`, value)
     },
-    async onSubmit({ $v, $store, fields } = this) {
-      $v.$touch()
-      if ($v.$error) return
+    async onSubmit() {
+      this.$v.$touch()
+      if (this.$v.$error) return
       try {
-        await $store.dispatch(`createKey`, {
-          seedPhrase: fields.signUpSeed,
-          password: fields.signUpPassword,
-          name: fields.signUpName
+        await this.$store.dispatch(`createKey`, {
+          seedPhrase: this.fields.signUpSeed,
+          password: this.fields.signUpPassword,
+          name: this.fields.signUpName
         })
-        $store.dispatch(`setErrorCollection`, {
-          account: fields.signUpName,
-          optin: fields.errorCollection
+        this.$store.dispatch(`setErrorCollection`, {
+          account: this.fields.signUpName,
+          optin: this.fields.errorCollection
         })
-        $store.commit(`setModalSession`, false)
-        $store.commit(`notify`, {
+        this.$store.commit(`setModalSession`, false)
+        this.$store.commit(`notify`, {
           title: `Signed Up`,
           body: `Your account has been created.`
         })
-        $store.dispatch(`signIn`, {
-          password: fields.signUpPassword,
-          account: fields.signUpName
+        this.$store.dispatch(`signIn`, {
+          password: this.fields.signUpPassword,
+          account: this.fields.signUpName
         })
       } catch (error) {
-        $store.commit(`notifyError`, {
+        this.$store.commit(`notifyError`, {
           title: `Couldn't create account`,
           body: error.message
         })
@@ -213,9 +233,15 @@ export default {
       signUpName: { required, minLength: minLength(5) },
       signUpPassword: { required, minLength: minLength(10) },
       signUpPasswordConfirm: { sameAsPassword: sameAs(`signUpPassword`) },
-      signUpWarning: { required },
+      signUpWarning: { required: sameAs(() => true) },
       errorCollection: false
     }
   })
 }
 </script>
+
+<style lang="css">
+.sign-up-seed-group {
+  margin-bottom: 2rem;
+}
+</style>

@@ -6,7 +6,6 @@
     <template v-else>
       <app-header />
       <div id="app-content"><router-view /></div>
-      <modal-receive />
     </template>
     <tm-notifications :notifications="notifications" />
     <modal-error
@@ -22,7 +21,6 @@ import AppHeader from "common/AppHeader"
 import TmNotifications from "common/TmNotifications"
 import ModalError from "common/TmModalError"
 import ModalHelp from "common/TmModalHelp"
-import ModalReceive from "common/TmModalReceive"
 import Onboarding from "common/TmOnboarding"
 import Session from "common/TmSession"
 import store from "./vuex/store"
@@ -42,7 +40,6 @@ export default {
     AppHeader,
     ModalError,
     ModalHelp,
-    ModalReceive,
     TmNotifications,
     Onboarding,
     Session

@@ -2,15 +2,15 @@ import setup from "../../../helpers/vuex-setup"
 import TabValidators from "renderer/components/staking/TabValidators"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
-let { stakingParameters } = lcdClientMock.state
+const { stakingParameters } = lcdClientMock.state
 
 describe(`TabValidators`, () => {
   let wrapper
   let store
-  let { mount } = setup()
+  const { mount } = setup()
 
   beforeEach(async () => {
-    let instance = mount(TabValidators, {
+    const instance = mount(TabValidators, {
       doBefore: ({ store }) => {
         store.commit(`setConnected`, true)
       },

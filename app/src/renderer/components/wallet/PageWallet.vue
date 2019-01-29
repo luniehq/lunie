@@ -1,49 +1,27 @@
 <template>
-  <tm-page data-title="Wallet">
-    <template slot="menu-body">
-      <tm-balance />
-      <tool-bar>
-        <a
-          v-tooltip.bottom="'Refresh'"
-          :disabled="!connected"
-          @click="connected && queryWalletBalances()"
-        >
-          <i class="material-icons">refresh</i>
-        </a>
-        <a
-          v-tooltip.bottom="'Search'"
-          :disabled="!somethingToSearch"
-          @click="setSearch()"
-        >
-          <i class="material-icons">search</i>
-        </a>
-      </tool-bar>
-    </template>
-    <modal-search v-if="somethingToSearch" type="balances" />
-    <tm-data-connecting v-if="!wallet.loaded && !connected" />
-    <tm-data-loading v-else-if="!wallet.loaded && wallet.loading" />
-    <tm-data-msg
-      v-else-if="wallet.balances.length === 0"
-      id="account_empty_msg"
-      icon="help_outline"
-    >
+  <tm-page
+    :loading="wallet.loading"
+    :loaded="wallet.loaded"
+    :error="wallet.error"
+    :dataset="allBalances"
+    :refresh="queryWalletBalances"
+    :has-filtered-data="hasFilteredData"
+    search="balances"
+    data-title="Wallet"
+  >
+    <tm-data-msg id="account_empty_msg" slot="no-data" icon="help_outline">
       <div slot="title">Account empty</div>
-      <div slot="subtitle">
-        This account doesn't hold any coins yet. Go to the&nbsp;
-        <a href="https://gaia.faucetcosmos.network/">token faucet</a> &nbsp;to
-        aquire tokens to play with.
-      </div>
+      <div slot="subtitle">This account doesn't have anything in it yet.</div>
     </tm-data-msg>
-    <data-empty-search v-else-if="filteredBalances.length === 0" />
-    <ul v-else>
-      <li-coin
-        v-for="coin in filteredBalances"
-        v-if="wallet.balances.length > 0 && coin.amount > 0"
-        :key="coin.denom"
-        :coin="coin"
-        class="tm-li-balance"
-      />
-    </ul>
+    <li-coin
+      v-for="coin in filteredBalances"
+      slot="managed-body"
+      :key="coin.denom"
+      :coin="coin"
+      class="tm-li-balance"
+      @show-modal="showModal"
+    />
+    <send-modal ref="sendModal" />
   </tm-page>
 </template>
 
@@ -51,28 +29,16 @@
 import num from "scripts/num"
 import { mapGetters, mapActions } from "vuex"
 import { includes, orderBy } from "lodash"
-import Mousetrap from "mousetrap"
-import DataEmptySearch from "common/TmDataEmptySearch"
-import TmDataConnecting from "common/TmDataConnecting"
-import LiCopy from "common/TmLiCopy"
 import LiCoin from "./LiCoin"
-import TmListItem from "common/TmListItem"
+import SendModal from "wallet/SendModal"
 import TmPage from "common/TmPage"
-import TmPart from "common/TmPart"
-import TmDataLoading from "common/TmDataLoading"
 import TmDataMsg from "common/TmDataMsg"
-import TmBalance from "common/TmBalance"
-import ModalSearch from "common/TmModalSearch"
-import ToolBar from "common/ToolBar"
 
 /**
  * Page Wallet
  * @vue-prop {Number} num Module that implements all the numerical methods
  * @vue-computed {function} filters mapGetter
  * @vue-computed {function} wallet mapGetter
- * @vue-computed {function} committedDelegations mapGetter
- * @vue-computed {function} oldBondedAtoms mapGetter
- * @vue-computed {function} config mapGetter
  * @vue-computed {function} connected mapGetter
  *
  * @vue-computed {function} somethingToSearch returns a boolean stating true if we have data and we are not in loading phase
@@ -80,27 +46,18 @@ import ToolBar from "common/ToolBar"
  * @vue-computed {function} filteredBalances filter the balance per coin name, returns an ordered list
  *
  * @vue-methods {function} updateDelegates mapAction
- * @vue-methods {function} updateDelegates mapAction
  * @vue-methods {function} setSearch launches the setSearchVisible action if somethingToSearch returns true
- * @vue-methods {function} updateBalances dispatch a queryWalletBalances action to update the informations
+ * @vue-methods {function} queryWalletBalances trigger an update of the balances
  */
 export default {
   name: `page-wallet`,
   components: {
-    TmBalance,
-    TmDataLoading,
     TmDataMsg,
-    DataEmptySearch,
-    TmDataConnecting,
     LiCoin,
-    LiCopy,
-    TmListItem,
-    ModalSearch,
     TmPage,
-    TmPart,
-    ToolBar
+    SendModal
   },
-  data: () => ({ num }),
+  data: () => ({ num, showSendModal: false }),
   computed: {
     ...mapGetters([`filters`, `wallet`, `connected`]),
     somethingToSearch() {
@@ -118,9 +75,12 @@ export default {
       }
       return balances
     },
+    allBalances() {
+      return this.wallet.balances
+    },
     filteredBalances() {
-      let query = this.filters.balances.search.query
-      let list = orderBy(
+      const query = this.filters.balances.search.query
+      const list = orderBy(
         this.allDenomBalances,
         [`amount`, balance => balance.denom.toLowerCase()],
         [`desc`, `asc`]
@@ -132,19 +92,19 @@ export default {
       } else {
         return list
       }
+    },
+    hasFilteredData({ filteredBalances } = this) {
+      return filteredBalances.length > 0
     }
   },
   mounted() {
-    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
-    Mousetrap.bind(`esc`, () => this.setSearch(false))
     this.updateDelegates()
     this.queryWalletBalances()
   },
   methods: {
     ...mapActions([`updateDelegates`, `queryWalletBalances`]),
-    setSearch(bool = !this.filters[`balances`].search.visible) {
-      if (!this.somethingToSearch) return false
-      this.$store.commit(`setSearchVisible`, [`balances`, bool])
+    showModal(denomination) {
+      this.$refs.sendModal.open(denomination)
     }
   }
 }

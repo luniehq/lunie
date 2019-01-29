@@ -3,7 +3,7 @@ import setup from "../../../helpers/vuex-setup"
 
 describe(`TmConnectedNetwork`, () => {
   let wrapper, store
-  let { mount } = setup()
+  const { mount } = setup()
 
   beforeEach(async () => {
     const instance = mount(TmConnectedNetwork, {
@@ -55,7 +55,7 @@ describe(`TmConnectedNetwork`, () => {
   })
 
   it(`has a connecting state`, async () => {
-    let { wrapper } = mount(TmConnectedNetwork, {
+    const { wrapper } = mount(TmConnectedNetwork, {
       getters: {
         lastHeader: () => ({ chain_id: `Test Net`, height: 0 }),
         connected: () => false
@@ -77,7 +77,7 @@ describe(`TmConnectedNetwork`, () => {
   })
 
   it(`shows the connected node`, async () => {
-    let instance = mount(TmConnectedNetwork)
+    const instance = mount(TmConnectedNetwork)
     store = instance.store
     wrapper = instance.wrapper
 

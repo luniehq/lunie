@@ -1,7 +1,7 @@
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 import delegationModule from "renderer/vuex/modules/delegation.js"
 
-let mockRootState = {
+const mockRootState = {
   wallet: {
     address: lcdClientMock.addresses[0]
   },
@@ -173,7 +173,7 @@ describe(`Module: Delegations`, () => {
   })
 
   it(`submits delegation transaction`, async () => {
-    let stakingTransactions = {}
+    const stakingTransactions = {}
     stakingTransactions.delegations = [
       {
         validator: lcdClientMock.state.candidates[0],
@@ -203,7 +203,7 @@ describe(`Module: Delegations`, () => {
   })
 
   it(`submits undelegation transaction`, async () => {
-    let stakingTransactions = {}
+    const stakingTransactions = {}
     stakingTransactions.delegations = [
       {
         validator: lcdClientMock.state.candidates[0],
@@ -277,7 +277,7 @@ describe(`Module: Delegations`, () => {
     mutations = module.mutations
     const commit = jest.fn()
 
-    let rootState = JSON.parse(JSON.stringify(mockRootState))
+    const rootState = JSON.parse(JSON.stringify(mockRootState))
     actions.getBondedDelegates(
       {
         state,
@@ -315,7 +315,7 @@ describe(`Module: Delegations`, () => {
   it(`should update the atoms on a delegation optimistically`, async () => {
     const commit = jest.fn()
     const delegates = lcdClientMock.state.candidates
-    let stakingTransactions = {}
+    const stakingTransactions = {}
     stakingTransactions.delegations = [
       {
         validator: delegates[0],
@@ -326,7 +326,7 @@ describe(`Module: Delegations`, () => {
         atoms: 456
       }
     ]
-    let committedDelegates = {
+    const committedDelegates = {
       [delegates[0].operator_address]: 10
     }
 
@@ -360,7 +360,7 @@ describe(`Module: Delegations`, () => {
 
   it(`should update delegates after delegation`, async () => {
     jest.useFakeTimers()
-    let stakingTransactions = {}
+    const stakingTransactions = {}
     stakingTransactions.unbondings = [
       {
         validator: {

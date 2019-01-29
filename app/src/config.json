@@ -1,6 +1,7 @@
 {
   "name": "Cosmos Voyager",
-  "default_network": "game_of_stakes_3",
+  "default_network": "local-testnet",
+  "denoms": ["stake", "photino"],
   "node_lcd": "http://localhost:8080",
   "node_rpc": "http://localhost:26657",
   "google_analytics_uid": "UA-51029217-3",

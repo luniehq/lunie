@@ -13,6 +13,9 @@ describe(`PageWallet`, () => {
         search: {
           query: ``,
           visible: false
+        },
+        stubs: {
+          "send-modal": true
         }
       }
     },
@@ -37,6 +40,7 @@ describe(`PageWallet`, () => {
         $store
       }
     })
+    wrapper.vm.$refs.sendModal = { open: jest.fn() }
   })
 
   it(`has the expected html structure`, async () => {
@@ -53,7 +57,7 @@ describe(`PageWallet`, () => {
   })
 
   it(`should list the denoms that are available`, () => {
-    expect(wrapper.findAll(`.tm-li-balance`).length).toBe(3)
+    expect(wrapper.findAll(`.tm-li-balance`).length).toBe(4)
   })
 
   it(`should filter the balances`, async () => {
@@ -72,14 +76,6 @@ describe(`PageWallet`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`should show the search on click`, () => {
-    wrapper.vm.setSearch(true)
-    expect($store.commit).toHaveBeenCalledWith(`setSearchVisible`, [
-      `balances`,
-      true
-    ])
-  })
-
   it(`should show the n/a message if there are no denoms`, async () => {
     wrapper.setData({
       wallet: {
@@ -94,40 +90,6 @@ describe(`PageWallet`, () => {
   it(`should not show the n/a message if there are denoms`, () => {
     expect(wrapper.vm.allDenomBalances.length).not.toBe(0)
     expect(wrapper.vm.$el.querySelector(`#no-balances`)).toBe(null)
-  })
-
-  it(`should update 'somethingToSearch' when there's nothing to search`, async () => {
-    wrapper.setData({
-      wallet: {
-        loading: false,
-        denoms: [`fermion`, `gregcoin`, `mycoin`, `STAKE`],
-        balances: lcdClientMock.state.accounts[lcdClientMock.addresses[0]].coins
-      }
-    })
-
-    expect(wrapper.vm.somethingToSearch).toBe(true)
-
-    wrapper.setData({
-      wallet: {
-        loading: false,
-        denoms: [`fermion`, `gregcoin`, `mycoin`, `STAKE`],
-        balances: []
-      }
-    })
-
-    expect(wrapper.vm.somethingToSearch).toBe(false)
-  })
-
-  it(`should not show search when there's nothing to search`, async () => {
-    wrapper.setData({
-      wallet: {
-        loading: false,
-        denoms: [`fermion`, `gregcoin`, `mycoin`, `STAKE`],
-        balances: []
-      }
-    })
-
-    expect(wrapper.vm.setSearch()).toEqual(false)
   })
 
   it(`should show a message when still connecting`, () => {
@@ -176,5 +138,11 @@ describe(`PageWallet`, () => {
       }
     })
     expect(wrapper.exists(`tm-data-loading`)).toBe(true)
+  })
+
+  it(`should show the sending modal`, () => {
+    wrapper.vm.showModal(`STAKE`)
+    expect(wrapper.exists(`send-modal`)).toBe(true)
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 })

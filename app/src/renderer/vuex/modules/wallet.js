@@ -1,10 +1,9 @@
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
-// for now importing the fixed genesis for the network from the config.json
-import network from "../../../network.js"
+const config = require(`../../../config.json`)
 
 export default ({ node }) => {
-  let emptyState = {
+  const emptyState = {
     balances: [],
     loading: true,
     loaded: false,
@@ -13,12 +12,12 @@ export default ({ node }) => {
     address: null,
     subscribedRPC: null
   }
-  let state = JSON.parse(JSON.stringify(emptyState))
+  const state = JSON.parse(JSON.stringify(emptyState))
 
-  let mutations = {
+  const mutations = {
     setWalletBalances(state, balances) {
-      state.balances = balances
-      state.loading = false
+      Vue.set(state, `balances`, balances)
+      Vue.set(state, `loading`, false)
     },
     updateWalletBalance(state, balance) {
       const findBalanceIndex = state.balances.findIndex(
@@ -31,17 +30,17 @@ export default ({ node }) => {
       Vue.set(state.balances, findBalanceIndex, balance)
     },
     setWalletAddress(state, address) {
-      state.address = address
+      Vue.set(state, `address`, address)
     },
     setAccountNumber(state, accountNumber) {
-      state.accountNumber = accountNumber
+      Vue.set(state, `accountNumber`, accountNumber)
     },
     setDenoms(state, denoms) {
-      state.denoms = denoms
+      Vue.set(state, `denoms`, denoms)
     }
   }
 
-  let actions = {
+  const actions = {
     reconnected({ state, dispatch }) {
       if (state.loading && state.address) {
         dispatch(`queryWalletBalances`)
@@ -64,14 +63,14 @@ export default ({ node }) => {
       if (!rootState.connection.connected) return
 
       try {
-        let res = await node.queryAccount(state.address)
+        const res = await node.queryAccount(state.address)
         if (!res) {
           state.loading = false
           state.loaded = true
           return
         }
         state.error = null
-        let coins = res.coins || []
+        const coins = res.coins || []
         commit(`setNonce`, res.sequence)
         commit(`setAccountNumber`, res.account_number)
         commit(`setWalletBalances`, coins)
@@ -103,28 +102,13 @@ export default ({ node }) => {
         amount: oldBalance.amount - amount
       })
     },
-    async loadDenoms({ commit, state }) {
-      try {
-        const { genesis } = await network()
-
-        let denoms = []
-        for (let account of genesis.app_state.accounts) {
-          if (account.coins) {
-            for (let { denom } of account.coins) {
-              denoms.push(denom)
-            }
-          }
-        }
-
-        commit(`setDenoms`, denoms)
-      } catch (err) {
-        state.error = err
-      }
+    async loadDenoms({ commit }) {
+      commit(`setDenoms`, config.denoms)
     },
     queryWalletStateAfterHeight({ rootState, dispatch }, height) {
       return new Promise(resolve => {
         // wait until height is >= `height`
-        let interval = setInterval(() => {
+        const interval = setInterval(() => {
           if (rootState.connection.lastHeader.height < height) return
           clearInterval(interval)
           dispatch(`queryWalletBalances`)

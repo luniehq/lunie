@@ -32,12 +32,12 @@ describe(`Connector`, () => {
   })
 
   it(`should hold the lcdPort`, () => {
-    let node = Node(axios, remoteLcdURL)
+    const node = Node(axios, remoteLcdURL)
     expect(node.remoteLcdURL).toBe(remoteLcdURL)
   })
 
   it(`should setup the connectors`, () => {
-    let node = Node(axios, remoteLcdURL)
+    const node = Node(axios, remoteLcdURL)
     expect(node.fooRpc).toBe(`rpcBar`)
     expect(node.fooLcd()).toBe(`lcdBar`)
   })
