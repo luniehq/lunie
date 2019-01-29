@@ -57,7 +57,7 @@
           </div>
         </div>
         <div class="row">
-          <dl class="info_dl info_dl colored_dl">
+          <dl class="info_dl colored_dl">
             <dt>Submitted</dt>
             <dd>{{ submittedAgo }}</dd>
           </dl>
