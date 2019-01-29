@@ -42,10 +42,6 @@ async function _startApp(
   Sentry = _Sentry,
   Vue = _Vue
 ) {
-  let store
-  let node
-  let router
-
   /* istanbul ignore next */
   Vue.config.errorHandler = (error, vm, info) => {
     console.error(`An error has occurred: ${error}
@@ -106,11 +102,9 @@ async function _startApp(
 
   console.log(`Expecting stargate at: ${config.lcd}`)
 
-  node = Node(axios, config.lcd)
-
-  store = Store({ node })
-
-  router = new Router({
+  const node = Node(axios, config.lcd)
+  const store = Store({ node })
+  const router = new Router({
     scrollBehavior: () => ({ y: 0 }),
     routes
   })

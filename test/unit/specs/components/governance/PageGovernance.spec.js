@@ -9,13 +9,13 @@ const { governanceParameters, stakingParameters } = lcdClientMock.state
 // TODO: refactor according to new unit test standard
 describe(`PageGovernance`, () => {
   let wrapper, store
-  let { mount, localVue } = setup()
+  const { mount, localVue } = setup()
   localVue.use(Vuelidate)
   localVue.directive(`tooltip`, () => {})
   localVue.directive(`focus`, () => {})
 
   beforeEach(() => {
-    let instance = mount(PageGovernance, {
+    const instance = mount(PageGovernance, {
       doBefore: ({ store }) => {
         store.commit(`setGovParameters`, governanceParameters)
         store.state.governanceParameters.loaded = true
@@ -53,7 +53,7 @@ describe(`PageGovernance`, () => {
 
   describe(`Modal onPropose modal on click`, () => {
     it(`displays the Propose modal`, () => {
-      let proposeBtn = wrapper.find(`#propose-btn`)
+      const proposeBtn = wrapper.find(`#propose-btn`)
       proposeBtn.trigger(`click`)
       expect(wrapper.contains(ModalPropose)).toEqual(true)
     })

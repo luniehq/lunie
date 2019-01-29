@@ -7,13 +7,13 @@ import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`ModalVote`, () => {
   let wrapper
-  let { mount, localVue } = setup()
+  const { mount, localVue } = setup()
   localVue.use(Vuelidate)
   localVue.directive(`tooltip`, () => {})
   localVue.directive(`focus`, () => {})
 
   beforeEach(() => {
-    let instance = mount(ModalVote, {
+    const instance = mount(ModalVote, {
       localVue,
       propsData: {
         proposalId: `1`,

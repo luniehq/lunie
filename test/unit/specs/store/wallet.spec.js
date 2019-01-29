@@ -1,6 +1,6 @@
 import walletModule from "modules/wallet.js"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
-let { stakingParameters } = lcdClientMock.state
+const { stakingParameters } = lcdClientMock.state
 
 const mockRootState = {
   stakingParameters,
@@ -24,21 +24,21 @@ describe(`Module: Wallet`, () => {
   // DEFAULT
 
   it(`should have an empty state by default`, () => {
-    let { state } = module
+    const { state } = module
     expect(state).toMatchSnapshot()
   })
 
   // MUTATIONS
 
   it(`should set wallet balances `, () => {
-    let { state, mutations } = module
+    const { state, mutations } = module
     const balances = [{ denom: `leetcoin`, amount: `1337` }]
     mutations.setWalletBalances(state, balances)
     expect(state.balances).toBe(balances)
   })
 
   it(`update individual wallet balances`, () => {
-    let { state, mutations } = module
+    const { state, mutations } = module
 
     state.balances.push({ denom: `coin`, amount: `42` })
 
@@ -54,7 +54,7 @@ describe(`Module: Wallet`, () => {
   })
 
   it(`should set wallet key and clear balance `, () => {
-    let { state, mutations } = module
+    const { state, mutations } = module
     const address = `tb1v9jxgun9wdenzv3nu98g8r`
     mutations.setWalletAddress(state, address)
     expect(state.address).toBe(address)
@@ -62,7 +62,7 @@ describe(`Module: Wallet`, () => {
   })
 
   it(`should set denoms`, () => {
-    let { state, mutations } = module
+    const { state, mutations } = module
     const denoms = [`acoin`, `bcoin`, `ccoin`]
     mutations.setDenoms(state, denoms)
     expect(state.denoms).toBe(denoms)
@@ -121,7 +121,7 @@ describe(`Module: Wallet`, () => {
   })
 
   it(`should load denoms`, async () => {
-    let commit = jest.fn()
+    const commit = jest.fn()
     await actions.loadDenoms({ commit, rootState: mockRootState })
     expect(commit).toHaveBeenCalledWith(`setDenoms`, [
       `mycoin`,
@@ -160,7 +160,7 @@ describe(`Module: Wallet`, () => {
     const { actions } = module
 
     jest.useFakeTimers()
-    let rootState = {
+    const rootState = {
       connection: {
         lastHeader: {
           height: 10

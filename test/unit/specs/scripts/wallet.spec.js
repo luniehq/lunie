@@ -75,7 +75,7 @@ describe(`Address generation`, () => {
 })
 
 describe(`Signing`, () => {
-  let tx = {
+  const tx = {
     msg: [
       {
         type: `cosmos-sdk/Send`,
@@ -99,7 +99,7 @@ describe(`Signing`, () => {
     signatures: null,
     memo: ``
   }
-  let txWithNulls = {
+  const txWithNulls = {
     msg: [
       {
         type: `cosmos-sdk/Send`,
@@ -126,7 +126,7 @@ describe(`Signing`, () => {
   }
 
   it(`should create a correct signature`, () => {
-    let vectors = [
+    const vectors = [
       {
         privateKey: `2afc5a66b30e7521d553ec8e6f7244f906df97477248c30c103d7b3f2c671fef`,
         publicKey: `03ab1ebbb21aee35154e36aaebc25067177f783f7e967c9d6493e8920c05e40eb5`,
@@ -147,7 +147,7 @@ describe(`Signing`, () => {
   })
 
   it(`should create the correct string to sign`, () => {
-    let vectors = [
+    const vectors = [
       {
         tx,
         sequence: `0`,
@@ -174,7 +174,7 @@ describe(`Signing`, () => {
   })
 
   it(`should create a correct tx signature object`, () => {
-    let vectors = [
+    const vectors = [
       {
         wallet: {
           privateKey: `2afc5a66b30e7521d553ec8e6f7244f906df97477248c30c103d7b3f2c671fef`,
@@ -202,7 +202,7 @@ describe(`Signing`, () => {
         account_number,
         chain_id
       }) => {
-        let sigObject = sign(tx, wallet, {
+        const sigObject = sign(tx, wallet, {
           sequence,
           account_number,
           chain_id

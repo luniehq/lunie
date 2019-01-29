@@ -4,7 +4,7 @@ import TmFormGroup from "common/TmFormGroup"
 describe(`TmFormGroup`, () => {
   let wrapper
 
-  let propsData = {
+  const propsData = {
     error: true,
     fieldId: `sign-in-password`,
     fieldLabel: `Sign In Password`

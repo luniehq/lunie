@@ -130,13 +130,13 @@ export default {
   },
   methods: {
     moniker(validatorAddr) {
-      let validator = this.validators.find(
+      const validator = this.validators.find(
         c => c.operator_address === validatorAddr
       )
       return validator ? validator.description.moniker : validatorAddr
     },
     calculatePrettifiedTokens(validatorAddr, shares) {
-      let validator = this.validators.find(
+      const validator = this.validators.find(
         val => val.operator_address === validatorAddr
       )
       return calculateTokens(validator, shares).toNumber()

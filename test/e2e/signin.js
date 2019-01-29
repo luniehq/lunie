@@ -1,8 +1,8 @@
 "use strict"
 
-let test = require(`tape-promise/tape`)
-let { getApp, refresh } = require(`./launch.js`)
-let { openMenu, login, sleep } = require(`./common.js`)
+const test = require(`tape-promise/tape`)
+const { getApp, refresh } = require(`./launch.js`)
+const { openMenu, login, sleep } = require(`./common.js`)
 
 /*
  * NOTE: For some strange reason element.click() does not always work. In some cases I needed to use client.leftClick(selector). But this will be deprecated and pollutes the console with a deprecation warning.
@@ -13,9 +13,9 @@ let { openMenu, login, sleep } = require(`./common.js`)
  */
 
 test(`sign in`, async function(t) {
-  let { app } = await getApp(t)
+  const { app } = await getApp(t)
   await refresh(app)
-  let el = (...args) => app.client.$(...args)
+  const el = (...args) => app.client.$(...args)
   app.browserWindow.setBounds({ x: 0, y: 0, width: 1600, height: 1024 })
   app.browserWindow.setSize(1600, 1024)
   // clicking the button does fail in webdriver as there is no actual click handler on the button
@@ -41,10 +41,10 @@ test(`sign in`, async function(t) {
 
     await sleep(500) // circleci error where the checkbox somehow isn't ready to be clicked yet
 
-    let accountName = () => el(`#sign-up-name`)
-    let password = () => el(`#sign-up-password`)
-    let passwordConfirm = () => el(`#sign-up-password-confirm`)
-    let warning = () => el(`#sign-up-warning`)
+    const accountName = () => el(`#sign-up-name`)
+    const password = () => el(`#sign-up-password`)
+    const passwordConfirm = () => el(`#sign-up-password-confirm`)
+    const warning = () => el(`#sign-up-warning`)
 
     t.test(`did check warning`, async function(t) {
       await clickContinue()
@@ -155,7 +155,7 @@ test(`sign in`, async function(t) {
       // checking if user is logged in
       await app.client.waitForExist(`#app-content`, 10000)
       await openMenu(app)
-      let activeUser = await app.client.$(`#address`).getText()
+      const activeUser = await app.client.$(`#address`).getText()
       t.ok(activeUser.startsWith(`cosmos`), `user is logged in`)
 
       t.end()
@@ -190,10 +190,10 @@ test(`sign in`, async function(t) {
       .$(`..`)
       .click()
 
-    let accountName = () => el(`#import-name`)
-    let password = () => el(`#import-password`)
-    let passwordConfirm = () => el(`#import-password-confirmation`)
-    let seed = () => el(`#import-seed`)
+    const accountName = () => el(`#import-name`)
+    const password = () => el(`#import-password`)
+    const passwordConfirm = () => el(`#import-password-confirmation`)
+    const seed = () => el(`#import-seed`)
 
     t.test(`set account name`, async function(t) {
       await clickContinue()
@@ -304,7 +304,7 @@ test(`sign in`, async function(t) {
       // checking if user is logged in
       await app.client.waitForExist(`#app-content`, 5000)
       await openMenu(app)
-      let activeUser = await app.client.$(`#address`).getText()
+      const activeUser = await app.client.$(`#address`).getText()
       t.ok(activeUser.startsWith(`cosmos`), `user is logged in`)
 
       t.end()

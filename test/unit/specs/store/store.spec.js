@@ -76,7 +76,7 @@ describe(`Store`, () => {
   it(`should restore balances et al after logging in`, async () => {
     localStorage.setItem(`store_test-net_xxx`, `{}`)
 
-    let replaceState = jest.fn()
+    const replaceState = jest.fn()
     loadPersistedState.call(
       { replaceState },
       { state: mockState, commit: jest.fn() }

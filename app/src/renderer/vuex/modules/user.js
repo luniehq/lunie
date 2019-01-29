@@ -11,7 +11,7 @@ import { generateSeed } from "../../scripts/wallet.js"
 export default ({}) => {
   const ERROR_COLLECTION_KEY = `voyager_error_collection`
 
-  let state = {
+  const state = {
     atoms: 0,
     signedIn: false,
     accounts: [],
@@ -64,8 +64,8 @@ export default ({}) => {
       dispatch(`resetSessionData`)
 
       await dispatch(`loadAccounts`)
-      let exists = state.accounts.length > 0
-      let screen = exists ? `sign-in` : `welcome`
+      const exists = state.accounts.length > 0
+      const screen = exists ? `sign-in` : `welcome`
       commit(`setModalSessionState`, screen)
 
       state.externals.track(`pageview`, {
@@ -75,7 +75,7 @@ export default ({}) => {
     async loadAccounts({ commit, state }) {
       state.loading = true
       try {
-        let keys = await state.externals.loadKeys()
+        const keys = await state.externals.loadKeys()
         commit(`setAccounts`, keys)
       } catch (error) {
         state.externals.Sentry.captureException(error)
@@ -95,7 +95,7 @@ export default ({}) => {
       return state.externals.generateSeed()
     },
     async createKey({ dispatch }, { seedPhrase, password, name }) {
-      let { address } = await state.externals.importKey(
+      const { address } = await state.externals.importKey(
         name,
         password,
         seedPhrase
@@ -107,8 +107,8 @@ export default ({}) => {
       state.account = account
       state.signedIn = true
 
-      let keys = await state.externals.loadKeys()
-      let { address } = keys.find(({ name }) => name === account)
+      const keys = await state.externals.loadKeys()
+      const { address } = keys.find(({ name }) => name === account)
 
       state.address = address
 
@@ -133,7 +133,7 @@ export default ({}) => {
       state.address = null
     },
     loadErrorCollection({ state, dispatch }, account) {
-      let errorCollection =
+      const errorCollection =
         localStorage.getItem(`${ERROR_COLLECTION_KEY}_${account}`) === `true`
       if (state.errorCollection !== errorCollection)
         dispatch(`setErrorCollection`, { account, optin: errorCollection })
