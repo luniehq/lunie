@@ -18,7 +18,7 @@
       </div>
       <div class="tm-session-main">
         <tm-form-group
-          :error="$v.fields.importName.$error"
+          :error="$v.$error && $v.fields.importName.$invalid"
           field-id="import-name"
           field-label="Account Name"
         >
@@ -29,19 +29,21 @@
             placeholder="Must have at least 5 characters"
           />
           <tm-form-msg
-            v-if="!$v.fields.importName.required"
+            v-if="$v.fields.importName.$error && !$v.fields.importName.required"
             name="Name"
             type="required"
           />
           <tm-form-msg
-            v-if="!$v.fields.importName.minLength"
+            v-if="
+              $v.fields.importName.$error && !$v.fields.importName.minLength
+            "
             name="Name"
             type="minLength"
             min="5"
           />
         </tm-form-group>
         <tm-form-group
-          :error="$v.fields.importPassword.$error"
+          :error="$v.$error && $v.fields.importPassword.$invalid"
           field-id="import-password"
           field-label="Password"
         >
@@ -52,19 +54,25 @@
             placeholder="Must be at least 10 characters"
           />
           <tm-form-msg
-            v-if="!$v.fields.importPassword.required"
+            v-if="
+              $v.fields.importPassword.$error &&
+                !$v.fields.importPassword.required
+            "
             name="Password"
             type="required"
           />
           <tm-form-msg
-            v-if="!$v.fields.importPassword.minLength"
+            v-if="
+              $v.fields.importPassword.$error &&
+                !$v.fields.importPassword.minLength
+            "
             name="Password"
             type="minLength"
             min="10"
           />
         </tm-form-group>
         <tm-form-group
-          :error="$v.fields.importPasswordConfirm.$error"
+          :error="$v.$error && $v.fields.importPasswordConfirm.$invalid"
           field-id="import-password-confirmation"
           field-label="Confirm Password"
         >
@@ -75,13 +83,16 @@
             placeholder="Enter password again"
           />
           <tm-form-msg
-            v-if="!$v.fields.importPasswordConfirm.sameAsPassword"
+            v-if="
+              $v.fields.importPasswordConfirm.$error &&
+                !$v.fields.importPasswordConfirm.sameAsPassword
+            "
             name="Password confirmation"
             type="match"
           />
         </tm-form-group>
         <tm-form-group
-          :error="$v.fields.importSeed.$error"
+          :error="$v.$error && $v.fields.importSeed.$invalid"
           field-id="import-seed"
           field-label="Seed Phrase"
         >
@@ -92,18 +103,20 @@
             @input="val => (fields.importSeed = val)"
           />
           <tm-form-msg
-            v-if="!$v.fields.importSeed.required"
+            v-if="$v.fields.importSeed.$error && !$v.fields.importSeed.required"
             name="Seed"
             type="required"
           />
           <tm-form-msg
-            v-else-if="!$v.fields.importSeed.words24"
+            v-else-if="
+              $v.fields.importSeed.$error && !$v.fields.importSeed.words24
+            "
             name="Seed"
             type="words24"
           />
         </tm-form-group>
         <tm-form-group
-          :error="$v.fields.errorCollection.$error"
+          :error="$v.$error && $v.fields.errorCollection.$invalid"
           field-id="error-collection"
           field-label=""
         >
