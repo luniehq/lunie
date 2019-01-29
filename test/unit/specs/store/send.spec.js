@@ -131,7 +131,6 @@ describe(`Module: Send`, () => {
           from: `cosmos1demo`,
           gas: `42`,
           generate_only: true,
-          name: `anonymous`,
           sequence: `0`
         }
       })
@@ -165,7 +164,6 @@ describe(`Module: Send`, () => {
           from: `cosmos1demo`,
           gas: `42`,
           generate_only: true,
-          name: `anonymous`,
           sequence: `0`
         }
       })

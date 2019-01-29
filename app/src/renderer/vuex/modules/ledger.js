@@ -7,7 +7,7 @@ const TIMEOUT = 50 // seconds to wait for user action on Ledger
 const HDPATH = [44, 118, 0, 0, 0]
 
 export default () => {
-  let emptyState = {
+  const emptyState = {
     error: null,
     app: null, // Cosmos ledger app instance
     isConnected: false,
@@ -15,9 +15,9 @@ export default () => {
     uncompressedPubKey: null, // 65 bytes; not used currently
     version: null // Cosmos app version
   }
-  let state = JSON.parse(JSON.stringify(emptyState))
+  const state = JSON.parse(JSON.stringify(emptyState))
 
-  let mutations = {
+  const mutations = {
     setLedger(state, app) {
       state.app = app
     },
@@ -38,7 +38,7 @@ export default () => {
     }
   }
 
-  let actions = {
+  const actions = {
     resetSessionData({ rootState }) {
       rootState.ledger = JSON.parse(JSON.stringify(emptyState))
     },

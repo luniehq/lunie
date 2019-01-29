@@ -85,7 +85,7 @@ export default ({ node }) => {
       const tx = generationRes.value
 
       let signature
-      if (rootState.ledger.isConnected) {
+      if (rootState.ledger.isConnected && args.submitType === `ledger`) {
         // TODO: move to wallet script
         const signMessage = createSignMessage(tx, requestMetaData)
         const signatureByteArray = await dispatch(`signWithLedger`, signMessage)
@@ -101,12 +101,12 @@ export default ({ node }) => {
           requestMetaData.account_number,
           rootState.ledger.pubKey
         )
-        console.log(signature)
-      } else {
+      } else if (args.submitType === `local`) {
         // get private key to sign
         const wallet = getKey(rootState.user.account, args.password)
         signature = sign(tx, wallet, requestMetaData)
       }
+      // TODO: signer app
       // broadcast transaction
       const signedTx = createSignedTx(tx, signature)
       const body = createBroadcastBody(signedTx)

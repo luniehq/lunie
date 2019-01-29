@@ -34,7 +34,6 @@ export default ({ node }) => {
       state.address = address
     },
     setAccountNumber(state, accountNumber) {
-      console.log(accountNumber)
       state.accountNumber = accountNumber
     },
     setDenoms(state, denoms) {

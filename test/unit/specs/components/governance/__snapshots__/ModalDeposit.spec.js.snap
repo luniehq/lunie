@@ -64,60 +64,7 @@ exports[`ModalDeposit component matches snapshot has the expected html structure
       </div>
     </div>
      
-    <div
-      class="action-modal-form-group tm-form-group"
-    >
-      <!---->
-      <label
-        class="tm-form-group__label"
-        for="sign-method"
-      >
-        Signing Method
-      </label>
-       
-      <div
-        class="tm-form-group__field"
-      >
-        <div
-          class="tm-select"
-          id="sign-method"
-        >
-          <select
-            class="tm-field tm-field-select"
-          >
-            <option
-              disabled="disabled"
-              hidden="hidden"
-              selected="selected"
-              value=""
-            >
-              Select option...
-            </option>
-             
-            <option
-              value="local"
-            >
-              (Unsafe) Local Account
-            </option>
-            <option
-              value="ledger"
-            >
-              Ledger
-            </option>
-          </select>
-           
-          <div
-            class="tm-field-select-addon"
-          >
-            <i
-              class="material-icons"
-            >
-              arrow_drop_down
-            </i>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!---->
      
     <div
       class="action-modal-group tm-form-group"

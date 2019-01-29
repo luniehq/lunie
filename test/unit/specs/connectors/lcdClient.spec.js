@@ -578,39 +578,17 @@ describe(`LCD Client`, () => {
         )
 
         expect(await client.queryAccount(`address`)).toEqual({
-          type: `auth/Account`,
           value: {
-            account_number: `768`,
-            address: `cosmosaccaddr1xr9rxc3jr6xzzugreykyrdsyjhtx8qvm4et3yp`,
-            coins: [{ amount: `10`, denom: `steak` }],
-            public_key: null,
-            sequence: `0`
+            type: `auth/Account`,
+            value: {
+              account_number: `768`,
+              address: `cosmosaccaddr1xr9rxc3jr6xzzugreykyrdsyjhtx8qvm4et3yp`,
+              coins: [{ amount: `10`, denom: `steak` }],
+              public_key: null,
+              sequence: `0`
+            }
           }
         })
-      })
-
-      it(`does not throw error for empty results`, async () => {
-        axios.mockReturnValueOnce(
-          Promise.reject({
-            response: {
-              data: `account bytes are empty`
-            }
-          })
-        )
-        const res = await client.queryAccount(`address`)
-        expect(res).toBe(null)
-      })
-
-      it(`does not throw error for failed merkle proof error`, async () => {
-        axios.mockReturnValueOnce(
-          Promise.reject({
-            response: {
-              data: `failed to prove merkle proof`
-            }
-          })
-        )
-        const res = await client.queryAccount(`address`)
-        expect(res).toBe(null)
       })
 
       it(`throws error for error other than empty account`, async () => {
