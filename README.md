@@ -187,6 +187,14 @@ This command will build and run several nodes at once on the local testnet. All 
 yarn start local-testnet <number>
 ```
 
+### Using Voyager with a custom Stargate
+
+A deployed Voyager can be retargeted against a Stargate and Full Node of your choice. Just add the URLs of those to the Voyager URL:
+
+```
+https://localhost:9080?stargate=https://stargate.com:1234&rpc=https://cool-node.com:6789
+```
+
 ## Testing
 
 If you would like to run all the tests you can run:
