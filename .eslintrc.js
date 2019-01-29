@@ -44,6 +44,12 @@ module.exports = {
         singleline: "never",
         multiline: "always"
       }
+    ],
+    "vue/multiline-html-element-content-newline": [
+      "error",
+      {
+        ignores: ["pre", "textarea"]
+      }
     ]
   }
 }

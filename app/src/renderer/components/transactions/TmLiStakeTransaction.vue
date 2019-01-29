@@ -13,8 +13,9 @@
         To&nbsp;<router-link :to="url + '/' + tx.validator_addr">
           {{ moniker(tx.validator_addr) }}
         </router-link>
-      </div> </template
-    ><template v-if="redelegation">
+      </div>
+    </template>
+    <template v-if="redelegation">
       <div slot="caption">
         Redelegated&nbsp;<template>
           <b>
@@ -31,8 +32,9 @@
         to&nbsp;<router-link :to="url + '/' + tx.validator_dst_addr">
           {{ moniker(tx.validator_dst_addr) }}
         </router-link>
-      </div> </template
-    ><template v-if="unbonding">
+      </div>
+    </template>
+    <template v-if="unbonding">
       <div slot="caption">
         Unbonded&nbsp;<template>
           <b>

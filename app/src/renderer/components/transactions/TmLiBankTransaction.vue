@@ -15,8 +15,9 @@
         ><template v-else>
           To {{ receiver }}
         </template>
-      </span> </template
-    ><template v-else>
+      </span>
+    </template>
+    <template v-else>
       <div slot="caption">
         Received&nbsp;<b>{{ coinsReceived.amount }}</b
         ><span>&nbsp;{{ coinsReceived.denom.toUpperCase() }}</span>
