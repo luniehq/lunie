@@ -52,8 +52,14 @@
       </div>
       <div v-else-if="step === `sign`">
         <hardware-state
+          v-if="ledger.isConnected"
           icon="usb"
           value="Please unlock the Cosmos app and sign with your Ledger"
+        />
+        <hardware-state
+          v-else
+          icon="usb"
+          value="Connect your Ledger and open the Cosmos app"
         />
       </div>
       <div class="action-modal-footer">
@@ -83,7 +89,7 @@
               <tm-btn
                 v-else-if="selectedSignMethod === `ledger` && step === `sign`"
                 color="primary"
-                value="Sign"
+                :value="ledger.isConnected ? `Sign` : `Connect Ledger`"
                 @click.native="validateForm"
               />
               <tm-btn
@@ -150,7 +156,7 @@ export default {
     step: `txDetails`,
     signMethod: null,
     password: null,
-    selectedSignMethod: `local`,
+    selectedSignMethod: this.ledger.isConnected ? `ledger` : `local`,
     signMethods: [
       {
         key: `(Unsafe) Local Account`,
@@ -191,15 +197,26 @@ export default {
       if (!this.$v.$invalid && childFormValid) {
         if (
           this.selectedSignMethod === `local` ||
-          (this.selectedSignMethod === `ledger` && this.step === `sign`)
+          (this.selectedSignMethod === `ledger` &&
+            this.step === `sign` &&
+            this.ledger.isConnected)
         ) {
+          // submit transaction
           this.sending = true
           await this.submit()
           this.sending = false
         } else if (
           this.selectedSignMethod === `ledger` &&
+          this.step === `sign` &&
+          !this.ledger.isConnected
+        ) {
+          // get app and pubkey from ledger without changing the query address
+          await this.$store.dispatch(`connectLedger`, { setUserAccount: false })
+        } else if (
+          this.selectedSignMethod === `ledger` &&
           this.step === `txDetails`
         ) {
+          // show connect Ledger
           this.step = `sign`
         }
       }

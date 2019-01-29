@@ -75,7 +75,7 @@
         type="required"
       />
       <tm-form-msg
-        v-else-if="$v.amount.$invalid && !$v.amount.integer"
+        v-else-if="$v.amount.$error && !$v.amount.integer"
         name="Amount"
         type="integer"
       />

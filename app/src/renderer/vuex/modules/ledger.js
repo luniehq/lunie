@@ -47,7 +47,7 @@ export default () => {
     },
     /* TODO: Create a function to detect ledger is connected (i.e unlocked with
       password and on Home app) */
-    async connectLedgerApp({ commit, dispatch, state }) {
+    async connectLedgerApp({ commit, dispatch, state }, { setUserAccount }) {
       try {
         const comm = await comm_u2f.create_async(TIMEOUT, true)
         const app = new App(comm)
@@ -56,7 +56,7 @@ export default () => {
         commit(`setLedgerConnection`, true)
         await dispatch(`getLedgerPubKey`)
         const address = createCosmosAddress(state.pubKey)
-        dispatch(`signIn`, { sessionType: `ledger`, address })
+        dispatch(`signIn`, { sessionType: `ledger`, address, setUserAccount })
       } catch (error) {
         commit(`notifyError`, {
           title: `Error connecting to Ledger`,
@@ -70,11 +70,8 @@ export default () => {
     },
     async getLedgerCosmosVersion({ commit, dispatch, state }) {
       let response = await state.app.get_version()
-      response = await dispatch(
-        `checkLedgerErrors`,
-        response,
-        `Error retrieving Cosmos Ledger app version`
-      )
+      const title = `Error retrieving Cosmos Ledger app version`
+      response = await dispatch(`checkLedgerErrors`, { response, title })
       if (response) {
         const { major, minor, patch, test_mode } = response
         const version = { major, minor, patch, test_mode }
@@ -83,11 +80,8 @@ export default () => {
     },
     async getLedgerPubKey({ commit, dispatch, state }) {
       let response = await state.app.publicKey(HDPATH)
-      response = await dispatch(
-        `checkLedgerErrors`,
-        response,
-        `Error getting pubKey from Ledger`
-      )
+      const title = `Error getting pubKey from Ledger`
+      response = await dispatch(`checkLedgerErrors`, { response, title })
       if (response && response.compressed_pk && response.pk) {
         commit(`setLedgerPubKey`, response.compressed_pk)
         commit(`setLedgerUncompressedPubKey`, response.pk)
@@ -96,22 +90,19 @@ export default () => {
     async signWithLedger({ dispatch, state }, message) {
       console.log(message)
       let response = await state.app.sign(HDPATH, message)
-      response = await dispatch(
-        `checkLedgerErrors`,
-        response,
-        `Signing transaction with Ledger failed`
-      )
+      const title = `Signing transaction with Ledger failed`
+      response = await dispatch(`checkLedgerErrors`, { response, title })
       if (response && response.signature) {
         return response.signature
       }
       return undefined
     },
-    async checkLedgerErrors({ commit }, response, errorTitle) {
+    async checkLedgerErrors({ commit }, { response, title }) {
       console.log(response)
-      console.log(errorTitle)
+      console.log(title)
       if (response && response.error_message !== `No errors`) {
         commit(`notifyError`, {
-          title: errorTitle,
+          title,
           body: response.error_message
         })
         Sentry.captureException(response.error_message)
