@@ -99,7 +99,7 @@ export default {
       this.$v.$touch()
       if (this.$v.$error) return
       try {
-        let success = await this.$store.dispatch(`deleteKey`, {
+        const success = await this.$store.dispatch(`deleteKey`, {
           password: this.fields.deletionPassword
         })
         if (success) {

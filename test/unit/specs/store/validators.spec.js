@@ -1,7 +1,7 @@
 import setup from "../../helpers/vuex-setup"
 import validatorsModule from "renderer/vuex/modules/validators.js"
 
-let instance = setup()
+const instance = setup()
 
 import mockValidators from "./json/validators.json"
 const mockValidatorHash = `1234567890123456789012345678901234567890`
@@ -21,7 +21,7 @@ describe(`Module: Validators`, () => {
   let node, store
 
   beforeEach(() => {
-    let test = instance.shallow(null)
+    const test = instance.shallow(null)
     store = test.store
     node = test.node
 
@@ -87,7 +87,7 @@ describe(`Module: Validators`, () => {
   })
 
   it(`should store an error if failed to load validators`, async () => {
-    let { actions, state } = validatorsModule({
+    const { actions, state } = validatorsModule({
       node: {
         getValidatorSet: () => Promise.reject(new Error(`reason`))
       }

@@ -1,9 +1,9 @@
 import votesModule from "renderer/vuex/modules/governance/votes.js"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
-let { proposals, votes, stakingParameters } = lcdClientMock.state
-let addresses = lcdClientMock.addresses
+const { proposals, votes, stakingParameters } = lcdClientMock.state
+const addresses = lcdClientMock.addresses
 
-let mockRootState = {
+const mockRootState = {
   wallet: {
     address: addresses[0]
   },
@@ -20,7 +20,7 @@ describe(`Module: Votes`, () => {
   })
 
   it(`adds votes to state`, () => {
-    let { mutations, state } = module
+    const { mutations, state } = module
     mutations.setProposalVotes(state, {
       proposalId: `1`,
       votes
@@ -34,8 +34,8 @@ describe(`Module: Votes`, () => {
         queryProposalVotes: proposalId => Promise.resolve(votes[proposalId])
       }
     })
-    let { actions, state } = module
-    let commit = jest.fn()
+    const { actions, state } = module
+    const commit = jest.fn()
     Object.keys(proposals).forEach(async (proposalId, i) => {
       await actions.getProposalVotes(
         { state, commit, rootState: mockRootState },
@@ -52,7 +52,7 @@ describe(`Module: Votes`, () => {
   })
 
   it(`submits a vote on a proposal`, async () => {
-    let { actions } = module
+    const { actions } = module
     jest.useFakeTimers()
 
     const rootState = {
@@ -61,7 +61,7 @@ describe(`Module: Votes`, () => {
         address: addresses[0]
       }
     }
-    let dispatch = jest.fn()
+    const dispatch = jest.fn()
     const proposalIds = Object.keys(proposals)
     proposalIds.forEach(async (proposal_id, i) => {
       await actions.submitVote(
@@ -93,7 +93,7 @@ describe(`Module: Votes`, () => {
         queryProposalVotes: () => Promise.reject(new Error(`Error`))
       }
     })
-    let { actions, state } = module
+    const { actions, state } = module
     await actions.getProposalVotes({
       state,
       commit: jest.fn(),

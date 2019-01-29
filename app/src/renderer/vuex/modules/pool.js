@@ -27,7 +27,7 @@ export default ({ node }) => {
       if (!rootState.connection.connected) return
 
       try {
-        let pool = await node.getPool()
+        const pool = await node.getPool()
         commit(`setPool`, pool)
         state.error = null
         state.loading = false

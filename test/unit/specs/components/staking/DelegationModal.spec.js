@@ -7,14 +7,14 @@ import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`DelegationModal`, () => {
   let wrapper, store
-  let { stakingParameters } = lcdClientMock.state
-  let { mount, localVue } = setup()
+  const { stakingParameters } = lcdClientMock.state
+  const { mount, localVue } = setup()
   localVue.use(Vuelidate)
   localVue.directive(`tooltip`, () => {})
   localVue.directive(`focus`, () => {})
 
   beforeEach(() => {
-    let instance = mount(DelegationModal, {
+    const instance = mount(DelegationModal, {
       localVue,
       propsData: {
         validator: lcdClientMock.state.candidates[0],

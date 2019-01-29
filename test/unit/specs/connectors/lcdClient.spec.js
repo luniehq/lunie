@@ -9,9 +9,9 @@
 // think it's running in a browser, causing some network requests below to fail
 // with only the message "Network Error".
 
-let LcdClient = require(`renderer/connectors/lcdClient.js`)
-let lcdClientMock = require(`renderer/connectors/lcdClientMock.js`)
-let { proposals, deposits, votes } = lcdClientMock.state
+const LcdClient = require(`renderer/connectors/lcdClient.js`)
+const lcdClientMock = require(`renderer/connectors/lcdClientMock.js`)
+const { proposals, deposits, votes } = lcdClientMock.state
 
 describe(`LCD Client`, () => {
   describe(`unit tests`, () => {
@@ -26,7 +26,7 @@ describe(`LCD Client`, () => {
     describe(`helper functions`, () => {
       it(`makes a GET request with no args`, async () => {
         axios.mockReturnValueOnce(Promise.resolve({ data: { foo: `bar` } }))
-        let res = await client.nodeVersion()
+        const res = await client.nodeVersion()
         expect(res).toEqual({ foo: `bar` })
 
         expect(axios.mock.calls).toEqual([
@@ -42,7 +42,7 @@ describe(`LCD Client`, () => {
 
       it(`makes a GET request with one arg`, async () => {
         axios.mockReturnValueOnce(Promise.resolve({ data: { foo: `bar` } }))
-        let res = await client.tx(`hashX`)
+        const res = await client.tx(`hashX`)
         expect(res).toEqual({ foo: `bar` })
 
         expect(axios.mock.calls).toEqual([
@@ -58,7 +58,7 @@ describe(`LCD Client`, () => {
 
       it(`makes a POST request`, async () => {
         axios.mockReturnValueOnce(Promise.resolve({ data: { foo: `bar` } }))
-        let res = await client.postTx({ x: 1 })
+        const res = await client.postTx({ x: 1 })
         expect(res).toEqual({ foo: `bar` })
 
         expect(axios.mock.calls).toEqual([
@@ -597,7 +597,7 @@ describe(`LCD Client`, () => {
             }
           })
         )
-        let res = await client.queryAccount(`address`)
+        const res = await client.queryAccount(`address`)
         expect(res).toBe(null)
       })
 
@@ -609,7 +609,7 @@ describe(`LCD Client`, () => {
             }
           })
         )
-        let res = await client.queryAccount(`address`)
+        const res = await client.queryAccount(`address`)
         expect(res).toBe(null)
       })
 
@@ -643,7 +643,7 @@ describe(`LCD Client`, () => {
       axios
         .mockReturnValueOnce(Promise.resolve({ data: [] }))
         .mockReturnValueOnce(Promise.resolve({ data: [`abc`] }))
-      let result = await client.txs(`abc`)
+      const result = await client.txs(`abc`)
 
       expect(axios).toHaveBeenCalledTimes(2)
       expect(result).toEqual([`abc`])

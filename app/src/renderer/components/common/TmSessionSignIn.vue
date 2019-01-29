@@ -104,7 +104,7 @@ export default {
     async onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return
-      let sessionCorrect = await this.$store.dispatch(`testLogin`, {
+      const sessionCorrect = await this.$store.dispatch(`testLogin`, {
         password: this.fields.signInPassword,
         account: this.fields.signInName
       })
@@ -124,8 +124,10 @@ export default {
       }
     },
     setDefaultAccount() {
-      let prevAccountKey = localStorage.getItem(`prevAccountKey`)
-      let prevAccountExists = this.accounts.find(a => a.key === prevAccountKey)
+      const prevAccountKey = localStorage.getItem(`prevAccountKey`)
+      const prevAccountExists = this.accounts.find(
+        a => a.key === prevAccountKey
+      )
 
       if (this.accounts.length === 1) {
         this.fields.signInName = this.accounts[0].key

@@ -104,8 +104,8 @@ describe(`Module: Transactions`, () => {
   })
 
   it(`should set error to true if enriching transactions fail`, async () => {
-    let error = new Error(`unexpected error`)
-    let { actions, state } = module
+    const error = new Error(`unexpected error`)
+    const { actions, state } = module
 
     const commit = jest.fn()
     const dispatch = jest.fn(() => {

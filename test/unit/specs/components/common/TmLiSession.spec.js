@@ -3,7 +3,7 @@ import TmLiSession from "common/TmLiSession"
 
 describe(`TmLiSession`, () => {
   let wrapper
-  let propsData = {
+  const propsData = {
     icon: `mood`,
     title: `useful title`,
     subtitle: `useful subtitle`

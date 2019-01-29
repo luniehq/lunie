@@ -2,7 +2,7 @@ import userModule from "renderer/vuex/modules/user.js"
 
 describe(`Module: User`, () => {
   let module, state, actions, mutations, node
-  let accounts = [
+  const accounts = [
     {
       address: `tb1zg69v7yszg69v7yszg69v7yszg69v7ysd8ep6q`,
       name: `ACTIVE_ACCOUNT`
@@ -149,14 +149,14 @@ describe(`Module: User`, () => {
   })
 
   it(`should create a seed phrase`, async () => {
-    let seed = await actions.createSeed()
+    const seed = await actions.createSeed()
     expect(seed).toBe(`xxx`)
   })
 
   it(`should create a key from a seed phrase`, async () => {
-    let seedPhrase = `abc`
-    let password = `123`
-    let name = `def`
+    const seedPhrase = `abc`
+    const password = `123`
+    const name = `def`
     const dispatch = jest.fn()
     await actions.createKey(
       { dispatch },
@@ -173,8 +173,8 @@ describe(`Module: User`, () => {
   })
 
   it(`should sign in`, async () => {
-    let password = `123`
-    let account = `def`
+    const password = `123`
+    const account = `def`
     const commit = jest.fn()
     const dispatch = jest.fn()
     await actions.signIn({ state, commit, dispatch }, { password, account })

@@ -5,8 +5,8 @@ describe(`TmSessionAccountDelete`, () => {
   let wrapper, store
 
   beforeEach(() => {
-    let { mount } = setup()
-    let instance = mount(TmSessionAccountDelete)
+    const { mount } = setup()
+    const instance = mount(TmSessionAccountDelete)
     wrapper = instance.wrapper
     store = instance.store
 
