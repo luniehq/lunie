@@ -112,7 +112,7 @@ export default ({}) => {
     },
     async signIn(
       { state, commit, dispatch },
-      { account, address, sessionType = `local` }
+      { account, address, sessionType = `local`, setUserAccount = true }
     ) {
       let accountAddress
       switch (sessionType) {
@@ -126,13 +126,15 @@ export default ({}) => {
           accountAddress = keys.find(({ name }) => name === account).address
       }
       commit(`setSignIn`, true)
-      commit(`setUserAddress`, accountAddress)
-      dispatch(`loadPersistedState`)
-      commit(`setModalSession`, false)
-      await dispatch(`getStakingParameters`)
+      if (setUserAccount) {
+        commit(`setUserAddress`, accountAddress)
+        dispatch(`loadPersistedState`)
+        commit(`setModalSession`, false)
+        await dispatch(`getStakingParameters`)
+        await dispatch(`getGovParameters`)
+        dispatch(`loadErrorCollection`, accountAddress)
+      }
       dispatch(`initializeWallet`, accountAddress)
-      await dispatch(`getGovParameters`)
-      dispatch(`loadErrorCollection`, accountAddress)
     },
     signOut({ state, commit, dispatch }) {
       state.account = null
