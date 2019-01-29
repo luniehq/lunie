@@ -37,14 +37,8 @@ const Client = (axios, remoteLcdURL) => {
 
     // coins
     send: argReq(`POST`, `/bank/accounts`, `/transfers`),
-    async queryAccount(address) {
-      let res = await req(`GET`, `/auth/accounts/${address}`)
-      debugger
-      res = await res()
-      if (res) {
-        return res.value
-      }
-      return null
+    queryAccount: function(address) {
+      return req(`GET`, `/auth/accounts/${address}`)()
     },
     txs: function(addr) {
       return Promise.all([

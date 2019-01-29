@@ -68,6 +68,12 @@ export default ({ node }) => {
         account_number: rootState.wallet.accountNumber,
         chain_id: rootState.connection.lastHeader.chain_id,
         gas: String(config.default_gas),
+        gas_prices: [
+          {
+            amount: `0.00001`,
+            denom: `stake`
+          }
+        ],
         generate_only: true
       }
       args.base_req = requestMetaData
@@ -84,7 +90,6 @@ export default ({ node }) => {
       let req = to ? node[type](to, args) : node[type](args)
       let generationRes = await req.catch(handleSDKError)
       const tx = generationRes.value
-      debugger
 
       let signature
       if (rootState.ledger.isConnected) {

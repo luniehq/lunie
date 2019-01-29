@@ -8,7 +8,7 @@ import CryptoJS from "crypto-js"
 
 const hdPathAtom = `m/44'/118'/0'/0/0` // key controlling ATOM allocation
 
-const standardRandomBytesFunc = x => String(CryptoJS.lib.WordArray.random(x))
+const standardRandomBytesFunc = x => CryptoJS.lib.WordArray.random(x).toString()
 
 export function generateWalletFromSeed(mnemonic) {
   const masterKey = deriveMasterKey(mnemonic)
@@ -37,7 +37,7 @@ export function generateWallet(randomBytesFunc = standardRandomBytesFunc) {
 // NOTE: this only works with a compressed public key (33 bytes)
 export function createCosmosAddress(publicKey) {
   let message = CryptoJS.enc.Hex.parse(publicKey.toString(`hex`))
-  const hash = String(ripemd160(sha256(message)))
+  const hash = ripemd160(sha256(message)).toString()
   const address = Buffer.from(hash, `hex`)
   const cosmosAddress = bech32ify(address, `cosmos`)
 
@@ -123,7 +123,7 @@ export function createSignMessage(
 ) {
   // sign bytes need amount to be an array
   const fee = {
-    amount: jsonTx.fee.amount || [],
+    amount: [],
     gas: jsonTx.fee.gas
   }
 

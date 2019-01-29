@@ -102,17 +102,23 @@ export default ({}) => {
       return state.externals.generateSeed()
     },
     async createKey({ dispatch }, { seedPhrase, password, name }) {
-      let { address } = await state.externals.importKey(
+      let { cosmosAddress } = await state.externals.importKey(
         name,
         password,
         seedPhrase
       )
-      await dispatch(`initializeWallet`, address)
-      return address
+      await dispatch(`initializeWallet`, { address: cosmosAddress })
+      return cosmosAddress
     },
     async signIn(
       { state, commit, dispatch },
-      { account, address, sessionType = `local`, setUserAccount = true }
+      {
+        account,
+        address,
+        sessionType = `local`,
+        setUserAccount = true,
+        errorCollection = false
+      }
     ) {
       let accountAddress
       switch (sessionType) {
@@ -126,8 +132,11 @@ export default ({}) => {
           accountAddress = keys.find(({ name }) => name === account).address
       }
       commit(`setSignIn`, true)
-      console.log(accountAddress)
       if (setUserAccount) {
+        dispatch(`setErrorCollection`, {
+          account: accountAddress,
+          optin: errorCollection
+        })
         commit(`setUserAddress`, accountAddress)
         dispatch(`loadPersistedState`)
         commit(`setModalSession`, false)

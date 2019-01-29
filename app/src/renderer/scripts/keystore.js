@@ -96,7 +96,7 @@ function encrypt(msg, pass) {
 
   // salt, iv will be hex 32 in length
   // append them to the ciphertext for use  in decryption
-  let transitmessage = String(salt) + String(iv) + String(encrypted)
+  let transitmessage = salt.toString() + iv.toString() + encrypted.toString()
   return transitmessage
 }
 

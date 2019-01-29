@@ -51,7 +51,7 @@ export default ({ node }) => {
     async initializeWallet({ commit, dispatch }, { address }) {
       commit(`setWalletAddress`, address)
       await dispatch(`queryWalletBalances`)
-      await dispatch(`loadDenoms`)
+      dispatch(`loadDenoms`)
       dispatch(`walletSubscribe`)
     },
     resetSessionData({ rootState }) {
@@ -59,7 +59,6 @@ export default ({ node }) => {
       rootState.wallet = JSON.parse(JSON.stringify(emptyState))
     },
     async queryWalletBalances({ state, rootState, commit }) {
-      console.log(state.address)
       if (!state.address) return
 
       state.loading = true
@@ -67,12 +66,12 @@ export default ({ node }) => {
 
       try {
         let res = await node.queryAccount(state.address)
-        console.log(res)
         if (!res) {
           state.loading = false
           state.loaded = true
           return
         }
+        res = res.value
         state.error = null
         let coins = res.coins || []
         commit(`setNonce`, res.sequence)
@@ -106,7 +105,7 @@ export default ({ node }) => {
         amount: oldBalance.amount - amount
       })
     },
-    async loadDenoms({ commit }) {
+    loadDenoms({ commit }) {
       commit(`setDenoms`, config.denoms)
     },
     queryWalletStateAfterHeight({ rootState, dispatch }, height) {
