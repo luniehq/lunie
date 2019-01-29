@@ -5,15 +5,7 @@
         <div class="header-item" />
       </template>
       <div class="header-item header-item-logo">
-        <img
-          v-if="themes.active == 'light'"
-          id="logo-black"
-          src="~assets/images/cosmos-wordmark-black.svg"
-        /><img
-          v-else
-          id="logo-white"
-          src="~assets/images/cosmos-wordmark-white.svg"
-        />
+        <img id="logo-white" src="~assets/images/cosmos-wordmark-white.svg" />
       </div>
       <app-menu v-if="config.activeMenu === 'app' || config.desktop" /><template
         v-if="!config.desktop"
@@ -41,7 +33,7 @@ export default {
   name: `app-header`,
   components: { AppMenu },
   computed: {
-    ...mapGetters([`config`, `themes`]),
+    ...mapGetters([`config`]),
     isWin() {
       return navigator.platform.toUpperCase().indexOf(`WIN`) >= 0
     }
@@ -80,6 +72,7 @@ export default {
 <style>
 #app-header {
   z-index: var(--z-appHeader);
+  position: relative;
 }
 
 #app-header .container {

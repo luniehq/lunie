@@ -12,10 +12,10 @@ describe(`TmBalance`, () => {
       getters: {
         user: () => {
           return {
-            atoms: 123,
             address: `useraddress16876876876876876786876876876876876`
           }
         },
+        liquidAtoms: () => 123,
         totalAtoms: () => {
           return 321
         }

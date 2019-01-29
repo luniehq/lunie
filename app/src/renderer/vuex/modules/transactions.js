@@ -18,16 +18,16 @@ export default ({ node }) => {
 
   let mutations = {
     setWalletTxs(state, txs) {
-      state.wallet = txs
+      Vue.set(state, `wallet`, txs)
     },
     setStakingTxs(state, txs) {
-      state.staking = txs
+      Vue.set(state, `staking`, txs)
     },
     setGovernanceTxs(state, txs) {
-      state.governance = txs
+      Vue.set(state, `governance`, txs)
     },
     setHistoryLoading(state, loading) {
-      state.loading = loading
+      Vue.set(state, `loading`, loading)
     },
     setTransactionTime(state, { blockHeight, blockMetaInfo }) {
       txCategories.forEach(category => {
@@ -46,14 +46,14 @@ export default ({ node }) => {
       // clear previous account state
       rootState.transactions = JSON.parse(JSON.stringify(emptyState))
     },
-    async reconnected({ dispatch }) {
+    async reconnected({ state, dispatch }) {
       if (state.loading) {
         await dispatch(`getAllTxs`)
       }
     },
     async getAllTxs({ commit, dispatch, state, rootState }) {
       try {
-        state.loading = true
+        commit(`setHistoryLoading`, true)
 
         if (!rootState.connection.connected) return
 
@@ -71,7 +71,7 @@ export default ({ node }) => {
           transactions: allTxs
         })
         state.error = null
-        state.loading = false
+        commit(`setHistoryLoading`, false)
         state.loaded = true
       } catch (error) {
         commit(`notifyError`, {

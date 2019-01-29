@@ -35,11 +35,10 @@ test(`Governance`, async function(t) {
     let balance = parseInt(
       (await app.client.$(`.total-atoms__value`).getText()).split(`.`)[0]
     )
-    await app.client.$(`#propose-btn`).click()
-    await t.ok(
-      await app.client.$(`#modal-propose`).isVisible(),
-      `opens modal proposal`
-    )
+    await app.client
+      .$(`#propose-btn`)
+      .click()
+      .waitForVisible(`#modal-propose`)
     await app.client
       .setValue(`#title`, `E2E test proposal title`)
       .setValue(`#description`, `E2E test proposal title`)
@@ -47,7 +46,7 @@ test(`Governance`, async function(t) {
       .setValue(`#password`, `1234567890`)
     await t.ok(
       await app.client
-        .click(`//button/*[. = 'Submit proposal']`)
+        .click(`//button/*[. = 'Submit']`)
         .waitForVisible(
           `//*[. = 'You have successfully submitted a new text proposal']`,
           4 * 1000
@@ -95,15 +94,16 @@ test(`Governance`, async function(t) {
       await app.client.$(`.page-profile__status.yellow`).isVisible(),
       `the proposal is open for deposits`
     )
-    await app.client.$(`#deposit-btn`).click()
-    await t.ok(
-      await app.client.$(`#modal-deposit`).isVisible(),
-      `opens deposit modal`
-    )
+    await app.client
+      .$(`#deposit-btn`)
+      .click()
+      .waitForVisible(`#modal-deposit`)
     await app.client.setValue(`#amount`, 10).setValue(`#password`, `1234567890`)
     await t.ok(
       await app.client
-        .$(`#submit-deposit`)
+        .$(
+          `//*[@id = 'modal-deposit']//button//*[normalize-space() = 'Submit']`
+        )
         .click()
         .waitForVisible(
           `//*[. = 'You have successfully deposited your STAKEs on proposal #1']`,
@@ -133,17 +133,16 @@ test(`Governance`, async function(t) {
       await app.client.$(`.page-profile__status.green`).isVisible(),
       `the proposal is open for voting`
     )
-    await app.client.$(`#vote-btn`).click()
-    await t.ok(
-      await app.client.$(`#modal-vote`).isVisible(),
-      `opens voting modal`
-    )
+    await app.client
+      .$(`#vote-btn`)
+      .click()
+      .waitForVisible(`#modal-vote`)
 
     await app.client.$(`#vote-yes`).click()
     await app.client.setValue(`#password`, `1234567890`)
     await t.ok(
       await app.client
-        .$(`#cast-vote`)
+        .$(`//*[@id = 'modal-vote']//button//*[normalize-space() = 'Submit']`)
         .click()
         .waitForVisible(
           `//*[. = 'You have successfully voted Yes on proposal #1']`,

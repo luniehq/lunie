@@ -15,6 +15,8 @@ describe(`TmBtnCopy`, () => {
     })
     wrapper = test.wrapper
     store = test.store
+
+    wrapper.vm.copy = jest.fn()
   })
 
   it(`has the expected html structure`, () => {

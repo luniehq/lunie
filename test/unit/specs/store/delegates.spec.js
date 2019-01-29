@@ -96,6 +96,29 @@ describe(`Module: Delegates`, () => {
     ])
   })
 
+  it(`keeps the loading state if loading failed`, async () => {
+    let { actions, state } = module
+    let commit = jest.fn()
+    let dispatch = jest.fn()
+    node.getCandidates = () => Promise.reject(new Error(`Expected`))
+    await actions.getDelegates({
+      state,
+      commit,
+      dispatch,
+      rootState: mockRootState
+    })
+    expect(commit.mock.calls).toEqual([
+      [`setDelegateLoading`, true],
+      [
+        `notifyError`,
+        {
+          body: `Expected`,
+          title: `Error fetching validators`
+        }
+      ]
+    ])
+  })
+
   it(`should query further info for validators`, async () => {
     let { actions, state } = module
     let commit = jest.fn()

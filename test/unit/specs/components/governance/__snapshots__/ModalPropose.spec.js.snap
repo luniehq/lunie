@@ -2,24 +2,25 @@
 
 exports[`ModalPropose component matches snapshot has the expected html structure 1`] = `
 <div
-  class="modal-propose"
+  class="action-modal"
   id="modal-propose"
+  name="slide-fade"
 >
   <div
-    class="modal-propose-header"
+    class="action-modal-header"
   >
     <img
-      class="icon modal-propose-atom"
+      class="icon action-modal-atom"
       src="~assets/images/cosmos-logo.png"
     />
     <span
-      class="tm-modal-title"
+      class="action-modal-title"
     >
-      Create Proposal
+      Proposal
     </span>
      
     <div
-      class="tm-modal-icon tm-modal-close"
+      class="action-modal-icon action-modal-close"
       id="closeBtn"
     >
       <i
@@ -31,139 +32,153 @@ exports[`ModalPropose component matches snapshot has the expected html structure
   </div>
    
   <div
-    class="page-proposal-form-group tm-form-group"
+    class="action-modal-form"
   >
-    <!---->
-    <!---->
-     
     <div
-      class="tm-form-group__field"
+      class="action-modal-form-group tm-form-group"
     >
-      <span>
-        Title
-      </span>
-       
-      <input
-        class="tm-field"
-        id="title"
-        placeholder="Proposal title"
-        type="text"
-      />
-       
       <!---->
-    </div>
-  </div>
-   
-  <div
-    class="page-proposal-form-group tm-form-group"
-  >
-    <!---->
-    <!---->
-     
-    <div
-      class="tm-form-group__field"
-    >
-      <span>
-        Description
-      </span>
-       
-      <textarea
-        class="tm-field"
-        id="description"
-        placeholder="Write your proposal here..."
-      />
-       
-      <!---->
-    </div>
-  </div>
-   
-  <div
-    class="modal-propose-form-group tm-form-group"
-  >
-    <!---->
-    <!---->
-     
-    <div
-      class="tm-form-group__field"
-    >
-      <span>
-        Deposit amount
-      </span>
-       
-      <input
-        class="tm-field"
-        id="denom"
-        placeholder="stake"
-        readonly="readonly"
-        tabindex="-1"
-        type="text"
-      />
-       
-      <input
-        class="tm-field"
-        id="amount"
-        min="0"
-        type="number"
-      />
-       
-      <!---->
-       
-      <hr />
-    </div>
-  </div>
-   
-  <div
-    class="modal-propose-form-group tm-form-group"
-  >
-    <!---->
-    <!---->
-     
-    <div
-      class="tm-form-group__field"
-    >
-      <span>
-        Account password
-      </span>
-       
-      <input
-        class="tm-field"
-        id="password"
-        placeholder="password..."
-        type="password"
-      />
-       
-      <input
-        id="showPasswordCheckbox"
-        type="checkbox"
-      />
-       
       <label
-        for="showPasswordCheckbox"
+        class="tm-form-group__label"
+        for="title"
       >
-        Show password
+        Title
       </label>
+       
+      <div
+        class="tm-form-group__field"
+      >
+        <input
+          class="tm-field"
+          id="title"
+          placeholder="Proposal title"
+          type="text"
+        />
+         
+        <!---->
+         
+        <!---->
+      </div>
+    </div>
+     
+    <div
+      class="action-modal-form-group tm-form-group"
+    >
+      <!---->
+      <label
+        class="tm-form-group__label"
+        for="description"
+      >
+        Description
+      </label>
+       
+      <div
+        class="tm-form-group__field"
+      >
+        <textarea
+          class="textarea-large tm-field"
+          id="description"
+          placeholder="Write your proposal here..."
+        />
+         
+        <!---->
+         
+        <!---->
+      </div>
+    </div>
+     
+    <div
+      class="action-modal-form-group tm-form-group"
+    >
+      <!---->
+      <label
+        class="tm-form-group__label"
+        for="amount"
+      >
+        Amount
+      </label>
+       
+      <div
+        class="tm-form-group__field"
+      >
+        <span
+          class="input-suffix"
+        >
+          stake
+        </span>
+         
+        <input
+          class="tm-field"
+          id="amount"
+          type="number"
+        />
+         
+        <!---->
+      </div>
+    </div>
+     
+    <!---->
+     
+    <div
+      class="action-modal-group tm-form-group"
+    >
+      <!---->
+      <label
+        class="tm-form-group__label"
+        for="password"
+      >
+        Password
+      </label>
+       
+      <div
+        class="tm-form-group__field"
+      >
+        <input
+          class="tm-field"
+          id="password"
+          placeholder="Password"
+          type="password"
+        />
+         
+        <!---->
+      </div>
     </div>
   </div>
    
   <div
-    class="modal-propose-footer"
+    class="action-modal-footer"
   >
-    <button
-      class="tm-btn"
-      disabled="disabled"
-      id="submit-proposal"
+    <div
+      class="action-modal-group tm-form-group"
     >
-      <span
-        class="tm-btn__container tm-btn--size-lg tm-btn--primary"
+      <!---->
+      <!---->
+       
+      <div
+        class="tm-form-group__field"
       >
-        <!---->
-        <span
-          class="tm-btn__value"
+        <div
+          class="action-modal-footer"
         >
-          Submit proposal
-        </span>
-      </span>
-    </button>
+          <button
+            class="tm-btn"
+          >
+            <span
+              class="tm-btn__container tm-btn--primary"
+            >
+              <!---->
+              <span
+                class="tm-btn__value"
+              >
+                Submit
+              </span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+     
+    <!---->
   </div>
 </div>
 `;

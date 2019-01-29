@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import { clipboard } from "electron"
 import TmBtn from "common/TmBtn"
 export default {
   components: { TmBtn },
@@ -26,6 +25,10 @@ export default {
       required: true
     }
   },
+  data: () => ({
+    /* istanbul ignore next */
+    copy: value => navigator.clipboard.writeText(value)
+  }),
   computed: {
     notifyTitle() {
       if (this.title) return this.title
@@ -43,7 +46,7 @@ export default {
       return value
     },
     click() {
-      clipboard.writeText(this.value)
+      this.copy(this.value)
 
       this.$store.commit(`notify`, {
         title: this.notifyTitle,

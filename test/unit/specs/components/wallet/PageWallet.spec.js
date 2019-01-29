@@ -1,75 +1,89 @@
-import setup from "../../../helpers/vuex-setup"
-import PageWallet from "renderer/components/wallet/PageWallet"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
-
-let { stakingParameters } = lcdClientMock.state
+import PageWallet from "renderer/components/wallet/PageWallet"
 
 describe(`PageWallet`, () => {
-  let wrapper, store
-  let { mount } = setup()
+  const localVue = createLocalVue()
+  localVue.directive(`tooltip`, () => {})
 
-  beforeEach(async () => {
-    let instance = mount(PageWallet, {
-      stubs: {
-        "modal-search": true,
-        "tm-data-connecting": true,
-        "tm-data-loading": true
-      },
-      doBefore: ({ store }) => {
-        store.commit(`setConnected`, true)
-        store.commit(`setSearchQuery`, [`balances`, ``])
-        store.commit(`setStakingParameters`, stakingParameters.parameters)
+  let wrapper, $store
+  const getters = {
+    filters: {
+      balances: {
+        search: {
+          query: ``,
+          visible: false
+        },
+        stubs: {
+          "send-modal": true
+        }
+      }
+    },
+    wallet: {
+      loading: false,
+      denoms: [`fermion`, `gregcoin`, `mycoin`, `STAKE`],
+      balances: lcdClientMock.state.accounts[lcdClientMock.addresses[0]].coins
+    },
+    connected: true
+  }
+
+  beforeEach(() => {
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters
+    }
+
+    wrapper = shallowMount(PageWallet, {
+      localVue,
+      mocks: {
+        $store
       }
     })
-    wrapper = instance.wrapper
-    store = instance.store
-
-    await store.dispatch(`signIn`, {
-      account: `default`,
-      password: `1234567890`
-    })
-    store.commit(`setSearchQuery`, [`balances`, ``])
-    store.commit(`setStakingParameters`, stakingParameters.parameters)
-    // we need to wait for the denoms to have loaded
-    // if not they load async and produce errors when the tests already passed
-    await store.dispatch(`loadDenoms`)
+    wrapper.vm.$refs.sendModal = { open: jest.fn() }
   })
 
   it(`has the expected html structure`, async () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`should sort the balances by denom`, () => {
+  it(`should sort the balances by amount desc and denom asc`, () => {
     expect(wrapper.vm.filteredBalances.map(x => x.denom)).toEqual([
       `fermion`,
-      `STAKE`,
       `mycoin`,
+      `STAKE`,
       `gregcoin`
     ])
   })
 
+  it(`should list the denoms that are available`, () => {
+    expect(wrapper.findAll(`.tm-li-balance`).length).toBe(4)
+  })
+
   it(`should filter the balances`, async () => {
-    store.commit(`setSearchVisible`, [`balances`, true])
-    store.commit(`setSearchQuery`, [`balances`, `stake`])
-    store.commit(`setStakingParameters`, stakingParameters.parameters)
+    wrapper.setData({
+      filters: {
+        balances: {
+          search: {
+            query: `stake`,
+            visible: true
+          }
+        }
+      }
+    })
+
     expect(wrapper.vm.filteredBalances.map(x => x.denom)).toEqual([`STAKE`])
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`should show the search on click`, () => {
-    wrapper.vm.setSearch(true)
-    expect(store.commit).toHaveBeenCalledWith(`setSearchVisible`, [
-      `balances`,
-      true
-    ])
-  })
-
-  it(`should list the denoms that are available`, () => {
-    expect(wrapper.findAll(`.tm-li-balance`).length).toBe(3)
-  })
-
   it(`should show the n/a message if there are no denoms`, async () => {
-    store.commit(`setWalletBalances`, [])
+    wrapper.setData({
+      wallet: {
+        denoms: [`fermion`, `gregcoin`, `mycoin`, `STAKE`],
+        balances: []
+      }
+    })
+
     expect(wrapper.find(`#account_empty_msg`).exists()).toBeTruthy()
   })
 
@@ -78,27 +92,57 @@ describe(`PageWallet`, () => {
     expect(wrapper.vm.$el.querySelector(`#no-balances`)).toBe(null)
   })
 
-  it(`should update 'somethingToSearch' when there's nothing to search`, async () => {
-    expect(wrapper.vm.somethingToSearch).toBe(true)
-    store.commit(`setWalletBalances`, [])
-    expect(wrapper.vm.somethingToSearch).toBe(false)
-  })
-
-  it(`should not show search when there's nothing to search`, async () => {
-    store.commit(`setWalletBalances`, [])
-    expect(wrapper.vm.setSearch()).toEqual(false)
-  })
-
   it(`should show a message when still connecting`, () => {
-    store.state.wallet.loaded = false
-    store.state.connection.connected = false
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: Object.assign({}, getters, {
+        wallet: {
+          loaded: false,
+          denoms: [`fermion`, `gregcoin`, `mycoin`, `STAKE`],
+          balances: []
+        },
+        connected: false
+      })
+    }
+
+    wrapper = shallowMount(PageWallet, {
+      localVue,
+      mocks: {
+        $store
+      }
+    })
+
     expect(wrapper.exists(`tm-data-connecting`)).toBe(true)
   })
 
   it(`should show a message when still loading`, () => {
-    store.state.wallet.loaded = false
-    store.state.wallet.loading = false
-    store.state.connection.connected = true
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: Object.assign({}, getters, {
+        wallet: {
+          loading: true,
+          loaded: false,
+          denoms: [`fermion`, `gregcoin`, `mycoin`, `STAKE`],
+          balances: []
+        },
+        connected: true
+      })
+    }
+
+    wrapper = shallowMount(PageWallet, {
+      localVue,
+      mocks: {
+        $store
+      }
+    })
     expect(wrapper.exists(`tm-data-loading`)).toBe(true)
+  })
+
+  it(`should show the sending modal`, () => {
+    wrapper.vm.showModal(`STAKE`)
+    expect(wrapper.exists(`send-modal`)).toBe(true)
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 })

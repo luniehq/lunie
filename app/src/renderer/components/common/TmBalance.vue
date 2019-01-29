@@ -51,12 +51,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([`user`, `totalAtoms`, `bondDenom`]),
+    ...mapGetters([`user`, `liquidAtoms`, `totalAtoms`, `bondDenom`]),
     address() {
       return this.user.address
     },
     unbondedAtoms() {
-      return this.num.shortNumber(this.user.atoms)
+      return this.num.shortNumber(this.liquidAtoms)
     }
   }
 }
@@ -90,6 +90,7 @@ export default {
   color: var(--bright);
   font-size: var(--h1);
   font-weight: 500;
+  line-height: 40px;
 }
 .header-balance .top .icon-container {
   display: block;
@@ -123,12 +124,15 @@ export default {
 .tabs .tab {
   cursor: pointer;
   margin-right: 2rem;
+  font-weight: 500;
+  letter-spacing: -1px;
   font-size: 1rem;
 }
 .tabs .tab a {
   color: var(--dim);
   display: block;
   padding-bottom: 1rem;
+  padding-left: 0;
 }
 .tabs .tab a:hover {
   color: var(--link);
@@ -141,7 +145,7 @@ export default {
 }
 .tm-btn {
   position: absolute;
-  right: 0rem;
+  right: 1rem;
   bottom: 1rem;
 }
 </style>

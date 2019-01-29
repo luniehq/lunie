@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmPage has the expected html structure 1`] = `
+<div
+  class="tm-page"
+>
+  <tm-page-header-stub
+    tabs=""
+  >
+    <!---->
+     
+    <!---->
+     
+    <template>
+      <tm-balance-stub
+        tabs=""
+      />
+       
+      <tool-bar-stub />
+    </template>
+     
+    <template />
+     
+    <template />
+  </tm-page-header-stub>
+   
+  <main
+    class="tm-page-main"
+  >
+    <!---->
+     
+    <!---->
+     
+  </main>
+</div>
+`;
+
+exports[`TmPage should show links to other pages 1`] = `
+<div
+  class="tm-page"
+>
+  <tm-page-header-stub
+    tabs=""
+  >
+    <!---->
+     
+    <!---->
+     
+    <template>
+      <tm-balance-stub
+        tabs=""
+      />
+       
+      <tool-bar-stub
+        searching="[object Object]"
+      />
+    </template>
+     
+    <template />
+     
+    <template />
+  </tm-page-header-stub>
+   
+  <main
+    class="tm-page-main"
+  >
+    <modal-search-stub
+      type="stuff"
+    />
+     
+    <data-empty-search-stub />
+     
+  </main>
+</div>
+`;

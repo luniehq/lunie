@@ -15,7 +15,6 @@ export default opts => ({
   deposits: require(`./governance/deposits.js`).default(opts),
   governanceParameters: require(`./governance/parameters.js`).default(opts),
   send: require(`./send.js`).default(opts),
-  themes: require(`./themes.js`).default(opts),
   user: require(`./user.js`).default(opts),
   validators: require(`./validators.js`).default(opts),
   wallet: require(`./wallet.js`).default(opts),
