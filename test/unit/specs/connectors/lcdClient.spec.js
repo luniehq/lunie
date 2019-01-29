@@ -598,7 +598,11 @@ describe(`LCD Client`, () => {
           })
         )
         const res = await client.queryAccount(`address`)
-        expect(res).toBe(null)
+        expect(res).toEqual({
+          coins: [],
+          sequence: `0`,
+          account_number: `0`
+        })
       })
 
       it(`does not throw error for failed merkle proof error`, async () => {
@@ -610,7 +614,11 @@ describe(`LCD Client`, () => {
           })
         )
         const res = await client.queryAccount(`address`)
-        expect(res).toBe(null)
+        expect(res).toEqual({
+          coins: [],
+          sequence: `0`,
+          account_number: `0`
+        })
       })
 
       it(`throws error for error other than empty account`, async () => {
