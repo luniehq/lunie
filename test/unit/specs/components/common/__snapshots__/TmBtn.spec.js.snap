@@ -8,10 +8,13 @@ exports[`TmBtn allows for customization 1`] = `
     class="tm-btn__container tm-btn__icon-right tm-btn--size-sm tm-btn--danger"
   >
     <!---->
+     
     <span
       class="tm-btn__value"
     >
+      
       button
+    
     </span>
   </span>
 </button>
@@ -27,10 +30,13 @@ exports[`TmBtn displays as a link 1`] = `
     class="tm-btn__container"
   >
     <!---->
+     
     <span
       class="tm-btn__value"
     >
+      
       button
+    
     </span>
   </span>
 </router-link>
@@ -44,10 +50,13 @@ exports[`TmBtn displays as an external link 1`] = `
     class="tm-btn__container"
   >
     <!---->
+     
     <span
       class="tm-btn__value"
     >
+      
       button
+    
     </span>
   </span>
 </a>
@@ -64,12 +73,17 @@ exports[`TmBtn displays as an icon 1`] = `
       aria-hidden="true"
       class="tm-btn__icon material-icons"
     >
+      
       search
+    
     </i>
+     
     <span
       class="tm-btn__value"
     >
+      
       button
+    
     </span>
   </span>
 </button>
@@ -87,10 +101,13 @@ exports[`TmBtn displays as an img as an icon 1`] = `
       class="tm-btn__img"
       src="./icon.png"
     />
+     
     <span
       class="tm-btn__value"
     >
+      
       button
+    
     </span>
   </span>
 </button>
@@ -104,10 +121,13 @@ exports[`TmBtn has the expected html structure 1`] = `
     class="tm-btn__container"
   >
     <!---->
+     
     <span
       class="tm-btn__value"
     >
+      
       button
+    
     </span>
   </span>
 </button>

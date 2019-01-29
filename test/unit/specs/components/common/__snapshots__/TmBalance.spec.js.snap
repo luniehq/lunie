@@ -26,7 +26,9 @@ exports[`TmBalance has the expected html structure before adding props 1`] = `
       <h2
         class="total-atoms__value"
       >
+        
         321.0000…
+      
       </h2>
     </div>
      
@@ -61,8 +63,11 @@ exports[`TmBalance has the expected html structure before adding props 1`] = `
       <i
         class="material-icons"
       >
-        check
+        
+      check
+    
       </i>
+       
       <span>
         Copied
       </span>

@@ -19,7 +19,9 @@ exports[`TmLiBankTransaction has the expected html structure 1`] = `
   </div>
    
   <span>
-    From tb1da6xsetjg9jxgun9wdesexv05j
+    
+      From tb1da6xsetjg9jxgun9wdesexv05j
+    
   </span>
 </tm-li-transaction-stub>
 `;
@@ -47,7 +49,9 @@ exports[`TmLiBankTransaction should show outgoing transactions 1`] = `
   <span
     slot="details"
   >
-    To tb1da6xsetjg9jxgun9wdesexv05j
+    
+        To tb1da6xsetjg9jxgun9wdesexv05j
+      
   </span>
 </tm-li-transaction-stub>
 `;
@@ -75,7 +79,9 @@ exports[`TmLiBankTransaction should show transactions sent to the sender 1`] = `
   <span
     slot="details"
   >
-    To yourself!
+    
+        To yourself!
+      
   </span>
 </tm-li-transaction-stub>
 `;

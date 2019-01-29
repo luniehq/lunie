@@ -33,7 +33,9 @@ exports[`PageStaking has the expected html structure 1`] = `
               <i
                 class="material-icons"
               >
-                arrow_back
+                
+      arrow_back
+    
               </i>
             </a>
              
@@ -43,7 +45,9 @@ exports[`PageStaking has the expected html structure 1`] = `
               <i
                 class="material-icons"
               >
-                refresh
+                
+      refresh
+    
               </i>
             </a>
              
@@ -55,7 +59,9 @@ exports[`PageStaking has the expected html structure 1`] = `
               <i
                 class="material-icons"
               >
-                help_outline
+                
+      help_outline
+    
               </i>
             </a>
              
@@ -66,7 +72,9 @@ exports[`PageStaking has the expected html structure 1`] = `
               <i
                 class="material-icons"
               >
-                settings
+                
+      settings
+    
               </i>
             </router-link-stub>
              
@@ -76,7 +84,9 @@ exports[`PageStaking has the expected html structure 1`] = `
               <i
                 class="material-icons"
               >
-                exit_to_app
+                
+      exit_to_app
+    
               </i>
             </a>
           </div>

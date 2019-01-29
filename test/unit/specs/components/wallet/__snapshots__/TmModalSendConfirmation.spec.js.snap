@@ -16,7 +16,9 @@ exports[`TmModalSendConfirmation disables the send confirmation if not connected
         class="tm-modal-title"
       >
         <div>
-          Confirm Your Transaction
+          
+    Confirm Your Transaction
+  
         </div>
       </div>
        
@@ -26,7 +28,9 @@ exports[`TmModalSendConfirmation disables the send confirmation if not connected
         <i
           class="material-icons"
         >
+          
           close
+        
         </i>
       </div>
     </header>
@@ -53,7 +57,9 @@ exports[`TmModalSendConfirmation disables the send confirmation if not connected
       <p
         class="warning"
       >
-        This transaction cannot be undone.
+        
+    This transaction cannot be undone.
+  
       </p>
         
       <footer
@@ -69,10 +75,13 @@ exports[`TmModalSendConfirmation disables the send confirmation if not connected
               class="tm-btn__container"
             >
               <!---->
+               
               <span
                 class="tm-btn__value"
               >
-                Cancel
+                
+      Cancel
+    
               </span>
             </span>
           </button>
@@ -87,10 +96,13 @@ exports[`TmModalSendConfirmation disables the send confirmation if not connected
               class="tm-btn__container tm-btn--primary"
             >
               <!---->
+               
               <span
                 class="tm-btn__value"
               >
-                Connecting...
+                
+      Connecting...
+    
               </span>
             </span>
           </button>
@@ -117,7 +129,9 @@ exports[`TmModalSendConfirmation has the expected html structure 1`] = `
         class="tm-modal-title"
       >
         <div>
-          Confirm Your Transaction
+          
+    Confirm Your Transaction
+  
         </div>
       </div>
        
@@ -127,7 +141,9 @@ exports[`TmModalSendConfirmation has the expected html structure 1`] = `
         <i
           class="material-icons"
         >
+          
           close
+        
         </i>
       </div>
     </header>
@@ -154,7 +170,9 @@ exports[`TmModalSendConfirmation has the expected html structure 1`] = `
       <p
         class="warning"
       >
-        This transaction cannot be undone.
+        
+    This transaction cannot be undone.
+  
       </p>
         
       <footer
@@ -170,10 +188,13 @@ exports[`TmModalSendConfirmation has the expected html structure 1`] = `
               class="tm-btn__container"
             >
               <!---->
+               
               <span
                 class="tm-btn__value"
               >
-                Cancel
+                
+      Cancel
+    
               </span>
             </span>
           </button>
@@ -187,10 +208,13 @@ exports[`TmModalSendConfirmation has the expected html structure 1`] = `
               class="tm-btn__container tm-btn--primary"
             >
               <!---->
+               
               <span
                 class="tm-btn__value"
               >
-                Confirm
+                
+      Confirm
+    
               </span>
             </span>
           </button>

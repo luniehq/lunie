@@ -18,14 +18,18 @@ exports[`TmSessionWelcome with accounts has the expected html structure 1`] = `
       <div
         class="tm-session-title"
       >
+        
         Sign in to Cosmos Voyager
+      
       </div>
        
       <a>
         <i
           class="material-icons"
         >
+          
           help_outline
+        
         </i>
       </a>
     </div>
@@ -42,7 +46,9 @@ exports[`TmSessionWelcome with accounts has the expected html structure 1`] = `
           <i
             class="material-icons"
           >
-            lock
+            
+      lock
+    
           </i>
         </div>
          
@@ -52,13 +58,17 @@ exports[`TmSessionWelcome with accounts has the expected html structure 1`] = `
           <div
             class="tm-li-session-title"
           >
-            Sign in with password
+            
+      Sign in with password
+    
           </div>
            
           <div
             class="tm-li-session-subtitle"
           >
-            If you have an account, choose this option.
+            
+      If you have an account, choose this option.
+    
           </div>
         </div>
       </div>
@@ -72,7 +82,9 @@ exports[`TmSessionWelcome with accounts has the expected html structure 1`] = `
           <i
             class="material-icons"
           >
-            person_add
+            
+      person_add
+    
           </i>
         </div>
          
@@ -82,13 +94,17 @@ exports[`TmSessionWelcome with accounts has the expected html structure 1`] = `
           <div
             class="tm-li-session-title"
           >
-            Create new account
+            
+      Create new account
+    
           </div>
            
           <div
             class="tm-li-session-subtitle"
           >
-            Generate a brand new seed and create a new account.
+            
+      Generate a brand new seed and create a new account.
+    
           </div>
         </div>
       </div>
@@ -102,7 +118,9 @@ exports[`TmSessionWelcome with accounts has the expected html structure 1`] = `
           <i
             class="material-icons"
           >
-            settings_backup_restore
+            
+      settings_backup_restore
+    
           </i>
         </div>
          
@@ -112,13 +130,17 @@ exports[`TmSessionWelcome with accounts has the expected html structure 1`] = `
           <div
             class="tm-li-session-title"
           >
-            Import with seed
+            
+      Import with seed
+    
           </div>
            
           <div
             class="tm-li-session-subtitle"
           >
-            Use an existing seed phrase to create an account.
+            
+      Use an existing seed phrase to create an account.
+    
           </div>
         </div>
       </div>
@@ -132,7 +154,9 @@ exports[`TmSessionWelcome with accounts has the expected html structure 1`] = `
           <i
             class="material-icons"
           >
-            usb
+            
+      usb
+    
           </i>
         </div>
          
@@ -142,13 +166,17 @@ exports[`TmSessionWelcome with accounts has the expected html structure 1`] = `
           <div
             class="tm-li-session-title"
           >
-            Sign in with hardware
+            
+      Sign in with hardware
+    
           </div>
            
           <div
             class="tm-li-session-subtitle"
           >
-            If you have a Ledger Wallet, choose this option.
+            
+      If you have a Ledger Wallet, choose this option.
+    
           </div>
         </div>
       </div>
@@ -204,14 +232,18 @@ exports[`TmSessionWelcome without accounts has the expected html structure 1`] =
       <div
         class="tm-session-title"
       >
+        
         Sign in to Cosmos Voyager
+      
       </div>
        
       <a>
         <i
           class="material-icons"
         >
+          
           help_outline
+        
         </i>
       </a>
     </div>
@@ -230,7 +262,9 @@ exports[`TmSessionWelcome without accounts has the expected html structure 1`] =
           <i
             class="material-icons"
           >
-            person_add
+            
+      person_add
+    
           </i>
         </div>
          
@@ -240,13 +274,17 @@ exports[`TmSessionWelcome without accounts has the expected html structure 1`] =
           <div
             class="tm-li-session-title"
           >
-            Create new account
+            
+      Create new account
+    
           </div>
            
           <div
             class="tm-li-session-subtitle"
           >
-            Generate a brand new seed and create a new account.
+            
+      Generate a brand new seed and create a new account.
+    
           </div>
         </div>
       </div>
@@ -260,7 +298,9 @@ exports[`TmSessionWelcome without accounts has the expected html structure 1`] =
           <i
             class="material-icons"
           >
-            settings_backup_restore
+            
+      settings_backup_restore
+    
           </i>
         </div>
          
@@ -270,13 +310,17 @@ exports[`TmSessionWelcome without accounts has the expected html structure 1`] =
           <div
             class="tm-li-session-title"
           >
-            Import with seed
+            
+      Import with seed
+    
           </div>
            
           <div
             class="tm-li-session-subtitle"
           >
-            Use an existing seed phrase to create an account.
+            
+      Use an existing seed phrase to create an account.
+    
           </div>
         </div>
       </div>
@@ -290,7 +334,9 @@ exports[`TmSessionWelcome without accounts has the expected html structure 1`] =
           <i
             class="material-icons"
           >
-            usb
+            
+      usb
+    
           </i>
         </div>
          
@@ -300,13 +346,17 @@ exports[`TmSessionWelcome without accounts has the expected html structure 1`] =
           <div
             class="tm-li-session-title"
           >
-            Sign in with hardware
+            
+      Sign in with hardware
+    
           </div>
            
           <div
             class="tm-li-session-subtitle"
           >
-            If you have a Ledger Wallet, choose this option.
+            
+      If you have a Ledger Wallet, choose this option.
+    
           </div>
         </div>
       </div>

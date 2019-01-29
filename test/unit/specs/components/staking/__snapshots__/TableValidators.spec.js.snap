@@ -15,7 +15,9 @@ exports[`TableValidators has the expected html structure 1`] = `
           <a
             class="sort-by-link"
           >
-            Moniker
+            
+      Moniker
+    
           </a>
         </th>
         <th
@@ -24,7 +26,9 @@ exports[`TableValidators has the expected html structure 1`] = `
           <a
             class="sort-by-link"
           >
-            Delegated STAKE
+            
+      Delegated STAKE
+    
           </a>
         </th>
         <th
@@ -33,7 +37,9 @@ exports[`TableValidators has the expected html structure 1`] = `
           <a
             class="sort-by-link"
           >
-            Rewards
+            
+      Rewards
+    
           </a>
         </th>
         <th
@@ -42,7 +48,9 @@ exports[`TableValidators has the expected html structure 1`] = `
           <a
             class="sort-by-link"
           >
-            Voting Power
+            
+      Voting Power
+    
           </a>
         </th>
         <th
@@ -51,7 +59,9 @@ exports[`TableValidators has the expected html structure 1`] = `
           <a
             class="sort-by-link"
           >
-            Uptime
+            
+      Uptime
+    
           </a>
         </th>
         <th
@@ -60,7 +70,9 @@ exports[`TableValidators has the expected html structure 1`] = `
           <a
             class="sort-by-link"
           >
-            Commission
+            
+      Commission
+    
           </a>
         </th>
         <th
@@ -69,7 +81,9 @@ exports[`TableValidators has the expected html structure 1`] = `
           <a
             class="sort-by-link"
           >
-            Slashes
+            
+      Slashes
+    
           </a>
         </th>
       </tr>
@@ -100,7 +114,9 @@ exports[`TableValidators has the expected html structure 1`] = `
               class="data-table__row__info__container__name"
               to="[object Object]"
             >
-              good_greg
+              
+        good_greg
+      
             </router-link-stub>
              
             <div
@@ -124,8 +140,11 @@ exports[`TableValidators has the expected html structure 1`] = `
                   <i
                     class="material-icons"
                   >
-                    check
+                    
+      check
+    
                   </i>
+                   
                   <span>
                     Copied
                   </span>
@@ -146,7 +165,9 @@ exports[`TableValidators has the expected html structure 1`] = `
         <td
           class="li-validator__rewards data-table__row__cell__separator"
         >
-          n/a
+          
+    n/a
+  
         </td>
          
         <td
@@ -160,19 +181,25 @@ exports[`TableValidators has the expected html structure 1`] = `
         <td
           class="li-validator__uptime"
         >
-          n/a
+          
+    n/a
+  
         </td>
          
         <td
           class="li-validator__commission"
         >
-          0.00%
+          
+    0.00%
+  
         </td>
          
         <td
           class="li-validator__slashes"
         >
-          n/a
+          
+    n/a
+  
         </td>
       </tr>
       <tr
@@ -199,7 +226,9 @@ exports[`TableValidators has the expected html structure 1`] = `
               class="data-table__row__info__container__name"
               to="[object Object]"
             >
-              herr_schmidt_revoked
+              
+        herr_schmidt_revoked
+      
             </router-link-stub>
              
             <div
@@ -223,8 +252,11 @@ exports[`TableValidators has the expected html structure 1`] = `
                   <i
                     class="material-icons"
                   >
-                    check
+                    
+      check
+    
                   </i>
+                   
                   <span>
                     Copied
                   </span>
@@ -245,7 +277,9 @@ exports[`TableValidators has the expected html structure 1`] = `
         <td
           class="li-validator__rewards data-table__row__cell__separator"
         >
-          n/a
+          
+    n/a
+  
         </td>
          
         <td
@@ -259,19 +293,25 @@ exports[`TableValidators has the expected html structure 1`] = `
         <td
           class="li-validator__uptime"
         >
-          n/a
+          
+    n/a
+  
         </td>
          
         <td
           class="li-validator__commission"
         >
-          0.00%
+          
+    0.00%
+  
         </td>
          
         <td
           class="li-validator__slashes"
         >
-          n/a
+          
+    n/a
+  
         </td>
       </tr>
       <tr
@@ -298,7 +338,9 @@ exports[`TableValidators has the expected html structure 1`] = `
               class="data-table__row__info__container__name"
               to="[object Object]"
             >
-              mr_mounty
+              
+        mr_mounty
+      
             </router-link-stub>
              
             <div
@@ -322,8 +364,11 @@ exports[`TableValidators has the expected html structure 1`] = `
                   <i
                     class="material-icons"
                   >
-                    check
+                    
+      check
+    
                   </i>
+                   
                   <span>
                     Copied
                   </span>
@@ -344,7 +389,9 @@ exports[`TableValidators has the expected html structure 1`] = `
         <td
           class="li-validator__rewards data-table__row__cell__separator"
         >
-          n/a
+          
+    n/a
+  
         </td>
          
         <td
@@ -358,19 +405,25 @@ exports[`TableValidators has the expected html structure 1`] = `
         <td
           class="li-validator__uptime"
         >
-          n/a
+          
+    n/a
+  
         </td>
          
         <td
           class="li-validator__commission"
         >
-          0.00%
+          
+    0.00%
+  
         </td>
          
         <td
           class="li-validator__slashes"
         >
-          n/a
+          
+    n/a
+  
         </td>
       </tr>
     </tbody>
@@ -393,7 +446,9 @@ exports[`TableValidators should filter the delegates 1`] = `
           <a
             class="sort-by-link"
           >
-            Moniker
+            
+      Moniker
+    
           </a>
         </th>
         <th
@@ -402,7 +457,9 @@ exports[`TableValidators should filter the delegates 1`] = `
           <a
             class="sort-by-link"
           >
-            Delegated STAKE
+            
+      Delegated STAKE
+    
           </a>
         </th>
         <th
@@ -411,7 +468,9 @@ exports[`TableValidators should filter the delegates 1`] = `
           <a
             class="sort-by-link"
           >
-            Rewards
+            
+      Rewards
+    
           </a>
         </th>
         <th
@@ -420,7 +479,9 @@ exports[`TableValidators should filter the delegates 1`] = `
           <a
             class="sort-by-link"
           >
-            Voting Power
+            
+      Voting Power
+    
           </a>
         </th>
         <th
@@ -429,7 +490,9 @@ exports[`TableValidators should filter the delegates 1`] = `
           <a
             class="sort-by-link"
           >
-            Uptime
+            
+      Uptime
+    
           </a>
         </th>
         <th
@@ -438,7 +501,9 @@ exports[`TableValidators should filter the delegates 1`] = `
           <a
             class="sort-by-link"
           >
-            Commission
+            
+      Commission
+    
           </a>
         </th>
         <th
@@ -447,7 +512,9 @@ exports[`TableValidators should filter the delegates 1`] = `
           <a
             class="sort-by-link"
           >
-            Slashes
+            
+      Slashes
+    
           </a>
         </th>
       </tr>
@@ -478,7 +545,9 @@ exports[`TableValidators should filter the delegates 1`] = `
               class="data-table__row__info__container__name li-validator-validator "
               to="[object Object]"
             >
-              mr_mounty
+              
+        mr_mounty
+      
             </router-link-stub>
              
             <div
@@ -502,8 +571,11 @@ exports[`TableValidators should filter the delegates 1`] = `
                   <i
                     class="material-icons"
                   >
-                    check
+                    
+      check
+    
                   </i>
+                   
                   <span>
                     Copied
                   </span>
@@ -524,7 +596,9 @@ exports[`TableValidators should filter the delegates 1`] = `
         <td
           class="li-validator__rewards data-table__row__cell__separator"
         >
-          n/a
+          
+    n/a
+  
         </td>
          
         <td
@@ -538,19 +612,25 @@ exports[`TableValidators should filter the delegates 1`] = `
         <td
           class="li-validator__uptime"
         >
-          n/a
+          
+    n/a
+  
         </td>
          
         <td
           class="li-validator__commission"
         >
-          0.00%
+          
+    0.00%
+  
         </td>
          
         <td
           class="li-validator__slashes"
         >
-          n/a
+          
+    n/a
+  
         </td>
       </tr>
     </tbody>

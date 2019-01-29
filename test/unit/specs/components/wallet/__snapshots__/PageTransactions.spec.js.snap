@@ -46,7 +46,9 @@ exports[`PageTransactions has the expected html structure 1`] = `
                 <h2
                   class="total-atoms__value"
                 >
-                  0.0000…
+                  
+        0.0000…
+      
                 </h2>
               </div>
                
@@ -81,8 +83,11 @@ exports[`PageTransactions has the expected html structure 1`] = `
                 <i
                   class="material-icons"
                 >
-                  check
+                  
+      check
+    
                 </i>
+                 
                 <span>
                   Copied
                 </span>
@@ -105,7 +110,9 @@ exports[`PageTransactions has the expected html structure 1`] = `
               <i
                 class="material-icons"
               >
-                arrow_back
+                
+      arrow_back
+    
               </i>
             </a>
              
@@ -115,7 +122,9 @@ exports[`PageTransactions has the expected html structure 1`] = `
               <i
                 class="material-icons"
               >
-                refresh
+                
+      refresh
+    
               </i>
             </a>
              
@@ -125,7 +134,9 @@ exports[`PageTransactions has the expected html structure 1`] = `
               <i
                 class="material-icons"
               >
-                search
+                
+      search
+    
               </i>
             </a>
               
@@ -135,7 +146,9 @@ exports[`PageTransactions has the expected html structure 1`] = `
               <i
                 class="material-icons"
               >
-                help_outline
+                
+      help_outline
+    
               </i>
             </a>
              
@@ -146,7 +159,9 @@ exports[`PageTransactions has the expected html structure 1`] = `
               <i
                 class="material-icons"
               >
-                settings
+                
+      settings
+    
               </i>
             </router-link-stub>
              
@@ -156,7 +171,9 @@ exports[`PageTransactions has the expected html structure 1`] = `
               <i
                 class="material-icons"
               >
-                exit_to_app
+                
+      exit_to_app
+    
               </i>
             </a>
           </div>
@@ -293,7 +310,9 @@ exports[`PageTransactions should filter the transactions 1`] = `
                 <h2
                   class="total-atoms__value"
                 >
-                  0.0000…
+                  
+        0.0000…
+      
                 </h2>
               </div>
                
@@ -328,8 +347,11 @@ exports[`PageTransactions should filter the transactions 1`] = `
                 <i
                   class="material-icons"
                 >
-                  check
+                  
+      check
+    
                 </i>
+                 
                 <span>
                   Copied
                 </span>
@@ -352,7 +374,9 @@ exports[`PageTransactions should filter the transactions 1`] = `
               <i
                 class="material-icons"
               >
-                arrow_back
+                
+      arrow_back
+    
               </i>
             </a>
              
@@ -362,7 +386,9 @@ exports[`PageTransactions should filter the transactions 1`] = `
               <i
                 class="material-icons"
               >
-                refresh
+                
+      refresh
+    
               </i>
             </a>
              
@@ -372,7 +398,9 @@ exports[`PageTransactions should filter the transactions 1`] = `
               <i
                 class="material-icons"
               >
-                search
+                
+      search
+    
               </i>
             </a>
               
@@ -382,7 +410,9 @@ exports[`PageTransactions should filter the transactions 1`] = `
               <i
                 class="material-icons"
               >
-                help_outline
+                
+      help_outline
+    
               </i>
             </a>
              
@@ -393,7 +423,9 @@ exports[`PageTransactions should filter the transactions 1`] = `
               <i
                 class="material-icons"
               >
-                settings
+                
+      settings
+    
               </i>
             </router-link-stub>
              
@@ -403,7 +435,9 @@ exports[`PageTransactions should filter the transactions 1`] = `
               <i
                 class="material-icons"
               >
-                exit_to_app
+                
+      exit_to_app
+    
               </i>
             </a>
           </div>

@@ -10,7 +10,9 @@ exports[`TmDataError has the expected html structure 1`] = `
     <i
       class="material-icons"
     >
+      
       sentiment_very_dissatisfied
+    
     </i>
   </div>
    
@@ -21,7 +23,9 @@ exports[`TmDataError has the expected html structure 1`] = `
       class="tm-data-msg__title"
     >
       <div>
-        Aw shucks!
+        
+    Aw shucks!
+  
       </div>
     </div>
      
@@ -36,10 +40,11 @@ exports[`TmDataError has the expected html structure 1`] = `
         <a
           href="https://github.com/cosmos/voyager/issues"
         >
-          file a bug report
+          
+      file a bug report
+    
         </a>
-        .
-    Apologies!
+        . Apologies!
   
       </div>
     </div>

@@ -5,11 +5,14 @@ exports[`TmFormGroup has the expected html structure 1`] = `
   class="tm-form-group tm-form-group--error"
 >
   <!---->
+   
   <label
     class="tm-form-group__label"
     for="sign-in-password"
   >
+    
     Sign In Password
+  
   </label>
    
   <div

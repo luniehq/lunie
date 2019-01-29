@@ -42,7 +42,9 @@ exports[`TmLiAnyTransaction shows bank transactions 1`] = `
         class="tm-li-tx__content__information"
       >
         <span>
-          To tb1d4u5zerywfjhxuc9nudvw
+          
+        To tb1d4u5zerywfjhxuc9nudvw
+      
         </span>
       </div>
     </div>
@@ -53,7 +55,9 @@ exports[`TmLiAnyTransaction shows bank transactions 1`] = `
       <a
         href="https://explorecosmos.network/blocks/3436"
       >
+        
         Block #3436 
+      
       </a>
       @ 00:00
     
@@ -109,7 +113,9 @@ exports[`TmLiAnyTransaction shows stake transactions 1`] = `
           <router-link
             to="/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
           >
-            mr_mounty
+            
+        mr_mounty
+      
           </router-link>
         </div>
       </div>
@@ -121,7 +127,9 @@ exports[`TmLiAnyTransaction shows stake transactions 1`] = `
       <a
         href="https://explorecosmos.network/blocks/568"
       >
+        
         Block #568 
+      
       </a>
       @ 00:00
     
@@ -155,7 +163,9 @@ exports[`TmLiAnyTransaction shows unknown transactions 1`] = `
           class="tm-li-tx__content__caption__title"
         >
           <span>
-            Unknown Transaction Type
+            
+    Unknown Transaction Type
+  
           </span>
         </p>
       </div>
@@ -171,7 +181,9 @@ exports[`TmLiAnyTransaction shows unknown transactions 1`] = `
       <a
         href="https://explorecosmos.network/blocks/3436"
       >
+        
         Block #3436 
+      
       </a>
       @ 00:00
     

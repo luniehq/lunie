@@ -13,20 +13,26 @@ exports[`TmModalError has the expected html structure 1`] = `
       <i
         class="material-icons"
       >
+        
         error_outline
+      
       </i>
     </div>
      
     <div
       class="tm-modal-error__title"
     >
+      
       Voyager ran into an error
+    
     </div>
      
     <div
       class="tm-modal-error__body"
     >
+      
       Voyager has encountered a critical error that blocks the app from running. Please create an issue and include a copy of the app logs.
+    
     </div>
      
     <div

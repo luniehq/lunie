@@ -46,7 +46,9 @@ exports[`PageValidator has the expected html structure 1`] = `
                 <h2
                   class="total-atoms__value"
                 >
-                  123.4568…
+                  
+        123.4568…
+      
                 </h2>
               </div>
                
@@ -81,8 +83,11 @@ exports[`PageValidator has the expected html structure 1`] = `
                 <i
                   class="material-icons"
                 >
-                  check
+                  
+      check
+    
                 </i>
+                 
                 <span>
                   Copied
                 </span>
@@ -105,7 +110,9 @@ exports[`PageValidator has the expected html structure 1`] = `
               <i
                 class="material-icons"
               >
-                arrow_back
+                
+      arrow_back
+    
               </i>
             </a>
              
@@ -119,7 +126,9 @@ exports[`PageValidator has the expected html structure 1`] = `
               <i
                 class="material-icons"
               >
-                help_outline
+                
+      help_outline
+    
               </i>
             </a>
              
@@ -130,7 +139,9 @@ exports[`PageValidator has the expected html structure 1`] = `
               <i
                 class="material-icons"
               >
-                settings
+                
+      settings
+    
               </i>
             </router-link-stub>
              
@@ -140,7 +151,9 @@ exports[`PageValidator has the expected html structure 1`] = `
               <i
                 class="material-icons"
               >
-                exit_to_app
+                
+      exit_to_app
+    
               </i>
             </a>
           </div>
@@ -220,8 +233,11 @@ exports[`PageValidator has the expected html structure 1`] = `
                 <i
                   class="material-icons"
                 >
-                  check
+                  
+      check
+    
                 </i>
+                 
                 <span>
                   Copied
                 </span>
@@ -240,10 +256,13 @@ exports[`PageValidator has the expected html structure 1`] = `
                 class="tm-btn__container tm-btn--primary"
               >
                 <!---->
+                 
                 <span
                   class="tm-btn__value"
                 >
-                  Delegate
+                  
+      Delegate
+    
                 </span>
               </span>
             </button>
@@ -256,10 +275,13 @@ exports[`PageValidator has the expected html structure 1`] = `
                 class="tm-btn__container tm-btn--secondary"
               >
                 <!---->
+                 
                 <span
                   class="tm-btn__value"
                 >
-                  Undelegate
+                  
+      Undelegate
+    
                 </span>
               </span>
             </button>
@@ -309,7 +331,9 @@ exports[`PageValidator has the expected html structure 1`] = `
             <dd
               id="page-profile__power"
             >
+              
               100.00 %
+            
             </dd>
           </dl>
            
@@ -502,7 +526,9 @@ exports[`PageValidator has the expected html structure 1`] = `
             <dd
               id="page-profile__self-bond"
             >
+              
               1.00 %
+            
             </dd>
           </dl>
            
@@ -587,7 +613,9 @@ exports[`PageValidator shows a default avatar 1`] = `
                 <h2
                   class="total-atoms__value"
                 >
-                  123.4568…
+                  
+        123.4568…
+      
                 </h2>
               </div>
                
@@ -622,8 +650,11 @@ exports[`PageValidator shows a default avatar 1`] = `
                 <i
                   class="material-icons"
                 >
-                  check
+                  
+      check
+    
                 </i>
+                 
                 <span>
                   Copied
                 </span>
@@ -646,7 +677,9 @@ exports[`PageValidator shows a default avatar 1`] = `
               <i
                 class="material-icons"
               >
-                arrow_back
+                
+      arrow_back
+    
               </i>
             </a>
              
@@ -660,7 +693,9 @@ exports[`PageValidator shows a default avatar 1`] = `
               <i
                 class="material-icons"
               >
-                help_outline
+                
+      help_outline
+    
               </i>
             </a>
              
@@ -671,7 +706,9 @@ exports[`PageValidator shows a default avatar 1`] = `
               <i
                 class="material-icons"
               >
-                settings
+                
+      settings
+    
               </i>
             </router-link-stub>
              
@@ -681,7 +718,9 @@ exports[`PageValidator shows a default avatar 1`] = `
               <i
                 class="material-icons"
               >
-                exit_to_app
+                
+      exit_to_app
+    
               </i>
             </a>
           </div>
@@ -761,8 +800,11 @@ exports[`PageValidator shows a default avatar 1`] = `
                 <i
                   class="material-icons"
                 >
-                  check
+                  
+      check
+    
                 </i>
+                 
                 <span>
                   Copied
                 </span>
@@ -781,10 +823,13 @@ exports[`PageValidator shows a default avatar 1`] = `
                 class="tm-btn__container tm-btn--primary"
               >
                 <!---->
+                 
                 <span
                   class="tm-btn__value"
                 >
-                  Delegate
+                  
+      Delegate
+    
                 </span>
               </span>
             </button>
@@ -797,10 +842,13 @@ exports[`PageValidator shows a default avatar 1`] = `
                 class="tm-btn__container tm-btn--secondary"
               >
                 <!---->
+                 
                 <span
                   class="tm-btn__value"
                 >
-                  Undelegate
+                  
+      Undelegate
+    
                 </span>
               </span>
             </button>
@@ -850,7 +898,9 @@ exports[`PageValidator shows a default avatar 1`] = `
             <dd
               id="page-profile__power"
             >
+              
               100.00 %
+            
             </dd>
           </dl>
            
@@ -1043,7 +1093,9 @@ exports[`PageValidator shows a default avatar 1`] = `
             <dd
               id="page-profile__self-bond"
             >
+              
               1.00 %
+            
             </dd>
           </dl>
            
@@ -1130,7 +1182,9 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
                 <h2
                   class="total-atoms__value"
                 >
-                  0.0000…
+                  
+        0.0000…
+      
                 </h2>
               </div>
                
@@ -1165,8 +1219,11 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
                 <i
                   class="material-icons"
                 >
-                  check
+                  
+      check
+    
                 </i>
+                 
                 <span>
                   Copied
                 </span>
@@ -1189,7 +1246,9 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
               <i
                 class="material-icons"
               >
-                arrow_back
+                
+      arrow_back
+    
               </i>
             </a>
              
@@ -1203,7 +1262,9 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
               <i
                 class="material-icons"
               >
-                help_outline
+                
+      help_outline
+    
               </i>
             </a>
              
@@ -1215,7 +1276,9 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
               <i
                 class="material-icons"
               >
-                exit_to_app
+                
+      exit_to_app
+    
               </i>
             </a>
           </div>
@@ -1249,7 +1312,9 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
         <i
           class="material-icons"
         >
-          sentiment_very_dissatisfied
+          
+      sentiment_very_dissatisfied
+    
         </i>
       </div>
        
@@ -1260,7 +1325,9 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
           class="tm-data-msg__title"
         >
           <div>
-            Aw shucks!
+            
+    Aw shucks!
+  
           </div>
         </div>
          
@@ -1275,10 +1342,11 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
             <a
               href="https://github.com/cosmos/voyager/issues"
             >
-              file a bug report
+              
+      file a bug report
+    
             </a>
-            .
-    Apologies!
+            . Apologies!
   
           </div>
         </div>
@@ -1375,7 +1443,9 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
                 <h2
                   class="total-atoms__value"
                 >
-                  100.0000…
+                  
+        100.0000…
+      
                 </h2>
               </div>
                
@@ -1410,8 +1480,11 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
                 <i
                   class="material-icons"
                 >
-                  check
+                  
+      check
+    
                 </i>
+                 
                 <span>
                   Copied
                 </span>
@@ -1434,7 +1507,9 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
               <i
                 class="material-icons"
               >
-                arrow_back
+                
+      arrow_back
+    
               </i>
             </a>
              
@@ -1448,7 +1523,9 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
               <i
                 class="material-icons"
               >
-                help_outline
+                
+      help_outline
+    
               </i>
             </a>
              
@@ -1459,7 +1536,9 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
               <i
                 class="material-icons"
               >
-                settings
+                
+      settings
+    
               </i>
             </router-link-stub>
              
@@ -1469,7 +1548,9 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
               <i
                 class="material-icons"
               >
-                exit_to_app
+                
+      exit_to_app
+    
               </i>
             </a>
           </div>
@@ -1549,8 +1630,11 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
                 <i
                   class="material-icons"
                 >
-                  check
+                  
+      check
+    
                 </i>
+                 
                 <span>
                   Copied
                 </span>
@@ -1569,10 +1653,13 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
                 class="tm-btn__container tm-btn--primary"
               >
                 <!---->
+                 
                 <span
                   class="tm-btn__value"
                 >
-                  Delegate
+                  
+      Delegate
+    
                 </span>
               </span>
             </button>
@@ -1585,10 +1672,13 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
                 class="tm-btn__container tm-btn--secondary"
               >
                 <!---->
+                 
                 <span
                   class="tm-btn__value"
                 >
-                  Undelegate
+                  
+      Undelegate
+    
                 </span>
               </span>
             </button>
@@ -1638,7 +1728,9 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
             <dd
               id="page-profile__power"
             >
+              
               100.00 %
+            
             </dd>
           </dl>
            
@@ -1831,7 +1923,9 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
             <dd
               id="page-profile__self-bond"
             >
+              
               1.00 %
+            
             </dd>
           </dl>
            
@@ -1892,7 +1986,9 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
             <i
               class="material-icons"
             >
-              close
+              
+          close
+        
             </i>
           </div>
         </header>
@@ -1921,10 +2017,13 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
                   class="tm-btn__container"
                 >
                   <!---->
+                   
                   <span
                     class="tm-btn__value"
                   >
-                    OK
+                    
+      OK
+    
                   </span>
                 </span>
               </button>
@@ -1983,7 +2082,9 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
                 <h2
                   class="total-atoms__value"
                 >
-                  100.0000…
+                  
+        100.0000…
+      
                 </h2>
               </div>
                
@@ -2018,8 +2119,11 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
                 <i
                   class="material-icons"
                 >
-                  check
+                  
+      check
+    
                 </i>
+                 
                 <span>
                   Copied
                 </span>
@@ -2042,7 +2146,9 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
               <i
                 class="material-icons"
               >
-                arrow_back
+                
+      arrow_back
+    
               </i>
             </a>
              
@@ -2056,7 +2162,9 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
               <i
                 class="material-icons"
               >
-                help_outline
+                
+      help_outline
+    
               </i>
             </a>
              
@@ -2067,7 +2175,9 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
               <i
                 class="material-icons"
               >
-                settings
+                
+      settings
+    
               </i>
             </router-link-stub>
              
@@ -2077,7 +2187,9 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
               <i
                 class="material-icons"
               >
-                exit_to_app
+                
+      exit_to_app
+    
               </i>
             </a>
           </div>
@@ -2157,8 +2269,11 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
                 <i
                   class="material-icons"
                 >
-                  check
+                  
+      check
+    
                 </i>
+                 
                 <span>
                   Copied
                 </span>
@@ -2177,10 +2292,13 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
                 class="tm-btn__container tm-btn--primary"
               >
                 <!---->
+                 
                 <span
                   class="tm-btn__value"
                 >
-                  Delegate
+                  
+      Delegate
+    
                 </span>
               </span>
             </button>
@@ -2193,10 +2311,13 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
                 class="tm-btn__container tm-btn--secondary"
               >
                 <!---->
+                 
                 <span
                   class="tm-btn__value"
                 >
-                  Undelegate
+                  
+      Undelegate
+    
                 </span>
               </span>
             </button>
@@ -2246,7 +2367,9 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
             <dd
               id="page-profile__power"
             >
+              
               100.00 %
+            
             </dd>
           </dl>
            
@@ -2439,7 +2562,9 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
             <dd
               id="page-profile__self-bond"
             >
+              
               1.00 %
+            
             </dd>
           </dl>
            
@@ -2524,7 +2649,9 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
                 <h2
                   class="total-atoms__value"
                 >
-                  1,337.0000…
+                  
+        1,337.0000…
+      
                 </h2>
               </div>
                
@@ -2559,8 +2686,11 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
                 <i
                   class="material-icons"
                 >
-                  check
+                  
+      check
+    
                 </i>
+                 
                 <span>
                   Copied
                 </span>
@@ -2583,7 +2713,9 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
               <i
                 class="material-icons"
               >
-                arrow_back
+                
+      arrow_back
+    
               </i>
             </a>
              
@@ -2597,7 +2729,9 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
               <i
                 class="material-icons"
               >
-                help_outline
+                
+      help_outline
+    
               </i>
             </a>
              
@@ -2608,7 +2742,9 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
               <i
                 class="material-icons"
               >
-                settings
+                
+      settings
+    
               </i>
             </router-link-stub>
              
@@ -2618,7 +2754,9 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
               <i
                 class="material-icons"
               >
-                exit_to_app
+                
+      exit_to_app
+    
               </i>
             </a>
           </div>
@@ -2698,8 +2836,11 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
                 <i
                   class="material-icons"
                 >
-                  check
+                  
+      check
+    
                 </i>
+                 
                 <span>
                   Copied
                 </span>
@@ -2718,10 +2859,13 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
                 class="tm-btn__container tm-btn--primary"
               >
                 <!---->
+                 
                 <span
                   class="tm-btn__value"
                 >
-                  Delegate
+                  
+      Delegate
+    
                 </span>
               </span>
             </button>
@@ -2734,10 +2878,13 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
                 class="tm-btn__container tm-btn--secondary"
               >
                 <!---->
+                 
                 <span
                   class="tm-btn__value"
                 >
-                  Undelegate
+                  
+      Undelegate
+    
                 </span>
               </span>
             </button>
@@ -2787,7 +2934,9 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
             <dd
               id="page-profile__power"
             >
+              
               100.00 %
+            
             </dd>
           </dl>
            
@@ -2980,7 +3129,9 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
             <dd
               id="page-profile__self-bond"
             >
+              
               1.00 %
+            
             </dd>
           </dl>
            
@@ -3041,7 +3192,9 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
             <i
               class="material-icons"
             >
-              close
+              
+          close
+        
             </i>
           </div>
         </header>
@@ -3070,10 +3223,13 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
                   class="tm-btn__container"
                 >
                   <!---->
+                   
                   <span
                     class="tm-btn__value"
                   >
-                    OK
+                    
+      OK
+    
                   </span>
                 </span>
               </button>
@@ -3132,7 +3288,9 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
                 <h2
                   class="total-atoms__value"
                 >
-                  1,337.0000…
+                  
+        1,337.0000…
+      
                 </h2>
               </div>
                
@@ -3167,8 +3325,11 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
                 <i
                   class="material-icons"
                 >
-                  check
+                  
+      check
+    
                 </i>
+                 
                 <span>
                   Copied
                 </span>
@@ -3191,7 +3352,9 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
               <i
                 class="material-icons"
               >
-                arrow_back
+                
+      arrow_back
+    
               </i>
             </a>
              
@@ -3205,7 +3368,9 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
               <i
                 class="material-icons"
               >
-                help_outline
+                
+      help_outline
+    
               </i>
             </a>
              
@@ -3216,7 +3381,9 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
               <i
                 class="material-icons"
               >
-                settings
+                
+      settings
+    
               </i>
             </router-link-stub>
              
@@ -3226,7 +3393,9 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
               <i
                 class="material-icons"
               >
-                exit_to_app
+                
+      exit_to_app
+    
               </i>
             </a>
           </div>
@@ -3306,8 +3475,11 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
                 <i
                   class="material-icons"
                 >
-                  check
+                  
+      check
+    
                 </i>
+                 
                 <span>
                   Copied
                 </span>
@@ -3326,10 +3498,13 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
                 class="tm-btn__container tm-btn--primary"
               >
                 <!---->
+                 
                 <span
                   class="tm-btn__value"
                 >
-                  Delegate
+                  
+      Delegate
+    
                 </span>
               </span>
             </button>
@@ -3342,10 +3517,13 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
                 class="tm-btn__container tm-btn--secondary"
               >
                 <!---->
+                 
                 <span
                   class="tm-btn__value"
                 >
-                  Undelegate
+                  
+      Undelegate
+    
                 </span>
               </span>
             </button>
@@ -3395,7 +3573,9 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
             <dd
               id="page-profile__power"
             >
+              
               100.00 %
+            
             </dd>
           </dl>
            
@@ -3588,7 +3768,9 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
             <dd
               id="page-profile__self-bond"
             >
+              
               1.00 %
+            
             </dd>
           </dl>
            

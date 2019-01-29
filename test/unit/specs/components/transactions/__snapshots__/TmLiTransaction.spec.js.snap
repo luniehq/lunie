@@ -46,7 +46,9 @@ exports[`TmLiTransaction has the expected html structure 1`] = `
       <a
         href="https://explorecosmos.network/blocks/500"
       >
+        
         Block #500 
+      
       </a>
       @ 00:00
     

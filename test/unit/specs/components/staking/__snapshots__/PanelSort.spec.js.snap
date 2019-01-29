@@ -10,7 +10,9 @@ exports[`PanelSort has the expected html structure 1`] = `
     <a
       class="sort-by-link"
     >
+      
       ID
+    
     </a>
   </th>
   <th
@@ -19,7 +21,9 @@ exports[`PanelSort has the expected html structure 1`] = `
     <a
       class="sort-by-link"
     >
+      
       AMOUNT
+    
     </a>
   </th>
 </tr>

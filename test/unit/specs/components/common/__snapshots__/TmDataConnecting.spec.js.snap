@@ -11,6 +11,8 @@ exports[`TmDataConnecting has the expected html structure 1`] = `
       class="material-icons"
     >
       
+      
+    
     </i>
   </div>
    
@@ -21,7 +23,9 @@ exports[`TmDataConnecting has the expected html structure 1`] = `
       class="tm-data-msg__title"
     >
       <div>
-        Waiting for connection
+        
+    Waiting for connection
+  
       </div>
     </div>
      

@@ -16,7 +16,9 @@ exports[`TmModal has the expected html structure 1`] = `
         <i
           class="material-icons"
         >
+          
           hallo_icon
+        
         </i>
       </div>
        
@@ -30,7 +32,9 @@ exports[`TmModal has the expected html structure 1`] = `
         <i
           class="material-icons"
         >
+          
           close
+        
         </i>
       </div>
     </header>

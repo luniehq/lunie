@@ -11,7 +11,9 @@ exports[`ToolBar has the expected html structure 1`] = `
     <i
       class="material-icons"
     >
+      
       arrow_back
+    
     </i>
   </a>
    
@@ -25,7 +27,9 @@ exports[`ToolBar has the expected html structure 1`] = `
     <i
       class="material-icons"
     >
+      
       help_outline
+    
     </i>
   </a>
    
@@ -36,7 +40,9 @@ exports[`ToolBar has the expected html structure 1`] = `
     <i
       class="material-icons"
     >
+      
       settings
+    
     </i>
   </router-link-stub>
    
@@ -46,7 +52,9 @@ exports[`ToolBar has the expected html structure 1`] = `
     <i
       class="material-icons"
     >
+      
       exit_to_app
+    
     </i>
   </a>
 </div>

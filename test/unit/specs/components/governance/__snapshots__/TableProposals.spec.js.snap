@@ -15,7 +15,9 @@ exports[`TableProposals has the expected html structure 1`] = `
           <a
             class="sort-by-link"
           >
-            Title
+            
+      Title
+    
           </a>
         </th>
         <th
@@ -24,7 +26,9 @@ exports[`TableProposals has the expected html structure 1`] = `
           <a
             class="sort-by-link"
           >
-            Proposal id
+            
+      Proposal id
+    
           </a>
         </th>
         <th
@@ -33,7 +37,9 @@ exports[`TableProposals has the expected html structure 1`] = `
           <a
             class="sort-by-link"
           >
-            Yes
+            
+      Yes
+    
           </a>
         </th>
         <th
@@ -42,7 +48,9 @@ exports[`TableProposals has the expected html structure 1`] = `
           <a
             class="sort-by-link"
           >
-            No
+            
+      No
+    
           </a>
         </th>
         <th
@@ -51,7 +59,9 @@ exports[`TableProposals has the expected html structure 1`] = `
           <a
             class="sort-by-link"
           >
-            No with Veto
+            
+      No with Veto
+    
           </a>
         </th>
         <th
@@ -60,7 +70,9 @@ exports[`TableProposals has the expected html structure 1`] = `
           <a
             class="sort-by-link"
           >
-            Abstain
+            
+      Abstain
+    
           </a>
         </th>
       </tr>
@@ -84,7 +96,9 @@ exports[`TableProposals has the expected html structure 1`] = `
               class="data-table__row__info__container__name"
               to="[object Object]"
             >
-              Rejected proposal
+              
+        Rejected proposal
+      
             </router-link-stub>
              
             <p
@@ -104,25 +118,33 @@ exports[`TableProposals has the expected html structure 1`] = `
         <td
           class="li-proposal__value yes"
         >
-          10
+          
+    10
+  
         </td>
          
         <td
           class="li-proposal__value no"
         >
-          30
+          
+    30
+  
         </td>
          
         <td
           class="li-proposal__value no_with_veto"
         >
-          100
+          
+    100
+  
         </td>
          
         <td
           class="li-proposal__value abstain"
         >
-          20
+          
+    20
+  
         </td>
       </tr>
       <tr
@@ -142,7 +164,9 @@ exports[`TableProposals has the expected html structure 1`] = `
               class="data-table__row__info__container__name"
               to="[object Object]"
             >
-              Custom text proposal
+              
+        Custom text proposal
+      
             </router-link-stub>
              
             <p
@@ -162,25 +186,33 @@ exports[`TableProposals has the expected html structure 1`] = `
         <td
           class="li-proposal__value yes"
         >
-          0
+          
+    0
+  
         </td>
          
         <td
           class="li-proposal__value no"
         >
-          0
+          
+    0
+  
         </td>
          
         <td
           class="li-proposal__value no_with_veto"
         >
-          0
+          
+    0
+  
         </td>
          
         <td
           class="li-proposal__value abstain"
         >
-          0
+          
+    0
+  
         </td>
       </tr>
       <tr
@@ -200,7 +232,9 @@ exports[`TableProposals has the expected html structure 1`] = `
               class="data-table__row__info__container__name"
               to="[object Object]"
             >
-              VotingPeriod proposal
+              
+        VotingPeriod proposal
+      
             </router-link-stub>
              
             <p
@@ -220,25 +254,33 @@ exports[`TableProposals has the expected html structure 1`] = `
         <td
           class="li-proposal__value yes"
         >
-          0
+          
+    0
+  
         </td>
          
         <td
           class="li-proposal__value no"
         >
-          0
+          
+    0
+  
         </td>
          
         <td
           class="li-proposal__value no_with_veto"
         >
-          0
+          
+    0
+  
         </td>
          
         <td
           class="li-proposal__value abstain"
         >
-          0
+          
+    0
+  
         </td>
       </tr>
       <tr
@@ -253,14 +295,18 @@ exports[`TableProposals has the expected html structure 1`] = `
             <span
               class="data-table__row__info__container__status material-icons"
             >
-              checkmark
+              
+        checkmark
+      
             </span>
              
             <router-link-stub
               class="data-table__row__info__container__name"
               to="[object Object]"
             >
-              Proposal Title
+              
+        Proposal Title
+      
             </router-link-stub>
              
             <p
@@ -280,25 +326,33 @@ exports[`TableProposals has the expected html structure 1`] = `
         <td
           class="li-proposal__value yes"
         >
-          500
+          
+    500
+  
         </td>
          
         <td
           class="li-proposal__value no"
         >
-          25
+          
+    25
+  
         </td>
          
         <td
           class="li-proposal__value no_with_veto"
         >
-          10
+          
+    10
+  
         </td>
          
         <td
           class="li-proposal__value abstain"
         >
-          56
+          
+    56
+  
         </td>
       </tr>
     </tbody>
@@ -321,7 +375,9 @@ exports[`TableProposals should filter the proposals 1`] = `
           <a
             class="sort-by-link"
           >
-            Title
+            
+      Title
+    
           </a>
         </th>
         <th
@@ -330,7 +386,9 @@ exports[`TableProposals should filter the proposals 1`] = `
           <a
             class="sort-by-link"
           >
-            Proposal id
+            
+      Proposal id
+    
           </a>
         </th>
         <th
@@ -339,7 +397,9 @@ exports[`TableProposals should filter the proposals 1`] = `
           <a
             class="sort-by-link"
           >
-            Yes
+            
+      Yes
+    
           </a>
         </th>
         <th
@@ -348,7 +408,9 @@ exports[`TableProposals should filter the proposals 1`] = `
           <a
             class="sort-by-link"
           >
-            No
+            
+      No
+    
           </a>
         </th>
         <th
@@ -357,7 +419,9 @@ exports[`TableProposals should filter the proposals 1`] = `
           <a
             class="sort-by-link"
           >
-            No with Veto
+            
+      No with Veto
+    
           </a>
         </th>
         <th
@@ -366,7 +430,9 @@ exports[`TableProposals should filter the proposals 1`] = `
           <a
             class="sort-by-link"
           >
-            Abstain
+            
+      Abstain
+    
           </a>
         </th>
       </tr>
@@ -385,14 +451,18 @@ exports[`TableProposals should filter the proposals 1`] = `
             <span
               class="data-table__row__info__container__status material-icons"
             >
-              checkmark
+              
+        checkmark
+      
             </span>
              
             <router-link-stub
               class="data-table__row__info__container__name"
               to="[object Object]"
             >
-              Proposal Title
+              
+        Proposal Title
+      
             </router-link-stub>
              
             <p
@@ -412,25 +482,33 @@ exports[`TableProposals should filter the proposals 1`] = `
         <td
           class="li-proposal__value yes"
         >
-          500
+          
+    500
+  
         </td>
          
         <td
           class="li-proposal__value no"
         >
-          25
+          
+    25
+  
         </td>
          
         <td
           class="li-proposal__value no_with_veto"
         >
-          10
+          
+    10
+  
         </td>
          
         <td
           class="li-proposal__value abstain"
         >
-          56
+          
+    56
+  
         </td>
       </tr>
     </tbody>

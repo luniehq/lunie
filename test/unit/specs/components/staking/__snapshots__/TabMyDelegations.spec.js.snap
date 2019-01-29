@@ -13,7 +13,9 @@ exports[`Component: TabMyDelegations should show a message if not staked yet to 
       <i
         class="material-icons"
       >
-        info_outline
+        
+      info_outline
+    
       </i>
     </div>
      
@@ -24,7 +26,9 @@ exports[`Component: TabMyDelegations should show a message if not staked yet to 
         class="tm-data-msg__title"
       >
         <div>
-          No Active Delegations
+          
+      No Active Delegations
+    
         </div>
       </div>
        
@@ -39,7 +43,9 @@ exports[`Component: TabMyDelegations should show a message if not staked yet to 
           <router-link-stub
             to="[object Object]"
           >
-            validator list
+            
+        validator list
+      
           </router-link-stub>
           
       to make your first delegation!
@@ -87,7 +93,9 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
               <a
                 class="sort-by-link"
               >
-                Moniker
+                
+      Moniker
+    
               </a>
             </th>
             <th
@@ -96,7 +104,9 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
               <a
                 class="sort-by-link"
               >
-                Delegated STAKE
+                
+      Delegated STAKE
+    
               </a>
             </th>
             <th
@@ -105,7 +115,9 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
               <a
                 class="sort-by-link"
               >
-                Rewards
+                
+      Rewards
+    
               </a>
             </th>
             <th
@@ -114,7 +126,9 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
               <a
                 class="sort-by-link"
               >
-                Voting Power
+                
+      Voting Power
+    
               </a>
             </th>
             <th
@@ -123,7 +137,9 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
               <a
                 class="sort-by-link"
               >
-                Uptime
+                
+      Uptime
+    
               </a>
             </th>
             <th
@@ -132,7 +148,9 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
               <a
                 class="sort-by-link"
               >
-                Commission
+                
+      Commission
+    
               </a>
             </th>
             <th
@@ -141,7 +159,9 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
               <a
                 class="sort-by-link"
               >
-                Slashes
+                
+      Slashes
+    
               </a>
             </th>
           </tr>
@@ -172,7 +192,9 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
                   class="data-table__row__info__container__name"
                   to="[object Object]"
                 >
-                  mr_mounty
+                  
+        mr_mounty
+      
                 </router-link-stub>
                  
                 <div
@@ -196,8 +218,11 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
                       <i
                         class="material-icons"
                       >
-                        check
+                        
+      check
+    
                       </i>
+                       
                       <span>
                         Copied
                       </span>
@@ -218,7 +243,9 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
             <td
               class="li-validator__rewards data-table__row__cell__separator"
             >
-              n/a
+              
+    n/a
+  
             </td>
              
             <td
@@ -232,19 +259,25 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
             <td
               class="li-validator__uptime"
             >
-              n/a
+              
+    n/a
+  
             </td>
              
             <td
               class="li-validator__commission"
             >
-              0.00%
+              
+    0.00%
+  
             </td>
              
             <td
               class="li-validator__slashes"
             >
-              n/a
+              
+    n/a
+  
             </td>
           </tr>
         </tbody>
@@ -263,7 +296,9 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
     <router-link-stub
       to="[object Object]"
     >
+      
       the validator list
+    
     </router-link-stub>
     
     to find other validators to delegate to.
@@ -306,7 +341,9 @@ exports[`Component: TabMyDelegations should show unbonding validators and the cu
               <a
                 class="sort-by-link"
               >
-                Moniker
+                
+      Moniker
+    
               </a>
             </th>
             <th
@@ -315,7 +352,9 @@ exports[`Component: TabMyDelegations should show unbonding validators and the cu
               <a
                 class="sort-by-link"
               >
-                Delegated STAKE
+                
+      Delegated STAKE
+    
               </a>
             </th>
             <th
@@ -324,7 +363,9 @@ exports[`Component: TabMyDelegations should show unbonding validators and the cu
               <a
                 class="sort-by-link"
               >
-                Rewards
+                
+      Rewards
+    
               </a>
             </th>
             <th
@@ -333,7 +374,9 @@ exports[`Component: TabMyDelegations should show unbonding validators and the cu
               <a
                 class="sort-by-link"
               >
-                Voting Power
+                
+      Voting Power
+    
               </a>
             </th>
             <th
@@ -342,7 +385,9 @@ exports[`Component: TabMyDelegations should show unbonding validators and the cu
               <a
                 class="sort-by-link"
               >
-                Uptime
+                
+      Uptime
+    
               </a>
             </th>
             <th
@@ -351,7 +396,9 @@ exports[`Component: TabMyDelegations should show unbonding validators and the cu
               <a
                 class="sort-by-link"
               >
-                Commission
+                
+      Commission
+    
               </a>
             </th>
             <th
@@ -360,7 +407,9 @@ exports[`Component: TabMyDelegations should show unbonding validators and the cu
               <a
                 class="sort-by-link"
               >
-                Slashes
+                
+      Slashes
+    
               </a>
             </th>
           </tr>
@@ -391,7 +440,9 @@ exports[`Component: TabMyDelegations should show unbonding validators and the cu
                   class="data-table__row__info__container__name"
                   to="[object Object]"
                 >
-                  mr_mounty
+                  
+        mr_mounty
+      
                 </router-link-stub>
                  
                 <div
@@ -415,8 +466,11 @@ exports[`Component: TabMyDelegations should show unbonding validators and the cu
                       <i
                         class="material-icons"
                       >
-                        check
+                        
+      check
+    
                       </i>
+                       
                       <span>
                         Copied
                       </span>
@@ -437,7 +491,9 @@ exports[`Component: TabMyDelegations should show unbonding validators and the cu
             <td
               class="li-validator__rewards data-table__row__cell__separator"
             >
-              n/a
+              
+    n/a
+  
             </td>
              
             <td
@@ -451,19 +507,25 @@ exports[`Component: TabMyDelegations should show unbonding validators and the cu
             <td
               class="li-validator__uptime"
             >
-              n/a
+              
+    n/a
+  
             </td>
              
             <td
               class="li-validator__commission"
             >
-              0.00%
+              
+    0.00%
+  
             </td>
              
             <td
               class="li-validator__slashes"
             >
-              n/a
+              
+    n/a
+  
             </td>
           </tr>
         </tbody>
@@ -482,7 +544,9 @@ exports[`Component: TabMyDelegations should show unbonding validators and the cu
     <router-link-stub
       to="[object Object]"
     >
+      
       the validator list
+    
     </router-link-stub>
     
     to find other validators to delegate to.
@@ -536,7 +600,9 @@ exports[`Component: TabMyDelegations should show unbonding validators and the cu
                   
       Unbonded 
                   <b>
-                    5
+                    
+          5
+        
                   </b>
                   <span>
                      STAKEs
@@ -555,7 +621,9 @@ exports[`Component: TabMyDelegations should show unbonding validators and the cu
                 <router-link-stub
                   to="/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
                 >
-                  mr_mounty
+                  
+        mr_mounty
+      
                 </router-link-stub>
               </div>
             </div>
@@ -567,7 +635,9 @@ exports[`Component: TabMyDelegations should show unbonding validators and the cu
             <a
               href="https://explorecosmos.network/blocks/170"
             >
-              Block #170 
+              
+        Block #170 
+      
             </a>
             @ Invalid date
     

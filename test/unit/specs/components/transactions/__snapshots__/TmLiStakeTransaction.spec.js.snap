@@ -47,7 +47,9 @@ exports[`TmLiStakeTransaction delegations should show delegations 1`] = `
           <router-link-stub
             to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
           >
-            mr_mounty
+            
+        mr_mounty
+      
           </router-link-stub>
         </div>
       </div>
@@ -59,7 +61,9 @@ exports[`TmLiStakeTransaction delegations should show delegations 1`] = `
       <a
         href="https://explorecosmos.network/blocks/568"
       >
+        
         Block #568 
+      
       </a>
       @ 00:00
     
@@ -97,7 +101,9 @@ exports[`TmLiStakeTransaction redelegations should show redelegations and calcul
             
       Redelegated 
             <b>
-              3
+              
+          3
+        
             </b>
             <span>
                stakes
@@ -115,14 +121,18 @@ exports[`TmLiStakeTransaction redelegations should show redelegations and calcul
           <router-link-stub
             to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
           >
-            mr_mounty
+            
+        mr_mounty
+      
           </router-link-stub>
           
       to 
           <router-link-stub
             to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
           >
-            good_greg
+            
+        good_greg
+      
           </router-link-stub>
         </div>
       </div>
@@ -134,7 +144,9 @@ exports[`TmLiStakeTransaction redelegations should show redelegations and calcul
       <a
         href="https://explorecosmos.network/blocks/567"
       >
+        
         Block #567 
+      
       </a>
       @ 00:00
     
@@ -172,7 +184,9 @@ exports[`TmLiStakeTransaction unbonding delegations should default to ended if n
             
       Unbonded 
             <b>
-              1000
+              
+          1000
+        
             </b>
             <span>
                stakes
@@ -191,7 +205,9 @@ exports[`TmLiStakeTransaction unbonding delegations should default to ended if n
           <router-link-stub
             to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
           >
-            mr_mounty
+            
+        mr_mounty
+      
           </router-link-stub>
         </div>
       </div>
@@ -203,7 +219,9 @@ exports[`TmLiStakeTransaction unbonding delegations should default to ended if n
       <a
         href="https://explorecosmos.network/blocks/569"
       >
+        
         Block #569 
+      
       </a>
       @ 00:00
     
@@ -241,7 +259,9 @@ exports[`TmLiStakeTransaction unbonding delegations should show unbonding delega
             
       Unbonded 
             <b>
-              1000
+              
+          1000
+        
             </b>
             <span>
                stakes
@@ -260,7 +280,9 @@ exports[`TmLiStakeTransaction unbonding delegations should show unbonding delega
           <router-link-stub
             to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
           >
-            mr_mounty
+            
+        mr_mounty
+      
           </router-link-stub>
         </div>
       </div>
@@ -272,7 +294,9 @@ exports[`TmLiStakeTransaction unbonding delegations should show unbonding delega
       <a
         href="https://explorecosmos.network/blocks/569"
       >
+        
         Block #569 
+      
       </a>
       @ 00:00
     
@@ -310,7 +334,9 @@ exports[`TmLiStakeTransaction unbonding delegations should show unbondings and c
             
       Unbonded 
             <b>
-              1000
+              
+          1000
+        
             </b>
             <span>
                stakes
@@ -318,7 +344,9 @@ exports[`TmLiStakeTransaction unbonding delegations should show unbondings and c
             <span
               class="tx-unbonding__time-dif"
             >
-               - a few seconds ago
+              
+           - a few seconds ago
+        
             </span>
           </div>
         </p>
@@ -333,7 +361,9 @@ exports[`TmLiStakeTransaction unbonding delegations should show unbondings and c
           <router-link-stub
             to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
           >
-            mr_mounty
+            
+        mr_mounty
+      
           </router-link-stub>
         </div>
       </div>
@@ -345,7 +375,9 @@ exports[`TmLiStakeTransaction unbonding delegations should show unbondings and c
       <a
         href="https://explorecosmos.network/blocks/569"
       >
+        
         Block #569 
+      
       </a>
       @ 00:00
     

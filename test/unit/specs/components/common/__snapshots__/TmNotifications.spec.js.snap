@@ -16,13 +16,17 @@ exports[`TmNotifications.vue has the expected html structure 1`] = `
         <div
           class="time"
         >
-          a few seconds ago
+          
+        a few seconds ago
+      
         </div>
          
         <i
           class="close material-icons"
         >
-          close
+          
+        close
+      
         </i>
       </menu>
     </header>
@@ -30,7 +34,9 @@ exports[`TmNotifications.vue has the expected html structure 1`] = `
     <div
       class="body"
     >
-      asdf
+      
+    asdf
+  
     </div>
   </div>
   <div
@@ -45,13 +51,17 @@ exports[`TmNotifications.vue has the expected html structure 1`] = `
         <div
           class="time"
         >
-          a few seconds ago
+          
+        a few seconds ago
+      
         </div>
          
         <i
           class="close material-icons"
         >
-          close
+          
+        close
+      
         </i>
       </menu>
     </header>
@@ -59,7 +69,9 @@ exports[`TmNotifications.vue has the expected html structure 1`] = `
     <div
       class="body"
     >
-      sadf
+      
+    sadf
+  
     </div>
   </div>
 </div>

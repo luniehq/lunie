@@ -10,7 +10,9 @@ exports[`TmDataEmpty has the expected html structure 1`] = `
     <i
       class="material-icons"
     >
+      
       info_outline
+    
     </i>
   </div>
    
@@ -21,7 +23,9 @@ exports[`TmDataEmpty has the expected html structure 1`] = `
       class="tm-data-msg__title"
     >
       <h4>
-        N/A
+        
+    N/A
+  
       </h4>
     </div>
      
@@ -29,7 +33,9 @@ exports[`TmDataEmpty has the expected html structure 1`] = `
       class="tm-data-msg__subtitle"
     >
       <h5>
-        No data available yet.
+        
+    No data available yet.
+  
       </h5>
     </div>
   </div>

@@ -16,7 +16,9 @@ exports[`TmModalHelp has the expected html structure 1`] = `
         class="tm-modal-title"
       >
         <div>
-          Need Help?
+          
+    Need Help?
+  
         </div>
       </div>
        
@@ -26,7 +28,9 @@ exports[`TmModalHelp has the expected html structure 1`] = `
         <i
           class="material-icons"
         >
+          
           close
+        
         </i>
       </div>
     </header>
@@ -42,7 +46,9 @@ exports[`TmModalHelp has the expected html structure 1`] = `
         <a
           href="https://riot.im/app/#/room/#cosmos:matrix.org"
         >
-          developer chat
+          
+      developer chat
+    
         </a>
         
     or create an issue on
@@ -50,7 +56,9 @@ exports[`TmModalHelp has the expected html structure 1`] = `
         <a
           href="https://github.com/cosmos/voyager/issues"
         >
-          GitHub
+          
+      GitHub
+    
         </a>
         .
   

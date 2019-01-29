@@ -3,5 +3,7 @@
 exports[`ShortBech32 has the expected html structure 1`] = `
 "<div class=\\"short-bech32\\"><div id=\\"address\\" class=\\"address\\">
     cosmosftw…6789
-  </div> <div class=\\"copied\\"><i class=\\"material-icons\\">check</i><span>Copied</span></div></div>"
+  </div> <div class=\\"copied\\"><i class=\\"material-icons\\">
+      check
+    </i> <span>Copied</span></div></div>"
 `;

@@ -22,7 +22,9 @@ exports[`TmOnboarding has the expected html structure 0 1`] = `
         <div
           class="tm-session-title"
         >
+          
           Welcome to Voyager
+        
         </div>
       </div>
        
@@ -32,7 +34,9 @@ exports[`TmOnboarding has the expected html structure 0 1`] = `
         <div
           class="tm-session-label"
         >
+          
           This is a quick tour of the primary features of Cosmos Voyager.
+        
         </div>
          
         <img
@@ -83,12 +87,17 @@ exports[`TmOnboarding has the expected html structure 0 1`] = `
               aria-hidden="true"
               class="tm-btn__icon material-icons"
             >
-              close
+              
+      close
+    
             </i>
+             
             <span
               class="tm-btn__value"
             >
-              Skip
+              
+      Skip
+    
             </span>
           </span>
         </button>
@@ -103,12 +112,17 @@ exports[`TmOnboarding has the expected html structure 0 1`] = `
               aria-hidden="true"
               class="tm-btn__icon material-icons"
             >
-              chevron_right
+              
+      chevron_right
+    
             </i>
+             
             <span
               class="tm-btn__value"
             >
-              Next
+              
+      Next
+    
             </span>
           </span>
         </button>
@@ -140,7 +154,9 @@ exports[`TmOnboarding has the expected html structure 1 1`] = `
         <div
           class="tm-session-title"
         >
+          
           Welcome to Voyager
+        
         </div>
       </div>
        
@@ -150,7 +166,9 @@ exports[`TmOnboarding has the expected html structure 1 1`] = `
         <div
           class="tm-session-label"
         >
+          
           You can send and receive Cosmos tokens from anyone around the world.
+        
         </div>
          
         <img
@@ -201,12 +219,17 @@ exports[`TmOnboarding has the expected html structure 1 1`] = `
               aria-hidden="true"
               class="tm-btn__icon material-icons"
             >
-              close
+              
+      close
+    
             </i>
+             
             <span
               class="tm-btn__value"
             >
-              Skip
+              
+      Skip
+    
             </span>
           </span>
         </button>
@@ -221,12 +244,17 @@ exports[`TmOnboarding has the expected html structure 1 1`] = `
               aria-hidden="true"
               class="tm-btn__icon material-icons"
             >
-              chevron_right
+              
+      chevron_right
+    
             </i>
+             
             <span
               class="tm-btn__value"
             >
-              Next
+              
+      Next
+    
             </span>
           </span>
         </button>
@@ -258,7 +286,9 @@ exports[`TmOnboarding has the expected html structure 2 1`] = `
         <div
           class="tm-session-title"
         >
+          
           Welcome to Voyager
+        
         </div>
       </div>
        
@@ -268,7 +298,9 @@ exports[`TmOnboarding has the expected html structure 2 1`] = `
         <div
           class="tm-session-label"
         >
+          
           You can delegate your STAKE to Cosmos Validators to earn even more STAKE.
+        
         </div>
          
         <img
@@ -319,12 +351,17 @@ exports[`TmOnboarding has the expected html structure 2 1`] = `
               aria-hidden="true"
               class="tm-btn__icon material-icons"
             >
-              close
+              
+      close
+    
             </i>
+             
             <span
               class="tm-btn__value"
             >
-              Skip
+              
+      Skip
+    
             </span>
           </span>
         </button>
@@ -339,12 +376,17 @@ exports[`TmOnboarding has the expected html structure 2 1`] = `
               aria-hidden="true"
               class="tm-btn__icon material-icons"
             >
-              chevron_right
+              
+      chevron_right
+    
             </i>
+             
             <span
               class="tm-btn__value"
             >
-              Next
+              
+      Next
+    
             </span>
           </span>
         </button>
@@ -376,7 +418,9 @@ exports[`TmOnboarding has the expected html structure 3 1`] = `
         <div
           class="tm-session-title"
         >
+          
           Welcome to Voyager
+        
         </div>
       </div>
        
@@ -386,7 +430,9 @@ exports[`TmOnboarding has the expected html structure 3 1`] = `
         <div
           class="tm-session-label"
         >
+          
           Through governance, you can vote on the future of the Cosmos Network.
+        
         </div>
          
         <img
@@ -437,12 +483,17 @@ exports[`TmOnboarding has the expected html structure 3 1`] = `
               aria-hidden="true"
               class="tm-btn__icon material-icons"
             >
-              close
+              
+      close
+    
             </i>
+             
             <span
               class="tm-btn__value"
             >
-              Skip
+              
+      Skip
+    
             </span>
           </span>
         </button>
@@ -457,12 +508,17 @@ exports[`TmOnboarding has the expected html structure 3 1`] = `
               aria-hidden="true"
               class="tm-btn__icon material-icons"
             >
-              chevron_right
+              
+      chevron_right
+    
             </i>
+             
             <span
               class="tm-btn__value"
             >
-              Next
+              
+      Next
+    
             </span>
           </span>
         </button>
@@ -494,7 +550,9 @@ exports[`TmOnboarding has the expected html structure 4 1`] = `
         <div
           class="tm-session-title"
         >
+          
           Welcome to Voyager
+        
         </div>
       </div>
        
@@ -504,7 +562,9 @@ exports[`TmOnboarding has the expected html structure 4 1`] = `
         <div
           class="tm-session-label"
         >
+          
           Start using Voyager to explore the Cosmos Network!
+        
         </div>
          
         <img
@@ -555,12 +615,17 @@ exports[`TmOnboarding has the expected html structure 4 1`] = `
               aria-hidden="true"
               class="tm-btn__icon material-icons"
             >
-              close
+              
+      close
+    
             </i>
+             
             <span
               class="tm-btn__value"
             >
-              Skip
+              
+      Skip
+    
             </span>
           </span>
         </button>
@@ -575,12 +640,17 @@ exports[`TmOnboarding has the expected html structure 4 1`] = `
               aria-hidden="true"
               class="tm-btn__icon material-icons"
             >
-              chevron_right
+              
+      chevron_right
+    
             </i>
+             
             <span
               class="tm-btn__value"
             >
-              Next
+              
+      Next
+    
             </span>
           </span>
         </button>

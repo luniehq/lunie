@@ -11,6 +11,7 @@ exports[`TmModalSearch has the expected html structure 1`] = `
       class="tm-form-group"
     >
       <!---->
+       
       <!---->
        
       <div
@@ -36,8 +37,11 @@ exports[`TmModalSearch has the expected html structure 1`] = `
                 aria-hidden="true"
                 class="tm-btn__icon material-icons"
               >
-                close
+                
+      close
+    
               </i>
+               
               <!---->
             </span>
           </button>

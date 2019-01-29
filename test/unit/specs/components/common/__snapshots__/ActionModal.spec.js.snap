@@ -12,10 +12,13 @@ exports[`ActionModal has the expected html structure 1`] = `
       class="icon action-modal-atom"
       src="~assets/images/cosmos-logo.png"
     />
+     
     <span
       class="action-modal-title"
     >
-      Action Modal
+      
+        Action Modal
+      
     </span>
      
     <div
@@ -25,7 +28,9 @@ exports[`ActionModal has the expected html structure 1`] = `
       <i
         class="material-icons"
       >
-        close
+        
+          close
+        
       </i>
     </div>
   </div>
@@ -40,11 +45,14 @@ exports[`ActionModal has the expected html structure 1`] = `
       class="action-modal-group tm-form-group"
     >
       <!---->
+       
       <label
         class="tm-form-group__label"
         for="password"
       >
-        Password
+        
+    Password
+  
       </label>
        
       <div
@@ -69,6 +77,7 @@ exports[`ActionModal has the expected html structure 1`] = `
       class="action-modal-group tm-form-group"
     >
       <!---->
+       
       <!---->
        
       <div
@@ -85,10 +94,13 @@ exports[`ActionModal has the expected html structure 1`] = `
               class="tm-btn__container tm-btn--primary"
             >
               <!---->
+               
               <span
                 class="tm-btn__value"
               >
-                Connecting...
+                
+      Connecting...
+    
               </span>
             </span>
           </button>
@@ -113,10 +125,13 @@ exports[`ActionModal shows sending indication 1`] = `
       class="icon action-modal-atom"
       src="~assets/images/cosmos-logo.png"
     />
+     
     <span
       class="action-modal-title"
     >
-      Action Modal
+      
+        Action Modal
+      
     </span>
      
     <div
@@ -126,7 +141,9 @@ exports[`ActionModal shows sending indication 1`] = `
       <i
         class="material-icons"
       >
-        close
+        
+          close
+        
       </i>
     </div>
   </div>
@@ -141,11 +158,14 @@ exports[`ActionModal shows sending indication 1`] = `
       class="action-modal-group tm-form-group"
     >
       <!---->
+       
       <label
         class="tm-form-group__label"
         for="password"
       >
-        Password
+        
+    Password
+  
       </label>
        
       <div
@@ -170,6 +190,7 @@ exports[`ActionModal shows sending indication 1`] = `
       class="action-modal-group tm-form-group"
     >
       <!---->
+       
       <!---->
        
       <div
@@ -186,10 +207,13 @@ exports[`ActionModal shows sending indication 1`] = `
               class="tm-btn__container tm-btn--primary"
             >
               <!---->
+               
               <span
                 class="tm-btn__value"
               >
-                Connecting...
+                
+      Connecting...
+    
               </span>
             </span>
           </button>

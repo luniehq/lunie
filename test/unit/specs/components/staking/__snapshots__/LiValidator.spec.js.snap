@@ -25,7 +25,9 @@ exports[`LiValidator has the expected html structure 1`] = `
         class="data-table__row__info__container__name"
         to="[object Object]"
       >
+        
         good_greg
+      
       </router-link-stub>
        
       <div
@@ -49,8 +51,11 @@ exports[`LiValidator has the expected html structure 1`] = `
             <i
               class="material-icons"
             >
-              check
+              
+      check
+    
             </i>
+             
             <span>
               Copied
             </span>
@@ -71,7 +76,9 @@ exports[`LiValidator has the expected html structure 1`] = `
   <td
     class="li-validator__rewards data-table__row__cell__separator"
   >
+    
     n/a
+  
   </td>
    
   <td
@@ -85,19 +92,25 @@ exports[`LiValidator has the expected html structure 1`] = `
   <td
     class="li-validator__uptime"
   >
+    
     98.78%
+  
   </td>
    
   <td
     class="li-validator__commission"
   >
+    
     0.05%
+  
   </td>
    
   <td
     class="li-validator__slashes"
   >
+    
     n/a
+  
   </td>
 </tr>
 `;

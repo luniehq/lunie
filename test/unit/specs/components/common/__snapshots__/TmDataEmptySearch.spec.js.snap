@@ -10,7 +10,9 @@ exports[`TmDataEmptySearch has the expected html structure 1`] = `
     <i
       class="material-icons"
     >
+      
       search
+    
     </i>
   </div>
    
@@ -21,7 +23,9 @@ exports[`TmDataEmptySearch has the expected html structure 1`] = `
       class="tm-data-msg__title"
     >
       <div>
-        No Results
+        
+    No Results
+  
       </div>
     </div>
      
@@ -29,7 +33,9 @@ exports[`TmDataEmptySearch has the expected html structure 1`] = `
       class="tm-data-msg__subtitle"
     >
       <div>
-        Your search did not match any available data.
+        
+    Your search did not match any available data.
+  
       </div>
     </div>
   </div>

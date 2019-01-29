@@ -10,7 +10,9 @@ exports[`TmDataMsg has the expected html structure 1`] = `
     <i
       class="material-icons"
     >
+      
       help
+    
     </i>
   </div>
    
@@ -20,13 +22,17 @@ exports[`TmDataMsg has the expected html structure 1`] = `
     <div
       class="tm-data-msg__title"
     >
-      sOmEtHiNg Is HaPpEnIng!!!
+      
+        sOmEtHiNg Is HaPpEnIng!!!
+      
     </div>
      
     <div
       class="tm-data-msg__subtitle"
     >
-      Oh my! What could it be?
+      
+        Oh my! What could it be?
+      
     </div>
   </div>
 </div>

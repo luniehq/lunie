@@ -23,21 +23,27 @@ exports[`TmSessionImport has the expected html structure 1`] = `
             <i
               class="material-icons"
             >
-              arrow_back
+              
+          arrow_back
+        
             </i>
           </a>
            
           <div
             class="tm-session-title"
           >
-            Import with Seed
+            
+        Import with Seed
+      
           </div>
            
           <a>
             <i
               class="material-icons"
             >
-              help_outline
+              
+          help_outline
+        
             </i>
           </a>
         </div>
@@ -49,11 +55,14 @@ exports[`TmSessionImport has the expected html structure 1`] = `
             class="tm-form-group"
           >
             <!---->
+             
             <label
               class="tm-form-group__label"
               for="import-name"
             >
-              Account Name
+              
+    Account Name
+  
             </label>
              
             <div
@@ -69,7 +78,9 @@ exports[`TmSessionImport has the expected html structure 1`] = `
               <div
                 class="tm-form-msg sm tm-form-msg--error"
               >
-                Name is required
+                
+    Name is required
+  
               </div>
                
               <!---->
@@ -80,11 +91,14 @@ exports[`TmSessionImport has the expected html structure 1`] = `
             class="tm-form-group"
           >
             <!---->
+             
             <label
               class="tm-form-group__label"
               for="import-password"
             >
-              Password
+              
+    Password
+  
             </label>
              
             <div
@@ -100,7 +114,9 @@ exports[`TmSessionImport has the expected html structure 1`] = `
               <div
                 class="tm-form-msg sm tm-form-msg--error"
               >
-                Password is required
+                
+    Password is required
+  
               </div>
                
               <!---->
@@ -111,11 +127,14 @@ exports[`TmSessionImport has the expected html structure 1`] = `
             class="tm-form-group"
           >
             <!---->
+             
             <label
               class="tm-form-group__label"
               for="import-password-confirmation"
             >
-              Confirm Password
+              
+    Confirm Password
+  
             </label>
              
             <div
@@ -136,11 +155,14 @@ exports[`TmSessionImport has the expected html structure 1`] = `
             class="tm-form-group"
           >
             <!---->
+             
             <label
               class="tm-form-group__label"
               for="import-seed"
             >
-              Seed Phrase
+              
+    Seed Phrase
+  
             </label>
              
             <div
@@ -156,7 +178,9 @@ exports[`TmSessionImport has the expected html structure 1`] = `
               <div
                 class="tm-form-msg sm tm-form-msg--error"
               >
-                Seed is required
+                
+    Seed is required
+  
               </div>
             </div>
           </div>
@@ -165,6 +189,7 @@ exports[`TmSessionImport has the expected html structure 1`] = `
             class="tm-form-group"
           >
             <!---->
+             
             <!---->
              
             <div
@@ -186,8 +211,10 @@ exports[`TmSessionImport has the expected html structure 1`] = `
                   class="tm-field-checkbox-label"
                   for="error-collection"
                 >
-                  I'd like to opt in for remote error tracking to help improve
+                  
+            I'd like to opt in for remote error tracking to help improve
             Voyager.
+          
                 </label>
               </div>
             </div>
@@ -207,12 +234,17 @@ exports[`TmSessionImport has the expected html structure 1`] = `
                 aria-hidden="true"
                 class="tm-btn__icon material-icons"
               >
-                arrow_forward
+                
+      arrow_forward
+    
               </i>
+               
               <span
                 class="tm-btn__value"
               >
-                Next
+                
+      Next
+    
               </span>
             </span>
           </button>

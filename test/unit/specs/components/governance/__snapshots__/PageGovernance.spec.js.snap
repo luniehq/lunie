@@ -21,9 +21,7 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
         <div
           class="tm-page-header-body"
         >
-          <tm-balance-stub
-            tabs=""
-          />
+          <tm-balance-stub />
            
           <div
             class="tool-bar"
@@ -35,7 +33,9 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
               <i
                 class="material-icons"
               >
-                arrow_back
+                
+      arrow_back
+    
               </i>
             </a>
              
@@ -47,7 +47,9 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
               <i
                 class="material-icons"
               >
-                search
+                
+      search
+    
               </i>
             </a>
               
@@ -57,7 +59,9 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
               <i
                 class="material-icons"
               >
-                help_outline
+                
+      help_outline
+    
               </i>
             </a>
              
@@ -68,7 +72,9 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
               <i
                 class="material-icons"
               >
-                settings
+                
+      settings
+    
               </i>
             </router-link-stub>
              
@@ -78,7 +84,9 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
               <i
                 class="material-icons"
               >
-                exit_to_app
+                
+      exit_to_app
+    
               </i>
             </a>
           </div>
@@ -128,10 +136,13 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
             class="tm-btn__container tm-btn--primary"
           >
             <!---->
+             
             <span
               class="tm-btn__value"
             >
-              Connecting...
+              
+      Connecting...
+    
             </span>
           </span>
         </button>
@@ -174,9 +185,7 @@ exports[`PageGovernance has the expected html structure 1`] = `
         <div
           class="tm-page-header-body"
         >
-          <tm-balance-stub
-            tabs=""
-          />
+          <tm-balance-stub />
            
           <div
             class="tool-bar"
@@ -188,7 +197,9 @@ exports[`PageGovernance has the expected html structure 1`] = `
               <i
                 class="material-icons"
               >
-                arrow_back
+                
+      arrow_back
+    
               </i>
             </a>
              
@@ -200,7 +211,9 @@ exports[`PageGovernance has the expected html structure 1`] = `
               <i
                 class="material-icons"
               >
-                search
+                
+      search
+    
               </i>
             </a>
               
@@ -210,7 +223,9 @@ exports[`PageGovernance has the expected html structure 1`] = `
               <i
                 class="material-icons"
               >
-                help_outline
+                
+      help_outline
+    
               </i>
             </a>
              
@@ -221,7 +236,9 @@ exports[`PageGovernance has the expected html structure 1`] = `
               <i
                 class="material-icons"
               >
-                settings
+                
+      settings
+    
               </i>
             </router-link-stub>
              
@@ -231,7 +248,9 @@ exports[`PageGovernance has the expected html structure 1`] = `
               <i
                 class="material-icons"
               >
-                exit_to_app
+                
+      exit_to_app
+    
               </i>
             </a>
           </div>
@@ -280,10 +299,13 @@ exports[`PageGovernance has the expected html structure 1`] = `
             class="tm-btn__container tm-btn--primary"
           >
             <!---->
+             
             <span
               class="tm-btn__value"
             >
-              Create Proposal
+              
+      Create Proposal
+    
             </span>
           </span>
         </button>

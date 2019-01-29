@@ -35,7 +35,9 @@ exports[`TmConnectedNetwork has the expected html structure 1`] = `
       <i
         class="material-icons"
       >
+        
         lock
+      
       </i>
     </div>
      
@@ -46,7 +48,9 @@ exports[`TmConnectedNetwork has the expected html structure 1`] = `
       <span
         class="chain-id"
       >
+        
         Test Net
+      
       </span>
     </div>
   </div>
@@ -58,11 +62,14 @@ exports[`TmConnectedNetwork has the expected html structure 1`] = `
     <a
       href="https://explorecosmos.network/blocks/42"
     >
+      
       #42
       <i
         class="material-icons exit"
       >
+        
         exit_to_app
+      
       </i>
     </a>
   </div>
@@ -84,7 +91,9 @@ exports[`TmConnectedNetwork shows the connected node 1`] = `
       <i
         class="material-icons"
       >
+        
         lock
+      
       </i>
     </div>
      
@@ -95,7 +104,9 @@ exports[`TmConnectedNetwork shows the connected node 1`] = `
       <span
         class="chain-id"
       >
+        
         chain_id
+      
       </span>
     </div>
   </div>
@@ -107,11 +118,14 @@ exports[`TmConnectedNetwork shows the connected node 1`] = `
     <a
       href="https://explorecosmos.network/blocks/0"
     >
+      
       #0
       <i
         class="material-icons exit"
       >
+        
         exit_to_app
+      
       </i>
     </a>
   </div>
