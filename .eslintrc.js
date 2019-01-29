@@ -21,6 +21,7 @@ module.exports = {
     "no-unused-vars": "error",
     quotes: ["error", "backtick"],
     "no-var": "error",
+    "no-multiple-empty-lines": ["error", {"max": 1}],
     "prefer-const": [
       "error",
       {
