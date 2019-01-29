@@ -16,7 +16,10 @@ const validator = Object.assign({}, lcdClientMock.state.candidates[0], {
   },
   prev_bonded_shares: `0`,
   voting_power: `10`,
-  selfBond: 0.01
+  selfBond: 0.01,
+  signing_info: {
+    missed_blocks_counter: 2
+  }
 })
 const validatorTo = lcdClientMock.state.candidates[1]
 
@@ -32,6 +35,9 @@ const getterValues = {
   },
   committedDelegations: {
     [lcdClientMock.validators[0]]: 0
+  },
+  lastHeader: {
+    height: 500
   },
   keybase: `keybase`,
   liquidAtoms: 1337,
@@ -101,11 +107,11 @@ describe(`PageValidator`, () => {
       selfBond: 10
     }
     wrapper.setData({ validator })
-    expect(wrapper.vm.selfBond).toBe(`1000.00`)
+    expect(wrapper.vm.selfBond).toBe(`1000.00%`)
 
     validator.selfBond = undefined
     wrapper.setData({ validator })
-    expect(wrapper.vm.selfBond).toBe(0)
+    expect(wrapper.vm.selfBond).toBe(`0.00%`)
   })
 
   it(`shows an error if the validator couldn't be found`, () => {
@@ -148,7 +154,7 @@ describe(`PageValidator`, () => {
       },
       ratio: 0.01
     })
-    expect(wrapper.find(`#page-profile__self-bond`).text()).toBe(`1.00 %`)
+    expect(wrapper.find(`#page-profile__self-bond`).text()).toBe(`1.00%`)
   })
 
   it(`should show the validator status`, () => {

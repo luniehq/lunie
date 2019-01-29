@@ -169,37 +169,29 @@ exports[`PageValidator has the expected html structure 1`] = `
       class="page-profile__header page-profile__section"
     >
       <div
-        class="column"
+        class="row"
       >
         <img
           class="avatar"
           src="~assets/images/validator-icon.svg"
         />
-      </div>
-       
-      <div
-        class="column page-profile__header__info"
-      >
+         
         <div
-          class="row page-profile__header__name"
+          class="page-profile__header__info"
         >
           <div
-            class="column"
+            class="page-profile__status-and-title"
           >
+            <span
+              class="page-profile__status green"
+            />
+             
             <div
-              class="page-profile__status-and-title"
+              class="page-profile__title"
             >
-              <span
-                class="page-profile__status green"
-              />
-               
-              <div
-                class="page-profile__header__name__title"
-              >
-                
-                mr_mounty
               
-              </div>
+              mr_mounty
+            
             </div>
              
             <div
@@ -230,7 +222,7 @@ exports[`PageValidator has the expected html structure 1`] = `
           </div>
            
           <div
-            class="column page-profile__header__actions"
+            class="page-profile__header__actions"
           >
             <button
               class="tm-btn"
@@ -265,42 +257,44 @@ exports[`PageValidator has the expected html structure 1`] = `
             </button>
           </div>
         </div>
-         
+      </div>
+       
+      <div
+        class="row"
+      >
         <div
-          class="row page-profile__header__data"
+          class="row-unjustified"
         >
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
-              Delegated STAKE
+              My Delegation
             </dt>
              
             <dd>
-              
-              123.4568…
-            
+              123.45678 STAKE
             </dd>
           </dl>
            
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
               My Rewards
             </dt>
              
             <dd>
-              n/a
+              --
             </dd>
           </dl>
-           
-          <div
-            class="page-profile__header__data__break"
-          />
-           
+        </div>
+         
+        <div
+          class="row-unjustified"
+        >
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
               Voting Power
@@ -309,12 +303,12 @@ exports[`PageValidator has the expected html structure 1`] = `
             <dd
               id="page-profile__power"
             >
-              100.00 %
+              100.00%
             </dd>
           </dl>
            
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
               Uptime
@@ -323,15 +317,12 @@ exports[`PageValidator has the expected html structure 1`] = `
             <dd
               id="page-profile__uptime"
             >
-              
-              n/a
-              %
-            
+              -Inf%
             </dd>
           </dl>
            
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
               Commission
@@ -341,20 +332,20 @@ exports[`PageValidator has the expected html structure 1`] = `
               id="page-profile__commission"
             >
               
-              0.0500… %
+              5.00%
             
             </dd>
           </dl>
            
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
               Slashes
             </dt>
              
             <dd>
-              n/a
+              --
             </dd>
           </dl>
         </div>
@@ -362,7 +353,7 @@ exports[`PageValidator has the expected html structure 1`] = `
     </div>
      
     <div
-      class="page-profile__details page-profile__section"
+      class="page-profile__section"
     >
       <div
         class="row"
@@ -374,7 +365,19 @@ exports[`PageValidator has the expected html structure 1`] = `
             class="info_dl"
           >
             <dt>
-              Operator
+              First Seen
+            </dt>
+             
+            <dd>
+              Block #0
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Full Operator Address
             </dt>
              
             <dd>
@@ -391,20 +394,8 @@ exports[`PageValidator has the expected html structure 1`] = `
              
             <dd>
               
-              n/a
+              --
             
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              First Seen
-            </dt>
-             
-            <dd>
-              n/a
             </dd>
           </dl>
            
@@ -426,7 +417,7 @@ exports[`PageValidator has the expected html structure 1`] = `
             class="info_dl"
           >
             <dt>
-              Details
+              Description
             </dt>
              
             <dd
@@ -446,11 +437,11 @@ exports[`PageValidator has the expected html structure 1`] = `
             class="info_dl"
           >
             <dt>
-              Commission Rate
+              Current Commission Rate
             </dt>
              
             <dd>
-              0.05 %
+              5.00%
             </dd>
           </dl>
            
@@ -462,7 +453,7 @@ exports[`PageValidator has the expected html structure 1`] = `
             </dt>
              
             <dd>
-              0.1 %
+              10.00%
             </dd>
           </dl>
            
@@ -474,7 +465,7 @@ exports[`PageValidator has the expected html structure 1`] = `
             </dt>
              
             <dd>
-              0.005 %
+              0.50%
             </dd>
           </dl>
            
@@ -486,9 +477,7 @@ exports[`PageValidator has the expected html structure 1`] = `
             </dt>
              
             <dd>
-              
               a few seconds ago
-            
             </dd>
           </dl>
            
@@ -496,25 +485,13 @@ exports[`PageValidator has the expected html structure 1`] = `
             class="info_dl"
           >
             <dt>
-              Self Delegated STAKE
+              Self Delegation
             </dt>
              
             <dd
               id="page-profile__self-bond"
             >
-              1.00 %
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Minimum Self Delegated STAKE
-            </dt>
-             
-            <dd>
-              0 %
+              1.00%
             </dd>
           </dl>
         </div>
@@ -710,37 +687,29 @@ exports[`PageValidator shows a default avatar 1`] = `
       class="page-profile__header page-profile__section"
     >
       <div
-        class="column"
+        class="row"
       >
         <img
           class="avatar"
           src="~assets/images/validator-icon.svg"
         />
-      </div>
-       
-      <div
-        class="column page-profile__header__info"
-      >
+         
         <div
-          class="row page-profile__header__name"
+          class="page-profile__header__info"
         >
           <div
-            class="column"
+            class="page-profile__status-and-title"
           >
+            <span
+              class="page-profile__status green"
+            />
+             
             <div
-              class="page-profile__status-and-title"
+              class="page-profile__title"
             >
-              <span
-                class="page-profile__status green"
-              />
-               
-              <div
-                class="page-profile__header__name__title"
-              >
-                
-                mr_mounty
               
-              </div>
+              mr_mounty
+            
             </div>
              
             <div
@@ -771,7 +740,7 @@ exports[`PageValidator shows a default avatar 1`] = `
           </div>
            
           <div
-            class="column page-profile__header__actions"
+            class="page-profile__header__actions"
           >
             <button
               class="tm-btn"
@@ -806,42 +775,44 @@ exports[`PageValidator shows a default avatar 1`] = `
             </button>
           </div>
         </div>
-         
+      </div>
+       
+      <div
+        class="row"
+      >
         <div
-          class="row page-profile__header__data"
+          class="row-unjustified"
         >
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
-              Delegated STAKE
+              My Delegation
             </dt>
              
             <dd>
-              
-              123.4568…
-            
+              123.45678 STAKE
             </dd>
           </dl>
            
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
               My Rewards
             </dt>
              
             <dd>
-              n/a
+              --
             </dd>
           </dl>
-           
-          <div
-            class="page-profile__header__data__break"
-          />
-           
+        </div>
+         
+        <div
+          class="row-unjustified"
+        >
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
               Voting Power
@@ -850,12 +821,12 @@ exports[`PageValidator shows a default avatar 1`] = `
             <dd
               id="page-profile__power"
             >
-              100.00 %
+              100.00%
             </dd>
           </dl>
            
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
               Uptime
@@ -864,15 +835,12 @@ exports[`PageValidator shows a default avatar 1`] = `
             <dd
               id="page-profile__uptime"
             >
-              
-              n/a
-              %
-            
+              -Inf%
             </dd>
           </dl>
            
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
               Commission
@@ -882,20 +850,20 @@ exports[`PageValidator shows a default avatar 1`] = `
               id="page-profile__commission"
             >
               
-              0.0500… %
+              5.00%
             
             </dd>
           </dl>
            
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
               Slashes
             </dt>
              
             <dd>
-              n/a
+              --
             </dd>
           </dl>
         </div>
@@ -903,7 +871,7 @@ exports[`PageValidator shows a default avatar 1`] = `
     </div>
      
     <div
-      class="page-profile__details page-profile__section"
+      class="page-profile__section"
     >
       <div
         class="row"
@@ -915,7 +883,19 @@ exports[`PageValidator shows a default avatar 1`] = `
             class="info_dl"
           >
             <dt>
-              Operator
+              First Seen
+            </dt>
+             
+            <dd>
+              Block #0
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Full Operator Address
             </dt>
              
             <dd>
@@ -932,20 +912,8 @@ exports[`PageValidator shows a default avatar 1`] = `
              
             <dd>
               
-              n/a
+              --
             
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              First Seen
-            </dt>
-             
-            <dd>
-              n/a
             </dd>
           </dl>
            
@@ -967,7 +935,7 @@ exports[`PageValidator shows a default avatar 1`] = `
             class="info_dl"
           >
             <dt>
-              Details
+              Description
             </dt>
              
             <dd
@@ -987,11 +955,11 @@ exports[`PageValidator shows a default avatar 1`] = `
             class="info_dl"
           >
             <dt>
-              Commission Rate
+              Current Commission Rate
             </dt>
              
             <dd>
-              0.05 %
+              5.00%
             </dd>
           </dl>
            
@@ -1003,7 +971,7 @@ exports[`PageValidator shows a default avatar 1`] = `
             </dt>
              
             <dd>
-              0.1 %
+              10.00%
             </dd>
           </dl>
            
@@ -1015,7 +983,7 @@ exports[`PageValidator shows a default avatar 1`] = `
             </dt>
              
             <dd>
-              0.005 %
+              0.50%
             </dd>
           </dl>
            
@@ -1027,9 +995,7 @@ exports[`PageValidator shows a default avatar 1`] = `
             </dt>
              
             <dd>
-              
               a few seconds ago
-            
             </dd>
           </dl>
            
@@ -1037,25 +1003,13 @@ exports[`PageValidator shows a default avatar 1`] = `
             class="info_dl"
           >
             <dt>
-              Self Delegated STAKE
+              Self Delegation
             </dt>
              
             <dd
               id="page-profile__self-bond"
             >
-              1.00 %
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Minimum Self Delegated STAKE
-            </dt>
-             
-            <dd>
-              0 %
+              1.00%
             </dd>
           </dl>
         </div>
@@ -1498,37 +1452,29 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
       class="page-profile__header page-profile__section"
     >
       <div
-        class="column"
+        class="row"
       >
         <img
           class="avatar"
           src="~assets/images/validator-icon.svg"
         />
-      </div>
-       
-      <div
-        class="column page-profile__header__info"
-      >
+         
         <div
-          class="row page-profile__header__name"
+          class="page-profile__header__info"
         >
           <div
-            class="column"
+            class="page-profile__status-and-title"
           >
+            <span
+              class="page-profile__status green"
+            />
+             
             <div
-              class="page-profile__status-and-title"
+              class="page-profile__title"
             >
-              <span
-                class="page-profile__status green"
-              />
-               
-              <div
-                class="page-profile__header__name__title"
-              >
-                
-                mr_mounty
               
-              </div>
+              mr_mounty
+            
             </div>
              
             <div
@@ -1559,7 +1505,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
           </div>
            
           <div
-            class="column page-profile__header__actions"
+            class="page-profile__header__actions"
           >
             <button
               class="tm-btn"
@@ -1594,42 +1540,44 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
             </button>
           </div>
         </div>
-         
+      </div>
+       
+      <div
+        class="row"
+      >
         <div
-          class="row page-profile__header__data"
+          class="row-unjustified"
         >
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
-              Delegated STAKE
+              My Delegation
             </dt>
              
             <dd>
-              
-              100.0000…
-            
+              100 STAKE
             </dd>
           </dl>
            
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
               My Rewards
             </dt>
              
             <dd>
-              n/a
+              --
             </dd>
           </dl>
-           
-          <div
-            class="page-profile__header__data__break"
-          />
-           
+        </div>
+         
+        <div
+          class="row-unjustified"
+        >
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
               Voting Power
@@ -1638,12 +1586,12 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
             <dd
               id="page-profile__power"
             >
-              100.00 %
+              100.00%
             </dd>
           </dl>
            
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
               Uptime
@@ -1652,15 +1600,12 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
             <dd
               id="page-profile__uptime"
             >
-              
-              n/a
-              %
-            
+              -Inf%
             </dd>
           </dl>
            
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
               Commission
@@ -1670,20 +1615,20 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
               id="page-profile__commission"
             >
               
-              0.0500… %
+              5.00%
             
             </dd>
           </dl>
            
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
               Slashes
             </dt>
              
             <dd>
-              n/a
+              --
             </dd>
           </dl>
         </div>
@@ -1691,7 +1636,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
     </div>
      
     <div
-      class="page-profile__details page-profile__section"
+      class="page-profile__section"
     >
       <div
         class="row"
@@ -1703,7 +1648,19 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
             class="info_dl"
           >
             <dt>
-              Operator
+              First Seen
+            </dt>
+             
+            <dd>
+              Block #0
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Full Operator Address
             </dt>
              
             <dd>
@@ -1720,20 +1677,8 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
              
             <dd>
               
-              n/a
+              --
             
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              First Seen
-            </dt>
-             
-            <dd>
-              n/a
             </dd>
           </dl>
            
@@ -1755,7 +1700,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
             class="info_dl"
           >
             <dt>
-              Details
+              Description
             </dt>
              
             <dd
@@ -1775,11 +1720,11 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
             class="info_dl"
           >
             <dt>
-              Commission Rate
+              Current Commission Rate
             </dt>
              
             <dd>
-              0.05 %
+              5.00%
             </dd>
           </dl>
            
@@ -1791,7 +1736,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
             </dt>
              
             <dd>
-              0.1 %
+              10.00%
             </dd>
           </dl>
            
@@ -1803,7 +1748,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
             </dt>
              
             <dd>
-              0.005 %
+              0.50%
             </dd>
           </dl>
            
@@ -1815,9 +1760,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
             </dt>
              
             <dd>
-              
               a few seconds ago
-            
             </dd>
           </dl>
            
@@ -1825,25 +1768,13 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
             class="info_dl"
           >
             <dt>
-              Self Delegated STAKE
+              Self Delegation
             </dt>
              
             <dd
               id="page-profile__self-bond"
             >
-              1.00 %
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Minimum Self Delegated STAKE
-            </dt>
-             
-            <dd>
-              0 %
+              1.00%
             </dd>
           </dl>
         </div>
@@ -2106,37 +2037,29 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
       class="page-profile__header page-profile__section"
     >
       <div
-        class="column"
+        class="row"
       >
         <img
           class="avatar"
           src="~assets/images/validator-icon.svg"
         />
-      </div>
-       
-      <div
-        class="column page-profile__header__info"
-      >
+         
         <div
-          class="row page-profile__header__name"
+          class="page-profile__header__info"
         >
           <div
-            class="column"
+            class="page-profile__status-and-title"
           >
+            <span
+              class="page-profile__status green"
+            />
+             
             <div
-              class="page-profile__status-and-title"
+              class="page-profile__title"
             >
-              <span
-                class="page-profile__status green"
-              />
-               
-              <div
-                class="page-profile__header__name__title"
-              >
-                
-                mr_mounty
               
-              </div>
+              mr_mounty
+            
             </div>
              
             <div
@@ -2167,7 +2090,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
           </div>
            
           <div
-            class="column page-profile__header__actions"
+            class="page-profile__header__actions"
           >
             <button
               class="tm-btn"
@@ -2202,42 +2125,44 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
             </button>
           </div>
         </div>
-         
+      </div>
+       
+      <div
+        class="row"
+      >
         <div
-          class="row page-profile__header__data"
+          class="row-unjustified"
         >
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
-              Delegated STAKE
+              My Delegation
             </dt>
              
             <dd>
-              
-              100.0000…
-            
+              100 STAKE
             </dd>
           </dl>
            
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
               My Rewards
             </dt>
              
             <dd>
-              n/a
+              --
             </dd>
           </dl>
-           
-          <div
-            class="page-profile__header__data__break"
-          />
-           
+        </div>
+         
+        <div
+          class="row-unjustified"
+        >
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
               Voting Power
@@ -2246,12 +2171,12 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
             <dd
               id="page-profile__power"
             >
-              100.00 %
+              100.00%
             </dd>
           </dl>
            
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
               Uptime
@@ -2260,15 +2185,12 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
             <dd
               id="page-profile__uptime"
             >
-              
-              n/a
-              %
-            
+              -Inf%
             </dd>
           </dl>
            
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
               Commission
@@ -2278,20 +2200,20 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
               id="page-profile__commission"
             >
               
-              0.0500… %
+              5.00%
             
             </dd>
           </dl>
            
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
               Slashes
             </dt>
              
             <dd>
-              n/a
+              --
             </dd>
           </dl>
         </div>
@@ -2299,7 +2221,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
     </div>
      
     <div
-      class="page-profile__details page-profile__section"
+      class="page-profile__section"
     >
       <div
         class="row"
@@ -2311,7 +2233,19 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
             class="info_dl"
           >
             <dt>
-              Operator
+              First Seen
+            </dt>
+             
+            <dd>
+              Block #0
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Full Operator Address
             </dt>
              
             <dd>
@@ -2328,20 +2262,8 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
              
             <dd>
               
-              n/a
+              --
             
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              First Seen
-            </dt>
-             
-            <dd>
-              n/a
             </dd>
           </dl>
            
@@ -2363,7 +2285,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
             class="info_dl"
           >
             <dt>
-              Details
+              Description
             </dt>
              
             <dd
@@ -2383,11 +2305,11 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
             class="info_dl"
           >
             <dt>
-              Commission Rate
+              Current Commission Rate
             </dt>
              
             <dd>
-              0.05 %
+              5.00%
             </dd>
           </dl>
            
@@ -2399,7 +2321,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
             </dt>
              
             <dd>
-              0.1 %
+              10.00%
             </dd>
           </dl>
            
@@ -2411,7 +2333,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
             </dt>
              
             <dd>
-              0.005 %
+              0.50%
             </dd>
           </dl>
            
@@ -2423,9 +2345,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
             </dt>
              
             <dd>
-              
               a few seconds ago
-            
             </dd>
           </dl>
            
@@ -2433,25 +2353,13 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
             class="info_dl"
           >
             <dt>
-              Self Delegated STAKE
+              Self Delegation
             </dt>
              
             <dd
               id="page-profile__self-bond"
             >
-              1.00 %
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Minimum Self Delegated STAKE
-            </dt>
-             
-            <dd>
-              0 %
+              1.00%
             </dd>
           </dl>
         </div>
@@ -2647,37 +2555,29 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
       class="page-profile__header page-profile__section"
     >
       <div
-        class="column"
+        class="row"
       >
         <img
           class="avatar"
           src="~assets/images/validator-icon.svg"
         />
-      </div>
-       
-      <div
-        class="column page-profile__header__info"
-      >
+         
         <div
-          class="row page-profile__header__name"
+          class="page-profile__header__info"
         >
           <div
-            class="column"
+            class="page-profile__status-and-title"
           >
+            <span
+              class="page-profile__status green"
+            />
+             
             <div
-              class="page-profile__status-and-title"
+              class="page-profile__title"
             >
-              <span
-                class="page-profile__status green"
-              />
-               
-              <div
-                class="page-profile__header__name__title"
-              >
-                
-                mr_mounty
               
-              </div>
+              mr_mounty
+            
             </div>
              
             <div
@@ -2708,7 +2608,7 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
           </div>
            
           <div
-            class="column page-profile__header__actions"
+            class="page-profile__header__actions"
           >
             <button
               class="tm-btn"
@@ -2743,42 +2643,44 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
             </button>
           </div>
         </div>
-         
+      </div>
+       
+      <div
+        class="row"
+      >
         <div
-          class="row page-profile__header__data"
+          class="row-unjustified"
         >
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
-              Delegated STAKE
+              My Delegation
             </dt>
              
             <dd>
-              
-              0.0000…
-            
+              --
             </dd>
           </dl>
            
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
               My Rewards
             </dt>
              
             <dd>
-              n/a
+              --
             </dd>
           </dl>
-           
-          <div
-            class="page-profile__header__data__break"
-          />
-           
+        </div>
+         
+        <div
+          class="row-unjustified"
+        >
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
               Voting Power
@@ -2787,12 +2689,12 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
             <dd
               id="page-profile__power"
             >
-              100.00 %
+              100.00%
             </dd>
           </dl>
            
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
               Uptime
@@ -2801,15 +2703,12 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
             <dd
               id="page-profile__uptime"
             >
-              
-              n/a
-              %
-            
+              -Inf%
             </dd>
           </dl>
            
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
               Commission
@@ -2819,20 +2718,20 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
               id="page-profile__commission"
             >
               
-              0.0500… %
+              5.00%
             
             </dd>
           </dl>
            
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
               Slashes
             </dt>
              
             <dd>
-              n/a
+              --
             </dd>
           </dl>
         </div>
@@ -2840,7 +2739,7 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
     </div>
      
     <div
-      class="page-profile__details page-profile__section"
+      class="page-profile__section"
     >
       <div
         class="row"
@@ -2852,7 +2751,19 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
             class="info_dl"
           >
             <dt>
-              Operator
+              First Seen
+            </dt>
+             
+            <dd>
+              Block #0
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Full Operator Address
             </dt>
              
             <dd>
@@ -2869,20 +2780,8 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
              
             <dd>
               
-              n/a
+              --
             
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              First Seen
-            </dt>
-             
-            <dd>
-              n/a
             </dd>
           </dl>
            
@@ -2904,7 +2803,7 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
             class="info_dl"
           >
             <dt>
-              Details
+              Description
             </dt>
              
             <dd
@@ -2924,11 +2823,11 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
             class="info_dl"
           >
             <dt>
-              Commission Rate
+              Current Commission Rate
             </dt>
              
             <dd>
-              0.05 %
+              5.00%
             </dd>
           </dl>
            
@@ -2940,7 +2839,7 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
             </dt>
              
             <dd>
-              0.1 %
+              10.00%
             </dd>
           </dl>
            
@@ -2952,7 +2851,7 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
             </dt>
              
             <dd>
-              0.005 %
+              0.50%
             </dd>
           </dl>
            
@@ -2964,9 +2863,7 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
             </dt>
              
             <dd>
-              
               a few seconds ago
-            
             </dd>
           </dl>
            
@@ -2974,25 +2871,13 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
             class="info_dl"
           >
             <dt>
-              Self Delegated STAKE
+              Self Delegation
             </dt>
              
             <dd
               id="page-profile__self-bond"
             >
-              1.00 %
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Minimum Self Delegated STAKE
-            </dt>
-             
-            <dd>
-              0 %
+              1.00%
             </dd>
           </dl>
         </div>
@@ -3255,37 +3140,29 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
       class="page-profile__header page-profile__section"
     >
       <div
-        class="column"
+        class="row"
       >
         <img
           class="avatar"
           src="~assets/images/validator-icon.svg"
         />
-      </div>
-       
-      <div
-        class="column page-profile__header__info"
-      >
+         
         <div
-          class="row page-profile__header__name"
+          class="page-profile__header__info"
         >
           <div
-            class="column"
+            class="page-profile__status-and-title"
           >
+            <span
+              class="page-profile__status green"
+            />
+             
             <div
-              class="page-profile__status-and-title"
+              class="page-profile__title"
             >
-              <span
-                class="page-profile__status green"
-              />
-               
-              <div
-                class="page-profile__header__name__title"
-              >
-                
-                mr_mounty
               
-              </div>
+              mr_mounty
+            
             </div>
              
             <div
@@ -3316,7 +3193,7 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
           </div>
            
           <div
-            class="column page-profile__header__actions"
+            class="page-profile__header__actions"
           >
             <button
               class="tm-btn"
@@ -3351,42 +3228,44 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
             </button>
           </div>
         </div>
-         
+      </div>
+       
+      <div
+        class="row"
+      >
         <div
-          class="row page-profile__header__data"
+          class="row-unjustified"
         >
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
-              Delegated STAKE
+              My Delegation
             </dt>
              
             <dd>
-              
-              0.0000…
-            
+              --
             </dd>
           </dl>
            
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
               My Rewards
             </dt>
              
             <dd>
-              n/a
+              --
             </dd>
           </dl>
-           
-          <div
-            class="page-profile__header__data__break"
-          />
-           
+        </div>
+         
+        <div
+          class="row-unjustified"
+        >
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
               Voting Power
@@ -3395,12 +3274,12 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
             <dd
               id="page-profile__power"
             >
-              100.00 %
+              100.00%
             </dd>
           </dl>
            
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
               Uptime
@@ -3409,15 +3288,12 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
             <dd
               id="page-profile__uptime"
             >
-              
-              n/a
-              %
-            
+              -Inf%
             </dd>
           </dl>
            
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
               Commission
@@ -3427,20 +3303,20 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
               id="page-profile__commission"
             >
               
-              0.0500… %
+              5.00%
             
             </dd>
           </dl>
            
           <dl
-            class="colored_dl"
+            class="info_dl colored_dl"
           >
             <dt>
               Slashes
             </dt>
              
             <dd>
-              n/a
+              --
             </dd>
           </dl>
         </div>
@@ -3448,7 +3324,7 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
     </div>
      
     <div
-      class="page-profile__details page-profile__section"
+      class="page-profile__section"
     >
       <div
         class="row"
@@ -3460,7 +3336,19 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
             class="info_dl"
           >
             <dt>
-              Operator
+              First Seen
+            </dt>
+             
+            <dd>
+              Block #0
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Full Operator Address
             </dt>
              
             <dd>
@@ -3477,20 +3365,8 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
              
             <dd>
               
-              n/a
+              --
             
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              First Seen
-            </dt>
-             
-            <dd>
-              n/a
             </dd>
           </dl>
            
@@ -3512,7 +3388,7 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
             class="info_dl"
           >
             <dt>
-              Details
+              Description
             </dt>
              
             <dd
@@ -3532,11 +3408,11 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
             class="info_dl"
           >
             <dt>
-              Commission Rate
+              Current Commission Rate
             </dt>
              
             <dd>
-              0.05 %
+              5.00%
             </dd>
           </dl>
            
@@ -3548,7 +3424,7 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
             </dt>
              
             <dd>
-              0.1 %
+              10.00%
             </dd>
           </dl>
            
@@ -3560,7 +3436,7 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
             </dt>
              
             <dd>
-              0.005 %
+              0.50%
             </dd>
           </dl>
            
@@ -3572,9 +3448,7 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
             </dt>
              
             <dd>
-              
               a few seconds ago
-            
             </dd>
           </dl>
            
@@ -3582,25 +3456,13 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
             class="info_dl"
           >
             <dt>
-              Self Delegated STAKE
+              Self Delegation
             </dt>
              
             <dd
               id="page-profile__self-bond"
             >
-              1.00 %
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Minimum Self Delegated STAKE
-            </dt>
-             
-            <dd>
-              0 %
+              1.00%
             </dd>
           </dl>
         </div>
