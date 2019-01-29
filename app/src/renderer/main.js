@@ -15,22 +15,32 @@ import App from "./App"
 import routes from "./routes"
 import _Node from "./connectors/node"
 import _Store from "./vuex/store"
+import * as urlHelpers from "../helpers/url.js"
 const _config = require(`../config.json`)
 
-// We want to read the query parameters in the URL
-// If they are there I want to override that part of the configuration
-// I will check if we require the configuration in another place
-
 /**
- * Main method to boot the renderer. It act as Entrypoint
+ * Main method to prepare the boot process. It act as the entrypoint.
  */
 async function main(
+  getURLParams = urlHelpers.getURLParams,
+  startApp = _startApp
+) {
+  const params = getURLParams(window)
+  const enrichedConfig = Object.assign({}, _config, params)
+
+  startApp(enrichedConfig)
+}
+
+/**
+ * Start the Vue app
+ */
+async function _startApp(
+  config,
   Node = _Node,
   Store = _Store,
   env = process.env,
   Sentry = _Sentry,
-  Vue = _Vue,
-  config = _config
+  Vue = _Vue
 ) {
   let store
   let node
@@ -94,9 +104,9 @@ async function main(
     })
   }
 
-  console.log(`Expecting stargate at: ${config.node_lcd}`)
+  console.log(`Expecting stargate at: ${config.lcd}`)
 
-  node = Node(axios, config.node_lcd)
+  node = Node(axios, config.lcd)
 
   store = Store({ node })
 
@@ -126,3 +136,4 @@ main()
 
 // export for tests only
 module.exports.main = main
+module.exports.startApp = _startApp

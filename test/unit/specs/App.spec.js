@@ -18,7 +18,7 @@ describe(`App Start`, () => {
   })
 
   it(`waits for the node have connected to init subscription`, async () => {
-    const { main } = await require(`renderer/main.js`)
+    const { startApp } = require(`renderer/main.js`)
 
     const node = {
       rpcConnect: jest.fn(),
@@ -45,19 +45,31 @@ describe(`App Start`, () => {
       init: jest.fn()
     }
 
-    await main(
+    await startApp(
+      {
+        lcd: `http://localhost:12344`
+      },
       Node,
       Store,
       {
         NODE_ENV: `production`
       },
       Sentry,
-      Vue,
-      {
-        node_lcd: `http://localhost:12344`
-      }
+      Vue
     )
 
     expect(store.dispatch).toHaveBeenCalledWith(`connect`)
+  })
+
+  it(`gathers url parameters to overwrite the app config before starting the app`, () => {
+    const { main } = require(`renderer/main.js`)
+    const getURLParams = jest.fn(() => ({
+      x: 1
+    }))
+    const startApp = jest.fn()
+    main(getURLParams, startApp)
+    expect(getURLParams).toHaveBeenCalled()
+    expect(startApp).toHaveBeenCalled()
+    expect(startApp.mock.calls[0][0]).toHaveProperty(`x`, 1)
   })
 })
