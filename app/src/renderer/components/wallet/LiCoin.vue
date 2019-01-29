@@ -1,5 +1,5 @@
 <template>
-  <li class="li-coin">
+  <li :id="`li-coin--` + denomination.toLowerCase()" class="li-coin">
     <div class="li-coin__icon">
       <img src="~assets/images/cosmos-logo.png" />
     </div>
@@ -10,15 +10,11 @@
       <div class="li-coin__content__left__amount">
         <p class="coin-amount">{{ amount }}</p>
       </div>
-      <router-link :to="{ name: 'send', params: { denom: coin.denom } }">
-        <tm-btn
-          value="Send"
-          class="sendTx-btn"
-          icon="chevron_right"
-          icon-pos="right"
-          color="primary"
-        />
-      </router-link>
+      <tm-btn
+        value="Send"
+        color="primary"
+        @click.native="$emit(`show-modal`, denomination)"
+      />
     </div>
   </li>
 </template>
@@ -43,10 +39,7 @@ export default {
       return num.full(parseFloat(this.coin.amount))
     },
     denomination() {
-      return (
-        this.coin.denom.substring(0, 1).toUpperCase() +
-        this.coin.denom.substring(1).toLowerCase()
-      )
+      return this.coin.denom
     }
   }
 }

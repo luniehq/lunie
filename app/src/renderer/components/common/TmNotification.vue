@@ -86,12 +86,13 @@ export default {
 
 <style>
 .tm-notification {
-  background: var(--app-fg);
+  background: var(--app-nav);
   font-size: 0.75rem;
   cursor: pointer;
   user-select: none;
   margin: 0.5rem 0.5rem 0;
   border-radius: 0.25rem;
+  border: 1px solid var(--bc-dim);
 }
 
 .tm-notification.tm-notification-warning header {
@@ -152,6 +153,7 @@ export default {
 
 .tm-notification:hover menu .close {
   display: block;
+  cursor: pointer;
 }
 
 @media screen and (min-width: 360px) {

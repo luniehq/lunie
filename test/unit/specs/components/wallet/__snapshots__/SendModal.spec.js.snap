@@ -1,0 +1,318 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SendModal has the expected html structure 1`] = `
+<action-modal-stub
+  denom="STAKE"
+  id="send-modal"
+  submissionerrorprefix="Sending tokens failed"
+  submitfn="function () { [native code] }"
+  title="Send"
+  validate="function () { [native code] }"
+>
+  <tm-form-group-stub
+    class="action-modal-form-group"
+    fieldid="send-denomination"
+    fieldlabel="Denomination"
+  >
+    <tm-field-stub
+      id="send-denomination"
+      readonly=""
+      type="text"
+      value=""
+    />
+     
+    <!---->
+  </tm-form-group-stub>
+   
+  <tm-form-group-stub
+    class="action-modal-form-group"
+    fieldid="send-address"
+    fieldlabel="Send To"
+  >
+    <tm-field-stub
+      id="send-address"
+      placeholder="Address"
+      type="text"
+      value=""
+    />
+     
+    <!---->
+  </tm-form-group-stub>
+   
+  <tm-form-group-stub
+    class="action-modal-form-group"
+    fieldid="amount"
+    fieldlabel="Amount"
+  >
+    <tm-field-stub
+      class="tm-field"
+      id="amount"
+      placeholder="Amount"
+      type="number"
+    />
+     
+    <tm-form-msg-stub
+      msg="doesn't have any s"
+      name="Wallet"
+      type="custom"
+    />
+  </tm-form-group-stub>
+</action-modal-stub>
+`;
+
+exports[`SendModal validation should show address required error 1`] = `
+<action-modal-stub
+  denom="STAKE"
+  id="send-modal"
+  submissionerrorprefix="Sending tokens failed"
+  submitfn="function () { [native code] }"
+  title="Send"
+  validate="function () { [native code] }"
+>
+  <tm-form-group-stub
+    class="action-modal-form-group"
+    fieldid="send-denomination"
+    fieldlabel="Denomination"
+  >
+    <tm-field-stub
+      id="send-denomination"
+      readonly=""
+      type="text"
+      value="STAKE"
+    />
+     
+    <!---->
+  </tm-form-group-stub>
+   
+  <tm-form-group-stub
+    class="action-modal-form-group"
+    error="true"
+    fieldid="send-address"
+    fieldlabel="Send To"
+  >
+    <tm-field-stub
+      id="send-address"
+      placeholder="Address"
+      type="text"
+      value=""
+    />
+     
+    <tm-form-msg-stub
+      msg=""
+      name="Address"
+      type="required"
+    />
+  </tm-form-group-stub>
+   
+  <tm-form-group-stub
+    class="action-modal-form-group"
+    fieldid="amount"
+    fieldlabel="Amount"
+  >
+    <tm-field-stub
+      class="tm-field"
+      id="amount"
+      placeholder="Amount"
+      type="number"
+      value="2"
+    />
+     
+    <!---->
+  </tm-form-group-stub>
+</action-modal-stub>
+`;
+
+exports[`SendModal validation should show bech32 error when address length is too long 1`] = `
+<action-modal-stub
+  denom="STAKE"
+  id="send-modal"
+  submissionerrorprefix="Sending tokens failed"
+  submitfn="function () { [native code] }"
+  title="Send"
+  validate="function () { [native code] }"
+>
+  <tm-form-group-stub
+    class="action-modal-form-group"
+    fieldid="send-denomination"
+    fieldlabel="Denomination"
+  >
+    <tm-field-stub
+      id="send-denomination"
+      readonly=""
+      type="text"
+      value="STAKE"
+    />
+     
+    <!---->
+  </tm-form-group-stub>
+   
+  <tm-form-group-stub
+    class="action-modal-form-group"
+    error="true"
+    fieldid="send-address"
+    fieldlabel="Send To"
+  >
+    <tm-field-stub
+      id="send-address"
+      placeholder="Address"
+      type="text"
+      value="asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf"
+    />
+     
+    <tm-form-msg-stub
+      msg=""
+      name="Address"
+      type="bech32"
+    />
+  </tm-form-group-stub>
+   
+  <tm-form-group-stub
+    class="action-modal-form-group"
+    fieldid="amount"
+    fieldlabel="Amount"
+  >
+    <tm-field-stub
+      class="tm-field"
+      id="amount"
+      placeholder="Amount"
+      type="number"
+      value="2"
+    />
+     
+    <!---->
+  </tm-form-group-stub>
+</action-modal-stub>
+`;
+
+exports[`SendModal validation should show bech32 error when address length is too short 1`] = `
+<action-modal-stub
+  denom="STAKE"
+  id="send-modal"
+  submissionerrorprefix="Sending tokens failed"
+  submitfn="function () { [native code] }"
+  title="Send"
+  validate="function () { [native code] }"
+>
+  <tm-form-group-stub
+    class="action-modal-form-group"
+    fieldid="send-denomination"
+    fieldlabel="Denomination"
+  >
+    <tm-field-stub
+      id="send-denomination"
+      readonly=""
+      type="text"
+      value="STAKE"
+    />
+     
+    <!---->
+  </tm-form-group-stub>
+   
+  <tm-form-group-stub
+    class="action-modal-form-group"
+    error="true"
+    fieldid="send-address"
+    fieldlabel="Send To"
+  >
+    <tm-field-stub
+      id="send-address"
+      placeholder="Address"
+      type="text"
+      value="asdf"
+    />
+     
+    <tm-form-msg-stub
+      msg=""
+      name="Address"
+      type="bech32"
+    />
+  </tm-form-group-stub>
+   
+  <tm-form-group-stub
+    class="action-modal-form-group"
+    fieldid="amount"
+    fieldlabel="Amount"
+  >
+    <tm-field-stub
+      class="tm-field"
+      id="amount"
+      placeholder="Amount"
+      type="number"
+      value="2"
+    />
+     
+    <!---->
+  </tm-form-group-stub>
+</action-modal-stub>
+`;
+
+exports[`SendModal validation should show bech32 error when alphanumeric is wrong 1`] = `
+<action-modal-stub
+  denom="STAKE"
+  id="send-modal"
+  submissionerrorprefix="Sending tokens failed"
+  submitfn="function () { [native code] }"
+  title="Send"
+  validate="function () { [native code] }"
+>
+  <tm-form-group-stub
+    class="action-modal-form-group"
+    error="true"
+    fieldid="send-denomination"
+    fieldlabel="Denomination"
+  >
+    <tm-field-stub
+      id="send-denomination"
+      readonly=""
+      type="text"
+      value=""
+    />
+     
+    <tm-form-msg-stub
+      msg=""
+      name="Denomination"
+      type="required"
+    />
+  </tm-form-group-stub>
+   
+  <tm-form-group-stub
+    class="action-modal-form-group"
+    error="true"
+    fieldid="send-address"
+    fieldlabel="Send To"
+  >
+    <tm-field-stub
+      id="send-address"
+      placeholder="Address"
+      type="text"
+      value=""
+    />
+     
+    <tm-form-msg-stub
+      msg=""
+      name="Address"
+      type="required"
+    />
+  </tm-form-group-stub>
+   
+  <tm-form-group-stub
+    class="action-modal-form-group"
+    error="true"
+    fieldid="amount"
+    fieldlabel="Amount"
+  >
+    <tm-field-stub
+      class="tm-field"
+      id="amount"
+      placeholder="Amount"
+      type="number"
+    />
+     
+    <tm-form-msg-stub
+      msg="doesn't have any s"
+      name="Wallet"
+      type="custom"
+    />
+  </tm-form-group-stub>
+</action-modal-stub>
+`;

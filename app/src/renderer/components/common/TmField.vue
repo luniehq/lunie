@@ -63,8 +63,6 @@
     :class="css"
     :placeholder="placeholder"
     :value="value"
-    :max="max"
-    :min="min"
     @change="onChange"
     @keyup="onKeyup"
     @keydown="onKeydown"
@@ -107,14 +105,6 @@ export default {
     keydown: {
       type: Function,
       default: null
-    },
-    max: {
-      type: [String, Number], // for convenience you can provide a string
-      default: null
-    },
-    min: {
-      type: [String, Number], // for convenience you can provide a string
-      default: null
     }
   },
   data: () => ({
@@ -130,10 +120,6 @@ export default {
       if (this.type === `select`) {
         value += ` tm-field-select`
       }
-      // not used and screws with css when used
-      // if (this.type === `toggle`) {
-      //   value += ` tm-field-toggle`
-      // }
       if (this.size) value += ` tm-field-size-${this.size}`
       return value
     },
@@ -167,9 +153,11 @@ export default {
     },
     updateValue(value) {
       let formattedValue = value
-      if (this.type == `number`) {
-        formattedValue = this.forceMinMax(value)
+
+      if (this.type === `number`) {
+        formattedValue = Number(value)
       }
+
       // Emit the number value through the input event
       this.$emit(`input`, formattedValue)
     },
@@ -181,15 +169,6 @@ export default {
     },
     onKeydown(...args) {
       if (this.keydown) return this.keydown(...args)
-    },
-    forceMinMax(value) {
-      value = typeof value === `string` ? Number(value.trim()) : value
-      if (this.max && value > this.max) {
-        value = Number(this.max)
-      } else if (this.min && value && value < this.min) {
-        value = Number(this.min)
-      }
-      return value
     }
   }
 }

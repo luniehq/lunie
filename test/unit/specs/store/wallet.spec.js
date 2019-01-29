@@ -8,39 +8,16 @@ const mockRootState = {
     connected: true
   }
 }
-jest.mock(`src/network.js`, () => () => ({
-  genesis: {
-    app_state: {
-      accounts: [
-        {
-          address: `cosmos1qwtatamg8nznvfy9a6nrt0qkdk328qsxexsj5q`,
-          coins: [
-            {
-              denom: `mycoin`,
-              amount: `1000`
-            },
-            {
-              denom: `fermion`,
-              amount: `2300`
-            },
-            {
-              denom: `STAKE`,
-              amount: `1000`
-            }
-          ],
-          sequence_number: `1`,
-          account_number: `49`
-        }
-      ]
-    }
-  }
+jest.mock(`src/config.json`, () => ({
+  denoms: [`mycoin`, `fermion`, `STAKE`]
 }))
 
 describe(`Module: Wallet`, () => {
-  let module, actions
+  let module, actions, state
 
   beforeEach(() => {
     module = walletModule({ node: {} })
+    state = module.state
     actions = module.actions
   })
 
@@ -58,6 +35,22 @@ describe(`Module: Wallet`, () => {
     const balances = [{ denom: `leetcoin`, amount: `1337` }]
     mutations.setWalletBalances(state, balances)
     expect(state.balances).toBe(balances)
+  })
+
+  it(`update individual wallet balances`, () => {
+    let { state, mutations } = module
+
+    state.balances.push({ denom: `coin`, amount: `42` })
+
+    // add new
+    const balance = { denom: `leetcoin`, amount: `1337` }
+    mutations.updateWalletBalance(state, balance)
+    expect(state.balances).toContain(balance)
+
+    // update balance
+    const updatedBalance = { denom: `leetcoin`, amount: `1` }
+    mutations.updateWalletBalance(state, updatedBalance)
+    expect(state.balances).toContain(updatedBalance)
   })
 
   it(`should set wallet key and clear balance `, () => {
@@ -135,18 +128,6 @@ describe(`Module: Wallet`, () => {
       `fermion`,
       `STAKE`
     ])
-  })
-
-  it(`should throw an error if can't load genesis`, async () => {
-    jest.resetModules()
-    const mockPromise = Promise
-    jest.mock(`src/network.js`, () => () => mockPromise.reject(`Error`))
-    // needs to reload the file to import mocked module
-    let walletModule = require(`modules/wallet.js`).default
-    let { actions, state } = walletModule({})
-    let commit = jest.fn()
-    await actions.loadDenoms({ commit, state })
-    expect(state.error).toMatchSnapshot()
   })
 
   it(`should query the balances on reconnection`, async () => {
@@ -244,5 +225,44 @@ describe(`Module: Wallet`, () => {
       commit
     })
     expect(state.error.message).toBe(`Error`)
+  })
+
+  it(`should send coins`, async () => {
+    state.balances = [
+      {
+        denom: `funcoin`,
+        amount: 1000
+      }
+    ]
+
+    const dispatch = jest.fn()
+    const commit = jest.fn()
+    await actions.sendCoins(
+      {
+        state,
+        rootState: mockRootState,
+        dispatch,
+        commit
+      },
+      {
+        receiver: `cosmos1xxx`,
+        amount: 12,
+        denom: `funcoin`,
+        password: `1234567890`
+      }
+    )
+
+    expect(dispatch).toHaveBeenCalledWith(`sendTx`, {
+      type: `send`,
+      password: `1234567890`,
+      to: `cosmos1xxx`,
+      amount: [{ denom: `funcoin`, amount: `12` }]
+    })
+
+    // should update the balance optimistically
+    expect(commit).toHaveBeenCalledWith(`updateWalletBalance`, {
+      denom: `funcoin`,
+      amount: 988
+    })
   })
 })

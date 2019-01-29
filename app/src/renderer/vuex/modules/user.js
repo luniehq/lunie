@@ -41,9 +41,6 @@ export default ({}) => {
     setAccounts(state, accounts) {
       state.accounts = accounts
     },
-    setAtoms(state, atoms) {
-      state.atoms = atoms
-    },
     addHistory(state, path) {
       state.history.push(path)
       state.externals.track(`pageview`, {

@@ -49,7 +49,7 @@ describe(`SessionSignUp`, () => {
 
   it(`should close the modal on successful login`, async () => {
     const commit = jest.fn()
-    await wrapper.vm.onSubmit({
+    await TmSessionSignUp.methods.onSubmit.call({
       $store: {
         commit,
         dispatch: jest.fn()
@@ -72,7 +72,7 @@ describe(`SessionSignUp`, () => {
   it(`should signal signedin state on successful login`, async () => {
     const commit = jest.fn()
     const dispatch = jest.fn()
-    await TmSessionSignUp.methods.onSubmit({
+    await TmSessionSignUp.methods.onSubmit.call({
       $store: {
         commit,
         dispatch
@@ -99,7 +99,7 @@ describe(`SessionSignUp`, () => {
   it(`should set error collection opt in state`, async () => {
     const commit = jest.fn()
     const dispatch = jest.fn()
-    await wrapper.vm.onSubmit({
+    await TmSessionSignUp.methods.onSubmit.call({
       $store: {
         commit,
         dispatch
@@ -124,7 +124,7 @@ describe(`SessionSignUp`, () => {
 
     dispatch.mockClear()
 
-    await wrapper.vm.onSubmit({
+    await TmSessionSignUp.methods.onSubmit.call({
       $store: {
         commit,
         dispatch

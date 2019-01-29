@@ -58,14 +58,14 @@ export default {
 }
 
 .short-bech32 .address {
-  color: var(--dim);
+  color: var(--link);
   cursor: pointer;
   font-size: 14px;
   line-height: 14px;
 }
 
 .short-bech32 .address:hover {
-  color: var(--link);
+  color: var(--link-hover);
 }
 
 .short-bech32 .copied {

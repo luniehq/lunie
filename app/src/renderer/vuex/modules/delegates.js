@@ -107,7 +107,6 @@ export default ({ node }) => {
           body: error.message
         })
         Sentry.captureException(error)
-        commit(`setDelegateLoading`, false)
         state.error = error
         return []
       }

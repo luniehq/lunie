@@ -84,7 +84,7 @@ async function makeValidator(
   moniker,
   chainId,
   operatorSignInfo = {
-    keyName: moniker + `-operator`,
+    keyName: `${moniker}-operator`,
     password: `1234567890`,
     clientHomeDir: cliHome
   }
@@ -100,7 +100,6 @@ async function makeValidator(
       await sleep(1000)
       await getBalance(cliHome, address)
     } catch (error) {
-      // console.error(error) // kept in here to see if something unexpected fails
       continue
     }
     break
@@ -147,7 +146,7 @@ async function declareValidator(
     ` --commission-max-change-rate=0` +
     ` --commission-max-rate=0` +
     ` --commission-rate=0` +
-    ` --json`
+    ` --output=json`
 
   return makeExecWithInputs(command, [password])
 }

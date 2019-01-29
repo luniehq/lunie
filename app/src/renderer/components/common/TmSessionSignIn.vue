@@ -19,7 +19,7 @@
             vue-focus="vue-focus"
           />
           <tm-form-msg
-            v-if="!$v.fields.signInName.required"
+            v-if="$v.fields.signInName.$error && !$v.fields.signInName.required"
             name="Name"
             type="required"
           />
@@ -35,12 +35,18 @@
             type="password"
           />
           <tm-form-msg
-            v-if="!$v.fields.signInPassword.required"
+            v-if="
+              $v.fields.signInPassword.$error &&
+                !$v.fields.signInPassword.required
+            "
             name="Password"
             type="required"
           />
           <tm-form-msg
-            v-if="!$v.fields.signInPassword.minLength"
+            v-if="
+              $v.fields.signInPassword.$error &&
+                !$v.fields.signInPassword.minLength
+            "
             name="Password"
             type="minLength"
             min="10"

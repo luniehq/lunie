@@ -16,57 +16,44 @@ describe(`RPC Connector`, () => {
       RpcClient: () => ({
         on() {},
         removeAllListeners() {},
-        ws: { destroy() {} }
+        ws: { destroy() {} },
+        health: () => ({})
       })
     }))
 
     newConnector()
   })
 
-  it(`should init the rpc connection`, () => {
-    connector.rpcConnect(`localhost`)
+  it(`should init the rpc connection`, async () => {
+    await connector.rpcConnect(`localhost`)
     expect(connector.rpc).toBeDefined()
     expect(connector.rpcInfo.connected).toBe(true)
   })
 
-  it(`should remember if it could not connect via rpc`, () => {
+  it(`should remember if it could not connect via rpc`, async () => {
     jest.mock(`tendermint`, () => ({
       RpcClient: () => ({
         on(value, cb) {
           if (value === `error`) {
             cb({ code: `ECONNREFUSED` })
           }
-        }
+        },
+        health: () => ({})
       })
     }))
     newConnector()
-    connector.rpcConnect(`localhost`)
-    expect(connector.rpc).toBeDefined()
+    await expect(connector.rpcConnect(`localhost`)).rejects.toThrow()
+    expect(connector.rpc).not.toBeDefined()
     expect(connector.rpcInfo.connected).toBe(false)
   })
 
-  it(`should not react to error codes not meaning connection failed`, () => {
-    jest.mock(`tendermint`, () => ({
-      RpcClient: () => ({
-        on(value, cb) {
-          if (value === `error`) {
-            cb({ code: `ABCD` })
-          }
-        }
-      })
-    }))
-    connector.rpcConnect(`localhost`)
-    expect(connector.rpc).toBeDefined()
-    expect(connector.rpcInfo.connected).toBe(true)
-  })
-
-  it(`should cleanup the old websocket when connecting again`, () => {
-    connector.rpcConnect(`localhost`)
+  it(`should cleanup the old websocket when connecting again`, async () => {
+    await connector.rpcConnect(`localhost`)
 
     let spyListeners = jest.spyOn(connector.rpc, `removeAllListeners`)
     let spyDestroy = jest.spyOn(connector.rpc.ws, `destroy`)
 
-    connector.rpcConnect(`localhost`)
+    await connector.rpcConnect(`localhost`)
 
     expect(spyListeners).toHaveBeenCalledWith(`error`)
     expect(spyDestroy).toHaveBeenCalled()

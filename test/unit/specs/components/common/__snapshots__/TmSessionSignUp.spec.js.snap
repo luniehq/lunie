@@ -49,11 +49,7 @@ exports[`SessionSignUp has the expected html structure 1`] = `
           value=""
         />
          
-        <tm-form-msg-stub
-          msg=""
-          name="Name"
-          type="required"
-        />
+        <!---->
          
         <!---->
       </tm-form-group-stub>
@@ -69,11 +65,7 @@ exports[`SessionSignUp has the expected html structure 1`] = `
           value=""
         />
          
-        <tm-form-msg-stub
-          msg=""
-          name="Password"
-          type="required"
-        />
+        <!---->
          
         <!---->
       </tm-form-group-stub>
@@ -93,6 +85,7 @@ exports[`SessionSignUp has the expected html structure 1`] = `
       </tm-form-group-stub>
        
       <tm-form-group-stub
+        class="sign-up-seed-group"
         fieldid="sign-up-seed"
         fieldlabel="Seed Phrase"
       >
@@ -104,12 +97,11 @@ exports[`SessionSignUp has the expected html structure 1`] = `
          
         <tm-form-msg-stub
           class="sm"
-          msg=""
+          msg="Please back up the seed phrase for this account. This seed phrase
+          cannot be recovered."
           name=""
-        >
-          Please back up the seed phrase for this account. This seed phrase
-          cannot be recovered.
-        </tm-form-msg-stub>
+          type="custom"
+        />
       </tm-form-group-stub>
        
       <tm-form-group-stub
@@ -137,11 +129,7 @@ exports[`SessionSignUp has the expected html structure 1`] = `
           </label>
         </div>
          
-        <tm-form-msg-stub
-          msg=""
-          name="Recovery confirmation"
-          type="required"
-        />
+        <!---->
       </tm-form-group-stub>
        
       <tm-form-group-stub

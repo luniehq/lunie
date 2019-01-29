@@ -23,9 +23,15 @@ export const allTransactions = state =>
 export const wallet = state => state.wallet
 
 // staking
+export const liquidAtoms = state =>
+  (
+    state.wallet.balances.find(
+      balance => balance.denom === state.stakingParameters.parameters.bond_denom
+    ) || { amount: 0 }
+  ).amount
 export const delegation = state => state.delegation
 export const totalAtoms = (state, getters) => {
-  return new BN(getters.user.atoms)
+  return new BN(getters.liquidAtoms)
     .plus(new BN(getters.oldBondedAtoms))
     .plus(new BN(getters.oldUnbondingAtoms))
     .toString()
@@ -73,7 +79,9 @@ export const votes = state => state.votes.votes
 export const deposits = state => state.deposits.deposits
 export const governanceParameters = state => state.governanceParameters
 export const depositDenom = getters =>
-  getters.governanceParameters.parameters.deposit.min_deposit[0].denom
+  getters.governanceParameters.loaded
+    ? getters.governanceParameters.parameters.deposit.min_deposit[0].denom
+    : ``
 
 // status
 export const approvalRequired = state => state.connection.approvalRequired

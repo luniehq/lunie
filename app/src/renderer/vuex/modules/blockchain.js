@@ -43,9 +43,11 @@ export default ({ node }) => {
           return blockMetaInfo
         }
         state.loading = true
-        blockMetaInfo = await node.rpc
-          .blockchain({ minHeight: String(height), maxHeight: String(height) })
-          .then(({ block_metas }) => (block_metas ? block_metas[0] : undefined))
+        const { block_metas } = await node.rpc.blockchain({
+          minHeight: String(height),
+          maxHeight: String(height)
+        })
+        blockMetaInfo = block_metas ? block_metas[0] : undefined
         state.loading = false
 
         commit(`setBlockMetas`, {
@@ -64,28 +66,27 @@ export default ({ node }) => {
         return null
       }
     },
-    subscribeToBlocks({ state, commit, dispatch }) {
+    async subscribeToBlocks({ state, commit, dispatch }) {
       // ensure we never subscribe twice
       if (state.subscription) return false
       if (state.subscribedRPC === node.rpc) return false
       commit(`setSubscribedRPC`, node.rpc)
 
-      node.rpc.status().then(status => {
-        commit(`setBlockHeight`, status.sync_info.latest_block_height)
-        if (status.sync_info.catching_up) {
-          // still syncing, let's try subscribing again in 30 seconds
-          commit(`setSyncing`, true)
-          commit(`setSubscription`, false)
-          setTimeout(() => dispatch(`subscribeToBlocks`), 30e3)
-          return false
-        }
+      const status = await node.rpc.status()
+      commit(`setBlockHeight`, status.sync_info.latest_block_height)
+      if (status.sync_info.catching_up) {
+        // still syncing, let's try subscribing again in 30 seconds
+        commit(`setSyncing`, true)
+        commit(`setSubscription`, false)
+        setTimeout(() => dispatch(`subscribeToBlocks`), 30e3)
+        return false
+      }
 
-        commit(`setSyncing`, false)
+      commit(`setSyncing`, false)
 
-        // only subscribe if the node is not catching up anymore
-        node.rpc.subscribe({ query: `tm.event = 'NewBlock'` }, () => {
-          if (state.subscription === false) commit(`setSubscription`, true)
-        })
+      // only subscribe if the node is not catching up anymore
+      node.rpc.subscribe({ query: `tm.event = 'NewBlock'` }, () => {
+        if (state.subscription === false) commit(`setSubscription`, true)
       })
 
       return true
