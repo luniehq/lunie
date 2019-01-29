@@ -153,14 +153,14 @@ describe(`Signing`, () => {
         sequence: `0`,
         account_number: `1`,
         chain_id: `tendermint_test`,
-        signMessage: `{"account_number":"1","chain_id":"tendermint_test","fee":{"amount":[{"amount":"0","denom":""}],"gas":"21906"},"memo":"","msgs":[{"inputs":[{"address":"cosmos1qperwt9wrnkg5k9e5gzfgjppzpqhyav5j24d66","coins":[{"amount":"1","denom":"STAKE"}]}],"outputs":[{"address":"cosmos1yeckxz7tapz34kjwnjxvmxzurerquhtrmxmuxt","coins":[{"amount":"1","denom":"STAKE"}]}]}],"sequence":"0"}`
+        signMessage: `{\"account_number\":\"1\",\"chain_id\":\"tendermint_test\",\"fee\":{\"amount\":[{\"amount\":\"0\",\"denom\":\"\"}],\"gas\":\"21906\"},\"memo\":\"\",\"msgs\":[{\"type\":\"cosmos-sdk/Send\",\"value\":{\"inputs\":[{\"address\":\"cosmos1qperwt9wrnkg5k9e5gzfgjppzpqhyav5j24d66\",\"coins\":[{\"amount\":\"1\",\"denom\":\"STAKE\"}]}],\"outputs\":[{\"address\":\"cosmos1yeckxz7tapz34kjwnjxvmxzurerquhtrmxmuxt\",\"coins\":[{\"amount\":\"1\",\"denom\":\"STAKE\"}]}]}}],\"sequence\":\"0\"}`
       },
       {
         tx: txWithNulls,
         sequence: `0`,
         account_number: `1`,
         chain_id: `tendermint_test`,
-        signMessage: `{"account_number":"1","chain_id":"tendermint_test","fee":{"amount":[{"amount":"0","denom":""}],"gas":"21906"},"memo":"","msgs":[{"inputs":[{"address":"cosmos1qperwt9wrnkg5k9e5gzfgjppzpqhyav5j24d66","coins":[{"amount":"1","denom":"STAKE"}]}],"outputs":[{"address":"cosmos1yeckxz7tapz34kjwnjxvmxzurerquhtrmxmuxt","coins":[{"amount":"1","denom":"STAKE"}]}]}],"sequence":"0"}`
+        signMessage: `{\"account_number\":\"1\",\"chain_id\":\"tendermint_test\",\"fee\":{\"amount\":[{\"amount\":\"0\",\"denom\":\"\"}],\"gas\":\"21906\"},\"memo\":\"\",\"msgs\":[{\"type\":\"cosmos-sdk/Send\",\"value\":{\"inputs\":[{\"address\":\"cosmos1qperwt9wrnkg5k9e5gzfgjppzpqhyav5j24d66\",\"coins\":[{\"amount\":\"1\",\"denom\":\"STAKE\"}]}],\"outputs\":[{\"address\":\"cosmos1yeckxz7tapz34kjwnjxvmxzurerquhtrmxmuxt\",\"coins\":[{\"amount\":\"1\",\"denom\":\"STAKE\"}]}]}}],\"sequence\":\"0\"}`
       }
     ]
 
@@ -181,7 +181,7 @@ describe(`Signing`, () => {
           publicKey: `03ab1ebbb21aee35154e36aaebc25067177f783f7e967c9d6493e8920c05e40eb5`
         },
         tx,
-        signature: `dRrVzV9ixitWXtXZIgidctjrIPNXMU47eNLolQ1lcRxpFf1crE+b/QrVRwpmiNUdFgPlvWkAJUTygIrFqIVr1w==`,
+        signature: `YjJhlAf7aCnUtLyBNDp9e6LKuNgV7hJC3rmm0Wro5nBsIPVtWzjuobsp/AhR5Kht+HcRF2zBq4AfoNQMIbY6fw==`,
         sequence: `0`,
         account_number: `1`,
         chain_id: `tendermint_test`,
