@@ -169,33 +169,39 @@ exports[`PageProposal has the expected html structure 1`] = `
       class="page-profile__header page-profile__section proposal"
     >
       <div
-        class="column page-profile__header__info"
+        class="row"
       >
+        <h2
+          class="proposal-id"
+        >
+          #2
+        </h2>
+         
         <div
-          class="row page-profile__header__name"
+          class="page-profile__header__info"
         >
           <div
-            class="top column"
+            class="page-profile__status-and-title"
           >
-            <div
-              class="page-profile__status-and-title"
+            <span
+              class="page-profile__status green"
+            />
+             
+            <h2
+              class="page-profile__title"
             >
-              <span
-                class="page-profile__status green"
-              />
-               
-              <div
-                class="page-profile__header__name__title"
-              >
-                
-                VotingPeriod proposal (#2)
+              VotingPeriod proposal
+            </h2>
+             
+            <h3>
               
-              </div>
-            </div>
+              Proposer: Fede
+            
+            </h3>
           </div>
            
           <div
-            class="column page-profile__header__actions"
+            class="page-profile__header__actions"
           >
             <button
               class="tm-btn"
@@ -216,110 +222,149 @@ exports[`PageProposal has the expected html structure 1`] = `
             <!---->
              
             <!---->
+             
+            <!---->
           </div>
         </div>
-         
-        <div
-          class="row description"
+      </div>
+       
+      <div
+        class="row"
+      >
+        <dl
+          class="info_dl info_dl colored_dl"
         >
-          <p>
+          <dt>
+            Submitted
+          </dt>
+           
+          <dd>
+            a few seconds ago
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl colored_dl"
+        >
+          <dt>
+            Proposal Status
+          </dt>
+           
+          <dd>
             
-            Submitted a few seconds ago.
             Voting started a few seconds ago.
           
-          </p>
-        </div>
+          </dd>
+        </dl>
          
-        <div
-          class="row page-profile__header__data votes"
+        <dl
+          class="info_dl colored_dl"
         >
-          <dl
-            class="colored_dl"
-          >
-            <dt>
-              Deposit
-            </dt>
-             
-            <dd>
-              
-              200 STAKE
+          <dt>
+            Deposit Count
+          </dt>
+           
+          <dd>
             
-            </dd>
-          </dl>
+            200 STAKE
+          
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl colored_dl"
+        >
+          <dt>
+            Vote Count
+          </dt>
            
-          <div
-            class="page-profile__header__data__break"
-          />
-           
-          <dl
-            class="colored_dl"
-          >
-            <dt>
-              Yes
-            </dt>
-             
-            <dd>
-              0 / 0%
-            </dd>
-          </dl>
-           
-          <dl
-            class="colored_dl"
-          >
-            <dt>
-              No
-            </dt>
-             
-            <dd>
-              0 / 0%
-            </dd>
-          </dl>
-           
-          <dl
-            class="colored_dl"
-          >
-            <dt>
-              No with Veto
-            </dt>
-             
-            <dd>
-              0 / 0%
-            </dd>
-          </dl>
-           
-          <dl
-            class="colored_dl"
-          >
-            <dt>
-              Abstain
-            </dt>
-             
-            <dd>
-              0 / 0%
-            </dd>
-          </dl>
-        </div>
+          <dd>
+            0
+          </dd>
+        </dl>
       </div>
     </div>
      
     <div
-      class="page-profile__details page-profile__section"
+      class="page-profile__section"
     >
       <div
-        class="column"
+        class="row"
+      >
+        <dl
+          class="info_dl colored_dl"
+        >
+          <dt>
+            Yes
+          </dt>
+           
+          <dd>
+            0 / 0%
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl colored_dl"
+        >
+          <dt>
+            No
+          </dt>
+           
+          <dd>
+            0 / 0%
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl colored_dl"
+        >
+          <dt>
+            No with Veto
+          </dt>
+           
+          <dd>
+            0 / 0%
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl colored_dl"
+        >
+          <dt>
+            Abstain
+          </dt>
+           
+          <dd>
+            0 / 0%
+          </dd>
+        </dl>
+      </div>
+       
+      <div
+        class="row"
       >
         <div
-          class="row"
+          class="column"
         >
-          <div
-            class="text-block"
+          <dl
+            class="info_dl colored_dl"
           >
-            <p>
-              custom text proposal description
-            </p>
-            
+            <dt>
+              Description
+            </dt>
+             
+            <dd>
+              <div
+                class="text-block"
+              >
+                <p>
+                  custom text proposal description
+                </p>
+                
 
-          </div>
+              </div>
+            </dd>
+          </dl>
         </div>
       </div>
     </div>

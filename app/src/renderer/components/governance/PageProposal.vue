@@ -4,24 +4,27 @@
       <tm-balance />
       <tool-bar />
     </template>
+
     <tm-data-error v-if="!proposal" />
+
     <template v-else>
       <div class="page-profile__header page-profile__section proposal">
-        <div class="column page-profile__header__info">
-          <div class="row page-profile__header__name">
-            <div class="top column">
-              <div class="page-profile__status-and-title">
-                <span
-                  v-tooltip.top="status.message"
-                  :class="status.color"
-                  class="page-profile__status"
-                />
-                <div class="page-profile__header__name__title">
-                  {{ proposal.title }} {{ `(#` + proposalId + `)` }}
-                </div>
-              </div>
+        <div class="row">
+          <h2 class="proposal-id">#{{ proposalId }}</h2>
+          <div class="page-profile__header__info">
+            <div class="page-profile__status-and-title">
+              <span
+                v-tooltip.top="status.message"
+                :class="status.color"
+                class="page-profile__status"
+              />
+              <h2 class="page-profile__title">{{ proposal.title }}</h2>
+              <h3 v-if="config.devMode">
+                Proposer: {{ proposal.proposer || "Fede" }}
+              </h3>
             </div>
-            <div class="column page-profile__header__actions">
+
+            <div class="page-profile__header__actions">
               <tm-btn
                 v-if="proposal.proposal_status === 'VotingPeriod'"
                 id="vote-btn"
@@ -39,62 +42,85 @@
                 @click.native="onDeposit"
               />
               <tm-btn
-                v-if="
-                  proposal.proposal_status === 'Passed' ||
-                    proposal.proposal_status === 'Rejected'
-                "
-                value="Deposit / Vote"
+                v-if="proposal.proposal_status === 'Passed'"
+                value="Vote Passed"
+                disabled="disabled"
+                color="primary"
+              />
+              <tm-btn
+                v-if="proposal.proposal_status === 'Rejected'"
+                value="Vote Rejected"
                 disabled="disabled"
                 color="primary"
               />
             </div>
           </div>
-          <div class="row description">
-            <p>
-              Submitted {{ submittedAgo }}.
+        </div>
+        <div class="row">
+          <dl class="info_dl info_dl colored_dl">
+            <dt>Submitted</dt>
+            <dd>{{ submittedAgo }}</dd>
+          </dl>
+          <dl class="info_dl colored_dl">
+            <dt>Proposal Status</dt>
+            <dd>
               {{
                 proposal.proposal_status === `DepositPeriod`
-                  ? `Deposit ends ${depositEndsIn}.`
+                  ? `Deposit period ends ${depositEndsIn}.`
                   : `Voting started ${votingStartedAgo}.`
               }}
-            </p>
-          </div>
-          <div class="row page-profile__header__data votes">
-            <dl class="colored_dl">
-              <dt>Deposit</dt>
-              <dd>
-                {{
-                  proposal.total_deposit[0].amount +
-                    ` ` +
-                    proposal.total_deposit[0].denom
-                }}
-              </dd>
-            </dl>
-            <div class="page-profile__header__data__break" />
-            <dl class="colored_dl">
-              <dt>Yes</dt>
-              <dd>{{ tally.yes }} / {{ yesPercentage }}</dd>
-            </dl>
-            <dl class="colored_dl">
-              <dt>No</dt>
-              <dd>{{ tally.no }} / {{ noPercentage }}</dd>
-            </dl>
-            <dl class="colored_dl">
-              <dt>No with Veto</dt>
-              <dd>{{ tally.no_with_veto }} / {{ noWithVetoPercentage }}</dd>
-            </dl>
-            <dl class="colored_dl">
-              <dt>Abstain</dt>
-              <dd>{{ tally.abstain }} / {{ abstainPercentage }}</dd>
+            </dd>
+          </dl>
+
+          <dl class="info_dl colored_dl">
+            <dt>Deposit Count</dt>
+            <dd>
+              {{
+                proposal.total_deposit[0].amount +
+                  ` ` +
+                  proposal.total_deposit[0].denom
+              }}
+            </dd>
+          </dl>
+          <dl
+            v-if="proposal.proposal_status === 'VotingPeriod'"
+            class="info_dl colored_dl"
+          >
+            <dt>Vote Count</dt>
+            <dd>{{ totalVotes }}</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="page-profile__section">
+        <div v-if="proposal.proposal_status === 'VotingPeriod'" class="row">
+          <dl class="info_dl colored_dl">
+            <dt>Yes</dt>
+            <dd>{{ tally.yes }} / {{ yesPercentage }}</dd>
+          </dl>
+          <dl class="info_dl colored_dl">
+            <dt>No</dt>
+            <dd>{{ tally.no }} / {{ noPercentage }}</dd>
+          </dl>
+          <dl class="info_dl colored_dl">
+            <dt>No with Veto</dt>
+            <dd>{{ tally.no_with_veto }} / {{ noWithVetoPercentage }}</dd>
+          </dl>
+          <dl class="info_dl colored_dl">
+            <dt>Abstain</dt>
+            <dd>{{ tally.abstain }} / {{ abstainPercentage }}</dd>
+          </dl>
+        </div>
+        <div class="row">
+          <div class="column">
+            <dl class="info_dl colored_dl">
+              <dt>Description</dt>
+              <dd><text-block :content="proposal.description" /></dd>
             </dl>
           </div>
         </div>
       </div>
-      <div class="page-profile__details page-profile__section">
-        <div class="column">
-          <div class="row"><text-block :content="proposal.description" /></div>
-        </div>
-      </div>
+
       <modal-deposit
         ref="modalDeposit"
         :proposal-id="proposalId"
@@ -150,7 +176,8 @@ export default {
       `proposals`,
       `connected`,
       `wallet`,
-      `votes`
+      `votes`,
+      `config`
     ]),
     proposal() {
       return this.proposals.proposals[this.proposalId]
@@ -237,37 +264,13 @@ export default {
 }
 </script>
 <style>
-.proposal b {
-  color: var(--bright);
-}
-
-.proposal .page-profile__status {
-  position: relative;
-  left: 0;
-  margin-right: 0.5rem;
-}
-
-.proposal .description {
-  max-width: 500px;
-}
-
-.proposal .votes {
-  padding-top: 2rem;
-}
-
 .proposal-id {
-  color: var(--dim);
-  font-size: 14px;
-  margin: 0;
-  font-weight: 400;
-  padding-bottom: 0.25rem;
-}
-
-.text-block {
-  padding: 0;
-}
-
-.row b {
-  font-weight: 500;
+  display: block;
+  background: var(--app-nav);
+  height: 8rem;
+  width: 9rem;
+  margin: 1rem 2rem 1rem 1rem;
+  padding: 1rem;
+  font-style: italic;
 }
 </style>
