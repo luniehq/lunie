@@ -108,6 +108,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1802](https://github.com/cosmos/voyager/issues/1802) Enable prefer-const eslint rule @sabau
 - [\#1688](https://github.com/cosmos/voyager/issues/1688) Moved from every page to TmPage the connected, loading, empty data and search features @sabau
 - [\#1588](https://github.com/cosmos/voyager/issues/1588) 404 page updates @jbibla
+- [\#1221](https://github.com/cosmos/voyager/issues/1221) individual linter check on GitHub @faboweb
 
 ### Fixed
 
