@@ -131,7 +131,7 @@ export default {
     selectedSignMethod: `local`,
     signMethods: [
       {
-        key: `(Unsafe) Local Account`,
+        key: `Account Password (Unsafe)`,
         value: `local`
       }
       // {
