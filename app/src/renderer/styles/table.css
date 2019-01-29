@@ -1,17 +1,11 @@
 .data-table {
   border-spacing: 0 0.25rem;
-  margin: 0 0 0 2rem;
+  width: 100%;
   padding: 0;
   table-layout: auto;
-  counter-reset: rowNumber1;
-}
-
-.data-table tr {
-  counter-increment: rowNumber;
 }
 
 .data-table tr td:first-child::before {
-  content: counter(rowNumber);
   position: absolute;
   font-size: var(--sm);
   text-align: right;
@@ -20,30 +14,29 @@
 }
 
 .data-table th {
-  width: 100%;
   padding: 0.5rem;
   text-align: left;
 }
 
 .data-table td {
-  width: 100%;
   padding: 0.5rem;
   position: relative;
   vertical-align: bottom;
+  color: var(--bright);
 }
 
 .data-table td:not(:first-child) {
-  padding-bottom: 1rem;
+  padding-bottom: 1.2rem;
 }
 
 .data-table__row__cell__separator:after {
   display: block;
   position: absolute;
   content: "";
-  height: 2rem;
+  height: 2.5rem;
   width: 2px;
-  top: 1.5rem;
-  right: 0.5rem;
+  top: 0.75rem;
+  right: 0.75rem;
   background: var(--bc-dim);
 }
 
@@ -70,7 +63,6 @@
   border-radius: 50%;
   display: inline-block;
   height: 0.5rem;
-  /* left: -1rem; */
   position: absolute;
   width: 0.5rem;
 }
@@ -102,7 +94,7 @@
 .data-table__row__info__image {
   height: 3rem;
   width: 3rem;
-  margin: 0.5rem;
+  margin-right: 0.5rem;
   display: block;
   background: var(--app-nav);
 }
