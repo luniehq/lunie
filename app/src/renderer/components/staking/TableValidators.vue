@@ -122,27 +122,23 @@ export default {
           class: `name`
         },
         {
-          title: `Delegated ${this.bondDenom}`,
+          title: `My Delegations`,
           value: `your_votes`,
           tooltip: `Number of ${
             this.bondDenom
-          } you have delegated to the validator`,
+          } you have delegated to this validator`,
           class: `your-votes`
         },
         {
           title: `Rewards`,
           value: `your_rewards`, // TODO: use real rewards
-          tooltip: `Rewards of ${
-            this.bondDenom
-          } you have gained from the validator`,
-          class: `your-rewards` // TODO: use real rewards
+          tooltip: `Rewards you have earned from this validator`,
+          class: `your-rewards`
         },
         {
           title: `Voting Power`,
           value: `percent_of_vote`,
-          tooltip: `Percentage of ${
-            this.bondDenom
-          } the validator has on The Cosmos Hub`,
+          tooltip: `Percentage of voting shares`,
           class: `percent_of_vote`
         },
         {
