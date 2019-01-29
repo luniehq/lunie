@@ -100,9 +100,9 @@ async function _startApp(
     })
   }
 
-  console.log(`Expecting stargate at: ${config.lcd}`)
+  console.log(`Expecting stargate at: ${config.stargate}`)
 
-  const node = Node(axios, config.lcd)
+  const node = Node(axios, config.stargate)
   const store = Store({ node })
   const router = new Router({
     scrollBehavior: () => ({ y: 0 }),

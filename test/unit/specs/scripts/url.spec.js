@@ -4,12 +4,12 @@ describe(`URL functions`, () => {
   it(`gets query params`, () => {
     const windowMock = {
       location: {
-        search: `?lcd=x&rpc=y`
+        search: `?stargate=x&rpc=y`
       }
     }
 
     expect(getURLParams(windowMock)).toEqual({
-      lcd: `x`,
+      stargate: `x`,
       rpc: `y`
     })
   })

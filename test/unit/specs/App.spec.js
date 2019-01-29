@@ -47,7 +47,7 @@ describe(`App Start`, () => {
 
     await startApp(
       {
-        lcd: `http://localhost:12344`
+        stargate: `http://localhost:12344`
       },
       Node,
       Store,
