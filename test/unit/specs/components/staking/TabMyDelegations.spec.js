@@ -65,7 +65,7 @@ describe(`Component: TabMyDelegations`, () => {
       }
     })
 
-    expect(instance.wrapper.html()).toContain(`Unbonding transactions`)
+    expect(instance.wrapper.html()).toContain(`Pending Undelegations`)
     expect(instance.wrapper.vm.$el).toMatchSnapshot()
   })
 
