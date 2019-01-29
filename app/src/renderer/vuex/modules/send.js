@@ -63,17 +63,10 @@ export default ({ node }) => {
 
       const requestMetaData = {
         sequence: state.nonce,
-        name: `anonymous`, // TODO: replace with address after https://github.com/cosmos/cosmos-sdk/pull/3287 is merged
         from: rootState.wallet.address,
         account_number: rootState.wallet.accountNumber,
         chain_id: rootState.connection.lastHeader.chain_id,
         gas: String(config.default_gas),
-        gas_prices: [
-          {
-            amount: `0.00001`,
-            denom: `stake`
-          }
-        ],
         generate_only: true
       }
       args.base_req = requestMetaData

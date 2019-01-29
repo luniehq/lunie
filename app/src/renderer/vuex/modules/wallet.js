@@ -65,7 +65,7 @@ export default ({ node }) => {
       if (!rootState.connection.connected) return
 
       try {
-        const res = await node.queryAccount(state.address)
+        let res = await node.queryAccount(state.address)
         if (!res) {
           state.loading = false
           state.loaded = true
