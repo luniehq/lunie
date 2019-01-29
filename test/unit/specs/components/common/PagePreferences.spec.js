@@ -38,7 +38,7 @@ describe(`PagePreferences`, () => {
   })
 
   it(`should set the error collection opt in`, async () => {
-    let errorCollection = wrapper.vm.user.errorCollection
+    const errorCollection = wrapper.vm.user.errorCollection
     const dispatch = jest.fn()
     wrapper.vm.setErrorCollection({
       $store: {

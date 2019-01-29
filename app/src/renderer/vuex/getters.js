@@ -40,8 +40,8 @@ export const oldBondedAtoms = (state, getters) => {
   let totalOldBondedAtoms = new BN(0)
   Object.keys(getters.delegation.committedDelegates).forEach(
     delegatorAddress => {
-      let shares = getters.delegation.committedDelegates[delegatorAddress]
-      let delegator = getters.delegates.delegates.find(
+      const shares = getters.delegation.committedDelegates[delegatorAddress]
+      const delegator = getters.delegates.delegates.find(
         d => d.id === delegatorAddress
       )
       if (!delegator) {

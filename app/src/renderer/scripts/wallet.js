@@ -36,7 +36,7 @@ export function generateWallet(randomBytesFunc = standardRandomBytesFunc) {
 }
 
 export function createCosmosAddress(publicKey) {
-  let message = CryptoJS.enc.Hex.parse(publicKey.toString(`hex`))
+  const message = CryptoJS.enc.Hex.parse(publicKey.toString(`hex`))
   const hash = ripemd160(sha256(message)).toString()
   const address = Buffer.from(hash, `hex`)
   const cosmosAddress = bech32ify(address, `cosmos`)
@@ -48,8 +48,8 @@ function deriveMasterKey(mnemonic) {
   // throws if mnemonic is invalid
   bip39.validateMnemonic(mnemonic)
 
-  let seed = bip39.mnemonicToSeed(mnemonic)
-  let masterKey = bip32.fromSeed(seed)
+  const seed = bip39.mnemonicToSeed(mnemonic)
+  const masterKey = bip32.fromSeed(seed)
   return masterKey
 }
 
@@ -65,7 +65,7 @@ function deriveKeypair(masterKey) {
 }
 
 function bech32ify(address, prefix) {
-  let words = bech32.toWords(address)
+  const words = bech32.toWords(address)
   return bech32.encode(prefix, words)
 }
 
@@ -81,19 +81,7 @@ export function prepareSignBytes(jsonTx) {
     return jsonTx
   }
 
-  // TODO temporary, https://github.com/cosmos/cosmos-sdk/issues/3336
-  if (
-    jsonTx.type === `cosmos-sdk/Send` ||
-    jsonTx.type === `cosmos-sdk/MsgSubmitProposal` ||
-    jsonTx.type === `cosmos-sdk/MsgVote` ||
-    jsonTx.type === `cosmos-sdk/MsgDeposit` ||
-    jsonTx.type === `cosmos-sdk/BeginUnbonding` ||
-    jsonTx.type === `cosmos-sdk/BeginRedelegate`
-  ) {
-    return prepareSignBytes(jsonTx.value)
-  }
-
-  let sorted = {}
+  const sorted = {}
   Object.keys(jsonTx)
     .sort()
     .forEach(key => {
@@ -154,7 +142,7 @@ export function sign(jsonTx, wallet, { sequence, account_number, chain_id }) {
     chain_id
   )
 
-  let signature = createSignature(signMessage, wallet.privateKey)
+  const signature = createSignature(signMessage, wallet.privateKey)
 
   return {
     pub_key: {

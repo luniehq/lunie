@@ -5,7 +5,7 @@ import ModalPropose from "renderer/components/governance/ModalPropose"
 
 describe(`ModalPropose`, () => {
   let wrapper, store
-  let { mount } = setup()
+  const { mount } = setup()
 
   const inputs = {
     amount: 15,
@@ -20,7 +20,7 @@ describe(`ModalPropose`, () => {
         denom: `stake`
       }
     ]
-    let instance = mount(ModalPropose, {
+    const instance = mount(ModalPropose, {
       propsData: {
         denom: `stake`
       },
@@ -73,7 +73,7 @@ describe(`ModalPropose`, () => {
         await wrapper.vm.$nextTick()
         expect(wrapper.vm.validateForm()).toBe(false)
         await wrapper.vm.$nextTick()
-        let errorMessage = wrapper.find(`input#amount + div`)
+        const errorMessage = wrapper.find(`input#amount + div`)
         expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
       })
 
@@ -107,7 +107,7 @@ describe(`ModalPropose`, () => {
         await wrapper.vm.$nextTick()
         expect(wrapper.vm.validateForm()).toBe(false)
         await wrapper.vm.$nextTick()
-        let errorMessage = wrapper.find(`input#title + div`)
+        const errorMessage = wrapper.find(`input#title + div`)
         expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
       })
 
@@ -116,7 +116,7 @@ describe(`ModalPropose`, () => {
         await wrapper.vm.$nextTick()
         expect(wrapper.vm.validateForm()).toBe(false)
         await wrapper.vm.$nextTick()
-        let errorMessage = wrapper.find(`textarea#description + div`)
+        const errorMessage = wrapper.find(`textarea#description + div`)
         expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
       })
 

@@ -7,14 +7,14 @@ import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`UndelegationModal`, () => {
   let wrapper, store
-  let { stakingParameters } = lcdClientMock.state
-  let { mount, localVue } = setup()
+  const { stakingParameters } = lcdClientMock.state
+  const { mount, localVue } = setup()
   localVue.use(Vuelidate)
   localVue.directive(`tooltip`, () => {})
   localVue.directive(`focus`, () => {})
 
   beforeEach(() => {
-    let instance = mount(UndelegationModal, {
+    const instance = mount(UndelegationModal, {
       localVue,
       propsData: {
         maximum: 100,
@@ -50,7 +50,7 @@ describe(`UndelegationModal`, () => {
 
   describe(`default values are set correctly`, () => {
     it(`displays the user's wallet address as the default`, () => {
-      let toField = wrapper.find(`#to`)
+      const toField = wrapper.find(`#to`)
       expect(toField).toBeDefined()
       expect(toField.element.value).toEqual(
         `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`

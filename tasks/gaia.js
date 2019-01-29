@@ -2,18 +2,18 @@ const path = require(`path`)
 const fs = require(`fs-extra`)
 const util = require(`util`)
 const { spawn, exec } = require(`child_process`)
-let { sleep } = require(`../test/e2e/common.js`)
+const { sleep } = require(`../test/e2e/common.js`)
 
 const osFolderName = {
   win32: `windows_amd64`,
   darwin: `darwin_amd64`,
   linux: `linux_amd64`
 }[process.platform]
-let cliBinary =
+const cliBinary =
   process.env.BINARY_PATH ||
   path.join(__dirname, `../builds/Gaia/`, osFolderName, `gaiacli`)
 
-let nodeBinary =
+const nodeBinary =
   process.env.NODE_BINARY_PATH ||
   path.join(__dirname, `../builds/Gaia/`, osFolderName, `gaiad`)
 const defaultStartPort = 26656
@@ -35,13 +35,13 @@ async function initNode(
 }
 
 async function createKey({ keyName, password, clientHomeDir }) {
-  let command = `${cliBinary} keys add ${keyName} --home ${clientHomeDir} -o json`
+  const command = `${cliBinary} keys add ${keyName} --home ${clientHomeDir} -o json`
   return makeExecWithInputs(command, [password, password])
 }
 
 async function getKeys(clientHomeDir) {
-  let command = `${cliBinary} keys list --home ${clientHomeDir} -o json`
-  let accounts = await makeExec(command)
+  const command = `${cliBinary} keys list --home ${clientHomeDir} -o json`
+  const accounts = await makeExec(command)
   return JSON.parse(accounts)
 }
 
@@ -89,8 +89,8 @@ async function makeValidator(
     clientHomeDir: cliHome
   }
 ) {
-  let valPubKey = await getValPubKey(nodeHome)
-  let account = await createKey(operatorSignInfo)
+  const valPubKey = await getValPubKey(nodeHome)
+  const account = await createKey(operatorSignInfo)
 
   const address = account.address
   await sendTokens(mainSignInfo, `10stake`, address, chainId)
@@ -114,15 +114,15 @@ async function makeValidator(
 }
 
 async function getValPubKey(node_home) {
-  let command = `${nodeBinary} tendermint show-validator --home ${node_home}`
+  const command = `${nodeBinary} tendermint show-validator --home ${node_home}`
   return await makeExec(command)
 }
 async function getNodeId(node_home) {
-  let command = `${nodeBinary} tendermint show-node-id --home ${node_home}`
+  const command = `${nodeBinary} tendermint show-node-id --home ${node_home}`
   return await makeExec(command)
 }
 async function getBalance(cliHome, address) {
-  let command = `${cliBinary} query account ${address} --home ${cliHome} --output "json" --trust-node`
+  const command = `${cliBinary} query account ${address} --home ${cliHome} --output "json" --trust-node`
   return JSON.parse(await makeExec(command))
 }
 
@@ -134,7 +134,7 @@ async function declareValidator(
   operatorAddress,
   chainId
 ) {
-  let command =
+  const command =
     `${cliBinary} tx staking create-validator` +
     ` --home ${clientHomeDir}` +
     ` --from ${keyName}` +
@@ -146,7 +146,7 @@ async function declareValidator(
     ` --commission-max-change-rate=0` +
     ` --commission-max-rate=0` +
     ` --commission-rate=0` +
-    ` --json`
+    ` --output=json`
 
   return makeExecWithInputs(command, [password])
 }
@@ -157,7 +157,7 @@ async function sendTokens(
   toAddress,
   chainId
 ) {
-  let command =
+  const command =
     `${cliBinary} tx send` +
     ` --home ${clientHomeDir}` +
     ` --from ${keyName}` +
@@ -194,7 +194,7 @@ function startLocalNode(
     const logPath = path.join(nodeHome, `process.log`)
     console.log(`Redirecting node ` + number + ` output to ` + logPath)
     fs.createFileSync(logPath)
-    let logStream = fs.createWriteStream(logPath, { flags: `a` })
+    const logStream = fs.createWriteStream(logPath, { flags: `a` })
     localnodeProcess.stdout.pipe(logStream)
 
     localnodeProcess.stderr.pipe(process.stderr)
@@ -206,7 +206,7 @@ function startLocalNode(
 
     // wait for a message about a block being produced
     function listener(data) {
-      let msg = data.toString()
+      const msg = data.toString()
 
       if (msg.includes(`Executed block`)) {
         localnodeProcess.stdout.removeListener(`data`, listener)
@@ -240,8 +240,8 @@ function makeExecWithInputs(command, inputs = [], json = true) {
     console.log(`$ ` + command)
   }
 
-  let binary = command.split(` `)[0]
-  let args = command.split(` `).slice(1)
+  const binary = command.split(` `)[0]
+  const args = command.split(` `).slice(1)
   return new Promise((resolve, reject) => {
     const child = spawn(binary, args)
 

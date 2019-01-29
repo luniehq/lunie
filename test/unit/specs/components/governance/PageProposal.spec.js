@@ -8,17 +8,17 @@ import ModalDeposit from "renderer/components/governance/ModalDeposit"
 import ModalVote from "renderer/components/governance/ModalVote"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
-let {
+const {
   proposals,
   tallies,
   stakingParameters,
   governanceParameters
 } = lcdClientMock.state
-let proposal = proposals[`2`]
+const proposal = proposals[`2`]
 
 describe(`PageProposal`, () => {
   let wrapper, store
-  let { mount, localVue } = setup()
+  const { mount, localVue } = setup()
   localVue.use(Vuelidate)
   localVue.directive(`tooltip`, () => {})
   localVue.directive(`focus`, () => {})
@@ -37,7 +37,7 @@ describe(`PageProposal`, () => {
   }
 
   beforeEach(() => {
-    let instance = mount(PageProposal, {
+    const instance = mount(PageProposal, {
       localVue,
       doBefore: ({ store }) => {
         store.commit(`setConnected`, true)
@@ -81,7 +81,7 @@ describe(`PageProposal`, () => {
   })
 
   it(`shows an error if the proposal couldn't be found`, () => {
-    let instance = mount(PageProposal, {
+    const instance = mount(PageProposal, {
       doBefore: ({}) => {
         store.commit(`setProposal`, {})
       },
@@ -161,9 +161,9 @@ describe(`PageProposal`, () => {
 
   describe(`Modal onVote`, () => {
     it(`enables voting if the proposal is on the 'VotingPeriod'`, () => {
-      let proposal = proposals[`2`]
+      const proposal = proposals[`2`]
       proposal.proposal_status = `VotingPeriod`
-      let instance = mount(PageProposal, {
+      const instance = mount(PageProposal, {
         localVue,
         doBefore: ({ store }) => {
           store.commit(`setConnected`, true)
@@ -181,7 +181,7 @@ describe(`PageProposal`, () => {
       wrapper = instance.wrapper
       store = instance.store
 
-      let voteBtn = wrapper.find(`#vote-btn`)
+      const voteBtn = wrapper.find(`#vote-btn`)
       voteBtn.trigger(`click`)
 
       expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
@@ -219,8 +219,8 @@ describe(`PageProposal`, () => {
 
   describe(`Modal onDeposit`, () => {
     it(`enables deposits if the proposal on 'DepositPeriod'`, () => {
-      let proposal = proposals[`5`]
-      let instance = mount(PageProposal, {
+      const proposal = proposals[`5`]
+      const instance = mount(PageProposal, {
         localVue,
         doBefore: ({ store }) => {
           store.commit(`setConnected`, true)
@@ -240,7 +240,7 @@ describe(`PageProposal`, () => {
       store = instance.store
       store.commit(`setGovParameters`, governanceParameters)
       wrapper.vm.proposal.proposal_status = `DepositPeriod`
-      let depositBtn = wrapper.find(`#deposit-btn`)
+      const depositBtn = wrapper.find(`#deposit-btn`)
       depositBtn.trigger(`click`)
       expect(wrapper.contains(ModalDeposit)).toEqual(true)
       expect(depositBtn.html()).not.toContain(`disabled="disabled"`)

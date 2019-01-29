@@ -53,10 +53,10 @@ const getterValues = {
 // TODO refactor tests according to new unit test standard
 describe(`PageValidator`, () => {
   let wrapper, store
-  let { mount } = setup()
+  const { mount } = setup()
 
   beforeEach(() => {
-    let instance = mount(PageValidator, {
+    const instance = mount(PageValidator, {
       doBefore: ({ store }) => {
         store.commit(`setCommittedDelegation`, {
           candidateId: lcdClientMock.validators[0],
@@ -103,7 +103,7 @@ describe(`PageValidator`, () => {
   })
 
   it(`should return the self bond based on the validator`, () => {
-    let validator = {
+    const validator = {
       selfBond: 1
     }
     wrapper.setData({ validator })
@@ -115,7 +115,7 @@ describe(`PageValidator`, () => {
   })
 
   it(`shows an error if the validator couldn't be found`, () => {
-    let instance = mount(PageValidator, {
+    const instance = mount(PageValidator, {
       getters: {
         config: () => ({ desktop: false }),
         delegates: () => ({
@@ -278,12 +278,12 @@ describe(`PageValidator`, () => {
 
 describe(`delegationTargetOptions`, () => {
   it(`always shows wallet in the first position`, () => {
-    let $store = {
+    const $store = {
       commit: jest.fn(),
       dispatch: jest.fn()
     }
 
-    let options = PageValidator.methods.delegationTargetOptions.call({
+    const options = PageValidator.methods.delegationTargetOptions.call({
       ...getterValues,
       committedDelegations: {},
       $store,
@@ -298,12 +298,12 @@ describe(`delegationTargetOptions`, () => {
   })
 
   it(`hides displayed validator if bonded`, () => {
-    let $store = {
+    const $store = {
       commit: jest.fn(),
       dispatch: jest.fn()
     }
 
-    let options = PageValidator.methods.delegationTargetOptions.call({
+    const options = PageValidator.methods.delegationTargetOptions.call({
       ...getterValues,
       committedDelegations: {
         [lcdClientMock.validators[0]]: 10
@@ -329,12 +329,12 @@ describe(`delegationTargetOptions`, () => {
   })
 
   it(`shows bonded validators for redelegation options`, () => {
-    let $store = {
+    const $store = {
       commit: jest.fn(),
       dispatch: jest.fn()
     }
 
-    let options = PageValidator.methods.delegationTargetOptions.call({
+    const options = PageValidator.methods.delegationTargetOptions.call({
       ...getterValues,
       committedDelegations: {
         [lcdClientMock.validators[0]]: 10,
@@ -370,9 +370,9 @@ describe(`onDelegation`, () => {
   let wrapper, store
 
   beforeEach(() => {
-    let { mount } = setup()
+    const { mount } = setup()
 
-    let instance = mount(PageValidator, {
+    const instance = mount(PageValidator, {
       doBefore: ({ store }) => {
         store.commit(`setCommittedDelegation`, {
           candidateId: lcdClientMock.validators[0],

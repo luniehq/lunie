@@ -24,7 +24,7 @@ const Client = (axios, remoteLcdURL) => {
     }
   }
 
-  let fetchAccount = argReq(`GET`, `/auth/accounts`)
+  const fetchAccount = argReq(`GET`, `/auth/accounts`)
 
   return {
     // meta
@@ -51,7 +51,11 @@ const Client = (axios, remoteLcdURL) => {
             (err.response.data.includes(`account bytes are empty`) ||
               err.response.data.includes(`failed to prove merkle proof`))
           ) {
-            return null
+            return {
+              coins: [],
+              sequence: `0`,
+              account_number: `0`
+            }
           }
           throw err
         })

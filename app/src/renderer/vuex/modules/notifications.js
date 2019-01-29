@@ -40,20 +40,20 @@ export default () => {
       state.push(Object.assign({}, note, { key: key++ }))
     },
     notify(state, data) {
-      let note = data
+      const note = data
       note.icon = `check_circle`
       note.time = Date.now()
       mutations.addNotification(state, note)
     },
     notifyWarn(state, data) {
-      let note = data
+      const note = data
       note.icon = `warning`
       note.time = Date.now()
       note.type = `warning`
       mutations.addNotification(state, note)
     },
     notifyError(state, data) {
-      let note = data
+      const note = data
       note.icon = `error`
       note.time = Date.now()
       note.layout = `alert`
@@ -61,22 +61,22 @@ export default () => {
       mutations.addNotification(state, note)
     },
     notifySignUp(state) {
-      let note = JSON.parse(JSON.stringify(noteSignUp))
+      const note = JSON.parse(JSON.stringify(noteSignUp))
       note.time = Date.now()
       mutations.addNotification(state, note)
     },
     notifySignIn(state) {
-      let note = JSON.parse(JSON.stringify(noteSignIn))
+      const note = JSON.parse(JSON.stringify(noteSignIn))
       note.time = Date.now()
       mutations.addNotification(state, note)
     },
     notifySignOut(state) {
-      let note = JSON.parse(JSON.stringify(noteSignOut))
+      const note = JSON.parse(JSON.stringify(noteSignOut))
       note.time = Date.now()
       mutations.addNotification(state, note)
     },
     notifyAuthRequired(state, body) {
-      let note = JSON.parse(JSON.stringify(noteAuthRequired))
+      const note = JSON.parse(JSON.stringify(noteAuthRequired))
       note.time = Date.now()
       if (body) note.body = body
       mutations.addNotification(state, note)

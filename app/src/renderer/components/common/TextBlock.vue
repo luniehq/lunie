@@ -14,7 +14,7 @@ export default {
   },
   computed: {
     htmlContent() {
-      let md = new MarkdownIt()
+      const md = new MarkdownIt()
       return md.render(this.content)
     }
   }

@@ -137,7 +137,7 @@ export default {
     balance() {
       // TODO: refactor to get the selected coin when multicoin deposit is enabled
       if (!this.wallet.balancesLoading && !!this.wallet.balances.length) {
-        let balance = this.wallet.balances.find(
+        const balance = this.wallet.balances.find(
           coin => coin.denom === this.denom
         )
         if (balance) return parseFloat(balance.amount)

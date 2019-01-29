@@ -1,9 +1,9 @@
 import depositsModule from "renderer/vuex/modules/governance/deposits.js"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
-let { proposals, deposits } = lcdClientMock.state
-let addresses = lcdClientMock.addresses
+const { proposals, deposits } = lcdClientMock.state
+const addresses = lcdClientMock.addresses
 
-let mockRootState = {
+const mockRootState = {
   wallet: {
     address: addresses[0]
   },
@@ -20,7 +20,7 @@ describe(`Module: Deposits`, () => {
   })
 
   it(`adds deposits to state`, () => {
-    let { mutations, state } = module
+    const { mutations, state } = module
     mutations.setProposalDeposits(state, `1`, deposits)
     expect(state.deposits[`1`]).toEqual(deposits)
   })
@@ -32,8 +32,8 @@ describe(`Module: Deposits`, () => {
           Promise.resolve(deposits[proposalId])
       }
     })
-    let { actions, state } = module
-    let commit = jest.fn()
+    const { actions, state } = module
+    const commit = jest.fn()
     Object.keys(proposals).forEach(async (proposal_id, i) => {
       await actions.getProposalDeposits(
         { state, commit, rootState: mockRootState },
@@ -48,10 +48,10 @@ describe(`Module: Deposits`, () => {
   })
 
   it(`submits a deposit to a proposal`, async () => {
-    let { actions } = module
+    const { actions } = module
     jest.useFakeTimers()
 
-    let dispatch = jest.fn()
+    const dispatch = jest.fn()
     const amount = [
       {
         denom: `stake`,
@@ -91,7 +91,7 @@ describe(`Module: Deposits`, () => {
         queryProposalDeposits: () => Promise.reject(new Error(`Error`))
       }
     })
-    let { actions, state } = module
+    const { actions, state } = module
     await actions.getProposalDeposits({
       state,
       rootState: mockRootState,

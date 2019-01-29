@@ -22,7 +22,7 @@ export default ({ node }) => {
       if (!rootState.connection.connected) return
 
       try {
-        let parameters = await node.getStakingParameters()
+        const parameters = await node.getStakingParameters()
         commit(`setStakingParameters`, parameters)
         state.error = null
         state.loading = false

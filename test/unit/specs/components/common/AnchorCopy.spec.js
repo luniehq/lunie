@@ -3,10 +3,10 @@ import AnchorCopy from "renderer/components/common/AnchorCopy"
 
 describe(`AnchorCopy`, () => {
   let wrapper, store
-  let instance = setup()
+  const instance = setup()
 
   beforeEach(() => {
-    let test = instance.mount(AnchorCopy, {
+    const test = instance.mount(AnchorCopy, {
       propsData: {
         title: `title`,
         body: `body`,
