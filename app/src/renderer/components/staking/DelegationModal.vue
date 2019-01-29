@@ -13,7 +13,12 @@
       field-id="to"
       field-label="To"
     >
-      <tm-field id="to" v-model="to" type="text" readonly />
+      <tm-field
+        id="to"
+        v-model="to"
+        type="text"
+        readonly
+      />
     </tm-form-group>
 
     <tm-form-group
@@ -36,7 +41,9 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix"> {{ denom }} </span>
+      <span class="input-suffix">
+        {{ denom }}
+      </span>
       <tm-field
         id="amount"
         v-model="amount"

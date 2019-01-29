@@ -1,8 +1,10 @@
 <template>
   <div class="tm-data-msg">
-    <img class="tm-data-msg__icon" src="~assets/images/loader.svg" />
+    <img class="tm-data-msg__icon" src="~assets/images/loader.svg">
     <div class="tm-data-msg__text">
-      <div slot="title" class="tm-data-msg__title">{{ title }}</div>
+      <div slot="title" class="tm-data-msg__title">
+        {{ title }}
+      </div>
       <div slot="subtitle" class="tm-data-msg__subtitle">
         Please wait a moment.
       </div>

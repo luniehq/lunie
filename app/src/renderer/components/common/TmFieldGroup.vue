@@ -1,5 +1,7 @@
 <template>
-  <div class="tm-field-group"><slot /></div>
+  <div class="tm-field-group">
+    <slot />
+  </div>
 </template>
 
 <script>

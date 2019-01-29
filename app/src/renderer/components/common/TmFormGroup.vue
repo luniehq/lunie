@@ -10,7 +10,9 @@
     >
       {{ fieldLabel }}
     </label>
-    <div class="tm-form-group__field"><slot /></div>
+    <div class="tm-form-group__field">
+      <slot />
+    </div>
   </div>
 </template>
 

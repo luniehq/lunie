@@ -1,6 +1,8 @@
 <template>
   <footer class="tm-page-footer">
-    <div class="container"><slot /></div>
+    <div class="container">
+      <slot />
+    </div>
   </footer>
 </template>
 

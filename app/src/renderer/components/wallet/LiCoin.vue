@@ -1,14 +1,18 @@
 <template>
   <li :id="`li-coin--` + denomination.toLowerCase()" class="li-coin">
     <div class="li-coin__icon">
-      <img src="~assets/images/cosmos-logo.png" />
+      <img src="~assets/images/cosmos-logo.png">
     </div>
     <div class="li-coin__content">
       <div class="li-coin__content__left__denom">
-        <p class="coin-denom">{{ denomination }}</p>
+        <p class="coin-denom">
+          {{ denomination }}
+        </p>
       </div>
       <div class="li-coin__content__left__amount">
-        <p class="coin-amount">{{ amount }}</p>
+        <p class="coin-amount">
+          {{ amount }}
+        </p>
       </div>
       <tm-btn
         value="Send"

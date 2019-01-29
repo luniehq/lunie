@@ -9,10 +9,14 @@
             </template>
             <slot v-else="" name="title" />
           </div>
-          <menu class="tm-part-menu"> <slot name="menu" /> </menu>
+          <menu class="tm-part-menu">
+            <slot name="menu" />
+          </menu>
         </div>
       </header>
-      <main class="tm-part-main"><slot /></main>
+      <main class="tm-part-main">
+        <slot />
+      </main>
     </div>
   </section>
 </template>

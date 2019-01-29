@@ -1,6 +1,8 @@
 <template>
   <a class="anchor-copy" @click="click">
-    <i class="material-icons"> {{ icon }} </i>{{ label }}
+    <i class="material-icons">
+      {{ icon }}
+    </i>{{ label }}
   </a>
 </template>
 

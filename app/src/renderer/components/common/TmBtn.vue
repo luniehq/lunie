@@ -1,10 +1,17 @@
 <template>
-  <router-link v-if="type === 'link'" :to="to" class="tm-btn" exact="exact">
+  <router-link
+    v-if="type === 'link'"
+    :to="to"
+    class="tm-btn"
+    exact="exact"
+  >
     <span :class="btnClass">
       <i v-if="icon" :class="'tm-btn__icon material-icons'" aria-hidden="true">
         {{ icon }}
       </i>
-      <span v-if="value" class="tm-btn__value"> {{ value }} </span>
+      <span v-if="value" class="tm-btn__value">
+        {{ value }}
+      </span>
     </span>
   </router-link>
   <a v-else-if="type === 'anchor'" class="tm-btn">
@@ -12,7 +19,9 @@
       <i v-if="icon" :class="'tm-btn__icon material-icons'" aria-hidden="true">
         {{ icon }}
       </i>
-      <span v-if="value" class="tm-btn__value"> {{ value }} </span>
+      <span v-if="value" class="tm-btn__value">
+        {{ value }}
+      </span>
     </span>
   </a>
   <button v-else :type="type" class="tm-btn">
@@ -25,8 +34,10 @@
         :src="img"
         :class="'tm-btn__img'"
         aria-hidden="true"
-      />
-      <span v-if="value" class="tm-btn__value"> {{ value }} </span>
+      >
+      <span v-if="value" class="tm-btn__value">
+        {{ value }}
+      </span>
     </span>
   </button>
 </template>

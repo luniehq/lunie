@@ -2,9 +2,13 @@
   <div class="tm-page page-profile">
     <tm-page-header>
       <slot slot="menu-body" name="menu-body" />
-      <div slot="menu"><slot name="menu" /></div>
+      <div slot="menu">
+        <slot name="menu" />
+      </div>
     </tm-page-header>
-    <main class="tm-page-main"><slot /></main>
+    <main class="tm-page-main">
+      <slot />
+    </main>
   </div>
 </template>
 

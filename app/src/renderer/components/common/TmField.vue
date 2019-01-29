@@ -8,7 +8,12 @@
       @keyup="onKeyup"
       @keydown="onKeydown"
     >
-      <option value="" disabled="disabled" selected="selected" hidden="hidden">
+      <option
+        value=""
+        disabled="disabled"
+        selected="selected"
+        hidden="hidden"
+      >
         {{ selectPlaceholder }}
       </option>
       <template>
@@ -22,7 +27,9 @@
       </template>
     </select>
     <div class="tm-field-select-addon">
-      <i class="material-icons"> arrow_drop_down </i>
+      <i class="material-icons">
+        arrow_drop_down
+      </i>
     </div>
   </div>
 
@@ -53,7 +60,7 @@
         <div>{{ resolvedOptions.unchecked }}</div>
       </div>
       <div class="toggle-handle" />
-      <input :value="currentToggleState" type="checkbox" @change="onChange" />
+      <input :value="currentToggleState" type="checkbox" @change="onChange">
     </div>
   </label>
 
@@ -68,7 +75,7 @@
     @keyup="onKeyup"
     @keydown="onKeydown"
     @input="updateValue($event.target.value)"
-  />
+  >
 </template>
 
 <script>

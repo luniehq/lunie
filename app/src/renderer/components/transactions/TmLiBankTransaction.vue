@@ -6,23 +6,23 @@
   >
     <template v-if="sent">
       <div slot="caption">
-        Sent&nbsp;<b>{{ coinsSent.amount }}</b
-        ><span>&nbsp;{{ coinsSent.denom.toUpperCase() }}</span>
+        Sent&nbsp;<b>{{ coinsSent.amount }}</b><span>&nbsp;{{ coinsSent.denom.toUpperCase() }}</span>
       </div>
       <span slot="details">
         <template v-if="sentSelf">
-          To yourself! </template
-        ><template v-else>
+          To yourself!
+        </template><template v-else>
           To {{ receiver }}
         </template>
       </span>
     </template>
     <template v-else>
       <div slot="caption">
-        Received&nbsp;<b>{{ coinsReceived.amount }}</b
-        ><span>&nbsp;{{ coinsReceived.denom.toUpperCase() }}</span>
+        Received&nbsp;<b>{{ coinsReceived.amount }}</b><span>&nbsp;{{ coinsReceived.denom.toUpperCase() }}</span>
       </div>
-      <span slot="details"> From {{ sender }} </span>
+      <span slot="details">
+        From {{ sender }}
+      </span>
     </template>
   </tm-li-transaction>
 </template>

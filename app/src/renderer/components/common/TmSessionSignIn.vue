@@ -3,10 +3,18 @@
     <tm-form-struct :submit="onSubmit" class="tm-session-container">
       <div class="tm-session-header">
         <a @click="setState('welcome')">
-          <i class="material-icons"> arrow_back </i>
+          <i class="material-icons">
+            arrow_back
+          </i>
         </a>
-        <div class="tm-session-title">Sign In</div>
-        <a @click="help"> <i class="material-icons"> help_outline </i> </a>
+        <div class="tm-session-title">
+          Sign In
+        </div>
+        <a @click="help">
+          <i class="material-icons">
+            help_outline
+          </i>
+        </a>
       </div>
       <div class="tm-session-main">
         <tm-form-group field-id="sign-in-name" field-label="Select Account">
@@ -54,7 +62,12 @@
         </tm-form-group>
       </div>
       <div class="tm-session-footer">
-        <tm-btn icon="arrow_forward" icon-pos="right" value="Next" size="lg" />
+        <tm-btn
+          icon="arrow_forward"
+          icon-pos="right"
+          value="Next"
+          size="lg"
+        />
       </div>
     </tm-form-struct>
   </div>

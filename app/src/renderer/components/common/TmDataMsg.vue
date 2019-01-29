@@ -1,14 +1,20 @@
 <template>
   <div class="tm-data-msg">
     <div class="tm-data-msg__icon">
-      <i :class="iconCssClass" class="material-icons"> {{ icon }} </i>
+      <i :class="iconCssClass" class="material-icons">
+        {{ icon }}
+      </i>
     </div>
     <div class="tm-data-msg__text">
       <div class="tm-data-msg__title">
-        <slot name="title"> {{ title }} </slot>
+        <slot name="title">
+          {{ title }}
+        </slot>
       </div>
       <div class="tm-data-msg__subtitle">
-        <slot name="subtitle"> {{ subtitle }} </slot>
+        <slot name="subtitle">
+          {{ subtitle }}
+        </slot>
       </div>
     </div>
   </div>

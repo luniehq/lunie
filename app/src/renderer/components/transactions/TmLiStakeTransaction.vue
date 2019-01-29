@@ -6,8 +6,7 @@
   >
     <template v-if="delegation">
       <div slot="caption">
-        Delegated&nbsp;<b>{{ pretty(tx.delegation.amount) }}</b
-        ><span>&nbsp;{{ bondingDenom }}s</span>
+        Delegated&nbsp;<b>{{ pretty(tx.delegation.amount) }}</b><span>&nbsp;{{ bondingDenom }}s</span>
       </div>
       <div slot="details">
         To&nbsp;<router-link :to="url + '/' + tx.validator_addr">
@@ -21,8 +20,8 @@
           <b>
             {{
               calculatePrettifiedTokens(tx.validator_src_addr, tx.shares_amount)
-            }} </b
-          ><span>&nbsp;{{ bondingDenom }}s</span>
+            }}
+          </b><span>&nbsp;{{ bondingDenom }}s</span>
         </template>
       </div>
       <div slot="details">
@@ -40,10 +39,12 @@
           <b>
             {{
               calculatePrettifiedTokens(tx.validator_addr, tx.shares_amount)
-            }} </b
-          ><span>&nbsp;{{ bondingDenom }}s</span> </template
-        ><template v-if="timeDiff">
-          <span class="tx-unbonding__time-dif"> &nbsp;- {{ timeDiff }} </span>
+            }}
+          </b><span>&nbsp;{{ bondingDenom }}s</span>
+        </template><template v-if="timeDiff">
+          <span class="tx-unbonding__time-dif">
+            &nbsp;- {{ timeDiff }}
+          </span>
         </template>
       </div>
       <div slot="details">

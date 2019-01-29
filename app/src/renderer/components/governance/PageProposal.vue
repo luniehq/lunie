@@ -92,7 +92,9 @@
       </div>
       <div class="page-profile__details page-profile__section">
         <div class="column">
-          <div class="row"><text-block :content="proposal.description" /></div>
+          <div class="row">
+            <text-block :content="proposal.description" />
+          </div>
         </div>
       </div>
       <modal-deposit

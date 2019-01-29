@@ -3,10 +3,18 @@
     <tm-form-struct :submit="onSubmit" class="tm-session-container">
       <div class="tm-session-header">
         <a @click="setState('sign-in')">
-          <i class="material-icons"> arrow_back </i>
+          <i class="material-icons">
+            arrow_back
+          </i>
         </a>
-        <div class="tm-session-title">Remove Account</div>
-        <a @click="help"> <i class="material-icons"> help_outline </i> </a>
+        <div class="tm-session-title">
+          Remove Account
+        </div>
+        <a @click="help">
+          <i class="material-icons">
+            help_outline
+          </i>
+        </a>
       </div>
       <div class="tm-session-main">
         <tm-form-group
@@ -43,7 +51,7 @@
                 id="sign-up-warning"
                 v-model="fields.deletionWarning"
                 type="checkbox"
-              />
+              >
             </div>
             <label class="tm-field-checkbox-label" for="sign-up-warning">
               I understand that Cosmos cannot recover deleted accounts without

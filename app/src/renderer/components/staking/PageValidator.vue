@@ -11,8 +11,8 @@
             v-if="validator.keybase"
             :src="validator.keybase.avatarUrl"
             class="avatar"
-          />
-          <img v-else class="avatar" src="~assets/images/validator-icon.svg" />
+          >
+          <img v-else class="avatar" src="~assets/images/validator-icon.svg">
         </div>
         <div class="column page-profile__header__info">
           <div class="row page-profile__header__name">
@@ -66,7 +66,9 @@
             <div class="page-profile__header__data__break" />
             <dl class="colored_dl">
               <dt>Voting Power</dt>
-              <dd id="page-profile__power">{{ pretty(powerRatio * 100) }} %</dd>
+              <dd id="page-profile__power">
+                {{ pretty(powerRatio * 100) }} %
+              </dd>
             </dl>
             <dl v-if="config.devMode" class="colored_dl">
               <dt>Uptime</dt>
@@ -142,14 +144,16 @@
                   new Date(validator.commission.update_time).getTime() === 0
                     ? "Never"
                     : moment(
-                        new Date(validator.commission.update_time)
-                      ).fromNow()
+                      new Date(validator.commission.update_time)
+                    ).fromNow()
                 }}
               </dd>
             </dl>
             <dl class="info_dl">
               <dt>Self Delegated {{ bondDenom }}</dt>
-              <dd id="page-profile__self-bond">{{ selfBond }} %</dd>
+              <dd id="page-profile__self-bond">
+                {{ selfBond }} %
+              </dd>
             </dl>
             <dl v-if="config.devMode" class="info_dl">
               <dt>Minimum Self Delegated {{ bondDenom }}</dt>

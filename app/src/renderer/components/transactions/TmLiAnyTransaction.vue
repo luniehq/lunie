@@ -25,7 +25,9 @@
     :time="transaction.time"
     :block="transaction.height"
   >
-    <span slot="caption"> Unknown Transaction Type </span>
+    <span slot="caption">
+      Unknown Transaction Type
+    </span>
   </tm-li-transaction>
 </template>
 

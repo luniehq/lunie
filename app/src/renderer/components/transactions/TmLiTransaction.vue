@@ -4,7 +4,7 @@
       <img
         :style="{ borderColor: color }"
         src="~assets/images/cosmos-logo.png"
-      />
+      >
     </div>
     <div class="tm-li-tx__content">
       <div class="tm-li-tx__content__left">
@@ -19,8 +19,8 @@
       </div>
       <div class="tm-li-tx__content__block">
         <a :href="'https://explorecosmos.network/blocks/' + block">
-          Block #{{ block }}&nbsp; </a
-        >@ {{ date }}
+          Block #{{ block }}&nbsp;
+        </a>@ {{ date }}
       </div>
     </div>
   </div>

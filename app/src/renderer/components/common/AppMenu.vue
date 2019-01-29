@@ -9,8 +9,12 @@
         title="Wallet"
         @click.native="close"
       >
-        <h2 class="app-menu-title">Wallet</h2>
-        <i class="material-icons"> chevron_right </i>
+        <h2 class="app-menu-title">
+          Wallet
+        </h2>
+        <i class="material-icons">
+          chevron_right
+        </i>
       </router-link>
       <router-link
         id="app-menu__transactions"
@@ -20,8 +24,12 @@
         title="Transactions"
         @click.native="close"
       >
-        <h2 class="app-menu-title">Transactions</h2>
-        <i class="material-icons"> chevron_right </i>
+        <h2 class="app-menu-title">
+          Transactions
+        </h2>
+        <i class="material-icons">
+          chevron_right
+        </i>
       </router-link>
       <router-link
         id="app-menu__staking"
@@ -30,8 +38,12 @@
         title="Staking"
         @click.native="close"
       >
-        <h2 class="app-menu-title">Staking</h2>
-        <i class="material-icons"> chevron_right </i>
+        <h2 class="app-menu-title">
+          Staking
+        </h2>
+        <i class="material-icons">
+          chevron_right
+        </i>
       </router-link>
       <router-link
         id="app-menu__proposals"
@@ -40,8 +52,12 @@
         title="Governance"
         @click.native="close"
       >
-        <h2 class="app-menu-title">Governance</h2>
-        <i class="material-icons"> chevron_right </i>
+        <h2 class="app-menu-title">
+          Governance
+        </h2>
+        <i class="material-icons">
+          chevron_right
+        </i>
       </router-link>
     </div>
     <connected-network />

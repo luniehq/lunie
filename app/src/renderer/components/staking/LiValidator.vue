@@ -7,14 +7,14 @@
         class="data-table__row__info__image"
         width="48"
         height="48"
-      />
+      >
       <img
         v-else
         class="data-table__row__info__image data-table__row__info__image--no-img"
         src="~assets/images/validator-icon.svg"
         width="48"
         height="48"
-      />
+      >
       <div class="data-table__row__info__container">
         <span
           v-tooltip.top="status"
@@ -43,13 +43,21 @@
           : num.shortNumber(yourVotes)
       }}
     </td>
-    <td class="li-validator__rewards data-table__row__cell__separator">n/a</td>
+    <td class="li-validator__rewards data-table__row__cell__separator">
+      n/a
+    </td>
     <td class="li-validator__voting-power">
       {{ validator.percent_of_vote ? validator.percent_of_vote : `n/a` }}
     </td>
-    <td class="li-validator__uptime">{{ uptime }}</td>
-    <td class="li-validator__commission">{{ commission }}</td>
-    <td class="li-validator__slashes">n/a</td>
+    <td class="li-validator__uptime">
+      {{ uptime }}
+    </td>
+    <td class="li-validator__commission">
+      {{ commission }}
+    </td>
+    <td class="li-validator__slashes">
+      n/a
+    </td>
   </tr>
 </template>
 

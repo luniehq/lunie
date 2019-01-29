@@ -3,10 +3,16 @@
     <div class="tm-form-container">
       <slot name="overlay" />
       <header v-if="hasHeader" class="tm-form-header">
-        <div class="tm-form-title"><slot name="title" /></div>
-        <div class="tm-form-subtitle"><slot name="subtitle" /></div>
+        <div class="tm-form-title">
+          <slot name="title" />
+        </div>
+        <div class="tm-form-subtitle">
+          <slot name="subtitle" />
+        </div>
       </header>
-      <main class="tm-form-main"><slot /></main>
+      <main class="tm-form-main">
+        <slot />
+      </main>
       <footer v-if="hasFooter" class="tm-form-footer">
         <slot name="footer" />
       </footer>

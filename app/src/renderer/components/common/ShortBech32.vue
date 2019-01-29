@@ -9,7 +9,9 @@
       {{ shortBech32 }}
     </div>
     <div :class="{ active: showSuccess }" class="copied">
-      <i class="material-icons"> check </i> <span>Copied</span>
+      <i class="material-icons">
+        check
+      </i> <span>Copied</span>
     </div>
   </div>
 </template>

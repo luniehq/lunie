@@ -82,8 +82,8 @@
                 {{
                   governanceParameters.parameters.tallying.threshold
                     ? `${parseFloat(
-                        governanceParameters.parameters.tallying.threshold
-                      ) * 100} %`
+                      governanceParameters.parameters.tallying.threshold
+                    ) * 100} %`
                     : `n/a`
                 }}
               </dd>
@@ -102,8 +102,8 @@
                 {{
                   governanceParameters.parameters.tallying.veto
                     ? `${parseFloat(
-                        governanceParameters.parameters.tallying.veto
-                      ) * 100} %`
+                      governanceParameters.parameters.tallying.veto
+                    ) * 100} %`
                     : `n/a`
                 }}
               </dd>
@@ -124,7 +124,7 @@
                 {{
                   governanceParameters.parameters.tallying.governance_penalty
                     ? governanceParameters.parameters.tallying
-                        .governance_penalty
+                      .governance_penalty
                     : `n/a`
                 }}
               </dd>

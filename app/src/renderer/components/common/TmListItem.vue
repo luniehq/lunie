@@ -5,23 +5,30 @@
         <template v-if="icon">
           <i :class="spinClass" class="material-icons">
             {{ icon }}
-          </i> </template
-        ><template v-else-if="image">
-          <img :src="image" /> </template
-        ><template v-else-if="$slots['graphic']">
+          </i>
+        </template><template v-else-if="image">
+          <img :src="image">
+        </template><template v-else-if="$slots['graphic']">
           <slot name="graphic" />
         </template>
       </div>
       <div class="tm-li-dl">
-        <div class="tm-li-dt">{{ dt }}</div>
+        <div class="tm-li-dt">
+          {{ dt }}
+        </div>
         <div v-if="$slots['dd']" class="tm-li-dd tm-li-dd-flush">
           <slot name="dd" />
         </div>
-        <div v-else class="tm-li-dd">{{ dd }}</div>
+        <div v-else class="tm-li-dd">
+          {{ dd }}
+        </div>
       </div>
       <div class="tm-li-icon">
-        <i class="material-icons inactive"> chevron_right </i
-        ><i class="material-icons active"> my_location </i>
+        <i class="material-icons inactive">
+          chevron_right
+        </i><i class="material-icons active">
+          my_location
+        </i>
       </div>
     </div>
   </a>
@@ -31,18 +38,24 @@
         <template v-if="icon">
           <i :class="spinClass" class="material-icons">
             {{ icon }}
-          </i> </template
-        ><template v-else-if="image">
-          <img :src="image" /> </template
-        ><template v-else-if="$slots['graphic']">
+          </i>
+        </template><template v-else-if="image">
+          <img :src="image">
+        </template><template v-else-if="$slots['graphic']">
           <slot name="graphic" />
         </template>
       </div>
       <div class="tm-li-label">
-        <div class="tm-li-title">{{ title }}</div>
-        <div class="tm-li-subtitle">{{ subtitle }}</div>
+        <div class="tm-li-title">
+          {{ title }}
+        </div>
+        <div class="tm-li-subtitle">
+          {{ subtitle }}
+        </div>
       </div>
-      <div class="tm-li-input"><slot /></div>
+      <div class="tm-li-input">
+        <slot />
+      </div>
     </div>
   </div>
   <router-link v-else-if="dt && to && !btn" :to="to" class="tm-li tm-li-link">
@@ -51,23 +64,30 @@
         <template v-if="icon">
           <i :class="spinClass" class="material-icons">
             {{ icon }}
-          </i> </template
-        ><template v-else-if="image">
-          <img :src="image" /> </template
-        ><template v-else-if="$slots['graphic']">
+          </i>
+        </template><template v-else-if="image">
+          <img :src="image">
+        </template><template v-else-if="$slots['graphic']">
           <slot name="graphic" />
         </template>
       </div>
       <div class="tm-li-dl">
-        <div class="tm-li-dt">{{ dt }}</div>
+        <div class="tm-li-dt">
+          {{ dt }}
+        </div>
         <div v-if="$slots['dd']" class="tm-li-dd tm-li-dd-flush">
           <slot name="dd" />
         </div>
-        <div v-else class="tm-li-dd">{{ dd }}</div>
+        <div v-else class="tm-li-dd">
+          {{ dd }}
+        </div>
       </div>
       <div class="tm-li-icon">
-        <i class="material-icons inactive"> chevron_right </i
-        ><i class="material-icons active"> my_location </i>
+        <i class="material-icons inactive">
+          chevron_right
+        </i><i class="material-icons active">
+          my_location
+        </i>
       </div>
     </div>
   </router-link>
@@ -77,19 +97,23 @@
         <template v-if="icon">
           <i :class="spinClass" class="material-icons">
             {{ icon }}
-          </i> </template
-        ><template v-else-if="image">
-          <img :src="image" /> </template
-        ><template v-else-if="$slots['graphic']">
+          </i>
+        </template><template v-else-if="image">
+          <img :src="image">
+        </template><template v-else-if="$slots['graphic']">
           <slot name="graphic" />
         </template>
       </div>
       <div class="tm-li-dl">
-        <div class="tm-li-dt">{{ dt }}</div>
+        <div class="tm-li-dt">
+          {{ dt }}
+        </div>
         <div v-if="$slots['dd']" class="tm-li-dd tm-li-dd-flush">
           <slot name="dd" />
         </div>
-        <div v-else class="tm-li-dd">{{ dd }}</div>
+        <div v-else class="tm-li-dd">
+          {{ dd }}
+        </div>
       </div>
       <tm-btn
         :value="btn"
@@ -105,19 +129,23 @@
         <template v-if="icon">
           <i :class="spinClass" class="material-icons">
             {{ icon }}
-          </i> </template
-        ><template v-else-if="image">
-          <img :src="image" /> </template
-        ><template v-else-if="$slots['graphic']">
+          </i>
+        </template><template v-else-if="image">
+          <img :src="image">
+        </template><template v-else-if="$slots['graphic']">
           <slot name="graphic" />
         </template>
       </div>
       <div class="tm-li-dl">
-        <div class="tm-li-dt">{{ dt }}</div>
+        <div class="tm-li-dt">
+          {{ dt }}
+        </div>
         <div v-if="$slots['dd']" class="tm-li-dd tm-li-dd-flush">
           <slot name="dd" />
         </div>
-        <div v-else class="tm-li-dd">{{ dd }}</div>
+        <div v-else class="tm-li-dd">
+          {{ dd }}
+        </div>
       </div>
     </div>
   </div>
@@ -127,20 +155,27 @@
         <template v-if="icon">
           <i :class="spinClass" class="material-icons">
             {{ icon }}
-          </i> </template
-        ><template v-else-if="image">
-          <img :src="image" /> </template
-        ><template v-else-if="$slots['graphic']">
+          </i>
+        </template><template v-else-if="image">
+          <img :src="image">
+        </template><template v-else-if="$slots['graphic']">
           <slot name="graphic" />
         </template>
       </div>
       <div class="tm-li-label">
-        <div class="tm-li-title">{{ title }}</div>
-        <div class="tm-li-subtitle">{{ subtitle }}</div>
+        <div class="tm-li-title">
+          {{ title }}
+        </div>
+        <div class="tm-li-subtitle">
+          {{ subtitle }}
+        </div>
       </div>
       <div class="tm-li-icon">
-        <i class="material-icons inactive"> chevron_right </i
-        ><i class="material-icons active"> my_location </i>
+        <i class="material-icons inactive">
+          chevron_right
+        </i><i class="material-icons active">
+          my_location
+        </i>
       </div>
     </div>
   </a>
@@ -150,20 +185,27 @@
         <template v-if="icon">
           <i :class="spinClass" class="material-icons">
             {{ icon }}
-          </i> </template
-        ><template v-else-if="image">
-          <img :src="image" /> </template
-        ><template v-else-if="$slots['graphic']">
+          </i>
+        </template><template v-else-if="image">
+          <img :src="image">
+        </template><template v-else-if="$slots['graphic']">
           <slot name="graphic" />
         </template>
       </div>
       <div class="tm-li-label">
-        <div class="tm-li-title">{{ title }}</div>
-        <div class="tm-li-subtitle">{{ subtitle }}</div>
+        <div class="tm-li-title">
+          {{ title }}
+        </div>
+        <div class="tm-li-subtitle">
+          {{ subtitle }}
+        </div>
       </div>
       <div class="tm-li-icon">
-        <i class="material-icons inactive"> chevron_right </i
-        ><i class="material-icons active"> my_location </i>
+        <i class="material-icons inactive">
+          chevron_right
+        </i><i class="material-icons active">
+          my_location
+        </i>
       </div>
     </div>
   </router-link>
@@ -173,16 +215,20 @@
         <template v-if="icon">
           <i :class="spinClass" class="material-icons">
             {{ icon }}
-          </i> </template
-        ><template v-else-if="image">
-          <img :src="image" /> </template
-        ><template v-else-if="$slots['graphic']">
+          </i>
+        </template><template v-else-if="image">
+          <img :src="image">
+        </template><template v-else-if="$slots['graphic']">
           <slot name="graphic" />
         </template>
       </div>
       <div class="tm-li-label">
-        <div class="tm-li-title">{{ title }}</div>
-        <div class="tm-li-subtitle">{{ subtitle }}</div>
+        <div class="tm-li-title">
+          {{ title }}
+        </div>
+        <div class="tm-li-subtitle">
+          {{ subtitle }}
+        </div>
       </div>
       <slot name="btn-receive" />
     </div>
@@ -193,21 +239,27 @@
         <template v-if="icon">
           <i :class="spinClass" class="material-icons">
             {{ icon }}
-          </i> </template
-        ><template v-else-if="image">
-          <img :src="image" /> </template
-        ><template v-else-if="$slots['graphic']">
+          </i>
+        </template><template v-else-if="image">
+          <img :src="image">
+        </template><template v-else-if="$slots['graphic']">
           <slot name="graphic" />
         </template>
       </div>
       <div class="tm-li-label">
-        <div class="tm-li-title">{{ title }}</div>
-        <div class="tm-li-subtitle">{{ subtitle }}</div>
+        <div class="tm-li-title">
+          {{ title }}
+        </div>
+        <div class="tm-li-subtitle">
+          {{ subtitle }}
+        </div>
       </div>
     </div>
   </div>
   <div v-else-if="type === 'image'" class="tm-li">
-    <div class="tm-li-container"><slot /></div>
+    <div class="tm-li-container">
+      <slot />
+    </div>
   </div>
 </template>
 

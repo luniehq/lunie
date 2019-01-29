@@ -28,7 +28,9 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix"> {{ denom }} </span>
+      <span class="input-suffix">
+        {{ denom }}
+      </span>
       <tm-field
         id="amount"
         v-model="amount"

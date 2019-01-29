@@ -1,8 +1,12 @@
 <template>
   <div class="tm-page">
     <tm-page-header v-if="!hideHeader" :tabs="tabs">
-      <h2 v-if="title" slot="title">{{ title }}</h2>
-      <h3 v-if="subtitle" slot="subtitle">{{ subtitle }}</h3>
+      <h2 v-if="title" slot="title">
+        {{ title }}
+      </h2>
+      <h3 v-if="subtitle" slot="subtitle">
+        {{ subtitle }}
+      </h3>
       <slot slot="menu-body" name="menu-body">
         <tm-balance />
         <tool-bar :refresh="refreshable" :searching="searchable" />

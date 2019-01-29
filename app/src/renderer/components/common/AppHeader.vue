@@ -5,7 +5,7 @@
         <div class="header-item" />
       </template>
       <div class="header-item header-item-logo">
-        <img id="logo-white" src="~assets/images/cosmos-wordmark-white.svg" />
+        <img id="logo-white" src="~assets/images/cosmos-wordmark-white.svg">
       </div>
       <app-menu v-if="config.activeMenu === 'app' || config.desktop" /><template
         v-if="!config.desktop"
@@ -15,10 +15,14 @@
           class="header-item"
           @click="close"
         >
-          <i class="material-icons"> close </i>
+          <i class="material-icons">
+            close
+          </i>
         </div>
         <div v-else class="header-item" @click="enableMenu()">
-          <i class="material-icons"> menu </i>
+          <i class="material-icons">
+            menu
+          </i>
         </div>
       </template>
     </div>

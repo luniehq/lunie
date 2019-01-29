@@ -1,6 +1,6 @@
 <template>
   <div class="tm-session-wrapper">
-    <img class="tm-session-backdrop" src="~assets/images/cosmos-logo.png" />
+    <img class="tm-session-backdrop" src="~assets/images/cosmos-logo.png">
     <session-loading v-if="config.modals.session.state == 'loading'" />
     <session-welcome v-if="config.modals.session.state == 'welcome'" />
     <session-sign-up v-if="config.modals.session.state == 'sign-up'" />

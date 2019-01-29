@@ -12,11 +12,15 @@
     <tm-data-connecting v-if="!delegation.loaded && !connected" />
     <tm-data-loading v-else-if="!delegation.loaded && delegation.loading" />
     <tm-data-msg v-else-if="yourValidators.length === 0" icon="info_outline">
-      <div slot="title">No Active Delegations</div>
+      <div slot="title">
+        No Active Delegations
+      </div>
       <div slot="subtitle">
         Looks like you haven't delegated any {{ bondDenom }}s yet. Head over to
         the
-        <router-link :to="{ name: 'Validators' }"> validator list </router-link>
+        <router-link :to="{ name: 'Validators' }">
+          validator list
+        </router-link>
         to make your first delegation!
       </div>
     </tm-data-msg>

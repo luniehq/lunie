@@ -12,7 +12,9 @@
           <slot name="menu-body" />
         </div>
       </div>
-      <menu class="tm-page-header-menu"> <slot name="menu" /> </menu>
+      <menu class="tm-page-header-menu">
+        <slot name="menu" />
+      </menu>
       <tabs v-if="tabs" :tabs="tabs" />
       <div v-if="$slots['header-buttons']" class="header-buttons">
         <slot name="header-buttons" />
