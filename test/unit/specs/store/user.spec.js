@@ -35,7 +35,7 @@ describe(`Module: User`, () => {
         }
       ],
       importKey: () => ({
-        address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+        cosmosAddress: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
       }),
       testPassword: () => true,
       generateSeed: () => `xxx`
@@ -166,10 +166,9 @@ describe(`Module: User`, () => {
         name
       }
     )
-    expect(dispatch).toHaveBeenCalledWith(
-      `initializeWallet`,
-      `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
-    )
+    expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, {
+      address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+    })
   })
 
   it(`should sign in`, async () => {
@@ -184,10 +183,9 @@ describe(`Module: User`, () => {
     )
     expect(commit).toHaveBeenCalledWith(`setModalSession`, false)
     expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
-    expect(dispatch).toHaveBeenCalledWith(
-      `initializeWallet`,
-      `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
-    )
+    expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, {
+      address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+    })
     expect(dispatch).toHaveBeenCalledWith(
       `loadErrorCollection`,
       `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`

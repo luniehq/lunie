@@ -73,10 +73,10 @@ describe(`Module: Wallet`, () => {
   it(`should initialize wallet`, async () => {
     const { actions } = module
 
-    const address = `tb1wdhk6e2pv3j8yetnwv0yr6s6`
+    const address = `cosmos1wdhk6e2pv3j8yetnwv0yr6s6`
     const commit = jest.fn()
     const dispatch = jest.fn()
-    await actions.initializeWallet({ commit, dispatch }, address)
+    await actions.initializeWallet({ commit, dispatch }, { address })
     expect(commit).toHaveBeenCalledWith(`setWalletAddress`, address)
     expect(dispatch.mock.calls).toEqual([
       [`queryWalletBalances`],
@@ -95,9 +95,11 @@ describe(`Module: Wallet`, () => {
     const node = {
       queryAccount: jest.fn(() =>
         Promise.resolve({
-          coins,
-          sequence: `1`,
-          account_number: `2`
+          value: {
+            coins,
+            sequence: `1`,
+            account_number: `2`
+          }
         })
       )
     }
