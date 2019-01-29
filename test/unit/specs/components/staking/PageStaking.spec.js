@@ -5,10 +5,10 @@ import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 // TODO refactor according to new unit test standard
 describe(`PageStaking`, () => {
   let wrapper, store
-  let { mount } = setup()
+  const { mount } = setup()
 
   beforeEach(() => {
-    let instance = mount(PageStaking, {
+    const instance = mount(PageStaking, {
       stubs: {
         "tm-balance": true
       }

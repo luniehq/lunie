@@ -46,7 +46,7 @@ Default account:
 // save the version of the currently used gaia into the newly created network config folder
 const saveVersion = nodeHome => {
   const versionPath = join(nodeHome, `config`)
-  let versionFilePath = join(versionPath, `gaiaversion.txt`) // nodeHome/config is used to copy created config files from
+  const versionFilePath = join(versionPath, `gaiaversion.txt`) // nodeHome/config is used to copy created config files from
   return makeExec(
     `mkdir -p ${versionPath} && ${nodeBinary} version > ${versionFilePath}`
   )
@@ -55,7 +55,7 @@ const saveVersion = nodeHome => {
 // nodes[0] is a placeholder just to be aligned with the enumeration used in gaia
 // TODO: next PR refactor also gaia to simplify numeration
 const startNodes = async (nodes, mainAccountSignInfo, chainId) => {
-  let startupProcesses = []
+  const startupProcesses = []
   for (let i = 1; i < nodes.length; i++) {
     startupProcesses.push(
       (async () => {
@@ -119,7 +119,7 @@ const buildNodes = async (
         password: options.password,
         clientHomeDir: cliHome
       }
-      let account = await createKey(mainAccountSignInfo)
+      const account = await createKey(mainAccountSignInfo)
       console.log(`Created Account:`, account)
       genesis = await initGenesis(mainAccountSignInfo, account.address, home)
     }
@@ -154,7 +154,7 @@ async function setupLocalNode(
 
 function adjustConfig(nodeHome, isTest = false, strictAddressbook = false) {
   const configPath = join(nodeHome, `config`, `config.toml`)
-  let configToml = fs.readFileSync(configPath, `utf8`)
+  const configToml = fs.readFileSync(configPath, `utf8`)
 
   const timeouts = [
     `timeout_propose`,
@@ -227,7 +227,7 @@ const setupAccounts = async (srcClientDir, dstClientDir, options) => {
     clientHomeDir: dstClientDir
   })
 
-  let accounts = await getKeys(dstClientDir)
+  const accounts = await getKeys(dstClientDir)
   console.log(`setup test accounts`, accounts)
 
   return accounts

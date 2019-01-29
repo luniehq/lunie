@@ -4,7 +4,7 @@ import LiValidator from "renderer/components/staking/LiValidator"
 
 describe(`LiValidator`, () => {
   let wrapper, store
-  let { mount } = setup()
+  const { mount } = setup()
   const validator = Object.assign({}, lcdClientMock.state.candidates[1], {
     commission: {
       rate: `0.05`,
@@ -24,7 +24,7 @@ describe(`LiValidator`, () => {
   })
 
   beforeEach(() => {
-    let instance = mount(LiValidator, {
+    const instance = mount(LiValidator, {
       propsData: {
         validator,
         disabled: false
@@ -41,7 +41,7 @@ describe(`LiValidator`, () => {
   })
 
   it(`should calculate the validator's power ratio`, () => {
-    let ratio = wrapper.vm.validator.tokens / wrapper.vm.delegates.globalPower
+    const ratio = wrapper.vm.validator.tokens / wrapper.vm.delegates.globalPower
     expect(wrapper.vm.powerRatio).toBe(ratio)
   })
 

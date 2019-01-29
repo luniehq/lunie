@@ -2,11 +2,11 @@ import setup from "../../../helpers/vuex-setup"
 import Page404 from "renderer/components/common/Page404"
 
 describe(`Page404`, () => {
-  let instance = setup()
+  const instance = setup()
   let wrapper
 
   beforeEach(() => {
-    let test = instance.mount(Page404)
+    const test = instance.mount(Page404)
     wrapper = test.wrapper
   })
 

@@ -16,7 +16,7 @@ async function main() {
   if (skipRebuild) {
     const nodeHomePrefix = join(targetDir, `node_home`)
 
-    let nodeOneId = await getNodeId(nodeHomePrefix + `_1`)
+    const nodeOneId = await getNodeId(nodeHomePrefix + `_1`)
     for (let i = 1; i < numberNodes + 1; i++) {
       const home = `${nodeHomePrefix}_${i}`
       startLocalNode(home, i, nodeOneId)
@@ -35,7 +35,7 @@ async function main() {
     )
     await makeTestnet(nodes, mainAccountSignInfo, network)
     fs.copySync(join(nodes[1].home, `config`), cliHomePrefix)
-    let { version } = require(`../package.json`)
+    const { version } = require(`../package.json`)
     fs.writeFileSync(`${cliHomePrefix}/app_version`, version)
   }
 }

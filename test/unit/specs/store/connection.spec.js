@@ -209,7 +209,7 @@ describe(`Module: Connection`, () => {
 
   it(`should check if the node has positively halted`, async () => {
     jest.useFakeTimers()
-    let dispatch = jest.fn()
+    const dispatch = jest.fn()
     actions.checkNodeHalted({ state, dispatch }, 100000)
     expect(state.nodeHaltedTimeout).toBeDefined()
     // expire the halted check before a block was received
@@ -219,7 +219,7 @@ describe(`Module: Connection`, () => {
 
   it(`should check if the node has negatively halted`, async () => {
     jest.useFakeTimers()
-    let dispatch = jest.fn()
+    const dispatch = jest.fn()
     actions.checkNodeHalted({ state, dispatch }, 100000)
     state.lastHeader.height = 10
     // expire the halted check before a block was received

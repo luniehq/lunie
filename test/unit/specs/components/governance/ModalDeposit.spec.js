@@ -7,7 +7,7 @@ import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`ModalDeposit`, () => {
   let wrapper, store
-  let { mount, localVue } = setup()
+  const { mount, localVue } = setup()
   localVue.use(Vuelidate)
   localVue.directive(`tooltip`, () => {})
   localVue.directive(`focus`, () => {})
@@ -19,7 +19,7 @@ describe(`ModalDeposit`, () => {
         denom: `stake`
       }
     ]
-    let instance = mount(ModalDeposit, {
+    const instance = mount(ModalDeposit, {
       localVue,
       propsData: {
         proposalId: `1`,
@@ -59,7 +59,7 @@ describe(`ModalDeposit`, () => {
         wrapper.setData({ amount: 25 })
         expect(wrapper.vm.validateForm()).toBe(false)
         await wrapper.vm.$nextTick()
-        let errorMessage = wrapper.find(`input#amount + div`)
+        const errorMessage = wrapper.find(`input#amount + div`)
         expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
       })
 

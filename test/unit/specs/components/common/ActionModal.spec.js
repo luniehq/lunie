@@ -3,10 +3,10 @@ import ActionModal from "renderer/components/common/ActionModal"
 
 describe(`ActionModal`, () => {
   let wrapper
-  let instance = setup()
+  const instance = setup()
 
   beforeEach(() => {
-    let test = instance.mount(ActionModal, {
+    const test = instance.mount(ActionModal, {
       propsData: {
         title: `Action Modal`,
         submitFn: jest.fn(),
@@ -128,7 +128,7 @@ describe(`ActionModal`, () => {
   })
 
   it(`shows sending indication`, done => {
-    let test = instance.mount(ActionModal, {
+    const test = instance.mount(ActionModal, {
       propsData: {
         title: `Action Modal`,
         submitFn: jest.fn(

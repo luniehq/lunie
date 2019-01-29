@@ -1,8 +1,8 @@
 import parametersModule from "renderer/vuex/modules/governance/parameters.js"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
-let { governanceParameters } = lcdClientMock.state
+const { governanceParameters } = lcdClientMock.state
 
-let mockRootState = {
+const mockRootState = {
   connection: {
     connected: true
   }
@@ -25,14 +25,14 @@ describe(`Module: Governance Parameters`, () => {
   })
 
   it(`adds parameters to state`, () => {
-    let { mutations, state } = module
+    const { mutations, state } = module
     mutations.setGovParameters(state, governanceParameters)
     expect(state.parameters).toEqual(governanceParameters)
   })
 
   it(`fetches all governance parameters`, async () => {
-    let { actions, state } = module
-    let commit = jest.fn()
+    const { actions, state } = module
+    const commit = jest.fn()
     await actions.getGovParameters({ state, commit, rootState: mockRootState })
     expect(commit.mock.calls).toEqual([
       [`setGovParameters`, governanceParameters]
@@ -41,7 +41,7 @@ describe(`Module: Governance Parameters`, () => {
 
   it(`should store an error if failed to load governance deposit parameters`, async () => {
     node.getGovDepositParameters = () => Promise.reject(new Error(`Error`))
-    let { actions, state } = module
+    const { actions, state } = module
     await actions.getGovParameters({
       state,
       commit: jest.fn(),
@@ -52,7 +52,7 @@ describe(`Module: Governance Parameters`, () => {
 
   it(`should store an error if failed to load governance tally parameters`, async () => {
     node.getGovTallyingParameters = () => Promise.reject(new Error(`Error`))
-    let { actions, state } = module
+    const { actions, state } = module
     await actions.getGovParameters({
       state,
       commit: jest.fn(),
@@ -63,7 +63,7 @@ describe(`Module: Governance Parameters`, () => {
 
   it(`should store an error if failed to load governance voting parameters`, async () => {
     node.getGovVotingParameters = () => Promise.reject(new Error(`Error`))
-    let { actions, state } = module
+    const { actions, state } = module
     await actions.getGovParameters({
       state,
       commit: jest.fn(),

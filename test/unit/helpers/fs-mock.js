@@ -9,7 +9,7 @@ const { normalize, sep } = require(`path`)
 export default function mockFsExtra(fileSystem = {}) {
   const fsExtraMock = {
     copy: (from, to) => {
-      let { file } = get(from, fsExtraMock.fs)
+      const { file } = get(from, fsExtraMock.fs)
       if (file === null) {
         throwENOENT(from)
       }
@@ -17,13 +17,13 @@ export default function mockFsExtra(fileSystem = {}) {
     },
     copyFile: (from, to) => fsExtraMock.copy(from, to),
     ensureFile: path => {
-      let { file } = get(path, fsExtraMock.fs)
+      const { file } = get(path, fsExtraMock.fs)
       if (file === null) {
         create(path, fsExtraMock.fs)
       }
     },
     ensureDir: path => {
-      let { file } = get(path, fsExtraMock.fs)
+      const { file } = get(path, fsExtraMock.fs)
       if (file === null) {
         create(path, fsExtraMock.fs)
       }
@@ -31,7 +31,7 @@ export default function mockFsExtra(fileSystem = {}) {
     createWriteStream: () => new Writable(),
     // for simplicity we say if there is a file we can access it
     access: path => {
-      let { file } = get(path, fsExtraMock.fs)
+      const { file } = get(path, fsExtraMock.fs)
       if (file === null) {
         throwENOENT(path)
         return false
@@ -39,11 +39,11 @@ export default function mockFsExtra(fileSystem = {}) {
       return !!get(path, fsExtraMock.fs).file
     },
     remove: path => {
-      let { parent, name } = get(path, fsExtraMock.fs)
+      const { parent, name } = get(path, fsExtraMock.fs)
       delete parent[name]
     },
     readFile: path => {
-      let { file } = get(path, fsExtraMock.fs)
+      const { file } = get(path, fsExtraMock.fs)
       if (!file) {
         throwENOENT(path)
       }
@@ -52,7 +52,7 @@ export default function mockFsExtra(fileSystem = {}) {
     writeFile: (path, file) => create(path, fsExtraMock.fs, file),
     pathExists: path => !!get(path, fsExtraMock.fs).file,
     exists: path => {
-      let { file } = get(path, fsExtraMock.fs)
+      const { file } = get(path, fsExtraMock.fs)
       return file !== null
     }
   }
@@ -81,7 +81,7 @@ export default function mockFsExtra(fileSystem = {}) {
   }
 
   function throwENOENT(path) {
-    let error = new Error(
+    const error = new Error(
       `Path ` +
         path +
         ` doesnt exist.\nFS:` +
@@ -93,8 +93,8 @@ export default function mockFsExtra(fileSystem = {}) {
 
   function get(path, fs) {
     path = normalize(path)
-    let pathArr = path.split(sep).filter(x => x !== ``)
-    let current = pathArr.shift()
+    const pathArr = path.split(sep).filter(x => x !== ``)
+    const current = pathArr.shift()
 
     if (fs[current]) {
       if (pathArr.length === 0) {
@@ -115,8 +115,8 @@ export default function mockFsExtra(fileSystem = {}) {
 
   function create(path, fs, file = {}) {
     path = normalize(path)
-    let pathArr = path.split(sep).filter(x => x !== ``)
-    let current = pathArr.shift()
+    const pathArr = path.split(sep).filter(x => x !== ``)
+    const current = pathArr.shift()
 
     if (!fs[current]) {
       fs[current] = {}

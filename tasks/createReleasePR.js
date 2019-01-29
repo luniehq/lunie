@@ -5,7 +5,7 @@ const fs = require(`fs`)
 const octokit = require(`@octokit/rest`)()
 
 function bumpVersion(versionString) {
-  let versionElements = versionString.split(`.`)
+  const versionElements = versionString.split(`.`)
   versionElements[2] = parseInt(versionElements[2]) + 1
   return versionElements.join(`.`)
 }

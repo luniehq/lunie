@@ -24,7 +24,7 @@ const Client = (axios, remoteLcdURL) => {
     }
   }
 
-  let fetchAccount = argReq(`GET`, `/auth/accounts`)
+  const fetchAccount = argReq(`GET`, `/auth/accounts`)
 
   return {
     // meta
