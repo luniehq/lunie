@@ -32,14 +32,14 @@
       </div> </template
     ><template v-if="unbonding">
       <div slot="caption">
-        Unbonded&nbsp;<template
+        Undelegated&nbsp;<template
           ><b>{{
             calculatePrettifiedTokens(tx.validator_addr, tx.shares_amount)
           }}</b
           ><span>&nbsp;{{ bondingDenom }}s</span></template
         ><template v-if="timeDiff"
-          ><span class="tx-unbonding__time-dif"
-            >&nbsp;- {{ timeDiff }}</span
+          ><span class="tx-unbonding__time-diff"
+            >&nbsp;{{ timeDiff }}</span
           ></template
         >
       </div>
@@ -112,7 +112,7 @@ export default {
       // only show time diff if still waiting to be terminated
       if (this.state !== `locked`) return ``
 
-      return moment(this.unbondingTime).fromNow()
+      return `(liquid ` + moment(this.unbondingTime).fromNow() + `)`
     },
     // unbonding transactions can be in the state 'locked', 'ended'
     // the transaction needs to be enriched from the outside with `unbondingDelegation`
@@ -221,6 +221,10 @@ export default {
 
 .tm-li-tx:hover {
   cursor: pointer;
+}
+
+.tx-unbonding__time-diff {
+  font-size: var(--sm);
 }
 
 @media screen and (min-width: 700px) {

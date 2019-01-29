@@ -170,7 +170,7 @@ exports[`TmLiStakeTransaction unbonding delegations should default to ended if n
         >
           <div>
             
-      Unbonded 
+      Undelegated 
             <b>
               1000
             </b>
@@ -239,7 +239,7 @@ exports[`TmLiStakeTransaction unbonding delegations should show unbonding delega
         >
           <div>
             
-      Unbonded 
+      Undelegated 
             <b>
               1000
             </b>
@@ -308,7 +308,7 @@ exports[`TmLiStakeTransaction unbonding delegations should show unbondings and c
         >
           <div>
             
-      Unbonded 
+      Undelegated 
             <b>
               1000
             </b>
@@ -316,9 +316,9 @@ exports[`TmLiStakeTransaction unbonding delegations should show unbondings and c
                stakes
             </span>
             <span
-              class="tx-unbonding__time-dif"
+              class="tx-unbonding__time-diff"
             >
-               - a few seconds ago
+               (liquid a few seconds ago)
             </span>
           </div>
         </p>
