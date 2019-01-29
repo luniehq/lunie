@@ -64,11 +64,6 @@ export default ({ node }) => {
 
       try {
         const res = await node.queryAccount(state.address)
-        if (!res) {
-          state.loading = false
-          state.loaded = true
-          return
-        }
         state.error = null
         const coins = res.coins || []
         commit(`setNonce`, res.sequence)
