@@ -14,7 +14,7 @@
           <i class="material-icons">close</i>
         </div>
       </div>
-      <div class="action-modal-form" v-if="step === `txDetails`">
+      <div v-if="step === `txDetails`" class="action-modal-form">
         <slot />
         <tm-form-group
           v-if="signMethods.length > 1"
@@ -88,8 +88,8 @@
               />
               <tm-btn
                 v-else-if="selectedSignMethod === `ledger` && step === `sign`"
-                color="primary"
                 :value="ledger.isConnected ? `Sign` : `Connect Ledger`"
+                color="primary"
                 @click.native="validateForm"
               />
               <tm-btn

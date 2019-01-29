@@ -6,9 +6,6 @@ import { createCosmosAddress } from "../../scripts/wallet.js"
 const TIMEOUT = 50 // seconds to wait for user action on Ledger
 const HDPATH = [44, 118, 0, 0, 0]
 
-const ErrPubKey = `Error getting pubKey from Ledger`
-const ErrSign = `Signing transaction with Ledger failed`
-
 export default () => {
   let emptyState = {
     error: null,
