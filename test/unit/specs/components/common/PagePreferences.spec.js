@@ -13,7 +13,7 @@ describe(`PagePreferences`, () => {
     },
     onboarding: {},
     mockedConnector: false,
-    nodeURL: `http://localhost:9070`
+    nodeUrl: `http://localhost:9070`
   }
 
   beforeEach(async () => {
