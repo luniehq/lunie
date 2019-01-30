@@ -52,7 +52,7 @@ export default function({ node }) {
 
       commit(`setConnected`, false)
       try {
-        await node.rpcConnect(config.node_rpc)
+        await node.rpcConnect(config.rpc)
         commit(`setConnected`, true)
         dispatch(`rpcSubscribe`)
         dispatch(`subscribeToBlocks`)
