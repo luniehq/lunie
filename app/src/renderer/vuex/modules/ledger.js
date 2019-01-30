@@ -69,7 +69,7 @@ export default () => {
       let response = await state.app.get_version()
       const title = `Error retrieving Cosmos Ledger app version`
       response = await dispatch(`checkLedgerErrors`, { response, title })
-      if (response) {
+      if (response && response.major && response.minor && response.patch) {
         const { major, minor, patch, test_mode } = response
         const version = { major, minor, patch, test_mode }
         commit(`setLedgerCosmosVersion`, version)
@@ -85,7 +85,6 @@ export default () => {
       }
     },
     async signWithLedger({ dispatch, state }, message) {
-      console.log(message)
       let response = await state.app.sign(HDPATH, message)
       const title = `Signing transaction with Ledger failed`
       response = await dispatch(`checkLedgerErrors`, { response, title })

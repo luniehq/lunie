@@ -194,7 +194,7 @@ describe(`Module: Ledger`, () => {
         const commit = jest.fn()
         const response = { error_message: `Sign/verify error` }
         const title = `Signing transaction with Ledger failed`
-        actions.checkLedgerErrors({ commit }, { response, title })
+        await actions.checkLedgerErrors({ commit }, { response, title })
         expect(commit).toHaveBeenCalledWith(`notifyError`, {
           title,
           body: `Sign/verify error`
@@ -215,47 +215,128 @@ describe(`Module: Ledger`, () => {
       })
     })
 
-    // describe(`Ledger actions`, () => {
-    //   beforeEach(async () => {
-    //     const comm = await comm_u2f.create_async(10, true)
-    //     const app = new App(comm)
-    //     state.app = app
-    //   })
+    describe(`Ledger actions`, () => {
+      let commit, dispatch
+      beforeEach(() => {
+        state.app = {
+          get_version: jest.fn(async () => ({
+            major: `0`,
+            minor: `1`,
+            patch: `0`,
+            test_mode: false,
+            error_message: `No errors`
+          })),
+          publicKey: jest.fn(async () => ({
+            pk: Buffer.from([0]),
+            compressed_pk: Buffer.from([1]),
+            error_message: `No errors`
+          })),
+          sign: jest.fn(async () => ({
+            signature: Buffer.from([0]),
+            error_message: `No errors`
+          }))
+        }
+        commit = jest.fn()
+      })
 
-    //   describe(`get_version`, () => {
-    //     it(`gets and sets the version success`, async () => {
-    //       const commit = jest.fn()
-    //       const dispatch = jest.fn()
-    //       actions.getLedgerCosmosVersion({ commit, dispatch, state })
-    //       expect(commit.mock.calls).toContain([`setLedgerCosmosVersion`])
-    //       expect(commit.mock.calls).not.toContain([`notifyError`])
-    //     })
+      describe(`get_version`, () => {
+        it(`gets and sets the version success`, async () => {
+          const version = {
+            major: `0`,
+            minor: `1`,
+            patch: `0`,
+            test_mode: false
+          }
+          dispatch = jest.fn(async () => version)
+          await actions.getLedgerCosmosVersion({ commit, dispatch, state })
+          expect(commit).toHaveBeenCalledWith(`setLedgerCosmosVersion`, version)
+        })
 
-    //     it(`sets an error on failure`, async () => {
-    //       const commit = jest.fn()
-    //       const dispatch = jest.fn()
-    //       await actions.getLedgerCosmosVersion({ commit, dispatch, state })
-    //       expect(commit.mock.calls).not.toContain([`setLedgerCosmosVersion`])
-    //       expect(commit.mock.calls).toContain([`notifyError`])
-    //     })
-    //   })
+        it(`sets an error on failure`, async () => {
+          const version = {
+            major: undefined,
+            minor: undefined,
+            patch: undefined,
+            test_mode: false
+          }
+          dispatch = jest.fn(async () => version)
+          state.app.get_version = jest.fn(async () => ({
+            major: undefined,
+            minor: undefined,
+            patch: undefined,
+            test_mode: false,
+            error_message: `Execution Error`
+          }))
+          await actions.getLedgerCosmosVersion({ commit, dispatch, state })
+          expect(commit).not.toHaveBeenCalledWith(
+            `setLedgerCosmosVersion`,
+            version
+          )
+        })
+      })
 
-    //   describe(`publicKey`, () => {
-    //     it(`gets and sets the account public Key on success`, async () => {
-    //       const commit = jest.fn()
-    //       const dispatch = jest.fn()
-    //       await actions.getLedgerPubKey({ commit, dispatch, state })
-    //       expect(commit.mock.calls).toContain([`setLedgerPubKey`])
-    //       expect(commit.mock.calls).toContain([`setLedgerUncompressedPubKey`])
-    //       expect(commit.mock.calls).not.toContain([`notifyError`])
-    //     })
-    //   })
+      describe(`publicKey`, () => {
+        it(`gets and sets the account public Key on success`, async () => {
+          const pubKey = Buffer.from([1])
+          const uncompressedPubKey = Buffer.from([0])
+          dispatch = jest.fn(async () => ({
+            pk: Buffer.from([0]),
+            compressed_pk: Buffer.from([1]),
+            error_message: `No errors`
+          }))
+          await actions.getLedgerPubKey({ commit, dispatch, state })
+          expect(commit).toHaveBeenCalledWith(`setLedgerPubKey`, pubKey)
+          expect(commit).toHaveBeenCalledWith(
+            `setLedgerUncompressedPubKey`,
+            uncompressedPubKey
+          )
+        })
 
-    //   // describe(`sign`, () => {
-    //   //   it(`signs message succesfully`, () => {})
+        it(`sets an error on failure`, async () => {
+          const pubKey = Buffer.from([1])
+          const uncompressedPubKey = Buffer.from([0])
+          dispatch = jest.fn(async () => ({
+            pk: undefined,
+            compressed_pk: undefined,
+            error_message: `Execution Error`
+          }))
+          await actions.getLedgerPubKey({ commit, dispatch, state })
+          expect(commit).not.toHaveBeenCalledWith(`setLedgerPubKey`, pubKey)
+          expect(commit).not.toHaveBeenCalledWith(
+            `setLedgerUncompressedPubKey`,
+            uncompressedPubKey
+          )
+        })
+      })
 
-    //   //   it(`fails if message is not JSON`, () => {})
-    //   // })
-    // })
+      describe(`sign`, () => {
+        it(`signs message succesfully`, async () => {
+          const signature = Buffer.from([1])
+          const msg = `{"account_number": 1,"chain_id": "some_chain","fee": {"amount": [{"amount": 10, "denom": "DEN"}],"gas": 5},"memo": "MEMO","msgs": ["SOMETHING"],"sequence": 3}`
+          dispatch = jest.fn(async () => ({
+            signature,
+            error_message: `No errors`
+          }))
+          const resSignature = await actions.signWithLedger(
+            { commit, dispatch, state },
+            msg
+          )
+          expect(resSignature).toBe(signature)
+        })
+
+        it(`fails if message is not JSON`, async () => {
+          const msg = `{"account_number": 1,"chain_id": "some_chain","fee": {"amount": [{"amount": 10, "denom": "DEN"}],"gas": 5},"memo": "MEMO","msgs": ["SOMETHING"],"sequence": 3}`
+          dispatch = jest.fn(async () => ({
+            signature: undefined,
+            error_message: `Bad key handle`
+          }))
+          const resSignature = await actions.signWithLedger(
+            { commit, dispatch, state },
+            msg
+          )
+          expect(resSignature).toBeUndefined()
+        })
+      })
+    })
   })
 })
