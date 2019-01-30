@@ -184,7 +184,7 @@ describe(`Module: Ledger`, () => {
   describe(`Actions`, () => {
     it(`resets the session data `, () => {
       state.isConnected = true
-      let rootState = { ledger: state }
+      const rootState = { ledger: state }
       actions.resetSessionData({ rootState })
       expect(rootState.ledger.isConnected).toBe(false)
     })
@@ -194,7 +194,7 @@ describe(`Module: Ledger`, () => {
         const commit = jest.fn()
         const response = { error_message: `Sign/verify error` }
         const title = `Signing transaction with Ledger failed`
-        actions.checkLedgerErrors({ commit }, response, title)
+        actions.checkLedgerErrors({ commit }, { response, title })
         expect(commit).toHaveBeenCalledWith(`notifyError`, {
           title,
           body: `Sign/verify error`
@@ -206,7 +206,7 @@ describe(`Module: Ledger`, () => {
         const commit = jest.fn()
         const response = { error_message: `No errors` }
         const title = `This title shouldn't be notified to the user`
-        actions.checkLedgerErrors({ commit }, response, title)
+        actions.checkLedgerErrors({ commit }, { response, title })
         expect(commit).not.toHaveBeenCalledWith(`notifyError`, {
           title,
           body: `No errors`

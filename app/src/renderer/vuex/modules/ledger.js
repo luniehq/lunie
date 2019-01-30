@@ -44,7 +44,7 @@ export default () => {
     },
     /* TODO: Create a function to detect ledger is connected (i.e unlocked with
       password and on Home app) */
-    async connectLedgerApp({ commit, dispatch, state }, { setUserAccount }) {
+    async connectLedgerApp({ commit, dispatch, state }) {
       try {
         const comm = await comm_u2f.create_async(TIMEOUT, true)
         const app = new App(comm)
@@ -53,7 +53,7 @@ export default () => {
         commit(`setLedgerConnection`, true)
         await dispatch(`getLedgerPubKey`)
         const address = createCosmosAddress(state.pubKey)
-        dispatch(`signIn`, { sessionType: `ledger`, address, setUserAccount })
+        dispatch(`signIn`, { sessionType: `ledger`, address })
       } catch (error) {
         commit(`notifyError`, {
           title: `Error connecting to Ledger`,

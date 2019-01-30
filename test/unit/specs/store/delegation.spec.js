@@ -172,6 +172,7 @@ describe(`Module: Delegations`, () => {
     })
   })
 
+  // TODO: this still uses the condensed POST endpoint, which is incorrect
   it(`submits delegation transaction`, async () => {
     const stakingTransactions = {}
     stakingTransactions.delegations = [
