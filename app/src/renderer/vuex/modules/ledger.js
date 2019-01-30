@@ -13,7 +13,8 @@ export default () => {
     isConnected: false,
     pubKey: null, // 33 bytes; used for broadcasting signed txs
     uncompressedPubKey: null, // 65 bytes; not used currently
-    version: null // Cosmos app version
+    version: null, // Cosmos app version
+    externals: { createCosmosAddress, App, comm_u2f } // for testing
   }
   const state = JSON.parse(JSON.stringify(emptyState))
 
@@ -46,21 +47,21 @@ export default () => {
       password and on Home app) */
     async connectLedgerApp({ commit, dispatch, state }) {
       try {
-        const comm = await comm_u2f.create_async(TIMEOUT, true)
-        const app = new App(comm)
+        const comm = await state.externals.comm_u2f.create_async(TIMEOUT, true)
+        const app = new state.externals.App(comm)
         commit(`setLedger`, app)
         await dispatch(`getLedgerCosmosVersion`)
         commit(`setLedgerConnection`, true)
         await dispatch(`getLedgerPubKey`)
-        const address = createCosmosAddress(state.pubKey)
-        dispatch(`signIn`, { sessionType: `ledger`, address })
+        const address = state.externals.createCosmosAddress(state.pubKey)
+        await dispatch(`signIn`, { sessionType: `ledger`, address })
       } catch (error) {
         commit(`notifyError`, {
           title: `Error connecting to Ledger`,
           body: error.message
         })
         Sentry.captureException(error)
-        commit(`setLedgerError`, error)
+        commit(`setLedgerError`, error.message)
       } finally {
         return !state.error
       }

@@ -236,7 +236,49 @@ describe(`Module: Ledger`, () => {
             error_message: `No errors`
           }))
         }
+        state.externals = {
+          createCosmosAddress: jest.fn(() => `cosmos1address`),
+          App: jest.fn(),
+          comm_u2f: {
+            create_async: jest.fn(async () => true)
+          }
+        }
         commit = jest.fn()
+      })
+
+      describe(`connect ledger`, () => {
+        it(`successfully logs in with Ledger Nano S`, async () => {
+          dispatch = jest.fn(async () => true)
+          const ok = await actions.connectLedgerApp({ commit, dispatch, state })
+          expect(state.externals.App).toHaveBeenCalled()
+          expect(dispatch).toHaveBeenCalledWith(`getLedgerCosmosVersion`)
+          expect(dispatch).toHaveBeenCalledWith(`getLedgerPubKey`)
+          expect(dispatch).toHaveBeenCalledWith(`signIn`, {
+            sessionType: `ledger`,
+            address: `cosmos1address`
+          })
+          expect(commit).not.toHaveBeenCalledWith(`notifyError`, {
+            title: `Error connecting to Ledger`,
+            body: expect.anything()
+          })
+          expect(commit).not.toHaveBeenCalledWith(
+            `setLedgerError`,
+            expect.anything()
+          )
+          expect(ok).toBe(true)
+        })
+
+        it(`fails if one of the function throws`, async () => {
+          dispatch = jest.fn(async () => Promise.reject({ message: `error` }))
+          const ok = await actions.connectLedgerApp({ commit, dispatch, state })
+          expect(commit).toHaveBeenCalledWith(`notifyError`, {
+            title: `Error connecting to Ledger`,
+            body: `error`
+          })
+          expect(commit).toHaveBeenCalledWith(`setLedgerError`, `error`)
+          expect(state.error).toBe(`error`)
+          expect(ok).toBe(false)
+        })
       })
 
       describe(`get_version`, () => {
