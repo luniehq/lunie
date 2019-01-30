@@ -1,22 +1,34 @@
-import setup from "../../../helpers/vuex-setup"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
+import Vuelidate from "vuelidate"
 import ActionModal from "renderer/components/common/ActionModal"
 
+const localVue = createLocalVue()
+localVue.use(Vuelidate)
+
 describe(`ActionModal`, () => {
-  let wrapper
-  const instance = setup()
+  let wrapper, $store
 
   beforeEach(() => {
-    const test = instance.mount(ActionModal, {
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: {
+        connected: true
+      }
+    }
+
+    wrapper = shallowMount(ActionModal, {
+      localVue,
       propsData: {
         title: `Action Modal`,
         submitFn: jest.fn(),
         validate: jest.fn()
+      },
+      mocks: {
+        $store
       }
     })
-    wrapper = test.wrapper
     wrapper.vm.open()
-
-    jest.useFakeTimers()
   })
 
   it(`has the expected html structure`, () => {
@@ -65,6 +77,8 @@ describe(`ActionModal`, () => {
   })
 
   it(`should clear the submissionError after a timeout if the function is rejected`, async () => {
+    jest.useFakeTimers()
+
     const submitFn = jest
       .fn()
       .mockRejectedValue(new Error(`some kind of error message`))
@@ -107,7 +121,9 @@ describe(`ActionModal`, () => {
     expect(submit).not.toHaveBeenCalled()
   })
 
-  it(`shows sending indication`, done => {
+  it(`sets sending indication`, done => {
+    jest.useFakeTimers()
+
     const validate = jest.fn(() => true)
     const submit = jest.fn(
       () => new Promise(resolve => setTimeout(resolve, 1000))
@@ -127,28 +143,46 @@ describe(`ActionModal`, () => {
     jest.runAllTimers()
   })
 
-  it(`shows sending indication`, done => {
-    const test = instance.mount(ActionModal, {
-      propsData: {
-        title: `Action Modal`,
-        submitFn: jest.fn(
-          () => new Promise(resolve => setTimeout(resolve, 1000))
-        ),
-        validate: jest.fn(() => true)
-      }
-    })
-    wrapper = test.wrapper
-    wrapper.vm.open()
-
-    wrapper.vm.validateForm().then(() => {
-      expect(wrapper.vm.sending).toBe(false)
-      expect(wrapper.vm.$el).toMatchSnapshot()
-      done()
-    })
-    expect(wrapper.vm.sending).toBe(true)
+  it(`shows sending indication`, async () => {
+    wrapper.setData({ sending: true })
+    await wrapper.vm.$nextTick()
+    expect(
+      wrapper.find(`.action-modal-footer tm-btn-stub`).props(`value`)
+    ).toBe(`Sending...`)
     expect(wrapper.vm.$el).toMatchSnapshot()
 
-    jest.runAllTimers()
+    wrapper.setData({ sending: false })
+    await wrapper.vm.$nextTick()
+    expect(
+      wrapper.find(`.action-modal-footer tm-btn-stub`).props(`value`)
+    ).toBe(`Submit`)
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
+  it(`disables user from submitting when still connecting`, async () => {
+    $store = {
+      getters: {
+        connected: false
+      }
+    }
+
+    wrapper = shallowMount(ActionModal, {
+      localVue,
+      propsData: {
+        title: `Action Modal`,
+        submitFn: jest.fn(),
+        validate: jest.fn()
+      },
+      mocks: {
+        $store
+      }
+    })
+    wrapper.vm.open()
+
+    expect(
+      wrapper.find(`.action-modal-footer tm-btn-stub`).props(`value`)
+    ).toBe(`Connecting...`)
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`shows a password input for local signing`, async () => {
@@ -156,8 +190,19 @@ describe(`ActionModal`, () => {
     expect(wrapper.find(`#password`).exists()).toBe(true)
   })
 
-  it(`fails validation if the password is missing`, async () => {
-    wrapper.vm.validateForm()
-    expect(wrapper.vm.submitFn).not.toHaveBeenCalled()
+  it(`fails validation if the password is missing in local mode`, async () => {
+    wrapper.setData({
+      selectedSignMethod: `local`,
+      password: undefined
+    })
+    await wrapper.vm.validateForm()
+    expect(wrapper.vm.$v.$invalid).toBe(true)
+
+    wrapper.setData({
+      selectedSignMethod: `ledger`,
+      password: undefined
+    })
+    await wrapper.vm.validateForm()
+    expect(wrapper.vm.$v.$invalid).toBe(false)
   })
 })
