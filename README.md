@@ -187,7 +187,7 @@ This command will build and run several nodes at once on the local testnet. All 
 yarn start local-testnet <number>
 ```
 
-### Using Voyager with a custom Stargate
+### Using Voyager with a custom SDK REST API instance (Stargate)
 
 A deployed Voyager can be retargeted against a Stargate and Full Node of your choice. Just add the URLs of those to the Voyager URL:
 
