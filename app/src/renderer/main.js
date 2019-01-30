@@ -15,18 +15,32 @@ import App from "./App"
 import routes from "./routes"
 import _Node from "./connectors/node"
 import _Store from "./vuex/store"
+import * as urlHelpers from "../helpers/url.js"
 const _config = require(`../config.json`)
 
 /**
- * Main method to boot the renderer. It act as Entrypoint
+ * Main method to prepare the boot process. It acts as the entrypoint.
  */
 async function main(
+  getURLParams = urlHelpers.getURLParams,
+  startApp = _startApp
+) {
+  const params = getURLParams(window)
+  const enrichedConfig = Object.assign({}, _config, params)
+
+  startApp(enrichedConfig)
+}
+
+/**
+ * Start the Vue app
+ */
+async function _startApp(
+  config,
   Node = _Node,
   Store = _Store,
   env = process.env,
   Sentry = _Sentry,
-  Vue = _Vue,
-  config = _config
+  Vue = _Vue
 ) {
   /* istanbul ignore next */
   Vue.config.errorHandler = (error, vm, info) => {
@@ -86,9 +100,9 @@ async function main(
     })
   }
 
-  console.log(`Expecting stargate at: ${config.node_lcd}`)
+  console.log(`Expecting stargate at: ${config.stargate}`)
 
-  const node = Node(axios, config.node_lcd)
+  const node = Node(axios, config.stargate)
   const store = Store({ node })
   const router = new Router({
     scrollBehavior: () => ({ y: 0 }),
@@ -116,3 +130,4 @@ main()
 
 // export for tests only
 module.exports.main = main
+module.exports.startApp = _startApp
