@@ -18,7 +18,8 @@ jest.mock(`renderer/scripts/wallet.js`, () => ({
   createBroadcastBody: jest.fn(() => ({
     broadcast: `body`
   })),
-  createSignedTx: jest.fn(() => {})
+  createSignedTx: jest.fn(() => {}),
+  createSignMessage: jest.fn(() => {})
 }))
 
 const mockRootState = {
@@ -107,72 +108,114 @@ describe(`Module: Send`, () => {
   })
 
   describe(`send transactions`, () => {
-    it(`should send`, async () => {
-      const args = {
-        type: `send`,
-        password: `1234567890`,
-        amount: [{ denom: `mycoin`, amount: 123 }]
-      }
-      await actions.sendTx(
-        {
-          state,
-          dispatch: jest.fn(),
-          commit: jest.fn(),
-          rootState: mockRootState
-        },
-        args
-      )
-      expect(node.send).toHaveBeenCalledWith({
-        amount: [{ amount: 123, denom: `mycoin` }],
-        password: `1234567890`,
-        base_req: {
-          account_number: `12`,
-          chain_id: `mock-chain`,
-          from: `cosmos1demo`,
-          gas: `42`,
-          generate_only: true,
-          sequence: `0`
-        }
+    describe(`succeeds`, () => {
+      describe(`signing with local keystore`, () => {
+        it(`should send`, async () => {
+          const args = {
+            type: `send`,
+            password: `1234567890`,
+            amount: [{ denom: `mycoin`, amount: 123 }],
+            submitType: `local`
+          }
+          await actions.sendTx(
+            {
+              state,
+              dispatch: jest.fn(),
+              commit: jest.fn(),
+              rootState: mockRootState
+            },
+            args
+          )
+          expect(node.send).toHaveBeenCalledWith({
+            amount: [{ amount: 123, denom: `mycoin` }],
+            password: `1234567890`,
+            base_req: {
+              account_number: `12`,
+              chain_id: `mock-chain`,
+              from: `cosmos1demo`,
+              gas: `42`,
+              generate_only: true,
+              sequence: `0`
+            }
+          })
+          expect(node.postTx).toHaveBeenCalledWith({
+            broadcast: `body`
+          })
+        })
+
+        it(`should send using a to parameter`, async () => {
+          const args = {
+            type: `send`,
+            to: `mock_address`,
+            password: `1234567890`,
+            amount: [{ denom: `mycoin`, amount: 123 }],
+            submitType: `local`
+          }
+          await actions.sendTx(
+            {
+              state,
+              dispatch: jest.fn(),
+              commit: jest.fn(),
+              rootState: mockRootState
+            },
+            args
+          )
+          expect(node.send).toHaveBeenCalledWith(`mock_address`, {
+            amount: [{ amount: 123, denom: `mycoin` }],
+            password: `1234567890`,
+            base_req: {
+              account_number: `12`,
+              chain_id: `mock-chain`,
+              from: `cosmos1demo`,
+              gas: `42`,
+              generate_only: true,
+              sequence: `0`
+            }
+          })
+          expect(node.postTx).toHaveBeenCalledWith({
+            broadcast: `body`
+          })
+        })
       })
-      expect(node.postTx).toHaveBeenCalledWith({
-        broadcast: `body`
+
+      describe(`signing with Ledger Nano S`, () => {
+        xit(`should send`, async () => {
+          const args = {
+            type: `send`,
+            password: `1234567890`,
+            amount: [{ denom: `mycoin`, amount: 123 }],
+            submitType: `ledger`
+          }
+
+          await actions.sendTx(
+            {
+              state,
+              dispatch: jest.fn(),
+              commit: jest.fn(),
+              rootState: { ...mockRootState, ledger: { isConnected: true } }
+            },
+            args
+          )
+          expect(node.send).toHaveBeenCalledWith({
+            amount: [{ amount: 123, denom: `mycoin` }],
+            password: `1234567890`,
+            base_req: {
+              account_number: `12`,
+              chain_id: `mock-chain`,
+              from: `cosmos1demo`,
+              gas: `42`,
+              generate_only: true,
+              sequence: `0`
+            }
+          })
+          expect(node.postTx).toHaveBeenCalledWith({
+            broadcast: `body`
+          })
+        })
       })
     })
 
-    it(`should send using a to parameter`, async () => {
-      const args = {
-        type: `send`,
-        to: `mock_address`,
-        password: `1234567890`,
-        amount: [{ denom: `mycoin`, amount: 123 }]
-      }
-      await actions.sendTx(
-        {
-          state,
-          dispatch: jest.fn(),
-          commit: jest.fn(),
-          rootState: mockRootState
-        },
-        args
-      )
-      expect(node.send).toHaveBeenCalledWith(`mock_address`, {
-        amount: [{ amount: 123, denom: `mycoin` }],
-        password: `1234567890`,
-        base_req: {
-          account_number: `12`,
-          chain_id: `mock-chain`,
-          from: `cosmos1demo`,
-          gas: `42`,
-          generate_only: true,
-          sequence: `0`
-        }
-      })
-      expect(node.postTx).toHaveBeenCalledWith({
-        broadcast: `body`
-      })
-    })
-
-    describe(`should fail sending a tx`, () => {
+    describe(`fails`, () => {
       it(`if the data has an object in message`, async () => {
         node.updateDelegations = jest.fn(() =>
           Promise.reject(errMsgWithObject.response.data)

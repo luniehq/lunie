@@ -72,8 +72,12 @@ export default ({ node }) => {
       args.base_req = requestMetaData
 
       // extract type
-      const type = args.type || `send`
+      const type = args.type || `send` // TODO: why send as default ??
       delete args.type
+
+      // get signing method: localkeystore or ledger
+      const submitType = args.submitType || `local`
+      delete args.submitType
 
       // extract "to" address
       const to = args.to
@@ -85,7 +89,7 @@ export default ({ node }) => {
       const tx = generationRes.value
 
       let signature
-      if (rootState.ledger.isConnected && args.submitType === `ledger`) {
+      if (rootState.ledger.isConnected && submitType === `ledger`) {
         // TODO: move to wallet script
         const signMessage = createSignMessage(tx, requestMetaData)
         const signatureByteArray = await dispatch(`signWithLedger`, signMessage)
@@ -101,7 +105,7 @@ export default ({ node }) => {
           requestMetaData.account_number,
           rootState.ledger.pubKey
         )
-      } else if (args.submitType === `local`) {
+      } else {
         // get private key to sign
         const wallet = getKey(rootState.user.account, args.password)
         signature = sign(tx, wallet, requestMetaData)
