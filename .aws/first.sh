@@ -40,6 +40,8 @@ do
         echo ${LIST} | while IFS= read -r row || [[ -n "$row" ]]; do
             # for every file in the list pick the address and give money to it, then delete the file
             DESTINATION=$(echo $row | awk '{print $4}')
+            # Just in case we were running this command with rest-server switched on
+            ADDRESS=$(./gaiacli keys show ${ACCOUNT} --home . --address)
             echo ${PASSWORD} | ./gaiacli tx send --home . --from ${ADDRESS} --amount=${AMOUNT}  --to=${DESTINATION} --chain-id=${NETWORK}
             aws s3 rm s3://cosmos-gaia/addresses/${DESTINATION}
         done
