@@ -43,7 +43,7 @@ describe(`TmLiStakeTransaction`, () => {
         unbondingTime: Date.now() + 1000
       })
       expect(wrapper.vm.unbonding).toBe(true)
-      expect(wrapper.contains(`.tx-unbonding__time-dif`)).toBe(true)
+      expect(wrapper.contains(`.tx-unbonding__time-diff`)).toBe(true)
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
 

@@ -124,13 +124,13 @@ export default {
 .tabs .tab {
   cursor: pointer;
   margin-right: 2rem;
-  font-weight: 500;
   letter-spacing: -1px;
   font-size: 1rem;
 }
 .tabs .tab a {
   color: var(--dim);
   display: block;
+  font-weight: 500;
   padding-bottom: 1rem;
   padding-left: 0;
 }

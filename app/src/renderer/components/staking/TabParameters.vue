@@ -10,20 +10,12 @@
   />
   <div v-else>
     <div>
-      <h3 class="staking-pool">
-        Staking Pool
-        <i
-          v-tooltip.top="poolTooltips.description"
-          class="material-icons info-button"
-          >info_outline</i
-        >
-      </h3>
       <div class="parameters__details parameters__section">
         <div class="row">
           <div class="column">
             <dl class="info_dl">
               <dt>
-                Loose {{ stakingParameters.parameters.bond_denom }}
+                Total Liquid {{ bondDenom }}
                 <i
                   v-tooltip.top="poolTooltips.loose_tokens"
                   class="material-icons info-button"
@@ -38,7 +30,7 @@
           <div class="column">
             <dl class="info_dl">
               <dt>
-                Delegated {{ stakingParameters.parameters.bond_denom }}
+                Total Delegated {{ bondDenom }}
                 <i
                   v-tooltip.top="poolTooltips.bonded_tokens"
                   class="material-icons info-button"
@@ -54,20 +46,12 @@
       </div>
     </div>
     <div>
-      <h3 class="staking-parameters">
-        Staking Parameters
-        <i
-          v-tooltip.top="paramsTooltips.description"
-          class="material-icons info-button"
-          >info_outline</i
-        >
-      </h3>
       <div class="parameters__details parameters__section">
         <div class="row">
           <div class="column">
             <dl class="info_dl">
               <dt>
-                Unbonding Time
+                Duration of Undelegation Period
                 <i
                   v-tooltip.top="paramsTooltips.unbonding_time"
                   class="material-icons info-button"
@@ -83,14 +67,8 @@
               </dd>
             </dl>
             <dl class="info_dl">
-              <dt>Current Staking Coin Denomination</dt>
-              <dd id="bond_denom">
-                {{
-                  stakingParameters.parameters.bond_denom
-                    ? stakingParameters.parameters.bond_denom
-                    : `n/a`
-                }}
-              </dd>
+              <dt>Current Staking Token</dt>
+              <dd id="bond_denom">{{ bondDenom ? bondDenom : `--` }}</dd>
             </dl>
           </div>
           <div class="column">
@@ -145,7 +123,13 @@ export default {
     }
   }),
   computed: {
-    ...mapGetters([`config`, `stakingParameters`, `pool`, `connected`]),
+    ...mapGetters([
+      `config`,
+      `stakingParameters`,
+      `pool`,
+      `connected`,
+      `bondDenom`
+    ]),
     unbondingTimeInDays() {
       return (
         parseInt(this.stakingParameters.parameters.unbonding_time) /
@@ -159,61 +143,3 @@ export default {
   }
 }
 </script>
-<style>
-.parameters__details > .row > .column {
-  flex: 1;
-}
-
-.parameters__section {
-  background-color: var(--app-fg);
-  display: flex;
-  margin-bottom: 1rem;
-  padding: 2rem;
-  width: 100%;
-}
-
-h3 {
-  margin: 1em auto;
-}
-
-.info-button {
-  color: var(--link);
-}
-
-.column {
-  display: flex;
-  flex-flow: column;
-  position: relative;
-}
-
-.row {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-}
-
-.info_dl {
-  display: flex;
-  flex-flow: column;
-  margin-bottom: 1.5rem;
-  margin-right: 1rem;
-}
-
-.info_dl dt {
-  color: var(--dim);
-  font-size: var(--sm);
-  margin-bottom: 4px;
-}
-
-.info_dl dd {
-  border: 1px solid var(--white-fade-2);
-  border-radius: 2px;
-  font-size: 1rem;
-  line-height: 1rem;
-  padding: 0.5rem;
-}
-
-.info_dl dd.info_dl__text-box {
-  min-height: 6.91rem;
-}
-</style>

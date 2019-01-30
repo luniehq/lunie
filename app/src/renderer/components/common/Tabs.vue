@@ -38,10 +38,12 @@ export default {
   cursor: pointer;
   margin-right: 2rem;
   font-size: 1rem;
+  letter-spacing: -1px;
 }
 .tabs .tab a {
   color: var(--dim);
   display: block;
+  font-weight: 500;
   padding-bottom: 1rem;
 }
 .tabs .tab a:hover {

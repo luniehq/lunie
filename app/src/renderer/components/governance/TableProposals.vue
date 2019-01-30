@@ -76,7 +76,7 @@ export default {
           class: `proposal_title`
         },
         {
-          title: `Proposal id`,
+          title: `Proposal Id`,
           value: `proposal_id`,
           tooltip: `Id of the proposal`,
           class: `proposal_id`

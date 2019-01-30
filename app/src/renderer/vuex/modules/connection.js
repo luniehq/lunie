@@ -16,7 +16,7 @@ export default function({ node }) {
     },
     approvalRequired: null,
     mocked: node.mocked,
-
+    nodeUrl: config.node_lcd,
     externals: {
       node,
       config

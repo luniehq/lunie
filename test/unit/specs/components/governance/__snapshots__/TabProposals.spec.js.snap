@@ -24,7 +24,7 @@ exports[`TabProposals has the expected html structure 1`] = `
           <a
             class="sort-by-link"
           >
-            Proposal id
+            Proposal Id
           </a>
         </th>
         <th
