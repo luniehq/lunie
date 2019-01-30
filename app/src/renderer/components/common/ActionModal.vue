@@ -78,19 +78,19 @@
                 "
                 color="primary"
                 value="Next"
-                @click.native="validateForm"
+                @click.native="validateChangeStep"
               />
               <tm-btn
                 v-else-if="selectedSignMethod === `ledger` && step === `sign`"
                 color="primary"
                 value="Sign"
-                @click.native="validateForm"
+                @click.native="validateChangeStep"
               />
               <tm-btn
                 v-else
                 color="primary"
                 value="Submit"
-                @click.native="validateForm"
+                @click.native="validateChangeStep"
               />
             </div>
           </tm-form-group>
@@ -188,7 +188,7 @@ export default {
       this.step = `txDetails`
       this.show = false
     },
-    async validateForm() {
+    async validateChangeStep() {
       this.$v.$touch()
 
       // An ActionModal is only the prototype of a parent modal
@@ -210,7 +210,7 @@ export default {
           this.selectedSignMethod === `ledger` &&
           this.step === `txDetails`
         ) {
-          // show connect Ledger
+          // show connect Ledger view
           this.step = `sign`
         }
       }

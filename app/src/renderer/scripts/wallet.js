@@ -110,7 +110,7 @@ export function createSignMessage(
 ) {
   // sign bytes need amount to be an array
   const fee = {
-    amount: [],
+    amount: jsonTx.fee.amount || [],
     gas: jsonTx.fee.gas
   }
 
