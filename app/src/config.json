@@ -1,12 +1,13 @@
 {
   "name": "Cosmos Voyager",
-  "default_network": "local-testnet",
+  "default_network": "testnet",
   "denoms": ["stake", "photino"],
-  "node_lcd": "http://localhost:8080",
-  "node_rpc": "http://localhost:26657",
+  "node_lcd": "https://sntajlxzsg.execute-api.eu-central-1.amazonaws.com/dev/",
+  "node_rpc": "https://test.voyager.ninja:26657/",
   "google_analytics_uid": "UA-51029217-3",
   "sentry_dsn": "https://4dee9f70a7d94cc0959a265c45902d84:cbf160384aab4cdeafbe9a08dee3b961@sentry.io/288169",
   "node_halted_timeout": 120000,
   "block_timeout": 10000,
-  "default_gas": 500000
+  "default_gas": 500000,
+  "faucet": "https://jh90j6a4n6.execute-api.eu-central-1.amazonaws.com/dev/"
 }

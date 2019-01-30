@@ -106,9 +106,9 @@ const rendererConfig = {
       transactions: resolve(`app/src/renderer/components/transactions`),
       govern: resolve(`app/src/renderer/components/govern`),
       staking: resolve(`app/src/renderer/components/staking`),
-      wallet: resolve(`app/src/renderer/components/wallet`),
+      wallet: resolve(`app/src/renderer/components/wallet`)
       // moment: `moment/src/moment`, // this will remove locales, we rely on them
-      lodash: `lodash/core`
+      // lodash: `lodash/core`
     },
     extensions: [`.js`, `.vue`, `.json`, `.css`, `.node`],
     modules: [
