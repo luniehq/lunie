@@ -10,10 +10,13 @@ const HtmlWebpackPlugin = require(`html-webpack-plugin`)
 const VueLoaderPlugin = require(`vue-loader/lib/plugin`)
 const BundleAnalyzerPlugin = require(`webpack-bundle-analyzer`)
   .BundleAnalyzerPlugin
+const CleanWebpackPlugin = require(`clean-webpack-plugin`)
 
 function resolve(dir) {
   return path.join(__dirname, dir)
 }
+
+const buildPath = path.join(__dirname, `app/dist`)
 
 const rendererConfig = {
   devtool: process.env.NODE_ENV === `production` ? false : `#inline-source-map`,
@@ -70,6 +73,7 @@ const rendererConfig = {
     fs: `empty`
   },
   plugins: [
+    new CleanWebpackPlugin([buildPath]),
     new BundleAnalyzerPlugin(),
     new VueLoaderPlugin(),
     // the global.GENTLY below fixes a compile issue with superagent + webpack
@@ -90,7 +94,7 @@ const rendererConfig = {
   ],
   output: {
     filename: `[name].[contenthash].js`,
-    path: path.join(__dirname, `app/dist`)
+    path: buildPath
   },
   resolve: {
     alias: {
