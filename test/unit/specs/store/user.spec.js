@@ -48,24 +48,29 @@ describe(`Module: User`, () => {
     expect(state.address).toBe(null)
   })
 
-  it(`should add and remove history correctly`, () => {
-    expect(state.history.length).toBe(0)
-    mutations.addHistory(state, `/`)
-    expect(state.history.length).toBe(1)
-    mutations.popHistory(state)
-    expect(state.history.length).toBe(0)
-  })
-  it(`should pauseHistory correctly`, () => {
-    expect(state.pauseHistory).toBe(false)
-    mutations.pauseHistory(state, true)
-    expect(state.pauseHistory).toBe(true)
-    mutations.pauseHistory(state, false)
-    expect(state.pauseHistory).toBe(false)
-  })
-
-  it(`should set accounts`, () => {
-    mutations.setAccounts(state, accounts)
-    expect(state.accounts).toEqual(accounts)
+  describe(`mutations`, () => {
+    it(`should add and remove history correctly`, () => {
+      expect(state.history.length).toBe(0)
+      mutations.addHistory(state, `/`)
+      expect(state.history.length).toBe(1)
+      mutations.popHistory(state)
+      expect(state.history.length).toBe(0)
+    })
+    it(`should pauseHistory correctly`, () => {
+      expect(state.pauseHistory).toBe(false)
+      mutations.pauseHistory(state, true)
+      expect(state.pauseHistory).toBe(true)
+      mutations.pauseHistory(state, false)
+      expect(state.pauseHistory).toBe(false)
+    })
+    it(`should set accounts`, () => {
+      mutations.setAccounts(state, accounts)
+      expect(state.accounts).toEqual(accounts)
+    })
+    it(`should set atoms`, () => {
+      mutations.setAtoms(state, 0)
+      expect(state.atoms).toEqual(0)
+    })
   })
 
   it(`should show an error if loading accounts fails`, async () => {
@@ -171,25 +176,41 @@ describe(`Module: User`, () => {
     })
   })
 
-  it(`should sign in`, async () => {
-    const password = `123`
-    const account = `def`
-    const commit = jest.fn()
-    const dispatch = jest.fn()
-    await actions.signIn({ state, commit, dispatch }, { password, account })
-    expect(commit).toHaveBeenCalledWith(
-      `setUserAddress`,
-      `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
-    )
-    expect(commit).toHaveBeenCalledWith(`setModalSession`, false)
-    expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
-    expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, {
-      address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+  describe(`Signs in`, () => {
+    it(`with local keystore`, async () => {
+      const account = `def`
+      const commit = jest.fn()
+      const dispatch = jest.fn()
+      await actions.signIn({ state, commit, dispatch }, { account })
+      expect(commit).toHaveBeenCalledWith(
+        `setUserAddress`,
+        `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+      )
+      expect(commit).toHaveBeenCalledWith(`setModalSession`, false)
+      expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
+      expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, {
+        address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+      })
+      expect(dispatch).toHaveBeenCalledWith(
+        `loadErrorCollection`,
+        `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+      )
     })
-    expect(dispatch).toHaveBeenCalledWith(
-      `loadErrorCollection`,
-      `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
-    )
+
+    it(`with Ledger Nano X`, async () => {
+      const address = `cosmos1qpd4xgtqmxyf9ktjh757nkdfnzpnkamny3cpzv`
+      const commit = jest.fn()
+      const dispatch = jest.fn()
+      await actions.signIn(
+        { state, commit, dispatch },
+        { sessionType: `ledger`, address }
+      )
+      expect(commit).toHaveBeenCalledWith(`setUserAddress`, address)
+      expect(commit).toHaveBeenCalledWith(`setModalSession`, false)
+      expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
+      expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, { address })
+      expect(dispatch).toHaveBeenCalledWith(`loadErrorCollection`, address)
+    })
   })
 
   it(`should sign out`, async () => {

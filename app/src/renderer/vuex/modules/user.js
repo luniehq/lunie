@@ -147,7 +147,7 @@ export default ({}) => {
       dispatch(`showInitialScreen`)
     },
     resetSessionData({ commit, state }) {
-      state.atoms = 0
+      commit(`setAtoms`, 0)
       state.history = []
       state.account = null
       commit(`setUserAddress`, null)
