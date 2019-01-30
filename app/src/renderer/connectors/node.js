@@ -3,14 +3,14 @@
 const RestClient = require(`./lcdClient.js`)
 const RpcWrapper = require(`./rpcWrapper.js`)
 
-module.exports = function(axios, remoteLcdURL, mocked = false) {
+module.exports = function(axios, stargateUrl, mocked = false) {
   const connector = {
     mocked,
-    remoteLcdURL,
+    remoteLcdURL: stargateUrl,
     // activate or deactivate the mocked lcdClient
     setup: mocked => {
       console.log(`Setting connector to state:` + (mocked ? `mocked` : `live`))
-      const newRestClient = new RestClient(axios, remoteLcdURL)
+      const newRestClient = new RestClient(axios, stargateUrl)
       const newRpcClient = RpcWrapper(connector)
       Object.assign(connector, newRestClient, newRpcClient)
       // we can't assign class functions to an object so we need to iterate over the prototype

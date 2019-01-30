@@ -25,7 +25,7 @@ exports[`TabValidators has the expected html structure 1`] = `
             <a
               class="sort-by-link"
             >
-              Delegated STAKE
+              My Delegations
             </a>
           </th>
           <th
@@ -411,7 +411,7 @@ exports[`TabValidators shows a message if still loading 1`] = `
             <a
               class="sort-by-link"
             >
-              Delegated STAKE
+              My Delegations
             </a>
           </th>
           <th

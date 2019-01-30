@@ -60,11 +60,11 @@ export default {
 .tm-li-tx {
   display: flex;
   align-items: center;
-  font-size: m;
   margin-bottom: 0.5rem;
   border: 1px solid var(--bc-dim);
   background: var(--app-fg);
-  min-width: 45rem;
+  width: 100%;
+  font-weight: 400;
 }
 
 .tm-li-tx:hover {
@@ -92,7 +92,6 @@ export default {
   flex-direction: row;
   width: 100%;
   padding: 1rem;
-  font-size: m;
 }
 
 .tm-li-tx__content__left,
@@ -122,8 +121,8 @@ export default {
 }
 
 .tm-li-tx__content__caption {
-  line-height: var(--lg);
-  font-size: var(--lg);
+  line-height: 18px;
+  font-size: 18px;
   color: var(--bright);
 }
 
@@ -131,13 +130,14 @@ export default {
 .tm-li-tx__content__block {
   display: flex;
   width: 100%;
-  font-size: 14px;
   color: var(--dim);
+  line-height: 14px;
+  font-size: 14px;
   align-items: baseline;
 }
 
 .tm-li-tx__content__information {
-  padding-top: 3px;
+  padding-top: 4px;
 }
 
 .tm-li-tx__content__block {

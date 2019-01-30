@@ -27,9 +27,12 @@ describe(`PageProposal`, () => {
     commit: jest.fn(),
     dispatch: jest.fn(),
     getters: {
+      depositDenom: governanceParameters.deposit.min_deposit[0].denom,
       proposals: { proposals, tallies },
-      bondDenom: stakingParameters.parameters.bond_denom,
-      depositDenom: governanceParameters.deposit.min_deposit[0].denom
+      connected: true,
+      wallet: {
+        address: `cosmos1234abcd5678`
+      }
     }
   }
 
@@ -62,6 +65,18 @@ describe(`PageProposal`, () => {
   })
 
   it(`has the expected html structure`, async () => {
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
+  it(`has the expected html structure when voting is open`, async () => {
+    wrapper.setData({
+      tally: {
+        yes: 10,
+        no: 20,
+        no_with_veto: 30,
+        abstain: 40
+      }
+    })
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
