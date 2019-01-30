@@ -1,7 +1,7 @@
 import Vuex from "vuex"
 import Vuelidate from "vuelidate"
 import { mount, createLocalVue } from "@vue/test-utils"
-import NISessionHardware from "common/TmSessionHardware"
+import TmSessionHardware from "common/TmSessionHardware"
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
@@ -14,7 +14,7 @@ describe(`TmSessionHardware`, () => {
 
   beforeEach(() => {
     store = new Vuex.Store()
-    wrapper = mount(NISessionHardware, {
+    wrapper = mount(TmSessionHardware, {
       localVue,
       store
     })
@@ -42,12 +42,50 @@ describe(`TmSessionHardware`, () => {
     expect(store.commit.mock.calls[0]).toEqual([`setModalHelp`, true])
   })
 
+  it(`sets the step status`, () => {
+    const self = { step: `connect` }
+    TmSessionHardware.methods.setStatus.call(self, `detect`)
+    expect(self.status).toBe(`detect`)
+  })
+
   it(`should show a state indicator for different states of the hardware connection`, () => {
     wrapper.setData({ status: `connect` })
     expect(wrapper.html()).toMatchSnapshot()
 
     wrapper.setData({ status: `detect` })
     expect(wrapper.html()).toMatchSnapshot()
+  })
+
+  describe(`tries connecting to Ledger`, () => {
+    it(`connects if Ledger is connected and app is open `, async () => {
+      const $store = { commit: jest.fn(), dispatch: jest.fn(() => true) }
+      const self = {
+        $store,
+        status: `connect`,
+        setStatus: jest.fn()
+      }
+      await TmSessionHardware.methods.connectLedger.call(self)
+      expect(self.$store.dispatch).toHaveBeenCalledWith(`connectLedgerApp`)
+      expect(self.$store.commit).toHaveBeenCalledWith(`notify`, {
+        title: `Connection succesful`,
+        body: `You are now signed in to your Cosmos account with your Ledger.`
+      })
+    })
+
+    it(`doesn't connect otherwise`, async () => {
+      const $store = { commit: jest.fn(), dispatch: jest.fn(() => false) }
+      const self = {
+        $store,
+        status: `connect`,
+        setStatus: jest.fn()
+      }
+      await TmSessionHardware.methods.connectLedger.call(self)
+      expect(self.$store.dispatch).toHaveBeenCalledWith(`connectLedgerApp`)
+      expect(self.$store.commit).not.toHaveBeenCalledWith(`notify`, {
+        title: `Connection succesful`,
+        body: `You are now signed in to your Cosmos account with your Ledger.`
+      })
+    })
   })
 
   // TODO -> not yet 100% clear how this will work

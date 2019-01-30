@@ -33,25 +33,25 @@ describe(`ActionModal`, () => {
     expect(wrapper.isEmpty()).not.toBe(true)
   })
 
-  it(`closes`, () => {
-    wrapper.vm.open()
-    wrapper.vm.close()
+  describe(`close modal`, () => {
+    it(`closes`, () => {
+      wrapper.vm.open()
+      wrapper.vm.close()
+      expect(wrapper.isEmpty()).toBe(true)
+    })
 
-    expect(wrapper.isEmpty()).toBe(true)
-  })
+    it(`should close if submitted`, async () => {
+      wrapper.vm.close = jest.fn()
+      const submitFn = jest.fn()
+      await wrapper.vm.submit(submitFn)
+      expect(wrapper.vm.close).toHaveBeenCalled()
+    })
 
-  it(`should close if submitted`, async () => {
-    wrapper.vm.close = jest.fn()
-    const submitFn = jest.fn()
-    await wrapper.vm.submit(submitFn)
-
-    expect(wrapper.vm.close).toHaveBeenCalled()
-  })
-
-  it(`should erase password on close`, () => {
-    wrapper.vm.password = `mySecretPassword`
-    wrapper.vm.close()
-    expect(wrapper.vm.password).toBeNull()
+    it(`should erase password on close`, () => {
+      wrapper.vm.password = `mySecretPassword`
+      wrapper.vm.close()
+      expect(wrapper.vm.password).toBeNull()
+    })
   })
 
   it(`should set the step to transaction details`, () => {
@@ -154,6 +154,23 @@ describe(`ActionModal`, () => {
       expect(validate).toHaveBeenCalled()
       expect(submit).not.toHaveBeenCalled()
     })
+
+    it(`do nothing if selected method is invalid`, async () => {
+      const validate = jest.fn(() => true)
+      const submit = jest.fn()
+      const self = {
+        validate,
+        submit,
+        $v: {
+          $touch: () => {}
+        },
+        step: `txDetails`
+      }
+      await ActionModal.methods.validateChangeStep.call(self)
+      expect(validate).toHaveBeenCalled()
+      expect(submit).not.toHaveBeenCalled()
+      expect(self.step).toBe(`txDetails`)
+    })
   })
 
   describe(`shows sending indication`, () => {
@@ -223,5 +240,29 @@ describe(`ActionModal`, () => {
     await wrapper.vm.$nextTick()
     console.log(wrapper.find(`#password`).html())
     expect(wrapper.find(`#password`).exists()).toBe(false)
+  })
+
+  describe(`selected sign method`, () => {
+    it(`selects local signed in with account`, () => {
+      store.commit(`setLedgerConnection`, false)
+      expect(wrapper.vm.selectedSignMethod).toBe(`local`)
+      expect(wrapper.vm.signMethods).toEqual([
+        {
+          key: `(Unsafe) Local Account`,
+          value: `local`
+        }
+      ])
+    })
+
+    it(`selects ledger if device is connected`, () => {
+      store.commit(`setLedgerConnection`, true)
+      expect(wrapper.vm.selectedSignMethod).toBe(`ledger`)
+      expect(wrapper.vm.signMethods).toEqual([
+        {
+          key: `Ledger`,
+          value: `ledger`
+        }
+      ])
+    })
   })
 })
