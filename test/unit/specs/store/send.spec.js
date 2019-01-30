@@ -179,12 +179,20 @@ describe(`Module: Send`, () => {
       })
 
       describe(`signing with Ledger Nano S`, () => {
-        xit(`should send`, async () => {
+        it(`should send`, async () => {
           const args = {
             type: `send`,
             password: `1234567890`,
             amount: [{ denom: `mycoin`, amount: 123 }],
             submitType: `ledger`
+          }
+          state.externals = {
+            createSignMessage: jest.fn(),
+            signatureImport: jest.fn(),
+            createSignature: jest.fn(),
+            createSignedTx: jest.fn(),
+            createBroadcastBody: jest.fn(() => ({ broadcast: `body` })),
+            config: { default_gas: `500000` }
           }
 
           await actions.sendTx(
@@ -203,7 +211,7 @@ describe(`Module: Send`, () => {
               account_number: `12`,
               chain_id: `mock-chain`,
               from: `cosmos1demo`,
-              gas: `42`,
+              gas: `500000`,
               generate_only: true,
               sequence: `0`
             }
