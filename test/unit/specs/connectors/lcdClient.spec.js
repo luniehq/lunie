@@ -591,6 +591,38 @@ describe(`LCD Client`, () => {
         })
       })
 
+      it(`does not throw error for empty results`, async () => {
+        axios.mockReturnValueOnce(
+          Promise.reject({
+            response: {
+              data: `account bytes are empty`
+            }
+          })
+        )
+        const res = await client.queryAccount(`address`)
+        expect(res).toEqual({
+          coins: [],
+          sequence: `0`,
+          account_number: `0`
+        })
+      })
+
+      it(`does not throw error for failed merkle proof error`, async () => {
+        axios.mockReturnValueOnce(
+          Promise.reject({
+            response: {
+              data: `failed to prove merkle proof`
+            }
+          })
+        )
+        const res = await client.queryAccount(`address`)
+        expect(res).toEqual({
+          coins: [],
+          sequence: `0`,
+          account_number: `0`
+        })
+      })
+
       it(`throws error for error other than empty account`, async () => {
         axios.mockReturnValueOnce(
           Promise.reject({

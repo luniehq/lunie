@@ -39,6 +39,24 @@ const Client = (axios, remoteLcdURL) => {
     send: argReq(`POST`, `/bank/accounts`, `/transfers`),
     queryAccount: function(address) {
       return req(`GET`, `/auth/accounts/${address}`)()
+        .then(res => {
+          return res.value
+        })
+        .catch(err => {
+          // if account not found, return null instead of throwing
+          if (
+            err.response &&
+            (err.response.data.includes(`account bytes are empty`) ||
+              err.response.data.includes(`failed to prove merkle proof`))
+          ) {
+            return {
+              coins: [],
+              sequence: `0`,
+              account_number: `0`
+            }
+          }
+          throw err
+        })
     },
     txs: function(addr) {
       return Promise.all([
