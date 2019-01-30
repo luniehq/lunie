@@ -578,15 +578,13 @@ describe(`LCD Client`, () => {
         )
 
         expect(await client.queryAccount(`address`)).toEqual({
+          type: `auth/Account`,
           value: {
-            type: `auth/Account`,
-            value: {
-              account_number: `768`,
-              address: `cosmosaccaddr1xr9rxc3jr6xzzugreykyrdsyjhtx8qvm4et3yp`,
-              coins: [{ amount: `10`, denom: `steak` }],
-              public_key: null,
-              sequence: `0`
-            }
+            account_number: `768`,
+            address: `cosmosaccaddr1xr9rxc3jr6xzzugreykyrdsyjhtx8qvm4et3yp`,
+            coins: [{ amount: `10`, denom: `steak` }],
+            public_key: null,
+            sequence: `0`
           }
         })
       })

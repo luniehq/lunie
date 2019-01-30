@@ -65,6 +65,7 @@ export default ({ node }) => {
 
       try {
         const res = await node.queryAccount(state.address)
+        console.log(res)
         state.error = null
         const coins = res.coins || []
         commit(`setNonce`, res.sequence)

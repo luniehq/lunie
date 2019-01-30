@@ -95,11 +95,9 @@ describe(`Module: Wallet`, () => {
     const node = {
       queryAccount: jest.fn(() =>
         Promise.resolve({
-          value: {
-            coins,
-            sequence: `1`,
-            account_number: `2`
-          }
+          coins,
+          sequence: `1`,
+          account_number: `2`
         })
       )
     }
