@@ -135,7 +135,7 @@ export function createSignMessage(
   )
 }
 
-// produces the signature for a message in base64
+// produces the signature for a message (returns Buffer)
 export function signWithPrivateKey(signMessage, privateKey) {
   const signHash = Buffer.from(sha256(signMessage).toString(), `hex`)
   const { signature } = secp256k1.sign(signHash, Buffer.from(privateKey, `hex`))
