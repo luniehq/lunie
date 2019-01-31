@@ -296,6 +296,9 @@ workflows:
 
       - build:
           name: buildig the app
+          requires:
+            - security
+            - lint
       # on develop:
       #        build
       #          |
