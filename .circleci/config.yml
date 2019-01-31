@@ -1,7 +1,6 @@
 version: 2.1
 
 aliases:
-  - &VOYAGER /tmp/voyager
   - &GAIA /tmp/gaia
   - &WORKSPACE /tmp/build_output
   - &DIST /tmp/build_output/app/dist
@@ -51,12 +50,24 @@ executors:
   aws:
     docker:
       - image: cibuilds/aws:1.15
+  web:
+    docker:
+      - image: *docker-browsers
+    working_directory: *WORKSPACE
+
+  node:
+    docker:
+      - image: *docker-node
+    working_directory: *WORKSPACE
+
+  go:
+    docker:
+      - image: *docker-go
+    working_directory: *GAIA
 
 jobs:
   build:
-    working_directory: *WORKSPACE
-    docker:
-      - image: *docker-browsers
+    executor: web
 
     steps:
       - checkout
@@ -68,14 +79,13 @@ jobs:
       - store_artifacts:
           path: *DIST
       - persist_to_workspace:
-          root: *WORKSPACE
+          root: .
           paths:
             - app/dist
 
   # Build Gaia from the SDK source code specified by tasks/build/Gaia/COMMIT.sh.
   build-gaia:
-    docker:
-      - image: *docker-go
+    executor: go
 
     steps:
       - checkout
@@ -85,33 +95,31 @@ jobs:
 
       # If Gaia isn't in the cache then build it.
       - run: |
-          if [ ! -d ~/gaia ]; then
+          if [ ! -d /tmp/gaia ]; then
             cd tasks/build/Gaia
             . COMMIT.sh
-            TARGET=~/gaia ./build.sh
+            TARGET=/tmp/gaia ./build.sh
           fi
 
       - save_cache:
           key: v7-Gaia-{{ checksum "tasks/build/Gaia/COMMIT.sh" }}
           paths:
-            - ~/gaia
+            - *GAIA
 
       - persist_to_workspace:
-          root: ~/gaia
+          root: .
           paths:
             - "*"
 
   changelogUpdated:
-    docker:
-      - image: *docker-browsers
+    executor: node
 
     steps:
       - checkout
       - run: tasks/changelog-changed-check.sh
 
   lint:
-    docker:
-      - image: circleci/node:10.15.0
+    executor: node
 
     steps:
       - checkout
@@ -120,8 +128,7 @@ jobs:
       - run: yarn run lint
 
   testUnit:
-    docker:
-      - image: *docker-browsers
+    executor: web
 
     steps:
       - checkout
@@ -137,14 +144,10 @@ jobs:
           when: on_success
 
   security:
-    docker:
-      - image: *docker-browsers
-
+    executor: web
     steps:
       - checkout
-
       - yarn-update
-
       - run:
           name: Audit
           command: |
@@ -161,19 +164,15 @@ jobs:
             exit 0
 
   testE2e:
-    working_directory: *WORKSPACE
-    docker:
-      - image: *docker-browsers
-
+    executor: web
     environment:
       - BINARY_PATH: "/home/circleci/project/builds/Gaia/linux_amd64/gaiacli"
       - NODE_BINARY_PATH: "/home/circleci/project/builds/Gaia/linux_amd64/gaiad"
 
     steps:
       - checkout
-
       - attach_workspace:
-          at: builds/Gaia
+          at: *GAIA
       - yarn-update
       - yarn-install
 
@@ -195,6 +194,8 @@ jobs:
   deploy2s3:
     executor: aws
     steps:
+      - attach_workspace:
+          at: *DIST
       - sync:
           from: *DIST
           to: "s3://cosmos-voyager"
