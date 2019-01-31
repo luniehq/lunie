@@ -10,25 +10,25 @@ aliases:
   - &docker-go circleci/golang:1.11
 
 commands:
-  - yarn-update:
-      description: "[YARN] fetch new version"
-      run:
-        - sudo npm -g uninstall yarn ; sudo npm -g install yarn@1.13.0
-  - yarn-install:
-      description: "[YARN] update and install"
-      run:
-        - restore_cache:
-            keys:
-              - v3-dependencies-root-{{ checksum "package.json" }}
-              - v3-dependencies-root-
+  yarn-update:
+    description: "[YARN] fetch new version"
+    run:
+      - sudo npm -g uninstall yarn ; sudo npm -g install yarn@1.13.0
+  yarn-install:
+    description: "[YARN] update and install"
+    run:
+      - restore_cache:
+          keys:
+            - v3-dependencies-root-{{ checksum "package.json" }}
+            - v3-dependencies-root-
 
-        - run: sudo npm -g uninstall yarn ; sudo npm -g install yarn@1.13.0
-        - run: yarn install
-        - save_cache:
-            paths:
-              - yarn.lock
-              - node_modules
-            key: v3-dependencies-root-{{ checksum "package.json" }}
+      - run: sudo npm -g uninstall yarn ; sudo npm -g install yarn@1.13.0
+      - run: yarn install
+      - save_cache:
+          paths:
+            - yarn.lock
+            - node_modules
+          key: v3-dependencies-root-{{ checksum "package.json" }}
 
   sync:
     parameters:
@@ -43,7 +43,6 @@ commands:
       - run:
           name: Deploy to S3
           command: "aws s3 sync << parameters.from >> << parameters.to >><<# parameters.overwrite >> --delete<</ parameters.overwrite >>"
-
 
 # a reusable executor
 executors:
@@ -182,22 +181,22 @@ jobs:
           to: "s3://cosmos-voyager"
           overwrite: true
 
-#  deployment-frontend:
-#    working_directory: *WORKSPACE
-#    machine: true
-#    environment:
-#      CIRCLE_ARTIFACTS: *WORKSPACE
-#    steps:
-#      - attach_workspace:
-#          at: *WORKSPACE
-#      - run: /tmp/build_output/circle.run_deploy.sh
-#      - when:
-#        condition: << parameters.deploy >>
-#        steps:
-#          - run:
-#              name: Deploy the latest docker Image
-#              command: |
-#                bash ./circle.ebs_deploy.sh
+  #  deployment-frontend:
+  #    working_directory: *WORKSPACE
+  #    machine: true
+  #    environment:
+  #      CIRCLE_ARTIFACTS: *WORKSPACE
+  #    steps:
+  #      - attach_workspace:
+  #          at: *WORKSPACE
+  #      - run: /tmp/build_output/circle.run_deploy.sh
+  #      - when:
+  #        condition: << parameters.deploy >>
+  #        steps:
+  #          - run:
+  #              name: Deploy the latest docker Image
+  #              command: |
+  #                bash ./circle.ebs_deploy.sh
 
   # Create release.
   release:
