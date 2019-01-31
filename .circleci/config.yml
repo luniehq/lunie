@@ -1,13 +1,19 @@
 version: 2.1
 
 aliases:
-  - &CWD ~/voyager
+  - &VOYAGER ~/voyager
+  - &GAIA ~/gaia
   - &WORKSPACE /tmp/build_output
+  - &DIST /tmp/build_output/app/dist
   - &docker-node circleci/node:10.15
   - &docker-browsers circleci/node:10.15-browsers
   - &docker-go circleci/golang:1.11
 
 commands:
+  - yarn-update:
+      description: "[YARN] fetch new version"
+      run:
+        - sudo npm -g uninstall yarn ; sudo npm -g install yarn@1.13.0
   - yarn-install:
       description: "[YARN] update and install"
       run:
@@ -24,6 +30,27 @@ commands:
               - node_modules
             key: v3-dependencies-root-{{ checksum "package.json" }}
 
+  sync:
+    parameters:
+      from:
+        type: string
+      to:
+        type: string
+      overwrite:
+        default: false
+        type: boolean
+    steps:
+      - run:
+          name: Deploy to S3
+          command: "aws s3 sync << parameters.from >> << parameters.to >><<# parameters.overwrite >> --delete<</ parameters.overwrite >>"
+
+
+# a reusable executor
+executors:
+  aws:
+    docker:
+      - image: cibuilds/aws:1.15
+
 jobs:
   # Build Gaia from the SDK source code specified by tasks/build/Gaia/COMMIT.sh.
   buildGaia:
@@ -38,19 +65,19 @@ jobs:
 
       # If Gaia isn't in the cache then build it.
       - run: |
-          if [ ! -d ~/target ]; then
+          if [ ! -d ~/gaia ]; then
             cd tasks/build/Gaia
             . COMMIT.sh
-            TARGET=~/target ./build.sh
+            TARGET=~/gaia ./build.sh
           fi
 
       - save_cache:
           key: v7-Gaia-{{ checksum "tasks/build/Gaia/COMMIT.sh" }}
           paths:
-            - ~/target
+            - ~/gaia
 
       - persist_to_workspace:
-          root: ~/target
+          root: ~/gaia
           paths:
             - "*"
 
@@ -68,20 +95,8 @@ jobs:
 
     steps:
       - checkout
-
-      - restore_cache:
-          keys:
-            - v3-dependencies-root-{{ checksum "package.json" }}
-            - v3-dependencies-root-
-
-      - run: sudo npm -g uninstall yarn ; sudo npm -g install yarn@1.13.0
-      - run: yarn install
-      - save_cache:
-          paths:
-            - yarn.lock
-            - node_modules
-          key: v3-dependencies-root-{{ checksum "package.json" }}
-
+      - yarn-update
+      - yarn-install
       - run: yarn run lint
 
   testUnit:
@@ -90,9 +105,8 @@ jobs:
 
     steps:
       - checkout
-
+      - yarn-update
       - yarn-install
-
       - run:
           name: Test
           command: yarn run test:unit
@@ -109,7 +123,7 @@ jobs:
     steps:
       - checkout
 
-      - run: sudo npm -g uninstall yarn ; sudo npm -g install yarn@1.13.0
+      - yarn-update
 
       - run:
           name: Audit
@@ -127,6 +141,7 @@ jobs:
             exit 0
 
   testE2e:
+    working_directory: *WORKSPACE
     docker:
       - image: *docker-browsers
 
@@ -139,7 +154,7 @@ jobs:
 
       - attach_workspace:
           at: builds/Gaia
-
+      - yarn-update
       - yarn-install
 
       - run:
@@ -148,34 +163,41 @@ jobs:
           no_output_timeout: 120
 
       - store_artifacts:
-          path: dist/
-          destination: voyager/
+          path: *DIST
       - persist_to_workspace:
-          root: *CWD
+          root: *VOYAGER
           paths:
-            - dist
-            - circle.run_deploy.sh
+            - *DIST
+            # - circle.run_deploy.sh NOT NOW
 
       - store_artifacts:
           path: testArtifacts
           when: on_fail
 
-  deployment-frontend:
-    working_directory: /tmp/build_output
-    machine: true
-    environment:
-      CIRCLE_ARTIFACTS: /tmp/build_output
+  deploy2s3:
+    executor: aws
     steps:
-      - attach_workspace:
-          at: /tmp/build_output/
-      - run: /tmp/build_output/circle.run_deploy.sh
-      - when:
-        condition: << parameters.deploy >>
-        steps:
-          - run:
-              name: Deploy the latest docker Image
-              command: |
-                bash ./circle.ebs_deploy.sh
+      - sync:
+          from: *VOYAGER
+          to: "s3://cosmos-voyager"
+          overwrite: true
+
+#  deployment-frontend:
+#    working_directory: *WORKSPACE
+#    machine: true
+#    environment:
+#      CIRCLE_ARTIFACTS: *WORKSPACE
+#    steps:
+#      - attach_workspace:
+#          at: *WORKSPACE
+#      - run: /tmp/build_output/circle.run_deploy.sh
+#      - when:
+#        condition: << parameters.deploy >>
+#        steps:
+#          - run:
+#              name: Deploy the latest docker Image
+#              command: |
+#                bash ./circle.ebs_deploy.sh
 
   # Create release.
   release:
@@ -184,7 +206,7 @@ jobs:
 
     steps:
       - checkout
-
+      - yarn-update
       - yarn-install
       - run: node tasks/createReleasePR.js
 
@@ -278,7 +300,7 @@ workflows:
           filters:
             branches:
               only: develop
-      - deployment-frontend:
+      - deploy2s3:
           requires:
             - build
             - build-deploy-gaia
