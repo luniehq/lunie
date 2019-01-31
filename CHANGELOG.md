@@ -64,6 +64,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1804](https://github.com/cosmos/voyager/issues/1804) Moved Voyager to the web @faboweb
 - [\#1835](https://github.com/cosmos/voyager/issues/1835) allow user to use different signing methods @faboweb
 - [\#1833](https://github.com/cosmos/voyager/issues/1833) Prerequisites to allow continuous integration @sabau
+- [\#1338](https://github.com/cosmos/voyager/issues/1338) Add Ledger Nano S support for signing transactions @fedekunze
 
 ### Changed
 

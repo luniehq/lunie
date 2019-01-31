@@ -1,15 +1,28 @@
 import {
   sign,
   createBroadcastBody,
-  createSignedTx
+  createSignMessage,
+  createSignedTx,
+  createSignature
 } from "../../scripts/wallet.js"
 import { getKey } from "../../scripts/keystore"
 const config = require(`../../../config.json`)
+import { signatureImport } from "secp256k1"
 
 export default ({ node }) => {
   const state = {
     lock: null,
-    nonce: `0`
+    nonce: `0`,
+    externals: {
+      config,
+      sign,
+      createBroadcastBody,
+      createSignMessage,
+      createSignedTx,
+      createSignature,
+      getKey,
+      signatureImport
+    }
   }
 
   const mutations = {
@@ -60,11 +73,10 @@ export default ({ node }) => {
 
       const requestMetaData = {
         sequence: state.nonce,
-        name: `anonymous`,
         from: rootState.wallet.address,
-        account_number: rootState.wallet.accountNumber, // TODO move into LCD?
+        account_number: rootState.wallet.accountNumber,
         chain_id: rootState.connection.lastHeader.chain_id,
-        gas: String(config.default_gas),
+        gas: String(state.externals.config.default_gas),
         generate_only: true
       }
       args.base_req = requestMetaData
@@ -73,6 +85,10 @@ export default ({ node }) => {
       const type = args.type || `send`
       delete args.type
 
+      // get signing method: localkeystore or ledger
+      const submitType = args.submitType || `local`
+      delete args.submitType
+
       // extract "to" address
       const to = args.to
       delete args.to
@@ -80,24 +96,46 @@ export default ({ node }) => {
       // get the generated tx by querying it from the backend
       const req = to ? node[type](to, args) : node[type](args)
       const generationRes = await req.catch(handleSDKError)
-
-      // get private key to sign
-      const wallet = getKey(rootState.user.account, args.password)
-      delete args.password
-
-      // sign
       const tx = generationRes.value
-      const signature = sign(tx, wallet, requestMetaData)
 
-      // broadcast
-      const signedTx = createSignedTx(tx, signature)
-      const body = createBroadcastBody(signedTx)
+      let signature
+      if (rootState.ledger.isConnected && submitType === `ledger`) {
+        // TODO: move to wallet script
+        const signMessage = state.externals.createSignMessage(
+          tx,
+          requestMetaData
+        )
+        const signatureByteArray = await dispatch(`signWithLedger`, signMessage)
+        // we have to parse the signature from Ledger as it's in DER format
+        const signatureBuffer = state.externals.signatureImport(
+          signatureByteArray
+        )
+        /* 
+          NOTE: message is not hashed since Ledger needs to display it on screen
+          and then internally hashes the json before signing it
+        */
+        signature = state.externals.createSignature(
+          signatureBuffer,
+          requestMetaData.sequence,
+          requestMetaData.account_number,
+          rootState.ledger.pubKey
+        )
+      } else {
+        // get private key to sign
+        const wallet = state.externals.getKey(
+          rootState.user.account,
+          args.password
+        )
+        signature = state.externals.sign(tx, wallet, requestMetaData)
+      }
+      // TODO: signer app
+      // broadcast transaction
+      const signedTx = state.externals.createSignedTx(tx, signature)
+      const body = state.externals.createBroadcastBody(signedTx)
       const res = await node.postTx(body).catch(handleSDKError)
-
       // check response code
       assertOk(res)
-
-      commit(`setNonce`, (parseInt(state.nonce) + 1).toString())
+      commit(`setNonce`, String(parseInt(state.nonce) + 1))
     }
   }
 

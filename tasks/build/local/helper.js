@@ -39,7 +39,7 @@ Default account:
     )
   } catch (error) {
     console.log(`Encountered an Error:`)
-    console.error(error.msg ? error : error.toString())
+    console.error(error.msg ? error : String(error))
   }
 }
 

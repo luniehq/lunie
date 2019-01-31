@@ -17,6 +17,7 @@ export default opts => ({
   send: require(`./send.js`).default(opts),
   user: require(`./user.js`).default(opts),
   validators: require(`./validators.js`).default(opts),
+  ledger: require(`./ledger.js`).default(opts),
   wallet: require(`./wallet.js`).default(opts),
   keybase: require(`./keybase.js`).default(opts),
   stakingParameters: require(`./parameters.js`).default(opts),
