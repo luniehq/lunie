@@ -2,8 +2,8 @@ version: 2.1
 
 aliases:
   - &GAIA /tmp/gaia
-  - &WORKSPACE /tmp/build_output
-  - &DIST /tmp/build_output/app/dist
+  - &WORKSPACE /tmp/voyager
+  - &DIST /tmp/voyager/app/dist
   - &docker-node circleci/node:10.15
   - &docker-browsers circleci/node:10.15-browsers
   - &docker-go circleci/golang:1.11
@@ -79,7 +79,7 @@ jobs:
       - store_artifacts:
           path: *DIST
       - persist_to_workspace:
-          root: .
+          root: *WORKSPACE
           paths:
             - app/dist
 
@@ -195,7 +195,7 @@ jobs:
     executor: aws
     steps:
       - attach_workspace:
-          at: *DIST
+          at: *WORKSPACE
       - sync:
           from: *DIST
           to: "s3://cosmos-voyager"
@@ -312,8 +312,8 @@ workflows:
 
       - build-gaia:
           name: build-test-gaia
-          requires:
-            - build
+#          requires:
+#            - build
       #          filters:
       #            branches:
       #              ignore: develop
