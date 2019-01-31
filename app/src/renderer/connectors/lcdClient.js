@@ -24,8 +24,6 @@ const Client = (axios, remoteLcdURL) => {
     }
   }
 
-  const fetchAccount = argReq(`GET`, `/auth/accounts`)
-
   return {
     // meta
     lcdConnected: function() {
@@ -39,8 +37,8 @@ const Client = (axios, remoteLcdURL) => {
 
     // coins
     send: argReq(`POST`, `/bank/accounts`, `/transfers`),
-    queryAccount(address) {
-      return fetchAccount(address)
+    queryAccount: function(address) {
+      return req(`GET`, `/auth/accounts/${address}`)()
         .then(res => {
           return res.value
         })

@@ -82,14 +82,19 @@ describe(`TmFormMsg`, () => {
       error: `Asdf must be a valid URL (http:// required)`
     },
     {
-      type: `asdf`,
+      type: `default`,
       name: `Asdf`,
       error: `Asdf must be valid`
     },
     {
       type: `bech32`,
-      name: `Asdf`,
-      error: `is invalid bech32`
+      name: `Address`,
+      error: `Address is invalid bech32`
+    },
+    {
+      type: `integer`,
+      name: `Number`,
+      error: `Number must be an integer`
     },
     {
       type: `custom`,

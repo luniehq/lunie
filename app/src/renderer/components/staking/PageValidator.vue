@@ -151,7 +151,7 @@
       />
       <undelegation-modal
         ref="undelegationModal"
-        :maximum="myBond.toNumber()"
+        :maximum="Number(myBond)"
         :from-options="delegationTargetOptions()"
         :to="wallet.address"
         :validator="validator"

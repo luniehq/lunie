@@ -38,8 +38,17 @@ export default ({}) => {
   }
 
   const mutations = {
+    setSignIn(state, hasSignedIn) {
+      state.signedIn = hasSignedIn
+    },
     setAccounts(state, accounts) {
       state.accounts = accounts
+    },
+    setUserAddress(state, address) {
+      state.address = address
+    },
+    setAtoms(state, atoms) {
+      state.atoms = atoms
     },
     addHistory(state, path) {
       state.history.push(path)
@@ -64,12 +73,10 @@ export default ({}) => {
       dispatch(`resetSessionData`)
 
       await dispatch(`loadAccounts`)
-      const exists = state.accounts.length > 0
-      const screen = exists ? `sign-in` : `welcome`
-      commit(`setModalSessionState`, screen)
+      commit(`setModalSessionState`, `welcome`)
 
       state.externals.track(`pageview`, {
-        dl: `/session/` + screen
+        dl: `/session/welcome`
       })
     },
     async loadAccounts({ commit, state }) {
@@ -95,42 +102,55 @@ export default ({}) => {
       return state.externals.generateSeed()
     },
     async createKey({ dispatch }, { seedPhrase, password, name }) {
-      const { address } = await state.externals.importKey(
+      const { cosmosAddress } = await state.externals.importKey(
         name,
         password,
         seedPhrase
       )
-      dispatch(`initializeWallet`, address)
-      return address
+      await dispatch(`initializeWallet`, { address: cosmosAddress })
+      return cosmosAddress
     },
-    async signIn({ state, commit, dispatch }, { account }) {
-      state.account = account
-      state.signedIn = true
-
-      const keys = await state.externals.loadKeys()
-      const { address } = keys.find(({ name }) => name === account)
-
-      state.address = address
-
+    async signIn(
+      { state, commit, dispatch },
+      { account, address, sessionType = `local`, errorCollection = false }
+    ) {
+      let accountAddress
+      switch (sessionType) {
+        case `ledger`:
+          accountAddress = address
+          break
+        default:
+          // local keyStore
+          state.account = account // TODO: why do we have state.account and state.accounts ??
+          const keys = await state.externals.loadKeys()
+          accountAddress = keys.find(({ name }) => name === account).address
+      }
+      commit(`setSignIn`, true)
+      dispatch(`setErrorCollection`, {
+        account: accountAddress,
+        optin: errorCollection
+      })
+      commit(`setUserAddress`, accountAddress)
       dispatch(`loadPersistedState`)
       commit(`setModalSession`, false)
       await dispatch(`getStakingParameters`)
-      dispatch(`initializeWallet`, address)
       await dispatch(`getGovParameters`)
-      dispatch(`loadErrorCollection`, account)
+      dispatch(`loadErrorCollection`, accountAddress)
+      await dispatch(`initializeWallet`, { address: accountAddress })
     },
     signOut({ state, commit, dispatch }) {
       state.account = null
-      state.signedIn = false
-
+      commit(`setSignIn`, false)
       commit(`setModalSession`, true)
+      commit(`setLedgerConnection`, false)
+      commit(`setCosmosAppVersion`, {})
       dispatch(`showInitialScreen`)
     },
-    resetSessionData({ state }) {
-      state.atoms = 0
+    resetSessionData({ commit, state }) {
+      commit(`setAtoms`, 0)
       state.history = []
       state.account = null
-      state.address = null
+      commit(`setUserAddress`, null)
     },
     loadErrorCollection({ state, dispatch }, account) {
       const errorCollection =

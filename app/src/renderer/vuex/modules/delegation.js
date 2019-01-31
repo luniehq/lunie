@@ -147,7 +147,7 @@ export default ({ node }) => {
         dispatch,
         commit
       },
-      { validator_addr, amount, password }
+      { validator_addr, amount, password, submitType }
     ) {
       const denom = stakingParameters.parameters.bond_denom
       const delegation = {
@@ -159,6 +159,7 @@ export default ({ node }) => {
         type: `postDelegation`,
         to: wallet.address, // TODO strange syntax
         password,
+        submitType,
         delegator_addr: wallet.address,
         validator_addr,
         delegation
@@ -183,7 +184,7 @@ export default ({ node }) => {
         rootState: { wallet },
         dispatch
       },
-      { validator, amount, password }
+      { validator, amount, password, submitType }
     ) {
       // TODO: change to 10 when available https://github.com/cosmos/cosmos-sdk/issues/2317
       const shares = String(
@@ -195,7 +196,8 @@ export default ({ node }) => {
         delegator_addr: wallet.address,
         validator_addr: validator.operator_address,
         shares,
-        password
+        password,
+        submitType
       })
     },
     async submitRedelegation(
@@ -203,7 +205,7 @@ export default ({ node }) => {
         rootState: { wallet },
         dispatch
       },
-      { validatorSrc, validatorDst, amount, password }
+      { validatorSrc, validatorDst, amount, password, submitType }
     ) {
       const shares = String(
         Math.abs(calculateShares(validatorSrc, amount)).toFixed(10)
@@ -216,7 +218,8 @@ export default ({ node }) => {
         validator_src_addr: validatorSrc.operator_address,
         validator_dst_addr: validatorDst.operator_address,
         shares,
-        password
+        password,
+        submitType
       })
     }
   }

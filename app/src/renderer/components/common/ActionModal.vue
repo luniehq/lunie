@@ -14,9 +14,8 @@
           <i class="material-icons">close</i>
         </div>
       </div>
-      <div class="action-modal-form">
-        <slot></slot>
-
+      <div v-if="step === `txDetails`" class="action-modal-form">
+        <slot />
         <tm-form-group
           v-if="signMethods.length > 1"
           class="action-modal-form-group"
@@ -51,6 +50,12 @@
           />
         </tm-form-group>
       </div>
+      <div v-else-if="step === `sign`">
+        <hardware-state
+          icon="usb"
+          value="Please unlock the Cosmos app on your Ledger Nano S"
+        />
+      </div>
       <div class="action-modal-footer">
         <slot name="action-modal-footer">
           <tm-form-group class="action-modal-group">
@@ -68,10 +73,24 @@
                 color="primary"
               />
               <tm-btn
+                v-else-if="
+                  selectedSignMethod === `ledger` && step === `txDetails`
+                "
+                color="primary"
+                value="Next"
+                @click.native="validateChangeStep"
+              />
+              <tm-btn
+                v-else-if="selectedSignMethod === `ledger` && step === `sign`"
+                color="primary"
+                value="Sign"
+                @click.native="validateChangeStep"
+              />
+              <tm-btn
                 v-else
                 color="primary"
                 value="Submit"
-                @click.native="validateForm"
+                @click.native="validateChangeStep"
               />
             </div>
           </tm-form-group>
@@ -89,6 +108,7 @@
 
 <script>
 import ClickOutside from "vue-click-outside"
+import HardwareState from "common/TmHardwareState"
 import TmBtn from "common/TmBtn"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
@@ -96,12 +116,19 @@ import TmFormMsg from "common/TmFormMsg"
 import { mapGetters } from "vuex"
 import { requiredIf } from "vuelidate/lib/validators"
 
+const defaultStep = `txDetails`
+const signStep = `sign`
+
+const signWithLedger = `ledger`
+const signWithLocalKeystore = `local`
+
 export default {
   name: `action-modal`,
   directives: {
     ClickOutside
   },
   components: {
+    HardwareState,
     TmBtn,
     TmField,
     TmFormGroup,
@@ -126,29 +153,37 @@ export default {
     }
   },
   data: () => ({
+    step: defaultStep,
     signMethod: null,
     password: null,
-    selectedSignMethod: `local`,
-    signMethods: [
-      {
-        key: `Account Password (Unsafe)`,
-        value: `local`
-      }
-      // {
-      //   key: `Ledger`,
-      //   value: `ledger`
-      // },
-      // {
-      //   key: `Cosmos Signer App`,
-      //   value: `signer-app`
-      // }
-    ],
     sending: false,
     submissionError: null,
     show: false
   }),
   computed: {
-    ...mapGetters([`connected`])
+    ...mapGetters([`connected`, signWithLedger]),
+    selectedSignMethod() {
+      if (this.ledger.isConnected) {
+        return signWithLedger
+      }
+      return signWithLocalKeystore
+    },
+    signMethods() {
+      if (this.ledger.isConnected) {
+        return [
+          {
+            key: `Ledger Nano S`,
+            value: signWithLedger
+          }
+        ]
+      }
+      return [
+        {
+          key: `(Unsafe) Local Account`,
+          value: signWithLocalKeystore
+        }
+      ]
+    }
   },
   methods: {
     open() {
@@ -156,20 +191,33 @@ export default {
     },
     close() {
       this.password = null
+      this.step = defaultStep
       this.show = false
     },
-    async validateForm() {
-      this.sending = true
+    async validateChangeStep() {
       this.$v.$touch()
 
       // An ActionModal is only the prototype of a parent modal
       // here we trigger the validation of the form that this parent modal
       const childFormValid = this.validate()
+      // const ledgerT = this.selectedSignMethod === signWithLedger &&
+      //       this.step === signStep &&
+      //       this.ledger.isConnected
 
       if (!this.$v.$invalid && childFormValid) {
+        if (
+          this.selectedSignMethod === signWithLedger &&
+          this.step === defaultStep
+        ) {
+          // show connect Ledger view
+          this.step = signStep
+          return
+        }
+        // submit transaction
+        this.sending = true
         await this.submit()
+        this.sending = false
       }
-      this.sending = false
     },
     async submit() {
       try {
@@ -188,7 +236,9 @@ export default {
   validations() {
     return {
       password: {
-        required: requiredIf(() => this.selectedSignMethod === `local`)
+        required: requiredIf(
+          () => this.selectedSignMethod === signWithLocalKeystore
+        )
       }
     }
   }
