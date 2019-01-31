@@ -1,22 +1,35 @@
-import setup from "../../../helpers/vuex-setup"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
+import Vuelidate from "vuelidate"
 import ActionModal from "renderer/components/common/ActionModal"
 
+const localVue = createLocalVue()
+localVue.use(Vuelidate)
+
 describe(`ActionModal`, () => {
-  let wrapper, store
-  const instance = setup()
+  let wrapper, $store
 
   beforeEach(() => {
-    const test = instance.mount(ActionModal, {
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: {
+        connected: true,
+        ledger: { isConnected: false }
+      }
+    }
+
+    wrapper = shallowMount(ActionModal, {
+      localVue,
       propsData: {
         title: `Action Modal`,
         submitFn: jest.fn(),
         validate: jest.fn()
+      },
+      mocks: {
+        $store
       }
     })
-    wrapper = test.wrapper
-    store = test.store
     wrapper.vm.open()
-    jest.useFakeTimers()
   })
 
   it(`has the expected html structure`, () => {
@@ -71,6 +84,8 @@ describe(`ActionModal`, () => {
   })
 
   it(`should clear the submissionError after a timeout if the function is rejected`, async () => {
+    jest.useFakeTimers()
+
     const submitFn = jest
       .fn()
       .mockRejectedValue(new Error(`some kind of error message`))
@@ -229,22 +244,21 @@ describe(`ActionModal`, () => {
   })
 
   it(`fails validation if the password is missing`, async () => {
-    wrapper.vm.validateChangeStep()
+    wrapper.setData({ password: null })
+    await wrapper.vm.validateChangeStep()
     expect(wrapper.vm.submitFn).not.toHaveBeenCalled()
+    expect(wrapper.vm.$v.$invalid).toBe(true)
   })
 
   // TODO: test didn't work
-  xit(`hides password input if signing with Ledger`, async () => {
-    store.commit(`setLedgerConnection`, true)
+  xit(`hides password input if signing with Ledger`, () => {
+    $store.getters.ledger.isConnected = true
     expect(wrapper.vm.selectedSignMethod).toBe(`ledger`)
-    await wrapper.vm.$nextTick()
-    console.log(wrapper.find(`#password`).html())
     expect(wrapper.find(`#password`).exists()).toBe(false)
   })
 
   describe(`selected sign method`, () => {
     it(`selects local signed in with account`, () => {
-      store.commit(`setLedgerConnection`, false)
       expect(wrapper.vm.selectedSignMethod).toBe(`local`)
       expect(wrapper.vm.signMethods).toEqual([
         {
@@ -255,7 +269,7 @@ describe(`ActionModal`, () => {
     })
 
     it(`selects ledger if device is connected`, () => {
-      store.commit(`setLedgerConnection`, true)
+      $store.getters.ledger.isConnected = true
       expect(wrapper.vm.selectedSignMethod).toBe(`ledger`)
       expect(wrapper.vm.signMethods).toEqual([
         {

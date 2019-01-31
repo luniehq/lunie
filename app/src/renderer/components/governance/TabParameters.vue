@@ -1,163 +1,153 @@
 <template>
   <div>
-    <div>
-      <h3>
-        Deposit Parameters
-        <i
-          v-tooltip.top="depositTooltips.description"
-          class="material-icons info-button"
-          >info_outline</i
-        >
-      </h3>
-      <div class="parameters__details parameters__section">
-        <div class="row">
-          <div class="column">
-            <dl class="info_dl">
-              <dt>
-                Minimum Deposit
-                <i
-                  v-tooltip.top="depositTooltips.min_deposit"
-                  class="material-icons info-button"
-                  >info_outline</i
-                >
-              </dt>
-              <dd>
-                {{
-                  governanceParameters.parameters.deposit.min_deposit
-                    ? minimumDeposit
-                    : `n/a`
-                }}
-              </dd>
-            </dl>
-          </div>
-          <div class="column">
-            <dl class="info_dl">
-              <dt>
-                Maximum Deposit Period
-                <i
-                  v-tooltip.top="depositTooltips.max_deposit_period"
-                  class="material-icons info-button"
-                  >info_outline</i
-                >
-              </dt>
-              <dd>
-                {{
-                  governanceParameters.parameters.deposit.max_deposit_period
-                    ? depositPeriodInDays + ` days`
-                    : `n/a`
-                }}
-              </dd>
-            </dl>
-          </div>
+    <div class="parameters__details parameters__section">
+      <div class="row">
+        <div class="column">
+          <dl class="info_dl">
+            <dt>
+              Minimum Deposit
+              <i
+                v-tooltip.top="depositTooltips.min_deposit"
+                class="material-icons info-button"
+                >info_outline</i
+              >
+            </dt>
+            <dd>
+              {{
+                governanceParameters.parameters.deposit.min_deposit
+                  ? minimumDeposit
+                  : `n/a`
+              }}
+            </dd>
+          </dl>
+        </div>
+        <div class="column">
+          <dl class="info_dl">
+            <dt v-tooltip.top="depositTooltips.max_deposit_period">
+              Maximum Deposit Period
+              <i
+                v-tooltip.top="depositTooltips.max_deposit_period"
+                class="material-icons info-button"
+                >info_outline</i
+              >
+            </dt>
+            <dd>
+              {{
+                governanceParameters.parameters.deposit.max_deposit_period
+                  ? depositPeriodInDays + ` days`
+                  : `n/a`
+              }}
+            </dd>
+          </dl>
         </div>
       </div>
     </div>
-    <div>
-      <h3>
-        Tally Parameters
-        <i
-          v-tooltip.top="tallyingTooltips.description"
-          class="material-icons info-button"
-          >info_outline</i
-        >
-      </h3>
-      <div class="parameters__details parameters__section">
-        <div class="row">
-          <div class="column">
-            <dl class="info_dl">
-              <dt>
-                Threshold
-                <i
-                  v-tooltip.top="tallyingTooltips.threshold"
-                  class="material-icons info-button"
-                  >info_outline</i
-                >
-              </dt>
-              <dd>
-                {{
-                  governanceParameters.parameters.tallying.threshold
-                    ? `${parseFloat(
-                        governanceParameters.parameters.tallying.threshold
-                      ) * 100} %`
-                    : `n/a`
-                }}
-              </dd>
-            </dl>
-            <dl class="info_dl">
-              <dt>
-                Veto
-                <i
-                  v-tooltip.top="tallyingTooltips.veto"
-                  class="material-icons info-button"
-                  >info_outline</i
-                >
-              </dt>
-              <dd>
-                {{
-                  governanceParameters.parameters.tallying.veto
-                    ? `${parseFloat(
-                        governanceParameters.parameters.tallying.veto
-                      ) * 100} %`
-                    : `n/a`
-                }}
-              </dd>
-            </dl>
-          </div>
-          <div class="column">
-            <dl class="info_dl">
-              <dt>
-                Governance Penalty
-                <i
-                  v-tooltip.top="tallyingTooltips.governance_penalty"
-                  class="material-icons info-button"
-                  >info_outline</i
-                >
-              </dt>
-              <dd>
-                {{
-                  governanceParameters.parameters.tallying.governance_penalty
-                    ? governanceParameters.parameters.tallying
-                        .governance_penalty
-                    : `n/a`
-                }}
-              </dd>
-            </dl>
-          </div>
+
+    <div class="parameters__details parameters__section">
+      <div class="row">
+        <div class="column">
+          <dl class="info_dl">
+            <dt>
+              Threshold
+              <i
+                v-tooltip.top="tallyingTooltips.threshold"
+                class="material-icons info-button"
+                >info_outline</i
+              >
+            </dt>
+            <dd>
+              {{
+                governanceParameters.parameters.tallying.threshold
+                  ? `${parseFloat(
+                      governanceParameters.parameters.tallying.threshold
+                    ) * 100} %`
+                  : `n/a`
+              }}
+            </dd>
+          </dl>
+          <dl class="info_dl">
+            <dt>
+              Veto
+              <i
+                v-tooltip.top="tallyingTooltips.veto"
+                class="material-icons info-button"
+                >info_outline</i
+              >
+            </dt>
+            <dd>
+              {{
+                governanceParameters.parameters.tallying.veto
+                  ? `${parseFloat(
+                      governanceParameters.parameters.tallying.veto
+                    ) * 100} %`
+                  : `n/a`
+              }}
+            </dd>
+          </dl>
+        </div>
+
+        <div class="column">
+          <dl class="info_dl">
+            <dt>
+              Governance Penalty
+              <i
+                v-tooltip.top="tallyingTooltips.governance_penalty"
+                class="material-icons info-button"
+                >info_outline</i
+              >
+            </dt>
+            <dd>
+              {{
+                governanceParameters.parameters.tallying.governance_penalty
+                  ? governanceParameters.parameters.tallying.governance_penalty
+                  : `n/a`
+              }}
+            </dd>
+          </dl>
+
+          <dl class="info_dl">
+            <dt>
+              Quorum
+              <i
+                v-tooltip.top="tallyingTooltips.quorum"
+                class="material-icons info-button"
+                >info_outline</i
+              >
+            </dt>
+            <dd>
+              {{
+                governanceParameters.parameters.tallying.quorum
+                  ? governanceParameters.parameters.tallying.quorum
+                  : `n/a`
+              }}
+            </dd>
+          </dl>
         </div>
       </div>
     </div>
-    <div>
-      <h3>
-        Voting Parameters
-        <i
-          v-tooltip.top="votingTooltips.description"
-          class="material-icons info-button"
-          >info_outline</i
-        >
-      </h3>
-      <div class="parameters__details parameters__section">
-        <div class="row">
-          <div class="column">
-            <dl class="info_dl">
-              <dt>
-                Voting Period
-                <i
-                  v-tooltip.top="votingTooltips.voting_period"
-                  class="material-icons info-button"
-                  >info_outline</i
-                >
-              </dt>
-              <dd>
-                {{
-                  governanceParameters.parameters.voting.voting_period
-                    ? votingPeriodInDays + ` days`
-                    : `n/a`
-                }}
-              </dd>
-            </dl>
-          </div>
-          <div class="column"></div>
+
+    <div class="parameters__details parameters__section">
+      <div class="row">
+        <div class="column">
+          <dl class="info_dl">
+            <dt>
+              Voting Period
+              <i
+                v-tooltip.top="votingTooltips.voting_period"
+                class="material-icons info-button"
+                >info_outline</i
+              >
+            </dt>
+            <dd>
+              {{
+                governanceParameters.parameters.voting.voting_period
+                  ? votingPeriodInDays + ` days`
+                  : `n/a`
+              }}
+            </dd>
+          </dl>
         </div>
+        <div class="column"></div>
       </div>
     </div>
   </div>
@@ -228,55 +218,13 @@ export default {
 }
 
 .parameters__section {
-  background-color: var(--app-fg);
-  display: flex;
   margin-bottom: 1rem;
-  padding: 2rem;
   width: 100%;
 }
 
-h3 {
-  margin: 1em auto;
-}
-
-.info-button {
-  color: var(--link);
-}
-
-.column {
-  display: flex;
-  flex-flow: column;
-  position: relative;
-}
-
-.row {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-}
-
-.info_dl {
-  display: flex;
-  flex-flow: column;
-  margin-bottom: 1.5rem;
-  margin-right: 1rem;
-}
-
-.info_dl dt {
-  color: var(--dim);
-  font-size: var(--sm);
-  margin-bottom: 4px;
-}
-
-.info_dl dd {
-  border: 1px solid var(--white-fade-2);
-  border-radius: 2px;
-  font-size: 1rem;
-  line-height: 1rem;
-  padding: 0.5rem;
-}
-
-.info_dl dd.info_dl__text-box {
-  min-height: 6.91rem;
+.parameters__section h3 {
+  padding: 0.5rem 1rem;
+  font-size: var(--h3);
+  font-weight: 500;
 }
 </style>

@@ -107,7 +107,11 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
           type="number"
         />
          
-        <!---->
+        <div
+          class="tm-form-msg sm tm-form-msg--error"
+        >
+          Wallet doesn't have any STAKEs
+        </div>
       </div>
     </div>
      

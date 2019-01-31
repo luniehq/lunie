@@ -81,6 +81,15 @@ export function prepareSignBytes(jsonTx) {
     return jsonTx
   }
 
+  // TODO temporary, https://github.com/cosmos/cosmos-sdk/issues/3336
+  if (
+    jsonTx.type === `cosmos-sdk/MsgSubmitProposal` ||
+    jsonTx.type === `cosmos-sdk/MsgDeposit` ||
+    jsonTx.type === `cosmos-sdk/MsgVote`
+  ) {
+    return prepareSignBytes(jsonTx.value)
+  }
+
   const sorted = {}
   Object.keys(jsonTx)
     .sort()

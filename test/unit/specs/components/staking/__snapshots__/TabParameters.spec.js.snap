@@ -19,19 +19,6 @@ exports[`TabParameters displays a message if waiting for connection 2`] = `<tm-d
 exports[`TabParameters has the expected html structure 1`] = `
 <div>
   <div>
-    <h3
-      class="staking-pool"
-    >
-      
-      Staking Pool
-      
-      <i
-        class="material-icons info-button"
-      >
-        info_outline
-      </i>
-    </h3>
-     
     <div
       class="parameters__details parameters__section"
     >
@@ -46,7 +33,7 @@ exports[`TabParameters has the expected html structure 1`] = `
           >
             <dt>
               
-              Loose STAKE
+              Total Liquid STAKE
               
               <i
                 class="material-icons info-button"
@@ -73,7 +60,7 @@ exports[`TabParameters has the expected html structure 1`] = `
           >
             <dt>
               
-              Delegated STAKE
+              Total Delegated STAKE
               
               <i
                 class="material-icons info-button"
@@ -96,19 +83,6 @@ exports[`TabParameters has the expected html structure 1`] = `
   </div>
    
   <div>
-    <h3
-      class="staking-parameters"
-    >
-      
-      Staking Parameters
-      
-      <i
-        class="material-icons info-button"
-      >
-        info_outline
-      </i>
-    </h3>
-     
     <div
       class="parameters__details parameters__section"
     >
@@ -123,7 +97,7 @@ exports[`TabParameters has the expected html structure 1`] = `
           >
             <dt>
               
-              Unbonding Time
+              Duration of Undelegation Period
               
               <i
                 class="material-icons info-button"
@@ -145,15 +119,13 @@ exports[`TabParameters has the expected html structure 1`] = `
             class="info_dl"
           >
             <dt>
-              Current Staking Coin Denomination
+              Current Staking Token
             </dt>
              
             <dd
               id="bond_denom"
             >
-              
               STAKE
-            
             </dd>
           </dl>
         </div>

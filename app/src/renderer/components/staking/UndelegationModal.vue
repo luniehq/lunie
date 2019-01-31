@@ -36,7 +36,7 @@
         placeholder="Amount"
       />
       <tm-form-msg
-        v-if="balance === 0"
+        v-if="liquidAtoms === 0"
         :msg="`doesn't have any ${denom}s`"
         name="Wallet"
         type="custom"
@@ -113,7 +113,7 @@ export default {
     selectedIndex: 0
   }),
   computed: {
-    ...mapGetters([`bondDenom`])
+    ...mapGetters([`bondDenom`, `liquidAtoms`])
   },
   validations() {
     return {

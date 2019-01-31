@@ -231,7 +231,9 @@ export default {
   },
   validations() {
     return {
-      password: requiredIf(() => this.selectedSignMethod === `local`)
+      password: {
+        required: requiredIf(() => this.selectedSignMethod === `local`)
+      }
     }
   }
 }

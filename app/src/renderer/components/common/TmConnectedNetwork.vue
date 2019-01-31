@@ -44,12 +44,12 @@ export default {
     num: num
   }),
   computed: {
-    ...mapGetters([`lastHeader`, `nodeURL`, `connected`]),
-    networkTooltip({ connected, nodeURL } = this) {
+    ...mapGetters([`lastHeader`, `nodeUrl`, `connected`]),
+    networkTooltip({ connected, nodeUrl } = this) {
       if (connected) {
         return `You\'re connected to the ${
           this.lastHeader.chain_id
-        } testnet via node ${nodeURL}.`
+        } testnet via node ${nodeUrl}.`
       }
       return `We\'re pinging nodes to try to connect you to ${
         this.lastHeader.chain_id
