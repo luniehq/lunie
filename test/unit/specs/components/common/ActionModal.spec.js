@@ -97,114 +97,87 @@ describe(`ActionModal`, () => {
   })
 
   describe(`runs validation and changes step`, () => {
-    it(`if connected to local`, async () => {
-      const getterValues = { ledger: { isConnected: false } }
-      const validate = jest.fn(() => true)
-      const submit = jest.fn()
-      const self = {
+    let self, getterValues
+    beforeEach(() => {
+      getterValues = { ledger: { isConnected: false } }
+      self = {
         ...getterValues,
-        validate,
-        submit,
+        submit: jest.fn(),
+        validate: jest.fn(() => true),
         $v: {
           $touch: () => {}
         },
         selectedSignMethod: `local`,
         step: `txDetails`
       }
+    })
+    it(`if connected to local`, async () => {
       await ActionModal.methods.validateChangeStep.call(self)
-      expect(validate).toHaveBeenCalled()
-      expect(submit).toHaveBeenCalled()
+      expect(self.validate).toHaveBeenCalled()
+      expect(self.submit).toHaveBeenCalled()
     })
 
     it(`if connected to ledger and is on 'txDetails' step`, async () => {
-      const getterValues = { ledger: { isConnected: true } }
-      const validate = jest.fn(() => true)
-      const submit = jest.fn()
-      const self = {
-        ...getterValues,
-        validate,
-        submit,
-        $v: {
-          $touch: () => {}
-        },
-        selectedSignMethod: `ledger`,
-        step: `txDetails`
-      }
+      self.ledger = { isConnected: true }
+      self.selectedSignMethod = `ledger`
       await ActionModal.methods.validateChangeStep.call(self)
-      expect(validate).toHaveBeenCalled()
-      expect(submit).not.toHaveBeenCalled()
+      expect(self.validate).toHaveBeenCalled()
+      expect(self.submit).not.toHaveBeenCalled()
       expect(self.step).toBe(`sign`)
     })
 
     it(`if connected to ledger and is on 'sign' step`, async () => {
-      const getterValues = { ledger: { isConnected: true } }
-      const validate = jest.fn(() => true)
-      const submit = jest.fn()
-      const self = {
-        ...getterValues,
-        validate,
-        submit,
-        $v: {
-          $touch: () => {}
-        },
-        selectedSignMethod: `ledger`,
-        step: `sign`
-      }
+      self.ledger = { isConnected: true }
+      self.selectedSignMethod = `ledger`
+      self.step = `sign`
       await ActionModal.methods.validateChangeStep.call(self)
-      expect(validate).toHaveBeenCalled()
-      expect(submit).toHaveBeenCalled()
+      expect(self.validate).toHaveBeenCalled()
+      expect(self.submit).toHaveBeenCalled()
     })
 
     it(`doesn't submit on failed validation`, async () => {
-      const validate = jest.fn(() => false)
-      const submit = jest.fn()
-      const self = {
-        validate,
-        submit,
-        $v: {
-          $touch: () => {}
-        }
-      }
+      self.validate = jest.fn(() => false)
       await ActionModal.methods.validateChangeStep.call(self)
-      expect(validate).toHaveBeenCalled()
-      expect(submit).not.toHaveBeenCalled()
+      expect(self.validate).toHaveBeenCalled()
+      expect(self.submit).not.toHaveBeenCalled()
     })
 
     it(`do nothing if selected method is invalid`, async () => {
-      const validate = jest.fn(() => true)
-      const submit = jest.fn()
-      const self = {
-        validate,
-        submit,
-        $v: {
-          $touch: () => {}
-        },
-        step: `txDetails`
-      }
+      self.selectedSignMethod = `other`
       await ActionModal.methods.validateChangeStep.call(self)
-      expect(validate).toHaveBeenCalled()
-      expect(submit).not.toHaveBeenCalled()
+      expect(self.validate).toHaveBeenCalled()
+      expect(self.submit).not.toHaveBeenCalled()
       expect(self.step).toBe(`txDetails`)
+    })
+
+    it(`fails validation if the password is missing`, async () => {
+      wrapper.setData({ password: null })
+      await wrapper.vm.validateChangeStep()
+      expect(wrapper.vm.submitFn).not.toHaveBeenCalled()
+      expect(wrapper.vm.$v.$invalid).toBe(true)
     })
   })
 
   describe(`shows sending indication`, () => {
-    it(`when signing with local keystore`, done => {
-      const getterValues = { ledger: { isConnected: false } }
-      const validate = jest.fn(() => true)
-      const submit = jest.fn(
-        () => new Promise(resolve => setTimeout(resolve, 1000))
-      )
-      const self = {
+    let self, getterValues
+
+    beforeEach(() => {
+      getterValues = { ledger: { isConnected: false } }
+      self = {
         ...getterValues,
-        validate,
-        submit,
+        submit: jest.fn(
+          () => new Promise(resolve => setTimeout(resolve, 1000))
+        ),
+        validate: jest.fn(() => true),
         $v: {
           $touch: () => {}
         },
         selectedSignMethod: `local`,
         step: `txDetails`
       }
+    })
+
+    it(`when signing with local keystore`, done => {
       ActionModal.methods.validateChangeStep.call(self).then(() => {
         expect(self.sending).toBe(false)
         done()
@@ -214,21 +187,8 @@ describe(`ActionModal`, () => {
     })
 
     it(`when signing with ledger`, done => {
-      const getterValues = { ledger: { isConnected: true } }
-      const validate = jest.fn(() => true)
-      const submit = jest.fn(
-        () => new Promise(resolve => setTimeout(resolve, 1000))
-      )
-      const self = {
-        ...getterValues,
-        validate,
-        submit,
-        $v: {
-          $touch: () => {}
-        },
-        selectedSignMethod: `ledger`,
-        step: `sign`
-      }
+      self.ledger = { isConnected: true }
+      self.step = `sign`
       ActionModal.methods.validateChangeStep.call(self).then(() => {
         expect(self.sending).toBe(false)
         done()
@@ -243,17 +203,20 @@ describe(`ActionModal`, () => {
     expect(wrapper.find(`#password`).exists()).toBe(true)
   })
 
-  it(`fails validation if the password is missing`, async () => {
-    wrapper.setData({ password: null })
-    await wrapper.vm.validateChangeStep()
-    expect(wrapper.vm.submitFn).not.toHaveBeenCalled()
-    expect(wrapper.vm.$v.$invalid).toBe(true)
-  })
-
-  // TODO: test didn't work
-  xit(`hides password input if signing with Ledger`, () => {
+  it(`hides password input if signing with Ledger`, async () => {
     $store.getters.ledger.isConnected = true
-    expect(wrapper.vm.selectedSignMethod).toBe(`ledger`)
+    wrapper = shallowMount(ActionModal, {
+      localVue,
+      propsData: {
+        title: `Action Modal`,
+        submitFn: jest.fn(),
+        validate: jest.fn()
+      },
+      mocks: {
+        $store
+      }
+    })
+    wrapper.vm.open()
     expect(wrapper.find(`#password`).exists()).toBe(false)
   })
 

@@ -82,7 +82,7 @@ export default ({ node }) => {
       args.base_req = requestMetaData
 
       // extract type
-      const type = args.type || `send` // TODO: why send as default ??
+      const type = args.type
       delete args.type
 
       // get signing method: localkeystore or ledger

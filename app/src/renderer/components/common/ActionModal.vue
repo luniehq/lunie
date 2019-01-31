@@ -116,6 +116,12 @@ import TmFormMsg from "common/TmFormMsg"
 import { mapGetters } from "vuex"
 import { requiredIf } from "vuelidate/lib/validators"
 
+const defaultStep = `txDetails`
+const signStep = `sign`
+
+const signWithLedger = `ledger`
+const signWithLocalKeystore = `local`
+
 export default {
   name: `action-modal`,
   directives: {
@@ -147,7 +153,7 @@ export default {
     }
   },
   data: () => ({
-    step: `txDetails`,
+    step: defaultStep,
     signMethod: null,
     password: null,
     sending: false,
@@ -155,26 +161,26 @@ export default {
     show: false
   }),
   computed: {
-    ...mapGetters([`connected`, `ledger`]),
+    ...mapGetters([`connected`, signWithLedger]),
     selectedSignMethod() {
       if (this.ledger.isConnected) {
-        return `ledger`
+        return signWithLedger
       }
-      return `local`
+      return signWithLocalKeystore
     },
     signMethods() {
       if (this.ledger.isConnected) {
         return [
           {
             key: `Ledger`,
-            value: `ledger`
+            value: signWithLedger
           }
         ]
       }
       return [
         {
           key: `(Unsafe) Local Account`,
-          value: `local`
+          value: signWithLocalKeystore
         }
       ]
     }
@@ -185,7 +191,7 @@ export default {
     },
     close() {
       this.password = null
-      this.step = `txDetails`
+      this.step = defaultStep
       this.show = false
     },
     async validateChangeStep() {
@@ -194,25 +200,23 @@ export default {
       // An ActionModal is only the prototype of a parent modal
       // here we trigger the validation of the form that this parent modal
       const childFormValid = this.validate()
+      // const ledgerT = this.selectedSignMethod === signWithLedger &&
+      //       this.step === signStep &&
+      //       this.ledger.isConnected
 
       if (!this.$v.$invalid && childFormValid) {
         if (
-          this.selectedSignMethod === `local` ||
-          (this.selectedSignMethod === `ledger` &&
-            this.step === `sign` &&
-            this.ledger.isConnected)
-        ) {
-          // submit transaction
-          this.sending = true
-          await this.submit()
-          this.sending = false
-        } else if (
-          this.selectedSignMethod === `ledger` &&
-          this.step === `txDetails`
+          this.selectedSignMethod === signWithLedger &&
+          this.step === defaultStep
         ) {
           // show connect Ledger view
-          this.step = `sign`
+          this.step = signStep
+          return
         }
+        // submit transaction
+        this.sending = true
+        await this.submit()
+        this.sending = false
       }
     },
     async submit() {
@@ -232,7 +236,9 @@ export default {
   validations() {
     return {
       password: {
-        required: requiredIf(() => this.selectedSignMethod === `local`)
+        required: requiredIf(
+          () => this.selectedSignMethod === signWithLocalKeystore
+        )
       }
     }
   }
