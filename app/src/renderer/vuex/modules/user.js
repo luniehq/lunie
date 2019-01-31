@@ -38,6 +38,9 @@ export default ({}) => {
   }
 
   const mutations = {
+    setSignIn(state, hasSignedIn) {
+      state.signedIn = hasSignedIn
+    },
     setAccounts(state, accounts) {
       state.accounts = accounts
     },
@@ -62,15 +65,9 @@ export default ({}) => {
     },
     async showInitialScreen({ state, dispatch, commit }) {
       dispatch(`resetSessionData`)
-
       await dispatch(`loadAccounts`)
-      const exists = state.accounts.length > 0
-      const screen = exists ? `sign-in` : `welcome`
-      commit(`setModalSessionState`, screen)
-
-      state.externals.track(`pageview`, {
-        dl: `/session/` + screen
-      })
+      commit(`setModalSessionState`, `welcome`)
+      state.externals.track(`pageview`, { dl: `/` })
     },
     async loadAccounts({ commit, state }) {
       state.loading = true
@@ -105,8 +102,7 @@ export default ({}) => {
     },
     async signIn({ state, commit, dispatch }, { account }) {
       state.account = account
-      state.signedIn = true
-
+      commit(`setSignIn`, true)
       const keys = await state.externals.loadKeys()
       const { address } = keys.find(({ name }) => name === account)
 
@@ -121,8 +117,7 @@ export default ({}) => {
     },
     signOut({ state, commit, dispatch }) {
       state.account = null
-      state.signedIn = false
-
+      commit(`setSignIn`, false)
       commit(`setModalSession`, true)
       dispatch(`showInitialScreen`)
     },

@@ -9,7 +9,8 @@ const mockRootState = {
     connected: true
   },
   user: {
-    address: `cosmos1234`
+    address: `cosmos1234`,
+    signedIn: true
   },
   stakingParameters: lcdClientMock.state.stakingParameters
 }
@@ -245,18 +246,36 @@ describe(`Module: Delegations`, () => {
     ).toBeUndefined()
   })
 
-  it(`should query delegated atoms on reconnection`, () => {
-    state.loading = true
-    const dispatch = jest.fn()
-    actions.reconnected({ state, dispatch })
-    expect(dispatch).toHaveBeenCalledWith(`getBondedDelegates`)
-  })
+  describe(`queries the delegated atoms on reconnection`, () => {
+    it(`when the user has logged in and is not loading`, async () => {
+      const dispatch = jest.fn()
+      await actions.reconnected({
+        state: { loading: true },
+        dispatch,
+        rootState: { user: { signedIn: true } }
+      })
+      expect(dispatch).toHaveBeenCalledWith(`getBondedDelegates`)
+    })
 
-  it(`should not query delegated atoms on reconnection if not stuck in loading`, () => {
-    state.loading = false
-    const dispatch = jest.fn()
-    actions.reconnected({ state, dispatch })
-    expect(dispatch).not.toHaveBeenCalledWith(`getBondedDelegates`)
+    it(`fails if delegations are loading`, async () => {
+      const dispatch = jest.fn()
+      await actions.reconnected({
+        state: { loading: false },
+        dispatch,
+        rootState: { user: { signedIn: true } }
+      })
+      expect(dispatch).not.toHaveBeenCalledWith(`getBondedDelegates`)
+    })
+
+    it(`fails if the user hasn't logged in`, async () => {
+      const dispatch = jest.fn()
+      await actions.reconnected({
+        state: { loading: false },
+        dispatch,
+        rootState: { user: { signedIn: false } }
+      })
+      expect(dispatch).not.toHaveBeenCalledWith(`getBondedDelegates`)
+    })
   })
 
   it(`updating delegations should not update another users state after signing out and in again`, async () => {

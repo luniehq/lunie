@@ -17,14 +17,24 @@ describe(`PageStaking`, () => {
     store = instance.store
 
     store.commit(`setConnected`, true)
+    store.commit(`setSignIn`, true)
     store.state.user.address = lcdClientMock.addresses[0]
     store.dispatch(`updateDelegates`)
   })
 
-  it(`has the expected html structure`, async () => {
-    // somehow we need to wait one tick for the total atoms to update
-    await wrapper.vm.$nextTick()
-    expect(wrapper.vm.$el).toMatchSnapshot()
+  describe(`has the expected html structure`, () => {
+    it(`if user has signed in`, async () => {
+      // somehow we need to wait one tick for the total atoms to update
+      await wrapper.vm.$nextTick()
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
+
+    it(`if user hasn't signed in`, async () => {
+      // somehow we need to wait one tick for the total atoms to update
+      store.commit(`setSignIn`, false)
+      await wrapper.vm.$nextTick()
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
   })
 
   it(`should refresh candidates on click`, () => {

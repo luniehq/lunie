@@ -40,6 +40,7 @@ describe(`PageProposal`, () => {
     const instance = mount(PageProposal, {
       localVue,
       doBefore: ({ store }) => {
+        store.commit(`setSignIn`, true)
         store.commit(`setConnected`, true)
         store.state.governanceParameters.loaded = true
         store.commit(`setGovParameters`, governanceParameters)
@@ -64,8 +65,15 @@ describe(`PageProposal`, () => {
     wrapper.vm.$refs.modalVote = { open: jest.fn() }
   })
 
-  it(`has the expected html structure`, async () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+  describe(`has the expected html structure`, () => {
+    it(`if user has signed in`, async () => {
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
+
+    it(`if user hasn't signed in`, async () => {
+      store.commit(`setSignIn`, false)
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
   })
 
   it(`has the expected html structure when voting is open`, async () => {

@@ -6,7 +6,8 @@ const mockRootState = {
     connected: true
   },
   user: {
-    address: `default`
+    address: `default`,
+    signedIn: true
   }
 }
 
@@ -38,7 +39,7 @@ describe(`Module: Transactions`, () => {
         }
       }
     })
-    expect(state.wallet.find(tx => tx.height === `3436`).time).toBe(1042)
+    expect(state.wallet.find(tx => tx.height === `3436`).time).toBe(42000)
   })
 
   it(`should clear session data`, () => {
@@ -91,16 +92,36 @@ describe(`Module: Transactions`, () => {
     ).rejects.toThrowError(new Error(`Unknown transaction type`))
   })
 
-  it.only(`should query the txs on reconnection`, async () => {
-    const dispatch = jest.fn()
-    await actions.reconnected({ state: { loading: true }, dispatch })
-    expect(dispatch).toHaveBeenCalledWith(`getAllTxs`)
-  })
+  describe(`queries the txs on reconnection`, () => {
+    it(`when the user has logged in and is not loading`, async () => {
+      const dispatch = jest.fn()
+      await actions.reconnected({
+        state: { loading: true },
+        dispatch,
+        rootState: { user: { signedIn: true } }
+      })
+      expect(dispatch).toHaveBeenCalledWith(`getAllTxs`)
+    })
 
-  it(`should not query the txs on reconnection if not stuck in loading`, async () => {
-    const dispatch = jest.fn()
-    await actions.reconnected({ state: { loading: false }, dispatch })
-    expect(dispatch).not.toHaveBeenCalledWith(`getAllTxs`)
+    it(`fails if txs are loading`, async () => {
+      const dispatch = jest.fn()
+      await actions.reconnected({
+        state: { loading: false },
+        dispatch,
+        rootState: { user: { signedIn: true } }
+      })
+      expect(dispatch).not.toHaveBeenCalledWith(`getAllTxs`)
+    })
+
+    it(`fails if the user hasn't logged in`, async () => {
+      const dispatch = jest.fn()
+      await actions.reconnected({
+        state: { loading: false },
+        dispatch,
+        rootState: { user: { signedIn: false } }
+      })
+      expect(dispatch).not.toHaveBeenCalledWith(`getAllTxs`)
+    })
   })
 
   it(`should set error to true if enriching transactions fail`, async () => {

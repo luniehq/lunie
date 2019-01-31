@@ -101,7 +101,7 @@ describe(`Module: User`, () => {
       dispatch
     })
 
-    expect(commit).toHaveBeenCalledWith(`setModalSessionState`, `sign-in`)
+    expect(commit).toHaveBeenCalledWith(`setModalSessionState`, `welcome`)
     expect(dispatch).toHaveBeenCalledWith(`resetSessionData`)
   })
 

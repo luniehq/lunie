@@ -10,15 +10,12 @@ describe(`TmBalance`, () => {
   beforeEach(() => {
     const instance = mount(TmBalance, {
       getters: {
-        user: () => {
-          return {
-            address: `useraddress16876876876876876786876876876876876`
-          }
-        },
+        user: () => ({
+          address: `cosmos1address`,
+          signedIn: true
+        }),
         liquidAtoms: () => 123,
-        totalAtoms: () => {
-          return 321
-        }
+        totalAtoms: () => 321
       },
       propsData: {
         tabs: []
@@ -30,6 +27,6 @@ describe(`TmBalance`, () => {
   })
 
   it(`has the expected html structure before adding props`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.html()).toMatchSnapshot()
   })
 })
