@@ -292,21 +292,21 @@ workflows:
       - build-gaia:
           deploy: false
           name: build-test-gaia
-          filters:
-            branches:
-              ignore: develop
-      - build-gaia:
-          deploy: true
-          name: build-deploy-gaia
-          requires:
-            - build
-          filters:
-            branches:
-              only: develop
+      #          filters:
+      #            branches:
+      #              ignore: develop
+      #      - build-gaia:
+      #          deploy: true
+      #          name: build-deploy-gaia
+      #          requires:
+      #            - build
+      #          filters:
+      #            branches:
+      #              only: develop
       - deploy2s3:
           requires:
             - build
-            - build-deploy-gaia
+          #            - build-deploy-gaia
           filters:
             branches:
               only: develop
