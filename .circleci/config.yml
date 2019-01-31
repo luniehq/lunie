@@ -54,7 +54,7 @@ executors:
 
 jobs:
   # Build Gaia from the SDK source code specified by tasks/build/Gaia/COMMIT.sh.
-  buildGaia:
+  build-gaia:
     docker:
       - image: *docker-go
 
