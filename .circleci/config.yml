@@ -64,7 +64,7 @@ jobs:
       - yarn-install
       - run: |
           mkdir -p app/dist
-          yarn build:ui
+          CIRCLECI=true yarn build:ui
       - store_artifacts:
           path: *DIST
       - persist_to_workspace:

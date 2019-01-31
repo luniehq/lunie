@@ -18,6 +18,10 @@ function resolve(dir) {
 
 const buildPath = path.join(__dirname, `app/dist`)
 
+const devPlugins = process.env.CIRCLECI
+  ? []
+  : [new CleanWebpackPlugin([buildPath]), new BundleAnalyzerPlugin()]
+
 const rendererConfig = {
   devtool: process.env.NODE_ENV === `production` ? false : `#inline-source-map`,
   entry: {
@@ -73,9 +77,8 @@ const rendererConfig = {
     fs: `empty`
   },
   plugins: [
-    new CleanWebpackPlugin([buildPath]),
-    new BundleAnalyzerPlugin(),
     new VueLoaderPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
     // the global.GENTLY below fixes a compile issue with superagent + webpack
     // https://github.com/visionmedia/superagent/issues/672
     new webpack.DefinePlugin({ "global.GENTLY": false }),
@@ -88,9 +91,9 @@ const rendererConfig = {
           : false,
       styles: fs.readFileSync(`./app/src/renderer/styles/index.css`, `utf8`)
     }),
-    new webpack.NoEmitOnErrorsPlugin(),
     // warnings caused by websocket-stream, which has a server-part that is unavailable on the the client
-    new webpack.IgnorePlugin(/(bufferutil|utf-8-validate)/)
+    new webpack.IgnorePlugin(/(bufferutil|utf-8-validate)/),
+    ...devPlugins
   ],
   output: {
     filename: `[name].[contenthash].js`,
