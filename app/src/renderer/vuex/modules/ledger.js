@@ -51,6 +51,7 @@ export default () => {
     /* TODO: Create a function to detect ledger is connected (i.e unlocked with
       password and on Home app) */
     async connectLedgerApp({ commit, dispatch, state }) {
+      let success = false
       try {
         const communicationMethod = await state.externals.comm_u2f.create_async(
           TIMEOUT,
@@ -63,6 +64,7 @@ export default () => {
         await dispatch(`getLedgerPubKey`)
         const address = state.externals.createCosmosAddress(state.pubKey)
         await dispatch(`signIn`, { sessionType: `ledger`, address })
+        success = true
       } catch (error) {
         commit(`notifyError`, {
           title: `Error connecting to Ledger Nano S`,
@@ -71,14 +73,14 @@ export default () => {
         Sentry.captureException(error)
         commit(`setLedgerError`, error)
       } finally {
-        return !state.error
+        return success
       }
     },
     async getLedgerCosmosVersion({ commit, dispatch, state }) {
       let response
       try {
         response = await state.cosmosApp.get_version()
-        dispatch(`checkLedgerErrors`, { response })
+        actions.checkLedgerErrors(response)
         const { major, minor, patch, test_mode } = response
         const version = { major, minor, patch, test_mode }
         commit(`setCosmosAppVersion`, version)
@@ -91,11 +93,11 @@ export default () => {
         commit(`setLedgerError`, error)
       }
     },
-    async getLedgerPubKey({ commit, dispatch, state }) {
+    async getLedgerPubKey({ commit, state }) {
       let response
       try {
         response = await state.cosmosApp.publicKey(HDPATH)
-        dispatch(`checkLedgerErrors`, { response })
+        actions.checkLedgerErrors(response)
         commit(`setLedgerPubKey`, response.compressed_pk)
       } catch (error) {
         commit(`notifyError`, {
@@ -106,12 +108,12 @@ export default () => {
         commit(`setLedgerError`, error)
       }
     },
-    async signWithLedger({ commit, dispatch, state }, message) {
+    async signWithLedger({ commit, state }, message) {
       let signature
       try {
         const response = await state.cosmosApp.sign(HDPATH, message)
         signature = response.signature
-        dispatch(`checkLedgerErrors`, { response })
+        actions.checkLedgerErrors(response)
       } catch (error) {
         commit(`notifyError`, {
           title: `Signing transaction with Ledger failed`,
@@ -125,7 +127,7 @@ export default () => {
     },
     checkLedgerErrors(response) {
       if (response && response.error_message !== `No errors`) {
-        throw Error(response.error_message)
+        throw new Error(response.error_message)
       }
     }
   }
