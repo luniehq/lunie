@@ -321,7 +321,7 @@ workflows:
       - publish:
           requires:
             - changelogUpdated
-            - build
+            #            - build
             - testUnit
             # - testE2e
           filters:
