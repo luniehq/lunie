@@ -1,8 +1,8 @@
 version: 2.1
 
 aliases:
-  - &VOYAGER ~/voyager
-  - &GAIA ~/gaia
+  - &VOYAGER /tmp/voyager
+  - &GAIA /tmp/gaia
   - &WORKSPACE /tmp/build_output
   - &DIST /tmp/build_output/app/dist
   - &docker-node circleci/node:10.15
@@ -53,6 +53,24 @@ executors:
       - image: cibuilds/aws:1.15
 
 jobs:
+  build:
+    working_directory: *WORKSPACE
+    docker:
+      - image: *docker-browsers
+
+    steps:
+      - checkout
+      - yarn-update
+      - yarn-install
+      - run: |
+          yarn build:ui
+      - store_artifacts:
+          path: *DIST
+      - persist_to_workspace:
+          root: *WORKSPACE
+          paths:
+            - app/dist
+
   # Build Gaia from the SDK source code specified by tasks/build/Gaia/COMMIT.sh.
   build-gaia:
     docker:
@@ -163,8 +181,6 @@ jobs:
           command: yarn run test:e2e
           no_output_timeout: 120
 
-      - store_artifacts:
-          path: *DIST
       - persist_to_workspace:
           root: *VOYAGER
           paths:
@@ -278,6 +294,8 @@ workflows:
             branches:
               ignore: release
 
+      - build:
+          name: buildig the app
       # on develop:
       #        build
       #          |
@@ -287,11 +305,11 @@ workflows:
       #
       # in branches: build && build-test-backend
 
-      # I want to implement this first
-      # - build
       - build-gaia:
           #          deploy: false
           name: build-test-gaia
+          requires:
+            - build
       #          filters:
       #            branches:
       #              ignore: develop
@@ -306,6 +324,7 @@ workflows:
       - deploy2s3:
           requires:
             - testUnit
+            - build
           #            - build-deploy-gaia
           filters:
             branches:
@@ -321,7 +340,7 @@ workflows:
       - publish:
           requires:
             - changelogUpdated
-            #            - build
+            - build
             - testUnit
             # - testE2e
           filters:
