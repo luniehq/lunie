@@ -12,7 +12,7 @@
         <hardware-state
           v-if="status == 'connect'"
           icon="usb"
-          value="Please plug in your Ledger Wallet and open the Cosmos app"
+          value="Please plug in your Ledger Nano S and open the Cosmos app"
           @click.native="connectLedger()"
         />
         <hardware-state

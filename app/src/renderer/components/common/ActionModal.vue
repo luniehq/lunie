@@ -53,7 +53,7 @@
       <div v-else-if="step === `sign`">
         <hardware-state
           icon="usb"
-          value="Please unlock the Cosmos app and sign with your Ledger"
+          value="Please unlock the Cosmos app on your Ledger Nano S"
         />
       </div>
       <div class="action-modal-footer">
@@ -172,7 +172,7 @@ export default {
       if (this.ledger.isConnected) {
         return [
           {
-            key: `Ledger`,
+            key: `Ledger Nano S`,
             value: signWithLedger
           }
         ]
