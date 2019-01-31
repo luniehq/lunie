@@ -100,7 +100,8 @@
     "vue-template-es2015-compiler": "1.8.1",
     "webpack": "4.28.3",
     "webpack-cli": "3.2.0",
-    "webpack-dev-server": "3.1.14"
+    "webpack-dev-server": "3.1.14",
+    "webpack-bundle-analyzer": "3.0.3"
   },
   "dependencies": {
     "@sentry/browser": "4.4.1",
@@ -136,7 +137,6 @@
     "vue-directive-tooltip": "1.4.5",
     "vue-router": "3.0.1",
     "vuelidate": "0.7.3",
-    "vuex": "3.0.1",
-    "webpack-bundle-analyzer": "3.0.3"
+    "vuex": "3.0.1"
   }
 }
