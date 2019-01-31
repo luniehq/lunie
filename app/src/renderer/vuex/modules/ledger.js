@@ -66,7 +66,7 @@ export default () => {
       } catch (error) {
         commit(`notifyError`, {
           title: `Error connecting to Ledger Nano S`,
-          body: error.message
+          body: error
         })
         Sentry.captureException(error)
         commit(`setLedgerError`, error)

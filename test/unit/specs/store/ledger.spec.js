@@ -126,7 +126,7 @@ describe(`Module: Ledger`, () => {
           dispatch = jest.fn(async () => Promise.reject(`error`))
           await actions.connectLedgerApp({ commit, dispatch, state })
           expect(commit).toHaveBeenCalledWith(`notifyError`, {
-            title: `Error connecting to Ledger`,
+            title: `Error connecting to Ledger Nano S`,
             body: `error`
           })
           expect(commit).toHaveBeenCalledWith(`setLedgerError`, `error`)

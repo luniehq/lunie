@@ -228,7 +228,7 @@ describe(`ActionModal`, () => {
       expect(wrapper.vm.selectedSignMethod).toBe(`ledger`)
       expect(wrapper.vm.signMethods).toEqual([
         {
-          key: `Ledger`,
+          key: `Ledger Nano S`,
           value: `ledger`
         }
       ])
