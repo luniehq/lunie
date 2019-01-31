@@ -182,11 +182,11 @@ jobs:
           command: yarn run test:e2e
           no_output_timeout: 120
 
-      - persist_to_workspace:
-          root: *VOYAGER
-          paths:
-            - *DIST
-            # - circle.run_deploy.sh NOT NOW
+      #      - persist_to_workspace:
+      #          root: *VOYAGER
+      #          paths:
+      #            - *DIST
+      # - circle.run_deploy.sh NOT NOW
 
       - store_artifacts:
           path: testArtifacts
@@ -196,7 +196,7 @@ jobs:
     executor: aws
     steps:
       - sync:
-          from: *VOYAGER
+          from: *DIST
           to: "s3://cosmos-voyager"
           overwrite: true
 
