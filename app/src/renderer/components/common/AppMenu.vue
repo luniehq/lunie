@@ -2,6 +2,7 @@
   <menu class="app-menu">
     <div class="app-menu-main">
       <router-link
+        v-if="user.signedIn"
         id="app-menu__wallet"
         class="app-menu-item"
         to="/"
@@ -13,6 +14,7 @@
         <i class="material-icons">chevron_right</i>
       </router-link>
       <router-link
+        v-if="user.signedIn"
         id="app-menu__transactions"
         class="app-menu-item"
         to="/transactions"
@@ -26,7 +28,8 @@
       <router-link
         id="app-menu__staking"
         class="app-menu-item"
-        to="/staking"
+        to="/staking/validators/"
+        exact="exact"
         title="Staking"
         @click.native="close"
       >
@@ -58,6 +61,9 @@ export default {
   components: {
     ConnectedNetwork,
     TmListItem
+  },
+  computed: {
+    ...mapGetters([`user`])
   },
   data: () => ({
     ps: {}

@@ -51,7 +51,13 @@ export default {
     ]
   }),
   computed: {
-    ...mapGetters([`proposals`, `filters`, `depositDenom`, `connected`]),
+    ...mapGetters([
+      `proposals`,
+      `filters`,
+      `depositDenom`,
+      `connected`,
+      `user`
+    ]),
     proposalList() {
       return Object.values(this.proposals.proposals)
     }
@@ -61,7 +67,11 @@ export default {
   },
   methods: {
     onPropose() {
-      this.$refs.modalPropose.open()
+      if (this.user.signedIn) {
+        this.$refs.modalPropose.open()
+      } else {
+        this.$store.commit(`setModalSession`, true)
+      }
     }
   }
 }

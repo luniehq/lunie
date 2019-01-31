@@ -63,7 +63,7 @@ export default function({ node }) {
         }, 1000)
       }
     },
-    async rpcSubscribe({ commit, dispatch }) {
+    async rpcSubscribe({ commit, dispatch, rootState }) {
       const { node } = state.externals
       if (state.stopConnecting) return
 
@@ -101,8 +101,9 @@ export default function({ node }) {
           dispatch(`setLastHeader`, header)
         }
       )
-
-      dispatch(`walletSubscribe`)
+      if (rootState.user.signedIn) {
+        dispatch(`walletSubscribe`)
+      }
       dispatch(`checkNodeHalted`)
       dispatch(`pollRPCConnection`)
     },

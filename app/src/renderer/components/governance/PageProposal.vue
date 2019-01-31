@@ -177,7 +177,8 @@ export default {
       `connected`,
       `wallet`,
       `votes`,
-      `config`
+      `config`,
+      `user`
     ]),
     proposal() {
       return this.proposals.proposals[this.proposalId]
@@ -250,15 +251,23 @@ export default {
   },
   methods: {
     async onVote() {
-      this.$refs.modalVote.open()
-      // The error is already handled with notifyError in votes.js
-      await this.$store.dispatch(`getProposalVotes`, this.proposalId)
-      this.lastVote =
-        this.votes[this.proposalId] &&
-        this.votes[this.proposalId].find(e => e.voter === this.wallet.address)
+      if (this.user.signedIn) {
+        this.$refs.modalVote.open()
+        // The error is already handled with notifyError in votes.js
+        await this.$store.dispatch(`getProposalVotes`, this.proposalId)
+        this.lastVote =
+          this.votes[this.proposalId] &&
+          this.votes[this.proposalId].find(e => e.voter === this.wallet.address)
+      } else {
+        this.$store.commit(`setModalSession`, true)
+      }
     },
     onDeposit() {
-      this.$refs.modalDeposit.open()
+      if (this.user.signedIn) {
+        this.$refs.modalDeposit.open()
+      } else {
+        this.$store.commit(`setModalSession`, true)
+      }
     }
   }
 }

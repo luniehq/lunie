@@ -231,6 +231,7 @@ export default {
       `config`,
       `keybase`,
       `liquidAtoms`,
+      `user`,
       `wallet`,
       `connected`
     ]),
@@ -315,19 +316,27 @@ export default {
       this.showCannotModal = false
     },
     onDelegation() {
-      this.action = `delegate`
-      if (this.liquidAtoms > 0) {
-        this.$refs.delegationModal.open()
+      if (this.user.signedIn) {
+        this.action = `delegate`
+        if (this.liquidAtoms > 0) {
+          this.$refs.delegationModal.open()
+        } else {
+          this.showCannotModal = true
+        }
       } else {
-        this.showCannotModal = true
+        this.$store.commit(`setModalSession`, true)
       }
     },
     onUndelegation() {
-      this.action = `undelegate`
-      if (this.myBond.isGreaterThan(0)) {
-        this.$refs.undelegationModal.open()
+      if (this.user.signedIn) {
+        this.action = `undelegate`
+        if (this.myBond.isGreaterThan(0)) {
+          this.$refs.undelegationModal.open()
+        } else {
+          this.showCannotModal = true
+        }
       } else {
-        this.showCannotModal = true
+        this.$store.commit(`setModalSession`, true)
       }
     },
     delegationTargetOptions() {

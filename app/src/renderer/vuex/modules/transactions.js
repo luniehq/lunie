@@ -46,8 +46,8 @@ export default ({ node }) => {
       // clear previous account state
       rootState.transactions = JSON.parse(JSON.stringify(emptyState))
     },
-    async reconnected({ state, dispatch }) {
-      if (state.loading) {
+    async reconnected({ state, dispatch, rootState }) {
+      if (state.loading && rootState.user.signedIn) {
         await dispatch(`getAllTxs`)
       }
     },
