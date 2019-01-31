@@ -13,15 +13,16 @@ commands:
   yarn-update:
     description: "[YARN] fetch new version"
     steps:
-      run: sudo npm -g uninstall yarn ; sudo npm -g install yarn@1.13.0
+      - run:
+          name: Update Yarn
+          command: sudo npm -g uninstall yarn ; sudo npm -g install yarn@1.13.0
   yarn-install:
     description: "[YARN] update and install"
     steps:
-      - run:
-          - restore_cache:
-              keys:
-                - v3-dependencies-root-{{ checksum "package.json" }}
-                - v3-dependencies-root-
+      - restore_cache:
+          keys:
+            - v3-dependencies-root-{{ checksum "package.json" }}
+            - v3-dependencies-root-
 
       - run: sudo npm -g uninstall yarn ; sudo npm -g install yarn@1.13.0
       - run: yarn install
