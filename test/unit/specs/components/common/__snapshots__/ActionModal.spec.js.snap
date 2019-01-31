@@ -1,5 +1,78 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`ActionModal disables user from submitting when still connecting 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+>
+  <div
+    class="action-modal-header"
+  >
+    <img
+      class="icon action-modal-atom"
+      src="~assets/images/cosmos-logo.png"
+    />
+    <span
+      class="action-modal-title"
+    >
+      Action Modal
+    </span>
+     
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons"
+      >
+        close
+      </i>
+    </div>
+  </div>
+   
+  <div
+    class="action-modal-form"
+  >
+     
+    <!---->
+     
+    <tm-form-group-stub
+      class="action-modal-group"
+      fieldid="password"
+      fieldlabel="Password"
+    >
+      <tm-field-stub
+        id="password"
+        placeholder="Password"
+        type="password"
+      />
+       
+      <!---->
+    </tm-form-group-stub>
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tm-form-group-stub
+      class="action-modal-group"
+    >
+      <div
+        class="action-modal-footer"
+      >
+        <tm-btn-stub
+          color="primary"
+          disabled="disabled"
+          value="Connecting..."
+        />
+      </div>
+    </tm-form-group-stub>
+     
+    <!---->
+  </div>
+</div>
+`;
+
 exports[`ActionModal has the expected html structure 1`] = `
 <div
   class="action-modal"
@@ -36,65 +109,36 @@ exports[`ActionModal has the expected html structure 1`] = `
      
     <!---->
      
-    <div
-      class="action-modal-group tm-form-group"
+    <tm-form-group-stub
+      class="action-modal-group"
+      fieldid="password"
+      fieldlabel="Password"
     >
-      <!---->
-      <label
-        class="tm-form-group__label"
-        for="password"
-      >
-        Password
-      </label>
+      <tm-field-stub
+        id="password"
+        placeholder="Password"
+        type="password"
+      />
        
-      <div
-        class="tm-form-group__field"
-      >
-        <input
-          class="tm-field"
-          id="password"
-          placeholder="Password"
-          type="password"
-        />
-         
-        <!---->
-      </div>
-    </div>
+      <!---->
+    </tm-form-group-stub>
   </div>
    
   <div
     class="action-modal-footer"
   >
-    <div
-      class="action-modal-group tm-form-group"
+    <tm-form-group-stub
+      class="action-modal-group"
     >
-      <!---->
-      <!---->
-       
       <div
-        class="tm-form-group__field"
+        class="action-modal-footer"
       >
-        <div
-          class="action-modal-footer"
-        >
-          <button
-            class="tm-btn"
-            disabled="disabled"
-          >
-            <span
-              class="tm-btn__container tm-btn--primary"
-            >
-              <!---->
-              <span
-                class="tm-btn__value"
-              >
-                Connecting...
-              </span>
-            </span>
-          </button>
-        </div>
+        <tm-btn-stub
+          color="primary"
+          value="Submit"
+        />
       </div>
-    </div>
+    </tm-form-group-stub>
      
     <!---->
   </div>
@@ -137,69 +181,111 @@ exports[`ActionModal shows sending indication 1`] = `
      
     <!---->
      
-    <div
-      class="action-modal-group tm-form-group"
+    <tm-form-group-stub
+      class="action-modal-group"
+      fieldid="password"
+      fieldlabel="Password"
     >
-      <!---->
-      <label
-        class="tm-form-group__label"
-        for="password"
-      >
-        Password
-      </label>
+      <tm-field-stub
+        id="password"
+        placeholder="Password"
+        type="password"
+      />
        
-      <div
-        class="tm-form-group__field"
-      >
-        <input
-          class="tm-field"
-          id="password"
-          placeholder="Password"
-          type="password"
-        />
-         
-        <!---->
-      </div>
-    </div>
+      <!---->
+    </tm-form-group-stub>
   </div>
    
   <div
     class="action-modal-footer"
   >
-    <div
-      class="action-modal-group tm-form-group"
+    <tm-form-group-stub
+      class="action-modal-group"
     >
-      <!---->
-      <!---->
-       
       <div
-        class="tm-form-group__field"
+        class="action-modal-footer"
       >
-        <div
-          class="action-modal-footer"
-        >
-          <button
-            class="tm-btn"
-            disabled="disabled"
-          >
-            <span
-              class="tm-btn__container tm-btn--primary"
-            >
-              <!---->
-              <span
-                class="tm-btn__value"
-              >
-                Connecting...
-              </span>
-            </span>
-          </button>
-        </div>
+        <tm-btn-stub
+          color="primary"
+          disabled="disabled"
+          value="Sending..."
+        />
       </div>
-    </div>
+    </tm-form-group-stub>
      
     <!---->
   </div>
 </div>
 `;
 
-exports[`ActionModal shows sending indication 2`] = `<!---->`;
+exports[`ActionModal shows sending indication 2`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+>
+  <div
+    class="action-modal-header"
+  >
+    <img
+      class="icon action-modal-atom"
+      src="~assets/images/cosmos-logo.png"
+    />
+    <span
+      class="action-modal-title"
+    >
+      Action Modal
+    </span>
+     
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons"
+      >
+        close
+      </i>
+    </div>
+  </div>
+   
+  <div
+    class="action-modal-form"
+  >
+     
+    <!---->
+     
+    <tm-form-group-stub
+      class="action-modal-group"
+      fieldid="password"
+      fieldlabel="Password"
+    >
+      <tm-field-stub
+        id="password"
+        placeholder="Password"
+        type="password"
+      />
+       
+      <!---->
+    </tm-form-group-stub>
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tm-form-group-stub
+      class="action-modal-group"
+    >
+      <div
+        class="action-modal-footer"
+      >
+        <tm-btn-stub
+          color="primary"
+          value="Submit"
+        />
+      </div>
+    </tm-form-group-stub>
+     
+    <!---->
+  </div>
+</div>
+`;

@@ -131,7 +131,7 @@ export default {
     selectedSignMethod: `local`,
     signMethods: [
       {
-        key: `(Unsafe) Local Account`,
+        key: `Account Password (Unsafe)`,
         value: `local`
       }
       // {
@@ -187,7 +187,9 @@ export default {
   },
   validations() {
     return {
-      password: requiredIf(() => this.selectedSignMethod === `local`)
+      password: {
+        required: requiredIf(() => this.selectedSignMethod === `local`)
+      }
     }
   }
 }

@@ -83,12 +83,9 @@ export function prepareSignBytes(jsonTx) {
 
   // TODO temporary, https://github.com/cosmos/cosmos-sdk/issues/3336
   if (
-    jsonTx.type === `cosmos-sdk/Send` ||
     jsonTx.type === `cosmos-sdk/MsgSubmitProposal` ||
-    jsonTx.type === `cosmos-sdk/MsgVote` ||
     jsonTx.type === `cosmos-sdk/MsgDeposit` ||
-    jsonTx.type === `cosmos-sdk/BeginUnbonding` ||
-    jsonTx.type === `cosmos-sdk/BeginRedelegate`
+    jsonTx.type === `cosmos-sdk/MsgVote`
   ) {
     return prepareSignBytes(jsonTx.value)
   }

@@ -18,7 +18,7 @@ describe(`TmSessionWelcome`, () => {
       lastHeader: () => ({ chain_id: `gaia-test`, height: `31337` }),
       user: () => ({ accounts }),
       connected: () => true,
-      nodeURL: () => `http://nodeUrl`
+      nodeUrl: () => `http://nodeUrl`
     }
     store = new Vuex.Store({ getters })
     store.commit = jest.fn()
