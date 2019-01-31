@@ -295,10 +295,10 @@ workflows:
               ignore: release
 
       - build:
-          name: buildig the app
           requires:
             - security
             - lint
+
       # on develop:
       #        build
       #          |
@@ -309,7 +309,6 @@ workflows:
       # in branches: build && build-test-backend
 
       - build-gaia:
-          #          deploy: false
           name: build-test-gaia
           requires:
             - build
