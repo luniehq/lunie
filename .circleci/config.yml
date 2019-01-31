@@ -63,6 +63,7 @@ jobs:
       - yarn-update
       - yarn-install
       - run: |
+          mkdir -p app/dist
           yarn build:ui
       - store_artifacts:
           path: *DIST
