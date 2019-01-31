@@ -1,9 +1,11 @@
 version: 2.1
 
 aliases:
+  # Define paths and never think about them again
   - &GAIA /tmp/gaia
   - &WORKSPACE /tmp/voyager
   - &DIST /tmp/voyager/app/dist
+  # Pick docker versions here only, then use the aliases in the executors definition
   - &docker-node circleci/node:10.15
   - &docker-browsers circleci/node:10.15-browsers
   - &docker-go circleci/golang:1.11
@@ -68,7 +70,6 @@ executors:
 jobs:
   build:
     executor: web
-
     steps:
       - checkout
       - yarn-update
@@ -86,10 +87,8 @@ jobs:
   # Build Gaia from the SDK source code specified by tasks/build/Gaia/COMMIT.sh.
   build-gaia:
     executor: go
-
     steps:
       - checkout
-
       - restore_cache:
           key: v7-Gaia-{{ checksum "tasks/build/Gaia/COMMIT.sh" }}
 
@@ -100,27 +99,25 @@ jobs:
             . COMMIT.sh
             TARGET=/tmp/gaia ./build.sh
           fi
-
       - save_cache:
           key: v7-Gaia-{{ checksum "tasks/build/Gaia/COMMIT.sh" }}
           paths:
             - *GAIA
-
       - persist_to_workspace:
           root: .
           paths:
             - "*"
+      - store_artifacts:
+          path: builds/Gaia/linux_amd64/*
 
   changelogUpdated:
     executor: node
-
     steps:
       - checkout
       - run: tasks/changelog-changed-check.sh
 
   lint:
     executor: node
-
     steps:
       - checkout
       - yarn-update
@@ -129,7 +126,6 @@ jobs:
 
   testUnit:
     executor: web
-
     steps:
       - checkout
       - yarn-update
@@ -138,7 +134,6 @@ jobs:
           name: Test
           command: yarn run test:unit
           no_output_timeout: 120
-
       - run:
           command: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
           when: on_success
@@ -166,27 +161,18 @@ jobs:
   testE2e:
     executor: web
     environment:
-      - BINARY_PATH: "/home/circleci/project/builds/Gaia/linux_amd64/gaiacli"
-      - NODE_BINARY_PATH: "/home/circleci/project/builds/Gaia/linux_amd64/gaiad"
-
+      - BINARY_PATH: "/tmp/gaia/builds/Gaia/linux_amd64/gaiacli"
+      - NODE_BINARY_PATH: "/tmp/gaia/builds/Gaia/linux_amd64/gaiad"
     steps:
       - checkout
       - attach_workspace:
           at: *GAIA
       - yarn-update
       - yarn-install
-
       - run:
           name: Test
           command: yarn run test:e2e
           no_output_timeout: 120
-
-      #      - persist_to_workspace:
-      #          root: *VOYAGER
-      #          paths:
-      #            - *DIST
-      # - circle.run_deploy.sh NOT NOW
-
       - store_artifacts:
           path: testArtifacts
           when: on_fail
@@ -201,28 +187,10 @@ jobs:
           to: "s3://cosmos-voyager"
           overwrite: true
 
-  #  deployment-frontend:
-  #    working_directory: *WORKSPACE
-  #    machine: true
-  #    environment:
-  #      CIRCLE_ARTIFACTS: *WORKSPACE
-  #    steps:
-  #      - attach_workspace:
-  #          at: *WORKSPACE
-  #      - run: /tmp/build_output/circle.run_deploy.sh
-  #      - when:
-  #        condition: << parameters.deploy >>
-  #        steps:
-  #          - run:
-  #              name: Deploy the latest docker Image
-  #              command: |
-  #                bash ./circle.ebs_deploy.sh
-
   # Create release.
   release:
     docker:
       - image: *docker-node
-
     steps:
       - checkout
       - yarn-update
@@ -233,13 +201,10 @@ jobs:
   publish:
     docker:
       - image: *docker-node
-
     steps:
       - checkout
-
       - attach_workspace:
           at: builds/Gaia
-
       - run:
           command: |
             mostRecentTag=$(git describe --abbrev=0 --tags)
@@ -297,43 +262,27 @@ workflows:
               ignore: release
 
       - build:
+          # no heavy lifting if other portion fails
           requires:
             - security
             - lint
 
-      # on develop:
-      #        build
-      #          |
-      #  build-deploy-backend
-      #          |
-      #   deployment-frontend
-      #
-      # in branches: build && build-test-backend
-
-      - build-gaia:
-          name: build-test-gaia
-#          requires:
-#            - build
-      #          filters:
-      #            branches:
-      #              ignore: develop
-      #      - build-gaia:
-      #          deploy: true
-      #          name: build-deploy-gaia
-      #          requires:
-      #            - build
-      #          filters:
-      #            branches:
-      #              only: develop
+      - build-gaia
       - deploy2s3:
           requires:
             - testUnit
             - build
-          #            - build-deploy-gaia
+          filters:
+            branches:
+              only: develop
+
+      #       - deploy-gaia
+      #          requires:
+      #            - testUnit
+      #            - build
       #          filters:
       #            branches:
       #              only: develop
-
       # - testE2e:
       #     requires:
       #       - buildGaia
