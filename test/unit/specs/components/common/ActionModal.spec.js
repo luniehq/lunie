@@ -142,14 +142,6 @@ describe(`ActionModal`, () => {
       expect(self.submit).not.toHaveBeenCalled()
     })
 
-    it(`do nothing if selected method is invalid`, async () => {
-      self.selectedSignMethod = `other`
-      await ActionModal.methods.validateChangeStep.call(self)
-      expect(self.validate).toHaveBeenCalled()
-      expect(self.submit).not.toHaveBeenCalled()
-      expect(self.step).toBe(`txDetails`)
-    })
-
     it(`fails validation if the password is missing`, async () => {
       wrapper.setData({ password: null })
       await wrapper.vm.validateChangeStep()

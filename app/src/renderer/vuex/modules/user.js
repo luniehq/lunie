@@ -143,7 +143,7 @@ export default ({}) => {
       commit(`setSignIn`, false)
       commit(`setModalSession`, true)
       commit(`setLedgerConnection`, false)
-      commit(`setLedgerCosmosVersion`, {})
+      commit(`setCosmosAppVersion`, {})
       dispatch(`showInitialScreen`)
     },
     resetSessionData({ commit, state }) {
