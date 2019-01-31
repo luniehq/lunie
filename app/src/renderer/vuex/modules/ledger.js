@@ -13,11 +13,12 @@ export default () => {
     isConnected: false,
     pubKey: null, // 33 bytes; used for broadcasting signed txs
     uncompressedPubKey: null, // 65 bytes; not used currently
-    version: null, // Cosmos app version
+    version: null // Cosmos app version
+  }
+  const state = {
+    ...emptyState,
     externals: { createCosmosAddress, App, comm_u2f } // for testing
   }
-  const state = JSON.parse(JSON.stringify(emptyState))
-
   const mutations = {
     setLedger(state, app) {
       state.app = app
@@ -41,7 +42,10 @@ export default () => {
 
   const actions = {
     resetSessionData({ rootState }) {
-      rootState.ledger = JSON.parse(JSON.stringify(emptyState))
+      rootState.ledger = {
+        ...JSON.parse(JSON.stringify(emptyState)),
+        externals: state.externals
+      }
     },
     /* TODO: Create a function to detect ledger is connected (i.e unlocked with
       password and on Home app) */

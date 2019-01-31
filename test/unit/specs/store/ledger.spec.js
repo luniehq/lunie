@@ -270,14 +270,12 @@ describe(`Module: Ledger`, () => {
 
         it(`fails if one of the function throws`, async () => {
           dispatch = jest.fn(async () => Promise.reject({ message: `error` }))
-          const ok = await actions.connectLedgerApp({ commit, dispatch, state })
+          await actions.connectLedgerApp({ commit, dispatch, state })
           expect(commit).toHaveBeenCalledWith(`notifyError`, {
             title: `Error connecting to Ledger`,
             body: `error`
           })
           expect(commit).toHaveBeenCalledWith(`setLedgerError`, `error`)
-          expect(state.error).toBe(`error`)
-          expect(ok).toBe(false)
         })
       })
 
