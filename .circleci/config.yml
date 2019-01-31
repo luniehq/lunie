@@ -329,9 +329,9 @@ workflows:
             - testUnit
             - build
           #            - build-deploy-gaia
-          filters:
-            branches:
-              only: develop
+      #          filters:
+      #            branches:
+      #              only: develop
 
       # - testE2e:
       #     requires:
