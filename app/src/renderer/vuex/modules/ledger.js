@@ -76,7 +76,7 @@ export default () => {
         return success
       }
     },
-    async getLedgerCosmosVersion({ commit, dispatch, state }) {
+    async getLedgerCosmosVersion({ commit, state }) {
       let response
       try {
         response = await state.cosmosApp.get_version()
