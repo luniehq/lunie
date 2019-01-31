@@ -305,7 +305,7 @@ workflows:
       #              only: develop
       - deploy2s3:
           requires:
-            - build
+            - testUnit
           #            - build-deploy-gaia
           filters:
             branches:
