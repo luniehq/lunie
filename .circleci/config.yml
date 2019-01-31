@@ -290,7 +290,7 @@ workflows:
       # I want to implement this first
       # - build
       - build-gaia:
-          deploy: false
+          #          deploy: false
           name: build-test-gaia
       #          filters:
       #            branches:
