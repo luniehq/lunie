@@ -61,7 +61,7 @@ export default () => {
         await dispatch(`signIn`, { sessionType: `ledger`, address })
       } catch (error) {
         commit(`notifyError`, {
-          title: `Error connecting to Ledger`,
+          title: `Error connecting to Ledger Nano S`,
           body: error.message
         })
         Sentry.captureException(error)
