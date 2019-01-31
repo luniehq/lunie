@@ -4,33 +4,34 @@ import { createCosmosAddress } from "../../scripts/wallet.js"
 
 // TODO: discuss TIMEOUT value
 const TIMEOUT = 50 // seconds to wait for user action on Ledger
+
+/*
+HD wallet derivation path (BIP44)
+DerivationPath{44, 118, account, 0, index}
+*/
 const HDPATH = [44, 118, 0, 0, 0]
 
 export default () => {
   const emptyState = {
     error: null,
-    app: null, // Cosmos ledger app instance
+    cosmosApp: null,
     isConnected: false,
-    pubKey: null, // 33 bytes; used for broadcasting signed txs
-    uncompressedPubKey: null, // 65 bytes; not used currently
-    version: null // Cosmos app version
+    pubKey: null, // 33 bytes; used for broadcasting signed txs and getting the address
+    cosmosAppVersion: null
   }
   const state = {
     ...emptyState,
     externals: { createCosmosAddress, App, comm_u2f } // for testing
   }
   const mutations = {
-    setLedger(state, app) {
-      state.app = app
+    setCosmosApp(state, app) {
+      state.cosmosApp = app
     },
-    setLedgerCosmosVersion(state, version) {
-      state.version = version
+    setCosmosAppVersion(state, version) {
+      state.cosmosAppVersion = version
     },
     setLedgerPubKey(state, pubKey) {
       state.pubKey = pubKey
-    },
-    setLedgerUncompressedPubKey(state, uncompressedPubKey) {
-      state.uncompressedPubKey = uncompressedPubKey
     },
     setLedgerConnection(state, isConnected) {
       state.isConnected = isConnected
@@ -51,9 +52,12 @@ export default () => {
       password and on Home app) */
     async connectLedgerApp({ commit, dispatch, state }) {
       try {
-        const comm = await state.externals.comm_u2f.create_async(TIMEOUT, true)
-        const app = new state.externals.App(comm)
-        commit(`setLedger`, app)
+        const communicationMethod = await state.externals.comm_u2f.create_async(
+          TIMEOUT,
+          true
+        )
+        const cosmosLedgerApp = new state.externals.App(communicationMethod)
+        commit(`setCosmosApp`, cosmosLedgerApp)
         await dispatch(`getLedgerCosmosVersion`)
         commit(`setLedgerConnection`, true)
         await dispatch(`getLedgerPubKey`)
@@ -62,53 +66,67 @@ export default () => {
       } catch (error) {
         commit(`notifyError`, {
           title: `Error connecting to Ledger`,
-          body: error.message
+          body: error
         })
         Sentry.captureException(error)
-        commit(`setLedgerError`, error.message)
+        commit(`setLedgerError`, error)
       } finally {
         return !state.error
       }
     },
     async getLedgerCosmosVersion({ commit, dispatch, state }) {
-      let response = await state.app.get_version()
-      const title = `Error retrieving Cosmos Ledger app version`
-      response = await dispatch(`checkLedgerErrors`, { response, title })
-      if (response && response.major && response.minor && response.patch) {
+      let response
+      try {
+        response = await state.cosmosApp.get_version()
+        dispatch(`checkLedgerErrors`, { response })
         const { major, minor, patch, test_mode } = response
         const version = { major, minor, patch, test_mode }
-        commit(`setLedgerCosmosVersion`, version)
+        commit(`setCosmosAppVersion`, version)
+      } catch (error) {
+        commit(`notifyError`, {
+          title: `Error retrieving Cosmos Ledger app version`,
+          body: error
+        })
+        Sentry.captureException(error)
+        commit(`setLedgerError`, error)
       }
     },
     async getLedgerPubKey({ commit, dispatch, state }) {
-      let response = await state.app.publicKey(HDPATH)
-      const title = `Error getting pubKey from Ledger`
-      response = await dispatch(`checkLedgerErrors`, { response, title })
-      if (response && response.compressed_pk && response.pk) {
+      let response
+      try {
+        response = await state.cosmosApp.publicKey(HDPATH)
+        dispatch(`checkLedgerErrors`, { response })
         commit(`setLedgerPubKey`, response.compressed_pk)
-        commit(`setLedgerUncompressedPubKey`, response.pk)
-      }
-    },
-    async signWithLedger({ dispatch, state }, message) {
-      let response = await state.app.sign(HDPATH, message)
-      const title = `Signing transaction with Ledger failed`
-      response = await dispatch(`checkLedgerErrors`, { response, title })
-      if (response && response.signature) {
-        return response.signature
-      }
-      return undefined
-    },
-    async checkLedgerErrors({ commit }, { response, title }) {
-      if (response && response.error_message !== `No errors`) {
+      } catch (error) {
         commit(`notifyError`, {
-          title,
-          body: response.error_message
+          title: `Error getting public key from Ledger`,
+          body: error
         })
-        Sentry.captureException(response.error_message)
-        commit(`setLedgerError`, response.error_message)
-        return false
+        Sentry.captureException(error)
+        commit(`setLedgerError`, error)
       }
-      return response
+    },
+    async signWithLedger({ commit, dispatch, state }, message) {
+      let signature
+      try {
+        const response = await state.cosmosApp.sign(HDPATH, message)
+        signature = response.signature
+        dispatch(`checkLedgerErrors`, { response })
+      } catch (error) {
+        commit(`notifyError`, {
+          title: `Signing transaction with Ledger failed`,
+          body: error
+        })
+        Sentry.captureException(error)
+        commit(`setLedgerError`, error)
+      } finally {
+        return signature
+      }
+    },
+    checkLedgerErrors(response) {
+      if (response && response.error_message !== `No errors`) {
+        throw Error(response.error_message)
+      }
     }
   }
   return {

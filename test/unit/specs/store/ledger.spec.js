@@ -1,5 +1,4 @@
 import ledgerModule from "modules/ledger.js"
-import { App, comm_u2f } from "ledger-cosmos-js"
 
 describe(`Module: Ledger`, () => {
   let module, state, actions, mutations
@@ -12,29 +11,26 @@ describe(`Module: Ledger`, () => {
   })
 
   describe(`Mutations`, () => {
-    it(`sets the Ledger app`, async () => {
-      const comm = await comm_u2f.create_async(5, true)
-      const app = new App(comm)
-      mutations.setLedger(state, app)
-      expect(state.app).toMatchObject(app)
+    it(`sets the Cosmos Ledger app`, async () => {
+      const app = {
+        get_version: jest.fn(),
+        publicKey: jest.fn(),
+        sign: jest.fn()
+      }
+      mutations.setCosmosApp(state, app)
+      expect(state.cosmosApp).toMatchObject(app)
     })
 
     it(`sets the Ledger cosmos app version`, () => {
       const version = { major: 0, minor: 1, patch: 1, test_mode: false }
-      mutations.setLedgerCosmosVersion(state, version)
-      expect(state.version).toMatchObject(version)
+      mutations.setCosmosAppVersion(state, version)
+      expect(state.cosmosAppVersion).toMatchObject(version)
     })
 
     it(`sets the account public key`, () => {
       const pubKey = Buffer.from([4, 228, 114, 95, 12])
       mutations.setLedgerPubKey(state, pubKey)
       expect(state.pubKey).toBe(pubKey)
-    })
-
-    it(`sets the account public key`, () => {
-      const pubKeyFull = Buffer.from([0, 10, 11, 12, 13])
-      mutations.setLedgerUncompressedPubKey(state, pubKeyFull)
-      expect(state.uncompressedPubKey).toBe(pubKeyFull)
     })
 
     it(`updates the state if the device is connected`, () => {
@@ -58,35 +54,25 @@ describe(`Module: Ledger`, () => {
     })
 
     describe(`checks for errors on Ledger actions`, () => {
-      it(`sends a notification on error`, async () => {
-        const commit = jest.fn()
+      it(`throws`, () => {
         const response = { error_message: `Sign/verify error` }
-        const title = `Signing transaction with Ledger failed`
-        await actions.checkLedgerErrors({ commit }, { response, title })
-        expect(commit).toHaveBeenCalledWith(`notifyError`, {
-          title,
-          body: `Sign/verify error`
-        })
-        expect(state.error).toBe(null)
+        expect(() => actions.checkLedgerErrors(response)).toThrow(
+          response.error_message
+        )
       })
 
-      it(`just returns on success`, async () => {
-        const commit = jest.fn()
+      it(`just returns on success`, () => {
         const response = { error_message: `No errors` }
-        const title = `This title shouldn't be notified to the user`
-        actions.checkLedgerErrors({ commit }, { response, title })
-        expect(commit).not.toHaveBeenCalledWith(`notifyError`, {
-          title,
-          body: `No errors`
-        })
-        expect(state.error).toBe(null)
+        expect(() => actions.checkLedgerErrors(response)).not.toThrow(
+          response.error_message
+        )
       })
     })
 
     describe(`Ledger actions`, () => {
       let commit, dispatch
       beforeEach(() => {
-        state.app = {
+        state.cosmosApp = {
           get_version: jest.fn(async () => ({
             major: `0`,
             minor: `1`,
@@ -112,11 +98,11 @@ describe(`Module: Ledger`, () => {
           }
         }
         commit = jest.fn()
+        dispatch = jest.fn()
       })
 
       describe(`connect ledger`, () => {
         it(`successfully logs in with Ledger Nano S`, async () => {
-          dispatch = jest.fn(async () => true)
           const ok = await actions.connectLedgerApp({ commit, dispatch, state })
           expect(state.externals.App).toHaveBeenCalled()
           expect(dispatch).toHaveBeenCalledWith(`getLedgerCosmosVersion`)
@@ -137,7 +123,7 @@ describe(`Module: Ledger`, () => {
         })
 
         it(`fails if one of the function throws`, async () => {
-          dispatch = jest.fn(async () => Promise.reject({ message: `error` }))
+          dispatch = jest.fn(async () => Promise.reject(`error`))
           await actions.connectLedgerApp({ commit, dispatch, state })
           expect(commit).toHaveBeenCalledWith(`notifyError`, {
             title: `Error connecting to Ledger`,
@@ -155,9 +141,12 @@ describe(`Module: Ledger`, () => {
             patch: `0`,
             test_mode: false
           }
-          dispatch = jest.fn(async () => version)
           await actions.getLedgerCosmosVersion({ commit, dispatch, state })
-          expect(commit).toHaveBeenCalledWith(`setLedgerCosmosVersion`, version)
+          expect(commit).toHaveBeenCalledWith(`setCosmosAppVersion`, version)
+          expect(commit).not.toHaveBeenCalledWith(
+            `setLedgerError`,
+            expect.anything()
+          )
         })
 
         it(`sets an error on failure`, async () => {
@@ -167,18 +156,17 @@ describe(`Module: Ledger`, () => {
             patch: undefined,
             test_mode: false
           }
-          dispatch = jest.fn(async () => version)
-          state.app.get_version = jest.fn(async () => ({
-            major: undefined,
-            minor: undefined,
-            patch: undefined,
-            test_mode: false,
-            error_message: `Execution Error`
-          }))
+          state.cosmosApp.get_version = jest.fn(() =>
+            Promise.reject(`Execution Error`)
+          )
           await actions.getLedgerCosmosVersion({ commit, dispatch, state })
           expect(commit).not.toHaveBeenCalledWith(
-            `setLedgerCosmosVersion`,
+            `setCosmosAppVersion`,
             version
+          )
+          expect(commit).toHaveBeenCalledWith(
+            `setLedgerError`,
+            `Execution Error`
           )
         })
       })
@@ -186,63 +174,57 @@ describe(`Module: Ledger`, () => {
       describe(`publicKey`, () => {
         it(`gets and sets the account public Key on success`, async () => {
           const pubKey = Buffer.from([1])
-          const uncompressedPubKey = Buffer.from([0])
-          dispatch = jest.fn(async () => ({
-            pk: Buffer.from([0]),
-            compressed_pk: Buffer.from([1]),
-            error_message: `No errors`
-          }))
           await actions.getLedgerPubKey({ commit, dispatch, state })
           expect(commit).toHaveBeenCalledWith(`setLedgerPubKey`, pubKey)
-          expect(commit).toHaveBeenCalledWith(
-            `setLedgerUncompressedPubKey`,
-            uncompressedPubKey
+          expect(commit).not.toHaveBeenCalledWith(
+            `setLedgerError`,
+            expect.anything()
           )
         })
 
         it(`sets an error on failure`, async () => {
           const pubKey = Buffer.from([1])
-          const uncompressedPubKey = Buffer.from([0])
-          dispatch = jest.fn(async () => ({
-            pk: undefined,
-            compressed_pk: undefined,
-            error_message: `Execution Error`
-          }))
+          state.cosmosApp.publicKey = jest.fn(() =>
+            Promise.reject(`Bad Key handle`)
+          )
           await actions.getLedgerPubKey({ commit, dispatch, state })
           expect(commit).not.toHaveBeenCalledWith(`setLedgerPubKey`, pubKey)
-          expect(commit).not.toHaveBeenCalledWith(
-            `setLedgerUncompressedPubKey`,
-            uncompressedPubKey
+          expect(commit).toHaveBeenCalledWith(
+            `setLedgerError`,
+            `Bad Key handle`
           )
         })
       })
 
       describe(`sign`, () => {
         it(`signs message succesfully`, async () => {
-          const signature = Buffer.from([1])
+          const signature = Buffer.from([0])
           const msg = `{"account_number": 1,"chain_id": "some_chain","fee": {"amount": [{"amount": 10, "denom": "DEN"}],"gas": 5},"memo": "MEMO","msgs": ["SOMETHING"],"sequence": 3}`
-          dispatch = jest.fn(async () => ({
-            signature,
-            error_message: `No errors`
-          }))
           const resSignature = await actions.signWithLedger(
             { commit, dispatch, state },
             msg
           )
-          expect(resSignature).toBe(signature)
+          expect(resSignature).toEqual(signature)
+          expect(commit).not.toHaveBeenCalledWith(
+            `setLedgerError`,
+            expect.anything()
+          )
         })
 
         it(`fails if message is not JSON`, async () => {
           const msg = `{"account_number": 1,"chain_id": "some_chain","fee": {"amount": [{"amount": 10, "denom": "DEN"}],"gas": 5},"memo": "MEMO","msgs": ["SOMETHING"],"sequence": 3}`
-          dispatch = jest.fn(async () => ({
-            signature: undefined,
-            error_message: `Bad key handle`
-          }))
+          state.cosmosApp.sign = jest.fn(async () =>
+            Promise.reject(`Bad key handle`)
+          )
           const resSignature = await actions.signWithLedger(
             { commit, dispatch, state },
             msg
           )
           expect(resSignature).toBeUndefined()
+          expect(commit).toHaveBeenCalledWith(
+            `setLedgerError`,
+            `Bad key handle`
+          )
         })
       })
     })
