@@ -46,7 +46,7 @@ const rendererConfig = {
             loader: `url-loader`,
             query: {
               limit: 10000,
-              name: `imgs/[name].[ext]`
+              name: `images/[name].[ext]`
             }
           }
         ]
@@ -73,7 +73,9 @@ const rendererConfig = {
     new VueLoaderPlugin(),
     // the global.GENTLY below fixes a compile issue with superagent + webpack
     // https://github.com/visionmedia/superagent/issues/672
-    new webpack.DefinePlugin({ "global.GENTLY": false }),
+    new webpack.DefinePlugin({
+      "global.GENTLY": false
+    }),
     new HtmlWebpackPlugin({
       filename: `index.html`,
       template: `./app/index.ejs`,
@@ -81,7 +83,8 @@ const rendererConfig = {
         process.env.NODE_ENV !== `production`
           ? path.resolve(__dirname, `app/node_modules`)
           : false,
-      styles: fs.readFileSync(`./app/src/renderer/styles/index.css`, `utf8`)
+      styles: fs.readFileSync(`./app/src/renderer/styles/index.css`, `utf8`),
+      favicon: `./app/favicon.ico`
     }),
     new webpack.NoEmitOnErrorsPlugin(),
     // warnings caused by websocket-stream, which has a server-part that is unavailable on the the client
