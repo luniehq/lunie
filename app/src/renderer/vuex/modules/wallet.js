@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
-const config = require(`../../../config.json`)
+const config = require(`../../../config.js`)
 
 export default ({ node }) => {
   const emptyState = {

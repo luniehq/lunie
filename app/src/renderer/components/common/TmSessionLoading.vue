@@ -18,7 +18,7 @@
 export default {
   name: `tm-session-loading`,
   data: () => ({
-    config: require(`../../../config.json`),
+    config: require(`./app/src/config.js`),
     message: ``
   })
 }

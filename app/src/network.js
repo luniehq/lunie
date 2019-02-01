@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 import axios from "axios"
 
-const config = require(`./config.json`)
+const config = require(`./config.js`)
 
 const networkPath = `../networks/${config.default_network}`
 

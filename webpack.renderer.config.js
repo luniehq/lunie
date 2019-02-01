@@ -82,6 +82,9 @@ const rendererConfig = {
     // the global.GENTLY below fixes a compile issue with superagent + webpack
     // https://github.com/visionmedia/superagent/issues/672
     new webpack.DefinePlugin({ "global.GENTLY": false }),
+    new webpack.DefinePlugin({
+      "process.env.NODE_ENV": `${process.env.NODE_ENV}`
+    }),
     new HtmlWebpackPlugin({
       filename: `index.html`,
       template: `./app/index.ejs`,
@@ -154,9 +157,6 @@ const rendererConfig = {
  */
 if (process.env.NODE_ENV === `production`) {
   rendererConfig.plugins.push(
-    new webpack.DefinePlugin({
-      "process.env.NODE_ENV": `"production"`
-    }),
     new webpack.LoaderOptionsPlugin({
       minimize: true
     })

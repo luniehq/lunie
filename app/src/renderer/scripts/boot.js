@@ -16,7 +16,7 @@ import routes from "../routes"
 import _Node from "../connectors/node"
 import _Store from "../vuex/store"
 import * as urlHelpers from "../../helpers/url.js"
-const _config = require(`../../config.json`)
+const _config = require(`../../config.js`)
 
 /**
  * Start the Vue app
