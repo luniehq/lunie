@@ -117,7 +117,7 @@ function persistState(state) {
  * @param state
  * @returns {string}
  */
-function getStorageKey(state) {
+export function getStorageKey(state) {
   const chainId = state.connection.lastHeader.chain_id
   const address = state.user.address
   return `store_${chainId}_${address}`

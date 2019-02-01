@@ -1,5 +1,10 @@
-import { storeUpdateHandler, loadPersistedState } from "renderer/vuex/store"
+import store, {
+  getStorageKey,
+  storeUpdateHandler,
+  loadPersistedState
+} from "renderer/vuex/store"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+import { Store } from "vuex"
 
 jest.mock(`renderer/vuex/modules/index.js`, () => () => ({}))
 
@@ -118,5 +123,18 @@ describe(`Store`, () => {
       { replaceState: jest.fn() },
       { state: mockState, commit: jest.fn() }
     )
+  })
+
+  it(`get storage keys`, () => {
+    expect(
+      getStorageKey({
+        user: { address: `Y` },
+        connection: { lastHeader: { chain_id: `X` } }
+      })
+    ).toEqual(`store_X_Y`)
+  })
+
+  it(`check defaults`, () => {
+    expect(store()).toBeInstanceOf(Store)
   })
 })
