@@ -1,4 +1,13 @@
 import { startApp, main } from "renderer/scripts/boot"
+import App from "renderer/App"
+
+describe(`App vue`, () => {
+  it(`mount and call the store`, () => {
+    const $store = { commit: jest.fn() }
+    App.mounted.call({ $store })
+    expect($store.commit).toHaveBeenCalledWith(`loadOnboarding`)
+  })
+})
 
 describe(`App Start`, () => {
   // popper.js is used by tooltips and causes some errors if
