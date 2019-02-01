@@ -43,6 +43,16 @@
         <h2 class="app-menu-title">Governance</h2>
         <i class="material-icons">chevron_right</i>
       </router-link>
+      <router-link
+        id="app-menu__network"
+        class="app-menu-item"
+        to="/network"
+        title="Network"
+        @click.native="close"
+      >
+        <h2 class="app-menu-title">Network</h2>
+        <i class="material-icons">chevron_right</i>
+      </router-link>
     </div>
     <connected-network />
   </menu>
