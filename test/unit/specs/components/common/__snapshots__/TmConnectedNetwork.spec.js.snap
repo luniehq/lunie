@@ -43,11 +43,12 @@ exports[`TmConnectedNetwork has the expected html structure 1`] = `
       class="tm-connected-network__string"
       id="tm-connected-network__string"
     >
-      <span
+      <router-link-stub
         class="chain-id"
+        to="/network"
       >
         Test Net
-      </span>
+      </router-link-stub>
     </div>
   </div>
    
@@ -92,11 +93,12 @@ exports[`TmConnectedNetwork shows the connected node 1`] = `
       class="tm-connected-network__string"
       id="tm-connected-network__string"
     >
-      <span
+      <router-link-stub
         class="chain-id"
+        to="/network"
       >
         chain_id
-      </span>
+      </router-link-stub>
     </div>
   </div>
    

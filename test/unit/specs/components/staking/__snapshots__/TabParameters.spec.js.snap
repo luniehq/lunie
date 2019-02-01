@@ -7,16 +7,6 @@ exports[`TabParameters displays a message if loading 1`] = `
 `;
 
 exports[`TabParameters displays a message if loading 2`] = `
-<tm-data-loading-stub
-  title="Data is loading…"
-/>
-`;
-
-exports[`TabParameters displays a message if waiting for connection 1`] = `<tm-data-connecting-stub />`;
-
-exports[`TabParameters displays a message if waiting for connection 2`] = `<tm-data-connecting-stub />`;
-
-exports[`TabParameters has the expected html structure 1`] = `
 <div>
   <div>
     <div
@@ -33,7 +23,7 @@ exports[`TabParameters has the expected html structure 1`] = `
           >
             <dt>
               
-              Total Liquid STAKE
+              Duration of Undelegation Period
               
               <i
                 class="material-icons info-button"
@@ -43,11 +33,25 @@ exports[`TabParameters has the expected html structure 1`] = `
             </dt>
              
             <dd
-              id="loose_tokens"
+              id="unbonding_time"
             >
               
-              100.0000000000
+              3 days
             
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Current Staking Token
+            </dt>
+             
+            <dd
+              id="bond_denom"
+            >
+              STAKE
             </dd>
           </dl>
         </div>
@@ -59,8 +63,44 @@ exports[`TabParameters has the expected html structure 1`] = `
             class="info_dl"
           >
             <dt>
+              Maximum Number of Validators
+            </dt>
+             
+            <dd
+              id="max_validators"
+            >
               
-              Total Delegated STAKE
+              100
+            
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TabParameters displays a message if waiting for connection 1`] = `<tm-data-connecting-stub />`;
+
+exports[`TabParameters displays a message if waiting for connection 2`] = `
+<div>
+  <div>
+    <div
+      class="parameters__details parameters__section"
+    >
+      <div
+        class="row"
+      >
+        <div
+          class="column"
+        >
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              
+              Duration of Undelegation Period
               
               <i
                 class="material-icons info-button"
@@ -70,10 +110,44 @@ exports[`TabParameters has the expected html structure 1`] = `
             </dt>
              
             <dd
-              id="bonded_tokens"
+              id="unbonding_time"
             >
               
-              50.0000000000
+              3 days
+            
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Current Staking Token
+            </dt>
+             
+            <dd
+              id="bond_denom"
+            >
+              STAKE
+            </dd>
+          </dl>
+        </div>
+         
+        <div
+          class="column"
+        >
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Maximum Number of Validators
+            </dt>
+             
+            <dd
+              id="max_validators"
+            >
+              
+              100
             
             </dd>
           </dl>
@@ -81,7 +155,11 @@ exports[`TabParameters has the expected html structure 1`] = `
       </div>
     </div>
   </div>
-   
+</div>
+`;
+
+exports[`TabParameters has the expected html structure 1`] = `
+<div>
   <div>
     <div
       class="parameters__details parameters__section"
