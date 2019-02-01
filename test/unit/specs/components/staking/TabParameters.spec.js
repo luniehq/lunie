@@ -2,7 +2,7 @@ import setup from "../../../helpers/vuex-setup"
 import TabParameters from "renderer/components/staking/TabParameters"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
-const { pool, stakingParameters } = lcdClientMock.state
+const { stakingParameters } = lcdClientMock.state
 
 describe(`TabParameters`, () => {
   let wrapper, store
@@ -18,21 +18,18 @@ describe(`TabParameters`, () => {
     wrapper = instance.wrapper
     store = instance.store
     store.commit(`setConnected`, true)
-    store.commit(`setPool`, pool)
     store.commit(`setStakingParameters`, stakingParameters.parameters)
     store.state.stakingParameters.loaded = true
-    store.state.pool.loaded = true
   })
 
   it(`has the expected html structure`, async () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`shows the staking parameters and pool`, () => {
+  it(`shows the staking parameters`, () => {
     expect(store.state.stakingParameters.parameters).toEqual(
       stakingParameters.parameters
     )
-    expect(store.state.pool.pool).toEqual(pool)
   })
 
   it(`displays unbonding period in days`, () => {
@@ -47,25 +44,23 @@ describe(`TabParameters`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
 
     store.state.stakingParameters.loaded = true
-    store.state.pool.loaded = false
+
     expect(wrapper.vm.$el).toMatchSnapshot()
-    expect(wrapper.contains(`tm-data-connecting-stub`)).toBe(true)
+    expect(wrapper.contains(`tm-data-connecting-stub`)).toBe(false)
   })
 
   it(`displays a message if loading`, () => {
     store.commit(`setConnected`, true)
     store.state.stakingParameters.loaded = false
     store.state.stakingParameters.loading = true
-    store.state.pool.loaded = true
-    store.state.pool.loading = true
+
     expect(wrapper.vm.$el).toMatchSnapshot()
     expect(wrapper.contains(`tm-data-loading-stub`)).toBe(true)
 
     store.state.stakingParameters.loaded = true
     store.state.stakingParameters.loading = false
-    store.state.pool.loaded = false
-    store.state.pool.loading = true
+
     expect(wrapper.vm.$el).toMatchSnapshot()
-    expect(wrapper.contains(`tm-data-loading-stub`)).toBe(true)
+    expect(wrapper.contains(`tm-data-loading-stub`)).toBe(false)
   })
 })

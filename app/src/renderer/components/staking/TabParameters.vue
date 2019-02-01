@@ -1,5 +1,5 @@
 <template>
-  <tm-data-connecting v-if="!stakingParameters.loaded && !connected" />
+  <tm-data-connecting v-if="!connected && !stakingParameters.loaded" />
   <tm-data-loading
     v-else-if="!stakingParameters.loaded && stakingParameters.loading"
   />
