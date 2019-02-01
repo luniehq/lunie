@@ -1,5 +1,6 @@
 version: 2.1
 
+# Here we define all the paths and versions of images we want to play with
 aliases:
   # Define paths and never think about them again
   - &GAIA /tmp/gaia
@@ -9,13 +10,16 @@ aliases:
   - &docker-node circleci/node:10.15
   - &docker-browsers circleci/node:10.15-browsers
   - &docker-go circleci/golang:1.11
+  - &docker-aws cibuilds/aws:1.15
 
+# reusable commands
 commands:
   yarn-update:
     description: "[YARN] fetch new version"
     steps:
       - run:
           name: Update Yarn
+          # Audit command is available with safety patches only since 1.13.0
           command: sudo npm -g uninstall yarn ; sudo npm -g install yarn@1.13.0
   yarn-install:
     description: "[YARN] update and install"
@@ -51,7 +55,7 @@ commands:
 executors:
   aws:
     docker:
-      - image: cibuilds/aws:1.15
+      - image: *docker-aws
   web:
     docker:
       - image: *docker-browsers
@@ -276,16 +280,9 @@ workflows:
             branches:
               only: develop
 
-      #       - deploy-gaia
-      #          requires:
-      #            - testUnit
-      #            - build
-      #          filters:
-      #            branches:
-      #              only: develop
       # - testE2e:
       #     requires:
-      #       - buildGaia
+      #       - build-gaia
       #     filters:
       #       branches:
       #         ignore: release

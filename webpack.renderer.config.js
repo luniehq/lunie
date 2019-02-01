@@ -23,7 +23,10 @@ const devPlugins = process.env.CIRCLECI
   : [new CleanWebpackPlugin([buildPath]), new BundleAnalyzerPlugin()]
 
 const rendererConfig = {
-  devtool: process.env.NODE_ENV === `production` ? false : `#inline-source-map`,
+  devtool:
+    process.env.NODE_ENV === `production`
+      ? `#cheap-source-map`
+      : `#inline-source-map`,
   entry: {
     renderer: path.join(__dirname, `app/src/renderer/main.js`)
   },
@@ -99,6 +102,9 @@ const rendererConfig = {
     ...devPlugins
   ],
   output: {
+    // contenthash is known to be buggy in webpack4, hash refers to the whole build and
+    // chunkhash is even more unpredictable. The non determinism is due to the moduleId defined at run time
+    // Hopefully webpack5 will solve the non-deterministic behaviour here
     filename: `[name].[contenthash].js`,
     path: buildPath
   },
@@ -113,8 +119,6 @@ const rendererConfig = {
       govern: resolve(`app/src/renderer/components/govern`),
       staking: resolve(`app/src/renderer/components/staking`),
       wallet: resolve(`app/src/renderer/components/wallet`)
-      // moment: `moment/src/moment`, // this will remove locales, we rely on them
-      // lodash: `lodash/core`
     },
     extensions: [`.js`, `.vue`, `.json`, `.css`, `.node`],
     modules: [
