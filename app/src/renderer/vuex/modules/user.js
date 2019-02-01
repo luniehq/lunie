@@ -4,7 +4,7 @@ import {
   disableGoogleAnalytics,
   track
 } from "../../google-analytics.js"
-const config = require(`../../../config.js`)
+import config from "../../../config"
 import { loadKeys, importKey, testPassword } from "../../scripts/keystore.js"
 import { generateSeed } from "../../scripts/wallet.js"
 

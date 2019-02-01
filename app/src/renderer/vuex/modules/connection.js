@@ -1,7 +1,7 @@
 import { sleep } from "scripts/common.js"
 import Vue from "vue"
+import config from "../../../config"
 
-const config = require(`../../../config.js`)
 const NODE_HALTED_TIMEOUT = config.node_halted_timeout
 
 export default function({ node }) {
