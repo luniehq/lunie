@@ -68,7 +68,6 @@
 <script>
 import moment from "moment"
 import { mapGetters } from "vuex"
-import num from "scripts/num"
 import TmBtn from "common/TmBtn"
 import ToolBar from "common/ToolBar"
 import TmBalance from "common/TmBalance"
