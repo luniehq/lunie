@@ -46,7 +46,7 @@ upload_s3_build_file() {
 }
 
 deploy_ebs() {
-    # Create a version of the APPLIOCATION_NAME with the current biuild number as version. The source is the S3 file we know
+    # Create a version of the APPLICATION_NAME with the current build number as version. The source is the S3 file we know
     aws elasticbeanstalk create-application-version --region=${AWS_REGION} --application-name ${APPLICATION_NAME} \
       --version-label $CIRCLE_BUILD_NUM --source-bundle S3Bucket=${S3_DEPLOY_BUCKET},S3Key=${DOCKER_DEPLOY_FILE}
 
