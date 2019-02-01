@@ -20,7 +20,7 @@ commands:
       - run:
           name: Update Yarn
           # Audit command is available with safety patches only since 1.13.0
-          command: sudo npm -g uninstall yarn ; sudo npm -g install yarn@1.13.0
+          command: sudo npm -g uninstall yarn ; sudo npm -g install yarn@latest
   yarn-install:
     description: "[YARN] update and install"
     steps:
@@ -89,7 +89,7 @@ jobs:
             - app/dist
 
   # Build Gaia from the SDK source code specified by tasks/build/Gaia/COMMIT.sh.
-  build-gaia:
+  buildGaia:
     executor: go
     steps:
       - checkout
@@ -271,7 +271,7 @@ workflows:
             - security
             - lint
 
-      - build-gaia
+      - buildGaia
       - deploy2s3:
           requires:
             - testUnit
@@ -282,7 +282,7 @@ workflows:
 
       # - testE2e:
       #     requires:
-      #       - build-gaia
+      #       - buildGaia
       #     filters:
       #       branches:
       #         ignore: release
