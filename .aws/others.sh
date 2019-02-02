@@ -13,6 +13,13 @@ VALIDATOR_AMOUNT=10stake
 # Initialize local node with a secondary account
 ./gaiad init --home . --moniker ${ACCOUNT} --chain-id ${NETWORK}
 
+GENESIS=`aws s3 ls s3://cosmos-gaia/genesis.json | grep genesis.json`
+while [[ -z "$GENESIS" ]]; do
+    sleep 3s
+    ISTHERE=`aws s3 ls s3://cosmos-gaia/genesis.json | grep genesis.json`
+done
+aws s3 cp s3://cosmos-gaia/genesis.json config/genesis.json
+
 # GET Genesis file into config/genesis.json
 NODEID=$(./gaiad tendermint show-node-id --home .)
 
@@ -31,12 +38,13 @@ aws s3 cp ${ADDRESS} s3://cosmos-gaia/addresses/${ADDRESS}
 poor=true
 while ${poor}
 do
-    #
+    # query my account to check if I'm still poor
     ACCOUNT_INFO=$(./gaiacli query account ${ADDRESS} --chain-id ${NETWORK} --trust-node --home .)
     if [[ ${ACCOUNT_INFO} == *"auth/Account"* ]]; then
         echo "Address funded, thanks main node!"
         poor=false
     fi
+    sleep 3s
 done
 
 echo ${PASSWORD} | ./gaiacli tx staking create-validator --home . --from ${ACCOUNT} --amount=${VALIDATOR_AMOUNT} --pubkey=${PUBKEY} --address-delegator=${ADDRESS} --moniker=${ACCOUNT} --chain-id=${NETWORK} --commission-max-change-rate=0 --commission-max-rate=0 --commission-rate=0 --json

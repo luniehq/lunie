@@ -7,6 +7,9 @@ API_PORT=8080
 NETWORK=testnet
 AMOUNT=100stake
 
+# first of all remove old genesis, we do not want other node to boot with the wrong stuff
+aws s3 rm s3://cosmos-gaia/genesis.json
+
 # Initialize local node with an account name and a chain
 ./gaiad init --home . --moniker ${ACCOUNT} --chain-id ${NETWORK}
 NODEID=$(./gaiad tendermint show-node-id --home .)
