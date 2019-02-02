@@ -11,8 +11,7 @@ describe(`TmConnectedNetwork`, () => {
         lastHeader: () => ({ chain_id: `Test Net`, height: 42 }),
         nodeUrl: () => `https://faboNode.de`,
         connected: () => true
-      },
-      stubs: [`router-link`]
+      }
     })
     store = instance.store
     wrapper = instance.wrapper

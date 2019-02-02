@@ -8,12 +8,9 @@
         id="tm-connected-network__string"
         class="tm-connected-network__string"
       >
-        <router-link
-          v-tooltip.top="networkTooltip"
-          to="/network"
-          class="chain-id"
-          >{{ lastHeader.chain_id }}</router-link
-        >
+        <span v-tooltip.top="networkTooltip" class="chain-id">{{
+          lastHeader.chain_id
+        }}</span>
       </div>
     </div>
     <div id="tm-connected-network__block" class="tm-connected-network__string">
