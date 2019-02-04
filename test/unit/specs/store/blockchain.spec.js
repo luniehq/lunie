@@ -1,8 +1,8 @@
-import { getTxHash } from "../../../../app/src/renderer/scripts/tx-utils.js"
-import blockchainModule from "renderer/vuex/modules/blockchain.js"
+import { getTxHash } from "renderer/scripts/tx-utils.js"
+import blockchainModule, { cache } from "renderer/vuex/modules/blockchain.js"
 
 describe(`Module: Blockchain`, () => {
-  let module, state, actions, node
+  let module, state, actions, node, mutations
   const height = 100
   const blockMeta = {
     header: {
@@ -22,6 +22,7 @@ describe(`Module: Blockchain`, () => {
     })
     state = module.state
     actions = module.actions
+    mutations = module.mutations
   })
 
   it(`should query block info`, async () => {
@@ -161,5 +162,64 @@ describe(`Module: Blockchain`, () => {
       [`addBlock`, `subscribe here`],
       [`addBlock`, `already subscribed`]
     ])
+  })
+
+  it(`should get the peers`, async () => {
+    const peers = [`a`, `b`, `c`]
+    const node = {
+      rpc: {
+        net_info: () =>
+          Promise.resolve({
+            result: {
+              peers
+            }
+          })
+      }
+    }
+    const module = blockchainModule({
+      node
+    })
+    const commit = jest.fn()
+    await module.actions.getPeers({
+      state: { connected: true },
+      commit
+    })
+    expect(commit.mock.calls).toEqual([[`setPeers`, peers]])
+  })
+
+  it(`should handle errors`, async () => {
+    const error = new Error(`err`)
+    const node = {
+      rpc: {
+        blockchain: () => Promise.reject(error)
+      }
+    }
+    const module = blockchainModule({
+      node
+    })
+    const commit = jest.fn()
+    await module.actions.queryBlockInfo(
+      {
+        state: module.state,
+        commit
+      },
+      1
+    )
+    expect(commit.mock.calls).toEqual([
+      [`setLoading`, true],
+      [
+        `notifyError`,
+        { body: `err`, title: `Error fetching block information` }
+      ],
+      [`setLoading`, false],
+      [`setError`, error]
+    ])
+  })
+
+  it(`caches a certan number of blocks`, async () => {
+    const block = 1
+    expect(cache([], block, 1)).toEqual([1])
+    expect(cache([2], block, 1)).toEqual([1])
+    expect(cache([2], block, 2)).toEqual([1, 2])
   })
 })

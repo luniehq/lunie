@@ -1,7 +1,11 @@
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
 
-const maxBlocks = 100
+export const cache = (list, element, maxSize = 100) => {
+  if (list.length >= maxSize) list.splice(-1, 1)
+  list.unshift(element)
+  return list
+}
 
 export default ({ node }) => {
   const state = {
@@ -34,17 +38,14 @@ export default ({ node }) => {
       state.blockMetas = blockMetas
     },
     setPeers(state, peers) {
-      Vue.set(state, `peers`, peers)
+      state.peers = peers
     },
-    setBlocks(state, blocks) {
-      Vue.set(state, `blocks`, blocks)
-    },
+    // setBlocks(state, blocks) {
+    //   state.blocks = blocks
+    // },
     addBlock(state, block) {
-      const blocks = state.blocks
-      if (blocks.length > maxBlocks) blocks.splice(-1, 1)
-      blocks.unshift(block)
       // immutable version [block, ...blocks] gets slower if maxBlocks is over 100K
-      Vue.set(state, `blocks`, blocks)
+      Vue.set(state, `blocks`, cache(state.blocks, block))
     },
     setSubscribedRPC(state, subscribedRPC) {
       state.subscribedRPC = subscribedRPC
@@ -107,6 +108,8 @@ export default ({ node }) => {
       }
 
       commit(`setSyncing`, false)
+      // New RPC endpoint in sync, reset UI block list
+      commit(`setBlocks`, [])
 
       // only subscribe if the node is not catching up anymore
       node.rpc.subscribe({ query: `tm.event = 'NewBlock'` }, event => {
