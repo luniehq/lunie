@@ -5,7 +5,7 @@
       <tool-bar />
     </template>
 
-    <tm-data-error v-if="!network" />
+    <tm-data-error v-if="!connected" />
 
     <template v-else>
       <div class="page-profile__header page-profile__section network">
@@ -82,10 +82,6 @@ export default {
     TmDataError,
     TmPage
   },
-  data: () => ({
-    network: true,
-    moment
-  }),
   computed: {
     ...mapGetters([
       `connected`,
@@ -93,8 +89,7 @@ export default {
       `delegates`,
       `config`,
       `pool`,
-      `bondDenom`,
-      `validators`
+      `bondDenom`
     ]),
     status() {
       const color = this.connected ? `green` : `red`
@@ -104,11 +99,10 @@ export default {
       return { color, message }
     },
     lastBlock() {
-      moment.relativeTimeThreshold(`ss`, 1)
-      return this.moment(this.lastHeader.time).fromNow()
+      // moment.relativeTimeThreshold(`ss`, 1)
+      return moment(this.lastHeader.time).fromNow()
     }
-  },
-  methods: {}
+  }
 }
 </script>
 <style>
