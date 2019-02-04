@@ -158,6 +158,7 @@ describe(`Module: Blockchain`, () => {
       [`setSubscribedRPC`, node.rpc],
       [`setBlockHeight`, 0],
       [`setSyncing`, false],
+      ["setBlocks", []],
       [`setSubscription`, true],
       [`addBlock`, `subscribe here`],
       [`addBlock`, `already subscribed`]
