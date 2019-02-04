@@ -84,7 +84,7 @@ const rendererConfig = {
           ? path.resolve(__dirname, `app/node_modules`)
           : false,
       styles: fs.readFileSync(`./app/src/renderer/styles/index.css`, `utf8`),
-      favicon: `./app/favicon.ico`
+      favicon: `./app/static/icons/favicon.ico`
     }),
     new webpack.NoEmitOnErrorsPlugin(),
     // warnings caused by websocket-stream, which has a server-part that is unavailable on the the client
