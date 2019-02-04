@@ -22,7 +22,6 @@ export default ({ node }) => {
       state.loading = loading
     },
     setError(state, error) {
-      console.log(`EEROOOOOOO`)
       state.error = error
     },
     setBlockHeight(state, height) {
