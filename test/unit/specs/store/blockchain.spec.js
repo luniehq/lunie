@@ -2,7 +2,7 @@ import { getTxHash } from "renderer/scripts/tx-utils.js"
 import blockchainModule, { cache } from "renderer/vuex/modules/blockchain.js"
 
 describe(`Module: Blockchain`, () => {
-  let module, state, actions, node, mutations
+  let module, state, actions, node
   const height = 100
   const blockMeta = {
     header: {
@@ -22,7 +22,6 @@ describe(`Module: Blockchain`, () => {
     })
     state = module.state
     actions = module.actions
-    mutations = module.mutations
   })
 
   it(`should query block info`, async () => {

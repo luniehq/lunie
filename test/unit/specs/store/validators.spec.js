@@ -68,22 +68,76 @@ describe(`Module: Validators`, () => {
     expect(store.getDispatches(`getValidators`)).toHaveLength(0)
   })
 
-  it(`should query the validators on reconnection`, () => {
-    jest.resetModules()
-    store.state.connection.stopConnecting = true
-    store.state.validators.loading = true
-    jest.spyOn(node, `getValidatorSet`)
-    store.dispatch(`reconnected`)
-    expect(node.getValidatorSet).toHaveBeenCalled()
+  it(`should not query the validators on reconnection if not connected`, async () => {
+    const validators = [1, 2, 3]
+    const node = {
+      getValidatorSet: () => Promise.resolve({ validators })
+    }
+    const { actions } = validatorsModule({
+      node
+    })
+    const commit = jest.fn()
+    await actions.getValidators({
+      state: {},
+      commit,
+      rootState: { connection: { connected: false } }
+    })
+    expect(commit.mock.calls).toEqual([])
+  })
+
+  it(`should query the validators when connected`, async () => {
+    const validators = [1, 2, 3]
+    const node = {
+      getValidatorSet: () => Promise.resolve({ validators })
+    }
+    const { actions } = validatorsModule({
+      node
+    })
+    const commit = jest.fn()
+    await actions.getValidators({
+      state: {},
+      commit,
+      rootState: { connection: { connected: true } }
+    })
+    expect(commit).toHaveBeenCalledWith(`setValidators`, validators)
+  })
+
+  it(`should handle errors with call getValidatorSet`, async () => {
+    const error = `nada`
+    const node = {
+      getValidatorSet: () => Promise.reject(new Error(error))
+    }
+    const { actions } = validatorsModule({
+      node
+    })
+    const commit = jest.fn()
+    await actions.getValidators({
+      state: {},
+      commit,
+      rootState: { connection: { connected: true } }
+    })
+    expect(commit).toHaveBeenCalledWith(`notifyError`, {
+      body: error,
+      title: `Error fetching validator set`
+    })
   })
 
   it(`should not query validators on reconnection if not stuck in loading`, () => {
-    jest.resetModules()
-    store.state.connection.stopConnecting = true
-    store.state.validators.loading = false
-    jest.spyOn(node.rpc, `validators`)
-    store.dispatch(`reconnected`)
-    expect(node.rpc.validators).not.toHaveBeenCalled()
+    const node = {}
+    const { actions } = validatorsModule({
+      node
+    })
+    const dispatch = jest.fn()
+    actions.reconnected({
+      state: { loading: false },
+      dispatch
+    })
+    expect(dispatch.mock.calls).toEqual([])
+    actions.reconnected({
+      state: { loading: true },
+      dispatch
+    })
+    expect(dispatch.mock.calls).toEqual([[`getValidators`]])
   })
 
   it(`should store an error if failed to load validators`, async () => {
