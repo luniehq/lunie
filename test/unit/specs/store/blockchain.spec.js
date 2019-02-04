@@ -51,20 +51,19 @@ describe(`Module: Blockchain`, () => {
 
   it(`should show an info if block info is unavailable`, async () => {
     jest.spyOn(console, `error`).mockImplementation(() => {})
+    const error = new Error(`Error`)
+    const commit = jest.fn()
     state.blockMetas = {}
-    node.rpc.blockchain = () => Promise.reject(new Error(`Error`))
-    const output = await actions.queryBlockInfo(
-      { state, commit: jest.fn() },
-      100
-    )
+    node.rpc.blockchain = () => Promise.reject(error)
+    const output = await actions.queryBlockInfo({ state, commit }, 100)
     expect(output).toBe(null)
-    expect(state.error).toEqual(new Error(`Error`))
+    expect(commit).toHaveBeenCalledWith(`setError`, error)
   })
 
   it(`should not subscribe twice`, async () => {
     node.rpc.status = () => Promise.resolve({ sync_info: {} })
     node.rpc.subscribe = (query, cb) => {
-      cb()
+      cb({ block: `yeah` })
     }
 
     const commit = jest.fn()
@@ -138,10 +137,10 @@ describe(`Module: Blockchain`, () => {
             }
           }),
         subscribe: (query, cb) => {
-          cb()
+          cb({ block: `subscribe here` })
           expect(commit).toBeCalledWith(`setSubscription`, true)
           module.state.subscription = true
-          cb()
+          cb({ block: `already subscribed` })
         }
       }
     }
@@ -158,7 +157,9 @@ describe(`Module: Blockchain`, () => {
       [`setSubscribedRPC`, node.rpc],
       [`setBlockHeight`, 0],
       [`setSyncing`, false],
-      [`setSubscription`, true]
+      [`setSubscription`, true],
+      [`addBlock`, `subscribe here`],
+      [`addBlock`, `already subscribed`]
     ])
   })
 })
