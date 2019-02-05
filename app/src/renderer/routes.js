@@ -80,7 +80,11 @@ export default [
     name: `transactions`,
     component: require(`./components/wallet/PageTransactions`).default
   },
-
+  {
+    path: `/network`,
+    name: `network`,
+    component: require(`./components/network/PageNetwork`).default
+  },
   { path: `/404`, component: require(`./components/common/Page404`).default },
   { path: `*`, component: require(`./components/common/Page404`).default }
 ]
