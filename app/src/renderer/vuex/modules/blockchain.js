@@ -22,37 +22,19 @@ export default ({ node }) => {
   }
 
   const mutations = {
-    setLoading(state, loading) {
-      state.loading = loading
-    },
-    setError(state, error) {
-      state.error = error
-    },
-    setBlockHeight(state, height) {
-      state.blockHeight = height
-    },
-    setSyncing(state, syncing) {
-      state.syncing = syncing
-    },
-    setBlockMetas(state, blockMetas) {
-      state.blockMetas = blockMetas
-    },
-    setPeers(state, peers) {
-      state.peers = peers
-    },
-    // setBlocks(state, blocks) {
-    //   state.blocks = blocks
-    // },
-    addBlock(state, block) {
-      // immutable version [block, ...blocks] gets slower if maxBlocks is over 100K
-      Vue.set(state, `blocks`, cache(state.blocks, block))
-    },
-    setSubscribedRPC(state, subscribedRPC) {
-      state.subscribedRPC = subscribedRPC
-    },
-    setSubscription(state, subscription) {
-      state.subscription = subscription
-    }
+    setLoading: (state, loading) => (state.loading = loading),
+    setError: (state, error) => (state.error = error),
+    setBlockHeight: (state, height) => (state.blockHeight = height),
+    setSyncing: (state, syncing) => (state.syncing = syncing),
+    setBlockMetas: (state, blockMetas) => (state.blockMetas = blockMetas),
+    setPeers: (state, peers) => (state.peers = peers),
+    setBlocks: (state, blocks) => (state.blocks = blocks),
+    addBlock: (state, block) =>
+      Vue.set(state, `blocks`, cache(state.blocks, block)),
+    setSubscribedRPC: (state, subscribedRPC) =>
+      (state.subscribedRPC = subscribedRPC),
+    setSubscription: (state, subscription) =>
+      (state.subscription = subscription)
   }
 
   const actions = {

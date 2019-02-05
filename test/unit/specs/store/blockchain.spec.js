@@ -223,3 +223,99 @@ describe(`Module: Blockchain`, () => {
     expect(cache([2], block, 2)).toEqual([1, 2])
   })
 })
+
+describe(`Module: Blockchain mutations`, () => {
+  let module, node, mutations
+
+  beforeEach(() => {
+    node = {}
+    module = blockchainModule({
+      node
+    })
+    mutations = module.mutations
+  })
+
+  it(`should set the loading state`, async () => {
+    const { setLoading } = mutations
+    const state = {}
+    setLoading(state, true)
+    expect(state.loading).toEqual(true)
+    setLoading(state, false)
+    expect(state.loading).toEqual(false)
+  })
+
+  it(`should set the error state`, async () => {
+    const { setError } = mutations
+    const state = {}
+    const error = new Error(`just another error`)
+    setError(state, error)
+    expect(state.error).toEqual(error)
+  })
+
+  it(`should set the blockHeight state`, async () => {
+    const { setBlockHeight } = mutations
+    const state = {}
+    setBlockHeight(state, 1)
+    expect(state.blockHeight).toEqual(1)
+  })
+
+  it(`should set the syncing state`, async () => {
+    const { setSyncing } = mutations
+    const state = {}
+    setSyncing(state, true)
+    expect(state.syncing).toEqual(true)
+  })
+
+  it(`should set the blockMetas state`, async () => {
+    const { setBlockMetas } = mutations
+    const state = {}
+    setBlockMetas(state, { block_id: `X` })
+    expect(state.blockMetas).toEqual({ block_id: `X` })
+  })
+
+  it(`should set the peers in the state`, async () => {
+    const { setPeers } = mutations
+    const state = {}
+    setPeers(state, [1])
+    expect(state.peers).toEqual([1])
+  })
+
+  it(`should set the blocks in the state`, async () => {
+    const { setBlocks } = mutations
+    const state = {}
+    setBlocks(state, [])
+    expect(state.blocks).toEqual([])
+    setBlocks(state, [1, 2, 3])
+    expect(state.blocks).toEqual([1, 2, 3])
+  })
+
+  it(`should add a block the blocks`, async () => {
+    const { addBlock } = mutations
+    const state = { blocks: [] }
+    addBlock(state, 1)
+    expect(state.blocks.length).toEqual(1)
+    expect(state.blocks[0]).toEqual(1)
+  })
+
+  it(`should add a block the blocks state and keep the size to 100`, async () => {
+    const { addBlock } = mutations
+    const state = { blocks: [...Array(100).keys()] }
+    addBlock(state, 101)
+    expect(state.blocks.length).toEqual(100)
+    expect(state.blocks[0]).toEqual(101)
+  })
+
+  it(`should set the subscribedRPC state`, async () => {
+    const { setSubscribedRPC } = mutations
+    const state = {}
+    setSubscribedRPC(state, `Me`)
+    expect(state.subscribedRPC).toEqual(`Me`)
+  })
+
+  it(`should set the subscription state`, async () => {
+    const { setSubscription } = mutations
+    const state = {}
+    setSubscription(state, true)
+    expect(state.subscription).toEqual(true)
+  })
+})
