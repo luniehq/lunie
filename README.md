@@ -219,7 +219,7 @@ yarn watch PageValidator
 
 ### End to end tests
 
-End to end (e2e) testing is performed via [`tape`](https://github.com/substack/tape), you can run all of them using:
+End to end (e2e) testing will be soon re-introduced via performed via [![Browserstack](https://3fxtqy18kygf3on3bu39kh93-wpengine.netdna-ssl.com/wp-content/themes/browserstack/img/header-logo.svg")](https://github.com/substack/tape), you can run all of them using:
 
 ```bash
 yarn test:e2e
