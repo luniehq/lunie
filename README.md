@@ -219,7 +219,7 @@ yarn watch PageValidator
 
 ### End to end tests
 
-End to end testing will be soon restored thanks to: [![Browserstack](/test/browserstack-logo-600x315.png)](https://www.browserstack.com/)
+End to end testing will be soon restored thanks to: [Browserstack](https://www.browserstack.com/)
 You can run all of them using:
 
 ```bash
@@ -330,3 +330,7 @@ rm -rf package-lock.json
 
 - You get `The network configuration for the network you want to connect to doesn't exist. Have you run "yarn build:testnets" to download the latest configurations?` but you have run `yarn build:testnets`.
   The symlink between `app/networks` and `builds/testnets` is broken. Try readding the symlink with `cd app && ln -s ../builds/testnets networks`.
+
+## Thanks
+
+[![Browserstack](/test/browserstack-logo-600x315.png)](https://www.browserstack.com)
