@@ -83,7 +83,6 @@ export function storeUpdateHandler(mutation, state, pending) {
  */
 function persistState(state) {
   const cachedState = JSON.stringify({
-    //blocks: state.blockchain.blocks,
     transactions: {
       wallet: state.transactions.wallet,
       staking: state.transactions.staking
