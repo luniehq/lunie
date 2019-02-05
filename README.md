@@ -1,4 +1,4 @@
-![Cosmos Voyager logo — spaceship blasting off](/app/icons/png/128x128.png)
+![Cosmos Voyager logo — spaceship blasting off](/app/static/icons/png/128x128.png)
 
 # Cosmos Voyager
 
@@ -219,7 +219,8 @@ yarn watch PageValidator
 
 ### End to end tests
 
-End to end (e2e) testing will be soon re-introduced via performed via [![Browserstack](https://3fxtqy18kygf3on3bu39kh93-wpengine.netdna-ssl.com/wp-content/themes/browserstack/img/header-logo.svg")](https://github.com/substack/tape), you can run all of them using:
+End to end testing will be soon restored thanks to: [![Browserstack](/test/browserstack-logo-600x315.png)](https://www.browserstack.com/)
+You can run all of them using:
 
 ```bash
 yarn test:e2e
