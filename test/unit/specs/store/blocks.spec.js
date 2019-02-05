@@ -1,7 +1,7 @@
 import { getTxHash } from "renderer/scripts/tx-utils.js"
-import blockchainModule, { cache } from "renderer/vuex/modules/blockchain.js"
+import blocks, { cache } from "renderer/vuex/modules/blocks.js"
 
-describe(`Module: Blockchain`, () => {
+describe(`Module: Blocks`, () => {
   let module, state, actions, node
   const height = 100
   const blockMeta = {
@@ -17,7 +17,7 @@ describe(`Module: Blockchain`, () => {
         status: () => Promise.resolve({ sync_info: {} })
       }
     }
-    module = blockchainModule({
+    module = blocks({
       node
     })
     state = module.state
@@ -33,6 +33,14 @@ describe(`Module: Blockchain`, () => {
       42
     )
     expect(output).toBe(blockMeta)
+  })
+
+  it(`should reinitialize subscriptions to blocks on reconnection`, async () => {
+    const commit = jest.fn()
+    const dispatch = jest.fn()
+    actions.reconnected({ commit, dispatch })
+    expect(commit).toBeCalledWith(`setSubscription`, false)
+    expect(dispatch).toBeCalledWith(`subscribeToBlocks`)
   })
 
   it(`should reuse queried block info`, async () => {
@@ -144,7 +152,7 @@ describe(`Module: Blockchain`, () => {
         }
       }
     }
-    const module = blockchainModule({
+    const module = blocks({
       node
     })
     const commit = jest.fn()
@@ -176,7 +184,7 @@ describe(`Module: Blockchain`, () => {
           })
       }
     }
-    const module = blockchainModule({
+    const module = blocks({
       node
     })
     const commit = jest.fn()
@@ -194,7 +202,7 @@ describe(`Module: Blockchain`, () => {
         blockchain: () => Promise.reject(error)
       }
     }
-    const module = blockchainModule({
+    const module = blocks({
       node
     })
     const commit = jest.fn()
@@ -224,12 +232,12 @@ describe(`Module: Blockchain`, () => {
   })
 })
 
-describe(`Module: Blockchain mutations`, () => {
+describe(`Module: Blocks mutations`, () => {
   let module, node, mutations
 
   beforeEach(() => {
     node = {}
-    module = blockchainModule({
+    module = blocks({
       node
     })
     mutations = module.mutations
