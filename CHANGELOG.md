@@ -67,6 +67,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1869](https://github.com/cosmos/voyager/issues/1869) Added PageNetwork @jbibla
 - [\#1894](https://github.com/cosmos/voyager/issues/1894) Added favicons for all the browsers and devices @jbibla
 - [\#1865](https://github.com/cosmos/voyager/issues/1865) Added Vuex blocks module @sabau
+- [\#1928](https://github.com/cosmos/voyager/issues/1928) Added Browserstack reference to README @sabau
 
 ### Changed
 
