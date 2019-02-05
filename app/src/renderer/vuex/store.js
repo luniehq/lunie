@@ -6,7 +6,7 @@
 
 import Vue from "vue"
 import Vuex from "vuex"
-import { merge } from "lodash"
+import merge from "lodash/merge"
 import * as getters from "./getters"
 import modules from "./modules"
 
