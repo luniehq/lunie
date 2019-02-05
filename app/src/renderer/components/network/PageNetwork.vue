@@ -99,7 +99,7 @@ export default {
       return { color, message }
     },
     lastBlock() {
-      // moment.relativeTimeThreshold(`ss`, 1)
+      moment.relativeTimeThreshold(`ss`, 1)
       return moment(this.lastHeader.time).fromNow()
     }
   }
