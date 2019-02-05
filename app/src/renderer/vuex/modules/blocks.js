@@ -1,7 +1,7 @@
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
 
-export const cache = (list, element, maxSize = 100) => {
+export const cache = (list, element, maxSize = 1000) => {
   if (list.length >= maxSize) list.splice(-1, 1)
   list.unshift(element)
   return list

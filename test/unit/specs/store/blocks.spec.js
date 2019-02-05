@@ -305,12 +305,12 @@ describe(`Module: Blocks mutations`, () => {
     expect(state.blocks[0]).toEqual(1)
   })
 
-  it(`should add a block the blocks state and keep the size to 100`, async () => {
+  it(`should add a block the blocks state and keep the size to 1000`, async () => {
     const { addBlock } = mutations
-    const state = { blocks: [...Array(100).keys()] }
-    addBlock(state, 101)
-    expect(state.blocks.length).toEqual(100)
-    expect(state.blocks[0]).toEqual(101)
+    const state = { blocks: [...Array(1000).keys()] }
+    addBlock(state, `new`)
+    expect(state.blocks.length).toEqual(1000)
+    expect(state.blocks[0]).toEqual(`new`)
   })
 
   it(`should set the subscribedRPC state`, async () => {
