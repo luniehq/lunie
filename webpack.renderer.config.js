@@ -55,7 +55,7 @@ const rendererConfig = {
             loader: `url-loader`,
             query: {
               limit: 10000,
-              name: `imgs/[name].[ext]`
+              name: `images/[name].[ext]`
             }
           }
         ]
@@ -95,7 +95,8 @@ const rendererConfig = {
         process.env.NODE_ENV !== `production`
           ? path.resolve(__dirname, `app/node_modules`)
           : false,
-      styles: fs.readFileSync(`./app/src/renderer/styles/index.css`, `utf8`)
+      styles: fs.readFileSync(`./app/src/renderer/styles/index.css`, `utf8`),
+      favicon: `./app/static/icons/favicon.ico`
     }),
     // warnings caused by websocket-stream, which has a server-part that is unavailable on the the client
     new webpack.IgnorePlugin(/(bufferutil|utf-8-validate)/),
