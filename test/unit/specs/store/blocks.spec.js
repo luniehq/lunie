@@ -145,10 +145,10 @@ describe(`Module: Blocks`, () => {
             }
           }),
         subscribe: (query, cb) => {
-          cb({ block: `subscribe here` })
+          cb({ block: { header: { height: 1 } } })
           expect(commit).toBeCalledWith(`setSubscription`, true)
           module.state.subscription = true
-          cb({ block: `already subscribed` })
+          cb({ block: { header: { height: 2 } } })
         }
       }
     }
@@ -167,8 +167,10 @@ describe(`Module: Blocks`, () => {
       [`setSyncing`, false],
       [`setBlocks`, []],
       [`setSubscription`, true],
-      [`addBlock`, `subscribe here`],
-      [`addBlock`, `already subscribed`]
+      [`addBlock`, { header: { height: 1 } }],
+      [`setBlockHeight`, 1],
+      [`addBlock`, { header: { height: 2 } }],
+      [`setBlockHeight`, 2]
     ])
   })
 
