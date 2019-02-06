@@ -8,60 +8,97 @@
     <tm-data-error v-if="!connected || !block || !header" />
 
     <template v-else>
-      <router-link :to="{ name: 'block', params: { height: backNumber } }"
-        >Back</router-link
-      >
-      <router-link :to="{ name: 'block', params: { height: forwardNumber } }"
-        >Forward</router-link
-      >
       <div class="page-profile__header page-profile__section block">
         <div class="row">
           <div class="page-profile__header__info">
             <div class="page-profile__status-and-title">
-              <h2 class="page-profile__title">{{ header.height }}</h2>
-              <h2 class="page-profile__subtitle">
-                <!-- {{ block.block_meta.block_id.hash }} -->
+              <h2 class="page-profile__title">
+                Block {{ `#` + num.prettyInt(header.height) }}
               </h2>
+              <h3 class="page-profile__subtitle">
+                {{ block.block_meta.block_id.hash }}
+              </h3>
             </div>
           </div>
         </div>
+
         <div class="row">
           <dl class="info_dl colored_dl">
             <dt>Time</dt>
-            <dd>{{ header.time }}</dd>
-          </dl>
-          <dl class="info_dl colored_dl">
-            <dt>Transactions</dt>
-            <dd>{{ header.num_txs }}</dd>
+            <dd>{{ moment(header.time).format("MMM Do YYYY, HH:mm:ss") }}</dd>
           </dl>
           <dl class="info_dl colored_dl">
             <dt>Proposer</dt>
             <dd>{{ header.proposer_address }}</dd>
           </dl>
         </div>
+      </div>
 
+      <div class="page-profile__section block">
         <div class="row">
-          <h3>Transactions</h3>
-          <dl class="info_dl colored_dl">
-            <pre>{{ block.block.data.txs || `No Transactions` }}</pre>
-          </dl>
+          <div class="column">
+            <dl class="info_dl colored_dl">
+              <dt>Transactions</dt>
+              <tm-li-any-transaction
+                v-for="tx in filteredTransactions"
+                slot="managed-body"
+                :validators="delegates.delegates"
+                :validators-url="validatorURL"
+                :proposals-url="governanceURL"
+                :key="tx.hash"
+                :transaction="tx"
+                :address="wallet.address"
+                :bonding-denom="bondDenom"
+                :unbonding-time="
+                  time.getUnbondingTime(tx, delegation.unbondingDelegations)
+                "
+              />
+              <!-- <dd>{{ block.block.data.txs || `No Transactions` }}</dd> -->
+            </dl>
+          </div>
         </div>
+      </div>
 
+      <div class="page-profile__section block">
         <div class="row">
-          <h3>Evidence</h3>
-          <dl class="info_dl colored_dl">
-            <pre>{{ block.block.evidence.evidence || `No Evidence` }}</pre>
-          </dl>
+          <div class="column">
+            <dl class="info_dl colored_dl">
+              <dt>Evidence</dt>
+              <dd>{{ block.block.evidence.evidence || `No Evidence` }}</dd>
+            </dl>
+          </div>
         </div>
+      </div>
 
+      <div class="page-profile__section block">
         <div class="row">
-          <h3>Pre Commits</h3>
-          <ul v-for="precommit in block.block.last_commit.precommits">
-            <li>
-              {{ precommit.validator_address }} {{ precommit.timestamp }}
-              {{ precommit.round }}
-            </li>
-          </ul>
+          <div class="column">
+            <dl class="info_dl colored_dl">
+              <dt>Pre Commits</dt>
+              <dd v-if="!block.block.last_commit.precommits">No precommits</dd>
+              <table v-else class="pre-commits data-table">
+                <thead>
+                  <panel-sort :properties="properties" />
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="precommit in block.block.last_commit.precommits"
+                    class="block data-table__row"
+                  >
+                    <td>{{ precommit.validator_address }}</td>
+                    <td>
+                      {{
+                        moment(precommit.timestamp).format(
+                          "MMM Do YYYY, HH:mm:ss"
+                        )
+                      }}
+                    </td>
+                    <td>{{ precommit.round }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </dl>
+          </div>
         </div>
       </div>
     </template>
@@ -73,16 +110,20 @@ import moment from "moment"
 import axios from "axios"
 import { mapGetters } from "vuex"
 import num from "scripts/num"
+import PanelSort from "staking/PanelSort"
 import ToolBar from "common/ToolBar"
 import TmBalance from "common/TmBalance"
 import TmDataError from "common/TmDataError"
+import TmLiAnyTransaction from "common/TmLiAnyTransaction"
 import TmPage from "common/TmPage"
 export default {
   name: `page-block`,
   components: {
+    PanelSort,
     TmBalance,
     ToolBar,
     TmDataError,
+    TmLiAnyTransaction,
     TmPage
   },
   async mounted() {
@@ -93,16 +134,24 @@ export default {
   },
   data: () => ({
     num,
+    moment,
     header: null,
     block: null
   }),
   computed: {
     ...mapGetters([`connected`, `blocks`, `config`]),
-    backNumber() {
-      return Number(this.header.height) - 1
-    },
-    forwardNumber() {
-      return Number(this.header.height) + 1
+    properties() {
+      return [
+        {
+          title: `Proposer`
+        },
+        {
+          title: `Time`
+        },
+        {
+          title: `Round`
+        }
+      ]
     }
   },
   methods: {

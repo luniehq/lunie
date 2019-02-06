@@ -146,11 +146,7 @@ export default {
   }
 }
 </script>
-<style>
-.network .page-profile__header__info {
-  padding: 2rem;
-}
-
+<style scoped>
 .block td {
   padding: 1rem;
 }
