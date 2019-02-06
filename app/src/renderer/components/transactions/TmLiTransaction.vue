@@ -18,8 +18,8 @@
         </div>
       </div>
       <div class="tm-li-tx__content__block">
-        <a :href="'https://explorecosmos.network/blocks/' + block"
-          >Block #{{ block }}&nbsp;</a
+        <router-link :to="{ name: `block`, params: { height: block } }"
+          >Block #{{ block }}&nbsp;</router-link
         >@ {{ date }}
       </div>
     </div>
@@ -64,7 +64,7 @@ export default {
   border: 1px solid var(--bc-dim);
   background: var(--app-fg);
   width: 100%;
-  font-weight: 400;
+  font-weight: 300;
 }
 
 .tm-li-tx:hover {

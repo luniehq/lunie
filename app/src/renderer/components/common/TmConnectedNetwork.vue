@@ -14,10 +14,10 @@
       </div>
     </div>
     <div id="tm-connected-network__block" class="tm-connected-network__string">
-      <a
-        v-tooltip.top="'View block details on the Cosmos explorer.'"
-        :href="explorerLink"
-        >{{ blockHeight }}<i class="material-icons exit">exit_to_app</i></a
+      <router-link
+        :to="{ name: `block`, params: { height: lastHeader.height } }"
+        v-tooltip.top="'Block Height'"
+        >{{ blockHeight }}</router-link
       >
     </div>
   </div>
@@ -57,9 +57,6 @@ export default {
     },
     blockHeight() {
       return `#` + num.prettyInt(this.lastHeader.height)
-    },
-    explorerLink() {
-      return `https://explorecosmos.network/blocks/` + this.lastHeader.height
     }
   },
   methods: {
