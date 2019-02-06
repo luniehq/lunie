@@ -7,7 +7,7 @@ localhost:8080 {
     Access-Control-Allow-Headers "*"
   }
 
-  proxy / https://localhost:9070/ {
+  proxy / http://localhost:9070/ {
 	insecure_skip_verify
   }
 }

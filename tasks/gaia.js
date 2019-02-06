@@ -27,7 +27,7 @@ async function initNode(
   password = `1234567890`,
   overwrite = false
 ) {
-  let command = `${nodeBinary} init --home ${homeDir} --moniker ${moniker} --chain-id ${chainId}`
+  let command = `${nodeBinary} init ${moniker} --home ${homeDir} --chain-id ${chainId}`
   if (overwrite) {
     command += ` -o`
   }
@@ -53,7 +53,7 @@ async function initGenesis(
   nodeHomeDir
 ) {
   await makeExec(
-    `${nodeBinary} add-genesis-account ${address} 150stake,1000photino  --home ${nodeHomeDir}`
+    `${nodeBinary} add-genesis-account ${address} 200000000stake,1000photino  --home ${nodeHomeDir}`
   )
 
   await makeExecWithInputs(
