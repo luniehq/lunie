@@ -63,7 +63,11 @@
           <panel-sort :properties="properties" />
         </thead>
         <tbody>
-          <tr v-for="block in blocks" class="block data-table__row">
+          <tr
+            v-for="block in blocks"
+            :key="block.header.height"
+            class="block data-table__row"
+          >
             <td>
               <router-link
                 :to="{ name: `block`, params: { height: block.header.height } }"

@@ -7,13 +7,13 @@
       class="panel-sort-table-header"
     >
       <a
-        v-if="sort"
         v-tooltip.top="property.tooltip"
+        v-if="sort"
         class="sort-by-link"
         @click="orderBy(property.value)"
         >{{ property.title }}</a
       >
-      <span v-else="!sort">{{ property.title }}</span>
+      <span v-else>{{ property.title }}</span>
     </th>
   </tr>
 </template>

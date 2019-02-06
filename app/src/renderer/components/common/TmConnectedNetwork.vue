@@ -15,8 +15,8 @@
     </div>
     <div id="tm-connected-network__block" class="tm-connected-network__string">
       <router-link
-        :to="{ name: `block`, params: { height: lastHeader.height } }"
         v-tooltip.top="'Block Height'"
+        :to="{ name: `block`, params: { height: lastHeader.height } }"
         >{{ blockHeight }}</router-link
       >
     </div>

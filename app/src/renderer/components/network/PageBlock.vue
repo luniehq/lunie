@@ -39,21 +39,7 @@
           <div class="column">
             <dl class="info_dl colored_dl">
               <dt>Transactions</dt>
-              <tm-li-any-transaction
-                v-for="tx in filteredTransactions"
-                slot="managed-body"
-                :validators="delegates.delegates"
-                :validators-url="validatorURL"
-                :proposals-url="governanceURL"
-                :key="tx.hash"
-                :transaction="tx"
-                :address="wallet.address"
-                :bonding-denom="bondDenom"
-                :unbonding-time="
-                  time.getUnbondingTime(tx, delegation.unbondingDelegations)
-                "
-              />
-              <!-- <dd>{{ block.block.data.txs || `No Transactions` }}</dd> -->
+              <dd>{{ block.block.data.txs || `No Transactions` }}</dd>
             </dl>
           </div>
         </div>
@@ -82,7 +68,9 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="precommit in block.block.last_commit.precommits"
+                    v-for="(precommit, index) in block.block.last_commit
+                      .precommits"
+                    :key="index"
                     class="block data-table__row"
                   >
                     <td>{{ precommit.validator_address }}</td>
@@ -126,12 +114,6 @@ export default {
     TmLiAnyTransaction,
     TmPage
   },
-  async mounted() {
-    await this.getBlock()
-  },
-  watch: {
-    $route: "getBlock"
-  },
   data: () => ({
     num,
     moment,
@@ -153,6 +135,12 @@ export default {
         }
       ]
     }
+  },
+  watch: {
+    $route: `getBlock`
+  },
+  async mounted() {
+    await this.getBlock()
   },
   methods: {
     async getBlock() {
