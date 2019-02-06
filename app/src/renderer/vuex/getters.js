@@ -84,9 +84,11 @@ export const depositDenom = getters =>
     ? getters.governanceParameters.parameters.deposit.min_deposit[0].denom
     : ``
 
-// status
+// connection
 export const approvalRequired = state => state.connection.approvalRequired
 export const connected = state => state.connection.connected
 export const lastHeader = state => state.connection.lastHeader
 export const nodeUrl = state =>
   state.connection.connected ? state.connection.nodeUrl : undefined
+
+export const blocks = state => (state.blocks ? state.blocks.blocks : [])
