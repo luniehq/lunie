@@ -37,12 +37,6 @@ exports[`PageNetwork has the expected html structure 1`] = `
           >
             gaia-20k
           </h2>
-           
-          <h3>
-            
-              Proposer: EFH47FH723HDHSH
-            
-          </h3>
         </div>
       </div>
     </div>
@@ -54,11 +48,11 @@ exports[`PageNetwork has the expected html structure 1`] = `
         class="info_dl colored_dl"
       >
         <dt>
-          Height
+          Block Height
         </dt>
          
         <dd>
-          6001
+          #6,001
         </dd>
       </dl>
        
@@ -143,5 +137,17 @@ exports[`PageNetwork has the expected html structure 1`] = `
       </div>
     </div>
   </div>
+   
+  <table
+    class="blocks data-table"
+  >
+    <thead>
+      <panel-sort-stub
+        properties="[object Object],[object Object],[object Object]"
+      />
+    </thead>
+     
+    <tbody />
+  </table>
 </tm-page-stub>
 `;

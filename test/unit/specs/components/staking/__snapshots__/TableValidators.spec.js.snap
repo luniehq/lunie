@@ -10,7 +10,7 @@ exports[`TableValidators has the expected html structure 1`] = `
         class="panel-sort-container"
       >
         <th
-          class="sort-by name"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
@@ -19,7 +19,7 @@ exports[`TableValidators has the expected html structure 1`] = `
           </a>
         </th>
         <th
-          class="sort-by your-votes"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
@@ -28,7 +28,7 @@ exports[`TableValidators has the expected html structure 1`] = `
           </a>
         </th>
         <th
-          class="sort-by your-rewards"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
@@ -37,7 +37,7 @@ exports[`TableValidators has the expected html structure 1`] = `
           </a>
         </th>
         <th
-          class="sort-by percent_of_vote"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
@@ -46,7 +46,7 @@ exports[`TableValidators has the expected html structure 1`] = `
           </a>
         </th>
         <th
-          class="sort-by uptime"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
@@ -55,7 +55,7 @@ exports[`TableValidators has the expected html structure 1`] = `
           </a>
         </th>
         <th
-          class="sort-by commission"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
@@ -64,7 +64,7 @@ exports[`TableValidators has the expected html structure 1`] = `
           </a>
         </th>
         <th
-          class="sort-by slashes"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
@@ -388,7 +388,7 @@ exports[`TableValidators should filter the delegates 1`] = `
         class="panel-sort-container"
       >
         <th
-          class="sort-by name"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
@@ -397,7 +397,7 @@ exports[`TableValidators should filter the delegates 1`] = `
           </a>
         </th>
         <th
-          class="sort-by your-votes"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
@@ -406,7 +406,7 @@ exports[`TableValidators should filter the delegates 1`] = `
           </a>
         </th>
         <th
-          class="sort-by your-rewards"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
@@ -415,7 +415,7 @@ exports[`TableValidators should filter the delegates 1`] = `
           </a>
         </th>
         <th
-          class="sort-by percent_of_vote"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
@@ -424,7 +424,7 @@ exports[`TableValidators should filter the delegates 1`] = `
           </a>
         </th>
         <th
-          class="sort-by uptime"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
@@ -433,7 +433,7 @@ exports[`TableValidators should filter the delegates 1`] = `
           </a>
         </th>
         <th
-          class="sort-by commission"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
@@ -442,7 +442,7 @@ exports[`TableValidators should filter the delegates 1`] = `
           </a>
         </th>
         <th
-          class="sort-by slashes"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"

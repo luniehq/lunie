@@ -61,12 +61,12 @@ exports[`TmLiGovTransaction deposits should show deposits 1`] = `
     <div
       class="tm-li-tx__content__block"
     >
-      <a
-        href="https://explorecosmos.network/blocks/56675"
+      <router-link
+        to="[object Object]"
       >
         Block #56675 
-      </a>
-      @ 00:00
+      </router-link>
+      @ Dec 31st 1969, 19:00:42
     
     </div>
   </div>
@@ -128,12 +128,12 @@ exports[`TmLiGovTransaction proposals should show proposals submission transacti
     <div
       class="tm-li-tx__content__block"
     >
-      <a
-        href="https://explorecosmos.network/blocks/56673"
+      <router-link
+        to="[object Object]"
       >
         Block #56673 
-      </a>
-      @ 00:00
+      </router-link>
+      @ Dec 31st 1969, 19:00:42
     
     </div>
   </div>

@@ -50,12 +50,12 @@ exports[`TmLiAnyTransaction shows bank transactions 1`] = `
     <div
       class="tm-li-tx__content__block"
     >
-      <a
-        href="https://explorecosmos.network/blocks/3436"
+      <router-link
+        to="[object Object]"
       >
         Block #3436 
-      </a>
-      @ 00:00
+      </router-link>
+      @ Dec 31st 1969, 19:00:42
     
     </div>
   </div>
@@ -118,12 +118,12 @@ exports[`TmLiAnyTransaction shows stake transactions 1`] = `
     <div
       class="tm-li-tx__content__block"
     >
-      <a
-        href="https://explorecosmos.network/blocks/568"
+      <router-link
+        to="[object Object]"
       >
         Block #568 
-      </a>
-      @ 00:00
+      </router-link>
+      @ Dec 31st 1969, 19:00:42
     
     </div>
   </div>
@@ -168,12 +168,12 @@ exports[`TmLiAnyTransaction shows unknown transactions 1`] = `
     <div
       class="tm-li-tx__content__block"
     >
-      <a
-        href="https://explorecosmos.network/blocks/3436"
+      <router-link
+        to="[object Object]"
       >
         Block #3436 
-      </a>
-      @ 00:00
+      </router-link>
+      @ Dec 31st 1969, 19:00:42
     
     </div>
   </div>

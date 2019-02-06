@@ -102,7 +102,6 @@ import PanelSort from "staking/PanelSort"
 import ToolBar from "common/ToolBar"
 import TmBalance from "common/TmBalance"
 import TmDataError from "common/TmDataError"
-import TmLiAnyTransaction from "common/TmLiAnyTransaction"
 import TmPage from "common/TmPage"
 export default {
   name: `page-block`,
@@ -111,7 +110,6 @@ export default {
     TmBalance,
     ToolBar,
     TmDataError,
-    TmLiAnyTransaction,
     TmPage
   },
   data: () => ({

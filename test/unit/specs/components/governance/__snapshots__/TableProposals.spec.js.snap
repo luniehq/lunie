@@ -10,7 +10,7 @@ exports[`TableProposals has the expected html structure 1`] = `
         class="panel-sort-container"
       >
         <th
-          class="sort-by proposal_title"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
@@ -19,7 +19,7 @@ exports[`TableProposals has the expected html structure 1`] = `
           </a>
         </th>
         <th
-          class="sort-by proposal_id"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
@@ -28,7 +28,7 @@ exports[`TableProposals has the expected html structure 1`] = `
           </a>
         </th>
         <th
-          class="sort-by yes_votes"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
@@ -37,7 +37,7 @@ exports[`TableProposals has the expected html structure 1`] = `
           </a>
         </th>
         <th
-          class="sort-by no_votes"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
@@ -46,7 +46,7 @@ exports[`TableProposals has the expected html structure 1`] = `
           </a>
         </th>
         <th
-          class="sort-by no_veto_votes"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
@@ -55,7 +55,7 @@ exports[`TableProposals has the expected html structure 1`] = `
           </a>
         </th>
         <th
-          class="sort-by abstain_votes"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
@@ -316,7 +316,7 @@ exports[`TableProposals should filter the proposals 1`] = `
         class="panel-sort-container"
       >
         <th
-          class="sort-by proposal_title"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
@@ -325,7 +325,7 @@ exports[`TableProposals should filter the proposals 1`] = `
           </a>
         </th>
         <th
-          class="sort-by proposal_id"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
@@ -334,7 +334,7 @@ exports[`TableProposals should filter the proposals 1`] = `
           </a>
         </th>
         <th
-          class="sort-by yes_votes"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
@@ -343,7 +343,7 @@ exports[`TableProposals should filter the proposals 1`] = `
           </a>
         </th>
         <th
-          class="sort-by no_votes"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
@@ -352,7 +352,7 @@ exports[`TableProposals should filter the proposals 1`] = `
           </a>
         </th>
         <th
-          class="sort-by no_veto_votes"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
@@ -361,7 +361,7 @@ exports[`TableProposals should filter the proposals 1`] = `
           </a>
         </th>
         <th
-          class="sort-by abstain_votes"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"

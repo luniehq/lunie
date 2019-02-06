@@ -43,12 +43,12 @@ exports[`TmLiTransaction has the expected html structure 1`] = `
     <div
       class="tm-li-tx__content__block"
     >
-      <a
-        href="https://explorecosmos.network/blocks/500"
+      <router-link
+        to="[object Object]"
       >
         Block #500 
-      </a>
-      @ 00:00
+      </router-link>
+      @ Dec 31st 1969, 19:00:42
     
     </div>
   </div>
