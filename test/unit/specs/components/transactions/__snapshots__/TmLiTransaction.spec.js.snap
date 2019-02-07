@@ -43,11 +43,11 @@ exports[`TmLiTransaction has the expected html structure 1`] = `
     <div
       class="tm-li-tx__content__block"
     >
-      <router-link
+      <router-link-stub
         to="[object Object]"
       >
         Block #500 
-      </router-link>
+      </router-link-stub>
       @ Dec 31st 1969, 19:00:42
     
     </div>

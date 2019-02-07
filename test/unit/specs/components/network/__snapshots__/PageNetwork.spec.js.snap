@@ -147,7 +147,46 @@ exports[`PageNetwork has the expected html structure 1`] = `
       />
     </thead>
      
-    <tbody />
+    <tbody>
+      <tr
+        class="block data-table__row"
+      >
+        <td>
+          <router-link-stub
+            to="[object Object]"
+          >
+            #100
+          </router-link-stub>
+        </td>
+         
+        <td>
+          1200
+        </td>
+         
+        <td>
+          ABCDEFG123456HIJKLMNOP
+        </td>
+      </tr>
+      <tr
+        class="block data-table__row"
+      >
+        <td>
+          <router-link-stub
+            to="[object Object]"
+          >
+            #101
+          </router-link-stub>
+        </td>
+         
+        <td>
+          405
+        </td>
+         
+        <td>
+          ZYXCRS123456HIJKLMNOPQ
+        </td>
+      </tr>
+    </tbody>
   </table>
 </tm-page-stub>
 `;

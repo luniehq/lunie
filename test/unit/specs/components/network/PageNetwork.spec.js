@@ -59,7 +59,8 @@ describe(`PageNetwork`, () => {
       localVue,
       mocks: {
         $store
-      }
+      },
+      stubs: [`router-link`]
     })
   })
 
@@ -83,7 +84,8 @@ describe(`PageNetwork`, () => {
       localVue,
       mocks: {
         $store
-      }
+      },
+      stubs: [`router-link`]
     })
 
     expect(wrapper.vm.status).toEqual({

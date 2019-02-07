@@ -15,7 +15,8 @@ describe(`TmLiTransaction`, () => {
       slots: {
         caption: `<span>Some Caption</span>`,
         details: `<span>Some Details</span>`
-      }
+      },
+      stubs: [`router-link`]
     })
   })
 

@@ -50,11 +50,11 @@ exports[`TmLiAnyTransaction shows bank transactions 1`] = `
     <div
       class="tm-li-tx__content__block"
     >
-      <router-link
+      <router-link-stub
         to="[object Object]"
       >
         Block #3436 
-      </router-link>
+      </router-link-stub>
       @ Dec 31st 1969, 19:00:42
     
     </div>
@@ -106,11 +106,11 @@ exports[`TmLiAnyTransaction shows stake transactions 1`] = `
         <div>
           
       To 
-          <router-link
+          <router-link-stub
             to="/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
           >
             mr_mounty
-          </router-link>
+          </router-link-stub>
         </div>
       </div>
     </div>
@@ -118,11 +118,11 @@ exports[`TmLiAnyTransaction shows stake transactions 1`] = `
     <div
       class="tm-li-tx__content__block"
     >
-      <router-link
+      <router-link-stub
         to="[object Object]"
       >
         Block #568 
-      </router-link>
+      </router-link-stub>
       @ Dec 31st 1969, 19:00:42
     
     </div>
@@ -168,11 +168,11 @@ exports[`TmLiAnyTransaction shows unknown transactions 1`] = `
     <div
       class="tm-li-tx__content__block"
     >
-      <router-link
+      <router-link-stub
         to="[object Object]"
       >
         Block #3436 
-      </router-link>
+      </router-link-stub>
       @ Dec 31st 1969, 19:00:42
     
     </div>

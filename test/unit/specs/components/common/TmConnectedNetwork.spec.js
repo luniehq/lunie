@@ -80,16 +80,4 @@ describe(`TmConnectedNetwork`, () => {
     })
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
-
-  it(`shows a link to the preferences page if not on the preferences page`, () => {
-    expect(wrapper.find(`#tm-connected-network_preferences-link`)).toBeDefined()
-    wrapper.setData({
-      $route: {
-        name: `preferences`
-      }
-    })
-    expect(
-      wrapper.vm.$el.querySelector(`#tm-connected-network_preferences-link`)
-    ).toBeFalsy()
-  })
 })
