@@ -14,7 +14,7 @@ exports[`TmConnectedNetwork has a connecting state 1`] = `
     class="tm-connected-network__string tm-connected-network__string--connecting"
   >
     
-    Connecting to Test Net…
+    Connecting to …
   
   </div>
 </div>
@@ -46,7 +46,7 @@ exports[`TmConnectedNetwork has the expected html structure 1`] = `
       <span
         class="chain-id"
       >
-        Test Net
+        gaia-20k
       </span>
     </div>
   </div>
@@ -58,51 +58,7 @@ exports[`TmConnectedNetwork has the expected html structure 1`] = `
     <router-link-stub
       to="[object Object]"
     >
-      #42
-    </router-link-stub>
-  </div>
-</div>
-`;
-
-exports[`TmConnectedNetwork shows the connected node 1`] = `
-<div
-  class="tm-connected-network"
-  id="tm-connected-network"
->
-  <div
-    class="tm-connected-network__connection"
-  >
-    <div
-      class="tm-connected-network__icon"
-      id="tm-connected-network__icon"
-    >
-      <i
-        class="material-icons"
-      >
-        lock
-      </i>
-    </div>
-     
-    <div
-      class="tm-connected-network__string"
-      id="tm-connected-network__string"
-    >
-      <span
-        class="chain-id"
-      >
-        chain_id
-      </span>
-    </div>
-  </div>
-   
-  <div
-    class="tm-connected-network__string"
-    id="tm-connected-network__block"
-  >
-    <router-link-stub
-      to="[object Object]"
-    >
-      #0
+      #6,001
     </router-link-stub>
   </div>
 </div>

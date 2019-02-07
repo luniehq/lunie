@@ -1,20 +1,31 @@
+import { shallowMount, createLocalVue } from "@vue/test-utils"
 import TmConnectedNetwork from "common/TmConnectedNetwork"
-import setup from "../../../helpers/vuex-setup"
+
+const localVue = createLocalVue()
+localVue.directive(`tooltip`, () => {})
 
 describe(`TmConnectedNetwork`, () => {
-  let wrapper, store
-  const { mount } = setup()
+  let wrapper, $store
 
-  beforeEach(async () => {
-    const instance = mount(TmConnectedNetwork, {
+  beforeEach(() => {
+    $store = {
       getters: {
-        lastHeader: () => ({ chain_id: `Test Net`, height: 42 }),
-        nodeUrl: () => `https://faboNode.de`,
-        connected: () => true
+        lastHeader: {
+          chain_id: `gaia-20k`,
+          height: `6001`
+        },
+        nodeUrl: `https://faboNode.de`,
+        connected: true
       }
+    }
+
+    wrapper = shallowMount(TmConnectedNetwork, {
+      localVue,
+      mocks: {
+        $store
+      },
+      stubs: ["router-link"]
     })
-    store = instance.store
-    wrapper = instance.wrapper
   })
 
   it(`has the expected html structure`, () => {
@@ -36,7 +47,7 @@ describe(`TmConnectedNetwork`, () => {
         .find(`#tm-connected-network__string`)
         .text()
         .trim()
-    ).toBe(`Test Net`)
+    ).toBe(`gaia-20k`)
   })
 
   it(`has a block string`, () => {
@@ -45,21 +56,27 @@ describe(`TmConnectedNetwork`, () => {
         .find(`#tm-connected-network__block`)
         .text()
         .trim()
-    ).toContain(`#42`)
-  })
-
-  it(`has link to the external block explorer`, () => {
-    expect(wrapper.vm.explorerLink).toBe(
-      `https://explorecosmos.network/blocks/42`
-    )
+    ).toBe(`#6,001`)
   })
 
   it(`has a connecting state`, async () => {
-    const { wrapper } = mount(TmConnectedNetwork, {
+    $store = {
       getters: {
-        lastHeader: () => ({ chain_id: `Test Net`, height: 0 }),
-        connected: () => false
+        lastHeader: {
+          chain_id: ``,
+          height: ``
+        },
+        nodeUrl: null,
+        connected: false
       }
+    }
+
+    wrapper = shallowMount(TmConnectedNetwork, {
+      localVue,
+      mocks: {
+        $store
+      },
+      stubs: ["router-link"]
     })
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
@@ -74,24 +91,5 @@ describe(`TmConnectedNetwork`, () => {
     expect(
       wrapper.vm.$el.querySelector(`#tm-connected-network_preferences-link`)
     ).toBeFalsy()
-  })
-
-  it(`shows the connected node`, async () => {
-    const instance = mount(TmConnectedNetwork)
-    store = instance.store
-    wrapper = instance.wrapper
-
-    Object.assign(store.state.connection, {
-      mocked: false,
-      node: {
-        remoteLcdURL: `123.123.123.123`
-      },
-      lastHeader: Object.assign(store.state.connection.lastHeader, {
-        chain_id: `chain_id`
-      }),
-      connected: true
-    })
-
-    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 })

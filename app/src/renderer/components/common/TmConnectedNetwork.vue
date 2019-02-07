@@ -38,25 +38,26 @@
 <script>
 import { mapGetters } from "vuex"
 import num from "scripts/num"
+
 export default {
   name: `tm-connected-network`,
   data: () => ({
-    num: num
+    num
   }),
   computed: {
     ...mapGetters([`lastHeader`, `nodeUrl`, `connected`]),
-    networkTooltip({ connected, nodeUrl } = this) {
+    networkTooltip({ connected, nodeUrl, lastHeader } = this) {
       if (connected) {
         return `You\'re connected to the ${
-          this.lastHeader.chain_id
+          lastHeader.chain_id
         } testnet via node ${nodeUrl}.`
       }
       return `We\'re pinging nodes to try to connect you to ${
-        this.lastHeader.chain_id
+        lastHeader.chain_id
       }.`
     },
     blockHeight() {
-      return `#` + num.prettyInt(this.lastHeader.height)
+      return `#` + this.num.prettyInt(this.lastHeader.height)
     }
   },
   methods: {

@@ -35,7 +35,23 @@ describe(`PageNetwork`, () => {
             loose_tokens: 10
           }
         },
-        bondDenom: `stake`
+        bondDenom: `stake`,
+        blocks: [
+          {
+            header: {
+              height: `100`,
+              num_txs: 1200,
+              proposer_address: `ABCDEFG123456HIJKLMNOP`
+            }
+          },
+          {
+            header: {
+              height: `101`,
+              num_txs: 405,
+              proposer_address: `ZYXCRS123456HIJKLMNOPQ`
+            }
+          }
+        ]
       }
     }
 
