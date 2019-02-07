@@ -24,7 +24,7 @@ describe(`TmConnectedNetwork`, () => {
       mocks: {
         $store
       },
-      stubs: ["router-link"]
+      stubs: [`router-link`]
     })
   })
 
@@ -76,7 +76,7 @@ describe(`TmConnectedNetwork`, () => {
       mocks: {
         $store
       },
-      stubs: ["router-link"]
+      stubs: [`router-link`]
     })
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
