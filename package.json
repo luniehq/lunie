@@ -127,6 +127,7 @@
     "semver": "5.5.0",
     "shortid": "2.2.8",
     "tendermint": "3.4.0",
+    "timezone-mock": "1.0.3",
     "toml": "2.3.3",
     "user-home": "2.0.0",
     "varint": "5.0.0",
