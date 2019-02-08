@@ -10,7 +10,7 @@
         v-tooltip.top="property.tooltip"
         class="sort-by-link"
         @click="orderBy(property.value)"
-        >{{ property.title }} <i class="material-icons"> arrow_drop_up </i></a
+        >{{ property.title }}<i class="material-icons">arrow_drop_up</i></a
       >
     </th>
   </tr>
@@ -73,7 +73,7 @@ export default {
   font-size: var(--lg);
   position: relative;
   top: 7px;
-  right: 4px;
+  right: 2px;
 }
 
 .sort-by a {
