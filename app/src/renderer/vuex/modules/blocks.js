@@ -97,6 +97,9 @@ export default ({ node }) => {
       node.rpc.subscribe({ query: `tm.event = 'NewBlock'` }, event => {
         if (state.subscription === false) commit(`setSubscription`, true)
         commit(`addBlock`, event.block)
+        event.block &&
+          event.block.header &&
+          commit(`setBlockHeight`, event.block.header.height)
       })
 
       return true
