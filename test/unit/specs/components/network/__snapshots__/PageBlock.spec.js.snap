@@ -58,7 +58,9 @@ exports[`PageBlock has the expected html structure 1`] = `
         </dt>
          
         <dd>
-          Jan 1st 1970, 00:00:42
+          
+            Jan 1st 1970, 00:00:42
+          
         </dd>
       </dl>
        

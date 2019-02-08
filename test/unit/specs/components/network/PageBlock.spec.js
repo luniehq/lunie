@@ -8,40 +8,8 @@ describe(`PageBlock`, () => {
   let wrapper, $store
 
   beforeEach(() => {
-    $store = {
-      getters: {
-        connected: true,
-        blocks: [
-          {
-            header: {
-              height: `100`,
-              num_txs: 1200,
-              proposer_address: `ABCDEFG123456HIJKLMNOP`
-            }
-          },
-          {
-            header: {
-              height: `101`,
-              num_txs: 405,
-              proposer_address: `ZYXCRS123456HIJKLMNOPQ`
-            }
-          }
-        ]
-      }
-    }
-
-    wrapper = shallowMount(PageBlock, {
-      localVue,
-      mocks: {
-        $store,
-        $route: {
-          params: { height: `100` }
-        }
-      },
-      stubs: [`router-link`]
-    })
-
-    wrapper.setData({
+    const getters = {
+      connected: true,
       block: {
         block_meta: {
           block_id: {
@@ -51,6 +19,11 @@ describe(`PageBlock`, () => {
         block: {
           data: {
             txs: `txs`
+          },
+          header: {
+            height: `100`,
+            num_txs: 1200,
+            proposer_address: `ABCDEFG123456HIJKLMNOP`
           },
           evidence: {
             evidence: `evidence`
@@ -65,12 +38,21 @@ describe(`PageBlock`, () => {
             ]
           }
         }
-      },
-      header: {
-        height: `100`,
-        num_txs: 1200,
-        proposer_address: `ABCDEFG123456HIJKLMNOP`
       }
+    }
+
+    wrapper = shallowMount(PageBlock, {
+      localVue,
+      mocks: {
+        $store: {
+          getters,
+          dispatch: jest.fn()
+        },
+        $route: {
+          params: { height: `100` }
+        }
+      },
+      stubs: [`router-link`]
     })
   })
 
@@ -78,7 +60,7 @@ describe(`PageBlock`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`sets propertoes for the block table`, () => {
+  it(`sets properties for the block table`, () => {
     expect(wrapper.vm.properties).toEqual([
       {
         title: `Proposer`
