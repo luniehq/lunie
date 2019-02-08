@@ -109,7 +109,6 @@ export default {
       `connected`,
       `lastHeader`,
       `delegates`,
-      `config`,
       `pool`,
       `bondDenom`,
       `blocks`

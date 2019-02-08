@@ -119,7 +119,7 @@ export default {
     block: null
   }),
   computed: {
-    ...mapGetters([`connected`, `blocks`, `config`]),
+    ...mapGetters([`connected`, `blocks`]),
     properties() {
       return [
         {
