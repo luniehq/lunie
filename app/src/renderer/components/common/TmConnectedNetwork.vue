@@ -59,11 +59,6 @@ export default {
     blockHeight() {
       return `#` + this.num.prettyInt(this.lastHeader.height)
     }
-  },
-  methods: {
-    closeMenu() {
-      this.$store.commit(`setActiveMenu`, ``)
-    }
   }
 }
 </script>
