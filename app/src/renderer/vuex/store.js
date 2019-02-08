@@ -33,6 +33,7 @@ export default (opts = {}) => {
 
   let pending = null
   store.subscribe((mutation, state) => {
+    /* istanbul ignore next */
     pending = storeUpdateHandler(mutation, state, pending)
   })
 
