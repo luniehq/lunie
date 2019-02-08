@@ -15,11 +15,11 @@ exports[`TableValidators has the expected html structure 1`] = `
           <a
             class="sort-by-link"
           >
-            Moniker 
+            Moniker
             <i
               class="material-icons"
             >
-               arrow_drop_up 
+              arrow_drop_up
             </i>
           </a>
         </th>
@@ -29,11 +29,11 @@ exports[`TableValidators has the expected html structure 1`] = `
           <a
             class="sort-by-link"
           >
-            My Delegations 
+            My Delegations
             <i
               class="material-icons"
             >
-               arrow_drop_up 
+              arrow_drop_up
             </i>
           </a>
         </th>
@@ -43,11 +43,11 @@ exports[`TableValidators has the expected html structure 1`] = `
           <a
             class="sort-by-link"
           >
-            Rewards 
+            Rewards
             <i
               class="material-icons"
             >
-               arrow_drop_up 
+              arrow_drop_up
             </i>
           </a>
         </th>
@@ -57,11 +57,11 @@ exports[`TableValidators has the expected html structure 1`] = `
           <a
             class="sort-by-link"
           >
-            Voting Power 
+            Voting Power
             <i
               class="material-icons"
             >
-               arrow_drop_up 
+              arrow_drop_up
             </i>
           </a>
         </th>
@@ -71,11 +71,11 @@ exports[`TableValidators has the expected html structure 1`] = `
           <a
             class="sort-by-link"
           >
-            Uptime 
+            Uptime
             <i
               class="material-icons"
             >
-               arrow_drop_up 
+              arrow_drop_up
             </i>
           </a>
         </th>
@@ -85,11 +85,11 @@ exports[`TableValidators has the expected html structure 1`] = `
           <a
             class="sort-by-link"
           >
-            Commission 
+            Commission
             <i
               class="material-icons"
             >
-               arrow_drop_up 
+              arrow_drop_up
             </i>
           </a>
         </th>
@@ -99,11 +99,11 @@ exports[`TableValidators has the expected html structure 1`] = `
           <a
             class="sort-by-link"
           >
-            Slashes 
+            Slashes
             <i
               class="material-icons"
             >
-               arrow_drop_up 
+              arrow_drop_up
             </i>
           </a>
         </th>
@@ -428,11 +428,11 @@ exports[`TableValidators should filter the delegates 1`] = `
           <a
             class="sort-by-link"
           >
-            Moniker 
+            Moniker
             <i
               class="material-icons"
             >
-               arrow_drop_up 
+              arrow_drop_up
             </i>
           </a>
         </th>
@@ -442,11 +442,11 @@ exports[`TableValidators should filter the delegates 1`] = `
           <a
             class="sort-by-link"
           >
-            My Delegations 
+            My Delegations
             <i
               class="material-icons"
             >
-               arrow_drop_up 
+              arrow_drop_up
             </i>
           </a>
         </th>
@@ -456,11 +456,11 @@ exports[`TableValidators should filter the delegates 1`] = `
           <a
             class="sort-by-link"
           >
-            Rewards 
+            Rewards
             <i
               class="material-icons"
             >
-               arrow_drop_up 
+              arrow_drop_up
             </i>
           </a>
         </th>
@@ -470,11 +470,11 @@ exports[`TableValidators should filter the delegates 1`] = `
           <a
             class="sort-by-link"
           >
-            Voting Power 
+            Voting Power
             <i
               class="material-icons"
             >
-               arrow_drop_up 
+              arrow_drop_up
             </i>
           </a>
         </th>
@@ -484,11 +484,11 @@ exports[`TableValidators should filter the delegates 1`] = `
           <a
             class="sort-by-link"
           >
-            Uptime 
+            Uptime
             <i
               class="material-icons"
             >
-               arrow_drop_up 
+              arrow_drop_up
             </i>
           </a>
         </th>
@@ -498,11 +498,11 @@ exports[`TableValidators should filter the delegates 1`] = `
           <a
             class="sort-by-link"
           >
-            Commission 
+            Commission
             <i
               class="material-icons"
             >
-               arrow_drop_up 
+              arrow_drop_up
             </i>
           </a>
         </th>
@@ -512,11 +512,11 @@ exports[`TableValidators should filter the delegates 1`] = `
           <a
             class="sort-by-link"
           >
-            Slashes 
+            Slashes
             <i
               class="material-icons"
             >
-               arrow_drop_up 
+              arrow_drop_up
             </i>
           </a>
         </th>

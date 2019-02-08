@@ -15,11 +15,11 @@ exports[`TableProposals has the expected html structure 1`] = `
           <a
             class="sort-by-link"
           >
-            Title 
+            Title
             <i
               class="material-icons"
             >
-               arrow_drop_up 
+              arrow_drop_up
             </i>
           </a>
         </th>
@@ -29,11 +29,11 @@ exports[`TableProposals has the expected html structure 1`] = `
           <a
             class="sort-by-link"
           >
-            Proposal Id 
+            Proposal Id
             <i
               class="material-icons"
             >
-               arrow_drop_up 
+              arrow_drop_up
             </i>
           </a>
         </th>
@@ -43,11 +43,11 @@ exports[`TableProposals has the expected html structure 1`] = `
           <a
             class="sort-by-link"
           >
-            Yes 
+            Yes
             <i
               class="material-icons"
             >
-               arrow_drop_up 
+              arrow_drop_up
             </i>
           </a>
         </th>
@@ -57,11 +57,11 @@ exports[`TableProposals has the expected html structure 1`] = `
           <a
             class="sort-by-link"
           >
-            No 
+            No
             <i
               class="material-icons"
             >
-               arrow_drop_up 
+              arrow_drop_up
             </i>
           </a>
         </th>
@@ -71,11 +71,11 @@ exports[`TableProposals has the expected html structure 1`] = `
           <a
             class="sort-by-link"
           >
-            No with Veto 
+            No with Veto
             <i
               class="material-icons"
             >
-               arrow_drop_up 
+              arrow_drop_up
             </i>
           </a>
         </th>
@@ -85,11 +85,11 @@ exports[`TableProposals has the expected html structure 1`] = `
           <a
             class="sort-by-link"
           >
-            Abstain 
+            Abstain
             <i
               class="material-icons"
             >
-               arrow_drop_up 
+              arrow_drop_up
             </i>
           </a>
         </th>
@@ -351,11 +351,11 @@ exports[`TableProposals should filter the proposals 1`] = `
           <a
             class="sort-by-link"
           >
-            Title 
+            Title
             <i
               class="material-icons"
             >
-               arrow_drop_up 
+              arrow_drop_up
             </i>
           </a>
         </th>
@@ -365,11 +365,11 @@ exports[`TableProposals should filter the proposals 1`] = `
           <a
             class="sort-by-link"
           >
-            Proposal Id 
+            Proposal Id
             <i
               class="material-icons"
             >
-               arrow_drop_up 
+              arrow_drop_up
             </i>
           </a>
         </th>
@@ -379,11 +379,11 @@ exports[`TableProposals should filter the proposals 1`] = `
           <a
             class="sort-by-link"
           >
-            Yes 
+            Yes
             <i
               class="material-icons"
             >
-               arrow_drop_up 
+              arrow_drop_up
             </i>
           </a>
         </th>
@@ -393,11 +393,11 @@ exports[`TableProposals should filter the proposals 1`] = `
           <a
             class="sort-by-link"
           >
-            No 
+            No
             <i
               class="material-icons"
             >
-               arrow_drop_up 
+              arrow_drop_up
             </i>
           </a>
         </th>
@@ -407,11 +407,11 @@ exports[`TableProposals should filter the proposals 1`] = `
           <a
             class="sort-by-link"
           >
-            No with Veto 
+            No with Veto
             <i
               class="material-icons"
             >
-               arrow_drop_up 
+              arrow_drop_up
             </i>
           </a>
         </th>
@@ -421,11 +421,11 @@ exports[`TableProposals should filter the proposals 1`] = `
           <a
             class="sort-by-link"
           >
-            Abstain 
+            Abstain
             <i
               class="material-icons"
             >
-               arrow_drop_up 
+              arrow_drop_up
             </i>
           </a>
         </th>
