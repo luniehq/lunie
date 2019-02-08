@@ -318,7 +318,7 @@ exports[`TmLiStakeTransaction unbonding delegations should show unbondings and c
             <span
               class="tx-unbonding__time-diff"
             >
-               (liquid a few seconds ago)
+               (liquid in a few seconds)
             </span>
           </div>
         </p>

@@ -4,6 +4,8 @@ const moment = require(`moment`)
 const b32 = require(`../scripts/b32.js`)
 const { getHeight } = require(`./rpcWrapperMock.js`)
 
+const day = 86400000
+
 const botAddress = `cosmos1p6zajjw6xged056andyhn62lm7axwzyspkzjq0`
 const addresses = [
   `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
@@ -268,7 +270,7 @@ const state = {
         rate: `0`,
         max_rate: `0`,
         max_change_rate: `0`,
-        update_time: `1970-01-01T00:00:00Z`
+        update_time: new Date(Date.now()).toISOString()
       },
       prev_bonded_shares: `0`
     },
@@ -292,7 +294,7 @@ const state = {
         rate: `0`,
         max_rate: `0`,
         max_change_rate: `0`,
-        update_time: `1970-01-01T00:00:00Z`
+        update_time: new Date(Date.now()).toISOString()
       },
       prev_bonded_shares: `0`
     }
@@ -331,7 +333,7 @@ const state = {
   signing_info: {
     start_height: 2,
     index_offset: 1,
-    jailed_until: `1970-01-01T00:00:00Z`,
+    jailed_until: new Date(Date.now()).toISOString(),
     signed_blocks_counter: 1
   },
   proposals: {
@@ -352,10 +354,10 @@ const state = {
           amount: `100`
         }
       ],
-      submit_time: `2018-11-21T13:29:24.66404Z`,
-      deposit_end_time: `2018-11-23T13:29:24.66404Z`,
-      voting_start_time: `2018-11-23T13:29:24.66404Z`,
-      voting_end_time: `2018-11-25T13:29:24.66404Z`,
+      submit_time: new Date(Date.now()).toISOString(),
+      deposit_end_time: new Date(Date.now() + day * 2).toISOString(),
+      voting_start_time: new Date(Date.now() + day * 2).toISOString(),
+      voting_end_time: new Date(Date.now() + day * 4).toISOString(),
       proposal_status: `Passed`,
       final_tally_result: {
         yes: `500`,
@@ -381,10 +383,10 @@ const state = {
           amount: `200`
         }
       ],
-      submit_time: `2018-11-21T13:29:24.66404Z`,
-      deposit_end_time: `2018-11-23T13:29:24.66404Z`,
-      voting_start_time: `2018-11-23T13:29:24.66404Z`,
-      voting_end_time: `2018-11-25T13:29:24.66404Z`,
+      submit_time: new Date(Date.now()).toISOString(),
+      deposit_end_time: new Date(Date.now() + day * 2).toISOString(),
+      voting_start_time: new Date(Date.now() + day * 2).toISOString(),
+      voting_end_time: new Date(Date.now() + day * 4).toISOString(),
       proposal_status: `VotingPeriod`,
       final_tally_result: {
         yes: `0`,
@@ -410,8 +412,8 @@ const state = {
           amount: `170`
         }
       ],
-      submit_time: `2018-11-21T13:29:24.66404Z`,
-      deposit_end_time: `2018-11-23T13:29:24.66404Z`,
+      submit_time: new Date(Date.now()).toISOString(),
+      deposit_end_time: new Date(Date.now() + day * 2).toISOString(),
       voting_start_time: `0001-01-01T00:00:00Z`,
       voting_end_time: `0001-01-01T00:00:00Z`,
       proposal_status: `DepositPeriod`,
@@ -439,10 +441,10 @@ const state = {
           amount: `100`
         }
       ],
-      submit_time: `2018-11-21T13:29:24.66404Z`,
-      deposit_end_time: `2018-11-23T13:29:24.66404Z`,
-      voting_start_time: `2018-11-23T13:29:24.66404Z`,
-      voting_end_time: `2018-11-25T13:29:24.66404Z`,
+      submit_time: new Date(Date.now()).toISOString(),
+      deposit_end_time: new Date(Date.now() + day * 2).toISOString(),
+      voting_start_time: new Date(Date.now() + day * 2).toISOString(),
+      voting_end_time: new Date(Date.now() + day * 4).toISOString(),
       proposal_status: `Rejected`,
       final_tally_result: {
         yes: `10`,

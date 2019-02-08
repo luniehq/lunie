@@ -4,32 +4,32 @@ import TmNotification from "common/TmNotification"
 describe(`TmNotification.vue`, () => {
   const notifications = [
     {
-      time: 44000,
+      time: Date.now() - 1,
       body: `asdf`
     },
     {
       title: `title`,
-      time: 44000,
+      time: Date.now() - 1,
       body: `sadf`
     },
     {
       icon: `search`,
-      time: 44000,
+      time: Date.now() - 1,
       body: `sadf`
     },
     {
       type: `warning`,
-      time: 44000,
+      time: Date.now() - 1,
       body: `sadf`
     },
     {
       type: `error`,
-      time: 44000,
+      time: Date.now() - 1,
       body: `sadf`
     },
     {
       layout: `alert`,
-      time: 44000,
+      time: Date.now() - 1,
       body: `sadf`
     }
   ]

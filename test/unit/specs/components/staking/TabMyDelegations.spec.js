@@ -54,7 +54,7 @@ describe(`Component: TabMyDelegations`, () => {
           unbondingDelegations: {
             [address]: {
               creation_height: `170`,
-              min_time: new Date().toISOString()
+              min_time: new Date(Date.now()).toISOString()
             }
           },
           loaded: true
