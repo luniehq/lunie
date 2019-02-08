@@ -253,7 +253,7 @@ exports[`PageProposal has the expected html structure 1`] = `
            
           <dd>
             
-            Voting started a few seconds ago.
+            Voting started in 2 days.
           
           </dd>
         </dl>
@@ -637,7 +637,7 @@ exports[`PageProposal has the expected html structure when voting is open 1`] = 
            
           <dd>
             
-            Voting started a few seconds ago.
+            Voting started in 2 days.
           
           </dd>
         </dl>

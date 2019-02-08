@@ -24,7 +24,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 `
 
   const newVersion = `0.6.2`
-  const now = new _Date(`2018-05-25`)
+  const now = new Date(`2018-05-25`)
 
   const updated = `# Changelog
 
