@@ -92,3 +92,4 @@ export const nodeUrl = state =>
   state.connection.connected ? state.connection.nodeUrl : undefined
 
 export const blocks = state => (state.blocks ? state.blocks.blocks : [])
+export const block = state => (state.blocks ? state.blocks.block : [])

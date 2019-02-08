@@ -5,7 +5,7 @@
       <tool-bar />
     </template>
 
-    <tm-data-error v-if="!connected || !block || !header" />
+    <tm-data-error v-if="!connected || !block" />
 
     <template v-else>
       <div class="page-profile__header page-profile__section block">
@@ -13,7 +13,7 @@
           <div class="page-profile__header__info">
             <div class="page-profile__status-and-title">
               <h2 class="page-profile__title">
-                Block {{ `#` + num.prettyInt(header.height) }}
+                Block {{ `#` + num.prettyInt(block.block.header.height) }}
               </h2>
               <h3 class="page-profile__subtitle">
                 {{ block.block_meta.block_id.hash }}
@@ -25,11 +25,15 @@
         <div class="row">
           <dl class="info_dl colored_dl">
             <dt>Time</dt>
-            <dd>{{ moment(header.time).format("MMM Do YYYY, HH:mm:ss") }}</dd>
+            <dd>
+              {{
+                moment(block.block.header.time).format("MMM Do YYYY, HH:mm:ss")
+              }}
+            </dd>
           </dl>
           <dl class="info_dl colored_dl">
             <dt>Proposer</dt>
-            <dd>{{ header.proposer_address }}</dd>
+            <dd>{{ block.block.header.proposer_address }}</dd>
           </dl>
         </div>
       </div>
@@ -95,7 +99,6 @@
 
 <script>
 import moment from "moment"
-import axios from "axios"
 import { mapGetters } from "vuex"
 import num from "scripts/num"
 import PanelSort from "staking/PanelSort"
@@ -114,12 +117,10 @@ export default {
   },
   data: () => ({
     num,
-    moment,
-    header: null,
-    block: null
+    moment
   }),
   computed: {
-    ...mapGetters([`connected`, `blocks`]),
+    ...mapGetters([`connected`, `block`]),
     properties() {
       return [
         {
@@ -137,16 +138,12 @@ export default {
   watch: {
     $route: `getBlock`
   },
-  async mounted() {
-    await this.getBlock()
+  mounted() {
+    this.getBlock()
   },
   methods: {
     async getBlock() {
-      const url =
-        `http://localhost:8080/` + `blocks/` + this.$route.params.height
-      const block = await axios.get(url)
-      this.header = block.data.block.header
-      this.block = block.data
+      await this.$store.dispatch(`queryBlockInfo`, this.$route.params.height)
     }
   }
 }
