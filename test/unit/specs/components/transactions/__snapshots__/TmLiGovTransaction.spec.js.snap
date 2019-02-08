@@ -66,7 +66,7 @@ exports[`TmLiGovTransaction deposits should show deposits 1`] = `
       >
         Block #56675 
       </router-link-stub>
-      @ Dec 31st 1969, 19:00:42
+      @ Jan 1st 1970, 00:00:42
     
     </div>
   </div>
@@ -133,7 +133,7 @@ exports[`TmLiGovTransaction proposals should show proposals submission transacti
       >
         Block #56673 
       </router-link-stub>
-      @ Dec 31st 1969, 19:00:42
+      @ Jan 1st 1970, 00:00:42
     
     </div>
   </div>

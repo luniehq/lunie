@@ -35,10 +35,42 @@ describe(`PageBlock`, () => {
       mocks: {
         $store,
         $route: {
-          params: { height: `123` }
+          params: { height: `100` }
         }
       },
       stubs: [`router-link`]
+    })
+
+    wrapper.setData({
+      block: {
+        block_meta: {
+          block_id: {
+            hash: `ABCD1234`
+          }
+        },
+        block: {
+          data: {
+            txs: `txs`
+          },
+          evidence: {
+            evidence: `evidence`
+          },
+          last_commit: {
+            precommits: [
+              {
+                validator_address: `validator address`,
+                timestamp: `1990-10-19`,
+                round: 0
+              }
+            ]
+          }
+        }
+      },
+      header: {
+        height: `100`,
+        num_txs: 1200,
+        proposer_address: `ABCDEFG123456HIJKLMNOP`
+      }
     })
   })
 

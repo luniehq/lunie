@@ -55,7 +55,7 @@ exports[`TmLiAnyTransaction shows bank transactions 1`] = `
       >
         Block #3436 
       </router-link-stub>
-      @ Dec 31st 1969, 19:00:42
+      @ Jan 1st 1970, 00:00:42
     
     </div>
   </div>
@@ -123,7 +123,7 @@ exports[`TmLiAnyTransaction shows stake transactions 1`] = `
       >
         Block #568 
       </router-link-stub>
-      @ Dec 31st 1969, 19:00:42
+      @ Jan 1st 1970, 00:00:42
     
     </div>
   </div>
@@ -173,7 +173,7 @@ exports[`TmLiAnyTransaction shows unknown transactions 1`] = `
       >
         Block #3436 
       </router-link-stub>
-      @ Dec 31st 1969, 19:00:42
+      @ Jan 1st 1970, 00:00:42
     
     </div>
   </div>
