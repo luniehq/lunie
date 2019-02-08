@@ -354,6 +354,15 @@ describe(`Module: Blocks mutations`, () => {
     expect(state.blocks).toEqual([1, 2, 3])
   })
 
+  it(`should set the blocks in the state`, async () => {
+    const { setBlock } = mutations
+    const state = {}
+    setBlock(state, {})
+    expect(state.block).toEqual({})
+    setBlock(state, [1, 2, 3])
+    expect(state.block).toEqual([1, 2, 3])
+  })
+
   it(`should add a block the blocks`, async () => {
     const { addBlock } = mutations
     const state = { blocks: [] }

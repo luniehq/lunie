@@ -686,5 +686,20 @@ describe(`LCD Client`, () => {
         ]
       ])
     })
+
+    it(`gets a block based on the height`, async () => {
+      axios.mockReturnValue({})
+      await client.getBlock(`123`)
+
+      expect(axios.mock.calls).toEqual([
+        [
+          {
+            data: undefined,
+            method: `GET`,
+            url: `http://remotehost/blocks/123`
+          }
+        ]
+      ])
+    })
   })
 })
