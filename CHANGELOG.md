@@ -183,6 +183,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fixed signing issues related to https://github.com/cosmos/cosmos-sdk/issues/3336 @faboweb
 - [\#1896](https://github.com/cosmos/voyager/issues/1896) Correctly update balances if account is empty @faboweb
 - Fix actionmodal validation @faboweb
+- [\#961](https://github.com/cosmos/voyager/issues/961) Mock timezone and keep moment as it is @sabau
 
 ## [0.10.7] - 2018-10-10
 
