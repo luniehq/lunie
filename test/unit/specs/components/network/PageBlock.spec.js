@@ -5,7 +5,7 @@ const localVue = createLocalVue()
 localVue.directive(`tooltip`, () => {})
 
 describe(`PageBlock`, () => {
-  let wrapper, $store
+  let wrapper
 
   beforeEach(() => {
     const getters = {
