@@ -11,6 +11,11 @@ exports[`PanelSort has the expected html structure 1`] = `
       class="sort-by-link"
     >
       ID
+      <i
+        class="material-icons"
+      >
+        arrow_drop_up
+      </i>
     </a>
   </th>
   <th
@@ -20,6 +25,11 @@ exports[`PanelSort has the expected html structure 1`] = `
       class="sort-by-link"
     >
       AMOUNT
+      <i
+        class="material-icons"
+      >
+        arrow_drop_up
+      </i>
     </a>
   </th>
 </tr>

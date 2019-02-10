@@ -116,6 +116,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1737](https://github.com/cosmos/voyager/issues/1737) Updates to validator and proposal pages @jbibla
 - [\#1846](https://github.com/cosmos/voyager/issues/1846) Allow node endpoints to be set from the URL @faboweb
 - [\#1221](https://github.com/cosmos/voyager/issues/1221) individual linter check on GitHub @faboweb
+- [\#1922](https://github.com/cosmos/voyager/issues/1922) removed font awesome @jbibla
 
 ### Fixed
 
