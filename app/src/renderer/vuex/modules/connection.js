@@ -16,7 +16,7 @@ export default function({ node }) {
     },
     approvalRequired: null,
     mocked: node.mocked,
-    nodeUrl: config.node_lcd,
+    nodeUrl: config.stargate,
     externals: {
       node,
       config
@@ -96,7 +96,9 @@ export default function({ node }) {
       })
 
       node.rpc.subscribe(
-        { query: `tm.event = 'NewBlockHeader'` },
+        {
+          query: `tm.event = 'NewBlockHeader'`
+        },
         ({ header }) => {
           dispatch(`setLastHeader`, header)
         }

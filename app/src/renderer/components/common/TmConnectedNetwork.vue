@@ -91,6 +91,7 @@ export default {
 .tm-connected-network .chain-id {
   font-weight: 500;
   padding-right: 1rem;
+  background: none !important;
 }
 
 .tm-connected-network .exit {

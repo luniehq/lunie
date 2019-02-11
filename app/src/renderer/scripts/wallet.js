@@ -24,7 +24,6 @@ export function generateWalletFromSeed(mnemonic) {
 export function generateSeed(randomBytesFunc = standardRandomBytesFunc) {
   const randomBytes = Buffer.from(randomBytesFunc(32), `hex`)
   if (randomBytes.length !== 32) throw Error(`Entropy has incorrect length`)
-
   const mnemonic = bip39.entropyToMnemonic(randomBytes.toString(`hex`))
 
   return mnemonic
@@ -35,6 +34,7 @@ export function generateWallet(randomBytesFunc = standardRandomBytesFunc) {
   return generateWalletFromSeed(mnemonic)
 }
 
+// NOTE: this only works with a compressed public key (33 bytes)
 export function createCosmosAddress(publicKey) {
   const message = CryptoJS.enc.Hex.parse(publicKey.toString(`hex`))
   const hash = ripemd160(sha256(message)).toString()
@@ -113,7 +113,10 @@ type StdSignMsg struct {
   Memo          string      `json:"memo"`
 }
 */
-export function createSignMessage(jsonTx, sequence, account_number, chain_id) {
+export function createSignMessage(
+  jsonTx,
+  { sequence, account_number, chain_id }
+) {
   // sign bytes need amount to be an array
   const fee = {
     amount: jsonTx.fee.amount || [],
@@ -132,36 +135,43 @@ export function createSignMessage(jsonTx, sequence, account_number, chain_id) {
   )
 }
 
-// produces the signature for a message in base64
-export function createSignature(signMessage, privateKey) {
+// produces the signature for a message (returns Buffer)
+export function signWithPrivateKey(signMessage, privateKey) {
   const signHash = Buffer.from(sha256(signMessage).toString(), `hex`)
-
   const { signature } = secp256k1.sign(signHash, Buffer.from(privateKey, `hex`))
-
-  return signature.toString(`base64`)
+  return signature
 }
 
-// main function to sign a jsonTx using a wallet object
+export function createSignature(
+  signature,
+  sequence,
+  account_number,
+  publicKey
+) {
+  return {
+    signature: signature.toString(`base64`),
+    account_number,
+    sequence,
+    pub_key: {
+      type: `tendermint/PubKeySecp256k1`, // TODO: allow other keytypes
+      value: publicKey.toString(`base64`)
+    }
+  }
+}
+
+// main function to sign a jsonTx using the local keystore wallet
 // returns the complete signature object to add to the tx
-export function sign(jsonTx, wallet, { sequence, account_number, chain_id }) {
-  const signMessage = createSignMessage(
-    jsonTx,
+export function sign(jsonTx, wallet, requestMetaData) {
+  const { sequence, account_number } = requestMetaData
+  const signMessage = createSignMessage(jsonTx, requestMetaData)
+  const signatureBuffer = signWithPrivateKey(signMessage, wallet.privateKey)
+  const pubKeyBuffer = Buffer.from(wallet.publicKey, `hex`)
+  return createSignature(
+    signatureBuffer,
     sequence,
     account_number,
-    chain_id
+    pubKeyBuffer
   )
-
-  const signature = createSignature(signMessage, wallet.privateKey)
-
-  return {
-    pub_key: {
-      type: `tendermint/PubKeySecp256k1`, // TODO allow other keytypes
-      value: Buffer.from(wallet.publicKey, `hex`).toString(`base64`)
-    },
-    signature,
-    account_number: account_number,
-    sequence
-  }
 }
 
 // adds the signature object to the tx

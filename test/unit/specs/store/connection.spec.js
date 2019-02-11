@@ -6,6 +6,10 @@ const mockRootState = {
   }
 }
 
+jest.mock(`src/config.json`, () => ({
+  stargate: `https://voyager.lol`
+}))
+
 describe(`Module: Connection`, () => {
   let module, state, actions, mutations, node
 
@@ -14,7 +18,10 @@ describe(`Module: Connection`, () => {
       rpc: {
         on: jest.fn(),
         status: jest.fn(() =>
-          Promise.resolve({ sync_info: {}, node_info: {} })
+          Promise.resolve({
+            sync_info: {},
+            node_info: {}
+          })
         ),
         health: jest.fn(),
         subscribe: jest.fn()
@@ -29,7 +36,9 @@ describe(`Module: Connection`, () => {
       rpcDisconnect: jest.fn(),
       setup: jest.fn()
     }
-    module = connectionModule({ node })
+    module = connectionModule({
+      node
+    })
     state = module.state
     actions = module.actions
     mutations = module.mutations
@@ -38,7 +47,11 @@ describe(`Module: Connection`, () => {
   it(`sets the header`, () => {
     const dispatch = jest.fn()
     actions.setLastHeader(
-      { state, rootState: mockRootState, dispatch },
+      {
+        state,
+        rootState: mockRootState,
+        dispatch
+      },
       {
         height: 5,
         chain_id: `test-chain`
@@ -48,10 +61,18 @@ describe(`Module: Connection`, () => {
     expect(state.lastHeader.chain_id).toBe(`test-chain`)
   })
 
+  it(`sets nodeUrl from config.json`, () => {
+    expect(state.nodeUrl).toBe(`https://voyager.lol`)
+  })
+
   it(`checks for new validators`, async () => {
     const dispatch = jest.fn()
     actions.setLastHeader(
-      { state, rootState: mockRootState, dispatch },
+      {
+        state,
+        rootState: mockRootState,
+        dispatch
+      },
       {
         height: 5,
         chain_id: `test-chain`
@@ -71,7 +92,10 @@ describe(`Module: Connection`, () => {
 
   it(`triggers a reconnect`, () => {
     const commit = jest.fn()
-    actions.connect({ state, commit })
+    actions.connect({
+      state,
+      commit
+    })
 
     expect(commit).toHaveBeenCalledWith(`setConnected`, false)
     expect(node.rpcConnect).toHaveBeenCalled()
@@ -92,11 +116,16 @@ describe(`Module: Connection`, () => {
 
   it(`reacts to rpc disconnection with reconnect`, () => {
     node.rpc.on = jest.fn((value, cb) => {
-      cb({ message: `disconnected` })
+      cb({
+        message: `disconnected`
+      })
     })
     const commit = jest.fn()
     const dispatch = jest.fn()
-    actions.rpcSubscribe({ commit, dispatch })
+    actions.rpcSubscribe({
+      commit,
+      dispatch
+    })
 
     expect(commit).toHaveBeenCalledWith(`setConnected`, false)
     expect(dispatch).toHaveBeenCalledWith(`connect`)
@@ -104,11 +133,16 @@ describe(`Module: Connection`, () => {
 
   it(`should not reconnect on errors that do not mean disconnection`, () => {
     node.rpc.on = jest.fn((value, cb) => {
-      cb({ message: `some message` })
+      cb({
+        message: `some message`
+      })
     })
     const commit = jest.fn()
     const dispatch = jest.fn()
-    actions.rpcSubscribe({ commit, dispatch })
+    actions.rpcSubscribe({
+      commit,
+      dispatch
+    })
 
     expect(commit).not.toHaveBeenCalledWith(`setConnected`, false)
     expect(dispatch).not.toHaveBeenCalledWith(`connect`)
@@ -120,11 +154,16 @@ describe(`Module: Connection`, () => {
         sync_info: {
           latest_block_height: 42
         },
-        node_info: { network: `test-net` }
+        node_info: {
+          network: `test-net`
+        }
       })
     const commit = jest.fn()
     const dispatch = jest.fn()
-    await actions.rpcSubscribe({ commit, dispatch })
+    await actions.rpcSubscribe({
+      commit,
+      dispatch
+    })
 
     expect(dispatch).toHaveBeenCalledWith(`setLastHeader`, {
       height: 42,
@@ -146,7 +185,10 @@ describe(`Module: Connection`, () => {
     }
     const commit = jest.fn()
     const dispatch = jest.fn()
-    await actions.rpcSubscribe({ commit, dispatch })
+    await actions.rpcSubscribe({
+      commit,
+      dispatch
+    })
 
     expect(dispatch).toHaveBeenCalledWith(`setLastHeader`, {
       height: 43,
@@ -177,7 +219,10 @@ describe(`Module: Connection`, () => {
   it(`should continue polling the connection status`, async () => {
     const dispatch = jest.fn()
     jest.useFakeTimers()
-    await actions.pollRPCConnection({ state, dispatch })
+    await actions.pollRPCConnection({
+      state,
+      dispatch
+    })
     jest.runOnlyPendingTimers()
     expect(dispatch).toHaveBeenCalledWith(`pollRPCConnection`)
   })
@@ -203,14 +248,23 @@ describe(`Module: Connection`, () => {
 
   it(`should not subscribe if stopConnecting active`, () => {
     state.stopConnecting = true
-    actions.rpcSubscribe({ commit: jest.fn(), dispatch: jest.fn() })
+    actions.rpcSubscribe({
+      commit: jest.fn(),
+      dispatch: jest.fn()
+    })
     expect(node.rpc.subscribe).not.toHaveBeenCalled()
   })
 
   it(`should check if the node has positively halted`, async () => {
     jest.useFakeTimers()
     const dispatch = jest.fn()
-    actions.checkNodeHalted({ state, dispatch }, 100000)
+    actions.checkNodeHalted(
+      {
+        state,
+        dispatch
+      },
+      100000
+    )
     expect(state.nodeHaltedTimeout).toBeDefined()
     // expire the halted check before a block was received
     jest.runAllTimers()
@@ -220,7 +274,13 @@ describe(`Module: Connection`, () => {
   it(`should check if the node has negatively halted`, async () => {
     jest.useFakeTimers()
     const dispatch = jest.fn()
-    actions.checkNodeHalted({ state, dispatch }, 100000)
+    actions.checkNodeHalted(
+      {
+        state,
+        dispatch
+      },
+      100000
+    )
     state.lastHeader.height = 10
     // expire the halted check before a block was received
     jest.runAllTimers()

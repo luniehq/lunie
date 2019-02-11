@@ -80,7 +80,7 @@ describe(`Module: Delegations`, () => {
           {
             validator_addr: lcdClientMock.validators[0],
             balance: { amount: 1 },
-            min_time: new Date().toUTCString()
+            min_time: new Date(Date.now()).toUTCString()
           }
         ]),
         getRedelegations: jest.fn(
@@ -125,7 +125,7 @@ describe(`Module: Delegations`, () => {
         {
           validator_addr: lcdClientMock.validators[0],
           balance: { amount: 1 },
-          min_time: new Date().toUTCString()
+          min_time: new Date(Date.now()).toUTCString()
         }
       ])
     })
@@ -173,6 +173,7 @@ describe(`Module: Delegations`, () => {
     })
   })
 
+  // TODO: this still uses the condensed POST endpoint, which is incorrect
   it(`submits delegation transaction`, async () => {
     const stakingTransactions = {}
     stakingTransactions.delegations = [

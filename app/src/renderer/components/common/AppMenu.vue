@@ -2,7 +2,6 @@
   <menu class="app-menu">
     <div class="app-menu-main">
       <router-link
-        v-if="user.signedIn"
         id="app-menu__wallet"
         class="app-menu-item"
         to="/"
@@ -14,7 +13,6 @@
         <i class="material-icons">chevron_right</i>
       </router-link>
       <router-link
-        v-if="user.signedIn"
         id="app-menu__transactions"
         class="app-menu-item"
         to="/transactions"
@@ -46,6 +44,16 @@
         <h2 class="app-menu-title">Governance</h2>
         <i class="material-icons">chevron_right</i>
       </router-link>
+      <router-link
+        id="app-menu__network"
+        class="app-menu-item"
+        to="/network"
+        title="Network"
+        @click.native="close"
+      >
+        <h2 class="app-menu-title">Network</h2>
+        <i class="material-icons">chevron_right</i>
+      </router-link>
     </div>
     <connected-network />
   </menu>
@@ -62,9 +70,6 @@ export default {
   components: {
     ConnectedNetwork,
     TmListItem
-  },
-  computed: {
-    ...mapGetters([`user`])
   },
   data: () => ({
     ps: {}

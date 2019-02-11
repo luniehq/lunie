@@ -1,4 +1,11 @@
 import * as Sentry from "@sentry/browser"
+import Vue from "vue"
+
+export const cache = (list, element, maxSize = 1000) => {
+  if (list.length >= maxSize) list.splice(-1, 1)
+  list.unshift(element)
+  return list
+}
 
 export default ({ node }) => {
   const state = {
@@ -9,25 +16,25 @@ export default ({ node }) => {
     blockMetas: {},
     subscribedRPC: null,
     loading: false,
-    error: null
+    error: null,
+    peers: [],
+    blocks: []
   }
 
   const mutations = {
-    setBlockHeight(state, height) {
-      state.blockHeight = height
-    },
-    setSyncing(state, syncing) {
-      state.syncing = syncing
-    },
-    setBlockMetas(state, blockMetas) {
-      state.blockMetas = blockMetas
-    },
-    setSubscribedRPC(state, subscribedRPC) {
-      state.subscribedRPC = subscribedRPC
-    },
-    setSubscription(state, subscription) {
-      state.subscription = subscription
-    }
+    setLoading: (state, loading) => (state.loading = loading),
+    setError: (state, error) => (state.error = error),
+    setBlockHeight: (state, height) => (state.blockHeight = height),
+    setSyncing: (state, syncing) => (state.syncing = syncing),
+    setBlockMetas: (state, blockMetas) => (state.blockMetas = blockMetas),
+    setPeers: (state, peers) => (state.peers = peers),
+    setBlocks: (state, blocks) => (state.blocks = blocks),
+    addBlock: (state, block) =>
+      Vue.set(state, `blocks`, cache(state.blocks, block)),
+    setSubscribedRPC: (state, subscribedRPC) =>
+      (state.subscribedRPC = subscribedRPC),
+    setSubscription: (state, subscription) =>
+      (state.subscription = subscription)
   }
 
   const actions = {
@@ -42,13 +49,13 @@ export default ({ node }) => {
         if (blockMetaInfo) {
           return blockMetaInfo
         }
-        state.loading = true
+        commit(`setLoading`, true)
         const { block_metas } = await node.rpc.blockchain({
           minHeight: String(height),
           maxHeight: String(height)
         })
         blockMetaInfo = block_metas ? block_metas[0] : undefined
-        state.loading = false
+        commit(`setLoading`, false)
 
         commit(`setBlockMetas`, {
           ...state.blockMetas,
@@ -61,8 +68,8 @@ export default ({ node }) => {
           body: error.message
         })
         Sentry.captureException(error)
-        state.loading = false
-        state.error = error
+        commit(`setLoading`, false)
+        commit(`setError`, error)
         return null
       }
     },
@@ -83,13 +90,28 @@ export default ({ node }) => {
       }
 
       commit(`setSyncing`, false)
+      // New RPC endpoint in sync, reset UI block list
+      commit(`setBlocks`, [])
 
       // only subscribe if the node is not catching up anymore
-      node.rpc.subscribe({ query: `tm.event = 'NewBlock'` }, () => {
+      node.rpc.subscribe({ query: `tm.event = 'NewBlock'` }, event => {
         if (state.subscription === false) commit(`setSubscription`, true)
+        commit(`addBlock`, event.block)
+        event.block &&
+          event.block.header &&
+          commit(`setBlockHeight`, event.block.header.height)
       })
 
       return true
+    },
+    async getPeers({ state, commit }) {
+      if (!(state.connected && node.rpc)) return []
+
+      const {
+        result: { peers }
+      } = await node.rpc.net_info()
+      commit(`setPeers`, peers)
+      return peers
     }
   }
 

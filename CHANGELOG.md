@@ -63,6 +63,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1806](https://github.com/cosmos/voyager/issues/1806) CircleCI security check in dependencies with yarn audit @sabau
 - [\#1804](https://github.com/cosmos/voyager/issues/1804) Moved Voyager to the web @faboweb
 - [\#1835](https://github.com/cosmos/voyager/issues/1835) allow user to use different signing methods @faboweb
+- [\#1338](https://github.com/cosmos/voyager/issues/1338) Add Ledger Nano S support for signing transactions @fedekunze
+- [\#1869](https://github.com/cosmos/voyager/issues/1869) Added PageNetwork @jbibla
+- [\#1894](https://github.com/cosmos/voyager/issues/1894) Added favicons for all the browsers and devices @jbibla
+- [\#1865](https://github.com/cosmos/voyager/issues/1865) Added Vuex blocks module @sabau
+- [\#1928](https://github.com/cosmos/voyager/issues/1928) Added Browserstack reference to README @sabau
 
 ### Changed
 
@@ -111,6 +116,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1737](https://github.com/cosmos/voyager/issues/1737) Updates to validator and proposal pages @jbibla
 - [\#1846](https://github.com/cosmos/voyager/issues/1846) Allow node endpoints to be set from the URL @faboweb
 - [\#1221](https://github.com/cosmos/voyager/issues/1221) individual linter check on GitHub @faboweb
+- [\#1922](https://github.com/cosmos/voyager/issues/1922) removed font awesome @jbibla
 
 ### Fixed
 
@@ -178,6 +184,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fixed signing issues related to https://github.com/cosmos/cosmos-sdk/issues/3336 @faboweb
 - [\#1896](https://github.com/cosmos/voyager/issues/1896) Correctly update balances if account is empty @faboweb
 - Fix actionmodal validation @faboweb
+- [\#1934](https://github.com/cosmos/voyager/pull/1934) Fix boot process @sabau
+- [\#961](https://github.com/cosmos/voyager/issues/961) Mock timezone and keep moment as it is @sabau
+- [\#961](https://github.com/cosmos/voyager/issues/961) Mock only the `now` function from Date module @sabau
 
 ## [0.10.7] - 2018-10-10
 

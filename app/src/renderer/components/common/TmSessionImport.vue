@@ -198,18 +198,15 @@ export default {
           password: this.fields.importPassword,
           name: this.fields.importName
         })
-        this.$store.dispatch(`setErrorCollection`, {
+        await this.$store.dispatch(`signIn`, {
           account: this.fields.importName,
-          optin: this.fields.errorCollection
+          password: this.fields.importPassword,
+          sessionType: `local`,
+          errorCollection: this.fields.errorCollection
         })
-        this.$store.commit(`setModalSession`, false)
         this.$store.commit(`notify`, {
           title: `Welcome back!`,
           body: `Your account has been successfully imported.`
-        })
-        this.$store.dispatch(`signIn`, {
-          account: this.fields.importName,
-          password: this.fields.importPassword
         })
       } catch (error) {
         this.$store.commit(`notifyError`, {

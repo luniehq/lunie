@@ -9,6 +9,7 @@ export default ({ node }) => {
     loaded: false,
     error: null,
     denoms: [],
+    accountNumber: null,
     address: null,
     subscribedRPC: null
   }
@@ -30,10 +31,10 @@ export default ({ node }) => {
       Vue.set(state.balances, findBalanceIndex, balance)
     },
     setWalletAddress(state, address) {
-      Vue.set(state, `address`, address)
+      state.address = address
     },
     setAccountNumber(state, accountNumber) {
-      Vue.set(state, `accountNumber`, accountNumber)
+      state.accountNumber = accountNumber
     },
     setDenoms(state, denoms) {
       Vue.set(state, `denoms`, denoms)
@@ -41,14 +42,14 @@ export default ({ node }) => {
   }
 
   const actions = {
-    reconnected({ state, dispatch, rootState }) {
+    async reconnected({ rootState, state, dispatch }) {
       if (state.loading && state.address && rootState.user.signedIn) {
-        dispatch(`queryWalletBalances`)
+        await dispatch(`queryWalletBalances`)
       }
     },
-    initializeWallet({ commit, dispatch }, address) {
+    async initializeWallet({ commit, dispatch }, { address }) {
       commit(`setWalletAddress`, address)
-      dispatch(`queryWalletBalances`)
+      await dispatch(`queryWalletBalances`)
       dispatch(`loadDenoms`)
       dispatch(`walletSubscribe`)
     },
@@ -88,7 +89,7 @@ export default ({ node }) => {
         type: `send`,
         password,
         to: receiver,
-        amount: [{ denom, amount: amount.toString() }]
+        amount: [{ denom, amount: String(amount) }]
       })
 
       const oldBalance = state.balances.find(balance => balance.denom === denom)
@@ -97,7 +98,7 @@ export default ({ node }) => {
         amount: oldBalance.amount - amount
       })
     },
-    async loadDenoms({ commit }) {
+    loadDenoms({ commit }) {
       commit(`setDenoms`, config.denoms)
     },
     queryWalletStateAfterHeight({ rootState, dispatch }, height) {

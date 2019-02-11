@@ -75,6 +75,11 @@
         type="required"
       />
       <tm-form-msg
+        v-else-if="$v.amount.$error && !$v.amount.integer"
+        name="Amount"
+        type="integer"
+      />
+      <tm-form-msg
         v-else-if="$v.amount.$error && !$v.amount.between"
         :max="$v.amount.$params.between.max"
         :min="$v.amount.$params.between.min"

@@ -12,7 +12,7 @@ const validator = Object.assign({}, lcdClientMock.state.candidates[0], {
     rate: `0.05`,
     max_rate: `0.1`,
     max_change_rate: `0.005`,
-    update_time: `1970-01-01T00:00:00Z`
+    update_time: Date.now() - 1
   },
   prev_bonded_shares: `0`,
   voting_power: `10`,

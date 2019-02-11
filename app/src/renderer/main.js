@@ -110,8 +110,21 @@ async function _startApp(
   })
 
   router.beforeEach((to, from, next) => {
-    if (from.fullPath !== to.fullPath && !store.getters.user.pauseHistory)
+    if (from.fullPath !== to.fullPath && !store.getters.user.pauseHistory) {
       store.commit(`addHistory`, from.fullPath)
+    }
+    // redirect to session page if auth required
+    if (
+      [
+        `/staking/my-delegationg`,
+        `/wallet`,
+        `/wallet/send/:denom?`,
+        `/transactions`
+      ].includes(to.path) &&
+      !store.state.user.signedIn
+    ) {
+      store.commit(`setModalSession`, true)
+    }
     next()
   })
 

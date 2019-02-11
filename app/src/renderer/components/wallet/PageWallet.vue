@@ -97,9 +97,9 @@ export default {
       return filteredBalances.length > 0
     }
   },
-  mounted() {
+  async mounted() {
     this.updateDelegates()
-    this.queryWalletBalances()
+    await this.queryWalletBalances()
   },
   methods: {
     ...mapActions([`updateDelegates`, `queryWalletBalances`]),
