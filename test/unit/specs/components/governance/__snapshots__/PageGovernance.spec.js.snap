@@ -50,7 +50,16 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
               </i>
             </a>
              
-            <!---->
+            <router-link-stub
+              id="settings"
+              to="/preferences"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </router-link-stub>
              
             <a
               id="signOut-btn"
@@ -183,7 +192,16 @@ exports[`PageGovernance has the expected html structure 1`] = `
               </i>
             </a>
              
-            <!---->
+            <router-link-stub
+              id="settings"
+              to="/preferences"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </router-link-stub>
              
             <a
               id="signOut-btn"

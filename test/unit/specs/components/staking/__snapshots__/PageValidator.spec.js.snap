@@ -2704,7 +2704,7 @@ exports[`Staking functions onDelegation make sure we have enough atoms to delega
 </div>
 `;
 
-exports[`Staking functions onUnstake make sure there are enough atoms to unstake is not enough 1`] = `
+exports[`Staking functions onUndelegation make sure there are enough atoms to unstake is not enough 1`] = `
 <div
   class="tm-page"
   data-title="Validator"
@@ -3279,7 +3279,7 @@ exports[`Staking functions onUnstake make sure there are enough atoms to unstake
 </div>
 `;
 
-exports[`Staking functions onUnstake make sure there are enough atoms to unstake is not enough 2`] = `
+exports[`Staking functions onUndelegation make sure there are enough atoms to unstake is not enough 2`] = `
 <div
   class="tm-page"
   data-title="Validator"
