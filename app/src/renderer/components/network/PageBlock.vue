@@ -12,9 +12,7 @@
         <div class="row">
           <div class="page-profile__header__info">
             <div class="page-profile__status-and-title">
-              <h2 class="page-profile__title">
-                Block {{ `#` + num.prettyInt(block.block.header.height) }}
-              </h2>
+              <h2 class="page-profile__title">Block {{ blockTitle }}</h2>
               <h3 class="page-profile__subtitle">
                 {{ block.block_meta.block_id.hash }}
               </h3>
@@ -25,11 +23,7 @@
         <div class="row">
           <dl class="info_dl colored_dl">
             <dt>Time</dt>
-            <dd>
-              {{
-                moment(block.block.header.time).format("MMM Do YYYY, HH:mm:ss")
-              }}
-            </dd>
+            <dd>{{ blockTime }}</dd>
           </dl>
           <dl class="info_dl colored_dl">
             <dt>Proposer</dt>
@@ -72,8 +66,7 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="(precommit, index) in block.block.last_commit
-                      .precommits"
+                    v-for="(precommit, index) in blockPrecommits"
                     :key="index"
                     class="block data-table__row"
                   >
@@ -133,6 +126,15 @@ export default {
           title: `Round`
         }
       ]
+    },
+    blockTitle({ num, block } = this) {
+      return `#` + num.prettyInt(block.block.header.height)
+    },
+    blockTime({ moment, block } = this) {
+      return moment(block.block.header.time).format(`MMM Do YYYY, HH:mm:ss`)
+    },
+    blockPrecommits({ block } = this) {
+      return block.block.last_commit.precommits
     }
   },
   watch: {
@@ -148,4 +150,3 @@ export default {
   }
 }
 </script>
-<style></style>

@@ -86,7 +86,7 @@ export default [
     component: require(`./components/network/PageNetwork`).default
   },
   {
-    path: `/block/:height`,
+    path: `/blocks/:height`,
     name: `block`,
     component: require(`./components/network/PageBlock`).default
   },

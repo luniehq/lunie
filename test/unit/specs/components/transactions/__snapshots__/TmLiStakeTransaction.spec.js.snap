@@ -61,7 +61,7 @@ exports[`TmLiStakeTransaction delegations should show delegations 1`] = `
       >
         Block #568 
       </router-link-stub>
-      @ Jan 1st 1970, 00:00:42
+      @ 00:00:42
     
     </div>
   </div>
@@ -136,7 +136,7 @@ exports[`TmLiStakeTransaction redelegations should show redelegations and calcul
       >
         Block #567 
       </router-link-stub>
-      @ Jan 1st 1970, 00:00:42
+      @ 00:00:42
     
     </div>
   </div>
@@ -205,7 +205,7 @@ exports[`TmLiStakeTransaction unbonding delegations should default to ended if n
       >
         Block #569 
       </router-link-stub>
-      @ Jan 1st 1970, 00:00:42
+      @ 00:00:42
     
     </div>
   </div>
@@ -274,7 +274,7 @@ exports[`TmLiStakeTransaction unbonding delegations should show unbonding delega
       >
         Block #569 
       </router-link-stub>
-      @ Jan 1st 1970, 00:00:42
+      @ 00:00:42
     
     </div>
   </div>
@@ -347,7 +347,7 @@ exports[`TmLiStakeTransaction unbonding delegations should show unbondings and c
       >
         Block #569 
       </router-link-stub>
-      @ Jan 1st 1970, 00:00:42
+      @ 00:00:42
     
     </div>
   </div>

@@ -19,6 +19,7 @@ export default ({ node }) => {
     error: null,
     peers: [],
     blocks: [],
+    // one block, specified by height
     block: {
       block_meta: {}
     }

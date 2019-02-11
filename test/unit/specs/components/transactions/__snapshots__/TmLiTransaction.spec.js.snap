@@ -48,7 +48,7 @@ exports[`TmLiTransaction has the expected html structure 1`] = `
       >
         Block #500 
       </router-link-stub>
-      @ Jan 1st 1970, 00:00:42
+      @ 00:00:42
     
     </div>
   </div>

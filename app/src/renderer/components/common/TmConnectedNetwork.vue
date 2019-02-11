@@ -56,8 +56,8 @@ export default {
         lastHeader.chain_id
       }.`
     },
-    blockHeight() {
-      return `#` + this.num.prettyInt(this.lastHeader.height)
+    blockHeight({ num, lastHeader } = this) {
+      return `#` + num.prettyInt(lastHeader.height)
     }
   }
 }
