@@ -35,7 +35,7 @@ export default [
     path: `/staking`,
     name: `Staking`,
     component: require(`./components/staking/PageStaking`).default,
-    redirect: `/staking/my-delegations/`,
+    redirect: `/staking/validators/`,
     children: [
       {
         path: `my-delegations`,
@@ -63,7 +63,8 @@ export default [
   {
     path: `/preferences`,
     name: `preferences`,
-    component: require(`./components/common/PagePreferences`).default
+    component: require(`./components/common/PagePreferences`).default,
+    meta: { requiresAuth: true }
   },
   {
     path: `/`,

@@ -316,27 +316,19 @@ export default {
       this.showCannotModal = false
     },
     onDelegation() {
-      if (this.user.signedIn) {
-        this.action = `delegate`
-        if (this.liquidAtoms > 0) {
-          this.$refs.delegationModal.open()
-        } else {
-          this.showCannotModal = true
-        }
+      this.action = `delegate`
+      if (this.liquidAtoms > 0) {
+        this.$refs.delegationModal.open()
       } else {
-        this.$store.commit(`setModalSession`, true)
+        this.showCannotModal = true
       }
     },
     onUndelegation() {
-      if (this.user.signedIn) {
-        this.action = `undelegate`
-        if (this.myBond.isGreaterThan(0)) {
-          this.$refs.undelegationModal.open()
-        } else {
-          this.showCannotModal = true
-        }
+      this.action = `undelegate`
+      if (this.myBond.isGreaterThan(0)) {
+        this.$refs.undelegationModal.open()
       } else {
-        this.$store.commit(`setModalSession`, true)
+        this.showCannotModal = true
       }
     },
     delegationTargetOptions() {

@@ -446,13 +446,6 @@ describe(`Staking functions`, () => {
         expect(wrapper.vm.$el).toMatchSnapshot()
       })
     })
-    describe(`user hasn't logged in`, () => {
-      it(`redirects to session page`, () => {
-        store.commit(`setSignIn`, false)
-        wrapper.vm.onDelegation()
-        expect(store.commit).toHaveBeenCalledWith(`setModalSession`, true)
-      })
-    })
   })
 
   describe(`onUndelegation`, () => {
@@ -487,14 +480,6 @@ describe(`Staking functions`, () => {
 
         expect(wrapper.text()).not.toContain(`delegated to`)
         expect(wrapper.vm.$el).toMatchSnapshot()
-      })
-    })
-
-    describe(`user hasn't logged in`, () => {
-      it(`redirects to session page`, () => {
-        store.commit(`setSignIn`, false)
-        wrapper.vm.onUndelegation()
-        expect(store.commit).toHaveBeenCalledWith(`setModalSession`, true)
       })
     })
   })

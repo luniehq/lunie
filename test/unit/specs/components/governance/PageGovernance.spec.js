@@ -53,20 +53,10 @@ describe(`PageGovernance`, () => {
   })
 
   describe(`Modal onPropose`, () => {
-    describe(`user has logged in`, () => {
-      it(`displays the Propose modal on click`, () => {
-        const proposeBtn = wrapper.find(`#propose-btn`)
-        proposeBtn.trigger(`click`)
-        expect(wrapper.contains(ModalPropose)).toEqual(true)
-      })
-    })
-
-    describe(`user hasn't logged in`, () => {
-      it(`redirects to session page`, () => {
-        store.commit(`setSignIn`, false)
-        wrapper.vm.onPropose()
-        expect(store.commit).toHaveBeenCalledWith(`setModalSession`, true)
-      })
+    it(`displays the Propose modal on click`, () => {
+      const proposeBtn = wrapper.find(`#propose-btn`)
+      proposeBtn.trigger(`click`)
+      expect(wrapper.contains(ModalPropose)).toEqual(true)
     })
   })
 })

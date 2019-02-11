@@ -67,11 +67,7 @@ export default {
   },
   methods: {
     onPropose() {
-      if (this.user.signedIn) {
-        this.$refs.modalPropose.open()
-      } else {
-        this.$store.commit(`setModalSession`, true)
-      }
+      this.$refs.modalPropose.open()
     }
   }
 }

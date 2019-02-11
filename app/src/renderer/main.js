@@ -115,12 +115,7 @@ async function _startApp(
     }
     // redirect to session page if auth required
     if (
-      [
-        `/staking/my-delegationg`,
-        `/wallet`,
-        `/wallet/send/:denom?`,
-        `/transactions`
-      ].includes(to.path) &&
+      to.matched.some(record => record.meta.requiresAuth) &&
       !store.state.user.signedIn
     ) {
       store.commit(`setModalSession`, true)

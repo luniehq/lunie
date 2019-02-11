@@ -224,14 +224,6 @@ describe(`PageProposal`, () => {
       wrapper.setProps({ proposalId: `5` })
       expect(wrapper.find(`#vote-btn`).exists()).toEqual(false)
     })
-
-    describe(`user hasn't logged in`, () => {
-      it(`redirects to session page`, async () => {
-        store.commit(`setSignIn`, false)
-        await wrapper.vm.onVote()
-        expect(store.commit).toHaveBeenCalledWith(`setModalSession`, true)
-      })
-    })
   })
 
   describe(`Modal onDeposit`, () => {
@@ -290,13 +282,6 @@ describe(`PageProposal`, () => {
       expect(
         wrapper.vm.$el.querySelector(`#deposit-btn`).getAttribute(`disabled`)
       ).toBe(`disabled`)
-    })
-    describe(`user hasn't logged in`, () => {
-      it(`redirects to session page`, () => {
-        store.commit(`setSignIn`, false)
-        wrapper.vm.onDeposit()
-        expect(store.commit).toHaveBeenCalledWith(`setModalSession`, true)
-      })
     })
   })
 })
