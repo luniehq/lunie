@@ -30,7 +30,12 @@
     >
       <i class="material-icons">settings</i>
     </router-link>
-    <a v-tooltip.bottom.end="'Sign Out'" id="signOut-btn" @click="signOut">
+    <a
+      v-tooltip.bottom.end="'Sign Out'"
+      v-if="user.signedIn"
+      id="signOut-btn"
+      @click="signOut"
+    >
       <i class="material-icons">exit_to_app</i>
     </a>
   </div>

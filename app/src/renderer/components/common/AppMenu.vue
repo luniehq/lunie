@@ -4,10 +4,10 @@
       <router-link
         id="app-menu__wallet"
         class="app-menu-item"
-        to="/"
+        to="/wallet"
         exact="exact"
         title="Wallet"
-        @click.native="close"
+        @click.native="close(true)"
       >
         <h2 class="app-menu-title">Wallet</h2>
         <i class="material-icons">chevron_right</i>
@@ -18,7 +18,7 @@
         to="/transactions"
         exact="exact"
         title="Transactions"
-        @click.native="close"
+        @click.native="close(true)"
       >
         <h2 class="app-menu-title">Transactions</h2>
         <i class="material-icons">chevron_right</i>
@@ -47,7 +47,7 @@
       <router-link
         id="app-menu__network"
         class="app-menu-item"
-        to="/network"
+        to="/"
         title="Network"
         @click.native="close"
       >
@@ -77,9 +77,12 @@ export default {
     this.ps = new PerfectScrollbar(this.$el.querySelector(`.app-menu-main`))
   },
   methods: {
-    close() {
+    close(openSession) {
       this.$store.commit(`setActiveMenu`, ``)
       noScroll.off()
+      if (openSession) {
+        this.$store.commit(`setModalSessionState`, `welcome`)
+      }
     }
   }
 }

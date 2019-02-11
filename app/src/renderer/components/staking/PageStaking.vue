@@ -1,7 +1,7 @@
 <template>
   <tm-page
     :tabs="tabs"
-    :refresh="updateDelegates"
+    :refresh="getDelegates"
     class="staking"
     data-title="Staking"
   >
@@ -41,7 +41,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions([`updateDelegates`])
+    ...mapActions([`getDelegates`])
   }
 }
 </script>

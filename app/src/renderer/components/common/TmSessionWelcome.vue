@@ -2,9 +2,10 @@
   <div id="session-welcome" class="tm-session">
     <div class="tm-session-container">
       <div class="tm-session-header">
-        <a>&nbsp;</a>
-        <div class="tm-session-title">Sign in to Cosmos Voyager</div>
         <a @click="help"><i class="material-icons">help_outline</i></a>
+
+        <div class="tm-session-title">Sign in to Cosmos Voyager</div>
+        <a @click="closeSession"><i class="material-icons">close</i></a>
       </div>
       <div class="tm-session-main">
         <li-session
@@ -45,6 +46,7 @@ import { mapGetters } from "vuex"
 import PerfectScrollbar from "perfect-scrollbar"
 import FundraiserWarning from "common/FundraiserWarning"
 import LiSession from "common/TmLiSession"
+import { lastPage } from "../../vuex/getters"
 export default {
   name: `tm-session-welcome`,
   components: {
@@ -52,7 +54,7 @@ export default {
     LiSession
   },
   computed: {
-    ...mapGetters([`config`, `user`]),
+    ...mapGetters([`config`, `lastPage`, `user`]),
     accountExists() {
       return this.user.accounts.length > 0
     }
@@ -66,6 +68,19 @@ export default {
     },
     setState(value) {
       this.$store.commit(`setModalSessionState`, value)
+    },
+    closeSession() {
+      this.$store.commit(`setModalSession`, false)
+      this.$store.commit(`setModalSessionState`, false)
+      this.back()
+    },
+    back() {
+      if (!this.lastPage) return
+      this.$store.commit(`pauseHistory`, true)
+      this.$router.push(this.lastPage, () => {
+        this.$store.commit(`popHistory`)
+        this.$store.commit(`pauseHistory`, false)
+      })
     }
   }
 }

@@ -69,10 +69,9 @@ export default ({}) => {
       // reload available accounts as the reconnect could be a result of a switch from a mocked connection with mocked accounts
       await dispatch(`loadAccounts`)
     },
-    async showInitialScreen({ state, dispatch, commit }) {
+    async showInitialScreen({ state, dispatch }) {
       dispatch(`resetSessionData`)
       await dispatch(`loadAccounts`)
-      commit(`setModalSessionState`, `welcome`)
       state.externals.track(`pageview`, { dl: `/` })
     },
     async loadAccounts({ commit, state }) {
@@ -137,7 +136,6 @@ export default ({}) => {
     signOut({ state, commit, dispatch }) {
       state.account = null
       commit(`setSignIn`, false)
-      commit(`setModalSession`, true)
       commit(`setLedgerConnection`, false)
       commit(`setCosmosAppVersion`, {})
       dispatch(`showInitialScreen`)
