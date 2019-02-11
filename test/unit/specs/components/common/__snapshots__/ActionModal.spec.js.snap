@@ -250,7 +250,7 @@ exports[`ActionModal has the expected html structure when user hasn't logged in 
     class="action-modal-form"
   >
     <p>
-      You need to sign in to action modal 
+      You need to sign in to action modal
     </p>
   </div>
    
