@@ -14,7 +14,7 @@ make devtools
 # Build Gaia for each platform.
 
 export GOOS
-platforms="darwin linux windows"
+platforms=${PLATFORM:="darwin linux windows"}
 
 for GOOS in $platforms; do
   echo ###############################################################################
