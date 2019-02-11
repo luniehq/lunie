@@ -361,30 +361,6 @@ textarea.tm-field {
 }
 
 /* ============================================================================== */
-.tm-datetime {
-  position: relative;
-}
-
-.tm-datetime:after {
-  align-items: center;
-  background: var(--app-bg, #fff);
-  border: 1px solid var(--input-bc, #ccc);
-  box-sizing: border-box;
-  color: var(--bright);
-  content: "\f073";
-  display: flex;
-  font-family: FontAwesome;
-  height: 2rem;
-  justify-content: center;
-  pointer-events: none;
-  position: absolute;
-  right: 0;
-  text-align: center;
-  top: 0;
-  width: 2rem;
-}
-
-/* ============================================================================== */
 .input-group-addon {
   background: var(--input-bg, #fff);
   border: 1px solid var(--input-bc, #ccc);

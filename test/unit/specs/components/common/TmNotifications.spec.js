@@ -7,11 +7,11 @@ describe(`TmNotifications.vue`, () => {
     const notifications = [
       {
         body: `asdf`,
-        time: 44000
+        time: Date.now() - 1
       },
       {
         body: `sadf`,
-        time: 44000
+        time: Date.now() - 1
       }
     ]
     wrapper = mount(TmNotifications, {

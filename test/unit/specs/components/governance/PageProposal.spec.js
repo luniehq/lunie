@@ -108,7 +108,7 @@ describe(`PageProposal`, () => {
 
   it(`should return the time that voting started`, () => {
     expect(wrapper.vm.votingStartedAgo).toEqual(
-      moment(new Date(proposal.voting_start_block)).fromNow()
+      moment(new Date(proposal.voting_start_time)).fromNow()
     )
   })
 
