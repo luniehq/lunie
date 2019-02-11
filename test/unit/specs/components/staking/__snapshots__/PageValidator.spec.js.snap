@@ -1621,46 +1621,7 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
 
 exports[`PageValidator shows that a validator is revoked 1`] = `"This validator has been jailed and is not currently validating"`;
 
-exports[`delegationTargetOptions always shows wallet in the first position 1`] = `
-Array [
-  Object {
-    "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-    "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
-    "maximum": 1337,
-    "value": 0,
-  },
-]
-`;
-
-exports[`delegationTargetOptions hides displayed validator if bonded 1`] = `
-Array [
-  Object {
-    "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-    "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
-    "maximum": 1337,
-    "value": 0,
-  },
-]
-`;
-
-exports[`delegationTargetOptions shows bonded validators for redelegation options 1`] = `
-Array [
-  Object {
-    "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-    "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
-    "maximum": 1337,
-    "value": 0,
-  },
-  Object {
-    "address": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
-    "key": "good_greg - cosmosvaladdr…3p4mqpjyrm5ctplpn3au",
-    "maximum": 5,
-    "value": 1,
-  },
-]
-`;
-
-exports[`onDelegation make sure we have enough atoms to delegate is not enough 1`] = `
+exports[`Staking functions onDelegation make sure we have enough atoms to delegate is not enough 1`] = `
 <div
   class="tm-page"
   data-title="Validator"
@@ -2235,7 +2196,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
 </div>
 `;
 
-exports[`onDelegation make sure we have enough atoms to delegate is not enough 2`] = `
+exports[`Staking functions onDelegation make sure we have enough atoms to delegate is not enough 2`] = `
 <div
   class="tm-page"
   data-title="Validator"
@@ -2743,7 +2704,7 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
 </div>
 `;
 
-exports[`onDelegation onUnstake make sure there are enough atoms to unstake is not enough 1`] = `
+exports[`Staking functions onUnstake make sure there are enough atoms to unstake is not enough 1`] = `
 <div
   class="tm-page"
   data-title="Validator"
@@ -3318,7 +3279,7 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
 </div>
 `;
 
-exports[`onDelegation onUnstake make sure there are enough atoms to unstake is not enough 2`] = `
+exports[`Staking functions onUnstake make sure there are enough atoms to unstake is not enough 2`] = `
 <div
   class="tm-page"
   data-title="Validator"
@@ -3824,4 +3785,43 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
     <!---->
   </main>
 </div>
+`;
+
+exports[`delegationTargetOptions always shows wallet in the first position 1`] = `
+Array [
+  Object {
+    "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+    "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
+    "maximum": 1337,
+    "value": 0,
+  },
+]
+`;
+
+exports[`delegationTargetOptions hides displayed validator if bonded 1`] = `
+Array [
+  Object {
+    "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+    "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
+    "maximum": 1337,
+    "value": 0,
+  },
+]
+`;
+
+exports[`delegationTargetOptions shows bonded validators for redelegation options 1`] = `
+Array [
+  Object {
+    "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+    "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
+    "maximum": 1337,
+    "value": 0,
+  },
+  Object {
+    "address": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
+    "key": "good_greg - cosmosvaladdr…3p4mqpjyrm5ctplpn3au",
+    "maximum": 5,
+    "value": 1,
+  },
+]
 `;

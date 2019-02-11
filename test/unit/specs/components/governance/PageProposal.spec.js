@@ -224,6 +224,14 @@ describe(`PageProposal`, () => {
       wrapper.setProps({ proposalId: `5` })
       expect(wrapper.find(`#vote-btn`).exists()).toEqual(false)
     })
+
+    describe(`user hasn't logged in`, () => {
+      it(`redirects to session page`, async () => {
+        store.commit(`setSignIn`, false)
+        await wrapper.vm.onVote()
+        expect(store.commit).toHaveBeenCalledWith(`setModalSession`, true)
+      })
+    })
   })
 
   describe(`Modal onDeposit`, () => {
@@ -258,29 +266,36 @@ describe(`PageProposal`, () => {
     it(`disables deposits if the proposal is not active`, () => {
       expect(wrapper.find(`#deposit-btn`).exists()).toEqual(false)
     })
-  })
 
-  it(`disables interaction buttons if not connected`, () => {
-    store.commit(`setConnected`, false)
+    it(`disables interaction buttons if not connected`, () => {
+      store.commit(`setConnected`, false)
 
-    store.commit(
-      `setProposal`,
-      Object.assign({}, proposal, {
-        proposal_status: `VotingPeriod`
+      store.commit(
+        `setProposal`,
+        Object.assign({}, proposal, {
+          proposal_status: `VotingPeriod`
+        })
+      )
+      expect(
+        wrapper.vm.$el.querySelector(`#vote-btn`).getAttribute(`disabled`)
+      ).toBe(`disabled`)
+
+      store.commit(
+        `setProposal`,
+        Object.assign({}, proposal, {
+          proposal_status: `DepositPeriod`
+        })
+      )
+      expect(
+        wrapper.vm.$el.querySelector(`#deposit-btn`).getAttribute(`disabled`)
+      ).toBe(`disabled`)
+    })
+    describe(`user hasn't logged in`, () => {
+      it(`redirects to session page`, () => {
+        store.commit(`setSignIn`, false)
+        wrapper.vm.onDeposit()
+        expect(store.commit).toHaveBeenCalledWith(`setModalSession`, true)
       })
-    )
-    expect(
-      wrapper.vm.$el.querySelector(`#vote-btn`).getAttribute(`disabled`)
-    ).toBe(`disabled`)
-
-    store.commit(
-      `setProposal`,
-      Object.assign({}, proposal, {
-        proposal_status: `DepositPeriod`
-      })
-    )
-    expect(
-      wrapper.vm.$el.querySelector(`#deposit-btn`).getAttribute(`disabled`)
-    ).toBe(`disabled`)
+    })
   })
 })

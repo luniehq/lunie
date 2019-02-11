@@ -374,7 +374,7 @@ describe(`delegationTargetOptions`, () => {
   })
 })
 
-describe(`onDelegation`, () => {
+describe(`Staking functions`, () => {
   let wrapper, store
 
   beforeEach(() => {
@@ -420,29 +420,38 @@ describe(`onDelegation`, () => {
     wrapper.vm.$refs.delegationModal = { open: () => {} }
   })
 
-  describe(`make sure we have enough atoms to delegate`, () => {
-    it(`is enough`, () => {
-      wrapper.find(`#delegation-btn`).trigger(`click`)
-      expect(wrapper.contains(DelegationModal)).toEqual(true)
-    })
-
-    it(`is not enough`, () => {
-      store.commit(`updateWalletBalance`, {
-        denom: `STAKE`,
-        amount: 0
+  describe(`onDelegation`, () => {
+    describe(`make sure we have enough atoms to delegate`, () => {
+      it(`is enough`, () => {
+        wrapper.find(`#delegation-btn`).trigger(`click`)
+        expect(wrapper.contains(DelegationModal)).toEqual(true)
       })
 
-      wrapper.find(`#delegation-btn`).trigger(`click`)
-      expect(wrapper.vm.showCannotModal).toBe(true)
-      expect(wrapper.contains(TmModal)).toEqual(true)
-      expect(wrapper.text()).toContain(`delegate.`) // ...no atoms to delegate.
-      expect(wrapper.vm.$el).toMatchSnapshot()
+      it(`is not enough`, () => {
+        store.commit(`updateWalletBalance`, {
+          denom: `STAKE`,
+          amount: 0
+        })
 
-      wrapper.find(`#no-atoms-modal__btn`).trigger(`click`)
-      expect(wrapper.vm.showCannotModal).toBe(false)
-      expect(wrapper.contains(TmModal)).toEqual(false)
-      expect(wrapper.text()).not.toContain(`delegate.`) // ...no atoms to delegate.
-      expect(wrapper.vm.$el).toMatchSnapshot()
+        wrapper.find(`#delegation-btn`).trigger(`click`)
+        expect(wrapper.vm.showCannotModal).toBe(true)
+        expect(wrapper.contains(TmModal)).toEqual(true)
+        expect(wrapper.text()).toContain(`delegate.`) // ...no atoms to delegate.
+        expect(wrapper.vm.$el).toMatchSnapshot()
+
+        wrapper.find(`#no-atoms-modal__btn`).trigger(`click`)
+        expect(wrapper.vm.showCannotModal).toBe(false)
+        expect(wrapper.contains(TmModal)).toEqual(false)
+        expect(wrapper.text()).not.toContain(`delegate.`) // ...no atoms to delegate.
+        expect(wrapper.vm.$el).toMatchSnapshot()
+      })
+    })
+    describe(`user hasn't logged in`, () => {
+      it(`redirects to session page`, () => {
+        store.commit(`setSignIn`, false)
+        wrapper.vm.onDelegation()
+        expect(store.commit).toHaveBeenCalledWith(`setModalSession`, true)
+      })
     })
   })
 
@@ -474,6 +483,14 @@ describe(`onDelegation`, () => {
 
         expect(wrapper.text()).not.toContain(`delegated to`)
         expect(wrapper.vm.$el).toMatchSnapshot()
+      })
+    })
+
+    describe(`user hasn't logged in`, () => {
+      it(`redirects to session page`, () => {
+        store.commit(`setSignIn`, false)
+        wrapper.vm.onDelegation()
+        expect(store.commit).toHaveBeenCalledWith(`setModalSession`, true)
       })
     })
   })
