@@ -30,10 +30,21 @@ describe(`PageStaking`, () => {
     })
 
     it(`if user hasn't signed in`, async () => {
-      // somehow we need to wait one tick for the total atoms to update
-      store.commit(`setSignIn`, false)
-      await wrapper.vm.$nextTick()
+      const instance = mount(PageStaking, {
+        doBefore: ({ store }) => {
+          store.commit(`setSignIn`, false)
+        },
+        stubs: {
+          "tm-balance": true
+        }
+      })
+      wrapper = instance.wrapper
+      store = instance.store
       expect(wrapper.vm.$el).toMatchSnapshot()
+      expect(wrapper.vm.tabs).not.toContain({
+        displayName: `My Delegations`,
+        pathName: `My Delegations`
+      })
     })
   })
 

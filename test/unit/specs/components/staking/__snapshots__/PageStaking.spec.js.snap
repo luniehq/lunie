@@ -147,6 +147,7 @@ exports[`PageStaking has the expected html structure if user hasn't signed in 1`
           >
             <a
               class="refresh-button"
+              disabled="disabled"
             >
               <i
                 class="material-icons"

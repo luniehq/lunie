@@ -493,7 +493,7 @@ describe(`Staking functions`, () => {
     describe(`user hasn't logged in`, () => {
       it(`redirects to session page`, () => {
         store.commit(`setSignIn`, false)
-        wrapper.vm.onDelegation()
+        wrapper.vm.onUndelegation()
         expect(store.commit).toHaveBeenCalledWith(`setModalSession`, true)
       })
     })
