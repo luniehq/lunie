@@ -17,6 +17,11 @@ exports[`TabValidators has the expected html structure 1`] = `
               class="sort-by-link"
             >
               Moniker
+              <i
+                class="material-icons"
+              >
+                arrow_drop_up
+              </i>
             </a>
           </th>
           <th
@@ -26,6 +31,11 @@ exports[`TabValidators has the expected html structure 1`] = `
               class="sort-by-link"
             >
               My Delegations
+              <i
+                class="material-icons"
+              >
+                arrow_drop_up
+              </i>
             </a>
           </th>
           <th
@@ -35,6 +45,11 @@ exports[`TabValidators has the expected html structure 1`] = `
               class="sort-by-link"
             >
               Rewards
+              <i
+                class="material-icons"
+              >
+                arrow_drop_up
+              </i>
             </a>
           </th>
           <th
@@ -44,6 +59,11 @@ exports[`TabValidators has the expected html structure 1`] = `
               class="sort-by-link"
             >
               Voting Power
+              <i
+                class="material-icons"
+              >
+                arrow_drop_up
+              </i>
             </a>
           </th>
           <th
@@ -53,6 +73,11 @@ exports[`TabValidators has the expected html structure 1`] = `
               class="sort-by-link"
             >
               Uptime
+              <i
+                class="material-icons"
+              >
+                arrow_drop_up
+              </i>
             </a>
           </th>
           <th
@@ -62,6 +87,11 @@ exports[`TabValidators has the expected html structure 1`] = `
               class="sort-by-link"
             >
               Commission
+              <i
+                class="material-icons"
+              >
+                arrow_drop_up
+              </i>
             </a>
           </th>
           <th
@@ -71,6 +101,11 @@ exports[`TabValidators has the expected html structure 1`] = `
               class="sort-by-link"
             >
               Slashes
+              <i
+                class="material-icons"
+              >
+                arrow_drop_up
+              </i>
             </a>
           </th>
         </tr>
@@ -403,6 +438,11 @@ exports[`TabValidators shows a message if still loading 1`] = `
               class="sort-by-link"
             >
               Moniker
+              <i
+                class="material-icons"
+              >
+                arrow_drop_up
+              </i>
             </a>
           </th>
           <th
@@ -412,6 +452,11 @@ exports[`TabValidators shows a message if still loading 1`] = `
               class="sort-by-link"
             >
               My Delegations
+              <i
+                class="material-icons"
+              >
+                arrow_drop_up
+              </i>
             </a>
           </th>
           <th
@@ -421,6 +466,11 @@ exports[`TabValidators shows a message if still loading 1`] = `
               class="sort-by-link"
             >
               Rewards
+              <i
+                class="material-icons"
+              >
+                arrow_drop_up
+              </i>
             </a>
           </th>
           <th
@@ -430,6 +480,11 @@ exports[`TabValidators shows a message if still loading 1`] = `
               class="sort-by-link"
             >
               Voting Power
+              <i
+                class="material-icons"
+              >
+                arrow_drop_up
+              </i>
             </a>
           </th>
           <th
@@ -439,6 +494,11 @@ exports[`TabValidators shows a message if still loading 1`] = `
               class="sort-by-link"
             >
               Uptime
+              <i
+                class="material-icons"
+              >
+                arrow_drop_up
+              </i>
             </a>
           </th>
           <th
@@ -448,6 +508,11 @@ exports[`TabValidators shows a message if still loading 1`] = `
               class="sort-by-link"
             >
               Commission
+              <i
+                class="material-icons"
+              >
+                arrow_drop_up
+              </i>
             </a>
           </th>
           <th
@@ -457,6 +522,11 @@ exports[`TabValidators shows a message if still loading 1`] = `
               class="sort-by-link"
             >
               Slashes
+              <i
+                class="material-icons"
+              >
+                arrow_drop_up
+              </i>
             </a>
           </th>
         </tr>
