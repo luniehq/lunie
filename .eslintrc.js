@@ -33,6 +33,11 @@ module.exports = {
         destructuring: "all",
         ignoreReadBeforeAssign: false
       }
-    ]
+    ],
+
+    // To be discussed
+    "no-empty-pattern": "off",
+    "no-useless-escape": "off",
+    "no-console": "off"
   }
 }
