@@ -1,11 +1,5 @@
 import connectionModule from "renderer/vuex/modules/connection.js"
 
-const mockRootState = {
-  user: {
-    signedIn: true
-  }
-}
-
 jest.mock(`src/config.json`, () => ({
   stargate: `https://voyager.lol`
 }))
@@ -49,7 +43,7 @@ describe(`Module: Connection`, () => {
     actions.setLastHeader(
       {
         state,
-        rootState: mockRootState,
+        rootState: { user: { signedIn: true } },
         dispatch
       },
       {
@@ -70,7 +64,7 @@ describe(`Module: Connection`, () => {
     actions.setLastHeader(
       {
         state,
-        rootState: mockRootState,
+        rootState: { user: { signedIn: true } },
         dispatch
       },
       {
@@ -123,6 +117,7 @@ describe(`Module: Connection`, () => {
     const commit = jest.fn()
     const dispatch = jest.fn()
     actions.rpcSubscribe({
+      rootState: { user: { signedIn: true } },
       commit,
       dispatch
     })
@@ -140,6 +135,7 @@ describe(`Module: Connection`, () => {
     const commit = jest.fn()
     const dispatch = jest.fn()
     actions.rpcSubscribe({
+      rootState: { user: { signedIn: true } },
       commit,
       dispatch
     })
@@ -161,6 +157,7 @@ describe(`Module: Connection`, () => {
     const commit = jest.fn()
     const dispatch = jest.fn()
     await actions.rpcSubscribe({
+      rootState: { user: { signedIn: true } },
       commit,
       dispatch
     })
@@ -186,6 +183,7 @@ describe(`Module: Connection`, () => {
     const commit = jest.fn()
     const dispatch = jest.fn()
     await actions.rpcSubscribe({
+      rootState: { user: { signedIn: true } },
       commit,
       dispatch
     })
@@ -205,6 +203,7 @@ describe(`Module: Connection`, () => {
     const dispatch = jest.fn()
     actions
       .rpcSubscribe({
+        rootState: { user: { signedIn: true } },
         state,
         commit: jest.fn(),
         dispatch

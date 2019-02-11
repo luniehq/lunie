@@ -1758,17 +1758,6 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 1
           <div
             class="tool-bar"
           >
-            <a
-              class="back"
-              disabled="disabled"
-            >
-              <i
-                class="material-icons"
-              >
-                arrow_back
-              </i>
-            </a>
-             
             <!---->
              
             <!---->
@@ -2344,17 +2333,6 @@ exports[`onDelegation make sure we have enough atoms to delegate is not enough 2
           <div
             class="tool-bar"
           >
-            <a
-              class="back"
-              disabled="disabled"
-            >
-              <i
-                class="material-icons"
-              >
-                arrow_back
-              </i>
-            </a>
-             
             <!---->
              
             <!---->
@@ -2863,17 +2841,6 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
           <div
             class="tool-bar"
           >
-            <a
-              class="back"
-              disabled="disabled"
-            >
-              <i
-                class="material-icons"
-              >
-                arrow_back
-              </i>
-            </a>
-             
             <!---->
              
             <!---->
@@ -3449,17 +3416,6 @@ exports[`onDelegation onUnstake make sure there are enough atoms to unstake is n
           <div
             class="tool-bar"
           >
-            <a
-              class="back"
-              disabled="disabled"
-            >
-              <i
-                class="material-icons"
-              >
-                arrow_back
-              </i>
-            </a>
-             
             <!---->
              
             <!---->

@@ -174,6 +174,7 @@ describe(`PageProposal`, () => {
       const instance = mount(PageProposal, {
         localVue,
         doBefore: ({ store }) => {
+          store.commit(`setSignIn`, true)
           store.commit(`setConnected`, true)
           store.commit(`setProposal`, proposal)
           store.commit(`setProposalTally`, {

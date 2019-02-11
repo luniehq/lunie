@@ -382,6 +382,7 @@ describe(`onDelegation`, () => {
 
     const instance = mount(PageValidator, {
       doBefore: ({ store }) => {
+        store.commit(`setSignIn`, true)
         store.commit(`setCommittedDelegation`, {
           candidateId: lcdClientMock.validators[0],
           value: 100
