@@ -8,7 +8,7 @@ Thank you! 🚀
 
 ---
 
-For contibutor:
+For contributor:
 
 - [ ] Added entries in `CHANGELOG.md` with issue # and GitHub username
 - [ ] Reviewed `Files changed` in the github PR explorer
