@@ -68,6 +68,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1894](https://github.com/cosmos/voyager/issues/1894) Added favicons for all the browsers and devices @jbibla
 - [\#1865](https://github.com/cosmos/voyager/issues/1865) Added Vuex blocks module @sabau
 - [\#1928](https://github.com/cosmos/voyager/issues/1928) Added Browserstack reference to README @sabau
+- [\#1918](https://github.com/cosmos/voyager/issues/1918) added message to log in when sending transactions and the user is not authenticated @fedekunze
 
 ### Changed
 
@@ -118,6 +119,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1221](https://github.com/cosmos/voyager/issues/1221) individual linter check on GitHub @faboweb
 - [\#1922](https://github.com/cosmos/voyager/issues/1922) removed font awesome @jbibla
 - [\#1916](https://github.com/cosmos/voyager/pull/1916) redirect to session modal when user hasn't logged in @fedekunze
+- [\#1836](https://github.com/cosmos/voyager/issues/1836) remove back button @fedekunze
 
 ### Fixed
 
