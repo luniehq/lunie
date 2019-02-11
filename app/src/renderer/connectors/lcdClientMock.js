@@ -54,28 +54,9 @@ const state = {
             {
               type: `cosmos-sdk/Send`,
               value: {
-                inputs: [
-                  {
-                    coins: [
-                      {
-                        denom: `jbcoins`,
-                        amount: `1234`
-                      }
-                    ],
-                    address: addresses[1]
-                  }
-                ],
-                outputs: [
-                  {
-                    coins: [
-                      {
-                        denom: `jbcoins`,
-                        amount: `1234`
-                      }
-                    ],
-                    address: addresses[0]
-                  }
-                ]
+                from_address: addresses[1],
+                to_address: addresses[0],
+                amount: [{ denom: `jbcoins`, amount: `1234` }]
               }
             }
           ]
@@ -91,28 +72,9 @@ const state = {
             {
               type: `cosmos-sdk/Send`,
               value: {
-                inputs: [
-                  {
-                    coins: [
-                      {
-                        denom: `fabocoins`,
-                        amount: `1234`
-                      }
-                    ],
-                    address: addresses[0]
-                  }
-                ],
-                outputs: [
-                  {
-                    coins: [
-                      {
-                        denom: `fabocoins`,
-                        amount: `1234`
-                      }
-                    ],
-                    address: addresses[1]
-                  }
-                ]
+                from_address: addresses[0],
+                to_address: addresses[1],
+                amount: [{ denom: `fabocoins`, amount: `1234` }]
               }
             }
           ]
@@ -652,17 +614,11 @@ module.exports = {
     // filter the txs for the ones for this account
     return state.txs.filter(tx => {
       const type = tx.tx.value.msg[0].type
-      if (type === `cosmos-sdk/Send`) {
-        return (
-          tx.tx.value.msg[0].value.inputs.find(
-            input => input.address === address
-          ) ||
-          tx.tx.value.msg[0].value.outputs.find(
-            output => output.address === address
-          )
-        )
-      }
-      return false // only return bank transactions
+      return (
+        type === `cosmos-sdk/Send` &&
+        (tx.tx.value.msg[0].value.from_address === address ||
+          tx.tx.value.msg[0].value.to_address === address)
+      )
     })
   },
   async tx(hash) {
@@ -1382,8 +1338,8 @@ function makeHash() {
   return b32.encode(text)
 }
 
-function send(to, from, req) {
-  const fromAccount = state.accounts[from]
+function send(to_address, from_address, req) {
+  const fromAccount = state.accounts[from_address]
   if (fromAccount == null) {
     return txResult(1, `Nonexistent account`)
   }
@@ -1418,9 +1374,9 @@ function send(to, from, req) {
   }
 
   // update receiver balances
-  let receiverAccount = state.accounts[to]
+  let receiverAccount = state.accounts[to_address]
   if (!receiverAccount) {
-    receiverAccount = state.accounts[to] = {
+    receiverAccount = state.accounts[to_address] = {
       coins: [],
       sequence: `0`
     }
@@ -1438,23 +1394,14 @@ function send(to, from, req) {
 
   // log tx
   storeTx(`cosmos-sdk/Send`, {
-    inputs: [
-      {
-        coins: req.amount,
-        address: from
-      }
-    ],
-    outputs: [
-      {
-        coins: req.amount,
-        address: to
-      }
-    ]
+    from_address,
+    to_address,
+    amount: req.amount
   })
 
   // if receiver is bot address, send money back
-  if (to === botAddress) {
-    send(from, botAddress, {
+  if (to_address === botAddress) {
+    send(from_address, botAddress, {
       amount: req.amount,
       sequence: state.accounts[botAddress].sequence
     })

@@ -10,28 +10,9 @@ export default [
           {
             type: `cosmos-sdk/Send`,
             value: {
-              inputs: [
-                {
-                  coins: [
-                    {
-                      denom: `jbcoins`,
-                      amount: `1234`
-                    }
-                  ],
-                  address: `tb1da6xsetjg9jxgun9wdesexv05j`
-                }
-              ],
-              outputs: [
-                {
-                  coins: [
-                    {
-                      denom: `jbcoins`,
-                      amount: `1234`
-                    }
-                  ],
-                  address: `tb1d4u5zerywfjhxuc9nudvw`
-                }
-              ]
+              from_address: `tb1da6xsetjg9jxgun9wdesexv05j`,
+              amount: [{ denom: `jbcoins`, amount: `1234` }],
+              to_address: `tb1d4u5zerywfjhxuc9nudvw`
             }
           }
         ],
@@ -88,28 +69,9 @@ export default [
           {
             type: `cosmos-sdk/Send`,
             value: {
-              inputs: [
-                {
-                  coins: [
-                    {
-                      denom: `jbcoins`,
-                      amount: `1234`
-                    }
-                  ],
-                  address: `tb1d4u5zerywfjhxuc9nudvw`
-                }
-              ],
-              outputs: [
-                {
-                  coins: [
-                    {
-                      denom: `jbcoins`,
-                      amount: `1234`
-                    }
-                  ],
-                  address: `tb1da6xsetjg9jxgun9wdesexv05j`
-                }
-              ]
+              from_address: `tb1d4u5zerywfjhxuc9nudvw`,
+              amount: [{ denom: `jbcoins`, amount: `1234` }],
+              to_address: `tb1da6xsetjg9jxgun9wdesexv05j`
             }
           }
         ],
@@ -166,44 +128,13 @@ export default [
           {
             type: `cosmos-sdk/Send`,
             value: {
-              inputs: [
-                {
-                  coins: [
-                    {
-                      denom: `jbcoins`,
-                      amount: `1234`
-                    },
-                    {
-                      denom: `fabocoins`,
-                      amount: `1`
-                    },
-                    {
-                      denom: `mattcoins`,
-                      amount: `42`
-                    }
-                  ],
-                  address: `tb1da6xsetjg9jxgun9wdesexv05j`
-                }
+              amount: [
+                { denom: `jbcoins`, amount: `1234` },
+                { denom: `fabocoins`, amount: `1` },
+                { denom: `mattcoins`, amount: `42` }
               ],
-              outputs: [
-                {
-                  coins: [
-                    {
-                      denom: `jbcoins`,
-                      amount: `1234`
-                    },
-                    {
-                      denom: `fabocoins`,
-                      amount: `1`
-                    },
-                    {
-                      denom: `mattcoins`,
-                      amount: `42`
-                    }
-                  ],
-                  address: `tb1da6xsetjg9jxgun9wdesexv05j`
-                }
-              ]
+              from_address: `tb1da6xsetjg9jxgun9wdesexv05j`,
+              to_address: `tb1da6xsetjg9jxgun9wdesexv05j`
             }
           }
         ],

@@ -25,7 +25,7 @@ describe(`TmLiBankTransaction`, () => {
   it(`should show outgoing transactions`, () => {
     wrapper.setProps({
       transaction: transactions[1],
-      address: transactions[1].tx.value.msg[0].value.inputs[0].address
+      address: transactions[1].tx.value.msg[0].value.from_address
     })
     expect(wrapper.vm.sent).toBe(true)
     expect(wrapper.vm.$el).toMatchSnapshot()

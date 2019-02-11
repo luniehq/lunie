@@ -5,8 +5,8 @@
     :block="transaction.height"
     ><template v-if="sent">
       <div slot="caption">
-        Sent&nbsp;<b>{{ coinsSent.amount }}</b
-        ><span>&nbsp;{{ coinsSent.denom }}</span>
+        Sent&nbsp;<b>{{ coins.amount }}</b
+        ><span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
       </div>
       <span slot="details"
         ><template v-if="sentSelf"
@@ -17,8 +17,8 @@
       > </template
     ><template v-else>
       <div slot="caption">
-        Received&nbsp;<b>{{ coinsReceived.amount }}</b
-        ><span>&nbsp;{{ coinsReceived.denom }}</span>
+        Received&nbsp;<b>{{ coins.amount }}</b
+        ><span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
       </div>
       <span slot="details">From {{ sender }}</span>
     </template>
@@ -56,15 +56,11 @@ export default {
     sender() {
       return this.tx.from_address
     },
-    coinsSent() {
-      return this.tx.amount[0].denom
+    coins() {
+      return this.tx.amount[0]
     },
     receiver() {
       return this.tx.to_address
-    },
-    coinsReceived() {
-      debugger
-      return this.tx.amount[0].denom
     },
     color() {
       if (this.sent) return colors.bank.sent

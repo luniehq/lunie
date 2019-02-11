@@ -72,8 +72,8 @@ describe(`Module: Send`, () => {
       ),
       postTx: jest.fn(() =>
         Promise.resolve({
-          check_tx: { code: 0 },
-          deliver_tx: { code: 0 }
+          height: 1,
+          txhash: `h`
         })
       )
     }
