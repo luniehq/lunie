@@ -86,6 +86,17 @@ exports[`PageStaking has the expected html structure if user has signed in 1`] =
             to="[object Object]"
           >
             
+      My Delegations
+    
+          </router-link-stub>
+        </div>
+        <div
+          class="tab"
+        >
+          <router-link-stub
+            to="[object Object]"
+          >
+            
       Validators
     
           </router-link-stub>
