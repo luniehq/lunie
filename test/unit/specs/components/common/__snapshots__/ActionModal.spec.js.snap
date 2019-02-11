@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ActionModal has the expected html structure 1`] = `
+exports[`ActionModal has the expected html structure when user has logged in with ledger 1`] = `
 <div
   class="action-modal"
   name="slide-fade"
@@ -12,10 +12,13 @@ exports[`ActionModal has the expected html structure 1`] = `
       class="icon action-modal-atom"
       src="~assets/images/cosmos-logo.png"
     />
+     
     <span
       class="action-modal-title"
     >
-      Action Modal
+      
+        Action Modal
+      
     </span>
      
     <div
@@ -63,6 +66,206 @@ exports[`ActionModal has the expected html structure 1`] = `
         <tm-btn-stub
           color="primary"
           value="Submit"
+        />
+      </div>
+    </tm-form-group-stub>
+     
+    <!---->
+  </div>
+</div>
+`;
+
+exports[`ActionModal has the expected html structure when user has logged in with ledger and is on sign step 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+>
+  <div
+    class="action-modal-header"
+  >
+    <img
+      class="icon action-modal-atom"
+      src="~assets/images/cosmos-logo.png"
+    />
+     
+    <span
+      class="action-modal-title"
+    >
+      
+        Action Modal
+      
+    </span>
+     
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons"
+      >
+        close
+      </i>
+    </div>
+  </div>
+   
+  <div
+    class="action-modal-form"
+  >
+    <hardware-state-stub
+      icon="usb"
+      value="Please unlock the Cosmos app on your Ledger Nano S"
+    />
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tm-form-group-stub
+      class="action-modal-group"
+    >
+      <div
+        class="action-modal-footer"
+      >
+        <tm-btn-stub
+          color="primary"
+          value="Sign"
+        />
+      </div>
+    </tm-form-group-stub>
+     
+    <!---->
+  </div>
+</div>
+`;
+
+exports[`ActionModal has the expected html structure when user has logged in with local keystore 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+>
+  <div
+    class="action-modal-header"
+  >
+    <img
+      class="icon action-modal-atom"
+      src="~assets/images/cosmos-logo.png"
+    />
+     
+    <span
+      class="action-modal-title"
+    >
+      
+        Action Modal
+      
+    </span>
+     
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons"
+      >
+        close
+      </i>
+    </div>
+  </div>
+   
+  <div
+    class="action-modal-form"
+  >
+     
+    <!---->
+     
+    <tm-form-group-stub
+      class="action-modal-group"
+      fieldid="password"
+      fieldlabel="Password"
+    >
+      <tm-field-stub
+        id="password"
+        placeholder="Password"
+        type="password"
+      />
+       
+      <!---->
+    </tm-form-group-stub>
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tm-form-group-stub
+      class="action-modal-group"
+    >
+      <div
+        class="action-modal-footer"
+      >
+        <tm-btn-stub
+          color="primary"
+          value="Submit"
+        />
+      </div>
+    </tm-form-group-stub>
+     
+    <!---->
+  </div>
+</div>
+`;
+
+exports[`ActionModal has the expected html structure when user hasn't logged in 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+>
+  <div
+    class="action-modal-header"
+  >
+    <img
+      class="icon action-modal-atom"
+      src="~assets/images/cosmos-logo.png"
+    />
+     
+    <span
+      class="action-modal-title"
+    >
+      
+        Sign in required
+      
+    </span>
+     
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons"
+      >
+        close
+      </i>
+    </div>
+  </div>
+   
+  <div
+    class="action-modal-form"
+  >
+    <p>
+      You need to sign in to action modal 
+    </p>
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tm-form-group-stub
+      class="action-modal-group"
+    >
+      <div
+        class="action-modal-footer"
+      >
+        <tm-btn-stub
+          color="primary"
+          value="Go to Sign In"
         />
       </div>
     </tm-form-group-stub>

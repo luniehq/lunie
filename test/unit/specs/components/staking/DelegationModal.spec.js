@@ -49,6 +49,7 @@ describe(`DelegationModal`, () => {
     store.state.wallet.address = `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
     store.state.delegates.delegates = lcdClientMock.state.candidates
     store.commit(`setStakingParameters`, stakingParameters.parameters)
+    store.commit(`setSignIn`, true)
 
     wrapper.vm.$refs.actionModal.open()
   })

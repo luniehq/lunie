@@ -14,7 +14,8 @@ describe(`ActionModal`, () => {
       dispatch: jest.fn(),
       getters: {
         connected: true,
-        ledger: { isConnected: false }
+        ledger: { isConnected: false },
+        user: { signedIn: true }
       }
     }
 
@@ -32,10 +33,31 @@ describe(`ActionModal`, () => {
     wrapper.vm.open()
   })
 
-  it(`has the expected html structure`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
-  })
+  describe(`has the expected html structure`, () => {
+    describe(`when user has logged in`, () => {
+      it(`with local keystore`, () => {
+        expect(wrapper.vm.$el).toMatchSnapshot()
+      })
 
+      it(`with ledger`, async () => {
+        wrapper.vm.ledger.isConnected = true
+        await wrapper.vm.$nextTick()
+        expect(wrapper.vm.$el).toMatchSnapshot()
+      })
+
+      it(`with ledger and is on sign step`, async () => {
+        wrapper.vm.ledger.isConnected = true
+        wrapper.vm.step = `sign`
+        await wrapper.vm.$nextTick()
+        expect(wrapper.vm.$el).toMatchSnapshot()
+      })
+    })
+    it(`when user hasn't logged in`, async () => {
+      wrapper.vm.user.signedIn = false
+      await wrapper.vm.$nextTick()
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
+  })
   it(`should default to submissionError being null`, () => {
     expect(wrapper.vm.submissionError).toBe(null)
   })
