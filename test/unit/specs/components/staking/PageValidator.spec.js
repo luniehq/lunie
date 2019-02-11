@@ -455,8 +455,12 @@ describe(`Staking functions`, () => {
     })
   })
 
-  describe(`onUnstake`, () => {
+  describe(`onUndelegation`, () => {
     describe(`make sure there are enough atoms to unstake`, () => {
+      beforeEach(() => {
+        store.commit(`setSignIn`, true)
+      })
+
       it(`is enough`, () => {
         store.commit(`setCommittedDelegation`, {
           candidateId: lcdClientMock.validators[0],

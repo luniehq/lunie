@@ -240,6 +240,7 @@ describe(`PageProposal`, () => {
       const instance = mount(PageProposal, {
         localVue,
         doBefore: ({ store }) => {
+          store.commit(`setSignIn`, true)
           store.commit(`setConnected`, true)
           store.commit(`setStakingParameters`, stakingParameters.parameters)
           store.commit(`setProposal`, proposal)
