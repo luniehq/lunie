@@ -60,11 +60,6 @@ import TmDataLoading from "common/TmDataLoading"
 export default {
   name: `tab-staking-parameters`,
   components: {
-    TmBtn,
-    TmListItem,
-    TmPage,
-    TmPart,
-    ToolBar,
     TmDataConnecting,
     TmDataLoading
   },

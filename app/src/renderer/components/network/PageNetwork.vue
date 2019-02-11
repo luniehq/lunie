@@ -68,7 +68,6 @@
 <script>
 import moment from "moment"
 import { mapGetters } from "vuex"
-import TmBtn from "common/TmBtn"
 import ToolBar from "common/ToolBar"
 import TmBalance from "common/TmBalance"
 import TmDataError from "common/TmDataError"
@@ -77,7 +76,6 @@ export default {
   name: `page-network`,
   components: {
     TmBalance,
-    TmBtn,
     ToolBar,
     TmDataError,
     TmPage

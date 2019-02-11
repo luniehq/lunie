@@ -62,12 +62,10 @@
 import PerfectScrollbar from "perfect-scrollbar"
 import noScroll from "no-scroll"
 import ConnectedNetwork from "common/TmConnectedNetwork"
-import TmListItem from "common/TmListItem"
 export default {
   name: `app-menu`,
   components: {
-    ConnectedNetwork,
-    TmListItem
+    ConnectedNetwork
   },
   data: () => ({
     ps: {}

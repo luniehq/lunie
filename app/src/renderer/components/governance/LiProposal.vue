@@ -3,14 +3,14 @@
     <td class="data-table__row__info">
       <div class="data-table__row__info__container">
         <span
-          v-tooltip.top="status.message"
           v-if="proposal.proposal_status === `Passed`"
+          v-tooltip.top="status.message"
           :class="status.color"
           class="data-table__row__info__container__status material-icons"
           >checkmark</span
         ><span
-          v-tooltip.top="status.message"
           v-else
+          v-tooltip.top="status.message"
           :class="status.color"
           class="data-table__row__info__container__status"
         />

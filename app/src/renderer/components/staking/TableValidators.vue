@@ -10,8 +10,8 @@
       <tbody>
         <li-validator
           v-for="i in sortedFilteredEnrichedDelegates"
-          :disabled="!userCanDelegate"
           :key="i.id"
+          :disabled="!userCanDelegate"
           :validator="i"
         />
       </tbody>
@@ -35,9 +35,7 @@ export default {
   components: {
     LiValidator,
     DataEmptySearch,
-    ModalSearch,
-    PanelSort,
-    ToolBar
+    PanelSort
   },
   props: {
     validators: {

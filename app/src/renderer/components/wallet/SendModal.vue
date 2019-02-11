@@ -33,9 +33,9 @@
       field-label="Send To"
     >
       <tm-field
-        v-focus
         id="send-address"
         v-model.number="$v.address.$model"
+        v-focus
         type="text"
         placeholder="Address"
       />
@@ -110,17 +110,9 @@ import ActionModal from "common/ActionModal"
 export default {
   name: `send-modal`,
   components: {
-    TmBalance,
-    TmBtn,
     TmField,
-    FieldAddon,
-    TmFieldGroup,
     TmFormGroup,
     TmFormMsg,
-    TmFormStruct,
-    TmPage,
-    TmPart,
-    ToolBar,
     ActionModal
   },
   data: () => ({
