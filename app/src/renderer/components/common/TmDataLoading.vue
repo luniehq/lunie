@@ -11,10 +11,10 @@
 </template>
 
 <script>
-import TmDataMsg from "./TmDataMsg.vue"
+// TODO use TmDataMsg as this is a dupe
 export default {
   name: `tm-data-loading`,
-  components: { TmDataMsg },
+  components: {},
   props: {
     title: {
       type: String,

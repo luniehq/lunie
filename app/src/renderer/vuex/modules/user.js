@@ -115,16 +115,17 @@ export default ({}) => {
       { account, address, sessionType = `local`, errorCollection = false }
     ) {
       let accountAddress
-      switch (sessionType) {
-        case `ledger`:
-          accountAddress = address
-          break
-        default:
-          // local keyStore
-          state.account = account // TODO: why do we have state.account and state.accounts ??
-          const keys = await state.externals.loadKeys()
-          accountAddress = keys.find(({ name }) => name === account).address
+      // with a ledger we receive the address
+      if (sessionType === `ledger`) {
+        accountAddress = address
       }
+      // with a local key, we receive the name of the local key and need to resolve the address
+      else if (sessionType === `local`) {
+        state.account = account // TODO: why do we have state.account and state.accounts ??
+        const keys = await state.externals.loadKeys()
+        accountAddress = keys.find(({ name }) => name === account).address
+      }
+
       commit(`setSignIn`, true)
       dispatch(`setErrorCollection`, {
         account: accountAddress,
