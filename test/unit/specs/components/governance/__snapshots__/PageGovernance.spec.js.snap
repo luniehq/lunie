@@ -70,6 +70,8 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
                 exit_to_app
               </i>
             </a>
+             
+            <!---->
           </div>
         </div>
       </div>
@@ -212,6 +214,8 @@ exports[`PageGovernance has the expected html structure 1`] = `
                 exit_to_app
               </i>
             </a>
+             
+            <!---->
           </div>
         </div>
       </div>

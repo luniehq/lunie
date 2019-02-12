@@ -132,6 +132,8 @@ exports[`PageValidator has the expected html structure if user has signed in 1`]
                 exit_to_app
               </i>
             </a>
+             
+            <!---->
           </div>
         </div>
       </div>
@@ -576,15 +578,23 @@ exports[`PageValidator has the expected html structure if user hasn't signed in 
              
             <!---->
              
-            <a
-              id="signOut-btn"
+            <!---->
+             
+            <button
+              class="tm-btn"
+              id="signIn-btn"
             >
-              <i
-                class="material-icons"
+              <span
+                class="tm-btn__container"
               >
-                exit_to_app
-              </i>
-            </a>
+                <!---->
+                <span
+                  class="tm-btn__value"
+                >
+                  Sign In
+                </span>
+              </span>
+            </button>
           </div>
         </div>
       </div>
@@ -1093,6 +1103,8 @@ exports[`PageValidator shows a default avatar 1`] = `
                 exit_to_app
               </i>
             </a>
+             
+            <!---->
           </div>
         </div>
       </div>
@@ -1539,15 +1551,23 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
              
             <!---->
              
-            <a
-              id="signOut-btn"
+            <!---->
+             
+            <button
+              class="tm-btn"
+              id="signIn-btn"
             >
-              <i
-                class="material-icons"
+              <span
+                class="tm-btn__container"
               >
-                exit_to_app
-              </i>
-            </a>
+                <!---->
+                <span
+                  class="tm-btn__value"
+                >
+                  Sign In
+                </span>
+              </span>
+            </button>
           </div>
         </div>
       </div>
@@ -1753,6 +1773,8 @@ exports[`Staking functions onDelegation make sure we have enough atoms to delega
                 exit_to_app
               </i>
             </a>
+             
+            <!---->
           </div>
         </div>
       </div>
@@ -2328,6 +2350,8 @@ exports[`Staking functions onDelegation make sure we have enough atoms to delega
                 exit_to_app
               </i>
             </a>
+             
+            <!---->
           </div>
         </div>
       </div>
@@ -2836,6 +2860,8 @@ exports[`Staking functions onUndelegation make sure there are enough atoms to un
                 exit_to_app
               </i>
             </a>
+             
+            <!---->
           </div>
         </div>
       </div>
@@ -3411,6 +3437,8 @@ exports[`Staking functions onUndelegation make sure there are enough atoms to un
                 exit_to_app
               </i>
             </a>
+             
+            <!---->
           </div>
         </div>
       </div>

@@ -105,20 +105,7 @@ describe(`Module: User`, () => {
       commit,
       dispatch
     })
-
-    expect(commit).toHaveBeenCalledWith(`setModalSessionState`, `welcome`)
     expect(dispatch).toHaveBeenCalledWith(`resetSessionData`)
-  })
-
-  it(`should show a welcome screen if there are no accounts yet`, async () => {
-    const commit = jest.fn()
-    await actions.showInitialScreen({
-      state,
-      commit,
-      dispatch: jest.fn()
-    })
-
-    expect(commit).toHaveBeenCalledWith(`setModalSessionState`, `welcome`)
   })
 
   it(`should test if the login works`, async () => {
@@ -218,7 +205,6 @@ describe(`Module: User`, () => {
     const dispatch = jest.fn()
     await actions.signOut({ state, commit, dispatch })
 
-    expect(commit).toHaveBeenCalledWith(`setModalSession`, true)
     expect(dispatch).toHaveBeenCalledWith(`showInitialScreen`)
     expect(state.account).toBeNull()
     expect(state.signedIn).toBeFalsy()
