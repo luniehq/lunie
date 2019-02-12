@@ -39,9 +39,10 @@ export default {
     }
     if (this.user.signedIn) {
       this.tabs.unshift(myDelegations)
-    } else if (Object.is(this.tabs[0], myDelegations) && !this.user.signedIn) {
-      this.tabs.shift()
     }
+    // else if (Object.is(this.tabs[0], myDelegations) && !this.user.signedIn) {
+    //   this.tabs.shift()
+    // }
   },
   methods: {
     ...mapActions([`getDelegates`])

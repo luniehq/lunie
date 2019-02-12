@@ -203,9 +203,10 @@ describe(`Module: User`, () => {
     const dispatch = jest.fn()
     await actions.signOut({ state, commit, dispatch })
 
-    expect(dispatch).toHaveBeenCalledWith(`showInitialScreen`)
+    expect(dispatch).toHaveBeenCalledWith(`resetSessionData`)
+    expect(dispatch).toHaveBeenCalledWith(`addHistory`, `/`)
+    expect(commit).toHaveBeenCalledWith(`setSignIn`, false)
     expect(state.account).toBeNull()
-    expect(state.signedIn).toBeFalsy()
   })
 
   it(`should enable error collection`, async () => {

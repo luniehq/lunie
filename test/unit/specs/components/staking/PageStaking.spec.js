@@ -24,7 +24,7 @@ describe(`PageStaking`, () => {
   })
 
   describe(`has the expected html structure`, () => {
-    it(`if user has signed in`, async () => {
+    it(`if user has signed in`, () => {
       expect(wrapper.vm.$el).toMatchSnapshot()
       expect(wrapper.vm.tabs[0]).toMatchObject({
         displayName: `My Delegations`,
@@ -32,7 +32,7 @@ describe(`PageStaking`, () => {
       })
     })
 
-    it(`if user hasn't signed in`, async () => {
+    it(`if user hasn't signed in`, () => {
       const instance = mount(PageStaking, {
         doBefore: ({ store }) => {
           store.commit(`setSignIn`, false)
@@ -49,13 +49,5 @@ describe(`PageStaking`, () => {
         pathName: `My Delegations`
       })
     })
-  })
-
-  it(`should refresh candidates on click`, () => {
-    wrapper
-      .findAll(`.tool-bar i`)
-      .at(1)
-      .trigger(`click`)
-    expect(store.dispatch).toHaveBeenCalledWith(`updateDelegates`)
   })
 })

@@ -135,10 +135,11 @@ export default ({}) => {
     },
     signOut({ state, commit, dispatch }) {
       state.account = null
-      commit(`setSignIn`, false)
       commit(`setLedgerConnection`, false)
       commit(`setCosmosAppVersion`, {})
-      dispatch(`showInitialScreen`)
+      dispatch(`resetSessionData`)
+      dispatch(`addHistory`, `/`)
+      commit(`setSignIn`, false)
     },
     resetSessionData({ commit, state }) {
       commit(`setAtoms`, 0)
