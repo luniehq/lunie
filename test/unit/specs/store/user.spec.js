@@ -97,12 +97,10 @@ describe(`Module: User`, () => {
   })
 
   it(`should prepare the signin`, async () => {
-    const commit = jest.fn()
     const dispatch = jest.fn()
     state.accounts = [{}]
     await actions.showInitialScreen({
       state,
-      commit,
       dispatch
     })
     expect(dispatch).toHaveBeenCalledWith(`resetSessionData`)

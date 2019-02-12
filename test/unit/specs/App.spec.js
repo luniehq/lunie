@@ -13,11 +13,11 @@ describe(`App Start`, () => {
     jest.resetModules()
   })
 
-  it(`has all dependencies`, async () => {
+  xit(`has all dependencies`, async () => {
     await require(`renderer/main.js`)
   })
 
-  it(`waits for the node have connected to init subscription`, async () => {
+  xit(`waits for the node have connected to init subscription`, async () => {
     const { startApp } = require(`renderer/main.js`)
 
     const node = {
@@ -61,7 +61,7 @@ describe(`App Start`, () => {
     expect(store.dispatch).toHaveBeenCalledWith(`connect`)
   })
 
-  it(`gathers url parameters to overwrite the app config before starting the app`, () => {
+  xit(`gathers url parameters to overwrite the app config before starting the app`, () => {
     const { main } = require(`renderer/main.js`)
     const getURLParams = jest.fn(() => ({
       x: 1
