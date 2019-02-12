@@ -11,7 +11,7 @@
         v-if="sort"
         class="sort-by-link"
         @click="orderBy(property.value)"
-        >{{ property.title }}</a
+        >{{ property.title }}<i class="material-icons">arrow_drop_up</i></a
       >
       <span v-else>{{ property.title }}</span>
     </th>
@@ -67,25 +67,27 @@ export default {
   font-size: var(--sm);
 }
 
+.sort-by.active a {
+  color: var(--tertiary);
+}
+
+.sort-by i {
+  font-size: var(--lg);
+  position: relative;
+  top: 7px;
+  right: 2px;
+}
+
 .sort-by a {
   cursor: pointer;
   user-select: none;
 }
-
-.sort-by:after {
-  content: "\f0d8";
-  color: var(--link);
-  display: inline-block;
-  font-family: FontAwesome;
-  padding-left: 4px;
-}
-
-.sort-by.asc:after {
+.sort-by.asc i {
   color: var(--tertiary);
 }
 
-.sort-by.desc:after {
-  content: "\f0d7";
+.sort-by.desc i {
+  transform: rotate(180deg);
   color: var(--tertiary);
 }
 </style>

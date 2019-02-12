@@ -5,7 +5,7 @@ describe(`TmLiTransaction`, () => {
   let wrapper
   const propsData = {
     color: `#FFFFFF`,
-    time: 1003442,
+    time: 0,
     block: 500
   }
 

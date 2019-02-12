@@ -16,6 +16,11 @@ exports[`TableProposals has the expected html structure 1`] = `
             class="sort-by-link"
           >
             Title
+            <i
+              class="material-icons"
+            >
+              arrow_drop_up
+            </i>
           </a>
         </th>
         <th
@@ -25,6 +30,11 @@ exports[`TableProposals has the expected html structure 1`] = `
             class="sort-by-link"
           >
             Proposal Id
+            <i
+              class="material-icons"
+            >
+              arrow_drop_up
+            </i>
           </a>
         </th>
         <th
@@ -34,6 +44,11 @@ exports[`TableProposals has the expected html structure 1`] = `
             class="sort-by-link"
           >
             Yes
+            <i
+              class="material-icons"
+            >
+              arrow_drop_up
+            </i>
           </a>
         </th>
         <th
@@ -43,6 +58,11 @@ exports[`TableProposals has the expected html structure 1`] = `
             class="sort-by-link"
           >
             No
+            <i
+              class="material-icons"
+            >
+              arrow_drop_up
+            </i>
           </a>
         </th>
         <th
@@ -52,6 +72,11 @@ exports[`TableProposals has the expected html structure 1`] = `
             class="sort-by-link"
           >
             No with Veto
+            <i
+              class="material-icons"
+            >
+              arrow_drop_up
+            </i>
           </a>
         </th>
         <th
@@ -61,6 +86,11 @@ exports[`TableProposals has the expected html structure 1`] = `
             class="sort-by-link"
           >
             Abstain
+            <i
+              class="material-icons"
+            >
+              arrow_drop_up
+            </i>
           </a>
         </th>
       </tr>
@@ -322,6 +352,11 @@ exports[`TableProposals should filter the proposals 1`] = `
             class="sort-by-link"
           >
             Title
+            <i
+              class="material-icons"
+            >
+              arrow_drop_up
+            </i>
           </a>
         </th>
         <th
@@ -331,6 +366,11 @@ exports[`TableProposals should filter the proposals 1`] = `
             class="sort-by-link"
           >
             Proposal Id
+            <i
+              class="material-icons"
+            >
+              arrow_drop_up
+            </i>
           </a>
         </th>
         <th
@@ -340,6 +380,11 @@ exports[`TableProposals should filter the proposals 1`] = `
             class="sort-by-link"
           >
             Yes
+            <i
+              class="material-icons"
+            >
+              arrow_drop_up
+            </i>
           </a>
         </th>
         <th
@@ -349,6 +394,11 @@ exports[`TableProposals should filter the proposals 1`] = `
             class="sort-by-link"
           >
             No
+            <i
+              class="material-icons"
+            >
+              arrow_drop_up
+            </i>
           </a>
         </th>
         <th
@@ -358,6 +408,11 @@ exports[`TableProposals should filter the proposals 1`] = `
             class="sort-by-link"
           >
             No with Veto
+            <i
+              class="material-icons"
+            >
+              arrow_drop_up
+            </i>
           </a>
         </th>
         <th
@@ -367,6 +422,11 @@ exports[`TableProposals should filter the proposals 1`] = `
             class="sort-by-link"
           >
             Abstain
+            <i
+              class="material-icons"
+            >
+              arrow_drop_up
+            </i>
           </a>
         </th>
       </tr>

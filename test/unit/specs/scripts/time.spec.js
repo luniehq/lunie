@@ -36,7 +36,7 @@ describe(`time helper`, () => {
         time.getUnbondingTime(unbondingTransaction, {
           [address]: {
             creation_height: `170`,
-            min_time: new Date().toISOString()
+            min_time: new Date(Date.now()).toISOString()
           }
         })
       ).toBe(42000)

@@ -7,10 +7,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [0.10003.3] - 2019-01-16
-
-## [0.10003.2] - 2019-01-16
-
 ### Added
 
 - Contract tests for `keys` endpoints in lcdClient. @NodeGuy
@@ -117,6 +113,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1737](https://github.com/cosmos/voyager/issues/1737) Updates to validator and proposal pages @jbibla
 - [\#1846](https://github.com/cosmos/voyager/issues/1846) Allow node endpoints to be set from the URL @faboweb
 - [\#1221](https://github.com/cosmos/voyager/issues/1221) individual linter check on GitHub @faboweb
+- [\#1855](https://github.com/cosmos/voyager/issues/1855) skip gaia build if already built that hash @sabau
+- [\#1922](https://github.com/cosmos/voyager/issues/1922) removed font awesome @jbibla
 
 ### Fixed
 
@@ -184,7 +182,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fixed signing issues related to https://github.com/cosmos/cosmos-sdk/issues/3336 @faboweb
 - [\#1896](https://github.com/cosmos/voyager/issues/1896) Correctly update balances if account is empty @faboweb
 - Fix actionmodal validation @faboweb
+- [\#1934](https://github.com/cosmos/voyager/pull/1934) Fix boot process @sabau
 - [\#961](https://github.com/cosmos/voyager/issues/961) Mock timezone and keep moment as it is @sabau
+- [\#961](https://github.com/cosmos/voyager/issues/961) Mock only the `now` function from Date module @sabau
+- Fixed `yarn start` @ƒaboweb
 
 ## [0.10.7] - 2018-10-10
 
