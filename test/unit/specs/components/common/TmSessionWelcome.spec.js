@@ -32,43 +32,81 @@ describe(`TmSessionWelcome`, () => {
 
   describe(`header buttons`, () => {
     it(`should open the help modal on click`, () => {
-      wrapper.vm.help()
-      expect(store.commit).toHaveBeenCalledWith(`setModalHelp`, true)
+      const $store = { commit: jest.fn() }
+      const self = { $store }
+      TmSessionWelcome.methods.help.call(self)
+      expect($store.commit).toHaveBeenCalledWith(`setModalHelp`, true)
     })
 
-    it(`should close the session modal on click`, () => {
-      const $store = { commit: jest.fn() }
-      const self = { back: jest.fn(), $store }
-      TmSessionWelcome.methods.closeSession.call(self)
-      expect($store.commit).toHaveBeenCalledWith(`setModalSession`, false)
-      expect($store.commit).toHaveBeenCalledWith(`setModalSessionState`, false)
-    })
-
-    it(`goes back to last page`, () => {
-      const $store = { commit: jest.fn() }
-      const self = {
-        $store,
-        lastPage: `/`,
-        $router: {
-          push: jest.fn()
+    describe(`closes the session modal`, () => {
+      it(`without going to prev page`, () => {
+        const $store = { commit: jest.fn() }
+        const self = {
+          back: jest.fn(),
+          $store,
+          $router: {
+            currentRoute: {
+              path: `/`
+            }
+          }
         }
-      }
-      TmSessionWelcome.methods.back.call(self)
-      expect($store.commit).toHaveBeenCalledWith(`pauseHistory`, true)
-      expect(self.$router.push).toHaveBeenCalled()
+        TmSessionWelcome.methods.closeSession.call(self)
+        expect($store.commit).toHaveBeenCalledWith(`setModalSession`, false)
+        expect($store.commit).toHaveBeenCalledWith(
+          `setModalSessionState`,
+          false
+        )
+        expect(self.back).not.toHaveBeenCalled()
+      })
+
+      it(`going back to prev page`, () => {
+        const $store = { commit: jest.fn() }
+        const self = {
+          back: jest.fn(),
+          $store,
+          $router: {
+            currentRoute: {
+              path: `/wallet`
+            }
+          }
+        }
+        TmSessionWelcome.methods.closeSession.call(self)
+        expect($store.commit).toHaveBeenCalledWith(`setModalSession`, false)
+        expect($store.commit).toHaveBeenCalledWith(
+          `setModalSessionState`,
+          false
+        )
+        expect(self.back).toHaveBeenCalled()
+      })
     })
 
-    it(`doesn't go back if there's no last Page`, () => {
-      const $store = { commit: jest.fn() }
-      const self = {
-        $store,
-        lastPage: undefined,
-        $router: {
-          push: jest.fn()
+    describe(`back`, () => {
+      it(`goes back to last page`, () => {
+        const $store = { commit: jest.fn() }
+        const self = {
+          $store,
+          lastPage: `/`,
+          $router: {
+            push: jest.fn()
+          }
         }
-      }
-      TmSessionWelcome.methods.back.call(self)
-      expect($store.commit).not.toHaveBeenCalledWith(`pauseHistory`, true)
+        TmSessionWelcome.methods.back.call(self)
+        expect($store.commit).toHaveBeenCalledWith(`pauseHistory`, true)
+        expect(self.$router.push).toHaveBeenCalled()
+      })
+
+      it(`doesn't go back if there's no last Page`, () => {
+        const $store = { commit: jest.fn() }
+        const self = {
+          $store,
+          lastPage: undefined,
+          $router: {
+            push: jest.fn()
+          }
+        }
+        TmSessionWelcome.methods.back.call(self)
+        expect($store.commit).not.toHaveBeenCalledWith(`pauseHistory`, true)
+      })
     })
   })
 
