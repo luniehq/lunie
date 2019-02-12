@@ -72,7 +72,7 @@ describe(`ActionModal`, () => {
   it(`opens session modal`, () => {
     const $store = { commit: jest.fn() }
     const self = { $store }
-    Action.methods.goToSession.call(self)
+    ActionModal.methods.goToSession.call(self)
     expect($store.commit).toHaveBeenCalledWith(
       `setModalSessionState`,
       `welcome`
