@@ -7,10 +7,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [0.10003.3] - 2019-01-16
-
-## [0.10003.2] - 2019-01-16
-
 ### Added
 
 - Contract tests for `keys` endpoints in lcdClient. @NodeGuy
@@ -188,6 +184,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#961](https://github.com/cosmos/voyager/issues/961) Mock timezone and keep moment as it is @sabau
 - [\#961](https://github.com/cosmos/voyager/issues/961) Mock only the `now` function from Date module @sabau
 - [\#1879](https://github.com/cosmos/voyager/issues/1879) Align tx props with new format from SDK @sabau
+- Fixed `yarn start` @ƒaboweb
 
 ## [0.10.7] - 2018-10-10
 
