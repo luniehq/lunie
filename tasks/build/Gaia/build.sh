@@ -22,10 +22,12 @@ for GOOS in $platforms; do
   echo ###############################################################################
   make get_vendor_deps
   make install
-done
 
-# Give the Linux binaries a prefix to make them like the others.
-mkdir --parents $TARGET/linux_amd64
-cp /go/bin/gaia* $TARGET/linux_amd64/
+  if [[ "$GOOS" == "linux" ]]; then
+    # Give the Linux binaries a prefix to make them like the others.
+    mkdir --parents $TARGET/linux_amd64
+    cp /go/bin/gaia* $TARGET/linux_amd64/
+  fi
+done
 
 cp --recursive /go/bin/*_amd64 $TARGET/
