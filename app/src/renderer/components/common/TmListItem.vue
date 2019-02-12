@@ -249,6 +249,7 @@ export default {
       if (this.spin) {
         return `fa-spin`
       }
+      return ``
     }
   }
 }

@@ -1,4 +1,5 @@
 <template>
+  <!-- eslint-disable-next-line vue/no-v-html || html is disabled in markdown to prevent xss-->
   <div class="text-block" v-html="htmlContent" />
 </template>
 
@@ -14,7 +15,9 @@ export default {
   },
   computed: {
     htmlContent() {
-      const md = new MarkdownIt()
+      const md = new MarkdownIt({
+        html: false // necessary to prevent xss
+      })
       return md.render(this.content)
     }
   }

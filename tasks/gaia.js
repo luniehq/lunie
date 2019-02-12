@@ -95,14 +95,15 @@ async function makeValidator(
   const address = account.address
   await sendTokens(mainSignInfo, `10stake`, address, chainId)
   console.log(`Waiting for funds to delegate`)
-  while (true) {
+  let balancesReceived = false
+  while (!balancesReceived) {
     try {
       await sleep(1000)
       await getBalance(cliHome, address)
     } catch (error) {
       continue
     }
-    break
+    balancesReceived = true
   }
   await declareValidator(
     operatorSignInfo, // key name that holds funds and is the same address as the operator address
