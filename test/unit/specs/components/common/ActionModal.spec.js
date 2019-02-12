@@ -1,6 +1,7 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import Vuelidate from "vuelidate"
 import ActionModal from "renderer/components/common/ActionModal"
+import { Action } from "rxjs/internal/scheduler/Action"
 
 const localVue = createLocalVue()
 localVue.use(Vuelidate)
@@ -66,6 +67,17 @@ describe(`ActionModal`, () => {
     wrapper.vm.open()
 
     expect(wrapper.isEmpty()).not.toBe(true)
+  })
+
+  it(`opens session modal`, () => {
+    const $store = { commit: jest.fn() }
+    const self = { $store }
+    Action.methods.goToSession.call(self)
+    expect($store.commit).toHaveBeenCalledWith(
+      `setModalSessionState`,
+      `welcome`
+    )
+    expect($store.commit).toHaveBeenCalledWith(`setModalSession`, true)
   })
 
   describe(`close modal`, () => {
