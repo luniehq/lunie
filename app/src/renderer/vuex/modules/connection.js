@@ -36,14 +36,9 @@ export default function({ node }) {
   }
 
   const actions = {
-    async setLastHeader({ state, rootState, dispatch }, header) {
+    async setLastHeader({ state, dispatch }, header) {
       state.lastHeader = header
-
-      // updating the header is done even while the user is not logged in
-      // to prevent errors popping up from the LCD before the user is signed on, we skip updating validators before
-      // TODO identify why rest calls fail at this point
-      if (rootState.user.signedIn)
-        await dispatch(`maybeUpdateValidators`, header)
+      await dispatch(`maybeUpdateValidators`, header)
     },
     async connect({ state, commit, dispatch }) {
       const { node, config } = state.externals
@@ -106,6 +101,7 @@ export default function({ node }) {
       if (rootState.user.signedIn) {
         dispatch(`walletSubscribe`)
       }
+      dispatch(`getDelegates`)
       dispatch(`checkNodeHalted`)
       dispatch(`pollRPCConnection`)
     },
