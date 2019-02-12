@@ -7,10 +7,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [0.10003.3] - 2019-01-16
-
-## [0.10003.2] - 2019-01-16
-
 ### Added
 
 - Contract tests for `keys` endpoints in lcdClient. @NodeGuy
@@ -187,6 +183,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1934](https://github.com/cosmos/voyager/pull/1934) Fix boot process @sabau
 - [\#961](https://github.com/cosmos/voyager/issues/961) Mock timezone and keep moment as it is @sabau
 - [\#961](https://github.com/cosmos/voyager/issues/961) Mock only the `now` function from Date module @sabau
+- Fixed `yarn start` @ƒaboweb
 
 ## [0.10.7] - 2018-10-10
 
