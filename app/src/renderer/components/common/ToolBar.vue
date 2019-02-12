@@ -38,13 +38,21 @@
     >
       <i class="material-icons">exit_to_app</i>
     </a>
+    <tm-btn
+      v-if="!user.signedIn"
+      id="signIn-btn"
+      value="Sign In"
+      @click.native="signIn"
+    />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
+import TmBtn from "common/TmBtn"
 export default {
   name: `tool-bar`,
+  components: { TmBtn },
   props: {
     refresh: {
       type: Object,
@@ -70,6 +78,10 @@ export default {
   methods: {
     enableModalHelp() {
       this.$store.commit(`setModalHelp`, true)
+    },
+    signIn() {
+      this.$store.commit(`setModalSessionState`, `welcome`)
+      this.$store.commit(`setModalSession`, true)
     },
     signOut() {
       this.$store.dispatch(`signOut`)

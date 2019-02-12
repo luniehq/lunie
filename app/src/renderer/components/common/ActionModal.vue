@@ -18,7 +18,7 @@
         </div>
       </div>
       <div v-if="!user.signedIn" class="action-modal-form">
-        <p>You need to sign in to {{ title.toLowerCase() }}</p>
+        <p>You need to sign in to submit a transaction.</p>
       </div>
       <div
         v-else-if="user.signedIn && step === `txDetails`"
@@ -75,8 +75,9 @@
               <tm-btn
                 v-if="!user.signedIn"
                 value="Go to Sign In"
+                icon="navigate_next"
                 color="primary"
-                @click.native="$store.commit(`setSignIn`, true)"
+                @click.native="$store.commit(`setModalSession`, true)"
               />
               <tm-btn
                 v-else-if="sending"
@@ -96,6 +97,7 @@
                 "
                 color="primary"
                 value="Next"
+                icon="navigate_next"
                 @click.native="validateChangeStep"
               />
               <tm-btn
