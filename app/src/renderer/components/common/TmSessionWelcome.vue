@@ -72,6 +72,7 @@ export default {
     closeSession() {
       this.$store.commit(`setModalSession`, false)
       this.$store.commit(`setModalSessionState`, false)
+      // TODO: go back only if lastPage requires auth
       this.back()
     },
     back() {
