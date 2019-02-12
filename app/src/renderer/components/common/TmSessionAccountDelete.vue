@@ -2,9 +2,9 @@
   <div class="tm-session">
     <tm-form-struct :submit="onSubmit" class="tm-session-container">
       <div class="tm-session-header">
-        <a @click="setState('sign-in')"
-          ><i class="material-icons">arrow_back</i></a
-        >
+        <a @click="setState('sign-in')">
+          <i class="material-icons">arrow_back</i>
+        </a>
         <div class="tm-session-title">Remove Account</div>
         <a @click="help"><i class="material-icons">help_outline</i></a>
       </div>
@@ -45,10 +45,10 @@
                 type="checkbox"
               />
             </div>
-            <label class="tm-field-checkbox-label" for="sign-up-warning"
-              >I understand that Cosmos cannot recover deleted accounts without
-              the passphrase.</label
-            >
+            <label class="tm-field-checkbox-label" for="sign-up-warning">
+              I understand that Cosmos cannot recover deleted accounts without
+              the passphrase.
+            </label>
           </div>
           <tm-form-msg
             v-if="!$v.fields.deletionWarning.required"

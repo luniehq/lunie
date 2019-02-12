@@ -9,8 +9,9 @@
               <i
                 v-tooltip.top="depositTooltips.min_deposit"
                 class="material-icons info-button"
-                >info_outline</i
               >
+                info_outline
+              </i>
             </dt>
             <dd>
               {{
@@ -28,8 +29,9 @@
               <i
                 v-tooltip.top="depositTooltips.max_deposit_period"
                 class="material-icons info-button"
-                >info_outline</i
               >
+                info_outline
+              </i>
             </dt>
             <dd>
               {{
@@ -52,8 +54,9 @@
               <i
                 v-tooltip.top="tallyingTooltips.threshold"
                 class="material-icons info-button"
-                >info_outline</i
               >
+                info_outline
+              </i>
             </dt>
             <dd>
               {{
@@ -71,8 +74,9 @@
               <i
                 v-tooltip.top="tallyingTooltips.veto"
                 class="material-icons info-button"
-                >info_outline</i
               >
+                info_outline
+              </i>
             </dt>
             <dd>
               {{
@@ -93,8 +97,9 @@
               <i
                 v-tooltip.top="tallyingTooltips.governance_penalty"
                 class="material-icons info-button"
-                >info_outline</i
               >
+                info_outline
+              </i>
             </dt>
             <dd>
               {{
@@ -111,8 +116,9 @@
               <i
                 v-tooltip.top="tallyingTooltips.quorum"
                 class="material-icons info-button"
-                >info_outline</i
               >
+                info_outline
+              </i>
             </dt>
             <dd>
               {{
@@ -135,8 +141,9 @@
               <i
                 v-tooltip.top="votingTooltips.voting_period"
                 class="material-icons info-button"
-                >info_outline</i
               >
+                info_outline
+              </i>
             </dt>
             <dd>
               {{

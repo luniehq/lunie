@@ -18,9 +18,10 @@
         </div>
       </div>
       <div class="tm-li-tx__content__block">
-        <a :href="'https://explorecosmos.network/blocks/' + block"
-          >Block #{{ block }}&nbsp;</a
-        >@ {{ date }}
+        <a :href="'https://explorecosmos.network/blocks/' + block">
+          Block #{{ block }}&nbsp;
+        </a>
+        @ {{ date }}
       </div>
     </div>
   </div>

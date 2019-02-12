@@ -27,8 +27,9 @@
           }"
           :class="styles"
           class="data-table__row__info__container__name"
-          >{{ validator.description.moniker }}</router-link
         >
+          {{ validator.description.moniker }}
+        </router-link>
         <div class="data-table__row__info__container__description">
           <short-bech32 :address="validator.operator_address" />
         </div>

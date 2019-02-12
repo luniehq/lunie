@@ -1,12 +1,13 @@
 <template>
   <div :class="cssClass">
-    <span v-if="subLabel" class="tm-form-group__sub-label">{{ subLabel }}</span
-    ><label
+    <span v-if="subLabel" class="tm-form-group__sub-label">{{ subLabel }}</span>
+    <label
       v-if="fieldId && fieldLabel"
       :for="fieldId"
       class="tm-form-group__label"
-      >{{ fieldLabel }}</label
     >
+      {{ fieldLabel }}
+    </label>
     <div class="tm-form-group__field"><slot></slot></div>
   </div>
 </template>

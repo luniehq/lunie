@@ -14,8 +14,9 @@
                 <i
                   v-tooltip.top="paramsTooltips.unbonding_time"
                   class="material-icons info-button"
-                  >info_outline</i
                 >
+                  info_outline
+                </i>
               </dt>
               <dd id="unbonding_time">
                 {{

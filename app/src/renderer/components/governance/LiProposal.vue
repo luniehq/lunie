@@ -7,8 +7,10 @@
           v-tooltip.top="status.message"
           :class="status.color"
           class="data-table__row__info__container__status material-icons"
-          >checkmark</span
-        ><span
+        >
+          checkmark
+        </span>
+        <span
           v-else
           v-tooltip.top="status.message"
           :class="status.color"
@@ -20,8 +22,9 @@
             params: { proposalId: proposal.proposal_id }
           }"
           class="data-table__row__info__container__name"
-          >{{ proposal.title }}</router-link
         >
+          {{ proposal.title }}
+        </router-link>
         <p class="data-table__row__info__container__description">
           {{ description }}
         </p>
