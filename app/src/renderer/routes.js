@@ -85,6 +85,11 @@ export default [
     name: `network`,
     component: require(`./components/network/PageNetwork`).default
   },
+  {
+    path: `/blocks/:height`,
+    name: `block`,
+    component: require(`./components/network/PageBlock`).default
+  },
   { path: `/404`, component: require(`./components/common/Page404`).default },
   { path: `*`, component: require(`./components/common/Page404`).default }
 ]

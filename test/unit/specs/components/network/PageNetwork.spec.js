@@ -35,7 +35,23 @@ describe(`PageNetwork`, () => {
             loose_tokens: 10
           }
         },
-        bondDenom: `stake`
+        bondDenom: `stake`,
+        blocks: [
+          {
+            header: {
+              height: `100`,
+              num_txs: 1200,
+              proposer_address: `ABCDEFG123456HIJKLMNOP`
+            }
+          },
+          {
+            header: {
+              height: `101`,
+              num_txs: 405,
+              proposer_address: `ZYXCRS123456HIJKLMNOPQ`
+            }
+          }
+        ]
       }
     }
 
@@ -43,7 +59,8 @@ describe(`PageNetwork`, () => {
       localVue,
       mocks: {
         $store
-      }
+      },
+      stubs: [`router-link`]
     })
   })
 
@@ -67,12 +84,40 @@ describe(`PageNetwork`, () => {
       localVue,
       mocks: {
         $store
-      }
+      },
+      stubs: [`router-link`]
     })
 
     expect(wrapper.vm.status).toEqual({
       color: `red`,
       message: `Network is down`
     })
+  })
+
+  it(`sets last block to something human readable`, () => {
+    expect(wrapper.vm.lastBlock).toEqual(`a few seconds ago`)
+  })
+
+  it(`sets propertoes for the block table`, () => {
+    expect(wrapper.vm.properties).toEqual([
+      {
+        title: `Block Number`,
+        value: `block_number`,
+        tooltip: `Block Number`,
+        class: `blockNumber`
+      },
+      {
+        title: `Transactions`,
+        value: `transactions`,
+        tooltip: `Number of transactions per block`,
+        class: `transactions`
+      },
+      {
+        title: `Proposer`,
+        value: `proposer`,
+        tooltip: `Validator responsible for block proposals`,
+        class: `proposer`
+      }
+    ])
   })
 })

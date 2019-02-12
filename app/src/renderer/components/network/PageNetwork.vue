@@ -18,16 +18,13 @@
                 class="page-profile__status"
               />
               <h2 class="page-profile__title">{{ lastHeader.chain_id }}</h2>
-              <h3 v-if="config.devMode">
-                Proposer: {{ lastHeader.proposer_address }}
-              </h3>
             </div>
           </div>
         </div>
         <div class="row">
           <dl class="info_dl colored_dl">
-            <dt>Height</dt>
-            <dd>{{ lastHeader.height }}</dd>
+            <dt>Block Height</dt>
+            <dd>{{ `#` + num.prettyInt(lastHeader.height) }}</dd>
           </dl>
           <dl class="info_dl colored_dl">
             <dt>Last Block</dt>
@@ -61,6 +58,27 @@
           </div>
         </div>
       </div>
+      <table class="blocks data-table">
+        <thead>
+          <panel-sort :properties="properties" />
+        </thead>
+        <tbody>
+          <tr
+            v-for="block in blocks"
+            :key="block.header.height"
+            class="block data-table__row"
+          >
+            <td>
+              <router-link
+                :to="{ name: `block`, params: { height: block.header.height } }"
+                >{{ `#` + num.prettyInt(block.header.height) }}</router-link
+              >
+            </td>
+            <td>{{ block.header.num_txs }}</td>
+            <td>{{ block.header.proposer_address }}</td>
+          </tr>
+        </tbody>
+      </table>
     </template>
   </tm-page>
 </template>
@@ -68,7 +86,8 @@
 <script>
 import moment from "moment"
 import { mapGetters } from "vuex"
-import TmBtn from "common/TmBtn"
+import num from "scripts/num"
+import PanelSort from "staking/PanelSort"
 import ToolBar from "common/ToolBar"
 import TmBalance from "common/TmBalance"
 import TmDataError from "common/TmDataError"
@@ -77,19 +96,22 @@ export default {
   name: `page-network`,
   components: {
     TmBalance,
-    TmBtn,
+    PanelSort,
     ToolBar,
     TmDataError,
     TmPage
   },
+  data: () => ({
+    num
+  }),
   computed: {
     ...mapGetters([
       `connected`,
       `lastHeader`,
       `delegates`,
-      `config`,
       `pool`,
-      `bondDenom`
+      `bondDenom`,
+      `blocks`
     ]),
     status() {
       const color = this.connected ? `green` : `red`
@@ -101,12 +123,38 @@ export default {
     lastBlock() {
       moment.relativeTimeThreshold(`ss`, 1)
       return moment(this.lastHeader.time).fromNow()
+    },
+    properties() {
+      return [
+        {
+          title: `Block Number`,
+          value: `block_number`,
+          tooltip: `Block Number`,
+          class: `blockNumber`
+        },
+        {
+          title: `Transactions`,
+          value: `transactions`,
+          tooltip: `Number of transactions per block`,
+          class: `transactions`
+        },
+        {
+          title: `Proposer`,
+          value: `proposer`,
+          tooltip: `Validator responsible for block proposals`,
+          class: `proposer`
+        }
+      ]
     }
   }
 }
 </script>
-<style>
-.network .page-profile__header__info {
-  padding: 2rem;
+<style scoped>
+.block td {
+  padding: 1rem;
+}
+
+.blocks.data-table th {
+  padding: 0.5rem 1rem;
 }
 </style>
