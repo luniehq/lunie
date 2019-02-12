@@ -5,7 +5,7 @@ describe(`TmLiTransaction`, () => {
   let wrapper
   const propsData = {
     color: `#FFFFFF`,
-    time: 0,
+    time: Date.now(),
     block: 500
   }
 
@@ -25,12 +25,14 @@ describe(`TmLiTransaction`, () => {
   })
 
   it(`Should print the hour only if the same day`, () => {
-    expect(TmLiTransaction.computed.date(Date.now())).toEqual(`00:00:42`)
+    expect(TmLiTransaction.computed.date({ time: Date.now() })).toEqual(
+      `00:00:42`
+    )
   })
 
   it(`Should print the datetime if we are in a different day`, () => {
-    expect(TmLiTransaction.computed.date(Date.now() - 10000000)).toEqual(
-      `00:00:42`
-    )
+    expect(
+      TmLiTransaction.computed.date({ time: Date.now() + 999999999 })
+    ).toEqual(`Jan 12th 1970 13:47:21`)
   })
 })
