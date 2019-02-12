@@ -1,7 +1,7 @@
 export default [
   {
     hash: `not a real hash`,
-    time: 1042 + 1000, // set by Voyager
+    time: 2042, // set by Voyager
     height: `3436`,
     tx: {
       type: `8EFE47F0625DE8`,
@@ -78,7 +78,7 @@ export default [
   },
   {
     hash: `not a real hash2`,
-    time: 1042 + 1010, // set by Voyager
+    time: 2052, // set by Voyager
     height: `3438`,
     tx: {
       type: `8EFE47F0625DE8`,
@@ -156,8 +156,7 @@ export default [
   },
   {
     hash: `not a real hash3`,
-
-    time: 1042 + 100, // set by Voyager
+    time: 1142, // set by Voyager
     height: `466`,
     tx: {
       type: `8EFE47F0625DE8`,
@@ -251,7 +250,7 @@ export default [
   {
     hash: `not a real hash4`,
 
-    time: 1042 + 150, // set by Voyager
+    time: 42000, // set by Voyager
     height: `568`,
     tx: {
       type: `8EFE47F0625DE8`,
@@ -312,7 +311,7 @@ export default [
   {
     hash: `not a real hash5`,
 
-    time: 1042 + 150, // set by Voyager
+    time: 42000, // set by Voyager
     height: `569`,
     tx: {
       type: `8EFE47F0625DE8`,
@@ -369,8 +368,7 @@ export default [
   },
   {
     hash: `not a real hash6`,
-
-    time: 1042 + 150, // set by Voyager
+    time: 42000, // set by Voyager
     height: `567`,
     tx: {
       type: `8EFE47F0625DE8`,
@@ -428,7 +426,7 @@ export default [
   },
   {
     hash: `not a real hash7`,
-    time: 1042 + 150, // set by Voyager
+    time: 42000, // set by Voyager
     height: `56673`,
     tx: {
       type: `8EFE47F0625DE8`,
@@ -493,7 +491,7 @@ export default [
   },
   {
     hash: `not a real hash8`,
-    time: 1042 + 150, // set by Voyager
+    time: 42000, // set by Voyager
     height: `56675`,
     tx: {
       type: `8EFE47F0625DE8`,

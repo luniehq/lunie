@@ -53,7 +53,6 @@ export default {
   margin-bottom: 0.5rem;
   border: 1px solid var(--bc-dim);
   background: var(--app-fg);
-  min-width: 45rem;
 }
 
 .li-coin:hover {

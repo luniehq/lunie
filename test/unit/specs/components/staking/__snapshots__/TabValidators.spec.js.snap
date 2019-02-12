@@ -11,7 +11,7 @@ exports[`TabValidators has the expected html structure 1`] = `
           class="panel-sort-container"
         >
           <th
-            class="sort-by name"
+            class="panel-sort-table-header sort-by"
           >
             <a
               class="sort-by-link"
@@ -25,7 +25,7 @@ exports[`TabValidators has the expected html structure 1`] = `
             </a>
           </th>
           <th
-            class="sort-by your-votes"
+            class="panel-sort-table-header sort-by"
           >
             <a
               class="sort-by-link"
@@ -39,7 +39,7 @@ exports[`TabValidators has the expected html structure 1`] = `
             </a>
           </th>
           <th
-            class="sort-by your-rewards"
+            class="panel-sort-table-header sort-by"
           >
             <a
               class="sort-by-link"
@@ -53,7 +53,7 @@ exports[`TabValidators has the expected html structure 1`] = `
             </a>
           </th>
           <th
-            class="sort-by percent_of_vote"
+            class="panel-sort-table-header sort-by"
           >
             <a
               class="sort-by-link"
@@ -67,7 +67,7 @@ exports[`TabValidators has the expected html structure 1`] = `
             </a>
           </th>
           <th
-            class="sort-by uptime"
+            class="panel-sort-table-header sort-by"
           >
             <a
               class="sort-by-link"
@@ -81,7 +81,7 @@ exports[`TabValidators has the expected html structure 1`] = `
             </a>
           </th>
           <th
-            class="sort-by commission"
+            class="panel-sort-table-header sort-by"
           >
             <a
               class="sort-by-link"
@@ -95,7 +95,7 @@ exports[`TabValidators has the expected html structure 1`] = `
             </a>
           </th>
           <th
-            class="sort-by slashes"
+            class="panel-sort-table-header sort-by"
           >
             <a
               class="sort-by-link"
@@ -432,7 +432,7 @@ exports[`TabValidators shows a message if still loading 1`] = `
           class="panel-sort-container"
         >
           <th
-            class="sort-by name"
+            class="panel-sort-table-header sort-by"
           >
             <a
               class="sort-by-link"
@@ -446,7 +446,7 @@ exports[`TabValidators shows a message if still loading 1`] = `
             </a>
           </th>
           <th
-            class="sort-by your-votes"
+            class="panel-sort-table-header sort-by"
           >
             <a
               class="sort-by-link"
@@ -460,7 +460,7 @@ exports[`TabValidators shows a message if still loading 1`] = `
             </a>
           </th>
           <th
-            class="sort-by your-rewards"
+            class="panel-sort-table-header sort-by"
           >
             <a
               class="sort-by-link"
@@ -474,7 +474,7 @@ exports[`TabValidators shows a message if still loading 1`] = `
             </a>
           </th>
           <th
-            class="sort-by percent_of_vote"
+            class="panel-sort-table-header sort-by"
           >
             <a
               class="sort-by-link"
@@ -488,7 +488,7 @@ exports[`TabValidators shows a message if still loading 1`] = `
             </a>
           </th>
           <th
-            class="sort-by uptime"
+            class="panel-sort-table-header sort-by"
           >
             <a
               class="sort-by-link"
@@ -502,7 +502,7 @@ exports[`TabValidators shows a message if still loading 1`] = `
             </a>
           </th>
           <th
-            class="sort-by commission"
+            class="panel-sort-table-header sort-by"
           >
             <a
               class="sort-by-link"
@@ -516,7 +516,7 @@ exports[`TabValidators shows a message if still loading 1`] = `
             </a>
           </th>
           <th
-            class="sort-by slashes"
+            class="panel-sort-table-header sort-by"
           >
             <a
               class="sort-by-link"

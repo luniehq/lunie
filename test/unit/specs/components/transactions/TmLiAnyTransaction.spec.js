@@ -15,7 +15,8 @@ describe(`TmLiAnyTransaction`, () => {
 
   beforeEach(() => {
     wrapper = mount(TmLiAnyTransaction, {
-      propsData
+      propsData,
+      stubs: [`router-link`]
     })
   })
 
