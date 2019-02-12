@@ -23,7 +23,8 @@ describe(`PageBlock`, () => {
           header: {
             height: `100`,
             num_txs: 1200,
-            proposer_address: `ABCDEFG123456HIJKLMNOP`
+            proposer_address: `ABCDEFG123456HIJKLMNOP`,
+            time: Date.now()
           },
           evidence: {
             evidence: `evidence`
@@ -32,7 +33,7 @@ describe(`PageBlock`, () => {
             precommits: [
               {
                 validator_address: `validator address`,
-                timestamp: `1990-10-19`,
+                timestamp: Date.now(),
                 round: 0
               }
             ]

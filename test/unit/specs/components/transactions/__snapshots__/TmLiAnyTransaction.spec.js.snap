@@ -55,7 +55,7 @@ exports[`TmLiAnyTransaction shows bank transactions 1`] = `
       >
         Block #3436 
       </router-link-stub>
-      @ 00:00:42
+      @ 00:00:02
     
     </div>
   </div>
@@ -173,7 +173,7 @@ exports[`TmLiAnyTransaction shows unknown transactions 1`] = `
       >
         Block #3436 
       </router-link-stub>
-      @ 00:00:42
+      @ 00:00:02
     
     </div>
   </div>
