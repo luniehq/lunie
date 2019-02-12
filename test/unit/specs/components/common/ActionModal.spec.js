@@ -1,7 +1,6 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import Vuelidate from "vuelidate"
 import ActionModal from "renderer/components/common/ActionModal"
-import { Action } from "rxjs/internal/scheduler/Action"
 
 const localVue = createLocalVue()
 localVue.use(Vuelidate)
