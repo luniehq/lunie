@@ -1,4 +1,4 @@
-import { startApp, main } from "renderer/scripts/boot"
+import { startApp, main, routeGuard } from "renderer/scripts/boot"
 import App from "renderer/App"
 
 describe(`App vue`, () => {
@@ -119,5 +119,47 @@ describe(`App Start`, () => {
     )
     expect(mockVue.directive).toHaveBeenCalledTimes(1)
     expect(mockVue.use).toHaveBeenCalledTimes(3)
+  })
+
+  it(`Check the route guard`, async () => {
+    const commit = jest.fn()
+    const store = {
+      commit,
+      getters: { user: { pauseHistory: true } }
+    }
+    const next = jest.fn()
+    const guard = routeGuard(store)
+    // from.fullPath !== to.fullPath && !store.getters.user.pauseHistory
+    guard({ fullPath: `a` }, { fullPath: `b` }, next)
+    expect(commit).not.toHaveBeenCalled()
+    expect(next).toHaveBeenCalled()
+  })
+
+  it(`Check the route guard with no pause in history`, async () => {
+    const commit = jest.fn()
+    const store = {
+      commit,
+      getters: { user: { pauseHistory: false } }
+    }
+    const next = jest.fn()
+    const guard = routeGuard(store)
+    // from.fullPath !== to.fullPath && !store.getters.user.pauseHistory
+    guard({ fullPath: `a` }, { fullPath: `b` }, next)
+    expect(commit).toHaveBeenCalledWith(`addHistory`, `b`)
+    expect(next).toHaveBeenCalled()
+  })
+
+  it(`Check the route guard when routes does not change`, async () => {
+    const commit = jest.fn()
+    const store = {
+      commit,
+      getters: { user: { pauseHistory: false } }
+    }
+    const next = jest.fn()
+    const guard = routeGuard(store)
+    // from.fullPath !== to.fullPath && !store.getters.user.pauseHistory
+    guard({ fullPath: `a` }, { fullPath: `a` }, next)
+    expect(commit).not.toHaveBeenCalled()
+    expect(next).toHaveBeenCalled()
   })
 })

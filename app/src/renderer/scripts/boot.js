@@ -18,6 +18,12 @@ import _Store from "../vuex/store"
 import * as urlHelpers from "../../helpers/url.js"
 import _config from "../../config"
 
+export const routeGuard = store => (to, from, next) => {
+  if (from.fullPath !== to.fullPath && !store.getters.user.pauseHistory)
+    store.commit(`addHistory`, from.fullPath)
+  next()
+}
+
 /**
  * Start the Vue app
  */
@@ -96,12 +102,7 @@ export const startApp = async (
     routes
   })
 
-  router.beforeEach((to, from, next) => {
-    /* istanbul ignore next */
-    if (from.fullPath !== to.fullPath && !store.getters.user.pauseHistory)
-      store.commit(`addHistory`, from.fullPath)
-    next()
-  })
+  router.beforeEach(routeGuard(store))
 
   store.dispatch(`connect`)
   store.dispatch(`showInitialScreen`)
