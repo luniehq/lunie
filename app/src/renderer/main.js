@@ -118,6 +118,7 @@ async function _startApp(
       to.matched.some(record => record.meta.requiresAuth) &&
       !store.state.user.signedIn
     ) {
+      store.commit(`setModalSessionState`, `welcome`)
       store.commit(`setModalSession`, true)
     }
     next()

@@ -3,7 +3,6 @@
     <div class="tm-session-container">
       <div class="tm-session-header">
         <a @click="help"><i class="material-icons">help_outline</i></a>
-
         <div class="tm-session-title">Sign in to Cosmos Voyager</div>
         <a @click="closeSession"><i class="material-icons">close</i></a>
       </div>
@@ -72,8 +71,17 @@ export default {
     closeSession() {
       this.$store.commit(`setModalSession`, false)
       this.$store.commit(`setModalSessionState`, false)
-      // TODO: go back only if lastPage requires auth
-      this.back()
+      if (
+        [
+          `/staking/my-delegations`,
+          `/wallet`,
+          `/transactions`,
+          `/preferences`
+        ].includes(this.$router.currentRoute.path)
+      ) {
+        // go back only if tried to access one of the auth-required routes
+        this.back()
+      }
     },
     back() {
       if (!this.lastPage) return

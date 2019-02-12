@@ -18,7 +18,7 @@
         to="/wallet"
         exact="exact"
         title="Wallet"
-        @click.native="close(true)"
+        @click.native="close"
       >
         <h2 class="app-menu-title">Wallet</h2>
         <i class="material-icons">chevron_right</i>
@@ -29,7 +29,7 @@
         to="/transactions"
         exact="exact"
         title="Transactions"
-        @click.native="close(true)"
+        @click.native="close"
       >
         <h2 class="app-menu-title">Transactions</h2>
         <i class="material-icons">chevron_right</i>
@@ -77,12 +77,9 @@ export default {
     this.ps = new PerfectScrollbar(this.$el.querySelector(`.app-menu-main`))
   },
   methods: {
-    close(openSession) {
+    close() {
       this.$store.commit(`setActiveMenu`, ``)
       noScroll.off()
-      if (openSession) {
-        this.$store.commit(`setModalSessionState`, `welcome`)
-      }
     }
   }
 }
