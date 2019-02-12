@@ -1,0 +1,175 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageBlock has the expected html structure 1`] = `
+<tm-page-stub
+  data-title="Block"
+  menubody=""
+  search=""
+  subtitle=""
+  title=""
+>
+  <template>
+    <tm-balance-stub
+      tabs=""
+    />
+     
+    <tool-bar-stub />
+  </template>
+   
+  <div
+    class="page-profile__header page-profile__section block"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="page-profile__header__info"
+      >
+        <div
+          class="page-profile__status-and-title"
+        >
+          <h2
+            class="page-profile__title"
+          >
+            Block #100
+          </h2>
+           
+          <h3
+            class="page-profile__subtitle"
+          >
+            
+              ABCD1234
+            
+          </h3>
+        </div>
+      </div>
+    </div>
+     
+    <div
+      class="row"
+    >
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
+          Time
+        </dt>
+         
+        <dd>
+          Jan 1st 1970, 00:00:42
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
+          Proposer
+        </dt>
+         
+        <dd>
+          ABCDEFG123456HIJKLMNOP
+        </dd>
+      </dl>
+    </div>
+  </div>
+   
+  <div
+    class="page-profile__section block"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="column"
+      >
+        <dl
+          class="info_dl colored_dl"
+        >
+          <dt>
+            Transactions
+          </dt>
+           
+          <dd>
+            txs
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+   
+  <div
+    class="page-profile__section block"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="column"
+      >
+        <dl
+          class="info_dl colored_dl"
+        >
+          <dt>
+            Evidence
+          </dt>
+           
+          <dd>
+            evidence
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+   
+  <div
+    class="page-profile__section block"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="column"
+      >
+        <dl
+          class="info_dl colored_dl"
+        >
+          <dt>
+            Pre Commits
+          </dt>
+           
+          <table
+            class="pre-commits data-table"
+          >
+            <thead>
+              <panel-sort-stub
+                properties="[object Object],[object Object],[object Object]"
+              />
+            </thead>
+             
+            <tbody>
+              <tr
+                class="block data-table__row"
+              >
+                <td>
+                  validator address
+                </td>
+                 
+                <td>
+                  
+                    Jan 1st 1970, 00:00:42
+                  
+                </td>
+                 
+                <td>
+                  0
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </dl>
+      </div>
+    </div>
+  </div>
+</tm-page-stub>
+`;

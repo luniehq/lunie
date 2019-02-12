@@ -11,7 +11,7 @@ describe(`TmLiGovTransaction`, () => {
   }
 
   beforeEach(() => {
-    wrapper = mount(TmLiGovTransaction, { propsData })
+    wrapper = mount(TmLiGovTransaction, { propsData, stubs: [`router-link`] })
   })
 
   describe(`proposals`, () => {
@@ -26,6 +26,7 @@ describe(`TmLiGovTransaction`, () => {
       wrapper.setProps({
         transaction: transactions[7]
       })
+
       expect(wrapper.vm.deposit).toBe(true)
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
