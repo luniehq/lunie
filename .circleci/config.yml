@@ -10,7 +10,6 @@ aliases:
   - &docker-node tendermintdev/voyager_node
   - &docker-browsers tendermintdev/voyager_node_browser
   - &docker-go circleci/golang:1.11
-  - &docker-aws cibuilds/aws:1.15
   - &docker-deploy tendermintdev/website_deployment
 
 # reusable commands
@@ -81,9 +80,6 @@ commands:
 
 # a reusable executor
 executors:
-  aws:
-    docker:
-      - image: *docker-aws
   web:
     docker:
       - image: *docker-browsers
@@ -193,23 +189,23 @@ jobs:
             echo "Your dependencies are secure enough: $SUMMARY"
             exit 0
 
-  testE2e:
-    executor: web
-    environment:
-      - BINARY_PATH: "/tmp/gaia/builds/Gaia/linux_amd64/gaiacli"
-      - NODE_BINARY_PATH: "/tmp/gaia/builds/Gaia/linux_amd64/gaiad"
-    steps:
-      - checkout
-      - attach_workspace:
-          at: *GAIA
-      - yarn-install
-      - run:
-          name: Test
-          command: yarn run test:e2e
-          no_output_timeout: 120
-      - store_artifacts:
-          path: testArtifacts
-          when: on_fail
+  #  testE2e:
+  #    executor: web
+  #    environment:
+  #      - BINARY_PATH: "/tmp/gaia/builds/Gaia/linux_amd64/gaiacli"
+  #      - NODE_BINARY_PATH: "/tmp/gaia/builds/Gaia/linux_amd64/gaiad"
+  #    steps:
+  #      - checkout
+  #      - attach_workspace:
+  #          at: *GAIA
+  #      - yarn-install
+  #      - run:
+  #          name: Test
+  #          command: yarn run test:e2e
+  #          no_output_timeout: 120
+  #      - store_artifacts:
+  #          path: testArtifacts
+  #          when: on_fail
 
   deploy2s3:
     executor: web_deploy
