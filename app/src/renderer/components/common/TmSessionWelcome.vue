@@ -45,7 +45,6 @@ import { mapGetters } from "vuex"
 import PerfectScrollbar from "perfect-scrollbar"
 import FundraiserWarning from "common/FundraiserWarning"
 import LiSession from "common/TmLiSession"
-import { lastPage } from "../../vuex/getters"
 export default {
   name: `tm-session-welcome`,
   components: {
