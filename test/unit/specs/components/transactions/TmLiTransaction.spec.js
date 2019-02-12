@@ -23,4 +23,14 @@ describe(`TmLiTransaction`, () => {
   it(`has the expected html structure`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
+
+  it(`Should print the hour only if the same day`, () => {
+    expect(TmLiTransaction.computed.date(Date.now())).toEqual(`00:00:42`)
+  })
+
+  it(`Should print the datetime if we are in a different day`, () => {
+    expect(TmLiTransaction.computed.date(Date.now() - 10000000)).toEqual(
+      `00:00:42`
+    )
+  })
 })

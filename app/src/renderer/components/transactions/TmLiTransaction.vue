@@ -46,10 +46,10 @@ export default {
     }
   },
   computed: {
-    date() {
-      const time = moment(this.time)
-      return time.format(
-        `${moment().isSame(time, `day`) ? `` : `MMM Do YYYY `}HH:mm:ss`
+    date({ time } = this) {
+      const momentTime = moment(time)
+      return momentTime.format(
+        `${moment().isSame(momentTime, `day`) ? `` : `MMM Do YYYY `}HH:mm:ss`
       )
     }
   }
