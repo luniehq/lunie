@@ -24,7 +24,7 @@
     "lint": "yarn lint:eslint && yarn lint:format",
     "lint:eslint": "eslint -f ./node_modules/eslint-friendly-formatter \"{,**/}*.{js,vue}\"",
     "lint:format": "prettier --list-different \"{,**/}*.{css,js,json,vue}\" \"!testArtifacts/**\" \"!app/networks/**\"",
-    "lint:fix": "prettier --write \"{,**/}*.{css,js,json,vue}\" \"!testArtifacts/**\"",
+    "lint:fix": "eslint \"{,**/}*.{js,vue}\" --fix && prettier --write \"{,**/}*.{css,js,json,vue}\" \"!testArtifacts/**\"",
     "pack": "webpack --colors --config webpack.renderer.config.js --mode=production",
     "test": "yarn run lint && yarn test:unit && yarn test:e2e",
     "test:unit": "cross-env LOGGING=false ANALYTICS=false NODE_ENV=testing jest --maxWorkers=2",
