@@ -47,4 +47,4 @@ do
     sleep 3s
 done
 
-echo ${PASSWORD} | ./gaiacli tx staking create-validator --home . --from ${ACCOUNT} --amount=${VALIDATOR_AMOUNT} --pubkey=${PUBKEY} --address-delegator=${ADDRESS} --moniker=${ACCOUNT} --chain-id=${NETWORK} --commission-max-change-rate=0 --commission-max-rate=0 --commission-rate=0 --json
+echo ${PASSWORD} | ./gaiacli tx staking create-validator --home . --from ${ACCOUNT} --amount=${VALIDATOR_AMOUNT} --pubkey=${PUBKEY} --address-delegator=${ADDRESS} --moniker=${ACCOUNT} --chain-id=${NETWORK} --commission-max-change-rate=0 --commission-max-rate=0 --commission-rate=0 --min-self-delegation=1 -json
