@@ -115,6 +115,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1221](https://github.com/cosmos/voyager/issues/1221) individual linter check on GitHub @faboweb
 - [\#1855](https://github.com/cosmos/voyager/issues/1855) skip gaia build if already built that hash @sabau
 - [\#1922](https://github.com/cosmos/voyager/issues/1922) removed font awesome @jbibla
+- [\#1948](https://github.com/cosmos/voyager/pull/1948) changed PR template @fedekunze
 
 ### Fixed
 
