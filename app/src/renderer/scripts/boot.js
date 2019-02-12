@@ -97,6 +97,7 @@ export const startApp = async (
   })
 
   router.beforeEach((to, from, next) => {
+    /* istanbul ignore next */
     if (from.fullPath !== to.fullPath && !store.getters.user.pauseHistory)
       store.commit(`addHistory`, from.fullPath)
     next()

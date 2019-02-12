@@ -15,11 +15,6 @@ describe(`App Start`, () => {
   jest.mock(`popper.js`, () => () => {})
 
   beforeEach(() => {
-    window.history.pushState(
-      {},
-      `Mock Voyager`,
-      `/?node=localhost&lcd_port=8080`
-    )
     document.body.innerHTML = `<div id="app"></div>`
     jest.resetModules()
   })
@@ -75,5 +70,54 @@ describe(`App Start`, () => {
     expect(getURLParams).toHaveBeenCalled()
     expect(startApp).toHaveBeenCalled()
     expect(startApp.mock.calls[0][0]).toHaveProperty(`x`, 1)
+  })
+
+  it(`Check the calls on VUE`, async () => {
+    // const mockVue = jest.mock(`Vue`)
+    jest.mock(`vue-router`)
+    jest.mock(`vue-directive-tooltip`)
+    jest.mock(`vuelidate`)
+    const $mount = jest.fn()
+    class mockVue {
+      constructor() {
+        this.$mount = $mount
+      }
+    }
+    mockVue.config = {}
+    mockVue.use = jest.fn()
+    mockVue.directive = jest.fn()
+
+    const node = {
+      rpcConnect: jest.fn(),
+      lcdConnected: jest.fn()
+    }
+    const Node = () => node
+
+    const store = {
+      state: {
+        devMode: true
+      },
+      commit: jest.fn(),
+      dispatch: jest.fn()
+    }
+    const Store = () => store
+
+    const Sentry = {
+      init: jest.fn()
+    }
+    await startApp(
+      {
+        stargate: `http://localhost:12344`
+      },
+      Node,
+      Store,
+      {
+        NODE_ENV: `production`
+      },
+      Sentry,
+      mockVue
+    )
+    expect(mockVue.directive).toHaveBeenCalledTimes(1)
+    expect(mockVue.use).toHaveBeenCalledTimes(3)
   })
 })
