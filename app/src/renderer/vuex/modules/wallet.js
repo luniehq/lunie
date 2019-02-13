@@ -42,8 +42,8 @@ export default ({ node }) => {
   }
 
   const actions = {
-    async reconnected({ state, dispatch }) {
-      if (state.loading && state.address) {
+    async reconnected({ rootState, state, dispatch }) {
+      if (state.loading && state.address && rootState.user.signedIn) {
         await dispatch(`queryWalletBalances`)
       }
     },

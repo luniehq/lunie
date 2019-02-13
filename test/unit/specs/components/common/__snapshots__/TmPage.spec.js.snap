@@ -12,9 +12,7 @@ exports[`TmPage has the expected html structure 1`] = `
     <!---->
      
     <template>
-      <tm-balance-stub
-        tabs=""
-      />
+      <!---->
        
       <tool-bar-stub />
     </template>
@@ -47,9 +45,7 @@ exports[`TmPage should show links to other pages 1`] = `
     <!---->
      
     <template>
-      <tm-balance-stub
-        tabs=""
-      />
+      <!---->
        
       <tool-bar-stub
         searching="[object Object]"

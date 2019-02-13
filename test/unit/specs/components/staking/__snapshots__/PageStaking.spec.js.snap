@@ -27,17 +27,6 @@ exports[`PageStaking has the expected html structure 1`] = `
             class="tool-bar"
           >
             <a
-              class="back"
-              disabled="disabled"
-            >
-              <i
-                class="material-icons"
-              >
-                arrow_back
-              </i>
-            </a>
-             
-            <a
               class="refresh-button"
             >
               <i
