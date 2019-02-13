@@ -248,7 +248,7 @@ describe(`Module: Delegations`, () => {
   })
 
   describe(`queries the delegated atoms on reconnection`, () => {
-    it(`when the user has logged in and is not loading`, async () => {
+    it(`when the user has logged in and is loading`, async () => {
       const dispatch = jest.fn()
       await actions.reconnected({
         state: { loading: true },
@@ -258,7 +258,7 @@ describe(`Module: Delegations`, () => {
       expect(dispatch).toHaveBeenCalledWith(`getBondedDelegates`)
     })
 
-    it(`fails if delegations are loading`, async () => {
+    it(`fails if delegations are not loading`, async () => {
       const dispatch = jest.fn()
       await actions.reconnected({
         state: { loading: false },
@@ -271,7 +271,7 @@ describe(`Module: Delegations`, () => {
     it(`fails if the user hasn't logged in`, async () => {
       const dispatch = jest.fn()
       await actions.reconnected({
-        state: { loading: false },
+        state: { loading: true },
         dispatch,
         rootState: { user: { signedIn: false } }
       })
