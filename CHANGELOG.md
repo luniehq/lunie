@@ -121,6 +121,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1836](https://github.com/cosmos/voyager/issues/1836) remove back button @fedekunze
 - [\#1948](https://github.com/cosmos/voyager/pull/1948) changed PR template @fedekunze
 - [\#1946](https://github.com/cosmos/voyager/pull/1946) removed proposer_address raw hex @jbibla
+- [\#1967](https://github.com/cosmos/voyager/pull/1967) bundle analyzer changed from dynamic to static report @sabau
 
 ### Fixed
 
