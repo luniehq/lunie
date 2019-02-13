@@ -19,6 +19,11 @@ function resolve(dir) {
 
 const buildPath = path.join(__dirname, `app/dist`)
 
+const commitHash = require(`child_process`)
+  .execSync(`git rev-parse HEAD`)
+  .toString()
+  .trim()
+
 const devPlugins = process.env.CIRCLECI
   ? []
   : [new CleanWebpackPlugin([buildPath]), new BundleAnalyzerPlugin()]
@@ -86,7 +91,7 @@ const rendererConfig = {
     // the global.GENTLY below fixes a compile issue with superagent + webpack
     // https://github.com/visionmedia/superagent/issues/672
     new webpack.DefinePlugin({ "global.GENTLY": false }),
-    new webpack.DefinePlugin({ "process.env.RELEASE": false }),
+    new webpack.DefinePlugin({ "process.env.RELEASE": `"${commitHash}"` }),
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": `"${process.env.NODE_ENV}"`
     }),
@@ -171,10 +176,11 @@ if (process.env.NODE_ENV === `production`) {
 }
 
 if (process.env.RELEASE) {
+  console.log(`releasing to Sentry`)
   rendererConfig.plugins.push(
     new SentryPlugin({
-      release: process.env.RELEASE,
-      include: `./dist`
+      include: `./app/dist`,
+      validate: true
     })
   )
 }

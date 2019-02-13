@@ -178,7 +178,7 @@ export default ({}) => {
       if (state.errorCollection) {
         state.externals.Sentry.init({
           dsn: config.sentry_dsn,
-          release: `voyager@${state.externals.config.version}`
+          release: process.env.RELEASE
         })
         state.externals.enableGoogleAnalytics(
           state.externals.config.google_analytics_uid
