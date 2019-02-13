@@ -16,7 +16,6 @@ import routes from "./routes"
 import _Node from "./connectors/node"
 import _Store from "./vuex/store"
 import * as urlHelpers from "../helpers/url.js"
-import { networkInterfaces } from "os"
 const _config = require(`../config.json`)
 
 /**
