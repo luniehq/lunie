@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <div v-if="config.devMode" id="develop-mode-warning">DEVELOPMENT MODE</div>
     <modal-help />
     <session v-if="config.modals.session.active" />
     <onboarding v-else-if="onboarding.active" />

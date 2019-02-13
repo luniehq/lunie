@@ -67,6 +67,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1928](https://github.com/cosmos/voyager/issues/1928) Added Browserstack reference to README @sabau
 - [\#1918](https://github.com/cosmos/voyager/issues/1918) added message to log in when sending transactions and the user is not authenticated @fedekunze
 - [\#1866](https://github.com/cosmos/voyager/issues/1866) Added blocks to network page and a page for viewing individual blocks @jbibla
+- Added development mode warning @faboweb
 
 ### Changed
 
