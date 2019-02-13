@@ -86,7 +86,7 @@ const rendererConfig = {
     // https://github.com/visionmedia/superagent/issues/672
     new webpack.DefinePlugin({ "global.GENTLY": false }),
     new webpack.DefinePlugin({
-      "process.env.NODE_ENV": `"${process.env.NODE_ENV}"`
+      "process.env": { NODE_ENV: JSON.stringify(process.env.NODE_ENV) }
     }),
     new HtmlWebpackPlugin({
       filename: `index.html`,

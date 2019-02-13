@@ -1,4 +1,4 @@
-const dev = process.env.NODE_ENV === `develop`
+const dev = process.env.NODE_ENV === `development`
 const stargate =
   process.env.STARGATE ||
   (dev
