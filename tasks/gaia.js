@@ -146,6 +146,7 @@ async function declareValidator(
     ` --commission-max-change-rate=0` +
     ` --commission-max-rate=0` +
     ` --commission-rate=0` +
+    ` --min-self-delegation=1` +
     ` --output=json`
 
   return makeExecWithInputs(command, [password])
@@ -159,10 +160,10 @@ async function sendTokens(
 ) {
   const command =
     `${cliBinary} tx send` +
+    ` ${toAddress}` +
+    ` ${tokenString}` +
     ` --home ${clientHomeDir}` +
     ` --from ${keyName}` +
-    ` --amount=${tokenString}` +
-    ` --to=${toAddress}` +
     ` --chain-id=${chainId}`
   return makeExecWithInputs(command, [password], false)
 }

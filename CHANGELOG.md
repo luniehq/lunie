@@ -185,6 +185,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#961](https://github.com/cosmos/voyager/issues/961) Mock timezone and keep moment as it is @sabau
 - [\#961](https://github.com/cosmos/voyager/issues/961) Mock only the `now` function from Date module @sabau
 - Fixed `yarn start` @ƒaboweb
+- [\#1955](https://github.com/cosmos/voyager/issues/1955) Fixed local testnet setup @faboweb
 
 ## [0.10.7] - 2018-10-10
 
