@@ -71,13 +71,9 @@ export default ({}) => {
     },
     async showInitialScreen({ state, dispatch, commit }) {
       dispatch(`resetSessionData`)
-
       await dispatch(`loadAccounts`)
       commit(`setModalSessionState`, `welcome`)
-
-      state.externals.track(`pageview`, {
-        dl: `/session/welcome`
-      })
+      state.externals.track(`pageview`, { dl: `/` })
     },
     async loadAccounts({ commit, state }) {
       state.loading = true

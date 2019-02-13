@@ -19,8 +19,25 @@ import * as urlHelpers from "../../helpers/url.js"
 import _config from "../../config"
 
 export const routeGuard = store => (to, from, next) => {
-  if (from.fullPath !== to.fullPath && !store.getters.user.pauseHistory)
+  if (from.fullPath !== to.fullPath && !store.getters.user.pauseHistory) {
     store.commit(`addHistory`, from.fullPath)
+  }
+
+  if (to.redirectedFrom == `/staking` && store.state.user.signedIn) {
+    to = Object.assign({}, to, {
+      path: `/staking/my-delegations`,
+      fullPath: `/staking/my-delegations`,
+      name: `My Delegations`
+    })
+    next(to.path)
+  } else if (
+    !store.state.user.signedIn &&
+    to.matched.some(record => record.meta.requiresAuth)
+  ) {
+    // redirect to session page if auth required
+    store.commit(`setModalSessionState`, `welcome`)
+    store.commit(`setModalSession`, true)
+  }
   next()
 }
 

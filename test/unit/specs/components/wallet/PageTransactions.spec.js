@@ -21,6 +21,7 @@ describe(`PageTransactions`, () => {
     store = instance.store
 
     store.commit(`setConnected`, true)
+    store.commit(`setSignIn`, true)
     store.commit(`setWalletAddress`, `tb1d4u5zerywfjhxuc9nudvw`)
     store.commit(`setStakingParameters`, stakingParameters.parameters)
     store.commit(`setWalletTxs`, txs.slice(0, 2))
@@ -29,8 +30,15 @@ describe(`PageTransactions`, () => {
     store.commit(`setHistoryLoading`, false)
   })
 
-  it(`has the expected html structure`, async () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+  describe(`has the expected html structure`, () => {
+    it(`if user has signed in`, async () => {
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
+
+    it(`if user hasn't signed in`, async () => {
+      store.commit(`setSignIn`, false)
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
   })
 
   it(`should show the search on click`, () => {

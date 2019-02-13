@@ -30,6 +30,7 @@ describe(`ModalPropose`, () => {
     store = instance.store
     store.state.connection.connected = true
     store.commit(`setWalletBalances`, coins)
+    store.commit(`setSignIn`, true)
 
     await wrapper.vm.$nextTick()
     wrapper.vm.$refs.actionModal.open()
