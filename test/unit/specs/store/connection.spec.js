@@ -6,7 +6,7 @@ const mockRootState = {
   }
 }
 
-jest.mock(`src/config.json`, () => ({
+jest.mock(`src/config.js`, () => ({
   stargate: `https://voyager.lol`
 }))
 
