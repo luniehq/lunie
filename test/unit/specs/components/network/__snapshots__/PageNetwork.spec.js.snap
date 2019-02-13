@@ -162,10 +162,6 @@ exports[`PageNetwork has the expected html structure 1`] = `
         <td>
           1200
         </td>
-         
-        <td>
-          ABCDEFG123456HIJKLMNOP
-        </td>
       </tr>
       <tr
         class="block data-table__row"
@@ -180,10 +176,6 @@ exports[`PageNetwork has the expected html structure 1`] = `
          
         <td>
           405
-        </td>
-         
-        <td>
-          ZYXCRS123456HIJKLMNOPQ
         </td>
       </tr>
     </tbody>

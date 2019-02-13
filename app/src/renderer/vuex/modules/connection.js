@@ -1,7 +1,7 @@
 import { sleep } from "scripts/common.js"
 import Vue from "vue"
+import config from "../../../config"
 
-const config = require(`../../../config.json`)
 const NODE_HALTED_TIMEOUT = config.node_halted_timeout
 
 export default function({ node }) {
@@ -63,7 +63,7 @@ export default function({ node }) {
         }, 1000)
       }
     },
-    async rpcSubscribe({ commit, dispatch }) {
+    async rpcSubscribe({ commit, dispatch, rootState }) {
       const { node } = state.externals
       if (state.stopConnecting) return
 
@@ -103,8 +103,9 @@ export default function({ node }) {
           dispatch(`setLastHeader`, header)
         }
       )
-
-      dispatch(`walletSubscribe`)
+      if (rootState.user.signedIn) {
+        dispatch(`walletSubscribe`)
+      }
       dispatch(`checkNodeHalted`)
       dispatch(`pollRPCConnection`)
     },

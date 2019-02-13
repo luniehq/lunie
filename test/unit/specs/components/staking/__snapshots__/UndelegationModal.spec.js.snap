@@ -13,10 +13,13 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
       class="icon action-modal-atom"
       src="~assets/images/cosmos-logo.png"
     />
+     
     <span
       class="action-modal-title"
     >
-      Undelegate
+      
+        Undelegate
+      
     </span>
      
     <div

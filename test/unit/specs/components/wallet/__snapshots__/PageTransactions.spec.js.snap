@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PageTransactions has the expected html structure 1`] = `
+exports[`PageTransactions has the expected html structure if user has signed in 1`] = `
 <div
   class="tm-page"
   data-title="Transactions"
@@ -99,17 +99,6 @@ exports[`PageTransactions has the expected html structure 1`] = `
             class="tool-bar"
           >
             <a
-              class="back"
-              disabled="disabled"
-            >
-              <i
-                class="material-icons"
-              >
-                arrow_back
-              </i>
-            </a>
-             
-            <a
               class="refresh-button"
             >
               <i
@@ -149,6 +138,161 @@ exports[`PageTransactions has the expected html structure 1`] = `
                 settings
               </i>
             </router-link-stub>
+             
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+          </div>
+        </div>
+      </div>
+       
+      <menu
+        class="tm-page-header-menu"
+      />
+       
+      <div
+        class="tabs"
+      />
+       
+      <!---->
+    </div>
+  </header>
+   
+  <main
+    class="tm-page-main"
+  >
+    <modal-search-stub
+      type="transactions"
+    />
+     
+    <tm-li-any-transaction-stub
+      address="tb1d4u5zerywfjhxuc9nudvw"
+      bondingdenom="STAKE"
+      proposalsurl="/governance"
+      slot="managed-body"
+      transaction="[object Object]"
+      unbondingtime="NaN"
+      validators=""
+      validatorsurl="/staking/validators"
+    />
+    <tm-li-any-transaction-stub
+      address="tb1d4u5zerywfjhxuc9nudvw"
+      bondingdenom="STAKE"
+      proposalsurl="/governance"
+      slot="managed-body"
+      transaction="[object Object]"
+      unbondingtime="NaN"
+      validators=""
+      validatorsurl="/staking/validators"
+    />
+    <tm-li-any-transaction-stub
+      address="tb1d4u5zerywfjhxuc9nudvw"
+      bondingdenom="STAKE"
+      proposalsurl="/governance"
+      slot="managed-body"
+      transaction="[object Object]"
+      unbondingtime="NaN"
+      validators=""
+      validatorsurl="/staking/validators"
+    />
+    <tm-li-any-transaction-stub
+      address="tb1d4u5zerywfjhxuc9nudvw"
+      bondingdenom="STAKE"
+      proposalsurl="/governance"
+      slot="managed-body"
+      transaction="[object Object]"
+      unbondingtime="NaN"
+      validators=""
+      validatorsurl="/staking/validators"
+    />
+    <tm-li-any-transaction-stub
+      address="tb1d4u5zerywfjhxuc9nudvw"
+      bondingdenom="STAKE"
+      proposalsurl="/governance"
+      slot="managed-body"
+      transaction="[object Object]"
+      unbondingtime="NaN"
+      validators=""
+      validatorsurl="/staking/validators"
+    />
+    <tm-li-any-transaction-stub
+      address="tb1d4u5zerywfjhxuc9nudvw"
+      bondingdenom="STAKE"
+      proposalsurl="/governance"
+      slot="managed-body"
+      transaction="[object Object]"
+      unbondingtime="NaN"
+      validators=""
+      validatorsurl="/staking/validators"
+    />
+     
+  </main>
+</div>
+`;
+
+exports[`PageTransactions has the expected html structure if user hasn't signed in 1`] = `
+<div
+  class="tm-page"
+  data-title="Transactions"
+>
+  <header
+    class="tm-page-header"
+  >
+    <div
+      class="tm-page-header-container"
+    >
+      <div
+        class="tm-page-header-text"
+      >
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="tm-page-header-body"
+        >
+          <!---->
+           
+          <div
+            class="tool-bar"
+          >
+            <a
+              class="refresh-button"
+            >
+              <i
+                class="material-icons"
+              >
+                refresh
+              </i>
+            </a>
+             
+            <a
+              class="search-button"
+            >
+              <i
+                class="material-icons"
+              >
+                search
+              </i>
+            </a>
+              
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+             
+            <!---->
              
             <a
               id="signOut-btn"
@@ -345,17 +489,6 @@ exports[`PageTransactions should filter the transactions 1`] = `
           <div
             class="tool-bar"
           >
-            <a
-              class="back"
-              disabled="disabled"
-            >
-              <i
-                class="material-icons"
-              >
-                arrow_back
-              </i>
-            </a>
-             
             <a
               class="refresh-button"
             >

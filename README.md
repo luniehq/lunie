@@ -171,6 +171,20 @@ Store the gaia version used in your local testnet:
 
 ### Deploy
 
+Create the bundle to deploy Voyager you can run:
+
+```bash
+yarn build:ui
+```
+
+If you want to set a particular Stargate or RPC endpoints
+
+```bash
+STARGATE=<https://StargateAddress:port> RPC=<https://RPRAddress:port> yarn build:ui
+```
+
+### Local network
+
 Run Voyager for your local testnet:
 
 ```bash

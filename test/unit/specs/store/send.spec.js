@@ -9,7 +9,7 @@ jest.mock(`renderer/scripts/keystore.js`, () => ({
   })
 }))
 
-jest.mock(`src/config.json`, () => ({
+jest.mock(`src/config.js`, () => ({
   default_gas: 42
 }))
 

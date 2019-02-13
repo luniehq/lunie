@@ -177,7 +177,8 @@ export default {
       `connected`,
       `wallet`,
       `votes`,
-      `config`
+      `config`,
+      `user`
     ]),
     proposal() {
       return this.proposals.proposals[this.proposalId]

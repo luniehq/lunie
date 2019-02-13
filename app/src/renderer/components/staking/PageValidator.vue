@@ -231,6 +231,7 @@ export default {
       `config`,
       `keybase`,
       `liquidAtoms`,
+      `user`,
       `wallet`,
       `connected`
     ]),
