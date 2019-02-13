@@ -3,15 +3,17 @@
     <th
       v-for="property in properties"
       :key="property.value"
-      :class="property.class"
-      class="sort-by"
+      :class="{ 'sort-by': sort }"
+      class="panel-sort-table-header"
     >
       <a
         v-tooltip.top="property.tooltip"
+        v-if="sort"
         class="sort-by-link"
         @click="orderBy(property.value)"
         >{{ property.title }}<i class="material-icons">arrow_drop_up</i></a
       >
+      <span v-else>{{ property.title }}</span>
     </th>
   </tr>
 </template>
@@ -22,7 +24,7 @@ export default {
   props: {
     sort: {
       type: Object,
-      required: true
+      default: null
     },
     properties: {
       type: Array,
@@ -61,7 +63,7 @@ export default {
   padding: 1rem;
 }
 
-.sort-by {
+.panel-sort-table-header {
   font-size: var(--sm);
 }
 

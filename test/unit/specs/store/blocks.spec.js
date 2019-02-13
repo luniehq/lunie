@@ -15,7 +15,36 @@ describe(`Module: Blocks`, () => {
     node = {
       rpc: {
         status: () => Promise.resolve({ sync_info: {} })
-      }
+      },
+      getBlock: () => ({
+        block_meta: {
+          block_id: {
+            hash: `ABCD1234`
+          }
+        },
+        block: {
+          data: {
+            txs: `txs`
+          },
+          header: {
+            height: `100`,
+            num_txs: 1200,
+            proposer_address: `ABCDEFG123456HIJKLMNOP`
+          },
+          evidence: {
+            evidence: `evidence`
+          },
+          last_commit: {
+            precommits: [
+              {
+                validator_address: `validator address`,
+                timestamp: `1990-10-19`,
+                round: 0
+              }
+            ]
+          }
+        }
+      })
     }
     module = blocks({
       node
@@ -26,7 +55,12 @@ describe(`Module: Blocks`, () => {
 
   it(`should query block info`, async () => {
     state.blockMetas = {}
-    node.rpc.blockchain = () => Promise.resolve({ block_metas: [blockMeta] })
+    node.getBlock = () => ({
+      block_metas: [blockMeta],
+      block: {
+        height: `42`
+      }
+    })
 
     const output = await actions.queryBlockInfo(
       { state, commit: jest.fn() },
@@ -57,15 +91,34 @@ describe(`Module: Blocks`, () => {
     expect(node.rpc.blockchain).not.toHaveBeenCalled()
   })
 
-  it(`should show an info if block info is unavailable`, async () => {
-    jest.spyOn(console, `error`).mockImplementation(() => {})
-    const error = new Error(`Error`)
+  it(`should show an error if block info is unavailable`, async () => {
+    const error = new Error(`err`)
+    const getBlock = jest.fn().mockRejectedValue(error)
     const commit = jest.fn()
-    state.blockMetas = {}
-    node.rpc.blockchain = () => Promise.reject(error)
-    const output = await actions.queryBlockInfo({ state, commit }, 100)
+    const node = {
+      getBlock
+    }
+    const module = blocks({
+      node
+    })
+    const output = await module.actions.queryBlockInfo(
+      {
+        state: module.state,
+        commit
+      },
+      1000
+    )
+    expect(commit.mock.calls).toEqual([
+      [`setLoading`, true],
+      [
+        `notifyError`,
+        { body: `err`, title: `Error fetching block information` }
+      ],
+      [`setLoading`, false],
+      [`setError`, error]
+    ])
+
     expect(output).toBe(null)
-    expect(commit).toHaveBeenCalledWith(`setError`, error)
   })
 
   it(`should not subscribe twice`, async () => {
@@ -199,10 +252,12 @@ describe(`Module: Blocks`, () => {
 
   it(`should handle errors`, async () => {
     const error = new Error(`err`)
+    const getBlock = jest.fn().mockRejectedValue(error)
     const node = {
       rpc: {
         blockchain: () => Promise.reject(error)
-      }
+      },
+      getBlock
     }
     const module = blocks({
       node
@@ -297,6 +352,15 @@ describe(`Module: Blocks mutations`, () => {
     expect(state.blocks).toEqual([])
     setBlocks(state, [1, 2, 3])
     expect(state.blocks).toEqual([1, 2, 3])
+  })
+
+  it(`should set the blocks in the state`, async () => {
+    const { setBlock } = mutations
+    const state = {}
+    setBlock(state, {})
+    expect(state.block).toEqual({})
+    setBlock(state, [1, 2, 3])
+    expect(state.block).toEqual([1, 2, 3])
   })
 
   it(`should add a block the blocks`, async () => {

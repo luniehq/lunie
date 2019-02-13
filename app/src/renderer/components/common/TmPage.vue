@@ -119,9 +119,6 @@ export default {
       return refresh ? { connected, refresh } : undefined
     }
   },
-  updated() {
-    this.$el.querySelector(`.tm-page-main`).scrollTop = 0
-  },
   async mounted() {
     Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
     Mousetrap.bind(`esc`, () => this.setSearch(false))
@@ -216,6 +213,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  padding: 1rem;
 }
 
 .page-profile__status-and-title {

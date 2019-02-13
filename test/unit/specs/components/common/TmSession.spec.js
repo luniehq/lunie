@@ -31,7 +31,8 @@ describe(`TmSessionWelcome`, () => {
         "session-sign-in": true,
         "session-hardware": true,
         "session-import": true,
-        "session-account-delete": true
+        "session-account-delete": true,
+        "router-link": true
       }
     })
   })
