@@ -127,10 +127,8 @@ async function _startApp(
     ) {
       // redirect to session page if auth required
       store.commit(`setModalSession`, true)
-      next()
-    } else {
-      next()
     }
+    next()
   })
 
   store.dispatch(`connect`)
