@@ -40,8 +40,25 @@ describe(`ActionModal`, () => {
       })
 
       it(`with ledger`, async () => {
-        wrapper.vm.ledger.isConnected = true
-        await wrapper.vm.$nextTick()
+        $store = {
+          getters: {
+            connected: true,
+            ledger: { isConnected: true },
+            user: { signedIn: true }
+          }
+        }
+        wrapper = shallowMount(ActionModal, {
+          localVue,
+          propsData: {
+            title: `Action Modal`,
+            submitFn: jest.fn(),
+            validate: jest.fn()
+          },
+          mocks: {
+            $store
+          }
+        })
+        wrapper.vm.open()
         expect(wrapper.vm.$el).toMatchSnapshot()
       })
 

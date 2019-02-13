@@ -39,19 +39,7 @@ exports[`ActionModal has the expected html structure when user has logged in wit
      
     <!---->
      
-    <tm-form-group-stub
-      class="action-modal-group"
-      fieldid="password"
-      fieldlabel="Password"
-    >
-      <tm-field-stub
-        id="password"
-        placeholder="Password"
-        type="password"
-      />
-       
-      <!---->
-    </tm-form-group-stub>
+    <!---->
   </div>
    
   <div
@@ -65,7 +53,7 @@ exports[`ActionModal has the expected html structure when user has logged in wit
       >
         <tm-btn-stub
           color="primary"
-          value="Submit"
+          value="Next"
         />
       </div>
     </tm-form-group-stub>
