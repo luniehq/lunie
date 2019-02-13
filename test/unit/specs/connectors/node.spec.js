@@ -41,10 +41,4 @@ describe(`Connector`, () => {
     expect(node.fooRpc).toBe(`rpcBar`)
     expect(node.fooLcd()).toBe(`lcdBar`)
   })
-
-  it(`should setup the mock connectors`, () => {
-    const node = Node(axios, remoteLcdURL, true)
-    expect(node.fooRpc).toBe(`rpcBarMock`)
-    expect(node.fooLcd()).toBe(`lcdBarMock`)
-  })
 })

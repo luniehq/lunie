@@ -6,7 +6,7 @@
 
 import Vue from "vue"
 import Vuex from "vuex"
-import _ from "lodash"
+import merge from "lodash/merge"
 import * as getters from "./getters"
 import modules from "./modules"
 
@@ -33,6 +33,7 @@ export default (opts = {}) => {
 
   let pending = null
   store.subscribe((mutation, state) => {
+    /* istanbul ignore next */
     pending = storeUpdateHandler(mutation, state, pending)
   })
 
@@ -120,7 +121,7 @@ function persistState(state) {
  * @param state
  * @returns {string}
  */
-function getStorageKey(state) {
+export function getStorageKey(state) {
   const chainId = state.connection.lastHeader.chain_id
   const address = state.user.address
   return `store_${chainId}_${address}`
@@ -141,7 +142,7 @@ export function loadPersistedState({ state, commit }) {
   }
   if (cachedState) {
     // Replace the state object with the stored state
-    _.merge(state, cachedState, {
+    merge(state, cachedState, {
       // set loading indicators to false
       transactions: {
         loaded: true,
