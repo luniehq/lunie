@@ -18,6 +18,8 @@ const nodeBinary =
   path.join(__dirname, `../builds/Gaia/`, osFolderName, `gaiad`)
 const defaultStartPort = 26656
 const getStartPort = nodeNumber => defaultStartPort - (nodeNumber - 1) * 3
+const defaultStakePool = 2000 * 10e6
+const defaultStakedPerValidator = 10 * 10e6
 
 // initialise the node config folder and genesis
 async function initNode(
@@ -53,7 +55,7 @@ async function initGenesis(
   nodeHomeDir
 ) {
   await makeExec(
-    `${nodeBinary} add-genesis-account ${address} 200000000stake,1000photino  --home ${nodeHomeDir}`
+    `${nodeBinary} add-genesis-account ${address} ${defaultStakePool}stake,1000photino  --home ${nodeHomeDir}`
   )
 
   await makeExecWithInputs(
@@ -93,7 +95,12 @@ async function makeValidator(
   const account = await createKey(operatorSignInfo)
 
   const address = account.address
-  await sendTokens(mainSignInfo, `10stake`, address, chainId)
+  await sendTokens(
+    mainSignInfo,
+    `${defaultStakedPerValidator}stake`,
+    address,
+    chainId
+  )
   console.log(`Waiting for funds to delegate`)
   while (true) {
     try {
@@ -138,7 +145,7 @@ async function declareValidator(
     `${cliBinary} tx staking create-validator` +
     ` --home ${clientHomeDir}` +
     ` --from ${keyName}` +
-    ` --amount=10stake` +
+    ` --amount=${defaultStakedPerValidator}stake` +
     ` --pubkey=${valPubKey}` +
     ` --address-delegator=${operatorAddress}` +
     ` --moniker=${moniker}` +
@@ -146,6 +153,7 @@ async function declareValidator(
     ` --commission-max-change-rate=0` +
     ` --commission-max-rate=0` +
     ` --commission-rate=0` +
+    ` --min-self-delegation=1` +
     ` --output=json`
 
   return makeExecWithInputs(command, [password])
@@ -159,10 +167,10 @@ async function sendTokens(
 ) {
   const command =
     `${cliBinary} tx send` +
+    ` ${toAddress}` +
+    ` ${tokenString}` +
     ` --home ${clientHomeDir}` +
     ` --from ${keyName}` +
-    ` --amount=${tokenString}` +
-    ` --to=${toAddress}` +
     ` --chain-id=${chainId}`
   return makeExecWithInputs(command, [password], false)
 }

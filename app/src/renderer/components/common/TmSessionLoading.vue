@@ -15,10 +15,12 @@
 </template>
 
 <script>
+import config from "../../../config"
+
 export default {
   name: `tm-session-loading`,
   data: () => ({
-    config: require(`../../../config.json`),
+    config,
     message: ``
   })
 }

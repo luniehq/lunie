@@ -8,15 +8,24 @@ const fs = require(`fs-extra`)
 
 const HtmlWebpackPlugin = require(`html-webpack-plugin`)
 const VueLoaderPlugin = require(`vue-loader/lib/plugin`)
+const BundleAnalyzerPlugin = require(`webpack-bundle-analyzer`)
+  .BundleAnalyzerPlugin
+const CleanWebpackPlugin = require(`clean-webpack-plugin`)
 
 function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
+const buildPath = path.join(__dirname, `app/dist`)
+
+const devPlugins = process.env.CIRCLECI
+  ? []
+  : [new CleanWebpackPlugin([buildPath]), new BundleAnalyzerPlugin()]
+
 const rendererConfig = {
   devtool:
     process.env.NODE_ENV === `production`
-      ? `#source-map`
+      ? `#cheap-source-map`
       : `#inline-source-map`,
   entry: {
     renderer: path.join(__dirname, `app/src/renderer/main.js`)
@@ -67,14 +76,17 @@ const rendererConfig = {
   },
   node: {
     __dirname: false,
-    __filename: false
+    __filename: false,
+    fs: `empty`
   },
   plugins: [
     new VueLoaderPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
     // the global.GENTLY below fixes a compile issue with superagent + webpack
     // https://github.com/visionmedia/superagent/issues/672
+    new webpack.DefinePlugin({ "global.GENTLY": false }),
     new webpack.DefinePlugin({
-      "global.GENTLY": false
+      "process.env.NODE_ENV": `"${process.env.NODE_ENV}"`
     }),
     new HtmlWebpackPlugin({
       filename: `index.html`,
@@ -86,13 +98,16 @@ const rendererConfig = {
       styles: fs.readFileSync(`./app/src/renderer/styles/index.css`, `utf8`),
       favicon: `./app/static/icons/favicon.ico`
     }),
-    new webpack.NoEmitOnErrorsPlugin(),
     // warnings caused by websocket-stream, which has a server-part that is unavailable on the the client
-    new webpack.IgnorePlugin(/(bufferutil|utf-8-validate)/)
+    new webpack.IgnorePlugin(/(bufferutil|utf-8-validate)/),
+    ...devPlugins
   ],
   output: {
-    filename: `[name].js`,
-    path: path.join(__dirname, `app/dist`)
+    // contenthash is known to be buggy in webpack4, hash refers to the whole build and
+    // chunkhash is even more unpredictable. The non determinism is due to the moduleId defined at run time
+    // Hopefully webpack5 will solve the non-deterministic behaviour here
+    filename: `[name].[contenthash].js`,
+    path: buildPath
   },
   resolve: {
     alias: {
@@ -112,15 +127,33 @@ const rendererConfig = {
       path.join(__dirname, `node_modules`)
     ]
   },
-  node: {
-    fs: `empty`
-  },
   devServer: {
     contentBase: [
       path.join(__dirname, `app/dist`),
       path.join(__dirname, `app`)
     ],
     stats: `errors-only`
+  },
+  optimization: {
+    runtimeChunk: `single`,
+    splitChunks: {
+      chunks: `all`,
+      maxInitialRequests: Infinity,
+      minSize: 0,
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name(module) {
+            const packageName = module.context.match(
+              /[\\/]node_modules[\\/](.*?)([\\/]|$)/
+            )[1]
+
+            // npm package names are URL-safe, but some servers don't like @ symbols
+            return `npm.${packageName.replace(`@`, ``)}`
+          }
+        }
+      }
+    }
   }
 }
 
@@ -129,9 +162,6 @@ const rendererConfig = {
  */
 if (process.env.NODE_ENV === `production`) {
   rendererConfig.plugins.push(
-    new webpack.DefinePlugin({
-      "process.env.NODE_ENV": `"production"`
-    }),
     new webpack.LoaderOptionsPlugin({
       minimize: true
     })

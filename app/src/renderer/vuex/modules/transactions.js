@@ -1,4 +1,3 @@
-import fp from "lodash/fp"
 import { uniqBy } from "lodash"
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
@@ -105,7 +104,7 @@ export default ({ node }) => {
         default:
           throw new Error(`Unknown transaction type`)
       }
-      const transactionsPlusType = response.map(fp.set(`type`, type))
+      const transactionsPlusType = response.map(t => ({ ...t, type }))
       return response ? uniqBy(transactionsPlusType, `hash`) : []
     },
     async enrichTransactions({ dispatch }, { transactions }) {

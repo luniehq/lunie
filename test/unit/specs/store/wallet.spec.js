@@ -9,7 +9,7 @@ const mockRootState = {
   },
   user: { signedIn: true }
 }
-jest.mock(`src/config.json`, () => ({
+jest.mock(`src/config.js`, () => ({
   denoms: [`mycoin`, `fermion`, `STAKE`]
 }))
 
