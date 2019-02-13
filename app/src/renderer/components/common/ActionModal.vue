@@ -91,7 +91,6 @@
                 "
                 color="primary"
                 value="Next"
-                icon="navigate_next"
                 @click.native="validateChangeStep"
               />
               <tm-btn
