@@ -118,6 +118,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1922](https://github.com/cosmos/voyager/issues/1922) removed font awesome @jbibla
 - [\#1916](https://github.com/cosmos/voyager/pull/1916) redirect to session modal when user hasn't logged in @fedekunze
 - [\#1836](https://github.com/cosmos/voyager/issues/1836) remove back button @fedekunze
+- [\#1948](https://github.com/cosmos/voyager/pull/1948) changed PR template @fedekunze
 
 ### Fixed
 
