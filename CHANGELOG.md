@@ -117,6 +117,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1855](https://github.com/cosmos/voyager/issues/1855) skip gaia build if already built that hash @sabau
 - [\#1922](https://github.com/cosmos/voyager/issues/1922) removed font awesome @jbibla
 - [\#1948](https://github.com/cosmos/voyager/pull/1948) changed PR template @fedekunze
+- [\#1946](https://github.com/cosmos/voyager/pull/1946) removed proposer_address raw hex @jbibla
 
 ### Fixed
 
@@ -189,6 +190,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#961](https://github.com/cosmos/voyager/issues/961) Mock only the `now` function from Date module @sabau
 - Fixed `yarn start` @ƒaboweb
 - [\#1955](https://github.com/cosmos/voyager/issues/1955) Fixed local testnet setup @faboweb
+- HOT FIX: unit tests failed due to merge @faboweb
+- HOT FIX: we fixed develop (replaced contenthash with hash) @jbibla
 
 ## [0.10.7] - 2018-10-10
 
