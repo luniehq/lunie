@@ -411,12 +411,58 @@ exports[`PageProposal has the expected html structure if user hasn't signed in 1
                 />
               </div>
                
-              <!---->
+              <div
+                class="total-atoms top-section"
+              >
+                <h3>
+                  Total STAKE
+                </h3>
+                 
+                <h2
+                  class="total-atoms__value"
+                >
+                  0.0000…
+                </h2>
+              </div>
                
-              <!---->
+              <div
+                class="unbonded-atoms top-section"
+              >
+                <h3>
+                  Available STAKE
+                </h3>
+                 
+                <h2>
+                  0.0000…
+                </h2>
+              </div>
             </div>
              
-            <!---->
+            <div
+              class="short-bech32"
+            >
+              <div
+                class="address"
+                id="address"
+              >
+                
+    Address Not Found
+  
+              </div>
+               
+              <div
+                class="copied"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
              
             <div
               class="tabs"
@@ -1112,12 +1158,58 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
                 />
               </div>
                
-              <!---->
+              <div
+                class="total-atoms top-section"
+              >
+                <h3>
+                  Total STAKE
+                </h3>
+                 
+                <h2
+                  class="total-atoms__value"
+                >
+                  0.0000…
+                </h2>
+              </div>
                
-              <!---->
+              <div
+                class="unbonded-atoms top-section"
+              >
+                <h3>
+                  Available STAKE
+                </h3>
+                 
+                <h2>
+                  0.0000…
+                </h2>
+              </div>
             </div>
              
-            <!---->
+            <div
+              class="short-bech32"
+            >
+              <div
+                class="address"
+                id="address"
+              >
+                
+    Address Not Found
+  
+              </div>
+               
+              <div
+                class="copied"
+              >
+                <i
+                  class="material-icons"
+                >
+                  check
+                </i>
+                <span>
+                  Copied
+                </span>
+              </div>
+            </div>
              
             <div
               class="tabs"

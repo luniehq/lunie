@@ -20,10 +20,7 @@
       <div v-if="!user.signedIn" class="action-modal-form">
         <p>You need to sign in to submit a transaction.</p>
       </div>
-      <div
-        v-else-if="user.signedIn && step === `txDetails`"
-        class="action-modal-form"
-      >
+      <div v-else-if="step === `txDetails`" class="action-modal-form">
         <slot />
         <tm-form-group
           v-if="signMethods.length > 1"
@@ -59,10 +56,7 @@
           />
         </tm-form-group>
       </div>
-      <div
-        v-else-if="user.signedIn && step === `sign`"
-        class="action-modal-form"
-      >
+      <div v-else-if="step === `sign`" class="action-modal-form">
         <hardware-state
           icon="usb"
           value="Please unlock the Cosmos app on your Ledger Nano S"

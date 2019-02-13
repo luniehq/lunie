@@ -37,7 +37,7 @@
       <router-link
         id="app-menu__staking"
         class="app-menu-item"
-        to="/staking/"
+        to="/staking"
         title="Staking"
         @click.native="close"
       >

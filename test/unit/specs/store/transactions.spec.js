@@ -93,7 +93,7 @@ describe(`Module: Transactions`, () => {
   })
 
   describe(`queries the txs on reconnection`, () => {
-    it(`when the user has logged in and is not loading`, async () => {
+    it(`when the user has logged in and is loading`, async () => {
       const dispatch = jest.fn()
       await actions.reconnected({
         state: { loading: true },
@@ -103,7 +103,7 @@ describe(`Module: Transactions`, () => {
       expect(dispatch).toHaveBeenCalledWith(`getAllTxs`)
     })
 
-    it(`fails if txs are loading`, async () => {
+    it(`fails if txs are not loading`, async () => {
       const dispatch = jest.fn()
       await actions.reconnected({
         state: { loading: false },
@@ -116,7 +116,7 @@ describe(`Module: Transactions`, () => {
     it(`fails if the user hasn't logged in`, async () => {
       const dispatch = jest.fn()
       await actions.reconnected({
-        state: { loading: false },
+        state: { loading: true },
         dispatch,
         rootState: { user: { signedIn: false } }
       })

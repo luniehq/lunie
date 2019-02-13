@@ -20,6 +20,10 @@ export default {
     query: ``,
     tabs: [
       {
+        displayName: `My Delegations`,
+        pathName: `My Delegations`
+      },
+      {
         displayName: `Validators`,
         pathName: `Validators`
       },
@@ -31,18 +35,6 @@ export default {
   }),
   computed: {
     ...mapGetters([`connected`, `delegates`, `filters`, `user`])
-  },
-  mounted() {
-    const myDelegations = {
-      displayName: `My Delegations`,
-      pathName: `My Delegations`
-    }
-    if (this.user.signedIn) {
-      this.tabs.unshift(myDelegations)
-    }
-    // else if (Object.is(this.tabs[0], myDelegations) && !this.user.signedIn) {
-    //   this.tabs.shift()
-    // }
   },
   methods: {
     ...mapActions([`getDelegates`])
