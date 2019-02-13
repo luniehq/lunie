@@ -138,7 +138,7 @@ export default ({}) => {
       commit(`setLedgerConnection`, false)
       commit(`setCosmosAppVersion`, {})
       dispatch(`resetSessionData`)
-      dispatch(`addHistory`, `/`)
+      commit(`addHistory`, `/`)
       commit(`setSignIn`, false)
     },
     resetSessionData({ commit, state }) {

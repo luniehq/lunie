@@ -204,7 +204,7 @@ describe(`Module: User`, () => {
     await actions.signOut({ state, commit, dispatch })
 
     expect(dispatch).toHaveBeenCalledWith(`resetSessionData`)
-    expect(dispatch).toHaveBeenCalledWith(`addHistory`, `/`)
+    expect(commit).toHaveBeenCalledWith(`addHistory`, `/`)
     expect(commit).toHaveBeenCalledWith(`setSignIn`, false)
     expect(state.account).toBeNull()
   })
