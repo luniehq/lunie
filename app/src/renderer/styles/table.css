@@ -21,12 +21,7 @@
 .data-table td {
   padding: 0.5rem;
   position: relative;
-  vertical-align: bottom;
   color: var(--bright);
-}
-
-.data-table td:not(:first-child) {
-  padding-bottom: 1.2rem;
 }
 
 .data-table__row__cell__separator:after {

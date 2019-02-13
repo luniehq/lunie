@@ -1,7 +1,7 @@
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
 
-export const cache = (list, element, maxSize = 1000) => {
+export const cache = (list, element, maxSize = 100) => {
   if (list.length >= maxSize) list.splice(-1, 1)
   list.unshift(element)
   return list
@@ -18,7 +18,11 @@ export default ({ node }) => {
     loading: false,
     error: null,
     peers: [],
-    blocks: []
+    blocks: [],
+    // one block, specified by height
+    block: {
+      block_meta: {}
+    }
   }
 
   const mutations = {
@@ -29,6 +33,7 @@ export default ({ node }) => {
     setBlockMetas: (state, blockMetas) => (state.blockMetas = blockMetas),
     setPeers: (state, peers) => (state.peers = peers),
     setBlocks: (state, blocks) => (state.blocks = blocks),
+    setBlock: (state, block) => (state.block = block),
     addBlock: (state, block) =>
       Vue.set(state, `blocks`, cache(state.blocks, block)),
     setSubscribedRPC: (state, subscribedRPC) =>
@@ -50,17 +55,16 @@ export default ({ node }) => {
           return blockMetaInfo
         }
         commit(`setLoading`, true)
-        const { block_metas } = await node.rpc.blockchain({
-          minHeight: String(height),
-          maxHeight: String(height)
-        })
-        blockMetaInfo = block_metas ? block_metas[0] : undefined
+        const block = await node.getBlock(height)
+
+        blockMetaInfo = block.block_metas ? block.block_metas[0] : undefined
         commit(`setLoading`, false)
 
         commit(`setBlockMetas`, {
           ...state.blockMetas,
           [height]: blockMetaInfo
         })
+        commit(`setBlock`, block)
         return blockMetaInfo
       } catch (error) {
         commit(`notifyError`, {

@@ -14,10 +14,10 @@
       </div>
     </div>
     <div id="tm-connected-network__block" class="tm-connected-network__string">
-      <a
-        v-tooltip.top="'View block details on the Cosmos explorer.'"
-        :href="explorerLink"
-        >{{ blockHeight }}<i class="material-icons exit">exit_to_app</i></a
+      <router-link
+        v-tooltip.top="'Block Height'"
+        :to="{ name: `block`, params: { height: lastHeader.height } }"
+        >{{ blockHeight }}</router-link
       >
     </div>
   </div>
@@ -38,33 +38,26 @@
 <script>
 import { mapGetters } from "vuex"
 import num from "scripts/num"
+
 export default {
   name: `tm-connected-network`,
   data: () => ({
-    num: num
+    num
   }),
   computed: {
     ...mapGetters([`lastHeader`, `nodeUrl`, `connected`]),
-    networkTooltip({ connected, nodeUrl } = this) {
+    networkTooltip({ connected, nodeUrl, lastHeader } = this) {
       if (connected) {
         return `You\'re connected to the ${
-          this.lastHeader.chain_id
+          lastHeader.chain_id
         } testnet via node ${nodeUrl}.`
       }
       return `We\'re pinging nodes to try to connect you to ${
-        this.lastHeader.chain_id
+        lastHeader.chain_id
       }.`
     },
-    blockHeight() {
-      return `#` + num.prettyInt(this.lastHeader.height)
-    },
-    explorerLink() {
-      return `https://explorecosmos.network/blocks/` + this.lastHeader.height
-    }
-  },
-  methods: {
-    closeMenu() {
-      this.$store.commit(`setActiveMenu`, ``)
+    blockHeight({ num, lastHeader } = this) {
+      return `#` + num.prettyInt(lastHeader.height)
     }
   }
 }
