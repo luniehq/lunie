@@ -24,7 +24,7 @@
     </a>
     <router-link
       v-tooltip.bottom="'Preferences'"
-      v-if="config.devMode && user.signedIn"
+      v-if="user.signedIn"
       id="settings"
       to="/preferences"
     >

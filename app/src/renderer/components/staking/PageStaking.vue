@@ -20,6 +20,10 @@ export default {
     query: ``,
     tabs: [
       {
+        displayName: `My Delegations`,
+        pathName: `My Delegations`
+      },
+      {
         displayName: `Validators`,
         pathName: `Validators`
       },
@@ -31,14 +35,6 @@ export default {
   }),
   computed: {
     ...mapGetters([`connected`, `delegates`, `filters`, `user`])
-  },
-  mounted() {
-    if (this.user.signedIn) {
-      this.tabs.unshift({
-        displayName: `My Delegations`,
-        pathName: `My Delegations`
-      })
-    }
   },
   methods: {
     ...mapActions([`updateDelegates`])

@@ -23,32 +23,8 @@ describe(`PageStaking`, () => {
     store.state.user.address = lcdClientMock.addresses[0]
   })
 
-  describe(`has the expected html structure`, () => {
-    it(`if user has signed in`, async () => {
-      expect(wrapper.vm.$el).toMatchSnapshot()
-      expect(wrapper.vm.tabs[0]).toMatchObject({
-        displayName: `My Delegations`,
-        pathName: `My Delegations`
-      })
-    })
-
-    it(`if user hasn't signed in`, async () => {
-      const instance = mount(PageStaking, {
-        doBefore: ({ store }) => {
-          store.commit(`setSignIn`, false)
-        },
-        stubs: {
-          "tm-balance": true
-        }
-      })
-      wrapper = instance.wrapper
-      store = instance.store
-      expect(wrapper.vm.$el).toMatchSnapshot()
-      expect(wrapper.vm.tabs).not.toContain({
-        displayName: `My Delegations`,
-        pathName: `My Delegations`
-      })
-    })
+  it(`has the expected html structure`, () => {
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should refresh candidates on click`, () => {

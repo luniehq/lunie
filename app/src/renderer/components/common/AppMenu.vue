@@ -26,8 +26,7 @@
       <router-link
         id="app-menu__staking"
         class="app-menu-item"
-        to="/staking/validators/"
-        exact="exact"
+        to="/staking"
         title="Staking"
         @click.native="close"
       >

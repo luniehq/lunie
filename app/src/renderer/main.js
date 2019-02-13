@@ -16,6 +16,7 @@ import routes from "./routes"
 import _Node from "./connectors/node"
 import _Store from "./vuex/store"
 import * as urlHelpers from "../helpers/url.js"
+import { networkInterfaces } from "os"
 const _config = require(`../config.json`)
 
 /**
@@ -113,14 +114,24 @@ async function _startApp(
     if (from.fullPath !== to.fullPath && !store.getters.user.pauseHistory) {
       store.commit(`addHistory`, from.fullPath)
     }
-    // redirect to session page if auth required
-    if (
+
+    if (to.redirectedFrom == `/staking` && store.state.user.signedIn) {
+      to = Object.assign({}, to, {
+        path: `/staking/my-delegations`,
+        fullPath: `/staking/my-delegations`,
+        name: `My Delegations`
+      })
+      next(to.path)
+    } else if (
       to.matched.some(record => record.meta.requiresAuth) &&
       !store.state.user.signedIn
     ) {
+      // redirect to session page if auth required
       store.commit(`setModalSession`, true)
+      next()
+    } else {
+      next()
     }
-    next()
   })
 
   store.dispatch(`connect`)
