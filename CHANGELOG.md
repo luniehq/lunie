@@ -191,6 +191,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fixed `yarn start` @ƒaboweb
 - [\#1955](https://github.com/cosmos/voyager/issues/1955) Fixed local testnet setup @faboweb
 - HOT FIX: unit tests failed due to merge @faboweb
+- HOT FIX: we fixed develop (replaced contenthash with hash) @jbibla
 
 ## [0.10.7] - 2018-10-10
 
