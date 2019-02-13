@@ -53,7 +53,6 @@ exports[`ActionModal has the expected html structure when user has logged in wit
       >
         <tm-btn-stub
           color="primary"
-          icon="navigate_next"
           value="Next"
         />
       </div>
