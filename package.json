@@ -47,6 +47,7 @@
   "devDependencies": {
     "@nodeguy/cli": "0.2.2",
     "@octokit/rest": "15.9.4",
+    "@sentry/webpack-plugin": "1.6.2",
     "babel-core": "6.26.3",
     "babel-eslint": "7.2.3",
     "babel-jest": "21.2.0",
@@ -99,9 +100,9 @@
     "vue-template-compiler": "2.5.21",
     "vue-template-es2015-compiler": "1.8.1",
     "webpack": "4.28.3",
+    "webpack-bundle-analyzer": "3.0.3",
     "webpack-cli": "3.2.0",
-    "webpack-dev-server": "3.1.14",
-    "webpack-bundle-analyzer": "3.0.3"
+    "webpack-dev-server": "3.1.14"
   },
   "dependencies": {
     "@sentry/browser": "4.4.1",

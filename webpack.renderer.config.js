@@ -11,6 +11,7 @@ const VueLoaderPlugin = require(`vue-loader/lib/plugin`)
 const BundleAnalyzerPlugin = require(`webpack-bundle-analyzer`)
   .BundleAnalyzerPlugin
 const CleanWebpackPlugin = require(`clean-webpack-plugin`)
+const SentryPlugin = require(`@sentry/webpack-plugin`)
 
 function resolve(dir) {
   return path.join(__dirname, dir)
@@ -85,6 +86,7 @@ const rendererConfig = {
     // the global.GENTLY below fixes a compile issue with superagent + webpack
     // https://github.com/visionmedia/superagent/issues/672
     new webpack.DefinePlugin({ "global.GENTLY": false }),
+    new webpack.DefinePlugin({ "process.env.RELEASE": false }),
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": `"${process.env.NODE_ENV}"`
     }),
@@ -164,6 +166,15 @@ if (process.env.NODE_ENV === `production`) {
   rendererConfig.plugins.push(
     new webpack.LoaderOptionsPlugin({
       minimize: true
+    })
+  )
+}
+
+if (process.env.RELEASE) {
+  rendererConfig.plugins.push(
+    new SentryPlugin({
+      release: process.env.RELEASE,
+      include: `./dist`
     })
   )
 }
