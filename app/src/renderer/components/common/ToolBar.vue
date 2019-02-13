@@ -42,6 +42,7 @@
       v-if="!user.signedIn"
       id="signIn-btn"
       value="Sign In"
+      color="primary"
       @click.native="signIn"
     />
   </div>
@@ -85,25 +86,28 @@ export default {
     },
     signOut() {
       this.$store.dispatch(`signOut`)
+      this.$store.commit(`setActiveMenu`, `sidebar`)
       this.$router.push(`/`)
     }
   }
 }
 </script>
 <style>
-.tm-tool-bar {
-  align-self: start;
-}
 .tm-page-header-text {
   padding-right: 1rem;
 }
 
+.tool-bar {
+  display: flex;
+  align-items: center;
+  height: fit-content;
+}
+
 .tool-bar a {
-  padding-left: 0.5rem;
-  position: relative;
-  top: 1rem;
-  right: 1rem;
+  padding: 0 0.5rem;
   color: var(--dim);
+  display: flex;
+  align-items: center;
 }
 
 .tool-bar a:hover {

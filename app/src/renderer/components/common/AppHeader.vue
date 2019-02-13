@@ -1,5 +1,5 @@
 <template>
-  <nav id="app-header" :class="{ mobile: !config.desktop, windows: isWin }">
+  <nav id="app-header" :class="{ mobile: !config.desktop }">
     <div class="container">
       <template v-if="!config.desktop">
         <div class="header-item" />
@@ -33,12 +33,13 @@ export default {
   name: `app-header`,
   components: { AppMenu },
   computed: {
-    ...mapGetters([`config`]),
-    isWin() {
-      return navigator.platform.toUpperCase().indexOf(`WIN`) >= 0
-    }
+    ...mapGetters([`config`])
   },
   mounted() {
+    this.watchWindowSize()
+    window.onresize = this.watchWindowSize
+  },
+  updated: function() {
     this.watchWindowSize()
     window.onresize = this.watchWindowSize
   },

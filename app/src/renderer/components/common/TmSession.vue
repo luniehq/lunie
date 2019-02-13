@@ -1,6 +1,5 @@
 <template>
   <div class="tm-session-wrapper">
-    <img class="tm-session-backdrop" src="~assets/images/cosmos-logo.png" />
     <session-loading v-if="config.modals.session.state == 'loading'" />
     <session-welcome v-else-if="config.modals.session.state == 'welcome'" />
     <session-sign-up v-else-if="config.modals.session.state == 'sign-up'" />
@@ -46,14 +45,6 @@ export default {
   z-index: var(--z-modal);
 }
 
-.tm-session-wrapper .tm-session-backdrop {
-  position: absolute;
-  top: -10vw;
-  left: -10vw;
-  width: 50vw;
-  opacity: 0.25;
-}
-
 .tm-field-checkbox {
   display: flex;
   flex-flow: row nowrap;
@@ -88,7 +79,6 @@ export default {
   top: 0;
   left: 0;
   z-index: var(--z-default);
-  background: var(--app-fg);
 }
 
 .tm-session-container:not(.tm-form) {

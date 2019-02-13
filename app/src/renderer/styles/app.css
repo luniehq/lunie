@@ -30,9 +30,6 @@ a {
 a:hover {
   color: var(--link-hover);
 }
-.desktop-only {
-  display: none;
-}
 #app {
   font-size: var(--x);
   line-height: 1.5;
@@ -114,7 +111,4 @@ input.tm-field {
     display: flex;
     min-width: 0;
   }
-}
-.desktop-only {
-  display: inline;
 }
