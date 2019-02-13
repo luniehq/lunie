@@ -24,28 +24,6 @@ describe(`ToolBar`, () => {
     expect(store.dispatch).toHaveBeenCalledWith(`signOut`)
   })
 
-  it(`goes back correctly and updates the state`, () => {
-    // this mocks the values that would come from the store through `getters.js`
-    const getterValues = {
-      lastPage: `/staking`,
-      $router: {
-        push: jest.fn((route, cb) => cb())
-      },
-      pauseHistory: jest.fn(),
-      popHistory: jest.fn()
-    }
-
-    ToolBar.methods.back.call({
-      ...getterValues
-    })
-    expect(getterValues.$router.push).toHaveBeenCalledWith(
-      `/staking`,
-      expect.any(Function)
-    )
-    expect(getterValues.pauseHistory).toHaveBeenCalled()
-    expect(getterValues.popHistory).toHaveBeenCalled()
-  })
-
   it(`check if search should be Enabled`, () => {
     expect(ToolBar.computed.searchEnabled.call({ searching: true })).toBe(true)
     expect(ToolBar.computed.searchEnabled.call({})).toBe(false)

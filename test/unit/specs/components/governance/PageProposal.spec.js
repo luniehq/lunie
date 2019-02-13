@@ -40,6 +40,7 @@ describe(`PageProposal`, () => {
     const instance = mount(PageProposal, {
       localVue,
       doBefore: ({ store }) => {
+        store.commit(`setSignIn`, true)
         store.commit(`setConnected`, true)
         store.state.governanceParameters.loaded = true
         store.commit(`setGovParameters`, governanceParameters)
@@ -64,8 +65,15 @@ describe(`PageProposal`, () => {
     wrapper.vm.$refs.modalVote = { open: jest.fn() }
   })
 
-  it(`has the expected html structure`, async () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+  describe(`has the expected html structure`, () => {
+    it(`if user has signed in`, async () => {
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
+
+    it(`if user hasn't signed in`, async () => {
+      store.commit(`setSignIn`, false)
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
   })
 
   it(`has the expected html structure when voting is open`, async () => {
@@ -166,6 +174,7 @@ describe(`PageProposal`, () => {
       const instance = mount(PageProposal, {
         localVue,
         doBefore: ({ store }) => {
+          store.commit(`setSignIn`, true)
           store.commit(`setConnected`, true)
           store.commit(`setProposal`, proposal)
           store.commit(`setProposalTally`, {
@@ -223,6 +232,7 @@ describe(`PageProposal`, () => {
       const instance = mount(PageProposal, {
         localVue,
         doBefore: ({ store }) => {
+          store.commit(`setSignIn`, true)
           store.commit(`setConnected`, true)
           store.commit(`setStakingParameters`, stakingParameters.parameters)
           store.commit(`setProposal`, proposal)
@@ -249,29 +259,29 @@ describe(`PageProposal`, () => {
     it(`disables deposits if the proposal is not active`, () => {
       expect(wrapper.find(`#deposit-btn`).exists()).toEqual(false)
     })
-  })
 
-  it(`disables interaction buttons if not connected`, () => {
-    store.commit(`setConnected`, false)
+    it(`disables interaction buttons if not connected`, () => {
+      store.commit(`setConnected`, false)
 
-    store.commit(
-      `setProposal`,
-      Object.assign({}, proposal, {
-        proposal_status: `VotingPeriod`
-      })
-    )
-    expect(
-      wrapper.vm.$el.querySelector(`#vote-btn`).getAttribute(`disabled`)
-    ).toBe(`disabled`)
+      store.commit(
+        `setProposal`,
+        Object.assign({}, proposal, {
+          proposal_status: `VotingPeriod`
+        })
+      )
+      expect(
+        wrapper.vm.$el.querySelector(`#vote-btn`).getAttribute(`disabled`)
+      ).toBe(`disabled`)
 
-    store.commit(
-      `setProposal`,
-      Object.assign({}, proposal, {
-        proposal_status: `DepositPeriod`
-      })
-    )
-    expect(
-      wrapper.vm.$el.querySelector(`#deposit-btn`).getAttribute(`disabled`)
-    ).toBe(`disabled`)
+      store.commit(
+        `setProposal`,
+        Object.assign({}, proposal, {
+          proposal_status: `DepositPeriod`
+        })
+      )
+      expect(
+        wrapper.vm.$el.querySelector(`#deposit-btn`).getAttribute(`disabled`)
+      ).toBe(`disabled`)
+    })
   })
 })

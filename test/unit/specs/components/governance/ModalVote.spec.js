@@ -6,7 +6,7 @@ import ModalVote from "renderer/components/governance/ModalVote"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`ModalVote`, () => {
-  let wrapper
+  let wrapper, store
   const { mount, localVue } = setup()
   localVue.use(Vuelidate)
   localVue.directive(`tooltip`, () => {})
@@ -23,6 +23,8 @@ describe(`ModalVote`, () => {
 
     instance.store.state.connection.connected = true
     wrapper = instance.wrapper
+    store = instance.store
+    store.commit(`setSignIn`, true)
 
     wrapper.vm.$refs.actionModal.open()
   })
