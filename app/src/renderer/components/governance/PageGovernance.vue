@@ -51,7 +51,13 @@ export default {
     ]
   }),
   computed: {
-    ...mapGetters([`proposals`, `filters`, `depositDenom`, `connected`]),
+    ...mapGetters([
+      `proposals`,
+      `filters`,
+      `depositDenom`,
+      `connected`,
+      `user`
+    ]),
     proposalList() {
       return Object.values(this.proposals.proposals)
     }

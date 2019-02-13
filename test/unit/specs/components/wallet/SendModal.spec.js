@@ -26,7 +26,8 @@ describe(`SendModal`, () => {
       denoms: [`fermion`, `gregcoin`, `mycoin`, `STAKE`],
       balances
     },
-    connected: true
+    connected: true,
+    user: { signedIn: true }
   }
 
   beforeEach(async () => {

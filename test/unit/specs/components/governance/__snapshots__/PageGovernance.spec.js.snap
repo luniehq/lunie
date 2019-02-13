@@ -28,17 +28,6 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
           <div
             class="tool-bar"
           >
-            <a
-              class="back"
-              disabled="disabled"
-            >
-              <i
-                class="material-icons"
-              >
-                arrow_back
-              </i>
-            </a>
-             
             <!---->
              
             <a
@@ -181,17 +170,6 @@ exports[`PageGovernance has the expected html structure 1`] = `
           <div
             class="tool-bar"
           >
-            <a
-              class="back"
-              disabled="disabled"
-            >
-              <i
-                class="material-icons"
-              >
-                arrow_back
-              </i>
-            </a>
-             
             <!---->
              
             <a
