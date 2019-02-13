@@ -20,7 +20,10 @@ const buildPath = path.join(__dirname, `app/dist`)
 
 const devPlugins = process.env.CIRCLECI
   ? []
-  : [new CleanWebpackPlugin([buildPath]), new BundleAnalyzerPlugin()]
+  : [
+      new CleanWebpackPlugin([buildPath]),
+      new BundleAnalyzerPlugin({ analyzerMode: `static`, openAnalyzer: false })
+    ]
 
 const rendererConfig = {
   devtool:
