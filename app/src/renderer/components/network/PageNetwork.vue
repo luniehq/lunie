@@ -75,7 +75,6 @@
               >
             </td>
             <td>{{ block.header.num_txs }}</td>
-            <td>{{ block.header.proposer_address }}</td>
           </tr>
         </tbody>
       </table>
