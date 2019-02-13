@@ -11,7 +11,10 @@ describe(`TmLiBankTransaction`, () => {
   }
 
   beforeEach(() => {
-    wrapper = shallowMount(TmLiBankTransaction, { propsData })
+    wrapper = shallowMount(TmLiBankTransaction, {
+      propsData,
+      stubs: [`router-link`]
+    })
   })
 
   it(`has the expected html structure`, () => {

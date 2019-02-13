@@ -202,6 +202,9 @@ const Client = (axios, remoteLcdURL) => {
       ]).then(([depositorTxs, proposerTxs]) =>
         [].concat(depositorTxs, proposerTxs)
       )
+    },
+    getBlock: function(blockHeight) {
+      return req(`GET`, `/blocks/${blockHeight}`)()
     }
   }
 }
