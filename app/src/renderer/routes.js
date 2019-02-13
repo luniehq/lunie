@@ -35,12 +35,13 @@ export default [
     path: `/staking`,
     name: `Staking`,
     component: require(`./components/staking/PageStaking`).default,
-    redirect: `/staking/my-delegations/`,
+    redirect: `/staking/validators/`,
     children: [
       {
         path: `my-delegations`,
         name: `My Delegations`,
-        component: require(`./components/staking/TabMyDelegations`).default
+        component: require(`./components/staking/TabMyDelegations`).default,
+        meta: { requiresAuth: true }
       },
       {
         path: `validators`,
@@ -62,23 +63,27 @@ export default [
   {
     path: `/preferences`,
     name: `preferences`,
-    component: require(`./components/common/PagePreferences`).default
+    component: require(`./components/common/PagePreferences`).default,
+    meta: { requiresAuth: true }
   },
   {
     path: `/`,
     name: `wallet`,
-    component: require(`./components/wallet/PageWallet`).default
+    component: require(`./components/wallet/PageWallet`).default,
+    meta: { requiresAuth: true }
   },
   {
     path: `/wallet/send/:denom?`,
     name: `send`,
     props: true,
-    component: require(`./components/wallet/SendModal`).default
+    component: require(`./components/wallet/SendModal`).default,
+    meta: { requiresAuth: true }
   },
   {
     path: `/transactions`,
     name: `transactions`,
-    component: require(`./components/wallet/PageTransactions`).default
+    component: require(`./components/wallet/PageTransactions`).default,
+    meta: { requiresAuth: true }
   },
   {
     path: `/network`,

@@ -39,7 +39,7 @@
     "nodes": "node ./tasks/testnet.js",
     "proxy": "caddy",
     "stargate": "./builds/Gaia/darwin_amd64/gaiacli rest-server --laddr 'tcp://localhost:9070' --home './builds/testnets/local-testnet/cli_home' --node 'http://localhost:26657' --chain-id 'local-testnet' --trust-node true",
-    "frontend": "NODE_ENV=development webpack-dev-server --hot --colors --config webpack.renderer.config.js --port 9080 --content-base app/dist --https --mode=development",
+    "frontend": "cross-env NODE_ENV=development webpack-dev-server --hot --colors --config webpack.renderer.config.js --port 9080 --content-base app/dist --https --mode=development",
     "frontend:fixed-https": "yarn frontend --cert 'server_dev.crt' --key 'server_dev.key'",
     "backend": "yarn stargate & yarn proxy & yarn nodes 2",
     "backend:fixed-https": "yarn nodes 2 skip-rebuild & yarn stargate --ssl-certfile 'server_dev.crt' --ssl-keyfile 'server_dev.key'"

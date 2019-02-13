@@ -32,6 +32,7 @@ describe(`UndelegationModal`, () => {
     store = instance.store
     store.state.connection.connected = true
     store.commit(`setStakingParameters`, stakingParameters.parameters)
+    store.commit(`setSignIn`, true)
 
     wrapper.vm.$refs.actionModal.open()
   })

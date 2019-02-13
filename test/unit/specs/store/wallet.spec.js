@@ -6,7 +6,8 @@ const mockRootState = {
   stakingParameters,
   connection: {
     connected: true
-  }
+  },
+  user: { signedIn: true }
 }
 jest.mock(`src/config.js`, () => ({
   denoms: [`mycoin`, `fermion`, `STAKE`]
@@ -135,17 +136,34 @@ describe(`Module: Wallet`, () => {
       ])
     })
 
-    it(`should query the balances on reconnection`, async () => {
-      const { actions } = module
-      const dispatch = jest.fn()
-      await actions.reconnected({
-        state: {
-          loading: true,
-          address: `abc`
-        },
-        dispatch
+    describe(`queries the balances on reconnection`, () => {
+      it(`when the user has logged in`, async () => {
+        const { actions } = module
+        const dispatch = jest.fn()
+        await actions.reconnected({
+          state: {
+            loading: true,
+            address: `abc`
+          },
+          dispatch,
+          rootState: { user: { signedIn: true } }
+        })
+        expect(dispatch).toHaveBeenCalledWith(`queryWalletBalances`)
       })
-      expect(dispatch).toHaveBeenCalledWith(`queryWalletBalances`)
+
+      it(`fails if user hasn't signed in`, async () => {
+        const { actions } = module
+        const dispatch = jest.fn()
+        await actions.reconnected({
+          state: {
+            loading: true,
+            address: `abc`
+          },
+          dispatch,
+          rootState: { user: { signedIn: false } }
+        })
+        expect(dispatch).not.toHaveBeenCalledWith(`queryWalletBalances`)
+      })
     })
 
     it(`should not query the balances on reconnection if not stuck in loading`, async () => {

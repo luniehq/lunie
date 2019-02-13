@@ -34,7 +34,7 @@ export default {
     ]
   }),
   computed: {
-    ...mapGetters([`connected`, `delegates`, `filters`])
+    ...mapGetters([`connected`, `delegates`, `filters`, `user`])
   },
   methods: {
     ...mapActions([`updateDelegates`])
