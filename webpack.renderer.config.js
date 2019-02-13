@@ -106,7 +106,7 @@ const rendererConfig = {
     // contenthash is known to be buggy in webpack4, hash refers to the whole build and
     // chunkhash is even more unpredictable. The non determinism is due to the moduleId defined at run time
     // Hopefully webpack5 will solve the non-deterministic behaviour here
-    filename: `[name].[contenthash].js`,
+    filename: `[name].[hash].js`,
     path: buildPath
   },
   resolve: {
