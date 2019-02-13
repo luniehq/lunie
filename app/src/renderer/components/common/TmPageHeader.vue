@@ -72,6 +72,7 @@ export default {
 .tm-page-header-text .tm-page-header-body {
   flex: 1;
   display: flex;
+  justify-content: flex-end;
 }
 
 .tm-page-header-text .tool-bar i.material-icons {

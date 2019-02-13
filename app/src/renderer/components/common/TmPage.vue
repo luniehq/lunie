@@ -8,7 +8,6 @@
         <tool-bar :refresh="refreshable" :searching="searchable" />
       </slot>
       <slot slot="header-buttons" name="header-buttons" />
-      <slot slot="menu" name="menu" />
     </tm-page-header>
     <main class="tm-page-main">
       <modal-search v-if="search && somethingToSearch" :type="search" />
