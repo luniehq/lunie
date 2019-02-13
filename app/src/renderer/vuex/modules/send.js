@@ -6,7 +6,7 @@ import {
   createSignature
 } from "../../scripts/wallet.js"
 import { getKey } from "../../scripts/keystore"
-const config = require(`../../../config.json`)
+import config from "../../../config"
 import { signatureImport } from "secp256k1"
 
 export default ({ node }) => {

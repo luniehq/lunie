@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
-const config = require(`../../../config.json`)
+import config from "../../../config"
 
 export default ({ node }) => {
   const emptyState = {
@@ -42,8 +42,8 @@ export default ({ node }) => {
   }
 
   const actions = {
-    async reconnected({ state, dispatch }) {
-      if (state.loading && state.address) {
+    async reconnected({ rootState, state, dispatch }) {
+      if (state.loading && state.address && rootState.user.signedIn) {
         await dispatch(`queryWalletBalances`)
       }
     },

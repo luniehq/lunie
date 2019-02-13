@@ -63,6 +63,7 @@ describe(`PageValidator`, () => {
           value: `123.45678`
         })
         store.commit(`setConnected`, true)
+        store.commit(`setSignIn`, true)
         store.commit(`setDelegates`, [validator, validatorTo])
       },
       mocks: {
@@ -88,8 +89,15 @@ describe(`PageValidator`, () => {
     wrapper.vm.$refs.delegationModal = { open: () => {} }
   })
 
-  it(`has the expected html structure`, async () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+  describe(`has the expected html structure`, () => {
+    it(`if user has signed in`, async () => {
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
+
+    it(`if user hasn't signed in`, async () => {
+      store.commit(`setSignIn`, false)
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
   })
 
   it(`should return one delegate based on route params`, () => {
@@ -366,7 +374,7 @@ describe(`delegationTargetOptions`, () => {
   })
 })
 
-describe(`onDelegation`, () => {
+describe(`Staking functions`, () => {
   let wrapper, store
 
   beforeEach(() => {
@@ -374,6 +382,7 @@ describe(`onDelegation`, () => {
 
     const instance = mount(PageValidator, {
       doBefore: ({ store }) => {
+        store.commit(`setSignIn`, true)
         store.commit(`setCommittedDelegation`, {
           candidateId: lcdClientMock.validators[0],
           value: 100
@@ -411,34 +420,40 @@ describe(`onDelegation`, () => {
     wrapper.vm.$refs.delegationModal = { open: () => {} }
   })
 
-  describe(`make sure we have enough atoms to delegate`, () => {
-    it(`is enough`, () => {
-      wrapper.find(`#delegation-btn`).trigger(`click`)
-      expect(wrapper.contains(DelegationModal)).toEqual(true)
-    })
-
-    it(`is not enough`, () => {
-      store.commit(`updateWalletBalance`, {
-        denom: `STAKE`,
-        amount: 0
+  describe(`onDelegation`, () => {
+    describe(`make sure we have enough atoms to delegate`, () => {
+      it(`is enough`, () => {
+        wrapper.find(`#delegation-btn`).trigger(`click`)
+        expect(wrapper.contains(DelegationModal)).toEqual(true)
       })
 
-      wrapper.find(`#delegation-btn`).trigger(`click`)
-      expect(wrapper.vm.showCannotModal).toBe(true)
-      expect(wrapper.contains(TmModal)).toEqual(true)
-      expect(wrapper.text()).toContain(`delegate.`) // ...no atoms to delegate.
-      expect(wrapper.vm.$el).toMatchSnapshot()
+      it(`is not enough`, () => {
+        store.commit(`updateWalletBalance`, {
+          denom: `STAKE`,
+          amount: 0
+        })
 
-      wrapper.find(`#no-atoms-modal__btn`).trigger(`click`)
-      expect(wrapper.vm.showCannotModal).toBe(false)
-      expect(wrapper.contains(TmModal)).toEqual(false)
-      expect(wrapper.text()).not.toContain(`delegate.`) // ...no atoms to delegate.
-      expect(wrapper.vm.$el).toMatchSnapshot()
+        wrapper.find(`#delegation-btn`).trigger(`click`)
+        expect(wrapper.vm.showCannotModal).toBe(true)
+        expect(wrapper.contains(TmModal)).toEqual(true)
+        expect(wrapper.text()).toContain(`delegate.`) // ...no atoms to delegate.
+        expect(wrapper.vm.$el).toMatchSnapshot()
+
+        wrapper.find(`#no-atoms-modal__btn`).trigger(`click`)
+        expect(wrapper.vm.showCannotModal).toBe(false)
+        expect(wrapper.contains(TmModal)).toEqual(false)
+        expect(wrapper.text()).not.toContain(`delegate.`) // ...no atoms to delegate.
+        expect(wrapper.vm.$el).toMatchSnapshot()
+      })
     })
   })
 
-  describe(`onUnstake`, () => {
+  describe(`onUndelegation`, () => {
     describe(`make sure there are enough atoms to unstake`, () => {
+      beforeEach(() => {
+        store.commit(`setSignIn`, true)
+      })
+
       it(`is enough`, () => {
         store.commit(`setCommittedDelegation`, {
           candidateId: lcdClientMock.validators[0],

@@ -1,14 +1,6 @@
 <template>
   <div class="tool-bar">
     <a
-      v-tooltip.bottom="'Back'"
-      :disabled="user.history.length === 0"
-      class="back"
-      @click="back"
-    >
-      <i class="material-icons">arrow_back</i>
-    </a>
-    <a
       v-tooltip.bottom="'Refresh'"
       v-if="!!refresh"
       :disabled="!refresh.connected"
@@ -32,7 +24,7 @@
     </a>
     <router-link
       v-tooltip.bottom="'Preferences'"
-      v-if="config.devMode"
+      v-if="user.signedIn"
       id="settings"
       to="/preferences"
     >
@@ -45,7 +37,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex"
+import { mapGetters } from "vuex"
 export default {
   name: `tool-bar`,
   props: {
@@ -59,7 +51,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([`user`, `lastPage`, `config`]),
+    ...mapGetters([`user`, `config`]),
     searchEnabled() {
       return !!this.searching
     },
@@ -71,15 +63,6 @@ export default {
     }
   },
   methods: {
-    ...mapMutations([`pauseHistory`, `popHistory`]),
-    back() {
-      if (!this.lastPage) return
-      this.pauseHistory(true)
-      this.$router.push(this.lastPage, () => {
-        this.popHistory()
-        this.pauseHistory(false)
-      })
-    },
     enableModalHelp() {
       this.$store.commit(`setModalHelp`, true)
     },

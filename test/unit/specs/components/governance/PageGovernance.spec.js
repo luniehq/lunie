@@ -21,6 +21,7 @@ describe(`PageGovernance`, () => {
         store.state.governanceParameters.loaded = true
         store.commit(`setStakingParameters`, stakingParameters.parameters)
         store.commit(`setConnected`, true)
+        store.commit(`setSignIn`, true)
       },
       stubs: {
         "tm-balance": true
@@ -51,8 +52,8 @@ describe(`PageGovernance`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  describe(`Modal onPropose modal on click`, () => {
-    it(`displays the Propose modal`, () => {
+  describe(`Modal onPropose`, () => {
+    it(`displays the Propose modal on click`, () => {
       const proposeBtn = wrapper.find(`#propose-btn`)
       proposeBtn.trigger(`click`)
       expect(wrapper.contains(ModalPropose)).toEqual(true)

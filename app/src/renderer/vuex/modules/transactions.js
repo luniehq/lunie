@@ -1,4 +1,3 @@
-import fp from "lodash/fp"
 import { uniqBy } from "lodash"
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
@@ -46,8 +45,9 @@ export default ({ node }) => {
       // clear previous account state
       rootState.transactions = JSON.parse(JSON.stringify(emptyState))
     },
-    async reconnected({ state, dispatch }) {
-      if (state.loading) {
+    async reconnected({ state, dispatch, rootState }) {
+      // TODO: remove signedIn check when we support the option for setting a custom address for txs page
+      if (state.loading && rootState.user.signedIn) {
         await dispatch(`getAllTxs`)
       }
     },
@@ -104,7 +104,7 @@ export default ({ node }) => {
         default:
           throw new Error(`Unknown transaction type`)
       }
-      const transactionsPlusType = response.map(fp.set(`type`, type))
+      const transactionsPlusType = response.map(t => ({ ...t, type }))
       return response ? uniqBy(transactionsPlusType, `hash`) : []
     },
     async enrichTransactions({ dispatch }, { transactions }) {

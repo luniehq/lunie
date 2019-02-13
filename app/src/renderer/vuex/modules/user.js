@@ -4,7 +4,7 @@ import {
   disableGoogleAnalytics,
   track
 } from "../../google-analytics.js"
-const config = require(`../../../config.json`)
+import config from "../../../config"
 import { loadKeys, importKey, testPassword } from "../../scripts/keystore.js"
 import { generateSeed } from "../../scripts/wallet.js"
 
@@ -71,13 +71,9 @@ export default ({}) => {
     },
     async showInitialScreen({ state, dispatch, commit }) {
       dispatch(`resetSessionData`)
-
       await dispatch(`loadAccounts`)
       commit(`setModalSessionState`, `welcome`)
-
-      state.externals.track(`pageview`, {
-        dl: `/session/welcome`
-      })
+      state.externals.track(`pageview`, { dl: `/` })
     },
     async loadAccounts({ commit, state }) {
       state.loading = true

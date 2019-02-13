@@ -18,6 +18,7 @@
     "build:testnets": "cd tasks/build/testnets && ./localBuild.sh",
     "build:gaia": "cd tasks/build/Gaia && ./localBuild.sh",
     "build:local": "node tasks/build/local/build",
+    "build:ui": "cross-env NODE_ENV=production webpack --colors --config webpack.renderer.config.js --mode=production --profile --json > app/dist/build.stats.json",
     "start": "yarn frontend & yarn backend skip-rebuild",
     "start:new": "yarn frontend & yarn backend",
     "doc": "jsdoc -r -c jsdoc.json",
@@ -25,7 +26,6 @@
     "lint:eslint": "eslint -f ./node_modules/eslint-friendly-formatter \"{,**/}*.{js,vue}\"",
     "lint:format": "prettier --list-different \"{,**/}*.{css,js,json,vue}\" \"!testArtifacts/**\" \"!app/networks/**\"",
     "lint:fix": "prettier --write \"{,**/}*.{css,js,json,vue}\" \"!testArtifacts/**\"",
-    "pack": "webpack --colors --config webpack.renderer.config.js --mode=production",
     "test": "yarn run lint && yarn test:unit && yarn test:e2e",
     "test:unit": "cross-env LOGGING=false ANALYTICS=false NODE_ENV=testing jest --maxWorkers=2",
     "test:e2e": "cross-env ANALYTICS=false yarn run pack && tape \"${TEST:-test/e2e/*.js}\"",
@@ -39,7 +39,7 @@
     "nodes": "node ./tasks/testnet.js",
     "proxy": "caddy",
     "stargate": "./builds/Gaia/darwin_amd64/gaiacli rest-server --laddr 'tcp://localhost:9070' --home './builds/testnets/local-testnet/cli_home' --node 'http://localhost:26657' --chain-id 'local-testnet' --trust-node true",
-    "frontend": "webpack-dev-server --hot --colors --config webpack.renderer.config.js --port 9080 --content-base app/dist --https --mode=development",
+    "frontend": "cross-env NODE_ENV=development webpack-dev-server --hot --colors --config webpack.renderer.config.js --port 9080 --content-base app/dist --https --mode=development",
     "frontend:fixed-https": "yarn frontend --cert 'server_dev.crt' --key 'server_dev.key'",
     "backend": "yarn stargate & yarn proxy & yarn nodes 2",
     "backend:fixed-https": "yarn nodes 2 skip-rebuild & yarn stargate --ssl-certfile 'server_dev.crt' --ssl-keyfile 'server_dev.key'"
@@ -58,6 +58,7 @@
     "babel-register": "6.26.0",
     "babel-runtime": "6.26.0",
     "canonical-json": "0.0.4",
+    "clean-webpack-plugin": "1.0.1",
     "cross-env": "3.2.4",
     "css-loader": "0.28.11",
     "deterministic-zip": "1.0.5",
@@ -99,7 +100,8 @@
     "vue-template-es2015-compiler": "1.8.1",
     "webpack": "4.28.3",
     "webpack-cli": "3.2.0",
-    "webpack-dev-server": "3.1.14"
+    "webpack-dev-server": "3.1.14",
+    "webpack-bundle-analyzer": "3.0.3"
   },
   "dependencies": {
     "@sentry/browser": "4.4.1",
