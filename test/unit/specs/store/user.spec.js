@@ -26,7 +26,8 @@ describe(`Module: User`, () => {
       config: {
         development: false,
         google_analytics_uid: `UA-123`,
-        version: `0.0.1`
+        version: `abcfdef`,
+        sentry_dsn: `https://1:1@sentry.io/1`
       },
       loadKeys: () => [
         {
@@ -243,7 +244,7 @@ describe(`Module: User`, () => {
     })
     expect(state.externals.Sentry.init).toHaveBeenCalledWith({
       dsn: expect.stringMatching(`https://.*@sentry.io/.*`),
-      release: `voyager@0.0.1`
+      release: `abcfdef`
     })
   })
 
