@@ -73,7 +73,6 @@ describe(`App Start`, () => {
   })
 
   it(`Check the calls on VUE`, async () => {
-    // const mockVue = jest.mock(`Vue`)
     jest.mock(`vue-router`)
     jest.mock(`vue-directive-tooltip`)
     jest.mock(`vuelidate`)
