@@ -120,6 +120,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1916](https://github.com/cosmos/voyager/pull/1916) redirect to session modal when user hasn't logged in @fedekunze
 - [\#1836](https://github.com/cosmos/voyager/issues/1836) remove back button @fedekunze
 - [\#1948](https://github.com/cosmos/voyager/pull/1948) changed PR template @fedekunze
+- [\#1946](https://github.com/cosmos/voyager/pull/1946) removed proposer_address raw hex @jbibla
 
 ### Fixed
 
@@ -192,6 +193,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#961](https://github.com/cosmos/voyager/issues/961) Mock only the `now` function from Date module @sabau
 - Fixed `yarn start` @ƒaboweb
 - [\#1955](https://github.com/cosmos/voyager/issues/1955) Fixed local testnet setup @faboweb
+- HOT FIX: unit tests failed due to merge @faboweb
 
 ## [0.10.7] - 2018-10-10
 
