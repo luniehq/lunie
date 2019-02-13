@@ -22,6 +22,7 @@ describe(`PageStaking`, () => {
     store = instance.store
     store.state.user.address = lcdClientMock.addresses[0]
   })
+
   it(`has the expected html structure`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
