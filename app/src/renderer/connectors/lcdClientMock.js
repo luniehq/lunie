@@ -323,6 +323,7 @@ const state = {
     tallying: {
       threshold: `0.5000000000`,
       veto: `0.3340000000`,
+      quorum: `0.3340000000`,
       governance_penalty: `0.0100000000`
     },
     voting: {
