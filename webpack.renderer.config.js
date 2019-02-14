@@ -11,12 +11,18 @@ const VueLoaderPlugin = require(`vue-loader/lib/plugin`)
 const BundleAnalyzerPlugin = require(`webpack-bundle-analyzer`)
   .BundleAnalyzerPlugin
 const CleanWebpackPlugin = require(`clean-webpack-plugin`)
+const SentryPlugin = require(`@sentry/webpack-plugin`)
 
 function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
 const buildPath = path.join(__dirname, `app/dist`)
+
+const commitHash = require(`child_process`)
+  .execSync(`git rev-parse HEAD`)
+  .toString()
+  .trim()
 
 const devPlugins = process.env.CIRCLECI
   ? []
@@ -88,6 +94,7 @@ const rendererConfig = {
     // the global.GENTLY below fixes a compile issue with superagent + webpack
     // https://github.com/visionmedia/superagent/issues/672
     new webpack.DefinePlugin({ "global.GENTLY": false }),
+    new webpack.DefinePlugin({ "process.env.RELEASE": `"${commitHash}"` }),
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": `"${process.env.NODE_ENV}"`
     }),
@@ -167,6 +174,16 @@ if (process.env.NODE_ENV === `production`) {
   rendererConfig.plugins.push(
     new webpack.LoaderOptionsPlugin({
       minimize: true
+    })
+  )
+}
+
+if (process.env.RELEASE) {
+  console.log(`releasing to Sentry`)
+  rendererConfig.plugins.push(
+    new SentryPlugin({
+      include: `./app/dist`,
+      validate: true
     })
   )
 }

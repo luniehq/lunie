@@ -22,5 +22,6 @@ export default {
   node_halted_timeout: 120000,
   block_timeout: 10000,
   default_gas: 500000,
-  faucet
+  faucet,
+  version: process.env.RELEASE
 }
