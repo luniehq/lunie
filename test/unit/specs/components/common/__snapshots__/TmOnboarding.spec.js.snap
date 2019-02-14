@@ -36,7 +36,7 @@ exports[`TmOnboarding has the expected html structure 0 1`] = `
         </div>
          
         <img
-          src="function() {
+          src="function mockConstructor() {
         return fn.apply(this, arguments);
       }"
         />
@@ -154,7 +154,7 @@ exports[`TmOnboarding has the expected html structure 1 1`] = `
         </div>
          
         <img
-          src="function() {
+          src="function mockConstructor() {
         return fn.apply(this, arguments);
       }"
         />
@@ -272,7 +272,7 @@ exports[`TmOnboarding has the expected html structure 2 1`] = `
         </div>
          
         <img
-          src="function() {
+          src="function mockConstructor() {
         return fn.apply(this, arguments);
       }"
         />
@@ -390,7 +390,7 @@ exports[`TmOnboarding has the expected html structure 3 1`] = `
         </div>
          
         <img
-          src="function() {
+          src="function mockConstructor() {
         return fn.apply(this, arguments);
       }"
         />
@@ -508,7 +508,7 @@ exports[`TmOnboarding has the expected html structure 4 1`] = `
         </div>
          
         <img
-          src="function() {
+          src="function mockConstructor() {
         return fn.apply(this, arguments);
       }"
         />
