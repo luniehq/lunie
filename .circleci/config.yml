@@ -215,6 +215,16 @@ jobs:
       - sync:
           dist_path: *DIST
 
+  # Release code and sourcemaps to Sentry
+  sentry:
+    executor: web
+    steps:
+      - checkout
+      - yarn-install
+      - run: |
+          mkdir -p app/dist
+          CIRCLECI=true RELEASE=true yarn build:ui
+
   # Create release.
   release:
     docker:
@@ -299,6 +309,14 @@ workflows:
           requires:
             - testUnit
             - build
+          filters:
+            branches:
+              only:
+                - develop
+                - master
+      - sentry:
+          requires:
+            - testUnit
           filters:
             branches:
               only:
