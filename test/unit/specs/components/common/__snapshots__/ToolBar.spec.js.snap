@@ -27,7 +27,7 @@ exports[`ToolBar has the expected html structure 1`] = `
     id="signIn-btn"
   >
     <span
-      class="tm-btn__container"
+      class="tm-btn__container tm-btn--primary"
     >
       <!---->
       <span

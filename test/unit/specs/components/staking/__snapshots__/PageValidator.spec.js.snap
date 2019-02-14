@@ -631,7 +631,7 @@ exports[`PageValidator has the expected html structure if user hasn't signed in 
               id="signIn-btn"
             >
               <span
-                class="tm-btn__container"
+                class="tm-btn__container tm-btn--primary"
               >
                 <!---->
                 <span
@@ -1650,7 +1650,7 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
               id="signIn-btn"
             >
               <span
-                class="tm-btn__container"
+                class="tm-btn__container tm-btn--primary"
               >
                 <!---->
                 <span

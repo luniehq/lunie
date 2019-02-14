@@ -86,7 +86,6 @@ export default {
     },
     signOut() {
       this.$store.dispatch(`signOut`)
-      this.$store.commit(`setActiveMenu`, `sidebar`)
       this.$router.push(`/`)
     }
   }

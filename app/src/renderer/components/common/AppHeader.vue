@@ -1,23 +1,23 @@
 <template>
   <nav id="app-header" :class="{ mobile: !config.desktop }">
     <div class="container">
-      <template v-if="!config.desktop">
-        <div class="header-item" />
-      </template>
       <div class="header-item header-item-logo">
         <img id="logo-white" src="~assets/images/cosmos-wordmark-white.svg" />
       </div>
-      <app-menu v-if="config.activeMenu === 'app' || config.desktop" /><template
-        v-if="!config.desktop"
-      >
+      <app-menu v-if="config.activeMenu === 'app' || config.desktop" />
+      <template v-if="!config.desktop">
         <div
           v-if="config.activeMenu === 'app'"
-          class="header-item"
-          @click="close"
+          class="header-item close-menu"
+          @click="close()"
         >
           <i class="material-icons">close</i>
         </div>
-        <div v-else class="header-item" @click="enableMenu()">
+        <div
+          v-if="config.activeMenu === ''"
+          class="header-item open-menu"
+          @click="enableMenu()"
+        >
           <i class="material-icons">menu</i>
         </div>
       </template>
@@ -80,18 +80,6 @@ export default {
   -webkit-app-region: drag;
 }
 
-#app-header.windows:before {
-  display: block;
-  content: "";
-  height: var(--px);
-  background: var(--bc);
-  width: 100vw;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: var(--z-appHeader);
-}
-
 @media screen and (max-width: 1023px) {
   #app-header {
     position: fixed;
@@ -112,7 +100,6 @@ export default {
 
   #app-header .header-item {
     height: calc(3rem - var(--px));
-    width: 3rem;
     display: flex;
     align-items: center;
     justify-content: center;

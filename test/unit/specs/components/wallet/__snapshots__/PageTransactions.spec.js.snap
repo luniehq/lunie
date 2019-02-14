@@ -303,7 +303,7 @@ exports[`PageTransactions has the expected html structure if user hasn't signed 
               id="signIn-btn"
             >
               <span
-                class="tm-btn__container"
+                class="tm-btn__container tm-btn--primary"
               >
                 <!---->
                 <span
