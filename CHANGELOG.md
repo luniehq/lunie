@@ -68,6 +68,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1918](https://github.com/cosmos/voyager/issues/1918) added message to log in when sending transactions and the user is not authenticated @fedekunze
 - [\#1866](https://github.com/cosmos/voyager/issues/1866) Added blocks to network page and a page for viewing individual blocks @jbibla
 - [\#1911](https://github.com/cosmos/voyager/issues/1911) Upload code to Sentry for remote error analyzer @faboweb
+- Added development mode warning @faboweb
 
 ### Changed
 
@@ -198,6 +199,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - HOT FIX: unit tests failed due to merge @faboweb
 - HOT FIX: we fixed develop (replaced contenthash with hash) @jbibla
 - Bring back devMode @faboweb
+- [\#1945](https://github.com/cosmos/voyager/issues/1945) Fixed governance parameters quorum description @fedekunze
+- [\#1978](https://github.com/cosmos/voyager/pull/1978) Fixed dependency for security audit @sabau
 
 ## [0.10.7] - 2018-10-10
 

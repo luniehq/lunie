@@ -117,7 +117,9 @@
             <dd>
               {{
                 governanceParameters.parameters.tallying.quorum
-                  ? governanceParameters.parameters.tallying.quorum
+                  ? `${parseFloat(
+                      governanceParameters.parameters.tallying.quorum
+                    ) * 100} %`
                   : `n/a`
               }}
             </dd>
@@ -179,7 +181,8 @@ export default {
       description: `Tally parameters for governance in the Cosmos Hub`,
       threshold: `Percentage of "Yes" votes required for proposal to pass`,
       veto: `Percentage of "No With Veto" votes required for proposal to be vetoed`,
-      governance_penalty: `Penalty for a validator who fails to vote`
+      governance_penalty: `Penalty for a validator who fails to vote`,
+      quorum: `Percentage of tokens required to vote on a proposal to be considered valid`
     },
     votingTooltips: {
       description: `Voting parameters for governance in the Cosmos Hub`,
