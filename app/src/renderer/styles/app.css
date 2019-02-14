@@ -102,7 +102,6 @@ input.tm-field {
 #app-header {
   background: var(--app-nav);
 }
-
 #develop-mode-warning {
   background: red;
   text-align: center;
@@ -113,6 +112,7 @@ input.tm-field {
   width: 100%;
   top: 0;
 }
+
 @media screen and (min-width: 1024px) {
   #app {
     padding-top: 0;
