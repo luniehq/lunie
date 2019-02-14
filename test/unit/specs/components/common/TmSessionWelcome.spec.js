@@ -87,7 +87,9 @@ describe(`TmSessionWelcome`, () => {
           $store,
           lastPage: `/`,
           $router: {
-            push: jest.fn()
+            push: jest.fn((_, cb) => {
+              cb()
+            })
           }
         }
         TmSessionWelcome.methods.back.call(self)
@@ -96,6 +98,8 @@ describe(`TmSessionWelcome`, () => {
           `/`,
           expect.any(Function)
         )
+        expect($store.commit).toHaveBeenCalledWith(`popHistory`)
+        expect($store.commit).toHaveBeenCalledWith(`pauseHistory`, false)
       })
 
       it(`doesn't go back if there's no last Page`, () => {
