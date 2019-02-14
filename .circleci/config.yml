@@ -331,11 +331,10 @@ workflows:
   release:
     triggers:
       - schedule:
-          cron: "15 10 * * *"
+          cron: "0 0 * * *"
           filters:
             branches:
               only:
                 - develop
-                - sabau/auto-release-PR-first-step
     jobs:
       - release
