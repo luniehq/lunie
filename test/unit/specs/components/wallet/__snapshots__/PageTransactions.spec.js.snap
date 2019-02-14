@@ -175,7 +175,6 @@ exports[`PageTransactions has the expected html structure if user has signed in 
       address="tb1d4u5zerywfjhxuc9nudvw"
       bondingdenom="STAKE"
       proposalsurl="/governance"
-      slot="managed-body"
       transaction="[object Object]"
       unbondingtime="NaN"
       validators=""
@@ -185,7 +184,6 @@ exports[`PageTransactions has the expected html structure if user has signed in 
       address="tb1d4u5zerywfjhxuc9nudvw"
       bondingdenom="STAKE"
       proposalsurl="/governance"
-      slot="managed-body"
       transaction="[object Object]"
       unbondingtime="NaN"
       validators=""
@@ -195,7 +193,6 @@ exports[`PageTransactions has the expected html structure if user has signed in 
       address="tb1d4u5zerywfjhxuc9nudvw"
       bondingdenom="STAKE"
       proposalsurl="/governance"
-      slot="managed-body"
       transaction="[object Object]"
       unbondingtime="NaN"
       validators=""
@@ -205,7 +202,6 @@ exports[`PageTransactions has the expected html structure if user has signed in 
       address="tb1d4u5zerywfjhxuc9nudvw"
       bondingdenom="STAKE"
       proposalsurl="/governance"
-      slot="managed-body"
       transaction="[object Object]"
       unbondingtime="NaN"
       validators=""
@@ -215,7 +211,6 @@ exports[`PageTransactions has the expected html structure if user has signed in 
       address="tb1d4u5zerywfjhxuc9nudvw"
       bondingdenom="STAKE"
       proposalsurl="/governance"
-      slot="managed-body"
       transaction="[object Object]"
       unbondingtime="NaN"
       validators=""
@@ -225,12 +220,13 @@ exports[`PageTransactions has the expected html structure if user has signed in 
       address="tb1d4u5zerywfjhxuc9nudvw"
       bondingdenom="STAKE"
       proposalsurl="/governance"
-      slot="managed-body"
       transaction="[object Object]"
       unbondingtime="NaN"
       validators=""
       validatorsurl="/staking/validators"
     />
+     
+    <br />
      
   </main>
 </div>
