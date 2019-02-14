@@ -313,7 +313,7 @@ workflows:
   release:
     triggers:
       - schedule:
-          cron: "11 10 * * *"
+          cron: "15 10 * * *"
           filters:
             branches:
               only:
