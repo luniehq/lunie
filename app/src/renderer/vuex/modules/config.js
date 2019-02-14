@@ -16,7 +16,7 @@ export default () => {
       help: { active: false },
       receive: { active: false },
       session: {
-        active: true,
+        active: false,
         state: `loading`
       },
       noNodes: { active: false }

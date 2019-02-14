@@ -98,7 +98,7 @@ describe(`PageNetwork`, () => {
     expect(wrapper.vm.lastBlock).toEqual(`a few seconds ago`)
   })
 
-  it(`sets propertoes for the block table`, () => {
+  it(`sets properties for the block table`, () => {
     expect(wrapper.vm.properties).toEqual([
       {
         title: `Block Number`,
@@ -111,12 +111,6 @@ describe(`PageNetwork`, () => {
         value: `transactions`,
         tooltip: `Number of transactions per block`,
         class: `transactions`
-      },
-      {
-        title: `Proposer`,
-        value: `proposer`,
-        tooltip: `Validator responsible for block proposals`,
-        class: `proposer`
       }
     ])
   })

@@ -148,6 +148,8 @@ exports[`PageTransactions has the expected html structure if user has signed in 
                 exit_to_app
               </i>
             </a>
+             
+            <!---->
           </div>
         </div>
       </div>
@@ -294,15 +296,23 @@ exports[`PageTransactions has the expected html structure if user hasn't signed 
              
             <!---->
              
-            <a
-              id="signOut-btn"
+            <!---->
+             
+            <button
+              class="tm-btn"
+              id="signIn-btn"
             >
-              <i
-                class="material-icons"
+              <span
+                class="tm-btn__container tm-btn--primary"
               >
-                exit_to_app
-              </i>
-            </a>
+                <!---->
+                <span
+                  class="tm-btn__value"
+                >
+                  Sign In
+                </span>
+              </span>
+            </button>
           </div>
         </div>
       </div>
@@ -539,6 +549,8 @@ exports[`PageTransactions should filter the transactions 1`] = `
                 exit_to_app
               </i>
             </a>
+             
+            <!---->
           </div>
         </div>
       </div>

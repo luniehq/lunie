@@ -20,14 +20,22 @@ exports[`ToolBar has the expected html structure 1`] = `
    
   <!---->
    
-  <a
-    id="signOut-btn"
+  <!---->
+   
+  <button
+    class="tm-btn"
+    id="signIn-btn"
   >
-    <i
-      class="material-icons"
+    <span
+      class="tm-btn__container tm-btn--primary"
     >
-      exit_to_app
-    </i>
-  </a>
+      <!---->
+      <span
+        class="tm-btn__value"
+      >
+        Sign In
+      </span>
+    </span>
+  </button>
 </div>
 `;

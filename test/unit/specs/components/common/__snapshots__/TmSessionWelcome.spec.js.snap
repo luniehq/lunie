@@ -12,7 +12,11 @@ exports[`TmSessionWelcome with accounts has the expected html structure 1`] = `
       class="tm-session-header"
     >
       <a>
-         
+        <i
+          class="material-icons"
+        >
+          help_outline
+        </i>
       </a>
        
       <div
@@ -25,7 +29,7 @@ exports[`TmSessionWelcome with accounts has the expected html structure 1`] = `
         <i
           class="material-icons"
         >
-          help_outline
+          close
         </i>
       </a>
     </div>
@@ -33,150 +37,31 @@ exports[`TmSessionWelcome with accounts has the expected html structure 1`] = `
     <div
       class="tm-session-main"
     >
-      <div
-        class="tm-li-session"
-      >
-        <div
-          class="tm-li-session-icon"
-        >
-          <i
-            class="material-icons"
-          >
-            lock
-          </i>
-        </div>
-         
-        <div
-          class="tm-li-session-text"
-        >
-          <div
-            class="tm-li-session-title"
-          >
-            Sign in with password
-          </div>
-           
-          <div
-            class="tm-li-session-subtitle"
-          >
-            If you have an account, choose this option.
-          </div>
-        </div>
-      </div>
+      <li-session-stub
+        icon="lock"
+        subtitle="If you have an account, choose this option."
+        title="Sign in with password"
+      />
        
-      <div
-        class="tm-li-session"
-      >
-        <div
-          class="tm-li-session-icon"
-        >
-          <i
-            class="material-icons"
-          >
-            person_add
-          </i>
-        </div>
-         
-        <div
-          class="tm-li-session-text"
-        >
-          <div
-            class="tm-li-session-title"
-          >
-            Create new account
-          </div>
-           
-          <div
-            class="tm-li-session-subtitle"
-          >
-            Generate a brand new seed and create a new account.
-          </div>
-        </div>
-      </div>
+      <li-session-stub
+        icon="person_add"
+        subtitle="Generate a brand new seed and create a new account."
+        title="Create new account"
+      />
        
-      <div
-        class="tm-li-session"
-      >
-        <div
-          class="tm-li-session-icon"
-        >
-          <i
-            class="material-icons"
-          >
-            settings_backup_restore
-          </i>
-        </div>
-         
-        <div
-          class="tm-li-session-text"
-        >
-          <div
-            class="tm-li-session-title"
-          >
-            Import with seed
-          </div>
-           
-          <div
-            class="tm-li-session-subtitle"
-          >
-            Use an existing seed phrase to create an account.
-          </div>
-        </div>
-      </div>
+      <li-session-stub
+        icon="settings_backup_restore"
+        subtitle="Use an existing seed phrase to create an account."
+        title="Import with seed"
+      />
        
-      <div
-        class="tm-li-session"
-      >
-        <div
-          class="tm-li-session-icon"
-        >
-          <i
-            class="material-icons"
-          >
-            usb
-          </i>
-        </div>
-         
-        <div
-          class="tm-li-session-text"
-        >
-          <div
-            class="tm-li-session-title"
-          >
-            Sign in with hardware
-          </div>
-           
-          <div
-            class="tm-li-session-subtitle"
-          >
-            If you have a Ledger Wallet, choose this option.
-          </div>
-        </div>
-      </div>
+      <li-session-stub
+        icon="usb"
+        subtitle="If you have a Ledger Wallet, choose this option."
+        title="Sign in with hardware"
+      />
        
-      <div
-        class="fundraiser-warning"
-      >
-        <div
-          class="fundraiser-warning__title"
-        >
-          
-    Warning – Do not enter your fundraiser seed. This software has not been
-    audited. Never enter your 12-word seed while your computer is connected to
-    the internet.
-  
-        </div>
-         
-        <div
-          class="fundraiser-warning__subtitle"
-        >
-          
-    Even when we do start supporting fundraiser seeds, don't use it except for
-    testing or with small amounts. Soon we will release a command line
-    interface to use for the signing of transactions offline including support
-    for certain hardware ledgers.
-  
-        </div>
-      </div>
+      <fundraiser-warning-stub />
     </div>
      
     <div
@@ -198,7 +83,11 @@ exports[`TmSessionWelcome without accounts has the expected html structure 1`] =
       class="tm-session-header"
     >
       <a>
-         
+        <i
+          class="material-icons"
+        >
+          help_outline
+        </i>
       </a>
        
       <div
@@ -211,7 +100,7 @@ exports[`TmSessionWelcome without accounts has the expected html structure 1`] =
         <i
           class="material-icons"
         >
-          help_outline
+          close
         </i>
       </a>
     </div>
@@ -221,120 +110,25 @@ exports[`TmSessionWelcome without accounts has the expected html structure 1`] =
     >
       <!---->
        
-      <div
-        class="tm-li-session"
-      >
-        <div
-          class="tm-li-session-icon"
-        >
-          <i
-            class="material-icons"
-          >
-            person_add
-          </i>
-        </div>
-         
-        <div
-          class="tm-li-session-text"
-        >
-          <div
-            class="tm-li-session-title"
-          >
-            Create new account
-          </div>
-           
-          <div
-            class="tm-li-session-subtitle"
-          >
-            Generate a brand new seed and create a new account.
-          </div>
-        </div>
-      </div>
+      <li-session-stub
+        icon="person_add"
+        subtitle="Generate a brand new seed and create a new account."
+        title="Create new account"
+      />
        
-      <div
-        class="tm-li-session"
-      >
-        <div
-          class="tm-li-session-icon"
-        >
-          <i
-            class="material-icons"
-          >
-            settings_backup_restore
-          </i>
-        </div>
-         
-        <div
-          class="tm-li-session-text"
-        >
-          <div
-            class="tm-li-session-title"
-          >
-            Import with seed
-          </div>
-           
-          <div
-            class="tm-li-session-subtitle"
-          >
-            Use an existing seed phrase to create an account.
-          </div>
-        </div>
-      </div>
+      <li-session-stub
+        icon="settings_backup_restore"
+        subtitle="Use an existing seed phrase to create an account."
+        title="Import with seed"
+      />
        
-      <div
-        class="tm-li-session"
-      >
-        <div
-          class="tm-li-session-icon"
-        >
-          <i
-            class="material-icons"
-          >
-            usb
-          </i>
-        </div>
-         
-        <div
-          class="tm-li-session-text"
-        >
-          <div
-            class="tm-li-session-title"
-          >
-            Sign in with hardware
-          </div>
-           
-          <div
-            class="tm-li-session-subtitle"
-          >
-            If you have a Ledger Wallet, choose this option.
-          </div>
-        </div>
-      </div>
+      <li-session-stub
+        icon="usb"
+        subtitle="If you have a Ledger Wallet, choose this option."
+        title="Sign in with hardware"
+      />
        
-      <div
-        class="fundraiser-warning"
-      >
-        <div
-          class="fundraiser-warning__title"
-        >
-          
-    Warning – Do not enter your fundraiser seed. This software has not been
-    audited. Never enter your 12-word seed while your computer is connected to
-    the internet.
-  
-        </div>
-         
-        <div
-          class="fundraiser-warning__subtitle"
-        >
-          
-    Even when we do start supporting fundraiser seeds, don't use it except for
-    testing or with small amounts. Soon we will release a command line
-    interface to use for the signing of transactions offline including support
-    for certain hardware ledgers.
-  
-        </div>
-      </div>
+      <fundraiser-warning-stub />
     </div>
      
     <div

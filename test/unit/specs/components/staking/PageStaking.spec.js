@@ -26,12 +26,4 @@ describe(`PageStaking`, () => {
   it(`has the expected html structure`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
-
-  it(`should refresh candidates on click`, () => {
-    wrapper
-      .findAll(`.tool-bar i`)
-      .at(1)
-      .trigger(`click`)
-    expect(store.dispatch).toHaveBeenCalledWith(`updateDelegates`)
-  })
 })
