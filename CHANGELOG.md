@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.10003.4] - 2019-02-14
+
 ### Added
 
 - Contract tests for `keys` endpoints in lcdClient. @NodeGuy
