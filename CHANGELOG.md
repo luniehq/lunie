@@ -67,6 +67,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1928](https://github.com/cosmos/voyager/issues/1928) Added Browserstack reference to README @sabau
 - [\#1918](https://github.com/cosmos/voyager/issues/1918) added message to log in when sending transactions and the user is not authenticated @fedekunze
 - [\#1866](https://github.com/cosmos/voyager/issues/1866) Added blocks to network page and a page for viewing individual blocks @jbibla
+- Added development mode warning @faboweb
 
 ### Changed
 
@@ -122,6 +123,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1718](https://github.com/cosmos/voyager/issues/1718) Remove session as default @fedekunze
 - [\#1948](https://github.com/cosmos/voyager/pull/1948) changed PR template @fedekunze
 - [\#1946](https://github.com/cosmos/voyager/pull/1946) removed proposer_address raw hex @jbibla
+- [\#1967](https://github.com/cosmos/voyager/pull/1967) bundle analyzer changed from dynamic to static report @sabau
 
 ### Fixed
 
@@ -197,6 +199,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - HOT FIX: unit tests failed due to merge @faboweb
 - HOT FIX: we fixed develop (replaced contenthash with hash) @jbibla
 - Bring back devMode @faboweb
+- [\#1945](https://github.com/cosmos/voyager/issues/1945) Fixed governance parameters quorum description @fedekunze
 
 ## [0.10.7] - 2018-10-10
 
