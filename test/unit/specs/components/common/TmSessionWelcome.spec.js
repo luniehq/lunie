@@ -92,7 +92,10 @@ describe(`TmSessionWelcome`, () => {
         }
         TmSessionWelcome.methods.back.call(self)
         expect($store.commit).toHaveBeenCalledWith(`pauseHistory`, true)
-        expect(self.$router.push).toHaveBeenCalled()
+        expect(self.$router.push).toHaveBeenCalledWith(
+          `/`,
+          expect.any(Function)
+        )
       })
 
       it(`doesn't go back if there's no last Page`, () => {
