@@ -39,7 +39,7 @@ export default {
     this.watchWindowSize()
     window.onresize = this.watchWindowSize
   },
-  updated: function() {
+  updated() {
     this.watchWindowSize()
     window.onresize = this.watchWindowSize
   },

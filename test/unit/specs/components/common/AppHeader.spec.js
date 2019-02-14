@@ -214,4 +214,16 @@ describe(`AppHeader`, () => {
       expect($store.commit).toHaveBeenCalledWith(`setConfigDesktop`, true)
     })
   })
+
+  describe(`updated`, () => {
+    it(`should watch window size on update`, () => {
+      const window = { onresize: undefined }
+      const self = {
+        watchWindowSize: jest.fn(),
+        window
+      }
+      AppHeader.updated.call(self)
+      expect(self.watchWindowSize).toHaveBeenCalled()
+    })
+  })
 })
