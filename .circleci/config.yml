@@ -255,20 +255,7 @@ jobs:
               git push --delete bot release-candidate
 
               npm -g uninstall yarn ; npm -g install yarn@1.13.0
-
-              sudo tasks/build/installWine.sh
               yarn install
-
-              # download network configs
-              # skip as this will overwrite game of stakes
-              # tasks/build/testnets/build.sh
-
-              # build Voyager
-              node tasks/build/build.js
-
-              # test linux build
-              tar -zxvf ./builds/Voyager/Cosmos_Voyager-*-Linux.tar.gz
-              yarn test:exe "./Cosmos Voyager"
 
               node tasks/publish.js
             fi
@@ -340,9 +327,14 @@ workflows:
             branches:
               only: develop
 
+  # Every UTC midnight we go on develop and release
   release:
-    jobs:
-      - release:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
           filters:
             branches:
-              only: release
+              only:
+                - develop
+    jobs:
+      - release
