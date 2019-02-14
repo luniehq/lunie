@@ -58,7 +58,6 @@ import colors from "./transaction-colors.js"
 import { pretty } from "../../scripts/num.js"
 import { calculateTokens } from "../../scripts/common.js"
 import moment from "moment"
-import TmBtn from "common/TmBtn.vue"
 
 /*
  * undelegation tx need a preprocessing, where shares are translated into transaction.balance: {amount, denom}
@@ -66,7 +65,7 @@ import TmBtn from "common/TmBtn.vue"
 
 export default {
   name: `TmLiStakeTransaction`,
-  components: { TmLiTransaction, TmBtn },
+  components: { TmLiTransaction },
   props: {
     transaction: {
       type: Object,

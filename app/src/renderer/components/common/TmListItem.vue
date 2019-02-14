@@ -245,10 +245,8 @@ export default {
     }
   },
   computed: {
-    spinClass() {
-      if (this.spin) {
-        return `fa-spin`
-      }
+    spinClass({ spin } = this) {
+      return spin && `fa-spin`
     }
   }
 }

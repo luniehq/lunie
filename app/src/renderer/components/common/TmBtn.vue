@@ -51,7 +51,7 @@ export default {
       type: String,
       default: null
     },
-    "icon-pos": {
+    iconPos: {
       type: String,
       default: null
     },

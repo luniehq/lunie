@@ -50,21 +50,11 @@
 
 <script>
 import { mapGetters } from "vuex"
-import TmBtn from "common/TmBtn"
-import TmListItem from "common/TmListItem"
-import TmPage from "common/TmPage"
-import TmPart from "common/TmPart"
-import ToolBar from "common/ToolBar"
 import TmDataConnecting from "common/TmDataConnecting"
 import TmDataLoading from "common/TmDataLoading"
 export default {
   name: `tab-staking-parameters`,
   components: {
-    TmBtn,
-    TmListItem,
-    TmPage,
-    TmPart,
-    ToolBar,
     TmDataConnecting,
     TmDataLoading
   },

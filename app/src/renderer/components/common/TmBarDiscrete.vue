@@ -25,7 +25,7 @@ export default {
       type: Number,
       default: 0
     },
-    "click-fn": {
+    clickFn: {
       type: Function,
       required: true
     }

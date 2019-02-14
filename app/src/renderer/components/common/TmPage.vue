@@ -33,7 +33,6 @@
 <script>
 import PerfectScrollbar from "perfect-scrollbar"
 import TmPageHeader from "./TmPageHeader.vue"
-import TmDataMsg from "common/TmDataMsg"
 import TmDataLoading from "common/TmDataLoading"
 import TmDataEmpty from "common/TmDataEmpty"
 import DataEmptySearch from "common/TmDataEmptySearch"
@@ -51,7 +50,6 @@ export default {
     TmBalance,
     ToolBar,
     TmPageHeader,
-    TmDataMsg,
     TmDataEmpty,
     TmDataLoading,
     DataEmptySearch,
@@ -72,7 +70,7 @@ export default {
       type: String,
       default: ``
     },
-    "menu-body": {
+    menuBody: {
       type: String,
       default: ``
     },

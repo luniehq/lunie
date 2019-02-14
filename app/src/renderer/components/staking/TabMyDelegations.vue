@@ -19,10 +19,10 @@
       <div class="unbonding-transactions">
         <template v-for="transaction in unbondingTransactions">
           <tm-li-stake-transaction
+            :key="transaction.hash"
             :transaction="transaction"
             :validators="yourValidators"
             :bonding-denom="bondDenom"
-            :key="transaction.hash"
             :url="validatorURL"
             :unbonding-time="
               time.getUnbondingTime(

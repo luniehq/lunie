@@ -1,4 +1,7 @@
 <template>
+  <!-- Whe removed html so should be safer -->
+  <!-- TODO:SECURITY: let's check how true by injecting some -->
+  <!-- eslint-disable vue/no-v-html -->
   <div class="text-block" v-html="htmlContent" />
 </template>
 
@@ -14,7 +17,7 @@ export default {
   },
   computed: {
     htmlContent() {
-      const md = new MarkdownIt()
+      const md = new MarkdownIt({ html: false })
       return md.render(this.content)
     }
   }
@@ -28,7 +31,7 @@ export default {
   white-space: -pre-wrap /* Opera 4-6 */;
   white-space: -o-pre-wrap /* Opera 7 */;
   word-wrap: break-word /* Internet Explorer 5.5+ */;
-  max-width: width-main -2rem;
+  max-width: --width-main -2rem;
 }
 
 .text-block p {

@@ -19,15 +19,15 @@ export default {
       type: Boolean,
       default: false
     },
-    "field-id": {
+    fieldId: {
       type: String,
       default: null
     },
-    "field-label": {
+    fieldLabel: {
       type: String,
       default: null
     },
-    "sub-label": {
+    subLabel: {
       type: String,
       default: null
     }

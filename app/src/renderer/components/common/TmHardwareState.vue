@@ -24,10 +24,8 @@ export default {
     }
   },
   computed: {
-    iconClass() {
-      if (this.spin) {
-        return `fa-spin`
-      }
+    iconClass({ spin } = this) {
+      return spin && `fa-spin`
     }
   }
 }

@@ -244,7 +244,7 @@ jobs:
               git tag -d release-candidate
               git push --delete bot release-candidate
 
-              npm -g uninstall yarn ; npm -g install yarn@1.13.0
+              npm -g uninstall yarn ; npm -g install yarn@1.14.0
 
               sudo tasks/build/installWine.sh
               yarn install
