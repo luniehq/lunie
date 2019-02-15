@@ -57,7 +57,6 @@ export default () => {
           TIMEOUT,
           true
         )
-        // console.log(getDeviceModel(`nanoS`))
         const cosmosLedgerApp = new state.externals.App(communicationMethod)
         commit(`setCosmosApp`, cosmosLedgerApp)
         await dispatch(`getLedgerCosmosVersion`)
