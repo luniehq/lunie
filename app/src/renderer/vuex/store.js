@@ -107,7 +107,10 @@ function persistState(state) {
     proposals: state.proposals,
     deposits: state.deposits,
     votes: state.votes,
-    governanceParameters: state.governanceParameters
+    governanceParameters: state.governanceParameters,
+    user: {
+      address: state.user.address
+    }
   })
   // Store the state object as a JSON string
   localStorage.setItem(getStorageKey(state), cachedState)

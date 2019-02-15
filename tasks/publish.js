@@ -6,13 +6,11 @@ const path = require(`path`)
 const release = require(`publish-release`)
 const util = require(`util`)
 
-const assetsDir = path.join(__dirname, `../builds/Voyager`)
-
 const recentChanges = changeLog =>
   changeLog.match(/.+?## .+?\n## .+?\n\n(.+?)\n## /s)[1]
 
 const createNotes = changeLog => `NOTE: DO NOT ENTER YOUR FUNDRAISER SEED. THIS SOFTWARE HAS NOT BEEN AUDITED.
-NEVER ENTER YOUR FUNDRAISER SEED 12 WORDS ONTO AN ONLINE COMPUTER.
+NEVER ENTER YOUR FUNDRAISER SEED 24 WORDS ONTO AN ONLINE COMPUTER.
 
 Even when we do start supporting fundraiser seeds, don't use it except for
 testing or with small amounts. We will release a CLI to use for offline signing
@@ -28,8 +26,7 @@ const publishRelease = ({ notes, tag, token }) =>
     tag,
     name: `Cosmos Voyager Alpha ${tag} (UNSAFE)`,
     notes,
-    prerelease: true,
-    assets: fs.readdirSync(assetsDir).map(file => path.join(assetsDir, file))
+    prerelease: true
   })
 
 if (require.main === module) {

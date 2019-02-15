@@ -20,8 +20,21 @@ describe(`ToolBar`, () => {
   })
 
   it(`call dispatch to sign the user out`, () => {
-    wrapper.vm.signOut()
-    expect(store.dispatch).toHaveBeenCalledWith(`signOut`)
+    const $store = { dispatch: jest.fn() }
+    const self = { $store, $router: { push: jest.fn() } }
+    ToolBar.methods.signOut.call(self)
+    expect($store.dispatch).toHaveBeenCalledWith(`signOut`)
+  })
+
+  it(`opens session modal`, () => {
+    const $store = { commit: jest.fn() }
+    const self = { $store }
+    ToolBar.methods.signIn.call(self)
+    expect($store.commit).toHaveBeenCalledWith(
+      `setModalSessionState`,
+      `welcome`
+    )
+    expect($store.commit).toHaveBeenCalledWith(`setModalSession`, true)
   })
 
   it(`check if search should be Enabled`, () => {

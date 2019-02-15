@@ -68,6 +68,8 @@ exports[`PageStaking has the expected html structure 1`] = `
                 exit_to_app
               </i>
             </a>
+             
+            <!---->
           </div>
         </div>
       </div>

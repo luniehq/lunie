@@ -1,14 +1,15 @@
 <template>
   <div class="tm-session-wrapper">
-    <img class="tm-session-backdrop" src="~assets/images/cosmos-logo.png" />
     <session-loading v-if="config.modals.session.state == 'loading'" />
-    <session-welcome v-if="config.modals.session.state == 'welcome'" />
-    <session-sign-up v-if="config.modals.session.state == 'sign-up'" />
-    <session-sign-in v-if="config.modals.session.state == 'sign-in'" />
-    <session-account-delete v-if="config.modals.session.state == 'delete'" />
-    <session-hardware v-if="config.modals.session.state == 'hardware'" />
-    <session-import v-if="config.modals.session.state == 'import'" />
-    <connected-network />
+    <session-welcome v-else-if="config.modals.session.state == 'welcome'" />
+    <session-sign-up v-else-if="config.modals.session.state == 'sign-up'" />
+    <session-sign-in v-else-if="config.modals.session.state == 'sign-in'" />
+    <session-account-delete
+      v-else-if="config.modals.session.state == 'delete'"
+    />
+    <session-hardware v-else-if="config.modals.session.state == 'hardware'" />
+    <session-import v-else-if="config.modals.session.state == 'import'" />
+    <connected-network v-else-if="config.modals.session.state" />
   </div>
 </template>
 
@@ -42,14 +43,6 @@ export default {
 .tm-session-wrapper {
   position: relative;
   z-index: var(--z-modal);
-}
-
-.tm-session-wrapper .tm-session-backdrop {
-  position: absolute;
-  top: -10vw;
-  left: -10vw;
-  width: 50vw;
-  opacity: 0.25;
 }
 
 .tm-field-checkbox {
@@ -86,7 +79,6 @@ export default {
   top: 0;
   left: 0;
   z-index: var(--z-default);
-  background: var(--app-fg);
 }
 
 .tm-session-container:not(.tm-form) {
