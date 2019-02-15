@@ -57,18 +57,21 @@ export default () => {
           TIMEOUT,
           true
         )
+        // console.log(getDeviceModel(`nanoS`))
         const cosmosLedgerApp = new state.externals.App(communicationMethod)
         commit(`setCosmosApp`, cosmosLedgerApp)
         await dispatch(`getLedgerCosmosVersion`)
-        commit(`setLedgerConnection`, true)
-        await dispatch(`getLedgerPubKey`)
-        const address = state.externals.createCosmosAddress(state.pubKey)
-        await dispatch(`signIn`, { sessionType: `ledger`, address })
-        success = true
+        if (state.cosmosAppVersion) {
+          commit(`setLedgerConnection`, true)
+          await dispatch(`getLedgerPubKey`)
+          const address = state.externals.createCosmosAddress(state.pubKey)
+          await dispatch(`signIn`, { sessionType: `ledger`, address })
+          success = true
+        }
       } catch (error) {
         commit(`notifyError`, {
           title: `Error connecting to Ledger Nano S`,
-          body: error
+          body: error.message
         })
         Sentry.captureException(error)
         commit(`setLedgerError`, error)
@@ -87,7 +90,7 @@ export default () => {
       } catch (error) {
         commit(`notifyError`, {
           title: `Error retrieving Cosmos Ledger app version`,
-          body: error
+          body: error.message
         })
         Sentry.captureException(error)
         commit(`setLedgerError`, error)
@@ -102,7 +105,7 @@ export default () => {
       } catch (error) {
         commit(`notifyError`, {
           title: `Error getting public key from Ledger`,
-          body: error
+          body: error.message
         })
         Sentry.captureException(error)
         commit(`setLedgerError`, error)
@@ -112,12 +115,12 @@ export default () => {
       let signature
       try {
         const response = await state.cosmosApp.sign(HDPATH, message)
-        signature = response.signature
         actions.checkLedgerErrors(response)
+        signature = response.signature
       } catch (error) {
         commit(`notifyError`, {
           title: `Signing transaction with Ledger failed`,
-          body: error
+          body: error.message
         })
         Sentry.captureException(error)
         commit(`setLedgerError`, error)

@@ -4,7 +4,7 @@
       <div class="tm-session-header">
         <a>&nbsp;</a>
         <div class="tm-session-title">Sign in to Cosmos Voyager</div>
-        <a @click="help"><i class="material-icons">help_outline</i></a>
+        <a @click="help"> <i class="material-icons">help_outline</i> </a>
       </div>
       <div class="tm-session-main">
         <li-session
@@ -27,7 +27,6 @@
           @click.native="setState('import')"
         />
         <li-session
-          v-if="config.devMode"
           icon="usb"
           title="Sign in with hardware"
           subtitle="If you have a Ledger Wallet, choose this option."
