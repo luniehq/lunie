@@ -218,4 +218,18 @@ describe(`Module: Transactions`, () => {
       expect(e.message).toEqual(`Unknown transaction type`)
     }
   })
+
+  it(`should enrichTransactions`, async () => {
+    const dispatch = jest.fn()
+    await actions.enrichTransactions(
+      { dispatch },
+      { transactions: [{ height: 1 }, { height: 2 }] }
+    )
+    expect(dispatch).toHaveBeenCalledWith(`queryTransactionTime`, {
+      blockHeight: 1
+    })
+    expect(dispatch).toHaveBeenCalledWith(`queryTransactionTime`, {
+      blockHeight: 2
+    })
+  })
 })
