@@ -1,6 +1,7 @@
 import transactionsModule from "renderer/vuex/modules/transactions.js"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
+const { txs } = lcdClientMock.state
 const mockRootState = {
   connection: {
     connected: true
@@ -15,7 +16,11 @@ describe(`Module: Transactions`, () => {
   let module, state, actions, mutations, node
 
   beforeEach(async () => {
-    node = {}
+    node = {
+      getDelegatorTxs: () => Promise.resolve([{ hash: 1 }]),
+      txs: () => Promise.resolve([{ hash: 2 }]),
+      getGovernanceTxs: () => Promise.resolve([{ hash: 3 }, { hash: 3 }])
+    }
     module = transactionsModule({ node })
     state = module.state
     actions = module.actions
@@ -140,5 +145,40 @@ describe(`Module: Transactions`, () => {
     })
 
     expect(state.error).toBe(error)
+  })
+
+  describe(`mutations`, () => {
+    it(`should set wallet transactions `, () => {
+      const transactions = txs.slice(0, 2)
+      mutations.setWalletTxs(state, transactions)
+      expect(state.wallet).toBe(transactions)
+    })
+
+    it(`should set staking transactions `, () => {
+      const transactions = txs.slice(2)
+      mutations.setStakingTxs(state, transactions)
+      expect(state.staking).toBe(transactions)
+    })
+
+    it(`should set governance transactions `, () => {
+      const transactions = txs.slice(2, 4)
+      mutations.setGovernanceTxs(state, transactions)
+      expect(state.governance).toBe(transactions)
+    })
+
+    it(`should set history loading`, () => {
+      mutations.setHistoryLoading(state, false)
+      expect(state.loading).toEqual(false)
+    })
+
+    it(`should set denoms`, () => {
+      const { state, mutations } = module
+      state.staking = [{ height: 150 }]
+      mutations.setTransactionTime(state, {
+        blockHeight: 150,
+        blockMetaInfo: { header: { time: 123 } }
+      })
+      expect(state.staking).toEqual([{ height: 150, time: 123 }])
+    })
   })
 })
