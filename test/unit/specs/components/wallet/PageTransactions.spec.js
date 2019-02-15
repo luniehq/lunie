@@ -35,7 +35,7 @@ describe(`PageTransactions`, () => {
       error: undefined
     },
     delegation: {
-      unbondingDelegations: {} // todo add some
+      unbondingDelegations: {} // TODO: add some
     },
     delegates: {
       delegates: candidates
