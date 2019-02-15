@@ -17,9 +17,9 @@ describe(`Module: Transactions`, () => {
 
   beforeEach(async () => {
     node = {
-      getDelegatorTxs: () => Promise.resolve([{ hash: 1 }]),
-      txs: () => Promise.resolve([{ hash: 2 }]),
-      getGovernanceTxs: () => Promise.resolve([{ hash: 3 }, { hash: 3 }])
+      getDelegatorTxs: () => Promise.resolve([{ txhash: 1 }]),
+      txs: () => Promise.resolve([{ txhash: 2 }]),
+      getGovernanceTxs: () => Promise.resolve([{ txhash: 3 }, { txhash: 3 }])
     }
     module = transactionsModule({ node })
     state = module.state
@@ -188,7 +188,7 @@ describe(`Module: Transactions`, () => {
       { rootState: { user: { address } } },
       `staking`
     )
-    expect(staking).toEqual([{ hash: 1, type: `staking` }])
+    expect(staking).toEqual([{ txhash: 1, type: `staking` }])
   })
 
   it(`should getTx governance`, async () => {
@@ -197,7 +197,7 @@ describe(`Module: Transactions`, () => {
       { rootState: { user: { address } } },
       `governance`
     )
-    expect(governance).toEqual([{ hash: 3, type: `governance` }])
+    expect(governance).toEqual([{ txhash: 3, type: `governance` }])
   })
 
   it(`should getTx wallet`, async () => {
@@ -206,7 +206,7 @@ describe(`Module: Transactions`, () => {
       { rootState: { user: { address } } },
       `wallet`
     )
-    expect(wallet).toEqual([{ hash: 2, type: `wallet` }])
+    expect(wallet).toEqual([{ txhash: 2, type: `wallet` }])
   })
 
   it(`should getTx error`, async () => {
