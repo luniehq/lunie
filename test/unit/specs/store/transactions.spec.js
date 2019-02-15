@@ -181,4 +181,41 @@ describe(`Module: Transactions`, () => {
       expect(state.staking).toEqual([{ height: 150, time: 123 }])
     })
   })
+
+  it(`should getTx staking`, async () => {
+    const address = `xxx`
+    const staking = await actions.getTx(
+      { rootState: { user: { address } } },
+      `staking`
+    )
+    expect(staking).toEqual([{ hash: 1, type: `staking` }])
+  })
+
+  it(`should getTx governance`, async () => {
+    const address = `xxx`
+    const governance = await actions.getTx(
+      { rootState: { user: { address } } },
+      `governance`
+    )
+    expect(governance).toEqual([{ hash: 3, type: `governance` }])
+  })
+
+  it(`should getTx wallet`, async () => {
+    const address = `xxx`
+    const wallet = await actions.getTx(
+      { rootState: { user: { address } } },
+      `wallet`
+    )
+    expect(wallet).toEqual([{ hash: 2, type: `wallet` }])
+  })
+
+  it(`should getTx error`, async () => {
+    const address = `xxx`
+    try {
+      await actions.getTx({ rootState: { user: { address } } }, `chachacha`)
+      expect(`I should have failed`).toEqual(`earlier`) // this is here to be sure we never reach this line
+    } catch (e) {
+      expect(e.message).toEqual(`Unknown transaction type`)
+    }
+  })
 })
