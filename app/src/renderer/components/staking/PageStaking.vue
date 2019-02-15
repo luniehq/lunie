@@ -1,7 +1,7 @@
 <template>
   <tm-page
     :tabs="tabs"
-    :refresh="updateDelegates"
+    :refresh="getDelegates"
     class="staking"
     data-title="Staking"
   >
@@ -37,7 +37,7 @@ export default {
     ...mapGetters([`connected`, `delegates`, `filters`, `user`])
   },
   methods: {
-    ...mapActions([`updateDelegates`])
+    ...mapActions([`getDelegates`])
   }
 }
 </script>

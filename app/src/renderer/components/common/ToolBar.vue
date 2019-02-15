@@ -30,16 +30,30 @@
     >
       <i class="material-icons">settings</i>
     </router-link>
-    <a v-tooltip.bottom.end="'Sign Out'" id="signOut-btn" @click="signOut">
+    <a
+      v-tooltip.bottom.end="'Sign Out'"
+      v-if="user.signedIn"
+      id="signOut-btn"
+      @click="signOut"
+    >
       <i class="material-icons">exit_to_app</i>
     </a>
+    <tm-btn
+      v-if="!user.signedIn"
+      id="signIn-btn"
+      value="Sign In"
+      color="primary"
+      @click.native="signIn"
+    />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
+import TmBtn from "common/TmBtn"
 export default {
   name: `tool-bar`,
+  components: { TmBtn },
   props: {
     refresh: {
       type: Object,
@@ -66,26 +80,33 @@ export default {
     enableModalHelp() {
       this.$store.commit(`setModalHelp`, true)
     },
+    signIn() {
+      this.$store.commit(`setModalSessionState`, `welcome`)
+      this.$store.commit(`setModalSession`, true)
+    },
     signOut() {
       this.$store.dispatch(`signOut`)
+      this.$router.push(`/`)
     }
   }
 }
 </script>
 <style>
-.tm-tool-bar {
-  align-self: start;
-}
 .tm-page-header-text {
   padding-right: 1rem;
 }
 
+.tool-bar {
+  display: flex;
+  align-items: center;
+  height: fit-content;
+}
+
 .tool-bar a {
-  padding-left: 0.5rem;
-  position: relative;
-  top: 1rem;
-  right: 1rem;
+  padding: 0 0.5rem;
   color: var(--dim);
+  display: flex;
+  align-items: center;
 }
 
 .tool-bar a:hover {

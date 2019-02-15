@@ -8,14 +8,6 @@ exports[`PageBlock has the expected html structure 1`] = `
   subtitle=""
   title=""
 >
-  <template>
-    <tm-balance-stub
-      tabs=""
-    />
-     
-    <tool-bar-stub />
-  </template>
-   
   <div
     class="page-profile__header page-profile__section block"
   >

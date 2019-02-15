@@ -69,6 +69,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1866](https://github.com/cosmos/voyager/issues/1866) Added blocks to network page and a page for viewing individual blocks @jbibla
 - [\#1911](https://github.com/cosmos/voyager/issues/1911) Upload code to Sentry for remote error analyzer @faboweb
 - Added development mode warning @faboweb
+- [\#1972](https://github.com/cosmos/voyager/pull/1972) Add auto PR cron job to circle ci @sabau
 
 ### Changed
 
@@ -121,6 +122,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1922](https://github.com/cosmos/voyager/issues/1922) removed font awesome @jbibla
 - [\#1916](https://github.com/cosmos/voyager/pull/1916) redirect to session modal when user hasn't logged in @fedekunze
 - [\#1836](https://github.com/cosmos/voyager/issues/1836) remove back button @fedekunze
+- [\#1718](https://github.com/cosmos/voyager/issues/1718) Remove session as default @fedekunze
 - [\#1948](https://github.com/cosmos/voyager/pull/1948) changed PR template @fedekunze
 - [\#1946](https://github.com/cosmos/voyager/pull/1946) removed proposer_address raw hex @jbibla
 - [\#1967](https://github.com/cosmos/voyager/pull/1967) bundle analyzer changed from dynamic to static report @sabau

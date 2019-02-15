@@ -69,8 +69,9 @@
               <tm-btn
                 v-if="!user.signedIn"
                 value="Go to Sign In"
+                icon="navigate_next"
                 color="primary"
-                @click.native="$store.commit(`setSignIn`, true)"
+                @click.native="goToSession"
               />
               <tm-btn
                 v-else-if="sending"
@@ -205,6 +206,10 @@ export default {
       this.password = null
       this.step = defaultStep
       this.show = false
+    },
+    goToSession() {
+      this.$store.commit(`setModalSessionState`, `welcome`)
+      this.$store.commit(`setModalSession`, true)
     },
     async validateChangeStep() {
       this.$v.$touch()

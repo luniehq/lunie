@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AppHeader has the expected html structure 1 1`] = `
+exports[`AppHeader should display the sidebar on desktop 1`] = `
 <nav
   class=""
   id="app-header"
@@ -8,8 +8,6 @@ exports[`AppHeader has the expected html structure 1 1`] = `
   <div
     class="container"
   >
-    <!---->
-     
     <div
       class="header-item header-item-logo"
     >
@@ -20,12 +18,37 @@ exports[`AppHeader has the expected html structure 1 1`] = `
     </div>
      
     <app-menu-stub />
+     
     <!---->
   </div>
 </nav>
 `;
 
-exports[`AppHeader has the expected html structure 2 1`] = `
+exports[`AppHeader should display the sidebar on desktop 2`] = `
+<nav
+  class=""
+  id="app-header"
+>
+  <div
+    class="container"
+  >
+    <div
+      class="header-item header-item-logo"
+    >
+      <img
+        id="logo-white"
+        src="~assets/images/cosmos-wordmark-white.svg"
+      />
+    </div>
+     
+    <app-menu-stub />
+     
+    <!---->
+  </div>
+</nav>
+`;
+
+exports[`AppHeader should show the sidebar as a menu on mobile 1`] = `
 <nav
   class="mobile"
   id="app-header"
@@ -34,10 +57,6 @@ exports[`AppHeader has the expected html structure 2 1`] = `
     class="container"
   >
     <div
-      class="header-item"
-    />
-     
-    <div
       class="header-item header-item-logo"
     >
       <img
@@ -47,8 +66,9 @@ exports[`AppHeader has the expected html structure 2 1`] = `
     </div>
      
     <app-menu-stub />
+     
     <div
-      class="header-item"
+      class="header-item close-menu"
     >
       <i
         class="material-icons"
@@ -56,36 +76,13 @@ exports[`AppHeader has the expected html structure 2 1`] = `
         close
       </i>
     </div>
-  </div>
-</nav>
-`;
-
-exports[`AppHeader has the expected html structure 3 1`] = `
-<nav
-  class=""
-  id="app-header"
->
-  <div
-    class="container"
-  >
-    <!---->
      
-    <div
-      class="header-item header-item-logo"
-    >
-      <img
-        id="logo-white"
-        src="~assets/images/cosmos-wordmark-white.svg"
-      />
-    </div>
-     
-    <app-menu-stub />
     <!---->
   </div>
 </nav>
 `;
 
-exports[`AppHeader has the expected html structure 4 1`] = `
+exports[`AppHeader should show the sidebar as a menu on mobile 2`] = `
 <nav
   class="mobile"
   id="app-header"
@@ -94,10 +91,6 @@ exports[`AppHeader has the expected html structure 4 1`] = `
     class="container"
   >
     <div
-      class="header-item"
-    />
-     
-    <div
       class="header-item header-item-logo"
     >
       <img
@@ -107,8 +100,11 @@ exports[`AppHeader has the expected html structure 4 1`] = `
     </div>
      
     <!---->
+     
+    <!---->
+     
     <div
-      class="header-item"
+      class="header-item open-menu"
     >
       <i
         class="material-icons"
