@@ -13,7 +13,7 @@
         <h2>{{ unbondedAtoms }}</h2>
       </div>
     </div>
-    <short-bech32 :address="user.address || ''" />
+    <short-bech32 :address="session.address || ''" />
     <div class="tabs">
       <div
         v-for="tab in tabs"
@@ -51,9 +51,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([`user`, `liquidAtoms`, `totalAtoms`, `bondDenom`]),
+    ...mapGetters([`session`, `liquidAtoms`, `totalAtoms`, `bondDenom`]),
     address() {
-      return this.user.address
+      return this.session.address
     },
     unbondedAtoms() {
       return this.num.shortNumber(this.liquidAtoms)

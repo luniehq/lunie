@@ -199,7 +199,7 @@ export default {
           name: this.fields.importName
         })
         await this.$store.dispatch(`signIn`, {
-          account: this.fields.importName,
+          localKeyName: this.fields.importName,
           password: this.fields.importPassword,
           sessionType: `local`,
           errorCollection: this.fields.errorCollection

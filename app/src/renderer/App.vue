@@ -1,18 +1,14 @@
 <template>
   <div id="app">
-    <div v-if="config.devMode" id="develop-mode-warning">DEVELOPMENT MODE</div>
+    <div v-if="session.devMode" id="develop-mode-warning">DEVELOPMENT MODE</div>
     <modal-help />
-    <session v-if="config.modals.session.active" />
+    <session v-if="session.modals.session.active" />
     <onboarding v-else-if="onboarding.active" />
     <template v-else>
       <app-header />
       <div id="app-content"><router-view /></div>
     </template>
     <tm-notifications :notifications="notifications" />
-    <modal-error
-      v-if="config.modals.error.active"
-      :body="config.modals.error.message"
-    />
   </div>
 </template>
 
@@ -32,7 +28,7 @@ import store from "./vuex/store"
  * @vue-prop {Number} [niceProp=1] - A very cool incoerent prop not required but with 1 as default
  * @vue-data {Object} nothing
  * @vue-computed {function} notifications mapGetter
- * @vue-computed {function} config mapGetter
+ * @vue-computed {function} session mapGetter
  * @vue-computed {function} onboarding mapGetter
  */
 export default {
@@ -46,7 +42,7 @@ export default {
     Session
   },
   computed: {
-    ...mapGetters([`notifications`, `config`, `onboarding`])
+    ...mapGetters([`notifications`, `session`, `onboarding`])
   },
   mounted() {
     this.$store.commit(`loadOnboarding`)

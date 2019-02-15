@@ -19,7 +19,7 @@
                 class="page-profile__status"
               />
               <h2 class="page-profile__title">{{ proposal.title }}</h2>
-              <h3 v-if="config.devMode">
+              <h3 v-if="session.devMode">
                 Proposer: {{ proposal.proposer || "Fede" }}
               </h3>
             </div>
@@ -177,8 +177,8 @@ export default {
       `connected`,
       `wallet`,
       `votes`,
-      `config`,
-      `user`
+      `session`,
+      `session`
     ]),
     proposal() {
       return this.proposals.proposals[this.proposalId]

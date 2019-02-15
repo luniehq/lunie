@@ -1,20 +1,20 @@
 <template>
-  <nav id="app-header" :class="{ mobile: !config.desktop }">
+  <nav id="app-header" :class="{ mobile: !session.desktop }">
     <div class="container">
       <div class="header-item header-item-logo">
         <img id="logo-white" src="~assets/images/cosmos-wordmark-white.svg" />
       </div>
-      <app-menu v-if="config.activeMenu === 'app' || config.desktop" />
-      <template v-if="!config.desktop">
+      <app-menu v-if="session.activeMenu === 'app' || session.desktop" />
+      <template v-if="!session.desktop">
         <div
-          v-if="config.activeMenu === 'app'"
+          v-if="session.activeMenu === 'app'"
           class="header-item close-menu"
           @click="close()"
         >
           <i class="material-icons">close</i>
         </div>
         <div
-          v-if="config.activeMenu === ''"
+          v-if="session.activeMenu === ''"
           class="header-item open-menu"
           @click="enableMenu()"
         >
@@ -33,7 +33,7 @@ export default {
   name: `app-header`,
   components: { AppMenu },
   computed: {
-    ...mapGetters([`config`])
+    ...mapGetters([`session`])
   },
   mounted() {
     this.watchWindowSize()

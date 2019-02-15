@@ -218,7 +218,7 @@ export default {
         })
         this.$store.dispatch(`signIn`, {
           password: this.fields.signUpPassword,
-          account: this.fields.signUpName
+          localKeyName: this.fields.signUpName
         })
       } catch (error) {
         this.$store.commit(`notifyError`, {

@@ -24,7 +24,7 @@
             checked: ' ',
             unchecked: ' '
           }"
-          :value="user.errorCollection || undefined"
+          :value="session.errorCollection || undefined"
           :change="setErrorCollection.bind(this)"
           type="toggle"
         />
@@ -55,13 +55,13 @@ export default {
     ToolBar
   },
   computed: {
-    ...mapGetters([`user`, `onboarding`, `nodeUrl`])
+    ...mapGetters([`session`, `onboarding`, `nodeUrl`])
   },
   methods: {
     setErrorCollection({ $store } = this) {
       $store.dispatch(`setErrorCollection`, {
-        account: this.user.account,
-        optin: !this.user.errorCollection
+        account: this.session.address,
+        optin: !this.session.errorCollection
       })
     },
     setOnboarding({ $store } = this) {

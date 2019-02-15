@@ -27,7 +27,7 @@
           @click.native="setState('import')"
         />
         <li-session
-          v-if="config.devMode"
+          v-if="session.devMode"
           icon="usb"
           title="Sign in with hardware"
           subtitle="If you have a Ledger Wallet, choose this option."
@@ -52,9 +52,9 @@ export default {
     LiSession
   },
   computed: {
-    ...mapGetters([`config`, `lastPage`, `user`]),
+    ...mapGetters([`session`, `lastPage`, `session`]),
     accountExists() {
-      return this.user.accounts.length > 0
+      return this.session.accounts.length > 0
     }
   },
   mounted() {

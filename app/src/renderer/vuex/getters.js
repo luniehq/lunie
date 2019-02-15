@@ -1,15 +1,13 @@
 import BN from "bignumber.js"
 import { calculateTokens } from "scripts/common"
 // ui
-export const config = state => state.config
-
 export const filters = state => state.filters
 export const notifications = state => state.notifications
-export const user = state => state.user
+export const session = state => state.session
 export const lastPage = state => {
   return (
-    state.user.history.length &&
-    state.user.history[state.user.history.length - 1]
+    state.session.history.length &&
+    state.session.history[state.session.history.length - 1]
   )
 }
 export const onboarding = state => state.onboarding

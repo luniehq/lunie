@@ -1,15 +1,15 @@
 <template>
   <div class="tm-session-wrapper">
-    <session-loading v-if="config.modals.session.state == 'loading'" />
-    <session-welcome v-else-if="config.modals.session.state == 'welcome'" />
-    <session-sign-up v-else-if="config.modals.session.state == 'sign-up'" />
-    <session-sign-in v-else-if="config.modals.session.state == 'sign-in'" />
+    <session-loading v-if="session.modals.session.state == 'loading'" />
+    <session-welcome v-else-if="session.modals.session.state == 'welcome'" />
+    <session-sign-up v-else-if="session.modals.session.state == 'sign-up'" />
+    <session-sign-in v-else-if="session.modals.session.state == 'sign-in'" />
     <session-account-delete
-      v-else-if="config.modals.session.state == 'delete'"
+      v-else-if="session.modals.session.state == 'delete'"
     />
-    <session-hardware v-else-if="config.modals.session.state == 'hardware'" />
-    <session-import v-else-if="config.modals.session.state == 'import'" />
-    <connected-network v-else-if="config.modals.session.state" />
+    <session-hardware v-else-if="session.modals.session.state == 'hardware'" />
+    <session-import v-else-if="session.modals.session.state == 'import'" />
+    <connected-network v-else-if="session.modals.session.state" />
   </div>
 </template>
 
@@ -35,7 +35,7 @@ export default {
     SessionAccountDelete,
     ConnectedNetwork
   },
-  computed: { ...mapGetters([`config`]) }
+  computed: { ...mapGetters([`session`]) }
 }
 </script>
 

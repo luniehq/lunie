@@ -24,7 +24,7 @@
     </a>
     <router-link
       v-tooltip.bottom="'Preferences'"
-      v-if="user.signedIn"
+      v-if="session.signedIn"
       id="settings"
       to="/preferences"
     >
@@ -32,14 +32,14 @@
     </router-link>
     <a
       v-tooltip.bottom.end="'Sign Out'"
-      v-if="user.signedIn"
+      v-if="session.signedIn"
       id="signOut-btn"
       @click="signOut"
     >
       <i class="material-icons">exit_to_app</i>
     </a>
     <tm-btn
-      v-if="!user.signedIn"
+      v-if="!session.signedIn"
       id="signIn-btn"
       value="Sign In"
       color="primary"
@@ -65,7 +65,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([`user`, `config`]),
+    ...mapGetters([`session`, `session`]),
     searchEnabled() {
       return !!this.searching
     },

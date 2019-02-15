@@ -84,9 +84,9 @@ export default {
     }
   }),
   computed: {
-    ...mapGetters([`user`]),
+    ...mapGetters([`session`]),
     accounts() {
-      let accounts = this.user.accounts
+      let accounts = this.session.accounts
       accounts = accounts.filter(({ name }) => name !== `trunk`)
       return accounts.map(({ name }) => ({ key: name, value: name }))
     }
@@ -111,7 +111,7 @@ export default {
       if (sessionCorrect) {
         this.$store.dispatch(`signIn`, {
           password: this.fields.signInPassword,
-          account: this.fields.signInName
+          localKeyName: this.fields.signInName
         })
         localStorage.setItem(`prevAccountKey`, this.fields.signInName)
         this.$router.push(`/`)
@@ -119,7 +119,7 @@ export default {
       } else {
         this.$store.commit(`notifyError`, {
           title: `Signing In Failed`,
-          body: `The provided username or password is wrong.`
+          body: `The provided sessionname or password is wrong.`
         })
       }
     },

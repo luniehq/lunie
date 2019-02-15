@@ -22,9 +22,9 @@ export default {
     Modal
   },
   computed: {
-    ...mapGetters([`config`]),
+    ...mapGetters([`session`]),
     active() {
-      return this.config.modals.help.active
+      return this.session.modals.help.active
     }
   },
   methods: {

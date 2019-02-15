@@ -47,7 +47,7 @@ export default ({ node }) => {
     },
     async reconnected({ state, dispatch, rootState }) {
       // TODO: remove signedIn check when we support the option for setting a custom address for txs page
-      if (state.loading && rootState.user.signedIn) {
+      if (state.loading && rootState.session.signedIn) {
         await dispatch(`getAllTxs`)
       }
     },
@@ -85,7 +85,7 @@ export default ({ node }) => {
     async getTx(
       {
         rootState: {
-          user: { address }
+          session: { address }
         }
       },
       type

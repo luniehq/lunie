@@ -1,4 +1,5 @@
 import * as Sentry from "@sentry/browser"
+import noScroll from "no-scroll"
 import {
   enableGoogleAnalytics,
   disableGoogleAnalytics,
@@ -12,16 +13,29 @@ export default ({}) => {
   const ERROR_COLLECTION_KEY = `voyager_error_collection`
 
   const state = {
-    atoms: 0,
+    devMode:
+      process.env.PREVIEW !== undefined
+        ? JSON.parse(process.env.PREVIEW)
+        : process.env.NODE_ENV === `development`,
     signedIn: false,
     accounts: [],
+    localKeyName: null, // used for signing with a locally stored key, TODO move into own module
     pauseHistory: false,
     history: [],
-    account: null,
     address: null,
     errorCollection: false,
     stateLoaded: false, // shows if the persisted state is already loaded. used to prevent overwriting the persisted state before it is loaded
     error: null,
+    activeMenu: ``,
+    desktop: false,
+    modals: {
+      error: { active: false },
+      help: { active: false },
+      session: {
+        active: false,
+        state: `loading`
+      }
+    },
 
     // import into state to be able to test easier
     externals: {
@@ -47,8 +61,8 @@ export default ({}) => {
     setUserAddress(state, address) {
       state.address = address
     },
-    setAtoms(state, atoms) {
-      state.atoms = atoms
+    setModalHelp(state, value) {
+      state.modals.help.active = value
     },
     addHistory(state, path) {
       state.history.push(path)
@@ -61,6 +75,25 @@ export default ({}) => {
     },
     pauseHistory(state, paused) {
       state.pauseHistory = paused
+    },
+    setModalSession(state, value) {
+      // reset modal session state if we're closing the modal
+      if (value) {
+        noScroll.on()
+      } else {
+        state.modals.session.state = `loading`
+        noScroll.off()
+      }
+      state.modals.session.active = value
+    },
+    setModalSessionState(state, value) {
+      state.modals.session.state = value
+    },
+    setActiveMenu(state, value) {
+      state.activeMenu = value
+    },
+    setConfigDesktop(state, value) {
+      state.desktop = value
     }
   }
 
@@ -105,9 +138,10 @@ export default ({}) => {
       await dispatch(`initializeWallet`, { address: cosmosAddress })
       return cosmosAddress
     },
+    // TODO split into sign in with ledger and signin with local key
     async signIn(
       { state, commit, dispatch },
-      { account, address, sessionType = `local`, errorCollection = false }
+      { localKeyName, address, sessionType = `local`, errorCollection = false }
     ) {
       let accountAddress
       switch (sessionType) {
@@ -116,9 +150,10 @@ export default ({}) => {
           break
         default:
           // local keyStore
-          state.account = account // TODO: why do we have state.account and state.accounts ??
+          state.localKeyName = localKeyName
           const keys = await state.externals.loadKeys()
-          accountAddress = keys.find(({ name }) => name === account).address
+          accountAddress = keys.find(({ name }) => name === localKeyName)
+            .address
       }
       commit(`setSignIn`, true)
       dispatch(`setErrorCollection`, {
@@ -142,7 +177,6 @@ export default ({}) => {
       commit(`setSignIn`, false)
     },
     resetSessionData({ commit, state }) {
-      commit(`setAtoms`, 0)
       state.history = []
       state.account = null
       commit(`setUserAddress`, null)

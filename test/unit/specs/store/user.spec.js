@@ -68,10 +68,6 @@ describe(`Module: User`, () => {
       mutations.setAccounts(state, accounts)
       expect(state.accounts).toEqual(accounts)
     })
-    it(`should set atoms`, () => {
-      mutations.setAtoms(state, 0)
-      expect(state.atoms).toEqual(0)
-    })
   })
 
   it(`should show an error if loading accounts fails`, async () => {

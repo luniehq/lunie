@@ -123,7 +123,7 @@ export default ({ node }) => {
       } else {
         // get private key to sign
         const wallet = state.externals.getKey(
-          rootState.user.account,
+          rootState.session.localKeyName,
           args.password
         )
         signature = state.externals.sign(tx, wallet, requestMetaData)

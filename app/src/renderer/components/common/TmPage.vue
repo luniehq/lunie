@@ -4,7 +4,7 @@
       <h2 v-if="title" slot="title">{{ title }}</h2>
       <h3 v-if="subtitle" slot="subtitle">{{ subtitle }}</h3>
       <slot slot="menu-body" name="menu-body">
-        <tm-balance v-if="user.signedIn" />
+        <tm-balance v-if="session.signedIn" />
         <tool-bar :refresh="refreshable" :searching="searchable" />
       </slot>
       <slot slot="header-buttons" name="header-buttons" />
@@ -110,7 +110,7 @@ export default {
   },
   data: () => ({ ps: `` }),
   computed: {
-    ...mapGetters([`user`, `filters`, `connected`]),
+    ...mapGetters([`session`, `filters`, `connected`]),
     searchable({ somethingToSearch, setSearch } = this) {
       return this.search ? { somethingToSearch, setSearch } : undefined
     },
