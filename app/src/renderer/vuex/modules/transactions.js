@@ -45,8 +45,9 @@ export default ({ node }) => {
       // clear previous account state
       rootState.transactions = JSON.parse(JSON.stringify(emptyState))
     },
-    async reconnected({ state, dispatch }) {
-      if (state.loading) {
+    async reconnected({ state, dispatch, rootState }) {
+      // TODO: remove signedIn check when we support the option for setting a custom address for txs page
+      if (state.loading && rootState.user.signedIn) {
         await dispatch(`getAllTxs`)
       }
     },

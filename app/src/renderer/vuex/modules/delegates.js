@@ -50,9 +50,9 @@ export default ({ node }) => {
   }
 
   const actions = {
-    async reconnected({ state, dispatch }) {
+    reconnected({ state, dispatch }) {
       if (state.loading) {
-        await dispatch(`getDelegates`)
+        dispatch(`getDelegates`)
       }
     },
     resetSessionData({ rootState }) {

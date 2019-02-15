@@ -1,12 +1,6 @@
 <template>
   <tm-page data-title="Block">
-    <template slot="menu-body">
-      <tm-balance />
-      <tool-bar />
-    </template>
-
     <tm-data-error v-if="!connected || !block" />
-
     <template v-else>
       <div class="page-profile__header page-profile__section block">
         <div class="row">

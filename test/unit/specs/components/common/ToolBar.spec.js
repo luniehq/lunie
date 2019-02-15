@@ -20,30 +20,21 @@ describe(`ToolBar`, () => {
   })
 
   it(`call dispatch to sign the user out`, () => {
-    wrapper.vm.signOut()
-    expect(store.dispatch).toHaveBeenCalledWith(`signOut`)
+    const $store = { dispatch: jest.fn() }
+    const self = { $store, $router: { push: jest.fn() } }
+    ToolBar.methods.signOut.call(self)
+    expect($store.dispatch).toHaveBeenCalledWith(`signOut`)
   })
 
-  it(`goes back correctly and updates the state`, () => {
-    // this mocks the values that would come from the store through `getters.js`
-    const getterValues = {
-      lastPage: `/staking`,
-      $router: {
-        push: jest.fn((route, cb) => cb())
-      },
-      pauseHistory: jest.fn(),
-      popHistory: jest.fn()
-    }
-
-    ToolBar.methods.back.call({
-      ...getterValues
-    })
-    expect(getterValues.$router.push).toHaveBeenCalledWith(
-      `/staking`,
-      expect.any(Function)
+  it(`opens session modal`, () => {
+    const $store = { commit: jest.fn() }
+    const self = { $store }
+    ToolBar.methods.signIn.call(self)
+    expect($store.commit).toHaveBeenCalledWith(
+      `setModalSessionState`,
+      `welcome`
     )
-    expect(getterValues.pauseHistory).toHaveBeenCalled()
-    expect(getterValues.popHistory).toHaveBeenCalled()
+    expect($store.commit).toHaveBeenCalledWith(`setModalSession`, true)
   })
 
   it(`check if search should be Enabled`, () => {

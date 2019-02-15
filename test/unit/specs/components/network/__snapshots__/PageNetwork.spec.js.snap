@@ -8,14 +8,6 @@ exports[`PageNetwork has the expected html structure 1`] = `
   subtitle=""
   title=""
 >
-  <template>
-    <tm-balance-stub
-      tabs=""
-    />
-     
-    <tool-bar-stub />
-  </template>
-   
   <div
     class="page-profile__header page-profile__section network"
   >
@@ -143,7 +135,7 @@ exports[`PageNetwork has the expected html structure 1`] = `
   >
     <thead>
       <panel-sort-stub
-        properties="[object Object],[object Object],[object Object]"
+        properties="[object Object],[object Object]"
       />
     </thead>
      

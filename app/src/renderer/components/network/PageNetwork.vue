@@ -1,12 +1,6 @@
 <template>
   <tm-page data-title="Network">
-    <template slot="menu-body">
-      <tm-balance />
-      <tool-bar />
-    </template>
-
     <tm-data-error v-if="!connected" />
-
     <template v-else>
       <div class="page-profile__header page-profile__section network">
         <div class="row">
@@ -136,12 +130,6 @@ export default {
           value: `transactions`,
           tooltip: `Number of transactions per block`,
           class: `transactions`
-        },
-        {
-          title: `Proposer`,
-          value: `proposer`,
-          tooltip: `Validator responsible for block proposals`,
-          class: `proposer`
         }
       ]
     }

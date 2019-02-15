@@ -9,29 +9,21 @@ describe(`PageStaking`, () => {
 
   beforeEach(() => {
     const instance = mount(PageStaking, {
+      doBefore: ({ store }) => {
+        store.commit(`setSignIn`, true)
+        store.commit(`setConnected`, true)
+        store.dispatch(`updateDelegates`)
+      },
       stubs: {
         "tm-balance": true
       }
     })
     wrapper = instance.wrapper
     store = instance.store
-
-    store.commit(`setConnected`, true)
     store.state.user.address = lcdClientMock.addresses[0]
-    store.dispatch(`updateDelegates`)
   })
 
-  it(`has the expected html structure`, async () => {
-    // somehow we need to wait one tick for the total atoms to update
-    await wrapper.vm.$nextTick()
+  it(`has the expected html structure`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
-  })
-
-  it(`should refresh candidates on click`, () => {
-    wrapper
-      .findAll(`.tool-bar i`)
-      .at(1)
-      .trigger(`click`)
-    expect(store.dispatch).toHaveBeenCalledWith(`updateDelegates`)
   })
 })

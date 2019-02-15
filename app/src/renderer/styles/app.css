@@ -30,9 +30,6 @@ a {
 a:hover {
   color: var(--link-hover);
 }
-.desktop-only {
-  display: none;
-}
 #app {
   font-size: var(--x);
   line-height: 1.5;
@@ -105,6 +102,17 @@ input.tm-field {
 #app-header {
   background: var(--app-nav);
 }
+#develop-mode-warning {
+  background: red;
+  text-align: center;
+  height: 2.5rem;
+  padding: 0.5rem;
+  position: fixed;
+  z-index: 1000000;
+  width: 100%;
+  top: 0;
+}
+
 @media screen and (min-width: 1024px) {
   #app {
     padding-top: 0;
@@ -114,7 +122,4 @@ input.tm-field {
     display: flex;
     min-width: 0;
   }
-}
-.desktop-only {
-  display: inline;
 }

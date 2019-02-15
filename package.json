@@ -39,7 +39,7 @@
     "nodes": "node ./tasks/testnet.js",
     "proxy": "caddy",
     "stargate": "./builds/Gaia/darwin_amd64/gaiacli rest-server --laddr 'tcp://localhost:9070' --home './builds/testnets/local-testnet/cli_home' --node 'http://localhost:26657' --chain-id 'local-testnet' --trust-node true",
-    "frontend": "NODE_ENV=development webpack-dev-server --hot --colors --config webpack.renderer.config.js --port 9080 --content-base app/dist --https --mode=development",
+    "frontend": "cross-env NODE_ENV=development webpack-dev-server --hot --colors --config webpack.renderer.config.js --port 9080 --content-base app/dist --https --mode=development",
     "frontend:fixed-https": "yarn frontend --cert 'server_dev.crt' --key 'server_dev.key'",
     "backend": "yarn stargate & yarn proxy & yarn nodes 2",
     "backend:fixed-https": "yarn nodes 2 skip-rebuild & yarn stargate --ssl-certfile 'server_dev.crt' --ssl-keyfile 'server_dev.key'"
@@ -47,6 +47,7 @@
   "devDependencies": {
     "@nodeguy/cli": "0.2.2",
     "@octokit/rest": "15.9.4",
+    "@sentry/webpack-plugin": "1.6.2",
     "babel-core": "6.26.3",
     "babel-eslint": "7.2.3",
     "babel-jest": "21.2.0",
@@ -74,7 +75,7 @@
     "html-webpack-plugin": "3.2.0",
     "http-server": "0.11.1",
     "husky": "0.14.3",
-    "jest": "23.6.0",
+    "jest": "24.1.0",
     "jest-localstorage-mock": "2.3.0",
     "jsdoc": "3.5.5",
     "jsdoc-vuejs": "2.3.3",
@@ -99,9 +100,9 @@
     "vue-template-compiler": "2.5.21",
     "vue-template-es2015-compiler": "1.8.1",
     "webpack": "4.28.3",
+    "webpack-bundle-analyzer": "3.0.3",
     "webpack-cli": "3.2.0",
-    "webpack-dev-server": "3.1.14",
-    "webpack-bundle-analyzer": "3.0.3"
+    "webpack-dev-server": "3.1.14"
   },
   "dependencies": {
     "@sentry/browser": "4.4.1",

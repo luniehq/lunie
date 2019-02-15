@@ -167,12 +167,9 @@ export default {
       address && this.updateDelegates()
     }
   },
-  async mounted() {
+  mounted() {
     Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
     Mousetrap.bind(`esc`, () => this.setSearch(false))
-
-    // XXX temporary because querying the shares shows old shares after bonding
-    // this.updateDelegates()
   },
   methods: {
     updateDelegates() {

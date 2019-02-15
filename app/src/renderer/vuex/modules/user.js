@@ -69,15 +69,10 @@ export default ({}) => {
       // reload available accounts as the reconnect could be a result of a switch from a mocked connection with mocked accounts
       await dispatch(`loadAccounts`)
     },
-    async showInitialScreen({ state, dispatch, commit }) {
+    async showInitialScreen({ state, dispatch }) {
       dispatch(`resetSessionData`)
-
       await dispatch(`loadAccounts`)
-      commit(`setModalSessionState`, `welcome`)
-
-      state.externals.track(`pageview`, {
-        dl: `/session/welcome`
-      })
+      state.externals.track(`pageview`, { dl: `/` })
     },
     async loadAccounts({ commit, state }) {
       state.loading = true
@@ -140,11 +135,11 @@ export default ({}) => {
     },
     signOut({ state, commit, dispatch }) {
       state.account = null
-      commit(`setSignIn`, false)
-      commit(`setModalSession`, true)
       commit(`setLedgerConnection`, false)
       commit(`setCosmosAppVersion`, {})
-      dispatch(`showInitialScreen`)
+      dispatch(`resetSessionData`)
+      commit(`addHistory`, `/`)
+      commit(`setSignIn`, false)
     },
     resetSessionData({ commit, state }) {
       commit(`setAtoms`, 0)
@@ -177,8 +172,8 @@ export default ({}) => {
 
       if (state.errorCollection) {
         state.externals.Sentry.init({
-          dsn: config.sentry_dsn,
-          release: `voyager@${state.externals.config.version}`
+          dsn: state.externals.config.sentry_dsn,
+          release: state.externals.config.version
         })
         state.externals.enableGoogleAnalytics(
           state.externals.config.google_analytics_uid

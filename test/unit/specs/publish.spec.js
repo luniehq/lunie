@@ -36,7 +36,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 `
 
   const notes = `NOTE: DO NOT ENTER YOUR FUNDRAISER SEED. THIS SOFTWARE HAS NOT BEEN AUDITED.
-NEVER ENTER YOUR FUNDRAISER SEED 12 WORDS ONTO AN ONLINE COMPUTER.
+NEVER ENTER YOUR FUNDRAISER SEED 24 WORDS ONTO AN ONLINE COMPUTER.
 
 Even when we do start supporting fundraiser seeds, don't use it except for
 testing or with small amounts. We will release a CLI to use for offline signing

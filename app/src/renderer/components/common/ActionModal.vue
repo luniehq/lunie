@@ -5,7 +5,10 @@
         <img
           class="icon action-modal-atom"
           src="~assets/images/cosmos-logo.png"
-        /><span class="action-modal-title">{{ title }}</span>
+        />
+        <span class="action-modal-title">
+          {{ user.signedIn ? title : `Sign in required` }}
+        </span>
         <div
           id="closeBtn"
           class="action-modal-icon action-modal-close"
@@ -14,7 +17,10 @@
           <i class="material-icons">close</i>
         </div>
       </div>
-      <div v-if="step === `txDetails`" class="action-modal-form">
+      <div v-if="!user.signedIn" class="action-modal-form">
+        <p>You need to sign in to submit a transaction.</p>
+      </div>
+      <div v-else-if="step === `txDetails`" class="action-modal-form">
         <slot />
         <tm-form-group
           v-if="signMethods.length > 1"
@@ -50,7 +56,7 @@
           />
         </tm-form-group>
       </div>
-      <div v-else-if="step === `sign`">
+      <div v-else-if="step === `sign`" class="action-modal-form">
         <hardware-state
           icon="usb"
           value="Please unlock the Cosmos app on your Ledger Nano S"
@@ -61,7 +67,14 @@
           <tm-form-group class="action-modal-group">
             <div class="action-modal-footer">
               <tm-btn
-                v-if="sending"
+                v-if="!user.signedIn"
+                value="Go to Sign In"
+                icon="navigate_next"
+                color="primary"
+                @click.native="goToSession"
+              />
+              <tm-btn
+                v-else-if="sending"
                 value="Sending..."
                 disabled="disabled"
                 color="primary"
@@ -161,7 +174,7 @@ export default {
     show: false
   }),
   computed: {
-    ...mapGetters([`connected`, signWithLedger]),
+    ...mapGetters([`connected`, `ledger`, `user`]),
     selectedSignMethod() {
       if (this.ledger.isConnected) {
         return signWithLedger
@@ -193,6 +206,10 @@ export default {
       this.password = null
       this.step = defaultStep
       this.show = false
+    },
+    goToSession() {
+      this.$store.commit(`setModalSessionState`, `welcome`)
+      this.$store.commit(`setModalSession`, true)
     },
     async validateChangeStep() {
       this.$v.$touch()

@@ -14,7 +14,8 @@ describe(`ActionModal`, () => {
       dispatch: jest.fn(),
       getters: {
         connected: true,
-        ledger: { isConnected: false }
+        ledger: { isConnected: false },
+        user: { signedIn: true }
       }
     }
 
@@ -32,10 +33,48 @@ describe(`ActionModal`, () => {
     wrapper.vm.open()
   })
 
-  it(`has the expected html structure`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
-  })
+  describe(`has the expected html structure`, () => {
+    describe(`when user has logged in`, () => {
+      it(`with local keystore`, () => {
+        expect(wrapper.vm.$el).toMatchSnapshot()
+      })
 
+      it(`with ledger`, async () => {
+        $store = {
+          getters: {
+            connected: true,
+            ledger: { isConnected: true },
+            user: { signedIn: true }
+          }
+        }
+        wrapper = shallowMount(ActionModal, {
+          localVue,
+          propsData: {
+            title: `Action Modal`,
+            submitFn: jest.fn(),
+            validate: jest.fn()
+          },
+          mocks: {
+            $store
+          }
+        })
+        wrapper.vm.open()
+        expect(wrapper.vm.$el).toMatchSnapshot()
+      })
+
+      it(`with ledger and is on sign step`, async () => {
+        wrapper.vm.ledger.isConnected = true
+        wrapper.vm.step = `sign`
+        await wrapper.vm.$nextTick()
+        expect(wrapper.vm.$el).toMatchSnapshot()
+      })
+    })
+    it(`when user hasn't logged in`, async () => {
+      wrapper.vm.user.signedIn = false
+      await wrapper.vm.$nextTick()
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
+  })
   it(`should default to submissionError being null`, () => {
     expect(wrapper.vm.submissionError).toBe(null)
   })
@@ -44,6 +83,17 @@ describe(`ActionModal`, () => {
     wrapper.vm.open()
 
     expect(wrapper.isEmpty()).not.toBe(true)
+  })
+
+  it(`opens session modal`, () => {
+    const $store = { commit: jest.fn() }
+    const self = { $store }
+    ActionModal.methods.goToSession.call(self)
+    expect($store.commit).toHaveBeenCalledWith(
+      `setModalSessionState`,
+      `welcome`
+    )
+    expect($store.commit).toHaveBeenCalledWith(`setModalSession`, true)
   })
 
   describe(`close modal`, () => {
