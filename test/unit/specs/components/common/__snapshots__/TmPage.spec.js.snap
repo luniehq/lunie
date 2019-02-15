@@ -18,8 +18,6 @@ exports[`TmPage has the expected html structure 1`] = `
     </template>
      
     <template />
-     
-    <template />
   </tm-page-header-stub>
    
   <main
@@ -51,8 +49,6 @@ exports[`TmPage should show links to other pages 1`] = `
         searching="[object Object]"
       />
     </template>
-     
-    <template />
      
     <template />
   </tm-page-header-stub>

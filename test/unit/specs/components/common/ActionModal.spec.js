@@ -85,6 +85,17 @@ describe(`ActionModal`, () => {
     expect(wrapper.isEmpty()).not.toBe(true)
   })
 
+  it(`opens session modal`, () => {
+    const $store = { commit: jest.fn() }
+    const self = { $store }
+    ActionModal.methods.goToSession.call(self)
+    expect($store.commit).toHaveBeenCalledWith(
+      `setModalSessionState`,
+      `welcome`
+    )
+    expect($store.commit).toHaveBeenCalledWith(`setModalSession`, true)
+  })
+
   describe(`close modal`, () => {
     it(`closes`, () => {
       wrapper.vm.open()

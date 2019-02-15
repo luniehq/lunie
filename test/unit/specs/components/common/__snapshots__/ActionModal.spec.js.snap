@@ -253,6 +253,7 @@ exports[`ActionModal has the expected html structure when user hasn't logged in 
       >
         <tm-btn-stub
           color="primary"
+          icon="navigate_next"
           value="Go to Sign In"
         />
       </div>

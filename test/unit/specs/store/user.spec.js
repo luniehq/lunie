@@ -26,7 +26,8 @@ describe(`Module: User`, () => {
       config: {
         development: false,
         google_analytics_uid: `UA-123`,
-        version: `0.0.1`
+        version: `abcfdef`,
+        sentry_dsn: `https://1:1@sentry.io/1`
       },
       loadKeys: () => [
         {
@@ -97,28 +98,13 @@ describe(`Module: User`, () => {
   })
 
   it(`should prepare the signin`, async () => {
-    const commit = jest.fn()
     const dispatch = jest.fn()
     state.accounts = [{}]
     await actions.showInitialScreen({
       state,
-      commit,
       dispatch
     })
-
-    expect(commit).toHaveBeenCalledWith(`setModalSessionState`, `welcome`)
     expect(dispatch).toHaveBeenCalledWith(`resetSessionData`)
-  })
-
-  it(`should show a welcome screen if there are no accounts yet`, async () => {
-    const commit = jest.fn()
-    await actions.showInitialScreen({
-      state,
-      commit,
-      dispatch: jest.fn()
-    })
-
-    expect(commit).toHaveBeenCalledWith(`setModalSessionState`, `welcome`)
   })
 
   it(`should test if the login works`, async () => {
@@ -218,10 +204,10 @@ describe(`Module: User`, () => {
     const dispatch = jest.fn()
     await actions.signOut({ state, commit, dispatch })
 
-    expect(commit).toHaveBeenCalledWith(`setModalSession`, true)
-    expect(dispatch).toHaveBeenCalledWith(`showInitialScreen`)
+    expect(dispatch).toHaveBeenCalledWith(`resetSessionData`)
+    expect(commit).toHaveBeenCalledWith(`addHistory`, `/`)
+    expect(commit).toHaveBeenCalledWith(`setSignIn`, false)
     expect(state.account).toBeNull()
-    expect(state.signedIn).toBeFalsy()
   })
 
   it(`should enable error collection`, async () => {
@@ -243,7 +229,7 @@ describe(`Module: User`, () => {
     })
     expect(state.externals.Sentry.init).toHaveBeenCalledWith({
       dsn: expect.stringMatching(`https://.*@sentry.io/.*`),
-      release: `voyager@0.0.1`
+      release: `abcfdef`
     })
   })
 

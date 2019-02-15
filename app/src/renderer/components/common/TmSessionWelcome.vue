@@ -2,9 +2,9 @@
   <div id="session-welcome" class="tm-session">
     <div class="tm-session-container">
       <div class="tm-session-header">
-        <a>&nbsp;</a>
+        <a @click="help"><i class="material-icons">help_outline</i></a>
         <div class="tm-session-title">Sign in to Cosmos Voyager</div>
-        <a @click="help"> <i class="material-icons">help_outline</i> </a>
+        <a @click="closeSession"><i class="material-icons">close</i></a>
       </div>
       <div class="tm-session-main">
         <li-session
@@ -51,7 +51,7 @@ export default {
     LiSession
   },
   computed: {
-    ...mapGetters([`config`, `user`]),
+    ...mapGetters([`config`, `lastPage`, `user`]),
     accountExists() {
       return this.user.accounts.length > 0
     }
@@ -65,6 +65,29 @@ export default {
     },
     setState(value) {
       this.$store.commit(`setModalSessionState`, value)
+    },
+    closeSession() {
+      this.$store.commit(`setModalSession`, false)
+      this.$store.commit(`setModalSessionState`, false)
+      if (
+        [
+          `/staking/my-delegations`,
+          `/wallet`,
+          `/transactions`,
+          `/preferences`
+        ].includes(this.$router.currentRoute.path)
+      ) {
+        // go back only if tried to access one of the auth-required routes
+        this.back()
+      }
+    },
+    back() {
+      if (!this.lastPage) return
+      this.$store.commit(`pauseHistory`, true)
+      this.$router.push(this.lastPage, () => {
+        this.$store.commit(`popHistory`)
+        this.$store.commit(`pauseHistory`, false)
+      })
     }
   }
 }
