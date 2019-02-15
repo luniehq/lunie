@@ -15,6 +15,7 @@ export const lastPage = state => {
 export const onboarding = state => state.onboarding
 
 // wallet
+export const transactions = state => state.transactions
 export const allTransactions = state =>
   state.transactions.wallet.concat(
     state.transactions.staking,

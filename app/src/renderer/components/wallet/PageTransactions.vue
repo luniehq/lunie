@@ -3,7 +3,7 @@
     :loading="transactions.loading"
     :loaded="transactions.loaded"
     :error="transactions.error"
-    :dataset="allTransactions"
+    :dataset="orderedTransactions"
     :refresh="refreshTransactions"
     :has-filtered-data="hasFilteredData"
     search="transactions"
@@ -31,7 +31,7 @@
 
 <script>
 import shortid from "shortid"
-import { mapGetters, mapState } from "vuex"
+import { mapGetters } from "vuex"
 import { includes, orderBy } from "lodash"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import TmPage from "common/TmPage"
@@ -56,8 +56,8 @@ export default {
     time
   }),
   computed: {
-    ...mapState([`transactions`]),
     ...mapGetters([
+      `transactions`,
       `filters`,
       `allTransactions`,
       `wallet`,
@@ -75,15 +75,15 @@ export default {
         [this.sort.order]
       )
     },
-    filteredTransactions() {
-      const query = this.filters.transactions.search.query
-      if (this.filters.transactions.search.visible) {
+    filteredTransactions({ orderedTransactions, filters } = this) {
+      const query = filters.transactions.search.query
+      if (filters.transactions.search.visible) {
         // doing a full text comparison on the transaction data
-        return this.orderedTransactions.filter(t =>
+        return orderedTransactions.filter(t =>
           includes(JSON.stringify(t).toLowerCase(), query)
         )
       } else {
-        return this.orderedTransactions
+        return orderedTransactions
       }
     },
     hasFilteredData({ filteredTransactions } = this) {
@@ -94,8 +94,8 @@ export default {
     this.refreshTransactions()
   },
   methods: {
-    async refreshTransactions() {
-      await this.$store.dispatch(`getAllTxs`)
+    async refreshTransactions({ $store } = this) {
+      await $store.dispatch(`getAllTxs`)
     }
   }
 }
