@@ -190,11 +190,10 @@ describe(`Module: Ledger`, () => {
 
         it(`sets an error on failure`, async () => {
           const pubKey = Buffer.from([1])
-          state.cosmosApp.publicKey = jest.fn(async () =>
+          state.cosmosApp.publicKey = () =>
             Promise.resolve({
               error_message: `Bad key handle`
             })
-          )
           await actions.getLedgerPubKey({ commit, dispatch, state })
           expect(commit).not.toHaveBeenCalledWith(`setLedgerPubKey`, pubKey)
           expect(commit).toHaveBeenCalledWith(
@@ -221,11 +220,10 @@ describe(`Module: Ledger`, () => {
 
         it(`fails if message is not JSON`, async () => {
           const msg = `{"account_number": 1,"chain_id": "some_chain","fee": {"amount": [{"amount": 10, "denom": "DEN"}],"gas": 5},"memo": "MEMO","msgs": ["SOMETHING"],"sequence": 3}`
-          state.cosmosApp.sign = jest.fn(async () =>
+          state.cosmosApp.sign = () =>
             Promise.resolve({
               error_message: `Bad key handle`
             })
-          )
           const resSignature = await actions.signWithLedger(
             { commit, dispatch, state },
             msg
