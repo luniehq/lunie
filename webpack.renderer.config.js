@@ -55,7 +55,26 @@ const rendererConfig = {
       },
       {
         test: /\.css$/,
-        use: [`style-loader`, `css-loader`]
+        use: [
+          "style-loader",
+          {
+            loader: "css-loader",
+            options: { importLoaders: 1 }
+          },
+          {
+            loader: "postcss-loader",
+            options: {
+              sourceMap: true,
+              ident: "postcss",
+              plugins: loader => [
+                require("postcss-import")({ root: loader.resourcePath }),
+                require("postcss-preset-env")(),
+                require("cssnano")(),
+                require("stylelint")()
+              ]
+            }
+          }
+        ]
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
