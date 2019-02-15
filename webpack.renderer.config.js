@@ -64,11 +64,14 @@ const rendererConfig = {
           {
             loader: "postcss-loader",
             options: {
+              config: {
+                path: path.resolve(__dirname, "postcss.config.js")
+              },
               sourceMap: true,
               ident: "postcss",
               plugins: loader => [
                 require("postcss-import")({ root: loader.resourcePath }),
-                require("postcss-preset-env")(),
+                require("postcss-preset-env")({ browsers: "last 3 versions" }),
                 require("cssnano")(),
                 require("stylelint")()
               ]
