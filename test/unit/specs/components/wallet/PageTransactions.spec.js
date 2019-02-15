@@ -27,7 +27,7 @@ describe(`PageTransactions`, () => {
     },
     bondDenom: stakingParameters.parameters.bond_denom,
     wallet: {
-      address: `tb1d4u5zerywfjhxuc9nudvw`
+      address: `B`
     },
     transactions: {
       loading: false,

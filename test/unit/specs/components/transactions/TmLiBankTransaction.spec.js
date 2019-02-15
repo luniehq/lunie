@@ -7,7 +7,7 @@ describe(`TmLiBankTransaction`, () => {
   const propsData = {
     devMode: true,
     transaction: transactions[0],
-    address: `tb1d4u5zerywfjhxuc9nudvw`
+    address: `B`
   }
 
   beforeEach(() => {
@@ -37,7 +37,7 @@ describe(`TmLiBankTransaction`, () => {
   it(`should show transactions sent to the sender`, () => {
     wrapper.setProps({
       transaction: transactions[2],
-      address: `tb1da6xsetjg9jxgun9wdesexv05j`
+      address: `A`
     })
     expect(wrapper.vm.sentSelf).toBe(true)
     expect(wrapper.vm.$el).toMatchSnapshot()

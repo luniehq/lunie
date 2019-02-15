@@ -16,7 +16,7 @@ exports[`PageTransactions has the expected html structure if user has signed in 
    
   <template>
     <tm-li-any-transaction-stub
-      address="tb1d4u5zerywfjhxuc9nudvw"
+      address="B"
       bondingdenom="STAKE"
       proposalsurl="/governance"
       transaction="[object Object]"
@@ -25,7 +25,7 @@ exports[`PageTransactions has the expected html structure if user has signed in 
       validatorsurl="/staking/validators"
     />
     <tm-li-any-transaction-stub
-      address="tb1d4u5zerywfjhxuc9nudvw"
+      address="B"
       bondingdenom="STAKE"
       proposalsurl="/governance"
       transaction="[object Object]"
@@ -34,7 +34,7 @@ exports[`PageTransactions has the expected html structure if user has signed in 
       validatorsurl="/staking/validators"
     />
     <tm-li-any-transaction-stub
-      address="tb1d4u5zerywfjhxuc9nudvw"
+      address="B"
       bondingdenom="STAKE"
       proposalsurl="/governance"
       transaction="[object Object]"
@@ -43,7 +43,7 @@ exports[`PageTransactions has the expected html structure if user has signed in 
       validatorsurl="/staking/validators"
     />
     <tm-li-any-transaction-stub
-      address="tb1d4u5zerywfjhxuc9nudvw"
+      address="B"
       bondingdenom="STAKE"
       proposalsurl="/governance"
       transaction="[object Object]"
@@ -52,7 +52,7 @@ exports[`PageTransactions has the expected html structure if user has signed in 
       validatorsurl="/staking/validators"
     />
     <tm-li-any-transaction-stub
-      address="tb1d4u5zerywfjhxuc9nudvw"
+      address="B"
       bondingdenom="STAKE"
       proposalsurl="/governance"
       transaction="[object Object]"
@@ -61,7 +61,7 @@ exports[`PageTransactions has the expected html structure if user has signed in 
       validatorsurl="/staking/validators"
     />
     <tm-li-any-transaction-stub
-      address="tb1d4u5zerywfjhxuc9nudvw"
+      address="B"
       bondingdenom="STAKE"
       proposalsurl="/governance"
       transaction="[object Object]"

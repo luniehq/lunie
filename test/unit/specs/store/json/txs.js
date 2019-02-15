@@ -10,9 +10,9 @@ export default [
           {
             type: `cosmos-sdk/Send`,
             value: {
-              from_address: `tb1da6xsetjg9jxgun9wdesexv05j`,
+              from_address: `A`,
               amount: [{ denom: `jbcoins`, amount: `1234` }],
-              to_address: `tb1d4u5zerywfjhxuc9nudvw`
+              to_address: `B`
             }
           }
         ],
@@ -69,9 +69,9 @@ export default [
           {
             type: `cosmos-sdk/Send`,
             value: {
-              from_address: `tb1d4u5zerywfjhxuc9nudvw`,
+              from_address: `B`,
               amount: [{ denom: `jbcoins`, amount: `1234` }],
-              to_address: `tb1da6xsetjg9jxgun9wdesexv05j`
+              to_address: `A`
             }
           }
         ],
@@ -132,8 +132,8 @@ export default [
                 { denom: `fabocoins`, amount: `1` },
                 { denom: `mattcoins`, amount: `42` }
               ],
-              from_address: `tb1da6xsetjg9jxgun9wdesexv05j`,
-              to_address: `tb1da6xsetjg9jxgun9wdesexv05j`
+              from_address: `A`,
+              to_address: `A`
             }
           }
         ],
