@@ -24,30 +24,6 @@ exports[`AppHeader should display the sidebar on desktop 1`] = `
 </nav>
 `;
 
-exports[`AppHeader should display the sidebar on desktop 2`] = `
-<nav
-  class=""
-  id="app-header"
->
-  <div
-    class="container"
-  >
-    <div
-      class="header-item header-item-logo"
-    >
-      <img
-        id="logo-white"
-        src="~assets/images/cosmos-wordmark-white.svg"
-      />
-    </div>
-     
-    <app-menu-stub />
-     
-    <!---->
-  </div>
-</nav>
-`;
-
 exports[`AppHeader should show the sidebar as a menu on mobile 1`] = `
 <nav
   class="mobile"
@@ -78,40 +54,6 @@ exports[`AppHeader should show the sidebar as a menu on mobile 1`] = `
     </div>
      
     <!---->
-  </div>
-</nav>
-`;
-
-exports[`AppHeader should show the sidebar as a menu on mobile 2`] = `
-<nav
-  class="mobile"
-  id="app-header"
->
-  <div
-    class="container"
-  >
-    <div
-      class="header-item header-item-logo"
-    >
-      <img
-        id="logo-white"
-        src="~assets/images/cosmos-wordmark-white.svg"
-      />
-    </div>
-     
-    <!---->
-     
-    <!---->
-     
-    <div
-      class="header-item open-menu"
-    >
-      <i
-        class="material-icons"
-      >
-        menu
-      </i>
-    </div>
   </div>
 </nav>
 `;

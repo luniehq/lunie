@@ -26,8 +26,6 @@ export default ({}) => {
     errorCollection: false,
     stateLoaded: false, // shows if the persisted state is already loaded. used to prevent overwriting the persisted state before it is loaded
     error: null,
-    activeMenu: ``,
-    desktop: false,
     modals: {
       error: { active: false },
       help: { active: false },
