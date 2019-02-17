@@ -168,7 +168,6 @@ jobs:
           no_output_timeout: 120
       - run:
           command: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
-          when: on_success
 
   security:
     executor: web
