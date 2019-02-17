@@ -27,7 +27,6 @@
           @click.native="setState('import')"
         />
         <li-session
-          v-if="config.devMode"
           icon="usb"
           title="Sign in with hardware"
           subtitle="If you have a Ledger Wallet, choose this option."
