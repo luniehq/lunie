@@ -281,7 +281,7 @@ export default {
   color: var(--bright);
 }
 
-.tm-li.tm-li-link:before {
+.tm-li.tm-li-link::before {
   content: "";
   display: block;
   position: absolute;
@@ -302,7 +302,7 @@ export default {
   color: var(--bright);
 }
 
-.tm-li.router-link-exact-active:before {
+.tm-li.router-link-exact-active::before {
   background: var(--mc);
 }
 

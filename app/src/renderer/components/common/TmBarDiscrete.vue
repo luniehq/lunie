@@ -81,7 +81,7 @@ export default {
   border-color: var(--hover);
 }
 
-.tm-bar-discrete__node:before {
+.tm-bar-discrete__node::before {
   content: "";
   position: absolute;
   top: 0.125rem;
@@ -92,7 +92,7 @@ export default {
   background: transparent;
 }
 
-.tm-bar-discrete__node:hover:before {
+.tm-bar-discrete__node:hover::before {
   background: var(--hover);
 }
 
@@ -100,7 +100,7 @@ export default {
   border-color: var(--mc);
 }
 
-.tm-bar-discrete__node.tm-bar-discrete__node--active:before {
+.tm-bar-discrete__node.tm-bar-discrete__node--active::before {
   background: var(--mc);
 }
 </style>

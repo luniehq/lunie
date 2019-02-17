@@ -159,6 +159,7 @@ export default {
   margin: 0;
   min-width: 49%;
 }
+
 .vote-options button span {
   margin: 0.25rem;
 }

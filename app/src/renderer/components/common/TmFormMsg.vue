@@ -117,7 +117,7 @@ export default {
   font-size: var(--sm);
 }
 
-.tm-form-msg:before {
+.tm-form-msg::before {
   content: "";
   font-family: "Material Icons";
   padding-right: 0.35rem;
@@ -134,7 +134,7 @@ export default {
   position: absolute;
 }
 
-.tm-form-msg.tm-form-msg--error:before {
+.tm-form-msg.tm-form-msg--error::before {
   content: "error";
   color: var(--danger);
   font-style: normal;
@@ -144,7 +144,7 @@ export default {
   color: var(--warning);
 }
 
-.tm-form-msg.tm-form-msg--desc:before {
+.tm-form-msg.tm-form-msg--desc::before {
   content: "priority_high";
   color: var(--warning);
 }

@@ -82,6 +82,7 @@ export default {
   cursor: pointer;
   user-select: none;
 }
+
 .sort-by.asc i {
   color: var(--tertiary);
 }

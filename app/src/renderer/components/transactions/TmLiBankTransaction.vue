@@ -108,7 +108,7 @@ export default {
   color: var(--dim);
 }
 
-.tm-li-tx .tx-coin .value:before {
+.tm-li-tx .tx-coin .value::before {
   content: "";
   display: inline;
 }
@@ -131,7 +131,7 @@ export default {
   font-size: sm;
 }
 
-.tm-li-tx.tm-li-tx-sent .tx-coin .value:before {
+.tm-li-tx.tm-li-tx-sent .tx-coin .value::before {
   content: "-";
 }
 
@@ -143,7 +143,7 @@ export default {
   color: success;
 }
 
-.tm-li-tx.tm-li-tx-received .tx-coin .value:before {
+.tm-li-tx.tm-li-tx-received .tx-coin .value::before {
   content: "+";
 }
 
