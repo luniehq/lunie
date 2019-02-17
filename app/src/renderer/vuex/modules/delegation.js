@@ -3,7 +3,7 @@ import Vue from "vue"
 import { calculateShares } from "scripts/common"
 
 export default ({ node }) => {
-  let emptyState = {
+  const emptyState = {
     loading: false,
     loaded: false,
     error: null,
@@ -20,7 +20,7 @@ export default ({ node }) => {
   const mutations = {
     addToCart(state, delegate) {
       // don't add to cart if already in cart
-      for (let existingDelegate of state.delegates) {
+      for (const existingDelegate of state.delegates) {
         if (delegate.id === existingDelegate.id) return
       }
 
@@ -37,7 +37,6 @@ export default ({ node }) => {
       Vue.set(state.committedDelegates, candidateId, value)
       if (value === 0) {
         delete state.committedDelegates[candidateId]
-        Vue.set(state, `committedDelegates`, state.committedDelegates)
       }
     },
     setUnbondingDelegations(state, unbondingDelegations) {
@@ -57,9 +56,9 @@ export default ({ node }) => {
         : {}
     }
   }
-  let actions = {
-    reconnected({ state, dispatch }) {
-      if (state.loading) {
+  const actions = {
+    reconnected({ state, dispatch, rootState }) {
+      if (state.loading && rootState.user.signedIn) {
         dispatch(`getBondedDelegates`)
       }
     },
@@ -75,14 +74,14 @@ export default ({ node }) => {
 
       if (!rootState.connection.connected) return
 
-      let address = rootState.user.address
+      const address = rootState.user.address
       candidates = candidates || (await dispatch(`getDelegates`))
 
       try {
-        let delegations = await node.getDelegations(address)
-        let unbondingDelegations = await node.getUndelegations(address)
-        let redelegations = await node.getRedelegations(address)
-        let delegator = {
+        const delegations = await node.getDelegations(address)
+        const unbondingDelegations = await node.getUndelegations(address)
+        const redelegations = await node.getRedelegations(address)
+        const delegator = {
           delegations,
           unbondingDelegations,
           redelegations
@@ -137,17 +136,18 @@ export default ({ node }) => {
       state.loading = false
     },
     async updateDelegates({ dispatch }) {
-      let candidates = await dispatch(`getDelegates`)
+      const candidates = await dispatch(`getDelegates`)
       return dispatch(`getBondedDelegates`, candidates)
     },
     async submitDelegation(
       {
-        rootState: { stakingParameters, user, wallet },
+        rootState: { stakingParameters, wallet },
+        getters: { liquidAtoms },
         state,
         dispatch,
         commit
       },
-      { validator_addr, amount, password }
+      { validator_addr, amount, password, submitType }
     ) {
       const denom = stakingParameters.parameters.bond_denom
       const delegation = {
@@ -159,26 +159,32 @@ export default ({ node }) => {
         type: `postDelegation`,
         to: wallet.address, // TODO strange syntax
         password,
+        submitType,
         delegator_addr: wallet.address,
         validator_addr,
         delegation
       })
 
       // optimistic update the atoms of the user before we get the new values from chain
-      commit(`setAtoms`, user.atoms - amount)
+      commit(`updateWalletBalance`, {
+        denom,
+        amount: Number(liquidAtoms) - Number(amount)
+      })
       // optimistically update the committed delegations
-      Vue.set(
-        state.committedDelegates,
-        validator_addr,
-        state.committedDelegates[validator_addr] + amount
-      )
+      commit(`setCommittedDelegation`, {
+        candidateId: validator_addr,
+        value: state.committedDelegates[validator_addr] + Number(amount)
+      })
+
+      // load delegates after delegation to get new atom distribution on validators
+      dispatch(`updateDelegates`)
     },
     async submitUnbondingDelegation(
       {
         rootState: { wallet },
         dispatch
       },
-      { validator, amount, password }
+      { validator, amount, password, submitType }
     ) {
       // TODO: change to 10 when available https://github.com/cosmos/cosmos-sdk/issues/2317
       const shares = String(
@@ -190,7 +196,8 @@ export default ({ node }) => {
         delegator_addr: wallet.address,
         validator_addr: validator.operator_address,
         shares,
-        password
+        password,
+        submitType
       })
     },
     async submitRedelegation(
@@ -198,7 +205,7 @@ export default ({ node }) => {
         rootState: { wallet },
         dispatch
       },
-      { validatorSrc, validatorDst, amount, password }
+      { validatorSrc, validatorDst, amount, password, submitType }
     ) {
       const shares = String(
         Math.abs(calculateShares(validatorSrc, amount)).toFixed(10)
@@ -211,7 +218,8 @@ export default ({ node }) => {
         validator_src_addr: validatorSrc.operator_address,
         validator_dst_addr: validatorDst.operator_address,
         shares,
-        password
+        password,
+        submitType
       })
     }
   }

@@ -5,7 +5,7 @@ const fs = require(`fs`)
 const octokit = require(`@octokit/rest`)()
 
 function bumpVersion(versionString) {
-  let versionElements = versionString.split(`.`)
+  const versionElements = versionString.split(`.`)
   versionElements[2] = parseInt(versionElements[2]) + 1
   return versionElements.join(`.`)
 }
@@ -27,7 +27,8 @@ const pushCommit = ({ token, branch }) =>
 set -o verbose
 git config --local user.name "Voyager Bot"
 git config --local user.email "voyager_bot@tendermint.com"
-git commit --all --message="Bump version for release."
+git add CHANGELOG.md package.json
+git commit --message="Bump version for release."
 git tag --force release-candidate
 git remote add bot https://${token}@github.com/cosmos/voyager.git
 git push --force --tags bot HEAD:${branch}
@@ -47,7 +48,7 @@ const createPullRequest = async ({ changeLog, token, tag, head }) => {
     repo: `voyager`,
     title: `automatic release created for ${tag}`,
     head,
-    base: `develop`,
+    base: `master`,
     body: recentChanges(changeLog),
     maintainer_can_modify: true
   })

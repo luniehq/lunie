@@ -1,19 +1,16 @@
-"use strict"
+/* istanbul ignore file */
+import axios from "axios"
+import config from "./config"
 
-let { join } = require(`path`)
-let { readFileSync } = require(`fs-extra`)
-let config = require(`./config.js`)
+const networkPath = `../networks/${config.default_network}`
 
-// this network gets used if none is specified via the
-// COSMOS_NETWORK env var
-let DEFAULT_NETWORK = join(__dirname, `../networks/` + config.default_network)
-let networkPath = process.env.COSMOS_NETWORK || DEFAULT_NETWORK
+export default async function() {
+  const genesis = (await axios(`${networkPath}/genesis.json`)).data
+  const networkName = genesis.chain_id
 
-let genesisText = readFileSync(join(networkPath, `genesis.json`), `utf8`)
-let genesis = JSON.parse(genesisText)
-let networkName = genesis.chain_id
-
-module.exports = {
-  path: networkPath,
-  name: networkName
+  return {
+    genesis,
+    path: networkPath,
+    name: networkName
+  }
 }

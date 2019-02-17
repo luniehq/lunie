@@ -21,136 +21,25 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
         <div
           class="tm-page-header-body"
         >
-          <div
-            class="header-balance"
-          >
-            <div
-              class="top"
-            >
-              <div
-                class="icon-container"
-              >
-                <img
-                  class="icon"
-                  src="~assets/images/cosmos-logo.png"
-                />
-              </div>
-               
-              <div
-                class="total-atoms top-section"
-              >
-                <h3>
-                  Total STAKE
-                </h3>
-                 
-                <h2
-                  class="total-atoms__value"
-                >
-                  1,337.0000…
-                </h2>
-              </div>
-               
-              <div
-                class="unbonded-atoms top-section"
-              >
-                <h3>
-                  Available STAKE
-                </h3>
-                 
-                <h2>
-                  1,337.0000…
-                </h2>
-              </div>
-            </div>
-             
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    cosmos…xxn9
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
-             
-            <div
-              class="tabs"
-            >
-              <div
-                class="tab"
-              >
-                <router-link-stub
-                  to="[object Object]"
-                >
-                  Proposals
-                </router-link-stub>
-              </div>
-              <div
-                class="tab"
-              >
-                <router-link-stub
-                  to="[object Object]"
-                >
-                  Parameters
-                </router-link-stub>
-              </div>
-            </div>
-             
-            <button
-              class="tm-btn"
-              disabled="disabled"
-              id="propose-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--primary"
-              >
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Connecting...
-                </span>
-              </span>
-            </button>
-          </div>
+          <tm-balance-stub
+            tabs=""
+          />
            
           <div
-            class="tm-tool-bar"
+            class="tool-bar"
           >
+            <!---->
+             
             <a
-              class="back"
-              disabled="disabled"
+              class="search-button"
             >
               <i
                 class="material-icons"
               >
-                arrow_back
-              </i>
-            </a>
-             
-            <a>
-              <i
-                class="search material-icons"
-              >
                 search
               </i>
             </a>
+              
             <a
               class="help"
             >
@@ -171,6 +60,7 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
                 settings
               </i>
             </router-link-stub>
+             
             <a
               id="signOut-btn"
             >
@@ -180,24 +70,73 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
                 exit_to_app
               </i>
             </a>
+             
+            <!---->
           </div>
         </div>
       </div>
        
       <menu
         class="tm-page-header-menu"
+      />
+       
+      <div
+        class="tabs"
       >
-        <div />
-      </menu>
+        <div
+          class="tab"
+        >
+          <router-link-stub
+            to="[object Object]"
+          >
+            
+      Proposals
+    
+          </router-link-stub>
+        </div>
+        <div
+          class="tab"
+        >
+          <router-link-stub
+            to="[object Object]"
+          >
+            
+      Parameters
+    
+          </router-link-stub>
+        </div>
+      </div>
+       
+      <div
+        class="header-buttons"
+      >
+        <button
+          class="tm-btn"
+          disabled="disabled"
+          id="propose-btn"
+        >
+          <span
+            class="tm-btn__container tm-btn--primary"
+          >
+            <!---->
+            <span
+              class="tm-btn__value"
+            >
+              Connecting...
+            </span>
+          </span>
+        </button>
+      </div>
     </div>
   </header>
    
   <main
     class="tm-page-main"
   >
-     
     <!---->
      
+    <!---->
+      
     <!---->
      
     <router-view-stub />
@@ -226,135 +165,25 @@ exports[`PageGovernance has the expected html structure 1`] = `
         <div
           class="tm-page-header-body"
         >
-          <div
-            class="header-balance"
-          >
-            <div
-              class="top"
-            >
-              <div
-                class="icon-container"
-              >
-                <img
-                  class="icon"
-                  src="~assets/images/cosmos-logo.png"
-                />
-              </div>
-               
-              <div
-                class="total-atoms top-section"
-              >
-                <h3>
-                  Total STAKE
-                </h3>
-                 
-                <h2
-                  class="total-atoms__value"
-                >
-                  1,351.0000…
-                </h2>
-              </div>
-               
-              <div
-                class="unbonded-atoms top-section"
-              >
-                <h3>
-                  Available STAKE
-                </h3>
-                 
-                <h2>
-                  1,337.0000…
-                </h2>
-              </div>
-            </div>
-             
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    cosmos…xxn9
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
-             
-            <div
-              class="tabs"
-            >
-              <div
-                class="tab"
-              >
-                <router-link-stub
-                  to="[object Object]"
-                >
-                  Proposals
-                </router-link-stub>
-              </div>
-              <div
-                class="tab"
-              >
-                <router-link-stub
-                  to="[object Object]"
-                >
-                  Parameters
-                </router-link-stub>
-              </div>
-            </div>
-             
-            <button
-              class="tm-btn"
-              id="propose-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--primary"
-              >
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Create Proposal
-                </span>
-              </span>
-            </button>
-          </div>
+          <tm-balance-stub
+            tabs=""
+          />
            
           <div
-            class="tm-tool-bar"
+            class="tool-bar"
           >
+            <!---->
+             
             <a
-              class="back"
-              disabled="disabled"
+              class="search-button"
             >
               <i
                 class="material-icons"
               >
-                arrow_back
-              </i>
-            </a>
-             
-            <a>
-              <i
-                class="search material-icons"
-              >
                 search
               </i>
             </a>
+              
             <a
               class="help"
             >
@@ -375,6 +204,7 @@ exports[`PageGovernance has the expected html structure 1`] = `
                 settings
               </i>
             </router-link-stub>
+             
             <a
               id="signOut-btn"
             >
@@ -384,24 +214,72 @@ exports[`PageGovernance has the expected html structure 1`] = `
                 exit_to_app
               </i>
             </a>
+             
+            <!---->
           </div>
         </div>
       </div>
        
       <menu
         class="tm-page-header-menu"
+      />
+       
+      <div
+        class="tabs"
       >
-        <div />
-      </menu>
+        <div
+          class="tab"
+        >
+          <router-link-stub
+            to="[object Object]"
+          >
+            
+      Proposals
+    
+          </router-link-stub>
+        </div>
+        <div
+          class="tab"
+        >
+          <router-link-stub
+            to="[object Object]"
+          >
+            
+      Parameters
+    
+          </router-link-stub>
+        </div>
+      </div>
+       
+      <div
+        class="header-buttons"
+      >
+        <button
+          class="tm-btn"
+          id="propose-btn"
+        >
+          <span
+            class="tm-btn__container tm-btn--primary"
+          >
+            <!---->
+            <span
+              class="tm-btn__value"
+            >
+              Create Proposal
+            </span>
+          </span>
+        </button>
+      </div>
     </div>
   </header>
    
   <main
     class="tm-page-main"
   >
-     
     <!---->
      
+    <!---->
+      
     <!---->
      
     <router-view-stub />

@@ -1,12 +1,15 @@
 <template>
-  <page-profile data-title="Validator"
-    ><template slot="menu-body">
+  <tm-page data-title="Validator">
+    <template slot="menu-body">
       <tm-balance />
       <tool-bar />
     </template>
-    <tm-data-error v-if="!validator" /><template v-else>
+
+    <tm-data-error v-if="!validator" />
+
+    <template v-else>
       <div class="page-profile__header page-profile__section">
-        <div class="column">
+        <div class="row">
           <img
             v-if="validator.keybase"
             :src="validator.keybase.avatarUrl"
@@ -16,23 +19,21 @@
             class="avatar"
             src="~assets/images/validator-icon.svg"
           />
-        </div>
-        <div class="column page-profile__header__info">
-          <div class="row page-profile__header__name">
-            <div class="column">
-              <div class="page-profile__status-and-title">
-                <span
-                  v-tooltip.top="status"
-                  :class="statusColor"
-                  class="page-profile__status"
-                />
-                <div class="page-profile__header__name__title">
-                  {{ validator.description.moniker }}
-                </div>
+
+          <div class="page-profile__header__info">
+            <div class="page-profile__status-and-title">
+              <span
+                v-tooltip.top="status"
+                :class="statusColor"
+                class="page-profile__status"
+              />
+              <div class="page-profile__title">
+                {{ validator.description.moniker }}
               </div>
               <short-bech32 :address="validator.operator_address" />
             </div>
-            <div class="column page-profile__header__actions">
+
+            <div class="page-profile__header__actions">
               <tm-btn
                 id="delegation-btn"
                 :disabled="!connected"
@@ -49,57 +50,52 @@
               />
             </div>
           </div>
-          <div class="row page-profile__header__data">
-            <dl class="colored_dl">
-              <dt>Delegated {{ bondDenom }}</dt>
-              <dd>
-                {{
-                  /* eslint-disable */
-                  myBond.isLessThan(0.01) && myBond.isGreaterThan(0)
-                    ? `< 0.01`
-                    : num.shortNumber(myBond)
-                  /*eslint-enable */
-                }}
-              </dd>
+        </div>
+
+        <div class="row">
+          <div class="row-unjustified">
+            <dl class="info_dl colored_dl">
+              <dt>My Delegation</dt>
+              <dd>{{ myDelegation }}</dd>
             </dl>
-            <dl v-if="config.devMode" class="colored_dl">
+            <dl v-if="config.devMode" class="info_dl colored_dl">
               <dt>My Rewards</dt>
-              <dd>n/a</dd>
+              <dd>--</dd>
             </dl>
-            <div class="page-profile__header__data__break" />
-            <dl class="colored_dl">
+          </div>
+
+          <div class="row-unjustified">
+            <dl class="info_dl colored_dl">
               <dt>Voting Power</dt>
-              <dd id="page-profile__power">{{ pretty(powerRatio * 100) }} %</dd>
+              <dd id="page-profile__power">{{ percent(powerRatio) }}</dd>
             </dl>
-            <dl v-if="config.devMode" class="colored_dl">
+            <dl class="info_dl colored_dl">
               <dt>Uptime</dt>
-              <dd id="page-profile__uptime">
-                {{
-                  validator.signing_info
-                    ? pretty(validator.signing_info.signed_blocks_counter / 100)
-                    : `n/a`
-                }}
-                %
-              </dd>
+              <dd id="page-profile__uptime">{{ uptime }}</dd>
             </dl>
-            <dl class="colored_dl">
+            <dl class="info_dl colored_dl">
               <dt>Commission</dt>
               <dd id="page-profile__commission">
-                {{ num.shortNumber(validator.commission.rate) }} %
+                {{ percent(validator.commission.rate) }}
               </dd>
             </dl>
-            <dl v-if="config.devMode" class="colored_dl">
+            <dl v-if="config.devMode" class="info_dl colored_dl">
               <dt>Slashes</dt>
-              <dd>n/a</dd>
+              <dd>--</dd>
             </dl>
           </div>
         </div>
       </div>
-      <div class="page-profile__details page-profile__section">
+
+      <div class="page-profile__section">
         <div class="row">
           <div class="column">
             <dl class="info_dl">
-              <dt>Operator</dt>
+              <dt>First Seen</dt>
+              <dd>Block #{{ validator.bond_height }}</dd>
+            </dl>
+            <dl class="info_dl">
+              <dt>Full Operator Address</dt>
               <dd>{{ validator.operator_address }}</dd>
             </dl>
             <dl class="info_dl">
@@ -108,10 +104,6 @@
                 {{ translateEmptyDescription(validator.description.identity) }}
               </dd>
             </dl>
-            <dl v-if="config.devMode" class="info_dl">
-              <dt>First Seen</dt>
-              <dd>n/a</dd>
-            </dl>
             <dl class="info_dl">
               <dt>Website</dt>
               <dd>
@@ -119,7 +111,7 @@
               </dd>
             </dl>
             <dl class="info_dl">
-              <dt>Details</dt>
+              <dt>Description</dt>
               <dd class="info_dl__text-box">
                 {{ translateEmptyDescription(validator.description.details) }}
               </dd>
@@ -127,56 +119,45 @@
           </div>
           <div class="column">
             <dl class="info_dl">
-              <dt>Commission Rate</dt>
-              <dd>{{ validator.commission.rate }} %</dd>
+              <dt>Current Commission Rate</dt>
+              <dd>{{ percent(validator.commission.rate) }}</dd>
             </dl>
             <dl class="info_dl">
               <dt>Max Commission Rate</dt>
-              <dd>{{ validator.commission.max_rate }} %</dd>
+              <dd>{{ percent(validator.commission.max_rate) }}</dd>
             </dl>
             <dl class="info_dl">
               <dt>Max Daily Commission Change</dt>
-              <dd>{{ validator.commission.max_change_rate }} %</dd>
+              <dd>{{ percent(validator.commission.max_change_rate) }}</dd>
             </dl>
             <dl class="info_dl">
               <dt>Last Commission Change</dt>
-              <dd>
-                {{
-                  new Date(validator.commission.update_time).getTime() === 0
-                    ? "Never"
-                    : moment(
-                        new Date(validator.commission.update_time)
-                      ).fromNow()
-                }}
-              </dd>
+              <dd>{{ lastCommissionChange }}</dd>
             </dl>
             <dl class="info_dl">
-              <dt>Self Delegated {{ bondDenom }}</dt>
-              <dd id="page-profile__self-bond">{{ selfBond }} %</dd>
-            </dl>
-            <dl v-if="config.devMode" class="info_dl">
-              <dt>Minimum Self Delegated {{ bondDenom }}</dt>
-              <dd>0 %</dd>
+              <dt>Self Delegation</dt>
+              <dd id="page-profile__self-bond">{{ selfBond }}</dd>
             </dl>
           </div>
         </div>
       </div>
+
       <delegation-modal
-        v-if="showDelegationModal"
-        :show-delegation-modal.sync="showDelegationModal"
+        ref="delegationModal"
         :from-options="delegationTargetOptions()"
         :to="validator.operator_address"
+        :validator="validator"
         :denom="bondDenom"
-        @submitDelegation="submitDelegation"
       />
       <undelegation-modal
-        v-if="showUndelegationModal"
-        :show-undelegation-modal.sync="showUndelegationModal"
-        :maximum="myBond.toNumber()"
+        ref="undelegationModal"
+        :maximum="Number(myBond)"
+        :from-options="delegationTargetOptions()"
         :to="wallet.address"
+        :validator="validator"
         :denom="bondDenom"
-        @submitUndelegation="submitUndelegation"
       />
+
       <tm-modal v-if="showCannotModal" :close="closeCannotModal">
         <div slot="title">
           Cannot {{ action === `delegate` ? `Delegate` : `Undelegate` }}
@@ -195,14 +176,14 @@
         </div>
       </tm-modal>
     </template>
-  </page-profile>
+  </tm-page>
 </template>
 
 <script>
 import moment from "moment"
 import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
-import num from "scripts/num"
+import { percent, pretty } from "scripts/num"
 import TmBtn from "common/TmBtn"
 import TmListItem from "common/TmListItem"
 import TmPart from "common/TmPart"
@@ -212,10 +193,9 @@ import TmDataError from "common/TmDataError"
 import { shortAddress, ratToBigNumber } from "scripts/common"
 import DelegationModal from "staking/DelegationModal"
 import UndelegationModal from "staking/UndelegationModal"
-import numeral from "numeral"
 import ShortBech32 from "common/ShortBech32"
 import TmBalance from "common/TmBalance"
-import PageProfile from "common/PageProfile"
+import TmPage from "common/TmPage"
 import { isEmpty } from "lodash"
 export default {
   name: `page-validator`,
@@ -230,13 +210,12 @@ export default {
     ToolBar,
     TmDataError,
     TmBalance,
-    PageProfile
+    TmPage
   },
   data: () => ({
-    num,
+    percent,
+    pretty,
     showCannotModal: false,
-    showDelegationModal: false,
-    showUndelegationModal: false,
     shortAddress,
     tabIndex: 1,
     action: ``,
@@ -244,19 +223,20 @@ export default {
   }),
   computed: {
     ...mapGetters([
+      `lastHeader`,
       `bondDenom`,
       `delegates`,
       `delegation`,
       `committedDelegations`,
       `config`,
       `keybase`,
-      `oldBondedAtoms`,
-      `totalAtoms`,
+      `liquidAtoms`,
+      `user`,
       `wallet`,
       `connected`
     ]),
     validator() {
-      let validator = this.delegates.delegates.find(
+      const validator = this.delegates.delegates.find(
         v => this.$route.params.validator === v.operator_address
       )
       if (validator)
@@ -264,9 +244,15 @@ export default {
       return validator
     },
     selfBond() {
-      return this.validator.selfBond
-        ? (this.validator.selfBond * 100).toFixed(2)
-        : 0
+      return percent(this.validator.selfBond)
+    },
+    uptime() {
+      const totalBlocks = this.lastHeader.height
+      const missedBlocks = this.validator.signing_info.missed_blocks_counter
+      const signedBlocks = totalBlocks - missedBlocks
+      const uptime = (signedBlocks / totalBlocks) * 100
+
+      return String(uptime).substring(0, 4) + `%`
     },
     myBond() {
       return calculateTokens(
@@ -274,23 +260,25 @@ export default {
         this.committedDelegations[this.validator.operator_address] || 0
       )
     },
+    myDelegation() {
+      const myBond = Number(this.myBond)
+      const myDelegationString = this.myBond + ` ` + this.bondDenom
+      return myBond === 0 ? `--` : myDelegationString
+    },
     powerRatio() {
       return ratToBigNumber(this.validator.tokens)
         .div(this.delegates.globalPower)
         .toNumber()
     },
-    // TODO enable once we decide on limits
-    // powerRatioLevel() {
-    //   if (this.powerRatio < 0.01) return `green`
-    //   if (this.powerRatio < 0.03) return `yellow`
-    //   return `red`
-    // },
-    // TODO enable once we decide on limits
-    // commissionLevel() {
-    //   if (this.validator.commission < 0.01) return `green`
-    //   if (this.validator.commission < 0.03) return `yellow`
-    //   return `red`
-    // },
+    lastCommissionChange() {
+      const updateTime = this.validator.commission.update_time
+      const dateTime = new Date(updateTime)
+      const neverHappened = dateTime.getTime() === 0
+
+      return neverHappened || updateTime === `0001-01-01T00:00:00Z`
+        ? `--`
+        : moment(dateTime).fromNow()
+    },
     status() {
       // status: jailed
       if (this.validator.revoked)
@@ -312,9 +300,6 @@ export default {
 
       // status: active
       return `green`
-    },
-    availableAtoms() {
-      return this.totalAtoms - this.oldBondedAtoms
     }
   },
   watch: {
@@ -332,8 +317,8 @@ export default {
     },
     onDelegation() {
       this.action = `delegate`
-      if (this.availableAtoms > 0) {
-        this.showDelegationModal = true
+      if (this.liquidAtoms > 0) {
+        this.$refs.delegationModal.open()
       } else {
         this.showCannotModal = true
       }
@@ -341,95 +326,31 @@ export default {
     onUndelegation() {
       this.action = `undelegate`
       if (this.myBond.isGreaterThan(0)) {
-        this.showUndelegationModal = true
+        this.$refs.undelegationModal.open()
       } else {
         this.showCannotModal = true
       }
     },
-    async submitDelegation({ amount, from, password }) {
-      if (from === this.wallet.address) {
-        try {
-          await this.$store.dispatch(`submitDelegation`, {
-            validator_addr: this.validator.operator_address,
-            amount,
-            password
-          })
-
-          this.$store.commit(`notify`, {
-            title: `Successful delegation!`,
-            body: `You have successfully delegated your ${this.bondDenom}s`
-          })
-        } catch ({ message }) {
-          this.$store.commit(`notifyError`, {
-            title: `Error while delegating ${this.bondDenom}s`,
-            body: message
-          })
-        }
-      } else {
-        const validatorSrc = this.delegates.delegates.find(
-          v => from === v.operator_address
-        )
-        try {
-          await this.$store.dispatch(`submitRedelegation`, {
-            validatorSrc,
-            validatorDst: this.validator,
-            amount,
-            password
-          })
-
-          this.$store.commit(`notify`, {
-            title: `Successful redelegation!`,
-            body: `You have successfully redelegated your ${this.bondDenom}s`
-          })
-        } catch ({ message }) {
-          this.$store.commit(`notifyError`, {
-            title: `Error while redelegating ${this.bondDenom}s`,
-            body: message
-          })
-        }
-      }
-    },
-    async submitUndelegation({ amount, password }) {
-      try {
-        await this.$store.dispatch(`submitUnbondingDelegation`, {
-          amount: -amount,
-          validator: this.validator,
-          password
-        })
-
-        this.$store.commit(`notify`, {
-          title: `Successful undelegation!`,
-          body: `You have successfully undelegated ${amount} ${
-            this.bondDenom
-          }s.`
-        })
-      } catch ({ message }) {
-        this.$store.commit(`notifyError`, {
-          title: `Error while undelegating ${this.bondDenom}s`,
-          body: message
-        })
-      }
-    },
     delegationTargetOptions() {
       //- First option should always be your wallet (i.e normal delegation)
-      let myWallet = [
+      const myWallet = [
         {
           address: this.wallet.address,
-          maximum: Math.floor(this.totalAtoms - this.oldBondedAtoms),
+          maximum: Math.floor(this.liquidAtoms),
           key: `My Wallet - ${shortAddress(this.wallet.address, 20)}`,
           value: 0
         }
       ]
-      let bondedValidators = Object.keys(this.committedDelegations)
+      const bondedValidators = Object.keys(this.committedDelegations)
       if (isEmpty(bondedValidators)) {
         return myWallet
       }
       //- The rest of the options are from your other bonded validators
       //- We skip the option of redelegating to the same address
-      let redelegationOptions = bondedValidators
+      const redelegationOptions = bondedValidators
         .filter(address => address != this.$route.params.validator)
         .map((address, index) => {
-          let delegate = this.delegates.delegates.find(function(validator) {
+          const delegate = this.delegates.delegates.find(function(validator) {
             return validator.operator_address === address
           })
           return {
@@ -444,12 +365,9 @@ export default {
         })
       return myWallet.concat(redelegationOptions)
     },
-    pretty(num) {
-      return numeral(num).format(`0,0.00`)
-    },
     // empty descriptions have a strange '[do-not-modify]' value which we don't want to show
     translateEmptyDescription(value) {
-      if (!value || value === `[do-not-modify]`) return `n/a`
+      if (!value || value === `[do-not-modify]`) return `--`
       return value
     }
   }

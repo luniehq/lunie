@@ -1,6 +1,6 @@
 <template>
   <div class="tm-session">
-    <tm-form-struct :submit="onSubmit" class="tm-session-container">
+    <tm-form-struct :submit="onSubmit.bind(this)" class="tm-session-container">
       <div class="tm-session-header">
         <a @click="setState('welcome')"
           ><i class="material-icons">arrow_back</i></a
@@ -10,7 +10,7 @@
       </div>
       <div class="tm-session-main">
         <tm-form-group
-          :error="$v.fields.importName.$error"
+          :error="$v.$error && $v.fields.importName.$invalid"
           field-id="import-name"
           field-label="Account Name"
         >
@@ -21,19 +21,21 @@
             placeholder="Must have at least 5 characters"
           />
           <tm-form-msg
-            v-if="!$v.fields.importName.required"
+            v-if="$v.fields.importName.$error && !$v.fields.importName.required"
             name="Name"
             type="required"
           />
           <tm-form-msg
-            v-if="!$v.fields.importName.minLength"
+            v-if="
+              $v.fields.importName.$error && !$v.fields.importName.minLength
+            "
             name="Name"
             type="minLength"
             min="5"
           />
         </tm-form-group>
         <tm-form-group
-          :error="$v.fields.importPassword.$error"
+          :error="$v.$error && $v.fields.importPassword.$invalid"
           field-id="import-password"
           field-label="Password"
         >
@@ -44,19 +46,25 @@
             placeholder="Must be at least 10 characters"
           />
           <tm-form-msg
-            v-if="!$v.fields.importPassword.required"
+            v-if="
+              $v.fields.importPassword.$error &&
+                !$v.fields.importPassword.required
+            "
             name="Password"
             type="required"
           />
           <tm-form-msg
-            v-if="!$v.fields.importPassword.minLength"
+            v-if="
+              $v.fields.importPassword.$error &&
+                !$v.fields.importPassword.minLength
+            "
             name="Password"
             type="minLength"
             min="10"
           />
         </tm-form-group>
         <tm-form-group
-          :error="$v.fields.importPasswordConfirm.$error"
+          :error="$v.$error && $v.fields.importPasswordConfirm.$invalid"
           field-id="import-password-confirmation"
           field-label="Confirm Password"
         >
@@ -67,13 +75,16 @@
             placeholder="Enter password again"
           />
           <tm-form-msg
-            v-if="!$v.fields.importPasswordConfirm.sameAsPassword"
+            v-if="
+              $v.fields.importPasswordConfirm.$error &&
+                !$v.fields.importPasswordConfirm.sameAsPassword
+            "
             name="Password confirmation"
             type="match"
           />
         </tm-form-group>
         <tm-form-group
-          :error="$v.fields.importSeed.$error"
+          :error="$v.$error && $v.fields.importSeed.$invalid"
           field-id="import-seed"
           field-label="Seed Phrase"
         >
@@ -84,18 +95,20 @@
             @input="val => (fields.importSeed = val)"
           />
           <tm-form-msg
-            v-if="!$v.fields.importSeed.required"
+            v-if="$v.fields.importSeed.$error && !$v.fields.importSeed.required"
             name="Seed"
             type="required"
           />
           <tm-form-msg
-            v-else-if="!$v.fields.importSeed.words24"
+            v-else-if="
+              $v.fields.importSeed.$error && !$v.fields.importSeed.words24
+            "
             name="Seed"
             type="words24"
           />
         </tm-form-group>
         <tm-form-group
-          :error="$v.fields.errorCollection.$error"
+          :error="$v.$error && $v.fields.errorCollection.$invalid"
           field-id="error-collection"
           field-label=""
         >
@@ -180,26 +193,21 @@ export default {
       this.$v.$touch()
       if (this.$v.$error) return
       try {
-        let key = await this.$store.dispatch(`createKey`, {
+        await this.$store.dispatch(`createKey`, {
           seedPhrase: this.fields.importSeed,
           password: this.fields.importPassword,
           name: this.fields.importName
         })
-        if (key) {
-          this.$store.dispatch(`setErrorCollection`, {
-            account: this.fields.importName,
-            optin: this.fields.errorCollection
-          })
-          this.$store.commit(`setModalSession`, false)
-          this.$store.commit(`notify`, {
-            title: `Welcome back!`,
-            body: `Your account has been successfully imported.`
-          })
-          this.$store.dispatch(`signIn`, {
-            account: this.fields.importName,
-            password: this.fields.importPassword
-          })
-        }
+        await this.$store.dispatch(`signIn`, {
+          account: this.fields.importName,
+          password: this.fields.importPassword,
+          sessionType: `local`,
+          errorCollection: this.fields.errorCollection
+        })
+        this.$store.commit(`notify`, {
+          title: `Welcome back!`,
+          body: `Your account has been successfully imported.`
+        })
       } catch (error) {
         this.$store.commit(`notifyError`, {
           title: `Couldn't create account`,

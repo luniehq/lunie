@@ -9,200 +9,24 @@
 // think it's running in a browser, causing some network requests below to fail
 // with only the message "Network Error".
 
-let axios = require(`axios`)
-const Express = require(`express`)
-const mung = require(`express-mung`)
-const http = require(`http`)
-let LcdClient = require(`renderer/connectors/lcdClient.js`)
-let lcdClientMock = require(`renderer/connectors/lcdClientMock.js`)
-let { proposals, deposits, votes } = lcdClientMock.state
-
-const path = require(`path`)
-const createMiddleware = require(`swagger-express-middleware`)
-const { MemoryDataStore, Resource } = createMiddleware
-const { promisify } = require(`util`)
+const LcdClient = require(`renderer/connectors/lcdClient.js`)
+const lcdClientMock = require(`renderer/connectors/lcdClientMock.js`)
+const { proposals, deposits, votes } = lcdClientMock.state
 
 describe(`LCD Client`, () => {
-  describe(`Gaia-Lite`, () => {
-    let client
-    const dataStore = new MemoryDataStore()
-    let mockServer
-
-    beforeAll(async () => {
-      const application = Express()
-
-      const middleware = await promisify(createMiddleware)(
-        path.join(__dirname, `../../helpers/Gaia-Lite.yaml`),
-        application
-      )
-
-      application.use(middleware.metadata())
-
-      // The fact that /keys is a collection but /keys/seed is not a resource in
-      // that collection confuses the Swagger middleware so we have to mock it
-      // separately.
-
-      application.get(`/keys/seed`, (request, response) => {
-        response.send(request.swagger.path.get.responses[`200`].example)
-      })
-
-      // Don't return passwords.  This is a workaround to
-      // https://github.com/APIDevTools/swagger-express-middleware/issues/18
-      application.get(
-        `/keys`,
-        mung.json(body => {
-          body.forEach(key => {
-            delete key.password
-          })
-
-          return body
-        })
-      )
-
-      // Don't return passwords.  This is a workaround to
-      // https://github.com/APIDevTools/swagger-express-middleware/issues/18
-      application.get(
-        `/keys/:name`,
-        mung.json(body => {
-          delete body.password
-          return body
-        })
-      )
-
-      application.use(
-        // Why is this necessary?
-        middleware.CORS(),
-
-        middleware.parseRequest(),
-        middleware.validateRequest(),
-        middleware.mock(dataStore)
-      )
-
-      mockServer = http.createServer(application)
-      await promisify(mockServer.listen.bind(mockServer))(0, `localhost`)
-      const localLcdURL = `http://localhost:${mockServer.address().port}`
-      client = LcdClient(axios, localLcdURL, `http://remotehost`)
-    })
-
-    afterAll(done => {
-      mockServer.close(done)
-    })
-
-    beforeEach(done => {
-      const initialState = [
-        {
-          collection: `/keys`,
-          name: `Main`,
-          data: {
-            address: `cosmoszgnkwr7eyyv643dllwfpdwensmgdtz89yu73zq`,
-            name: `Main Account`,
-            password: `password`,
-            pub_key: `cosmospub1addwnpepqfgv3pakxazq2fgs8tmmhmzsrs94fptl7kyztyxprjpf0mkus3h7cxqe70s`,
-            seed: `blossom pool issue kidney elevator blame furnace winter account merry vessel security depend exact travel bargain problem jelly rural net again mask roast chest`,
-            type: `local`
-          }
-        }
-      ]
-
-      dataStore.save(Resource.parse(initialState), done)
-    })
-
-    afterEach(done => {
-      dataStore.deleteCollection(`/keys`, done)
-    })
-
-    describe(`keys`, () => {
-      it(`add`, async () => {
-        jest.spyOn(console, `error`).mockImplementation(() => {})
-        expect(await client.keys.get(`foo`)).toEqual(undefined)
-
-        await client.keys.add({
-          name: `foo`,
-          password: `1234567890`,
-          seed: `seed some thin`
-        })
-
-        expect(await client.keys.get(`foo`)).toEqual({
-          address: `cosmoszgnkwr7eyyv643dllwfpdwensmgdtz89yu73zq`,
-          name: `foo`,
-          pub_key: `cosmospub1addwnpepqfgv3pakxazq2fgs8tmmhmzsrs94fptl7kyztyxprjpf0mkus3h7cxqe70s`,
-          seed: `seed some thin`,
-          type: `local`
-        })
-
-        console.error.mockReset()
-      })
-
-      it(`delete`, async () => {
-        await client.keys.delete(`Main`, { password: `password` })
-        expect(await client.keys.values()).toEqual([])
-      })
-
-      it(`get`, async () => {
-        expect(await client.keys.get(`Main`)).toEqual({
-          address: `cosmoszgnkwr7eyyv643dllwfpdwensmgdtz89yu73zq`,
-          name: `Main Account`,
-          pub_key: `cosmospub1addwnpepqfgv3pakxazq2fgs8tmmhmzsrs94fptl7kyztyxprjpf0mkus3h7cxqe70s`,
-          seed: `blossom pool issue kidney elevator blame furnace winter account merry vessel security depend exact travel bargain problem jelly rural net again mask roast chest`,
-          type: `local`
-        })
-      })
-
-      it(`seed`, async () => {
-        expect(await client.keys.seed()).toEqual(
-          `blossom pool issue kidney elevator blame furnace winter account merry vessel security depend exact travel bargain problem jelly rural net again mask roast chest`
-        )
-      })
-
-      it(`set`, async () => {
-        await client.keys.set(`Main`, {
-          new_password: `new password`,
-          old_password: `password`
-        })
-
-        expect(
-          (await promisify(dataStore.get.bind(dataStore))(`/keys/Main`)).data
-            .new_password
-        ).toEqual(`new password`)
-      })
-
-      it(`values`, async () => {
-        expect(await client.keys.values()).toEqual([
-          {
-            address: `cosmoszgnkwr7eyyv643dllwfpdwensmgdtz89yu73zq`,
-            name: `Main Account`,
-            pub_key: `cosmospub1addwnpepqfgv3pakxazq2fgs8tmmhmzsrs94fptl7kyztyxprjpf0mkus3h7cxqe70s`,
-            seed: `blossom pool issue kidney elevator blame furnace winter account merry vessel security depend exact travel bargain problem jelly rural net again mask roast chest`,
-            type: `local`
-          }
-        ])
-      })
-    })
-  })
-
   describe(`unit tests`, () => {
     let axios
     let client
 
     beforeEach(() => {
-      axios = jest.fn()
-      client = LcdClient(axios, `http://localhost`, `http://remotehost`)
+      axios = jest.fn(() => new Promise())
+      client = LcdClient(axios, `http://remotehost`)
     })
 
     describe(`helper functions`, () => {
       it(`makes a GET request with no args`, async () => {
         axios.mockReturnValueOnce(Promise.resolve({ data: { foo: `bar` } }))
-        let res = await client.keys.values()
-        expect(res).toEqual({ foo: `bar` })
-
-        expect(axios.mock.calls).toEqual([
-          [{ data: undefined, method: `GET`, url: `http://localhost/keys` }]
-        ])
-      })
-
-      it(`makes a GET request with one arg`, async () => {
-        axios.mockReturnValueOnce(Promise.resolve({ data: { foo: `bar` } }))
-        let res = await client.keys.get(`myKey`)
+        const res = await client.nodeVersion()
         expect(res).toEqual({ foo: `bar` })
 
         expect(axios.mock.calls).toEqual([
@@ -210,7 +34,23 @@ describe(`LCD Client`, () => {
             {
               data: undefined,
               method: `GET`,
-              url: `http://localhost/keys/myKey`
+              url: `http://remotehost/node_version`
+            }
+          ]
+        ])
+      })
+
+      it(`makes a GET request with one arg`, async () => {
+        axios.mockReturnValueOnce(Promise.resolve({ data: { foo: `bar` } }))
+        const res = await client.tx(`hashX`)
+        expect(res).toEqual({ foo: `bar` })
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/txs/hashX`
             }
           ]
         ])
@@ -218,25 +58,15 @@ describe(`LCD Client`, () => {
 
       it(`makes a POST request`, async () => {
         axios.mockReturnValueOnce(Promise.resolve({ data: { foo: `bar` } }))
-        let res = await client.keys.add()
-        expect(res).toEqual({ foo: `bar` })
-
-        expect(axios.mock.calls).toEqual([
-          [{ data: undefined, method: `POST`, url: `http://localhost/keys` }]
-        ])
-      })
-
-      it(`makes a PUT request with args and data`, async () => {
-        axios.mockReturnValueOnce(Promise.resolve({ data: { foo: `bar` } }))
-        let res = await client.keys.set(`myKey`, { abc: 123 })
+        const res = await client.postTx({ x: 1 })
         expect(res).toEqual({ foo: `bar` })
 
         expect(axios.mock.calls).toEqual([
           [
             {
-              data: { abc: 123 },
-              method: `PUT`,
-              url: `http://localhost/keys/myKey`
+              data: { x: 1 },
+              method: `POST`,
+              url: `http://remotehost/tx/broadcast`
             }
           ]
         ])
@@ -252,12 +82,18 @@ describe(`LCD Client`, () => {
         )
 
         try {
-          await await client.keys.values()
+          await await client.nodeVersion()
         } catch (error) {
           expect(error.response.data).toBe(`foo`)
         }
         expect(axios.mock.calls).toEqual([
-          [{ data: undefined, method: `GET`, url: `http://localhost/keys` }]
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/node_version`
+            }
+          ]
         ])
       })
     })
@@ -280,7 +116,7 @@ describe(`LCD Client`, () => {
             {
               data: undefined,
               method: `GET`,
-              url: `http://remotehost/stake/delegators/abc/delegations/efg`
+              url: `http://remotehost/staking/delegators/abc/delegations/efg`
             }
           ]
         ])
@@ -295,7 +131,7 @@ describe(`LCD Client`, () => {
             {
               data: undefined,
               method: `GET`,
-              url: `http://remotehost/stake/delegators/abc/delegations`
+              url: `http://remotehost/staking/delegators/abc/delegations`
             }
           ]
         ])
@@ -310,7 +146,7 @@ describe(`LCD Client`, () => {
             {
               data: undefined,
               method: `GET`,
-              url: `http://remotehost/stake/delegators/abc/unbonding_delegations`
+              url: `http://remotehost/staking/delegators/abc/unbonding_delegations`
             }
           ]
         ])
@@ -325,7 +161,7 @@ describe(`LCD Client`, () => {
             {
               data: undefined,
               method: `GET`,
-              url: `http://remotehost/stake/delegators/abc/redelegations`
+              url: `http://remotehost/staking/redelegations?delegator=abc`
             }
           ]
         ])
@@ -343,28 +179,28 @@ describe(`LCD Client`, () => {
             {
               data: undefined,
               method: `GET`,
-              url: `http://remotehost/stake/delegators/abc/txs`
+              url: `http://remotehost/staking/delegators/abc/txs`
             }
           ],
           [
             {
               data: undefined,
               method: `GET`,
-              url: `http://remotehost/stake/delegators/abc/txs?type=bonding`
+              url: `http://remotehost/staking/delegators/abc/txs?type=bonding`
             }
           ],
           [
             {
               data: undefined,
               method: `GET`,
-              url: `http://remotehost/stake/delegators/abc/txs?type=unbonding`
+              url: `http://remotehost/staking/delegators/abc/txs?type=unbonding`
             }
           ],
           [
             {
               data: undefined,
               method: `GET`,
-              url: `http://remotehost/stake/delegators/abc/txs?type=redelegate`
+              url: `http://remotehost/staking/delegators/abc/txs?type=redelegate`
             }
           ]
         ])
@@ -379,7 +215,7 @@ describe(`LCD Client`, () => {
             {
               data: undefined,
               method: `GET`,
-              url: `http://remotehost/stake/delegators/abc/validators`
+              url: `http://remotehost/staking/delegators/abc/validators`
             }
           ]
         ])
@@ -394,7 +230,7 @@ describe(`LCD Client`, () => {
             {
               data: undefined,
               method: `GET`,
-              url: `http://remotehost/stake/delegators/abc/unbonding_delegations/def`
+              url: `http://remotehost/staking/delegators/abc/unbonding_delegations/def`
             }
           ]
         ])
@@ -409,7 +245,7 @@ describe(`LCD Client`, () => {
             {
               data: undefined,
               method: `GET`,
-              url: `http://remotehost/stake/validators/abc`
+              url: `http://remotehost/staking/validators/abc`
             }
           ]
         ])
@@ -424,7 +260,7 @@ describe(`LCD Client`, () => {
             {
               data: undefined,
               method: `POST`,
-              url: `http://localhost/stake/delegators/abc/delegations`
+              url: `http://remotehost/staking/delegators/abc/delegations`
             }
           ]
         ])
@@ -439,7 +275,7 @@ describe(`LCD Client`, () => {
             {
               data: undefined,
               method: `POST`,
-              url: `http://localhost/stake/delegators/abc/unbonding_delegations`
+              url: `http://remotehost/staking/delegators/abc/unbonding_delegations`
             }
           ]
         ])
@@ -454,7 +290,7 @@ describe(`LCD Client`, () => {
             {
               data: undefined,
               method: `POST`,
-              url: `http://localhost/stake/delegators/abc/redelegations`
+              url: `http://remotehost/staking/delegators/abc/redelegations`
             }
           ]
         ])
@@ -469,7 +305,7 @@ describe(`LCD Client`, () => {
             {
               data: undefined,
               method: `GET`,
-              url: `http://remotehost/stake/parameters`
+              url: `http://remotehost/staking/parameters`
             }
           ]
         ])
@@ -484,7 +320,7 @@ describe(`LCD Client`, () => {
             {
               data: undefined,
               method: `GET`,
-              url: `http://remotehost/stake/pool`
+              url: `http://remotehost/staking/pool`
             }
           ]
         ])
@@ -761,8 +597,28 @@ describe(`LCD Client`, () => {
             }
           })
         )
-        let res = await client.queryAccount(`address`)
-        expect(res).toBe(null)
+        const res = await client.queryAccount(`address`)
+        expect(res).toEqual({
+          coins: [],
+          sequence: `0`,
+          account_number: `0`
+        })
+      })
+
+      it(`does not throw error for failed merkle proof error`, async () => {
+        axios.mockReturnValueOnce(
+          Promise.reject({
+            response: {
+              data: `failed to prove merkle proof`
+            }
+          })
+        )
+        const res = await client.queryAccount(`address`)
+        expect(res).toEqual({
+          coins: [],
+          sequence: `0`,
+          account_number: `0`
+        })
       })
 
       it(`throws error for error other than empty account`, async () => {
@@ -782,10 +638,12 @@ describe(`LCD Client`, () => {
     })
 
     it(`checks for the connection with the lcd by performing a simple request`, async () => {
-      client.keys.values = () => Promise.resolve()
+      axios.mockResolvedValueOnce({
+        data: {}
+      })
       expect(await client.lcdConnected()).toBeTruthy()
 
-      client.keys.values = () => Promise.reject()
+      axios.mockReturnValueOnce(Promise.reject())
       expect(await client.lcdConnected()).toBeFalsy()
     })
 
@@ -793,10 +651,9 @@ describe(`LCD Client`, () => {
       axios
         .mockReturnValueOnce(Promise.resolve({ data: [] }))
         .mockReturnValueOnce(Promise.resolve({ data: [`abc`] }))
-      let result = await client.txs(`abc`)
+      const result = await client.txs(`abc`)
 
       expect(axios).toHaveBeenCalledTimes(2)
-      client.keys.values = () => Promise.resolve()
       expect(result).toEqual([`abc`])
     })
 
@@ -825,6 +682,21 @@ describe(`LCD Client`, () => {
             data: undefined,
             method: `GET`,
             url: `http://remotehost/slashing/validators/pubKey/signing_info`
+          }
+        ]
+      ])
+    })
+
+    it(`gets a block based on the height`, async () => {
+      axios.mockReturnValue({})
+      await client.getBlock(`123`)
+
+      expect(axios.mock.calls).toEqual([
+        [
+          {
+            data: undefined,
+            method: `GET`,
+            url: `http://remotehost/blocks/123`
           }
         ]
       ])

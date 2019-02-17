@@ -5,21 +5,31 @@ exports[`PanelSort has the expected html structure 1`] = `
   class="panel-sort-container"
 >
   <th
-    class="sort-by"
+    class="panel-sort-table-header sort-by"
   >
     <a
       class="sort-by-link"
     >
       ID
+      <i
+        class="material-icons"
+      >
+        arrow_drop_up
+      </i>
     </a>
   </th>
   <th
-    class="sort-by"
+    class="panel-sort-table-header sort-by"
   >
     <a
       class="sort-by-link"
     >
       AMOUNT
+      <i
+        class="material-icons"
+      >
+        arrow_drop_up
+      </i>
     </a>
   </th>
 </tr>

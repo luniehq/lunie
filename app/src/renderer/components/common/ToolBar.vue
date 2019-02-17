@@ -1,49 +1,92 @@
 <template>
-  <div class="tm-tool-bar">
+  <div class="tool-bar">
     <a
-      v-tooltip.bottom="'Back'"
-      :disabled="user.history.length === 0"
-      class="back"
-      @click="back"
-      ><i class="material-icons">arrow_back</i></a
+      v-tooltip.bottom="'Refresh'"
+      v-if="!!refresh"
+      :disabled="!refresh.connected"
+      class="refresh-button"
+      @click="refresh.connected && refresh.refresh()"
     >
-    <slot /><a v-tooltip.bottom="'Help'" class="help" @click="enableModalHelp"
-      ><i class="material-icons">help_outline</i></a
+      <i class="material-icons">refresh</i>
+    </a>
+    <a
+      v-tooltip.bottom="'Search'"
+      v-if="!!searching"
+      :disabled="!searching.somethingToSearch"
+      class="search-button"
+      @click="searching.setSearch()"
     >
+      <i class="material-icons">search</i>
+    </a>
+    <slot />
+    <a v-tooltip.bottom="'Help'" class="help" @click="enableModalHelp">
+      <i class="material-icons">help_outline</i>
+    </a>
     <router-link
       v-tooltip.bottom="'Preferences'"
+      v-if="user.signedIn"
       id="settings"
       to="/preferences"
-      ><i class="material-icons">settings</i></router-link
-    ><a v-tooltip.bottom.end="'Sign Out'" id="signOut-btn" @click="signOut"
-      ><i class="material-icons">exit_to_app</i></a
     >
+      <i class="material-icons">settings</i>
+    </router-link>
+    <a
+      v-tooltip.bottom.end="'Sign Out'"
+      v-if="user.signedIn"
+      id="signOut-btn"
+      @click="signOut"
+    >
+      <i class="material-icons">exit_to_app</i>
+    </a>
+    <tm-btn
+      v-if="!user.signedIn"
+      id="signIn-btn"
+      value="Sign In"
+      color="primary"
+      @click.native="signIn"
+    />
   </div>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex"
+import { mapGetters } from "vuex"
+import TmBtn from "common/TmBtn"
 export default {
-  // the name needs to be different from TmToolBar (tm-tool-bar) or else recursive rendering takes place
   name: `tool-bar`,
+  components: { TmBtn },
+  props: {
+    refresh: {
+      type: Object,
+      default: undefined
+    },
+    searching: {
+      type: Object,
+      default: undefined
+    }
+  },
   computed: {
-    ...mapGetters([`user`, `lastPage`])
+    ...mapGetters([`user`, `config`]),
+    searchEnabled() {
+      return !!this.searching
+    },
+    somethingToSearch() {
+      return this.searching && this.searching.somethingToSearch()
+    },
+    setSearch() {
+      return this.searching && this.searching.setSearch()
+    }
   },
   methods: {
-    ...mapMutations([`pauseHistory`, `popHistory`]),
-    back() {
-      if (!this.lastPage) return
-      this.pauseHistory(true)
-      this.$router.push(this.lastPage, () => {
-        this.popHistory()
-        this.pauseHistory(false)
-      })
-    },
     enableModalHelp() {
       this.$store.commit(`setModalHelp`, true)
     },
+    signIn() {
+      this.$store.commit(`setModalSessionState`, `welcome`)
+      this.$store.commit(`setModalSession`, true)
+    },
     signOut() {
       this.$store.dispatch(`signOut`)
+      this.$router.push(`/`)
     }
   }
 }
@@ -53,16 +96,21 @@ export default {
   padding-right: 1rem;
 }
 
-.tm-page-header-text i {
-  padding: 1rem;
+.tool-bar {
+  display: flex;
+  align-items: center;
+  height: fit-content;
+}
+
+.tool-bar a {
+  padding: 0 0.5rem;
   color: var(--dim);
+  display: flex;
+  align-items: center;
 }
 
-.tm-page-header-text i:hover {
+.tool-bar a:hover {
   cursor: pointer;
-}
-
-.tm-page-header-text i:hover {
   color: var(--bright);
 }
 </style>

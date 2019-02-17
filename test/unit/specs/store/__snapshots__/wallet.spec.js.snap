@@ -2,6 +2,7 @@
 
 exports[`Module: Wallet should have an empty state by default 1`] = `
 Object {
+  "accountNumber": null,
   "address": null,
   "balances": Array [],
   "denoms": Array [],
@@ -11,5 +12,3 @@ Object {
   "subscribedRPC": null,
 }
 `;
-
-exports[`Module: Wallet should throw an error if can't load genesis 1`] = `[Error: Couldn't load genesis at path test/unit/tmp/test_root/genesis.json]`;

@@ -4,14 +4,14 @@ import transactions from "../../store/json/txs"
 
 describe(`TmLiGovTransaction`, () => {
   let wrapper
-  let propsData = {
+  const propsData = {
     transaction: transactions[6],
     url: `/proposals`,
     bondingDenom: `stake`
   }
 
   beforeEach(() => {
-    wrapper = mount(TmLiGovTransaction, { propsData })
+    wrapper = mount(TmLiGovTransaction, { propsData, stubs: [`router-link`] })
   })
 
   describe(`proposals`, () => {
@@ -26,6 +26,7 @@ describe(`TmLiGovTransaction`, () => {
       wrapper.setProps({
         transaction: transactions[7]
       })
+
       expect(wrapper.vm.deposit).toBe(true)
       expect(wrapper.vm.$el).toMatchSnapshot()
     })

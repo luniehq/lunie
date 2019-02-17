@@ -4,14 +4,17 @@ import transactions from "../../store/json/txs"
 
 describe(`TmLiBankTransaction`, () => {
   let wrapper
-  let propsData = {
+  const propsData = {
     devMode: true,
     transaction: transactions[0],
     address: `tb1d4u5zerywfjhxuc9nudvw`
   }
 
   beforeEach(() => {
-    wrapper = shallowMount(TmLiBankTransaction, { propsData })
+    wrapper = shallowMount(TmLiBankTransaction, {
+      propsData,
+      stubs: [`router-link`]
+    })
   })
 
   it(`has the expected html structure`, () => {

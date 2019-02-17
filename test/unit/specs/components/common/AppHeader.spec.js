@@ -1,88 +1,229 @@
 import AppHeader from "common/AppHeader"
-import setup from "../../../helpers/vuex-setup"
+import { mount } from "@vue/test-utils"
 
 describe(`AppHeader`, () => {
-  let wrapper, store, instance
-  let { mount } = setup()
+  let wrapper, $store
 
-  beforeEach(() => {
-    instance = mount(AppHeader, {
+  it(`should display the sidebar on desktop`, () => {
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: {
+        config: {
+          desktop: true,
+          activeMenu: `app`
+        }
+      }
+    }
+
+    wrapper = mount(AppHeader, {
+      mocks: {
+        $store
+      },
       stubs: { "app-menu": true }
     })
-    wrapper = instance.wrapper
-    store = instance.store
-  })
-
-  it(`has the expected html structure 1`, () => {
-    store.commit(`setConfigDesktop`, true)
-    store.commit(`setActiveMenu`, `app`)
 
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`has the expected html structure 2`, () => {
-    store.commit(`setConfigDesktop`, false)
-    store.commit(`setActiveMenu`, `app`)
+  it(`should display the sidebar on desktop`, () => {
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: {
+        config: {
+          desktop: true,
+          activeMenu: ``
+        }
+      }
+    }
+
+    wrapper = mount(AppHeader, {
+      mocks: {
+        $store
+      },
+      stubs: { "app-menu": true }
+    })
 
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`has the expected html structure 3`, () => {
-    store.commit(`setConfigDesktop`, true)
-    store.commit(`setActiveMenu`, ``)
+  it(`should show the sidebar as a menu on mobile`, () => {
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: {
+        config: {
+          desktop: false,
+          activeMenu: `app`
+        }
+      }
+    }
+
+    wrapper = mount(AppHeader, {
+      mocks: {
+        $store
+      },
+      stubs: { "app-menu": true }
+    })
 
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`has the expected html structure 4`, () => {
-    store.commit(`setConfigDesktop`, false)
-    store.commit(`setActiveMenu`, ``)
+  it(`should show the sidebar as a menu on mobile`, () => {
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: {
+        config: {
+          desktop: false,
+          activeMenu: ``
+        }
+      }
+    }
+
+    wrapper = mount(AppHeader, {
+      mocks: {
+        $store
+      },
+      stubs: { "app-menu": true }
+    })
 
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`should close the app menu`, () => {
-    store.commit(`setConfigDesktop`, false)
-    store.commit(`setActiveMenu`, `app`)
+  it(`should call the open menu function on click`, () => {
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: {
+        config: {
+          desktop: false,
+          activeMenu: ``
+        }
+      }
+    }
 
-    wrapper
-      .findAll(`.header-item`)
-      .at(2)
-      .trigger(`click`)
-    expect(store.commit).toHaveBeenCalledWith(`setActiveMenu`, ``)
+    wrapper = mount(AppHeader, {
+      mocks: {
+        $store
+      },
+      stubs: { "app-menu": true }
+    })
+
+    wrapper.vm.enableMenu = jest.fn()
+
+    wrapper.find(`.open-menu`).trigger(`click`)
+    expect(wrapper.vm.enableMenu).toHaveBeenCalled()
   })
 
-  it(`should open the app menu on mobile`, () => {
-    store.commit(`setConfigDesktop`, false)
-    store.commit(`setActiveMenu`, `notapp`)
+  it(`should call the close menu function on click`, () => {
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: {
+        config: {
+          desktop: false,
+          activeMenu: `app`
+        }
+      }
+    }
 
-    wrapper
-      .findAll(`.header-item`)
-      .at(2)
-      .trigger(`click`)
-    expect(store.commit).toHaveBeenCalledWith(`setActiveMenu`, `app`)
+    wrapper = mount(AppHeader, {
+      mocks: {
+        $store
+      },
+      stubs: { "app-menu": true }
+    })
+
+    wrapper.vm.close = jest.fn()
+
+    wrapper.find(`.close-menu`).trigger(`click`)
+    expect(wrapper.vm.close).toHaveBeenCalled()
   })
 
-  it(`should commit desktop status to true`, () => {
-    global.innerWidth = 1025
-    global.dispatchEvent(new Event(`resize`))
+  describe(`Close`, () => {
+    it(`should call the commit setActiveMenu with an empty string`, () => {
+      $store = {
+        commit: jest.fn(),
+        dispatch: jest.fn(),
+        getters: {
+          config: {
+            desktop: false,
+            activeMenu: `app`
+          }
+        }
+      }
 
-    expect(store.commit).toHaveBeenCalledWith(`setConfigDesktop`, true)
+      wrapper = mount(AppHeader, {
+        mocks: {
+          $store
+        },
+        stubs: { "app-menu": true }
+      })
+
+      wrapper.find(`.close-menu`).trigger(`click`)
+      expect($store.commit).toHaveBeenCalledWith(`setActiveMenu`, ``)
+    })
   })
 
-  it(`should commit desktop status to false`, () => {
-    global.innerWidth = 1023
-    global.dispatchEvent(new Event(`resize`))
+  describe(`enableMenu`, () => {
+    it(`should call the commit setActiveMenu with 'app'`, () => {
+      $store = {
+        commit: jest.fn(),
+        dispatch: jest.fn(),
+        getters: {
+          config: {
+            desktop: false,
+            activeMenu: ``
+          }
+        }
+      }
 
-    expect(store.commit).toHaveBeenCalledWith(`setConfigDesktop`, false)
+      wrapper = mount(AppHeader, {
+        mocks: {
+          $store
+        },
+        stubs: { "app-menu": true }
+      })
+
+      wrapper.find(`.open-menu`).trigger(`click`)
+      expect($store.commit).toHaveBeenCalledWith(`setActiveMenu`, `app`)
+    })
   })
 
-  it(`handles dark theme`, () => {
-    expect(wrapper.find(`#logo-white`).exists()).toBeTruthy()
+  describe(`watchWindowSize`, () => {
+    it(`should commit desktop status to false`, () => {
+      global.innerWidth = 1023
+      global.dispatchEvent(new Event(`resize`))
+
+      expect($store.commit).toHaveBeenCalledWith(`setConfigDesktop`, false)
+    })
+
+    it(`should commit desktop status to false`, () => {
+      global.innerWidth = 1024
+      global.dispatchEvent(new Event(`resize`))
+
+      expect($store.commit).toHaveBeenCalledWith(`setConfigDesktop`, false)
+    })
+
+    it(`should commit desktop status to true`, () => {
+      global.innerWidth = 1025
+      global.dispatchEvent(new Event(`resize`))
+
+      expect($store.commit).toHaveBeenCalledWith(`setConfigDesktop`, true)
+    })
   })
 
-  it(`handles light theme`, () => {
-    store.commit(`setTheme`, `light`)
-    expect(wrapper.find(`#logo-black`).exists()).toBeTruthy()
+  describe(`updated`, () => {
+    it(`should watch window size on update`, () => {
+      const window = { onresize: undefined }
+      const self = {
+        watchWindowSize: jest.fn(),
+        window
+      }
+      AppHeader.updated.call(self)
+      expect(self.watchWindowSize).toHaveBeenCalled()
+    })
   })
 })

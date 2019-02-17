@@ -6,7 +6,7 @@
 
 import Vue from "vue"
 import Vuex from "vuex"
-import _ from "lodash"
+import merge from "lodash/merge"
 import * as getters from "./getters"
 import modules from "./modules"
 
@@ -33,41 +33,53 @@ export default (opts = {}) => {
 
   let pending = null
   store.subscribe((mutation, state) => {
-    // since persisting the state is costly we should only do it on mutations that change the data
-    const updatingMutations = [
-      `setWalletBalances`,
-      `setWalletHistory`,
-      `setCommittedDelegation`,
-      `setUnbondingDelegations`,
-      `setDelegates`,
-      `setStakingParameters`,
-      `setPool`,
-      `setProposal`,
-      `setProposalDeposits`,
-      `setProposalVotes`,
-      `setProposalTally`,
-      `setGovParameters`,
-      `setKeybaseIdentities`
-    ]
-
-    if (updatingMutations.indexOf(mutation.type) === -1) return
-
-    // if the user is logged in cache the balances and the tx-history for that user
-    if (!state.user.account) return
-
-    if (pending) {
-      clearTimeout(pending)
-    }
-    pending = setTimeout(() => {
-      persistState(state)
-    }, 5000)
+    /* istanbul ignore next */
+    pending = storeUpdateHandler(mutation, state, pending)
   })
 
   return store
 }
 
+/*
+ * We want to store a sub-state of the state to local storage to serve data faster for the user.
+ * This function is triggered on all mutations.
+ */
+export function storeUpdateHandler(mutation, state, pending) {
+  // since persisting the state is costly we should only do it on mutations that change the data
+  const updatingMutations = [
+    `setWalletBalances`,
+    `setWalletHistory`,
+    `setCommittedDelegation`,
+    `setUnbondingDelegations`,
+    `setDelegates`,
+    `setStakingParameters`,
+    `setPool`,
+    `setProposal`,
+    `setProposalDeposits`,
+    `setProposalVotes`,
+    `setProposalTally`,
+    `setGovParameters`,
+    `setKeybaseIdentities`
+  ]
+
+  if (updatingMutations.indexOf(mutation.type) === -1) return
+
+  // if the user is logged in cache the balances and the tx-history for that user
+  if (!state.user.address) return
+
+  // throttle updates so we don't write to disk on every mutation
+  // pending is the last updates setTimeout
+  if (pending) {
+    clearTimeout(pending)
+  }
+  return setTimeout(() => {
+    persistState(state)
+  }, 5000)
+}
+
 /**
  * Persist the state passed as parameter
+ * Only persists a subset of the state
  * @param state
  */
 function persistState(state) {
@@ -95,7 +107,10 @@ function persistState(state) {
     proposals: state.proposals,
     deposits: state.deposits,
     votes: state.votes,
-    governanceParameters: state.governanceParameters
+    governanceParameters: state.governanceParameters,
+    user: {
+      address: state.user.address
+    }
   })
   // Store the state object as a JSON string
   localStorage.setItem(getStorageKey(state), cachedState)
@@ -106,7 +121,7 @@ function persistState(state) {
  * @param state
  * @returns {string}
  */
-function getStorageKey(state) {
+export function getStorageKey(state) {
   const chainId = state.connection.lastHeader.chain_id
   const address = state.user.address
   return `store_${chainId}_${address}`
@@ -117,7 +132,7 @@ function getStorageKey(state) {
  * @param state
  * @param commit
  */
-function loadPersistedState({ state, commit }) {
+export function loadPersistedState({ state, commit }) {
   const storageKey = getStorageKey(state)
   let cachedState
   try {
@@ -127,7 +142,7 @@ function loadPersistedState({ state, commit }) {
   }
   if (cachedState) {
     // Replace the state object with the stored state
-    _.merge(state, cachedState, {
+    merge(state, cachedState, {
       // set loading indicators to false
       transactions: {
         loaded: true,

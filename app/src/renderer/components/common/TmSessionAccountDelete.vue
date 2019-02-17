@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import { required, minLength } from "vuelidate/lib/validators"
+import { required, minLength, sameAs } from "vuelidate/lib/validators"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormStruct from "common/TmFormStruct"
@@ -84,7 +84,7 @@ export default {
     TmFormMsg,
     TmFormStruct
   },
-  data: () => ({ fields: { deletionPassword: `` } }),
+  data: () => ({ fields: { deletionPassword: ``, deletionWarning: false } }),
   mounted() {
     this.$el.querySelector(`#sign-in-password`).focus()
   },
@@ -99,7 +99,7 @@ export default {
       this.$v.$touch()
       if (this.$v.$error) return
       try {
-        let success = await this.$store.dispatch(`deleteKey`, {
+        const success = await this.$store.dispatch(`deleteKey`, {
           password: this.fields.deletionPassword
         })
         if (success) {
@@ -120,7 +120,7 @@ export default {
   validations: () => ({
     fields: {
       deletionPassword: { required, minLength: minLength(10) },
-      deletionWarning: { required }
+      deletionWarning: { required: sameAs(() => true) }
     }
   })
 }

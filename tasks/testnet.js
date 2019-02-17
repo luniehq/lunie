@@ -1,59 +1,43 @@
 "use strict"
 
-let runner = require(`./runner.js`)
-let config = require(`../app/src/config.js`)
 const fs = require(`fs-extra`)
 const { join, resolve } = require(`path`)
-const {
-  startNodes,
-  buildNodes,
-  setupAccounts
-} = require(`./build/local/helper`)
+const { startNodes, buildNodes } = require(`./build/local/helper`)
+const { getNodeId, startLocalNode } = require(`./gaia`)
 const appDir = resolve(`${__dirname}/../`)
 const buildTestnetPath = join(appDir, `builds`, `testnets`)
 
 async function main() {
-  const network = process.argv[2] || config.default_network
-  const numberNodes = parseInt(process.argv[3], 10) || 1
+  const network = `local-testnet`
+  const numberNodes = parseInt(process.argv[2], 10) || 1
+  const skipRebuild = process.argv[3] === `skip-rebuild`
+  const targetDir = join(buildTestnetPath, network)
 
-  let extendedEnv = {}
-  let networkPath = `./app/networks/${network}/`
+  if (skipRebuild) {
+    const nodeHomePrefix = join(targetDir, `node_home`)
 
-  if (network === `local-testnet`) {
+    const nodeOneId = await getNodeId(nodeHomePrefix + `_1`)
+    for (let i = 1; i < numberNodes + 1; i++) {
+      const home = `${nodeHomePrefix}_${i}`
+      startLocalNode(home, i, nodeOneId)
+    }
+  } else {
     const { cliHomePrefix, nodes, mainAccountSignInfo } = await buildNodes(
-      join(buildTestnetPath, network),
+      targetDir,
       {
         chainId: network,
         password: `1234567890`,
-        overwrite: false,
+        overwrite: true,
         moniker: `local`,
-        keyName: `main-account`
+        keyName: `account-with-funds`
       },
       numberNodes
     )
     await startNodes(nodes, mainAccountSignInfo, network)
     fs.copySync(join(nodes[1].home, `config`), cliHomePrefix)
-    let { version } = require(`../package.json`)
+    const { version } = require(`../package.json`)
     fs.writeFileSync(`${cliHomePrefix}/app_version`, version)
-    networkPath = cliHomePrefix // join(nodes[1].home, `config`)
-    extendedEnv = {
-      LCD_URL: `https://localhost:9070`,
-      RPC_URL: `http://localhost:26657`,
-      COSMOS_HOME: cliHomePrefix
-    }
-    await setupAccounts(nodes[1].cliHome, join(cliHomePrefix, `lcd`), {
-      keyName: `local-test`
-    })
   }
-
-  // run Voyager in a development environment
-  let children = await runner(networkPath, extendedEnv)
-
-  // kill all development processes if master process fails
-  process.on(`exit`, () => {
-    children.forEach(child => child.kill(`SIGKILL`))
-  })
-  children.forEach(child => child.on(`exit`, () => process.exit()))
 }
 
 main().catch(function(error) {

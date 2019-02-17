@@ -8,15 +8,33 @@ const fs = require(`fs-extra`)
 
 const HtmlWebpackPlugin = require(`html-webpack-plugin`)
 const VueLoaderPlugin = require(`vue-loader/lib/plugin`)
+const BundleAnalyzerPlugin = require(`webpack-bundle-analyzer`)
+  .BundleAnalyzerPlugin
+const CleanWebpackPlugin = require(`clean-webpack-plugin`)
+const SentryPlugin = require(`@sentry/webpack-plugin`)
 
 function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-let rendererConfig = {
+const buildPath = path.join(__dirname, `app/dist`)
+
+const commitHash = require(`child_process`)
+  .execSync(`git rev-parse HEAD`)
+  .toString()
+  .trim()
+
+const devPlugins = process.env.CIRCLECI
+  ? []
+  : [
+      new CleanWebpackPlugin([buildPath]),
+      new BundleAnalyzerPlugin({ analyzerMode: `static`, openAnalyzer: false })
+    ]
+
+const rendererConfig = {
   devtool:
     process.env.NODE_ENV === `production`
-      ? `#source-map`
+      ? `#cheap-source-map`
       : `#inline-source-map`,
   entry: {
     renderer: path.join(__dirname, `app/src/renderer/main.js`)
@@ -30,22 +48,10 @@ let rendererConfig = {
         exclude: /node_modules/
       },
       {
-        test: /\.json$/,
-        use: `json-loader`
-      },
-      {
         test: /\.vue$/,
         use: {
           loader: `vue-loader`
         }
-      },
-      {
-        test: /\.pug$/,
-        loader: `pug-plain-loader`
-      },
-      {
-        test: /\.styl(us)?$/,
-        use: [`style-loader`, `css-loader`, `stylus-loader`]
       },
       {
         test: /\.css$/,
@@ -58,7 +64,7 @@ let rendererConfig = {
             loader: `url-loader`,
             query: {
               limit: 10000,
-              name: `imgs/[name].[ext]`
+              name: `images/[name].[ext]`
             }
           }
         ]
@@ -79,13 +85,19 @@ let rendererConfig = {
   },
   node: {
     __dirname: false,
-    __filename: false
+    __filename: false,
+    fs: `empty`
   },
   plugins: [
     new VueLoaderPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
     // the global.GENTLY below fixes a compile issue with superagent + webpack
     // https://github.com/visionmedia/superagent/issues/672
     new webpack.DefinePlugin({ "global.GENTLY": false }),
+    new webpack.DefinePlugin({ "process.env.RELEASE": `"${commitHash}"` }),
+    new webpack.DefinePlugin({
+      "process.env.NODE_ENV": `"${process.env.NODE_ENV}"`
+    }),
     new HtmlWebpackPlugin({
       filename: `index.html`,
       template: `./app/index.ejs`,
@@ -93,20 +105,19 @@ let rendererConfig = {
         process.env.NODE_ENV !== `production`
           ? path.resolve(__dirname, `app/node_modules`)
           : false,
-      styles: fs.readFileSync(`./app/src/renderer/styles/index.css`, `utf8`)
+      styles: fs.readFileSync(`./app/src/renderer/styles/index.css`, `utf8`),
+      favicon: `./app/static/icons/favicon.ico`
     }),
-    new webpack.NoEmitOnErrorsPlugin(),
     // warnings caused by websocket-stream, which has a server-part that is unavailable on the the client
     new webpack.IgnorePlugin(/(bufferutil|utf-8-validate)/),
-    // put all modules in node_modules in chunk
-    new webpack.optimize.CommonsChunkPlugin({
-      name: `vendor`
-    })
+    ...devPlugins
   ],
   output: {
-    filename: `[name].js`,
-    libraryTarget: `commonjs2`,
-    path: path.join(__dirname, `app/dist`)
+    // contenthash is known to be buggy in webpack4, hash refers to the whole build and
+    // chunkhash is even more unpredictable. The non determinism is due to the moduleId defined at run time
+    // Hopefully webpack5 will solve the non-deterministic behaviour here
+    filename: `[name].[hash].js`,
+    path: buildPath
   },
   resolve: {
     alias: {
@@ -126,21 +137,53 @@ let rendererConfig = {
       path.join(__dirname, `node_modules`)
     ]
   },
-  target: `electron-renderer`
+  devServer: {
+    contentBase: [
+      path.join(__dirname, `app/dist`),
+      path.join(__dirname, `app`)
+    ],
+    stats: `errors-only`
+  },
+  optimization: {
+    runtimeChunk: `single`,
+    splitChunks: {
+      chunks: `all`,
+      maxInitialRequests: Infinity,
+      minSize: 0,
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name(module) {
+            const packageName = module.context.match(
+              /[\\/]node_modules[\\/](.*?)([\\/]|$)/
+            )[1]
+
+            // npm package names are URL-safe, but some servers don't like @ symbols
+            return `npm.${packageName.replace(`@`, ``)}`
+          }
+        }
+      }
+    }
+  }
 }
 
 /**
  * Adjust rendererConfig for production settings
  */
 if (process.env.NODE_ENV === `production`) {
-  rendererConfig.devtool = ``
-
   rendererConfig.plugins.push(
-    new webpack.DefinePlugin({
-      "process.env.NODE_ENV": `"production"`
-    }),
     new webpack.LoaderOptionsPlugin({
       minimize: true
+    })
+  )
+}
+
+if (process.env.RELEASE) {
+  console.log(`releasing to Sentry`)
+  rendererConfig.plugins.push(
+    new SentryPlugin({
+      include: `./app/dist`,
+      validate: true
     })
   )
 }

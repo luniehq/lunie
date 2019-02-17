@@ -1,13 +1,13 @@
 import setup from "../../helpers/vuex-setup"
 import keybaseModule from "renderer/vuex/modules/keybase.js"
 
-let instance = setup()
+const instance = setup()
 
 describe(`Module: Keybase`, () => {
   let store, module
 
   beforeEach(() => {
-    let test = instance.shallow()
+    const test = instance.shallow()
     store = test.store
     module = keybaseModule({ node: test.node })
   })
@@ -35,7 +35,7 @@ describe(`Module: Keybase`, () => {
   }
 
   it(`should query for the keybase identity`, async () => {
-    let axios = require(`axios`)
+    const axios = require(`axios`)
     mockKeybaseLookup(axios)
 
     await store.dispatch(`getKeybaseIdentity`, `abcdabcdabcdabcd`)
@@ -44,20 +44,20 @@ describe(`Module: Keybase`, () => {
   })
 
   it(`should bulk update the validators`, async () => {
-    let axios = require(`axios`)
+    const axios = require(`axios`)
     mockKeybaseLookup(axios)
 
-    let validators = [{ description: { identity: `abcdabcdabcdabcd` } }]
+    const validators = [{ description: { identity: `abcdabcdabcdabcd` } }]
 
     await store.dispatch(`getKeybaseIdentities`, validators)
     expect(store.state.keybase.identities.abcdabcdabcdabcd).toBeTruthy()
   })
 
   it(`should query only once for the keybase identity`, async () => {
-    let axios = require(`axios`)
+    const axios = require(`axios`)
     mockKeybaseLookup(axios)
 
-    let validators = [{ description: { identity: `abcdabcdabcdabcd` } }]
+    const validators = [{ description: { identity: `abcdabcdabcdabcd` } }]
 
     await store.dispatch(`getKeybaseIdentities`, validators)
     await store.dispatch(`getKeybaseIdentities`, validators)
@@ -66,10 +66,10 @@ describe(`Module: Keybase`, () => {
   })
 
   it(`should store an error if failed to load keybase info`, async () => {
-    let dispatch = async () => Promise.reject(`Error`)
+    const dispatch = async () => Promise.reject(`Error`)
 
-    let { actions, state } = module
-    let validators = [{ description: { identity: `abcdabcdabcdabcd` } }]
+    const { actions, state } = module
+    const validators = [{ description: { identity: `abcdabcdabcdabcd` } }]
     await actions.getKeybaseIdentities(
       { commit: jest.fn(), dispatch, state },
       validators

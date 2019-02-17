@@ -14,7 +14,7 @@ export default {
   },
   computed: {
     htmlContent() {
-      let md = new MarkdownIt()
+      const md = new MarkdownIt()
       return md.render(this.content)
     }
   }
@@ -22,10 +22,6 @@ export default {
 </script>
 
 <style>
-.text-block {
-  padding: 1rem;
-}
-
 .text-block pre {
   white-space: pre-wrap /* Since CSS 2.1 */;
   white-space: -moz-pre-wrap /* Mozilla, since 1999 */;
@@ -36,7 +32,8 @@ export default {
 }
 
 .text-block p {
-  margin-bottom: 1rem;
+  line-height: 22px;
+  margin-bottom: 1.5rem;
 }
 
 .text-block p,

@@ -16,11 +16,10 @@ export default () => {
       help: { active: false },
       receive: { active: false },
       session: {
-        active: true,
+        active: false,
         state: `loading`
       },
-      noNodes: { active: false },
-      nodeHalted: { active: false }
+      noNodes: { active: false }
     }
   }
   const state = JSON.parse(JSON.stringify(emptyState))
@@ -56,9 +55,6 @@ export default () => {
     },
     setModalNoNodes(state, value) {
       state.modals.noNodes.active = value
-    },
-    setModalNodeHalted(state, value) {
-      state.modals.nodeHalted.active = value
     },
     setActiveMenu(state, value) {
       state.activeMenu = value

@@ -2,7 +2,7 @@ import delegatesModule from "renderer/vuex/modules/delegates.js"
 import nodeMock from "../../helpers/node_mock.js"
 import BN from "bignumber.js"
 
-let mockRootState = {
+const mockRootState = {
   connection: {
     connected: true
   }
@@ -18,7 +18,7 @@ describe(`Module: Delegates`, () => {
   })
 
   it(`adds delegate to state`, () => {
-    let { mutations, state } = module
+    const { mutations, state } = module
     mutations.setDelegates(state, [
       {
         operator_address: `foo`,
@@ -38,7 +38,7 @@ describe(`Module: Delegates`, () => {
   })
 
   it(`replaces existing delegate with same id`, () => {
-    let { mutations, state } = module
+    const { mutations, state } = module
     mutations.setDelegates(state, [
       {
         operator_address: `foo`,
@@ -59,7 +59,7 @@ describe(`Module: Delegates`, () => {
   })
 
   it(`parses delegate tokens with fraction value`, () => {
-    let { mutations, state } = module
+    const { mutations, state } = module
     mutations.setDelegates(state, [
       {
         operator_address: `foo`,
@@ -80,10 +80,10 @@ describe(`Module: Delegates`, () => {
   })
 
   it(`fetches all candidates`, async () => {
-    let { actions, state } = module
-    let commit = jest.fn()
-    let dispatch = jest.fn()
-    let candidates = await actions.getDelegates({
+    const { actions, state } = module
+    const commit = jest.fn()
+    const dispatch = jest.fn()
+    const candidates = await actions.getDelegates({
       state,
       commit,
       dispatch,
@@ -96,11 +96,34 @@ describe(`Module: Delegates`, () => {
     ])
   })
 
+  it(`keeps the loading state if loading failed`, async () => {
+    const { actions, state } = module
+    const commit = jest.fn()
+    const dispatch = jest.fn()
+    node.getCandidates = () => Promise.reject(new Error(`Expected`))
+    await actions.getDelegates({
+      state,
+      commit,
+      dispatch,
+      rootState: mockRootState
+    })
+    expect(commit.mock.calls).toEqual([
+      [`setDelegateLoading`, true],
+      [
+        `notifyError`,
+        {
+          body: `Expected`,
+          title: `Error fetching validators`
+        }
+      ]
+    ])
+  })
+
   it(`should query further info for validators`, async () => {
-    let { actions, state } = module
-    let commit = jest.fn()
-    let dispatch = jest.fn()
-    let candidates = await actions.getDelegates({
+    const { actions, state } = module
+    const commit = jest.fn()
+    const dispatch = jest.fn()
+    const candidates = await actions.getDelegates({
       state,
       commit,
       dispatch,
@@ -113,9 +136,9 @@ describe(`Module: Delegates`, () => {
   })
 
   it(`fetches the signing information from all delegates`, async () => {
-    let { actions, mutations, state } = module
-    let commit = jest.fn()
-    let dispatch = jest.fn()
+    const { actions, mutations, state } = module
+    const commit = jest.fn()
+    const dispatch = jest.fn()
     mutations.setDelegates(state, [
       {
         operator_address: `foo`,
@@ -137,8 +160,8 @@ describe(`Module: Delegates`, () => {
   })
 
   it(`should query for delegates on reconnection if was loading before`, async () => {
-    let { actions } = delegatesModule({})
-    let instance = {
+    const { actions } = delegatesModule({})
+    const instance = {
       state: {
         loading: true
       },
@@ -149,8 +172,8 @@ describe(`Module: Delegates`, () => {
   })
 
   it(`should not query for delegates on reconnection if not stuck in loading`, async () => {
-    let { actions } = delegatesModule({})
-    let instance = {
+    const { actions } = delegatesModule({})
+    const instance = {
       state: {
         loading: false
       },
@@ -161,9 +184,9 @@ describe(`Module: Delegates`, () => {
   })
 
   it(`should query self bond of a validator`, async () => {
-    let { actions } = module
-    let commit = jest.fn()
-    let validator = {
+    const { actions } = module
+    const commit = jest.fn()
+    const validator = {
       operator_address: nodeMock.validators[0],
       delegator_shares: `120`
     }
@@ -177,9 +200,9 @@ describe(`Module: Delegates`, () => {
   })
 
   it(`should not query self bond of a validator if already queried`, async () => {
-    let { actions } = module
-    let commit = jest.fn()
-    let validator = {
+    const { actions } = module
+    const commit = jest.fn()
+    const validator = {
       operator_address: nodeMock.validators[0],
       delegator_shares: `120`,
       selfBond: BN(1)
@@ -191,8 +214,8 @@ describe(`Module: Delegates`, () => {
   })
 
   it(`should set self bond of a validator`, async () => {
-    let { state, mutations } = module
-    let validator = {
+    const { state, mutations } = module
+    const validator = {
       operator_address: nodeMock.validators[0],
       delegator_shares: `120`
     }
@@ -210,7 +233,7 @@ describe(`Module: Delegates`, () => {
   })
 
   it(`should store an error if failed to load delegates`, async () => {
-    let { actions, state } = module
+    const { actions, state } = module
     node.getCandidates = async () => Promise.reject(`Error`)
     await actions.getDelegates({
       commit: jest.fn(),
@@ -221,7 +244,7 @@ describe(`Module: Delegates`, () => {
   })
 
   it(`should store an error if failed to load validator set`, async () => {
-    let { actions, state } = module
+    const { actions, state } = module
     node.getValidatorSet = async () => Promise.reject(`Error`)
     await actions.getDelegates({
       commit: jest.fn(),

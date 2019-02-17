@@ -7,16 +7,17 @@ import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`DelegationModal`, () => {
   let wrapper, store
-  let { stakingParameters } = lcdClientMock.state
-  let { mount, localVue } = setup()
+  const { stakingParameters } = lcdClientMock.state
+  const { mount, localVue } = setup()
   localVue.use(Vuelidate)
   localVue.directive(`tooltip`, () => {})
   localVue.directive(`focus`, () => {})
 
   beforeEach(() => {
-    let instance = mount(DelegationModal, {
+    const instance = mount(DelegationModal, {
       localVue,
       propsData: {
+        validator: lcdClientMock.state.candidates[0],
         fromOptions: [
           {
             address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
@@ -25,7 +26,7 @@ describe(`DelegationModal`, () => {
             value: 0
           },
           {
-            address: `cosmos126ayk3hse5zvk9gxfmpsjr9565ef72pv9g20yx`,
+            address: lcdClientMock.state.candidates[0].operator_address,
             key: `Billy the Bill - cosmos…psjr9565ef72pv9g20yx`,
             maximum: 23.0484375481,
             value: 1
@@ -43,7 +44,14 @@ describe(`DelegationModal`, () => {
     })
     wrapper = instance.wrapper
     store = instance.store
+
+    store.state.connection.connected = true
+    store.state.wallet.address = `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+    store.state.delegates.delegates = lcdClientMock.state.candidates
     store.commit(`setStakingParameters`, stakingParameters.parameters)
+    store.commit(`setSignIn`, true)
+
+    wrapper.vm.$refs.actionModal.open()
   })
 
   describe(`component matches snapshot`, () => {
@@ -52,106 +60,93 @@ describe(`DelegationModal`, () => {
     })
   })
 
-  describe(`default values are set correctly`, () => {
-    it(`the 'amount' defaults to 0`, () => {
-      expect(wrapper.vm.amount).toEqual(0)
-    })
-
-    it(`displays the user's wallet address as the default`, () => {
-      let toField = wrapper.find(`#to`)
-      expect(toField).toBeDefined()
-      expect(toField.element.value).toEqual(
-        `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`
-      )
-    })
-
-    it(`account password defaults to an empty string`, () => {
-      expect(wrapper.vm.password).toEqual(``)
-    })
-
-    it(`password is hidden by default`, () => {
-      expect(wrapper.vm.showPassword).toBe(false)
-    })
+  it(`opens`, () => {
+    wrapper.vm.$refs.actionModal.open = jest.fn()
+    wrapper.vm.open()
+    expect(wrapper.vm.$refs.actionModal.open).toHaveBeenCalled()
   })
 
-  describe(`Password display`, () => {
-    it(`toggles the password between text and password`, () => {
-      wrapper.vm.togglePassword()
-      expect(wrapper.vm.showPassword).toBe(true)
-      wrapper.vm.togglePassword()
-      expect(wrapper.vm.showPassword).toBe(false)
-    })
-  })
-
-  describe(`enables or disables the Delegation button correctly`, () => {
-    describe(`disables the 'Delegation' button`, () => {
+  describe(`validation`, () => {
+    describe(`fails`, () => {
       it(`with default values`, () => {
-        let delegationBtn = wrapper.find(`#submit-delegation`)
-        expect(delegationBtn.html()).toContain(`disabled="disabled"`)
+        expect(wrapper.vm.validateForm()).toBe(false)
       })
 
       it(`if the user manually inputs a number greater than the balance`, () => {
-        wrapper.setData({ amount: 142, password: `1234567890` })
-        let amountField = wrapper.find(`#amount`)
-
-        let delegationBtn = wrapper.find(`#submit-delegation`)
-        expect(delegationBtn.html()).toContain(`disabled="disabled"`)
-        let errorMessage = wrapper.find(`input#amount + div`)
-        expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
-
-        amountField.trigger(`input`)
-        expect(amountField.element.value).toBe(`100`)
-      })
-
-      it(`if the password field is empty`, () => {
-        wrapper.setData({ amount: 10, password: `` })
-        let delegationBtn = wrapper.find(`#submit-delegation`)
-        expect(delegationBtn.html()).toContain(`disabled="disabled"`)
+        wrapper.setData({ amount: 142 })
+        expect(wrapper.vm.validateForm()).toBe(false)
       })
     })
 
-    describe(`enables the 'Delegation' button`, () => {
-      it(`if the amout is positive and the user has enough balance`, () => {
-        wrapper.setData({ amount: 50, password: `1234567890` })
-
-        let delegationBtn = wrapper.find(`#submit-delegation`)
-        expect(delegationBtn.html()).not.toContain(`disabled="disabled"`)
+    describe(`succeeds`, () => {
+      it(`if the amount is positive and the user has enough balance`, () => {
+        wrapper.setData({ amount: 50 })
+        expect(wrapper.vm.validateForm()).toBe(true)
       })
     })
   })
 
   describe(`(Re)delegate`, () => {
-    it(`Delegation button submits a (re)delegation and closes modal`, () => {
-      wrapper.setData({ amount: 50, password: `1234567890` })
-      wrapper.vm.onDelegation()
+    it(`submits a delegation`, async () => {
+      wrapper.vm.$store.dispatch = jest.fn()
+      wrapper.vm.$store.commit = jest.fn()
 
-      expect(wrapper.emittedByOrder()).toEqual([
-        {
-          name: `submitDelegation`,
-          args: [
-            {
-              amount: 50,
-              from: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-              password: `1234567890`
-            }
-          ]
-        },
-        {
-          name: `update:showDelegationModal`,
-          args: [false]
-        }
+      wrapper.setData({ amount: 50 })
+      await wrapper.vm.submitForm(`local`, `1234567890`)
+
+      expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
+        [
+          `submitDelegation`,
+          {
+            amount: `50`,
+            // validatorSrc: lcdClientMock.state.candidates[1],
+            // validatorDst: lcdClientMock.state.candidates[0],
+            validator_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+            password: `1234567890`,
+            submitType: `local`
+          }
+        ]
+      ])
+
+      expect(wrapper.vm.$store.commit.mock.calls).toEqual([
+        [
+          `notify`,
+          {
+            body: `You have successfully delegated your STAKEs`,
+            title: `Successful delegation!`
+          }
+        ]
       ])
     })
-  })
 
-  describe(`closes modal correctly`, () => {
-    it(`X button emits close signal`, () => {
-      wrapper.vm.close()
-      expect(wrapper.emittedByOrder()).toEqual([
-        {
-          name: `update:showDelegationModal`,
-          args: [false]
-        }
+    it(`submits a redelegation`, async () => {
+      wrapper.vm.$store.dispatch = jest.fn()
+      wrapper.vm.$store.commit = jest.fn()
+
+      wrapper.setData({ amount: 50, selectedIndex: 1 })
+      await wrapper.vm.submitForm(`local`, `1234567890`)
+
+      expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
+        [
+          `submitRedelegation`,
+          {
+            amount: `50`,
+            validatorSrc: lcdClientMock.state.candidates[0],
+            validatorDst: lcdClientMock.state.candidates[0],
+            submitType: `local`,
+            password: `1234567890`
+          }
+        ]
+      ])
+
+      expect(wrapper.vm.$store.commit.mock.calls).toEqual([
+        [
+          `notify`,
+          {
+            body: `You have successfully redelegated your STAKEs`,
+            title: `Successful redelegation!`
+          }
+        ]
       ])
     })
   })

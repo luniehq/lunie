@@ -48,8 +48,8 @@ export default {
   computed: {
     ...mapGetters([`proposals`]),
     tally() {
-      let proposalTally
-      proposalTally = this.proposals.tallies[this.proposal.proposal_id] || {}
+      const proposalTally =
+        this.proposals.tallies[this.proposal.proposal_id] || {}
       proposalTally.yes = Math.round(parseFloat(proposalTally.yes))
       proposalTally.no = Math.round(parseFloat(proposalTally.no))
       proposalTally.no_with_veto = Math.round(
@@ -95,9 +95,6 @@ export default {
 </script>
 
 <style>
-.li-proposal__value.no_with_veto {
-  min-width: 8rem;
-}
 .data-table__row__info__container__status.material-icons {
   width: 1rem;
   height: 1rem;

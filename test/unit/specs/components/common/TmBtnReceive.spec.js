@@ -3,10 +3,10 @@ import TmBtnReceive from "renderer/components/common/TmBtnReceive"
 
 describe(`TmBtnReceive`, () => {
   let wrapper, store
-  let { mount } = setup()
+  const { mount } = setup()
 
   beforeEach(() => {
-    let instance = mount(TmBtnReceive)
+    const instance = mount(TmBtnReceive)
     wrapper = instance.wrapper
     store = instance.store
   })

@@ -14,14 +14,14 @@ export default ({ node }) => {
       Vue.set(state.deposits, proposalId, deposits)
     }
   }
-  let actions = {
+  const actions = {
     async getProposalDeposits({ state, commit, rootState }, proposalId) {
       state.loading = true
 
       if (!rootState.connection.connected) return
 
       try {
-        let deposits = await node.queryProposalDeposits(proposalId)
+        const deposits = await node.queryProposalDeposits(proposalId)
         state.error = null
         state.loading = false
         state.loaded = true
@@ -40,7 +40,7 @@ export default ({ node }) => {
         rootState: { wallet },
         dispatch
       },
-      { proposal_id, amount, password }
+      { proposal_id, amount, password, submitType }
     ) {
       await dispatch(`sendTx`, {
         type: `submitProposalDeposit`,
@@ -48,7 +48,8 @@ export default ({ node }) => {
         proposal_id,
         depositor: wallet.address,
         amount,
-        password
+        password,
+        submitType
       })
       await dispatch(`getProposalDeposits`, proposal_id)
       await dispatch(`getProposal`, proposal_id)

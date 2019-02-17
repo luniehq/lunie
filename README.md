@@ -1,4 +1,4 @@
-![Cosmos Voyager logo — spaceship blasting off](/app/icons/png/128x128.png)
+![Cosmos Voyager logo — spaceship blasting off](/app/static/icons/png/128x128.png)
 
 # Cosmos Voyager
 
@@ -43,6 +43,10 @@ cd voyager
 yarn install
 ```
 
+---
+
+## Voyager Development
+
 ### Gaia (Cosmos SDK)
 
 Since Voyager runs on top of the Cosmos Hub blockchain, we also need to install Gaia (the Cosmos Hub application) and download the supported testnets.
@@ -63,7 +67,13 @@ To connect to a testnet, Voyager needs the configuration files of those networks
 yarn build:testnets
 ```
 
-## Voyager Development
+### Caddy Proxy
+
+Currently we need a proxy to enable easy local development. We use [Caddy](https://caddyserver.com). To download run:
+
+```bash
+curl https://getcaddy.com | bash -s personal http.cors
+```
 
 ### Active testnets
 
@@ -73,15 +83,40 @@ To run Voyager on the default testnet (if active):
 yarn start
 ```
 
-To run Voyager on a specific testnet you can use the following command. Click [here](https://github.com/cosmos/testnets) for a complete list of the supported official and community testnets.
-
-```bash
-yarn start <network_name>
-```
-
 ## Local testnet
 
 Sometimes you may want to run a local node, i.e. in the case there is no available network. To do so first [Build Gaia](#gaia-cosmos-sdk), then use our automatic script or the manual process to set up your node.
+
+### Generate SSL certificates
+
+If you want to have a predictable environment for Voyager please generate some ssl certificates:
+
+```bash
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+  -keyout server_dev.key -out server_dev.crt \
+  -subj "/C=US/ST=CA/L=Irvine/O=Acme Inc./CN=localhost" \
+  -reqexts v3_req -reqexts SAN -extensions SAN \
+  -config \
+  <(echo -e '
+    [req]\n
+    distinguished_name=req_distinguished_name\n
+    [req_distinguished_name]\n
+    [SAN]\n
+    subjectKeyIdentifier=hash\n
+    authorityKeyIdentifier=keyid:always,issuer:always\n
+    basicConstraints=CA:TRUE\n
+    subjectAltName=@alt_names
+    [alt_names]
+    DNS.1 = localhost
+  ')
+```
+
+Afterwards you can use:
+
+```bash
+yarn backend:fixed-https
+yarn frontend:fixed-https
+```
 
 ### Build
 
@@ -136,6 +171,20 @@ Store the gaia version used in your local testnet:
 
 ### Deploy
 
+Create the bundle to deploy Voyager you can run:
+
+```bash
+yarn build:ui
+```
+
+If you want to set a particular Stargate or RPC endpoints
+
+```bash
+STARGATE=<https://StargateAddress:port> RPC=<https://RPRAddress:port> yarn build:ui
+```
+
+### Local network
+
 Run Voyager for your local testnet:
 
 ```bash
@@ -150,6 +199,14 @@ This command will build and run several nodes at once on the local testnet. All 
 
 ```bash
 yarn start local-testnet <number>
+```
+
+### Using Voyager with a custom SDK REST API instance (Stargate)
+
+A deployed Voyager can be retargeted against a Stargate and Full Node of your choice. Just add the URLs of those to the Voyager URL:
+
+```
+https://localhost:9080?stargate=https://stargate.com:1234&rpc=https://cool-node.com:6789
 ```
 
 ## Testing
@@ -176,7 +233,8 @@ yarn watch PageValidator
 
 ### End to end tests
 
-End to end (e2e) testing is performed via [`tape`](https://github.com/substack/tape), you can run all of them using:
+End to end testing will be soon restored thanks to: [Browserstack](https://www.browserstack.com/)
+You can run all of them using:
 
 ```bash
 yarn test:e2e
@@ -286,3 +344,7 @@ rm -rf package-lock.json
 
 - You get `The network configuration for the network you want to connect to doesn't exist. Have you run "yarn build:testnets" to download the latest configurations?` but you have run `yarn build:testnets`.
   The symlink between `app/networks` and `builds/testnets` is broken. Try readding the symlink with `cd app && ln -s ../builds/testnets networks`.
+
+## Thanks
+
+[![Browserstack](/test/browserstack-logo-600x315.png)](https://www.browserstack.com)

@@ -12,11 +12,11 @@ const unbondingTransactions = lcdClientMock.state.txs.slice(5).map(t => {
 })
 
 describe(`Component: TabMyDelegations`, () => {
-  let { mount } = setup()
+  const { mount } = setup()
 
   const { stakingParameters } = lcdClientMock.state
   it(`should show committed validators`, () => {
-    let instance = mount(TabMyDelegations, {
+    const instance = mount(TabMyDelegations, {
       getters: {
         committedDelegations: () => ({
           [delegates[0].operator_address]: 42
@@ -41,7 +41,7 @@ describe(`Component: TabMyDelegations`, () => {
 
   it(`should show unbonding validators and the current committed validator`, () => {
     const address = delegates[0].operator_address
-    let instance = mount(TabMyDelegations, {
+    const instance = mount(TabMyDelegations, {
       getters: {
         // We decided that is should not be possible to undelegate from something that is not committed
         committedDelegations: () => ({
@@ -54,7 +54,7 @@ describe(`Component: TabMyDelegations`, () => {
           unbondingDelegations: {
             [address]: {
               creation_height: `170`,
-              min_time: new Date().toISOString()
+              min_time: new Date(Date.now()).toISOString()
             }
           },
           loaded: true
@@ -65,12 +65,12 @@ describe(`Component: TabMyDelegations`, () => {
       }
     })
 
-    expect(instance.wrapper.html()).toContain(`Unbonding transactions`)
+    expect(instance.wrapper.html()).toContain(`Pending Undelegations`)
     expect(instance.wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should show a message if not staked yet to any validator`, () => {
-    let instance = mount(TabMyDelegations, {
+    const instance = mount(TabMyDelegations, {
       getters: {
         committedDelegations: () => ({}),
         delegates: () => ({
@@ -89,7 +89,7 @@ describe(`Component: TabMyDelegations`, () => {
   })
 
   it(`should show a message if not still connecting to a node`, () => {
-    let instance = mount(TabMyDelegations, {
+    const instance = mount(TabMyDelegations, {
       getters: {
         committedDelegations: () => ({}),
         delegates: () => ({
@@ -111,7 +111,7 @@ describe(`Component: TabMyDelegations`, () => {
   })
 
   it(`should show a message if not still loading delegations`, () => {
-    let instance = mount(TabMyDelegations, {
+    const instance = mount(TabMyDelegations, {
       getters: {
         committedDelegations: () => ({}),
         delegates: () => ({

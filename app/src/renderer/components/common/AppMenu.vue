@@ -4,7 +4,7 @@
       <router-link
         id="app-menu__wallet"
         class="app-menu-item"
-        to="/"
+        to="/wallet"
         exact="exact"
         title="Wallet"
         @click.native="close"
@@ -43,13 +43,23 @@
         <h2 class="app-menu-title">Governance</h2>
         <i class="material-icons">chevron_right</i>
       </router-link>
+      <router-link
+        id="app-menu__network"
+        class="app-menu-item"
+        to="/"
+        exact="exact"
+        title="Network"
+        @click.native="close"
+      >
+        <h2 class="app-menu-title">Network</h2>
+        <i class="material-icons">chevron_right</i>
+      </router-link>
     </div>
     <connected-network />
   </menu>
 </template>
 
 <script>
-import { mapGetters } from "vuex"
 import PerfectScrollbar from "perfect-scrollbar"
 import noScroll from "no-scroll"
 import ConnectedNetwork from "common/TmConnectedNetwork"
@@ -63,9 +73,6 @@ export default {
   data: () => ({
     ps: {}
   }),
-  computed: {
-    ...mapGetters([`validators`, `config`, `lastHeader`])
-  },
   mounted() {
     this.ps = new PerfectScrollbar(this.$el.querySelector(`.app-menu-main`))
   },

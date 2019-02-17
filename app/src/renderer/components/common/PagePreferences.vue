@@ -1,18 +1,15 @@
 <template>
-  <tm-page data-title="Preferences"
-    ><template slot="menu-body">
+  <tm-page data-title="Preferences">
+    <template slot="menu-body">
       <tm-balance />
       <tool-bar />
     </template>
-    <tm-part title="Settings">
-      <tm-list-item type="field" title="Node IP">
-        <tm-btn :value="nodeURL" icon="exit_to_app" type="button" />
-      </tm-list-item>
+    <tm-part>
+      <tm-list-item type="field" title="Node IP">{{ nodeUrl }}</tm-list-item>
       <tm-list-item type="field" title="View tutorial for Voyager">
         <tm-btn
           id="toggle-onboarding"
           value="Launch Tutorial"
-          icon="open_in_new"
           @click.native="setOnboarding()"
         />
       </tm-list-item>
@@ -28,19 +25,8 @@
             unchecked: ' '
           }"
           :value="user.errorCollection || undefined"
-          :change="() => setErrorCollection()"
+          :change="setErrorCollection.bind(this)"
           type="toggle"
-        />
-      </tm-list-item>
-    </tm-part>
-    <tm-part title="Account">
-      <tm-list-item type="field" title="Switch account">
-        <tm-btn
-          id="signOut-btn"
-          icon="exit_to_app"
-          type="button"
-          value="Sign Out"
-          @click.native="signOut()"
         />
       </tm-list-item>
     </tm-part>
@@ -56,7 +42,6 @@ import TmPart from "common/TmPart"
 import TmField from "common/TmField"
 import ToolBar from "common/ToolBar"
 import TmBalance from "common/TmBalance"
-import TmModal from "common/TmModal"
 
 export default {
   name: `page-preferences`,
@@ -67,40 +52,12 @@ export default {
     TmListItem,
     TmPage,
     TmPart,
-    ToolBar,
-    TmModal
+    ToolBar
   },
-  data: () => ({
-    themeSelectActive: null,
-    themeSelectOptions: [
-      {
-        value: `light`,
-        key: `Light`
-      },
-      {
-        value: `dark`,
-        key: `Dark`
-      }
-    ]
-  }),
   computed: {
-    ...mapGetters([`user`, `themes`, `onboarding`, `config`, `nodeURL`])
-  },
-  mounted() {
-    this.themeSelectActive = this.themes.active
+    ...mapGetters([`user`, `onboarding`, `nodeUrl`])
   },
   methods: {
-    signOut({ $store } = this) {
-      $store.dispatch(`signOut`)
-      $store.commit(`notifySignOut`)
-    },
-    setAppTheme({ $store, themes } = this) {
-      if (themes.active === `dark`) {
-        $store.commit(`setTheme`, `light`)
-      } else {
-        $store.commit(`setTheme`, `dark`)
-      }
-    },
     setErrorCollection({ $store } = this) {
       $store.dispatch(`setErrorCollection`, {
         account: this.user.account,

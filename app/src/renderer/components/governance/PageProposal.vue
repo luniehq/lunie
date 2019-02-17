@@ -1,33 +1,30 @@
 <template>
-  <page-profile data-title="Proposal"
-    ><template slot="menu-body">
+  <tm-page data-title="Proposal">
+    <template slot="menu-body">
       <tm-balance />
+      <tool-bar />
     </template>
-    <div slot="menu">
-      <tool-bar>
-        <router-link to="/governance" exact="exact"
-          ><i class="material-icons">arrow_back</i></router-link
-        >
-      </tool-bar>
-    </div>
+
     <tm-data-error v-if="!proposal" />
+
     <template v-else>
       <div class="page-profile__header page-profile__section proposal">
-        <div class="column page-profile__header__info">
-          <div class="row page-profile__header__name">
-            <div class="top column">
-              <div class="page-profile__status-and-title">
-                <span
-                  v-tooltip.top="status.message"
-                  :class="status.color"
-                  class="page-profile__status"
-                />
-                <div class="page-profile__header__name__title">
-                  {{ proposal.title }} {{ `(#` + proposalId + `)` }}
-                </div>
-              </div>
+        <div class="row">
+          <h2 class="proposal-id">#{{ proposalId }}</h2>
+          <div class="page-profile__header__info">
+            <div class="page-profile__status-and-title">
+              <span
+                v-tooltip.top="status.message"
+                :class="status.color"
+                class="page-profile__status"
+              />
+              <h2 class="page-profile__title">{{ proposal.title }}</h2>
+              <h3 v-if="config.devMode">
+                Proposer: {{ proposal.proposer || "Fede" }}
+              </h3>
             </div>
-            <div class="column page-profile__header__actions">
+
+            <div class="page-profile__header__actions">
               <tm-btn
                 v-if="proposal.proposal_status === 'VotingPeriod'"
                 id="vote-btn"
@@ -45,80 +42,99 @@
                 @click.native="onDeposit"
               />
               <tm-btn
-                v-if="
-                  proposal.proposal_status === 'Passed' ||
-                    proposal.proposal_status === 'Rejected'
-                "
-                value="Deposit / Vote"
+                v-if="proposal.proposal_status === 'Passed'"
+                value="Vote Passed"
+                disabled="disabled"
+                color="primary"
+              />
+              <tm-btn
+                v-if="proposal.proposal_status === 'Rejected'"
+                value="Vote Rejected"
                 disabled="disabled"
                 color="primary"
               />
             </div>
           </div>
-          <div class="row description">
-            <p>
-              Submitted {{ submittedAgo }}.
+        </div>
+        <div class="row">
+          <dl class="info_dl colored_dl">
+            <dt>Submitted</dt>
+            <dd>{{ submittedAgo }}</dd>
+          </dl>
+          <dl class="info_dl colored_dl">
+            <dt>Proposal Status</dt>
+            <dd>
               {{
                 proposal.proposal_status === `DepositPeriod`
-                  ? `Deposit ends ` + depositEndsIn
-                  : `Voting started ` + votingStartedAgo
+                  ? `Deposit period ends ${depositEndsIn}.`
+                  : `Voting started ${votingStartedAgo}.`
               }}
-            </p>
-          </div>
-          <div class="row page-profile__header__data votes">
-            <dl class="colored_dl">
-              <dt>Deposit</dt>
-              <dd>
-                {{
-                  proposal.total_deposit[0].amount +
-                    ` ` +
-                    proposal.total_deposit[0].denom
-                }}
-              </dd>
-            </dl>
-            <div class="page-profile__header__data__break" />
-            <dl class="colored_dl">
-              <dt>Yes</dt>
-              <dd>{{ tally.yes }} / {{ yesPercentage }}</dd>
-            </dl>
-            <dl class="colored_dl">
-              <dt>No</dt>
-              <dd>{{ tally.no }} / {{ noPercentage }}</dd>
-            </dl>
-            <dl class="colored_dl">
-              <dt>No with Veto</dt>
-              <dd>{{ tally.no_with_veto }} / {{ noWithVetoPercentage }}</dd>
-            </dl>
-            <dl class="colored_dl">
-              <dt>Abstain</dt>
-              <dd>{{ tally.abstain }} / {{ abstainPercentage }}</dd>
+            </dd>
+          </dl>
+
+          <dl class="info_dl colored_dl">
+            <dt>Deposit Count</dt>
+            <dd>
+              {{
+                proposal.total_deposit[0].amount +
+                  ` ` +
+                  proposal.total_deposit[0].denom
+              }}
+            </dd>
+          </dl>
+          <dl
+            v-if="proposal.proposal_status === 'VotingPeriod'"
+            class="info_dl colored_dl"
+          >
+            <dt>Vote Count</dt>
+            <dd>{{ totalVotes }}</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="page-profile__section">
+        <div v-if="proposal.proposal_status === 'VotingPeriod'" class="row">
+          <dl class="info_dl colored_dl">
+            <dt>Yes</dt>
+            <dd>{{ tally.yes }} / {{ yesPercentage }}</dd>
+          </dl>
+          <dl class="info_dl colored_dl">
+            <dt>No</dt>
+            <dd>{{ tally.no }} / {{ noPercentage }}</dd>
+          </dl>
+          <dl class="info_dl colored_dl">
+            <dt>No with Veto</dt>
+            <dd>{{ tally.no_with_veto }} / {{ noWithVetoPercentage }}</dd>
+          </dl>
+          <dl class="info_dl colored_dl">
+            <dt>Abstain</dt>
+            <dd>{{ tally.abstain }} / {{ abstainPercentage }}</dd>
+          </dl>
+        </div>
+        <div class="row">
+          <div class="column">
+            <dl class="info_dl colored_dl">
+              <dt>Description</dt>
+              <dd><text-block :content="proposal.description" /></dd>
             </dl>
           </div>
         </div>
       </div>
-      <div class="page-profile__details page-profile__section">
-        <div class="column">
-          <div class="row"><text-block :content="proposal.description" /></div>
-        </div>
-      </div>
+
       <modal-deposit
-        v-if="showModalDeposit"
-        :show-modal-deposit.sync="showModalDeposit"
+        ref="modalDeposit"
         :proposal-id="proposalId"
         :proposal-title="proposal.title"
         :denom="depositDenom"
-        @submitDeposit="deposit"
       />
       <modal-vote
-        v-if="showModalVote"
-        :show-modal-vote.sync="showModalVote"
+        ref="modalVote"
         :proposal-id="proposalId"
         :proposal-title="proposal.title"
         :last-vote-option="lastVote && lastVote.option"
-        @castVote="castVote"
       />
     </template>
-  </page-profile>
+  </tm-page>
 </template>
 
 <script>
@@ -132,7 +148,7 @@ import TmDataError from "common/TmDataError"
 import TextBlock from "common/TextBlock"
 import ModalDeposit from "./ModalDeposit"
 import ModalVote from "./ModalVote"
-import PageProfile from "common/PageProfile"
+import TmPage from "common/TmPage"
 export default {
   name: `page-proposal`,
   components: {
@@ -142,7 +158,7 @@ export default {
     ModalVote,
     ToolBar,
     TmDataError,
-    PageProfile,
+    TmPage,
     TextBlock
   },
   props: {
@@ -152,8 +168,6 @@ export default {
     }
   },
   data: () => ({
-    showModalDeposit: false,
-    showModalVote: false,
     lastVote: undefined
   }),
   computed: {
@@ -162,13 +176,12 @@ export default {
       `proposals`,
       `connected`,
       `wallet`,
-      `votes`
+      `votes`,
+      `config`,
+      `user`
     ]),
     proposal() {
       return this.proposals.proposals[this.proposalId]
-    },
-    proposalType() {
-      return this.proposal.proposal_type.toLowerCase()
     },
     submittedAgo() {
       return moment(new Date(this.proposal.submit_time)).fromNow()
@@ -200,7 +213,7 @@ export default {
       return num.percentInt(this.tally.abstain / this.totalVotes)
     },
     tally() {
-      let proposalTally = this.proposals.tallies[this.proposalId]
+      const proposalTally = this.proposals.tallies[this.proposalId] || {}
       proposalTally.yes = Math.round(parseFloat(proposalTally.yes))
       proposalTally.no = Math.round(parseFloat(proposalTally.no))
       proposalTally.no_with_veto = Math.round(
@@ -238,7 +251,7 @@ export default {
   },
   methods: {
     async onVote() {
-      this.showModalVote = true
+      this.$refs.modalVote.open()
       // The error is already handled with notifyError in votes.js
       await this.$store.dispatch(`getProposalVotes`, this.proposalId)
       this.lastVote =
@@ -246,88 +259,19 @@ export default {
         this.votes[this.proposalId].find(e => e.voter === this.wallet.address)
     },
     onDeposit() {
-      this.showModalDeposit = true
-    },
-    async deposit({ amount, password }) {
-      try {
-        // TODO: support multiple coins
-        await this.$store.dispatch(`submitDeposit`, {
-          proposal_id: this.proposalId,
-          amount,
-          password
-        })
-
-        this.$store.commit(`notify`, {
-          title: `Successful deposit!`,
-          body: `You have successfully deposited your ${
-            this.depositDenom
-          }s on proposal #${this.proposalId}`
-        })
-      } catch ({ message }) {
-        this.$store.commit(`notifyError`, {
-          title: `Error while submitting a deposit on proposal #${
-            this.proposalId
-          }`,
-          body: message
-        })
-      }
-    },
-    async castVote({ option, password }) {
-      try {
-        await this.$store.dispatch(`submitVote`, {
-          proposal_id: this.proposalId,
-          option,
-          password
-        })
-
-        this.$store.commit(`notify`, {
-          title: `Successful vote!`,
-          body: `You have successfully voted ${option} on proposal #${
-            this.proposalId
-          }`
-        })
-      } catch ({ message }) {
-        this.$store.commit(`notifyError`, {
-          title: `Error while voting on proposal #${this.proposalId}`,
-          body: message
-        })
-      }
+      this.$refs.modalDeposit.open()
     }
   }
 }
 </script>
 <style>
-.proposal b {
-  color: var(--bright);
-}
-
-.proposal .page-profile__status {
-  position: relative;
-  left: 0;
-  margin-right: 0.5rem;
-}
-
-.proposal .description {
-  max-width: 500px;
-}
-
-.proposal .votes {
-  padding-top: 2rem;
-}
-
 .proposal-id {
-  color: var(--dim);
-  font-size: 14px;
-  margin: 0;
-  font-weight: 400;
-  padding-bottom: 0.25rem;
-}
-
-.text-block {
-  padding: 0;
-}
-
-.row b {
-  font-weight: 500;
+  display: block;
+  background: var(--app-nav);
+  height: 8rem;
+  width: 9rem;
+  margin: 1rem 2rem 1rem 1rem;
+  padding: 1rem;
+  font-style: italic;
 }
 </style>

@@ -63,8 +63,6 @@
     :class="css"
     :placeholder="placeholder"
     :value="value"
-    :max="max"
-    :min="min"
     @change="onChange"
     @keyup="onKeyup"
     @keydown="onKeydown"
@@ -81,7 +79,7 @@ export default {
       default: `text`
     },
     value: {
-      type: [String, Number],
+      type: [String, Number, Boolean],
       default: null
     },
     placeholder: {
@@ -89,10 +87,6 @@ export default {
       default: null
     },
     size: {
-      type: String,
-      default: null
-    },
-    theme: {
       type: String,
       default: null
     },
@@ -111,14 +105,6 @@ export default {
     keydown: {
       type: Function,
       default: null
-    },
-    max: {
-      type: [String, Number], // for convenience you can provide a string
-      default: null
-    },
-    min: {
-      type: [String, Number], // for convenience you can provide a string
-      default: null
     }
   },
   data: () => ({
@@ -134,12 +120,7 @@ export default {
       if (this.type === `select`) {
         value += ` tm-field-select`
       }
-      // not used and screws with css when used
-      // if (this.type === `toggle`) {
-      //   value += ` tm-field-toggle`
-      // }
       if (this.size) value += ` tm-field-size-${this.size}`
-      if (this.theme) value += ` tm-field-theme-${this.theme}`
       return value
     },
     toggleClass() {
@@ -168,12 +149,15 @@ export default {
   methods: {
     toggle() {
       this.currentToggleState = !this.currentToggleState
+      this.onChange(this.currentToggleState)
     },
     updateValue(value) {
       let formattedValue = value
-      if (this.type == `number`) {
-        formattedValue = this.forceMinMax(value)
+
+      if (this.type === `number`) {
+        formattedValue = Number(value)
       }
+
       // Emit the number value through the input event
       this.$emit(`input`, formattedValue)
     },
@@ -185,15 +169,6 @@ export default {
     },
     onKeydown(...args) {
       if (this.keydown) return this.keydown(...args)
-    },
-    forceMinMax(value) {
-      value = typeof value === `string` ? Number(value.trim()) : value
-      if (this.max && value > this.max) {
-        value = Number(this.max)
-      } else if (this.min && value && value < this.min) {
-        value = Number(this.min)
-      }
-      return value
     }
   }
 }
@@ -386,30 +361,6 @@ textarea.tm-field {
 }
 
 /* ============================================================================== */
-.tm-datetime {
-  position: relative;
-}
-
-.tm-datetime:after {
-  align-items: center;
-  background: var(--app-bg, #fff);
-  border: 1px solid var(--input-bc, #ccc);
-  box-sizing: border-box;
-  color: var(--bright);
-  content: "\f073";
-  display: flex;
-  font-family: FontAwesome;
-  height: 2rem;
-  justify-content: center;
-  pointer-events: none;
-  position: absolute;
-  right: 0;
-  text-align: center;
-  top: 0;
-  width: 2rem;
-}
-
-/* ============================================================================== */
 .input-group-addon {
   background: var(--input-bg, #fff);
   border: 1px solid var(--input-bc, #ccc);
@@ -468,43 +419,5 @@ textarea.tm-field {
   height: 3rem;
   padding-left: 0.75rem;
   padding-right: 0.75rem;
-}
-
-/* ============================================================================== */
-/* tendermint styles */
-.tm-field.tm-field-theme-tendermint {
-  background: #0e2e4e;
-  border-color: #1d61a5;
-  color: #fff;
-}
-
-.tm-field.tm-field-theme-tendermint:focus {
-  border-color: #216eba;
-}
-
-.tm-field.tm-field-theme-tendermint::-webkit-input-placeholder {
-  color: #7db2e8;
-}
-
-/* Mozilla Firefox 4 to 18 */
-.tm-field.tm-field-theme-tendermint:-moz-placeholder {
-  color: #7db2e8;
-  opacity: 1;
-}
-
-/* Mozilla Firefox 19+ */
-.tm-field.tm-field-theme-tendermint::-moz-placeholder {
-  color: #7db2e8;
-  opacity: 1;
-}
-
-/* Internet Explorer 10-11 */
-.tm-field.tm-field-theme-tendermint:-ms-input-placeholder {
-  color: #7db2e8;
-}
-
-/* Standard (https//drafts.csswg.org/selectors-4/#placeholder) */
-.tm-field.tm-field-theme-tendermint:placeholder-shown {
-  color: #7db2e8;
 }
 </style>

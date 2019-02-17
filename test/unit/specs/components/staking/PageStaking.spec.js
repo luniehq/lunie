@@ -2,39 +2,28 @@ import setup from "../../../helpers/vuex-setup"
 import PageStaking from "renderer/components/staking/PageStaking"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
+// TODO refactor according to new unit test standard
 describe(`PageStaking`, () => {
   let wrapper, store
-  let { stakingParameters } = lcdClientMock.state
-  let { mount } = setup()
+  const { mount } = setup()
 
   beforeEach(() => {
-    let instance = mount(PageStaking)
+    const instance = mount(PageStaking, {
+      doBefore: ({ store }) => {
+        store.commit(`setSignIn`, true)
+        store.commit(`setConnected`, true)
+        store.dispatch(`updateDelegates`)
+      },
+      stubs: {
+        "tm-balance": true
+      }
+    })
     wrapper = instance.wrapper
     store = instance.store
-
-    store.commit(`setConnected`, true)
     store.state.user.address = lcdClientMock.addresses[0]
-    store.dispatch(`updateDelegates`)
-    store.commit(`setAtoms`, 1337)
-    store.commit(`setStakingParameters`, stakingParameters.parameters)
   })
 
-  it(`has the expected html structure`, async () => {
-    // somehow we need to wait one tick for the total atoms to update
-    await wrapper.vm.$nextTick()
+  it(`has the expected html structure`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
-  })
-
-  it(`should show the search on click`, () => {
-    wrapper.find(`.tm-tool-bar i.search`).trigger(`click`)
-    expect(wrapper.contains(`.tm-modal-search`)).toBe(true)
-  })
-
-  it(`should refresh candidates on click`, () => {
-    wrapper
-      .findAll(`.tm-tool-bar i`)
-      .at(1)
-      .trigger(`click`)
-    expect(store.dispatch).toHaveBeenCalledWith(`updateDelegates`)
   })
 })

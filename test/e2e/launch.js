@@ -1,16 +1,20 @@
 "use strict"
 
-let { Application } = require(`spectron`)
-let test = require(`tape-promise/tape`)
-let electron = require(`electron`)
-let { join } = require(`path`)
-let fs = require(`fs-extra`)
+const { Application } = require(`spectron`)
+const test = require(`tape-promise/tape`)
+const electron = require(`electron`)
+const { join } = require(`path`)
+const fs = require(`fs-extra`)
 const {
   setupAccounts,
   buildNodes,
   startNodes
 } = require(`../../tasks/build/local/helper`)
-let { cliBinary, nodeBinary, defaultStartPort } = require(`../../tasks/gaia.js`)
+const {
+  cliBinary,
+  nodeBinary,
+  defaultStartPort
+} = require(`../../tasks/gaia.js`)
 
 const testDir = join(__dirname, `..`, `..`, `testArtifacts`)
 let app, started, crashed
@@ -62,7 +66,7 @@ function launch(t) {
       await stop(app)
 
       // setup additional accounts for testing
-      let accounts = await setupAccounts(cliHome, join(cliHomePrefix, `lcd`))
+      const accounts = await setupAccounts(cliHome, join(cliHomePrefix, `lcd`))
 
       await startApp(app, `.tm-session-title=Sign In`)
       t.ok(app.isRunning(), `app is running`)

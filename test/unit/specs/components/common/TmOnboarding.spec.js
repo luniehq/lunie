@@ -25,9 +25,9 @@ jest.mock(
 
 describe(`TmOnboarding`, () => {
   let wrapper, store, instance
-  let { stakingParameters } = lcdClientMock.state
+  const { stakingParameters } = lcdClientMock.state
 
-  let { mount } = setup()
+  const { mount } = setup()
 
   beforeEach(() => {
     instance = mount(TmOnboarding)

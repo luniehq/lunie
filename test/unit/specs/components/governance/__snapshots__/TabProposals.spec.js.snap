@@ -10,57 +10,87 @@ exports[`TabProposals has the expected html structure 1`] = `
         class="panel-sort-container"
       >
         <th
-          class="sort-by proposal_title"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
           >
             Title
+            <i
+              class="material-icons"
+            >
+              arrow_drop_up
+            </i>
           </a>
         </th>
         <th
-          class="sort-by proposal_id"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
           >
-            Proposal id
+            Proposal Id
+            <i
+              class="material-icons"
+            >
+              arrow_drop_up
+            </i>
           </a>
         </th>
         <th
-          class="sort-by yes_votes"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
           >
             Yes
+            <i
+              class="material-icons"
+            >
+              arrow_drop_up
+            </i>
           </a>
         </th>
         <th
-          class="sort-by no_votes"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
           >
             No
+            <i
+              class="material-icons"
+            >
+              arrow_drop_up
+            </i>
           </a>
         </th>
         <th
-          class="sort-by no_veto_votes"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
           >
             No with Veto
+            <i
+              class="material-icons"
+            >
+              arrow_drop_up
+            </i>
           </a>
         </th>
         <th
-          class="sort-by abstain_votes"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
           >
             Abstain
+            <i
+              class="material-icons"
+            >
+              arrow_drop_up
+            </i>
           </a>
         </th>
       </tr>

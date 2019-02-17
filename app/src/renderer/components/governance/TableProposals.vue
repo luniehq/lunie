@@ -53,8 +53,8 @@ export default {
       return Object.keys(this.proposals).length > 0
     },
     filteredProposals() {
-      let query = this.filters.proposals.search.query || ``
-      let proposals = orderBy(
+      const query = this.filters.proposals.search.query || ``
+      const proposals = orderBy(
         this.proposals,
         [this.sort.property],
         [this.sort.order]
@@ -76,7 +76,7 @@ export default {
           class: `proposal_title`
         },
         {
-          title: `Proposal id`,
+          title: `Proposal Id`,
           value: `proposal_id`,
           tooltip: `Id of the proposal`,
           class: `proposal_id`
@@ -116,7 +116,7 @@ export default {
   methods: {
     setSearch() {
       if (this.somethingToSearch) {
-        let toggle = !this.filters[`proposals`].search.visible
+        const toggle = !this.filters[`proposals`].search.visible
         this.$store.commit(`setSearchVisible`, [`proposals`, toggle])
       }
     }

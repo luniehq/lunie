@@ -61,6 +61,7 @@ export default {
       `committedDelegations`,
       `config`,
       `user`,
+      `liquidAtoms`,
       `connected`,
       `bondDenom`,
       `keybase`
@@ -95,8 +96,8 @@ export default {
       )
     },
     sortedFilteredEnrichedDelegates() {
-      let query = this.filters.delegates.search.query || ``
-      let sortedEnrichedDelegates = orderBy(
+      const query = this.filters.delegates.search.query || ``
+      const sortedEnrichedDelegates = orderBy(
         this.enrichedDelegates.slice(0),
         [this.sort.property, `small_moniker`],
         [this.sort.order, `asc`]
@@ -110,7 +111,7 @@ export default {
       }
     },
     userCanDelegate() {
-      return this.user.atoms > 0 && this.delegation.loaded
+      return this.liquidAtoms > 0 && this.delegation.loaded
     },
     properties() {
       return [
@@ -121,27 +122,23 @@ export default {
           class: `name`
         },
         {
-          title: `Delegated ${this.bondDenom}`,
+          title: `My Delegations`,
           value: `your_votes`,
           tooltip: `Number of ${
             this.bondDenom
-          } you have delegated to the validator`,
+          } you have delegated to this validator`,
           class: `your-votes`
         },
         {
           title: `Rewards`,
           value: `your_rewards`, // TODO: use real rewards
-          tooltip: `Rewards of ${
-            this.bondDenom
-          } you have gained from the validator`,
-          class: `your-rewards` // TODO: use real rewards
+          tooltip: `Rewards you have earned from this validator`,
+          class: `your-rewards`
         },
         {
           title: `Voting Power`,
           value: `percent_of_vote`,
-          tooltip: `Percentage of ${
-            this.bondDenom
-          } the validator has on The Cosmos Hub`,
+          tooltip: `Percentage of voting shares`,
           class: `percent_of_vote`
         },
         {
@@ -170,12 +167,9 @@ export default {
       address && this.updateDelegates()
     }
   },
-  async mounted() {
+  mounted() {
     Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
     Mousetrap.bind(`esc`, () => this.setSearch(false))
-
-    // XXX temporary because querying the shares shows old shares after bonding
-    // this.updateDelegates()
   },
   methods: {
     updateDelegates() {

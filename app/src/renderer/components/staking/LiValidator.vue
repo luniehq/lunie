@@ -79,11 +79,11 @@ export default {
       return `${this.num.pretty(this.validator.commission.rate)}%`
     },
     uptime() {
-      let rollingWindow = 10000 // param of slashing period
-      let info = this.validator.signing_info
+      const rollingWindow = 10000 // param of slashing period
+      const info = this.validator.signing_info
       if (info) {
         // uptime in the past 10k blocks
-        let uptimeRollingWindow = info.signed_blocks_counter / rollingWindow
+        const uptimeRollingWindow = info.signed_blocks_counter / rollingWindow
         return `${this.num.pretty(uptimeRollingWindow * 100)}%`
       }
       return `n/a`
@@ -138,12 +138,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.li-validator .li-validator__delegated-steak {
-  min-width: 10rem;
-}
-.li-validator .li-validator__voting-power {
-  min-width: 9rem;
-}
-</style>

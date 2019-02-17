@@ -1,6 +1,6 @@
 import Vuex from "vuex"
-import { mount, createLocalVue } from "@vue/test-utils"
-import NISessionWelcome from "common/TmSessionWelcome"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
+import TmSessionWelcome from "common/TmSessionWelcome"
 import LiSession from "common/TmLiSession"
 
 const localVue = createLocalVue()
@@ -10,34 +10,114 @@ localVue.directive(`focus`, () => {})
 
 describe(`TmSessionWelcome`, () => {
   let wrapper, store, getters
-  let accounts = []
+  const accounts = []
 
   beforeEach(() => {
     getters = {
       config: () => ({ devMode: true }),
       lastHeader: () => ({ chain_id: `gaia-test`, height: `31337` }),
       user: () => ({ accounts }),
+      lastPage: () => `/`,
       connected: () => true,
-      nodeURL: () => `http://nodeUrl`
+      nodeUrl: () => `http://nodeUrl`
     }
     store = new Vuex.Store({ getters })
     store.commit = jest.fn()
     store.dispatch = jest.fn(async () => true)
-    wrapper = mount(NISessionWelcome, {
+    wrapper = shallowMount(TmSessionWelcome, {
       localVue,
       store
     })
   })
 
-  describe(`without accounts`, () => {
+  describe(`header buttons`, () => {
     it(`should open the help modal on click`, () => {
-      wrapper
-        .findAll(`.tm-session-header a`)
-        .at(1)
-        .trigger(`click`)
-      expect(store.commit.mock.calls[0]).toEqual([`setModalHelp`, true])
+      const $store = { commit: jest.fn() }
+      const self = { $store }
+      TmSessionWelcome.methods.help.call(self)
+      expect($store.commit).toHaveBeenCalledWith(`setModalHelp`, true)
     })
 
+    describe(`closes the session modal`, () => {
+      it(`without going to prev page`, () => {
+        const $store = { commit: jest.fn() }
+        const self = {
+          back: jest.fn(),
+          $store,
+          $router: {
+            currentRoute: {
+              path: `/`
+            }
+          }
+        }
+        TmSessionWelcome.methods.closeSession.call(self)
+        expect($store.commit).toHaveBeenCalledWith(`setModalSession`, false)
+        expect($store.commit).toHaveBeenCalledWith(
+          `setModalSessionState`,
+          false
+        )
+        expect(self.back).not.toHaveBeenCalled()
+      })
+
+      it(`going back to prev page`, () => {
+        const $store = { commit: jest.fn() }
+        const self = {
+          back: jest.fn(),
+          $store,
+          $router: {
+            currentRoute: {
+              path: `/wallet`
+            }
+          }
+        }
+        TmSessionWelcome.methods.closeSession.call(self)
+        expect($store.commit).toHaveBeenCalledWith(`setModalSession`, false)
+        expect($store.commit).toHaveBeenCalledWith(
+          `setModalSessionState`,
+          false
+        )
+        expect(self.back).toHaveBeenCalled()
+      })
+    })
+
+    describe(`back`, () => {
+      it(`goes back to last page`, () => {
+        const $store = { commit: jest.fn() }
+        const self = {
+          $store,
+          lastPage: `/`,
+          $router: {
+            push: jest.fn((_, cb) => {
+              cb()
+            })
+          }
+        }
+        TmSessionWelcome.methods.back.call(self)
+        expect($store.commit).toHaveBeenCalledWith(`pauseHistory`, true)
+        expect(self.$router.push).toHaveBeenCalledWith(
+          `/`,
+          expect.any(Function)
+        )
+        expect($store.commit).toHaveBeenCalledWith(`popHistory`)
+        expect($store.commit).toHaveBeenCalledWith(`pauseHistory`, false)
+      })
+
+      it(`doesn't go back if there's no last Page`, () => {
+        const $store = { commit: jest.fn() }
+        const self = {
+          $store,
+          lastPage: undefined,
+          $router: {
+            push: jest.fn()
+          }
+        }
+        TmSessionWelcome.methods.back.call(self)
+        expect($store.commit).not.toHaveBeenCalledWith(`pauseHistory`, true)
+      })
+    })
+  })
+
+  describe(`without accounts`, () => {
     it(`should not show sign-in link since we have no accounts`, () => {
       wrapper.find(LiSession).trigger(`click`)
       expect(store.commit.mock.calls[0][1]).not.toEqual(`sign-in`)

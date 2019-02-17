@@ -4,7 +4,7 @@ import { shallowMount } from "@vue/test-utils"
 describe(`TmBarDiscrete`, () => {
   let wrapper, clickSpy
   beforeEach(async () => {
-    let nodes = [{}, {}]
+    const nodes = [{}, {}]
     clickSpy = jest.fn()
     wrapper = shallowMount(TmBarDiscrete, {
       propsData: { nodes, active: 1, "click-fn": clickSpy }

@@ -3,15 +3,17 @@
     <th
       v-for="property in properties"
       :key="property.value"
-      :class="property.class"
-      class="sort-by"
+      :class="{ 'sort-by': sort }"
+      class="panel-sort-table-header"
     >
       <a
         v-tooltip.top="property.tooltip"
+        v-if="sort"
         class="sort-by-link"
         @click="orderBy(property.value)"
-        >{{ property.title }}</a
+        >{{ property.title }}<i class="material-icons">arrow_drop_up</i></a
       >
+      <span v-else>{{ property.title }}</span>
     </th>
   </tr>
 </template>
@@ -22,7 +24,7 @@ export default {
   props: {
     sort: {
       type: Object,
-      required: true
+      default: null
     },
     properties: {
       type: Array,
@@ -31,10 +33,10 @@ export default {
   },
   methods: {
     orderBy(property) {
-      let sortBys = this.$el.querySelectorAll(`.sort-by`)
+      const sortBys = this.$el.querySelectorAll(`.sort-by`)
       sortBys.forEach(el => el.classList.remove(`active`, `desc`, `asc`))
-      let index = this.properties.findIndex(p => p.value === property)
-      let el = sortBys[index]
+      const index = this.properties.findIndex(p => p.value === property)
+      const el = sortBys[index]
 
       if (this.sort.property === property) {
         if (this.sort.order === `asc`) {
@@ -61,29 +63,31 @@ export default {
   padding: 1rem;
 }
 
-.sort-by {
+.panel-sort-table-header {
   font-size: var(--sm);
+}
+
+.sort-by.active a {
+  color: var(--tertiary);
+}
+
+.sort-by i {
+  font-size: var(--lg);
+  position: relative;
+  top: 7px;
+  right: 2px;
 }
 
 .sort-by a {
   cursor: pointer;
   user-select: none;
 }
-
-.sort-by:after {
-  content: "\f0d8";
-  color: var(--link);
-  display: inline-block;
-  font-family: FontAwesome;
-  padding-left: 4px;
-}
-
-.sort-by.asc:after {
+.sort-by.asc i {
   color: var(--tertiary);
 }
 
-.sort-by.desc:after {
-  content: "\f0d7";
+.sort-by.desc i {
+  transform: rotate(180deg);
   color: var(--tertiary);
 }
 </style>

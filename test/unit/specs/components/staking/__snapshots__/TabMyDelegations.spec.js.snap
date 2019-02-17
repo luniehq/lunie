@@ -50,29 +50,12 @@ exports[`Component: TabMyDelegations should show a message if not staked yet to 
   </div>
    
   <!---->
-   
-  <!---->
 </div>
 `;
 
 exports[`Component: TabMyDelegations should show committed validators 1`] = `
 <div>
   <div>
-    <h3
-      class="tab-header"
-    >
-      
-      My active validators
-      
-      <i
-        class="material-icons info-button"
-      >
-        
-        info_outline
-      
-      </i>
-    </h3>
-     
     <div>
       <table
         class="data-table"
@@ -82,66 +65,101 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
             class="panel-sort-container"
           >
             <th
-              class="sort-by name"
+              class="panel-sort-table-header sort-by"
             >
               <a
                 class="sort-by-link"
               >
                 Moniker
+                <i
+                  class="material-icons"
+                >
+                  arrow_drop_up
+                </i>
               </a>
             </th>
             <th
-              class="sort-by your-votes"
+              class="panel-sort-table-header sort-by"
             >
               <a
                 class="sort-by-link"
               >
-                Delegated STAKE
+                My Delegations
+                <i
+                  class="material-icons"
+                >
+                  arrow_drop_up
+                </i>
               </a>
             </th>
             <th
-              class="sort-by your-rewards"
+              class="panel-sort-table-header sort-by"
             >
               <a
                 class="sort-by-link"
               >
                 Rewards
+                <i
+                  class="material-icons"
+                >
+                  arrow_drop_up
+                </i>
               </a>
             </th>
             <th
-              class="sort-by percent_of_vote"
+              class="panel-sort-table-header sort-by"
             >
               <a
                 class="sort-by-link"
               >
                 Voting Power
+                <i
+                  class="material-icons"
+                >
+                  arrow_drop_up
+                </i>
               </a>
             </th>
             <th
-              class="sort-by uptime"
+              class="panel-sort-table-header sort-by"
             >
               <a
                 class="sort-by-link"
               >
                 Uptime
+                <i
+                  class="material-icons"
+                >
+                  arrow_drop_up
+                </i>
               </a>
             </th>
             <th
-              class="sort-by commission"
+              class="panel-sort-table-header sort-by"
             >
               <a
                 class="sort-by-link"
               >
                 Commission
+                <i
+                  class="material-icons"
+                >
+                  arrow_drop_up
+                </i>
               </a>
             </th>
             <th
-              class="sort-by slashes"
+              class="panel-sort-table-header sort-by"
             >
               <a
                 class="sort-by-link"
               >
                 Slashes
+                <i
+                  class="material-icons"
+                >
+                  arrow_drop_up
+                </i>
               </a>
             </th>
           </tr>
@@ -253,22 +271,6 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
   </div>
    
   <!---->
-   
-  <div
-    class="check-out-message"
-  >
-    
-    Check out
-    
-    <router-link-stub
-      to="[object Object]"
-    >
-      the validator list
-    </router-link-stub>
-    
-    to find other validators to delegate to.
-  
-  </div>
    
   <!---->
 </div>
@@ -277,21 +279,6 @@ exports[`Component: TabMyDelegations should show committed validators 1`] = `
 exports[`Component: TabMyDelegations should show unbonding validators and the current committed validator 1`] = `
 <div>
   <div>
-    <h3
-      class="tab-header"
-    >
-      
-      My active validators
-      
-      <i
-        class="material-icons info-button"
-      >
-        
-        info_outline
-      
-      </i>
-    </h3>
-     
     <div>
       <table
         class="data-table"
@@ -301,66 +288,101 @@ exports[`Component: TabMyDelegations should show unbonding validators and the cu
             class="panel-sort-container"
           >
             <th
-              class="sort-by name"
+              class="panel-sort-table-header sort-by"
             >
               <a
                 class="sort-by-link"
               >
                 Moniker
+                <i
+                  class="material-icons"
+                >
+                  arrow_drop_up
+                </i>
               </a>
             </th>
             <th
-              class="sort-by your-votes"
+              class="panel-sort-table-header sort-by"
             >
               <a
                 class="sort-by-link"
               >
-                Delegated STAKE
+                My Delegations
+                <i
+                  class="material-icons"
+                >
+                  arrow_drop_up
+                </i>
               </a>
             </th>
             <th
-              class="sort-by your-rewards"
+              class="panel-sort-table-header sort-by"
             >
               <a
                 class="sort-by-link"
               >
                 Rewards
+                <i
+                  class="material-icons"
+                >
+                  arrow_drop_up
+                </i>
               </a>
             </th>
             <th
-              class="sort-by percent_of_vote"
+              class="panel-sort-table-header sort-by"
             >
               <a
                 class="sort-by-link"
               >
                 Voting Power
+                <i
+                  class="material-icons"
+                >
+                  arrow_drop_up
+                </i>
               </a>
             </th>
             <th
-              class="sort-by uptime"
+              class="panel-sort-table-header sort-by"
             >
               <a
                 class="sort-by-link"
               >
                 Uptime
+                <i
+                  class="material-icons"
+                >
+                  arrow_drop_up
+                </i>
               </a>
             </th>
             <th
-              class="sort-by commission"
+              class="panel-sort-table-header sort-by"
             >
               <a
                 class="sort-by-link"
               >
                 Commission
+                <i
+                  class="material-icons"
+                >
+                  arrow_drop_up
+                </i>
               </a>
             </th>
             <th
-              class="sort-by slashes"
+              class="panel-sort-table-header sort-by"
             >
               <a
                 class="sort-by-link"
               >
                 Slashes
+                <i
+                  class="material-icons"
+                >
+                  arrow_drop_up
+                </i>
               </a>
             </th>
           </tr>
@@ -473,36 +495,11 @@ exports[`Component: TabMyDelegations should show unbonding validators and the cu
    
   <!---->
    
-  <div
-    class="check-out-message"
-  >
-    
-    Check out
-    
-    <router-link-stub
-      to="[object Object]"
-    >
-      the validator list
-    </router-link-stub>
-    
-    to find other validators to delegate to.
-  
-  </div>
-   
   <div>
     <h3
       class="tab-header transactions"
     >
-      
-      Unbonding transactions
-      
-      <i
-        class="material-icons info-button"
-      >
-        
-        info_outline
-      
-      </i>
+      Pending Undelegations
     </h3>
      
     <div
@@ -534,7 +531,7 @@ exports[`Component: TabMyDelegations should show unbonding validators and the cu
               >
                 <div>
                   
-      Unbonded 
+      Undelegated 
                   <b>
                     5
                   </b>
@@ -564,11 +561,11 @@ exports[`Component: TabMyDelegations should show unbonding validators and the cu
           <div
             class="tm-li-tx__content__block"
           >
-            <a
-              href="https://explorecosmos.network/blocks/170"
+            <router-link-stub
+              to="[object Object]"
             >
               Block #170 
-            </a>
+            </router-link-stub>
             @ Invalid date
     
           </div>

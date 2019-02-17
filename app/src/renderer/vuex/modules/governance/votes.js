@@ -14,14 +14,14 @@ export default ({ node }) => {
       Vue.set(state.votes, proposalId, votes)
     }
   }
-  let actions = {
+  const actions = {
     async getProposalVotes({ state, commit, rootState }, proposalId) {
       state.loading = true
 
       if (!rootState.connection.connected) return
 
       try {
-        let votes = await node.queryProposalVotes(proposalId)
+        const votes = await node.queryProposalVotes(proposalId)
         commit(`setProposalVotes`, { proposalId, votes })
         state.error = null
         state.loading = false
@@ -37,7 +37,7 @@ export default ({ node }) => {
     },
     async submitVote(
       { rootState, dispatch },
-      { proposal_id, option, password }
+      { proposal_id, option, password, submitType }
     ) {
       await dispatch(`sendTx`, {
         to: proposal_id,
@@ -45,7 +45,8 @@ export default ({ node }) => {
         proposal_id,
         voter: rootState.wallet.address,
         option,
-        password
+        password,
+        submitType
       })
       await dispatch(`getProposalVotes`, proposal_id)
       await dispatch(`getProposal`, proposal_id)

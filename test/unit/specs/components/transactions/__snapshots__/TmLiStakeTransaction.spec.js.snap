@@ -56,12 +56,12 @@ exports[`TmLiStakeTransaction delegations should show delegations 1`] = `
     <div
       class="tm-li-tx__content__block"
     >
-      <a
-        href="https://explorecosmos.network/blocks/568"
+      <router-link-stub
+        to="[object Object]"
       >
         Block #568 
-      </a>
-      @ 00:00
+      </router-link-stub>
+      @ 00:00:42
     
     </div>
   </div>
@@ -131,12 +131,12 @@ exports[`TmLiStakeTransaction redelegations should show redelegations and calcul
     <div
       class="tm-li-tx__content__block"
     >
-      <a
-        href="https://explorecosmos.network/blocks/567"
+      <router-link-stub
+        to="[object Object]"
       >
         Block #567 
-      </a>
-      @ 00:00
+      </router-link-stub>
+      @ 00:00:42
     
     </div>
   </div>
@@ -170,7 +170,7 @@ exports[`TmLiStakeTransaction unbonding delegations should default to ended if n
         >
           <div>
             
-      Unbonded 
+      Undelegated 
             <b>
               1000
             </b>
@@ -200,12 +200,12 @@ exports[`TmLiStakeTransaction unbonding delegations should default to ended if n
     <div
       class="tm-li-tx__content__block"
     >
-      <a
-        href="https://explorecosmos.network/blocks/569"
+      <router-link-stub
+        to="[object Object]"
       >
         Block #569 
-      </a>
-      @ 00:00
+      </router-link-stub>
+      @ 00:00:42
     
     </div>
   </div>
@@ -239,7 +239,7 @@ exports[`TmLiStakeTransaction unbonding delegations should show unbonding delega
         >
           <div>
             
-      Unbonded 
+      Undelegated 
             <b>
               1000
             </b>
@@ -269,12 +269,12 @@ exports[`TmLiStakeTransaction unbonding delegations should show unbonding delega
     <div
       class="tm-li-tx__content__block"
     >
-      <a
-        href="https://explorecosmos.network/blocks/569"
+      <router-link-stub
+        to="[object Object]"
       >
         Block #569 
-      </a>
-      @ 00:00
+      </router-link-stub>
+      @ 00:00:42
     
     </div>
   </div>
@@ -308,7 +308,7 @@ exports[`TmLiStakeTransaction unbonding delegations should show unbondings and c
         >
           <div>
             
-      Unbonded 
+      Undelegated 
             <b>
               1000
             </b>
@@ -316,9 +316,9 @@ exports[`TmLiStakeTransaction unbonding delegations should show unbondings and c
                stakes
             </span>
             <span
-              class="tx-unbonding__time-dif"
+              class="tx-unbonding__time-diff"
             >
-               - a few seconds ago
+               (liquid in a few seconds)
             </span>
           </div>
         </p>
@@ -342,12 +342,12 @@ exports[`TmLiStakeTransaction unbonding delegations should show unbondings and c
     <div
       class="tm-li-tx__content__block"
     >
-      <a
-        href="https://explorecosmos.network/blocks/569"
+      <router-link-stub
+        to="[object Object]"
       >
         Block #569 
-      </a>
-      @ 00:00
+      </router-link-stub>
+      @ 00:00:42
     
     </div>
   </div>

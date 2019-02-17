@@ -48,24 +48,6 @@ describe(`TmSessionImport`, () => {
     expect(store.commit.mock.calls[0]).toEqual([`setModalHelp`, true])
   })
 
-  it(`should close the modal on successful login`, async () => {
-    wrapper.setData({
-      fields: {
-        importName: `foo123`,
-        importPassword: `1234567890`,
-        importPasswordConfirm: `1234567890`,
-        importSeed: seed
-      }
-    })
-    await wrapper.vm.onSubmit()
-
-    expect(
-      store.commit.mock.calls.find(
-        ([action]) => action === `setModalSession`
-      )[1]
-    ).toBe(false)
-  })
-
   it(`should signal signed in state on successful login`, async () => {
     wrapper.setData({
       fields: {
@@ -76,55 +58,15 @@ describe(`TmSessionImport`, () => {
       }
     })
     await wrapper.vm.onSubmit()
-    expect(
-      store.commit.mock.calls
-        .find(([action]) => action === `notify`)[1]
-        .title.toLowerCase()
-    ).toContain(`welcome back!`)
+    expect(store.commit).toHaveBeenCalledWith(`notify`, {
+      body: `Your account has been successfully imported.`,
+      title: `Welcome back!`
+    })
     expect(store.dispatch).toHaveBeenCalledWith(`signIn`, {
+      errorCollection: undefined,
+      sessionType: `local`,
       account: `foo123`,
       password: `1234567890`
-    })
-  })
-
-  it(`should set error collection opt in state`, async () => {
-    wrapper.setData({
-      fields: {
-        importName: `foo123`,
-        importPassword: `1234567890`,
-        importPasswordConfirm: `1234567890`,
-        importSeed: seed,
-        errorCollection: true
-      }
-    })
-    await wrapper.vm.onSubmit()
-    expect(
-      store.dispatch.mock.calls.find(
-        ([action]) => action === `setErrorCollection`
-      )[1]
-    ).toMatchObject({
-      account: `foo123`,
-      optin: true
-    })
-
-    wrapper.setData({
-      fields: {
-        importName: `foo123`,
-        importPassword: `1234567890`,
-        importPasswordConfirm: `1234567890`,
-        importSeed: seed,
-        errorCollection: false
-      }
-    })
-    store.dispatch.mockClear()
-    await wrapper.vm.onSubmit()
-    expect(
-      store.dispatch.mock.calls.find(
-        ([action]) => action === `setErrorCollection`
-      )[1]
-    ).toMatchObject({
-      account: `foo123`,
-      optin: false
     })
   })
 
@@ -161,7 +103,7 @@ describe(`TmSessionImport`, () => {
   })
 
   it(`should not continue if creation failed`, async () => {
-    store.dispatch = jest.fn(() => Promise.resolve(null))
+    store.dispatch = jest.fn(() => Promise.reject(new Error(`Wrong password`)))
     wrapper.setData({
       fields: {
         importName: `foo123`,
@@ -171,7 +113,10 @@ describe(`TmSessionImport`, () => {
       }
     })
     await wrapper.vm.onSubmit()
-    expect(store.commit).not.toHaveBeenCalled()
+    expect(store.commit).toHaveBeenCalledWith(`notifyError`, {
+      title: `Couldn't create account`,
+      body: expect.stringContaining(`Wrong password`)
+    })
   })
 
   it(`should show a notification if creation failed`, async () => {

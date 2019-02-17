@@ -1,12 +1,17 @@
 import * as Sentry from "@sentry/browser"
-import { ipcRenderer, remote } from "electron"
-import enableGoogleAnalytics from "../../google-analytics.js"
-const config = remote.getGlobal(`config`)
+import {
+  enableGoogleAnalytics,
+  disableGoogleAnalytics,
+  track
+} from "../../google-analytics.js"
+import config from "../../../config"
+import { loadKeys, importKey, testPassword } from "../../scripts/keystore.js"
+import { generateSeed } from "../../scripts/wallet.js"
 
-export default ({ node }) => {
+export default ({}) => {
   const ERROR_COLLECTION_KEY = `voyager_error_collection`
 
-  let state = {
+  const state = {
     atoms: 0,
     signedIn: false,
     accounts: [],
@@ -16,22 +21,40 @@ export default ({ node }) => {
     address: null,
     errorCollection: false,
     stateLoaded: false, // shows if the persisted state is already loaded. used to prevent overwriting the persisted state before it is loaded
-    error: null
+    error: null,
+
+    // import into state to be able to test easier
+    externals: {
+      config,
+      loadKeys,
+      importKey,
+      testPassword,
+      generateSeed,
+      enableGoogleAnalytics,
+      disableGoogleAnalytics,
+      track,
+      Sentry
+    }
   }
 
   const mutations = {
+    setSignIn(state, hasSignedIn) {
+      state.signedIn = hasSignedIn
+    },
     setAccounts(state, accounts) {
       state.accounts = accounts
+    },
+    setUserAddress(state, address) {
+      state.address = address
     },
     setAtoms(state, atoms) {
       state.atoms = atoms
     },
     addHistory(state, path) {
       state.history.push(path)
-      window.analytics &&
-        window.analytics.send(`pageview`, {
-          dl: path
-        })
+      state.externals.track(`pageview`, {
+        dl: path
+      })
     },
     popHistory(state) {
       state.history.pop()
@@ -46,26 +69,18 @@ export default ({ node }) => {
       // reload available accounts as the reconnect could be a result of a switch from a mocked connection with mocked accounts
       await dispatch(`loadAccounts`)
     },
-    async showInitialScreen({ dispatch, commit }) {
+    async showInitialScreen({ state, dispatch }) {
       dispatch(`resetSessionData`)
-
       await dispatch(`loadAccounts`)
-      let exists = state.accounts.length > 0
-      let screen = exists ? `sign-in` : `welcome`
-      commit(`setModalSessionState`, screen)
-
-      window.analytics &&
-        window.analytics.send(`pageview`, {
-          dl: `/session/` + screen
-        })
+      state.externals.track(`pageview`, { dl: `/` })
     },
     async loadAccounts({ commit, state }) {
       state.loading = true
       try {
-        let keys = await node.keys.values()
+        const keys = await state.externals.loadKeys()
         commit(`setAccounts`, keys)
       } catch (error) {
-        Sentry.captureException(error)
+        state.externals.Sentry.captureException(error)
         commit(`notifyError`, {
           title: `Couldn't read keys`,
           body: error.message
@@ -75,98 +90,105 @@ export default ({ node }) => {
         state.loading = false
       }
     },
-    async testLogin(state, { password, account }) {
-      try {
-        return await node.keys.set(account, {
-          name: account,
-          new_password: password,
-          old_password: password
-        })
-      } catch (error) {
-        throw Error(`Incorrect passphrase`)
-      }
+    async testLogin({}, { password, account }) {
+      return await testPassword(account, password)
     },
     createSeed() {
-      // generate seed phrase
-      return node.keys.seed()
+      return state.externals.generateSeed()
     },
     async createKey({ dispatch }, { seedPhrase, password, name }) {
-      let { address } = await node.keys.add({
+      const { cosmosAddress } = await state.externals.importKey(
         name,
         password,
-        seed: seedPhrase
+        seedPhrase
+      )
+      await dispatch(`initializeWallet`, { address: cosmosAddress })
+      return cosmosAddress
+    },
+    async signIn(
+      { state, commit, dispatch },
+      { account, address, sessionType = `local`, errorCollection = false }
+    ) {
+      let accountAddress
+      switch (sessionType) {
+        case `ledger`:
+          accountAddress = address
+          break
+        default:
+          // local keyStore
+          state.account = account // TODO: why do we have state.account and state.accounts ??
+          const keys = await state.externals.loadKeys()
+          accountAddress = keys.find(({ name }) => name === account).address
+      }
+      commit(`setSignIn`, true)
+      dispatch(`setErrorCollection`, {
+        account: accountAddress,
+        optin: errorCollection
       })
-      dispatch(`initializeWallet`, address)
-      return address
-    },
-    async deleteKey(ignore, { password, name }) {
-      await node.keys.delete(name, { name, password })
-      return true
-    },
-    async signIn({ state, commit, dispatch }, { account }) {
-      state.account = account
-      state.signedIn = true
-
-      let { address } = await node.keys.get(account)
-      state.address = address
-
+      commit(`setUserAddress`, accountAddress)
       dispatch(`loadPersistedState`)
       commit(`setModalSession`, false)
       await dispatch(`getStakingParameters`)
-      dispatch(`initializeWallet`, address)
       await dispatch(`getGovParameters`)
-      dispatch(`loadErrorCollection`, account)
+      dispatch(`loadErrorCollection`, accountAddress)
+      await dispatch(`initializeWallet`, { address: accountAddress })
     },
     signOut({ state, commit, dispatch }) {
       state.account = null
-      state.signedIn = false
-
-      commit(`setModalSession`, true)
-      dispatch(`showInitialScreen`)
+      commit(`setLedgerConnection`, false)
+      commit(`setCosmosAppVersion`, {})
+      dispatch(`resetSessionData`)
+      commit(`addHistory`, `/`)
+      commit(`setSignIn`, false)
     },
-    resetSessionData({ state }) {
-      state.atoms = 0
+    resetSessionData({ commit, state }) {
+      commit(`setAtoms`, 0)
       state.history = []
       state.account = null
-      state.address = null
+      commit(`setUserAddress`, null)
     },
     loadErrorCollection({ state, dispatch }, account) {
-      let errorCollection =
+      const errorCollection =
         localStorage.getItem(`${ERROR_COLLECTION_KEY}_${account}`) === `true`
       if (state.errorCollection !== errorCollection)
         dispatch(`setErrorCollection`, { account, optin: errorCollection })
     },
     setErrorCollection({ state, commit }, { account, optin }) {
-      if (state.errorCollection !== optin && config.development) {
+      if (
+        optin &&
+        state.errorCollection === false &&
+        state.externals.config.development
+      ) {
         commit(`notifyError`, {
-          title: `Couldn't switch ${optin ? `on` : `off`} error collection.`,
+          title: `Couldn't switch on error collection.`,
           body: `Error collection is disabled during development.`
         })
       }
-      state.errorCollection = config.development ? false : optin
+      state.errorCollection = state.externals.config.development ? false : optin
       localStorage.setItem(
         `${ERROR_COLLECTION_KEY}_${account}`,
         state.errorCollection
       )
 
       if (state.errorCollection) {
-        Sentry.init({
-          dsn: config.sentry_dsn,
-          release: `voyager@${config.version}`
+        state.externals.Sentry.init({
+          dsn: state.externals.config.sentry_dsn,
+          release: state.externals.config.version
         })
-        enableGoogleAnalytics(config.google_analytics_uid)
+        state.externals.enableGoogleAnalytics(
+          state.externals.config.google_analytics_uid
+        )
         console.log(`Analytics and error reporting have been enabled`)
-        window.analytics &&
-          window.analytics.send(`pageview`, {
-            dl: window.location.pathname
-          })
+        state.externals.track(`pageview`, {
+          dl: window.location.pathname
+        })
       } else {
         console.log(`Analytics disabled in browser`)
-        Sentry.init({})
-        window.analytics = null
+        state.externals.Sentry.init({})
+        state.externals.disableGoogleAnalytics(
+          state.externals.config.google_analytics_uid
+        )
       }
-
-      ipcRenderer.send(`error-collection`, state.errorCollection)
     }
   }
 

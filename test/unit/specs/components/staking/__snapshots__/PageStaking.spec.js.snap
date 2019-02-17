@@ -21,136 +21,23 @@ exports[`PageStaking has the expected html structure 1`] = `
         <div
           class="tm-page-header-body"
         >
-          <div
-            class="header-balance"
-          >
-            <div
-              class="top"
-            >
-              <div
-                class="icon-container"
-              >
-                <img
-                  class="icon"
-                  src="~assets/images/cosmos-logo.png"
-                />
-              </div>
-               
-              <div
-                class="total-atoms top-section"
-              >
-                <h3>
-                  Total STAKE
-                </h3>
-                 
-                <h2
-                  class="total-atoms__value"
-                >
-                  1,351.0000…
-                </h2>
-              </div>
-               
-              <div
-                class="unbonded-atoms top-section"
-              >
-                <h3>
-                  Available STAKE
-                </h3>
-                 
-                <h2>
-                  1,337.0000…
-                </h2>
-              </div>
-            </div>
-             
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    cosmos…xxn9
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
-             
-            <div
-              class="tabs"
-            >
-              <div
-                class="tab"
-              >
-                <router-link-stub
-                  to="[object Object]"
-                >
-                  My Delegations
-                </router-link-stub>
-              </div>
-              <div
-                class="tab"
-              >
-                <router-link-stub
-                  to="[object Object]"
-                >
-                  Validators
-                </router-link-stub>
-              </div>
-              <div
-                class="tab"
-              >
-                <router-link-stub
-                  to="[object Object]"
-                >
-                  Parameters
-                </router-link-stub>
-              </div>
-            </div>
-             
-          </div>
+          <tm-balance-stub />
            
           <div
-            class="tm-tool-bar"
+            class="tool-bar"
           >
             <a
-              class="back"
-              disabled="disabled"
+              class="refresh-button"
             >
-              <i
-                class="material-icons"
-              >
-                arrow_back
-              </i>
-            </a>
-             
-            <a>
               <i
                 class="material-icons"
               >
                 refresh
               </i>
             </a>
-            <a>
-              <i
-                class="search material-icons"
-              >
-                search
-              </i>
-            </a>
+             
+            <!---->
+              
             <a
               class="help"
             >
@@ -171,6 +58,7 @@ exports[`PageStaking has the expected html structure 1`] = `
                 settings
               </i>
             </router-link-stub>
+             
             <a
               id="signOut-btn"
             >
@@ -180,21 +68,62 @@ exports[`PageStaking has the expected html structure 1`] = `
                 exit_to_app
               </i>
             </a>
+             
+            <!---->
           </div>
         </div>
       </div>
        
       <menu
         class="tm-page-header-menu"
+      />
+       
+      <div
+        class="tabs"
       >
-        <div />
-      </menu>
+        <div
+          class="tab"
+        >
+          <router-link-stub
+            to="[object Object]"
+          >
+            
+      My Delegations
+    
+          </router-link-stub>
+        </div>
+        <div
+          class="tab"
+        >
+          <router-link-stub
+            to="[object Object]"
+          >
+            
+      Validators
+    
+          </router-link-stub>
+        </div>
+        <div
+          class="tab"
+        >
+          <router-link-stub
+            to="[object Object]"
+          >
+            
+      Parameters
+    
+          </router-link-stub>
+        </div>
+      </div>
+       
+      <!---->
     </div>
   </header>
    
   <main
     class="tm-page-main"
   >
+    <!---->
      
     <!---->
      

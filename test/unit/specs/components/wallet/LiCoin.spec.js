@@ -4,13 +4,13 @@ import LiCoin from "renderer/components/wallet/LiCoin"
 
 describe(`LiCoin`, () => {
   let wrapper
-  let { mount } = setup()
+  const { mount } = setup()
 
   beforeEach(() => {
-    let instance = mount(LiCoin, {
+    const instance = mount(LiCoin, {
       propsData: {
         coin: {
-          denom: `stake`,
+          denom: `Stake`,
           amount: `1000`
         }
       }
@@ -23,7 +23,7 @@ describe(`LiCoin`, () => {
   })
 
   it(`should calculate the full amount of the coin`, () => {
-    let fullAmount = num.full(wrapper.vm.coin.amount)
+    const fullAmount = num.full(wrapper.vm.coin.amount)
     expect(wrapper.vm.amount).toEqual(fullAmount)
   })
 
