@@ -34,7 +34,7 @@ describe(`SessionSignUp`, () => {
       .at(0)
       .trigger(`click`)
     expect($store.commit).toHaveBeenCalledWith(
-      `setModalSessionState`,
+      `setSignInModalState`,
       `welcome`
     )
   })
@@ -66,7 +66,7 @@ describe(`SessionSignUp`, () => {
         signUpWarning: true
       }
     })
-    expect(commit).toHaveBeenCalledWith(`setModalSession`, false)
+    expect(commit).toHaveBeenCalledWith(`toggleSignInModal`, false)
   })
 
   it(`should signal signedin state on successful login`, async () => {

@@ -68,6 +68,28 @@ describe(`Module: Session`, () => {
       mutations.setAccounts(state, accounts)
       expect(state.accounts).toEqual(accounts)
     })
+    it(`should set user address`, () => {
+      mutations.setUserAddress(
+        state,
+        `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+      )
+      expect(state.address).toEqual(
+        `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+      )
+    })
+
+    it(`should toggle the signin modal`, () => {
+      mutations.toggleSignInModal(state, true)
+      expect(state.modals.signin.active).toBe(true)
+
+      mutations.toggleSignInModal(state, false)
+      expect(state.modals.signin.active).toBe(false)
+    })
+
+    it(`should set the active signin modal view`, () => {
+      mutations.setSignInModalState(state, `xxxx`)
+      expect(state.modals.signin.state).toBe(`xxxx`)
+    })
   })
 
   it(`should show an error if loading accounts fails`, async () => {
@@ -168,7 +190,7 @@ describe(`Module: Session`, () => {
         `setUserAddress`,
         `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
       )
-      expect(commit).toHaveBeenCalledWith(`setModalSession`, false)
+      expect(commit).toHaveBeenCalledWith(`toggleSignInModal`, false)
       expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
       expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, {
         address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
@@ -188,7 +210,7 @@ describe(`Module: Session`, () => {
         { sessionType: `ledger`, address }
       )
       expect(commit).toHaveBeenCalledWith(`setUserAddress`, address)
-      expect(commit).toHaveBeenCalledWith(`setModalSession`, false)
+      expect(commit).toHaveBeenCalledWith(`toggleSignInModal`, false)
       expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
       expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, { address })
       expect(dispatch).toHaveBeenCalledWith(`loadErrorCollection`, address)

@@ -208,8 +208,8 @@ export default {
       this.show = false
     },
     goToSession() {
-      this.$store.commit(`setModalSessionState`, `welcome`)
-      this.$store.commit(`setModalSession`, true)
+      this.$store.commit(`setSignInModalState`, `welcome`)
+      this.$store.commit(`toggleSignInModal`, true)
     },
     async validateChangeStep() {
       this.$v.$touch()

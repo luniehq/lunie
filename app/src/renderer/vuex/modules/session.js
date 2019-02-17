@@ -31,7 +31,7 @@ export default ({}) => {
     modals: {
       error: { active: false },
       help: { active: false },
-      session: {
+      signin: {
         active: false,
         state: `loading`
       }
@@ -76,18 +76,18 @@ export default ({}) => {
     pauseHistory(state, paused) {
       state.pauseHistory = paused
     },
-    setModalSession(state, value) {
-      // reset modal session state if we're closing the modal
+    toggleSignInModal(state, value) {
+      // reset modal signin state if we're closing the modal
       if (value) {
         noScroll.on()
       } else {
-        state.modals.session.state = `loading`
+        state.modals.signin.state = `loading`
         noScroll.off()
       }
-      state.modals.session.active = value
+      state.modals.signin.active = value
     },
-    setModalSessionState(state, value) {
-      state.modals.session.state = value
+    setSignInModalState(state, value) {
+      state.modals.signin.state = value
     },
     setActiveMenu(state, value) {
       state.activeMenu = value
@@ -162,7 +162,7 @@ export default ({}) => {
       })
       commit(`setUserAddress`, accountAddress)
       dispatch(`loadPersistedState`)
-      commit(`setModalSession`, false)
+      commit(`toggleSignInModal`, false)
       await dispatch(`getStakingParameters`)
       await dispatch(`getGovParameters`)
       dispatch(`loadErrorCollection`, accountAddress)

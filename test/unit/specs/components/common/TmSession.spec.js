@@ -36,32 +36,32 @@ describe(`TmSessionWelcome`, () => {
   })
 
   it(`should show a welcome screen if selected`, () => {
-    wrapper.vm.session.modals.session.state = `welcome`
+    wrapper.vm.session.modals.signin.state = `welcome`
     expect(wrapper.contains(`session-welcome-stub`)).toBe(true)
   })
 
   it(`should show a signup screen if selected`, () => {
-    wrapper.vm.session.modals.session.state = `sign-up`
+    wrapper.vm.session.modals.signin.state = `sign-up`
     expect(wrapper.contains(`session-sign-up-stub`)).toBe(true)
   })
 
   it(`should show a signin screen if selected`, () => {
-    wrapper.vm.session.modals.session.state = `sign-in`
+    wrapper.vm.session.modals.signin.state = `sign-in`
     expect(wrapper.contains(`session-sign-in-stub`)).toBe(true)
   })
 
   it(`should show a hardware signin screen if selected`, () => {
-    wrapper.vm.session.modals.session.state = `hardware`
+    wrapper.vm.session.modals.signin.state = `hardware`
     expect(wrapper.contains(`session-hardware-stub`)).toBe(true)
   })
 
   it(`should show a import screen if selected`, () => {
-    wrapper.vm.session.modals.session.state = `import`
+    wrapper.vm.session.modals.signin.state = `import`
     expect(wrapper.contains(`session-import-stub`)).toBe(true)
   })
 
   it(`should show a import screen if selected`, () => {
-    wrapper.vm.session.modals.session.state = `delete`
+    wrapper.vm.session.modals.signin.state = `delete`
     expect(wrapper.contains(`session-account-delete-stub`)).toBe(true)
   })
 

@@ -39,7 +39,7 @@ export default {
       this.$store.commit(`setModalHelp`, true)
     },
     setState(value) {
-      this.$store.commit(`setModalSessionState`, value)
+      this.$store.commit(`setSignInModalState`, value)
     },
     setStatus(value) {
       this.status = value

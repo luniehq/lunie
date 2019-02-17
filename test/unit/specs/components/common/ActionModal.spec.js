@@ -90,10 +90,10 @@ describe(`ActionModal`, () => {
     const self = { $store }
     ActionModal.methods.goToSession.call(self)
     expect($store.commit).toHaveBeenCalledWith(
-      `setModalSessionState`,
+      `setSignInModalState`,
       `welcome`
     )
-    expect($store.commit).toHaveBeenCalledWith(`setModalSession`, true)
+    expect($store.commit).toHaveBeenCalledWith(`toggleSignInModal`, true)
   })
 
   describe(`close modal`, () => {

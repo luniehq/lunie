@@ -196,7 +196,7 @@ export default {
       this.$store.commit(`setModalHelp`, true)
     },
     setState(value) {
-      this.$store.commit(`setModalSessionState`, value)
+      this.$store.commit(`setSignInModalState`, value)
     },
     async onSubmit() {
       this.$v.$touch()
@@ -211,7 +211,7 @@ export default {
           account: this.fields.signUpName,
           optin: this.fields.errorCollection
         })
-        this.$store.commit(`setModalSession`, false)
+        this.$store.commit(`toggleSignInModal`, false)
         this.$store.commit(`notify`, {
           title: `Signed Up`,
           body: `Your account has been created.`

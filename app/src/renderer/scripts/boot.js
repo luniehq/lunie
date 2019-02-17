@@ -35,8 +35,8 @@ export const routeGuard = store => (to, from, next) => {
     to.matched.some(record => record.meta.requiresAuth)
   ) {
     // redirect to session page if auth required
-    store.commit(`setModalSessionState`, `welcome`)
-    store.commit(`setModalSession`, true)
+    store.commit(`setSignInModalState`, `welcome`)
+    store.commit(`toggleSignInModal`, true)
   }
   next()
 }

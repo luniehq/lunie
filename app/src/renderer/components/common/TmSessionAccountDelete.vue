@@ -93,7 +93,7 @@ export default {
       this.$store.commit(`setModalHelp`, true)
     },
     setState(value) {
-      this.$store.commit(`setModalSessionState`, value)
+      this.$store.commit(`setSignInModalState`, value)
     },
     async onSubmit() {
       this.$v.$touch()

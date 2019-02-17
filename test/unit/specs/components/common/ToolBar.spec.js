@@ -31,10 +31,10 @@ describe(`ToolBar`, () => {
     const self = { $store }
     ToolBar.methods.signIn.call(self)
     expect($store.commit).toHaveBeenCalledWith(
-      `setModalSessionState`,
+      `setSignInModalState`,
       `welcome`
     )
-    expect($store.commit).toHaveBeenCalledWith(`setModalSession`, true)
+    expect($store.commit).toHaveBeenCalledWith(`toggleSignInModal`, true)
   })
 
   it(`check if search should be Enabled`, () => {

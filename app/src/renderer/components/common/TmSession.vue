@@ -1,14 +1,14 @@
 <template>
   <div class="tm-session-wrapper">
-    <session-loading v-if="session.modals.session.state == 'loading'" />
-    <session-welcome v-else-if="session.modals.session.state == 'welcome'" />
-    <session-sign-up v-else-if="session.modals.session.state == 'sign-up'" />
-    <session-sign-in v-else-if="session.modals.session.state == 'sign-in'" />
+    <session-loading v-if="session.modals.signin.state == 'loading'" />
+    <session-welcome v-else-if="session.modals.signin.state == 'welcome'" />
+    <session-sign-up v-else-if="session.modals.signin.state == 'sign-up'" />
+    <session-sign-in v-else-if="session.modals.signin.state == 'sign-in'" />
     <session-account-delete
-      v-else-if="session.modals.session.state == 'delete'"
+      v-else-if="session.modals.signin.state == 'delete'"
     />
-    <session-hardware v-else-if="session.modals.session.state == 'hardware'" />
-    <session-import v-else-if="session.modals.session.state == 'import'" />
+    <session-hardware v-else-if="session.modals.signin.state == 'hardware'" />
+    <session-import v-else-if="session.modals.signin.state == 'import'" />
     <connected-network />
   </div>
 </template>

@@ -2,7 +2,7 @@
   <div id="app">
     <div v-if="session.devMode" id="develop-mode-warning">DEVELOPMENT MODE</div>
     <modal-help />
-    <session v-if="session.modals.session.active" />
+    <session v-if="session.modals.signin.active" />
     <onboarding v-else-if="onboarding.active" />
     <template v-else>
       <app-header />

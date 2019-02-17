@@ -81,8 +81,8 @@ export default {
       this.$store.commit(`setModalHelp`, true)
     },
     signIn() {
-      this.$store.commit(`setModalSessionState`, `welcome`)
-      this.$store.commit(`setModalSession`, true)
+      this.$store.commit(`setSignInModalState`, `welcome`)
+      this.$store.commit(`toggleSignInModal`, true)
     },
     signOut() {
       this.$store.dispatch(`signOut`)

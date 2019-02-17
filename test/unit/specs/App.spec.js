@@ -215,8 +215,8 @@ describe(`App Start`, () => {
       const guard = routeGuard(store)
       // from.fullPath !== to.fullPath && !store.getters.user.pauseHistory
       guard(to, { fullPath: `/` }, next)
-      expect(commit).toHaveBeenCalledWith(`setModalSessionState`, `welcome`)
-      expect(commit).toHaveBeenCalledWith(`setModalSession`, true)
+      expect(commit).toHaveBeenCalledWith(`setSignInModalState`, `welcome`)
+      expect(commit).toHaveBeenCalledWith(`toggleSignInModal`, true)
     })
   })
 })

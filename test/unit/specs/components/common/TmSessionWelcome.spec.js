@@ -50,9 +50,9 @@ describe(`TmSessionWelcome`, () => {
           }
         }
         TmSessionWelcome.methods.closeSession.call(self)
-        expect($store.commit).toHaveBeenCalledWith(`setModalSession`, false)
+        expect($store.commit).toHaveBeenCalledWith(`toggleSignInModal`, false)
         expect($store.commit).toHaveBeenCalledWith(
-          `setModalSessionState`,
+          `setSignInModalState`,
           false
         )
         expect(self.back).not.toHaveBeenCalled()
@@ -70,9 +70,9 @@ describe(`TmSessionWelcome`, () => {
           }
         }
         TmSessionWelcome.methods.closeSession.call(self)
-        expect($store.commit).toHaveBeenCalledWith(`setModalSession`, false)
+        expect($store.commit).toHaveBeenCalledWith(`toggleSignInModal`, false)
         expect($store.commit).toHaveBeenCalledWith(
-          `setModalSessionState`,
+          `setSignInModalState`,
           false
         )
         expect(self.back).toHaveBeenCalled()
@@ -139,7 +139,7 @@ describe(`TmSessionWelcome`, () => {
 
     it(`sets desired login method`, () => {
       wrapper.findAll(LiSession).trigger(`click`)
-      expect(store.commit.mock.calls[0][0]).toBe(`setModalSessionState`)
+      expect(store.commit.mock.calls[0][0]).toBe(`setSignInModalState`)
       expect(store.commit.mock.calls.map(args => args[1])).toEqual([
         `sign-in`,
         `sign-up`,

@@ -52,7 +52,7 @@ describe(`TmSessionSignIn`, () => {
       }
     })
     await wrapper.vm.onSubmit()
-    expect($store.commit).toHaveBeenCalledWith(`setModalSession`, false)
+    expect($store.commit).toHaveBeenCalledWith(`toggleSignInModal`, false)
   })
 
   it(`should signal signedin state on successful login`, async () => {
