@@ -1,3 +1,6 @@
 {
-  extends: "stylelint-config-recommended"
+  extends: "stylelint-config-standard",
+  color-no-invalid-hex: true,
+  font-family-no-duplicate-names: true,
+  font-family-no-missing-generic-family-keyword: true
 }
