@@ -28,8 +28,7 @@ export default {
   },
   data() {
     return {
-      num,
-      tabIndex: 1
+      num
     }
   },
   computed: {
