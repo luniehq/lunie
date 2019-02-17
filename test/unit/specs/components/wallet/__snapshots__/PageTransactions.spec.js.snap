@@ -89,10 +89,6 @@ exports[`PageTransactions has the expected html structure if user has signed in 
               </div>
             </div>
              
-            <div
-              class="tabs"
-            />
-             
           </div>
            
           <div
@@ -489,10 +485,6 @@ exports[`PageTransactions should filter the transactions 1`] = `
                 </span>
               </div>
             </div>
-             
-            <div
-              class="tabs"
-            />
              
           </div>
            

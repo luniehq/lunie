@@ -89,10 +89,6 @@ exports[`PageProposal has the expected html structure if user has signed in 1`] 
               </div>
             </div>
              
-            <div
-              class="tabs"
-            />
-             
           </div>
            
           <div
@@ -464,10 +460,6 @@ exports[`PageProposal has the expected html structure if user hasn't signed in 1
               </div>
             </div>
              
-            <div
-              class="tabs"
-            />
-             
           </div>
            
           <div
@@ -835,10 +827,6 @@ exports[`PageProposal has the expected html structure when voting is open 1`] = 
                 </span>
               </div>
             </div>
-             
-            <div
-              class="tabs"
-            />
              
           </div>
            
@@ -1210,10 +1198,6 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
                 </span>
               </div>
             </div>
-             
-            <div
-              class="tabs"
-            />
              
           </div>
            
