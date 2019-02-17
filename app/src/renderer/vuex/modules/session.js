@@ -123,8 +123,8 @@ export default ({}) => {
         state.loading = false
       }
     },
-    async testLogin({}, { password, account }) {
-      return await testPassword(account, password)
+    async testLogin({}, { password, localKeyName }) {
+      return await testPassword(localKeyName, password)
     },
     createSeed() {
       return state.externals.generateSeed()
@@ -169,7 +169,7 @@ export default ({}) => {
       await dispatch(`initializeWallet`, { address: accountAddress })
     },
     signOut({ state, commit, dispatch }) {
-      state.account = null
+      state.localKeyName = null
       commit(`setLedgerConnection`, false)
       commit(`setCosmosAppVersion`, {})
       dispatch(`resetSessionData`)
@@ -178,7 +178,7 @@ export default ({}) => {
     },
     resetSessionData({ commit, state }) {
       state.history = []
-      state.account = null
+      state.localKeyName = null
       commit(`setUserAddress`, null)
     },
     loadErrorCollection({ state, dispatch }, address) {

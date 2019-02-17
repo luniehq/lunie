@@ -115,6 +115,16 @@ describe(`Module: Session`, () => {
     })
   })
 
+  it(`should clear all session related data`, () => {
+    state.history = [`x`]
+    state.localKeyName = `abc`
+    const commit = jest.fn()
+    actions.resetSessionData({ state, commit })
+
+    expect(state.history).toEqual([])
+    expect(state.localKeyName).toBeFalsy()
+  })
+
   it(`should prepare the signin`, async () => {
     const dispatch = jest.fn()
     state.accounts = [{}]
@@ -225,7 +235,7 @@ describe(`Module: Session`, () => {
     expect(dispatch).toHaveBeenCalledWith(`resetSessionData`)
     expect(commit).toHaveBeenCalledWith(`addHistory`, `/`)
     expect(commit).toHaveBeenCalledWith(`setSignIn`, false)
-    expect(state.account).toBeNull()
+    expect(state.localKeyName).toBeNull()
   })
 
   it(`should enable error collection`, async () => {
