@@ -98,7 +98,13 @@ describe(`Module: Ledger`, () => {
           }
         }
         commit = jest.fn()
-        dispatch = jest.fn()
+        dispatch = jest.fn(() => {
+          state.cosmosAppVersion = {
+            major: `0`,
+            minor: `1`,
+            patch: `0`
+          }
+        })
       })
 
       describe(`connect ledger`, () => {
@@ -123,13 +129,13 @@ describe(`Module: Ledger`, () => {
         })
 
         it(`fails if one of the function throws`, async () => {
-          dispatch = jest.fn(async () => Promise.reject(`error`))
+          dispatch = jest.fn(async () => Promise.reject(new Error(`error`)))
           await actions.connectLedgerApp({ commit, dispatch, state })
           expect(commit).toHaveBeenCalledWith(`notifyError`, {
             title: `Error connecting to Ledger Nano S`,
             body: `error`
           })
-          expect(commit).toHaveBeenCalledWith(`setLedgerError`, `error`)
+          expect(commit).toHaveBeenCalledWith(`setLedgerError`, Error(`error`))
         })
       })
 
@@ -156,8 +162,8 @@ describe(`Module: Ledger`, () => {
             patch: undefined,
             test_mode: false
           }
-          state.cosmosApp.get_version = jest.fn(() =>
-            Promise.reject(`Execution Error`)
+          state.cosmosApp.get_version = jest.fn(async () =>
+            Promise.reject(new Error(`Execution Error`))
           )
           await actions.getLedgerCosmosVersion({ commit, dispatch, state })
           expect(commit).not.toHaveBeenCalledWith(
@@ -166,7 +172,7 @@ describe(`Module: Ledger`, () => {
           )
           expect(commit).toHaveBeenCalledWith(
             `setLedgerError`,
-            `Execution Error`
+            Error(`Execution Error`)
           )
         })
       })
@@ -184,14 +190,15 @@ describe(`Module: Ledger`, () => {
 
         it(`sets an error on failure`, async () => {
           const pubKey = Buffer.from([1])
-          state.cosmosApp.publicKey = jest.fn(() =>
-            Promise.reject(`Bad Key handle`)
-          )
+          state.cosmosApp.publicKey = () =>
+            Promise.resolve({
+              error_message: `Bad key handle`
+            })
           await actions.getLedgerPubKey({ commit, dispatch, state })
           expect(commit).not.toHaveBeenCalledWith(`setLedgerPubKey`, pubKey)
           expect(commit).toHaveBeenCalledWith(
             `setLedgerError`,
-            `Bad Key handle`
+            Error(`Bad key handle`)
           )
         })
       })
@@ -213,9 +220,10 @@ describe(`Module: Ledger`, () => {
 
         it(`fails if message is not JSON`, async () => {
           const msg = `{"account_number": 1,"chain_id": "some_chain","fee": {"amount": [{"amount": 10, "denom": "DEN"}],"gas": 5},"memo": "MEMO","msgs": ["SOMETHING"],"sequence": 3}`
-          state.cosmosApp.sign = jest.fn(async () =>
-            Promise.reject(`Bad key handle`)
-          )
+          state.cosmosApp.sign = () =>
+            Promise.resolve({
+              error_message: `Bad key handle`
+            })
           const resSignature = await actions.signWithLedger(
             { commit, dispatch, state },
             msg
@@ -223,7 +231,7 @@ describe(`Module: Ledger`, () => {
           expect(resSignature).toBeUndefined()
           expect(commit).toHaveBeenCalledWith(
             `setLedgerError`,
-            `Bad key handle`
+            Error(`Bad key handle`)
           )
         })
       })
