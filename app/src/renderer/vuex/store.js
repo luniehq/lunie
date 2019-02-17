@@ -65,7 +65,7 @@ export function storeUpdateHandler(mutation, state, pending) {
   if (updatingMutations.indexOf(mutation.type) === -1) return
 
   // if the user is logged in cache the balances and the tx-history for that user
-  if (!state.user.address) return
+  if (!state.session.address) return
 
   // throttle updates so we don't write to disk on every mutation
   // pending is the last updates setTimeout

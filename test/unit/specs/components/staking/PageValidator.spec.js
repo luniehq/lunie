@@ -24,7 +24,7 @@ const validator = Object.assign({}, lcdClientMock.state.candidates[0], {
 const validatorTo = lcdClientMock.state.candidates[1]
 
 const getterValues = {
-  config: { desktop: false },
+  session: { desktop: false },
   delegates: {
     delegates: [validator, validatorTo],
     globalPower: 4200
@@ -125,7 +125,7 @@ describe(`PageValidator`, () => {
   it(`shows an error if the validator couldn't be found`, () => {
     const instance = mount(PageValidator, {
       getters: {
-        config: () => ({ desktop: false }),
+        session: () => ({ desktop: false }),
         delegates: () => ({
           delegates: []
         }),

@@ -14,7 +14,7 @@ describe(`TmSessionSignIn`, () => {
       dispatch: jest.fn(() => true),
       getters: {
         connected: true,
-        user: {
+        session: {
           accounts: []
         },
         mockedConnector: false
@@ -65,7 +65,7 @@ describe(`TmSessionSignIn`, () => {
     await wrapper.vm.onSubmit()
     expect($store.dispatch).toHaveBeenCalledWith(`signIn`, {
       password: `1234567890`,
-      account: `default`
+      localKeyName: `default`
     })
   })
 

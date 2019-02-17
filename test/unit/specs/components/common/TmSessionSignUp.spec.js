@@ -92,7 +92,7 @@ describe(`SessionSignUp`, () => {
     expect(commit).toHaveBeenCalledWith(`notify`, expect.any(Object))
     expect(dispatch).toHaveBeenCalledWith(`signIn`, {
       password: `1234567890`,
-      account: `testaccount`
+      localKeyName: `testaccount`
     })
   })
 

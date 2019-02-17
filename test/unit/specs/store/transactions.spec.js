@@ -5,7 +5,7 @@ const mockRootState = {
   connection: {
     connected: true
   },
-  user: {
+  session: {
     address: `default`,
     signedIn: true
   }
@@ -98,7 +98,7 @@ describe(`Module: Transactions`, () => {
       await actions.reconnected({
         state: { loading: true },
         dispatch,
-        rootState: { user: { signedIn: true } }
+        rootState: { session: { signedIn: true } }
       })
       expect(dispatch).toHaveBeenCalledWith(`getAllTxs`)
     })
@@ -108,7 +108,7 @@ describe(`Module: Transactions`, () => {
       await actions.reconnected({
         state: { loading: false },
         dispatch,
-        rootState: { user: { signedIn: true } }
+        rootState: { session: { signedIn: true } }
       })
       expect(dispatch).not.toHaveBeenCalledWith(`getAllTxs`)
     })
@@ -118,7 +118,7 @@ describe(`Module: Transactions`, () => {
       await actions.reconnected({
         state: { loading: true },
         dispatch,
-        rootState: { user: { signedIn: false } }
+        rootState: { session: { signedIn: false } }
       })
       expect(dispatch).not.toHaveBeenCalledWith(`getAllTxs`)
     })

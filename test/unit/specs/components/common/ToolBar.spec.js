@@ -16,7 +16,7 @@ describe(`ToolBar`, () => {
 
   it(`sets the helper modal`, () => {
     wrapper.vm.enableModalHelp()
-    expect(store.state.config.modals.help.active).toBe(true)
+    expect(store.state.session.modals.help.active).toBe(true)
   })
 
   it(`call dispatch to sign the user out`, () => {

@@ -1,6 +1,6 @@
-import userModule from "renderer/vuex/modules/user.js"
+import sessionModule from "renderer/vuex/modules/session.js"
 
-describe(`Module: User`, () => {
+describe(`Module: Session`, () => {
   let module, state, actions, mutations, node
   const accounts = [
     {
@@ -11,7 +11,7 @@ describe(`Module: User`, () => {
 
   beforeEach(() => {
     node = {}
-    module = userModule({ node })
+    module = sessionModule({ node })
     state = module.state
     actions = module.actions
     mutations = module.mutations
@@ -45,7 +45,7 @@ describe(`Module: User`, () => {
 
   it(`should default to signed out state`, () => {
     expect(state.signedIn).toBe(false)
-    expect(state.account).toBe(null)
+    expect(state.localKeyName).toBe(null)
     expect(state.address).toBe(null)
   })
 
@@ -80,8 +80,8 @@ describe(`Module: User`, () => {
       }
     }))
 
-    const userModule = require(`renderer/vuex/modules/user.js`).default
-    module = userModule({ node })
+    const sessionModule = require(`renderer/vuex/modules/session.js`).default
+    module = sessionModule({ node })
     state = module.state
     actions = module.actions
 
@@ -112,8 +112,8 @@ describe(`Module: User`, () => {
         .mockReturnValueOnce(false)
     }))
 
-    const userModule = require(`renderer/vuex/modules/user.js`).default
-    module = userModule({ node })
+    const sessionModule = require(`renderer/vuex/modules/session.js`).default
+    module = sessionModule({ node })
     state = module.state
     actions = module.actions
 
@@ -160,10 +160,10 @@ describe(`Module: User`, () => {
 
   describe(`Signs in`, () => {
     it(`with local keystore`, async () => {
-      const account = `def`
+      const localKeyName = `def`
       const commit = jest.fn()
       const dispatch = jest.fn()
-      await actions.signIn({ state, commit, dispatch }, { account })
+      await actions.signIn({ state, commit, dispatch }, { localKeyName })
       expect(commit).toHaveBeenCalledWith(
         `setUserAddress`,
         `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
@@ -214,7 +214,7 @@ describe(`Module: User`, () => {
         state,
         commit
       },
-      { account: `abc`, optin: true }
+      { address: `abc`, optin: true }
     )
 
     expect(state.errorCollection).toBe(true)
@@ -237,7 +237,7 @@ describe(`Module: User`, () => {
         state,
         commit
       },
-      { account: `abc`, optin: false }
+      { address: `abc`, optin: false }
     )
 
     expect(state.errorCollection).toBe(false)
@@ -286,7 +286,7 @@ describe(`Module: User`, () => {
     )
 
     expect(dispatch).toHaveBeenCalledWith(`setErrorCollection`, {
-      account: `abc`,
+      address: `abc`,
       optin: true
     })
 
@@ -303,7 +303,7 @@ describe(`Module: User`, () => {
     )
 
     expect(dispatch).toHaveBeenCalledWith(`setErrorCollection`, {
-      account: `abc`,
+      address: `abc`,
       optin: false
     })
   })

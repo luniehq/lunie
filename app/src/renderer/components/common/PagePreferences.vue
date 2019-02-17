@@ -60,7 +60,7 @@ export default {
   methods: {
     setErrorCollection({ $store } = this) {
       $store.dispatch(`setErrorCollection`, {
-        account: this.session.address,
+        address: this.session.address,
         optin: !this.session.errorCollection
       })
     },

@@ -65,7 +65,7 @@ describe(`TmSessionImport`, () => {
     expect(store.dispatch).toHaveBeenCalledWith(`signIn`, {
       errorCollection: undefined,
       sessionType: `local`,
-      account: `foo123`,
+      localKeyName: `foo123`,
       password: `1234567890`
     })
   })

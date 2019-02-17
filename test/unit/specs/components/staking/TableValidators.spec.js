@@ -21,7 +21,7 @@ describe(`TableValidators`, () => {
     })
     wrapper = instance.wrapper
     store = instance.store
-    store.state.user.address = `address1234`
+    store.state.session.address = `address1234`
     store.commit(`updateWalletBalance`, {
       denom: `atom`,
       amount: 1337

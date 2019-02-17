@@ -9,7 +9,7 @@
     />
     <session-hardware v-else-if="session.modals.session.state == 'hardware'" />
     <session-import v-else-if="session.modals.session.state == 'import'" />
-    <connected-network v-else-if="session.modals.session.state" />
+    <connected-network />
   </div>
 </template>
 

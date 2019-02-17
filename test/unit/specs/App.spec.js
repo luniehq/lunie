@@ -125,8 +125,8 @@ describe(`App Start`, () => {
       const commit = jest.fn()
       const store = {
         commit,
-        state: { user: { pauseHistory: true, signedIn: false } },
-        getters: { user: { pauseHistory: true, signedIn: false } }
+        state: { session: { pauseHistory: true, signedIn: false } },
+        getters: { session: { pauseHistory: true, signedIn: false } }
       }
       const next = jest.fn()
       const guard = routeGuard(store)
@@ -146,8 +146,8 @@ describe(`App Start`, () => {
       const commit = jest.fn()
       const store = {
         commit,
-        state: { user: { pauseHistory: false, signedIn: false } },
-        getters: { user: { pauseHistory: false, signedIn: false } }
+        state: { session: { pauseHistory: false, signedIn: false } },
+        getters: { session: { pauseHistory: false, signedIn: false } }
       }
       const next = jest.fn()
       const guard = routeGuard(store)
@@ -167,8 +167,8 @@ describe(`App Start`, () => {
       const commit = jest.fn()
       const store = {
         commit,
-        state: { user: { pauseHistory: false, signedIn: true } },
-        getters: { user: { pauseHistory: false, signedIn: true } }
+        state: { session: { pauseHistory: false, signedIn: true } },
+        getters: { session: { pauseHistory: false, signedIn: true } }
       }
       const next = jest.fn()
       const guard = routeGuard(store)
@@ -181,8 +181,8 @@ describe(`App Start`, () => {
       const commit = jest.fn()
       const store = {
         commit,
-        state: { user: { pauseHistory: false, signedIn: true } },
-        getters: { user: { pauseHistory: false, signedIn: true } }
+        state: { session: { pauseHistory: false, signedIn: true } },
+        getters: { session: { pauseHistory: false, signedIn: true } }
       }
       const to = {
         redirectedFrom: `/staking`,
@@ -201,8 +201,8 @@ describe(`App Start`, () => {
       const commit = jest.fn()
       const store = {
         commit,
-        state: { user: { pauseHistory: false, signedIn: false } },
-        getters: { user: { pauseHistory: false, signedIn: false } }
+        state: { session: { pauseHistory: false, signedIn: false } },
+        getters: { session: { pauseHistory: false, signedIn: false } }
       }
       const to = {
         redirectedFrom: ``,

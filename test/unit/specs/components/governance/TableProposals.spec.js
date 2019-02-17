@@ -20,7 +20,7 @@ describe(`TableProposals`, () => {
     const instance = mount(TableProposals, {
       doBefore: ({ store }) => {
         store.commit(`setConnected`, true)
-        store.state.user.address = `address1234`
+        store.state.session.address = `address1234`
         store.commit(`updateWalletBalance`, {
           denom: `atom`,
           amount: 1337
@@ -85,7 +85,7 @@ describe(`TableProposals`, () => {
     const { wrapper } = mount(TableProposals, {
       doBefore: ({ store }) => {
         store.commit(`setConnected`, true)
-        store.state.user.address = `address1234`
+        store.state.session.address = `address1234`
         store.commit(`updateWalletBalance`, {
           denom: `atom`,
           amount: 1337

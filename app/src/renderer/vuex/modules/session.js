@@ -181,13 +181,13 @@ export default ({}) => {
       state.account = null
       commit(`setUserAddress`, null)
     },
-    loadErrorCollection({ state, dispatch }, account) {
+    loadErrorCollection({ state, dispatch }, address) {
       const errorCollection =
-        localStorage.getItem(`${ERROR_COLLECTION_KEY}_${account}`) === `true`
+        localStorage.getItem(`${ERROR_COLLECTION_KEY}_${address}`) === `true`
       if (state.errorCollection !== errorCollection)
-        dispatch(`setErrorCollection`, { account, optin: errorCollection })
+        dispatch(`setErrorCollection`, { address, optin: errorCollection })
     },
-    setErrorCollection({ state, commit }, { account, optin }) {
+    setErrorCollection({ state, commit }, { address, optin }) {
       if (
         optin &&
         state.errorCollection === false &&
@@ -200,7 +200,7 @@ export default ({}) => {
       }
       state.errorCollection = state.externals.config.development ? false : optin
       localStorage.setItem(
-        `${ERROR_COLLECTION_KEY}_${account}`,
+        `${ERROR_COLLECTION_KEY}_${address}`,
         state.errorCollection
       )
 

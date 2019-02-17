@@ -15,7 +15,7 @@ describe(`ActionModal`, () => {
       getters: {
         connected: true,
         ledger: { isConnected: false },
-        user: { signedIn: true }
+        session: { signedIn: true }
       }
     }
 
@@ -44,7 +44,7 @@ describe(`ActionModal`, () => {
           getters: {
             connected: true,
             ledger: { isConnected: true },
-            user: { signedIn: true }
+            session: { signedIn: true }
           }
         }
         wrapper = shallowMount(ActionModal, {
@@ -70,7 +70,7 @@ describe(`ActionModal`, () => {
       })
     })
     it(`when user hasn't logged in`, async () => {
-      wrapper.vm.user.signedIn = false
+      wrapper.vm.session.signedIn = false
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.$el).toMatchSnapshot()
     })

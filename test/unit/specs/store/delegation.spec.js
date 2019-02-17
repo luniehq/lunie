@@ -8,7 +8,7 @@ const mockRootState = {
   connection: {
     connected: true
   },
-  user: {
+  session: {
     address: `cosmos1234`,
     signedIn: true
   },
@@ -253,7 +253,7 @@ describe(`Module: Delegations`, () => {
       await actions.reconnected({
         state: { loading: true },
         dispatch,
-        rootState: { user: { signedIn: true } }
+        rootState: { session: { signedIn: true } }
       })
       expect(dispatch).toHaveBeenCalledWith(`getBondedDelegates`)
     })
@@ -263,7 +263,7 @@ describe(`Module: Delegations`, () => {
       await actions.reconnected({
         state: { loading: false },
         dispatch,
-        rootState: { user: { signedIn: true } }
+        rootState: { session: { signedIn: true } }
       })
       expect(dispatch).not.toHaveBeenCalledWith(`getBondedDelegates`)
     })
@@ -273,7 +273,7 @@ describe(`Module: Delegations`, () => {
       await actions.reconnected({
         state: { loading: true },
         dispatch,
-        rootState: { user: { signedIn: false } }
+        rootState: { session: { signedIn: false } }
       })
       expect(dispatch).not.toHaveBeenCalledWith(`getBondedDelegates`)
     })

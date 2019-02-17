@@ -9,7 +9,7 @@ describe(`AppHeader`, () => {
       commit: jest.fn(),
       dispatch: jest.fn(),
       getters: {
-        config: {
+        session: {
           desktop: true,
           activeMenu: `app`
         }
@@ -31,7 +31,7 @@ describe(`AppHeader`, () => {
       commit: jest.fn(),
       dispatch: jest.fn(),
       getters: {
-        config: {
+        session: {
           desktop: true,
           activeMenu: ``
         }
@@ -53,7 +53,7 @@ describe(`AppHeader`, () => {
       commit: jest.fn(),
       dispatch: jest.fn(),
       getters: {
-        config: {
+        session: {
           desktop: false,
           activeMenu: `app`
         }
@@ -75,7 +75,7 @@ describe(`AppHeader`, () => {
       commit: jest.fn(),
       dispatch: jest.fn(),
       getters: {
-        config: {
+        session: {
           desktop: false,
           activeMenu: ``
         }
@@ -97,7 +97,7 @@ describe(`AppHeader`, () => {
       commit: jest.fn(),
       dispatch: jest.fn(),
       getters: {
-        config: {
+        session: {
           desktop: false,
           activeMenu: ``
         }
@@ -122,7 +122,7 @@ describe(`AppHeader`, () => {
       commit: jest.fn(),
       dispatch: jest.fn(),
       getters: {
-        config: {
+        session: {
           desktop: false,
           activeMenu: `app`
         }
@@ -148,7 +148,7 @@ describe(`AppHeader`, () => {
         commit: jest.fn(),
         dispatch: jest.fn(),
         getters: {
-          config: {
+          session: {
             desktop: false,
             activeMenu: `app`
           }
@@ -173,7 +173,7 @@ describe(`AppHeader`, () => {
         commit: jest.fn(),
         dispatch: jest.fn(),
         getters: {
-          config: {
+          session: {
             desktop: false,
             activeMenu: ``
           }
