@@ -14,18 +14,6 @@
       </div>
     </div>
     <short-bech32 :address="user.address || ''" />
-    <div class="tabs">
-      <div
-        v-for="tab in tabs"
-        :key="tab.pathName"
-        :class="{ 'tab-selected': $route.name === tab.pathName }"
-        class="tab"
-      >
-        <router-link :to="{ name: tab.pathName }">{{
-          tab.displayName
-        }}</router-link>
-      </div>
-    </div>
     <slot />
   </div>
 </template>
@@ -37,12 +25,6 @@ export default {
   name: `tm-balance`,
   components: {
     ShortBech32
-  },
-  props: {
-    tabs: {
-      type: Array,
-      default: () => []
-    }
   },
   data() {
     return {
@@ -74,6 +56,10 @@ export default {
 .header-balance .top {
   display: flex;
   flex-direction: row;
+}
+
+.top-section {
+  padding: 0 2rem;
 }
 
 .header-balance .top > .top-section {
@@ -123,42 +109,6 @@ export default {
 
 .header-balance .short-bech32 {
   padding: 0.5rem 0 0.5rem 109px;
-}
-
-.top-section {
-  padding: 0 2rem;
-}
-
-.tabs {
-  display: flex;
-  margin-top: 2rem;
-}
-
-.tabs .tab {
-  cursor: pointer;
-  margin-right: 2rem;
-  letter-spacing: -1px;
-  font-size: 1rem;
-}
-
-.tabs .tab a {
-  color: var(--dim);
-  display: block;
-  font-weight: 500;
-  padding-bottom: 1rem;
-  padding-left: 0;
-}
-
-.tabs .tab a:hover {
-  color: var(--link);
-}
-
-.tabs .tab.tab-selected {
-  border-bottom: 2px solid var(--tertiary);
-}
-
-.tabs .tab.tab-selected a {
-  color: var(--bright);
 }
 
 .tm-btn {

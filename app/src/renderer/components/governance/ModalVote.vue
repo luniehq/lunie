@@ -151,10 +151,6 @@ export default {
   padding-left: 0.5rem;
 }
 
-.vote-options button.active span {
-  background: var(--tertiary);
-}
-
 .vote-options button {
   margin: 0;
   min-width: 49%;
@@ -162,5 +158,9 @@ export default {
 
 .vote-options button span {
   margin: 0.25rem;
+}
+
+.vote-options button.active span {
+  background: var(--tertiary);
 }
 </style>

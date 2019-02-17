@@ -360,7 +360,6 @@ textarea.tm-field {
   width: 2rem;
 }
 
-/* ============================================================================== */
 .input-group-addon {
   background: var(--input-bg, #fff);
   border: 1px solid var(--input-bc, #ccc);
@@ -377,38 +376,6 @@ textarea.tm-field {
   }
 }
 
-/* ============================================================================== */
-
-/* WebKit, Blink, Edge */
-.tm-field::-webkit-input-placeholder {
-  color: var(--dim, #666);
-}
-
-/* Mozilla Firefox 4 to 18 */
-.tm-field:-moz-placeholder {
-  color: var(--dim, #666);
-  opacity: 1;
-}
-
-/* Mozilla Firefox 19+ */
-.tm-field::-moz-placeholder {
-  color: var(--dim, #666);
-  opacity: 1;
-}
-
-/* Internet Explorer 10-11 */
-.tm-field:-ms-input-placeholder {
-  color: var(--dim, #666);
-}
-
-/* Standard (https//drafts.csswg.org/selectors-4/#placeholder) */
-.tm-field:placeholder-shown {
-  color: var(--dim, #666);
-}
-
-/* ============================================================================== */
-
-/* sizes */
 .tm-field.tm-field-size-sm {
   font-size: 0.75rem;
   height: 1.5rem;

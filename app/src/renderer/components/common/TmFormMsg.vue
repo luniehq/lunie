@@ -119,6 +119,7 @@ export default {
 
 .tm-form-msg::before {
   content: "";
+  /* stylelint-disable */
   font-family: "Material Icons";
   padding-right: 0.35rem;
 }

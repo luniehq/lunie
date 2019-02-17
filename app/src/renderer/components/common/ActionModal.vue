@@ -334,9 +334,6 @@ export default {
   bottom: 1rem;
 }
 
-/* Enter and leave animations can use different */
-
-/* durations and timing functions.              */
 .slide-fade-enter-active {
   transition: all 0.1s ease;
 }
@@ -346,8 +343,7 @@ export default {
 }
 
 .slide-fade-enter,
- .slide-fade-leave-to
-/* .slide-fade-leave-active below version 2.1.8 */ {
+.slide-fade-leave-to {
   transform: translateX(2rem);
   opacity: 0;
 }
