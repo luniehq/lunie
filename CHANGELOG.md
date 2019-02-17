@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+- Fix development warning overlaying the UI too much @faboweb
+
 ## [0.10003.4] - 2019-02-17
 
 ### Added
