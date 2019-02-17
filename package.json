@@ -19,8 +19,8 @@
     "build:gaia": "cd tasks/build/Gaia && ./localBuild.sh",
     "build:local": "node tasks/build/local/build",
     "build:ui": "cross-env NODE_ENV=production webpack --colors --config webpack.renderer.config.js --mode=production --profile --json > app/dist/build.stats.json",
-    "start": "yarn frontend & yarn backend skip-rebuild",
-    "start:new": "yarn frontend & yarn backend",
+    "start": "concurrently -k \"yarn frontend\" \"yarn backend\"",
+    "start:new": "concurrently -k \"yarn frontend\" \"yarn backend:new\"",
     "doc": "jsdoc -r -c jsdoc.json",
     "lint": "yarn lint:eslint && yarn lint:format",
     "lint:eslint": "eslint -f ./node_modules/eslint-friendly-formatter \"{,**/}*.{js,vue}\"",
@@ -41,8 +41,9 @@
     "stargate": "./builds/Gaia/darwin_amd64/gaiacli rest-server --laddr 'tcp://localhost:9070' --home './builds/testnets/local-testnet/cli_home' --node 'http://localhost:26657' --chain-id 'local-testnet' --trust-node true",
     "frontend": "cross-env NODE_ENV=development webpack-dev-server --hot --colors --config webpack.renderer.config.js --port 9080 --content-base app/dist --https --mode=development",
     "frontend:fixed-https": "yarn frontend --cert 'server_dev.crt' --key 'server_dev.key'",
-    "backend": "yarn stargate & yarn proxy & yarn nodes 2",
-    "backend:fixed-https": "yarn nodes 2 skip-rebuild & yarn stargate --ssl-certfile 'server_dev.crt' --ssl-keyfile 'server_dev.key'"
+    "backend:new": "concurrently -k \"yarn stargate\" \"yarn proxy\" \"yarn nodes 2\"",
+    "backend": "concurrently -k \"yarn stargate\" \"yarn proxy\" \"yarn nodes 2 skip-rebuild\"",
+    "backend:fixed-https": "concurrently -k \"yarn nodes 2 skip-rebuild\" \"yarn stargate --ssl-certfile 'server_dev.crt' --ssl-keyfile 'server_dev.key'\""
   },
   "devDependencies": {
     "@nodeguy/cli": "0.2.2",
