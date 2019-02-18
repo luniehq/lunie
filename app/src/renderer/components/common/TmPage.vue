@@ -81,7 +81,7 @@ export default {
       default: ``
     },
     error: {
-      type: Object | Error,
+      type: Object,
       default: undefined
     },
     tabs: {
