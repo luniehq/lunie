@@ -312,12 +312,12 @@ describe(`LCD Client Mock`, () => {
   })
 
   it(`queries for all candidates`, async () => {
-    const data = await client.getCandidates()
+    const data = await client.getValidators()
     expect(data.length).toBeGreaterThan(0)
   })
 
   it(`queries for one candidate`, async () => {
-    const validator = await client.getCandidate(lcdClientMock.validators[0])
+    const validator = await client.getValidator(lcdClientMock.validators[0])
     expect(validator).toBe(
       lcdClientMock.state.candidates.find(
         v => v.operator_address === lcdClientMock.validators[0]
@@ -326,7 +326,7 @@ describe(`LCD Client Mock`, () => {
   })
 
   it(`queries bondings per delegator`, async () => {
-    const res = await client.queryDelegation(
+    const res = await client.getDelegation(
       lcdClientMock.addresses[0],
       lcdClientMock.validators[0]
     )
@@ -334,7 +334,7 @@ describe(`LCD Client Mock`, () => {
   })
 
   it(`executes a delegate tx`, async () => {
-    const stake = await client.queryDelegation(
+    const stake = await client.getDelegation(
       lcdClientMock.addresses[0],
       lcdClientMock.validators[1]
     )
@@ -352,7 +352,7 @@ describe(`LCD Client Mock`, () => {
     expect(res.check_tx.log).toBe(``)
     expect(res.check_tx.code).toBe(0)
 
-    const updatedStake = await client.queryDelegation(
+    const updatedStake = await client.getDelegation(
       lcdClientMock.addresses[0],
       lcdClientMock.validators[1]
     )
@@ -372,7 +372,7 @@ describe(`LCD Client Mock`, () => {
     expect(res.check_tx.log).toBe(``)
     expect(res.check_tx.code).toBe(0)
 
-    const initialStake = await client.queryDelegation(
+    const initialStake = await client.getDelegation(
       lcdClientMock.addresses[0],
       lcdClientMock.validators[1]
     )
@@ -390,7 +390,7 @@ describe(`LCD Client Mock`, () => {
     expect(res.check_tx.log).toBe(``)
     expect(res.check_tx.code).toBe(0)
 
-    const updatedStake = await client.queryDelegation(
+    const updatedStake = await client.getDelegation(
       lcdClientMock.addresses[0],
       lcdClientMock.validators[1]
     )
@@ -634,7 +634,7 @@ describe(`LCD Client Mock`, () => {
       validator_addr: lcdClientMock.validators[0],
       shares: `100000000000`
     })
-    const undelegations = await client.queryUnbonding(
+    const undelegations = await client.getUnbondingDelegation(
       lcdClientMock.addresses[0],
       lcdClientMock.validators[0]
     )
@@ -652,7 +652,7 @@ describe(`LCD Client Mock`, () => {
       validator_addr: lcdClientMock.validators[0],
       shares: `100000000000`
     })
-    const undelegations = await client.queryUnbonding(
+    const undelegations = await client.getUnbondingDelegation(
       lcdClientMock.addresses[0],
       lcdClientMock.validators[0]
     )
@@ -708,7 +708,7 @@ describe(`LCD Client Mock`, () => {
   })
 
   it(`queries for validator signing information`, async () => {
-    const signing_info = await client.queryValidatorSigningInfo()
+    const signing_info = await client.getValidatorSigningInfo()
     expect(Object.keys(signing_info)).toContain(
       `start_height`,
       `index_offset`,
@@ -722,10 +722,8 @@ describe(`LCD Client Mock`, () => {
   describe(`Governance`, () => {
     describe(`Proposals`, () => {
       it(`fetches all governance proposals`, async () => {
-        const proposals = lcdClientMock.state.proposals
         const proposalsRes = await client.getProposals()
         expect(proposalsRes).toBeDefined()
-        expect(proposalsRes).toEqual(proposals)
       })
 
       it(`queries a single proposal`, async () => {
@@ -738,7 +736,7 @@ describe(`LCD Client Mock`, () => {
       describe(`fails to submit a proposal`, () => {
         it(`if the type is invalid`, async () => {
           const lenBefore = Object.keys(client.state.proposals).length
-          const res = await client.submitProposal({
+          const res = await client.postProposal({
             base_req: {
               name: `default`,
               sequence: 1
@@ -762,7 +760,7 @@ describe(`LCD Client Mock`, () => {
 
         it(`if the deposit is invalid for whatever reason`, async () => {
           const lenBefore = Object.keys(client.state.proposals).length
-          const res = await client.submitProposal({
+          const res = await client.postProposal({
             base_req: {
               name: `default`,
               sequence: 1
@@ -799,7 +797,7 @@ describe(`LCD Client Mock`, () => {
             description: `A description`,
             proposal_type: `Text`
           }
-          await client.submitProposal({
+          await client.postProposal({
             base_req: {
               name: `default`,
               sequence: 1
@@ -831,7 +829,7 @@ describe(`LCD Client Mock`, () => {
             description: `A description`,
             proposal_type: `ParameterChange`
           }
-          await client.submitProposal({
+          await client.postProposal({
             base_req: {
               name: `default`,
               sequence: 1
@@ -912,7 +910,7 @@ describe(`LCD Client Mock`, () => {
             address: lcdClientMock.addresses[1]
           })
 
-          const res = await client.submitProposalDeposit({
+          const res = await client.postProposalDeposit({
             base_req: {
               name: `nonexistent_account`,
               sequence: 1
@@ -932,7 +930,7 @@ describe(`LCD Client Mock`, () => {
         })
 
         it(`if sequence is invalid`, async () => {
-          const res = await client.submitProposalDeposit({
+          const res = await client.postProposalDeposit({
             base_req: {
               name: `default`,
               sequence: 0
@@ -952,7 +950,7 @@ describe(`LCD Client Mock`, () => {
         })
 
         it(`if proposal is invalid`, async () => {
-          const res = await client.submitProposalDeposit({
+          const res = await client.postProposalDeposit({
             base_req: {
               name: `default`,
               sequence: 1
@@ -972,7 +970,7 @@ describe(`LCD Client Mock`, () => {
         })
 
         it(`if proposal is inactive`, async () => {
-          const res = await client.submitProposalDeposit({
+          const res = await client.postProposalDeposit({
             base_req: {
               name: `default`,
               sequence: 1
@@ -992,7 +990,7 @@ describe(`LCD Client Mock`, () => {
         })
 
         it(`if amount is negative`, async () => {
-          const res = await client.submitProposalDeposit({
+          const res = await client.postProposalDeposit({
             base_req: {
               name: `default`,
               sequence: 1
@@ -1015,7 +1013,7 @@ describe(`LCD Client Mock`, () => {
 
         it(`if the user doesn't have enough balance`, async () => {
           // user doesn't have any balance of the coin
-          let res = await client.submitProposalDeposit({
+          let res = await client.postProposalDeposit({
             base_req: {
               name: `default`,
               sequence: 1
@@ -1036,7 +1034,7 @@ describe(`LCD Client Mock`, () => {
           )
 
           // user has not enough coins
-          res = await client.submitProposalDeposit({
+          res = await client.postProposalDeposit({
             base_req: {
               name: `default`,
               sequence: 1
@@ -1081,7 +1079,7 @@ describe(`LCD Client Mock`, () => {
             depositor: lcdClientMock.addresses[0]
           }
 
-          const res = await client.submitProposalDeposit({
+          const res = await client.postProposalDeposit({
             base_req: {
               name: `default`,
               sequence: 1
@@ -1139,7 +1137,7 @@ describe(`LCD Client Mock`, () => {
             parseInt(userDepositBefore.amount[0].amount) +
             parseInt(deposit.amount[0].amount)
 
-          const res = await client.submitProposalDeposit({
+          const res = await client.postProposalDeposit({
             base_req: {
               name: `default`,
               sequence: 1
@@ -1171,7 +1169,7 @@ describe(`LCD Client Mock`, () => {
     describe(`Votes`, () => {
       it(`queries a proposal votes`, async () => {
         const { votes } = lcdClientMock.state
-        const votesRes = await client.queryProposalVotes(`1`)
+        const votesRes = await client.getProposalVotes(`1`)
         expect(votesRes).toBeDefined()
         expect(votesRes).toEqual(votes[`1`])
       })
@@ -1191,7 +1189,7 @@ describe(`LCD Client Mock`, () => {
             address: lcdClientMock.addresses[1]
           })
 
-          const res = await client.submitProposalVote({
+          const res = await client.postProposalVote({
             base_req: {
               name: `nonexistent_account`,
               sequence: 1
@@ -1206,7 +1204,7 @@ describe(`LCD Client Mock`, () => {
         })
 
         it(`if sequence is invalid`, async () => {
-          const res = await client.submitProposalVote({
+          const res = await client.postProposalVote({
             base_req: {
               name: `default`,
               sequence: 0
@@ -1221,7 +1219,7 @@ describe(`LCD Client Mock`, () => {
         })
 
         it(`if proposal is invalid`, async () => {
-          const res = await client.submitProposalVote({
+          const res = await client.postProposalVote({
             base_req: {
               name: `default`,
               sequence: 1
@@ -1236,7 +1234,7 @@ describe(`LCD Client Mock`, () => {
         })
 
         it(`if proposal is inactive`, async () => {
-          const res = await client.submitProposalVote({
+          const res = await client.postProposalVote({
             base_req: {
               name: `default`,
               sequence: 1
@@ -1251,7 +1249,7 @@ describe(`LCD Client Mock`, () => {
         })
 
         it(`if the selected option is invalid`, async () => {
-          const res = await client.submitProposalVote({
+          const res = await client.postProposalVote({
             base_req: {
               name: `default`,
               sequence: 1
@@ -1272,7 +1270,7 @@ describe(`LCD Client Mock`, () => {
           const proposalBefore = await client.getProposal(`2`)
           const optionBefore = proposalBefore.final_tally_result[option]
 
-          await client.submitProposalVote({
+          await client.postProposalVote({
             base_req: {
               name: `default`,
               sequence: 1
