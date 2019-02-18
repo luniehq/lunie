@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.1] - 2019-02-18
+
 ### Fixed
 
 - [\#1958](https://github.com/cosmos/voyager/issues/1958) Kill all processes if one dies to not have dangling processes in development setups @faboweb
