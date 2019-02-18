@@ -49,7 +49,7 @@ export default () => {
       }
     },
     async pollLedgerDevice({ state }) {
-      // poke with low timeout to check if the device is connected
+      // poll device with low timeout to check if the device is connected
       const secondsTimeout = 2 // with less than 2 secs it always timeouts
       const communicationMethod = await state.externals.comm_u2f.create_async(
         secondsTimeout,
@@ -79,7 +79,6 @@ export default () => {
       let connectionMessage
       try {
         connectionMessage = await dispatch(`pollLedgerDevice`)
-        console.log(connectionMessage)
         if (!connectionMessage) {
           await dispatch(`createLedgerAppInstance`)
           await dispatch(`getLedgerCosmosVersion`)
