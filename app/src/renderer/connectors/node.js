@@ -1,6 +1,6 @@
 "use strict"
 
-const RestClient = require(`./lcdClient.js`)
+const RestClient = require(`./api.js`)
 const RpcWrapper = require(`./rpcWrapper.js`)
 
 module.exports = function(axios, stargateUrl, mocked = false) {

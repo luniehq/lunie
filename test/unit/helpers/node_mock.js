@@ -10,7 +10,7 @@ module.exports = {
   remoteLcdURL: `http://awesomenode.de:12345`,
   localLcdURL: `https://localhost:9876`,
   lcdConnected: () => Promise.resolve(true),
-  queryAccount: () => null,
+  getAccount: () => null,
   buildDelegate: () => Promise.resolve(null),
   buildUnbond: () => Promise.resolve(null),
   coinTxs: () => Promise.resolve([]),
