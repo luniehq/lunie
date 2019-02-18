@@ -558,7 +558,7 @@ describe(`API`, () => {
       })
     })
 
-    describe(`queryAccount`, () => {
+    describe(`getAccount`, () => {
       it(`returns an account`, async () => {
         axios.mockReturnValueOnce(
           Promise.resolve({

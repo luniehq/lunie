@@ -608,7 +608,7 @@ module.exports = {
   keys,
 
   // coins
-  async queryAccount(address) {
+  async getAccount(address) {
     return state.accounts[address]
   },
   async txs(address) {

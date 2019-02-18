@@ -144,7 +144,7 @@ describe(`LCD Client Mock`, () => {
   })
 
   it(`query and update the nonce`, async () => {
-    const { sequence } = await client.queryAccount(lcdClientMock.addresses[0])
+    const { sequence } = await client.getAccount(lcdClientMock.addresses[0])
     expect(sequence).toBe(`1`)
 
     const { address: toAddr } = await client.keys.add({
@@ -165,15 +165,15 @@ describe(`LCD Client Mock`, () => {
         }
       ]
     })
-    const account = await client.queryAccount(lcdClientMock.addresses[0])
+    const account = await client.getAccount(lcdClientMock.addresses[0])
     expect(account.sequence).toBe(`2`)
   })
 
   it(`queries an account`, async () => {
-    const data = await client.queryAccount(lcdClientMock.addresses[0])
+    const data = await client.getAccount(lcdClientMock.addresses[0])
     expect(data.coins.find(c => c.denom === `mycoin`).amount).toBe(`1000`)
 
-    const res = await client.queryAccount(`address_doesnt_exist`)
+    const res = await client.getAccount(`address_doesnt_exist`)
     expect(res).toBe(undefined)
   })
 
@@ -194,10 +194,10 @@ describe(`LCD Client Mock`, () => {
     })
     expect(res.check_tx.code).toBe(0)
 
-    const account = await client.queryAccount(lcdClientMock.addresses[0])
+    const account = await client.getAccount(lcdClientMock.addresses[0])
     expect(account.coins.find(c => c.denom === `mycoin`).amount).toBe(`950`)
 
-    const receiveAccount = await client.queryAccount(toAddr)
+    const receiveAccount = await client.getAccount(toAddr)
     expect(receiveAccount.coins.find(c => c.denom === `mycoin`).amount).toBe(
       `50`
     )
@@ -235,10 +235,10 @@ describe(`LCD Client Mock`, () => {
     })
     expect(res.check_tx.code).toBe(0)
 
-    const account = await client.queryAccount(lcdClientMock.addresses[0])
+    const account = await client.getAccount(lcdClientMock.addresses[0])
     expect(account.coins.find(c => c.denom === `mycoin`).amount).toBe(`900`)
 
-    const receiveAccount = await client.queryAccount(toAddr)
+    const receiveAccount = await client.getAccount(toAddr)
     expect(receiveAccount.coins.find(c => c.denom === `mycoin`).amount).toBe(
       `100`
     )
