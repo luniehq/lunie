@@ -21,7 +21,9 @@ exports[`TabParameters has the expected html structure 1`] = `
             <i
               class="material-icons info-button"
             >
+              
               info_outline
+            
             </i>
           </dt>
            
@@ -46,7 +48,9 @@ exports[`TabParameters has the expected html structure 1`] = `
             <i
               class="material-icons info-button"
             >
+              
               info_outline
+            
             </i>
           </dt>
            
@@ -79,7 +83,9 @@ exports[`TabParameters has the expected html structure 1`] = `
             <i
               class="material-icons info-button"
             >
+              
               info_outline
+            
             </i>
           </dt>
            
@@ -100,7 +106,9 @@ exports[`TabParameters has the expected html structure 1`] = `
             <i
               class="material-icons info-button"
             >
+              
               info_outline
+            
             </i>
           </dt>
            
@@ -125,7 +133,9 @@ exports[`TabParameters has the expected html structure 1`] = `
             <i
               class="material-icons info-button"
             >
+              
               info_outline
+            
             </i>
           </dt>
            
@@ -146,7 +156,9 @@ exports[`TabParameters has the expected html structure 1`] = `
             <i
               class="material-icons info-button"
             >
+              
               info_outline
+            
             </i>
           </dt>
            
@@ -179,7 +191,9 @@ exports[`TabParameters has the expected html structure 1`] = `
             <i
               class="material-icons info-button"
             >
+              
               info_outline
+            
             </i>
           </dt>
            

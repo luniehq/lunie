@@ -53,17 +53,11 @@
 import moment from "moment"
 import { mapGetters } from "vuex"
 import num from "scripts/num"
-import PanelSort from "staking/PanelSort"
-import ToolBar from "common/ToolBar"
-import TmBalance from "common/TmBalance"
 import TmDataError from "common/TmDataError"
 import TmPage from "common/TmPage"
 export default {
   name: `page-block`,
   components: {
-    PanelSort,
-    TmBalance,
-    ToolBar,
     TmDataError,
     TmPage
   },

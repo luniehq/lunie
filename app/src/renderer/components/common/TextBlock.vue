@@ -1,4 +1,6 @@
 <template>
+  <!-- TODO:SECURITY try to add a malicious block and see how is rendered, like <script>alert('danger')</script> -->
+  <!-- eslint-disable vue/no-v-html -->
   <div class="text-block" v-html="htmlContent" />
 </template>
 
@@ -25,10 +27,9 @@ export default {
 .text-block pre {
   white-space: pre-wrap /* Since CSS 2.1 */;
   white-space: -moz-pre-wrap /* Mozilla, since 1999 */;
-  white-space: -pre-wrap /* Opera 4-6 */;
   white-space: -o-pre-wrap /* Opera 7 */;
   word-wrap: break-word /* Internet Explorer 5.5+ */;
-  max-width: width-main -2rem;
+  max-width: calc(var(--width-main) - 2rem);
 }
 
 .text-block p {

@@ -164,20 +164,8 @@
 
 <script>
 import { mapGetters } from "vuex"
-import TmBtn from "common/TmBtn"
-import TmPage from "common/TmPage"
-import ToolBar from "common/ToolBar"
-import TmPart from "common/TmPart"
-import TmListItem from "common/TmListItem"
 export default {
   name: `tab-staking-parameters`,
-  components: {
-    TmBtn,
-    TmListItem,
-    TmPage,
-    TmPart,
-    ToolBar
-  },
   data: () => ({
     depositTooltips: {
       description: `Governance deposit parameters for the Cosmos Hub`,

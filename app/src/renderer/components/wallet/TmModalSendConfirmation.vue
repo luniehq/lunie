@@ -30,14 +30,12 @@
 </template>
 
 <script>
-import TmListItem from "common/TmListItem"
 import TmBtn from "common/TmBtn"
 import Modal from "common/TmModal"
 export default {
   name: `tm-modal-send-confirmation`,
   components: {
     TmBtn,
-    TmListItem,
     Modal
   },
   props: {

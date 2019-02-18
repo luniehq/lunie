@@ -191,8 +191,6 @@ import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
 import { percent, pretty } from "scripts/num"
 import TmBtn from "common/TmBtn"
-import TmListItem from "common/TmListItem"
-import TmPart from "common/TmPart"
 import ToolBar from "common/ToolBar"
 import TmModal from "common/TmModal"
 import TmDataError from "common/TmDataError"
@@ -210,9 +208,7 @@ export default {
     DelegationModal,
     UndelegationModal,
     TmBtn,
-    TmListItem,
     TmModal,
-    TmPart,
     ToolBar,
     TmDataError,
     TmBalance,

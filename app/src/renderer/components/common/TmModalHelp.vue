@@ -16,11 +16,9 @@
 <script>
 import { mapGetters } from "vuex"
 import Modal from "common/TmModal"
-import TmListItem from "common/TmListItem"
 export default {
   name: `tm-modal-help`,
   components: {
-    TmListItem,
     Modal
   },
   computed: {

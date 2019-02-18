@@ -46,7 +46,9 @@ exports[`PageTransactions has the expected html structure if user has signed in 
                 <h2
                   class="total-atoms__value"
                 >
-                  0.0000…
+                  
+        0.0000…
+      
                 </h2>
               </div>
                
@@ -447,7 +449,9 @@ exports[`PageTransactions should filter the transactions 1`] = `
                 <h2
                   class="total-atoms__value"
                 >
-                  0.0000…
+                  
+        0.0000…
+      
                 </h2>
               </div>
                

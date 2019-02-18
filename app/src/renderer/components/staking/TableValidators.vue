@@ -27,17 +27,13 @@ import Mousetrap from "mousetrap"
 import LiValidator from "staking/LiValidator"
 import DataEmptySearch from "common/TmDataEmptySearch"
 import { calculateTokens } from "scripts/common"
-import ModalSearch from "common/TmModalSearch"
 import PanelSort from "staking/PanelSort"
-import ToolBar from "common/ToolBar"
 export default {
   name: `table-validators`,
   components: {
     LiValidator,
     DataEmptySearch,
-    ModalSearch,
-    PanelSort,
-    ToolBar
+    PanelSort
   },
   props: {
     validators: {

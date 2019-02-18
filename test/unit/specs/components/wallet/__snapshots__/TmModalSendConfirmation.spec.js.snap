@@ -16,7 +16,9 @@ exports[`TmModalSendConfirmation disables the send confirmation if not connected
         class="tm-modal-title"
       >
         <div>
-          Confirm Your Transaction
+          
+    Confirm Your Transaction
+  
         </div>
       </div>
        
@@ -53,7 +55,9 @@ exports[`TmModalSendConfirmation disables the send confirmation if not connected
       <p
         class="warning"
       >
-        This transaction cannot be undone.
+        
+    This transaction cannot be undone.
+  
       </p>
         
       <footer
@@ -117,7 +121,9 @@ exports[`TmModalSendConfirmation has the expected html structure 1`] = `
         class="tm-modal-title"
       >
         <div>
-          Confirm Your Transaction
+          
+    Confirm Your Transaction
+  
         </div>
       </div>
        
@@ -154,7 +160,9 @@ exports[`TmModalSendConfirmation has the expected html structure 1`] = `
       <p
         class="warning"
       >
-        This transaction cannot be undone.
+        
+    This transaction cannot be undone.
+  
       </p>
         
       <footer

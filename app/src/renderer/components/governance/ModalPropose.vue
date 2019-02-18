@@ -102,8 +102,6 @@ import {
   integer
 } from "vuelidate/lib/validators"
 import { isEmpty, trim } from "lodash"
-import Modal from "common/TmModal"
-import TmBtn from "common/TmBtn"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
@@ -118,8 +116,6 @@ export default {
   name: `modal-propose`,
   components: {
     ActionModal,
-    Modal,
-    TmBtn,
     TmField,
     TmFormGroup,
     TmFormMsg

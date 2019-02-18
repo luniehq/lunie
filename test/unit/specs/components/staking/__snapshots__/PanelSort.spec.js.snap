@@ -10,6 +10,7 @@ exports[`PanelSort has the expected html structure 1`] = `
     <a
       class="sort-by-link"
     >
+      
       ID
       <i
         class="material-icons"
@@ -24,6 +25,7 @@ exports[`PanelSort has the expected html structure 1`] = `
     <a
       class="sort-by-link"
     >
+      
       AMOUNT
       <i
         class="material-icons"

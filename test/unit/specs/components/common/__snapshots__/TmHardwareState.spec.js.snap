@@ -7,13 +7,17 @@ exports[`TmHardwareState has the expected html structure 1`] = `
   <i
     class="tm-hardware-state__icon material-icons fa-spin"
   >
+    
     rotate_right
+  
   </i>
    
   <div
     class="tm-hardware-state__label"
   >
+    
     Detecting your Ledger Wallet
+  
   </div>
 </div>
 `;
