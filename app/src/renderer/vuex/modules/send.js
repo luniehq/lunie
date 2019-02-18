@@ -153,7 +153,7 @@ function assertOk(res) {
     return res.forEach(assertOk)
   }
 
-  if (!(res.height && res.txhash)) {
+  if (!res.txhash) {
     const message = res.message
     throw new Error(message)
   }
