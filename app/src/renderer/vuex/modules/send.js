@@ -99,8 +99,12 @@ export default ({ node }) => {
       const tx = generationRes.value
 
       let signature
-      if (rootState.ledger.isConnected && submitType === `ledger`) {
+      if (submitType === `ledger`) {
         // TODO: move to wallet script
+        const connectionError = await dispatch(`pollLedgerDevice`)
+        if (connectionError) {
+          throw Error(connectionError)
+        }
         const signMessage = state.externals.createSignMessage(
           tx,
           requestMetaData

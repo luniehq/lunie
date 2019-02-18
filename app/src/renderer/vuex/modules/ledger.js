@@ -48,24 +48,45 @@ export default () => {
         externals: state.externals
       }
     },
-    /* TODO: Create a function to detect ledger is connected (i.e unlocked with
-      password and on Home app) */
+    async pollLedgerDevice({ state }) {
+      // poke with low timeout to check if the device is connected
+      const secondsTimeout = 2 // with less than 2 secs it always timeouts
+      const communicationMethod = await state.externals.comm_u2f.create_async(
+        secondsTimeout,
+        true
+      )
+      const cosmosLedgerApp = new state.externals.App(communicationMethod)
+      const response = await cosmosLedgerApp.get_version()
+
+      switch (response.error_message) {
+        case `U2F: Timeout`:
+          return `No Ledger found`
+        case `Cosmos app does not seem to be open`:
+          return `Cøsmos app is not open`
+        default:
+          return ``
+      }
+    },
+    async createLedgerAppInstance({ commit, state }) {
+      const communicationMethod = await state.externals.comm_u2f.create_async(
+        TIMEOUT,
+        true
+      )
+      const cosmosLedgerApp = new state.externals.App(communicationMethod)
+      commit(`setCosmosApp`, cosmosLedgerApp)
+    },
     async connectLedgerApp({ commit, dispatch, state }) {
-      let success = false
+      let connectionMessage
       try {
-        const communicationMethod = await state.externals.comm_u2f.create_async(
-          TIMEOUT,
-          true
-        )
-        const cosmosLedgerApp = new state.externals.App(communicationMethod)
-        commit(`setCosmosApp`, cosmosLedgerApp)
-        await dispatch(`getLedgerCosmosVersion`)
-        if (state.cosmosAppVersion) {
-          commit(`setLedgerConnection`, true)
+        connectionMessage = await dispatch(`pollLedgerDevice`)
+        console.log(connectionMessage)
+        if (!connectionMessage) {
+          await dispatch(`createLedgerAppInstance`)
+          await dispatch(`getLedgerCosmosVersion`)
           await dispatch(`getLedgerPubKey`)
           const address = state.externals.createCosmosAddress(state.pubKey)
           await dispatch(`signIn`, { sessionType: `ledger`, address })
-          success = true
+          commit(`setLedgerConnection`, true)
         }
       } catch (error) {
         commit(`notifyError`, {
@@ -75,7 +96,7 @@ export default () => {
         Sentry.captureException(error)
         commit(`setLedgerError`, error)
       } finally {
-        return success
+        return connectionMessage
       }
     },
     async getLedgerCosmosVersion({ commit, state }) {
