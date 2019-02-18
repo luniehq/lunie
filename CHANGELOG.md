@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - [\#1729](https://github.com/cosmos/voyager/issues/1729) Rename endpoint functions @fedekunze
 - [\#1790](https://github.com/cosmos/voyager/issues/1790) Rename `lcdClient.js` to `api.js` @fedekunze
+- [\#2002](https://github.com/cosmos/voyager/pull/2002) Fix boot process for remote nodes @sabau
 
 ### Fixed
 
