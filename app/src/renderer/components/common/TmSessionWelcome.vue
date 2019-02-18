@@ -52,7 +52,7 @@ export default {
     LiSession
   },
   computed: {
-    ...mapGetters([`session`, `lastPage`, `session`]),
+    ...mapGetters([`session`, `lastPage`]),
     accountExists() {
       return this.session.accounts.length > 0
     }

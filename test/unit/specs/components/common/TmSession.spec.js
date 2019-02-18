@@ -1,14 +1,14 @@
 import { shallowMount } from "@vue/test-utils"
 import TmSession from "common/TmSession"
 
-describe(`TmSessionWelcome`, () => {
+describe(`TmSession`, () => {
   let wrapper, $store
 
   beforeEach(() => {
     const getters = {
       session: {
         modals: {
-          session: {
+          signin: {
             state: `loading`
           }
         }

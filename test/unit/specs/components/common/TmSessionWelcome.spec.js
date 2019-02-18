@@ -1,31 +1,25 @@
-import Vuex from "vuex"
-import { shallowMount, createLocalVue } from "@vue/test-utils"
+import { shallowMount } from "@vue/test-utils"
 import TmSessionWelcome from "common/TmSessionWelcome"
 import LiSession from "common/TmLiSession"
 
-const localVue = createLocalVue()
-localVue.use(Vuex)
-localVue.directive(`tooltip`, () => {})
-localVue.directive(`focus`, () => {})
-
 describe(`TmSessionWelcome`, () => {
-  let wrapper, store, getters
+  let wrapper, $store
   const accounts = []
 
   beforeEach(() => {
-    getters = {
-      lastHeader: () => ({ chain_id: `gaia-test`, height: `31337` }),
-      session: () => ({ accounts, devMode: true }),
-      lastPage: () => `/`,
-      connected: () => true,
-      nodeUrl: () => `http://nodeUrl`
+    const getters = {
+      session: { accounts, devMode: true },
+      lastPage: `/`
     }
-    store = new Vuex.Store({ getters })
-    store.commit = jest.fn()
-    store.dispatch = jest.fn(async () => true)
+    $store = {
+      getters,
+      commit: jest.fn(),
+      dispatch: jest.fn()
+    }
     wrapper = shallowMount(TmSessionWelcome, {
-      localVue,
-      store
+      mocks: {
+        $store
+      }
     })
   })
 
@@ -118,8 +112,9 @@ describe(`TmSessionWelcome`, () => {
 
   describe(`without accounts`, () => {
     it(`should not show sign-in link since we have no accounts`, () => {
+      wrapper.vm.setState = jest.fn()
       wrapper.find(LiSession).trigger(`click`)
-      expect(store.commit.mock.calls[0][1]).not.toEqual(`sign-in`)
+      expect(wrapper.vm.setState).not.toHaveBeenCalledWith(`sign-in`)
     })
 
     it(`has the expected html structure`, () => {
@@ -133,19 +128,14 @@ describe(`TmSessionWelcome`, () => {
     })
 
     it(`should show sign-in link since we have accounts`, () => {
+      wrapper.vm.setState = jest.fn()
       wrapper.find(LiSession).trigger(`click`)
-      expect(store.commit.mock.calls[0][1]).toEqual(`sign-in`)
+      expect(wrapper.vm.setState).toHaveBeenCalledWith(`sign-in`)
     })
 
     it(`sets desired login method`, () => {
-      wrapper.findAll(LiSession).trigger(`click`)
-      expect(store.commit.mock.calls[0][0]).toBe(`setSignInModalState`)
-      expect(store.commit.mock.calls.map(args => args[1])).toEqual([
-        `sign-in`,
-        `sign-up`,
-        `import`,
-        `hardware`
-      ])
+      wrapper.vm.setState(`xxx`)
+      expect($store.commit).toHaveBeenCalledWith(`setSignInModalState`, `xxx`)
     })
 
     it(`has the expected html structure`, () => {
