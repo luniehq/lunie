@@ -8,6 +8,7 @@ import _Vue from "vue"
 import Router from "vue-router"
 import Tooltip from "vue-directive-tooltip"
 import Vuelidate from "vuelidate"
+import VueClipboard from "vue-clipboard2"
 import * as _Sentry from "@sentry/browser"
 import axios from "axios"
 
@@ -79,6 +80,7 @@ export const startApp = async (
   Vue.use(Router)
   Vue.use(Tooltip, { delay: 1 })
   Vue.use(Vuelidate)
+  Vue.use(VueClipboard)
 
   // directive to focus form fields
   /* istanbul ignore next */
