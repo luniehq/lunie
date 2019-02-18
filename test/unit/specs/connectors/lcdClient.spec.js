@@ -752,6 +752,21 @@ describe(`LCD Client`, () => {
         ])
       })
 
+      it(`queries all self-delegation rewards from a validator`, async () => {
+        axios.mockReturnValue({})
+        await client.getValidatorRewards(`cosmosvaloper1address`)
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/distribution/validators/cosmosvaloper1address/rewards`
+            }
+          ]
+        ])
+      })
+
       it(`queries all distribution parameters`, async () => {
         axios.mockReturnValue({})
         await client.getDistributionParameters()
