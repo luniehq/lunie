@@ -1,7 +1,6 @@
 import transactionsModule from "renderer/vuex/modules/transactions.js"
-import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+import txs from "./json/txs"
 
-const { txs } = lcdClientMock.state
 const mockRootState = {
   connection: {
     connected: true
@@ -63,9 +62,9 @@ describe(`Module: Transactions`, () => {
   it(`should load and enrich txs`, async () => {
     const dispatch = jest
       .fn()
-      .mockImplementationOnce(() => lcdClientMock.state.txs.slice(4))
-      .mockImplementationOnce(() => lcdClientMock.state.txs.slice(2, 4))
-      .mockImplementationOnce(() => lcdClientMock.state.txs.slice(0, 2))
+      .mockImplementationOnce(() => txs.slice(4))
+      .mockImplementationOnce(() => txs.slice(2, 4))
+      .mockImplementationOnce(() => txs.slice(0, 2))
     const commit = jest.fn()
     await actions.getAllTxs({
       commit,
@@ -77,18 +76,9 @@ describe(`Module: Transactions`, () => {
       `enrichTransactions`,
       expect.arrayContaining([])
     )
-    expect(commit).toHaveBeenCalledWith(
-      `setStakingTxs`,
-      lcdClientMock.state.txs.slice(4)
-    )
-    expect(commit).toHaveBeenCalledWith(
-      `setGovernanceTxs`,
-      lcdClientMock.state.txs.slice(2, 4)
-    )
-    expect(commit).toHaveBeenCalledWith(
-      `setWalletTxs`,
-      lcdClientMock.state.txs.slice(0, 2)
-    )
+    expect(commit).toHaveBeenCalledWith(`setStakingTxs`, txs.slice(4))
+    expect(commit).toHaveBeenCalledWith(`setGovernanceTxs`, txs.slice(2, 4))
+    expect(commit).toHaveBeenCalledWith(`setWalletTxs`, txs.slice(0, 2))
   })
 
   it(`should fail if trying to get transactions of wrong type`, () => {
