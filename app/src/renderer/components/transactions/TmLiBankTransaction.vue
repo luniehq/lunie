@@ -5,8 +5,8 @@
     :block="transaction.height"
     ><template v-if="sent">
       <div slot="caption">
-        Sent&nbsp;<b>{{ coinsSent.amount }}</b
-        ><span>&nbsp;{{ coinsSent.denom.toUpperCase() }}</span>
+        Sent&nbsp;<b>{{ coins.amount }}</b
+        ><span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
       </div>
       <span slot="details"
         ><template v-if="sentSelf"
@@ -17,8 +17,8 @@
       > </template
     ><template v-else>
       <div slot="caption">
-        Received&nbsp;<b>{{ coinsReceived.amount }}</b
-        ><span>&nbsp;{{ coinsReceived.denom.toUpperCase() }}</span>
+        Received&nbsp;<b>{{ coins.amount }}</b
+        ><span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
       </div>
       <span slot="details">From {{ sender }}</span>
     </template>
@@ -48,22 +48,19 @@ export default {
     },
     // TODO: sum relevant inputs/outputs
     sentSelf() {
-      return this.tx.inputs[0].address === this.tx.outputs[0].address
+      return this.tx.from_address === this.tx.to_address
     },
     sent() {
-      return this.tx.inputs[0].address === this.address
+      return this.tx.from_address === this.address
     },
     sender() {
-      return this.tx.inputs[0].address
+      return this.tx.from_address
     },
-    coinsSent() {
-      return this.tx.inputs[0].coins[0]
+    coins() {
+      return this.tx.amount[0]
     },
     receiver() {
-      return this.tx.outputs[0].address
-    },
-    coinsReceived() {
-      return this.tx.inputs[0].coins[0]
+      return this.tx.to_address
     },
     color() {
       if (this.sent) return colors.bank.sent
@@ -76,7 +73,7 @@ export default {
 <style>
 .tm-li-tx {
   display: flex;
-  font-size: sm;
+  font-size: var(--sm);
 }
 
 .tm-li-tx .tx-icon {
@@ -104,7 +101,7 @@ export default {
 
 .tm-li-tx .tx-coin .value {
   flex: 0 0 100%;
-  font-size: sm;
+  font-size: var(--sm);
   color: var(--dim);
 }
 
@@ -115,7 +112,7 @@ export default {
 
 .tm-li-tx .tx-coin .key {
   font-weight: 500;
-  font-size: m;
+  font-size: var(--m);
 }
 
 .tm-li-tx .tx-coin .value,
@@ -128,7 +125,7 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   color: var(--dim);
-  font-size: sm;
+  font-size: var(--sm);
 }
 
 .tm-li-tx.tm-li-tx-sent .tx-coin .value:before {
@@ -140,7 +137,7 @@ export default {
 }
 
 .tm-li-tx.tm-li-tx-received .tx-coin .value {
-  color: success;
+  color: var(--success);
 }
 
 .tm-li-tx.tm-li-tx-received .tx-coin .value:before {
