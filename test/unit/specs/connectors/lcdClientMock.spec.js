@@ -102,6 +102,23 @@ describe(`LCD Client Mock`, () => {
     expect(res.length).toBe(3)
   })
 
+  it(`persists a sent tx to myself`, async () => {
+    const res = await client.send(lcdClientMock.addresses[0], {
+      base_req: {
+        sequence: 1,
+        name: `default`
+      },
+      fees: [],
+      amount: [
+        {
+          denom: `mycoin`,
+          amount: `50`
+        }
+      ]
+    })
+    expect(res.height).toBeDefined()
+  })
+
   it(`only queries bank txs with the txs endpoint`, async () => {
     let res = await client.txs(lcdClientMock.addresses[0])
     expect(res.length).toBe(2) // predefined txs

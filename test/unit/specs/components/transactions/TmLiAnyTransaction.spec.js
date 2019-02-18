@@ -8,7 +8,7 @@ describe(`TmLiAnyTransaction`, () => {
   const propsData = {
     transaction: transactions[0],
     validators: state.candidates,
-    address: `tb1da6xsetjg9jxgun9wdesexv05j`,
+    address: `A`,
     bondingDenom: `atom`,
     validatorsUrl: `/validators`
   }
