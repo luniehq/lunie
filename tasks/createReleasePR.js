@@ -6,7 +6,9 @@ const octokit = require(`@octokit/rest`)()
 
 function bumpVersion(versionString) {
   const versionElements = versionString.split(`.`)
-  versionElements[2] = parseInt(versionElements[2]) + 1
+  const patchVersionPosition = versionElements.length - 1
+  versionElements[patchVersionPosition] =
+    parseInt(versionElements[patchVersionPosition]) + 1
   return versionElements.join(`.`)
 }
 
