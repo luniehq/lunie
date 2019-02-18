@@ -22,8 +22,16 @@
           value="Connecting..."
           @click.native="setStatus('connect')"
         />
+        <p class="ledger-install">
+          Don't have the Cøsmos Ledger App yet? Install it
+          <a
+            href="https://cosmos.network/docs/gaia/delegator-guide-cli.html#using-a-ledger-device"
+            target="_blank"
+            rel="noopener noreferrer"
+            >here</a
+          >.
+        </p>
       </div>
-      <div class="tm-session-footer" />
     </div>
   </div>
 </template>
@@ -59,3 +67,8 @@ export default {
   }
 }
 </script>
+<style>
+.ledger-install {
+  text-align: center;
+}
+</style>
