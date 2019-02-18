@@ -1,14 +1,14 @@
 <template>
   <div class="tm-bar-discrete">
     <div class="tm-bar-discrete__container">
-      <div class="tm-bar-discrete__edge"></div>
+      <div class="tm-bar-discrete__edge" />
       <div
         v-for="(node, index) in nodes"
         :key="index"
         :class="classObject(index)"
         class="tm-bar-discrete__node"
         @click="clickFn(index)"
-      ></div>
+      />
     </div>
   </div>
 </template>
@@ -25,7 +25,7 @@ export default {
       type: Number,
       default: 0
     },
-    "click-fn": {
+    "clickFn": {
       type: Function,
       required: true
     }

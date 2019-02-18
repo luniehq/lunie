@@ -1,6 +1,8 @@
 <template>
   <modal v-if="active" :close="close" class="tm-modal-help">
-    <div slot="title">Need Help?</div>
+    <div slot="title">
+      Need Help?
+    </div>
     <p>
       Something in the app not working correctly? Tell us what went wrong in our
       <a href="https://riot.im/app/#/room/#cosmos:matrix.org">developer chat</a>

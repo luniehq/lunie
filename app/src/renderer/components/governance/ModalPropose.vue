@@ -14,9 +14,9 @@
       field-label="Title"
     >
       <tm-field
-        v-focus
         id="title"
         v-model.trim="title"
+        v-focus
         type="text"
         placeholder="Proposal title"
       />

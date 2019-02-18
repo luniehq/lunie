@@ -134,6 +134,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1946](https://github.com/cosmos/voyager/pull/1946) removed proposer_address raw hex @jbibla
 - [\#1967](https://github.com/cosmos/voyager/pull/1967) bundle analyzer changed from dynamic to static report @sabau
 - always upload coverage to prevent PRs not being able to be merged if a not required check doesn't pass @faboweb
+- [\#1936](https://github.com/cosmos/voyager/issues/1936) remove `prettier` to avoid overriding `eslint:vue` rules @sabau
 
 ### Fixed
 

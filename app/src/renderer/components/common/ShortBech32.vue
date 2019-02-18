@@ -1,8 +1,8 @@
 <template>
   <div class="short-bech32">
     <div
-      v-tooltip.top="address"
       id="address"
+      v-tooltip.top="address"
       class="address"
       @click.prevent.stop="copy"
     >

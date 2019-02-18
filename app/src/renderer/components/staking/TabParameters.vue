@@ -14,8 +14,9 @@
                 <i
                   v-tooltip.top="paramsTooltips.unbonding_time"
                   class="material-icons info-button"
-                  >info_outline</i
                 >
+                  info_outline
+                </i>
               </dt>
               <dd id="unbonding_time">
                 {{
@@ -27,7 +28,9 @@
             </dl>
             <dl class="info_dl">
               <dt>Current Staking Token</dt>
-              <dd id="bond_denom">{{ bondDenom ? bondDenom : `--` }}</dd>
+              <dd id="bond_denom">
+                {{ bondDenom ? bondDenom : `--` }}
+              </dd>
             </dl>
           </div>
           <div class="column">

@@ -4,13 +4,19 @@
       <div v-if="icon" class="icon">
         <i class="material-icons">{{ icon }}</i>
       </div>
-      <div v-if="title" class="title">{{ title }}</div>
+      <div v-if="title" class="title">
+        {{ title }}
+      </div>
       <menu>
-        <div v-if="time" class="time">{{ fromNow }}</div>
+        <div v-if="time" class="time">
+          {{ fromNow }}
+        </div>
         <i class="close material-icons">close</i>
       </menu>
     </header>
-    <div class="body">{{ body }}</div>
+    <div class="body">
+      {{ body }}
+    </div>
   </div>
 </template>
 

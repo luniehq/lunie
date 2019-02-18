@@ -14,11 +14,11 @@
             v-if="validator.keybase"
             :src="validator.keybase.avatarUrl"
             class="avatar"
-          /><img
+          ><img
             v-else
             class="avatar"
             src="~assets/images/validator-icon.svg"
-          />
+          >
 
           <div class="page-profile__header__info">
             <div class="page-profile__status-and-title">
@@ -67,11 +67,15 @@
           <div class="row-unjustified">
             <dl class="info_dl colored_dl">
               <dt>Voting Power</dt>
-              <dd id="page-profile__power">{{ percent(powerRatio) }}</dd>
+              <dd id="page-profile__power">
+                {{ percent(powerRatio) }}
+              </dd>
             </dl>
             <dl class="info_dl colored_dl">
               <dt>Uptime</dt>
-              <dd id="page-profile__uptime">{{ uptime }}</dd>
+              <dd id="page-profile__uptime">
+                {{ uptime }}
+              </dd>
             </dl>
             <dl class="info_dl colored_dl">
               <dt>Commission</dt>
@@ -136,7 +140,9 @@
             </dl>
             <dl class="info_dl">
               <dt>Self Delegation</dt>
-              <dd id="page-profile__self-bond">{{ selfBond }}</dd>
+              <dd id="page-profile__self-bond">
+                {{ selfBond }}
+              </dd>
             </dl>
           </div>
         </div>

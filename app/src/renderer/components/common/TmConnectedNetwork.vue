@@ -8,17 +8,20 @@
         id="tm-connected-network__string"
         class="tm-connected-network__string"
       >
-        <span v-tooltip.top="networkTooltip" class="chain-id">{{
-          lastHeader.chain_id
-        }}</span>
+        <span v-tooltip.top="networkTooltip" class="chain-id">
+          {{
+            lastHeader.chain_id
+          }}
+        </span>
       </div>
     </div>
     <div id="tm-connected-network__block" class="tm-connected-network__string">
       <router-link
         v-tooltip.top="'Block Height'"
         :to="{ name: `block`, params: { height: lastHeader.height } }"
-        >{{ blockHeight }}</router-link
       >
+        {{ blockHeight }}
+      </router-link>
     </div>
   </div>
   <div
@@ -26,7 +29,7 @@
     id="tm-disconnected-network"
     class="tm-connected-network tm-disconnected-network"
   >
-    <img class="tm-connected-network-loader" src="~assets/images/loader.svg" />
+    <img class="tm-connected-network-loader" src="~assets/images/loader.svg">
     <div
       v-tooltip.top="networkTooltip"
       class="tm-connected-network__string tm-connected-network__string--connecting"

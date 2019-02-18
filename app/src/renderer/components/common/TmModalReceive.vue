@@ -1,6 +1,8 @@
 <template>
   <modal v-if="active" :close="close" class="tm-modal-receive">
-    <div slot="title">Receive Tokens</div>
+    <div slot="title">
+      Receive Tokens
+    </div>
     <p>
       You can receive Cosmos tokens of any denomination by sharing this address.
     </p>

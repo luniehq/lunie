@@ -11,7 +11,9 @@
                 :class="status.color"
                 class="page-profile__status"
               />
-              <h2 class="page-profile__title">{{ lastHeader.chain_id }}</h2>
+              <h2 class="page-profile__title">
+                {{ lastHeader.chain_id }}
+              </h2>
             </div>
           </div>
         </div>
@@ -65,8 +67,9 @@
             <td>
               <router-link
                 :to="{ name: `block`, params: { height: block.header.height } }"
-                >{{ `#` + num.prettyInt(block.header.height) }}</router-link
               >
+                {{ `#` + num.prettyInt(block.header.height) }}
+              </router-link>
             </td>
             <td>{{ block.header.num_txs }}</td>
           </tr>

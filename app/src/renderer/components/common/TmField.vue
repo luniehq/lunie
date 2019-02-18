@@ -13,15 +13,17 @@
         disabled="disabled"
         selected="selected"
         hidden="hidden"
-        >{{ selectPlaceholder }}</option
       >
+        {{ selectPlaceholder }}
+      </option>
       <template>
         <option
           v-for="(option, index) in resolvedOptions"
           :key="index"
           :value="option.value"
-          >{{ option.key }}</option
         >
+          {{ option.key }}
+        </option>
       </template>
     </select>
     <div class="tm-field-select-addon">
@@ -38,21 +40,23 @@
     @keyup="onKeyup"
     @keydown="onKeydown"
     @input="updateValue($event.target.value)"
-  ></textarea>
+  />
 
   <label v-else-if="type === 'toggle'" :class="toggleClass" class="tm-toggle">
     <div class="tm-toggle-wrapper" @click.prevent="toggle">
-      <span>{{
-        currentToggleState ? resolvedOptions.checked : resolvedOptions.unchecked
-      }}</span>
+      <span>
+        {{
+          currentToggleState ? resolvedOptions.checked : resolvedOptions.unchecked
+        }}
+      </span>
       <div class="toggle-option-checked">
         <div>{{ resolvedOptions.checked }}</div>
       </div>
       <div class="toggle-option-unchecked">
         <div>{{ resolvedOptions.unchecked }}</div>
       </div>
-      <div class="toggle-handle"></div>
-      <input :value="currentToggleState" type="checkbox" @change="onChange" />
+      <div class="toggle-handle" />
+      <input :value="currentToggleState" type="checkbox" @change="onChange">
     </div>
   </label>
 
@@ -67,7 +71,7 @@
     @keyup="onKeyup"
     @keydown="onKeydown"
     @input="updateValue($event.target.value)"
-  />
+  >
 </template>
 
 <script>

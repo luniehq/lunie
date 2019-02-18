@@ -3,53 +3,67 @@
     :color="color"
     :time="transaction.time"
     :block="transaction.height"
-    ><template v-if="delegation">
-      <div slot="caption">
-        Delegated&nbsp;<b>{{ pretty(tx.delegation.amount) }}</b
-        ><span>&nbsp;{{ bondingDenom }}s</span>
-      </div>
-      <div slot="details">
-        To&nbsp;<router-link :to="url + '/' + tx.validator_addr">{{
-          moniker(tx.validator_addr)
-        }}</router-link>
-      </div> </template
-    ><template v-if="redelegation">
-      <div slot="caption">
-        Redelegated&nbsp;<template
-          ><b>{{
-            calculatePrettifiedTokens(tx.validator_src_addr, tx.shares_amount)
-          }}</b
-          ><span>&nbsp;{{ bondingDenom }}s</span></template
-        >
-      </div>
-      <div slot="details">
-        From&nbsp;<router-link :to="url + '/' + tx.validator_src_addr">{{
-          moniker(tx.validator_src_addr)
-        }}</router-link>
-        to&nbsp;<router-link :to="url + '/' + tx.validator_dst_addr">{{
-          moniker(tx.validator_dst_addr)
-        }}</router-link>
-      </div> </template
-    ><template v-if="unbonding">
-      <div slot="caption">
-        Undelegated&nbsp;<template
-          ><b>{{
-            calculatePrettifiedTokens(tx.validator_addr, tx.shares_amount)
-          }}</b
-          ><span>&nbsp;{{ bondingDenom }}s</span></template
-        ><template v-if="timeDiff"
-          ><span class="tx-unbonding__time-diff"
-            >&nbsp;{{ timeDiff }}</span
-          ></template
-        >
-      </div>
-      <div slot="details">
-        From&nbsp;<router-link :to="url + '/' + tx.validator_addr">{{
-          moniker(tx.validator_addr)
-        }}</router-link>
-      </div>
-    </template></tm-li-transaction
   >
+    <template v-if="delegation">
+      <div slot="caption">
+        Delegated&nbsp;<b>{{ pretty(tx.delegation.amount) }}</b><span>&nbsp;{{ bondingDenom }}s</span>
+      </div>
+      <div slot="details">
+        To&nbsp;<router-link :to="url + '/' + tx.validator_addr">
+          {{
+            moniker(tx.validator_addr)
+          }}
+        </router-link>
+      </div>
+    </template><template v-if="redelegation">
+      <div slot="caption">
+        Redelegated&nbsp;<template>
+          <b>
+            {{
+              calculatePrettifiedTokens(tx.validator_src_addr, tx.shares_amount)
+            }}
+          </b><span>&nbsp;{{ bondingDenom }}s</span>
+        </template>
+      </div>
+      <div slot="details">
+        From&nbsp;<router-link :to="url + '/' + tx.validator_src_addr">
+          {{
+            moniker(tx.validator_src_addr)
+          }}
+        </router-link>
+        to&nbsp;<router-link :to="url + '/' + tx.validator_dst_addr">
+          {{
+            moniker(tx.validator_dst_addr)
+          }}
+        </router-link>
+      </div>
+    </template><template v-if="unbonding">
+      <div slot="caption">
+        Undelegated&nbsp;<template>
+          <b>
+            {{
+              calculatePrettifiedTokens(tx.validator_addr, tx.shares_amount)
+            }}
+          </b><span>&nbsp;{{ bondingDenom }}s</span>
+        </template><template
+          v-if="timeDiff"
+        >
+          <span
+            class="tx-unbonding__time-diff"
+          >
+            &nbsp;{{ timeDiff }}
+          </span>
+        </template>
+      </div>
+      <div slot="details">
+        From&nbsp;<router-link :to="url + '/' + tx.validator_addr">
+          {{
+            moniker(tx.validator_addr)
+          }}
+        </router-link>
+      </div>
+    </template>
+  </tm-li-transaction>
 </template>
 
 <script>

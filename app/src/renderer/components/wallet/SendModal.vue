@@ -33,9 +33,9 @@
       field-label="Send To"
     >
       <tm-field
-        v-focus
         id="send-address"
         v-model.number="$v.address.$model"
+        v-focus
         type="text"
         placeholder="Address"
       />

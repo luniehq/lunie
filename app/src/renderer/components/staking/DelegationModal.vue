@@ -13,7 +13,12 @@
       field-id="to"
       field-label="To"
     >
-      <tm-field id="to" v-model="to" type="text" readonly />
+      <tm-field
+        id="to"
+        v-model="to"
+        type="text"
+        readonly
+      />
     </tm-form-group>
 
     <tm-form-group

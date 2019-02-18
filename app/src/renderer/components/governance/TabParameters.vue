@@ -9,8 +9,9 @@
               <i
                 v-tooltip.top="depositTooltips.min_deposit"
                 class="material-icons info-button"
-                >info_outline</i
               >
+                info_outline
+              </i>
             </dt>
             <dd>
               {{
@@ -28,8 +29,9 @@
               <i
                 v-tooltip.top="depositTooltips.max_deposit_period"
                 class="material-icons info-button"
-                >info_outline</i
               >
+                info_outline
+              </i>
             </dt>
             <dd>
               {{
@@ -52,15 +54,16 @@
               <i
                 v-tooltip.top="tallyingTooltips.threshold"
                 class="material-icons info-button"
-                >info_outline</i
               >
+                info_outline
+              </i>
             </dt>
             <dd>
               {{
                 governanceParameters.parameters.tallying.threshold
                   ? `${parseFloat(
-                      governanceParameters.parameters.tallying.threshold
-                    ) * 100} %`
+                    governanceParameters.parameters.tallying.threshold
+                  ) * 100} %`
                   : `n/a`
               }}
             </dd>
@@ -71,15 +74,16 @@
               <i
                 v-tooltip.top="tallyingTooltips.veto"
                 class="material-icons info-button"
-                >info_outline</i
               >
+                info_outline
+              </i>
             </dt>
             <dd>
               {{
                 governanceParameters.parameters.tallying.veto
                   ? `${parseFloat(
-                      governanceParameters.parameters.tallying.veto
-                    ) * 100} %`
+                    governanceParameters.parameters.tallying.veto
+                  ) * 100} %`
                   : `n/a`
               }}
             </dd>
@@ -93,8 +97,9 @@
               <i
                 v-tooltip.top="tallyingTooltips.governance_penalty"
                 class="material-icons info-button"
-                >info_outline</i
               >
+                info_outline
+              </i>
             </dt>
             <dd>
               {{
@@ -111,15 +116,16 @@
               <i
                 v-tooltip.top="tallyingTooltips.quorum"
                 class="material-icons info-button"
-                >info_outline</i
               >
+                info_outline
+              </i>
             </dt>
             <dd>
               {{
                 governanceParameters.parameters.tallying.quorum
                   ? `${parseFloat(
-                      governanceParameters.parameters.tallying.quorum
-                    ) * 100} %`
+                    governanceParameters.parameters.tallying.quorum
+                  ) * 100} %`
                   : `n/a`
               }}
             </dd>
@@ -137,8 +143,9 @@
               <i
                 v-tooltip.top="votingTooltips.voting_period"
                 class="material-icons info-button"
-                >info_outline</i
               >
+                info_outline
+              </i>
             </dt>
             <dd>
               {{
@@ -149,7 +156,7 @@
             </dd>
           </dl>
         </div>
-        <div class="column"></div>
+        <div class="column" />
       </div>
     </div>
   </div>

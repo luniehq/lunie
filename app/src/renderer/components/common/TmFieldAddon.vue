@@ -1,5 +1,7 @@
 <template>
-  <div class="tm-field-addon"><slot /></div>
+  <div class="tm-field-addon">
+    <slot />
+  </div>
 </template>
 
 <script>
