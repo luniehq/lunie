@@ -25,7 +25,7 @@
         <p class="ledger-install">
           Don't have the Cøsmos Ledger App yet? Install it
           <a
-            href="https://cosmos.network/docs/gaia/delegator-guide-cli.html#using-a-ledger-device"
+            href="https://github.com/cosmos/voyager#ledger-cosmos-app"
             target="_blank"
             rel="noopener noreferrer"
             >here</a

@@ -35,13 +35,13 @@ Building Voyager and its dependencies requires [Docker](https://www.docker.com/)
 
 ### Ledger Cosmos App
 
-**IMPORTANT:** Only use Ledger devices that you **bought factory new** or **trust fully**.
+> **IMPORTANT:** Only use Ledger devices that you **bought factory new** or **trust fully**.
 
-Voyager supports sending transactions through the Cosmos app for [Ledger Nano S](https://www.ledger.com/products/ledger-nano-s) hardware wallet. To install the Cosmos app on your device you'll have to:
+Voyager supports sending transactions through the `Cøsmos` app for [Ledger Nano S](https://www.ledger.com/products/ledger-nano-s) hardware wallet. To install the `Cøsmos` app on your device you'll have to:
 
-1. Download the Ledger Live app [here](https://www.ledger.com/pages/ledger-live).
-2. Connect your ledger via USB and update to the latest firmware
-3. Go to the Ledger Live app Store, and download the `Cøsmos` application (this can take a while). **Note:** You may have to enable `Dev Mode` in the Settings of Ledger Live to be able to download the `Cøsmos` application.
+1. Download the Ledger Live app [here](https://www.ledger.com/pages/ledger-live)
+2. Connect your Ledger via USB and update to the latest firmware
+3. Go to the Ledger Live App Store, and download the `Cøsmos` application (this can take a while). **Note:** You may have to enable `Dev Mode` in the Ledger Live Settings to be able to download the `Cøsmos` application
 4. Navigate to the `Cøsmos` app on your Ledger device
 
 ### Check out Voyager
