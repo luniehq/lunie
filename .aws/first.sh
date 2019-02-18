@@ -11,12 +11,12 @@ AMOUNT=100stake
 aws s3 rm s3://cosmos-gaia/genesis.json
 
 # Initialize local node with an account name and a chain
-./gaiad init --home . --moniker ${ACCOUNT} --chain-id ${NETWORK}
+./gaiad init ${ACCOUNT} --home . --chain-id ${NETWORK}
 NODEID=$(./gaiad tendermint show-node-id --home .)
 
 # Create our main account and add it to the genesis with a lot of money
 echo ${PASSWORD} | ./gaiacli keys add ${ACCOUNT} --home . > main_node.log
-./gaiad add-genesis-account $(./gaiacli keys show ${ACCOUNT} --home . --address) 150000stake,100000photino,123cococoin --home .
+./gaiad add-genesis-account $(./gaiacli keys show ${ACCOUNT} --home . --address) 100000000stake,100000photino,123cococoin --home .
 
 echo ${PASSWORD} | ./gaiad gentx --name ${ACCOUNT} --home . --home-client .
 ./gaiad collect-gentxs --home .
@@ -55,7 +55,7 @@ do
 
             # Just in case we were running this command with rest-server switched on, get again the address
             ADDRESS=$(./gaiacli keys show ${ACCOUNT} --home . --address)
-            echo ${PASSWORD} | ./gaiacli tx send --home . --from ${ADDRESS} --amount=${AMOUNT}  --to=${DESTINATION} --chain-id=${NETWORK}
+            echo ${PASSWORD} | ./gaiacli tx send ${DESTINATION} ${AMOUNT} --home . --from ${ADDRESS} --chain-id=${NETWORK}
 
             # Remove this address from the ones that needs money
             aws s3 rm s3://cosmos-gaia/addresses/${DESTINATION}
