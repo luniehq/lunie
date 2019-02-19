@@ -17,8 +17,7 @@
         />
         <hardware-state
           v-if="status == 'detect'"
-          :spin="true"
-          icon="rotate_right"
+          :loading="true"
           value="Connecting..."
           @click.native="setStatus('connect')"
         />
@@ -57,15 +56,11 @@ export default {
     async connectLedger() {
       this.setConnectionError(null)
       this.setStatus(`detect`)
-      const error = await this.$store.dispatch(`connectLedgerApp`)
-      if (!error) {
-        this.$store.commit(`notify`, {
-          title: `Connection succesful`,
-          body: `You are now signed in to your Cosmos account with your Ledger.`
-        })
-      } else {
+      try {
+        await this.$store.dispatch(`connectLedgerApp`)
+      } catch (error) {
         this.setStatus(`connect`)
-        this.setConnectionError(error)
+        this.setConnectionError(error.message)
       }
     }
   }

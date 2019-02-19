@@ -72,38 +72,36 @@ describe(`TmSessionHardware`, () => {
 
   describe(`tries connecting to Ledger`, () => {
     it(`connects if Ledger is connected and app is open `, async () => {
-      const $store = { commit: jest.fn(), dispatch: jest.fn(() => ``) }
+      const $store = { commit: jest.fn(), dispatch: jest.fn() }
       const self = {
         $store,
         status: `connect`,
+        connectionError: null,
         setStatus: jest.fn(),
-        setConnectionError: jest.fn()
+        setConnectionError: jest.fn(error => (self.connectionError = error))
       }
       await TmSessionHardware.methods.connectLedger.call(self)
       expect(self.$store.dispatch).toHaveBeenCalledWith(`connectLedgerApp`)
-      expect(self.$store.commit).toHaveBeenCalledWith(`notify`, {
-        title: `Connection succesful`,
-        body: `You are now signed in to your Cosmos account with your Ledger.`
-      })
+      expect(self.connectionError).toBeNull()
     })
 
     it(`doesn't connect otherwise`, async () => {
       const $store = {
         commit: jest.fn(),
-        dispatch: jest.fn(() => `No Ledger found`)
+        dispatch: jest.fn(async () =>
+          Promise.reject(new Error(`No Ledger found`))
+        )
       }
       const self = {
         $store,
         status: `connect`,
+        connectionError: null,
         setStatus: jest.fn(),
-        setConnectionError: jest.fn()
+        setConnectionError: jest.fn(error => (self.connectionError = error))
       }
       await TmSessionHardware.methods.connectLedger.call(self)
       expect(self.$store.dispatch).toHaveBeenCalledWith(`connectLedgerApp`)
-      expect(self.$store.commit).not.toHaveBeenCalledWith(`notify`, {
-        title: `Connection succesful`,
-        body: `You are now signed in to your Cosmos account with your Ledger.`
-      })
+      expect(self.connectionError).toBe(`No Ledger found`)
     })
   })
 

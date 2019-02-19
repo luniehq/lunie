@@ -60,13 +60,14 @@ export default () => {
 
       switch (response.error_message) {
         case `U2F: Timeout`:
-          return `No Ledger found`
+          throw new Error(`No Ledger found`)
         case `Cosmos app does not seem to be open`:
-          return `Cøsmos app is not open`
+          throw new Error(`Cøsmos app is not open`)
         case `No errors`:
-          return ``
+          // do nothing
+          break
         default:
-          return response.error_message
+          throw new Error(response.error_message)
       }
     },
     async createLedgerAppInstance({ commit, state }) {
@@ -78,26 +79,18 @@ export default () => {
       commit(`setCosmosApp`, cosmosLedgerApp)
     },
     async connectLedgerApp({ commit, dispatch, state }) {
-      let connectionError
       try {
-        connectionError = await dispatch(`pollLedgerDevice`)
-        if (!connectionError) {
-          await dispatch(`createLedgerAppInstance`)
-          await dispatch(`getLedgerCosmosVersion`)
-          await dispatch(`getLedgerPubKey`)
-          const address = state.externals.createCosmosAddress(state.pubKey)
-          await dispatch(`signIn`, { sessionType: `ledger`, address })
-          commit(`setLedgerConnection`, true)
-        }
+        await dispatch(`pollLedgerDevice`)
+        await dispatch(`createLedgerAppInstance`)
+        await dispatch(`getLedgerCosmosVersion`)
+        await dispatch(`getLedgerPubKey`)
+        const address = state.externals.createCosmosAddress(state.pubKey)
+        await dispatch(`signIn`, { sessionType: `ledger`, address })
+        commit(`setLedgerConnection`, true)
       } catch (error) {
-        commit(`notifyError`, {
-          title: `Error connecting to Ledger Nano S`,
-          body: error.message
-        })
         Sentry.captureException(error)
         commit(`setLedgerError`, error)
-      } finally {
-        return connectionError
+        throw error
       }
     },
     async getLedgerCosmosVersion({ commit, state }) {
@@ -109,10 +102,6 @@ export default () => {
         const version = { major, minor, patch, test_mode }
         commit(`setCosmosAppVersion`, version)
       } catch (error) {
-        commit(`notifyError`, {
-          title: `Error retrieving Cosmos Ledger app version`,
-          body: error.message
-        })
         Sentry.captureException(error)
         commit(`setLedgerError`, error)
       }
@@ -124,10 +113,6 @@ export default () => {
         actions.checkLedgerErrors(response)
         commit(`setLedgerPubKey`, response.compressed_pk)
       } catch (error) {
-        commit(`notifyError`, {
-          title: `Error getting public key from Ledger`,
-          body: error.message
-        })
         Sentry.captureException(error)
         commit(`setLedgerError`, error)
       }
@@ -139,10 +124,6 @@ export default () => {
         actions.checkLedgerErrors(response)
         signature = response.signature
       } catch (error) {
-        commit(`notifyError`, {
-          title: `Signing transaction with Ledger failed`,
-          body: error.message
-        })
         Sentry.captureException(error)
         commit(`setLedgerError`, error)
       } finally {

@@ -101,10 +101,7 @@ export default ({ node }) => {
       let signature
       if (submitType === `ledger`) {
         // TODO: move to wallet script
-        const connectionError = await dispatch(`pollLedgerDevice`)
-        if (connectionError) {
-          throw new Error(connectionError)
-        }
+        await dispatch(`pollLedgerDevice`)
         const signMessage = state.externals.createSignMessage(
           tx,
           requestMetaData

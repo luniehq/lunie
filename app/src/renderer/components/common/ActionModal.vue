@@ -6,9 +6,9 @@
           class="icon action-modal-atom"
           src="~assets/images/cosmos-logo.png"
         />
-        <span class="action-modal-title">
-          {{ user.signedIn ? title : `Sign in required` }}
-        </span>
+        <span class="action-modal-title">{{
+          user.signedIn ? title : `Sign in required`
+        }}</span>
         <div
           id="closeBtn"
           class="action-modal-icon action-modal-close"
@@ -58,6 +58,12 @@
       </div>
       <div v-else-if="step === `sign`" class="action-modal-form">
         <hardware-state
+          v-if="sending"
+          :loading="true"
+          value="Waiting for signature on app"
+        />
+        <hardware-state
+          v-else
           icon="usb"
           value="Please unlock the Cosmos app on your Ledger Nano S"
         />

@@ -115,8 +115,9 @@ describe(`Module: Ledger`, () => {
                 error_message: `No errors`
               })
           })
-          const response = await actions.pollLedgerDevice({ state })
-          expect(response).toBe(``)
+          expect(
+            async () => await actions.pollLedgerDevice({ state })
+          ).not.toThrow()
         })
 
         it(`when Ledger is connected but app is not open`, async () => {
@@ -126,8 +127,9 @@ describe(`Module: Ledger`, () => {
                 error_message: `Cosmos app does not seem to be open`
               })
           })
-          const response = await actions.pollLedgerDevice({ state })
-          expect(response).toBe(`Cøsmos app is not open`)
+          await expect(actions.pollLedgerDevice({ state })).rejects.toThrow(
+            `Cøsmos app is not open`
+          )
         })
 
         it(`when Ledger not connected`, async () => {
@@ -137,8 +139,9 @@ describe(`Module: Ledger`, () => {
                 error_message: `U2F: Timeout`
               })
           })
-          const response = await actions.pollLedgerDevice({ state })
-          expect(response).toBe(`No Ledger found`)
+          await expect(actions.pollLedgerDevice({ state })).rejects.toThrow(
+            `No Ledger found`
+          )
         })
 
         it(`fails due to other error`, async () => {
@@ -148,8 +151,9 @@ describe(`Module: Ledger`, () => {
                 error_message: `Device is busy`
               })
           })
-          const response = await actions.pollLedgerDevice({ state })
-          expect(response).toBe(`Device is busy`)
+          await expect(actions.pollLedgerDevice({ state })).rejects.toThrow(
+            `Device is busy`
+          )
         })
       })
 
@@ -165,7 +169,7 @@ describe(`Module: Ledger`, () => {
       describe(`connect ledger`, () => {
         it(`successfully logs in with Ledger Nano S`, async () => {
           dispatch = jest.fn(async () => Promise.resolve(``))
-          const connectionError = await actions.connectLedgerApp({
+          await actions.connectLedgerApp({
             commit,
             dispatch,
             state
@@ -178,24 +182,17 @@ describe(`Module: Ledger`, () => {
             sessionType: `ledger`,
             address: `cosmos1address`
           })
-          expect(commit).not.toHaveBeenCalledWith(`notifyError`, {
-            title: `Error connecting to Ledger`,
-            body: expect.anything()
-          })
           expect(commit).not.toHaveBeenCalledWith(
             `setLedgerError`,
             expect.anything()
           )
-          expect(connectionError).toBe(``)
         })
 
         it(`fails if one of the function throws`, async () => {
           dispatch = jest.fn(async () => Promise.reject(new Error(`error`)))
-          await actions.connectLedgerApp({ commit, dispatch, state })
-          expect(commit).toHaveBeenCalledWith(`notifyError`, {
-            title: `Error connecting to Ledger Nano S`,
-            body: `error`
-          })
+          await expect(
+            actions.connectLedgerApp({ commit, dispatch, state })
+          ).rejects.toThrowError(`error`)
           expect(commit).toHaveBeenCalledWith(`setLedgerError`, Error(`error`))
         })
       })

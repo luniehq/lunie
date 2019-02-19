@@ -376,7 +376,9 @@ describe(`Module: Send`, () => {
           amount: [{ denom: `mycoin`, amount: 123 }],
           submitType: `ledger`
         }
-        const dispatch = jest.fn(() => `No Ledger found`)
+        const dispatch = jest.fn(async () =>
+          Promise.reject(new Error(`No Ledger found`))
+        )
         state.externals = {
           createSignMessage: jest.fn(),
           signatureImport: jest.fn(),
@@ -385,9 +387,8 @@ describe(`Module: Send`, () => {
           createBroadcastBody: jest.fn(() => ({ broadcast: `body` })),
           config: { default_gas: `500000` }
         }
-        let message = ``
-        try {
-          await actions.sendTx(
+        await expect(
+          actions.sendTx(
             {
               state,
               dispatch,
@@ -396,11 +397,7 @@ describe(`Module: Send`, () => {
             },
             args
           )
-        } catch (error) {
-          message = error.message
-        }
-        expect(message).toBe(`No Ledger found`)
-        expect(dispatch).toHaveBeenCalledWith(`pollLedgerDevice`)
+        ).rejects.toThrowError(`No Ledger found`)
         expect(state.externals.createSignMessage).not.toHaveBeenCalled()
         expect(state.externals.signatureImport).not.toHaveBeenCalled()
         expect(state.externals.createSignature).not.toHaveBeenCalled()
