@@ -2,9 +2,7 @@
   <div class="tm-session">
     <tm-form-struct :submit="onSubmit" class="tm-session-container">
       <div class="tm-session-header">
-        <a @click="setState('welcome')"
-          ><i class="material-icons">arrow_back</i></a
-        >
+        <a @click="goToWelcome()"><i class="material-icons">arrow_back</i></a>
         <div class="tm-session-title">Sign In</div>
         <a @click="help"><i class="material-icons">help_outline</i></a>
       </div>
@@ -98,8 +96,8 @@ export default {
     help() {
       this.$store.commit(`setModalHelp`, true)
     },
-    setState(value) {
-      this.$store.commit(`setSignInModalState`, value)
+    goToWelcome() {
+      this.$store.commit(`setSignInModalState`, `welcome`)
     },
     async onSubmit() {
       this.$v.$touch()

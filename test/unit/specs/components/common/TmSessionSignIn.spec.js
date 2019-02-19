@@ -59,8 +59,8 @@ describe(`TmSessionSignIn`, () => {
     expect($store.commit).toHaveBeenCalledWith(`toggleSignInModal`, false)
   })
 
-  it(`should set the session modal view`, () => {
-    wrapper.vm.setState(`welcome`)
+  it(`should go back to welcome`, () => {
+    wrapper.vm.goToWelcome()
     expect($store.commit).toHaveBeenCalledWith(`setSignInModalState`, `welcome`)
   })
 
