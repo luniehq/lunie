@@ -21,9 +21,7 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
         <div
           class="tm-page-header-body"
         >
-          <tm-balance-stub
-            tabs=""
-          />
+          <tm-balance-stub />
            
           <div
             class="tool-bar"
@@ -165,9 +163,7 @@ exports[`PageGovernance has the expected html structure 1`] = `
         <div
           class="tm-page-header-body"
         >
-          <tm-balance-stub
-            tabs=""
-          />
+          <tm-balance-stub />
            
           <div
             class="tool-bar"

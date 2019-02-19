@@ -3,22 +3,27 @@
     :color="color"
     :time="transaction.time"
     :block="transaction.height"
-    ><template v-if="sent">
+  >
+    <template v-if="sent">
       <div slot="caption">
-        Sent&nbsp;<b>{{ coins.amount }}</b
-        ><span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
+        Sent&nbsp;<b>{{ coins.amount }}</b><span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
       </div>
-      <span slot="details"
-        ><template v-if="sentSelf"
-          >To yourself!</template
-        ><template v-else
-          >To {{ receiver }}</template
-        ></span
-      > </template
-    ><template v-else>
+      <span
+        slot="details"
+      >
+        <template
+          v-if="sentSelf"
+        >
+          To yourself!
+        </template><template
+          v-else
+        >
+          To {{ receiver }}
+        </template>
+      </span>
+    </template><template v-else>
       <div slot="caption">
-        Received&nbsp;<b>{{ coins.amount }}</b
-        ><span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
+        Received&nbsp;<b>{{ coins.amount }}</b><span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
       </div>
       <span slot="details">From {{ sender }}</span>
     </template>
@@ -105,7 +110,7 @@ export default {
   color: var(--dim);
 }
 
-.tm-li-tx .tx-coin .value:before {
+.tm-li-tx .tx-coin .value::before {
   content: "";
   display: inline;
 }
@@ -128,7 +133,7 @@ export default {
   font-size: var(--sm);
 }
 
-.tm-li-tx.tm-li-tx-sent .tx-coin .value:before {
+.tm-li-tx.tm-li-tx-sent .tx-coin .value::before {
   content: "-";
 }
 
@@ -140,7 +145,7 @@ export default {
   color: var(--success);
 }
 
-.tm-li-tx.tm-li-tx-received .tx-coin .value:before {
+.tm-li-tx.tm-li-tx-received .tx-coin .value::before {
   content: "+";
 }
 

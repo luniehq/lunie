@@ -33,9 +33,9 @@
       field-label="Send To"
     >
       <tm-field
-        v-focus
         id="send-address"
         v-model.number="$v.address.$model"
+        v-focus
         type="text"
         placeholder="Address"
       />
@@ -94,33 +94,17 @@
 import b32 from "scripts/b32"
 import { required, between, integer } from "vuelidate/lib/validators"
 import { mapActions, mapGetters } from "vuex"
-import TmBtn from "common/TmBtn"
-import TmFieldGroup from "common/TmFieldGroup"
 import TmFormGroup from "common/TmFormGroup"
-import TmFormStruct from "common/TmFormStruct"
-import TmPage from "common/TmPage"
-import TmPart from "common/TmPart"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
-import TmBalance from "common/TmBalance"
-import FieldAddon from "common/TmFieldAddon"
-import ToolBar from "common/ToolBar"
 import ActionModal from "common/ActionModal"
 
 export default {
   name: `send-modal`,
   components: {
-    TmBalance,
-    TmBtn,
     TmField,
-    FieldAddon,
-    TmFieldGroup,
     TmFormGroup,
     TmFormMsg,
-    TmFormStruct,
-    TmPage,
-    TmPart,
-    ToolBar,
     ActionModal
   },
   data: () => ({

@@ -1,12 +1,15 @@
 <template>
   <modal :close="close" class="tm-modal-send-confirmation">
-    <div slot="title">Confirm Your Transaction</div>
+    <div slot="title">
+      Confirm Your Transaction
+    </div>
     <p>
       Please confirm that you would like to send
-      <b>{{ amount + " " + denom }}</b> to <b>{{ recipient }}</b
-      >.
+      <b>{{ amount + " " + denom }}</b> to <b>{{ recipient }}</b>.
     </p>
-    <p class="warning">This transaction cannot be undone.</p>
+    <p class="warning">
+      This transaction cannot be undone.
+    </p>
     <div slot="footer">
       <tm-btn
         id="send-cancel-btn"
@@ -27,14 +30,12 @@
 </template>
 
 <script>
-import TmListItem from "common/TmListItem"
 import TmBtn from "common/TmBtn"
 import Modal from "common/TmModal"
 export default {
   name: `tm-modal-send-confirmation`,
   components: {
     TmBtn,
-    TmListItem,
     Modal
   },
   props: {

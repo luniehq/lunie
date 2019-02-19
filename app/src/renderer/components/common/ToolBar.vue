@@ -1,8 +1,8 @@
 <template>
   <div class="tool-bar">
     <a
-      v-tooltip.bottom="'Refresh'"
       v-if="!!refresh"
+      v-tooltip.bottom="'Refresh'"
       :disabled="!refresh.connected"
       class="refresh-button"
       @click="refresh.connected && refresh.refresh()"
@@ -10,8 +10,8 @@
       <i class="material-icons">refresh</i>
     </a>
     <a
-      v-tooltip.bottom="'Search'"
       v-if="!!searching"
+      v-tooltip.bottom="'Search'"
       :disabled="!searching.somethingToSearch"
       class="search-button"
       @click="searching.setSearch()"
@@ -23,17 +23,17 @@
       <i class="material-icons">help_outline</i>
     </a>
     <router-link
-      v-tooltip.bottom="'Preferences'"
       v-if="user.signedIn"
       id="settings"
+      v-tooltip.bottom="'Preferences'"
       to="/preferences"
     >
       <i class="material-icons">settings</i>
     </router-link>
     <a
-      v-tooltip.bottom.end="'Sign Out'"
       v-if="user.signedIn"
       id="signOut-btn"
+      v-tooltip.bottom.end="'Sign Out'"
       @click="signOut"
     >
       <i class="material-icons">exit_to_app</i>

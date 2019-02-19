@@ -10,8 +10,12 @@
     data-title="Wallet"
   >
     <tm-data-msg id="account_empty_msg" slot="no-data" icon="help_outline">
-      <div slot="title">Account empty</div>
-      <div slot="subtitle">This account doesn't have anything in it yet.</div>
+      <div slot="title">
+        Account empty
+      </div>
+      <div slot="subtitle">
+        This account doesn't have anything in it yet.
+      </div>
     </tm-data-msg>
     <li-coin
       v-for="coin in filteredBalances"

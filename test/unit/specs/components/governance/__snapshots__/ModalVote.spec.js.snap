@@ -122,7 +122,9 @@ exports[`ModalVote has the expected html structure 1`] = `
         class="tm-form-group__label"
         for="password"
       >
-        Password
+        
+    Password
+  
       </label>
        
       <div

@@ -28,7 +28,9 @@ exports[`TabParameters displays a message if loading 2`] = `
               <i
                 class="material-icons info-button"
               >
+                
                 info_outline
+              
               </i>
             </dt>
              
@@ -51,7 +53,9 @@ exports[`TabParameters displays a message if loading 2`] = `
             <dd
               id="bond_denom"
             >
+              
               STAKE
+            
             </dd>
           </dl>
         </div>
@@ -105,7 +109,9 @@ exports[`TabParameters displays a message if waiting for connection 2`] = `
               <i
                 class="material-icons info-button"
               >
+                
                 info_outline
+              
               </i>
             </dt>
              
@@ -128,7 +134,9 @@ exports[`TabParameters displays a message if waiting for connection 2`] = `
             <dd
               id="bond_denom"
             >
+              
               STAKE
+            
             </dd>
           </dl>
         </div>
@@ -180,7 +188,9 @@ exports[`TabParameters has the expected html structure 1`] = `
               <i
                 class="material-icons info-button"
               >
+                
                 info_outline
+              
               </i>
             </dt>
              
@@ -203,7 +213,9 @@ exports[`TabParameters has the expected html structure 1`] = `
             <dd
               id="bond_denom"
             >
+              
               STAKE
+            
             </dd>
           </dl>
         </div>

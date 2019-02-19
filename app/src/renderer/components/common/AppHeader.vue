@@ -1,9 +1,11 @@
 <template>
   <nav id="app-header" :class="{ mobile: !config.desktop }">
-    <div v-if="config.devMode" id="develop-mode-warning">DEVELOPMENT MODE</div>
+    <div v-if="config.devMode" id="develop-mode-warning">
+      DEVELOPMENT MODE
+    </div>
     <div class="container">
       <div class="header-item header-item-logo">
-        <img id="logo-white" src="~assets/images/cosmos-wordmark-white.svg" />
+        <img id="logo-white" src="~assets/images/cosmos-wordmark-white.svg">
       </div>
       <app-menu v-if="config.activeMenu === 'app' || config.desktop" />
       <template v-if="!config.desktop">
@@ -124,7 +126,6 @@ export default {
     display: flex;
     flex: 0 0 var(--width-side);
     min-width: 0;
-    display: flex;
   }
 
   #app-header > .container {

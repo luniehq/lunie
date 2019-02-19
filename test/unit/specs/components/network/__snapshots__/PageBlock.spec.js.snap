@@ -23,7 +23,9 @@ exports[`PageBlock has the expected html structure 1`] = `
           <h2
             class="page-profile__title"
           >
-            Block #100
+            
+              Block #100
+            
           </h2>
            
           <h3

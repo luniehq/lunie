@@ -1,14 +1,20 @@
 <template>
   <form :class="cssClass" @submit.prevent="submit">
     <div class="tm-form-container">
-      <slot name="overlay"></slot>
+      <slot name="overlay" />
       <header v-if="hasHeader" class="tm-form-header">
-        <div class="tm-form-title"><slot name="title"></slot></div>
-        <div class="tm-form-subtitle"><slot name="subtitle"></slot></div>
+        <div class="tm-form-title">
+          <slot name="title" />
+        </div>
+        <div class="tm-form-subtitle">
+          <slot name="subtitle" />
+        </div>
       </header>
-      <main class="tm-form-main"><slot></slot></main>
+      <main class="tm-form-main">
+        <slot />
+      </main>
       <footer v-if="hasFooter" class="tm-form-footer">
-        <slot name="footer"></slot>
+        <slot name="footer" />
       </footer>
     </div>
   </form>
@@ -60,14 +66,6 @@ export default {
   position: relative;
 }
 
-.tm-form-header:empty,
-.tm-form-title:empty,
-.tm-form-subtitle:empty,
-.tm-form-main:empty,
-.tm-form-footer:empty {
-  display: none;
-}
-
 .tm-form-main {
   flex: 1;
 }
@@ -89,6 +87,14 @@ export default {
   color: var(--dim);
   font-size: var(--sm);
   line-height: 1rem;
+}
+
+.tm-form-header:empty,
+.tm-form-title:empty,
+.tm-form-subtitle:empty,
+.tm-form-main:empty,
+.tm-form-footer:empty {
+  display: none;
 }
 
 .tm-form-footer > div {

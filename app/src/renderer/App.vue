@@ -5,7 +5,9 @@
     <onboarding v-else-if="onboarding.active" />
     <template v-else>
       <app-header />
-      <div id="app-content"><router-view /></div>
+      <div id="app-content">
+        <router-view />
+      </div>
     </template>
     <tm-notifications :notifications="notifications" />
     <modal-error

@@ -16,7 +16,9 @@ exports[`TmDataLoading has the expected html structure 1`] = `
       class="tm-data-msg__title"
       slot="title"
     >
+      
       Data is loading…
+    
     </div>
      
     <div
