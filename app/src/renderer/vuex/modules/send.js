@@ -103,7 +103,7 @@ export default ({ node }) => {
         // TODO: move to wallet script
         const connectionError = await dispatch(`pollLedgerDevice`)
         if (connectionError) {
-          throw Error(connectionError)
+          throw new Error(connectionError)
         }
         const signMessage = state.externals.createSignMessage(
           tx,

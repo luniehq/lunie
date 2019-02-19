@@ -140,6 +140,17 @@ describe(`Module: Ledger`, () => {
           const response = await actions.pollLedgerDevice({ state })
           expect(response).toBe(`No Ledger found`)
         })
+
+        it(`fails due to other error`, async () => {
+          state.externals.App = () => ({
+            get_version: () =>
+              Promise.resolve({
+                error_message: `Device is busy`
+              })
+          })
+          const response = await actions.pollLedgerDevice({ state })
+          expect(response).toBe(`Device is busy`)
+        })
       })
 
       describe(`create ledger app`, () => {

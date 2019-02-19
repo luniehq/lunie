@@ -63,8 +63,10 @@ export default () => {
           return `No Ledger found`
         case `Cosmos app does not seem to be open`:
           return `Cøsmos app is not open`
-        default:
+        case `No errors`:
           return ``
+        default:
+          return response.error_message
       }
     },
     async createLedgerAppInstance({ commit, state }) {

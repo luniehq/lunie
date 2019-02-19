@@ -368,6 +368,45 @@ describe(`Module: Send`, () => {
           )
         ).rejects.toEqual(new Error())
       })
+
+      it(`when ledger returns a connection error`, async () => {
+        const args = {
+          type: `send`,
+          password: `1234567890`,
+          amount: [{ denom: `mycoin`, amount: 123 }],
+          submitType: `ledger`
+        }
+        const dispatch = jest.fn(() => `No Ledger found`)
+        state.externals = {
+          createSignMessage: jest.fn(),
+          signatureImport: jest.fn(),
+          createSignature: jest.fn(),
+          createSignedTx: jest.fn(),
+          createBroadcastBody: jest.fn(() => ({ broadcast: `body` })),
+          config: { default_gas: `500000` }
+        }
+        let message = ``
+        try {
+          await actions.sendTx(
+            {
+              state,
+              dispatch,
+              commit: jest.fn(),
+              rootState: { ...mockRootState, ledger: { isConnected: true } }
+            },
+            args
+          )
+        } catch (error) {
+          message = error.message
+        }
+        expect(message).toBe(`No Ledger found`)
+        expect(dispatch).toHaveBeenCalledWith(`pollLedgerDevice`)
+        expect(state.externals.createSignMessage).not.toHaveBeenCalled()
+        expect(state.externals.signatureImport).not.toHaveBeenCalled()
+        expect(state.externals.createSignature).not.toHaveBeenCalled()
+        expect(state.externals.createSignedTx).not.toHaveBeenCalled()
+        expect(state.externals.createBroadcastBody).not.toHaveBeenCalled()
+      })
     })
 
     it(`should interpret a returned empty array as failed delivery`, async () => {
