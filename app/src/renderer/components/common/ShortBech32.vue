@@ -2,10 +2,10 @@
   <div class="short-bech32">
     <div
       v-tooltip.top="address"
-      id="address"
-      class="address"
       v-clipboard:copy="address"
       v-clipboard:success="() => onCopy()"
+      id="address"
+      class="address"
     >
       {{ shortBech32 }}
     </div>
