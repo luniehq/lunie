@@ -4,11 +4,12 @@
       v-tooltip.top="address"
       id="address"
       class="address"
-      @click.prevent.stop="copy"
+      v-clipboard:copy="address"
+      v-clipboard:success="() => onCopy()"
     >
       {{ shortBech32 }}
     </div>
-    <div :class="{ active: showSuccess }" class="copied">
+    <div :class="{ active: copySuccess }" class="copied">
       <i class="material-icons">check</i><span>Copied</span>
     </div>
   </div>
@@ -24,9 +25,7 @@ export default {
     }
   },
   data: () => ({
-    showSuccess: false,
-    /* istanbul ignore next */
-    copyToClipboard: value => navigator.clipboard.writeText(value)
+    copySuccess: false
   }),
   computed: {
     shortBech32({ address } = this, length = 4) {
@@ -39,12 +38,11 @@ export default {
     }
   },
   methods: {
-    copy() {
-      this.copyToClipboard(this.address)
-      this.showSuccess = true
+    onCopy() {
+      this.copySuccess = true
       setTimeout(() => {
-        this.showSuccess = false
-      }, 3000)
+        this.copySuccess = false
+      }, 2500)
     }
   }
 }
