@@ -19,9 +19,6 @@ describe(`TmBalance`, () => {
       },
       stubs: {
         "short-bech32": true
-      },
-      propsData: {
-        tabs: []
       }
     })
     wrapper = instance.wrapper

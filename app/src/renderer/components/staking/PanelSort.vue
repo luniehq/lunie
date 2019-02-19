@@ -67,10 +67,6 @@ export default {
   font-size: var(--sm);
 }
 
-.sort-by.active a {
-  color: var(--tertiary);
-}
-
 .sort-by i {
   font-size: var(--lg);
   position: relative;
@@ -82,6 +78,11 @@ export default {
   cursor: pointer;
   user-select: none;
 }
+
+.sort-by.active a {
+  color: var(--tertiary);
+}
+
 .sort-by.asc i {
   color: var(--tertiary);
 }

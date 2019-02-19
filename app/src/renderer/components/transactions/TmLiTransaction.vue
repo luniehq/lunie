@@ -118,6 +118,10 @@ export default {
 
 .tm-li-tx__content__block {
   flex: 0.3;
+  margin-left: auto;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-end;
 }
 
 .tm-li-tx__content__caption {
@@ -138,12 +142,5 @@ export default {
 
 .tm-li-tx__content__information {
   padding-top: 4px;
-}
-
-.tm-li-tx__content__block {
-  margin-left: auto;
-  flex-direction: row;
-  align-items: flex-end;
-  justify-content: flex-end;
 }
 </style>
