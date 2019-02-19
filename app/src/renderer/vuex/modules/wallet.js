@@ -64,7 +64,7 @@ export default ({ node }) => {
       if (!rootState.connection.connected) return
 
       try {
-        const res = await node.queryAccount(state.address)
+        const res = await node.getAccount(state.address)
         state.error = null
         const { coins, sequence, account_number } = res || {}
         commit(`setNonce`, sequence)

@@ -15,6 +15,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+## [1.0.0-beta.2] - 2019-02-19
+
+### Added
+
+### Changed
+
+- [\#1729](https://github.com/cosmos/voyager/issues/1729) Rename endpoint functions @fedekunze
+- [\#1790](https://github.com/cosmos/voyager/issues/1790) Rename `lcdClient.js` to `api.js` @fedekunze
+- [\#2002](https://github.com/cosmos/voyager/pull/2002) Fix boot process for remote nodes @sabau
+
+### Fixed
+
+- [\#1879](https://github.com/cosmos/voyager/issues/1879) Align tx props with new format from SDK @sabau
+
 ## [1.0.0-beta.1] - 2019-02-18
 
 ### Fixed
@@ -214,7 +228,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1934](https://github.com/cosmos/voyager/pull/1934) Fix boot process @sabau
 - [\#961](https://github.com/cosmos/voyager/issues/961) Mock timezone and keep moment as it is @sabau
 - [\#961](https://github.com/cosmos/voyager/issues/961) Mock only the `now` function from Date module @sabau
-- [\#1879](https://github.com/cosmos/voyager/issues/1879) Align tx props with new format from SDK @sabau
 - Fixed `yarn start` @ƒaboweb
 - [\#1955](https://github.com/cosmos/voyager/issues/1955) Fixed local testnet setup @faboweb
 - HOT FIX: unit tests failed due to merge @faboweb
