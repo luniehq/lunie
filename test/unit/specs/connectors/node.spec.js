@@ -8,7 +8,7 @@ describe(`Connector`, () => {
     axios = jest.fn()
 
     jest.mock(
-      `renderer/connectors/lcdClient`,
+      `renderer/connectors/api`,
       () =>
         class LCDClient {
           fooLcd() {

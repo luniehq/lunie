@@ -37,7 +37,7 @@ const Client = (axios, remoteLcdURL) => {
 
     // coins
     send: argReq(`POST`, `/bank/accounts`, `/transfers`),
-    queryAccount: function(address) {
+    getAccount: function(address) {
       const emptyAccount = {
         coins: [],
         sequence: `0`,
@@ -101,9 +101,9 @@ const Client = (axios, remoteLcdURL) => {
     // },
 
     // Get a list containing all the validator candidates
-    getCandidates: req(`GET`, `/staking/validators`),
+    getValidators: req(`GET`, `/staking/validators`),
     // Get information from a validator
-    getCandidate: function(addr) {
+    getValidator: function(addr) {
       return req(`GET`, `/staking/validators/${addr}`)()
     },
     // // Get all of the validator bonded delegators
@@ -136,14 +136,14 @@ const Client = (axios, remoteLcdURL) => {
     },
 
     // Query a delegation between a delegator and a validator
-    queryDelegation: function(delegatorAddr, validatorAddr) {
+    getDelegation: function(delegatorAddr, validatorAddr) {
       return req(
         `GET`,
         `/staking/delegators/${delegatorAddr}/delegations/${validatorAddr}`,
         true
       )()
     },
-    queryUnbonding: function(delegatorAddr, validatorAddr) {
+    getUnbondingDelegation: function(delegatorAddr, validatorAddr) {
       return req(
         `GET`,
         `/staking/delegators/${delegatorAddr}/unbonding_delegations/${validatorAddr}`,
@@ -155,26 +155,26 @@ const Client = (axios, remoteLcdURL) => {
 
     /* ============ Slashing ============ */
 
-    queryValidatorSigningInfo: function(pubKey) {
+    getValidatorSigningInfo: function(pubKey) {
       return req(`GET`, `/slashing/validators/${pubKey}/signing_info`)()
     },
 
     /* ============ Governance ============ */
 
-    queryProposals: req(`GET`, `/gov/proposals`),
-    queryProposal: function(proposalId) {
+    getProposals: req(`GET`, `/gov/proposals`),
+    getProposal: function(proposalId) {
       return req(`GET`, `/gov/proposals/${proposalId}`)()
     },
-    queryProposalVotes: function(proposalId) {
+    getProposalVotes: function(proposalId) {
       return req(`GET`, `/gov/proposals/${proposalId}/votes`)()
     },
-    queryProposalVote: function(proposalId, address) {
+    getProposalVote: function(proposalId, address) {
       return req(`GET`, `/gov/proposals/${proposalId}/votes/${address}`)()
     },
-    queryProposalDeposits: function(proposalId) {
+    getProposalDeposits: function(proposalId) {
       return req(`GET`, `/gov/proposals/${proposalId}/deposits`)()
     },
-    queryProposalDeposit: function(proposalId, address) {
+    getProposalDeposit: function(proposalId, address) {
       return req(
         `GET`,
         `/gov/proposals/${proposalId}/deposits/${address}`,
@@ -187,13 +187,13 @@ const Client = (axios, remoteLcdURL) => {
     getGovDepositParameters: req(`GET`, `/gov/parameters/deposit`),
     getGovTallyingParameters: req(`GET`, `/gov/parameters/tallying`),
     getGovVotingParameters: req(`GET`, `/gov/parameters/voting`),
-    submitProposal: function(data) {
+    postProposal: function(data) {
       return req(`POST`, `/gov/proposals`)(data)
     },
-    submitProposalVote: function(proposalId, data) {
+    postProposalVote: function(proposalId, data) {
       return req(`POST`, `/gov/proposals/${proposalId}/votes`)(data)
     },
-    submitProposalDeposit: function(proposalId, data) {
+    postProposalDeposit: function(proposalId, data) {
       return req(`POST`, `/gov/proposals/${proposalId}/deposits`)(data)
     },
     getGovernanceTxs: async function(address) {
@@ -204,8 +204,58 @@ const Client = (axios, remoteLcdURL) => {
         [].concat(depositorTxs, proposerTxs)
       )
     },
+    /* ============ Explorer ============ */
     getBlock: function(blockHeight) {
       return req(`GET`, `/blocks/${blockHeight}`)()
+    },
+    /* ============ Distribution ============ */
+    getDelegatorRewards: function(delegatorAddr) {
+      return req(`GET`, `/distribution/delegators/${delegatorAddr}/rewards`)()
+    },
+    postWithdrawDelegatorRewards: function(delegatorAddr, data) {
+      return req(`POST`, `/distribution/delegators/${delegatorAddr}/rewards`)(
+        data
+      )
+    },
+    getDelegatorRewardsFromValidator: function(delegatorAddr, validatorAddr) {
+      return req(
+        `GET`,
+        `/distribution/delegators/${delegatorAddr}/rewards/${validatorAddr}`
+      )()
+    },
+    postWithdrawDelegatorRewardsFromValidator: function(
+      delegatorAddr,
+      validatorAddr,
+      data
+    ) {
+      return req(
+        `POST`,
+        `/distribution/delegators/${delegatorAddr}/rewards/${validatorAddr}`
+      )(data)
+    },
+    getDelegatorWithdrawAddress: function(delegatorAddr) {
+      return req(
+        `GET`,
+        `/distribution/delegators/${delegatorAddr}/withdraw_address`
+      )()
+    },
+    postDelegatorWithdrawAddress: function(delegatorAddr, data) {
+      return req(
+        `POST`,
+        `/distribution/delegators/${delegatorAddr}/withdraw_address`
+      )(data)
+    },
+    getValidatorDistributionInformation: function(validatorAddr) {
+      return req(`GET`, `/distribution/validators/${validatorAddr}`)()
+    },
+    getValidatorRewards: function(validatorAddr) {
+      return req(`GET`, `/distribution/validators/${validatorAddr}/rewards`)()
+    },
+    getDistributionParameters: function() {
+      return req(`GET`, `/distribution/parameters`)()
+    },
+    getDistributionOutstandingRewards: function() {
+      return req(`GET`, `/distribution/outstanding_rewards`)()
     }
   }
 }
