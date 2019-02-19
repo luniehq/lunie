@@ -1012,9 +1012,6 @@ Msg Traces:
   async getStakingParameters() {
     return state.stakingParameters.parameters
   },
-  async getProposals() {
-    return state.proposals || []
-  },
   async postProposal({
     base_req,
     title,

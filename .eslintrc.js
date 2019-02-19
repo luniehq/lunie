@@ -2,7 +2,7 @@
 
 module.exports = {
   root: true,
-  extends: ["plugin:vue/recommended"],
+  extends: ["eslint:recommended", "plugin:vue/recommended"],
   parserOptions: {
     ecmaVersion: 2017,
     sourceType: "module",
@@ -51,6 +51,7 @@ module.exports = {
       {
         ignores: ["pre", "textarea"]
       }
-    ]
+    ],
+    "no-console": "off",
   }
 }
