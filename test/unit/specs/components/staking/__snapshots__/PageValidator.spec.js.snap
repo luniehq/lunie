@@ -89,10 +89,6 @@ exports[`PageValidator has the expected html structure if user has signed in 1`]
               </div>
             </div>
              
-            <div
-              class="tabs"
-            />
-             
           </div>
            
           <div
@@ -599,10 +595,6 @@ exports[`PageValidator has the expected html structure if user hasn't signed in 
               </div>
             </div>
              
-            <div
-              class="tabs"
-            />
-             
           </div>
            
           <div
@@ -1105,10 +1097,6 @@ exports[`PageValidator shows a default avatar 1`] = `
                 </span>
               </div>
             </div>
-             
-            <div
-              class="tabs"
-            />
              
           </div>
            
@@ -1618,10 +1606,6 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
               </div>
             </div>
              
-            <div
-              class="tabs"
-            />
-             
           </div>
            
           <div
@@ -1821,10 +1805,6 @@ exports[`Staking functions onDelegation make sure we have enough atoms to delega
                 </span>
               </div>
             </div>
-             
-            <div
-              class="tabs"
-            />
              
           </div>
            
@@ -2399,10 +2379,6 @@ exports[`Staking functions onDelegation make sure we have enough atoms to delega
               </div>
             </div>
              
-            <div
-              class="tabs"
-            />
-             
           </div>
            
           <div
@@ -2908,10 +2884,6 @@ exports[`Staking functions onUndelegation make sure there are enough atoms to un
                 </span>
               </div>
             </div>
-             
-            <div
-              class="tabs"
-            />
              
           </div>
            
@@ -3485,10 +3457,6 @@ exports[`Staking functions onUndelegation make sure there are enough atoms to un
                 </span>
               </div>
             </div>
-             
-            <div
-              class="tabs"
-            />
              
           </div>
            

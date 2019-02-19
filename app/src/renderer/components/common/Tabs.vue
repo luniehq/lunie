@@ -34,24 +34,29 @@ export default {
   display: flex;
   margin-left: 2rem;
 }
+
 .tabs .tab {
   cursor: pointer;
   margin-right: 2rem;
   font-size: 1rem;
   letter-spacing: -1px;
 }
+
 .tabs .tab a {
   color: var(--dim);
   display: block;
   font-weight: 500;
   padding-bottom: 1rem;
 }
+
 .tabs .tab a:hover {
   color: var(--link);
 }
+
 .tabs .tab.tab-selected {
   border-bottom: 2px solid var(--tertiary);
 }
+
 .tabs .tab.tab-selected a {
   color: var(--bright);
 }
