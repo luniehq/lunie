@@ -44,10 +44,10 @@ exports[`TmSessionSignIn has the expected html structure 1`] = `
       >
         <tm-field-stub
           id="sign-in-name"
-          options=""
+          options="[object Object]"
           placeholder="Select account…"
           type="select"
-          value=""
+          value="my_account"
           vue-focus="vue-focus"
         />
          

@@ -15,7 +15,11 @@ describe(`TmSessionSignIn`, () => {
       getters: {
         connected: true,
         session: {
-          accounts: []
+          accounts: [
+            {
+              name: `my_account`
+            }
+          ]
         },
         mockedConnector: false
       }
@@ -53,6 +57,11 @@ describe(`TmSessionSignIn`, () => {
     })
     await wrapper.vm.onSubmit()
     expect($store.commit).toHaveBeenCalledWith(`toggleSignInModal`, false)
+  })
+
+  it(`should set the session modal view`, () => {
+    wrapper.vm.setState(`welcome`)
+    expect($store.commit).toHaveBeenCalledWith(`setSignInModalState`, `welcome`)
   })
 
   it(`should signal signedin state on successful login`, async () => {
