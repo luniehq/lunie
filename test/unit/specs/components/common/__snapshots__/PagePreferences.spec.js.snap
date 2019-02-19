@@ -9,9 +9,7 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
   title=""
 >
   <template>
-    <tm-balance-stub
-      tabs=""
-    />
+    <tm-balance-stub />
      
     <tool-bar-stub />
   </template>

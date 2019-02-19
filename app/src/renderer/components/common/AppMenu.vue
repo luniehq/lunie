@@ -101,10 +101,12 @@ export default {
   display: flex;
   flex-flow: column nowrap;
 }
+
 .app-menu .app-menu-main {
   flex: 1;
   position: relative;
 }
+
 .app-menu .app-menu-item {
   display: flex;
   justify-content: space-between;
@@ -113,20 +115,25 @@ export default {
   padding: 1rem;
   color: var(--dim);
 }
+
 .app-menu .app-menu-item:hover {
   color: var(--bright);
   background: var(--hover-bg);
 }
+
 .app-menu .router-link-active {
   background: var(--hover-bg);
 }
+
 .app-menu .router-link-active i {
   color: var(--tertiary);
 }
+
 .app-menu .router-link-active h2 {
   color: var(--bright);
   font-weight: 500;
 }
+
 @media screen and (max-width: 1023px) {
   .app-menu {
     position: fixed;
@@ -138,6 +145,7 @@ export default {
     user-select: none;
   }
 }
+
 @media screen and (min-width: 1024px) {
   .app-menu {
     flex: 1;

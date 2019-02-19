@@ -101,14 +101,6 @@ export default {
   border: 1px solid var(--bc-dim);
 }
 
-.tm-notification.tm-notification-warning header {
-  background: var(--warning);
-}
-
-.tm-notification.tm-notification-error header {
-  background: var(--danger);
-}
-
 .tm-notification header {
   display: flex;
   align-items: center;
@@ -116,6 +108,14 @@ export default {
   height: 2em;
   border-radius: 0.25rem 0.25rem 0 0;
   background: var(--success);
+}
+
+.tm-notification.tm-notification-warning header {
+  background: var(--warning);
+}
+
+.tm-notification.tm-notification-error header {
+  background: var(--danger);
 }
 
 .tm-notification header .icon,

@@ -126,7 +126,6 @@ export default {
     display: flex;
     flex: 0 0 var(--width-side);
     min-width: 0;
-    display: flex;
   }
 
   #app-header > .container {

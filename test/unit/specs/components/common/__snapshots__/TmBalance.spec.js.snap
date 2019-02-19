@@ -5,5 +5,5 @@ exports[`TmBalance has the expected html structure before adding props 1`] = `
         321.0000…
       </h2></div> <div class=\\"unbonded-atoms top-section\\"><h3>Available STAKE</h3> <h2>123.0000…</h2></div></div> <div class=\\"short-bech32\\"><div id=\\"address\\" class=\\"address\\">
     cosmos…ress
-  </div> <div class=\\"copied\\"><i class=\\"material-icons\\">check</i><span>Copied</span></div></div> <div class=\\"tabs\\"></div> </div>"
+  </div> <div class=\\"copied\\"><i class=\\"material-icons\\">check</i><span>Copied</span></div></div> </div>"
 `;

@@ -66,6 +66,14 @@ export default {
   color: var(--dim);
 }
 
+.tm-form-group__label {
+  display: block;
+  line-height: 2rem;
+  color: var(--txt);
+  text-align: left;
+  font-weight: 500;
+}
+
 .tm-form-group__sub-label ~ .tm-form-group__label {
   line-height: 1rem;
 }
@@ -73,14 +81,6 @@ export default {
 .tm-form-group--error .tm-field,
 .tm-form-group--error .tm-select {
   border-color: var(--danger);
-}
-
-.tm-form-group__label {
-  display: block;
-  line-height: 2rem;
-  color: var(--txt);
-  text-align: left;
-  font-weight: 500;
 }
 
 @media (min-width: 768px) {
