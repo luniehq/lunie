@@ -12,7 +12,7 @@
         <p>You need to sign in to submit a transaction.</p>
       </div>
       <div v-else-if="step === `txDetails`" class="action-modal-form">
-        <slot />
+        <slot/>
         <tm-form-group
           v-if="signMethods.length > 1"
           class="action-modal-form-group"
@@ -34,12 +34,7 @@
           field-id="password"
           field-label="Password"
         >
-          <tm-field
-            id="password"
-            v-model="password"
-            type="password"
-            placeholder="Password"
-          />
+          <tm-field id="password" v-model="password" type="password" placeholder="Password"/>
           <tm-form-msg
             v-if="$v.password.$error && !$v.password.required"
             name="Password"
@@ -48,7 +43,7 @@
         </tm-form-group>
       </div>
       <div v-else-if="step === `sign`" class="action-modal-form">
-        <hardware-state v-if="sending" :loading="true" value="Waiting for signature on app" />
+        <hardware-state v-if="sending" :loading="true" value="Waiting for signature on app"/>
         <hardware-state
           v-else
           icon="usb"
@@ -66,12 +61,7 @@
                 color="primary"
                 @click.native="goToSession"
               />
-              <tm-btn
-                v-else-if="sending"
-                value="Sending..."
-                disabled="disabled"
-                color="primary"
-              />
+              <tm-btn v-else-if="sending" value="Sending..." disabled="disabled" color="primary"/>
               <tm-btn
                 v-else-if="!connected"
                 value="Connecting..."
@@ -92,21 +82,14 @@
                 value="Sign"
                 @click.native="validateChangeStep"
               />
-              <tm-btn
-                v-else
-                color="primary"
-                value="Submit"
-                @click.native="validateChangeStep"
-              />
+              <tm-btn v-else color="primary" value="Submit" @click.native="validateChangeStep"/>
             </div>
           </tm-form-group>
         </slot>
         <p
           v-if="submissionError"
           class="tm-form-msg sm tm-form-msg--error submission-error"
-        >
-          {{ submissionError }}
-        </p>
+        >{{ submissionError }}</p>
       </div>
     </div>
   </transition>
