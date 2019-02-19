@@ -38,6 +38,15 @@ describe(`ShortBech32`, () => {
     expect(wrapper.vm.shortBech32).toBe(`cosmosaddress…asdf`)
   })
 
+  it(`should set and reset copySuccess`, () => {
+    jest.useFakeTimers()
+    wrapper.vm.onCopy()
+    expect(wrapper.vm.copySuccess).toBe(true)
+
+    jest.runAllTimers()
+    expect(wrapper.vm.copySuccess).toBe(false)
+  })
+
   // not sure how to test the v-clipboard directive events
   xit(`clicking copy copies the address`, () => {
     jest.useFakeTimers()
