@@ -6,6 +6,12 @@ exports[`AppHeader should display the sidebar on desktop 1`] = `
   id="app-header"
 >
   <div
+    id="develop-mode-warning"
+  >
+    DEVELOPMENT MODE
+  </div>
+   
+  <div
     class="container"
   >
     <div
@@ -29,6 +35,12 @@ exports[`AppHeader should show the sidebar as a menu on mobile 1`] = `
   class="mobile"
   id="app-header"
 >
+  <div
+    id="develop-mode-warning"
+  >
+    DEVELOPMENT MODE
+  </div>
+   
   <div
     class="container"
   >

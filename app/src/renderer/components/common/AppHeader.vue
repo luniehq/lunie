@@ -1,5 +1,6 @@
 <template>
   <nav id="app-header" :class="{ mobile: !desktop }">
+    <div v-if="session.devMode" id="develop-mode-warning">DEVELOPMENT MODE</div>
     <div class="container">
       <div class="header-item header-item-logo">
         <img id="logo-white" src="~assets/images/cosmos-wordmark-white.svg" />
@@ -18,6 +19,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 import noScroll from "no-scroll"
 import AppMenu from "common/AppMenu"
 export default {
@@ -27,6 +29,9 @@ export default {
     open: true,
     desktop: false
   }),
+  computed: {
+    ...mapGetters([`session`])
+  },
   mounted() {
     this.watchWindowSize()
     window.onresize = this.watchWindowSize

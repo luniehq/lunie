@@ -9,18 +9,18 @@
 // think it's running in a browser, causing some network requests below to fail
 // with only the message "Network Error".
 
-const LcdClient = require(`renderer/connectors/lcdClient.js`)
+const api = require(`renderer/connectors/api.js`)
 const lcdClientMock = require(`renderer/connectors/lcdClientMock.js`)
 const { proposals, deposits, votes } = lcdClientMock.state
 
-describe(`LCD Client`, () => {
+describe(`API`, () => {
   describe(`unit tests`, () => {
     let axios
     let client
 
     beforeEach(() => {
       axios = jest.fn(() => new Promise())
-      client = LcdClient(axios, `http://remotehost`)
+      client = api(axios, `http://remotehost`)
     })
 
     describe(`helper functions`, () => {
@@ -109,7 +109,7 @@ describe(`LCD Client`, () => {
             }
           })
         )
-        await client.queryDelegation(`abc`, `efg`)
+        await client.getDelegation(`abc`, `efg`)
 
         expect(axios.mock.calls).toEqual([
           [
@@ -223,7 +223,7 @@ describe(`LCD Client`, () => {
 
       it(`queries for undelegations between a delegator and a validator`, async () => {
         axios.mockReturnValue({})
-        await client.queryUnbonding(`abc`, `def`)
+        await client.getUnbondingDelegation(`abc`, `def`)
 
         expect(axios.mock.calls).toEqual([
           [
@@ -238,7 +238,7 @@ describe(`LCD Client`, () => {
 
       it(`queries for a validator`, async () => {
         axios.mockReturnValue({})
-        await client.getCandidate(`abc`)
+        await client.getValidator(`abc`)
 
         expect(axios.mock.calls).toEqual([
           [
@@ -330,7 +330,7 @@ describe(`LCD Client`, () => {
     describe(`Governance`, () => {
       it(`fetches all governance proposals`, async () => {
         axios.mockReturnValue({})
-        await client.queryProposals()
+        await client.getProposals()
 
         expect(axios.mock.calls).toEqual([
           [
@@ -345,7 +345,7 @@ describe(`LCD Client`, () => {
 
       it(`queries a single proposal`, async () => {
         axios.mockReturnValue({})
-        await client.queryProposal(`1`)
+        await client.getProposal(`1`)
 
         expect(axios.mock.calls).toEqual([
           [
@@ -375,7 +375,7 @@ describe(`LCD Client`, () => {
 
       it(`queries a proposal votes`, async () => {
         axios.mockReturnValue({})
-        await client.queryProposalVotes(`1`)
+        await client.getProposalVotes(`1`)
 
         expect(axios.mock.calls).toEqual([
           [
@@ -390,7 +390,7 @@ describe(`LCD Client`, () => {
 
       it(`queries a proposal vote from an address`, async () => {
         axios.mockReturnValue({})
-        await client.queryProposalVote(
+        await client.getProposalVote(
           `1`,
           `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
         )
@@ -408,7 +408,7 @@ describe(`LCD Client`, () => {
 
       it(`queries a proposal deposits`, async () => {
         axios.mockReturnValue({})
-        await client.queryProposalDeposits(`1`)
+        await client.getProposalDeposits(`1`)
 
         expect(axios.mock.calls).toEqual([
           [
@@ -423,7 +423,7 @@ describe(`LCD Client`, () => {
 
       it(`queries a proposal deposit from an address`, async () => {
         axios.mockReturnValue({})
-        await client.queryProposalDeposit(
+        await client.getProposalDeposit(
           `1`,
           `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
         )
@@ -441,7 +441,7 @@ describe(`LCD Client`, () => {
 
       it(`submits a new proposal`, async () => {
         axios.mockReturnValue({})
-        await client.submitProposal(proposals[`1`])
+        await client.postProposal(proposals[`1`])
 
         expect(axios.mock.calls).toEqual([
           [
@@ -456,7 +456,7 @@ describe(`LCD Client`, () => {
 
       it(`submits a new vote to a proposal`, async () => {
         axios.mockReturnValue({})
-        await client.submitProposalVote(`1`, votes[0])
+        await client.postProposalVote(`1`, votes[0])
 
         expect(axios.mock.calls).toEqual([
           [
@@ -471,7 +471,7 @@ describe(`LCD Client`, () => {
 
       it(`submits a new deposit to a proposal`, async () => {
         axios.mockReturnValue({})
-        await client.submitProposalDeposit(`1`, deposits[0])
+        await client.postProposalDeposit(`1`, deposits[0])
 
         expect(axios.mock.calls).toEqual([
           [
@@ -558,7 +558,7 @@ describe(`LCD Client`, () => {
       })
     })
 
-    describe(`queryAccount`, () => {
+    describe(`getAccount`, () => {
       it(`returns an account`, async () => {
         axios.mockReturnValueOnce(
           Promise.resolve({
@@ -577,7 +577,7 @@ describe(`LCD Client`, () => {
           })
         )
 
-        expect(await client.queryAccount(`address`)).toEqual({
+        expect(await client.getAccount(`address`)).toEqual({
           type: `auth/Account`,
           value: {
             account_number: `768`,
@@ -597,7 +597,7 @@ describe(`LCD Client`, () => {
             }
           })
         )
-        const res = await client.queryAccount(`address`)
+        const res = await client.getAccount(`address`)
         expect(res).toEqual({
           coins: [],
           sequence: `0`,
@@ -613,7 +613,7 @@ describe(`LCD Client`, () => {
             }
           })
         )
-        const res = await client.queryAccount(`address`)
+        const res = await client.getAccount(`address`)
         expect(res).toEqual({
           coins: [],
           sequence: `0`,
@@ -630,7 +630,7 @@ describe(`LCD Client`, () => {
           })
         )
         try {
-          await client.queryAccount(`address`)
+          await client.getAccount(`address`)
         } catch (error) {
           expect(error.response.data).toBe(`something failed`)
         }
@@ -672,9 +672,24 @@ describe(`LCD Client`, () => {
       ])
     })
 
+    it(`gets the list of the validators`, async () => {
+      axios.mockReturnValue({})
+      await client.getValidators()
+
+      expect(axios.mock.calls).toEqual([
+        [
+          {
+            data: undefined,
+            method: `GET`,
+            url: `http://remotehost/staking/validators`
+          }
+        ]
+      ])
+    })
+
     it(`queries a validator signing information`, async () => {
       axios.mockReturnValue({})
-      await client.queryValidatorSigningInfo(`pubKey`)
+      await client.getValidatorSigningInfo(`pubKey`)
 
       expect(axios.mock.calls).toEqual([
         [

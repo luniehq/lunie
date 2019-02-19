@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.2] - 2019-02-19
+
+### Added
+
+### Changed
+
+- [\#1729](https://github.com/cosmos/voyager/issues/1729) Rename endpoint functions @fedekunze
+- [\#1790](https://github.com/cosmos/voyager/issues/1790) Rename `lcdClient.js` to `api.js` @fedekunze
+- [\#2002](https://github.com/cosmos/voyager/pull/2002) Fix boot process for remote nodes @sabau
+
+### Fixed
+
+- [\#1879](https://github.com/cosmos/voyager/issues/1879) Align tx props with new format from SDK @sabau
+
+## [1.0.0-beta.1] - 2019-02-18
+
+### Fixed
+
+- [\#1958](https://github.com/cosmos/voyager/issues/1958) Kill all processes if one dies to not have dangling processes in development setups @faboweb
+- Fix development warning overlaying the UI too much @faboweb
+
+## [0.10003.4] - 2019-02-17
+
 ### Added
 
 - Contract tests for `keys` endpoints in lcdClient. @NodeGuy
@@ -126,6 +149,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1948](https://github.com/cosmos/voyager/pull/1948) changed PR template @fedekunze
 - [\#1946](https://github.com/cosmos/voyager/pull/1946) removed proposer_address raw hex @jbibla
 - [\#1967](https://github.com/cosmos/voyager/pull/1967) bundle analyzer changed from dynamic to static report @sabau
+- always upload coverage to prevent PRs not being able to be merged if a not required check doesn't pass @faboweb
 
 ### Fixed
 
@@ -203,6 +227,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Bring back devMode @faboweb
 - [\#1945](https://github.com/cosmos/voyager/issues/1945) Fixed governance parameters quorum description @fedekunze
 - [\#1978](https://github.com/cosmos/voyager/pull/1978) Fixed dependency for security audit @sabau
+- [\#1977](https://github.com/cosmos/voyager/issues/1977) Fixed ledger notification errors @fedekunze
 
 ## [0.10.7] - 2018-10-10
 

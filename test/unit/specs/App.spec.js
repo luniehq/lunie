@@ -26,9 +26,7 @@ describe(`App Start`, () => {
     }
     const Node = () => node
     const store = {
-      state: {
-        devMode: true
-      },
+      state: {},
       commit: jest.fn(),
       dispatch: jest.fn()
     }
@@ -93,9 +91,7 @@ describe(`App Start`, () => {
     const Node = () => node
 
     const store = {
-      state: {
-        devMode: true
-      },
+      state: {},
       commit: jest.fn(),
       dispatch: jest.fn()
     }

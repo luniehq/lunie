@@ -1,8 +1,8 @@
-const dev = process.env.NODE_ENV === `develop`
+const dev = process.env.NODE_ENV === `development`
 const stargate =
   process.env.STARGATE ||
   (dev
-    ? `localhost:8080`
+    ? `http://localhost:8080`
     : `https://sntajlxzsg.execute-api.eu-central-1.amazonaws.com/dev/`)
 
 const rpc =

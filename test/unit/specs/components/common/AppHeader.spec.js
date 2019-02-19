@@ -2,10 +2,21 @@ import AppHeader from "common/AppHeader"
 import { shallowMount } from "@vue/test-utils"
 
 describe(`AppHeader`, () => {
-  let wrapper
+  let wrapper, $store
 
   beforeEach(() => {
+    $store = {
+      getters: {
+        session: {
+          devMode: true
+        }
+      }
+    }
+
     wrapper = shallowMount(AppHeader, {
+      mocks: {
+        $store
+      },
       methods: {
         watchWindowSize: () => {} // overwriting to not cause sid effects when setting the data in tests
       }
@@ -46,7 +57,11 @@ describe(`AppHeader`, () => {
 
   describe(`watchWindowSize`, () => {
     beforeEach(() => {
-      wrapper = shallowMount(AppHeader)
+      wrapper = shallowMount(AppHeader, {
+        mocks: {
+          $store
+        }
+      })
     })
 
     it(`should set desktop status to false`, () => {

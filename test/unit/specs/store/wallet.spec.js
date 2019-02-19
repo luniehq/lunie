@@ -99,7 +99,7 @@ describe(`Module: Wallet`, () => {
         }
       ]
       const node = {
-        queryAccount: jest.fn(() =>
+        getAccount: jest.fn(() =>
           Promise.resolve({
             coins,
             sequence: `1`,
@@ -123,7 +123,7 @@ describe(`Module: Wallet`, () => {
         [`setAccountNumber`, `2`],
         [`setWalletBalances`, coins]
       ])
-      expect(node.queryAccount).toHaveBeenCalled()
+      expect(node.getAccount).toHaveBeenCalled()
     })
 
     it(`should load denoms`, async () => {
@@ -232,7 +232,7 @@ describe(`Module: Wallet`, () => {
 
     it(`should store an error if failed to load balances`, async () => {
       const node = {
-        queryAccount: jest.fn(() => Promise.reject(new Error(`Error`)))
+        getAccount: jest.fn(() => Promise.reject(new Error(`Error`)))
       }
       const { state, actions } = walletModule({
         node
@@ -240,7 +240,7 @@ describe(`Module: Wallet`, () => {
       const commit = jest.fn()
       state.address = `x`
       jest
-        .spyOn(node, `queryAccount`)
+        .spyOn(node, `getAccount`)
         .mockImplementationOnce(() => Promise.reject(new Error(`Error`)))
       await actions.queryWalletBalances({
         state,

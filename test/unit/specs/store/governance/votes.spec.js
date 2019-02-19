@@ -31,7 +31,7 @@ describe(`Module: Votes`, () => {
   it(`fetches all votes from a proposal`, async () => {
     module = votesModule({
       node: {
-        queryProposalVotes: proposalId => Promise.resolve(votes[proposalId])
+        getProposalVotes: proposalId => Promise.resolve(votes[proposalId])
       }
     })
     const { actions, state } = module
@@ -71,7 +71,7 @@ describe(`Module: Votes`, () => {
       expect(dispatch.mock.calls[i]).toEqual([
         `sendTx`,
         {
-          type: `submitProposalVote`,
+          type: `postProposalVote`,
           to: proposal_id,
           proposal_id,
           voter: addresses[0],
@@ -90,7 +90,7 @@ describe(`Module: Votes`, () => {
   it(`should store an error if failed to load proposals`, async () => {
     module = votesModule({
       node: {
-        queryProposalVotes: () => Promise.reject(new Error(`Error`))
+        getProposalVotes: () => Promise.reject(new Error(`Error`))
       }
     })
     const { actions, state } = module
