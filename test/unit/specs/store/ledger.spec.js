@@ -54,10 +54,17 @@ describe(`Module: Ledger`, () => {
     })
 
     describe(`checks for errors on Ledger actions`, () => {
-      it(`throws`, () => {
+      it(`throws with an error`, () => {
         const response = { error_message: `Sign/verify error` }
-        expect(() => actions.checkLedgerErrors(response)).toThrow(
+        expect(() => actions.checkLedgerErrors(response)).toThrowError(
           response.error_message
+        )
+      })
+
+      it(`throws on rejected transaction`, () => {
+        const response = { error_message: `Command not allowed` }
+        expect(() => actions.checkLedgerErrors(response)).toThrowError(
+          `Transaction rejected`
         )
       })
 
@@ -282,14 +289,27 @@ describe(`Module: Ledger`, () => {
             Promise.resolve({
               error_message: `Bad key handle`
             })
-          const resSignature = await actions.signWithLedger(
-            { commit, dispatch, state },
-            msg
-          )
-          expect(resSignature).toBeUndefined()
+          await expect(
+            actions.signWithLedger({ commit, dispatch, state }, msg)
+          ).rejects.toThrowError(`Bad key handle`)
           expect(commit).toHaveBeenCalledWith(
             `setLedgerError`,
             Error(`Bad key handle`)
+          )
+        })
+
+        it(`fails if transaction is rejected`, async () => {
+          const msg = `{"account_number": 1,"chain_id": "some_chain","fee": {"amount": [{"amount": 10, "denom": "DEN"}],"gas": 5},"memo": "MEMO","msgs": ["SOMETHING"],"sequence": 3}`
+          state.cosmosApp.sign = () =>
+            Promise.resolve({
+              error_message: `Command not allowed`
+            })
+          await expect(
+            actions.signWithLedger({ commit, dispatch, state }, msg)
+          ).rejects.toThrowError(`Transaction rejected`)
+          expect(commit).toHaveBeenCalledWith(
+            `setLedgerError`,
+            Error(`Transaction rejected`)
           )
         })
       })

@@ -118,20 +118,20 @@ export default () => {
       }
     },
     async signWithLedger({ commit, state }, message) {
-      let signature
       try {
         const response = await state.cosmosApp.sign(HDPATH, message)
         actions.checkLedgerErrors(response)
-        signature = response.signature
+        return response.signature
       } catch (error) {
         Sentry.captureException(error)
         commit(`setLedgerError`, error)
-      } finally {
-        return signature
+        throw error
       }
     },
     checkLedgerErrors(response) {
-      if (response && response.error_message !== `No errors`) {
+      if (response && response.error_message === `Command not allowed`) {
+        throw new Error(`Transaction rejected`)
+      } else if (response && response.error_message !== `No errors`) {
         throw new Error(response.error_message)
       }
     }
