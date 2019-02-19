@@ -107,10 +107,60 @@ describe(`Module: Ledger`, () => {
         })
       })
 
+      describe(`poll Ledger device`, () => {
+        it(`when Ledger is connected and app is open`, async () => {
+          state.externals.App = () => ({
+            get_version: () =>
+              Promise.resolve({
+                error_message: `No errors`
+              })
+          })
+          const response = await actions.pollLedgerDevice({ state })
+          expect(response).toBe(``)
+        })
+
+        it(`when Ledger is connected but app is not open`, async () => {
+          state.externals.App = () => ({
+            get_version: () =>
+              Promise.resolve({
+                error_message: `Cosmos app does not seem to be open`
+              })
+          })
+          const response = await actions.pollLedgerDevice({ state })
+          expect(response).toBe(`Cøsmos app is not open`)
+        })
+
+        it(`when Ledger not connected`, async () => {
+          state.externals.App = () => ({
+            get_version: () =>
+              Promise.resolve({
+                error_message: `U2F: Timeout`
+              })
+          })
+          const response = await actions.pollLedgerDevice({ state })
+          expect(response).toBe(`No Ledger found`)
+        })
+      })
+
+      describe(`create ledger app`, () => {
+        it(`creates an instance of the app`, async () => {
+          await actions.createLedgerAppInstance({ commit, state })
+          expect(state.externals.comm_u2f.create_async).toHaveBeenCalled()
+          expect(state.externals.App).toHaveBeenCalled()
+          expect(commit).toHaveBeenCalledWith(`setCosmosApp`, {})
+        })
+      })
+
       describe(`connect ledger`, () => {
         it(`successfully logs in with Ledger Nano S`, async () => {
-          const ok = await actions.connectLedgerApp({ commit, dispatch, state })
-          expect(state.externals.App).toHaveBeenCalled()
+          dispatch = jest.fn(async () => Promise.resolve(``))
+          const connectionError = await actions.connectLedgerApp({
+            commit,
+            dispatch,
+            state
+          })
+          expect(dispatch).toHaveBeenCalledWith(`pollLedgerDevice`)
+          expect(dispatch).toHaveBeenCalledWith(`createLedgerAppInstance`)
           expect(dispatch).toHaveBeenCalledWith(`getLedgerCosmosVersion`)
           expect(dispatch).toHaveBeenCalledWith(`getLedgerPubKey`)
           expect(dispatch).toHaveBeenCalledWith(`signIn`, {
@@ -125,7 +175,7 @@ describe(`Module: Ledger`, () => {
             `setLedgerError`,
             expect.anything()
           )
-          expect(ok).toBe(true)
+          expect(connectionError).toBe(``)
         })
 
         it(`fails if one of the function throws`, async () => {

@@ -76,10 +76,10 @@ export default () => {
       commit(`setCosmosApp`, cosmosLedgerApp)
     },
     async connectLedgerApp({ commit, dispatch, state }) {
-      let connectionMessage
+      let connectionError
       try {
-        connectionMessage = await dispatch(`pollLedgerDevice`)
-        if (!connectionMessage) {
+        connectionError = await dispatch(`pollLedgerDevice`)
+        if (!connectionError) {
           await dispatch(`createLedgerAppInstance`)
           await dispatch(`getLedgerCosmosVersion`)
           await dispatch(`getLedgerPubKey`)
@@ -95,7 +95,7 @@ export default () => {
         Sentry.captureException(error)
         commit(`setLedgerError`, error)
       } finally {
-        return connectionMessage
+        return connectionError
       }
     },
     async getLedgerCosmosVersion({ commit, state }) {
