@@ -55,222 +55,44 @@ exports[`Component: TabMyDelegations should show a message if not staked yet to 
 
 exports[`Component: TabMyDelegations should show committed validators 1`] = `
 <div>
-  <div>
-    <div>
-      <table
-        class="data-table"
+  <!---->
+   
+  <div
+    class="tm-data-msg"
+  >
+    <div
+      class="tm-data-msg__icon"
+    >
+      <i
+        class="material-icons"
       >
-        <thead>
-          <tr
-            class="panel-sort-container"
-          >
-            <th
-              class="panel-sort-table-header sort-by"
-            >
-              <a
-                class="sort-by-link"
-              >
-                Moniker
-                <i
-                  class="material-icons"
-                >
-                  arrow_drop_up
-                </i>
-              </a>
-            </th>
-            <th
-              class="panel-sort-table-header sort-by"
-            >
-              <a
-                class="sort-by-link"
-              >
-                My Delegations
-                <i
-                  class="material-icons"
-                >
-                  arrow_drop_up
-                </i>
-              </a>
-            </th>
-            <th
-              class="panel-sort-table-header sort-by"
-            >
-              <a
-                class="sort-by-link"
-              >
-                Rewards
-                <i
-                  class="material-icons"
-                >
-                  arrow_drop_up
-                </i>
-              </a>
-            </th>
-            <th
-              class="panel-sort-table-header sort-by"
-            >
-              <a
-                class="sort-by-link"
-              >
-                Voting Power
-                <i
-                  class="material-icons"
-                >
-                  arrow_drop_up
-                </i>
-              </a>
-            </th>
-            <th
-              class="panel-sort-table-header sort-by"
-            >
-              <a
-                class="sort-by-link"
-              >
-                Uptime
-                <i
-                  class="material-icons"
-                >
-                  arrow_drop_up
-                </i>
-              </a>
-            </th>
-            <th
-              class="panel-sort-table-header sort-by"
-            >
-              <a
-                class="sort-by-link"
-              >
-                Commission
-                <i
-                  class="material-icons"
-                >
-                  arrow_drop_up
-                </i>
-              </a>
-            </th>
-            <th
-              class="panel-sort-table-header sort-by"
-            >
-              <a
-                class="sort-by-link"
-              >
-                Slashes
-                <i
-                  class="material-icons"
-                >
-                  arrow_drop_up
-                </i>
-              </a>
-            </th>
-          </tr>
-        </thead>
-         
-        <tbody>
-          <tr
-            class="data-table__row li-validator"
-          >
-            <td
-              class="data-table__row__info"
-            >
-              <img
-                class="data-table__row__info__image data-table__row__info__image--no-img"
-                height="48"
-                src="~assets/images/validator-icon.svg"
-                width="48"
-              />
-               
-              <div
-                class="data-table__row__info__container"
-              >
-                <span
-                  class="data-table__row__info__container__status yellow"
-                />
-                 
-                <router-link-stub
-                  class="data-table__row__info__container__name"
-                  to="[object Object]"
-                >
-                  mr_mounty
-                </router-link-stub>
-                 
-                <div
-                  class="data-table__row__info__container__description"
-                >
-                  <div
-                    class="short-bech32"
-                  >
-                    <div
-                      class="address"
-                      id="address"
-                    >
-                      
-    cosmosvaladdr…8yqw
+        
+      </i>
+    </div>
+     
+    <div
+      class="tm-data-msg__text"
+    >
+      <div
+        class="tm-data-msg__title"
+      >
+        <div>
+          Waiting for connection
+        </div>
+      </div>
+       
+      <div
+        class="tm-data-msg__subtitle"
+      >
+        <div>
+          
+    You are currently not connected to a node. Voyager will load this data
+    when a connection is established.
   
-                    </div>
-                     
-                    <div
-                      class="copied"
-                    >
-                      <i
-                        class="material-icons"
-                      >
-                        check
-                      </i>
-                      <span>
-                        Copied
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </td>
-             
-            <td
-              class="li-validator__delegated-steak"
-            >
-              
-    0.0000…
-  
-            </td>
-             
-            <td
-              class="li-validator__rewards data-table__row__cell__separator"
-            >
-              n/a
-            </td>
-             
-            <td
-              class="li-validator__voting-power"
-            >
-              
-    0.00%
-  
-            </td>
-             
-            <td
-              class="li-validator__uptime"
-            >
-              n/a
-            </td>
-             
-            <td
-              class="li-validator__commission"
-            >
-              0.00%
-            </td>
-             
-            <td
-              class="li-validator__slashes"
-            >
-              n/a
-            </td>
-          </tr>
-        </tbody>
-      </table>
+        </div>
+      </div>
     </div>
   </div>
-   
-  <!---->
    
   <!---->
 </div>
@@ -419,31 +241,9 @@ exports[`Component: TabMyDelegations should show unbonding validators and the cu
                 <div
                   class="data-table__row__info__container__description"
                 >
-                  <div
-                    class="short-bech32"
-                  >
-                    <div
-                      class="address"
-                      id="address"
-                    >
-                      
-    cosmosvaladdr…8yqw
-  
-                    </div>
-                     
-                    <div
-                      class="copied"
-                    >
-                      <i
-                        class="material-icons"
-                      >
-                        check
-                      </i>
-                      <span>
-                        Copied
-                      </span>
-                    </div>
-                  </div>
+                  <short-bech32-stub
+                    address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+                  />
                 </div>
               </div>
             </td>

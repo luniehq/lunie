@@ -14,7 +14,8 @@ describe(`PageTransactions`, () => {
         "data-empty-tx": true,
         "data-empty-search": true,
         "tm-data-error": true,
-        "modal-search": true
+        "modal-search": true,
+        "short-bech32": true
       }
     })
     wrapper = instance.wrapper

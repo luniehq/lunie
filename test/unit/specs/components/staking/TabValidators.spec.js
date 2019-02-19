@@ -17,7 +17,8 @@ describe(`TabValidators`, () => {
       stubs: {
         "tm-data-connecting": true,
         "tm-data-loading": true,
-        "tm-data-empty": true
+        "tm-data-empty": true,
+        "short-bech32": true
       }
     })
     wrapper = instance.wrapper

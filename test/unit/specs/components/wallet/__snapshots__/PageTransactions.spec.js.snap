@@ -63,31 +63,9 @@ exports[`PageTransactions has the expected html structure if user has signed in 
               </div>
             </div>
              
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    Address Not Found
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
+            <short-bech32-stub
+              address=""
+            />
              
             <div
               class="tabs"
@@ -464,31 +442,9 @@ exports[`PageTransactions should filter the transactions 1`] = `
               </div>
             </div>
              
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    Address Not Found
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
+            <short-bech32-stub
+              address=""
+            />
              
             <div
               class="tabs"

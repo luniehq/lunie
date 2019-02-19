@@ -55,7 +55,8 @@ describe(`PageProposal`, () => {
       $store,
       stubs: {
         "modal-deposit": true,
-        "modal-vote": true
+        "modal-vote": true,
+        "short-bech32": true
       }
     })
     wrapper = instance.wrapper
@@ -98,6 +99,9 @@ describe(`PageProposal`, () => {
       },
       getters: {
         proposal: () => []
+      },
+      stubs: {
+        "short-bech32": true
       }
     })
 
@@ -185,7 +189,10 @@ describe(`PageProposal`, () => {
         propsData: {
           proposalId: proposal.proposal_id
         },
-        $store
+        $store,
+        stubs: {
+          "short-bech32": true
+        }
       })
       wrapper = instance.wrapper
       store = instance.store
@@ -244,7 +251,10 @@ describe(`PageProposal`, () => {
         propsData: {
           proposalId: proposal.proposal_id
         },
-        $store
+        $store,
+        stubs: {
+          "short-bech32": true
+        }
       })
       wrapper = instance.wrapper
       store = instance.store
