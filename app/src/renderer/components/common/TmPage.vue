@@ -74,7 +74,7 @@ export default {
       type: String,
       default: ``
     },
-    "menuBody": {
+    menuBody: {
       type: String,
       default: ``
     },

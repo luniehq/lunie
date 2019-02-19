@@ -68,7 +68,7 @@ export default {
       type: String,
       default: null
     },
-    "iconPos": {
+    iconPos: {
       type: String,
       default: null
     },

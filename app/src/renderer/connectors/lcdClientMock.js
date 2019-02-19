@@ -300,7 +300,7 @@ const state = {
     signed_blocks_counter: 1
   },
   proposals: {
-    "1": {
+    1: {
       proposal_id: `1`,
       proposal_type: `Text`,
       title: `Proposal Title`,
@@ -329,7 +329,7 @@ const state = {
         abstain: `56`
       }
     },
-    "2": {
+    2: {
       proposal_id: `2`,
       proposal_type: `Text`,
       title: `VotingPeriod proposal`,
@@ -358,7 +358,7 @@ const state = {
         abstain: `0`
       }
     },
-    "5": {
+    5: {
       proposal_id: `5`,
       proposal_type: `Text`,
       title: `Custom text proposal`,
@@ -387,7 +387,7 @@ const state = {
         abstain: `0`
       }
     },
-    "6": {
+    6: {
       proposal_id: `6`,
       proposal_type: `Text`,
       title: `Rejected proposal`,
@@ -418,25 +418,25 @@ const state = {
     }
   },
   tallies: {
-    "1": {
+    1: {
       yes: `500`,
       no: `25`,
       no_with_veto: `10`,
       abstain: `56`
     },
-    "2": {
+    2: {
       yes: `0`,
       no: `0`,
       no_with_veto: `0`,
       abstain: `0`
     },
-    "5": {
+    5: {
       yes: `0`,
       no: `0`,
       no_with_veto: `0`,
       abstain: `0`
     },
-    "6": {
+    6: {
       yes: `10`,
       no: `30`,
       no_with_veto: `100`,
@@ -444,7 +444,7 @@ const state = {
     }
   },
   votes: {
-    "1": [
+    1: [
       {
         proposal_id: `1`,
         voter: validators[0],
@@ -456,8 +456,8 @@ const state = {
         option: `NoWithVeto`
       }
     ],
-    "2": [],
-    "5": [
+    2: [],
+    5: [
       {
         proposal_id: `5`,
         voter: validators[0],
@@ -469,7 +469,7 @@ const state = {
         option: `Abstain`
       }
     ],
-    "6": [
+    6: [
       {
         proposal_id: `6`,
         voter: validators[0],
@@ -483,7 +483,7 @@ const state = {
     ]
   },
   deposits: {
-    "1": [
+    1: [
       {
         proposal_id: `1`,
         depositor: validators[0],
@@ -509,7 +509,7 @@ const state = {
         ]
       }
     ],
-    "2": [
+    2: [
       {
         proposal_id: `2`,
         depositor: validators[0],
@@ -521,7 +521,7 @@ const state = {
         ]
       }
     ],
-    "5": [
+    5: [
       {
         proposal_id: `5`,
         depositor: validators[0],
@@ -543,7 +543,7 @@ const state = {
         ]
       }
     ],
-    "6": [
+    6: [
       {
         proposal_id: `6`,
         depositor: validators[0],

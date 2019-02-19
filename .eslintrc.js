@@ -52,6 +52,7 @@ module.exports = {
         ignores: ["pre", "textarea"]
       }
     ],
+    "quote-props": ["error", "as-needed", { "unnecessary": true }],
     "no-console": "off",
   }
 }

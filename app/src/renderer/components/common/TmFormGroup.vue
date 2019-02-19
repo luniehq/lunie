@@ -21,15 +21,15 @@ export default {
       type: Boolean,
       default: false
     },
-    "fieldId": {
+    fieldId: {
       type: String,
       default: null
     },
-    "fieldLabel": {
+    fieldLabel: {
       type: String,
       default: null
     },
-    "subLabel": {
+    subLabel: {
       type: String,
       default: null
     }
