@@ -212,7 +212,7 @@ const Client = (axios, remoteLcdURL) => {
     getDelegatorRewards: function(delegatorAddr) {
       return req(`GET`, `/distribution/delegators/${delegatorAddr}/rewards`)()
     },
-    postDelegatorRewards: function(delegatorAddr, data) {
+    postWithdrawDelegatorRewards: function(delegatorAddr, data) {
       return req(`POST`, `/distribution/delegators/${delegatorAddr}/rewards`)(
         data
       )
@@ -223,7 +223,7 @@ const Client = (axios, remoteLcdURL) => {
         `/distribution/delegators/${delegatorAddr}/rewards/${validatorAddr}`
       )()
     },
-    postDelegatorRewardsFromValidator: function(
+    postWithdrawDelegatorRewardsFromValidator: function(
       delegatorAddr,
       validatorAddr,
       data

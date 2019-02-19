@@ -655,7 +655,7 @@ describe(`LCD Client`, () => {
 
       it(`withdraws all rewards from a delegator`, async () => {
         axios.mockReturnValue({})
-        await client.postDelegatorRewards(`cosmos1address`, {})
+        await client.postWithdrawDelegatorRewards(`cosmos1address`, {})
 
         expect(axios.mock.calls).toEqual([
           [
@@ -688,7 +688,7 @@ describe(`LCD Client`, () => {
 
       it(`withdraws a single reward of a delegator from a validator`, async () => {
         axios.mockReturnValue({})
-        await client.postDelegatorRewardsFromValidator(
+        await client.postWithdrawDelegatorRewardsFromValidator(
           `cosmos1address`,
           `cosmosvaloper1address`,
           {}
