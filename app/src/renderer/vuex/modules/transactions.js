@@ -105,7 +105,7 @@ export default ({ node }) => {
           throw new Error(`Unknown transaction type`)
       }
       const transactionsPlusType = response.map(t => ({ ...t, type }))
-      return response ? uniqBy(transactionsPlusType, `hash`) : []
+      return response ? uniqBy(transactionsPlusType, `txhash`) : []
     },
     async enrichTransactions({ dispatch }, { transactions }) {
       const blockHeights = new Set(

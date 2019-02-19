@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.2] - 2019-02-19
+
+### Added
+
+### Changed
+
+- [\#1729](https://github.com/cosmos/voyager/issues/1729) Rename endpoint functions @fedekunze
+- [\#1790](https://github.com/cosmos/voyager/issues/1790) Rename `lcdClient.js` to `api.js` @fedekunze
+- [\#2002](https://github.com/cosmos/voyager/pull/2002) Fix boot process for remote nodes @sabau
+
+### Fixed
+
+- [\#1879](https://github.com/cosmos/voyager/issues/1879) Align tx props with new format from SDK @sabau
+
 ## [1.0.0-beta.1] - 2019-02-18
 
 ### Fixed
