@@ -231,8 +231,8 @@ textarea.tm-field {
   transform: rotate(0deg);
 }
 
-.tm-toggle .tm-toggle-wrapper:before,
-.tm-toggle .tm-toggle-wrapper:after {
+.tm-toggle .tm-toggle-wrapper::before,
+.tm-toggle .tm-toggle-wrapper::after {
   content: "";
   height: 1.625rem;
   position: absolute;
@@ -241,13 +241,13 @@ textarea.tm-field {
   z-index: 0;
 }
 
-.tm-toggle .tm-toggle-wrapper:before {
+.tm-toggle .tm-toggle-wrapper::before {
   background: var(--success, #4acf4a);
   border-radius: 1em 0 0 1em;
   left: calc((-1.625rem / 2));
 }
 
-.tm-toggle .tm-toggle-wrapper:after {
+.tm-toggle .tm-toggle-wrapper::after {
   background: var(--danger, #8c8fa6);
   border-radius: 0 1em 1em 0;
   right: calc((-1.625rem / 2));
@@ -285,7 +285,7 @@ textarea.tm-field {
   width: 0%;
 }
 
-.tm-toggle .tm-toggle-wrapper .toggle-handle:after {
+.tm-toggle .tm-toggle-wrapper .toggle-handle::after {
   background: var(--grey, #d4d5de);
   border-radius: 1rem;
   content: "";
@@ -311,7 +311,7 @@ textarea.tm-field {
   width: 100%;
 }
 
-.tm-toggle.unchecked .toggle-handle:after {
+.tm-toggle.unchecked .toggle-handle::after {
   right: calc(100% - 0.75rem);
 }
 
@@ -360,7 +360,6 @@ textarea.tm-field {
   width: 2rem;
 }
 
-/* ============================================================================== */
 .input-group-addon {
   background: var(--input-bg, #fff);
   border: 1px solid var(--input-bc, #ccc);
@@ -377,36 +376,6 @@ textarea.tm-field {
   }
 }
 
-/* ============================================================================== */
-/* WebKit, Blink, Edge */
-.tm-field::-webkit-input-placeholder {
-  color: var(--dim, #666);
-}
-
-/* Mozilla Firefox 4 to 18 */
-.tm-field:-moz-placeholder {
-  color: var(--dim, #666);
-  opacity: 1;
-}
-
-/* Mozilla Firefox 19+ */
-.tm-field::-moz-placeholder {
-  color: var(--dim, #666);
-  opacity: 1;
-}
-
-/* Internet Explorer 10-11 */
-.tm-field:-ms-input-placeholder {
-  color: var(--dim, #666);
-}
-
-/* Standard (https//drafts.csswg.org/selectors-4/#placeholder) */
-.tm-field:placeholder-shown {
-  color: var(--dim, #666);
-}
-
-/* ============================================================================== */
-/* sizes */
 .tm-field.tm-field-size-sm {
   font-size: 0.75rem;
   height: 1.5rem;

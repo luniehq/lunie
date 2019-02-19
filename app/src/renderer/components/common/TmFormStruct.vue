@@ -60,14 +60,6 @@ export default {
   position: relative;
 }
 
-.tm-form-header:empty,
-.tm-form-title:empty,
-.tm-form-subtitle:empty,
-.tm-form-main:empty,
-.tm-form-footer:empty {
-  display: none;
-}
-
 .tm-form-main {
   flex: 1;
 }
@@ -89,6 +81,14 @@ export default {
   color: var(--dim);
   font-size: var(--sm);
   line-height: 1rem;
+}
+
+.tm-form-header:empty,
+.tm-form-title:empty,
+.tm-form-subtitle:empty,
+.tm-form-main:empty,
+.tm-form-footer:empty {
+  display: none;
 }
 
 .tm-form-footer > div {
