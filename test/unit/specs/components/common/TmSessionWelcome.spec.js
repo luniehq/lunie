@@ -45,10 +45,7 @@ describe(`TmSessionWelcome`, () => {
         }
         TmSessionWelcome.methods.closeSession.call(self)
         expect($store.commit).toHaveBeenCalledWith(`toggleSignInModal`, false)
-        expect($store.commit).toHaveBeenCalledWith(
-          `setSignInModalState`,
-          false
-        )
+        expect($store.commit).toHaveBeenCalledWith(`setSignInModalState`, false)
         expect(self.back).not.toHaveBeenCalled()
       })
 
@@ -65,10 +62,7 @@ describe(`TmSessionWelcome`, () => {
         }
         TmSessionWelcome.methods.closeSession.call(self)
         expect($store.commit).toHaveBeenCalledWith(`toggleSignInModal`, false)
-        expect($store.commit).toHaveBeenCalledWith(
-          `setSignInModalState`,
-          false
-        )
+        expect($store.commit).toHaveBeenCalledWith(`setSignInModalState`, false)
         expect(self.back).toHaveBeenCalled()
       })
     })

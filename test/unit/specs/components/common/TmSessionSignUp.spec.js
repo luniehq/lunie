@@ -33,10 +33,7 @@ describe(`SessionSignUp`, () => {
       .findAll(`.tm-session-header a`)
       .at(0)
       .trigger(`click`)
-    expect($store.commit).toHaveBeenCalledWith(
-      `setSignInModalState`,
-      `welcome`
-    )
+    expect($store.commit).toHaveBeenCalledWith(`setSignInModalState`, `welcome`)
   })
 
   it(`should open the help modal on click`, () => {
