@@ -30,7 +30,9 @@ exports[`TmSessionAccountDelete has the expected html structure 1`] = `
           <div
             class="tm-session-title"
           >
-            Remove Account
+            
+        Remove Account
+      
           </div>
            
           <a>
@@ -53,7 +55,9 @@ exports[`TmSessionAccountDelete has the expected html structure 1`] = `
               class="tm-form-group__label"
               for="sign-in-password"
             >
-              Password
+              
+    Password
+  
             </label>
              
             <div
@@ -69,7 +73,9 @@ exports[`TmSessionAccountDelete has the expected html structure 1`] = `
               <div
                 class="tm-form-msg sm tm-form-msg--error"
               >
-                Password is required
+                
+    Password is required
+  
               </div>
                
               <!---->
@@ -84,7 +90,9 @@ exports[`TmSessionAccountDelete has the expected html structure 1`] = `
               class="tm-form-group__label"
               for="sign-up-warning"
             >
-               
+              
+     
+  
             </label>
              
             <div
@@ -106,15 +114,19 @@ exports[`TmSessionAccountDelete has the expected html structure 1`] = `
                   class="tm-field-checkbox-label"
                   for="sign-up-warning"
                 >
-                  I understand that Cosmos cannot recover deleted accounts without
+                  
+            I understand that Cosmos cannot recover deleted accounts without
             the passphrase.
+          
                 </label>
               </div>
                
               <div
                 class="tm-form-msg sm tm-form-msg--error"
               >
-                Deletion confirmation is required
+                
+    Deletion confirmation is required
+  
               </div>
             </div>
           </div>
@@ -133,7 +145,9 @@ exports[`TmSessionAccountDelete has the expected html structure 1`] = `
                 aria-hidden="true"
                 class="tm-btn__icon material-icons"
               >
-                exit_to_app
+                
+      exit_to_app
+    
               </i>
               <span
                 class="tm-btn__value"

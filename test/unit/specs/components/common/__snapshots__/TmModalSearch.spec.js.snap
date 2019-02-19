@@ -36,7 +36,9 @@ exports[`TmModalSearch has the expected html structure 1`] = `
                 aria-hidden="true"
                 class="tm-btn__icon material-icons"
               >
-                close
+                
+      close
+    
               </i>
               <!---->
             </span>

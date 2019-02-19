@@ -13,7 +13,12 @@
       field-id="to"
       field-label="To"
     >
-      <tm-field id="to" v-model="to" type="text" readonly />
+      <tm-field
+        id="to"
+        v-model="to"
+        type="text"
+        readonly
+      />
     </tm-form-group>
 
     <tm-form-group
@@ -73,8 +78,6 @@
 <script>
 import { mapGetters } from "vuex"
 import { required, between, integer } from "vuelidate/lib/validators"
-import Modal from "common/TmModal"
-import TmBtn from "common/TmBtn"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
@@ -83,8 +86,6 @@ import ActionModal from "common/ActionModal"
 export default {
   name: `delegation-modal`,
   components: {
-    Modal,
-    TmBtn,
     TmField,
     TmFormGroup,
     TmFormMsg,

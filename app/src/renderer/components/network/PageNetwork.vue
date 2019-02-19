@@ -11,7 +11,9 @@
                 :class="status.color"
                 class="page-profile__status"
               />
-              <h2 class="page-profile__title">{{ lastHeader.chain_id }}</h2>
+              <h2 class="page-profile__title">
+                {{ lastHeader.chain_id }}
+              </h2>
             </div>
           </div>
         </div>
@@ -65,8 +67,9 @@
             <td>
               <router-link
                 :to="{ name: `block`, params: { height: block.header.height } }"
-                >{{ `#` + num.prettyInt(block.header.height) }}</router-link
               >
+                {{ `#` + num.prettyInt(block.header.height) }}
+              </router-link>
             </td>
             <td>{{ block.header.num_txs }}</td>
           </tr>
@@ -81,16 +84,12 @@ import moment from "moment"
 import { mapGetters } from "vuex"
 import num from "scripts/num"
 import PanelSort from "staking/PanelSort"
-import ToolBar from "common/ToolBar"
-import TmBalance from "common/TmBalance"
 import TmDataError from "common/TmDataError"
 import TmPage from "common/TmPage"
 export default {
   name: `page-network`,
   components: {
-    TmBalance,
     PanelSort,
-    ToolBar,
     TmDataError,
     TmPage
   },

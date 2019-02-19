@@ -1,13 +1,15 @@
 <template>
   <div :class="cssClass">
-    <span v-if="subLabel" class="tm-form-group__sub-label">{{ subLabel }}</span
-    ><label
+    <span v-if="subLabel" class="tm-form-group__sub-label">{{ subLabel }}</span><label
       v-if="fieldId && fieldLabel"
       :for="fieldId"
       class="tm-form-group__label"
-      >{{ fieldLabel }}</label
     >
-    <div class="tm-form-group__field"><slot></slot></div>
+      {{ fieldLabel }}
+    </label>
+    <div class="tm-form-group__field">
+      <slot />
+    </div>
   </div>
 </template>
 
@@ -19,15 +21,15 @@ export default {
       type: Boolean,
       default: false
     },
-    "field-id": {
+    fieldId: {
       type: String,
       default: null
     },
-    "field-label": {
+    fieldLabel: {
       type: String,
       default: null
     },
-    "sub-label": {
+    subLabel: {
       type: String,
       default: null
     }

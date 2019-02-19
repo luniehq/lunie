@@ -16,7 +16,8 @@ exports[`TabValidators has the expected html structure 1`] = `
             <a
               class="sort-by-link"
             >
-              Moniker
+              
+      Moniker
               <i
                 class="material-icons"
               >
@@ -30,7 +31,8 @@ exports[`TabValidators has the expected html structure 1`] = `
             <a
               class="sort-by-link"
             >
-              My Delegations
+              
+      My Delegations
               <i
                 class="material-icons"
               >
@@ -44,7 +46,8 @@ exports[`TabValidators has the expected html structure 1`] = `
             <a
               class="sort-by-link"
             >
-              Rewards
+              
+      Rewards
               <i
                 class="material-icons"
               >
@@ -58,7 +61,8 @@ exports[`TabValidators has the expected html structure 1`] = `
             <a
               class="sort-by-link"
             >
-              Voting Power
+              
+      Voting Power
               <i
                 class="material-icons"
               >
@@ -72,7 +76,8 @@ exports[`TabValidators has the expected html structure 1`] = `
             <a
               class="sort-by-link"
             >
-              Uptime
+              
+      Uptime
               <i
                 class="material-icons"
               >
@@ -86,7 +91,8 @@ exports[`TabValidators has the expected html structure 1`] = `
             <a
               class="sort-by-link"
             >
-              Commission
+              
+      Commission
               <i
                 class="material-icons"
               >
@@ -100,7 +106,8 @@ exports[`TabValidators has the expected html structure 1`] = `
             <a
               class="sort-by-link"
             >
-              Slashes
+              
+      Slashes
               <i
                 class="material-icons"
               >
@@ -136,7 +143,9 @@ exports[`TabValidators has the expected html structure 1`] = `
                 class="data-table__row__info__container__name li-validator-validator "
                 to="[object Object]"
               >
-                herr_schmidt_revoked
+                
+        herr_schmidt_revoked
+      
               </router-link-stub>
                
               <div
@@ -182,7 +191,9 @@ exports[`TabValidators has the expected html structure 1`] = `
           <td
             class="li-validator__rewards data-table__row__cell__separator"
           >
-            n/a
+            
+    n/a
+  
           </td>
            
           <td
@@ -196,19 +207,25 @@ exports[`TabValidators has the expected html structure 1`] = `
           <td
             class="li-validator__uptime"
           >
-            n/a
+            
+    n/a
+  
           </td>
            
           <td
             class="li-validator__commission"
           >
-            0.00%
+            
+    0.00%
+  
           </td>
            
           <td
             class="li-validator__slashes"
           >
-            n/a
+            
+    n/a
+  
           </td>
         </tr>
         <tr
@@ -235,7 +252,9 @@ exports[`TabValidators has the expected html structure 1`] = `
                 class="data-table__row__info__container__name li-validator-validator "
                 to="[object Object]"
               >
-                mr_mounty
+                
+        mr_mounty
+      
               </router-link-stub>
                
               <div
@@ -281,7 +300,9 @@ exports[`TabValidators has the expected html structure 1`] = `
           <td
             class="li-validator__rewards data-table__row__cell__separator"
           >
-            n/a
+            
+    n/a
+  
           </td>
            
           <td
@@ -295,19 +316,25 @@ exports[`TabValidators has the expected html structure 1`] = `
           <td
             class="li-validator__uptime"
           >
-            n/a
+            
+    n/a
+  
           </td>
            
           <td
             class="li-validator__commission"
           >
-            0.00%
+            
+    0.00%
+  
           </td>
            
           <td
             class="li-validator__slashes"
           >
-            n/a
+            
+    n/a
+  
           </td>
         </tr>
         <tr
@@ -334,7 +361,9 @@ exports[`TabValidators has the expected html structure 1`] = `
                 class="data-table__row__info__container__name li-validator-validator "
                 to="[object Object]"
               >
-                good_greg
+                
+        good_greg
+      
               </router-link-stub>
                
               <div
@@ -380,7 +409,9 @@ exports[`TabValidators has the expected html structure 1`] = `
           <td
             class="li-validator__rewards data-table__row__cell__separator"
           >
-            n/a
+            
+    n/a
+  
           </td>
            
           <td
@@ -394,19 +425,25 @@ exports[`TabValidators has the expected html structure 1`] = `
           <td
             class="li-validator__uptime"
           >
-            n/a
+            
+    n/a
+  
           </td>
            
           <td
             class="li-validator__commission"
           >
-            0.00%
+            
+    0.00%
+  
           </td>
            
           <td
             class="li-validator__slashes"
           >
-            n/a
+            
+    n/a
+  
           </td>
         </tr>
       </tbody>
@@ -437,7 +474,8 @@ exports[`TabValidators shows a message if still loading 1`] = `
             <a
               class="sort-by-link"
             >
-              Moniker
+              
+      Moniker
               <i
                 class="material-icons"
               >
@@ -451,7 +489,8 @@ exports[`TabValidators shows a message if still loading 1`] = `
             <a
               class="sort-by-link"
             >
-              My Delegations
+              
+      My Delegations
               <i
                 class="material-icons"
               >
@@ -465,7 +504,8 @@ exports[`TabValidators shows a message if still loading 1`] = `
             <a
               class="sort-by-link"
             >
-              Rewards
+              
+      Rewards
               <i
                 class="material-icons"
               >
@@ -479,7 +519,8 @@ exports[`TabValidators shows a message if still loading 1`] = `
             <a
               class="sort-by-link"
             >
-              Voting Power
+              
+      Voting Power
               <i
                 class="material-icons"
               >
@@ -493,7 +534,8 @@ exports[`TabValidators shows a message if still loading 1`] = `
             <a
               class="sort-by-link"
             >
-              Uptime
+              
+      Uptime
               <i
                 class="material-icons"
               >
@@ -507,7 +549,8 @@ exports[`TabValidators shows a message if still loading 1`] = `
             <a
               class="sort-by-link"
             >
-              Commission
+              
+      Commission
               <i
                 class="material-icons"
               >
@@ -521,7 +564,8 @@ exports[`TabValidators shows a message if still loading 1`] = `
             <a
               class="sort-by-link"
             >
-              Slashes
+              
+      Slashes
               <i
                 class="material-icons"
               >
@@ -557,7 +601,9 @@ exports[`TabValidators shows a message if still loading 1`] = `
                 class="data-table__row__info__container__name li-validator-validator "
                 to="[object Object]"
               >
-                herr_schmidt_revoked
+                
+        herr_schmidt_revoked
+      
               </router-link-stub>
                
               <div
@@ -603,7 +649,9 @@ exports[`TabValidators shows a message if still loading 1`] = `
           <td
             class="li-validator__rewards data-table__row__cell__separator"
           >
-            n/a
+            
+    n/a
+  
           </td>
            
           <td
@@ -617,19 +665,25 @@ exports[`TabValidators shows a message if still loading 1`] = `
           <td
             class="li-validator__uptime"
           >
-            n/a
+            
+    n/a
+  
           </td>
            
           <td
             class="li-validator__commission"
           >
-            0.00%
+            
+    0.00%
+  
           </td>
            
           <td
             class="li-validator__slashes"
           >
-            n/a
+            
+    n/a
+  
           </td>
         </tr>
         <tr
@@ -656,7 +710,9 @@ exports[`TabValidators shows a message if still loading 1`] = `
                 class="data-table__row__info__container__name li-validator-validator "
                 to="[object Object]"
               >
-                mr_mounty
+                
+        mr_mounty
+      
               </router-link-stub>
                
               <div
@@ -702,7 +758,9 @@ exports[`TabValidators shows a message if still loading 1`] = `
           <td
             class="li-validator__rewards data-table__row__cell__separator"
           >
-            n/a
+            
+    n/a
+  
           </td>
            
           <td
@@ -716,19 +774,25 @@ exports[`TabValidators shows a message if still loading 1`] = `
           <td
             class="li-validator__uptime"
           >
-            n/a
+            
+    n/a
+  
           </td>
            
           <td
             class="li-validator__commission"
           >
-            0.00%
+            
+    0.00%
+  
           </td>
            
           <td
             class="li-validator__slashes"
           >
-            n/a
+            
+    n/a
+  
           </td>
         </tr>
         <tr
@@ -755,7 +819,9 @@ exports[`TabValidators shows a message if still loading 1`] = `
                 class="data-table__row__info__container__name li-validator-validator "
                 to="[object Object]"
               >
-                good_greg
+                
+        good_greg
+      
               </router-link-stub>
                
               <div
@@ -801,7 +867,9 @@ exports[`TabValidators shows a message if still loading 1`] = `
           <td
             class="li-validator__rewards data-table__row__cell__separator"
           >
-            n/a
+            
+    n/a
+  
           </td>
            
           <td
@@ -815,19 +883,25 @@ exports[`TabValidators shows a message if still loading 1`] = `
           <td
             class="li-validator__uptime"
           >
-            n/a
+            
+    n/a
+  
           </td>
            
           <td
             class="li-validator__commission"
           >
-            0.00%
+            
+    0.00%
+  
           </td>
            
           <td
             class="li-validator__slashes"
           >
-            n/a
+            
+    n/a
+  
           </td>
         </tr>
       </tbody>

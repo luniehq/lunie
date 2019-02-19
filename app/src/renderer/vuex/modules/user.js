@@ -8,7 +8,7 @@ import config from "../../../config"
 import { loadKeys, importKey, testPassword } from "../../scripts/keystore.js"
 import { generateSeed } from "../../scripts/wallet.js"
 
-export default ({}) => {
+export default () => {
   const ERROR_COLLECTION_KEY = `voyager_error_collection`
 
   const state = {
@@ -90,7 +90,7 @@ export default ({}) => {
         state.loading = false
       }
     },
-    async testLogin({}, { password, account }) {
+    async testLogin(_, { password, account }) {
       return await testPassword(account, password)
     },
     createSeed() {
@@ -117,8 +117,7 @@ export default ({}) => {
         default:
           // local keyStore
           state.account = account // TODO: why do we have state.account and state.accounts ??
-          const keys = await state.externals.loadKeys()
-          accountAddress = keys.find(({ name }) => name === account).address
+          accountAddress = (await state.externals.loadKeys()).find(({ name }) => name === account).address
       }
       commit(`setSignIn`, true)
       dispatch(`setErrorCollection`, {
