@@ -13,7 +13,7 @@
     <template slot="managed-body">
       <tm-li-any-transaction
         v-for="tx in filteredTransactions"
-        :key="tx.hash"
+        :key="tx.txhash"
         :validators="delegates.delegates"
         :validators-url="validatorURL"
         :proposals-url="governanceURL"
@@ -24,7 +24,7 @@
           time.getUnbondingTime(tx, delegation.unbondingDelegations)
         "
       />
-      <br />
+      <br>
     </template>
   </tm-page>
 </template>
