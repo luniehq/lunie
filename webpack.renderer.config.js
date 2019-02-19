@@ -115,7 +115,7 @@ const rendererConfig = {
     new webpack.DefinePlugin({ "global.GENTLY": false }),
     new webpack.DefinePlugin({ "process.env.RELEASE": `"${commitHash}"` }),
     new webpack.DefinePlugin({
-      "process.env.NODE_ENV": `"${process.env.NODE_ENV}"`
+      "process.env": { NODE_ENV: JSON.stringify(process.env.NODE_ENV) }
     }),
     new HtmlWebpackPlugin({
       filename: `index.html`,

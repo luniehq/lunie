@@ -153,8 +153,8 @@ function assertOk(res) {
     return res.forEach(assertOk)
   }
 
-  if (res.check_tx.code || res.deliver_tx.code) {
-    const message = res.check_tx.log || res.deliver_tx.log
+  if (!res.txhash) {
+    const message = res.message
     throw new Error(message)
   }
 }

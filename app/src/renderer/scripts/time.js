@@ -1,7 +1,7 @@
 "use strict"
 
 const getUnbondingTime = ({ height, tx }, unbondingDelegations) => {
-  const { type, value } = tx.value.msg[0]
+  const { type, value } = tx.value && tx.value.msg && tx.value.msg[0]
   if (type === `cosmos-sdk/BeginUnbonding`) {
     const unbondingDelegation = unbondingDelegations[value.validator_addr]
     if (

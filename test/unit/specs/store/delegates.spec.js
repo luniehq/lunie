@@ -100,7 +100,7 @@ describe(`Module: Delegates`, () => {
     const { actions, state } = module
     const commit = jest.fn()
     const dispatch = jest.fn()
-    node.getCandidates = () => Promise.reject(new Error(`Expected`))
+    node.getValidators = () => Promise.reject(new Error(`Expected`))
     await actions.getDelegates({
       state,
       commit,
@@ -190,7 +190,7 @@ describe(`Module: Delegates`, () => {
       operator_address: nodeMock.validators[0],
       delegator_shares: `120`
     }
-    node.queryDelegation = jest.fn(() => ({ shares: `12` }))
+    node.getDelegation = jest.fn(() => ({ shares: `12` }))
 
     await actions.getSelfBond({ commit }, validator)
     expect(commit).toHaveBeenCalledWith(`setSelfBond`, {
@@ -207,10 +207,10 @@ describe(`Module: Delegates`, () => {
       delegator_shares: `120`,
       selfBond: BN(1)
     }
-    node.queryDelegation = jest.fn()
+    node.getDelegation = jest.fn()
 
     await actions.getSelfBond({ commit }, validator)
-    expect(node.queryDelegation).not.toHaveBeenCalled()
+    expect(node.getDelegation).not.toHaveBeenCalled()
   })
 
   it(`should set self bond of a validator`, async () => {
@@ -234,7 +234,7 @@ describe(`Module: Delegates`, () => {
 
   it(`should store an error if failed to load delegates`, async () => {
     const { actions, state } = module
-    node.getCandidates = async () => Promise.reject(`Error`)
+    node.getValidators = async () => Promise.reject(`Error`)
     await actions.getDelegates({
       commit: jest.fn(),
       dispatch: jest.fn(),
