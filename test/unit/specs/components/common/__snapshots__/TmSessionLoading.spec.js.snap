@@ -14,8 +14,8 @@ exports[`TmSessionLoading has the expected html structure 1`] = `
         class="tm-session-title"
       >
         
-        Connecting to 'mock-net'…
-      
+          Connecting to 'mock-net'…
+        
       </div>
     </div>
      
@@ -27,13 +27,15 @@ exports[`TmSessionLoading has the expected html structure 1`] = `
       />
       <br />
         
-    
+      
     </div>
      
     <div
       class="tm-session-footer"
     >
-       
+      
+ 
+      
     </div>
   </div>
 </div>

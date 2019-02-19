@@ -27,7 +27,9 @@ exports[`PageNetwork has the expected html structure 1`] = `
           <h2
             class="page-profile__title"
           >
-            gaia-20k
+            
+              gaia-20k
+            
           </h2>
         </div>
       </div>
@@ -147,7 +149,9 @@ exports[`PageNetwork has the expected html structure 1`] = `
           <router-link-stub
             to="[object Object]"
           >
-            #100
+            
+              #100
+            
           </router-link-stub>
         </td>
          
@@ -162,7 +166,9 @@ exports[`PageNetwork has the expected html structure 1`] = `
           <router-link-stub
             to="[object Object]"
           >
-            #101
+            
+              #101
+            
           </router-link-stub>
         </td>
          

@@ -2,11 +2,13 @@
   <div class="header-balance">
     <div class="top">
       <div class="icon-container">
-        <img class="icon" src="~assets/images/cosmos-logo.png" />
+        <img class="icon" src="~assets/images/cosmos-logo.png">
       </div>
       <div class="total-atoms top-section">
         <h3>Total {{ bondDenom }}</h3>
-        <h2 class="total-atoms__value">{{ num.shortNumber(totalAtoms) }}</h2>
+        <h2 class="total-atoms__value">
+          {{ num.shortNumber(totalAtoms) }}
+        </h2>
       </div>
       <div v-if="unbondedAtoms" class="unbonded-atoms top-section">
         <h3>Available {{ bondDenom }}</h3>

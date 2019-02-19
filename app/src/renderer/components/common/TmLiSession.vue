@@ -4,8 +4,12 @@
       <i class="material-icons">{{ icon }}</i>
     </div>
     <div class="tm-li-session-text">
-      <div class="tm-li-session-title">{{ title }}</div>
-      <div class="tm-li-session-subtitle">{{ subtitle }}</div>
+      <div class="tm-li-session-title">
+        {{ title }}
+      </div>
+      <div class="tm-li-session-subtitle">
+        {{ subtitle }}
+      </div>
     </div>
   </div>
 </template>

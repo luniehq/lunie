@@ -22,14 +22,12 @@ import { mapGetters } from "vuex"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
 import TmField from "common/TmField"
-import TmFormMsg from "common/TmFormMsg"
 export default {
   name: `modal-search`,
   components: {
     TmBtn,
     TmField,
-    TmFormGroup,
-    TmFormMsg
+    TmFormGroup
   },
   props: {
     type: {

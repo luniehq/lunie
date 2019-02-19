@@ -74,9 +74,8 @@ export default () => {
         })
         Sentry.captureException(error)
         commit(`setLedgerError`, error)
-      } finally {
-        return success
       }
+      return success
     },
     async getLedgerCosmosVersion({ commit, state }) {
       let response
@@ -123,9 +122,8 @@ export default () => {
         })
         Sentry.captureException(error)
         commit(`setLedgerError`, error)
-      } finally {
-        return signature
       }
+      return signature
     },
     checkLedgerErrors(response) {
       if (response && response.error_message !== `No errors`) {

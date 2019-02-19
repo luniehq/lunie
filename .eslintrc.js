@@ -2,7 +2,7 @@
 
 module.exports = {
   root: true,
-  extends: ["plugin:vue/recommended", "prettier", "prettier/vue"],
+  extends: ["eslint:recommended", "plugin:vue/recommended"],
   parserOptions: {
     ecmaVersion: 2017,
     sourceType: "module",
@@ -13,7 +13,7 @@ module.exports = {
     es6: true,
     node: true
   },
-  plugins: ["vue", "prettier"],
+  plugins: ["vue"],
   rules: {
     // allow debugger during development
     "no-debugger": process.env.NODE_ENV === "production" ? 2 : 0,
@@ -21,13 +21,38 @@ module.exports = {
     "no-unused-vars": "error",
     quotes: ["error", "backtick"],
     "no-var": "error",
-    "prettier/prettier": "error",
+    "no-multiple-empty-lines": ["error", {"max": 1}],
     "prefer-const": [
       "error",
       {
         destructuring: "all",
         ignoreReadBeforeAssign: false
       }
-    ]
+    ],
+    "vue/max-attributes-per-line": [
+      "error",
+      {
+        singleline: 3,
+        multiline: {
+          max: 1,
+          allowFirstLine: false
+        }
+      }
+    ],
+    "vue/html-closing-bracket-newline": [
+      "error",
+      {
+        singleline: "never",
+        multiline: "always"
+      }
+    ],
+    "vue/multiline-html-element-content-newline": [
+      "error",
+      {
+        ignores: ["pre", "textarea"]
+      }
+    ],
+    "quote-props": ["error", "as-needed", { "unnecessary": true }],
+    "no-console": "off",
   }
 }
