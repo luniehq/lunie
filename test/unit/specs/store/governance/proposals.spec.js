@@ -70,7 +70,7 @@ describe(`Module: Proposals`, () => {
     it(`when the request is successful`, async () => {
       module = proposalsModule({
         node: {
-          queryProposals: () =>
+          getProposals: () =>
             Promise.resolve(
               Object.values(proposals).map(proposal => ({
                 value: proposal
@@ -119,7 +119,7 @@ describe(`Module: Proposals`, () => {
     it(`throws and stores error if the request fails`, async () => {
       module = proposalsModule({
         node: {
-          queryProposals: () => Promise.reject(new Error(`Error`))
+          getProposals: () => Promise.reject(new Error(`Error`))
         }
       })
       const { actions, state } = module
@@ -136,7 +136,7 @@ describe(`Module: Proposals`, () => {
     it(`when the request is successful`, async () => {
       module = proposalsModule({
         node: {
-          queryProposal: proposal_id =>
+          getProposal: proposal_id =>
             Promise.resolve({ value: proposals[proposal_id] }),
           getProposalTally: proposal_id => Promise.resolve(tallies[proposal_id])
         }
@@ -176,7 +176,7 @@ describe(`Module: Proposals`, () => {
     it(`throws and stores error if the request fails`, async () => {
       module = proposalsModule({
         node: {
-          queryProposal: () => Promise.reject(new Error(`Error`))
+          getProposal: () => Promise.reject(new Error(`Error`))
         }
       })
 
@@ -211,7 +211,7 @@ describe(`Module: Proposals`, () => {
       expect(dispatch.mock.calls[i]).toEqual([
         `sendTx`,
         {
-          type: `submitProposal`,
+          type: `postProposal`,
           proposal_type: proposal.proposal_type,
           proposer: addresses[0],
           title: proposal.title,
