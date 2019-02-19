@@ -15,6 +15,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+- [\#1917](https://github.com/cosmos/voyager/issues/1917) Handle ledger disconnection before signing @fedekunze
+- [\#1978](https://github.com/cosmos/voyager/issues/1978) Don't display error notifications after timeout on ledger session page @fedekunze
+
 ## [1.0.0-beta.2] - 2019-02-19
 
 ### Added
