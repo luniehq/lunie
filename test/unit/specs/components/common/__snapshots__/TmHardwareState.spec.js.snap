@@ -11,9 +11,7 @@ exports[`TmHardwareState has the expected html structure 1`] = `
   <i
     class="tm-hardware-state__icon material-icons"
   >
-    
-    rotate_right
-  
+     rotate_right 
   </i>
    
   <div

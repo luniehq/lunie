@@ -104,6 +104,4 @@ describe(`TmSessionHardware`, () => {
       expect(self.connectionError).toBe(`No Ledger found`)
     })
   })
-
-  // TODO -> not yet 100% clear how this will work
 })
