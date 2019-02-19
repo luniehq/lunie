@@ -6,7 +6,7 @@ describe(`TmModalSendConfirmation`, () => {
   const propsData = {
     amount: 12345,
     denom: `funkycoin`,
-    recipient: `cosmosacc1tb1d4u5zerywfjhxuc9nudvw`,
+    recipient: `B`,
     connected: true
   }
 

@@ -15,16 +15,17 @@
     </tm-page-header>
     <main class="tm-page-main">
       <modal-search v-if="search && somethingToSearch" :type="search" />
-
       <template v-if="this.$slots['managed-body']">
         <tm-data-connecting v-if="!loaded && !connected" />
         <tm-data-loading v-else-if="!loaded && loading" />
         <tm-data-error v-else-if="error" />
         <slot
-          v-else-if="dataset.length === 0 && this.$slots['no-data']"
+          v-else-if="
+            (!dataset || dataset.length === 0) && this.$slots['no-data']
+          "
           name="no-data"
         />
-        <tm-data-empty v-else-if="dataset.length === 0" />
+        <tm-data-empty v-else-if="!dataset || dataset.length === 0" />
         <data-empty-search v-else-if="!hasFilteredData" />
         <slot v-else name="managed-body" />
       </template>

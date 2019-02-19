@@ -46,7 +46,7 @@ exports[`TmModalSendConfirmation disables the send confirmation if not connected
         </b>
          to 
         <b>
-          cosmosacc1tb1d4u5zerywfjhxuc9nudvw
+          B
         </b>
         .
   
@@ -151,7 +151,7 @@ exports[`TmModalSendConfirmation has the expected html structure 1`] = `
         </b>
          to 
         <b>
-          cosmosacc1tb1d4u5zerywfjhxuc9nudvw
+          B
         </b>
         .
   

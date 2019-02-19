@@ -19,7 +19,7 @@ exports[`TmLiBankTransaction has the expected html structure 1`] = `
   </div>
    
   <span>
-    From tb1da6xsetjg9jxgun9wdesexv05j
+    From A
   </span>
 </tm-li-transaction-stub>
 `;
@@ -48,7 +48,7 @@ exports[`TmLiBankTransaction should show outgoing transactions 1`] = `
     slot="details"
   >
     
-        To tb1da6xsetjg9jxgun9wdesexv05j
+        To A
       
   </span>
 </tm-li-transaction-stub>
