@@ -124,7 +124,7 @@ export default {
       } else {
         this.$store.commit(`notifyError`, {
           title: `Signing In Failed`,
-          body: `The provided sessionname or password is wrong.`
+          body: `The provided username or password is wrong.`
         })
       }
     },

@@ -230,7 +230,6 @@ export default {
       `delegates`,
       `delegation`,
       `committedDelegations`,
-      `session`,
       `keybase`,
       `liquidAtoms`,
       `session`,

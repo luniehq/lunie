@@ -56,7 +56,6 @@ export default {
       `filters`,
       `committedDelegations`,
       `session`,
-      `session`,
       `liquidAtoms`,
       `connected`,
       `bondDenom`,

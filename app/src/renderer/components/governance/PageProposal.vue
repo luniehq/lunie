@@ -181,7 +181,6 @@ export default {
       `connected`,
       `wallet`,
       `votes`,
-      `session`,
       `session`
     ]),
     proposal() {

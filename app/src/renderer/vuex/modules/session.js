@@ -142,7 +142,7 @@ export default () => {
           break
         default:
           // local keyStore
-          state.localKeyName = localKeyName // TODO: why do we have state.account and state.accounts ??
+          state.localKeyName = localKeyName
           accountAddress = (await state.externals.loadKeys()).find(({ name }) => name === localKeyName).address
       }
       commit(`setSignIn`, true)

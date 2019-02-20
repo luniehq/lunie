@@ -65,7 +65,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([`session`, `session`]),
+    ...mapGetters([`session`]),
     searchEnabled() {
       return !!this.searching
     },

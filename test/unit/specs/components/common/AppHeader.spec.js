@@ -18,7 +18,7 @@ describe(`AppHeader`, () => {
         $store
       },
       methods: {
-        watchWindowSize: () => {} // overwriting to not cause sid effects when setting the data in tests
+        watchWindowSize: () => {} // overwriting to not cause side effects when setting the data in tests
       }
     })
   })
@@ -41,7 +41,7 @@ describe(`AppHeader`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`should trigger menu on click`, () => {
+  it(`should open the menu on click`, () => {
     wrapper.vm.close()
 
     wrapper.find(`.open-menu`).trigger(`click`)
