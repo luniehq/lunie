@@ -151,31 +151,9 @@ exports[`TabValidators has the expected html structure 1`] = `
               <div
                 class="data-table__row__info__container__description"
               >
-                <div
-                  class="short-bech32"
-                >
-                  <div
-                    class="address"
-                    id="address"
-                  >
-                    
-    cosmosvaladdr…rg7n
-  
-                  </div>
-                   
-                  <div
-                    class="copied"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      check
-                    </i>
-                    <span>
-                      Copied
-                    </span>
-                  </div>
-                </div>
+                <short-bech32-stub
+                  address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n"
+                />
               </div>
             </div>
           </td>
@@ -260,31 +238,9 @@ exports[`TabValidators has the expected html structure 1`] = `
               <div
                 class="data-table__row__info__container__description"
               >
-                <div
-                  class="short-bech32"
-                >
-                  <div
-                    class="address"
-                    id="address"
-                  >
-                    
-    cosmosvaladdr…8yqw
-  
-                  </div>
-                   
-                  <div
-                    class="copied"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      check
-                    </i>
-                    <span>
-                      Copied
-                    </span>
-                  </div>
-                </div>
+                <short-bech32-stub
+                  address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+                />
               </div>
             </div>
           </td>
@@ -369,31 +325,9 @@ exports[`TabValidators has the expected html structure 1`] = `
               <div
                 class="data-table__row__info__container__description"
               >
-                <div
-                  class="short-bech32"
-                >
-                  <div
-                    class="address"
-                    id="address"
-                  >
-                    
-    cosmosvaladdr…n3au
-  
-                  </div>
-                   
-                  <div
-                    class="copied"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      check
-                    </i>
-                    <span>
-                      Copied
-                    </span>
-                  </div>
-                </div>
+                <short-bech32-stub
+                  address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+                />
               </div>
             </div>
           </td>
@@ -609,31 +543,9 @@ exports[`TabValidators shows a message if still loading 1`] = `
               <div
                 class="data-table__row__info__container__description"
               >
-                <div
-                  class="short-bech32"
-                >
-                  <div
-                    class="address"
-                    id="address"
-                  >
-                    
-    cosmosvaladdr…rg7n
-  
-                  </div>
-                   
-                  <div
-                    class="copied"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      check
-                    </i>
-                    <span>
-                      Copied
-                    </span>
-                  </div>
-                </div>
+                <short-bech32-stub
+                  address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n"
+                />
               </div>
             </div>
           </td>
@@ -718,31 +630,9 @@ exports[`TabValidators shows a message if still loading 1`] = `
               <div
                 class="data-table__row__info__container__description"
               >
-                <div
-                  class="short-bech32"
-                >
-                  <div
-                    class="address"
-                    id="address"
-                  >
-                    
-    cosmosvaladdr…8yqw
-  
-                  </div>
-                   
-                  <div
-                    class="copied"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      check
-                    </i>
-                    <span>
-                      Copied
-                    </span>
-                  </div>
-                </div>
+                <short-bech32-stub
+                  address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+                />
               </div>
             </div>
           </td>
@@ -827,31 +717,9 @@ exports[`TabValidators shows a message if still loading 1`] = `
               <div
                 class="data-table__row__info__container__description"
               >
-                <div
-                  class="short-bech32"
-                >
-                  <div
-                    class="address"
-                    id="address"
-                  >
-                    
-    cosmosvaladdr…n3au
-  
-                  </div>
-                   
-                  <div
-                    class="copied"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      check
-                    </i>
-                    <span>
-                      Copied
-                    </span>
-                  </div>
-                </div>
+                <short-bech32-stub
+                  address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+                />
               </div>
             </div>
           </td>

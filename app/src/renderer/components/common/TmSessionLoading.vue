@@ -10,7 +10,7 @@
         <img src="~assets/images/loader.svg"><br>{{ message }} &nbsp;
       </div>
       <div class="tm-session-footer">
-&nbsp;
+        &nbsp;
       </div>
     </div>
   </div>

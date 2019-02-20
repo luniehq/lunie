@@ -17,6 +17,9 @@ describe(`TableValidators`, () => {
           amount: 1337
         })
       },
+      stubs: {
+        "short-bech32": true
+      },
       propsData: { validators: lcdClientMock.candidates }
     })
     wrapper = instance.wrapper
