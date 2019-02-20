@@ -1,6 +1,5 @@
 import { shallowMount } from "@vue/test-utils"
 import TmSessionWelcome from "common/TmSessionWelcome"
-import LiSession from "common/TmLiSession"
 
 describe(`TmSessionWelcome`, () => {
   let wrapper, $store
@@ -107,8 +106,7 @@ describe(`TmSessionWelcome`, () => {
   describe(`without accounts`, () => {
     it(`should not show sign-in link since we have no accounts`, () => {
       wrapper.vm.setState = jest.fn()
-      wrapper.find(LiSession).trigger(`click`)
-      expect(wrapper.vm.setState).not.toHaveBeenCalledWith(`sign-in`)
+      expect(wrapper.find(`#sign-in-with-account`).exists()).toBe(false)
     })
 
     it(`has the expected html structure`, () => {
@@ -117,13 +115,27 @@ describe(`TmSessionWelcome`, () => {
   })
 
   describe(`with accounts`, () => {
-    beforeAll(() => {
-      accounts.push(`foo`, `bar`)
+    beforeEach(() => {
+      const getters = {
+        session: { accounts: [`foo`, `bar`], devMode: true },
+        lastPage: `/`
+      }
+      $store = {
+        getters,
+        commit: jest.fn(),
+        dispatch: jest.fn()
+      }
+      wrapper = shallowMount(TmSessionWelcome, {
+        mocks: {
+          $store
+        }
+      })
     })
 
     it(`should show sign-in link since we have accounts`, () => {
       wrapper.vm.setState = jest.fn()
-      wrapper.find(LiSession).trigger(`click`)
+      expect(wrapper.find(`#sign-in-with-account`).exists()).toBe(true)
+      wrapper.find(`#sign-in-with-account`).trigger(`click`)
       expect(wrapper.vm.setState).toHaveBeenCalledWith(`sign-in`)
     })
 
@@ -134,6 +146,13 @@ describe(`TmSessionWelcome`, () => {
 
     it(`has the expected html structure`, () => {
       expect(wrapper.vm.$el).toMatchSnapshot()
+    })
+  })
+
+  describe(`production`, () => {
+    it(`should hide sign in with account in production`, () => {
+      wrapper.vm.setState = jest.fn()
+      expect(wrapper.find(`#sign-in-with-account`).exists()).toBe(false)
     })
   })
 })
