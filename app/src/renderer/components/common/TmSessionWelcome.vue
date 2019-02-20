@@ -9,6 +9,12 @@
         <a @click="closeSession"><i class="material-icons">close</i></a>
       </div>
       <div class="tm-session-main">
+        <li-session
+          icon="explore"
+          title="Explorer Mode"
+          subtitle="Use the app in explorer mode without signing in."
+          @click.native="closeSession "
+        />
         <template
           v-if="!session.devMode"
         >
@@ -38,7 +44,7 @@
           subtitle="If you have a Ledger Wallet, choose this option."
           @click.native="setState('hardware')"
         />
-        <fundraiser-warning />
+        <fundraiser-warning v-if="!session.devMode" />
       </div>
       <div class="tm-session-footer" />
     </div>
