@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+
+- [\#1999](https://github.com/cosmos/voyager/issues/1999) fixed signing of governance txs due to upstream SDK fix @faboweb
+
 ## [1.0.0-beta.3] - 2019-02-20
 
 ### Added
