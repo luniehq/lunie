@@ -59,6 +59,25 @@ exports[`TmSessionHardware has the expected html structure when there're errors 
       </div>
        
       <!---->
+       
+      <p
+        class="ledger-install"
+      >
+        
+        Don't have the Cøsmos Ledger App yet? Install it
+        
+        <a
+          href="https://github.com/cosmos/voyager#ledger-cosmos-app"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          
+          here
+        
+        </a>
+        .
+      
+      </p>
     </div>
      
     <div
@@ -155,6 +174,7 @@ exports[`TmSessionHardware has the expected html structure with no errors 1`] = 
       
       </p>
     </div>
+     
     <div
       class="tm-session-footer"
     >
@@ -174,7 +194,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
         <a href=\\"https://github.com/cosmos/voyager#ledger-cosmos-app\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">
           here
         </a>.
-      </p></div></div></div>"
+      </p></div> <div class=\\"tm-session-footer\\"><!----></div></div></div>"
 `;
 
 exports[`TmSessionHardware should show a state indicator for different states of the hardware connection 2`] = `
@@ -187,5 +207,5 @@ exports[`TmSessionHardware should show a state indicator for different states of
         <a href=\\"https://github.com/cosmos/voyager#ledger-cosmos-app\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">
           here
         </a>.
-      </p></div></div></div>"
+      </p></div> <div class=\\"tm-session-footer\\"><!----></div></div></div>"
 `;
