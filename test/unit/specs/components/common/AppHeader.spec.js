@@ -19,7 +19,8 @@ describe(`AppHeader`, () => {
       },
       methods: {
         watchWindowSize: () => {} // overwriting to not cause side effects when setting the data in tests
-      }
+      },
+      stubs: [`router-link`]
     })
   })
 
@@ -60,7 +61,8 @@ describe(`AppHeader`, () => {
       wrapper = shallowMount(AppHeader, {
         mocks: {
           $store
-        }
+        },
+        stubs: [`router-link`]
       })
     })
 
