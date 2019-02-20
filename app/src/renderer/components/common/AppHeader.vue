@@ -1,26 +1,18 @@
 <template>
-  <nav id="app-header" :class="{ mobile: !config.desktop }">
-    <div v-if="config.devMode" id="develop-mode-warning">
+  <nav id="app-header" :class="{ mobile: !desktop }">
+    <div v-if="session.devMode" id="develop-mode-warning">
       DEVELOPMENT MODE
     </div>
     <div class="container">
       <div class="header-item header-item-logo">
         <img id="logo-white" src="~assets/images/cosmos-wordmark-white.svg">
       </div>
-      <app-menu v-if="config.activeMenu === 'app' || config.desktop" />
-      <template v-if="!config.desktop">
-        <div
-          v-if="config.activeMenu === 'app'"
-          class="header-item close-menu"
-          @click="close()"
-        >
+      <app-menu v-if="open || desktop" @close="close" />
+      <template v-if="!desktop">
+        <div v-if="open" class="header-item close-menu" @click="close()">
           <i class="material-icons">close</i>
         </div>
-        <div
-          v-if="config.activeMenu === ''"
-          class="header-item open-menu"
-          @click="enableMenu()"
-        >
+        <div v-if="!open" class="header-item open-menu" @click="show()">
           <i class="material-icons">menu</i>
         </div>
       </template>
@@ -35,8 +27,12 @@ import AppMenu from "common/AppMenu"
 export default {
   name: `app-header`,
   components: { AppMenu },
+  data: () => ({
+    open: false,
+    desktop: false
+  }),
   computed: {
-    ...mapGetters([`config`])
+    ...mapGetters([`session`])
   },
   mounted() {
     this.watchWindowSize()
@@ -48,11 +44,11 @@ export default {
   },
   methods: {
     close() {
-      this.$store.commit(`setActiveMenu`, ``)
+      this.open = false
       noScroll.off()
     },
-    enableMenu() {
-      this.$store.commit(`setActiveMenu`, `app`)
+    show() {
+      this.open = true
       noScroll.on()
     },
     watchWindowSize() {
@@ -63,10 +59,10 @@ export default {
 
       if (w >= 1024) {
         this.close()
-        this.$store.commit(`setConfigDesktop`, true)
+        this.desktop = true
         return
       } else {
-        this.$store.commit(`setConfigDesktop`, false)
+        this.desktop = false
       }
     }
   }

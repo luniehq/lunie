@@ -16,7 +16,9 @@ exports[`ActionModal has the expected html structure when user has logged in wit
     <span
       class="action-modal-title"
     >
-      Action Modal
+      
+        Action Modal
+      
     </span>
      
     <div
@@ -77,7 +79,9 @@ exports[`ActionModal has the expected html structure when user has logged in wit
     <span
       class="action-modal-title"
     >
-      Action Modal
+      
+        Action Modal
+      
     </span>
      
     <div
@@ -138,7 +142,9 @@ exports[`ActionModal has the expected html structure when user has logged in wit
     <span
       class="action-modal-title"
     >
-      Action Modal
+      
+        Action Modal
+      
     </span>
      
     <div
@@ -211,7 +217,9 @@ exports[`ActionModal has the expected html structure when user hasn't logged in 
     <span
       class="action-modal-title"
     >
-      Sign in required
+      
+        Sign in required
+      
     </span>
      
     <div

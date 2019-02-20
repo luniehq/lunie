@@ -18,7 +18,7 @@ describe(`TabParameters`, () => {
     getters: {
       governanceParameters,
       totalAtoms: 100,
-      user: { atoms: 42 }
+      session: { atoms: 42 }
     }
   }
 

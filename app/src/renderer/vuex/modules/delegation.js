@@ -58,7 +58,7 @@ export default ({ node }) => {
   }
   const actions = {
     reconnected({ state, dispatch, rootState }) {
-      if (state.loading && rootState.user.signedIn) {
+      if (state.loading && rootState.session.signedIn) {
         dispatch(`getBondedDelegates`)
       }
     },
@@ -74,7 +74,7 @@ export default ({ node }) => {
 
       if (!rootState.connection.connected) return
 
-      const address = rootState.user.address
+      const address = rootState.session.address
       candidates = candidates || (await dispatch(`getDelegates`))
 
       try {
@@ -93,7 +93,7 @@ export default ({ node }) => {
         // the request runs that long, that the user might sign out and back in again
         // the result is, that the new users state gets updated by the old users request
         // here we check if the user is still the same
-        if (rootState.user.address !== address) return
+        if (rootState.session.address !== address) return
 
         if (delegator.delegations) {
           delegator.delegations.forEach(({ validator_addr, shares }) => {

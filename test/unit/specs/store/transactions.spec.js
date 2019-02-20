@@ -5,7 +5,7 @@ const mockRootState = {
   connection: {
     connected: true
   },
-  user: {
+  session: {
     address: `default`,
     signedIn: true
   }
@@ -93,7 +93,7 @@ describe(`Module: Transactions`, () => {
       await actions.reconnected({
         state: { loading: true },
         dispatch,
-        rootState: { user: { signedIn: true } }
+        rootState: { session: { signedIn: true } }
       })
       expect(dispatch).toHaveBeenCalledWith(`getAllTxs`)
     })
@@ -103,7 +103,7 @@ describe(`Module: Transactions`, () => {
       await actions.reconnected({
         state: { loading: false },
         dispatch,
-        rootState: { user: { signedIn: true } }
+        rootState: { session: { signedIn: true } }
       })
       expect(dispatch).not.toHaveBeenCalledWith(`getAllTxs`)
     })
@@ -113,7 +113,7 @@ describe(`Module: Transactions`, () => {
       await actions.reconnected({
         state: { loading: true },
         dispatch,
-        rootState: { user: { signedIn: false } }
+        rootState: { session: { signedIn: false } }
       })
       expect(dispatch).not.toHaveBeenCalledWith(`getAllTxs`)
     })
@@ -175,7 +175,7 @@ describe(`Module: Transactions`, () => {
   it(`should getTx staking`, async () => {
     const address = `xxx`
     const staking = await actions.getTx(
-      { rootState: { user: { address } } },
+      { rootState: { session: { address } } },
       `staking`
     )
     expect(staking).toEqual([{ txhash: 1, type: `staking` }])
@@ -184,7 +184,7 @@ describe(`Module: Transactions`, () => {
   it(`should getTx governance`, async () => {
     const address = `xxx`
     const governance = await actions.getTx(
-      { rootState: { user: { address } } },
+      { rootState: { session: { address } } },
       `governance`
     )
     expect(governance).toEqual([{ txhash: 3, type: `governance` }])
@@ -193,7 +193,7 @@ describe(`Module: Transactions`, () => {
   it(`should getTx wallet`, async () => {
     const address = `xxx`
     const wallet = await actions.getTx(
-      { rootState: { user: { address } } },
+      { rootState: { session: { address } } },
       `wallet`
     )
     expect(wallet).toEqual([{ txhash: 2, type: `wallet` }])
@@ -202,7 +202,7 @@ describe(`Module: Transactions`, () => {
   it(`should getTx error`, async () => {
     const address = `xxx`
     try {
-      await actions.getTx({ rootState: { user: { address } } }, `chachacha`)
+      await actions.getTx({ rootState: { session: { address } } }, `chachacha`)
       expect(`I should have failed`).toEqual(`earlier`) // this is here to be sure we never reach this line
     } catch (e) {
       expect(e.message).toEqual(`Unknown transaction type`)

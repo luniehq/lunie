@@ -43,7 +43,7 @@ describe(`Module: Connection`, () => {
     actions.setLastHeader(
       {
         state,
-        rootState: { user: { signedIn: true } },
+        rootState: { session: { signedIn: true } },
         dispatch
       },
       {
@@ -64,7 +64,7 @@ describe(`Module: Connection`, () => {
     actions.setLastHeader(
       {
         state,
-        rootState: { user: { signedIn: true } },
+        rootState: { session: { signedIn: true } },
         dispatch
       },
       {
@@ -117,7 +117,7 @@ describe(`Module: Connection`, () => {
     const commit = jest.fn()
     const dispatch = jest.fn()
     actions.rpcSubscribe({
-      rootState: { user: { signedIn: true } },
+      rootState: { session: { signedIn: true } },
       commit,
       dispatch
     })
@@ -135,7 +135,7 @@ describe(`Module: Connection`, () => {
     const commit = jest.fn()
     const dispatch = jest.fn()
     actions.rpcSubscribe({
-      rootState: { user: { signedIn: true } },
+      rootState: { session: { signedIn: true } },
       commit,
       dispatch
     })
@@ -157,7 +157,7 @@ describe(`Module: Connection`, () => {
     const commit = jest.fn()
     const dispatch = jest.fn()
     await actions.rpcSubscribe({
-      rootState: { user: { signedIn: true } },
+      rootState: { session: { signedIn: true } },
       commit,
       dispatch
     })
@@ -183,7 +183,7 @@ describe(`Module: Connection`, () => {
     const commit = jest.fn()
     const dispatch = jest.fn()
     await actions.rpcSubscribe({
-      rootState: { user: { signedIn: true } },
+      rootState: { session: { signedIn: true } },
       commit,
       dispatch
     })
@@ -203,7 +203,7 @@ describe(`Module: Connection`, () => {
     const dispatch = jest.fn()
     actions
       .rpcSubscribe({
-        rootState: { user: { signedIn: true } },
+        rootState: { session: { signedIn: true } },
         state,
         commit: jest.fn(),
         dispatch

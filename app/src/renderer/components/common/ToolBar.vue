@@ -23,7 +23,7 @@
       <i class="material-icons">help_outline</i>
     </a>
     <router-link
-      v-if="user.signedIn"
+      v-if="session.signedIn"
       id="settings"
       v-tooltip.bottom="'Preferences'"
       to="/preferences"
@@ -31,7 +31,7 @@
       <i class="material-icons">settings</i>
     </router-link>
     <a
-      v-if="user.signedIn"
+      v-if="session.signedIn"
       id="signOut-btn"
       v-tooltip.bottom.end="'Sign Out'"
       @click="signOut"
@@ -39,7 +39,7 @@
       <i class="material-icons">exit_to_app</i>
     </a>
     <tm-btn
-      v-if="!user.signedIn"
+      v-if="!session.signedIn"
       id="signIn-btn"
       value="Sign In"
       color="primary"
@@ -65,7 +65,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([`user`, `config`]),
+    ...mapGetters([`session`]),
     searchEnabled() {
       return !!this.searching
     },
@@ -81,8 +81,8 @@ export default {
       this.$store.commit(`setModalHelp`, true)
     },
     signIn() {
-      this.$store.commit(`setModalSessionState`, `welcome`)
-      this.$store.commit(`setModalSession`, true)
+      this.$store.commit(`setSessionModalView`, `welcome`)
+      this.$store.commit(`toggleSessionModal`, true)
     },
     signOut() {
       this.$store.dispatch(`signOut`)

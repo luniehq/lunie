@@ -26,9 +26,7 @@ describe(`App Start`, () => {
     }
     const Node = () => node
     const store = {
-      state: {
-        devMode: true
-      },
+      state: {},
       commit: jest.fn(),
       dispatch: jest.fn()
     }
@@ -93,9 +91,7 @@ describe(`App Start`, () => {
     const Node = () => node
 
     const store = {
-      state: {
-        devMode: true
-      },
+      state: {},
       commit: jest.fn(),
       dispatch: jest.fn()
     }
@@ -125,8 +121,8 @@ describe(`App Start`, () => {
       const commit = jest.fn()
       const store = {
         commit,
-        state: { user: { pauseHistory: true, signedIn: false } },
-        getters: { user: { pauseHistory: true, signedIn: false } }
+        state: { session: { pauseHistory: true, signedIn: false } },
+        getters: { session: { pauseHistory: true, signedIn: false } }
       }
       const next = jest.fn()
       const guard = routeGuard(store)
@@ -146,8 +142,8 @@ describe(`App Start`, () => {
       const commit = jest.fn()
       const store = {
         commit,
-        state: { user: { pauseHistory: false, signedIn: false } },
-        getters: { user: { pauseHistory: false, signedIn: false } }
+        state: { session: { pauseHistory: false, signedIn: false } },
+        getters: { session: { pauseHistory: false, signedIn: false } }
       }
       const next = jest.fn()
       const guard = routeGuard(store)
@@ -167,8 +163,8 @@ describe(`App Start`, () => {
       const commit = jest.fn()
       const store = {
         commit,
-        state: { user: { pauseHistory: false, signedIn: true } },
-        getters: { user: { pauseHistory: false, signedIn: true } }
+        state: { session: { pauseHistory: false, signedIn: true } },
+        getters: { session: { pauseHistory: false, signedIn: true } }
       }
       const next = jest.fn()
       const guard = routeGuard(store)
@@ -181,8 +177,8 @@ describe(`App Start`, () => {
       const commit = jest.fn()
       const store = {
         commit,
-        state: { user: { pauseHistory: false, signedIn: true } },
-        getters: { user: { pauseHistory: false, signedIn: true } }
+        state: { session: { pauseHistory: false, signedIn: true } },
+        getters: { session: { pauseHistory: false, signedIn: true } }
       }
       const to = {
         redirectedFrom: `/staking`,
@@ -201,8 +197,8 @@ describe(`App Start`, () => {
       const commit = jest.fn()
       const store = {
         commit,
-        state: { user: { pauseHistory: false, signedIn: false } },
-        getters: { user: { pauseHistory: false, signedIn: false } }
+        state: { session: { pauseHistory: false, signedIn: false } },
+        getters: { session: { pauseHistory: false, signedIn: false } }
       }
       const to = {
         redirectedFrom: ``,
@@ -215,8 +211,8 @@ describe(`App Start`, () => {
       const guard = routeGuard(store)
       // from.fullPath !== to.fullPath && !store.getters.user.pauseHistory
       guard(to, { fullPath: `/` }, next)
-      expect(commit).toHaveBeenCalledWith(`setModalSessionState`, `welcome`)
-      expect(commit).toHaveBeenCalledWith(`setModalSession`, true)
+      expect(commit).toHaveBeenCalledWith(`setSessionModalView`, `welcome`)
+      expect(commit).toHaveBeenCalledWith(`toggleSessionModal`, true)
     })
   })
 })

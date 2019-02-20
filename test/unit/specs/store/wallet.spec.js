@@ -7,7 +7,7 @@ const mockRootState = {
   connection: {
     connected: true
   },
-  user: { signedIn: true }
+  session: { signedIn: true }
 }
 jest.mock(`src/config.js`, () => ({
   denoms: [`mycoin`, `fermion`, `STAKE`]
@@ -146,7 +146,7 @@ describe(`Module: Wallet`, () => {
             address: `abc`
           },
           dispatch,
-          rootState: { user: { signedIn: true } }
+          rootState: { session: { signedIn: true } }
         })
         expect(dispatch).toHaveBeenCalledWith(`queryWalletBalances`)
       })
@@ -160,7 +160,7 @@ describe(`Module: Wallet`, () => {
             address: `abc`
           },
           dispatch,
-          rootState: { user: { signedIn: false } }
+          rootState: { session: { signedIn: false } }
         })
         expect(dispatch).not.toHaveBeenCalledWith(`queryWalletBalances`)
       })

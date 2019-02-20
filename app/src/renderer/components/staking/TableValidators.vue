@@ -55,15 +55,14 @@ export default {
       `delegation`,
       `filters`,
       `committedDelegations`,
-      `config`,
-      `user`,
+      `session`,
       `liquidAtoms`,
       `connected`,
       `bondDenom`,
       `keybase`
     ]),
     address() {
-      return this.user.address
+      return this.session.address
     },
     somethingToSearch() {
       return !!this.validators.length

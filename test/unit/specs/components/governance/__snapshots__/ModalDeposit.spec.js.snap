@@ -17,7 +17,9 @@ exports[`ModalDeposit component matches snapshot has the expected html structure
     <span
       class="action-modal-title"
     >
-      Deposit
+      
+        Deposit
+      
     </span>
      
     <div
