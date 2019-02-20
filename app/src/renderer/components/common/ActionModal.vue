@@ -2,18 +2,9 @@
   <transition v-if="show" name="slide-fade">
     <div v-click-outside="close" class="action-modal">
       <div class="action-modal-header">
-        <img
-          class="icon action-modal-atom"
-          src="~assets/images/cosmos-logo.png"
-        >
-        <span class="action-modal-title">
-          {{ user.signedIn ? title : `Sign in required` }}
-        </span>
-        <div
-          id="closeBtn"
-          class="action-modal-icon action-modal-close"
-          @click="close"
-        >
+        <img class="icon action-modal-atom" src="~assets/images/cosmos-logo.png">
+        <span class="action-modal-title">{{ user.signedIn ? title : `Sign in required` }}</span>
+        <div id="closeBtn" class="action-modal-icon action-modal-close" @click="close">
           <i class="material-icons">close</i>
         </div>
       </div>
@@ -57,9 +48,11 @@
         </tm-form-group>
       </div>
       <div v-else-if="step === `sign`" class="action-modal-form">
+        <hardware-state v-if="sending" :loading="true" value="Waiting for signature on app" />
         <hardware-state
+          v-else
           icon="usb"
-          value="Please unlock the Cosmos app on your Ledger Nano S"
+          value="Please unlock the Cosmos app on your Ledger Nano&nbsp;S"
         />
       </div>
       <div class="action-modal-footer">

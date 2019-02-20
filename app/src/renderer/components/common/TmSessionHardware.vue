@@ -19,13 +19,16 @@
         />
         <hardware-state
           v-if="status == 'detect'"
-          :spin="true"
-          icon="rotate_right"
+          :loading="true"
           value="Connecting..."
           @click.native="setStatus('connect')"
         />
       </div>
-      <div class="tm-session-footer" />
+      <div class="tm-session-footer">
+        <p v-if="connectionError" class="tm-form-msg sm tm-form-msg--error">
+          {{ connectionError }}
+        </p>
+      </div>
     </div>
   </div>
 </template>
@@ -35,7 +38,10 @@ import HardwareState from "common/TmHardwareState"
 export default {
   name: `tm-session-hardware`,
   components: { HardwareState },
-  data: () => ({ status: `connect` }),
+  data: () => ({
+    status: `connect`,
+    connectionError: null
+  }),
   methods: {
     help() {
       this.$store.commit(`setModalHelp`, true)
@@ -46,16 +52,17 @@ export default {
     setStatus(value) {
       this.status = value
     },
+    setConnectionError(error) {
+      this.connectionError = error
+    },
     async connectLedger() {
+      this.setConnectionError(null)
       this.setStatus(`detect`)
-      const connected = await this.$store.dispatch(`connectLedgerApp`)
-      if (connected) {
-        this.$store.commit(`notify`, {
-          title: `Connection succesful`,
-          body: `You are now signed in to your Cosmos account with your Ledger.`
-        })
-      } else {
+      try {
+        await this.$store.dispatch(`connectLedgerApp`)
+      } catch (error) {
         this.setStatus(`connect`)
+        this.setConnectionError(error.message)
       }
     }
   }

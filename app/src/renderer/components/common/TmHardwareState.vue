@@ -1,10 +1,7 @@
 <template>
   <div class="tm-hardware-state">
-    <i :class="spinnerClass" class="tm-hardware-state__icon material-icons">
-      {{
-        icon
-      }}
-    </i>
+    <img v-if="loading" src="~assets/images/loader.svg">
+    <i class="tm-hardware-state__icon material-icons">{{ icon }}</i>
     <div class="tm-hardware-state__label">
       {{ value }}
     </div>
@@ -16,20 +13,15 @@ export default {
   props: {
     icon: {
       type: String,
-      required: true
-    },
-    spin: {
-      type: Boolean,
-      default: false
+      default: ``
     },
     value: {
       type: String,
       required: true
-    }
-  },
-  computed: {
-    spinnerClass({spin} = this) {
-      return spin ? `fa-spin` : ``
+    },
+    loading: {
+      type: Boolean,
+      default: false
     }
   }
 }

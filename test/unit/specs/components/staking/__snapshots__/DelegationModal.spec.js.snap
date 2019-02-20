@@ -17,9 +17,7 @@ exports[`DelegationModal component matches snapshot has the expected html struct
     <span
       class="action-modal-title"
     >
-      
-        Delegate
-      
+      Delegate
     </span>
      
     <div
