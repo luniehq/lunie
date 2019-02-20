@@ -65,7 +65,7 @@ export function storeUpdateHandler(mutation, state, pending) {
   if (updatingMutations.indexOf(mutation.type) === -1) return
 
   // if the user is logged in cache the balances and the tx-history for that user
-  if (!state.user.address) return
+  if (!state.session.address) return
 
   // throttle updates so we don't write to disk on every mutation
   // pending is the last updates setTimeout
@@ -108,8 +108,8 @@ function persistState(state) {
     deposits: state.deposits,
     votes: state.votes,
     governanceParameters: state.governanceParameters,
-    user: {
-      address: state.user.address
+    session: {
+      address: state.session.address
     }
   })
   // Store the state object as a JSON string
@@ -123,7 +123,7 @@ function persistState(state) {
  */
 export function getStorageKey(state) {
   const chainId = state.connection.lastHeader.chain_id
-  const address = state.user.address
+  const address = state.session.address
   return `store_${chainId}_${address}`
 }
 

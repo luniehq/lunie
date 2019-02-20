@@ -17,7 +17,9 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
     <span
       class="action-modal-title"
     >
-      Undelegate
+      
+        Undelegate
+      
     </span>
      
     <div

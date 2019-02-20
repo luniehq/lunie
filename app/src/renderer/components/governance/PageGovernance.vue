@@ -52,7 +52,7 @@ export default {
       `filters`,
       `depositDenom`,
       `connected`,
-      `user`
+      `session`
     ]),
     proposalList() {
       return Object.values(this.proposals.proposals)

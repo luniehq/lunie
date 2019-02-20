@@ -17,7 +17,9 @@ exports[`ModalPropose component matches snapshot has the expected html structure
     <span
       class="action-modal-title"
     >
-      Proposal
+      
+        Proposal
+      
     </span>
      
     <div

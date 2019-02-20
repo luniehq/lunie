@@ -14,8 +14,12 @@ describe(`TmSessionSignIn`, () => {
       dispatch: jest.fn(() => true),
       getters: {
         connected: true,
-        user: {
-          accounts: []
+        session: {
+          accounts: [
+            {
+              name: `my_account`
+            }
+          ]
         },
         mockedConnector: false
       }
@@ -52,7 +56,12 @@ describe(`TmSessionSignIn`, () => {
       }
     })
     await wrapper.vm.onSubmit()
-    expect($store.commit).toHaveBeenCalledWith(`setModalSession`, false)
+    expect($store.commit).toHaveBeenCalledWith(`toggleSessionModal`, false)
+  })
+
+  it(`should go back to welcome`, () => {
+    wrapper.vm.goToWelcome()
+    expect($store.commit).toHaveBeenCalledWith(`setSessionModalView`, `welcome`)
   })
 
   it(`should signal signedin state on successful login`, async () => {
@@ -65,7 +74,7 @@ describe(`TmSessionSignIn`, () => {
     await wrapper.vm.onSubmit()
     expect($store.dispatch).toHaveBeenCalledWith(`signIn`, {
       password: `1234567890`,
-      account: `default`
+      localKeyPairName: `default`
     })
   })
 

@@ -43,7 +43,7 @@ export default ({ node }) => {
 
   const actions = {
     async reconnected({ rootState, state, dispatch }) {
-      if (state.loading && state.address && rootState.user.signedIn) {
+      if (state.loading && state.address && rootState.session.signedIn) {
         await dispatch(`queryWalletBalances`)
       }
     },

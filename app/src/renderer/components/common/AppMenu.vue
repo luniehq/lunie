@@ -86,7 +86,7 @@ export default {
   },
   methods: {
     close() {
-      this.$store.commit(`setActiveMenu`, ``)
+      this.$emit(`close`)
       noScroll.off()
     }
   }

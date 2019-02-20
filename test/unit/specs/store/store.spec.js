@@ -9,7 +9,7 @@ import { Store } from "vuex"
 jest.mock(`renderer/vuex/modules/index.js`, () => () => ({}))
 
 const mockState = {
-  user: {
+  session: {
     address: `xxx`
   },
   connection: {
@@ -68,7 +68,7 @@ describe(`Store`, () => {
     storeUpdateHandler(
       { type: `setWalletBalances` },
       Object.assign({}, mockState, {
-        user: {
+        session: {
           address: null
         }
       }),
@@ -128,7 +128,7 @@ describe(`Store`, () => {
   it(`get storage keys`, () => {
     expect(
       getStorageKey({
-        user: { address: `Y` },
+        session: { address: `Y` },
         connection: { lastHeader: { chain_id: `X` } }
       })
     ).toEqual(`store_X_Y`)

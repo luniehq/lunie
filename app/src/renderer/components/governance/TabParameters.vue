@@ -185,7 +185,7 @@ export default {
     }
   }),
   computed: {
-    ...mapGetters([`config`, `governanceParameters`]),
+    ...mapGetters([`session`, `governanceParameters`]),
     minimumDeposit() {
       const coin = this.governanceParameters.parameters.deposit.min_deposit[0]
       return `${coin.amount} ${coin.denom}s`
