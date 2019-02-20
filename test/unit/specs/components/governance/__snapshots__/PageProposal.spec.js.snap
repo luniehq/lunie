@@ -65,31 +65,9 @@ exports[`PageProposal has the expected html structure if user has signed in 1`] 
               </div>
             </div>
              
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    Address Not Found
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
+            <short-bech32-stub
+              address=""
+            />
              
           </div>
            
@@ -442,31 +420,9 @@ exports[`PageProposal has the expected html structure if user hasn't signed in 1
               </div>
             </div>
              
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    Address Not Found
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
+            <short-bech32-stub
+              address=""
+            />
              
           </div>
            
@@ -816,31 +772,9 @@ exports[`PageProposal has the expected html structure when voting is open 1`] = 
               </div>
             </div>
              
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    Address Not Found
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
+            <short-bech32-stub
+              address=""
+            />
              
           </div>
            
@@ -1193,31 +1127,9 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
               </div>
             </div>
              
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    Address Not Found
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
+            <short-bech32-stub
+              address=""
+            />
              
           </div>
            

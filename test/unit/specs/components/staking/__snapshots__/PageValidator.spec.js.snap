@@ -65,31 +65,9 @@ exports[`PageValidator has the expected html structure if user has signed in 1`]
               </div>
             </div>
              
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    Address Not Found
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
+            <short-bech32-stub
+              address=""
+            />
              
           </div>
            
@@ -184,31 +162,9 @@ exports[`PageValidator has the expected html structure if user has signed in 1`]
             
             </div>
              
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    cosmosvaladdr…8yqw
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
+            <short-bech32-stub
+              address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+            />
           </div>
            
           <div
@@ -579,31 +535,9 @@ exports[`PageValidator has the expected html structure if user hasn't signed in 
               </div>
             </div>
              
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    Address Not Found
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
+            <short-bech32-stub
+              address=""
+            />
              
           </div>
            
@@ -695,31 +629,9 @@ exports[`PageValidator has the expected html structure if user hasn't signed in 
             
             </div>
              
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    cosmosvaladdr…8yqw
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
+            <short-bech32-stub
+              address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+            />
           </div>
            
           <div
@@ -1090,31 +1002,9 @@ exports[`PageValidator shows a default avatar 1`] = `
               </div>
             </div>
              
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    Address Not Found
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
+            <short-bech32-stub
+              address=""
+            />
              
           </div>
            
@@ -1209,31 +1099,9 @@ exports[`PageValidator shows a default avatar 1`] = `
             
             </div>
              
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    cosmosvaladdr…8yqw
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
+            <short-bech32-stub
+              address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+            />
           </div>
            
           <div
@@ -1606,31 +1474,9 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
               </div>
             </div>
              
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    Address Not Found
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
+            <short-bech32-stub
+              address=""
+            />
              
           </div>
            
@@ -1810,31 +1656,9 @@ exports[`Staking functions onDelegation make sure we have enough atoms to delega
               </div>
             </div>
              
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    Address Not Found
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
+            <short-bech32-stub
+              address=""
+            />
              
           </div>
            
@@ -1929,31 +1753,9 @@ exports[`Staking functions onDelegation make sure we have enough atoms to delega
             
             </div>
              
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    cosmosvaladdr…8yqw
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
+            <short-bech32-stub
+              address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+            />
           </div>
            
           <div
@@ -2391,31 +2193,9 @@ exports[`Staking functions onDelegation make sure we have enough atoms to delega
               </div>
             </div>
              
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    Address Not Found
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
+            <short-bech32-stub
+              address=""
+            />
              
           </div>
            
@@ -2510,31 +2290,9 @@ exports[`Staking functions onDelegation make sure we have enough atoms to delega
             
             </div>
              
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    cosmosvaladdr…8yqw
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
+            <short-bech32-stub
+              address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+            />
           </div>
            
           <div
@@ -2905,31 +2663,9 @@ exports[`Staking functions onUndelegation make sure there are enough atoms to un
               </div>
             </div>
              
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    Address Not Found
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
+            <short-bech32-stub
+              address=""
+            />
              
           </div>
            
@@ -3024,31 +2760,9 @@ exports[`Staking functions onUndelegation make sure there are enough atoms to un
             
             </div>
              
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    cosmosvaladdr…8yqw
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
+            <short-bech32-stub
+              address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+            />
           </div>
            
           <div
@@ -3486,31 +3200,9 @@ exports[`Staking functions onUndelegation make sure there are enough atoms to un
               </div>
             </div>
              
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    Address Not Found
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
+            <short-bech32-stub
+              address=""
+            />
              
           </div>
            
@@ -3605,31 +3297,9 @@ exports[`Staking functions onUndelegation make sure there are enough atoms to un
             
             </div>
              
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    cosmosvaladdr…8yqw
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
+            <short-bech32-stub
+              address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+            />
           </div>
            
           <div

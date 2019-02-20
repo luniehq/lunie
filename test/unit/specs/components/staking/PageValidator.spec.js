@@ -73,7 +73,8 @@ describe(`PageValidator`, () => {
       },
       stubs: {
         "undelegation-modal": true,
-        "delegation-modal": true
+        "delegation-modal": true,
+        "short-bech32": true
       },
       getters: {
         bondDenom: () => stakingParameters.parameters.bond_denom,
@@ -141,7 +142,8 @@ describe(`PageValidator`, () => {
       },
       stubs: {
         "undelegation-modal": true,
-        "delegation-modal": true
+        "delegation-modal": true,
+        "short-bech32": true
       }
     })
 
@@ -325,6 +327,9 @@ describe(`delegationTargetOptions`, () => {
       $store,
       $route: {
         params: { validator: validator.operator_address }
+      },
+      stubs: {
+        "short-bech32": true
       }
     })
     expect(options).toHaveLength(1)
@@ -358,6 +363,9 @@ describe(`delegationTargetOptions`, () => {
       $store,
       $route: {
         params: { validator: validator.operator_address }
+      },
+      stubs: {
+        "short-bech32": true
       }
     })
 
@@ -404,7 +412,8 @@ describe(`Staking functions`, () => {
       },
       stubs: {
         "undelegation-modal": true,
-        "delegation-modal": true
+        "delegation-modal": true,
+        "short-bech32": true
       },
       getters: {
         bondDenom: () => stakingParameters.parameters.bond_denom,

@@ -10,7 +10,7 @@
   font-size: var(--sm);
   max-width: 220px;
   text-align: center;
-  word-break: break-word;
+  word-break: break-all;
 }
 .vue-tooltip .vue-tooltip-content {
   text-align: center;

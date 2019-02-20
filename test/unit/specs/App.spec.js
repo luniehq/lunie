@@ -113,7 +113,7 @@ describe(`App Start`, () => {
       mockVue
     )
     expect(mockVue.directive).toHaveBeenCalledTimes(1)
-    expect(mockVue.use).toHaveBeenCalledTimes(3)
+    expect(mockVue.use).toHaveBeenCalledTimes(4)
   })
 
   describe(`Route guard`, () => {

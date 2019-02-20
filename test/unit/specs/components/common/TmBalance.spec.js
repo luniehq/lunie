@@ -16,6 +16,9 @@ describe(`TmBalance`, () => {
         }),
         liquidAtoms: () => 123,
         totalAtoms: () => 321
+      },
+      stubs: {
+        "short-bech32": true
       }
     })
     wrapper = instance.wrapper
