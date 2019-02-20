@@ -2,10 +2,14 @@
   <div class="tm-session">
     <tm-form-struct :submit="onSubmit.bind(this)" class="tm-session-container">
       <div class="tm-session-header">
-        <a @click="setState('welcome')"
-          ><i class="material-icons">arrow_back</i></a
+        <a
+          @click="setState('welcome')"
         >
-        <div class="tm-session-title">Import with Seed</div>
+          <i class="material-icons">arrow_back</i>
+        </a>
+        <div class="tm-session-title">
+          Import with Seed
+        </div>
         <a @click="help"><i class="material-icons">help_outline</i></a>
       </div>
       <div class="tm-session-main">
@@ -118,12 +122,15 @@
                 id="error-collection"
                 v-model="fields.errorCollection"
                 type="checkbox"
-              />
+              >
             </div>
-            <label class="tm-field-checkbox-label" for="error-collection"
-              >I'd like to opt in for remote error tracking to help improve
-              Voyager.</label
+            <label
+              class="tm-field-checkbox-label"
+              for="error-collection"
             >
+              I'd like to opt in for remote error tracking to help improve
+              Voyager.
+            </label>
           </div>
         </tm-form-group>
       </div>

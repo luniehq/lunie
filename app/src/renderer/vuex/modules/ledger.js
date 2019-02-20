@@ -48,34 +48,49 @@ export default () => {
         externals: state.externals
       }
     },
-    /* TODO: Create a function to detect ledger is connected (i.e unlocked with
-      password and on Home app) */
+    async pollLedgerDevice({ state }) {
+      // poll device with low timeout to check if the device is connected
+      const secondsTimeout = 2 // with less than 2 secs it always timeouts
+      const communicationMethod = await state.externals.comm_u2f.create_async(
+        secondsTimeout,
+        true
+      )
+      const cosmosLedgerApp = new state.externals.App(communicationMethod)
+      const response = await cosmosLedgerApp.get_version()
+
+      switch (response.error_message) {
+        case `U2F: Timeout`:
+          throw new Error(`No Ledger found`)
+        case `Cosmos app does not seem to be open`:
+          throw new Error(`Cøsmos app is not open`)
+        case `No errors`:
+          // do nothing
+          break
+        default:
+          throw new Error(response.error_message)
+      }
+    },
+    async createLedgerAppInstance({ commit, state }) {
+      const communicationMethod = await state.externals.comm_u2f.create_async(
+        TIMEOUT,
+        true
+      )
+      const cosmosLedgerApp = new state.externals.App(communicationMethod)
+      commit(`setCosmosApp`, cosmosLedgerApp)
+    },
     async connectLedgerApp({ commit, dispatch, state }) {
-      let success = false
       try {
-        const communicationMethod = await state.externals.comm_u2f.create_async(
-          TIMEOUT,
-          true
-        )
-        const cosmosLedgerApp = new state.externals.App(communicationMethod)
-        commit(`setCosmosApp`, cosmosLedgerApp)
+        await dispatch(`pollLedgerDevice`)
+        await dispatch(`createLedgerAppInstance`)
         await dispatch(`getLedgerCosmosVersion`)
-        if (state.cosmosAppVersion) {
-          commit(`setLedgerConnection`, true)
-          await dispatch(`getLedgerPubKey`)
-          const address = state.externals.createCosmosAddress(state.pubKey)
-          await dispatch(`signIn`, { sessionType: `ledger`, address })
-          success = true
-        }
+        await dispatch(`getLedgerPubKey`)
+        const address = state.externals.createCosmosAddress(state.pubKey)
+        await dispatch(`signIn`, { sessionType: `ledger`, address })
+        commit(`setLedgerConnection`, true)
       } catch (error) {
-        commit(`notifyError`, {
-          title: `Error connecting to Ledger Nano S`,
-          body: error.message
-        })
         Sentry.captureException(error)
         commit(`setLedgerError`, error)
-      } finally {
-        return success
+        throw error
       }
     },
     async getLedgerCosmosVersion({ commit, state }) {
@@ -87,10 +102,6 @@ export default () => {
         const version = { major, minor, patch, test_mode }
         commit(`setCosmosAppVersion`, version)
       } catch (error) {
-        commit(`notifyError`, {
-          title: `Error retrieving Cosmos Ledger app version`,
-          body: error.message
-        })
         Sentry.captureException(error)
         commit(`setLedgerError`, error)
       }
@@ -102,33 +113,25 @@ export default () => {
         actions.checkLedgerErrors(response)
         commit(`setLedgerPubKey`, response.compressed_pk)
       } catch (error) {
-        commit(`notifyError`, {
-          title: `Error getting public key from Ledger`,
-          body: error.message
-        })
         Sentry.captureException(error)
         commit(`setLedgerError`, error)
       }
     },
     async signWithLedger({ commit, state }, message) {
-      let signature
       try {
         const response = await state.cosmosApp.sign(HDPATH, message)
         actions.checkLedgerErrors(response)
-        signature = response.signature
+        return response.signature
       } catch (error) {
-        commit(`notifyError`, {
-          title: `Signing transaction with Ledger failed`,
-          body: error.message
-        })
         Sentry.captureException(error)
         commit(`setLedgerError`, error)
-      } finally {
-        return signature
+        throw error
       }
     },
     checkLedgerErrors(response) {
-      if (response && response.error_message !== `No errors`) {
+      if (response && response.error_message === `Command not allowed`) {
+        throw new Error(`Transaction rejected`)
+      } else if (response && response.error_message !== `No errors`) {
         throw new Error(response.error_message)
       }
     }

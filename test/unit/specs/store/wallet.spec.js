@@ -212,7 +212,7 @@ describe(`Module: Wallet`, () => {
 
       const node = {
         rpc: {
-          subscribe: jest.fn(({}, cb) => {
+          subscribe: jest.fn((_, cb) => {
             //query is param
             cb({ TxResult: { height: -1 } })
           })

@@ -16,9 +16,6 @@ describe(`TmBalance`, () => {
         }),
         liquidAtoms: () => 123,
         totalAtoms: () => 321
-      },
-      propsData: {
-        tabs: []
       }
     })
     wrapper = instance.wrapper

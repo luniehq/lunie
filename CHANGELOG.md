@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.3] - 2019-02-20
+
+### Added
+
+- [\#1920](https://github.com/cosmos/voyager/issues/1920) Add link to install Cosmos Ledger App @fedekunze
+- [\#2000](https://github.com/cosmos/voyager/issues/2000) Add distribution endpoints support @fedekunze
+
+### Changed
+- [\#1936](https://github.com/cosmos/voyager/issues/1936) remove `prettier` to avoid overriding `eslint:vue` rules @sabau
+
+### Fixed
+
+- [\#1917](https://github.com/cosmos/voyager/issues/1917) Handle ledger disconnection before signing @fedekunze
+- [\#1917](https://github.com/cosmos/voyager/issues/1917) Display correct error message when rejecting a transaction with ledger @fedekunze
+- [\#1978](https://github.com/cosmos/voyager/issues/1978) Don't display error notifications after timeout on ledger session page @fedekunze
+
 ## [1.0.0-beta.2] - 2019-02-19
 
 ### Added
@@ -93,6 +109,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1911](https://github.com/cosmos/voyager/issues/1911) Upload code to Sentry for remote error analyzer @faboweb
 - Added development mode warning @faboweb
 - [\#1972](https://github.com/cosmos/voyager/pull/1972) Add auto PR cron job to circle ci @sabau
+- [\#1990](https://github.com/cosmos/voyager/pull/1990) Added postcss plugins and enabled css linter @jbibla
 
 ### Changed
 

@@ -5,7 +5,7 @@
         <img
           class="icon action-modal-atom"
           src="~assets/images/cosmos-logo.png"
-        />
+        >
         <span class="action-modal-title">
           {{ session.signedIn ? title : `Sign in required` }}
         </span>
@@ -57,9 +57,11 @@
         </tm-form-group>
       </div>
       <div v-else-if="step === `sign`" class="action-modal-form">
+        <hardware-state v-if="sending" :loading="true" value="Waiting for signature on app" />
         <hardware-state
+          v-else
           icon="usb"
-          value="Please unlock the Cosmos app on your Ledger Nano S"
+          value="Please unlock the Cosmos app on your Ledger Nano&nbsp;S"
         />
       </div>
       <div class="action-modal-footer">
@@ -334,16 +336,16 @@ export default {
   bottom: 1rem;
 }
 
-/* Enter and leave animations can use different */
-/* durations and timing functions.              */
 .slide-fade-enter-active {
   transition: all 0.1s ease;
 }
+
 .slide-fade-leave-active {
   transition: all 0.2s cubic-bezier(1, 0.5, 0.8, 1);
 }
-.slide-fade-enter, .slide-fade-leave-to
-/* .slide-fade-leave-active below version 2.1.8 */ {
+
+.slide-fade-enter,
+.slide-fade-leave-to {
   transform: translateX(2rem);
   opacity: 0;
 }

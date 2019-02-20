@@ -45,7 +45,9 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
         class="tm-form-group__label"
         for="from"
       >
-        From
+        
+    From
+  
       </label>
        
       <div
@@ -68,7 +70,9 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
         class="tm-form-group__label"
         for="to"
       >
-        To
+        
+    To
+  
       </label>
        
       <div
@@ -91,7 +95,9 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
         class="tm-form-group__label"
         for="amount"
       >
-        Amount
+        
+    Amount
+  
       </label>
        
       <div
@@ -113,7 +119,9 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
         <div
           class="tm-form-msg sm tm-form-msg--error"
         >
-          Wallet doesn't have any STAKEs
+          
+    Wallet doesn't have any STAKEs
+  
         </div>
       </div>
     </div>
@@ -128,7 +136,9 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
         class="tm-form-group__label"
         for="password"
       >
-        Password
+        
+    Password
+  
       </label>
        
       <div

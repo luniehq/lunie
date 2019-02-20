@@ -9,9 +9,7 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
   title=""
 >
   <template>
-    <tm-balance-stub
-      tabs=""
-    />
+    <tm-balance-stub />
      
     <tool-bar-stub />
   </template>
@@ -21,7 +19,9 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
       title="Node IP"
       type="field"
     >
+      
       http://localhost:9070
+    
     </tm-list-item-stub>
      
     <tm-list-item-stub

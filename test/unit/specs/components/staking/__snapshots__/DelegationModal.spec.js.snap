@@ -45,7 +45,9 @@ exports[`DelegationModal component matches snapshot has the expected html struct
         class="tm-form-group__label"
         for="to"
       >
-        To
+        
+    To
+  
       </label>
        
       <div
@@ -68,7 +70,9 @@ exports[`DelegationModal component matches snapshot has the expected html struct
         class="tm-form-group__label"
         for="from"
       >
-        From
+        
+    From
+  
       </label>
        
       <div
@@ -88,23 +92,31 @@ exports[`DelegationModal component matches snapshot has the expected html struct
               selected="selected"
               value=""
             >
-              Select option...
+              
+      Select option...
+    
             </option>
              
             <option
               value="0"
             >
-              My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9
+              
+        My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9
+      
             </option>
             <option
               value="1"
             >
-              Billy the Bill - cosmos…psjr9565ef72pv9g20yx
+              
+        Billy the Bill - cosmos…psjr9565ef72pv9g20yx
+      
             </option>
             <option
               value="2"
             >
-              Kentucky - cosmos…np9rldprgant57ryzag7
+              
+        Kentucky - cosmos…np9rldprgant57ryzag7
+      
             </option>
           </select>
            
@@ -129,7 +141,9 @@ exports[`DelegationModal component matches snapshot has the expected html struct
         class="tm-form-group__label"
         for="amount"
       >
-        Amount
+        
+    Amount
+  
       </label>
        
       <div
@@ -162,7 +176,9 @@ exports[`DelegationModal component matches snapshot has the expected html struct
         class="tm-form-group__label"
         for="password"
       >
-        Password
+        
+    Password
+  
       </label>
        
       <div
