@@ -6,7 +6,7 @@ describe(`TmHardwareState`, () => {
 
   const propsData = {
     icon: `rotate_right`,
-    spin: true,
+    loading: true,
     value: `Detecting your Ledger Wallet`
   }
 
@@ -14,16 +14,8 @@ describe(`TmHardwareState`, () => {
     wrapper = mount(TmHardwareState, { propsData })
   })
 
-  it(`has an icon from props`, () => {
-    expect(wrapper.vm.icon).toBe(`rotate_right`)
-  })
-
   it(`has the expected html structure`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
-  })
-
-  it(`has a spinning icon`, () => {
-    expect(wrapper.contains(`i.material-icons.fa-spin`)).toBe(true)
   })
 
   it(`has a label`, () => {

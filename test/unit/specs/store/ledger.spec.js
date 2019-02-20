@@ -54,10 +54,17 @@ describe(`Module: Ledger`, () => {
     })
 
     describe(`checks for errors on Ledger actions`, () => {
-      it(`throws`, () => {
+      it(`throws with an error`, () => {
         const response = { error_message: `Sign/verify error` }
-        expect(() => actions.checkLedgerErrors(response)).toThrow(
+        expect(() => actions.checkLedgerErrors(response)).toThrowError(
           response.error_message
+        )
+      })
+
+      it(`throws on rejected transaction`, () => {
+        const response = { error_message: `Command not allowed` }
+        expect(() => actions.checkLedgerErrors(response)).toThrowError(
+          `Transaction rejected`
         )
       })
 
@@ -107,34 +114,92 @@ describe(`Module: Ledger`, () => {
         })
       })
 
+      describe(`poll Ledger device`, () => {
+        it(`when Ledger is connected and app is open`, async () => {
+          state.externals.App = () => ({
+            get_version: () =>
+              Promise.resolve({
+                error_message: `No errors`
+              })
+          })
+          expect(
+            async () => await actions.pollLedgerDevice({ state })
+          ).not.toThrow()
+        })
+
+        it(`when Ledger is connected but app is not open`, async () => {
+          state.externals.App = () => ({
+            get_version: () =>
+              Promise.resolve({
+                error_message: `Cosmos app does not seem to be open`
+              })
+          })
+          await expect(actions.pollLedgerDevice({ state })).rejects.toThrow(
+            `Cøsmos app is not open`
+          )
+        })
+
+        it(`when Ledger not connected`, async () => {
+          state.externals.App = () => ({
+            get_version: () =>
+              Promise.resolve({
+                error_message: `U2F: Timeout`
+              })
+          })
+          await expect(actions.pollLedgerDevice({ state })).rejects.toThrow(
+            `No Ledger found`
+          )
+        })
+
+        it(`fails due to other error`, async () => {
+          state.externals.App = () => ({
+            get_version: () =>
+              Promise.resolve({
+                error_message: `Device is busy`
+              })
+          })
+          await expect(actions.pollLedgerDevice({ state })).rejects.toThrow(
+            `Device is busy`
+          )
+        })
+      })
+
+      describe(`create ledger app`, () => {
+        it(`creates an instance of the app`, async () => {
+          await actions.createLedgerAppInstance({ commit, state })
+          expect(state.externals.comm_u2f.create_async).toHaveBeenCalled()
+          expect(state.externals.App).toHaveBeenCalled()
+          expect(commit).toHaveBeenCalledWith(`setCosmosApp`, {})
+        })
+      })
+
       describe(`connect ledger`, () => {
         it(`successfully logs in with Ledger Nano S`, async () => {
-          const ok = await actions.connectLedgerApp({ commit, dispatch, state })
-          expect(state.externals.App).toHaveBeenCalled()
+          dispatch = jest.fn(async () => Promise.resolve(``))
+          await actions.connectLedgerApp({
+            commit,
+            dispatch,
+            state
+          })
+          expect(dispatch).toHaveBeenCalledWith(`pollLedgerDevice`)
+          expect(dispatch).toHaveBeenCalledWith(`createLedgerAppInstance`)
           expect(dispatch).toHaveBeenCalledWith(`getLedgerCosmosVersion`)
           expect(dispatch).toHaveBeenCalledWith(`getLedgerPubKey`)
           expect(dispatch).toHaveBeenCalledWith(`signIn`, {
             sessionType: `ledger`,
             address: `cosmos1address`
           })
-          expect(commit).not.toHaveBeenCalledWith(`notifyError`, {
-            title: `Error connecting to Ledger`,
-            body: expect.anything()
-          })
           expect(commit).not.toHaveBeenCalledWith(
             `setLedgerError`,
             expect.anything()
           )
-          expect(ok).toBe(true)
         })
 
         it(`fails if one of the function throws`, async () => {
           dispatch = jest.fn(async () => Promise.reject(new Error(`error`)))
-          await actions.connectLedgerApp({ commit, dispatch, state })
-          expect(commit).toHaveBeenCalledWith(`notifyError`, {
-            title: `Error connecting to Ledger Nano S`,
-            body: `error`
-          })
+          await expect(
+            actions.connectLedgerApp({ commit, dispatch, state })
+          ).rejects.toThrowError(`error`)
           expect(commit).toHaveBeenCalledWith(`setLedgerError`, Error(`error`))
         })
       })
@@ -224,14 +289,27 @@ describe(`Module: Ledger`, () => {
             Promise.resolve({
               error_message: `Bad key handle`
             })
-          const resSignature = await actions.signWithLedger(
-            { commit, dispatch, state },
-            msg
-          )
-          expect(resSignature).toBeUndefined()
+          await expect(
+            actions.signWithLedger({ commit, dispatch, state }, msg)
+          ).rejects.toThrowError(`Bad key handle`)
           expect(commit).toHaveBeenCalledWith(
             `setLedgerError`,
             Error(`Bad key handle`)
+          )
+        })
+
+        it(`fails if transaction is rejected`, async () => {
+          const msg = `{"account_number": 1,"chain_id": "some_chain","fee": {"amount": [{"amount": 10, "denom": "DEN"}],"gas": 5},"memo": "MEMO","msgs": ["SOMETHING"],"sequence": 3}`
+          state.cosmosApp.sign = () =>
+            Promise.resolve({
+              error_message: `Command not allowed`
+            })
+          await expect(
+            actions.signWithLedger({ commit, dispatch, state }, msg)
+          ).rejects.toThrowError(`Transaction rejected`)
+          expect(commit).toHaveBeenCalledWith(
+            `setLedgerError`,
+            Error(`Transaction rejected`)
           )
         })
       })
