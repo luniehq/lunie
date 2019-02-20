@@ -5,7 +5,9 @@
     </div>
     <div class="container">
       <div class="header-item header-item-logo">
-        <img id="logo-white" src="~assets/images/cosmos-wordmark-white.svg">
+        <router-link to="/">
+          <img id="logo-white" src="~assets/images/cosmos-wordmark-white.svg">
+        </router-link> 
       </div>
       <app-menu v-if="open || desktop" @close="close" />
       <template v-if="!desktop">
