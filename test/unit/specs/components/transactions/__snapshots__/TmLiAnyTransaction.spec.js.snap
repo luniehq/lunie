@@ -42,7 +42,9 @@ exports[`TmLiAnyTransaction shows bank transactions 1`] = `
         class="tm-li-tx__content__information"
       >
         <span>
-          To B
+          
+        To B
+      
         </span>
       </div>
     </div>
@@ -53,7 +55,9 @@ exports[`TmLiAnyTransaction shows bank transactions 1`] = `
       <router-link-stub
         to="[object Object]"
       >
+        
         Block #3436 
+      
       </router-link-stub>
       @ 00:00:02
     
@@ -109,7 +113,9 @@ exports[`TmLiAnyTransaction shows stake transactions 1`] = `
           <router-link-stub
             to="/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
           >
-            mr_mounty
+            
+        mr_mounty
+      
           </router-link-stub>
         </div>
       </div>
@@ -121,7 +127,9 @@ exports[`TmLiAnyTransaction shows stake transactions 1`] = `
       <router-link-stub
         to="[object Object]"
       >
+        
         Block #568 
+      
       </router-link-stub>
       @ 00:00:42
     
@@ -171,7 +179,9 @@ exports[`TmLiAnyTransaction shows unknown transactions 1`] = `
       <router-link-stub
         to="[object Object]"
       >
+        
         Block #3436 
+      
       </router-link-stub>
       @ 00:00:02
     

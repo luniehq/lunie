@@ -46,7 +46,9 @@ exports[`TmLiTransaction has the expected html structure 1`] = `
       <router-link-stub
         to="[object Object]"
       >
+        
         Block #500 
+      
       </router-link-stub>
       @ 00:00:42
     

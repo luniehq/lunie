@@ -46,7 +46,9 @@ exports[`PageValidator has the expected html structure if user has signed in 1`]
                 <h2
                   class="total-atoms__value"
                 >
-                  123.4568…
+                  
+        123.4568…
+      
                 </h2>
               </div>
                
@@ -247,7 +249,9 @@ exports[`PageValidator has the expected html structure if user has signed in 1`]
             <dd
               id="page-profile__power"
             >
+              
               100.00%
+            
             </dd>
           </dl>
            
@@ -261,7 +265,9 @@ exports[`PageValidator has the expected html structure if user has signed in 1`]
             <dd
               id="page-profile__uptime"
             >
+              
               -Inf%
+            
             </dd>
           </dl>
            
@@ -435,7 +441,9 @@ exports[`PageValidator has the expected html structure if user has signed in 1`]
             <dd
               id="page-profile__self-bond"
             >
+              
               1.00%
+            
             </dd>
           </dl>
         </div>
@@ -508,7 +516,9 @@ exports[`PageValidator has the expected html structure if user hasn't signed in 
                 <h2
                   class="total-atoms__value"
                 >
-                  123.4568…
+                  
+        123.4568…
+      
                 </h2>
               </div>
                
@@ -706,7 +716,9 @@ exports[`PageValidator has the expected html structure if user hasn't signed in 
             <dd
               id="page-profile__power"
             >
+              
               100.00%
+            
             </dd>
           </dl>
            
@@ -720,7 +732,9 @@ exports[`PageValidator has the expected html structure if user hasn't signed in 
             <dd
               id="page-profile__uptime"
             >
+              
               -Inf%
+            
             </dd>
           </dl>
            
@@ -894,7 +908,9 @@ exports[`PageValidator has the expected html structure if user hasn't signed in 
             <dd
               id="page-profile__self-bond"
             >
+              
               1.00%
+            
             </dd>
           </dl>
         </div>
@@ -967,7 +983,9 @@ exports[`PageValidator shows a default avatar 1`] = `
                 <h2
                   class="total-atoms__value"
                 >
-                  123.4568…
+                  
+        123.4568…
+      
                 </h2>
               </div>
                
@@ -1168,7 +1186,9 @@ exports[`PageValidator shows a default avatar 1`] = `
             <dd
               id="page-profile__power"
             >
+              
               100.00%
+            
             </dd>
           </dl>
            
@@ -1182,7 +1202,9 @@ exports[`PageValidator shows a default avatar 1`] = `
             <dd
               id="page-profile__uptime"
             >
+              
               -Inf%
+            
             </dd>
           </dl>
            
@@ -1356,7 +1378,9 @@ exports[`PageValidator shows a default avatar 1`] = `
             <dd
               id="page-profile__self-bond"
             >
+              
               1.00%
+            
             </dd>
           </dl>
         </div>
@@ -1431,7 +1455,9 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
                 <h2
                   class="total-atoms__value"
                 >
-                  0.0000…
+                  
+        0.0000…
+      
                 </h2>
               </div>
                
@@ -1533,7 +1559,9 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
           class="tm-data-msg__title"
         >
           <div>
-            Aw shucks!
+            
+    Aw shucks!
+  
           </div>
         </div>
          
@@ -1609,7 +1637,9 @@ exports[`Staking functions onDelegation make sure we have enough atoms to delega
                 <h2
                   class="total-atoms__value"
                 >
-                  100.0000…
+                  
+        100.0000…
+      
                 </h2>
               </div>
                
@@ -1810,7 +1840,9 @@ exports[`Staking functions onDelegation make sure we have enough atoms to delega
             <dd
               id="page-profile__power"
             >
+              
               100.00%
+            
             </dd>
           </dl>
            
@@ -1824,7 +1856,9 @@ exports[`Staking functions onDelegation make sure we have enough atoms to delega
             <dd
               id="page-profile__uptime"
             >
+              
               -Inf%
+            
             </dd>
           </dl>
            
@@ -1998,7 +2032,9 @@ exports[`Staking functions onDelegation make sure we have enough atoms to delega
             <dd
               id="page-profile__self-bond"
             >
+              
               1.00%
+            
             </dd>
           </dl>
         </div>
@@ -2138,7 +2174,9 @@ exports[`Staking functions onDelegation make sure we have enough atoms to delega
                 <h2
                   class="total-atoms__value"
                 >
-                  100.0000…
+                  
+        100.0000…
+      
                 </h2>
               </div>
                
@@ -2339,7 +2377,9 @@ exports[`Staking functions onDelegation make sure we have enough atoms to delega
             <dd
               id="page-profile__power"
             >
+              
               100.00%
+            
             </dd>
           </dl>
            
@@ -2353,7 +2393,9 @@ exports[`Staking functions onDelegation make sure we have enough atoms to delega
             <dd
               id="page-profile__uptime"
             >
+              
               -Inf%
+            
             </dd>
           </dl>
            
@@ -2527,7 +2569,9 @@ exports[`Staking functions onDelegation make sure we have enough atoms to delega
             <dd
               id="page-profile__self-bond"
             >
+              
               1.00%
+            
             </dd>
           </dl>
         </div>
@@ -2600,7 +2644,9 @@ exports[`Staking functions onUndelegation make sure there are enough atoms to un
                 <h2
                   class="total-atoms__value"
                 >
-                  1,337.0000…
+                  
+        1,337.0000…
+      
                 </h2>
               </div>
                
@@ -2801,7 +2847,9 @@ exports[`Staking functions onUndelegation make sure there are enough atoms to un
             <dd
               id="page-profile__power"
             >
+              
               100.00%
+            
             </dd>
           </dl>
            
@@ -2815,7 +2863,9 @@ exports[`Staking functions onUndelegation make sure there are enough atoms to un
             <dd
               id="page-profile__uptime"
             >
+              
               -Inf%
+            
             </dd>
           </dl>
            
@@ -2989,7 +3039,9 @@ exports[`Staking functions onUndelegation make sure there are enough atoms to un
             <dd
               id="page-profile__self-bond"
             >
+              
               1.00%
+            
             </dd>
           </dl>
         </div>
@@ -3129,7 +3181,9 @@ exports[`Staking functions onUndelegation make sure there are enough atoms to un
                 <h2
                   class="total-atoms__value"
                 >
-                  1,337.0000…
+                  
+        1,337.0000…
+      
                 </h2>
               </div>
                
@@ -3330,7 +3384,9 @@ exports[`Staking functions onUndelegation make sure there are enough atoms to un
             <dd
               id="page-profile__power"
             >
+              
               100.00%
+            
             </dd>
           </dl>
            
@@ -3344,7 +3400,9 @@ exports[`Staking functions onUndelegation make sure there are enough atoms to un
             <dd
               id="page-profile__uptime"
             >
+              
               -Inf%
+            
             </dd>
           </dl>
            
@@ -3518,7 +3576,9 @@ exports[`Staking functions onUndelegation make sure there are enough atoms to un
             <dd
               id="page-profile__self-bond"
             >
+              
               1.00%
+            
             </dd>
           </dl>
         </div>

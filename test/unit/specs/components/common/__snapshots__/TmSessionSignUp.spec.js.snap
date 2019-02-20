@@ -23,7 +23,9 @@ exports[`SessionSignUp has the expected html structure 1`] = `
       <div
         class="tm-session-title"
       >
+        
         Create Account
+      
       </div>
        
       <a>
@@ -124,8 +126,10 @@ exports[`SessionSignUp has the expected html structure 1`] = `
             class="tm-field-checkbox-label"
             for="sign-up-warning"
           >
+            
             I have securely written down my seed. I understand that lost
             seeds cannot be recovered.
+          
           </label>
         </div>
          
@@ -152,8 +156,10 @@ exports[`SessionSignUp has the expected html structure 1`] = `
             class="tm-field-checkbox-label"
             for="error-collection"
           >
+            
             I'd like to opt in for remote error tracking to help improve
             Voyager.
+          
           </label>
         </div>
       </tm-form-group-stub>

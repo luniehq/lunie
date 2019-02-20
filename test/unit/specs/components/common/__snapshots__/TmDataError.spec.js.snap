@@ -21,7 +21,9 @@ exports[`TmDataError has the expected html structure 1`] = `
       class="tm-data-msg__title"
     >
       <div>
-        Aw shucks!
+        
+    Aw shucks!
+  
       </div>
     </div>
      
