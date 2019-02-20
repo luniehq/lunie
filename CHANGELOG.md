@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 - [\#1999](https://github.com/cosmos/voyager/issues/1999) fixed signing of governance txs due to upstream SDK fix @faboweb
+- [\#2028](https://github.com/cosmos/voyager/issues/2028) fixed giant image on onboarding screen @jbibla
 
 ## [1.0.0-beta.3] - 2019-02-20
 

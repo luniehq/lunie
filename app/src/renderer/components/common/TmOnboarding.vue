@@ -1,6 +1,5 @@
 <template>
   <div id="onboarding" class="tm-session-wrapper">
-    <img class="tm-session-backdrop" src="~assets/images/cosmos-logo.png">
     <div class="tm-session">
       <div class="tm-session-container">
         <div class="tm-session-header">
