@@ -89,8 +89,8 @@ describe(`ActionModal`, () => {
     const $store = { commit: jest.fn() }
     const self = { $store }
     ActionModal.methods.goToSession.call(self)
-    expect($store.commit).toHaveBeenCalledWith(`setSignInModalState`, `welcome`)
-    expect($store.commit).toHaveBeenCalledWith(`toggleSignInModal`, true)
+    expect($store.commit).toHaveBeenCalledWith(`setSessionModalView`, `welcome`)
+    expect($store.commit).toHaveBeenCalledWith(`toggleSessionModal`, true)
   })
 
   describe(`close modal`, () => {

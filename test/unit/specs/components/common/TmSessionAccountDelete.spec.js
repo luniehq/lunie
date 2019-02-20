@@ -24,7 +24,7 @@ describe(`TmSessionAccountDelete`, () => {
       .at(0)
       .trigger(`click`)
     expect(store.commit.mock.calls[0]).toEqual([
-      `setSignInModalState`,
+      `setSessionModalView`,
       `sign-in`
     ])
   })
@@ -46,7 +46,7 @@ describe(`TmSessionAccountDelete`, () => {
     })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toEqual([
-      `setSignInModalState`,
+      `setSessionModalView`,
       `welcome`
     ])
   })

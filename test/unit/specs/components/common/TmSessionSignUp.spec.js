@@ -33,7 +33,7 @@ describe(`SessionSignUp`, () => {
       .findAll(`.tm-session-header a`)
       .at(0)
       .trigger(`click`)
-    expect($store.commit).toHaveBeenCalledWith(`setSignInModalState`, `welcome`)
+    expect($store.commit).toHaveBeenCalledWith(`setSessionModalView`, `welcome`)
   })
 
   it(`should open the help modal on click`, () => {
@@ -63,7 +63,7 @@ describe(`SessionSignUp`, () => {
         signUpWarning: true
       }
     })
-    expect(commit).toHaveBeenCalledWith(`toggleSignInModal`, false)
+    expect(commit).toHaveBeenCalledWith(`toggleSessionModal`, false)
   })
 
   it(`should signal signedin state on successful login`, async () => {
@@ -89,7 +89,7 @@ describe(`SessionSignUp`, () => {
     expect(commit).toHaveBeenCalledWith(`notify`, expect.any(Object))
     expect(dispatch).toHaveBeenCalledWith(`signIn`, {
       password: `1234567890`,
-      localKeyName: `testaccount`
+      localKeyPairName: `testaccount`
     })
   })
 

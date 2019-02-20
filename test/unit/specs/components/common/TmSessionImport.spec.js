@@ -36,7 +36,7 @@ describe(`TmSessionImport`, () => {
       .findAll(`.tm-session-header a`)
       .at(0)
       .trigger(`click`)
-    expect(store.commit.mock.calls[0][0]).toBe(`setSignInModalState`)
+    expect(store.commit.mock.calls[0][0]).toBe(`setSessionModalView`)
     expect(store.commit.mock.calls[0][1]).toBe(`welcome`)
   })
 
@@ -65,7 +65,7 @@ describe(`TmSessionImport`, () => {
     expect(store.dispatch).toHaveBeenCalledWith(`signIn`, {
       errorCollection: undefined,
       sessionType: `local`,
-      localKeyName: `foo123`,
+      localKeyPairName: `foo123`,
       password: `1234567890`
     })
   })

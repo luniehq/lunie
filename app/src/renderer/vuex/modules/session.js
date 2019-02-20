@@ -19,7 +19,7 @@ export default () => {
         : process.env.NODE_ENV === `development`,
     signedIn: false,
     accounts: [],
-    localKeyName: null, // used for signing with a locally stored key, TODO move into own module
+    localKeyPairName: null, // used for signing with a locally stored key, TODO move into own module
     pauseHistory: false,
     history: [],
     address: null,
@@ -29,7 +29,7 @@ export default () => {
     modals: {
       error: { active: false },
       help: { active: false },
-      signin: {
+      session: {
         active: false,
         state: `loading`
       }
@@ -74,18 +74,18 @@ export default () => {
     pauseHistory(state, paused) {
       state.pauseHistory = paused
     },
-    toggleSignInModal(state, value) {
+    toggleSessionModal(state, value) {
       // reset modal signin state if we're closing the modal
       if (value) {
         noScroll.on()
       } else {
-        state.modals.signin.state = `loading`
+        state.modals.session.state = `loading`
         noScroll.off()
       }
-      state.modals.signin.active = value
+      state.modals.session.active = value
     },
-    setSignInModalState(state, value) {
-      state.modals.signin.state = value
+    setSessionModalView(state, value) {
+      state.modals.session.state = value
     }
   }
 
@@ -115,8 +115,8 @@ export default () => {
         state.loading = false
       }
     },
-    async testLogin(store, { password, localKeyName }) {
-      return await testPassword(localKeyName, password)
+    async testLogin(store, { password, localKeyPairName }) {
+      return await testPassword(localKeyPairName, password)
     },
     createSeed() {
       return state.externals.generateSeed()
@@ -133,7 +133,7 @@ export default () => {
     // TODO split into sign in with ledger and signin with local key
     async signIn(
       { state, commit, dispatch },
-      { localKeyName, address, sessionType = `local`, errorCollection = false }
+      { localKeyPairName, address, sessionType = `local`, errorCollection = false }
     ) {
       let accountAddress
       switch (sessionType) {
@@ -142,8 +142,8 @@ export default () => {
           break
         default:
           // local keyStore
-          state.localKeyName = localKeyName
-          accountAddress = (await state.externals.loadKeys()).find(({ name }) => name === localKeyName).address
+          state.localKeyPairName = localKeyPairName
+          accountAddress = (await state.externals.loadKeys()).find(({ name }) => name === localKeyPairName).address
       }
       commit(`setSignIn`, true)
       dispatch(`setErrorCollection`, {
@@ -152,14 +152,14 @@ export default () => {
       })
       commit(`setUserAddress`, accountAddress)
       dispatch(`loadPersistedState`)
-      commit(`toggleSignInModal`, false)
+      commit(`toggleSessionModal`, false)
       await dispatch(`getStakingParameters`)
       await dispatch(`getGovParameters`)
       dispatch(`loadErrorCollection`, accountAddress)
       await dispatch(`initializeWallet`, { address: accountAddress })
     },
     signOut({ state, commit, dispatch }) {
-      state.localKeyName = null
+      state.localKeyPairName = null
       commit(`setLedgerConnection`, false)
       commit(`setCosmosAppVersion`, {})
       dispatch(`resetSessionData`)
@@ -168,7 +168,7 @@ export default () => {
     },
     resetSessionData({ commit, state }) {
       state.history = []
-      state.localKeyName = null
+      state.localKeyPairName = null
       commit(`setUserAddress`, null)
     },
     loadErrorCollection({ state, dispatch }, address) {

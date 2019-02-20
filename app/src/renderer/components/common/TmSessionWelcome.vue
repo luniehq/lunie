@@ -66,11 +66,11 @@ export default {
       this.$store.commit(`setModalHelp`, true)
     },
     setState(value) {
-      this.$store.commit(`setSignInModalState`, value)
+      this.$store.commit(`setSessionModalView`, value)
     },
     closeSession() {
-      this.$store.commit(`toggleSignInModal`, false)
-      this.$store.commit(`setSignInModalState`, false)
+      this.$store.commit(`toggleSessionModal`, false)
+      this.$store.commit(`setSessionModalView`, false)
       if (
         [
           `/staking/my-delegations`,

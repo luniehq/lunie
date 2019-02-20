@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <modal-help />
-    <session v-if="session.modals.signin.active" />
+    <session v-if="session.modals.session.active" />
     <onboarding v-else-if="onboarding.active" />
     <template v-else>
       <app-header />

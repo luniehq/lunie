@@ -104,7 +104,7 @@ export default {
       this.$store.commit(`setModalHelp`, true)
     },
     goToWelcome() {
-      this.$store.commit(`setSignInModalState`, `welcome`)
+      this.$store.commit(`setSessionModalView`, `welcome`)
     },
     async onSubmit() {
       this.$v.$touch()
@@ -116,11 +116,11 @@ export default {
       if (sessionCorrect) {
         this.$store.dispatch(`signIn`, {
           password: this.fields.signInPassword,
-          localKeyName: this.fields.signInName
+          localKeyPairName: this.fields.signInName
         })
         localStorage.setItem(`prevAccountKey`, this.fields.signInName)
         this.$router.push(`/`)
-        this.$store.commit(`toggleSignInModal`, false)
+        this.$store.commit(`toggleSessionModal`, false)
       } else {
         this.$store.commit(`notifyError`, {
           title: `Signing In Failed`,

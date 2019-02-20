@@ -45,7 +45,7 @@ describe(`Module: Session`, () => {
 
   it(`should default to signed out state`, () => {
     expect(state.signedIn).toBe(false)
-    expect(state.localKeyName).toBe(null)
+    expect(state.localKeyPairName).toBe(null)
     expect(state.address).toBe(null)
   })
 
@@ -79,16 +79,16 @@ describe(`Module: Session`, () => {
     })
 
     it(`should toggle the signin modal`, () => {
-      mutations.toggleSignInModal(state, true)
-      expect(state.modals.signin.active).toBe(true)
+      mutations.toggleSessionModal(state, true)
+      expect(state.modals.session.active).toBe(true)
 
-      mutations.toggleSignInModal(state, false)
-      expect(state.modals.signin.active).toBe(false)
+      mutations.toggleSessionModal(state, false)
+      expect(state.modals.session.active).toBe(false)
     })
 
     it(`should set the active signin modal view`, () => {
-      mutations.setSignInModalState(state, `xxxx`)
-      expect(state.modals.signin.state).toBe(`xxxx`)
+      mutations.setSessionModalView(state, `xxxx`)
+      expect(state.modals.session.state).toBe(`xxxx`)
     })
   })
 
@@ -117,12 +117,12 @@ describe(`Module: Session`, () => {
 
   it(`should clear all session related data`, () => {
     state.history = [`x`]
-    state.localKeyName = `abc`
+    state.localKeyPairName = `abc`
     const commit = jest.fn()
     actions.resetSessionData({ state, commit })
 
     expect(state.history).toEqual([])
-    expect(state.localKeyName).toBeFalsy()
+    expect(state.localKeyPairName).toBeFalsy()
   })
 
   it(`should prepare the signin`, async () => {
@@ -192,15 +192,15 @@ describe(`Module: Session`, () => {
 
   describe(`Signs in`, () => {
     it(`with local keystore`, async () => {
-      const localKeyName = `def`
+      const localKeyPairName = `def`
       const commit = jest.fn()
       const dispatch = jest.fn()
-      await actions.signIn({ state, commit, dispatch }, { localKeyName })
+      await actions.signIn({ state, commit, dispatch }, { localKeyPairName })
       expect(commit).toHaveBeenCalledWith(
         `setUserAddress`,
         `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
       )
-      expect(commit).toHaveBeenCalledWith(`toggleSignInModal`, false)
+      expect(commit).toHaveBeenCalledWith(`toggleSessionModal`, false)
       expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
       expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, {
         address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
@@ -220,7 +220,7 @@ describe(`Module: Session`, () => {
         { sessionType: `ledger`, address }
       )
       expect(commit).toHaveBeenCalledWith(`setUserAddress`, address)
-      expect(commit).toHaveBeenCalledWith(`toggleSignInModal`, false)
+      expect(commit).toHaveBeenCalledWith(`toggleSessionModal`, false)
       expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
       expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, { address })
       expect(dispatch).toHaveBeenCalledWith(`loadErrorCollection`, address)
@@ -235,7 +235,7 @@ describe(`Module: Session`, () => {
     expect(dispatch).toHaveBeenCalledWith(`resetSessionData`)
     expect(commit).toHaveBeenCalledWith(`addHistory`, `/`)
     expect(commit).toHaveBeenCalledWith(`setSignIn`, false)
-    expect(state.localKeyName).toBeNull()
+    expect(state.localKeyPairName).toBeNull()
   })
 
   it(`should enable error collection`, async () => {

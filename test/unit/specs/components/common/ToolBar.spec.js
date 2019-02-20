@@ -30,8 +30,8 @@ describe(`ToolBar`, () => {
     const $store = { commit: jest.fn() }
     const self = { $store }
     ToolBar.methods.signIn.call(self)
-    expect($store.commit).toHaveBeenCalledWith(`setSignInModalState`, `welcome`)
-    expect($store.commit).toHaveBeenCalledWith(`toggleSignInModal`, true)
+    expect($store.commit).toHaveBeenCalledWith(`setSessionModalView`, `welcome`)
+    expect($store.commit).toHaveBeenCalledWith(`toggleSessionModal`, true)
   })
 
   it(`check if search should be Enabled`, () => {

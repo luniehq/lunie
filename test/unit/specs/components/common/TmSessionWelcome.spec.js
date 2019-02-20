@@ -44,8 +44,8 @@ describe(`TmSessionWelcome`, () => {
           }
         }
         TmSessionWelcome.methods.closeSession.call(self)
-        expect($store.commit).toHaveBeenCalledWith(`toggleSignInModal`, false)
-        expect($store.commit).toHaveBeenCalledWith(`setSignInModalState`, false)
+        expect($store.commit).toHaveBeenCalledWith(`toggleSessionModal`, false)
+        expect($store.commit).toHaveBeenCalledWith(`setSessionModalView`, false)
         expect(self.back).not.toHaveBeenCalled()
       })
 
@@ -61,8 +61,8 @@ describe(`TmSessionWelcome`, () => {
           }
         }
         TmSessionWelcome.methods.closeSession.call(self)
-        expect($store.commit).toHaveBeenCalledWith(`toggleSignInModal`, false)
-        expect($store.commit).toHaveBeenCalledWith(`setSignInModalState`, false)
+        expect($store.commit).toHaveBeenCalledWith(`toggleSessionModal`, false)
+        expect($store.commit).toHaveBeenCalledWith(`setSessionModalView`, false)
         expect(self.back).toHaveBeenCalled()
       })
     })
@@ -129,7 +129,7 @@ describe(`TmSessionWelcome`, () => {
 
     it(`sets desired login method`, () => {
       wrapper.vm.setState(`xxx`)
-      expect($store.commit).toHaveBeenCalledWith(`setSignInModalState`, `xxx`)
+      expect($store.commit).toHaveBeenCalledWith(`setSessionModalView`, `xxx`)
     })
 
     it(`has the expected html structure`, () => {
