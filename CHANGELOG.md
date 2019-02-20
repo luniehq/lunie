@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+- [\#1920](https://github.com/cosmos/voyager/issues/1920) Add link to install Cosmos Ledger App @fedekunze
 - [\#2000](https://github.com/cosmos/voyager/issues/2000) Add distribution endpoints support @fedekunze
 
 ### Changed

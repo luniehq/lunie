@@ -23,6 +23,16 @@
           value="Connecting..."
           @click.native="setStatus('connect')"
         />
+        <p class="ledger-install">
+          Don't have the Cøsmos Ledger App yet? Install it
+          <a
+            href="https://github.com/cosmos/voyager#ledger-cosmos-app"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            here
+          </a>.
+        </p>
       </div>
       <div class="tm-session-footer">
         <p v-if="connectionError" class="tm-form-msg sm tm-form-msg--error">
@@ -68,3 +78,8 @@ export default {
   }
 }
 </script>
+<style>
+.ledger-install {
+  text-align: center;
+}
+</style>
