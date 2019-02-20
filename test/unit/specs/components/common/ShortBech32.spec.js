@@ -1,4 +1,4 @@
-import { mount, createLocalVue } from "@vue/test-utils"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
 import VueClipboard from "vue-clipboard2"
 import ShortBech32 from "renderer/components/common/ShortBech32"
 
@@ -10,7 +10,7 @@ describe(`ShortBech32`, () => {
   let wrapper
 
   beforeEach(() => {
-    wrapper = mount(ShortBech32, {
+    wrapper = shallowMount(ShortBech32, {
       localVue,
       propsData: { address: `cosmosftw123456789` },
       data: () => ({
@@ -47,7 +47,7 @@ describe(`ShortBech32`, () => {
     expect(wrapper.vm.copySuccess).toBe(false)
   })
 
-  // not sure how to test the v-clipboard directive events
+  // TODO: not sure how to test the v-clipboard directive events
   xit(`clicking copy copies the address`, () => {
     jest.useFakeTimers()
     expect(

@@ -12,9 +12,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#2000](https://github.com/cosmos/voyager/issues/2000) Add distribution endpoints support @fedekunze
 
 ### Changed
+
 - [\#1936](https://github.com/cosmos/voyager/issues/1936) remove `prettier` to avoid overriding `eslint:vue` rules @sabau
 
 ### Fixed
+
+- [\#1910](https://github.com/cosmos/voyager/issues/1910)clipboard works in all browsers @jbibla
 
 ## [1.0.0-beta.2] - 2019-02-19
 
@@ -36,7 +39,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - [\#1958](https://github.com/cosmos/voyager/issues/1958) Kill all processes if one dies to not have dangling processes in development setups @faboweb
 - Fix development warning overlaying the UI too much @faboweb
-- clipboard works in all browsers @jbibla
 
 ## [0.10003.4] - 2019-02-17
 
