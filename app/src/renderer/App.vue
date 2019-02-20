@@ -5,7 +5,9 @@
     <onboarding v-else-if="onboarding.active" />
     <template v-else>
       <app-header />
-      <div id="app-content"><router-view /></div>
+      <div id="app-content">
+        <router-view />
+      </div>
     </template>
     <tm-notifications :notifications="notifications" />
   </div>
@@ -15,7 +17,6 @@
 import { mapGetters } from "vuex"
 import AppHeader from "common/AppHeader"
 import TmNotifications from "common/TmNotifications"
-import ModalError from "common/TmModalError"
 import ModalHelp from "common/TmModalHelp"
 import Onboarding from "common/TmOnboarding"
 import Session from "common/TmSession"
@@ -34,7 +35,6 @@ export default {
   name: `app`,
   components: {
     AppHeader,
-    ModalError,
     ModalHelp,
     TmNotifications,
     Onboarding,

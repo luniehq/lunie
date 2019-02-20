@@ -90,7 +90,7 @@ describe(`PageProposal`, () => {
 
   it(`shows an error if the proposal couldn't be found`, () => {
     const instance = mount(PageProposal, {
-      doBefore: ({}) => {
+      doBefore: () => {
         store.commit(`setProposal`, {})
       },
       propsData: {

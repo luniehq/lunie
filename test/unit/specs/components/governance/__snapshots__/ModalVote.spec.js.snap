@@ -17,9 +17,7 @@ exports[`ModalVote has the expected html structure 1`] = `
     <span
       class="action-modal-title"
     >
-      
-        Vote
-      
+      Vote
     </span>
      
     <div
@@ -124,7 +122,9 @@ exports[`ModalVote has the expected html structure 1`] = `
         class="tm-form-group__label"
         for="password"
       >
-        Password
+        
+    Password
+  
       </label>
        
       <div

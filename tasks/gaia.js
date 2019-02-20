@@ -102,7 +102,8 @@ async function makeValidator(
     chainId
   )
   console.log(`Waiting for funds to delegate`)
-  while (true) {
+  const forever = true
+  while (forever) {
     try {
       await sleep(1000)
       await getBalance(cliHome, address)

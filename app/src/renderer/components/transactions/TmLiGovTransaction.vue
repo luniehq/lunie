@@ -7,8 +7,7 @@
     <template v-if="propose">
       <div slot="caption">
         Submitted {{ tx.proposal_type.toLowerCase() }} proposal initial
-        deposit&nbsp;<b>{{ pretty(tx.initial_deposit[0].amount) }}</b
-        ><span>&nbsp;{{ tx.initial_deposit[0].denom }}s</span>
+        deposit&nbsp;<b>{{ pretty(tx.initial_deposit[0].amount) }}</b><span>&nbsp;{{ tx.initial_deposit[0].denom }}s</span>
       </div>
       <div slot="details">
         Title:&nbsp;<i>{{ tx.title }}</i>
@@ -113,7 +112,7 @@ export default {
   color: var(--dim);
 }
 
-.tm-li-tx .tx-coin .value:before {
+.tm-li-tx .tx-coin .value::before {
   content: "";
   display: inline;
 }
@@ -128,7 +127,7 @@ export default {
   line-height: 1.5rem;
 }
 
-.tm-li-tx.tm-li-tx-sent .tx-coin .value:before {
+.tm-li-tx.tm-li-tx-sent .tx-coin .value::before {
   content: "-";
 }
 
@@ -140,7 +139,7 @@ export default {
   color: var(--success);
 }
 
-.tm-li-tx.tm-li-tx-received .tx-coin .value:before {
+.tm-li-tx.tm-li-tx-received .tx-coin .value::before {
   content: "+";
 }
 

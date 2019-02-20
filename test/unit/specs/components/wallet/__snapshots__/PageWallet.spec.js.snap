@@ -16,11 +16,15 @@ exports[`PageWallet has the expected html structure 1`] = `
     id="account_empty_msg"
   >
     <div>
+      
       Account empty
+    
     </div>
      
     <div>
+      
       This account doesn't have anything in it yet.
+    
     </div>
   </tm-data-msg-stub>
    
@@ -61,11 +65,15 @@ exports[`PageWallet should filter the balances 1`] = `
     id="account_empty_msg"
   >
     <div>
+      
       Account empty
+    
     </div>
      
     <div>
+      
       This account doesn't have anything in it yet.
+    
     </div>
   </tm-data-msg-stub>
    
@@ -94,11 +102,15 @@ exports[`PageWallet should show the sending modal 1`] = `
     id="account_empty_msg"
   >
     <div>
+      
       Account empty
+    
     </div>
      
     <div>
+      
       This account doesn't have anything in it yet.
+    
     </div>
   </tm-data-msg-stub>
    

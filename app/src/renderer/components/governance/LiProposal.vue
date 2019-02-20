@@ -3,14 +3,15 @@
     <td class="data-table__row__info">
       <div class="data-table__row__info__container">
         <span
-          v-tooltip.top="status.message"
           v-if="proposal.proposal_status === `Passed`"
+          v-tooltip.top="status.message"
           :class="status.color"
           class="data-table__row__info__container__status material-icons"
-          >checkmark</span
-        ><span
-          v-tooltip.top="status.message"
+        >
+          checkmark
+        </span><span
           v-else
+          v-tooltip.top="status.message"
           :class="status.color"
           class="data-table__row__info__container__status"
         />
@@ -20,18 +21,27 @@
             params: { proposalId: proposal.proposal_id }
           }"
           class="data-table__row__info__container__name"
-          >{{ proposal.title }}</router-link
         >
+          {{ proposal.title }}
+        </router-link>
         <p class="data-table__row__info__container__description">
           {{ description }}
         </p>
       </div>
     </td>
     <td>{{ `#` + proposal.proposal_id }}</td>
-    <td class="li-proposal__value yes">{{ tally.yes }}</td>
-    <td class="li-proposal__value no">{{ tally.no }}</td>
-    <td class="li-proposal__value no_with_veto">{{ tally.no_with_veto }}</td>
-    <td class="li-proposal__value abstain">{{ tally.abstain }}</td>
+    <td class="li-proposal__value yes">
+      {{ tally.yes }}
+    </td>
+    <td class="li-proposal__value no">
+      {{ tally.no }}
+    </td>
+    <td class="li-proposal__value no_with_veto">
+      {{ tally.no_with_veto }}
+    </td>
+    <td class="li-proposal__value abstain">
+      {{ tally.abstain }}
+    </td>
   </tr>
 </template>
 

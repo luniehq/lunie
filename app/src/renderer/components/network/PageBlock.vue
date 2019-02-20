@@ -6,7 +6,9 @@
         <div class="row">
           <div class="page-profile__header__info">
             <div class="page-profile__status-and-title">
-              <h2 class="page-profile__title">Block {{ blockTitle }}</h2>
+              <h2 class="page-profile__title">
+                Block {{ blockTitle }}
+              </h2>
               <h3 class="page-profile__subtitle">
                 {{ block.block_meta.block_id.hash }}
               </h3>
@@ -51,17 +53,11 @@
 import moment from "moment"
 import { mapGetters } from "vuex"
 import num from "scripts/num"
-import PanelSort from "staking/PanelSort"
-import ToolBar from "common/ToolBar"
-import TmBalance from "common/TmBalance"
 import TmDataError from "common/TmDataError"
 import TmPage from "common/TmPage"
 export default {
   name: `page-block`,
   components: {
-    PanelSort,
-    TmBalance,
-    ToolBar,
     TmDataError,
     TmPage
   },

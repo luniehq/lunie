@@ -4,8 +4,12 @@
       <div class="tm-modal-error__icon">
         <i class="material-icons">{{ icon }}</i>
       </div>
-      <div class="tm-modal-error__title">{{ title }}</div>
-      <div class="tm-modal-error__body">{{ body }}</div>
+      <div class="tm-modal-error__title">
+        {{ title }}
+      </div>
+      <div class="tm-modal-error__body">
+        {{ body }}
+      </div>
       <div class="tm-modal-error__footer">
         <tm-btn
           id="tm-modal-error__btn-issue"

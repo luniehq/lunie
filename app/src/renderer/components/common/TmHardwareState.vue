@@ -1,9 +1,10 @@
 <template>
   <div class="tm-hardware-state">
-    <i :class="iconClass" class="tm-hardware-state__icon material-icons">{{
-      icon
-    }}</i>
-    <div class="tm-hardware-state__label">{{ value }}</div>
+    <img v-if="loading" src="~assets/images/loader.svg">
+    <i class="tm-hardware-state__icon material-icons">{{ icon }}</i>
+    <div class="tm-hardware-state__label">
+      {{ value }}
+    </div>
   </div>
 </template>
 
@@ -12,22 +13,15 @@ export default {
   props: {
     icon: {
       type: String,
-      required: true
-    },
-    spin: {
-      type: Boolean,
-      default: false
+      default: ``
     },
     value: {
       type: String,
       required: true
-    }
-  },
-  computed: {
-    iconClass() {
-      if (this.spin) {
-        return `fa-spin`
-      }
+    },
+    loading: {
+      type: Boolean,
+      default: false
     }
   }
 }

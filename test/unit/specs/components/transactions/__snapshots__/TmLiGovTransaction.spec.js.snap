@@ -64,7 +64,9 @@ exports[`TmLiGovTransaction deposits should show deposits 1`] = `
       <router-link-stub
         to="[object Object]"
       >
+        
         Block #56675 
+      
       </router-link-stub>
       @ 00:00:42
     
@@ -131,7 +133,9 @@ exports[`TmLiGovTransaction proposals should show proposals submission transacti
       <router-link-stub
         to="[object Object]"
       >
+        
         Block #56673 
+      
       </router-link-stub>
       @ 00:00:42
     

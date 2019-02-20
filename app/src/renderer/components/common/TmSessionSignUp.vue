@@ -2,10 +2,14 @@
   <div class="tm-session">
     <tm-form-struct :submit="onSubmit.bind(this)" class="tm-session-container">
       <div class="tm-session-header">
-        <a @click="setState('welcome')"
-          ><i class="material-icons">arrow_back</i></a
+        <a
+          @click="setState('welcome')"
         >
-        <div class="tm-session-title">Create Account</div>
+          <i class="material-icons">arrow_back</i>
+        </a>
+        <div class="tm-session-title">
+          Create Account
+        </div>
         <a @click="help()"><i class="material-icons">help_outline</i></a>
       </div>
       <div class="tm-session-main">
@@ -98,7 +102,7 @@
             type="custom"
             msg="Please back up the seed phrase for this account. This seed phrase
             cannot be recovered."
-          ></tm-form-msg>
+          />
         </tm-form-group>
         <tm-form-group
           :error="$v.fields.signUpWarning.$error"
@@ -111,12 +115,15 @@
                 id="sign-up-warning"
                 v-model="fields.signUpWarning"
                 type="checkbox"
-              />
+              >
             </div>
-            <label class="tm-field-checkbox-label" for="sign-up-warning"
-              >I have securely written down my seed. I understand that lost
-              seeds cannot be recovered.</label
+            <label
+              class="tm-field-checkbox-label"
+              for="sign-up-warning"
             >
+              I have securely written down my seed. I understand that lost
+              seeds cannot be recovered.
+            </label>
           </div>
           <tm-form-msg
             v-if="
@@ -138,17 +145,25 @@
                 id="error-collection"
                 v-model="fields.errorCollection"
                 type="checkbox"
-              />
+              >
             </div>
-            <label class="tm-field-checkbox-label" for="error-collection"
-              >I'd like to opt in for remote error tracking to help improve
-              Voyager.</label
+            <label
+              class="tm-field-checkbox-label"
+              for="error-collection"
             >
+              I'd like to opt in for remote error tracking to help improve
+              Voyager.
+            </label>
           </div>
         </tm-form-group>
       </div>
       <div class="tm-session-footer">
-        <tm-btn icon="arrow_forward" icon-pos="right" value="Next" size="lg" />
+        <tm-btn
+          icon="arrow_forward"
+          icon-pos="right"
+          value="Next"
+          size="lg"
+        />
       </div>
     </tm-form-struct>
   </div>

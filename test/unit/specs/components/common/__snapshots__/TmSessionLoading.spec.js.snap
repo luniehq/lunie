@@ -33,7 +33,9 @@ exports[`TmSessionLoading has the expected html structure 1`] = `
     <div
       class="tm-session-footer"
     >
+      
        
+    
     </div>
   </div>
 </div>

@@ -13,7 +13,9 @@ exports[`TmNotification.vue has the expected html structure 1`] = `
       <div
         class="time"
       >
+        
         a few seconds ago
+      
       </div>
        
       <i
@@ -27,7 +29,9 @@ exports[`TmNotification.vue has the expected html structure 1`] = `
   <div
     class="body"
   >
+    
     asdf
+  
   </div>
 </div>
 `;
@@ -42,14 +46,18 @@ exports[`TmNotification.vue has the expected html structure 2`] = `
     <div
       class="title"
     >
+      
       title
+    
     </div>
      
     <menu>
       <div
         class="time"
       >
+        
         a few seconds ago
+      
       </div>
        
       <i
@@ -63,7 +71,9 @@ exports[`TmNotification.vue has the expected html structure 2`] = `
   <div
     class="body"
   >
+    
     sadf
+  
   </div>
 </div>
 `;
@@ -89,7 +99,9 @@ exports[`TmNotification.vue has the expected html structure 3`] = `
       <div
         class="time"
       >
+        
         a few seconds ago
+      
       </div>
        
       <i
@@ -103,7 +115,9 @@ exports[`TmNotification.vue has the expected html structure 3`] = `
   <div
     class="body"
   >
+    
     sadf
+  
   </div>
 </div>
 `;
@@ -121,7 +135,9 @@ exports[`TmNotification.vue has the expected html structure 4`] = `
       <div
         class="time"
       >
+        
         a few seconds ago
+      
       </div>
        
       <i
@@ -135,7 +151,9 @@ exports[`TmNotification.vue has the expected html structure 4`] = `
   <div
     class="body"
   >
+    
     sadf
+  
   </div>
 </div>
 `;
@@ -153,7 +171,9 @@ exports[`TmNotification.vue has the expected html structure 5`] = `
       <div
         class="time"
       >
+        
         a few seconds ago
+      
       </div>
        
       <i
@@ -167,7 +187,9 @@ exports[`TmNotification.vue has the expected html structure 5`] = `
   <div
     class="body"
   >
+    
     sadf
+  
   </div>
 </div>
 `;
@@ -185,7 +207,9 @@ exports[`TmNotification.vue has the expected html structure 6`] = `
       <div
         class="time"
       >
+        
         a few seconds ago
+      
       </div>
        
       <i
@@ -199,7 +223,9 @@ exports[`TmNotification.vue has the expected html structure 6`] = `
   <div
     class="body"
   >
+    
     sadf
+  
   </div>
 </div>
 `;
