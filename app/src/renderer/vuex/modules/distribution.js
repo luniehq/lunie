@@ -1,50 +1,250 @@
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
+import { coinsToObject } from "scripts/common.js"
 
 export default ({ node }) => {
     const emptyState = {
         loading: false,
         loaded: false,
         error: null,
-        totalRewards: null,
+        /* totalRewards use the following format:
+            { 
+                denom1: amount1,
+                ... ,
+                denomN: amountN 
+            }
+        */
+        totalRewards: {},
+        /* rewards use the following format:
+            { 
+                validatorAddr1: { 
+                    denom1: amount1,
+                    ... ,
+                    denomN: amountN 
+                },
+                ... ,
+                validatorAddrN: { 
+                    denom1: amount1,
+                    ... ,
+                    denomN: amountN 
+                } 
+            } 
+        */
         rewards: {},
-        withdrawAddress: null
+        withdrawAddress: null,
+        parameters: {},
+        /* outstandingRewards use the following format:
+            { 
+                denom1: amount1,
+                ... ,
+                denomN: amountN 
+            }
+        */
+        outstandingRewards: {},
+        /* validatorInfo use the following format:
+            { 
+                self_bond_rewards: { 
+                    denom1: amount1,
+                    ... ,
+                    denomN: amountN 
+                },
+                val_commission: { 
+                    denom1: amount1,
+                    ... ,
+                    denomN: amountN 
+                },
+                rewards: { 
+                    denom1: amount1,
+                    ... ,
+                    denomN: amountN 
+                } 
+            } 
+        */
+        validatorInfo: {}
     }
     const state = JSON.parse(JSON.stringify(emptyState))
 
     const mutations = {
-        setTotalRewards(state, coins) {
-            state.rewards = coins
+        setTotalRewards(state, rewards) {
+            state.totalRewards = rewards
         },
-        setDelegatorRewards(state, { validatorAddr, rewards }) {
+        setDelegationRewards(state, { validatorAddr, rewards }) {
             Vue.set(state.rewards, validatorAddr, rewards)
         },
-        setWithdrawAddress(state, { address }) {
+        setWithdrawAddress(state, address) {
             state.withdrawAddress = address
-        }
+        },
+        // TODO: move to validator vuex module once refactored
+        setValidatorDistributionInfo(state, info) {
+            state.validatorInfo = info
+        },
+        setDistributionParameters(state, parameters) {
+            state.parameters = parameters
+        },
+        setOutstandingRewards(state, outstandingRewards) {
+            state.outstandingRewards = outstandingRewards
+        },
     }
     const actions = {
         reconnected({ state, dispatch, rootState }) {
             if (state.loading && rootState.user.signedIn) {
-                dispatch(`getDelegatorTotalRewards`)
+                dispatch(`getTotalRewards`)
             }
         },
         resetSessionData({ rootState }) {
             rootState.delegation = JSON.parse(JSON.stringify(emptyState))
         },
-        async getDelegatorTotalRewards(
-            { state, rootState, commit }
+        async getTotalRewards(
+            { state, rootState: { user }, commit }
         ) {
             state.loading = true
-            const address = rootState.user.address
-
             try {
-                const rewards = await node.getDelegatorRewards(address)
+                const rewardsArray = await node.getDelegatorRewards(user.address)
+                const rewards = coinsToObject(rewardsArray)
                 commit(`setTotalRewards`, rewards)
                 state.error = null
             } catch (error) {
                 commit(`notifyError`, {
-                    title: `Error getting rewards`,
+                    title: `Error getting total rewards`,
+                    body: error.message
+                })
+                Sentry.captureException(error)
+                state.error = error
+            }
+            state.loading = false
+            state.loaded = true
+        },
+        async withdrawAllRewards(
+            { rootState: { wallet }, dispatch },
+            { password, submitType }
+        ) {
+            await dispatch(`sendTx`, {
+                type: `postWithdrawDelegatorRewards`,
+                to: wallet.address,
+                password,
+                submitType
+            })
+            await dispatch(`getTotalRewards`)
+        },
+        async getRewardsFromValidator({ state, rootState: { user }, commit }, validatorAddr) {
+            state.loading = true
+            try {
+                const rewardsArray = await node.getDelegatorRewardsFromValidator(user.address, validatorAddr)
+                const rewards = coinsToObject(rewardsArray)
+                commit(`setDelegationRewards`, { validatorAddr, rewards })
+                state.error = null
+            } catch (error) {
+                commit(`notifyError`, {
+                    title: `Error getting rewards from validator`,
+                    body: error.message
+                })
+                Sentry.captureException(error)
+                state.error = error
+            }
+            state.loading = false
+            state.loaded = true
+        },
+        async withdrawRewardsFromValidator(
+            { rootState: { wallet }, commit, dispatch },
+            { validatorAddr, password, submitType }
+        ) {
+            await dispatch(`sendTx`, {
+                type: `postWithdrawDelegatorRewardsFromValidator`,
+                to: wallet.address,
+                password,
+                submitType
+            })
+            // optimistic update
+            commit(`setDelegationRewards`, { validatorAddr, rewards: {} })
+            // update rewards
+            await dispatch(`getTotalRewards`)
+            await dispatch(`getRewardsFromValidator`, validatorAddr)
+        },
+        async getWithdrawAddress({ state, rootState: { user }, commit }) {
+            state.loading = true
+            try {
+                const withdrawAddress = await node.getDelegatorWithdrawAddress(user.address)
+                commit(`setWithdrawAddress`, withdrawAddress)
+                state.error = null
+            } catch (error) {
+                commit(`notifyError`, {
+                    title: `Error getting rewards from validator`,
+                    body: error.message
+                })
+                Sentry.captureException(error)
+                state.error = error
+            }
+            state.loading = false
+            state.loaded = true
+        },
+        async updateWithdrawAddress(
+            { state, rootState: { wallet }, commit, dispatch },
+            { newAddress, password, submitType }
+        ) {
+            state.loading = true
+            await dispatch(`sendTx`, {
+                type: `postDelegatorWithdrawAddress`,
+                to: wallet.address,
+                withdraw_address: newAddress,
+                password,
+                submitType
+            })
+            // optimistic update
+            commit(`setWithdrawAddress`, newAddress)
+            // update reward address
+            await dispatch(`getWithdrawAddress`)
+        },
+        // TODO: move to validator vuex module once refactored
+        async getValidatorDistributionInfoAndRewards({ commit }, validatorAddr) {
+            state.loading = true
+            try {
+                let { self_bond_rewards, val_commission } = await node.getValidatorDistributionInformation(validatorAddr)
+                const rewardsArray = await node.getValidatorRewards(validatorAddr)
+
+                const rewards = coinsToObject(rewardsArray)
+                self_bond_rewards = coinsToObject(self_bond_rewards)
+                val_commission = coinsToObject(val_commission)
+
+                commit(`setValidatorDistributionInfo`, { self_bond_rewards, val_commission, rewards })
+                state.error = null
+            } catch (error) {
+                commit(`notifyError`, {
+                    title: `Error querying distribution parameters`,
+                    body: error.message
+                })
+                Sentry.captureException(error)
+                state.error = error
+            }
+            state.loading = false
+            state.loaded = true
+        },
+        // TODO: move to a common parameters module
+        async getDistributionParameters({ commit }) {
+            state.loading = true
+            try {
+                const parameters = await node.getDistributionParameters()
+                commit(`setDistributionParameters`, parameters)
+                state.error = null
+            } catch (error) {
+                commit(`notifyError`, {
+                    title: `Error querying distribution parameters`,
+                    body: error.message
+                })
+                Sentry.captureException(error)
+                state.error = error
+            }
+            state.loading = false
+            state.loaded = true
+        },
+        async getOutstandingRewards({ commit }) {
+            state.loading = true
+            try {
+                const oustandingRewardsArray = await node.getDistributionOutstandingRewards()
+                const oustandingRewards = coinsToObject(oustandingRewardsArray)
+                commit(`setOutstandingRewards`, oustandingRewards)
+            } catch (error) {
+                commit(`notifyError`, {
+                    title: `Error getting distribution outstanding rewards`,
                     body: error.message
                 })
                 Sentry.captureException(error)
