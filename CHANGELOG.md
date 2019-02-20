@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
-- [\#1910](https://github.com/cosmos/voyager/issues/1910)clipboard works in all browsers @jbibla
+- [\#1910](https://github.com/cosmos/voyager/issues/1910) clipboard works in all browsers @jbibla
 
 ## [1.0.0-beta.2] - 2019-02-19
 
