@@ -17,9 +17,7 @@ exports[`ModalVote has the expected html structure 1`] = `
     <span
       class="action-modal-title"
     >
-      
-        Vote
-      
+      Vote
     </span>
      
     <div
