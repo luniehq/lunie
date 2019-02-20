@@ -1,6 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`AnchorCopy has the expected html structure 1`] = `
-"<a class=\\"anchor-copy\\"><i class=\\"material-icons\\">icon</i>label
-</a>"
-`;
