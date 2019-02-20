@@ -98,7 +98,7 @@ export default function({ node }) {
           dispatch(`setLastHeader`, header)
         }
       )
-      if (rootState.user.signedIn) {
+      if (rootState.session.signedIn) {
         dispatch(`walletSubscribe`)
       }
       dispatch(`getDelegates`)

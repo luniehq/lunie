@@ -7,8 +7,8 @@ describe(`PagePreferences`, () => {
   let wrapper, $store
 
   const getters = {
-    user: {
-      account: `default`,
+    session: {
+      address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
       errorCollection: false
     },
     onboarding: {},
@@ -38,7 +38,7 @@ describe(`PagePreferences`, () => {
   })
 
   it(`should set the error collection opt in`, async () => {
-    const errorCollection = wrapper.vm.user.errorCollection
+    const errorCollection = wrapper.vm.session.errorCollection
     const dispatch = jest.fn()
     wrapper.vm.setErrorCollection({
       $store: {
@@ -46,7 +46,7 @@ describe(`PagePreferences`, () => {
       }
     })
     expect(dispatch).toHaveBeenCalledWith(`setErrorCollection`, {
-      account: `default`,
+      address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
       optin: !errorCollection
     })
   })

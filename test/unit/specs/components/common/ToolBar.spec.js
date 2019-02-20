@@ -16,7 +16,7 @@ describe(`ToolBar`, () => {
 
   it(`sets the helper modal`, () => {
     wrapper.vm.enableModalHelp()
-    expect(store.state.config.modals.help.active).toBe(true)
+    expect(store.state.session.modals.help.active).toBe(true)
   })
 
   it(`call dispatch to sign the user out`, () => {
@@ -30,11 +30,8 @@ describe(`ToolBar`, () => {
     const $store = { commit: jest.fn() }
     const self = { $store }
     ToolBar.methods.signIn.call(self)
-    expect($store.commit).toHaveBeenCalledWith(
-      `setModalSessionState`,
-      `welcome`
-    )
-    expect($store.commit).toHaveBeenCalledWith(`setModalSession`, true)
+    expect($store.commit).toHaveBeenCalledWith(`setSessionModalView`, `welcome`)
+    expect($store.commit).toHaveBeenCalledWith(`toggleSessionModal`, true)
   })
 
   it(`check if search should be Enabled`, () => {

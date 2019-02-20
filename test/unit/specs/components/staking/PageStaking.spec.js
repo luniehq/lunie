@@ -20,7 +20,7 @@ describe(`PageStaking`, () => {
     })
     wrapper = instance.wrapper
     store = instance.store
-    store.state.user.address = lcdClientMock.addresses[0]
+    store.state.session.address = lcdClientMock.addresses[0]
   })
 
   it(`has the expected html structure`, () => {

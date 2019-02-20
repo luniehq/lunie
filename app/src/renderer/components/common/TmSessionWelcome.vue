@@ -53,9 +53,9 @@ export default {
     LiSession
   },
   computed: {
-    ...mapGetters([`config`, `lastPage`, `user`]),
+    ...mapGetters([`session`, `lastPage`]),
     accountExists() {
-      return this.user.accounts.length > 0
+      return this.session.accounts.length > 0
     }
   },
   mounted() {
@@ -66,11 +66,11 @@ export default {
       this.$store.commit(`setModalHelp`, true)
     },
     setState(value) {
-      this.$store.commit(`setModalSessionState`, value)
+      this.$store.commit(`setSessionModalView`, value)
     },
     closeSession() {
-      this.$store.commit(`setModalSession`, false)
-      this.$store.commit(`setModalSessionState`, false)
+      this.$store.commit(`toggleSessionModal`, false)
+      this.$store.commit(`setSessionModalView`, false)
       if (
         [
           `/staking/my-delegations`,

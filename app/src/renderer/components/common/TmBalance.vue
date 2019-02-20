@@ -15,7 +15,7 @@
         <h2>{{ unbondedAtoms }}</h2>
       </div>
     </div>
-    <short-bech32 :address="user.address || ''" />
+    <short-bech32 :address="session.address || ''" />
     <slot />
   </div>
 </template>
@@ -34,9 +34,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([`user`, `liquidAtoms`, `totalAtoms`, `bondDenom`]),
+    ...mapGetters([`session`, `liquidAtoms`, `totalAtoms`, `bondDenom`]),
     address() {
-      return this.user.address
+      return this.session.address
     },
     unbondedAtoms() {
       return this.num.shortNumber(this.liquidAtoms)

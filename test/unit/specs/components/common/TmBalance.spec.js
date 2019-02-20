@@ -10,7 +10,7 @@ describe(`TmBalance`, () => {
   beforeEach(() => {
     const instance = mount(TmBalance, {
       getters: {
-        user: () => ({
+        session: () => ({
           address: `cosmos1address`,
           signedIn: true
         }),
