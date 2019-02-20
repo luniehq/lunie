@@ -55,7 +55,26 @@ const rendererConfig = {
       },
       {
         test: /\.css$/,
-        use: [`style-loader`, `css-loader`]
+        use: [
+          `style-loader`,
+          {
+            loader: `css-loader`,
+            options: { importLoaders: 1 }
+          },
+          {
+            loader: `postcss-loader`,
+            options: {
+              sourceMap: true,
+              ident: `postcss`,
+              plugins: loader => [
+                require(`postcss-import`)({ root: loader.resourcePath }),
+                require(`postcss-preset-env`)({ browsers: `last 3 versions` }),
+                require(`cssnano`)(),
+                require(`stylelint`)()
+              ]
+            }
+          }
+        ]
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
@@ -96,7 +115,7 @@ const rendererConfig = {
     new webpack.DefinePlugin({ "global.GENTLY": false }),
     new webpack.DefinePlugin({ "process.env.RELEASE": `"${commitHash}"` }),
     new webpack.DefinePlugin({
-      "process.env.NODE_ENV": `"${process.env.NODE_ENV}"`
+      "process.env": { NODE_ENV: JSON.stringify(process.env.NODE_ENV) }
     }),
     new HtmlWebpackPlugin({
       filename: `index.html`,

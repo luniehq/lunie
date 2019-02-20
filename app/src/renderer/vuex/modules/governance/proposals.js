@@ -34,7 +34,7 @@ export default ({ node }) => {
 
       try {
         let final_tally_result
-        const proposals = await node.queryProposals()
+        const proposals = await node.getProposals()
         if (proposals.length > 0) {
           await Promise.all(
             proposals.map(async proposal => {
@@ -74,7 +74,7 @@ export default ({ node }) => {
         state.error = null
         state.loading = false
         state.loaded = true // TODO make state for single proposal
-        const proposal = await node.queryProposal(proposal_id)
+        const proposal = await node.getProposal(proposal_id)
         commit(`setProposal`, proposal.value)
         if (proposal.value.proposal_status === `VotingPeriod`) {
           final_tally_result = await node.getProposalTally(
@@ -103,7 +103,7 @@ export default ({ node }) => {
       { title, description, type, initial_deposit, password, submitType }
     ) {
       await dispatch(`sendTx`, {
-        type: `submitProposal`,
+        type: `postProposal`,
         proposer: wallet.address,
         proposal_type: type,
         title,

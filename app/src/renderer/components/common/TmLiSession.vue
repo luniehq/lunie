@@ -4,8 +4,12 @@
       <i class="material-icons">{{ icon }}</i>
     </div>
     <div class="tm-li-session-text">
-      <div class="tm-li-session-title">{{ title }}</div>
-      <div class="tm-li-session-subtitle">{{ subtitle }}</div>
+      <div class="tm-li-session-title">
+        {{ title }}
+      </div>
+      <div class="tm-li-session-subtitle">
+        {{ subtitle }}
+      </div>
     </div>
   </div>
 </template>
@@ -47,11 +51,6 @@ export default {
   background: var(--hover-bg);
 }
 
-.tm-li-session:hover .tm-li-session-icon i,
-.tm-li-session:hover .tm-li-session-title {
-  color: var(--txt);
-}
-
 .tm-li-session-icon {
   height: 5rem;
   flex: 0 0 5rem;
@@ -64,19 +63,24 @@ export default {
   font-size: 2rem;
 }
 
+.tm-li-session-title {
+  color: var(--txt);
+  font-size: var(--lg);
+  line-height: 1.25;
+  margin-bottom: 0.375rem;
+}
+
+.tm-li-session:hover .tm-li-session-icon i,
+.tm-li-session:hover .tm-li-session-title {
+  color: var(--txt);
+}
+
 .tm-li-session-text {
   flex: 1;
   display: flex;
   justify-content: center;
   flex-flow: column nowrap;
   padding: 1rem 1rem;
-}
-
-.tm-li-session-title {
-  color: var(--txt);
-  font-size: var(--lg);
-  line-height: 1.25;
-  margin-bottom: 0.375rem;
 }
 
 .tm-li-session-subtitle {

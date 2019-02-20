@@ -10,7 +10,9 @@
     <template v-else>
       <div class="page-profile__header page-profile__section proposal">
         <div class="row">
-          <h2 class="proposal-id">#{{ proposalId }}</h2>
+          <h2 class="proposal-id">
+            #{{ proposalId }}
+          </h2>
           <div class="page-profile__header__info">
             <div class="page-profile__status-and-title">
               <span
@@ -18,7 +20,9 @@
                 :class="status.color"
                 class="page-profile__status"
               />
-              <h2 class="page-profile__title">{{ proposal.title }}</h2>
+              <h2 class="page-profile__title">
+                {{ proposal.title }}
+              </h2>
               <h3 v-if="config.devMode">
                 Proposer: {{ proposal.proposer || "Fede" }}
               </h3>

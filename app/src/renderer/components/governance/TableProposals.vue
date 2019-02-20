@@ -21,18 +21,14 @@ import { mapGetters } from "vuex"
 import Mousetrap from "mousetrap"
 import { includes, orderBy } from "lodash"
 import LiProposal from "./LiProposal"
-import ModalSearch from "common/TmModalSearch"
 import DataEmptySearch from "common/TmDataEmptySearch"
 import PanelSort from "staking/PanelSort"
-import ToolBar from "common/ToolBar"
 export default {
   name: `table-proposals`,
   components: {
     LiProposal,
     DataEmptySearch,
-    ModalSearch,
-    PanelSort,
-    ToolBar
+    PanelSort
   },
   props: {
     proposals: {

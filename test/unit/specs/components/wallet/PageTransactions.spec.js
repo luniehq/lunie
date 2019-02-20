@@ -1,33 +1,63 @@
-import setup from "../../../helpers/vuex-setup"
 import PageTransactions from "renderer/components/wallet/PageTransactions"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+import { createLocalVue, shallowMount } from "@vue/test-utils"
 
 describe(`PageTransactions`, () => {
-  let wrapper, store
-  const { stakingParameters, txs } = lcdClientMock.state
+  const localVue = createLocalVue()
+  localVue.directive(`tooltip`, () => {})
+  const { stakingParameters, txs, candidates } = lcdClientMock.state
+  let wrapper, $store
+  const stubs = {
+    "tm-li-any-transaction": true,
+    "data-empty-tx": true,
+    "data-empty-search": true,
+    "tm-data-error": true,
+    "modal-search": true
+  }
+  const allTransactions = txs.slice(0, 6)
 
-  const { mount } = setup()
-  beforeEach(async () => {
-    const instance = mount(PageTransactions, {
-      stubs: {
-        "tm-li-any-transaction": true,
-        "data-empty-tx": true,
-        "data-empty-search": true,
-        "tm-data-error": true,
-        "modal-search": true
+  const getters = {
+    filters: {
+      transactions: {
+        search: {
+          query: ``,
+          visible: false
+        }
       }
-    })
-    wrapper = instance.wrapper
-    store = instance.store
+    },
+    bondDenom: stakingParameters.parameters.bond_denom,
+    wallet: {
+      address: `B`
+    },
+    transactions: {
+      loading: false,
+      loaded: true,
+      error: undefined
+    },
+    delegation: {
+      unbondingDelegations: {} // TODO: add some
+    },
+    delegates: {
+      delegates: candidates
+    },
+    allTransactions,
+    connected: true
+  }
 
-    store.commit(`setConnected`, true)
-    store.commit(`setSignIn`, true)
-    store.commit(`setWalletAddress`, `tb1d4u5zerywfjhxuc9nudvw`)
-    store.commit(`setStakingParameters`, stakingParameters.parameters)
-    store.commit(`setWalletTxs`, txs.slice(0, 2))
-    store.commit(`setStakingTxs`, txs.slice(4))
-    store.commit(`setGovernanceTxs`, txs.slice(2, 4))
-    store.commit(`setHistoryLoading`, false)
+  beforeEach(() => {
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters
+    }
+
+    wrapper = shallowMount(PageTransactions, {
+      localVue,
+      mocks: {
+        $store
+      },
+      stubs
+    })
   })
 
   describe(`has the expected html structure`, () => {
@@ -36,19 +66,27 @@ describe(`PageTransactions`, () => {
     })
 
     it(`if user hasn't signed in`, async () => {
-      store.commit(`setSignIn`, false)
+      delete getters.wallet.address
+      $store = {
+        commit: jest.fn(),
+        dispatch: jest.fn(),
+        getters
+      }
+
+      wrapper = shallowMount(PageTransactions, {
+        localVue,
+        mocks: {
+          $store
+        },
+        stubs
+      })
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
   })
 
-  it(`should show the search on click`, () => {
-    wrapper.find(`.search-button`).trigger(`click`)
-    expect(wrapper.contains(`modal-search-stub`)).toBe(true)
-  })
-
   it(`should refresh the transaction history`, async () => {
-    await wrapper.vm.refreshTransactions()
-    expect(store.dispatch).toHaveBeenCalledWith(`getAllTxs`)
+    await PageTransactions.methods.refreshTransactions.call({ $store })
+    expect($store.dispatch).toHaveBeenCalledWith(`getAllTxs`)
   })
 
   it(`should show transactions`, async () => {
@@ -67,12 +105,12 @@ describe(`PageTransactions`, () => {
   })
 
   it(`should filter the transactions`, () => {
-    store.commit(`setSearchVisible`, [`transactions`, true])
-    store.commit(`setSearchQuery`, [`transactions`, `fabo`])
-    expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual([150])
-    // reflects the filter in the view
-    expect(wrapper.vm.$el).toMatchSnapshot()
-    store.commit(`setSearchQuery`, [`transactions`, `jb`])
-    expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual([1])
+    const faboTransactions = PageTransactions.computed.filteredTransactions.call(
+      {
+        filters: { transactions: { search: { query: `fabo`, visible: true } } },
+        orderedTransactions: allTransactions
+      }
+    )
+    expect(faboTransactions.map(e => e.height)).toEqual([150])
   })
 })

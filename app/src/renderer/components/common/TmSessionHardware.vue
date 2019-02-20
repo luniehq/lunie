@@ -5,7 +5,9 @@
         <a @click="setState('welcome')">
           <i class="material-icons">arrow_back</i>
         </a>
-        <div class="tm-session-title">Sign In</div>
+        <div class="tm-session-title">
+          Sign In
+        </div>
         <a @click="help"> <i class="material-icons">help_outline</i> </a>
       </div>
       <div class="tm-session-main">
@@ -28,8 +30,9 @@
             href="https://github.com/cosmos/voyager#ledger-cosmos-app"
             target="_blank"
             rel="noopener noreferrer"
-            >here</a
-          >.
+          >
+            here
+          </a>.
         </p>
       </div>
     </div>

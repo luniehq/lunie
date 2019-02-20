@@ -1,7 +1,7 @@
 import axios from "axios"
 import * as Sentry from "@sentry/browser"
 
-export default ({}) => {
+export default () => {
   const emptyState = {
     identities: {},
     loading: false,

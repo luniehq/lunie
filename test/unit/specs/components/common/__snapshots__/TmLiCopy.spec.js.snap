@@ -7,7 +7,9 @@ exports[`TmLiCopy has the expected html structure 1`] = `
   <div
     class="value"
   >
+    
     hallo
+  
   </div>
    
   <menu>
@@ -21,7 +23,9 @@ exports[`TmLiCopy has the expected html structure 1`] = `
           aria-hidden="true"
           class="tm-btn__icon material-icons"
         >
-          content_copy
+          
+      content_copy
+    
         </i>
         <span
           class="tm-btn__value"
@@ -41,7 +45,9 @@ exports[`TmLiCopy should show the receive button 1`] = `
   <div
     class="value"
   >
+    
     HALLO
+  
   </div>
    
   <menu>
@@ -55,7 +61,9 @@ exports[`TmLiCopy should show the receive button 1`] = `
           aria-hidden="true"
           class="tm-btn__icon material-icons"
         >
-          content_copy
+          
+      content_copy
+    
         </i>
         <span
           class="tm-btn__value"

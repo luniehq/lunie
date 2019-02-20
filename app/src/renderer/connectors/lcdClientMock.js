@@ -54,28 +54,9 @@ const state = {
             {
               type: `cosmos-sdk/Send`,
               value: {
-                inputs: [
-                  {
-                    coins: [
-                      {
-                        denom: `jbcoins`,
-                        amount: `1234`
-                      }
-                    ],
-                    address: addresses[1]
-                  }
-                ],
-                outputs: [
-                  {
-                    coins: [
-                      {
-                        denom: `jbcoins`,
-                        amount: `1234`
-                      }
-                    ],
-                    address: addresses[0]
-                  }
-                ]
+                from_address: addresses[1],
+                to_address: addresses[0],
+                amount: [{ denom: `jbcoins`, amount: `1234` }]
               }
             }
           ]
@@ -91,28 +72,9 @@ const state = {
             {
               type: `cosmos-sdk/Send`,
               value: {
-                inputs: [
-                  {
-                    coins: [
-                      {
-                        denom: `fabocoins`,
-                        amount: `1234`
-                      }
-                    ],
-                    address: addresses[0]
-                  }
-                ],
-                outputs: [
-                  {
-                    coins: [
-                      {
-                        denom: `fabocoins`,
-                        amount: `1234`
-                      }
-                    ],
-                    address: addresses[1]
-                  }
-                ]
+                from_address: addresses[0],
+                to_address: addresses[1],
+                amount: [{ denom: `fabocoins`, amount: `1234` }]
               }
             }
           ]
@@ -338,7 +300,7 @@ const state = {
     signed_blocks_counter: 1
   },
   proposals: {
-    "1": {
+    1: {
       proposal_id: `1`,
       proposal_type: `Text`,
       title: `Proposal Title`,
@@ -367,7 +329,7 @@ const state = {
         abstain: `56`
       }
     },
-    "2": {
+    2: {
       proposal_id: `2`,
       proposal_type: `Text`,
       title: `VotingPeriod proposal`,
@@ -396,7 +358,7 @@ const state = {
         abstain: `0`
       }
     },
-    "5": {
+    5: {
       proposal_id: `5`,
       proposal_type: `Text`,
       title: `Custom text proposal`,
@@ -425,7 +387,7 @@ const state = {
         abstain: `0`
       }
     },
-    "6": {
+    6: {
       proposal_id: `6`,
       proposal_type: `Text`,
       title: `Rejected proposal`,
@@ -456,25 +418,25 @@ const state = {
     }
   },
   tallies: {
-    "1": {
+    1: {
       yes: `500`,
       no: `25`,
       no_with_veto: `10`,
       abstain: `56`
     },
-    "2": {
+    2: {
       yes: `0`,
       no: `0`,
       no_with_veto: `0`,
       abstain: `0`
     },
-    "5": {
+    5: {
       yes: `0`,
       no: `0`,
       no_with_veto: `0`,
       abstain: `0`
     },
-    "6": {
+    6: {
       yes: `10`,
       no: `30`,
       no_with_veto: `100`,
@@ -482,7 +444,7 @@ const state = {
     }
   },
   votes: {
-    "1": [
+    1: [
       {
         proposal_id: `1`,
         voter: validators[0],
@@ -494,8 +456,8 @@ const state = {
         option: `NoWithVeto`
       }
     ],
-    "2": [],
-    "5": [
+    2: [],
+    5: [
       {
         proposal_id: `5`,
         voter: validators[0],
@@ -507,7 +469,7 @@ const state = {
         option: `Abstain`
       }
     ],
-    "6": [
+    6: [
       {
         proposal_id: `6`,
         voter: validators[0],
@@ -521,7 +483,7 @@ const state = {
     ]
   },
   deposits: {
-    "1": [
+    1: [
       {
         proposal_id: `1`,
         depositor: validators[0],
@@ -547,7 +509,7 @@ const state = {
         ]
       }
     ],
-    "2": [
+    2: [
       {
         proposal_id: `2`,
         depositor: validators[0],
@@ -559,7 +521,7 @@ const state = {
         ]
       }
     ],
-    "5": [
+    5: [
       {
         proposal_id: `5`,
         depositor: validators[0],
@@ -581,7 +543,7 @@ const state = {
         ]
       }
     ],
-    "6": [
+    6: [
       {
         proposal_id: `6`,
         depositor: validators[0],
@@ -646,24 +608,18 @@ module.exports = {
   keys,
 
   // coins
-  async queryAccount(address) {
+  async getAccount(address) {
     return state.accounts[address]
   },
   async txs(address) {
     // filter the txs for the ones for this account
     return state.txs.filter(tx => {
       const type = tx.tx.value.msg[0].type
-      if (type === `cosmos-sdk/Send`) {
-        return (
-          tx.tx.value.msg[0].value.inputs.find(
-            input => input.address === address
-          ) ||
-          tx.tx.value.msg[0].value.outputs.find(
-            output => output.address === address
-          )
-        )
-      }
-      return false // only return bank transactions
+      return (
+        type === `cosmos-sdk/Send` &&
+        (tx.tx.value.msg[0].value.from_address === address ||
+          tx.tx.value.msg[0].value.to_address === address)
+      )
     })
   },
   async tx(hash) {
@@ -978,7 +934,7 @@ Msg Traces:
     })
     return txResult(0)
   },
-  async queryDelegation(delegatorAddress, validatorAddress) {
+  async getDelegation(delegatorAddress, validatorAddress) {
     const delegator = state.stake[delegatorAddress]
     if (!delegator)
       return {
@@ -988,7 +944,7 @@ Msg Traces:
       ({ validator_addr }) => validator_addr === validatorAddress
     )
   },
-  async queryUnbonding(delegatorAddress, validatorAddress) {
+  async getUnbondingDelegation(delegatorAddress, validatorAddress) {
     const delegator = state.stake[delegatorAddress]
     if (!delegator) return
     return delegator.unbonding_delegations.find(
@@ -1034,7 +990,7 @@ Msg Traces:
       tx => types.indexOf(tx.tx.value.msg[0].type) !== -1
     )
   },
-  async getCandidates() {
+  async getValidators() {
     return state.candidates
   },
   async getValidatorSet() {
@@ -1043,11 +999,11 @@ Msg Traces:
       validators: state.candidates
     }
   },
-  async getCandidate(addr) {
+  async getValidator(addr) {
     return state.candidates.find(c => c.operator_address === addr)
   },
   // TODO query with bech32 pubKey
-  async queryValidatorSigningInfo() {
+  async getValidatorSigningInfo() {
     return state.signing_info
   },
   async getPool() {
@@ -1056,10 +1012,7 @@ Msg Traces:
   async getStakingParameters() {
     return state.stakingParameters.parameters
   },
-  async getProposals() {
-    return state.proposals || []
-  },
-  async submitProposal({
+  async postProposal({
     base_req,
     title,
     description,
@@ -1115,7 +1068,7 @@ Msg Traces:
 
     // we add the proposal to the state to make it available for the submitProposalDeposit function
     state.proposals[proposal.proposal_id] = proposal
-    results = await this.submitProposalDeposit({
+    results = await this.postProposalDeposit({
       base_req,
       proposal_id,
       depositor: proposer,
@@ -1142,7 +1095,7 @@ Msg Traces:
       deposit => deposit.depositor === address
     )
   },
-  async submitProposalDeposit({
+  async postProposalDeposit({
     proposal_id,
     base_req: { name, sequence },
     depositor,
@@ -1267,13 +1220,13 @@ Msg Traces:
     results.push(txResult(0))
     return results
   },
-  async queryProposalVotes(proposalId) {
+  async getProposalVotes(proposalId) {
     return (
       state.votes[proposalId] ||
       Promise.reject({ message: `Invalid proposalId #${proposalId}` })
     )
   },
-  async submitProposalVote({
+  async postProposalVote({
     proposal_id,
     base_req: { name, sequence },
     option,
@@ -1333,7 +1286,7 @@ Msg Traces:
   async getProposalVote(proposal_id, address) {
     return state.votes[proposal_id].find(vote => vote.voter === address)
   },
-  async queryProposals() {
+  async getProposals() {
     // TODO: return only value of the `value` property when https://github.com/cosmos/cosmos-sdk/issues/2507 is solved
     const proposals = state.proposals
     return Object.keys(proposals).map(key => {
@@ -1383,8 +1336,8 @@ function makeHash() {
   return b32.encode(text)
 }
 
-function send(to, from, req) {
-  const fromAccount = state.accounts[from]
+function send(to_address, from_address, req) {
+  const fromAccount = state.accounts[from_address]
   if (fromAccount == null) {
     return txResult(1, `Nonexistent account`)
   }
@@ -1419,9 +1372,9 @@ function send(to, from, req) {
   }
 
   // update receiver balances
-  let receiverAccount = state.accounts[to]
+  let receiverAccount = state.accounts[to_address]
   if (!receiverAccount) {
-    receiverAccount = state.accounts[to] = {
+    receiverAccount = state.accounts[to_address] = {
       coins: [],
       sequence: `0`
     }
@@ -1439,23 +1392,14 @@ function send(to, from, req) {
 
   // log tx
   storeTx(`cosmos-sdk/Send`, {
-    inputs: [
-      {
-        coins: req.amount,
-        address: from
-      }
-    ],
-    outputs: [
-      {
-        coins: req.amount,
-        address: to
-      }
-    ]
+    from_address,
+    to_address,
+    amount: req.amount
   })
 
   // if receiver is bot address, send money back
-  if (to === botAddress) {
-    send(from, botAddress, {
+  if (to_address === botAddress) {
+    send(from_address, botAddress, {
       amount: req.amount,
       sequence: state.accounts[botAddress].sequence
     })
