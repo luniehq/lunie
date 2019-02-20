@@ -1,8 +1,12 @@
 <template>
   <div class="tm-page">
     <tm-page-header v-if="!hideHeader" :tabs="tabs">
-      <h2 v-if="title" slot="title">{{ title }}</h2>
-      <h3 v-if="subtitle" slot="subtitle">{{ subtitle }}</h3>
+      <h2 v-if="title" slot="title">
+        {{ title }}
+      </h2>
+      <h3 v-if="subtitle" slot="subtitle">
+        {{ subtitle }}
+      </h3>
       <slot slot="menu-body" name="menu-body">
         <tm-balance v-if="user.signedIn" />
         <tool-bar :refresh="refreshable" :searching="searchable" />
@@ -33,7 +37,6 @@
 <script>
 import PerfectScrollbar from "perfect-scrollbar"
 import TmPageHeader from "./TmPageHeader.vue"
-import TmDataMsg from "common/TmDataMsg"
 import TmDataLoading from "common/TmDataLoading"
 import TmDataEmpty from "common/TmDataEmpty"
 import DataEmptySearch from "common/TmDataEmptySearch"
@@ -51,7 +54,6 @@ export default {
     TmBalance,
     ToolBar,
     TmPageHeader,
-    TmDataMsg,
     TmDataEmpty,
     TmDataLoading,
     DataEmptySearch,
@@ -72,7 +74,7 @@ export default {
       type: String,
       default: ``
     },
-    "menu-body": {
+    menuBody: {
       type: String,
       default: ``
     },

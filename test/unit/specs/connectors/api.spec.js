@@ -98,7 +98,7 @@ describe(`API`, () => {
       })
     })
 
-    describe(`stake`, () => {
+    describe(`Staking`, () => {
       it(`queries for shares for a validator and delegate`, async () => {
         axios.mockReturnValueOnce(
           Promise.resolve({
@@ -634,6 +634,167 @@ describe(`API`, () => {
         } catch (error) {
           expect(error.response.data).toBe(`something failed`)
         }
+      })
+    })
+
+    describe(`Fee Distribution`, () => {
+      it(`queries all rewards from a delegator`, async () => {
+        axios.mockReturnValue({})
+        await client.getDelegatorRewards(`cosmos1address`)
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/distribution/delegators/cosmos1address/rewards`
+            }
+          ]
+        ])
+      })
+
+      it(`withdraws all rewards from a delegator`, async () => {
+        axios.mockReturnValue({})
+        await client.postWithdrawDelegatorRewards(`cosmos1address`, {})
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: {},
+              method: `POST`,
+              url: `http://remotehost/distribution/delegators/cosmos1address/rewards`
+            }
+          ]
+        ])
+      })
+
+      it(`queries a single reward of a delegator from a validator`, async () => {
+        axios.mockReturnValue({})
+        await client.getDelegatorRewardsFromValidator(
+          `cosmos1address`,
+          `cosmosvaloper1address`
+        )
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/distribution/delegators/cosmos1address/rewards/cosmosvaloper1address`
+            }
+          ]
+        ])
+      })
+
+      it(`withdraws a single reward of a delegator from a validator`, async () => {
+        axios.mockReturnValue({})
+        await client.postWithdrawDelegatorRewardsFromValidator(
+          `cosmos1address`,
+          `cosmosvaloper1address`,
+          {}
+        )
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: {},
+              method: `POST`,
+              url: `http://remotehost/distribution/delegators/cosmos1address/rewards/cosmosvaloper1address`
+            }
+          ]
+        ])
+      })
+
+      it(`gets a delegator withdraw address`, async () => {
+        axios.mockReturnValue({})
+        await client.getDelegatorWithdrawAddress(`cosmos1address`)
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/distribution/delegators/cosmos1address/withdraw_address`
+            }
+          ]
+        ])
+      })
+
+      it(`updates a delegator withdraw address`, async () => {
+        axios.mockReturnValue({})
+        await client.postDelegatorWithdrawAddress(`cosmos1address`, {})
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: {},
+              method: `POST`,
+              url: `http://remotehost/distribution/delegators/cosmos1address/withdraw_address`
+            }
+          ]
+        ])
+      })
+
+      it(`queries a validator distribution info`, async () => {
+        axios.mockReturnValue({})
+        await client.getValidatorDistributionInformation(
+          `cosmosvaloper1address`
+        )
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/distribution/validators/cosmosvaloper1address`
+            }
+          ]
+        ])
+      })
+
+      it(`queries all self-delegation rewards from a validator`, async () => {
+        axios.mockReturnValue({})
+        await client.getValidatorRewards(`cosmosvaloper1address`)
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/distribution/validators/cosmosvaloper1address/rewards`
+            }
+          ]
+        ])
+      })
+
+      it(`queries all distribution parameters`, async () => {
+        axios.mockReturnValue({})
+        await client.getDistributionParameters()
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/distribution/parameters`
+            }
+          ]
+        ])
+      })
+
+      it(`queries all distribution outstanding rewards`, async () => {
+        axios.mockReturnValue({})
+        await client.getDistributionOutstandingRewards()
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/distribution/outstanding_rewards`
+            }
+          ]
+        ])
       })
     })
 

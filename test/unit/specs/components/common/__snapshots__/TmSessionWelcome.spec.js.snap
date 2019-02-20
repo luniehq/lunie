@@ -22,7 +22,9 @@ exports[`TmSessionWelcome with accounts has the expected html structure 1`] = `
       <div
         class="tm-session-title"
       >
+        
         Sign in to Cosmos Voyager
+      
       </div>
        
       <a>
@@ -93,7 +95,9 @@ exports[`TmSessionWelcome without accounts has the expected html structure 1`] =
       <div
         class="tm-session-title"
       >
+        
         Sign in to Cosmos Voyager
+      
       </div>
        
       <a>

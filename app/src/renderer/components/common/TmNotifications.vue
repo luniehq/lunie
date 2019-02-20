@@ -9,7 +9,7 @@
       :layout="notification.layout"
       :title="notification.title"
       :time="notification.time"
-    ></tm-notification>
+    />
   </div>
 </template>
 

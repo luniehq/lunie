@@ -46,7 +46,9 @@ exports[`TmConnectedNetwork has the expected html structure 1`] = `
       <span
         class="chain-id"
       >
+        
         gaia-20k
+      
       </span>
     </div>
   </div>
@@ -58,7 +60,9 @@ exports[`TmConnectedNetwork has the expected html structure 1`] = `
     <router-link-stub
       to="[object Object]"
     >
+      
       #6,001
+    
     </router-link-stub>
   </div>
 </div>

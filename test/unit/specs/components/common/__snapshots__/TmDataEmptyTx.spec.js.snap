@@ -21,7 +21,9 @@ exports[`TmDataEmptyTx has the expected html structure 1`] = `
       class="tm-data-msg__title"
     >
       <div>
-        No Transaction History
+        
+    No Transaction History
+  
       </div>
     </div>
      
@@ -35,7 +37,9 @@ exports[`TmDataEmptyTx has the expected html structure 1`] = `
         <router-link-stub
           to="[object Object]"
         >
-          Wallet
+          
+      Wallet
+    
         </router-link-stub>
          to make
     your first transaction!

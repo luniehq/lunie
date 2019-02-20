@@ -56,7 +56,9 @@ exports[`Page404 has the expected html structure 1`] = `
               <router-link-stub
                 to="/"
               >
-                Wallet
+                
+          Wallet
+        
               </router-link-stub>
             </li>
              
@@ -64,7 +66,9 @@ exports[`Page404 has the expected html structure 1`] = `
               <router-link-stub
                 to="/transactions"
               >
-                Transactions
+                
+          Transactions
+        
               </router-link-stub>
             </li>
              
@@ -72,7 +76,9 @@ exports[`Page404 has the expected html structure 1`] = `
               <router-link-stub
                 to="/staking"
               >
-                Staking
+                
+          Staking
+        
               </router-link-stub>
             </li>
              
@@ -80,7 +86,9 @@ exports[`Page404 has the expected html structure 1`] = `
               <router-link-stub
                 to="/governance"
               >
-                Governance
+                
+          Governance
+        
               </router-link-stub>
             </li>
           </ul>

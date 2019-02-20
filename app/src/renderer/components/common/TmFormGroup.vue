@@ -1,13 +1,15 @@
 <template>
   <div :class="cssClass">
-    <span v-if="subLabel" class="tm-form-group__sub-label">{{ subLabel }}</span
-    ><label
+    <span v-if="subLabel" class="tm-form-group__sub-label">{{ subLabel }}</span><label
       v-if="fieldId && fieldLabel"
       :for="fieldId"
       class="tm-form-group__label"
-      >{{ fieldLabel }}</label
     >
-    <div class="tm-form-group__field"><slot></slot></div>
+      {{ fieldLabel }}
+    </label>
+    <div class="tm-form-group__field">
+      <slot />
+    </div>
   </div>
 </template>
 
@@ -19,15 +21,15 @@ export default {
       type: Boolean,
       default: false
     },
-    "field-id": {
+    fieldId: {
       type: String,
       default: null
     },
-    "field-label": {
+    fieldLabel: {
       type: String,
       default: null
     },
-    "sub-label": {
+    subLabel: {
       type: String,
       default: null
     }
@@ -64,6 +66,14 @@ export default {
   color: var(--dim);
 }
 
+.tm-form-group__label {
+  display: block;
+  line-height: 2rem;
+  color: var(--txt);
+  text-align: left;
+  font-weight: 500;
+}
+
 .tm-form-group__sub-label ~ .tm-form-group__label {
   line-height: 1rem;
 }
@@ -71,14 +81,6 @@ export default {
 .tm-form-group--error .tm-field,
 .tm-form-group--error .tm-select {
   border-color: var(--danger);
-}
-
-.tm-form-group__label {
-  display: block;
-  line-height: 2rem;
-  color: var(--txt);
-  text-align: left;
-  font-weight: 500;
 }
 
 @media (min-width: 768px) {

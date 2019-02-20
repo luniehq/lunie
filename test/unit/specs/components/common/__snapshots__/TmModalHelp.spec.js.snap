@@ -16,7 +16,9 @@ exports[`TmModalHelp has the expected html structure 1`] = `
         class="tm-modal-title"
       >
         <div>
-          Need Help?
+          
+    Need Help?
+  
         </div>
       </div>
        

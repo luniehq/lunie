@@ -204,8 +204,58 @@ const Client = (axios, remoteLcdURL) => {
         [].concat(depositorTxs, proposerTxs)
       )
     },
+    /* ============ Explorer ============ */
     getBlock: function(blockHeight) {
       return req(`GET`, `/blocks/${blockHeight}`)()
+    },
+    /* ============ Distribution ============ */
+    getDelegatorRewards: function(delegatorAddr) {
+      return req(`GET`, `/distribution/delegators/${delegatorAddr}/rewards`)()
+    },
+    postWithdrawDelegatorRewards: function(delegatorAddr, data) {
+      return req(`POST`, `/distribution/delegators/${delegatorAddr}/rewards`)(
+        data
+      )
+    },
+    getDelegatorRewardsFromValidator: function(delegatorAddr, validatorAddr) {
+      return req(
+        `GET`,
+        `/distribution/delegators/${delegatorAddr}/rewards/${validatorAddr}`
+      )()
+    },
+    postWithdrawDelegatorRewardsFromValidator: function(
+      delegatorAddr,
+      validatorAddr,
+      data
+    ) {
+      return req(
+        `POST`,
+        `/distribution/delegators/${delegatorAddr}/rewards/${validatorAddr}`
+      )(data)
+    },
+    getDelegatorWithdrawAddress: function(delegatorAddr) {
+      return req(
+        `GET`,
+        `/distribution/delegators/${delegatorAddr}/withdraw_address`
+      )()
+    },
+    postDelegatorWithdrawAddress: function(delegatorAddr, data) {
+      return req(
+        `POST`,
+        `/distribution/delegators/${delegatorAddr}/withdraw_address`
+      )(data)
+    },
+    getValidatorDistributionInformation: function(validatorAddr) {
+      return req(`GET`, `/distribution/validators/${validatorAddr}`)()
+    },
+    getValidatorRewards: function(validatorAddr) {
+      return req(`GET`, `/distribution/validators/${validatorAddr}/rewards`)()
+    },
+    getDistributionParameters: function() {
+      return req(`GET`, `/distribution/parameters`)()
+    },
+    getDistributionOutstandingRewards: function() {
+      return req(`GET`, `/distribution/outstanding_rewards`)()
     }
   }
 }

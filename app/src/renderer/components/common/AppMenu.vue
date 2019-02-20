@@ -9,7 +9,9 @@
         title="Wallet"
         @click.native="close"
       >
-        <h2 class="app-menu-title">Wallet</h2>
+        <h2 class="app-menu-title">
+          Wallet
+        </h2>
         <i class="material-icons">chevron_right</i>
       </router-link>
       <router-link
@@ -20,7 +22,9 @@
         title="Transactions"
         @click.native="close"
       >
-        <h2 class="app-menu-title">Transactions</h2>
+        <h2 class="app-menu-title">
+          Transactions
+        </h2>
         <i class="material-icons">chevron_right</i>
       </router-link>
       <router-link
@@ -30,7 +34,9 @@
         title="Staking"
         @click.native="close"
       >
-        <h2 class="app-menu-title">Staking</h2>
+        <h2 class="app-menu-title">
+          Staking
+        </h2>
         <i class="material-icons">chevron_right</i>
       </router-link>
       <router-link
@@ -40,7 +46,9 @@
         title="Governance"
         @click.native="close"
       >
-        <h2 class="app-menu-title">Governance</h2>
+        <h2 class="app-menu-title">
+          Governance
+        </h2>
         <i class="material-icons">chevron_right</i>
       </router-link>
       <router-link
@@ -51,7 +59,9 @@
         title="Network"
         @click.native="close"
       >
-        <h2 class="app-menu-title">Network</h2>
+        <h2 class="app-menu-title">
+          Network
+        </h2>
         <i class="material-icons">chevron_right</i>
       </router-link>
     </div>
@@ -63,12 +73,10 @@
 import PerfectScrollbar from "perfect-scrollbar"
 import noScroll from "no-scroll"
 import ConnectedNetwork from "common/TmConnectedNetwork"
-import TmListItem from "common/TmListItem"
 export default {
   name: `app-menu`,
   components: {
-    ConnectedNetwork,
-    TmListItem
+    ConnectedNetwork
   },
   data: () => ({
     ps: {}
@@ -93,10 +101,12 @@ export default {
   display: flex;
   flex-flow: column nowrap;
 }
+
 .app-menu .app-menu-main {
   flex: 1;
   position: relative;
 }
+
 .app-menu .app-menu-item {
   display: flex;
   justify-content: space-between;
@@ -105,20 +115,25 @@ export default {
   padding: 1rem;
   color: var(--dim);
 }
+
 .app-menu .app-menu-item:hover {
   color: var(--bright);
   background: var(--hover-bg);
 }
+
 .app-menu .router-link-active {
   background: var(--hover-bg);
 }
+
 .app-menu .router-link-active i {
   color: var(--tertiary);
 }
+
 .app-menu .router-link-active h2 {
   color: var(--bright);
   font-weight: 500;
 }
+
 @media screen and (max-width: 1023px) {
   .app-menu {
     position: fixed;
@@ -130,6 +145,7 @@ export default {
     user-select: none;
   }
 }
+
 @media screen and (min-width: 1024px) {
   .app-menu {
     flex: 1;

@@ -163,14 +163,14 @@ describe(`Signing`, () => {
         sequence: `0`,
         account_number: `1`,
         chain_id: `tendermint_test`,
-        signMessage: `{\"account_number\":\"1\",\"chain_id\":\"tendermint_test\",\"fee\":{\"amount\":[{\"amount\":\"0\",\"denom\":\"\"}],\"gas\":\"21906\"},\"memo\":\"\",\"msgs\":[{\"type\":\"cosmos-sdk/Send\",\"value\":{\"inputs\":[{\"address\":\"cosmos1qperwt9wrnkg5k9e5gzfgjppzpqhyav5j24d66\",\"coins\":[{\"amount\":\"1\",\"denom\":\"STAKE\"}]}],\"outputs\":[{\"address\":\"cosmos1yeckxz7tapz34kjwnjxvmxzurerquhtrmxmuxt\",\"coins\":[{\"amount\":\"1\",\"denom\":\"STAKE\"}]}]}}],\"sequence\":\"0\"}`
+        signMessage: `{"account_number":"1","chain_id":"tendermint_test","fee":{"amount":[{"amount":"0","denom":""}],"gas":"21906"},"memo":"","msgs":[{"type":"cosmos-sdk/Send","value":{"inputs":[{"address":"cosmos1qperwt9wrnkg5k9e5gzfgjppzpqhyav5j24d66","coins":[{"amount":"1","denom":"STAKE"}]}],"outputs":[{"address":"cosmos1yeckxz7tapz34kjwnjxvmxzurerquhtrmxmuxt","coins":[{"amount":"1","denom":"STAKE"}]}]}}],"sequence":"0"}`
       },
       {
         tx: txWithNulls,
         sequence: `0`,
         account_number: `1`,
         chain_id: `tendermint_test`,
-        signMessage: `{\"account_number\":\"1\",\"chain_id\":\"tendermint_test\",\"fee\":{\"amount\":[{\"amount\":\"0\",\"denom\":\"\"}],\"gas\":\"21906\"},\"memo\":\"\",\"msgs\":[{\"type\":\"cosmos-sdk/Send\",\"value\":{\"inputs\":[{\"address\":\"cosmos1qperwt9wrnkg5k9e5gzfgjppzpqhyav5j24d66\",\"coins\":[{\"amount\":\"1\",\"denom\":\"STAKE\"}]}],\"outputs\":[{\"address\":\"cosmos1yeckxz7tapz34kjwnjxvmxzurerquhtrmxmuxt\",\"coins\":[{\"amount\":\"1\",\"denom\":\"STAKE\"}]}]}}],\"sequence\":\"0\"}`
+        signMessage: `{"account_number":"1","chain_id":"tendermint_test","fee":{"amount":[{"amount":"0","denom":""}],"gas":"21906"},"memo":"","msgs":[{"type":"cosmos-sdk/Send","value":{"inputs":[{"address":"cosmos1qperwt9wrnkg5k9e5gzfgjppzpqhyav5j24d66","coins":[{"amount":"1","denom":"STAKE"}]}],"outputs":[{"address":"cosmos1yeckxz7tapz34kjwnjxvmxzurerquhtrmxmuxt","coins":[{"amount":"1","denom":"STAKE"}]}]}}],"sequence":"0"}`
       }
     ]
 
