@@ -7,7 +7,7 @@
       <div class="header-item header-item-logo">
         <img id="logo-white" src="~assets/images/cosmos-wordmark-white.svg">
       </div>
-      <app-menu v-if="open || desktop" />
+      <app-menu v-if="open || desktop" @close="close" />
       <template v-if="!desktop">
         <div v-if="open" class="header-item close-menu" @click="close()">
           <i class="material-icons">close</i>
@@ -28,7 +28,7 @@ export default {
   name: `app-header`,
   components: { AppMenu },
   data: () => ({
-    open: true,
+    open: false,
     desktop: false
   }),
   computed: {

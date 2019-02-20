@@ -86,12 +86,6 @@ export default () => {
     },
     setSignInModalState(state, value) {
       state.modals.signin.state = value
-    },
-    setActiveMenu(state, value) {
-      state.activeMenu = value
-    },
-    setConfigDesktop(state, value) {
-      state.desktop = value
     }
   }
 

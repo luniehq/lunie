@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 - Refactored user and session modules @faboweb
+- Made app header and menu states local @faboweb
 
 ## [1.0.0-beta.3] - 2019-02-20
 
