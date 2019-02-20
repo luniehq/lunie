@@ -71,7 +71,9 @@ exports[`TmSessionHardware has the expected html structure 1`] = `
           rel="noopener noreferrer"
           target="_blank"
         >
+          
           here
+        
         </a>
         .
       
@@ -90,7 +92,9 @@ exports[`TmSessionHardware should show a state indicator for different states of
     Please plug in your Ledger Nano S and open the Cosmos app
   </div></div> <!----> <p class=\\"ledger-install\\">
         Don't have the Cøsmos Ledger App yet? Install it
-        <a href=\\"https://github.com/cosmos/voyager#ledger-cosmos-app\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">here</a>.
+        <a href=\\"https://github.com/cosmos/voyager#ledger-cosmos-app\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">
+          here
+        </a>.
       </p></div></div></div>"
 `;
 
@@ -103,6 +107,8 @@ exports[`TmSessionHardware should show a state indicator for different states of
     Connecting...
   </div></div> <p class=\\"ledger-install\\">
         Don't have the Cøsmos Ledger App yet? Install it
-        <a href=\\"https://github.com/cosmos/voyager#ledger-cosmos-app\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">here</a>.
+        <a href=\\"https://github.com/cosmos/voyager#ledger-cosmos-app\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">
+          here
+        </a>.
       </p></div></div></div>"
 `;
