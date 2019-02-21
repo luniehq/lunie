@@ -266,7 +266,7 @@ describe(`App Start`, () => {
         mockVue
       )
 
-      expect(store.commit).toHaveBeenCalledWith(`setDevmode`)
+      expect(store.commit).toHaveBeenCalledWith(`setDevMode`)
     })
 
     it(`should set rpc url`, async () => {

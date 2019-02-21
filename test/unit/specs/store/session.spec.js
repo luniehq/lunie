@@ -90,6 +90,11 @@ describe(`Module: Session`, () => {
       mutations.setSessionModalView(state, `xxxx`)
       expect(state.modals.session.state).toBe(`xxxx`)
     })
+
+    it(`should activate dev mode`, () => {
+      mutations.setDevMode(state)
+      expect(state.devMode).toBe(true)
+    })
   })
 
   it(`should show an error if loading accounts fails`, async () => {

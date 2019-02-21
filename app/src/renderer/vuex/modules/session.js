@@ -59,7 +59,7 @@ export default () => {
     setModalHelp(state, value) {
       state.modals.help.active = value
     },
-    setDevmode(state) {
+    setDevMode(state) {
       state.devMode = true
     },
     addHistory(state, path) {

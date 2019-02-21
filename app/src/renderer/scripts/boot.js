@@ -102,7 +102,7 @@ export const startApp = async (
   router.beforeEach(routeGuard(store))
   
   if (urlParams.dev) {
-    store.commit(`setDevmode`)
+    store.commit(`setDevMode`)
   }
   if (urlParams.rpc) {
     store.commit(`setRPCUrl`, urlParams.rpc)
