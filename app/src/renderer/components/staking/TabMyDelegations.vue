@@ -99,12 +99,6 @@ export default {
               transaction.tx.value.msg[0].value.validator_addr
             ]
         }))
-  },
-  async mounted() {
-    this.$store.dispatch(`getTotalRewards`)
-    this.yourValidators.forEach(validator => {
-      this.$store.dispatch(`getRewardsFromValidator`, validator.operator_address)
-    })
   }
 }
 </script>

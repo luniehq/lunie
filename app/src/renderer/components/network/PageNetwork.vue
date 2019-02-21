@@ -132,10 +132,7 @@ export default {
         }
       ]
     }
-  },
-  async mounted() {
-    this.$store.dispatch(`getOutstandingRewards`)
-  },
+  }
 }
 </script>
 <style scoped>
