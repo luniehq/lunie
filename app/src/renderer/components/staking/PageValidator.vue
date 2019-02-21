@@ -1,11 +1,11 @@
 <template>
   <tm-page data-title="Validator">
     <template slot="menu-body">
-      <tm-balance/>
-      <tool-bar/>
+      <tm-balance />
+      <tool-bar />
     </template>
 
-    <tm-data-error v-if="!validator"/>
+    <tm-data-error v-if="!validator" />
 
     <template v-else>
       <div class="page-profile__header page-profile__section">
@@ -15,9 +15,11 @@
 
           <div class="page-profile__header__info">
             <div class="page-profile__status-and-title">
-              <span v-tooltip.top="status" :class="statusColor" class="page-profile__status"/>
-              <div class="page-profile__title">{{ validator.description.moniker }}</div>
-              <short-bech32 :address="validator.operator_address"/>
+              <span v-tooltip.top="status" :class="statusColor" class="page-profile__status" />
+              <div class="page-profile__title">
+                {{ validator.description.moniker }}
+              </div>
+              <short-bech32 :address="validator.operator_address" />
             </div>
 
             <div class="page-profile__header__actions">
@@ -54,15 +56,21 @@
           <div class="row-unjustified">
             <dl class="info_dl colored_dl">
               <dt>Voting Power</dt>
-              <dd id="page-profile__power">{{ percent(powerRatio) }}</dd>
+              <dd id="page-profile__power">
+                {{ percent(powerRatio) }}
+              </dd>
             </dl>
             <dl class="info_dl colored_dl">
               <dt>Uptime</dt>
-              <dd id="page-profile__uptime">{{ uptime }}</dd>
+              <dd id="page-profile__uptime">
+                {{ uptime }}
+              </dd>
             </dl>
             <dl class="info_dl colored_dl">
               <dt>Commission</dt>
-              <dd id="page-profile__commission">{{ percent(validator.commission.rate) }}</dd>
+              <dd id="page-profile__commission">
+                {{ percent(validator.commission.rate) }}
+              </dd>
             </dl>
             <dl v-if="config.devMode" class="info_dl colored_dl">
               <dt>Slashes</dt>
@@ -95,7 +103,9 @@
               <dt>Description</dt>
               <dd
                 class="info_dl__text-box"
-              >{{ translateEmptyDescription(validator.description.details) }}</dd>
+              >
+                {{ translateEmptyDescription(validator.description.details) }}
+              </dd>
             </dl>
           </div>
           <div class="column">
@@ -117,7 +127,9 @@
             </dl>
             <dl class="info_dl">
               <dt>Self Delegation</dt>
-              <dd id="page-profile__self-bond">{{ selfBond }}</dd>
+              <dd id="page-profile__self-bond">
+                {{ selfBond }}
+              </dd>
             </dl>
           </div>
         </div>
@@ -140,14 +152,16 @@
       />
 
       <tm-modal v-if="showCannotModal" :close="closeCannotModal">
-        <div slot="title">Cannot {{ action === `delegate` ? `Delegate` : `Undelegate` }}</div>
+        <div slot="title">
+          Cannot {{ action === `delegate` ? `Delegate` : `Undelegate` }}
+        </div>
         <p>
           You have no {{ bondDenom }}s
           {{ action === `undelegate` ? ` delegated ` : ` ` }}to
           {{ action === `delegate` ? ` delegate.` : ` this validator.` }}
         </p>
         <div slot="footer">
-          <tmBtn id="no-atoms-modal__btn" value="OK" @click.native="closeCannotModal"/>
+          <tmBtn id="no-atoms-modal__btn" value="OK" @click.native="closeCannotModal" />
         </div>
       </tm-modal>
     </template>
