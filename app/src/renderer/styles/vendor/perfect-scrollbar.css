@@ -5,15 +5,17 @@
   touch-action: auto;
   -ms-touch-action: auto;
 }
+
 .ps__rail-x {
   display: none;
   opacity: 0;
   transition: background-color 0.2s linear, opacity 0.2s linear;
   -webkit-transition: background-color 0.2s linear, opacity 0.2s linear;
   height: 15px;
-  bottom: 0px;
+  bottom: 0;
   position: absolute;
 }
+
 .ps__rail-y {
   display: none;
   opacity: 0;
@@ -23,11 +25,13 @@
   right: 0;
   position: absolute;
 }
+
 .ps--active-x > .ps__rail-x,
 .ps--active-y > .ps__rail-y {
   display: block;
   background-color: transparent;
 }
+
 .ps:hover > .ps__rail-x,
 .ps:hover > .ps__rail-y,
 .ps--focus > .ps__rail-x,
@@ -36,6 +40,7 @@
 .ps--scrolling-y > .ps__rail-y {
   opacity: 0.6;
 }
+
 .ps__rail-x:hover,
 .ps__rail-y:hover,
 .ps__rail-x:focus,
@@ -43,6 +48,7 @@
   background-color: #eee;
   opacity: 0.9;
 }
+
 .ps__thumb-x {
   background-color: var(--bc);
   border-radius: 6px;
@@ -52,6 +58,7 @@
   bottom: 2px;
   position: absolute;
 }
+
 .ps__thumb-y {
   background-color: var(--bc);
   border-radius: 6px;
@@ -61,21 +68,25 @@
   right: 2px;
   position: absolute;
 }
+
 .ps__rail-x:hover > .ps__thumb-x,
 .ps__rail-x:focus > .ps__thumb-x {
   background-color: #999;
   height: 11px;
 }
+
 .ps__rail-y:hover > .ps__thumb-y,
 .ps__rail-y:focus > .ps__thumb-y {
   background-color: #999;
   width: 11px;
 }
+
 @supports (-ms-overflow-style: none) {
   .ps {
     overflow: auto !important;
   }
 }
+
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
   .ps {
     overflow: auto !important;

@@ -1,6 +1,7 @@
 body {
   margin: 0;
 }
+
 #load {
   display: flex;
   align-items: center;
@@ -9,9 +10,17 @@ body {
   height: 100vh;
   background: var(--app-bg);
 }
+
 #load-container {
-  font: 16px/1.5 system, -apple-system, BlinkMacSystemFont, "Roboto",
-    "Seogue UI", "Helvetica Neue", "Lucida Grande", sans-serif;
+  font:
+    16px/1.5 system,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Roboto",
+    "Seogue UI",
+    "Helvetica Neue",
+    "Lucida Grande",
+    sans-serif;
   margin: 0 auto;
   width: 18rem;
   display: flex;
@@ -19,6 +28,7 @@ body {
   justify-content: center;
   box-sizing: border-box;
 }
+
 #load-title {
   font-size: var(--h2);
   font-weight: 600;
@@ -29,6 +39,7 @@ body {
   margin-bottom: 1rem;
   padding: 0 0.5rem;
 }
+
 #load-main p {
   font-size: var(--m);
   line-height: 2rem;
@@ -38,6 +49,7 @@ body {
   background: var(--app-fg);
   margin: 0 0 1px;
 }
+
 #load-main a {
   text-decoration: none;
   color: var(--link);

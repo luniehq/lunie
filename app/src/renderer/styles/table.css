@@ -24,7 +24,7 @@
   color: var(--bright);
 }
 
-.data-table__row__cell__separator:after {
+.data-table__row__cell__separator::after {
   display: block;
   position: absolute;
   content: "";
