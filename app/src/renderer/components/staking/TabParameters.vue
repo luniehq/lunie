@@ -80,6 +80,7 @@ export default {
   },
   async mounted() {
     this.$store.dispatch(`getStakingParameters`)
+    this.$store.dispatch(`getDistributionParameters`)
   }
 }
 </script>

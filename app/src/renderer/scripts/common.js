@@ -20,7 +20,7 @@ module.exports.shortAddress = function(address, length = 4) {
 
 module.exports.coinsToObject = function(coinArray) {
   const coins = {}
-  if (coinArray.length > 0) {
+  if (coinArray && coinArray.length > 0) {
     coinArray.forEach(({ denom, amount }) => {
       coins[denom] = Number(amount)
     })
@@ -37,18 +37,6 @@ module.exports.ratToBigNumber = function(rat) {
   }
   return new BN(rat)
 }
-// TODO uncomment when validator comission is done
-// module.exports.parseValidatorShares = function(validator) {
-//   let totalSharesN = new BN(validator.delegator_shares.split("/")[0])
-//   let totalSharesD = new BN(validator.delegator_shares.split("/")[1] || 1)
-//   return totalSharesN.div(totalSharesD)
-// }
-//
-// module.exports.parseValidatorShares = function(validator) {
-//   let totalTokensN = new BN(validator.tokens.split("/")[0])
-//   let totalTokensD = new BN(validator.tokens.split("/")[1] || 1)
-//   return totalTokensN.div(totalTokensD)
-// }
 
 // could be used in optimistic update PR, pls uncomment or delete when addressed
 module.exports.calculateShares = function(validator, tokens) {
