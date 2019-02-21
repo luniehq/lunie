@@ -72,7 +72,7 @@ export const pool = state => state.pool
 export const stakingParameters = state => state.stakingParameters
 export const bondDenom = getters =>
   getters.stakingParameters.parameters &&
-  getters.stakingParameters.parameters.bond_denom || `token`
+  getters.stakingParameters.parameters.bond_denom || `stake`
 
 // governance
 export const proposals = state => state.proposals
