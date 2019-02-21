@@ -53,30 +53,6 @@ export const startApp = async (
   Sentry = _Sentry,
   Vue = _Vue
 ) => {
-  /* istanbul ignore next */
-  Vue.config.errorHandler = (error, vm, info) => {
-    console.error(`An error has occurred: ${error}
-  
-  Guru Meditation #${info}`)
-
-    _Sentry.captureException(error)
-
-    if (store.state.devMode) {
-      throw error
-    }
-  }
-
-  /* istanbul ignore next */
-  Vue.config.warnHandler = (msg, vm, trace) => {
-    console.warn(`A warning has occurred: ${msg}
-  
-  Guru Meditation #${trace}`)
-
-    if (store.state.devMode) {
-      throw new Error(msg)
-    }
-  }
-
   Vue.use(Router)
   Vue.use(Tooltip, { delay: 1 })
   Vue.use(Vuelidate)
