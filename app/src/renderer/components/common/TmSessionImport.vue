@@ -194,7 +194,7 @@ export default {
       this.$store.commit(`setModalHelp`, true)
     },
     setState(value) {
-      this.$store.commit(`setModalSessionState`, value)
+      this.$store.commit(`setSessionModalView`, value)
     },
     async onSubmit() {
       this.$v.$touch()
@@ -206,7 +206,7 @@ export default {
           name: this.fields.importName
         })
         await this.$store.dispatch(`signIn`, {
-          account: this.fields.importName,
+          localKeyPairName: this.fields.importName,
           password: this.fields.importPassword,
           sessionType: `local`,
           errorCollection: this.fields.errorCollection

@@ -17,22 +17,27 @@ describe(`Component: TabMyDelegations`, () => {
   const { stakingParameters } = lcdClientMock.state
   it(`should show committed validators`, () => {
     const instance = mount(TabMyDelegations, {
-      getters: {
-        committedDelegations: () => ({
-          [delegates[0].operator_address]: 42
-        }),
-        delegates: () => ({
-          delegates
-        }),
-        delegation: () => ({
-          unbondingDelegations: {
-            [delegates[1].operator_address]: 1,
-            [delegates[2].operator_address]: 2
-          },
-          loaded: true
-        }),
-        bondDenom: () => stakingParameters.parameters.bond_denom,
-        connected: () => true
+      mocks: {
+        getters: {
+          committedDelegations: () => ({
+            [delegates[0].operator_address]: 42
+          }),
+          delegates: () => ({
+            delegates
+          }),
+          delegation: () => ({
+            unbondingDelegations: {
+              [delegates[1].operator_address]: 1,
+              [delegates[2].operator_address]: 2
+            },
+            loaded: true
+          }),
+          bondDenom: () => stakingParameters.parameters.bond_denom,
+          connected: () => true
+        }
+      },
+      stubs: {
+        "short-bech32": true
       }
     })
 
@@ -62,6 +67,9 @@ describe(`Component: TabMyDelegations`, () => {
         bondDenom: () => stakingParameters.parameters.bond_denom,
         connected: () => true,
         allTransactions: () => unbondingTransactions
+      },
+      stubs: {
+        "short-bech32": true
       }
     })
 
@@ -81,6 +89,9 @@ describe(`Component: TabMyDelegations`, () => {
         }),
         bondDenom: () => stakingParameters.parameters.bond_denom,
         connected: () => true
+      },
+      stubs: {
+        "short-bech32": true
       }
     })
 
@@ -103,7 +114,8 @@ describe(`Component: TabMyDelegations`, () => {
         connected: () => false
       },
       stubs: {
-        "tm-data-connecting": true
+        "tm-data-connecting": true,
+        "short-bech32": true
       }
     })
 
@@ -126,7 +138,8 @@ describe(`Component: TabMyDelegations`, () => {
         connected: () => false
       },
       stubs: {
-        "tm-data-loading": true
+        "tm-data-loading": true,
+        "short-bech32": true
       }
     })
 

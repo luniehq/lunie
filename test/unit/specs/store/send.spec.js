@@ -23,7 +23,7 @@ jest.mock(`renderer/scripts/wallet.js`, () => ({
 }))
 
 const mockRootState = {
-  user: { account: `default` },
+  session: { account: `default` },
   wallet: {
     accountNumber: `12`,
     address: `cosmos1demo`

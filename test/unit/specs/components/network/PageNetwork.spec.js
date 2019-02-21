@@ -26,7 +26,7 @@ describe(`PageNetwork`, () => {
             }
           ]
         },
-        config: {
+        session: {
           devMode: true
         },
         pool: {

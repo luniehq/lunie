@@ -47,7 +47,7 @@
               <dt>My Delegation</dt>
               <dd>{{ myDelegation }}</dd>
             </dl>
-            <dl v-if="config.devMode" class="info_dl colored_dl">
+            <dl v-if="session.devMode" class="info_dl colored_dl">
               <dt>My Rewards</dt>
               <dd>--</dd>
             </dl>
@@ -72,7 +72,7 @@
                 {{ percent(validator.commission.rate) }}
               </dd>
             </dl>
-            <dl v-if="config.devMode" class="info_dl colored_dl">
+            <dl v-if="session.devMode" class="info_dl colored_dl">
               <dt>Slashes</dt>
               <dd>--</dd>
             </dl>
@@ -213,10 +213,9 @@ export default {
       `delegates`,
       `delegation`,
       `committedDelegations`,
-      `config`,
       `keybase`,
       `liquidAtoms`,
-      `user`,
+      `session`,
       `wallet`,
       `connected`
     ]),

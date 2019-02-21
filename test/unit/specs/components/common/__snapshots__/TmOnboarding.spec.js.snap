@@ -5,11 +5,6 @@ exports[`TmOnboarding has the expected html structure 0 1`] = `
   class="tm-session-wrapper"
   id="onboarding"
 >
-  <img
-    class="tm-session-backdrop"
-    src="~assets/images/cosmos-logo.png"
-  />
-   
   <div
     class="tm-session"
   >
@@ -131,11 +126,6 @@ exports[`TmOnboarding has the expected html structure 1 1`] = `
   class="tm-session-wrapper"
   id="onboarding"
 >
-  <img
-    class="tm-session-backdrop"
-    src="~assets/images/cosmos-logo.png"
-  />
-   
   <div
     class="tm-session"
   >
@@ -257,11 +247,6 @@ exports[`TmOnboarding has the expected html structure 2 1`] = `
   class="tm-session-wrapper"
   id="onboarding"
 >
-  <img
-    class="tm-session-backdrop"
-    src="~assets/images/cosmos-logo.png"
-  />
-   
   <div
     class="tm-session"
   >
@@ -383,11 +368,6 @@ exports[`TmOnboarding has the expected html structure 3 1`] = `
   class="tm-session-wrapper"
   id="onboarding"
 >
-  <img
-    class="tm-session-backdrop"
-    src="~assets/images/cosmos-logo.png"
-  />
-   
   <div
     class="tm-session"
   >
@@ -509,11 +489,6 @@ exports[`TmOnboarding has the expected html structure 4 1`] = `
   class="tm-session-wrapper"
   id="onboarding"
 >
-  <img
-    class="tm-session-backdrop"
-    src="~assets/images/cosmos-logo.png"
-  />
-   
   <div
     class="tm-session"
   >

@@ -23,6 +23,6 @@ describe(`AppMenu`, () => {
 
   it(`can close the app menu`, () => {
     wrapper.find(`#app-menu__wallet`).trigger(`click`)
-    expect($store.commit).toHaveBeenCalledWith(`setActiveMenu`, ``)
+    expect(wrapper.emitted().close).toBeTruthy()
   })
 })

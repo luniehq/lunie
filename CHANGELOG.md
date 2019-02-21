@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+- Removed Vue error handling to bubble errors to the console, this doesn't effect users @faboweb
+
+## [1.0.0-beta.4] - 2019-02-21
+
+### Added
+
+- [\#1997](https://github.com/cosmos/voyager/issues/1997) clicking on the top left logo goes to root @faboweb
+
+### Changed
+
+- Refactored user and session modules @faboweb
+- Made app header and menu states local @faboweb
+- [\#1993](https://github.com/cosmos/voyager/issues/1993) disabled web wallet in production @faboweb
+- [\#2031](https://github.com/cosmos/voyager/issues/2031) voyager now depends from cosmos/ledger-cosmos-js
+
+### Fixed
+
+- [\#1999](https://github.com/cosmos/voyager/issues/1999) fixed signing of governance txs due to upstream SDK fix @faboweb
+- [\#2028](https://github.com/cosmos/voyager/issues/2028) fixed giant image on onboarding screen @jbibla
+
+## [1.0.0-beta.3] - 2019-02-20
+
 ### Added
 
 - [\#1920](https://github.com/cosmos/voyager/issues/1920) Add link to install Cosmos Ledger App @fedekunze
@@ -18,9 +42,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+- [\#1910](https://github.com/cosmos/voyager/issues/1910) clipboard works in all browsers @jbibla
 - [\#1917](https://github.com/cosmos/voyager/issues/1917) Handle ledger disconnection before signing @fedekunze
-- [\#1917](https://github.com/cosmos/voyager/issues/1917) Display correct error message when rejecting a transaction with ledger @fedekunze
 - [\#1978](https://github.com/cosmos/voyager/issues/1978) Don't display error notifications after timeout on ledger session page @fedekunze
+- [\#2016](https://github.com/cosmos/voyager/issues/2016) Display correct error message when rejecting a transaction with ledger @fedekunze
 
 ## [1.0.0-beta.2] - 2019-02-19
 

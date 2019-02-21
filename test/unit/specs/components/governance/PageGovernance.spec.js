@@ -29,7 +29,7 @@ describe(`PageGovernance`, () => {
     })
     wrapper = instance.wrapper
     store = instance.store
-    store.state.user.address = lcdClientMock.addresses[0]
+    store.state.session.address = lcdClientMock.addresses[0]
     store.dispatch(`updateDelegates`)
 
     wrapper.vm.$refs.modalPropose = { open: () => {} }

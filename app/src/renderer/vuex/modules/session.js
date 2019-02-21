@@ -1,4 +1,5 @@
 import * as Sentry from "@sentry/browser"
+import noScroll from "no-scroll"
 import {
   enableGoogleAnalytics,
   disableGoogleAnalytics,
@@ -12,16 +13,27 @@ export default () => {
   const ERROR_COLLECTION_KEY = `voyager_error_collection`
 
   const state = {
-    atoms: 0,
+    devMode:
+      process.env.PREVIEW !== undefined
+        ? JSON.parse(process.env.PREVIEW)
+        : process.env.NODE_ENV === `development`,
     signedIn: false,
     accounts: [],
+    localKeyPairName: null, // used for signing with a locally stored key, TODO move into own module
     pauseHistory: false,
     history: [],
-    account: null,
     address: null,
     errorCollection: false,
     stateLoaded: false, // shows if the persisted state is already loaded. used to prevent overwriting the persisted state before it is loaded
     error: null,
+    modals: {
+      error: { active: false },
+      help: { active: false },
+      session: {
+        active: false,
+        state: `loading`
+      }
+    },
 
     // import into state to be able to test easier
     externals: {
@@ -47,8 +59,8 @@ export default () => {
     setUserAddress(state, address) {
       state.address = address
     },
-    setAtoms(state, atoms) {
-      state.atoms = atoms
+    setModalHelp(state, value) {
+      state.modals.help.active = value
     },
     addHistory(state, path) {
       state.history.push(path)
@@ -61,6 +73,19 @@ export default () => {
     },
     pauseHistory(state, paused) {
       state.pauseHistory = paused
+    },
+    toggleSessionModal(state, value) {
+      // reset modal signin state if we're closing the modal
+      if (value) {
+        noScroll.on()
+      } else {
+        state.modals.session.state = `loading`
+        noScroll.off()
+      }
+      state.modals.session.active = value
+    },
+    setSessionModalView(state, value) {
+      state.modals.session.state = value
     }
   }
 
@@ -90,8 +115,8 @@ export default () => {
         state.loading = false
       }
     },
-    async testLogin(_, { password, account }) {
-      return await testPassword(account, password)
+    async testLogin(store, { password, localKeyPairName }) {
+      return await testPassword(localKeyPairName, password)
     },
     createSeed() {
       return state.externals.generateSeed()
@@ -105,9 +130,10 @@ export default () => {
       await dispatch(`initializeWallet`, { address: cosmosAddress })
       return cosmosAddress
     },
+    // TODO split into sign in with ledger and signin with local key
     async signIn(
       { state, commit, dispatch },
-      { account, address, sessionType = `local`, errorCollection = false }
+      { localKeyPairName, address, sessionType = `local`, errorCollection = false }
     ) {
       let accountAddress
       switch (sessionType) {
@@ -116,8 +142,8 @@ export default () => {
           break
         default:
           // local keyStore
-          state.account = account // TODO: why do we have state.account and state.accounts ??
-          accountAddress = (await state.externals.loadKeys()).find(({ name }) => name === account).address
+          state.localKeyPairName = localKeyPairName
+          accountAddress = (await state.externals.loadKeys()).find(({ name }) => name === localKeyPairName).address
       }
       commit(`setSignIn`, true)
       dispatch(`setErrorCollection`, {
@@ -126,14 +152,14 @@ export default () => {
       })
       commit(`setUserAddress`, accountAddress)
       dispatch(`loadPersistedState`)
-      commit(`setModalSession`, false)
+      commit(`toggleSessionModal`, false)
       await dispatch(`getStakingParameters`)
       await dispatch(`getGovParameters`)
       dispatch(`loadErrorCollection`, accountAddress)
       await dispatch(`initializeWallet`, { address: accountAddress })
     },
     signOut({ state, commit, dispatch }) {
-      state.account = null
+      state.localKeyPairName = null
       commit(`setLedgerConnection`, false)
       commit(`setCosmosAppVersion`, {})
       dispatch(`resetSessionData`)
@@ -141,18 +167,17 @@ export default () => {
       commit(`setSignIn`, false)
     },
     resetSessionData({ commit, state }) {
-      commit(`setAtoms`, 0)
       state.history = []
-      state.account = null
+      state.localKeyPairName = null
       commit(`setUserAddress`, null)
     },
-    loadErrorCollection({ state, dispatch }, account) {
+    loadErrorCollection({ state, dispatch }, address) {
       const errorCollection =
-        localStorage.getItem(`${ERROR_COLLECTION_KEY}_${account}`) === `true`
+        localStorage.getItem(`${ERROR_COLLECTION_KEY}_${address}`) === `true`
       if (state.errorCollection !== errorCollection)
-        dispatch(`setErrorCollection`, { account, optin: errorCollection })
+        dispatch(`setErrorCollection`, { address, optin: errorCollection })
     },
-    setErrorCollection({ state, commit }, { account, optin }) {
+    setErrorCollection({ state, commit }, { address, optin }) {
       if (
         optin &&
         state.errorCollection === false &&
@@ -165,7 +190,7 @@ export default () => {
       }
       state.errorCollection = state.externals.config.development ? false : optin
       localStorage.setItem(
-        `${ERROR_COLLECTION_KEY}_${account}`,
+        `${ERROR_COLLECTION_KEY}_${address}`,
         state.errorCollection
       )
 
