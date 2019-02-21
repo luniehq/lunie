@@ -130,7 +130,7 @@
     "fs-extra": "7.0.0",
     "glob": "7.1.3",
     "js-beautify": "1.8.6",
-    "ledger-cosmos-js": "https://github.com/ZondaX/ledger-cosmos-js",
+    "ledger-cosmos-js": "https://github.com/cosmos/ledger-cosmos-js",
     "markdown-it-anchor": "5.0.2",
     "moment": "2.22.1",
     "mousetrap": "1.6.1",
