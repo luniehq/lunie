@@ -99,9 +99,8 @@ export default {
             ]
         }))
   },
-  async mounted() {
-    await this.$store.dispatch(`getTotalRewards`)
-    await this.$store.dispatch(`getWithdrawAddress`)
+  mounted() {
+    this.$store.dispatch(`getWithdrawAddress`)
   }
 }
 </script>

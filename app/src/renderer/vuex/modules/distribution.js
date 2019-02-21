@@ -63,8 +63,8 @@ export default ({ node }) => {
         },
     }
     const actions = {
-        reconnected({ state, dispatch, rootState }) {
-            if (state.loading && rootState.user.signedIn) {
+        reconnected({ state, dispatch, rootState: { session } }) {
+            if (state.loading && session.signedIn) {
                 dispatch(`getTotalRewards`)
             }
         },

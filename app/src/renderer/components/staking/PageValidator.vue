@@ -290,12 +290,12 @@ export default {
       }
     }
   },
-  async mounted() {
-    this.$store.dispatch(
-      `getValidatorDistributionInfoAndRewards`,
-      this.$route.params.validator
-    )
-  },
+  // mounted() {
+  //   this.$store.dispatch(
+  //     `getValidatorDistributionInfoAndRewards`,
+  //     this.$route.params.validator
+  //   )
+  // },
   methods: {
     closeCannotModal() {
       this.showCannotModal = false

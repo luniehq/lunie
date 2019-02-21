@@ -77,12 +77,13 @@ export default {
         .reduce((sum, v) => sum + v.voting_power, 0)
     },
     enrichedDelegates() {
+      console.log(this.committedDelegations)
       return this.validators.map(v =>
         Object.assign({}, v, {
           small_moniker: v.description.moniker.toLowerCase(),
           percent_of_vote: num.percent(v.voting_power / this.vpTotal),
           your_votes: this.num.full(
-            calculateTokens(v, this.committedDelegations[v.id])
+            calculateTokens(v, this.committedDelegations[v.operator_address])
           ),
           keybase: this.keybase[v.description.identity]
         })
