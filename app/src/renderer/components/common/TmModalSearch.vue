@@ -10,7 +10,7 @@
             type="text"
             placeholder="Search..."
           />
-          <tm-btn icon="close" @click.native="close"/>
+          <tm-btn icon="close" @click.native="close" />
         </div>
       </tm-form-group>
     </div>
