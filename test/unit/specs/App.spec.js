@@ -44,6 +44,7 @@ describe(`App Start`, () => {
     }
 
     await startApp(
+      {},
       {
         stargate: `http://localhost:12344`
       },
@@ -101,6 +102,7 @@ describe(`App Start`, () => {
       init: jest.fn()
     }
     await startApp(
+      {},
       {
         stargate: `http://localhost:12344`
       },

@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 - Validator page shows now correctly by avoiding async errors @faboweb
+- [\#2024](https://github.com/cosmos/voyager/issues/2024) Fixed feature setting the rpc from url param @faboweb
+- Enable dev mode from url param @faboweb
 
 ## [1.0.0-beta.4] - 2019-02-21
 

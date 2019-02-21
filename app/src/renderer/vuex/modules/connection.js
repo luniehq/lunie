@@ -30,8 +30,8 @@ export default function({ node }) {
     setConnected(state, connected) {
       Vue.set(state, `connected`, connected)
     },
-    setNodeApprovalRequired(state, hash) {
-      Vue.set(state, `approvalRequired`, hash)
+    setRPCUrl(state, rpcUrl) {
+      state.externals.config.rpc = rpcUrl
     }
   }
 

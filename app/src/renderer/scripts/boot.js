@@ -46,6 +46,7 @@ export const routeGuard = store => (to, from, next) => {
  * Start the Vue app
  */
 export const startApp = async (
+  urlParams,
   config,
   Node = _Node,
   Store = _Store,
@@ -88,9 +89,10 @@ export const startApp = async (
     })
   }
 
-  console.log(`Expecting stargate at: ${config.stargate}`)
+  const stargate = urlParams.stargate || config.stargate
+  console.log(`Expecting stargate at: ${stargate}`)
 
-  const node = Node(axios, config.stargate)
+  const node = Node(axios, stargate)
   const store = Store({ node })
   const router = new Router({
     scrollBehavior: () => ({ y: 0 }),
@@ -98,6 +100,13 @@ export const startApp = async (
   })
 
   router.beforeEach(routeGuard(store))
+  
+  if (urlParams.dev) {
+    store.commit(`setDevmode`)
+  }
+  if (urlParams.rpc) {
+    store.commit(`setRPCUrl`, urlParams.rpc)
+  }
 
   store.dispatch(`connect`)
   store.dispatch(`showInitialScreen`)
@@ -117,7 +126,5 @@ export const main = async (
   start = startApp
 ) => {
   const params = getURLParams(window)
-  const enrichedConfig = Object.assign({}, _config, params)
-
-  await start(enrichedConfig)
+  await start(params, _config)
 }
