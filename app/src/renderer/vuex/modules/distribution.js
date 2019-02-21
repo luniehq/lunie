@@ -56,6 +56,9 @@ export default ({ node }) => {
         setOutstandingRewards(state, outstandingRewards) {
             state.outstandingRewards = outstandingRewards
         },
+        setDistributionError(state, error) {
+            state.error = error
+        }
     }
     const actions = {
         reconnected({ state, dispatch, rootState: { session } }) {
@@ -81,7 +84,7 @@ export default ({ node }) => {
                     body: error.message
                 })
                 Sentry.captureException(error)
-                state.error = error
+                commit(`setDistributionError`, error)
             }
             state.loading = false
             state.loaded = true
@@ -111,7 +114,7 @@ export default ({ node }) => {
                     body: error.message
                 })
                 Sentry.captureException(error)
-                state.error = error
+                commit(`setDistributionError`, error)
             }
             state.loading = false
             state.loaded = true
@@ -146,7 +149,7 @@ export default ({ node }) => {
                     body: error.message
                 })
                 Sentry.captureException(error)
-                state.error = error
+                commit(`setDistributionError`, error)
             }
             state.loading = false
             state.loaded = true
@@ -163,7 +166,7 @@ export default ({ node }) => {
                     body: error.message
                 })
                 Sentry.captureException(error)
-                state.error = error
+                commit(`setDistributionError`, error)
             }
             state.loading = false
             state.loaded = true
