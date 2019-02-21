@@ -76,6 +76,9 @@ export const bondDenom = getters =>
   getters.stakingParameters.parameters &&
   getters.stakingParameters.parameters.bond_denom
 
+// fee distribution
+export const distribution = state => state.distribution
+
 // governance
 export const proposals = state => state.proposals
 export const votes = state => state.votes.votes
@@ -83,7 +86,7 @@ export const deposits = state => state.deposits.deposits
 export const governanceParameters = state => state.governanceParameters
 export const depositDenom = getters =>
   getters.governanceParameters.loaded &&
-  getters.governanceParameters.parameters.deposit.min_deposit
+    getters.governanceParameters.parameters.deposit.min_deposit
     ? getters.governanceParameters.parameters.deposit.min_deposit[0].denom
     : ``
 

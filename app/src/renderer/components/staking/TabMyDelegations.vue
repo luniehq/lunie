@@ -14,8 +14,7 @@
         the
         <router-link :to="{ name: 'Validators' }">
           validator list
-        </router-link>
-        to make your first delegation!
+        </router-link>to make your first delegation!
       </div>
     </tm-data-msg>
     <div v-if="delegation.loaded && unbondingTransactions.length > 0">
@@ -99,6 +98,10 @@ export default {
               transaction.tx.value.msg[0].value.validator_addr
             ]
         }))
+  },
+  mounted() {
+    this.$store.dispatch(`getTotalRewards`)
+    this.$store.dispatch(`getWithdrawAddress`)
   }
 }
 </script>

@@ -1,8 +1,6 @@
 <template>
   <tm-data-connecting v-if="!connected && !stakingParameters.loaded" />
-  <tm-data-loading
-    v-else-if="!stakingParameters.loaded && stakingParameters.loading"
-  />
+  <tm-data-loading v-else-if="!stakingParameters.loaded && stakingParameters.loading" />
   <div v-else>
     <div>
       <div class="parameters__details parameters__section">
@@ -80,6 +78,7 @@ export default {
   },
   async mounted() {
     this.$store.dispatch(`getStakingParameters`)
+    this.$store.dispatch(`getDistributionParameters`)
   }
 }
 </script>

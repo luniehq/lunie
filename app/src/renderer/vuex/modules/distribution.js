@@ -40,27 +40,7 @@ export default ({ node }) => {
                 denomN: amountN 
             }
         */
-        outstandingRewards: {},
-        /* validatorInfo use the following format:
-            { 
-                self_bond_rewards: { 
-                    denom1: amount1,
-                    ... ,
-                    denomN: amountN 
-                },
-                val_commission: { 
-                    denom1: amount1,
-                    ... ,
-                    denomN: amountN 
-                },
-                rewards: { 
-                    denom1: amount1,
-                    ... ,
-                    denomN: amountN 
-                } 
-            } 
-        */
-        validatorInfo: {}
+        outstandingRewards: {}
     }
     const state = JSON.parse(JSON.stringify(emptyState))
 
@@ -74,10 +54,7 @@ export default ({ node }) => {
         setWithdrawAddress(state, address) {
             state.withdrawAddress = address
         },
-        // TODO: move to validator vuex module once refactored
-        setValidatorDistributionInfo(state, info) {
-            state.validatorInfo = info
-        },
+
         setDistributionParameters(state, parameters) {
             state.parameters = parameters
         },
@@ -151,6 +128,7 @@ export default ({ node }) => {
             await dispatch(`sendTx`, {
                 type: `postWithdrawDelegatorRewardsFromValidator`,
                 to: wallet.address,
+                pathParameter: validatorAddr,
                 password,
                 submitType
             })
@@ -193,30 +171,6 @@ export default ({ node }) => {
             commit(`setWithdrawAddress`, newAddress)
             // update reward address
             await dispatch(`getWithdrawAddress`)
-        },
-        // TODO: move to validator vuex module once refactored
-        async getValidatorDistributionInfoAndRewards({ commit }, validatorAddr) {
-            state.loading = true
-            try {
-                let { self_bond_rewards, val_commission } = await node.getValidatorDistributionInformation(validatorAddr)
-                const rewardsArray = await node.getValidatorRewards(validatorAddr)
-
-                const rewards = coinsToObject(rewardsArray)
-                self_bond_rewards = coinsToObject(self_bond_rewards)
-                val_commission = coinsToObject(val_commission)
-
-                commit(`setValidatorDistributionInfo`, { self_bond_rewards, val_commission, rewards })
-                state.error = null
-            } catch (error) {
-                commit(`notifyError`, {
-                    title: `Error querying distribution parameters`,
-                    body: error.message
-                })
-                Sentry.captureException(error)
-                state.error = error
-            }
-            state.loading = false
-            state.loaded = true
         },
         // TODO: move to a common parameters module
         async getDistributionParameters({ commit }) {

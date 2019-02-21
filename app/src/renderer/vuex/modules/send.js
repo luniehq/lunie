@@ -89,13 +89,24 @@ export default ({ node }) => {
       const submitType = args.submitType || `local`
       delete args.submitType
 
-      // extract "to" address
+      // TODO: refactor to get path request parameters at once
+      // extract path parameters
       const to = args.to
+      const pathParameter = args.pathParameter
       delete args.to
+      delete args.pathParameter
 
       // get the generated tx by querying it from the backend
-      const req = to ? node[type](to, args) : node[type](args)
-      const generationRes = await req.catch(handleSDKError)
+      let request
+      if (to && pathParameter) {
+        request = node[type](to, pathParameter, args)
+      } else if (to) {
+        request = node[type](to, args)
+      } else {
+        request = node[type](args)
+      }
+
+      const generationRes = await request.catch(handleSDKError)
       const tx = generationRes.value
 
       let signature
@@ -133,9 +144,9 @@ export default ({ node }) => {
       // broadcast transaction
       const signedTx = state.externals.createSignedTx(tx, signature)
       const body = state.externals.createBroadcastBody(signedTx)
-      const res = await node.postTx(body).catch(handleSDKError)
+      const response = await node.postTx(body).catch(handleSDKError)
       // check response code
-      assertOk(res)
+      assertOk(response)
       commit(`setNonce`, String(parseInt(state.nonce) + 1))
     }
   }
@@ -147,15 +158,15 @@ export default ({ node }) => {
   }
 }
 
-function assertOk(res) {
-  if (Array.isArray(res)) {
-    if (res.length === 0) throw new Error(`Error sending transaction`)
+function assertOk(response) {
+  if (Array.isArray(response)) {
+    if (response.length === 0) throw new Error(`Error sending transaction`)
 
-    return res.forEach(assertOk)
+    return response.forEach(assertOk)
   }
 
-  if (!res.txhash) {
-    const message = res.message
+  if (!response.txhash) {
+    const message = response.message
     throw new Error(message)
   }
 }

@@ -12,6 +12,7 @@ export default () => {
 
   const mutations = {
     setKeybaseIdentities(state, identities) {
+      // TODO: delete duplicated for loop
       identities.forEach(identity => {
         state.identities[identity.keybaseId] = identity
       })

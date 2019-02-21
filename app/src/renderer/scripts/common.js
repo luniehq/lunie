@@ -20,9 +20,11 @@ module.exports.shortAddress = function (address, length = 4) {
 
 module.exports.coinsToObject = function (coinArray) {
   const coins = {}
-  coinArray.forEach(({ denom, amount }) => {
-    coins[denom] = Number(amount)
-  })
+  if (coinArray.length > 0) {
+    coinArray.forEach(({ denom, amount }) => {
+      coins[denom] = Number(amount)
+    })
+  }
   return coins
 }
 

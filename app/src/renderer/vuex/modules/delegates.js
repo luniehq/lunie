@@ -21,12 +21,14 @@ export default ({ node }) => {
     },
     setDelegates(state, validators) {
       // update global power for quick access
+      // TODO: this should't be on the setter
       state.globalPower = validators
         .reduce((sum, validator) => {
           return sum.plus(ratToBigNumber(validator.tokens))
         }, new BN(0))
         .toNumber()
 
+      // TODO: this should't be on the setter
       validators.forEach(validator => {
         validator.id = validator.operator_address
         validator.voting_power = ratToBigNumber(validator.tokens)
@@ -69,6 +71,7 @@ export default ({ node }) => {
       }
       commit(`setDelegates`, validators)
     },
+    // TODO: rename to getValidators and make more efficient !
     async getDelegates({ commit, dispatch, rootState }) {
       commit(`setDelegateLoading`, true)
 
@@ -76,11 +79,13 @@ export default ({ node }) => {
 
       try {
         let validators = await node.getValidators()
+        // TODO: this should call dispatch(`getValidatorSet`)
         const { validators: validatorSet } = await node.getValidatorSet()
         state.error = null
         state.loading = false
         state.loaded = true
 
+        // TODO: dup loop
         for (const validator of validators) {
           validator.isValidator = false
           if (validatorSet.find(v => v.pub_key === validator.pub_key)) {
