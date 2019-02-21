@@ -61,13 +61,8 @@ export default ({ node }) => {
         }
     }
     const actions = {
-        reconnected({ state, dispatch, rootState: { session } }) {
-            if (state.loading && session.signedIn) {
-                dispatch(`getTotalRewards`)
-            }
-        },
         resetSessionData({ rootState }) {
-            rootState.delegation = JSON.parse(JSON.stringify(emptyState))
+            rootState.distribution = JSON.parse(JSON.stringify(emptyState))
         },
         async getTotalRewards(
             { state, rootState: { session }, commit }
@@ -77,7 +72,7 @@ export default ({ node }) => {
                 const rewardsArray = await node.getDelegatorRewards(session.address)
                 const rewards = coinsToObject(rewardsArray)
                 commit(`setTotalRewards`, rewards)
-                state.error = null
+                commit(`setDistributionError`, null)
             } catch (error) {
                 commit(`notifyError`, {
                     title: `Error getting total rewards`,
@@ -107,7 +102,7 @@ export default ({ node }) => {
                 const rewardsArray = await node.getDelegatorRewardsFromValidator(session.address, validatorAddr)
                 const rewards = coinsToObject(rewardsArray)
                 commit(`setDelegationRewards`, { validatorAddr, rewards })
-                state.error = null
+                commit(`setDistributionError`, null)
             } catch (error) {
                 commit(`notifyError`, {
                     title: `Error getting rewards from validator`,
@@ -142,7 +137,7 @@ export default ({ node }) => {
             try {
                 const parameters = await node.getDistributionParameters()
                 commit(`setDistributionParameters`, parameters)
-                state.error = null
+                commit(`setDistributionError`, null)
             } catch (error) {
                 commit(`notifyError`, {
                     title: `Error querying distribution parameters`,
@@ -160,6 +155,7 @@ export default ({ node }) => {
                 const oustandingRewardsArray = await node.getDistributionOutstandingRewards()
                 const oustandingRewards = coinsToObject(oustandingRewardsArray)
                 commit(`setOutstandingRewards`, oustandingRewards)
+                commit(`setDistributionError`, null)
             } catch (error) {
                 commit(`notifyError`, {
                     title: `Error getting distribution outstanding rewards`,

@@ -1,52 +1,95 @@
 import distributionModule from "modules/distribution.js"
 
 describe(`Module: Fee Distribution`, () => {
-  let module, state, mutations, rewards
-
-  beforeEach(() => {
-    module = distributionModule({ node: {} })
-    state = module.state
-    mutations = module.mutations
-
-    rewards = {
-        stake: 100,
-        photinos: 15
+    let module, state, commit, actions, mutations, rootState
+    const coinArray = [ { denom: `stake`, amount: `100` }, { denom: `photino`, amount: `15` }]
+    const parameters = {
+        base_proposer_reward: `10.00`,
+        bonus_proposer_reward: `3.5`,
+        community_tax: `15`
     }
-  })
+    const node = {
+        getDelegatorRewards: jest.fn(async () => coinArray),
+        postWithdrawDelegatorRewards: jest.fn(),
+        getDelegatorRewardsFromValidator: jest.fn(async () => coinArray),
+        postWithdrawDelegatorRewardsFromValidator: jest.fn(),
+        getDistributionParameters: jest.fn(async () => parameters),
+        getDistributionOutstandingRewards: jest.fn(async () => coinArray),
+    }
+    const rewards = {
+        stake: 100,
+        photino: 15
+    }
 
-  describe(`Mutations`, () => {
-    it(`sets the total delegator rewards earned from all delegations`, async () => {
-        mutations.setTotalRewards(state, rewards)
-        expect(state.totalRewards).toMatchObject(rewards)
+    beforeEach(() => {
+        module = distributionModule({ node })
+        state = module.state
+        actions = module.actions
+        mutations = module.mutations
+
+        commit = jest.fn()
+
+        rootState = { session: { address: `cosmos1address` }}
     })
 
-    it(`sets the delegation rewards from a `, () => {
-        const validatorAddr = `cosmosvalopr1address`
-        mutations.setDelegationRewards(state, {validatorAddr, rewards })
-        expect(state.rewards[validatorAddr]).toBe(rewards)
+    describe(`Mutations`, () => {
+        it(`sets the total delegator rewards earned from all delegations`, async () => {
+            mutations.setTotalRewards(state, rewards)
+            expect(state.totalRewards).toMatchObject(rewards)
+        })
+
+        it(`sets the delegation rewards from a `, () => {
+            const validatorAddr = `cosmosvalopr1address`
+            mutations.setDelegationRewards(state, {validatorAddr, rewards })
+            expect(state.rewards[validatorAddr]).toBe(rewards)
+        })
+
+        it(`sets the account public key`, () => {
+            
+            mutations.setDistributionParameters(state, parameters)
+            expect(state.parameters).toMatchObject(parameters)
+        })
+
+        it(`updates the state if the device is connected`, () => {
+        mutations.setOutstandingRewards(state, rewards)
+        expect(state.outstandingRewards).toMatchObject(rewards)
+        })
+
+        it(`sets an error`, () => {
+        const error = Error(`distribution error`)
+        mutations.setDistributionError(state, error)
+        expect(state.error).toBe(error)
+        })
     })
 
-    it(`sets the account public key`, () => {
-        const parameters = {
-            base_proposer_reward: `10.00`,
-            bonus_proposer_reward: `3.5`,
-            community_tax: `15`
-        }
-        mutations.setDistributionParameters(state, parameters)
-        expect(state.parameters).toMatchObject(parameters)
-    })
+    describe(`Actions`, () => {
+        it(`resets the session data `, () => {
+        state.rewards = rewards
+        const rootState = { distribution: state }
+        actions.resetSessionData({ rootState })
+        expect(rootState.distribution.rewards).toMatchObject({})
+        })
 
-    it(`updates the state if the device is connected`, () => {
-      mutations.setOutstandingRewards(state, rewards)
-      expect(state.outstandingRewards).toMatchObject(rewards)
-    })
+        describe(`getTotalRewards`, () => {
+            it(`success`, async () => {
+                await actions.getTotalRewards({ state, rootState, commit })
+                expect(node.getDelegatorRewards).toHaveBeenCalledWith(rootState.session.address)
+                expect(commit).toHaveBeenCalledWith(`setTotalRewards`, rewards)
+                expect(commit).not.toHaveBeenCalledWith(`notifyError`, expect.anything())
+            })
 
-    it(`sets an error`, () => {
-      const error = Error(`distribution error`)
-      mutations.setDistributionError(state, error)
-      expect(state.error).toBe(error)
-    })
-  })
-
-  describe(`Actions`, () => {})
+            it(`fails`, async () => {
+                rootState = { session: { address: null }}
+                node.getDelegatorRewards = jest.fn(async () => Promise.reject(Error(`invalid address`)))
+                await actions.getTotalRewards({ state, rootState, commit })
+                expect(node.getDelegatorRewards).toHaveBeenCalledWith(null)
+                expect(commit).not.toHaveBeenCalledWith(`setTotalRewards`, rewards)
+                expect(commit).toHaveBeenCalledWith(`notifyError`, {
+                    title: `Error getting total rewards`,
+                    body: `invalid address`
+                })
+                expect(commit).toHaveBeenCalledWith(`setDistributionError`, Error(`invalid address`))
+            })
+        })
+    })  
 })
