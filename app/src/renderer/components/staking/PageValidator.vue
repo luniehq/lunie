@@ -1,13 +1,8 @@
 <template>
   <tm-page data-title="Validator">
-    <template slot="menu-body">
-      <tm-balance />
-      <tool-bar />
-    </template>
+    <tm-data-loading v-if="!validator" />
 
-    <tm-data-error v-if="!validator" />
-
-    <template v-else>
+    <template v-if="validator">
       <div class="page-profile__header page-profile__section">
         <div class="row">
           <img
@@ -159,7 +154,7 @@
         ref="undelegationModal"
         :maximum="Number(myBond)"
         :from-options="delegationTargetOptions()"
-        :to="wallet.address"
+        :to="session.signedIn ? wallet.address : ``"
         :validator="validator"
         :denom="bondDenom"
       />
@@ -191,14 +186,12 @@ import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
 import { percent, pretty } from "scripts/num"
 import TmBtn from "common/TmBtn"
-import ToolBar from "common/ToolBar"
 import TmModal from "common/TmModal"
-import TmDataError from "common/TmDataError"
+import TmDataLoading from "common/TmDataLoading"
 import { shortAddress, ratToBigNumber } from "scripts/common"
 import DelegationModal from "staking/DelegationModal"
 import UndelegationModal from "staking/UndelegationModal"
 import ShortBech32 from "common/ShortBech32"
-import TmBalance from "common/TmBalance"
 import TmPage from "common/TmPage"
 import { isEmpty } from "lodash"
 export default {
@@ -209,9 +202,7 @@ export default {
     UndelegationModal,
     TmBtn,
     TmModal,
-    ToolBar,
-    TmDataError,
-    TmBalance,
+    TmDataLoading,
     TmPage
   },
   data: () => ({
@@ -240,14 +231,18 @@ export default {
       const validator = this.delegates.delegates.find(
         v => this.$route.params.validator === v.operator_address
       )
-      if (validator)
+      if (validator) {
         validator.keybase = this.keybase[validator.description.identity]
+      }
+
       return validator
     },
     selfBond() {
       return percent(this.validator.selfBond)
     },
     uptime() {
+      if (!this.validator.signing_info) return null
+
       const totalBlocks = this.lastHeader.height
       const missedBlocks = this.validator.signing_info.missed_blocks_counter
       const signedBlocks = totalBlocks - missedBlocks
@@ -333,6 +328,8 @@ export default {
       }
     },
     delegationTargetOptions() {
+      if (!this.session.signedIn) return []
+
       //- First option should always be your wallet (i.e normal delegation)
       const myWallet = [
         {
