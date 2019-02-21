@@ -2,7 +2,7 @@
   <tm-page data-title="Validator">
     <tm-data-loading v-if="!validator" />
 
-    <template v-if="validator">
+    <template v-else>
       <div class="page-profile__header page-profile__section">
         <div class="row">
           <img
