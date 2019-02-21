@@ -1,6 +1,6 @@
 <template>
   <tm-page data-title="Network">
-    <tm-data-error v-if="!connected" />
+    <tm-data-error v-if="!connected"/>
     <template v-else>
       <div class="page-profile__header page-profile__section network">
         <div class="row">
@@ -11,9 +11,7 @@
                 :class="status.color"
                 class="page-profile__status"
               />
-              <h2 class="page-profile__title">
-                {{ lastHeader.chain_id }}
-              </h2>
+              <h2 class="page-profile__title">{{ lastHeader.chain_id }}</h2>
             </div>
           </div>
         </div>
@@ -39,33 +37,27 @@
           <div class="column">
             <dl class="info_dl">
               <dt>Total Liquid {{ bondDenom }}</dt>
-              <dd id="loose_tokens">
-                {{ pool.pool.loose_tokens ? pool.pool.loose_tokens : `n/a` }}
-              </dd>
+              <dd id="loose_tokens">{{ pool.pool.loose_tokens ? pool.pool.loose_tokens : `n/a` }}</dd>
             </dl>
           </div>
           <div class="column">
             <dl class="info_dl">
               <dt>Total Delegated {{ bondDenom }}</dt>
-              <dd id="bonded_tokens">
-                {{ pool.pool.bonded_tokens ? pool.pool.bonded_tokens : `n/a` }}
-              </dd>
+              <dd id="bonded_tokens">{{ pool.pool.bonded_tokens ? pool.pool.bonded_tokens : `n/a` }}</dd>
             </dl>
           </div>
         </div>
       </div>
       <table class="blocks data-table">
         <thead>
-          <panel-sort :properties="properties" />
+          <panel-sort :properties="properties"/>
         </thead>
         <tbody>
           <tr v-for="block in blocks" :key="block.header.height" class="block data-table__row">
             <td>
               <router-link
                 :to="{ name: `block`, params: { height: block.header.height } }"
-              >
-                {{ `#` + num.prettyInt(block.header.height) }}
-              </router-link>
+              >{{ `#` + num.prettyInt(block.header.height) }}</router-link>
             </td>
             <td>{{ block.header.num_txs }}</td>
           </tr>
@@ -129,7 +121,7 @@ export default {
       ]
     }
   },
-  mounted() {
+  async mounted() {
     this.$store.dispatch(`getOutstandingRewards`)
   }
 }

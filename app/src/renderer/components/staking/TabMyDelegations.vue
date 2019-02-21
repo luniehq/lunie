@@ -1,26 +1,20 @@
 <template>
   <div>
     <div v-if="delegation.loaded && yourValidators.length > 0">
-      <table-validators :validators="yourValidators" />
+      <table-validators :validators="yourValidators"/>
     </div>
-    <tm-data-connecting v-if="!delegation.loaded && !connected" />
-    <tm-data-loading v-else-if="!delegation.loaded && delegation.loading" />
+    <tm-data-connecting v-if="!delegation.loaded && !connected"/>
+    <tm-data-loading v-else-if="!delegation.loaded && delegation.loading"/>
     <tm-data-msg v-else-if="yourValidators.length === 0" icon="info_outline">
-      <div slot="title">
-        No Active Delegations
-      </div>
+      <div slot="title">No Active Delegations</div>
       <div slot="subtitle">
         Looks like you haven't delegated any {{ bondDenom }}s yet. Head over to
         the
-        <router-link :to="{ name: 'Validators' }">
-          validator list
-        </router-link>to make your first delegation!
+        <router-link :to="{ name: 'Validators' }">validator list</router-link>to make your first delegation!
       </div>
     </tm-data-msg>
     <div v-if="delegation.loaded && unbondingTransactions.length > 0">
-      <h3 class="tab-header transactions">
-        Pending Undelegations
-      </h3>
+      <h3 class="tab-header transactions">Pending Undelegations</h3>
       <div class="unbonding-transactions">
         <template v-for="transaction in unbondingTransactions">
           <tm-li-stake-transaction
@@ -99,9 +93,9 @@ export default {
             ]
         }))
   },
-  mounted() {
-    this.$store.dispatch(`getTotalRewards`)
-    this.$store.dispatch(`getWithdrawAddress`)
+  async mounted() {
+    await this.$store.dispatch(`getTotalRewards`)
+    await this.$store.dispatch(`getWithdrawAddress`)
   }
 }
 </script>

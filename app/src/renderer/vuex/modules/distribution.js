@@ -72,11 +72,11 @@ export default ({ node }) => {
             rootState.delegation = JSON.parse(JSON.stringify(emptyState))
         },
         async getTotalRewards(
-            { state, rootState: { user }, commit }
+            { state, rootState: { session }, commit }
         ) {
             state.loading = true
             try {
-                const rewardsArray = await node.getDelegatorRewards(user.address)
+                const rewardsArray = await node.getDelegatorRewards(session.address)
                 const rewards = coinsToObject(rewardsArray)
                 commit(`setTotalRewards`, rewards)
                 state.error = null
@@ -103,10 +103,10 @@ export default ({ node }) => {
             })
             await dispatch(`getTotalRewards`)
         },
-        async getRewardsFromValidator({ state, rootState: { user }, commit }, validatorAddr) {
+        async getRewardsFromValidator({ state, rootState: { session }, commit }, validatorAddr) {
             state.loading = true
             try {
-                const rewardsArray = await node.getDelegatorRewardsFromValidator(user.address, validatorAddr)
+                const rewardsArray = await node.getDelegatorRewardsFromValidator(session.address, validatorAddr)
                 const rewards = coinsToObject(rewardsArray)
                 commit(`setDelegationRewards`, { validatorAddr, rewards })
                 state.error = null
@@ -138,10 +138,10 @@ export default ({ node }) => {
             await dispatch(`getTotalRewards`)
             await dispatch(`getRewardsFromValidator`, validatorAddr)
         },
-        async getWithdrawAddress({ state, rootState: { user }, commit }) {
+        async getWithdrawAddress({ state, rootState: { session }, commit }) {
             state.loading = true
             try {
-                const withdrawAddress = await node.getDelegatorWithdrawAddress(user.address)
+                const withdrawAddress = await node.getDelegatorWithdrawAddress(session.address)
                 commit(`setWithdrawAddress`, withdrawAddress)
                 state.error = null
             } catch (error) {

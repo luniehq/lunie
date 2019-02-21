@@ -6913,9 +6913,9 @@ lcid@^2.0.0:
   dependencies:
     invert-kv "^2.0.0"
 
-"ledger-cosmos-js@https://github.com/ZondaX/ledger-cosmos-js":
+"ledger-cosmos-js@https://github.com/cosmos/ledger-cosmos-js":
   version "0.0.1"
-  resolved "https://github.com/ZondaX/ledger-cosmos-js#091e358be6d46f9742f0557fa2268b15e70e4e74"
+  resolved "https://github.com/cosmos/ledger-cosmos-js#f14cc8c81c8782361d5577daca827a9c2b980d72"
   dependencies:
     chai "^4.2.0"
     mocha "^5.0.1"
