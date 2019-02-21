@@ -18,6 +18,16 @@ module.exports.shortAddress = function(address, length = 4) {
   }
 }
 
+module.exports.coinsToObject = function(coinArray) {
+  const coins = {}
+  if (coinArray.length > 0) {
+    coinArray.forEach(({ denom, amount }) => {
+      coins[denom] = Number(amount)
+    })
+  }
+  return coins
+}
+
 // convert rat format ('123/456') to big number
 module.exports.ratToBigNumber = function(rat) {
   if (rat.indexOf(`/`) !== -1) {

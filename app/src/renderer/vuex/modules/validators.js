@@ -1,4 +1,5 @@
 import * as Sentry from "@sentry/browser"
+import { coinsToObject } from "scripts/common.js"
 
 export default ({ node }) => {
   const emptyState = {
@@ -6,7 +7,8 @@ export default ({ node }) => {
     loading: false,
     loaded: false,
     error: null,
-    validatorHash: null
+    validatorHash: null,
+    distributionInfo: {}
   }
   const state = JSON.parse(JSON.stringify(emptyState))
 
@@ -16,6 +18,9 @@ export default ({ node }) => {
     },
     setValidatorHash(state, validatorHash) {
       state.validatorHash = validatorHash
+    },
+    setValidatorDistributionInfo(state, info) {
+      state.distributionInfo = info
     }
   }
 
@@ -54,6 +59,29 @@ export default ({ node }) => {
       if (validatorHash === state.validatorHash) return
       commit(`setValidatorHash`, validatorHash)
       await dispatch(`getValidators`)
+    },
+    async getValidatorDistributionInfoAndRewards({ commit }, validatorAddr) {
+      state.loading = true
+      try {
+        let { self_bond_rewards, val_commission } = await node.getValidatorDistributionInformation(validatorAddr)
+        const rewardsArray = await node.getValidatorRewards(validatorAddr)
+
+        const rewards = coinsToObject(rewardsArray)
+        self_bond_rewards = coinsToObject(self_bond_rewards)
+        val_commission = coinsToObject(val_commission)
+
+        commit(`setValidatorDistributionInfo`, { self_bond_rewards, val_commission, rewards })
+        state.error = null
+      } catch (error) {
+        commit(`notifyError`, {
+          title: `Error querying distribution parameters`,
+          body: error.message
+        })
+        Sentry.captureException(error)
+        state.error = error
+      }
+      state.loading = false
+      state.loaded = true
     }
   }
 
