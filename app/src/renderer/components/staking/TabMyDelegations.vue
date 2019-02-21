@@ -101,7 +101,6 @@ export default {
         }))
   },
   async mounted() {
-    this.$store.dispatch(`getWithdrawAddress`)
     this.$store.dispatch(`getTotalRewards`)
     this.yourValidators.forEach(validator => {
       this.$store.dispatch(`getRewardsFromValidator`, validator.operator_address)
