@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Refactored user and session modules @faboweb
 - Made app header and menu states local @faboweb
 - [\#1993](https://github.com/cosmos/voyager/issues/1993) disabled web wallet in production @faboweb
+- [\#2031](https://github.com/cosmos/voyager/issues/2031) voyager now depends from cosmos/ledger-cosmos-js
 
 ### Fixed
 
