@@ -7,14 +7,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.4] - 2019-02-21
+
+### Added
+
+- [\#1997](https://github.com/cosmos/voyager/issues/1997) clicking on the top left logo goes to root @faboweb
+
 ### Changed
 
 - Refactored user and session modules @faboweb
 - Made app header and menu states local @faboweb
+- [\#1993](https://github.com/cosmos/voyager/issues/1993) disabled web wallet in production @faboweb
 
 ### Fixed
 
 - [\#1999](https://github.com/cosmos/voyager/issues/1999) fixed signing of governance txs due to upstream SDK fix @faboweb
+- [\#2028](https://github.com/cosmos/voyager/issues/2028) fixed giant image on onboarding screen @jbibla
 
 ## [1.0.0-beta.3] - 2019-02-20
 
