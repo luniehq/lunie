@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Removed Vue error handling to bubble errors to the console, this doesn't effect users @faboweb
 
+### Fixed
+
+- Validator page shows now correctly by avoiding async errors @faboweb
+
 ## [1.0.0-beta.4] - 2019-02-21
 
 ### Added
