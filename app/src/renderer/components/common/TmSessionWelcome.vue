@@ -10,31 +10,42 @@
       </div>
       <div class="tm-session-main">
         <li-session
-          v-if="accountExists"
-          icon="lock"
-          title="Sign in with password"
-          subtitle="If you have an account, choose this option."
-          @click.native="setState('sign-in')"
+          icon="explore"
+          title="Explorer Mode"
+          subtitle="Use the app in explorer mode without signing in."
+          @click.native="closeSession "
         />
-        <li-session
-          icon="person_add"
-          title="Create new account"
-          subtitle="Generate a brand new seed and create a new account."
-          @click.native="setState('sign-up')"
-        />
-        <li-session
-          icon="settings_backup_restore"
-          title="Import with seed"
-          subtitle="Use an existing seed phrase to create an account."
-          @click.native="setState('import')"
-        />
+        <template
+          v-if="session.devMode"
+        >
+          <li-session
+            v-if="accountExists"
+            id="sign-in-with-account"
+            icon="lock"
+            title="Sign in with password"
+            subtitle="If you have an account, choose this option."
+            @click.native="setState('sign-in')"
+          />
+          <li-session
+            icon="person_add"
+            title="Create new account"
+            subtitle="Generate a brand new seed and create a new account."
+            @click.native="setState('sign-up')"
+          />
+          <li-session
+            icon="settings_backup_restore"
+            title="Import with seed"
+            subtitle="Use an existing seed phrase to create an account."
+            @click.native="setState('import')"
+          />
+        </template>
         <li-session
           icon="usb"
           title="Sign in with hardware"
           subtitle="If you have a Ledger Wallet, choose this option."
           @click.native="setState('hardware')"
         />
-        <fundraiser-warning />
+        <fundraiser-warning v-if="session.devMode" />
       </div>
       <div class="tm-session-footer" />
     </div>
@@ -53,9 +64,9 @@ export default {
     LiSession
   },
   computed: {
-    ...mapGetters([`config`, `lastPage`, `user`]),
+    ...mapGetters([`session`, `lastPage`]),
     accountExists() {
-      return this.user.accounts.length > 0
+      return this.session.accounts.length > 0
     }
   },
   mounted() {
@@ -66,11 +77,11 @@ export default {
       this.$store.commit(`setModalHelp`, true)
     },
     setState(value) {
-      this.$store.commit(`setModalSessionState`, value)
+      this.$store.commit(`setSessionModalView`, value)
     },
     closeSession() {
-      this.$store.commit(`setModalSession`, false)
-      this.$store.commit(`setModalSessionState`, false)
+      this.$store.commit(`toggleSessionModal`, false)
+      this.$store.commit(`setSessionModalView`, false)
       if (
         [
           `/staking/my-delegations`,

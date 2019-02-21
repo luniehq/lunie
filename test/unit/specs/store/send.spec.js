@@ -23,7 +23,7 @@ jest.mock(`renderer/scripts/wallet.js`, () => ({
 }))
 
 const mockRootState = {
-  user: { account: `default` },
+  session: { account: `default` },
   wallet: {
     accountNumber: `12`,
     address: `cosmos1demo`
@@ -367,6 +367,42 @@ describe(`Module: Send`, () => {
             args
           )
         ).rejects.toEqual(new Error())
+      })
+
+      it(`when ledger returns a connection error`, async () => {
+        const args = {
+          type: `send`,
+          password: `1234567890`,
+          amount: [{ denom: `mycoin`, amount: 123 }],
+          submitType: `ledger`
+        }
+        const dispatch = jest.fn(async () =>
+          Promise.reject(new Error(`No Ledger found`))
+        )
+        state.externals = {
+          createSignMessage: jest.fn(),
+          signatureImport: jest.fn(),
+          createSignature: jest.fn(),
+          createSignedTx: jest.fn(),
+          createBroadcastBody: jest.fn(() => ({ broadcast: `body` })),
+          config: { default_gas: `500000` }
+        }
+        await expect(
+          actions.sendTx(
+            {
+              state,
+              dispatch,
+              commit: jest.fn(),
+              rootState: { ...mockRootState, ledger: { isConnected: true } }
+            },
+            args
+          )
+        ).rejects.toThrowError(`No Ledger found`)
+        expect(state.externals.createSignMessage).not.toHaveBeenCalled()
+        expect(state.externals.signatureImport).not.toHaveBeenCalled()
+        expect(state.externals.createSignature).not.toHaveBeenCalled()
+        expect(state.externals.createSignedTx).not.toHaveBeenCalled()
+        expect(state.externals.createBroadcastBody).not.toHaveBeenCalled()
       })
     })
 

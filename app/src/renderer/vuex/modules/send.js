@@ -99,8 +99,9 @@ export default ({ node }) => {
       const tx = generationRes.value
 
       let signature
-      if (rootState.ledger.isConnected && submitType === `ledger`) {
+      if (submitType === `ledger`) {
         // TODO: move to wallet script
+        await dispatch(`pollLedgerDevice`)
         const signMessage = state.externals.createSignMessage(
           tx,
           requestMetaData
@@ -123,7 +124,7 @@ export default ({ node }) => {
       } else {
         // get private key to sign
         const wallet = state.externals.getKey(
-          rootState.user.account,
+          rootState.session.localKeyPairName,
           args.password
         )
         signature = state.externals.sign(tx, wallet, requestMetaData)

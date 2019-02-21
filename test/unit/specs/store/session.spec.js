@@ -1,6 +1,6 @@
-import userModule from "renderer/vuex/modules/user.js"
+import sessionModule from "renderer/vuex/modules/session.js"
 
-describe(`Module: User`, () => {
+describe(`Module: Session`, () => {
   let module, state, actions, mutations, node
   const accounts = [
     {
@@ -11,7 +11,7 @@ describe(`Module: User`, () => {
 
   beforeEach(() => {
     node = {}
-    module = userModule({ node })
+    module = sessionModule({ node })
     state = module.state
     actions = module.actions
     mutations = module.mutations
@@ -45,7 +45,7 @@ describe(`Module: User`, () => {
 
   it(`should default to signed out state`, () => {
     expect(state.signedIn).toBe(false)
-    expect(state.account).toBe(null)
+    expect(state.localKeyPairName).toBe(null)
     expect(state.address).toBe(null)
   })
 
@@ -68,9 +68,27 @@ describe(`Module: User`, () => {
       mutations.setAccounts(state, accounts)
       expect(state.accounts).toEqual(accounts)
     })
-    it(`should set atoms`, () => {
-      mutations.setAtoms(state, 0)
-      expect(state.atoms).toEqual(0)
+    it(`should set user address`, () => {
+      mutations.setUserAddress(
+        state,
+        `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+      )
+      expect(state.address).toEqual(
+        `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+      )
+    })
+
+    it(`should toggle the signin modal`, () => {
+      mutations.toggleSessionModal(state, true)
+      expect(state.modals.session.active).toBe(true)
+
+      mutations.toggleSessionModal(state, false)
+      expect(state.modals.session.active).toBe(false)
+    })
+
+    it(`should set the active signin modal view`, () => {
+      mutations.setSessionModalView(state, `xxxx`)
+      expect(state.modals.session.state).toBe(`xxxx`)
     })
   })
 
@@ -84,8 +102,8 @@ describe(`Module: User`, () => {
       }
     }))
 
-    const userModule = require(`renderer/vuex/modules/user.js`).default
-    module = userModule({ node })
+    const sessionModule = require(`renderer/vuex/modules/session.js`).default
+    module = sessionModule({ node })
     state = module.state
     actions = module.actions
 
@@ -95,6 +113,16 @@ describe(`Module: User`, () => {
       body: `Error`,
       title: `Couldn't read keys`
     })
+  })
+
+  it(`should clear all session related data`, () => {
+    state.history = [`x`]
+    state.localKeyPairName = `abc`
+    const commit = jest.fn()
+    actions.resetSessionData({ state, commit })
+
+    expect(state.history).toEqual([])
+    expect(state.localKeyPairName).toBeFalsy()
   })
 
   it(`should prepare the signin`, async () => {
@@ -116,8 +144,8 @@ describe(`Module: User`, () => {
         .mockReturnValueOnce(false)
     }))
 
-    const userModule = require(`renderer/vuex/modules/user.js`).default
-    module = userModule({ node })
+    const sessionModule = require(`renderer/vuex/modules/session.js`).default
+    module = sessionModule({ node })
     state = module.state
     actions = module.actions
 
@@ -164,15 +192,15 @@ describe(`Module: User`, () => {
 
   describe(`Signs in`, () => {
     it(`with local keystore`, async () => {
-      const account = `def`
+      const localKeyPairName = `def`
       const commit = jest.fn()
       const dispatch = jest.fn()
-      await actions.signIn({ state, commit, dispatch }, { account })
+      await actions.signIn({ state, commit, dispatch }, { localKeyPairName })
       expect(commit).toHaveBeenCalledWith(
         `setUserAddress`,
         `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
       )
-      expect(commit).toHaveBeenCalledWith(`setModalSession`, false)
+      expect(commit).toHaveBeenCalledWith(`toggleSessionModal`, false)
       expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
       expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, {
         address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
@@ -192,7 +220,7 @@ describe(`Module: User`, () => {
         { sessionType: `ledger`, address }
       )
       expect(commit).toHaveBeenCalledWith(`setUserAddress`, address)
-      expect(commit).toHaveBeenCalledWith(`setModalSession`, false)
+      expect(commit).toHaveBeenCalledWith(`toggleSessionModal`, false)
       expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
       expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, { address })
       expect(dispatch).toHaveBeenCalledWith(`loadErrorCollection`, address)
@@ -207,7 +235,7 @@ describe(`Module: User`, () => {
     expect(dispatch).toHaveBeenCalledWith(`resetSessionData`)
     expect(commit).toHaveBeenCalledWith(`addHistory`, `/`)
     expect(commit).toHaveBeenCalledWith(`setSignIn`, false)
-    expect(state.account).toBeNull()
+    expect(state.localKeyPairName).toBeNull()
   })
 
   it(`should enable error collection`, async () => {
@@ -218,7 +246,7 @@ describe(`Module: User`, () => {
         state,
         commit
       },
-      { account: `abc`, optin: true }
+      { address: `abc`, optin: true }
     )
 
     expect(state.errorCollection).toBe(true)
@@ -241,7 +269,7 @@ describe(`Module: User`, () => {
         state,
         commit
       },
-      { account: `abc`, optin: false }
+      { address: `abc`, optin: false }
     )
 
     expect(state.errorCollection).toBe(false)
@@ -290,7 +318,7 @@ describe(`Module: User`, () => {
     )
 
     expect(dispatch).toHaveBeenCalledWith(`setErrorCollection`, {
-      account: `abc`,
+      address: `abc`,
       optin: true
     })
 
@@ -307,7 +335,7 @@ describe(`Module: User`, () => {
     )
 
     expect(dispatch).toHaveBeenCalledWith(`setErrorCollection`, {
-      account: `abc`,
+      address: `abc`,
       optin: false
     })
   })

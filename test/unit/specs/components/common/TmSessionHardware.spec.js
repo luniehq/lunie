@@ -21,8 +21,16 @@ describe(`TmSessionHardware`, () => {
     store.commit = jest.fn()
   })
 
-  it(`has the expected html structure`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+  describe(`has the expected html structure`, () => {
+    it(`with no errors`, () => {
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
+
+    it(`when there're errors`, async () => {
+      wrapper.vm.connectionError = `No Ledger found`
+      await wrapper.vm.$nextTick()
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
   })
 
   it(`should go back to the welcome screen on click`, () => {
@@ -30,7 +38,7 @@ describe(`TmSessionHardware`, () => {
       .findAll(`.tm-session-header a`)
       .at(0)
       .trigger(`click`)
-    expect(store.commit.mock.calls[0][0]).toBe(`setModalSessionState`)
+    expect(store.commit.mock.calls[0][0]).toBe(`setSessionModalView`)
     expect(store.commit.mock.calls[0][1]).toBe(`welcome`)
   })
 
@@ -48,6 +56,12 @@ describe(`TmSessionHardware`, () => {
     expect(self.status).toBe(`detect`)
   })
 
+  it(`sets a connection error`, () => {
+    const self = { connectionError: null }
+    TmSessionHardware.methods.setConnectionError.call(self, `No Ledger found`)
+    expect(self.connectionError).toBe(`No Ledger found`)
+  })
+
   it(`should show a state indicator for different states of the hardware connection`, () => {
     wrapper.setData({ status: `connect` })
     expect(wrapper.html()).toMatchSnapshot()
@@ -58,35 +72,36 @@ describe(`TmSessionHardware`, () => {
 
   describe(`tries connecting to Ledger`, () => {
     it(`connects if Ledger is connected and app is open `, async () => {
-      const $store = { commit: jest.fn(), dispatch: jest.fn(() => true) }
+      const $store = { commit: jest.fn(), dispatch: jest.fn() }
       const self = {
         $store,
         status: `connect`,
-        setStatus: jest.fn()
+        connectionError: null,
+        setStatus: jest.fn(),
+        setConnectionError: jest.fn(error => (self.connectionError = error))
       }
       await TmSessionHardware.methods.connectLedger.call(self)
       expect(self.$store.dispatch).toHaveBeenCalledWith(`connectLedgerApp`)
-      expect(self.$store.commit).toHaveBeenCalledWith(`notify`, {
-        title: `Connection succesful`,
-        body: `You are now signed in to your Cosmos account with your Ledger.`
-      })
+      expect(self.connectionError).toBeNull()
     })
 
     it(`doesn't connect otherwise`, async () => {
-      const $store = { commit: jest.fn(), dispatch: jest.fn(() => false) }
+      const $store = {
+        commit: jest.fn(),
+        dispatch: jest.fn(async () =>
+          Promise.reject(new Error(`No Ledger found`))
+        )
+      }
       const self = {
         $store,
         status: `connect`,
-        setStatus: jest.fn()
+        connectionError: null,
+        setStatus: jest.fn(),
+        setConnectionError: jest.fn(error => (self.connectionError = error))
       }
       await TmSessionHardware.methods.connectLedger.call(self)
       expect(self.$store.dispatch).toHaveBeenCalledWith(`connectLedgerApp`)
-      expect(self.$store.commit).not.toHaveBeenCalledWith(`notify`, {
-        title: `Connection succesful`,
-        body: `You are now signed in to your Cosmos account with your Ledger.`
-      })
+      expect(self.connectionError).toBe(`No Ledger found`)
     })
   })
-
-  // TODO -> not yet 100% clear how this will work
 })

@@ -50,7 +50,7 @@ export default {
     issueUrl: `https://github.com/cosmos/voyager/issues`
   }),
   computed: {
-    ...mapGetters([`config`, `lastHeader`])
+    ...mapGetters([`session`, `lastHeader`])
   }
 }
 </script>

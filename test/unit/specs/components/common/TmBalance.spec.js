@@ -10,12 +10,15 @@ describe(`TmBalance`, () => {
   beforeEach(() => {
     const instance = mount(TmBalance, {
       getters: {
-        user: () => ({
+        session: () => ({
           address: `cosmos1address`,
           signedIn: true
         }),
         liquidAtoms: () => 123,
         totalAtoms: () => 321
+      },
+      stubs: {
+        "short-bech32": true
       }
     })
     wrapper = instance.wrapper

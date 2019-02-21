@@ -7,7 +7,7 @@ describe(`TmSessionLoading`, () => {
   beforeEach(() => {
     wrapper = shallowMount(TmSessionLoading, {
       data: () => ({
-        config: {
+        session: {
           default_network: `mock-net`
         }
       })

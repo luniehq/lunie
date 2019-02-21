@@ -5,33 +5,13 @@ exports[`AppHeader should display the sidebar on desktop 1`] = `
   class=""
   id="app-header"
 >
-  <!---->
-   
   <div
-    class="container"
+    id="develop-mode-warning"
   >
-    <div
-      class="header-item header-item-logo"
-    >
-      <img
-        id="logo-white"
-        src="~assets/images/cosmos-wordmark-white.svg"
-      />
-    </div>
-     
-    <app-menu-stub />
-     
-    <!---->
+    
+    DEVELOPMENT MODE
+  
   </div>
-</nav>
-`;
-
-exports[`AppHeader should display the sidebar on desktop 2`] = `
-<nav
-  class=""
-  id="app-header"
->
-  <!---->
    
   <div
     class="container"
@@ -39,10 +19,14 @@ exports[`AppHeader should display the sidebar on desktop 2`] = `
     <div
       class="header-item header-item-logo"
     >
-      <img
-        id="logo-white"
-        src="~assets/images/cosmos-wordmark-white.svg"
-      />
+      <router-link-stub
+        to="/"
+      >
+        <img
+          id="logo-white"
+          src="~assets/images/cosmos-wordmark-white.svg"
+        />
+      </router-link-stub>
     </div>
      
     <app-menu-stub />
@@ -57,7 +41,13 @@ exports[`AppHeader should show the sidebar as a menu on mobile 1`] = `
   class="mobile"
   id="app-header"
 >
-  <!---->
+  <div
+    id="develop-mode-warning"
+  >
+    
+    DEVELOPMENT MODE
+  
+  </div>
    
   <div
     class="container"
@@ -65,10 +55,14 @@ exports[`AppHeader should show the sidebar as a menu on mobile 1`] = `
     <div
       class="header-item header-item-logo"
     >
-      <img
-        id="logo-white"
-        src="~assets/images/cosmos-wordmark-white.svg"
-      />
+      <router-link-stub
+        to="/"
+      >
+        <img
+          id="logo-white"
+          src="~assets/images/cosmos-wordmark-white.svg"
+        />
+      </router-link-stub>
     </div>
      
     <app-menu-stub />
@@ -84,42 +78,6 @@ exports[`AppHeader should show the sidebar as a menu on mobile 1`] = `
     </div>
      
     <!---->
-  </div>
-</nav>
-`;
-
-exports[`AppHeader should show the sidebar as a menu on mobile 2`] = `
-<nav
-  class="mobile"
-  id="app-header"
->
-  <!---->
-   
-  <div
-    class="container"
-  >
-    <div
-      class="header-item header-item-logo"
-    >
-      <img
-        id="logo-white"
-        src="~assets/images/cosmos-wordmark-white.svg"
-      />
-    </div>
-     
-    <!---->
-     
-    <!---->
-     
-    <div
-      class="header-item open-menu"
-    >
-      <i
-        class="material-icons"
-      >
-        menu
-      </i>
-    </div>
   </div>
 </nav>
 `;

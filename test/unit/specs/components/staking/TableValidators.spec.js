@@ -17,11 +17,14 @@ describe(`TableValidators`, () => {
           amount: 1337
         })
       },
+      stubs: {
+        "short-bech32": true
+      },
       propsData: { validators: lcdClientMock.candidates }
     })
     wrapper = instance.wrapper
     store = instance.store
-    store.state.user.address = `address1234`
+    store.state.session.address = `address1234`
     store.commit(`updateWalletBalance`, {
       denom: `atom`,
       amount: 1337

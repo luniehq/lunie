@@ -44,7 +44,7 @@ export default {
     }
   }),
   computed: {
-    ...mapGetters([`filters`, `config`]),
+    ...mapGetters([`filters`, `session`]),
     somethingToSearch() {
       return Object.keys(this.proposals).length > 0
     },

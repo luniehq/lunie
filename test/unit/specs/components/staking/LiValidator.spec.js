@@ -28,6 +28,9 @@ describe(`LiValidator`, () => {
       propsData: {
         validator,
         disabled: false
+      },
+      stubs: {
+        "short-bech32": true
       }
     })
     wrapper = instance.wrapper

@@ -40,7 +40,14 @@ exports[`TmSessionWelcome with accounts has the expected html structure 1`] = `
       class="tm-session-main"
     >
       <li-session-stub
+        icon="explore"
+        subtitle="Use the app in explorer mode without signing in."
+        title="Explorer Mode"
+      />
+       
+      <li-session-stub
         icon="lock"
+        id="sign-in-with-account"
         subtitle="If you have an account, choose this option."
         title="Sign in with password"
       />
@@ -112,6 +119,12 @@ exports[`TmSessionWelcome without accounts has the expected html structure 1`] =
     <div
       class="tm-session-main"
     >
+      <li-session-stub
+        icon="explore"
+        subtitle="Use the app in explorer mode without signing in."
+        title="Explorer Mode"
+      />
+       
       <!---->
        
       <li-session-stub

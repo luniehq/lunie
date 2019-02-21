@@ -8,6 +8,7 @@ import _Vue from "vue"
 import Router from "vue-router"
 import Tooltip from "vue-directive-tooltip"
 import Vuelidate from "vuelidate"
+import VueClipboard from "vue-clipboard2"
 import * as _Sentry from "@sentry/browser"
 import axios from "axios"
 
@@ -19,11 +20,11 @@ import * as urlHelpers from "../../helpers/url.js"
 import _config from "../../config"
 
 export const routeGuard = store => (to, from, next) => {
-  if (from.fullPath !== to.fullPath && !store.getters.user.pauseHistory) {
+  if (from.fullPath !== to.fullPath && !store.getters.session.pauseHistory) {
     store.commit(`addHistory`, from.fullPath)
   }
 
-  if (to.redirectedFrom == `/staking` && store.state.user.signedIn) {
+  if (to.redirectedFrom == `/staking` && store.state.session.signedIn) {
     to = Object.assign({}, to, {
       path: `/staking/my-delegations`,
       fullPath: `/staking/my-delegations`,
@@ -31,12 +32,12 @@ export const routeGuard = store => (to, from, next) => {
     })
     next(to.path)
   } else if (
-    !store.state.user.signedIn &&
+    !store.state.session.signedIn &&
     to.matched.some(record => record.meta.requiresAuth)
   ) {
     // redirect to session page if auth required
-    store.commit(`setModalSessionState`, `welcome`)
-    store.commit(`setModalSession`, true)
+    store.commit(`setSessionModalView`, `welcome`)
+    store.commit(`toggleSessionModal`, true)
   }
   next()
 }
@@ -79,6 +80,7 @@ export const startApp = async (
   Vue.use(Router)
   Vue.use(Tooltip, { delay: 1 })
   Vue.use(Vuelidate)
+  Vue.use(VueClipboard)
 
   // directive to focus form fields
   /* istanbul ignore next */

@@ -2,11 +2,7 @@
   <div class="tm-session">
     <tm-form-struct :submit="onSubmit" class="tm-session-container">
       <div class="tm-session-header">
-        <a
-          @click="setState('welcome')"
-        >
-          <i class="material-icons">arrow_back</i>
-        </a>
+        <a @click="goToWelcome()"><i class="material-icons">arrow_back</i></a>
         <div class="tm-session-title">
           Sign In
         </div>
@@ -93,9 +89,9 @@ export default {
     }
   }),
   computed: {
-    ...mapGetters([`user`]),
+    ...mapGetters([`session`]),
     accounts() {
-      let accounts = this.user.accounts
+      let accounts = this.session.accounts
       accounts = accounts.filter(({ name }) => name !== `trunk`)
       return accounts.map(({ name }) => ({ key: name, value: name }))
     }
@@ -107,8 +103,8 @@ export default {
     help() {
       this.$store.commit(`setModalHelp`, true)
     },
-    setState(value) {
-      this.$store.commit(`setModalSessionState`, value)
+    goToWelcome() {
+      this.$store.commit(`setSessionModalView`, `welcome`)
     },
     async onSubmit() {
       this.$v.$touch()
@@ -120,11 +116,11 @@ export default {
       if (sessionCorrect) {
         this.$store.dispatch(`signIn`, {
           password: this.fields.signInPassword,
-          account: this.fields.signInName
+          localKeyPairName: this.fields.signInName
         })
         localStorage.setItem(`prevAccountKey`, this.fields.signInName)
         this.$router.push(`/`)
-        this.$store.commit(`setModalSession`, false)
+        this.$store.commit(`toggleSessionModal`, false)
       } else {
         this.$store.commit(`notifyError`, {
           title: `Signing In Failed`,

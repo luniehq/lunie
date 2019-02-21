@@ -27,7 +27,7 @@ describe(`SendModal`, () => {
       balances
     },
     connected: true,
-    user: { signedIn: true }
+    session: { signedIn: true }
   }
 
   beforeEach(async () => {

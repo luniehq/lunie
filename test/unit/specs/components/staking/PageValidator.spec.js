@@ -24,7 +24,7 @@ const validator = Object.assign({}, lcdClientMock.state.candidates[0], {
 const validatorTo = lcdClientMock.state.candidates[1]
 
 const getterValues = {
-  config: { desktop: false },
+  session: { desktop: false },
   delegates: {
     delegates: [validator, validatorTo],
     globalPower: 4200
@@ -73,7 +73,8 @@ describe(`PageValidator`, () => {
       },
       stubs: {
         "undelegation-modal": true,
-        "delegation-modal": true
+        "delegation-modal": true,
+        "short-bech32": true
       },
       getters: {
         bondDenom: () => stakingParameters.parameters.bond_denom,
@@ -125,7 +126,7 @@ describe(`PageValidator`, () => {
   it(`shows an error if the validator couldn't be found`, () => {
     const instance = mount(PageValidator, {
       getters: {
-        config: () => ({ desktop: false }),
+        session: () => ({ desktop: false }),
         delegates: () => ({
           delegates: []
         }),
@@ -141,7 +142,8 @@ describe(`PageValidator`, () => {
       },
       stubs: {
         "undelegation-modal": true,
-        "delegation-modal": true
+        "delegation-modal": true,
+        "short-bech32": true
       }
     })
 
@@ -325,6 +327,9 @@ describe(`delegationTargetOptions`, () => {
       $store,
       $route: {
         params: { validator: validator.operator_address }
+      },
+      stubs: {
+        "short-bech32": true
       }
     })
     expect(options).toHaveLength(1)
@@ -358,6 +363,9 @@ describe(`delegationTargetOptions`, () => {
       $store,
       $route: {
         params: { validator: validator.operator_address }
+      },
+      stubs: {
+        "short-bech32": true
       }
     })
 
@@ -404,7 +412,8 @@ describe(`Staking functions`, () => {
       },
       stubs: {
         "undelegation-modal": true,
-        "delegation-modal": true
+        "delegation-modal": true,
+        "short-bech32": true
       },
       getters: {
         bondDenom: () => stakingParameters.parameters.bond_denom,
