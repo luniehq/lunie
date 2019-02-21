@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.4] - 2019-02-21
+
 ### Added
 
 - [\#1997](https://github.com/cosmos/voyager/issues/1997) clicking on the top left logo goes to root @faboweb
