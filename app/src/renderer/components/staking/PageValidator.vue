@@ -55,7 +55,7 @@
             </dl>
             <dl v-if="session.devMode" class="info_dl colored_dl">
               <dt>My Rewards</dt>
-              <dd>--</dd>
+              <dd> {{ rewards }} </dd>
             </dl>
           </div>
 
@@ -220,6 +220,7 @@ export default {
       `bondDenom`,
       `delegates`,
       `delegation`,
+      `distribution`,
       `committedDelegations`,
       `keybase`,
       `liquidAtoms`,
@@ -275,6 +276,13 @@ export default {
         ? `--`
         : moment(dateTime).fromNow()
     },
+    rewards() {
+      const validatorRewards = this.distribution.rewards[this.validator.operator_address]
+      if(validatorRewards) {
+        return `${pretty(validatorRewards[this.bondDenom])} ${this.bondDenom}`
+      }
+      return `--`
+    },
     status() {
       // status: jailed
       if (this.validator.revoked)
@@ -310,6 +318,10 @@ export default {
   async mounted() {
     this.$store.dispatch(
       `getValidatorDistributionInfoAndRewards`,
+      this.$route.params.validator
+    )
+    this.$store.dispatch(
+      `getRewardsFromValidator`,
       this.$route.params.validator
     )
   },

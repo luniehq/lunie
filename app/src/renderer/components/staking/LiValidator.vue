@@ -43,7 +43,7 @@
       }}
     </td>
     <td class="li-validator__rewards data-table__row__cell__separator">
-      n/a
+      {{ rewards }}
     </td>
     <td class="li-validator__voting-power">
       {{ validator.percent_of_vote ? validator.percent_of_vote : `n/a` }}
@@ -83,7 +83,7 @@ export default {
   },
   data: () => ({ num }),
   computed: {
-    ...mapGetters([`delegates`, `committedDelegations`]),
+    ...mapGetters([`delegates`, `committedDelegations`, `distribution`]),
     commission() {
       return `${this.num.pretty(this.validator.commission.rate)}%`
     },
@@ -94,6 +94,13 @@ export default {
         // uptime in the past 10k blocks
         const uptimeRollingWindow = info.signed_blocks_counter / rollingWindow
         return `${this.num.pretty(uptimeRollingWindow * 100)}%`
+      }
+      return `n/a`
+    },
+    rewards() {
+      const validatorRewards = this.distribution.rewards[this.validator.operator_address]
+      if(validatorRewards) {
+        return this.num.prettyInt(validatorRewards[`stake`])
       }
       return `n/a`
     },

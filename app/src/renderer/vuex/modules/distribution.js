@@ -31,7 +31,6 @@ export default ({ node }) => {
             } 
         */
         rewards: {},
-        withdrawAddress: null,
         parameters: {},
         /* outstandingRewards use the following format:
             { 
@@ -51,10 +50,6 @@ export default ({ node }) => {
         setDelegationRewards(state, { validatorAddr, rewards }) {
             Vue.set(state.rewards, validatorAddr, rewards)
         },
-        setWithdrawAddress(state, address) {
-            state.withdrawAddress = address
-        },
-
         setDistributionParameters(state, parameters) {
             state.parameters = parameters
         },
@@ -137,40 +132,6 @@ export default ({ node }) => {
             // update rewards
             await dispatch(`getTotalRewards`)
             await dispatch(`getRewardsFromValidator`, validatorAddr)
-        },
-        async getWithdrawAddress({ state, rootState: { session }, commit }) {
-            state.loading = true
-            try {
-                const withdrawAddress = await node.getDelegatorWithdrawAddress(session.address)
-                commit(`setWithdrawAddress`, withdrawAddress)
-                state.error = null
-            } catch (error) {
-                commit(`notifyError`, {
-                    title: `Error getting rewards from validator`,
-                    body: error.message
-                })
-                Sentry.captureException(error)
-                state.error = error
-            }
-            state.loading = false
-            state.loaded = true
-        },
-        async updateWithdrawAddress(
-            { state, rootState: { wallet }, commit, dispatch },
-            { newAddress, password, submitType }
-        ) {
-            state.loading = true
-            await dispatch(`sendTx`, {
-                type: `postDelegatorWithdrawAddress`,
-                to: wallet.address,
-                withdraw_address: newAddress,
-                password,
-                submitType
-            })
-            // optimistic update
-            commit(`setWithdrawAddress`, newAddress)
-            // update reward address
-            await dispatch(`getWithdrawAddress`)
         },
         // TODO: move to a common parameters module
         async getDistributionParameters({ commit }) {
