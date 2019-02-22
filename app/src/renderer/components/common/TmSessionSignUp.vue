@@ -2,15 +2,15 @@
   <div class="tm-session">
     <tm-form-struct :submit="onSubmit.bind(this)" class="tm-session-container">
       <div class="tm-session-header">
-        <a
-          @click="setState('welcome')"
-        >
+        <a @click="setState('welcome')">
           <i class="material-icons">arrow_back</i>
         </a>
         <div class="tm-session-title">
           Create Account
         </div>
-        <a @click="help()"><i class="material-icons">help_outline</i></a>
+        <a @click="help()">
+          <i class="material-icons">help_outline</i>
+        </a>
       </div>
       <div class="tm-session-main">
         <tm-form-group
@@ -87,16 +87,8 @@
             type="match"
           />
         </tm-form-group>
-        <tm-form-group
-          field-id="sign-up-seed"
-          class="sign-up-seed-group"
-          field-label="Seed Phrase"
-        >
-          <field-seed
-            id="sign-up-seed"
-            v-model="fields.signUpSeed"
-            disabled="disabled"
-          />
+        <tm-form-group field-id="sign-up-seed" class="sign-up-seed-group" field-label="Seed Phrase">
+          <field-seed id="sign-up-seed" v-model="fields.signUpSeed" disabled="disabled" />
           <tm-form-msg
             class="sm"
             type="custom"
@@ -107,20 +99,13 @@
         <tm-form-group
           :error="$v.fields.signUpWarning.$error"
           field-id="sign-up-warning"
-          field-label=""
+          field-label
         >
           <div class="tm-field-checkbox">
             <div class="tm-field-checkbox-input">
-              <input
-                id="sign-up-warning"
-                v-model="fields.signUpWarning"
-                type="checkbox"
-              >
+              <input id="sign-up-warning" v-model="fields.signUpWarning" type="checkbox">
             </div>
-            <label
-              class="tm-field-checkbox-label"
-              for="sign-up-warning"
-            >
+            <label class="tm-field-checkbox-label" for="sign-up-warning">
               I have securely written down my seed. I understand that lost
               seeds cannot be recovered.
             </label>
@@ -137,20 +122,13 @@
         <tm-form-group
           :error="$v.fields.errorCollection.$error"
           field-id="error-collection"
-          field-label=""
+          field-label
         >
           <div class="tm-field-checkbox">
             <div class="tm-field-checkbox-input">
-              <input
-                id="error-collection"
-                v-model="fields.errorCollection"
-                type="checkbox"
-              >
+              <input id="error-collection" v-model="fields.errorCollection" type="checkbox">
             </div>
-            <label
-              class="tm-field-checkbox-label"
-              for="error-collection"
-            >
+            <label class="tm-field-checkbox-label" for="error-collection">
               I'd like to opt in for remote error tracking to help improve
               Voyager.
             </label>
@@ -255,7 +233,7 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style>
 .sign-up-seed-group {
   margin-bottom: 2rem;
 }

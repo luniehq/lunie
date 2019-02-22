@@ -1,7 +1,7 @@
 <template>
   <div v-if="open" class="tm-modal-search">
     <div class="tm-modal-search-container">
-      <tm-form-group field-id="search-input" field-label="">
+      <tm-form-group field-id="search-input">
         <div class="tm-modal-search-field">
           <tm-field
             id="search-input"

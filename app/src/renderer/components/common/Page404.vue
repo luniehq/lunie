@@ -44,7 +44,7 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style>
 .four-oh-four {
   padding: 2rem;
   background: var(--black);
