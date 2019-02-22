@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Enable dev mode from url param @faboweb
 
+### Changed
+
+- updated TmOnboarding tests @jbibla
+- disabled TmOnboarding by default @jbibla
+
 ### Fixed
 
 - [\#2024](https://github.com/cosmos/voyager/issues/2024) Fixed feature setting the rpc from url param @faboweb
