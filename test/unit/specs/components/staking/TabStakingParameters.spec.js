@@ -38,12 +38,6 @@ describe(`TabStakingParameters`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`shows the max number of validators`, () => {
-    expect(wrapper.find(`#max_validators`).html()).toContain(
-      stakingParameters.parameters.max_validators
-    )
-  })
-
   it(`displays unbonding period in days`, () => {
     expect(wrapper.vm.unbondingTimeInDays).toEqual(3)
   })
