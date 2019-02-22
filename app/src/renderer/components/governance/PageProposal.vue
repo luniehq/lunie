@@ -193,7 +193,7 @@ export default {
       return moment(new Date(proposal.deposit_end_time)).fromNow()
     },
     totalVotes({tally: {yes, no, no_with_veto, abstain}} = this) {
-      return (yes + no + no_with_veto + abstain) / 100000000
+      return (yes + no + no_with_veto + abstain)
     },
     yesPercentage({tally, totalVotes} = this) {
       return num.percentInt(tally.yes / totalVotes)
@@ -208,7 +208,9 @@ export default {
       return num.percentInt(tally.abstain / totalVotes)
     },
     tally({proposals, proposalId} = this) {
-      return proposals.tallies[proposalId] || {}
+      const multiplier = 100000000
+      const {yes, no, abstain, no_with_veto} = proposals.tallies[proposalId] || {}
+      return {yes: yes/multiplier, no: no/multiplier, abstain: abstain/multiplier, no_with_veto: no_with_veto/multiplier}
     },
     status({proposal} = this) {
       if (proposal.proposal_status === `Passed`)
