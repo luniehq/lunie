@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 - Removed Vue error handling to bubble errors to the console, this doesn't effect users @faboweb
+- Removed unused packages @sabau
 
 ### Fixed
 
