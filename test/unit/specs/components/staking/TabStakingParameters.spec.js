@@ -1,8 +1,11 @@
 import {shallowMount, createLocalVue} from "@vue/test-utils"
 import TabStakingParameters from "renderer/components/staking/TabStakingParameters"
-import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
-const { stakingParameters } = lcdClientMock.state
+const stakingParameters = {
+  unbonding_time: `259200000000000`,
+  max_validators: 100,
+  bond_denom: `STAKE`
+}
 
 describe(`TabStakingParameters`, () => {
   let wrapper, $store
@@ -13,7 +16,7 @@ describe(`TabStakingParameters`, () => {
   const getters = {
     connected: true,
     stakingParameters: {
-      parameters: stakingParameters.parameters,
+      parameters: stakingParameters,
       loaded: true
     },
     bondDenom: `stake`
@@ -49,7 +52,7 @@ describe(`TabStakingParameters`, () => {
       getters: {
         connected: false,
         stakingParameters: {
-          parameters: stakingParameters.parameters,
+          parameters: stakingParameters,
           loaded: false,
           loading: false
         },
@@ -73,7 +76,7 @@ describe(`TabStakingParameters`, () => {
       getters: {
         connected: true,
         stakingParameters: {
-          parameters: stakingParameters.parameters,
+          parameters: stakingParameters,
           loaded: false,
           loading: false
         },
@@ -99,7 +102,7 @@ describe(`TabStakingParameters`, () => {
       getters: {
         connected: true,
         stakingParameters: {
-          parameters: stakingParameters.parameters,
+          parameters: stakingParameters,
           loaded: false,
           loading: true
         },
@@ -123,7 +126,7 @@ describe(`TabStakingParameters`, () => {
       getters: {
         connected: true,
         stakingParameters: {
-          parameters: stakingParameters.parameters,
+          parameters: stakingParameters,
           loaded: false,
           loading: false
         },
