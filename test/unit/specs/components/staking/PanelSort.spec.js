@@ -1,12 +1,15 @@
-import setup from "../../../helpers/vuex-setup"
+import {shallowMount, createLocalVue} from "@vue/test-utils"
 import PanelSort from "renderer/components/staking/PanelSort"
 
 describe(`PanelSort`, () => {
   let wrapper
-  const instance = setup()
+
+  const localVue = createLocalVue()
+  localVue.directive(`tooltip`, () => {})
 
   beforeEach(() => {
-    const test = instance.mount(PanelSort, {
+    wrapper = shallowMount(PanelSort, {
+      localVue,
       propsData: {
         sort: {
           order: `asc`
@@ -23,7 +26,6 @@ describe(`PanelSort`, () => {
         ]
       }
     })
-    wrapper = test.wrapper
   })
 
   it(`has the expected html structure`, () => {
