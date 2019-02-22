@@ -208,6 +208,7 @@ export default {
       return num.percentInt(tally.abstain / totalVotes)
     },
     tally({proposals, proposalId} = this) {
+      // TODO:MICROATOMS currently causes each vote to be multiplied by this, once we receive atoms let's drop this multiplier thing
       const multiplier = 100000000
       const {yes, no, abstain, no_with_veto} = proposals.tallies[proposalId] || {}
       return {yes: yes/multiplier, no: no/multiplier, abstain: abstain/multiplier, no_with_veto: no_with_veto/multiplier}
