@@ -123,8 +123,9 @@ export const startApp = async (
  */
 export const main = async (
   getURLParams = urlHelpers.getURLParams,
-  start = startApp
+  start = startApp,
+  config = _config
 ) => {
   const params = getURLParams(window)
-  await start(params, _config)
+  await start(params, config)
 }

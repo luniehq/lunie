@@ -65,10 +65,15 @@ describe(`App Start`, () => {
       x: 1
     }))
     const startApp = jest.fn()
-    main(getURLParams, startApp)
+    main(getURLParams, startApp, {
+      config: `value`
+    })
     expect(getURLParams).toHaveBeenCalled()
-    expect(startApp).toHaveBeenCalled()
-    expect(startApp.mock.calls[0][0]).toHaveProperty(`x`, 1)
+    expect(startApp).toHaveBeenCalledWith({
+      x: 1
+    }, {
+      config: `value`
+    })
   })
 
   it(`Check the calls on VUE`, async () => {
