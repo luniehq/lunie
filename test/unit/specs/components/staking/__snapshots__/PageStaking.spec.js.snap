@@ -21,23 +21,12 @@ exports[`PageStaking has the expected html structure 1`] = `
         <div
           class="tm-page-header-body"
         >
-          <tm-balance-stub />
-           
           <div
             class="tool-bar"
+            refresh="[object Object]"
           >
-            <a
-              class="refresh-button"
-            >
-              <i
-                class="material-icons"
-              >
-                refresh
-              </i>
-            </a>
-             
             <!---->
-              
+             
             <a
               class="help"
             >
@@ -47,7 +36,48 @@ exports[`PageStaking has the expected html structure 1`] = `
                 help_outline
               </i>
             </a>
+              
+            <router-link-stub
+              id="settings"
+              to="/preferences"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </router-link-stub>
              
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+             
+            <!---->
+          </div>
+           
+          <tm-balance-stub />
+           
+          <div
+            class="tool-bar"
+          >
+            <!---->
+             
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+              
             <router-link-stub
               id="settings"
               to="/preferences"
@@ -123,8 +153,6 @@ exports[`PageStaking has the expected html structure 1`] = `
   <main
     class="tm-page-main"
   >
-    <!---->
-     
     <!---->
      
     <router-view-stub />

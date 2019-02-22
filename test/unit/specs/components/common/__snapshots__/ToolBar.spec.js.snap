@@ -6,8 +6,6 @@ exports[`ToolBar has the expected html structure 1`] = `
 >
   <!---->
    
-  <!---->
-    
   <a
     class="help"
   >
@@ -17,7 +15,7 @@ exports[`ToolBar has the expected html structure 1`] = `
       help_outline
     </i>
   </a>
-   
+    
   <!---->
    
   <!---->
