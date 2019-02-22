@@ -90,6 +90,11 @@ describe(`Module: Session`, () => {
       mutations.setSessionModalView(state, `xxxx`)
       expect(state.modals.session.state).toBe(`xxxx`)
     })
+
+    it(`should activate dev mode`, () => {
+      mutations.setDevMode(state)
+      expect(state.devMode).toBe(true)
+    })
   })
 
   it(`should show an error if loading accounts fails`, async () => {
@@ -152,7 +157,7 @@ describe(`Module: Session`, () => {
     let output = await actions.testLogin(
       {},
       {
-        account: `default`,
+        localKeyPairName: `default`,
         password: `1234567890`
       }
     )
@@ -160,7 +165,7 @@ describe(`Module: Session`, () => {
     output = await actions.testLogin(
       {},
       {
-        account: `default`,
+        localKeyPairName: `default`,
         password: `1234567890`
       }
     )

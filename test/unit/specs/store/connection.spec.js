@@ -1,7 +1,8 @@
 import connectionModule from "renderer/vuex/modules/connection.js"
 
 jest.mock(`src/config.js`, () => ({
-  stargate: `https://voyager.lol`
+  stargate: `https://voyager.lol`,
+  rpc: `https://voyager-rpc.lol`,
 }))
 
 describe(`Module: Connection`, () => {
@@ -38,50 +39,59 @@ describe(`Module: Connection`, () => {
     mutations = module.mutations
   })
 
-  it(`sets the header`, () => {
-    const dispatch = jest.fn()
-    actions.setLastHeader(
-      {
-        state,
-        rootState: { session: { signedIn: true } },
-        dispatch
-      },
-      {
-        height: 5,
-        chain_id: `test-chain`
-      }
-    )
-    expect(state.lastHeader.height).toBe(5)
-    expect(state.lastHeader.chain_id).toBe(`test-chain`)
-  })
+  describe(`mutations`, () => {
 
-  it(`sets nodeUrl from config.json`, () => {
-    expect(state.nodeUrl).toBe(`https://voyager.lol`)
-  })
-
-  it(`checks for new validators`, async () => {
-    const dispatch = jest.fn()
-    actions.setLastHeader(
-      {
-        state,
-        rootState: { session: { signedIn: true } },
-        dispatch
-      },
-      {
-        height: 5,
-        chain_id: `test-chain`
-      }
-    )
-    expect(dispatch).toHaveBeenCalledWith(`maybeUpdateValidators`, {
-      height: 5,
-      chain_id: `test-chain`
+    it(`sets the header`, () => {
+      const dispatch = jest.fn()
+      actions.setLastHeader(
+        {
+          state,
+          rootState: { session: { signedIn: true } },
+          dispatch
+        },
+        {
+          height: 5,
+          chain_id: `test-chain`
+        }
+      )
+      expect(state.lastHeader.height).toBe(5)
+      expect(state.lastHeader.chain_id).toBe(`test-chain`)
     })
-  })
+  
+    it(`sets nodeUrl from config.json`, () => {
+      expect(state.nodeUrl).toBe(`https://voyager.lol`)
+    })
+  
+    it(`checks for new validators`, async () => {
+      const dispatch = jest.fn()
+      actions.setLastHeader(
+        {
+          state,
+          rootState: { session: { signedIn: true } },
+          dispatch
+        },
+        {
+          height: 5,
+          chain_id: `test-chain`
+        }
+      )
+      expect(dispatch).toHaveBeenCalledWith(`maybeUpdateValidators`, {
+        height: 5,
+        chain_id: `test-chain`
+      })
+    })
+  
+    it(`sets connection state`, () => {
+      expect(state.connected).toBe(false)
+      mutations.setConnected(state, true)
+      expect(state.connected).toBe(true)
+    })
 
-  it(`sets connection state`, () => {
-    expect(state.connected).toBe(false)
-    mutations.setConnected(state, true)
-    expect(state.connected).toBe(true)
+    it(`sets the rpc url`, () => {
+      expect(state.rpcUrl).toBe(`https://voyager-rpc.lol`) // received from config
+      mutations.setRpcUrl(state, `https://big.lol`)
+      expect(state.rpcUrl).toBe(`https://big.lol`)
+    })
   })
 
   it(`triggers a reconnect`, () => {
