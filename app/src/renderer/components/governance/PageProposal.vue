@@ -23,9 +23,6 @@
               <h2 class="page-profile__title">
                 {{ proposal.title }}
               </h2>
-              <h3 v-if="session.devMode">
-                Proposer: {{ proposal.proposer || "Fede" }}
-              </h3>
             </div>
 
             <div class="page-profile__header__actions">
@@ -183,64 +180,52 @@ export default {
       `votes`,
       `session`
     ]),
-    proposal() {
-      return this.proposals.proposals[this.proposalId]
+    proposal({proposals, proposalId} = this) {
+      return proposals.proposals[proposalId]
     },
-    submittedAgo() {
-      return moment(new Date(this.proposal.submit_time)).fromNow()
+    submittedAgo({proposal} = this) {
+      return moment(new Date(proposal.submit_time)).fromNow()
     },
-    votingStartedAgo() {
-      return moment(new Date(this.proposal.voting_start_time)).fromNow()
+    votingStartedAgo({proposal} = this) {
+      return moment(new Date(proposal.voting_start_time)).fromNow()
     },
-    depositEndsIn() {
-      return moment(new Date(this.proposal.deposit_end_time)).fromNow()
+    depositEndsIn({proposal} = this) {
+      return moment(new Date(proposal.deposit_end_time)).fromNow()
     },
-    totalVotes() {
-      return (
-        this.tally.yes +
-        this.tally.no +
-        this.tally.no_with_veto +
-        this.tally.abstain
-      )
+    totalVotes({tally: {yes, no, no_with_veto, abstain}} = this) {
+      return (yes + no + no_with_veto + abstain) / 100000000
     },
-    yesPercentage() {
-      return num.percentInt(this.tally.yes / this.totalVotes)
+    yesPercentage({tally, totalVotes} = this) {
+      return num.percentInt(tally.yes / totalVotes)
     },
-    noPercentage() {
-      return num.percentInt(this.tally.no / this.totalVotes)
+    noPercentage({tally, totalVotes} = this) {
+      return num.percentInt(tally.no / totalVotes)
     },
-    noWithVetoPercentage() {
-      return num.percentInt(this.tally.no_with_veto / this.totalVotes)
+    noWithVetoPercentage({tally, totalVotes} = this) {
+      return num.percentInt(tally.no_with_veto / totalVotes)
     },
-    abstainPercentage() {
-      return num.percentInt(this.tally.abstain / this.totalVotes)
+    abstainPercentage({tally, totalVotes} = this) {
+      return num.percentInt(tally.abstain / totalVotes)
     },
-    tally() {
-      const proposalTally = this.proposals.tallies[this.proposalId] || {}
-      proposalTally.yes = Math.round(parseFloat(proposalTally.yes))
-      proposalTally.no = Math.round(parseFloat(proposalTally.no))
-      proposalTally.no_with_veto = Math.round(
-        parseFloat(proposalTally.no_with_veto)
-      )
-      proposalTally.abstain = Math.round(parseFloat(proposalTally.abstain))
-      return proposalTally
+    tally({proposals, proposalId} = this) {
+      return proposals.tallies[proposalId] || {}
     },
-    status() {
-      if (this.proposal.proposal_status === `Passed`)
+    status({proposal} = this) {
+      if (proposal.proposal_status === `Passed`)
         return {
           message: `This proposal has passed`
         }
-      if (this.proposal.proposal_status === `Rejected`)
+      if (proposal.proposal_status === `Rejected`)
         return {
           message: `This proposal has been rejected and voting is closed`,
           color: `red`
         }
-      if (this.proposal.proposal_status === `DepositPeriod`)
+      if (proposal.proposal_status === `DepositPeriod`)
         return {
           message: `Deposits are open for this proposal`,
           color: `yellow`
         }
-      if (this.proposal.proposal_status === `VotingPeriod`)
+      if (proposal.proposal_status === `VotingPeriod`)
         return {
           message: `Voting for this proposal is open`,
           color: `green`
@@ -250,6 +235,11 @@ export default {
           message: `There was an error determining the status of this proposal.`,
           color: `grey`
         }
+    }
+  },
+  async mounted({proposals, proposalId, $store} = this ) {
+    if (!proposals[proposalId]) {
+      await $store.dispatch(`getProposal`, proposalId)
     }
   },
   methods: {

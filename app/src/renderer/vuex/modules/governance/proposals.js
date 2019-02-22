@@ -1,6 +1,15 @@
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
 
+export const setProposalTally = (commit, node) => async ({value}) => {
+  commit(`setProposal`, value)
+  const final_tally_result = value.proposal_status === `VotingPeriod` ? await node.getProposalTally(value.proposal_id) : {...value.final_tally_result}
+  commit(`setProposalTally`, {
+    proposal_id: value.proposal_id,
+    final_tally_result
+  })
+}
+
 export default ({ node }) => {
   const emptyState = {
     loading: false,
@@ -9,7 +18,7 @@ export default ({ node }) => {
     proposals: {},
     tallies: {}
   }
-  const state = JSON.parse(JSON.stringify(emptyState))
+  const state = {...emptyState}
   const mutations = {
     setProposal(state, proposal) {
       Vue.set(state.proposals, proposal.proposal_id, proposal)
@@ -25,7 +34,7 @@ export default ({ node }) => {
       }
     },
     resetSessionData({ rootState }) {
-      rootState.proposals = JSON.parse(JSON.stringify(emptyState))
+      rootState.proposals = {...emptyState}
     },
     async getProposals({ state, commit, rootState }) {
       state.loading = true
@@ -33,26 +42,10 @@ export default ({ node }) => {
       if (!rootState.connection.connected) return
 
       try {
-        let final_tally_result
         const proposals = await node.getProposals()
         if (proposals.length > 0) {
           await Promise.all(
-            proposals.map(async proposal => {
-              commit(`setProposal`, proposal.value)
-              if (proposal.value.proposal_status === `VotingPeriod`) {
-                final_tally_result = await node.getProposalTally(
-                  proposal.value.proposal_id
-                )
-              } else {
-                final_tally_result = JSON.parse(
-                  JSON.stringify(proposal.value.final_tally_result)
-                )
-              }
-              commit(`setProposalTally`, {
-                proposal_id: proposal.value.proposal_id,
-                final_tally_result
-              })
-            })
+            proposals.map(setProposalTally(commit, node))
           )
         }
         state.error = null
@@ -75,17 +68,9 @@ export default ({ node }) => {
         state.loading = false
         state.loaded = true // TODO make state for single proposal
         const proposal = await node.getProposal(proposal_id)
-        commit(`setProposal`, proposal.value)
-        if (proposal.value.proposal_status === `VotingPeriod`) {
-          final_tally_result = await node.getProposalTally(
-            proposal.value.proposal_id
-          )
-        } else {
-          final_tally_result = JSON.parse(
-            JSON.stringify(proposal.value.final_tally_result)
-          )
-        }
+        setProposalTally(commit, node)(proposal)
         commit(`setProposalTally`, { proposal_id, final_tally_result })
+        return proposal
       } catch (error) {
         commit(`notifyError`, {
           title: `Error querying proposal with id #${proposal_id}`,
@@ -94,6 +79,7 @@ export default ({ node }) => {
         Sentry.captureException(error)
         state.error = error
       }
+      return undefined
     },
     async submitProposal(
       {
