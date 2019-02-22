@@ -1,133 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PageStaking has the expected html structure 1`] = `
-<div
-  class="tm-page staking"
+<tm-page-stub
+  class="staking"
   data-title="Staking"
+  menubody=""
+  refresh="function () { [native code] }"
+  search=""
+  subtitle=""
+  tabs="[object Object],[object Object],[object Object]"
+  title=""
 >
-  <header
-    class="tm-page-header"
-  >
-    <div
-      class="tm-page-header-container"
-    >
-      <div
-        class="tm-page-header-text"
-      >
-        <!---->
-         
-        <!---->
-         
-        <div
-          class="tm-page-header-body"
-        >
-          <tm-balance-stub />
-           
-          <div
-            class="tool-bar"
-          >
-            <a
-              class="refresh-button"
-            >
-              <i
-                class="material-icons"
-              >
-                refresh
-              </i>
-            </a>
-             
-            <!---->
-              
-            <a
-              class="help"
-            >
-              <i
-                class="material-icons"
-              >
-                help_outline
-              </i>
-            </a>
-             
-            <router-link-stub
-              id="settings"
-              to="/preferences"
-            >
-              <i
-                class="material-icons"
-              >
-                settings
-              </i>
-            </router-link-stub>
-             
-            <a
-              id="signOut-btn"
-            >
-              <i
-                class="material-icons"
-              >
-                exit_to_app
-              </i>
-            </a>
-             
-            <!---->
-          </div>
-        </div>
-      </div>
-       
-      <menu
-        class="tm-page-header-menu"
-      />
-       
-      <div
-        class="tabs"
-      >
-        <div
-          class="tab"
-        >
-          <router-link-stub
-            to="[object Object]"
-          >
-            
-      My Delegations
-    
-          </router-link-stub>
-        </div>
-        <div
-          class="tab"
-        >
-          <router-link-stub
-            to="[object Object]"
-          >
-            
-      Validators
-    
-          </router-link-stub>
-        </div>
-        <div
-          class="tab"
-        >
-          <router-link-stub
-            to="[object Object]"
-          >
-            
-      Parameters
-    
-          </router-link-stub>
-        </div>
-      </div>
-       
-      <!---->
-    </div>
-  </header>
-   
-  <main
-    class="tm-page-main"
-  >
-    <!---->
-     
-    <!---->
-     
-    <router-view-stub />
-  </main>
-</div>
+  <router-view-stub />
+</tm-page-stub>
 `;
