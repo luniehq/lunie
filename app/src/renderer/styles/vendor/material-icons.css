@@ -2,11 +2,14 @@
   font-family: "Material Icons";
   font-style: normal;
   font-weight: 400;
-  src: local("Material Icons"), local("MaterialIcons-Regular"),
+  src:
+    local("Material Icons"),
+    local("MaterialIcons-Regular"),
     url("assets/fonts/MaterialIcons-Regular.woff2") format("woff2"),
     url("assets/fonts/MaterialIcons-Regular.woff") format("woff"),
     url("assets/fonts/MaterialIcons-Regular.ttf") format("truetype");
 }
+
 .mi,
 .material-icons {
   font-family: "Material Icons";
@@ -20,12 +23,16 @@
   word-wrap: normal;
   white-space: nowrap;
   direction: ltr;
+
   /* Support for all WebKit browsers. */
   -webkit-font-smoothing: antialiased;
+
   /* Support for Safari and Chrome. */
   text-rendering: optimizeLegibility;
+
   /* Support for Firefox. */
   -moz-osx-font-smoothing: grayscale;
+
   /* Support for IE. */
   font-feature-settings: "liga";
 }
