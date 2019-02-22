@@ -6,7 +6,6 @@
     :dataset="orderedTransactions"
     :refresh="refreshTransactions"
     :has-filtered-data="hasFilteredData"
-    search="transactions"
     data-title="Transactions"
   >
     <data-empty-tx slot="no-data" />

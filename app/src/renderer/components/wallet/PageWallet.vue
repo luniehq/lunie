@@ -6,7 +6,6 @@
     :dataset="allBalances"
     :refresh="queryWalletBalances"
     :has-filtered-data="hasFilteredData"
-    search="balances"
     data-title="Wallet"
   >
     <tm-data-msg id="account_empty_msg" slot="no-data" icon="help_outline">
@@ -64,9 +63,6 @@ export default {
   data: () => ({ num, showSendModal: false }),
   computed: {
     ...mapGetters([`filters`, `wallet`, `connected`]),
-    somethingToSearch() {
-      return !this.wallet.loading && !!this.wallet.balances.length
-    },
     allDenomBalances() {
       // for denoms not in balances, add empty balance
       const balances = this.wallet.balances.slice(0)
