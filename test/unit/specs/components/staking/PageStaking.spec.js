@@ -2,21 +2,12 @@ import { shallowMount } from "@vue/test-utils"
 import PageStaking from "renderer/components/staking/PageStaking"
 
 describe(`PageStaking`, () => {
-  let wrapper, $store
-
-  const getters = {
-  }
+  let wrapper
 
   beforeEach(() => {
-    $store = {
-      commit: jest.fn(),
-      dispatch: jest.fn(),
-      getters
-    }
-
    wrapper = shallowMount(PageStaking, {
       mocks: {
-        $store
+        $store: {}
       },
       stubs: [`router-view`]
     })
