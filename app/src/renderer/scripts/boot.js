@@ -105,7 +105,7 @@ export const startApp = async (
     store.commit(`setDevMode`)
   }
   if (urlParams.rpc) {
-    store.commit(`setRPCUrl`, urlParams.rpc)
+    store.commit(`setRpcUrl`, urlParams.rpc)
   }
 
   store.dispatch(`connect`)
