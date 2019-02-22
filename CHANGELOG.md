@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.5] - 2019-02-22
+
 ### Changed
 
 - Removed Vue error handling to bubble errors to the console, this doesn't effect users @faboweb
