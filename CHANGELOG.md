@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Enable dev mode from url param @faboweb
 
+### Changed
+
+- Refactored tests: PageStaking @faboweb
+
 ## Fixed
 
 - Sign in with local key @faboweb
