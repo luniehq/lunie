@@ -257,7 +257,7 @@ describe(`App Start`, () => {
       
       await startApp(
         {
-          dev: true
+          devMode: true
         },
         {
           stargate: `http://localhost:12344`
