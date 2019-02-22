@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- Enable dev mode from url param @faboweb
+
+### Fixed
+
+- [\#2024](https://github.com/cosmos/voyager/issues/2024) Fixed feature setting the rpc from url param @faboweb
+
 ## [1.0.0-beta.5] - 2019-02-22
 
 ### Changed
