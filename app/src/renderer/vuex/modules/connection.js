@@ -17,6 +17,7 @@ export default function({ node }) {
     approvalRequired: null,
     mocked: node.mocked,
     nodeUrl: config.stargate,
+    rpcUrl: config.rpc,
     externals: {
       node,
       config
@@ -30,8 +31,8 @@ export default function({ node }) {
     setConnected(state, connected) {
       Vue.set(state, `connected`, connected)
     },
-    setRPCUrl(state, rpcUrl) {
-      state.externals.config.rpc = rpcUrl
+    setRpcUrl(state, rpcUrl) {
+      state.rpcUrl = rpcUrl
     }
   }
 
@@ -41,13 +42,13 @@ export default function({ node }) {
       await dispatch(`maybeUpdateValidators`, header)
     },
     async connect({ state, commit, dispatch }) {
-      const { node, config } = state.externals
+      const { externals: { node }, rpcUrl } = state
 
       if (state.stopConnecting) return
 
       commit(`setConnected`, false)
       try {
-        await node.rpcConnect(config.rpc)
+        await node.rpcConnect(rpcUrl)
         commit(`setConnected`, true)
         dispatch(`rpcSubscribe`)
         dispatch(`subscribeToBlocks`)

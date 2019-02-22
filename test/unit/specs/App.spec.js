@@ -316,7 +316,7 @@ describe(`App Start`, () => {
         mockVue
       )
       
-      expect(store.commit).toHaveBeenCalledWith(`setRPCUrl`, `http://rpcurl.com`)
+      expect(store.commit).toHaveBeenCalledWith(`setRpcUrl`, `http://rpcurl.com`)
     })
     it(`should set stargate url`, async () => {
       jest.mock(`vue-router`)
