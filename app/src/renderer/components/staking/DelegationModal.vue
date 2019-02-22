@@ -114,11 +114,15 @@ export default {
     selectedIndex: 0
   }),
   computed: {
-    ...mapGetters([`wallet`, `delegates`]),
+    ...mapGetters([`wallet`, `delegates`, `session`]),
     balance() {
+      if (!this.session.signedIn) return 0
+
       return this.fromOptions[this.selectedIndex].maximum
     },
     from() {
+      if (!this.session.signedIn) return ``
+
       return this.fromOptions[this.selectedIndex].address
     }
   },

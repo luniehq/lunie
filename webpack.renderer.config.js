@@ -24,24 +24,22 @@ const commitHash = require(`child_process`)
   .toString()
   .trim()
 
-const devPlugins = process.env.CIRCLECI
-  ? []
-  : [
-      new CleanWebpackPlugin([buildPath]),
-      new BundleAnalyzerPlugin({ analyzerMode: `static`, openAnalyzer: false })
-    ]
+const devPlugins = process.env.CIRCLECI ? [] : [
+  new CleanWebpackPlugin([buildPath]),
+  new BundleAnalyzerPlugin({
+    analyzerMode: `static`,
+    openAnalyzer: false
+  })
+]
 
 const rendererConfig = {
-  devtool:
-    process.env.NODE_ENV === `production`
-      ? `#cheap-source-map`
-      : `#inline-source-map`,
+  devtool: process.env.NODE_ENV === `production` ?
+    `#cheap-source-map` : `#inline-source-map`,
   entry: {
     renderer: path.join(__dirname, `app/src/renderer/main.js`)
   },
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.js$/,
         use: `babel-loader`,
         include: [path.resolve(__dirname, `app/src/renderer`)],
@@ -59,7 +57,9 @@ const rendererConfig = {
           `style-loader`,
           {
             loader: `css-loader`,
-            options: { importLoaders: 1 }
+            options: {
+              importLoaders: 1
+            }
           },
           {
             loader: `postcss-loader`,
@@ -67,10 +67,13 @@ const rendererConfig = {
               sourceMap: true,
               ident: `postcss`,
               plugins: loader => [
-                require(`postcss-import`)({ root: loader.resourcePath }),
-                require(`postcss-preset-env`)({ browsers: `last 3 versions` }),
-                require(`cssnano`)(),
-                require(`stylelint`)()
+                require(`postcss-import`)({
+                  root: loader.resourcePath
+                }),
+                require(`postcss-preset-env`)({
+                  browsers: `last 3 versions`
+                }),
+                require(`cssnano`)()
               ]
             }
           }
@@ -78,27 +81,23 @@ const rendererConfig = {
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-        use: [
-          {
-            loader: `url-loader`,
-            query: {
-              limit: 10000,
-              name: `images/[name].[ext]`
-            }
+        use: [{
+          loader: `url-loader`,
+          query: {
+            limit: 10000,
+            name: `images/[name].[ext]`
           }
-        ]
+        }]
       },
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-        use: [
-          {
-            loader: `url-loader`,
-            query: {
-              limit: 10000,
-              name: `fonts/[name].[ext]`
-            }
+        use: [{
+          loader: `url-loader`,
+          query: {
+            limit: 10000,
+            name: `fonts/[name].[ext]`
           }
-        ]
+        }]
       }
     ]
   },
@@ -112,18 +111,22 @@ const rendererConfig = {
     new webpack.NoEmitOnErrorsPlugin(),
     // the global.GENTLY below fixes a compile issue with superagent + webpack
     // https://github.com/visionmedia/superagent/issues/672
-    new webpack.DefinePlugin({ "global.GENTLY": false }),
-    new webpack.DefinePlugin({ "process.env.RELEASE": `"${commitHash}"` }),
     new webpack.DefinePlugin({
-      "process.env": { NODE_ENV: JSON.stringify(process.env.NODE_ENV) }
+      "global.GENTLY": false
+    }),
+    new webpack.DefinePlugin({
+      "process.env.RELEASE": `"${commitHash}"`
+    }),
+    new webpack.DefinePlugin({
+      "process.env": {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+      }
     }),
     new HtmlWebpackPlugin({
       filename: `index.html`,
       template: `./app/index.ejs`,
-      appModules:
-        process.env.NODE_ENV !== `production`
-          ? path.resolve(__dirname, `app/node_modules`)
-          : false,
+      appModules: process.env.NODE_ENV !== `production` ?
+        path.resolve(__dirname, `app/node_modules`) : false,
       styles: fs.readFileSync(`./app/src/renderer/styles/index.css`, `utf8`),
       favicon: `./app/static/icons/favicon.ico`
     }),

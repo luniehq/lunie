@@ -7,6 +7,8 @@ import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 const { stakingParameters } = lcdClientMock.state
 
+// TODO refactor comming up, not doing too much here
+
 const validator = Object.assign({}, lcdClientMock.state.candidates[0], {
   commission: {
     rate: `0.05`,
@@ -24,7 +26,7 @@ const validator = Object.assign({}, lcdClientMock.state.candidates[0], {
 const validatorTo = lcdClientMock.state.candidates[1]
 
 const getterValues = {
-  session: { desktop: false },
+  session: { desktop: false, signedIn: true },
   delegates: {
     delegates: [validator, validatorTo],
     globalPower: 4200
@@ -490,6 +492,16 @@ describe(`Staking functions`, () => {
         expect(wrapper.text()).not.toContain(`delegated to`)
         expect(wrapper.vm.$el).toMatchSnapshot()
       })
+    })
+  })
+
+  describe(`errors`, () => {
+    it(`user isn't signed in`, async () => {
+      // TODO
+    })
+
+    it(`signing info is missing`, async () => {
+      // TODO
     })
   })
 })

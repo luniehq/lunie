@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.5] - 2019-02-22
+
+### Changed
+
+- Removed Vue error handling to bubble errors to the console, this doesn't effect users @faboweb
+
+### Fixed
+
+- Validator page shows now correctly by avoiding async errors @faboweb
+- Stylelint configuration and scripts work as expected (no longer in webpack) @jbibla
+
 ## [1.0.0-beta.4] - 2019-02-21
 
 ### Added
@@ -18,6 +29,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Refactored user and session modules @faboweb
 - Made app header and menu states local @faboweb
 - [\#1993](https://github.com/cosmos/voyager/issues/1993) disabled web wallet in production @faboweb
+- [\#2031](https://github.com/cosmos/voyager/issues/2031) voyager now depends from cosmos/ledger-cosmos-js
 
 ### Fixed
 
