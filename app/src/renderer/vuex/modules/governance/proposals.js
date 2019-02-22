@@ -3,7 +3,10 @@ import Vue from "vue"
 
 export const setProposalTally = (commit, node) => async ({value}) => {
   commit(`setProposal`, value)
-  const final_tally_result = value.proposal_status === `VotingPeriod` ? await node.getProposalTally(value.proposal_id) : {...value.final_tally_result}
+  const final_tally_result =
+    value.proposal_status === `VotingPeriod` ?
+      await node.getProposalTally(value.proposal_id) :
+      {...value.final_tally_result}
   commit(`setProposalTally`, {
     proposal_id: value.proposal_id,
     final_tally_result
@@ -63,13 +66,11 @@ export default ({ node }) => {
     async getProposal({ state, commit }, proposal_id) {
       state.loading = true
       try {
-        let final_tally_result
         state.error = null
         state.loading = false
         state.loaded = true // TODO make state for single proposal
         const proposal = await node.getProposal(proposal_id)
         setProposalTally(commit, node)(proposal)
-        commit(`setProposalTally`, { proposal_id, final_tally_result })
         return proposal
       } catch (error) {
         commit(`notifyError`, {
