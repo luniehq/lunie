@@ -75,7 +75,6 @@ describe(`Module: Fee Distribution`, () => {
                 await actions.getTotalRewards({ state, rootState, commit })
                 expect(node.getDelegatorRewards).toHaveBeenCalledWith(rootState.session.address)
                 expect(commit).toHaveBeenCalledWith(`setTotalRewards`, rewards)
-                expect(commit).not.toHaveBeenCalledWith(`notifyError`, expect.anything())
             })
 
             it(`fails`, async () => {
@@ -84,11 +83,25 @@ describe(`Module: Fee Distribution`, () => {
                 await actions.getTotalRewards({ state, rootState, commit })
                 expect(node.getDelegatorRewards).toHaveBeenCalledWith(null)
                 expect(commit).not.toHaveBeenCalledWith(`setTotalRewards`, rewards)
-                expect(commit).toHaveBeenCalledWith(`notifyError`, {
-                    title: `Error getting total rewards`,
-                    body: `invalid address`
-                })
                 expect(commit).toHaveBeenCalledWith(`setDistributionError`, Error(`invalid address`))
+            })
+        })
+
+        describe(`getRewardsFromValidator`, () => {
+            it(`success`, async () => {
+                const validatorAddr = `cosmosvaloper1address`
+                await actions.getRewardsFromValidator({ state, rootState, commit }, validatorAddr)
+                expect(node.getDelegatorRewardsFromValidator).toHaveBeenCalledWith(rootState.session.address, validatorAddr)
+                expect(commit).toHaveBeenCalledWith(`setDelegationRewards`, { validatorAddr, rewards })
+            })
+
+            it(`fails`, async () => {
+                const validatorAddr = null
+                node.getDelegatorRewardsFromValidator = jest.fn(async () => Promise.reject(Error(`invalid validator address`)))
+                await actions.getRewardsFromValidator({ state, rootState, commit }, validatorAddr)
+                expect(node.getDelegatorRewardsFromValidator).toHaveBeenCalledWith(rootState.session.address, null)
+                expect(commit).not.toHaveBeenCalledWith(`setDelegationRewards`, { validatorAddr, rewards })
+                expect(commit).toHaveBeenCalledWith(`setDistributionError`, Error(`invalid validator address`))
             })
         })
     })  

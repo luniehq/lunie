@@ -74,10 +74,6 @@ export default ({ node }) => {
                 commit(`setTotalRewards`, rewards)
                 commit(`setDistributionError`, null)
             } catch (error) {
-                commit(`notifyError`, {
-                    title: `Error getting total rewards`,
-                    body: error.message
-                })
                 Sentry.captureException(error)
                 commit(`setDistributionError`, error)
             }
@@ -104,10 +100,6 @@ export default ({ node }) => {
                 commit(`setDelegationRewards`, { validatorAddr, rewards })
                 commit(`setDistributionError`, null)
             } catch (error) {
-                commit(`notifyError`, {
-                    title: `Error getting rewards from validator`,
-                    body: error.message
-                })
                 Sentry.captureException(error)
                 commit(`setDistributionError`, error)
             }
@@ -139,10 +131,6 @@ export default ({ node }) => {
                 commit(`setDistributionParameters`, parameters)
                 commit(`setDistributionError`, null)
             } catch (error) {
-                commit(`notifyError`, {
-                    title: `Error querying distribution parameters`,
-                    body: error.message
-                })
                 Sentry.captureException(error)
                 commit(`setDistributionError`, error)
             }
@@ -157,10 +145,6 @@ export default ({ node }) => {
                 commit(`setOutstandingRewards`, oustandingRewards)
                 commit(`setDistributionError`, null)
             } catch (error) {
-                commit(`notifyError`, {
-                    title: `Error getting distribution outstanding rewards`,
-                    body: error.message
-                })
                 Sentry.captureException(error)
                 commit(`setDistributionError`, error)
             }
