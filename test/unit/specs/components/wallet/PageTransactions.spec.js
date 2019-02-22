@@ -4,7 +4,7 @@ import { createLocalVue, shallowMount } from "@vue/test-utils"
 
 describe(`PageTransactions`, () => {
   const localVue = createLocalVue()
-  localVue.directive(`tooltip`, () => {})
+  localVue.directive(`tooltip`, () => { })
   const { stakingParameters, txs, candidates } = lcdClientMock.state
   let wrapper, $store
   const stubs = {
@@ -12,7 +12,6 @@ describe(`PageTransactions`, () => {
     "data-empty-tx": true,
     "data-empty-search": true,
     "tm-data-error": true,
-    "modal-search": true
   }
   const allTransactions = txs.slice(0, 6)
 
