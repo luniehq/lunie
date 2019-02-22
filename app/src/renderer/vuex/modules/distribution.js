@@ -61,6 +61,14 @@ export default ({ node }) => {
         }
     }
     const actions = {
+        async reconnected({ rootState, state, dispatch }) {
+          if (state.loading && rootState.session.signedIn) {
+            await dispatch(`getTotalRewards`)
+          }
+        },
+        async initializeWallet({dispatch}) {
+            await dispatch(`getTotalRewards`)
+        },
         resetSessionData({ rootState }) {
             rootState.distribution = JSON.parse(JSON.stringify(emptyState))
         },
@@ -91,6 +99,14 @@ export default ({ node }) => {
                 submitType
             })
             await dispatch(`getTotalRewards`)
+        },
+        async getRewardsFromAllValidators({ state, dispatch }, validators) {
+            state.loading = true
+            await Promise.all(validators.map(validator =>
+                dispatch(`getRewardsFromValidator`, validator.operator_address)
+            ))
+            state.loading = false
+            state.loaded = true
         },
         async getRewardsFromValidator({ state, rootState: { session }, commit }, validatorAddr) {
             state.loading = true

@@ -96,6 +96,10 @@ export default function({ node }) {
         },
         ({ header }) => {
           dispatch(`setLastHeader`, header)
+          
+          if (rootState.session.signedIn) {
+            dispatch(`getTotalRewards`)
+          }
         }
       )
       if (rootState.session.signedIn) {

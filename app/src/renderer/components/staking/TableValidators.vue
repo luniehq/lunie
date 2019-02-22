@@ -10,7 +10,7 @@
       <tbody>
         <li-validator
           v-for="i in sortedFilteredEnrichedDelegates"
-          :key="i.id"
+          :key="i.operator_address"
           :disabled="!userCanDelegate"
           :validator="i"
         />
@@ -160,15 +160,27 @@ export default {
   watch: {
     address: function(address) {
       address && this.updateDelegates()
+    },
+    validators: function(validators) {
+      if (!validators) return
+
+      this.updateRewards()
     }
   },
   mounted() {
     Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
     Mousetrap.bind(`esc`, () => this.setSearch(false))
+
+    this.$store.dispatch(`getRewardsFromAllValidators`, this.validators)
   },
   methods: {
     updateDelegates() {
       this.$store.dispatch(`updateDelegates`)
+    },
+    updateRewards() {
+      if (!this.session.signedIn) return
+
+      this.$store.dispatch(`getRewardsFromAllValidators`, this.validators)
     },
     setSearch(
       bool = !this.filters[`delegates`].search.visible,
