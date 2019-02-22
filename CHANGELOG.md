@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Removed Vue error handling to bubble errors to the console, this doesn't effect users @faboweb
 - Removed unused packages @sabau
+- [\#1337](https://github.com/cosmos/voyager/issues/1337) Removed search bar @jbibla
 
 ### Fixed
 
