@@ -111,7 +111,7 @@ export default {
       if (this.$v.$error) return
       const sessionCorrect = await this.$store.dispatch(`testLogin`, {
         password: this.fields.signInPassword,
-        account: this.fields.signInName
+        localKeyPairName: this.fields.signInName
       })
       if (sessionCorrect) {
         this.$store.dispatch(`signIn`, {

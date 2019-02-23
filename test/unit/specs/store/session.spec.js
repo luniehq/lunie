@@ -157,7 +157,7 @@ describe(`Module: Session`, () => {
     let output = await actions.testLogin(
       {},
       {
-        account: `default`,
+        localKeyPairName: `default`,
         password: `1234567890`
       }
     )
@@ -165,7 +165,7 @@ describe(`Module: Session`, () => {
     output = await actions.testLogin(
       {},
       {
-        account: `default`,
+        localKeyPairName: `default`,
         password: `1234567890`
       }
     )

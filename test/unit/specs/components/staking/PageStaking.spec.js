@@ -1,26 +1,16 @@
-import setup from "../../../helpers/vuex-setup"
+import { shallowMount } from "@vue/test-utils"
 import PageStaking from "renderer/components/staking/PageStaking"
-import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
-// TODO refactor according to new unit test standard
 describe(`PageStaking`, () => {
-  let wrapper, store
-  const { mount } = setup()
+  let wrapper
 
   beforeEach(() => {
-    const instance = mount(PageStaking, {
-      doBefore: ({ store }) => {
-        store.commit(`setSignIn`, true)
-        store.commit(`setConnected`, true)
-        store.dispatch(`updateDelegates`)
+   wrapper = shallowMount(PageStaking, {
+      mocks: {
+        $store: {}
       },
-      stubs: {
-        "tm-balance": true
-      }
+      stubs: [`router-view`]
     })
-    wrapper = instance.wrapper
-    store = instance.store
-    store.state.session.address = lcdClientMock.addresses[0]
   })
 
   it(`has the expected html structure`, () => {
