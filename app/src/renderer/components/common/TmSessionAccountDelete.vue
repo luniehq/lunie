@@ -91,7 +91,12 @@ export default {
     TmFormMsg,
     TmFormStruct
   },
-  data: () => ({ fields: { deletionPassword: ``, deletionWarning: false } }),
+  data: () => ({ 
+    fields: { 
+      deletionPassword: ``,
+      deletionWarning: false 
+    } 
+  }),
   mounted() {
     this.$el.querySelector(`#sign-in-password`).focus()
   },
