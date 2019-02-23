@@ -1,9 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PageStaking has the expected html structure 1`] = `
-<div
-  class="tm-page staking"
+<tm-page-stub
+  class="staking"
   data-title="Staking"
+  menubody=""
+  refresh="function () { [native code] }"
+  search=""
+  subtitle=""
+  tabs="[object Object],[object Object],[object Object]"
+  title=""
 >
   <header
     class="tm-page-header"
@@ -158,4 +164,5 @@ exports[`PageStaking has the expected html structure 1`] = `
     <router-view-stub />
   </main>
 </div>
-`;
+  <router-view-stub />
+</tm-page-stub>
