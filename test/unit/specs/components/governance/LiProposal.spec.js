@@ -1,36 +1,60 @@
-import setup from "../../../helpers/vuex-setup"
-import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
 import LiProposal from "renderer/components/governance/LiProposal"
 
-const { proposals, tallies } = lcdClientMock.state
-const proposal = proposals[`2`]
-
-const $store = {
-  commit: jest.fn(),
-  dispatch: jest.fn(),
-  getters: {
-    proposals: { proposals, tallies }
+const proposals = {
+  1: {
+    proposal_status: `Passed`,
+    proposal_id: `1`,
+    title: `Proposal Title`,
+    description: `Proposal description`,
+  },
+  2: {
+    proposal_status: `VotingPeriod`,
+    proposal_id: `2`,
+    title: `VotingPeriod proposal`,
+    description: `custom text proposal description`,
+  },
+  tallies: {
+    1: {
+      yes: `500`,
+      no: `25`,
+      no_with_veto: `10`,
+      abstain: `56`
+    },
+    2: {
+      yes: `0`,
+      no: `0`,
+      no_with_veto: `0`,
+      abstain: `0`
+    }
   }
 }
 
+const proposal = proposals[`2`]
+
 describe(`LiProposal`, () => {
+  const localVue = createLocalVue()
+  localVue.directive(`tooltip`, () => { })
+
   let wrapper
-  const { mount } = setup()
 
   beforeEach(() => {
-    const instance = mount(LiProposal, {
-      doBefore: ({ store }) => {
-        store.commit(`setConnected`, true)
-        store.commit(`setProposal`, proposal)
-        store.commit(`setProposalTally`, {
-          proposal_id: `2`,
-          final_tally_result: tallies[`2`]
-        })
+    const $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: {
+        proposals
+      }
+    }
+
+    wrapper = shallowMount(LiProposal, {
+      localVue,
+      mocks: {
+        $store
       },
       propsData: { proposal },
-      $store
+      stubs: [`router-link`]
     })
-    wrapper = instance.wrapper
   })
 
   it(`has the expected html structure`, () => {
@@ -38,16 +62,28 @@ describe(`LiProposal`, () => {
   })
 
   it(`should return status info for passed proposals`, () => {
-    proposal.proposal_status = `Passed`
-    wrapper.setProps({ proposal: JSON.parse(JSON.stringify(proposal)) })
+    wrapper.setProps({
+      proposal: {
+        proposal_status: `Passed`,
+        proposal_id: `2`,
+        title: `Really Cool Proposal `,
+        description: `Really cool proposal description`,
+      },
+    })
     expect(wrapper.vm.status).toEqual({
       message: `This proposal has passed`
     })
   })
 
   it(`should return status info for rejected proposals`, () => {
-    proposal.proposal_status = `Rejected`
-    wrapper.setProps({ proposal: JSON.parse(JSON.stringify(proposal)) })
+    wrapper.setProps({
+      proposal: {
+        proposal_status: `Rejected`,
+        proposal_id: `2`,
+        title: `Really Cool Proposal `,
+        description: `Really cool proposal description`,
+      },
+    })
     expect(wrapper.vm.status).toEqual({
       message: `This proposal has been rejected and voting is closed`,
       color: `red`
@@ -55,8 +91,14 @@ describe(`LiProposal`, () => {
   })
 
   it(`should return status info for active proposals`, () => {
-    proposal.proposal_status = `VotingPeriod`
-    wrapper.setProps({ proposal: JSON.parse(JSON.stringify(proposal)) })
+    wrapper.setProps({
+      proposal: {
+        proposal_status: `VotingPeriod`,
+        proposal_id: `2`,
+        title: `Really Cool Proposal `,
+        description: `Really cool proposal description`,
+      },
+    })
     expect(wrapper.vm.status).toEqual({
       message: `Voting for this proposal is open`,
       color: `green`
@@ -64,8 +106,14 @@ describe(`LiProposal`, () => {
   })
 
   it(`should return status info for 'DepositPeriod' proposals`, () => {
-    proposal.proposal_status = `DepositPeriod`
-    wrapper.setProps({ proposal: JSON.parse(JSON.stringify(proposal)) })
+    wrapper.setProps({
+      proposal: {
+        proposal_status: `DepositPeriod`,
+        proposal_id: `2`,
+        title: `Really Cool Proposal `,
+        description: `Really cool proposal description`,
+      },
+    })
     expect(wrapper.vm.status).toEqual({
       message: `Deposits are open for this proposal`,
       color: `yellow`
@@ -73,8 +121,14 @@ describe(`LiProposal`, () => {
   })
 
   it(`should return status info for an unknown proposal type`, () => {
-    proposal.proposal_status = `Unknown`
-    wrapper.setProps({ proposal: JSON.parse(JSON.stringify(proposal)) })
+    wrapper.setProps({
+      proposal: {
+        proposal_status: `Unknown`,
+        proposal_id: `2`,
+        title: `Really Cool Proposal `,
+        description: `Really cool proposal description`,
+      },
+    })
     expect(wrapper.vm.status).toEqual({
       message: `There was an error determining the status of this proposal.`,
       color: `grey`
@@ -86,29 +140,16 @@ describe(`LiProposal`, () => {
   })
 
   it(`should truncate the description and add an ellipsis`, () => {
-    proposal.description = `this is some kind of long description. longer than 100 characters for optimum-maximum-ideal truncation.`
-    wrapper.setProps({ proposal: JSON.parse(JSON.stringify(proposal)) })
-    expect(wrapper.vm.description).toEqual(
-      `this is some kind of long description. longer than 100 characters for optimum-maximum-ideal truncati…`
-    )
-  })
-
-  it(`survives the tally result not being present yet`, () => {
-    const $store = {
-      commit: jest.fn(),
-      dispatch: jest.fn(),
-      getters: {
-        proposals: { proposals, tallies: {} }
-      }
-    }
-    const instance = mount(LiProposal, {
-      doBefore: ({ store }) => {
-        store.commit(`setConnected`, true)
-        store.commit(`setProposal`, proposal)
+    wrapper.setProps({
+      proposal: {
+        proposal_status: `Status`,
+        proposal_id: `2`,
+        title: `Really Cool Proposal `,
+        description: `This is some kind of long description. longer than 100 characters for optimum-maximum-ideal truncation.`,
       },
-      propsData: { proposal },
-      $store
     })
-    wrapper = instance.wrapper
+    expect(wrapper.vm.description).toEqual(
+      `This is some kind of long description. longer than 100 characters for optimum-maximum-ideal truncati…`
+    )
   })
 })
