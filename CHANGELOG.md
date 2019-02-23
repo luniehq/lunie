@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.6] - 2019-02-23
+
 ### Added
 
 - Enable dev mode from url param @faboweb
