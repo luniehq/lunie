@@ -13,10 +13,7 @@ export default () => {
   const ERROR_COLLECTION_KEY = `voyager_error_collection`
 
   const state = {
-    devMode:
-      process.env.PREVIEW !== undefined
-        ? JSON.parse(process.env.PREVIEW)
-        : process.env.NODE_ENV === `development`,
+    devMode: process.env.NODE_ENV === `development`,
     signedIn: false,
     accounts: [],
     localKeyPairName: null, // used for signing with a locally stored key, TODO move into own module
@@ -61,6 +58,9 @@ export default () => {
     },
     setModalHelp(state, value) {
       state.modals.help.active = value
+    },
+    setDevMode(state) {
+      state.devMode = true
     },
     addHistory(state, path) {
       state.history.push(path)
