@@ -63,6 +63,8 @@ exports[`PageValidator has the expected html structure if user has signed in 1`]
                   0.0000…
                 </h2>
               </div>
+               
+              <!---->
             </div>
              
             <short-bech32-stub
@@ -952,6 +954,8 @@ exports[`PageValidator shows a default avatar 1`] = `
                   0.0000…
                 </h2>
               </div>
+               
+              <!---->
             </div>
              
             <short-bech32-stub
@@ -1542,6 +1546,8 @@ exports[`Staking functions onDelegation make sure we have enough atoms to delega
                   0.0000…
                 </h2>
               </div>
+               
+              <!---->
             </div>
              
             <short-bech32-stub
@@ -2079,6 +2085,8 @@ exports[`Staking functions onDelegation make sure we have enough atoms to delega
                   0.0000…
                 </h2>
               </div>
+               
+              <!---->
             </div>
              
             <short-bech32-stub
@@ -2549,6 +2557,8 @@ exports[`Staking functions onUndelegation make sure there are enough atoms to un
                   1,337.0000…
                 </h2>
               </div>
+               
+              <!---->
             </div>
              
             <short-bech32-stub
@@ -3086,6 +3096,8 @@ exports[`Staking functions onUndelegation make sure there are enough atoms to un
                   1,337.0000…
                 </h2>
               </div>
+               
+              <!---->
             </div>
              
             <short-bech32-stub

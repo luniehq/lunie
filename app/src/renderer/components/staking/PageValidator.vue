@@ -53,7 +53,7 @@
               <dt>My Delegation</dt>
               <dd>{{ myDelegation }}</dd>
             </dl>
-            <dl v-if="session.devMode" class="info_dl colored_dl">
+            <dl class="info_dl colored_dl">
               <dt>My Rewards</dt>
               <dd>{{ rewards || "--" }}</dd>
             </dl>
