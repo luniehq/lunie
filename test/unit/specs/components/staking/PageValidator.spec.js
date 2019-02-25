@@ -1,6 +1,3 @@
-import DelegationModal from "staking/DelegationModal"
-import UndelegationModal from "staking/UndelegationModal"
-import TmModal from "common/TmModal"
 import {shallowMount, createLocalVue} from "@vue/test-utils"
 import PageValidator from "renderer/components/staking/PageValidator"
 import BigNumber from "bignumber.js";
