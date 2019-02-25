@@ -1,12 +1,12 @@
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
 
-export const setProposalTally = (commit, node) => async ({value}) => {
+export const setProposalTally = (commit, node) => async ({ value }) => {
   commit(`setProposal`, value)
   const final_tally_result =
     value.proposal_status === `VotingPeriod` ?
       await node.getProposalTally(value.proposal_id) :
-      {...value.final_tally_result}
+      { ...value.final_tally_result }
   commit(`setProposalTally`, {
     proposal_id: value.proposal_id,
     final_tally_result
@@ -21,7 +21,7 @@ export default ({ node }) => {
     proposals: {},
     tallies: {}
   }
-  const state = {...emptyState}
+  const state = { ...emptyState }
   const mutations = {
     setProposal(state, proposal) {
       Vue.set(state.proposals, proposal.proposal_id, proposal)
@@ -37,7 +37,7 @@ export default ({ node }) => {
       }
     },
     resetSessionData({ rootState }) {
-      rootState.proposals = {...emptyState}
+      rootState.proposals = { ...emptyState }
     },
     async getProposals({ state, commit, rootState }) {
       state.loading = true

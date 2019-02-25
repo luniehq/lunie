@@ -53,6 +53,8 @@ module.exports = {
       }
     ],
     "quote-props": ["error", "as-needed", { "unnecessary": true }],
+    "object-curly-spacing": ["error", "always"],
+    "array-bracket-spacing": ["error", "never"],
     "no-console": "off",
   }
 }

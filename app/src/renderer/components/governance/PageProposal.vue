@@ -180,40 +180,40 @@ export default {
       `votes`,
       `session`
     ]),
-    proposal({proposals, proposalId} = this) {
+    proposal({ proposals, proposalId } = this) {
       return proposals.proposals[proposalId]
     },
-    submittedAgo({proposal} = this) {
+    submittedAgo({ proposal } = this) {
       return moment(new Date(proposal.submit_time)).fromNow()
     },
-    votingStartedAgo({proposal} = this) {
+    votingStartedAgo({ proposal } = this) {
       return moment(new Date(proposal.voting_start_time)).fromNow()
     },
-    depositEndsIn({proposal} = this) {
+    depositEndsIn({ proposal } = this) {
       return moment(new Date(proposal.deposit_end_time)).fromNow()
     },
-    totalVotes({tally: {yes, no, no_with_veto, abstain}} = this) {
+    totalVotes({ tally: { yes, no, no_with_veto, abstain } } = this) {
       return (yes + no + no_with_veto + abstain)
     },
-    yesPercentage({tally, totalVotes} = this) {
+    yesPercentage({ tally, totalVotes } = this) {
       return num.percentInt(tally.yes / totalVotes)
     },
-    noPercentage({tally, totalVotes} = this) {
+    noPercentage({ tally, totalVotes } = this) {
       return num.percentInt(tally.no / totalVotes)
     },
-    noWithVetoPercentage({tally, totalVotes} = this) {
+    noWithVetoPercentage({ tally, totalVotes } = this) {
       return num.percentInt(tally.no_with_veto / totalVotes)
     },
-    abstainPercentage({tally, totalVotes} = this) {
+    abstainPercentage({ tally, totalVotes } = this) {
       return num.percentInt(tally.abstain / totalVotes)
     },
-    tally({proposals, proposalId} = this) {
+    tally({ proposals, proposalId } = this) {
       // TODO:MICROATOMS currently causes each vote to be multiplied by this, once we receive atoms let's drop this multiplier thing
       const multiplier = 100000000
-      const {yes, no, abstain, no_with_veto} = proposals.tallies[proposalId] || {}
-      return {yes: yes/multiplier, no: no/multiplier, abstain: abstain/multiplier, no_with_veto: no_with_veto/multiplier}
+      const { yes, no, abstain, no_with_veto } = proposals.tallies[proposalId] || {}
+      return { yes: yes/multiplier, no: no/multiplier, abstain: abstain/multiplier, no_with_veto: no_with_veto/multiplier }
     },
-    status({proposal} = this) {
+    status({ proposal } = this) {
       if (proposal.proposal_status === `Passed`)
         return {
           message: `This proposal has passed`
@@ -240,7 +240,7 @@ export default {
         }
     }
   },
-  async mounted({proposals, proposalId, $store} = this ) {
+  async mounted({ proposals, proposalId, $store } = this ) {
     if (!proposals[proposalId]) {
       await $store.dispatch(`getProposal`, proposalId)
     }

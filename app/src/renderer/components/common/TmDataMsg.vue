@@ -40,7 +40,7 @@ export default {
     }
   },
   computed: {
-    spinnerClass({spin} = this) {
+    spinnerClass({ spin } = this) {
       return spin ? `fa-spin` : ``
     }
   }
