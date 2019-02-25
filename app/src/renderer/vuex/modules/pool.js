@@ -7,7 +7,7 @@ export default ({ node }) => {
     loaded: false,
     error: null
   }
-  const state = emptyState
+  const state = JSON.parse(JSON.stringify(emptyState))
 
   const mutations = {
     setPool(state, pool) {
