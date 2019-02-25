@@ -22,6 +22,45 @@ exports[`PageValidator has the expected html structure if user has signed in 1`]
           class="tm-page-header-body"
         >
           <div
+            class="tool-bar"
+          >
+            <!---->
+             
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+              
+            <router-link-stub
+              id="settings"
+              to="/preferences"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </router-link-stub>
+             
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+             
+            <!---->
+          </div>
+           
+          <div
             class="header-balance"
           >
             <div
@@ -76,8 +115,6 @@ exports[`PageValidator has the expected html structure if user has signed in 1`]
           >
             <!---->
              
-            <!---->
-              
             <a
               class="help"
             >
@@ -87,7 +124,7 @@ exports[`PageValidator has the expected html structure if user has signed in 1`]
                 help_outline
               </i>
             </a>
-             
+              
             <router-link-stub
               id="settings"
               to="/preferences"
@@ -129,8 +166,6 @@ exports[`PageValidator has the expected html structure if user has signed in 1`]
   <main
     class="tm-page-main"
   >
-    <!---->
-     
     <!---->
      
     <div
@@ -491,15 +526,11 @@ exports[`PageValidator has the expected html structure if user hasn't signed in 
         <div
           class="tm-page-header-body"
         >
-          <!---->
-           
           <div
             class="tool-bar"
           >
             <!---->
              
-            <!---->
-              
             <a
               class="help"
             >
@@ -509,7 +540,45 @@ exports[`PageValidator has the expected html structure if user hasn't signed in 
                 help_outline
               </i>
             </a>
+              
+            <!---->
              
+            <!---->
+             
+            <button
+              class="tm-btn"
+              id="signIn-btn"
+            >
+              <span
+                class="tm-btn__container tm-btn--primary"
+              >
+                <!---->
+                <span
+                  class="tm-btn__value"
+                >
+                  Sign In
+                </span>
+              </span>
+            </button>
+          </div>
+           
+          <!---->
+           
+          <div
+            class="tool-bar"
+          >
+            <!---->
+             
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+              
             <!---->
              
             <!---->
@@ -548,8 +617,6 @@ exports[`PageValidator has the expected html structure if user hasn't signed in 
   <main
     class="tm-page-main"
   >
-    <!---->
-     
     <!---->
      
     <div
@@ -911,6 +978,45 @@ exports[`PageValidator shows a default avatar 1`] = `
           class="tm-page-header-body"
         >
           <div
+            class="tool-bar"
+          >
+            <!---->
+             
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+              
+            <router-link-stub
+              id="settings"
+              to="/preferences"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </router-link-stub>
+             
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+             
+            <!---->
+          </div>
+           
+          <div
             class="header-balance"
           >
             <div
@@ -965,8 +1071,6 @@ exports[`PageValidator shows a default avatar 1`] = `
           >
             <!---->
              
-            <!---->
-              
             <a
               class="help"
             >
@@ -976,7 +1080,7 @@ exports[`PageValidator shows a default avatar 1`] = `
                 help_outline
               </i>
             </a>
-             
+              
             <router-link-stub
               id="settings"
               to="/preferences"
@@ -1018,8 +1122,6 @@ exports[`PageValidator shows a default avatar 1`] = `
   <main
     class="tm-page-main"
   >
-    <!---->
-     
     <!---->
      
     <div
@@ -1382,15 +1484,11 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
         <div
           class="tm-page-header-body"
         >
-          <!---->
-           
           <div
             class="tool-bar"
           >
             <!---->
              
-            <!---->
-              
             <a
               class="help"
             >
@@ -1400,7 +1498,45 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
                 help_outline
               </i>
             </a>
+              
+            <!---->
              
+            <!---->
+             
+            <button
+              class="tm-btn"
+              id="signIn-btn"
+            >
+              <span
+                class="tm-btn__container tm-btn--primary"
+              >
+                <!---->
+                <span
+                  class="tm-btn__value"
+                >
+                  Sign In
+                </span>
+              </span>
+            </button>
+          </div>
+           
+          <!---->
+           
+          <div
+            class="tool-bar"
+          >
+            <!---->
+             
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+              
             <!---->
              
             <!---->
@@ -1439,8 +1575,6 @@ exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
   <main
     class="tm-page-main"
   >
-    <!---->
-     
     <!---->
      
     <div
@@ -1501,6 +1635,45 @@ exports[`Staking functions onDelegation make sure we have enough atoms to delega
           class="tm-page-header-body"
         >
           <div
+            class="tool-bar"
+          >
+            <!---->
+             
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+              
+            <router-link-stub
+              id="settings"
+              to="/preferences"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </router-link-stub>
+             
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+             
+            <!---->
+          </div>
+           
+          <div
             class="header-balance"
           >
             <div
@@ -1555,8 +1728,6 @@ exports[`Staking functions onDelegation make sure we have enough atoms to delega
           >
             <!---->
              
-            <!---->
-              
             <a
               class="help"
             >
@@ -1566,7 +1737,7 @@ exports[`Staking functions onDelegation make sure we have enough atoms to delega
                 help_outline
               </i>
             </a>
-             
+              
             <router-link-stub
               id="settings"
               to="/preferences"
@@ -1608,8 +1779,6 @@ exports[`Staking functions onDelegation make sure we have enough atoms to delega
   <main
     class="tm-page-main"
   >
-    <!---->
-     
     <!---->
      
     <div
@@ -2038,6 +2207,45 @@ exports[`Staking functions onDelegation make sure we have enough atoms to delega
           class="tm-page-header-body"
         >
           <div
+            class="tool-bar"
+          >
+            <!---->
+             
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+              
+            <router-link-stub
+              id="settings"
+              to="/preferences"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </router-link-stub>
+             
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+             
+            <!---->
+          </div>
+           
+          <div
             class="header-balance"
           >
             <div
@@ -2092,8 +2300,6 @@ exports[`Staking functions onDelegation make sure we have enough atoms to delega
           >
             <!---->
              
-            <!---->
-              
             <a
               class="help"
             >
@@ -2103,7 +2309,7 @@ exports[`Staking functions onDelegation make sure we have enough atoms to delega
                 help_outline
               </i>
             </a>
-             
+              
             <router-link-stub
               id="settings"
               to="/preferences"
@@ -2145,8 +2351,6 @@ exports[`Staking functions onDelegation make sure we have enough atoms to delega
   <main
     class="tm-page-main"
   >
-    <!---->
-     
     <!---->
      
     <div
@@ -2508,6 +2712,45 @@ exports[`Staking functions onUndelegation make sure there are enough atoms to un
           class="tm-page-header-body"
         >
           <div
+            class="tool-bar"
+          >
+            <!---->
+             
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+              
+            <router-link-stub
+              id="settings"
+              to="/preferences"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </router-link-stub>
+             
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+             
+            <!---->
+          </div>
+           
+          <div
             class="header-balance"
           >
             <div
@@ -2562,8 +2805,6 @@ exports[`Staking functions onUndelegation make sure there are enough atoms to un
           >
             <!---->
              
-            <!---->
-              
             <a
               class="help"
             >
@@ -2573,7 +2814,7 @@ exports[`Staking functions onUndelegation make sure there are enough atoms to un
                 help_outline
               </i>
             </a>
-             
+              
             <router-link-stub
               id="settings"
               to="/preferences"
@@ -2615,8 +2856,6 @@ exports[`Staking functions onUndelegation make sure there are enough atoms to un
   <main
     class="tm-page-main"
   >
-    <!---->
-     
     <!---->
      
     <div
@@ -3045,6 +3284,45 @@ exports[`Staking functions onUndelegation make sure there are enough atoms to un
           class="tm-page-header-body"
         >
           <div
+            class="tool-bar"
+          >
+            <!---->
+             
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+              
+            <router-link-stub
+              id="settings"
+              to="/preferences"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </router-link-stub>
+             
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
+             
+            <!---->
+          </div>
+           
+          <div
             class="header-balance"
           >
             <div
@@ -3099,8 +3377,6 @@ exports[`Staking functions onUndelegation make sure there are enough atoms to un
           >
             <!---->
              
-            <!---->
-              
             <a
               class="help"
             >
@@ -3110,7 +3386,7 @@ exports[`Staking functions onUndelegation make sure there are enough atoms to un
                 help_outline
               </i>
             </a>
-             
+              
             <router-link-stub
               id="settings"
               to="/preferences"
@@ -3152,8 +3428,6 @@ exports[`Staking functions onUndelegation make sure there are enough atoms to un
   <main
     class="tm-page-main"
   >
-    <!---->
-     
     <!---->
      
     <div
