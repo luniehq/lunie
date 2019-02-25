@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
-- [\#1337](https://github.com/cosmos/voyager/issues/1337) Refactor tests: TmModalHelp @jbibla
+- [\#1337](https://github.com/cosmos/voyager/issues/1337) Refactor tests: TmModalHelp, PageValidator @jbibla @faboweb
 
 ## [1.0.0-beta.6] - 2019-02-23
 
