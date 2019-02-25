@@ -16,7 +16,7 @@
       </div>
       <div v-if="rewards" class="top-section">
         <h3>Total Rewards</h3>
-        <h2>{{ rewards || "--" }}</h2>
+        <h2>{{ rewards }}</h2>
       </div>
     </div>
     <short-bech32 :address="session.address || ''" />
@@ -52,7 +52,7 @@ export default {
       return this.num.shortNumber(this.liquidAtoms)
     },
     rewards() {
-      return this.distribution.totalRewards[this.bondDenom]
+      return this.distribution.totalRewards[this.bondDenom] || 0
     }
   }
 }
