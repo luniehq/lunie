@@ -1,26 +1,42 @@
 "use strict"
 
-import setup from "../../../helpers/vuex-setup"
+import {shallowMount, createLocalVue} from "@vue/test-utils"
 import UndelegationModal from "staking/UndelegationModal"
 import Vuelidate from "vuelidate"
-import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`UndelegationModal`, () => {
-  let wrapper, store
-  const { stakingParameters } = lcdClientMock.state
-  const { mount, localVue } = setup()
+  let wrapper, $store
+  const stakingParameters = {
+      unbonding_time: `259200000000000`,
+      max_validators: 100,
+      bond_denom: `STAKE`
+  }
+  const validator = {
+    operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`
+    // we don't need other props in this component
+  }
+  const localVue = createLocalVue()
   localVue.use(Vuelidate)
-  localVue.directive(`tooltip`, () => {})
-  localVue.directive(`focus`, () => {})
 
   beforeEach(() => {
-    const instance = mount(UndelegationModal, {
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: {
+        bondDenom: `stake`,
+        liquidAtoms: 1000042
+      }
+    }
+    wrapper = shallowMount(UndelegationModal, {
       localVue,
+      mocks: {
+        $store
+      },
       propsData: {
         maximum: 100,
-        validator: lcdClientMock.state.candidates[0],
+        validator,
         to: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
-        denom: stakingParameters.parameters.bond_denom,
+        denom: stakingParameters.bond_denom,
         fromOptions: [
           {
             address: `cosmosval1234`
@@ -28,13 +44,6 @@ describe(`UndelegationModal`, () => {
         ]
       }
     })
-    wrapper = instance.wrapper
-    store = instance.store
-    store.state.connection.connected = true
-    store.commit(`setStakingParameters`, stakingParameters.parameters)
-    store.commit(`setSignIn`, true)
-
-    wrapper.vm.$refs.actionModal.open()
   })
 
   describe(`component matches snapshot`, () => {
@@ -47,16 +56,6 @@ describe(`UndelegationModal`, () => {
     wrapper.vm.$refs.actionModal.open = jest.fn()
     wrapper.vm.open()
     expect(wrapper.vm.$refs.actionModal.open).toHaveBeenCalled()
-  })
-
-  describe(`default values are set correctly`, () => {
-    it(`displays the user's wallet address as the default`, () => {
-      const toField = wrapper.find(`#to`)
-      expect(toField).toBeDefined()
-      expect(toField.element.value).toEqual(
-        `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`
-      )
-    })
   })
 
   describe(`only submits on correct form`, () => {
@@ -85,7 +84,7 @@ describe(`UndelegationModal`, () => {
           `submitUnbondingDelegation`,
           {
             amount: -4.2,
-            validator: lcdClientMock.state.candidates[0],
+            validator,
             submitType: `local`,
             password: `1234567890`
           }
