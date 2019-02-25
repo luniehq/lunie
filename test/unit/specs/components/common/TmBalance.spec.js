@@ -8,8 +8,7 @@ describe(`TmBalance`, () => {
     $store = {
       getters: {
         session: {
-          address: `cosmos1address`,
-          signedIn: true
+          address: `cosmos1address`
         },
         liquidAtoms: 123,
         totalAtoms: 321,
