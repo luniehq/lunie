@@ -1,35 +1,117 @@
-import setup from "../../../helpers/vuex-setup"
+import {shallowMount} from "@vue/test-utils"
 import TableValidators from "renderer/components/staking/TableValidators"
-import lcdClientMock from "renderer/connectors/lcdClientMock.js"
-
-const { stakingParameters } = lcdClientMock.state
 
 describe(`TableValidators`, () => {
-  let wrapper, store
-  const { mount } = setup()
+  let wrapper, $store
+
+  const validators = [
+    {
+      operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+      pub_key: `cosmosvalpub1234`,
+      revoked: false,
+      tokens: `14`,
+      delegator_shares: `14`,
+      description: {
+        website: `www.monty.ca`,
+        details: `Mr Mounty`,
+        moniker: `mr_mounty`,
+        country: `Canada`
+      },
+      status: 2,
+      bond_height: `0`,
+      bond_intra_tx_counter: 6,
+      proposer_reward_pool: null,
+      commission: {
+        rate: `0`,
+        max_rate: `0`,
+        max_change_rate: `0`,
+        update_time: `1970-01-01T00:00:00Z`
+      },
+      prev_bonded_shares: `0`
+    },
+    {
+      operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
+      pub_key: `cosmosvalpub5678`,
+      revoked: false,
+      tokens: `0`,
+      delegator_shares: `0`,
+      description: {
+        website: `www.greg.com`,
+        details: `Good Guy Greg`,
+        moniker: `good_greg`,
+        country: `USA`
+      },
+      status: 2,
+      bond_height: `0`,
+      bond_intra_tx_counter: 6,
+      proposer_reward_pool: null,
+      commission: {
+        rate: `0`,
+        max_rate: `0`,
+        max_change_rate: `0`,
+        update_time: new Date(Date.now()).toISOString()
+      },
+      prev_bonded_shares: `0`
+    },
+    {
+      operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n`,
+      pub_key: `cosmosvalpub8910`,
+      tokens: `19`,
+      delegator_shares: `19`,
+      description: {
+        details: `Herr Schmidt`,
+        website: `www.schmidt.de`,
+        moniker: `herr_schmidt_revoked`,
+        country: `DE`
+      },
+      revoked: true,
+      status: 2,
+      bond_height: `0`,
+      bond_intra_tx_counter: 6,
+      proposer_reward_pool: null,
+      commission: {
+        rate: `0`,
+        max_rate: `0`,
+        max_change_rate: `0`,
+        update_time: new Date(Date.now()).toISOString()
+      },
+      prev_bonded_shares: `0`
+    }
+  ]
+
+  const getters = { 
+    delegation: {
+      loaded: true
+    },
+    committedDelegations: {
+      [validators[0].operator_address]: 0
+    },
+    session: {
+      address: `address1234`
+    },
+    liquidAtoms: 42,
+    connected: true,
+    bondDenom: `stake`,
+    keybase: {
+      [validators[0].description.identity]: {
+        // TODO
+      }
+    }
+  }
 
   beforeEach(() => {
-    const instance = mount(TableValidators, {
-      doBefore: ({ store }) => {
-        store.commit(`setConnected`, true)
-        store.commit(`updateWalletBalance`, {
-          denom: `atom`,
-          amount: 1337
-        })
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: JSON.parse(JSON.stringify(getters)) // clone so we don't overwrite by accident
+    }
+
+    wrapper = shallowMount(TableValidators, {
+      mocks: {
+        $store
       },
-      stubs: {
-        "short-bech32": true
-      },
-      propsData: { validators: lcdClientMock.candidates }
+      propsData: { validators }
     })
-    wrapper = instance.wrapper
-    store = instance.store
-    store.state.session.address = `address1234`
-    store.commit(`updateWalletBalance`, {
-      denom: `atom`,
-      amount: 1337
-    })
-    store.commit(`setStakingParameters`, stakingParameters.parameters)
   })
 
   it(`has the expected html structure`, async () => {
@@ -41,40 +123,15 @@ describe(`TableValidators`, () => {
     wrapper.vm.sort.order = `desc`
 
     expect(
-      wrapper.vm.sortedFilteredEnrichedDelegates.map(x => x.operator_address)
-    ).toEqual(lcdClientMock.validators)
+      wrapper.vm.sortedEnrichedDelegates.map(x => x.operator_address)
+    ).toEqual(validators.map(x => x.operator_address))
 
     wrapper.vm.sort.property = `operator_address`
     wrapper.vm.sort.order = `asc`
 
     expect(
-      wrapper.vm.sortedFilteredEnrichedDelegates.map(x => x.operator_address)
-    ).toEqual(lcdClientMock.validators.reverse())
-  })
-
-  it(`should filter the delegates`, () => {
-    store.commit(`setSearchVisible`, [`delegates`, true])
-    store.commit(`setSearchQuery`, [
-      `delegates`,
-      lcdClientMock.validators[2].substr(20, 26)
-    ])
-    expect(
-      wrapper.vm.sortedFilteredEnrichedDelegates.map(x => x.operator_address)
-    ).toEqual([lcdClientMock.validators[2]])
-    expect(wrapper.vm.$el).toMatchSnapshot()
-    store.commit(`setSearchQuery`, [
-      `delegates`,
-      lcdClientMock.validators[1].substr(20, 26)
-    ])
-    expect(
-      wrapper.vm.sortedFilteredEnrichedDelegates.map(x => x.operator_address)
-    ).toEqual([lcdClientMock.validators[1]])
-  })
-
-  it(`should update 'somethingToSearch' when there's nothing to search`, () => {
-    expect(wrapper.vm.somethingToSearch).toBe(true)
-    wrapper.setProps({ validators: [] })
-    expect(wrapper.vm.somethingToSearch).toBe(false)
+      wrapper.vm.sortedEnrichedDelegates.map(x => x.operator_address)
+    ).toEqual(validators.map(x => x.operator_address).reverse())
   })
 
   it(`should disallow delegation if user can't delegate`, () => {
@@ -101,35 +158,5 @@ describe(`TableValidators`, () => {
       }
     })
     expect(res).toBe(false)
-  })
-
-  describe(`setSearch`, () => {
-    it(`should show search when there is something to search`, () => {
-      const $store = {
-        commit: jest.fn()
-      }
-
-      TableValidators.methods.setSearch(true, {
-        somethingToSearch: true,
-        $store
-      })
-
-      expect($store.commit.mock.calls).toEqual([
-        [`setSearchVisible`, [`delegates`, true]]
-      ])
-    })
-
-    it(`should not show search when there is nothing to search`, () => {
-      const $store = {
-        commit: jest.fn()
-      }
-
-      TableValidators.methods.setSearch(true, {
-        somethingToSearch: false,
-        $store
-      })
-
-      expect($store.commit.mock.calls).toEqual([])
-    })
   })
 })
