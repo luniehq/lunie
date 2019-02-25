@@ -1,11 +1,11 @@
-import {shallowMount, createLocalVue} from "@vue/test-utils"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
 import PanelSort from "renderer/components/staking/PanelSort"
 
 describe(`PanelSort`, () => {
   let wrapper
 
   const localVue = createLocalVue()
-  localVue.directive(`tooltip`, () => {})
+  localVue.directive(`tooltip`, () => { })
 
   beforeEach(() => {
     wrapper = shallowMount(PanelSort, {

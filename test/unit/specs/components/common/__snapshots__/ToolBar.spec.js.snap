@@ -16,24 +16,27 @@ exports[`ToolBar has the expected html structure 1`] = `
     </i>
   </a>
     
-  <!---->
-   
-  <!---->
-   
-  <button
-    class="tm-btn"
-    id="signIn-btn"
+  <router-link-stub
+    id="settings"
+    to="/preferences"
   >
-    <span
-      class="tm-btn__container tm-btn--primary"
+    <i
+      class="material-icons"
     >
-      <!---->
-      <span
-        class="tm-btn__value"
-      >
-        Sign In
-      </span>
-    </span>
-  </button>
+      settings
+    </i>
+  </router-link-stub>
+   
+  <a
+    id="signOut-btn"
+  >
+    <i
+      class="material-icons"
+    >
+      exit_to_app
+    </i>
+  </a>
+   
+  <!---->
 </div>
 `;
