@@ -70,6 +70,8 @@ describe(`TabValidators`, () => {
         $store
       }
     })
+
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`shows a message if there is nothing to display`, async () => {
