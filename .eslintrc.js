@@ -55,6 +55,7 @@ module.exports = {
     "quote-props": ["error", "as-needed", { "unnecessary": true }],
     "object-curly-spacing": ["error", "always"],
     "array-bracket-spacing": ["error", "never"],
+    "indent": ["error", 2, { "SwitchCase": 1 }],
     "no-console": "off",
   }
 }
