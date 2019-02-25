@@ -1,6 +1,10 @@
-export const botAddress = `BOT`
 export const addresses = [
-  `A`,
-  `B`,
-  botAddress
+  `AddressA`,
+  `AddressB`
+]
+
+export const validators = [
+  `CosmosValidatorAddress1`,
+  `CosmosValidatorAddress2`,
+  `CosmosValidatorAddress3`
 ]

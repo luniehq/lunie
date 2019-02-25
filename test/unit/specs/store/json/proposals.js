@@ -1,3 +1,4 @@
+import { validators } from "./addresses"
 const day = 86400000
 export const proposals = {
   1: {
@@ -77,8 +78,8 @@ export const proposals = {
     ],
     submit_time: new Date(Date.now()).toISOString(),
     deposit_end_time: new Date(Date.now() + day * 2).toISOString(),
-    voting_start_time: `0001-01-01T00:00:00Z`,
-    voting_end_time: `0001-01-01T00:00:00Z`,
+    voting_start_time: `0001-01-01T00:00:00Z`, // TODO: fix
+    voting_end_time: `0001-01-01T00:00:00Z`,// TODO: fix
     proposal_status: `DepositPeriod`,
     final_tally_result: {
       yes: `0`,
@@ -115,5 +116,70 @@ export const proposals = {
       no_with_veto: `100`,
       abstain: `20`
     }
+  }
+}
+export const votes = {
+  1: [
+    {
+      proposal_id: `1`,
+      voter: validators[0],
+      option: `Yes`
+    },
+    {
+      proposal_id: `1`,
+      voter: validators[1],
+      option: `NoWithVeto`
+    }
+  ],
+  2: [],
+  5: [
+    {
+      proposal_id: `5`,
+      voter: validators[0],
+      option: `No`
+    },
+    {
+      proposal_id: `5`,
+      voter: validators[1],
+      option: `Abstain`
+    }
+  ],
+  6: [
+    {
+      proposal_id: `6`,
+      voter: validators[0],
+      option: `No`
+    },
+    {
+      proposal_id: `6`,
+      voter: validators[1],
+      option: `NoWithVeto`
+    }
+  ]
+}
+export const tallies = {
+  1: {
+    yes: `500`,
+    no: `25`,
+    no_with_veto: `10`,
+    abstain: `56`
+  },
+  2: {
+    yes: `0`,
+    no: `0`,
+    no_with_veto: `0`,
+    abstain: `0`
+  },
+  5: {
+    yes: `0`,
+    no: `0`,
+    no_with_veto: `0`,
+    abstain: `0`
+  },
+  6: {
+    yes: `10`,
+    no: `30`,
+    no_with_veto: `100`,
+    abstain: `20`
   }
 }

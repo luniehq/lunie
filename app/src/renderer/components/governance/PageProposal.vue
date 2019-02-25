@@ -246,13 +246,13 @@ export default {
     }
   },
   methods: {
-    async onVote() {
-      this.$refs.modalVote.open()
+    async onVote({ $refs, $store, votes, proposalId, wallet } = this ) {
+      $refs.modalVote.open()
       // The error is already handled with notifyError in votes.js
-      await this.$store.dispatch(`getProposalVotes`, this.proposalId)
+      await $store.dispatch(`getProposalVotes`, proposalId)
       this.lastVote =
-        this.votes[this.proposalId] &&
-        this.votes[this.proposalId].find(e => e.voter === this.wallet.address)
+        votes[proposalId] &&
+        votes[proposalId].find(e => e.voter === wallet.address)
     },
     onDeposit() {
       this.$refs.modalDeposit.open()

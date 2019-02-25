@@ -1,6 +1,5 @@
 import proposalsModule from "renderer/vuex/modules/governance/proposals.js"
-import { proposals } from "../json/proposals"
-import { tallies } from "../json/tallies"
+import { proposals, tallies } from "../json/proposals"
 import { addresses } from "../json/addresses"
 
 const mockRootState = {
@@ -123,7 +122,7 @@ describe(`Module: Proposals`, () => {
       const { actions, state } = proposalsModuleInstance
       await actions.getProposals({
         state,
-        commit: jest.fn(),
+        commit: () => {},
         rootState: mockRootState
       })
       expect(state.error.message).toBe(`Error`)
