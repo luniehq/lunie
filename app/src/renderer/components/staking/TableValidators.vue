@@ -53,7 +53,6 @@ export default {
     ...mapGetters([
       `delegates`,
       `delegation`,
-      `filters`,
       `committedDelegations`,
       `session`,
       `liquidAtoms`,

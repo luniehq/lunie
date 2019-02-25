@@ -62,7 +62,7 @@ export default {
   },
   data: () => ({ num, showSendModal: false }),
   computed: {
-    ...mapGetters([`filters`, `wallet`, `connected`]),
+    ...mapGetters([`wallet`, `connected`]),
     allDenomBalances() {
       // for denoms not in balances, add empty balance
       const balances = this.wallet.balances.slice(0)

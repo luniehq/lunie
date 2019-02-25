@@ -57,7 +57,6 @@ export default {
   computed: {
     ...mapGetters([
       `transactions`,
-      `filters`,
       `allTransactions`,
       `wallet`,
       `bondDenom`,
