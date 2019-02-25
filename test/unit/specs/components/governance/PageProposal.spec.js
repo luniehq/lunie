@@ -65,7 +65,7 @@ describe(`PageProposal`, () => {
     })
   })
 
-  it(`has the expected html structure when voting is open`, async () => {
+  it(`renders votes in HTML when voting is open`, async () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
