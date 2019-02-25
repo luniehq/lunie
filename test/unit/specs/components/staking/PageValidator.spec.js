@@ -99,94 +99,94 @@ describe(`PageValidator`, () => {
 
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
-  })
-
-  it(`should return one delegate based on route params`, () => {
-    expect(wrapper.vm.validator.operator_address).toEqual(
-      validator.operator_address
-    )
-  })
-
-  it(`shows a default avatar`, () => {
-    expect(wrapper.html()).toContain(`validator-icon.svg`)
-  })
-
-  it(`should return the self bond based on the validator`, () => {
-    const validator = {
-      selfBond: 1
-    }
-    wrapper.setData({ validator })
-    expect(wrapper.vm.selfBond).toBe(`100.00%`)
-
-    validator.selfBond = undefined
-    wrapper.setData({ validator })
-    expect(wrapper.vm.selfBond).toBe(`0.00%`)
-  })
-
-  it(`shows an error if the validator couldn't be found`, () => {
-    $store.getters.delegates.delegates = []
-
-    expect(wrapper.exists(`tm-data-error-stub`)).toBe(true)
-  })
-
-  it(`shows the selfBond`, () => {
-    expect(wrapper.find(`#page-profile__self-bond`).text()).toBe(`1.00%`)
-  })
-
-  it(`should show the validator status`, () => {
-    expect(wrapper.vm.status).toBe(`This validator is actively validating`)
-    // Jailed
-    $store.getters.delegates.delegates = [Object.assign({}, validator, {
-      revoked: true
-    })]
-    expect(wrapper.vm.status).toBe(
-      `This validator has been jailed and is not currently validating`
-    )
-    // Is not a validator
-    $store.getters.delegates.delegates = [Object.assign({}, validator, {
-      voting_power: 0
-    })]
-    expect(wrapper.vm.status).toBe(
-      `This validator does not have enough voting power yet and is inactive`
-    )
-  })
-
-  it(`shows a validator as candidate if he has no voting_power`, () => {
-    $store.getters.delegates.delegates = [Object.assign({}, validator, {
-      voting_power: 0
-    })]
-    expect(wrapper.vm.status).toMatchSnapshot()
-  })
-
-  it(`shows that a validator is revoked`, () => {
-    $store.getters.delegates.delegates = [Object.assign({}, validator, {
-      revoked: true
-    })]
-    expect(wrapper.vm.status).toMatchSnapshot()
-  })
-
-  it(`disables delegation and undelegation buttons if not connected`, () => {
-    expect(
-      wrapper.vm.$el.querySelector(`#delegation-btn`).getAttribute(`disabled`)
-    ).toBeNull()
-    expect(
-      wrapper.vm.$el.querySelector(`#undelegation-btn`).getAttribute(`disabled`)
-    ).toBeNull()
-    $store.getters.connected = false
-    expect(
-      wrapper.vm.$el.querySelector(`#delegation-btn`).getAttribute(`disabled`)
-    ).not.toBeNull()
-    expect(
-      wrapper.vm.$el.querySelector(`#undelegation-btn`).getAttribute(`disabled`)
-    ).not.toBeNull()
-  })
-
-  describe(`errors`, () => {
-    it(`signing info is missing`, () => {
+    
+    it(`should return one delegate based on route params`, () => {
+      expect(wrapper.vm.validator.operator_address).toEqual(
+        validator.operator_address
+      )
+    })
+  
+    it(`shows a default avatar`, () => {
+      expect(wrapper.html()).toContain(`validator-icon.svg`)
+    })
+  
+    it(`should return the self bond based on the validator`, () => {
+      const validator = {
+        selfBond: 1
+      }
+      wrapper.setData({ validator })
+      expect(wrapper.vm.selfBond).toBe(`100.00%`)
+  
+      validator.selfBond = undefined
+      wrapper.setData({ validator })
+      expect(wrapper.vm.selfBond).toBe(`0.00%`)
+    })
+  
+    it(`shows an error if the validator couldn't be found`, () => {
+      $store.getters.delegates.delegates = []
+  
+      expect(wrapper.exists(`tm-data-error-stub`)).toBe(true)
+    })
+  
+    it(`shows the selfBond`, () => {
+      expect(wrapper.find(`#page-profile__self-bond`).text()).toBe(`1.00%`)
+    })
+  
+    it(`should show the validator status`, () => {
+      expect(wrapper.vm.status).toBe(`This validator is actively validating`)
+      // Jailed
       $store.getters.delegates.delegates = [Object.assign({}, validator, {
-        signing_info: undefined
+        revoked: true
+      })]
+      expect(wrapper.vm.status).toBe(
+        `This validator has been jailed and is not currently validating`
+      )
+      // Is not a validator
+      $store.getters.delegates.delegates = [Object.assign({}, validator, {
+        voting_power: 0
+      })]
+      expect(wrapper.vm.status).toBe(
+        `This validator does not have enough voting power yet and is inactive`
+      )
+    })
+  
+    it(`shows a validator as candidate if he has no voting_power`, () => {
+      $store.getters.delegates.delegates = [Object.assign({}, validator, {
+        voting_power: 0
       })]
       expect(wrapper.vm.status).toMatchSnapshot()
+    })
+  
+    it(`shows that a validator is revoked`, () => {
+      $store.getters.delegates.delegates = [Object.assign({}, validator, {
+        revoked: true
+      })]
+      expect(wrapper.vm.status).toMatchSnapshot()
+    })
+  
+    it(`disables delegation and undelegation buttons if not connected`, () => {
+      expect(
+        wrapper.vm.$el.querySelector(`#delegation-btn`).getAttribute(`disabled`)
+      ).toBeNull()
+      expect(
+        wrapper.vm.$el.querySelector(`#undelegation-btn`).getAttribute(`disabled`)
+      ).toBeNull()
+      $store.getters.connected = false
+      expect(
+        wrapper.vm.$el.querySelector(`#delegation-btn`).getAttribute(`disabled`)
+      ).not.toBeNull()
+      expect(
+        wrapper.vm.$el.querySelector(`#undelegation-btn`).getAttribute(`disabled`)
+      ).not.toBeNull()
+    })
+  
+    describe(`errors`, () => {
+      it(`signing info is missing`, () => {
+        $store.getters.delegates.delegates = [Object.assign({}, validator, {
+          signing_info: undefined
+        })]
+        expect(wrapper.vm.status).toMatchSnapshot()
+      })
     })
   })
 })

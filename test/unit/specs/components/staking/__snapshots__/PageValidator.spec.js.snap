@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PageValidator errors signing info is missing 1`] = `"This validator is actively validating"`;
+exports[`PageValidator has the expected html structure errors signing info is missing 1`] = `"This validator is actively validating"`;
 
 exports[`PageValidator has the expected html structure if user has signed in 1`] = `
 <tm-page-stub
@@ -654,9 +654,9 @@ exports[`PageValidator has the expected html structure if user hasn't signed in 
 </tm-page-stub>
 `;
 
-exports[`PageValidator shows a validator as candidate if he has no voting_power 1`] = `"This validator does not have enough voting power yet and is inactive"`;
+exports[`PageValidator has the expected html structure shows a validator as candidate if he has no voting_power 1`] = `"This validator does not have enough voting power yet and is inactive"`;
 
-exports[`PageValidator shows that a validator is revoked 1`] = `"This validator has been jailed and is not currently validating"`;
+exports[`PageValidator has the expected html structure shows that a validator is revoked 1`] = `"This validator has been jailed and is not currently validating"`;
 
 exports[`delegationTargetOptions always shows wallet in the first position 1`] = `
 Array [
