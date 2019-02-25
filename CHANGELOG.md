@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
-- [\#1337](https://github.com/cosmos/voyager/issues/1337) Refactor tests: ToolBar, TmModalHelp, UndelegationModal @jbibla @faboweb
+- disabled TmOnboarding by default @jbibla
+- [\#1337](https://github.com/cosmos/voyager/issues/1337) Refactor tests: ToolBar, TmModalHelp, UndelegationModal, TmOnboarding, TmSessionAccountDelete @jbibla @faboweb
 
 ## [1.0.0-beta.6] - 2019-02-23
 
@@ -17,14 +18,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Enable dev mode from url param @faboweb
 
-### Changed
+### Fixed
 
 - Refactored tests: PageStaking, PanelSort, TabStakingParameters @faboweb
-- Refactored tests: TmSessionAccountDelete @jbibla
-
-
-## Fixed
-
 - Sign in with local key @faboweb
 - [\#2024](https://github.com/cosmos/voyager/issues/2024) Fixed feature setting the rpc from url param @faboweb
 
