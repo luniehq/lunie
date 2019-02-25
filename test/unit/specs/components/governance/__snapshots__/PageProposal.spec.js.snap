@@ -76,8 +76,6 @@ exports[`PageProposal has the expected html structure if user has signed in 1`] 
           >
             <!---->
              
-            <!---->
-              
             <a
               class="help"
             >
@@ -87,7 +85,7 @@ exports[`PageProposal has the expected html structure if user has signed in 1`] 
                 help_outline
               </i>
             </a>
-             
+              
             <router-link-stub
               id="settings"
               to="/preferences"
@@ -129,8 +127,6 @@ exports[`PageProposal has the expected html structure if user has signed in 1`] 
   <main
     class="tm-page-main"
   >
-    <!---->
-     
     <!---->
       
     <div
@@ -431,8 +427,6 @@ exports[`PageProposal has the expected html structure if user hasn't signed in 1
           >
             <!---->
              
-            <!---->
-              
             <a
               class="help"
             >
@@ -442,7 +436,7 @@ exports[`PageProposal has the expected html structure if user hasn't signed in 1
                 help_outline
               </i>
             </a>
-             
+              
             <!---->
              
             <!---->
@@ -481,8 +475,6 @@ exports[`PageProposal has the expected html structure if user hasn't signed in 1
   <main
     class="tm-page-main"
   >
-    <!---->
-     
     <!---->
       
     <div
@@ -783,8 +775,6 @@ exports[`PageProposal has the expected html structure when voting is open 1`] = 
           >
             <!---->
              
-            <!---->
-              
             <a
               class="help"
             >
@@ -794,7 +784,7 @@ exports[`PageProposal has the expected html structure when voting is open 1`] = 
                 help_outline
               </i>
             </a>
-             
+              
             <router-link-stub
               id="settings"
               to="/preferences"
@@ -836,8 +826,6 @@ exports[`PageProposal has the expected html structure when voting is open 1`] = 
   <main
     class="tm-page-main"
   >
-    <!---->
-     
     <!---->
       
     <div
@@ -1138,8 +1126,6 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
           >
             <!---->
              
-            <!---->
-              
             <a
               class="help"
             >
@@ -1149,7 +1135,7 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
                 help_outline
               </i>
             </a>
-             
+              
             <!---->
              
             <!---->
@@ -1188,8 +1174,6 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
   <main
     class="tm-page-main"
   >
-    <!---->
-     
     <!---->
       
     <div
