@@ -51,7 +51,7 @@ export default [
       {
         path: `staking-parameters`,
         name: `Staking Parameters`,
-        component: require(`./components/staking/TabParameters`).default
+        component: require(`./components/staking/TabStakingParameters`).default
       }
     ]
   },
