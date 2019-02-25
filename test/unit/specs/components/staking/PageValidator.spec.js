@@ -45,7 +45,7 @@ const validatorTo = {
 }
 
 const getters = {
-  session: { devMode: true, signedIn: true },
+  session: { devMode: true, signedIn: true, address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9` },
   delegates: {
     delegates: [validator, validatorTo],
     globalPower: 4200,
@@ -59,7 +59,6 @@ const getters = {
   },
   keybase: `keybase`,
   liquidAtoms: 1337,
-  wallet: { address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9` },
   connected: true,
   bondDenom: stakingParameters.bond_denom
 }
@@ -204,7 +203,7 @@ describe(`delegationTargetOptions`, () => {
       }
     })
     expect(options).toHaveLength(1)
-    expect(options[0].address).toEqual(getters.wallet.address)
+    expect(options[0].address).toEqual(getters.session.address)
 
     expect(options).toMatchSnapshot()
   })
@@ -229,7 +228,7 @@ describe(`delegationTargetOptions`, () => {
     expect(options).not.toContainEqual(
       expect.objectContaining({ address: validator.operator_address })
     )
-    expect(options[0].address).toEqual(getters.wallet.address)
+    expect(options[0].address).toEqual(getters.session.address)
 
     expect(options).toMatchSnapshot()
   })
@@ -256,7 +255,7 @@ describe(`delegationTargetOptions`, () => {
     expect(options).not.toContainEqual(
       expect.objectContaining({ address: validator.operator_address })
     )
-    expect(options[0].address).toEqual(getters.wallet.address)
+    expect(options[0].address).toEqual(getters.session.address)
     expect(options).toContainEqual(
       expect.objectContaining({ address: validatorTo.operator_address })
     )

@@ -155,7 +155,7 @@
         ref="undelegationModal"
         :maximum="Number(myBond)"
         :from-options="delegationTargetOptions()"
-        :to="session.signedIn ? wallet.address : ``"
+        :to="session.signedIn ? session.address : ``"
         :validator="validator"
         :denom="bondDenom"
       />
@@ -226,7 +226,6 @@ export default {
       `keybase`,
       `liquidAtoms`,
       `session`,
-      `wallet`,
       `connected`
     ]),
     validator() {
@@ -330,23 +329,16 @@ export default {
       }
     },
     delegationTargetOptions(
-      {
-        session,
-        wallet,
-        liquidAtoms,
-        committedDelegations,
-        $route,
-        delegates
-      } = this
+      { session, liquidAtoms, committedDelegations, $route, delegates } = this
     ) {
       if (!session.signedIn) return []
 
       //- First option should always be your wallet (i.e normal delegation)
       const myWallet = [
         {
-          address: wallet.address,
+          address: session.address,
           maximum: Math.floor(liquidAtoms),
-          key: `My Wallet - ${shortAddress(wallet.address, 20)}`,
+          key: `My Wallet - ${shortAddress(session.address, 20)}`,
           value: 0
         }
       ]
