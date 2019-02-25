@@ -20,7 +20,6 @@
 import { mapGetters } from "vuex"
 import num from "scripts/num"
 import { orderBy } from "lodash"
-import Mousetrap from "mousetrap"
 import LiValidator from "staking/LiValidator"
 import { calculateTokens } from "scripts/common"
 import PanelSort from "staking/PanelSort"
