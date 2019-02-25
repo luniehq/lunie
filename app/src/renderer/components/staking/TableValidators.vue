@@ -1,9 +1,6 @@
 <template>
   <div>
-    <data-empty-search
-      v-if="!delegates.loading && sortedFilteredEnrichedDelegates.length === 0"
-    />
-    <table v-else class="data-table">
+    <table class="data-table">
       <thead>
         <panel-sort :sort="sort" :properties="properties" />
       </thead>
@@ -22,17 +19,14 @@
 <script>
 import { mapGetters } from "vuex"
 import num from "scripts/num"
-import { includes, orderBy } from "lodash"
-import Mousetrap from "mousetrap"
+import { orderBy } from "lodash"
 import LiValidator from "staking/LiValidator"
-import DataEmptySearch from "common/TmDataEmptySearch"
 import { calculateTokens } from "scripts/common"
 import PanelSort from "staking/PanelSort"
 export default {
   name: `table-validators`,
   components: {
     LiValidator,
-    DataEmptySearch,
     PanelSort
   },
   props: {
@@ -63,9 +57,6 @@ export default {
     address() {
       return this.session.address
     },
-    somethingToSearch() {
-      return !!this.validators.length
-    },
     vpTotal() {
       return this.validators
         .slice(0)
@@ -90,19 +81,12 @@ export default {
       )
     },
     sortedFilteredEnrichedDelegates() {
-      const query = this.filters.delegates.search.query || ``
       const sortedEnrichedDelegates = orderBy(
         this.enrichedDelegates.slice(0),
         [this.sort.property, `small_moniker`],
         [this.sort.order, `asc`]
       )
-      if (this.filters.delegates.search.visible) {
-        return sortedEnrichedDelegates.filter(i =>
-          includes(JSON.stringify(i).toLowerCase(), query.toLowerCase())
-        )
-      } else {
-        return sortedEnrichedDelegates
-      }
+      return sortedEnrichedDelegates
     },
     userCanDelegate() {
       return this.liquidAtoms > 0 && this.delegation.loaded
@@ -161,21 +145,9 @@ export default {
       address && this.updateDelegates()
     }
   },
-  mounted() {
-    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
-    Mousetrap.bind(`esc`, () => this.setSearch(false))
-  },
   methods: {
     updateDelegates() {
       this.$store.dispatch(`updateDelegates`)
-    },
-    setSearch(
-      bool = !this.filters[`delegates`].search.visible,
-      { somethingToSearch, $store } = this
-    ) {
-      if (somethingToSearch) {
-        $store.commit(`setSearchVisible`, [`delegates`, bool])
-      }
     }
   }
 }
