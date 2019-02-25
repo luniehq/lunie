@@ -5,13 +5,12 @@
     :error="transactions.error"
     :dataset="orderedTransactions"
     :refresh="refreshTransactions"
-    :has-filtered-data="hasFilteredData"
     data-title="Transactions"
   >
     <data-empty-tx slot="no-data" />
     <template slot="managed-body">
       <tm-li-any-transaction
-        v-for="tx in filteredTransactions"
+        v-for="tx in orderedTransactions"
         :key="tx.txhash"
         :validators="delegates.delegates"
         :validators-url="validatorURL"
@@ -31,7 +30,7 @@
 <script>
 import shortid from "shortid"
 import { mapGetters } from "vuex"
-import { includes, orderBy } from "lodash"
+import { orderBy } from "lodash"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import TmPage from "common/TmPage"
 import TmLiAnyTransaction from "transactions/TmLiAnyTransaction"
@@ -73,20 +72,6 @@ export default {
         [this.sort.order]
       )
     },
-    filteredTransactions({ orderedTransactions, filters } = this) {
-      const query = filters.transactions.search.query
-      if (filters.transactions.search.visible) {
-        // doing a full text comparison on the transaction data
-        return orderedTransactions.filter(t =>
-          includes(JSON.stringify(t).toLowerCase(), query)
-        )
-      } else {
-        return orderedTransactions
-      }
-    },
-    hasFilteredData({ filteredTransactions } = this) {
-      return filteredTransactions.length > 0
-    }
   },
   mounted() {
     this.refreshTransactions()

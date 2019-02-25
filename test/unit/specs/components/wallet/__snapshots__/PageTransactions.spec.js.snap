@@ -4,7 +4,6 @@ exports[`PageTransactions has the expected html structure if user has signed in 
 <tm-page-stub
   data-title="Transactions"
   dataset="[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
-  has-filtered-data="true"
   loaded="true"
   refresh="function () { [native code] }"
   subtitle=""
@@ -77,7 +76,6 @@ exports[`PageTransactions has the expected html structure if user hasn't signed 
 <tm-page-stub
   data-title="Transactions"
   dataset="[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
-  has-filtered-data="true"
   loaded="true"
   refresh="function () { [native code] }"
   subtitle=""
