@@ -5,7 +5,6 @@
     :error="wallet.error"
     :dataset="allBalances"
     :refresh="queryWalletBalances"
-    :has-filtered-data="hasFilteredData"
     data-title="Wallet"
   >
     <tm-data-msg id="account_empty_msg" slot="no-data" icon="help_outline">
@@ -31,7 +30,7 @@
 <script>
 import num from "scripts/num"
 import { mapGetters, mapActions } from "vuex"
-import { includes, orderBy } from "lodash"
+import { orderBy } from "lodash"
 import LiCoin from "./LiCoin"
 import SendModal from "wallet/SendModal"
 import TmPage from "common/TmPage"
@@ -79,23 +78,14 @@ export default {
       return this.wallet.balances
     },
     filteredBalances() {
-      const query = this.filters.balances.search.query
       const list = orderBy(
         this.allDenomBalances,
         [`amount`, balance => balance.denom.toLowerCase()],
         [`desc`, `asc`]
       )
-      if (this.filters.balances.search.visible) {
-        return list.filter(coin =>
-          includes(JSON.stringify(coin).toLowerCase(), query.toLowerCase())
-        )
-      } else {
-        return list
-      }
+
+      return list
     },
-    hasFilteredData({ filteredBalances } = this) {
-      return filteredBalances.length > 0
-    }
   },
   async mounted() {
     this.updateDelegates()

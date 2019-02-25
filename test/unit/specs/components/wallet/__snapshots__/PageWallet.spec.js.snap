@@ -4,7 +4,6 @@ exports[`PageWallet has the expected html structure 1`] = `
 <tm-page-stub
   data-title="Wallet"
   dataset="[object Object],[object Object],[object Object]"
-  has-filtered-data="true"
   refresh="function () { [native code] }"
   subtitle=""
   title=""
@@ -51,7 +50,6 @@ exports[`PageWallet should filter the balances 1`] = `
 <tm-page-stub
   data-title="Wallet"
   dataset="[object Object],[object Object],[object Object]"
-  has-filtered-data="true"
   refresh="function () { [native code] }"
   subtitle=""
   title=""
@@ -86,7 +84,6 @@ exports[`PageWallet should show the sending modal 1`] = `
 <tm-page-stub
   data-title="Wallet"
   dataset=""
-  has-filtered-data="true"
   refresh="function () { [native code] }"
   subtitle=""
   title=""
@@ -108,6 +105,18 @@ exports[`PageWallet should show the sending modal 1`] = `
     </div>
   </tm-data-msg-stub>
    
+  <li-coin-stub
+    class="tm-li-balance"
+    coin="[object Object]"
+  />
+  <li-coin-stub
+    class="tm-li-balance"
+    coin="[object Object]"
+  />
+  <li-coin-stub
+    class="tm-li-balance"
+    coin="[object Object]"
+  />
   <li-coin-stub
     class="tm-li-balance"
     coin="[object Object]"
