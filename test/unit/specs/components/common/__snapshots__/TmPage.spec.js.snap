@@ -12,6 +12,8 @@ exports[`TmPage has the expected html structure 1`] = `
     <!---->
      
     <template>
+      <tool-bar-stub />
+       
       <!---->
        
       <tool-bar-stub />
@@ -23,8 +25,6 @@ exports[`TmPage has the expected html structure 1`] = `
   <main
     class="tm-page-main"
   >
-    <!---->
-     
     <!---->
      
   </main>
@@ -43,11 +43,11 @@ exports[`TmPage should show links to other pages 1`] = `
     <!---->
      
     <template>
+      <tool-bar-stub />
+       
       <!---->
        
-      <tool-bar-stub
-        searching="[object Object]"
-      />
+      <tool-bar-stub />
     </template>
      
     <template />
@@ -56,11 +56,7 @@ exports[`TmPage should show links to other pages 1`] = `
   <main
     class="tm-page-main"
   >
-    <modal-search-stub
-      type="stuff"
-    />
-     
-    <data-empty-search-stub />
+    <!---->
      
   </main>
 </div>

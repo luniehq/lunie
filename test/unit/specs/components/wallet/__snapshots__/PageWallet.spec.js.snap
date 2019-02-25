@@ -4,10 +4,7 @@ exports[`PageWallet has the expected html structure 1`] = `
 <tm-page-stub
   data-title="Wallet"
   dataset="[object Object],[object Object],[object Object]"
-  hasfiltereddata="true"
-  menubody=""
   refresh="function () { [native code] }"
-  search="balances"
   subtitle=""
   title=""
 >
@@ -40,43 +37,6 @@ exports[`PageWallet has the expected html structure 1`] = `
     class="tm-li-balance"
     coin="[object Object]"
   />
-  <li-coin-stub
-    class="tm-li-balance"
-    coin="[object Object]"
-  />
-   
-  <send-modal-stub />
-</tm-page-stub>
-`;
-
-exports[`PageWallet should filter the balances 1`] = `
-<tm-page-stub
-  data-title="Wallet"
-  dataset="[object Object],[object Object],[object Object]"
-  hasfiltereddata="true"
-  menubody=""
-  refresh="function () { [native code] }"
-  search="balances"
-  subtitle=""
-  title=""
->
-  <tm-data-msg-stub
-    icon="help_outline"
-    id="account_empty_msg"
-  >
-    <div>
-      
-      Account empty
-    
-    </div>
-     
-    <div>
-      
-      This account doesn't have anything in it yet.
-    
-    </div>
-  </tm-data-msg-stub>
-   
   <li-coin-stub
     class="tm-li-balance"
     coin="[object Object]"
@@ -90,10 +50,7 @@ exports[`PageWallet should show the sending modal 1`] = `
 <tm-page-stub
   data-title="Wallet"
   dataset=""
-  hasfiltereddata="true"
-  menubody=""
   refresh="function () { [native code] }"
-  search="balances"
   subtitle=""
   title=""
 >
@@ -114,6 +71,18 @@ exports[`PageWallet should show the sending modal 1`] = `
     </div>
   </tm-data-msg-stub>
    
+  <li-coin-stub
+    class="tm-li-balance"
+    coin="[object Object]"
+  />
+  <li-coin-stub
+    class="tm-li-balance"
+    coin="[object Object]"
+  />
+  <li-coin-stub
+    class="tm-li-balance"
+    coin="[object Object]"
+  />
   <li-coin-stub
     class="tm-li-balance"
     coin="[object Object]"

@@ -4,21 +4,10 @@ import PageWallet from "renderer/components/wallet/PageWallet"
 
 describe(`PageWallet`, () => {
   const localVue = createLocalVue()
-  localVue.directive(`tooltip`, () => {})
+  localVue.directive(`tooltip`, () => { })
 
   let wrapper, $store
   const getters = {
-    filters: {
-      balances: {
-        search: {
-          query: ``,
-          visible: false
-        },
-        stubs: {
-          "send-modal": true
-        }
-      }
-    },
     wallet: {
       loading: false,
       denoms: [`fermion`, `gregcoin`, `mycoin`, `STAKE`],
@@ -58,22 +47,6 @@ describe(`PageWallet`, () => {
 
   it(`should list the denoms that are available`, () => {
     expect(wrapper.findAll(`.tm-li-balance`).length).toBe(4)
-  })
-
-  it(`should filter the balances`, async () => {
-    wrapper.setData({
-      filters: {
-        balances: {
-          search: {
-            query: `stake`,
-            visible: true
-          }
-        }
-      }
-    })
-
-    expect(wrapper.vm.filteredBalances.map(x => x.denom)).toEqual([`STAKE`])
-    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should show the n/a message if there are no denoms`, async () => {
