@@ -5,7 +5,7 @@ import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 const { proposals, tallies } = lcdClientMock.state
 
 describe(`TableProposals`, () => {
-  let wrapper, store
+  let wrapper
   const { mount } = setup()
 
   const $store = {
@@ -33,7 +33,6 @@ describe(`TableProposals`, () => {
       $store
     })
     wrapper = instance.wrapper
-    store = instance.store
   })
 
   it(`has the expected html structure`, async () => {
