@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex"
+import { mapActions } from "vuex"
 import TmPage from "common/TmPage"
 
 export default {
@@ -33,9 +33,6 @@ export default {
       }
     ]
   }),
-  computed: {
-    ...mapGetters([`connected`, `delegates`, `filters`, `session`])
-  },
   methods: {
     ...mapActions([`getDelegates`])
   }

@@ -70,7 +70,7 @@ export default {
     }
   }),
   computed: {
-    ...mapGetters([`session`, `stakingParameters`, `connected`, `bondDenom`]),
+    ...mapGetters([`stakingParameters`, `connected`, `bondDenom`]),
     unbondingTimeInDays() {
       return (
         parseInt(this.stakingParameters.parameters.unbonding_time) /
