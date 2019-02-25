@@ -52,10 +52,21 @@ describe(`Module: Pool`, () => {
 
     await actions.getPool({ state, commit, rootState })
     expect(commit).toHaveBeenCalledWith(`setPool`, pool)
-    expect(state.pool).toEqual(pool)
+    expect(state.error).toBe(null)
+    expect(state.loading).toBe(false)
+    expect(state.loaded).toBe(true)
   })
 
   it(`should store an error if failed to load pool information`, async () => {
+    module = poolModule({
+      node: {
+        getPool: jest.fn().mockRejectedValue(`node.getPool failed`)
+      }
+    })
+    state = module.state
+    actions = module.actions
+    mutations = module.mutations
+
     const commit = jest.fn()
     const rootState = {
       connection: {
@@ -65,6 +76,8 @@ describe(`Module: Pool`, () => {
 
     await actions.getPool({ state, commit, rootState })
     expect(commit).not.toHaveBeenCalled()
-    expect(state.error).toBe(`Error`)
+    expect(state.error).toBe(`node.getPool failed`)
+    expect(state.loading).toBe(false)
+    expect(state.loaded).toBe(false)
   })
 })
