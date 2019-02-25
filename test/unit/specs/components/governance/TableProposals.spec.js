@@ -5,7 +5,7 @@ import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 const { proposals, tallies } = lcdClientMock.state
 
 describe(`TableProposals`, () => {
-  let wrapper, store
+  let wrapper
   const { mount } = setup()
 
   const $store = {
@@ -33,7 +33,6 @@ describe(`TableProposals`, () => {
       $store
     })
     wrapper = instance.wrapper
-    store = instance.store
   })
 
   it(`has the expected html structure`, async () => {
@@ -57,62 +56,9 @@ describe(`TableProposals`, () => {
   })
 
   it(`should filter the proposals`, () => {
-    store.commit(`setSearchVisible`, [`proposals`, true])
-    store.commit(`setSearchQuery`, [
-      `proposals`,
-      lcdClientMock.state.proposals[`1`].title
-    ])
-    expect(wrapper.vm.filteredProposals[0].description).toBe(
-      lcdClientMock.state.proposals[`1`].description
-    )
     expect(wrapper.vm.$el).toMatchSnapshot()
-    store.commit(`setSearchQuery`, [
-      `proposals`,
-      lcdClientMock.state.proposals[`2`].title
-    ])
     expect(wrapper.vm.filteredProposals[0].description).toBe(
-      lcdClientMock.state.proposals[`2`].description
+      lcdClientMock.state.proposals[`6`].description
     )
-  })
-
-  it(`should update 'somethingToSearch' when there's nothing to search`, () => {
-    expect(wrapper.vm.somethingToSearch).toBe(true)
-    wrapper.setProps({ proposals: {} })
-    expect(wrapper.vm.somethingToSearch).toBe(false)
-  })
-
-  it(`should show placeholder if no items to display`, () => {
-    const { wrapper } = mount(TableProposals, {
-      doBefore: ({ store }) => {
-        store.commit(`setConnected`, true)
-        store.state.session.address = `address1234`
-        store.commit(`updateWalletBalance`, {
-          denom: `atom`,
-          amount: 1337
-        })
-      },
-      propsData: { proposals: {} },
-      stubs: { "data-empty-search": true }
-    })
-    expect(wrapper.contains(`data-empty-search-stub`)).toBe(true)
-  })
-
-  describe(`setSearch`, () => {
-    it(`should show search when there is something to search`, () => {
-      wrapper.vm.setSearch()
-      expect(store.commit).toHaveBeenCalledWith(`setSearchVisible`, [
-        `proposals`,
-        true
-      ])
-    })
-
-    it(`should not show search when there is nothing to search`, () => {
-      wrapper.setProps({ proposals: {} })
-      wrapper.vm.setSearch()
-      expect(store.commit).not.toHaveBeenCalledWith(`setSearchVisible`, [
-        `proposals`,
-        true
-      ])
-    })
   })
 })
