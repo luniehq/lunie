@@ -1,13 +1,29 @@
-import setup from "../../../helpers/vuex-setup"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
 import ToolBar from "common/ToolBar"
+
 describe(`ToolBar`, () => {
-  let wrapper, store
-  const { mount } = setup()
+  const localVue = createLocalVue()
+  localVue.directive(`tooltip`, () => { })
+
+  let wrapper, $store
 
   beforeEach(() => {
-    const instance = mount(ToolBar)
-    wrapper = instance.wrapper
-    store = instance.store
+    $store = {
+      commit: jest.fn(),
+      getters: {
+        session: {
+          signedIn: true
+        }
+      }
+    }
+
+    wrapper = shallowMount(ToolBar, {
+      localVue,
+      mocks: {
+        $store
+      },
+      stubs: [`router-link`]
+    })
   })
 
   it(`has the expected html structure`, () => {
@@ -16,7 +32,7 @@ describe(`ToolBar`, () => {
 
   it(`sets the helper modal`, () => {
     wrapper.vm.enableModalHelp()
-    expect(store.state.session.modals.help.active).toBe(true)
+    expect($store.commit).toHaveBeenCalledWith(`setModalHelp`, true)
   })
 
   it(`call dispatch to sign the user out`, () => {
