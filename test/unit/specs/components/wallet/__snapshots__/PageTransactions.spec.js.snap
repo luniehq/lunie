@@ -16,7 +16,7 @@ exports[`PageTransactions has the expected html structure if user has signed in 
    
   <template>
     <tm-li-any-transaction-stub
-      address="B"
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
       transaction="[object Object]"
@@ -25,7 +25,7 @@ exports[`PageTransactions has the expected html structure if user has signed in 
       validatorsurl="/staking/validators"
     />
     <tm-li-any-transaction-stub
-      address="B"
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
       transaction="[object Object]"
@@ -34,7 +34,7 @@ exports[`PageTransactions has the expected html structure if user has signed in 
       validatorsurl="/staking/validators"
     />
     <tm-li-any-transaction-stub
-      address="B"
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
       transaction="[object Object]"
@@ -43,7 +43,7 @@ exports[`PageTransactions has the expected html structure if user has signed in 
       validatorsurl="/staking/validators"
     />
     <tm-li-any-transaction-stub
-      address="B"
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
       transaction="[object Object]"
@@ -52,7 +52,7 @@ exports[`PageTransactions has the expected html structure if user has signed in 
       validatorsurl="/staking/validators"
     />
     <tm-li-any-transaction-stub
-      address="B"
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
       transaction="[object Object]"
@@ -61,7 +61,7 @@ exports[`PageTransactions has the expected html structure if user has signed in 
       validatorsurl="/staking/validators"
     />
     <tm-li-any-transaction-stub
-      address="B"
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
       transaction="[object Object]"
@@ -91,6 +91,7 @@ exports[`PageTransactions has the expected html structure if user hasn't signed 
    
   <template>
     <tm-li-any-transaction-stub
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
       transaction="[object Object]"
@@ -99,6 +100,7 @@ exports[`PageTransactions has the expected html structure if user hasn't signed 
       validatorsurl="/staking/validators"
     />
     <tm-li-any-transaction-stub
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
       transaction="[object Object]"
@@ -107,6 +109,7 @@ exports[`PageTransactions has the expected html structure if user hasn't signed 
       validatorsurl="/staking/validators"
     />
     <tm-li-any-transaction-stub
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
       transaction="[object Object]"
@@ -115,6 +118,7 @@ exports[`PageTransactions has the expected html structure if user hasn't signed 
       validatorsurl="/staking/validators"
     />
     <tm-li-any-transaction-stub
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
       transaction="[object Object]"
@@ -123,6 +127,7 @@ exports[`PageTransactions has the expected html structure if user hasn't signed 
       validatorsurl="/staking/validators"
     />
     <tm-li-any-transaction-stub
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
       transaction="[object Object]"
@@ -131,6 +136,7 @@ exports[`PageTransactions has the expected html structure if user hasn't signed 
       validatorsurl="/staking/validators"
     />
     <tm-li-any-transaction-stub
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
       transaction="[object Object]"
