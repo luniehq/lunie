@@ -21,10 +21,8 @@ describe(`TmSessionAccountDelete`, () => {
       }
     })
     wrapper.setData({
-      fields: {
-        deletionPassword: ``,
-        deletionWarning: false
-      }
+      deletionPassword: ``,
+      deletionWarning: false
     })
   })
 
@@ -53,10 +51,8 @@ describe(`TmSessionAccountDelete`, () => {
 
   it(`should go back on successful deletion`, async () => {
     wrapper.setData({
-      fields: {
-        deletionPassword: `1234567890`,
-        deletionWarning: true
-      }
+      deletionPassword: `1234567890`,
+      deletionWarning: true
     })
     await wrapper.vm.onSubmit()
     expect($store.commit.mock.calls[0]).toEqual([
@@ -67,10 +63,8 @@ describe(`TmSessionAccountDelete`, () => {
 
   it(`should show error if password not 10 long`, async () => {
     wrapper.setData({
-      fields: {
-        deletionPassword: `123`,
-        deletionWarning: true
-      }
+      deletionPassword: `123`,
+      deletionWarning: true
     })
     await wrapper.vm.onSubmit()
     expect($store.commit.mock.calls[0]).toBeUndefined()
@@ -79,10 +73,8 @@ describe(`TmSessionAccountDelete`, () => {
 
   it(`should show error if deletionWarning is not acknowledged`, async () => {
     wrapper.setData({
-      fields: {
-        deletionPassword: `1234567890`,
-        deletionWarning: false
-      }
+      deletionPassword: `1234567890`,
+      deletionWarning: false
     })
     await wrapper.vm.onSubmit()
     expect($store.commit.mock.calls[0]).toBeUndefined()
@@ -90,15 +82,19 @@ describe(`TmSessionAccountDelete`, () => {
   })
 
   it(`should show a notification if deletion failed`, async () => {
-    $store.dispatch = jest.fn(() => Promise.reject(`Planned rejection`))
+    const error = {
+      message: `Error body`
+    }
+
+    $store.commit = jest.fn()
+    $store.dispatch = jest.fn().mockRejectedValue(error)
+
     wrapper.setData({
-      fields: {
-        deletionPassword: `1234567890`,
-        deletionWarning: true
-      }
+      deletionPassword: `1234567890`,
+      deletionWarning: true
     })
+
     await wrapper.vm.onSubmit()
-    expect($store.commit).toHaveBeenCalled()
-    expect($store.commit.mock.calls[0][0]).toBe(`notifyError`)
+    expect($store.commit).toHaveBeenCalledWith(`notifyError`, { body: `Error body`, title: `Account Deletion Failed` })
   })
 })
