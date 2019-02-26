@@ -41,7 +41,6 @@ export default ({ node }) => {
     },
     async getProposals({ state, commit, rootState }) {
       state.loading = true
-
       if (!rootState.connection.connected) return
 
       try {
@@ -73,10 +72,13 @@ export default ({ node }) => {
         state.loading = false
         return proposal
       } catch (error) {
-        commit(`notifyError`, {
-          title: `Error querying proposal with id #${proposal_id}`,
-          body: error.message
-        })
+        // This error currently will never be shown, we will end up in data-loading:
+        // https://github.com/cosmos/voyager/issues/2099
+
+        // commit(`notifyError`, {
+        //   title: `Error querying proposal with id #${proposal_id}`,
+        //   body: error.message
+        // })
         Sentry.captureException(error)
         state.error = error
       }
