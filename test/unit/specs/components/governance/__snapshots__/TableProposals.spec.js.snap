@@ -497,6 +497,210 @@ exports[`TableProposals should filter the proposals 1`] = `
             class="data-table__row__info__container"
           >
             <span
+              class="data-table__row__info__container__status red"
+            />
+             
+            <router-link-stub
+              class="data-table__row__info__container__name"
+              to="[object Object]"
+            >
+              
+        Rejected proposal
+      
+            </router-link-stub>
+             
+            <p
+              class="data-table__row__info__container__description"
+            >
+              
+        this proposal was rejected
+      
+            </p>
+          </div>
+        </td>
+         
+        <td>
+          #6
+        </td>
+         
+        <td
+          class="li-proposal__value yes"
+        >
+          
+    10
+  
+        </td>
+         
+        <td
+          class="li-proposal__value no"
+        >
+          
+    30
+  
+        </td>
+         
+        <td
+          class="li-proposal__value no_with_veto"
+        >
+          
+    100
+  
+        </td>
+         
+        <td
+          class="li-proposal__value abstain"
+        >
+          
+    20
+  
+        </td>
+      </tr>
+      <tr
+        class="data-table__row li-proposal"
+      >
+        <td
+          class="data-table__row__info"
+        >
+          <div
+            class="data-table__row__info__container"
+          >
+            <span
+              class="data-table__row__info__container__status yellow"
+            />
+             
+            <router-link-stub
+              class="data-table__row__info__container__name"
+              to="[object Object]"
+            >
+              
+        Custom text proposal
+      
+            </router-link-stub>
+             
+            <p
+              class="data-table__row__info__container__description"
+            >
+              
+        custom text proposal description
+      
+            </p>
+          </div>
+        </td>
+         
+        <td>
+          #5
+        </td>
+         
+        <td
+          class="li-proposal__value yes"
+        >
+          
+    0
+  
+        </td>
+         
+        <td
+          class="li-proposal__value no"
+        >
+          
+    0
+  
+        </td>
+         
+        <td
+          class="li-proposal__value no_with_veto"
+        >
+          
+    0
+  
+        </td>
+         
+        <td
+          class="li-proposal__value abstain"
+        >
+          
+    0
+  
+        </td>
+      </tr>
+      <tr
+        class="data-table__row li-proposal"
+      >
+        <td
+          class="data-table__row__info"
+        >
+          <div
+            class="data-table__row__info__container"
+          >
+            <span
+              class="data-table__row__info__container__status green"
+            />
+             
+            <router-link-stub
+              class="data-table__row__info__container__name"
+              to="[object Object]"
+            >
+              
+        VotingPeriod proposal
+      
+            </router-link-stub>
+             
+            <p
+              class="data-table__row__info__container__description"
+            >
+              
+        custom text proposal description
+      
+            </p>
+          </div>
+        </td>
+         
+        <td>
+          #2
+        </td>
+         
+        <td
+          class="li-proposal__value yes"
+        >
+          
+    0
+  
+        </td>
+         
+        <td
+          class="li-proposal__value no"
+        >
+          
+    0
+  
+        </td>
+         
+        <td
+          class="li-proposal__value no_with_veto"
+        >
+          
+    0
+  
+        </td>
+         
+        <td
+          class="li-proposal__value abstain"
+        >
+          
+    0
+  
+        </td>
+      </tr>
+      <tr
+        class="data-table__row li-proposal"
+      >
+        <td
+          class="data-table__row__info"
+        >
+          <div
+            class="data-table__row__info__container"
+          >
+            <span
               class="data-table__row__info__container__status material-icons"
             >
               

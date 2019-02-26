@@ -53,28 +53,13 @@ describe(`TableValidators`, () => {
   })
 
   it(`should filter the delegates`, () => {
-    store.commit(`setSearchVisible`, [`delegates`, true])
-    store.commit(`setSearchQuery`, [
-      `delegates`,
-      lcdClientMock.validators[2].substr(20, 26)
-    ])
     expect(
       wrapper.vm.sortedFilteredEnrichedDelegates.map(x => x.operator_address)
-    ).toEqual([lcdClientMock.validators[2]])
-    expect(wrapper.vm.$el).toMatchSnapshot()
-    store.commit(`setSearchQuery`, [
-      `delegates`,
-      lcdClientMock.validators[1].substr(20, 26)
+    ).toEqual([
+      `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
+      `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n`,
+      `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`
     ])
-    expect(
-      wrapper.vm.sortedFilteredEnrichedDelegates.map(x => x.operator_address)
-    ).toEqual([lcdClientMock.validators[1]])
-  })
-
-  it(`should update 'somethingToSearch' when there's nothing to search`, () => {
-    expect(wrapper.vm.somethingToSearch).toBe(true)
-    wrapper.setProps({ validators: [] })
-    expect(wrapper.vm.somethingToSearch).toBe(false)
   })
 
   it(`should disallow delegation if user can't delegate`, () => {
@@ -101,35 +86,5 @@ describe(`TableValidators`, () => {
       }
     })
     expect(res).toBe(false)
-  })
-
-  describe(`setSearch`, () => {
-    it(`should show search when there is something to search`, () => {
-      const $store = {
-        commit: jest.fn()
-      }
-
-      TableValidators.methods.setSearch(true, {
-        somethingToSearch: true,
-        $store
-      })
-
-      expect($store.commit.mock.calls).toEqual([
-        [`setSearchVisible`, [`delegates`, true]]
-      ])
-    })
-
-    it(`should not show search when there is nothing to search`, () => {
-      const $store = {
-        commit: jest.fn()
-      }
-
-      TableValidators.methods.setSearch(true, {
-        somethingToSearch: false,
-        $store
-      })
-
-      expect($store.commit.mock.calls).toEqual([])
-    })
   })
 })

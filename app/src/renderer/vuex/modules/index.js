@@ -6,7 +6,6 @@ export default opts => ({
   distribution: require(`./distribution.js`).default(opts),
   delegates: require(`./delegates.js`).default(opts),
   delegation: require(`./delegation.js`).default(opts),
-  filters: require(`./filters.js`).default(opts),
   connection: require(`./connection.js`).default(opts),
   notifications: require(`./notifications.js`).default(opts),
   onboarding: require(`./onboarding.js`).default(opts),
