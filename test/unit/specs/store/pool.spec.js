@@ -1,21 +1,26 @@
 import poolModule from "renderer/vuex/modules/pool.js"
 
 describe(`Module: Pool`, () => {
-  let module, state, actions, mutations
+  let moduleInstance, state, actions, mutations
   const pool = {
     loose_tokens: `100.0000000000`,
     bonded_tokens: `50.0000000000`
   }
+  const rootState = {
+    connection: {
+      connected: true
+    }
+  }
 
   beforeEach(() => {
-    module = poolModule({
+    moduleInstance = poolModule({
       node: {
         getPool: jest.fn().mockResolvedValue(pool)
       }
     })
-    state = module.state
-    actions = module.actions
-    mutations = module.mutations
+    state = moduleInstance.state
+    actions = moduleInstance.actions
+    mutations = moduleInstance.mutations
   })
 
   it(`should have correct defaults`, () => {
@@ -44,11 +49,6 @@ describe(`Module: Pool`, () => {
 
   it(`should query pool`, async () => {
     const commit = jest.fn()
-    const rootState = {
-      connection: {
-        connected: true
-      }
-    }
 
     await actions.getPool({ state, commit, rootState })
     expect(commit).toHaveBeenCalledWith(`setPool`, pool)
@@ -58,21 +58,16 @@ describe(`Module: Pool`, () => {
   })
 
   it(`should store an error if failed to load pool information`, async () => {
-    module = poolModule({
+    moduleInstance = poolModule({
       node: {
         getPool: jest.fn().mockRejectedValue(`node.getPool failed`)
       }
     })
-    state = module.state
-    actions = module.actions
-    mutations = module.mutations
+    state = moduleInstance.state
+    actions = moduleInstance.actions
+    mutations = moduleInstance.mutations
 
     const commit = jest.fn()
-    const rootState = {
-      connection: {
-        connected: true
-      }
-    }
 
     await actions.getPool({ state, commit, rootState })
     expect(commit).not.toHaveBeenCalled()
