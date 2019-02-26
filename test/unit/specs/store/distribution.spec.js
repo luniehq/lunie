@@ -49,7 +49,6 @@ describe(`Module: Fee Distribution`, () => {
     })
 
     it(`sets the account public key`, () => {
-
       mutations.setDistributionParameters(state, parameters)
       expect(state.parameters).toMatchObject(parameters)
     })

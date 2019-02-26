@@ -72,12 +72,12 @@ export default ({ node }) => {
         const info = { self_bond_rewards, val_commission, rewards }
         commit(`setValidatorDistributionInfo`, { validatorAddr, info })
         state.error = null
+        state.loaded = true
       } catch (error) {
         Sentry.captureException(error)
         state.error = error
       }
       state.loading = false
-      state.loaded = true
     }
   }
 
