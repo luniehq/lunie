@@ -19,6 +19,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 - Reconnected event was not triggered after reconnection @faboweb
+### Changed
+
+- [\#1337](https://github.com/cosmos/voyager/issues/1337) Refactor tests: pool-module @jbibla
 
 ## [1.0.0-beta.7] - 2019-02-26
 
@@ -36,11 +39,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
-- Refactored tests: PageStaking, PanelSort, TabStakingParameters, pool @faboweb @jbibla
-
-## Fixed
-
-- Refactored tests: PageStaking, PanelSort, TabStakingParameters @faboweb
 - Sign in with local key @faboweb
 - [\#2024](https://github.com/cosmos/voyager/issues/2024) Fixed feature setting the rpc from url param @faboweb
 
