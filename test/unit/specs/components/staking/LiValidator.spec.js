@@ -1,4 +1,4 @@
-import {shallowMount, createLocalVue} from "@vue/test-utils"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
 import LiValidator from "renderer/components/staking/LiValidator"
 
 const localVue = createLocalVue()
