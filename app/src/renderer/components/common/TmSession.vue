@@ -118,7 +118,7 @@ export default {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  padding: 0.5rem
+  padding: 0.5rem;
 }
 
 .tm-session-header a i {

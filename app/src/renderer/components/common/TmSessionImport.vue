@@ -135,6 +135,7 @@
         </tm-form-group>
       </div>
       <div class="tm-session-footer">
+        <fundraiser-warning />
         <tm-btn
           v-if="connected"
           icon="arrow_forward"
@@ -163,6 +164,7 @@ import TmFormStruct from "common/TmFormStruct"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import FieldSeed from "common/TmFieldSeed"
+import FundraiserWarning from "common/FundraiserWarning"
 import { mapGetters } from "vuex"
 export default {
   name: `tm-session-import`,
@@ -170,6 +172,7 @@ export default {
     TmBtn,
     TmField,
     FieldSeed,
+    FundraiserWarning,
     TmFormGroup,
     TmFormMsg,
     TmFormStruct

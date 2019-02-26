@@ -45,7 +45,6 @@
           subtitle="If you have a Ledger Wallet, choose this option."
           @click.native="setState('hardware')"
         />
-        <fundraiser-warning v-if="session.devMode" />
       </div>
       <div class="tm-session-footer" />
     </div>
@@ -55,12 +54,10 @@
 <script>
 import { mapGetters } from "vuex"
 import PerfectScrollbar from "perfect-scrollbar"
-import FundraiserWarning from "common/FundraiserWarning"
 import LiSession from "common/TmLiSession"
 export default {
   name: `tm-session-welcome`,
   components: {
-    FundraiserWarning,
     LiSession
   },
   computed: {
