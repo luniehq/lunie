@@ -14,30 +14,30 @@
       </div>
       <div class="tm-session-main">
         <tm-form-group
-          :error="$v.fields.deletionPassword.$error"
+          :error="$v.deletionPassword.$error"
           field-id="sign-in-password"
           field-label="Password"
         >
           <tm-field
             id="sign-in-password"
-            v-model="fields.deletionPassword"
+            v-model="deletionPassword"
             type="password"
             placeholder="Enter your password"
           />
           <tm-form-msg
-            v-if="!$v.fields.deletionPassword.required"
+            v-if="!$v.deletionPassword.required"
             name="Password"
             type="required"
           />
           <tm-form-msg
-            v-if="!$v.fields.deletionPassword.minLength"
+            v-if="!$v.deletionPassword.minLength"
             name="Password"
             type="minLength"
             min="10"
           />
         </tm-form-group>
         <tm-form-group
-          :error="$v.fields.deletionWarning.$error"
+          :error="$v.deletionWarning.$error"
           field-id="sign-up-warning"
           field-label=" "
         >
@@ -45,7 +45,7 @@
             <div class="tm-field-checkbox-input">
               <input
                 id="sign-up-warning"
-                v-model="fields.deletionWarning"
+                v-model="deletionWarning"
                 type="checkbox"
               >
             </div>
@@ -58,7 +58,7 @@
             </label>
           </div>
           <tm-form-msg
-            v-if="!$v.fields.deletionWarning.required"
+            v-if="!$v.deletionWarning.required"
             name="Deletion confirmation"
             type="required"
           />
@@ -91,7 +91,10 @@ export default {
     TmFormMsg,
     TmFormStruct
   },
-  data: () => ({ fields: { deletionPassword: ``, deletionWarning: false } }),
+  data: () => ({ 
+    deletionPassword: ``,
+    deletionWarning: false 
+  }),
   mounted() {
     this.$el.querySelector(`#sign-in-password`).focus()
   },
@@ -107,7 +110,7 @@ export default {
       if (this.$v.$error) return
       try {
         const success = await this.$store.dispatch(`deleteKey`, {
-          password: this.fields.deletionPassword
+          password: this.deletionPassword
         })
         if (success) {
           this.setState(`welcome`)
@@ -125,10 +128,8 @@ export default {
     }
   },
   validations: () => ({
-    fields: {
-      deletionPassword: { required, minLength: minLength(10) },
-      deletionWarning: { required: sameAs(() => true) }
-    }
+    deletionPassword: { required, minLength: minLength(10) },
+    deletionWarning: { required: sameAs(() => true) }
   })
 }
 </script>
