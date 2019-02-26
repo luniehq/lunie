@@ -16,7 +16,7 @@
         :validators-url="validatorURL"
         :proposals-url="governanceURL"
         :transaction="tx"
-        :address="wallet.address"
+        :address="session.address"
         :bonding-denom="bondDenom"
         :unbonding-time="
           time.getUnbondingTime(tx, delegation.unbondingDelegations)
@@ -57,7 +57,7 @@ export default {
     ...mapGetters([
       `transactions`,
       `allTransactions`,
-      `wallet`,
+      `session`,
       `bondDenom`,
       `delegation`,
       `delegates`

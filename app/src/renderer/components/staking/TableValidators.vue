@@ -54,8 +54,8 @@ export default {
       `bondDenom`,
       `keybase`
     ]),
-    address() {
-      return this.session.address
+    signedIn() {
+      return this.session.signedIn
     },
     vpTotal() {
       return this.validators
@@ -140,9 +140,12 @@ export default {
     }
   },
   watch: {
-    address: function(address) {
-      address && this.updateDelegates()
+    signedIn: function(signedIn) {
+      signedIn && this.updateDelegates()
     }
+  },
+  mounted() {
+    this.updateDelegates()
   },
   methods: {
     updateDelegates() {

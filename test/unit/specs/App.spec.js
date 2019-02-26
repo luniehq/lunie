@@ -63,8 +63,8 @@ describe(`App Start`, () => {
     expect(startApp).toHaveBeenCalledWith({
       x: 1
     }, {
-        config: `value`
-      })
+      config: `value`
+    })
   })
 
   it(`Check the calls on VUE`, async () => {

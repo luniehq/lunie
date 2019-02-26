@@ -1,4 +1,4 @@
-import {shallowMount, createLocalVue} from "@vue/test-utils"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
 import TabStakingParameters from "renderer/components/staking/TabStakingParameters"
 
 const stakingParameters = {

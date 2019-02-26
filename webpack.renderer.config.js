@@ -40,65 +40,65 @@ const rendererConfig = {
   },
   module: {
     rules: [{
-        test: /\.js$/,
-        use: `babel-loader`,
-        include: [path.resolve(__dirname, `app/src/renderer`)],
-        exclude: /node_modules/
-      },
-      {
-        test: /\.vue$/,
-        use: {
-          loader: `vue-loader`
-        }
-      },
-      {
-        test: /\.css$/,
-        use: [
-          `style-loader`,
-          {
-            loader: `css-loader`,
-            options: {
-              importLoaders: 1
-            }
-          },
-          {
-            loader: `postcss-loader`,
-            options: {
-              sourceMap: true,
-              ident: `postcss`,
-              plugins: loader => [
-                require(`postcss-import`)({
-                  root: loader.resourcePath
-                }),
-                require(`postcss-preset-env`)({
-                  browsers: `last 3 versions`
-                }),
-                require(`cssnano`)()
-              ]
-            }
-          }
-        ]
-      },
-      {
-        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-        use: [{
-          loader: `url-loader`,
-          query: {
-            limit: 10000,
-            name: `images/[name].[ext]`
-          }
-        }]
-      },
-      {
-        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-        use: [{
-          loader: `url-loader`,
-          query: {
-            limit: 10000,
-            name: `fonts/[name].[ext]`
-          }
-        }]
+      test: /\.js$/,
+      use: `babel-loader`,
+      include: [path.resolve(__dirname, `app/src/renderer`)],
+      exclude: /node_modules/
+    },
+    {
+      test: /\.vue$/,
+      use: {
+        loader: `vue-loader`
       }
+    },
+    {
+      test: /\.css$/,
+      use: [
+        `style-loader`,
+        {
+          loader: `css-loader`,
+          options: {
+            importLoaders: 1
+          }
+        },
+        {
+          loader: `postcss-loader`,
+          options: {
+            sourceMap: true,
+            ident: `postcss`,
+            plugins: loader => [
+              require(`postcss-import`)({
+                root: loader.resourcePath
+              }),
+              require(`postcss-preset-env`)({
+                browsers: `last 3 versions`
+              }),
+              require(`cssnano`)()
+            ]
+          }
+        }
+      ]
+    },
+    {
+      test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+      use: [{
+        loader: `url-loader`,
+        query: {
+          limit: 10000,
+          name: `images/[name].[ext]`
+        }
+      }]
+    },
+    {
+      test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+      use: [{
+        loader: `url-loader`,
+        query: {
+          limit: 10000,
+          name: `fonts/[name].[ext]`
+        }
+      }]
+    }
     ]
   },
   node: {

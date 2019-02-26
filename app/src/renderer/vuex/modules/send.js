@@ -90,13 +90,23 @@ export default ({ node }) => {
       const submitType = args.submitType || `local`
       delete args.submitType
 
-      // extract "to" address
+      // TODO: refactor to get path request parameters at once
+      // extract path parameters
       const to = args.to
+      const pathParameter = args.pathParameter
       delete args.to
+      delete args.pathParameter
 
       // get the generated tx by querying it from the backend
-      const req = to ? node[type](to, args) : node[type](args)
-      const generationRes = await req.catch(handleSDKError)
+      let request
+      if (to && pathParameter) {
+        request = node[type](to, pathParameter, args)
+      } else if (to) {
+        request = node[type](to, args)
+      } else {
+        request = node[type](args)
+      }
+      const generationRes = await request.catch(handleSDKError)
       const tx = generationRes.value
 
       let signature

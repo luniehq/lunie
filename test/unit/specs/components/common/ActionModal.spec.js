@@ -80,9 +80,11 @@ describe(`ActionModal`, () => {
   })
 
   it(`opens`, () => {
+    wrapper.vm.track = jest.fn()
     wrapper.vm.open()
 
     expect(wrapper.isEmpty()).not.toBe(true)
+    expect(wrapper.vm.track).toHaveBeenCalled()
   })
 
   it(`opens session modal`, () => {
