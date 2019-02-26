@@ -1,18 +1,9 @@
 import { startApp, main, routeGuard } from "renderer/scripts/boot"
-import App from "renderer/App"
-
-describe(`App vue`, () => {
-  it(`mount and call the store`, () => {
-    const $store = { commit: jest.fn() }
-    App.mounted.call({ $store })
-    expect($store.commit).toHaveBeenCalledWith(`loadOnboarding`)
-  })
-})
 
 describe(`App Start`, () => {
   // popper.js is used by tooltips and causes some errors if
   // not mocked because it requires a real DOM
-  jest.mock(`popper.js`, () => () => {})
+  jest.mock(`popper.js`, () => () => { })
 
   beforeEach(() => {
     document.body.innerHTML = `<div id="app"></div>`
@@ -36,14 +27,15 @@ describe(`App Start`, () => {
         this.$mount = jest.fn()
       }
       static config = {}
-      static use = () => {}
-      static directive = () => {}
+      static use = () => { }
+      static directive = () => { }
     }
     const Sentry = {
       init: jest.fn()
     }
 
     await startApp(
+      {},
       {
         stargate: `http://localhost:12344`
       },
@@ -64,10 +56,15 @@ describe(`App Start`, () => {
       x: 1
     }))
     const startApp = jest.fn()
-    main(getURLParams, startApp)
+    main(getURLParams, startApp, {
+      config: `value`
+    })
     expect(getURLParams).toHaveBeenCalled()
-    expect(startApp).toHaveBeenCalled()
-    expect(startApp.mock.calls[0][0]).toHaveProperty(`x`, 1)
+    expect(startApp).toHaveBeenCalledWith({
+      x: 1
+    }, {
+        config: `value`
+      })
   })
 
   it(`Check the calls on VUE`, async () => {
@@ -101,6 +98,7 @@ describe(`App Start`, () => {
       init: jest.fn()
     }
     await startApp(
+      {},
       {
         stargate: `http://localhost:12344`
       },
@@ -213,6 +211,157 @@ describe(`App Start`, () => {
       guard(to, { fullPath: `/` }, next)
       expect(commit).toHaveBeenCalledWith(`setSessionModalView`, `welcome`)
       expect(commit).toHaveBeenCalledWith(`toggleSessionModal`, true)
+    })
+  })
+
+  describe(`url parameters`, () => {
+    it(`should set development mode`, async () => {
+      jest.mock(`vue-router`)
+      jest.mock(`vue-directive-tooltip`)
+      jest.mock(`vuelidate`)
+      const $mount = jest.fn()
+      class mockVue {
+        constructor() {
+          this.$mount = $mount
+        }
+      }
+      mockVue.config = {}
+      mockVue.use = jest.fn()
+      mockVue.directive = jest.fn()
+
+      const node = {
+        rpcConnect: jest.fn(),
+        lcdConnected: jest.fn()
+      }
+      const Node = () => node
+
+      const store = {
+        state: {},
+        commit: jest.fn(),
+        dispatch: jest.fn()
+      }
+      const Store = () => store
+
+      const Sentry = {
+        init: jest.fn()
+      }
+
+      await startApp(
+        {
+          devMode: true
+        },
+        {
+          stargate: `http://localhost:12344`
+        },
+        Node,
+        Store,
+        {
+          NODE_ENV: `production`
+        },
+        Sentry,
+        mockVue
+      )
+
+      expect(store.commit).toHaveBeenCalledWith(`setDevMode`)
+    })
+
+    it(`should set rpc url`, async () => {
+      jest.mock(`vue-router`)
+      jest.mock(`vue-directive-tooltip`)
+      jest.mock(`vuelidate`)
+      const $mount = jest.fn()
+      class mockVue {
+        constructor() {
+          this.$mount = $mount
+        }
+      }
+      mockVue.config = {}
+      mockVue.use = jest.fn()
+      mockVue.directive = jest.fn()
+
+      const node = {
+        rpcConnect: jest.fn(),
+        lcdConnected: jest.fn()
+      }
+      const Node = () => node
+
+      const store = {
+        state: {},
+        commit: jest.fn(),
+        dispatch: jest.fn()
+      }
+      const Store = () => store
+
+      const Sentry = {
+        init: jest.fn()
+      }
+
+      await startApp(
+        {
+          rpc: `http://rpcurl.com`
+        },
+        {
+          stargate: `http://localhost:12344`
+        },
+        Node,
+        Store,
+        {
+          NODE_ENV: `production`
+        },
+        Sentry,
+        mockVue
+      )
+
+      expect(store.commit).toHaveBeenCalledWith(`setRpcUrl`, `http://rpcurl.com`)
+    })
+    it(`should set stargate url`, async () => {
+      jest.mock(`vue-router`)
+      jest.mock(`vue-directive-tooltip`)
+      jest.mock(`vuelidate`)
+      const $mount = jest.fn()
+      class mockVue {
+        constructor() {
+          this.$mount = $mount
+        }
+      }
+      mockVue.config = {}
+      mockVue.use = jest.fn()
+      mockVue.directive = jest.fn()
+
+      const node = {
+        rpcConnect: jest.fn(),
+        lcdConnected: jest.fn()
+      }
+      const Node = jest.fn(() => node)
+
+      const store = {
+        state: {},
+        commit: jest.fn(),
+        dispatch: jest.fn()
+      }
+      const Store = () => store
+
+      const Sentry = {
+        init: jest.fn()
+      }
+
+      await startApp(
+        {
+          stargate: `http://stargateurl.com`
+        },
+        {
+          stargate: `http://localhost:12344`
+        },
+        Node,
+        Store,
+        {
+          NODE_ENV: `production`
+        },
+        Sentry,
+        mockVue
+      )
+
+      expect(Node).toHaveBeenCalledWith(expect.objectContaining({}), `http://stargateurl.com`)
     })
   })
 })
