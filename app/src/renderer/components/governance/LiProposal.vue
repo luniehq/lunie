@@ -34,7 +34,7 @@
       {{ tally.yes || `--` }}
     </td>
     <td class="li-proposal__value no">
-      {{ tally.no || `--`  }}
+      {{ tally.no || `--` }}
     </td>
     <td class="li-proposal__value no_with_veto">
       {{ tally.no_with_veto || `--` }}
