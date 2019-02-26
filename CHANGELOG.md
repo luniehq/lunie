@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- [\#2035](https://github.com/cosmos/voyager/issues/2035) Distribution vuex module @fedekunze
+
 ## [1.0.0-beta.7] - 2019-02-26
 
 ### Changed
