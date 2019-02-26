@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+- [\#1032](https://github.com/cosmos/voyager/issues/1032) added several events to google analytics @faboweb
 - [\#1630](https://github.com/cosmos/voyager/issues/1630) added memo "Sent via Cosmos UI" to distinguish txs sent via UI @faboweb
 - [\#2035](https://github.com/cosmos/voyager/issues/2035) Distribution vuex module @fedekunze
 
@@ -16,15 +17,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Fixed delegations not loaded on validator lists @faboweb
 - [\#2015](https://github.com/cosmos/voyager/issues/2015) fixed error that showed wrong message when Ledger's screensaver mode was on @fedekunze
-
-### Fixed
-
 - Reconnected event was not triggered after reconnection @faboweb
 
 ## [1.0.0-beta.7] - 2019-02-26
 
 ### Changed
 
+- [\#1337](https://github.com/cosmos/voyager/issues/1337) Refactor tests: TmModalHelp, PageTransactions @jbibla @faboweb
 - [\#1337](https://github.com/cosmos/voyager/issues/1337) Refactor tests: TmModalHelp, LiCoin @jbibla @faboweb
 - disabled TmOnboarding by default @jbibla
 - [\#1337](https://github.com/cosmos/voyager/issues/1337) Refactor tests: ToolBar, TmModalHelp, UndelegationModal, TmOnboarding, TmSessionAccountDelete, TabValidators, keybase-module @jbibla @faboweb

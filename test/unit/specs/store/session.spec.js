@@ -95,6 +95,12 @@ describe(`Module: Session`, () => {
       mutations.setDevMode(state)
       expect(state.devMode).toBe(true)
     })
+
+    it(`should open the help modal`, () => {
+      mutations.setModalHelp(state, true)
+      expect(state.modals.help.active).toBe(true)
+      expect(state.externals.track).toHaveBeenCalled()
+    })
   })
 
   it(`should show an error if loading accounts fails`, async () => {
@@ -183,7 +189,7 @@ describe(`Module: Session`, () => {
     const name = `def`
     const dispatch = jest.fn()
     await actions.createKey(
-      { dispatch },
+      { dispatch, state },
       {
         seedPhrase,
         password,
@@ -193,6 +199,7 @@ describe(`Module: Session`, () => {
     expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, {
       address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
     })
+    expect(state.externals.track).toHaveBeenCalled()
   })
 
   describe(`Signs in`, () => {
@@ -214,6 +221,7 @@ describe(`Module: Session`, () => {
         `loadErrorCollection`,
         `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
       )
+      expect(state.externals.track).toHaveBeenCalled()
     })
 
     it(`with Ledger Nano X`, async () => {
@@ -229,6 +237,7 @@ describe(`Module: Session`, () => {
       expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
       expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, { address })
       expect(dispatch).toHaveBeenCalledWith(`loadErrorCollection`, address)
+      expect(state.externals.track).toHaveBeenCalled()
     })
   })
 
@@ -241,6 +250,7 @@ describe(`Module: Session`, () => {
     expect(commit).toHaveBeenCalledWith(`addHistory`, `/`)
     expect(commit).toHaveBeenCalledWith(`setSignIn`, false)
     expect(state.localKeyPairName).toBeNull()
+    expect(state.externals.track).toHaveBeenCalled()
   })
 
   it(`should enable error collection`, async () => {
