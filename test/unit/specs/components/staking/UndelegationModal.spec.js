@@ -1,15 +1,15 @@
 "use strict"
 
-import {shallowMount, createLocalVue} from "@vue/test-utils"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
 import UndelegationModal from "staking/UndelegationModal"
 import Vuelidate from "vuelidate"
 
 describe(`UndelegationModal`, () => {
   let wrapper, $store
   const stakingParameters = {
-      unbonding_time: `259200000000000`,
-      max_validators: 100,
-      bond_denom: `STAKE`
+    unbonding_time: `259200000000000`,
+    max_validators: 100,
+    bond_denom: `STAKE`
   }
   const validator = {
     operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`
