@@ -7,18 +7,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.7] - 2019-02-26
+
+### Changed
+
+- disabled TmOnboarding by default @jbibla
+- [\#1337](https://github.com/cosmos/voyager/issues/1337) Refactor tests: ToolBar, TmModalHelp, UndelegationModal, TmOnboarding, TmSessionAccountDelete, TabValidators, keybase-module @jbibla @faboweb
+
 ## [1.0.0-beta.6] - 2019-02-23
 
 ### Added
 
 - Enable dev mode from url param @faboweb
 
-### Changed
+### Fixed
 
 - Refactored tests: PageStaking, PanelSort, TabStakingParameters @faboweb
-
-## Fixed
-
 - Sign in with local key @faboweb
 - [\#2024](https://github.com/cosmos/voyager/issues/2024) Fixed feature setting the rpc from url param @faboweb
 
@@ -28,6 +32,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Removed Vue error handling to bubble errors to the console, this doesn't effect users @faboweb
 - Removed unused packages @sabau
+- [\#1337](https://github.com/cosmos/voyager/issues/1337) Removed search bar @jbibla
 
 ### Fixed
 

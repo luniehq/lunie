@@ -1,30 +1,31 @@
-import setup from "../../../helpers/vuex-setup"
+import { shallowMount } from "@vue/test-utils"
 import TabValidators from "renderer/components/staking/TabValidators"
-import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
-const { stakingParameters } = lcdClientMock.state
+// we don't show data of a validator in this component so we just provide stubs here
+const delegates = new Array(3).fill({})
 
 describe(`TabValidators`, () => {
-  let wrapper
-  let store
-  const { mount } = setup()
+  let wrapper, $store
+
+  const getters = {
+    delegates: {
+      delegates,
+      loading: false,
+      loaded: true
+    },
+    connected: true
+  }
 
   beforeEach(async () => {
-    const instance = mount(TabValidators, {
-      doBefore: ({ store }) => {
-        store.commit(`setConnected`, true)
-      },
-      stubs: {
-        "tm-data-connecting": true,
-        "tm-data-loading": true,
-        "tm-data-empty": true,
-        "short-bech32": true
+    $store = {
+      getters
+    }
+
+    wrapper = shallowMount(TabValidators, {
+      mocks: {
+        $store
       }
     })
-    wrapper = instance.wrapper
-    store = instance.store
-    store.state.stakingParameters = stakingParameters
-    await store.dispatch(`getDelegates`)
   })
 
   it(`has the expected html structure`, async () => {
@@ -32,18 +33,65 @@ describe(`TabValidators`, () => {
   })
 
   it(`shows a message if still connecting`, async () => {
-    store.state.delegates.loaded = false
-    store.commit(`setConnected`, false)
+    $store = {
+      getters: {
+        delegates: {
+          delegates,
+          loading: false,
+          loaded: false
+        },
+        connected: false
+      }
+    }
+
+    wrapper = shallowMount(TabValidators, {
+      mocks: {
+        $store
+      }
+    })
+
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`shows a message if still loading`, async () => {
-    store.state.delegates.loading = true
+    $store = {
+      getters: {
+        delegates: {
+          delegates,
+          loading: true,
+          loaded: false
+        },
+        connected: true
+      }
+    }
+
+    wrapper = shallowMount(TabValidators, {
+      mocks: {
+        $store
+      }
+    })
+
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`shows a message if there is nothing to display`, async () => {
-    store.state.delegates.delegates = []
+    $store = {
+      getters: {
+        delegates: {
+          delegates: [],
+          loading: false,
+          loaded: true
+        },
+        connected: true
+      }
+    }
+
+    wrapper = shallowMount(TabValidators, {
+      mocks: {
+        $store
+      }
+    })
+
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 })
