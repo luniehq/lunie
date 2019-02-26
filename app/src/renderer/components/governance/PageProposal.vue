@@ -80,7 +80,7 @@
             <dt>Deposit Count</dt>
             <dd>
               {{
-                proposal.total_deposit[0].amount +
+                num.atoms(proposal.total_deposit[0].amount) +
                   ` ` +
                   proposal.total_deposit[0].denom
               }}
@@ -91,7 +91,7 @@
             class="info_dl colored_dl"
           >
             <dt>Vote Count</dt>
-            <dd>{{ totalVotes }}</dd>
+            <dd>{{ num.atoms(totalVotes) }}</dd>
           </dl>
         </div>
       </div>
@@ -100,19 +100,19 @@
         <div v-if="proposal.proposal_status === 'VotingPeriod'" class="row">
           <dl class="info_dl colored_dl">
             <dt>Yes</dt>
-            <dd>{{ tally.yes }} / {{ yesPercentage }}</dd>
+            <dd>{{ num.atoms(tally.yes) }} / {{ yesPercentage }}</dd>
           </dl>
           <dl class="info_dl colored_dl">
             <dt>No</dt>
-            <dd>{{ tally.no }} / {{ noPercentage }}</dd>
+            <dd>{{ num.atoms(tally.no) }} / {{ noPercentage }}</dd>
           </dl>
           <dl class="info_dl colored_dl">
             <dt>No with Veto</dt>
-            <dd>{{ tally.no_with_veto }} / {{ noWithVetoPercentage }}</dd>
+            <dd>{{ num.atoms(tally.no_with_veto) }} / {{ noWithVetoPercentage }}</dd>
           </dl>
           <dl class="info_dl colored_dl">
             <dt>Abstain</dt>
-            <dd>{{ tally.abstain }} / {{ abstainPercentage }}</dd>
+            <dd>{{ num.atoms(tally.abstain) }} / {{ abstainPercentage }}</dd>
           </dl>
         </div>
         <div class="row">
@@ -172,6 +172,7 @@ export default {
     }
   },
   data: () => ({
+    num,
     lastVote: undefined
   }),
   computed: {

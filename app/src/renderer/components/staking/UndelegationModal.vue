@@ -65,6 +65,7 @@
 <script>
 import ClickOutside from "vue-click-outside"
 import { mapGetters } from "vuex"
+import { uatoms } from "../../scripts/num.js"
 import { required, between, integer } from "vuelidate/lib/validators"
 import ActionModal from "common/ActionModal"
 import TmField from "common/TmField"
@@ -131,7 +132,7 @@ export default {
     },
     async submitForm(submitType, password) {
       await this.$store.dispatch(`submitUnbondingDelegation`, {
-        amount: -this.amount,
+        amount: -uatoms(this.amount),
         validator: this.validator,
         submitType,
         password

@@ -101,6 +101,7 @@ import {
   between,
   integer
 } from "vuelidate/lib/validators"
+import { uatoms, atoms } from "../../scripts/num.js"
 import { isEmpty, trim } from "lodash"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
@@ -167,7 +168,7 @@ export default {
       amount: {
         required,
         integer,
-        between: between(this.balance ? 1 : 0, this.balance)
+        between: between(this.balance ? 1 : 0, atoms(this.balance))
       }
     }
   },
@@ -189,7 +190,7 @@ export default {
         initial_deposit: [
           {
             denom: this.denom,
-            amount: String(this.amount)
+            amount: String(uatoms(this.amount))
           }
         ],
         password

@@ -6,7 +6,7 @@
   >
     <template v-if="sent">
       <div slot="caption">
-        Sent&nbsp;<b>{{ coins.amount }}</b><span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
+        Sent&nbsp;<b>{{ atoms(coins.amount) }}</b><span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
       </div>
       <span
         slot="details"
@@ -32,11 +32,15 @@
 
 <script>
 import TmLiTransaction from "./TmLiTransaction"
+import { atoms } from "../../scripts/num.js"
 import colors from "./transaction-colors.js"
 
 export default {
   name: `tm-li-bank-transaction`,
   components: { TmLiTransaction },
+  data: () => ({
+    atoms
+  }),
   props: {
     transaction: {
       type: Object,

@@ -45,6 +45,7 @@
 
 <script>
 import { mapGetters } from "vuex"
+import { uatoms, atoms } from "../../scripts/num.js"
 import { required, between, integer } from "vuelidate/lib/validators"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
@@ -94,7 +95,7 @@ export default {
       amount: {
         required,
         integer,
-        between: between(1, this.balance)
+        between: between(1, atoms(this.balance))
       }
     }
   },
@@ -115,7 +116,7 @@ export default {
         proposal_id: this.proposalId,
         amount: [
           {
-            amount: String(this.amount),
+            amount: String(uatoms(this.amount)),
             denom: this.denom
           }
         ]

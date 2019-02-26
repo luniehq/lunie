@@ -181,10 +181,11 @@
 </template>
 
 <script>
+import BigNumber from "bignumber.js"
 import moment from "moment"
 import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
-import { percent, pretty } from "scripts/num"
+import { percent, pretty, atoms } from "scripts/num"
 import TmBtn from "common/TmBtn"
 import TmModal from "common/TmModal"
 import TmDataLoading from "common/TmDataLoading"
@@ -251,13 +252,17 @@ export default {
       return String(uptime).substring(0, 4) + `%`
     },
     myBond() {
-      return calculateTokens(
-        this.validator,
-        this.committedDelegations[this.validator.operator_address] || 0
+      return BigNumber(
+        atoms(
+          calculateTokens(
+            this.validator,
+            this.committedDelegations[this.validator.operator_address] || 0
+          )
+        )
       )
     },
     myDelegation() {
-      const myBond = Number(this.myBond)
+      const myBond = atoms(this.myBond)
       const myDelegationString = this.myBond + ` ` + this.bondDenom
       return myBond === 0 ? `--` : myDelegationString
     },

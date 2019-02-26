@@ -7,7 +7,7 @@
       <div class="total-atoms top-section">
         <h3>Total {{ bondDenom }}</h3>
         <h2 class="total-atoms__value">
-          {{ num.shortNumber(totalAtoms) }}
+          {{ num.shortNumber(num.atoms(totalAtoms)) }}
         </h2>
       </div>
       <div v-if="unbondedAtoms" class="unbonded-atoms top-section">
@@ -39,7 +39,7 @@ export default {
       return this.session.address
     },
     unbondedAtoms() {
-      return this.num.shortNumber(this.liquidAtoms)
+      return this.num.shortNumber(this.num.atoms(this.liquidAtoms))
     }
   }
 }

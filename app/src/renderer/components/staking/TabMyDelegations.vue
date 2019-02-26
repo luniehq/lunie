@@ -85,7 +85,7 @@ export default {
         .filter(
           transaction =>
             // Checking the type of transaction
-            transaction.tx.value.msg[0].type === `cosmos-sdk/BeginUnbonding` &&
+            transaction.tx.value.msg[0].type === `cosmos-sdk/Undelegate` &&
             // getting the unbonding time and checking if it has passed already
             time.getUnbondingTime(
               transaction,

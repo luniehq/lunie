@@ -6,7 +6,7 @@
   >
     <template v-if="delegation">
       <div slot="caption">
-        Delegated&nbsp;<b>{{ pretty(tx.delegation.amount) }}</b><span>&nbsp;{{ bondingDenom }}s</span>
+        Delegated&nbsp;<b>{{ pretty(atoms(tx.delegation.amount)) }}</b><span>&nbsp;{{ bondingDenom }}s</span>
       </div>
       <div slot="details">
         To&nbsp;<router-link :to="url + '/' + tx.validator_addr">
@@ -69,7 +69,7 @@
 <script>
 import TmLiTransaction from "./TmLiTransaction"
 import colors from "./transaction-colors.js"
-import { pretty } from "../../scripts/num.js"
+import { pretty, atoms } from "../../scripts/num.js"
 import { calculateTokens } from "../../scripts/common.js"
 import moment from "moment"
 
@@ -103,6 +103,7 @@ export default {
     }
   },
   data: () => ({
+    atoms,
     pretty
   }),
   computed: {
@@ -119,7 +120,7 @@ export default {
       return this.type === `cosmos-sdk/BeginRedelegate`
     },
     unbonding() {
-      return this.type === `cosmos-sdk/BeginUnbonding`
+      return this.type === `cosmos-sdk/Undelegate`
     },
     timeDiff() {
       // only show time diff if still waiting to be terminated
@@ -152,7 +153,7 @@ export default {
       const validator = this.validators.find(
         val => val.operator_address === validatorAddr
       )
-      return calculateTokens(validator, shares).toNumber()
+      return this.atoms(calculateTokens(validator, shares).toNumber())
     }
   }
 }
