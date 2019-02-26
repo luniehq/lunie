@@ -48,6 +48,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Validator page shows now correctly by avoiding async errors @faboweb
 - Stylelint configuration and scripts work as expected (no longer in webpack) @jbibla
+- page for /governance/:proposalId @sabau
 
 ## [1.0.0-beta.4] - 2019-02-21
 
