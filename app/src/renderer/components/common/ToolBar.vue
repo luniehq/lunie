@@ -9,19 +9,10 @@
     >
       <i class="material-icons">refresh</i>
     </a>
-    <a
-      v-if="!!searching"
-      v-tooltip.bottom="'Search'"
-      :disabled="!searching.somethingToSearch"
-      class="search-button"
-      @click="searching.setSearch()"
-    >
-      <i class="material-icons">search</i>
-    </a>
-    <slot />
     <a v-tooltip.bottom="'Help'" class="help" @click="enableModalHelp">
       <i class="material-icons">help_outline</i>
     </a>
+    <slot />
     <router-link
       v-if="session.signedIn"
       id="settings"
@@ -34,7 +25,7 @@
       v-if="session.signedIn"
       id="signOut-btn"
       v-tooltip.bottom.end="'Sign Out'"
-      @click="signOut"
+      @click="signOut()"
     >
       <i class="material-icons">exit_to_app</i>
     </a>
@@ -43,7 +34,7 @@
       id="signIn-btn"
       value="Sign In"
       color="primary"
-      @click.native="signIn"
+      @click.native="signIn()"
     />
   </div>
 </template>
@@ -54,27 +45,8 @@ import TmBtn from "common/TmBtn"
 export default {
   name: `tool-bar`,
   components: { TmBtn },
-  props: {
-    refresh: {
-      type: Object,
-      default: undefined
-    },
-    searching: {
-      type: Object,
-      default: undefined
-    }
-  },
   computed: {
-    ...mapGetters([`session`]),
-    searchEnabled() {
-      return !!this.searching
-    },
-    somethingToSearch() {
-      return this.searching && this.searching.somethingToSearch()
-    },
-    setSearch() {
-      return this.searching && this.searching.setSearch()
-    }
+    ...mapGetters([`session`])
   },
   methods: {
     enableModalHelp() {

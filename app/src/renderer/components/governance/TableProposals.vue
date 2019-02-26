@@ -1,7 +1,6 @@
 <template>
   <div>
-    <data-empty-search v-if="filteredProposals.length === 0" />
-    <table v-else class="data-table">
+    <table class="data-table">
       <thead>
         <panel-sort :sort="sort" :properties="properties" />
       </thead>
@@ -18,16 +17,13 @@
 
 <script>
 import { mapGetters } from "vuex"
-import Mousetrap from "mousetrap"
-import { includes, orderBy } from "lodash"
+import { orderBy } from "lodash"
 import LiProposal from "./LiProposal"
-import DataEmptySearch from "common/TmDataEmptySearch"
 import PanelSort from "staking/PanelSort"
 export default {
   name: `table-proposals`,
   components: {
     LiProposal,
-    DataEmptySearch,
     PanelSort
   },
   props: {
@@ -44,24 +40,15 @@ export default {
     }
   }),
   computed: {
-    ...mapGetters([`filters`, `session`]),
-    somethingToSearch() {
-      return Object.keys(this.proposals).length > 0
-    },
+    ...mapGetters([`session`]),
     filteredProposals() {
-      const query = this.filters.proposals.search.query || ``
       const proposals = orderBy(
         this.proposals,
         [this.sort.property],
         [this.sort.order]
       )
-      if (this.filters.proposals.search.visible) {
-        return proposals.filter(p =>
-          includes(p.title.toLowerCase(), query.toLowerCase())
-        )
-      } else {
-        return proposals
-      }
+      
+      return proposals
     },
     properties() {
       return [
@@ -105,17 +92,7 @@ export default {
     }
   },
   mounted() {
-    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch())
-    Mousetrap.bind(`esc`, () => this.setSearch())
     this.$store.dispatch(`getProposals`)
-  },
-  methods: {
-    setSearch() {
-      if (this.somethingToSearch) {
-        const toggle = !this.filters[`proposals`].search.visible
-        this.$store.commit(`setSearchVisible`, [`proposals`, toggle])
-      }
-    }
   }
 }
 </script>
