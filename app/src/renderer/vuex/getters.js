@@ -42,7 +42,7 @@ export const oldBondedAtoms = (state, getters) => {
     delegatorAddress => {
       const shares = getters.delegation.committedDelegates[delegatorAddress]
       const delegator = getters.delegates.delegates.find(
-        d => d.id === delegatorAddress
+        d => d.operator_address === delegatorAddress
       )
       if (!delegator) {
         return
