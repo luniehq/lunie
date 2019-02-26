@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Fixed delegations not loaded on validator lists @faboweb
 
+### Fixed
+
+- Reconnected event was not triggered after reconnection @faboweb
+
 ## [1.0.0-beta.7] - 2019-02-26
 
 ### Changed
