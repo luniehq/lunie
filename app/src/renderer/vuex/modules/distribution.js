@@ -73,12 +73,12 @@ export default ({ node }) => {
         const rewards = coinsToObject(rewardsArray)
         commit(`setTotalRewards`, rewards)
         commit(`setDistributionError`, null)
+        state.loaded = true
       } catch (error) {
         Sentry.captureException(error)
         commit(`setDistributionError`, error)
       }
       state.loading = false
-      state.loaded = true
     },
     async withdrawAllRewards(
       { rootState: { wallet }, dispatch },
