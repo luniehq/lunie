@@ -135,7 +135,8 @@ describe(`Module: Send`, () => {
               from: `cosmos1demo`,
               gas: `42`,
               generate_only: true,
-              sequence: `0`
+              sequence: `0`,
+              memo: `Sent via Cosmos UI 🚀`
             }
           })
           expect(node.postTx).toHaveBeenCalledWith({
@@ -169,7 +170,8 @@ describe(`Module: Send`, () => {
               from: `cosmos1demo`,
               gas: `42`,
               generate_only: true,
-              sequence: `0`
+              sequence: `0`,
+              memo: `Sent via Cosmos UI 🚀`
             }
           })
           expect(node.postTx).toHaveBeenCalledWith({
@@ -248,7 +250,8 @@ describe(`Module: Send`, () => {
               from: `cosmos1demo`,
               gas: `500000`,
               generate_only: true,
-              sequence: `0`
+              sequence: `0`,
+              memo: `Sent via Cosmos UI 🚀`
             }
           })
           expect(node.postTx).toHaveBeenCalledWith({
