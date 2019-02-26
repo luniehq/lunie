@@ -14,6 +14,10 @@
         <h3>Available {{ bondDenom }}</h3>
         <h2>{{ unbondedAtoms }}</h2>
       </div>
+      <div v-if="rewards" class="top-section">
+        <h3>Total Rewards</h3>
+        <h2>{{ rewards }}</h2>
+      </div>
     </div>
     <short-bech32 :address="session.address || ''" />
     <slot />
@@ -34,12 +38,21 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([`session`, `liquidAtoms`, `totalAtoms`, `bondDenom`]),
+    ...mapGetters([
+      `session`,
+      `liquidAtoms`,
+      `totalAtoms`,
+      `bondDenom`,
+      `distribution`
+    ]),
     address() {
       return this.session.address
     },
     unbondedAtoms() {
       return this.num.shortNumber(this.liquidAtoms)
+    },
+    rewards() {
+      return this.distribution.totalRewards[this.bondDenom] || 0
     }
   }
 }

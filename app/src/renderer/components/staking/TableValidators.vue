@@ -7,7 +7,7 @@
       <tbody>
         <li-validator
           v-for="i in sortedFilteredEnrichedDelegates"
-          :key="i.id"
+          :key="i.operator_address"
           :disabled="!userCanDelegate"
           :validator="i"
         />
@@ -141,16 +141,34 @@ export default {
     }
   },
   watch: {
-    signedIn: function(signedIn) {
-      signedIn && this.updateDelegates()
+    address: function(address) {
+      address && this.updateDelegates()
+    },
+    validators: function(validators) {
+      if (!validators) return
+
+      this.updateRewards()
     }
   },
   mounted() {
-    this.updateDelegates()
+    this.$store.dispatch(`getRewardsFromAllValidators`, this.validators)
   },
   methods: {
     updateDelegates() {
       this.$store.dispatch(`updateDelegates`)
+    },
+    updateRewards() {
+      if (!this.session.signedIn) return
+
+      this.$store.dispatch(`getRewardsFromAllValidators`, this.validators)
+    },
+    setSearch(
+      bool = !this.filters[`delegates`].search.visible,
+      { somethingToSearch, $store } = this
+    ) {
+      if (somethingToSearch) {
+        $store.commit(`setSearchVisible`, [`delegates`, bool])
+      }
     }
   }
 }

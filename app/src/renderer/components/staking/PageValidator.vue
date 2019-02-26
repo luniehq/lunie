@@ -53,9 +53,9 @@
               <dt>My Delegation</dt>
               <dd>{{ myDelegation }}</dd>
             </dl>
-            <dl v-if="session.devMode" class="info_dl colored_dl">
+            <dl class="info_dl colored_dl">
               <dt>My Rewards</dt>
-              <dd>--</dd>
+              <dd>{{ rewards || "--" }}</dd>
             </dl>
           </div>
 
@@ -220,6 +220,7 @@ export default {
       `bondDenom`,
       `delegates`,
       `delegation`,
+      `distribution`,
       `committedDelegations`,
       `keybase`,
       `liquidAtoms`,
@@ -296,6 +297,14 @@ export default {
 
       // status: active
       return `green`
+    },
+    rewards() {
+      if (!this.session.signedIn) return null
+
+      const validatorRewards = this.distribution.rewards[
+        this.validator.operator_address
+      ]
+      return validatorRewards ? validatorRewards[this.bondDenom] || 0 : 0
     }
   },
   watch: {
@@ -306,6 +315,12 @@ export default {
         this.$store.dispatch(`getSelfBond`, validator)
       }
     }
+  },
+  mounted() {
+    this.$store.dispatch(
+      `getRewardsFromValidator`,
+      this.$route.params.validator
+    )
   },
   methods: {
     closeCannotModal() {

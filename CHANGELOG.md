@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#2094](https://github.com/cosmos/voyager/pull/2094) fix Toolbar @faboweb
 
 ## [1.0.0-beta.7] - 2019-02-26
+- [\#135](https://github.com/cosmos/voyager/issues/135) Show rewards in UI @faboweb
 
 ### Changed
 
