@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <modal-help />
-    <session v-if="session.modals.session.active" />
-    <template v-else>
+    <session />
+    <template>
       <app-header />
       <div id="app-content">
         <router-view />

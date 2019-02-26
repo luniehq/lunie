@@ -1,5 +1,4 @@
 import * as Sentry from "@sentry/browser"
-import noScroll from "no-scroll"
 import {
   enableGoogleAnalytics,
   disableGoogleAnalytics,
@@ -28,7 +27,7 @@ export default () => {
       help: { active: false },
       session: {
         active: false,
-        state: `loading`
+        state: `welcome`
       }
     },
 
@@ -79,13 +78,6 @@ export default () => {
       state.pauseHistory = paused
     },
     toggleSessionModal(state, value) {
-      // reset modal signin state if we're closing the modal
-      if (value) {
-        noScroll.on()
-      } else {
-        state.modals.session.state = `loading`
-        noScroll.off()
-      }
       state.modals.session.active = value
     },
     setSessionModalView(state, value) {
