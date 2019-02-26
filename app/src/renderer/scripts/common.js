@@ -5,26 +5,26 @@ const BN = require(`bignumber.js`).BigNumber
 // if given a valid address this will return the prefix plus some parameter
 // length of the end. if it is not an address it will take that parameter
 // length and return half of it as the beginning of the "address" and hald the end
-module.exports.shortAddress = function(address, length = 4) {
+module.exports.shortAddress = function (address, length = 4) {
   if (address.indexOf(`1`) === -1) {
     return address.length <= length * 2
       ? address
       : address.slice(0, Math.floor(length)) +
-          `…` +
-          address.slice(-1 * Math.ceil(length))
+      `…` +
+      address.slice(-1 * Math.ceil(length))
   } else {
     if (length > address.split(`1`)[1].length) return address
     return address.split(`1`)[0] + `…` + address.slice(-1 * length)
   }
 }
 
-module.exports.coinsToObject = function(coinArray) {
+module.exports.coinsToObject = function (coinArray) {
   const coins = coinArray.reduce((dictionary, { denom, amount }) => { dictionary[denom] = Number(amount); return dictionary; }, {})
   return coins
 }
 
 // convert rat format ('123/456') to big number
-module.exports.ratToBigNumber = function(rat) {
+module.exports.ratToBigNumber = function (rat) {
   if (rat.indexOf(`/`) !== -1) {
     const n = new BN(rat.split(`/`)[0])
     const d = new BN(rat.split(`/`)[1] || 1)
@@ -34,7 +34,7 @@ module.exports.ratToBigNumber = function(rat) {
 }
 
 // could be used in optimistic update PR, pls uncomment or delete when addressed
-module.exports.calculateShares = function(validator, tokens) {
+module.exports.calculateShares = function (validator, tokens) {
   const myTokens = new BN(tokens || 0)
 
   const totalSharesN = new BN(validator.delegator_shares.split(`/`)[0])
@@ -50,7 +50,7 @@ module.exports.calculateShares = function(validator, tokens) {
     .div(totalSharesD.times(totalTokensN))
 }
 
-module.exports.calculateTokens = function(validator, shares) {
+module.exports.calculateTokens = function (validator, shares) {
   // this is the based on the idea that tokens should equal
   // (myShares / totalShares) * totalTokens where totalShares
   // and totalTokens are both represented as fractions
@@ -67,7 +67,7 @@ module.exports.calculateTokens = function(validator, shares) {
     .div(totalSharesN.times(totalTokensD))
 }
 
-module.exports.sleep = function(amount) {
+module.exports.sleep = function (amount) {
   return new Promise(resolve => {
     setTimeout(resolve, amount)
   })

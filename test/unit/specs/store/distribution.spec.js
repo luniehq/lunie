@@ -2,7 +2,7 @@ import distributionModule from "modules/distribution.js"
 
 describe(`Module: Fee Distribution`, () => {
     let module, state, commit, dispatch, actions, mutations, rootState
-    const coinArray = [ { denom: `stake`, amount: `100` }, { denom: `photino`, amount: `15` }]
+    const coinArray = [{ denom: `stake`, amount: `100` }, { denom: `photino`, amount: `15` }]
     const parameters = {
         base_proposer_reward: `10.00`,
         bonus_proposer_reward: `3.5`,
@@ -30,7 +30,7 @@ describe(`Module: Fee Distribution`, () => {
         commit = jest.fn()
         dispatch = jest.fn()
 
-        rootState = { 
+        rootState = {
             session: { address: `cosmos1address` },
             wallet: { address: `cosmos1address` }
         }
@@ -44,34 +44,34 @@ describe(`Module: Fee Distribution`, () => {
 
         it(`sets the delegation rewards from a `, () => {
             const validatorAddr = `cosmosvalopr1address`
-            mutations.setDelegationRewards(state, {validatorAddr, rewards })
+            mutations.setDelegationRewards(state, { validatorAddr, rewards })
             expect(state.rewards[validatorAddr]).toBe(rewards)
         })
 
         it(`sets the account public key`, () => {
-            
+
             mutations.setDistributionParameters(state, parameters)
             expect(state.parameters).toMatchObject(parameters)
         })
 
         it(`updates the state if the device is connected`, () => {
-        mutations.setOutstandingRewards(state, rewards)
-        expect(state.outstandingRewards).toMatchObject(rewards)
+            mutations.setOutstandingRewards(state, rewards)
+            expect(state.outstandingRewards).toMatchObject(rewards)
         })
 
         it(`sets an error`, () => {
-        const error = Error(`distribution error`)
-        mutations.setDistributionError(state, error)
-        expect(state.error).toBe(error)
+            const error = Error(`distribution error`)
+            mutations.setDistributionError(state, error)
+            expect(state.error).toBe(error)
         })
     })
 
     describe(`Actions`, () => {
         it(`resets the session data `, () => {
-        state.rewards = rewards
-        const rootState = { distribution: state }
-        actions.resetSessionData({ rootState })
-        expect(rootState.distribution.rewards).toMatchObject({})
+            state.rewards = rewards
+            const rootState = { distribution: state }
+            actions.resetSessionData({ rootState })
+            expect(rootState.distribution.rewards).toMatchObject({})
         })
 
         describe(`getTotalRewards`, () => {
@@ -82,7 +82,7 @@ describe(`Module: Fee Distribution`, () => {
             })
 
             it(`fails`, async () => {
-                rootState = { session: { address: null }}
+                rootState = { session: { address: null } }
                 node.getDelegatorRewards = jest.fn(async () => Promise.reject(Error(`invalid address`)))
                 await actions.getTotalRewards({ state, rootState, commit })
                 expect(node.getDelegatorRewards).toHaveBeenCalledWith(null)
@@ -95,8 +95,8 @@ describe(`Module: Fee Distribution`, () => {
             it(`success`, async () => {
                 await actions.withdrawAllRewards(
                     { rootState, dispatch },
-                    { password: ``, submitType: `ledger`}
-                    )
+                    { password: ``, submitType: `ledger` }
+                )
                 expect(dispatch).toHaveBeenCalledWith(`sendTx`, {
                     to: `cosmos1address`,
                     type: `postWithdrawDelegatorRewards`,
@@ -130,14 +130,14 @@ describe(`Module: Fee Distribution`, () => {
                 const validatorAddr = `cosmosvaloper1address`
                 await actions.withdrawRewardsFromValidator(
                     { rootState, commit, dispatch },
-                    { validatorAddr, password: `1234567890`, submitType: `localkeystore`}
-                    )
+                    { validatorAddr, password: `1234567890`, submitType: `local` }
+                )
                 expect(dispatch).toHaveBeenCalledWith(`sendTx`, {
                     to: `cosmos1address`,
                     pathParameter: validatorAddr,
                     type: `postWithdrawDelegatorRewardsFromValidator`,
                     password: `1234567890`,
-                    submitType: `localkeystore`
+                    submitType: `local`
                 })
                 expect(commit).toHaveBeenCalledWith(`setDelegationRewards`, { validatorAddr, rewards: {} })
                 expect(dispatch).toHaveBeenCalledWith(`getTotalRewards`)
@@ -176,5 +176,5 @@ describe(`Module: Fee Distribution`, () => {
                 expect(commit).toHaveBeenCalledWith(`setDistributionError`, Error(`unexpected error`))
             })
         })
-    })  
+    })
 })

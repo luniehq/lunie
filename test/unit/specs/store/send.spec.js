@@ -18,8 +18,8 @@ jest.mock(`renderer/scripts/wallet.js`, () => ({
   createBroadcastBody: jest.fn(() => ({
     broadcast: `body`
   })),
-  createSignedTx: jest.fn(() => {}),
-  createSignMessage: jest.fn(() => {})
+  createSignedTx: jest.fn(() => { }),
+  createSignMessage: jest.fn(() => { })
 }))
 
 const mockRootState = {
