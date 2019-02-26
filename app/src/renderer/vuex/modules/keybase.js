@@ -9,6 +9,9 @@ export default () => {
     error: null
   }
   const state = JSON.parse(JSON.stringify(emptyState))
+  state.externals = {
+    axios
+  }
 
   const mutations = {
     setKeybaseIdentities(state, identities) {
@@ -21,11 +24,11 @@ export default () => {
   const actions = {
     async getKeybaseIdentity({ state }, keybaseId) {
       if (!/.{16}/.test(keybaseId)) return // the keybase id is not correct
-      if (state.identities[keybaseId]) return // we already have this identity
+      if (state.identities[keybaseId]) return state.identities[keybaseId] // we already have this identity
 
       const urlPrefix = `https://keybase.io/_/api/1.0/user/lookup.json?key_suffix=`
       const fullUrl = urlPrefix + keybaseId
-      const json = await axios.get(fullUrl)
+      const json = await state.externals.axios(fullUrl)
       if (json.data.status.name === `OK`) {
         const user = json.data.them[0]
         if (user && user.pictures && user.pictures.primary) {

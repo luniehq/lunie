@@ -1,4 +1,6 @@
 import * as Sentry from "@sentry/browser"
+import Vue from "vue"
+import { coinsToObject } from "scripts/common.js"
 
 export default ({ node }) => {
   const emptyState = {
@@ -6,7 +8,9 @@ export default ({ node }) => {
     loading: false,
     loaded: false,
     error: null,
-    validatorHash: null
+    validatorHash: null,
+    distributionInfo: {},
+    rewards: {}
   }
   const state = JSON.parse(JSON.stringify(emptyState))
 
@@ -16,6 +20,12 @@ export default ({ node }) => {
     },
     setValidatorHash(state, validatorHash) {
       state.validatorHash = validatorHash
+    },
+    setValidatorDistributionInfo(state, { validatorAddr, info }) {
+      Vue.set(state.distributionInfo, validatorAddr, info)
+    },
+    setValidatorRewards(state, { validatorAddr, rewards }) {
+      Vue.set(state.rewards, validatorAddr, rewards)
     }
   }
 
@@ -54,6 +64,36 @@ export default ({ node }) => {
       if (validatorHash === state.validatorHash) return
       commit(`setValidatorHash`, validatorHash)
       await dispatch(`getValidators`)
+    },
+    async getValidatorDistributionInfo({ commit }, validatorAddr) {
+      state.loading = true
+      try {
+        let { self_bond_rewards, val_commission } = await node.getValidatorDistributionInformation(validatorAddr)
+        self_bond_rewards = coinsToObject(self_bond_rewards)
+        val_commission = coinsToObject(val_commission)
+        const info = { self_bond_rewards, val_commission }
+        commit(`setValidatorDistributionInfo`, { validatorAddr, info })
+        state.error = null
+        state.loaded = true
+      } catch (error) {
+        Sentry.captureException(error)
+        state.error = error
+      }
+      state.loading = false
+    },
+    async getValidatorDistributionRewards({ commit }, validatorAddr) {
+      state.loading = true
+      try {
+        const rewardsArray = await node.getValidatorRewards(validatorAddr)
+        const rewards = coinsToObject(rewardsArray)
+        commit(`setValidatorRewards`, { validatorAddr, rewards })
+        state.error = null
+        state.loaded = true
+      } catch (error) {
+        Sentry.captureException(error)
+        state.error = error
+      }
+      state.loading = false
     }
   }
 
