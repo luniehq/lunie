@@ -172,13 +172,53 @@ describe(`Module: Validators`, () => {
     })
   })
 
-  describe(`getRewardsFromValidator`, () => {
+  describe(`getValidatorDistributionInfo`, () => {
     let module, state, commit, actions, rootState
     const info = { self_bond_rewards: coinArray, val_commission: coinArray }
 
     beforeEach(() => {
       node = {
         getValidatorDistributionInformation: jest.fn(async () => info),
+      }
+      module = validatorsModule({ node })
+      state = module.state
+      actions = module.actions
+
+      commit = jest.fn()
+    })
+
+    it(`success`, async () => {
+      const validatorAddr = `cosmosvaloper1address`
+      await actions.getValidatorDistributionInfo({ state, rootState, commit }, validatorAddr)
+      expect(node.getValidatorDistributionInformation).toHaveBeenCalledWith(validatorAddr)
+      expect(commit).toHaveBeenCalledWith(`setValidatorDistributionInfo`, {
+        validatorAddr, info: {
+          self_bond_rewards: rewards,
+          val_commission: rewards
+        }
+      })
+    })
+
+    it(`fails`, async () => {
+      const validatorAddr = null
+      node.getValidatorDistributionInformation = jest.fn(async () => Promise.reject(Error(`invalid validator address`)))
+      await actions.getValidatorDistributionInfo({ state, rootState, commit }, validatorAddr)
+      expect(node.getValidatorDistributionInformation).toHaveBeenCalledWith(validatorAddr)
+      expect(commit).not.toHaveBeenCalledWith(`setValidatorDistributionInfo`, {
+        validatorAddr, info: {
+          self_bond_rewards: rewards,
+          val_commission: rewards
+        }
+      })
+      expect(state.error).toEqual(Error(`invalid validator address`))
+    })
+  })
+
+  describe(`getValidatorRewards`, () => {
+    let module, state, commit, actions, rootState
+
+    beforeEach(() => {
+      node = {
         getValidatorRewards: jest.fn(async () => coinArray)
       }
       module = validatorsModule({ node })
@@ -186,31 +226,23 @@ describe(`Module: Validators`, () => {
       actions = module.actions
 
       commit = jest.fn()
-
-      rootState = { session: { address: `cosmos1address` } }
     })
 
     it(`success`, async () => {
       const validatorAddr = `cosmosvaloper1address`
-      await actions.getValidatorDistributionInfoAndRewards({ state, rootState, commit }, validatorAddr)
-      expect(node.getValidatorDistributionInformation).toHaveBeenCalledWith(validatorAddr)
+      await actions.getValidatorDistributionRewards({ state, rootState, commit }, validatorAddr)
       expect(node.getValidatorRewards).toHaveBeenCalledWith(validatorAddr)
-      expect(commit).toHaveBeenCalledWith(`setValidatorDistributionInfo`, {
-        validatorAddr, info: {
-          self_bond_rewards: rewards,
-          val_commission: rewards,
-          rewards
-        }
+      expect(commit).toHaveBeenCalledWith(`setValidatorRewards`, {
+        validatorAddr, rewards
       })
     })
 
     it(`fails`, async () => {
       const validatorAddr = null
       node.getValidatorRewards = jest.fn(async () => Promise.reject(Error(`invalid validator address`)))
-      await actions.getValidatorDistributionInfoAndRewards({ state, rootState, commit }, validatorAddr)
-      expect(node.getValidatorDistributionInformation).toHaveBeenCalledWith(validatorAddr)
+      await actions.getValidatorDistributionRewards({ state, rootState, commit }, validatorAddr)
       expect(node.getValidatorRewards).toHaveBeenCalledWith(validatorAddr)
-      expect(commit).not.toHaveBeenCalledWith(`setValidatorDistributionInfo`, { ...info, rewards })
+      expect(commit).not.toHaveBeenCalledWith(`setValidatorRewards`, { validatorAddr, rewards })
       expect(state.error).toEqual(Error(`invalid validator address`))
     })
   })
