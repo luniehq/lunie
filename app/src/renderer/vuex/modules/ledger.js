@@ -50,7 +50,7 @@ export default () => {
     },
     async pollLedgerDevice({ state }) {
       // poll device with low timeout to check if the device is connected
-      const secondsTimeout = 2 // a lower value it always timeouts
+      const secondsTimeout = 3 // a lower value it always timeouts
       const communicationMethod = await state.externals.comm_u2f.create_async(
         secondsTimeout,
         true
