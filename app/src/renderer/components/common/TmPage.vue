@@ -8,7 +8,6 @@
         {{ subtitle }}
       </h3>
       <slot slot="menu-body" name="menu-body">
-        <tool-bar :refresh="refreshable" />
         <tm-balance v-if="session.signedIn" />
         <tool-bar />
       </slot>
