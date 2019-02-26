@@ -13,7 +13,7 @@ export default () => {
   const ERROR_COLLECTION_KEY = `voyager_error_collection`
 
   const state = {
-    devMode: process.env.NODE_ENV === `development`,
+    devMode: config.development,
     signedIn: false,
     accounts: [],
     localKeyPairName: null, // used for signing with a locally stored key, TODO move into own module
@@ -190,14 +190,14 @@ export default () => {
     setErrorCollection({ state, commit }, { address, optin }) {
       if (
         optin &&
-        process.env.NODE_ENV === `development`
+        state.externals.config.development
       ) {
         commit(`notifyError`, {
           title: `Couldn't switch on error collection.`,
           body: `Error collection is disabled during development.`
         })
       }
-      state.errorCollection = process.env.NODE_ENV === `development` ? false : optin
+      state.errorCollection = state.externals.config.development ? false : optin
       localStorage.setItem(
         `${ERROR_COLLECTION_KEY}_${address}`,
         state.errorCollection
