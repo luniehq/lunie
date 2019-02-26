@@ -141,8 +141,6 @@ export default () => {
       { state, commit, dispatch },
       { localKeyPairName, address, sessionType = `local`, errorCollection = false }
     ) {
-      track(`event`, `session`, `sign-in`, sessionType)
-
       let accountAddress
       switch (sessionType) {
         case `ledger`:
@@ -165,6 +163,8 @@ export default () => {
       await dispatch(`getGovParameters`)
       dispatch(`loadErrorCollection`, accountAddress)
       await dispatch(`initializeWallet`, { address: accountAddress })
+
+      track(`event`, `session`, `sign-in`, sessionType)
     },
     signOut({ state, commit, dispatch }) {
       track(`event`, `session`, `sign-out`)
@@ -197,7 +197,7 @@ export default () => {
           body: `Error collection is disabled during development.`
         })
       }
-      state.errorCollection = state.externals.config.development ? false : optin
+      state.errorCollection = process.env.NODE_ENV === `development` ? false : optin
       localStorage.setItem(
         `${ERROR_COLLECTION_KEY}_${address}`,
         state.errorCollection
