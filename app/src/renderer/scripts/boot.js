@@ -101,7 +101,7 @@ export const startApp = async (
 
   router.beforeEach(routeGuard(store))
   
-  if (urlParams.devMode) {
+  if (urlParams.insecure) {
     store.commit(`setDevMode`)
   }
   if (urlParams.rpc) {
