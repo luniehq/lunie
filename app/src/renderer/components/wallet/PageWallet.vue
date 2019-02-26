@@ -23,6 +23,11 @@
       class="tm-li-balance"
       @show-modal="showModal"
     />
+    <tm-btn
+      value="Get Atoms"
+      color="green"
+      @click.native="faucet"
+    />
     <send-modal ref="sendModal" />
   </tm-page>
 </template>
@@ -35,29 +40,16 @@ import LiCoin from "./LiCoin"
 import SendModal from "wallet/SendModal"
 import TmPage from "common/TmPage"
 import TmDataMsg from "common/TmDataMsg"
+import TmBtn from "../common/TmBtn"
 
-/**
- * Page Wallet
- * @vue-prop {Number} num Module that implements all the numerical methods
- * @vue-computed {function} filters mapGetter
- * @vue-computed {function} wallet mapGetter
- * @vue-computed {function} connected mapGetter
- *
- * @vue-computed {function} somethingToSearch returns a boolean stating true if we have data and we are not in loading phase
- * @vue-computed {function} allDenomBalances for denoms not in balances, add empty balance
- * @vue-computed {function} filteredBalances filter the balance per coin name, returns an ordered list
- *
- * @vue-methods {function} updateDelegates mapAction
- * @vue-methods {function} setSearch launches the setSearchVisible action if somethingToSearch returns true
- * @vue-methods {function} queryWalletBalances trigger an update of the balances
- */
 export default {
   name: `page-wallet`,
   components: {
     TmDataMsg,
     LiCoin,
     TmPage,
-    SendModal
+    SendModal,
+    TmBtn
   },
   data: () => ({ num, showSendModal: false }),
   computed: {
@@ -78,13 +70,11 @@ export default {
       return this.wallet.balances
     },
     filteredBalances() {
-      const list = orderBy(
+      return orderBy(
         this.allDenomBalances,
         [`amount`, balance => balance.denom.toLowerCase()],
         [`desc`, `asc`]
       )
-
-      return list
     },
   },
   async mounted() {
@@ -95,6 +85,10 @@ export default {
     ...mapActions([`updateDelegates`, `queryWalletBalances`]),
     showModal(denomination) {
       this.$refs.sendModal.open(denomination)
+    },
+    async faucet({ $store, wallet } = this) {
+      const outcome = await $store.dispatch(`getMoney`, wallet.address)
+      console.log(outcome)
     }
   }
 }

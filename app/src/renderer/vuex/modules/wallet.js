@@ -1,6 +1,7 @@
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
 import config from "../../../config"
+import axios from "axios"
 
 export default ({ node }) => {
   const emptyState = {
@@ -142,7 +143,10 @@ export default ({ node }) => {
           onTx
         )
       })
-    }
+    },
+    async getMoney(_, address) {
+      return (await axios(`${config.faucet}/${address}`))
+    },
   }
 
   return {
