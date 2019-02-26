@@ -21,7 +21,7 @@ export default ({ node }) => {
     proposals: {},
     tallies: {}
   }
-  const state = { ...emptyState }
+  const state = JSON.parse(JSON.stringify(emptyState))
   const mutations = {
     setProposal(state, proposal) {
       Vue.set(state.proposals, proposal.proposal_id, proposal)
@@ -37,7 +37,7 @@ export default ({ node }) => {
       }
     },
     resetSessionData({ rootState }) {
-      rootState.proposals = { ...emptyState }
+      rootState.proposals = JSON.parse(JSON.stringify(emptyState))
     },
     async getProposals({ state, commit, rootState }) {
       state.loading = true
