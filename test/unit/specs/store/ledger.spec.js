@@ -120,6 +120,10 @@ describe(`Module: Ledger`, () => {
             get_version: () =>
               Promise.resolve({
                 error_message: `No errors`
+              }),
+            publicKey: () =>
+              Promise.resolve({
+                error_message: `No errors`
               })
           })
           expect(
@@ -130,6 +134,10 @@ describe(`Module: Ledger`, () => {
         it(`when Ledger is connected but app is not open`, async () => {
           state.externals.App = () => ({
             get_version: () =>
+              Promise.resolve({
+                error_message: `Cosmos app does not seem to be open`
+              }),
+            publicKey: () =>
               Promise.resolve({
                 error_message: `Cosmos app does not seem to be open`
               })
@@ -144,6 +152,10 @@ describe(`Module: Ledger`, () => {
             get_version: () =>
               Promise.resolve({
                 error_message: `U2F: Timeout`
+              }),
+            publicKey: () =>
+              Promise.resolve({
+                error_message: `U2F: Timeout`
               })
           })
           await expect(actions.pollLedgerDevice({ state })).rejects.toThrow(
@@ -151,15 +163,51 @@ describe(`Module: Ledger`, () => {
           )
         })
 
-        it(`fails due to other error`, async () => {
+        it(`when Ledger is on screensaver mode`, async () => {
+          state.externals.App = () => ({
+            get_version: () =>
+              Promise.resolve({
+                error_message: `No errors`
+              }),
+            publicKey: () =>
+              Promise.resolve({
+                error_message: `Unknown error code`
+              })
+          })
+          await expect(actions.pollLedgerDevice({ state })).rejects.toThrow(
+            `Ledger's screensaver mode is on`
+          )
+        })
+
+        it(`fails if get_version throws`, async () => {
           state.externals.App = () => ({
             get_version: () =>
               Promise.resolve({
                 error_message: `Device is busy`
+              }),
+            publicKey: () =>
+              Promise.resolve({
+                error_message: `Empty Buffer`
               })
           })
           await expect(actions.pollLedgerDevice({ state })).rejects.toThrow(
             `Device is busy`
+          )
+        })
+
+        it(`fails if publicKey throws`, async () => {
+          state.externals.App = () => ({
+            get_version: () =>
+              Promise.resolve({
+                error_message: `No errors`
+              }),
+            publicKey: () =>
+              Promise.resolve({
+                error_message: `Execution Error`
+              })
+          })
+          await expect(actions.pollLedgerDevice({ state })).rejects.toThrow(
+            `Execution Error`
           )
         })
       })
