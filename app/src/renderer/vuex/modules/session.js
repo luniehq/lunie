@@ -57,6 +57,10 @@ export default () => {
       state.address = address
     },
     setModalHelp(state, value) {
+      if (value) {
+        track(`event`, `modal`, `help`)
+      }
+
       state.modals.help.active = value
     },
     setDevMode(state) {
@@ -122,6 +126,8 @@ export default () => {
       return state.externals.generateSeed()
     },
     async createKey({ dispatch }, { seedPhrase, password, name }) {
+      track(`event`, `session`, `create-keypair`)
+
       const { cosmosAddress } = await state.externals.importKey(
         name,
         password,
@@ -135,6 +141,8 @@ export default () => {
       { state, commit, dispatch },
       { localKeyPairName, address, sessionType = `local`, errorCollection = false }
     ) {
+      track(`event`, `session`, `sign-in`, sessionType)
+
       let accountAddress
       switch (sessionType) {
         case `ledger`:
@@ -159,6 +167,8 @@ export default () => {
       await dispatch(`initializeWallet`, { address: accountAddress })
     },
     signOut({ state, commit, dispatch }) {
+      track(`event`, `session`, `sign-out`)
+
       state.localKeyPairName = null
       commit(`setLedgerConnection`, false)
       commit(`setCosmosAppVersion`, {})
@@ -180,8 +190,7 @@ export default () => {
     setErrorCollection({ state, commit }, { address, optin }) {
       if (
         optin &&
-        state.errorCollection === false &&
-        state.externals.config.development
+        process.env.NODE_ENV === `development`
       ) {
         commit(`notifyError`, {
           title: `Couldn't switch on error collection.`,
