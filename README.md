@@ -129,7 +129,7 @@ Create the bundle to deploy Voyager you can run:
 yarn build:ui
 ```
 
-If you want to set a particular `Stargate` or `RPC` endpoints
+If you want to set a particular `Stargate` (Cosmos light client) or Tendermint's `RPC` endpoints:
 
 ```bash
 STARGATE=<https://StargateAddress:port> RPC=<https://RPCAddress:port> yarn build:ui
