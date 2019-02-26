@@ -1,4 +1,4 @@
-import { shortAddress } from "renderer/scripts/common"
+import { shortAddress, coinsToObject } from "renderer/scripts/common"
 
 describe(`shortAddress`, () => {
   const bech32ish = `asdf1asdfghjkl`
@@ -27,5 +27,16 @@ describe(`shortAddress`, () => {
     const tinyString = `qwe`
     const shortString = shortAddress(tinyString)
     expect(shortString.toLowerCase()).toBe(`qwe`)
+  })
+})
+
+describe(`coinsToObject`, () => {
+  it(`transforms coins arrays to object`, () => {
+    const coinArray = [{ denom: `stake`, amount: `100` }, { denom: `photino`, amount: `15` }]
+    const coins = coinsToObject(coinArray)
+    expect(coins).toMatchObject({
+      stake: 100,
+      photino: 15
+    })
   })
 })

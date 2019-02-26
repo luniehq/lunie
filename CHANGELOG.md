@@ -10,11 +10,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 - [\#1032](https://github.com/cosmos/voyager/issues/1032) added several events to google analytics @faboweb
+- [\#1630](https://github.com/cosmos/voyager/issues/1630) added memo "Sent via Cosmos UI" to distinguish txs sent via UI @faboweb
+- [\#2035](https://github.com/cosmos/voyager/issues/2035) Distribution vuex module @fedekunze
+
+### Fixed
+
+- Fixed delegations not loaded on validator lists @faboweb
+- Reconnected event was not triggered after reconnection @faboweb
 
 ## [1.0.0-beta.7] - 2019-02-26
 
 ### Changed
 
+- [\#1337](https://github.com/cosmos/voyager/issues/1337) Refactor tests: TmModalHelp, LiCoin @jbibla @faboweb
 - disabled TmOnboarding by default @jbibla
 - [\#1337](https://github.com/cosmos/voyager/issues/1337) Refactor tests: ToolBar, TmModalHelp, UndelegationModal, TmOnboarding, TmSessionAccountDelete, TabValidators, keybase-module @jbibla @faboweb
 
@@ -42,6 +50,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Validator page shows now correctly by avoiding async errors @faboweb
 - Stylelint configuration and scripts work as expected (no longer in webpack) @jbibla
+- page for /governance/:proposalId @sabau
 
 ## [1.0.0-beta.4] - 2019-02-21
 

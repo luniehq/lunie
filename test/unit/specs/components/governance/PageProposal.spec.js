@@ -1,114 +1,95 @@
 "use strict"
 
 import moment from "moment"
-import Vuelidate from "vuelidate"
-import setup from "../../../helpers/vuex-setup"
 import PageProposal from "renderer/components/governance/PageProposal"
-import ModalDeposit from "renderer/components/governance/ModalDeposit"
-import ModalVote from "renderer/components/governance/ModalVote"
-import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
-const {
-  proposals,
-  tallies,
-  stakingParameters,
-  governanceParameters
-} = lcdClientMock.state
+import { proposals, tallies } from "../../store/json/proposals"
+import { governanceParameters } from "../../store/json/parameters"
+import { createLocalVue, shallowMount } from "@vue/test-utils"
+import Vuex from "vuex"
+import Vuelidate from "vuelidate"
+
 const proposal = proposals[`2`]
+const multiplier = 100000000
 
 describe(`PageProposal`, () => {
-  let wrapper, store
-  const { mount, localVue } = setup()
-  localVue.use(Vuelidate)
-  localVue.directive(`tooltip`, () => { })
-  localVue.directive(`focus`, () => { })
+  let wrapper, $store
 
-  const $store = {
-    commit: jest.fn(),
-    dispatch: jest.fn(),
-    getters: {
-      depositDenom: governanceParameters.deposit.min_deposit[0].denom,
-      proposals: { proposals, tallies },
-      connected: true,
-      wallet: {
-        address: `cosmos1234abcd5678`
-      }
+  const getters = {
+    depositDenom: governanceParameters.deposit.min_deposit[0].denom,
+    proposals: { proposals, tallies },
+    connected: true,
+    governanceParameters: { ...governanceParameters, loaded: true },
+    wallet: {
+      address: `X`
+    },
+    session: {
+      signedIn: true
     }
   }
+  let args
 
   beforeEach(() => {
-    const instance = mount(PageProposal, {
+    const localVue = createLocalVue()
+    localVue.use(Vuex)
+    localVue.use(Vuelidate)
+    localVue.directive(`tooltip`, () => {})
+    localVue.directive(`focus`, () => {})
+
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters
+    }
+    args = {
       localVue,
-      doBefore: ({ store }) => {
-        store.commit(`setSignIn`, true)
-        store.commit(`setConnected`, true)
-        store.state.governanceParameters.loaded = true
-        store.commit(`setGovParameters`, governanceParameters)
-        store.commit(`setStakingParameters`, stakingParameters.parameters)
-        store.commit(`setProposal`, proposal)
-        store.commit(`setProposalTally`, {
-          proposal_id: `2`,
-          final_tally_result: tallies[`2`]
-        })
+      propsData: {
+        proposalId: `2`
       },
-      propsData: { proposalId: proposal.proposal_id },
-      $store,
+      mocks: {
+        $store
+      },
       stubs: {
         "modal-deposit": true,
         "modal-vote": true,
         "short-bech32": true
       }
-    })
-    wrapper = instance.wrapper
-    store = instance.store
-
-    wrapper.vm.$refs.modalDepoist = { open: jest.fn() }
-    wrapper.vm.$refs.modalVote = { open: jest.fn() }
+    }
+    wrapper = shallowMount(PageProposal, args)
   })
 
   describe(`has the expected html structure`, () => {
     it(`if user has signed in`, async () => {
-      expect(wrapper.vm.$el).toMatchSnapshot()
-    })
-
-    it(`if user hasn't signed in`, async () => {
-      store.commit(`setSignIn`, false)
+      wrapper = shallowMount(PageProposal, args)
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
   })
 
-  it(`has the expected html structure when voting is open`, async () => {
-    wrapper.setData({
-      tally: {
-        yes: 10,
-        no: 20,
-        no_with_veto: 30,
-        abstain: 40
+  it(`renders votes in HTML when voting is open`, async () => {
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: {
+        ...getters,
+        proposals: {
+          proposals,
+          tallies: {
+            2: {
+              yes: 10 * multiplier,
+              no: 20 * multiplier,
+              no_with_veto: 30 * multiplier,
+              abstain: 40 * multiplier
+            }
+          }
+        }
       }
-    })
+    }
+    wrapper = shallowMount(PageProposal, { ...args, mocks: { $store } })
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`shows an error if the proposal couldn't be found`, () => {
-    const instance = mount(PageProposal, {
-      doBefore: () => {
-        store.commit(`setProposal`, {})
-      },
-      propsData: {
-        proposalId: proposal.proposal_id
-      },
-      getters: {
-        proposal: () => []
-      },
-      stubs: {
-        "short-bech32": true
-      }
-    })
-
-    wrapper = instance.wrapper
-    store = instance.store
-    store.commit(`setStakingParameters`, stakingParameters.parameters)
-
+    wrapper = shallowMount(PageProposal, { ...args, propsData: { proposalId: `666` } })
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -172,126 +153,53 @@ describe(`PageProposal`, () => {
   })
 
   describe(`Modal onVote`, () => {
-    it(`enables voting if the proposal is on the 'VotingPeriod'`, () => {
-      const proposal = proposals[`2`]
-      proposal.proposal_status = `VotingPeriod`
-      const instance = mount(PageProposal, {
-        localVue,
-        doBefore: ({ store }) => {
-          store.commit(`setSignIn`, true)
-          store.commit(`setConnected`, true)
-          store.commit(`setProposal`, proposal)
-          store.commit(`setProposalTally`, {
-            proposal_id: `2`,
-            final_tally_result: tallies[`2`]
-          })
-        },
-        propsData: {
-          proposalId: proposal.proposal_id
-        },
+    it(`enables voting if the proposal is on the 'VotingPeriod'`, async () => {
+      $store = { dispatch: jest.fn() }
+
+      const thisIs = {
+        $refs: { modalVote: { open: () => {} } },
         $store,
-        stubs: {
-          "short-bech32": true
-        }
-      })
-      wrapper = instance.wrapper
-      store = instance.store
+        votes: {},
+        proposalId: `2`,
+        lastVote: undefined,
+        wallet: { address: `X` }
+      }
 
-      const voteBtn = wrapper.find(`#vote-btn`)
-      voteBtn.trigger(`click`)
+      await PageProposal.methods.onVote.call(thisIs)
 
-      expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
-        [`getProposalVotes`, `2`]
+      expect($store.dispatch.mock.calls).toEqual([
+        [`getProposalVotes`, thisIs.proposalId]
       ])
-      expect(wrapper.vm.lastVote).not.toBeDefined()
-      expect(wrapper.contains(ModalVote)).toEqual(true)
-      expect(voteBtn.html()).not.toContain(`disabled="disabled"`)
+      expect(thisIs.lastVote).toBeUndefined()
     })
 
     it(`load the last valid vote succesfully`, async () => {
-      wrapper.setProps({ proposalId: `1` })
-      wrapper.vm.wallet.address = lcdClientMock.state.votes[`1`][0].voter
-      await wrapper.vm.onVote()
-      expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
-        [`getProposalVotes`, `1`]
-      ])
-      expect(wrapper.vm.lastVote).toBe(lcdClientMock.state.votes[`1`][0])
-    })
+      $store = { dispatch: jest.fn() }
 
-    it(`keeps the last vote undefined if no vote to this proposal happened from the current address`, async () => {
-      wrapper.setProps({ proposalId: `2` })
-      await wrapper.vm.onVote()
-      expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
-        [`getProposalVotes`, `2`]
+      const thisIs = {
+        $refs: { modalVote: { open: () => {} } },
+        $store,
+        votes: { 2: [{
+          voter: `X`,
+          vote: `yes`
+        }] },
+        proposalId: `2`,
+        lastVote: undefined,
+        wallet: { address: `X` }
+      }
+      expect(thisIs.lastVote).toBeUndefined()
+
+      await PageProposal.methods.onVote.call(thisIs)
+
+      expect($store.dispatch.mock.calls).toEqual([
+        [`getProposalVotes`, thisIs.proposalId]
       ])
-      expect(wrapper.vm.lastVote).toBe(undefined)
+      expect(thisIs.lastVote).toEqual({ voter: `X`, vote: `yes` })
     })
 
     it(`disables voting if the proposal is on the 'DepositPeriod'`, () => {
       wrapper.setProps({ proposalId: `5` })
       expect(wrapper.find(`#vote-btn`).exists()).toEqual(false)
-    })
-  })
-
-  describe(`Modal onDeposit`, () => {
-    it(`enables deposits if the proposal on 'DepositPeriod'`, () => {
-      const proposal = proposals[`5`]
-      const instance = mount(PageProposal, {
-        localVue,
-        doBefore: ({ store }) => {
-          store.commit(`setSignIn`, true)
-          store.commit(`setConnected`, true)
-          store.commit(`setStakingParameters`, stakingParameters.parameters)
-          store.commit(`setProposal`, proposal)
-          store.commit(`setProposalTally`, {
-            proposal_id: `5`,
-            final_tally_result: tallies[`5`]
-          })
-        },
-        propsData: {
-          proposalId: proposal.proposal_id
-        },
-        $store,
-        stubs: {
-          "short-bech32": true
-        }
-      })
-      wrapper = instance.wrapper
-      store = instance.store
-      store.commit(`setGovParameters`, governanceParameters)
-      wrapper.vm.proposal.proposal_status = `DepositPeriod`
-      const depositBtn = wrapper.find(`#deposit-btn`)
-      depositBtn.trigger(`click`)
-      expect(wrapper.contains(ModalDeposit)).toEqual(true)
-      expect(depositBtn.html()).not.toContain(`disabled="disabled"`)
-    })
-
-    it(`disables deposits if the proposal is not active`, () => {
-      expect(wrapper.find(`#deposit-btn`).exists()).toEqual(false)
-    })
-
-    it(`disables interaction buttons if not connected`, () => {
-      store.commit(`setConnected`, false)
-
-      store.commit(
-        `setProposal`,
-        Object.assign({}, proposal, {
-          proposal_status: `VotingPeriod`
-        })
-      )
-      expect(
-        wrapper.vm.$el.querySelector(`#vote-btn`).getAttribute(`disabled`)
-      ).toBe(`disabled`)
-
-      store.commit(
-        `setProposal`,
-        Object.assign({}, proposal, {
-          proposal_status: `DepositPeriod`
-        })
-      )
-      expect(
-        wrapper.vm.$el.querySelector(`#deposit-btn`).getAttribute(`disabled`)
-      ).toBe(`disabled`)
     })
   })
 })
