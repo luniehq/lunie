@@ -176,6 +176,41 @@ describe(`Module: Send`, () => {
             broadcast: `body`
           })
         })
+
+        it(`should send using a 'to' and a 'pathParameter'`, async () => {
+          const args = {
+            type: `send`,
+            to: `mock_address`,
+            pathParameter: `cosmosvaloper1address`,
+            password: `1234567890`,
+            amount: [{ denom: `mycoin`, amount: 123 }],
+            submitType: `local`
+          }
+          await actions.sendTx(
+            {
+              state,
+              dispatch: jest.fn(),
+              commit: jest.fn(),
+              rootState: mockRootState
+            },
+            args
+          )
+          expect(node.send).toHaveBeenCalledWith(`mock_address`, `cosmosvaloper1address`, {
+            amount: [{ amount: 123, denom: `mycoin` }],
+            password: `1234567890`,
+            base_req: {
+              account_number: `12`,
+              chain_id: `mock-chain`,
+              from: `cosmos1demo`,
+              gas: `42`,
+              generate_only: true,
+              sequence: `0`
+            }
+          })
+          expect(node.postTx).toHaveBeenCalledWith({
+            broadcast: `body`
+          })
+        })
       })
 
       describe(`signing with Ledger Nano S`, () => {

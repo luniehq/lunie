@@ -1,4 +1,5 @@
 import * as Sentry from "@sentry/browser"
+import Vue from "vue"
 import { coinsToObject } from "scripts/common.js"
 
 export default ({ node }) => {
@@ -19,8 +20,8 @@ export default ({ node }) => {
     setValidatorHash(state, validatorHash) {
       state.validatorHash = validatorHash
     },
-    setValidatorDistributionInfo(state, info) {
-      state.distributionInfo = info
+    setValidatorDistributionInfo(state, { validatorAddr, info }) {
+      Vue.set(state.distributionInfo, validatorAddr, info)
     }
   }
 
@@ -63,20 +64,16 @@ export default ({ node }) => {
     async getValidatorDistributionInfoAndRewards({ commit }, validatorAddr) {
       state.loading = true
       try {
+        
         let { self_bond_rewards, val_commission } = await node.getValidatorDistributionInformation(validatorAddr)
         const rewardsArray = await node.getValidatorRewards(validatorAddr)
-
         const rewards = coinsToObject(rewardsArray)
         self_bond_rewards = coinsToObject(self_bond_rewards)
         val_commission = coinsToObject(val_commission)
-
-        commit(`setValidatorDistributionInfo`, { self_bond_rewards, val_commission, rewards })
+        const info = { self_bond_rewards, val_commission , rewards }
+        commit(`setValidatorDistributionInfo`, { validatorAddr, info })
         state.error = null
       } catch (error) {
-        commit(`notifyError`, {
-          title: `Error querying distribution parameters`,
-          body: error.message
-        })
         Sentry.captureException(error)
         state.error = error
       }
