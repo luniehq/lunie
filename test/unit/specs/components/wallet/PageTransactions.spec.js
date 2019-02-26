@@ -294,7 +294,7 @@ describe(`PageTransactions`, () => {
   })
 
   it(`should sort the transaction by time`, () => {
-    expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual([
+    expect(wrapper.vm.orderedTransactions.map(x => x.height)).toEqual([
       56673,
       213,
       170,
@@ -302,15 +302,5 @@ describe(`PageTransactions`, () => {
       150,
       1
     ])
-  })
-
-  it(`should filter the transactions`, () => {
-    const faboTransactions = PageTransactions.computed.filteredTransactions.call(
-      {
-        filters: { transactions: { search: { query: `fabo`, visible: true } } },
-        orderedTransactions: allTransactions
-      }
-    )
-    expect(faboTransactions.map(e => e.height)).toEqual([150])
   })
 })

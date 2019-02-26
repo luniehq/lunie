@@ -11,7 +11,7 @@ describe(`Module: Onboarding`, () => {
   })
 
   it(`toggles onboarding active state`, () => {
-    expect(state.active).toBe(true)
+    expect(state.active).toBe(false)
     store.commit(`setOnboardingActive`, false)
     expect(state.active).toBe(false)
     store.commit(`setOnboardingActive`, true)

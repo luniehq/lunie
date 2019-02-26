@@ -2,7 +2,7 @@
 
 export default () => {
   const emptyState = {
-    active: true,
+    active: false,
     state: 0
   }
   const state = JSON.parse(JSON.stringify(emptyState))

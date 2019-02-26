@@ -77,7 +77,8 @@ export default ({ node }) => {
         account_number: rootState.wallet.accountNumber,
         chain_id: rootState.connection.lastHeader.chain_id,
         gas: String(state.externals.config.default_gas),
-        generate_only: true
+        generate_only: true,
+        memo: `Sent via Cosmos UI 🚀`
       }
       args.base_req = requestMetaData
 

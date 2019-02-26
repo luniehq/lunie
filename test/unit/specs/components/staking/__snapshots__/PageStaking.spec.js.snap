@@ -4,9 +4,7 @@ exports[`PageStaking has the expected html structure 1`] = `
 <tm-page-stub
   class="staking"
   data-title="Staking"
-  menubody=""
   refresh="function () { [native code] }"
-  search=""
   subtitle=""
   tabs="[object Object],[object Object],[object Object]"
   title=""
