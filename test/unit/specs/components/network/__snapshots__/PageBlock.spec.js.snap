@@ -3,8 +3,6 @@
 exports[`PageBlock has the expected html structure 1`] = `
 <tm-page-stub
   data-title="Block"
-  menubody=""
-  search=""
   subtitle=""
   title=""
 >

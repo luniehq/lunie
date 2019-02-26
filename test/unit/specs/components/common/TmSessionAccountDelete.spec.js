@@ -1,17 +1,29 @@
-import setup from "../../../helpers/vuex-setup.js"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
+import Vuelidate from "vuelidate"
 import TmSessionAccountDelete from "common/TmSessionAccountDelete"
 
 describe(`TmSessionAccountDelete`, () => {
-  let wrapper, store
+  const localVue = createLocalVue()
+  localVue.use(Vuelidate)
+
+  let wrapper, $store
 
   beforeEach(() => {
-    const { mount } = setup()
-    const instance = mount(TmSessionAccountDelete)
-    wrapper = instance.wrapper
-    store = instance.store
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(async () => true),
+    }
 
-    store.commit = jest.fn()
-    store.dispatch = jest.fn(async () => true)
+    wrapper = shallowMount(TmSessionAccountDelete, {
+      localVue,
+      mocks: {
+        $store
+      }
+    })
+    wrapper.setData({
+      deletionPassword: ``,
+      deletionWarning: false
+    })
   })
 
   it(`has the expected html structure`, () => {
@@ -23,7 +35,7 @@ describe(`TmSessionAccountDelete`, () => {
       .findAll(`.tm-session-header a`)
       .at(0)
       .trigger(`click`)
-    expect(store.commit.mock.calls[0]).toEqual([
+    expect($store.commit.mock.calls[0]).toEqual([
       `setSessionModalView`,
       `sign-in`
     ])
@@ -34,18 +46,16 @@ describe(`TmSessionAccountDelete`, () => {
       .findAll(`.tm-session-header a`)
       .at(1)
       .trigger(`click`)
-    expect(store.commit.mock.calls[0]).toEqual([`setModalHelp`, true])
+    expect($store.commit.mock.calls[0]).toEqual([`setModalHelp`, true])
   })
 
   it(`should go back on successful deletion`, async () => {
     wrapper.setData({
-      fields: {
-        deletionPassword: `1234567890`,
-        deletionWarning: true
-      }
+      deletionPassword: `1234567890`,
+      deletionWarning: true
     })
     await wrapper.vm.onSubmit()
-    expect(store.commit.mock.calls[0]).toEqual([
+    expect($store.commit.mock.calls[0]).toEqual([
       `setSessionModalView`,
       `welcome`
     ])
@@ -53,38 +63,38 @@ describe(`TmSessionAccountDelete`, () => {
 
   it(`should show error if password not 10 long`, async () => {
     wrapper.setData({
-      fields: {
-        deletionPassword: `123`,
-        deletionWarning: true
-      }
+      deletionPassword: `123`,
+      deletionWarning: true
     })
     await wrapper.vm.onSubmit()
-    expect(store.commit.mock.calls[0]).toBeUndefined()
+    expect($store.commit.mock.calls[0]).toBeUndefined()
     expect(wrapper.find(`.tm-form-msg-error`)).toBeDefined()
   })
 
   it(`should show error if deletionWarning is not acknowledged`, async () => {
     wrapper.setData({
-      fields: {
-        deletionPassword: `1234567890`,
-        deletionWarning: false
-      }
+      deletionPassword: `1234567890`,
+      deletionWarning: false
     })
     await wrapper.vm.onSubmit()
-    expect(store.commit.mock.calls[0]).toBeUndefined()
+    expect($store.commit.mock.calls[0]).toBeUndefined()
     expect(wrapper.find(`.tm-form-msg-error`)).toBeDefined()
   })
 
   it(`should show a notification if deletion failed`, async () => {
-    store.dispatch = jest.fn(() => Promise.reject(`Planned rejection`))
+    const error = {
+      message: `Error body`
+    }
+
+    $store.commit = jest.fn()
+    $store.dispatch = jest.fn().mockRejectedValue(error)
+
     wrapper.setData({
-      fields: {
-        deletionPassword: `1234567890`,
-        deletionWarning: true
-      }
+      deletionPassword: `1234567890`,
+      deletionWarning: true
     })
+
     await wrapper.vm.onSubmit()
-    expect(store.commit).toHaveBeenCalled()
-    expect(store.commit.mock.calls[0][0]).toBe(`notifyError`)
+    expect($store.commit).toHaveBeenCalledWith(`notifyError`, { body: `Error body`, title: `Account Deletion Failed` })
   })
 })

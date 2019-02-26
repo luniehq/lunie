@@ -1,18 +1,9 @@
 import { startApp, main, routeGuard } from "renderer/scripts/boot"
-import App from "renderer/App"
-
-describe(`App vue`, () => {
-  it(`mount and call the store`, () => {
-    const $store = { commit: jest.fn() }
-    App.mounted.call({ $store })
-    expect($store.commit).toHaveBeenCalledWith(`loadOnboarding`)
-  })
-})
 
 describe(`App Start`, () => {
   // popper.js is used by tooltips and causes some errors if
   // not mocked because it requires a real DOM
-  jest.mock(`popper.js`, () => () => {})
+  jest.mock(`popper.js`, () => () => { })
 
   beforeEach(() => {
     document.body.innerHTML = `<div id="app"></div>`
@@ -36,8 +27,8 @@ describe(`App Start`, () => {
         this.$mount = jest.fn()
       }
       static config = {}
-      static use = () => {}
-      static directive = () => {}
+      static use = () => { }
+      static directive = () => { }
     }
     const Sentry = {
       init: jest.fn()
@@ -72,8 +63,8 @@ describe(`App Start`, () => {
     expect(startApp).toHaveBeenCalledWith({
       x: 1
     }, {
-      config: `value`
-    })
+        config: `value`
+      })
   })
 
   it(`Check the calls on VUE`, async () => {
@@ -254,7 +245,7 @@ describe(`App Start`, () => {
       const Sentry = {
         init: jest.fn()
       }
-      
+
       await startApp(
         {
           devMode: true
@@ -304,7 +295,7 @@ describe(`App Start`, () => {
       const Sentry = {
         init: jest.fn()
       }
-      
+
       await startApp(
         {
           rpc: `http://rpcurl.com`
@@ -320,7 +311,7 @@ describe(`App Start`, () => {
         Sentry,
         mockVue
       )
-      
+
       expect(store.commit).toHaveBeenCalledWith(`setRpcUrl`, `http://rpcurl.com`)
     })
     it(`should set stargate url`, async () => {
@@ -353,7 +344,7 @@ describe(`App Start`, () => {
       const Sentry = {
         init: jest.fn()
       }
-      
+
       await startApp(
         {
           stargate: `http://stargateurl.com`
@@ -369,7 +360,7 @@ describe(`App Start`, () => {
         Sentry,
         mockVue
       )
-      
+
       expect(Node).toHaveBeenCalledWith(expect.objectContaining({}), `http://stargateurl.com`)
     })
   })

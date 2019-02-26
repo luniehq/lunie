@@ -3,8 +3,6 @@
 exports[`PagePreferences has the expected html structure if connected 1`] = `
 <tm-page-stub
   data-title="Preferences"
-  menubody=""
-  search=""
   subtitle=""
   title=""
 >

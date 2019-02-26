@@ -1,15 +1,28 @@
-import setup from "../../../helpers/vuex-setup"
+import { shallowMount } from "@vue/test-utils"
 import TmModalHelp from "common/TmModalHelp"
 
 describe(`TmModalHelp`, () => {
-  let wrapper, store
-  const { mount } = setup()
+  let wrapper
+
+  const $store = {
+    commit: jest.fn(),
+    getters: {
+      session: {
+        modals: {
+          help: {
+            active: true
+          }
+        }
+      }
+    }
+  }
 
   beforeEach(() => {
-    const instance = mount(TmModalHelp)
-    wrapper = instance.wrapper
-    store = instance.store
-    store.commit(`setModalHelp`, true)
+    wrapper = shallowMount(TmModalHelp, {
+      mocks: {
+        $store
+      }
+    })
   })
 
   it(`has the expected html structure`, () => {
