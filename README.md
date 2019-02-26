@@ -129,10 +129,10 @@ Create the bundle to deploy Voyager you can run:
 yarn build:ui
 ```
 
-If you want to set a particular Stargate or RPC endpoints
+If you want to set a particular `Stargate` or `RPC` endpoints
 
 ```bash
-STARGATE=<https://StargateAddress:port> RPC=<https://RPRAddress:port> yarn build:ui
+STARGATE=<https://StargateAddress:port> RPC=<https://RPCAddress:port> yarn build:ui
 ```
 
 ### Run local testnet
@@ -169,22 +169,6 @@ Once you've generated a local account, run Voyager on the default `local-testnet
 yarn start
 ```
 
-#### Running several nodes
-
-This command will build and run several nodes at once on the `local-testnet`. All nodes will be validators:
-
-```bash
-yarn start <number>
-```
-
-### Using Voyager with a custom SDK REST API instance (Stargate)
-
-A deployed Voyager can be retargeted against a Stargate and Full Node of your choice. Just add the URLs of those to the Voyager URL:
-
-```
-https://localhost:9080?stargate=https://stargate.com:1234&rpc=https://cool-node.com:6789
-```
-
 ## Testing
 
 If you would like to run all the tests you can run:
@@ -201,7 +185,7 @@ Voyager uses [Jest](https://facebook.github.io/jest) to run unit tests. You can 
 yarn test:unit
 ```
 
-For a single test file (e.g. `PageValidator.spec.js` ) run the unit tests like this to watch the tests whenever there are changes:
+For a single test file (e.g. `PageValidator.spec.js`) run the unit tests like this to watch the tests whenever there are changes:
 
 ```bash
 yarn watch PageValidator
@@ -222,24 +206,12 @@ If you would like to run a single test please set the TEST variable (Unix system
 TEST=test/e2e/init.js yarn test:e2e
 ```
 
-You can also run the `tape` command directly, but then you need to run the packaging of Voyager before it (_i.e._ necessary on Windows):
+You can also run the `tape` command directly. You will need to run the packages of Voyager previously if on you're on Windows:
 
 ```bash
 yarn pack
 node_modules/.bin/tape test/e2e/init.js
 ```
-
-### Documentation
-
-To produce an up-to date documentation you can run:
-
-```bash
-yarn doc
-```
-
-This will store an HTML static website containing all the documented modules and components that you can consult.
-
-The output folder is: `docs/cosmos-voyager/[#version]`
 
 ### Code coverage
 
@@ -248,20 +220,6 @@ To check test coverage locally run following. It will spin up a webserver and pr
 ```bash
 yarn test:coverage
 ```
-
-## Debugging
-
-To debug the Electron application, build it and run the node inspector for the built files:
-
-```bash
-electron --inspect-brk builds/{{your build}}/resources/app/dist/main.js
-```
-
-Then attach to the debugger via the posted URL in Chrome.
-
-To debug the electron view, set the environment variable `COSMOS_DEVTOOLS` to something truthy like `"true"`. The Chrome DevTools will appear when you start Voyager.
-
-To see the console output of the view in your terminal, set the environment variable `ELECTRON_ENABLE_LOGGING` to something truthy like `1`.
 
 ## Flags
 
