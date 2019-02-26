@@ -66,11 +66,11 @@ export default ({ node }) => {
     async getProposal({ state, commit }, proposal_id) {
       state.loading = true
       try {
-        state.error = null
-        state.loading = false
-        state.loaded = true // TODO make state for single proposal
         const proposal = await node.getProposal(proposal_id)
         setProposalTally(commit, node)(proposal)
+        state.error = null
+        state.loaded = true // TODO make state for single proposal
+        state.loading = false
         return proposal
       } catch (error) {
         commit(`notifyError`, {
