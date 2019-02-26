@@ -1,5 +1,14 @@
 <template>
   <div class="tool-bar">
+    <a
+      v-if="!!refresh"
+      v-tooltip.bottom="'Refresh'"
+      :disabled="!refresh.connected"
+      class="refresh-button"
+      @click="refresh.connected && refresh.refresh()"
+    >
+      <i class="material-icons">refresh</i>
+    </a>
     <a v-tooltip.bottom="'Help'" class="help" @click="enableModalHelp">
       <i class="material-icons">help_outline</i>
     </a>
@@ -36,6 +45,19 @@ import TmBtn from "common/TmBtn"
 export default {
   name: `tool-bar`,
   components: { TmBtn },
+  props: {
+    refresh: {
+      connected: {
+        type: Boolean,
+        required: true
+      },
+      refresh: {
+        type: Function,
+        required: true
+      }
+    },
+    default: undefined
+  },
   computed: {
     ...mapGetters([`session`])
   },
