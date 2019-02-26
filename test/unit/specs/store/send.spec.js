@@ -185,6 +185,7 @@ describe(`Module: Send`, () => {
             to: `mock_address`,
             pathParameter: `cosmosvaloper1address`,
             password: `1234567890`,
+            memo: `Sent via Cosmos UI 🚀`,
             amount: [{ denom: `mycoin`, amount: 123 }],
             submitType: `local`
           }
