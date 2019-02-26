@@ -15,10 +15,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 - Fixed delegations not loaded on validator lists @faboweb
-
-### Fixed
-
 - Reconnected event was not triggered after reconnection @faboweb
+
 ### Changed
 
 - [\#1337](https://github.com/cosmos/voyager/issues/1337) Refactor tests: pool-module @jbibla
