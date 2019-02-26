@@ -58,7 +58,7 @@ export default () => {
     },
     setModalHelp(state, value) {
       if (value) {
-        track(`event`, `modal`, `help`)
+        state.externals.track(`event`, `modal`, `help`)
       }
 
       state.modals.help.active = value
@@ -125,8 +125,8 @@ export default () => {
     createSeed() {
       return state.externals.generateSeed()
     },
-    async createKey({ dispatch }, { seedPhrase, password, name }) {
-      track(`event`, `session`, `create-keypair`)
+    async createKey({ dispatch, state }, { seedPhrase, password, name }) {
+      state.externals.track(`event`, `session`, `create-keypair`)
 
       const { cosmosAddress } = await state.externals.importKey(
         name,
@@ -164,10 +164,10 @@ export default () => {
       dispatch(`loadErrorCollection`, accountAddress)
       await dispatch(`initializeWallet`, { address: accountAddress })
 
-      track(`event`, `session`, `sign-in`, sessionType)
+      state.externals.track(`event`, `session`, `sign-in`, sessionType)
     },
     signOut({ state, commit, dispatch }) {
-      track(`event`, `session`, `sign-out`)
+      state.externals.track(`event`, `session`, `sign-out`)
 
       state.localKeyPairName = null
       commit(`setLedgerConnection`, false)

@@ -174,7 +174,8 @@ export default {
     password: null,
     sending: false,
     submissionError: null,
-    show: false
+    show: false,
+    track
   }),
   computed: {
     ...mapGetters([`connected`, `ledger`, `session`]),
@@ -203,7 +204,7 @@ export default {
   },
   methods: {
     open() {
-      track(`event`, `modal`, this.title)
+      this.track(`event`, `modal`, this.title)
 
       this.show = true
     },
