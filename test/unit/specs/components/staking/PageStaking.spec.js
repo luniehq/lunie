@@ -5,7 +5,7 @@ describe(`PageStaking`, () => {
   let wrapper
 
   beforeEach(() => {
-   wrapper = shallowMount(PageStaking, {
+    wrapper = shallowMount(PageStaking, {
       mocks: {
         $store: {}
       },

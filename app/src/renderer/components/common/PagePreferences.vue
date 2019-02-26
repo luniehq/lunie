@@ -27,7 +27,7 @@
             unchecked: ' '
           }"
           :value="session.errorCollection || undefined"
-          :change="setErrorCollection.bind(this)"
+          :change="setErrorCollection.bind(null, this)"
           type="toggle"
         />
       </tm-list-item>

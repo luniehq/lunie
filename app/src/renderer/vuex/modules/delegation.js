@@ -42,17 +42,17 @@ export default ({ node }) => {
     setUnbondingDelegations(state, unbondingDelegations) {
       state.unbondingDelegations = unbondingDelegations
         ? unbondingDelegations
-            // building a dict from the array and taking out the transactions with amount 0
-            .reduce(
-              (dict, { validator_addr, ...delegation }) => ({
-                ...dict,
-                // filtering out the transactions with amount 0
-                ...(delegation.balance.amount > 0 && {
-                  [validator_addr]: delegation
-                })
-              }),
-              {}
-            )
+        // building a dict from the array and taking out the transactions with amount 0
+          .reduce(
+            (dict, { validator_addr, ...delegation }) => ({
+              ...dict,
+              // filtering out the transactions with amount 0
+              ...(delegation.balance.amount > 0 && {
+                [validator_addr]: delegation
+              })
+            }),
+            {}
+          )
         : {}
     }
   }

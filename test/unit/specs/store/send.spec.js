@@ -18,8 +18,8 @@ jest.mock(`renderer/scripts/wallet.js`, () => ({
   createBroadcastBody: jest.fn(() => ({
     broadcast: `body`
   })),
-  createSignedTx: jest.fn(() => {}),
-  createSignMessage: jest.fn(() => {})
+  createSignedTx: jest.fn(() => { }),
+  createSignMessage: jest.fn(() => { })
 }))
 
 const mockRootState = {
@@ -135,7 +135,8 @@ describe(`Module: Send`, () => {
               from: `cosmos1demo`,
               gas: `42`,
               generate_only: true,
-              sequence: `0`
+              sequence: `0`,
+              memo: `Sent via Cosmos UI 🚀`
             }
           })
           expect(node.postTx).toHaveBeenCalledWith({
@@ -169,6 +170,43 @@ describe(`Module: Send`, () => {
               from: `cosmos1demo`,
               gas: `42`,
               generate_only: true,
+              sequence: `0`,
+              memo: `Sent via Cosmos UI 🚀`
+            }
+          })
+          expect(node.postTx).toHaveBeenCalledWith({
+            broadcast: `body`
+          })
+        })
+
+        it(`should send using a 'to' and a 'pathParameter'`, async () => {
+          const args = {
+            type: `send`,
+            to: `mock_address`,
+            pathParameter: `cosmosvaloper1address`,
+            password: `1234567890`,
+            amount: [{ denom: `mycoin`, amount: 123 }],
+            submitType: `local`
+          }
+          await actions.sendTx(
+            {
+              state,
+              dispatch: jest.fn(),
+              commit: jest.fn(),
+              rootState: mockRootState
+            },
+            args
+          )
+          expect(node.send).toHaveBeenCalledWith(`mock_address`, `cosmosvaloper1address`, {
+            amount: [{ amount: 123, denom: `mycoin` }],
+            password: `1234567890`,
+            base_req: {
+              account_number: `12`,
+              chain_id: `mock-chain`,
+              from: `cosmos1demo`,
+              gas: `42`,
+              generate_only: true,
+              memo: `Sent via Cosmos UI 🚀`,
               sequence: `0`
             }
           })
@@ -213,7 +251,8 @@ describe(`Module: Send`, () => {
               from: `cosmos1demo`,
               gas: `500000`,
               generate_only: true,
-              sequence: `0`
+              sequence: `0`,
+              memo: `Sent via Cosmos UI 🚀`
             }
           })
           expect(node.postTx).toHaveBeenCalledWith({

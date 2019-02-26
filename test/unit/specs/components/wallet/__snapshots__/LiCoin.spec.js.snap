@@ -40,20 +40,10 @@ exports[`LiCoin has the expected html structure 1`] = `
       </p>
     </div>
      
-    <button
-      class="tm-btn"
-    >
-      <span
-        class="tm-btn__container tm-btn--primary"
-      >
-        <!---->
-        <span
-          class="tm-btn__value"
-        >
-          Send
-        </span>
-      </span>
-    </button>
+    <tm-btn-stub
+      color="primary"
+      value="Send"
+    />
   </div>
 </li>
 `;
