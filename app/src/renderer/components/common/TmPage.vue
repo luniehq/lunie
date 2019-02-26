@@ -8,13 +8,13 @@
         {{ subtitle }}
       </h3>
       <slot slot="menu-body" name="menu-body">
+        <tool-bar :refresh="refreshable" />
         <tm-balance v-if="session.signedIn" />
-        <tool-bar :refresh="refreshable" :searching="searchable" />
+        <tool-bar />
       </slot>
       <slot slot="header-buttons" name="header-buttons" />
     </tm-page-header>
     <main class="tm-page-main">
-      <modal-search v-if="search && somethingToSearch" :type="search" />
       <template v-if="this.$slots['managed-body']">
         <tm-data-connecting v-if="!loaded && !connected" />
         <tm-data-loading v-else-if="!loaded && loading" />
@@ -26,7 +26,6 @@
           name="no-data"
         />
         <tm-data-empty v-else-if="!dataset || dataset.length === 0" />
-        <data-empty-search v-else-if="!hasFilteredData" />
         <slot v-else name="managed-body" />
       </template>
       <slot />
@@ -39,11 +38,8 @@ import PerfectScrollbar from "perfect-scrollbar"
 import TmPageHeader from "./TmPageHeader.vue"
 import TmDataLoading from "common/TmDataLoading"
 import TmDataEmpty from "common/TmDataEmpty"
-import DataEmptySearch from "common/TmDataEmptySearch"
 import { mapGetters } from "vuex"
-import Mousetrap from "mousetrap"
 import TmDataError from "common/TmDataError"
-import ModalSearch from "common/TmModalSearch"
 import TmDataConnecting from "common/TmDataConnecting"
 import TmBalance from "common/TmBalance"
 import ToolBar from "common/ToolBar"
@@ -56,10 +52,8 @@ export default {
     TmPageHeader,
     TmDataEmpty,
     TmDataLoading,
-    DataEmptySearch,
     TmDataError,
-    TmDataConnecting,
-    ModalSearch
+    TmDataConnecting
   },
   props: {
     hideHeader: {
@@ -71,14 +65,6 @@ export default {
       default: ``
     },
     subtitle: {
-      type: String,
-      default: ``
-    },
-    menuBody: {
-      type: String,
-      default: ``
-    },
-    search: {
       type: String,
       default: ``
     },
@@ -102,42 +88,23 @@ export default {
       type: Array,
       default: undefined
     },
-    hasFilteredData: {
-      type: Boolean,
-      default: false
-    },
     refresh: {
       type: Function,
       default: undefined
     }
   },
-  data: () => ({ ps: `` }),
+  data: () => ({
+    perfectScrollbar: ``
+  }),
   computed: {
-    ...mapGetters([`session`, `filters`, `connected`]),
-    searchable({ somethingToSearch, setSearch } = this) {
-      return this.search ? { somethingToSearch, setSearch } : undefined
-    },
+    ...mapGetters([`session`, `connected`]),
     refreshable({ connected, refresh } = this) {
       return refresh ? { connected, refresh } : undefined
     }
   },
   async mounted() {
-    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
-    Mousetrap.bind(`esc`, () => this.setSearch(false))
-
-    await this.$nextTick()
     const container = this.$el.querySelector(`.tm-page-main`)
-    this.ps = new PerfectScrollbar(container)
-  },
-  methods: {
-    setSearch(bool = true, { somethingToSearch, $store } = this) {
-      if (somethingToSearch()) {
-        $store.commit(`setSearchVisible`, [this.search, bool])
-      }
-    },
-    somethingToSearch() {
-      return this.dataset && this.dataset.length > 0
-    }
+    this.perfectScrollbar = new PerfectScrollbar(container)
   }
 }
 </script>

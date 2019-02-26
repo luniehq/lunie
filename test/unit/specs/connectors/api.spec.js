@@ -705,36 +705,6 @@ describe(`API`, () => {
         ])
       })
 
-      it(`gets a delegator withdraw address`, async () => {
-        axios.mockReturnValue({})
-        await client.getDelegatorWithdrawAddress(`cosmos1address`)
-
-        expect(axios.mock.calls).toEqual([
-          [
-            {
-              data: undefined,
-              method: `GET`,
-              url: `http://remotehost/distribution/delegators/cosmos1address/withdraw_address`
-            }
-          ]
-        ])
-      })
-
-      it(`updates a delegator withdraw address`, async () => {
-        axios.mockReturnValue({})
-        await client.postDelegatorWithdrawAddress(`cosmos1address`, {})
-
-        expect(axios.mock.calls).toEqual([
-          [
-            {
-              data: {},
-              method: `POST`,
-              url: `http://remotehost/distribution/delegators/cosmos1address/withdraw_address`
-            }
-          ]
-        ])
-      })
-
       it(`queries a validator distribution info`, async () => {
         axios.mockReturnValue({})
         await client.getValidatorDistributionInformation(

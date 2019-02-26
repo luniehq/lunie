@@ -2,7 +2,6 @@
   <div id="app">
     <modal-help />
     <session v-if="session.modals.session.active" />
-    <onboarding v-else-if="onboarding.active" />
     <template v-else>
       <app-header />
       <div id="app-content">
@@ -18,7 +17,6 @@ import { mapGetters } from "vuex"
 import AppHeader from "common/AppHeader"
 import TmNotifications from "common/TmNotifications"
 import ModalHelp from "common/TmModalHelp"
-import Onboarding from "common/TmOnboarding"
 import Session from "common/TmSession"
 import store from "./vuex/store"
 
@@ -29,7 +27,6 @@ import store from "./vuex/store"
  * @vue-data {Object} nothing
  * @vue-computed {function} notifications mapGetter
  * @vue-computed {function} session mapGetter
- * @vue-computed {function} onboarding mapGetter
  */
 export default {
   name: `app`,
@@ -37,14 +34,10 @@ export default {
     AppHeader,
     ModalHelp,
     TmNotifications,
-    Onboarding,
     Session
   },
   computed: {
-    ...mapGetters([`notifications`, `session`, `onboarding`])
-  },
-  mounted() {
-    this.$store.commit(`loadOnboarding`)
+    ...mapGetters([`notifications`, `session`])
   },
   store
 }

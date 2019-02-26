@@ -233,18 +233,6 @@ const Client = (axios, remoteLcdURL) => {
         `/distribution/delegators/${delegatorAddr}/rewards/${validatorAddr}`
       )(data)
     },
-    getDelegatorWithdrawAddress: function(delegatorAddr) {
-      return req(
-        `GET`,
-        `/distribution/delegators/${delegatorAddr}/withdraw_address`
-      )()
-    },
-    postDelegatorWithdrawAddress: function(delegatorAddr, data) {
-      return req(
-        `POST`,
-        `/distribution/delegators/${delegatorAddr}/withdraw_address`
-      )(data)
-    },
     getValidatorDistributionInformation: function(validatorAddr) {
       return req(`GET`, `/distribution/validators/${validatorAddr}`)()
     },

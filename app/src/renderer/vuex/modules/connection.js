@@ -50,6 +50,7 @@ export default function({ node }) {
       try {
         await node.rpcConnect(rpcUrl)
         commit(`setConnected`, true)
+        dispatch(`reconnected`)
         dispatch(`rpcSubscribe`)
         dispatch(`subscribeToBlocks`)
       } catch (err) {
