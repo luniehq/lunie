@@ -40,8 +40,7 @@ export default [
       {
         path: `my-delegations`,
         name: `My Delegations`,
-        component: require(`./components/staking/TabMyDelegations`).default,
-        meta: { requiresAuth: true }
+        component: require(`./components/staking/TabMyDelegations`).default
       },
       {
         path: `validators`,
@@ -63,27 +62,23 @@ export default [
   {
     path: `/preferences`,
     name: `preferences`,
-    component: require(`./components/common/PagePreferences`).default,
-    meta: { requiresAuth: true }
+    component: require(`./components/common/PagePreferences`).default
   },
   {
     path: `/wallet`,
     name: `wallet`,
-    component: require(`./components/wallet/PageWallet`).default,
-    meta: { requiresAuth: true }
+    component: require(`./components/wallet/PageWallet`).default
   },
   {
     path: `/wallet/send/:denom?`,
     name: `send`,
     props: true,
-    component: require(`./components/wallet/SendModal`).default,
-    meta: { requiresAuth: true }
+    component: require(`./components/wallet/SendModal`).default
   },
   {
     path: `/transactions`,
     name: `transactions`,
-    component: require(`./components/wallet/PageTransactions`).default,
-    meta: { requiresAuth: true }
+    component: require(`./components/wallet/PageTransactions`).default
   },
   {
     path: `/`,
