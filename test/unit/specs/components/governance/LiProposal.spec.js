@@ -1,36 +1,9 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import LiProposal from "renderer/components/governance/LiProposal"
 
-const proposals = {
-  1: {
-    proposal_status: `Passed`,
-    proposal_id: `1`,
-    title: `Proposal Title`,
-    description: `Proposal description`,
-  },
-  2: {
-    proposal_status: `VotingPeriod`,
-    proposal_id: `2`,
-    title: `VotingPeriod proposal`,
-    description: `custom text proposal description`,
-  },
-  tallies: {
-    1: {
-      yes: `500`,
-      no: `25`,
-      no_with_veto: `10`,
-      abstain: `56`
-    },
-    2: {
-      yes: `0`,
-      no: `0`,
-      no_with_veto: `0`,
-      abstain: `0`
-    }
-  }
-}
+import { proposals, tallies } from "../../store/json/proposals"
 
-const proposal = proposals[`2`]
+const proposal = proposals[`1`]
 
 describe(`LiProposal`, () => {
   const localVue = createLocalVue()
@@ -43,7 +16,9 @@ describe(`LiProposal`, () => {
       commit: jest.fn(),
       dispatch: jest.fn(),
       getters: {
-        proposals
+        proposals: {
+          tallies
+        }
       }
     }
 
@@ -136,7 +111,7 @@ describe(`LiProposal`, () => {
   })
 
   it(`should not truncate the description or add an ellipsis`, () => {
-    expect(wrapper.vm.description).toEqual(`custom text proposal description`)
+    expect(wrapper.vm.description).toEqual(`Proposal description`)
   })
 
   it(`should truncate the description and add an ellipsis`, () => {
@@ -151,5 +126,28 @@ describe(`LiProposal`, () => {
     expect(wrapper.vm.description).toEqual(
       `This is some kind of long description. longer than 100 characters for optimum-maximum-ideal truncati…`
     )
+  })
+
+  it(`should survive the tally result not being present yet`, () => {
+    const $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: {
+        proposals: {
+          tallies: {}
+        }
+      }
+    }
+
+    wrapper = shallowMount(LiProposal, {
+      localVue,
+      mocks: {
+        $store
+      },
+      propsData: { proposal },
+      stubs: [`router-link`]
+    })
+
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 })
