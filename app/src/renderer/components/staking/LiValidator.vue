@@ -90,7 +90,7 @@ export default {
       `bondDenom`,
       `session`,
       `lastHeader`
-      ]),
+    ]),
     commission() {
       return `${this.num.pretty(this.validator.commission.rate)}%`
     },
