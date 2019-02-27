@@ -1,4 +1,4 @@
-import {shallowMount} from "@vue/test-utils"
+import { shallowMount } from "@vue/test-utils"
 import TableValidators from "renderer/components/staking/TableValidators"
 
 describe(`TableValidators`, () => {

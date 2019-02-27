@@ -1,4 +1,4 @@
-import {shallowMount} from "@vue/test-utils"
+import { shallowMount } from "@vue/test-utils"
 import TabMyDelegations from "renderer/components/staking/TabMyDelegations"
 
 const delegator_addr = `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
