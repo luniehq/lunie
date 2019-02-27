@@ -29,16 +29,16 @@ export default ({ node }) => {
       try {
         const pool = await node.getPool()
         commit(`setPool`, pool)
+
         state.error = null
         state.loading = false
         state.loaded = true
       } catch (error) {
-        commit(`notifyError`, {
-          title: `Error fetching staking pool information`,
-          body: error.message
-        })
         Sentry.captureException(error)
+
         state.error = error
+        state.loading = false
+        state.loaded = false
       }
     }
   }
