@@ -4,11 +4,11 @@ PASSWORD=1234567890
 ACCOUNT=operator_account
 PORT=26656
 # TODO: hardcoded temporary, this will become a parameter coming from the first ECS instance
-MAINNODEID=a27e12bd071dc2eda3117a5a255743103259e184
+MAINNODEID=d91f187d16fa08cc12a17ff0d0951593168df5b0
 MAINNODEIP=172.31.35.89
 MAINACCOUNT=main_account
 NETWORK=testnet
-VALIDATOR_AMOUNT=10stake
+VALIDATOR_AMOUNT=3stake
 
 # Initialize local node with a secondary account
 ./gaiad init ${ACCOUNT} --home . --chain-id ${NETWORK}

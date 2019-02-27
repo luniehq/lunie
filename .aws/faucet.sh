@@ -1,6 +1,8 @@
 #!/bin/bash
 
-AMOUNT=100stake
+AMOUNTS=5stake
+#AMOUNTP=5photino
+
 ACCOUNT=$1
 PASSWORD=$2
 NETWORK=$3
@@ -17,7 +19,8 @@ do
 
             # Just in case we were running this command with rest-server switched on, get again the address
             ADDRESS=$(./gaiacli keys show ${ACCOUNT} --home . --address)
-            echo ${PASSWORD} | ./gaiacli tx send ${DESTINATION} ${AMOUNT} --home . --from ${ADDRESS} --chain-id=${NETWORK}
+            echo ${PASSWORD} | ./gaiacli tx send ${DESTINATION} ${AMOUNTS} --home . --from ${ADDRESS} --chain-id=${NETWORK}
+#            echo ${PASSWORD} | ./gaiacli tx send ${DESTINATION} ${AMOUNTP} --home . --from ${ADDRESS} --chain-id=${NETWORK}
 
             # Remove this address from the ones that needs money
             aws s3 rm s3://cosmos-gaia/addresses/${DESTINATION}
