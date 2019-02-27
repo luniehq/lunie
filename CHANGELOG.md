@@ -52,9 +52,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 - Refactored tests: PageStaking, PanelSort, TabStakingParameters @faboweb
-
-## Fixed
-
 - Sign in with local key @faboweb
 - [\#2024](https://github.com/cosmos/voyager/issues/2024) Fixed feature setting the rpc from url param @faboweb
 
