@@ -142,7 +142,7 @@ describe(`Module: Wallet`, () => {
 
     it(`should load denoms`, async () => {
       const commit = jest.fn()
-      await actions.loadDenoms({ commit, rootState: mockRootState })
+      await actions.loadDenoms({ state, commit, rootState: mockRootState })
       expect(commit).toHaveBeenCalledWith(`setDenoms`, [
         `mycoin`,
         `fermion`,
