@@ -94,15 +94,22 @@ describe(`Module: Connection`, () => {
     })
   })
 
-  it(`triggers a reconnect`, () => {
+  it(`triggers a reconnect`, async () => {
     const commit = jest.fn()
-    actions.connect({
+    const dispatch = jest.fn()
+    await actions.connect({
       state,
-      commit
+      commit,
+      dispatch
     })
 
     expect(commit).toHaveBeenCalledWith(`setConnected`, false)
     expect(node.rpcConnect).toHaveBeenCalled()
+
+    // on success should trigger connection follow up events
+    expect(dispatch).toHaveBeenCalledWith(`reconnected`)
+    expect(dispatch).toHaveBeenCalledWith(`rpcSubscribe`)
+    expect(dispatch).toHaveBeenCalledWith(`subscribeToBlocks`)
   })
 
   it(`should not reconnect if stop reconnecting is set`, () => {
