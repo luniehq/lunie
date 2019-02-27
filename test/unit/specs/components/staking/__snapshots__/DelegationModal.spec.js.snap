@@ -208,9 +208,7 @@ exports[`DelegationModal component matches snapshot has the expected html struct
       <div
         class="tm-form-group__field"
       >
-        <div
-          class="action-modal-footer"
-        >
+        <div>
           <button
             class="tm-btn"
           >

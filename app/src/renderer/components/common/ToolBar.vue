@@ -6,10 +6,10 @@
       class="refresh-button"
       @click="refresh.connected && refresh.refresh()"
     >
-      <i class="material-icons" v-tooltip.bottom="'Refresh'">refresh</i>
+      <i v-tooltip.bottom="'Refresh'" class="material-icons">refresh</i>
     </a>
     <a class="help" @click="enableModalHelp">
-      <i class="material-icons" v-tooltip.bottom="'Help'">help_outline</i>
+      <i v-tooltip.bottom="'Help'" class="material-icons">help_outline</i>
     </a>
     <slot />
     <router-link
@@ -17,14 +17,14 @@
       id="settings"
       to="/preferences"
     >
-      <i class="material-icons" v-tooltip.bottom="'Preferences'">settings</i>
+      <i v-tooltip.bottom="'Preferences'" class="material-icons">settings</i>
     </router-link>
     <a
       v-if="session.signedIn"
       id="signOut-btn"
       @click="signOut()"
     >
-      <i class="material-icons" v-tooltip.bottom.end="'Sign Out'">exit_to_app</i>
+      <i v-tooltip.bottom.end="'Sign Out'" class="material-icons">exit_to_app</i>
     </a>
     <tm-btn
       v-if="!session.signedIn"
