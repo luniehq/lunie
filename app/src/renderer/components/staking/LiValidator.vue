@@ -87,9 +87,10 @@ export default {
       `delegates`,
       `committedDelegations`,
       `distribution`,
+      `bondDenom`,
       `session`,
-      `bondDenom`
-    ]),
+      `lastHeader`
+      ]),
     commission() {
       return `${this.num.pretty(this.validator.commission.rate)}%`
     },
@@ -104,10 +105,10 @@ export default {
       return `n/a`
     },
     yourVotes() {
-      return this.committedDelegations[this.validator.id]
+      return this.committedDelegations[this.validator.operator_address]
         ? calculateTokens(
           this.validator,
-          this.committedDelegations[this.validator.id]
+          this.committedDelegations[this.validator.operator_address]
         )
         : BigNumber(0)
     },
@@ -152,11 +153,23 @@ export default {
     },
     rewards() {
       if (!this.session.signedIn) return null
-
       const validatorRewards = this.distribution.rewards[
         this.validator.operator_address
       ]
-      return validatorRewards ? validatorRewards[this.bondDenom] || 0 : 0
+      return validatorRewards ? this.num.short(validatorRewards[this.bondDenom]) || 0 : null
+    }
+  },
+  watch: {
+    lastHeader: {
+      immediate: true,
+      handler(){
+        if (this.yourVotes > 0) {
+          this.$store.dispatch(
+            `getRewardsFromValidator`,
+            this.validator.operator_address
+          )
+        }
+      }
     }
   }
 }

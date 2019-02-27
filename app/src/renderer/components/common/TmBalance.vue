@@ -52,7 +52,7 @@ export default {
       return this.num.shortNumber(this.liquidAtoms)
     },
     rewards() {
-      return this.distribution.totalRewards[this.bondDenom] || 0
+      return this.num.short(this.distribution.totalRewards[this.bondDenom]) || 0
     }
   }
 }

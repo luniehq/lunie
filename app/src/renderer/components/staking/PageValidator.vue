@@ -299,12 +299,15 @@ export default {
       return `green`
     },
     rewards() {
-      if (!this.session.signedIn) return null
+      const { session, bondDenom, distribution, validator } = this
+      if (!session.signedIn) return null
 
-      const validatorRewards = this.distribution.rewards[
-        this.validator.operator_address
+      const validatorRewards = distribution.rewards[
+        validator.operator_address
       ]
-      return validatorRewards ? validatorRewards[this.bondDenom] || 0 : 0
+      const amount = validatorRewards ? validatorRewards[bondDenom] || 0 : null
+      if (amount) return `${amount} ${bondDenom}s`
+      return null
     }
   },
   watch: {
@@ -313,6 +316,15 @@ export default {
       handler(validator) {
         if (!validator) return
         this.$store.dispatch(`getSelfBond`, validator)
+      }
+    },
+    lastHeader: {
+      immediate: true,
+      handler(){
+        this.$store.dispatch(
+          `getRewardsFromValidator`,
+          this.$route.params.validator
+        )
       }
     }
   },
