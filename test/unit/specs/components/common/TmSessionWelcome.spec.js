@@ -23,13 +23,6 @@ describe(`TmSessionWelcome`, () => {
   })
 
   describe(`header buttons`, () => {
-    it(`should open the help modal on click`, () => {
-      const $store = { commit: jest.fn() }
-      const self = { $store }
-      TmSessionWelcome.methods.help.call(self)
-      expect($store.commit).toHaveBeenCalledWith(`setModalHelp`, true)
-    })
-
     describe(`closes the session modal`, () => {
       it(`without going to prev page`, () => {
         const $store = { commit: jest.fn() }

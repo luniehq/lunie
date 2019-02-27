@@ -27,14 +27,6 @@ exports[`SessionSignUp has the expected html structure 1`] = `
         Create Account
       
       </div>
-       
-      <a>
-        <i
-          class="material-icons"
-        >
-          help_outline
-        </i>
-      </a>
     </div>
      
     <div

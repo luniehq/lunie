@@ -11,14 +11,6 @@ exports[`TmSessionWelcome with accounts has the expected html structure 1`] = `
     <div
       class="tm-session-header"
     >
-      <a>
-        <i
-          class="material-icons"
-        >
-          help_outline
-        </i>
-      </a>
-       
       <div
         class="tm-session-title"
       >
@@ -89,14 +81,6 @@ exports[`TmSessionWelcome without accounts has the expected html structure 1`] =
     <div
       class="tm-session-header"
     >
-      <a>
-        <i
-          class="material-icons"
-        >
-          help_outline
-        </i>
-      </a>
-       
       <div
         class="tm-session-title"
       >

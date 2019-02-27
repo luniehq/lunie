@@ -10,7 +10,6 @@
         <div class="tm-session-title">
           Remove Account
         </div>
-        <a @click="help"><i class="material-icons">help_outline</i></a>
       </div>
       <div class="tm-session-main">
         <tm-form-group
@@ -99,9 +98,6 @@ export default {
     this.$el.querySelector(`#sign-in-password`).focus()
   },
   methods: {
-    help() {
-      this.$store.commit(`setModalHelp`, true)
-    },
     setState(value) {
       this.$store.commit(`setSessionModalView`, value)
     },

@@ -55,13 +55,6 @@ export default () => {
     setUserAddress(state, address) {
       state.address = address
     },
-    setModalHelp(state, value) {
-      if (value) {
-        state.externals.track(`event`, `modal`, `help`)
-      }
-
-      state.modals.help.active = value
-    },
     setDevMode(state) {
       state.devMode = true
     },

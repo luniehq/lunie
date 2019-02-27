@@ -27,14 +27,6 @@ exports[`TmSessionSignIn has the expected html structure 1`] = `
         Sign In
       
       </div>
-       
-      <a>
-        <i
-          class="material-icons"
-        >
-          help_outline
-        </i>
-      </a>
     </div>
      
     <div

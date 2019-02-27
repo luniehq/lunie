@@ -6,7 +6,6 @@
         <div class="tm-session-title">
           Sign In
         </div>
-        <a @click="help"><i class="material-icons">help_outline</i></a>
       </div>
       <div class="tm-session-main">
         <tm-form-group field-id="sign-in-name" field-label="Select Account">
@@ -100,9 +99,6 @@ export default {
     this.setDefaultAccount(this.accounts)
   },
   methods: {
-    help() {
-      this.$store.commit(`setModalHelp`, true)
-    },
     goToWelcome() {
       this.$store.commit(`setSessionModalView`, `welcome`)
     },

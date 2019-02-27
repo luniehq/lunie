@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <modal-help />
     <session />
     <template>
       <app-header />
@@ -16,7 +15,6 @@
 import { mapGetters } from "vuex"
 import AppHeader from "common/AppHeader"
 import TmNotifications from "common/TmNotifications"
-import ModalHelp from "common/TmModalHelp"
 import Session from "common/TmSession"
 import store from "./vuex/store"
 
@@ -32,7 +30,6 @@ export default {
   name: `app`,
   components: {
     AppHeader,
-    ModalHelp,
     TmNotifications,
     Session
   },

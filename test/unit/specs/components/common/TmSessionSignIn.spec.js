@@ -40,14 +40,6 @@ describe(`TmSessionSignIn`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`should open the help modal on click`, () => {
-    wrapper
-      .findAll(`.tm-session-header a`)
-      .at(1)
-      .trigger(`click`)
-    expect($store.commit).toHaveBeenCalledWith(`setModalHelp`, true)
-  })
-
   it(`should close the modal on successful login`, async () => {
     wrapper.setData({
       fields: {

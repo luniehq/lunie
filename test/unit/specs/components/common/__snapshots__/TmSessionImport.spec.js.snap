@@ -34,14 +34,6 @@ exports[`TmSessionImport has the expected html structure 1`] = `
         Import with Seed
       
           </div>
-           
-          <a>
-            <i
-              class="material-icons"
-            >
-              help_outline
-            </i>
-          </a>
         </div>
          
         <div

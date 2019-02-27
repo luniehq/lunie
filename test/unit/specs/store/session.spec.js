@@ -106,12 +106,6 @@ describe(`Module: Session`, () => {
       mutations.setDevMode(state)
       expect(state.devMode).toBe(true)
     })
-
-    it(`should open the help modal`, () => {
-      mutations.setModalHelp(state, true)
-      expect(state.modals.help.active).toBe(true)
-      expect(state.externals.track).toHaveBeenCalled()
-    })
   })
 
   it(`should load accounts`, async () => {

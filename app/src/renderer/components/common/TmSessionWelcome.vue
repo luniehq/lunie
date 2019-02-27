@@ -2,7 +2,6 @@
   <div id="session-welcome" class="tm-session">
     <div class="tm-session-container">
       <div class="tm-session-header">
-        <a @click="help"><i class="material-icons">help_outline</i></a>
         <div class="tm-session-title">
           Sign in to Cosmos Voyager
         </div>
@@ -70,9 +69,6 @@ export default {
     new PerfectScrollbar(this.$el.querySelector(`.tm-session-main`))
   },
   methods: {
-    help() {
-      this.$store.commit(`setModalHelp`, true)
-    },
     setState(value) {
       this.$store.commit(`setSessionModalView`, value)
     },

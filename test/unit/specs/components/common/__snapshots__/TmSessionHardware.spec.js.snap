@@ -25,14 +25,6 @@ exports[`TmSessionHardware has the expected html structure when there're errors 
         Sign In
       
       </div>
-       
-      <a>
-        <i
-          class="material-icons"
-        >
-          help_outline
-        </i>
-      </a>
     </div>
      
     <div
@@ -120,14 +112,6 @@ exports[`TmSessionHardware has the expected html structure with no errors 1`] = 
         Sign In
       
       </div>
-       
-      <a>
-        <i
-          class="material-icons"
-        >
-          help_outline
-        </i>
-      </a>
     </div>
      
     <div
@@ -187,7 +171,7 @@ exports[`TmSessionHardware has the expected html structure with no errors 1`] = 
 exports[`TmSessionHardware should show a state indicator for different states of the hardware connection 1`] = `
 "<div class=\\"tm-session\\"><div class=\\"tm-session-container\\"><div class=\\"tm-session-header\\"><a><i class=\\"material-icons\\">arrow_back</i></a> <div class=\\"tm-session-title\\">
         Sign In
-      </div> <a><i class=\\"material-icons\\">help_outline</i></a></div> <div class=\\"tm-session-main\\"><div class=\\"tm-hardware-state\\"><!----> <i class=\\"tm-hardware-state__icon material-icons\\">usb</i> <div class=\\"tm-hardware-state__label\\">
+      </div></div> <div class=\\"tm-session-main\\"><div class=\\"tm-hardware-state\\"><!----> <i class=\\"tm-hardware-state__icon material-icons\\">usb</i> <div class=\\"tm-hardware-state__label\\">
     Please plug in your Ledger Nano S and open the Cosmos app
   </div></div> <!----> <p class=\\"ledger-install\\">
         Don't have the Cøsmos Ledger App yet? Install it
@@ -200,7 +184,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
 exports[`TmSessionHardware should show a state indicator for different states of the hardware connection 2`] = `
 "<div class=\\"tm-session\\"><div class=\\"tm-session-container\\"><div class=\\"tm-session-header\\"><a><i class=\\"material-icons\\">arrow_back</i></a> <div class=\\"tm-session-title\\">
         Sign In
-      </div> <a><i class=\\"material-icons\\">help_outline</i></a></div> <div class=\\"tm-session-main\\"><!----> <div class=\\"tm-hardware-state\\"><img src=\\"~assets/images/loader.svg\\"> <i class=\\"tm-hardware-state__icon material-icons\\"></i> <div class=\\"tm-hardware-state__label\\">
+      </div></div> <div class=\\"tm-session-main\\"><!----> <div class=\\"tm-hardware-state\\"><img src=\\"~assets/images/loader.svg\\"> <i class=\\"tm-hardware-state__icon material-icons\\"></i> <div class=\\"tm-hardware-state__label\\">
     Connecting...
   </div></div> <p class=\\"ledger-install\\">
         Don't have the Cøsmos Ledger App yet? Install it
