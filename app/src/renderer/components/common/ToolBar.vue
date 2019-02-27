@@ -48,12 +48,8 @@ export default {
   props: {
     refresh: {
       type: Object,
-      default: () => ({
-        connected: false,
-        refresh: () => {}
-      })
-    },
-    default: undefined
+      default: undefined
+    }
   },
   computed: {
     ...mapGetters([`session`])
