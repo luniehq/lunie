@@ -1,13 +1,13 @@
 <template>
   <nav id="app-header" :class="{ mobile: !desktop }">
-    <div v-if="session.devMode" id="develop-mode-warning">
-      DEVELOPMENT MODE
-    </div>
     <div class="container">
       <div class="header-item header-item-logo">
         <router-link to="/">
           <img id="logo-white" src="~assets/images/cosmos-wordmark-white.svg">
         </router-link> 
+      </div>
+      <div v-if="session.devMode" id="develop-mode-warning">
+        EXPERIMENTAL MODE
       </div>
       <app-menu v-if="open || desktop" @close="close" />
       <template v-if="!desktop">

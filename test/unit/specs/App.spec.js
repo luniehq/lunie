@@ -248,7 +248,7 @@ describe(`App Start`, () => {
 
       await startApp(
         {
-          insecure: true
+          experimental: true
         },
         {
           stargate: `http://localhost:12344`

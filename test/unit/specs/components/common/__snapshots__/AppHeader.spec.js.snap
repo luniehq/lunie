@@ -6,13 +6,41 @@ exports[`AppHeader should display the sidebar on desktop 1`] = `
   id="app-header"
 >
   <div
-    id="develop-mode-warning"
+    class="container"
   >
+    <div
+      class="header-item header-item-logo"
+    >
+      <router-link-stub
+        to="/"
+      >
+        <img
+          id="logo-white"
+          src="~assets/images/cosmos-wordmark-white.svg"
+        />
+      </router-link-stub>
+    </div>
+     
+    <div
+      id="develop-mode-warning"
+    >
+      
+      EXPERIMENTAL MODE
     
-    DEVELOPMENT MODE
-  
+    </div>
+     
+    <app-menu-stub />
+     
+    <!---->
   </div>
-   
+</nav>
+`;
+
+exports[`AppHeader should show the sidebar as a menu on mobile 1`] = `
+<nav
+  class="mobile"
+  id="app-header"
+>
   <div
     class="container"
   >
@@ -29,40 +57,12 @@ exports[`AppHeader should display the sidebar on desktop 1`] = `
       </router-link-stub>
     </div>
      
-    <app-menu-stub />
-     
-    <!---->
-  </div>
-</nav>
-`;
-
-exports[`AppHeader should show the sidebar as a menu on mobile 1`] = `
-<nav
-  class="mobile"
-  id="app-header"
->
-  <div
-    id="develop-mode-warning"
-  >
-    
-    DEVELOPMENT MODE
-  
-  </div>
-   
-  <div
-    class="container"
-  >
     <div
-      class="header-item header-item-logo"
+      id="develop-mode-warning"
     >
-      <router-link-stub
-        to="/"
-      >
-        <img
-          id="logo-white"
-          src="~assets/images/cosmos-wordmark-white.svg"
-        />
-      </router-link-stub>
+      
+      EXPERIMENTAL MODE
+    
     </div>
      
     <app-menu-stub />
