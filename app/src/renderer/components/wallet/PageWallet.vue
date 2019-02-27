@@ -86,9 +86,8 @@ export default {
     showModal(denomination) {
       this.$refs.sendModal.open(denomination)
     },
-    async faucet({ $store, wallet } = this) {
-      const outcome = await $store.dispatch(`getMoney`, wallet.address)
-      console.log(outcome)
+    async faucet() {
+      await this.$store.dispatch(`getMoney`, this.wallet.address)
     }
   }
 }
