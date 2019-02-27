@@ -47,14 +47,11 @@ export default {
   components: { TmBtn },
   props: {
     refresh: {
-      connected: {
-        type: Boolean,
-        required: true
-      },
-      refresh: {
-        type: Function,
-        required: true
-      }
+      type: Object,
+      default: () => ({
+        connected: false,
+        refresh: () => {}
+      })
     },
     default: undefined
   },

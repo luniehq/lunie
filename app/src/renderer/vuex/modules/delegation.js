@@ -67,7 +67,7 @@ export default ({ node }) => {
     },
     // load committed delegations from LCD
     async getBondedDelegates(
-      { state, rootState, commit, dispatch },
+      { state, rootState, commit },
       candidates
     ) {
       state.loading = true
