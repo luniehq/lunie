@@ -42,9 +42,9 @@ const getterValues = {
     height: 500
   },
   keybase: `keybase`,
-  liquidAtoms: 1337,
-  oldBondedAtoms: 100,
-  totalAtoms: 1437,
+  liquidAtoms: 13370000000,
+  oldBondedAtoms: 1000000000,
+  totalAtoms: 14370000000,
   wallet: { address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9` },
   connected: true,
   lastPage: null,
@@ -62,7 +62,7 @@ describe(`PageValidator`, () => {
       doBefore: ({ store }) => {
         store.commit(`setCommittedDelegation`, {
           candidateId: lcdClientMock.validators[0],
-          value: `123.45678`
+          value: `1234567800`
         })
         store.commit(`setConnected`, true)
         store.commit(`setSignIn`, true)
@@ -395,14 +395,14 @@ describe(`Staking functions`, () => {
         store.commit(`setSignIn`, true)
         store.commit(`setCommittedDelegation`, {
           candidateId: lcdClientMock.validators[0],
-          value: 100
+          value: 1000000000
         })
         store.commit(`setConnected`, true)
         store.commit(`setStakingParameters`, stakingParameters.parameters)
         store.commit(`setDelegates`, [validator, validatorTo])
         store.commit(`updateWalletBalance`, {
           denom: `STAKE`,
-          amount: 1337
+          amount: 13370000000
         })
         store.state.wallet.address = lcdClientMock.addresses[0]
         store.commit(`setStakingParameters`, stakingParameters.parameters)

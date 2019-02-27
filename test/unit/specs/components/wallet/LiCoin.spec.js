@@ -10,7 +10,7 @@ describe(`LiCoin`, () => {
       propsData: {
         coin: {
           denom: `Stake`,
-          amount: `1000`
+          amount: `10000000000`
         }
       }
     })
@@ -21,8 +21,7 @@ describe(`LiCoin`, () => {
   })
 
   it(`should calculate the full amount of the coin`, () => {
-    const fullAmount = num.full(wrapper.vm.coin.amount)
-    expect(wrapper.vm.amount).toEqual(fullAmount)
+    expect(wrapper.vm.amount).toEqual(`1,000.0000000000`)
   })
 
   it(`should capitalize the coin denomination`, () => {

@@ -83,7 +83,7 @@ describe(`UndelegationModal`, () => {
         [
           `submitUnbondingDelegation`,
           {
-            amount: -4.2,
+            amount: -42000000,
             validator,
             submitType: `local`,
             password: `1234567890`

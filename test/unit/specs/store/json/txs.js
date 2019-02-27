@@ -11,7 +11,7 @@ export default [
             type: `cosmos-sdk/Send`,
             value: {
               from_address: `A`,
-              amount: [{ denom: `jbcoins`, amount: `1234` }],
+              amount: [{ denom: `jbcoins`, amount: `12340000000` }],
               to_address: `B`
             }
           }
@@ -70,7 +70,7 @@ export default [
             type: `cosmos-sdk/Send`,
             value: {
               from_address: `B`,
-              amount: [{ denom: `jbcoins`, amount: `1234` }],
+              amount: [{ denom: `jbcoins`, amount: `12340000000` }],
               to_address: `A`
             }
           }
@@ -128,9 +128,9 @@ export default [
             type: `cosmos-sdk/Send`,
             value: {
               amount: [
-                { denom: `jbcoins`, amount: `1234` },
-                { denom: `fabocoins`, amount: `1` },
-                { denom: `mattcoins`, amount: `42` }
+                { denom: `jbcoins`, amount: `12340000000` },
+                { denom: `fabocoins`, amount: `10000000` },
+                { denom: `mattcoins`, amount: `420000000` }
               ],
               from_address: `A`,
               to_address: `A`
@@ -192,7 +192,7 @@ export default [
             value: {
               validator_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
               delegation: {
-                amount: `4200`,
+                amount: `42000000000`,
                 denom: `steak`
               }
             }
@@ -249,10 +249,10 @@ export default [
       value: {
         msg: [
           {
-            type: `cosmos-sdk/BeginUnbonding`,
+            type: `cosmos-sdk/Undelegate`,
             value: {
               validator_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
-              shares_amount: `1000`
+              shares_amount: `10000000000`
             }
           }
         ],
@@ -310,7 +310,7 @@ export default [
             value: {
               validator_src_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
               validator_dst_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
-              shares_amount: `3`
+              shares_amount: `30000000`
             }
           }
         ],
@@ -373,7 +373,7 @@ export default [
               initial_deposit: [
                 {
                   denom: `stake`,
-                  amount: `100`
+                  amount: `1000000000`
                 }
               ]
             }
@@ -436,7 +436,7 @@ export default [
               amount: [
                 {
                   denom: `stake`,
-                  amount: `100`
+                  amount: `1000000000`
                 }
               ]
             }

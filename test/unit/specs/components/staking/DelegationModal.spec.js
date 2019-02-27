@@ -98,7 +98,7 @@ describe(`DelegationModal`, () => {
         [
           `submitDelegation`,
           {
-            amount: `50`,
+            amount: `500000000`,
             // validatorSrc: lcdClientMock.state.candidates[1],
             // validatorDst: lcdClientMock.state.candidates[0],
             validator_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
@@ -130,7 +130,7 @@ describe(`DelegationModal`, () => {
         [
           `submitRedelegation`,
           {
-            amount: `50`,
+            amount: `500000000`,
             validatorSrc: lcdClientMock.state.candidates[0],
             validatorDst: lcdClientMock.state.candidates[0],
             submitType: `local`,

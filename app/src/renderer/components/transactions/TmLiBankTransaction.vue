@@ -23,7 +23,7 @@
       </span>
     </template><template v-else>
       <div slot="caption">
-        Received&nbsp;<b>{{ coins.amount }}</b><span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
+        Received&nbsp;<b>{{ atoms(coins.amount) }}</b><span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
       </div>
       <span slot="details">From {{ sender }}</span>
     </template>
@@ -38,9 +38,6 @@ import colors from "./transaction-colors.js"
 export default {
   name: `tm-li-bank-transaction`,
   components: { TmLiTransaction },
-  data: () => ({
-    atoms
-  }),
   props: {
     transaction: {
       type: Object,
@@ -51,6 +48,9 @@ export default {
       default: null
     }
   },
+  data: () => ({
+    atoms
+  }),
   computed: {
     tx() {
       return this.transaction.tx.value.msg[0].value
