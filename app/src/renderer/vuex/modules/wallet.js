@@ -145,7 +145,7 @@ export default ({ node }) => {
       })
     },
     async getMoney(_, address) {
-      return (await axios(`${config.faucet}/${address}`))
+      return (await axios.get(`${config.faucet}/${address}`))
     },
   }
 

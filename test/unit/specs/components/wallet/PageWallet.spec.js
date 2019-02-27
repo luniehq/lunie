@@ -118,4 +118,9 @@ describe(`PageWallet`, () => {
     expect(wrapper.exists(`send-modal`)).toBe(true)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
+
+  it(`should call getmoney`, async () => {
+    await PageWallet.methods.faucet.call({ $store, wallet: { address: `X` } })
+    expect($store.dispatch).toHaveBeenCalledWith(`getMoney`, `X`)
+  })
 })

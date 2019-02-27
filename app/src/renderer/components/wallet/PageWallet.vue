@@ -24,7 +24,7 @@
       @show-modal="showModal"
     />
     <tm-btn
-      value="Get Atoms"
+      value="Get Tokens"
       color="green"
       @click.native="faucet"
     />
