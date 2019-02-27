@@ -12,7 +12,7 @@ const mockRootState = {
 }
 const faucet = `http://gimme.money`
 const denoms = [`mycoin`, `fermion`, `STAKE`]
-const config = {faucet, denoms}
+const config = { faucet, denoms }
 
 describe(`Module: Wallet`, () => {
   let instance, actions, state

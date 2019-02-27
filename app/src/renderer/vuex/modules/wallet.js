@@ -103,8 +103,8 @@ export default ({ node }) => {
         amount: oldBalance.amount - amount
       })
     },
-    loadDenoms({ commit }) {
-      commit(`setDenoms`, config.denoms)
+    loadDenoms({ state, commit }) {
+      commit(`setDenoms`, state.externals.config.denoms)
     },
     queryWalletStateAfterHeight({ rootState, dispatch }, height) {
       return new Promise(resolve => {
