@@ -9,8 +9,6 @@
 
 ⚠️ This is still alpha-level software. **DO NOT** enter your Cosmos fundraiser seed into Voyager.
 
-💻 Voyager runs on macOS 10.9+, Windows 7+, and Debian-based Linux distros.
-
 <!-- 🎉 Binary releases are [available here](https://github.com/cosmos/voyager/releases). After downloading and untar/unzip-ing, navigate to the source directory and click on the `Cosmos Voyager` icon to launch Voyager. -->
 
 ## Voyager Dependencies
