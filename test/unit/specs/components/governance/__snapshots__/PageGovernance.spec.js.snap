@@ -22,45 +22,6 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
         <div
           class="tm-page-header-body"
         >
-          <div
-            class="tool-bar"
-          >
-            <!---->
-             
-            <a
-              class="help"
-            >
-              <i
-                class="material-icons"
-              >
-                help_outline
-              </i>
-            </a>
-              
-            <router-link-stub
-              id="settings"
-              to="/preferences"
-            >
-              <i
-                class="material-icons"
-              >
-                settings
-              </i>
-            </router-link-stub>
-             
-            <a
-              id="signOut-btn"
-            >
-              <i
-                class="material-icons"
-              >
-                exit_to_app
-              </i>
-            </a>
-             
-            <!---->
-          </div>
-           
           <tm-balance-stub />
            
           <div
@@ -192,45 +153,6 @@ exports[`PageGovernance has the expected html structure 1`] = `
         <div
           class="tm-page-header-body"
         >
-          <div
-            class="tool-bar"
-          >
-            <!---->
-             
-            <a
-              class="help"
-            >
-              <i
-                class="material-icons"
-              >
-                help_outline
-              </i>
-            </a>
-              
-            <router-link-stub
-              id="settings"
-              to="/preferences"
-            >
-              <i
-                class="material-icons"
-              >
-                settings
-              </i>
-            </router-link-stub>
-             
-            <a
-              id="signOut-btn"
-            >
-              <i
-                class="material-icons"
-              >
-                exit_to_app
-              </i>
-            </a>
-             
-            <!---->
-          </div>
-           
           <tm-balance-stub />
            
           <div

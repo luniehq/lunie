@@ -13,7 +13,7 @@ export default () => {
   const ERROR_COLLECTION_KEY = `voyager_error_collection`
 
   const state = {
-    devMode: process.env.NODE_ENV === `development`,
+    devMode: config.development,
     signedIn: false,
     accounts: [],
     localKeyPairName: null, // used for signing with a locally stored key, TODO move into own module
@@ -57,6 +57,10 @@ export default () => {
       state.address = address
     },
     setModalHelp(state, value) {
+      if (value) {
+        state.externals.track(`event`, `modal`, `help`)
+      }
+
       state.modals.help.active = value
     },
     setDevMode(state) {
@@ -121,7 +125,9 @@ export default () => {
     createSeed() {
       return state.externals.generateSeed()
     },
-    async createKey({ dispatch }, { seedPhrase, password, name }) {
+    async createKey({ dispatch, state }, { seedPhrase, password, name }) {
+      state.externals.track(`event`, `session`, `create-keypair`)
+
       const { cosmosAddress } = await state.externals.importKey(
         name,
         password,
@@ -157,8 +163,12 @@ export default () => {
       await dispatch(`getGovParameters`)
       dispatch(`loadErrorCollection`, accountAddress)
       await dispatch(`initializeWallet`, { address: accountAddress })
+
+      state.externals.track(`event`, `session`, `sign-in`, sessionType)
     },
     signOut({ state, commit, dispatch }) {
+      state.externals.track(`event`, `session`, `sign-out`)
+
       state.localKeyPairName = null
       commit(`setLedgerConnection`, false)
       commit(`setCosmosAppVersion`, {})
@@ -180,7 +190,6 @@ export default () => {
     setErrorCollection({ state, commit }, { address, optin }) {
       if (
         optin &&
-        state.errorCollection === false &&
         state.externals.config.development
       ) {
         commit(`notifyError`, {

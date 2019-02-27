@@ -45,6 +45,12 @@ import TmBtn from "common/TmBtn"
 export default {
   name: `tool-bar`,
   components: { TmBtn },
+  props: {
+    refresh: {
+      type: Object,
+      default: undefined
+    }
+  },
   computed: {
     ...mapGetters([`session`])
   },
