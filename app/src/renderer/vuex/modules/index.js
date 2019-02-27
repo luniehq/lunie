@@ -3,6 +3,7 @@
 export default opts => ({
   blocks: require(`./blocks.js`).default(opts),
   transactions: require(`./transactions.js`).default(opts),
+  distribution: require(`./distribution.js`).default(opts),
   delegates: require(`./delegates.js`).default(opts),
   delegation: require(`./delegation.js`).default(opts),
   connection: require(`./connection.js`).default(opts),

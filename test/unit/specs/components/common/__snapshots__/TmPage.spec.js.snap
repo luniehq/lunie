@@ -12,8 +12,6 @@ exports[`TmPage has the expected html structure 1`] = `
     <!---->
      
     <template>
-      <tool-bar-stub />
-       
       <!---->
        
       <tool-bar-stub />
@@ -43,8 +41,6 @@ exports[`TmPage should show links to other pages 1`] = `
     <!---->
      
     <template>
-      <tool-bar-stub />
-       
       <!---->
        
       <tool-bar-stub />

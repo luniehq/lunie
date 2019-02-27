@@ -100,9 +100,9 @@ export default {
     yourVotes() {
       return this.committedDelegations[this.validator.id]
         ? calculateTokens(
-            this.validator,
-            this.committedDelegations[this.validator.id]
-          )
+          this.validator,
+          this.committedDelegations[this.validator.id]
+        )
         : BigNumber(0)
     },
     styles() {
@@ -114,8 +114,8 @@ export default {
       return this.validator.revoked
         ? `Revoked`
         : this.validator.isValidator
-        ? `Validator`
-        : `Candidate`
+          ? `Validator`
+          : `Candidate`
     },
     powerRatio() {
       return ratToBigNumber(this.validator.tokens)

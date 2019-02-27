@@ -42,17 +42,17 @@ export default ({ node }) => {
     setUnbondingDelegations(state, unbondingDelegations) {
       state.unbondingDelegations = unbondingDelegations
         ? unbondingDelegations
-            // building a dict from the array and taking out the transactions with amount 0
-            .reduce(
-              (dict, { validator_addr, ...delegation }) => ({
-                ...dict,
-                // filtering out the transactions with amount 0
-                ...(delegation.balance.amount > 0 && {
-                  [validator_addr]: delegation
-                })
-              }),
-              {}
-            )
+        // building a dict from the array and taking out the transactions with amount 0
+          .reduce(
+            (dict, { validator_addr, ...delegation }) => ({
+              ...dict,
+              // filtering out the transactions with amount 0
+              ...(delegation.balance.amount > 0 && {
+                [validator_addr]: delegation
+              })
+            }),
+            {}
+          )
         : {}
     }
   }
@@ -67,7 +67,7 @@ export default ({ node }) => {
     },
     // load committed delegations from LCD
     async getBondedDelegates(
-      { state, rootState, commit, dispatch },
+      { state, rootState, commit },
       candidates
     ) {
       state.loading = true
@@ -75,7 +75,6 @@ export default ({ node }) => {
       if (!rootState.connection.connected) return
 
       const address = rootState.session.address
-      candidates = candidates || (await dispatch(`getDelegates`))
 
       try {
         const delegations = await node.getDelegations(address)
