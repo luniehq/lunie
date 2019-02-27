@@ -227,7 +227,7 @@ exports[`PageValidator has the expected html structure if user has signed in 1`]
             </dt>
              
             <dd>
-              123.45678 STAKE
+              123.46 STAKE
             </dd>
           </dl>
            
@@ -642,7 +642,7 @@ exports[`PageValidator has the expected html structure if user hasn't signed in 
             </dt>
              
             <dd>
-              123.45678 STAKE
+              123.46 STAKE
             </dd>
           </dl>
            
@@ -1120,7 +1120,7 @@ exports[`PageValidator shows a default avatar 1`] = `
             </dt>
              
             <dd>
-              123.45678 STAKE
+              123.46 STAKE
             </dd>
           </dl>
            
@@ -1714,7 +1714,7 @@ exports[`Staking functions onDelegation make sure we have enough atoms to delega
             </dt>
              
             <dd>
-              100 STAKE
+              100.00 STAKE
             </dd>
           </dl>
            
@@ -2259,7 +2259,7 @@ exports[`Staking functions onDelegation make sure we have enough atoms to delega
             </dt>
              
             <dd>
-              100 STAKE
+              100.00 STAKE
             </dd>
           </dl>
            
@@ -2737,7 +2737,7 @@ exports[`Staking functions onUndelegation make sure there are enough atoms to un
             </dt>
              
             <dd>
-              --
+              0.00 STAKE
             </dd>
           </dl>
            
@@ -3282,7 +3282,7 @@ exports[`Staking functions onUndelegation make sure there are enough atoms to un
             </dt>
              
             <dd>
-              --
+              0.00 STAKE
             </dd>
           </dl>
            

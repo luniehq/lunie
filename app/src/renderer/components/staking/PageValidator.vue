@@ -258,8 +258,9 @@ export default {
       )
     },
     myDelegation() {
-      const myBond = Number(this.myBond)
-      const myDelegationString = this.myBond + ` ` + this.bondDenom
+      const { bondDenom } = this
+      const myBond = pretty(this.myBond)
+      const myDelegationString = `${myBond} ${bondDenom}`
       return myBond === 0 ? `--` : myDelegationString
     },
     powerRatio() {
@@ -305,8 +306,8 @@ export default {
       const validatorRewards = distribution.rewards[
         validator.operator_address
       ]
-      const amount = validatorRewards ? validatorRewards[bondDenom] || 0 : null
-      if (amount) return `${amount} ${bondDenom}s`
+      const amount = validatorRewards ? pretty(validatorRewards[bondDenom] || 0) : null
+      if (amount) return `${amount} ${bondDenom}`
       return null
     }
   },

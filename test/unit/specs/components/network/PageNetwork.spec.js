@@ -2,7 +2,7 @@ import { shallowMount, createLocalVue } from "@vue/test-utils"
 import PageNetwork from "renderer/components/network/PageNetwork"
 
 const localVue = createLocalVue()
-localVue.directive(`tooltip`, () => {})
+localVue.directive(`tooltip`, () => { })
 
 describe(`PageNetwork`, () => {
   let wrapper, $store
@@ -26,13 +26,18 @@ describe(`PageNetwork`, () => {
             }
           ]
         },
+        distribution: {
+          outstandingRewards: {
+            stake: 14712
+          }
+        },
         session: {
           devMode: true
         },
         pool: {
           pool: {
             bonded_tokens: 125,
-            loose_tokens: 10
+            not_bonded_tokens: 10
           }
         },
         bondDenom: `stake`,
@@ -52,7 +57,8 @@ describe(`PageNetwork`, () => {
             }
           }
         ]
-      }
+      },
+      dispatch: jest.fn()
     }
 
     wrapper = shallowMount(PageNetwork, {
@@ -75,8 +81,10 @@ describe(`PageNetwork`, () => {
     })
 
     $store = {
+      dispatch: jest.fn(),
       getters: {
-        connected: false
+        connected: false,
+        lastHeader: ``
       }
     }
 

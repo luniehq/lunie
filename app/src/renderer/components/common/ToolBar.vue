@@ -46,14 +46,17 @@ export default {
   name: `tool-bar`,
   components: { TmBtn },
   props: {
-    connected: {
-      type: Boolean,
-      required: true
-    },
     refresh: {
-      type: Function,
-      default: undefined
-    }
+      connected: {
+        type: Boolean,
+        required: true
+      },
+      refresh: {
+        type: Function,
+        required: true
+      }
+    },
+    default: undefined
   },
   computed: {
     ...mapGetters([`session`])
