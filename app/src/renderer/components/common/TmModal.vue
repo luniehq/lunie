@@ -1,5 +1,5 @@
 <template>
-  <div :class="cssClass" @click.self="close()">
+  <div class="tm-modal" @click.self="close()">
     <main class="tm-modal-main">
       <slot name="main" />
     </main>
@@ -14,26 +14,9 @@
 export default {
   name: `tm-modal`,
   props: {
-    icon: {
-      type: String,
-      default: null
-    },
-    size: {
-      type: String,
-      default: null
-    },
     close: {
       type: Function,
       required: true
-    }
-  },
-  computed: {
-    cssClass() {
-      let value = `tm-modal`
-      if (this.size === `fullscreen` || this.size === `fs`) {
-        value += ` tm-modal-fullscreen`
-      }
-      return value
     }
   }
 }
@@ -125,5 +108,11 @@ export default {
   padding-top: 2rem;
   display: flex;
   justify-content: flex-end;
+}
+
+@media screen and (max-width: 1024px) {
+  .tm-modal {
+    background: rgba(0, 0, 0, 1);
+  }
 }
 </style>

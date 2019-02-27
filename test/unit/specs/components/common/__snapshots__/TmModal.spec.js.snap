@@ -2,7 +2,7 @@
 
 exports[`TmModal has the expected html structure 1`] = `
 <div
-  class="tm-modal tm-modal-fullscreen"
+  class="tm-modal"
 >
   <main
     class="tm-modal-main"
