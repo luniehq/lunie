@@ -257,6 +257,28 @@ describe(`PageValidator`, () => {
       expect(rewardsString).toBeNull()
     })
   })
+
+  it(`doesn't call user rewards if not signed in`, () => {
+    const session = { signedIn: false }
+    const $store = { dispatch: jest.fn() }
+    const $route = { params: { validator: `cosmos1address` } }
+    PageValidator.mounted.call({ session, $store, $route })
+    expect($store.dispatch).not.toHaveBeenCalledWith(
+      `getRewardsFromValidator`,
+      $route.params.validator
+    )
+  })
+
+  it(`updates rewards if block hasn't updated`, () => {
+    const $store = { dispatch: jest.fn() }
+    const session = { signedIn: false }
+    const $route = { params: { validator: `cosmos1address` } }
+    PageValidator.watch.lastHeader.handler.call({ session, $store, $route })
+    expect($store.dispatch).not.toHaveBeenCalledWith(
+      `getRewardsFromValidator`,
+      $route.params.validator
+    )
+  })
 })
 
 describe(`delegationTargetOptions`, () => {

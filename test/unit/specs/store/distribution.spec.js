@@ -96,6 +96,14 @@ describe(`Module: Fee Distribution`, () => {
       })
     })
 
+    describe(`resetSessionData`, () => {
+      it(`should clear all distribution data`, () => {
+        state.totalRewards = { stake: 10 }
+        actions.resetSessionData({ rootState })
+        expect(rootState.distribution.totalRewards).toEqual({})
+      })
+    })
+
     describe(`getTotalRewards`, () => {
       it(`success`, async () => {
         await actions.getTotalRewards({ state, rootState, commit })

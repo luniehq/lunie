@@ -89,9 +89,17 @@ describe(`TableValidators`, () => {
   })
 
   it(`queries delegations on signin`, () => {
-    const updateDelegates = jest.fn()
-    TableValidators.watch.address.call({ updateDelegates }, `cosmos1address`)
-    expect(updateDelegates).toHaveBeenCalled()
+    const session = { address: `cosmos1address` }
+    const $store = { dispatch: jest.fn() }
+    TableValidators.watch.address.call({ $store, session })
+    expect($store.dispatch).toHaveBeenCalledWith(`updateDelegates`)
+  })
+
+  it(`doesn't query delegations if not signed in`, () => {
+    const session = { address: undefined }
+    const $store = { dispatch: jest.fn() }
+    TableValidators.watch.address.call({ $store, session })
+    expect($store.dispatch).not.toHaveBeenCalledWith(`updateDelegates`)
   })
 
   describe(`update validators rewards every block`, () => {

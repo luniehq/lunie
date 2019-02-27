@@ -138,8 +138,8 @@ export default {
     }
   },
   watch: {
-    address: function(address) {
-      address && this.updateDelegates()
+    address: function() {
+      this.session.address && this.$store.dispatch(`updateDelegates`)
     },
     validators: function(validators) {
       if (
@@ -151,11 +151,6 @@ export default {
       }
 
       this.$store.dispatch(`getRewardsFromAllValidators`, validators)
-    }
-  },
-  methods: {
-    updateDelegates() {
-      this.$store.dispatch(`updateDelegates`)
     }
   }
 }
