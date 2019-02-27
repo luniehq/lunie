@@ -33,7 +33,7 @@ export default {
     }
   },
   mounted() {
-    if (this.signedIn) {
+    if (this.session.signedIn) {
       this.$store.dispatch(`updateDelegates`)
     }
   }

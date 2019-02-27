@@ -111,14 +111,28 @@ describe(`TabValidators`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`queries for validators and delegations on mount`, () => {
+  it(`queries for validators and delegations on mount if signed in`, () => {
     const dispatch = jest.fn()
     TabValidators.mounted.call({
+      session: {
+        signedIn: true
+      },
       $store: {
         dispatch
       }
     })
     expect(dispatch).toHaveBeenCalledWith(`updateDelegates`)
+
+    dispatch.mockClear()
+    TabValidators.mounted.call({
+      session: {
+        signedIn: false
+      },
+      $store: {
+        dispatch
+      }
+    })
+    expect(dispatch).not.toHaveBeenCalledWith(`updateDelegates`)
   })
 
   it(`queries for validators and delegations on sign in`, () => {
