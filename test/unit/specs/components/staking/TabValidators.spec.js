@@ -13,6 +13,9 @@ describe(`TabValidators`, () => {
       loading: false,
       loaded: true
     },
+    session: {
+      signedIn: true
+    },
     connected: true
   }
 
@@ -42,6 +45,9 @@ describe(`TabValidators`, () => {
           loading: false,
           loaded: false
         },
+        session: {
+          signedIn: true
+        },
         connected: false
       }
     }
@@ -64,6 +70,9 @@ describe(`TabValidators`, () => {
           loading: true,
           loaded: false
         },
+        session: {
+          signedIn: true
+        },
         connected: true
       }
     }
@@ -85,6 +94,9 @@ describe(`TabValidators`, () => {
           delegates: [],
           loading: false,
           loaded: true
+        },
+        session: {
+          signedIn: true
         },
         connected: true
       }
@@ -111,7 +123,7 @@ describe(`TabValidators`, () => {
 
   it(`queries for validators and delegations on sign in`, () => {
     const dispatch = jest.fn()
-    TabValidators.watch.signedIn.call({
+    TabValidators.watch[`session.signedIn`].call({
       $store: {
         dispatch
       }

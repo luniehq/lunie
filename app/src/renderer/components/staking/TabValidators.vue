@@ -25,10 +25,10 @@ export default {
     TmDataConnecting
   },
   computed: {
-    ...mapGetters([`delegates`, `connected`])
+    ...mapGetters([`delegates`, `connected`, `session`])
   },
   watch: {
-    signedIn: function(signedIn) {
+    "session.signedIn": function(signedIn) {
       signedIn && this.$store.dispatch(`updateDelegates`)
     }
   },
