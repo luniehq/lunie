@@ -28,9 +28,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 - [\#1337](https://github.com/cosmos/voyager/issues/1337) Refactor tests: pool-module @jbibla
-
-### Changed
-
 - [\#1944](https://github.com/cosmos/voyager/issues/1944) Updated `README` @fedekunze
 
 ## [1.0.0-beta.7] - 2019-02-26

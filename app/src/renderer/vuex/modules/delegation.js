@@ -134,9 +134,12 @@ export default ({ node }) => {
 
       state.loading = false
     },
-    async updateDelegates({ dispatch }) {
+    async updateDelegates({ dispatch, rootState }) {
       const candidates = await dispatch(`getDelegates`)
-      return dispatch(`getBondedDelegates`, candidates)
+
+      if(rootState.session.signedIn) {
+        dispatch(`getBondedDelegates`, candidates)
+      }
     },
     async submitDelegation(
       {
