@@ -87,4 +87,10 @@ describe(`TableValidators`, () => {
     })
     expect(res).toBe(false)
   })
+
+  it(`queries delegations on signin`, () => {
+    const updateDelegates = jest.fn()
+    TableValidators.watch.signedIn.call({ updateDelegates }, true)
+    expect(updateDelegates).toHaveBeenCalled()
+  })
 })

@@ -22,6 +22,9 @@ export const allTransactions = state =>
 export const ledger = state => state.ledger
 export const wallet = state => state.wallet
 
+// fee distribution
+export const distribution = state => state.distribution
+
 // staking
 export const liquidAtoms = state =>
   (
@@ -81,7 +84,7 @@ export const deposits = state => state.deposits.deposits
 export const governanceParameters = state => state.governanceParameters
 export const depositDenom = getters =>
   getters.governanceParameters.loaded &&
-  getters.governanceParameters.parameters.deposit.min_deposit
+    getters.governanceParameters.parameters.deposit.min_deposit
     ? getters.governanceParameters.parameters.deposit.min_deposit[0].denom
     : `token`
 
