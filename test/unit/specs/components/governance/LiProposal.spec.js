@@ -39,11 +39,9 @@ describe(`LiProposal`, () => {
   it(`should return status info for passed proposals`, () => {
     wrapper.setProps({
       proposal: {
-        proposal_status: `Passed`,
-        proposal_id: `2`,
-        title: `Really Cool Proposal `,
-        description: `Really cool proposal description`,
-      },
+        ...proposal,
+        proposal_status: `Passed`
+      }
     })
     expect(wrapper.vm.status).toEqual({
       message: `This proposal has passed`
@@ -53,11 +51,9 @@ describe(`LiProposal`, () => {
   it(`should return status info for rejected proposals`, () => {
     wrapper.setProps({
       proposal: {
-        proposal_status: `Rejected`,
-        proposal_id: `2`,
-        title: `Really Cool Proposal `,
-        description: `Really cool proposal description`,
-      },
+        ...proposal,
+        proposal_status: `Rejected`
+      }
     })
     expect(wrapper.vm.status).toEqual({
       message: `This proposal has been rejected and voting is closed`,
@@ -68,11 +64,9 @@ describe(`LiProposal`, () => {
   it(`should return status info for active proposals`, () => {
     wrapper.setProps({
       proposal: {
-        proposal_status: `VotingPeriod`,
-        proposal_id: `2`,
-        title: `Really Cool Proposal `,
-        description: `Really cool proposal description`,
-      },
+        ...proposal,
+        proposal_status: `VotingPeriod`
+      }
     })
     expect(wrapper.vm.status).toEqual({
       message: `Voting for this proposal is open`,
@@ -83,11 +77,9 @@ describe(`LiProposal`, () => {
   it(`should return status info for 'DepositPeriod' proposals`, () => {
     wrapper.setProps({
       proposal: {
-        proposal_status: `DepositPeriod`,
-        proposal_id: `2`,
-        title: `Really Cool Proposal `,
-        description: `Really cool proposal description`,
-      },
+        ...proposal,
+        proposal_status: `DepositPeriod`
+      }
     })
     expect(wrapper.vm.status).toEqual({
       message: `Deposits are open for this proposal`,
@@ -98,11 +90,9 @@ describe(`LiProposal`, () => {
   it(`should return status info for an unknown proposal type`, () => {
     wrapper.setProps({
       proposal: {
-        proposal_status: `Unknown`,
-        proposal_id: `2`,
-        title: `Really Cool Proposal `,
-        description: `Really cool proposal description`,
-      },
+        ...proposal,
+        proposal_status: `Unknown`
+      }
     })
     expect(wrapper.vm.status).toEqual({
       message: `There was an error determining the status of this proposal.`,
@@ -117,11 +107,9 @@ describe(`LiProposal`, () => {
   it(`should truncate the description and add an ellipsis`, () => {
     wrapper.setProps({
       proposal: {
-        proposal_status: `Status`,
-        proposal_id: `2`,
-        title: `Really Cool Proposal `,
+        ...proposal,
         description: `This is some kind of long description. longer than 100 characters for optimum-maximum-ideal truncation.`,
-      },
+      }
     })
     expect(wrapper.vm.description).toEqual(
       `This is some kind of long description. longer than 100 characters for optimum-maximum-ideal truncati…`
