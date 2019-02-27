@@ -9,7 +9,8 @@ describe(`TmSession`, () => {
       session: {
         modals: {
           session: {
-            state: `loading`
+            state: `welcome`,
+            active: true
           }
         }
       }
@@ -29,10 +30,6 @@ describe(`TmSession`, () => {
 
   it(`should show by default`, () => {
     expect(wrapper.isEmpty()).toBe(false)
-  })
-
-  it(`should show a loading screen if activated`, () => {
-    expect(wrapper.contains(`session-loading-stub`)).toBe(true)
   })
 
   it(`should show a welcome screen if selected`, () => {

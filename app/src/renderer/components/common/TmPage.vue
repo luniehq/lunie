@@ -9,7 +9,7 @@
       </h3>
       <slot slot="menu-body" name="menu-body">
         <tm-balance v-if="session.signedIn" />
-        <tool-bar :refresh="refreshable" />
+        <tool-bar />
       </slot>
       <slot slot="header-buttons" name="header-buttons" />
     </tm-page-header>
