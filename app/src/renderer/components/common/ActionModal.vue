@@ -130,6 +130,7 @@ import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
 import { mapGetters } from "vuex"
 import { requiredIf } from "vuelidate/lib/validators"
+import { track } from "../../google-analytics.js"
 
 const defaultStep = `txDetails`
 const signStep = `sign`
@@ -173,7 +174,8 @@ export default {
     password: null,
     sending: false,
     submissionError: null,
-    show: false
+    show: false,
+    track
   }),
   computed: {
     ...mapGetters([`connected`, `ledger`, `session`]),
@@ -202,6 +204,8 @@ export default {
   },
   methods: {
     open() {
+      this.track(`event`, `modal`, this.title)
+
       this.show = true
     },
     close() {
@@ -239,6 +243,8 @@ export default {
       }
     },
     async submit() {
+      track(`event`, `submit`, this.title, this.selectedSignMethod)
+
       try {
         await this.submitFn(this.selectedSignMethod, this.password)
 
