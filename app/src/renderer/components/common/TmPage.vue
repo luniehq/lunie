@@ -97,9 +97,6 @@ export default {
   }),
   computed: {
     ...mapGetters([`session`, `connected`]),
-    refreshable({ connected, refresh } = this) {
-      return refresh ? { connected, refresh } : undefined
-    }
   },
   async mounted() {
     const container = this.$el.querySelector(`.tm-page-main`)

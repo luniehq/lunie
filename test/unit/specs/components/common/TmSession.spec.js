@@ -65,4 +65,9 @@ describe(`TmSession`, () => {
   it(`should show a the connected network indicator`, () => {
     expect(wrapper.contains(`connected-network-stub`)).toBe(true)
   })
+
+  it(`should close the session modal`, () => {
+    wrapper.vm.close()
+    expect($store.commit).toHaveBeenCalledWith(`toggleSessionModal`, false)
+  })
 })

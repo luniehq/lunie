@@ -37,7 +37,8 @@ export default {
     SessionAccountDelete,
     ConnectedNetwork
   },
-  computed: { ...mapGetters([`session`]),
+  computed: { 
+    ...mapGetters([`session`]),
     active() {
       return this.session.modals.session.active
     }
