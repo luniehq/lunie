@@ -56,24 +56,14 @@ export default () => {
         true
       )
       const cosmosLedgerApp = new state.externals.App(communicationMethod)
-      let response = await cosmosLedgerApp.get_version()
 
-      // check if the device is connected
+      // check if the device is connected or on screensaver mode
+      const response = await cosmosLedgerApp.publicKey(HDPATH)
       switch (response.error_message) {
         case `U2F: Timeout`:
           throw new Error(`No Ledger found`)
         case `Cosmos app does not seem to be open`:
           throw new Error(`Cøsmos app is not open`)
-        case `No errors`:
-          // do nothing and continue
-          break
-        default:
-          throw new Error(response.error_message)
-      }
-
-      // check if the device is on screensaver mode
-      response = await cosmosLedgerApp.publicKey(HDPATH)
-      switch (response.error_message) {
         case `Unknown error code`: // TODO: create error for screensaver mode
           throw new Error(`Ledger's screensaver mode is on`)
         case `No errors`:
