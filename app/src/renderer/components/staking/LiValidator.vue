@@ -100,15 +100,15 @@ export default {
     yourVotes() {
       return this.committedDelegations[this.validator.id]
         ? BigNumber(
-            num
-              .atoms(
-                calculateTokens(
-                  this.validator,
-                  this.committedDelegations[this.validator.id]
-                )
+          num
+            .atoms(
+              calculateTokens(
+                this.validator,
+                this.committedDelegations[this.validator.id]
               )
-              .toString()
-          )
+            )
+            .toString()
+        )
         : BigNumber(0)
     },
     styles() {

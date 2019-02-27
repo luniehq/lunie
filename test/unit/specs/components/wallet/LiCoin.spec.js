@@ -1,5 +1,4 @@
 import { shallowMount } from "@vue/test-utils"
-import num from "scripts/num"
 import LiCoin from "renderer/components/wallet/LiCoin"
 
 describe(`LiCoin`, () => {
