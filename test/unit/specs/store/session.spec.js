@@ -92,8 +92,8 @@ describe(`Module: Session`, () => {
     })
 
     it(`should activate dev mode`, () => {
-      mutations.setDevMode(state)
-      expect(state.devMode).toBe(true)
+      mutations.setExperimentalMode(state)
+      expect(state.experimentalMode).toBe(true)
     })
 
     it(`should open the help modal`, () => {

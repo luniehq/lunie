@@ -6,7 +6,7 @@
           <img id="logo-white" src="~assets/images/cosmos-wordmark-white.svg">
         </router-link> 
       </div>
-      <div v-if="session.devMode" id="develop-mode-warning">
+      <div v-if="session.experimentalMode" id="develop-mode-warning">
         EXPERIMENTAL MODE
       </div>
       <app-menu v-if="open || desktop" @close="close" />

@@ -8,7 +8,7 @@ describe(`AppHeader`, () => {
     $store = {
       getters: {
         session: {
-          devMode: true
+          experimentalMode: true
         }
       }
     }

@@ -27,7 +27,7 @@ describe(`PageNetwork`, () => {
           ]
         },
         session: {
-          devMode: true
+          experimentalMode: true
         },
         pool: {
           pool: {

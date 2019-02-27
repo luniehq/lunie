@@ -16,7 +16,7 @@
           @click.native="closeSession "
         />
         <template
-          v-if="session.devMode"
+          v-if="session.experimentalMode"
         >
           <li-session
             v-if="accountExists"
@@ -45,7 +45,7 @@
           subtitle="If you have a Ledger Wallet, choose this option."
           @click.native="setState('hardware')"
         />
-        <fundraiser-warning v-if="session.devMode" />
+        <fundraiser-warning v-if="session.experimentalMode" />
       </div>
       <div class="tm-session-footer" />
     </div>
