@@ -59,6 +59,7 @@ export default () => {
 
       // check if the device is connected or on screensaver mode
       const response = await cosmosLedgerApp.publicKey(HDPATH)
+
       switch (response.error_message) {
         case `U2F: Timeout`:
           throw new Error(`No Ledger found`)
@@ -72,7 +73,6 @@ export default () => {
         default:
           throw new Error(response.error_message)
       }
-
     },
     async createLedgerAppInstance({ commit, state }) {
       const communicationMethod = await state.externals.comm_u2f.create_async(
