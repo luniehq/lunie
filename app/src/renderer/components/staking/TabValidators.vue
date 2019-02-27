@@ -26,6 +26,14 @@ export default {
   },
   computed: {
     ...mapGetters([`delegates`, `connected`])
+  },
+  watch: {
+    signedIn: function(signedIn) {
+      signedIn && this.$store.dispatch(`updateDelegates`)
+    }
+  },
+  mounted() {
+    this.$store.dispatch(`updateDelegates`)
   }
 }
 </script>

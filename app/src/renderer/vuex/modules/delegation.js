@@ -75,7 +75,6 @@ export default ({ node }) => {
       if (!rootState.connection.connected) return
 
       const address = rootState.session.address
-      candidates = candidates || (await dispatch(`getDelegates`))
 
       try {
         const delegations = await node.getDelegations(address)

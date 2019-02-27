@@ -99,6 +99,9 @@ export default {
               transaction.tx.value.msg[0].value.validator_addr
             ]
         }))
+  },
+  mounted() {
+    this.$store.dispatch(`updateDelegates`)
   }
 }
 </script>
