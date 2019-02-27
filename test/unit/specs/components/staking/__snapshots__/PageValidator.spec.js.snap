@@ -2687,7 +2687,7 @@ exports[`Staking functions onUndelegation make sure there are enough atoms to un
             </dt>
              
             <dd>
-              0.00 STAKE
+              --
             </dd>
           </dl>
            
@@ -3222,7 +3222,7 @@ exports[`Staking functions onUndelegation make sure there are enough atoms to un
             </dt>
              
             <dd>
-              0.00 STAKE
+              --
             </dd>
           </dl>
            

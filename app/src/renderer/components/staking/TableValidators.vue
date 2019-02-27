@@ -142,19 +142,20 @@ export default {
       address && this.updateDelegates()
     },
     validators: function(validators) {
-      if (!validators) return
+      if (
+        !validators ||
+        validators.length === 0 ||
+        !this.session.signedIn
+      ) {
+        return
+      }
 
-      this.updateRewards()
+      this.$store.dispatch(`getRewardsFromAllValidators`, validators)
     }
   },
   methods: {
     updateDelegates() {
       this.$store.dispatch(`updateDelegates`)
-    },
-    updateRewards() {
-      if (!this.session.signedIn) return
-
-      this.$store.dispatch(`getRewardsFromAllValidators`, this.validators)
     }
   }
 }

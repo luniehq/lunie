@@ -258,10 +258,10 @@ export default {
       )
     },
     myDelegation() {
-      const { bondDenom } = this
-      const myBond = pretty(this.myBond)
-      const myDelegationString = `${myBond} ${bondDenom}`
-      return myBond === 0 ? `--` : myDelegationString
+      const { bondDenom, myBond } = this
+      const myDelegation = pretty(myBond)
+      const myDelegationString = `${myDelegation} ${bondDenom}`
+      return Number(myBond) === 0 ? `--` : myDelegationString
     },
     powerRatio() {
       return ratToBigNumber(this.validator.tokens)
@@ -301,13 +301,17 @@ export default {
     },
     rewards() {
       const { session, bondDenom, distribution, validator } = this
-      if (!session.signedIn) return null
+      if (!session.signedIn) { 
+        return null 
+      }
 
       const validatorRewards = distribution.rewards[
         validator.operator_address
       ]
       const amount = validatorRewards ? pretty(validatorRewards[bondDenom] || 0) : null
-      if (amount) return `${amount} ${bondDenom}`
+      if (amount) {
+        return `${amount} ${bondDenom}`
+      }
       return null
     }
   },
@@ -322,18 +326,22 @@ export default {
     lastHeader: {
       immediate: true,
       handler(){
-        this.$store.dispatch(
-          `getRewardsFromValidator`,
-          this.$route.params.validator
-        )
+        if (this.session.signedIn) {
+          this.$store.dispatch(
+            `getRewardsFromValidator`,
+            this.$route.params.validator
+          )
+        }
       }
     }
   },
   mounted() {
-    this.$store.dispatch(
-      `getRewardsFromValidator`,
-      this.$route.params.validator
-    )
+    if (this.session.signedIn) {
+      this.$store.dispatch(
+        `getRewardsFromValidator`,
+        this.$route.params.validator
+      )
+    }
   },
   methods: {
     closeCannotModal() {

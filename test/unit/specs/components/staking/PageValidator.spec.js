@@ -35,11 +35,17 @@ const getterValues = {
     committedDelegates: { [lcdClientMock.validators[0]]: 0 },
     unbondingDelegations: {}
   },
+
   committedDelegations: {
     [lcdClientMock.validators[0]]: 0
   },
   lastHeader: {
     height: 500
+  },
+  distribution: {
+    rewards: {
+      [validator.operator_address]: 10
+    }
   },
   keybase: `keybase`,
   liquidAtoms: 1337,
@@ -88,8 +94,8 @@ describe(`PageValidator`, () => {
     wrapper = instance.wrapper
     store = instance.store
 
-    wrapper.vm.$refs.undelegationModal = { open: () => {} }
-    wrapper.vm.$refs.delegationModal = { open: () => {} }
+    wrapper.vm.$refs.undelegationModal = { open: () => { } }
+    wrapper.vm.$refs.delegationModal = { open: () => { } }
   })
 
   describe(`has the expected html structure`, () => {
@@ -125,6 +131,71 @@ describe(`PageValidator`, () => {
     expect(wrapper.vm.selfBond).toBe(`0.00%`)
   })
 
+  describe(`myDelegation`, () => {
+    it(`when user has delegations`, () => {
+      const bondDenom = `stake`
+      const myBond = 10
+      const delegationString = PageValidator.computed.myDelegation.call(
+        { bondDenom, myBond }
+      )
+      expect(delegationString).toBe(`10.00 stake`)
+    })
+
+    it(`when user doesn't have any delegations`, () => {
+      const bondDenom = `stake`
+      const myBond = 0
+      const delegationString = PageValidator.computed.myDelegation.call(
+        { bondDenom, myBond }
+      )
+      expect(delegationString).toBe(`--`)
+    })
+  })
+
+  describe(`rewards`, () => {
+    let bondDenom, validator, session
+
+    beforeEach(() => {
+      bondDenom = `stake`
+      validator = { operator_address: `cosmos1address` }
+      session = getterValues.session
+    })
+    it(`gets rewards from validator if it has some`, () => {
+      const distribution = {
+        rewards: {
+          [validator.operator_address]: {
+            [bondDenom]: 10
+          }
+        }
+      }
+      const rewardsString = PageValidator.computed.rewards.call(
+        { session, bondDenom, distribution, validator }
+      )
+      expect(rewardsString).toBe(`10.00 stake`)
+    })
+
+    it(`when validator rewards are 0`, () => {
+      const distribution = {
+        rewards: {
+          [validator.operator_address]: {
+            [bondDenom]: 0
+          }
+        }
+      }
+      const rewardsString = PageValidator.computed.rewards.call(
+        { session, bondDenom, distribution, validator }
+      )
+      expect(rewardsString).toBe(`0.00 stake`)
+    })
+
+    it(`when user doesn't have any delegations`, () => {
+      const distribution = { rewards: {} }
+      const rewardsString = PageValidator.computed.rewards.call(
+        { session, bondDenom, distribution, validator }
+      )
+      expect(rewardsString).toBeNull()
+    })
+  })
+
   it(`shows an error if the validator couldn't be found`, () => {
     const instance = mount(PageValidator, {
       getters: {
@@ -152,8 +223,8 @@ describe(`PageValidator`, () => {
     wrapper = instance.wrapper
     store = instance.store
 
-    wrapper.vm.$refs.undelegationModal = { open: () => {} }
-    wrapper.vm.$refs.delegationModal = { open: () => {} }
+    wrapper.vm.$refs.undelegationModal = { open: () => { } }
+    wrapper.vm.$refs.delegationModal = { open: () => { } }
 
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
@@ -191,7 +262,7 @@ describe(`PageValidator`, () => {
     )
   })
 
-  // TODO enable when we decide on limits are defined
+  // TODO: enable when we decide on limits are defined
   // it("switches color indicators", async () => {
   //   store.state.delegates.delegates = [
   //     Object.assign({}, delegate, {
@@ -427,8 +498,8 @@ describe(`Staking functions`, () => {
     wrapper = instance.wrapper
     store = instance.store
 
-    wrapper.vm.$refs.undelegationModal = { open: () => {} }
-    wrapper.vm.$refs.delegationModal = { open: () => {} }
+    wrapper.vm.$refs.undelegationModal = { open: () => { } }
+    wrapper.vm.$refs.delegationModal = { open: () => { } }
   })
 
   describe(`onDelegation`, () => {
