@@ -90,7 +90,7 @@ describe(`TableValidators`, () => {
 
   it(`queries delegations on signin`, () => {
     const updateDelegates = jest.fn()
-    TableValidators.watch.address.call({ updateDelegates }, true)
+    TableValidators.watch.address.call({ updateDelegates }, `cosmos1address`)
     expect(updateDelegates).toHaveBeenCalled()
   })
 })

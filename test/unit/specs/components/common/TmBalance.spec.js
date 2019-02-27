@@ -31,4 +31,11 @@ describe(`TmBalance`, () => {
   it(`has the expected html structure before adding props`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
+
+  it(`displays unbonded tokens`, () => {
+    expect(wrapper.vm.unbondedAtoms).toBe(`123.0000…`)
+  })
+  it(`gets user rewards`, () => {
+    expect(wrapper.vm.rewards).toBe(100045)
+  })
 })

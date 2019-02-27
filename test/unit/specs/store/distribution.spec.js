@@ -73,6 +73,35 @@ describe(`Module: Fee Distribution`, () => {
       expect(rootState.distribution.rewards).toMatchObject({})
     })
 
+    describe(`queries the delegator total rewards on reconnection`, () => {
+      it(`when the user has logged in and is loading`, async () => {
+        await actions.reconnected({
+          state: { loading: true },
+          dispatch,
+          rootState: { session: { signedIn: true } }
+        })
+        expect(dispatch).toHaveBeenCalledWith(`getTotalRewards`)
+      })
+
+      it(`fails if it's not loading`, async () => {
+        await actions.reconnected({
+          state: { loading: false },
+          dispatch,
+          rootState: { session: { signedIn: true } }
+        })
+        expect(dispatch).not.toHaveBeenCalledWith(`getTotalRewards`)
+      })
+
+      it(`fails if the user hasn't logged in`, async () => {
+        await actions.reconnected({
+          state: { loading: true },
+          dispatch,
+          rootState: { session: { signedIn: false } }
+        })
+        expect(dispatch).not.toHaveBeenCalledWith(`getTotalRewards`)
+      })
+    })
+
     describe(`getTotalRewards`, () => {
       it(`success`, async () => {
         await actions.getTotalRewards({ state, rootState, commit })
@@ -152,8 +181,8 @@ describe(`Module: Fee Distribution`, () => {
       })
 
       it(`fails`, async () => {
-        node.getDelegatorRewardsFromValidator = jest.fn(async () => Promise.reject(Error(`unexpected error`)))
-        await actions.getRewardsFromValidator({ state, rootState, commit })
+        node.getDistributionParameters = jest.fn(async () => Promise.reject(Error(`unexpected error`)))
+        await actions.getDistributionParameters({ state, rootState, commit })
         expect(node.getDistributionParameters).toHaveBeenCalled()
         expect(commit).not.toHaveBeenCalledWith(`setDistributionParameters`, parameters)
         expect(commit).toHaveBeenCalledWith(`setDistributionError`, Error(`unexpected error`))

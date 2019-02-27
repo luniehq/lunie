@@ -66,9 +66,6 @@ export default ({ node }) => {
         await dispatch(`getTotalRewards`)
       }
     },
-    async initializeWallet({ dispatch }) {
-      await dispatch(`getTotalRewards`)
-    },
     resetSessionData({ rootState }) {
       rootState.distribution = JSON.parse(JSON.stringify(emptyState))
     },
@@ -81,12 +78,12 @@ export default ({ node }) => {
         const rewards = coinsToObject(rewardsArray)
         commit(`setTotalRewards`, rewards)
         commit(`setDistributionError`, null)
+        state.loaded = true
       } catch (error) {
         Sentry.captureException(error)
         commit(`setDistributionError`, error)
       }
       state.loading = false
-      state.loaded = true
     },
     async withdrawAllRewards(
       { rootState: { wallet }, dispatch },
@@ -115,12 +112,12 @@ export default ({ node }) => {
         const rewards = coinsToObject(rewardsArray)
         commit(`setDelegationRewards`, { validatorAddr, rewards })
         commit(`setDistributionError`, null)
+        state.loaded = true
       } catch (error) {
         Sentry.captureException(error)
         commit(`setDistributionError`, error)
       }
       state.loading = false
-      state.loaded = true
     },
     async withdrawRewardsFromValidator(
       { rootState: { wallet }, commit, dispatch },
@@ -146,12 +143,12 @@ export default ({ node }) => {
         const parameters = await node.getDistributionParameters()
         commit(`setDistributionParameters`, parameters)
         commit(`setDistributionError`, null)
+        state.loaded = true
       } catch (error) {
         Sentry.captureException(error)
         commit(`setDistributionError`, error)
       }
       state.loading = false
-      state.loaded = true
     },
     async getOutstandingRewards({ commit }) {
       state.loading = true
@@ -160,12 +157,12 @@ export default ({ node }) => {
         const oustandingRewards = coinsToObject(oustandingRewardsArray)
         commit(`setOutstandingRewards`, oustandingRewards)
         commit(`setDistributionError`, null)
+        state.loaded = true
       } catch (error) {
         Sentry.captureException(error)
         commit(`setDistributionError`, error)
       }
       state.loading = false
-      state.loaded = true
     }
   }
 

@@ -54,9 +54,6 @@ export default {
       `bondDenom`,
       `keybase`
     ]),
-    signedIn() {
-      return this.session.signedIn
-    },
     vpTotal() {
       return this.validators
         .slice(0)
@@ -150,9 +147,6 @@ export default {
       this.updateRewards()
     }
   },
-  mounted() {
-    this.$store.dispatch(`getRewardsFromAllValidators`, this.validators)
-  },
   methods: {
     updateDelegates() {
       this.$store.dispatch(`updateDelegates`)
@@ -161,14 +155,6 @@ export default {
       if (!this.session.signedIn) return
 
       this.$store.dispatch(`getRewardsFromAllValidators`, this.validators)
-    },
-    setSearch(
-      bool = !this.filters[`delegates`].search.visible,
-      { somethingToSearch, $store } = this
-    ) {
-      if (somethingToSearch) {
-        $store.commit(`setSearchVisible`, [`delegates`, bool])
-      }
     }
   }
 }
