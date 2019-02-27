@@ -1,3771 +1,980 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PageValidator has the expected html structure if user has signed in 1`] = `
-<div
-  class="tm-page"
+exports[`PageValidator shows a validator profile information errors signing info is missing 1`] = `
+<tm-page-stub
   data-title="Validator"
+  subtitle=""
+  title=""
 >
-  <header
-    class="tm-page-header"
-  >
-    <div
-      class="tm-page-header-container"
-    >
-      <div
-        class="tm-page-header-text"
-      >
-        <!---->
-         
-        <!---->
-         
-        <div
-          class="tm-page-header-body"
-        >
-          <div
-            class="tool-bar"
-          >
-            <!---->
-             
-            <a
-              class="help"
-            >
-              <i
-                class="material-icons"
-              >
-                help_outline
-              </i>
-            </a>
-              
-            <router-link-stub
-              id="settings"
-              to="/preferences"
-            >
-              <i
-                class="material-icons"
-              >
-                settings
-              </i>
-            </router-link-stub>
-             
-            <a
-              id="signOut-btn"
-            >
-              <i
-                class="material-icons"
-              >
-                exit_to_app
-              </i>
-            </a>
-             
-            <!---->
-          </div>
-           
-          <div
-            class="header-balance"
-          >
-            <div
-              class="top"
-            >
-              <div
-                class="icon-container"
-              >
-                <img
-                  class="icon"
-                  src="~assets/images/cosmos-logo.png"
-                />
-              </div>
-               
-              <div
-                class="total-atoms top-section"
-              >
-                <h3>
-                  Total STAKE
-                </h3>
-                 
-                <h2
-                  class="total-atoms__value"
-                >
-                  
-        123.4568…
-      
-                </h2>
-              </div>
-               
-              <div
-                class="unbonded-atoms top-section"
-              >
-                <h3>
-                  Available STAKE
-                </h3>
-                 
-                <h2>
-                  0.0000…
-                </h2>
-              </div>
-            </div>
-             
-            <short-bech32-stub
-              address=""
-            />
-             
-          </div>
-           
-          <div
-            class="tool-bar"
-          >
-            <!---->
-             
-            <a
-              class="help"
-            >
-              <i
-                class="material-icons"
-              >
-                help_outline
-              </i>
-            </a>
-              
-            <router-link-stub
-              id="settings"
-              to="/preferences"
-            >
-              <i
-                class="material-icons"
-              >
-                settings
-              </i>
-            </router-link-stub>
-             
-            <a
-              id="signOut-btn"
-            >
-              <i
-                class="material-icons"
-              >
-                exit_to_app
-              </i>
-            </a>
-             
-            <!---->
-          </div>
-        </div>
-      </div>
-       
-      <menu
-        class="tm-page-header-menu"
-      />
-       
-      <div
-        class="tabs"
-      />
-       
-      <!---->
-    </div>
-  </header>
+  <!---->
    
-  <main
-    class="tm-page-main"
-  >
-    <!---->
-     
-    <div
-      class="page-profile__header page-profile__section"
-    >
-      <div
-        class="row"
-      >
-        <img
-          class="avatar"
-          src="~assets/images/validator-icon.svg"
-        />
-         
-        <div
-          class="page-profile__header__info"
-        >
-          <div
-            class="page-profile__status-and-title"
-          >
-            <span
-              class="page-profile__status green"
-            />
-             
-            <div
-              class="page-profile__title"
-            >
-              
-              mr_mounty
-            
-            </div>
-             
-            <short-bech32-stub
-              address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
-            />
-          </div>
-           
-          <div
-            class="page-profile__header__actions"
-          >
-            <button
-              class="tm-btn"
-              id="delegation-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--primary"
-              >
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Delegate
-                </span>
-              </span>
-            </button>
-             
-            <button
-              class="tm-btn"
-              id="undelegation-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--secondary"
-              >
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Undelegate
-                </span>
-              </span>
-            </button>
-          </div>
-        </div>
-      </div>
-       
-      <div
-        class="row"
-      >
-        <div
-          class="row-unjustified"
-        >
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              My Delegation
-            </dt>
-             
-            <dd>
-              123.45678 STAKE
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              My Rewards
-            </dt>
-             
-            <dd>
-              --
-            </dd>
-          </dl>
-        </div>
-         
-        <div
-          class="row-unjustified"
-        >
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Voting Power
-            </dt>
-             
-            <dd
-              id="page-profile__power"
-            >
-              
-              100.00%
-            
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Uptime
-            </dt>
-             
-            <dd
-              id="page-profile__uptime"
-            >
-              
-              -Inf%
-            
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Commission
-            </dt>
-             
-            <dd
-              id="page-profile__commission"
-            >
-              
-              5.00%
-            
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Slashes
-            </dt>
-             
-            <dd>
-              --
-            </dd>
-          </dl>
-        </div>
-      </div>
-    </div>
-     
-    <div
-      class="page-profile__section"
-    >
-      <div
-        class="row"
-      >
-        <div
-          class="column"
-        >
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              First Seen
-            </dt>
-             
-            <dd>
-              Block #0
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Full Operator Address
-            </dt>
-             
-            <dd>
-              cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Keybase ID
-            </dt>
-             
-            <dd>
-              
-              --
-            
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Website
-            </dt>
-             
-            <dd>
-              
-              www.monty.ca
-            
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Description
-            </dt>
-             
-            <dd
-              class="info_dl__text-box"
-            >
-              
-              Mr Mounty
-            
-            </dd>
-          </dl>
-        </div>
-         
-        <div
-          class="column"
-        >
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Current Commission Rate
-            </dt>
-             
-            <dd>
-              5.00%
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Max Commission Rate
-            </dt>
-             
-            <dd>
-              10.00%
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Max Daily Commission Change
-            </dt>
-             
-            <dd>
-              0.50%
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Last Commission Change
-            </dt>
-             
-            <dd>
-              a few seconds ago
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Self Delegation
-            </dt>
-             
-            <dd
-              id="page-profile__self-bond"
-            >
-              
-              1.00%
-            
-            </dd>
-          </dl>
-        </div>
-      </div>
-    </div>
-     
-    <delegation-modal-stub
-      denom="STAKE"
-      fromoptions="[object Object]"
-      to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
-      validator="[object Object]"
-    />
-     
-    <undelegation-modal-stub
-      denom="STAKE"
-      fromoptions="[object Object]"
-      maximum="123.45678"
-      to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
-      validator="[object Object]"
-    />
-     
-    <!---->
-  </main>
-</div>
-`;
-
-exports[`PageValidator has the expected html structure if user hasn't signed in 1`] = `
-<div
-  class="tm-page"
-  data-title="Validator"
->
-  <header
-    class="tm-page-header"
+  <div
+    class="page-profile__header page-profile__section"
   >
     <div
-      class="tm-page-header-container"
-    >
-      <div
-        class="tm-page-header-text"
-      >
-        <!---->
-         
-        <!---->
-         
-        <div
-          class="tm-page-header-body"
-        >
-          <div
-            class="tool-bar"
-          >
-            <!---->
-             
-            <a
-              class="help"
-            >
-              <i
-                class="material-icons"
-              >
-                help_outline
-              </i>
-            </a>
-              
-            <!---->
-             
-            <!---->
-             
-            <button
-              class="tm-btn"
-              id="signIn-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--primary"
-              >
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Sign In
-                </span>
-              </span>
-            </button>
-          </div>
-           
-          <!---->
-           
-          <div
-            class="tool-bar"
-          >
-            <!---->
-             
-            <a
-              class="help"
-            >
-              <i
-                class="material-icons"
-              >
-                help_outline
-              </i>
-            </a>
-              
-            <!---->
-             
-            <!---->
-             
-            <button
-              class="tm-btn"
-              id="signIn-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--primary"
-              >
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Sign In
-                </span>
-              </span>
-            </button>
-          </div>
-        </div>
-      </div>
-       
-      <menu
-        class="tm-page-header-menu"
-      />
-       
-      <div
-        class="tabs"
-      />
-       
-      <!---->
-    </div>
-  </header>
-   
-  <main
-    class="tm-page-main"
-  >
-    <!---->
-     
-    <div
-      class="page-profile__header page-profile__section"
-    >
-      <div
-        class="row"
-      >
-        <img
-          class="avatar"
-          src="~assets/images/validator-icon.svg"
-        />
-         
-        <div
-          class="page-profile__header__info"
-        >
-          <div
-            class="page-profile__status-and-title"
-          >
-            <span
-              class="page-profile__status green"
-            />
-             
-            <div
-              class="page-profile__title"
-            >
-              
-              mr_mounty
-            
-            </div>
-             
-            <short-bech32-stub
-              address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
-            />
-          </div>
-           
-          <div
-            class="page-profile__header__actions"
-          >
-            <button
-              class="tm-btn"
-              id="delegation-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--primary"
-              >
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Delegate
-                </span>
-              </span>
-            </button>
-             
-            <button
-              class="tm-btn"
-              id="undelegation-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--secondary"
-              >
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Undelegate
-                </span>
-              </span>
-            </button>
-          </div>
-        </div>
-      </div>
-       
-      <div
-        class="row"
-      >
-        <div
-          class="row-unjustified"
-        >
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              My Delegation
-            </dt>
-             
-            <dd>
-              123.45678 STAKE
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              My Rewards
-            </dt>
-             
-            <dd>
-              --
-            </dd>
-          </dl>
-        </div>
-         
-        <div
-          class="row-unjustified"
-        >
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Voting Power
-            </dt>
-             
-            <dd
-              id="page-profile__power"
-            >
-              
-              100.00%
-            
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Uptime
-            </dt>
-             
-            <dd
-              id="page-profile__uptime"
-            >
-              
-              -Inf%
-            
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Commission
-            </dt>
-             
-            <dd
-              id="page-profile__commission"
-            >
-              
-              5.00%
-            
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Slashes
-            </dt>
-             
-            <dd>
-              --
-            </dd>
-          </dl>
-        </div>
-      </div>
-    </div>
-     
-    <div
-      class="page-profile__section"
-    >
-      <div
-        class="row"
-      >
-        <div
-          class="column"
-        >
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              First Seen
-            </dt>
-             
-            <dd>
-              Block #0
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Full Operator Address
-            </dt>
-             
-            <dd>
-              cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Keybase ID
-            </dt>
-             
-            <dd>
-              
-              --
-            
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Website
-            </dt>
-             
-            <dd>
-              
-              www.monty.ca
-            
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Description
-            </dt>
-             
-            <dd
-              class="info_dl__text-box"
-            >
-              
-              Mr Mounty
-            
-            </dd>
-          </dl>
-        </div>
-         
-        <div
-          class="column"
-        >
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Current Commission Rate
-            </dt>
-             
-            <dd>
-              5.00%
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Max Commission Rate
-            </dt>
-             
-            <dd>
-              10.00%
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Max Daily Commission Change
-            </dt>
-             
-            <dd>
-              0.50%
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Last Commission Change
-            </dt>
-             
-            <dd>
-              a few seconds ago
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Self Delegation
-            </dt>
-             
-            <dd
-              id="page-profile__self-bond"
-            >
-              
-              1.00%
-            
-            </dd>
-          </dl>
-        </div>
-      </div>
-    </div>
-     
-    <delegation-modal-stub
-      denom="STAKE"
-      fromoptions=""
-      to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
-      validator="[object Object]"
-    />
-     
-    <undelegation-modal-stub
-      denom="STAKE"
-      fromoptions=""
-      maximum="123.45678"
-      to=""
-      validator="[object Object]"
-    />
-     
-    <!---->
-  </main>
-</div>
-`;
-
-exports[`PageValidator shows a default avatar 1`] = `
-<div
-  class="tm-page"
-  data-title="Validator"
->
-  <header
-    class="tm-page-header"
-  >
-    <div
-      class="tm-page-header-container"
-    >
-      <div
-        class="tm-page-header-text"
-      >
-        <!---->
-         
-        <!---->
-         
-        <div
-          class="tm-page-header-body"
-        >
-          <div
-            class="tool-bar"
-          >
-            <!---->
-             
-            <a
-              class="help"
-            >
-              <i
-                class="material-icons"
-              >
-                help_outline
-              </i>
-            </a>
-              
-            <router-link-stub
-              id="settings"
-              to="/preferences"
-            >
-              <i
-                class="material-icons"
-              >
-                settings
-              </i>
-            </router-link-stub>
-             
-            <a
-              id="signOut-btn"
-            >
-              <i
-                class="material-icons"
-              >
-                exit_to_app
-              </i>
-            </a>
-             
-            <!---->
-          </div>
-           
-          <div
-            class="header-balance"
-          >
-            <div
-              class="top"
-            >
-              <div
-                class="icon-container"
-              >
-                <img
-                  class="icon"
-                  src="~assets/images/cosmos-logo.png"
-                />
-              </div>
-               
-              <div
-                class="total-atoms top-section"
-              >
-                <h3>
-                  Total STAKE
-                </h3>
-                 
-                <h2
-                  class="total-atoms__value"
-                >
-                  
-        123.4568…
-      
-                </h2>
-              </div>
-               
-              <div
-                class="unbonded-atoms top-section"
-              >
-                <h3>
-                  Available STAKE
-                </h3>
-                 
-                <h2>
-                  0.0000…
-                </h2>
-              </div>
-            </div>
-             
-            <short-bech32-stub
-              address=""
-            />
-             
-          </div>
-           
-          <div
-            class="tool-bar"
-          >
-            <!---->
-             
-            <a
-              class="help"
-            >
-              <i
-                class="material-icons"
-              >
-                help_outline
-              </i>
-            </a>
-              
-            <router-link-stub
-              id="settings"
-              to="/preferences"
-            >
-              <i
-                class="material-icons"
-              >
-                settings
-              </i>
-            </router-link-stub>
-             
-            <a
-              id="signOut-btn"
-            >
-              <i
-                class="material-icons"
-              >
-                exit_to_app
-              </i>
-            </a>
-             
-            <!---->
-          </div>
-        </div>
-      </div>
-       
-      <menu
-        class="tm-page-header-menu"
-      />
-       
-      <div
-        class="tabs"
-      />
-       
-      <!---->
-    </div>
-  </header>
-   
-  <main
-    class="tm-page-main"
-  >
-    <!---->
-     
-    <div
-      class="page-profile__header page-profile__section"
-    >
-      <div
-        class="row"
-      >
-        <img
-          class="avatar"
-          src="~assets/images/validator-icon.svg"
-        />
-         
-        <div
-          class="page-profile__header__info"
-        >
-          <div
-            class="page-profile__status-and-title"
-          >
-            <span
-              class="page-profile__status green"
-            />
-             
-            <div
-              class="page-profile__title"
-            >
-              
-              mr_mounty
-            
-            </div>
-             
-            <short-bech32-stub
-              address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
-            />
-          </div>
-           
-          <div
-            class="page-profile__header__actions"
-          >
-            <button
-              class="tm-btn"
-              id="delegation-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--primary"
-              >
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Delegate
-                </span>
-              </span>
-            </button>
-             
-            <button
-              class="tm-btn"
-              id="undelegation-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--secondary"
-              >
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Undelegate
-                </span>
-              </span>
-            </button>
-          </div>
-        </div>
-      </div>
-       
-      <div
-        class="row"
-      >
-        <div
-          class="row-unjustified"
-        >
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              My Delegation
-            </dt>
-             
-            <dd>
-              123.45678 STAKE
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              My Rewards
-            </dt>
-             
-            <dd>
-              --
-            </dd>
-          </dl>
-        </div>
-         
-        <div
-          class="row-unjustified"
-        >
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Voting Power
-            </dt>
-             
-            <dd
-              id="page-profile__power"
-            >
-              
-              100.00%
-            
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Uptime
-            </dt>
-             
-            <dd
-              id="page-profile__uptime"
-            >
-              
-              -Inf%
-            
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Commission
-            </dt>
-             
-            <dd
-              id="page-profile__commission"
-            >
-              
-              5.00%
-            
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Slashes
-            </dt>
-             
-            <dd>
-              --
-            </dd>
-          </dl>
-        </div>
-      </div>
-    </div>
-     
-    <div
-      class="page-profile__section"
-    >
-      <div
-        class="row"
-      >
-        <div
-          class="column"
-        >
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              First Seen
-            </dt>
-             
-            <dd>
-              Block #0
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Full Operator Address
-            </dt>
-             
-            <dd>
-              cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Keybase ID
-            </dt>
-             
-            <dd>
-              
-              --
-            
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Website
-            </dt>
-             
-            <dd>
-              
-              www.monty.ca
-            
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Description
-            </dt>
-             
-            <dd
-              class="info_dl__text-box"
-            >
-              
-              Mr Mounty
-            
-            </dd>
-          </dl>
-        </div>
-         
-        <div
-          class="column"
-        >
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Current Commission Rate
-            </dt>
-             
-            <dd>
-              5.00%
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Max Commission Rate
-            </dt>
-             
-            <dd>
-              10.00%
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Max Daily Commission Change
-            </dt>
-             
-            <dd>
-              0.50%
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Last Commission Change
-            </dt>
-             
-            <dd>
-              a few seconds ago
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Self Delegation
-            </dt>
-             
-            <dd
-              id="page-profile__self-bond"
-            >
-              
-              1.00%
-            
-            </dd>
-          </dl>
-        </div>
-      </div>
-    </div>
-     
-    <delegation-modal-stub
-      denom="STAKE"
-      fromoptions="[object Object]"
-      to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
-      validator="[object Object]"
-    />
-     
-    <undelegation-modal-stub
-      denom="STAKE"
-      fromoptions="[object Object]"
-      maximum="123.45678"
-      to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
-      validator="[object Object]"
-    />
-     
-    <!---->
-  </main>
-</div>
-`;
-
-exports[`PageValidator shows a validator as candidate if he has no voting_power 1`] = `"This validator does not have enough voting power yet and is inactive"`;
-
-exports[`PageValidator shows an error if the validator couldn't be found 1`] = `
-<div
-  class="tm-page"
-  data-title="Validator"
->
-  <header
-    class="tm-page-header"
-  >
-    <div
-      class="tm-page-header-container"
-    >
-      <div
-        class="tm-page-header-text"
-      >
-        <!---->
-         
-        <!---->
-         
-        <div
-          class="tm-page-header-body"
-        >
-          <div
-            class="tool-bar"
-          >
-            <!---->
-             
-            <a
-              class="help"
-            >
-              <i
-                class="material-icons"
-              >
-                help_outline
-              </i>
-            </a>
-              
-            <!---->
-             
-            <!---->
-             
-            <button
-              class="tm-btn"
-              id="signIn-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--primary"
-              >
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Sign In
-                </span>
-              </span>
-            </button>
-          </div>
-           
-          <!---->
-           
-          <div
-            class="tool-bar"
-          >
-            <!---->
-             
-            <a
-              class="help"
-            >
-              <i
-                class="material-icons"
-              >
-                help_outline
-              </i>
-            </a>
-              
-            <!---->
-             
-            <!---->
-             
-            <button
-              class="tm-btn"
-              id="signIn-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--primary"
-              >
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Sign In
-                </span>
-              </span>
-            </button>
-          </div>
-        </div>
-      </div>
-       
-      <menu
-        class="tm-page-header-menu"
-      />
-       
-      <div
-        class="tabs"
-      />
-       
-      <!---->
-    </div>
-  </header>
-   
-  <main
-    class="tm-page-main"
-  >
-    <!---->
-     
-    <div
-      class="tm-data-msg"
+      class="row"
     >
       <img
-        class="tm-data-msg__icon"
-        src="~assets/images/loader.svg"
+        class="avatar"
+        src="~assets/images/validator-icon.svg"
       />
        
       <div
-        class="tm-data-msg__text"
+        class="page-profile__header__info"
       >
         <div
-          class="tm-data-msg__title"
-          slot="title"
+          class="page-profile__status-and-title"
         >
-          
-      Data is loading…
-    
-        </div>
-         
-        <div
-          class="tm-data-msg__subtitle"
-          slot="subtitle"
-        >
-          
-      Please wait a moment.
-    
-        </div>
-      </div>
-    </div>
-  </main>
-</div>
-`;
-
-exports[`PageValidator shows that a validator is revoked 1`] = `"This validator has been jailed and is not currently validating"`;
-
-exports[`Staking functions onDelegation make sure we have enough atoms to delegate is not enough 1`] = `
-<div
-  class="tm-page"
-  data-title="Validator"
->
-  <header
-    class="tm-page-header"
-  >
-    <div
-      class="tm-page-header-container"
-    >
-      <div
-        class="tm-page-header-text"
-      >
-        <!---->
-         
-        <!---->
-         
-        <div
-          class="tm-page-header-body"
-        >
-          <div
-            class="tool-bar"
-          >
-            <!---->
-             
-            <a
-              class="help"
-            >
-              <i
-                class="material-icons"
-              >
-                help_outline
-              </i>
-            </a>
-              
-            <router-link-stub
-              id="settings"
-              to="/preferences"
-            >
-              <i
-                class="material-icons"
-              >
-                settings
-              </i>
-            </router-link-stub>
-             
-            <a
-              id="signOut-btn"
-            >
-              <i
-                class="material-icons"
-              >
-                exit_to_app
-              </i>
-            </a>
-             
-            <!---->
-          </div>
+          <span
+            class="page-profile__status green"
+          />
            
           <div
-            class="header-balance"
+            class="page-profile__title"
           >
-            <div
-              class="top"
-            >
-              <div
-                class="icon-container"
-              >
-                <img
-                  class="icon"
-                  src="~assets/images/cosmos-logo.png"
-                />
-              </div>
-               
-              <div
-                class="total-atoms top-section"
-              >
-                <h3>
-                  Total STAKE
-                </h3>
-                 
-                <h2
-                  class="total-atoms__value"
-                >
-                  
-        100.0000…
-      
-                </h2>
-              </div>
-               
-              <div
-                class="unbonded-atoms top-section"
-              >
-                <h3>
-                  Available STAKE
-                </h3>
-                 
-                <h2>
-                  0.0000…
-                </h2>
-              </div>
-            </div>
-             
-            <short-bech32-stub
-              address=""
-            />
-             
-          </div>
-           
-          <div
-            class="tool-bar"
-          >
-            <!---->
-             
-            <a
-              class="help"
-            >
-              <i
-                class="material-icons"
-              >
-                help_outline
-              </i>
-            </a>
-              
-            <router-link-stub
-              id="settings"
-              to="/preferences"
-            >
-              <i
-                class="material-icons"
-              >
-                settings
-              </i>
-            </router-link-stub>
-             
-            <a
-              id="signOut-btn"
-            >
-              <i
-                class="material-icons"
-              >
-                exit_to_app
-              </i>
-            </a>
-             
-            <!---->
-          </div>
-        </div>
-      </div>
-       
-      <menu
-        class="tm-page-header-menu"
-      />
-       
-      <div
-        class="tabs"
-      />
-       
-      <!---->
-    </div>
-  </header>
-   
-  <main
-    class="tm-page-main"
-  >
-    <!---->
-     
-    <div
-      class="page-profile__header page-profile__section"
-    >
-      <div
-        class="row"
-      >
-        <img
-          class="avatar"
-          src="~assets/images/validator-icon.svg"
-        />
-         
-        <div
-          class="page-profile__header__info"
-        >
-          <div
-            class="page-profile__status-and-title"
-          >
-            <span
-              class="page-profile__status green"
-            />
-             
-            <div
-              class="page-profile__title"
-            >
-              
+            
               mr_mounty
             
-            </div>
-             
-            <short-bech32-stub
-              address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
-            />
           </div>
            
-          <div
-            class="page-profile__header__actions"
-          >
-            <button
-              class="tm-btn"
-              id="delegation-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--primary"
-              >
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Delegate
-                </span>
-              </span>
-            </button>
-             
-            <button
-              class="tm-btn"
-              id="undelegation-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--secondary"
-              >
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Undelegate
-                </span>
-              </span>
-            </button>
-          </div>
+          <short-bech32-stub
+            address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+          />
         </div>
+         
+        <div
+          class="page-profile__header__actions"
+        >
+          <tm-btn-stub
+            color="primary"
+            id="delegation-btn"
+            value="Delegate"
+          />
+           
+          <tm-btn-stub
+            color="secondary"
+            id="undelegation-btn"
+            value="Undelegate"
+          />
+        </div>
+      </div>
+    </div>
+     
+    <div
+      class="row"
+    >
+      <div
+        class="row-unjustified"
+      >
+        <dl
+          class="info_dl colored_dl"
+        >
+          <dt>
+            My Delegation
+          </dt>
+           
+          <dd>
+            --
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl colored_dl"
+        >
+          <dt>
+            My Rewards
+          </dt>
+           
+          <dd>
+            --
+          </dd>
+        </dl>
       </div>
        
       <div
-        class="row"
+        class="row-unjustified"
       >
-        <div
-          class="row-unjustified"
+        <dl
+          class="info_dl colored_dl"
         >
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              My Delegation
-            </dt>
-             
-            <dd>
-              100 STAKE
-            </dd>
-          </dl>
+          <dt>
+            Voting Power
+          </dt>
            
-          <dl
-            class="info_dl colored_dl"
+          <dd
+            id="page-profile__power"
           >
-            <dt>
-              My Rewards
-            </dt>
-             
-            <dd>
-              --
-            </dd>
-          </dl>
-        </div>
+            
+              0.33%
+            
+          </dd>
+        </dl>
          
-        <div
-          class="row-unjustified"
+        <dl
+          class="info_dl colored_dl"
         >
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Voting Power
-            </dt>
-             
-            <dd
-              id="page-profile__power"
-            >
-              
-              100.00%
-            
-            </dd>
-          </dl>
+          <dt>
+            Uptime
+          </dt>
            
-          <dl
-            class="info_dl colored_dl"
+          <dd
+            id="page-profile__uptime"
           >
-            <dt>
-              Uptime
-            </dt>
-             
-            <dd
-              id="page-profile__uptime"
-            >
-              
-              -Inf%
             
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Commission
-            </dt>
-             
-            <dd
-              id="page-profile__commission"
-            >
               
+            
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl colored_dl"
+        >
+          <dt>
+            Commission
+          </dt>
+           
+          <dd
+            id="page-profile__commission"
+          >
+            
               5.00%
             
-            </dd>
-          </dl>
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl colored_dl"
+        >
+          <dt>
+            Slashes
+          </dt>
            
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Slashes
-            </dt>
-             
-            <dd>
-              --
-            </dd>
-          </dl>
-        </div>
+          <dd>
+            --
+          </dd>
+        </dl>
       </div>
     </div>
-     
+  </div>
+   
+  <div
+    class="page-profile__section"
+  >
     <div
-      class="page-profile__section"
+      class="row"
     >
       <div
-        class="row"
+        class="column"
       >
-        <div
-          class="column"
+        <dl
+          class="info_dl"
         >
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              First Seen
-            </dt>
-             
-            <dd>
-              Block #0
-            </dd>
-          </dl>
+          <dt>
+            First Seen
+          </dt>
            
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Full Operator Address
-            </dt>
-             
-            <dd>
-              cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
-            </dd>
-          </dl>
+          <dd>
+            Block #0
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl"
+        >
+          <dt>
+            Full Operator Address
+          </dt>
            
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Keybase ID
-            </dt>
-             
-            <dd>
-              
+          <dd>
+            cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl"
+        >
+          <dt>
+            Keybase ID
+          </dt>
+           
+          <dd>
+            
               --
             
-            </dd>
-          </dl>
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl"
+        >
+          <dt>
+            Website
+          </dt>
            
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Website
-            </dt>
-             
-            <dd>
-              
+          <dd>
+            
               www.monty.ca
             
-            </dd>
-          </dl>
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl"
+        >
+          <dt>
+            Description
+          </dt>
            
-          <dl
-            class="info_dl"
+          <dd
+            class="info_dl__text-box"
           >
-            <dt>
-              Description
-            </dt>
-             
-            <dd
-              class="info_dl__text-box"
-            >
-              
+            
               Mr Mounty
             
-            </dd>
-          </dl>
-        </div>
-         
-        <div
-          class="column"
+          </dd>
+        </dl>
+      </div>
+       
+      <div
+        class="column"
+      >
+        <dl
+          class="info_dl"
         >
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Current Commission Rate
-            </dt>
-             
-            <dd>
-              5.00%
-            </dd>
-          </dl>
+          <dt>
+            Current Commission Rate
+          </dt>
            
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Max Commission Rate
-            </dt>
-             
-            <dd>
-              10.00%
-            </dd>
-          </dl>
+          <dd>
+            5.00%
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl"
+        >
+          <dt>
+            Max Commission Rate
+          </dt>
            
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Max Daily Commission Change
-            </dt>
-             
-            <dd>
-              0.50%
-            </dd>
-          </dl>
+          <dd>
+            10.00%
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl"
+        >
+          <dt>
+            Max Daily Commission Change
+          </dt>
            
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Last Commission Change
-            </dt>
-             
-            <dd>
-              a few seconds ago
-            </dd>
-          </dl>
+          <dd>
+            0.50%
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl"
+        >
+          <dt>
+            Last Commission Change
+          </dt>
            
-          <dl
-            class="info_dl"
+          <dd>
+            a few seconds ago
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl"
+        >
+          <dt>
+            Self Delegation
+          </dt>
+           
+          <dd
+            id="page-profile__self-bond"
           >
-            <dt>
-              Self Delegation
-            </dt>
-             
-            <dd
-              id="page-profile__self-bond"
-            >
-              
+            
               1.00%
             
-            </dd>
-          </dl>
-        </div>
+          </dd>
+        </dl>
       </div>
     </div>
-     
-    <delegation-modal-stub
-      denom="STAKE"
-      fromoptions="[object Object]"
-      to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
-      validator="[object Object]"
-    />
-     
-    <undelegation-modal-stub
-      denom="STAKE"
-      fromoptions="[object Object]"
-      maximum="100"
-      to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
-      validator="[object Object]"
-    />
-     
-    <div
-      class="tm-modal"
-    >
-      <div
-        class="tm-modal-container"
-      >
-        <header
-          class="tm-modal-header"
-        >
-          <!---->
-           
-          <div
-            class="tm-modal-title"
-          >
-            <div>
-              
-        Cannot Delegate
-      
-            </div>
-          </div>
-           
-          <div
-            class="tm-modal-icon tm-modal-close"
-          >
-            <i
-              class="material-icons"
-            >
-              close
-            </i>
-          </div>
-        </header>
-         
-        <main
-          class="tm-modal-main"
-        >
-           
-          <p>
-            
-        You have no STAKEs
-         to
-         delegate.
-      
-          </p>
-            
-          <footer
-            class="tm-modal-footer"
-          >
-            <div>
-              <button
-                class="tm-btn"
-                id="no-atoms-modal__btn"
-              >
-                <span
-                  class="tm-btn__container"
-                >
-                  <!---->
-                  <span
-                    class="tm-btn__value"
-                  >
-                    OK
-                  </span>
-                </span>
-              </button>
-            </div>
-          </footer>
-        </main>
-      </div>
-    </div>
-  </main>
-</div>
+  </div>
+   
+  <delegation-modal-stub
+    denom="STAKE"
+    fromoptions="[object Object]"
+    to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+    validator="[object Object]"
+  />
+   
+  <undelegation-modal-stub
+    denom="STAKE"
+    fromoptions="[object Object]"
+    maximum="0"
+    to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+    validator="[object Object]"
+  />
+   
+  <!---->
+</tm-page-stub>
 `;
 
-exports[`Staking functions onDelegation make sure we have enough atoms to delegate is not enough 2`] = `
-<div
-  class="tm-page"
+exports[`PageValidator shows a validator profile information if user has signed in 1`] = `
+<tm-page-stub
   data-title="Validator"
+  subtitle=""
+  title=""
 >
-  <header
-    class="tm-page-header"
-  >
-    <div
-      class="tm-page-header-container"
-    >
-      <div
-        class="tm-page-header-text"
-      >
-        <!---->
-         
-        <!---->
-         
-        <div
-          class="tm-page-header-body"
-        >
-          <div
-            class="tool-bar"
-          >
-            <!---->
-             
-            <a
-              class="help"
-            >
-              <i
-                class="material-icons"
-              >
-                help_outline
-              </i>
-            </a>
-              
-            <router-link-stub
-              id="settings"
-              to="/preferences"
-            >
-              <i
-                class="material-icons"
-              >
-                settings
-              </i>
-            </router-link-stub>
-             
-            <a
-              id="signOut-btn"
-            >
-              <i
-                class="material-icons"
-              >
-                exit_to_app
-              </i>
-            </a>
-             
-            <!---->
-          </div>
-           
-          <div
-            class="header-balance"
-          >
-            <div
-              class="top"
-            >
-              <div
-                class="icon-container"
-              >
-                <img
-                  class="icon"
-                  src="~assets/images/cosmos-logo.png"
-                />
-              </div>
-               
-              <div
-                class="total-atoms top-section"
-              >
-                <h3>
-                  Total STAKE
-                </h3>
-                 
-                <h2
-                  class="total-atoms__value"
-                >
-                  
-        100.0000…
-      
-                </h2>
-              </div>
-               
-              <div
-                class="unbonded-atoms top-section"
-              >
-                <h3>
-                  Available STAKE
-                </h3>
-                 
-                <h2>
-                  0.0000…
-                </h2>
-              </div>
-            </div>
-             
-            <short-bech32-stub
-              address=""
-            />
-             
-          </div>
-           
-          <div
-            class="tool-bar"
-          >
-            <!---->
-             
-            <a
-              class="help"
-            >
-              <i
-                class="material-icons"
-              >
-                help_outline
-              </i>
-            </a>
-              
-            <router-link-stub
-              id="settings"
-              to="/preferences"
-            >
-              <i
-                class="material-icons"
-              >
-                settings
-              </i>
-            </router-link-stub>
-             
-            <a
-              id="signOut-btn"
-            >
-              <i
-                class="material-icons"
-              >
-                exit_to_app
-              </i>
-            </a>
-             
-            <!---->
-          </div>
-        </div>
-      </div>
-       
-      <menu
-        class="tm-page-header-menu"
-      />
-       
-      <div
-        class="tabs"
-      />
-       
-      <!---->
-    </div>
-  </header>
+  <!---->
    
-  <main
-    class="tm-page-main"
+  <div
+    class="page-profile__header page-profile__section"
   >
-    <!---->
-     
     <div
-      class="page-profile__header page-profile__section"
+      class="row"
     >
+      <img
+        class="avatar"
+        src="~assets/images/validator-icon.svg"
+      />
+       
       <div
-        class="row"
+        class="page-profile__header__info"
       >
-        <img
-          class="avatar"
-          src="~assets/images/validator-icon.svg"
-        />
-         
         <div
-          class="page-profile__header__info"
+          class="page-profile__status-and-title"
         >
+          <span
+            class="page-profile__status green"
+          />
+           
           <div
-            class="page-profile__status-and-title"
+            class="page-profile__title"
           >
-            <span
-              class="page-profile__status green"
-            />
-             
-            <div
-              class="page-profile__title"
-            >
-              
+            
               mr_mounty
             
-            </div>
-             
-            <short-bech32-stub
-              address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
-            />
           </div>
            
-          <div
-            class="page-profile__header__actions"
-          >
-            <button
-              class="tm-btn"
-              id="delegation-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--primary"
-              >
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Delegate
-                </span>
-              </span>
-            </button>
-             
-            <button
-              class="tm-btn"
-              id="undelegation-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--secondary"
-              >
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Undelegate
-                </span>
-              </span>
-            </button>
-          </div>
-        </div>
-      </div>
-       
-      <div
-        class="row"
-      >
-        <div
-          class="row-unjustified"
-        >
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              My Delegation
-            </dt>
-             
-            <dd>
-              100 STAKE
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              My Rewards
-            </dt>
-             
-            <dd>
-              --
-            </dd>
-          </dl>
+          <short-bech32-stub
+            address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+          />
         </div>
          
         <div
-          class="row-unjustified"
+          class="page-profile__header__actions"
         >
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Voting Power
-            </dt>
-             
-            <dd
-              id="page-profile__power"
-            >
-              
-              100.00%
-            
-            </dd>
-          </dl>
+          <tm-btn-stub
+            color="primary"
+            id="delegation-btn"
+            value="Delegate"
+          />
            
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Uptime
-            </dt>
-             
-            <dd
-              id="page-profile__uptime"
-            >
-              
-              -Inf%
-            
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Commission
-            </dt>
-             
-            <dd
-              id="page-profile__commission"
-            >
-              
-              5.00%
-            
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Slashes
-            </dt>
-             
-            <dd>
-              --
-            </dd>
-          </dl>
+          <tm-btn-stub
+            color="secondary"
+            id="undelegation-btn"
+            value="Undelegate"
+          />
         </div>
       </div>
     </div>
      
     <div
-      class="page-profile__section"
+      class="row"
     >
       <div
-        class="row"
+        class="row-unjustified"
       >
-        <div
-          class="column"
+        <dl
+          class="info_dl colored_dl"
         >
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              First Seen
-            </dt>
-             
-            <dd>
-              Block #0
-            </dd>
-          </dl>
+          <dt>
+            My Delegation
+          </dt>
            
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Full Operator Address
-            </dt>
-             
-            <dd>
-              cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Keybase ID
-            </dt>
-             
-            <dd>
-              
-              --
-            
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Website
-            </dt>
-             
-            <dd>
-              
-              www.monty.ca
-            
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Description
-            </dt>
-             
-            <dd
-              class="info_dl__text-box"
-            >
-              
-              Mr Mounty
-            
-            </dd>
-          </dl>
-        </div>
+          <dd>
+            --
+          </dd>
+        </dl>
          
-        <div
-          class="column"
+        <dl
+          class="info_dl colored_dl"
         >
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Current Commission Rate
-            </dt>
-             
-            <dd>
-              5.00%
-            </dd>
-          </dl>
+          <dt>
+            My Rewards
+          </dt>
            
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Max Commission Rate
-            </dt>
-             
-            <dd>
-              10.00%
-            </dd>
-          </dl>
+          <dd>
+            --
+          </dd>
+        </dl>
+      </div>
+       
+      <div
+        class="row-unjustified"
+      >
+        <dl
+          class="info_dl colored_dl"
+        >
+          <dt>
+            Voting Power
+          </dt>
            
-          <dl
-            class="info_dl"
+          <dd
+            id="page-profile__power"
           >
-            <dt>
-              Max Daily Commission Change
-            </dt>
-             
-            <dd>
-              0.50%
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Last Commission Change
-            </dt>
-             
-            <dd>
-              a few seconds ago
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Self Delegation
-            </dt>
-             
-            <dd
-              id="page-profile__self-bond"
-            >
-              
-              1.00%
             
-            </dd>
-          </dl>
-        </div>
+              0.33%
+            
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl colored_dl"
+        >
+          <dt>
+            Uptime
+          </dt>
+           
+          <dd
+            id="page-profile__uptime"
+          >
+            
+              99.6%
+            
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl colored_dl"
+        >
+          <dt>
+            Commission
+          </dt>
+           
+          <dd
+            id="page-profile__commission"
+          >
+            
+              5.00%
+            
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl colored_dl"
+        >
+          <dt>
+            Slashes
+          </dt>
+           
+          <dd>
+            --
+          </dd>
+        </dl>
       </div>
     </div>
-     
-    <delegation-modal-stub
-      denom="STAKE"
-      fromoptions="[object Object]"
-      to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
-      validator="[object Object]"
-    />
-     
-    <undelegation-modal-stub
-      denom="STAKE"
-      fromoptions="[object Object]"
-      maximum="100"
-      to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
-      validator="[object Object]"
-    />
-     
-    <!---->
-  </main>
-</div>
+  </div>
+   
+  <div
+    class="page-profile__section"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="column"
+      >
+        <dl
+          class="info_dl"
+        >
+          <dt>
+            First Seen
+          </dt>
+           
+          <dd>
+            Block #0
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl"
+        >
+          <dt>
+            Full Operator Address
+          </dt>
+           
+          <dd>
+            cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl"
+        >
+          <dt>
+            Keybase ID
+          </dt>
+           
+          <dd>
+            
+              --
+            
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl"
+        >
+          <dt>
+            Website
+          </dt>
+           
+          <dd>
+            
+              www.monty.ca
+            
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl"
+        >
+          <dt>
+            Description
+          </dt>
+           
+          <dd
+            class="info_dl__text-box"
+          >
+            
+              Mr Mounty
+            
+          </dd>
+        </dl>
+      </div>
+       
+      <div
+        class="column"
+      >
+        <dl
+          class="info_dl"
+        >
+          <dt>
+            Current Commission Rate
+          </dt>
+           
+          <dd>
+            5.00%
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl"
+        >
+          <dt>
+            Max Commission Rate
+          </dt>
+           
+          <dd>
+            10.00%
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl"
+        >
+          <dt>
+            Max Daily Commission Change
+          </dt>
+           
+          <dd>
+            0.50%
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl"
+        >
+          <dt>
+            Last Commission Change
+          </dt>
+           
+          <dd>
+            a few seconds ago
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl"
+        >
+          <dt>
+            Self Delegation
+          </dt>
+           
+          <dd
+            id="page-profile__self-bond"
+          >
+            
+              1.00%
+            
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+   
+  <delegation-modal-stub
+    denom="STAKE"
+    fromoptions="[object Object]"
+    to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+    validator="[object Object]"
+  />
+   
+  <undelegation-modal-stub
+    denom="STAKE"
+    fromoptions="[object Object]"
+    maximum="0"
+    to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+    validator="[object Object]"
+  />
+   
+  <!---->
+</tm-page-stub>
 `;
 
-exports[`Staking functions onUndelegation make sure there are enough atoms to unstake is not enough 1`] = `
-<div
-  class="tm-page"
+exports[`PageValidator shows a validator profile information if user hasn't signed in 1`] = `
+<tm-page-stub
   data-title="Validator"
+  subtitle=""
+  title=""
 >
-  <header
-    class="tm-page-header"
-  >
-    <div
-      class="tm-page-header-container"
-    >
-      <div
-        class="tm-page-header-text"
-      >
-        <!---->
-         
-        <!---->
-         
-        <div
-          class="tm-page-header-body"
-        >
-          <div
-            class="tool-bar"
-          >
-            <!---->
-             
-            <a
-              class="help"
-            >
-              <i
-                class="material-icons"
-              >
-                help_outline
-              </i>
-            </a>
-              
-            <router-link-stub
-              id="settings"
-              to="/preferences"
-            >
-              <i
-                class="material-icons"
-              >
-                settings
-              </i>
-            </router-link-stub>
-             
-            <a
-              id="signOut-btn"
-            >
-              <i
-                class="material-icons"
-              >
-                exit_to_app
-              </i>
-            </a>
-             
-            <!---->
-          </div>
-           
-          <div
-            class="header-balance"
-          >
-            <div
-              class="top"
-            >
-              <div
-                class="icon-container"
-              >
-                <img
-                  class="icon"
-                  src="~assets/images/cosmos-logo.png"
-                />
-              </div>
-               
-              <div
-                class="total-atoms top-section"
-              >
-                <h3>
-                  Total STAKE
-                </h3>
-                 
-                <h2
-                  class="total-atoms__value"
-                >
-                  
-        1,337.0000…
-      
-                </h2>
-              </div>
-               
-              <div
-                class="unbonded-atoms top-section"
-              >
-                <h3>
-                  Available STAKE
-                </h3>
-                 
-                <h2>
-                  1,337.0000…
-                </h2>
-              </div>
-            </div>
-             
-            <short-bech32-stub
-              address=""
-            />
-             
-          </div>
-           
-          <div
-            class="tool-bar"
-          >
-            <!---->
-             
-            <a
-              class="help"
-            >
-              <i
-                class="material-icons"
-              >
-                help_outline
-              </i>
-            </a>
-              
-            <router-link-stub
-              id="settings"
-              to="/preferences"
-            >
-              <i
-                class="material-icons"
-              >
-                settings
-              </i>
-            </router-link-stub>
-             
-            <a
-              id="signOut-btn"
-            >
-              <i
-                class="material-icons"
-              >
-                exit_to_app
-              </i>
-            </a>
-             
-            <!---->
-          </div>
-        </div>
-      </div>
-       
-      <menu
-        class="tm-page-header-menu"
-      />
-       
-      <div
-        class="tabs"
-      />
-       
-      <!---->
-    </div>
-  </header>
+  <!---->
    
-  <main
-    class="tm-page-main"
+  <div
+    class="page-profile__header page-profile__section"
   >
-    <!---->
-     
     <div
-      class="page-profile__header page-profile__section"
+      class="row"
     >
+      <img
+        class="avatar"
+        src="~assets/images/validator-icon.svg"
+      />
+       
       <div
-        class="row"
+        class="page-profile__header__info"
       >
-        <img
-          class="avatar"
-          src="~assets/images/validator-icon.svg"
-        />
-         
         <div
-          class="page-profile__header__info"
+          class="page-profile__status-and-title"
         >
+          <span
+            class="page-profile__status green"
+          />
+           
           <div
-            class="page-profile__status-and-title"
+            class="page-profile__title"
           >
-            <span
-              class="page-profile__status green"
-            />
-             
-            <div
-              class="page-profile__title"
-            >
-              
+            
               mr_mounty
             
-            </div>
-             
-            <short-bech32-stub
-              address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
-            />
           </div>
            
-          <div
-            class="page-profile__header__actions"
-          >
-            <button
-              class="tm-btn"
-              id="delegation-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--primary"
-              >
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Delegate
-                </span>
-              </span>
-            </button>
-             
-            <button
-              class="tm-btn"
-              id="undelegation-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--secondary"
-              >
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Undelegate
-                </span>
-              </span>
-            </button>
-          </div>
+          <short-bech32-stub
+            address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+          />
         </div>
+         
+        <div
+          class="page-profile__header__actions"
+        >
+          <tm-btn-stub
+            color="primary"
+            id="delegation-btn"
+            value="Delegate"
+          />
+           
+          <tm-btn-stub
+            color="secondary"
+            id="undelegation-btn"
+            value="Undelegate"
+          />
+        </div>
+      </div>
+    </div>
+     
+    <div
+      class="row"
+    >
+      <div
+        class="row-unjustified"
+      >
+        <dl
+          class="info_dl colored_dl"
+        >
+          <dt>
+            My Delegation
+          </dt>
+           
+          <dd>
+            --
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl colored_dl"
+        >
+          <dt>
+            My Rewards
+          </dt>
+           
+          <dd>
+            --
+          </dd>
+        </dl>
       </div>
        
       <div
-        class="row"
+        class="row-unjustified"
       >
-        <div
-          class="row-unjustified"
+        <dl
+          class="info_dl colored_dl"
         >
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              My Delegation
-            </dt>
-             
-            <dd>
-              --
-            </dd>
-          </dl>
+          <dt>
+            Voting Power
+          </dt>
            
-          <dl
-            class="info_dl colored_dl"
+          <dd
+            id="page-profile__power"
           >
-            <dt>
-              My Rewards
-            </dt>
-             
-            <dd>
-              --
-            </dd>
-          </dl>
-        </div>
+            
+              0.33%
+            
+          </dd>
+        </dl>
          
-        <div
-          class="row-unjustified"
+        <dl
+          class="info_dl colored_dl"
         >
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Voting Power
-            </dt>
-             
-            <dd
-              id="page-profile__power"
-            >
-              
-              100.00%
-            
-            </dd>
-          </dl>
+          <dt>
+            Uptime
+          </dt>
            
-          <dl
-            class="info_dl colored_dl"
+          <dd
+            id="page-profile__uptime"
           >
-            <dt>
-              Uptime
-            </dt>
-             
-            <dd
-              id="page-profile__uptime"
-            >
-              
-              -Inf%
             
-            </dd>
-          </dl>
+              99.6%
+            
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl colored_dl"
+        >
+          <dt>
+            Commission
+          </dt>
            
-          <dl
-            class="info_dl colored_dl"
+          <dd
+            id="page-profile__commission"
           >
-            <dt>
-              Commission
-            </dt>
-             
-            <dd
-              id="page-profile__commission"
-            >
-              
+            
               5.00%
             
-            </dd>
-          </dl>
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl colored_dl"
+        >
+          <dt>
+            Slashes
+          </dt>
            
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Slashes
-            </dt>
-             
-            <dd>
-              --
-            </dd>
-          </dl>
-        </div>
+          <dd>
+            --
+          </dd>
+        </dl>
       </div>
     </div>
-     
+  </div>
+   
+  <div
+    class="page-profile__section"
+  >
     <div
-      class="page-profile__section"
+      class="row"
     >
       <div
-        class="row"
+        class="column"
       >
-        <div
-          class="column"
+        <dl
+          class="info_dl"
         >
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              First Seen
-            </dt>
-             
-            <dd>
-              Block #0
-            </dd>
-          </dl>
+          <dt>
+            First Seen
+          </dt>
            
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Full Operator Address
-            </dt>
-             
-            <dd>
-              cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
-            </dd>
-          </dl>
+          <dd>
+            Block #0
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl"
+        >
+          <dt>
+            Full Operator Address
+          </dt>
            
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Keybase ID
-            </dt>
-             
-            <dd>
-              
+          <dd>
+            cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl"
+        >
+          <dt>
+            Keybase ID
+          </dt>
+           
+          <dd>
+            
               --
             
-            </dd>
-          </dl>
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl"
+        >
+          <dt>
+            Website
+          </dt>
            
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Website
-            </dt>
-             
-            <dd>
-              
+          <dd>
+            
               www.monty.ca
             
-            </dd>
-          </dl>
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl"
+        >
+          <dt>
+            Description
+          </dt>
            
-          <dl
-            class="info_dl"
+          <dd
+            class="info_dl__text-box"
           >
-            <dt>
-              Description
-            </dt>
-             
-            <dd
-              class="info_dl__text-box"
-            >
-              
+            
               Mr Mounty
             
-            </dd>
-          </dl>
-        </div>
-         
-        <div
-          class="column"
+          </dd>
+        </dl>
+      </div>
+       
+      <div
+        class="column"
+      >
+        <dl
+          class="info_dl"
         >
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Current Commission Rate
-            </dt>
-             
-            <dd>
-              5.00%
-            </dd>
-          </dl>
+          <dt>
+            Current Commission Rate
+          </dt>
            
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Max Commission Rate
-            </dt>
-             
-            <dd>
-              10.00%
-            </dd>
-          </dl>
+          <dd>
+            5.00%
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl"
+        >
+          <dt>
+            Max Commission Rate
+          </dt>
            
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Max Daily Commission Change
-            </dt>
-             
-            <dd>
-              0.50%
-            </dd>
-          </dl>
+          <dd>
+            10.00%
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl"
+        >
+          <dt>
+            Max Daily Commission Change
+          </dt>
            
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Last Commission Change
-            </dt>
-             
-            <dd>
-              a few seconds ago
-            </dd>
-          </dl>
+          <dd>
+            0.50%
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl"
+        >
+          <dt>
+            Last Commission Change
+          </dt>
            
-          <dl
-            class="info_dl"
+          <dd>
+            a few seconds ago
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl"
+        >
+          <dt>
+            Self Delegation
+          </dt>
+           
+          <dd
+            id="page-profile__self-bond"
           >
-            <dt>
-              Self Delegation
-            </dt>
-             
-            <dd
-              id="page-profile__self-bond"
-            >
-              
+            
               1.00%
             
-            </dd>
-          </dl>
-        </div>
+          </dd>
+        </dl>
       </div>
     </div>
-     
-    <delegation-modal-stub
-      denom="STAKE"
-      fromoptions="[object Object]"
-      to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
-      validator="[object Object]"
-    />
-     
-    <undelegation-modal-stub
-      denom="STAKE"
-      fromoptions="[object Object]"
-      maximum="0"
-      to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
-      validator="[object Object]"
-    />
-     
-    <div
-      class="tm-modal"
-    >
-      <div
-        class="tm-modal-container"
-      >
-        <header
-          class="tm-modal-header"
-        >
-          <!---->
-           
-          <div
-            class="tm-modal-title"
-          >
-            <div>
-              
-        Cannot Undelegate
-      
-            </div>
-          </div>
-           
-          <div
-            class="tm-modal-icon tm-modal-close"
-          >
-            <i
-              class="material-icons"
-            >
-              close
-            </i>
-          </div>
-        </header>
-         
-        <main
-          class="tm-modal-main"
-        >
-           
-          <p>
-            
-        You have no STAKEs
-         delegated to
-         this validator.
-      
-          </p>
-            
-          <footer
-            class="tm-modal-footer"
-          >
-            <div>
-              <button
-                class="tm-btn"
-                id="no-atoms-modal__btn"
-              >
-                <span
-                  class="tm-btn__container"
-                >
-                  <!---->
-                  <span
-                    class="tm-btn__value"
-                  >
-                    OK
-                  </span>
-                </span>
-              </button>
-            </div>
-          </footer>
-        </main>
-      </div>
-    </div>
-  </main>
-</div>
+  </div>
+   
+  <delegation-modal-stub
+    denom="STAKE"
+    fromoptions=""
+    to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+    validator="[object Object]"
+  />
+   
+  <undelegation-modal-stub
+    denom="STAKE"
+    fromoptions=""
+    maximum="0"
+    to=""
+    validator="[object Object]"
+  />
+   
+  <!---->
+</tm-page-stub>
 `;
 
-exports[`Staking functions onUndelegation make sure there are enough atoms to unstake is not enough 2`] = `
-<div
-  class="tm-page"
-  data-title="Validator"
->
-  <header
-    class="tm-page-header"
-  >
-    <div
-      class="tm-page-header-container"
-    >
-      <div
-        class="tm-page-header-text"
-      >
-        <!---->
-         
-        <!---->
-         
-        <div
-          class="tm-page-header-body"
-        >
-          <div
-            class="tool-bar"
-          >
-            <!---->
-             
-            <a
-              class="help"
-            >
-              <i
-                class="material-icons"
-              >
-                help_outline
-              </i>
-            </a>
-              
-            <router-link-stub
-              id="settings"
-              to="/preferences"
-            >
-              <i
-                class="material-icons"
-              >
-                settings
-              </i>
-            </router-link-stub>
-             
-            <a
-              id="signOut-btn"
-            >
-              <i
-                class="material-icons"
-              >
-                exit_to_app
-              </i>
-            </a>
-             
-            <!---->
-          </div>
-           
-          <div
-            class="header-balance"
-          >
-            <div
-              class="top"
-            >
-              <div
-                class="icon-container"
-              >
-                <img
-                  class="icon"
-                  src="~assets/images/cosmos-logo.png"
-                />
-              </div>
-               
-              <div
-                class="total-atoms top-section"
-              >
-                <h3>
-                  Total STAKE
-                </h3>
-                 
-                <h2
-                  class="total-atoms__value"
-                >
-                  
-        1,337.0000…
-      
-                </h2>
-              </div>
-               
-              <div
-                class="unbonded-atoms top-section"
-              >
-                <h3>
-                  Available STAKE
-                </h3>
-                 
-                <h2>
-                  1,337.0000…
-                </h2>
-              </div>
-            </div>
-             
-            <short-bech32-stub
-              address=""
-            />
-             
-          </div>
-           
-          <div
-            class="tool-bar"
-          >
-            <!---->
-             
-            <a
-              class="help"
-            >
-              <i
-                class="material-icons"
-              >
-                help_outline
-              </i>
-            </a>
-              
-            <router-link-stub
-              id="settings"
-              to="/preferences"
-            >
-              <i
-                class="material-icons"
-              >
-                settings
-              </i>
-            </router-link-stub>
-             
-            <a
-              id="signOut-btn"
-            >
-              <i
-                class="material-icons"
-              >
-                exit_to_app
-              </i>
-            </a>
-             
-            <!---->
-          </div>
-        </div>
-      </div>
-       
-      <menu
-        class="tm-page-header-menu"
-      />
-       
-      <div
-        class="tabs"
-      />
-       
-      <!---->
-    </div>
-  </header>
-   
-  <main
-    class="tm-page-main"
-  >
-    <!---->
-     
-    <div
-      class="page-profile__header page-profile__section"
-    >
-      <div
-        class="row"
-      >
-        <img
-          class="avatar"
-          src="~assets/images/validator-icon.svg"
-        />
-         
-        <div
-          class="page-profile__header__info"
-        >
-          <div
-            class="page-profile__status-and-title"
-          >
-            <span
-              class="page-profile__status green"
-            />
-             
-            <div
-              class="page-profile__title"
-            >
-              
-              mr_mounty
-            
-            </div>
-             
-            <short-bech32-stub
-              address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
-            />
-          </div>
-           
-          <div
-            class="page-profile__header__actions"
-          >
-            <button
-              class="tm-btn"
-              id="delegation-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--primary"
-              >
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Delegate
-                </span>
-              </span>
-            </button>
-             
-            <button
-              class="tm-btn"
-              id="undelegation-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--secondary"
-              >
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Undelegate
-                </span>
-              </span>
-            </button>
-          </div>
-        </div>
-      </div>
-       
-      <div
-        class="row"
-      >
-        <div
-          class="row-unjustified"
-        >
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              My Delegation
-            </dt>
-             
-            <dd>
-              --
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              My Rewards
-            </dt>
-             
-            <dd>
-              --
-            </dd>
-          </dl>
-        </div>
-         
-        <div
-          class="row-unjustified"
-        >
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Voting Power
-            </dt>
-             
-            <dd
-              id="page-profile__power"
-            >
-              
-              100.00%
-            
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Uptime
-            </dt>
-             
-            <dd
-              id="page-profile__uptime"
-            >
-              
-              -Inf%
-            
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Commission
-            </dt>
-             
-            <dd
-              id="page-profile__commission"
-            >
-              
-              5.00%
-            
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Slashes
-            </dt>
-             
-            <dd>
-              --
-            </dd>
-          </dl>
-        </div>
-      </div>
-    </div>
-     
-    <div
-      class="page-profile__section"
-    >
-      <div
-        class="row"
-      >
-        <div
-          class="column"
-        >
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              First Seen
-            </dt>
-             
-            <dd>
-              Block #0
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Full Operator Address
-            </dt>
-             
-            <dd>
-              cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Keybase ID
-            </dt>
-             
-            <dd>
-              
-              --
-            
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Website
-            </dt>
-             
-            <dd>
-              
-              www.monty.ca
-            
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Description
-            </dt>
-             
-            <dd
-              class="info_dl__text-box"
-            >
-              
-              Mr Mounty
-            
-            </dd>
-          </dl>
-        </div>
-         
-        <div
-          class="column"
-        >
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Current Commission Rate
-            </dt>
-             
-            <dd>
-              5.00%
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Max Commission Rate
-            </dt>
-             
-            <dd>
-              10.00%
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Max Daily Commission Change
-            </dt>
-             
-            <dd>
-              0.50%
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Last Commission Change
-            </dt>
-             
-            <dd>
-              a few seconds ago
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Self Delegation
-            </dt>
-             
-            <dd
-              id="page-profile__self-bond"
-            >
-              
-              1.00%
-            
-            </dd>
-          </dl>
-        </div>
-      </div>
-    </div>
-     
-    <delegation-modal-stub
-      denom="STAKE"
-      fromoptions="[object Object]"
-      to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
-      validator="[object Object]"
-    />
-     
-    <undelegation-modal-stub
-      denom="STAKE"
-      fromoptions="[object Object]"
-      maximum="0"
-      to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
-      validator="[object Object]"
-    />
-     
-    <!---->
-  </main>
-</div>
-`;
+exports[`PageValidator shows a validator profile information shows a validator as candidate if he has no voting_power 1`] = `"This validator does not have enough voting power yet and is inactive"`;
+
+exports[`PageValidator shows a validator profile information shows that a validator is revoked 1`] = `"This validator has been jailed and is not currently validating"`;
 
 exports[`delegationTargetOptions always shows wallet in the first position 1`] = `
 Array [

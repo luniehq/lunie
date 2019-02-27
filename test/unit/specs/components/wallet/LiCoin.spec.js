@@ -1,13 +1,12 @@
-import setup from "../../../helpers/vuex-setup"
+import { shallowMount } from "@vue/test-utils"
 import num from "scripts/num"
 import LiCoin from "renderer/components/wallet/LiCoin"
 
 describe(`LiCoin`, () => {
   let wrapper
-  const { mount } = setup()
 
   beforeEach(() => {
-    const instance = mount(LiCoin, {
+    wrapper = shallowMount(LiCoin, {
       propsData: {
         coin: {
           denom: `Stake`,
@@ -15,7 +14,6 @@ describe(`LiCoin`, () => {
         }
       }
     })
-    wrapper = instance.wrapper
   })
 
   it(`has the expected html structure`, () => {

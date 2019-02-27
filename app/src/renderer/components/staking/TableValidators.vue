@@ -54,8 +54,8 @@ export default {
       `bondDenom`,
       `keybase`
     ]),
-    address() {
-      return this.session.address
+    signedIn() {
+      return this.session.signedIn
     },
     vpTotal() {
       return this.validators
@@ -138,16 +138,6 @@ export default {
           class: `slashes`
         }
       ]
-    }
-  },
-  watch: {
-    address: function(address) {
-      address && this.updateDelegates()
-    }
-  },
-  methods: {
-    updateDelegates() {
-      this.$store.dispatch(`updateDelegates`)
     }
   }
 }

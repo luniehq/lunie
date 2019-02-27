@@ -13,6 +13,7 @@ const faucet = process.env.FAUCET || `https://faucet.voyager.ninja`
 
 export default {
   name: `Cosmos Voyager`,
+  development: dev,
   default_network: `${dev ? `local-` : ``}testnet`,
   denoms: [`stake`, `photino`],
   stargate,

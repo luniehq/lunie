@@ -50,19 +50,23 @@ export default () => {
     },
     async pollLedgerDevice({ state }) {
       // poll device with low timeout to check if the device is connected
-      const secondsTimeout = 2 // with less than 2 secs it always timeouts
+      const secondsTimeout = 3 // a lower value always timeouts
       const communicationMethod = await state.externals.comm_u2f.create_async(
         secondsTimeout,
         true
       )
       const cosmosLedgerApp = new state.externals.App(communicationMethod)
-      const response = await cosmosLedgerApp.get_version()
+
+      // check if the device is connected or on screensaver mode
+      const response = await cosmosLedgerApp.publicKey(HDPATH)
 
       switch (response.error_message) {
         case `U2F: Timeout`:
           throw new Error(`No Ledger found`)
         case `Cosmos app does not seem to be open`:
           throw new Error(`Cøsmos app is not open`)
+        case `Unknown error code`: // TODO: create error for screensaver mode
+          throw new Error(`Ledger's screensaver mode is on`)
         case `No errors`:
           // do nothing
           break

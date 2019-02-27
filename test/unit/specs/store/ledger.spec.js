@@ -117,7 +117,7 @@ describe(`Module: Ledger`, () => {
       describe(`poll Ledger device`, () => {
         it(`when Ledger is connected and app is open`, async () => {
           state.externals.App = () => ({
-            get_version: () =>
+            publicKey: () =>
               Promise.resolve({
                 error_message: `No errors`
               })
@@ -129,7 +129,7 @@ describe(`Module: Ledger`, () => {
 
         it(`when Ledger is connected but app is not open`, async () => {
           state.externals.App = () => ({
-            get_version: () =>
+            publicKey: () =>
               Promise.resolve({
                 error_message: `Cosmos app does not seem to be open`
               })
@@ -141,7 +141,7 @@ describe(`Module: Ledger`, () => {
 
         it(`when Ledger not connected`, async () => {
           state.externals.App = () => ({
-            get_version: () =>
+            publicKey: () =>
               Promise.resolve({
                 error_message: `U2F: Timeout`
               })
@@ -151,15 +151,27 @@ describe(`Module: Ledger`, () => {
           )
         })
 
-        it(`fails due to other error`, async () => {
+        it(`when Ledger is on screensaver mode`, async () => {
           state.externals.App = () => ({
-            get_version: () =>
+            publicKey: () =>
               Promise.resolve({
-                error_message: `Device is busy`
+                error_message: `Unknown error code`
               })
           })
           await expect(actions.pollLedgerDevice({ state })).rejects.toThrow(
-            `Device is busy`
+            `Ledger's screensaver mode is on`
+          )
+        })
+
+        it(`fails if publicKey throws`, async () => {
+          state.externals.App = () => ({
+            publicKey: () =>
+              Promise.resolve({
+                error_message: `Execution Error`
+              })
+          })
+          await expect(actions.pollLedgerDevice({ state })).rejects.toThrow(
+            `Execution Error`
           )
         })
       })
