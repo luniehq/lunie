@@ -15,6 +15,10 @@ export default ({ node }) => {
     subscribedRPC: null
   }
   const state = JSON.parse(JSON.stringify(emptyState))
+  state.externals = {
+    axios,
+    config
+  }
 
   const mutations = {
     setWalletBalances(state, balances) {
@@ -144,8 +148,8 @@ export default ({ node }) => {
         )
       })
     },
-    async getMoney(_, address) {
-      return (await axios.get(`${config.faucet}/${address}`))
+    async getMoney({ state }, address) {
+      return state.externals.axios.get(`${state.externals.config.faucet}/${address}`)
     },
   }
 

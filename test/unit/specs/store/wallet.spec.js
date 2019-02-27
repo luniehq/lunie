@@ -10,9 +10,9 @@ const mockRootState = {
   },
   session: { signedIn: true }
 }
-const mockFaucet = `http://gimme.money`
-const mockDenoms = [`mycoin`, `fermion`, `STAKE`]
-jest.mock(`src/config.js`, () => ({ denoms: mockDenoms, faucet: mockFaucet }))
+const faucet = `http://gimme.money`
+const denoms = [`mycoin`, `fermion`, `STAKE`]
+const config = {faucet, denoms}
 
 describe(`Module: Wallet`, () => {
   let instance, actions, state
@@ -21,6 +21,12 @@ describe(`Module: Wallet`, () => {
     instance = walletModule({ node: {} })
     state = instance.state
     actions = instance.actions
+    state.externals = {
+      config,
+      axios: {
+        get: jest.fn(() => Promise.resolve(`ok`))
+      }
+    }
   })
 
   // DEFAULT
@@ -77,6 +83,13 @@ describe(`Module: Wallet`, () => {
   })
 
   describe(`actions`, () => {
+    it(`should fetch money`, async () => {
+      const { state, actions } = instance
+      const address = `X`
+      await actions.getMoney({ state }, address)
+      expect(state.externals.axios.get).toHaveBeenCalledWith(`${faucet}/${address}`)
+    })
+
     it(`should initialize wallet`, async () => {
       const { actions } = instance
 
@@ -289,15 +302,5 @@ describe(`Module: Wallet`, () => {
         amount: 988
       })
     })
-  })
-
-  it(`should fetch money`, async () => {
-    const mockAxios = {
-      get: jest.fn(() => Promise.resolve(`ok`))
-    }
-    jest.mock(`axios`, () => mockAxios)
-    await instance.actions.getMoney.call({}, `X`)
-    expect(mockAxios.get).toHaveBeenCalledWith(`${mockFaucet}/X`)
-    expect(mockAxios.get).toHaveBeenCalled()
   })
 })
