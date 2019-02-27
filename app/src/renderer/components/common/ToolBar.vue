@@ -2,32 +2,29 @@
   <div class="tool-bar">
     <a
       v-if="!!refresh"
-      v-tooltip.bottom="'Refresh'"
       :disabled="!refresh.connected"
       class="refresh-button"
       @click="refresh.connected && refresh.refresh()"
     >
-      <i class="material-icons">refresh</i>
+      <i class="material-icons" v-tooltip.bottom="'Refresh'">refresh</i>
     </a>
-    <a v-tooltip.bottom="'Help'" class="help" @click="enableModalHelp">
-      <i class="material-icons">help_outline</i>
+    <a class="help" @click="enableModalHelp">
+      <i class="material-icons" v-tooltip.bottom="'Help'">help_outline</i>
     </a>
     <slot />
     <router-link
       v-if="session.signedIn"
       id="settings"
-      v-tooltip.bottom="'Preferences'"
       to="/preferences"
     >
-      <i class="material-icons">settings</i>
+      <i class="material-icons" v-tooltip.bottom="'Preferences'">settings</i>
     </router-link>
     <a
       v-if="session.signedIn"
       id="signOut-btn"
-      v-tooltip.bottom.end="'Sign Out'"
       @click="signOut()"
     >
-      <i class="material-icons">exit_to_app</i>
+      <i class="material-icons" v-tooltip.bottom.end="'Sign Out'">exit_to_app</i>
     </a>
     <tm-btn
       v-if="!session.signedIn"
@@ -70,18 +67,15 @@ export default {
 }
 </script>
 <style>
-.tm-page-header-text {
-  padding-right: 1rem;
-}
-
 .tool-bar {
   display: flex;
   align-items: center;
   height: fit-content;
+  padding: 1rem 0 0;
 }
 
 .tool-bar a {
-  padding: 0 0.5rem;
+  padding: 0 0 0 1.5rem;
   color: var(--dim);
   display: flex;
   align-items: center;

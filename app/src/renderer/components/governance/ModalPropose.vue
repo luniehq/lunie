@@ -204,6 +204,6 @@ export default {
 </script>
 <style>
 .textarea-large {
-  min-height: 240px;
+  min-height: 200px;
 }
 </style>
