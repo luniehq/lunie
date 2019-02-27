@@ -85,7 +85,7 @@ describe(`PageValidator`, () => {
     })
   })
 
-  describe(`has the expected html structure`, () => {
+  describe(`shows a validator profile information`, () => {
     it(`if user has signed in`, () => {
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
@@ -181,7 +181,8 @@ describe(`PageValidator`, () => {
         $store.getters.delegates.delegates = [Object.assign({}, validator, {
           signing_info: undefined
         })]
-        expect(wrapper.vm.status).toMatchSnapshot()
+        // still shows the validator without crashing
+        expect(wrapper.vm.$el).toMatchSnapshot()
       })
     })
   })
