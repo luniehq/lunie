@@ -46,13 +46,9 @@ export default {
   name: `tool-bar`,
   components: { TmBtn },
   props: {
-    connected: {
-      type: Boolean,
-      required: false
-    },
     refresh: {
-      type: Function,
-      required: false
+      type: Object,
+      default: undefined
     }
   },
   computed: {

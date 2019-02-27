@@ -139,19 +139,6 @@ export default {
         }
       ]
     }
-  },
-  watch: {
-    signedIn: function(signedIn) {
-      signedIn && this.updateDelegates()
-    }
-  },
-  mounted() {
-    this.updateDelegates()
-  },
-  methods: {
-    updateDelegates() {
-      this.$store.dispatch(`updateDelegates`)
-    }
   }
 }
 </script>

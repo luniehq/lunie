@@ -13,11 +13,15 @@ describe(`TabValidators`, () => {
       loading: false,
       loaded: true
     },
+    session: {
+      signedIn: true
+    },
     connected: true
   }
 
   beforeEach(async () => {
     $store = {
+      dispatch: jest.fn(),
       getters
     }
 
@@ -28,17 +32,21 @@ describe(`TabValidators`, () => {
     })
   })
 
-  it(`has the expected html structure`, async () => {
+  it(`shows a list of validators`, async () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`shows a message if still connecting`, async () => {
     $store = {
+      dispatch: jest.fn(),
       getters: {
         delegates: {
           delegates,
           loading: false,
           loaded: false
+        },
+        session: {
+          signedIn: true
         },
         connected: false
       }
@@ -55,11 +63,15 @@ describe(`TabValidators`, () => {
 
   it(`shows a message if still loading`, async () => {
     $store = {
+      dispatch: jest.fn(),
       getters: {
         delegates: {
           delegates,
           loading: true,
           loaded: false
+        },
+        session: {
+          signedIn: true
         },
         connected: true
       }
@@ -76,11 +88,15 @@ describe(`TabValidators`, () => {
 
   it(`shows a message if there is nothing to display`, async () => {
     $store = {
+      dispatch: jest.fn(),
       getters: {
         delegates: {
           delegates: [],
           loading: false,
           loaded: true
+        },
+        session: {
+          signedIn: true
         },
         connected: true
       }
@@ -93,5 +109,25 @@ describe(`TabValidators`, () => {
     })
 
     expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
+  it(`queries for validators and delegations on mount`, () => {
+    const dispatch = jest.fn()
+    TabValidators.mounted.call({
+      $store: {
+        dispatch
+      }
+    })
+    expect(dispatch).toHaveBeenCalledWith(`updateDelegates`)
+  })
+
+  it(`queries for validators and delegations on sign in`, () => {
+    const dispatch = jest.fn()
+    TabValidators.watch[`session.signedIn`].call({
+      $store: {
+        dispatch
+      }
+    }, true)
+    expect(dispatch).toHaveBeenCalledWith(`updateDelegates`)
   })
 })
