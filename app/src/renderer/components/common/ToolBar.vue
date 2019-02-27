@@ -47,16 +47,9 @@ export default {
   components: { TmBtn },
   props: {
     refresh: {
-      connected: {
-        type: Boolean,
-        required: true
-      },
-      refresh: {
-        type: Function,
-        required: true
-      }
-    },
-    default: undefined
+      type: Object,
+      default: undefined
+    }
   },
   computed: {
     ...mapGetters([`session`])
