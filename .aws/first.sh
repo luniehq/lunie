@@ -14,8 +14,8 @@ aws s3 rm s3://cosmos-gaia/genesis.json
 NODEID=$(./gaiad tendermint show-node-id --home .)
 
 # Create our main account and add it to the genesis with a lot of money
-echo ${PASSWORD} | ./gaiacli keys add ${ACCOUNT} --home . > main_node.log
-./gaiad add-genesis-account $(./gaiacli keys show ${ACCOUNT} --home . --address) 100000000stake,100000photino,123cococoin --home .
+echo ${PASSWORD} | ./gaiacli keys add ${ACCOUNT} --home . > account_address.log
+./gaiad add-genesis-account $(./gaiacli keys show ${ACCOUNT} --home . --address) 100000000000000000stake,999000000000photino,123123123123cococoin --home .
 
 echo ${PASSWORD} | ./gaiad gentx --name ${ACCOUNT} --home . --home-client .
 ./gaiad collect-gentxs --home .
