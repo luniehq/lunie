@@ -325,7 +325,7 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
         </dt>
          
         <dd>
-          100
+          0.00001
         </dd>
       </dl>
     </div>
@@ -345,7 +345,7 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
         </dt>
          
         <dd>
-          10 / 10%
+          0.000001 / 10%
         </dd>
       </dl>
        
@@ -357,7 +357,7 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
         </dt>
          
         <dd>
-          20 / 20%
+          0.000002 / 20%
         </dd>
       </dl>
        
@@ -369,7 +369,7 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
         </dt>
          
         <dd>
-          30 / 30%
+          0.000003 / 30%
         </dd>
       </dl>
        
@@ -381,7 +381,7 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
         </dt>
          
         <dd>
-          40 / 40%
+          0.000004 / 40%
         </dd>
       </dl>
     </div>

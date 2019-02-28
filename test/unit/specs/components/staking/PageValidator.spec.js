@@ -196,11 +196,11 @@ describe(`PageValidator`, () => {
   describe(`myDelegation`, () => {
     it(`when user has delegations`, () => {
       const bondDenom = `stake`
-      const myBond = 10
+      const myBond = 100000000
       const delegationString = PageValidator.computed.myDelegation.call(
         { bondDenom, myBond }
       )
-      expect(delegationString).toBe(`10.00 stake`)
+      expect(delegationString).toBe(`10.0000000000 stake`)
     })
 
     it(`when user doesn't have any delegations`, () => {
@@ -225,14 +225,14 @@ describe(`PageValidator`, () => {
       const distribution = {
         rewards: {
           [validator.operator_address]: {
-            [bondDenom]: 10
+            [bondDenom]: 100000000
           }
         }
       }
       const rewardsString = PageValidator.computed.rewards.call(
         { session, bondDenom, distribution, validator }
       )
-      expect(rewardsString).toBe(`10.00 stake`)
+      expect(rewardsString).toBe(`10.0000000000 stake`)
     })
 
     it(`when validator rewards are 0`, () => {
@@ -246,7 +246,7 @@ describe(`PageValidator`, () => {
       const rewardsString = PageValidator.computed.rewards.call(
         { session, bondDenom, distribution, validator }
       )
-      expect(rewardsString).toBe(`0.00 stake`)
+      expect(rewardsString).toBe(`0.0000000000 stake`)
     })
 
     it(`when user doesn't have any delegations`, () => {

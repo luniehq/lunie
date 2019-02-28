@@ -52,7 +52,7 @@ exports[`TmBalance has the expected html structure before adding props 1`] = `
       </h3>
        
       <h2>
-        100.05K
+        100,045.0000…
       </h2>
     </div>
   </div>

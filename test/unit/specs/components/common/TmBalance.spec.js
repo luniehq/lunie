@@ -8,14 +8,15 @@ describe(`TmBalance`, () => {
     $store = {
       getters: {
         session: {
-          address: `cosmos1address`
+          address: `cosmos1address`,
+          signedIn: true
         },
-        liquidAtoms: 123,
-        totalAtoms: 321,
+        liquidAtoms: 1230000000,
+        totalAtoms: 3210000000,
         bondDenom: `stake`,
         distribution: {
           totalRewards: {
-            stake: 100045
+            stake: 1000450000000
           }
         }
       }
@@ -36,6 +37,6 @@ describe(`TmBalance`, () => {
     expect(wrapper.vm.unbondedAtoms).toBe(`123.0000…`)
   })
   it(`gets user rewards`, () => {
-    expect(wrapper.vm.rewards).toBe(100045)
+    expect(wrapper.vm.rewards).toBe(`100,045.0000…`)
   })
 })

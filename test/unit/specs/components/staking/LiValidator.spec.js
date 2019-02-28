@@ -178,11 +178,11 @@ describe(`LiValidator`, () => {
   it(`shows rewards`, () => {
     $store.getters.distribution.rewards = {
       [validator.operator_address]: {
-        stake: 1234
+        stake: 1230000000
       }
     }
 
-    expect(wrapper.find(`.li-validator__rewards`).html()).toContain(`1.23K`)
+    expect(wrapper.find(`.li-validator__rewards`).html()).toContain(`123.0000…`)
   })
 
   it(`works if user is not signed in`, () => {

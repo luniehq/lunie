@@ -38,7 +38,7 @@
     <td class="li-validator__delegated-steak">
       {{
         yourVotes.isLessThan(0.01) && yourVotes.isGreaterThan(0)
-          ? "< " + num.shortNumber(0.01) // eslint-disable-line
+          ? num.shortNumber(0.01)
           : num.shortNumber(yourVotes)
       }}
     </td>
@@ -106,9 +106,15 @@ export default {
     },
     yourVotes() {
       return this.committedDelegations[this.validator.operator_address]
-        ? calculateTokens(
-          this.validator,
-          this.committedDelegations[this.validator.operator_address]
+        ? BigNumber(
+          num
+            .atoms(
+              calculateTokens(
+                this.validator,
+                this.committedDelegations[this.validator.operator_address]
+              )
+            )
+            .toString()
         )
         : BigNumber(0)
     },
@@ -156,7 +162,9 @@ export default {
       const validatorRewards = this.distribution.rewards[
         this.validator.operator_address
       ]
-      return validatorRewards ? this.num.short(validatorRewards[this.bondDenom]) || 0 : null
+      return validatorRewards ? num.shortNumber(
+        num.atoms(validatorRewards[this.bondDenom]) || 0
+        ) : null
     }
   },
   watch: {

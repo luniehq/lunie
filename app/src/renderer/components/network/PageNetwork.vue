@@ -40,7 +40,9 @@
             <dl class="info_dl">
               <dt>Total Liquid {{ bondDenom }}</dt>
               <dd id="loose_tokens">
-                {{ pool.pool.not_bonded_tokens ? num.pretty(pool.pool.not_bonded_tokens) : `n/a` }}
+                {{ pool.pool.not_bonded_tokens ? num.pretty(
+                  num.atoms(pool.pool.not_bonded_tokens)
+                  ) : `n/a` }}
               </dd>
             </dl>
           </div>
@@ -48,15 +50,9 @@
             <dl class="info_dl">
               <dt>Total Delegated {{ bondDenom }}</dt>
               <dd id="bonded_tokens">
-                {{ pool.pool.bonded_tokens ? num.pretty(pool.pool.bonded_tokens) : `n/a` }}
-              </dd>
-            </dl>
-          </div>
-          <div class="column">
-            <dl class="info_dl">
-              <dt>Unclaimed {{ bondDenom }} rewards</dt>
-              <dd id="outstanding_rewards">
-                {{ outstandingRewards ? outstandingRewards : `n/a` }}
+                {{ pool.pool.bonded_tokens ? num.pretty(
+                  num.atoms(pool.pool.bonded_tokens)
+                  ) : `n/a` }}
               </dd>
             </dl>
           </div>
@@ -109,7 +105,6 @@ export default {
       `connected`,
       `lastHeader`,
       `delegates`,
-      `distribution`,
       `pool`,
       `bondDenom`,
       `blocks`
@@ -124,9 +119,6 @@ export default {
     lastBlock() {
       moment.relativeTimeThreshold(`ss`, 1)
       return moment(this.lastHeader.time).fromNow()
-    },
-    outstandingRewards() {
-      return this.num.pretty(this.distribution.outstandingRewards[this.bondDenom] || 0)
     },
     properties() {
       return [
@@ -143,14 +135,6 @@ export default {
           class: `transactions`
         }
       ]
-    }
-  },
-  watch: {
-    lastHeader: {
-      immediate: true,
-      handler() {
-        this.$store.dispatch(`getOutstandingRewards`)
-      }
     }
   },
   mounted() {

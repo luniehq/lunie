@@ -24,11 +24,6 @@ describe(`PageNetwork`, () => {
           }
         ]
       },
-      distribution: {
-        outstandingRewards: {
-          stake: 14712
-        }
-      },
       session: {
         devMode: true
       },
@@ -97,19 +92,6 @@ describe(`PageNetwork`, () => {
 
   it(`sets last block to something human readable`, () => {
     expect(wrapper.vm.lastBlock).toEqual(`a few seconds ago`)
-  })
-
-  it(`fetches the outstanding rewards`, () => {
-    expect(wrapper.vm.outstandingRewards).toEqual(`14,712.00`)
-  })
-
-  it(`displays 0 outsanding rewards`, () => {
-    $store.getters.distribution.outstandingRewards.stake = 0
-    wrapper = shallowMount(PageNetwork, {
-      localVue,
-      mocks: { $store }
-    })
-    expect(wrapper.vm.outstandingRewards).toEqual(`0.00`)
   })
 
   it(`sets properties for the block table`, () => {

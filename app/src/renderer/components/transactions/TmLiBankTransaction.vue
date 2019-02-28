@@ -6,7 +6,7 @@
   >
     <template v-if="sent">
       <div slot="caption">
-        Sent&nbsp;<b>{{ coins.amount }}</b><span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
+        Sent&nbsp;<b>{{ atoms(coins.amount) }}</b><span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
       </div>
       <span
         slot="details"
@@ -23,7 +23,7 @@
       </span>
     </template><template v-else>
       <div slot="caption">
-        Received&nbsp;<b>{{ coins.amount }}</b><span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
+        Received&nbsp;<b>{{ atoms(coins.amount) }}</b><span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
       </div>
       <span slot="details">From {{ sender }}</span>
     </template>
@@ -32,6 +32,7 @@
 
 <script>
 import TmLiTransaction from "./TmLiTransaction"
+import { atoms } from "../../scripts/num.js"
 import colors from "./transaction-colors.js"
 
 export default {
@@ -47,6 +48,9 @@ export default {
       default: null
     }
   },
+  data: () => ({
+    atoms
+  }),
   computed: {
     tx() {
       return this.transaction.tx.value.msg[0].value

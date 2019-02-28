@@ -102,7 +102,7 @@ exports[`PageNetwork has the expected html structure 1`] = `
             id="loose_tokens"
           >
             
-              10.00
+              0.00
             
           </dd>
         </dl>
@@ -122,27 +122,7 @@ exports[`PageNetwork has the expected html structure 1`] = `
             id="bonded_tokens"
           >
             
-              125.00
-            
-          </dd>
-        </dl>
-      </div>
-       
-      <div
-        class="column"
-      >
-        <dl
-          class="info_dl"
-        >
-          <dt>
-            Unclaimed stake rewards
-          </dt>
-           
-          <dd
-            id="outstanding_rewards"
-          >
-            
-              14,712.00
+              0.00
             
           </dd>
         </dl>

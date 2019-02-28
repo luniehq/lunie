@@ -267,7 +267,7 @@ exports[`Component: TabMyDelegations should show unbonding validators and the cu
               class="li-validator__delegated-steak"
             >
               
-    1.0000…
+    0.0100…
   
             </td>
              
@@ -359,7 +359,7 @@ exports[`Component: TabMyDelegations should show unbonding validators and the cu
       Undelegated 
                   <b>
                     
-          5
+          50
         
                   </b>
                   <span>
