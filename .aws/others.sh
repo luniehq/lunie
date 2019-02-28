@@ -8,7 +8,7 @@ MAINNODEID=a93accb0af3dfda1f40063bd45857c4808ba2d9b
 MAINNODEIP=172.31.35.89
 MAINACCOUNT=main_account
 NETWORK=testnet
-VALIDATOR_AMOUNT=3stake
+VALIDATOR_AMOUNT=10000000stake
 
 # Initialize local node with a secondary account
 ./gaiad init ${ACCOUNT} --home . --chain-id ${NETWORK}
@@ -16,7 +16,7 @@ VALIDATOR_AMOUNT=3stake
 GENESIS=`aws s3 ls s3://cosmos-gaia/genesis.json | grep genesis.json`
 while [[ -z "$GENESIS" ]]; do
     sleep 3s
-    ISTHERE=`aws s3 ls s3://cosmos-gaia/genesis.json | grep genesis.json`
+    GENESIS=`aws s3 ls s3://cosmos-gaia/genesis.json | grep genesis.json`
 done
 aws s3 cp s3://cosmos-gaia/genesis.json config/genesis.json
 
@@ -47,4 +47,4 @@ do
     sleep 3s
 done
 
-echo ${PASSWORD} | ./gaiacli tx staking create-validator --home . --from ${ACCOUNT} --amount=${VALIDATOR_AMOUNT} --pubkey=${PUBKEY} --address-delegator=${ADDRESS} --moniker=${ACCOUNT} --chain-id=${NETWORK} --commission-max-change-rate=0 --commission-max-rate=0 --commission-rate=0 --min-self-delegation=1 -json
+echo ${PASSWORD} | ./gaiacli tx staking create-validator --home . --from ${ACCOUNT} --amount=${VALIDATOR_AMOUNT} --pubkey=${PUBKEY} --address-delegator=${ADDRESS} --moniker=${ACCOUNT} --chain-id=${NETWORK} --commission-max-change-rate=0 --commission-max-rate=0 --commission-rate=0 --min-self-delegation=1
