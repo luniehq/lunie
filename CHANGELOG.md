@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
-- [\#2118](https://github.com/cosmos/voyager/pull/2118) fix ec2 setup @sabau
+- [\#2087](https://github.com/cosmos/voyager/issues/2087) More resilient scripts on Ec2 instances, added validators @sabau
 
 ## [1.0.0-beta.9] - 2019-02-28
 
