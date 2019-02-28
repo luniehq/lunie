@@ -122,7 +122,7 @@ const rendererConfig = {
         STARGATE: JSON.stringify(process.env.STARGATE),
         RELEASE: JSON.stringify(commitHash)
       }
-    }),    
+    }),
     new HtmlWebpackPlugin({
       filename: `index.html`,
       template: `./app/index.ejs`,
