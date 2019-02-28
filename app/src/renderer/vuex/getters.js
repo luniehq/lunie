@@ -45,7 +45,7 @@ export const oldBondedAtoms = (state, getters) => {
     delegatorAddress => {
       const shares = getters.delegation.committedDelegates[delegatorAddress]
       const delegator = getters.delegates.delegates.find(
-        d => d.id === delegatorAddress
+        d => d.operator_address === delegatorAddress
       )
       if (!delegator) {
         return
@@ -58,8 +58,8 @@ export const oldBondedAtoms = (state, getters) => {
   return totalOldBondedAtoms.toString()
 }
 
-export const oldUnbondingAtoms = (state, getters) => {
-  return Object.values(getters.delegation.unbondingDelegations).reduce(
+export const oldUnbondingAtoms = state => {
+  return Object.values(state.delegation.unbondingDelegations).reduce(
     (atoms, { balance }) => {
       return atoms + balance.amount
     },

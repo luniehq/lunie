@@ -6,6 +6,7 @@
     :validate="validateForm"
     title="Send"
     submission-error-prefix="Sending tokens failed"
+    @close="$v.$reset()"
   >
     <tm-form-group
       :error="$v.denom.$dirty && $v.denom.$invalid"
@@ -75,9 +76,9 @@
         type="required"
       />
       <tm-form-msg
-        v-else-if="$v.amount.$error && !$v.amount.integer"
+        v-else-if="$v.amount.$error && !$v.amount.decimal"
         name="Amount"
-        type="integer"
+        type="numeric"
       />
       <tm-form-msg
         v-else-if="$v.amount.$error && !$v.amount.between"
@@ -92,7 +93,8 @@
 
 <script>
 import b32 from "scripts/b32"
-import { required, between, integer } from "vuelidate/lib/validators"
+import { required, between, decimal } from "vuelidate/lib/validators"
+import { uatoms, atoms } from "../../scripts/num.js"
 import { mapActions, mapGetters } from "vuex"
 import TmFormGroup from "common/TmFormGroup"
 import TmField from "common/TmField"
@@ -152,7 +154,7 @@ export default {
         submitType,
         password,
         to: address,
-        amount: [{ denom, amount: String(amount) }]
+        amount: [{ denom, amount: String(uatoms(amount)) }]
       })
 
       this.$store.commit(`notify`, {
@@ -176,9 +178,9 @@ export default {
         bech32Validate: this.bech32Validate
       },
       amount: {
-        required,
-        integer,
-        between: between(this.balance ? 1 : 0, this.balance)
+        required: x => !!x && x !== `0`,
+        decimal,
+        between: between(0, atoms(this.balance))
       },
       denom: { required }
     }

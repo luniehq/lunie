@@ -47,7 +47,7 @@ export default {
         [this.sort.property],
         [this.sort.order]
       )
-      
+
       return proposals
     },
     properties() {
