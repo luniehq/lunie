@@ -1,11 +1,28 @@
-import setup from "../../../helpers/vuex-setup"
-import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
 import LiValidator from "renderer/components/staking/LiValidator"
 
+const localVue = createLocalVue()
+localVue.directive(`tooltip`, () => { })
+
 describe(`LiValidator`, () => {
-  let wrapper, store
-  const { mount } = setup()
-  const validator = Object.assign({}, lcdClientMock.state.candidates[1], {
+  let wrapper, $store
+
+  const validator = {
+    operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
+    pub_key: `cosmosvalpub1234`,
+    revoked: false,
+    tokens: `14`,
+    delegator_shares: `14`,
+    description: {
+      website: `www.monty.ca`,
+      details: `Mr Mounty`,
+      moniker: `mr_mounty`,
+      country: `Canada`
+    },
+    status: 2,
+    bond_height: `0`,
+    bond_intra_tx_counter: 6,
+    proposer_reward_pool: null,
     commission: {
       rate: `0.05`,
       max_rate: `0.1`,
@@ -21,22 +38,38 @@ describe(`LiValidator`, () => {
       jailed_until: `1970-01-01T00:00:00Z`,
       signed_blocks_counter: 9878
     }
-  })
+  }
 
   beforeEach(() => {
-    const instance = mount(LiValidator, {
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: {
+        delegates: { delegates: [], globalPower: 9000 },
+        committedDelegations: {},
+        distribution: {
+          rewards: {
+          }
+        },
+        session: {
+          signedIn: true
+        },
+        bondDenom: `stake`,
+        lastHeader: ``
+      }
+    }
+
+    wrapper = shallowMount(LiValidator, {
+      localVue,
       propsData: {
         validator,
         disabled: false
       },
-      stubs: {
-        "short-bech32": true
-      }
+      mocks: {
+        $store
+      },
+      stubs: [`router-link`]
     })
-    wrapper = instance.wrapper
-    store = instance.store
-
-    store.state.delegates.globalPower = 9000
   })
 
   it(`has the expected html structure`, () => {
@@ -140,5 +173,21 @@ describe(`LiValidator`, () => {
       })
     })
     expect(wrapper.vm.delegateType).toBe(`Revoked`)
+  })
+
+  it(`shows rewards`, () => {
+    $store.getters.distribution.rewards = {
+      [validator.operator_address]: {
+        stake: 1230000000
+      }
+    }
+
+    expect(wrapper.find(`.li-validator__rewards`).html()).toContain(`123.0000…`)
+  })
+
+  it(`works if user is not signed in`, () => {
+    $store.getters.session.signedIn = false
+
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 })

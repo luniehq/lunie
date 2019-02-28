@@ -115,11 +115,12 @@ const rendererConfig = {
       "global.GENTLY": false
     }),
     new webpack.DefinePlugin({
-      "process.env.RELEASE": `"${commitHash}"`
-    }),
-    new webpack.DefinePlugin({
       "process.env": {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        FAUCET: JSON.stringify(process.env.FAUCET),
+        RPC: JSON.stringify(process.env.RPC),
+        STARGATE: JSON.stringify(process.env.STARGATE),
+        RELEASE: JSON.stringify(commitHash)
       }
     }),
     new HtmlWebpackPlugin({

@@ -455,4 +455,20 @@ describe(`Module: Delegations`, () => {
     })
     expect(state.error).toBe(`Error`)
   })
+
+  it(`should load delegates and delegations if signed in`, async () => {
+    const node = lcdClientMock
+    const { actions } = delegationModule({ node })
+
+    const dispatch = jest.fn(() => [])
+
+    await actions.updateDelegates({ dispatch, rootState: {
+      session: {
+        signedIn: true
+      }
+    } })
+
+    expect(dispatch).toHaveBeenCalledWith(`getDelegates`)
+    expect(dispatch).toHaveBeenCalledWith(`getBondedDelegates`, [])
+  })
 })

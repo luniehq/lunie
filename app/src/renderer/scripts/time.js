@@ -2,7 +2,7 @@
 
 const getUnbondingTime = ({ height, tx }, unbondingDelegations) => {
   const { type, value } = tx.value && tx.value.msg && tx.value.msg[0]
-  if (type === `cosmos-sdk/BeginUnbonding`) {
+  if (type === `cosmos-sdk/Undelegate`) {
     const unbondingDelegation = unbondingDelegations[value.validator_addr]
     if (
       unbondingDelegation &&
