@@ -1,4 +1,6 @@
 "use strict"
+import BigNumber from "bignumber.js"
+
 /**
  * Defines all numerical methods
  * @module num
@@ -47,8 +49,16 @@ function percentInt(x) {
 function percent(x) {
   return numeral(x).format(`0.00%`)
 }
+function atoms(x) {
+  return BigNumber(x).div(10e6).toNumber()
+}
+function uatoms(x) {
+  return BigNumber(x).times(10e6).toNumber()
+}
 
 module.exports = {
+  atoms,
+  uatoms,
   usd,
   usdInt,
   full,

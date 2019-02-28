@@ -9,6 +9,27 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+- [\#135](https://github.com/cosmos/voyager/issues/135) Show fee distribution rewards @fedekunze @faboweb
+### Changed 
+
+- [\#2044](https://github.com/cosmos/voyager/issues/2044) convert uatoms to atoms @faboweb
+- Refactored tests: LiProposal @jbibla
+
+## [1.0.0-beta.9] - 2019-02-28
+
+### Fixed
+
+- querying delegations was caught in a loop @faboweb
+- resetting forms when action modal closes @faboweb
+
+### Changed
+
+- [\#1337](https://github.com/cosmos/voyager/issues/1337) Refactor tests: PageValidator @faboweb
+
+## [1.0.0-beta.8] - 2019-02-27
+
+### Added
+
 - [\#1032](https://github.com/cosmos/voyager/issues/1032) added several events to google analytics @faboweb
 - [\#1630](https://github.com/cosmos/voyager/issues/1630) added memo "Sent via Cosmos UI" to distinguish txs sent via UI @faboweb
 - [\#2035](https://github.com/cosmos/voyager/issues/2035) Distribution vuex module @fedekunze
@@ -17,21 +38,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 - Fixed delegations not loaded on validator lists @faboweb
+- [\#2015](https://github.com/cosmos/voyager/issues/2015) fixed error that showed wrong message when Ledger's screensaver mode was on @fedekunze
 - Reconnected event was not triggered after reconnection @faboweb
 - [\#2094](https://github.com/cosmos/voyager/pull/2094) fix Toolbar @faboweb
+- Fix Webpack Env variables @sabau
 
 ### Changed
 
 - [\#1337](https://github.com/cosmos/voyager/issues/1337) Refactor tests: pool-module @jbibla
+- [\#2023](https://github.com/cosmos/voyager/issues/2023) remove jsdoc @sabau
+- [\#1944](https://github.com/cosmos/voyager/issues/1944) Updated `README` @fedekunze
 
 ## [1.0.0-beta.7] - 2019-02-26
 
 ### Changed
 
-- [\#1337](https://github.com/cosmos/voyager/issues/1337) Refactor tests: TmModalHelp, PageTransactions @jbibla @faboweb
-- [\#1337](https://github.com/cosmos/voyager/issues/1337) Refactor tests: TmModalHelp, LiCoin @jbibla @faboweb
 - disabled TmOnboarding by default @jbibla
-- [\#1337](https://github.com/cosmos/voyager/issues/1337) Refactor tests: ToolBar, TmModalHelp, UndelegationModal, TmOnboarding, TmSessionAccountDelete, TabValidators, keybase-module @jbibla @faboweb
+- [\#1337](https://github.com/cosmos/voyager/issues/1337) Refactor tests: ToolBar, TmModalHelp, PageTransactions, LiCoin, UndelegationModal, TmOnboarding, TmSessionAccountDelete, TabValidators, keybase-module @jbibla @faboweb
 
 ## [1.0.0-beta.6] - 2019-02-23
 
@@ -41,6 +64,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+- Refactored tests: PageStaking, PanelSort, TabStakingParameters @faboweb
 - Sign in with local key @faboweb
 - [\#2024](https://github.com/cosmos/voyager/issues/2024) Fixed feature setting the rpc from url param @faboweb
 

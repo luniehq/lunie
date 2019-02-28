@@ -1,6 +1,7 @@
 <template>
   <tm-page data-title="Validator">
-    <tm-data-loading v-if="!validator" />
+    <tm-data-loading v-if="delegates.loading" />
+    <tm-data-error v-if="delegates.loaded && !validator" />
 
     <template v-else>
       <div class="page-profile__header page-profile__section">
@@ -53,9 +54,9 @@
               <dt>My Delegation</dt>
               <dd>{{ myDelegation }}</dd>
             </dl>
-            <dl v-if="session.devMode" class="info_dl colored_dl">
+            <dl class="info_dl colored_dl">
               <dt>My Rewards</dt>
-              <dd>--</dd>
+              <dd>{{ rewards || "--" }}</dd>
             </dl>
           </div>
 
@@ -154,7 +155,7 @@
         ref="undelegationModal"
         :maximum="Number(myBond)"
         :from-options="delegationTargetOptions()"
-        :to="session.signedIn ? wallet.address : ``"
+        :to="session.signedIn ? session.address : ``"
         :validator="validator"
         :denom="bondDenom"
       />
@@ -181,13 +182,15 @@
 </template>
 
 <script>
+import BigNumber from "bignumber.js"
 import moment from "moment"
 import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
-import { percent, pretty } from "scripts/num"
+import { percent, pretty, atoms, full } from "scripts/num"
 import TmBtn from "common/TmBtn"
 import TmModal from "common/TmModal"
 import TmDataLoading from "common/TmDataLoading"
+import TmDataError from "common/TmDataError"
 import { shortAddress, ratToBigNumber } from "scripts/common"
 import DelegationModal from "staking/DelegationModal"
 import UndelegationModal from "staking/UndelegationModal"
@@ -203,6 +206,7 @@ export default {
     TmBtn,
     TmModal,
     TmDataLoading,
+    TmDataError,
     TmPage
   },
   data: () => ({
@@ -219,12 +223,11 @@ export default {
       `lastHeader`,
       `bondDenom`,
       `delegates`,
-      `delegation`,
+      `distribution`,
       `committedDelegations`,
       `keybase`,
       `liquidAtoms`,
       `session`,
-      `wallet`,
       `connected`
     ]),
     validator() {
@@ -251,15 +254,20 @@ export default {
       return String(uptime).substring(0, 4) + `%`
     },
     myBond() {
-      return calculateTokens(
-        this.validator,
-        this.committedDelegations[this.validator.operator_address] || 0
+      return BigNumber(
+        atoms(
+          calculateTokens(
+            this.validator,
+            this.committedDelegations[this.validator.operator_address] || 0
+          )
+        )
       )
     },
     myDelegation() {
-      const myBond = Number(this.myBond)
-      const myDelegationString = this.myBond + ` ` + this.bondDenom
-      return myBond === 0 ? `--` : myDelegationString
+      const { bondDenom, myBond } = this
+      const myDelegation = full(atoms(myBond))
+      const myDelegationString = `${myDelegation} ${bondDenom}`
+      return Number(myBond) === 0 ? `--` : myDelegationString
     },
     powerRatio() {
       return ratToBigNumber(this.validator.tokens)
@@ -296,6 +304,24 @@ export default {
 
       // status: active
       return `green`
+    },
+    rewards() {
+      const { session, bondDenom, distribution, validator } = this
+      if (!session.signedIn) { 
+        return null 
+      }
+
+      const validatorRewards = distribution.rewards[
+        validator.operator_address
+      ]
+      const amount = validatorRewards ? full(
+        atoms(validatorRewards[bondDenom]) || 0
+      ) : null
+
+      if (amount) {
+        return `${amount} ${bondDenom}`
+      }
+      return null
     }
   },
   watch: {
@@ -305,6 +331,25 @@ export default {
         if (!validator) return
         this.$store.dispatch(`getSelfBond`, validator)
       }
+    },
+    lastHeader: {
+      immediate: true,
+      handler(){
+        if (this.session.signedIn) {
+          this.$store.dispatch(
+            `getRewardsFromValidator`,
+            this.$route.params.validator
+          )
+        }
+      }
+    }
+  },
+  mounted() {
+    if (this.session.signedIn) {
+      this.$store.dispatch(
+        `getRewardsFromValidator`,
+        this.$route.params.validator
+      )
     }
   },
   methods: {
@@ -327,33 +372,35 @@ export default {
         this.showCannotModal = true
       }
     },
-    delegationTargetOptions() {
-      if (!this.session.signedIn) return []
+    delegationTargetOptions(
+      { session, liquidAtoms, committedDelegations, $route, delegates } = this
+    ) {
+      if (!session.signedIn) return []
 
       //- First option should always be your wallet (i.e normal delegation)
       const myWallet = [
         {
-          address: this.wallet.address,
-          maximum: Math.floor(this.liquidAtoms),
-          key: `My Wallet - ${shortAddress(this.wallet.address, 20)}`,
+          address: session.address,
+          maximum: Math.floor(liquidAtoms),
+          key: `My Wallet - ${shortAddress(session.address, 20)}`,
           value: 0
         }
       ]
-      const bondedValidators = Object.keys(this.committedDelegations)
+      const bondedValidators = Object.keys(committedDelegations)
       if (isEmpty(bondedValidators)) {
         return myWallet
       }
       //- The rest of the options are from your other bonded validators
       //- We skip the option of redelegating to the same address
       const redelegationOptions = bondedValidators
-        .filter(address => address != this.$route.params.validator)
+        .filter(address => address != $route.params.validator)
         .map((address, index) => {
-          const delegate = this.delegates.delegates.find(function(validator) {
+          const delegate = delegates.delegates.find(function(validator) {
             return validator.operator_address === address
           })
           return {
             address: address,
-            maximum: Math.floor(this.committedDelegations[address]),
+            maximum: Math.floor(committedDelegations[address]),
             key: `${delegate.description.moniker} - ${shortAddress(
               delegate.operator_address,
               20

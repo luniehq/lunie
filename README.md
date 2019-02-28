@@ -9,8 +9,6 @@
 
 ⚠️ This is still alpha-level software. **DO NOT** enter your Cosmos fundraiser seed into Voyager.
 
-💻 Voyager runs on macOS 10.9+, Windows 7+, and Debian-based Linux distros.
-
 <!-- 🎉 Binary releases are [available here](https://github.com/cosmos/voyager/releases). After downloading and untar/unzip-ing, navigate to the source directory and click on the `Cosmos Voyager` icon to launch Voyager. -->
 
 ## Voyager Dependencies
@@ -86,14 +84,6 @@ Currently we need a proxy to enable easy local development. We use [Caddy](https
 curl https://getcaddy.com | bash -s personal http.cors
 ```
 
-### Active testnets
-
-To run Voyager on the default testnet (if active):
-
-```bash
-yarn start
-```
-
 ## Local testnet
 
 Sometimes you may want to run a local node, i.e. in the case there is no available network. To do so first [Build Gaia](#gaia-cosmos-sdk), then use our automatic script or the manual process to set up your node.
@@ -129,57 +119,6 @@ yarn backend:fixed-https
 yarn frontend:fixed-https
 ```
 
-### Build
-
-#### Automatically
-
-You can do the entire process in one command by running:
-
-```bash
-yarn build:local --overwrite=true
-```
-
-Once the build is done, it will print a success message on the Terminal with the default username/account and password to connect to the local testnet.
-
-**Note:** the `--overwrite` flag as it will remove previous local node configurations
-
-#### Manually
-
-You can do the entire process manually by following these steps:
-
-First initialize your node:
-
-```bash
-builds/Gaia/{OS}/gaiad init --home ~/.gaiad-testnet --name local
-```
-
-Write down the 24 word secret phrase to be able to import an account that holds tokens later on.
-
-Copy the configuration files (assuming you are in the Voyager dir):
-
-```bash
-mkdir builds/testnets/local-testnet
-cp ~/.gaiad-testnet/config/{genesis.json,config.toml} builds/testnets/local-testnet/
-```
-
-Enter your local node as a seed:
-
-```bash
-sed -i.bak 's/seeds = ""/seeds = "localhost"/g' ./builds/testnets/local-testnet/config.toml
-```
-
-Activate TX indexing in your local node:
-
-```bash
-sed -i.bak 's/index_all_tags = false/index_all_tags = true/g'  ~/.gaiad-testnet/config/config.toml
-```
-
-Store the gaia version used in your local testnet:
-
-```bash
-./builds/Gaia/{OS}/gaiad version > ./builds/testnets/local-testnet/gaiaversion.txt
-```
-
 ### Deploy
 
 Create the bundle to deploy Voyager you can run:
@@ -188,36 +127,44 @@ Create the bundle to deploy Voyager you can run:
 yarn build:ui
 ```
 
-If you want to set a particular Stargate or RPC endpoints
+If you want to set a particular `Stargate` (Cosmos light client) or Tendermint's `RPC` endpoints:
 
 ```bash
-STARGATE=<https://StargateAddress:port> RPC=<https://RPRAddress:port> yarn build:ui
+STARGATE=<https://StargateAddress:port> RPC=<https://RPCAddress:port> yarn build:ui
 ```
 
-### Local network
+### Run local testnet
 
-Run Voyager for your local testnet:
+#### Run and create local account
+
+You can create a local account to run Voyager's local-testnet on development mode by using:
 
 ```bash
-yarn start local-testnet
+yarn start:new
 ```
 
-Once the app is running it will redirect you to the `Sign In` page. Here you need to select an account and input the password given (if you used the [auto build](#automatically); default `1234567890`).
-
-### Running several nodes
-
-This command will build and run several nodes at once on the local testnet. All nodes will be validators:
+This will print a newly generated account on the console, such as the following:
 
 ```bash
-yarn start local-testnet <number>
+Created Account: {
+  name: 'account-with-funds',
+  type: 'local',
+  address: 'cosmos1...',
+  pub_key: 'cosmospub1...',
+  mnemonic: '...'
+  }
 ```
 
-### Using Voyager with a custom SDK REST API instance (Stargate)
+To import the account to Voyager, go to the `Import with seed` option on the `Sign in`, and paste the `mnemonic` value from above on the `Seed Phrase` field.
 
-A deployed Voyager can be retargeted against a Stargate and Full Node of your choice. Just add the URLs of those to the Voyager URL:
+**Note:** Running `yarn start:new` overwrites all previously generated local accounts, meaning that you will have to import the account every time ! Use `yarn start` if you want to keep your account.
 
-```
-https://localhost:9080?stargate=https://stargate.com:1234&rpc=https://cool-node.com:6789
+#### Run with already generated accounts
+
+Once you've generated a local account, run Voyager on the default `local-testnet`:
+
+```bash
+yarn start
 ```
 
 ## Testing
@@ -236,7 +183,7 @@ Voyager uses [Jest](https://facebook.github.io/jest) to run unit tests. You can 
 yarn test:unit
 ```
 
-For a single test file (e.g. `PageValidator.spec.js` ) run the unit tests like this to watch the tests whenever there are changes:
+For a single test file (e.g. `PageValidator.spec.js`) run the unit tests like this to watch the tests whenever there are changes:
 
 ```bash
 yarn watch PageValidator
@@ -257,24 +204,12 @@ If you would like to run a single test please set the TEST variable (Unix system
 TEST=test/e2e/init.js yarn test:e2e
 ```
 
-You can also run the `tape` command directly, but then you need to run the packaging of Voyager before it (_i.e._ necessary on Windows):
+You can also run the `tape` command directly. You will need to run the packages of Voyager previously if on you're on Windows:
 
 ```bash
 yarn pack
 node_modules/.bin/tape test/e2e/init.js
 ```
-
-### Documentation
-
-To produce an up-to date documentation you can run:
-
-```bash
-$ yarn doc
-```
-
-This will store an HTML static website containing all the documented modules and components that you can consult.
-
-The output folder is: `docs/cosmos-voyager/[#version]`
 
 ### Code coverage
 
@@ -284,30 +219,16 @@ To check test coverage locally run following. It will spin up a webserver and pr
 yarn test:coverage
 ```
 
-## Debugging
-
-To debug the Electron application, build it and run the node inspector for the built files:
-
-```bash
-electron --inspect-brk builds/{{your build}}/resources/app/dist/main.js
-```
-
-Then attach to the debugger via the posted URL in Chrome.
-
-To debug the electron view, set the environment variable `COSMOS_DEVTOOLS` to something truthy like `"true"`. The Chrome DevTools will appear when you start Voyager.
-
-To see the console output of the view in your terminal, set the environment variable `ELECTRON_ENABLE_LOGGING` to something truthy like `1`.
-
 ## Flags
 
 A list of all environment variables and their purpose:
 
-| Variable                  | Values                                   | default                                                                        | Purpose                                                                                                                                                           |
-| ------------------------- | ---------------------------------------- | ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `NODE_ENV`                | `production`, `development`              |                                                                                |                                                                                                                                                                   |
-| `COSMOS_E2E_KEEP_OPEN`    | `true`, `false`                          | `false`                                                                        | Keep the Window open in local E2E test to see the state in which the application broke.                                                                           |
-| `CI`                      | `true`, `false`                          | `false`                                                                        | Adds better structured output, makes a screenshot and adds logs to files (used on CircleCI).                                                                      |
-| `ALLOW_CONSOLE`           | `true`, `false`                          | `false`                                                                        | Unit tests fail if they use `console.error` or `console.warn`. To see the initial use/occurences of those callings, you can escape this behavior using this flag. |
+| Variable               | Values                      | default | Purpose                                                                                                                                                           |
+|------------------------|-----------------------------|---------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `NODE_ENV`             | `production`, `development` |         |                                                                                                                                                                   |
+| `COSMOS_E2E_KEEP_OPEN` | `true`, `false`             | `false` | Keep the Window open in local E2E test to see the state in which the application broke.                                                                           |
+| `CI`                   | `true`, `false`             | `false` | Adds better structured output, makes a screenshot and adds logs to files (used on CircleCI).                                                                      |
+| `ALLOW_CONSOLE`        | `true`, `false`             | `false` | Unit tests fail if they use `console.error` or `console.warn`. To see the initial use/occurences of those callings, you can escape this behavior using this flag. |
 
 ## FAQ
 

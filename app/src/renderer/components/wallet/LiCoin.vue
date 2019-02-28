@@ -40,7 +40,7 @@ export default {
   data: () => ({ num }),
   computed: {
     amount() {
-      return num.full(parseFloat(this.coin.amount))
+      return num.full(num.atoms(this.coin.amount))
     },
     denomination() {
       return this.coin.denom
