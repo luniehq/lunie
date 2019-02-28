@@ -981,7 +981,7 @@ Array [
   Object {
     "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
     "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
-    "maximum": 13370000000,
+    "maximum": 1337,
     "value": 0,
   },
 ]
@@ -992,7 +992,7 @@ Array [
   Object {
     "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
     "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
-    "maximum": 13370000000,
+    "maximum": 1337,
     "value": 0,
   },
 ]
@@ -1003,7 +1003,7 @@ Array [
   Object {
     "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
     "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
-    "maximum": 13370000000,
+    "maximum": 1337,
     "value": 0,
   },
   Object {
