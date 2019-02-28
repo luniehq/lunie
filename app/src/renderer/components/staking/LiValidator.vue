@@ -164,7 +164,7 @@ export default {
       ]
       return validatorRewards ? num.shortNumber(
         num.atoms(validatorRewards[this.bondDenom]) || 0
-        ) : null
+      ) : null
     }
   },
   watch: {

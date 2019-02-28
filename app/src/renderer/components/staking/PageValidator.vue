@@ -316,7 +316,7 @@ export default {
       ]
       const amount = validatorRewards ? full(
         atoms(validatorRewards[bondDenom]) || 0
-        ) : null
+      ) : null
 
       if (amount) {
         return `${amount} ${bondDenom}`
