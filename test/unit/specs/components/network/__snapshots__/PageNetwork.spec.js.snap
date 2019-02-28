@@ -102,7 +102,7 @@ exports[`PageNetwork has the expected html structure 1`] = `
             id="loose_tokens"
           >
             
-              10
+              0.00
             
           </dd>
         </dl>
@@ -122,7 +122,7 @@ exports[`PageNetwork has the expected html structure 1`] = `
             id="bonded_tokens"
           >
             
-              125
+              0.00
             
           </dd>
         </dl>
