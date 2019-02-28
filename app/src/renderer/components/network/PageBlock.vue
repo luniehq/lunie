@@ -101,7 +101,7 @@ export default {
       )
 
       if (!block) {
-        this.$router.push("/404")
+        this.$router.push(`/404`)
       }
     }
   }

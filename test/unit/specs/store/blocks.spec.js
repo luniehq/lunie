@@ -56,7 +56,7 @@ describe(`Module: Blocks`, () => {
   it(`should query block info`, async () => {
     state.blockMetas = {}
     node.getBlock = () => ({
-      block_metas: [blockMeta],
+      block_meta: blockMeta,
       block: {
         height: `42`
       }
