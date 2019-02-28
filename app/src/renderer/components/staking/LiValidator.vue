@@ -99,9 +99,15 @@ export default {
     },
     yourVotes() {
       return this.committedDelegations[this.validator.id]
-        ? calculateTokens(
-          this.validator,
-          this.committedDelegations[this.validator.id]
+        ? BigNumber(
+          num
+            .atoms(
+              calculateTokens(
+                this.validator,
+                this.committedDelegations[this.validator.id]
+              )
+            )
+            .toString()
         )
         : BigNumber(0)
     },

@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed 
 
+- [\#2044](https://github.com/cosmos/voyager/issues/2044) convert uatoms to atoms @faboweb
 - Refactored tests: LiProposal @jbibla
 
 ## [1.0.0-beta.9] - 2019-02-28
@@ -16,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 - querying delegations was caught in a loop @faboweb
+- resetting forms when action modal closes @faboweb
 
 ### Changed
 

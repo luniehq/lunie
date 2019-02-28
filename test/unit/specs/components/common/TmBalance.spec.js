@@ -14,8 +14,8 @@ describe(`TmBalance`, () => {
           address: `cosmos1address`,
           signedIn: true
         }),
-        liquidAtoms: () => 123,
-        totalAtoms: () => 321
+        liquidAtoms: () => 1230000000,
+        totalAtoms: () => 3210000000
       },
       stubs: {
         "short-bech32": true
