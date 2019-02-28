@@ -7,6 +7,7 @@
     title="Deposit"
     class="modal-deposit"
     submission-error-prefix="Depositing failed"
+    @close="$v.$reset()"
   >
     <tm-form-group
       :error="$v.amount.$error && $v.amount.$invalid"
@@ -28,9 +29,9 @@
         type="required"
       />
       <tm-form-msg
-        v-else-if="$v.amount.$error && !$v.amount.integer"
+        v-else-if="$v.amount.$error && !$v.amount.decimal"
         name="Amount"
-        type="integer"
+        type="numeric"
       />
       <tm-form-msg
         v-else-if="$v.amount.$error && !$v.amount.between"
@@ -46,7 +47,7 @@
 <script>
 import { mapGetters } from "vuex"
 import { uatoms, atoms } from "../../scripts/num.js"
-import { required, between, integer } from "vuelidate/lib/validators"
+import { between, decimal } from "vuelidate/lib/validators"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
@@ -93,9 +94,9 @@ export default {
   validations() {
     return {
       amount: {
-        required,
-        integer,
-        between: between(1, atoms(this.balance))
+        required: x => x !== `0` && x !== ``,
+        decimal,
+        between: between(0, atoms(this.balance))
       }
     }
   },

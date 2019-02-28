@@ -7,6 +7,7 @@
     title="Vote"
     class="modal-vote"
     submission-error-prefix="Voting failed"
+    @close="$v.$reset()"
   >
     <tm-form-group class="action-modal-group vote-options">
       <tm-btn

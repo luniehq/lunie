@@ -7,6 +7,7 @@
     title="Undelegate"
     class="undelegation-modal"
     submission-error-prefix="Undelegating failed"
+    @close="$v.$reset()"
   >
     <tm-form-group
       class="action-modal-form-group"
@@ -47,9 +48,9 @@
         type="required"
       />
       <tm-form-msg
-        v-else-if="$v.amount.$error && !$v.amount.integer"
+        v-else-if="$v.amount.$error && !$v.amount.decimal"
         name="Amount"
-        type="integer"
+        type="numeric"
       />
       <tm-form-msg
         v-else-if="$v.amount.$error && !$v.amount.between"
@@ -65,8 +66,8 @@
 <script>
 import ClickOutside from "vue-click-outside"
 import { mapGetters } from "vuex"
-import { uatoms } from "../../scripts/num.js"
-import { required, between, integer } from "vuelidate/lib/validators"
+import { uatoms, atoms } from "../../scripts/num.js"
+import { between, decimal } from "vuelidate/lib/validators"
 import ActionModal from "common/ActionModal"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
@@ -115,9 +116,9 @@ export default {
   validations() {
     return {
       amount: {
-        required,
-        integer,
-        between: between(1, this.maximum)
+        required: x => x !== `0` && x !== ``,
+        decimal,
+        between: between(0, atoms(this.maximum))
       }
     }
   },
