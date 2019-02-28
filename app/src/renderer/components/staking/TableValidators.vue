@@ -30,7 +30,6 @@ export default {
     PanelSort
   },
   props: {
-    // TODO do we really need to make this a prop? the component takes everything else from the store
     validators: {
       type: Array,
       required: true
