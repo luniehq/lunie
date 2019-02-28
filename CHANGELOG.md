@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 - querying delegations was caught in a loop @faboweb
+- resetting forms when action modal closes @faboweb
 
 ## [1.0.0-beta.8] - 2019-02-27
 
