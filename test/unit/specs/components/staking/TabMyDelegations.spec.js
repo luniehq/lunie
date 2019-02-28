@@ -72,7 +72,7 @@ describe(`Component: TabMyDelegations`, () => {
           value: {
             msg: [
               {
-                type: `cosmos-sdk/BeginUnbonding`,
+                type: `cosmos-sdk/Undelegate`,
                 value: {
                   validator_addr: validators[0].operator_address,
                   delegator_addr,
@@ -128,7 +128,7 @@ describe(`Component: TabMyDelegations`, () => {
           value: {
             msg: [
               {
-                type: `cosmos-sdk/BeginUnbonding`,
+                type: `cosmos-sdk/Undelegate`,
                 value: {
                   validator_addr: validators[0].operator_address,
                   delegator_addr,

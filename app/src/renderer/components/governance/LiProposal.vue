@@ -31,22 +31,23 @@
     </td>
     <td>{{ `#` + proposal.proposal_id }}</td>
     <td class="li-proposal__value yes">
-      {{ tally.yes }}
+      {{ tally.yes || `--` }}
     </td>
     <td class="li-proposal__value no">
-      {{ tally.no }}
+      {{ tally.no || `--` }}
     </td>
     <td class="li-proposal__value no_with_veto">
-      {{ tally.no_with_veto }}
+      {{ tally.no_with_veto || `--` }}
     </td>
     <td class="li-proposal__value abstain">
-      {{ tally.abstain }}
+      {{ tally.abstain || `--` }}
     </td>
   </tr>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
+import { atoms } from "../../scripts/num.js"
 export default {
   name: `li-proposal`,
   props: {
@@ -60,12 +61,10 @@ export default {
     tally() {
       const proposalTally =
         this.proposals.tallies[this.proposal.proposal_id] || {}
-      proposalTally.yes = Math.round(parseFloat(proposalTally.yes))
-      proposalTally.no = Math.round(parseFloat(proposalTally.no))
-      proposalTally.no_with_veto = Math.round(
-        parseFloat(proposalTally.no_with_veto)
-      )
-      proposalTally.abstain = Math.round(parseFloat(proposalTally.abstain))
+      proposalTally.yes = Math.round(atoms(proposalTally.yes))
+      proposalTally.no = Math.round(atoms(proposalTally.no))
+      proposalTally.no_with_veto = Math.round(atoms(proposalTally.no_with_veto))
+      proposalTally.abstain = Math.round(atoms(proposalTally.abstain))
       return proposalTally
     },
     status() {

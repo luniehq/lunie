@@ -7,7 +7,7 @@
     <template v-if="propose">
       <div slot="caption">
         Submitted {{ tx.proposal_type.toLowerCase() }} proposal initial
-        deposit&nbsp;<b>{{ pretty(tx.initial_deposit[0].amount) }}</b><span>&nbsp;{{ tx.initial_deposit[0].denom }}s</span>
+        deposit&nbsp;<b>{{ pretty(atoms(tx.initial_deposit[0].amount)) }}</b><span>&nbsp;{{ tx.initial_deposit[0].denom }}s</span>
       </div>
       <div slot="details">
         Title:&nbsp;<i>{{ tx.title }}</i>
@@ -17,7 +17,7 @@
       <div slot="caption">
         Deposited&nbsp;
         <template>
-          <b>{{ pretty(tx.amount[0].amount) }}</b>
+          <b>{{ pretty(atoms(tx.amount[0].amount)) }}</b>
           <span>&nbsp;{{ tx.amount[0].denom }}s</span>
         </template>
       </div>
@@ -34,7 +34,7 @@
 <script>
 import TmLiTransaction from "./TmLiTransaction"
 import colors from "./transaction-colors.js"
-import { pretty } from "../../scripts/num.js"
+import { pretty, atoms } from "../../scripts/num.js"
 
 export default {
   name: `tm-li-gov-transaction`,
@@ -54,7 +54,8 @@ export default {
     }
   },
   data: () => ({
-    pretty
+    pretty,
+    atoms
   }),
   computed: {
     tx() {

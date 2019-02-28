@@ -85,7 +85,7 @@ export default {
     stakingTx() {
       return [
         `cosmos-sdk/MsgDelegate`,
-        `cosmos-sdk/BeginUnbonding`,
+        `cosmos-sdk/Undelegate`,
         `cosmos-sdk/CompleteUnbonding`,
         `cosmos-sdk/BeginRedelegate`
       ].includes(this.type)
