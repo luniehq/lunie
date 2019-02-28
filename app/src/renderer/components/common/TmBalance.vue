@@ -20,7 +20,7 @@
         <tm-btn
           id="withdraw-btn"
           :disabled="!connected"
-          :value="connected ? 'Withdraw rewards' : 'Connecting...'"
+          :value="connected ? 'Withdraw' : 'Connecting...'"
           :to="''"
           type="link"
           size="sm"
@@ -147,8 +147,6 @@ export default {
 }
 
 .tm-btn {
-  position: absolute;
-  right: 1rem;
-  bottom: 1rem;
+  position: relative;
 }
 </style>
