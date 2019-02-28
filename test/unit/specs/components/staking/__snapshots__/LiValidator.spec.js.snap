@@ -26,7 +26,97 @@ exports[`LiValidator has the expected html structure 1`] = `
         to="[object Object]"
       >
         
-        good_greg
+        mr_mounty
+      
+      </router-link-stub>
+       
+      <div
+        class="data-table__row__info__container__description"
+      >
+        <short-bech32-stub
+          address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+        />
+      </div>
+    </div>
+  </td>
+   
+  <td
+    class="li-validator__delegated-steak"
+  >
+    
+    0.0000…
+  
+  </td>
+   
+  <td
+    class="li-validator__rewards data-table__row__cell__separator"
+  >
+    
+    n/a
+  
+  </td>
+   
+  <td
+    class="li-validator__voting-power"
+  >
+    
+    22%
+  
+  </td>
+   
+  <td
+    class="li-validator__uptime"
+  >
+    
+    98.78%
+  
+  </td>
+   
+  <td
+    class="li-validator__commission"
+  >
+    
+    0.05%
+  
+  </td>
+   
+  <td
+    class="li-validator__slashes"
+  >
+    
+    n/a
+  
+  </td>
+</tr>
+`;
+
+exports[`LiValidator works if user is not signed in 1`] = `
+<tr
+  class="data-table__row li-validator"
+>
+  <td
+    class="data-table__row__info"
+  >
+    <img
+      class="data-table__row__info__image data-table__row__info__image--no-img"
+      height="48"
+      src="~assets/images/validator-icon.svg"
+      width="48"
+    />
+     
+    <div
+      class="data-table__row__info__container"
+    >
+      <span
+        class="data-table__row__info__container__status green"
+      />
+       
+      <router-link-stub
+        class="data-table__row__info__container__name"
+        to="[object Object]"
+      >
+        
+        mr_mounty
       
       </router-link-stub>
        

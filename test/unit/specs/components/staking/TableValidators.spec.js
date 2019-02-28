@@ -87,4 +87,116 @@ describe(`TableValidators`, () => {
     })
     expect(res).toBe(false)
   })
+
+  it(`queries delegations on signin`, () => {
+    const session = { address: `cosmos1address` }
+    const $store = { dispatch: jest.fn() }
+    TableValidators.watch.address.call({ $store, session })
+    expect($store.dispatch).toHaveBeenCalledWith(`updateDelegates`)
+  })
+
+  it(`doesn't query delegations if not signed in`, () => {
+    const session = { address: undefined }
+    const $store = { dispatch: jest.fn() }
+    TableValidators.watch.address.call({ $store, session })
+    expect($store.dispatch).not.toHaveBeenCalledWith(`updateDelegates`)
+  })
+
+  describe(`update validators rewards every block`, () => {
+    it(`updates if there are existing validators`, () => {
+      const validators = [
+        {
+          operator_address: `cosmosvaloper1address`,
+          pub_key: `cosmosvalpub1234`,
+          revoked: false,
+          tokens: `14`,
+          delegator_shares: `14`,
+          description: {
+            website: `www.fede.cl`,
+            details: `Fede's validator`,
+            moniker: `fedekunze`,
+            country: `Chile`
+          },
+          status: 2,
+          bond_height: `0`,
+          bond_intra_tx_counter: 6,
+          proposer_reward_pool: null,
+          commission: {
+            rate: `0`,
+            max_rate: `0`,
+            max_change_rate: `0`,
+            update_time: `1970-01-01T00:00:00Z`
+          },
+          prev_bonded_shares: `0`
+        }
+      ]
+      const session = { signedIn: true }
+      const $store = { dispatch: jest.fn() }
+      TableValidators.watch.validators.call({ $store, session }, validators)
+      expect($store.dispatch).toHaveBeenCalledWith(
+        `getRewardsFromAllValidators`,
+        validators
+      )
+    })
+
+    describe(`doesn't update rewards`, () => {
+      it(`if user hasn't signed in`, () => {
+        const validators = [
+          {
+            operator_address: `cosmosvaloper1address`,
+            pub_key: `cosmosvalpub1234`,
+            revoked: false,
+            tokens: `14`,
+            delegator_shares: `14`,
+            description: {
+              website: `www.fede.cl`,
+              details: `Fede's validator`,
+              moniker: `fedekunze`,
+              country: `Chile`
+            },
+            status: 2,
+            bond_height: `0`,
+            bond_intra_tx_counter: 6,
+            proposer_reward_pool: null,
+            commission: {
+              rate: `0`,
+              max_rate: `0`,
+              max_change_rate: `0`,
+              update_time: `1970-01-01T00:00:00Z`
+            },
+            prev_bonded_shares: `0`
+          }
+        ]
+        const session = { signedIn: false }
+        const $store = { dispatch: jest.fn() }
+        TableValidators.watch.validators.call({ $store, session }, validators)
+        expect($store.dispatch).not.toHaveBeenCalledWith(
+          `getRewardsFromAllValidators`,
+          validators
+        )
+      })
+
+      it(`if validator set is empty`, () => {
+        const validators = []
+        const session = { signedIn: true }
+        const $store = { dispatch: jest.fn() }
+        TableValidators.watch.validators.call({ $store, session }, validators)
+        expect($store.dispatch).not.toHaveBeenCalledWith(
+          `getRewardsFromAllValidators`,
+          validators
+        )
+      })
+
+      it(`if validator set is undefined`, () => {
+        const validators = undefined
+        const session = { signedIn: true }
+        const $store = { dispatch: jest.fn() }
+        TableValidators.watch.validators.call({ $store, session }, validators)
+        expect($store.dispatch).not.toHaveBeenCalledWith(
+          `getRewardsFromAllValidators`,
+          validators
+        )
+      })
+    })
+  })
 })

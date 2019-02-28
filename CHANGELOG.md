@@ -10,9 +10,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 - [\#2098](https://github.com/cosmos/voyager/issues/2098) rename devMode url flag to insecure @faboweb
+### Added
+
+- [\#135](https://github.com/cosmos/voyager/issues/135) Show fee distribution rewards @fedekunze @faboweb
+### Changed 
+
+- [\#2044](https://github.com/cosmos/voyager/issues/2044) convert uatoms to atoms @faboweb
+- Refactored tests: LiProposal @jbibla
+
+## [1.0.0-beta.9] - 2019-02-28
+
 ### Fixed
 
 - querying delegations was caught in a loop @faboweb
+- resetting forms when action modal closes @faboweb
 
 ### Changed
 
@@ -32,10 +43,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#2015](https://github.com/cosmos/voyager/issues/2015) fixed error that showed wrong message when Ledger's screensaver mode was on @fedekunze
 - Reconnected event was not triggered after reconnection @faboweb
 - [\#2094](https://github.com/cosmos/voyager/pull/2094) fix Toolbar @faboweb
+- Fix Webpack Env variables @sabau
 
 ### Changed
 
 - [\#1337](https://github.com/cosmos/voyager/issues/1337) Refactor tests: pool-module @jbibla
+- [\#2023](https://github.com/cosmos/voyager/issues/2023) remove jsdoc @sabau
 - [\#1944](https://github.com/cosmos/voyager/issues/1944) Updated `README` @fedekunze
 
 ## [1.0.0-beta.7] - 2019-02-26
@@ -53,6 +66,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+- Refactored tests: PageStaking, PanelSort, TabStakingParameters @faboweb
 - Sign in with local key @faboweb
 - [\#2024](https://github.com/cosmos/voyager/issues/2024) Fixed feature setting the rpc from url param @faboweb
 

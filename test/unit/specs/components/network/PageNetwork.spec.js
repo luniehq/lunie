@@ -2,56 +2,56 @@ import { shallowMount, createLocalVue } from "@vue/test-utils"
 import PageNetwork from "renderer/components/network/PageNetwork"
 
 const localVue = createLocalVue()
-localVue.directive(`tooltip`, () => {})
+localVue.directive(`tooltip`, () => { })
 
 describe(`PageNetwork`, () => {
-  let wrapper, $store
-
-  beforeEach(() => {
-    $store = {
-      getters: {
-        connected: true,
-        lastHeader: {
-          chain_id: `gaia-20k`,
-          proposer_address: `EFH47FH723HDHSH`,
-          height: `6001`,
-          total_txs: `108`,
-          time: Date.now()
-        },
-        delegates: {
-          delegates: [
-            {
-              a: `b`,
-              c: `d`
-            }
-          ]
-        },
-        pool: {
-          pool: {
-            bonded_tokens: 125,
-            loose_tokens: 10
-          }
-        },
-        bondDenom: `stake`,
-        blocks: [
+  let wrapper
+  const $store = {
+    getters: {
+      connected: true,
+      lastHeader: {
+        chain_id: `gaia-20k`,
+        proposer_address: `EFH47FH723HDHSH`,
+        height: `6001`,
+        total_txs: `108`,
+        time: Date.now()
+      },
+      delegates: {
+        delegates: [
           {
-            header: {
-              height: `100`,
-              num_txs: 1200,
-              proposer_address: `ABCDEFG123456HIJKLMNOP`
-            }
-          },
-          {
-            header: {
-              height: `101`,
-              num_txs: 405,
-              proposer_address: `ZYXCRS123456HIJKLMNOPQ`
-            }
+            a: `b`,
+            c: `d`
           }
         ]
-      }
-    }
+      },
+      pool: {
+        pool: {
+          bonded_tokens: 125,
+          not_bonded_tokens: 10
+        }
+      },
+      bondDenom: `stake`,
+      blocks: [
+        {
+          header: {
+            height: `100`,
+            num_txs: 1200,
+            proposer_address: `ABCDEFG123456HIJKLMNOP`
+          }
+        },
+        {
+          header: {
+            height: `101`,
+            num_txs: 405,
+            proposer_address: `ZYXCRS123456HIJKLMNOPQ`
+          }
+        }
+      ]
+    },
+    dispatch: jest.fn()
+  }
 
+  beforeEach(() => {
     wrapper = shallowMount(PageNetwork, {
       localVue,
       mocks: {
@@ -71,11 +71,7 @@ describe(`PageNetwork`, () => {
       message: `Network is up and running`
     })
 
-    $store = {
-      getters: {
-        connected: false
-      }
-    }
+    $store.getters.connected = false
 
     wrapper = shallowMount(PageNetwork, {
       localVue,

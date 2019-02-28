@@ -13,7 +13,7 @@ describe(`SendModal`, () => {
   const balances = [
     {
       denom: `STAKE`,
-      amount: 1000
+      amount: 10000000000
     },
     {
       denom: `fermion`,
@@ -94,6 +94,9 @@ describe(`SendModal`, () => {
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
     it(`should show bech32 error when alphanumeric is wrong`, async () => {
+      wrapper.setData({
+        address: ``
+      })
       expect(wrapper.vm.validateForm()).toBe(false)
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.$el).toMatchSnapshot()
