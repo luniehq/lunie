@@ -35,6 +35,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#2015](https://github.com/cosmos/voyager/issues/2015) fixed error that showed wrong message when Ledger's screensaver mode was on @fedekunze
 - Reconnected event was not triggered after reconnection @faboweb
 - [\#2094](https://github.com/cosmos/voyager/pull/2094) fix Toolbar @faboweb
+- Fix Webpack Env variables @sabau
 
 ### Changed
 
