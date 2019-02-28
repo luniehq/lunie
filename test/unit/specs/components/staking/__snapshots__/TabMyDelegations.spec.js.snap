@@ -1,322 +1,84 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Component: TabMyDelegations should show a message if not staked yet to any validator 1`] = `
+exports[`Component: TabMyDelegations view should show a message if not staked yet to any validator 1`] = `
 <div>
   <!---->
    
-  <div
-    class="tm-data-msg"
+  <tm-data-msg-stub
+    icon="info_outline"
   >
-    <div
-      class="tm-data-msg__icon"
-    >
-      <i
-        class="material-icons"
-      >
-        info_outline
-      </i>
-    </div>
-     
-    <div
-      class="tm-data-msg__text"
-    >
-      <div
-        class="tm-data-msg__title"
-      >
-        <div>
-          
+    <div>
+      
       No Active Delegations
     
-        </div>
-      </div>
-       
-      <div
-        class="tm-data-msg__subtitle"
-      >
-        <div>
-          
-      Looks like you haven't delegated any STAKEs yet. Head over to
-      the
-      
-          <router-link-stub
-            to="[object Object]"
-          >
-            
-        validator list
-      
-          </router-link-stub>
-          
-      to make your first delegation!
-    
-        </div>
-      </div>
-    </div>
-  </div>
-   
-  <!---->
-</div>
-`;
-
-exports[`Component: TabMyDelegations should show committed validators 1`] = `
-<div>
-  <!---->
-   
-  <div
-    class="tm-data-msg"
-  >
-    <div
-      class="tm-data-msg__icon"
-    >
-      <i
-        class="material-icons"
-      >
-        
-      </i>
     </div>
      
-    <div
-      class="tm-data-msg__text"
-    >
-      <div
-        class="tm-data-msg__title"
+    <div>
+      
+      Looks like you haven't delegated any stakes yet. Head over to
+      the
+      
+      <router-link-stub
+        to="[object Object]"
       >
-        <div>
-          
-    Waiting for connection
-  
-        </div>
-      </div>
-       
-      <div
-        class="tm-data-msg__subtitle"
-      >
-        <div>
-          
-    You are currently not connected to a node. Voyager will load this data
-    when a connection is established.
-  
-        </div>
-      </div>
+        
+        validator list
+      
+      </router-link-stub>
+      
+      to make your first delegation!
+    
     </div>
-  </div>
+  </tm-data-msg-stub>
    
   <!---->
 </div>
 `;
 
-exports[`Component: TabMyDelegations should show unbonding validators and the current committed validator 1`] = `
+exports[`Component: TabMyDelegations view should show committed validators 1`] = `
 <div>
   <div>
-    <div>
-      <table
-        class="data-table"
-      >
-        <thead>
-          <tr
-            class="panel-sort-container"
-          >
-            <th
-              class="panel-sort-table-header sort-by"
-            >
-              <a
-                class="sort-by-link"
-              >
-                
-      Moniker
-                <i
-                  class="material-icons"
-                >
-                  arrow_drop_up
-                </i>
-              </a>
-            </th>
-            <th
-              class="panel-sort-table-header sort-by"
-            >
-              <a
-                class="sort-by-link"
-              >
-                
-      My Delegations
-                <i
-                  class="material-icons"
-                >
-                  arrow_drop_up
-                </i>
-              </a>
-            </th>
-            <th
-              class="panel-sort-table-header sort-by"
-            >
-              <a
-                class="sort-by-link"
-              >
-                
-      Rewards
-                <i
-                  class="material-icons"
-                >
-                  arrow_drop_up
-                </i>
-              </a>
-            </th>
-            <th
-              class="panel-sort-table-header sort-by"
-            >
-              <a
-                class="sort-by-link"
-              >
-                
-      Voting Power
-                <i
-                  class="material-icons"
-                >
-                  arrow_drop_up
-                </i>
-              </a>
-            </th>
-            <th
-              class="panel-sort-table-header sort-by"
-            >
-              <a
-                class="sort-by-link"
-              >
-                
-      Uptime
-                <i
-                  class="material-icons"
-                >
-                  arrow_drop_up
-                </i>
-              </a>
-            </th>
-            <th
-              class="panel-sort-table-header sort-by"
-            >
-              <a
-                class="sort-by-link"
-              >
-                
-      Commission
-                <i
-                  class="material-icons"
-                >
-                  arrow_drop_up
-                </i>
-              </a>
-            </th>
-            <th
-              class="panel-sort-table-header sort-by"
-            >
-              <a
-                class="sort-by-link"
-              >
-                
-      Slashes
-                <i
-                  class="material-icons"
-                >
-                  arrow_drop_up
-                </i>
-              </a>
-            </th>
-          </tr>
-        </thead>
-         
-        <tbody>
-          <tr
-            class="data-table__row li-validator"
-          >
-            <td
-              class="data-table__row__info"
-            >
-              <img
-                class="data-table__row__info__image data-table__row__info__image--no-img"
-                height="48"
-                src="~assets/images/validator-icon.svg"
-                width="48"
-              />
-               
-              <div
-                class="data-table__row__info__container"
-              >
-                <span
-                  class="data-table__row__info__container__status yellow"
-                />
-                 
-                <router-link-stub
-                  class="data-table__row__info__container__name"
-                  to="[object Object]"
-                >
-                  
-        mr_mounty
-      
-                </router-link-stub>
-                 
-                <div
-                  class="data-table__row__info__container__description"
-                >
-                  <short-bech32-stub
-                    address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
-                  />
-                </div>
-              </div>
-            </td>
-             
-            <td
-              class="li-validator__delegated-steak"
-            >
-              
-    0.0100…
-  
-            </td>
-             
-            <td
-              class="li-validator__rewards data-table__row__cell__separator"
-            >
-              
-    n/a
-  
-            </td>
-             
-            <td
-              class="li-validator__voting-power"
-            >
-              
-    0.00%
-  
-            </td>
-             
-            <td
-              class="li-validator__uptime"
-            >
-              
-    n/a
-  
-            </td>
-             
-            <td
-              class="li-validator__commission"
-            >
-              
-    0.00%
-  
-            </td>
-             
-            <td
-              class="li-validator__slashes"
-            >
-              
-    n/a
-  
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <table-validators-stub
+      validators="[object Object]"
+    />
   </div>
    
   <!---->
+   
+  <!---->
+</div>
+`;
+
+exports[`Component: TabMyDelegations view should show unbonding validators and the current committed validator 1`] = `
+<div>
+  <!---->
+   
+  <tm-data-msg-stub
+    icon="info_outline"
+  >
+    <div>
+      
+      No Active Delegations
+    
+    </div>
+     
+    <div>
+      
+      Looks like you haven't delegated any stakes yet. Head over to
+      the
+      
+      <router-link-stub
+        to="[object Object]"
+      >
+        
+        validator list
+      
+      </router-link-stub>
+      
+      to make your first delegation!
+    
+    </div>
+  </tm-data-msg-stub>
    
   <div>
     <h3
@@ -330,78 +92,13 @@ exports[`Component: TabMyDelegations should show unbonding validators and the cu
     <div
       class="unbonding-transactions"
     >
-      <div
-        class="tm-li-tx"
-      >
-        <div
-          class="tm-li-tx__icon"
-        >
-          <img
-            src="~assets/images/cosmos-logo.png"
-            style="border-color: #9d5c19;"
-          />
-        </div>
-         
-        <div
-          class="tm-li-tx__content"
-        >
-          <div
-            class="tm-li-tx__content__left"
-          >
-            <div
-              class="tm-li-tx__content__caption"
-            >
-              <p
-                class="tm-li-tx__content__caption__title"
-              >
-                <div>
-                  
-      Undelegated 
-                  <b>
-                    
-          50
-        
-                  </b>
-                  <span>
-                     STAKEs
-                  </span>
-                  <!---->
-                </div>
-              </p>
-            </div>
-             
-            <div
-              class="tm-li-tx__content__information"
-            >
-              <div>
-                
-      From 
-                <router-link-stub
-                  to="/staking/validators/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
-                >
-                  
-        mr_mounty
-      
-                </router-link-stub>
-              </div>
-            </div>
-          </div>
-           
-          <div
-            class="tm-li-tx__content__block"
-          >
-            <router-link-stub
-              to="[object Object]"
-            >
-              
-        Block #170 
-      
-            </router-link-stub>
-            @ Invalid date
-    
-          </div>
-        </div>
-      </div>
+      <tm-li-stake-transaction-stub
+        bondingdenom="stake"
+        transaction="[object Object]"
+        unbondingtime="52000"
+        url="/staking/validators"
+        validators=""
+      />
     </div>
   </div>
 </div>
