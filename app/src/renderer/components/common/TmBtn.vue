@@ -44,143 +44,143 @@
 <script>
 // TODO refactor btn content into mixin?
 export default {
-	name: `TmBtn`,
-	props: {
-		value: {
-			type: String,
-			default: null
-		},
-		type: {
-			type: String,
-			default: null
-		},
-		icon: {
-			type: String,
-			default: null
-		},
-		iconPos: {
-			type: String,
-			default: null
-		},
-		img: {
-			type: String,
-			default: null
-		},
-		size: {
-			type: String,
-			default: null
-		},
-		to: {
-			type: String,
-			default: null
-		},
-		color: {
-			type: String,
-			default: null
-		}
-	},
-	computed: {
-		btnClass() {
-			let value = `tm-btn__container`
-			if (this.iconPos) value += ` tm-btn__icon-${this.iconPos}`
-			if (this.size) value += ` tm-btn--size-${this.size}`
-			if (this.color) value += ` tm-btn--${this.color}`
-			return value
-		}
-	}
+  name: `TmBtn`,
+  props: {
+    value: {
+      type: String,
+      default: null
+    },
+    type: {
+      type: String,
+      default: null
+    },
+    icon: {
+      type: String,
+      default: null
+    },
+    iconPos: {
+      type: String,
+      default: null
+    },
+    img: {
+      type: String,
+      default: null
+    },
+    size: {
+      type: String,
+      default: null
+    },
+    to: {
+      type: String,
+      default: null
+    },
+    color: {
+      type: String,
+      default: null
+    }
+  },
+  computed: {
+    btnClass() {
+      let value = `tm-btn__container`
+      if (this.iconPos) value += ` tm-btn__icon-${this.iconPos}`
+      if (this.size) value += ` tm-btn--size-${this.size}`
+      if (this.color) value += ` tm-btn--${this.color}`
+      return value
+    }
+  }
 }
 </script>
 
 <style>
 .tm-btn {
-	padding: 0;
-	border: none;
-	background: transparent;
-	text-decoration: none !important;
-	-webkit-appearance: none;
-	margin: 0;
-	display: inline-block;
-	font-size: 16px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  text-decoration: none !important;
+  -webkit-appearance: none;
+  margin: 0;
+  display: inline-block;
+  font-size: 16px;
 }
 
 /* firefox fix - padding */
 .tm-btn::-moz-focus-inner {
-	padding: 0;
-	border: 0;
+  padding: 0;
+  border: 0;
 }
 
 .tm-btn__container {
-	font-family: var(--sans);
-	font-size: 1rem !important;
-	font-weight: 400;
-	height: 2em;
-	line-height: 1;
-	color: var(--bright, #333) !important;
-	padding: 0.5rem 2rem;
-	margin: 0;
-	background: var(--app-bg, #fff);
-	border: 1px solid var(--bc, #ddd);
-	border-radius: 0.25rem;
-	cursor: pointer;
-	user-select: none;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	-webkit-appearance: none;
+  font-family: var(--sans);
+  font-size: 1rem !important;
+  font-weight: 400;
+  height: 2em;
+  line-height: 1;
+  color: var(--bright, #333) !important;
+  padding: 0.5rem 2rem;
+  margin: 0;
+  background: var(--app-bg, #fff);
+  border: 1px solid var(--bc, #ddd);
+  border-radius: 0.25rem;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  -webkit-appearance: none;
 }
 
 .tm-btn__container::before,
 .tm-btn__container::after {
-	content: "";
-	flex: 1 0 auto;
+  content: "";
+  flex: 1 0 auto;
 }
 
 .tm-btn__container:hover:enabled {
-	color: var(--txt, #333);
-	text-decoration: none;
-	border-color: var(--bc, #ddd);
-	background: var(--app-fg, #eee);
+  color: var(--txt, #333);
+  text-decoration: none;
+  border-color: var(--bc, #ddd);
+  background: var(--app-fg, #eee);
 }
 
 .tm-btn__value {
-	line-height: 1.5;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	overflow: hidden;
+  line-height: 1.5;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .tm-btn.disabled,
 .tm-btn[disabled] {
-	opacity: 0.333;
-	user-select: none;
-	color: var(--dim, #666) !important;
+  opacity: 0.333;
+  user-select: none;
+  color: var(--dim, #666) !important;
 }
 
 .tm-btn.disabled:focus:enabled,
 .tm-btn[disabled]:focus:enabled {
-	outline: none;
+  outline: none;
 }
 
 .tm-btn.disabled .tm-btn__container,
 .tm-btn[disabled] .tm-btn__container {
-	cursor: not-allowed;
+  cursor: not-allowed;
 }
 
 .tm-btn__container.tm-btn--size-sm {
-	font-size: 0.75em;
-	height: 1.5rem;
-	line-height: 1rem;
-	padding: 0 1rem;
+  font-size: 0.75em;
+  height: 1.5rem;
+  line-height: 1rem;
+  padding: 0 1rem;
 }
 
 .tm-btn__container.tm-btn--size-sm .tm-btn__value {
-	font-size: 0.75rem;
+  font-size: 0.75rem;
 }
 
 .tm-btn__container.tm-btn--size-lg {
-	font-size: 1.125em !important;
-	height: 3rem;
-	font-weight: normal;
-	padding: 0 1rem;
+  font-size: 1.125em !important;
+  height: 3rem;
+  font-weight: normal;
+  padding: 0 1rem;
 }
 </style>
