@@ -7,9 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-### Changed
+### Changed 
 
 - [\#2044](https://github.com/cosmos/voyager/issues/2044) convert uatoms to atoms @faboweb
+- Refactored tests: LiProposal @jbibla
+
+## [1.0.0-beta.9] - 2019-02-28
 
 ### Fixed
 
@@ -56,6 +59,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+- Refactored tests: PageStaking, PanelSort, TabStakingParameters @faboweb
 - Sign in with local key @faboweb
 - [\#2024](https://github.com/cosmos/voyager/issues/2024) Fixed feature setting the rpc from url param @faboweb
 
