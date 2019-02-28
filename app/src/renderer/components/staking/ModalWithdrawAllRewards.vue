@@ -43,16 +43,14 @@ export default {
     TmFormGroup
   },
   computed: {
-    ...mapGetters([
-      `bondDenom`,
-      `distribution`
-    ]),
+    ...mapGetters([`bondDenom`, `distribution`]),
     totalRewards() {
       const { bondDenom, distribution } = this
       return (
-        distribution.totalRewards[bondDenom] && 
-          atoms(distribution.totalRewards[bondDenom])
-      ) || 0
+        (distribution.totalRewards[bondDenom] &&
+					atoms(distribution.totalRewards[bondDenom])) ||
+				0
+      )
     }
   },
   methods: {
