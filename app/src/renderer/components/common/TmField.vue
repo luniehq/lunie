@@ -156,8 +156,14 @@ export default {
       this.onChange(this.currentToggleState)
     },
     updateValue(value) {
-      // Emit the value through the input event
-      this.$emit(`input`, value)
+      let formattedValue = value
+
+      if (this.type === `number`) {
+        formattedValue = value.trim()
+      }
+
+      // Emit the number value through the input event
+      this.$emit(`input`, formattedValue)
     },
     onChange(...args) {
       if (this.change) return this.change(...args)

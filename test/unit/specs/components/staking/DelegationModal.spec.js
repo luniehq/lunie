@@ -22,7 +22,7 @@ describe(`DelegationModal`, () => {
           {
             address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
             key: `My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9`,
-            maximum: 100,
+            maximum: 1000000000,
             value: 0
           },
           {

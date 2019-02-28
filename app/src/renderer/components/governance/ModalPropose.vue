@@ -167,7 +167,7 @@ export default {
         isValid
       },
       amount: {
-        required: x => x !== `0` && x !== ``,
+        required: x => !!x && x !== `0`,
         decimal,
         between: between(this.balance ? 1 : 0, atoms(this.balance))
       }

@@ -94,7 +94,7 @@ export default {
   validations() {
     return {
       amount: {
-        required: x => x !== `0` && x !== ``,
+        required: x => !!x && x !== `0`,
         decimal,
         between: between(0, atoms(this.balance))
       }

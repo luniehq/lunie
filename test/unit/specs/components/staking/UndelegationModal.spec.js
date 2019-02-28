@@ -33,7 +33,7 @@ describe(`UndelegationModal`, () => {
         $store
       },
       propsData: {
-        maximum: 100,
+        maximum: 1000000000,
         validator,
         to: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
         denom: stakingParameters.bond_denom,
