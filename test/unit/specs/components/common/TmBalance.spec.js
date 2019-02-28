@@ -40,4 +40,10 @@ describe(`TmBalance`, () => {
   it(`gets user rewards`, () => {
     expect(wrapper.vm.rewards).toBe(`100,045.0000…`)
   })
+
+  it(`opens withdraw modal`, () => {
+    const $refs = { modalWithdrawAllRewards: { open: jest.fn() } }
+    TmBalance.methods.onWithdrawal.call({ $refs })
+    expect($refs.modalWithdrawAllRewards.open).toHaveBeenCalled()
+  })
 })
