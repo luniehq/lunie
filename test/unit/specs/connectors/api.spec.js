@@ -495,7 +495,7 @@ describe(`API`, () => {
               method: `GET`,
               url: `http://remotehost/txs?action=submit_proposal&proposer=${
                 lcdClientMock.addresses[0]
-                }`
+              }`
             }
           ],
           [
@@ -504,7 +504,7 @@ describe(`API`, () => {
               method: `GET`,
               url: `http://remotehost/txs?action=deposit&depositor=${
                 lcdClientMock.addresses[0]
-                }`
+              }`
             }
           ]
         ])
