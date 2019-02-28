@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1032](https://github.com/cosmos/voyager/issues/1032) added several events to google analytics @faboweb
 - [\#1630](https://github.com/cosmos/voyager/issues/1630) added memo "Sent via Cosmos UI" to distinguish txs sent via UI @faboweb
 - [\#2035](https://github.com/cosmos/voyager/issues/2035) Distribution vuex module @fedekunze
+- [\#2050](https://github.com/cosmos/voyager/pull/2050) forward to /404 on a not found block @faboweb
 
 ### Fixed
 
