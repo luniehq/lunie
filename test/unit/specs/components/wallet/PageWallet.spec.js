@@ -11,7 +11,8 @@ describe(`PageWallet`, () => {
     wallet: {
       loading: false,
       denoms: [`fermion`, `gregcoin`, `mycoin`, `STAKE`],
-      balances: lcdClientMock.state.accounts[lcdClientMock.addresses[0]].coins
+      balances: lcdClientMock.state.accounts[lcdClientMock.addresses[0]].coins,
+      externals: { config: { faucet: `yo` } }
     },
     connected: true
   }
@@ -73,7 +74,8 @@ describe(`PageWallet`, () => {
         wallet: {
           loaded: false,
           denoms: [`fermion`, `gregcoin`, `mycoin`, `STAKE`],
-          balances: []
+          balances: [],
+          externals: { config: {} }
         },
         connected: false
       })
@@ -98,7 +100,8 @@ describe(`PageWallet`, () => {
           loading: true,
           loaded: false,
           denoms: [`fermion`, `gregcoin`, `mycoin`, `STAKE`],
-          balances: []
+          balances: [],
+          externals: { config: {} }
         },
         connected: true
       })
