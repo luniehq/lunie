@@ -495,7 +495,7 @@ describe(`API`, () => {
               method: `GET`,
               url: `http://remotehost/txs?action=submit_proposal&proposer=${
                 lcdClientMock.addresses[0]
-              }`
+                }`
             }
           ],
           [
@@ -504,13 +504,13 @@ describe(`API`, () => {
               method: `GET`,
               url: `http://remotehost/txs?action=deposit&depositor=${
                 lcdClientMock.addresses[0]
-              }`
+                }`
             }
           ]
         ])
       })
 
-      describe(`Parameters`, function() {
+      describe(`Parameters`, function () {
         it(`queries for governance deposit parameters`, async () => {
           axios.mockReturnValue({})
           await client.getGovDepositParameters()
@@ -680,25 +680,6 @@ describe(`API`, () => {
             {
               data: undefined,
               method: `GET`,
-              url: `http://remotehost/distribution/delegators/cosmos1address/rewards/cosmosvaloper1address`
-            }
-          ]
-        ])
-      })
-
-      it(`withdraws a single reward of a delegator from a validator`, async () => {
-        axios.mockReturnValue({})
-        await client.postWithdrawDelegatorRewardsFromValidator(
-          `cosmos1address`,
-          `cosmosvaloper1address`,
-          {}
-        )
-
-        expect(axios.mock.calls).toEqual([
-          [
-            {
-              data: {},
-              method: `POST`,
               url: `http://remotehost/distribution/delegators/cosmos1address/rewards/cosmosvaloper1address`
             }
           ]
