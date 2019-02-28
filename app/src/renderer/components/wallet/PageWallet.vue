@@ -25,6 +25,7 @@
     />
     <tm-btn
       v-if="enableFaucet"
+      slot="header-buttons"
       value="Get Tokens"
       color="green"
       @click.native="faucet"
