@@ -17,20 +17,34 @@
       <div v-if="rewards" class="top-section">
         <h3>Total Rewards</h3>
         <h2>{{ rewards }}</h2>
+        <tm-btn
+          id="withdraw-btn"
+          :disabled="!connected"
+          :value="connected ? 'Withdraw rewards' : 'Connecting...'"
+          :to="''"
+          type="link"
+          size="sm"
+          @click.native="onWithdrawal"
+        />
       </div>
     </div>
     <short-bech32 :address="session.address || ''" />
     <slot />
+    <modal-withdraw-all-rewards ref="modalWithdrawAllRewards" />
   </div>
 </template>
 <script>
 import num from "scripts/num"
 import ShortBech32 from "common/ShortBech32"
+import TmBtn from "common/TmBtn"
+import ModalWithdrawAllRewards from "staking/ModalWithdrawAllRewards"
 import { mapGetters } from "vuex"
 export default {
   name: `tm-balance`,
   components: {
-    ShortBech32
+    ShortBech32,
+    TmBtn,
+    ModalWithdrawAllRewards,
   },
   data() {
     return {
@@ -39,6 +53,7 @@ export default {
   },
   computed: {
     ...mapGetters([
+      `connected`,
       `session`,
       `liquidAtoms`,
       `totalAtoms`,
@@ -54,6 +69,11 @@ export default {
           this.distribution.totalRewards[this.bondDenom] || 0
         )
       )
+    }
+  },
+  methods: {
+    onWithdrawal() {
+      this.$refs.modalWithdrawAllRewards.open()
     }
   }
 }
