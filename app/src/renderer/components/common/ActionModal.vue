@@ -212,6 +212,10 @@ export default {
       this.password = null
       this.step = defaultStep
       this.show = false
+
+      // reset form
+      this.$v.$reset()
+      this.$emit(`close`)
     },
     goToSession() {
       this.$store.commit(`setSessionModalView`, `welcome`)

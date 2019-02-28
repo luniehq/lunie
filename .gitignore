@@ -13,7 +13,6 @@ thumbs.db
 yarn-error.log
 testArtifacts/*
 app/networks/local-testnet/*
-docs/cosmos-voyager
 .idea/*
 *.crt
 *.key
