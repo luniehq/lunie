@@ -265,7 +265,7 @@ export default {
     },
     myDelegation() {
       const { bondDenom, myBond } = this
-      const myDelegation = full(atoms(myBond))
+      const myDelegation = full(myBond)
       const myDelegationString = `${myDelegation} ${bondDenom}`
       return Number(myBond) === 0 ? `--` : myDelegationString
     },

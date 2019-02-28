@@ -7,6 +7,7 @@ describe(`TmBalance`, () => {
   beforeEach(() => {
     $store = {
       getters: {
+        connected: true,
         session: {
           address: `cosmos1address`,
           signedIn: true

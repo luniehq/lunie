@@ -54,12 +54,21 @@ exports[`TmBalance has the expected html structure before adding props 1`] = `
       <h2>
         100,045.0000…
       </h2>
+       
+      <tm-btn-stub
+        id="withdraw-btn"
+        size="sm"
+        to=""
+        type="link"
+        value="Withdraw"
+      />
     </div>
   </div>
    
   <short-bech32-stub
     address="cosmos1address"
   />
-   
+    
+  <modal-withdraw-all-rewards-stub />
 </div>
 `;
