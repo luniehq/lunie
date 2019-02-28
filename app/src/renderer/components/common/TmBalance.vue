@@ -9,6 +9,7 @@
         <h2 class="total-atoms__value">
           {{ num.shortNumber(num.atoms(totalAtoms)) }}
         </h2>
+        <short-bech32 :address="session.address || ''" />
       </div>
       <div v-if="unbondedAtoms" class="unbonded-atoms top-section">
         <h3>Available {{ bondDenom }}</h3>
@@ -19,7 +20,7 @@
         <h2>{{ rewards }}</h2>
         <tm-btn
           id="withdraw-btn"
-          :disabled="!connected"
+          class="withdraw-rewards"
           :value="connected ? 'Withdraw' : 'Connecting...'"
           :to="''"
           type="link"
@@ -28,7 +29,6 @@
         />
       </div>
     </div>
-    <short-bech32 :address="session.address || ''" />
     <slot />
     <modal-withdraw-all-rewards ref="modalWithdrawAllRewards" />
   </div>
@@ -40,113 +40,110 @@ import TmBtn from "common/TmBtn"
 import ModalWithdrawAllRewards from "staking/ModalWithdrawAllRewards"
 import { mapGetters } from "vuex"
 export default {
-  name: `tm-balance`,
-  components: {
-    ShortBech32,
-    TmBtn,
-    ModalWithdrawAllRewards,
-  },
-  data() {
-    return {
-      num
-    }
-  },
-  computed: {
-    ...mapGetters([
-      `connected`,
-      `session`,
-      `liquidAtoms`,
-      `totalAtoms`,
-      `bondDenom`,
-      `distribution`
-    ]),
-    unbondedAtoms() {
-      return this.num.shortNumber(this.num.atoms(this.liquidAtoms))
-    },
-    rewards() {
-      return  this.num.shortNumber(
-        this.num.atoms(
-          this.distribution.totalRewards[this.bondDenom] || 0
-        )
-      )
-    }
-  },
-  methods: {
-    onWithdrawal() {
-      this.$refs.modalWithdrawAllRewards.open()
-    }
-  }
+	name: `tm-balance`,
+	components: {
+		ShortBech32,
+		TmBtn,
+		ModalWithdrawAllRewards
+	},
+	data() {
+		return {
+			num
+		}
+	},
+	computed: {
+		...mapGetters([
+			`connected`,
+			`session`,
+			`liquidAtoms`,
+			`totalAtoms`,
+			`bondDenom`,
+			`distribution`
+		]),
+		unbondedAtoms() {
+			return this.num.shortNumber(this.num.atoms(this.liquidAtoms))
+		},
+		rewards() {
+			return this.num.shortNumber(
+				this.num.atoms(this.distribution.totalRewards[this.bondDenom] || 0)
+			)
+		}
+	},
+	methods: {
+		onWithdrawal() {
+			this.$refs.modalWithdrawAllRewards.open()
+		}
+	}
 }
 </script>
 <style scoped>
 .header-balance {
-  align-items: baseline;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  padding-top: 1rem;
-  padding-left: 2rem;
+	align-items: baseline;
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	padding-top: 1rem;
+	padding-left: 2rem;
 }
 
 .header-balance .top {
-  display: flex;
-  flex-direction: row;
+	display: flex;
+	flex-direction: row;
 }
 
 .top-section {
-  padding: 0 2rem;
+	padding: 0 2rem;
 }
 
 .header-balance .top > .top-section {
-  border-right: var(--bc-dim) 1px solid;
+	border-right: var(--bc-dim) 1px solid;
+	position: relative;
 }
 
 .header-balance .top > div:last-of-type {
-  border-right: none;
+	border-right: none;
 }
 
 .header-balance .top h3 {
-  color: var(--dim);
-  font-size: 14px;
-  margin: 0;
-  font-weight: 400;
+	color: var(--dim);
+	font-size: 14px;
+	margin: 0;
+	font-weight: 400;
 }
 
 .header-balance .top h2 {
-  color: var(--bright);
-  font-size: var(--h1);
-  font-weight: 500;
-  line-height: 40px;
+	color: var(--bright);
+	font-size: var(--h1);
+	font-weight: 500;
+	line-height: 40px;
 }
 
 .header-balance .top .icon-container {
-  display: block;
-  height: 100%;
+	display: block;
+	height: 100%;
 }
 
 .header-balance .top .icon {
-  border-right: none;
-  height: 60px;
-  margin: 0 1rem 0 0;
-  padding: 0;
-  width: 60px;
+	border-right: none;
+	height: 60px;
+	margin: 0 1rem 0 0;
+	padding: 0;
+	width: 60px;
 }
 
 .header-balance .top .total-rewards .group {
-  align-items: baseline;
-  display: flex;
-  flex-direction: row;
+	align-items: baseline;
+	display: flex;
+	flex-direction: row;
 }
 
 .header-balance .top .total-rewards .group a {
-  padding-left: 10px;
+	padding-left: 10px;
 }
 
-.header-balance .short-bech32 {
-  padding: 0.5rem 0 0.5rem 109px;
-}
-
-.tm-btn {
-  position: relative;
+.withdraw-rewards {
+	font-size: var(--sm);
+	position: absolute;
+	font-weight: 300;
 }
 </style>
