@@ -25,7 +25,7 @@ exports[`AppHeader should display the sidebar on desktop 1`] = `
       id="develop-mode-warning"
     >
       
-      EXPERIMENTAL MODE
+      INSECURE MODE
     
     </div>
      
@@ -61,7 +61,7 @@ exports[`AppHeader should show the sidebar as a menu on mobile 1`] = `
       id="develop-mode-warning"
     >
       
-      EXPERIMENTAL MODE
+      INSECURE MODE
     
     </div>
      

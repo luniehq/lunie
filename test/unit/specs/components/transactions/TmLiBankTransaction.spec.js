@@ -5,7 +5,6 @@ import transactions from "../../store/json/txs"
 describe(`TmLiBankTransaction`, () => {
   let wrapper
   const propsData = {
-    experimentalMode: true,
     transaction: transactions[0],
     address: `B`
   }
