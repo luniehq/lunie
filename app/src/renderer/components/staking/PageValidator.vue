@@ -1,8 +1,6 @@
 <template>
   <tm-page data-title="Validator">
-    <tm-data-loading v-if="delegates.loading" />
     <tm-data-error v-if="delegates.loaded && !validator" />
-
     <template v-else>
       <div class="page-profile__header page-profile__section">
         <div class="row">
@@ -189,7 +187,6 @@ import { mapGetters } from "vuex"
 import { percent, pretty, atoms, full } from "scripts/num"
 import TmBtn from "common/TmBtn"
 import TmModal from "common/TmModal"
-import TmDataLoading from "common/TmDataLoading"
 import TmDataError from "common/TmDataError"
 import { shortAddress, ratToBigNumber } from "scripts/common"
 import DelegationModal from "staking/DelegationModal"
@@ -198,223 +195,220 @@ import ShortBech32 from "common/ShortBech32"
 import TmPage from "common/TmPage"
 import { isEmpty } from "lodash"
 export default {
-  name: `page-validator`,
-  components: {
-    ShortBech32,
-    DelegationModal,
-    UndelegationModal,
-    TmBtn,
-    TmModal,
-    TmDataLoading,
-    TmDataError,
-    TmPage
-  },
-  data: () => ({
-    percent,
-    pretty,
-    showCannotModal: false,
-    shortAddress,
-    tabIndex: 1,
-    action: ``,
-    moment
-  }),
-  computed: {
-    ...mapGetters([
-      `lastHeader`,
-      `bondDenom`,
-      `delegates`,
-      `distribution`,
-      `committedDelegations`,
-      `keybase`,
-      `liquidAtoms`,
-      `session`,
-      `connected`
-    ]),
-    validator() {
-      const validator = this.delegates.delegates.find(
-        v => this.$route.params.validator === v.operator_address
-      )
-      if (validator) {
-        validator.keybase = this.keybase[validator.description.identity]
-      }
+	name: `page-validator`,
+	components: {
+		ShortBech32,
+		DelegationModal,
+		UndelegationModal,
+		TmBtn,
+		TmModal,
+		TmDataError,
+		TmPage
+	},
+	data: () => ({
+		percent,
+		pretty,
+		showCannotModal: false,
+		shortAddress,
+		tabIndex: 1,
+		action: ``,
+		moment
+	}),
+	computed: {
+		...mapGetters([
+			`lastHeader`,
+			`bondDenom`,
+			`delegates`,
+			`distribution`,
+			`committedDelegations`,
+			`keybase`,
+			`liquidAtoms`,
+			`session`,
+			`connected`
+		]),
+		validator() {
+			const validator = this.delegates.delegates.find(
+				v => this.$route.params.validator === v.operator_address
+			)
+			if (validator) {
+				validator.keybase = this.keybase[validator.description.identity]
+			}
 
-      return validator
-    },
-    selfBond() {
-      return percent(this.validator.selfBond)
-    },
-    uptime() {
-      if (!this.validator.signing_info) return null
+			return validator
+		},
+		selfBond() {
+			return percent(this.validator.selfBond)
+		},
+		uptime() {
+			if (!this.validator.signing_info) return null
 
-      const totalBlocks = this.lastHeader.height
-      const missedBlocks = this.validator.signing_info.missed_blocks_counter
-      const signedBlocks = totalBlocks - missedBlocks
-      const uptime = (signedBlocks / totalBlocks) * 100
+			const totalBlocks = this.lastHeader.height
+			const missedBlocks = this.validator.signing_info.missed_blocks_counter
+			const signedBlocks = totalBlocks - missedBlocks
+			const uptime = (signedBlocks / totalBlocks) * 100
 
-      return String(uptime).substring(0, 4) + `%`
-    },
-    myBond() {
-      return BigNumber(
-        atoms(
-          calculateTokens(
-            this.validator,
-            this.committedDelegations[this.validator.operator_address] || 0
-          )
-        )
-      )
-    },
-    myDelegation() {
-      const { bondDenom, myBond } = this
-      const myDelegation = full(myBond)
-      const myDelegationString = `${myDelegation} ${bondDenom}`
-      return Number(myBond) === 0 ? `--` : myDelegationString
-    },
-    powerRatio() {
-      return ratToBigNumber(this.validator.tokens)
-        .div(this.delegates.globalPower)
-        .toNumber()
-    },
-    lastCommissionChange() {
-      const updateTime = this.validator.commission.update_time
-      const dateTime = new Date(updateTime)
-      const neverHappened = dateTime.getTime() === 0
+			return String(uptime).substring(0, 4) + `%`
+		},
+		myBond() {
+			return BigNumber(
+				atoms(
+					calculateTokens(
+						this.validator,
+						this.committedDelegations[this.validator.operator_address] || 0
+					)
+				)
+			)
+		},
+		myDelegation() {
+			const { bondDenom, myBond } = this
+			const myDelegation = full(myBond)
+			const myDelegationString = `${myDelegation} ${bondDenom}`
+			return Number(myBond) === 0 ? `--` : myDelegationString
+		},
+		powerRatio() {
+			return ratToBigNumber(this.validator.tokens)
+				.div(this.delegates.globalPower)
+				.toNumber()
+		},
+		lastCommissionChange() {
+			const updateTime = this.validator.commission.update_time
+			const dateTime = new Date(updateTime)
+			const neverHappened = dateTime.getTime() === 0
 
-      return neverHappened || updateTime === `0001-01-01T00:00:00Z`
-        ? `--`
-        : moment(dateTime).fromNow()
-    },
-    status() {
-      // status: jailed
-      if (this.validator.revoked)
-        return `This validator has been jailed and is not currently validating`
+			return neverHappened || updateTime === `0001-01-01T00:00:00Z`
+				? `--`
+				: moment(dateTime).fromNow()
+		},
+		status() {
+			// status: jailed
+			if (this.validator.revoked)
+				return `This validator has been jailed and is not currently validating`
 
-      // status: inactive
-      if (parseFloat(this.validator.voting_power) === 0)
-        return `This validator does not have enough voting power yet and is inactive`
+			// status: inactive
+			if (parseFloat(this.validator.voting_power) === 0)
+				return `This validator does not have enough voting power yet and is inactive`
 
-      // status: active
-      return `This validator is actively validating`
-    },
-    statusColor() {
-      // status: jailed
-      if (this.validator.revoked) return `red`
+			// status: active
+			return `This validator is actively validating`
+		},
+		statusColor() {
+			// status: jailed
+			if (this.validator.revoked) return `red`
 
-      // status: inactive
-      if (parseFloat(this.validator.voting_power) === 0) return `yellow`
+			// status: inactive
+			if (parseFloat(this.validator.voting_power) === 0) return `yellow`
 
-      // status: active
-      return `green`
-    },
-    rewards() {
-      const { session, bondDenom, distribution, validator } = this
-      if (!session.signedIn) { 
-        return null 
-      }
+			// status: active
+			return `green`
+		},
+		rewards() {
+			const { session, bondDenom, distribution, validator } = this
+			if (!session.signedIn) {
+				return null
+			}
 
-      const validatorRewards = distribution.rewards[
-        validator.operator_address
-      ]
-      const amount = validatorRewards ? full(
-        atoms(validatorRewards[bondDenom]) || 0
-      ) : null
+			const validatorRewards = distribution.rewards[validator.operator_address]
+			const amount = validatorRewards
+				? full(atoms(validatorRewards[bondDenom]) || 0)
+				: null
 
-      if (amount) {
-        return `${amount} ${bondDenom}`
-      }
-      return null
-    }
-  },
-  watch: {
-    validator: {
-      immediate: true,
-      handler(validator) {
-        if (!validator) return
-        this.$store.dispatch(`getSelfBond`, validator)
-      }
-    },
-    lastHeader: {
-      immediate: true,
-      handler(){
-        if (this.session.signedIn) {
-          this.$store.dispatch(
-            `getRewardsFromValidator`,
-            this.$route.params.validator
-          )
-        }
-      }
-    }
-  },
-  mounted() {
-    if (this.session.signedIn) {
-      this.$store.dispatch(
-        `getRewardsFromValidator`,
-        this.$route.params.validator
-      )
-    }
-  },
-  methods: {
-    closeCannotModal() {
-      this.showCannotModal = false
-    },
-    onDelegation() {
-      this.action = `delegate`
-      if (this.liquidAtoms > 0) {
-        this.$refs.delegationModal.open()
-      } else {
-        this.showCannotModal = true
-      }
-    },
-    onUndelegation() {
-      this.action = `undelegate`
-      if (this.myBond.isGreaterThan(0)) {
-        this.$refs.undelegationModal.open()
-      } else {
-        this.showCannotModal = true
-      }
-    },
-    delegationTargetOptions(
-      { session, liquidAtoms, committedDelegations, $route, delegates } = this
-    ) {
-      if (!session.signedIn) return []
+			if (amount) {
+				return `${amount} ${bondDenom}`
+			}
+			return null
+		}
+	},
+	watch: {
+		validator: {
+			immediate: true,
+			handler(validator) {
+				if (!validator) return
+				this.$store.dispatch(`getSelfBond`, validator)
+			}
+		},
+		lastHeader: {
+			immediate: true,
+			handler() {
+				if (this.session.signedIn) {
+					this.$store.dispatch(
+						`getRewardsFromValidator`,
+						this.$route.params.validator
+					)
+				}
+			}
+		}
+	},
+	mounted() {
+		if (this.session.signedIn) {
+			this.$store.dispatch(
+				`getRewardsFromValidator`,
+				this.$route.params.validator
+			)
+		}
+	},
+	methods: {
+		closeCannotModal() {
+			this.showCannotModal = false
+		},
+		onDelegation() {
+			this.action = `delegate`
+			if (this.liquidAtoms > 0) {
+				this.$refs.delegationModal.open()
+			} else {
+				this.showCannotModal = true
+			}
+		},
+		onUndelegation() {
+			this.action = `undelegate`
+			if (this.myBond.isGreaterThan(0)) {
+				this.$refs.undelegationModal.open()
+			} else {
+				this.showCannotModal = true
+			}
+		},
+		delegationTargetOptions(
+			{ session, liquidAtoms, committedDelegations, $route, delegates } = this
+		) {
+			if (!session.signedIn) return []
 
-      //- First option should always be your wallet (i.e normal delegation)
-      const myWallet = [
-        {
-          address: session.address,
-          maximum: Math.floor(liquidAtoms),
-          key: `My Wallet - ${shortAddress(session.address, 20)}`,
-          value: 0
-        }
-      ]
-      const bondedValidators = Object.keys(committedDelegations)
-      if (isEmpty(bondedValidators)) {
-        return myWallet
-      }
-      //- The rest of the options are from your other bonded validators
-      //- We skip the option of redelegating to the same address
-      const redelegationOptions = bondedValidators
-        .filter(address => address != $route.params.validator)
-        .map((address, index) => {
-          const delegate = delegates.delegates.find(function(validator) {
-            return validator.operator_address === address
-          })
-          return {
-            address: address,
-            maximum: Math.floor(committedDelegations[address]),
-            key: `${delegate.description.moniker} - ${shortAddress(
-              delegate.operator_address,
-              20
-            )}`,
-            value: index + 1
-          }
-        })
-      return myWallet.concat(redelegationOptions)
-    },
-    // empty descriptions have a strange '[do-not-modify]' value which we don't want to show
-    translateEmptyDescription(value) {
-      if (!value || value === `[do-not-modify]`) return `--`
-      return value
-    }
-  }
+			//- First option should always be your wallet (i.e normal delegation)
+			const myWallet = [
+				{
+					address: session.address,
+					maximum: Math.floor(liquidAtoms),
+					key: `My Wallet - ${shortAddress(session.address, 20)}`,
+					value: 0
+				}
+			]
+			const bondedValidators = Object.keys(committedDelegations)
+			if (isEmpty(bondedValidators)) {
+				return myWallet
+			}
+			//- The rest of the options are from your other bonded validators
+			//- We skip the option of redelegating to the same address
+			const redelegationOptions = bondedValidators
+				.filter(address => address != $route.params.validator)
+				.map((address, index) => {
+					const delegate = delegates.delegates.find(function(validator) {
+						return validator.operator_address === address
+					})
+					return {
+						address: address,
+						maximum: Math.floor(committedDelegations[address]),
+						key: `${delegate.description.moniker} - ${shortAddress(
+							delegate.operator_address,
+							20
+						)}`,
+						value: index + 1
+					}
+				})
+			return myWallet.concat(redelegationOptions)
+		},
+		// empty descriptions have a strange '[do-not-modify]' value which we don't want to show
+		translateEmptyDescription(value) {
+			if (!value || value === `[do-not-modify]`) return `--`
+			return value
+		}
+	}
 }
 </script>
