@@ -24,6 +24,7 @@
       @show-modal="showModal"
     />
     <tm-btn
+      v-if="enableFaucet"
       value="Get Tokens"
       color="green"
       @click.native="faucet"
@@ -54,6 +55,9 @@ export default {
   data: () => ({ num, showSendModal: false }),
   computed: {
     ...mapGetters([`wallet`, `connected`]),
+    enableFaucet() {
+      return !!this.wallet.externals.config.faucet
+    },
     allDenomBalances() {
       // for denoms not in balances, add empty balance
       const balances = this.wallet.balances.slice(0)

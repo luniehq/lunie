@@ -12,13 +12,11 @@ export default ({ node }) => {
     denoms: [],
     accountNumber: null,
     address: null,
-    subscribedRPC: null
+    subscribedRPC: null,
+    externals: { config }
   }
   const state = JSON.parse(JSON.stringify(emptyState))
-  state.externals = {
-    axios,
-    config
-  }
+  state.externals.axios = axios
 
   const mutations = {
     setWalletBalances(state, balances) {
