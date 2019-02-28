@@ -51,6 +51,9 @@ describe(`PageBlock`, () => {
         },
         $route: {
           params: { height: `100` }
+        },
+        $router: {
+          push: jest.fn()
         }
       },
       stubs: [`router-link`]
