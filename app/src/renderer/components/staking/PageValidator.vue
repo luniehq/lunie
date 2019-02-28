@@ -54,9 +54,9 @@
               <dt>My Delegation</dt>
               <dd>{{ myDelegation }}</dd>
             </dl>
-            <dl v-if="session.devMode" class="info_dl colored_dl">
+            <dl class="info_dl colored_dl">
               <dt>My Rewards</dt>
-              <dd>--</dd>
+              <dd>{{ rewards || "--" }}</dd>
             </dl>
           </div>
 
@@ -186,7 +186,7 @@ import BigNumber from "bignumber.js"
 import moment from "moment"
 import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
-import { percent, pretty, atoms } from "scripts/num"
+import { percent, pretty, atoms, full } from "scripts/num"
 import TmBtn from "common/TmBtn"
 import TmModal from "common/TmModal"
 import TmDataLoading from "common/TmDataLoading"
@@ -223,6 +223,7 @@ export default {
       `lastHeader`,
       `bondDenom`,
       `delegates`,
+      `distribution`,
       `committedDelegations`,
       `keybase`,
       `liquidAtoms`,
@@ -263,9 +264,10 @@ export default {
       )
     },
     myDelegation() {
-      const myBond = atoms(this.myBond)
-      const myDelegationString = this.myBond + ` ` + this.bondDenom
-      return myBond === 0 ? `--` : myDelegationString
+      const { bondDenom, myBond } = this
+      const myDelegation = full(atoms(myBond))
+      const myDelegationString = `${myDelegation} ${bondDenom}`
+      return Number(myBond) === 0 ? `--` : myDelegationString
     },
     powerRatio() {
       return ratToBigNumber(this.validator.tokens)
@@ -302,6 +304,24 @@ export default {
 
       // status: active
       return `green`
+    },
+    rewards() {
+      const { session, bondDenom, distribution, validator } = this
+      if (!session.signedIn) { 
+        return null 
+      }
+
+      const validatorRewards = distribution.rewards[
+        validator.operator_address
+      ]
+      const amount = validatorRewards ? full(
+        atoms(validatorRewards[bondDenom]) || 0
+      ) : null
+
+      if (amount) {
+        return `${amount} ${bondDenom}`
+      }
+      return null
     }
   },
   watch: {
@@ -311,6 +331,25 @@ export default {
         if (!validator) return
         this.$store.dispatch(`getSelfBond`, validator)
       }
+    },
+    lastHeader: {
+      immediate: true,
+      handler(){
+        if (this.session.signedIn) {
+          this.$store.dispatch(
+            `getRewardsFromValidator`,
+            this.$route.params.validator
+          )
+        }
+      }
+    }
+  },
+  mounted() {
+    if (this.session.signedIn) {
+      this.$store.dispatch(
+        `getRewardsFromValidator`,
+        this.$route.params.validator
+      )
     }
   },
   methods: {

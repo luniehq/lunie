@@ -7,7 +7,7 @@
       <tbody>
         <li-validator
           v-for="i in sortedEnrichedDelegates"
-          :key="i.id"
+          :key="i.operator_address"
           :disabled="!userCanDelegate"
           :validator="i"
         />
@@ -53,9 +53,6 @@ export default {
       `bondDenom`,
       `keybase`
     ]),
-    signedIn() {
-      return this.session.signedIn
-    },
     vpTotal() {
       return this.validators
         .slice(0)
@@ -136,6 +133,18 @@ export default {
           class: `slashes`
         }
       ]
+    }
+  },
+  watch: {
+    address: function() {
+      this.session.address && this.$store.dispatch(`updateDelegates`)
+    },
+    validators: function(validators) {
+      if (!validators || validators.length === 0 || !this.session.signedIn) {
+        return
+      }
+
+      this.$store.dispatch(`getRewardsFromAllValidators`, validators)
     }
   }
 }
