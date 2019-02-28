@@ -117,7 +117,7 @@ const rendererConfig = {
     new webpack.DefinePlugin({
       "process.env.RELEASE": `"${commitHash}"`
     }),
-    new webpack.EnvironmentPlugin([`NODE_ENV`, `RELEASE`, `STARGATE`, `RPC`, `RELEASE`]),
+    new webpack.EnvironmentPlugin([`NODE_ENV`, `RELEASE`, `STARGATE`, `RPC`, `RELEASE`, `FAUCET`]),
     new HtmlWebpackPlugin({
       filename: `index.html`,
       template: `./app/index.ejs`,
