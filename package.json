@@ -27,7 +27,7 @@
     "lint:fix": "eslint --fix -f ./node_modules/eslint-friendly-formatter \"{,**/}*.{js,vue}\" && stylelint \"**/*.{css,vue}\" --fix",
     "test": "yarn run lint && yarn test:unit && yarn test:e2e",
     "test:unit": "cross-env NODE_ENV=testing jest --maxWorkers=2",
-    "test:e2e": "nightwatch --config ./test/e2e/nightwatch.json",
+    "test:e2e": "(kill $(lsof -t -i:9515) || true) && nightwatch --config ./test/e2e/nightwatch.json",
     "test:e2e:local-setup": "yarn build:ui && concurrently -k \"yarn backend\" \"http-server -p 8081 ./app/dist\"",
     "test:exe": "node tasks/test-build.js",
     "test:coverage": "http-server test/unit/coverage/lcov-report",
