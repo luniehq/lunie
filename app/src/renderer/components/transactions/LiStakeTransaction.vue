@@ -1,10 +1,31 @@
 <template>
-  <tm-li-transaction
-    :color="color"
+  <li-transaction
+    :color="`#512584`"
     :time="transaction.time"
     :block="transaction.height"
   >
-    <template v-if="delegation">
+    <template v-if="txType === `cosmos-sdk/MsgCreateValidator`">
+      <div slot="caption">
+        Create validator&nbsp;<b>{{ pretty(atoms(tx.value)) }}</b><span>&nbsp;{{ bondingDenom }}s</span>
+      </div>
+      <div slot="details">
+        Moniker:&nbsp;<router-link :to="url + '/' + tx.validator_addr">
+          {{
+            moniker(tx.validator_address)
+          }}
+        </router-link>
+      </div>
+    </template>
+    <template v-else-if="txType === `cosmos-sdk/MsgEditValidator`">
+      <div slot="caption">
+        Edit validator&nbsp;<router-link :to="url + '/' + tx.validator_addr">
+          {{
+            moniker(tx.validator_address)
+          }}
+        </router-link>
+      </div>
+    </template>
+    <template v-else-if="txType === `cosmos-sdk/MsgDelegate`">
       <div slot="caption">
         Delegated&nbsp;<b>{{ pretty(atoms(tx.delegation.amount)) }}</b><span>&nbsp;{{ bondingDenom }}s</span>
       </div>
@@ -15,7 +36,8 @@
           }}
         </router-link>
       </div>
-    </template><template v-if="redelegation">
+    </template>
+    <template v-else-if="txType === `cosmos-sdk/BeginRedelegate`">
       <div slot="caption">
         Redelegated&nbsp;<template>
           <b>
@@ -37,7 +59,8 @@
           }}
         </router-link>
       </div>
-    </template><template v-if="unbonding">
+    </template>
+    <template v-else-if="txType === `cosmos-sdk/Undelegate`">
       <div slot="caption">
         Undelegated&nbsp;<template>
           <b>
@@ -63,12 +86,20 @@
         </router-link>
       </div>
     </template>
-  </tm-li-transaction>
+    <template v-else-if="txType === `cosmos-sdk/MsgUnjail`">
+      <div slot="caption">
+        Unjail&nbsp;<router-link :to="url + '/' + tx.validator_addr">
+          {{
+            moniker(tx.validator_address)
+          }}
+        </router-link>
+      </div>
+    </template>
+  </li-transaction>
 </template>
 
 <script>
-import TmLiTransaction from "./TmLiTransaction"
-import colors from "./transaction-colors.js"
+import LiTransaction from "./LiTransaction"
 import { pretty, atoms } from "../../scripts/num.js"
 import { calculateTokens } from "../../scripts/common.js"
 import moment from "moment"
@@ -78,8 +109,8 @@ import moment from "moment"
  */
 
 export default {
-  name: `TmLiStakeTransaction`,
-  components: { TmLiTransaction },
+  name: `li-stake-transaction`,
+  components: { LiTransaction },
   props: {
     transaction: {
       type: Object,
@@ -100,6 +131,10 @@ export default {
     unbondingTime: {
       type: Number,
       default: null
+    },
+    txType: {
+      type: String,
+      required: true
     }
   },
   data: () => ({
@@ -109,18 +144,6 @@ export default {
   computed: {
     tx() {
       return this.transaction.tx.value.msg[0].value
-    },
-    type() {
-      return this.transaction.tx.value.msg[0].type
-    },
-    delegation() {
-      return this.type === `cosmos-sdk/MsgDelegate`
-    },
-    redelegation() {
-      return this.type === `cosmos-sdk/BeginRedelegate`
-    },
-    unbonding() {
-      return this.type === `cosmos-sdk/Undelegate`
     },
     timeDiff() {
       // only show time diff if still waiting to be terminated
@@ -134,12 +157,6 @@ export default {
       if (!this.unbondingTime) return `ended`
       if (this.unbondingTime - Date.now() <= 0) return `ended`
       return `locked`
-    },
-    color() {
-      if (this.delegation) return colors.stake.bonded
-      if (this.redelegation) return colors.stake.redelegate
-      // if (this.unbonding)
-      return colors.stake.unbonded
     }
   },
   methods: {
