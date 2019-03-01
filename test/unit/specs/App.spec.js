@@ -214,6 +214,52 @@ describe(`App Start`, () => {
     })
   })
 
+  it(`activates analytics`, async () => {
+    const node = {
+      rpcConnect: jest.fn(),
+      lcdConnected: jest.fn()
+    }
+    const Node = () => node
+    const store = {
+      state: {},
+      commit: jest.fn(),
+      dispatch: jest.fn()
+    }
+    const Store = () => store
+    const Vue = class {
+      constructor() {
+        this.$mount = jest.fn()
+      }
+      static use = () => { }
+      static directive = () => { }
+    }
+    const Sentry = {
+      init: jest.fn()
+    }
+    const enableGoogleAnalytics = jest.fn()
+
+    await startApp(
+      {},
+      {
+        stargate: `http://localhost:12344`,
+        google_analytics_uid: `GUID`
+      },
+      Node,
+      Store,
+      {
+        NODE_ENV: `production`
+      },
+      Sentry,
+      Vue,
+      enableGoogleAnalytics
+    )
+
+    expect(enableGoogleAnalytics).toHaveBeenCalledWith(`GUID`)
+
+    // does init in a way that user errors are not tracked by default
+    expect(Sentry.init).toHaveBeenCalledWith({})
+  })
+
   describe(`url parameters`, () => {
     it(`should set development mode`, async () => {
       jest.mock(`vue-router`)

@@ -20,8 +20,6 @@ describe(`Module: Session`, () => {
       Sentry: {
         init: jest.fn()
       },
-      enableGoogleAnalytics: jest.fn(),
-      disableGoogleAnalytics: jest.fn(),
       track: jest.fn(),
       config: {
         development: false,
@@ -266,7 +264,6 @@ describe(`Module: Session`, () => {
 
     expect(state.errorCollection).toBe(true)
     expect(localStorage.getItem(`voyager_error_collection_abc`)).toBe(`true`)
-    expect(state.externals.enableGoogleAnalytics).toHaveBeenCalledWith(`UA-123`)
     expect(state.externals.track).toHaveBeenCalledWith(`pageview`, {
       dl: `/`
     })
@@ -289,9 +286,6 @@ describe(`Module: Session`, () => {
 
     expect(state.errorCollection).toBe(false)
     expect(localStorage.getItem(`voyager_error_collection_abc`)).toBe(`false`)
-    expect(state.externals.disableGoogleAnalytics).toHaveBeenCalledWith(
-      `UA-123`
-    )
     expect(state.externals.Sentry.init).toHaveBeenCalledWith({})
   })
 
@@ -313,9 +307,6 @@ describe(`Module: Session`, () => {
     })
     expect(state.errorCollection).toBe(false)
     expect(localStorage.getItem(`voyager_error_collection_abc`)).toBe(`false`)
-    expect(state.externals.disableGoogleAnalytics).toHaveBeenCalledWith(
-      `UA-123`
-    )
     expect(state.externals.Sentry.init).toHaveBeenCalledWith({})
   })
 

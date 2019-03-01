@@ -12,6 +12,8 @@ module.exports.enableGoogleAnalytics = function enableGoogleAnalytics(gaUID) {
       (ga.q = ga.q || []).push(arguments)
     }
   ga.l = +new Date()
+  ga(`set`, `allowAdFeatures`, false)
+  ga(`set`, `anonymizeIp`, true)
   ga(`create`, gaUID, `auto`)
 }
 
