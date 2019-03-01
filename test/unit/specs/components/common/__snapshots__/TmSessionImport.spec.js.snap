@@ -30,7 +30,9 @@ exports[`TmSessionImport has the expected html structure 1`] = `
           <div
             class="tm-session-title"
           >
-            Import with Seed
+            
+        Import with Seed
+      
           </div>
            
           <a>
@@ -133,7 +135,9 @@ exports[`TmSessionImport has the expected html structure 1`] = `
           <p
             class="fundraiser-warning"
           >
-            Warning – Do not enter your actual 12 or 24 word seed phrase. This feature is intended for testing and is considered highly unsafe.
+            
+        Warning – Do not enter your actual 12 or 24 word seed phrase. This feature is intended for testing and is considered highly unsafe.
+      
           </p>
            
           <div
