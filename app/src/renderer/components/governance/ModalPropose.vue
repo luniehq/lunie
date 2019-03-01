@@ -6,6 +6,7 @@
     :validate="validateForm"
     title="Proposal"
     submission-error-prefix="Submitting proposal failed"
+    @close="$v.$reset()"
   >
     <tm-form-group
       :error="$v.title.$error && $v.title.$invalid"
@@ -77,9 +78,9 @@
         type="required"
       />
       <tm-form-msg
-        v-else-if="$v.amount.$error && !$v.amount.integer"
+        v-else-if="$v.amount.$error && !$v.amount.decimal"
         name="Amount"
-        type="integer"
+        type="numberic"
       />
       <tm-form-msg
         v-else-if="$v.amount.$error && !$v.amount.between"
@@ -99,8 +100,9 @@ import {
   maxLength,
   required,
   between,
-  integer
+  decimal
 } from "vuelidate/lib/validators"
+import { uatoms, atoms } from "../../scripts/num.js"
 import { isEmpty, trim } from "lodash"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
@@ -165,9 +167,9 @@ export default {
         isValid
       },
       amount: {
-        required,
-        integer,
-        between: between(this.balance ? 1 : 0, this.balance)
+        required: x => !!x && x !== `0`,
+        decimal,
+        between: between(this.balance ? 1 : 0, atoms(this.balance))
       }
     }
   },
@@ -189,7 +191,7 @@ export default {
         initial_deposit: [
           {
             denom: this.denom,
-            amount: String(this.amount)
+            amount: String(uatoms(this.amount))
           }
         ],
         password

@@ -159,7 +159,7 @@ export default {
       let formattedValue = value
 
       if (this.type === `number`) {
-        formattedValue = Number(value)
+        formattedValue = value.trim()
       }
 
       // Emit the number value through the input event

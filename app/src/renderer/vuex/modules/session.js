@@ -1,8 +1,6 @@
 import * as Sentry from "@sentry/browser"
 import noScroll from "no-scroll"
 import {
-  enableGoogleAnalytics,
-  disableGoogleAnalytics,
   track
 } from "../../google-analytics.js"
 import config from "../../../config"
@@ -13,7 +11,8 @@ export default () => {
   const ERROR_COLLECTION_KEY = `voyager_error_collection`
 
   const state = {
-    devMode: config.development,
+    experimentalMode: config.development,
+    insecureMode: config.development,
     signedIn: false,
     accounts: [],
     localKeyPairName: null, // used for signing with a locally stored key, TODO move into own module
@@ -39,8 +38,6 @@ export default () => {
       importKey,
       testPassword,
       generateSeed,
-      enableGoogleAnalytics,
-      disableGoogleAnalytics,
       track,
       Sentry
     }
@@ -63,8 +60,11 @@ export default () => {
 
       state.modals.help.active = value
     },
-    setDevMode(state) {
-      state.devMode = true
+    setExperimentalMode(state) {
+      state.experimentalMode = true
+    },
+    setInsecureMode(state) {
+      state.insecureMode = true
     },
     addHistory(state, path) {
       state.history.push(path)
@@ -208,19 +208,13 @@ export default () => {
           dsn: state.externals.config.sentry_dsn,
           release: state.externals.config.version
         })
-        state.externals.enableGoogleAnalytics(
-          state.externals.config.google_analytics_uid
-        )
-        console.log(`Analytics and error reporting have been enabled`)
+        console.log(`Error collection has been enabled`)
         state.externals.track(`pageview`, {
           dl: window.location.pathname
         })
       } else {
-        console.log(`Analytics disabled in browser`)
+        console.log(`Error collection has been disabled`)
         state.externals.Sentry.init({})
-        state.externals.disableGoogleAnalytics(
-          state.externals.config.google_analytics_uid
-        )
       }
     }
   }

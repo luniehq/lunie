@@ -6,8 +6,8 @@
       </thead>
       <tbody>
         <li-validator
-          v-for="i in sortedFilteredEnrichedDelegates"
-          :key="i.id"
+          v-for="i in sortedEnrichedDelegates"
+          :key="i.operator_address"
           :disabled="!userCanDelegate"
           :validator="i"
         />
@@ -45,7 +45,6 @@ export default {
   }),
   computed: {
     ...mapGetters([
-      `delegates`,
       `delegation`,
       `committedDelegations`,
       `session`,
@@ -54,9 +53,6 @@ export default {
       `bondDenom`,
       `keybase`
     ]),
-    signedIn() {
-      return this.session.signedIn
-    },
     vpTotal() {
       return this.validators
         .slice(0)
@@ -80,13 +76,12 @@ export default {
         })
       )
     },
-    sortedFilteredEnrichedDelegates() {
-      const sortedEnrichedDelegates = orderBy(
+    sortedEnrichedDelegates() {
+      return orderBy(
         this.enrichedDelegates.slice(0),
         [this.sort.property, `small_moniker`],
         [this.sort.order, `asc`]
       )
-      return sortedEnrichedDelegates
     },
     userCanDelegate() {
       return this.liquidAtoms > 0 && this.delegation.loaded
@@ -138,6 +133,18 @@ export default {
           class: `slashes`
         }
       ]
+    }
+  },
+  watch: {
+    address: function() {
+      this.session.address && this.$store.dispatch(`updateDelegates`)
+    },
+    validators: function(validators) {
+      if (!validators || validators.length === 0 || !this.session.signedIn) {
+        return
+      }
+
+      this.$store.dispatch(`getRewardsFromAllValidators`, validators)
     }
   }
 }

@@ -16,7 +16,7 @@ describe(`ModalPropose`, () => {
   beforeEach(async () => {
     const coins = [
       {
-        amount: `20`,
+        amount: `200000000`,
         denom: `stake`
       }
     ]
@@ -149,7 +149,7 @@ describe(`ModalPropose`, () => {
           `submitProposal`,
           {
             description: `a valid description for the proposal`,
-            initial_deposit: [{ amount: `15`, denom: `stake` }],
+            initial_deposit: [{ amount: `150000000`, denom: `stake` }],
             title: `A new text proposal for Cosmos`,
             type: `Text`,
             password: `1234567890`,

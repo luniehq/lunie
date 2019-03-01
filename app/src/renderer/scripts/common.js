@@ -19,7 +19,7 @@ module.exports.shortAddress = function (address, length = 4) {
 }
 
 module.exports.coinsToObject = function (coinArray) {
-  const coins = coinArray.reduce((dictionary, { denom, amount }) => { dictionary[denom] = Number(amount); return dictionary; }, {})
+  const coins = coinArray.reduce((dictionary, { denom, amount }) => { dictionary[denom] = Number(amount); return dictionary }, {})
   return coins
 }
 
