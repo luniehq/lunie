@@ -83,6 +83,13 @@ describe(`Module: Wallet`, () => {
   })
 
   describe(`actions`, () => {
+    it(`should reset session data`, () => {
+      const { actions } = instance
+      const rootState = {}
+      actions.resetSessionData({ rootState })
+      expect(rootState).toHaveProperty(`wallet`)
+    })
+
     it(`should fetch money`, async () => {
       const { state, actions } = instance
       const address = `X`
