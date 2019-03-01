@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
+- [\#1887](https://github.com/cosmos/voyager/issues/1887) Activating Google Analytics anonymized by default @faboweb
 - [\#2098](https://github.com/cosmos/voyager/issues/2098) rename devMode url flag to insecure @faboweb
 
 ### Fixed
