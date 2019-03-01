@@ -94,14 +94,14 @@ export default {
     this.getBlock()
   },
   methods: {
-    async getBlock() {
-      const block = await this.$store.dispatch(
+    async getBlock({ $store, $route, $router } = this) {
+      const block = await $store.dispatch(
         `queryBlockInfo`,
-        this.$route.params.height
+        $route.params.height
       )
 
       if (!block) {
-        this.$router.push(`/404`)
+        $router.push(`/404`)
       }
     }
   }

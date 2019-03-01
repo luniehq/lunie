@@ -60,7 +60,7 @@ describe(`PageBlock`, () => {
     })
   })
 
-  it(`has the expected html structure`, () => {
+  it(`shows a page with information about a certain block`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -76,5 +76,42 @@ describe(`PageBlock`, () => {
         title: `Round`
       }
     ])
+  })
+
+  it(`redirects to the 404 page if the block doesn't exist`, async () => {
+    const routerPush = jest.fn()
+
+    await PageBlock.methods.getBlock({
+      $store: {
+        dispatch: () => null, // not returning a block when querying
+      },
+      $route: {
+        params: {
+          height: 42
+        }
+      },
+      $router: {
+        push: routerPush
+      }
+    })
+
+    expect(routerPush).toHaveBeenCalledWith(`/404`)
+
+    routerPush.mockClear()
+    await PageBlock.methods.getBlock({
+      $store: {
+        dispatch: () => ({ x: 1 }) // return pseudo block
+      },
+      $route: {
+        params: {
+          height: 42
+        }
+      },
+      $router: {
+        push: routerPush
+      }
+    })
+
+    expect(routerPush).not.toHaveBeenCalledWith(`/404`)
   })
 })

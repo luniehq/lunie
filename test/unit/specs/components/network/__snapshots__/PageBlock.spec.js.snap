@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PageBlock has the expected html structure 1`] = `
+exports[`PageBlock shows a page with information about a certain block 1`] = `
 <tm-page-stub
   data-title="Block"
   subtitle=""
@@ -21,7 +21,9 @@ exports[`PageBlock has the expected html structure 1`] = `
           <h2
             class="page-profile__title"
           >
-            Block #100
+            
+              Block #100
+            
           </h2>
            
           <h3
