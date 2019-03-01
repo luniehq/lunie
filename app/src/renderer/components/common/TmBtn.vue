@@ -2,21 +2,11 @@
   <router-link
     v-if="type === 'link'"
     :to="to"
-    class="tm-btn"
     exact="exact"
   >
-    <span
-      :class="btnClass"
-    >
-      <i
-        v-if="icon"
-        :class="'tm-btn__icon material-icons'"
-        aria-hidden="true"
-      >
-        {{ icon }}
-      </i><span v-if="value" class="tm-btn__value">{{ value }}</span>
-    </span>
-  </router-link><a
+    {{ value }}
+  </router-link>
+  <a
     v-else-if="type === 'anchor'"
     class="tm-btn"
   >

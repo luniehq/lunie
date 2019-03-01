@@ -19,20 +19,12 @@ exports[`TmBtn allows for customization 1`] = `
 
 exports[`TmBtn displays as a link 1`] = `
 <router-link
-  class="tm-btn"
   exact="exact"
   to="/stake"
 >
-  <span
-    class="tm-btn__container"
-  >
-    <!---->
-    <span
-      class="tm-btn__value"
-    >
-      button
-    </span>
-  </span>
+  
+  button
+
 </router-link>
 `;
 

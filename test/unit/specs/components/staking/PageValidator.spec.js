@@ -196,7 +196,7 @@ describe(`PageValidator`, () => {
   describe(`myDelegation`, () => {
     it(`when user has delegations`, () => {
       const bondDenom = `stake`
-      const myBond = 100000000
+      const myBond = 10
       const delegationString = PageValidator.computed.myDelegation.call(
         { bondDenom, myBond }
       )

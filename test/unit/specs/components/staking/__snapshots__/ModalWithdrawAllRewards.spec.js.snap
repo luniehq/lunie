@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ModalWithdrawAllRewards has the expected html structure 1`] = `
+<action-modal-stub
+  class="modal-withdraw-rewards"
+  id="modal-withdraw-all-rewards"
+  submissionerrorprefix="Withdrawal failed"
+  submitfn="function () { [native code] }"
+  title="Withdraw"
+  validate="function () { [native code] }"
+>
+  <tm-form-group-stub
+    class="action-modal-form-group"
+    fieldid="amount"
+    fieldlabel="Amount"
+  >
+    <span
+      class="input-suffix"
+    >
+      stake
+    </span>
+     
+    <tm-field-stub
+      id="amount"
+      readonly=""
+      type="number"
+      value="1"
+    />
+  </tm-form-group-stub>
+</action-modal-stub>
+`;

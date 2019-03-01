@@ -9,11 +9,26 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+- [\#1306](https://github.com/cosmos/voyager/issues/1306) Withdraw fee distribution rewards @fedekunze
+
+### Fixed
+
+- [\#2128](https://github.com/cosmos/voyager/pull/2128) remove loading status on validator page when disconnected from the network @fedekunze
+
+## [1.0.0-beta.10] - 2019-03-01
+
+### Added
+
 - [\#135](https://github.com/cosmos/voyager/issues/135) Show fee distribution rewards @fedekunze @faboweb
+
 ### Changed 
 
 - [\#2044](https://github.com/cosmos/voyager/issues/2044) convert uatoms to atoms @faboweb
 - Refactored tests: LiProposal @jbibla
+
+### Fixed
+
+- [\#2087](https://github.com/cosmos/voyager/issues/2087) More resilient scripts on Ec2 instances, added validators @sabau
 
 ## [1.0.0-beta.9] - 2019-02-28
 
