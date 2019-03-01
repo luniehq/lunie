@@ -87,6 +87,7 @@ describe(`Module: Wallet`, () => {
       expect(dispatch.mock.calls).toEqual([
         [`queryWalletBalances`],
         [`loadDenoms`],
+        [`getTotalRewards`],
         [`walletSubscribe`]
       ])
     })

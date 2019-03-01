@@ -43,7 +43,7 @@
       }}
     </td>
     <td class="li-validator__rewards data-table__row__cell__separator">
-      n/a
+      {{ rewards || "n/a" }}
     </td>
     <td class="li-validator__voting-power">
       {{ validator.percent_of_vote ? validator.percent_of_vote : `n/a` }}
@@ -83,7 +83,14 @@ export default {
   },
   data: () => ({ num }),
   computed: {
-    ...mapGetters([`delegates`, `committedDelegations`]),
+    ...mapGetters([
+      `delegates`,
+      `committedDelegations`,
+      `distribution`,
+      `bondDenom`,
+      `session`,
+      `lastHeader`
+    ]),
     commission() {
       return `${this.num.pretty(this.validator.commission.rate)}%`
     },
@@ -98,13 +105,13 @@ export default {
       return `n/a`
     },
     yourVotes() {
-      return this.committedDelegations[this.validator.id]
+      return this.committedDelegations[this.validator.operator_address]
         ? BigNumber(
           num
             .atoms(
               calculateTokens(
                 this.validator,
-                this.committedDelegations[this.validator.id]
+                this.committedDelegations[this.validator.operator_address]
               )
             )
             .toString()
@@ -149,6 +156,28 @@ export default {
 
       // status: active
       return `green`
+    },
+    rewards() {
+      if (!this.session.signedIn) return null
+      const validatorRewards = this.distribution.rewards[
+        this.validator.operator_address
+      ]
+      return validatorRewards ? num.shortNumber(
+        num.atoms(validatorRewards[this.bondDenom]) || 0
+      ) : null
+    }
+  },
+  watch: {
+    lastHeader: {
+      immediate: true,
+      handler(){
+        if (this.yourVotes > 0) {
+          this.$store.dispatch(
+            `getRewardsFromValidator`,
+            this.validator.operator_address
+          )
+        }
+      }
     }
   }
 }

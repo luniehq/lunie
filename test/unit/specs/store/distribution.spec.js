@@ -66,11 +66,42 @@ describe(`Module: Fee Distribution`, () => {
   })
 
   describe(`Actions`, () => {
-    it(`resets the session data `, () => {
-      state.rewards = rewards
-      const rootState = { distribution: state }
-      actions.resetSessionData({ rootState })
-      expect(rootState.distribution.rewards).toMatchObject({})
+
+    describe(`reconnection`, () => {
+      it(`gets total rewards when the user has logged in and is loading`, async () => {
+        await actions.reconnected({
+          state: { loading: true },
+          dispatch,
+          rootState: { session: { signedIn: true } }
+        })
+        expect(dispatch).toHaveBeenCalledWith(`getTotalRewards`)
+      })
+
+      it(`fails getting total rewards if it's not loading`, async () => {
+        await actions.reconnected({
+          state: { loading: false },
+          dispatch,
+          rootState: { session: { signedIn: true } }
+        })
+        expect(dispatch).not.toHaveBeenCalledWith(`getTotalRewards`)
+      })
+
+      it(`fails getting total rewards if the user hasn't logged in`, async () => {
+        await actions.reconnected({
+          state: { loading: true },
+          dispatch,
+          rootState: { session: { signedIn: false } }
+        })
+        expect(dispatch).not.toHaveBeenCalledWith(`getTotalRewards`)
+      })
+    })
+
+    describe(`resetSessionData`, () => {
+      it(`should clear all distribution data`, () => {
+        state.totalRewards = { stake: 10 }
+        actions.resetSessionData({ rootState })
+        expect(rootState.distribution.totalRewards).toEqual({})
+      })
     })
 
     describe(`getTotalRewards`, () => {
@@ -104,6 +135,35 @@ describe(`Module: Fee Distribution`, () => {
         })
         expect(dispatch).toHaveBeenCalledWith(`getTotalRewards`)
       })
+    })
+
+    describe(`getRewardsFromAllValidators`, () => {
+      it(`success`, async () => {
+        const validators = [
+          { operator_address: `cosmosvaloper1address1` },
+          { operator_address: `cosmosvaloper1address2` },
+        ]
+        await actions.getRewardsFromAllValidators({ state, dispatch }, validators)
+        expect(dispatch).toBeCalledTimes(2)
+        expect(dispatch).toBeCalledWith(
+          `getRewardsFromValidator`,
+          validators[0].operator_address
+        )
+        expect(dispatch).toBeCalledWith(
+          `getRewardsFromValidator`,
+          validators[1].operator_address
+        )
+      })
+
+      it(`fails`, async () => {
+        const validators = [
+          { operator_address: undefined },
+          { operator_address: `cosmosvaloper1address2` },
+        ]
+        dispatch = jest.fn(async () => Promise.reject(Error(`invalid address`)))
+        await expect(actions.getRewardsFromAllValidators({ state, dispatch }, validators)).rejects.toThrowError(`invalid address`)
+      })
+
     })
 
     describe(`getRewardsFromValidator`, () => {
@@ -152,8 +212,8 @@ describe(`Module: Fee Distribution`, () => {
       })
 
       it(`fails`, async () => {
-        node.getDelegatorRewardsFromValidator = jest.fn(async () => Promise.reject(Error(`unexpected error`)))
-        await actions.getRewardsFromValidator({ state, rootState, commit })
+        node.getDistributionParameters = jest.fn(async () => Promise.reject(Error(`unexpected error`)))
+        await actions.getDistributionParameters({ state, rootState, commit })
         expect(node.getDistributionParameters).toHaveBeenCalled()
         expect(commit).not.toHaveBeenCalledWith(`setDistributionParameters`, parameters)
         expect(commit).toHaveBeenCalledWith(`setDistributionError`, Error(`unexpected error`))

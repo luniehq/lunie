@@ -27,7 +27,7 @@ export default function vuexSetup() {
         loadPersistedState: () => {}
       }
     })
-    store.state.session.devMode = true
+    store.state.session.experimentalMode = true
 
     jest.spyOn(store, `dispatch`)
     jest.spyOn(store, `commit`)

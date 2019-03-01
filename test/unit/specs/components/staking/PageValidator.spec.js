@@ -1,6 +1,6 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import PageValidator from "renderer/components/staking/PageValidator"
-import BigNumber from "bignumber.js";
+import BigNumber from "bignumber.js"
 
 const stakingParameters = {
   unbonding_time: `259200000000000`,
@@ -45,17 +45,23 @@ const validatorTo = {
 }
 
 const getters = {
-  session: { devMode: true, signedIn: true, address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9` },
+  session: { experimentalMode: true, signedIn: true, address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9` },
   delegates: {
     delegates: [validator, validatorTo],
     globalPower: 4200,
     loaded: true
   },
+
   committedDelegations: {
     [validator.operator_address]: 0
   },
   lastHeader: {
     height: 500
+  },
+  distribution: {
+    rewards: {
+      [validator.operator_address]: 10
+    }
   },
   keybase: `keybase`,
   liquidAtoms: 1337,
@@ -66,7 +72,7 @@ const getters = {
 describe(`PageValidator`, () => {
   let wrapper, $store
   const localVue = createLocalVue()
-  localVue.directive(`tooltip`, () => {})
+  localVue.directive(`tooltip`, () => { })
 
   beforeEach(() => {
     $store = {
@@ -95,39 +101,39 @@ describe(`PageValidator`, () => {
 
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
-    
+
     it(`should return one delegate based on route params`, () => {
       expect(wrapper.vm.validator.operator_address).toEqual(
         validator.operator_address
       )
     })
-  
+
     it(`shows a default avatar`, () => {
       expect(wrapper.html()).toContain(`validator-icon.svg`)
     })
-  
+
     it(`should return the self bond based on the validator`, () => {
       const validator = {
         selfBond: 1
       }
       wrapper.setData({ validator })
       expect(wrapper.vm.selfBond).toBe(`100.00%`)
-  
+
       validator.selfBond = undefined
       wrapper.setData({ validator })
       expect(wrapper.vm.selfBond).toBe(`0.00%`)
     })
-  
+
     it(`shows an error if the validator couldn't be found`, () => {
       $store.getters.delegates.delegates = []
-  
+
       expect(wrapper.exists(`tm-data-error-stub`)).toBe(true)
     })
-  
+
     it(`shows the selfBond`, () => {
       expect(wrapper.find(`#page-profile__self-bond`).text()).toBe(`1.00%`)
     })
-  
+
     it(`should show the validator status`, () => {
       expect(wrapper.vm.status).toBe(`This validator is actively validating`)
       // Jailed
@@ -145,21 +151,21 @@ describe(`PageValidator`, () => {
         `This validator does not have enough voting power yet and is inactive`
       )
     })
-  
+
     it(`shows a validator as candidate if he has no voting_power`, () => {
       $store.getters.delegates.delegates = [Object.assign({}, validator, {
         voting_power: 0
       })]
       expect(wrapper.vm.status).toMatchSnapshot()
     })
-  
+
     it(`shows that a validator is revoked`, () => {
       $store.getters.delegates.delegates = [Object.assign({}, validator, {
         revoked: true
       })]
       expect(wrapper.vm.status).toMatchSnapshot()
     })
-  
+
     it(`disables delegation and undelegation buttons if not connected`, () => {
       expect(
         wrapper.vm.$el.querySelector(`#delegation-btn`).getAttribute(`disabled`)
@@ -175,7 +181,7 @@ describe(`PageValidator`, () => {
         wrapper.vm.$el.querySelector(`#undelegation-btn`).getAttribute(`disabled`)
       ).not.toBeNull()
     })
-  
+
     describe(`errors`, () => {
       it(`signing info is missing`, () => {
         $store.getters.delegates.delegates = [Object.assign({}, validator, {
@@ -185,6 +191,93 @@ describe(`PageValidator`, () => {
         expect(wrapper.vm.$el).toMatchSnapshot()
       })
     })
+  })
+
+  describe(`myDelegation`, () => {
+    it(`when user has delegations`, () => {
+      const bondDenom = `stake`
+      const myBond = 100000000
+      const delegationString = PageValidator.computed.myDelegation.call(
+        { bondDenom, myBond }
+      )
+      expect(delegationString).toBe(`10.0000000000 stake`)
+    })
+
+    it(`when user doesn't have any delegations`, () => {
+      const bondDenom = `stake`
+      const myBond = 0
+      const delegationString = PageValidator.computed.myDelegation.call(
+        { bondDenom, myBond }
+      )
+      expect(delegationString).toBe(`--`)
+    })
+  })
+
+  describe(`rewards`, () => {
+    let bondDenom, validator, session
+
+    beforeEach(() => {
+      bondDenom = `stake`
+      validator = { operator_address: `cosmos1address` }
+      session = { signedIn: true }
+    })
+    it(`gets rewards from validator if it has some`, () => {
+      const distribution = {
+        rewards: {
+          [validator.operator_address]: {
+            [bondDenom]: 100000000
+          }
+        }
+      }
+      const rewardsString = PageValidator.computed.rewards.call(
+        { session, bondDenom, distribution, validator }
+      )
+      expect(rewardsString).toBe(`10.0000000000 stake`)
+    })
+
+    it(`when validator rewards are 0`, () => {
+      const distribution = {
+        rewards: {
+          [validator.operator_address]: {
+            [bondDenom]: 0
+          }
+        }
+      }
+      const rewardsString = PageValidator.computed.rewards.call(
+        { session, bondDenom, distribution, validator }
+      )
+      expect(rewardsString).toBe(`0.0000000000 stake`)
+    })
+
+    it(`when user doesn't have any delegations`, () => {
+      const distribution = { rewards: {} }
+      const rewardsString = PageValidator.computed.rewards.call(
+        { session, bondDenom, distribution, validator }
+      )
+      expect(rewardsString).toBeNull()
+    })
+  })
+
+  it(`doesn't call user rewards if not signed in`, () => {
+    const session = { signedIn: false }
+    const $store = { dispatch: jest.fn() }
+    const $route = { params: { validator: `cosmos1address` } }
+    PageValidator.mounted.call({ session, $store, $route })
+    expect($store.dispatch).not.toHaveBeenCalledWith(
+      `getRewardsFromValidator`,
+      $route.params.validator
+    )
+  })
+
+  it(`updates rewards if block hasn't updated`, () => {
+    const $store = { dispatch: jest.fn() }
+    const session = { signedIn: false }
+    const $route = { params: { validator: `cosmos1address` } }
+    PageValidator.watch.lastHeader.handler.call({ session, $store, $route })
+    expect($store.dispatch).not.toHaveBeenCalledWith(
+      `getRewardsFromValidator`,
+      $route.params.validator
+    )
   })
 })
 
@@ -263,78 +356,78 @@ describe(`delegationTargetOptions`, () => {
 
     expect(options).toMatchSnapshot()
   })
-})
 
-describe(`Staking functions`, () => {
-  describe(`onDelegation`, () => {
-    describe(`make sure we have enough atoms to delegate`, () => {
-      it(`is enough`, () => {
-        const self = {
-          action: ``,
-          liquidAtoms: 42,
-          $refs: {
-            delegationModal: {
-              open: jest.fn()
-            }
-          },
-          showCannotModal: false
-        }
-        PageValidator.methods.onDelegation.call(self)
-        expect(self.action).toBe(`delegate`)
-        expect(self.$refs.delegationModal.open).toHaveBeenCalled()
-      })
+  describe(`Staking functions`, () => {
+    describe(`onDelegation`, () => {
+      describe(`make sure we have enough atoms to delegate`, () => {
+        it(`is enough`, () => {
+          const self = {
+            action: ``,
+            liquidAtoms: 42,
+            $refs: {
+              delegationModal: {
+                open: jest.fn()
+              }
+            },
+            showCannotModal: false
+          }
+          PageValidator.methods.onDelegation.call(self)
+          expect(self.action).toBe(`delegate`)
+          expect(self.$refs.delegationModal.open).toHaveBeenCalled()
+        })
 
-      it(`is not enough`, () => {
-        const self = {
-          action: ``,
-          liquidAtoms: 0,
-          $refs: {
-            delegationModal: {
-              open: jest.fn()
-            }
-          },
-          showCannotModal: false
-        }
-        PageValidator.methods.onDelegation.call(self)
-        expect(self.action).toBe(`delegate`)
-        expect(self.showCannotModal).toBe(true)
-        expect(self.$refs.delegationModal.open).not.toHaveBeenCalled()
+        it(`is not enough`, () => {
+          const self = {
+            action: ``,
+            liquidAtoms: 0,
+            $refs: {
+              delegationModal: {
+                open: jest.fn()
+              }
+            },
+            showCannotModal: false
+          }
+          PageValidator.methods.onDelegation.call(self)
+          expect(self.action).toBe(`delegate`)
+          expect(self.showCannotModal).toBe(true)
+          expect(self.$refs.delegationModal.open).not.toHaveBeenCalled()
+        })
       })
     })
-  })
 
-  describe(`onUndelegation`, () => {
-    describe(`make sure there are enough atoms to unstake`, () => {
-      it(`is enough`, () => {
-        const self = {
-          action: ``,
-          myBond: BigNumber(42),
-          $refs: {
-            undelegationModal: {
-              open: jest.fn()
-            }
-          },
-          showCannotModal: false
-        }
-        PageValidator.methods.onUndelegation.call(self)
-        expect(self.action).toBe(`undelegate`)
-        expect(self.$refs.undelegationModal.open).toHaveBeenCalled()
-      })
+    describe(`onUndelegation`, () => {
+      describe(`make sure there are enough atoms to unstake`, () => {
+        it(`is enough`, () => {
+          const self = {
+            action: ``,
+            myBond: BigNumber(42),
+            $refs: {
+              undelegationModal: {
+                open: jest.fn()
+              }
+            },
+            showCannotModal: false
+          }
+          PageValidator.methods.onUndelegation.call(self)
+          expect(self.action).toBe(`undelegate`)
+          expect(self.$refs.undelegationModal.open).toHaveBeenCalled()
+        })
 
-      it(`is not enough`, () => {
-        const self = {
-          action: ``,
-          myBond: BigNumber(0),
-          $refs: {
-            undelegationModal: {
-              open: jest.fn()
-            }
-          },
-          showCannotModal: false
-        }
-        PageValidator.methods.onUndelegation.call(self)
-        expect(self.action).toBe(`undelegate`)
-        expect(self.$refs.undelegationModal.open).not.toHaveBeenCalled()
+        it(`is not enough`, () => {
+          const self = {
+            action: ``,
+            myBond: BigNumber(0),
+            $refs: {
+              undelegationModal: {
+                open: jest.fn()
+              }
+            },
+            showCannotModal: false
+          }
+          PageValidator.methods.onUndelegation.call(self)
+          expect(self.action).toBe(`undelegate`)
+          expect(self.$refs.undelegationModal.open).not.toHaveBeenCalled()
+        })
       })
     })
   })

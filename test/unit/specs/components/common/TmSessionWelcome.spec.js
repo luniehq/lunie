@@ -7,7 +7,7 @@ describe(`TmSessionWelcome`, () => {
 
   beforeEach(() => {
     const getters = {
-      session: { accounts, devMode: true },
+      session: { accounts, insecureMode: true },
       lastPage: `/`
     }
     $store = {
@@ -70,7 +70,7 @@ describe(`TmSessionWelcome`, () => {
   describe(`with accounts`, () => {
     beforeEach(() => {
       const getters = {
-        session: { accounts: [`foo`, `bar`], devMode: true },
+        session: { accounts: [`foo`, `bar`], insecureMode: true },
         lastPage: `/`
       }
       $store = {

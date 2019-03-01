@@ -17,7 +17,9 @@
           subtitle="If you have a Ledger Wallet, choose this option."
           @click.native="setState('hardware')"
         />
-        <template v-if="session.devMode">
+        <template
+          v-if="session.insecureMode"
+        >
           <li-session
             v-if="accountExists"
             id="sign-in-with-account"
