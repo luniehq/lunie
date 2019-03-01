@@ -44,13 +44,9 @@ export default {
   },
   computed: {
     ...mapGetters([`bondDenom`, `distribution`]),
-    totalRewards() {
-      const { bondDenom, distribution } = this
-      return (
-        (distribution.totalRewards[bondDenom] &&
-					atoms(distribution.totalRewards[bondDenom])) ||
-				0
-      )
+    totalRewards({ bondDenom, distribution } = this) {
+      const rewards = distribution.totalRewards[bondDenom]
+      return ((rewards && atoms(rewards)) || 0)
     }
   },
   methods: {

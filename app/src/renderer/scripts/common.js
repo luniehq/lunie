@@ -19,8 +19,11 @@ module.exports.shortAddress = function (address, length = 4) {
 }
 
 module.exports.coinsToObject = function (coinArray) {
-  const coins = coinArray.reduce((dictionary, { denom, amount }) => { dictionary[denom] = Number(amount); return dictionary; }, {})
-  return coins
+  return coinArray.reduce(
+    (dictionary, { denom, amount }) =>
+      ({ ...dictionary, [denom]: Number(amount) || 0 }),
+    {}
+  )
 }
 
 // convert rat format ('123/456') to big number

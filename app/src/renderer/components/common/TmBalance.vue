@@ -64,8 +64,10 @@ export default {
       return this.num.shortNumber(this.num.atoms(this.liquidAtoms))
     },
     rewards() {
+      // https://github.com/adamwdraper/Numeral-js/issues/512
+      const rewards = this.distribution.totalRewards[this.bondDenom]
       return this.num.shortNumber(
-        this.num.atoms(this.distribution.totalRewards[this.bondDenom] || 0)
+        this.num.atoms(rewards && rewards > 10 ? rewards : 0)
       )
     }
   },
