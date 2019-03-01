@@ -25,7 +25,7 @@ export function getKey(name, password) {
 
     return wallet
   } catch (err) {
-    throw new Error(`The entered password is not correct for the stored key.`)
+    throw new Error(`Incorrect password`)
   }
 }
 
