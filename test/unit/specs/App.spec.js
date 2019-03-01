@@ -294,7 +294,7 @@ describe(`App Start`, () => {
 
       await startApp(
         {
-          devMode: true
+          experimental: true
         },
         {
           stargate: `http://localhost:12344`
@@ -308,7 +308,7 @@ describe(`App Start`, () => {
         mockVue
       )
 
-      expect(store.commit).toHaveBeenCalledWith(`setDevMode`)
+      expect(store.commit).toHaveBeenCalledWith(`setExperimentalMode`)
     })
 
     it(`should set rpc url`, async () => {

@@ -89,9 +89,14 @@ describe(`Module: Session`, () => {
       expect(state.modals.session.state).toBe(`xxxx`)
     })
 
-    it(`should activate dev mode`, () => {
-      mutations.setDevMode(state)
-      expect(state.devMode).toBe(true)
+    it(`should activate experimental mode`, () => {
+      mutations.setExperimentalMode(state)
+      expect(state.experimentalMode).toBe(true)
+    })
+
+    it(`should activate insecure mode`, () => {
+      mutations.setInsecureMode(state)
+      expect(state.insecureMode).toBe(true)
     })
 
     it(`should open the help modal`, () => {

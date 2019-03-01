@@ -11,7 +11,8 @@ export default () => {
   const ERROR_COLLECTION_KEY = `voyager_error_collection`
 
   const state = {
-    devMode: config.development,
+    experimentalMode: config.development,
+    insecureMode: config.development,
     signedIn: false,
     accounts: [],
     localKeyPairName: null, // used for signing with a locally stored key, TODO move into own module
@@ -59,8 +60,11 @@ export default () => {
 
       state.modals.help.active = value
     },
-    setDevMode(state) {
-      state.devMode = true
+    setExperimentalMode(state) {
+      state.experimentalMode = true
+    },
+    setInsecureMode(state) {
+      state.insecureMode = true
     },
     addHistory(state, path) {
       state.history.push(path)

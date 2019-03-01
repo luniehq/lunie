@@ -45,7 +45,7 @@ const validatorTo = {
 }
 
 const getters = {
-  session: { devMode: true, signedIn: true, address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9` },
+  session: { experimentalMode: true, signedIn: true, address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9` },
   delegates: {
     delegates: [validator, validatorTo],
     globalPower: 4200,
