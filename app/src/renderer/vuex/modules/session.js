@@ -204,7 +204,7 @@ export default () => {
           dsn: state.externals.config.sentry_dsn,
           release: state.externals.config.version
         })
-        console.log(`Error collection have been enabled`)
+        console.log(`Error collection has been enabled`)
         state.externals.track(`pageview`, {
           dl: window.location.pathname
         })
