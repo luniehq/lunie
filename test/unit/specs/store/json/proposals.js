@@ -9,13 +9,13 @@ export const proposals = {
     initial_deposit: [
       {
         denom: `STAKE`,
-        amount: `100`
+        amount: `1000000000`
       }
     ],
     total_deposit: [
       {
         denom: `STAKE`,
-        amount: `100`
+        amount: `1000000000`
       }
     ],
     submit_time: new Date(Date.now()).toISOString(),
@@ -24,10 +24,10 @@ export const proposals = {
     voting_end_time: new Date(Date.now() + day * 4).toISOString(),
     proposal_status: `Passed`,
     final_tally_result: {
-      yes: `500`,
-      no: `25`,
-      no_with_veto: `10`,
-      abstain: `56`
+      yes: `5000000000`,
+      no: `250000000`,
+      no_with_veto: `100000000`,
+      abstain: `560000000`
     }
   },
   2: {
@@ -38,13 +38,13 @@ export const proposals = {
     initial_deposit: [
       {
         denom: `STAKE`,
-        amount: `200`
+        amount: `2000000000`
       }
     ],
     total_deposit: [
       {
         denom: `STAKE`,
-        amount: `200`
+        amount: `2000000000`
       }
     ],
     submit_time: new Date(Date.now()).toISOString(),
@@ -67,13 +67,13 @@ export const proposals = {
     initial_deposit: [
       {
         denom: `STAKE`,
-        amount: `20`
+        amount: `200000000`
       }
     ],
     total_deposit: [
       {
         denom: `STAKE`,
-        amount: `170`
+        amount: `1700000000`
       }
     ],
     submit_time: new Date(Date.now()).toISOString(),
@@ -96,13 +96,13 @@ export const proposals = {
     initial_deposit: [
       {
         denom: `STAKE`,
-        amount: `100`
+        amount: `1000000000`
       }
     ],
     total_deposit: [
       {
         denom: `STAKE`,
-        amount: `100`
+        amount: `1000000000`
       }
     ],
     submit_time: new Date(Date.now()).toISOString(),
@@ -111,10 +111,10 @@ export const proposals = {
     voting_end_time: new Date(Date.now() + day * 4).toISOString(),
     proposal_status: `Rejected`,
     final_tally_result: {
-      yes: `10`,
-      no: `30`,
-      no_with_veto: `100`,
-      abstain: `20`
+      yes: `100000000`,
+      no: `300000000`,
+      no_with_veto: `1000000000`,
+      abstain: `200000000`
     }
   }
 }
@@ -159,10 +159,10 @@ export const votes = {
 }
 export const tallies = {
   1: {
-    yes: `500`,
-    no: `25`,
-    no_with_veto: `10`,
-    abstain: `56`
+    yes: `5000000000`,
+    no: `250000000`,
+    no_with_veto: `100000000`,
+    abstain: `560000000`
   },
   2: {
     yes: `0`,
@@ -177,9 +177,9 @@ export const tallies = {
     abstain: `0`
   },
   6: {
-    yes: `10`,
-    no: `30`,
-    no_with_veto: `100`,
-    abstain: `20`
+    yes: `100000000`,
+    no: `300000000`,
+    no_with_veto: `1000000000`,
+    abstain: `200000000`
   }
 }

@@ -15,7 +15,7 @@ describe(`ModalDeposit`, () => {
   beforeEach(async () => {
     const coins = [
       {
-        amount: `20`,
+        amount: `200000000`,
         denom: `stake`
       }
     ]
@@ -99,7 +99,7 @@ describe(`ModalDeposit`, () => {
           {
             amount: [
               {
-                amount: `10`,
+                amount: `100000000`,
                 denom: `stake`
               }
             ],

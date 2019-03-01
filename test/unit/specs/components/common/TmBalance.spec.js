@@ -1,32 +1,42 @@
-import setup from "../../../helpers/vuex-setup"
+import { shallowMount } from "@vue/test-utils"
 import TmBalance from "common/TmBalance"
-import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`TmBalance`, () => {
-  let wrapper, store
-  const { stakingParameters } = lcdClientMock.state
-  const { mount } = setup()
+  let wrapper, $store
 
   beforeEach(() => {
-    const instance = mount(TmBalance, {
+    $store = {
       getters: {
-        session: () => ({
+        session: {
           address: `cosmos1address`,
           signedIn: true
-        }),
-        liquidAtoms: () => 123,
-        totalAtoms: () => 321
-      },
-      stubs: {
-        "short-bech32": true
+        },
+        liquidAtoms: 1230000000,
+        totalAtoms: 3210000000,
+        bondDenom: `stake`,
+        distribution: {
+          totalRewards: {
+            stake: 1000450000000
+          }
+        }
+      }
+    }
+
+    wrapper = shallowMount(TmBalance, {
+      mocks: {
+        $store
       }
     })
-    wrapper = instance.wrapper
-    store = instance.store
-    store.commit(`setStakingParameters`, stakingParameters.parameters)
   })
 
   it(`has the expected html structure before adding props`, () => {
-    expect(wrapper.html()).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
+  it(`displays unbonded tokens`, () => {
+    expect(wrapper.vm.unbondedAtoms).toBe(`123.0000…`)
+  })
+  it(`gets user rewards`, () => {
+    expect(wrapper.vm.rewards).toBe(`100,045.0000…`)
   })
 })
