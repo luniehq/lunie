@@ -2,7 +2,7 @@ module.exports = {
   url: `http://localhost:8081`,
   'Demo test' : function (browser) {
     browser
-      .url(this.url)
+      .url(browser.launch_url)
       .waitForElementVisible(`body`)
       .waitForElementVisible(`#app-content`)
       .end();
