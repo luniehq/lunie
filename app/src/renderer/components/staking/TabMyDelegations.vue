@@ -24,7 +24,7 @@
       </h3>
       <div class="unbonding-transactions">
         <template v-for="transaction in unbondingTransactions">
-          <tm-li-stake-transaction
+          <li-stake-transaction
             :key="transaction.hash"
             :transaction="transaction"
             :validators="yourValidators"
@@ -45,7 +45,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import TmLiStakeTransaction from "../transactions/TmLiStakeTransaction"
+import LiStakeTransaction from "../transactions/LiStakeTransaction"
 import TmDataMsg from "common/TmDataMsg"
 import TmDataLoading from "common/TmDataLoading"
 import TableValidators from "staking/TableValidators"
@@ -59,7 +59,7 @@ export default {
     TmDataMsg,
     TmDataConnecting,
     TmDataLoading,
-    TmLiStakeTransaction
+    LiStakeTransaction
   },
   data: () => ({
     unbondTransactions: `Transactions currently in the undelegation period`,
@@ -81,24 +81,24 @@ export default {
       )
     },
     unbondingTransactions: ({ allTransactions, delegation } = this) =>
-      // TODO still needed?
+    // TODO still needed?
       allTransactions
         .filter(
           transaction =>
-            // Checking the type of transaction
+          // Checking the type of transaction
             transaction.tx.value.msg[0].type === `cosmos-sdk/Undelegate` &&
-            // getting the unbonding time and checking if it has passed already
-            time.getUnbondingTime(
-              transaction,
-              delegation.unbondingDelegations
-            ) >= Date.now()
+						// getting the unbonding time and checking if it has passed already
+						time.getUnbondingTime(
+						  transaction,
+						  delegation.unbondingDelegations
+						) >= Date.now()
         )
         .map(transaction => ({
           ...transaction,
           unbondingDelegation:
-            delegation.unbondingDelegations[
-              transaction.tx.value.msg[0].value.validator_addr
-            ]
+						delegation.unbondingDelegations[
+						  transaction.tx.value.msg[0].value.validator_addr
+						]
         }))
   },
   mounted() {
@@ -108,21 +108,21 @@ export default {
 </script>
 <style>
 .tab-header {
-  color: var(--dim);
-  font-size: 14px;
-  font-weight: 500;
-  margin: 3rem 0.5rem 0.5rem;
+	color: var(--dim);
+	font-size: 14px;
+	font-weight: 500;
+	margin: 3rem 0.5rem 0.5rem;
 }
 
 .info-button {
-  color: var(--link);
+	color: var(--link);
 }
 
 .unbonding-transactions .tm-li-tx::before {
-  position: absolute;
-  width: 2rem;
-  text-align: right;
-  color: var(--dim);
-  left: 0;
+	position: absolute;
+	width: 2rem;
+	text-align: right;
+	color: var(--dim);
+	left: 0;
 }
 </style>

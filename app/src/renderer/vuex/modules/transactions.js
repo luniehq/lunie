@@ -6,7 +6,7 @@ export default ({ node }) => {
     loading: false,
     loaded: false,
     error: null,
-    wallet: [], // {height, result: { gas, tags }, tx: { type, value: { fee: { amount: [{denom, amount}], gas}, msg: {type, inputs, outputs}}, signatures} }}
+    bank: [], // {height, result: { gas, tags }, tx: { type, value: { fee: { amount: [{denom, amount}], gas}, msg: {type, inputs, outputs}}, signatures} }}
     staking: [],
     governance: [],
     distribution: []
@@ -14,11 +14,11 @@ export default ({ node }) => {
   const state = JSON.parse(JSON.stringify(emptyState))
 
   // properties under which txs of different categories are stored
-  const txCategories = [`staking`, `wallet`, `governance`]
+  const txCategories = [`staking`, `wallet`, `governance`, `distribution`]
 
   const mutations = {
-    setWalletTxs(state, txs) {
-      Vue.set(state, `wallet`, txs)
+    setBankTxs(state, txs) {
+      Vue.set(state, `bank`, txs)
     },
     setStakingTxs(state, txs) {
       Vue.set(state, `staking`, txs)
@@ -34,10 +34,10 @@ export default ({ node }) => {
     },
     setTransactionTime(state, { blockHeight, blockMetaInfo }) {
       txCategories.forEach(category => {
-        state[category].forEach(t => {
-          if (t.height === blockHeight && blockMetaInfo) {
+        state[category].forEach(tx => {
+          if (tx.height === blockHeight && blockMetaInfo) {
             // time seems to be an ISO string, but we are expecting a Number type
-            Vue.set(t, `time`, new Date(blockMetaInfo.header.time).getTime())
+            Vue.set(tx, `time`, new Date(blockMetaInfo.header.time).getTime())
           }
         })
       })
@@ -68,15 +68,13 @@ export default ({ node }) => {
         commit(`setGovernanceTxs`, governanceTxs)
 
         const distributionTxs = await dispatch(`getTx`, `distribution`)
-        commit(`setGovernanceTxs`, distributionTxs)
+        commit(`setDistributionTxs`, distributionTxs)
 
-        const walletTxs = await dispatch(`getTx`, `wallet`)
-        commit(`setWalletTxs`, walletTxs)
+        const bankTxs = await dispatch(`getTx`, `wallet`)
+        commit(`setBankTxs`, bankTxs)
 
-        const allTxs = stakingTxs.concat(governanceTxs.concat(walletTxs))
-        await dispatch(`enrichTransactions`, {
-          transactions: allTxs
-        })
+        const allTxs = stakingTxs.concat(governanceTxs, bankTxs, distributionTxs)
+        await dispatch(`enrichTransactions`, allTxs)
         state.error = null
         commit(`setHistoryLoading`, false)
         state.loaded = true
@@ -106,7 +104,7 @@ export default ({ node }) => {
       const transactionsPlusType = response.map(t => ({ ...t, type }))
       return response ? uniqBy(transactionsPlusType, `txhash`) : []
     },
-    async enrichTransactions({ dispatch }, { transactions }) {
+    async enrichTransactions({ dispatch }, transactions) {
       const blockHeights = new Set(
         transactions.map(({ height }) => parseInt(height))
       )

@@ -63,6 +63,7 @@ export default {
       `delegates`
     ]),
     orderedTransactions() {
+      console.log(this.transactions.goverance)
       return orderBy(
         this.allTransactions.map(t => {
           t.height = parseInt(t.height)
@@ -77,8 +78,8 @@ export default {
     this.refreshTransactions()
   },
   methods: {
-    async refreshTransactions({ $store } = this) {
-      await $store.dispatch(`getAllTxs`)
+    async refreshTransactions() {
+      await this.$store.dispatch(`getAllTxs`)
     }
   }
 }
