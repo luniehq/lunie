@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+- [\#2098](https://github.com/cosmos/voyager/issues/2098) rename devMode url flag to insecure @faboweb
+
+### Fixed
+
+- [\#2087](https://github.com/cosmos/voyager/issues/2087) More resilient scripts on Ec2 instances, added validators @sabau
+
 ## [1.0.0-beta.10] - 2019-03-01
 
 ### Added
@@ -17,10 +25,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - [\#2044](https://github.com/cosmos/voyager/issues/2044) convert uatoms to atoms @faboweb
 - Refactored tests: LiProposal @jbibla
-
-### Fixed
-
-- [\#2087](https://github.com/cosmos/voyager/issues/2087) More resilient scripts on Ec2 instances, added validators @sabau
 
 ## [1.0.0-beta.9] - 2019-02-28
 

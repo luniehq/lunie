@@ -24,9 +24,6 @@ describe(`PageNetwork`, () => {
           }
         ]
       },
-      session: {
-        devMode: true
-      },
       pool: {
         pool: {
           bonded_tokens: 125,

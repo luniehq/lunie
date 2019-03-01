@@ -11,7 +11,6 @@ describe(`TmModalError`, () => {
   let wrapper
   const store = new Vuex.Store({
     getters: {
-      session: () => ({ devMode: true }),
       lastHeader: () => ({ chain_id: `gaia-test`, height: `31337` })
     }
   })
