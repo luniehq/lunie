@@ -8,7 +8,8 @@ export default ({ node }) => {
     error: null,
     wallet: [], // {height, result: { gas, tags }, tx: { type, value: { fee: { amount: [{denom, amount}], gas}, msg: {type, inputs, outputs}}, signatures} }}
     staking: [],
-    governance: []
+    governance: [],
+    distribution: []
   }
   const state = JSON.parse(JSON.stringify(emptyState))
 
@@ -24,6 +25,9 @@ export default ({ node }) => {
     },
     setGovernanceTxs(state, txs) {
       Vue.set(state, `governance`, txs)
+    },
+    setDistributionTxs(state, txs) {
+      Vue.set(state, `distribution`, txs)
     },
     setHistoryLoading(state, loading) {
       Vue.set(state, `loading`, loading)
@@ -63,6 +67,9 @@ export default ({ node }) => {
         const governanceTxs = await dispatch(`getTx`, `governance`)
         commit(`setGovernanceTxs`, governanceTxs)
 
+        const distributionTxs = await dispatch(`getTx`, `distribution`)
+        commit(`setGovernanceTxs`, distributionTxs)
+
         const walletTxs = await dispatch(`getTx`, `wallet`)
         commit(`setWalletTxs`, walletTxs)
 
@@ -74,29 +81,21 @@ export default ({ node }) => {
         commit(`setHistoryLoading`, false)
         state.loaded = true
       } catch (error) {
-        commit(`notifyError`, {
-          title: `Error getting transactions`,
-          body: error.message
-        })
         Sentry.captureException(error)
         state.error = error
       }
     },
-    async getTx(
-      {
-        rootState: {
-          session: { address }
-        }
-      },
-      type
-    ) {
+    async getTx({ rootState: { session: { address } } }, type) {
       let response
       switch (type) {
         case `staking`:
-          response = await node.getDelegatorTxs(address)
+          response = await node.getStakingTxs(address)
           break
         case `governance`:
           response = await node.getGovernanceTxs(address)
+          break
+        case `distribution`:
+          response = await node.getDistributionTxs(address)
           break
         case `wallet`:
           response = await node.txs(address)
