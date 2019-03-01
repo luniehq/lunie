@@ -192,23 +192,17 @@ yarn watch PageValidator
 ### End to end tests
 
 End to end testing will be soon restored thanks to: [Browserstack](https://www.browserstack.com/)
-You can run all of them using:
+
+If you want to run them locally prepare the environment first:
+
+```bash
+yarn test:e2e:local-setup
+```
+
+Then run the actual tests:
 
 ```bash
 yarn test:e2e
-```
-
-If you would like to run a single test please set the TEST variable (Unix systems):
-
-```bash
-TEST=test/e2e/init.js yarn test:e2e
-```
-
-You can also run the `tape` command directly. You will need to run the packages of Voyager previously if on you're on Windows:
-
-```bash
-yarn pack
-node_modules/.bin/tape test/e2e/init.js
 ```
 
 ### Code coverage
