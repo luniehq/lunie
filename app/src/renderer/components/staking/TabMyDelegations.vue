@@ -81,6 +81,7 @@ export default {
       )
     },
     unbondingTransactions: ({ allTransactions, delegation } = this) =>
+      // TODO still needed?
       allTransactions
         .filter(
           transaction =>
