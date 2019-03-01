@@ -26,6 +26,11 @@ describe(`ModalWithdrawAllRewards`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
+  it(`form is always valid`, () => {
+    const valid = ModalWithdrawAllRewards.methods.isValid.call()
+    expect(valid).toBe(true)
+  })
+
   it(`opens`, () => {
     const $refs = { actionModal: { open: jest.fn() } }
     ModalWithdrawAllRewards.methods.open.call({ $refs })

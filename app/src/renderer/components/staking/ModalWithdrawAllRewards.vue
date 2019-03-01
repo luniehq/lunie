@@ -3,7 +3,7 @@
     id="modal-withdraw-all-rewards"
     ref="actionModal"
     :submit-fn="submitForm"
-    :validate="() => true"
+    :validate="isValid"
     title="Withdraw"
     class="modal-withdraw-rewards"
     submission-error-prefix="Withdrawal failed"
@@ -54,6 +54,9 @@ export default {
     }
   },
   methods: {
+    isValid() {
+      return true
+    },
     open() {
       this.$refs.actionModal.open()
     },

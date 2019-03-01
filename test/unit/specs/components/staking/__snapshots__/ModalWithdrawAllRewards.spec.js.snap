@@ -7,12 +7,7 @@ exports[`ModalWithdrawAllRewards has the expected html structure 1`] = `
   submissionerrorprefix="Withdrawal failed"
   submitfn="function () { [native code] }"
   title="Withdraw"
-  validate="function () {
-        /* istanbul ignore next */
-        cov_6em7wsq1m.f[8]++;
-        cov_6em7wsq1m.s[40]++;
-        return true;
-      }"
+  validate="function () { [native code] }"
 >
   <tm-form-group-stub
     class="action-modal-form-group"
