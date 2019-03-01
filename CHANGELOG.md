@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 - [\#2098](https://github.com/cosmos/voyager/issues/2098) rename devMode url flag to insecure @faboweb
+- [\#1884](https://github.com/cosmos/voyager/issues/1884) Readded the possibility of e2e tests @faboweb
 
 ### Fixed
 
