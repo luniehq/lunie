@@ -2,7 +2,9 @@
   <div class="tm-hardware-state">
     <img v-if="loading" src="~assets/images/loader.svg">
     <i class="tm-hardware-state__icon material-icons">{{ icon }}</i>
-    <div class="tm-hardware-state__label">{{ value }}</div>
+    <div class="tm-hardware-state__label">
+      {{ value }}
+    </div>
   </div>
 </template>
 

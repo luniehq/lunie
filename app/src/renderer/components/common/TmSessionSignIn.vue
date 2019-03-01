@@ -5,7 +5,9 @@
         <a @click="goToWelcome()">
           <i class="material-icons">arrow_back</i>
         </a>
-        <div class="tm-session-title">Sign In</div>
+        <div class="tm-session-title">
+          Sign In
+        </div>
         <a @click="$store.commit(`toggleSessionModal`, false)">
           <i class="material-icons">close</i>
         </a>
@@ -31,7 +33,7 @@
           field-id="sign-in-password"
           field-label="Password"
         >
-          <tm-field id="sign-in-password" v-model="fields.signInPassword" type="password"/>
+          <tm-field id="sign-in-password" v-model="fields.signInPassword" type="password" />
           <tm-form-msg
             v-if="
               $v.fields.signInPassword.$error &&
@@ -52,7 +54,12 @@
         </tm-form-group>
       </div>
       <div class="tm-session-footer">
-        <tm-btn icon="arrow_forward" icon-pos="right" value="Next" size="lg"/>
+        <tm-btn
+          icon="arrow_forward"
+          icon-pos="right"
+          value="Next"
+          size="lg"
+        />
       </div>
     </tm-form-struct>
   </div>

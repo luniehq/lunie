@@ -2,7 +2,9 @@
   <div id="session-welcome" class="tm-session">
     <div class="tm-session-container">
       <div class="tm-session-header">
-        <div class="tm-session-title">Sign in to Cosmos Voyager</div>
+        <div class="tm-session-title">
+          Sign in to Cosmos Voyager
+        </div>
         <a @click="closeSession">
           <i class="material-icons">close</i>
         </a>

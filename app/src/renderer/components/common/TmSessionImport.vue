@@ -5,7 +5,9 @@
         <a @click="setState('welcome')">
           <i class="material-icons">arrow_back</i>
         </a>
-        <div class="tm-session-title">Import with Seed</div>
+        <div class="tm-session-title">
+          Import with Seed
+        </div>
         <a @click="$store.commit(`toggleSessionModal`, false)">
           <i class="material-icons">close</i>
         </a>
@@ -87,7 +89,9 @@
         </tm-form-group>
         <p
           class="fundraiser-warning"
-        >Warning – Do not enter your actual 12 or 24 word seed phrase. This feature is intended for testing and is considered highly unsafe.</p>
+        >
+          Warning – Do not enter your actual 12 or 24 word seed phrase. This feature is intended for testing and is considered highly unsafe.
+        </p>
         <tm-form-group
           :error="$v.$error && $v.fields.importSeed.$invalid"
           field-id="import-seed"
@@ -129,8 +133,20 @@
         </tm-form-group>
       </div>
       <div class="tm-session-footer">
-        <tm-btn v-if="connected" icon="arrow_forward" icon-pos="right" value="Next" size="lg"/>
-        <tm-btn v-else icon-pos="right" value="Connecting..." size="lg" disabled="true"/>
+        <tm-btn
+          v-if="connected"
+          icon="arrow_forward"
+          icon-pos="right"
+          value="Next"
+          size="lg"
+        />
+        <tm-btn
+          v-else
+          icon-pos="right"
+          value="Connecting..."
+          size="lg"
+          disabled="true"
+        />
       </div>
     </tm-form-struct>
   </div>
