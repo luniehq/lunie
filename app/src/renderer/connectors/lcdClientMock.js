@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 "use strict"
 
 const moment = require(`moment`)
@@ -30,15 +32,15 @@ const state = {
       coins: [
         {
           denom: `mycoin`,
-          amount: `1000`
+          amount: `10000000000`
         },
         {
           denom: `fermion`,
-          amount: `2300`
+          amount: `23000000000`
         },
         {
           denom: `STAKE`,
-          amount: `1000`
+          amount: `10000000000`
         }
       ],
       sequence: `1`,
@@ -56,7 +58,7 @@ const state = {
               value: {
                 from_address: addresses[1],
                 to_address: addresses[0],
-                amount: [{ denom: `jbcoins`, amount: `1234` }]
+                amount: [{ denom: `jbcoins`, amount: `12340000000` }]
               }
             }
           ]
@@ -74,7 +76,7 @@ const state = {
               value: {
                 from_address: addresses[0],
                 to_address: addresses[1],
-                amount: [{ denom: `fabocoins`, amount: `1234` }]
+                amount: [{ denom: `fabocoins`, amount: `12340000000` }]
               }
             }
           ]
@@ -100,7 +102,7 @@ const state = {
                 initial_deposit: [
                   {
                     denom: `STAKE`,
-                    amount: `100`
+                    amount: `1000000000`
                   }
                 ]
               }
@@ -124,7 +126,7 @@ const state = {
                 amount: [
                   {
                     denom: `STAKE`,
-                    amount: `100`
+                    amount: `1000000000`
                   }
                 ]
               }
@@ -143,7 +145,7 @@ const state = {
                 validator_addr: validators[0],
                 delegator_addr: addresses[0],
                 delegation: {
-                  amount: `24`,
+                  amount: `240000000`,
                   denom: `STAKE`
                 }
               }
@@ -159,11 +161,11 @@ const state = {
         value: {
           msg: [
             {
-              type: `cosmos-sdk/BeginUnbonding`,
+              type: `cosmos-sdk/Undelegate`,
               value: {
                 validator_addr: validators[0],
                 delegator_addr: addresses[0],
-                shares: `5`
+                shares: `500000000`
               }
             }
           ]
@@ -192,8 +194,8 @@ const state = {
       operator_address: validators[0],
       pub_key: `cosmosvalpub1234`,
       revoked: false,
-      tokens: `14`,
-      delegator_shares: `14`,
+      tokens: `140000000`,
+      delegator_shares: `140000000`,
       description: {
         website: `www.monty.ca`,
         details: `Mr Mounty`,
@@ -239,8 +241,8 @@ const state = {
     {
       operator_address: validators[2],
       pub_key: `cosmosvalpub8910`,
-      tokens: `19`,
-      delegator_shares: `19`,
+      tokens: `190000000`,
+      delegator_shares: `190000000`,
       description: {
         details: `Herr Schmidt`,
         website: `www.schmidt.de`,
@@ -262,12 +264,12 @@ const state = {
     }
   ],
   pool: {
-    loose_tokens: `100.0000000000`,
-    bonded_tokens: `50.0000000000`
+    loose_tokens: `1000000000.00000000000`,
+    bonded_tokens: `500000000.00000000000`
   },
   stakingParameters: {
     parameters: {
-      unbonding_time: `259200000000000`,
+      unbonding_time: `2592000000000000`,
       max_validators: 100,
       bond_denom: `STAKE`
     }
@@ -277,15 +279,15 @@ const state = {
       min_deposit: [
         {
           denom: `STAKE`,
-          amount: `10.0000000000`
+          amount: `100000000.00000000000`
         }
       ],
       max_deposit_period: `86400000000000`
     },
     tallying: {
-      threshold: `0.5000000000`,
-      veto: `0.3340000000`,
-      quorum: `0.3340000000`,
+      threshold: `0.50000000000`,
+      veto: `0.33400000000`,
+      quorum: `0.33400000000`,
       governance_penalty: `0.0100000000`
     },
     voting: {
@@ -308,13 +310,13 @@ const state = {
       initial_deposit: [
         {
           denom: `STAKE`,
-          amount: `100`
+          amount: `1000000000`
         }
       ],
       total_deposit: [
         {
           denom: `STAKE`,
-          amount: `100`
+          amount: `1000000000`
         }
       ],
       submit_time: new Date(Date.now()).toISOString(),
@@ -323,10 +325,10 @@ const state = {
       voting_end_time: new Date(Date.now() + day * 4).toISOString(),
       proposal_status: `Passed`,
       final_tally_result: {
-        yes: `500`,
-        no: `25`,
-        no_with_veto: `10`,
-        abstain: `56`
+        yes: `5000000000`,
+        no: `250000000`,
+        no_with_veto: `100000000`,
+        abstain: `560000000`
       }
     },
     2: {
@@ -337,13 +339,13 @@ const state = {
       initial_deposit: [
         {
           denom: `STAKE`,
-          amount: `200`
+          amount: `2000000000`
         }
       ],
       total_deposit: [
         {
           denom: `STAKE`,
-          amount: `200`
+          amount: `2000000000`
         }
       ],
       submit_time: new Date(Date.now()).toISOString(),
@@ -366,13 +368,13 @@ const state = {
       initial_deposit: [
         {
           denom: `STAKE`,
-          amount: `20`
+          amount: `200000000`
         }
       ],
       total_deposit: [
         {
           denom: `STAKE`,
-          amount: `170`
+          amount: `1700000000`
         }
       ],
       submit_time: new Date(Date.now()).toISOString(),
@@ -395,13 +397,13 @@ const state = {
       initial_deposit: [
         {
           denom: `STAKE`,
-          amount: `100`
+          amount: `1000000000`
         }
       ],
       total_deposit: [
         {
           denom: `STAKE`,
-          amount: `100`
+          amount: `1000000000`
         }
       ],
       submit_time: new Date(Date.now()).toISOString(),
@@ -410,19 +412,19 @@ const state = {
       voting_end_time: new Date(Date.now() + day * 4).toISOString(),
       proposal_status: `Rejected`,
       final_tally_result: {
-        yes: `10`,
-        no: `30`,
-        no_with_veto: `100`,
-        abstain: `20`
+        yes: `100000000`,
+        no: `300000000`,
+        no_with_veto: `1000000000`,
+        abstain: `200000000`
       }
     }
   },
   tallies: {
     1: {
-      yes: `500`,
-      no: `25`,
-      no_with_veto: `10`,
-      abstain: `56`
+      yes: `5000000000`,
+      no: `250000000`,
+      no_with_veto: `100000000`,
+      abstain: `560000000`
     },
     2: {
       yes: `0`,
@@ -437,10 +439,10 @@ const state = {
       abstain: `0`
     },
     6: {
-      yes: `10`,
-      no: `30`,
-      no_with_veto: `100`,
-      abstain: `20`
+      yes: `100000000`,
+      no: `300000000`,
+      no_with_veto: `1000000000`,
+      abstain: `200000000`
     }
   },
   votes: {
@@ -490,11 +492,11 @@ const state = {
         amount: [
           {
             denom: `STAKE`,
-            amount: `15`
+            amount: `150000000`
           },
           {
             denom: `STAKE`,
-            amount: `5`
+            amount: `50000000`
           }
         ]
       },
@@ -504,7 +506,7 @@ const state = {
         amount: [
           {
             denom: `STAKE`,
-            amount: `5`
+            amount: `50000000`
           }
         ]
       }
@@ -516,7 +518,7 @@ const state = {
         amount: [
           {
             denom: `STAKE`,
-            amount: `200`
+            amount: `2000000000`
           }
         ]
       }
@@ -528,7 +530,7 @@ const state = {
         amount: [
           {
             denom: `STAKE`,
-            amount: `20`
+            amount: `200000000`
           }
         ]
       },
@@ -538,7 +540,7 @@ const state = {
         amount: [
           {
             denom: `STAKE`,
-            amount: `150`
+            amount: `1500000000`
           }
         ]
       }
@@ -550,7 +552,7 @@ const state = {
         amount: [
           {
             denom: `STAKE`,
-            amount: `100`
+            amount: `1000000000`
           }
         ]
       }
@@ -784,7 +786,7 @@ Msg Traces:
       )
     )
 
-    storeTx(`cosmos-sdk/BeginUnbonding`, {
+    storeTx(`cosmos-sdk/Undelegate`, {
       validator_addr,
       delegator_addr,
       shares
@@ -971,7 +973,7 @@ Msg Traces:
       if (
         type === `cosmos-sdk/MsgDelegate` ||
         type === `cosmos-sdk/BeginRedelegate` ||
-        type === `cosmos-sdk/BeginUnbonding`
+        type === `cosmos-sdk/Undelegate`
       ) {
         return tx.tx.value.msg[0].value.delegator_addr === addr
       }
@@ -982,7 +984,7 @@ Msg Traces:
     if (types.length === 0) types = [`bonding`, `unbonding`, `redelegate`]
     types = types.map(type => {
       if (type === `bonding`) return `cosmos-sdk/MsgDelegate`
-      if (type === `unbonding`) return `cosmos-sdk/BeginUnbonding`
+      if (type === `unbonding`) return `cosmos-sdk/Undelegate`
       if (type === `redelegate`) return `cosmos-sdk/BeginRedelegate`
     })
 

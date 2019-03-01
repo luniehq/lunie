@@ -17,7 +17,7 @@ describe(`TabParameters`, () => {
     dispatch: jest.fn(),
     getters: {
       governanceParameters,
-      totalAtoms: 100,
+      totalAtoms: 1000000000,
       session: { atoms: 42 }
     }
   }
@@ -47,8 +47,7 @@ describe(`TabParameters`, () => {
   })
 
   it(`displays the minimum deposit`, () => {
-    const coin = governanceParameters.deposit.min_deposit[0]
-    expect(wrapper.vm.minimumDeposit).toEqual(`${coin.amount} ${coin.denom}s`)
+    expect(wrapper.vm.minimumDeposit).toEqual(`10 STAKEs`)
   })
 
   it(`displays deposit period in days`, () => {

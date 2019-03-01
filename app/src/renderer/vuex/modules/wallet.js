@@ -54,6 +54,7 @@ export default ({ node }) => {
       commit(`setWalletAddress`, address)
       await dispatch(`queryWalletBalances`)
       dispatch(`loadDenoms`)
+      dispatch(`getTotalRewards`)
       dispatch(`walletSubscribe`)
     },
     resetSessionData({ rootState }) {

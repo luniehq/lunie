@@ -7,6 +7,7 @@
     title="Delegate"
     class="delegation-modal"
     submission-error-prefix="Delegating failed"
+    @close="$v.$reset()"
   >
     <tm-form-group
       class="action-modal-form-group"
@@ -55,14 +56,14 @@
         type="custom"
       />
       <tm-form-msg
+        v-else-if="$v.amount.$error && !$v.amount.decimal"
+        name="Amount"
+        type="numeric"
+      />
+      <tm-form-msg
         v-else-if="$v.amount.$error && (!$v.amount.required || amount === 0)"
         name="Amount"
         type="required"
-      />
-      <tm-form-msg
-        v-else-if="$v.amount.$error && !$v.amount.integer"
-        name="Amount"
-        type="integer"
       />
       <tm-form-msg
         v-else-if="$v.amount.$error && !$v.amount.between"
@@ -77,7 +78,8 @@
 
 <script>
 import { mapGetters } from "vuex"
-import { required, between, integer } from "vuelidate/lib/validators"
+import { between, decimal } from "vuelidate/lib/validators"
+import { uatoms, atoms } from "../../scripts/num.js"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
@@ -138,7 +140,7 @@ export default {
     async submitDelegation(submitType, password) {
       await this.$store.dispatch(`submitDelegation`, {
         validator_addr: this.validator.operator_address,
-        amount: String(this.amount),
+        amount: String(uatoms(this.amount)),
         submitType,
         password
       })
@@ -155,7 +157,7 @@ export default {
       await this.$store.dispatch(`submitRedelegation`, {
         validatorSrc,
         validatorDst: this.validator,
-        amount: String(this.amount),
+        amount: String(uatoms(this.amount)),
         submitType,
         password
       })
@@ -176,9 +178,9 @@ export default {
   validations() {
     return {
       amount: {
-        required,
-        integer,
-        between: between(1, this.balance)
+        required: x => !!x && x !== `0`,
+        decimal,
+        between: between(0, atoms(this.balance))
       }
     }
   }

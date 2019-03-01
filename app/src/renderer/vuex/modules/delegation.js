@@ -67,7 +67,7 @@ export default ({ node }) => {
     },
     // load committed delegations from LCD
     async getBondedDelegates(
-      { state, rootState, commit, dispatch },
+      { state, rootState, commit },
       candidates
     ) {
       state.loading = true
@@ -75,7 +75,6 @@ export default ({ node }) => {
       if (!rootState.connection.connected) return
 
       const address = rootState.session.address
-      candidates = candidates || (await dispatch(`getDelegates`))
 
       try {
         const delegations = await node.getDelegations(address)
@@ -135,9 +134,12 @@ export default ({ node }) => {
 
       state.loading = false
     },
-    async updateDelegates({ dispatch }) {
+    async updateDelegates({ dispatch, rootState }) {
       const candidates = await dispatch(`getDelegates`)
-      return dispatch(`getBondedDelegates`, candidates)
+
+      if(rootState.session.signedIn) {
+        dispatch(`getBondedDelegates`, candidates)
+      }
     },
     async submitDelegation(
       {

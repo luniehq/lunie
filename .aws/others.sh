@@ -4,11 +4,11 @@ PASSWORD=1234567890
 ACCOUNT=operator_account
 PORT=26656
 # TODO: hardcoded temporary, this will become a parameter coming from the first ECS instance
-MAINNODEID=a27e12bd071dc2eda3117a5a255743103259e184
+MAINNODEID=a93accb0af3dfda1f40063bd45857c4808ba2d9b
 MAINNODEIP=172.31.35.89
 MAINACCOUNT=main_account
 NETWORK=testnet
-VALIDATOR_AMOUNT=10stake
+VALIDATOR_AMOUNT=10000000stake
 
 # Initialize local node with a secondary account
 ./gaiad init ${ACCOUNT} --home . --chain-id ${NETWORK}
@@ -16,7 +16,7 @@ VALIDATOR_AMOUNT=10stake
 GENESIS=`aws s3 ls s3://cosmos-gaia/genesis.json | grep genesis.json`
 while [[ -z "$GENESIS" ]]; do
     sleep 3s
-    ISTHERE=`aws s3 ls s3://cosmos-gaia/genesis.json | grep genesis.json`
+    GENESIS=`aws s3 ls s3://cosmos-gaia/genesis.json | grep genesis.json`
 done
 aws s3 cp s3://cosmos-gaia/genesis.json config/genesis.json
 
@@ -24,7 +24,7 @@ aws s3 cp s3://cosmos-gaia/genesis.json config/genesis.json
 NODEID=$(./gaiad tendermint show-node-id --home .)
 
 # boot referring to the remote node
-screen -dmS gaia ./gaiad start --home . --p2p.laddr=tcp://0.0.0.0:$((PORT)) --address=tcp://0.0.0.0:$((PORT+1)) --rpc.laddr=tcp://0.0.0.0:$((PORT+2)) --p2p.persistent_peers="$MAINNODEID@$MAINNODEIP:$((PORT))"
+screen -dmS gaia ./gaiad start --home . --p2p.persistent_peers="$MAINNODEID@$MAINNODEIP:$((PORT))"
 
 # get the key to make my node validator
 PUBKEY=$(./gaiad tendermint show-validator --home .)
@@ -47,4 +47,4 @@ do
     sleep 3s
 done
 
-echo ${PASSWORD} | ./gaiacli tx staking create-validator --home . --from ${ACCOUNT} --amount=${VALIDATOR_AMOUNT} --pubkey=${PUBKEY} --address-delegator=${ADDRESS} --moniker=${ACCOUNT} --chain-id=${NETWORK} --commission-max-change-rate=0 --commission-max-rate=0 --commission-rate=0 --min-self-delegation=1 -json
+echo ${PASSWORD} | ./gaiacli tx staking create-validator --home . --from ${ACCOUNT} --amount=${VALIDATOR_AMOUNT} --pubkey=${PUBKEY} --address-delegator=${ADDRESS} --moniker=${ACCOUNT} --chain-id=${NETWORK} --commission-max-change-rate=0 --commission-max-rate=0 --commission-rate=0 --min-self-delegation=1
