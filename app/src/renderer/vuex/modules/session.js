@@ -209,7 +209,7 @@ export default () => {
           dl: window.location.pathname
         })
       } else {
-        console.log(`Error collection disabled in browser`)
+        console.log(`Error collection has been disabled`)
         state.externals.Sentry.init({})
       }
     }
