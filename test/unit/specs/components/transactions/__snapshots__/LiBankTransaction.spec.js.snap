@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TmLiBankTransaction has the expected html structure 1`] = `
-<tm-li-transaction-stub
+exports[`LiBankTransaction has the expected html structure 1`] = `
+<li-transaction-stub
   block="3436"
-  color="#215C2F"
+  color="#25293F"
   devmode="true"
   time="2042"
 >
@@ -21,11 +21,11 @@ exports[`TmLiBankTransaction has the expected html structure 1`] = `
   <span>
     From A
   </span>
-</tm-li-transaction-stub>
+</li-transaction-stub>
 `;
 
-exports[`TmLiBankTransaction should show outgoing transactions 1`] = `
-<tm-li-transaction-stub
+exports[`LiBankTransaction should show outgoing transactions 1`] = `
+<li-transaction-stub
   block="3438"
   color="#25293F"
   devmode="true"
@@ -51,11 +51,11 @@ exports[`TmLiBankTransaction should show outgoing transactions 1`] = `
         To A
       
   </span>
-</tm-li-transaction-stub>
+</li-transaction-stub>
 `;
 
-exports[`TmLiBankTransaction should show transactions sent to the sender 1`] = `
-<tm-li-transaction-stub
+exports[`LiBankTransaction should show transactions sent to the sender 1`] = `
+<li-transaction-stub
   block="466"
   color="#25293F"
   devmode="true"
@@ -81,5 +81,5 @@ exports[`TmLiBankTransaction should show transactions sent to the sender 1`] = `
         To yourself!
       
   </span>
-</tm-li-transaction-stub>
+</li-transaction-stub>
 `;

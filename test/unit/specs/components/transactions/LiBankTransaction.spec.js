@@ -1,8 +1,8 @@
 import { shallowMount } from "@vue/test-utils"
-import TmLiBankTransaction from "transactions/TmLiBankTransaction"
+import LiBankTransaction from "transactions/LiBankTransaction"
 import transactions from "../../store/json/txs"
 
-describe(`TmLiBankTransaction`, () => {
+describe(`LiBankTransaction`, () => {
   let wrapper
   const propsData = {
     devMode: true,
@@ -11,7 +11,7 @@ describe(`TmLiBankTransaction`, () => {
   }
 
   beforeEach(() => {
-    wrapper = shallowMount(TmLiBankTransaction, {
+    wrapper = shallowMount(LiBankTransaction, {
       propsData,
       stubs: [`router-link`]
     })

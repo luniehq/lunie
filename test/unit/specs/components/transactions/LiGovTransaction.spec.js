@@ -1,8 +1,8 @@
 import { mount } from "@vue/test-utils"
-import TmLiGovTransaction from "transactions/TmLiGovTransaction"
+import LiGovTransaction from "transactions/LiGovTransaction"
 import transactions from "../../store/json/txs"
 
-describe(`TmLiGovTransaction`, () => {
+describe(`LiGovTransaction`, () => {
   let wrapper
   const propsData = {
     transaction: transactions[6],
@@ -11,7 +11,7 @@ describe(`TmLiGovTransaction`, () => {
   }
 
   beforeEach(() => {
-    wrapper = mount(TmLiGovTransaction, { propsData, stubs: [`router-link`] })
+    wrapper = mount(LiGovTransaction, { propsData, stubs: [`router-link`] })
   })
 
   describe(`proposals`, () => {

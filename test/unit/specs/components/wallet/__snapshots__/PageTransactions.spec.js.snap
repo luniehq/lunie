@@ -12,7 +12,7 @@ exports[`PageTransactions has the expected html structure if user has signed in 
   <data-empty-tx-stub />
    
   <template>
-    <tm-li-any-transaction-stub
+    <li-any-transaction-stub
       address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
@@ -21,7 +21,7 @@ exports[`PageTransactions has the expected html structure if user has signed in 
       validators="[object Object],[object Object],[object Object]"
       validatorsurl="/staking/validators"
     />
-    <tm-li-any-transaction-stub
+    <li-any-transaction-stub
       address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
@@ -30,7 +30,7 @@ exports[`PageTransactions has the expected html structure if user has signed in 
       validators="[object Object],[object Object],[object Object]"
       validatorsurl="/staking/validators"
     />
-    <tm-li-any-transaction-stub
+    <li-any-transaction-stub
       address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
@@ -39,7 +39,7 @@ exports[`PageTransactions has the expected html structure if user has signed in 
       validators="[object Object],[object Object],[object Object]"
       validatorsurl="/staking/validators"
     />
-    <tm-li-any-transaction-stub
+    <li-any-transaction-stub
       address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
@@ -48,7 +48,7 @@ exports[`PageTransactions has the expected html structure if user has signed in 
       validators="[object Object],[object Object],[object Object]"
       validatorsurl="/staking/validators"
     />
-    <tm-li-any-transaction-stub
+    <li-any-transaction-stub
       address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
@@ -57,7 +57,7 @@ exports[`PageTransactions has the expected html structure if user has signed in 
       validators="[object Object],[object Object],[object Object]"
       validatorsurl="/staking/validators"
     />
-    <tm-li-any-transaction-stub
+    <li-any-transaction-stub
       address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
@@ -84,7 +84,7 @@ exports[`PageTransactions has the expected html structure if user hasn't signed 
   <data-empty-tx-stub />
    
   <template>
-    <tm-li-any-transaction-stub
+    <li-any-transaction-stub
       address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
@@ -93,7 +93,7 @@ exports[`PageTransactions has the expected html structure if user hasn't signed 
       validators="[object Object],[object Object],[object Object]"
       validatorsurl="/staking/validators"
     />
-    <tm-li-any-transaction-stub
+    <li-any-transaction-stub
       address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
@@ -102,7 +102,7 @@ exports[`PageTransactions has the expected html structure if user hasn't signed 
       validators="[object Object],[object Object],[object Object]"
       validatorsurl="/staking/validators"
     />
-    <tm-li-any-transaction-stub
+    <li-any-transaction-stub
       address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
@@ -111,7 +111,7 @@ exports[`PageTransactions has the expected html structure if user hasn't signed 
       validators="[object Object],[object Object],[object Object]"
       validatorsurl="/staking/validators"
     />
-    <tm-li-any-transaction-stub
+    <li-any-transaction-stub
       address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
@@ -120,7 +120,7 @@ exports[`PageTransactions has the expected html structure if user hasn't signed 
       validators="[object Object],[object Object],[object Object]"
       validatorsurl="/staking/validators"
     />
-    <tm-li-any-transaction-stub
+    <li-any-transaction-stub
       address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
@@ -129,7 +129,7 @@ exports[`PageTransactions has the expected html structure if user hasn't signed 
       validators="[object Object],[object Object],[object Object]"
       validatorsurl="/staking/validators"
     />
-    <tm-li-any-transaction-stub
+    <li-any-transaction-stub
       address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"

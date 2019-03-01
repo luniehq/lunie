@@ -1,9 +1,9 @@
 import { mount } from "@vue/test-utils"
-import TmLiStakeTransaction from "transactions/TmLiStakeTransaction"
+import LiStakeTransaction from "transactions/LiStakeTransaction"
 import transactions from "../../store/json/txs"
 import { state } from "renderer/connectors/lcdClientMock.js"
 
-describe(`TmLiStakeTransaction`, () => {
+describe(`LiStakeTransaction`, () => {
   let wrapper
   const propsData = {
     transaction: transactions[3],
@@ -13,7 +13,7 @@ describe(`TmLiStakeTransaction`, () => {
   }
 
   beforeEach(() => {
-    wrapper = mount(TmLiStakeTransaction, { propsData, stubs: [`router-link`] })
+    wrapper = mount(LiStakeTransaction, { propsData, stubs: [`router-link`] })
   })
 
   describe(`delegations`, () => {

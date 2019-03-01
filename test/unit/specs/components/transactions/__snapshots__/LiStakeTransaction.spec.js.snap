@@ -1,0 +1,99 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LiStakeTransaction unbonding delegations should default to ended if no unbonding delegation is present 1`] = `
+<div
+  class="li-tx"
+>
+  <div
+    class="li-tx__icon"
+  >
+    <img
+      src="~assets/images/cosmos-logo.png"
+      style="border-color: #512584;"
+    />
+  </div>
+   
+  <div
+    class="li-tx__content"
+  >
+    <div
+      class="li-tx__content__left"
+    >
+      <div
+        class="li-tx__content__caption"
+      >
+        <p
+          class="li-tx__content__caption__title"
+        />
+      </div>
+       
+      <div
+        class="li-tx__content__information"
+      />
+    </div>
+     
+    <div
+      class="li-tx__content__block"
+    >
+      <router-link-stub
+        to="[object Object]"
+      >
+        
+        Block #569 
+      
+      </router-link-stub>
+      @ 00:00:42
+    
+    </div>
+  </div>
+</div>
+`;
+
+exports[`LiStakeTransaction unbonding delegations should show unbonding delegations as ended 1`] = `
+<div
+  class="li-tx"
+>
+  <div
+    class="li-tx__icon"
+  >
+    <img
+      src="~assets/images/cosmos-logo.png"
+      style="border-color: #512584;"
+    />
+  </div>
+   
+  <div
+    class="li-tx__content"
+  >
+    <div
+      class="li-tx__content__left"
+    >
+      <div
+        class="li-tx__content__caption"
+      >
+        <p
+          class="li-tx__content__caption__title"
+        />
+      </div>
+       
+      <div
+        class="li-tx__content__information"
+      />
+    </div>
+     
+    <div
+      class="li-tx__content__block"
+    >
+      <router-link-stub
+        to="[object Object]"
+      >
+        
+        Block #569 
+      
+      </router-link-stub>
+      @ 00:00:42
+    
+    </div>
+  </div>
+</div>
+`;
