@@ -123,7 +123,7 @@ describe(`PageWallet`, () => {
   })
 
   it(`should call getmoney`, async () => {
-    await PageWallet.methods.faucet.call({ $store, wallet: { address: `X` } })
+    await PageWallet.methods.faucet.call({ $store, session: { address: `X` } })
     expect($store.dispatch).toHaveBeenCalledWith(`getMoney`, `X`)
   })
 })

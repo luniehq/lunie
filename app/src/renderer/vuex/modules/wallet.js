@@ -60,6 +60,7 @@ export default ({ node }) => {
     resetSessionData({ rootState }) {
       // clear previous account state
       rootState.wallet = JSON.parse(JSON.stringify(emptyState))
+      rootState.wallet.externals.axios = axios
     },
     async queryWalletBalances({ state, rootState, commit }) {
       if (!state.address) return

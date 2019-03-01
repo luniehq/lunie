@@ -55,7 +55,7 @@ export default {
   },
   data: () => ({ num, showSendModal: false }),
   computed: {
-    ...mapGetters([`wallet`, `connected`]),
+    ...mapGetters([`wallet`, `connected`, `session`]),
     enableFaucet() {
       return !!this.wallet.externals.config.faucet
     },
@@ -92,7 +92,7 @@ export default {
       this.$refs.sendModal.open(denomination)
     },
     async faucet() {
-      await this.$store.dispatch(`getMoney`, this.wallet.address)
+      await this.$store.dispatch(`getMoney`, this.session.address)
     }
   }
 }
