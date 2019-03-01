@@ -29,9 +29,9 @@
   />
   <li-transaction
     v-else
-    :color="colors.grey"
     :time="transaction.time"
     :block="transaction.height"
+    color="grey"
   >
     <span slot="caption">Unknown Transaction Type</span>
   </li-transaction>

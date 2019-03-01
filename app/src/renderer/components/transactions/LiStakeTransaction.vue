@@ -6,7 +6,7 @@
   >
     <template v-if="txType === `cosmos-sdk/MsgCreateValidator`">
       <div slot="caption">
-        Create validator&nbsp;<b>{{ pretty(atoms(tx.value)) }}</b><span>&nbsp;{{ bondingDenom }}s</span>
+        Create validator&nbsp;<b>{{ atoms(tx.value) }}</b><span>&nbsp;{{ bondingDenom }}s</span>
       </div>
       <div slot="details">
         Moniker:&nbsp;<router-link :to="url + '/' + tx.validator_addr">
@@ -27,7 +27,7 @@
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgDelegate`">
       <div slot="caption">
-        Delegated&nbsp;<b>{{ pretty(atoms(tx.delegation.amount)) }}</b><span>&nbsp;{{ bondingDenom }}s</span>
+        Delegation&nbsp;<b>{{ atoms(tx.value.amount) }}</b><span>&nbsp;{{ tx.value.denom }}s</span>
       </div>
       <div slot="details">
         To&nbsp;<router-link :to="url + '/' + tx.validator_addr">
@@ -39,7 +39,7 @@
     </template>
     <template v-else-if="txType === `cosmos-sdk/BeginRedelegate`">
       <div slot="caption">
-        Redelegated&nbsp;<template>
+        Redelegation&nbsp;<template>
           <b>
             {{
               calculatePrettifiedTokens(tx.validator_src_addr, tx.shares_amount)
@@ -62,7 +62,7 @@
     </template>
     <template v-else-if="txType === `cosmos-sdk/Undelegate`">
       <div slot="caption">
-        Undelegated&nbsp;<template>
+        Undelegation&nbsp;<template>
           <b>
             {{
               calculatePrettifiedTokens(tx.validator_addr, tx.shares_amount)
@@ -178,109 +178,109 @@ export default {
 
 <style>
 .tm-li-tx {
-  display: flex;
-  font-size: sm;
+	display: flex;
+	font-size: sm;
 }
 
 .tm-li-tx .tx-icon {
-  padding: 0 0.5rem;
-  background: var(--app-fg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+	padding: 0 0.5rem;
+	background: var(--app-fg);
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .tm-li-tx .tx-container {
-  flex-direction: column;
-  flex-wrap: nowrap;
-  padding: 0.5rem 0;
-  margin: 0.5rem 0;
-  display: flex;
-  width: 100%;
-  min-width: 0;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	padding: 0.5rem 0;
+	margin: 0.5rem 0;
+	display: flex;
+	width: 100%;
+	min-width: 0;
 }
 
 .tm-li-tx .tx-element {
-  padding: 0 2rem 0 1.5rem;
-  line-height: 1.5rem;
+	padding: 0 2rem 0 1.5rem;
+	line-height: 1.5rem;
 }
 
 .tm-li-tx .tx-coin .value {
-  flex: 0 0 100%;
-  font-size: sm;
-  color: var(--dim);
+	flex: 0 0 100%;
+	font-size: sm;
+	color: var(--dim);
 }
 
 .tm-li-tx .tx-coin .value::before {
-  content: "";
-  display: inline;
+	content: "";
+	display: inline;
 }
 
 .tm-li-tx .tx-coin .key {
-  font-weight: 500;
-  font-size: m;
+	font-weight: 500;
+	font-size: m;
 }
 
 .tm-li-tx .tx-coin .value,
 .tm-li-tx .tx-coin .key {
-  line-height: 1.5rem;
+	line-height: 1.5rem;
 }
 
 .tm-li-tx .tx-address {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: var(--dim);
-  font-size: sm;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: var(--dim);
+	font-size: sm;
 }
 
 .tm-li-tx.tm-li-tx-sent .tx-coin .value::before {
-  content: "-";
+	content: "-";
 }
 
 .tm-li-tx.tm-li-tx-received .tx-icon {
-  background: var(--app-fg);
+	background: var(--app-fg);
 }
 
 .tm-li-tx.tm-li-tx-received .tx-coin .value {
-  color: success;
+	color: success;
 }
 
 .tm-li-tx.tm-li-tx-received .tx-coin .value::before {
-  content: "+";
+	content: "+";
 }
 
 .tm-li-tx:hover {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 .tx-unbonding__time-diff {
-  font-size: var(--sm);
+	font-size: var(--sm);
 }
 
 @media screen and (min-width: 700px) {
-  .tm-li-tx {
-    font-size: 0.875rem;
-  }
+	.tm-li-tx {
+		font-size: 0.875rem;
+	}
 
-  .tm-li-tx .tx-container {
-    flex-direction: row;
-  }
+	.tm-li-tx .tx-container {
+		flex-direction: row;
+	}
 
-  .tm-li-tx .tx-container .tx-coins {
-    flex: 0 0 9rem;
-    padding: 0;
-    min-width: 0;
-  }
+	.tm-li-tx .tx-container .tx-coins {
+		flex: 0 0 9rem;
+		padding: 0;
+		min-width: 0;
+	}
 
-  .tm-li-tx .tx-container .tx-coins .tx-coin {
-    padding: 0 1.5rem 0;
-  }
+	.tm-li-tx .tx-container .tx-coins .tx-coin {
+		padding: 0 1.5rem 0;
+	}
 
-  .tm-li-tx .tx-container .tx-coins .tx-coin .key {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+	.tm-li-tx .tx-container .tx-coins .tx-coin .key {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
 }
 </style>

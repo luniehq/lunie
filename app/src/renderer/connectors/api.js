@@ -70,12 +70,12 @@ const Client = (axios, remoteLcdURL) => {
     /* ============ STAKE ============ */
     getStakingTxs: async function (address) {
       return await Promise.all([
-        req(`GET`, `/txs?action=create_validator&delegator_address=${address}`)(),
-        req(`GET`, `/txs?action=edit_validator&address=${address}`)(),
-        req(`GET`, `/txs?action=delegate&delegator_address=${address}`)(),
-        req(`GET`, `/txs?action=begin_redelegate&delegator_address=${address}`)(),
-        req(`GET`, `/txs?action=begin_unbonding&delegator_address=${address}`)(),
-        req(`GET`, `/txs?action=unjail&delegator_address=${address}`)()
+        req(`GET`, `/txs?action=create_validator&delegator=${address}`)(),
+        req(`GET`, `/txs?action=edit_validator&delegator=${address}`)(),
+        req(`GET`, `/txs?action=delegate&delegator=${address}`)(),
+        req(`GET`, `/txs?action=begin_redelegate&delegator=${address}`)(),
+        req(`GET`, `/txs?action=begin_unbonding&delegator=${address}`)(),
+        req(`GET`, `/txs?action=unjail&delegator=${address}`)()
       ]).then(([
         createValidatorTxs,
         editValidatorTxs,
