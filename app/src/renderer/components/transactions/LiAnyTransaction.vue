@@ -26,6 +26,7 @@
     :url="validatorsUrl"
     :bonding-denom="bondingDenom"
     :tx-type="type"
+    :validators="validators"
   />
   <li-transaction
     v-else
@@ -110,7 +111,7 @@ export default {
     distributionTx() {
       return [
         `cosmos-sdk/MsgSetWithdrawAddress`,
-        `cosmos-sdk/MsgWithdrawDelegatorReward`,
+        `cosmos-sdk/MsgWithdrawDelegationReward`,
         `cosmos-sdk/MsgWithdrawValidatorCommission`
       ].includes(this.type)
     }

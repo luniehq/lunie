@@ -13,9 +13,6 @@ export default ({ node }) => {
   }
   const state = JSON.parse(JSON.stringify(emptyState))
 
-  // properties under which txs of different categories are stored
-  const txCategories = [`staking`, `wallet`, `governance`, `distribution`]
-
   const mutations = {
     setBankTxs(state, txs) {
       Vue.set(state, `bank`, txs)
@@ -32,15 +29,17 @@ export default ({ node }) => {
     setHistoryLoading(state, loading) {
       Vue.set(state, `loading`, loading)
     },
-    setTransactionTime(state, { blockHeight, blockMetaInfo }) {
-      txCategories.forEach(category => {
-        state[category].forEach(tx => {
-          if (tx.height === blockHeight && blockMetaInfo) {
-            // time seems to be an ISO string, but we are expecting a Number type
-            Vue.set(tx, `time`, new Date(blockMetaInfo.header.time).getTime())
-          }
+    setTransactionTime(state, { blockHeight, time }) {
+      [`staking`, `bank`, `governance`, `distribution`]
+        .forEach(category => {
+          state[category].forEach(tx => {
+            if (tx.height === blockHeight && time) {
+              // time seems to be an ISO string, but we are expecting a Number type
+              time = new Date(time).getTime()
+              Vue.set(tx, `time`, time)
+            }
+          })
         })
-      })
     }
   }
 
@@ -118,7 +117,7 @@ export default ({ node }) => {
       const blockMetaInfo = await dispatch(`queryBlockInfo`, blockHeight)
       commit(`setTransactionTime`, {
         blockHeight,
-        blockMetaInfo
+        time: blockMetaInfo.header.time
       })
     }
   }

@@ -75,7 +75,7 @@ const Client = (axios, remoteLcdURL) => {
         req(`GET`, `/txs?action=delegate&delegator=${address}`)(),
         req(`GET`, `/txs?action=begin_redelegate&delegator=${address}`)(),
         req(`GET`, `/txs?action=begin_unbonding&delegator=${address}`)(),
-        req(`GET`, `/txs?action=unjail&delegator=${address}`)()
+        req(`GET`, `/txs?action=unjail&src-validator=${address}`)()
       ]).then(([
         createValidatorTxs,
         editValidatorTxs,
@@ -229,9 +229,9 @@ const Client = (axios, remoteLcdURL) => {
     /* ============ Distribution ============ */
     getDistributionTxs: async function (address) {
       return await Promise.all([
-        req(`GET`, `/txs?action=set_withdraw_address&delegator_address=${address}`)(),
-        req(`GET`, `/txs?action=withdraw_delegation_reward&delegator_address=${address}`)(),
-        req(`GET`, `/txs?action=withdraw_validator_rewards_all&validator_address=${address}`)()
+        req(`GET`, `/txs?action=set_withdraw_address&delegator=${address}`)(),
+        req(`GET`, `/txs?action=withdraw_delegation_reward&delegator=${address}`)(),
+        req(`GET`, `/txs?action=withdraw_validator_rewards_all&src-validator=${address}`)()
       ]).then(([
         updateWithdrawAddressTxs,
         withdrawDelegationRewardsTxs,

@@ -63,7 +63,6 @@ export default {
       `delegates`
     ]),
     orderedTransactions() {
-      console.log(this.transactions.goverance)
       return orderBy(
         this.allTransactions.map(t => {
           t.height = parseInt(t.height)
