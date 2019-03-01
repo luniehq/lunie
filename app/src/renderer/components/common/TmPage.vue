@@ -9,7 +9,7 @@
       </h3>
       <slot slot="menu-body" name="menu-body">
         <tm-balance v-if="session.signedIn" />
-        <tool-bar />
+        <tool-bar :refresh="refreshable" />
       </slot>
       <slot slot="header-buttons" name="header-buttons" />
     </tm-page-header>
@@ -97,6 +97,9 @@ export default {
   }),
   computed: {
     ...mapGetters([`session`, `connected`]),
+    refreshable({ connected, refresh } = this) {
+      return refresh ? { connected, refresh } : undefined
+    }
   },
   async mounted() {
     const container = this.$el.querySelector(`.tm-page-main`)

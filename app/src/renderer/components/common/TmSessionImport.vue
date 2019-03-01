@@ -2,14 +2,10 @@
   <div class="tm-session">
     <tm-form-struct :submit="onSubmit.bind(this)" class="tm-session-container">
       <div class="tm-session-header">
-        <a
-          @click="setState('welcome')"
-        >
+        <a @click="setState('welcome')">
           <i class="material-icons">arrow_back</i>
         </a>
-        <div class="tm-session-title">
-          Import with Seed
-        </div>
+        <div class="tm-session-title">Import with Seed</div>
       </div>
       <div class="tm-session-main">
         <tm-form-group
@@ -86,6 +82,9 @@
             type="match"
           />
         </tm-form-group>
+        <p
+          class="fundraiser-warning"
+        >Warning – Do not enter your actual 12 or 24 word seed phrase. This feature is intended for testing and is considered highly unsafe.</p>
         <tm-form-group
           :error="$v.$error && $v.fields.importSeed.$invalid"
           field-id="import-seed"
@@ -113,20 +112,13 @@
         <tm-form-group
           :error="$v.$error && $v.fields.errorCollection.$invalid"
           field-id="error-collection"
-          field-label=""
+          field-label
         >
           <div class="tm-field-checkbox">
             <div class="tm-field-checkbox-input">
-              <input
-                id="error-collection"
-                v-model="fields.errorCollection"
-                type="checkbox"
-              >
+              <input id="error-collection" v-model="fields.errorCollection" type="checkbox">
             </div>
-            <label
-              class="tm-field-checkbox-label"
-              for="error-collection"
-            >
+            <label class="tm-field-checkbox-label" for="error-collection">
               I'd like to opt in for remote error tracking to help improve
               Voyager.
             </label>
@@ -134,21 +126,8 @@
         </tm-form-group>
       </div>
       <div class="tm-session-footer">
-        <fundraiser-warning />
-        <tm-btn
-          v-if="connected"
-          icon="arrow_forward"
-          icon-pos="right"
-          value="Next"
-          size="lg"
-        />
-        <tm-btn
-          v-else
-          icon-pos="right"
-          value="Connecting..."
-          size="lg"
-          disabled="true"
-        />
+        <tm-btn v-if="connected" icon="arrow_forward" icon-pos="right" value="Next" size="lg"/>
+        <tm-btn v-else icon-pos="right" value="Connecting..." size="lg" disabled="true"/>
       </div>
     </tm-form-struct>
   </div>
@@ -156,14 +135,12 @@
 
 <script>
 import { required, minLength, sameAs } from "vuelidate/lib/validators"
-import PerfectScrollbar from "perfect-scrollbar"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormStruct from "common/TmFormStruct"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import FieldSeed from "common/TmFieldSeed"
-import FundraiserWarning from "common/FundraiserWarning"
 import { mapGetters } from "vuex"
 export default {
   name: `tm-session-import`,
@@ -171,7 +148,6 @@ export default {
     TmBtn,
     TmField,
     FieldSeed,
-    FundraiserWarning,
     TmFormGroup,
     TmFormMsg,
     TmFormStruct
@@ -189,7 +165,6 @@ export default {
   },
   mounted() {
     this.$el.querySelector(`#import-name`).focus()
-    new PerfectScrollbar(this.$el.querySelector(`.tm-session-main`))
   },
   methods: {
     setState(value) {
