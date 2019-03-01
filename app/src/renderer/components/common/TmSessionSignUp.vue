@@ -5,9 +5,10 @@
         <a @click="setState('welcome')">
           <i class="material-icons">arrow_back</i>
         </a>
-        <div class="tm-session-title">
-          Create Account
-        </div>
+        <div class="tm-session-title">Create Account</div>
+        <a @click="$store.commit(`toggleSessionModal`, false)">
+          <i class="material-icons">close</i>
+        </a>
       </div>
       <div class="tm-session-main">
         <tm-form-group
@@ -85,7 +86,7 @@
           />
         </tm-form-group>
         <tm-form-group field-id="sign-up-seed" class="sign-up-seed-group" field-label="Seed Phrase">
-          <field-seed id="sign-up-seed" v-model="fields.signUpSeed" disabled="disabled" />
+          <field-seed id="sign-up-seed" v-model="fields.signUpSeed" disabled="disabled"/>
           <tm-form-msg
             class="sm"
             type="custom"
@@ -133,12 +134,7 @@
         </tm-form-group>
       </div>
       <div class="tm-session-footer">
-        <tm-btn
-          icon="arrow_forward"
-          icon-pos="right"
-          value="Next"
-          size="lg"
-        />
+        <tm-btn icon="arrow_forward" icon-pos="right" value="Next" size="lg"/>
       </div>
     </tm-form-struct>
   </div>

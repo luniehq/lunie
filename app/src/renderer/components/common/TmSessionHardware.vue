@@ -5,9 +5,10 @@
         <a @click="setState('welcome')">
           <i class="material-icons">arrow_back</i>
         </a>
-        <div class="tm-session-title">
-          Sign In
-        </div>
+        <div class="tm-session-title">Sign In</div>
+        <a @click="$store.commit(`toggleSessionModal`, false)">
+          <i class="material-icons">close</i>
+        </a>
       </div>
       <div class="tm-session-main">
         <hardware-state
@@ -28,15 +29,11 @@
             href="https://github.com/cosmos/voyager#ledger-cosmos-app"
             target="_blank"
             rel="noopener noreferrer"
-          >
-            here
-          </a>.
+          >here</a>.
         </p>
       </div>
       <div class="tm-session-footer">
-        <p v-if="connectionError" class="tm-form-msg sm tm-form-msg--error">
-          {{ connectionError }}
-        </p>
+        <p v-if="connectionError" class="tm-form-msg sm tm-form-msg--error">{{ connectionError }}</p>
       </div>
     </div>
   </div>

@@ -6,6 +6,9 @@
           <i class="material-icons">arrow_back</i>
         </a>
         <div class="tm-session-title">Import with Seed</div>
+        <a @click="$store.commit(`toggleSessionModal`, false)">
+          <i class="material-icons">close</i>
+        </a>
       </div>
       <div class="tm-session-main">
         <tm-form-group
