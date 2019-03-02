@@ -199,8 +199,11 @@ jobs:
           at: *GAIA
       - yarn-install
       - run:
+          name: Build
+          command: yarn build:ui
+      - run:
           name: Test
-          command: yarn run test:e2e
+          command: yarn serve && yarn run test:e2e
           no_output_timeout: 120
       - store_artifacts:
           path: testArtifacts
