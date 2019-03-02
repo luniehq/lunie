@@ -128,10 +128,10 @@ jobs:
 
       # If Gaia isn't in the cache then build it.
       - run: |
-          if [ ! -d &GAIA ]; then
+          if [ ! -d /tmp/gaia ]; then
             cd tasks/build/Gaia
             . ./COMMIT.sh
-            TARGET=&GAIA ./build.sh
+            TARGET=/tmp/gaia ./build.sh
           fi
       - save_cache:
           key: v7-Gaia-{{ checksum "tasks/build/Gaia/COMMIT.sh" }}
