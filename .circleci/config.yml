@@ -196,7 +196,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: *WORKSPACE
+          at: *GAIA
       - yarn-install
       - run:
           name: Test
