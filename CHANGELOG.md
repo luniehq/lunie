@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.11] - 2019-03-02
+
 ### Changed
 
 - [\#1887](https://github.com/cosmos/voyager/issues/1887) Activating Google Analytics anonymized by default @faboweb
