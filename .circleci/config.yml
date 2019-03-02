@@ -128,9 +128,9 @@ jobs:
 
       # If Gaia isn't in the cache then build it.
       - run: |
-          . ./COMMIT.sh
           if [ ! -d &GAIA ]; then
             cd tasks/build/Gaia
+            . ./COMMIT.sh
             TARGET=&GAIA ./build.sh
           fi
       - save_cache:
