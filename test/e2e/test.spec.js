@@ -6,11 +6,11 @@ module.exports = {
       .waitForElementVisible(`body`)
       .waitForElementVisible(`#app-content`)
       // demo to show that account is setup
-      .execute(function() {
-        return window.localStorage.getItem(`keys`)
-      }, [], function(result) {
-        console.log(result)
-      })
+    //   .execute(function() {
+    //     return window.localStorage.getItem(`keys`)
+    //   }, [], function(result) {
+    //     console.log(result)
+    //   })
       .end();
   }
 };
