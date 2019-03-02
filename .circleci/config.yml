@@ -124,7 +124,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: v7-Gaia-{{ checksum "tasks/build/Gaia/COMMIT.sh" }}
+          key: v8-Gaia-{{ checksum "tasks/build/Gaia/COMMIT.sh" }}
 
       # If Gaia isn't in the cache then build it.
       - run: |
@@ -134,7 +134,7 @@ jobs:
             TARGET=/tmp/gaia ./build.sh
           fi
       - save_cache:
-          key: v7-Gaia-{{ checksum "tasks/build/Gaia/COMMIT.sh" }}
+          key: v8-Gaia-{{ checksum "tasks/build/Gaia/COMMIT.sh" }}
           paths:
             - *GAIA
       - persist_to_workspace:
