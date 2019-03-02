@@ -226,23 +226,6 @@ A list of all environment variables and their purpose:
 
 ## FAQ
 
-- If tendermint crashes and the log shows `Tendermint state.AppHash does not match AppHash after replay.` delete the config folders at `$HOME/.cosmos-voyager[-dev]`.
-
-- If you use yarn, the post-install hook may not execute. If this happens you'll have to execute the script manually:
-
-```bash
-cd app
-yarn
-cd ..
-npm run rebuild
-```
-
-- If electron shows the error: `A DLL initialization routine has failed.` rebuild the electron dependencies:
-
-```bash
-npm run rebuild
-```
-
 - If you have trouble installing dependencies, remove all the lockfiles and try installing again.
 
 ```bash
