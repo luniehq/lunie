@@ -221,7 +221,6 @@ A list of all environment variables and their purpose:
 | Variable               | Values                      | default | Purpose                                                                                                                                                           |
 |------------------------|-----------------------------|---------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `NODE_ENV`             | `production`, `development` |         |                                                                                                                                                                   |
-| `COSMOS_E2E_KEEP_OPEN` | `true`, `false`             | `false` | Keep the Window open in local E2E test to see the state in which the application broke.                                                                           |
 | `CI`                   | `true`, `false`             | `false` | Adds better structured output, makes a screenshot and adds logs to files (used on CircleCI).                                                                      |
 | `ALLOW_CONSOLE`        | `true`, `false`             | `false` | Unit tests fail if they use `console.error` or `console.warn`. To see the initial use/occurences of those callings, you can escape this behavior using this flag. |
 
