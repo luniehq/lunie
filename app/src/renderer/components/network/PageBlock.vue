@@ -99,6 +99,7 @@ export default {
   },
   methods: {
     async getBlock({ $store, $route, $router, lastHeader } = this) {
+      // query first for the block so we don't fail if the user started from this route and hasn't received any lastHeader yet
       const blockInfo = await $store.dispatch(
         `queryBlockInfo`,
         $route.params.height
