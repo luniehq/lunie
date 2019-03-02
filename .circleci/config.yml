@@ -200,7 +200,7 @@ jobs:
       - yarn-install
       - run:
           name: Test
-          command: yarn serve && yarn run test:e2e
+          command: yarn serve & yarn run test:e2e
           no_output_timeout: 120
       - store_artifacts:
           path: testArtifacts
