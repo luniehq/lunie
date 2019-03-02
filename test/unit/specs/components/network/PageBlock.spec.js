@@ -39,6 +39,9 @@ describe(`PageBlock`, () => {
             ]
           }
         }
+      },
+      lastHeader: {
+        height: `1000`
       }
     }
 
@@ -87,11 +90,14 @@ describe(`PageBlock`, () => {
       },
       $route: {
         params: {
-          height: 42
+          height: `42`
         }
       },
       $router: {
         push: routerPush
+      },
+      lastHeader: {
+        height: `1`
       }
     })
 
@@ -109,6 +115,9 @@ describe(`PageBlock`, () => {
       },
       $router: {
         push: routerPush
+      },
+      lastHeader: {
+        height: `1000`
       }
     })
 
