@@ -79,7 +79,7 @@
                 {{ percent(validator.commission.rate) }}
               </dd>
             </dl>
-            <dl v-if="session.devMode" class="info_dl colored_dl">
+            <dl v-if="session.experimentalMode" class="info_dl colored_dl">
               <dt>Slashes</dt>
               <dd>--</dd>
             </dl>
@@ -307,16 +307,14 @@ export default {
     },
     rewards() {
       const { session, bondDenom, distribution, validator } = this
-      if (!session.signedIn) { 
-        return null 
+      if (!session.signedIn) {
+        return null
       }
 
-      const validatorRewards = distribution.rewards[
-        validator.operator_address
-      ]
-      const amount = validatorRewards ? full(
-        atoms(validatorRewards[bondDenom]) || 0
-      ) : null
+      const validatorRewards = distribution.rewards[validator.operator_address]
+      const amount = validatorRewards
+        ? full(atoms(validatorRewards[bondDenom]) || 0)
+        : null
 
       if (amount) {
         return `${amount} ${bondDenom}`
@@ -334,7 +332,7 @@ export default {
     },
     lastHeader: {
       immediate: true,
-      handler(){
+      handler() {
         if (this.session.signedIn) {
           this.$store.dispatch(
             `getRewardsFromValidator`,
