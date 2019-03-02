@@ -31,6 +31,6 @@ for GOOS in $platforms; do
 done
 
 # copy build files to target dir
-if compgen -G "/go/bin/*_amd64" > /dev/null; then
+if stat -t /go/bin/*_amd64 >/dev/null 2>&1; then
   cp --recursive /go/bin/*_amd64 $TARGET/
 fi
