@@ -191,8 +191,8 @@ jobs:
   testE2e:
     executor: web
     environment:
-      - BINARY_PATH: "/tmp/gaia/builds/Gaia/linux_amd64/gaiacli"
-      - NODE_BINARY_PATH: "/tmp/gaia/builds/Gaia/linux_amd64/gaiad"
+      - BINARY_PATH: "/tmp/gaia/linux_amd64/gaiacli"
+      - NODE_BINARY_PATH: "/tmp/gaia/linux_amd64/gaiad"
     steps:
       - checkout
       - attach_workspace:
