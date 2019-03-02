@@ -138,11 +138,11 @@ jobs:
           paths:
             - *GAIA
       - persist_to_workspace:
-          root: .
+          root: &GAIA
           paths:
             - "*"
-      - store_artifacts:
-          path: builds/Gaia/linux_amd64/*
+      # - store_artifacts:
+      #     path: builds/Gaia/linux_amd64/*
 
   changelogUpdated:
     executor: node
@@ -196,7 +196,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: builds/Gaia
+          at: *WORKSPACE
       - yarn-install
       - run:
           name: Test
