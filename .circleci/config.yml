@@ -131,8 +131,7 @@ jobs:
           if [ ! -d /tmp/gaia ]; then
             cd tasks/build/Gaia
             . ./COMMIT.sh
-            PLATFORM=linux
-            TARGET=/tmp/gaia ./build.sh
+            TARGET=/tmp/gaia PLATFORM=linux ./build.sh
           fi
       - save_cache:
           key: v8-Gaia-{{ checksum "tasks/build/Gaia/COMMIT.sh" }}
