@@ -193,10 +193,11 @@ yarn watch PageValidator
 
 End to end testing will be soon restored thanks to: [Browserstack](https://www.browserstack.com/)
 
-If you want to run them locally prepare the environment first:
+If you want to run them locally build the UI and serve the files so the E2E tests can access them:
 
 ```bash
-yarn test:e2e:local-setup
+yarn build:ui
+./node_modules/.bin/http-server /app/dist -p 8081
 ```
 
 Then run the actual tests:
