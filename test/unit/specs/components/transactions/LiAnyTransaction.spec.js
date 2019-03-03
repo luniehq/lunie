@@ -1,20 +1,23 @@
-import { mount } from "@vue/test-utils"
+import { shallowMount } from "@vue/test-utils"
 import LiAnyTransaction from "transactions/LiAnyTransaction"
 import transactions from "../../store/json/txs"
-import { state } from "renderer/connectors/lcdClientMock.js"
 
 describe(`LiAnyTransaction`, () => {
   let wrapper
+  const validators = [
+    { operator_address: `cosmosvaloper1address1` },
+    { operator_address: `cosmosvaloper1address2` }
+  ]
   const propsData = {
     transaction: transactions[0],
-    validators: state.candidates,
-    address: `A`,
+    validators,
+    address: `cosmos1address`,
     bondingDenom: `atom`,
     validatorsUrl: `/validators`
   }
 
   beforeEach(() => {
-    wrapper = mount(LiAnyTransaction, {
+    wrapper = shallowMount(LiAnyTransaction, {
       propsData,
       stubs: [`router-link`]
     })
@@ -24,14 +27,28 @@ describe(`LiAnyTransaction`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`shows stake transactions`, () => {
+  it(`shows staking transactions`, () => {
     wrapper.setProps({
       transaction: transactions[3]
     })
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`shows unknown transactions`, () => {
+  it(`shows governance transactions`, () => {
+    wrapper.setProps({
+      transaction: transactions[3]
+    })
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
+  it(`shows distributions transactions`, () => {
+    wrapper.setProps({
+      transaction: transactions[3]
+    })
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
+  it(`shows unknown type transactions`, () => {
     const unknownTx = JSON.parse(JSON.stringify(transactions[0]))
     unknownTx.tx.value.msg[0].type = `UNKNOWN`
     wrapper.setProps({

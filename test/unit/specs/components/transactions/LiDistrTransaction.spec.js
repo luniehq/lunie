@@ -1,8 +1,8 @@
 import { shallowMount } from "@vue/test-utils"
-import LiGovTransaction from "transactions/LiGovTransaction"
+import LiDistrTransaction from "transactions/LiDistrTransaction"
 import transactions from "../../store/json/txs"
 
-describe(`LiGovTransaction`, () => {
+describe(`LiDistrTransaction`, () => {
   let wrapper
   const propsData = {
     transaction: transactions[6],
@@ -11,15 +11,15 @@ describe(`LiGovTransaction`, () => {
   }
 
   beforeEach(() => {
-    wrapper = shallowMount(LiGovTransaction, { propsData, stubs: [`router-link`] })
+    wrapper = shallowMount(LiDistrTransaction, { propsData, stubs: [`router-link`] })
   })
 
-  it(`proposals`, () => {
+  it(`withdraw delegation rewards`, () => {
     expect(wrapper.vm.propose).toBe(true)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`deposits`, () => {
+  it(`set withdraw address`, () => {
     wrapper.setProps({
       transaction: transactions[7]
     })
@@ -28,7 +28,7 @@ describe(`LiGovTransaction`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`votes`, () => {
+  it(`withdraw validator commission`, () => {
     wrapper.setProps({
       transaction: transactions[7]
     })

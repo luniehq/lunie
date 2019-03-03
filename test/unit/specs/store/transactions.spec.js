@@ -1,12 +1,15 @@
 import transactionsModule from "renderer/vuex/modules/transactions.js"
 import txs from "./json/txs"
 
+const address = `cosmos1address`
+let dispatch = jest.fn()
+const commit = jest.fn()
 const mockRootState = {
   connection: {
     connected: true
   },
   session: {
-    address: `default`,
+    address,
     signedIn: true
   }
 }
@@ -16,9 +19,10 @@ describe(`Module: Transactions`, () => {
 
   beforeEach(async () => {
     node = {
-      getDelegatorTxs: () => Promise.resolve([{ txhash: 1 }]),
       txs: () => Promise.resolve([{ txhash: 2 }]),
-      getGovernanceTxs: () => Promise.resolve([{ txhash: 3 }, { txhash: 3 }])
+      getStakingTxs: () => Promise.resolve([{ txhash: 1 }]),
+      getGovernanceTxs: () => Promise.resolve([{ txhash: 3 }, { txhash: 3 }]),
+      getDistributionTxs: () => Promise.resolve([{ txhash: 4 }]),
     }
     module = transactionsModule({ node })
     state = module.state
@@ -31,7 +35,7 @@ describe(`Module: Transactions`, () => {
   })
 
   it(`should update transaction times`, () => {
-    state.wallet.push({
+    state.bank.push({
       height: `3436`
     })
     // enrich one wallet tx
@@ -55,17 +59,15 @@ describe(`Module: Transactions`, () => {
         }
       }
     })
-    expect(state.wallet).toHaveLength(0)
+    expect(state.bank).toHaveLength(0)
     expect(state.staking).toHaveLength(0)
   })
 
   it(`should load and enrich txs`, async () => {
-    const dispatch = jest
-      .fn()
+    dispatch = dispatch
       .mockImplementationOnce(() => txs.slice(4))
       .mockImplementationOnce(() => txs.slice(2, 4))
       .mockImplementationOnce(() => txs.slice(0, 2))
-    const commit = jest.fn()
     await actions.getAllTxs({
       commit,
       dispatch,
@@ -89,7 +91,6 @@ describe(`Module: Transactions`, () => {
 
   describe(`queries the txs on reconnection`, () => {
     it(`when the user has logged in and is loading`, async () => {
-      const dispatch = jest.fn()
       await actions.reconnected({
         state: { loading: true },
         dispatch,
@@ -99,7 +100,6 @@ describe(`Module: Transactions`, () => {
     })
 
     it(`fails if txs are not loading`, async () => {
-      const dispatch = jest.fn()
       await actions.reconnected({
         state: { loading: false },
         dispatch,
@@ -109,7 +109,6 @@ describe(`Module: Transactions`, () => {
     })
 
     it(`fails if the user hasn't logged in`, async () => {
-      const dispatch = jest.fn()
       await actions.reconnected({
         state: { loading: true },
         dispatch,
@@ -122,9 +121,7 @@ describe(`Module: Transactions`, () => {
   it(`should set error to true if enriching transactions fail`, async () => {
     const error = new Error(`unexpected error`)
     const { actions, state } = module
-
-    const commit = jest.fn()
-    const dispatch = jest.fn(() => {
+    dispatch = jest.fn(() => {
       throw error
     })
     await actions.getAllTxs({
@@ -138,10 +135,10 @@ describe(`Module: Transactions`, () => {
   })
 
   describe(`mutations`, () => {
-    it(`should set wallet transactions `, () => {
+    it(`should set bank transactions `, () => {
       const transactions = txs.slice(0, 2)
-      mutations.setWalletTxs(state, transactions)
-      expect(state.wallet).toBe(transactions)
+      mutations.seBankTxs(state, transactions)
+      expect(state.bank).toBe(transactions)
     })
 
     it(`should set staking transactions `, () => {
@@ -154,6 +151,12 @@ describe(`Module: Transactions`, () => {
       const transactions = txs.slice(2, 4)
       mutations.setGovernanceTxs(state, transactions)
       expect(state.governance).toBe(transactions)
+    })
+
+    it(`should set distribution transactions `, () => {
+      const transactions = txs.slice(2, 4)
+      mutations.setDistributionTxs(state, transactions)
+      expect(state.distribution).toBe(transactions)
     })
 
     it(`should set history loading`, () => {
@@ -172,45 +175,47 @@ describe(`Module: Transactions`, () => {
     })
   })
 
-  it(`should getTx staking`, async () => {
-    const address = `xxx`
-    const staking = await actions.getTx(
-      { rootState: { session: { address } } },
-      `staking`
-    )
-    expect(staking).toEqual([{ txhash: 1, type: `staking` }])
-  })
+  describe(`getTx`, () => {
+    it(`should fetch staking txs`, async () => {
+      const staking = await actions.getTx(
+        { rootState: { session: { address } } },
+        `staking`
+      )
+      expect(staking).toEqual([{ txhash: 1, type: `staking` }])
+    })
 
-  it(`should getTx governance`, async () => {
-    const address = `xxx`
-    const governance = await actions.getTx(
-      { rootState: { session: { address } } },
-      `governance`
-    )
-    expect(governance).toEqual([{ txhash: 3, type: `governance` }])
-  })
+    it(`should fetch governance txs`, async () => {
+      const governance = await actions.getTx(
+        { rootState: { session: { address } } },
+        `governance`
+      )
+      expect(governance).toEqual([{ txhash: 3, type: `governance` }])
+    })
 
-  it(`should getTx wallet`, async () => {
-    const address = `xxx`
-    const wallet = await actions.getTx(
-      { rootState: { session: { address } } },
-      `wallet`
-    )
-    expect(wallet).toEqual([{ txhash: 2, type: `wallet` }])
-  })
+    it(`should fetch bank txs`, async () => {
+      const bank = await actions.getTx(
+        { rootState: { session: { address } } },
+        `bank`
+      )
+      expect(bank).toEqual([{ txhash: 2, type: `bank` }])
+    })
 
-  it(`should getTx error`, async () => {
-    const address = `xxx`
-    try {
-      await actions.getTx({ rootState: { session: { address } } }, `chachacha`)
-      expect(`I should have failed`).toEqual(`earlier`) // this is here to be sure we never reach this line
-    } catch (e) {
-      expect(e.message).toEqual(`Unknown transaction type`)
-    }
+    it(`should fetch distribution txs`, async () => {
+      const distribution = await actions.getTx(
+        { rootState: { session: { address } } },
+        `distribution`
+      )
+      expect(distribution).toEqual([{ txhash: 4, type: `distribution` }])
+    })
+
+    it(`should throw error`, async () => {
+      await expect(() => actions.getTx(
+        { rootState: { session: { address } } },
+        `zero-knowledge`)).rejects.toThrowError(`Unknown transaction type`)
+    })
   })
 
   it(`should enrichTransactions`, async () => {
-    const dispatch = jest.fn()
     await actions.enrichTransactions(
       { dispatch },
       { transactions: [{ height: 1 }, { height: 2 }] }
