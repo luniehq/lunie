@@ -64,7 +64,6 @@
 </template>
 
 <script>
-import ClickOutside from "vue-click-outside"
 import { mapGetters } from "vuex"
 import { uatoms, atoms } from "../../scripts/num.js"
 import { between, decimal } from "vuelidate/lib/validators"
@@ -74,76 +73,73 @@ import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
 
 export default {
-  name: `undelegation-modal`,
-  directives: {
-    ClickOutside
-  },
-  components: {
-    ActionModal,
-    TmField,
-    TmFormGroup,
-    TmFormMsg
-  },
-  props: {
-    maximum: {
-      type: Number,
-      required: true
-    },
-    fromOptions: {
-      type: Array,
-      required: true
-    },
-    to: {
-      type: String,
-      required: true
-    },
-    validator: {
-      type: Object,
-      required: true
-    },
-    denom: {
-      type: String,
-      required: true
-    }
-  },
-  data: () => ({
-    amount: null,
-    selectedIndex: 0
-  }),
-  computed: {
-    ...mapGetters([`bondDenom`, `liquidAtoms`])
-  },
-  validations() {
-    return {
-      amount: {
-        required: x => !!x && x !== `0`,
-        decimal,
-        between: between(0, atoms(this.maximum))
-      }
-    }
-  },
-  methods: {
-    open() {
-      this.$refs.actionModal.open()
-    },
-    validateForm() {
-      this.$v.$touch()
+	name: `undelegation-modal`,
+	components: {
+		ActionModal,
+		TmField,
+		TmFormGroup,
+		TmFormMsg
+	},
+	props: {
+		maximum: {
+			type: Number,
+			required: true
+		},
+		fromOptions: {
+			type: Array,
+			required: true
+		},
+		to: {
+			type: String,
+			required: true
+		},
+		validator: {
+			type: Object,
+			required: true
+		},
+		denom: {
+			type: String,
+			required: true
+		}
+	},
+	data: () => ({
+		amount: null,
+		selectedIndex: 0
+	}),
+	computed: {
+		...mapGetters([`bondDenom`, `liquidAtoms`])
+	},
+	validations() {
+		return {
+			amount: {
+				required: x => !!x && x !== `0`,
+				decimal,
+				between: between(0, atoms(this.maximum))
+			}
+		}
+	},
+	methods: {
+		open() {
+			this.$refs.actionModal.open()
+		},
+		validateForm() {
+			this.$v.$touch()
 
-      return !this.$v.$invalid
-    },
-    async submitForm(submitType, password) {
-      await this.$store.dispatch(`submitUnbondingDelegation`, {
-        amount: -uatoms(this.amount),
-        validator: this.validator,
-        submitType,
-        password
-      })
+			return !this.$v.$invalid
+		},
+		async submitForm(submitType, password) {
+			await this.$store.dispatch(`submitUnbondingDelegation`, {
+				amount: -uatoms(this.amount),
+				validator: this.validator,
+				submitType,
+				password
+			})
 
-      this.$store.commit(`notify`, {
-        title: `Successful undelegation!`,
-        body: `You have successfully undelegated ${this.amount} ${this.denom}s.`
-      })
-    }
-  }
+			this.$store.commit(`notify`, {
+				title: `Successful undelegation!`,
+				body: `You have successfully undelegated ${this.amount} ${this.denom}s.`
+			})
+		}
+	}
 }
 </script>

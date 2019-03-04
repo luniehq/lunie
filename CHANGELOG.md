@@ -38,6 +38,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 - [\#135](https://github.com/cosmos/voyager/issues/135) Show fee distribution rewards @fedekunze @faboweb
+
+### Changed 
+
 - [\#2044](https://github.com/cosmos/voyager/issues/2044) convert uatoms to atoms @faboweb
 - Refactored tests: LiProposal @jbibla
 
