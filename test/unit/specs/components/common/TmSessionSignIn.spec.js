@@ -83,9 +83,7 @@ describe(`TmSessionSignIn`, () => {
     expect(wrapper.vm.error).toBe(`The provided username or password is wrong.`)
   })
 
-  it(`should show the last account used`, () => {
-    localStorage.setItem(`prevAccountKey`, `default`)
-
+  it(`should show the only account that exists`, () => {
     const self = {
       accounts: [
         {
@@ -101,7 +99,45 @@ describe(`TmSessionSignIn`, () => {
     TmSessionSignIn.methods.setDefaultAccount.call(self)
 
     expect(self.signInName).toBe(`default`)
-    // the account is preselected so focus on the pw
     expect(self.$el.querySelector).toHaveBeenCalledWith(`#sign-in-password`)
+  })
+
+  it(`should show the last account used`, () => {
+    localStorage.setItem(`prevAccountKey`, `lastUsed`)
+
+    const self = {
+      accounts: [
+        {
+          key: `default`
+        },
+        {
+          key: `lastUsed`
+        }
+      ],
+      $el: {
+        querySelector: jest.fn(() => ({
+          focus: jest.fn()
+        }))
+      }
+    }
+    TmSessionSignIn.methods.setDefaultAccount.call(self)
+
+    expect(self.signInName).toBe(`lastUsed`)
+    expect(self.$el.querySelector).toHaveBeenCalledWith(`#sign-in-password`)
+  })
+
+  it(`should focus on the name input when there are no accounts`, () => {
+    const self = {
+      accounts: [],
+      $el: {
+        querySelector: jest.fn(() => ({
+          focus: jest.fn()
+        }))
+      }
+    }
+    TmSessionSignIn.methods.setDefaultAccount.call(self)
+
+    expect(self.signInName).toBe(undefined)
+    expect(self.$el.querySelector).toHaveBeenCalledWith(`#sign-in-name`)
   })
 })
