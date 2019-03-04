@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CardSignInRequired shows a sign in required card 1`] = `
+<tm-data-msg-stub
+  icon="account_box"
+>
+  <div>
+    
+    Sign In Required
+  
+  </div>
+   
+  <div>
+    
+    This page shows data for your address. To access the page, please 
+    <a>
+      Sign In
+    </a>
+    .
+  
+  </div>
+</tm-data-msg-stub>
+`;
