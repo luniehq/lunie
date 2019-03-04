@@ -6,7 +6,7 @@
       </thead>
       <tbody>
         <li-validator
-          v-for="i in sortedFilteredEnrichedDelegates"
+          v-for="i in sortedEnrichedDelegates"
           :key="i.operator_address"
           :disabled="!userCanDelegate"
           :validator="i"
@@ -45,7 +45,6 @@ export default {
   }),
   computed: {
     ...mapGetters([
-      `delegates`,
       `delegation`,
       `committedDelegations`,
       `session`,
@@ -77,13 +76,12 @@ export default {
         })
       )
     },
-    sortedFilteredEnrichedDelegates() {
-      const sortedEnrichedDelegates = orderBy(
+    sortedEnrichedDelegates() {
+      return orderBy(
         this.enrichedDelegates.slice(0),
         [this.sort.property, `small_moniker`],
         [this.sort.order, `asc`]
       )
-      return sortedEnrichedDelegates
     },
     userCanDelegate() {
       return this.liquidAtoms > 0 && this.delegation.loaded
@@ -142,11 +140,7 @@ export default {
       this.session.address && this.$store.dispatch(`updateDelegates`)
     },
     validators: function(validators) {
-      if (
-        !validators ||
-        validators.length === 0 ||
-        !this.session.signedIn
-      ) {
+      if (!validators || validators.length === 0 || !this.session.signedIn) {
         return
       }
 

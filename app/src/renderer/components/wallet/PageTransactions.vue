@@ -71,14 +71,16 @@ export default {
         [this.sort.property],
         [this.sort.order]
       )
-    },
+    }
   },
   mounted() {
     this.refreshTransactions()
   },
   methods: {
-    async refreshTransactions({ $store } = this) {
-      await $store.dispatch(`getAllTxs`)
+    async refreshTransactions({ $store, session } = this) {
+      if (session.signedIn) {
+        await $store.dispatch(`getAllTxs`)
+      }
     }
   }
 }

@@ -11,14 +11,6 @@ exports[`TmSessionWelcome with accounts has the expected html structure 1`] = `
     <div
       class="tm-session-header"
     >
-      <a>
-        <i
-          class="material-icons"
-        >
-          help_outline
-        </i>
-      </a>
-       
       <div
         class="tm-session-title"
       >
@@ -40,9 +32,9 @@ exports[`TmSessionWelcome with accounts has the expected html structure 1`] = `
       class="tm-session-main"
     >
       <li-session-stub
-        icon="explore"
-        subtitle="Use the app in explorer mode without signing in."
-        title="Explorer Mode"
+        icon="usb"
+        subtitle="If you have a Ledger Wallet, choose this option."
+        title="Sign in with Ledger Nano S"
       />
        
       <li-session-stub
@@ -63,19 +55,7 @@ exports[`TmSessionWelcome with accounts has the expected html structure 1`] = `
         subtitle="Use an existing seed phrase to create an account."
         title="Import with seed"
       />
-       
-      <li-session-stub
-        icon="usb"
-        subtitle="If you have a Ledger Wallet, choose this option."
-        title="Sign in with hardware"
-      />
-       
-      <fundraiser-warning-stub />
     </div>
-     
-    <div
-      class="tm-session-footer"
-    />
   </div>
 </div>
 `;
@@ -91,14 +71,6 @@ exports[`TmSessionWelcome without accounts has the expected html structure 1`] =
     <div
       class="tm-session-header"
     >
-      <a>
-        <i
-          class="material-icons"
-        >
-          help_outline
-        </i>
-      </a>
-       
       <div
         class="tm-session-title"
       >
@@ -120,9 +92,9 @@ exports[`TmSessionWelcome without accounts has the expected html structure 1`] =
       class="tm-session-main"
     >
       <li-session-stub
-        icon="explore"
-        subtitle="Use the app in explorer mode without signing in."
-        title="Explorer Mode"
+        icon="usb"
+        subtitle="If you have a Ledger Wallet, choose this option."
+        title="Sign in with Ledger Nano S"
       />
        
       <!---->
@@ -138,19 +110,7 @@ exports[`TmSessionWelcome without accounts has the expected html structure 1`] =
         subtitle="Use an existing seed phrase to create an account."
         title="Import with seed"
       />
-       
-      <li-session-stub
-        icon="usb"
-        subtitle="If you have a Ledger Wallet, choose this option."
-        title="Sign in with hardware"
-      />
-       
-      <fundraiser-warning-stub />
     </div>
-     
-    <div
-      class="tm-session-footer"
-    />
   </div>
 </div>
 `;
