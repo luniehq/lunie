@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- readded insecure mode @faboweb
+
 ## [1.0.0-beta.11] - 2019-03-02
 
 ### Changed
