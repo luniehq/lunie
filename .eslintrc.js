@@ -57,5 +57,6 @@ module.exports = {
     "array-bracket-spacing": ["error", "never"],
     "indent": ["error", 2, { "SwitchCase": 1 }],
     "no-console": "off",
+    "semi": ["error", "never"]
   }
 }

@@ -6,8 +6,8 @@ import TmSessionHardware from "common/TmSessionHardware"
 const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.use(Vuelidate)
-localVue.directive(`tooltip`, () => {})
-localVue.directive(`focus`, () => {})
+localVue.directive(`tooltip`, () => { })
+localVue.directive(`focus`, () => { })
 
 describe(`TmSessionHardware`, () => {
   let wrapper, store
@@ -42,12 +42,13 @@ describe(`TmSessionHardware`, () => {
     expect(store.commit.mock.calls[0][1]).toBe(`welcome`)
   })
 
-  it(`should open the help modal on click`, () => {
+  it(`should close the session modal`, () => {
     wrapper
       .findAll(`.tm-session-header a`)
       .at(1)
       .trigger(`click`)
-    expect(store.commit.mock.calls[0]).toEqual([`setModalHelp`, true])
+    expect(store.commit.mock.calls[0][0]).toBe(`toggleSessionModal`)
+    expect(store.commit.mock.calls[0][1]).toBe(false)
   })
 
   it(`sets the step status`, () => {

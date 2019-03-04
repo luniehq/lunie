@@ -14,6 +14,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 - [\#2128](https://github.com/cosmos/voyager/pull/2128) remove loading status on validator page when disconnected from the network @fedekunze
+- [\#2148](https://github.com/cosmos/voyager/pull/2148) readded insecure mode @faboweb
+
+### Fixed
+
+- Security issue with lodash dependency @faboweb
+
+## [1.0.0-beta.12] - 2019-03-04
+
+## [1.0.0-beta.11] - 2019-03-02
+
+### Changed
+
+- [\#1887](https://github.com/cosmos/voyager/issues/1887) Activating Google Analytics anonymized by default @faboweb
+- [\#2098](https://github.com/cosmos/voyager/issues/2098) rename devMode url flag to insecure @faboweb
+
+### Fixed
+
+- [\#2087](https://github.com/cosmos/voyager/issues/2087) More resilient scripts on Ec2 instances, added validators @sabau
 
 ## [1.0.0-beta.10] - 2019-03-01
 
@@ -22,10 +40,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#135](https://github.com/cosmos/voyager/issues/135) Show fee distribution rewards @fedekunze @faboweb
 - [\#2044](https://github.com/cosmos/voyager/issues/2044) convert uatoms to atoms @faboweb
 - Refactored tests: LiProposal @jbibla
-
-### Fixed
-
-- [\#2087](https://github.com/cosmos/voyager/issues/2087) More resilient scripts on Ec2 instances, added validators @sabau
 
 ## [1.0.0-beta.9] - 2019-02-28
 
@@ -36,6 +50,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
+- [\#1982](https://github.com/cosmos/voyager/issues/1982) Session screens are proper modals @jbibla
+
 - [\#1337](https://github.com/cosmos/voyager/issues/1337) Refactor tests: PageValidator @faboweb
 
 ## [1.0.0-beta.8] - 2019-02-27
@@ -45,6 +61,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1032](https://github.com/cosmos/voyager/issues/1032) added several events to google analytics @faboweb
 - [\#1630](https://github.com/cosmos/voyager/issues/1630) added memo "Sent via Cosmos UI" to distinguish txs sent via UI @faboweb
 - [\#2035](https://github.com/cosmos/voyager/issues/2035) Distribution vuex module @fedekunze
+- [\#2088](https://github.com/cosmos/voyager/issues/2088) Faucet button @sabau
 
 ### Fixed
 

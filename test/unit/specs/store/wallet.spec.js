@@ -1,5 +1,6 @@
 import walletModule from "modules/wallet.js"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+
 const { stakingParameters } = lcdClientMock.state
 
 const mockRootState = {
@@ -9,36 +10,42 @@ const mockRootState = {
   },
   session: { signedIn: true }
 }
-jest.mock(`src/config.js`, () => ({
-  denoms: [`mycoin`, `fermion`, `STAKE`]
-}))
+const faucet = `http://gimme.money`
+const denoms = [`mycoin`, `fermion`, `STAKE`]
+const config = { faucet, denoms }
 
 describe(`Module: Wallet`, () => {
-  let module, actions, state
+  let instance, actions, state
 
   beforeEach(() => {
-    module = walletModule({ node: {} })
-    state = module.state
-    actions = module.actions
+    instance = walletModule({ node: {} })
+    state = instance.state
+    actions = instance.actions
+    state.externals = {
+      config,
+      axios: {
+        get: jest.fn(() => Promise.resolve(`ok`))
+      }
+    }
   })
 
   // DEFAULT
 
   it(`should have an empty state by default`, () => {
-    const { state } = module
+    const { state } = instance
     expect(state).toMatchSnapshot()
   })
 
   describe(`mutations`, () => {
     it(`should set wallet balances `, () => {
-      const { state, mutations } = module
+      const { state, mutations } = instance
       const balances = [{ denom: `leetcoin`, amount: `1337` }]
       mutations.setWalletBalances(state, balances)
       expect(state.balances).toBe(balances)
     })
 
     it(`update individual wallet balances`, () => {
-      const { state, mutations } = module
+      const { state, mutations } = instance
 
       state.balances.push({ denom: `coin`, amount: `42` })
 
@@ -54,7 +61,7 @@ describe(`Module: Wallet`, () => {
     })
 
     it(`should set wallet key and clear balance `, () => {
-      const { state, mutations } = module
+      const { state, mutations } = instance
       const address = `tb1v9jxgun9wdenzv3nu98g8r`
       mutations.setWalletAddress(state, address)
       expect(state.address).toBe(address)
@@ -62,22 +69,36 @@ describe(`Module: Wallet`, () => {
     })
 
     it(`should set denoms`, () => {
-      const { state, mutations } = module
+      const { state, mutations } = instance
       const denoms = [`acoin`, `bcoin`, `ccoin`]
       mutations.setDenoms(state, denoms)
       expect(state.denoms).toBe(denoms)
     })
 
     it(`should set the account number`, () => {
-      const { state, mutations } = module
+      const { state, mutations } = instance
       mutations.setAccountNumber(state, `0`)
       expect(state.accountNumber).toBe(`0`)
     })
   })
 
   describe(`actions`, () => {
+    it(`should reset session data`, () => {
+      const { actions } = instance
+      const rootState = {}
+      actions.resetSessionData({ rootState })
+      expect(rootState).toHaveProperty(`wallet`)
+    })
+
+    it(`should fetch money`, async () => {
+      const { state, actions } = instance
+      const address = `X`
+      await actions.getMoney({ state }, address)
+      expect(state.externals.axios.get).toHaveBeenCalledWith(`${faucet}/${address}`)
+    })
+
     it(`should initialize wallet`, async () => {
-      const { actions } = module
+      const { actions } = instance
 
       const address = `cosmos1wdhk6e2pv3j8yetnwv0yr6s6`
       const commit = jest.fn()
@@ -108,10 +129,10 @@ describe(`Module: Wallet`, () => {
           })
         )
       }
-      module = walletModule({
+      instance = walletModule({
         node
       })
-      const { state, actions } = module
+      const { state, actions } = instance
       const commit = jest.fn()
       state.address = `abc`
       await actions.queryWalletBalances({
@@ -129,7 +150,7 @@ describe(`Module: Wallet`, () => {
 
     it(`should load denoms`, async () => {
       const commit = jest.fn()
-      await actions.loadDenoms({ commit, rootState: mockRootState })
+      await actions.loadDenoms({ state, commit, rootState: mockRootState })
       expect(commit).toHaveBeenCalledWith(`setDenoms`, [
         `mycoin`,
         `fermion`,
@@ -139,7 +160,7 @@ describe(`Module: Wallet`, () => {
 
     describe(`queries the balances on reconnection`, () => {
       it(`when the user has logged in`, async () => {
-        const { actions } = module
+        const { actions } = instance
         const dispatch = jest.fn()
         await actions.reconnected({
           state: {
@@ -153,7 +174,7 @@ describe(`Module: Wallet`, () => {
       })
 
       it(`fails if user hasn't signed in`, async () => {
-        const { actions } = module
+        const { actions } = instance
         const dispatch = jest.fn()
         await actions.reconnected({
           state: {
@@ -168,7 +189,7 @@ describe(`Module: Wallet`, () => {
     })
 
     it(`should not query the balances on reconnection if not stuck in loading`, async () => {
-      const { actions } = module
+      const { actions } = instance
       const dispatch = jest.fn()
       await actions.reconnected({
         state: {
@@ -181,7 +202,7 @@ describe(`Module: Wallet`, () => {
     })
 
     it(`should query wallet data at specified height`, async done => {
-      const { actions } = module
+      const { actions } = instance
 
       jest.useFakeTimers()
       const rootState = {
@@ -201,7 +222,7 @@ describe(`Module: Wallet`, () => {
     })
 
     it(`should not error when subscribing with no address`, async () => {
-      const { actions, state } = module
+      const { actions, state } = instance
       const dispatch = jest.fn()
       state.address = null
       state.decodedAddress = null
