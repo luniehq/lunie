@@ -32,33 +32,29 @@ exports[`LiStakeTransaction create validator 1`] = `
 
 exports[`LiStakeTransaction delegations should show delegations 1`] = `
 <li-transaction-stub
-  block="569"
+  block="568"
   color="#512584"
   time="42000"
 >
-  <div
-    slot="caption"
-  >
+  <div>
     
-      Create validator 
+      Delegation 
     <b>
-      NaN
+      4200
     </b>
     <span>
-       stakes
+       steaks
     </span>
   </div>
    
-  <div
-    slot="details"
-  >
+  <div>
     
-      Moniker: 
+      To 
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
     >
       
-        
+        mr_mounty
       
     </router-link-stub>
   </div>
@@ -67,60 +63,14 @@ exports[`LiStakeTransaction delegations should show delegations 1`] = `
 
 exports[`LiStakeTransaction edit validator 1`] = `
 <li-transaction-stub
-  block="568"
-  color="#512584"
-  time="42000"
->
-  <div
-    slot="caption"
-  >
-    
-      Create validator 
-    <b>
-      NaN
-    </b>
-    <span>
-       stakes
-    </span>
-  </div>
-   
-  <div
-    slot="details"
-  >
-    
-      Moniker: 
-    <router-link-stub
-      to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
-    >
-      
-        
-      
-    </router-link-stub>
-  </div>
-</li-transaction-stub>
-`;
-
-exports[`LiStakeTransaction redelegations should show redelegations and calculate tokens from shares 1`] = `
-<li-transaction-stub
   block="193281"
   color="#512584"
 >
   <div>
     
-      Create validator 
-    <b>
-      NaN
-    </b>
-    <span>
-       stakes
-    </span>
-  </div>
-   
-  <div>
-    
-      Moniker: 
+      Edit validator 
     <router-link-stub
-      to="/validator/undefined"
+      to="/validator/cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2"
     >
       
         cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2
@@ -130,102 +80,154 @@ exports[`LiStakeTransaction redelegations should show redelegations and calculat
 </li-transaction-stub>
 `;
 
-exports[`LiStakeTransaction unbonding delegations should default to ended if no unbonding delegation is present 1`] = `
-<div
-  class="li-tx"
+exports[`LiStakeTransaction redelegations should show redelegations and calculate tokens from shares 1`] = `
+<li-transaction-stub
+  block="567"
+  color="#512584"
+  time="42000"
 >
-  <div
-    class="li-tx__icon"
-  >
-    <img
-      src="~assets/images/cosmos-logo.png"
-      style="border-color: #512584;"
-    />
+  <div>
+    
+      Redelegation 
+    <b>
+      
+          3
+        
+    </b>
+    <span>
+       stakes
+    </span>
   </div>
    
-  <div
-    class="li-tx__content"
-  >
-    <div
-      class="li-tx__content__left"
-    >
-      <div
-        class="li-tx__content__caption"
-      >
-        <p
-          class="li-tx__content__caption__title"
-        />
-      </div>
-       
-      <div
-        class="li-tx__content__information"
-      />
-    </div>
-     
-    <div
-      class="li-tx__content__block"
-    >
-      <router-link-stub
-        to="[object Object]"
-      >
-        
-        Block #569 
-      
-      </router-link-stub>
-      @ 00:00:42
+  <div>
     
-    </div>
+      From 
+    <router-link-stub
+      to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+    >
+      
+        mr_mounty
+      
+    </router-link-stub>
+    
+      to 
+    <router-link-stub
+      to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+    >
+      
+        good_greg
+      
+    </router-link-stub>
   </div>
-</div>
+</li-transaction-stub>
+`;
+
+exports[`LiStakeTransaction unbonding delegations should default to ended if no unbonding delegation is present 1`] = `
+<li-transaction-stub
+  block="569"
+  color="#512584"
+  time="42000"
+>
+  <div>
+    
+      Undelegation 
+    <b>
+      
+          1000
+        
+    </b>
+    <span>
+       stakes
+    </span>
+    <!---->
+  </div>
+   
+  <div>
+    
+      From 
+    <router-link-stub
+      to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+    >
+      
+        mr_mounty
+      
+    </router-link-stub>
+  </div>
+</li-transaction-stub>
 `;
 
 exports[`LiStakeTransaction unbonding delegations should show unbonding delegations as ended 1`] = `
-<div
-  class="li-tx"
+<li-transaction-stub
+  block="569"
+  color="#512584"
+  time="42000"
 >
-  <div
-    class="li-tx__icon"
-  >
-    <img
-      src="~assets/images/cosmos-logo.png"
-      style="border-color: #512584;"
-    />
+  <div>
+    
+      Undelegation 
+    <b>
+      
+          1000
+        
+    </b>
+    <span>
+       stakes
+    </span>
+    <!---->
   </div>
    
-  <div
-    class="li-tx__content"
-  >
-    <div
-      class="li-tx__content__left"
-    >
-      <div
-        class="li-tx__content__caption"
-      >
-        <p
-          class="li-tx__content__caption__title"
-        />
-      </div>
-       
-      <div
-        class="li-tx__content__information"
-      />
-    </div>
-     
-    <div
-      class="li-tx__content__block"
-    >
-      <router-link-stub
-        to="[object Object]"
-      >
-        
-        Block #569 
-      
-      </router-link-stub>
-      @ 00:00:42
+  <div>
     
-    </div>
+      From 
+    <router-link-stub
+      to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+    >
+      
+        mr_mounty
+      
+    </router-link-stub>
   </div>
-</div>
+</li-transaction-stub>
+`;
+
+exports[`LiStakeTransaction unbonding delegations should show unbondings and calculate tokens from shares 1`] = `
+<li-transaction-stub
+  block="569"
+  color="#512584"
+  time="42000"
+>
+  <div>
+    
+      Undelegation 
+    <b>
+      
+          1000
+        
+    </b>
+    <span>
+       stakes
+    </span>
+    <span
+      class="tx-unbonding__time-diff"
+    >
+      
+           (liquid in a few seconds)
+        
+    </span>
+  </div>
+   
+  <div>
+    
+      From 
+    <router-link-stub
+      to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+    >
+      
+        mr_mounty
+      
+    </router-link-stub>
+  </div>
+</li-transaction-stub>
 `;
 
 exports[`LiStakeTransaction unjail validator 1`] = `

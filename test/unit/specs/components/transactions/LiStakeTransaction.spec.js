@@ -1,13 +1,11 @@
 import { shallowMount } from "@vue/test-utils"
 import LiStakeTransaction from "transactions/LiStakeTransaction"
 import { stakingTxs } from "../../store/json/txs"
+import { state } from "renderer/connectors/lcdClientMock.js"
 
 describe(`LiStakeTransaction`, () => {
   let wrapper
-  const validators = [
-    { operator_address: `cosmosvaloper1address1`, description: { moniker: `david` } },
-    { operator_address: `cosmosvaloper1address2`, description: { moniker: `billy` } }
-  ]
+  const validators = state.candidates
   const propsData = {
     transaction: stakingTxs[0],
     txType: `cosmos-sdk/MsgCreateValidator`,
@@ -15,35 +13,36 @@ describe(`LiStakeTransaction`, () => {
     url: `/validator`,
     bondingDenom: `stake`
   }
-
-  beforeEach(() => {
+  it(`create validator`, () => {
     wrapper = shallowMount(LiStakeTransaction, {
       propsData,
       stubs: [`router-link`]
     })
-  })
-
-  it(`create validator`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`edit validator`, async () => {
-    wrapper.setProps({
-      transaction: stakingTxs[1],
-      txType: `cosmos-sdk/MsgDelegate`,
+    propsData.transaction = stakingTxs[1]
+    propsData.txType = `cosmos-sdk/MsgEditValidator`
+
+    wrapper = shallowMount(LiStakeTransaction, {
+      propsData,
+      stubs: [`router-link`]
     })
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   describe(`delegations`, () => {
-    beforeEach(() => {
-      wrapper.setProps({
-        transaction: stakingTxs[2],
-        txType: `cosmos-sdk/MsgDelegate`,
-      })
-    })
 
     it(`should show delegations`, () => {
+      propsData.transaction = stakingTxs[2]
+      propsData.txType = `cosmos-sdk/MsgDelegate`
+
+      wrapper = shallowMount(LiStakeTransaction, {
+        propsData,
+        stubs: [`router-link`]
+      })
+
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
 
@@ -62,20 +61,23 @@ describe(`LiStakeTransaction`, () => {
   })
 
   describe(`unbonding delegations`, () => {
-    beforeEach(() => {
-      wrapper.setProps({
-        transaction: stakingTxs[3],
-        txType: `cosmos-sdk/Undelegate`,
-      })
-    })
-
     it(`should show unbondings and calculate tokens from shares`, () => {
-      wrapper.setProps({ unbondingTime: Date.now() + 1000 })
+      propsData.transaction = stakingTxs[3]
+      propsData.txType = `cosmos-sdk/Undelegate`
+      propsData.unbondingTime = Date.now() + 1000
+      wrapper = shallowMount(LiStakeTransaction, {
+        propsData,
+        stubs: [`router-link`]
+      })
+
       expect(wrapper.contains(`.tx-unbonding__time-diff`)).toBe(true)
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
 
     it(`should show unbonding delegations as ended`, () => {
+      propsData.transaction = stakingTxs[3]
+      propsData.txType = `cosmos-sdk/Undelegate`
+      propsData.unbondingTime = Date.now() - 1000
       wrapper.setProps({ unbondingTime: Date.now() - 1000 })
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
@@ -86,22 +88,29 @@ describe(`LiStakeTransaction`, () => {
   })
 
   describe(`redelegations`, () => {
-    it(`should show redelegations and calculate tokens from shares`, async () => {
-      wrapper.setProps({
-        transaction: stakingTxs[4],
-        txType: `cosmos-sdk/BeginRedelegate`
+    it(`should show redelegations and calculate tokens from shares`, () => {
+      propsData.transaction = stakingTxs[4]
+      propsData.txType = `cosmos-sdk/BeginRedelegate`
+
+      wrapper = shallowMount(LiStakeTransaction, {
+        propsData,
+        stubs: [`router-link`]
       })
-      await wrapper.vm.$nextTick()
+
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
   })
 
-  it(`unjail validator`, async () => {
-    wrapper.setProps({
-      transaction: stakingTxs[5],
-      txType: `cosmos-sdk/MsgUnjail`,
+  it(`unjail validator`, () => {
+
+    propsData.transaction = stakingTxs[5]
+    propsData.txType = `cosmos-sdk/MsgUnjail`
+
+    wrapper = shallowMount(LiStakeTransaction, {
+      propsData,
+      stubs: [`router-link`]
     })
-    await wrapper.vm.$nextTick()
+
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 })

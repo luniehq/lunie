@@ -236,8 +236,8 @@ export const stakingTxs = [
           {
             type: `cosmos-sdk/MsgDelegate`,
             value: {
-              validator_addr: `cosmosvalopr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
-              delegation: {
+              validator_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+              value: {
                 amount: `42000000000`,
                 denom: `steak`
               }
@@ -283,7 +283,7 @@ export const stakingTxs = [
           {
             type: `cosmos-sdk/Undelegate`,
             value: {
-              validator_addr: `cosmosvalopr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+              validator_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
               shares_amount: `10000000000`
             }
           }
@@ -326,8 +326,8 @@ export const stakingTxs = [
           {
             type: `cosmos-sdk/BeginRedelegate`,
             value: {
-              validator_src_addr: `cosmosvalopr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
-              validator_dst_addr: `cosmosvalopr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
+              validator_src_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+              validator_dst_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
               shares_amount: `30000000`
             }
           }
@@ -406,7 +406,7 @@ export const governanceTxs = [
           {
             type: `cosmos-sdk/MsgSubmitProposal`,
             value: {
-              proposer: `cosmosvalopr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+              proposer: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
               proposal_type: `Text`,
               title: `Test Proposal`,
               description: `This is a test proposal`,
@@ -457,7 +457,7 @@ export const governanceTxs = [
           {
             type: `cosmos-sdk/MsgDeposit`,
             value: {
-              depositer: `cosmosvalopr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+              depositer: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
               proposal_id: `1`,
               amount: [
                 {
