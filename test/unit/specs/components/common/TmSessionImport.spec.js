@@ -40,6 +40,15 @@ describe(`TmSessionImport`, () => {
     expect(store.commit.mock.calls[0][1]).toBe(`welcome`)
   })
 
+  it(`should close the session modal`, () => {
+    wrapper
+      .findAll(`.tm-session-header a`)
+      .at(1)
+      .trigger(`click`)
+    expect(store.commit.mock.calls[0][0]).toBe(`toggleSessionModal`)
+    expect(store.commit.mock.calls[0][1]).toBe(false)
+  })
+
   it(`should signal signed in state on successful login`, async () => {
     wrapper.setData({
       fields: {
