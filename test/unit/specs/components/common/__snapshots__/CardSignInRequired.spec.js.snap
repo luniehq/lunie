@@ -14,7 +14,7 @@ exports[`CardSignInRequired shows a sign in required card 1`] = `
     
     This page shows data for your address. To access the page, please 
     <a>
-      Sign In
+      sign in
     </a>
     .
   

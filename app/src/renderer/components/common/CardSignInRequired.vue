@@ -4,7 +4,7 @@
       Sign In Required
     </div>
     <div slot="subtitle">
-      This page shows data for your address. To access the page, please <a @click="goToSession">Sign In</a>.
+      This page shows data for your address. To access the page, please <a @click="goToSession">sign in</a>.
     </div>
   </tm-data-msg>
 </template>
