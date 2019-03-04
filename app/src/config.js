@@ -9,7 +9,7 @@ const rpc =
   process.env.RPC ||
   (dev ? `localhost:26657` : `https://test.voyager.ninja:26657/`)
 
-const faucet = process.env.FAUCET || `https://faucet.voyager.ninja`
+const faucet = process.env.FAUCET !== undefined ?  process.env.FAUCET : `https://faucet.voyager.ninja`
 
 export default {
   name: `Cosmos Voyager`,

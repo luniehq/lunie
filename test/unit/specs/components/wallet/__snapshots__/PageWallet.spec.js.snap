@@ -42,6 +42,11 @@ exports[`PageWallet has the expected html structure 1`] = `
     coin="[object Object]"
   />
    
+  <tm-btn-stub
+    color="green"
+    value="Get Tokens"
+  />
+   
   <send-modal-stub />
 </tm-page-stub>
 `;
@@ -86,6 +91,11 @@ exports[`PageWallet should show the sending modal 1`] = `
   <li-coin-stub
     class="tm-li-balance"
     coin="[object Object]"
+  />
+   
+  <tm-btn-stub
+    color="green"
+    value="Get Tokens"
   />
    
   <send-modal-stub />
