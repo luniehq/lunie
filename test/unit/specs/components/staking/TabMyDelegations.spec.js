@@ -17,7 +17,8 @@ const getters = {
   committedDelegations: {
   },
   connected: true,
-  bondDenom: `stake`
+  bondDenom: `stake`,
+  session: { signedIn: true }
 }
 
 // TODO: remove this dirty addition: the real cleanup will be done in a separate PR
