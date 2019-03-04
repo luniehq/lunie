@@ -8,8 +8,8 @@
         <div class="tm-session-title">
           Create Account
         </div>
-        <a @click="help()">
-          <i class="material-icons">help_outline</i>
+        <a @click="$store.commit(`toggleSessionModal`, false)">
+          <i class="material-icons">close</i>
         </a>
       </div>
       <div class="tm-session-main">
@@ -185,9 +185,6 @@ export default {
     new PerfectScrollbar(this.$el.querySelector(`.tm-session-main`))
   },
   methods: {
-    help() {
-      this.$store.commit(`setModalHelp`, true)
-    },
     setState(value) {
       this.$store.commit(`setSessionModalView`, value)
     },

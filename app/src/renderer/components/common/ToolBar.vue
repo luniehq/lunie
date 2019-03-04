@@ -8,9 +8,6 @@
     >
       <i v-tooltip.bottom="'Refresh'" class="material-icons">refresh</i>
     </a>
-    <a class="help" @click="enableModalHelp">
-      <i v-tooltip.bottom="'Help'" class="material-icons">help_outline</i>
-    </a>
     <slot />
     <router-link
       v-if="session.signedIn"
@@ -52,9 +49,6 @@ export default {
     ...mapGetters([`session`])
   },
   methods: {
-    enableModalHelp() {
-      this.$store.commit(`setModalHelp`, true)
-    },
     signIn() {
       this.$store.commit(`setSessionModalView`, `welcome`)
       this.$store.commit(`toggleSessionModal`, true)

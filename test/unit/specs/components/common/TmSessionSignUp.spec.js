@@ -36,14 +36,6 @@ describe(`SessionSignUp`, () => {
     expect($store.commit).toHaveBeenCalledWith(`setSessionModalView`, `welcome`)
   })
 
-  it(`should open the help modal on click`, () => {
-    wrapper
-      .findAll(`.tm-session-header a`)
-      .at(1)
-      .trigger(`click`)
-    expect($store.commit).toHaveBeenCalledWith(`setModalHelp`, true)
-  })
-
   it(`should close the modal on successful login`, async () => {
     const commit = jest.fn()
     await TmSessionSignUp.methods.onSubmit.call({
@@ -52,7 +44,7 @@ describe(`SessionSignUp`, () => {
         dispatch: jest.fn()
       },
       $v: {
-        $touch: () => {},
+        $touch: () => { },
         $error: false
       },
       fields: {
@@ -75,7 +67,7 @@ describe(`SessionSignUp`, () => {
         dispatch
       },
       $v: {
-        $touch: () => {},
+        $touch: () => { },
         $error: false
       },
       fields: {
@@ -102,7 +94,7 @@ describe(`SessionSignUp`, () => {
         dispatch
       },
       $v: {
-        $touch: () => {},
+        $touch: () => { },
         $error: false
       },
       fields: {
@@ -127,7 +119,7 @@ describe(`SessionSignUp`, () => {
         dispatch
       },
       $v: {
-        $touch: () => {},
+        $touch: () => { },
         $error: false
       },
       fields: {
@@ -240,7 +232,7 @@ describe(`SessionSignUp`, () => {
         signUpWarning: true
       },
       $v: {
-        $touch: () => {},
+        $touch: () => { },
         $error: false
       },
       $store

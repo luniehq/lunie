@@ -1,6 +1,7 @@
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
 import config from "../../../config"
+import axios from "axios"
 
 export default ({ node }) => {
   const emptyState = {
@@ -11,9 +12,11 @@ export default ({ node }) => {
     denoms: [],
     accountNumber: null,
     address: null,
-    subscribedRPC: null
+    subscribedRPC: null,
+    externals: { config }
   }
   const state = JSON.parse(JSON.stringify(emptyState))
+  state.externals.axios = axios
 
   const mutations = {
     setWalletBalances(state, balances) {
@@ -57,6 +60,7 @@ export default ({ node }) => {
     resetSessionData({ rootState }) {
       // clear previous account state
       rootState.wallet = JSON.parse(JSON.stringify(emptyState))
+      rootState.wallet.externals.axios = axios
     },
     async queryWalletBalances({ state, rootState, commit }) {
       if (!state.address) return
@@ -99,8 +103,8 @@ export default ({ node }) => {
         amount: oldBalance.amount - amount
       })
     },
-    loadDenoms({ commit }) {
-      commit(`setDenoms`, config.denoms)
+    loadDenoms({ state, commit }) {
+      commit(`setDenoms`, state.externals.config.denoms)
     },
     queryWalletStateAfterHeight({ rootState, dispatch }, height) {
       return new Promise(resolve => {
@@ -143,7 +147,10 @@ export default ({ node }) => {
           onTx
         )
       })
-    }
+    },
+    async getMoney({ state }, address) {
+      return state.externals.axios.get(`${state.externals.config.faucet}/${address}`)
+    },
   }
 
   return {
