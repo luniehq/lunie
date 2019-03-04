@@ -32,37 +32,37 @@ import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
 
 export default {
-	name: `modal-withdraw-all-rewards`,
-	components: {
-		ActionModal,
-		TmField,
-		TmFormGroup
-	},
-	computed: {
-		...mapGetters([`bondDenom`, `distribution`]),
-		totalRewards({ bondDenom, distribution } = this) {
-			const rewards = distribution.totalRewards[bondDenom]
-			return (rewards && atoms(rewards)) || 0
-		}
-	},
-	methods: {
-		isValid() {
-			return true
-		},
-		open() {
-			this.$refs.actionModal.open()
-		},
-		async submitForm(submitType, password) {
-			await this.$store.dispatch(`withdrawAllRewards`, {
-				submitType,
-				password
-			})
+  name: `modal-withdraw-all-rewards`,
+  components: {
+    ActionModal,
+    TmField,
+    TmFormGroup
+  },
+  computed: {
+    ...mapGetters([`bondDenom`, `distribution`]),
+    totalRewards({ bondDenom, distribution } = this) {
+      const rewards = distribution.totalRewards[bondDenom]
+      return (rewards && atoms(rewards)) || 0
+    }
+  },
+  methods: {
+    isValid() {
+      return true
+    },
+    open() {
+      this.$refs.actionModal.open()
+    },
+    async submitForm(submitType, password) {
+      await this.$store.dispatch(`withdrawAllRewards`, {
+        submitType,
+        password
+      })
 
-			this.$store.commit(`notify`, {
-				title: `Successful withdrawal!`,
-				body: `You have successfully withdrawn all your unclaimed rewards.`
-			})
-		}
-	}
+      this.$store.commit(`notify`, {
+        title: `Successful withdrawal!`,
+        body: `You have successfully withdrawn all your unclaimed rewards.`
+      })
+    }
+  }
 }
 </script>
