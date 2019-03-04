@@ -1,7 +1,7 @@
-export default [
+const bankTxs = [
   {
     hash: `not a real hash`,
-    time: 2042, // set by Voyager
+    time: 2042,
     height: `3436`,
     tx: {
       type: `8EFE47F0625DE8`,
@@ -25,21 +25,7 @@ export default [
           ],
           gas: `500000`
         },
-        gas: `500000`,
-        signatures: [
-          {
-            pub_key: {
-              type: `AC26791624DE60`,
-              value: `70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=`
-            },
-            signature: {
-              type: `6BF5903DA1DB28`,
-              value: `oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==`
-            },
-            account_number: `28`,
-            sequence: `0`
-          }
-        ]
+        gas: `500000`
       },
       result: {
         gasUsed: `3324`,
@@ -84,21 +70,7 @@ export default [
           ],
           gas: `500000`
         },
-        gas: `500000`,
-        signatures: [
-          {
-            pub_key: {
-              type: `AC26791624DE60`,
-              value: `70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=`
-            },
-            signature: {
-              type: `6BF5903DA1DB28`,
-              value: `oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==`
-            },
-            account_number: `28`,
-            sequence: `0`
-          }
-        ]
+        gas: `500000`
       },
       result: {
         gasUsed: `3324`,
@@ -130,7 +102,7 @@ export default [
               amount: [
                 { denom: `jbcoins`, amount: `12340000000` },
                 { denom: `fabocoins`, amount: `10000000` },
-                { denom: `mattcoins`, amount: `420000000` }
+                { denom: `karolycoins`, amount: `420000000` }
               ],
               from_address: `A`,
               to_address: `A`
@@ -146,21 +118,7 @@ export default [
           ],
           gas: `500000`
         },
-        gas: `500000`,
-        signatures: [
-          {
-            pub_key: {
-              type: `AC26791624DE60`,
-              value: `70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=`
-            },
-            signature: {
-              type: `6BF5903DA1DB28`,
-              value: `oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==`
-            },
-            account_number: `28`,
-            sequence: `0`
-          }
-        ]
+        gas: `500000`
       },
       result: {
         gasUsed: `3324`,
@@ -175,6 +133,60 @@ export default [
           }
         ],
         fee: {}
+      }
+    }
+  },
+]
+const stakingTxs = [
+  {
+    height: `193281`,
+    txhash: `DB8F2DAFD4791337E57921DB2D7D7838E14492323FECB391BB39D51239BA3FBF`,
+    gas_wanted: `101587`,
+    gas_used: `101577`,
+    tags: [
+      {
+        key: `action`,
+        value: `create_validator`
+      },
+      {
+        key: `destination-validator`,
+        value: `cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2`
+      },
+    ],
+    tx: {
+      type: `auth/StdTx`,
+      value: {
+        msg: [
+          {
+            type: `cosmos-sdk/MsgCreateValidator`,
+            value: {
+              description: {
+                moniker: `propelmind`,
+                identity: ``,
+                website: ``,
+                details: ``
+              },
+              commission: {
+                rate: `0.100000000000000000`,
+                max_rate: `0.200000000000000000`,
+                max_change_rate: `0.010000000000000000`
+              },
+              min_self_delegation: `1`,
+              delegator_address: `cosmos1qecshyc40kshszkwrtscgmsdd8tz3n4hxx339e`,
+              validator_address: `cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2`,
+              pubkey: `cosmosvalconspub1zcjduepqjja8zg8ccvdd5rx50ad79faaaucq5vr98pr7eawnslqrscelwhaszhaq83`,
+              value: {
+                denom: `muon`,
+                amount: `1000000`
+              }
+            }
+          }
+        ],
+        fee: {
+          amount: null,
+          gas: `101587`
+        },
+        memo: ``
       }
     }
   },
@@ -208,20 +220,6 @@ export default [
           gas: `500000`
         },
         gas: 500000,
-        signatures: [
-          {
-            pub_key: {
-              type: `AC26791624DE60`,
-              value: `70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=`
-            },
-            signature: {
-              type: `6BF5903DA1DB28`,
-              value: `oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==`
-            },
-            account_number: `28`,
-            sequence: `0`
-          }
-        ]
       },
       result: {
         gasUsed: `3324`,
@@ -265,21 +263,7 @@ export default [
           ],
           gas: `500000`
         },
-        gas: `500000`,
-        signatures: [
-          {
-            pub_key: {
-              type: `AC26791624DE60`,
-              value: `70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=`
-            },
-            signature: {
-              type: `6BF5903DA1DB28`,
-              value: `oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==`
-            },
-            account_number: `28`,
-            sequence: `0`
-          }
-        ]
+        gas: `500000`
       },
       result: {
         gasUsed: `3324`,
@@ -323,21 +307,7 @@ export default [
           ],
           gas: `500000`
         },
-        gas: `500000`,
-        signatures: [
-          {
-            pub_key: {
-              type: `AC26791624DE60`,
-              value: `70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=`
-            },
-            signature: {
-              type: `6BF5903DA1DB28`,
-              value: `oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==`
-            },
-            account_number: `28`,
-            sequence: `0`
-          }
-        ]
+        gas: `500000`
       },
       result: {
         gasUsed: `3324`,
@@ -354,7 +324,9 @@ export default [
         fee: {}
       }
     }
-  },
+  }
+]
+const governanceTxs = [
   {
     hash: `not a real hash7`,
     time: 42000, // set by Voyager
@@ -388,21 +360,7 @@ export default [
           ],
           gas: `500000`
         },
-        gas: `500000`,
-        signatures: [
-          {
-            pub_key: {
-              type: `AC26791624DE60`,
-              value: `70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=`
-            },
-            signature: {
-              type: `6BF5903DA1DB28`,
-              value: `oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==`
-            },
-            account_number: `28`,
-            sequence: `0`
-          }
-        ]
+        gas: `500000`
       },
       result: {
         gasUsed: `3324`,
@@ -451,21 +409,7 @@ export default [
           ],
           gas: `500000`
         },
-        gas: `500000`,
-        signatures: [
-          {
-            pub_key: {
-              type: `AC26791624DE60`,
-              value: `70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=`
-            },
-            signature: {
-              type: `6BF5903DA1DB28`,
-              value: `oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==`
-            },
-            account_number: `28`,
-            sequence: `0`
-          }
-        ]
+        gas: `500000`
       },
       result: {
         gasUsed: `3324`,
@@ -484,3 +428,13 @@ export default [
     }
   }
 ]
+const distributionTxs = []
+const allTxs = bankTxs.concat(stakingTxs, governanceTxs, distributionTxs)
+
+export default {
+  bankTxs,
+  stakingTxs,
+  governanceTxs,
+  distributionTxs,
+  allTxs
+}

@@ -1,13 +1,13 @@
 import { shallowMount } from "@vue/test-utils"
 import LiBankTransaction from "transactions/LiBankTransaction"
-import transactions from "../../store/json/txs"
+import { bankTxs } from "../../store/json/txs"
 
 describe(`LiBankTransaction`, () => {
   let wrapper
   const propsData = {
     devMode: true,
-    transaction: transactions[0],
-    address: `B`
+    transaction: bankTxs[0],
+    address: `cosmos1address`
   }
 
   beforeEach(() => {
@@ -27,8 +27,8 @@ describe(`LiBankTransaction`, () => {
 
   it(`should show outgoing transactions`, () => {
     wrapper.setProps({
-      transaction: transactions[1],
-      address: transactions[1].tx.value.msg[0].value.from_address
+      transaction: bankTxs[1],
+      address: bankTxs[1].tx.value.msg[0].value.from_address
     })
     expect(wrapper.vm.sent).toBe(true)
     expect(wrapper.vm.$el).toMatchSnapshot()
@@ -36,8 +36,8 @@ describe(`LiBankTransaction`, () => {
 
   it(`should show transactions sent to the sender`, () => {
     wrapper.setProps({
-      transaction: transactions[2],
-      address: `A`
+      transaction: bankTxs[2],
+      address: `cosmos1address2`
     })
     expect(wrapper.vm.sentSelf).toBe(true)
     expect(wrapper.vm.$el).toMatchSnapshot()

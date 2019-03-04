@@ -1,15 +1,21 @@
 import { shallowMount } from "@vue/test-utils"
 import LiAnyTransaction from "transactions/LiAnyTransaction"
-import transactions from "../../store/json/txs"
+import {
+  bankTxs,
+  stakingTxs,
+  governanceTxs,
+  distributionTxs
+} from "../../store/json/txs"
 
 describe(`LiAnyTransaction`, () => {
   let wrapper
   const validators = [
-    { operator_address: `cosmosvaloper1address1` },
-    { operator_address: `cosmosvaloper1address2` }
+    { operator_address: `cosmosvaloper1address1`, moniker: `david` },
+    { operator_address: `cosmosvaloper1address2`, moniker: `billy` }
   ]
+  console.log(bankTxs)
   const propsData = {
-    transaction: transactions[0],
+    transaction: bankTxs[0],
     validators,
     address: `cosmos1address`,
     bondingDenom: `atom`,
@@ -29,27 +35,27 @@ describe(`LiAnyTransaction`, () => {
 
   it(`shows staking transactions`, () => {
     wrapper.setProps({
-      transaction: transactions[3]
+      transaction: stakingTxs[0]
     })
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`shows governance transactions`, () => {
     wrapper.setProps({
-      transaction: transactions[3]
+      transaction: governanceTxs[0]
     })
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`shows distributions transactions`, () => {
+  it(`shows distribution transactions`, () => {
     wrapper.setProps({
-      transaction: transactions[3]
+      transaction: distributionTxs[3]
     })
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`shows unknown type transactions`, () => {
-    const unknownTx = JSON.parse(JSON.stringify(transactions[0]))
+    const unknownTx = JSON.parse(JSON.stringify(bankTxs[0]))
     unknownTx.tx.value.msg[0].type = `UNKNOWN`
     wrapper.setProps({
       transaction: unknownTx

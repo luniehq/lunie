@@ -61,6 +61,9 @@ export default ({ node }) => {
 
         if (!rootState.connection.connected) return
 
+        const bankTxs = await dispatch(`getTx`, `bank`)
+        commit(`setBankTxs`, bankTxs)
+
         const stakingTxs = await dispatch(`getTx`, `staking`)
         commit(`setStakingTxs`, stakingTxs)
 
@@ -70,10 +73,8 @@ export default ({ node }) => {
         const distributionTxs = await dispatch(`getTx`, `distribution`)
         commit(`setDistributionTxs`, distributionTxs)
 
-        const bankTxs = await dispatch(`getTx`, `bank`)
-        commit(`setBankTxs`, bankTxs)
-
-        const allTxs = stakingTxs.concat(governanceTxs, bankTxs, distributionTxs)
+        const allTxs = bankTxs.concat(stakingTxs, governanceTxs, distributionTxs)
+        console.log(allTxs)
         await dispatch(`enrichTransactions`, allTxs)
         state.error = null
         commit(`setHistoryLoading`, false)

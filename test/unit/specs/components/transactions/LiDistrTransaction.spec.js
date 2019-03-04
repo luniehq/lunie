@@ -1,13 +1,19 @@
 import { shallowMount } from "@vue/test-utils"
 import LiDistrTransaction from "transactions/LiDistrTransaction"
-import transactions from "../../store/json/txs"
+import { distributionTxs } from "../../store/json/txs"
 
 describe(`LiDistrTransaction`, () => {
   let wrapper
+  const validators = [
+    { operator_address: `cosmosvaloper1address1`, moniker: `david` },
+    { operator_address: `cosmosvaloper1address2`, moniker: `billy` }
+  ]
   const propsData = {
-    transaction: transactions[6],
-    url: `/proposals`,
-    bondingDenom: `stake`
+    transaction: distributionTxs[0],
+    url: `/validator`,
+    validators,
+    bondingDenom: `stake`,
+    txType: `cosmos-sdk/MsgWithdrawDelegationReward`
   }
 
   beforeEach(() => {
@@ -15,25 +21,22 @@ describe(`LiDistrTransaction`, () => {
   })
 
   it(`withdraw delegation rewards`, () => {
-    expect(wrapper.vm.propose).toBe(true)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`set withdraw address`, () => {
     wrapper.setProps({
-      transaction: transactions[7]
+      transaction: distributionTxs[1],
+      txType: `cosmos-sdk/MsgSetWithdrawAddress`
     })
-
-    expect(wrapper.vm.deposit).toBe(true)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`withdraw validator commission`, () => {
     wrapper.setProps({
-      transaction: transactions[7]
+      transaction: distributionTxs[2],
+      txType: `cosmos-sdk/MsgWithdrawValidatorCommission`
     })
-
-    expect(wrapper.vm.deposit).toBe(true)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 })

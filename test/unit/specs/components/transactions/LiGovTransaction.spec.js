@@ -7,7 +7,8 @@ describe(`LiGovTransaction`, () => {
   const propsData = {
     transaction: transactions[6],
     url: `/proposals`,
-    bondingDenom: `stake`
+    bondingDenom: `stake`,
+    txType: `cosmos-sdk/MsgSubmitProposal`
   }
 
   beforeEach(() => {
@@ -15,25 +16,23 @@ describe(`LiGovTransaction`, () => {
   })
 
   it(`proposals`, () => {
-    expect(wrapper.vm.propose).toBe(true)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`deposits`, () => {
-    wrapper.setProps({
-      transaction: transactions[7]
-    })
 
-    expect(wrapper.vm.deposit).toBe(true)
+    wrapper.setProps({
+      transaction: transactions[7],
+      txType: `cosmos-sdk/MsgDeposit`
+    })
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`votes`, () => {
     wrapper.setProps({
-      transaction: transactions[7]
+      transaction: transactions[7],
+      txType: `cosmos-sdk/MsgVote`
     })
-
-    expect(wrapper.vm.deposit).toBe(true)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 })

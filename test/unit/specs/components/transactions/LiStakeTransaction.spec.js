@@ -1,24 +1,46 @@
-import { mount } from "@vue/test-utils"
+import { shallowMount } from "@vue/test-utils"
 import LiStakeTransaction from "transactions/LiStakeTransaction"
-import transactions from "../../store/json/txs"
-import { state } from "renderer/connectors/lcdClientMock.js"
+import { stakingTxs } from "../../store/json/txs"
 
 describe(`LiStakeTransaction`, () => {
   let wrapper
+  const validators = [
+    { operator_address: `cosmosvaloper1address1`, moniker: `david` },
+    { operator_address: `cosmosvaloper1address2`, moniker: `billy` }
+  ]
   const propsData = {
-    transaction: transactions[3],
-    validators: state.candidates,
+    transaction: stakingTxs[0],
+    txType: `cosmos-sdk/MsgCreateValidator`,
+    validators,
     url: `/validator`,
     bondingDenom: `stake`
   }
 
   beforeEach(() => {
-    wrapper = mount(LiStakeTransaction, { propsData, stubs: [`router-link`] })
+    wrapper = shallowMount(LiStakeTransaction, { propsData, stubs: [`router-link`] })
+  })
+
+  it(`create validator`, () => {
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
+  it(`edit validator`, () => {
+    wrapper.setProps({
+      transaction: stakingTxs[1],
+      txType: `cosmos-sdk/MsgDelegate`,
+    })
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   describe(`delegations`, () => {
+    beforeEach(() => {
+      wrapper.setProps({
+        transaction: stakingTxs[2],
+        txType: `cosmos-sdk/MsgDelegate`,
+      })
+    })
+
     it(`should show delegations`, () => {
-      expect(wrapper.vm.delegation).toBe(true)
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
 
@@ -37,28 +59,25 @@ describe(`LiStakeTransaction`, () => {
   })
 
   describe(`unbonding delegations`, () => {
-    it(`should show unbondings and calculate tokens from shares`, () => {
+    beforeEach(() => {
       wrapper.setProps({
-        transaction: transactions[4],
-        unbondingTime: Date.now() + 1000
+        transaction: stakingTxs[3],
+        txType: `cosmos-sdk/Undelegate`,
       })
-      expect(wrapper.vm.unbonding).toBe(true)
+    })
+
+    it(`should show unbondings and calculate tokens from shares`, () => {
+      wrapper.setProps({ unbondingTime: Date.now() + 1000 })
       expect(wrapper.contains(`.tx-unbonding__time-diff`)).toBe(true)
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
 
     it(`should show unbonding delegations as ended`, () => {
-      wrapper.setProps({
-        transaction: transactions[4],
-        unbondingTime: Date.now() - 1000
-      })
+      wrapper.setProps({ unbondingTime: Date.now() - 1000 })
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
 
     it(`should default to ended if no unbonding delegation is present`, () => {
-      wrapper.setProps({
-        transaction: transactions[4]
-      })
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
   })
@@ -66,10 +85,18 @@ describe(`LiStakeTransaction`, () => {
   describe(`redelegations`, () => {
     it(`should show redelegations and calculate tokens from shares`, () => {
       wrapper.setProps({
-        transaction: transactions[5]
+        transaction: stakingTxs[4],
+        txType: `cosmos-sdk/BeginRedelegate`
       })
-      expect(wrapper.vm.redelegation).toBe(true)
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
+  })
+
+  it(`unjail validator`, () => {
+    wrapper.setProps({
+      transaction: stakingTxs[5],
+      txType: `cosmos-sdk/MsgUnjail`,
+    })
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 })
