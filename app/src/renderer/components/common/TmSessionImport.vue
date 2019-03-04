@@ -2,15 +2,15 @@
   <div class="tm-session">
     <tm-form-struct :submit="onSubmit.bind(this)" class="tm-session-container">
       <div class="tm-session-header">
-        <a
-          @click="setState('welcome')"
-        >
+        <a @click="setState('welcome')">
           <i class="material-icons">arrow_back</i>
         </a>
         <div class="tm-session-title">
           Import with Seed
         </div>
-        <a @click="help"><i class="material-icons">help_outline</i></a>
+        <a @click="$store.commit(`toggleSessionModal`, false)">
+          <i class="material-icons">close</i>
+        </a>
       </div>
       <div class="tm-session-main">
         <tm-form-group
@@ -87,6 +87,11 @@
             type="match"
           />
         </tm-form-group>
+        <p
+          class="fundraiser-warning"
+        >
+          Warning – Do not enter your actual 12 or 24 word seed phrase. This feature is intended for testing and is considered highly unsafe.
+        </p>
         <tm-form-group
           :error="$v.$error && $v.fields.importSeed.$invalid"
           field-id="import-seed"
@@ -114,20 +119,13 @@
         <tm-form-group
           :error="$v.$error && $v.fields.errorCollection.$invalid"
           field-id="error-collection"
-          field-label=""
+          field-label
         >
           <div class="tm-field-checkbox">
             <div class="tm-field-checkbox-input">
-              <input
-                id="error-collection"
-                v-model="fields.errorCollection"
-                type="checkbox"
-              >
+              <input id="error-collection" v-model="fields.errorCollection" type="checkbox">
             </div>
-            <label
-              class="tm-field-checkbox-label"
-              for="error-collection"
-            >
+            <label class="tm-field-checkbox-label" for="error-collection">
               I'd like to opt in for remote error tracking to help improve
               Voyager.
             </label>
@@ -156,7 +154,6 @@
 
 <script>
 import { required, minLength, sameAs } from "vuelidate/lib/validators"
-import PerfectScrollbar from "perfect-scrollbar"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormStruct from "common/TmFormStruct"
@@ -187,12 +184,8 @@ export default {
   },
   mounted() {
     this.$el.querySelector(`#import-name`).focus()
-    new PerfectScrollbar(this.$el.querySelector(`.tm-session-main`))
   },
   methods: {
-    help() {
-      this.$store.commit(`setModalHelp`, true)
-    },
     setState(value) {
       this.$store.commit(`setSessionModalView`, value)
     },
@@ -237,3 +230,11 @@ const words24 = param => {
   return param && param.split(` `).length === 24
 }
 </script>
+<style>
+.fundraiser-warning {
+  color: var(--danger);
+  font-size: var(--sm);
+  font-weight: 500;
+}
+</style>
+

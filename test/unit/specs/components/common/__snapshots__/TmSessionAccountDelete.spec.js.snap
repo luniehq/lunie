@@ -27,14 +27,6 @@ exports[`TmSessionAccountDelete has the expected html structure 1`] = `
         Remove Account
       
       </div>
-       
-      <a>
-        <i
-          class="material-icons"
-        >
-          help_outline
-        </i>
-      </a>
     </div>
      
     <div
