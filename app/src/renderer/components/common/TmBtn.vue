@@ -138,6 +138,7 @@ export default {
   align-items: center;
   -webkit-appearance: none;
 }
+
 .tm-btn--secondary {
   background: var(--app-bg, #fff);
 }
