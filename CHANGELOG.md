@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- [\#2152](https://github.com/cosmos/voyager/pull/2152) Feedback button to collect feedback from users on the page @faboweb
+
 ## [1.0.0-beta.12] - 2019-03-04
 
 ## [1.0.0-beta.11] - 2019-03-02
