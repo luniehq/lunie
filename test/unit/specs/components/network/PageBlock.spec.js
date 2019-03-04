@@ -81,6 +81,13 @@ describe(`PageBlock`, () => {
     ])
   })
 
+  it(`loads the block information when the route changes`, () => {
+    const getBlock = jest.fn()
+    PageBlock.watch[`$route.params.height`].call({ getBlock })
+
+    expect(getBlock).toHaveBeenCalled()
+  })
+
   it(`redirects to the 404 page if the block doesn't exist`, async () => {
     const routerPush = jest.fn()
 

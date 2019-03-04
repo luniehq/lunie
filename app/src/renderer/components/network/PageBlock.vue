@@ -40,7 +40,7 @@
           <div class="column">
             <dl class="info_dl colored_dl">
               <dt>Evidence</dt>
-              <dd>{{ block.block.evidence.evidence || `No Evidence` }}</dd>
+              <dd>{{ block.block && block.block.evidence.evidence || `No Evidence` }}</dd>
             </dl>
           </div>
         </div>
@@ -90,7 +90,7 @@ export default {
     }
   },
   watch: {
-    $route: function() {
+    "$route.params.height": function() {
       this.getBlock()
     }
   },
