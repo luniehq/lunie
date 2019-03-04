@@ -1,9 +1,10 @@
 import PageTransactions from "renderer/components/wallet/PageTransactions"
 import { createLocalVue, shallowMount } from "@vue/test-utils"
+// import { allTxs } from "../../store/json/txs"
 
 describe(`PageTransactions`, () => {
   const localVue = createLocalVue()
-  localVue.directive(`tooltip`, () => {})
+  localVue.directive(`tooltip`, () => { })
 
   const addresses = [
     `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
@@ -261,7 +262,7 @@ describe(`PageTransactions`, () => {
     })
   })
 
-  describe(`has the expected html structure`, () => {
+  describe(`displays the transaction page`, () => {
     it(`if user has signed in`, async () => {
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
@@ -290,7 +291,7 @@ describe(`PageTransactions`, () => {
   })
 
   it(`should show transactions`, async () => {
-    expect(wrapper.findAll(`tm-li-any-transaction-stub`).length).toBe(6)
+    expect(wrapper.findAll(`li-any-transaction-stub`).length).toBe(6)
   })
 
   it(`should sort the transaction by time`, () => {

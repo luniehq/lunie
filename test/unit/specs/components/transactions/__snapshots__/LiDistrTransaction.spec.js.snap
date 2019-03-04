@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LiDistrTransaction set withdraw address 1`] = `
+<li-transaction-stub
+  block="1114"
+  color="#5effe9"
+>
+  <div>
+    
+      Update withdraw address
+    
+  </div>
+   
+  <div>
+    
+      To cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3
+    
+  </div>
+</li-transaction-stub>
+`;
+
+exports[`LiDistrTransaction withdraw delegation rewards 1`] = `
+<li-transaction-stub
+  block="1114"
+  color="#5effe9"
+>
+  <div>
+    
+      Withdraw rewards
+    
+  </div>
+   
+  <div>
+    
+      From 
+    <router-link-stub
+      to="/validator/cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz"
+    >
+      
+        cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz
+      
+    </router-link-stub>
+  </div>
+</li-transaction-stub>
+`;
+
+exports[`LiDistrTransaction withdraw validator commission 1`] = `
+<li-transaction-stub
+  block="1114"
+  color="#5effe9"
+>
+  <div>
+    
+      Withdraw validator commission
+    
+  </div>
+   
+  <div>
+    
+      From 
+    <router-link-stub
+      to="/validator/cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3"
+    >
+      
+        cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3
+      
+    </router-link-stub>
+  </div>
+</li-transaction-stub>
+`;

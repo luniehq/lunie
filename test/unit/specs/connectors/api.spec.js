@@ -169,21 +169,21 @@ describe(`API`, () => {
 
       it(`queries for a staking txs`, async () => {
         axios.mockReturnValue(Promise.resolve({ data: lcdClientMock.txs }))
-        await client.getStakingTxs(`abc`)
+        await client.getStakingTxs(`abc`, `def`)
 
         expect(axios.mock.calls).toEqual([
           [
             {
               data: undefined,
               method: `GET`,
-              url: `http://remotehost/txs?action=create_validator&delegator=abc`
+              url: `http://remotehost/txs?action=create_validator&destination-validator=def`
             }
           ],
           [
             {
               data: undefined,
               method: `GET`,
-              url: `http://remotehost/txs?action=edit_validator&delegator=abc`
+              url: `http://remotehost/txs?action=edit_validator&destination-validator=def`
             }
           ],
           [
@@ -211,7 +211,7 @@ describe(`API`, () => {
             {
               data: undefined,
               method: `GET`,
-              url: `http://remotehost/txs?action=unjail&src-validator=abc`
+              url: `http://remotehost/txs?action=unjail&source-validator=def`
             }
           ],
         ])
@@ -661,14 +661,14 @@ describe(`API`, () => {
 
       it(`queries for governance txs`, async () => {
         axios.mockReturnValue({ data: [] })
-        await client.getDistributionTxs(`cosmos1address`)
+        await client.getDistributionTxs(`cosmos1address`, `cosmosvaloper1address`)
 
         expect(axios.mock.calls).toEqual([
           [
             {
               data: undefined,
               method: `GET`,
-              url: `http://remotehost/txs?txs?action=set_withdraw_address&delegator=cosmos1address`
+              url: `http://remotehost/txs?action=set_withdraw_address&delegator=cosmos1address`
             }
           ],
           [
@@ -682,7 +682,7 @@ describe(`API`, () => {
             {
               data: undefined,
               method: `GET`,
-              url: `http://remotehost/txs?action=withdraw_validator_rewards_all&src-validator=cosmos1address`
+              url: `http://remotehost/txs?action=withdraw_validator_rewards_all&source-validator=cosmosvaloper1address`
             }
           ]
         ])

@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LiAnyTransaction shows bank transactions 1`] = `
+<li-bank-transaction-stub
+  address="cosmos1address"
+  transaction="[object Object]"
+/>
+`;
+
+exports[`LiAnyTransaction shows distribution transactions 1`] = `
+<li-distr-transaction-stub
+  bondingdenom="atom"
+  transaction="[object Object]"
+  txtype="cosmos-sdk/MsgWithdrawDelegationReward"
+  url="/validators"
+  validators="[object Object],[object Object]"
+/>
+`;
+
+exports[`LiAnyTransaction shows governance transactions 1`] = `
+<li-gov-transaction-stub
+  bondingdenom="atom"
+  transaction="[object Object]"
+  txtype="cosmos-sdk/MsgSubmitProposal"
+/>
+`;
+
+exports[`LiAnyTransaction shows staking transactions 1`] = `
+<li-stake-transaction-stub
+  bondingdenom="atom"
+  transaction="[object Object]"
+  txtype="cosmos-sdk/MsgCreateValidator"
+  url="/validators"
+  validators="[object Object],[object Object]"
+/>
+`;
+
+exports[`LiAnyTransaction shows unknown type transactions 1`] = `
+<li-transaction-stub
+  block="3436"
+  color="grey"
+  time="2042"
+>
+  <span>
+    Unknown Transaction Type
+  </span>
+</li-transaction-stub>
+`;

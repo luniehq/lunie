@@ -5,7 +5,7 @@ import {
   stakingTxs,
   governanceTxs,
   distributionTxs
-} from "../../store/json/txs"
+} from "../../store/json/txs.js"
 
 describe(`LiAnyTransaction`, () => {
   let wrapper
@@ -13,7 +13,6 @@ describe(`LiAnyTransaction`, () => {
     { operator_address: `cosmosvaloper1address1`, moniker: `david` },
     { operator_address: `cosmosvaloper1address2`, moniker: `billy` }
   ]
-  console.log(bankTxs)
   const propsData = {
     transaction: bankTxs[0],
     validators,
@@ -49,7 +48,7 @@ describe(`LiAnyTransaction`, () => {
 
   it(`shows distribution transactions`, () => {
     wrapper.setProps({
-      transaction: distributionTxs[3]
+      transaction: distributionTxs[0]
     })
     expect(wrapper.vm.$el).toMatchSnapshot()
   })

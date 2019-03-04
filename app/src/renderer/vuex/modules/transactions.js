@@ -74,7 +74,7 @@ export default ({ node }) => {
         commit(`setDistributionTxs`, distributionTxs)
 
         const allTxs = bankTxs.concat(stakingTxs, governanceTxs, distributionTxs)
-        console.log(allTxs)
+
         await dispatch(`enrichTransactions`, allTxs)
         state.error = null
         commit(`setHistoryLoading`, false)

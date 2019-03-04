@@ -1,4 +1,4 @@
-const bankTxs = [
+export const bankTxs = [
   {
     hash: `not a real hash`,
     time: 2042,
@@ -31,7 +31,7 @@ const bankTxs = [
         gasUsed: `3324`,
         tags: [
           {
-            key: `c2VuZGVy`,
+            key: `action`,
             value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
           },
           {
@@ -76,7 +76,7 @@ const bankTxs = [
         gasUsed: `3324`,
         tags: [
           {
-            key: `c2VuZGVy`,
+            key: `action`,
             value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
           },
           {
@@ -124,7 +124,7 @@ const bankTxs = [
         gasUsed: `3324`,
         tags: [
           {
-            key: `c2VuZGVy`,
+            key: `action`,
             value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
           },
           {
@@ -137,7 +137,7 @@ const bankTxs = [
     }
   },
 ]
-const stakingTxs = [
+export const stakingTxs = [
   {
     height: `193281`,
     txhash: `DB8F2DAFD4791337E57921DB2D7D7838E14492323FECB391BB39D51239BA3FBF`,
@@ -191,6 +191,40 @@ const stakingTxs = [
     }
   },
   {
+    height: `193281`,
+    txhash: `DB8F2DAFD4791337E57921DB2D7D7838E14492323FECB391BB39D51239BA3FBF`,
+    gas_wanted: `101587`,
+    gas_used: `101577`,
+    tags: [
+      {
+        key: `action`,
+        value: `edit_validator`
+      },
+      {
+        key: `destination-validator`,
+        value: `cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2`
+      },
+    ],
+    tx: {
+      type: `auth/StdTx`,
+      value: {
+        msg: [
+          {
+            type: `cosmos-sdk/MsgEditValidator`,
+            value: {
+              validator_address: `cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2`,
+            }
+          }
+        ],
+        fee: {
+          amount: null,
+          gas: `101587`
+        },
+        memo: ``
+      }
+    }
+  },
+  {
     hash: `not a real hash4`,
 
     time: 42000, // set by Voyager
@@ -202,7 +236,7 @@ const stakingTxs = [
           {
             type: `cosmos-sdk/MsgDelegate`,
             value: {
-              validator_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+              validator_addr: `cosmosvalopr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
               delegation: {
                 amount: `42000000000`,
                 denom: `steak`
@@ -225,11 +259,11 @@ const stakingTxs = [
         gasUsed: `3324`,
         tags: [
           {
-            key: `c2VuZGVy`,
-            value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
+            key: `action`,
+            value: `delegate`
           },
           {
-            key: `cmVjaXBpZW50`,
+            key: `delegator`,
             value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
           }
         ],
@@ -249,7 +283,7 @@ const stakingTxs = [
           {
             type: `cosmos-sdk/Undelegate`,
             value: {
-              validator_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+              validator_addr: `cosmosvalopr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
               shares_amount: `10000000000`
             }
           }
@@ -269,8 +303,8 @@ const stakingTxs = [
         gasUsed: `3324`,
         tags: [
           {
-            key: `c2VuZGVy`,
-            value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
+            key: `action`,
+            value: ``
           },
           {
             key: `cmVjaXBpZW50`,
@@ -292,8 +326,8 @@ const stakingTxs = [
           {
             type: `cosmos-sdk/BeginRedelegate`,
             value: {
-              validator_src_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
-              validator_dst_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
+              validator_src_addr: `cosmosvalopr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+              validator_dst_addr: `cosmosvalopr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
               shares_amount: `30000000`
             }
           }
@@ -313,7 +347,7 @@ const stakingTxs = [
         gasUsed: `3324`,
         tags: [
           {
-            key: `c2VuZGVy`,
+            key: `action`,
             value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
           },
           {
@@ -324,9 +358,43 @@ const stakingTxs = [
         fee: {}
       }
     }
-  }
+  },
+  {
+    height: `193281`,
+    txhash: `DB8F2DAFD4791337E57921DB2D7D7838E14492323FECB391BB39D51239BA3FBF`,
+    gas_wanted: `101587`,
+    gas_used: `101577`,
+    tags: [
+      {
+        key: `action`,
+        value: `unjail`
+      },
+      {
+        key: `destination-validator`,
+        value: `cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2`
+      },
+    ],
+    tx: {
+      type: `auth/StdTx`,
+      value: {
+        msg: [
+          {
+            type: `cosmos-sdk/MsgUnjail`,
+            value: {
+              address: `cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2`,
+            }
+          }
+        ],
+        fee: {
+          amount: null,
+          gas: `101587`
+        },
+        memo: ``
+      }
+    }
+  },
 ]
-const governanceTxs = [
+export const governanceTxs = [
   {
     hash: `not a real hash7`,
     time: 42000, // set by Voyager
@@ -338,7 +406,7 @@ const governanceTxs = [
           {
             type: `cosmos-sdk/MsgSubmitProposal`,
             value: {
-              proposer: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+              proposer: `cosmosvalopr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
               proposal_type: `Text`,
               title: `Test Proposal`,
               description: `This is a test proposal`,
@@ -366,7 +434,7 @@ const governanceTxs = [
         gasUsed: `3324`,
         tags: [
           {
-            key: `c2VuZGVy`,
+            key: `action`,
             value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
           },
           {
@@ -379,8 +447,8 @@ const governanceTxs = [
     }
   },
   {
-    hash: `not a real hash8`,
-    time: 42000, // set by Voyager
+    hash: `not a real hash9`,
+    time: 42000,
     height: `56675`,
     tx: {
       type: `8EFE47F0625DE8`,
@@ -389,7 +457,7 @@ const governanceTxs = [
           {
             type: `cosmos-sdk/MsgDeposit`,
             value: {
-              depositer: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+              depositer: `cosmosvalopr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
               proposal_id: `1`,
               amount: [
                 {
@@ -415,7 +483,7 @@ const governanceTxs = [
         gasUsed: `3324`,
         tags: [
           {
-            key: `c2VuZGVy`,
+            key: `action`,
             value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
           },
           {
@@ -426,15 +494,189 @@ const governanceTxs = [
         fee: {}
       }
     }
+  },
+  {
+    hash: `not a real hash10`,
+    time: 42000, // set by Voyager
+    height: `56673`,
+    tx: {
+      type: `8EFE47F0625DE8`,
+      value: {
+        msg: [
+          {
+            type: `cosmos-sdk/MsgVote`,
+            value: {
+              voter: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+              proposal_id: `1`,
+              option: `Yes`
+            }
+          }
+        ],
+        fee: {
+          amount: [
+            {
+              denom: ``,
+              amount: `0`
+            }
+          ],
+          gas: `500000`
+        },
+        gas: `500000`
+      },
+      result: {
+        gasUsed: `3324`,
+        tags: [
+          {
+            key: `action`,
+            value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
+          },
+          {
+            key: `cmVjaXBpZW50`,
+            value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
+          }
+        ],
+        fee: {}
+      }
+    }
+  },
+]
+export const distributionTxs = [
+  {
+    height: `1114`,
+    txhash: `8D817CF08F5E13E98A42057C179B84A28B714A34DEE8D42D49A3468E0A8FF8D7`,
+    log: `[{"msg_index":"0","success":true,"log":""}]`,
+    gas_wanted: `500000`,
+    gas_used: `58806`,
+    tags: [
+      {
+        key: `action`,
+        value: `withdraw_delegation_reward`
+      },
+      {
+        key: `delegator`,
+        value: `cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3`
+      },
+      {
+        key: `source-validator`,
+        value: `cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz`
+      }
+    ],
+    tx: {
+      type: `auth/StdTx`,
+      value: {
+        msg: [
+          {
+            type: `cosmos-sdk/MsgWithdrawDelegationReward`,
+            value: {
+              delegator_addr: `cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3`,
+              validator_addr: `cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz`
+            }
+          }
+        ],
+        fee: {
+          amount: null,
+          gas: `500000`
+        },
+        signatures: [
+          {
+            pub_key: {
+              type: `tendermint/PubKeySecp256k1`,
+              value: `A0ANSrO/dQgW/kgtMZam5DBC4De7V3PvQt6RyuK2dfhI`
+            },
+            signature: `RDq6lowz7Oo/dK8h686qzobzs0rI2nFrd3bHEf1P34wPYx56XXG4KysPt52B0f34I4C5bluXU5+scKtyRNTyGQ==`
+          }
+        ],
+        memo: `Sent via Cosmos UI 🚀`
+      }
+    }
+  },
+  {
+    height: `1114`,
+    txhash: `8D817CF08F5E13E98A42057C179B84A28B714A34DEE8D42D49A3468E0A8FF8D7`,
+    log: `[{"msg_index":"0","success":true,"log":""}]`,
+    gas_wanted: `500000`,
+    gas_used: `58806`,
+    tags: [
+      {
+        key: `action`,
+        value: `withdraw_delegation_reward`
+      },
+      {
+        key: `delegator`,
+        value: `cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3`
+      },
+      {
+        key: `source-validator`,
+        value: `cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz`
+      }
+    ],
+    tx: {
+      type: `auth/StdTx`,
+      value: {
+        msg: [
+          {
+            type: `cosmos-sdk/MsgSetWithdrawAddress`,
+            value: {
+              withdraw_address: `cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3`
+            }
+          }
+        ],
+        fee: {
+          amount: null,
+          gas: `500000`
+        },
+        signatures: [
+          {
+            pub_key: {
+              type: `tendermint/PubKeySecp256k1`,
+              value: `A0ANSrO/dQgW/kgtMZam5DBC4De7V3PvQt6RyuK2dfhI`
+            },
+            signature: `RDq6lowz7Oo/dK8h686qzobzs0rI2nFrd3bHEf1P34wPYx56XXG4KysPt52B0f34I4C5bluXU5+scKtyRNTyGQ==`
+          }
+        ],
+        memo: `Sent via Cosmos UI 🚀`
+      }
+    }
+  },
+  {
+    height: `1114`,
+    txhash: `8D817CF08F5E13E98A42057C179B84A28B714A34DEE8D42D49A3468E0A8FF8D7`,
+    log: `[{"msg_index":"0","success":true,"log":""}]`,
+    gas_wanted: `500000`,
+    gas_used: `58806`,
+    tags: [
+      {
+        key: `action`,
+        value: `withdraw_delegation_reward`
+      },
+      {
+        key: `delegator`,
+        value: `cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3`
+      },
+      {
+        key: `source-validator`,
+        value: `cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz`
+      }
+    ],
+    tx: {
+      type: `auth/StdTx`,
+      value: {
+        msg: [
+          {
+            type: `cosmos-sdk/MsgWithdrawValidatorCommission`,
+            value: {
+              validator_address: `cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3`
+            }
+          }
+        ],
+        fee: {
+          amount: null,
+          gas: `500000`
+        },
+        memo: `Sent via Cosmos UI 🚀`
+      }
+    }
   }
 ]
-const distributionTxs = []
-const allTxs = bankTxs.concat(stakingTxs, governanceTxs, distributionTxs)
+export const allTxs = bankTxs.concat(stakingTxs, governanceTxs, distributionTxs)
 
-export default {
-  bankTxs,
-  stakingTxs,
-  governanceTxs,
-  distributionTxs,
-  allTxs
-}
