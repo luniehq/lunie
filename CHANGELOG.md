@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 - [\#1306](https://github.com/cosmos/voyager/issues/1306) Withdraw fee distribution rewards @fedekunze
+- [\#2148](https://github.com/cosmos/voyager/pull/2148) readded insecure mode @faboweb
 
 ### Fixed
 
