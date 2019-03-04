@@ -56,47 +56,47 @@ import num from "scripts/num"
 import TmDataError from "common/TmDataError"
 import TmPage from "common/TmPage"
 export default {
-	name: `page-block`,
-	components: {
-		TmDataError,
-		TmPage
-	},
-	data: () => ({
-		num,
-		moment
-	}),
-	computed: {
-		...mapGetters([`connected`, `block`]),
-		properties() {
-			return [
-				{
-					title: `Proposer`
-				},
-				{
-					title: `Time`
-				},
-				{
-					title: `Round`
-				}
-			]
-		},
-		blockTitle({ num, block } = this) {
-			return `#` + num.prettyInt(block.block.header.height)
-		},
-		blockTime({ moment, block } = this) {
-			return moment(block.block.header.time).format(`MMM Do YYYY, HH:mm:ss`)
-		}
-	},
-	watch: {
-		$route: `getBlock`
-	},
-	mounted() {
-		this.getBlock()
-	},
-	methods: {
-		async getBlock() {
-			await this.$store.dispatch(`queryBlockInfo`, this.$route.params.height)
-		}
-	}
+  name: `page-block`,
+  components: {
+    TmDataError,
+    TmPage
+  },
+  data: () => ({
+    num,
+    moment
+  }),
+  computed: {
+    ...mapGetters([`connected`, `block`]),
+    properties() {
+      return [
+        {
+          title: `Proposer`
+        },
+        {
+          title: `Time`
+        },
+        {
+          title: `Round`
+        }
+      ]
+    },
+    blockTitle({ num, block } = this) {
+      return `#` + num.prettyInt(block.block.header.height)
+    },
+    blockTime({ moment, block } = this) {
+      return moment(block.block.header.time).format(`MMM Do YYYY, HH:mm:ss`)
+    }
+  },
+  watch: {
+    $route: `getBlock`
+  },
+  mounted() {
+    this.getBlock()
+  },
+  methods: {
+    async getBlock() {
+      await this.$store.dispatch(`queryBlockInfo`, this.$route.params.height)
+    }
+  }
 }
 </script>

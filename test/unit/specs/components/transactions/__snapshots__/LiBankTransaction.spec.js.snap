@@ -31,9 +31,7 @@ exports[`LiBankTransaction should show outgoing transactions 1`] = `
   devmode="true"
   time="2052"
 >
-  <div
-    slot="caption"
-  >
+  <div>
     
       Sent 
     <b>
@@ -44,9 +42,7 @@ exports[`LiBankTransaction should show outgoing transactions 1`] = `
     </span>
   </div>
    
-  <span
-    slot="details"
-  >
+  <span>
     
         To A
       
@@ -61,9 +57,7 @@ exports[`LiBankTransaction should show transactions sent to the sender 1`] = `
   devmode="true"
   time="1142"
 >
-  <div
-    slot="caption"
-  >
+  <div>
     
       Sent 
     <b>
@@ -74,9 +68,7 @@ exports[`LiBankTransaction should show transactions sent to the sender 1`] = `
     </span>
   </div>
    
-  <span
-    slot="details"
-  >
+  <span>
     
         To yourself!
       

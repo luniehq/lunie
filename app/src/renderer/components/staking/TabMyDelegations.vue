@@ -36,6 +36,7 @@
                 delegation.unbondingDelegations
               )
             "
+            tx-type="cosmos-sdk/Undelegate"
           />
         </template>
       </div>

@@ -11,13 +11,14 @@ describe(`LiBankTransaction`, () => {
   }
 
   beforeEach(() => {
+
+  })
+
+  it(`has the expected html structure`, () => {
     wrapper = shallowMount(LiBankTransaction, {
       propsData,
       stubs: [`router-link`]
     })
-  })
-
-  it(`has the expected html structure`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -26,18 +27,23 @@ describe(`LiBankTransaction`, () => {
   })
 
   it(`should show outgoing transactions`, () => {
-    wrapper.setProps({
-      transaction: bankTxs[1],
-      address: bankTxs[1].tx.value.msg[0].value.from_address
+    propsData.transaction = bankTxs[1]
+    propsData.address = bankTxs[1].tx.value.msg[0].value.from_address
+    wrapper = shallowMount(LiBankTransaction, {
+      propsData,
+      stubs: [`router-link`]
     })
+
     expect(wrapper.vm.sent).toBe(true)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should show transactions sent to the sender`, () => {
-    wrapper.setProps({
-      transaction: bankTxs[2],
-      address: `cosmos1address2`
+    propsData.transaction = bankTxs[2]
+    propsData.address = `A`
+    wrapper = shallowMount(LiBankTransaction, {
+      propsData,
+      stubs: [`router-link`]
     })
     expect(wrapper.vm.sentSelf).toBe(true)
     expect(wrapper.vm.$el).toMatchSnapshot()

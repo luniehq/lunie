@@ -44,47 +44,47 @@ import LiTransaction from "./LiTransaction"
 import { pretty, atoms } from "../../scripts/num.js"
 
 export default {
-	name: `li-distr-transaction`,
-	components: { LiTransaction },
-	props: {
-		transaction: {
-			type: Object,
-			required: true
-		},
-		url: {
-			type: String,
-			required: true
-		},
-		bondingDenom: {
-			type: String,
-			required: true
-		},
-		txType: {
-			type: String,
-			required: true
-		},
-		validators: {
-			type: Array,
-			required: true
-		}
-	},
-	data: () => ({
-		atoms,
-		pretty
-	}),
-	computed: {
-		tx() {
-			return this.transaction.tx.value.msg[0].value
-		}
-	},
-	methods: {
-		moniker(validatorAddr) {
-			const validator = this.validators.find(
-				c => c.operator_address === validatorAddr
-			)
-			return validator ? validator.description.moniker : validatorAddr
-		}
-	}
+  name: `li-distr-transaction`,
+  components: { LiTransaction },
+  props: {
+    transaction: {
+      type: Object,
+      required: true
+    },
+    url: {
+      type: String,
+      required: true
+    },
+    bondingDenom: {
+      type: String,
+      required: true
+    },
+    txType: {
+      type: String,
+      required: true
+    },
+    validators: {
+      type: Array,
+      required: true
+    }
+  },
+  data: () => ({
+    atoms,
+    pretty
+  }),
+  computed: {
+    tx() {
+      return this.transaction.tx.value.msg[0].value
+    }
+  },
+  methods: {
+    moniker(validatorAddr) {
+      const validator = this.validators.find(
+        c => c.operator_address === validatorAddr
+      )
+      return validator ? validator.description.moniker : validatorAddr
+    }
+  }
 }
 </script>
 
