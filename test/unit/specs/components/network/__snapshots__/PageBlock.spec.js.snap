@@ -103,3 +103,107 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
   </div>
 </tm-page-stub>
 `;
+
+exports[`PageBlock shows the page when the block hasn't been loaded yet 1`] = `
+<tm-page-stub
+  data-title="Block"
+  subtitle=""
+  title=""
+>
+  <div
+    class="page-profile__header page-profile__section block"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="page-profile__header__info"
+      >
+        <div
+          class="page-profile__status-and-title"
+        >
+          <h2
+            class="page-profile__title"
+          >
+            
+              Block n/a
+            
+          </h2>
+           
+          <h3
+            class="page-profile__subtitle"
+          >
+            
+              
+            
+          </h3>
+        </div>
+      </div>
+    </div>
+     
+    <div
+      class="row"
+    >
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
+          Time
+        </dt>
+         
+        <dd>
+          n/a
+        </dd>
+      </dl>
+    </div>
+  </div>
+   
+  <div
+    class="page-profile__section block"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="column"
+      >
+        <dl
+          class="info_dl colored_dl"
+        >
+          <dt>
+            Transactions
+          </dt>
+           
+          <dd>
+            No Transactions
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+   
+  <div
+    class="page-profile__section block"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="column"
+      >
+        <dl
+          class="info_dl colored_dl"
+        >
+          <dt>
+            Evidence
+          </dt>
+           
+          <dd>
+            No Evidence
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</tm-page-stub>
+`;

@@ -7,44 +7,44 @@ localVue.directive(`tooltip`, () => {})
 describe(`PageBlock`, () => {
   let wrapper
 
-  beforeEach(() => {
-    const getters = {
-      connected: true,
-      block: {
-        block_meta: {
-          block_id: {
-            hash: `ABCD1234`
-          }
-        },
-        block: {
-          data: {
-            txs: `txs`
-          },
-          header: {
-            height: `100`,
-            num_txs: 1200,
-            proposer_address: `ABCDEFG123456HIJKLMNOP`,
-            time: Date.now()
-          },
-          evidence: {
-            evidence: `evidence`
-          },
-          last_commit: {
-            precommits: [
-              {
-                validator_address: `validator address`,
-                timestamp: Date.now(),
-                round: 0
-              }
-            ]
-          }
+  const getters = {
+    connected: true,
+    block: {
+      block_meta: {
+        block_id: {
+          hash: `ABCD1234`
         }
       },
-      lastHeader: {
-        height: `1000`
+      block: {
+        data: {
+          txs: `txs`
+        },
+        header: {
+          height: `100`,
+          num_txs: 1200,
+          proposer_address: `ABCDEFG123456HIJKLMNOP`,
+          time: Date.now()
+        },
+        evidence: {
+          evidence: `evidence`
+        },
+        last_commit: {
+          precommits: [
+            {
+              validator_address: `validator address`,
+              timestamp: Date.now(),
+              round: 0
+            }
+          ]
+        }
       }
+    },
+    lastHeader: {
+      height: `1000`
     }
+  }
 
+  beforeEach(() => {
     wrapper = shallowMount(PageBlock, {
       localVue,
       mocks: {
@@ -86,6 +86,30 @@ describe(`PageBlock`, () => {
     PageBlock.watch[`$route.params.height`].call({ getBlock })
 
     expect(getBlock).toHaveBeenCalled()
+  })
+
+  it(`shows the page when the block hasn't been loaded yet`, () => {
+    wrapper = shallowMount(PageBlock, {
+      localVue,
+      mocks: {
+        $store: {
+          getters: Object.assign({}, getters, {
+            block: {}
+          }),
+          dispatch: jest.fn()
+        },
+        $route: {
+          params: { height: `100` }
+        },
+        $router: {
+          push: jest.fn()
+        }
+      },
+      stubs: [`router-link`]
+    })
+
+    expect(wrapper.vm.$el).not.toBeUndefined()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`redirects to the 404 page if the block doesn't exist`, async () => {
