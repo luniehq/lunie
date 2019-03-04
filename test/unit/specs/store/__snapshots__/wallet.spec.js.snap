@@ -7,6 +7,19 @@ Object {
   "balances": Array [],
   "denoms": Array [],
   "error": null,
+  "externals": Object {
+    "axios": Object {
+      "get": [MockFunction],
+    },
+    "config": Object {
+      "denoms": Array [
+        "mycoin",
+        "fermion",
+        "STAKE",
+      ],
+      "faucet": "http://gimme.money",
+    },
+  },
   "loaded": false,
   "loading": true,
   "subscribedRPC": null,

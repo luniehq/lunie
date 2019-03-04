@@ -1,5 +1,50 @@
 import { startApp, main, routeGuard } from "renderer/scripts/boot"
 
+async function start(urlParams, environment) {
+  const node = {
+    rpcConnect: jest.fn(),
+    lcdConnected: jest.fn()
+  }
+  const Node = jest.fn(() => node)
+  const store = {
+    state: {},
+    commit: jest.fn(),
+    dispatch: jest.fn()
+  }
+  const Store = () => store
+  const $mount = jest.fn()
+  class Vue {
+    constructor() {
+      this.$mount = $mount
+    }
+  }
+  Vue.config = {}
+  Vue.use = jest.fn()
+  Vue.directive = jest.fn()
+  const Sentry = {
+    init: jest.fn()
+  }
+  const enableGoogleAnalytics = jest.fn()
+
+  await startApp(
+    urlParams || {},
+    {
+      stargate: `http://localhost:12344`,
+      google_analytics_uid: `GUID`
+    },
+    Node,
+    Store,
+    environment || {
+      NODE_ENV: `production`
+    },
+    Sentry,
+    Vue,
+    enableGoogleAnalytics
+  )
+
+  return { store, Vue, enableGoogleAnalytics, Sentry, Node }
+}
+
 describe(`App Start`, () => {
   // popper.js is used by tooltips and causes some errors if
   // not mocked because it requires a real DOM
@@ -11,42 +56,7 @@ describe(`App Start`, () => {
   })
 
   it(`waits for the node have connected to init subscription`, async () => {
-    const node = {
-      rpcConnect: jest.fn(),
-      lcdConnected: jest.fn()
-    }
-    const Node = () => node
-    const store = {
-      state: {},
-      commit: jest.fn(),
-      dispatch: jest.fn()
-    }
-    const Store = () => store
-    const Vue = class {
-      constructor() {
-        this.$mount = jest.fn()
-      }
-      static config = {}
-      static use = () => { }
-      static directive = () => { }
-    }
-    const Sentry = {
-      init: jest.fn()
-    }
-
-    await startApp(
-      {},
-      {
-        stargate: `http://localhost:12344`
-      },
-      Node,
-      Store,
-      {
-        NODE_ENV: `production`
-      },
-      Sentry,
-      Vue
-    )
+    const { store } = await start()
 
     expect(store.dispatch).toHaveBeenCalledWith(`connect`)
   })
@@ -68,50 +78,10 @@ describe(`App Start`, () => {
   })
 
   it(`Check the calls on VUE`, async () => {
-    jest.mock(`vue-router`)
-    jest.mock(`vue-directive-tooltip`)
-    jest.mock(`vuelidate`)
-    const $mount = jest.fn()
-    class mockVue {
-      constructor() {
-        this.$mount = $mount
-      }
-    }
-    mockVue.config = {}
-    mockVue.use = jest.fn()
-    mockVue.directive = jest.fn()
+    const { Vue } = await start()
 
-    const node = {
-      rpcConnect: jest.fn(),
-      lcdConnected: jest.fn()
-    }
-    const Node = () => node
-
-    const store = {
-      state: {},
-      commit: jest.fn(),
-      dispatch: jest.fn()
-    }
-    const Store = () => store
-
-    const Sentry = {
-      init: jest.fn()
-    }
-    await startApp(
-      {},
-      {
-        stargate: `http://localhost:12344`
-      },
-      Node,
-      Store,
-      {
-        NODE_ENV: `production`
-      },
-      Sentry,
-      mockVue
-    )
-    expect(mockVue.directive).toHaveBeenCalledTimes(1)
-    expect(mockVue.use).toHaveBeenCalledTimes(4)
+    expect(Vue.directive).toHaveBeenCalledTimes(1)
+    expect(Vue.use).toHaveBeenCalledTimes(4)
   })
 
   describe(`Route guard`, () => {
@@ -215,44 +185,7 @@ describe(`App Start`, () => {
   })
 
   it(`activates analytics`, async () => {
-    const node = {
-      rpcConnect: jest.fn(),
-      lcdConnected: jest.fn()
-    }
-    const Node = () => node
-    const store = {
-      state: {},
-      commit: jest.fn(),
-      dispatch: jest.fn()
-    }
-    const Store = () => store
-    const Vue = class {
-      constructor() {
-        this.$mount = jest.fn()
-      }
-      static use = () => { }
-      static directive = () => { }
-    }
-    const Sentry = {
-      init: jest.fn()
-    }
-    const enableGoogleAnalytics = jest.fn()
-
-    await startApp(
-      {},
-      {
-        stargate: `http://localhost:12344`,
-        google_analytics_uid: `GUID`
-      },
-      Node,
-      Store,
-      {
-        NODE_ENV: `production`
-      },
-      Sentry,
-      Vue,
-      enableGoogleAnalytics
-    )
+    const { enableGoogleAnalytics, Sentry } = await start()
 
     expect(enableGoogleAnalytics).toHaveBeenCalledWith(`GUID`)
 
@@ -262,150 +195,31 @@ describe(`App Start`, () => {
 
   describe(`url parameters`, () => {
     it(`should set development mode`, async () => {
-      jest.mock(`vue-router`)
-      jest.mock(`vue-directive-tooltip`)
-      jest.mock(`vuelidate`)
-      const $mount = jest.fn()
-      class mockVue {
-        constructor() {
-          this.$mount = $mount
-        }
-      }
-      mockVue.config = {}
-      mockVue.use = jest.fn()
-      mockVue.directive = jest.fn()
-
-      const node = {
-        rpcConnect: jest.fn(),
-        lcdConnected: jest.fn()
-      }
-      const Node = () => node
-
-      const store = {
-        state: {},
-        commit: jest.fn(),
-        dispatch: jest.fn()
-      }
-      const Store = () => store
-
-      const Sentry = {
-        init: jest.fn()
-      }
-
-      await startApp(
-        {
-          experimental: true
-        },
-        {
-          stargate: `http://localhost:12344`
-        },
-        Node,
-        Store,
-        {
-          NODE_ENV: `production`
-        },
-        Sentry,
-        mockVue
-      )
+      const { store } = await start({
+        experimental: true
+      })
 
       expect(store.commit).toHaveBeenCalledWith(`setExperimentalMode`)
     })
+    it(`should set insecure mode`, async () => {
+      const { store } = await start({
+        insecure: true
+      })
+
+      expect(store.commit).toHaveBeenCalledWith(`setInsecureMode`)
+    })
 
     it(`should set rpc url`, async () => {
-      jest.mock(`vue-router`)
-      jest.mock(`vue-directive-tooltip`)
-      jest.mock(`vuelidate`)
-      const $mount = jest.fn()
-      class mockVue {
-        constructor() {
-          this.$mount = $mount
-        }
-      }
-      mockVue.config = {}
-      mockVue.use = jest.fn()
-      mockVue.directive = jest.fn()
-
-      const node = {
-        rpcConnect: jest.fn(),
-        lcdConnected: jest.fn()
-      }
-      const Node = () => node
-
-      const store = {
-        state: {},
-        commit: jest.fn(),
-        dispatch: jest.fn()
-      }
-      const Store = () => store
-
-      const Sentry = {
-        init: jest.fn()
-      }
-
-      await startApp(
-        {
-          rpc: `http://rpcurl.com`
-        },
-        {
-          stargate: `http://localhost:12344`
-        },
-        Node,
-        Store,
-        {
-          NODE_ENV: `production`
-        },
-        Sentry,
-        mockVue
-      )
+      const { store } = await start({
+        rpc: `http://rpcurl.com`
+      })
 
       expect(store.commit).toHaveBeenCalledWith(`setRpcUrl`, `http://rpcurl.com`)
     })
     it(`should set stargate url`, async () => {
-      jest.mock(`vue-router`)
-      jest.mock(`vue-directive-tooltip`)
-      jest.mock(`vuelidate`)
-      const $mount = jest.fn()
-      class mockVue {
-        constructor() {
-          this.$mount = $mount
-        }
-      }
-      mockVue.config = {}
-      mockVue.use = jest.fn()
-      mockVue.directive = jest.fn()
-
-      const node = {
-        rpcConnect: jest.fn(),
-        lcdConnected: jest.fn()
-      }
-      const Node = jest.fn(() => node)
-
-      const store = {
-        state: {},
-        commit: jest.fn(),
-        dispatch: jest.fn()
-      }
-      const Store = () => store
-
-      const Sentry = {
-        init: jest.fn()
-      }
-
-      await startApp(
-        {
-          stargate: `http://stargateurl.com`
-        },
-        {
-          stargate: `http://localhost:12344`
-        },
-        Node,
-        Store,
-        {
-          NODE_ENV: `production`
-        },
-        Sentry,
-        mockVue
-      )
+      const { Node } = await start({
+        stargate: `http://stargateurl.com`
+      })
 
       expect(Node).toHaveBeenCalledWith(expect.objectContaining({}), `http://stargateurl.com`)
     })
