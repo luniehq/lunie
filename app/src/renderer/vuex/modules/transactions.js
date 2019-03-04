@@ -1,6 +1,7 @@
 import { uniqBy } from "lodash"
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
+
 export default ({ node }) => {
   const emptyState = {
     loading: false,
@@ -69,7 +70,7 @@ export default ({ node }) => {
         const distributionTxs = await dispatch(`getTx`, `distribution`)
         commit(`setDistributionTxs`, distributionTxs)
 
-        const bankTxs = await dispatch(`getTx`, `wallet`)
+        const bankTxs = await dispatch(`getTx`, `bank`)
         commit(`setBankTxs`, bankTxs)
 
         const allTxs = stakingTxs.concat(governanceTxs, bankTxs, distributionTxs)
@@ -84,17 +85,18 @@ export default ({ node }) => {
     },
     async getTx({ rootState: { session: { address } } }, type) {
       let response
+      const validatorAddress = address.replace(`cosmos`, `cosmosvaloper`)
       switch (type) {
         case `staking`:
-          response = await node.getStakingTxs(address)
+          response = await node.getStakingTxs(address, validatorAddress)
           break
         case `governance`:
           response = await node.getGovernanceTxs(address)
           break
         case `distribution`:
-          response = await node.getDistributionTxs(address)
+          response = await node.getDistributionTxs(address, validatorAddress)
           break
-        case `wallet`:
+        case `bank`:
           response = await node.txs(address)
           break
         default:
