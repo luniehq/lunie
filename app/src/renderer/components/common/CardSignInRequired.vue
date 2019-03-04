@@ -4,21 +4,16 @@
       Sign In Required
     </div>
     <div slot="subtitle">
-      This page shows data for your address. To access the page, please <tm-btn
-        value="Sign In"
-        color="primary"
-        @click.native="goToSession"
-      />
+      This page shows data for your address. To access the page, please <a @click="goToSession">Sign In</a>.
     </div>
   </tm-data-msg>
 </template>
 
 <script>
 import TmDataMsg from "common/TmDataMsg"
-import TmBtn from "common/TmBtn"
 export default {
   name: `card-sign-in-required`,
-  components: { TmDataMsg, TmBtn },
+  components: { TmDataMsg },
   methods: {
     goToSession() {
       this.$store.commit(`setSessionModalView`, `welcome`)
@@ -27,3 +22,9 @@ export default {
   }
 }
 </script>
+<style scoped>
+a {
+  cursor: pointer;
+}
+</style>
+
