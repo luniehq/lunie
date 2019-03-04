@@ -14,7 +14,8 @@
       <slot slot="header-buttons" name="header-buttons" />
     </tm-page-header>
     <main class="tm-page-main">
-      <template v-if="this.$slots['managed-body']">
+      <card-sign-in-required v-if="signinRequired && !session.signedIn" />
+      <template v-else-if="this.$slots['managed-body']">
         <tm-data-connecting v-if="!loaded && !connected" />
         <tm-data-loading v-else-if="!loaded && loading" />
         <tm-data-error v-else-if="error" />
@@ -37,6 +38,7 @@ import PerfectScrollbar from "perfect-scrollbar"
 import TmPageHeader from "./TmPageHeader.vue"
 import TmDataLoading from "common/TmDataLoading"
 import TmDataEmpty from "common/TmDataEmpty"
+import CardSignInRequired from "common/CardSignInRequired"
 import { mapGetters } from "vuex"
 import TmDataError from "common/TmDataError"
 import TmDataConnecting from "common/TmDataConnecting"
@@ -52,7 +54,8 @@ export default {
     TmDataEmpty,
     TmDataLoading,
     TmDataError,
-    TmDataConnecting
+    TmDataConnecting,
+    CardSignInRequired
   },
   props: {
     hideHeader: {
@@ -90,6 +93,10 @@ export default {
     refresh: {
       type: Function,
       default: undefined
+    },
+    signinRequired: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
