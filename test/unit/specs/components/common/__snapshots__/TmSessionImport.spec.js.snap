@@ -39,7 +39,7 @@ exports[`TmSessionImport has the expected html structure 1`] = `
             <i
               class="material-icons"
             >
-              help_outline
+              close
             </i>
           </a>
         </div>
@@ -131,6 +131,14 @@ exports[`TmSessionImport has the expected html structure 1`] = `
               <!---->
             </div>
           </div>
+           
+          <p
+            class="fundraiser-warning"
+          >
+            
+        Warning – Do not enter your actual 12 or 24 word seed phrase. This feature is intended for testing and is considered highly unsafe.
+      
+          </p>
            
           <div
             class="tm-form-group"

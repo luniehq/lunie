@@ -48,6 +48,14 @@ describe(`Module: Session`, () => {
   })
 
   describe(`mutations`, () => {
+    it(`should set signin`, () => {
+      expect(state.signedIn).toBe(false)
+      mutations.setSignIn(state, true)
+      expect(state.signedIn).toBe(true)
+      mutations.setSignIn(state, false)
+      expect(state.signedIn).toBe(false)
+    })
+
     it(`should add and remove history correctly`, () => {
       expect(state.history.length).toBe(0)
       mutations.addHistory(state, `/`)
@@ -55,6 +63,7 @@ describe(`Module: Session`, () => {
       mutations.popHistory(state)
       expect(state.history.length).toBe(0)
     })
+
     it(`should pauseHistory correctly`, () => {
       expect(state.pauseHistory).toBe(false)
       mutations.pauseHistory(state, true)
@@ -62,10 +71,12 @@ describe(`Module: Session`, () => {
       mutations.pauseHistory(state, false)
       expect(state.pauseHistory).toBe(false)
     })
+
     it(`should set accounts`, () => {
       mutations.setAccounts(state, accounts)
       expect(state.accounts).toEqual(accounts)
     })
+
     it(`should set user address`, () => {
       mutations.setUserAddress(
         state,
@@ -98,16 +109,20 @@ describe(`Module: Session`, () => {
       mutations.setInsecureMode(state)
       expect(state.insecureMode).toBe(true)
     })
+  })
 
-    it(`should open the help modal`, () => {
-      mutations.setModalHelp(state, true)
-      expect(state.modals.help.active).toBe(true)
-      expect(state.externals.track).toHaveBeenCalled()
-    })
+  it(`should load accounts`, async () => {
+    const commit = jest.fn()
+    await actions.loadAccounts({ commit, state })
+
+    expect(commit).toHaveBeenCalledWith(`setAccounts`, [{
+      name: `def`,
+      address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+    }])
   })
 
   it(`should show an error if loading accounts fails`, async () => {
-    jest.spyOn(console, `error`).mockImplementationOnce(() => {})
+    jest.spyOn(console, `error`).mockImplementationOnce(() => { })
 
     jest.resetModules()
     jest.doMock(`renderer/scripts/keystore.js`, () => ({
@@ -257,7 +272,7 @@ describe(`Module: Session`, () => {
   })
 
   it(`should enable error collection`, async () => {
-    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
+    jest.spyOn(console, `log`).mockImplementationOnce(() => { })
     const commit = jest.fn()
     await actions.setErrorCollection(
       {
@@ -279,7 +294,7 @@ describe(`Module: Session`, () => {
   })
 
   it(`should disable error collection`, async () => {
-    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
+    jest.spyOn(console, `log`).mockImplementationOnce(() => { })
     const commit = jest.fn()
     await actions.setErrorCollection(
       {
@@ -295,7 +310,7 @@ describe(`Module: Session`, () => {
   })
 
   it(`should not set error collection if in development mode`, async () => {
-    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
+    jest.spyOn(console, `log`).mockImplementationOnce(() => { })
     const commit = jest.fn()
     state.externals.config.development = true
     await actions.setErrorCollection(

@@ -1,24 +1,12 @@
 <template>
-  <div :class="cssClass" @click.self="close()">
-    <div class="tm-modal-container">
-      <header class="tm-modal-header">
-        <div v-if="icon" class="tm-modal-icon">
-          <i class="material-icons">{{ icon }}</i>
-        </div>
-        <div class="tm-modal-title">
-          <slot name="title" />
-        </div>
-        <div class="tm-modal-icon tm-modal-close" @click="close()">
-          <i v-if="close" class="material-icons">close</i>
-        </div>
-      </header>
-      <main class="tm-modal-main">
-        <slot />
-        <footer class="tm-modal-footer">
-          <slot name="footer" />
-        </footer>
-      </main>
-    </div>
+  <div class="tm-modal" @click.self="close()">
+    <main class="tm-modal-main">
+      <slot name="main" />
+    </main>
+
+    <footer class="tm-modal-footer">
+      <slot name="footer" />
+    </footer>
   </div>
 </template>
 
@@ -26,26 +14,9 @@
 export default {
   name: `tm-modal`,
   props: {
-    icon: {
-      type: String,
-      default: null
-    },
-    size: {
-      type: String,
-      default: null
-    },
     close: {
       type: Function,
       required: true
-    }
-  },
-  computed: {
-    cssClass() {
-      let value = `tm-modal`
-      if (this.size === `fullscreen` || this.size === `fs`) {
-        value += ` tm-modal-fullscreen`
-      }
-      return value
     }
   }
 }
@@ -137,5 +108,11 @@ export default {
   padding-top: 2rem;
   display: flex;
   justify-content: flex-end;
+}
+
+@media screen and (max-width: 1024px) {
+  .tm-modal {
+    background: rgba(0, 0, 0, 1);
+  }
 }
 </style>

@@ -30,11 +30,6 @@ describe(`ToolBar`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`sets the helper modal`, () => {
-    wrapper.vm.enableModalHelp()
-    expect($store.commit).toHaveBeenCalledWith(`setModalHelp`, true)
-  })
-
   it(`call dispatch to sign the user out`, () => {
     const $store = { dispatch: jest.fn() }
     const self = { $store, $router: { push: jest.fn() } }
