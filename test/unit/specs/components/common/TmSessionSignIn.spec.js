@@ -42,10 +42,8 @@ describe(`TmSessionSignIn`, () => {
 
   it(`should close the modal on successful login`, async () => {
     wrapper.setData({
-      fields: {
-        signInPassword: `1234567890`,
-        signInName: `default`
-      }
+      signInPassword: `1234567890`,
+      signInName: `default`
     })
     await wrapper.vm.onSubmit()
     expect($store.commit).toHaveBeenCalledWith(`toggleSessionModal`, false)
@@ -58,10 +56,8 @@ describe(`TmSessionSignIn`, () => {
 
   it(`should signal signedin state on successful login`, async () => {
     wrapper.setData({
-      fields: {
-        signInPassword: `1234567890`,
-        signInName: `default`
-      }
+      signInPassword: `1234567890`,
+      signInName: `default`
     })
     await wrapper.vm.onSubmit()
     expect($store.dispatch).toHaveBeenCalledWith(`signIn`, {
@@ -71,7 +67,7 @@ describe(`TmSessionSignIn`, () => {
   })
 
   it(`should show error if password not 10 long`, () => {
-    wrapper.setData({ fields: { signInPassword: `123` } })
+    wrapper.setData({ signInPassword: `123` })
     wrapper.vm.onSubmit()
     expect($store.commit.mock.calls[1]).toBeUndefined()
     expect(wrapper.find(`.tm-form-msg-error`)).toBeDefined()
@@ -80,14 +76,11 @@ describe(`TmSessionSignIn`, () => {
   it(`should show a notification if signin failed`, async () => {
     $store.dispatch = jest.fn().mockResolvedValueOnce(false)
     wrapper.setData({
-      fields: {
-        signInPassword: `1234567890`,
-        signInName: `default`
-      }
+      signInPassword: `1234567890`,
+      signInName: `default`
     })
     await wrapper.vm.onSubmit()
-    expect($store.commit).toHaveBeenCalled()
-    expect($store.commit.mock.calls[0][0]).toBe(`notifyError`)
+    expect(wrapper.vm.error).toBe(`The provided username or password is wrong.`)
   })
 
   it(`should show the last account used`, () => {
@@ -99,7 +92,6 @@ describe(`TmSessionSignIn`, () => {
           key: `default`
         }
       ],
-      fields: {},
       $el: {
         querySelector: jest.fn(() => ({
           focus: jest.fn()
@@ -108,7 +100,7 @@ describe(`TmSessionSignIn`, () => {
     }
     TmSessionSignIn.methods.setDefaultAccount.call(self)
 
-    expect(self.fields.signInName).toBe(`default`)
+    expect(self.signInName).toBe(`default`)
     // the account is preselected so focus on the pw
     expect(self.$el.querySelector).toHaveBeenCalledWith(`#sign-in-password`)
   })

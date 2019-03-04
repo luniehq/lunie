@@ -69,6 +69,8 @@ exports[`TmSessionSignIn has the expected html structure 1`] = `
         <!---->
          
         <!---->
+         
+        <!---->
       </tm-form-group-stub>
     </div>
      

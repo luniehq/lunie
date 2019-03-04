@@ -16,40 +16,45 @@
         <tm-form-group field-id="sign-in-name" field-label="Select Account">
           <tm-field
             id="sign-in-name"
-            v-model="fields.signInName"
+            v-model="signInName"
             :options="accounts"
             type="select"
             placeholder="Select account…"
             vue-focus="vue-focus"
           />
           <tm-form-msg
-            v-if="$v.fields.signInName.$error && !$v.fields.signInName.required"
+            v-if="$v.signInName.$error && !$v.signInName.required"
             name="Name"
             type="required"
           />
         </tm-form-group>
         <tm-form-group
-          :error="$v.fields.signInPassword.$error"
+          :error="$v.signInPassword.$error"
           field-id="sign-in-password"
           field-label="Password"
         >
-          <tm-field id="sign-in-password" v-model="fields.signInPassword" type="password" />
+          <tm-field id="sign-in-password" v-model="signInPassword" type="password" />
           <tm-form-msg
             v-if="
-              $v.fields.signInPassword.$error &&
-                !$v.fields.signInPassword.required
+              $v.signInPassword.$error &&
+                !$v.signInPassword.required
             "
             name="Password"
             type="required"
           />
           <tm-form-msg
             v-if="
-              $v.fields.signInPassword.$error &&
-                !$v.fields.signInPassword.minLength
+              $v.signInPassword.$error &&
+                !$v.signInPassword.minLength
             "
             name="Password"
             type="minLength"
             min="10"
+          />
+          <tm-form-msg
+            v-if="error"
+            type="custom"
+            :msg="error"
           />
         </tm-form-group>
       </div>
@@ -83,10 +88,9 @@ export default {
     TmFormStruct
   },
   data: () => ({
-    fields: {
-      signInName: ``,
-      signInPassword: ``
-    }
+    signInName: ``,
+    signInPassword: ``,
+    error: ``
   }),
   computed: {
     ...mapGetters([`session`]),
@@ -107,22 +111,19 @@ export default {
       this.$v.$touch()
       if (this.$v.$error) return
       const sessionCorrect = await this.$store.dispatch(`testLogin`, {
-        password: this.fields.signInPassword,
-        localKeyPairName: this.fields.signInName
+        password: this.signInPassword,
+        localKeyPairName: this.signInName
       })
       if (sessionCorrect) {
         this.$store.dispatch(`signIn`, {
-          password: this.fields.signInPassword,
-          localKeyPairName: this.fields.signInName
+          password: this.signInPassword,
+          localKeyPairName: this.signInName
         })
-        localStorage.setItem(`prevAccountKey`, this.fields.signInName)
+        localStorage.setItem(`prevAccountKey`, this.signInName)
         this.$router.push(`/`)
         this.$store.commit(`toggleSessionModal`, false)
       } else {
-        this.$store.commit(`notifyError`, {
-          title: `Signing In Failed`,
-          body: `The provided username or password is wrong.`
-        })
+        this.error = `The provided username or password is wrong.`
       }
     },
     setDefaultAccount() {
@@ -132,12 +133,12 @@ export default {
       )
 
       if (this.accounts.length === 1) {
-        this.fields.signInName = this.accounts[0].key
+        this.signInName = this.accounts[0].key
       } else if (prevAccountExists) {
-        this.fields.signInName = prevAccountKey
+        this.signInName = prevAccountKey
       }
 
-      if (this.fields.signInName) {
+      if (this.signInName) {
         this.$el.querySelector(`#sign-in-password`).focus()
       } else {
         this.$el.querySelector(`#sign-in-name`).focus()
@@ -145,10 +146,8 @@ export default {
     }
   },
   validations: () => ({
-    fields: {
-      signInName: { required },
-      signInPassword: { required, minLength: minLength(10) }
-    }
+    signInName: { required },
+    signInPassword: { required, minLength: minLength(10) }
   })
 }
 </script>
