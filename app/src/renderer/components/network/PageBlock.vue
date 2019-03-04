@@ -10,7 +10,7 @@
                 Block {{ blockTitle }}
               </h2>
               <h3 class="page-profile__subtitle">
-                {{ block.block_meta.block_id.hash }}
+                {{ block.block_meta && block.block_meta.block_id ? block.block_meta.block_id.hash : '' }}
               </h3>
             </div>
           </div>
@@ -29,7 +29,7 @@
           <div class="column">
             <dl class="info_dl colored_dl">
               <dt>Transactions</dt>
-              <dd>{{ block.block.data.txs || `No Transactions` }}</dd>
+              <dd>{{ block.block && block.block.data.txs || `No Transactions` }}</dd>
             </dl>
           </div>
         </div>
@@ -40,7 +40,7 @@
           <div class="column">
             <dl class="info_dl colored_dl">
               <dt>Evidence</dt>
-              <dd>{{ block.block.evidence.evidence || `No Evidence` }}</dd>
+              <dd>{{ block.block && block.block.evidence.evidence || `No Evidence` }}</dd>
             </dl>
           </div>
         </div>
@@ -66,7 +66,7 @@ export default {
     moment
   }),
   computed: {
-    ...mapGetters([`connected`, `block`]),
+    ...mapGetters([`connected`, `block`, `lastHeader`]),
     properties() {
       return [
         {
@@ -81,21 +81,37 @@ export default {
       ]
     },
     blockTitle({ num, block } = this) {
+      if (!block.block) return `n/a`
       return `#` + num.prettyInt(block.block.header.height)
     },
     blockTime({ moment, block } = this) {
+      if (!block.block) return `n/a`
       return moment(block.block.header.time).format(`MMM Do YYYY, HH:mm:ss`)
     }
   },
   watch: {
-    $route: `getBlock`
+    "$route.params.height": function() {
+      this.getBlock()
+    }
   },
   mounted() {
     this.getBlock()
   },
   methods: {
-    async getBlock() {
-      await this.$store.dispatch(`queryBlockInfo`, this.$route.params.height)
+    async getBlock({ $store, $route, $router, lastHeader } = this) {
+      // query first for the block so we don't fail if the user started from this route and hasn't received any lastHeader yet
+      const blockInfo = await $store.dispatch(
+        `queryBlockInfo`,
+        $route.params.height
+      )
+
+      if (
+        !blockInfo &&
+        Number($route.params.height) > Number(lastHeader.height)
+      ) {
+        $router.push(`/404`)
+        return
+      }
     }
   }
 }

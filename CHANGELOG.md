@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - [\#2152](https://github.com/cosmos/voyager/pull/2152) Feedback button to collect feedback from users on the page @faboweb
 - [\#2148](https://github.com/cosmos/voyager/pull/2148) readded insecure mode @faboweb
+- [\#2050](https://github.com/cosmos/voyager/pull/2050) forward to /404 on a not found block @faboweb
 
 - Security issue with lodash dependency @faboweb
 
