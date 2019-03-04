@@ -37,49 +37,51 @@ import LiAnyTransaction from "transactions/LiAnyTransaction"
 import time from "scripts/time"
 
 export default {
-  name: `page-transactions`,
-  components: {
-    LiAnyTransaction,
-    DataEmptyTx,
-    TmPage
-  },
-  data: () => ({
-    shortid: shortid,
-    sort: {
-      property: `height`,
-      order: `desc`
-    },
-    validatorURL: `/staking/validators`,
-    governanceURL: `/governance`,
-    time
-  }),
-  computed: {
-    ...mapGetters([
-      `transactions`,
-      `allTransactions`,
-      `session`,
-      `bondDenom`,
-      `delegation`,
-      `delegates`
-    ]),
-    orderedTransactions() {
-      return orderBy(
-        this.allTransactions.map(t => {
-          t.height = parseInt(t.height)
-          return t // TODO what happens if block height is bigger then int?
-        }),
-        [this.sort.property],
-        [this.sort.order]
-      )
-    }
-  },
-  mounted() {
-    this.refreshTransactions()
-  },
-  methods: {
-    async refreshTransactions() {
-      await this.$store.dispatch(`getAllTxs`)
-    }
-  }
+	name: `page-transactions`,
+	components: {
+		LiAnyTransaction,
+		DataEmptyTx,
+		TmPage
+	},
+	data: () => ({
+		shortid: shortid,
+		sort: {
+			property: `height`,
+			order: `desc`
+		},
+		validatorURL: `/staking/validators`,
+		governanceURL: `/governance`,
+		time
+	}),
+	computed: {
+		...mapGetters([
+			`transactions`,
+			`allTransactions`,
+			`session`,
+			`bondDenom`,
+			`delegation`,
+			`delegates`
+		]),
+		orderedTransactions() {
+			return orderBy(
+				this.allTransactions.map(t => {
+					t.height = parseInt(t.height)
+					return t // TODO what happens if block height is bigger then int?
+				}),
+				[this.sort.property],
+				[this.sort.order]
+			)
+		}
+	},
+	mounted() {
+		this.refreshTransactions()
+	},
+	methods: {
+		async refreshTransactions({ $store, session } = this) {
+			if (session.signedIn) {
+				await $store.dispatch(`getAllTxs`)
+			}
+		}
+	}
 }
 </script>

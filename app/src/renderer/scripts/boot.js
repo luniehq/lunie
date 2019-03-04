@@ -18,6 +18,8 @@ import _Node from "../connectors/node"
 import _Store from "../vuex/store"
 import * as urlHelpers from "../../helpers/url.js"
 import _config from "../../config"
+import { enableGoogleAnalytics } from "../google-analytics"
+const _enableGoogleAnalytics = enableGoogleAnalytics
 
 export const routeGuard = store => (to, from, next) => {
   if (from.fullPath !== to.fullPath && !store.getters.session.pauseHistory) {
@@ -52,7 +54,8 @@ export const startApp = async (
   Store = _Store,
   env = process.env,
   Sentry = _Sentry,
-  Vue = _Vue
+  Vue = _Vue,
+  enableGoogleAnalytics = _enableGoogleAnalytics
 ) => {
   Vue.use(Router)
   Vue.use(Tooltip, { delay: 1 })
@@ -87,6 +90,8 @@ export const startApp = async (
     window.addEventListener(`error`, function(event) {
       Sentry.captureException(event.reason)
     })
+
+    enableGoogleAnalytics(config.google_analytics_uid)
   }
 
   const stargate = urlParams.stargate || config.stargate
@@ -101,8 +106,11 @@ export const startApp = async (
 
   router.beforeEach(routeGuard(store))
   
-  if (urlParams.devMode) {
-    store.commit(`setDevMode`)
+  if (urlParams.experimental) {
+    store.commit(`setExperimentalMode`)
+  }
+  if (urlParams.insecure) {
+    store.commit(`setInsecureMode`)
   }
   if (urlParams.rpc) {
     store.commit(`setRpcUrl`, urlParams.rpc)

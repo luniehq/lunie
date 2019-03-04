@@ -5,7 +5,6 @@ import { bankTxs } from "../../store/json/txs"
 describe(`LiBankTransaction`, () => {
   let wrapper
   const propsData = {
-    devMode: true,
     transaction: bankTxs[0],
     address: `cosmos1address`
   }

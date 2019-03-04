@@ -7,7 +7,7 @@ describe(`TmSessionWelcome`, () => {
 
   beforeEach(() => {
     const getters = {
-      session: { accounts, devMode: true },
+      session: { accounts, insecureMode: true },
       lastPage: `/`
     }
     $store = {
@@ -23,13 +23,6 @@ describe(`TmSessionWelcome`, () => {
   })
 
   describe(`header buttons`, () => {
-    it(`should open the help modal on click`, () => {
-      const $store = { commit: jest.fn() }
-      const self = { $store }
-      TmSessionWelcome.methods.help.call(self)
-      expect($store.commit).toHaveBeenCalledWith(`setModalHelp`, true)
-    })
-
     describe(`closes the session modal`, () => {
       it(`without going to prev page`, () => {
         const $store = { commit: jest.fn() }
@@ -44,8 +37,6 @@ describe(`TmSessionWelcome`, () => {
         }
         TmSessionWelcome.methods.closeSession.call(self)
         expect($store.commit).toHaveBeenCalledWith(`toggleSessionModal`, false)
-        expect($store.commit).toHaveBeenCalledWith(`setSessionModalView`, false)
-        expect(self.back).not.toHaveBeenCalled()
       })
 
       it(`going back to prev page`, () => {
@@ -61,44 +52,6 @@ describe(`TmSessionWelcome`, () => {
         }
         TmSessionWelcome.methods.closeSession.call(self)
         expect($store.commit).toHaveBeenCalledWith(`toggleSessionModal`, false)
-        expect($store.commit).toHaveBeenCalledWith(`setSessionModalView`, false)
-        expect(self.back).toHaveBeenCalled()
-      })
-    })
-
-    describe(`back`, () => {
-      it(`goes back to last page`, () => {
-        const $store = { commit: jest.fn() }
-        const self = {
-          $store,
-          lastPage: `/`,
-          $router: {
-            push: jest.fn((_, cb) => {
-              cb()
-            })
-          }
-        }
-        TmSessionWelcome.methods.back.call(self)
-        expect($store.commit).toHaveBeenCalledWith(`pauseHistory`, true)
-        expect(self.$router.push).toHaveBeenCalledWith(
-          `/`,
-          expect.any(Function)
-        )
-        expect($store.commit).toHaveBeenCalledWith(`popHistory`)
-        expect($store.commit).toHaveBeenCalledWith(`pauseHistory`, false)
-      })
-
-      it(`doesn't go back if there's no last Page`, () => {
-        const $store = { commit: jest.fn() }
-        const self = {
-          $store,
-          lastPage: undefined,
-          $router: {
-            push: jest.fn()
-          }
-        }
-        TmSessionWelcome.methods.back.call(self)
-        expect($store.commit).not.toHaveBeenCalledWith(`pauseHistory`, true)
       })
     })
   })
@@ -117,7 +70,7 @@ describe(`TmSessionWelcome`, () => {
   describe(`with accounts`, () => {
     beforeEach(() => {
       const getters = {
-        session: { accounts: [`foo`, `bar`], devMode: true },
+        session: { accounts: [`foo`, `bar`], insecureMode: true },
         lastPage: `/`
       }
       $store = {
