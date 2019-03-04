@@ -94,7 +94,7 @@ export default {
       type: Function,
       default: undefined
     },
-    signinRequired: {
+    signInRequired: {
       type: Boolean,
       default: false
     }

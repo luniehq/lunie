@@ -6,7 +6,7 @@
     :dataset="orderedTransactions"
     :refresh="refreshTransactions"
     data-title="Transactions"
-    :signin-required="true"
+    :sign-in-required="true"
   >
     <data-empty-tx slot="no-data" />
     <template slot="managed-body">
