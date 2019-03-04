@@ -48,4 +48,17 @@ describe(`TmPage`, () => {
 
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
+
+  it(`compose the refresh functions if props wanted to`, () => {
+    const refresh = jest.fn()
+    wrapper = shallowMount(TmPage, {
+      store,
+      localVue,
+      propsData: {
+        refresh
+      }
+    })
+    expect(wrapper.vm.refreshable).toEqual({ connected: true, refresh })
+  })
+
 })
