@@ -1,236 +1,59 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`DelegationModal should display the delegation modal 1`] = `
-<div
-  class="action-modal delegation-modal"
+<action-modal-stub
+  class="delegation-modal"
   id="delegation-modal"
-  name="slide-fade"
+  submissionerrorprefix="Delegating failed"
+  submitfn="function () { [native code] }"
+  title="Delegate"
+  validate="function () { [native code] }"
 >
-  <div
-    class="action-modal-header"
+  <tm-form-group-stub
+    class="action-modal-form-group"
+    fieldid="to"
+    fieldlabel="To"
   >
-    <img
-      class="icon action-modal-atom"
-      src="~assets/images/cosmos-logo.png"
+    <tm-field-stub
+      id="to"
+      readonly=""
+      type="text"
+      value="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
     />
-     
+  </tm-form-group-stub>
+   
+  <tm-form-group-stub
+    class="action-modal-form-group"
+    fieldid="from"
+    fieldlabel="From"
+  >
+    <tm-field-stub
+      id="from"
+      options="[object Object],[object Object],[object Object]"
+      title="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      type="select"
+      value="0"
+    />
+  </tm-form-group-stub>
+   
+  <tm-form-group-stub
+    class="action-modal-form-group"
+    fieldid="amount"
+    fieldlabel="Amount"
+  >
     <span
-      class="action-modal-title"
+      class="input-suffix"
     >
-      
-        Delegate
-      
+      STAKE
     </span>
      
-    <div
-      class="action-modal-icon action-modal-close"
-      id="closeBtn"
-    >
-      <i
-        class="material-icons"
-      >
-        close
-      </i>
-    </div>
-  </div>
-   
-  <div
-    class="action-modal-form"
-  >
-    <div
-      class="action-modal-form-group tm-form-group"
-    >
-      <!---->
-      <label
-        class="tm-form-group__label"
-        for="to"
-      >
-        
-    To
-  
-      </label>
-       
-      <div
-        class="tm-form-group__field"
-      >
-        <input
-          class="tm-field"
-          id="to"
-          readonly="readonly"
-          type="text"
-        />
-      </div>
-    </div>
-     
-    <div
-      class="action-modal-form-group tm-form-group"
-    >
-      <!---->
-      <label
-        class="tm-form-group__label"
-        for="from"
-      >
-        
-    From
-  
-      </label>
-       
-      <div
-        class="tm-form-group__field"
-      >
-        <div
-          class="tm-select"
-          id="from"
-          title="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
-        >
-          <select
-            class="tm-field tm-field-select"
-          >
-            <option
-              disabled="disabled"
-              hidden="hidden"
-              selected="selected"
-              value=""
-            >
-              
-      Select option...
-    
-            </option>
-             
-            <option
-              value="0"
-            >
-              
-        My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9
-      
-            </option>
-            <option
-              value="1"
-            >
-              
-        Billy the Bill - cosmos…psjr9565ef72pv9g20yx
-      
-            </option>
-            <option
-              value="2"
-            >
-              
-        Kentucky - cosmos…np9rldprgant57ryzag7
-      
-            </option>
-          </select>
-           
-          <div
-            class="tm-field-select-addon"
-          >
-            <i
-              class="material-icons"
-            >
-              arrow_drop_down
-            </i>
-          </div>
-        </div>
-      </div>
-    </div>
-     
-    <div
-      class="action-modal-form-group tm-form-group"
-    >
-      <!---->
-      <label
-        class="tm-form-group__label"
-        for="amount"
-      >
-        
-    Amount
-  
-      </label>
-       
-      <div
-        class="tm-form-group__field"
-      >
-        <span
-          class="input-suffix"
-        >
-          STAKE
-        </span>
-         
-        <input
-          class="tm-field"
-          id="amount"
-          placeholder="Amount"
-          type="number"
-        />
-         
-        <!---->
-      </div>
-    </div>
+    <tm-field-stub
+      id="amount"
+      placeholder="Amount"
+      type="number"
+    />
      
     <!---->
-     
-    <div
-      class="action-modal-group tm-form-group"
-    >
-      <!---->
-      <label
-        class="tm-form-group__label"
-        for="password"
-      >
-        
-    Password
-  
-      </label>
-       
-      <div
-        class="tm-form-group__field"
-      >
-        <input
-          class="tm-field"
-          id="password"
-          placeholder="Password"
-          type="password"
-        />
-         
-        <!---->
-      </div>
-    </div>
-  </div>
-   
-  <div
-    class="action-modal-footer"
-  >
-    <div
-      class="action-modal-group tm-form-group"
-    >
-      <!---->
-      <!---->
-       
-      <div
-        class="tm-form-group__field"
-      >
-        <div
-          class="action-modal-footer"
-        >
-          <button
-            class="tm-btn"
-            disabled="disabled"
-          >
-            <span
-              class="tm-btn__container tm-btn--primary"
-            >
-              <!---->
-              <span
-                class="tm-btn__value"
-              >
-                Connecting...
-              </span>
-            </span>
-          </button>
-        </div>
-      </div>
-    </div>
-     
-    <!---->
-  </div>
-</div>
+  </tm-form-group-stub>
+</action-modal-stub>
 `;

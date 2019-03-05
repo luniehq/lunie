@@ -1,17 +1,15 @@
 "use strict"
 
-import setup from "../../../helpers/vuex-setup"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
 import DelegationModal from "staking/DelegationModal"
 import Vuelidate from "vuelidate"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`DelegationModal`, () => {
-  let wrapper, store
+  let wrapper
   const { stakingParameters } = lcdClientMock.state
-  const { mount, localVue } = setup()
+  const localVue = createLocalVue()
   localVue.use(Vuelidate)
-  localVue.directive(`tooltip`, () => { })
-  localVue.directive(`focus`, () => { })
 
   const getters = {
     connection: { connected: true },
@@ -20,13 +18,15 @@ describe(`DelegationModal`, () => {
       address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
     },
     delegates: { delegates: lcdClientMock.state.candidates },
-    stakingParameters
+    stakingParameters: { parameters: stakingParameters }
   }
 
   beforeEach(() => {
-    const instance = mount(DelegationModal, {
+    wrapper = shallowMount(DelegationModal, {
       localVue,
-      $store: { getters },
+      mocks: {
+        $store: { getters }
+      },
       propsData: {
         validator: lcdClientMock.state.candidates[0],
         fromOptions: [
@@ -53,13 +53,6 @@ describe(`DelegationModal`, () => {
         denom: stakingParameters.parameters.bond_denom
       }
     })
-    wrapper = instance.wrapper
-    store = instance.store
-    store.state.delegates.delegates = lcdClientMock.state.candidates
-    store.commit(`setStakingParameters`, stakingParameters.parameters)
-    store.commit(`setSignIn`, true)
-
-    wrapper.vm.$refs.actionModal.open()
   })
 
   it(`should display the delegation modal`, async () => {
