@@ -8,7 +8,9 @@
         <div class="tm-session-title">
           Sign In
         </div>
-        <a @click="help"> <i class="material-icons">help_outline</i> </a>
+        <a @click="$store.commit(`toggleSessionModal`, false)">
+          <i class="material-icons">close</i>
+        </a>
       </div>
       <div class="tm-session-main">
         <hardware-state
@@ -53,9 +55,6 @@ export default {
     connectionError: null
   }),
   methods: {
-    help() {
-      this.$store.commit(`setModalHelp`, true)
-    },
     setState(value) {
       this.$store.commit(`setSessionModalView`, value)
     },

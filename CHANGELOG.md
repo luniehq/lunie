@@ -7,8 +7,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.13] - 2019-03-05
+
+### Added
+
+- [\#2152](https://github.com/cosmos/voyager/pull/2152) Feedback button to collect feedback from users on the page @faboweb
+- [\#2148](https://github.com/cosmos/voyager/pull/2148) readded insecure mode @faboweb
+- [\#2050](https://github.com/cosmos/voyager/pull/2050) forward to /404 on a not found block @faboweb
+
+- Security issue with lodash dependency @faboweb
+
+## [1.0.0-beta.12] - 2019-03-04
+
+## [1.0.0-beta.11] - 2019-03-02
+
 ### Changed
 
+- [\#1887](https://github.com/cosmos/voyager/issues/1887) Activating Google Analytics anonymized by default @faboweb
 - [\#2098](https://github.com/cosmos/voyager/issues/2098) rename devMode url flag to insecure @faboweb
 - [\#1884](https://github.com/cosmos/voyager/issues/1884) Readded the possibility of e2e tests @faboweb
 
@@ -36,6 +51,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
+- [\#1982](https://github.com/cosmos/voyager/issues/1982) Session screens are proper modals @jbibla
+
 - [\#1337](https://github.com/cosmos/voyager/issues/1337) Refactor tests: PageValidator @faboweb
 
 ## [1.0.0-beta.8] - 2019-02-27
@@ -45,6 +62,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1032](https://github.com/cosmos/voyager/issues/1032) added several events to google analytics @faboweb
 - [\#1630](https://github.com/cosmos/voyager/issues/1630) added memo "Sent via Cosmos UI" to distinguish txs sent via UI @faboweb
 - [\#2035](https://github.com/cosmos/voyager/issues/2035) Distribution vuex module @fedekunze
+- [\#2088](https://github.com/cosmos/voyager/issues/2088) Faucet button @sabau
 
 ### Fixed
 
