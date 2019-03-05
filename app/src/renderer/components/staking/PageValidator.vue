@@ -8,11 +8,11 @@
             v-if="validator.keybase"
             :src="validator.keybase.avatarUrl"
             class="avatar"
-          /><img
+          ><img
             v-else
             class="avatar"
             src="~assets/images/validator-icon.svg"
-          />
+          >
 
           <div class="page-profile__header__info">
             <div>

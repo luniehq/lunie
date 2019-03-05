@@ -30,7 +30,7 @@
     id="tm-disconnected-network"
     class="tm-connected-network tm-disconnected-network"
   >
-    <img class="tm-connected-network-loader" src="~assets/images/loader.svg" />
+    <img class="tm-connected-network-loader" src="~assets/images/loader.svg">
     <div
       v-tooltip.top="networkTooltip"
       class="tm-connected-network__string tm-connected-network__string--connecting"
