@@ -27,10 +27,6 @@ export default ({ node }) => {
         state.loaded = true
         commit(`setProposalDeposits`, proposalId, deposits)
       } catch (error) {
-        commit(`notifyError`, {
-          title: `Error fetching deposits on proposals`,
-          body: error.message
-        })
         Sentry.captureException(error)
         state.error = error
       }
