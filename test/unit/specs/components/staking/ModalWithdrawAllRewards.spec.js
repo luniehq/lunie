@@ -31,7 +31,7 @@ describe(`ModalWithdrawAllRewards`, () => {
     expect(valid).toBe(true)
   })
 
-  it(`opens`, () => {
+  it(`opens the action modal`, () => {
     const $refs = { actionModal: { open: jest.fn() } }
     ModalWithdrawAllRewards.methods.open.call({ $refs })
     expect($refs.actionModal.open).toHaveBeenCalled()
