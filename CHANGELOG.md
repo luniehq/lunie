@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
+- [\#1897](https://github.com/cosmos/voyager/issues/1897) made action modals smaller @jbibla
 - [\#2043](https://github.com/cosmos/voyager/issues/2043) removed no-balance modals on staking page @fedekunze
 
 ### Fixed
@@ -26,8 +27,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#2148](https://github.com/cosmos/voyager/pull/2148) readded insecure mode @faboweb
 - [\#2151](https://github.com/cosmos/voyager/pull/2151) A "You need to sign in" card component @faboweb
 - [\#2152](https://github.com/cosmos/voyager/pull/2152) Feedback button to collect feedback from users on the page @faboweb
-
-### Changed
 
 ### Fixed
 
