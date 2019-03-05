@@ -26,7 +26,7 @@ describe(`ModalWithdrawAllRewards`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-// ActionModal requires a `validate` function which in the case of this modal is always valid
+  // ActionModal requires a `validate` function which in the case of this modal is always valid
   it(`form is always valid`, () => {
     const valid = ModalWithdrawAllRewards.methods.isValid.call()
     expect(valid).toBe(true)
