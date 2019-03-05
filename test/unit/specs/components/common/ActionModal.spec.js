@@ -191,6 +191,12 @@ describe(`ActionModal`, () => {
       expect(self.submit).not.toHaveBeenCalled()
     })
 
+    it(`should default to positive validation`, async () => {
+      self.validate = undefined
+      await ActionModal.methods.validateChangeStep.call(self)
+      expect(self.submit).toHaveBeenCalled()
+    })
+
     it(`fails validation if the password is missing`, async () => {
       wrapper.setData({ password: null })
       await wrapper.vm.validateChangeStep()

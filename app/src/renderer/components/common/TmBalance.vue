@@ -9,6 +9,7 @@
         <h2 class="total-atoms__value">
           {{ num.shortNumber(num.atoms(totalAtoms)) }}
         </h2>
+        <short-bech32 :address="session.address || ''" />
       </div>
       <div v-if="unbondedAtoms" class="unbonded-atoms top-section">
         <h3>Available {{ bondDenom }}</h3>
@@ -17,20 +18,33 @@
       <div v-if="rewards" class="top-section">
         <h3>Total Rewards</h3>
         <h2>{{ rewards }}</h2>
+        <tm-btn
+          id="withdraw-btn"
+          class="withdraw-rewards"
+          :value="connected ? 'Withdraw' : 'Connecting...'"
+          :to="''"
+          type="link"
+          size="sm"
+          @click.native="onWithdrawal"
+        />
       </div>
     </div>
-    <short-bech32 :address="session.address || ''" />
     <slot />
+    <modal-withdraw-all-rewards ref="modalWithdrawAllRewards" />
   </div>
 </template>
 <script>
 import num from "scripts/num"
 import ShortBech32 from "common/ShortBech32"
+import TmBtn from "common/TmBtn"
+import ModalWithdrawAllRewards from "staking/ModalWithdrawAllRewards"
 import { mapGetters } from "vuex"
 export default {
   name: `tm-balance`,
   components: {
-    ShortBech32
+    ShortBech32,
+    TmBtn,
+    ModalWithdrawAllRewards
   },
   data() {
     return {
@@ -39,6 +53,7 @@ export default {
   },
   computed: {
     ...mapGetters([
+      `connected`,
       `session`,
       `liquidAtoms`,
       `totalAtoms`,
@@ -49,11 +64,15 @@ export default {
       return this.num.shortNumber(this.num.atoms(this.liquidAtoms))
     },
     rewards() {
-      return  this.num.shortNumber(
-        this.num.atoms(
-          this.distribution.totalRewards[this.bondDenom] || 0
-        )
+      const rewards = this.distribution.totalRewards[this.bondDenom]
+      return this.num.shortNumber(
+        this.num.atoms(rewards && rewards > 10 ? rewards : 0)
       )
+    }
+  },
+  methods: {
+    onWithdrawal() {
+      this.$refs.modalWithdrawAllRewards.open()
     }
   }
 }
@@ -78,6 +97,7 @@ export default {
 
 .header-balance .top > .top-section {
   border-right: var(--bc-dim) 1px solid;
+  position: relative;
 }
 
 .header-balance .top > div:last-of-type {
@@ -121,13 +141,9 @@ export default {
   padding-left: 10px;
 }
 
-.header-balance .short-bech32 {
-  padding: 0.5rem 0 0.5rem 109px;
-}
-
-.tm-btn {
+.withdraw-rewards {
+  font-size: var(--sm);
   position: absolute;
-  right: 1rem;
-  bottom: 1rem;
+  font-weight: 300;
 }
 </style>
