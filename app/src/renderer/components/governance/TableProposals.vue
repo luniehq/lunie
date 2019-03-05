@@ -2,7 +2,10 @@
   <div>
     <table class="data-table">
       <thead>
-        <panel-sort :sort="sort" :properties="properties" />
+        <panel-sort
+          :sort="sort"
+          :properties="properties"
+        />
       </thead>
       <tbody>
         <li-proposal
@@ -35,15 +38,24 @@ export default {
   data: () => ({
     query: ``,
     sort: {
-      property: `proposal_id`,
+      property: `id`,
       order: `desc`
     }
   }),
   computed: {
     ...mapGetters([`session`]),
+    enrichedProposals() {
+      if (!this.proposals) return []
+
+      const copy = JSON.parse(JSON.stringify(this.proposals))
+      Object.keys(copy).forEach(proposal_id => {
+        copy[proposal_id].id = Number(proposal_id)
+      })
+      return copy
+    },
     filteredProposals() {
       const proposals = orderBy(
-        this.proposals,
+        this.enrichedProposals,
         [this.sort.property],
         [this.sort.order]
       )
@@ -60,7 +72,7 @@ export default {
         },
         {
           title: `Proposal Id`,
-          value: `proposal_id`,
+          value: `id`,
           tooltip: `Id of the proposal`,
           class: `proposal_id`
         },
