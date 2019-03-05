@@ -64,10 +64,6 @@ export default {
 }
 </script>
 <style>
-.tm-page-header-text {
-  padding-right: 1rem;
-}
-
 .tool-bar {
   display: flex;
   align-items: center;

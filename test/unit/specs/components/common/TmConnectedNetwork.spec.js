@@ -2,7 +2,7 @@ import { shallowMount, createLocalVue } from "@vue/test-utils"
 import TmConnectedNetwork from "common/TmConnectedNetwork"
 
 const localVue = createLocalVue()
-localVue.directive(`tooltip`, () => {})
+localVue.directive(`tooltip`, () => { })
 
 describe(`TmConnectedNetwork`, () => {
   let wrapper, $store
@@ -30,15 +30,6 @@ describe(`TmConnectedNetwork`, () => {
 
   it(`has the expected html structure`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
-  })
-
-  it(`has a network icon`, () => {
-    expect(
-      wrapper
-        .find(`#tm-connected-network__icon i.material-icons`)
-        .text()
-        .trim()
-    ).toBe(`lock`)
   })
 
   it(`has a network string`, () => {

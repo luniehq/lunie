@@ -192,16 +192,14 @@ export default {
 }
 
 .page-profile__status-and-title {
-  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .page-profile__status {
   border-radius: 50%;
   display: inline-block;
   height: 0.5rem;
-  left: -1rem;
-  top: 1rem;
-  position: absolute;
   width: 0.5rem;
 }
 
@@ -209,9 +207,8 @@ export default {
   color: #fff;
   display: inline-block;
   font-size: var(--h1);
-  line-height: var(--h1);
   font-weight: 400;
-  padding: 0 0.5rem 0.5rem 0;
+  padding: 0 0.5rem;
 }
 
 .page-profile__header__actions {
