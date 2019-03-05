@@ -317,8 +317,6 @@ exports[`PageValidator shows a validator profile information errors signing info
     to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
     validator="[object Object]"
   />
-   
-  <!---->
 </tm-page-stub>
 `;
 
@@ -639,8 +637,6 @@ exports[`PageValidator shows a validator profile information if user has signed 
     to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
     validator="[object Object]"
   />
-   
-  <!---->
 </tm-page-stub>
 `;
 
@@ -961,8 +957,6 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
     to=""
     validator="[object Object]"
   />
-   
-  <!---->
 </tm-page-stub>
 `;
 

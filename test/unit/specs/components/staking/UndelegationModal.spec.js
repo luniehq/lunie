@@ -71,35 +71,37 @@ describe(`UndelegationModal`, () => {
     })
   })
 
-  describe(`Undelegate`, () => {
+  describe(`submitForm`, () => {
     it(`submits undelegation`, async () => {
-      wrapper.vm.$store.dispatch = jest.fn()
-      wrapper.vm.$store.commit = jest.fn()
+      const $store = {
+        dispatch: jest.fn(),
+        commit: jest.fn()
+      }
+      const validator = {
+        operator_address: `cosmosvaloper1address`,
+      }
 
       wrapper.setData({ amount: 4.2 })
-      await wrapper.vm.submitForm(`local`, `1234567890`)
+      await UndelegationModal.methods.submitForm.call(
+        { $store, amount: 4.2, denom: `atom`, validator },
+        `local`, `1234567890`
+      )
 
-      expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
-        [
-          `submitUnbondingDelegation`,
-          {
-            amount: -42000000,
-            validator,
-            submitType: `local`,
-            password: `1234567890`
-          }
-        ]
-      ])
+      expect($store.dispatch).toHaveBeenCalledWith(`submitUnbondingDelegation`,
+        {
+          amount: -42000000,
+          validator,
+          submitType: `local`,
+          password: `1234567890`
+        }
+      )
 
-      expect(wrapper.vm.$store.commit.mock.calls).toEqual([
-        [
-          `notify`,
-          {
-            body: `You have successfully undelegated 4.2 STAKEs.`,
-            title: `Successful undelegation!`
-          }
-        ]
-      ])
+      expect($store.commit).toHaveBeenCalledWith(`notify`,
+        {
+          body: `You have successfully undelegated 4.2 atoms.`,
+          title: `Successful undelegation!`
+        }
+      )
     })
   })
 })
