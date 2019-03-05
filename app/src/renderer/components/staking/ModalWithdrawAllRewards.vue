@@ -13,8 +13,12 @@
       field-label="Amount"
     >
       <span class="input-suffix">{{ bondDenom }}</span>
-      <tm-field id="amount" v-model="totalRewards" type="number"
-readonly />
+      <tm-field
+        id="amount"
+        v-model="totalRewards"
+        type="number"
+        readonly
+      />
     </tm-form-group>
   </action-modal>
 </template>
