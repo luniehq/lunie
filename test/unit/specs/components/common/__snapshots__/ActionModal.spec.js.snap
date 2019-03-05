@@ -103,7 +103,7 @@ exports[`ActionModal has the expected html structure when user has logged in wit
       icon="usb"
     >
       
-        Please unlock the Cosmos app on yourLedger Nano S
+        Please unlock the Cosmos app on your Ledger Nano S
       
     </hardware-state-stub>
   </div>

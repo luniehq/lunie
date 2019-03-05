@@ -5,7 +5,7 @@
         <img
           class="icon action-modal-atom"
           src="~assets/images/cosmos-logo.png"
-        >
+        />
         <span class="action-modal-title">
           {{ session.signedIn ? title : `Sign in required` }}
         </span>
@@ -61,7 +61,7 @@
           Waiting for signature on app
         </hardware-state>
         <hardware-state v-else icon="usb">
-          Please unlock the Cosmos app on yourLedger&nbsp;Nano&nbsp;S
+          Please unlock the Cosmos app on your Ledger&nbsp;Nano&nbsp;S
         </hardware-state>
       </div>
       <div class="action-modal-footer">
