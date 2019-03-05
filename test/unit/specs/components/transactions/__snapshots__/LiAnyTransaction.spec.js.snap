@@ -8,7 +8,7 @@ exports[`LiAnyTransaction shows bank transactions 1`] = `
 `;
 
 exports[`LiAnyTransaction shows distribution transactions 1`] = `
-<li-distr-transaction-stub
+<li-distribution-transaction-stub
   bondingdenom="atom"
   transaction="[object Object]"
   txtype="cosmos-sdk/MsgWithdrawDelegationReward"
@@ -27,9 +27,9 @@ exports[`LiAnyTransaction shows governance transactions 1`] = `
 
 exports[`LiAnyTransaction shows staking transactions 1`] = `
 <li-stake-transaction-stub
-  bondingdenom="atom"
+  bonding-denom="atom"
   transaction="[object Object]"
-  txtype="cosmos-sdk/MsgCreateValidator"
+  tx-type="cosmos-sdk/MsgCreateValidator"
   url="/validators"
   validators="[object Object],[object Object]"
 />
