@@ -7,7 +7,12 @@ exports[`ModalWithdrawAllRewards should show the withdraw rewards modal 1`] = `
   submissionerrorprefix="Withdrawal failed"
   submitfn="function () { [native code] }"
   title="Withdraw Rewards"
-  validate="function () { [native code] }"
+  validate="function _default() {
+          /* istanbul ignore next */
+          cov_2ojnrho1tv.f[2]++;
+          cov_2ojnrho1tv.s[29]++;
+          return true;
+        }"
 >
   <tm-form-group-stub
     class="action-modal-form-group"

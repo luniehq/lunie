@@ -3,8 +3,7 @@
     id="modal-withdraw-all-rewards"
     ref="actionModal"
     :submit-fn="submitForm"
-    :validate="isValid"
-    title="Withdraw Rewards" 
+    title="Withdraw Rewards"
     class="modal-withdraw-rewards"
     submission-error-prefix="Withdrawal failed"
   >
@@ -14,12 +13,8 @@
       field-label="Amount"
     >
       <span class="input-suffix">{{ bondDenom }}</span>
-      <tm-field
-        id="amount"
-        v-model="totalRewards"
-        type="number"
-        readonly
-      />
+      <tm-field id="amount" v-model="totalRewards" type="number"
+readonly />
     </tm-form-group>
   </action-modal>
 </template>
@@ -46,9 +41,6 @@ export default {
     }
   },
   methods: {
-    isValid() {
-      return true
-    },
     open() {
       this.$refs.actionModal.open()
     },

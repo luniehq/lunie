@@ -57,7 +57,11 @@
         </tm-form-group>
       </div>
       <div v-else-if="step === `sign`" class="action-modal-form">
-        <hardware-state v-if="sending" :loading="true" value="Waiting for signature on app" />
+        <hardware-state
+          v-if="sending"
+          :loading="true"
+          value="Waiting for signature on app"
+        />
         <hardware-state
           v-else
           icon="usb"
@@ -161,7 +165,7 @@ export default {
     },
     validate: {
       type: Function,
-      required: true
+      default: () => true
     },
     submissionErrorPrefix: {
       type: String,
