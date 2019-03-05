@@ -25,7 +25,7 @@
       @show-modal="showModal"
     />
     <tm-btn
-      v-if="enableFaucet"
+      v-if="session.signedIn && enableFaucet"
       slot="header-buttons"
       value="Get Tokens"
       color="green"
