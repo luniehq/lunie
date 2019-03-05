@@ -8,23 +8,27 @@
             v-if="validator.keybase"
             :src="validator.keybase.avatarUrl"
             class="avatar"
-          ><img
+          /><img
             v-else
             class="avatar"
             src="~assets/images/validator-icon.svg"
-          >
+          />
 
           <div class="page-profile__header__info">
-            <div class="page-profile__status-and-title">
-              <span
-                v-tooltip.top="status"
-                :class="statusColor"
-                class="page-profile__status"
-              />
-              <div class="page-profile__title">
-                {{ validator.description.moniker }}
+            <div>
+              <div>
+                <div class="page-profile__status-and-title">
+                  <span
+                    v-tooltip.top="status"
+                    :class="statusColor"
+                    class="page-profile__status"
+                  />
+                  <div class="page-profile__title">
+                    {{ validator.description.moniker }}
+                  </div>
+                </div>
+                <short-bech32 :address="validator.operator_address" />
               </div>
-              <short-bech32 :address="validator.operator_address" />
             </div>
 
             <div class="page-profile__header__actions">
