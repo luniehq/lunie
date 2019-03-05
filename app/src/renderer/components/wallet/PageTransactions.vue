@@ -61,7 +61,8 @@ export default {
       `session`,
       `bondDenom`,
       `delegation`,
-      `delegates`
+      `delegates`,
+      `lastHeader`
     ]),
     orderedTransactions() {
       return orderBy(
@@ -72,6 +73,14 @@ export default {
         [this.sort.property],
         [this.sort.order]
       )
+    }
+  },
+  watch: {
+    lastHeader: {
+      immediate: true,
+      handler() {
+        this.refreshTransactions()
+      }
     }
   },
   mounted() {
