@@ -119,23 +119,6 @@ export default ({ node }) => {
       }
       state.loading = false
     },
-    async withdrawRewardsFromValidator(
-      { rootState: { wallet }, commit, dispatch },
-      { validatorAddr, password, submitType }
-    ) {
-      await dispatch(`sendTx`, {
-        type: `postWithdrawDelegatorRewardsFromValidator`,
-        to: wallet.address,
-        pathParameter: validatorAddr,
-        password,
-        submitType
-      })
-      // optimistic update
-      commit(`setDelegationRewards`, { validatorAddr, rewards: {} })
-      // update rewards
-      await dispatch(`getTotalRewards`)
-      await dispatch(`getRewardsFromValidator`, validatorAddr)
-    },
     // TODO: move to a common parameters module
     async getDistributionParameters({ commit }) {
       state.loading = true

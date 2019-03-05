@@ -72,7 +72,6 @@
 </template>
 
 <script>
-import ClickOutside from "vue-click-outside"
 import { mapGetters } from "vuex"
 import { uatoms, atoms } from "../../scripts/num.js"
 import { between, decimal } from "vuelidate/lib/validators"
@@ -83,9 +82,6 @@ import TmFormMsg from "common/TmFormMsg"
 
 export default {
   name: `undelegation-modal`,
-  directives: {
-    ClickOutside
-  },
   components: {
     ActionModal,
     TmField,
