@@ -14,9 +14,9 @@
       <slot slot="header-buttons" name="header-buttons" />
     </tm-page-header>
     <main class="tm-page-main">
-      <template v-if="this.$slots['managed-body']">
-        <card-sign-in-required v-if="signinRequired && !session.signedIn" />
-        <tm-data-connecting v-else-if="!loaded && !connected" />
+      <card-sign-in-required v-if="signInRequired && !session.signedIn" />
+      <template v-if="this.$slots['managed-body'] && session.signedIn">
+        <tm-data-connecting v-if="!loaded && !connected" />
         <tm-data-loading v-else-if="!loaded && loading" />
         <tm-data-error v-else-if="error" />
         <slot
