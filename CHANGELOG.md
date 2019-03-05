@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+
+- votes showing wrong amount @faboweb
+- depositing less then 1 atom not possible @faboweb
+
 ## [1.0.0-beta.13] - 2019-03-05
 
 ### Added

@@ -65,7 +65,11 @@
       field-label="Amount"
     >
       <span class="input-suffix">{{ denom }}</span>
-      <tm-field id="amount" v-model="amount" type="number" />
+      <tm-field
+        id="amount"
+        v-model="amount"
+        type="number"
+      />
       <tm-form-msg
         v-if="balance === 0"
         :msg="`doesn't have any ${denom}s`"
@@ -169,7 +173,7 @@ export default {
       amount: {
         required: x => !!x && x !== `0`,
         decimal,
-        between: between(this.balance ? 1 : 0, atoms(this.balance))
+        between: between(0, atoms(this.balance))
       }
     }
   },
