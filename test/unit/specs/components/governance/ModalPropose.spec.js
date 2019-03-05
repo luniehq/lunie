@@ -48,6 +48,17 @@ describe(`ModalPropose`, () => {
     expect(wrapper.vm.$refs.actionModal.open).toHaveBeenCalled()
   })
 
+  // do when refactoring the test
+  xit(`clears on close`, () => {
+    wrapper.vm.$v.$reset = jest.fn()
+    wrapper.setData({ title: `test`, description: `test`, amount: 5 })
+    wrapper.vm.close()
+    expect(wrapper.vm.$v.$reset).toHaveBeenCalled()
+    expect(wrapper.vm.title).toBe(``)
+    expect(wrapper.vm.description).toBe(``)
+    expect(wrapper.vm.amount).toBe(0)
+  })
+
   describe(`default values are set correctly`, () => {
     it(`the proposal type defaults to 'Text'`, () => {
       expect(wrapper.vm.type).toEqual(`Text`)

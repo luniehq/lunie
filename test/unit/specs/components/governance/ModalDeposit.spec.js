@@ -50,6 +50,15 @@ describe(`ModalDeposit`, () => {
     expect(wrapper.vm.$refs.actionModal.open).toHaveBeenCalled()
   })
 
+  // do when refactoring the test
+  xit(`clears on close`, () => {
+    wrapper.vm.$v.$reset = jest.fn()
+    wrapper.setData({ amount: 25 })
+    wrapper.vm.close()
+    expect(wrapper.vm.$v.$reset).toHaveBeenCalled()
+    expect(wrapper.vm.amount).toBe(0)
+  })
+
   describe(`validation`, () => {
     describe(`fails`, () => {
       it(`with default values`, () => {

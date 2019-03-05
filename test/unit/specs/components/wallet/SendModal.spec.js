@@ -58,6 +58,16 @@ describe(`SendModal`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
+  // do when refactoring the test
+  xit(`clears on close`, () => {
+    wrapper.vm.$v.$reset = jest.fn()
+    wrapper.setData({ address: `test`, amount: 5 })
+    wrapper.vm.close()
+    expect(wrapper.vm.$v.$reset).toHaveBeenCalled()
+    expect(wrapper.vm.address).toBe(``)
+    expect(wrapper.vm.amount).toBe(0)
+  })
+
   describe(`validation`, () => {
     it(`should show address required error`, async () => {
       wrapper.setData({

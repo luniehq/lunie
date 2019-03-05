@@ -39,6 +39,15 @@ describe(`ModalVote`, () => {
     expect(wrapper.vm.$refs.actionModal.open).toHaveBeenCalled()
   })
 
+  // do when refactoring the test
+  xit(`clears on close`, () => {
+    wrapper.vm.$v.$reset = jest.fn()
+    wrapper.setData({ vote: `yes` })
+    wrapper.vm.close()
+    expect(wrapper.vm.$v.$reset).toHaveBeenCalled()
+    expect(wrapper.vm.vote).toBe(null)
+  })
+
   describe(`validation`, () => {
     it(`fails`, () => {
       wrapper.vm.submitForm = jest.fn()

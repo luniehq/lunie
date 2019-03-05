@@ -1,5 +1,6 @@
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
+import BigNumber from "bignumber.js"
 
 export const setProposalTally = (commit, node) => async ({ value }) => {
   commit(`setProposal`, value)
@@ -97,7 +98,7 @@ export default ({ node }) => {
         const oldBalance = wallet.balances.find(balance => balance.denom === denom)
         commit(`updateWalletBalance`, {
           denom,
-          amount: oldBalance.amount - amount
+          amount: BigNumber(oldBalance.amount).minus(amount).toNumber()
         })
       })
 

@@ -66,6 +66,16 @@ describe(`DelegationModal`, () => {
     expect(wrapper.vm.$refs.actionModal.open).toHaveBeenCalled()
   })
 
+  // do when refactoring the test
+  xit(`clears on close`, () => {
+    wrapper.vm.$v.$reset = jest.fn()
+    wrapper.setData({ selectedIndex: 1, amount: 5 })
+    wrapper.vm.close()
+    expect(wrapper.vm.$v.$reset).toHaveBeenCalled()
+    expect(wrapper.vm.selectedIndex).toBe(0)
+    expect(wrapper.vm.amount).toBe(null)
+  })
+
   describe(`validation`, () => {
     describe(`fails`, () => {
       it(`with default values`, () => {
