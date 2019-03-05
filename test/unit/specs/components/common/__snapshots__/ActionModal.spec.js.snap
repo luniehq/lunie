@@ -48,9 +48,7 @@ exports[`ActionModal has the expected html structure when user has logged in wit
     <tm-form-group-stub
       class="action-modal-group"
     >
-      <div
-        class="action-modal-footer"
-      >
+      <div>
         <tm-btn-stub
           color="primary"
           value="Next"
@@ -114,9 +112,7 @@ exports[`ActionModal has the expected html structure when user has logged in wit
     <tm-form-group-stub
       class="action-modal-group"
     >
-      <div
-        class="action-modal-footer"
-      >
+      <div>
         <tm-btn-stub
           color="primary"
           value="Sign"
@@ -189,9 +185,7 @@ exports[`ActionModal has the expected html structure when user has logged in wit
     <tm-form-group-stub
       class="action-modal-group"
     >
-      <div
-        class="action-modal-footer"
-      >
+      <div>
         <tm-btn-stub
           color="primary"
           value="Submit"
@@ -251,9 +245,7 @@ exports[`ActionModal has the expected html structure when user hasn't logged in 
     <tm-form-group-stub
       class="action-modal-group"
     >
-      <div
-        class="action-modal-footer"
-      >
+      <div>
         <tm-btn-stub
           color="primary"
           icon="navigate_next"

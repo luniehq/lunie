@@ -64,10 +64,11 @@
           Please unlock the Cosmos app on your Ledger&nbsp;Nano&nbsp;S
         </hardware-state>
       </div>
+
       <div class="action-modal-footer">
         <slot name="action-modal-footer">
           <tm-form-group class="action-modal-group">
-            <div class="action-modal-footer">
+            <div>
               <tm-btn
                 v-if="!session.signedIn"
                 value="Go to Sign In"
@@ -161,7 +162,7 @@ export default {
     },
     validate: {
       type: Function,
-      required: true
+      default: undefined
     },
     submissionErrorPrefix: {
       type: String,
@@ -226,7 +227,7 @@ export default {
 
       // An ActionModal is only the prototype of a parent modal
       // here we trigger the validation of the form that this parent modal
-      const childFormValid = this.validate()
+      const childFormValid = this.validate ? this.validate() : true
       // const ledgerT = this.selectedSignMethod === signWithLedger &&
       //       this.step === signStep &&
       //       this.ledger.isConnected
@@ -281,11 +282,11 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   right: 2rem;
-  padding: 3rem;
+  padding: 1.5rem 1.5rem 2rem 1.5rem;
   position: fixed;
   bottom: 0;
   width: 100%;
-  max-width: 664px;
+  max-width: 564px;
   z-index: var(--z-modal);
   border-top-left-radius: 0.25rem;
   border-top-right-radius: 0.25rem;
@@ -295,7 +296,7 @@ export default {
 .action-modal-header {
   align-items: center;
   display: flex;
-  padding-bottom: 2rem;
+  padding-bottom: 1.5rem;
 }
 
 .action-modal-atom {
@@ -331,18 +332,22 @@ export default {
 
 .action-modal-form .tm-form-group {
   display: block;
-  padding: 0.5rem 0 1rem;
+  padding: 0.75rem 0;
 }
 
 .action-modal-footer {
   display: flex;
   justify-content: flex-end;
-  padding: 2rem 0 0;
+  padding: 1.5rem 0 1rem;
+}
+
+.action-modal-footer .tm-form-group {
+  padding: 0;
 }
 
 .submission-error {
   position: absolute;
-  right: 3rem;
+  left: 1.5rem;
   bottom: 1rem;
 }
 

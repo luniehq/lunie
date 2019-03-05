@@ -5,6 +5,7 @@ exports[`PageWallet has the expected html structure 1`] = `
   data-title="Wallet"
   dataset="[object Object],[object Object],[object Object]"
   refresh="function () { [native code] }"
+  signinrequired="true"
   subtitle=""
   title=""
 >
@@ -56,6 +57,7 @@ exports[`PageWallet should show the sending modal 1`] = `
   data-title="Wallet"
   dataset=""
   refresh="function () { [native code] }"
+  signinrequired="true"
   subtitle=""
   title=""
 >
