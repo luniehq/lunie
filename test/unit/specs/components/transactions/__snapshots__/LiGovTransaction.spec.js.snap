@@ -3,7 +3,7 @@
 exports[`LiGovTransaction deposits 1`] = `
 <li-transaction-stub
   block="56675"
-  color="#3CB371"
+  color="#15CFCC"
   time="42000"
 >
   <div>
@@ -37,7 +37,7 @@ exports[`LiGovTransaction deposits 1`] = `
 exports[`LiGovTransaction proposals 1`] = `
 <li-transaction-stub
   block="56673"
-  color="#3CB371"
+  color="#15CFCC"
   time="42000"
 >
   <div>
@@ -64,7 +64,7 @@ exports[`LiGovTransaction proposals 1`] = `
 exports[`LiGovTransaction votes 1`] = `
 <li-transaction-stub
   block="56673"
-  color="#3CB371"
+  color="#15CFCC"
   time="42000"
 >
   <div>

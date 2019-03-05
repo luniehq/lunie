@@ -3,7 +3,7 @@
 exports[`LiBankTransaction has the expected html structure 1`] = `
 <li-transaction-stub
   block="3436"
-  color="#25293F"
+  color="#ED553B"
   time="2042"
 >
   <div>
@@ -26,7 +26,7 @@ exports[`LiBankTransaction has the expected html structure 1`] = `
 exports[`LiBankTransaction should show outgoing transactions 1`] = `
 <li-transaction-stub
   block="3438"
-  color="#25293F"
+  color="#ED553B"
   time="2052"
 >
   <div>
@@ -51,7 +51,7 @@ exports[`LiBankTransaction should show outgoing transactions 1`] = `
 exports[`LiBankTransaction should show transactions sent to the sender 1`] = `
 <li-transaction-stub
   block="466"
-  color="#25293F"
+  color="#ED553B"
   time="1142"
 >
   <div>

@@ -3,7 +3,7 @@
 exports[`LiDistrTransaction set withdraw address 1`] = `
 <li-transaction-stub
   block="1114"
-  color="#5effe9"
+  color="#F2B134"
 >
   <div>
     
@@ -22,7 +22,7 @@ exports[`LiDistrTransaction set withdraw address 1`] = `
 exports[`LiDistrTransaction withdraw delegation rewards 1`] = `
 <li-transaction-stub
   block="1114"
-  color="#5effe9"
+  color="#F2B134"
 >
   <div>
     
@@ -47,7 +47,7 @@ exports[`LiDistrTransaction withdraw delegation rewards 1`] = `
 exports[`LiDistrTransaction withdraw validator commission 1`] = `
 <li-transaction-stub
   block="1114"
-  color="#5effe9"
+  color="#F2B134"
 >
   <div>
     

@@ -3,7 +3,7 @@
 exports[`LiStakeTransaction create validator 1`] = `
 <li-transaction-stub
   block="193281"
-  color="#512584"
+  color="#47AB6C"
 >
   <div>
     
@@ -33,7 +33,7 @@ exports[`LiStakeTransaction create validator 1`] = `
 exports[`LiStakeTransaction delegations should show delegations 1`] = `
 <li-transaction-stub
   block="568"
-  color="#512584"
+  color="#47AB6C"
   time="42000"
 >
   <div>
@@ -64,7 +64,7 @@ exports[`LiStakeTransaction delegations should show delegations 1`] = `
 exports[`LiStakeTransaction edit validator 1`] = `
 <li-transaction-stub
   block="193281"
-  color="#512584"
+  color="#47AB6C"
 >
   <div>
     
@@ -83,7 +83,7 @@ exports[`LiStakeTransaction edit validator 1`] = `
 exports[`LiStakeTransaction redelegations should show redelegations and calculate tokens from shares 1`] = `
 <li-transaction-stub
   block="567"
-  color="#512584"
+  color="#47AB6C"
   time="42000"
 >
   <div>
@@ -125,7 +125,7 @@ exports[`LiStakeTransaction redelegations should show redelegations and calculat
 exports[`LiStakeTransaction unbonding delegations should default to ended if no unbonding delegation is present 1`] = `
 <li-transaction-stub
   block="569"
-  color="#512584"
+  color="#47AB6C"
   time="42000"
 >
   <div>
@@ -159,7 +159,7 @@ exports[`LiStakeTransaction unbonding delegations should default to ended if no 
 exports[`LiStakeTransaction unbonding delegations should show unbonding delegations as ended 1`] = `
 <li-transaction-stub
   block="569"
-  color="#512584"
+  color="#47AB6C"
   time="42000"
 >
   <div>
@@ -193,7 +193,7 @@ exports[`LiStakeTransaction unbonding delegations should show unbonding delegati
 exports[`LiStakeTransaction unbonding delegations should show unbondings and calculate tokens from shares 1`] = `
 <li-transaction-stub
   block="569"
-  color="#512584"
+  color="#47AB6C"
   time="42000"
 >
   <div>
@@ -233,7 +233,7 @@ exports[`LiStakeTransaction unbonding delegations should show unbondings and cal
 exports[`LiStakeTransaction unjail validator 1`] = `
 <li-transaction-stub
   block="193281"
-  color="#512584"
+  color="#47AB6C"
 >
   <div>
     
