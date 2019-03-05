@@ -131,6 +131,10 @@ export default {
   align-items: center;
 }
 
+.tm-btn--secondary {
+  background: var(--app-bg, #fff);
+}
+
 .tm-btn__container::before,
 .tm-btn__container::after {
   content: "";

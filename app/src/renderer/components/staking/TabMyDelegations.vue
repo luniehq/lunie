@@ -1,9 +1,10 @@
 <template>
   <div>
-    <div v-if="delegation.loaded && yourValidators.length > 0">
+    <card-sign-in-required v-if="!session.signedIn" />
+    <div v-else-if="delegation.loaded && yourValidators.length > 0">
       <table-validators :validators="yourValidators" />
     </div>
-    <tm-data-connecting v-if="!delegation.loaded && !connected" />
+    <tm-data-connecting v-else-if="!delegation.loaded && !connected" />
     <tm-data-loading v-else-if="!delegation.loaded && delegation.loading" />
     <tm-data-msg v-else-if="yourValidators.length === 0" icon="info_outline">
       <div slot="title">
@@ -47,6 +48,7 @@
 import { mapGetters } from "vuex"
 import TmLiStakeTransaction from "../transactions/TmLiStakeTransaction"
 import TmDataMsg from "common/TmDataMsg"
+import CardSignInRequired from "common/CardSignInRequired"
 import TmDataLoading from "common/TmDataLoading"
 import TableValidators from "staking/TableValidators"
 import TmDataConnecting from "common/TmDataConnecting"
@@ -59,7 +61,8 @@ export default {
     TmDataMsg,
     TmDataConnecting,
     TmDataLoading,
-    TmLiStakeTransaction
+    TmLiStakeTransaction,
+    CardSignInRequired
   },
   data: () => ({
     unbondTransactions: `Transactions currently in the undelegation period`,
@@ -73,7 +76,8 @@ export default {
       `delegation`,
       `committedDelegations`,
       `bondDenom`,
-      `connected`
+      `connected`,
+      `session`
     ]),
     yourValidators({ committedDelegations, delegates: { delegates } } = this) {
       return delegates.filter(

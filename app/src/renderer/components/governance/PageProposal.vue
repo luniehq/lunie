@@ -83,10 +83,7 @@
               }}
             </dd>
           </dl>
-          <dl
-            v-if="proposal.proposal_status === 'VotingPeriod'"
-            class="info_dl colored_dl"
-          >
+          <dl v-if="proposal.proposal_status === 'VotingPeriod'" class="info_dl colored_dl">
             <dt>Vote Count</dt>
             <dd>{{ num.atoms(totalVotes) }}</dd>
           </dl>
@@ -116,7 +113,9 @@
           <div class="column">
             <dl class="info_dl colored_dl">
               <dt>Description</dt>
-              <dd><text-block :content="proposal.description" /></dd>
+              <dd>
+                <text-block :content="proposal.description" />
+              </dd>
             </dl>
           </div>
         </div>
@@ -194,7 +193,7 @@ export default {
       return moment(new Date(proposal.deposit_end_time)).fromNow()
     },
     totalVotes({ tally: { yes, no, no_with_veto, abstain } } = this) {
-      return (yes + no + no_with_veto + abstain)
+      return yes + no + no_with_veto + abstain
     },
     yesPercentage({ tally, totalVotes } = this) {
       return num.percentInt(tally.yes / totalVotes)
@@ -211,8 +210,14 @@ export default {
     tally({ proposals, proposalId } = this) {
       // TODO:MICROATOMS currently causes each vote to be multiplied by this, once we receive atoms let's drop this multiplier thing
       const multiplier = 100000000
-      const { yes, no, abstain, no_with_veto } = proposals.tallies[proposalId] || {}
-      return { yes: yes/multiplier, no: no/multiplier, abstain: abstain/multiplier, no_with_veto: no_with_veto/multiplier }
+      const { yes, no, abstain, no_with_veto } =
+        proposals.tallies[proposalId] || {}
+      return {
+        yes: yes / multiplier,
+        no: no / multiplier,
+        abstain: abstain / multiplier,
+        no_with_veto: no_with_veto / multiplier
+      }
     },
     status({ proposal } = this) {
       if (proposal.proposal_status === `Passed`)
@@ -241,13 +246,13 @@ export default {
         }
     }
   },
-  async mounted({ proposals, proposalId, $store } = this ) {
+  async mounted({ proposals, proposalId, $store } = this) {
     if (!proposals[proposalId]) {
       await $store.dispatch(`getProposal`, proposalId)
     }
   },
   methods: {
-    async onVote({ $refs, $store, votes, proposalId, wallet } = this ) {
+    async onVote({ $refs, $store, votes, proposalId, wallet } = this) {
       $refs.modalVote.open()
       // The error is already handled with notifyError in votes.js
       await $store.dispatch(`getProposalVotes`, proposalId)
