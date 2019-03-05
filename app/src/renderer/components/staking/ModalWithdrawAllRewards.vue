@@ -4,7 +4,7 @@
     ref="actionModal"
     :submit-fn="submitForm"
     :validate="isValid"
-    title="Withdraw"
+    title="Withdraw Rewards" 
     class="modal-withdraw-rewards"
     submission-error-prefix="Withdrawal failed"
   >
