@@ -285,8 +285,16 @@ describe(`PageTransactions`, () => {
   })
 
   it(`should refresh the transaction history`, async () => {
-    await PageTransactions.methods.refreshTransactions.call({ $store })
+    await PageTransactions.methods.refreshTransactions.call({ $store, session: {
+      signedIn: true
+    } })
     expect($store.dispatch).toHaveBeenCalledWith(`getAllTxs`)
+
+    $store.dispatch.mockClear()
+    await PageTransactions.methods.refreshTransactions.call({ $store, session: {
+      signedIn: false
+    } })
+    expect($store.dispatch).not.toHaveBeenCalledWith(`getAllTxs`)
   })
 
   it(`should show transactions`, async () => {

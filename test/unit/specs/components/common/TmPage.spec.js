@@ -60,4 +60,5 @@ describe(`TmPage`, () => {
     })
     expect(wrapper.vm.refreshable).toEqual({ connected: true, refresh })
   })
+
 })
