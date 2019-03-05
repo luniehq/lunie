@@ -19,7 +19,8 @@ const getters = {
   committedDelegations: {
   },
   connected: true,
-  bondDenom: `stake`
+  bondDenom: `stake`,
+  session: { signedIn: true }
 }
 
 // TODO: remove this dirty addition: the real cleanup will be done in a separate PR
@@ -109,6 +110,12 @@ describe(`Component: TabMyDelegations`, () => {
       $store.getters.delegation.loading = true
 
       expect(wrapper.exists(`tm-data-loading`)).toBe(true)
+    })
+  
+    it(`should show a message if not signed in`, () => {
+      $store.getters.session.signedIn = false
+  
+      expect(wrapper.exists(`card-sign-in-required`)).toBe(true)
     })
   })
 

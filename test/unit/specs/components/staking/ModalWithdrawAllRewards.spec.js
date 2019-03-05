@@ -22,16 +22,11 @@ describe(`ModalWithdrawAllRewards`, () => {
     })
   })
 
-  it(`has the expected html structure`, () => {
+  it(`should show the withdraw rewards modal`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`form is always valid`, () => {
-    const valid = ModalWithdrawAllRewards.methods.isValid.call()
-    expect(valid).toBe(true)
-  })
-
-  it(`opens`, () => {
+  it(`opens the action modal`, () => {
     const $refs = { actionModal: { open: jest.fn() } }
     ModalWithdrawAllRewards.methods.open.call({ $refs })
     expect($refs.actionModal.open).toHaveBeenCalled()

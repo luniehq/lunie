@@ -3,8 +3,7 @@
     id="modal-withdraw-all-rewards"
     ref="actionModal"
     :submit-fn="submitForm"
-    :validate="isValid"
-    title="Withdraw"
+    title="Withdraw Rewards"
     class="modal-withdraw-rewards"
     submission-error-prefix="Withdrawal failed"
   >
@@ -18,14 +17,13 @@
         id="amount"
         v-model="totalRewards"
         type="number"
-        readonly
+        readonly="readonly"
       />
     </tm-form-group>
   </action-modal>
 </template>
 
 <script>
-import ClickOutside from "vue-click-outside"
 import { mapGetters } from "vuex"
 import { atoms } from "../../scripts/num.js"
 import ActionModal from "common/ActionModal"
@@ -34,9 +32,6 @@ import TmFormGroup from "common/TmFormGroup"
 
 export default {
   name: `modal-withdraw-all-rewards`,
-  directives: {
-    ClickOutside
-  },
   components: {
     ActionModal,
     TmField,
@@ -44,19 +39,12 @@ export default {
   },
   computed: {
     ...mapGetters([`bondDenom`, `distribution`]),
-    totalRewards() {
-      const { bondDenom, distribution } = this
-      return (
-        (distribution.totalRewards[bondDenom] &&
-					atoms(distribution.totalRewards[bondDenom])) ||
-				0
-      )
+    totalRewards({ bondDenom, distribution } = this) {
+      const rewards = distribution.totalRewards[bondDenom]
+      return (rewards && atoms(rewards)) || 0
     }
   },
   methods: {
-    isValid() {
-      return true
-    },
     open() {
       this.$refs.actionModal.open()
     },

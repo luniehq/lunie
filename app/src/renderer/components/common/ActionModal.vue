@@ -57,7 +57,11 @@
         </tm-form-group>
       </div>
       <div v-else-if="step === `sign`" class="action-modal-form">
-        <hardware-state v-if="sending" :loading="true" value="Waiting for signature on app" />
+        <hardware-state
+          v-if="sending"
+          :loading="true"
+          value="Waiting for signature on app"
+        />
         <hardware-state
           v-else
           icon="usb"
@@ -161,7 +165,7 @@ export default {
     },
     validate: {
       type: Function,
-      required: true
+      default: undefined
     },
     submissionErrorPrefix: {
       type: String,
@@ -226,7 +230,7 @@ export default {
 
       // An ActionModal is only the prototype of a parent modal
       // here we trigger the validation of the form that this parent modal
-      const childFormValid = this.validate()
+      const childFormValid = this.validate ? this.validate() : true
       // const ledgerT = this.selectedSignMethod === signWithLedger &&
       //       this.step === signStep &&
       //       this.ledger.isConnected

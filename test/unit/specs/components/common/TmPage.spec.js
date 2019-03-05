@@ -27,7 +27,7 @@ describe(`TmPage`, () => {
     })
   })
 
-  it(`has the expected html structure`, async () => {
+  it(`shows a page skeleton`, async () => {
     wrapper = shallowMount(TmPage, { store, localVue })
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
