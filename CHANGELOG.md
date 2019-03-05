@@ -7,16 +7,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.13] - 2019-03-05
+
 ### Added
 
 - [\#1306](https://github.com/cosmos/voyager/issues/1306) Withdraw fee distribution rewards @fedekunze
 - [\#2148](https://github.com/cosmos/voyager/pull/2148) readded insecure mode @faboweb
+- [\#2151](https://github.com/cosmos/voyager/pull/2151) A "You need to sign in" card component @faboweb
+
+### Changed
 
 ### Fixed
 
 - [\#2128](https://github.com/cosmos/voyager/pull/2128) remove loading status on validator page when disconnected from the network @fedekunze
 - [\#2148](https://github.com/cosmos/voyager/pull/2148) readded insecure mode @faboweb
 - [\#2152](https://github.com/cosmos/voyager/pull/2152) Feedback button to collect feedback from users on the page @faboweb
+- [\#1982](https://github.com/cosmos/voyager/issues/1982) Session screens are proper modals @jbibla
+- [\#2050](https://github.com/cosmos/voyager/pull/2050) forward to /404 on a not found block @faboweb
 - Security issue with lodash dependency @faboweb
 
 ## [1.0.0-beta.12] - 2019-03-04
