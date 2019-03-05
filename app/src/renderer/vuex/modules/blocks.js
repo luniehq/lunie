@@ -67,10 +67,6 @@ export default ({ node }) => {
         commit(`setBlock`, block)
         return blockMetaInfo
       } catch (error) {
-        commit(`notifyError`, {
-          title: `Error fetching block information`,
-          body: error.message
-        })
         Sentry.captureException(error)
         commit(`setLoading`, false)
         commit(`setError`, error)
