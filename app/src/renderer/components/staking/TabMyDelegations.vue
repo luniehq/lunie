@@ -56,39 +56,39 @@ import TmDataConnecting from "common/TmDataConnecting"
 import time from "scripts/time"
 
 export default {
-	name: `tab-my-delegations`,
-	components: {
-		TableValidators,
-		TmDataMsg,
-		TmDataConnecting,
-		TmDataLoading,
-		LiStakeTransaction,
-		CardSignInRequired
-	},
-	data: () => ({
-		unbondTransactions: `Transactions currently in the undelegation period`,
-		validatorURL: `/staking/validators`,
-		time
-	}),
-	computed: {
-		...mapGetters([
-			`transactions`,
-			`delegates`,
-			`delegation`,
-			`committedDelegations`,
-			`bondDenom`,
-			`connected`,
-			`session`
-		]),
-		yourValidators({ committedDelegations, delegates: { delegates } } = this) {
-			return delegates.filter(
-				({ operator_address }) => operator_address in committedDelegations
-			)
-		},
-		unbondingTransactions: ({ transactions, delegation } = this) =>
-			// Checking the type of transaction
-			// getting the unbonding time and checking if it has passed already
-			/*eslint-disable */
+  name: `tab-my-delegations`,
+  components: {
+    TableValidators,
+    TmDataMsg,
+    TmDataConnecting,
+    TmDataLoading,
+    LiStakeTransaction,
+    CardSignInRequired
+  },
+  data: () => ({
+    unbondTransactions: `Transactions currently in the undelegation period`,
+    validatorURL: `/staking/validators`,
+    time
+  }),
+  computed: {
+    ...mapGetters([
+      `transactions`,
+      `delegates`,
+      `delegation`,
+      `committedDelegations`,
+      `bondDenom`,
+      `connected`,
+      `session`
+    ]),
+    yourValidators({ committedDelegations, delegates: { delegates } } = this) {
+      return delegates.filter(
+        ({ operator_address }) => operator_address in committedDelegations
+      )
+    },
+    unbondingTransactions: ({ transactions, delegation } = this) =>
+    // Checking the type of transaction
+    // getting the unbonding time and checking if it has passed already
+    /*eslint-disable */
 			transactions.staking &&
 			transactions.staking
 				.filter(
@@ -115,21 +115,21 @@ export default {
 </script>
 <style>
 .tab-header {
-	color: var(--dim);
-	font-size: 14px;
-	font-weight: 500;
-	margin: 3rem 0.5rem 0.5rem;
+  color: var(--dim);
+  font-size: 14px;
+  font-weight: 500;
+  margin: 3rem 0.5rem 0.5rem;
 }
 
 .info-button {
-	color: var(--link);
+  color: var(--link);
 }
 
 .unbonding-transactions .tm-li-tx::before {
-	position: absolute;
-	width: 2rem;
-	text-align: right;
-	color: var(--dim);
-	left: 0;
+  position: absolute;
+  width: 2rem;
+  text-align: right;
+  color: var(--dim);
+  left: 0;
 }
 </style>
