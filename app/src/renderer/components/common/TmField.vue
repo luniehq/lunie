@@ -189,9 +189,12 @@ export default {
   line-height: 1.5rem;
   min-width: 0;
   padding: 0.1875rem 0.5rem;
-  vertical-align: top;
   width: 100%;
   -webkit-appearance: none;
+}
+
+.tm-field::placeholder {
+  color: var(--dim);
 }
 
 .tm-field:disabled {

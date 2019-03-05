@@ -97,16 +97,9 @@ export default {
   border: none;
   background: transparent;
   text-decoration: none !important;
-  -webkit-appearance: none;
   margin: 0;
   display: inline-block;
   font-size: 16px;
-}
-
-/* firefox fix - padding */
-.tm-btn::-moz-focus-inner {
-  padding: 0;
-  border: 0;
 }
 
 .tm-btn__container {
@@ -118,15 +111,14 @@ export default {
   color: var(--bright, #333) !important;
   padding: 0.5rem 2rem;
   margin: 0;
-  background: var(--primary, #fff);
-  border: 1px solid var(--bc, #ddd);
+  background: var(--primary);
+  border: 1px solid var(--primary);
   border-radius: 0.25rem;
   cursor: pointer;
   user-select: none;
   display: flex;
   justify-content: center;
   align-items: center;
-  -webkit-appearance: none;
 }
 
 .tm-btn--secondary {

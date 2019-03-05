@@ -156,9 +156,7 @@ exports[`ModalVote has the expected html structure 1`] = `
       <div
         class="tm-form-group__field"
       >
-        <div
-          class="action-modal-footer"
-        >
+        <div>
           <button
             class="tm-btn"
           >
