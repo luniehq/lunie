@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ModalWithdrawAllRewards shows withdaw rewards modal 1`] = `
+exports[`ModalWithdrawAllRewards should show the withdraw rewards modal 1`] = `
 <action-modal-stub
   class="modal-withdraw-rewards"
   id="modal-withdraw-all-rewards"
   submissionerrorprefix="Withdrawal failed"
   submitfn="function () { [native code] }"
-  title="Withdraw"
+  title="Withdraw Rewards"
   validate="function () { [native code] }"
 >
   <tm-form-group-stub
