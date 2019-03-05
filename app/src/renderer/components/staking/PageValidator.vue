@@ -157,24 +157,6 @@
         :validator="validator"
         :denom="bondDenom"
       />
-
-      <tm-modal v-if="showCannotModal" :close="closeCannotModal">
-        <div slot="title">
-          Cannot {{ action === `delegate` ? `Delegate` : `Undelegate` }}
-        </div>
-        <p>
-          You have no {{ bondDenom }}s
-          {{ action === `undelegate` ? ` delegated ` : ` ` }}to
-          {{ action === `delegate` ? ` delegate.` : ` this validator.` }}
-        </p>
-        <div slot="footer">
-          <tmBtn
-            id="no-atoms-modal__btn"
-            value="OK"
-            @click.native="closeCannotModal"
-          />
-        </div>
-      </tm-modal>
     </template>
   </tm-page>
 </template>
@@ -186,7 +168,6 @@ import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
 import { percent, pretty, atoms, full } from "scripts/num"
 import TmBtn from "common/TmBtn"
-import TmModal from "common/TmModal"
 import TmDataError from "common/TmDataError"
 import { shortAddress, ratToBigNumber } from "scripts/common"
 import DelegationModal from "staking/DelegationModal"
@@ -201,7 +182,6 @@ export default {
     DelegationModal,
     UndelegationModal,
     TmBtn,
-    TmModal,
     TmDataError,
     TmPage
   },
@@ -211,7 +191,6 @@ export default {
     showCannotModal: false,
     shortAddress,
     tabIndex: 1,
-    action: ``,
     moment
   }),
   computed: {
@@ -347,24 +326,11 @@ export default {
     }
   },
   methods: {
-    closeCannotModal() {
-      this.showCannotModal = false
-    },
     onDelegation() {
-      this.action = `delegate`
-      if (this.liquidAtoms > 0) {
-        this.$refs.delegationModal.open()
-      } else {
-        this.showCannotModal = true
-      }
+      this.$refs.delegationModal.open()
     },
     onUndelegation() {
-      this.action = `undelegate`
-      if (this.myBond.isGreaterThan(0)) {
-        this.$refs.undelegationModal.open()
-      } else {
-        this.showCannotModal = true
-      }
+      this.$refs.undelegationModal.open()
     },
     delegationTargetOptions(
       { session, liquidAtoms, committedDelegations, $route, delegates } = this
