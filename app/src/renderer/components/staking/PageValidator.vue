@@ -1,13 +1,13 @@
 <template>
   <tm-page data-title="Validator">
     <tm-data-loading v-if="delegates.loading" />
-    <tm-data-error v-if="delegates.loaded && !validator" />
+    <tm-data-error v-else-if="delegates.loaded && !validator" />
 
     <template v-else>
       <div class="page-profile__header page-profile__section">
         <div class="row">
           <img
-            v-if="validator && validator.keybase"
+            v-if="validator.keybase"
             :src="validator.keybase.avatarUrl"
             class="avatar"
           ><img
@@ -79,7 +79,10 @@
                 {{ percent(validator.commission.rate) }}
               </dd>
             </dl>
-            <dl v-if="session.experimentalMode" class="info_dl colored_dl">
+            <dl
+              v-if="session.experimentalMode"
+              class="info_dl colored_dl"
+            >
               <dt>Slashes</dt>
               <dd>--</dd>
             </dl>
@@ -160,7 +163,10 @@
         :denom="bondDenom"
       />
 
-      <tm-modal v-if="showCannotModal" :close="closeCannotModal">
+      <tm-modal
+        v-if="showCannotModal"
+        :close="closeCannotModal"
+      >
         <div slot="title">
           Cannot {{ action === `delegate` ? `Delegate` : `Undelegate` }}
         </div>
