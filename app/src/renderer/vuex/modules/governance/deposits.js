@@ -27,10 +27,6 @@ export default ({ node }) => {
         state.loaded = true
         commit(`setProposalDeposits`, proposalId, deposits)
       } catch (error) {
-        commit(`notifyError`, {
-          title: `Error fetching deposits on proposals`,
-          body: error.message
-        })
         Sentry.captureException(error)
         state.error = error
       }
@@ -38,6 +34,7 @@ export default ({ node }) => {
     async submitDeposit(
       {
         rootState: { wallet },
+        commit,
         dispatch
       },
       { proposal_id, amount, password, submitType }
@@ -50,6 +47,15 @@ export default ({ node }) => {
         amount,
         password,
         submitType
+      })
+      // optimistic update
+      let oldBalance
+      amount.forEach(coin => {
+        oldBalance = wallet.balances.find(balance => balance.denom === coin.denom)
+        commit(`updateWalletBalance`, {
+          denom: coin.denom,
+          amount: oldBalance.amount - Number(coin.amount)
+        })
       })
       await dispatch(`getProposalDeposits`, proposal_id)
       await dispatch(`getProposal`, proposal_id)
