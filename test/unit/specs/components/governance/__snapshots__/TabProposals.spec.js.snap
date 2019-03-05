@@ -424,7 +424,7 @@ exports[`TabProposals shows a message if there is nothing to display 1`] = `
     >
       <h5>
         
-    There are currently no governance proposals on the Cosmos Hub. Submit a new one by clicking the 'Create Proposal' button above.
+    There are currently no governance proposals to display. Click the 'Create Proposal' button.
   
       </h5>
     </div>

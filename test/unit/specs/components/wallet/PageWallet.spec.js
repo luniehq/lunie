@@ -14,7 +14,10 @@ describe(`PageWallet`, () => {
       balances: lcdClientMock.state.accounts[lcdClientMock.addresses[0]].coins,
       externals: { config: { faucet: `yo` } }
     },
-    connected: true
+    connected: true,
+    session: {
+      signedIn: true
+    }
   }
 
   beforeEach(() => {
