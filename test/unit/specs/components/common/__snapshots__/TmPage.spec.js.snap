@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TmPage has the expected html structure 1`] = `
+exports[`TmPage should show links to other pages 1`] = `
 <div
   class="tm-page"
 >
@@ -29,7 +29,7 @@ exports[`TmPage has the expected html structure 1`] = `
 </div>
 `;
 
-exports[`TmPage should show links to other pages 1`] = `
+exports[`TmPage shows a page skeleton 1`] = `
 <div
   class="tm-page"
 >

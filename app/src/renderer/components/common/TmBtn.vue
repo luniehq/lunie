@@ -128,7 +128,7 @@ export default {
   color: var(--bright, #333) !important;
   padding: 0.5rem 2rem;
   margin: 0;
-  background: var(--app-bg, #fff);
+  background: var(--primary, #fff);
   border: 1px solid var(--bc, #ddd);
   border-radius: 0.25rem;
   cursor: pointer;
@@ -137,6 +137,10 @@ export default {
   justify-content: center;
   align-items: center;
   -webkit-appearance: none;
+}
+
+.tm-btn--secondary {
+  background: var(--app-bg, #fff);
 }
 
 .tm-btn__container::before,

@@ -6,6 +6,7 @@
     :dataset="allBalances"
     :refresh="queryWalletBalances"
     data-title="Wallet"
+    :sign-in-required="true"
   >
     <tm-data-msg id="account_empty_msg" slot="no-data" icon="help_outline">
       <div slot="title">
@@ -80,7 +81,7 @@ export default {
         [`amount`, balance => balance.denom.toLowerCase()],
         [`desc`, `asc`]
       )
-    },
+    }
   },
   async mounted() {
     this.updateDelegates()
