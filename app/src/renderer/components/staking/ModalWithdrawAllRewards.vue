@@ -17,7 +17,7 @@
         id="amount"
         v-model="totalRewards"
         type="number"
-        readonly
+        readonly="readonly"
       />
     </tm-form-group>
   </action-modal>
