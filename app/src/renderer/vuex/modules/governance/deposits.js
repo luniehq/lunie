@@ -38,19 +38,30 @@ export default ({ node }) => {
     async submitDeposit(
       {
         rootState: { wallet },
-        dispatch
+        dispatch,
+        commit
       },
-      { proposal_id, amount, password, submitType }
+      { proposal_id, amount: deposit, password, submitType }
     ) {
       await dispatch(`sendTx`, {
         type: `postProposalDeposit`,
         to: proposal_id,
         proposal_id,
         depositor: wallet.address,
-        amount,
+        amount: deposit,
         password,
         submitType
       })
+      
+      // optimistic update
+      deposit.forEach(({ amount, denom }) => {
+        const oldBalance = wallet.balances.find(balance => balance.denom === denom)
+        commit(`updateWalletBalance`, {
+          denom,
+          amount: oldBalance.amount - amount
+        })
+      })
+
       await dispatch(`getProposalDeposits`, proposal_id)
       await dispatch(`getProposal`, proposal_id)
     }
