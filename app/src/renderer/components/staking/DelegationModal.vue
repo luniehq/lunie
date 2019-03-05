@@ -7,7 +7,7 @@
     title="Delegate"
     class="delegation-modal"
     submission-error-prefix="Delegating failed"
-    @close="$v.$reset()"
+    @close="clear"
   >
     <tm-form-group
       class="action-modal-form-group"
@@ -136,6 +136,12 @@ export default {
       this.$v.$touch()
 
       return !this.$v.$invalid
+    },
+    clear() {
+      this.$v.$reset()
+
+      this.selectedIndex = 0
+      this.amount = null
     },
     async submitDelegation(submitType, password) {
       await this.$store.dispatch(`submitDelegation`, {

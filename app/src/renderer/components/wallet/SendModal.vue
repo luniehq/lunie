@@ -6,7 +6,7 @@
     :validate="validateForm"
     title="Send"
     submission-error-prefix="Sending tokens failed"
-    @close="$v.$reset()"
+    @close="clear"
   >
     <tm-form-group
       :error="$v.denom.$dirty && $v.denom.$invalid"
@@ -142,6 +142,12 @@ export default {
       this.$v.$touch()
 
       return !this.$v.$invalid
+    },
+    clear() {
+      this.$v.$reset()
+
+      this.address = ``
+      this.amount = 0
     },
     async submitForm(submitType, password) {
       const amount = +this.amount

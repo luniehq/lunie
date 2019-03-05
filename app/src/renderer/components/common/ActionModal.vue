@@ -1,6 +1,12 @@
 <template>
-  <transition v-if="show" name="slide-fade">
-    <div v-click-outside="close" class="action-modal">
+  <transition
+    v-if="show"
+    name="slide-fade"
+  >
+    <div
+      v-click-outside="close"
+      class="action-modal"
+    >
       <div class="action-modal-header">
         <img
           class="icon action-modal-atom"
@@ -17,10 +23,16 @@
           <i class="material-icons">close</i>
         </div>
       </div>
-      <div v-if="!session.signedIn" class="action-modal-form">
+      <div
+        v-if="!session.signedIn"
+        class="action-modal-form"
+      >
         <p>You need to sign in to submit a transaction.</p>
       </div>
-      <div v-else-if="step === `txDetails`" class="action-modal-form">
+      <div
+        v-else-if="step === `txDetails`"
+        class="action-modal-form"
+      >
         <slot />
         <tm-form-group
           v-if="signMethods.length > 1"
@@ -56,8 +68,15 @@
           />
         </tm-form-group>
       </div>
-      <div v-else-if="step === `sign`" class="action-modal-form">
-        <hardware-state v-if="sending" :loading="true" value="Waiting for signature on app" />
+      <div
+        v-else-if="step === `sign`"
+        class="action-modal-form"
+      >
+        <hardware-state
+          v-if="sending"
+          :loading="true"
+          value="Waiting for signature on app"
+        />
         <hardware-state
           v-else
           icon="usb"
@@ -218,6 +237,7 @@ export default {
       this.$emit(`close`)
     },
     goToSession() {
+      this.close()
       this.$store.commit(`setSessionModalView`, `welcome`)
       this.$store.commit(`toggleSessionModal`, true)
     },

@@ -6,7 +6,7 @@
     :validate="validateForm"
     title="Proposal"
     submission-error-prefix="Submitting proposal failed"
-    @close="$v.$reset()"
+    @close="clear"
   >
     <tm-form-group
       :error="$v.title.$error && $v.title.$invalid"
@@ -185,6 +185,13 @@ export default {
       this.$v.$touch()
 
       return !this.$v.$invalid
+    },
+    clear() {
+      this.$v.$reset()
+
+      this.title = ``
+      this.description = ``
+      this.amount = 0
     },
     async submitForm(submitType, password) {
       await this.$store.dispatch(`submitProposal`, {
