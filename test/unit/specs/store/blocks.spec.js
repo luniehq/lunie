@@ -56,7 +56,7 @@ describe(`Module: Blocks`, () => {
   it(`should query block info`, async () => {
     state.blockMetas = {}
     node.getBlock = () => ({
-      block_metas: [blockMeta],
+      block_meta: blockMeta,
       block: {
         height: `42`
       }
@@ -110,10 +110,6 @@ describe(`Module: Blocks`, () => {
     )
     expect(commit.mock.calls).toEqual([
       [`setLoading`, true],
-      [
-        `notifyError`,
-        { body: `err`, title: `Error fetching block information` }
-      ],
       [`setLoading`, false],
       [`setError`, error]
     ])
@@ -248,37 +244,6 @@ describe(`Module: Blocks`, () => {
       commit
     })
     expect(commit.mock.calls).toEqual([[`setPeers`, peers]])
-  })
-
-  it(`should handle errors`, async () => {
-    const error = new Error(`err`)
-    const getBlock = jest.fn().mockRejectedValue(error)
-    const node = {
-      rpc: {
-        blockchain: () => Promise.reject(error)
-      },
-      getBlock
-    }
-    const module = blocks({
-      node
-    })
-    const commit = jest.fn()
-    await module.actions.queryBlockInfo(
-      {
-        state: module.state,
-        commit
-      },
-      1
-    )
-    expect(commit.mock.calls).toEqual([
-      [`setLoading`, true],
-      [
-        `notifyError`,
-        { body: `err`, title: `Error fetching block information` }
-      ],
-      [`setLoading`, false],
-      [`setError`, error]
-    ])
   })
 
   it(`caches a certan number of blocks`, async () => {

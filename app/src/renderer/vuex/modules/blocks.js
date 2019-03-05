@@ -57,7 +57,7 @@ export default ({ node }) => {
         commit(`setLoading`, true)
         const block = await node.getBlock(height)
 
-        blockMetaInfo = block.block_metas ? block.block_metas[0] : undefined
+        blockMetaInfo = block.block_meta ? block.block_meta : undefined
         commit(`setLoading`, false)
 
         commit(`setBlockMetas`, {
@@ -67,10 +67,6 @@ export default ({ node }) => {
         commit(`setBlock`, block)
         return blockMetaInfo
       } catch (error) {
-        commit(`notifyError`, {
-          title: `Error fetching block information`,
-          body: error.message
-        })
         Sentry.captureException(error)
         commit(`setLoading`, false)
         commit(`setError`, error)
