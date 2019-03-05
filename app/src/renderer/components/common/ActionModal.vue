@@ -5,7 +5,7 @@
         <img
           class="icon action-modal-atom"
           src="~assets/images/cosmos-logo.png"
-        >
+        />
         <span class="action-modal-title">
           {{ session.signedIn ? title : `Sign in required` }}
         </span>
@@ -57,16 +57,12 @@
         </tm-form-group>
       </div>
       <div v-else-if="step === `sign`" class="action-modal-form">
-        <hardware-state
-          v-if="sending"
-          :loading="true"
-          value="Waiting for signature on app"
-        />
-        <hardware-state
-          v-else
-          icon="usb"
-          value="Please unlock the Cosmos app on your Ledger Nano&nbsp;S"
-        />
+        <hardware-state v-if="sending" :loading="true">
+          Waiting for signature on app
+        </hardware-state>
+        <hardware-state v-else icon="usb">
+          Please unlock the Cosmos app on your Ledger&nbsp;Nano&nbsp;S
+        </hardware-state>
       </div>
 
       <div class="action-modal-footer">
