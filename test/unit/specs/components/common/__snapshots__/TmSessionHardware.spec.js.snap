@@ -53,7 +53,7 @@ exports[`TmSessionHardware has the expected html structure when there're errors 
           class="tm-hardware-state__label"
         >
           
-        Please plug in your Ledger Nano S and open the Cosmos app
+        Please plug in your Ledger Nano S and open the Cosmos app
       
         </div>
       </div>
@@ -149,7 +149,7 @@ exports[`TmSessionHardware has the expected html structure with no errors 1`] = 
           class="tm-hardware-state__label"
         >
           
-        Please plug in your Ledger Nano S and open the Cosmos app
+        Please plug in your Ledger Nano S and open the Cosmos app
       
         </div>
       </div>
@@ -190,7 +190,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
 "<div class=\\"tm-session\\"><div class=\\"tm-session-container\\"><div class=\\"tm-session-header\\"><a><i class=\\"material-icons\\">arrow_back</i></a> <div class=\\"tm-session-title\\">
         Sign In
       </div> <a><i class=\\"material-icons\\">close</i></a></div> <div class=\\"tm-session-main\\"><div class=\\"tm-hardware-state\\"><!----> <i class=\\"tm-hardware-state__icon material-icons\\">usb</i> <div class=\\"tm-hardware-state__label\\">
-        Please plug in your Ledger Nano&nbsp;S and open the Cosmos app
+        Please plug in your Ledger&nbsp;Nano&nbsp;S and open the Cosmos app
       </div></div> <!----> <p class=\\"ledger-install\\">
         Don't have the Cøsmos Ledger App yet? Install it
         <a href=\\"https://github.com/cosmos/voyager#ledger-cosmos-app\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">
