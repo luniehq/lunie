@@ -179,7 +179,7 @@ export default {
   background: var(--app-nav);
   height: 8rem;
   width: 8rem;
-  margin: 1rem 2rem 1rem 1rem;
+  margin: 1rem;
   padding: 1rem;
 }
 
