@@ -1,6 +1,5 @@
 import PageTransactions from "renderer/components/wallet/PageTransactions"
 import { createLocalVue, shallowMount } from "@vue/test-utils"
-// import { allTxs } from "../../store/json/txs"
 
 describe(`PageTransactions`, () => {
   const localVue = createLocalVue()
@@ -286,15 +285,19 @@ describe(`PageTransactions`, () => {
   })
 
   it(`should refresh the transaction history`, async () => {
-    await PageTransactions.methods.refreshTransactions.call({ $store, session: {
-      signedIn: true
-    } })
+    await PageTransactions.methods.refreshTransactions.call({
+      $store, session: {
+        signedIn: true
+      }
+    })
     expect($store.dispatch).toHaveBeenCalledWith(`getAllTxs`)
 
     $store.dispatch.mockClear()
-    await PageTransactions.methods.refreshTransactions.call({ $store, session: {
-      signedIn: false
-    } })
+    await PageTransactions.methods.refreshTransactions.call({
+      $store, session: {
+        signedIn: false
+      }
+    })
     expect($store.dispatch).not.toHaveBeenCalledWith(`getAllTxs`)
   })
 
