@@ -17,9 +17,7 @@ exports[`TmHardwareState has the expected html structure 1`] = `
   <div
     class="tm-hardware-state__label"
   >
-    
     Detecting your Ledger Wallet
-  
   </div>
 </div>
 `;
