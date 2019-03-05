@@ -22,7 +22,7 @@ describe(`ModalWithdrawAllRewards`, () => {
     })
   })
 
-  it(`shows withdaw rewards modal`, () => {
+  it(`should show the withdraw rewards modal`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
