@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 - [\#2128](https://github.com/cosmos/voyager/pull/2128) remove loading status on validator page when disconnected from the network @fedekunze
-- [\#2167](https://github.com/cosmos/voyager/pull/2167) fixed votes showing wrong amount @faboweb
+- [\#2167](https://github.com/cosmos/voyager/pull/2167) fixed votes showing wrong tally @faboweb
 - [\#2167](https://github.com/cosmos/voyager/pull/2167) fixed not being able to deposit less then 1 atom not possible @faboweb
 - [\#2167](https://github.com/cosmos/voyager/pull/2167) fixed sorting of proposals @faboweb
 
