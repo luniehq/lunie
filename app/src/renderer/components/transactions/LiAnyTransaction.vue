@@ -20,7 +20,7 @@
     :url="proposalsUrl"
     :tx-type="type"
   />
-  <li-distr-transaction
+  <li-distribution-transaction
     v-else-if="distributionTx"
     :transaction="transaction"
     :url="validatorsUrl"
@@ -42,7 +42,7 @@
 import LiBankTransaction from "./LiBankTransaction"
 import LiStakeTransaction from "./LiStakeTransaction"
 import LiGovTransaction from "./LiGovTransaction"
-import LiDistrTransaction from "./LiDistrTransaction"
+import LiDistributionTransaction from "./LiDistributionTransaction"
 import LiTransaction from "./LiTransaction"
 
 export default {
@@ -51,7 +51,7 @@ export default {
     LiBankTransaction,
     LiGovTransaction,
     LiStakeTransaction,
-    LiDistrTransaction,
+    LiDistributionTransaction,
     LiTransaction
   },
   props: {

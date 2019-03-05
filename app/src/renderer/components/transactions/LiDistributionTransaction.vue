@@ -44,7 +44,7 @@ import LiTransaction from "./LiTransaction"
 import { pretty, atoms } from "../../scripts/num.js"
 
 export default {
-  name: `li-distr-transaction`,
+  name: `li-distribution-transaction`,
   components: { LiTransaction },
   props: {
     transaction: {

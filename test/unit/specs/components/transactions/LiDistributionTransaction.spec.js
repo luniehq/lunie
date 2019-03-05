@@ -1,5 +1,5 @@
 import { shallowMount } from "@vue/test-utils"
-import LiDistrTransaction from "transactions/LiDistrTransaction"
+import LiDistributionTransaction from "transactions/LiDistributionTransaction"
 import { distributionTxs } from "../../store/json/txs"
 
 describe(`LiDistrTransaction`, () => {
@@ -17,7 +17,7 @@ describe(`LiDistrTransaction`, () => {
   }
 
   beforeEach(() => {
-    wrapper = shallowMount(LiDistrTransaction, { propsData, stubs: [`router-link`] })
+    wrapper = shallowMount(LiDistributionTransaction, { propsData, stubs: [`router-link`] })
   })
 
   it(`withdraw delegation rewards`, () => {
