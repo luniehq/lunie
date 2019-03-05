@@ -45,8 +45,6 @@ export default {
   computed: {
     ...mapGetters([`session`]),
     enrichedProposals() {
-      if (!this.proposals) return []
-
       const copy = JSON.parse(JSON.stringify(this.proposals))
       Object.keys(copy).forEach(proposal_id => {
         copy[proposal_id].id = Number(proposal_id)
