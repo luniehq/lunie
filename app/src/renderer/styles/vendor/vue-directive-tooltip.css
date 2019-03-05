@@ -8,9 +8,7 @@
   border-radius: 0.25rem;
   z-index: var(--z-modal);
   font-size: var(--sm);
-  max-width: 220px;
   text-align: center;
-  word-break: break-all;
 }
 
 .vue-tooltip .vue-tooltip-content {
