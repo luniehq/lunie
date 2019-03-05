@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`LiTransaction has the expected html structure 1`] = `
+exports[`LiTransaction should show a transaction item 1`] = `
 <div
   class="li-tx"
 >

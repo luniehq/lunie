@@ -20,7 +20,7 @@ describe(`LiTransaction`, () => {
     })
   })
 
-  it(`has the expected html structure`, () => {
+  it(`should show a transaction item`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
