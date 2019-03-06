@@ -33,10 +33,13 @@
         type="number"
         placeholder="Amount"
       />
+      <p v-if="maximum > 0">
+        {{ denom }}s delegated: {{ atoms(maximum) }}
+      </p>
       <tm-form-msg
-        v-if="liquidAtoms === 0"
-        :msg="`doesn't have any ${denom}s`"
-        name="Wallet"
+        v-if="maximum === 0"
+        :msg="`don't have any ${denom}s delegated to this validator`"
+        name="You"
         type="custom"
       />
       <tm-form-msg
@@ -101,7 +104,8 @@ export default {
   },
   data: () => ({
     amount: null,
-    selectedIndex: 0
+    selectedIndex: 0,
+    atoms
   }),
   computed: {
     ...mapGetters([`bondDenom`, `liquidAtoms`])

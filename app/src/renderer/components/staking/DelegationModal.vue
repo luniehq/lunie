@@ -116,7 +116,7 @@ export default {
     selectedIndex: 0
   }),
   computed: {
-    ...mapGetters([`wallet`, `delegates`, `session`]),
+    ...mapGetters([`delegates`, `session`]),
     balance() {
       if (!this.session.signedIn) return 0
 
@@ -174,7 +174,7 @@ export default {
       })
     },
     async submitForm(submitType, password) {
-      if (this.from === this.wallet.address) {
+      if (this.from === this.session.address) {
         await this.submitDelegation(submitType, password)
       } else {
         await this.submitRedelegation(submitType, password)
