@@ -7,21 +7,18 @@
     title="Undelegate"
     class="undelegation-modal"
     submission-error-prefix="Undelegating failed"
-    @close="$v.$reset()"
+    @close="clear"
   >
     <tm-form-group
       class="action-modal-form-group"
       field-id="from"
       field-label="From"
     >
-      <tm-field id="from" v-model="validator.operator_address" readonly />
-    </tm-form-group>
-    <tm-form-group
-      class="action-modal-form-group"
-      field-id="to"
-      field-label="To"
-    >
-      <tm-field id="to" v-model="to" readonly="readonly" />
+      <tm-field
+        id="from"
+        v-model="validator.operator_address"
+        readonly
+      />
     </tm-form-group>
     <tm-form-group
       :error="$v.amount.$error && $v.amount.$invalid"
@@ -36,10 +33,13 @@
         type="number"
         placeholder="Amount"
       />
+      <p v-if="maximum > 0">
+        {{ denom }}s delegated: {{ atoms(maximum) }}
+      </p>
       <tm-form-msg
-        v-if="liquidAtoms === 0"
-        :msg="`doesn't have any ${denom}s`"
-        name="Wallet"
+        v-if="maximum === 0"
+        :msg="`don't have any ${denom}s delegated to this validator`"
+        name="You"
         type="custom"
       />
       <tm-form-msg
@@ -104,7 +104,8 @@ export default {
   },
   data: () => ({
     amount: null,
-    selectedIndex: 0
+    selectedIndex: 0,
+    atoms
   }),
   computed: {
     ...mapGetters([`bondDenom`, `liquidAtoms`])
@@ -126,6 +127,12 @@ export default {
       this.$v.$touch()
 
       return !this.$v.$invalid
+    },
+    clear() {
+      this.$v.$reset()
+
+      this.selectedIndex = 0
+      this.amount = null
     },
     async submitForm(submitType, password) {
       await this.$store.dispatch(`submitUnbondingDelegation`, {
