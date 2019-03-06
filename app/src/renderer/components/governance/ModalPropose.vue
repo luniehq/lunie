@@ -6,7 +6,7 @@
     :validate="validateForm"
     title="Proposal"
     submission-error-prefix="Submitting proposal failed"
-    @close="$v.$reset()"
+    @close="clear"
   >
     <tm-form-group
       :error="$v.title.$error && $v.title.$invalid"
@@ -65,7 +65,11 @@
       field-label="Amount"
     >
       <span class="input-suffix">{{ denom }}</span>
-      <tm-field id="amount" v-model="amount" type="number" />
+      <tm-field
+        id="amount"
+        v-model="amount"
+        type="number"
+      />
       <tm-form-msg
         v-if="balance === 0"
         :msg="`doesn't have any ${denom}s`"
@@ -169,7 +173,7 @@ export default {
       amount: {
         required: x => !!x && x !== `0`,
         decimal,
-        between: between(this.balance ? 1 : 0, atoms(this.balance))
+        between: between(0, atoms(this.balance))
       }
     }
   },
@@ -181,6 +185,13 @@ export default {
       this.$v.$touch()
 
       return !this.$v.$invalid
+    },
+    clear() {
+      this.$v.$reset()
+
+      this.title = ``
+      this.description = ``
+      this.amount = 0
     },
     async submitForm(submitType, password) {
       await this.$store.dispatch(`submitProposal`, {
@@ -206,6 +217,6 @@ export default {
 </script>
 <style>
 .textarea-large {
-  min-height: 240px;
+  min-height: 200px;
 }
 </style>

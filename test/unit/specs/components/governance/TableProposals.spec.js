@@ -1,38 +1,33 @@
-import setup from "../../../helpers/vuex-setup"
+import { mount, createLocalVue } from "@vue/test-utils"
 import TableProposals from "renderer/components/governance/TableProposals"
-import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
-const { proposals, tallies } = lcdClientMock.state
+import { proposals, tallies } from "../../store/json/proposals"
 
 describe(`TableProposals`, () => {
-  let wrapper
-  const { mount } = setup()
-
-  const $store = {
-    commit: jest.fn(),
-    dispatch: jest.fn(),
-    getters: {
-      proposals: { proposals, tallies }
-    }
-  }
+  let wrapper, $store
+  const localVue = createLocalVue()
+  localVue.directive(`tooltip`, () => {})
 
   beforeEach(() => {
-    const instance = mount(TableProposals, {
-      doBefore: ({ store }) => {
-        store.commit(`setConnected`, true)
-        store.state.session.address = `address1234`
-        store.commit(`updateWalletBalance`, {
-          denom: `atom`,
-          amount: 1337
-        })
-        for (const [proposal_id, tally_result] of Object.entries(tallies)) {
-          store.commit(`setProposalTally`, { proposal_id, tally_result })
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: {
+        proposals: {
+          proposals,
+          tallies
         }
-      },
+      }
+    }
+
+    wrapper = mount(TableProposals, {
+      localVue,
       propsData: { proposals },
-      $store
+      mocks: {
+        $store
+      },
+      stubs: [`router-link`]
     })
-    wrapper = instance.wrapper
   })
 
   it(`has the expected html structure`, async () => {
@@ -44,21 +39,21 @@ describe(`TableProposals`, () => {
     wrapper.vm.sort.order = `asc`
 
     expect(wrapper.vm.filteredProposals[0].title).toEqual(
-      lcdClientMock.state.proposals[`1`].title
+      proposals[`1`].title
     )
 
     wrapper.vm.sort.property = `proposal_id`
     wrapper.vm.sort.order = `desc`
 
     expect(wrapper.vm.filteredProposals[0].title).toEqual(
-      lcdClientMock.state.proposals[`6`].title
+      proposals[`6`].title
     )
   })
 
   it(`should filter the proposals`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
     expect(wrapper.vm.filteredProposals[0].description).toBe(
-      lcdClientMock.state.proposals[`6`].description
+      proposals[`6`].description
     )
   })
 })

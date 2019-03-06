@@ -1,11 +1,17 @@
 <template>
-  <transition v-if="show" name="slide-fade">
-    <div v-click-outside="close" class="action-modal">
+  <transition
+    v-if="show"
+    name="slide-fade"
+  >
+    <div
+      v-click-outside="close"
+      class="action-modal"
+    >
       <div class="action-modal-header">
         <img
           class="icon action-modal-atom"
           src="~assets/images/cosmos-logo.png"
-        >
+        />
         <span class="action-modal-title">
           {{ session.signedIn ? title : `Sign in required` }}
         </span>
@@ -17,10 +23,16 @@
           <i class="material-icons">close</i>
         </div>
       </div>
-      <div v-if="!session.signedIn" class="action-modal-form">
+      <div
+        v-if="!session.signedIn"
+        class="action-modal-form"
+      >
         <p>You need to sign in to submit a transaction.</p>
       </div>
-      <div v-else-if="step === `txDetails`" class="action-modal-form">
+      <div
+        v-else-if="step === `txDetails`"
+        class="action-modal-form"
+      >
         <slot />
         <tm-form-group
           v-if="signMethods.length > 1"
@@ -56,22 +68,20 @@
           />
         </tm-form-group>
       </div>
+
       <div v-else-if="step === `sign`" class="action-modal-form">
-        <hardware-state
-          v-if="sending"
-          :loading="true"
-          value="Waiting for signature on app"
-        />
-        <hardware-state
-          v-else
-          icon="usb"
-          value="Please unlock the Cosmos app on your Ledger Nano&nbsp;S"
-        />
+        <hardware-state v-if="sending" :loading="true">
+          Waiting for signature on app
+        </hardware-state>
+        <hardware-state v-else icon="usb">
+          Please unlock the Cosmos app on your Ledger&nbsp;Nano&nbsp;S
+        </hardware-state>
       </div>
+
       <div class="action-modal-footer">
         <slot name="action-modal-footer">
           <tm-form-group class="action-modal-group">
-            <div class="action-modal-footer">
+            <div>
               <tm-btn
                 v-if="!session.signedIn"
                 value="Go to Sign In"
@@ -222,6 +232,7 @@ export default {
       this.$emit(`close`)
     },
     goToSession() {
+      this.close()
       this.$store.commit(`setSessionModalView`, `welcome`)
       this.$store.commit(`toggleSessionModal`, true)
     },
@@ -285,11 +296,11 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   right: 2rem;
-  padding: 3rem;
+  padding: 1.5rem 1.5rem 2rem 1.5rem;
   position: fixed;
   bottom: 0;
   width: 100%;
-  max-width: 664px;
+  max-width: 564px;
   z-index: var(--z-modal);
   border-top-left-radius: 0.25rem;
   border-top-right-radius: 0.25rem;
@@ -299,7 +310,7 @@ export default {
 .action-modal-header {
   align-items: center;
   display: flex;
-  padding-bottom: 2rem;
+  padding-bottom: 1.5rem;
 }
 
 .action-modal-atom {
@@ -335,18 +346,22 @@ export default {
 
 .action-modal-form .tm-form-group {
   display: block;
-  padding: 0.5rem 0 1rem;
+  padding: 0.75rem 0;
 }
 
 .action-modal-footer {
   display: flex;
   justify-content: flex-end;
-  padding: 2rem 0 0;
+  padding: 1.5rem 0 1rem;
+}
+
+.action-modal-footer .tm-form-group {
+  padding: 0;
 }
 
 .submission-error {
   position: absolute;
-  right: 3rem;
+  left: 1.5rem;
   bottom: 1rem;
 }
 

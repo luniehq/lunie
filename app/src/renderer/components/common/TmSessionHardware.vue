@@ -16,15 +16,17 @@
         <hardware-state
           v-if="status == 'connect'"
           icon="usb"
-          value="Please plug in your Ledger Nano S and open the Cosmos app"
           @click.native="connectLedger()"
-        />
+        >
+          Please plug in your Ledger&nbsp;Nano&nbsp;S and open the Cosmos app
+        </hardware-state>
         <hardware-state
           v-if="status == 'detect'"
           :loading="true"
-          value="Connecting..."
           @click.native="setStatus('connect')"
-        />
+        >
+          Connecting...
+        </hardware-state>
         <p class="ledger-install">
           Don't have the Cøsmos Ledger App yet? Install it
           <a
@@ -33,7 +35,8 @@
             rel="noopener noreferrer"
           >
             here
-          </a>.
+          </a>
+          .
         </p>
       </div>
       <div class="tm-session-footer">

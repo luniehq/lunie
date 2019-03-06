@@ -2,16 +2,17 @@
   <div v-if="connected" id="tm-connected-network" class="tm-connected-network">
     <div class="tm-connected-network__connection">
       <div id="tm-connected-network__icon" class="tm-connected-network__icon">
-        <i class="material-icons">lock</i>
+        <span
+          v-tooltip.top="`Network is up and running`"
+          class="page-profile__status green"
+        />
       </div>
       <div
         id="tm-connected-network__string"
         class="tm-connected-network__string"
       >
         <span v-tooltip.top="networkTooltip" class="chain-id">
-          {{
-            lastHeader.chain_id
-          }}
+          {{ lastHeader.chain_id }}
         </span>
       </div>
     </div>

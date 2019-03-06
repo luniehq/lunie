@@ -136,7 +136,8 @@ exports[`TmSessionImport has the expected html structure 1`] = `
             class="fundraiser-warning"
           >
             
-        Warning – Do not enter your actual 12 or 24 word seed phrase. This feature is intended for testing and is considered highly unsafe.
+        Warning – Do not enter your actual 12 or 24 word seed phrase. This
+        feature is intended for testing and is considered highly unsafe.
       
           </p>
            
@@ -209,16 +210,9 @@ exports[`TmSessionImport has the expected html structure 1`] = `
             class="tm-btn"
           >
             <span
-              class="tm-btn__container tm-btn__icon-right tm-btn--size-lg"
+              class="tm-btn__container tm-btn--size-lg"
             >
-              <i
-                aria-hidden="true"
-                class="tm-btn__icon material-icons"
-              >
-                
-      arrow_forward
-    
-              </i>
+              <!---->
               <span
                 class="tm-btn__value"
               >
