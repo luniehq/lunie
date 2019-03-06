@@ -58,6 +58,18 @@ describe(`UndelegationModal`, () => {
     expect(wrapper.vm.$refs.actionModal.open).toHaveBeenCalled()
   })
 
+  it(`clears on close`, () => {
+    wrapper.setData({ selectedIndex: 1, amount: 100000000 })
+    // produce validation error as amount is too high
+    wrapper.vm.$v.$touch()
+    expect(wrapper.vm.$v.$error).toBe(true)
+
+    wrapper.vm.clear()
+    expect(wrapper.vm.$v.$error).toBe(false)
+    expect(wrapper.vm.selectedIndex).toBe(0)
+    expect(wrapper.vm.amount).toBe(null)
+  })
+
   describe(`only submits on correct form`, () => {
     describe(`validates`, () => {
       it(`to false with default values`, () => {

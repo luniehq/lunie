@@ -6,7 +6,7 @@
       <div class="page-profile__header page-profile__section">
         <div class="row">
           <img
-            v-if="validator.keybase"
+            v-if="validator && validator.keybase"
             :src="validator.keybase.avatarUrl"
             class="avatar"
           ><img
@@ -16,16 +16,20 @@
           >
 
           <div class="page-profile__header__info">
-            <div class="page-profile__status-and-title">
-              <span
-                v-tooltip.top="status"
-                :class="statusColor"
-                class="page-profile__status"
-              />
-              <div class="page-profile__title">
-                {{ validator.description.moniker }}
+            <div>
+              <div>
+                <div class="page-profile__status-and-title">
+                  <span
+                    v-tooltip.top="status"
+                    :class="statusColor"
+                    class="page-profile__status"
+                  />
+                  <div class="page-profile__title">
+                    {{ validator.description.moniker }}
+                  </div>
+                </div>
+                <short-bech32 :address="validator.operator_address" />
               </div>
-              <short-bech32 :address="validator.operator_address" />
             </div>
 
             <div class="page-profile__header__actions">
