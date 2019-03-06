@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.14] - 2019-03-06
+
 ### Fixed
 
 - [\#2138](https://github.com/cosmos/voyager/issues/2138) Non breaking space not renderer correctly on hardware state indicator @faboweb
