@@ -1,14 +1,16 @@
 <template>
   <tm-page data-title="Preferences">
-    <template slot="menu-body">
-      <tm-balance />
-      <tool-bar />
-    </template>
     <tm-part>
-      <tm-list-item type="field" title="Node IP">
+      <tm-list-item
+        type="field"
+        title="Node IP"
+      >
         {{ nodeUrl }}
       </tm-list-item>
-      <tm-list-item type="field" title="View tutorial for Voyager">
+      <tm-list-item
+        type="field"
+        title="View tutorial for Voyager"
+      >
         <tm-btn
           id="toggle-onboarding"
           value="Launch Tutorial"

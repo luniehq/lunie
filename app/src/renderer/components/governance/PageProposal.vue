@@ -1,10 +1,5 @@
 <template>
   <tm-page data-title="Proposal">
-    <template slot="menu-body">
-      <tm-balance />
-      <tool-bar />
-    </template>
-
     <tm-data-error v-if="!proposal" />
 
     <template v-else>
@@ -83,7 +78,10 @@
               }}
             </dd>
           </dl>
-          <dl v-if="proposal.proposal_status === 'VotingPeriod'" class="info_dl colored_dl">
+          <dl
+            v-if="proposal.proposal_status === 'VotingPeriod'"
+            class="info_dl colored_dl"
+          >
             <dt>Vote Count</dt>
             <dd>{{ num.atoms(totalVotes) }}</dd>
           </dl>
@@ -91,7 +89,10 @@
       </div>
 
       <div class="page-profile__section">
-        <div v-if="proposal.proposal_status === 'VotingPeriod'" class="row">
+        <div
+          v-if="proposal.proposal_status === 'VotingPeriod'"
+          class="row"
+        >
           <dl class="info_dl colored_dl">
             <dt>Yes</dt>
             <dd>{{ num.atoms(tally.yes) }} / {{ yesPercentage }}</dd>
@@ -102,7 +103,9 @@
           </dl>
           <dl class="info_dl colored_dl">
             <dt>No with Veto</dt>
-            <dd>{{ num.atoms(tally.no_with_veto) }} / {{ noWithVetoPercentage }}</dd>
+            <dd>
+              {{ num.atoms(tally.no_with_veto) }} / {{ noWithVetoPercentage }}
+            </dd>
           </dl>
           <dl class="info_dl colored_dl">
             <dt>Abstain</dt>
