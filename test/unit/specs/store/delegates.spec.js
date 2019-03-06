@@ -238,6 +238,7 @@ describe(`Module: Delegates`, () => {
     await actions.getDelegates({
       commit: jest.fn(),
       dispatch: jest.fn(),
+      state,
       rootState: mockRootState
     })
     expect(state.error).toBe(`Error`)
@@ -249,6 +250,7 @@ describe(`Module: Delegates`, () => {
     await actions.getDelegates({
       commit: jest.fn(),
       dispatch: jest.fn(),
+      state,
       rootState: mockRootState
     })
     expect(state.error).toBe(`Error`)

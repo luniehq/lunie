@@ -17,9 +17,7 @@
           subtitle="If you have a Ledger Wallet, choose this option."
           @click.native="setState('hardware')"
         />
-        <template
-          v-if="session.insecureMode"
-        >
+        <template v-if="session.insecureMode">
           <li-session
             v-if="accountExists"
             id="sign-in-with-account"
@@ -66,7 +64,7 @@ export default {
     },
     closeSession() {
       this.$store.commit(`toggleSessionModal`, false)
-    },
+    }
   }
 }
 </script>
