@@ -9,7 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
-- [\#2128](https://github.com/cosmos/voyager/pull/2128) remove loading status on validator page when disconnected from the network @fedekunze
 - [\#2161](https://github.com/cosmos/voyager/pull/2161) fixed status dot position @jbibla
 
 ## [1.0.0-beta.14] - 2019-03-06
