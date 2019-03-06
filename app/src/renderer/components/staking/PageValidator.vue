@@ -1,6 +1,7 @@
 <template>
   <tm-page data-title="Validator">
-    <tm-data-error v-if="delegates.loaded && !validator" />
+    <tm-data-loading v-if="delegates.loading" />
+    <tm-data-error v-else-if="delegates.loaded && !validator" />
     <template v-else>
       <div class="page-profile__header page-profile__section">
         <div class="row">
@@ -77,7 +78,10 @@
                 {{ percent(validator.commission.rate) }}
               </dd>
             </dl>
-            <dl v-if="session.experimentalMode" class="info_dl colored_dl">
+            <dl
+              v-if="session.experimentalMode"
+              class="info_dl colored_dl"
+            >
               <dt>Slashes</dt>
               <dd>--</dd>
             </dl>

@@ -69,7 +69,7 @@ export default ({ node }) => {
       }
       commit(`setDelegates`, validators)
     },
-    async getDelegates({ commit, dispatch, rootState }) {
+    async getDelegates({ state, commit, dispatch, rootState }) {
       commit(`setDelegateLoading`, true)
 
       if (!rootState.connection.connected) return
