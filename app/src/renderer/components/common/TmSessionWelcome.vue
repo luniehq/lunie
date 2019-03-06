@@ -37,6 +37,7 @@
           />
           <li-session
             v-if="session.experimentalMode"
+            id="import-seed"
             icon="settings_backup_restore"
             title="Import with seed"
             subtitle="Use an existing seed phrase to create an account."
