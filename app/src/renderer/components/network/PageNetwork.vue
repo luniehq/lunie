@@ -40,9 +40,11 @@
             <dl class="info_dl">
               <dt>Total Liquid {{ bondDenom }}</dt>
               <dd id="loose_tokens">
-                {{ pool.pool && pool.pool.not_bonded_tokens ? num.pretty(
-                  num.atoms(pool.pool.not_bonded_tokens)
-                ) : `n/a` }}
+                {{
+                  pool.pool && pool.pool.not_bonded_tokens
+                    ? num.pretty(num.atoms(pool.pool.not_bonded_tokens))
+                    : `n/a`
+                }}
               </dd>
             </dl>
           </div>
@@ -50,9 +52,11 @@
             <dl class="info_dl">
               <dt>Total Delegated {{ bondDenom }}</dt>
               <dd id="bonded_tokens">
-                {{ pool.pool && pool.pool.bonded_tokens ? num.pretty(
-                  num.atoms(pool.pool.bonded_tokens)
-                ) : `n/a` }}
+                {{
+                  pool.pool && pool.pool.bonded_tokens
+                    ? num.pretty(num.atoms(pool.pool.bonded_tokens))
+                    : `n/a`
+                }}
               </dd>
             </dl>
           </div>
@@ -63,6 +67,14 @@
           <panel-sort :properties="properties" />
         </thead>
         <tbody>
+          <tr v-if="blocks.length === 0" class="block data-table__row">
+            <td>
+              <img class="loading-icon" src="~assets/images/loader.svg">
+            </td>
+            <td>
+              <img class="loading-icon" src="~assets/images/loader.svg">
+            </td>
+          </tr>
           <tr
             v-for="block in blocks"
             :key="block.header.height"
