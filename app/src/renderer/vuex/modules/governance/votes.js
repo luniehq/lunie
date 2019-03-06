@@ -27,10 +27,6 @@ export default ({ node }) => {
         state.loading = false
         state.loaded = true
       } catch (error) {
-        commit(`notifyError`, {
-          title: `Error fetching votes`,
-          body: error.message
-        })
         Sentry.captureException(error)
         state.error = error
       }

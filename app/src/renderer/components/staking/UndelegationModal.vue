@@ -7,14 +7,18 @@
     title="Undelegate"
     class="undelegation-modal"
     submission-error-prefix="Undelegating failed"
-    @close="$v.$reset()"
+    @close="clear"
   >
     <tm-form-group
       class="action-modal-form-group"
       field-id="from"
       field-label="From"
     >
-      <tm-field id="from" v-model="validator.operator_address" readonly />
+      <tm-field
+        id="from"
+        v-model="validator.operator_address"
+        readonly
+      />
     </tm-form-group>
     <tm-form-group
       :error="$v.amount.$error && $v.amount.$invalid"
@@ -119,6 +123,12 @@ export default {
       this.$v.$touch()
 
       return !this.$v.$invalid
+    },
+    clear() {
+      this.$v.$reset()
+
+      this.selectedIndex = 0
+      this.amount = null
     },
     async submitForm(submitType, password) {
       await this.$store.dispatch(`submitUnbondingDelegation`, {

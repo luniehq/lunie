@@ -6,7 +6,7 @@
       <div class="page-profile__header page-profile__section">
         <div class="row">
           <img
-            v-if="validator.keybase"
+            v-if="validator && validator.keybase"
             :src="validator.keybase.avatarUrl"
             class="avatar"
           ><img

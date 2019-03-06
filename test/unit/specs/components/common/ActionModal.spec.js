@@ -87,10 +87,11 @@ describe(`ActionModal`, () => {
     expect(wrapper.vm.track).toHaveBeenCalled()
   })
 
-  it(`opens session modal`, () => {
+  it(`opens session modal and closes itself`, () => {
     const $store = { commit: jest.fn() }
-    const self = { $store }
+    const self = { $store, close: jest.fn() }
     ActionModal.methods.goToSession.call(self)
+    expect(self.close).toHaveBeenCalled()
     expect($store.commit).toHaveBeenCalledWith(`setSessionModalView`, `welcome`)
     expect($store.commit).toHaveBeenCalledWith(`toggleSessionModal`, true)
   })

@@ -7,7 +7,7 @@
     title="Vote"
     class="modal-vote"
     submission-error-prefix="Voting failed"
-    @close="$v.$reset()"
+    @close="clear"
   >
     <tm-form-group class="action-modal-group vote-options">
       <tm-btn
@@ -109,6 +109,11 @@ export default {
       this.$v.$touch()
 
       return !this.$v.$invalid
+    },
+    clear() {
+      this.$v.$reset()
+
+      this.vote = null
     },
     async submitForm(submitType, password) {
       await this.$store.dispatch(`submitVote`, {
