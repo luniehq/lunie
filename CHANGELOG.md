@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#2161](https://github.com/cosmos/voyager/pull/2161) fixed status dot position @jbibla
 - [\#195](https://github.com/tendermint/devops/issues/195) updated Circle config with new wallet domain name
 
+### Fixed
+
+- [\#2195](https://github.com/cosmos/voyager/issues/2195) undelegation modal showing wrong amount @faboweb
+
 ## [1.0.0-beta.14] - 2019-03-06
 
 ### Fixed
