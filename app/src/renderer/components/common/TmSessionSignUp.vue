@@ -87,8 +87,16 @@
             type="match"
           />
         </tm-form-group>
-        <tm-form-group field-id="sign-up-seed" class="sign-up-seed-group" field-label="Seed Phrase">
-          <field-seed id="sign-up-seed" v-model="fields.signUpSeed" disabled="disabled" />
+        <tm-form-group
+          field-id="sign-up-seed"
+          class="sign-up-seed-group"
+          field-label="Seed Phrase"
+        >
+          <field-seed
+            id="sign-up-seed"
+            v-model="fields.signUpSeed"
+            disabled="disabled"
+          />
           <tm-form-msg
             class="sm"
             type="custom"
@@ -103,11 +111,15 @@
         >
           <div class="tm-field-checkbox">
             <div class="tm-field-checkbox-input">
-              <input id="sign-up-warning" v-model="fields.signUpWarning" type="checkbox">
+              <input
+                id="sign-up-warning"
+                v-model="fields.signUpWarning"
+                type="checkbox"
+              >
             </div>
             <label class="tm-field-checkbox-label" for="sign-up-warning">
-              I have securely written down my seed. I understand that lost
-              seeds cannot be recovered.
+              I have securely written down my seed. I understand that lost seeds
+              cannot be recovered.
             </label>
           </div>
           <tm-form-msg
@@ -126,7 +138,11 @@
         >
           <div class="tm-field-checkbox">
             <div class="tm-field-checkbox-input">
-              <input id="error-collection" v-model="fields.errorCollection" type="checkbox">
+              <input
+                id="error-collection"
+                v-model="fields.errorCollection"
+                type="checkbox"
+              >
             </div>
             <label class="tm-field-checkbox-label" for="error-collection">
               I'd like to opt in for remote error tracking to help improve
@@ -136,12 +152,7 @@
         </tm-form-group>
       </div>
       <div class="tm-session-footer">
-        <tm-btn
-          icon="arrow_forward"
-          icon-pos="right"
-          value="Next"
-          size="lg"
-        />
+        <tm-btn value="Next" size="lg" />
       </div>
     </tm-form-struct>
   </div>

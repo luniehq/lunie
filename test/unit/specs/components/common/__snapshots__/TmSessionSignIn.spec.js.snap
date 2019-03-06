@@ -78,8 +78,6 @@ exports[`TmSessionSignIn has the expected html structure 1`] = `
       class="tm-session-footer"
     >
       <tm-btn-stub
-        icon="arrow_forward"
-        iconpos="right"
         size="lg"
         value="Next"
       />

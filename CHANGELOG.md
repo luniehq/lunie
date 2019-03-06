@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+- [\#2161](https://github.com/cosmos/voyager/pull/2161) fixed status dot position @jbibla
+
 ## [1.0.0-beta.14] - 2019-03-06
 
 ### Fixed
