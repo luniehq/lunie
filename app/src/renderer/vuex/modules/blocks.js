@@ -14,6 +14,7 @@ export default ({ node }) => {
     subscription: false,
     syncing: true,
     blockMetas: {},
+    transactions: {},
     subscribedRPC: null,
     loading: false,
     error: null,
@@ -21,7 +22,9 @@ export default ({ node }) => {
     blocks: [],
     // one block, specified by height
     block: {
-      block_meta: {}
+      block: {},
+      block_meta: {},
+      trasactions: {}
     }
   }
 
@@ -34,6 +37,9 @@ export default ({ node }) => {
     setPeers: (state, peers) => (state.peers = peers),
     setBlocks: (state, blocks) => (state.blocks = blocks),
     setBlock: (state, block) => (state.block = block),
+    setBlockTransactions: (state, txs) => {
+      Vue.set(state.block, `transactions`, txs)
+    },
     addBlock: (state, block) =>
       Vue.set(state, `blocks`, cache(state.blocks, block)),
     setSubscribedRPC: (state, subscribedRPC) =>
@@ -47,6 +53,23 @@ export default ({ node }) => {
       //on a reconnect we assume, that the rpc connector changed, so we can safely resubscribe to blocks
       commit(`setSubscription`, false)
       dispatch(`subscribeToBlocks`)
+    },
+    async getBlockTxs({ state, commit }, height) {
+      try {
+        commit(`setLoading`, true)
+        const txs = await node.getTxsByHeight(height)
+        const time = state.blockMetas[height].header.time
+        txs.map(tx => Object.assign({}, tx, {
+          height,
+          time
+        }))
+        commit(`setBlockTransactions`, txs)
+      } catch (error) {
+        Sentry.captureException(error)
+        commit(`setLoading`, false)
+        commit(`setError`, error)
+        return null
+      }
     },
     async queryBlockInfo({ state, commit }, height) {
       try {

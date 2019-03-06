@@ -28,8 +28,8 @@
         <div class="row">
           <div class="column">
             <dl class="info_dl colored_dl">
-              <dt>Transactions</dt>
-              <dd>{{ block.block && block.block.data.txs || `No Transactions` }}</dd>
+              <dt>Evidence</dt>
+              <dd>{{ block.block && block.block.evidence.evidence || `No Evidence` }}</dd>
             </dl>
           </div>
         </div>
@@ -38,10 +38,23 @@
       <div class="page-profile__section block">
         <div class="row">
           <div class="column">
-            <dl class="info_dl colored_dl">
-              <dt>Evidence</dt>
-              <dd>{{ block.block && block.block.evidence.evidence || `No Evidence` }}</dd>
-            </dl>
+            <h3>Transactions</h3>
+            <li-any-transaction
+              v-for="tx in blockTransactions"
+              :key="tx.txhash"
+              :validators="delegates.delegates"
+              validators-url="/staking/validators"
+              proposals-url="/governance"
+              :transaction="tx"
+              :address="session.address || ``"
+              :bonding-denom="bondDenom"
+              :height="block.block.header.height"
+              :time="block.block.header.time"
+              :unbonding-time="
+                getUnbondingTime(tx, delegation.unbondingDelegations)
+              "
+            />
+            <br>
           </div>
         </div>
       </div>
@@ -53,20 +66,34 @@
 import moment from "moment"
 import { mapGetters } from "vuex"
 import num from "scripts/num"
+import { decodeTx } from "scripts/tx-utils"
+import { getUnbondingTime } from "scripts/time"
 import TmDataError from "common/TmDataError"
 import TmPage from "common/TmPage"
+import LiAnyTransaction from "transactions/LiAnyTransaction"
 export default {
   name: `page-block`,
   components: {
     TmDataError,
-    TmPage
+    TmPage,
+    LiAnyTransaction
   },
   data: () => ({
+    decodeTx,
     num,
-    moment
+    moment,
+    getUnbondingTime
   }),
   computed: {
-    ...mapGetters([`connected`, `block`, `lastHeader`]),
+    ...mapGetters([
+      `connected`,
+      `block`,
+      `bondDenom`,
+      `lastHeader`,
+      `delegates`,
+      `delegation`,
+      `session`
+    ]),
     properties() {
       return [
         {
@@ -87,6 +114,9 @@ export default {
     blockTime({ moment, block } = this) {
       if (!block.block) return `n/a`
       return moment(block.block.header.time).format(`MMM Do YYYY, HH:mm:ss`)
+    },
+    blockTransactions({ block } = this) {
+      return block.transactions || []
     }
   },
   watch: {
@@ -104,10 +134,11 @@ export default {
         `queryBlockInfo`,
         $route.params.height
       )
+      await $store.dispatch(`getBlockTxs`, $route.params.height)
 
       if (
         !blockInfo &&
-        Number($route.params.height) > Number(lastHeader.height)
+				Number($route.params.height) > Number(lastHeader.height)
       ) {
         $router.push(`/404`)
         return

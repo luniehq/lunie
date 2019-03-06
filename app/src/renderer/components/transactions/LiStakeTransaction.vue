@@ -1,8 +1,8 @@
 <template>
   <li-transaction
     :color="`#47AB6C`"
-    :time="transaction.time"
-    :block="transaction.height"
+    :time="transaction.time || time"
+    :block="transaction.height || height"
   >
     <template v-if="txType === `cosmos-sdk/MsgCreateValidator`">
       <div slot="caption">
@@ -135,6 +135,14 @@ export default {
     txType: {
       type: String,
       required: true
+    },
+    time: {
+      type: [Number, String],
+      default: null
+    },
+    height: {
+      type: [Number, String],
+      default: null
     }
   },
   data: () => ({
@@ -148,8 +156,11 @@ export default {
     timeDiff() {
       // only show time diff if still waiting to be terminated
       if (this.state !== `locked`) return ``
+      console.log(this.time)
 
-      return `(liquid ` + moment(this.unbondingTime).fromNow() + `)`
+      return (
+        `(liquid ` + moment(this.unbondingTime || this.time).fromNow() + `)`
+      )
     },
     // unbonding transactions can be in the state 'locked', 'ended'
     // the transaction needs to be enriched from the outside with `unbondingDelegation`

@@ -1,8 +1,8 @@
 <template>
   <li-transaction
     :color="`#F2B134`"
-    :time="transaction.time"
-    :block="transaction.height"
+    :time="transaction.time || time"
+    :block="transaction.height || height"
   >
     <template v-if="txType === `cosmos-sdk/MsgWithdrawDelegationReward`">
       <div slot="caption">
@@ -66,6 +66,14 @@ export default {
     validators: {
       type: Array,
       required: true
+    },
+    time: {
+      type: [Number, String],
+      default: null
+    },
+    height: {
+      type: [Number, String],
+      default: null
     }
   },
   data: () => ({

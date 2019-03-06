@@ -39,7 +39,7 @@ export default {
       default: null
     },
     time: {
-      type: Number,
+      type: [String, Number],
       default: null
     },
     block: {

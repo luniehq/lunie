@@ -3,6 +3,8 @@
     v-if="bankTx"
     :transaction="transaction"
     :address="address"
+    :time="transaction.time || time"
+    :height="height"
   />
   <li-stake-transaction
     v-else-if="stakingTx"
@@ -12,6 +14,8 @@
     :unbonding-time="unbondingTime"
     :bonding-denom="bondingDenom"
     :tx-type="type"
+    :time="transaction.time || time"
+    :height="height"
   />
   <li-gov-transaction
     v-else-if="governanceTx"
@@ -19,6 +23,8 @@
     :bonding-denom="bondingDenom"
     :url="proposalsUrl"
     :tx-type="type"
+    :time="transaction.time || time"
+    :height="height"
   />
   <li-distribution-transaction
     v-else-if="distributionTx"
@@ -27,11 +33,13 @@
     :bonding-denom="bondingDenom"
     :tx-type="type"
     :validators="validators"
+    :time="transaction.time || time"
+    :height="height"
   />
   <li-transaction
     v-else
-    :time="transaction.time"
-    :block="transaction.height"
+    :time="transaction.time || time"
+    :block="transaction.height || height"
     color="grey"
   >
     <span slot="caption">Unknown Transaction Type</span>
@@ -81,6 +89,14 @@ export default {
     },
     unbondingTime: {
       type: Number,
+      default: null
+    },
+    time: {
+      type: [Number, String],
+      default: null
+    },
+    height: {
+      type: [Number, String],
       default: null
     }
   },
