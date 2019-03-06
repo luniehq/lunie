@@ -17,13 +17,6 @@
       <tm-field id="from" v-model="validator.operator_address" readonly />
     </tm-form-group>
     <tm-form-group
-      class="action-modal-form-group"
-      field-id="to"
-      field-label="To"
-    >
-      <tm-field id="to" v-model="to" readonly="readonly" />
-    </tm-form-group>
-    <tm-form-group
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"

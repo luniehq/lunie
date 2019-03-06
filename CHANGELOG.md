@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 - [\#1897](https://github.com/cosmos/voyager/issues/1897) made action modals smaller @jbibla
+- [\#2179](https://github.com/cosmos/voyager/issues/2179) removed "to" field from undelegation action modal @jbibla
 
 ## [1.0.0-beta.13] - 2019-03-05
 
