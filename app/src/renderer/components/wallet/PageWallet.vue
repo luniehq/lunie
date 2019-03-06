@@ -25,7 +25,7 @@
       @show-modal="showModal"
     />
     <tm-btn
-      v-if="session.signedIn && enableFaucet"
+      v-if="enableFaucet"
       slot="header-buttons"
       value="Get Tokens"
       color="green"
@@ -58,7 +58,7 @@ export default {
   computed: {
     ...mapGetters([`wallet`, `connected`, `session`]),
     enableFaucet() {
-      return !!this.wallet.externals.config.faucet
+      return !!this.wallet.externals.config.faucet && this.session.signedIn
     },
     allDenomBalances() {
       // for denoms not in balances, add empty balance

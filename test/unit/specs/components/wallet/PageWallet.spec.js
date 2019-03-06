@@ -40,6 +40,18 @@ describe(`PageWallet`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
+  it(`should not show denoms or the faucet button for a user who is not signed in`, () => {
+    $store.getters.session.signedIn = false
+    wrapper = shallowMount(PageWallet, {
+      localVue,
+      mocks: {
+        $store
+      }
+    })
+
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
   it(`should sort the balances by amount desc and denom asc`, () => {
     expect(wrapper.vm.filteredBalances.map(x => x.denom)).toEqual([
       `fermion`,
