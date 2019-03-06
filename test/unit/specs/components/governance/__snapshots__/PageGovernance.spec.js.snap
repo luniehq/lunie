@@ -113,8 +113,6 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
     class="tm-page-main"
   >
     <!---->
-     
-    <!---->
       
     <!---->
      
@@ -234,8 +232,6 @@ exports[`PageGovernance has the expected html structure 1`] = `
   <main
     class="tm-page-main"
   >
-    <!---->
-     
     <!---->
       
     <!---->
