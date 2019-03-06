@@ -61,21 +61,31 @@ export default ({ node }) => {
 
         if (!rootState.connection.connected) return
 
+        // TODO: add (push to state) only new transactions
         const bankTxs = await dispatch(`getTx`, `bank`)
-        commit(`setBankTxs`, bankTxs)
+        if (bankTxs.length > state.bank.length) {
+          commit(`setBankTxs`, bankTxs)
+          await dispatch(`enrichTransactions`, bankTxs)
+        }
 
         const stakingTxs = await dispatch(`getTx`, `staking`)
-        commit(`setStakingTxs`, stakingTxs)
+        if (stakingTxs.length > state.staking.length) {
+          commit(`setStakingTxs`, stakingTxs)
+          await dispatch(`enrichTransactions`, stakingTxs)
+        }
 
         const governanceTxs = await dispatch(`getTx`, `governance`)
-        commit(`setGovernanceTxs`, governanceTxs)
+        if (governanceTxs.length > state.governance.length) {
+          commit(`setGovernanceTxs`, governanceTxs)
+          await dispatch(`enrichTransactions`, governanceTxs)
+        }
 
         const distributionTxs = await dispatch(`getTx`, `distribution`)
-        commit(`setDistributionTxs`, distributionTxs)
+        if (distributionTxs.length > state.distribution.length) {
+          commit(`setDistributionTxs`, distributionTxs)
+          await dispatch(`enrichTransactions`, distributionTxs)
+        }
 
-        const allTxs = bankTxs.concat(stakingTxs, governanceTxs, distributionTxs)
-
-        await dispatch(`enrichTransactions`, allTxs)
         state.error = null
         commit(`setHistoryLoading`, false)
         state.loaded = true
