@@ -198,7 +198,7 @@ describe(`Module: Proposals`, () => {
     const dispatch = jest.fn()
     const commit = jest.fn()
     const proposalsArray = Object.values(proposals)
-    proposalsArray.forEach(async (proposal, i) => {
+    await Promise.all(proposalsArray.map(async (proposal, i) => {
       await actions.submitProposal(
         { dispatch, rootState: mockRootState, commit },
         {
@@ -224,10 +224,23 @@ describe(`Module: Proposals`, () => {
       expect(dispatch.mock.calls[i + proposalsArray.length]).toEqual([
         `getProposals`
       ])
+
+      // optimistic update
       expect(commit).toHaveBeenCalledWith(`updateWalletBalance`, {
         denom: `stake`,
         amount: 1000000000 - proposal.initial_deposit[0].amount
       })
+    }))
+
+    // optimistic update
+    expect(commit).toHaveBeenCalledWith(`setProposal`, {
+      description: `custom text proposal description`,
+      initial_deposit: [{
+        amount: `200000000`,
+        denom: `stake`,
+      }],
+      proposal_id: `1`,
+      title: `Custom text proposal`,
     })
   })
 })

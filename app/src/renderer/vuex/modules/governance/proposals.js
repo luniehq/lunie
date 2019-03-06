@@ -51,6 +51,7 @@ export default ({ node }) => {
             proposals.map(setProposalTally(commit, node))
           )
         }
+
         state.error = null
         state.loaded = true
         state.loading = false
@@ -93,13 +94,23 @@ export default ({ node }) => {
         submitType
       })
       
-      // optimistic update
+      // optimistic updates
       initial_deposit.forEach(({ amount, denom }) => {
         const oldBalance = wallet.balances.find(balance => balance.denom === denom)
         commit(`updateWalletBalance`, {
           denom,
           amount: BigNumber(oldBalance.amount).minus(amount).toNumber()
         })
+      })
+
+      const latestId = Object.keys(state.proposals).reduce((latest, id) => {
+        return latest > Number(id) ?  latest : Number(id)
+      }, 0)
+      commit(`setProposal`, {
+        proposal_id: String(latestId + 1),
+        title,
+        description,
+        initial_deposit
       })
 
       await dispatch(`getProposals`)
