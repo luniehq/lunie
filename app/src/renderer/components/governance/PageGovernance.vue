@@ -7,6 +7,7 @@
     data-title="Governance"
   >
     <tm-btn
+      v-if="session.signedIn"
       id="propose-btn"
       slot="header-buttons"
       :disabled="!connected"

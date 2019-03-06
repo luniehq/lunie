@@ -83,8 +83,7 @@ export default {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  padding-top: 1rem;
-  padding-left: 2rem;
+  padding: 1rem 0 2rem 2rem;
 }
 
 .header-balance .top {
