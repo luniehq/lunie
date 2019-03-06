@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+- [\#2043](https://github.com/cosmos/voyager/issues/2043) removed no-balance modals on staking page @fedekunze
+
+## [1.0.0-beta.14] - 2019-03-06
+
+### Fixed
+
+- [\#2138](https://github.com/cosmos/voyager/issues/2138) Non breaking space not renderer correctly on hardware state indicator @faboweb
+- [\#1211](https://github.com/cosmos/voyager/issues/1211) Fixed thrown error on page validator when validator wasn't loaded yet @faboweb
+- [\#2128](https://github.com/cosmos/voyager/pull/2128) remove loading status on validator page when disconnected from the network @fedekunze
+
 ### Added
 
 - [\#1306](https://github.com/cosmos/voyager/issues/1306) Withdraw fee distribution rewards @fedekunze
@@ -14,11 +26,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 - [\#1897](https://github.com/cosmos/voyager/issues/1897) made action modals smaller @jbibla
-- [\#2043](https://github.com/cosmos/voyager/issues/2043) removed no-balance modals on staking page @fedekunze
-
-### Fixed
-
-- [\#2128](https://github.com/cosmos/voyager/pull/2128) remove loading status on validator page when disconnected from the network @fedekunze
+- [\#2179](https://github.com/cosmos/voyager/issues/2179) removed "to" field from undelegation action modal @jbibla
 
 ## [1.0.0-beta.13] - 2019-03-05
 
