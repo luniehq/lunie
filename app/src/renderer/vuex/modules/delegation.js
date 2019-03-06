@@ -94,7 +94,7 @@ export default ({ node }) => {
         // here we check if the user is still the same
         if (rootState.session.address !== address) return
 
-        if (delegator.delegations) {
+        if (delegator.delegations && candidates) {
           delegator.delegations.forEach(({ validator_addr, shares }) => {
             commit(`setCommittedDelegation`, {
               candidateId: validator_addr,

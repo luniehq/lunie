@@ -1,8 +1,7 @@
 <template>
   <tm-page data-title="Validator">
     <tm-data-loading v-if="delegates.loading" />
-    <tm-data-error v-if="delegates.loaded && !validator" />
-
+    <tm-data-error v-else-if="delegates.loaded && !validator" />
     <template v-else>
       <div class="page-profile__header page-profile__section">
         <div class="row">
@@ -79,7 +78,10 @@
                 {{ percent(validator.commission.rate) }}
               </dd>
             </dl>
-            <dl v-if="session.experimentalMode" class="info_dl colored_dl">
+            <dl
+              v-if="session.experimentalMode"
+              class="info_dl colored_dl"
+            >
               <dt>Slashes</dt>
               <dd>--</dd>
             </dl>
@@ -160,7 +162,10 @@
         :denom="bondDenom"
       />
 
-      <tm-modal v-if="showCannotModal" :close="closeCannotModal">
+      <tm-modal
+        v-if="showCannotModal"
+        :close="closeCannotModal"
+      >
         <div slot="title">
           Cannot {{ action === `delegate` ? `Delegate` : `Undelegate` }}
         </div>
@@ -189,7 +194,6 @@ import { mapGetters } from "vuex"
 import { percent, pretty, atoms, full } from "scripts/num"
 import TmBtn from "common/TmBtn"
 import TmModal from "common/TmModal"
-import TmDataLoading from "common/TmDataLoading"
 import TmDataError from "common/TmDataError"
 import { shortAddress, ratToBigNumber } from "scripts/common"
 import DelegationModal from "staking/DelegationModal"
@@ -205,7 +209,6 @@ export default {
     UndelegationModal,
     TmBtn,
     TmModal,
-    TmDataLoading,
     TmDataError,
     TmPage
   },
@@ -265,7 +268,7 @@ export default {
     },
     myDelegation() {
       const { bondDenom, myBond } = this
-      const myDelegation = full(atoms(myBond))
+      const myDelegation = full(myBond)
       const myDelegationString = `${myDelegation} ${bondDenom}`
       return Number(myBond) === 0 ? `--` : myDelegationString
     },

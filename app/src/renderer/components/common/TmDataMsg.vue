@@ -62,10 +62,6 @@ export default {
   color: var(--txt);
 }
 
-.tm-data-msg__text {
-  max-width: 30rem;
-}
-
 .tm-data-msg__title {
   color: var(--bright);
   font-size: var(--h2);

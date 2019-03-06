@@ -6,12 +6,13 @@ describe(`TmHardwareState`, () => {
 
   const propsData = {
     icon: `rotate_right`,
-    loading: true,
-    value: `Detecting your Ledger Wallet`
+    loading: true
   }
 
   beforeEach(() => {
-    wrapper = mount(TmHardwareState, { propsData })
+    wrapper = mount(TmHardwareState, { propsData, slots: {
+      default: `Detecting your Ledger Wallet`
+    } })
   })
 
   it(`has the expected html structure`, () => {

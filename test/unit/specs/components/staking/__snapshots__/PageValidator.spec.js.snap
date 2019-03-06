@@ -6,8 +6,6 @@ exports[`PageValidator shows a validator profile information errors signing info
   subtitle=""
   title=""
 >
-  <!---->
-   
   <div
     class="page-profile__header page-profile__section"
   >
@@ -330,8 +328,6 @@ exports[`PageValidator shows a validator profile information if user has signed 
   subtitle=""
   title=""
 >
-  <!---->
-   
   <div
     class="page-profile__header page-profile__section"
   >
@@ -654,8 +650,6 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
   subtitle=""
   title=""
 >
-  <!---->
-   
   <div
     class="page-profile__header page-profile__section"
   >
