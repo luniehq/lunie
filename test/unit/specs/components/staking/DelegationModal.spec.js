@@ -1,21 +1,32 @@
 "use strict"
 
-import setup from "../../../helpers/vuex-setup"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
 import DelegationModal from "staking/DelegationModal"
 import Vuelidate from "vuelidate"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`DelegationModal`, () => {
-  let wrapper, store
+  let wrapper
   const { stakingParameters } = lcdClientMock.state
-  const { mount, localVue } = setup()
+  const localVue = createLocalVue()
   localVue.use(Vuelidate)
-  localVue.directive(`tooltip`, () => {})
-  localVue.directive(`focus`, () => {})
+
+  const getters = {
+    connection: { connected: true },
+    session: {
+      signedIn: true,
+      address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+    },
+    delegates: { delegates: lcdClientMock.state.candidates },
+    stakingParameters: { parameters: stakingParameters }
+  }
 
   beforeEach(() => {
-    const instance = mount(DelegationModal, {
+    wrapper = shallowMount(DelegationModal, {
       localVue,
+      mocks: {
+        $store: { getters }
+      },
       propsData: {
         validator: lcdClientMock.state.candidates[0],
         fromOptions: [
@@ -42,28 +53,28 @@ describe(`DelegationModal`, () => {
         denom: stakingParameters.parameters.bond_denom
       }
     })
-    wrapper = instance.wrapper
-    store = instance.store
-
-    store.state.connection.connected = true
-    store.state.wallet.address = `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
-    store.state.delegates.delegates = lcdClientMock.state.candidates
-    store.commit(`setStakingParameters`, stakingParameters.parameters)
-    store.commit(`setSignIn`, true)
-
-    wrapper.vm.$refs.actionModal.open()
   })
 
-  describe(`component matches snapshot`, () => {
-    it(`has the expected html structure`, async () => {
-      expect(wrapper.vm.$el).toMatchSnapshot()
-    })
+  it(`should display the delegation modal`, async () => {
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`opens`, () => {
     wrapper.vm.$refs.actionModal.open = jest.fn()
     wrapper.vm.open()
     expect(wrapper.vm.$refs.actionModal.open).toHaveBeenCalled()
+  })
+
+  it(`clears on close`, () => {
+    wrapper.setData({ selectedIndex: 1, amount: 100000000 })
+    // produce validation error as amount is too high
+    wrapper.vm.$v.$touch()
+    expect(wrapper.vm.$v.$error).toBe(true)
+
+    wrapper.vm.clear()
+    expect(wrapper.vm.$v.$error).toBe(false)
+    expect(wrapper.vm.selectedIndex).toBe(0)
+    expect(wrapper.vm.amount).toBe(null)
   })
 
   describe(`validation`, () => {
@@ -86,68 +97,112 @@ describe(`DelegationModal`, () => {
     })
   })
 
-  describe(`(Re)delegate`, () => {
-    it(`submits a delegation`, async () => {
-      wrapper.vm.$store.dispatch = jest.fn()
-      wrapper.vm.$store.commit = jest.fn()
-
-      wrapper.setData({ amount: 50 })
-      await wrapper.vm.submitForm(`local`, `1234567890`)
-
-      expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
-        [
-          `submitDelegation`,
-          {
-            amount: `500000000`,
-            // validatorSrc: lcdClientMock.state.candidates[1],
-            // validatorDst: lcdClientMock.state.candidates[0],
-            validator_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
-            password: `1234567890`,
-            submitType: `local`
-          }
-        ]
-      ])
-
-      expect(wrapper.vm.$store.commit.mock.calls).toEqual([
-        [
-          `notify`,
-          {
-            body: `You have successfully delegated your STAKEs`,
-            title: `Successful delegation!`
-          }
-        ]
-      ])
+  describe(`submitForm`, () => {
+    let $store, session, submitDelegation, submitRedelegation
+    beforeEach(() => {
+      $store = {
+        dispatch: jest.fn(),
+        commit: jest.fn()
+      }
+      session = { address: `cosmos1address` }
+      submitDelegation = jest.fn()
+      submitRedelegation = jest.fn()
     })
 
-    it(`submits a redelegation`, async () => {
-      wrapper.vm.$store.dispatch = jest.fn()
-      wrapper.vm.$store.commit = jest.fn()
+    it(`should submit a delegation`, async () => {
+      const from = `cosmos1address`
 
-      wrapper.setData({ amount: 50, selectedIndex: 1 })
-      await wrapper.vm.submitForm(`local`, `1234567890`)
+      await DelegationModal.methods.submitForm.call(
+        { $store, amount: 50, session, from, submitDelegation, submitRedelegation },
+        `local`, `1234567890`
+      )
+      expect(submitDelegation).toHaveBeenCalledWith(`local`, `1234567890`)
+      expect(submitRedelegation).not.toHaveBeenCalledWith(`local`, `1234567890`)
+    })
 
-      expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
-        [
-          `submitRedelegation`,
-          {
-            amount: `500000000`,
-            validatorSrc: lcdClientMock.state.candidates[0],
-            validatorDst: lcdClientMock.state.candidates[0],
-            submitType: `local`,
-            password: `1234567890`
-          }
-        ]
-      ])
+    it(`should submit a redelegation`, async () => {
+      const from = `cosmosvaloper1address`
 
-      expect(wrapper.vm.$store.commit.mock.calls).toEqual([
-        [
-          `notify`,
-          {
-            body: `You have successfully redelegated your STAKEs`,
-            title: `Successful redelegation!`
-          }
-        ]
-      ])
+      await DelegationModal.methods.submitForm.call(
+        { $store, amount: 50, session, from, submitDelegation, submitRedelegation },
+        `local`, `1234567890`
+      )
+      expect(submitDelegation).not.toHaveBeenCalledWith(`local`, `1234567890`)
+      expect(submitRedelegation).toHaveBeenCalledWith(`local`, `1234567890`)
+    })
+  })
+
+  describe(`submitDelegation`, () => {
+    it(`should delegate`, async () => {
+
+      const $store = {
+        dispatch: jest.fn(),
+        commit: jest.fn()
+      }
+      const validator = { operator_address: `cosmosvaloper1address` }
+      const amount = 50
+
+      await DelegationModal.methods.submitDelegation.call(
+        { $store, amount, validator, denom: `atom` },
+        `local`, `1234567890`
+      )
+
+      expect($store.dispatch).toHaveBeenCalledWith(`submitDelegation`,
+        {
+          amount: `500000000`,
+          validator_addr: validator.operator_address,
+          password: `1234567890`,
+          submitType: `local`
+        }
+      )
+
+      expect($store.commit).toHaveBeenCalledWith(`notify`,
+        {
+          body: `You have successfully delegated your atoms`,
+          title: `Successful delegation!`
+        }
+      )
+    })
+  })
+
+  describe(`submitRedelegation`, () => {
+    it(`should redelegate`, async () => {
+
+      const $store = {
+        dispatch: jest.fn(),
+        commit: jest.fn()
+      }
+      const validator = { operator_address: `cosmosvaloper1address` }
+      const delegates = {
+        delegates:
+          [
+            { operator_address: `cosmosvaloper1address2` }
+          ]
+      }
+      const from = `cosmosvaloper1address2`
+      const amount = 50
+
+      await DelegationModal.methods.submitRedelegation.call(
+        { $store, amount, validator, delegates, from, denom: `atom` },
+        `local`, `1234567890`
+      )
+
+      expect($store.dispatch).toHaveBeenCalledWith(`submitRedelegation`,
+        {
+          amount: `500000000`,
+          validatorSrc: delegates.delegates[0],
+          validatorDst: validator,
+          password: `1234567890`,
+          submitType: `local`
+        }
+      )
+
+      expect($store.commit).toHaveBeenCalledWith(`notify`,
+        {
+          body: `You have successfully redelegated your atoms`,
+          title: `Successful redelegation!`
+        }
+      )
     })
   })
 })

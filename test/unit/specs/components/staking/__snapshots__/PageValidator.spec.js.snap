@@ -20,24 +20,28 @@ exports[`PageValidator shows a validator profile information errors signing info
       <div
         class="page-profile__header__info"
       >
-        <div
-          class="page-profile__status-and-title"
-        >
-          <span
-            class="page-profile__status green"
-          />
-           
-          <div
-            class="page-profile__title"
-          >
-            
-              mr_mounty
-            
+        <div>
+          <div>
+            <div
+              class="page-profile__status-and-title"
+            >
+              <span
+                class="page-profile__status green"
+              />
+               
+              <div
+                class="page-profile__title"
+              >
+                
+                  mr_mounty
+                
+              </div>
+            </div>
+             
+            <short-bech32-stub
+              address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+            />
           </div>
-           
-          <short-bech32-stub
-            address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
-          />
         </div>
          
         <div
@@ -317,8 +321,6 @@ exports[`PageValidator shows a validator profile information errors signing info
     to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
     validator="[object Object]"
   />
-   
-  <!---->
 </tm-page-stub>
 `;
 
@@ -342,24 +344,28 @@ exports[`PageValidator shows a validator profile information if user has signed 
       <div
         class="page-profile__header__info"
       >
-        <div
-          class="page-profile__status-and-title"
-        >
-          <span
-            class="page-profile__status green"
-          />
-           
-          <div
-            class="page-profile__title"
-          >
-            
-              mr_mounty
-            
+        <div>
+          <div>
+            <div
+              class="page-profile__status-and-title"
+            >
+              <span
+                class="page-profile__status green"
+              />
+               
+              <div
+                class="page-profile__title"
+              >
+                
+                  mr_mounty
+                
+              </div>
+            </div>
+             
+            <short-bech32-stub
+              address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+            />
           </div>
-           
-          <short-bech32-stub
-            address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
-          />
         </div>
          
         <div
@@ -639,8 +645,6 @@ exports[`PageValidator shows a validator profile information if user has signed 
     to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
     validator="[object Object]"
   />
-   
-  <!---->
 </tm-page-stub>
 `;
 
@@ -664,24 +668,28 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
       <div
         class="page-profile__header__info"
       >
-        <div
-          class="page-profile__status-and-title"
-        >
-          <span
-            class="page-profile__status green"
-          />
-           
-          <div
-            class="page-profile__title"
-          >
-            
-              mr_mounty
-            
+        <div>
+          <div>
+            <div
+              class="page-profile__status-and-title"
+            >
+              <span
+                class="page-profile__status green"
+              />
+               
+              <div
+                class="page-profile__title"
+              >
+                
+                  mr_mounty
+                
+              </div>
+            </div>
+             
+            <short-bech32-stub
+              address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+            />
           </div>
-           
-          <short-bech32-stub
-            address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
-          />
         </div>
          
         <div
@@ -961,8 +969,6 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
     to=""
     validator="[object Object]"
   />
-   
-  <!---->
 </tm-page-stub>
 `;
 

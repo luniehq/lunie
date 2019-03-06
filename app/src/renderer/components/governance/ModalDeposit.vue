@@ -7,7 +7,7 @@
     title="Deposit"
     class="modal-deposit"
     submission-error-prefix="Depositing failed"
-    @close="$v.$reset()"
+    @close="clear"
   >
     <tm-form-group
       :error="$v.amount.$error && $v.amount.$invalid"
@@ -16,7 +16,11 @@
       field-label="Amount"
     >
       <span class="input-suffix">{{ denom }}</span>
-      <tm-field id="amount" v-model="amount" type="number" />
+      <tm-field
+        id="amount"
+        v-model="amount"
+        type="number"
+      />
       <tm-form-msg
         v-if="balance === 0"
         :msg="`doesn't have any ${denom}s`"
@@ -108,6 +112,11 @@ export default {
       this.$v.$touch()
 
       return !this.$v.$invalid
+    },
+    clear() {
+      this.$v.$reset()
+
+      this.amount = 0
     },
     async submitForm(submitType, password) {
       // TODO: support multiple coins

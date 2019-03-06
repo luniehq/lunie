@@ -87,10 +87,9 @@
             type="match"
           />
         </tm-form-group>
-        <p
-          class="fundraiser-warning"
-        >
-          Warning – Do not enter your actual 12 or 24 word seed phrase. This feature is intended for testing and is considered highly unsafe.
+        <p class="fundraiser-warning">
+          Warning – Do not enter your actual 12 or 24 word seed phrase. This
+          feature is intended for testing and is considered highly unsafe.
         </p>
         <tm-form-group
           :error="$v.$error && $v.fields.importSeed.$invalid"
@@ -123,7 +122,11 @@
         >
           <div class="tm-field-checkbox">
             <div class="tm-field-checkbox-input">
-              <input id="error-collection" v-model="fields.errorCollection" type="checkbox">
+              <input
+                id="error-collection"
+                v-model="fields.errorCollection"
+                type="checkbox"
+              >
             </div>
             <label class="tm-field-checkbox-label" for="error-collection">
               I'd like to opt in for remote error tracking to help improve
@@ -133,16 +136,9 @@
         </tm-form-group>
       </div>
       <div class="tm-session-footer">
-        <tm-btn
-          v-if="connected"
-          icon="arrow_forward"
-          icon-pos="right"
-          value="Next"
-          size="lg"
-        />
+        <tm-btn v-if="connected" value="Next" size="lg" />
         <tm-btn
           v-else
-          icon-pos="right"
           value="Connecting..."
           size="lg"
           disabled="true"
