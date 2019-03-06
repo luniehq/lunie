@@ -184,26 +184,6 @@ describe(`Module: Fee Distribution`, () => {
       })
     })
 
-    describe(`withdrawRewardsFromValidator`, () => {
-      it(`success`, async () => {
-        const validatorAddr = `cosmosvaloper1address`
-        await actions.withdrawRewardsFromValidator(
-          { rootState, commit, dispatch },
-          { validatorAddr, password: `1234567890`, submitType: `local` }
-        )
-        expect(dispatch).toHaveBeenCalledWith(`sendTx`, {
-          to: `cosmos1address`,
-          pathParameter: validatorAddr,
-          type: `postWithdrawDelegatorRewardsFromValidator`,
-          password: `1234567890`,
-          submitType: `local`
-        })
-        expect(commit).toHaveBeenCalledWith(`setDelegationRewards`, { validatorAddr, rewards: {} })
-        expect(dispatch).toHaveBeenCalledWith(`getTotalRewards`)
-        expect(dispatch).toHaveBeenCalledWith(`getRewardsFromValidator`, validatorAddr)
-      })
-    })
-
     describe(`getDistributionParameters`, () => {
       it(`success`, async () => {
         await actions.getDistributionParameters({ state, rootState, commit })

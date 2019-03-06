@@ -17,13 +17,6 @@
       <tm-field id="from" v-model="validator.operator_address" readonly />
     </tm-form-group>
     <tm-form-group
-      class="action-modal-form-group"
-      field-id="to"
-      field-label="To"
-    >
-      <tm-field id="to" v-model="to" readonly="readonly" />
-    </tm-form-group>
-    <tm-form-group
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
@@ -64,7 +57,6 @@
 </template>
 
 <script>
-import ClickOutside from "vue-click-outside"
 import { mapGetters } from "vuex"
 import { uatoms, atoms } from "../../scripts/num.js"
 import { between, decimal } from "vuelidate/lib/validators"
@@ -75,9 +67,6 @@ import TmFormMsg from "common/TmFormMsg"
 
 export default {
   name: `undelegation-modal`,
-  directives: {
-    ClickOutside
-  },
   components: {
     ActionModal,
     TmField,
