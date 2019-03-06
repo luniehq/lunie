@@ -50,12 +50,14 @@ describe(`ModalDeposit`, () => {
     expect(wrapper.vm.$refs.actionModal.open).toHaveBeenCalled()
   })
 
-  // do when refactoring the test
-  xit(`clears on close`, () => {
-    wrapper.vm.$v.$reset = jest.fn()
-    wrapper.setData({ amount: 25 })
-    wrapper.vm.close()
-    expect(wrapper.vm.$v.$reset).toHaveBeenCalled()
+  it(`clears on close`, () => {
+    wrapper.setData({ amount: 100000000000 })
+    // produce validation error as amount is too high
+    wrapper.vm.$v.$touch()
+    expect(wrapper.vm.$v.$error).toBe(true)
+
+    wrapper.vm.clear()
+    expect(wrapper.vm.$v.$error).toBe(false)
     expect(wrapper.vm.amount).toBe(0)
   })
 

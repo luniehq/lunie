@@ -39,12 +39,14 @@ describe(`ModalVote`, () => {
     expect(wrapper.vm.$refs.actionModal.open).toHaveBeenCalled()
   })
 
-  // do when refactoring the test
-  xit(`clears on close`, () => {
-    wrapper.vm.$v.$reset = jest.fn()
-    wrapper.setData({ vote: `yes` })
-    wrapper.vm.close()
-    expect(wrapper.vm.$v.$reset).toHaveBeenCalled()
+  it(`clears on close`, () => {
+    wrapper.setData({ vote: `maybe` })
+    // produce validation error as vote is invalid
+    wrapper.vm.$v.$touch()
+    expect(wrapper.vm.$v.$error).toBe(true)
+
+    wrapper.vm.clear()
+    expect(wrapper.vm.$v.$error).toBe(false)
     expect(wrapper.vm.vote).toBe(null)
   })
 
