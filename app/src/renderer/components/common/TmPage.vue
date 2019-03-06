@@ -15,7 +15,7 @@
     </tm-page-header>
     <main class="tm-page-main">
       <card-sign-in-required v-if="signInRequired && !session.signedIn" />
-      <template v-if="this.$slots['managed-body'] && session.signedIn">
+      <template v-else-if="this.$slots['managed-body']">
         <tm-data-connecting v-if="!loaded && !connected" />
         <tm-data-loading v-else-if="!loaded && loading" />
         <tm-data-error v-else-if="error" />
