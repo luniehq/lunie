@@ -39,6 +39,12 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
       type="number"
     />
      
+    <p>
+      
+      STAKEs delegated: 100
+    
+    </p>
+     
     <!---->
   </tm-form-group-stub>
 </action-modal-stub>

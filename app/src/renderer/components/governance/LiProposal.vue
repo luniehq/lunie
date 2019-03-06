@@ -61,11 +61,12 @@ export default {
     tally() {
       const proposalTally =
         this.proposals.tallies[this.proposal.proposal_id] || {}
-      proposalTally.yes = Math.round(atoms(proposalTally.yes))
-      proposalTally.no = Math.round(atoms(proposalTally.no))
-      proposalTally.no_with_veto = Math.round(atoms(proposalTally.no_with_veto))
-      proposalTally.abstain = Math.round(atoms(proposalTally.abstain))
-      return proposalTally
+      return {
+        yes: Math.round(atoms(proposalTally.yes)),
+        no: Math.round(atoms(proposalTally.no)),
+        no_with_veto: Math.round(atoms(proposalTally.no_with_veto)),
+        abstain: Math.round(atoms(proposalTally.abstain))
+      }
     },
     status() {
       if (this.proposal.proposal_status === `Passed`) {

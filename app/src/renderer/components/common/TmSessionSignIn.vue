@@ -33,38 +33,27 @@
           field-id="sign-in-password"
           field-label="Password"
         >
-          <tm-field id="sign-in-password" v-model="signInPassword" type="password" />
+          <tm-field
+            id="sign-in-password"
+            v-model="signInPassword"
+            type="password"
+          />
           <tm-form-msg
-            v-if="
-              $v.signInPassword.$error &&
-                !$v.signInPassword.required
-            "
+            v-if="$v.signInPassword.$error && !$v.signInPassword.required"
             name="Password"
             type="required"
           />
           <tm-form-msg
-            v-if="
-              $v.signInPassword.$error &&
-                !$v.signInPassword.minLength
-            "
+            v-if="$v.signInPassword.$error && !$v.signInPassword.minLength"
             name="Password"
             type="minLength"
             min="10"
           />
-          <tm-form-msg
-            v-if="error"
-            type="custom"
-            :msg="error"
-          />
+          <tm-form-msg v-if="error" type="custom" :msg="error" />
         </tm-form-group>
       </div>
       <div class="tm-session-footer">
-        <tm-btn
-          icon="arrow_forward"
-          icon-pos="right"
-          value="Next"
-          size="lg"
-        />
+        <tm-btn value="Next" size="lg" />
       </div>
     </tm-form-struct>
   </div>

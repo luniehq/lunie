@@ -39,6 +39,17 @@ describe(`ModalVote`, () => {
     expect(wrapper.vm.$refs.actionModal.open).toHaveBeenCalled()
   })
 
+  it(`clears on close`, () => {
+    wrapper.setData({ vote: `maybe` })
+    // produce validation error as vote is invalid
+    wrapper.vm.$v.$touch()
+    expect(wrapper.vm.$v.$error).toBe(true)
+
+    wrapper.vm.clear()
+    expect(wrapper.vm.$v.$error).toBe(false)
+    expect(wrapper.vm.vote).toBe(null)
+  })
+
   describe(`validation`, () => {
     it(`fails`, () => {
       wrapper.vm.submitForm = jest.fn()

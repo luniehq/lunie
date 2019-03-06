@@ -8,13 +8,13 @@ export const proposals = {
     description: `Proposal description`,
     initial_deposit: [
       {
-        denom: `STAKE`,
+        denom: `stake`,
         amount: `1000000000`
       }
     ],
     total_deposit: [
       {
-        denom: `STAKE`,
+        denom: `stake`,
         amount: `1000000000`
       }
     ],
@@ -37,13 +37,13 @@ export const proposals = {
     description: `custom text proposal description`,
     initial_deposit: [
       {
-        denom: `STAKE`,
+        denom: `stake`,
         amount: `2000000000`
       }
     ],
     total_deposit: [
       {
-        denom: `STAKE`,
+        denom: `stake`,
         amount: `2000000000`
       }
     ],
@@ -66,13 +66,13 @@ export const proposals = {
     description: `custom text proposal description`,
     initial_deposit: [
       {
-        denom: `STAKE`,
+        denom: `stake`,
         amount: `200000000`
       }
     ],
     total_deposit: [
       {
-        denom: `STAKE`,
+        denom: `stake`,
         amount: `1700000000`
       }
     ],
@@ -95,13 +95,13 @@ export const proposals = {
     description: `this proposal was rejected`,
     initial_deposit: [
       {
-        denom: `STAKE`,
+        denom: `stake`,
         amount: `1000000000`
       }
     ],
     total_deposit: [
       {
-        denom: `STAKE`,
+        denom: `stake`,
         amount: `1000000000`
       }
     ],
