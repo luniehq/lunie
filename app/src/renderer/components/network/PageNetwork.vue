@@ -42,7 +42,7 @@
               <dd id="loose_tokens">
                 {{
                   pool.pool && pool.pool.not_bonded_tokens
-                    ? num.pretty(num.atoms(pool.pool.not_bonded_tokens))
+                    ? num.full(num.atoms(pool.pool.not_bonded_tokens))
                     : `n/a`
                 }}
               </dd>
@@ -54,7 +54,7 @@
               <dd id="bonded_tokens">
                 {{
                   pool.pool && pool.pool.bonded_tokens
-                    ? num.pretty(num.atoms(pool.pool.bonded_tokens))
+                    ? num.full(num.atoms(pool.pool.bonded_tokens))
                     : `n/a`
                 }}
               </dd>
