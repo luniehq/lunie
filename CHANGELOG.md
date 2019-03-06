@@ -7,14 +7,27 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+- [\#2128](https://github.com/cosmos/voyager/pull/2128) remove loading status on validator page when disconnected from the network @fedekunze
+- [\#2161](https://github.com/cosmos/voyager/pull/2161) fixed status dot position @jbibla
+
+## [1.0.0-beta.14] - 2019-03-06
+
+### Fixed
+
+- [\#2138](https://github.com/cosmos/voyager/issues/2138) Non breaking space not renderer correctly on hardware state indicator @faboweb
+- [\#1211](https://github.com/cosmos/voyager/issues/1211) Fixed thrown error on page validator when validator wasn't loaded yet @faboweb
+- [\#2128](https://github.com/cosmos/voyager/pull/2128) remove loading status on validator page when disconnected from the network @fedekunze
+
 ### Added
 
 - [\#1306](https://github.com/cosmos/voyager/issues/1306) Withdraw fee distribution rewards @fedekunze
 
-### Fixed
+### Changed
 
-- [\#2128](https://github.com/cosmos/voyager/pull/2128) remove loading status on validator page when disconnected from the network @fedekunze
-- [\#2161](https://github.com/cosmos/voyager/pull/2161) fixed status dot position @jbibla
+- [\#1897](https://github.com/cosmos/voyager/issues/1897) made action modals smaller @jbibla
+- [\#2179](https://github.com/cosmos/voyager/issues/2179) removed "to" field from undelegation action modal @jbibla
 
 ## [1.0.0-beta.13] - 2019-03-05
 
@@ -23,8 +36,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#2148](https://github.com/cosmos/voyager/pull/2148) readded insecure mode @faboweb
 - [\#2151](https://github.com/cosmos/voyager/pull/2151) A "You need to sign in" card component @faboweb
 - [\#2152](https://github.com/cosmos/voyager/pull/2152) Feedback button to collect feedback from users on the page @faboweb
-
-### Changed
 
 ### Fixed
 
