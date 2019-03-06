@@ -24,19 +24,6 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
    
   <tm-form-group-stub
     class="action-modal-form-group"
-    fieldid="to"
-    fieldlabel="To"
-  >
-    <tm-field-stub
-      id="to"
-      readonly="readonly"
-      type="text"
-      value="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
-    />
-  </tm-form-group-stub>
-   
-  <tm-form-group-stub
-    class="action-modal-form-group"
     fieldid="amount"
     fieldlabel="Amount"
   >
