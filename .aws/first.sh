@@ -26,6 +26,6 @@ aws s3 cp config/genesis.json s3://cosmos-gaia/genesis.json
 # boot proper nodes in reachable detached sessions
 screen -dmS gaia ./gaiad start --home .
 screen -dmS rest ./gaiacli rest-server --laddr tcp://0.0.0.0:${API_PORT} --home . --node http://localhost:${PORT} --chain-id ${NETWORK} --trust-node true
-screen -dmS faucet ./faucet.sh ${ACCOUNT} ${PASSWORD} ${NETWORK}
+screen -dmSL faucet ./faucet.sh ${ACCOUNT} ${PASSWORD} ${NETWORK}
 
 echo ${NODEID}

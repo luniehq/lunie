@@ -24,7 +24,7 @@ aws s3 cp s3://cosmos-gaia/genesis.json config/genesis.json
 NODEID=$(./gaiad tendermint show-node-id --home .)
 
 # boot referring to the remote node
-screen -dmS gaia ./gaiad start --home . --p2p.persistent_peers="$MAINNODEID@$MAINNODEIP:$((PORT))"
+screen -dmSL gaia ./gaiad start --home . --p2p.persistent_peers="$MAINNODEID@$MAINNODEIP:$((PORT))"
 
 # get the key to make my node validator
 PUBKEY=$(./gaiad tendermint show-validator --home .)
