@@ -28,9 +28,11 @@ exports[`TmLiStakeTransaction delegations should show delegations 1`] = `
           <div>
             
       Delegated 
+      
             <b>
               4,200.00
             </b>
+             
             <span>
                stakes
             </span>

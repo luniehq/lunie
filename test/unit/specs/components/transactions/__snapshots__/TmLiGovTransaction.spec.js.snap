@@ -104,9 +104,11 @@ exports[`TmLiGovTransaction proposals should show proposals submission transacti
             
       Submitted text proposal initial
       deposit 
+      
             <b>
               100.00
             </b>
+             
             <span>
                stakes
             </span>

@@ -99,8 +99,8 @@ exports[`SessionSignUp has the expected html structure 1`] = `
          
         <tm-form-msg-stub
           class="sm"
-          msg="Please back up the seed phrase for this account. This seed phrase
-          cannot be recovered."
+          msg="Please back up the seed phrase for this account.
+          This seed phrase cannot be recovered."
           name=""
           type="custom"
         />
