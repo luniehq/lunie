@@ -148,7 +148,6 @@ async function declareValidator(
     ` --from ${keyName}` +
     ` --amount=${defaultStakedPerValidator}stake` +
     ` --pubkey=${valPubKey}` +
-    ` --address-delegator=${operatorAddress}` +
     ` --moniker=${moniker}` +
     ` --chain-id=${chainId}` +
     ` --commission-max-change-rate=0` +
@@ -174,7 +173,7 @@ async function sendTokens(
     ` --home ${clientHomeDir}` +
     ` --from ${keyName}` +
     ` --chain-id=${chainId}`
-  return makeExecWithInputs(command, [`Y`, password], false)
+  return makeExecWithInputs(command, [`Y`, password,], false)
 }
 
 // start a node and connect it to nodeOne
