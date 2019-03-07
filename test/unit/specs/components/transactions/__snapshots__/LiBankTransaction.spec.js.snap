@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TmLiBankTransaction has the expected html structure 1`] = `
-<tm-li-transaction-stub
+exports[`LiBankTransaction has the expected html structure 1`] = `
+<li-transaction-stub
   block="3436"
-  color="#215C2F"
+  color="#ED553B"
   time="2042"
 >
   <div>
@@ -20,18 +20,16 @@ exports[`TmLiBankTransaction has the expected html structure 1`] = `
   <span>
     From A
   </span>
-</tm-li-transaction-stub>
+</li-transaction-stub>
 `;
 
-exports[`TmLiBankTransaction should show outgoing transactions 1`] = `
-<tm-li-transaction-stub
+exports[`LiBankTransaction should show outgoing transactions 1`] = `
+<li-transaction-stub
   block="3438"
-  color="#25293F"
+  color="#ED553B"
   time="2052"
 >
-  <div
-    slot="caption"
-  >
+  <div>
     
       Sent 
     <b>
@@ -42,25 +40,21 @@ exports[`TmLiBankTransaction should show outgoing transactions 1`] = `
     </span>
   </div>
    
-  <span
-    slot="details"
-  >
+  <span>
     
         To A
       
   </span>
-</tm-li-transaction-stub>
+</li-transaction-stub>
 `;
 
-exports[`TmLiBankTransaction should show transactions sent to the sender 1`] = `
-<tm-li-transaction-stub
+exports[`LiBankTransaction should show transactions sent to the sender 1`] = `
+<li-transaction-stub
   block="466"
-  color="#25293F"
+  color="#ED553B"
   time="1142"
 >
-  <div
-    slot="caption"
-  >
+  <div>
     
       Sent 
     <b>
@@ -71,12 +65,10 @@ exports[`TmLiBankTransaction should show transactions sent to the sender 1`] = `
     </span>
   </div>
    
-  <span
-    slot="details"
-  >
+  <span>
     
         To yourself!
       
   </span>
-</tm-li-transaction-stub>
+</li-transaction-stub>
 `;
