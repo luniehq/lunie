@@ -1,14 +1,16 @@
 <template>
   <div class="tm-hardware-state">
     <div class="tm-hardware-state-content">
-      <i v-if="icon" class="tm-hardware-state__icon material-icons">{{
-        icon
-      }}</i>
+      <i v-if="icon" class="tm-hardware-state__icon material-icons">
+        {{
+          icon
+        }}
+      </i>
       <div class="tm-hardware-state__label">
         <slot />
       </div>
     </div>
-    <img v-show="loading" src="~assets/images/loader.svg" />
+    <img v-show="loading" src="~assets/images/loader.svg">
   </div>
 </template>
 

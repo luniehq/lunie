@@ -27,10 +27,11 @@
             href="https://github.com/cosmos/voyager#ledger-cosmos-app"
             target="_blank"
             rel="noopener noreferrer"
-            >here </a
-          >.
+          >
+            here
+          </a>.
         </p>
-        <tm-btn @click.native="connectLedger()" value="Sign In"></tm-btn>
+        <tm-btn value="Sign In" @click.native="connectLedger()" />
       </div>
     </div>
   </div>
