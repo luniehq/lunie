@@ -44,19 +44,15 @@ import TmBtn from "common/TmBtn"
 import TmPage from "common/TmPage"
 import TmPart from "common/TmPart"
 import TmField from "common/TmField"
-import ToolBar from "common/ToolBar"
-import TmBalance from "common/TmBalance"
 
 export default {
   name: `page-preferences`,
   components: {
-    TmBalance,
     TmBtn,
     TmField,
     TmListItem,
     TmPage,
-    TmPart,
-    ToolBar
+    TmPart
   },
   computed: {
     ...mapGetters([`session`, `onboarding`, `nodeUrl`])

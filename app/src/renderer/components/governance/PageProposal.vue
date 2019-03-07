@@ -61,9 +61,9 @@
             <dt>Proposal Status</dt>
             <dd>
               {{
-              proposal.proposal_status === `DepositPeriod`
-              ? `Deposit period ends ${depositEndsIn}.`
-              : `Voting started ${votingStartedAgo}.`
+                proposal.proposal_status === `DepositPeriod`
+                  ? `Deposit period ends ${depositEndsIn}.`
+                  : `Voting started ${votingStartedAgo}.`
               }}
             </dd>
           </dl>
@@ -72,9 +72,9 @@
             <dt>Deposit Count</dt>
             <dd>
               {{
-              num.atoms(proposal.total_deposit[0].amount) +
-              ` ` +
-              proposal.total_deposit[0].denom
+                num.atoms(proposal.total_deposit[0].amount) +
+                  ` ` +
+                  proposal.total_deposit[0].denom
               }}
             </dd>
           </dl>
@@ -146,8 +146,6 @@ import BigNumber from "bignumber.js"
 import { mapGetters } from "vuex"
 import num from "scripts/num"
 import TmBtn from "common/TmBtn"
-import ToolBar from "common/ToolBar"
-import TmBalance from "common/TmBalance"
 import TmDataError from "common/TmDataError"
 import TextBlock from "common/TextBlock"
 import ModalDeposit from "./ModalDeposit"
@@ -156,11 +154,9 @@ import TmPage from "common/TmPage"
 export default {
   name: `page-proposal`,
   components: {
-    TmBalance,
     TmBtn,
     ModalDeposit,
     ModalVote,
-    ToolBar,
     TmDataError,
     TmPage,
     TextBlock
