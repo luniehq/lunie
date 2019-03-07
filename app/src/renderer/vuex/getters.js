@@ -35,8 +35,8 @@ export const liquidAtoms = state =>
 export const delegation = state => state.delegation
 export const totalAtoms = (state, getters) => {
   return new BN(getters.liquidAtoms)
-    .plus(new BN(getters.oldBondedAtoms))
-    .plus(new BN(getters.oldUnbondingAtoms))
+    .plus(getters.oldBondedAtoms)
+    .plus(getters.oldUnbondingAtoms)
     .toString()
 }
 export const oldBondedAtoms = (state, getters) => {
@@ -55,15 +55,16 @@ export const oldBondedAtoms = (state, getters) => {
       )
     }
   )
-  return totalOldBondedAtoms.toString()
+  return totalOldBondedAtoms
 }
 
 export const oldUnbondingAtoms = state => {
   return Object.values(state.delegation.unbondingDelegations).reduce(
-    (atoms, { balance }) => {
-      return atoms + balance.amount
+    // unbondingDelegations can have several active undelegations per validator (key)
+    (atoms, entries) => {
+      return BN(atoms).plus(entries.reduce((sum, { balance }) => sum.plus(balance), BN(0)))
     },
-    0
+    BN(0)
   )
 }
 export const committedDelegations = state => state.delegation.committedDelegates
