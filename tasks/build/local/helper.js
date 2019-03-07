@@ -10,8 +10,8 @@ const {
   createKey,
   initGenesis,
   makeExec,
-  getKeys,
-  nodeBinary
+  nodeBinary,
+  sendMoneyToFixedAccounts
 } = require(`../../gaia`)
 
 const buildLocalNode = buildTestnetPath => async ({
@@ -55,27 +55,20 @@ const saveVersion = nodeHome => {
 // nodes[0] is a placeholder just to be aligned with the enumeration used in gaia
 // TODO: next PR refactor also gaia to simplify numeration
 const startNodes = async (nodes, mainAccountSignInfo, chainId) => {
-  const startupProcesses = []
   for (let i = 1; i < nodes.length; i++) {
-    startupProcesses.push(
-      (async () => {
-        // start secondary nodes and connect to node one
-        // wait until all nodes are showing blocks, so we know they are running
-        await startLocalNode(nodes[i].home, i, i > 1 ? nodes[1].id : ``)
-        // make our secondary nodes also to validators
-        i > 1 &&
-          (await makeValidator(
-            mainAccountSignInfo,
-            nodes[i].home,
-            nodes[i].cliHome,
-            nodes[i].moniker,
-            chainId
-          ))
-      })()
-    )
+    // start secondary nodes and connect to node one
+    // wait until all nodes are showing blocks, so we know they are running
+    await startLocalNode(nodes[i].home, i, i > 1 ? nodes[1].id : ``)
+    // make our secondary nodes also to validators
+    i > 1 &&
+      (await makeValidator(
+        mainAccountSignInfo,
+        nodes[i].home,
+        nodes[i].cliHome,
+        nodes[i].moniker,
+        chainId
+      ))
   }
-
-  return Promise.all(startupProcesses)
 }
 
 const buildNodes = async (
@@ -117,13 +110,16 @@ const buildNodes = async (
       mainAccountSignInfo = {
         keyName: options.keyName,
         password: options.password,
+        mnemonic: options.mnemonic,
         clientHomeDir: cliHome
       }
       const account = await createKey(mainAccountSignInfo)
-      console.log(`Created Account:`, account)
+      console.log(`Imported Account`)
       genesis = await initGenesis(mainAccountSignInfo, account.address, home)
     }
   }
+
+  sendMoneyToFixedAccounts(mainAccountSignInfo, options.chainId)
 
   return { nodes, mainAccountSignInfo, genesis, cliHomePrefix }
 }
@@ -149,8 +145,6 @@ async function setupLocalNode(
 
   return await getNodeId(nodeHome)
 }
-
-// declare candidacy for node
 
 function adjustConfig(nodeHome, isTest = false, strictAddressbook = false) {
   const configPath = join(nodeHome, `config`, `config.toml`)
@@ -215,28 +209,28 @@ function adjustConfig(nodeHome, isTest = false, strictAddressbook = false) {
   fs.writeFileSync(configPath, updatedConfigToml, `utf8`)
 }
 
-const setupAccounts = async (srcClientDir, dstClientDir, options) => {
-  // use the master account that holds funds from node 1
-  // to use it, we copy the key database from node one to our Voyager cli config folder
-  fs.copySync(srcClientDir, dstClientDir)
+// const setupAccounts = async (srcClientDir, dstClientDir, options) => {
+//   // use the master account that holds funds from node 1
+//   // to use it, we copy the key database from node one to our Voyager cli config folder
+//   fs.copySync(srcClientDir, dstClientDir)
 
-  // this account is later used to send funds to, to test token sending
-  await createKey({
-    keyName: (options && options.keyName) || `testreceiver`,
-    password: (options && options.password) || `1234567890`,
-    clientHomeDir: dstClientDir
-  })
+//   // this account is later used to send funds to, to test token sending
+//   await createKey({
+//     keyName: (options && options.keyName) || `testreceiver`,
+//     password: (options && options.password) || `1234567890`,
+//     clientHomeDir: dstClientDir
+//   })
 
-  const accounts = await getKeys(dstClientDir)
-  console.log(`setup test accounts`, accounts)
+//   const accounts = await getKeys(dstClientDir)
+//   console.log(`setup test accounts`, accounts)
 
-  return accounts
-}
+//   return accounts
+// }
 
 module.exports = {
   buildLocalNode,
   buildNodes,
   saveVersion,
-  setupAccounts,
+  // setupAccounts,
   startNodes
 }

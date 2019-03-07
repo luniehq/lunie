@@ -41,7 +41,7 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
      
     <p>
       
-      STAKEs delegated: 100
+      STAKEs delegated: 1000000000
     
     </p>
      
