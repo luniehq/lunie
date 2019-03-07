@@ -191,7 +191,7 @@ export default [
             type: `cosmos-sdk/MsgDelegate`,
             value: {
               validator_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
-              delegation: {
+              value: {
                 amount: `42000000000`,
                 denom: `steak`
               }

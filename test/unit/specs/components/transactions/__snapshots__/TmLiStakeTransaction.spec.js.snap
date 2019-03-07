@@ -102,7 +102,7 @@ exports[`TmLiStakeTransaction redelegations should show redelegations and calcul
       Redelegated 
             <b>
               
-          3
+          3.00
         
             </b>
             <span>
@@ -185,7 +185,7 @@ exports[`TmLiStakeTransaction unbonding delegations should default to ended if n
       Undelegated 
             <b>
               
-          1000
+          1,000.00
         
             </b>
             <span>
@@ -260,7 +260,7 @@ exports[`TmLiStakeTransaction unbonding delegations should show unbonding delega
       Undelegated 
             <b>
               
-          1000
+          1,000.00
         
             </b>
             <span>
@@ -335,7 +335,7 @@ exports[`TmLiStakeTransaction unbonding delegations should show unbondings and c
       Undelegated 
             <b>
               
-          1000
+          1,000.00
         
             </b>
             <span>

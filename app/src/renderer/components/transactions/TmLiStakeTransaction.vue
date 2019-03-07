@@ -6,12 +6,12 @@
   >
     <template v-if="delegation">
       <div slot="caption">
-        Delegated&nbsp;<b>{{ pretty(atoms(tx.value.amount)) }}</b><span>&nbsp;{{ bondingDenom }}s</span>
+        Delegated&nbsp;<b>{{ tx.value ? pretty(atoms(tx.value.amount)) : "--" }}</b><span>&nbsp;{{ bondingDenom }}s</span>
       </div>
       <div slot="details">
         To&nbsp;<router-link :to="url + '/' + tx.validator_addr">
           {{
-          moniker(tx.validator_addr)
+            moniker(tx.validator_addr)
           }}
         </router-link>
       </div>
@@ -20,7 +20,7 @@
         Redelegated&nbsp;<template>
           <b>
             {{
-            calculatePrettifiedTokens(tx.validator_src_addr, tx.shares_amount)
+              calculatePrettifiedTokens(tx.validator_src_addr, tx.shares_amount)
             }}
           </b><span>&nbsp;{{ bondingDenom }}s</span>
         </template>
@@ -28,12 +28,12 @@
       <div slot="details">
         From&nbsp;<router-link :to="url + '/' + tx.validator_src_addr">
           {{
-          moniker(tx.validator_src_addr)
+            moniker(tx.validator_src_addr)
           }}
         </router-link>
         to&nbsp;<router-link :to="url + '/' + tx.validator_dst_addr">
           {{
-          moniker(tx.validator_dst_addr)
+            moniker(tx.validator_dst_addr)
           }}
         </router-link>
       </div>
@@ -42,7 +42,7 @@
         Undelegated&nbsp;<template>
           <b>
             {{
-            calculatePrettifiedTokens(tx.validator_addr, tx.shares_amount)
+              calculatePrettifiedTokens(tx.validator_addr, tx.shares_amount)
             }}
           </b><span>&nbsp;{{ bondingDenom }}s</span>
         </template><template v-if="timeDiff">
@@ -54,7 +54,7 @@
       <div slot="details">
         From&nbsp;<router-link :to="url + '/' + tx.validator_addr">
           {{
-          moniker(tx.validator_addr)
+            moniker(tx.validator_addr)
           }}
         </router-link>
       </div>

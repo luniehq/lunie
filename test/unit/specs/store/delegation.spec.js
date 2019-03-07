@@ -79,8 +79,7 @@ describe(`Module: Delegations`, () => {
         getUndelegations: jest.fn(() => [
           {
             validator_addr: lcdClientMock.validators[0],
-            balance: { amount: 1 },
-            min_time: new Date(Date.now()).toUTCString()
+            entries: [{ balance: `1`, min_time: new Date(Date.now()).toUTCString() }],
           }
         ]),
         getRedelegations: jest.fn(
@@ -124,8 +123,7 @@ describe(`Module: Delegations`, () => {
       expect(commit).toHaveBeenCalledWith(`setUnbondingDelegations`, [
         {
           validator_addr: lcdClientMock.validators[0],
-          balance: { amount: 1 },
-          min_time: new Date(Date.now()).toUTCString()
+          entries: [{ balance: `1`, min_time: new Date(Date.now()).toUTCString() }],
         }
       ])
     })
@@ -138,9 +136,9 @@ describe(`Module: Delegations`, () => {
       mutations.setUnbondingDelegations(state, [
         {
           validator_addr: lcdClientMock.validators[2],
-          balance: {
-            amount: 1
-          }
+          entries: [{
+            balance: 1
+          }]
         }
       ])
       expect(state.committedDelegates[lcdClientMock.validators[2]]).toBeTruthy()
@@ -166,8 +164,7 @@ describe(`Module: Delegations`, () => {
       expect(commit).toHaveBeenCalledWith(`setUnbondingDelegations`, [
         {
           validator_addr: lcdClientMock.validators[0],
-          balance: { amount: 1 },
-          min_time: `Thu, 01 Jan 1970 00:00:42 GMT`
+          entries: [{ balance: `1`, min_time: `Thu, 01 Jan 1970 00:00:42 GMT` }]
         }
       ])
     })
@@ -232,19 +229,6 @@ describe(`Module: Delegations`, () => {
     )
 
     expect(dispatch.mock.calls).toMatchSnapshot()
-  })
-
-  it(`deletes undelegations that are 0`, async () => {
-    mutations.setUnbondingDelegations(state, [
-      {
-        validator_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
-        balance: { amount: 0 }
-      }
-    ])
-    expect(
-      state.unbondingDelegations
-        .cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
-    ).toBeUndefined()
   })
 
   describe(`queries the delegated atoms on reconnection`, () => {
@@ -319,17 +303,19 @@ describe(`Module: Delegations`, () => {
     mutations.setUnbondingDelegations(state, [
       {
         validator_addr: lcdClientMock.validators[0],
-        balance: { amount: `100` },
-        creation_height: `12`,
-        min_time: new Date().toUTCString()
+        entries: [{ 
+          balance: `100`,
+          creation_height: `12`,
+          min_time: new Date().toUTCString()
+        }],
       }
     ])
 
-    expect(state.unbondingDelegations[lcdClientMock.validators[0]]).toEqual({
-      balance: { amount: `100` },
+    expect(state.unbondingDelegations[lcdClientMock.validators[0]]).toEqual([{
+      balance: `100`,
       creation_height: `12`,
       min_time: new Date().toUTCString()
-    })
+    }])
   })
 
   it(`should update the atoms on a delegation optimistically`, async () => {
