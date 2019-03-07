@@ -87,7 +87,7 @@ export default {
       default: undefined
     },
     dataset: {
-      type: Array,
+      type: [Array, Object],
       default: undefined
     },
     refresh: {
