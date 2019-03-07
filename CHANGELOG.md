@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+- [#\2154](https://github.com/cosmos/voyager/pull/2154) Added ledger button and style updates @jbibla
+
 
 ## [1.0.0-beta.15] - 2019-03-07
 
