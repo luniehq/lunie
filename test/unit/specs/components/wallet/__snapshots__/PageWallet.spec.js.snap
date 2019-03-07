@@ -104,7 +104,7 @@ exports[`PageWallet should not show denoms or the faucet button for a user who i
 exports[`PageWallet should show the sending modal 1`] = `
 <tm-page-stub
   data-title="Wallet"
-  dataset=""
+  dataset="[object Object],[object Object],[object Object]"
   refresh="function () { [native code] }"
   signinrequired="true"
   subtitle=""
@@ -144,7 +144,10 @@ exports[`PageWallet should show the sending modal 1`] = `
     coin="[object Object]"
   />
    
-  <!---->
+  <tm-btn-stub
+    color="green"
+    value="Get Tokens"
+  />
    
   <send-modal-stub />
 </tm-page-stub>
