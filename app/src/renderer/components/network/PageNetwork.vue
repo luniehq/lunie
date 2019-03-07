@@ -12,7 +12,7 @@
                 class="page-profile__status"
               />
               <h2 class="page-profile__title">
-                {{ lastHeader.chain_id }}
+                {{ lastHeader.chain_id || `n/a` }}
               </h2>
             </div>
           </div>
@@ -20,19 +20,19 @@
         <div class="row">
           <dl class="info_dl colored_dl">
             <dt>Block Height</dt>
-            <dd>{{ `#` + num.prettyInt(lastHeader.height) }}</dd>
+            <dd>{{ `#` + num.prettyInt(lastHeader.height) || `n/a` }}</dd>
           </dl>
           <dl class="info_dl colored_dl">
             <dt>Last Block</dt>
-            <dd>{{ lastBlock }}</dd>
+            <dd>{{ lastBlock || `n/a` }}</dd>
           </dl>
           <dl class="info_dl colored_dl">
             <dt>Transactions</dt>
-            <dd>{{ lastHeader.total_txs }}</dd>
+            <dd>{{ lastHeader.total_txs || `n/a` }}</dd>
           </dl>
           <dl class="info_dl colored_dl">
             <dt>Number of Validators</dt>
-            <dd>{{ delegates.delegates.length }}</dd>
+            <dd>{{ delegates.delegates.length || `n/a` }}</dd>
           </dl>
         </div>
         <div class="row">
