@@ -22,7 +22,7 @@
                 {{
                   stakingParameters.parameters.unbonding_time
                     ? unbondingTimeInDays + ` days`
-                    : `n/a`
+                    : `--`
                 }}
               </dd>
             </dl>
@@ -40,7 +40,7 @@
                 {{
                   stakingParameters.parameters.max_validators
                     ? stakingParameters.parameters.max_validators
-                    : `n/a`
+                    : `--`
                 }}
               </dd>
             </dl>

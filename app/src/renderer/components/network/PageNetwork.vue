@@ -12,7 +12,7 @@
                 class="page-profile__status"
               />
               <h2 class="page-profile__title">
-                {{ lastHeader.chain_id || `n/a` }}
+                {{ lastHeader.chain_id || `--` }}
               </h2>
             </div>
           </div>
@@ -20,19 +20,19 @@
         <div class="row">
           <dl class="info_dl colored_dl">
             <dt>Block Height</dt>
-            <dd>{{ `#` + num.prettyInt(lastHeader.height) || `n/a` }}</dd>
+            <dd>{{ `#` + num.prettyInt(lastHeader.height) || `--` }}</dd>
           </dl>
           <dl class="info_dl colored_dl">
             <dt>Last Block</dt>
-            <dd>{{ lastBlock || `n/a` }}</dd>
+            <dd>{{ lastBlock || `--` }}</dd>
           </dl>
           <dl class="info_dl colored_dl">
             <dt>Transactions</dt>
-            <dd>{{ lastHeader.total_txs || `n/a` }}</dd>
+            <dd>{{ lastHeader.total_txs || `--` }}</dd>
           </dl>
           <dl class="info_dl colored_dl">
             <dt>Number of Validators</dt>
-            <dd>{{ delegates.delegates.length || `n/a` }}</dd>
+            <dd>{{ delegates.delegates.length || `--` }}</dd>
           </dl>
         </div>
         <div class="row">
@@ -43,7 +43,7 @@
                 {{
                   pool.pool && pool.pool.not_bonded_tokens
                     ? num.full(num.atoms(pool.pool.not_bonded_tokens))
-                    : `n/a`
+                    : `--`
                 }}
               </dd>
             </dl>
@@ -55,7 +55,7 @@
                 {{
                   pool.pool && pool.pool.bonded_tokens
                     ? num.full(num.atoms(pool.pool.bonded_tokens))
-                    : `n/a`
+                    : `--`
                 }}
               </dd>
             </dl>
@@ -69,10 +69,10 @@
         <tbody>
           <tr v-if="blocks.length === 0" class="block data-table__row">
             <td>
-              <img class="loading-icon" src="~assets/images/loader.svg">
+              <img class="loading-icon" src="~assets/images/loader.svg" />
             </td>
             <td>
-              <img class="loading-icon" src="~assets/images/loader.svg">
+              <img class="loading-icon" src="~assets/images/loader.svg" />
             </td>
           </tr>
           <tr
