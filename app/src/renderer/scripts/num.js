@@ -7,29 +7,29 @@ import BigNumber from "bignumber.js"
  */
 
 const language = window.navigator.userLanguage || window.navigator.language
-function full(number) {
+function full(number = 0) {
   return new Intl.NumberFormat(language, { minimumFractionDigits: 7 }).format(number)
 }
-function shortNumber(number) {
+function shortNumber(number = 0) {
   return new Intl.NumberFormat(language, { minimumFractionDigits: 4 }).format(number) + `…`
 }
-function pretty(number) {
-  return new Intl.NumberFormat(language).format(Math.round(number * 100) / 100)
+function pretty(number = 0) {
+  return new Intl.NumberFormat(language, { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(Math.round(number * 100) / 100)
 }
-function prettyInt(number) {
+function prettyInt(number = 0) {
   return new Intl.NumberFormat(language).format(Math.round(number))
 }
-function percentInt(number) {
+function percentInt(number = 0) {
   return new Intl.NumberFormat(language).format(Math.round(number * 100)) + `%`
 }
-function percent(number) {
-  return new Intl.NumberFormat(language).format(number * 100) + `%`
+function percent(number = 0) {
+  return new Intl.NumberFormat(language, { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(Math.round(number * 10000) / 100) + `%`
 }
-function atoms(x) {
-  return BigNumber(x).div(10e6).toFixed(7)
+function atoms(number = 0) {
+  return BigNumber(number).div(10e6).toNumber()
 }
-function uatoms(x) {
-  return BigNumber(x).times(10e6).toFixed(7)
+function uatoms(number = 0) {
+  return BigNumber(number).times(10e6).toFixed(7)
 }
 
 module.exports = {

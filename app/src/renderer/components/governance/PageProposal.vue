@@ -66,9 +66,9 @@
             <dt>Proposal Status</dt>
             <dd>
               {{
-              proposal.proposal_status === `DepositPeriod`
-              ? `Deposit period ends ${depositEndsIn}.`
-              : `Voting started ${votingStartedAgo}.`
+                proposal.proposal_status === `DepositPeriod`
+                  ? `Deposit period ends ${depositEndsIn}.`
+                  : `Voting started ${votingStartedAgo}.`
               }}
             </dd>
           </dl>
@@ -77,9 +77,9 @@
             <dt>Deposit Count</dt>
             <dd>
               {{
-              num.atoms(proposal.total_deposit[0].amount) +
-              ` ` +
-              proposal.total_deposit[0].denom
+                num.atoms(proposal.total_deposit[0].amount) +
+                  ` ` +
+                  proposal.total_deposit[0].denom
               }}
             </dd>
           </dl>
@@ -207,16 +207,18 @@ export default {
         .toNumber()
     },
     yesPercentage({ tally, totalVotes } = this) {
-      return num.percentInt(tally.yes / totalVotes)
+      return num.percentInt(totalVotes === 0 ? 0 : tally.yes / totalVotes)
     },
     noPercentage({ tally, totalVotes } = this) {
-      return num.percentInt(tally.no / totalVotes)
+      return num.percentInt(totalVotes === 0 ? 0 : tally.no / totalVotes)
     },
     noWithVetoPercentage({ tally, totalVotes } = this) {
-      return num.percentInt(tally.no_with_veto / totalVotes)
+      return num.percentInt(
+        totalVotes === 0 ? 0 : tally.no_with_veto / totalVotes
+      )
     },
     abstainPercentage({ tally, totalVotes } = this) {
-      return num.percentInt(tally.abstain / totalVotes)
+      return num.percentInt(totalVotes === 0 ? 0 : tally.abstain / totalVotes)
     },
     tally({ proposals, proposalId } = this) {
       const { yes, no, abstain, no_with_veto } =
