@@ -1,10 +1,16 @@
 <template>
   <div class="tm-hardware-state">
-    <img v-if="loading" src="~assets/images/loader.svg">
-    <i class="tm-hardware-state__icon material-icons">{{ icon }}</i>
-    <div class="tm-hardware-state__label">
-      <slot />
+    <div class="tm-hardware-state-content">
+      <i v-if="icon" class="tm-hardware-state__icon material-icons">
+        {{
+          icon
+        }}
+      </i>
+      <div class="tm-hardware-state__label">
+        <slot />
+      </div>
     </div>
+    <img v-show="loading" src="~assets/images/loader.svg">
   </div>
 </template>
 
@@ -25,26 +31,30 @@ export default {
 
 <style>
 .tm-hardware-state {
-  background: var(--app-fg);
   display: flex;
-  flex-flow: column nowrap;
   align-items: center;
-  justify-content: center;
-  margin: 1.5rem auto;
-  height: 15rem;
-  width: 15rem;
+  justify-content: space-between;
+  background: var(--app-fg);
+  margin: 1.5rem auto 0;
   padding: 1.5rem;
   user-select: none;
+  border: 2px solid var(--bc);
+  border-radius: 2px;
+}
+
+.tm-hardware-state-content {
+  display: flex;
+  align-items: center;
 }
 
 .tm-hardware-state .tm-hardware-state__icon {
-  font-size: 5rem;
-  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  padding-right: 1rem;
   color: var(--dim);
 }
 
 .tm-hardware-state .tm-hardware-state__label {
-  text-align: center;
-  color: var(--txt);
+  color: var(--bright);
+  max-width: 320px;
 }
 </style>

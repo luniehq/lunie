@@ -70,7 +70,7 @@ describe(`PageWallet`, () => {
     expect(wrapper.findAll(`.tm-li-balance`).length).toBe(4)
   })
 
-  it(`should show the n/a message if there are no denoms`, async () => {
+  it(`should show the '--' placeholder if there are no denoms`, async () => {
     wrapper.setData({
       wallet: {
         denoms: [`fermion`, `gregcoin`, `mycoin`, `STAKE`],
@@ -81,7 +81,7 @@ describe(`PageWallet`, () => {
     expect(wrapper.find(`#account_empty_msg`).exists()).toBeTruthy()
   })
 
-  it(`should not show the n/a message if there are denoms`, () => {
+  it(`should not show the '--' placeholder if there are denoms`, () => {
     expect(wrapper.vm.allDenomBalances.length).not.toBe(0)
     expect(wrapper.vm.$el.querySelector(`#no-balances`)).toBe(null)
   })

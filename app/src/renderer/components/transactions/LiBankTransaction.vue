@@ -6,24 +6,18 @@
   >
     <template v-if="sent">
       <div slot="caption">
-        Sent&nbsp;<b>{{ atoms(coins.amount) }}</b><span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
+        Sent&nbsp;<b>{{ full(atoms(coins.amount)) }}</b><span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
       </div>
-      <span
-        slot="details"
-      >
-        <template
-          v-if="sentSelf"
-        >
+      <span slot="details">
+        <template v-if="sentSelf">
           To yourself!
-        </template><template
-          v-else
-        >
+        </template><template v-else>
           To {{ receiver }}
         </template>
       </span>
     </template><template v-else>
       <div slot="caption">
-        Received&nbsp;<b>{{ atoms(coins.amount) }}</b><span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
+        Received&nbsp;<b>{{ full(atoms(coins.amount)) }}</b><span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
       </div>
       <span slot="details">From {{ sender }}</span>
     </template>
@@ -32,7 +26,7 @@
 
 <script>
 import LiTransaction from "./LiTransaction"
-import { atoms } from "../../scripts/num.js"
+import { atoms, full } from "../../scripts/num.js"
 
 export default {
   name: `li-bank-transaction`,
@@ -48,7 +42,8 @@ export default {
     }
   },
   data: () => ({
-    atoms
+    atoms,
+    full
   }),
   computed: {
     tx() {
