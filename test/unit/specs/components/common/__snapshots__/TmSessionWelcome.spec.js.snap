@@ -50,11 +50,7 @@ exports[`TmSessionWelcome with accounts has the expected html structure 1`] = `
         title="Create new account"
       />
        
-      <li-session-stub
-        icon="settings_backup_restore"
-        subtitle="Use an existing seed phrase to create an account."
-        title="Import with seed"
-      />
+      <!---->
     </div>
   </div>
 </div>
@@ -107,6 +103,7 @@ exports[`TmSessionWelcome without accounts has the expected html structure 1`] =
        
       <li-session-stub
         icon="settings_backup_restore"
+        id="import-seed"
         subtitle="Use an existing seed phrase to create an account."
         title="Import with seed"
       />

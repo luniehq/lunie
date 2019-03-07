@@ -32,7 +32,7 @@
                 :value="connected ? 'Vote' : 'Connecting...'"
                 :disabled="!connected"
                 color="primary"
-                @click.native="onVote"
+                @click.native="() => onVote()"
               />
               <tm-btn
                 v-if="proposal.proposal_status === 'DepositPeriod'"
@@ -66,9 +66,9 @@
             <dt>Proposal Status</dt>
             <dd>
               {{
-                proposal.proposal_status === `DepositPeriod`
-                  ? `Deposit period ends ${depositEndsIn}.`
-                  : `Voting started ${votingStartedAgo}.`
+              proposal.proposal_status === `DepositPeriod`
+              ? `Deposit period ends ${depositEndsIn}.`
+              : `Voting started ${votingStartedAgo}.`
               }}
             </dd>
           </dl>
@@ -77,13 +77,16 @@
             <dt>Deposit Count</dt>
             <dd>
               {{
-                num.atoms(proposal.total_deposit[0].amount) +
-                  ` ` +
-                  proposal.total_deposit[0].denom
+              num.atoms(proposal.total_deposit[0].amount) +
+              ` ` +
+              proposal.total_deposit[0].denom
               }}
             </dd>
           </dl>
-          <dl v-if="proposal.proposal_status === 'VotingPeriod'" class="info_dl colored_dl">
+          <dl
+            v-if="proposal.proposal_status === 'VotingPeriod'"
+            class="info_dl colored_dl"
+          >
             <dt>Vote Count</dt>
             <dd>{{ num.atoms(totalVotes) }}</dd>
           </dl>
@@ -91,7 +94,10 @@
       </div>
 
       <div class="page-profile__section">
-        <div v-if="proposal.proposal_status === 'VotingPeriod'" class="row">
+        <div
+          v-if="proposal.proposal_status === 'VotingPeriod'"
+          class="row"
+        >
           <dl class="info_dl colored_dl">
             <dt>Yes</dt>
             <dd>{{ num.atoms(tally.yes) }} / {{ yesPercentage }}</dd>
@@ -139,6 +145,7 @@
 
 <script>
 import moment from "moment"
+import BigNumber from "bignumber.js"
 import { mapGetters } from "vuex"
 import num from "scripts/num"
 import TmBtn from "common/TmBtn"
@@ -193,7 +200,11 @@ export default {
       return moment(new Date(proposal.deposit_end_time)).fromNow()
     },
     totalVotes({ tally: { yes, no, no_with_veto, abstain } } = this) {
-      return yes + no + no_with_veto + abstain
+      return BigNumber(yes)
+        .plus(no)
+        .plus(no_with_veto)
+        .plus(abstain)
+        .toNumber()
     },
     yesPercentage({ tally, totalVotes } = this) {
       return num.percentInt(tally.yes / totalVotes)
@@ -208,15 +219,13 @@ export default {
       return num.percentInt(tally.abstain / totalVotes)
     },
     tally({ proposals, proposalId } = this) {
-      // TODO:MICROATOMS currently causes each vote to be multiplied by this, once we receive atoms let's drop this multiplier thing
-      const multiplier = 100000000
       const { yes, no, abstain, no_with_veto } =
         proposals.tallies[proposalId] || {}
       return {
-        yes: yes / multiplier,
-        no: no / multiplier,
-        abstain: abstain / multiplier,
-        no_with_veto: no_with_veto / multiplier
+        yes: yes,
+        no: no,
+        abstain: abstain,
+        no_with_veto: no_with_veto
       }
     },
     status({ proposal } = this) {
