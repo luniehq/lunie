@@ -7,7 +7,7 @@
     title="Delegate"
     class="delegation-modal"
     submission-error-prefix="Delegating failed"
-    @close="$v.$reset()"
+    @close="clear"
   >
     <tm-form-group
       class="action-modal-form-group"
@@ -116,7 +116,7 @@ export default {
     selectedIndex: 0
   }),
   computed: {
-    ...mapGetters([`wallet`, `delegates`, `session`]),
+    ...mapGetters([`delegates`, `session`]),
     balance() {
       if (!this.session.signedIn) return 0
 
@@ -136,6 +136,12 @@ export default {
       this.$v.$touch()
 
       return !this.$v.$invalid
+    },
+    clear() {
+      this.$v.$reset()
+
+      this.selectedIndex = 0
+      this.amount = null
     },
     async submitDelegation(submitType, password) {
       await this.$store.dispatch(`submitDelegation`, {
@@ -168,7 +174,7 @@ export default {
       })
     },
     async submitForm(submitType, password) {
-      if (this.from === this.wallet.address) {
+      if (this.from === this.session.address) {
         await this.submitDelegation(submitType, password)
       } else {
         await this.submitRedelegation(submitType, password)
