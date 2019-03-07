@@ -1,14 +1,16 @@
 <template>
   <tm-page data-title="Preferences">
-    <template slot="menu-body">
-      <tm-balance />
-      <tool-bar />
-    </template>
     <tm-part>
-      <tm-list-item type="field" title="Node IP">
+      <tm-list-item
+        type="field"
+        title="Node IP"
+      >
         {{ nodeUrl }}
       </tm-list-item>
-      <tm-list-item type="field" title="View tutorial for Voyager">
+      <tm-list-item
+        type="field"
+        title="View tutorial for Voyager"
+      >
         <tm-btn
           id="toggle-onboarding"
           value="Launch Tutorial"
@@ -42,19 +44,15 @@ import TmBtn from "common/TmBtn"
 import TmPage from "common/TmPage"
 import TmPart from "common/TmPart"
 import TmField from "common/TmField"
-import ToolBar from "common/ToolBar"
-import TmBalance from "common/TmBalance"
 
 export default {
   name: `page-preferences`,
   components: {
-    TmBalance,
     TmBtn,
     TmField,
     TmListItem,
     TmPage,
-    TmPart,
-    ToolBar
+    TmPart
   },
   computed: {
     ...mapGetters([`session`, `onboarding`, `nodeUrl`])

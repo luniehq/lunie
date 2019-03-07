@@ -39,6 +39,24 @@ describe(`PageWallet`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
+  it(`should show the sending modal`, () => {
+    wrapper.vm.showModal(`STAKE`)
+    expect(wrapper.exists(`send-modal`)).toBe(true)
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
+  it(`should not show denoms or the faucet button for a user who is not signed in`, () => {
+    $store.getters.session.signedIn = false
+    wrapper = shallowMount(PageWallet, {
+      localVue,
+      mocks: {
+        $store
+      }
+    })
+
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
   it(`should sort the balances by amount desc and denom asc`, () => {
     expect(wrapper.vm.filteredBalances.map(x => x.denom)).toEqual([
       `fermion`,
@@ -52,7 +70,7 @@ describe(`PageWallet`, () => {
     expect(wrapper.findAll(`.tm-li-balance`).length).toBe(4)
   })
 
-  it(`should show the n/a message if there are no denoms`, async () => {
+  it(`should show the '--' placeholder if there are no denoms`, async () => {
     wrapper.setData({
       wallet: {
         denoms: [`fermion`, `gregcoin`, `mycoin`, `STAKE`],
@@ -63,7 +81,7 @@ describe(`PageWallet`, () => {
     expect(wrapper.find(`#account_empty_msg`).exists()).toBeTruthy()
   })
 
-  it(`should not show the n/a message if there are denoms`, () => {
+  it(`should not show the '--' placeholder if there are denoms`, () => {
     expect(wrapper.vm.allDenomBalances.length).not.toBe(0)
     expect(wrapper.vm.$el.querySelector(`#no-balances`)).toBe(null)
   })
@@ -120,12 +138,6 @@ describe(`PageWallet`, () => {
       }
     })
     expect(wrapper.exists(`tm-data-loading`)).toBe(true)
-  })
-
-  it(`should show the sending modal`, () => {
-    wrapper.vm.showModal(`STAKE`)
-    expect(wrapper.exists(`send-modal`)).toBe(true)
-    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should call getmoney`, async () => {

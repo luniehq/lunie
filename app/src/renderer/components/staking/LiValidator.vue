@@ -7,17 +7,16 @@
         class="data-table__row__info__image"
         width="48"
         height="48"
-      >
+      />
       <img
         v-else
         class="data-table__row__info__image data-table__row__info__image--no-img"
         src="~assets/images/validator-icon.svg"
         width="48"
         height="48"
-      >
+      />
       <div class="data-table__row__info__container">
         <span
-        
           v-tooltip.top="status"
           :class="statusColor"
           class="data-table__row__info__container__status"
@@ -45,10 +44,10 @@
       }}
     </td>
     <td class="li-validator__rewards data-table__row__cell__separator">
-      {{ rewards || "n/a" }}
+      {{ rewards || "--" }}
     </td>
     <td class="li-validator__voting-power">
-      {{ validator.percent_of_vote ? validator.percent_of_vote : `n/a` }}
+      {{ validator.percent_of_vote ? validator.percent_of_vote : `--` }}
     </td>
     <td class="li-validator__uptime">
       {{ uptime }}
@@ -57,7 +56,7 @@
       {{ commission }}
     </td>
     <td class="li-validator__slashes">
-      n/a
+      --
     </td>
   </tr>
 </template>
@@ -104,7 +103,7 @@ export default {
         const uptimeRollingWindow = info.signed_blocks_counter / rollingWindow
         return `${this.num.pretty(uptimeRollingWindow * 100)}%`
       }
-      return `n/a`
+      return `--`
     },
     yourVotes() {
       return this.committedDelegations[this.validator.operator_address]

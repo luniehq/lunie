@@ -1,10 +1,5 @@
 <template>
   <tm-page data-title="Proposal">
-    <template slot="menu-body">
-      <tm-balance />
-      <tool-bar />
-    </template>
-
     <tm-data-error v-if="!proposal" />
 
     <template v-else>
@@ -108,7 +103,9 @@
           </dl>
           <dl class="info_dl colored_dl">
             <dt>No with Veto</dt>
-            <dd>{{ num.atoms(tally.no_with_veto) }} / {{ noWithVetoPercentage }}</dd>
+            <dd>
+              {{ num.atoms(tally.no_with_veto) }} / {{ noWithVetoPercentage }}
+            </dd>
           </dl>
           <dl class="info_dl colored_dl">
             <dt>Abstain</dt>
@@ -149,8 +146,6 @@ import BigNumber from "bignumber.js"
 import { mapGetters } from "vuex"
 import num from "scripts/num"
 import TmBtn from "common/TmBtn"
-import ToolBar from "common/ToolBar"
-import TmBalance from "common/TmBalance"
 import TmDataError from "common/TmDataError"
 import TextBlock from "common/TextBlock"
 import ModalDeposit from "./ModalDeposit"
@@ -159,11 +154,9 @@ import TmPage from "common/TmPage"
 export default {
   name: `page-proposal`,
   components: {
-    TmBalance,
     TmBtn,
     ModalDeposit,
     ModalVote,
-    ToolBar,
     TmDataError,
     TmPage,
     TextBlock
