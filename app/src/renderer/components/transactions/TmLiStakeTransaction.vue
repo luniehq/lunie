@@ -6,7 +6,7 @@
   >
     <template v-if="delegation">
       <div slot="caption">
-        Delegated&nbsp;<b>{{ tx.value ? pretty(atoms(tx.value.amount)) : "--" }}</b><span>&nbsp;{{ bondingDenom }}s</span>
+        Delegated&nbsp;<b>{{ tx.value ? pretty(atoms(tx.value.amount)) : "n/a" }}</b><span>&nbsp;{{ bondingDenom }}s</span>
       </div>
       <div slot="details">
         To&nbsp;<router-link :to="url + '/' + tx.validator_addr">
