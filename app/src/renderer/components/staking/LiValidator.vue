@@ -17,7 +17,6 @@
       >
       <div class="data-table__row__info__container">
         <span
-        
           v-tooltip.top="status"
           :class="statusColor"
           class="data-table__row__info__container__status"
@@ -101,8 +100,9 @@ export default {
       const info = this.validator.signing_info
       if (info) {
         // uptime in the past 10k blocks
-        const uptimeRollingWindow = info.signed_blocks_counter / rollingWindow
-        return `${this.num.pretty(uptimeRollingWindow * 100)}%`
+        const uptimeRollingWindow =
+          (rollingWindow - info.missed_blocks_counter) / rollingWindow
+        return num.percent(uptimeRollingWindow)
       }
       return `n/a`
     },
@@ -164,15 +164,15 @@ export default {
       const validatorRewards = this.distribution.rewards[
         this.validator.operator_address
       ]
-      return validatorRewards ? num.shortNumber(
-        num.atoms(validatorRewards[this.bondDenom]) || 0
-      ) : null
+      return validatorRewards
+        ? num.shortNumber(num.atoms(validatorRewards[this.bondDenom]) || 0)
+        : null
     }
   },
   watch: {
     lastHeader: {
       immediate: true,
-      handler(){
+      handler() {
         if (this.yourVotes > 0) {
           this.$store.dispatch(
             `getRewardsFromValidator`,
