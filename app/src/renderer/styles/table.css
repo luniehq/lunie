@@ -22,6 +22,7 @@
   padding: 0.5rem;
   position: relative;
   color: var(--bright);
+  vertical-align: middle;
 }
 
 .data-table__row__cell__separator::after {

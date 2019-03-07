@@ -12,3 +12,4 @@
 ### Fixed
 
 - [#\2202](https://github.com/cosmos/voyager/issues/2202) Fix number conversions @faboweb
+- Misc. style fixes @jbibla

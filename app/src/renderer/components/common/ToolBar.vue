@@ -9,23 +9,17 @@
       <i v-tooltip.bottom="'Refresh'" class="material-icons">refresh</i>
     </a>
     <slot />
-    <router-link
-      v-if="session.signedIn"
-      id="settings"
-      to="/preferences"
-    >
+    <router-link v-if="session.signedIn" id="settings" to="/preferences">
       <i v-tooltip.bottom="'Preferences'" class="material-icons">settings</i>
     </router-link>
-    <a
-      v-if="session.signedIn"
-      id="signOut-btn"
-      @click="signOut()"
-    >
-      <i v-tooltip.bottom.end="'Sign Out'" class="material-icons">exit_to_app</i>
+    <a v-if="session.signedIn" id="signOut-btn" @click="signOut()">
+      <i v-tooltip.bottom.end="'Sign Out'" class="material-icons"
+        >exit_to_app</i
+      >
     </a>
     <tm-btn
       v-if="!session.signedIn"
-      id="signIn-btn"
+      class="sign-in-button"
       value="Sign In"
       color="primary"
       @click.native="signIn()"
@@ -64,8 +58,10 @@ export default {
 .tool-bar {
   display: flex;
   align-items: center;
-  height: fit-content;
-  padding: 1rem 0 0;
+}
+
+.sign-in-button {
+  padding-left: 1.5rem;
 }
 
 .tool-bar a {
