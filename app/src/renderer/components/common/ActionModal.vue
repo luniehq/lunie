@@ -5,7 +5,7 @@
         <img
           class="icon action-modal-atom"
           src="~assets/images/cosmos-logo.png"
-        >
+        />
         <span class="action-modal-title">
           {{ session.signedIn ? title : `Sign in required` }}
         </span>
@@ -80,7 +80,7 @@
               />
               <tm-btn
                 v-else-if="sending"
-                value="Sending..."
+                :value="step === `sign` ? `Waiting for Ledger` : `Sending...`"
                 disabled="disabled"
                 color="primary"
               />
@@ -101,7 +101,7 @@
               <tm-btn
                 v-else-if="selectedSignMethod === `ledger` && step === `sign`"
                 color="primary"
-                value="Sign"
+                value="Next"
                 @click.native="validateChangeStep"
               />
               <tm-btn

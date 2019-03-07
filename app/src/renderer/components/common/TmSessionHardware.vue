@@ -28,8 +28,8 @@
             target="_blank"
             rel="noopener noreferrer"
           >
-            here
-          </a>.
+            here </a
+          >.
         </p>
         <tm-btn value="Sign In" @click.native="connectLedger()" />
       </div>

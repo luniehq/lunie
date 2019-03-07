@@ -115,7 +115,7 @@ exports[`ActionModal has the expected html structure when user has logged in wit
       <div>
         <tm-btn-stub
           color="primary"
-          value="Sign"
+          value="Next"
         />
       </div>
     </tm-form-group-stub>
