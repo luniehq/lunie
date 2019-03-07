@@ -137,7 +137,7 @@ describe(`LiValidator`, () => {
       })
     })
 
-    expect(wrapper.vm.uptime).toBe(`n/a`)
+    expect(wrapper.vm.uptime).toBe(`--`)
   })
 
   it(`should show the validator's commission`, () => {

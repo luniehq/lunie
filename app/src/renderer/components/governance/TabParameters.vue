@@ -17,7 +17,7 @@
               {{
                 governanceParameters.parameters.deposit.min_deposit
                   ? minimumDeposit
-                  : `n/a`
+                  : `--`
               }}
             </dd>
           </dl>
@@ -37,7 +37,7 @@
               {{
                 governanceParameters.parameters.deposit.max_deposit_period
                   ? depositPeriodInDays + ` days`
-                  : `n/a`
+                  : `--`
               }}
             </dd>
           </dl>
@@ -62,9 +62,9 @@
               {{
                 governanceParameters.parameters.tallying.threshold
                   ? `${parseFloat(
-                    governanceParameters.parameters.tallying.threshold
-                  ) * 100} %`
-                  : `n/a`
+                      governanceParameters.parameters.tallying.threshold
+                    ) * 100} %`
+                  : `--`
               }}
             </dd>
           </dl>
@@ -82,9 +82,9 @@
               {{
                 governanceParameters.parameters.tallying.veto
                   ? `${parseFloat(
-                    governanceParameters.parameters.tallying.veto
-                  ) * 100} %`
-                  : `n/a`
+                      governanceParameters.parameters.tallying.veto
+                    ) * 100} %`
+                  : `--`
               }}
             </dd>
           </dl>
@@ -105,7 +105,7 @@
               {{
                 governanceParameters.parameters.tallying.governance_penalty
                   ? governanceParameters.parameters.tallying.governance_penalty
-                  : `n/a`
+                  : `--`
               }}
             </dd>
           </dl>
@@ -124,9 +124,9 @@
               {{
                 governanceParameters.parameters.tallying.quorum
                   ? `${parseFloat(
-                    governanceParameters.parameters.tallying.quorum
-                  ) * 100} %`
-                  : `n/a`
+                      governanceParameters.parameters.tallying.quorum
+                    ) * 100} %`
+                  : `--`
               }}
             </dd>
           </dl>
@@ -151,7 +151,7 @@
               {{
                 governanceParameters.parameters.voting.voting_period
                   ? votingPeriodInDays + ` days`
-                  : `n/a`
+                  : `--`
               }}
             </dd>
           </dl>
