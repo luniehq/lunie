@@ -32,7 +32,9 @@ export default ({ node }) => {
         state.error = null
         state.loading = false
         state.loaded = true
-        commit(`setGovParameters`, { deposit, tallying, voting })
+        commit(`setGovParameters`, {
+          deposit, tallying, voting
+        })
       } catch (error) {
         commit(`notifyError`, {
           title: `Error fetching governance parameters`,

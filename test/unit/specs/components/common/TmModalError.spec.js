@@ -11,7 +11,9 @@ describe(`TmModalError`, () => {
   let wrapper
   const store = new Vuex.Store({
     getters: {
-      lastHeader: () => ({ chain_id: `gaia-test`, height: `31337` })
+      lastHeader: () => ({
+        chain_id: `gaia-test`, height: `31337`
+      })
     }
   })
 
@@ -36,7 +38,9 @@ describe(`TmModalError`, () => {
   })
 
   it(`shows an icon if specified`, () => {
-    wrapper.setProps({ icon: `icon-x` })
+    wrapper.setProps({
+      icon: `icon-x`
+    })
     expect(
       wrapper
         .find(`.tm-modal-error__icon i.material-icons`)
@@ -55,7 +59,9 @@ describe(`TmModalError`, () => {
   })
 
   it(`shows a title if specified`, () => {
-    wrapper.setProps({ title: `title-x` })
+    wrapper.setProps({
+      title: `title-x`
+    })
     expect(
       wrapper
         .find(`.tm-modal-error__title`)
@@ -76,7 +82,9 @@ describe(`TmModalError`, () => {
   })
 
   it(`shows a body if specified`, () => {
-    wrapper.setProps({ body: `body-x` })
+    wrapper.setProps({
+      body: `body-x`
+    })
     expect(
       wrapper
         .find(`.tm-modal-error__body`)

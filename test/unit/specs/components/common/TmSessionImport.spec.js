@@ -72,7 +72,11 @@ describe(`TmSessionImport`, () => {
   })
 
   it(`should show error if seed is not filled in`, async () => {
-    wrapper.setData({ fields: { importSeed: `` } })
+    wrapper.setData({
+      fields: {
+        importSeed: ``
+      }
+    })
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0]).toBeUndefined()
     expect(wrapper.find(`.tm-form-msg-error`)).toBeDefined()
@@ -121,7 +125,9 @@ describe(`TmSessionImport`, () => {
   })
 
   it(`should show a notification if creation failed`, async () => {
-    store.dispatch = jest.fn(() => Promise.reject({ message: `test` }))
+    store.dispatch = jest.fn(() => Promise.reject({
+      message: `test`
+    }))
     wrapper.setData({
       fields: {
         importName: `foo123`,

@@ -37,7 +37,9 @@ describe(`TmNotification.vue`, () => {
   it(`has the expected html structure`, () => {
     notifications.forEach(notification => {
       const wrapper = mount(TmNotification, {
-        propsData: { ...notification }
+        propsData: {
+          ...notification
+        }
       })
       expect(wrapper.vm.$el).toMatchSnapshot()
     })

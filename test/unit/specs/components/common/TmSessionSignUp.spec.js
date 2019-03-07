@@ -213,14 +213,18 @@ describe(`SessionSignUp`, () => {
     await wrapper.vm.onSubmit()
     expect($store.commit).toHaveBeenCalledWith(
       `notifyError`,
-      expect.objectContaining({ body: `Account already exists` })
+      expect.objectContaining({
+        body: `Account already exists`
+      })
     )
   })
 
   it(`should show a notification if creation failed`, async () => {
     const $store = {
       commit: jest.fn(),
-      dispatch: jest.fn(() => Promise.reject({ message: `reason` }))
+      dispatch: jest.fn(() => Promise.reject({
+        message: `reason`
+      }))
     }
 
     const self = {

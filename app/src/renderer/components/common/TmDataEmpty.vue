@@ -20,7 +20,9 @@ import TmDataMsg from "./TmDataMsg.vue"
 
 export default {
   name: `tm-data-empty`,
-  components: { TmDataMsg },
+  components: {
+    TmDataMsg
+  },
   props: {
     title: {
       type: String,

@@ -43,14 +43,18 @@ describe(`Module: Pool`, () => {
       }
     }
 
-    await actions.getPool({ state, commit, rootState })
+    await actions.getPool({
+      state, commit, rootState
+    })
     expect(commit).not.toHaveBeenCalled()
   })
 
   it(`should query pool`, async () => {
     const commit = jest.fn()
 
-    await actions.getPool({ state, commit, rootState })
+    await actions.getPool({
+      state, commit, rootState
+    })
     expect(commit).toHaveBeenCalledWith(`setPool`, pool)
     expect(state.error).toBe(null)
     expect(state.loading).toBe(false)
@@ -69,7 +73,9 @@ describe(`Module: Pool`, () => {
 
     const commit = jest.fn()
 
-    await actions.getPool({ state, commit, rootState })
+    await actions.getPool({
+      state, commit, rootState
+    })
     expect(commit).not.toHaveBeenCalled()
     expect(state.error).toBe(`node.getPool failed`)
     expect(state.loading).toBe(false)

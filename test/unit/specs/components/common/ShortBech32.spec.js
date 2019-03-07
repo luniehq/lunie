@@ -12,7 +12,9 @@ describe(`ShortBech32`, () => {
   beforeEach(() => {
     wrapper = shallowMount(ShortBech32, {
       localVue,
-      propsData: { address: `cosmosftw123456789` },
+      propsData: {
+        address: `cosmosftw123456789`
+      },
       data: () => ({
         copySuccess: false
       })
@@ -24,17 +26,23 @@ describe(`ShortBech32`, () => {
   })
 
   it(`should return 'address not found'`, () => {
-    wrapper.setProps({ address: null })
+    wrapper.setProps({
+      address: null
+    })
     expect(wrapper.vm.shortBech32).toBe(`Address Not Found`)
   })
 
   it(`should return a validation error message`, () => {
-    wrapper.setProps({ address: `cosmosaddress2asdfasdfasdf` })
+    wrapper.setProps({
+      address: `cosmosaddress2asdfasdfasdf`
+    })
     expect(wrapper.vm.shortBech32).toBe(`Not A Valid Bech32 Address`)
   })
 
   it(`should return a short address with everything before the 1`, () => {
-    wrapper.setProps({ address: `cosmosaddress1asdfasdfasdf` })
+    wrapper.setProps({
+      address: `cosmosaddress1asdfasdfasdf`
+    })
     expect(wrapper.vm.shortBech32).toBe(`cosmosaddress…asdf`)
   })
 

@@ -11,7 +11,9 @@ describe(`TmLiGovTransaction`, () => {
   }
 
   beforeEach(() => {
-    wrapper = mount(TmLiGovTransaction, { propsData, stubs: [`router-link`] })
+    wrapper = mount(TmLiGovTransaction, {
+      propsData, stubs: [`router-link`]
+    })
   })
 
   describe(`proposals`, () => {

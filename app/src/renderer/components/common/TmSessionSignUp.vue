@@ -100,8 +100,8 @@
           <tm-form-msg
             class="sm"
             type="custom"
-            msg="Please back up the seed phrase for this account. This seed phrase
-            cannot be recovered."
+            msg="Please back up the seed phrase for this account.
+            This seed phrase cannot be recovered."
           />
         </tm-form-group>
         <tm-form-group
@@ -159,7 +159,9 @@
 </template>
 
 <script>
-import { required, minLength, sameAs } from "vuelidate/lib/validators"
+import {
+  required, minLength, sameAs
+} from "vuelidate/lib/validators"
 import PerfectScrollbar from "perfect-scrollbar"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
@@ -231,10 +233,18 @@ export default {
   },
   validations: () => ({
     fields: {
-      signUpName: { required, minLength: minLength(5) },
-      signUpPassword: { required, minLength: minLength(10) },
-      signUpPasswordConfirm: { sameAsPassword: sameAs(`signUpPassword`) },
-      signUpWarning: { required: sameAs(() => true) },
+      signUpName: {
+        required, minLength: minLength(5)
+      },
+      signUpPassword: {
+        required, minLength: minLength(10)
+      },
+      signUpPasswordConfirm: {
+        sameAsPassword: sameAs(`signUpPassword`)
+      },
+      signUpWarning: {
+        required: sameAs(() => true)
+      },
       errorCollection: false
     }
   })

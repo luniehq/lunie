@@ -15,7 +15,9 @@ const optionsSpecification = {
 // Show the exec commands for easier debugging if something goes wrong.
 const execSync = (command, options) => {
   console.log(command)
-  childProcess.execSync(command, Object.assign({ stdio: `inherit` }, options))
+  childProcess.execSync(command, Object.assign({
+    stdio: `inherit`
+  }, options))
 }
 
 cli(optionsSpecification, async options => {

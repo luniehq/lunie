@@ -12,20 +12,28 @@ describe(`DelegationModal`, () => {
   localVue.use(Vuelidate)
 
   const getters = {
-    connection: { connected: true },
+    connection: {
+      connected: true
+    },
     session: {
       signedIn: true,
       address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
     },
-    delegates: { delegates: lcdClientMock.state.candidates },
-    stakingParameters: { parameters: stakingParameters }
+    delegates: {
+      delegates: lcdClientMock.state.candidates
+    },
+    stakingParameters: {
+      parameters: stakingParameters
+    }
   }
 
   beforeEach(() => {
     wrapper = shallowMount(DelegationModal, {
       localVue,
       mocks: {
-        $store: { getters }
+        $store: {
+          getters
+        }
       },
       propsData: {
         validator: lcdClientMock.state.candidates[0],
@@ -66,7 +74,9 @@ describe(`DelegationModal`, () => {
   })
 
   it(`clears on close`, () => {
-    wrapper.setData({ selectedIndex: 1, amount: 100000000 })
+    wrapper.setData({
+      selectedIndex: 1, amount: 100000000
+    })
     // produce validation error as amount is too high
     wrapper.vm.$v.$touch()
     expect(wrapper.vm.$v.$error).toBe(true)
@@ -84,14 +94,18 @@ describe(`DelegationModal`, () => {
       })
 
       it(`if the user manually inputs a number greater than the balance`, () => {
-        wrapper.setData({ amount: 142 })
+        wrapper.setData({
+          amount: 142
+        })
         expect(wrapper.vm.validateForm()).toBe(false)
       })
     })
 
     describe(`succeeds`, () => {
       it(`if the amount is positive and the user has enough balance`, () => {
-        wrapper.setData({ amount: 50 })
+        wrapper.setData({
+          amount: 50
+        })
         expect(wrapper.vm.validateForm()).toBe(true)
       })
     })
@@ -104,7 +118,9 @@ describe(`DelegationModal`, () => {
         dispatch: jest.fn(),
         commit: jest.fn()
       }
-      session = { address: `cosmos1address` }
+      session = {
+        address: `cosmos1address`
+      }
       submitDelegation = jest.fn()
       submitRedelegation = jest.fn()
     })
@@ -113,7 +129,14 @@ describe(`DelegationModal`, () => {
       const from = `cosmos1address`
 
       await DelegationModal.methods.submitForm.call(
-        { $store, amount: 50, session, from, submitDelegation, submitRedelegation },
+        {
+          $store,
+          amount: 50,
+          session,
+          from,
+          submitDelegation,
+          submitRedelegation
+        },
         `local`, `1234567890`
       )
       expect(submitDelegation).toHaveBeenCalledWith(`local`, `1234567890`)
@@ -124,7 +147,14 @@ describe(`DelegationModal`, () => {
       const from = `cosmosvaloper1address`
 
       await DelegationModal.methods.submitForm.call(
-        { $store, amount: 50, session, from, submitDelegation, submitRedelegation },
+        {
+          $store,
+          amount: 50,
+          session,
+          from,
+          submitDelegation,
+          submitRedelegation
+        },
         `local`, `1234567890`
       )
       expect(submitDelegation).not.toHaveBeenCalledWith(`local`, `1234567890`)
@@ -139,11 +169,15 @@ describe(`DelegationModal`, () => {
         dispatch: jest.fn(),
         commit: jest.fn()
       }
-      const validator = { operator_address: `cosmosvaloper1address` }
+      const validator = {
+        operator_address: `cosmosvaloper1address`
+      }
       const amount = 50
 
       await DelegationModal.methods.submitDelegation.call(
-        { $store, amount, validator, denom: `atom` },
+        {
+          $store, amount, validator, denom: `atom`
+        },
         `local`, `1234567890`
       )
 
@@ -172,18 +206,24 @@ describe(`DelegationModal`, () => {
         dispatch: jest.fn(),
         commit: jest.fn()
       }
-      const validator = { operator_address: `cosmosvaloper1address` }
+      const validator = {
+        operator_address: `cosmosvaloper1address`
+      }
       const delegates = {
         delegates:
           [
-            { operator_address: `cosmosvaloper1address2` }
+            {
+              operator_address: `cosmosvaloper1address2`
+            }
           ]
       }
       const from = `cosmosvaloper1address2`
       const amount = 50
 
       await DelegationModal.methods.submitRedelegation.call(
-        { $store, amount, validator, delegates, from, denom: `atom` },
+        {
+          $store, amount, validator, delegates, from, denom: `atom`
+        },
         `local`, `1234567890`
       )
 

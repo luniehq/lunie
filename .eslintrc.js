@@ -55,8 +55,26 @@ module.exports = {
     "quote-props": ["error", "as-needed", { "unnecessary": true }],
     "object-curly-spacing": ["error", "always"],
     "array-bracket-spacing": ["error", "never"],
-    "indent": ["error", 2, { "SwitchCase": 1 }],
+    "indent": ["error", 2, {
+      "SwitchCase": 1,
+      "flatTernaryExpressions": true,
+      "ObjectExpression": 1,
+      "ArrayExpression": 1,
+      "MemberExpression": 1,
+      "CallExpression": {"arguments": 1},
+      "FunctionExpression": {"body": 1, "parameters": 2},
+      "VariableDeclarator": "first"
+    }],
+    "object-curly-newline": ["error", {
+      "ObjectExpression": { "multiline": true, "minProperties": 1 },
+      "ObjectPattern": { "multiline": true },
+      "ImportDeclaration": { "multiline": true, "minProperties": 3 },
+      "ExportDeclaration": { "multiline": true, "minProperties": 3 }
+    }],
+    "brace-style": ["error", "1tbs"],
+    "max-len": ["error", { "code": 80, "ignoreStrings": true, "ignoreComments": true, "ignoreTemplateLiterals": true }],
     "no-console": "off",
-    "semi": ["error", "never"]
+    "semi": ["error", "never"],
+    "no-trailing-spaces": ["error", { "skipBlankLines": false }]
   }
 }

@@ -27,7 +27,9 @@
 import Tabs from "common/Tabs"
 export default {
   name: `tm-page-header`,
-  components: { Tabs },
+  components: {
+    Tabs
+  },
   props: {
     tabs: {
       type: Array,

@@ -58,7 +58,9 @@ export const startApp = async (
   enableGoogleAnalytics = _enableGoogleAnalytics
 ) => {
   Vue.use(Router)
-  Vue.use(Tooltip, { delay: 1 })
+  Vue.use(Tooltip, {
+    delay: 1
+  })
   Vue.use(Vuelidate)
   Vue.use(VueClipboard)
 
@@ -98,14 +100,18 @@ export const startApp = async (
   console.log(`Expecting stargate at: ${stargate}`)
 
   const node = Node(axios, stargate)
-  const store = Store({ node })
+  const store = Store({
+    node
+  })
   const router = new Router({
-    scrollBehavior: () => ({ y: 0 }),
+    scrollBehavior: () => ({
+      y: 0
+    }),
     routes
   })
 
   router.beforeEach(routeGuard(store))
-  
+
   if (urlParams.experimental) {
     store.commit(`setExperimentalMode`)
   }

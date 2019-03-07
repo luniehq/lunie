@@ -52,28 +52,38 @@ describe(`TmSessionHardware`, () => {
   })
 
   it(`sets the step status`, () => {
-    const self = { step: `connect` }
+    const self = {
+      step: `connect`
+    }
     TmSessionHardware.methods.setStatus.call(self, `detect`)
     expect(self.status).toBe(`detect`)
   })
 
   it(`sets a connection error`, () => {
-    const self = { connectionError: null }
+    const self = {
+      connectionError: null
+    }
     TmSessionHardware.methods.setConnectionError.call(self, `No Ledger found`)
     expect(self.connectionError).toBe(`No Ledger found`)
   })
 
   it(`should show a state indicator for different states of the hardware connection`, () => {
-    wrapper.setData({ status: `connect` })
+    wrapper.setData({
+      status: `connect`
+    })
     expect(wrapper.html()).toMatchSnapshot()
 
-    wrapper.setData({ status: `detect` })
+    wrapper.setData({
+      status: `detect`
+    })
     expect(wrapper.html()).toMatchSnapshot()
   })
 
   describe(`tries connecting to Ledger`, () => {
     it(`connects if Ledger is connected and app is open `, async () => {
-      const $store = { commit: jest.fn(), dispatch: jest.fn() }
+      const $store = {
+        commit: jest.fn(), dispatch: jest.fn()
+      }
       const self = {
         $store,
         status: `connect`,

@@ -13,7 +13,9 @@ export default ({ node }) => {
     accountNumber: null,
     address: null,
     subscribedRPC: null,
-    externals: { config }
+    externals: {
+      config
+    }
   }
   const state = JSON.parse(JSON.stringify(emptyState))
   state.externals.axios = axios
@@ -87,14 +89,16 @@ export default ({ node }) => {
       }
     },
     async sendCoins(
-      { dispatch, commit, state },
-      { receiver, amount, denom, password }
+        { dispatch, commit, state },
+        { receiver, amount, denom, password }
     ) {
       await dispatch(`sendTx`, {
         type: `send`,
         password,
         to: receiver,
-        amount: [{ denom, amount: String(amount) }]
+        amount: [{
+          denom, amount: String(amount)
+        }]
       })
 
       const oldBalance = state.balances.find(balance => balance.denom === denom)

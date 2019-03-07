@@ -11,7 +11,9 @@ describe(`Module: Session`, () => {
 
   beforeEach(() => {
     node = {}
-    module = sessionModule({ node })
+    module = sessionModule({
+      node
+    })
     state = module.state
     actions = module.actions
     mutations = module.mutations
@@ -113,7 +115,9 @@ describe(`Module: Session`, () => {
 
   it(`should load accounts`, async () => {
     const commit = jest.fn()
-    await actions.loadAccounts({ commit, state })
+    await actions.loadAccounts({
+      commit, state
+    })
 
     expect(commit).toHaveBeenCalledWith(`setAccounts`, [{
       name: `def`,
@@ -132,12 +136,16 @@ describe(`Module: Session`, () => {
     }))
 
     const sessionModule = require(`renderer/vuex/modules/session.js`).default
-    module = sessionModule({ node })
+    module = sessionModule({
+      node
+    })
     state = module.state
     actions = module.actions
 
     const commit = jest.fn()
-    await actions.loadAccounts({ commit, state })
+    await actions.loadAccounts({
+      commit, state
+    })
     expect(commit).toHaveBeenCalledWith(`notifyError`, {
       body: `Error`,
       title: `Couldn't read keys`
@@ -148,7 +156,9 @@ describe(`Module: Session`, () => {
     state.history = [`x`]
     state.localKeyPairName = `abc`
     const commit = jest.fn()
-    actions.resetSessionData({ state, commit })
+    actions.resetSessionData({
+      state, commit
+    })
 
     expect(state.history).toEqual([])
     expect(state.localKeyPairName).toBeFalsy()
@@ -174,7 +184,9 @@ describe(`Module: Session`, () => {
     }))
 
     const sessionModule = require(`renderer/vuex/modules/session.js`).default
-    module = sessionModule({ node })
+    module = sessionModule({
+      node
+    })
     state = module.state
     actions = module.actions
 
@@ -207,7 +219,9 @@ describe(`Module: Session`, () => {
     const name = `def`
     const dispatch = jest.fn()
     await actions.createKey(
-      { dispatch, state },
+      {
+        dispatch, state
+      },
       {
         seedPhrase,
         password,
@@ -225,7 +239,11 @@ describe(`Module: Session`, () => {
       const localKeyPairName = `def`
       const commit = jest.fn()
       const dispatch = jest.fn()
-      await actions.signIn({ state, commit, dispatch }, { localKeyPairName })
+      await actions.signIn({
+        state, commit, dispatch
+      }, {
+        localKeyPairName
+      })
       expect(commit).toHaveBeenCalledWith(
         `setUserAddress`,
         `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
@@ -247,13 +265,19 @@ describe(`Module: Session`, () => {
       const commit = jest.fn()
       const dispatch = jest.fn()
       await actions.signIn(
-        { state, commit, dispatch },
-        { sessionType: `ledger`, address }
+        {
+          state, commit, dispatch
+        },
+        {
+          sessionType: `ledger`, address
+        }
       )
       expect(commit).toHaveBeenCalledWith(`setUserAddress`, address)
       expect(commit).toHaveBeenCalledWith(`toggleSessionModal`, false)
       expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
-      expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, { address })
+      expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, {
+        address
+      })
       expect(dispatch).toHaveBeenCalledWith(`loadErrorCollection`, address)
       expect(state.externals.track).toHaveBeenCalled()
     })
@@ -262,7 +286,9 @@ describe(`Module: Session`, () => {
   it(`should sign out`, async () => {
     const commit = jest.fn()
     const dispatch = jest.fn()
-    await actions.signOut({ state, commit, dispatch })
+    await actions.signOut({
+      state, commit, dispatch
+    })
 
     expect(dispatch).toHaveBeenCalledWith(`resetSessionData`)
     expect(commit).toHaveBeenCalledWith(`addHistory`, `/`)
@@ -279,7 +305,9 @@ describe(`Module: Session`, () => {
         state,
         commit
       },
-      { address: `abc`, optin: true }
+      {
+        address: `abc`, optin: true
+      }
     )
 
     expect(state.errorCollection).toBe(true)
@@ -301,7 +329,9 @@ describe(`Module: Session`, () => {
         state,
         commit
       },
-      { address: `abc`, optin: false }
+      {
+        address: `abc`, optin: false
+      }
     )
 
     expect(state.errorCollection).toBe(false)
@@ -318,7 +348,9 @@ describe(`Module: Session`, () => {
         state,
         commit
       },
-      { account: `abc`, optin: true }
+      {
+        account: `abc`, optin: true
+      }
     )
 
     expect(commit).toHaveBeenCalledWith(`notifyError`, {
@@ -368,7 +400,9 @@ describe(`Module: Session`, () => {
 
   it(`should reload accounts on reconnect as this could be triggered by a switch from a mocked connection`, async () => {
     const dispatch = jest.fn()
-    await actions.reconnected({ state, dispatch })
+    await actions.reconnected({
+      state, dispatch
+    })
     expect(dispatch).toHaveBeenCalledWith(`loadAccounts`)
   })
 })

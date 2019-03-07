@@ -17,6 +17,8 @@
 import TmDataMsg from "common/TmDataMsg"
 export default {
   name: `tm-data-empty-tx`,
-  components: { TmDataMsg }
+  components: {
+    TmDataMsg
+  }
 }
 </script>

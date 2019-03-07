@@ -74,7 +74,9 @@ export default {
       default: null
     }
   },
-  data: () => ({ colors }),
+  data: () => ({
+    colors
+  }),
   computed: {
     type() {
       return this.transaction.tx.value.msg[0].type

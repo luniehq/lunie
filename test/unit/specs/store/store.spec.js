@@ -29,7 +29,9 @@ const mockState = {
     committedDelegates: {
       [lcdClientMock.validators[1]]: {
         validator_addr: lcdClientMock.validators[1],
-        balance: { amount: 1 },
+        balance: {
+          amount: 1
+        },
         min_time: new Date().toUTCString()
       }
     },
@@ -59,14 +61,18 @@ describe(`Store`, () => {
   // DEFAULT
 
   it(`should persist balances et al if the user is logged in`, async () => {
-    storeUpdateHandler({ type: `setWalletBalances` }, mockState, null)
+    storeUpdateHandler({
+      type: `setWalletBalances`
+    }, mockState, null)
     jest.runAllTimers() // updating is waiting if more updates coming in, this skips the waiting
     expect(localStorage.getItem(`store_test-net_xxx`)).toBeTruthy()
   })
 
   it(`should not update cache if not logged in`, async () => {
     storeUpdateHandler(
-      { type: `setWalletBalances` },
+      {
+        type: `setWalletBalances`
+      },
       Object.assign({}, mockState, {
         session: {
           address: null
@@ -83,8 +89,12 @@ describe(`Store`, () => {
 
     const replaceState = jest.fn()
     loadPersistedState.call(
-      { replaceState },
-      { state: mockState, commit: jest.fn() }
+      {
+        replaceState
+      },
+      {
+        state: mockState, commit: jest.fn()
+      }
     )
     expect(replaceState).toHaveBeenCalled()
   })
@@ -94,8 +104,12 @@ describe(`Store`, () => {
 
     const commit = jest.fn()
     loadPersistedState.call(
-      { replaceState: jest.fn() },
-      { state: mockState, commit }
+      {
+        replaceState: jest.fn()
+      },
+      {
+        state: mockState, commit
+      }
     )
     expect(commit).toHaveBeenCalledTimes(1)
   })
@@ -104,7 +118,9 @@ describe(`Store`, () => {
     jest.useFakeTimers()
 
     const pending = setTimeout(() => {}, 10000)
-    storeUpdateHandler({ type: `setWalletBalances` }, mockState, pending)
+    storeUpdateHandler({
+      type: `setWalletBalances`
+    }, mockState, pending)
 
     // not updating yet, as it waits if there are more updates incoming
     expect(localStorage.getItem(`store_test-net_xxx`)).toBeFalsy()
@@ -120,16 +136,26 @@ describe(`Store`, () => {
 
     localStorage.setItem(`store_test-net_xxx`, `xxx`)
     loadPersistedState.call(
-      { replaceState: jest.fn() },
-      { state: mockState, commit: jest.fn() }
+      {
+        replaceState: jest.fn()
+      },
+      {
+        state: mockState, commit: jest.fn()
+      }
     )
   })
 
   it(`get storage keys`, () => {
     expect(
       getStorageKey({
-        session: { address: `Y` },
-        connection: { lastHeader: { chain_id: `X` } }
+        session: {
+          address: `Y`
+        },
+        connection: {
+          lastHeader: {
+            chain_id: `X`
+          }
+        }
       })
     ).toEqual(`store_X_Y`)
   })

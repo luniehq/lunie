@@ -105,7 +105,9 @@ export default {
   computed: {
     ...mapGetters([`session`, `connected`]),
     refreshable({ connected, refresh } = this) {
-      return refresh ? { connected, refresh } : undefined
+      return refresh ? {
+        connected, refresh
+      } : undefined
     }
   },
   async mounted() {

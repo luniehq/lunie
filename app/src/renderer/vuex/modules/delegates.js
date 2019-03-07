@@ -37,11 +37,11 @@ export default ({ node }) => {
       state.delegates = validators
     },
     setSelfBond(
-      state,
-      {
-        validator: { operator_address },
-        ratio
-      }
+        state,
+        {
+          validator: { operator_address },
+          ratio
+        }
     ) {
       state.delegates.find(
         validator => validator.operator_address === operator_address
@@ -124,7 +124,9 @@ export default ({ node }) => {
           ratToBigNumber(validator.delegator_shares)
         )
 
-        commit(`setSelfBond`, { validator, ratio })
+        commit(`setSelfBond`, {
+          validator, ratio
+        })
         return ratio
       }
     }

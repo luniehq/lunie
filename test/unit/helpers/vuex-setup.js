@@ -1,6 +1,8 @@
 import Vuex from "vuex"
 import Vuelidate from "vuelidate"
-import { shallow, mount, createLocalVue } from "@vue/test-utils"
+import {
+  shallow, mount, createLocalVue
+} from "@vue/test-utils"
 import { getCommits, getDispatches } from "./vuex-helpers.js"
 
 const Modules = require(`renderer/vuex/modules`).default
@@ -19,7 +21,9 @@ export default function vuexSetup() {
     { doBefore = () => {}, ...args } // doBefore receives store
   ) {
     const node = Object.assign({}, require(`../helpers/node_mock`))
-    const modules = Modules({ node })
+    const modules = Modules({
+      node
+    })
     const store = new Vuex.Store({
       getters: Object.assign({}, Getters, args.getters),
       modules,
@@ -36,7 +40,9 @@ export default function vuexSetup() {
     store.getCommits = getCommits.bind(this, store)
     store.getDispatches = getDispatches.bind(this, store)
 
-    doBefore({ store })
+    doBefore({
+      store
+    })
 
     return {
       node,

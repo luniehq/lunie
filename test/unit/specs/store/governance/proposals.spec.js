@@ -19,7 +19,9 @@ describe(`Module: Proposals`, () => {
   let proposalsModuleInstance
 
   beforeEach(() => {
-    proposalsModuleInstance = proposalsModule({ node: {} })
+    proposalsModuleInstance = proposalsModule({
+      node: {}
+    })
   })
 
   it(`should query for proposals on reconnection if was loading before`, async () => {
@@ -96,22 +98,30 @@ describe(`Module: Proposals`, () => {
           [`setProposal`, proposals[`1`]],
           [
             `setProposalTally`,
-            { proposal_id: `1`, final_tally_result: tallies[`1`] }
+            {
+              proposal_id: `1`, final_tally_result: tallies[`1`]
+            }
           ],
           [`setProposal`, proposals[`2`]],
           [
             `setProposalTally`,
-            { proposal_id: `2`, final_tally_result: tallies[`2`] }
+            {
+              proposal_id: `2`, final_tally_result: tallies[`2`]
+            }
           ],
           [`setProposal`, proposals[`5`]],
           [
             `setProposalTally`,
-            { proposal_id: `5`, final_tally_result: tallies[`5`] }
+            {
+              proposal_id: `5`, final_tally_result: tallies[`5`]
+            }
           ],
           [`setProposal`, proposals[`6`]],
           [
             `setProposalTally`,
-            { proposal_id: `6`, final_tally_result: tallies[`6`] }
+            {
+              proposal_id: `6`, final_tally_result: tallies[`6`]
+            }
           ]
         ])
       )
@@ -138,7 +148,9 @@ describe(`Module: Proposals`, () => {
       proposalsModuleInstance = proposalsModule({
         node: {
           getProposal: proposal_id =>
-            Promise.resolve({ value: proposals[proposal_id] }),
+            Promise.resolve({
+              value: proposals[proposal_id]
+            }),
           getProposalTally: proposal_id => Promise.resolve(tallies[proposal_id])
         }
       })
@@ -148,27 +160,35 @@ describe(`Module: Proposals`, () => {
 
       // not on VotingPeriod
       await actions.getProposal(
-        { state, commit, rootState: mockRootState },
+        {
+          state, commit, rootState: mockRootState
+        },
         `1`
       )
       expect(commit.mock.calls).toEqual([
         [`setProposal`, proposals[`1`]],
         [
           `setProposalTally`,
-          { proposal_id: `1`, final_tally_result: tallies[`1`] }
+          {
+            proposal_id: `1`, final_tally_result: tallies[`1`]
+          }
         ]
       ])
 
       // on VotingPeriod
       await actions.getProposal(
-        { state, commit, rootState: mockRootState },
+        {
+          state, commit, rootState: mockRootState
+        },
         `2`
       )
       expect(commit.mock.calls.slice(2)).toEqual([
         [`setProposal`, proposals[`2`]],
         [
           `setProposalTally`,
-          { proposal_id: `2`, final_tally_result: tallies[`2`] }
+          {
+            proposal_id: `2`, final_tally_result: tallies[`2`]
+          }
         ]
       ])
     })
@@ -184,7 +204,9 @@ describe(`Module: Proposals`, () => {
       const commit = jest.fn()
 
       await actions.getProposal(
-        { state, commit, rootState: mockRootState },
+        {
+          state, commit, rootState: mockRootState
+        },
         `1`
       )
       expect(state.error.message).toBe(`Error`)
@@ -200,7 +222,9 @@ describe(`Module: Proposals`, () => {
     const proposalsArray = Object.values(proposals)
     await Promise.all(proposalsArray.map(async (proposal, i) => {
       await actions.submitProposal(
-        { dispatch, rootState: mockRootState, commit },
+        {
+          dispatch, rootState: mockRootState, commit
+        },
         {
           type: proposal.proposal_type,
           title: proposal.title,

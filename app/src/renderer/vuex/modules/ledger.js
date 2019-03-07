@@ -21,7 +21,9 @@ export default () => {
   }
   const state = {
     ...emptyState,
-    externals: { createCosmosAddress, App, comm_u2f } // for testing
+    externals: {
+      createCosmosAddress, App, comm_u2f
+    } // for testing
   }
   const mutations = {
     setCosmosApp(state, app) {
@@ -89,7 +91,9 @@ export default () => {
         await dispatch(`getLedgerCosmosVersion`)
         await dispatch(`getLedgerPubKey`)
         const address = state.externals.createCosmosAddress(state.pubKey)
-        await dispatch(`signIn`, { sessionType: `ledger`, address })
+        await dispatch(`signIn`, {
+          sessionType: `ledger`, address
+        })
         commit(`setLedgerConnection`, true)
       } catch (error) {
         Sentry.captureException(error)
@@ -103,7 +107,9 @@ export default () => {
         response = await state.cosmosApp.get_version()
         actions.checkLedgerErrors(response)
         const { major, minor, patch, test_mode } = response
-        const version = { major, minor, patch, test_mode }
+        const version = {
+          major, minor, patch, test_mode
+        }
         commit(`setCosmosAppVersion`, version)
       } catch (error) {
         Sentry.captureException(error)

@@ -51,7 +51,9 @@ describe(`ModalDeposit`, () => {
   })
 
   it(`clears on close`, () => {
-    wrapper.setData({ amount: 100000000000 })
+    wrapper.setData({
+      amount: 100000000000
+    })
     // produce validation error as amount is too high
     wrapper.vm.$v.$touch()
     expect(wrapper.vm.$v.$error).toBe(true)
@@ -68,7 +70,9 @@ describe(`ModalDeposit`, () => {
       })
 
       it(`when the amount deposited higher than the user's balance`, async () => {
-        wrapper.setData({ amount: 25 })
+        wrapper.setData({
+          amount: 25
+        })
         expect(wrapper.vm.validateForm()).toBe(false)
         await wrapper.vm.$nextTick()
         const errorMessage = wrapper.find(`input#amount + div`)
@@ -83,14 +87,18 @@ describe(`ModalDeposit`, () => {
           }
         ]
         store.commit(`setWalletBalances`, otherCoins)
-        wrapper.setData({ amount: 25 })
+        wrapper.setData({
+          amount: 25
+        })
         expect(wrapper.vm.validateForm()).toBe(false)
       })
     })
 
     describe(`succeeds`, () => {
       it(`when the user has enough balance to submit a deposit`, async () => {
-        wrapper.setData({ amount: 15 })
+        wrapper.setData({
+          amount: 15
+        })
         expect(wrapper.vm.validateForm()).toBe(true)
       })
     })
@@ -101,7 +109,9 @@ describe(`ModalDeposit`, () => {
       wrapper.vm.$store.dispatch = jest.fn()
       wrapper.vm.$store.commit = jest.fn()
 
-      wrapper.setData({ amount: 10 })
+      wrapper.setData({
+        amount: 10
+      })
       await wrapper.vm.submitForm(`local`, `1234567890`)
 
       expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([

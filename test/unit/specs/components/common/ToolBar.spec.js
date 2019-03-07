@@ -31,15 +31,25 @@ describe(`ToolBar`, () => {
   })
 
   it(`call dispatch to sign the user out`, () => {
-    const $store = { dispatch: jest.fn() }
-    const self = { $store, $router: { push: jest.fn() } }
+    const $store = {
+      dispatch: jest.fn()
+    }
+    const self = {
+      $store, $router: {
+        push: jest.fn()
+      }
+    }
     ToolBar.methods.signOut.call(self)
     expect($store.dispatch).toHaveBeenCalledWith(`signOut`)
   })
 
   it(`opens session modal`, () => {
-    const $store = { commit: jest.fn() }
-    const self = { $store }
+    const $store = {
+      commit: jest.fn()
+    }
+    const self = {
+      $store
+    }
     ToolBar.methods.signIn.call(self)
     expect($store.commit).toHaveBeenCalledWith(`setSessionModalView`, `welcome`)
     expect($store.commit).toHaveBeenCalledWith(`toggleSessionModal`, true)

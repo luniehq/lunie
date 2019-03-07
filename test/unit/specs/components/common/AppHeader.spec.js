@@ -82,7 +82,9 @@ describe(`AppHeader`, () => {
     })
 
     it(`should watch window size on update`, () => {
-      const window = { onresize: undefined }
+      const window = {
+        onresize: undefined
+      }
       const self = {
         watchWindowSize: jest.fn(),
         window

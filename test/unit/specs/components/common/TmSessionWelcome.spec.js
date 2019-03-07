@@ -7,7 +7,9 @@ describe(`TmSessionWelcome`, () => {
 
   beforeEach(() => {
     const getters = {
-      session: { accounts, insecureMode: true, experimentalMode: true },
+      session: {
+        accounts, insecureMode: true, experimentalMode: true
+      },
       lastPage: `/`
     }
     $store = {
@@ -25,7 +27,9 @@ describe(`TmSessionWelcome`, () => {
   describe(`header buttons`, () => {
     describe(`closes the session modal`, () => {
       it(`without going to prev page`, () => {
-        const $store = { commit: jest.fn() }
+        const $store = {
+          commit: jest.fn()
+        }
         const self = {
           back: jest.fn(),
           $store,
@@ -40,7 +44,9 @@ describe(`TmSessionWelcome`, () => {
       })
 
       it(`going back to prev page`, () => {
-        const $store = { commit: jest.fn() }
+        const $store = {
+          commit: jest.fn()
+        }
         const self = {
           back: jest.fn(),
           $store,
@@ -69,7 +75,9 @@ describe(`TmSessionWelcome`, () => {
   describe(`with accounts`, () => {
     beforeEach(() => {
       const getters = {
-        session: { accounts: [`foo`, `bar`], insecureMode: true },
+        session: {
+          accounts: [`foo`, `bar`], insecureMode: true
+        },
         lastPage: `/`
       }
       $store = {

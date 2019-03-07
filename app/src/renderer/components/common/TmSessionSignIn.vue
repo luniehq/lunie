@@ -86,7 +86,9 @@ export default {
     accounts() {
       let accounts = this.session.accounts
       accounts = accounts.filter(({ name }) => name !== `trunk`)
-      return accounts.map(({ name }) => ({ key: name, value: name }))
+      return accounts.map(({ name }) => ({
+        key: name, value: name
+      }))
     }
   },
   mounted() {
@@ -135,8 +137,12 @@ export default {
     }
   },
   validations: () => ({
-    signInName: { required },
-    signInPassword: { required, minLength: minLength(10) }
+    signInName: {
+      required
+    },
+    signInPassword: {
+      required, minLength: minLength(10)
+    }
   })
 }
 </script>

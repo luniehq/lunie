@@ -17,9 +17,13 @@ describe(`PageProposal`, () => {
 
   const getters = {
     depositDenom: governanceParameters.deposit.min_deposit[0].denom,
-    proposals: { proposals, tallies },
+    proposals: {
+      proposals, tallies
+    },
     connected: true,
-    governanceParameters: { ...governanceParameters, loaded: true },
+    governanceParameters: {
+      ...governanceParameters, loaded: true
+    },
     wallet: {
       address: `X`
     },
@@ -84,12 +88,20 @@ describe(`PageProposal`, () => {
         }
       }
     }
-    wrapper = shallowMount(PageProposal, { ...args, mocks: { $store } })
+    wrapper = shallowMount(PageProposal, {
+      ...args, mocks: {
+        $store
+      }
+    })
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`shows an error if the proposal couldn't be found`, () => {
-    wrapper = shallowMount(PageProposal, { ...args, propsData: { proposalId: `666` } })
+    wrapper = shallowMount(PageProposal, {
+      ...args, propsData: {
+        proposalId: `666`
+      }
+    })
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -154,15 +166,23 @@ describe(`PageProposal`, () => {
 
   describe(`Modal onVote`, () => {
     it(`enables voting if the proposal is on the 'VotingPeriod'`, async () => {
-      $store = { dispatch: jest.fn() }
+      $store = {
+        dispatch: jest.fn()
+      }
 
       const thisIs = {
-        $refs: { modalVote: { open: () => {} } },
+        $refs: {
+          modalVote: {
+            open: () => {}
+          }
+        },
         $store,
         votes: {},
         proposalId: `2`,
         lastVote: undefined,
-        wallet: { address: `X` }
+        wallet: {
+          address: `X`
+        }
       }
 
       await PageProposal.methods.onVote.call(thisIs)
@@ -174,18 +194,28 @@ describe(`PageProposal`, () => {
     })
 
     it(`load the last valid vote succesfully`, async () => {
-      $store = { dispatch: jest.fn() }
+      $store = {
+        dispatch: jest.fn()
+      }
 
       const thisIs = {
-        $refs: { modalVote: { open: () => {} } },
+        $refs: {
+          modalVote: {
+            open: () => {}
+          }
+        },
         $store,
-        votes: { 2: [{
-          voter: `X`,
-          vote: `yes`
-        }] },
+        votes: {
+          2: [{
+            voter: `X`,
+            vote: `yes`
+          }]
+        },
         proposalId: `2`,
         lastVote: undefined,
-        wallet: { address: `X` }
+        wallet: {
+          address: `X`
+        }
       }
       expect(thisIs.lastVote).toBeUndefined()
 
@@ -194,11 +224,15 @@ describe(`PageProposal`, () => {
       expect($store.dispatch.mock.calls).toEqual([
         [`getProposalVotes`, thisIs.proposalId]
       ])
-      expect(thisIs.lastVote).toEqual({ voter: `X`, vote: `yes` })
+      expect(thisIs.lastVote).toEqual({
+        voter: `X`, vote: `yes`
+      })
     })
 
     it(`disables voting if the proposal is on the 'DepositPeriod'`, () => {
-      wrapper.setProps({ proposalId: `5` })
+      wrapper.setProps({
+        proposalId: `5`
+      })
       expect(wrapper.find(`#vote-btn`).exists()).toEqual(false)
     })
   })

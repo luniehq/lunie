@@ -41,7 +41,9 @@ if (require.main === module) {
     const tag = `v${version}`
     console.log(`--- Releasing tag`, tag, `---`)
     const token = process.env.GIT_BOT_TOKEN
-    await publishRelease({ notes, token, tag })
+    await publishRelease({
+      notes, token, tag
+    })
 
     // after we created the release we push the released tag to master
     shell(`

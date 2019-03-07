@@ -7,7 +7,9 @@
 </template>
 
 <script>
-export default { name: `tm-page-footer` }
+export default {
+  name: `tm-page-footer`
+}
 </script>
 
 <style>

@@ -25,14 +25,18 @@ describe(`TmLiTransaction`, () => {
   })
 
   it(`Should print the hour only if the same day`, () => {
-    expect(TmLiTransaction.computed.date({ time: Date.now() })).toEqual(
+    expect(TmLiTransaction.computed.date({
+      time: Date.now()
+    })).toEqual(
       `00:00:42`
     )
   })
 
   it(`Should print the datetime if we are in a different day`, () => {
     expect(
-      TmLiTransaction.computed.date({ time: Date.now() + 999999999 })
+      TmLiTransaction.computed.date({
+        time: Date.now() + 999999999
+      })
     ).toEqual(`Jan 12th 1970 13:47:21`)
   })
 })

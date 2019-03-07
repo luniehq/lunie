@@ -8,17 +8,23 @@ const mockRootState = {
   connection: {
     connected: true
   },
-  session: { signedIn: true }
+  session: {
+    signedIn: true
+  }
 }
 const faucet = `http://gimme.money`
 const denoms = [`mycoin`, `fermion`, `STAKE`]
-const config = { faucet, denoms }
+const config = {
+  faucet, denoms
+}
 
 describe(`Module: Wallet`, () => {
   let instance, actions, state
 
   beforeEach(() => {
-    instance = walletModule({ node: {} })
+    instance = walletModule({
+      node: {}
+    })
     state = instance.state
     actions = instance.actions
     state.externals = {
@@ -39,7 +45,9 @@ describe(`Module: Wallet`, () => {
   describe(`mutations`, () => {
     it(`should set wallet balances `, () => {
       const { state, mutations } = instance
-      const balances = [{ denom: `leetcoin`, amount: `1337` }]
+      const balances = [{
+        denom: `leetcoin`, amount: `1337`
+      }]
       mutations.setWalletBalances(state, balances)
       expect(state.balances).toBe(balances)
     })
@@ -47,15 +55,21 @@ describe(`Module: Wallet`, () => {
     it(`update individual wallet balances`, () => {
       const { state, mutations } = instance
 
-      state.balances.push({ denom: `coin`, amount: `42` })
+      state.balances.push({
+        denom: `coin`, amount: `42`
+      })
 
       // add new
-      const balance = { denom: `leetcoin`, amount: `1337` }
+      const balance = {
+        denom: `leetcoin`, amount: `1337`
+      }
       mutations.updateWalletBalance(state, balance)
       expect(state.balances).toContain(balance)
 
       // update balance
-      const updatedBalance = { denom: `leetcoin`, amount: `1` }
+      const updatedBalance = {
+        denom: `leetcoin`, amount: `1`
+      }
       mutations.updateWalletBalance(state, updatedBalance)
       expect(state.balances).toContain(updatedBalance)
     })
@@ -86,14 +100,18 @@ describe(`Module: Wallet`, () => {
     it(`should reset session data`, () => {
       const { actions } = instance
       const rootState = {}
-      actions.resetSessionData({ rootState })
+      actions.resetSessionData({
+        rootState
+      })
       expect(rootState).toHaveProperty(`wallet`)
     })
 
     it(`should fetch money`, async () => {
       const { state, actions } = instance
       const address = `X`
-      await actions.getMoney({ state }, address)
+      await actions.getMoney({
+        state
+      }, address)
       expect(state.externals.axios.get).toHaveBeenCalledWith(`${faucet}/${address}`)
     })
 
@@ -103,7 +121,11 @@ describe(`Module: Wallet`, () => {
       const address = `cosmos1wdhk6e2pv3j8yetnwv0yr6s6`
       const commit = jest.fn()
       const dispatch = jest.fn()
-      await actions.initializeWallet({ commit, dispatch }, { address })
+      await actions.initializeWallet({
+        commit, dispatch
+      }, {
+        address
+      })
       expect(commit).toHaveBeenCalledWith(`setWalletAddress`, address)
       expect(dispatch.mock.calls).toEqual([
         [`queryWalletBalances`],
@@ -150,7 +172,9 @@ describe(`Module: Wallet`, () => {
 
     it(`should load denoms`, async () => {
       const commit = jest.fn()
-      await actions.loadDenoms({ state, commit, rootState: mockRootState })
+      await actions.loadDenoms({
+        state, commit, rootState: mockRootState
+      })
       expect(commit).toHaveBeenCalledWith(`setDenoms`, [
         `mycoin`,
         `fermion`,
@@ -168,7 +192,11 @@ describe(`Module: Wallet`, () => {
             address: `abc`
           },
           dispatch,
-          rootState: { session: { signedIn: true } }
+          rootState: {
+            session: {
+              signedIn: true
+            }
+          }
         })
         expect(dispatch).toHaveBeenCalledWith(`queryWalletBalances`)
       })
@@ -182,7 +210,11 @@ describe(`Module: Wallet`, () => {
             address: `abc`
           },
           dispatch,
-          rootState: { session: { signedIn: false } }
+          rootState: {
+            session: {
+              signedIn: false
+            }
+          }
         })
         expect(dispatch).not.toHaveBeenCalledWith(`queryWalletBalances`)
       })
@@ -214,7 +246,9 @@ describe(`Module: Wallet`, () => {
       }
       const dispatch = jest.fn()
       actions
-        .queryWalletStateAfterHeight({ rootState, dispatch }, 11)
+        .queryWalletStateAfterHeight({
+          rootState, dispatch
+        }, 11)
         .then(() => done())
       rootState.connection.lastHeader.height++
       jest.runAllTimers()
@@ -226,7 +260,9 @@ describe(`Module: Wallet`, () => {
       const dispatch = jest.fn()
       state.address = null
       state.decodedAddress = null
-      await actions.walletSubscribe({ state, dispatch })
+      await actions.walletSubscribe({
+        state, dispatch
+      })
     })
 
     it(`should query wallet on subscription txs`, async () => {
@@ -236,7 +272,11 @@ describe(`Module: Wallet`, () => {
         rpc: {
           subscribe: jest.fn((_, cb) => {
             //query is param
-            cb({ TxResult: { height: -1 } })
+            cb({
+              TxResult: {
+                height: -1
+              }
+            })
           })
         }
       }
@@ -246,7 +286,9 @@ describe(`Module: Wallet`, () => {
       const dispatch = jest.fn()
       state.address = `x`
 
-      await actions.walletSubscribe({ state, dispatch })
+      await actions.walletSubscribe({
+        state, dispatch
+      })
 
       jest.runTimersToTime(30000)
       expect(dispatch).toHaveBeenCalledTimes(6)
@@ -301,7 +343,9 @@ describe(`Module: Wallet`, () => {
         type: `send`,
         password: `1234567890`,
         to: `cosmos1xxx`,
-        amount: [{ denom: `funcoin`, amount: `12` }]
+        amount: [{
+          denom: `funcoin`, amount: `12`
+        }]
       })
 
       // should update the balance optimistically

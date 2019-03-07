@@ -53,7 +53,9 @@ describe(`PageBlock`, () => {
           dispatch: jest.fn()
         },
         $route: {
-          params: { height: `100` }
+          params: {
+            height: `100`
+          }
         },
         $router: {
           push: jest.fn()
@@ -83,7 +85,9 @@ describe(`PageBlock`, () => {
 
   it(`loads the block information when the route changes`, () => {
     const getBlock = jest.fn()
-    PageBlock.watch[`$route.params.height`].call({ getBlock })
+    PageBlock.watch[`$route.params.height`].call({
+      getBlock
+    })
 
     expect(getBlock).toHaveBeenCalled()
   })
@@ -99,7 +103,9 @@ describe(`PageBlock`, () => {
           dispatch: jest.fn()
         },
         $route: {
-          params: { height: `100` }
+          params: {
+            height: `100`
+          }
         },
         $router: {
           push: jest.fn()
@@ -137,7 +143,9 @@ describe(`PageBlock`, () => {
     routerPush.mockClear()
     await PageBlock.methods.getBlock({
       $store: {
-        dispatch: () => ({ x: 1 }) // return pseudo block
+        dispatch: () => ({
+          x: 1
+        }) // return pseudo block
       },
       $route: {
         params: {

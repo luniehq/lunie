@@ -83,19 +83,27 @@ describe(`Signing`, () => {
           inputs: [
             {
               address: `cosmos1qperwt9wrnkg5k9e5gzfgjppzpqhyav5j24d66`,
-              coins: [{ denom: `STAKE`, amount: `1` }]
+              coins: [{
+                denom: `STAKE`, amount: `1`
+              }]
             }
           ],
           outputs: [
             {
               address: `cosmos1yeckxz7tapz34kjwnjxvmxzurerquhtrmxmuxt`,
-              coins: [{ denom: `STAKE`, amount: `1` }]
+              coins: [{
+                denom: `STAKE`, amount: `1`
+              }]
             }
           ]
         }
       }
     ],
-    fee: { amount: [{ denom: ``, amount: `0` }], gas: `21906` },
+    fee: {
+      amount: [{
+        denom: ``, amount: `0`
+      }], gas: `21906`
+    },
     signatures: null,
     memo: ``
   }
@@ -107,20 +115,28 @@ describe(`Signing`, () => {
           inputs: [
             {
               address: `cosmos1qperwt9wrnkg5k9e5gzfgjppzpqhyav5j24d66`,
-              coins: [{ denom: `STAKE`, amount: `1` }]
+              coins: [{
+                denom: `STAKE`, amount: `1`
+              }]
             }
           ],
           outputs: [
             {
               x: undefined,
               address: `cosmos1yeckxz7tapz34kjwnjxvmxzurerquhtrmxmuxt`,
-              coins: [{ denom: `STAKE`, amount: `1` }]
+              coins: [{
+                denom: `STAKE`, amount: `1`
+              }]
             }
           ]
         }
       }
     ],
-    fee: { amount: [{ denom: ``, amount: `0` }], gas: `21906` },
+    fee: {
+      amount: [{
+        denom: ``, amount: `0`
+      }], gas: `21906`
+    },
     signatures: null,
     memo: ``
   }
@@ -177,7 +193,9 @@ describe(`Signing`, () => {
     vectors.forEach(
       ({ tx, sequence, account_number, chain_id, signMessage }) => {
         expect(
-          createSignMessage(tx, { sequence, account_number, chain_id })
+          createSignMessage(tx, {
+            sequence, account_number, chain_id
+          })
         ).toBe(signMessage)
       }
     )
@@ -229,17 +247,25 @@ describe(`Signing`, () => {
 
   it(`attaches a signature`, () => {
     const tx = {}
-    const sig = { x: 1 }
+    const sig = {
+      x: 1
+    }
     expect(createSignedTx(tx, sig)).toEqual({
-      signatures: [{ x: 1 }]
+      signatures: [{
+        x: 1
+      }]
     })
   })
 
   it(`creates a broadcast body`, () => {
-    const signedTx = { x: 1 }
+    const signedTx = {
+      x: 1
+    }
     expect(createBroadcastBody(signedTx)).toEqual(
       JSON.stringify({
-        tx: { x: 1 },
+        tx: {
+          x: 1
+        },
         return: `block`
       })
     )

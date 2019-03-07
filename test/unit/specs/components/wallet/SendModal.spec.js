@@ -27,7 +27,9 @@ describe(`SendModal`, () => {
       balances
     },
     connected: true,
-    session: { signedIn: true }
+    session: {
+      signedIn: true
+    }
   }
 
   beforeEach(async () => {
@@ -59,7 +61,9 @@ describe(`SendModal`, () => {
   })
 
   it(`clears on close`, () => {
-    wrapper.setData({ address: `test`, amount: 100000000 })
+    wrapper.setData({
+      address: `test`, amount: 100000000
+    })
     // produce validation error as amount is too high
     wrapper.vm.$v.$touch()
     expect(wrapper.vm.$v.$error).toBe(true)

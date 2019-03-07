@@ -16,7 +16,9 @@ describe(`RPC Connector`, () => {
       RpcClient: () => ({
         on() {},
         removeAllListeners() {},
-        ws: { destroy() {} },
+        ws: {
+          destroy() {}
+        },
         health: () => ({})
       })
     }))
@@ -35,7 +37,9 @@ describe(`RPC Connector`, () => {
       RpcClient: () => ({
         on(value, cb) {
           if (value === `error`) {
-            cb({ code: `ECONNREFUSED` })
+            cb({
+              code: `ECONNREFUSED`
+            })
           }
         },
         health: () => ({})

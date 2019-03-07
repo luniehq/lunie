@@ -13,7 +13,9 @@ describe(`TmPage`, () => {
 
   beforeEach(() => {
     getters = {
-      session: () => ({ address: `cosmos`, atoms: 1 }),
+      session: () => ({
+        address: `cosmos`, atoms: 1
+      }),
       connected: () => true
     }
     actions = {
@@ -28,7 +30,9 @@ describe(`TmPage`, () => {
   })
 
   it(`shows a page skeleton`, async () => {
-    wrapper = shallowMount(TmPage, { store, localVue })
+    wrapper = shallowMount(TmPage, {
+      store, localVue
+    })
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -58,7 +62,9 @@ describe(`TmPage`, () => {
         refresh
       }
     })
-    expect(wrapper.vm.refreshable).toEqual({ connected: true, refresh })
+    expect(wrapper.vm.refreshable).toEqual({
+      connected: true, refresh
+    })
   })
 
 })

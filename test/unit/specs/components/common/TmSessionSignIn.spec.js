@@ -67,7 +67,9 @@ describe(`TmSessionSignIn`, () => {
   })
 
   it(`should show error if password not 10 long`, () => {
-    wrapper.setData({ signInPassword: `123` })
+    wrapper.setData({
+      signInPassword: `123`
+    })
     wrapper.vm.onSubmit()
     expect($store.commit.mock.calls[1]).toBeUndefined()
     expect(wrapper.find(`.tm-form-msg-error`)).toBeDefined()

@@ -93,7 +93,9 @@ const buildNodes = async (
   let mainAccountSignInfo = undefined
   let genesis = undefined
 
-  const nodes = [{ id: `dummy` }]
+  const nodes = [{
+    id: `dummy`
+  }]
   for (let i = 1; i < numberNodes + 1; i++) {
     // setup additional nodes
     const home = `${nodeHomePrefix}_${i}`
@@ -121,7 +123,9 @@ const buildNodes = async (
 
   sendMoneyToFixedAccounts(mainAccountSignInfo, options.chainId)
 
-  return { nodes, mainAccountSignInfo, genesis, cliHomePrefix }
+  return {
+    nodes, mainAccountSignInfo, genesis, cliHomePrefix
+  }
 }
 
 // init a node and define it as a validator

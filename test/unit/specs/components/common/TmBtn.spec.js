@@ -6,7 +6,9 @@ describe(`TmBtn`, () => {
   beforeEach(async () => {
     const value = `button`
     wrapper = shallowMount(TmBtn, {
-      propsData: { value }
+      propsData: {
+        value
+      }
     })
   })
 

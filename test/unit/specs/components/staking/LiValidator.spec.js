@@ -45,11 +45,12 @@ describe(`LiValidator`, () => {
       commit: jest.fn(),
       dispatch: jest.fn(),
       getters: {
-        delegates: { delegates: [], globalPower: 9000 },
+        delegates: {
+          delegates: [], globalPower: 9000
+        },
         committedDelegations: {},
         distribution: {
-          rewards: {
-          }
+          rewards: {}
         },
         session: {
           signedIn: true

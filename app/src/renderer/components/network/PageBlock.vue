@@ -10,7 +10,10 @@
                 Block {{ blockTitle }}
               </h2>
               <h3 class="page-profile__subtitle">
-                {{ block.block_meta && block.block_meta.block_id ? block.block_meta.block_id.hash : '' }}
+                {{
+                  block.block_meta && block.block_meta.block_id ?
+                    block.block_meta.block_id.hash : ''
+                }}
               </h3>
             </div>
           </div>
@@ -29,7 +32,9 @@
           <div class="column">
             <dl class="info_dl colored_dl">
               <dt>Transactions</dt>
-              <dd>{{ block.block && block.block.data.txs || `No Transactions` }}</dd>
+              <dd>
+                {{ block.block && block.block.data.txs || `No Transactions` }}
+              </dd>
             </dl>
           </div>
         </div>
@@ -40,7 +45,11 @@
           <div class="column">
             <dl class="info_dl colored_dl">
               <dt>Evidence</dt>
-              <dd>{{ block.block && block.block.evidence.evidence || `No Evidence` }}</dd>
+              <dd>
+                {{
+                  block.block && block.block.evidence.evidence || `No Evidence`
+                }}
+              </dd>
             </dl>
           </div>
         </div>

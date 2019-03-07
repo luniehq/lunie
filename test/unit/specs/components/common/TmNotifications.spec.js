@@ -15,7 +15,9 @@ describe(`TmNotifications.vue`, () => {
       }
     ]
     wrapper = mount(TmNotifications, {
-      propsData: { notifications }
+      propsData: {
+        notifications
+      }
     })
   })
 

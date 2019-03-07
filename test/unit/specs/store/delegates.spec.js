@@ -14,7 +14,9 @@ describe(`Module: Delegates`, () => {
 
   beforeEach(() => {
     node = Object.assign({}, nodeMock)
-    module = delegatesModule({ node })
+    module = delegatesModule({
+      node
+    })
   })
 
   it(`adds delegate to state`, () => {
@@ -147,15 +149,21 @@ describe(`Module: Delegates`, () => {
       }
     ])
     expect(state.delegates).not.toContainEqual(
-      expect.objectContaining({ signing_info: expect.anything() })
+      expect.objectContaining({
+        signing_info: expect.anything()
+      })
     )
     await actions.updateSigningInfo(
-      { state, commit, dispatch },
+      {
+        state, commit, dispatch
+      },
       state.delegates
     )
 
     expect(state.delegates).toContainEqual(
-      expect.objectContaining({ signing_info: expect.anything() })
+      expect.objectContaining({
+        signing_info: expect.anything()
+      })
     )
   })
 
@@ -190,9 +198,13 @@ describe(`Module: Delegates`, () => {
       operator_address: nodeMock.validators[0],
       delegator_shares: `120`
     }
-    node.getDelegation = jest.fn(() => ({ shares: `12` }))
+    node.getDelegation = jest.fn(() => ({
+      shares: `12`
+    }))
 
-    await actions.getSelfBond({ commit }, validator)
+    await actions.getSelfBond({
+      commit
+    }, validator)
     expect(commit).toHaveBeenCalledWith(`setSelfBond`, {
       validator,
       ratio: BN(0.1)
@@ -209,7 +221,9 @@ describe(`Module: Delegates`, () => {
     }
     node.getDelegation = jest.fn()
 
-    await actions.getSelfBond({ commit }, validator)
+    await actions.getSelfBond({
+      commit
+    }, validator)
     expect(node.getDelegation).not.toHaveBeenCalled()
   })
 

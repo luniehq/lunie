@@ -3,7 +3,9 @@
 const Client = (axios, remoteLcdURL) => {
   async function request(method, path, data) {
     const url = remoteLcdURL
-    const result = await axios({ data, method, url: url + path })
+    const result = await axios({
+      data, method, url: url + path
+    })
     return result.data
   }
 

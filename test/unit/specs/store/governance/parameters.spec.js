@@ -33,7 +33,9 @@ describe(`Module: Governance Parameters`, () => {
   it(`fetches all governance parameters`, async () => {
     const { actions, state } = module
     const commit = jest.fn()
-    await actions.getGovParameters({ state, commit, rootState: mockRootState })
+    await actions.getGovParameters({
+      state, commit, rootState: mockRootState
+    })
     expect(commit.mock.calls).toEqual([
       [`setGovParameters`, governanceParameters]
     ])

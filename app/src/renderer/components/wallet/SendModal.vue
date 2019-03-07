@@ -93,7 +93,9 @@
 
 <script>
 import b32 from "scripts/b32"
-import { required, between, decimal } from "vuelidate/lib/validators"
+import {
+  required, between, decimal
+} from "vuelidate/lib/validators"
 import { uatoms, atoms } from "../../scripts/num.js"
 import { mapActions, mapGetters } from "vuex"
 import TmFormGroup from "common/TmFormGroup"
@@ -160,7 +162,9 @@ export default {
         submitType,
         password,
         to: address,
-        amount: [{ denom, amount: String(uatoms(amount)) }]
+        amount: [{
+          denom, amount: String(uatoms(amount))
+        }]
       })
 
       this.$store.commit(`notify`, {
@@ -188,7 +192,9 @@ export default {
         decimal,
         between: between(0, atoms(this.balance))
       },
-      denom: { required }
+      denom: {
+        required
+      }
     }
   }
 }

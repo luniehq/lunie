@@ -15,7 +15,9 @@ describe(`TmField`, () => {
     const wrapper = shallowMount(TmField)
     wrapper.vm.updateValue(`Hallo World`)
     expect(wrapper.emittedByOrder()).toEqual([
-      { args: [`Hallo World`], name: `input` }
+      {
+        args: [`Hallo World`], name: `input`
+      }
     ])
   })
 
@@ -99,9 +101,15 @@ describe(`TmField`, () => {
   })
 
   it(`trims number values`, () => {
-    const wrapper = shallowMount(TmField, { propsData: { type: `number` } })
+    const wrapper = shallowMount(TmField, {
+      propsData: {
+        type: `number`
+      }
+    })
     wrapper.vm.updateValue(`42 `)
-    expect(wrapper.emittedByOrder()).toEqual([{ args: [`42`], name: `input` }])
+    expect(wrapper.emittedByOrder()).toEqual([{
+      args: [`42`], name: `input`
+    }])
   })
 
   it(`displays a toggle`, () => {

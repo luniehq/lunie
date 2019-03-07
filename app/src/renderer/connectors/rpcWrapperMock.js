@@ -3,7 +3,9 @@
 const mockValidators = require(`../../helpers/json/mock_validators.json`)
 const { sleep } = require(`../scripts/common.js`)
 
-const state = { blockMetas: [], blocks: [], connected: true }
+const state = {
+  blockMetas: [], blocks: [], connected: true
+}
 createBlockMetas(state)
 
 const RpcClientMock = {
@@ -16,9 +18,13 @@ const RpcClientMock = {
       produceBlockHeaders(cb)
     }
   },
-  validators: cb => cb(null, { validators: mockValidators }),
+  validators: cb => cb(null, {
+    validators: mockValidators
+  }),
   block: ({ height }, cb) =>
-    cb(null, { block: state.blocks.find(b => b.header.height === height) }),
+    cb(null, {
+      block: state.blocks.find(b => b.header.height === height)
+    }),
   blockchain: ({ minHeight }, cb) =>
     cb(null, {
       block_metas: state.blockMetas.slice(minHeight)
@@ -28,7 +34,9 @@ const RpcClientMock = {
       sync_info: {
         latest_block_height: 42
       },
-      node_info: { network: `offline demo` }
+      node_info: {
+        network: `offline demo`
+      }
     }),
   removeAllListeners: () => {},
   ws: {
@@ -64,11 +72,17 @@ module.exports.getHeight = function() {
 
 function createBlockMeta(time, height) {
   return {
-    header: { time, height },
-    block_id: { hash: makeBlockHash() },
+    header: {
+      time, height
+    },
+    block_id: {
+      hash: makeBlockHash()
+    },
     height,
     chain_id: `offline demo`,
-    last_block_id: { hash: makeBlockHash() }
+    last_block_id: {
+      hash: makeBlockHash()
+    }
   }
 }
 
@@ -80,15 +94,21 @@ function createBlock(height) {
       chain_id: `offline demo`,
       last_block_id: {
         hash: makeBlockHash(),
-        parts: { total: 0, hash: makeBlockHash() }
+        parts: {
+          total: 0, hash: makeBlockHash()
+        }
       },
       num_txs: 0,
       last_commit_hash: makeBlockHash(),
       validators_hash: makeBlockHash(),
       app_hash: makeBlockHash()
     },
-    last_commit: { precommits: [] },
-    data: { txs: [] }
+    last_commit: {
+      precommits: []
+    },
+    data: {
+      txs: []
+    }
   }
 }
 
@@ -108,7 +128,13 @@ async function produceBlockHeaders(cb) {
   while (state.connected) {
     const newBlockHeader = createBlockMeta(Date.now(), ++height)
     state.blockMetas[newBlockHeader.height] = newBlockHeader
-    cb(null, { data: { value: { header: newBlockHeader } } })
+    cb(null, {
+      data: {
+        value: {
+          header: newBlockHeader
+        }
+      }
+    })
     await sleep(1000)
   }
 }
@@ -118,7 +144,13 @@ async function produceBlocks(cb) {
   while (state.connected) {
     const newBlock = createBlock(++height)
     state.blocks.push(newBlock)
-    cb(null, { data: { value: { block: newBlock } } })
+    cb(null, {
+      data: {
+        value: {
+          block: newBlock
+        }
+      }
+    })
     await sleep(1000)
   }
 }

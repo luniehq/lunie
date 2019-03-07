@@ -14,20 +14,28 @@ module.exports = {
   buildDelegate: () => Promise.resolve(null),
   buildUnbond: () => Promise.resolve(null),
   coinTxs: () => Promise.resolve([]),
-  candidates: () => Promise.resolve({ data: [] }),
+  candidates: () => Promise.resolve({
+    data: []
+  }),
   send: () => Promise.resolve({}),
   ibcSend: () => Promise.resolve({}),
   candidate: () =>
     Promise.resolve({
       data: {
-        pub_key: { data: `` },
-        description: { name: `test` }
+        pub_key: {
+          data: ``
+        },
+        description: {
+          name: `test`
+        }
       }
     }),
   bondingsByDelegator: () =>
     Promise.resolve({
       data: {
-        PubKey: { data: `` },
+        PubKey: {
+          data: ``
+        },
         Shares: 0
       }
     }),
@@ -37,18 +45,24 @@ module.exports = {
     on: () => {},
     subscribe: () => {},
     async validators() {
-      return { validators: mockValidators }
+      return {
+        validators: mockValidators
+      }
     },
     async block() {},
     async blockchain() {
-      return { block_metas: {} }
+      return {
+        block_metas: {}
+      }
     },
     async status() {
       return {
         sync_info: {
           latest_block_height: 42
         },
-        node_info: { network: `test-net` }
+        node_info: {
+          network: `test-net`
+        }
       }
     },
     async net_info() {

@@ -41,7 +41,9 @@ export default [
         path: `my-delegations`,
         name: `My Delegations`,
         component: require(`./components/staking/TabMyDelegations`).default,
-        meta: { requiresAuth: true }
+        meta: {
+          requiresAuth: true
+        }
       },
       {
         path: `validators`,
@@ -64,26 +66,34 @@ export default [
     path: `/preferences`,
     name: `preferences`,
     component: require(`./components/common/PagePreferences`).default,
-    meta: { requiresAuth: true }
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: `/wallet`,
     name: `wallet`,
     component: require(`./components/wallet/PageWallet`).default,
-    meta: { requiresAuth: true }
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: `/wallet/send/:denom?`,
     name: `send`,
     props: true,
     component: require(`./components/wallet/SendModal`).default,
-    meta: { requiresAuth: true }
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: `/transactions`,
     name: `transactions`,
     component: require(`./components/wallet/PageTransactions`).default,
-    meta: { requiresAuth: true }
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: `/`,
@@ -95,6 +105,10 @@ export default [
     name: `block`,
     component: require(`./components/network/PageBlock`).default
   },
-  { path: `/404`, component: require(`./components/common/Page404`).default },
-  { path: `*`, component: require(`./components/common/Page404`).default }
+  {
+    path: `/404`, component: require(`./components/common/Page404`).default
+  },
+  {
+    path: `*`, component: require(`./components/common/Page404`).default
+  }
 ]

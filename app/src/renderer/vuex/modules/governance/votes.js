@@ -22,7 +22,9 @@ export default ({ node }) => {
 
       try {
         const votes = await node.getProposalVotes(proposalId)
-        commit(`setProposalVotes`, { proposalId, votes })
+        commit(`setProposalVotes`, {
+          proposalId, votes
+        })
         state.error = null
         state.loading = false
         state.loaded = true
@@ -32,8 +34,8 @@ export default ({ node }) => {
       }
     },
     async submitVote(
-      { rootState, dispatch },
-      { proposal_id, option, password, submitType }
+        { rootState, dispatch },
+        { proposal_id, option, password, submitType }
     ) {
       await dispatch(`sendTx`, {
         to: proposal_id,

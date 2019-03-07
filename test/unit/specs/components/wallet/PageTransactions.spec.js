@@ -24,7 +24,9 @@ describe(`PageTransactions`, () => {
               value: {
                 from_address: addresses[1],
                 to_address: addresses[0],
-                amount: [{ denom: `jbcoins`, amount: `1234` }]
+                amount: [{
+                  denom: `jbcoins`, amount: `1234`
+                }]
               }
             }
           ]
@@ -42,7 +44,9 @@ describe(`PageTransactions`, () => {
               value: {
                 from_address: addresses[0],
                 to_address: addresses[1],
-                amount: [{ denom: `fabocoins`, amount: `1234` }]
+                amount: [{
+                  denom: `fabocoins`, amount: `1234`
+                }]
               }
             }
           ]
@@ -285,15 +289,19 @@ describe(`PageTransactions`, () => {
   })
 
   it(`should refresh the transaction history`, async () => {
-    await PageTransactions.methods.refreshTransactions.call({ $store, session: {
-      signedIn: true
-    } })
+    await PageTransactions.methods.refreshTransactions.call({
+      $store, session: {
+        signedIn: true
+      }
+    })
     expect($store.dispatch).toHaveBeenCalledWith(`getAllTxs`)
 
     $store.dispatch.mockClear()
-    await PageTransactions.methods.refreshTransactions.call({ $store, session: {
-      signedIn: false
-    } })
+    await PageTransactions.methods.refreshTransactions.call({
+      $store, session: {
+        signedIn: false
+      }
+    })
     expect($store.dispatch).not.toHaveBeenCalledWith(`getAllTxs`)
   })
 

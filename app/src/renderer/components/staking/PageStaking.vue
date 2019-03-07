@@ -15,7 +15,9 @@ import TmPage from "common/TmPage"
 
 export default {
   name: `page-staking`,
-  components: { TmPage },
+  components: {
+    TmPage
+  },
   data: () => ({
     query: ``,
     tabs: [

@@ -47,8 +47,14 @@ describe(`TmBalance`, () => {
   })
 
   it(`opens withdraw modal`, () => {
-    const $refs = { modalWithdrawAllRewards: { open: jest.fn() } }
-    TmBalance.methods.onWithdrawal.call({ $refs })
+    const $refs = {
+      modalWithdrawAllRewards: {
+        open: jest.fn()
+      }
+    }
+    TmBalance.methods.onWithdrawal.call({
+      $refs
+    })
     expect($refs.modalWithdrawAllRewards.open).toHaveBeenCalled()
   })
 })

@@ -104,7 +104,9 @@ describe(`TmFormMsg`, () => {
   ]
 
   beforeEach(() => {
-    wrapper = mount(TmFormMsg, { propsData: propsData[0] })
+    wrapper = mount(TmFormMsg, {
+      propsData: propsData[0]
+    })
   })
 
   it(`has a type from props`, () => {
@@ -118,7 +120,9 @@ describe(`TmFormMsg`, () => {
   for (let i = 0; i < propsData.length; i++) {
     it(`shows correct message for ` + propsData[i].type, () => {
       const { type, name, min, max, length, msg } = propsData[i]
-      wrapper.setProps({ type, name, min, max, length, msg })
+      wrapper.setProps({
+        type, name, min, max, length, msg
+      })
       expect(
         wrapper
           .find(`.tm-form-msg`)

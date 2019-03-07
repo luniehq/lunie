@@ -45,7 +45,9 @@ const validatorTo = {
 }
 
 const getters = {
-  session: { experimentalMode: true, signedIn: true, address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9` },
+  session: {
+    experimentalMode: true, signedIn: true, address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+  },
   delegates: {
     delegates: [validator, validatorTo],
     globalPower: 4200,
@@ -85,7 +87,9 @@ describe(`PageValidator`, () => {
       mocks: {
         $store,
         $route: {
-          params: { validator: validator.operator_address }
+          params: {
+            validator: validator.operator_address
+          }
         }
       }
     })
@@ -116,11 +120,15 @@ describe(`PageValidator`, () => {
       const validator = {
         selfBond: 1
       }
-      wrapper.setData({ validator })
+      wrapper.setData({
+        validator
+      })
       expect(wrapper.vm.selfBond).toBe(`100.00%`)
 
       validator.selfBond = undefined
-      wrapper.setData({ validator })
+      wrapper.setData({
+        validator
+      })
       expect(wrapper.vm.selfBond).toBe(`0.00%`)
     })
 
@@ -198,7 +206,9 @@ describe(`PageValidator`, () => {
       const bondDenom = `stake`
       const myBond = 10
       const delegationString = PageValidator.computed.myDelegation.call(
-        { bondDenom, myBond }
+        {
+          bondDenom, myBond
+        }
       )
       expect(delegationString).toBe(`10.0000000000 stake`)
     })
@@ -207,7 +217,9 @@ describe(`PageValidator`, () => {
       const bondDenom = `stake`
       const myBond = 0
       const delegationString = PageValidator.computed.myDelegation.call(
-        { bondDenom, myBond }
+        {
+          bondDenom, myBond
+        }
       )
       expect(delegationString).toBe(`--`)
     })
@@ -218,8 +230,12 @@ describe(`PageValidator`, () => {
 
     beforeEach(() => {
       bondDenom = `stake`
-      validator = { operator_address: `cosmos1address` }
-      session = { signedIn: true }
+      validator = {
+        operator_address: `cosmos1address`
+      }
+      session = {
+        signedIn: true
+      }
     })
     it(`gets rewards from validator if it has some`, () => {
       const distribution = {
@@ -230,7 +246,9 @@ describe(`PageValidator`, () => {
         }
       }
       const rewardsString = PageValidator.computed.rewards.call(
-        { session, bondDenom, distribution, validator }
+        {
+          session, bondDenom, distribution, validator
+        }
       )
       expect(rewardsString).toBe(`10.0000000000 stake`)
     })
@@ -244,25 +262,41 @@ describe(`PageValidator`, () => {
         }
       }
       const rewardsString = PageValidator.computed.rewards.call(
-        { session, bondDenom, distribution, validator }
+        {
+          session, bondDenom, distribution, validator
+        }
       )
       expect(rewardsString).toBe(`0.0000000000 stake`)
     })
 
     it(`when user doesn't have any delegations`, () => {
-      const distribution = { rewards: {} }
+      const distribution = {
+        rewards: {}
+      }
       const rewardsString = PageValidator.computed.rewards.call(
-        { session, bondDenom, distribution, validator }
+        {
+          session, bondDenom, distribution, validator
+        }
       )
       expect(rewardsString).toBeNull()
     })
   })
 
   it(`doesn't call user rewards if not signed in`, () => {
-    const session = { signedIn: false }
-    const $store = { dispatch: jest.fn() }
-    const $route = { params: { validator: `cosmos1address` } }
-    PageValidator.mounted.call({ session, $store, $route })
+    const session = {
+      signedIn: false
+    }
+    const $store = {
+      dispatch: jest.fn()
+    }
+    const $route = {
+      params: {
+        validator: `cosmos1address`
+      }
+    }
+    PageValidator.mounted.call({
+      session, $store, $route
+    })
     expect($store.dispatch).not.toHaveBeenCalledWith(
       `getRewardsFromValidator`,
       $route.params.validator
@@ -270,10 +304,20 @@ describe(`PageValidator`, () => {
   })
 
   it(`updates rewards if block hasn't updated`, () => {
-    const $store = { dispatch: jest.fn() }
-    const session = { signedIn: false }
-    const $route = { params: { validator: `cosmos1address` } }
-    PageValidator.watch.lastHeader.handler.call({ session, $store, $route })
+    const $store = {
+      dispatch: jest.fn()
+    }
+    const session = {
+      signedIn: false
+    }
+    const $route = {
+      params: {
+        validator: `cosmos1address`
+      }
+    }
+    PageValidator.watch.lastHeader.handler.call({
+      session, $store, $route
+    })
     expect($store.dispatch).not.toHaveBeenCalledWith(
       `getRewardsFromValidator`,
       $route.params.validator
@@ -293,7 +337,9 @@ describe(`delegationTargetOptions`, () => {
       committedDelegations: {},
       $store,
       $route: {
-        params: { validator: validator.operator_address }
+        params: {
+          validator: validator.operator_address
+        }
       }
     })
     expect(options).toHaveLength(1)
@@ -315,12 +361,16 @@ describe(`delegationTargetOptions`, () => {
       },
       $store,
       $route: {
-        params: { validator: validator.operator_address }
+        params: {
+          validator: validator.operator_address
+        }
       }
     })
     expect(options).toHaveLength(1)
     expect(options).not.toContainEqual(
-      expect.objectContaining({ address: validator.operator_address })
+      expect.objectContaining({
+        address: validator.operator_address
+      })
     )
     expect(options[0].address).toEqual(getters.session.address)
 
@@ -341,17 +391,23 @@ describe(`delegationTargetOptions`, () => {
       },
       $store,
       $route: {
-        params: { validator: validator.operator_address }
+        params: {
+          validator: validator.operator_address
+        }
       }
     })
 
     expect(options).toHaveLength(2)
     expect(options).not.toContainEqual(
-      expect.objectContaining({ address: validator.operator_address })
+      expect.objectContaining({
+        address: validator.operator_address
+      })
     )
     expect(options[0].address).toEqual(getters.session.address)
     expect(options).toContainEqual(
-      expect.objectContaining({ address: validatorTo.operator_address })
+      expect.objectContaining({
+        address: validatorTo.operator_address
+      })
     )
 
     expect(options).toMatchSnapshot()

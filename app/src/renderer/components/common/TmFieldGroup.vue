@@ -5,7 +5,9 @@
 </template>
 
 <script>
-export default { name: `tm-field-group` }
+export default {
+  name: `tm-field-group`
+}
 </script>
 
 <style>

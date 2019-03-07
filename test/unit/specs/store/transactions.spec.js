@@ -16,11 +16,21 @@ describe(`Module: Transactions`, () => {
 
   beforeEach(async () => {
     node = {
-      getDelegatorTxs: () => Promise.resolve([{ txhash: 1 }]),
-      txs: () => Promise.resolve([{ txhash: 2 }]),
-      getGovernanceTxs: () => Promise.resolve([{ txhash: 3 }, { txhash: 3 }])
+      getDelegatorTxs: () => Promise.resolve([{
+        txhash: 1
+      }]),
+      txs: () => Promise.resolve([{
+        txhash: 2
+      }]),
+      getGovernanceTxs: () => Promise.resolve([{
+        txhash: 3
+      }, {
+        txhash: 3
+      }])
     }
-    module = transactionsModule({ node })
+    module = transactionsModule({
+      node
+    })
     state = module.state
     actions = module.actions
     mutations = module.mutations
@@ -83,7 +93,9 @@ describe(`Module: Transactions`, () => {
 
   it(`should fail if trying to get transactions of wrong type`, () => {
     expect(
-      actions.getTx({ rootState: mockRootState }, `unknown`)
+      actions.getTx({
+        rootState: mockRootState
+      }, `unknown`)
     ).rejects.toThrowError(new Error(`Unknown transaction type`))
   })
 
@@ -91,9 +103,15 @@ describe(`Module: Transactions`, () => {
     it(`when the user has logged in and is loading`, async () => {
       const dispatch = jest.fn()
       await actions.reconnected({
-        state: { loading: true },
+        state: {
+          loading: true
+        },
         dispatch,
-        rootState: { session: { signedIn: true } }
+        rootState: {
+          session: {
+            signedIn: true
+          }
+        }
       })
       expect(dispatch).toHaveBeenCalledWith(`getAllTxs`)
     })
@@ -101,9 +119,15 @@ describe(`Module: Transactions`, () => {
     it(`fails if txs are not loading`, async () => {
       const dispatch = jest.fn()
       await actions.reconnected({
-        state: { loading: false },
+        state: {
+          loading: false
+        },
         dispatch,
-        rootState: { session: { signedIn: true } }
+        rootState: {
+          session: {
+            signedIn: true
+          }
+        }
       })
       expect(dispatch).not.toHaveBeenCalledWith(`getAllTxs`)
     })
@@ -111,9 +135,15 @@ describe(`Module: Transactions`, () => {
     it(`fails if the user hasn't logged in`, async () => {
       const dispatch = jest.fn()
       await actions.reconnected({
-        state: { loading: true },
+        state: {
+          loading: true
+        },
         dispatch,
-        rootState: { session: { signedIn: false } }
+        rootState: {
+          session: {
+            signedIn: false
+          }
+        }
       })
       expect(dispatch).not.toHaveBeenCalledWith(`getAllTxs`)
     })
@@ -163,46 +193,84 @@ describe(`Module: Transactions`, () => {
 
     it(`should set denoms`, () => {
       const { state, mutations } = module
-      state.staking = [{ height: 150 }]
+      state.staking = [{
+        height: 150
+      }]
       mutations.setTransactionTime(state, {
         blockHeight: 150,
-        blockMetaInfo: { header: { time: 123 } }
+        blockMetaInfo: {
+          header: {
+            time: 123
+          }
+        }
       })
-      expect(state.staking).toEqual([{ height: 150, time: 123 }])
+      expect(state.staking).toEqual([{
+        height: 150, time: 123
+      }])
     })
   })
 
   it(`should getTx staking`, async () => {
     const address = `xxx`
     const staking = await actions.getTx(
-      { rootState: { session: { address } } },
+      {
+        rootState: {
+          session: {
+            address
+          }
+        }
+      },
       `staking`
     )
-    expect(staking).toEqual([{ txhash: 1, type: `staking` }])
+    expect(staking).toEqual([{
+      txhash: 1, type: `staking`
+    }])
   })
 
   it(`should getTx governance`, async () => {
     const address = `xxx`
     const governance = await actions.getTx(
-      { rootState: { session: { address } } },
+      {
+        rootState: {
+          session: {
+            address
+          }
+        }
+      },
       `governance`
     )
-    expect(governance).toEqual([{ txhash: 3, type: `governance` }])
+    expect(governance).toEqual([{
+      txhash: 3, type: `governance`
+    }])
   })
 
   it(`should getTx wallet`, async () => {
     const address = `xxx`
     const wallet = await actions.getTx(
-      { rootState: { session: { address } } },
+      {
+        rootState: {
+          session: {
+            address
+          }
+        }
+      },
       `wallet`
     )
-    expect(wallet).toEqual([{ txhash: 2, type: `wallet` }])
+    expect(wallet).toEqual([{
+      txhash: 2, type: `wallet`
+    }])
   })
 
   it(`should getTx error`, async () => {
     const address = `xxx`
     try {
-      await actions.getTx({ rootState: { session: { address } } }, `chachacha`)
+      await actions.getTx({
+        rootState: {
+          session: {
+            address
+          }
+        }
+      }, `chachacha`)
       expect(`I should have failed`).toEqual(`earlier`) // this is here to be sure we never reach this line
     } catch (e) {
       expect(e.message).toEqual(`Unknown transaction type`)
@@ -212,8 +280,16 @@ describe(`Module: Transactions`, () => {
   it(`should enrichTransactions`, async () => {
     const dispatch = jest.fn()
     await actions.enrichTransactions(
-      { dispatch },
-      { transactions: [{ height: 1 }, { height: 2 }] }
+      {
+        dispatch
+      },
+      {
+        transactions: [{
+          height: 1
+        }, {
+          height: 2
+        }]
+      }
     )
     expect(dispatch).toHaveBeenCalledWith(`queryTransactionTime`, {
       blockHeight: 1

@@ -13,7 +13,9 @@ describe(`TmLiStakeTransaction`, () => {
   }
 
   beforeEach(() => {
-    wrapper = mount(TmLiStakeTransaction, { propsData, stubs: [`router-link`] })
+    wrapper = mount(TmLiStakeTransaction, {
+      propsData, stubs: [`router-link`]
+    })
   })
 
   describe(`delegations`, () => {

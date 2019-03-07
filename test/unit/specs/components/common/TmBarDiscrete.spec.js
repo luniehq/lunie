@@ -7,7 +7,9 @@ describe(`TmBarDiscrete`, () => {
     const nodes = [{}, {}]
     clickSpy = jest.fn()
     wrapper = shallowMount(TmBarDiscrete, {
-      propsData: { nodes, active: 1, "click-fn": clickSpy }
+      propsData: {
+        nodes, active: 1, "click-fn": clickSpy
+      }
     })
   })
 

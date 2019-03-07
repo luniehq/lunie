@@ -12,7 +12,11 @@ describe(`PageWallet`, () => {
       loading: false,
       denoms: [`fermion`, `gregcoin`, `mycoin`, `STAKE`],
       balances: lcdClientMock.state.accounts[lcdClientMock.addresses[0]].coins,
-      externals: { config: { faucet: `yo` } }
+      externals: {
+        config: {
+          faucet: `yo`
+        }
+      }
     },
     connected: true
   }
@@ -30,7 +34,9 @@ describe(`PageWallet`, () => {
         $store
       }
     })
-    wrapper.vm.$refs.sendModal = { open: jest.fn() }
+    wrapper.vm.$refs.sendModal = {
+      open: jest.fn()
+    }
   })
 
   it(`has the expected html structure`, async () => {
@@ -75,7 +81,9 @@ describe(`PageWallet`, () => {
           loaded: false,
           denoms: [`fermion`, `gregcoin`, `mycoin`, `STAKE`],
           balances: [],
-          externals: { config: {} }
+          externals: {
+            config: {}
+          }
         },
         connected: false
       })
@@ -101,7 +109,9 @@ describe(`PageWallet`, () => {
           loaded: false,
           denoms: [`fermion`, `gregcoin`, `mycoin`, `STAKE`],
           balances: [],
-          externals: { config: {} }
+          externals: {
+            config: {}
+          }
         },
         connected: true
       })
@@ -123,7 +133,11 @@ describe(`PageWallet`, () => {
   })
 
   it(`should call getmoney`, async () => {
-    await PageWallet.methods.faucet.call({ $store, session: { address: `X` } })
+    await PageWallet.methods.faucet.call({
+      $store, session: {
+        address: `X`
+      }
+    })
     expect($store.dispatch).toHaveBeenCalledWith(`getMoney`, `X`)
   })
 })

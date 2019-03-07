@@ -174,7 +174,9 @@ import BigNumber from "bignumber.js"
 import moment from "moment"
 import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
-import { percent, pretty, atoms, full } from "scripts/num"
+import {
+  percent, pretty, atoms, full
+} from "scripts/num"
 import TmBtn from "common/TmBtn"
 import TmDataError from "common/TmDataError"
 import { shortAddress, ratToBigNumber } from "scripts/common"
@@ -341,7 +343,7 @@ export default {
       this.$refs.undelegationModal.open()
     },
     delegationTargetOptions(
-      { session, liquidAtoms, committedDelegations, $route, delegates } = this
+        { session, liquidAtoms, committedDelegations, $route, delegates } = this
     ) {
       if (!session.signedIn) return []
 

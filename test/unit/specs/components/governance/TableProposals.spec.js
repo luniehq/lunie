@@ -22,7 +22,9 @@ describe(`TableProposals`, () => {
 
     wrapper = mount(TableProposals, {
       localVue,
-      propsData: { proposals },
+      propsData: {
+        proposals
+      },
       mocks: {
         $store
       },

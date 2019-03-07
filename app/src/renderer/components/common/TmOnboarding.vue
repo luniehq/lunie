@@ -54,7 +54,9 @@ import TmBarDiscrete from "common/TmBarDiscrete"
 import TmBtn from "common/TmBtn"
 export default {
   name: `tm-onboarding`,
-  components: { TmBtn, TmBarDiscrete },
+  components: {
+    TmBtn, TmBarDiscrete
+  },
   computed: {
     ...mapGetters([`onboarding`, `bondDenom`]),
     activeKey() {

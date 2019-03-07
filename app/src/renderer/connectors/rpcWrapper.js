@@ -42,7 +42,9 @@ module.exports = function setRpcWrapper(container) {
       const connectionAttempt = await Promise.race([
         new Promise(resolve => {
           newRpc.on(`error`, err => {
-            resolve({ error: err })
+            resolve({
+              error: err
+            })
           })
         }),
         newRpc.health()

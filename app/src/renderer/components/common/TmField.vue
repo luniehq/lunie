@@ -46,7 +46,8 @@
     <div class="tm-toggle-wrapper" @click.prevent="toggle">
       <span>
         {{
-          currentToggleState ? resolvedOptions.checked : resolvedOptions.unchecked
+          currentToggleState ?
+            resolvedOptions.checked : resolvedOptions.unchecked
         }}
       </span>
       <div class="toggle-option-checked">

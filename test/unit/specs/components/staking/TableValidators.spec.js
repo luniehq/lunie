@@ -5,7 +5,7 @@ import validators from "../../store/json/validators.js"
 describe(`TableValidators`, () => {
   let wrapper, $store
 
-  const getters = { 
+  const getters = {
     delegation: {
       loaded: true
     },
@@ -19,9 +19,7 @@ describe(`TableValidators`, () => {
     connected: true,
     bondDenom: `stake`,
     keybase: {
-      [validators[0].description.identity]: {
-        // TODO
-      }
+      [validators[0].description.identity]: {}
     }
   }
 
@@ -36,7 +34,9 @@ describe(`TableValidators`, () => {
       mocks: {
         $store
       },
-      propsData: { validators }
+      propsData: {
+        validators
+      }
     })
   })
 
@@ -87,16 +87,28 @@ describe(`TableValidators`, () => {
   })
 
   it(`queries delegations on signin`, () => {
-    const session = { address: `cosmos1address` }
-    const $store = { dispatch: jest.fn() }
-    TableValidators.watch.address.call({ $store, session })
+    const session = {
+      address: `cosmos1address`
+    }
+    const $store = {
+      dispatch: jest.fn()
+    }
+    TableValidators.watch.address.call({
+      $store, session
+    })
     expect($store.dispatch).toHaveBeenCalledWith(`updateDelegates`)
   })
 
   it(`doesn't query delegations if not signed in`, () => {
-    const session = { address: undefined }
-    const $store = { dispatch: jest.fn() }
-    TableValidators.watch.address.call({ $store, session })
+    const session = {
+      address: undefined
+    }
+    const $store = {
+      dispatch: jest.fn()
+    }
+    TableValidators.watch.address.call({
+      $store, session
+    })
     expect($store.dispatch).not.toHaveBeenCalledWith(`updateDelegates`)
   })
 
@@ -128,9 +140,15 @@ describe(`TableValidators`, () => {
           prev_bonded_shares: `0`
         }
       ]
-      const session = { signedIn: true }
-      const $store = { dispatch: jest.fn() }
-      TableValidators.watch.validators.call({ $store, session }, validators)
+      const session = {
+        signedIn: true
+      }
+      const $store = {
+        dispatch: jest.fn()
+      }
+      TableValidators.watch.validators.call({
+        $store, session
+      }, validators)
       expect($store.dispatch).toHaveBeenCalledWith(
         `getRewardsFromAllValidators`,
         validators
@@ -165,9 +183,15 @@ describe(`TableValidators`, () => {
             prev_bonded_shares: `0`
           }
         ]
-        const session = { signedIn: false }
-        const $store = { dispatch: jest.fn() }
-        TableValidators.watch.validators.call({ $store, session }, validators)
+        const session = {
+          signedIn: false
+        }
+        const $store = {
+          dispatch: jest.fn()
+        }
+        TableValidators.watch.validators.call({
+          $store, session
+        }, validators)
         expect($store.dispatch).not.toHaveBeenCalledWith(
           `getRewardsFromAllValidators`,
           validators
@@ -176,9 +200,15 @@ describe(`TableValidators`, () => {
 
       it(`if validator set is empty`, () => {
         const validators = []
-        const session = { signedIn: true }
-        const $store = { dispatch: jest.fn() }
-        TableValidators.watch.validators.call({ $store, session }, validators)
+        const session = {
+          signedIn: true
+        }
+        const $store = {
+          dispatch: jest.fn()
+        }
+        TableValidators.watch.validators.call({
+          $store, session
+        }, validators)
         expect($store.dispatch).not.toHaveBeenCalledWith(
           `getRewardsFromAllValidators`,
           validators
@@ -187,9 +217,15 @@ describe(`TableValidators`, () => {
 
       it(`if validator set is undefined`, () => {
         const validators = undefined
-        const session = { signedIn: true }
-        const $store = { dispatch: jest.fn() }
-        TableValidators.watch.validators.call({ $store, session }, validators)
+        const session = {
+          signedIn: true
+        }
+        const $store = {
+          dispatch: jest.fn()
+        }
+        TableValidators.watch.validators.call({
+          $store, session
+        }, validators)
         expect($store.dispatch).not.toHaveBeenCalledWith(
           `getRewardsFromAllValidators`,
           validators

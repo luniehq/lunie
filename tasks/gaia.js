@@ -198,13 +198,17 @@ function startLocalNode(
     if (process.env.VERBOSE) {
       console.log(`$ ` + command)
     }
-    const localnodeProcess = spawn(command, { shell: true })
+    const localnodeProcess = spawn(command, {
+      shell: true
+    })
 
     // log output for debugging
     const logPath = path.join(nodeHome, `process.log`)
     console.log(`Redirecting node ` + number + ` output to ` + logPath)
     fs.createFileSync(logPath)
-    const logStream = fs.createWriteStream(logPath, { flags: `a` })
+    const logStream = fs.createWriteStream(logPath, {
+      flags: `a`
+    })
     localnodeProcess.stdout.pipe(logStream)
 
     localnodeProcess.stderr.pipe(process.stderr)

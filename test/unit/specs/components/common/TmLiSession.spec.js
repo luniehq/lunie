@@ -9,7 +9,9 @@ describe(`TmLiSession`, () => {
     subtitle: `useful subtitle`
   }
   beforeEach(() => {
-    wrapper = shallowMount(TmLiSession, { propsData })
+    wrapper = shallowMount(TmLiSession, {
+      propsData
+    })
   })
 
   it(`has the expected html structure`, () => {

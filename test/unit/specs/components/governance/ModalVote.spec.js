@@ -40,7 +40,9 @@ describe(`ModalVote`, () => {
   })
 
   it(`clears on close`, () => {
-    wrapper.setData({ vote: `maybe` })
+    wrapper.setData({
+      vote: `maybe`
+    })
     // produce validation error as vote is invalid
     wrapper.vm.$v.$touch()
     expect(wrapper.vm.$v.$error).toBe(true)
@@ -58,30 +60,42 @@ describe(`ModalVote`, () => {
       expect(wrapper.vm.validateForm()).toBe(false)
 
       // non valid option value
-      wrapper.setData({ vote: `other` })
+      wrapper.setData({
+        vote: `other`
+      })
       expect(wrapper.vm.validateForm()).toBe(false)
     })
 
     it(`succeeds`, async () => {
       wrapper.vm.submitForm = jest.fn()
 
-      wrapper.setData({ vote: `Yes` })
+      wrapper.setData({
+        vote: `Yes`
+      })
       expect(wrapper.vm.validateForm()).toBe(true)
 
-      wrapper.setData({ vote: `No` })
+      wrapper.setData({
+        vote: `No`
+      })
       expect(wrapper.vm.validateForm()).toBe(true)
 
-      wrapper.setData({ vote: `NoWithVeto` })
+      wrapper.setData({
+        vote: `NoWithVeto`
+      })
       expect(wrapper.vm.validateForm()).toBe(true)
 
-      wrapper.setData({ vote: `Abstain` })
+      wrapper.setData({
+        vote: `Abstain`
+      })
       expect(wrapper.vm.validateForm()).toBe(true)
     })
   })
 
   describe(`Disable already voted options`, () => {
     it(`disable button if equals the last vote: Abstain`, async () => {
-      wrapper.setProps({ lastVoteOption: `Abstain` })
+      wrapper.setProps({
+        lastVoteOption: `Abstain`
+      })
       await wrapper.vm.$nextTick()
 
       let voteBtn = wrapper.find(`#vote-yes`)
@@ -100,7 +114,9 @@ describe(`ModalVote`, () => {
       wrapper.vm.$store.dispatch = jest.fn()
       wrapper.vm.$store.commit = jest.fn()
 
-      wrapper.setData({ vote: `Yes` })
+      wrapper.setData({
+        vote: `Yes`
+      })
       await wrapper.vm.submitForm(`local`, `1234567890`)
 
       expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([

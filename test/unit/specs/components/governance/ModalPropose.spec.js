@@ -49,7 +49,9 @@ describe(`ModalPropose`, () => {
   })
 
   it(`clears on close`, () => {
-    wrapper.setData({ title: `test`, description: `test`, amount: 100000000 })
+    wrapper.setData({
+      title: `test`, description: `test`, amount: 100000000
+    })
     // produce validation error as amount is too high
     wrapper.vm.$v.$touch()
     expect(wrapper.vm.$v.$error).toBe(true)
@@ -83,7 +85,9 @@ describe(`ModalPropose`, () => {
 
       it(`if the amount for initial deposit is higher than the user's balance`, async () => {
         wrapper.setData(inputs)
-        wrapper.setData({ amount: 25 })
+        wrapper.setData({
+          amount: 25
+        })
         await wrapper.vm.$nextTick()
         expect(wrapper.vm.validateForm()).toBe(false)
         await wrapper.vm.$nextTick()
@@ -100,24 +104,32 @@ describe(`ModalPropose`, () => {
         ]
         wrapper.setData(inputs)
         store.commit(`setWalletBalances`, otherCoins)
-        wrapper.setData({ amount: 25 })
+        wrapper.setData({
+          amount: 25
+        })
         await wrapper.vm.$nextTick()
         expect(wrapper.vm.validateForm()).toBe(false)
       })
 
       it(`if title is blank`, () => {
         wrapper.setData(inputs)
-        wrapper.setData({ title: `     ` })
+        wrapper.setData({
+          title: `     `
+        })
         expect(wrapper.vm.validateForm()).toBe(false)
       })
 
       it(`if description is blank`, () => {
-        wrapper.setData({ description: `     ` })
+        wrapper.setData({
+          description: `     `
+        })
         expect(wrapper.vm.validateForm()).toBe(false)
       })
 
       it(`if title is too long disable submit button and show error message`, async () => {
-        wrapper.setData({ title: `x`.repeat(65) })
+        wrapper.setData({
+          title: `x`.repeat(65)
+        })
         await wrapper.vm.$nextTick()
         expect(wrapper.vm.validateForm()).toBe(false)
         await wrapper.vm.$nextTick()
@@ -126,7 +138,9 @@ describe(`ModalPropose`, () => {
       })
 
       it(`if description is too long disable submit button and show error message`, async () => {
-        wrapper.setData({ description: `x`.repeat(201) })
+        wrapper.setData({
+          description: `x`.repeat(201)
+        })
         await wrapper.vm.$nextTick()
         expect(wrapper.vm.validateForm()).toBe(false)
         await wrapper.vm.$nextTick()
@@ -136,7 +150,9 @@ describe(`ModalPropose`, () => {
 
       it(`if proposal type is invalid`, () => {
         wrapper.setData(inputs)
-        wrapper.setData({ type: `Other` })
+        wrapper.setData({
+          type: `Other`
+        })
         expect(wrapper.vm.validateForm()).toBe(false)
       })
     })
@@ -162,7 +178,9 @@ describe(`ModalPropose`, () => {
           `submitProposal`,
           {
             description: `a valid description for the proposal`,
-            initial_deposit: [{ amount: `150000000`, denom: `stake` }],
+            initial_deposit: [{
+              amount: `150000000`, denom: `stake`
+            }],
             title: `A new text proposal for Cosmos`,
             type: `Text`,
             password: `1234567890`,

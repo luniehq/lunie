@@ -14,8 +14,12 @@ describe(`ActionModal`, () => {
       dispatch: jest.fn(),
       getters: {
         connected: true,
-        ledger: { isConnected: false },
-        session: { signedIn: true }
+        ledger: {
+          isConnected: false
+        },
+        session: {
+          signedIn: true
+        }
       }
     }
 
@@ -43,8 +47,12 @@ describe(`ActionModal`, () => {
         $store = {
           getters: {
             connected: true,
-            ledger: { isConnected: true },
-            session: { signedIn: true }
+            ledger: {
+              isConnected: true
+            },
+            session: {
+              signedIn: true
+            }
           }
         }
         wrapper = shallowMount(ActionModal, {
@@ -88,8 +96,12 @@ describe(`ActionModal`, () => {
   })
 
   it(`opens session modal and closes itself`, () => {
-    const $store = { commit: jest.fn() }
-    const self = { $store, close: jest.fn() }
+    const $store = {
+      commit: jest.fn()
+    }
+    const self = {
+      $store, close: jest.fn()
+    }
     ActionModal.methods.goToSession.call(self)
     expect(self.close).toHaveBeenCalled()
     expect($store.commit).toHaveBeenCalledWith(`setSessionModalView`, `welcome`)
@@ -127,7 +139,9 @@ describe(`ActionModal`, () => {
     const submitFn = jest
       .fn()
       .mockRejectedValue(new Error(`some kind of error message`))
-    const self = { submitFn, submissionErrorPrefix: `PREFIX` }
+    const self = {
+      submitFn, submissionErrorPrefix: `PREFIX`
+    }
     await ActionModal.methods.submit.call(self)
 
     expect(self.submissionError).toEqual(`PREFIX: some kind of error message.`)
@@ -139,7 +153,9 @@ describe(`ActionModal`, () => {
     const submitFn = jest
       .fn()
       .mockRejectedValue(new Error(`some kind of error message`))
-    const self = { submitFn, submissionErrorPrefix: `PREFIX` }
+    const self = {
+      submitFn, submissionErrorPrefix: `PREFIX`
+    }
     await ActionModal.methods.submit.call(self)
 
     jest.runAllTimers()
@@ -149,7 +165,11 @@ describe(`ActionModal`, () => {
   describe(`runs validation and changes step`, () => {
     let self, getterValues
     beforeEach(() => {
-      getterValues = { ledger: { isConnected: false } }
+      getterValues = {
+        ledger: {
+          isConnected: false
+        }
+      }
       self = {
         ...getterValues,
         submit: jest.fn(),
@@ -168,7 +188,9 @@ describe(`ActionModal`, () => {
     })
 
     it(`if connected to ledger and is on 'txDetails' step`, async () => {
-      self.ledger = { isConnected: true }
+      self.ledger = {
+        isConnected: true
+      }
       self.selectedSignMethod = `ledger`
       await ActionModal.methods.validateChangeStep.call(self)
       expect(self.validate).toHaveBeenCalled()
@@ -177,7 +199,9 @@ describe(`ActionModal`, () => {
     })
 
     it(`if connected to ledger and is on 'sign' step`, async () => {
-      self.ledger = { isConnected: true }
+      self.ledger = {
+        isConnected: true
+      }
       self.selectedSignMethod = `ledger`
       self.step = `sign`
       await ActionModal.methods.validateChangeStep.call(self)
@@ -199,7 +223,9 @@ describe(`ActionModal`, () => {
     })
 
     it(`fails validation if the password is missing`, async () => {
-      wrapper.setData({ password: null })
+      wrapper.setData({
+        password: null
+      })
       await wrapper.vm.validateChangeStep()
       expect(wrapper.vm.submitFn).not.toHaveBeenCalled()
       expect(wrapper.vm.$v.$invalid).toBe(true)
@@ -210,7 +236,11 @@ describe(`ActionModal`, () => {
     let self, getterValues
 
     beforeEach(() => {
-      getterValues = { ledger: { isConnected: false } }
+      getterValues = {
+        ledger: {
+          isConnected: false
+        }
+      }
       self = {
         ...getterValues,
         submit: jest.fn(
@@ -235,7 +265,9 @@ describe(`ActionModal`, () => {
     })
 
     it(`when signing with ledger`, done => {
-      self.ledger = { isConnected: true }
+      self.ledger = {
+        isConnected: true
+      }
       self.step = `sign`
       ActionModal.methods.validateChangeStep.call(self).then(() => {
         expect(self.sending).toBe(false)

@@ -12,7 +12,9 @@ describe(`TmDataMsg`, () => {
   }
 
   beforeEach(() => {
-    wrapper = mount(TmDataMsg, { propsData })
+    wrapper = mount(TmDataMsg, {
+      propsData
+    })
   })
 
   it(`has a title from props`, () => {
@@ -30,7 +32,9 @@ describe(`TmDataMsg`, () => {
   })
 
   it(`has shows a spinner`, () => {
-    wrapper.setProps({ spin: true })
+    wrapper.setProps({
+      spin: true
+    })
     expect(wrapper.contains(`.fa-spin`)).toBe(true)
   })
 

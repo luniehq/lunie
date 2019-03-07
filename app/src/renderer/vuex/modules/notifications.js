@@ -37,7 +37,9 @@ export default () => {
           note.body
         }`
       )
-      state.push(Object.assign({}, note, { key: key++ }))
+      state.push(Object.assign({}, note, {
+        key: key++
+      }))
     },
     notify(state, data) {
       const note = data
@@ -89,5 +91,7 @@ export default () => {
     }
   }
 
-  return { state, mutations, actions }
+  return {
+    state, mutations, actions
+  }
 }

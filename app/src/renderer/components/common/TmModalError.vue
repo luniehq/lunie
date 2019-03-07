@@ -30,7 +30,9 @@ import { mapGetters } from "vuex"
 import TmBtn from "common/TmBtn"
 export default {
   name: `tm-modal-error`,
-  components: { TmBtn },
+  components: {
+    TmBtn
+  },
   props: {
     title: {
       default: `Voyager ran into an error`,

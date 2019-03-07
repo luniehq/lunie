@@ -54,7 +54,9 @@ export default {
     SendModal,
     TmBtn
   },
-  data: () => ({ num, showSendModal: false }),
+  data: () => ({
+    num, showSendModal: false
+  }),
   computed: {
     ...mapGetters([`wallet`, `connected`, `session`]),
     enableFaucet() {
@@ -68,7 +70,9 @@ export default {
       }
       for (const denom of this.wallet.denoms) {
         if (hasDenom(denom)) continue
-        balances.push({ denom, amount: 0 })
+        balances.push({
+          denom, amount: 0
+        })
       }
       return balances
     },

@@ -11,7 +11,9 @@
 import BtnCopy from "common/TmBtnCopy"
 export default {
   name: `tm-li-copy`,
-  components: { BtnCopy },
+  components: {
+    BtnCopy
+  },
   props: {
     value: {
       type: String,

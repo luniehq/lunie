@@ -10,9 +10,11 @@ describe(`TmHardwareState`, () => {
   }
 
   beforeEach(() => {
-    wrapper = mount(TmHardwareState, { propsData, slots: {
-      default: `Detecting your Ledger Wallet`
-    } })
+    wrapper = mount(TmHardwareState, {
+      propsData, slots: {
+        default: `Detecting your Ledger Wallet`
+      }
+    })
   })
 
   it(`has the expected html structure`, () => {

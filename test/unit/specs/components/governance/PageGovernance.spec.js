@@ -32,7 +32,9 @@ describe(`PageGovernance`, () => {
     store.state.session.address = lcdClientMock.addresses[0]
     store.dispatch(`updateDelegates`)
 
-    wrapper.vm.$refs.modalPropose = { open: () => {} }
+    wrapper.vm.$refs.modalPropose = {
+      open: () => {}
+    }
   })
 
   it(`has the expected html structure`, async () => {

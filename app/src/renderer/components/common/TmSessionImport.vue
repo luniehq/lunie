@@ -149,7 +149,9 @@
 </template>
 
 <script>
-import { required, minLength, sameAs } from "vuelidate/lib/validators"
+import {
+  required, minLength, sameAs
+} from "vuelidate/lib/validators"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormStruct from "common/TmFormStruct"
@@ -214,10 +216,18 @@ export default {
   },
   validations: () => ({
     fields: {
-      importName: { required, minLength: minLength(5) },
-      importPassword: { required, minLength: minLength(10) },
-      importPasswordConfirm: { sameAsPassword: sameAs(`importPassword`) },
-      importSeed: { required, words24 },
+      importName: {
+        required, minLength: minLength(5)
+      },
+      importPassword: {
+        required, minLength: minLength(10)
+      },
+      importPasswordConfirm: {
+        sameAsPassword: sameAs(`importPassword`)
+      },
+      importSeed: {
+        required, words24
+      },
       errorCollection: false
     }
   })

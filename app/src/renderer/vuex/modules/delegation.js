@@ -67,8 +67,8 @@ export default ({ node }) => {
     },
     // load committed delegations from LCD
     async getBondedDelegates(
-      { state, rootState, commit },
-      candidates
+        { state, rootState, commit },
+        candidates
     ) {
       state.loading = true
 
@@ -142,14 +142,14 @@ export default ({ node }) => {
       }
     },
     async submitDelegation(
-      {
-        rootState: { stakingParameters, wallet },
-        getters: { liquidAtoms },
-        state,
-        dispatch,
-        commit
-      },
-      { validator_addr, amount, password, submitType }
+        {
+          rootState: { stakingParameters, wallet },
+          getters: { liquidAtoms },
+          state,
+          dispatch,
+          commit
+        },
+        { validator_addr, amount, password, submitType }
     ) {
       const denom = stakingParameters.parameters.bond_denom
       const delegation = {
@@ -182,11 +182,11 @@ export default ({ node }) => {
       dispatch(`updateDelegates`)
     },
     async submitUnbondingDelegation(
-      {
-        rootState: { wallet },
-        dispatch
-      },
-      { validator, amount, password, submitType }
+        {
+          rootState: { wallet },
+          dispatch
+        },
+        { validator, amount, password, submitType }
     ) {
       // TODO: change to 10 when available https://github.com/cosmos/cosmos-sdk/issues/2317
       const shares = String(
@@ -203,11 +203,11 @@ export default ({ node }) => {
       })
     },
     async submitRedelegation(
-      {
-        rootState: { wallet },
-        dispatch
-      },
-      { validatorSrc, validatorDst, amount, password, submitType }
+        {
+          rootState: { wallet },
+          dispatch
+        },
+        { validatorSrc, validatorDst, amount, password, submitType }
     ) {
       const shares = String(
         Math.abs(calculateShares(validatorSrc, amount)).toFixed(10)

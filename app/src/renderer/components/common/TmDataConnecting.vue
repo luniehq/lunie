@@ -14,6 +14,8 @@
 import TmDataMsg from "common/TmDataMsg"
 export default {
   name: `tm-data-connecting`,
-  components: { TmDataMsg }
+  components: {
+    TmDataMsg
+  }
 }
 </script>

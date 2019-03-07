@@ -7,7 +7,9 @@
     <template v-if="propose">
       <div slot="caption">
         Submitted {{ tx.proposal_type.toLowerCase() }} proposal initial
-        deposit&nbsp;<b>{{ pretty(atoms(tx.initial_deposit[0].amount)) }}</b><span>&nbsp;{{ tx.initial_deposit[0].denom }}s</span>
+        deposit&nbsp;
+        <b>{{ pretty(atoms(tx.initial_deposit[0].amount)) }}</b>
+        <span>&nbsp;{{ tx.initial_deposit[0].denom }}s</span>
       </div>
       <div slot="details">
         Title:&nbsp;<i>{{ tx.title }}</i>
@@ -38,7 +40,9 @@ import { pretty, atoms } from "../../scripts/num.js"
 
 export default {
   name: `tm-li-gov-transaction`,
-  components: { TmLiTransaction },
+  components: {
+    TmLiTransaction
+  },
   props: {
     transaction: {
       type: Object,

@@ -1,4 +1,6 @@
-import { startApp, main, routeGuard } from "renderer/scripts/boot"
+import {
+  startApp, main, routeGuard
+} from "renderer/scripts/boot"
 
 async function start(urlParams, environment) {
   const node = {
@@ -42,7 +44,9 @@ async function start(urlParams, environment) {
     enableGoogleAnalytics
   )
 
-  return { store, Vue, enableGoogleAnalytics, Sentry, Node }
+  return {
+    store, Vue, enableGoogleAnalytics, Sentry, Node
+  }
 }
 
 describe(`App Start`, () => {
@@ -89,8 +93,16 @@ describe(`App Start`, () => {
       const commit = jest.fn()
       const store = {
         commit,
-        state: { session: { pauseHistory: true, signedIn: false } },
-        getters: { session: { pauseHistory: true, signedIn: false } }
+        state: {
+          session: {
+            pauseHistory: true, signedIn: false
+          }
+        },
+        getters: {
+          session: {
+            pauseHistory: true, signedIn: false
+          }
+        }
       }
       const next = jest.fn()
       const guard = routeGuard(store)
@@ -98,10 +110,16 @@ describe(`App Start`, () => {
         redirectedFrom: `/`,
         fullPath: `/`,
         path: `/`,
-        matched: [{ meta: { requiresAuth: false } }]
+        matched: [{
+          meta: {
+            requiresAuth: false
+          }
+        }]
       }
       // from.fullPath !== to.fullPath && !store.getters.user.pauseHistory
-      guard(to, { fullPath: `b` }, next)
+      guard(to, {
+        fullPath: `b`
+      }, next)
       expect(commit).not.toHaveBeenCalled()
       expect(next).toHaveBeenCalled()
     })
@@ -110,8 +128,16 @@ describe(`App Start`, () => {
       const commit = jest.fn()
       const store = {
         commit,
-        state: { session: { pauseHistory: false, signedIn: false } },
-        getters: { session: { pauseHistory: false, signedIn: false } }
+        state: {
+          session: {
+            pauseHistory: false, signedIn: false
+          }
+        },
+        getters: {
+          session: {
+            pauseHistory: false, signedIn: false
+          }
+        }
       }
       const next = jest.fn()
       const guard = routeGuard(store)
@@ -119,10 +145,16 @@ describe(`App Start`, () => {
         redirectedFrom: `/`,
         fullPath: `/`,
         path: `/`,
-        matched: [{ meta: { requiresAuth: false } }]
+        matched: [{
+          meta: {
+            requiresAuth: false
+          }
+        }]
       }
       // from.fullPath !== to.fullPath && !store.getters.user.pauseHistory
-      guard(to, { fullPath: `b` }, next)
+      guard(to, {
+        fullPath: `b`
+      }, next)
       expect(commit).toHaveBeenCalledWith(`addHistory`, `b`)
       expect(next).toHaveBeenCalled()
     })
@@ -131,13 +163,25 @@ describe(`App Start`, () => {
       const commit = jest.fn()
       const store = {
         commit,
-        state: { session: { pauseHistory: false, signedIn: true } },
-        getters: { session: { pauseHistory: false, signedIn: true } }
+        state: {
+          session: {
+            pauseHistory: false, signedIn: true
+          }
+        },
+        getters: {
+          session: {
+            pauseHistory: false, signedIn: true
+          }
+        }
       }
       const next = jest.fn()
       const guard = routeGuard(store)
       // from.fullPath !== to.fullPath && !store.getters.user.pauseHistory
-      guard({ fullPath: `a` }, { fullPath: `a` }, next)
+      guard({
+        fullPath: `a`
+      }, {
+        fullPath: `a`
+      }, next)
       expect(commit).not.toHaveBeenCalled()
       expect(next).toHaveBeenCalled()
     })
@@ -145,8 +189,16 @@ describe(`App Start`, () => {
       const commit = jest.fn()
       const store = {
         commit,
-        state: { session: { pauseHistory: false, signedIn: true } },
-        getters: { session: { pauseHistory: false, signedIn: true } }
+        state: {
+          session: {
+            pauseHistory: false, signedIn: true
+          }
+        },
+        getters: {
+          session: {
+            pauseHistory: false, signedIn: true
+          }
+        }
       }
       const to = {
         redirectedFrom: `/staking`,
@@ -157,7 +209,9 @@ describe(`App Start`, () => {
       const next = jest.fn()
       const guard = routeGuard(store)
       // from.fullPath !== to.fullPath && !store.getters.user.pauseHistory
-      guard(to, { fullPath: `/` }, next)
+      guard(to, {
+        fullPath: `/`
+      }, next)
       expect(next).toHaveBeenCalledWith(`/staking/my-delegations`)
     })
 
@@ -165,20 +219,34 @@ describe(`App Start`, () => {
       const commit = jest.fn()
       const store = {
         commit,
-        state: { session: { pauseHistory: false, signedIn: false } },
-        getters: { session: { pauseHistory: false, signedIn: false } }
+        state: {
+          session: {
+            pauseHistory: false, signedIn: false
+          }
+        },
+        getters: {
+          session: {
+            pauseHistory: false, signedIn: false
+          }
+        }
       }
       const to = {
         redirectedFrom: ``,
         fullPath: `/wallet`,
         path: `/wallet`,
         name: `Wallet`,
-        matched: [{ meta: { requiresAuth: true } }]
+        matched: [{
+          meta: {
+            requiresAuth: true
+          }
+        }]
       }
       const next = jest.fn()
       const guard = routeGuard(store)
       // from.fullPath !== to.fullPath && !store.getters.user.pauseHistory
-      guard(to, { fullPath: `/` }, next)
+      guard(to, {
+        fullPath: `/`
+      }, next)
       expect(commit).toHaveBeenCalledWith(`setSessionModalView`, `welcome`)
       expect(commit).toHaveBeenCalledWith(`toggleSessionModal`, true)
     })

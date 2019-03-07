@@ -11,7 +11,11 @@ describe(`Module: Notification`, () => {
   let store
 
   beforeEach(() => {
-    store = new Vuex.Store({ modules: { notifications: notifications() } })
+    store = new Vuex.Store({
+      modules: {
+        notifications: notifications()
+      }
+    })
   })
 
   it(`should add a notification object to the store`, () => {

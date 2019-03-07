@@ -12,7 +12,11 @@ describe(`ModalWithdrawAllRewards`, () => {
       dispatch: jest.fn(),
       getters: {
         bondDenom: `stake`,
-        distribution: { totalRewards: { stake: 10000000 } }
+        distribution: {
+          totalRewards: {
+            stake: 10000000
+          }
+        }
       }
     }
     wrapper = shallowMount(ModalWithdrawAllRewards, {
@@ -27,8 +31,14 @@ describe(`ModalWithdrawAllRewards`, () => {
   })
 
   it(`opens the action modal`, () => {
-    const $refs = { actionModal: { open: jest.fn() } }
-    ModalWithdrawAllRewards.methods.open.call({ $refs })
+    const $refs = {
+      actionModal: {
+        open: jest.fn()
+      }
+    }
+    ModalWithdrawAllRewards.methods.open.call({
+      $refs
+    })
     expect($refs.actionModal.open).toHaveBeenCalled()
   })
 
@@ -39,7 +49,9 @@ describe(`ModalWithdrawAllRewards`, () => {
         commit: jest.fn()
       }
       await ModalWithdrawAllRewards.methods.submitForm.call(
-        { $store },
+        {
+          $store
+        },
         `local`, `1234567890`
       )
 

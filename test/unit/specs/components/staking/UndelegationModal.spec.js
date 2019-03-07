@@ -59,7 +59,9 @@ describe(`UndelegationModal`, () => {
   })
 
   it(`clears on close`, () => {
-    wrapper.setData({ selectedIndex: 1, amount: 10000000000000 })
+    wrapper.setData({
+      selectedIndex: 1, amount: 10000000000000
+    })
     // produce validation error as amount is too high
     wrapper.vm.$v.$touch()
     expect(wrapper.vm.$v.$error).toBe(true)
@@ -77,7 +79,9 @@ describe(`UndelegationModal`, () => {
       })
 
       it(`to true if the amount is positive and the user has enough liquid atoms`, () => {
-        wrapper.setData({ amount: 50 })
+        wrapper.setData({
+          amount: 50
+        })
         expect(wrapper.vm.validateForm()).toBe(true)
       })
     })
@@ -93,9 +97,13 @@ describe(`UndelegationModal`, () => {
         operator_address: `cosmosvaloper1address`,
       }
 
-      wrapper.setData({ amount: 4.2 })
+      wrapper.setData({
+        amount: 4.2
+      })
       await UndelegationModal.methods.submitForm.call(
-        { $store, amount: 4.2, denom: `atom`, validator },
+        {
+          $store, amount: 4.2, denom: `atom`, validator
+        },
         `local`, `1234567890`
       )
 

@@ -66,9 +66,9 @@
             <dt>Proposal Status</dt>
             <dd>
               {{
-              proposal.proposal_status === `DepositPeriod`
-              ? `Deposit period ends ${depositEndsIn}.`
-              : `Voting started ${votingStartedAgo}.`
+                proposal.proposal_status === `DepositPeriod`
+                  ? `Deposit period ends ${depositEndsIn}.`
+                  : `Voting started ${votingStartedAgo}.`
               }}
             </dd>
           </dl>
@@ -77,9 +77,9 @@
             <dt>Deposit Count</dt>
             <dd>
               {{
-              num.atoms(proposal.total_deposit[0].amount) +
-              ` ` +
-              proposal.total_deposit[0].denom
+                num.atoms(proposal.total_deposit[0].amount) +
+                  ` ` +
+                  proposal.total_deposit[0].denom
               }}
             </dd>
           </dl>
@@ -108,7 +108,9 @@
           </dl>
           <dl class="info_dl colored_dl">
             <dt>No with Veto</dt>
-            <dd>{{ num.atoms(tally.no_with_veto) }} / {{ noWithVetoPercentage }}</dd>
+            <dd>
+              {{ num.atoms(tally.no_with_veto) }} / {{ noWithVetoPercentage }}
+            </dd>
           </dl>
           <dl class="info_dl colored_dl">
             <dt>Abstain</dt>

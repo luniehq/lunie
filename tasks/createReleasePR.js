@@ -22,7 +22,9 @@ function updateChangeLog(changeLog, newVersion, now) {
 }
 
 const updatePackageJson = (packageJson, version) =>
-  Object.assign({}, packageJson, { version })
+  Object.assign({}, packageJson, {
+    version
+  })
 
 const pushCommit = ({ token, branch }) =>
   shell(`
@@ -79,7 +81,9 @@ if (require.main === module) {
 
     const tag = `v${newVersion}`
     const branch = `release-candidate/${tag}`
-    await pushCommit({ token: process.env.GIT_BOT_TOKEN, branch })
+    await pushCommit({
+      token: process.env.GIT_BOT_TOKEN, branch
+    })
 
     await createPullRequest({
       changeLog: newChangeLog,

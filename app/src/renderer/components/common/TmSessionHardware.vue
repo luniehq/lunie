@@ -52,7 +52,9 @@
 import HardwareState from "common/TmHardwareState"
 export default {
   name: `tm-session-hardware`,
-  components: { HardwareState },
+  components: {
+    HardwareState
+  },
   data: () => ({
     status: `connect`,
     connectionError: null

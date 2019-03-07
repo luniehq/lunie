@@ -14,7 +14,9 @@ describe(`Module: Blocks`, () => {
   beforeEach(() => {
     node = {
       rpc: {
-        status: () => Promise.resolve({ sync_info: {} })
+        status: () => Promise.resolve({
+          sync_info: {}
+        })
       },
       getBlock: () => ({
         block_meta: {
@@ -63,7 +65,9 @@ describe(`Module: Blocks`, () => {
     })
 
     const output = await actions.queryBlockInfo(
-      { state, commit: jest.fn() },
+      {
+        state, commit: jest.fn()
+      },
       42
     )
     expect(output).toBe(blockMeta)
@@ -72,7 +76,9 @@ describe(`Module: Blocks`, () => {
   it(`should reinitialize subscriptions to blocks on reconnection`, async () => {
     const commit = jest.fn()
     const dispatch = jest.fn()
-    actions.reconnected({ commit, dispatch })
+    actions.reconnected({
+      commit, dispatch
+    })
     expect(commit).toBeCalledWith(`setSubscription`, false)
     expect(dispatch).toBeCalledWith(`subscribeToBlocks`)
   })
@@ -84,7 +90,9 @@ describe(`Module: Blocks`, () => {
     node.rpc.blockchain = jest.fn()
 
     const output = await actions.queryBlockInfo(
-      { state, commit: jest.fn() },
+      {
+        state, commit: jest.fn()
+      },
       100
     )
     expect(output).toBe(blockMeta)
@@ -118,9 +126,13 @@ describe(`Module: Blocks`, () => {
   })
 
   it(`should not subscribe twice`, async () => {
-    node.rpc.status = () => Promise.resolve({ sync_info: {} })
+    node.rpc.status = () => Promise.resolve({
+      sync_info: {}
+    })
     node.rpc.subscribe = (query, cb) => {
-      cb({ block: `yeah` })
+      cb({
+        block: `yeah`
+      })
     }
 
     const commit = jest.fn()
@@ -194,10 +206,22 @@ describe(`Module: Blocks`, () => {
             }
           }),
         subscribe: (query, cb) => {
-          cb({ block: { header: { height: 1 } } })
+          cb({
+            block: {
+              header: {
+                height: 1
+              }
+            }
+          })
           expect(commit).toBeCalledWith(`setSubscription`, true)
           module.state.subscription = true
-          cb({ block: { header: { height: 2 } } })
+          cb({
+            block: {
+              header: {
+                height: 2
+              }
+            }
+          })
         }
       }
     }
@@ -216,9 +240,17 @@ describe(`Module: Blocks`, () => {
       [`setSyncing`, false],
       [`setBlocks`, []],
       [`setSubscription`, true],
-      [`addBlock`, { header: { height: 1 } }],
+      [`addBlock`, {
+        header: {
+          height: 1
+        }
+      }],
       [`setBlockHeight`, 1],
-      [`addBlock`, { header: { height: 2 } }],
+      [`addBlock`, {
+        header: {
+          height: 2
+        }
+      }],
       [`setBlockHeight`, 2]
     ])
   })
@@ -240,7 +272,9 @@ describe(`Module: Blocks`, () => {
     })
     const commit = jest.fn()
     await module.actions.getPeers({
-      state: { connected: true },
+      state: {
+        connected: true
+      },
       commit
     })
     expect(commit.mock.calls).toEqual([[`setPeers`, peers]])
@@ -299,8 +333,12 @@ describe(`Module: Blocks mutations`, () => {
   it(`should set the blockMetas state`, async () => {
     const { setBlockMetas } = mutations
     const state = {}
-    setBlockMetas(state, { block_id: `X` })
-    expect(state.blockMetas).toEqual({ block_id: `X` })
+    setBlockMetas(state, {
+      block_id: `X`
+    })
+    expect(state.blockMetas).toEqual({
+      block_id: `X`
+    })
   })
 
   it(`should set the peers in the state`, async () => {
@@ -330,7 +368,9 @@ describe(`Module: Blocks mutations`, () => {
 
   it(`should add a block the blocks`, async () => {
     const { addBlock } = mutations
-    const state = { blocks: [] }
+    const state = {
+      blocks: []
+    }
     addBlock(state, 1)
     expect(state.blocks.length).toEqual(1)
     expect(state.blocks[0]).toEqual(1)
@@ -338,7 +378,9 @@ describe(`Module: Blocks mutations`, () => {
 
   it(`should add a block the blocks state and keep the size to 1000`, async () => {
     const { addBlock } = mutations
-    const state = { blocks: [...Array(1000).keys()] }
+    const state = {
+      blocks: [...Array(1000).keys()]
+    }
     addBlock(state, `new`)
     expect(state.blocks.length).toEqual(1000)
     expect(state.blocks[0]).toEqual(`new`)

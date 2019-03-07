@@ -22,7 +22,9 @@ describe(`Module: Ledger`, () => {
     })
 
     it(`sets the Ledger cosmos app version`, () => {
-      const version = { major: 0, minor: 1, patch: 1, test_mode: false }
+      const version = {
+        major: 0, minor: 1, patch: 1, test_mode: false
+      }
       mutations.setCosmosAppVersion(state, version)
       expect(state.cosmosAppVersion).toMatchObject(version)
     })
@@ -48,28 +50,38 @@ describe(`Module: Ledger`, () => {
   describe(`Actions`, () => {
     it(`resets the session data `, () => {
       state.isConnected = true
-      const rootState = { ledger: state }
-      actions.resetSessionData({ rootState })
+      const rootState = {
+        ledger: state
+      }
+      actions.resetSessionData({
+        rootState
+      })
       expect(rootState.ledger.isConnected).toBe(false)
     })
 
     describe(`checks for errors on Ledger actions`, () => {
       it(`throws with an error`, () => {
-        const response = { error_message: `Sign/verify error` }
+        const response = {
+          error_message: `Sign/verify error`
+        }
         expect(() => actions.checkLedgerErrors(response)).toThrowError(
           response.error_message
         )
       })
 
       it(`throws on rejected transaction`, () => {
-        const response = { error_message: `Command not allowed` }
+        const response = {
+          error_message: `Command not allowed`
+        }
         expect(() => actions.checkLedgerErrors(response)).toThrowError(
           `Transaction rejected`
         )
       })
 
       it(`just returns on success`, () => {
-        const response = { error_message: `No errors` }
+        const response = {
+          error_message: `No errors`
+        }
         expect(() => actions.checkLedgerErrors(response)).not.toThrow(
           response.error_message
         )
@@ -123,7 +135,9 @@ describe(`Module: Ledger`, () => {
               })
           })
           expect(
-            async () => await actions.pollLedgerDevice({ state })
+            async () => await actions.pollLedgerDevice({
+              state
+            })
           ).not.toThrow()
         })
 
@@ -134,7 +148,9 @@ describe(`Module: Ledger`, () => {
                 error_message: `Cosmos app does not seem to be open`
               })
           })
-          await expect(actions.pollLedgerDevice({ state })).rejects.toThrow(
+          await expect(actions.pollLedgerDevice({
+            state
+          })).rejects.toThrow(
             `Cøsmos app is not open`
           )
         })
@@ -146,7 +162,9 @@ describe(`Module: Ledger`, () => {
                 error_message: `U2F: Timeout`
               })
           })
-          await expect(actions.pollLedgerDevice({ state })).rejects.toThrow(
+          await expect(actions.pollLedgerDevice({
+            state
+          })).rejects.toThrow(
             `No Ledger found`
           )
         })
@@ -158,7 +176,9 @@ describe(`Module: Ledger`, () => {
                 error_message: `Unknown error code`
               })
           })
-          await expect(actions.pollLedgerDevice({ state })).rejects.toThrow(
+          await expect(actions.pollLedgerDevice({
+            state
+          })).rejects.toThrow(
             `Ledger's screensaver mode is on`
           )
         })
@@ -170,7 +190,9 @@ describe(`Module: Ledger`, () => {
                 error_message: `Execution Error`
               })
           })
-          await expect(actions.pollLedgerDevice({ state })).rejects.toThrow(
+          await expect(actions.pollLedgerDevice({
+            state
+          })).rejects.toThrow(
             `Execution Error`
           )
         })
@@ -178,7 +200,9 @@ describe(`Module: Ledger`, () => {
 
       describe(`create ledger app`, () => {
         it(`creates an instance of the app`, async () => {
-          await actions.createLedgerAppInstance({ commit, state })
+          await actions.createLedgerAppInstance({
+            commit, state
+          })
           expect(state.externals.comm_u2f.create_async).toHaveBeenCalled()
           expect(state.externals.App).toHaveBeenCalled()
           expect(commit).toHaveBeenCalledWith(`setCosmosApp`, {})
@@ -210,7 +234,9 @@ describe(`Module: Ledger`, () => {
         it(`fails if one of the function throws`, async () => {
           dispatch = jest.fn(async () => Promise.reject(new Error(`error`)))
           await expect(
-            actions.connectLedgerApp({ commit, dispatch, state })
+            actions.connectLedgerApp({
+              commit, dispatch, state
+            })
           ).rejects.toThrowError(`error`)
           expect(commit).toHaveBeenCalledWith(`setLedgerError`, Error(`error`))
         })
@@ -224,7 +250,9 @@ describe(`Module: Ledger`, () => {
             patch: `0`,
             test_mode: false
           }
-          await actions.getLedgerCosmosVersion({ commit, dispatch, state })
+          await actions.getLedgerCosmosVersion({
+            commit, dispatch, state
+          })
           expect(commit).toHaveBeenCalledWith(`setCosmosAppVersion`, version)
           expect(commit).not.toHaveBeenCalledWith(
             `setLedgerError`,
@@ -242,7 +270,9 @@ describe(`Module: Ledger`, () => {
           state.cosmosApp.get_version = jest.fn(async () =>
             Promise.reject(new Error(`Execution Error`))
           )
-          await actions.getLedgerCosmosVersion({ commit, dispatch, state })
+          await actions.getLedgerCosmosVersion({
+            commit, dispatch, state
+          })
           expect(commit).not.toHaveBeenCalledWith(
             `setCosmosAppVersion`,
             version
@@ -257,7 +287,9 @@ describe(`Module: Ledger`, () => {
       describe(`publicKey`, () => {
         it(`gets and sets the account public Key on success`, async () => {
           const pubKey = Buffer.from([1])
-          await actions.getLedgerPubKey({ commit, dispatch, state })
+          await actions.getLedgerPubKey({
+            commit, dispatch, state
+          })
           expect(commit).toHaveBeenCalledWith(`setLedgerPubKey`, pubKey)
           expect(commit).not.toHaveBeenCalledWith(
             `setLedgerError`,
@@ -271,7 +303,9 @@ describe(`Module: Ledger`, () => {
             Promise.resolve({
               error_message: `Bad key handle`
             })
-          await actions.getLedgerPubKey({ commit, dispatch, state })
+          await actions.getLedgerPubKey({
+            commit, dispatch, state
+          })
           expect(commit).not.toHaveBeenCalledWith(`setLedgerPubKey`, pubKey)
           expect(commit).toHaveBeenCalledWith(
             `setLedgerError`,
@@ -285,7 +319,9 @@ describe(`Module: Ledger`, () => {
           const signature = Buffer.from([0])
           const msg = `{"account_number": 1,"chain_id": "some_chain","fee": {"amount": [{"amount": 10, "denom": "DEN"}],"gas": 5},"memo": "MEMO","msgs": ["SOMETHING"],"sequence": 3}`
           const resSignature = await actions.signWithLedger(
-            { commit, dispatch, state },
+            {
+              commit, dispatch, state
+            },
             msg
           )
           expect(resSignature).toEqual(signature)
@@ -302,7 +338,9 @@ describe(`Module: Ledger`, () => {
               error_message: `Bad key handle`
             })
           await expect(
-            actions.signWithLedger({ commit, dispatch, state }, msg)
+            actions.signWithLedger({
+              commit, dispatch, state
+            }, msg)
           ).rejects.toThrowError(`Bad key handle`)
           expect(commit).toHaveBeenCalledWith(
             `setLedgerError`,
@@ -317,7 +355,9 @@ describe(`Module: Ledger`, () => {
               error_message: `Command not allowed`
             })
           await expect(
-            actions.signWithLedger({ commit, dispatch, state }, msg)
+            actions.signWithLedger({
+              commit, dispatch, state
+            }, msg)
           ).rejects.toThrowError(`Transaction rejected`)
           expect(commit).toHaveBeenCalledWith(
             `setLedgerError`,

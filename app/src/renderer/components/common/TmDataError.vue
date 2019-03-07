@@ -16,6 +16,8 @@
 import TmDataMsg from "common/TmDataMsg"
 export default {
   name: `tm-data-error`,
-  components: { TmDataMsg }
+  components: {
+    TmDataMsg
+  }
 }
 </script>

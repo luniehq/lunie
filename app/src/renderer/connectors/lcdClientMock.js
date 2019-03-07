@@ -47,7 +47,9 @@ const state = {
       account_number: `1`
     }
   },
-  nonces: { [addresses[0]]: 0 },
+  nonces: {
+    [addresses[0]]: 0
+  },
   txs: [
     {
       tx: {
@@ -58,7 +60,9 @@ const state = {
               value: {
                 from_address: addresses[1],
                 to_address: addresses[0],
-                amount: [{ denom: `jbcoins`, amount: `12340000000` }]
+                amount: [{
+                  denom: `jbcoins`, amount: `12340000000`
+                }]
               }
             }
           ]
@@ -76,7 +80,9 @@ const state = {
               value: {
                 from_address: addresses[0],
                 to_address: addresses[1],
-                amount: [{ denom: `fabocoins`, amount: `12340000000` }]
+                amount: [{
+                  denom: `fabocoins`, amount: `12340000000`
+                }]
               }
             }
           ]
@@ -568,7 +574,9 @@ const keys = {
       address: makeHash()
     }
     state.keys.push(key)
-    return { name, password, seed, address: key.address }
+    return {
+      name, password, seed, address: key.address
+    }
   },
 
   delete: async (account, { name, password }) => {
@@ -638,13 +646,13 @@ module.exports = {
 
   // staking
   async postDelegation(
-    delegatorAddr,
-    {
-      base_req: { name, sequence },
-      delegator_addr,
-      validator_addr,
-      delegation
-    }
+      delegatorAddr,
+      {
+        base_req: { name, sequence },
+        delegator_addr,
+        validator_addr,
+        delegation
+      }
   ) {
     const fromKey = state.keys.find(a => a.name === name)
     const fromAccount = state.accounts[fromKey.address]
@@ -724,13 +732,13 @@ Msg Traces:
     return txResult(0)
   },
   async postUnbondingDelegation(
-    delegatorAddr,
-    {
-      base_req: { name, sequence },
-      validator_addr,
-      delegator_addr,
-      shares
-    }
+      delegatorAddr,
+      {
+        base_req: { name, sequence },
+        validator_addr,
+        delegator_addr,
+        shares
+      }
   ) {
     const fromKey = state.keys.find(a => a.name === name)
     const fromAccount = state.accounts[fromKey.address]
@@ -779,9 +787,13 @@ Msg Traces:
     delegator.unbonding_delegations.push(
       Object.assign(
         {},
-        { validator_addr, delegator_addr, shares },
         {
-          balance: { amount: shares }
+          validator_addr, delegator_addr, shares
+        },
+        {
+          balance: {
+            amount: shares
+          }
         }
       )
     )
@@ -794,14 +806,14 @@ Msg Traces:
     return txResult(0)
   },
   async postRedelegation(
-    delegatorAddr,
-    {
-      base_req: { name, sequence },
-      validator_src_addr,
-      validator_dst_addr,
-      delegator_addr,
-      shares
-    }
+      delegatorAddr,
+      {
+        base_req: { name, sequence },
+        validator_src_addr,
+        validator_dst_addr,
+        delegator_addr,
+        shares
+      }
   ) {
     const fromKey = state.keys.find(a => a.name === name)
     const fromAccount = state.accounts[fromKey.address]
@@ -1225,7 +1237,9 @@ Msg Traces:
   async getProposalVotes(proposalId) {
     return (
       state.votes[proposalId] ||
-      Promise.reject({ message: `Invalid proposalId #${proposalId}` })
+      Promise.reject({
+        message: `Invalid proposalId #${proposalId}`
+      })
     )
   },
   async postProposalVote({
@@ -1384,7 +1398,9 @@ function send(to_address, from_address, req) {
   for (const { denom, amount } of req.amount) {
     let receiverBalance = receiverAccount.coins.find(c => c.denom === denom)
     if (!receiverBalance) {
-      receiverBalance = { amount: `0`, denom }
+      receiverBalance = {
+        amount: `0`, denom
+      }
       receiverAccount.coins.push(receiverBalance)
     }
     receiverBalance.amount = String(

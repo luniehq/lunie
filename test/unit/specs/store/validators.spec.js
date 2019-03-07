@@ -16,7 +16,11 @@ const mockValidatorHeaderTwo = {
   chain_id: `hash-browns`,
   validators_hash: mockValidatorHashTwo
 }
-const coinArray = [{ denom: `stake`, amount: `100` }, { denom: `photino`, amount: `15` }]
+const coinArray = [{
+  denom: `stake`, amount: `100`
+}, {
+  denom: `photino`, amount: `15`
+}]
 const rewards = {
   stake: 100,
   photino: 15
@@ -47,7 +51,9 @@ describe(`Module: Validators`, () => {
   })
 
   it(`should survive errors in querying validators`, async () => {
-    node.rpc.validators = cb => cb({ message: `Expected Error` }, undefined)
+    node.rpc.validators = cb => cb({
+      message: `Expected Error`
+    }, undefined)
     store.dispatch(`getValidators`)
     expect(store.state.validators.validators).toHaveLength(0)
   })
@@ -59,9 +65,14 @@ describe(`Module: Validators`, () => {
 
   it(`should set validator's distribution info`, () => {
     const validatorAddr = `cosmosvaloper1address`
-    const info = { rewards, self_bond_rewards: `0.0001`, val_commission: `0.0005` }
-    store.commit(`setValidatorDistributionInfo`, { validatorAddr, info })
-    expect(store.state.validators.distributionInfo[validatorAddr]).toMatchObject(info)
+    const info = {
+      rewards, self_bond_rewards: `0.0001`, val_commission: `0.0005`
+    }
+    store.commit(`setValidatorDistributionInfo`, {
+      validatorAddr, info
+    })
+    expect(store.state.validators.distributionInfo[validatorAddr])
+      .toMatchObject(info)
   })
 
   it(`should set validator hash`, () => {
@@ -83,7 +94,9 @@ describe(`Module: Validators`, () => {
   it(`should not query the validators on reconnection if not connected`, async () => {
     const validators = [1, 2, 3]
     const node = {
-      getValidatorSet: () => Promise.resolve({ validators })
+      getValidatorSet: () => Promise.resolve({
+        validators
+      })
     }
     const { actions } = validatorsModule({
       node
@@ -92,7 +105,11 @@ describe(`Module: Validators`, () => {
     await actions.getValidators({
       state: {},
       commit,
-      rootState: { connection: { connected: false } }
+      rootState: {
+        connection: {
+          connected: false
+        }
+      }
     })
     expect(commit.mock.calls).toEqual([])
   })
@@ -100,7 +117,9 @@ describe(`Module: Validators`, () => {
   it(`should query the validators when connected`, async () => {
     const validators = [1, 2, 3]
     const node = {
-      getValidatorSet: () => Promise.resolve({ validators })
+      getValidatorSet: () => Promise.resolve({
+        validators
+      })
     }
     const { actions } = validatorsModule({
       node
@@ -109,7 +128,11 @@ describe(`Module: Validators`, () => {
     await actions.getValidators({
       state: {},
       commit,
-      rootState: { connection: { connected: true } }
+      rootState: {
+        connection: {
+          connected: true
+        }
+      }
     })
     expect(commit).toHaveBeenCalledWith(`setValidators`, validators)
   })
@@ -126,7 +149,11 @@ describe(`Module: Validators`, () => {
     await actions.getValidators({
       state: {},
       commit,
-      rootState: { connection: { connected: true } }
+      rootState: {
+        connection: {
+          connected: true
+        }
+      }
     })
     expect(commit).toHaveBeenCalledWith(`notifyError`, {
       body: error,
@@ -141,12 +168,16 @@ describe(`Module: Validators`, () => {
     })
     const dispatch = jest.fn()
     actions.reconnected({
-      state: { loading: false },
+      state: {
+        loading: false
+      },
       dispatch
     })
     expect(dispatch.mock.calls).toEqual([])
     actions.reconnected({
-      state: { loading: true },
+      state: {
+        loading: true
+      },
       dispatch
     })
     expect(dispatch.mock.calls).toEqual([[`getValidators`]])
@@ -164,7 +195,9 @@ describe(`Module: Validators`, () => {
         connected: true
       }
     }
-    await actions.getValidators({ state, commit, rootState })
+    await actions.getValidators({
+      state, commit, rootState
+    })
     expect(state.error.message).toBe(`reason`)
     expect(commit).toHaveBeenCalledWith(`notifyError`, {
       title: `Error fetching validator set`,
@@ -174,13 +207,17 @@ describe(`Module: Validators`, () => {
 
   describe(`getValidatorDistributionInfo`, () => {
     let module, state, commit, actions, rootState
-    const info = { self_bond_rewards: coinArray, val_commission: coinArray }
+    const info = {
+      self_bond_rewards: coinArray, val_commission: coinArray
+    }
 
     beforeEach(() => {
       node = {
         getValidatorDistributionInformation: jest.fn(async () => info),
       }
-      module = validatorsModule({ node })
+      module = validatorsModule({
+        node
+      })
       state = module.state
       actions = module.actions
 
@@ -189,8 +226,11 @@ describe(`Module: Validators`, () => {
 
     it(`success`, async () => {
       const validatorAddr = `cosmosvaloper1address`
-      await actions.getValidatorDistributionInfo({ state, rootState, commit }, validatorAddr)
-      expect(node.getValidatorDistributionInformation).toHaveBeenCalledWith(validatorAddr)
+      await actions.getValidatorDistributionInfo({
+        state, rootState, commit
+      }, validatorAddr)
+      expect(node.getValidatorDistributionInformation)
+        .toHaveBeenCalledWith(validatorAddr)
       expect(commit).toHaveBeenCalledWith(`setValidatorDistributionInfo`, {
         validatorAddr, info: {
           self_bond_rewards: rewards,
@@ -202,8 +242,11 @@ describe(`Module: Validators`, () => {
     it(`fails`, async () => {
       const validatorAddr = null
       node.getValidatorDistributionInformation = jest.fn(async () => Promise.reject(Error(`invalid validator address`)))
-      await actions.getValidatorDistributionInfo({ state, rootState, commit }, validatorAddr)
-      expect(node.getValidatorDistributionInformation).toHaveBeenCalledWith(validatorAddr)
+      await actions.getValidatorDistributionInfo({
+        state, rootState, commit
+      }, validatorAddr)
+      expect(node.getValidatorDistributionInformation)
+        .toHaveBeenCalledWith(validatorAddr)
       expect(commit).not.toHaveBeenCalledWith(`setValidatorDistributionInfo`, {
         validatorAddr, info: {
           self_bond_rewards: rewards,
@@ -221,7 +264,9 @@ describe(`Module: Validators`, () => {
       node = {
         getValidatorRewards: jest.fn(async () => coinArray)
       }
-      module = validatorsModule({ node })
+      module = validatorsModule({
+        node
+      })
       state = module.state
       actions = module.actions
 
@@ -230,7 +275,9 @@ describe(`Module: Validators`, () => {
 
     it(`success`, async () => {
       const validatorAddr = `cosmosvaloper1address`
-      await actions.getValidatorDistributionRewards({ state, rootState, commit }, validatorAddr)
+      await actions.getValidatorDistributionRewards({
+        state, rootState, commit
+      }, validatorAddr)
       expect(node.getValidatorRewards).toHaveBeenCalledWith(validatorAddr)
       expect(commit).toHaveBeenCalledWith(`setValidatorRewards`, {
         validatorAddr, rewards
@@ -240,9 +287,13 @@ describe(`Module: Validators`, () => {
     it(`fails`, async () => {
       const validatorAddr = null
       node.getValidatorRewards = jest.fn(async () => Promise.reject(Error(`invalid validator address`)))
-      await actions.getValidatorDistributionRewards({ state, rootState, commit }, validatorAddr)
+      await actions.getValidatorDistributionRewards({
+        state, rootState, commit
+      }, validatorAddr)
       expect(node.getValidatorRewards).toHaveBeenCalledWith(validatorAddr)
-      expect(commit).not.toHaveBeenCalledWith(`setValidatorRewards`, { validatorAddr, rewards })
+      expect(commit).not.toHaveBeenCalledWith(`setValidatorRewards`, {
+        validatorAddr, rewards
+      })
       expect(state.error).toEqual(Error(`invalid validator address`))
     })
   })

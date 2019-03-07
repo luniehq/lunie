@@ -83,12 +83,8 @@ export default ({ node }) => {
       }
     },
     async getTx(
-      {
-        rootState: {
-          session: { address }
-        }
-      },
-      type
+        { rootState: { session: { address } } },
+        type
     ) {
       let response
       switch (type) {
@@ -104,7 +100,9 @@ export default ({ node }) => {
         default:
           throw new Error(`Unknown transaction type`)
       }
-      const transactionsPlusType = response.map(t => ({ ...t, type }))
+      const transactionsPlusType = response.map(t => ({
+        ...t, type
+      }))
       return response ? uniqBy(transactionsPlusType, `txhash`) : []
     },
     async enrichTransactions({ dispatch }, { transactions }) {
@@ -113,7 +111,9 @@ export default ({ node }) => {
       )
       await Promise.all(
         [...blockHeights].map(blockHeight =>
-          dispatch(`queryTransactionTime`, { blockHeight })
+          dispatch(`queryTransactionTime`, {
+            blockHeight
+          })
         )
       )
     },

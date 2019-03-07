@@ -114,7 +114,9 @@ export default {
       const message = this.connected
         ? `Network is up and running`
         : `Network is down`
-      return { color, message }
+      return {
+        color, message
+      }
     },
     lastBlock() {
       moment.relativeTimeThreshold(`ss`, 1)

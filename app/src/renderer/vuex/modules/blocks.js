@@ -9,7 +9,9 @@ export const cache = (list, element, maxSize = 100) => {
 
 export default ({ node }) => {
   const state = {
-    blockMetaInfo: { block_id: {} },
+    blockMetaInfo: {
+      block_id: {}
+    },
     blockHeight: null, // we remember the height so we can requery the block, if querying failed
     subscription: false,
     syncing: true,
@@ -94,7 +96,9 @@ export default ({ node }) => {
       commit(`setBlocks`, [])
 
       // only subscribe if the node is not catching up anymore
-      node.rpc.subscribe({ query: `tm.event = 'NewBlock'` }, event => {
+      node.rpc.subscribe({
+        query: `tm.event = 'NewBlock'`
+      }, event => {
         if (state.subscription === false) commit(`setSubscription`, true)
         commit(`addBlock`, event.block)
         event.block &&
@@ -107,9 +111,7 @@ export default ({ node }) => {
     async getPeers({ state, commit }) {
       if (!(state.connected && node.rpc)) return []
 
-      const {
-        result: { peers }
-      } = await node.rpc.net_info()
+      const { result: { peers } } = await node.rpc.net_info()
       commit(`setPeers`, peers)
       return peers
     }

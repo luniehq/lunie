@@ -13,7 +13,9 @@ describe(`TmFormGroup`, () => {
   beforeEach(() => {
     wrapper = mount(TmFormGroup, {
       propsData,
-      slots: { default: `<input class="fake-field" value="fake" />` }
+      slots: {
+        default: `<input class="fake-field" value="fake" />`
+      }
     })
   })
 

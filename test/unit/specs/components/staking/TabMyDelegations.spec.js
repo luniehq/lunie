@@ -4,21 +4,21 @@ import validators from "../../store/json/validators.js"
 
 const delegator_addr = `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
 
-const getters = { 
+const getters = {
   allTransactions: [],
   delegates: {
     delegates: validators
   },
   delegation: {
-    unbondingDelegations: {
-    },
+    unbondingDelegations: {},
     loaded: true
   },
-  committedDelegations: {
-  },
+  committedDelegations: {},
   connected: true,
   bondDenom: `stake`,
-  session: { signedIn: true }
+  session: {
+    signedIn: true
+  }
 }
 
 // TODO: remove this dirty addition: the real cleanup will be done in a separate PR
@@ -31,14 +31,14 @@ const getters = {
 describe(`Component: TabMyDelegations`, () => {
   describe(`view`, () => {
     let wrapper, $store
-  
+
     beforeEach(() => {
       $store = {
         commit: jest.fn(),
         dispatch: jest.fn(),
         getters: JSON.parse(JSON.stringify(getters)) // clone so we don't overwrite by accident
       }
-  
+
       wrapper = shallowMount(TabMyDelegations, {
         mocks: {
           $store
@@ -54,7 +54,7 @@ describe(`Component: TabMyDelegations`, () => {
 
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
-  
+
     it(`should show unbonding validators and the current committed validator`, () => {
       wrapper.setData({
         time: {
@@ -86,33 +86,33 @@ describe(`Component: TabMyDelegations`, () => {
         hash: `A7C6FDE5CA923AF08E6088F1348047F16BABB9F48`,
         height: 170
       }]
-      
+
       expect(wrapper.html()).toContain(`Pending Undelegations`)
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
-  
+
     it(`should show a message if not staked yet to any validator`, () => {
       $store.getters.committedDelegations = {}
-  
+
       expect(wrapper.html()).toContain(`No Active Delegations`)
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
-  
+
     it(`should show a message if not still connecting to a node`, () => {
       $store.getters.connected = false
-  
+
       expect(wrapper.exists(`tm-data-connecting`)).toBe(true)
     })
-  
+
     it(`should show a message if not still loading delegations`, () => {
       $store.getters.delegation.loading = true
-  
+
       expect(wrapper.exists(`tm-data-loading`)).toBe(true)
     })
-  
+
     it(`should show a message if not signed in`, () => {
       $store.getters.session.signedIn = false
-  
+
       expect(wrapper.exists(`card-sign-in-required`)).toBe(true)
     })
   })
@@ -148,7 +148,7 @@ describe(`Component: TabMyDelegations`, () => {
         hash: `A7C6FDE5CA923AF08E6088F1348047F16BABB9F48`,
         height: 170
       }]
-  
+
       expect(
         TabMyDelegations.computed.unbondingTransactions({
           delegation: {
@@ -163,7 +163,7 @@ describe(`Component: TabMyDelegations`, () => {
         })
       ).toHaveLength(1)
     })
-  
+
     it(`yourValidators`, () => {
       expect(
         TabMyDelegations.computed.yourValidators({
@@ -171,7 +171,9 @@ describe(`Component: TabMyDelegations`, () => {
             [validators[0].operator_address]: 1,
             [validators[2].operator_address]: 2
           },
-          delegates: { delegates: validators }
+          delegates: {
+            delegates: validators
+          }
         })
       ).toEqual([validators[0], validators[2]])
     })

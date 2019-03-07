@@ -19,52 +19,80 @@ describe(`Module: Delegations`, () => {
   let state, actions, mutations
 
   beforeEach(() => {
-    const module = delegationModule({ node: {} })
+    const module = delegationModule({
+      node: {}
+    })
     state = module.state
     actions = module.actions
     mutations = module.mutations
   })
 
   it(`adds delegate to cart`, () => {
-    mutations.addToCart(state, { id: `foo`, x: 1 })
+    mutations.addToCart(state, {
+      id: `foo`, x: 1
+    })
     expect(state.delegates[0]).toEqual({
       id: `foo`,
-      delegate: { id: `foo`, x: 1 },
+      delegate: {
+        id: `foo`, x: 1
+      },
       atoms: 0
     })
     expect(state.delegates.length).toBe(1)
   })
 
   it(`does not add delegate to cart if already exists`, () => {
-    mutations.addToCart(state, { id: `foo` })
-    mutations.addToCart(state, { id: `foo`, x: 1 })
+    mutations.addToCart(state, {
+      id: `foo`
+    })
+    mutations.addToCart(state, {
+      id: `foo`, x: 1
+    })
     expect(state.delegates[0].id).toBe(`foo`)
     expect(state.delegates[0].x).toBe(undefined)
     expect(state.delegates.length).toBe(1)
   })
 
   it(`removes delegate from cart`, () => {
-    mutations.addToCart(state, { id: `foo` })
-    mutations.addToCart(state, { id: `bar` })
+    mutations.addToCart(state, {
+      id: `foo`
+    })
+    mutations.addToCart(state, {
+      id: `bar`
+    })
     mutations.removeFromCart(state, `foo`)
     expect(state.delegates[0]).toEqual({
       id: `bar`,
-      delegate: { id: `bar` },
+      delegate: {
+        id: `bar`
+      },
       atoms: 0
     })
     expect(state.delegates.length).toBe(1)
   })
 
   it(`sets committed atoms for delegate`, () => {
-    mutations.addToCart(state, { id: `foo` })
-    mutations.setCommittedDelegation(state, { candidateId: `foo`, value: 123 })
-    expect(state.committedDelegates).toEqual({ foo: 123 })
+    mutations.addToCart(state, {
+      id: `foo`
+    })
+    mutations.setCommittedDelegation(state, {
+      candidateId: `foo`, value: 123
+    })
+    expect(state.committedDelegates).toEqual({
+      foo: 123
+    })
   })
 
   it(`sets committed atoms for delegate to 0`, () => {
-    mutations.addToCart(state, { id: `foo` })
-    mutations.setCommittedDelegation(state, { candidateId: `foo`, value: 123 })
-    mutations.setCommittedDelegation(state, { candidateId: `foo`, value: 0 })
+    mutations.addToCart(state, {
+      id: `foo`
+    })
+    mutations.setCommittedDelegation(state, {
+      candidateId: `foo`, value: 123
+    })
+    mutations.setCommittedDelegation(state, {
+      candidateId: `foo`, value: 0
+    })
     expect(state.committedDelegates).toEqual({})
   })
 
@@ -79,7 +107,9 @@ describe(`Module: Delegations`, () => {
         getUndelegations: jest.fn(() => [
           {
             validator_addr: lcdClientMock.validators[0],
-            balance: { amount: 1 },
+            balance: {
+              amount: 1
+            },
             min_time: new Date(Date.now()).toUTCString()
           }
         ]),
@@ -124,7 +154,9 @@ describe(`Module: Delegations`, () => {
       expect(commit).toHaveBeenCalledWith(`setUnbondingDelegations`, [
         {
           validator_addr: lcdClientMock.validators[0],
-          balance: { amount: 1 },
+          balance: {
+            amount: 1
+          },
           min_time: new Date(Date.now()).toUTCString()
         }
       ])
@@ -166,7 +198,9 @@ describe(`Module: Delegations`, () => {
       expect(commit).toHaveBeenCalledWith(`setUnbondingDelegations`, [
         {
           validator_addr: lcdClientMock.validators[0],
-          balance: { amount: 1 },
+          balance: {
+            amount: 1
+          },
           min_time: `Thu, 01 Jan 1970 00:00:42 GMT`
         }
       ])
@@ -198,7 +232,9 @@ describe(`Module: Delegations`, () => {
         dispatch,
         commit: jest.fn()
       },
-      { stakingTransactions }
+      {
+        stakingTransactions
+      }
     )
 
     expect(dispatch.mock.calls).toMatchSnapshot()
@@ -228,7 +264,9 @@ describe(`Module: Delegations`, () => {
         dispatch,
         commit: () => {}
       },
-      { stakingTransactions }
+      {
+        stakingTransactions
+      }
     )
 
     expect(dispatch.mock.calls).toMatchSnapshot()
@@ -238,7 +276,9 @@ describe(`Module: Delegations`, () => {
     mutations.setUnbondingDelegations(state, [
       {
         validator_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
-        balance: { amount: 0 }
+        balance: {
+          amount: 0
+        }
       }
     ])
     expect(
@@ -251,9 +291,15 @@ describe(`Module: Delegations`, () => {
     it(`when the user has logged in and is loading`, async () => {
       const dispatch = jest.fn()
       await actions.reconnected({
-        state: { loading: true },
+        state: {
+          loading: true
+        },
         dispatch,
-        rootState: { session: { signedIn: true } }
+        rootState: {
+          session: {
+            signedIn: true
+          }
+        }
       })
       expect(dispatch).toHaveBeenCalledWith(`getBondedDelegates`)
     })
@@ -261,9 +307,15 @@ describe(`Module: Delegations`, () => {
     it(`fails if delegations are not loading`, async () => {
       const dispatch = jest.fn()
       await actions.reconnected({
-        state: { loading: false },
+        state: {
+          loading: false
+        },
         dispatch,
-        rootState: { session: { signedIn: true } }
+        rootState: {
+          session: {
+            signedIn: true
+          }
+        }
       })
       expect(dispatch).not.toHaveBeenCalledWith(`getBondedDelegates`)
     })
@@ -271,9 +323,15 @@ describe(`Module: Delegations`, () => {
     it(`fails if the user hasn't logged in`, async () => {
       const dispatch = jest.fn()
       await actions.reconnected({
-        state: { loading: true },
+        state: {
+          loading: true
+        },
         dispatch,
-        rootState: { session: { signedIn: false } }
+        rootState: {
+          session: {
+            signedIn: false
+          }
+        }
       })
       expect(dispatch).not.toHaveBeenCalledWith(`getBondedDelegates`)
     })
@@ -319,14 +377,18 @@ describe(`Module: Delegations`, () => {
     mutations.setUnbondingDelegations(state, [
       {
         validator_addr: lcdClientMock.validators[0],
-        balance: { amount: `100` },
+        balance: {
+          amount: `100`
+        },
         creation_height: `12`,
         min_time: new Date().toUTCString()
       }
     ])
 
     expect(state.unbondingDelegations[lcdClientMock.validators[0]]).toEqual({
-      balance: { amount: `100` },
+      balance: {
+        amount: `100`
+      },
       creation_height: `12`,
       min_time: new Date().toUTCString()
     })
@@ -405,7 +467,9 @@ describe(`Module: Delegations`, () => {
         dispatch,
         commit: jest.fn()
       },
-      { stakingTransactions }
+      {
+        stakingTransactions
+      }
     )
     jest.runAllTimers()
     expect(dispatch).toHaveBeenCalledWith(`updateDelegates`)
@@ -413,7 +477,9 @@ describe(`Module: Delegations`, () => {
 
   it(`should store an error if failed to load delegations`, async () => {
     const node = lcdClientMock
-    const { state, actions } = delegationModule({ node })
+    const { state, actions } = delegationModule({
+      node
+    })
     jest
       .spyOn(node, `getDelegations`)
       .mockImplementationOnce(async () => Promise.reject(`Error`))
@@ -428,7 +494,9 @@ describe(`Module: Delegations`, () => {
 
   it(`should store an error if failed to load undelegations`, async () => {
     const node = lcdClientMock
-    const { state, actions } = delegationModule({ node })
+    const { state, actions } = delegationModule({
+      node
+    })
     jest
       .spyOn(node, `getUndelegations`)
       .mockImplementationOnce(async () => Promise.reject(`Error`))
@@ -443,7 +511,9 @@ describe(`Module: Delegations`, () => {
 
   it(`should store an error if failed to load redelegations`, async () => {
     const node = lcdClientMock
-    const { state, actions } = delegationModule({ node })
+    const { state, actions } = delegationModule({
+      node
+    })
     jest
       .spyOn(node, `getRedelegations`)
       .mockImplementationOnce(async () => Promise.reject(`Error`))
@@ -458,15 +528,19 @@ describe(`Module: Delegations`, () => {
 
   it(`should load delegates and delegations if signed in`, async () => {
     const node = lcdClientMock
-    const { actions } = delegationModule({ node })
+    const { actions } = delegationModule({
+      node
+    })
 
     const dispatch = jest.fn(() => [])
 
-    await actions.updateDelegates({ dispatch, rootState: {
-      session: {
-        signedIn: true
+    await actions.updateDelegates({
+      dispatch, rootState: {
+        session: {
+          signedIn: true
+        }
       }
-    } })
+    })
 
     expect(dispatch).toHaveBeenCalledWith(`getDelegates`)
     expect(dispatch).toHaveBeenCalledWith(`getBondedDelegates`, [])

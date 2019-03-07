@@ -25,9 +25,15 @@ describe(`API`, () => {
 
     describe(`helper functions`, () => {
       it(`makes a GET request with no args`, async () => {
-        axios.mockReturnValueOnce(Promise.resolve({ data: { foo: `bar` } }))
+        axios.mockReturnValueOnce(Promise.resolve({
+          data: {
+            foo: `bar`
+          }
+        }))
         const res = await client.nodeVersion()
-        expect(res).toEqual({ foo: `bar` })
+        expect(res).toEqual({
+          foo: `bar`
+        })
 
         expect(axios.mock.calls).toEqual([
           [
@@ -41,9 +47,15 @@ describe(`API`, () => {
       })
 
       it(`makes a GET request with one arg`, async () => {
-        axios.mockReturnValueOnce(Promise.resolve({ data: { foo: `bar` } }))
+        axios.mockReturnValueOnce(Promise.resolve({
+          data: {
+            foo: `bar`
+          }
+        }))
         const res = await client.tx(`hashX`)
-        expect(res).toEqual({ foo: `bar` })
+        expect(res).toEqual({
+          foo: `bar`
+        })
 
         expect(axios.mock.calls).toEqual([
           [
@@ -57,14 +69,24 @@ describe(`API`, () => {
       })
 
       it(`makes a POST request`, async () => {
-        axios.mockReturnValueOnce(Promise.resolve({ data: { foo: `bar` } }))
-        const res = await client.postTx({ x: 1 })
-        expect(res).toEqual({ foo: `bar` })
+        axios.mockReturnValueOnce(Promise.resolve({
+          data: {
+            foo: `bar`
+          }
+        }))
+        const res = await client.postTx({
+          x: 1
+        })
+        expect(res).toEqual({
+          foo: `bar`
+        })
 
         expect(axios.mock.calls).toEqual([
           [
             {
-              data: { x: 1 },
+              data: {
+                x: 1
+              },
               method: `POST`,
               url: `http://remotehost/tx/broadcast`
             }
@@ -168,7 +190,9 @@ describe(`API`, () => {
       })
 
       it(`queries for a delegation txs`, async () => {
-        axios.mockReturnValue(Promise.resolve({ data: lcdClientMock.txs }))
+        axios.mockReturnValue(Promise.resolve({
+          data: lcdClientMock.txs
+        }))
         await client.getDelegatorTxs(`abc`)
         await client.getDelegatorTxs(`abc`, [`bonding`])
         await client.getDelegatorTxs(`abc`, [`unbonding`])
@@ -485,7 +509,9 @@ describe(`API`, () => {
       })
 
       it(`queries for governance txs`, async () => {
-        axios.mockReturnValue({ data: [] })
+        axios.mockReturnValue({
+          data: []
+        })
         await client.getGovernanceTxs(lcdClientMock.addresses[0])
 
         expect(axios.mock.calls).toEqual([
@@ -567,7 +593,9 @@ describe(`API`, () => {
                 type: `auth/Account`,
                 value: {
                   address: `cosmosaccaddr1xr9rxc3jr6xzzugreykyrdsyjhtx8qvm4et3yp`,
-                  coins: [{ denom: `steak`, amount: `10` }],
+                  coins: [{
+                    denom: `steak`, amount: `10`
+                  }],
                   public_key: null,
                   account_number: `768`,
                   sequence: `0`
@@ -582,7 +610,9 @@ describe(`API`, () => {
           value: {
             account_number: `768`,
             address: `cosmosaccaddr1xr9rxc3jr6xzzugreykyrdsyjhtx8qvm4et3yp`,
-            coins: [{ amount: `10`, denom: `steak` }],
+            coins: [{
+              amount: `10`, denom: `steak`
+            }],
             public_key: null,
             sequence: `0`
           }
@@ -761,8 +791,12 @@ describe(`API`, () => {
 
     it(`queries for indexed transactions`, async () => {
       axios
-        .mockReturnValueOnce(Promise.resolve({ data: [] }))
-        .mockReturnValueOnce(Promise.resolve({ data: [`abc`] }))
+        .mockReturnValueOnce(Promise.resolve({
+          data: []
+        }))
+        .mockReturnValueOnce(Promise.resolve({
+          data: [`abc`]
+        }))
       const result = await client.txs(`abc`)
 
       expect(axios).toHaveBeenCalledTimes(2)

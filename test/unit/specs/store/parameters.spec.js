@@ -15,7 +15,9 @@ describe(`Module: Staking Parameters`, () => {
     node = {
       getStakingParameters: () => Promise.resolve(stakingParameters.parameters)
     }
-    module = parametersModule({ node })
+    module = parametersModule({
+      node
+    })
   })
 
   it(`should fetch staking parameters`, async () => {

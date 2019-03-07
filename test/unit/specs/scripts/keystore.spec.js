@@ -21,14 +21,20 @@ describe(`Keystore`, () => {
     localStorage.setItem(`keys`, undefined)
   })
   it(`stores a keys array`, () => {
-    storeKeys([{ x: 1 }])
+    storeKeys([{
+      x: 1
+    }])
     expect(localStorage.getItem(`keys`)).toBe(`[{"x":1}]`)
   })
 
   it(`loads stored keys`, () => {
-    storeKeys([{ x: 1 }])
+    storeKeys([{
+      x: 1
+    }])
     const keys = loadKeys()
-    expect(keys).toEqual([{ x: 1 }])
+    expect(keys).toEqual([{
+      x: 1
+    }])
   })
 
   it(`imports a key encrypted to localstorage`, () => {

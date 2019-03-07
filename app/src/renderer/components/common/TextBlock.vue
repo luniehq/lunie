@@ -1,5 +1,6 @@
 <template>
-  <!-- TODO:SECURITY try to add a malicious block and see how is rendered, like <script>alert('danger')</script> -->
+  <!-- TODO:SECURITY try to add a malicious block and see how
+  is rendered, like <script>alert('danger')</script> -->
   <!-- eslint-disable vue/no-v-html -->
   <div class="text-block" v-html="htmlContent" />
 </template>

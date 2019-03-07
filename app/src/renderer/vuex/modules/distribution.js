@@ -8,35 +8,35 @@ export default ({ node }) => {
     loaded: false,
     error: null,
     /* totalRewards use the following format:
-        { 
+        {
             denom1: amount1,
             ... ,
-            denomN: amountN 
+            denomN: amountN
         }
     */
     totalRewards: {},
     /* rewards use the following format:
-        { 
-            validatorAddr1: { 
+        {
+            validatorAddr1: {
                 denom1: amount1,
                 ... ,
-                denomN: amountN 
+                denomN: amountN
             },
             ... ,
-            validatorAddrN: { 
+            validatorAddrN: {
                 denom1: amount1,
                 ... ,
-                denomN: amountN 
-            } 
-        } 
+                denomN: amountN
+            }
+        }
     */
     rewards: {},
     parameters: {},
     /* outstandingRewards use the following format:
-        { 
+        {
             denom1: amount1,
             ... ,
-            denomN: amountN 
+            denomN: amountN
         }
     */
     outstandingRewards: {}
@@ -70,7 +70,7 @@ export default ({ node }) => {
       rootState.distribution = JSON.parse(JSON.stringify(emptyState))
     },
     async getTotalRewards(
-      { state, rootState: { session }, commit }
+        { state, rootState: { session }, commit }
     ) {
       state.loading = true
       try {
@@ -86,8 +86,8 @@ export default ({ node }) => {
       state.loading = false
     },
     async withdrawAllRewards(
-      { rootState: { wallet }, dispatch },
-      { password, submitType }
+        { rootState: { wallet }, dispatch },
+        { password, submitType }
     ) {
       await dispatch(`sendTx`, {
         type: `postWithdrawDelegatorRewards`,
@@ -105,12 +105,18 @@ export default ({ node }) => {
       state.loading = false
       state.loaded = true
     },
-    async getRewardsFromValidator({ state, rootState: { session }, commit }, validatorAddr) {
+    async getRewardsFromValidator(
+        { state, rootState: { session }, commit }, validatorAddr
+    ) {
       state.loading = true
       try {
-        const rewardsArray = await node.getDelegatorRewardsFromValidator(session.address, validatorAddr)
+        const rewardsArray = await node.getDelegatorRewardsFromValidator(
+          session.address, validatorAddr
+        )
         const rewards = coinsToObject(rewardsArray)
-        commit(`setDelegationRewards`, { validatorAddr, rewards })
+        commit(`setDelegationRewards`, {
+          validatorAddr, rewards
+        })
         commit(`setDistributionError`, null)
         state.loaded = true
       } catch (error) {
@@ -136,7 +142,8 @@ export default ({ node }) => {
     async getOutstandingRewards({ commit }) {
       state.loading = true
       try {
-        const oustandingRewardsArray = await node.getDistributionOutstandingRewards()
+        const oustandingRewardsArray =
+          await node.getDistributionOutstandingRewards()
         const oustandingRewards = coinsToObject(oustandingRewardsArray)
         commit(`setOutstandingRewards`, oustandingRewards)
         commit(`setDistributionError`, null)

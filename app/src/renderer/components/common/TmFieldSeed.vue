@@ -12,7 +12,9 @@ import autosize from "autosize"
 import TmField from "common/TmField"
 export default {
   name: `tm-field-seed`,
-  components: { TmField },
+  components: {
+    TmField
+  },
   props: {
     value: {
       type: String,

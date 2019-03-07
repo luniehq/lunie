@@ -10,14 +10,17 @@
       >
       <img
         v-else
-        class="data-table__row__info__image data-table__row__info__image--no-img"
+        class="
+          data-table__row__info__image
+          data-table__row__info__image--no-img
+        "
         src="~assets/images/validator-icon.svg"
         width="48"
         height="48"
       >
       <div class="data-table__row__info__container">
         <span
-        
+
           v-tooltip.top="status"
           :class="statusColor"
           class="data-table__row__info__container__status"
@@ -83,7 +86,9 @@ export default {
       required: true
     }
   },
-  data: () => ({ num }),
+  data: () => ({
+    num
+  }),
   computed: {
     ...mapGetters([
       `delegates`,

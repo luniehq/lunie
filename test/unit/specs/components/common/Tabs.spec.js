@@ -12,7 +12,9 @@ describe(`Tabs`, () => {
   it(`should show links to other pages`, () => {
     wrapper = shallowMount(Tabs, {
       propsData: {
-        tabs: [{ pathName: `r1`, displayName: `one` }]
+        tabs: [{
+          pathName: `r1`, displayName: `one`
+        }]
       },
       mocks: {
         $route: {

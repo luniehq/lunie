@@ -7,7 +7,9 @@ export const setProposalTally = (commit, node) => async ({ value }) => {
   const final_tally_result =
     value.proposal_status === `VotingPeriod` ?
       await node.getProposalTally(value.proposal_id) :
-      { ...value.final_tally_result }
+      {
+        ...value.final_tally_result
+      }
   commit(`setProposalTally`, {
     proposal_id: value.proposal_id,
     final_tally_result
@@ -76,12 +78,12 @@ export default ({ node }) => {
       return undefined
     },
     async submitProposal(
-      {
-        rootState: { wallet },
-        dispatch,
-        commit
-      },
-      { title, description, type, initial_deposit, password, submitType }
+        {
+          rootState: { wallet },
+          dispatch,
+          commit
+        },
+        { title, description, type, initial_deposit, password, submitType }
     ) {
       await dispatch(`sendTx`, {
         type: `postProposal`,
@@ -93,10 +95,11 @@ export default ({ node }) => {
         password,
         submitType
       })
-      
+
       // optimistic updates
       initial_deposit.forEach(({ amount, denom }) => {
-        const oldBalance = wallet.balances.find(balance => balance.denom === denom)
+        const oldBalance =
+          wallet.balances.find(balance => balance.denom === denom)
         commit(`updateWalletBalance`, {
           denom,
           amount: BigNumber(oldBalance.amount).minus(amount).toNumber()

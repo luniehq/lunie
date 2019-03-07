@@ -27,7 +27,9 @@ describe(`LiProposal`, () => {
       mocks: {
         $store
       },
-      propsData: { proposal },
+      propsData: {
+        proposal
+      },
       stubs: [`router-link`]
     })
   })
@@ -132,7 +134,9 @@ describe(`LiProposal`, () => {
       mocks: {
         $store
       },
-      propsData: { proposal },
+      propsData: {
+        proposal
+      },
       stubs: [`router-link`]
     })
 

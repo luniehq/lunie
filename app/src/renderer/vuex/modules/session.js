@@ -1,9 +1,9 @@
 import * as Sentry from "@sentry/browser"
-import {
-  track
-} from "../../google-analytics.js"
+import { track } from "../../google-analytics.js"
 import config from "../../../config"
-import { loadKeys, importKey, testPassword } from "../../scripts/keystore.js"
+import {
+  loadKeys, importKey, testPassword
+} from "../../scripts/keystore.js"
 import { generateSeed } from "../../scripts/wallet.js"
 
 export default () => {
@@ -22,8 +22,12 @@ export default () => {
     stateLoaded: false, // shows if the persisted state is already loaded. used to prevent overwriting the persisted state before it is loaded
     error: null,
     modals: {
-      error: { active: false },
-      help: { active: false },
+      error: {
+        active: false
+      },
+      help: {
+        active: false
+      },
       session: {
         active: false,
         state: `welcome`
@@ -86,7 +90,9 @@ export default () => {
     async showInitialScreen({ state, dispatch }) {
       dispatch(`resetSessionData`)
       await dispatch(`loadAccounts`)
-      state.externals.track(`pageview`, { dl: `/` })
+      state.externals.track(`pageview`, {
+        dl: `/`
+      })
     },
     async loadAccounts({ commit, state }) {
       state.loading = true
@@ -118,13 +124,15 @@ export default () => {
         password,
         seedPhrase
       )
-      await dispatch(`initializeWallet`, { address: cosmosAddress })
+      await dispatch(`initializeWallet`, {
+        address: cosmosAddress
+      })
       return cosmosAddress
     },
     // TODO split into sign in with ledger and signin with local key
     async signIn(
-      { state, commit, dispatch },
-      { localKeyPairName, address, sessionType = `local`, errorCollection = false }
+        { state, commit, dispatch },
+        { localKeyPairName, address, sessionType = `local`, errorCollection = false }
     ) {
       let accountAddress
       switch (sessionType) {
@@ -134,7 +142,8 @@ export default () => {
         default:
           // local keyStore
           state.localKeyPairName = localKeyPairName
-          accountAddress = (await state.externals.loadKeys()).find(({ name }) => name === localKeyPairName).address
+          accountAddress = (await state.externals.loadKeys())
+            .find(({ name }) => name === localKeyPairName).address
       }
       commit(`setSignIn`, true)
       dispatch(`setErrorCollection`, {
@@ -147,7 +156,9 @@ export default () => {
       await dispatch(`getStakingParameters`)
       await dispatch(`getGovParameters`)
       dispatch(`loadErrorCollection`, accountAddress)
-      await dispatch(`initializeWallet`, { address: accountAddress })
+      await dispatch(`initializeWallet`, {
+        address: accountAddress
+      })
 
       state.externals.track(`event`, `session`, `sign-in`, sessionType)
     },
@@ -170,7 +181,9 @@ export default () => {
       const errorCollection =
         localStorage.getItem(`${ERROR_COLLECTION_KEY}_${address}`) === `true`
       if (state.errorCollection !== errorCollection)
-        dispatch(`setErrorCollection`, { address, optin: errorCollection })
+        dispatch(`setErrorCollection`, {
+          address, optin: errorCollection
+        })
     },
     setErrorCollection({ state, commit }, { address, optin }) {
       if (

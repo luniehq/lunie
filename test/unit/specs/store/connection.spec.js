@@ -46,7 +46,11 @@ describe(`Module: Connection`, () => {
       actions.setLastHeader(
         {
           state,
-          rootState: { session: { signedIn: true } },
+          rootState: {
+            session: {
+              signedIn: true
+            }
+          },
           dispatch
         },
         {
@@ -57,17 +61,21 @@ describe(`Module: Connection`, () => {
       expect(state.lastHeader.height).toBe(5)
       expect(state.lastHeader.chain_id).toBe(`test-chain`)
     })
-  
+
     it(`sets nodeUrl from config.json`, () => {
       expect(state.nodeUrl).toBe(`https://voyager.lol`)
     })
-  
+
     it(`checks for new validators`, async () => {
       const dispatch = jest.fn()
       actions.setLastHeader(
         {
           state,
-          rootState: { session: { signedIn: true } },
+          rootState: {
+            session: {
+              signedIn: true
+            }
+          },
           dispatch
         },
         {
@@ -80,7 +88,7 @@ describe(`Module: Connection`, () => {
         chain_id: `test-chain`
       })
     })
-  
+
     it(`sets connection state`, () => {
       expect(state.connected).toBe(false)
       mutations.setConnected(state, true)
@@ -134,7 +142,11 @@ describe(`Module: Connection`, () => {
     const commit = jest.fn()
     const dispatch = jest.fn()
     actions.rpcSubscribe({
-      rootState: { session: { signedIn: true } },
+      rootState: {
+        session: {
+          signedIn: true
+        }
+      },
       commit,
       dispatch
     })
@@ -152,7 +164,11 @@ describe(`Module: Connection`, () => {
     const commit = jest.fn()
     const dispatch = jest.fn()
     actions.rpcSubscribe({
-      rootState: { session: { signedIn: true } },
+      rootState: {
+        session: {
+          signedIn: true
+        }
+      },
       commit,
       dispatch
     })
@@ -174,7 +190,11 @@ describe(`Module: Connection`, () => {
     const commit = jest.fn()
     const dispatch = jest.fn()
     await actions.rpcSubscribe({
-      rootState: { session: { signedIn: true } },
+      rootState: {
+        session: {
+          signedIn: true
+        }
+      },
       commit,
       dispatch
     })
@@ -200,7 +220,11 @@ describe(`Module: Connection`, () => {
     const commit = jest.fn()
     const dispatch = jest.fn()
     await actions.rpcSubscribe({
-      rootState: { session: { signedIn: true } },
+      rootState: {
+        session: {
+          signedIn: true
+        }
+      },
       commit,
       dispatch
     })
@@ -220,7 +244,11 @@ describe(`Module: Connection`, () => {
     const dispatch = jest.fn()
     actions
       .rpcSubscribe({
-        rootState: { session: { signedIn: true } },
+        rootState: {
+          session: {
+            signedIn: true
+          }
+        },
         state,
         commit: jest.fn(),
         dispatch

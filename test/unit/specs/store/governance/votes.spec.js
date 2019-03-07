@@ -16,7 +16,9 @@ describe(`Module: Votes`, () => {
   let module
 
   beforeEach(() => {
-    module = votesModule({ node: {} })
+    module = votesModule({
+      node: {}
+    })
   })
 
   it(`adds votes to state`, () => {
@@ -29,16 +31,19 @@ describe(`Module: Votes`, () => {
   })
 
   it(`fetches all votes from a proposal`, async () => {
-    module = votesModule({
-      node: {
-        getProposalVotes: proposalId => Promise.resolve(votes[proposalId])
-      }
-    })
+    module = votesModule(
+      {
+        node: {
+          getProposalVotes: proposalId => Promise.resolve(votes[proposalId])
+        }
+      })
     const { actions, state } = module
     const commit = jest.fn()
     Object.keys(proposals).forEach(async (proposalId, i) => {
       await actions.getProposalVotes(
-        { state, commit, rootState: mockRootState },
+        {
+          state, commit, rootState: mockRootState
+        },
         proposalId
       )
       expect(commit.mock.calls[i]).toEqual([
@@ -65,8 +70,12 @@ describe(`Module: Votes`, () => {
     const proposalIds = Object.keys(proposals)
     proposalIds.forEach(async (proposal_id, i) => {
       await actions.submitVote(
-        { rootState, dispatch },
-        { proposal_id, option: `Yes` }
+        {
+          rootState, dispatch
+        },
+        {
+          proposal_id, option: `Yes`
+        }
       )
       expect(dispatch.mock.calls[i]).toEqual([
         `sendTx`,

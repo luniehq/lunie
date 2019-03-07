@@ -87,6 +87,8 @@ describe(`TmSessionAccountDelete`, () => {
     })
 
     await wrapper.vm.onSubmit()
-    expect($store.commit).toHaveBeenCalledWith(`notifyError`, { body: `Error body`, title: `Account Deletion Failed` })
+    expect($store.commit).toHaveBeenCalledWith(`notifyError`, {
+      body: `Error body`, title: `Account Deletion Failed`
+    })
   })
 })

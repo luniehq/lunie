@@ -23,7 +23,9 @@ jest.mock(`renderer/scripts/wallet.js`, () => ({
 }))
 
 const mockRootState = {
-  session: { account: `default` },
+  session: {
+    account: `default`
+  },
   wallet: {
     accountNumber: `12`,
     address: `cosmos1demo`
@@ -34,7 +36,9 @@ const mockRootState = {
       chain_id: `mock-chain`
     }
   },
-  ledger: { isConnected: false }
+  ledger: {
+    isConnected: false
+  }
 }
 
 describe(`Module: Send`, () => {
@@ -103,7 +107,9 @@ describe(`Module: Send`, () => {
 
   it(`should reset the nonce if session was changed`, () => {
     state.nonce = 959
-    actions.resetSessionData({ state })
+    actions.resetSessionData({
+      state
+    })
     expect(state.nonce).toBe(`0`)
   })
 
@@ -114,7 +120,9 @@ describe(`Module: Send`, () => {
           const args = {
             type: `send`,
             password: `1234567890`,
-            amount: [{ denom: `mycoin`, amount: 123 }],
+            amount: [{
+              denom: `mycoin`, amount: 123
+            }],
             submitType: `local`
           }
           await actions.sendTx(
@@ -127,7 +135,9 @@ describe(`Module: Send`, () => {
             args
           )
           expect(node.send).toHaveBeenCalledWith({
-            amount: [{ amount: 123, denom: `mycoin` }],
+            amount: [{
+              amount: 123, denom: `mycoin`
+            }],
             password: `1234567890`,
             base_req: {
               account_number: `12`,
@@ -149,7 +159,9 @@ describe(`Module: Send`, () => {
             type: `send`,
             to: `mock_address`,
             password: `1234567890`,
-            amount: [{ denom: `mycoin`, amount: 123 }],
+            amount: [{
+              denom: `mycoin`, amount: 123
+            }],
             submitType: `local`
           }
           await actions.sendTx(
@@ -162,7 +174,9 @@ describe(`Module: Send`, () => {
             args
           )
           expect(node.send).toHaveBeenCalledWith(`mock_address`, {
-            amount: [{ amount: 123, denom: `mycoin` }],
+            amount: [{
+              amount: 123, denom: `mycoin`
+            }],
             password: `1234567890`,
             base_req: {
               account_number: `12`,
@@ -185,7 +199,9 @@ describe(`Module: Send`, () => {
             to: `mock_address`,
             pathParameter: `cosmosvaloper1address`,
             password: `1234567890`,
-            amount: [{ denom: `mycoin`, amount: 123 }],
+            amount: [{
+              denom: `mycoin`, amount: 123
+            }],
             submitType: `local`
           }
           await actions.sendTx(
@@ -198,7 +214,9 @@ describe(`Module: Send`, () => {
             args
           )
           expect(node.send).toHaveBeenCalledWith(`mock_address`, `cosmosvaloper1address`, {
-            amount: [{ amount: 123, denom: `mycoin` }],
+            amount: [{
+              amount: 123, denom: `mycoin`
+            }],
             password: `1234567890`,
             base_req: {
               account_number: `12`,
@@ -221,7 +239,9 @@ describe(`Module: Send`, () => {
           const args = {
             type: `send`,
             password: `1234567890`,
-            amount: [{ denom: `mycoin`, amount: 123 }],
+            amount: [{
+              denom: `mycoin`, amount: 123
+            }],
             submitType: `ledger`
           }
           state.externals = {
@@ -229,8 +249,12 @@ describe(`Module: Send`, () => {
             signatureImport: jest.fn(),
             createSignature: jest.fn(),
             createSignedTx: jest.fn(),
-            createBroadcastBody: jest.fn(() => ({ broadcast: `body` })),
-            config: { default_gas: `500000` }
+            createBroadcastBody: jest.fn(() => ({
+              broadcast: `body`
+            })),
+            config: {
+              default_gas: `500000`
+            }
           }
 
           await actions.sendTx(
@@ -238,12 +262,18 @@ describe(`Module: Send`, () => {
               state,
               dispatch: jest.fn(),
               commit: jest.fn(),
-              rootState: { ...mockRootState, ledger: { isConnected: true } }
+              rootState: {
+                ...mockRootState, ledger: {
+                  isConnected: true
+                }
+              }
             },
             args
           )
           expect(node.send).toHaveBeenCalledWith({
-            amount: [{ amount: 123, denom: `mycoin` }],
+            amount: [{
+              amount: 123, denom: `mycoin`
+            }],
             password: `1234567890`,
             base_req: {
               account_number: `12`,
@@ -298,7 +328,9 @@ describe(`Module: Send`, () => {
         node.postTx = () => Promise.reject(errMsgNoObject.response.data)
         const args = {
           to: `mock_address`,
-          amount: [{ denom: `mycoin`, amount: 123 }]
+          amount: [{
+            denom: `mycoin`, amount: 123
+          }]
         }
         await expect(
           actions.sendTx(
@@ -318,7 +350,9 @@ describe(`Module: Send`, () => {
         const args = {
           to: `mock_address`,
           password: `1234567890`,
-          amount: [{ denom: `mycoin`, amount: 123 }]
+          amount: [{
+            denom: `mycoin`, amount: 123
+          }]
         }
         await expect(
           actions.sendTx(
@@ -337,11 +371,17 @@ describe(`Module: Send`, () => {
         const args = {
           to: `mock_address`,
           password: `1234567890`,
-          amount: [{ denom: `mycoin`, amount: 123 }]
+          amount: [{
+            denom: `mycoin`, amount: 123
+          }]
         }
         node.postTx = async () => ({
-          check_tx: { code: 1 },
-          deliver_tx: { code: 0 }
+          check_tx: {
+            code: 1
+          },
+          deliver_tx: {
+            code: 0
+          }
         })
         await expect(
           actions.sendTx(
@@ -360,11 +400,17 @@ describe(`Module: Send`, () => {
         const args = {
           to: `mock_address`,
           password: `1234567890`,
-          amount: [{ denom: `mycoin`, amount: 123 }]
+          amount: [{
+            denom: `mycoin`, amount: 123
+          }]
         }
         node.postTx = async () => ({
-          check_tx: { code: 0 },
-          deliver_tx: { code: 1 }
+          check_tx: {
+            code: 0
+          },
+          deliver_tx: {
+            code: 1
+          }
         })
         await expect(
           actions.sendTx(
@@ -383,16 +429,26 @@ describe(`Module: Send`, () => {
         const args = {
           to: `mock_address`,
           password: `1234567890`,
-          amount: [{ denom: `mycoin`, amount: 123 }]
+          amount: [{
+            denom: `mycoin`, amount: 123
+          }]
         }
         node.postTx = async () => [
           {
-            check_tx: { code: 0 },
-            deliver_tx: { code: 0 }
+            check_tx: {
+              code: 0
+            },
+            deliver_tx: {
+              code: 0
+            }
           },
           {
-            check_tx: { code: 0 },
-            deliver_tx: { code: 1 }
+            check_tx: {
+              code: 0
+            },
+            deliver_tx: {
+              code: 1
+            }
           }
         ]
         await expect(
@@ -412,7 +468,9 @@ describe(`Module: Send`, () => {
         const args = {
           type: `send`,
           password: `1234567890`,
-          amount: [{ denom: `mycoin`, amount: 123 }],
+          amount: [{
+            denom: `mycoin`, amount: 123
+          }],
           submitType: `ledger`
         }
         const dispatch = jest.fn(async () =>
@@ -423,8 +481,12 @@ describe(`Module: Send`, () => {
           signatureImport: jest.fn(),
           createSignature: jest.fn(),
           createSignedTx: jest.fn(),
-          createBroadcastBody: jest.fn(() => ({ broadcast: `body` })),
-          config: { default_gas: `500000` }
+          createBroadcastBody: jest.fn(() => ({
+            broadcast: `body`
+          })),
+          config: {
+            default_gas: `500000`
+          }
         }
         await expect(
           actions.sendTx(
@@ -432,7 +494,11 @@ describe(`Module: Send`, () => {
               state,
               dispatch,
               commit: jest.fn(),
-              rootState: { ...mockRootState, ledger: { isConnected: true } }
+              rootState: {
+                ...mockRootState, ledger: {
+                  isConnected: true
+                }
+              }
             },
             args
           )
@@ -449,7 +515,9 @@ describe(`Module: Send`, () => {
       const args = {
         to: `mock_address`,
         password: `1234567890`,
-        amount: [{ denom: `mycoin`, amount: 123 }]
+        amount: [{
+          denom: `mycoin`, amount: 123
+        }]
       }
       node.postTx = async () => []
       await expect(
@@ -472,7 +540,9 @@ describe(`Module: Send`, () => {
       let args = {
         to: `mock_address`,
         password: `1234567890`,
-        amount: [{ denom: `mycoin`, amount: 123 }]
+        amount: [{
+          denom: `mycoin`, amount: 123
+        }]
       }
       let error1
       try {
@@ -494,7 +564,9 @@ describe(`Module: Send`, () => {
       args = {
         to: `mock_address`,
         password: `1234567890`,
-        amount: [{ denom: `mycoin`, amount: 123 }]
+        amount: [{
+          denom: `mycoin`, amount: 123
+        }]
       }
       let error2
       try {
@@ -519,12 +591,16 @@ describe(`Module: Send`, () => {
       const args = {
         to: `mock_address`,
         password: `1234567890`,
-        amount: [{ denom: `mycoin`, amount: 123 }]
+        amount: [{
+          denom: `mycoin`, amount: 123
+        }]
       }
       const args2 = {
         to: `mock_address_2`,
         password: `1234567890`,
-        amount: [{ denom: `mycoin`, amount: 123 }]
+        amount: [{
+          denom: `mycoin`, amount: 123
+        }]
       }
       const dispatch = jest.fn(
         () =>
@@ -532,8 +608,12 @@ describe(`Module: Send`, () => {
             setTimeout(
               () =>
                 resolve({
-                  check_tx: { code: 0 },
-                  deliver_tx: { code: 0 }
+                  check_tx: {
+                    code: 0
+                  },
+                  deliver_tx: {
+                    code: 0
+                  }
                 }),
               10000
             )
@@ -574,12 +654,16 @@ describe(`Module: Send`, () => {
       const args = {
         to: `mock_address`,
         password: `1234567890`,
-        amount: [{ denom: `mycoin`, amount: 123 }]
+        amount: [{
+          denom: `mycoin`, amount: 123
+        }]
       }
       const args2 = {
         to: `mock_address_2`,
         password: `1234567890`,
-        amount: [{ denom: `mycoin`, amount: 123 }]
+        amount: [{
+          denom: `mycoin`, amount: 123
+        }]
       }
       const dispatch = jest
         .fn()
@@ -611,7 +695,9 @@ describe(`Module: Send`, () => {
       const args = {
         to: `mock_address`,
         password: `1234567890`,
-        amount: [{ denom: `mycoin`, amount: 123 }]
+        amount: [{
+          denom: `mycoin`, amount: 123
+        }]
       }
       const dispatch = jest.fn()
       await actions.sendTx(
@@ -629,7 +715,9 @@ describe(`Module: Send`, () => {
     it(`should throw an error if not connected`, async () => {
       const args = {
         to: `mock_address`,
-        amount: [{ denom: `mycoin`, amount: 123 }]
+        amount: [{
+          denom: `mycoin`, amount: 123
+        }]
       }
       expect(
         actions.sendTx(
@@ -637,11 +725,14 @@ describe(`Module: Send`, () => {
             state,
             dispatch: jest.fn(),
             commit: jest.fn(),
-            rootState: Object.assign({}, mockRootState, {
-              connection: {
-                connected: false
+            rootState: Object.assign(
+              {},
+              mockRootState, {
+                connection: {
+                  connected: false
+                }
               }
-            })
+            )
           },
           args
         )

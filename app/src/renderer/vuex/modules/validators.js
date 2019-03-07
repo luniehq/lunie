@@ -68,11 +68,16 @@ export default ({ node }) => {
     async getValidatorDistributionInfo({ commit }, validatorAddr) {
       state.loading = true
       try {
-        let { self_bond_rewards, val_commission } = await node.getValidatorDistributionInformation(validatorAddr)
+        let { self_bond_rewards, val_commission } =
+          await node.getValidatorDistributionInformation(validatorAddr)
         self_bond_rewards = coinsToObject(self_bond_rewards)
         val_commission = coinsToObject(val_commission)
-        const info = { self_bond_rewards, val_commission }
-        commit(`setValidatorDistributionInfo`, { validatorAddr, info })
+        const info = {
+          self_bond_rewards, val_commission
+        }
+        commit(`setValidatorDistributionInfo`, {
+          validatorAddr, info
+        })
         state.error = null
         state.loaded = true
       } catch (error) {
@@ -86,7 +91,9 @@ export default ({ node }) => {
       try {
         const rewardsArray = await node.getValidatorRewards(validatorAddr)
         const rewards = coinsToObject(rewardsArray)
-        commit(`setValidatorRewards`, { validatorAddr, rewards })
+        commit(`setValidatorRewards`, {
+          validatorAddr, rewards
+        })
         state.error = null
         state.loaded = true
       } catch (error) {

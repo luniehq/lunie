@@ -98,7 +98,7 @@ export default function({ node }) {
         },
         ({ header }) => {
           dispatch(`setLastHeader`, header)
-          
+
           if (rootState.session.signedIn) {
             dispatch(`getTotalRewards`)
           }
@@ -112,8 +112,8 @@ export default function({ node }) {
       dispatch(`pollRPCConnection`)
     },
     checkNodeHalted(
-      { state, dispatch },
-      nodeHaltedTimeout = NODE_HALTED_TIMEOUT
+        { state, dispatch },
+        nodeHaltedTimeout = NODE_HALTED_TIMEOUT
     ) {
       state.nodeHaltedTimeout = setTimeout(() => {
         if (!state.lastHeader.height) {
@@ -122,8 +122,8 @@ export default function({ node }) {
       }, nodeHaltedTimeout) // default 30s
     },
     async pollRPCConnection(
-      { state, dispatch, commit },
-      timeout = config.block_timeout
+        { state, dispatch, commit },
+        timeout = config.block_timeout
     ) {
       const { node } = state.externals
       if (state.stopConnecting) return

@@ -9,7 +9,9 @@ describe(`TmFieldSeed`, () => {
   }
 
   beforeEach(() => {
-    wrapper = mount(TmFieldSeed, { propsData })
+    wrapper = mount(TmFieldSeed, {
+      propsData
+    })
   })
 
   it(`has a value from props`, () => {
@@ -42,7 +44,9 @@ describe(`TmFieldSeed`, () => {
   it(`calls autosize.update when value changes`, async () => {
     const autosize = require(`autosize`)
     const spy = jest.spyOn(autosize, `update`)
-    wrapper.setProps({ value: `change value` })
+    wrapper.setProps({
+      value: `change value`
+    })
     await wrapper.vm.$nextTick()
     expect(spy).toBeCalled()
     expect(spy.mock.calls[0].length).toEqual(1)

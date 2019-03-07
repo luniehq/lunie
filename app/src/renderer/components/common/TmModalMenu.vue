@@ -5,7 +5,9 @@
 </template>
 
 <script>
-export default { name: `tm-modal-menu` }
+export default {
+  name: `tm-modal-menu`
+}
 </script>
 
 <style>

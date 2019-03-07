@@ -30,7 +30,9 @@ export const liquidAtoms = state =>
   (
     state.wallet.balances.find(
       balance => balance.denom === state.stakingParameters.parameters.bond_denom
-    ) || { amount: 0 }
+    ) || {
+      amount: 0
+    }
   ).amount
 export const delegation = state => state.delegation
 export const totalAtoms = (state, getters) => {

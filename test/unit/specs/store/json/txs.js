@@ -11,7 +11,9 @@ export default [
             type: `cosmos-sdk/Send`,
             value: {
               from_address: `A`,
-              amount: [{ denom: `jbcoins`, amount: `12340000000` }],
+              amount: [{
+                denom: `jbcoins`, amount: `12340000000`
+              }],
               to_address: `B`
             }
           }
@@ -70,7 +72,9 @@ export default [
             type: `cosmos-sdk/Send`,
             value: {
               from_address: `B`,
-              amount: [{ denom: `jbcoins`, amount: `12340000000` }],
+              amount: [{
+                denom: `jbcoins`, amount: `12340000000`
+              }],
               to_address: `A`
             }
           }
@@ -128,9 +132,15 @@ export default [
             type: `cosmos-sdk/Send`,
             value: {
               amount: [
-                { denom: `jbcoins`, amount: `12340000000` },
-                { denom: `fabocoins`, amount: `10000000` },
-                { denom: `mattcoins`, amount: `420000000` }
+                {
+                  denom: `jbcoins`, amount: `12340000000`
+                },
+                {
+                  denom: `fabocoins`, amount: `10000000`
+                },
+                {
+                  denom: `mattcoins`, amount: `420000000`
+                }
               ],
               from_address: `A`,
               to_address: `A`
