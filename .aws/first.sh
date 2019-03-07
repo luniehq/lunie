@@ -15,7 +15,7 @@ NODEID=$(./gaiad tendermint show-node-id --home .)
 
 # Create our main account and add it to the genesis with a lot of money
 echo ${PASSWORD} | ./gaiacli keys add ${ACCOUNT} --home . > account_address.log
-./gaiad add-genesis-account $(./gaiacli keys show ${ACCOUNT} --home . --address) 100000000000000000stake,999000000000photino,123123123123cococoin --home .
+./gaiad add-genesis-account $(./gaiacli keys show ${ACCOUNT} --home . --address) 1000000000000000000000stake,100000000000000000000photino,123123123123123123cococoin --home .
 
 echo ${PASSWORD} | ./gaiad gentx --name ${ACCOUNT} --home . --home-client .
 ./gaiad collect-gentxs --home .
