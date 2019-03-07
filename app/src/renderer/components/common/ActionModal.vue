@@ -11,7 +11,7 @@
         <img
           class="icon action-modal-atom"
           src="~assets/images/cosmos-logo.png"
-        />
+        >
         <span class="action-modal-title">
           {{ session.signedIn ? title : `Sign in required` }}
         </span>

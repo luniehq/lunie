@@ -3,7 +3,7 @@ import { createLocalVue, shallowMount } from "@vue/test-utils"
 
 describe(`PageTransactions`, () => {
   const localVue = createLocalVue()
-  localVue.directive(`tooltip`, () => {})
+  localVue.directive(`tooltip`, () => { })
 
   const addresses = [
     `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
@@ -243,7 +243,8 @@ describe(`PageTransactions`, () => {
       delegates: validators
     },
     allTransactions,
-    connected: true
+    connected: true,
+    lastHeader: ``
   }
 
   beforeEach(() => {
@@ -261,7 +262,7 @@ describe(`PageTransactions`, () => {
     })
   })
 
-  describe(`has the expected html structure`, () => {
+  describe(`displays the transaction page`, () => {
     it(`if user has signed in`, async () => {
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
@@ -285,20 +286,24 @@ describe(`PageTransactions`, () => {
   })
 
   it(`should refresh the transaction history`, async () => {
-    await PageTransactions.methods.refreshTransactions.call({ $store, session: {
-      signedIn: true
-    } })
+    await PageTransactions.methods.refreshTransactions.call({
+      $store, session: {
+        signedIn: true
+      }
+    })
     expect($store.dispatch).toHaveBeenCalledWith(`getAllTxs`)
 
     $store.dispatch.mockClear()
-    await PageTransactions.methods.refreshTransactions.call({ $store, session: {
-      signedIn: false
-    } })
+    await PageTransactions.methods.refreshTransactions.call({
+      $store, session: {
+        signedIn: false
+      }
+    })
     expect($store.dispatch).not.toHaveBeenCalledWith(`getAllTxs`)
   })
 
   it(`should show transactions`, async () => {
-    expect(wrapper.findAll(`tm-li-any-transaction-stub`).length).toBe(6)
+    expect(wrapper.findAll(`li-any-transaction-stub`).length).toBe(6)
   })
 
   it(`should sort the transaction by time`, () => {
@@ -310,5 +315,11 @@ describe(`PageTransactions`, () => {
       150,
       1
     ])
+  })
+
+  it(`updates transactions every block`, () => {
+    const refreshTransactions = jest.fn()
+    PageTransactions.watch.lastHeader.handler.call({ refreshTransactions })
+    expect(refreshTransactions).toHaveBeenCalled()
   })
 })

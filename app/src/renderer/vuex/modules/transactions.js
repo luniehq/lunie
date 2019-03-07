@@ -1,23 +1,22 @@
 import { uniqBy } from "lodash"
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
+
 export default ({ node }) => {
   const emptyState = {
     loading: false,
     loaded: false,
     error: null,
-    wallet: [], // {height, result: { gas, tags }, tx: { type, value: { fee: { amount: [{denom, amount}], gas}, msg: {type, inputs, outputs}}, signatures} }}
+    bank: [], // {height, result: { gas, tags }, tx: { type, value: { fee: { amount: [{denom, amount}], gas}, msg: {type, inputs, outputs}}, signatures} }}
     staking: [],
-    governance: []
+    governance: [],
+    distribution: []
   }
   const state = JSON.parse(JSON.stringify(emptyState))
 
-  // properties under which txs of different categories are stored
-  const txCategories = [`staking`, `wallet`, `governance`]
-
   const mutations = {
-    setWalletTxs(state, txs) {
-      Vue.set(state, `wallet`, txs)
+    setBankTxs(state, txs) {
+      Vue.set(state, `bank`, txs)
     },
     setStakingTxs(state, txs) {
       Vue.set(state, `staking`, txs)
@@ -25,18 +24,23 @@ export default ({ node }) => {
     setGovernanceTxs(state, txs) {
       Vue.set(state, `governance`, txs)
     },
+    setDistributionTxs(state, txs) {
+      Vue.set(state, `distribution`, txs)
+    },
     setHistoryLoading(state, loading) {
       Vue.set(state, `loading`, loading)
     },
-    setTransactionTime(state, { blockHeight, blockMetaInfo }) {
-      txCategories.forEach(category => {
-        state[category].forEach(t => {
-          if (t.height === blockHeight && blockMetaInfo) {
-            // time seems to be an ISO string, but we are expecting a Number type
-            Vue.set(t, `time`, new Date(blockMetaInfo.header.time).getTime())
-          }
+    setTransactionTime(state, { blockHeight, time }) {
+      [`staking`, `bank`, `governance`, `distribution`]
+        .forEach(category => {
+          state[category].forEach(tx => {
+            if (tx.height === blockHeight && time) {
+              // time seems to be an ISO string, but we are expecting a Number type
+              time = new Date(time).getTime()
+              Vue.set(tx, `time`, time)
+            }
+          })
         })
-      })
     }
   }
 
@@ -57,48 +61,53 @@ export default ({ node }) => {
 
         if (!rootState.connection.connected) return
 
+        // TODO: add (push to state) only new transactions
+        const bankTxs = await dispatch(`getTx`, `bank`)
+        if (bankTxs.length > state.bank.length) {
+          commit(`setBankTxs`, bankTxs)
+          await dispatch(`enrichTransactions`, bankTxs)
+        }
+
         const stakingTxs = await dispatch(`getTx`, `staking`)
-        commit(`setStakingTxs`, stakingTxs)
+        if (stakingTxs.length > state.staking.length) {
+          commit(`setStakingTxs`, stakingTxs)
+          await dispatch(`enrichTransactions`, stakingTxs)
+        }
 
         const governanceTxs = await dispatch(`getTx`, `governance`)
-        commit(`setGovernanceTxs`, governanceTxs)
+        if (governanceTxs.length > state.governance.length) {
+          commit(`setGovernanceTxs`, governanceTxs)
+          await dispatch(`enrichTransactions`, governanceTxs)
+        }
 
-        const walletTxs = await dispatch(`getTx`, `wallet`)
-        commit(`setWalletTxs`, walletTxs)
+        const distributionTxs = await dispatch(`getTx`, `distribution`)
+        if (distributionTxs.length > state.distribution.length) {
+          commit(`setDistributionTxs`, distributionTxs)
+          await dispatch(`enrichTransactions`, distributionTxs)
+        }
 
-        const allTxs = stakingTxs.concat(governanceTxs.concat(walletTxs))
-        await dispatch(`enrichTransactions`, {
-          transactions: allTxs
-        })
         state.error = null
         commit(`setHistoryLoading`, false)
         state.loaded = true
       } catch (error) {
-        commit(`notifyError`, {
-          title: `Error getting transactions`,
-          body: error.message
-        })
         Sentry.captureException(error)
         state.error = error
       }
     },
-    async getTx(
-      {
-        rootState: {
-          session: { address }
-        }
-      },
-      type
-    ) {
+    async getTx({ rootState: { session: { address } } }, type) {
       let response
+      const validatorAddress = address.replace(`cosmos`, `cosmosvaloper`)
       switch (type) {
         case `staking`:
-          response = await node.getDelegatorTxs(address)
+          response = await node.getStakingTxs(address, validatorAddress)
           break
         case `governance`:
           response = await node.getGovernanceTxs(address)
           break
-        case `wallet`:
+        case `distribution`:
+          response = await node.getDistributionTxs(address, validatorAddress)
+          break
+        case `bank`:
           response = await node.txs(address)
           break
         default:
@@ -107,7 +116,7 @@ export default ({ node }) => {
       const transactionsPlusType = response.map(t => ({ ...t, type }))
       return response ? uniqBy(transactionsPlusType, `txhash`) : []
     },
-    async enrichTransactions({ dispatch }, { transactions }) {
+    async enrichTransactions({ dispatch }, transactions) {
       const blockHeights = new Set(
         transactions.map(({ height }) => parseInt(height))
       )
@@ -121,7 +130,7 @@ export default ({ node }) => {
       const blockMetaInfo = await dispatch(`queryBlockInfo`, blockHeight)
       commit(`setTransactionTime`, {
         blockHeight,
-        blockMetaInfo
+        time: blockMetaInfo.header.time
       })
     }
   }

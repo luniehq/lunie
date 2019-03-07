@@ -58,7 +58,7 @@ export default {
   computed: {
     ...mapGetters([`wallet`, `connected`, `session`]),
     enableFaucet() {
-      return !!this.wallet.externals.config.faucet
+      return !!this.wallet.externals.config.faucet && this.session.signedIn
     },
     allDenomBalances() {
       // for denoms not in balances, add empty balance
@@ -83,6 +83,16 @@ export default {
       )
     }
   },
+  watch: {
+    lastHeader: {
+      immediate: true,
+      handler() {
+        if (this.session.signedIn) {
+          this.queryWalletBalances()
+        }
+      }
+    }
+  },
   async mounted() {
     this.updateDelegates()
     await this.queryWalletBalances()
@@ -93,7 +103,9 @@ export default {
       this.$refs.sendModal.open(denomination)
     },
     async faucet() {
-      await this.$store.dispatch(`getMoney`, this.session.address)
+      if (this.session.signedIn) {
+        await this.$store.dispatch(`getMoney`, this.session.address)
+      }
     }
   }
 }

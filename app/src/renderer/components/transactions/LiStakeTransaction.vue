@@ -1,15 +1,18 @@
 <template>
   <li-transaction
-    :color="`#47AB6C`"
+    color="#47AB6C"
     :time="transaction.time"
     :block="transaction.height"
   >
     <template v-if="txType === `cosmos-sdk/MsgCreateValidator`">
       <div slot="caption">
-        Create validator&nbsp;<b>{{ full(atoms(tx.value.amount)) }}</b><span>&nbsp;{{ tx.value.denom }}s</span>
+        Create validator&nbsp;
+        <b>{{ full(atoms(tx.value.amount)) }}</b>
+        <span>&nbsp;{{ tx.value.denom }}s</span>
       </div>
       <div slot="details">
-        Moniker:&nbsp;<router-link :to="url + '/' + tx.validator_address">
+        Moniker:&nbsp;
+        <router-link :to="`${url}/${tx.validator_address}`">
           {{
             moniker(tx.validator_address)
           }}
@@ -18,7 +21,8 @@
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgEditValidator`">
       <div slot="caption">
-        Edit validator&nbsp;<router-link :to="url + '/' + tx.validator_address">
+        Edit validator&nbsp;
+        <router-link :to="`${url}/${tx.validator_address}`">
           {{
             moniker(tx.validator_address)
           }}
@@ -27,10 +31,13 @@
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgDelegate`">
       <div slot="caption">
-        Delegation&nbsp;<b>{{ full(atoms(tx.value.amount)) }}</b><span>&nbsp;{{ tx.value.denom }}s</span>
+        Delegation&nbsp;
+        <b>{{ full(atoms(tx.value.amount)) }}</b>
+        <span>&nbsp;{{ tx.value.denom }}s</span>
       </div>
       <div slot="details">
-        To&nbsp;<router-link :to="url + '/' + tx.validator_addr">
+        To&nbsp;
+        <router-link :to="`${url}/${tx.validator_addr}`">
           {{
             moniker(tx.validator_addr)
           }}
@@ -39,21 +46,23 @@
     </template>
     <template v-else-if="txType === `cosmos-sdk/BeginRedelegate`">
       <div slot="caption">
-        Redelegation&nbsp;<template>
-          <b>
-            {{
-              calculatePrettifiedTokens(tx.validator_src_addr, tx.shares_amount)
-            }}
-          </b><span>&nbsp;{{ bondingDenom }}s</span>
-        </template>
+        Redelegation&nbsp;
+        <b>
+          {{
+            calculatePrettifiedTokens(tx.validator_src_addr, tx.shares_amount)
+          }}
+        </b>
+        <span>&nbsp;{{ bondingDenom }}s</span>
       </div>
       <div slot="details">
-        From&nbsp;<router-link :to="url + '/' + tx.validator_src_addr">
+        From&nbsp;
+        <router-link :to="`${url}/${tx.validator_src_addr}`">
           {{
             moniker(tx.validator_src_addr)
           }}
         </router-link>
-        to&nbsp;<router-link :to="url + '/' + tx.validator_dst_addr">
+        &nbsp;to&nbsp;
+        <router-link :to="`${url}/${tx.validator_dst_addr}`">
           {{
             moniker(tx.validator_dst_addr)
           }}
@@ -62,20 +71,22 @@
     </template>
     <template v-else-if="txType === `cosmos-sdk/Undelegate`">
       <div slot="caption">
-        Undelegation&nbsp;<template>
-          <b>
-            {{
-              calculatePrettifiedTokens(tx.validator_addr, tx.shares_amount)
-            }}
-          </b><span>&nbsp;{{ bondingDenom }}s</span>
-        </template><template v-if="timeDiff">
+        Undelegation&nbsp;
+        <b>
+          {{
+            calculatePrettifiedTokens(tx.validator_addr, tx.shares_amount)
+          }}
+        </b>
+        <span>&nbsp;{{ bondingDenom }}s</span>
+        <template v-if="timeDiff">
           <span class="tx-unbonding__time-diff">
             &nbsp;{{ timeDiff }}
           </span>
         </template>
       </div>
       <div slot="details">
-        From&nbsp;<router-link :to="url + '/' + tx.validator_addr">
+        From&nbsp;
+        <router-link :to="`${url}/${tx.validator_addr}`">
           {{
             moniker(tx.validator_addr)
           }}
@@ -84,7 +95,8 @@
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgUnjail`">
       <div slot="caption">
-        Unjail&nbsp;<router-link :to="url + '/' + tx.address">
+        Unjail&nbsp;
+        <router-link :to="`${url}/${tx.address}`">
           {{
             moniker(tx.address)
           }}
@@ -96,7 +108,7 @@
 
 <script>
 import LiTransaction from "./LiTransaction"
-import { pretty, atoms, full } from "../../scripts/num.js"
+import { atoms, full } from "../../scripts/num.js"
 import { calculateTokens } from "../../scripts/common.js"
 import moment from "moment"
 
@@ -135,7 +147,6 @@ export default {
   },
   data: () => ({
     atoms,
-    pretty,
     full
   }),
   computed: {
@@ -146,7 +157,7 @@ export default {
       // only show time diff if still waiting to be terminated
       if (this.state !== `locked`) return ``
 
-      return `(liquid ` + moment(this.unbondingTime).fromNow() + `)`
+      return `(liquid ${moment(this.unbondingTime).fromNow()})`
     },
     // unbonding transactions can be in the state 'locked', 'ended'
     // the transaction needs to be enriched from the outside with `unbondingDelegation`
@@ -171,3 +182,4 @@ export default {
     }
   }
 }
+</script>
