@@ -166,6 +166,7 @@ async function sendTokens(
   toAddress,
   chainId
 ) {
+  await sleep(500)
   const command =
     `${cliBinary} tx send` +
     ` ${toAddress}` +
@@ -173,7 +174,7 @@ async function sendTokens(
     ` --home ${clientHomeDir}` +
     ` --from ${keyName}` +
     ` --chain-id=${chainId}`
-  return makeExecWithInputs(command, [password], false)
+  return makeExecWithInputs(command, [`Y`, password], false)
 }
 
 // start a node and connect it to nodeOne
@@ -275,11 +276,23 @@ function makeExecWithInputs(command, inputs = [], json = true) {
     })
 
     child.once(`exit`, code => {
+      if (process.env.VERBOSE) {
+        console.log(`EXIT:`, code)
+      }
       if (resolved) return
       resolved = true
       code === 0 ? resolve() : reject(`Process exited with code ${code}`)
     })
   })
+}
+
+/*
+
+    mnemonic: `release endorse scale across absurd trouble climb unaware actor elite fantasy chair license word rare length business kiss smoke tackle report february bid ginger`,
+    address: `cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e`,
+    */
+function sendMoneyToFixedAccounts(mainAccountSignInfo, chainId) {
+  sendTokens(mainAccountSignInfo, `${100 * 10e6}stake`, `cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e`, chainId)
 }
 
 module.exports = {
@@ -291,6 +304,7 @@ module.exports = {
   startLocalNode,
   makeValidator,
   getNodeId,
+  sendMoneyToFixedAccounts,
 
   cliBinary,
   nodeBinary,

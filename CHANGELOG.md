@@ -10,10 +10,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 - [\#2192](https://github.com/cosmos/voyager/pull/2192) hide tm-balance on PageProposal and PagePreferences if signed out @faboweb
+## [1.0.0-beta.15] - 2019-03-07
+
 ### Changed
 
 - [\#2043](https://github.com/cosmos/voyager/issues/2043) removed no-balance modals on staking page @fedekunze
 - [\#2161](https://github.com/cosmos/voyager/pull/2161) fixed status dot position @jbibla
+- [\#2193](https://github.com/cosmos/voyager/issues/2193) hide seed import @faboweb
+- [\#195](https://github.com/tendermint/devops/issues/195) updated Circle config with new wallet domain name
+
+### Fixed
+
+- [\#2195](https://github.com/cosmos/voyager/issues/2195) undelegation modal showing wrong amount @faboweb
 
 ## [1.0.0-beta.14] - 2019-03-06
 
@@ -61,6 +69,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - [\#1887](https://github.com/cosmos/voyager/issues/1887) Activating Google Analytics anonymized by default @faboweb
 - [\#2098](https://github.com/cosmos/voyager/issues/2098) rename devMode url flag to insecure @faboweb
+- [\#1884](https://github.com/cosmos/voyager/issues/1884) Readded the possibility of e2e tests @faboweb
 
 ### Fixed
 
