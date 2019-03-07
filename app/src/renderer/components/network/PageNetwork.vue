@@ -69,10 +69,10 @@
         <tbody>
           <tr v-if="blocks.length === 0" class="block data-table__row">
             <td>
-              <img class="loading-icon" src="~assets/images/loader.svg" />
+              <img class="loading-icon" src="~assets/images/loader.svg">
             </td>
             <td>
-              <img class="loading-icon" src="~assets/images/loader.svg" />
+              <img class="loading-icon" src="~assets/images/loader.svg">
             </td>
           </tr>
           <tr
