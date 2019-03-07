@@ -167,42 +167,53 @@ describe(`API`, () => {
         ])
       })
 
-      it(`queries for a delegation txs`, async () => {
+      it(`queries for a staking txs`, async () => {
         axios.mockReturnValue(Promise.resolve({ data: lcdClientMock.txs }))
-        await client.getDelegatorTxs(`abc`)
-        await client.getDelegatorTxs(`abc`, [`bonding`])
-        await client.getDelegatorTxs(`abc`, [`unbonding`])
-        await client.getDelegatorTxs(`abc`, [`redelegate`])
+        await client.getStakingTxs(`abc`, `def`)
 
         expect(axios.mock.calls).toEqual([
           [
             {
               data: undefined,
               method: `GET`,
-              url: `http://remotehost/staking/delegators/abc/txs`
+              url: `http://remotehost/txs?action=create_validator&destination-validator=def`
             }
           ],
           [
             {
               data: undefined,
               method: `GET`,
-              url: `http://remotehost/staking/delegators/abc/txs?type=bonding`
+              url: `http://remotehost/txs?action=edit_validator&destination-validator=def`
             }
           ],
           [
             {
               data: undefined,
               method: `GET`,
-              url: `http://remotehost/staking/delegators/abc/txs?type=unbonding`
+              url: `http://remotehost/txs?action=delegate&delegator=abc`
             }
           ],
           [
             {
               data: undefined,
               method: `GET`,
-              url: `http://remotehost/staking/delegators/abc/txs?type=redelegate`
+              url: `http://remotehost/txs?action=begin_redelegate&delegator=abc`
             }
-          ]
+          ],
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/txs?action=begin_unbonding&delegator=abc`
+            }
+          ],
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/txs?action=unjail&source-validator=def`
+            }
+          ],
         ])
       })
 
@@ -506,6 +517,15 @@ describe(`API`, () => {
                 lcdClientMock.addresses[0]
               }`
             }
+          ],
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/txs?action=vote&voter=${
+                lcdClientMock.addresses[0]
+              }`
+            }
           ]
         ])
       })
@@ -638,6 +658,35 @@ describe(`API`, () => {
     })
 
     describe(`Fee Distribution`, () => {
+
+      it(`queries for governance txs`, async () => {
+        axios.mockReturnValue({ data: [] })
+        await client.getDistributionTxs(`cosmos1address`, `cosmosvaloper1address`)
+
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/txs?action=set_withdraw_address&delegator=cosmos1address`
+            }
+          ],
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/txs?action=withdraw_delegation_reward&delegator=cosmos1address`
+            }
+          ],
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/txs?action=withdraw_validator_rewards_all&source-validator=cosmosvaloper1address`
+            }
+          ]
+        ])
+      })
       it(`queries all rewards from a delegator`, async () => {
         axios.mockReturnValue({})
         await client.getDelegatorRewards(`cosmos1address`)
