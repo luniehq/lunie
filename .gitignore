@@ -16,3 +16,4 @@ app/networks/local-testnet/*
 .idea/*
 *.crt
 *.key
+chromedriver.log

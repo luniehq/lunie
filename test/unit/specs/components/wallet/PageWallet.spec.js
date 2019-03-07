@@ -12,12 +12,11 @@ describe(`PageWallet`, () => {
       loading: false,
       denoms: [`fermion`, `gregcoin`, `mycoin`, `STAKE`],
       balances: lcdClientMock.state.accounts[lcdClientMock.addresses[0]].coins,
-      externals: { config: { faucet: `yo` } }
+      externals: { config: { faucet: `yo` } },
     },
+    lastHeader: ``,
     connected: true,
-    session: {
-      signedIn: true
-    }
+    session: { signedIn: true }
   }
 
   beforeEach(() => {
@@ -36,7 +35,7 @@ describe(`PageWallet`, () => {
     wrapper.vm.$refs.sendModal = { open: jest.fn() }
   })
 
-  it(`has the expected html structure`, async () => {
+  it(`should display the wallet page`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -98,7 +97,9 @@ describe(`PageWallet`, () => {
           balances: [],
           externals: { config: {} }
         },
-        connected: false
+        connected: false,
+        lastHeader: ``,
+        session: { signedIn: true }
       })
     }
 
@@ -124,7 +125,9 @@ describe(`PageWallet`, () => {
           balances: [],
           externals: { config: {} }
         },
-        connected: true
+        connected: true,
+        lastHeader: ``,
+        session: { signedIn: true }
       })
     }
 
@@ -138,7 +141,26 @@ describe(`PageWallet`, () => {
   })
 
   it(`should call getmoney`, async () => {
-    await PageWallet.methods.faucet.call({ $store, session: { address: `X` } })
-    expect($store.dispatch).toHaveBeenCalledWith(`getMoney`, `X`)
+    await PageWallet.methods.faucet.call({
+      $store, session: { signedIn: true, address: `cosmos1address` }
+    })
+    expect($store.dispatch).toHaveBeenCalledWith(`getMoney`, `cosmos1address`)
   })
+
+  describe(`updates balances every block`, () => {
+    it(`should not update if the user hasn't signed in`, () => {
+      const queryWalletBalances = jest.fn()
+      const session = { signedIn: false }
+      PageWallet.watch.lastHeader.handler.call({ session, queryWalletBalances })
+      expect(queryWalletBalances).not.toHaveBeenCalled()
+    })
+
+    it(`should update if the user has signed in`, () => {
+      const queryWalletBalances = jest.fn()
+      const session = { signedIn: true }
+      PageWallet.watch.lastHeader.handler.call({ session, queryWalletBalances })
+      expect(queryWalletBalances).toHaveBeenCalled()
+    })
+  })
+
 })
