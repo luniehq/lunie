@@ -7,7 +7,7 @@ describe(`TmSessionWelcome`, () => {
 
   beforeEach(() => {
     const getters = {
-      session: { accounts, insecureMode: true },
+      session: { accounts, insecureMode: true, experimentalMode: true },
       lastPage: `/`
     }
     $store = {
@@ -58,7 +58,6 @@ describe(`TmSessionWelcome`, () => {
 
   describe(`without accounts`, () => {
     it(`should not show sign-in link since we have no accounts`, () => {
-      wrapper.vm.setState = jest.fn()
       expect(wrapper.find(`#sign-in-with-account`).exists()).toBe(false)
     })
 
@@ -103,9 +102,19 @@ describe(`TmSessionWelcome`, () => {
   })
 
   describe(`production`, () => {
-    it(`should hide sign in with account in production`, () => {
-      wrapper.vm.setState = jest.fn()
+    it(`should hide sign in with account if users do not opt in`, () => {
+      wrapper.vm.session.accounts = [{
+        name: `test`
+      }]
+      expect(wrapper.find(`#sign-in-with-account`).exists()).toBe(true)
+      wrapper.vm.session.insecureMode = false
       expect(wrapper.find(`#sign-in-with-account`).exists()).toBe(false)
+    })
+
+    it(`should hide seed import if not in development`, () => {
+      expect(wrapper.find(`#import-seed`).exists()).toBe(true)
+      wrapper.vm.session.experimentalMode = false
+      expect(wrapper.find(`#import-seed`).exists()).toBe(false)
     })
   })
 })

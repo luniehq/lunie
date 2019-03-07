@@ -59,7 +59,7 @@ describe(`UndelegationModal`, () => {
   })
 
   it(`clears on close`, () => {
-    wrapper.setData({ selectedIndex: 1, amount: 100000000 })
+    wrapper.setData({ selectedIndex: 1, amount: 10000000000000 })
     // produce validation error as amount is too high
     wrapper.vm.$v.$touch()
     expect(wrapper.vm.$v.$error).toBe(true)

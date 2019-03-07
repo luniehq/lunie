@@ -34,7 +34,7 @@
         placeholder="Amount"
       />
       <p v-if="maximum > 0">
-        {{ denom }}s delegated: {{ atoms(maximum) }}
+        {{ denom }}s delegated: {{ maximum }}
       </p>
       <tm-form-msg
         v-if="maximum === 0"
@@ -115,7 +115,7 @@ export default {
       amount: {
         required: x => !!x && x !== `0`,
         decimal,
-        between: between(0, atoms(this.maximum))
+        between: between(0, this.maximum)
       }
     }
   },
