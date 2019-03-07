@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PageWallet has the expected html structure 1`] = `
+exports[`PageWallet should display the wallet page 1`] = `
 <tm-page-stub
   data-title="Wallet"
   dataset="[object Object],[object Object],[object Object]"
