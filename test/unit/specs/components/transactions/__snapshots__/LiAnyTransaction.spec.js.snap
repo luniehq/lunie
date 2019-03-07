@@ -27,9 +27,9 @@ exports[`LiAnyTransaction shows governance transactions 1`] = `
 
 exports[`LiAnyTransaction shows staking transactions 1`] = `
 <li-stake-transaction-stub
-  bonding-denom="atom"
+  bondingdenom="atom"
   transaction="[object Object]"
-  tx-type="cosmos-sdk/MsgCreateValidator"
+  txtype="cosmos-sdk/MsgCreateValidator"
   url="/validators"
   validators="[object Object],[object Object]"
 />
