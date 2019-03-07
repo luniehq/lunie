@@ -64,7 +64,7 @@ export default () => {
         case `U2F: Timeout`:
           throw new Error(`No Ledger found`)
         case `Cosmos app does not seem to be open`:
-          throw new Error(`Cøsmos app is not open`)
+          throw new Error(`Cosmos app is not open`)
         case `Unknown error code`: // TODO: create error for screensaver mode
           throw new Error(`Ledger's screensaver mode is on`)
         case `No errors`:
