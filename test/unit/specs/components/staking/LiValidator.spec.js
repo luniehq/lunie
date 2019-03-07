@@ -36,7 +36,7 @@ describe(`LiValidator`, () => {
       start_height: 0,
       index_offset: 465400,
       jailed_until: `1970-01-01T00:00:00Z`,
-      signed_blocks_counter: 9878
+      missed_blocks_counter: 122
     }
   }
 

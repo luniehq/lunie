@@ -5,7 +5,7 @@ if [ "$currentBranch" = "master" ] || [ "$currentBranch" = "release" ] || [ "$cu
     echo "This branch is the develop branch. Checks on updating the changelog are omitted."
     exit 0;
 fi
-if [ "$(git diff --name-only origin/develop | grep -c CHANGELOG.md)" -ge 1 ]; then
+if [ "$(git diff --name-only origin/develop | grep -c PENDING.md)" -ge 1 ]; then
     echo "CHANGELOG updated"
     exit 0;
 else

@@ -10,7 +10,7 @@ exports[`LiStakeTransaction create validator 1`] = `
       Create validator 
       
     <b>
-      0.1
+      0.1000000
     </b>
      
     <span>
@@ -44,7 +44,7 @@ exports[`LiStakeTransaction delegations should show delegations 1`] = `
       Delegation 
       
     <b>
-      4200
+      4,200.0000000
     </b>
      
     <span>

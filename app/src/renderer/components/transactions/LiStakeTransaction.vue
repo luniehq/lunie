@@ -7,7 +7,7 @@
     <template v-if="txType === `cosmos-sdk/MsgCreateValidator`">
       <div slot="caption">
         Create validator&nbsp;
-        <b>{{ atoms(tx.value.amount) }}</b>
+        <b>{{ full(atoms(tx.value.amount)) }}</b>
         <span>&nbsp;{{ tx.value.denom }}s</span>
       </div>
       <div slot="details">
@@ -32,7 +32,7 @@
     <template v-else-if="txType === `cosmos-sdk/MsgDelegate`">
       <div slot="caption">
         Delegation&nbsp;
-        <b>{{ atoms(tx.value.amount) }}</b>
+        <b>{{ full(atoms(tx.value.amount)) }}</b>
         <span>&nbsp;{{ tx.value.denom }}s</span>
       </div>
       <div slot="details">
@@ -108,7 +108,7 @@
 
 <script>
 import LiTransaction from "./LiTransaction"
-import { pretty, atoms } from "../../scripts/num.js"
+import { atoms, full } from "../../scripts/num.js"
 import { calculateTokens } from "../../scripts/common.js"
 import moment from "moment"
 
@@ -147,7 +147,7 @@ export default {
   },
   data: () => ({
     atoms,
-    pretty
+    full
   }),
   computed: {
     tx() {
