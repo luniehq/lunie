@@ -4,7 +4,11 @@ import { addresses } from "../json/addresses"
 
 const mockRootState = {
   wallet: {
-    address: addresses[0]
+    address: addresses[0],
+    balances: [{
+      denom: `stake`,
+      amount: 1000000000
+    }]
   },
   connection: {
     connected: true
@@ -192,10 +196,11 @@ describe(`Module: Proposals`, () => {
     jest.useFakeTimers()
 
     const dispatch = jest.fn()
+    const commit = jest.fn()
     const proposalsArray = Object.values(proposals)
-    proposalsArray.forEach(async (proposal, i) => {
+    await Promise.all(proposalsArray.map(async (proposal, i) => {
       await actions.submitProposal(
-        { dispatch, rootState: mockRootState },
+        { dispatch, rootState: mockRootState, commit },
         {
           type: proposal.proposal_type,
           title: proposal.title,
@@ -219,6 +224,23 @@ describe(`Module: Proposals`, () => {
       expect(dispatch.mock.calls[i + proposalsArray.length]).toEqual([
         `getProposals`
       ])
+
+      // optimistic update
+      expect(commit).toHaveBeenCalledWith(`updateWalletBalance`, {
+        denom: `stake`,
+        amount: 1000000000 - proposal.initial_deposit[0].amount
+      })
+    }))
+
+    // optimistic update
+    expect(commit).toHaveBeenCalledWith(`setProposal`, {
+      description: `custom text proposal description`,
+      initial_deposit: [{
+        amount: `200000000`,
+        denom: `stake`,
+      }],
+      proposal_id: `1`,
+      title: `Custom text proposal`,
     })
   })
 })

@@ -58,6 +58,18 @@ describe(`SendModal`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
+  it(`clears on close`, () => {
+    wrapper.setData({ address: `test`, amount: 100000000 })
+    // produce validation error as amount is too high
+    wrapper.vm.$v.$touch()
+    expect(wrapper.vm.$v.$error).toBe(true)
+
+    wrapper.vm.clear()
+    expect(wrapper.vm.$v.$error).toBe(false)
+    expect(wrapper.vm.address).toBe(``)
+    expect(wrapper.vm.amount).toBe(0)
+  })
+
   describe(`validation`, () => {
     it(`should show address required error`, async () => {
       wrapper.setData({

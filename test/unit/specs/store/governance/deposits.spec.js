@@ -5,7 +5,11 @@ const addresses = lcdClientMock.addresses
 
 const mockRootState = {
   wallet: {
-    address: addresses[0]
+    address: addresses[0],
+    balances: [{
+      denom: `stake`,
+      amount: 100
+    }]
   },
   connection: {
     connected: true
@@ -51,6 +55,7 @@ describe(`Module: Deposits`, () => {
     jest.useFakeTimers()
 
     const dispatch = jest.fn()
+    const commit = jest.fn()
     const amount = [
       {
         denom: `stake`,
@@ -61,7 +66,7 @@ describe(`Module: Deposits`, () => {
     const proposalIds = Object.keys(proposals)
     proposalIds.forEach(async (proposal_id, i) => {
       await actions.submitDeposit(
-        { rootState: mockRootState, dispatch },
+        { rootState: mockRootState, dispatch, commit },
         { proposal_id, amount }
       )
 
@@ -81,6 +86,10 @@ describe(`Module: Deposits`, () => {
         `getProposalDeposits`,
         proposal_id
       ])
+      expect(commit).toHaveBeenCalledWith(`updateWalletBalance`, {
+        denom: `stake`,
+        amount: 85
+      })
     })
   })
 

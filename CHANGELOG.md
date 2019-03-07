@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.15] - 2019-03-07
+
+### Changed
+
+- [\#2043](https://github.com/cosmos/voyager/issues/2043) removed no-balance modals on staking page @fedekunze
+- [\#2161](https://github.com/cosmos/voyager/pull/2161) fixed status dot position @jbibla
+- [\#2193](https://github.com/cosmos/voyager/issues/2193) hide seed import @faboweb
+- [\#195](https://github.com/tendermint/devops/issues/195) updated Circle config with new wallet domain name
+
+### Fixed
+
+- [\#2195](https://github.com/cosmos/voyager/issues/2195) undelegation modal showing wrong amount @faboweb
+
 ## [1.0.0-beta.14] - 2019-03-06
 
 ### Fixed
@@ -18,10 +31,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 - [\#1306](https://github.com/cosmos/voyager/issues/1306) Withdraw fee distribution rewards @fedekunze
+- [\#1875](https://github.com/cosmos/voyager/issues/1875) optimistic updates for proposal creation @faboweb
+- [\#1876](https://github.com/cosmos/voyager/issues/1876) optimistic updates for depositing on proposals @faboweb
+
 
 ### Changed
 
+- [\#2128](https://github.com/cosmos/voyager/pull/2128) remove loading status on validator page when disconnected from the network @fedekunze
+- [\#2167](https://github.com/cosmos/voyager/pull/2167) fixed votes showing wrong tally @faboweb
+- [\#2167](https://github.com/cosmos/voyager/pull/2167) fixed not being able to deposit less then 1 atom not possible @faboweb
+- [\#2167](https://github.com/cosmos/voyager/pull/2167) fixed sorting of proposals @faboweb
 - [\#1897](https://github.com/cosmos/voyager/issues/1897) made action modals smaller @jbibla
+- [\#2179](https://github.com/cosmos/voyager/issues/2179) removed "to" field from undelegation action modal @jbibla
 
 ## [1.0.0-beta.13] - 2019-03-05
 
@@ -45,6 +66,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - [\#1887](https://github.com/cosmos/voyager/issues/1887) Activating Google Analytics anonymized by default @faboweb
 - [\#2098](https://github.com/cosmos/voyager/issues/2098) rename devMode url flag to insecure @faboweb
+- [\#1884](https://github.com/cosmos/voyager/issues/1884) Readded the possibility of e2e tests @faboweb
 
 ### Fixed
 

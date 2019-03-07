@@ -127,8 +127,8 @@ exports[`SessionSignUp has the expected html structure 1`] = `
             for="sign-up-warning"
           >
             
-            I have securely written down my seed. I understand that lost
-            seeds cannot be recovered.
+            I have securely written down my seed. I understand that lost seeds
+            cannot be recovered.
           
           </label>
         </div>
@@ -169,8 +169,6 @@ exports[`SessionSignUp has the expected html structure 1`] = `
       class="tm-session-footer"
     >
       <tm-btn-stub
-        icon="arrow_forward"
-        iconpos="right"
         size="lg"
         value="Next"
       />
