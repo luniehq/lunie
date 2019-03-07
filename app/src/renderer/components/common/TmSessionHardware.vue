@@ -13,46 +13,36 @@
         </a>
       </div>
       <div class="tm-session-main">
-        <hardware-state
-          v-if="status == 'connect'"
-          icon="usb"
-          @click.native="connectLedger()"
-        >
+        <hardware-state :loading="status === `detect` ? true : false">
           Please plug in your Ledger&nbsp;Nano&nbsp;S and open the Cosmos app
+          <p v-if="connectionError" class="error-message">
+            {{ connectionError }}
+          </p>
         </hardware-state>
-        <hardware-state
-          v-if="status == 'detect'"
-          :loading="true"
-          @click.native="setStatus('connect')"
-        >
-          Connecting...
-        </hardware-state>
+      </div>
+      <div class="tm-session-footer">
         <p class="ledger-install">
-          Don't have the Cøsmos Ledger App yet? Install it
+          Don't have the Cosmos Ledger App yet? Install it
           <a
             href="https://github.com/cosmos/voyager#ledger-cosmos-app"
             target="_blank"
             rel="noopener noreferrer"
           >
             here
-          </a>
-          .
+          </a>.
         </p>
-      </div>
-      <div class="tm-session-footer">
-        <p v-if="connectionError" class="tm-form-msg sm tm-form-msg--error">
-          {{ connectionError }}
-        </p>
+        <tm-btn value="Sign In" @click.native="connectLedger()" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import TmBtn from "common/TmBtn"
 import HardwareState from "common/TmHardwareState"
 export default {
   name: `tm-session-hardware`,
-  components: { HardwareState },
+  components: { TmBtn, HardwareState },
   data: () => ({
     status: `connect`,
     connectionError: null
@@ -68,7 +58,6 @@ export default {
       this.connectionError = error
     },
     async connectLedger() {
-      this.setConnectionError(null)
       this.setStatus(`detect`)
       try {
         await this.$store.dispatch(`connectLedgerApp`)
@@ -80,8 +69,22 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
+.error-message {
+  color: var(--danger);
+  font-size: var(--sm);
+  font-style: italic;
+  margin-bottom: 0;
+  padding-top: 1rem;
+}
+
 .ledger-install {
-  text-align: center;
+  font-size: var(--sm);
+  margin-bottom: 0;
+}
+
+.tm-session-footer {
+  padding: 0 1rem;
+  justify-content: space-between;
 }
 </style>
