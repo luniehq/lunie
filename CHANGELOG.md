@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+
+- [\#2192](https://github.com/cosmos/voyager/pull/2192) hide tm-balance on PageProposal and PagePreferences if signed out @faboweb
 
 ## [1.0.0-beta.15] - 2019-03-07
 
