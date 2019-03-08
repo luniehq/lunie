@@ -45,6 +45,8 @@ export default {
 .header-buttons {
   align-self: flex-start;
   margin-left: auto;
+  position: relative;
+  bottom: 4px;
 }
 
 .tm-page-header-title {

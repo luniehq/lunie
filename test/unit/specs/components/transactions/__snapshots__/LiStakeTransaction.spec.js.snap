@@ -8,9 +8,11 @@ exports[`LiStakeTransaction create validator 1`] = `
   <div>
     
       Create validator 
+      
     <b>
-      0.1
+      0.1000000
     </b>
+     
     <span>
        muons
     </span>
@@ -19,6 +21,7 @@ exports[`LiStakeTransaction create validator 1`] = `
   <div>
     
       Moniker: 
+      
     <router-link-stub
       to="/validator/cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2"
     >
@@ -39,9 +42,11 @@ exports[`LiStakeTransaction delegations should show delegations 1`] = `
   <div>
     
       Delegation 
+      
     <b>
-      4200
+      4,200.0000000
     </b>
+     
     <span>
        steaks
     </span>
@@ -50,6 +55,7 @@ exports[`LiStakeTransaction delegations should show delegations 1`] = `
   <div>
     
       To 
+      
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
     >
@@ -69,6 +75,7 @@ exports[`LiStakeTransaction edit validator 1`] = `
   <div>
     
       Edit validator 
+      
     <router-link-stub
       to="/validator/cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2"
     >
@@ -89,11 +96,13 @@ exports[`LiStakeTransaction redelegations should show redelegations and calculat
   <div>
     
       Redelegation 
+      
     <b>
       
-          3
-        
+        3
+      
     </b>
+     
     <span>
        stakes
     </span>
@@ -102,6 +111,7 @@ exports[`LiStakeTransaction redelegations should show redelegations and calculat
   <div>
     
       From 
+      
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
     >
@@ -110,7 +120,8 @@ exports[`LiStakeTransaction redelegations should show redelegations and calculat
       
     </router-link-stub>
     
-      to 
+       to 
+      
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
     >
@@ -131,20 +142,24 @@ exports[`LiStakeTransaction unbonding delegations should default to ended if no 
   <div>
     
       Undelegation 
+      
     <b>
       
-          1000
-        
+        1000
+      
     </b>
+     
     <span>
        stakes
     </span>
+     
     <!---->
   </div>
    
   <div>
     
       From 
+      
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
     >
@@ -165,20 +180,24 @@ exports[`LiStakeTransaction unbonding delegations should show unbonding delegati
   <div>
     
       Undelegation 
+      
     <b>
       
-          1000
-        
+        1000
+      
     </b>
+     
     <span>
        stakes
     </span>
+     
     <!---->
   </div>
    
   <div>
     
       From 
+      
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
     >
@@ -199,14 +218,17 @@ exports[`LiStakeTransaction unbonding delegations should show unbondings and cal
   <div>
     
       Undelegation 
+      
     <b>
       
-          1000
-        
+        1000
+      
     </b>
+     
     <span>
        stakes
     </span>
+     
     <span
       class="tx-unbonding__time-diff"
     >
@@ -219,6 +241,7 @@ exports[`LiStakeTransaction unbonding delegations should show unbondings and cal
   <div>
     
       From 
+      
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
     >
@@ -238,6 +261,7 @@ exports[`LiStakeTransaction unjail validator 1`] = `
   <div>
     
       Unjail 
+      
     <router-link-stub
       to="/validator/cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2"
     >

@@ -192,23 +192,18 @@ yarn watch PageValidator
 ### End to end tests
 
 End to end testing will be soon restored thanks to: [Browserstack](https://www.browserstack.com/)
-You can run all of them using:
+
+If you want to run them locally build the UI and serve the files so the E2E tests can access them:
+
+```bash
+yarn build:ui
+./node_modules/.bin/http-server /app/dist -p 8081
+```
+
+Then run the actual tests:
 
 ```bash
 yarn test:e2e
-```
-
-If you would like to run a single test please set the TEST variable (Unix systems):
-
-```bash
-TEST=test/e2e/init.js yarn test:e2e
-```
-
-You can also run the `tape` command directly. You will need to run the packages of Voyager previously if on you're on Windows:
-
-```bash
-yarn pack
-node_modules/.bin/tape test/e2e/init.js
 ```
 
 ### Code coverage
@@ -226,28 +221,10 @@ A list of all environment variables and their purpose:
 | Variable               | Values                      | default | Purpose                                                                                                                                                           |
 |------------------------|-----------------------------|---------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `NODE_ENV`             | `production`, `development` |         |                                                                                                                                                                   |
-| `COSMOS_E2E_KEEP_OPEN` | `true`, `false`             | `false` | Keep the Window open in local E2E test to see the state in which the application broke.                                                                           |
 | `CI`                   | `true`, `false`             | `false` | Adds better structured output, makes a screenshot and adds logs to files (used on CircleCI).                                                                      |
 | `ALLOW_CONSOLE`        | `true`, `false`             | `false` | Unit tests fail if they use `console.error` or `console.warn`. To see the initial use/occurences of those callings, you can escape this behavior using this flag. |
 
 ## FAQ
-
-- If tendermint crashes and the log shows `Tendermint state.AppHash does not match AppHash after replay.` delete the config folders at `$HOME/.cosmos-voyager[-dev]`.
-
-- If you use yarn, the post-install hook may not execute. If this happens you'll have to execute the script manually:
-
-```bash
-cd app
-yarn
-cd ..
-npm run rebuild
-```
-
-- If electron shows the error: `A DLL initialization routine has failed.` rebuild the electron dependencies:
-
-```bash
-npm run rebuild
-```
 
 - If you have trouble installing dependencies, remove all the lockfiles and try installing again.
 

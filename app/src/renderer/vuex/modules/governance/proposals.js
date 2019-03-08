@@ -1,5 +1,6 @@
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
+import BigNumber from "bignumber.js"
 
 export const setProposalTally = (commit, node) => async ({ value }) => {
   commit(`setProposal`, value)
@@ -50,14 +51,11 @@ export default ({ node }) => {
             proposals.map(setProposalTally(commit, node))
           )
         }
+
         state.error = null
-        state.loading = false
         state.loaded = true
+        state.loading = false
       } catch (error) {
-        commit(`notifyError`, {
-          title: `Error fetching proposals`,
-          body: error.message
-        })
         Sentry.captureException(error)
         state.error = error
       }
@@ -68,17 +66,10 @@ export default ({ node }) => {
         const proposal = await node.getProposal(proposal_id)
         setProposalTally(commit, node)(proposal)
         state.error = null
-        state.loaded = true // TODO make state for single proposal
+        state.loaded = true
         state.loading = false
         return proposal
       } catch (error) {
-        // This error currently will never be shown, we will end up in data-loading:
-        // https://github.com/cosmos/voyager/issues/2099
-
-        // commit(`notifyError`, {
-        //   title: `Error querying proposal with id #${proposal_id}`,
-        //   body: error.message
-        // })
         Sentry.captureException(error)
         state.error = error
       }
@@ -87,7 +78,8 @@ export default ({ node }) => {
     async submitProposal(
       {
         rootState: { wallet },
-        dispatch
+        dispatch,
+        commit
       },
       { title, description, type, initial_deposit, password, submitType }
     ) {
@@ -101,6 +93,26 @@ export default ({ node }) => {
         password,
         submitType
       })
+      
+      // optimistic updates
+      initial_deposit.forEach(({ amount, denom }) => {
+        const oldBalance = wallet.balances.find(balance => balance.denom === denom)
+        commit(`updateWalletBalance`, {
+          denom,
+          amount: BigNumber(oldBalance.amount).minus(amount).toNumber()
+        })
+      })
+
+      const latestId = Object.keys(state.proposals).reduce((latest, id) => {
+        return latest > Number(id) ?  latest : Number(id)
+      }, 0)
+      commit(`setProposal`, {
+        proposal_id: String(latestId + 1),
+        title,
+        description,
+        initial_deposit
+      })
+
       await dispatch(`getProposals`)
     }
   }

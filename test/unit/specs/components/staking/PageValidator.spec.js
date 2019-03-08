@@ -200,7 +200,7 @@ describe(`PageValidator`, () => {
       const delegationString = PageValidator.computed.myDelegation.call(
         { bondDenom, myBond }
       )
-      expect(delegationString).toBe(`10.0000000000 stake`)
+      expect(delegationString).toBe(`10.0000000 stake`)
     })
 
     it(`when user doesn't have any delegations`, () => {
@@ -232,7 +232,7 @@ describe(`PageValidator`, () => {
       const rewardsString = PageValidator.computed.rewards.call(
         { session, bondDenom, distribution, validator }
       )
-      expect(rewardsString).toBe(`10.0000000000 stake`)
+      expect(rewardsString).toBe(`10.0000000 stake`)
     })
 
     it(`when validator rewards are 0`, () => {
@@ -246,7 +246,7 @@ describe(`PageValidator`, () => {
       const rewardsString = PageValidator.computed.rewards.call(
         { session, bondDenom, distribution, validator }
       )
-      expect(rewardsString).toBe(`0.0000000000 stake`)
+      expect(rewardsString).toBe(`0.0000000 stake`)
     })
 
     it(`when user doesn't have any delegations`, () => {
@@ -359,75 +359,36 @@ describe(`delegationTargetOptions`, () => {
 
   describe(`Staking functions`, () => {
     describe(`onDelegation`, () => {
-      describe(`make sure we have enough atoms to delegate`, () => {
-        it(`is enough`, () => {
-          const self = {
-            action: ``,
-            liquidAtoms: 42,
-            $refs: {
-              delegationModal: {
-                open: jest.fn()
-              }
-            },
-            showCannotModal: false
-          }
-          PageValidator.methods.onDelegation.call(self)
-          expect(self.action).toBe(`delegate`)
-          expect(self.$refs.delegationModal.open).toHaveBeenCalled()
-        })
-
-        it(`is not enough`, () => {
-          const self = {
-            action: ``,
-            liquidAtoms: 0,
-            $refs: {
-              delegationModal: {
-                open: jest.fn()
-              }
-            },
-            showCannotModal: false
-          }
-          PageValidator.methods.onDelegation.call(self)
-          expect(self.action).toBe(`delegate`)
-          expect(self.showCannotModal).toBe(true)
-          expect(self.$refs.delegationModal.open).not.toHaveBeenCalled()
-        })
+      it(`should open delegation modal`, () => {
+        const self = {
+          action: ``,
+          liquidAtoms: 42,
+          $refs: {
+            delegationModal: {
+              open: jest.fn()
+            }
+          },
+          showCannotModal: false
+        }
+        PageValidator.methods.onDelegation.call(self)
+        expect(self.$refs.delegationModal.open).toHaveBeenCalled()
       })
     })
 
     describe(`onUndelegation`, () => {
-      describe(`make sure there are enough atoms to unstake`, () => {
-        it(`is enough`, () => {
-          const self = {
-            action: ``,
-            myBond: BigNumber(42),
-            $refs: {
-              undelegationModal: {
-                open: jest.fn()
-              }
-            },
-            showCannotModal: false
-          }
-          PageValidator.methods.onUndelegation.call(self)
-          expect(self.action).toBe(`undelegate`)
-          expect(self.$refs.undelegationModal.open).toHaveBeenCalled()
-        })
-
-        it(`is not enough`, () => {
-          const self = {
-            action: ``,
-            myBond: BigNumber(0),
-            $refs: {
-              undelegationModal: {
-                open: jest.fn()
-              }
-            },
-            showCannotModal: false
-          }
-          PageValidator.methods.onUndelegation.call(self)
-          expect(self.action).toBe(`undelegate`)
-          expect(self.$refs.undelegationModal.open).not.toHaveBeenCalled()
-        })
+      it(`should open undelegation modal`, () => {
+        const self = {
+          action: ``,
+          myBond: BigNumber(42),
+          $refs: {
+            undelegationModal: {
+              open: jest.fn()
+            }
+          },
+          showCannotModal: false
+        }
+        PageValidator.methods.onUndelegation.call(self)
+        expect(self.$refs.undelegationModal.open).toHaveBeenCalled()
       })
     })
   })

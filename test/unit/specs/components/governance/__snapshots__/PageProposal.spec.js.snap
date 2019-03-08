@@ -6,12 +6,6 @@ exports[`PageProposal has the expected html structure if user has signed in 1`] 
   subtitle=""
   title=""
 >
-  <template>
-    <tm-balance-stub />
-     
-    <tool-bar-stub />
-  </template>
-   
   <div
     class="page-profile__header page-profile__section proposal"
   >
@@ -101,7 +95,7 @@ exports[`PageProposal has the expected html structure if user has signed in 1`] 
          
         <dd>
           
-            200 STAKE
+            200 stake
           
         </dd>
       </dl>
@@ -158,7 +152,9 @@ exports[`PageProposal has the expected html structure if user has signed in 1`] 
         </dt>
          
         <dd>
-          0 / 0%
+          
+            0 / 0%
+          
         </dd>
       </dl>
        
@@ -217,12 +213,6 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
   subtitle=""
   title=""
 >
-  <template>
-    <tm-balance-stub />
-     
-    <tool-bar-stub />
-  </template>
-   
   <div
     class="page-profile__header page-profile__section proposal"
   >
@@ -312,7 +302,7 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
          
         <dd>
           
-            200 STAKE
+            200 stake
           
         </dd>
       </dl>
@@ -325,7 +315,7 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
         </dt>
          
         <dd>
-          0.00001
+          1000
         </dd>
       </dl>
     </div>
@@ -345,7 +335,7 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
         </dt>
          
         <dd>
-          0.000001 / 10%
+          100 / 10%
         </dd>
       </dl>
        
@@ -357,7 +347,7 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
         </dt>
          
         <dd>
-          0.000002 / 20%
+          200 / 20%
         </dd>
       </dl>
        
@@ -369,7 +359,9 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
         </dt>
          
         <dd>
-          0.000003 / 30%
+          
+            300 / 30%
+          
         </dd>
       </dl>
        
@@ -381,7 +373,7 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
         </dt>
          
         <dd>
-          0.000004 / 40%
+          400 / 40%
         </dd>
       </dl>
     </div>
@@ -428,12 +420,6 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
   subtitle=""
   title=""
 >
-  <template>
-    <tm-balance-stub />
-     
-    <tool-bar-stub />
-  </template>
-   
   <tm-data-error-stub />
 </tm-page-stub>
 `;

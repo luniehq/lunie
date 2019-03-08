@@ -14,9 +14,9 @@
       <slot slot="header-buttons" name="header-buttons" />
     </tm-page-header>
     <main class="tm-page-main">
-      <template v-if="this.$slots['managed-body']">
-        <card-sign-in-required v-if="signinRequired && !session.signedIn" />
-        <tm-data-connecting v-else-if="!loaded && !connected" />
+      <card-sign-in-required v-if="signInRequired && !session.signedIn" />
+      <template v-else-if="this.$slots['managed-body']">
+        <tm-data-connecting v-if="!loaded && !connected" />
         <tm-data-loading v-else-if="!loaded && loading" />
         <tm-data-error v-else-if="error" />
         <slot
@@ -179,7 +179,7 @@ export default {
   background: var(--app-nav);
   height: 8rem;
   width: 8rem;
-  margin: 1rem 2rem 1rem 1rem;
+  margin: 1rem;
   padding: 1rem;
 }
 
@@ -192,16 +192,14 @@ export default {
 }
 
 .page-profile__status-and-title {
-  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .page-profile__status {
   border-radius: 50%;
   display: inline-block;
   height: 0.5rem;
-  left: -1rem;
-  top: 1rem;
-  position: absolute;
   width: 0.5rem;
 }
 
@@ -209,9 +207,8 @@ export default {
   color: #fff;
   display: inline-block;
   font-size: var(--h1);
-  line-height: var(--h1);
   font-weight: 400;
-  padding: 0 0.5rem 0.5rem 0;
+  padding: 0 0.5rem;
 }
 
 .page-profile__header__actions {

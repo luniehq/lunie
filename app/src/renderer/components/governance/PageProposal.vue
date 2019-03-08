@@ -1,10 +1,5 @@
 <template>
   <tm-page data-title="Proposal">
-    <template slot="menu-body">
-      <tm-balance />
-      <tool-bar />
-    </template>
-
     <tm-data-error v-if="!proposal" />
 
     <template v-else>
@@ -32,7 +27,7 @@
                 :value="connected ? 'Vote' : 'Connecting...'"
                 :disabled="!connected"
                 color="primary"
-                @click.native="onVote"
+                @click.native="() => onVote()"
               />
               <tm-btn
                 v-if="proposal.proposal_status === 'DepositPeriod'"
@@ -83,7 +78,10 @@
               }}
             </dd>
           </dl>
-          <dl v-if="proposal.proposal_status === 'VotingPeriod'" class="info_dl colored_dl">
+          <dl
+            v-if="proposal.proposal_status === 'VotingPeriod'"
+            class="info_dl colored_dl"
+          >
             <dt>Vote Count</dt>
             <dd>{{ num.atoms(totalVotes) }}</dd>
           </dl>
@@ -91,7 +89,10 @@
       </div>
 
       <div class="page-profile__section">
-        <div v-if="proposal.proposal_status === 'VotingPeriod'" class="row">
+        <div
+          v-if="proposal.proposal_status === 'VotingPeriod'"
+          class="row"
+        >
           <dl class="info_dl colored_dl">
             <dt>Yes</dt>
             <dd>{{ num.atoms(tally.yes) }} / {{ yesPercentage }}</dd>
@@ -102,7 +103,9 @@
           </dl>
           <dl class="info_dl colored_dl">
             <dt>No with Veto</dt>
-            <dd>{{ num.atoms(tally.no_with_veto) }} / {{ noWithVetoPercentage }}</dd>
+            <dd>
+              {{ num.atoms(tally.no_with_veto) }} / {{ noWithVetoPercentage }}
+            </dd>
           </dl>
           <dl class="info_dl colored_dl">
             <dt>Abstain</dt>
@@ -139,11 +142,10 @@
 
 <script>
 import moment from "moment"
+import BigNumber from "bignumber.js"
 import { mapGetters } from "vuex"
 import num from "scripts/num"
 import TmBtn from "common/TmBtn"
-import ToolBar from "common/ToolBar"
-import TmBalance from "common/TmBalance"
 import TmDataError from "common/TmDataError"
 import TextBlock from "common/TextBlock"
 import ModalDeposit from "./ModalDeposit"
@@ -152,11 +154,9 @@ import TmPage from "common/TmPage"
 export default {
   name: `page-proposal`,
   components: {
-    TmBalance,
     TmBtn,
     ModalDeposit,
     ModalVote,
-    ToolBar,
     TmDataError,
     TmPage,
     TextBlock
@@ -193,30 +193,34 @@ export default {
       return moment(new Date(proposal.deposit_end_time)).fromNow()
     },
     totalVotes({ tally: { yes, no, no_with_veto, abstain } } = this) {
-      return yes + no + no_with_veto + abstain
+      return BigNumber(yes)
+        .plus(no)
+        .plus(no_with_veto)
+        .plus(abstain)
+        .toNumber()
     },
     yesPercentage({ tally, totalVotes } = this) {
-      return num.percentInt(tally.yes / totalVotes)
+      return num.percentInt(totalVotes === 0 ? 0 : tally.yes / totalVotes)
     },
     noPercentage({ tally, totalVotes } = this) {
-      return num.percentInt(tally.no / totalVotes)
+      return num.percentInt(totalVotes === 0 ? 0 : tally.no / totalVotes)
     },
     noWithVetoPercentage({ tally, totalVotes } = this) {
-      return num.percentInt(tally.no_with_veto / totalVotes)
+      return num.percentInt(
+        totalVotes === 0 ? 0 : tally.no_with_veto / totalVotes
+      )
     },
     abstainPercentage({ tally, totalVotes } = this) {
-      return num.percentInt(tally.abstain / totalVotes)
+      return num.percentInt(totalVotes === 0 ? 0 : tally.abstain / totalVotes)
     },
     tally({ proposals, proposalId } = this) {
-      // TODO:MICROATOMS currently causes each vote to be multiplied by this, once we receive atoms let's drop this multiplier thing
-      const multiplier = 100000000
       const { yes, no, abstain, no_with_veto } =
         proposals.tallies[proposalId] || {}
       return {
-        yes: yes / multiplier,
-        no: no / multiplier,
-        abstain: abstain / multiplier,
-        no_with_veto: no_with_veto / multiplier
+        yes: yes,
+        no: no,
+        abstain: abstain,
+        no_with_veto: no_with_veto
       }
     },
     status({ proposal } = this) {

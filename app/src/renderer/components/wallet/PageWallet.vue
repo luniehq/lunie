@@ -58,7 +58,7 @@ export default {
   computed: {
     ...mapGetters([`wallet`, `connected`, `session`]),
     enableFaucet() {
-      return !!this.wallet.externals.config.faucet
+      return !!this.wallet.externals.config.faucet && this.session.signedIn
     },
     allDenomBalances() {
       // for denoms not in balances, add empty balance

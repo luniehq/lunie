@@ -1,6 +1,5 @@
 import transactionsModule from "renderer/vuex/modules/transactions.js"
 import {
-  allTxs,
   bankTxs,
   stakingTxs,
   governanceTxs,
@@ -125,7 +124,51 @@ describe(`Module: Transactions`, () => {
     })
 
     describe(`getAllTxs`, () => {
-      it(`should get txs`, async () => {
+      it(`should get and set new txs`, async () => {
+        const dispatch = jest
+          .fn()
+          .mockImplementationOnce(async () => await bankTxs)
+          .mockImplementationOnce()
+          .mockImplementationOnce(async () => await stakingTxs)
+          .mockImplementationOnce()
+          .mockImplementationOnce(async () => await governanceTxs)
+          .mockImplementationOnce()
+          .mockImplementationOnce(async () => await distributionTxs)
+        await actions.getAllTxs({
+          commit,
+          dispatch,
+          state,
+          rootState: mockRootState
+        })
+
+        expect(dispatch).toHaveBeenCalledWith(`getTx`, `bank`)
+        expect(dispatch).toHaveBeenCalledWith(`getTx`, `staking`)
+        expect(dispatch).toHaveBeenCalledWith(`getTx`, `governance`)
+        expect(dispatch).toHaveBeenCalledWith(`getTx`, `distribution`)
+
+        expect(dispatch).toHaveBeenCalledWith(`enrichTransactions`, bankTxs)
+        expect(dispatch).toHaveBeenCalledWith(`enrichTransactions`, stakingTxs)
+        expect(dispatch).toHaveBeenCalledWith(`enrichTransactions`, governanceTxs)
+        expect(dispatch).toHaveBeenCalledWith(`enrichTransactions`, distributionTxs)
+
+        expect(commit).toHaveBeenCalledWith(`setBankTxs`, bankTxs)
+        expect(commit).toHaveBeenCalledWith(`setStakingTxs`, stakingTxs)
+        expect(commit).toHaveBeenCalledWith(`setGovernanceTxs`, governanceTxs)
+        expect(commit).toHaveBeenCalledWith(`setDistributionTxs`, distributionTxs)
+        expect(state.error).toBeNull()
+      })
+
+      it(`shouldn't set existing txs`, async () => {
+        state = {
+          loading: false,
+          loaded: false,
+          error: null,
+          bank: bankTxs,
+          staking: stakingTxs,
+          governance: governanceTxs,
+          distribution: distributionTxs
+        }
+        const commit = jest.fn()
         const dispatch = jest
           .fn()
           .mockImplementationOnce(async () => await bankTxs)
@@ -144,12 +187,15 @@ describe(`Module: Transactions`, () => {
         expect(dispatch).toHaveBeenCalledWith(`getTx`, `governance`)
         expect(dispatch).toHaveBeenCalledWith(`getTx`, `distribution`)
 
-        expect(dispatch).toHaveBeenCalledWith(`enrichTransactions`, allTxs)
+        expect(dispatch).not.toHaveBeenCalledWith(`enrichTransactions`, bankTxs)
+        expect(dispatch).not.toHaveBeenCalledWith(`enrichTransactions`, stakingTxs)
+        expect(dispatch).not.toHaveBeenCalledWith(`enrichTransactions`, governanceTxs)
+        expect(dispatch).not.toHaveBeenCalledWith(`enrichTransactions`, distributionTxs)
 
-        expect(commit).toHaveBeenCalledWith(`setBankTxs`, bankTxs)
-        expect(commit).toHaveBeenCalledWith(`setStakingTxs`, stakingTxs)
-        expect(commit).toHaveBeenCalledWith(`setGovernanceTxs`, governanceTxs)
-        expect(commit).toHaveBeenCalledWith(`setDistributionTxs`, distributionTxs)
+        expect(commit).not.toHaveBeenCalledWith(`setBankTxs`, bankTxs)
+        expect(commit).not.toHaveBeenCalledWith(`setStakingTxs`, stakingTxs)
+        expect(commit).not.toHaveBeenCalledWith(`setGovernanceTxs`, governanceTxs)
+        expect(commit).not.toHaveBeenCalledWith(`setDistributionTxs`, distributionTxs)
         expect(state.error).toBeNull()
       })
 

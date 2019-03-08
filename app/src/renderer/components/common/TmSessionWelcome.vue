@@ -1,5 +1,8 @@
 <template>
-  <div id="session-welcome" class="tm-session">
+  <div
+    id="session-welcome"
+    class="tm-session"
+  >
     <div class="tm-session-container">
       <div class="tm-session-header">
         <div class="tm-session-title">
@@ -17,9 +20,7 @@
           subtitle="If you have a Ledger Wallet, choose this option."
           @click.native="setState('hardware')"
         />
-        <template
-          v-if="session.insecureMode"
-        >
+        <template v-if="session.insecureMode">
           <li-session
             v-if="accountExists"
             id="sign-in-with-account"
@@ -35,6 +36,8 @@
             @click.native="setState('sign-up')"
           />
           <li-session
+            v-if="session.experimentalMode"
+            id="import-seed"
             icon="settings_backup_restore"
             title="Import with seed"
             subtitle="Use an existing seed phrase to create an account."
@@ -66,7 +69,7 @@ export default {
     },
     closeSession() {
       this.$store.commit(`toggleSessionModal`, false)
-    },
+    }
   }
 }
 </script>

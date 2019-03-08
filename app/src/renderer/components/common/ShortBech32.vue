@@ -58,8 +58,8 @@ export default {
 .short-bech32 .address {
   color: var(--link);
   cursor: pointer;
-  font-size: 14px;
-  line-height: 14px;
+  font-size: var(--sm);
+  font-weight: 300;
 }
 
 .short-bech32 .address:hover {
@@ -73,8 +73,6 @@ export default {
   opacity: 0;
   padding-left: 10px;
   transition: opacity 500ms ease;
-  position: relative;
-  top: -2px;
 }
 
 .short-bech32 .copied.active {

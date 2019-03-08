@@ -21,9 +21,7 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
           <h2
             class="page-profile__title"
           >
-            
-              Block #100
-            
+            Block #100
           </h2>
            
           <h3
@@ -71,7 +69,9 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
           </dt>
            
           <dd>
-            txs
+            
+              txs
+            
           </dd>
         </dl>
       </div>
@@ -95,7 +95,9 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
           </dt>
            
           <dd>
-            evidence
+            
+              evidence
+            
           </dd>
         </dl>
       </div>
@@ -125,9 +127,7 @@ exports[`PageBlock shows the page when the block hasn't been loaded yet 1`] = `
           <h2
             class="page-profile__title"
           >
-            
-              Block n/a
-            
+            Block --
           </h2>
            
           <h3
@@ -152,7 +152,7 @@ exports[`PageBlock shows the page when the block hasn't been loaded yet 1`] = `
         </dt>
          
         <dd>
-          n/a
+          --
         </dd>
       </dl>
     </div>
@@ -175,7 +175,9 @@ exports[`PageBlock shows the page when the block hasn't been loaded yet 1`] = `
           </dt>
            
           <dd>
-            No Transactions
+            
+              No Transactions
+            
           </dd>
         </dl>
       </div>
@@ -199,7 +201,9 @@ exports[`PageBlock shows the page when the block hasn't been loaded yet 1`] = `
           </dt>
            
           <dd>
-            No Evidence
+            
+              No Evidence
+            
           </dd>
         </dl>
       </div>

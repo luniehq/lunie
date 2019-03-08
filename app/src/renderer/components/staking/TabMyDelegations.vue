@@ -88,29 +88,26 @@ export default {
     unbondingTransactions: ({ transactions, delegation } = this) =>
     // Checking the type of transaction
     // getting the unbonding time and checking if it has passed already
-    /*eslint-disable */
-			transactions.staking &&
-			transactions.staking
-				.filter(
-					transaction =>
-						transaction.tx.value.msg[0].type === `cosmos-sdk/Undelegate` &&
-						time.getUnbondingTime(
-							transaction,
-							delegation.unbondingDelegations
-						) >= Date.now()
-				)
-				.map(transaction => ({
-					...transaction,
-					unbondingDelegation:
-						delegation.unbondingDelegations[
-							transaction.tx.value.msg[0].value.validator_addr
-						]
-				}))
-		/*eslint-disable */
-	},
-	mounted() {
-		this.$store.dispatch(`updateDelegates`)
-	}
+      transactions.staking && transactions.staking
+        .filter(
+          transaction =>
+            transaction.tx.value.msg[0].type === `cosmos-sdk/Undelegate`
+            && time.getUnbondingTime(
+              transaction,
+              delegation.unbondingDelegations
+            ) >= Date.now()
+        )
+        .map(transaction => ({
+          ...transaction,
+          unbondingDelegation: delegation.unbondingDelegations[
+            transaction.tx.value.msg[0].value.validator_addr
+          ]
+        }))
+
+  },
+  mounted() {
+    this.$store.dispatch(`updateDelegates`)
+  }
 }
 </script>
 <style>
