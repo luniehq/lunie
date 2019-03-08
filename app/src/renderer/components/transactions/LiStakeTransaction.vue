@@ -1,8 +1,8 @@
 <template>
   <li-transaction
     color="#47AB6C"
-    :time="transaction.time || time"
-    :block="transaction.height || height"
+    :time="transaction.time"
+    :block="transaction.height"
   >
     <template v-if="txType === `cosmos-sdk/MsgCreateValidator`">
       <div slot="caption">
@@ -143,14 +143,6 @@ export default {
     txType: {
       type: String,
       required: true
-    },
-    time: {
-      type: [Number, String],
-      default: null
-    },
-    height: {
-      type: [Number, String],
-      default: null
     }
   },
   data: () => ({

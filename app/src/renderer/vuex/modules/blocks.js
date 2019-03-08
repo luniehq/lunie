@@ -29,7 +29,7 @@ export default ({ node }) => {
   }
 
   const mutations = {
-    setLoading: (state, loading) => (state.loading = loading),
+    setBlocksLoading: (state, loading) => (state.loading = loading),
     setError: (state, error) => (state.error = error),
     setBlockHeight: (state, height) => (state.blockHeight = height),
     setSyncing: (state, syncing) => (state.syncing = syncing),
@@ -56,20 +56,19 @@ export default ({ node }) => {
     },
     async getBlockTxs({ state, commit }, height) {
       try {
-        commit(`setLoading`, true)
-        const txs = await node.getTxsByHeight(height)
+        commit(`setBlocksLoading`, true)
+        let txs = await node.getTxsByHeight(height)
         const time = state.blockMetas[height].header.time
-        txs.map(tx => Object.assign({}, tx, {
+        txs = txs.map(tx => Object.assign({}, tx, {
           height,
           time
         }))
         commit(`setBlockTransactions`, txs)
       } catch (error) {
         Sentry.captureException(error)
-        commit(`setLoading`, false)
         commit(`setError`, error)
-        return null
       }
+      commit(`setBlocksLoading`, false)
     },
     async queryBlockInfo({ state, commit }, height) {
       try {
@@ -77,11 +76,11 @@ export default ({ node }) => {
         if (blockMetaInfo) {
           return blockMetaInfo
         }
-        commit(`setLoading`, true)
+        commit(`setBlocksLoading`, true)
         const block = await node.getBlock(height)
 
         blockMetaInfo = block.block_meta
-        commit(`setLoading`, false)
+        commit(`setBlocksLoading`, false)
 
         commit(`setBlockMetas`, {
           ...state.blockMetas,
@@ -91,7 +90,7 @@ export default ({ node }) => {
         return blockMetaInfo
       } catch (error) {
         Sentry.captureException(error)
-        commit(`setLoading`, false)
+        commit(`setBlocksLoading`, false)
         commit(`setError`, error)
         return null
       }

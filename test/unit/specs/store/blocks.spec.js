@@ -53,6 +53,37 @@ describe(`Module: Blocks`, () => {
     actions = module.actions
   })
 
+  describe(`getBlockTxs`, () => {
+    it(`should fetch block txs`, async () => {
+      const state = {
+        blockMetas: {
+          [`5`]: { header: { time: 100 } }
+        }
+      }
+      node.getTxsByHeight = () => Promise.resolve([{
+        hash: `abcdefghijklm`
+      }])
+      const commit = jest.fn()
+      await actions.getBlockTxs({ state, commit }, `5`)
+      expect(commit).toHaveBeenCalledWith(`setBlocksLoading`, true)
+      expect(commit).toHaveBeenCalledWith(`setBlockTransactions`, [{
+        hash: `abcdefghijklm`,
+        time: 100,
+        height: `5`
+      }])
+    })
+
+    it(`should fail if request to full node fails`, async () => {
+      node.getTxsByHeight = () => Promise.reject(Error(`error`))
+      const commit = jest.fn()
+      await actions.getBlockTxs({ state, commit }, `5`)
+      expect(commit).not.toHaveBeenCalledWith(`setBlockTransactions`, [{
+        hash: `abcdefghijklm`
+      }])
+      expect(commit).toHaveBeenCalledWith(`setError`, Error(`error`))
+    })
+  })
+
   it(`should query block info`, async () => {
     state.blockMetas = {}
     node.getBlock = () => ({
@@ -109,8 +140,8 @@ describe(`Module: Blocks`, () => {
       1000
     )
     expect(commit.mock.calls).toEqual([
-      [`setLoading`, true],
-      [`setLoading`, false],
+      [`setBlocksLoading`, true],
+      [`setBlocksLoading`, false],
       [`setError`, error]
     ])
 
@@ -266,11 +297,11 @@ describe(`Module: Blocks mutations`, () => {
   })
 
   it(`should set the loading state`, async () => {
-    const { setLoading } = mutations
+    const { setBlocksLoading } = mutations
     const state = {}
-    setLoading(state, true)
+    setBlocksLoading(state, true)
     expect(state.loading).toEqual(true)
-    setLoading(state, false)
+    setBlocksLoading(state, false)
     expect(state.loading).toEqual(false)
   })
 

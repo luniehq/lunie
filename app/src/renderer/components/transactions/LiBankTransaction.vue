@@ -1,8 +1,8 @@
 <template>
   <li-transaction
     :color="`#ED553B`"
-    :time="transaction.time || time"
-    :block="transaction.height || height"
+    :time="transaction.time"
+    :block="transaction.height"
   >
     <template v-if="address === ''">
       <div slot="caption">
@@ -50,14 +50,6 @@ export default {
     },
     address: {
       type: String,
-      default: null
-    },
-    time: {
-      type: [Number, String],
-      default: null
-    },
-    height: {
-      type: [Number, String],
       default: null
     }
   },
