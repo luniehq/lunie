@@ -71,6 +71,7 @@ describe(`Module: Blocks`, () => {
         time: 100,
         height: `5`
       }])
+      expect(commit).toHaveBeenCalledWith(`setBlocksLoaded`, true)
     })
 
     it(`should fail if request to full node fails`, async () => {
@@ -80,7 +81,7 @@ describe(`Module: Blocks`, () => {
       expect(commit).not.toHaveBeenCalledWith(`setBlockTransactions`, [{
         hash: `abcdefghijklm`
       }])
-      expect(commit).toHaveBeenCalledWith(`setError`, Error(`error`))
+      expect(commit).toHaveBeenCalledWith(`setBlockError`, Error(`error`))
     })
   })
 
@@ -140,9 +141,10 @@ describe(`Module: Blocks`, () => {
       1000
     )
     expect(commit.mock.calls).toEqual([
+      [`setBlocksLoaded`, false],
       [`setBlocksLoading`, true],
       [`setBlocksLoading`, false],
-      [`setError`, error]
+      [`setBlockError`, error]
     ])
 
     expect(output).toBe(null)
@@ -306,10 +308,10 @@ describe(`Module: Blocks mutations`, () => {
   })
 
   it(`should set the error state`, async () => {
-    const { setError } = mutations
+    const { setBlockError } = mutations
     const state = {}
     const error = new Error(`just another error`)
-    setError(state, error)
+    setBlockError(state, error)
     expect(state.error).toEqual(error)
   })
 
