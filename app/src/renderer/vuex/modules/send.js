@@ -78,7 +78,7 @@ export default ({ node }) => {
         chain_id: rootState.connection.lastHeader.chain_id,
         gas: String(state.externals.config.default_gas),
         generate_only: true,
-        memo: `Sent via Cosmos UI`
+        memo: `Sent via Cosmos UI 🚀`
       }
       args.base_req = requestMetaData
 

@@ -75,7 +75,6 @@
 import moment from "moment"
 import { mapGetters } from "vuex"
 import num from "scripts/num"
-import { decodeTx } from "scripts/tx-utils"
 import { getUnbondingTime } from "scripts/time"
 import TmDataError from "common/TmDataError"
 import TmPage from "common/TmPage"
@@ -88,7 +87,6 @@ export default {
     LiAnyTransaction
   },
   data: () => ({
-    decodeTx,
     num,
     moment,
     getUnbondingTime

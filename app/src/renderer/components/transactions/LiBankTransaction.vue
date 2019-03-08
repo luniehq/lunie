@@ -4,7 +4,17 @@
     :time="transaction.time || time"
     :block="transaction.height || height"
   >
-    <template v-if="sent">
+    <template v-if="address === ''">
+      <div slot="caption">
+        Transfer&nbsp;<b>{{ full(atoms(coins.amount)) }}</b><span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
+      </div>
+      <span slot="details">
+        <template>
+          From {{ shortAddress(sender) }} to {{ shortAddress(receiver) }}
+        </template>
+      </span>
+    </template>
+    <template v-else-if="sent">
       <div slot="caption">
         Sent&nbsp;<b>{{ full(atoms(coins.amount)) }}</b><span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
       </div>
@@ -15,7 +25,8 @@
           To {{ receiver }}
         </template>
       </span>
-    </template><template v-else>
+    </template>
+    <template v-else>
       <div slot="caption">
         Received&nbsp;<b>{{ full(atoms(coins.amount)) }}</b><span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
       </div>
@@ -27,6 +38,7 @@
 <script>
 import LiTransaction from "./LiTransaction"
 import { atoms, full } from "../../scripts/num.js"
+import { shortAddress } from "../../scripts/common"
 
 export default {
   name: `li-bank-transaction`,
@@ -51,7 +63,8 @@ export default {
   },
   data: () => ({
     atoms,
-    full
+    full,
+    shortAddress
   }),
   computed: {
     tx() {

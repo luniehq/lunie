@@ -21,7 +21,9 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
           <h2
             class="page-profile__title"
           >
-            Block #100
+            
+              Block #100
+            
           </h2>
            
           <h3
@@ -65,12 +67,12 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
           class="info_dl colored_dl"
         >
           <dt>
-            Transactions
+            Evidence
           </dt>
            
           <dd>
             
-              txs
+              evidence
             
           </dd>
         </dl>
@@ -87,19 +89,11 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
       <div
         class="column"
       >
-        <dl
-          class="info_dl colored_dl"
-        >
-          <dt>
-            Evidence
-          </dt>
-           
-          <dd>
-            
-              evidence
-            
-          </dd>
-        </dl>
+        <h3>
+          Transactions
+        </h3>
+          
+        <br />
       </div>
     </div>
   </div>
@@ -127,7 +121,9 @@ exports[`PageBlock shows the page when the block hasn't been loaded yet 1`] = `
           <h2
             class="page-profile__title"
           >
-            Block --
+            
+              Block --
+            
           </h2>
            
           <h3
@@ -171,12 +167,12 @@ exports[`PageBlock shows the page when the block hasn't been loaded yet 1`] = `
           class="info_dl colored_dl"
         >
           <dt>
-            Transactions
+            Evidence
           </dt>
            
           <dd>
             
-              No Transactions
+              No Evidence
             
           </dd>
         </dl>
@@ -193,19 +189,11 @@ exports[`PageBlock shows the page when the block hasn't been loaded yet 1`] = `
       <div
         class="column"
       >
-        <dl
-          class="info_dl colored_dl"
-        >
-          <dt>
-            Evidence
-          </dt>
-           
-          <dd>
-            
-              No Evidence
-            
-          </dd>
-        </dl>
+        <h3>
+          Transactions
+        </h3>
+          
+        <br />
       </div>
     </div>
   </div>
