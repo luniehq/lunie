@@ -43,46 +43,46 @@ import { atoms, full } from "../../scripts/num.js"
 import { shortAddress } from "../../scripts/common"
 
 export default {
-	name: `li-bank-transaction`,
-	components: {
-		ShortBech32,
-		LiTransaction
-	},
-	props: {
-		transaction: {
-			type: Object,
-			required: true
-		},
-		address: {
-			type: String,
-			default: null
-		}
-	},
-	data: () => ({
-		atoms,
-		full,
-		shortAddress
-	}),
-	computed: {
-		tx() {
-			return this.transaction.tx.value.msg[0].value
-		},
-		// TODO: sum relevant inputs/outputs
-		sentSelf() {
-			return this.tx.from_address === this.tx.to_address
-		},
-		sent() {
-			return this.tx.from_address === this.address
-		},
-		sender() {
-			return this.tx.from_address
-		},
-		coins() {
-			return this.tx.amount[0]
-		},
-		receiver() {
-			return this.tx.to_address
-		}
-	}
+  name: `li-bank-transaction`,
+  components: {
+    ShortBech32,
+    LiTransaction
+  },
+  props: {
+    transaction: {
+      type: Object,
+      required: true
+    },
+    address: {
+      type: String,
+      default: null
+    }
+  },
+  data: () => ({
+    atoms,
+    full,
+    shortAddress
+  }),
+  computed: {
+    tx() {
+      return this.transaction.tx.value.msg[0].value
+    },
+    // TODO: sum relevant inputs/outputs
+    sentSelf() {
+      return this.tx.from_address === this.tx.to_address
+    },
+    sent() {
+      return this.tx.from_address === this.address
+    },
+    sender() {
+      return this.tx.from_address
+    },
+    coins() {
+      return this.tx.amount[0]
+    },
+    receiver() {
+      return this.tx.to_address
+    }
+  }
 }
 </script>
