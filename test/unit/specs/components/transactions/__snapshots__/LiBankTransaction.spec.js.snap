@@ -18,7 +18,10 @@ exports[`LiBankTransaction has the expected html structure 1`] = `
   </div>
    
   <span>
-    From A
+    From 
+    <short-bech32-stub
+      address="A"
+    />
   </span>
 </li-transaction-stub>
 `;
@@ -42,8 +45,10 @@ exports[`LiBankTransaction should show outgoing transactions 1`] = `
    
   <span>
     
-        To A
-      
+        To 
+    <short-bech32-stub
+      address="A"
+    />
   </span>
 </li-transaction-stub>
 `;

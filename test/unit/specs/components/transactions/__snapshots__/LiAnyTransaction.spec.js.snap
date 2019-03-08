@@ -3,7 +3,6 @@
 exports[`LiAnyTransaction shows bank transactions 1`] = `
 <li-bank-transaction-stub
   address="cosmos1address"
-  time="2042"
   transaction="[object Object]"
 />
 `;
@@ -21,7 +20,6 @@ exports[`LiAnyTransaction shows distribution transactions 1`] = `
 exports[`LiAnyTransaction shows governance transactions 1`] = `
 <li-gov-transaction-stub
   bondingdenom="atom"
-  time="42000"
   transaction="[object Object]"
   txtype="cosmos-sdk/MsgSubmitProposal"
 />

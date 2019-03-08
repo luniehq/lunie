@@ -10,7 +10,7 @@
       </div>
       <span slot="details">
         <template>
-          From {{ shortAddress(sender) }} to {{ shortAddress(receiver) }}
+          From <short-bech32 :address="sender" /> to <short-bech32 :address="receiver" />
         </template>
       </span>
     </template>
@@ -21,8 +21,9 @@
       <span slot="details">
         <template v-if="sentSelf">
           To yourself!
-        </template><template v-else>
-          To {{ receiver }}
+        </template>
+        <template v-else>
+          To <short-bech32 :address="receiver" />
         </template>
       </span>
     </template>
@@ -30,54 +31,58 @@
       <div slot="caption">
         Received&nbsp;<b>{{ full(atoms(coins.amount)) }}</b><span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
       </div>
-      <span slot="details">From {{ sender }}</span>
+      <span slot="details">From <short-bech32 :address="sender" /></span>
     </template>
   </li-transaction>
 </template>
 
 <script>
+import ShortBech32 from "common/ShortBech32"
 import LiTransaction from "./LiTransaction"
 import { atoms, full } from "../../scripts/num.js"
 import { shortAddress } from "../../scripts/common"
 
 export default {
-  name: `li-bank-transaction`,
-  components: { LiTransaction },
-  props: {
-    transaction: {
-      type: Object,
-      required: true
-    },
-    address: {
-      type: String,
-      default: null
-    }
-  },
-  data: () => ({
-    atoms,
-    full,
-    shortAddress
-  }),
-  computed: {
-    tx() {
-      return this.transaction.tx.value.msg[0].value
-    },
-    // TODO: sum relevant inputs/outputs
-    sentSelf() {
-      return this.tx.from_address === this.tx.to_address
-    },
-    sent() {
-      return this.tx.from_address === this.address
-    },
-    sender() {
-      return this.tx.from_address
-    },
-    coins() {
-      return this.tx.amount[0]
-    },
-    receiver() {
-      return this.tx.to_address
-    }
-  }
+	name: `li-bank-transaction`,
+	components: {
+		ShortBech32,
+		LiTransaction
+	},
+	props: {
+		transaction: {
+			type: Object,
+			required: true
+		},
+		address: {
+			type: String,
+			default: null
+		}
+	},
+	data: () => ({
+		atoms,
+		full,
+		shortAddress
+	}),
+	computed: {
+		tx() {
+			return this.transaction.tx.value.msg[0].value
+		},
+		// TODO: sum relevant inputs/outputs
+		sentSelf() {
+			return this.tx.from_address === this.tx.to_address
+		},
+		sent() {
+			return this.tx.from_address === this.address
+		},
+		sender() {
+			return this.tx.from_address
+		},
+		coins() {
+			return this.tx.amount[0]
+		},
+		receiver() {
+			return this.tx.to_address
+		}
+	}
 }
 </script>
