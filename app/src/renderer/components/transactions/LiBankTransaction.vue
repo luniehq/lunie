@@ -6,7 +6,7 @@
   >
     <template v-if="address === ''">
       <div slot="caption">
-        Transfer&nbsp;<b>{{ full(atoms(coins.amount)) }}</b><span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
+        Sent&nbsp;<b>{{ full(atoms(coins.amount)) }}</b><span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
       </div>
       <span slot="details">
         <template>
