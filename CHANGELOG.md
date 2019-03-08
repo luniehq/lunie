@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- [\#1959](https://github.com/cosmos/voyager/issues/1959) display transactions on block page @fedekunze
+
 ### Changed
 
 - [#\2154](https://github.com/cosmos/voyager/pull/2154) Added ledger button and style updates @jbibla

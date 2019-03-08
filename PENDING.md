@@ -4,6 +4,7 @@
 
 - [\#2104](https://github.com/cosmos/voyager/issues/2104) fix transaction times @fedekunze
 - [\#1805](https://github.com/cosmos/voyager/issues/1805) support all transaction types @fedekunze
+- [\#1959](https://github.com/cosmos/voyager/issues/1959) display transactions on block page @fedekunze
 
 ### Changed
 
