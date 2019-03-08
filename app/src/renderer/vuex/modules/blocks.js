@@ -11,26 +11,24 @@ export default ({ node }) => {
   const state = {
     blockMetaInfo: { block_id: {} },
     blockHeight: null, // we remember the height so we can requery the block, if querying failed
-    subscription: false,
-    syncing: true,
     blockMetas: {},
-    transactions: {},
-    subscribedRPC: null,
-    loading: false,
-    error: null,
     peers: [],
     blocks: [],
     // one block, specified by height
     block: {
       block: {},
       block_meta: {},
-      trasactions: {}
-    }
+      transactions: {}
+    },
+    subscription: false,
+    subscribedRPC: null,
+    syncing: true,
+    loading: false,
+    loaded: false,
+    error: null
   }
 
   const mutations = {
-    setBlocksLoading: (state, loading) => (state.loading = loading),
-    setError: (state, error) => (state.error = error),
     setBlockHeight: (state, height) => (state.blockHeight = height),
     setSyncing: (state, syncing) => (state.syncing = syncing),
     setBlockMetas: (state, blockMetas) => (state.blockMetas = blockMetas),
@@ -45,7 +43,10 @@ export default ({ node }) => {
     setSubscribedRPC: (state, subscribedRPC) =>
       (state.subscribedRPC = subscribedRPC),
     setSubscription: (state, subscription) =>
-      (state.subscription = subscription)
+      (state.subscription = subscription),
+    setBlocksLoading: (state, loading) => (state.loading = loading),
+    setBlocksLoaded: (state, loaded) => (state.loaded = loaded),
+    setBlockError: (state, error) => (state.error = error),
   }
 
   const actions = {
@@ -56,6 +57,7 @@ export default ({ node }) => {
     },
     async getBlockTxs({ state, commit }, height) {
       try {
+        commit(`setBlocksLoaded`, false)
         commit(`setBlocksLoading`, true)
         let txs = await node.getTxsByHeight(height)
         const time = state.blockMetas[height].header.time
@@ -64,18 +66,21 @@ export default ({ node }) => {
           time
         }))
         commit(`setBlockTransactions`, txs)
+        commit(`setBlocksLoaded`, true)
       } catch (error) {
         Sentry.captureException(error)
-        commit(`setError`, error)
+        commit(`setBlockError`, error)
       }
       commit(`setBlocksLoading`, false)
     },
     async queryBlockInfo({ state, commit }, height) {
       try {
+
         let blockMetaInfo = state.blockMetas[height]
         if (blockMetaInfo) {
           return blockMetaInfo
         }
+        commit(`setBlocksLoaded`, false)
         commit(`setBlocksLoading`, true)
         const block = await node.getBlock(height)
 
@@ -87,11 +92,12 @@ export default ({ node }) => {
           [height]: blockMetaInfo
         })
         commit(`setBlock`, block)
+        commit(`setBlocksLoaded`, true)
         return blockMetaInfo
       } catch (error) {
         Sentry.captureException(error)
         commit(`setBlocksLoading`, false)
-        commit(`setError`, error)
+        commit(`setBlockError`, error)
         return null
       }
     },

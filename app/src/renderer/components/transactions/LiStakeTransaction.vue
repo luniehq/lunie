@@ -156,7 +156,6 @@ export default {
     timeDiff() {
       // only show time diff if still waiting to be terminated
       if (this.state !== `locked`) return ``
-      console.log(this.time)
 
       return `(liquid ${moment(this.unbondingTime).fromNow()})`
     },
