@@ -25,7 +25,7 @@
       </h3>
       <div class="unbonding-transactions">
         <template v-for="transaction in unbondingTransactions">
-          <tm-li-stake-transaction
+          <li-stake-transaction
             :key="transaction.hash"
             :transaction="transaction"
             :validators="yourValidators"
@@ -37,6 +37,7 @@
                 delegation.unbondingDelegations
               )
             "
+            tx-type="cosmos-sdk/Undelegate"
           />
         </template>
       </div>
@@ -46,7 +47,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import TmLiStakeTransaction from "../transactions/TmLiStakeTransaction"
+import LiStakeTransaction from "../transactions/LiStakeTransaction"
 import TmDataMsg from "common/TmDataMsg"
 import CardSignInRequired from "common/CardSignInRequired"
 import TmDataLoading from "common/TmDataLoading"
@@ -61,7 +62,7 @@ export default {
     TmDataMsg,
     TmDataConnecting,
     TmDataLoading,
-    TmLiStakeTransaction,
+    LiStakeTransaction,
     CardSignInRequired
   },
   data: () => ({
@@ -71,7 +72,7 @@ export default {
   }),
   computed: {
     ...mapGetters([
-      `allTransactions`,
+      `transactions`,
       `delegates`,
       `delegation`,
       `committedDelegations`,
@@ -84,26 +85,25 @@ export default {
         ({ operator_address }) => operator_address in committedDelegations
       )
     },
-    unbondingTransactions: ({ allTransactions, delegation } = this) =>
-      // TODO still needed?
-      allTransactions
+    unbondingTransactions: ({ transactions, delegation } = this) =>
+    // Checking the type of transaction
+    // getting the unbonding time and checking if it has passed already
+      transactions.staking && transactions.staking
         .filter(
           transaction =>
-            // Checking the type of transaction
-            transaction.tx.value.msg[0].type === `cosmos-sdk/Undelegate` &&
-            // getting the unbonding time and checking if it has passed already
-            time.getUnbondingTime(
+            transaction.tx.value.msg[0].type === `cosmos-sdk/Undelegate`
+            && time.getUnbondingTime(
               transaction,
               delegation.unbondingDelegations
             ) >= Date.now()
         )
         .map(transaction => ({
           ...transaction,
-          unbondingDelegation:
-            delegation.unbondingDelegations[
-              transaction.tx.value.msg[0].value.validator_addr
-            ]
+          unbondingDelegation: delegation.unbondingDelegations[
+            transaction.tx.value.msg[0].value.validator_addr
+          ]
         }))
+
   },
   mounted() {
     this.$store.dispatch(`updateDelegates`)

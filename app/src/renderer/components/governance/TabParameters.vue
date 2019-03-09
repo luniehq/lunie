@@ -17,7 +17,7 @@
               {{
                 governanceParameters.parameters.deposit.min_deposit
                   ? minimumDeposit
-                  : `n/a`
+                  : `--`
               }}
             </dd>
           </dl>
@@ -37,7 +37,7 @@
               {{
                 governanceParameters.parameters.deposit.max_deposit_period
                   ? depositPeriodInDays + ` days`
-                  : `n/a`
+                  : `--`
               }}
             </dd>
           </dl>
@@ -64,7 +64,7 @@
                   ? `${parseFloat(
                     governanceParameters.parameters.tallying.threshold
                   ) * 100} %`
-                  : `n/a`
+                  : `--`
               }}
             </dd>
           </dl>
@@ -84,7 +84,7 @@
                   ? `${parseFloat(
                     governanceParameters.parameters.tallying.veto
                   ) * 100} %`
-                  : `n/a`
+                  : `--`
               }}
             </dd>
           </dl>
@@ -105,7 +105,7 @@
               {{
                 governanceParameters.parameters.tallying.governance_penalty
                   ? governanceParameters.parameters.tallying.governance_penalty
-                  : `n/a`
+                  : `--`
               }}
             </dd>
           </dl>
@@ -126,7 +126,7 @@
                   ? `${parseFloat(
                     governanceParameters.parameters.tallying.quorum
                   ) * 100} %`
-                  : `n/a`
+                  : `--`
               }}
             </dd>
           </dl>
@@ -151,7 +151,7 @@
               {{
                 governanceParameters.parameters.voting.voting_period
                   ? votingPeriodInDays + ` days`
-                  : `n/a`
+                  : `--`
               }}
             </dd>
           </dl>

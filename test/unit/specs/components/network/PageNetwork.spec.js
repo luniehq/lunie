@@ -61,7 +61,21 @@ describe(`PageNetwork`, () => {
     })
   })
 
-  it(`has the expected html structure`, () => {
+  it(`should display the network page with data and the blocks table`, () => {
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
+  it(`should display the network page with the blocks table in a loading state`, () => {
+    $store.getters.blocks = []
+
+    wrapper = shallowMount(PageNetwork, {
+      localVue,
+      mocks: {
+        $store
+      },
+      stubs: [`router-link`]
+    })
+
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 

@@ -1,7 +1,7 @@
 import { mount } from "@vue/test-utils"
-import TmLiTransaction from "transactions/TmLiTransaction"
+import LiTransaction from "transactions/LiTransaction"
 
-describe(`TmLiTransaction`, () => {
+describe(`LiTransaction`, () => {
   let wrapper
   const propsData = {
     color: `#FFFFFF`,
@@ -10,7 +10,7 @@ describe(`TmLiTransaction`, () => {
   }
 
   beforeEach(() => {
-    wrapper = mount(TmLiTransaction, {
+    wrapper = mount(LiTransaction, {
       propsData,
       slots: {
         caption: `<span>Some Caption</span>`,
@@ -20,19 +20,19 @@ describe(`TmLiTransaction`, () => {
     })
   })
 
-  it(`has the expected html structure`, () => {
+  it(`should show a transaction item`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`Should print the hour only if the same day`, () => {
-    expect(TmLiTransaction.computed.date({ time: Date.now() })).toEqual(
+    expect(LiTransaction.computed.date({ time: Date.now() })).toEqual(
       `00:00:42`
     )
   })
 
   it(`Should print the datetime if we are in a different day`, () => {
     expect(
-      TmLiTransaction.computed.date({ time: Date.now() + 999999999 })
+      LiTransaction.computed.date({ time: Date.now() + 999999999 })
     ).toEqual(`Jan 12th 1970 13:47:21`)
   })
 })
