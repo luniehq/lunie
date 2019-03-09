@@ -11,36 +11,43 @@ const {
   initGenesis,
   makeExec,
   nodeBinary,
-  sendMoneyToFixedAccounts
-} = require(`../../gaia`)
+  sendTokens
+} = require(`../gaia`)
 
-const buildLocalNode = buildTestnetPath => async ({
+const buildLocalTestnet = async (
+  buildTestnetPath,
   numberNodes,
-  ...options
-}) => {
-  try {
-    const { nodes, mainAccountSignInfo } = await buildNodes(
-      buildTestnetPath,
-      options,
-      numberNodes,
-      false
-    )
-    console.log(`\n    🎉  SUCCESS 🎉\n`)
-    console.log(
-      `To start Voyager with ${nodes.length - 1} local node${
-        nodes.length > 2 ? `s` : ``
-      } please run:
-  yarn start local-testnet
+  options
+) => {
+  options = Object.assign({
+    chainId: `default-testnet`,
+    password: `1234567890`,
+    overwrite: true,
+    moniker: `local`,
+    keyName: `account-with-funds`
+  }, options)
+  const { nodes, mainAccountSignInfo } = await buildNodes(
+    buildTestnetPath,
+    options,
+    numberNodes,
+    false
+  )
+  await nodesInitialStart(nodes, mainAccountSignInfo, options.chainId)
 
-Default account:
-  username: '${mainAccountSignInfo.keyName}'
-  password: '${mainAccountSignInfo.password}'
+  const { mnemonic, address } = await sendMoneyToFixedAccounts(mainAccountSignInfo, options.chainId)
+
+  console.log(`\n    🎉  SUCCESS 🎉\n`)
+  console.log(
+    `The local testnet is running with ${nodes.length - 1} local node${
+      nodes.length > 2 ? `s` : ``
+    }. On consecutive just restart it with:
+  yarn start
+
+Import this account which owns tokens:
+  address: '${address}'
+  mnemonic: '${mnemonic}'
 `
-    )
-  } catch (error) {
-    console.log(`Encountered an Error:`)
-    console.error(error.msg ? error : String(error))
-  }
+  )
 }
 
 // save the version of the currently used gaia into the newly created network config folder
@@ -54,7 +61,7 @@ const saveVersion = nodeHome => {
 
 // nodes[0] is a placeholder just to be aligned with the enumeration used in gaia
 // TODO: next PR refactor also gaia to simplify numeration
-const startNodes = async (nodes, mainAccountSignInfo, chainId) => {
+const nodesInitialStart = async (nodes, mainAccountSignInfo, chainId) => {
   for (let i = 1; i < nodes.length; i++) {
     // start secondary nodes and connect to node one
     // wait until all nodes are showing blocks, so we know they are running
@@ -73,13 +80,7 @@ const startNodes = async (nodes, mainAccountSignInfo, chainId) => {
 
 const buildNodes = async (
   targetDir,
-  options = {
-    chainId: `default-testnet`,
-    password: `1234567890`,
-    overwrite: true,
-    moniker: `local`,
-    keyName: `account-with-funds`
-  },
+  options,
   numberNodes = 1,
   isTest = false
 ) => {
@@ -118,8 +119,6 @@ const buildNodes = async (
       genesis = await initGenesis(mainAccountSignInfo, account.address, home)
     }
   }
-
-  sendMoneyToFixedAccounts(mainAccountSignInfo, options.chainId)
 
   return { nodes, mainAccountSignInfo, genesis, cliHomePrefix }
 }
@@ -209,28 +208,17 @@ function adjustConfig(nodeHome, isTest = false, strictAddressbook = false) {
   fs.writeFileSync(configPath, updatedConfigToml, `utf8`)
 }
 
-// const setupAccounts = async (srcClientDir, dstClientDir, options) => {
-//   // use the master account that holds funds from node 1
-//   // to use it, we copy the key database from node one to our Voyager cli config folder
-//   fs.copySync(srcClientDir, dstClientDir)
+const defaultRichAccount = {
+  mnemonic: `release endorse scale across absurd trouble climb unaware actor elite fantasy chair license word rare length business kiss smoke tackle report february bid ginger`,
+  address: `cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e`
+}
+async function sendMoneyToFixedAccounts(mainAccountSignInfo, chainId) {
+  await sendTokens(mainAccountSignInfo, `${100 * 10e6}stake`, defaultRichAccount.address, chainId)
 
-//   // this account is later used to send funds to, to test token sending
-//   await createKey({
-//     keyName: (options && options.keyName) || `testreceiver`,
-//     password: (options && options.password) || `1234567890`,
-//     clientHomeDir: dstClientDir
-//   })
-
-//   const accounts = await getKeys(dstClientDir)
-//   console.log(`setup test accounts`, accounts)
-
-//   return accounts
-// }
+  return defaultRichAccount
+}
 
 module.exports = {
-  buildLocalNode,
-  buildNodes,
-  saveVersion,
-  // setupAccounts,
-  startNodes
+  buildLocalTestnet,
+  defaultRichAccount
 }
