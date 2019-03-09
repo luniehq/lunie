@@ -40,7 +40,7 @@
                 delegation.unbondingDelegations
               )
             "
-            tx-type="cosmos-sdk/Undelegate"
+            tx-type="cosmos-sdk/MsgUndelegate"
           />
         </template>
       </div>
@@ -88,7 +88,7 @@ export default {
         ({ operator_address }) => operator_address in committedDelegations
       )
     },
-    unbondingTransactions: ({ allTransactions, delegation } = this) =>
+    unbondingTransactions: ({ transactions, delegation } = this) =>
       transactions.staking &&
       transactions.staking
         .filter(transaction => {
@@ -112,11 +112,22 @@ export default {
             ]
         }))
   },
+  watch: {
+    "session.signedIn": function() {
+      this.loadStakingTxs()
+    }
+  },
   async mounted() {
     this.$store.dispatch(`updateDelegates`)
-
-    const stakingTxs = await this.$store.dispatch(`getTx`, `staking`)
-    this.$store.commit(`setStakingTxs`, stakingTxs)
+    this.loadStakingTxs()
+  },
+  methods: {
+    async loadStakingTxs() {
+      if (this.session.signedIn) {
+        const stakingTxs = await this.$store.dispatch(`getTx`, `staking`)
+        this.$store.commit(`setStakingTxs`, stakingTxs)
+      }
+    }
   }
 }
 </script>

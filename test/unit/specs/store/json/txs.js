@@ -324,7 +324,7 @@ export const stakingTxs = [
       value: {
         msg: [
           {
-            type: `cosmos-sdk/BeginRedelegate`,
+            type: `cosmos-sdk/MsgBeginRedelegate`,
             value: {
               validator_src_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
               validator_dst_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,

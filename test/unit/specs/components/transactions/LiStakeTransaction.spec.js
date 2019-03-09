@@ -91,7 +91,7 @@ describe(`LiStakeTransaction`, () => {
   describe(`redelegations`, () => {
     it(`should show redelegations and calculate tokens from shares`, () => {
       propsData.transaction = stakingTxs[4]
-      propsData.txType = `cosmos-sdk/BeginRedelegate`
+      propsData.txType = `cosmos-sdk/MsgBeginRedelegate`
 
       wrapper = shallowMount(LiStakeTransaction, {
         propsData,

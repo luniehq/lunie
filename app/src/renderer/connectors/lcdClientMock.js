@@ -928,7 +928,7 @@ Msg Traces:
     updateValidatorShares(state, validator_src_addr, -shares)
     updateValidatorShares(state, validator_dst_addr, shares)
 
-    storeTx(`cosmos-sdk/BeginRedelegate`, {
+    storeTx(`cosmos-sdk/MsgBeginRedelegate`, {
       delegator_addr,
       validator_src_addr,
       validator_dst_addr,
@@ -972,7 +972,7 @@ Msg Traces:
       const type = tx.tx.value.msg[0].type
       if (
         type === `cosmos-sdk/MsgDelegate` ||
-        type === `cosmos-sdk/BeginRedelegate` ||
+        type === `cosmos-sdk/MsgBeginRedelegate` ||
         type === `cosmos-sdk/MsgUndelegate`
       ) {
         return tx.tx.value.msg[0].value.delegator_addr === addr
@@ -985,7 +985,7 @@ Msg Traces:
     types = types.map(type => {
       if (type === `bonding`) return `cosmos-sdk/MsgDelegate`
       if (type === `unbonding`) return `cosmos-sdk/MsgUndelegate`
-      if (type === `redelegate`) return `cosmos-sdk/BeginRedelegate`
+      if (type === `redelegate`) return `cosmos-sdk/MsgBeginRedelegate`
     })
 
     return delegatorTxs.filter(

@@ -1,58 +1,48 @@
 <template>
-  <li-bank-transaction
+  <tm-li-bank-transaction
     v-if="bankTx"
     :transaction="transaction"
     :address="address"
   />
-  <li-stake-transaction
+  <tm-li-stake-transaction
     v-else-if="stakingTx"
     :transaction="transaction"
     :validators="validators"
     :url="validatorsUrl"
     :unbonding-time="unbondingTime"
     :bonding-denom="bondingDenom"
-    :tx-type="type"
+    @end-unbonding="$emit('end-unbonding')"
   />
-  <li-gov-transaction
+  <tm-li-gov-transaction
     v-else-if="governanceTx"
     :transaction="transaction"
     :bonding-denom="bondingDenom"
     :url="proposalsUrl"
-    :tx-type="type"
   />
-  <li-distribution-transaction
-    v-else-if="distributionTx"
-    :transaction="transaction"
-    :url="validatorsUrl"
-    :bonding-denom="bondingDenom"
-    :tx-type="type"
-    :validators="validators"
-  />
-  <li-transaction
+  <tm-li-transaction
     v-else
+    :color="colors.grey"
     :time="transaction.time"
     :block="transaction.height"
-    color="grey"
   >
     <span slot="caption">Unknown Transaction Type</span>
-  </li-transaction>
+  </tm-li-transaction>
 </template>
 
 <script>
-import LiBankTransaction from "./LiBankTransaction"
-import LiStakeTransaction from "./LiStakeTransaction"
-import LiGovTransaction from "./LiGovTransaction"
-import LiDistributionTransaction from "./LiDistributionTransaction"
-import LiTransaction from "./LiTransaction"
+import TmLiBankTransaction from "./TmLiBankTransaction"
+import TmLiStakeTransaction from "./TmLiStakeTransaction"
+import TmLiGovTransaction from "./TmLiGovTransaction"
+import TmLiTransaction from "./TmLiTransaction"
+import colors from "./transaction-colors.js"
 
 export default {
-  name: `li-any-transaction`,
+  name: `TmLiAnyTransaction`,
   components: {
-    LiBankTransaction,
-    LiGovTransaction,
-    LiStakeTransaction,
-    LiDistributionTransaction,
-    LiTransaction
+    TmLiBankTransaction,
+    TmLiGovTransaction,
+    TmLiStakeTransaction,
+    TmLiTransaction
   },
   props: {
     transaction: {
@@ -84,6 +74,7 @@ export default {
       default: null
     }
   },
+  data: () => ({ colors }),
   computed: {
     type() {
       return this.transaction.tx.value.msg[0].type
@@ -93,27 +84,16 @@ export default {
     },
     stakingTx() {
       return [
-        `cosmos-sdk/MsgCreateValidator`,
-        `cosmos-sdk/MsgEditValidator`,
         `cosmos-sdk/MsgDelegate`,
         `cosmos-sdk/MsgUndelegate`,
-        `cosmos-sdk/MsgBeginRedelegate`,
-        `cosmos-sdk/MsgUnjail`
+        `cosmos-sdk/CompleteUnbonding`,
+        `cosmos-sdk/MsgBeginRedelegate`
       ].includes(this.type)
     },
     governanceTx() {
-      return [
-        `cosmos-sdk/MsgSubmitProposal`,
-        `cosmos-sdk/MsgDeposit`,
-        `cosmos-sdk/MsgVote`
-      ].includes(this.type)
-    },
-    distributionTx() {
-      return [
-        `cosmos-sdk/MsgSetWithdrawAddress`,
-        `cosmos-sdk/MsgWithdrawDelegationReward`,
-        `cosmos-sdk/MsgWithdrawValidatorCommission`
-      ].includes(this.type)
+      return [`cosmos-sdk/MsgSubmitProposal`, `cosmos-sdk/MsgDeposit`].includes(
+        this.type
+      )
     }
   }
 }
