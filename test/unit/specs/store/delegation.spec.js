@@ -78,7 +78,7 @@ describe(`Module: Delegations`, () => {
         ),
         getUndelegations: jest.fn(() => [
           {
-            validator_addr: lcdClientMock.validators[0],
+            validator_address: lcdClientMock.validators[0],
             balance: { amount: 1 },
             min_time: new Date(Date.now()).toUTCString()
           }
@@ -123,7 +123,7 @@ describe(`Module: Delegations`, () => {
       expect(node.getUndelegations).toHaveBeenCalled()
       expect(commit).toHaveBeenCalledWith(`setUnbondingDelegations`, [
         {
-          validator_addr: lcdClientMock.validators[0],
+          validator_address: lcdClientMock.validators[0],
           balance: { amount: 1 },
           min_time: new Date(Date.now()).toUTCString()
         }
@@ -137,7 +137,7 @@ describe(`Module: Delegations`, () => {
       })
       mutations.setUnbondingDelegations(state, [
         {
-          validator_addr: lcdClientMock.validators[2],
+          validator_address: lcdClientMock.validators[2],
           balance: {
             amount: 1
           }
@@ -165,7 +165,7 @@ describe(`Module: Delegations`, () => {
       })
       expect(commit).toHaveBeenCalledWith(`setUnbondingDelegations`, [
         {
-          validator_addr: lcdClientMock.validators[0],
+          validator_address: lcdClientMock.validators[0],
           balance: { amount: 1 },
           min_time: `Thu, 01 Jan 1970 00:00:42 GMT`
         }
@@ -237,7 +237,7 @@ describe(`Module: Delegations`, () => {
   it(`deletes undelegations that are 0`, async () => {
     mutations.setUnbondingDelegations(state, [
       {
-        validator_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+        validator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
         balance: { amount: 0 }
       }
     ])
@@ -318,7 +318,7 @@ describe(`Module: Delegations`, () => {
   it(`should store a undelegation`, async () => {
     mutations.setUnbondingDelegations(state, [
       {
-        validator_addr: lcdClientMock.validators[0],
+        validator_address: lcdClientMock.validators[0],
         balance: { amount: `100` },
         creation_height: `12`,
         min_time: new Date().toUTCString()
@@ -364,7 +364,7 @@ describe(`Module: Delegations`, () => {
       },
       {
         amount: 100,
-        validator_addr: delegates[0].operator_address,
+        validator_address: delegates[0].operator_address,
         password: `12345`
       }
     )

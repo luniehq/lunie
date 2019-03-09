@@ -33,7 +33,7 @@ const Client = (axios, remoteLcdURL) => {
     nodeVersion: req(`GET`, `/node_version`),
 
     // tx
-    postTx: req(`POST`, `/tx/broadcast`),
+    postTx: req(`POST`, `/txs`),
 
     // coins
     send: argReq(`POST`, `/bank/accounts`, `/transfers`),

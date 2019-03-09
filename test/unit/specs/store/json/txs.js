@@ -190,7 +190,7 @@ export default [
           {
             type: `cosmos-sdk/MsgDelegate`,
             value: {
-              validator_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+              validator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
               delegation: {
                 amount: `42000000000`,
                 denom: `steak`
@@ -251,7 +251,7 @@ export default [
           {
             type: `cosmos-sdk/Undelegate`,
             value: {
-              validator_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+              validator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
               shares_amount: `10000000000`
             }
           }
@@ -308,8 +308,8 @@ export default [
           {
             type: `cosmos-sdk/BeginRedelegate`,
             value: {
-              validator_src_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
-              validator_dst_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
+              validator_src_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+              validator_dst_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
               shares_amount: `30000000`
             }
           }

@@ -145,7 +145,7 @@ export default {
     },
     async submitDelegation(submitType, password) {
       await this.$store.dispatch(`submitDelegation`, {
-        validator_addr: this.validator.operator_address,
+        validator_address: this.validator.operator_address,
         amount: String(uatoms(this.amount)),
         submitType,
         password

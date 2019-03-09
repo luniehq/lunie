@@ -2,7 +2,7 @@ import { shallowMount } from "@vue/test-utils"
 import TabMyDelegations from "renderer/components/staking/TabMyDelegations"
 import validators from "../../store/json/validators.js"
 
-const delegator_addr = `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+const delegator_address = `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
 
 const getters = { 
   allTransactions: [],
@@ -75,8 +75,8 @@ describe(`Component: TabMyDelegations`, () => {
               {
                 type: `cosmos-sdk/Undelegate`,
                 value: {
-                  validator_addr: validators[0].operator_address,
-                  delegator_addr,
+                  validator_address: validators[0].operator_address,
+                  delegator_address,
                   shares: `5`
                 }
               }
@@ -137,8 +137,8 @@ describe(`Component: TabMyDelegations`, () => {
               {
                 type: `cosmos-sdk/Undelegate`,
                 value: {
-                  validator_addr: validators[0].operator_address,
-                  delegator_addr,
+                  validator_address: validators[0].operator_address,
+                  delegator_address,
                   shares: `5`
                 }
               }

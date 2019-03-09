@@ -108,8 +108,8 @@ describe(`PageTransactions`, () => {
             {
               type: `cosmos-sdk/MsgDelegate`,
               value: {
-                validator_addr: validatorAddresses[0],
-                delegator_addr: addresses[0],
+                validator_address: validatorAddresses[0],
+                delegator_address: addresses[0],
                 delegation: {
                   amount: `24`,
                   denom: `STAKE`
@@ -129,8 +129,8 @@ describe(`PageTransactions`, () => {
             {
               type: `cosmos-sdk/BeginUnbonding`,
               value: {
-                validator_addr: validatorAddresses[0],
-                delegator_addr: addresses[0],
+                validator_address: validatorAddresses[0],
+                delegator_address: addresses[0],
                 shares: `5`
               }
             }

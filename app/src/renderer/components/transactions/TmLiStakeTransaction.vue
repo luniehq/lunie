@@ -9,9 +9,9 @@
         Delegated&nbsp;<b>{{ pretty(atoms(tx.delegation.amount)) }}</b><span>&nbsp;{{ bondingDenom }}s</span>
       </div>
       <div slot="details">
-        To&nbsp;<router-link :to="url + '/' + tx.validator_addr">
+        To&nbsp;<router-link :to="url + '/' + tx.validator_address">
           {{
-            moniker(tx.validator_addr)
+            moniker(tx.validator_address)
           }}
         </router-link>
       </div>
@@ -20,20 +20,20 @@
         Redelegated&nbsp;<template>
           <b>
             {{
-              calculatePrettifiedTokens(tx.validator_src_addr, tx.shares_amount)
+              calculatePrettifiedTokens(tx.validator_src_address, tx.shares_amount)
             }}
           </b><span>&nbsp;{{ bondingDenom }}s</span>
         </template>
       </div>
       <div slot="details">
-        From&nbsp;<router-link :to="url + '/' + tx.validator_src_addr">
+        From&nbsp;<router-link :to="url + '/' + tx.validator_src_address">
           {{
-            moniker(tx.validator_src_addr)
+            moniker(tx.validator_src_address)
           }}
         </router-link>
-        to&nbsp;<router-link :to="url + '/' + tx.validator_dst_addr">
+        to&nbsp;<router-link :to="url + '/' + tx.validator_dst_address">
           {{
-            moniker(tx.validator_dst_addr)
+            moniker(tx.validator_dst_address)
           }}
         </router-link>
       </div>
@@ -42,7 +42,7 @@
         Undelegated&nbsp;<template>
           <b>
             {{
-              calculatePrettifiedTokens(tx.validator_addr, tx.shares_amount)
+              calculatePrettifiedTokens(tx.validator_address, tx.shares_amount)
             }}
           </b><span>&nbsp;{{ bondingDenom }}s</span>
         </template><template
@@ -56,9 +56,9 @@
         </template>
       </div>
       <div slot="details">
-        From&nbsp;<router-link :to="url + '/' + tx.validator_addr">
+        From&nbsp;<router-link :to="url + '/' + tx.validator_address">
           {{
-            moniker(tx.validator_addr)
+            moniker(tx.validator_address)
           }}
         </router-link>
       </div>
