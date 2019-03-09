@@ -9,7 +9,7 @@ async function start(urlParams, environment) {
   const store = {
     state: {},
     commit: jest.fn(),
-    dispatch: jest.fn()
+    dispatch: jest.fn(() => Promise.resolve())
   }
   const Store = () => store
   const $mount = jest.fn()
