@@ -116,8 +116,11 @@ export const startApp = async (
     store.commit(`setRpcUrl`, urlParams.rpc)
   }
 
-  store.dispatch(`connect`)
   store.dispatch(`showInitialScreen`)
+  store.dispatch(`connect`)
+    .then(() => {
+      store.dispatch(`checkForPersistedSession`)
+    })
 
   return new Vue({
     router,
