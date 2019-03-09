@@ -103,7 +103,7 @@ describe(`Module: Delegations`, () => {
       )
     })
 
-    it.only(`fetches bonded delegates`, async () => {
+    it(`fetches bonded delegates`, async () => {
       expect(node.getDelegations).toHaveBeenCalled()
       expect(commit).toHaveBeenCalledWith(`setCommittedDelegation`, { candidateId: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`, value: 14 })
       expect(commit).toHaveBeenCalledWith(
