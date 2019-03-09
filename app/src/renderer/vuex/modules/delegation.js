@@ -42,13 +42,11 @@ export default ({ node }) => {
     setUnbondingDelegations(state, unbondingDelegations) {
       state.unbondingDelegations = unbondingDelegations
         ? unbondingDelegations
-        // building a dict from the array and taking out the transactions with amount 0
+        // building a dict from the array and taking out the validators with no undelegations
           .reduce(
             (dict, { validator_address, entries }) => ({
               ...dict,
-              [validator_address]: entries.filter(({
-                balance
-              }) => balance !== `0`) || undefined
+              [validator_address]: entries.length > 0 ? entries : undefined
             }),
             {}
           )
@@ -142,7 +140,7 @@ export default ({ node }) => {
     },
     async submitDelegation(
       {
-        rootState: { stakingParameters, wallet },
+        rootState: { stakingParameters, session },
         getters: { liquidAtoms },
         state,
         dispatch,
@@ -158,10 +156,10 @@ export default ({ node }) => {
 
       await dispatch(`sendTx`, {
         type: `postDelegation`,
-        to: wallet.address, // TODO strange syntax
+        to: session.address, // TODO strange syntax
         password,
         submitType,
-        delegator_address: wallet.address,
+        delegator_address: session.address,
         validator_address,
         delegation
       })
@@ -182,7 +180,7 @@ export default ({ node }) => {
     },
     async submitUnbondingDelegation(
       {
-        rootState: { wallet },
+        rootState: { session },
         dispatch
       },
       { validator, amount, password, submitType }
@@ -193,8 +191,8 @@ export default ({ node }) => {
       )
       await dispatch(`sendTx`, {
         type: `postUnbondingDelegation`,
-        to: wallet.address,
-        delegator_address: wallet.address,
+        to: session.address,
+        delegator_address: session.address,
         validator_address: validator.operator_address,
         shares,
         password,
@@ -203,7 +201,7 @@ export default ({ node }) => {
     },
     async submitRedelegation(
       {
-        rootState: { wallet },
+        rootState: { session },
         dispatch
       },
       { validatorSrc, validatorDst, amount, password, submitType }
@@ -214,8 +212,8 @@ export default ({ node }) => {
 
       await dispatch(`sendTx`, {
         type: `postRedelegation`,
-        to: wallet.address,
-        delegator_address: wallet.address,
+        to: session.address,
+        delegator_address: session.address,
         validator_src_address: validatorSrc.operator_address,
         validator_dst_address: validatorDst.operator_address,
         shares,

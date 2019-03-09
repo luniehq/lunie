@@ -2,9 +2,6 @@ import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 import delegationModule from "renderer/vuex/modules/delegation.js"
 
 const mockRootState = {
-  wallet: {
-    address: lcdClientMock.addresses[0]
-  },
   connection: {
     connected: true
   },
@@ -19,10 +16,10 @@ describe(`Module: Delegations`, () => {
   let state, actions, mutations
 
   beforeEach(() => {
-    const module = delegationModule({ node: {} })
-    state = module.state
-    actions = module.actions
-    mutations = module.mutations
+    const instance = delegationModule({ node: {} })
+    state = instance.state
+    actions = instance.actions
+    mutations = instance.mutations
   })
 
   it(`adds delegate to cart`, () => {
@@ -87,12 +84,12 @@ describe(`Module: Delegations`, () => {
             lcdClientMock.state.stake[lcdClientMock.addresses[0]].redelegations
         )
       }
-      const module = delegationModule({
+      const instance = delegationModule({
         node
       })
-      state = module.state
-      actions = module.actions
-      mutations = module.mutations
+      state = instance.state
+      actions = instance.actions
+      mutations = instance.mutations
       commit = jest.fn()
 
       await actions.getBondedDelegates(
@@ -270,12 +267,12 @@ describe(`Module: Delegations`, () => {
       getUndelegations: jest.fn(() => []),
       getRedelegations: jest.fn(() => [])
     }
-    const module = delegationModule({
+    const instance = delegationModule({
       node
     })
-    state = module.state
-    actions = module.actions
-    mutations = module.mutations
+    state = instance.state
+    actions = instance.actions
+    mutations = instance.mutations
     const commit = jest.fn()
 
     const rootState = JSON.parse(JSON.stringify(mockRootState))
