@@ -6,7 +6,7 @@ const mockRootState = {
     connected: true
   },
   session: {
-    address: `cosmos1234`,
+    address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
     signedIn: true
   },
   stakingParameters: lcdClientMock.state.stakingParameters
@@ -286,7 +286,7 @@ describe(`Module: Delegations`, () => {
       lcdClientMock.state.candidates
     )
 
-    rootState.wallet.address = `other_address`
+    rootState.session.address = `other_address`
 
     jest.runAllTimers()
 
