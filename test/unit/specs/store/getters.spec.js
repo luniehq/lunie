@@ -44,20 +44,24 @@ describe(`Store: getters`, () => {
       }
     })
 
-    expect(result).toBe(`42.9`)
+    expect(result.toNumber()).toBe(42.9)
   })
 
   it(`oldUnbondingAtoms`, () => {
     const result = oldUnbondingAtoms({
       delegation: {
-        unbondingDelegations: [{
-          balance: { amount: 42 }
-        }, {
-          balance: { amount: 9 }
-        }]
-      }
+        unbondingDelegations: {
+          validator1: [{
+            balance: `42`
+          }],
+          validator2: [{
+            balance: `9`
+          }, {
+            balance: `12`
+          }]
+        } }
     })
 
-    expect(result).toBe(51)
+    expect(result.toNumber()).toBe(63)
   })
 })

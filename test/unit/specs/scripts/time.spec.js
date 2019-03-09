@@ -10,10 +10,10 @@ describe(`time helper`, () => {
       const address = delegates[0].operator_address
       expect(
         time.getUnbondingTime(transaction, {
-          [address]: {
+          [address]: [{
             creation_height: `170`,
             min_time: new Date().toISOString()
-          }
+          }]
         })
       ).toBe(NaN)
     })
@@ -22,10 +22,10 @@ describe(`time helper`, () => {
       const address = delegates[0].operator_address
       expect(
         time.getUnbondingTime(unbondingTransaction, {
-          [address]: {
+          [address]: [{
             creation_height: `171`,
             min_time: new Date().toISOString()
-          }
+          }]
         })
       ).toBe(NaN)
     })
@@ -34,10 +34,10 @@ describe(`time helper`, () => {
       const address = delegates[0].operator_address
       expect(
         time.getUnbondingTime(unbondingTransaction, {
-          [address]: {
+          [address]: [{
             creation_height: `170`,
             min_time: new Date(Date.now()).toISOString()
-          }
+          }]
         })
       ).toBe(42000)
     })

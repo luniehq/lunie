@@ -6,7 +6,10 @@
     </div>
     <tm-data-connecting v-else-if="!delegation.loaded && !connected" />
     <tm-data-loading v-else-if="!delegation.loaded && delegation.loading" />
-    <tm-data-msg v-else-if="yourValidators.length === 0" icon="info_outline">
+    <tm-data-msg
+      v-else-if="yourValidators.length === 0"
+      icon="info_outline"
+    >
       <div slot="title">
         No Active Delegations
       </div>
@@ -87,16 +90,19 @@ export default {
     unbondingTransactions: ({ allTransactions, delegation } = this) =>
       // TODO still needed?
       allTransactions
-        .filter(
-          transaction =>
-            // Checking the type of transaction
-            transaction.tx.value.msg[0].type === `cosmos-sdk/Undelegate` &&
-            // getting the unbonding time and checking if it has passed already
-            time.getUnbondingTime(
-              transaction,
-              delegation.unbondingDelegations
-            ) >= Date.now()
-        )
+        .filter(transaction => {
+          // Checking the type of transaction
+          if (transaction.tx.value.msg[0].type !== `cosmos-sdk/MsgUndelegate`)
+            return false
+
+          // getting the unbonding time and checking if it has passed already
+          const unbondingEndTime = time.getUnbondingTime(
+            transaction,
+            delegation.unbondingDelegations
+          )
+
+          if (unbondingEndTime && unbondingEndTime >= Date.now()) return true
+        })
         .map(transaction => ({
           ...transaction,
           unbondingDelegation:
@@ -105,8 +111,11 @@ export default {
             ]
         }))
   },
-  mounted() {
+  async mounted() {
     this.$store.dispatch(`updateDelegates`)
+
+    const stakingTxs = await this.$store.dispatch(`getTx`, `staking`)
+    this.$store.commit(`setStakingTxs`, stakingTxs)
   }
 }
 </script>

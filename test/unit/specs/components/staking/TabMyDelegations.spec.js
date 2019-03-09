@@ -73,7 +73,7 @@ describe(`Component: TabMyDelegations`, () => {
           value: {
             msg: [
               {
-                type: `cosmos-sdk/Undelegate`,
+                type: `cosmos-sdk/MsgUndelegate`,
                 value: {
                   validator_address: validators[0].operator_address,
                   delegator_address,
@@ -135,7 +135,7 @@ describe(`Component: TabMyDelegations`, () => {
           value: {
             msg: [
               {
-                type: `cosmos-sdk/Undelegate`,
+                type: `cosmos-sdk/MsgUndelegate`,
                 value: {
                   validator_address: validators[0].operator_address,
                   delegator_address,

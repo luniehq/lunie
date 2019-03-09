@@ -6,12 +6,12 @@
   >
     <template v-if="delegation">
       <div slot="caption">
-        Delegated&nbsp;<b>{{ pretty(atoms(tx.delegation.amount)) }}</b><span>&nbsp;{{ bondingDenom }}s</span>
+        Delegated&nbsp;<b>{{ tx.value ? pretty(atoms(tx.value.amount)) : "n/a" }}</b><span>&nbsp;{{ bondingDenom }}s</span>
       </div>
       <div slot="details">
         To&nbsp;<router-link :to="url + '/' + tx.validator_address">
           {{
-            moniker(tx.validator_address)
+          moniker(tx.validator_address)
           }}
         </router-link>
       </div>
@@ -20,7 +20,7 @@
         Redelegated&nbsp;<template>
           <b>
             {{
-              calculatePrettifiedTokens(tx.validator_src_address, tx.shares_amount)
+            calculatePrettifiedTokens(tx.validator_src_address, tx.shares_amount)
             }}
           </b><span>&nbsp;{{ bondingDenom }}s</span>
         </template>
@@ -28,12 +28,12 @@
       <div slot="details">
         From&nbsp;<router-link :to="url + '/' + tx.validator_src_address">
           {{
-            moniker(tx.validator_src_address)
+          moniker(tx.validator_src_address)
           }}
         </router-link>
         to&nbsp;<router-link :to="url + '/' + tx.validator_dst_address">
           {{
-            moniker(tx.validator_dst_address)
+          moniker(tx.validator_dst_address)
           }}
         </router-link>
       </div>
@@ -42,15 +42,11 @@
         Undelegated&nbsp;<template>
           <b>
             {{
-              calculatePrettifiedTokens(tx.validator_address, tx.shares_amount)
+            calculatePrettifiedTokens(tx.validator_address, tx.shares_amount)
             }}
           </b><span>&nbsp;{{ bondingDenom }}s</span>
-        </template><template
-          v-if="timeDiff"
-        >
-          <span
-            class="tx-unbonding__time-diff"
-          >
+        </template><template v-if="timeDiff">
+          <span class="tx-unbonding__time-diff">
             &nbsp;{{ timeDiff }}
           </span>
         </template>
@@ -58,7 +54,7 @@
       <div slot="details">
         From&nbsp;<router-link :to="url + '/' + tx.validator_address">
           {{
-            moniker(tx.validator_address)
+          moniker(tx.validator_address)
           }}
         </router-link>
       </div>
@@ -120,7 +116,7 @@ export default {
       return this.type === `cosmos-sdk/BeginRedelegate`
     },
     unbonding() {
-      return this.type === `cosmos-sdk/Undelegate`
+      return this.type === `cosmos-sdk/MsgUndelegate`
     },
     timeDiff() {
       // only show time diff if still waiting to be terminated
@@ -153,7 +149,7 @@ export default {
       const validator = this.validators.find(
         val => val.operator_address === validatorAddr
       )
-      return this.atoms(calculateTokens(validator, shares).toNumber())
+      return pretty(this.atoms(calculateTokens(validator, shares).toNumber()))
     }
   }
 }

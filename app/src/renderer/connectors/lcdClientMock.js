@@ -161,7 +161,7 @@ const state = {
         value: {
           msg: [
             {
-              type: `cosmos-sdk/Undelegate`,
+              type: `cosmos-sdk/MsgUndelegate`,
               value: {
                 validator_addr: validators[0],
                 delegator_addr: addresses[0],
@@ -786,7 +786,7 @@ Msg Traces:
       )
     )
 
-    storeTx(`cosmos-sdk/Undelegate`, {
+    storeTx(`cosmos-sdk/MsgUndelegate`, {
       validator_addr,
       delegator_addr,
       shares
@@ -973,7 +973,7 @@ Msg Traces:
       if (
         type === `cosmos-sdk/MsgDelegate` ||
         type === `cosmos-sdk/BeginRedelegate` ||
-        type === `cosmos-sdk/Undelegate`
+        type === `cosmos-sdk/MsgUndelegate`
       ) {
         return tx.tx.value.msg[0].value.delegator_addr === addr
       }
@@ -984,7 +984,7 @@ Msg Traces:
     if (types.length === 0) types = [`bonding`, `unbonding`, `redelegate`]
     types = types.map(type => {
       if (type === `bonding`) return `cosmos-sdk/MsgDelegate`
-      if (type === `unbonding`) return `cosmos-sdk/Undelegate`
+      if (type === `unbonding`) return `cosmos-sdk/MsgUndelegate`
       if (type === `redelegate`) return `cosmos-sdk/BeginRedelegate`
     })
 

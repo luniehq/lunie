@@ -191,7 +191,7 @@ export default [
             type: `cosmos-sdk/MsgDelegate`,
             value: {
               validator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
-              delegation: {
+              value: {
                 amount: `42000000000`,
                 denom: `steak`
               }
@@ -249,7 +249,7 @@ export default [
       value: {
         msg: [
           {
-            type: `cosmos-sdk/Undelegate`,
+            type: `cosmos-sdk/MsgUndelegate`,
             value: {
               validator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
               shares_amount: `10000000000`

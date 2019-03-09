@@ -44,12 +44,11 @@ export default ({ node }) => {
         ? unbondingDelegations
         // building a dict from the array and taking out the transactions with amount 0
           .reduce(
-            (dict, { validator_address, ...delegation }) => ({
+            (dict, { validator_address, entries }) => ({
               ...dict,
-              // filtering out the transactions with amount 0
-              ...(delegation.balance.amount > 0 && {
-                [validator_address]: delegation
-              })
+              [validator_address]: entries.filter(({
+                balance
+              }) => balance !== `0`) || undefined
             }),
             {}
           )
