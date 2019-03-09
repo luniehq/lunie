@@ -88,7 +88,7 @@ exports[`PageValidator shows a validator profile information errors signing info
           </dt>
            
           <dd>
-            0.0000000000 STAKE
+            0.0000000 STAKE
           </dd>
         </dl>
       </div>
@@ -412,7 +412,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
           </dt>
            
           <dd>
-            0.0000000000 STAKE
+            0.0000000 STAKE
           </dd>
         </dl>
       </div>

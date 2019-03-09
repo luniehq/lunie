@@ -36,7 +36,7 @@ describe(`LiValidator`, () => {
       start_height: 0,
       index_offset: 465400,
       jailed_until: `1970-01-01T00:00:00Z`,
-      signed_blocks_counter: 9878
+      missed_blocks_counter: 122
     }
   }
 
@@ -137,7 +137,7 @@ describe(`LiValidator`, () => {
       })
     })
 
-    expect(wrapper.vm.uptime).toBe(`n/a`)
+    expect(wrapper.vm.uptime).toBe(`--`)
   })
 
   it(`should show the validator's commission`, () => {

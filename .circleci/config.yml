@@ -226,8 +226,7 @@ jobs:
 
   # Create release.
   release:
-    docker:
-      - image: *docker-node
+    executor: node
     steps:
       - checkout
       - yarn-install
@@ -235,12 +234,10 @@ jobs:
 
   # Publish the release to GitHub.
   publish:
-    docker:
-      - image: *docker-node
+    executor: node
     steps:
       - checkout
-      - attach_workspace:
-          at: builds/Gaia
+      - yarn-install
       - run:
           command: |
             mostRecentTag=$(git describe --abbrev=0 --tags)
@@ -252,9 +249,6 @@ jobs:
               git remote add bot https://${GIT_BOT_TOKEN}@github.com/cosmos/voyager.git
               git tag -d release-candidate
               git push --delete bot release-candidate
-
-              npm -g uninstall yarn ; npm -g install yarn@1.13.0
-              yarn install
 
               node tasks/publish.js
             fi

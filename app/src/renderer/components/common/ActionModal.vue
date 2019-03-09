@@ -1,17 +1,11 @@
 <template>
-  <transition
-    v-if="show"
-    name="slide-fade"
-  >
-    <div
-      v-click-outside="close"
-      class="action-modal"
-    >
+  <transition v-if="show" name="slide-fade">
+    <div v-click-outside="close" class="action-modal">
       <div class="action-modal-header">
         <img
           class="icon action-modal-atom"
           src="~assets/images/cosmos-logo.png"
-        />
+        >
         <span class="action-modal-title">
           {{ session.signedIn ? title : `Sign in required` }}
         </span>
@@ -23,16 +17,10 @@
           <i class="material-icons">close</i>
         </div>
       </div>
-      <div
-        v-if="!session.signedIn"
-        class="action-modal-form"
-      >
+      <div v-if="!session.signedIn" class="action-modal-form">
         <p>You need to sign in to submit a transaction.</p>
       </div>
-      <div
-        v-else-if="step === `txDetails`"
-        class="action-modal-form"
-      >
+      <div v-else-if="step === `txDetails`" class="action-modal-form">
         <slot />
         <tm-form-group
           v-if="signMethods.length > 1"
@@ -70,11 +58,12 @@
       </div>
 
       <div v-else-if="step === `sign`" class="action-modal-form">
-        <hardware-state v-if="sending" :loading="true">
-          Waiting for signature on app
-        </hardware-state>
-        <hardware-state v-else icon="usb">
-          Please unlock the Cosmos app on your Ledger&nbsp;Nano&nbsp;S
+        <hardware-state icon="usb" :loading="sending ? true : false">
+          {{
+            sending
+              ? `Please verify and sign the transaction on your Ledger`
+              : `Please plug in your Ledger&nbsp;Nano&nbsp;S and open the Cosmos app`
+          }}
         </hardware-state>
       </div>
 
@@ -91,7 +80,7 @@
               />
               <tm-btn
                 v-else-if="sending"
-                value="Sending..."
+                :value="step === `sign` ? `Waiting for Ledger` : `Sending...`"
                 disabled="disabled"
                 color="primary"
               />
@@ -112,7 +101,7 @@
               <tm-btn
                 v-else-if="selectedSignMethod === `ledger` && step === `sign`"
                 color="primary"
-                value="Sign"
+                value="Next"
                 @click.native="validateChangeStep"
               />
               <tm-btn

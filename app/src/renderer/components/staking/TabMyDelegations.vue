@@ -28,7 +28,7 @@
       </h3>
       <div class="unbonding-transactions">
         <template v-for="transaction in unbondingTransactions">
-          <tm-li-stake-transaction
+          <li-stake-transaction
             :key="transaction.hash"
             :transaction="transaction"
             :validators="yourValidators"
@@ -40,6 +40,7 @@
                 delegation.unbondingDelegations
               )
             "
+            tx-type="cosmos-sdk/Undelegate"
           />
         </template>
       </div>
@@ -49,7 +50,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import TmLiStakeTransaction from "../transactions/TmLiStakeTransaction"
+import LiStakeTransaction from "../transactions/LiStakeTransaction"
 import TmDataMsg from "common/TmDataMsg"
 import CardSignInRequired from "common/CardSignInRequired"
 import TmDataLoading from "common/TmDataLoading"
@@ -64,7 +65,7 @@ export default {
     TmDataMsg,
     TmDataConnecting,
     TmDataLoading,
-    TmLiStakeTransaction,
+    LiStakeTransaction,
     CardSignInRequired
   },
   data: () => ({
@@ -74,7 +75,7 @@ export default {
   }),
   computed: {
     ...mapGetters([
-      `allTransactions`,
+      `transactions`,
       `delegates`,
       `delegation`,
       `committedDelegations`,
@@ -88,8 +89,8 @@ export default {
       )
     },
     unbondingTransactions: ({ allTransactions, delegation } = this) =>
-      // TODO still needed?
-      allTransactions
+      transactions.staking &&
+      transactions.staking
         .filter(transaction => {
           // Checking the type of transaction
           if (transaction.tx.value.msg[0].type !== `cosmos-sdk/MsgUndelegate`)
@@ -107,7 +108,7 @@ export default {
           ...transaction,
           unbondingDelegation:
             delegation.unbondingDelegations[
-              transaction.tx.value.msg[0].value.validator_addr
+              transaction.tx.value.msg[0].value.validator_address
             ]
         }))
   },

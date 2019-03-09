@@ -10,7 +10,7 @@
   >
     <data-empty-tx slot="no-data" />
     <template slot="managed-body">
-      <tm-li-any-transaction
+      <li-any-transaction
         v-for="tx in orderedTransactions"
         :key="tx.txhash"
         :validators="delegates.delegates"
@@ -34,13 +34,13 @@ import { mapGetters } from "vuex"
 import { orderBy } from "lodash"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import TmPage from "common/TmPage"
-import TmLiAnyTransaction from "transactions/TmLiAnyTransaction"
+import LiAnyTransaction from "transactions/LiAnyTransaction"
 import time from "scripts/time"
 
 export default {
   name: `page-transactions`,
   components: {
-    TmLiAnyTransaction,
+    LiAnyTransaction,
     DataEmptyTx,
     TmPage
   },
@@ -61,7 +61,8 @@ export default {
       `session`,
       `bondDenom`,
       `delegation`,
-      `delegates`
+      `delegates`,
+      `lastHeader`
     ]),
     orderedTransactions() {
       return orderBy(
@@ -72,6 +73,14 @@ export default {
         [this.sort.property],
         [this.sort.order]
       )
+    }
+  },
+  watch: {
+    lastHeader: {
+      immediate: true,
+      handler() {
+        this.refreshTransactions()
+      }
     }
   },
   mounted() {

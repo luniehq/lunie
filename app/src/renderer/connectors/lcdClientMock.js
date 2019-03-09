@@ -299,7 +299,7 @@ const state = {
     start_height: 2,
     index_offset: 1,
     jailed_until: new Date(Date.now()).toISOString(),
-    signed_blocks_counter: 1
+    missed_blocks_counter: 1
   },
   proposals: {
     1: {
