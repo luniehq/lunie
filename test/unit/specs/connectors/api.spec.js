@@ -66,7 +66,7 @@ describe(`API`, () => {
             {
               data: { x: 1 },
               method: `POST`,
-              url: `http://remotehost/tx/broadcast`
+              url: `http://remotehost/txs`
             }
           ]
         ])

@@ -63,7 +63,7 @@ describe(`LiStakeTransaction`, () => {
   describe(`unbonding delegations`, () => {
     it(`should show unbondings and calculate tokens from shares`, () => {
       propsData.transaction = stakingTxs[3]
-      propsData.txType = `cosmos-sdk/Undelegate`
+      propsData.txType = `cosmos-sdk/MsgUndelegate`
       propsData.unbondingTime = Date.now() + 1000
       wrapper = shallowMount(LiStakeTransaction, {
         propsData,
@@ -76,7 +76,7 @@ describe(`LiStakeTransaction`, () => {
 
     it(`should show unbonding delegations as ended`, () => {
       propsData.transaction = stakingTxs[3]
-      propsData.txType = `cosmos-sdk/Undelegate`
+      propsData.txType = `cosmos-sdk/MsgUndelegate`
       propsData.unbondingTime = Date.now() - 1000
       wrapper.setProps({ unbondingTime: Date.now() - 1000 })
       expect(wrapper.vm.$el).toMatchSnapshot()

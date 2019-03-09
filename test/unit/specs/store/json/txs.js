@@ -8,7 +8,7 @@ export const bankTxs = [
       value: {
         msg: [
           {
-            type: `cosmos-sdk/Send`,
+            type: `cosmos-sdk/MsgSend`,
             value: {
               from_address: `A`,
               amount: [{ denom: `jbcoins`, amount: `12340000000` }],
@@ -53,7 +53,7 @@ export const bankTxs = [
       value: {
         msg: [
           {
-            type: `cosmos-sdk/Send`,
+            type: `cosmos-sdk/MsgSend`,
             value: {
               from_address: `B`,
               amount: [{ denom: `jbcoins`, amount: `12340000000` }],
@@ -97,7 +97,7 @@ export const bankTxs = [
       value: {
         msg: [
           {
-            type: `cosmos-sdk/Send`,
+            type: `cosmos-sdk/MsgSend`,
             value: {
               amount: [
                 { denom: `jbcoins`, amount: `12340000000` },

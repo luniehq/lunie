@@ -79,7 +79,7 @@ describe(`Module: Delegations`, () => {
         getUndelegations: jest.fn(() => [
           {
             validator_address: lcdClientMock.validators[0],
-            entries: [{ balance: `1`, min_time: new Date(Date.now()).toUTCString() }],
+            entries: [{ balance: `1`, completion_time: new Date(Date.now()).toUTCString() }],
           }
         ]),
         getRedelegations: jest.fn(
@@ -106,12 +106,9 @@ describe(`Module: Delegations`, () => {
       )
     })
 
-    it(`fetches bonded delegates`, async () => {
+    it.only(`fetches bonded delegates`, async () => {
       expect(node.getDelegations).toHaveBeenCalled()
-      expect(commit).toHaveBeenCalledWith(`setCommittedDelegation`, {
-        candidateId: lcdClientMock.validators[0],
-        value: 14
-      })
+      expect(commit).toHaveBeenCalledWith(`setCommittedDelegation`, { candidateId: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`, value: 14 })
       expect(commit).toHaveBeenCalledWith(
         `addToCart`,
         lcdClientMock.state.candidates[0]
@@ -123,7 +120,7 @@ describe(`Module: Delegations`, () => {
       expect(commit).toHaveBeenCalledWith(`setUnbondingDelegations`, [
         {
           validator_address: lcdClientMock.validators[0],
-          entries: [{ balance: `1`, min_time: new Date(Date.now()).toUTCString() }],
+          entries: [{ balance: `1`, completion_time: new Date(Date.now()).toUTCString() }],
         }
       ])
     })
@@ -164,7 +161,7 @@ describe(`Module: Delegations`, () => {
       expect(commit).toHaveBeenCalledWith(`setUnbondingDelegations`, [
         {
           validator_address: lcdClientMock.validators[0],
-          entries: [{ balance: `1`, min_time: `Thu, 01 Jan 1970 00:00:42 GMT` }]
+          entries: [{ balance: `1`, completion_time: `Thu, 01 Jan 1970 00:00:42 GMT` }]
         }
       ])
     })
@@ -306,7 +303,7 @@ describe(`Module: Delegations`, () => {
         entries: [{ 
           balance: `100`,
           creation_height: `12`,
-          min_time: new Date().toUTCString()
+          completion_time: new Date().toUTCString()
         }],
       }
     ])
@@ -314,7 +311,7 @@ describe(`Module: Delegations`, () => {
     expect(state.unbondingDelegations[lcdClientMock.validators[0]]).toEqual([{
       balance: `100`,
       creation_height: `12`,
-      min_time: new Date().toUTCString()
+      completion_time: new Date().toUTCString()
     }])
   })
 

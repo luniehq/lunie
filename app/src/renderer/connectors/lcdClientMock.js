@@ -54,7 +54,7 @@ const state = {
         value: {
           msg: [
             {
-              type: `cosmos-sdk/Send`,
+              type: `cosmos-sdk/MsgSend`,
               value: {
                 from_address: addresses[1],
                 to_address: addresses[0],
@@ -72,7 +72,7 @@ const state = {
         value: {
           msg: [
             {
-              type: `cosmos-sdk/Send`,
+              type: `cosmos-sdk/MsgSend`,
               value: {
                 from_address: addresses[0],
                 to_address: addresses[1],
@@ -142,8 +142,8 @@ const state = {
             {
               type: `cosmos-sdk/MsgDelegate`,
               value: {
-                validator_addr: validators[0],
-                delegator_addr: addresses[0],
+                validator_address: validators[0],
+                delegator_address: addresses[0],
                 delegation: {
                   amount: `240000000`,
                   denom: `STAKE`
@@ -163,8 +163,8 @@ const state = {
             {
               type: `cosmos-sdk/MsgUndelegate`,
               value: {
-                validator_addr: validators[0],
-                delegator_addr: addresses[0],
+                validator_address: validators[0],
+                delegator_address: addresses[0],
                 shares: `500000000`
               }
             }
@@ -179,8 +179,8 @@ const state = {
     [addresses[0]]: {
       delegations: [
         {
-          delegator_addr: addresses[0],
-          validator_addr: validators[0],
+          delegator_address: addresses[0],
+          validator_address: validators[0],
           shares: `14`,
           height: 123
         }
@@ -618,7 +618,7 @@ module.exports = {
     return state.txs.filter(tx => {
       const type = tx.tx.value.msg[0].type
       return (
-        type === `cosmos-sdk/Send` &&
+        type === `cosmos-sdk/MsgSend` &&
         (tx.tx.value.msg[0].value.from_address === address ||
           tx.tx.value.msg[0].value.to_address === address)
       )
@@ -687,8 +687,8 @@ module.exports = {
     )
     if (!existingDelegation) {
       delegation = {
-        delegator_addr: fromKey.address,
-        validator_addr: validator_addr,
+        delegator_address: fromKey.address,
+        validator_address: validator_addr,
         shares: `0`,
         height: 0
       }
@@ -898,8 +898,8 @@ Msg Traces:
       dstDelegation.shares = String(Number(dstDelegation.shares) + shares)
     } else {
       delegator.delegations.push({
-        delegator_addr: delegator_addr,
-        validator_addr: validator_dst_addr,
+        delegator_address: delegator_addr,
+        validator_address: validator_dst_addr,
         shares: shares,
         height
       })
@@ -1393,7 +1393,7 @@ function send(to_address, from_address, req) {
   }
 
   // log tx
-  storeTx(`cosmos-sdk/Send`, {
+  storeTx(`cosmos-sdk/MsgSend`, {
     from_address,
     to_address,
     amount: req.amount

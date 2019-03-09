@@ -20,7 +20,7 @@ describe(`PageTransactions`, () => {
         value: {
           msg: [
             {
-              type: `cosmos-sdk/Send`,
+              type: `cosmos-sdk/MsgSend`,
               value: {
                 from_address: addresses[1],
                 to_address: addresses[0],
@@ -38,7 +38,7 @@ describe(`PageTransactions`, () => {
         value: {
           msg: [
             {
-              type: `cosmos-sdk/Send`,
+              type: `cosmos-sdk/MsgSend`,
               value: {
                 from_address: addresses[0],
                 to_address: addresses[1],
