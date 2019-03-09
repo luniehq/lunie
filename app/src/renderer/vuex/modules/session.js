@@ -158,7 +158,7 @@ export default () => {
       await dispatch(`getGovParameters`)
       dispatch(`loadErrorCollection`, accountAddress)
       await dispatch(`initializeWallet`, { address: accountAddress })
-      dispatch(`persistSession`, { localKeyPairName, address, sessionType })
+      dispatch(`persistSession`, { localKeyPairName, address: accountAddress, sessionType })
 
       state.externals.track(`event`, `session`, `sign-in`, sessionType)
     },

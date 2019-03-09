@@ -61,6 +61,12 @@ describe(`App Start`, () => {
     expect(store.dispatch).toHaveBeenCalledWith(`connect`)
   })
 
+  it(`checks for persisted sessions`, async () => {
+    const { store } = await start()
+
+    expect(store.dispatch).toHaveBeenCalledWith(`checkForPersistedSession`)
+  })
+
   it(`gathers url parameters to overwrite the app config before starting the app`, () => {
     const getURLParams = jest.fn(() => ({
       x: 1
