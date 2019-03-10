@@ -393,5 +393,17 @@ describe(`Module: Session`, () => {
       await actions.signOut({ state, commit: jest.fn(), dispatch: jest.fn() })
       expect(localStorage.getItem(`session`)).toBeNull()
     })
+
+    it(`signs the user in if a session was found`, async () => {
+      const dispatch = jest.fn()
+      localStorage.setItem(`session`, JSON.stringify({ localKeyPairName: `def`, address: `xxx`, sessionType: `local` }))
+      await actions.checkForPersistedSession({ dispatch })
+      expect(dispatch).toHaveBeenCalledWith(`signIn`, { localKeyPairName: `def`, address: `xxx`, sessionType: `local` })
+
+      dispatch.mockClear()
+      localStorage.removeItem(`session`)
+      await actions.checkForPersistedSession({ dispatch })
+      expect(dispatch).not.toHaveBeenCalled()
+    })
   })
 })
