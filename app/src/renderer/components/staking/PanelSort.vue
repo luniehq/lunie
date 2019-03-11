@@ -78,6 +78,7 @@ export default {
 .sort-by a {
   cursor: pointer;
   user-select: none;
+  white-space: nowrap;
 }
 
 .sort-by.active a {

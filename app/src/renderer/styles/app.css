@@ -118,10 +118,6 @@ input.tm-field {
   flex-flow: column no-wrap;
 }
 
-#app-header {
-  background: var(--app-nav);
-}
-
 #develop-mode-warning {
   background: red;
   text-align: center;
