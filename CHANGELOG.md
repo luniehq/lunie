@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+- [#\2154](https://github.com/cosmos/voyager/pull/2154) Added ledger button and style updates @jbibla
+
+### Fixed
+
+- [\#2192](https://github.com/cosmos/voyager/pull/2192) hide tm-balance on PageProposal and PagePreferences if signed out @faboweb
+
 ## [1.0.0-beta.15] - 2019-03-07
 
 ### Changed
@@ -31,9 +39,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 - [\#1306](https://github.com/cosmos/voyager/issues/1306) Withdraw fee distribution rewards @fedekunze
+- [\#2183](https://github.com/cosmos/voyager/issues/2183) Loading block to network block loader @jbibla
 - [\#1875](https://github.com/cosmos/voyager/issues/1875) optimistic updates for proposal creation @faboweb
 - [\#1876](https://github.com/cosmos/voyager/issues/1876) optimistic updates for depositing on proposals @faboweb
-
 
 ### Changed
 

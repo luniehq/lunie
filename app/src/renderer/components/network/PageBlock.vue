@@ -11,8 +11,9 @@
               </h2>
               <h3 class="page-profile__subtitle">
                 {{
-                  block.block_meta && block.block_meta.block_id ?
-                    block.block_meta.block_id.hash : ''
+                  block.block_meta && block.block_meta.block_id
+                    ? block.block_meta.block_id.hash
+                    : ""
                 }}
               </h3>
             </div>
@@ -92,11 +93,11 @@ export default {
       ]
     },
     blockTitle({ num, block } = this) {
-      if (!block.block) return `n/a`
+      if (!block.block) return `--`
       return `#` + num.prettyInt(block.block.header.height)
     },
     blockTime({ moment, block } = this) {
-      if (!block.block) return `n/a`
+      if (!block.block) return `--`
       return moment(block.block.header.time).format(`MMM Do YYYY, HH:mm:ss`)
     }
   },

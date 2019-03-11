@@ -130,7 +130,7 @@ exports[`PageBlock shows the page when the block hasn't been loaded yet 1`] = `
             class="page-profile__title"
           >
             
-              Block n/a
+              Block --
             
           </h2>
            
@@ -156,7 +156,7 @@ exports[`PageBlock shows the page when the block hasn't been loaded yet 1`] = `
         </dt>
          
         <dd>
-          n/a
+          --
         </dd>
       </dl>
     </div>
