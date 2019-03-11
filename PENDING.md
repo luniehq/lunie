@@ -5,6 +5,7 @@
 - [\#2104](https://github.com/cosmos/voyager/issues/2104) fix transaction times @fedekunze
 - [\#1805](https://github.com/cosmos/voyager/issues/1805) support all transaction types @fedekunze
 - [#\2225](https://github.com/cosmos/voyager/pull/2225) local testnets now always have the same account with funds @faboweb
+- [\#2224](https://github.com/cosmos/voyager/issues/2224) persist the signed in address @faboweb
 
 ### Changed
 
