@@ -4,7 +4,7 @@ PASSWORD=1234567890
 ACCOUNT=operator_account
 PORT=26656
 # TODO: hardcoded temporary, this will become a parameter coming from the first ECS instance
-MAINNODEID=a93accb0af3dfda1f40063bd45857c4808ba2d9b
+MAINNODEID=03bd1fd646a9684eb53d40fd342529b5dd9accbf
 MAINNODEIP=172.31.35.89
 MAINACCOUNT=main_account
 NETWORK=testnet
