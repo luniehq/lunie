@@ -109,8 +109,12 @@ export const startApp = async (
     store.commit(`setRpcUrl`, urlParams.rpc)
   }
 
-  store.dispatch(`connect`)
   store.dispatch(`showInitialScreen`)
+  store.dispatch(`connect`)
+    // wait for connected as the check for session will sign in directly and query account data
+    .then(() => {
+      store.dispatch(`checkForPersistedSession`)
+    })
 
   return new Vue({
     router,

@@ -9,7 +9,7 @@ async function start(urlParams, environment) {
   const store = {
     state: {},
     commit: jest.fn(),
-    dispatch: jest.fn()
+    dispatch: jest.fn(() => Promise.resolve())
   }
   const Store = () => store
   const $mount = jest.fn()
@@ -59,6 +59,12 @@ describe(`App Start`, () => {
     const { store } = await start()
 
     expect(store.dispatch).toHaveBeenCalledWith(`connect`)
+  })
+
+  it(`checks for persisted sessions`, async () => {
+    const { store } = await start()
+
+    expect(store.dispatch).toHaveBeenCalledWith(`checkForPersistedSession`)
   })
 
   it(`gathers url parameters to overwrite the app config before starting the app`, () => {
