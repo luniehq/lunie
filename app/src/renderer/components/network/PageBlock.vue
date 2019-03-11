@@ -6,7 +6,9 @@
         <div class="row">
           <div class="page-profile__header__info">
             <div class="page-profile__status-and-title">
-              <h2 class="page-profile__title">Block {{ blockTitle }}</h2>
+              <h2 class="page-profile__title">
+                Block {{ blockTitle }}
+              </h2>
               <h3 class="page-profile__subtitle">
                 {{
                   block.block_meta && block.block_meta.block_id

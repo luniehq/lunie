@@ -371,4 +371,39 @@ describe(`Module: Session`, () => {
     await actions.reconnected({ state, dispatch })
     expect(dispatch).toHaveBeenCalledWith(`loadAccounts`)
   })
+
+  describe(`persistance`, () => {
+    it(`persists the session in localstorage`, async () => {
+      await actions.persistSession({}, { localKeyPairName: `def`, address: `xxx`, sessionType: `local` })
+      expect(localStorage.getItem(`session`)).toEqual(JSON.stringify({ localKeyPairName: `def`, address: `xxx`, sessionType: `local` }))
+    })
+
+    it(`persists the session on sign in`, async () => {
+      const dispatch = jest.fn()
+      await actions.signIn({ state, commit: jest.fn(), dispatch }, { localKeyPairName: `def`, address: `xxx`, sessionType: `local` })
+      expect(dispatch).toHaveBeenCalledWith(`persistSession`, { localKeyPairName: `def`, address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`, sessionType: `local` })
+
+      dispatch.mockClear()
+      await actions.signIn({ state, commit: jest.fn(), dispatch }, { address: `xxx`, sessionType: `ledger` })
+      expect(dispatch).toHaveBeenCalledWith(`persistSession`, { address: `xxx`, sessionType: `ledger` })
+    })
+
+    it(`removes the persisted session on sign out`, async () => {
+      localStorage.setItem(`session`, `xxx`)
+      await actions.signOut({ state, commit: jest.fn(), dispatch: jest.fn() })
+      expect(localStorage.getItem(`session`)).toBeNull()
+    })
+
+    it(`signs the user in if a session was found`, async () => {
+      const dispatch = jest.fn()
+      localStorage.setItem(`session`, JSON.stringify({ localKeyPairName: `def`, address: `xxx`, sessionType: `local` }))
+      await actions.checkForPersistedSession({ dispatch })
+      expect(dispatch).toHaveBeenCalledWith(`signIn`, { localKeyPairName: `def`, address: `xxx`, sessionType: `local` })
+
+      dispatch.mockClear()
+      localStorage.removeItem(`session`)
+      await actions.checkForPersistedSession({ dispatch })
+      expect(dispatch).not.toHaveBeenCalled()
+    })
+  })
 })
