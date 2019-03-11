@@ -285,15 +285,6 @@ function makeExecWithInputs(command, inputs = [], json = true) {
   })
 }
 
-/*
-
-    mnemonic: `release endorse scale across absurd trouble climb unaware actor elite fantasy chair license word rare length business kiss smoke tackle report february bid ginger`,
-    address: `cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e`,
-    */
-function sendMoneyToFixedAccounts(mainAccountSignInfo, chainId) {
-  sendTokens(mainAccountSignInfo, `${100 * 10e6}stake`, `cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e`, chainId)
-}
-
 module.exports = {
   initNode,
   createKey,
