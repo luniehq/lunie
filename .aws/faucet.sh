@@ -22,7 +22,7 @@ do
                 ACCOUNT_INFO=$(./gaiacli query account ${DESTINATION} --chain-id ${NETWORK} --trust-node --home .)
                 dt=$(date '+%d/%m/%Y %H:%M:%S');
                 if [[ ${ACCOUNT_INFO} == *"stake"* ]]; then
-                    echo "$dt - $DESTINATION already funded, bye greedy b****rd!"
+                    echo "$dt - $DESTINATION already funded, accounts are only funded once"
                 else
                     # work only on stuff that have the right length
                     ADDRESS=$(./gaiacli keys show ${ACCOUNT} --home . --address)
