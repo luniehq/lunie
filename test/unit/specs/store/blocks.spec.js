@@ -287,7 +287,7 @@ describe(`Module: Blocks`, () => {
   })
 })
 
-describe(`Module: Blocks mutations`, () => {
+describe(`Mutations`, () => {
   let module, node, mutations
 
   beforeEach(() => {
@@ -305,6 +305,15 @@ describe(`Module: Blocks mutations`, () => {
     expect(state.loading).toEqual(true)
     setBlocksLoading(state, false)
     expect(state.loading).toEqual(false)
+  })
+
+  it(`should set the loaded state`, async () => {
+    const { setBlocksLoaded } = mutations
+    const state = {}
+    setBlocksLoaded(state, true)
+    expect(state.loaded).toEqual(true)
+    setBlocksLoaded(state, false)
+    expect(state.loaded).toEqual(false)
   })
 
   it(`should set the error state`, async () => {
@@ -359,6 +368,15 @@ describe(`Module: Blocks mutations`, () => {
     expect(state.block).toEqual({})
     setBlock(state, [1, 2, 3])
     expect(state.block).toEqual([1, 2, 3])
+  })
+
+  it(`should set the block's transactions`, async () => {
+    const { setBlockTransactions } = mutations
+    const state = { block: {} }
+    setBlockTransactions(state, [{ txhash: `abcdef` }])
+    expect(state.block.transactions).toEqual([{ txhash: `abcdef` }])
+    setBlockTransactions(state, [])
+    expect(state.block.transactions).toEqual([])
   })
 
   it(`should add a block the blocks`, async () => {
