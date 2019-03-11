@@ -120,6 +120,8 @@ const buildNodes = async (
     }
   }
 
+  sendMoneyToFixedAccounts(mainAccountSignInfo, options.chainId)
+
   return { nodes, mainAccountSignInfo, genesis, cliHomePrefix }
 }
 
