@@ -22,7 +22,8 @@
         <div v-else class="tm-li-dd">{{ dd }}</div>
       </div>
       <div class="tm-li-icon">
-        <i class="material-icons inactive">chevron_right</i><i class="material-icons active">my_location</i>
+        <i class="material-icons inactive">chevron_right</i>
+        <i class="material-icons active">my_location</i>
       </div>
     </div>
   </a>
@@ -81,7 +82,8 @@
         </div>
       </div>
       <div class="tm-li-icon">
-        <i class="material-icons inactive">chevron_right</i><i class="material-icons active">my_location</i>
+        <i class="material-icons inactive">chevron_right</i>
+        <i class="material-icons active">my_location</i>
       </div>
     </div>
   </router-link>
@@ -167,7 +169,8 @@
         <div class="tm-li-subtitle">{{ subtitle }}</div>
       </div>
       <div class="tm-li-icon">
-        <i class="material-icons inactive">chevron_right</i><i class="material-icons active">my_location</i>
+        <i class="material-icons inactive">chevron_right</i>
+        <i class="material-icons active">my_location</i>
       </div>
     </div>
   </a>
@@ -195,7 +198,8 @@
         </div>
       </div>
       <div class="tm-li-icon">
-        <i class="material-icons inactive">chevron_right</i><i class="material-icons active">my_location</i>
+        <i class="material-icons inactive">chevron_right</i>
+        <i class="material-icons active">my_location</i>
       </div>
     </div>
   </router-link>

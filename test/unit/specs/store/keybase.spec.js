@@ -66,17 +66,18 @@ describe(`Module: Keybase`, () => {
         .mockReturnValueOnce(mockIdentity)
         .mockReturnValueOnce(null) // mocking a unknown_keybase_identity result
       const commit = jest.fn()
-  
+
       const validators = [{ description: { identity: `abcdabcdabcdabcd` } },
         { description: { identity: `unknown_keybase_identity` } }]
-      await actions.getKeybaseIdentities({ dispatch, commit, state }, validators)
+      await actions
+        .getKeybaseIdentities({ dispatch, commit, state }, validators)
       expect(dispatch).toHaveBeenCalledTimes(2)
       expect(commit).toHaveBeenCalledWith(`setKeybaseIdentities`, [mockIdentity])
     })
 
     it(`should store an error if failed to load keybase info`, async () => {
       const dispatch = async () => Promise.reject(`Error`)
-  
+
       const validators = [{ description: { identity: `abcdabcdabcdabcd` } }]
       await actions.getKeybaseIdentities(
         { commit: jest.fn(), dispatch, state },

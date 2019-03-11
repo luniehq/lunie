@@ -48,10 +48,11 @@ export default ({ node }) => {
         password,
         submitType
       })
-      
+
       // optimistic update
       deposit.forEach(({ amount, denom }) => {
-        const oldBalance = wallet.balances.find(balance => balance.denom === denom)
+        const oldBalance = wallet.balances
+          .find(balance => balance.denom === denom)
         commit(`updateWalletBalance`, {
           denom,
           amount: oldBalance.amount - amount

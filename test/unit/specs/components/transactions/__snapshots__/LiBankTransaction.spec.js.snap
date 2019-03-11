@@ -9,9 +9,11 @@ exports[`LiBankTransaction has the expected html structure 1`] = `
   <div>
     
       Received 
+      
     <b>
       1234
     </b>
+     
     <span>
        JBCOINS
     </span>
@@ -32,9 +34,11 @@ exports[`LiBankTransaction should show outgoing transactions 1`] = `
   <div>
     
       Sent 
+      
     <b>
       1234
     </b>
+     
     <span>
        JBCOINS
     </span>
@@ -57,9 +61,11 @@ exports[`LiBankTransaction should show transactions sent to the sender 1`] = `
   <div>
     
       Sent 
+      
     <b>
       1234
     </b>
+     
     <span>
        JBCOINS
     </span>

@@ -4,9 +4,12 @@
       <div class="header-item header-item-logo">
         <router-link to="/">
           <img id="logo-white" src="~assets/images/cosmos-wordmark-white.svg">
-        </router-link> 
+        </router-link>
       </div>
-      <div v-if="!session.experimentalMode && session.insecureMode" id="develop-mode-warning">
+      <div
+        v-if="!session.experimentalMode && session.insecureMode"
+        id="develop-mode-warning"
+      >
         INSECURE MODE
       </div>
       <app-menu v-if="open || desktop" @close="close" />

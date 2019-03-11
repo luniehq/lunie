@@ -33,7 +33,10 @@
     <img class="tm-connected-network-loader" src="~assets/images/loader.svg">
     <div
       v-tooltip.top="networkTooltip"
-      class="tm-connected-network__string tm-connected-network__string--connecting"
+      class="
+        tm-connected-network__string
+        tm-connected-network__string--connecting
+      "
     >
       Connecting to {{ lastHeader.chain_id }}…
     </div>

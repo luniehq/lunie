@@ -21,7 +21,9 @@
       id="signOut-btn"
       @click="signOut()"
     >
-      <i v-tooltip.bottom.end="'Sign Out'" class="material-icons">exit_to_app</i>
+      <i v-tooltip.bottom.end="'Sign Out'" class="material-icons">
+        exit_to_app
+      </i>
     </a>
     <tm-btn
       v-if="!session.signedIn"

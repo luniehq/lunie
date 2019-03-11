@@ -7,4 +7,5 @@
 ### Changed
 
 - [#\2202](https://github.com/cosmos/voyager/pull/2202) Fix circle configuration for publishing @sabau
+- [#\2202](https://github.com/cosmos/voyager/pull/2202) ES lint no tabs @sabau
 - [\#1805](https://github.com/cosmos/voyager/issues/1805) support all transaction types @fedekunze

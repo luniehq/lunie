@@ -108,7 +108,11 @@
           </dl>
           <dl class="info_dl colored_dl">
             <dt>No with Veto</dt>
-            <dd>{{ num.atoms(tally.no_with_veto) }} / {{ noWithVetoPercentage }}</dd>
+            <dd>
+              {{
+                num.atoms(tally.no_with_veto) }} / {{ noWithVetoPercentage
+              }}
+            </dd>
           </dl>
           <dl class="info_dl colored_dl">
             <dt>Abstain</dt>

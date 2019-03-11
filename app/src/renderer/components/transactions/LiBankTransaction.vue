@@ -6,7 +6,9 @@
   >
     <template v-if="sent">
       <div slot="caption">
-        Sent&nbsp;<b>{{ atoms(coins.amount) }}</b><span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
+        Sent&nbsp;
+        <b>{{ atoms(coins.amount) }}</b>
+        <span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
       </div>
       <span
         slot="details"
@@ -23,7 +25,9 @@
       </span>
     </template><template v-else>
       <div slot="caption">
-        Received&nbsp;<b>{{ atoms(coins.amount) }}</b><span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
+        Received&nbsp;
+        <b>{{ atoms(coins.amount) }}</b>
+        <span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
       </div>
       <span slot="details">From {{ sender }}</span>
     </template>

@@ -113,7 +113,13 @@ describe(`DelegationModal`, () => {
       const from = `cosmos1address`
 
       await DelegationModal.methods.submitForm.call(
-        { $store, amount: 50, session, from, submitDelegation, submitRedelegation },
+        {
+          $store,
+          amount: 50,
+          session,
+          from,
+          submitDelegation,
+          submitRedelegation },
         `local`, `1234567890`
       )
       expect(submitDelegation).toHaveBeenCalledWith(`local`, `1234567890`)
@@ -124,7 +130,15 @@ describe(`DelegationModal`, () => {
       const from = `cosmosvaloper1address`
 
       await DelegationModal.methods.submitForm.call(
-        { $store, amount: 50, session, from, submitDelegation, submitRedelegation },
+        {
+          $store,
+
+          amount: 50,
+          session,
+          from,
+          submitDelegation,
+          submitRedelegation
+        },
         `local`, `1234567890`
       )
       expect(submitDelegation).not.toHaveBeenCalledWith(`local`, `1234567890`)

@@ -7,7 +7,9 @@
       <session-account-delete
         v-else-if="session.modals.session.state == 'delete'"
       />
-      <session-hardware v-else-if="session.modals.session.state == 'hardware'" />
+      <session-hardware
+        v-else-if="session.modals.session.state == 'hardware'"
+      />
       <session-import v-else-if="session.modals.session.state == 'import'" />
     </div>
     <connected-network />
@@ -37,7 +39,7 @@ export default {
     SessionAccountDelete,
     ConnectedNetwork
   },
-  computed: { 
+  computed: {
     ...mapGetters([`session`]),
     active() {
       return this.session.modals.session.active
