@@ -40,7 +40,7 @@ while ${poor}
 do
     # query my account to check if I'm still poor
     ACCOUNT_INFO=$(./gaiacli query account ${ADDRESS} --chain-id ${NETWORK} --trust-node --home .)
-    if [[ ${ACCOUNT_INFO} == *"auth/Account"* ]]; then
+    if [[ ${ACCOUNT_INFO} == *"steak"* ]]; then
         echo "Address funded, thanks main node!"
         poor=false
     fi
