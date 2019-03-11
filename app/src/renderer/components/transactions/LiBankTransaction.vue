@@ -19,7 +19,6 @@
       </span>
     </template><template v-else>
       <div slot="caption">
-
         Received&nbsp;
         <b>{{ full(atoms(coins.amount)) }}</b>
         <span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
