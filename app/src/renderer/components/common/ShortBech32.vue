@@ -60,6 +60,7 @@ export default {
   cursor: pointer;
   font-size: var(--sm);
   font-weight: 300;
+  white-space: nowrap;
 }
 
 .short-bech32 .address:hover {

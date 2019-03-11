@@ -21,7 +21,9 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
           <h2
             class="page-profile__title"
           >
-            Block #100
+            
+              Block #100
+            
           </h2>
            
           <h3
@@ -127,7 +129,9 @@ exports[`PageBlock shows the page when the block hasn't been loaded yet 1`] = `
           <h2
             class="page-profile__title"
           >
-            Block --
+            
+              Block --
+            
           </h2>
            
           <h3

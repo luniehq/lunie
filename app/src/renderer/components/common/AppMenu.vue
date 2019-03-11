@@ -95,7 +95,6 @@ export default {
 
 <style>
 .app-menu {
-  background: var(--app-nav);
   z-index: var(--z-appMenu);
   user-select: none;
   display: flex;
@@ -111,18 +110,20 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid var(--bc-dim);
-  padding: 1rem;
-  color: var(--dim);
+  padding: 0.5rem 0.75rem;
+  margin: 0.5rem;
+  font-weight: 400;
+  color: var(--text);
+  border-radius: 0.25rem;
 }
 
 .app-menu .app-menu-item:hover {
   color: var(--bright);
-  background: var(--hover-bg);
+  background: var(--app-fg);
 }
 
 .app-menu .router-link-active {
-  background: var(--hover-bg);
+  background: var(--app-fg);
 }
 
 .app-menu .router-link-active i {
@@ -136,13 +137,15 @@ export default {
 
 @media screen and (max-width: 1023px) {
   .app-menu {
-    position: fixed;
-    top: 3rem;
-    left: 0;
-    bottom: 0;
-    width: 100vw;
     background: var(--app-bg);
-    user-select: none;
+  }
+
+  .app-menu .app-menu-item {
+    padding: 0.75rem;
+  }
+
+  .app-menu-title {
+    font-size: 1.5rem;
   }
 }
 
