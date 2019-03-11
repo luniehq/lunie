@@ -675,7 +675,7 @@ describe(`API`, () => {
             {
               data: undefined,
               method: `GET`,
-              url: `http://remotehost/txs?action=withdraw_delegation_reward&delegator=cosmos1address`
+              url: `http://remotehost/txs?action=withdraw_delegator_reward&delegator=cosmos1address`
             }
           ],
           [

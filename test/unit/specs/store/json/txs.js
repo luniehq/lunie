@@ -550,7 +550,7 @@ export const distributionTxs = [
     tags: [
       {
         key: `action`,
-        value: `withdraw_delegation_reward`
+        value: `withdraw_delegator_reward`
       },
       {
         key: `delegator`,
@@ -599,7 +599,7 @@ export const distributionTxs = [
     tags: [
       {
         key: `action`,
-        value: `withdraw_delegation_reward`
+        value: `withdraw_delegator_reward`
       },
       {
         key: `delegator`,
@@ -647,7 +647,7 @@ export const distributionTxs = [
     tags: [
       {
         key: `action`,
-        value: `withdraw_delegation_reward`
+        value: `withdraw_delegator_reward`
       },
       {
         key: `delegator`,

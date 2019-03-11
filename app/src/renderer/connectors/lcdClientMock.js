@@ -288,7 +288,6 @@ const state = {
       threshold: `0.50000000000`,
       veto: `0.33400000000`,
       quorum: `0.33400000000`,
-      governance_penalty: `0.0100000000`
     },
     voting: {
       voting_period: `86400000000000`
