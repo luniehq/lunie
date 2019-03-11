@@ -28,7 +28,7 @@ const mockState = {
     loaded: true,
     committedDelegates: {
       [lcdClientMock.validators[1]]: {
-        validator_addr: lcdClientMock.validators[1],
+        validator_address: lcdClientMock.validators[1],
         balance: { amount: 1 },
         min_time: new Date().toUTCString()
       }

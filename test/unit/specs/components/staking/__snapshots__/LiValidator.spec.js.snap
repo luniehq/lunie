@@ -52,7 +52,7 @@ exports[`LiValidator has the expected html structure 1`] = `
     class="li-validator__rewards data-table__row__cell__separator"
   >
     
-    n/a
+    --
   
   </td>
    
@@ -84,7 +84,7 @@ exports[`LiValidator has the expected html structure 1`] = `
     class="li-validator__slashes"
   >
     
-    n/a
+    --
   
   </td>
 </tr>
@@ -142,7 +142,7 @@ exports[`LiValidator works if user is not signed in 1`] = `
     class="li-validator__rewards data-table__row__cell__separator"
   >
     
-    n/a
+    --
   
   </td>
    
@@ -174,7 +174,7 @@ exports[`LiValidator works if user is not signed in 1`] = `
     class="li-validator__slashes"
   >
     
-    n/a
+    --
   
   </td>
 </tr>

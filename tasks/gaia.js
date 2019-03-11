@@ -148,7 +148,6 @@ async function declareValidator(
     ` --from ${keyName}` +
     ` --amount=${defaultStakedPerValidator}stake` +
     ` --pubkey=${valPubKey}` +
-    ` --address-delegator=${operatorAddress}` +
     ` --moniker=${moniker}` +
     ` --chain-id=${chainId}` +
     ` --commission-max-change-rate=0` +
@@ -157,7 +156,7 @@ async function declareValidator(
     ` --min-self-delegation=1` +
     ` --output=json`
 
-  return makeExecWithInputs(command, [password])
+  return makeExecWithInputs(command, [`Y`, password])
 }
 
 async function sendTokens(
@@ -304,7 +303,7 @@ module.exports = {
   startLocalNode,
   makeValidator,
   getNodeId,
-  sendMoneyToFixedAccounts,
+  sendTokens,
 
   cliBinary,
   nodeBinary,

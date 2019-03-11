@@ -6,67 +6,39 @@ import BigNumber from "bignumber.js"
  * @module num
  */
 
-const numeral = require(`numeral`)
-function usd(num) {
-  return numeral(num).format(`$0,0.00`)
+const language = window.navigator.userLanguage || window.navigator.language
+function full(number = 0) {
+  return new Intl.NumberFormat(language, { minimumFractionDigits: 7 }).format(number)
 }
-function usdInt(num) {
-  return numeral(num).format(`$0,0`)
+function shortNumber(number = 0) {
+  return new Intl.NumberFormat(language, { minimumFractionDigits: 4 }).format(number) + `…`
 }
-function full(num) {
-  return numeral(num).format(`0,0.0000000000`)
+function pretty(number = 0) {
+  return new Intl.NumberFormat(language, { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(Math.round(number * 100) / 100)
 }
-function shortNumber(num) {
-  return numeral(num).format(`0,0.0000`) + `…`
+function prettyInt(number = 0) {
+  return new Intl.NumberFormat(language).format(Math.round(number))
 }
-function pretty(num) {
-  return numeral(num).format(`0,0.00`)
+function percentInt(number = 0) {
+  return new Intl.NumberFormat(language).format(Math.round(number * 100)) + `%`
 }
-function prettyInt(num) {
-  return numeral(num).format(`0,0`)
+function percent(number = 0) {
+  return new Intl.NumberFormat(language, { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(Math.round(number * 10000) / 100) + `%`
 }
-function short(num) {
-  if (num >= 1000000000) {
-    return pretty(num / 1000000000) + `B`
-  }
-  if (num >= 1000000) {
-    return pretty(num / 1000000) + `M`
-  }
-  if (num >= 1000) {
-    return pretty(num / 1000) + `K`
-  }
-  return numeral(num).format(`0.00`)
+function atoms(number = 0) {
+  return BigNumber(number).div(10e6).toNumber()
 }
-function shortInt(num) {
-  if (num > 1000) {
-    return short(num)
-  }
-  return prettyInt(num)
-}
-function percentInt(x) {
-  return numeral(x).format(`0%`)
-}
-function percent(x) {
-  return numeral(x).format(`0.00%`)
-}
-function atoms(x) {
-  return BigNumber(x).div(10e6).toNumber()
-}
-function uatoms(x) {
-  return BigNumber(x).times(10e6).toNumber()
+function uatoms(number = 0) {
+  return BigNumber(number).times(10e6).toString()
 }
 
 module.exports = {
   atoms,
   uatoms,
-  usd,
-  usdInt,
   full,
   shortNumber,
   pretty,
   prettyInt,
-  short,
-  shortInt,
   percent,
   percentInt
 }

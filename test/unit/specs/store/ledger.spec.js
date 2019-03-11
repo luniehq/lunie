@@ -135,7 +135,7 @@ describe(`Module: Ledger`, () => {
               })
           })
           await expect(actions.pollLedgerDevice({ state })).rejects.toThrow(
-            `Cøsmos app is not open`
+            `Cosmos app is not open`
           )
         })
 

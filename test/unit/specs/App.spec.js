@@ -9,7 +9,7 @@ async function start(urlParams, environment) {
   const store = {
     state: {},
     commit: jest.fn(),
-    dispatch: jest.fn()
+    dispatch: jest.fn(() => Promise.resolve())
   }
   const Store = () => store
   const $mount = jest.fn()
@@ -59,6 +59,12 @@ describe(`App Start`, () => {
     const { store } = await start()
 
     expect(store.dispatch).toHaveBeenCalledWith(`connect`)
+  })
+
+  it(`checks for persisted sessions`, async () => {
+    const { store } = await start()
+
+    expect(store.dispatch).toHaveBeenCalledWith(`checkForPersistedSession`)
   })
 
   it(`gathers url parameters to overwrite the app config before starting the app`, () => {
@@ -141,6 +147,7 @@ describe(`App Start`, () => {
       expect(commit).not.toHaveBeenCalled()
       expect(next).toHaveBeenCalled()
     })
+
     it(`redirects to my validators`, async () => {
       const commit = jest.fn()
       const store = {
@@ -159,28 +166,6 @@ describe(`App Start`, () => {
       // from.fullPath !== to.fullPath && !store.getters.user.pauseHistory
       guard(to, { fullPath: `/` }, next)
       expect(next).toHaveBeenCalledWith(`/staking/my-delegations`)
-    })
-
-    it(`redirects to session page if not logged in`, async () => {
-      const commit = jest.fn()
-      const store = {
-        commit,
-        state: { session: { pauseHistory: false, signedIn: false } },
-        getters: { session: { pauseHistory: false, signedIn: false } }
-      }
-      const to = {
-        redirectedFrom: ``,
-        fullPath: `/wallet`,
-        path: `/wallet`,
-        name: `Wallet`,
-        matched: [{ meta: { requiresAuth: true } }]
-      }
-      const next = jest.fn()
-      const guard = routeGuard(store)
-      // from.fullPath !== to.fullPath && !store.getters.user.pauseHistory
-      guard(to, { fullPath: `/` }, next)
-      expect(commit).toHaveBeenCalledWith(`setSessionModalView`, `welcome`)
-      expect(commit).toHaveBeenCalledWith(`toggleSessionModal`, true)
     })
   })
 

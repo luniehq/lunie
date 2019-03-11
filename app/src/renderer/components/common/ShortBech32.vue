@@ -9,7 +9,10 @@
     >
       {{ shortBech32 }}
     </div>
-    <div :class="{ active: copySuccess }" class="copied">
+    <div
+      :class="{ active: copySuccess }"
+      class="copied"
+    >
       <i class="material-icons">check</i><span>Copied</span>
     </div>
   </div>
@@ -60,6 +63,7 @@ export default {
   cursor: pointer;
   font-size: var(--sm);
   font-weight: 300;
+  white-space: nowrap;
 }
 
 .short-bech32 .address:hover {
