@@ -17,7 +17,7 @@
               {{
                 governanceParameters.parameters.deposit.min_deposit
                   ? minimumDeposit
-                  : `n/a`
+                  : `--`
               }}
             </dd>
           </dl>
@@ -37,7 +37,7 @@
               {{
                 governanceParameters.parameters.deposit.max_deposit_period
                   ? depositPeriodInDays + ` days`
-                  : `n/a`
+                  : `--`
               }}
             </dd>
           </dl>
@@ -64,7 +64,7 @@
                   ? `${parseFloat(
                     governanceParameters.parameters.tallying.threshold
                   ) * 100} %`
-                  : `n/a`
+                  : `--`
               }}
             </dd>
           </dl>
@@ -84,32 +84,13 @@
                   ? `${parseFloat(
                     governanceParameters.parameters.tallying.veto
                   ) * 100} %`
-                  : `n/a`
+                  : `--`
               }}
             </dd>
           </dl>
         </div>
 
         <div class="column">
-          <dl class="info_dl">
-            <dt>
-              Governance Penalty
-              <i
-                v-tooltip.top="tallyingTooltips.governance_penalty"
-                class="material-icons info-button"
-              >
-                info_outline
-              </i>
-            </dt>
-            <dd>
-              {{
-                governanceParameters.parameters.tallying.governance_penalty
-                  ? governanceParameters.parameters.tallying.governance_penalty
-                  : `n/a`
-              }}
-            </dd>
-          </dl>
-
           <dl class="info_dl">
             <dt>
               Quorum
@@ -126,17 +107,10 @@
                   ? `${parseFloat(
                     governanceParameters.parameters.tallying.quorum
                   ) * 100} %`
-                  : `n/a`
+                  : `--`
               }}
             </dd>
           </dl>
-        </div>
-      </div>
-    </div>
-
-    <div class="parameters__details parameters__section">
-      <div class="row">
-        <div class="column">
           <dl class="info_dl">
             <dt>
               Voting Period
@@ -151,12 +125,11 @@
               {{
                 governanceParameters.parameters.voting.voting_period
                   ? votingPeriodInDays + ` days`
-                  : `n/a`
+                  : `--`
               }}
             </dd>
           </dl>
         </div>
-        <div class="column" />
       </div>
     </div>
   </div>
@@ -178,7 +151,6 @@ export default {
       description: `Tally parameters for governance in the Cosmos Hub`,
       threshold: `Percentage of "Yes" votes required for proposal to pass`,
       veto: `Percentage of "No With Veto" votes required for proposal to be vetoed`,
-      governance_penalty: `Penalty for a validator who fails to vote`,
       quorum: `Percentage of tokens required to vote on a proposal to be considered valid`
     },
     votingTooltips: {

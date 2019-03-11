@@ -150,7 +150,7 @@ describe(`DelegationModal`, () => {
       expect($store.dispatch).toHaveBeenCalledWith(`submitDelegation`,
         {
           amount: `500000000`,
-          validator_addr: validator.operator_address,
+          validator_address: validator.operator_address,
           password: `1234567890`,
           submitType: `local`
         }

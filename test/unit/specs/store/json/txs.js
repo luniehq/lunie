@@ -1,14 +1,14 @@
-export default [
+export const bankTxs = [
   {
     hash: `not a real hash`,
-    time: 2042, // set by Voyager
+    time: 2042,
     height: `3436`,
     tx: {
       type: `8EFE47F0625DE8`,
       value: {
         msg: [
           {
-            type: `cosmos-sdk/Send`,
+            type: `cosmos-sdk/MsgSend`,
             value: {
               from_address: `A`,
               amount: [{ denom: `jbcoins`, amount: `12340000000` }],
@@ -25,27 +25,13 @@ export default [
           ],
           gas: `500000`
         },
-        gas: `500000`,
-        signatures: [
-          {
-            pub_key: {
-              type: `AC26791624DE60`,
-              value: `70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=`
-            },
-            signature: {
-              type: `6BF5903DA1DB28`,
-              value: `oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==`
-            },
-            account_number: `28`,
-            sequence: `0`
-          }
-        ]
+        gas: `500000`
       },
       result: {
         gasUsed: `3324`,
         tags: [
           {
-            key: `c2VuZGVy`,
+            key: `action`,
             value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
           },
           {
@@ -67,7 +53,7 @@ export default [
       value: {
         msg: [
           {
-            type: `cosmos-sdk/Send`,
+            type: `cosmos-sdk/MsgSend`,
             value: {
               from_address: `B`,
               amount: [{ denom: `jbcoins`, amount: `12340000000` }],
@@ -84,27 +70,13 @@ export default [
           ],
           gas: `500000`
         },
-        gas: `500000`,
-        signatures: [
-          {
-            pub_key: {
-              type: `AC26791624DE60`,
-              value: `70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=`
-            },
-            signature: {
-              type: `6BF5903DA1DB28`,
-              value: `oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==`
-            },
-            account_number: `28`,
-            sequence: `0`
-          }
-        ]
+        gas: `500000`
       },
       result: {
         gasUsed: `3324`,
         tags: [
           {
-            key: `c2VuZGVy`,
+            key: `action`,
             value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
           },
           {
@@ -125,12 +97,12 @@ export default [
       value: {
         msg: [
           {
-            type: `cosmos-sdk/Send`,
+            type: `cosmos-sdk/MsgSend`,
             value: {
               amount: [
                 { denom: `jbcoins`, amount: `12340000000` },
                 { denom: `fabocoins`, amount: `10000000` },
-                { denom: `mattcoins`, amount: `420000000` }
+                { denom: `karolycoins`, amount: `420000000` }
               ],
               from_address: `A`,
               to_address: `A`
@@ -146,27 +118,13 @@ export default [
           ],
           gas: `500000`
         },
-        gas: `500000`,
-        signatures: [
-          {
-            pub_key: {
-              type: `AC26791624DE60`,
-              value: `70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=`
-            },
-            signature: {
-              type: `6BF5903DA1DB28`,
-              value: `oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==`
-            },
-            account_number: `28`,
-            sequence: `0`
-          }
-        ]
+        gas: `500000`
       },
       result: {
         gasUsed: `3324`,
         tags: [
           {
-            key: `c2VuZGVy`,
+            key: `action`,
             value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
           },
           {
@@ -175,6 +133,94 @@ export default [
           }
         ],
         fee: {}
+      }
+    }
+  },
+]
+export const stakingTxs = [
+  {
+    height: `193281`,
+    txhash: `DB8F2DAFD4791337E57921DB2D7D7838E14492323FECB391BB39D51239BA3FBF`,
+    gas_wanted: `101587`,
+    gas_used: `101577`,
+    tags: [
+      {
+        key: `action`,
+        value: `create_validator`
+      },
+      {
+        key: `destination-validator`,
+        value: `cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2`
+      },
+    ],
+    tx: {
+      type: `auth/StdTx`,
+      value: {
+        msg: [
+          {
+            type: `cosmos-sdk/MsgCreateValidator`,
+            value: {
+              description: {
+                moniker: `propelmind`,
+                identity: ``,
+                website: ``,
+                details: ``
+              },
+              commission: {
+                rate: `0.100000000000000000`,
+                max_rate: `0.200000000000000000`,
+                max_change_rate: `0.010000000000000000`
+              },
+              min_self_delegation: `1`,
+              delegator_address: `cosmos1qecshyc40kshszkwrtscgmsdd8tz3n4hxx339e`,
+              validator_address: `cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2`,
+              pubkey: `cosmosvalconspub1zcjduepqjja8zg8ccvdd5rx50ad79faaaucq5vr98pr7eawnslqrscelwhaszhaq83`,
+              value: {
+                denom: `muon`,
+                amount: `1000000`
+              }
+            }
+          }
+        ],
+        fee: {
+          amount: null,
+          gas: `101587`
+        },
+        memo: ``
+      }
+    }
+  },
+  {
+    height: `193281`,
+    txhash: `DB8F2DAFD4791337E57921DB2D7D7838E14492323FECB391BB39D51239BA3FBF`,
+    gas_wanted: `101587`,
+    gas_used: `101577`,
+    tags: [
+      {
+        key: `action`,
+        value: `edit_validator`
+      },
+      {
+        key: `destination-validator`,
+        value: `cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2`
+      },
+    ],
+    tx: {
+      type: `auth/StdTx`,
+      value: {
+        msg: [
+          {
+            type: `cosmos-sdk/MsgEditValidator`,
+            value: {
+              validator_address: `cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2`,
+            }
+          }
+        ],
+        fee: {
+          amount: null,
+          gas: `101587`
+        },
+        memo: ``
       }
     }
   },
@@ -190,8 +236,8 @@ export default [
           {
             type: `cosmos-sdk/MsgDelegate`,
             value: {
-              validator_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
-              delegation: {
+              validator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+              value: {
                 amount: `42000000000`,
                 denom: `steak`
               }
@@ -208,30 +254,16 @@ export default [
           gas: `500000`
         },
         gas: 500000,
-        signatures: [
-          {
-            pub_key: {
-              type: `AC26791624DE60`,
-              value: `70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=`
-            },
-            signature: {
-              type: `6BF5903DA1DB28`,
-              value: `oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==`
-            },
-            account_number: `28`,
-            sequence: `0`
-          }
-        ]
       },
       result: {
         gasUsed: `3324`,
         tags: [
           {
-            key: `c2VuZGVy`,
-            value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
+            key: `action`,
+            value: `delegate`
           },
           {
-            key: `cmVjaXBpZW50`,
+            key: `delegator`,
             value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
           }
         ],
@@ -249,9 +281,9 @@ export default [
       value: {
         msg: [
           {
-            type: `cosmos-sdk/Undelegate`,
+            type: `cosmos-sdk/MsgUndelegate`,
             value: {
-              validator_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+              validator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
               shares_amount: `10000000000`
             }
           }
@@ -265,28 +297,14 @@ export default [
           ],
           gas: `500000`
         },
-        gas: `500000`,
-        signatures: [
-          {
-            pub_key: {
-              type: `AC26791624DE60`,
-              value: `70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=`
-            },
-            signature: {
-              type: `6BF5903DA1DB28`,
-              value: `oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==`
-            },
-            account_number: `28`,
-            sequence: `0`
-          }
-        ]
+        gas: `500000`
       },
       result: {
         gasUsed: `3324`,
         tags: [
           {
-            key: `c2VuZGVy`,
-            value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
+            key: `action`,
+            value: ``
           },
           {
             key: `cmVjaXBpZW50`,
@@ -306,10 +324,10 @@ export default [
       value: {
         msg: [
           {
-            type: `cosmos-sdk/BeginRedelegate`,
+            type: `cosmos-sdk/MsgBeginRedelegate`,
             value: {
-              validator_src_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
-              validator_dst_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
+              validator_src_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+              validator_dst_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
               shares_amount: `30000000`
             }
           }
@@ -323,27 +341,13 @@ export default [
           ],
           gas: `500000`
         },
-        gas: `500000`,
-        signatures: [
-          {
-            pub_key: {
-              type: `AC26791624DE60`,
-              value: `70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=`
-            },
-            signature: {
-              type: `6BF5903DA1DB28`,
-              value: `oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==`
-            },
-            account_number: `28`,
-            sequence: `0`
-          }
-        ]
+        gas: `500000`
       },
       result: {
         gasUsed: `3324`,
         tags: [
           {
-            key: `c2VuZGVy`,
+            key: `action`,
             value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
           },
           {
@@ -355,6 +359,42 @@ export default [
       }
     }
   },
+  {
+    height: `193281`,
+    txhash: `DB8F2DAFD4791337E57921DB2D7D7838E14492323FECB391BB39D51239BA3FBF`,
+    gas_wanted: `101587`,
+    gas_used: `101577`,
+    tags: [
+      {
+        key: `action`,
+        value: `unjail`
+      },
+      {
+        key: `destination-validator`,
+        value: `cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2`
+      },
+    ],
+    tx: {
+      type: `auth/StdTx`,
+      value: {
+        msg: [
+          {
+            type: `cosmos-sdk/MsgUnjail`,
+            value: {
+              address: `cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2`,
+            }
+          }
+        ],
+        fee: {
+          amount: null,
+          gas: `101587`
+        },
+        memo: ``
+      }
+    }
+  },
+]
+export const governanceTxs = [
   {
     hash: `not a real hash7`,
     time: 42000, // set by Voyager
@@ -388,27 +428,13 @@ export default [
           ],
           gas: `500000`
         },
-        gas: `500000`,
-        signatures: [
-          {
-            pub_key: {
-              type: `AC26791624DE60`,
-              value: `70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=`
-            },
-            signature: {
-              type: `6BF5903DA1DB28`,
-              value: `oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==`
-            },
-            account_number: `28`,
-            sequence: `0`
-          }
-        ]
+        gas: `500000`
       },
       result: {
         gasUsed: `3324`,
         tags: [
           {
-            key: `c2VuZGVy`,
+            key: `action`,
             value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
           },
           {
@@ -421,8 +447,8 @@ export default [
     }
   },
   {
-    hash: `not a real hash8`,
-    time: 42000, // set by Voyager
+    hash: `not a real hash9`,
+    time: 42000,
     height: `56675`,
     tx: {
       type: `8EFE47F0625DE8`,
@@ -451,27 +477,13 @@ export default [
           ],
           gas: `500000`
         },
-        gas: `500000`,
-        signatures: [
-          {
-            pub_key: {
-              type: `AC26791624DE60`,
-              value: `70df5mUA3bFTJheAI6umXvABNuUU+q/3nOPS6lmT3tU=`
-            },
-            signature: {
-              type: `6BF5903DA1DB28`,
-              value: `oODzZz2t1u678Jhy2zFnFbBu7S2IP1zjOIoyVDOvGkQ6WkiiRF3zxEJbNAjHGdDjXf7/NQpMOtpt8FC1x6e6DA==`
-            },
-            account_number: `28`,
-            sequence: `0`
-          }
-        ]
+        gas: `500000`
       },
       result: {
         gasUsed: `3324`,
         tags: [
           {
-            key: `c2VuZGVy`,
+            key: `action`,
             value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
           },
           {
@@ -482,5 +494,189 @@ export default [
         fee: {}
       }
     }
+  },
+  {
+    hash: `not a real hash10`,
+    time: 42000, // set by Voyager
+    height: `56673`,
+    tx: {
+      type: `8EFE47F0625DE8`,
+      value: {
+        msg: [
+          {
+            type: `cosmos-sdk/MsgVote`,
+            value: {
+              voter: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+              proposal_id: `1`,
+              option: `Yes`
+            }
+          }
+        ],
+        fee: {
+          amount: [
+            {
+              denom: ``,
+              amount: `0`
+            }
+          ],
+          gas: `500000`
+        },
+        gas: `500000`
+      },
+      result: {
+        gasUsed: `3324`,
+        tags: [
+          {
+            key: `action`,
+            value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
+          },
+          {
+            key: `cmVjaXBpZW50`,
+            value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
+          }
+        ],
+        fee: {}
+      }
+    }
+  },
+]
+export const distributionTxs = [
+  {
+    height: `1114`,
+    txhash: `8D817CF08F5E13E98A42057C179B84A28B714A34DEE8D42D49A3468E0A8FF8D7`,
+    log: `[{"msg_index":"0","success":true,"log":""}]`,
+    gas_wanted: `500000`,
+    gas_used: `58806`,
+    tags: [
+      {
+        key: `action`,
+        value: `withdraw_delegator_reward`
+      },
+      {
+        key: `delegator`,
+        value: `cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3`
+      },
+      {
+        key: `source-validator`,
+        value: `cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz`
+      }
+    ],
+    tx: {
+      type: `auth/StdTx`,
+      value: {
+        msg: [
+          {
+            type: `cosmos-sdk/MsgWithdrawDelegationReward`,
+            value: {
+              delegator_addr: `cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3`,
+              validator_addr: `cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz`
+            }
+          }
+        ],
+        fee: {
+          amount: null,
+          gas: `500000`
+        },
+        signatures: [
+          {
+            pub_key: {
+              type: `tendermint/PubKeySecp256k1`,
+              value: `A0ANSrO/dQgW/kgtMZam5DBC4De7V3PvQt6RyuK2dfhI`
+            },
+            signature: `RDq6lowz7Oo/dK8h686qzobzs0rI2nFrd3bHEf1P34wPYx56XXG4KysPt52B0f34I4C5bluXU5+scKtyRNTyGQ==`
+          }
+        ],
+        memo: `Sent via Cosmos UI 🚀`
+      }
+    }
+  },
+  {
+    height: `1114`,
+    txhash: `8D817CF08F5E13E98A42057C179B84A28B714A34DEE8D42D49A3468E0A8FF8D7`,
+    log: `[{"msg_index":"0","success":true,"log":""}]`,
+    gas_wanted: `500000`,
+    gas_used: `58806`,
+    tags: [
+      {
+        key: `action`,
+        value: `withdraw_delegator_reward`
+      },
+      {
+        key: `delegator`,
+        value: `cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3`
+      },
+      {
+        key: `source-validator`,
+        value: `cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz`
+      }
+    ],
+    tx: {
+      type: `auth/StdTx`,
+      value: {
+        msg: [
+          {
+            type: `cosmos-sdk/MsgSetWithdrawAddress`,
+            value: {
+              withdraw_address: `cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3`
+            }
+          }
+        ],
+        fee: {
+          amount: null,
+          gas: `500000`
+        },
+        signatures: [
+          {
+            pub_key: {
+              type: `tendermint/PubKeySecp256k1`,
+              value: `A0ANSrO/dQgW/kgtMZam5DBC4De7V3PvQt6RyuK2dfhI`
+            },
+            signature: `RDq6lowz7Oo/dK8h686qzobzs0rI2nFrd3bHEf1P34wPYx56XXG4KysPt52B0f34I4C5bluXU5+scKtyRNTyGQ==`
+          }
+        ],
+        memo: `Sent via Cosmos UI 🚀`
+      }
+    }
+  },
+  {
+    height: `1114`,
+    txhash: `8D817CF08F5E13E98A42057C179B84A28B714A34DEE8D42D49A3468E0A8FF8D7`,
+    log: `[{"msg_index":"0","success":true,"log":""}]`,
+    gas_wanted: `500000`,
+    gas_used: `58806`,
+    tags: [
+      {
+        key: `action`,
+        value: `withdraw_delegator_reward`
+      },
+      {
+        key: `delegator`,
+        value: `cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3`
+      },
+      {
+        key: `source-validator`,
+        value: `cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz`
+      }
+    ],
+    tx: {
+      type: `auth/StdTx`,
+      value: {
+        msg: [
+          {
+            type: `cosmos-sdk/MsgWithdrawValidatorCommission`,
+            value: {
+              validator_address: `cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3`
+            }
+          }
+        ],
+        fee: {
+          amount: null,
+          gas: `500000`
+        },
+        memo: `Sent via Cosmos UI 🚀`
+      }
+    }
   }
 ]
+export const allTxs = bankTxs.concat(stakingTxs, governanceTxs, distributionTxs)
+

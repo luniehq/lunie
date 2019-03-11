@@ -46,7 +46,9 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
               <i
                 class="material-icons"
               >
-                exit_to_app
+                
+      exit_to_app
+    
               </i>
             </a>
              
@@ -167,7 +169,9 @@ exports[`PageGovernance has the expected html structure 1`] = `
               <i
                 class="material-icons"
               >
-                exit_to_app
+                
+      exit_to_app
+    
               </i>
             </a>
              

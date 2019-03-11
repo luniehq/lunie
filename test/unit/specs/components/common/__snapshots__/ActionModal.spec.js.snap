@@ -101,7 +101,7 @@ exports[`ActionModal has the expected html structure when user has logged in wit
       icon="usb"
     >
       
-        Please unlock the Cosmos app on your Ledger Nano S
+        Please plug in your Ledger Nano S and open the Cosmos app
       
     </hardware-state-stub>
   </div>
@@ -115,7 +115,7 @@ exports[`ActionModal has the expected html structure when user has logged in wit
       <div>
         <tm-btn-stub
           color="primary"
-          value="Sign"
+          value="Next"
         />
       </div>
     </tm-form-group-stub>

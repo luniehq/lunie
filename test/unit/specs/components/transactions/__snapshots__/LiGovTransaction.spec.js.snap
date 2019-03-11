@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LiGovTransaction deposits 1`] = `
+<li-transaction-stub
+  block="56675"
+  color="#15CFCC"
+  time="42000"
+>
+  <div>
+    
+      Deposit 
+      
+    <b>
+      100.0000000
+    </b>
+     
+    <span>
+       stakes
+    </span>
+  </div>
+   
+  <div>
+    
+      On 
+      
+    <router-link-stub
+      to="/proposals/1"
+    >
+      
+        Proposal #1
+      
+    </router-link-stub>
+  </div>
+</li-transaction-stub>
+`;
+
+exports[`LiGovTransaction proposals 1`] = `
+<li-transaction-stub
+  block="56673"
+  color="#15CFCC"
+  time="42000"
+>
+  <div>
+    
+      Submit text proposal 
+    <b>
+      100.0000000
+    </b>
+    <span>
+       stakes
+    </span>
+  </div>
+   
+  <div>
+    
+      Title: 
+    <i>
+      Test Proposal
+    </i>
+  </div>
+</li-transaction-stub>
+`;
+
+exports[`LiGovTransaction votes 1`] = `
+<li-transaction-stub
+  block="56673"
+  color="#15CFCC"
+  time="42000"
+>
+  <div>
+    
+      Vote 
+    <b>
+      Yes
+    </b>
+  </div>
+   
+  <div>
+    
+      On 
+      
+    <router-link-stub
+      to="/proposals/1"
+    >
+      
+        Proposal #1
+      
+    </router-link-stub>
+  </div>
+</li-transaction-stub>
+`;

@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.16] - 2019-03-11
+
+### Added
+
+- [\#2104](https://github.com/cosmos/voyager/issues/2104) fix transaction times @fedekunze
+- [\#1805](https://github.com/cosmos/voyager/issues/1805) support all transaction types @fedekunze
+- [#\2225](https://github.com/cosmos/voyager/pull/2225) local testnets now always have the same account with funds @faboweb
+- [\#2224](https://github.com/cosmos/voyager/issues/2224) persist the signed in address @faboweb
+
+### Changed
+
+- [#\2202](https://github.com/cosmos/voyager/pull/2202) Fix circle configuration for publishing @sabau
+- [#\2211](https://github.com/cosmos/voyager/pull/2211) simplified sidebar and mobile menu, cleaned up css, fixed tests @jbibla
+- [#\2225](https://github.com/cosmos/voyager/pull/2225) Moved to SDK version 0.33.0 @faboweb
+- [#\2154](https://github.com/cosmos/voyager/pull/2154) Added ledger button and style updates @jbibla
+
+### Fixed
+
+- [#\2202](https://github.com/cosmos/voyager/issues/2202) Fix number conversions @faboweb
+- Misc. style fixes @jbibla
+- [\#2104](https://github.com/cosmos/voyager/issues/2103) fix undelegation format changes @faboweb 
+- [\#2192](https://github.com/cosmos/voyager/pull/2192) hide tm-balance on PageProposal and PagePreferences if signed out @faboweb
+
 ## [1.0.0-beta.15] - 2019-03-07
 
 ### Changed
@@ -34,10 +57,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1875](https://github.com/cosmos/voyager/issues/1875) optimistic updates for proposal creation @faboweb
 - [\#1876](https://github.com/cosmos/voyager/issues/1876) optimistic updates for depositing on proposals @faboweb
 
+- [\#2183](https://github.com/cosmos/voyager/issues/2183) Loading block to network block loader @jbibla
+- [\#1875](https://github.com/cosmos/voyager/issues/1875) optimistic updates for proposal creation @faboweb
+- [\#1876](https://github.com/cosmos/voyager/issues/1876) optimistic updates for depositing on proposals @faboweb
 
 ### Changed
 
 - [\#2128](https://github.com/cosmos/voyager/pull/2128) remove loading status on validator page when disconnected from the network @fedekunze
+- [\#2170](https://github.com/cosmos/voyager/pull/2170) bug with card-signed-in and explorer mode @jbibla
 - [\#2167](https://github.com/cosmos/voyager/pull/2167) fixed votes showing wrong tally @faboweb
 - [\#2167](https://github.com/cosmos/voyager/pull/2167) fixed not being able to deposit less then 1 atom not possible @faboweb
 - [\#2167](https://github.com/cosmos/voyager/pull/2167) fixed sorting of proposals @faboweb

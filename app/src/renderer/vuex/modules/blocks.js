@@ -57,7 +57,7 @@ export default ({ node }) => {
         commit(`setLoading`, true)
         const block = await node.getBlock(height)
 
-        blockMetaInfo = block.block_meta ? block.block_meta : undefined
+        blockMetaInfo = block.block_meta
         commit(`setLoading`, false)
 
         commit(`setBlockMetas`, {

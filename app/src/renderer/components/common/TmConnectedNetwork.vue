@@ -78,11 +78,11 @@ export default {
   justify-content: space-between;
   margin: 0.5rem;
   padding: 0.5rem;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  max-width: 240px;
+  max-width: 208px; /* sidebar width minus margin */
 }
 
 .tm-connected-network .chain-id {

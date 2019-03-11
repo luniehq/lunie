@@ -54,7 +54,7 @@ const state = {
         value: {
           msg: [
             {
-              type: `cosmos-sdk/Send`,
+              type: `cosmos-sdk/MsgSend`,
               value: {
                 from_address: addresses[1],
                 to_address: addresses[0],
@@ -72,7 +72,7 @@ const state = {
         value: {
           msg: [
             {
-              type: `cosmos-sdk/Send`,
+              type: `cosmos-sdk/MsgSend`,
               value: {
                 from_address: addresses[0],
                 to_address: addresses[1],
@@ -142,8 +142,8 @@ const state = {
             {
               type: `cosmos-sdk/MsgDelegate`,
               value: {
-                validator_addr: validators[0],
-                delegator_addr: addresses[0],
+                validator_address: validators[0],
+                delegator_address: addresses[0],
                 delegation: {
                   amount: `240000000`,
                   denom: `STAKE`
@@ -161,10 +161,10 @@ const state = {
         value: {
           msg: [
             {
-              type: `cosmos-sdk/Undelegate`,
+              type: `cosmos-sdk/MsgUndelegate`,
               value: {
-                validator_addr: validators[0],
-                delegator_addr: addresses[0],
+                validator_address: validators[0],
+                delegator_address: addresses[0],
                 shares: `500000000`
               }
             }
@@ -179,8 +179,8 @@ const state = {
     [addresses[0]]: {
       delegations: [
         {
-          delegator_addr: addresses[0],
-          validator_addr: validators[0],
+          delegator_address: addresses[0],
+          validator_address: validators[0],
           shares: `14`,
           height: 123
         }
@@ -288,7 +288,6 @@ const state = {
       threshold: `0.50000000000`,
       veto: `0.33400000000`,
       quorum: `0.33400000000`,
-      governance_penalty: `0.0100000000`
     },
     voting: {
       voting_period: `86400000000000`
@@ -299,7 +298,7 @@ const state = {
     start_height: 2,
     index_offset: 1,
     jailed_until: new Date(Date.now()).toISOString(),
-    signed_blocks_counter: 1
+    missed_blocks_counter: 1
   },
   proposals: {
     1: {
@@ -618,7 +617,7 @@ module.exports = {
     return state.txs.filter(tx => {
       const type = tx.tx.value.msg[0].type
       return (
-        type === `cosmos-sdk/Send` &&
+        type === `cosmos-sdk/MsgSend` &&
         (tx.tx.value.msg[0].value.from_address === address ||
           tx.tx.value.msg[0].value.to_address === address)
       )
@@ -687,8 +686,8 @@ module.exports = {
     )
     if (!existingDelegation) {
       delegation = {
-        delegator_addr: fromKey.address,
-        validator_addr: validator_addr,
+        delegator_address: fromKey.address,
+        validator_address: validator_addr,
         shares: `0`,
         height: 0
       }
@@ -786,7 +785,7 @@ Msg Traces:
       )
     )
 
-    storeTx(`cosmos-sdk/Undelegate`, {
+    storeTx(`cosmos-sdk/MsgUndelegate`, {
       validator_addr,
       delegator_addr,
       shares
@@ -898,8 +897,8 @@ Msg Traces:
       dstDelegation.shares = String(Number(dstDelegation.shares) + shares)
     } else {
       delegator.delegations.push({
-        delegator_addr: delegator_addr,
-        validator_addr: validator_dst_addr,
+        delegator_address: delegator_addr,
+        validator_address: validator_dst_addr,
         shares: shares,
         height
       })
@@ -928,7 +927,7 @@ Msg Traces:
     updateValidatorShares(state, validator_src_addr, -shares)
     updateValidatorShares(state, validator_dst_addr, shares)
 
-    storeTx(`cosmos-sdk/BeginRedelegate`, {
+    storeTx(`cosmos-sdk/MsgBeginRedelegate`, {
       delegator_addr,
       validator_src_addr,
       validator_dst_addr,
@@ -972,8 +971,8 @@ Msg Traces:
       const type = tx.tx.value.msg[0].type
       if (
         type === `cosmos-sdk/MsgDelegate` ||
-        type === `cosmos-sdk/BeginRedelegate` ||
-        type === `cosmos-sdk/Undelegate`
+        type === `cosmos-sdk/MsgBeginRedelegate` ||
+        type === `cosmos-sdk/MsgUndelegate`
       ) {
         return tx.tx.value.msg[0].value.delegator_addr === addr
       }
@@ -984,8 +983,8 @@ Msg Traces:
     if (types.length === 0) types = [`bonding`, `unbonding`, `redelegate`]
     types = types.map(type => {
       if (type === `bonding`) return `cosmos-sdk/MsgDelegate`
-      if (type === `unbonding`) return `cosmos-sdk/Undelegate`
-      if (type === `redelegate`) return `cosmos-sdk/BeginRedelegate`
+      if (type === `unbonding`) return `cosmos-sdk/MsgUndelegate`
+      if (type === `redelegate`) return `cosmos-sdk/MsgBeginRedelegate`
     })
 
     return delegatorTxs.filter(
@@ -1393,7 +1392,7 @@ function send(to_address, from_address, req) {
   }
 
   // log tx
-  storeTx(`cosmos-sdk/Send`, {
+  storeTx(`cosmos-sdk/MsgSend`, {
     from_address,
     to_address,
     amount: req.amount
