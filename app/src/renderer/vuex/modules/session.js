@@ -88,6 +88,16 @@ export default () => {
       await dispatch(`loadAccounts`)
       state.externals.track(`pageview`, { dl: `/` })
     },
+    async checkForPersistedSession({ dispatch }) {
+      const session = localStorage.getItem(`session`)
+      if (session) {
+        const { localKeyPairName, address, sessionType } = JSON.parse(session)
+        dispatch(`signIn`, { localKeyPairName, address, sessionType })
+      }
+    },
+    async persistSession(store, { localKeyPairName, address, sessionType }) {
+      localStorage.setItem(`session`, JSON.stringify({ localKeyPairName, address, sessionType }))
+    },
     async loadAccounts({ commit, state }) {
       state.loading = true
       try {
@@ -148,6 +158,7 @@ export default () => {
       await dispatch(`getGovParameters`)
       dispatch(`loadErrorCollection`, accountAddress)
       await dispatch(`initializeWallet`, { address: accountAddress })
+      dispatch(`persistSession`, { localKeyPairName, address: accountAddress, sessionType })
 
       state.externals.track(`event`, `session`, `sign-in`, sessionType)
     },
@@ -160,6 +171,7 @@ export default () => {
       dispatch(`resetSessionData`)
       commit(`addHistory`, `/`)
       commit(`setSignIn`, false)
+      localStorage.removeItem(`session`)
     },
     resetSessionData({ commit, state }) {
       state.history = []
