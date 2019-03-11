@@ -27,10 +27,10 @@ do
                     # work only on stuff that have the right length
                     ADDRESS=$(./gaiacli keys show ${ACCOUNT} --home . --address)
                     echo "stakes $AMOUNTS at $DESTINATION"
-                    echo ${PASSWORD} | ./gaiacli tx send ${DESTINATION} ${AMOUNTS} --home . --from ${ADDRESS} --chain-id=${NETWORK}
+                    echo ${PASSWORD} | ./gaiacli tx send ${DESTINATION} ${AMOUNTS} --home . --from ${ADDRESS} --chain-id=${NETWORK} --yes
                     sleep 5s # TODO: should be smarter, check if block was created or not
                     echo "photino $AMOUNTP at $DESTINATION"
-                    echo ${PASSWORD} | ./gaiacli tx send ${DESTINATION} ${AMOUNTP} --home . --from ${ADDRESS} --chain-id=${NETWORK}
+                    echo ${PASSWORD} | ./gaiacli tx send ${DESTINATION} ${AMOUNTP} --home . --from ${ADDRESS} --chain-id=${NETWORK} --yes
                     # echo ${PASSWORD} | ./gaiacli tx send ${DESTINATION} ${AMOUNTC} --home . --from ${ADDRESS} --chain-id=${NETWORK}
                     echo "$dt - $DESTINATION funded, enjoy!"
                 fi
