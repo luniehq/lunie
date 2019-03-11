@@ -4,7 +4,7 @@ exports[`LiBankTransaction should show bank transaction when user hasn't signed 
 <li-transaction-stub
   block="3436"
   color="#ED553B"
-  time="2042"
+  time="1970-01-01T00:00:02.042Z"
 >
   <div>
     
@@ -35,7 +35,7 @@ exports[`LiBankTransaction should show incoming transactions 1`] = `
 <li-transaction-stub
   block="3436"
   color="#ED553B"
-  time="2042"
+  time="1970-01-01T00:00:02.042Z"
 >
   <div>
     
@@ -61,7 +61,7 @@ exports[`LiBankTransaction should show outgoing transactions 1`] = `
 <li-transaction-stub
   block="3438"
   color="#ED553B"
-  time="2052"
+  time="1970-01-01T00:00:02.042Z"
 >
   <div>
     
@@ -88,7 +88,7 @@ exports[`LiBankTransaction should show outgoing transactions send to herself 1`]
 <li-transaction-stub
   block="466"
   color="#ED553B"
-  time="1142"
+  time="1970-01-01T00:00:01.142Z"
 >
   <div>
     

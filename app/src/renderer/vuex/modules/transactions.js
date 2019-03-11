@@ -36,7 +36,7 @@ export default ({ node }) => {
           state[category].forEach(tx => {
             if (tx.height === blockHeight && time) {
               // time seems to be an ISO string, but we are expecting a Number type
-              time = new Date(time).getTime()
+              time = new Date(time).toISOString()
               Vue.set(tx, `time`, time)
             }
           })
@@ -130,7 +130,7 @@ export default ({ node }) => {
       const blockMetaInfo = await dispatch(`queryBlockInfo`, blockHeight)
       commit(`setTransactionTime`, {
         blockHeight,
-        time: blockMetaInfo.header.time
+        time: new Date(blockMetaInfo.header.time).toISOString()
       })
     }
   }
