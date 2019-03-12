@@ -297,7 +297,7 @@ describe(`Module: Delegations`, () => {
     mutations.setUnbondingDelegations(state, [
       {
         validator_address: lcdClientMock.validators[0],
-        entries: [{ 
+        entries: [{
           balance: `100`,
           creation_height: `12`,
           completion_time: new Date().toUTCString()
