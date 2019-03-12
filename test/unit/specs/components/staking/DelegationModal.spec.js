@@ -163,8 +163,8 @@ describe(`DelegationModal`, () => {
 
       expect($store.dispatch).toHaveBeenCalledWith(`submitDelegation`,
         {
-          amount: `500000000.0000000`,
-          validator_addr: validator.operator_address,
+          amount: `500000000`,
+          validator_address: validator.operator_address,
           password: `1234567890`,
           submitType: `local`
         }
@@ -203,7 +203,7 @@ describe(`DelegationModal`, () => {
 
       expect($store.dispatch).toHaveBeenCalledWith(`submitRedelegation`,
         {
-          amount: `500000000.0000000`,
+          amount: `500000000`,
           validatorSrc: delegates.delegates[0],
           validatorDst: validator,
           password: `1234567890`,

@@ -36,7 +36,7 @@ function atoms(number = 0) {
   return BigNumber(number).div(10e6).toNumber()
 }
 function uatoms(number = 0) {
-  return BigNumber(number).times(10e6).toFixed(7)
+  return BigNumber(number).times(10e6).toString()
 }
 
 module.exports = {

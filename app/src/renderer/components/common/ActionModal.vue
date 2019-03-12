@@ -1,6 +1,12 @@
 <template>
-  <transition v-if="show" name="slide-fade">
-    <div v-click-outside="close" class="action-modal">
+  <transition
+    v-if="show"
+    name="slide-fade"
+  >
+    <div
+      v-click-outside="close"
+      class="action-modal"
+    >
       <div class="action-modal-header">
         <img
           class="icon action-modal-atom"
@@ -17,10 +23,16 @@
           <i class="material-icons">close</i>
         </div>
       </div>
-      <div v-if="!session.signedIn" class="action-modal-form">
+      <div
+        v-if="!session.signedIn"
+        class="action-modal-form"
+      >
         <p>You need to sign in to submit a transaction.</p>
       </div>
-      <div v-else-if="step === `txDetails`" class="action-modal-form">
+      <div
+        v-else-if="step === `txDetails`"
+        class="action-modal-form"
+      >
         <slot />
         <tm-form-group
           v-if="signMethods.length > 1"
