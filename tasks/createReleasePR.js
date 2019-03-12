@@ -2,6 +2,7 @@
 
 const { cli, shell } = require(`@nodeguy/cli`)
 const fs = require(`fs`)
+const { join } = require(`path`)
 const octokit = require(`@octokit/rest`)()
 
 function bumpVersion(versionString) {
@@ -59,19 +60,19 @@ const createPullRequest = async ({ changeLog, token, tag, head }) => {
 if (require.main === module) {
   cli({}, async () => {
     console.log(`Making release...`)
-    const changeLog = fs.readFileSync(__dirname + `/../CHANGELOG.md`, `utf8`)
-    const pending = fs.readFileSync(__dirname + `/../PENDING.md`, `utf8`)
-    const packageJson = require(__dirname + `/../package.json`)
+    const changeLog = fs.readFileSync(join(__dirname, `..`, `CHANGELOG.md`), `utf8`)
+    const pending = fs.readFileSync(join(__dirname, `..`, `PENDING.md`), `utf8`)
+    const packageJson = require(join(__dirname, `..`, `package.json`))
     const oldVersion = packageJson.version
     const newVersion = bumpVersion(oldVersion)
     console.log(`New version:`, newVersion)
     const newChangeLog = updateChangeLog(changeLog, pending, newVersion, new Date())
     const newPackageJson = updatePackageJson(packageJson, newVersion)
     
-    fs.writeFileSync(__dirname + `/../PENDING.md`, ``, `utf8`)
-    fs.writeFileSync(__dirname + `/../CHANGELOG.md`, newChangeLog, `utf8`)
+    fs.writeFileSync(join(__dirname, `..`, `PENDING.md`), ``, `utf8`)
+    fs.writeFileSync(join(__dirname, `..`, `CHANGELOG.md`), newChangeLog, `utf8`)
     fs.writeFileSync(
-      __dirname + `/../package.json`,
+      join(__dirname, `..`, `package.json`),
       JSON.stringify(newPackageJson, null, 2) + `\n`,
       `utf8`
     )
