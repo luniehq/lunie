@@ -550,6 +550,7 @@ export const distributionTxs = [
     log: `[{"msg_index":"0","success":true,"log":""}]`,
     gas_wanted: `500000`,
     gas_used: `58806`,
+    time: new Date(43300).toISOString(), // set by Voyager
     tags: [
       {
         key: `action`,
@@ -599,6 +600,7 @@ export const distributionTxs = [
     log: `[{"msg_index":"0","success":true,"log":""}]`,
     gas_wanted: `500000`,
     gas_used: `58806`,
+    time: new Date(43300).toISOString(), // set by Voyager
     tags: [
       {
         key: `action`,
@@ -647,6 +649,7 @@ export const distributionTxs = [
     log: `[{"msg_index":"0","success":true,"log":""}]`,
     gas_wanted: `500000`,
     gas_used: `58806`,
+    time: new Date(43300).toISOString(), // set by Voyager
     tags: [
       {
         key: `action`,
