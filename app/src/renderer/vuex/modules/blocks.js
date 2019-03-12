@@ -16,7 +16,6 @@ export default ({ node }) => {
     blockMetas: {},
     subscribedRPC: null,
     loading: false,
-    loaded: false,
     error: null,
     peers: [],
     blocks: [],
@@ -28,7 +27,6 @@ export default ({ node }) => {
 
   const mutations = {
     setLoading: (state, loading) => (state.loading = loading),
-    setLoaded: (state, loaded) => (state.loaded = loaded),
     setError: (state, error) => (state.error = error),
     setBlockHeight: (state, height) => (state.blockHeight = height),
     setSyncing: (state, syncing) => (state.syncing = syncing),
@@ -61,7 +59,6 @@ export default ({ node }) => {
 
         blockMetaInfo = block.block_meta
         commit(`setLoading`, false)
-        commit(`setLoaded`, true)
 
         commit(`setBlockMetas`, {
           ...state.blockMetas,
