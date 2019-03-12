@@ -33,7 +33,7 @@ const Client = (axios, remoteLcdURL) => {
     nodeVersion: req(`GET`, `/node_version`),
 
     // tx
-    postTx: req(`POST`, `/tx/broadcast`),
+    postTx: req(`POST`, `/txs`),
 
     // coins
     send: argReq(`POST`, `/bank/accounts`, `/transfers`),
@@ -237,7 +237,7 @@ const Client = (axios, remoteLcdURL) => {
     getDistributionTxs: async function (address, valAddress) {
       return await Promise.all([
         req(`GET`, `/txs?action=set_withdraw_address&delegator=${address}`)(),
-        req(`GET`, `/txs?action=withdraw_delegation_reward&delegator=${address}`)(),
+        req(`GET`, `/txs?action=withdraw_delegator_reward&delegator=${address}`)(),
         req(`GET`, `/txs?action=withdraw_validator_rewards_all&source-validator=${valAddress}`)()
       ]).then(([
         updateWithdrawAddressTxs,

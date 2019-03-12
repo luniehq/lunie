@@ -42,14 +42,11 @@ export default ({ node }) => {
     setUnbondingDelegations(state, unbondingDelegations) {
       state.unbondingDelegations = unbondingDelegations
         ? unbondingDelegations
-        // building a dict from the array and taking out the transactions with amount 0
+        // building a dict from the array and taking out the validators with no undelegations
           .reduce(
-            (dict, { validator_addr, ...delegation }) => ({
+            (dict, { validator_address, entries }) => ({
               ...dict,
-              // filtering out the transactions with amount 0
-              ...(delegation.balance.amount > 0 && {
-                [validator_addr]: delegation
-              })
+              [validator_address]: entries.length > 0 ? entries : undefined
             }),
             {}
           )
@@ -95,14 +92,14 @@ export default ({ node }) => {
         if (rootState.session.address !== address) return
 
         if (delegator.delegations && candidates) {
-          delegator.delegations.forEach(({ validator_addr, shares }) => {
+          delegator.delegations.forEach(({ validator_address, shares }) => {
             commit(`setCommittedDelegation`, {
-              candidateId: validator_addr,
+              candidateId: validator_address,
               value: parseFloat(shares)
             })
             if (shares > 0) {
               const delegate = candidates.find(
-                ({ operator_address }) => operator_address === validator_addr // this should change to address instead of operator_address
+                ({ operator_address }) => operator_address === validator_address // this should change to address instead of operator_address
               )
               commit(`addToCart`, delegate)
             }
@@ -113,7 +110,7 @@ export default ({ node }) => {
           if (
             !delegator.delegations ||
             !delegator.delegations.find(
-              ({ validator_addr }) => validator_addr === validatorAddr
+              ({ validator_address }) => validator_address === validatorAddr
             )
           )
             commit(`setCommittedDelegation`, {
@@ -143,13 +140,13 @@ export default ({ node }) => {
     },
     async submitDelegation(
       {
-        rootState: { stakingParameters, wallet },
+        rootState: { stakingParameters, session },
         getters: { liquidAtoms },
         state,
         dispatch,
         commit
       },
-      { validator_addr, amount, password, submitType }
+      { validator_address, amount, password, submitType }
     ) {
       const denom = stakingParameters.parameters.bond_denom
       const delegation = {
@@ -159,11 +156,11 @@ export default ({ node }) => {
 
       await dispatch(`sendTx`, {
         type: `postDelegation`,
-        to: wallet.address, // TODO strange syntax
+        to: session.address, // TODO strange syntax
         password,
         submitType,
-        delegator_addr: wallet.address,
-        validator_addr,
+        delegator_address: session.address,
+        validator_address,
         delegation
       })
 
@@ -174,8 +171,8 @@ export default ({ node }) => {
       })
       // optimistically update the committed delegations
       commit(`setCommittedDelegation`, {
-        candidateId: validator_addr,
-        value: state.committedDelegates[validator_addr] + Number(amount)
+        candidateId: validator_address,
+        value: state.committedDelegates[validator_address] + Number(amount)
       })
 
       // load delegates after delegation to get new atom distribution on validators
@@ -183,7 +180,7 @@ export default ({ node }) => {
     },
     async submitUnbondingDelegation(
       {
-        rootState: { wallet },
+        rootState: { session },
         dispatch
       },
       { validator, amount, password, submitType }
@@ -194,9 +191,9 @@ export default ({ node }) => {
       )
       await dispatch(`sendTx`, {
         type: `postUnbondingDelegation`,
-        to: wallet.address,
-        delegator_addr: wallet.address,
-        validator_addr: validator.operator_address,
+        to: session.address,
+        delegator_address: session.address,
+        validator_address: validator.operator_address,
         shares,
         password,
         submitType
@@ -204,7 +201,7 @@ export default ({ node }) => {
     },
     async submitRedelegation(
       {
-        rootState: { wallet },
+        rootState: { session },
         dispatch
       },
       { validatorSrc, validatorDst, amount, password, submitType }
@@ -215,10 +212,10 @@ export default ({ node }) => {
 
       await dispatch(`sendTx`, {
         type: `postRedelegation`,
-        to: wallet.address,
-        delegator_addr: wallet.address,
-        validator_src_addr: validatorSrc.operator_address,
-        validator_dst_addr: validatorDst.operator_address,
+        to: session.address,
+        delegator_address: session.address,
+        validator_src_address: validatorSrc.operator_address,
+        validator_dst_address: validatorDst.operator_address,
         shares,
         password,
         submitType

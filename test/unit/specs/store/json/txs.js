@@ -8,7 +8,7 @@ export const bankTxs = [
       value: {
         msg: [
           {
-            type: `cosmos-sdk/Send`,
+            type: `cosmos-sdk/MsgSend`,
             value: {
               from_address: `A`,
               amount: [{ denom: `jbcoins`, amount: `12340000000` }],
@@ -53,7 +53,7 @@ export const bankTxs = [
       value: {
         msg: [
           {
-            type: `cosmos-sdk/Send`,
+            type: `cosmos-sdk/MsgSend`,
             value: {
               from_address: `B`,
               amount: [{ denom: `jbcoins`, amount: `12340000000` }],
@@ -97,7 +97,7 @@ export const bankTxs = [
       value: {
         msg: [
           {
-            type: `cosmos-sdk/Send`,
+            type: `cosmos-sdk/MsgSend`,
             value: {
               amount: [
                 { denom: `jbcoins`, amount: `12340000000` },
@@ -238,7 +238,7 @@ export const stakingTxs = [
           {
             type: `cosmos-sdk/MsgDelegate`,
             value: {
-              validator_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+              validator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
               value: {
                 amount: `42000000000`,
                 denom: `steak`
@@ -283,9 +283,9 @@ export const stakingTxs = [
       value: {
         msg: [
           {
-            type: `cosmos-sdk/Undelegate`,
+            type: `cosmos-sdk/MsgUndelegate`,
             value: {
-              validator_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+              validator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
               shares_amount: `10000000000`
             }
           }
@@ -326,10 +326,10 @@ export const stakingTxs = [
       value: {
         msg: [
           {
-            type: `cosmos-sdk/BeginRedelegate`,
+            type: `cosmos-sdk/MsgBeginRedelegate`,
             value: {
-              validator_src_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
-              validator_dst_addr: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
+              validator_src_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+              validator_dst_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
               shares_amount: `30000000`
             }
           }
@@ -553,7 +553,7 @@ export const distributionTxs = [
     tags: [
       {
         key: `action`,
-        value: `withdraw_delegation_reward`
+        value: `withdraw_delegator_reward`
       },
       {
         key: `delegator`,
@@ -602,7 +602,7 @@ export const distributionTxs = [
     tags: [
       {
         key: `action`,
-        value: `withdraw_delegation_reward`
+        value: `withdraw_delegator_reward`
       },
       {
         key: `delegator`,
@@ -650,7 +650,7 @@ export const distributionTxs = [
     tags: [
       {
         key: `action`,
-        value: `withdraw_delegation_reward`
+        value: `withdraw_delegator_reward`
       },
       {
         key: `delegator`,
