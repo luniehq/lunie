@@ -41,6 +41,7 @@ exports[`ModalVote has the expected html structure 1`] = `
       class="action-modal-group vote-options tm-form-group"
     >
       <!---->
+       
       <!---->
        
       <div
@@ -120,6 +121,7 @@ exports[`ModalVote has the expected html structure 1`] = `
       class="action-modal-group tm-form-group"
     >
       <!---->
+       
       <label
         class="tm-form-group__label"
         for="password"
@@ -151,6 +153,7 @@ exports[`ModalVote has the expected html structure 1`] = `
       class="action-modal-group tm-form-group"
     >
       <!---->
+       
       <!---->
        
       <div

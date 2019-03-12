@@ -12,6 +12,7 @@ exports[`LiBankTransaction should show bank transaction when user hasn't signed 
     <b>
       1,234.0000000
     </b>
+     
     <span>
        JBCOINS
     </span>
@@ -23,7 +24,8 @@ exports[`LiBankTransaction should show bank transaction when user hasn't signed 
     <short-bech32-stub
       address="A"
     />
-     to 
+    
+        to 
     <short-bech32-stub
       address="B"
     />
@@ -40,9 +42,11 @@ exports[`LiBankTransaction should show incoming transactions 1`] = `
   <div>
     
       Received 
+      
     <b>
       1,234.0000000
     </b>
+     
     <span>
        JBCOINS
     </span>
@@ -66,9 +70,11 @@ exports[`LiBankTransaction should show outgoing transactions 1`] = `
   <div>
     
       Sent 
+      
     <b>
       1,234.0000000
     </b>
+     
     <span>
        JBCOINS
     </span>
@@ -93,9 +99,11 @@ exports[`LiBankTransaction should show outgoing transactions send to herself 1`]
   <div>
     
       Sent 
+      
     <b>
       1,234.0000000
     </b>
+     
     <span>
        JBCOINS
     </span>

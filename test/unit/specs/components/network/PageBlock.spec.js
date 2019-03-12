@@ -1,46 +1,39 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import PageBlock from "renderer/components/network/PageBlock"
+import { bankTxs } from "../../store/json/txs"
+import { state } from "renderer/connectors/lcdClientMock.js"
 
 const localVue = createLocalVue()
-localVue.directive(`tooltip`, () => {})
+localVue.directive(`tooltip`, () => { })
 
 describe(`PageBlock`, () => {
   let wrapper
 
   const getters = {
     connected: true,
+    delegation: {},
+    bondDenom: `atom`,
+    lastHeader: {
+      height: `1000`
+    },
+    session: { address: `` },
+    delegates: { delegates: state.candidates },
     block: {
+      block: {
+        header: {
+          height: `100`,
+          num_txs: bankTxs.length,
+          proposer_address: `ABCDEFG123456HIJKLMNOP`,
+          time: Date.now()
+        }
+      },
+
       block_meta: {
         block_id: {
           hash: `ABCD1234`
         }
       },
-      block: {
-        data: {
-          txs: `txs`
-        },
-        header: {
-          height: `100`,
-          num_txs: 1200,
-          proposer_address: `ABCDEFG123456HIJKLMNOP`,
-          time: Date.now()
-        },
-        evidence: {
-          evidence: `evidence`
-        },
-        last_commit: {
-          precommits: [
-            {
-              validator_address: `validator address`,
-              timestamp: Date.now(),
-              round: 0
-            }
-          ]
-        }
-      }
-    },
-    lastHeader: {
-      height: `1000`
+      transactions: bankTxs
     }
   }
 
@@ -64,6 +57,49 @@ describe(`PageBlock`, () => {
   })
 
   it(`shows a page with information about a certain block`, () => {
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
+  it(`shows the block page with no txs`, () => {
+    wrapper = shallowMount(PageBlock, {
+      localVue,
+      mocks: {
+        $store: {
+          getters: {
+            connected: true,
+            lastHeader: {
+              height: `1000`
+            },
+            block: {
+              block: {
+                header: {
+                  height: `100`,
+                  num_txs: 0,
+                  proposer_address: `ABCDEFG123456HIJKLMNOP`,
+                  time: Date.now()
+                }
+              },
+
+              block_meta: {
+                block_id: {
+                  hash: `ABCD1234`
+                }
+              },
+              transactions: []
+            }
+          },
+          dispatch: jest.fn()
+        },
+        $route: {
+          params: { height: `100` }
+        },
+        $router: {
+          push: jest.fn()
+        }
+      },
+      stubs: [`router-link`]
+    })
+
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 

@@ -100,8 +100,8 @@
           <tm-form-msg
             class="sm"
             type="custom"
-            msg="Please back up the seed phrase for this account. This seed phrase
-            cannot be recovered."
+            msg="Please back up the seed phrase for this account.
+            This seed phrase cannot be recovered."
           />
         </tm-form-group>
         <tm-form-group

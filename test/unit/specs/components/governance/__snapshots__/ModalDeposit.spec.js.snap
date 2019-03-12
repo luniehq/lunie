@@ -41,6 +41,7 @@ exports[`ModalDeposit component matches snapshot has the expected html structure
       class="action-modal-form-group tm-form-group"
     >
       <!---->
+       
       <label
         class="tm-form-group__label"
         for="amount"
@@ -75,6 +76,7 @@ exports[`ModalDeposit component matches snapshot has the expected html structure
       class="action-modal-group tm-form-group"
     >
       <!---->
+       
       <label
         class="tm-form-group__label"
         for="password"
@@ -106,6 +108,7 @@ exports[`ModalDeposit component matches snapshot has the expected html structure
       class="action-modal-group tm-form-group"
     >
       <!---->
+       
       <!---->
        
       <div

@@ -1,6 +1,6 @@
 <template>
   <tm-page data-title="Block">
-    <tm-data-error v-if="!connected || !block" />
+    <tm-data-error v-if="!connected  || !block" />
     <template v-else>
       <div class="page-profile__header page-profile__section block">
         <div class="row">
@@ -30,10 +30,16 @@
 
       <div class="page-profile__section block">
         <div class="row">
-          <div class="column">
+          <div
+            class="column"
+          >
             <h3>Transactions</h3>
+            <data-empty-block
+              v-if="block.transactions && block.transactions.length === 0"
+              slot="no-data"
+            />
             <li-any-transaction
-              v-for="tx in blockTransactions"
+              v-for="tx in block.transactions"
               :key="tx.txhash"
               :validators="delegates.delegates"
               validators-url="/staking/validators"
@@ -63,78 +69,71 @@ import { getUnbondingTime } from "scripts/time"
 import TmDataError from "common/TmDataError"
 import TmPage from "common/TmPage"
 import LiAnyTransaction from "transactions/LiAnyTransaction"
+import DataEmptyBlock from "common/DataEmptyBlock"
 export default {
-  name: `page-block`,
-  components: {
-    TmDataError,
-    TmPage,
-    LiAnyTransaction
-  },
-  data: () => ({
-    num,
-    moment,
-    getUnbondingTime
-  }),
-  computed: {
-    ...mapGetters([
-      `connected`,
-      `block`,
-      `bondDenom`,
-      `lastHeader`,
-      `delegates`,
-      `delegation`,
-      `session`
-    ]),
-    properties() {
-      return [
-        {
-          title: `Proposer`
-        },
-        {
-          title: `Time`
-        },
-        {
-          title: `Round`
-        }
-      ]
-    },
-    blockTitle({ num, block } = this) {
-      if (!block.block) return `--`
-      return `#` + num.prettyInt(block.block.header.height)
-    },
-    blockTime({ moment, block } = this) {
-      if (!block.block) return `--`
-      return moment(block.block.header.time).format(`MMM Do YYYY, HH:mm:ss`)
-    },
-    blockTransactions({ block } = this) {
-      return block.transactions || []
-    }
-  },
-  watch: {
-    "$route.params.height": function() {
-      this.getBlock()
-    }
-  },
-  mounted() {
-    this.getBlock()
-  },
-  methods: {
-    async getBlock({ $store, $route, $router, lastHeader } = this) {
-      // query first for the block so we don't fail if the user started from this route and hasn't received any lastHeader yet
-      const blockInfo = await $store.dispatch(
-        `queryBlockInfo`,
-        $route.params.height
-      )
-      await $store.dispatch(`getBlockTxs`, $route.params.height)
+	name: `page-block`,
+	components: {
+		TmDataError,
+		DataEmptyBlock,
+		TmPage,
+		LiAnyTransaction
+	},
+	data: () => ({
+		num,
+		moment,
+		getUnbondingTime
+	}),
+	computed: {
+		...mapGetters([
+			`connected`,
+			`block`,
+			`bondDenom`,
+			`lastHeader`,
+			`delegates`,
+			`delegation`,
+			`session`
+		]),
+		properties() {
+			return [
+				{
+					title: `Proposer`
+				},
+				{
+					title: `Time`
+				},
+				{
+					title: `Round`
+				}
+			]
+		},
+		blockTitle({ num, block } = this) {
+			if (!block.block) return `--`
+			return `#` + num.prettyInt(block.block.header.height)
+		},
+		blockTime({ moment, block } = this) {
+			if (!block.block) return `--`
+			return moment(block.block.header.time).format(`MMM Do YYYY, HH:mm:ss`)
+		}
+	},
+	watch: {
+		"$route.params.height": async function() {
+			await this.getBlock()
+		}
+	},
+	async mounted() {
+		await this.getBlock()
+	},
+	methods: {
+		async getBlock({ $store, $route, $router, lastHeader } = this) {
+			// query first for the block so we don't fail if the user started from this route and hasn't received any lastHeader yet
+			await $store.dispatch(`queryBlockInfo`, $route.params.height)
 
-      if (
-        !blockInfo &&
-				Number($route.params.height) > Number(lastHeader.height)
-      ) {
-        $router.push(`/404`)
-        return
-      }
-    }
-  }
+			if (!this.block && $route.params.height > lastHeader.height) {
+				$router.push(`/404`)
+				return
+			}
+			await $store.dispatch(`getBlockTxs`, $route.params.height)
+		}
+	}
 }
 </script>

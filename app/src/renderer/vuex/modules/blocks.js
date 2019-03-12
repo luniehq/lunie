@@ -18,7 +18,7 @@ export default ({ node }) => {
     block: {
       block: {},
       block_meta: {},
-      transactions: {}
+      transactions: []
     },
     subscription: false,
     subscribedRPC: null,

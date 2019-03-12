@@ -6,17 +6,21 @@
   >
     <template v-if="address === ''">
       <div slot="caption">
-        Sent&nbsp;<b>{{ full(atoms(coins.amount)) }}</b><span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
+        Sent&nbsp;<b>{{ full(atoms(coins.amount)) }}</b>
+        <span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
       </div>
       <span slot="details">
         <template>
-          From <short-bech32 :address="sender" /> to <short-bech32 :address="receiver" />
+          From <short-bech32 :address="sender" />
+          to <short-bech32 :address="receiver" />
         </template>
       </span>
     </template>
     <template v-else-if="sent">
       <div slot="caption">
-        Sent&nbsp;<b>{{ full(atoms(coins.amount)) }}</b><span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
+        Sent&nbsp;
+        <b>{{ full(atoms(coins.amount)) }}</b>
+        <span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
       </div>
       <span slot="details">
         <template v-if="sentSelf">
@@ -29,7 +33,9 @@
     </template>
     <template v-else>
       <div slot="caption">
-        Received&nbsp;<b>{{ full(atoms(coins.amount)) }}</b><span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
+        Received&nbsp;
+        <b>{{ full(atoms(coins.amount)) }}</b>
+        <span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
       </div>
       <span slot="details">From <short-bech32 :address="sender" /></span>
     </template>
