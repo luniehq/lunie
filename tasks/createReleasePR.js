@@ -97,6 +97,7 @@ async function main({ octokit, shell, fs }, changeLog, pending, packageJson) {
 }
 
 if (require.main === module) {
+  /* istanbul ignore next */
   cli({}, () => {
     const changeLog = fs.readFileSync(join(__dirname, `..`, `CHANGELOG.md`), `utf8`)
     const pending = fs.readFileSync(join(__dirname, `..`, `PENDING.md`), `utf8`)
