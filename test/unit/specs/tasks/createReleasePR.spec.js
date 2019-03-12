@@ -73,13 +73,32 @@ it(`updates package.json`, () => {
   expect(release.updatePackageJson(previous, newVersion)).toEqual(updated)
 })
 
-it(`integration`, () => {
+it(`creates release PR`, async () => {
   const octokit = {
     authenticate: () => {},
     pullRequests: {
-      create: () => {}
+      create: jest.fn()
     }
   }
   const shell = () => {}
-  expect(release.main(octokit, shell)).resolved
+  const fs = {
+    writeFileSync: () => {}
+  }
+  await expect(release.main({ octokit, shell, fs }, `\n\n## [Unreleased]\n\n## [0.6.1] - 2018-05-24`, `XXX`, { version: `0.0.1` })).resolved
+  expect(octokit.pullRequests.create).toHaveBeenCalled()
+})
+
+it(`don't create PR if nothing changed`, () => {
+  const octokit = {
+    authenticate: () => {},
+    pullRequests: {
+      create: jest.fn()
+    }
+  }
+  const shell = () => {}
+  const fs = {
+    writeFileSync: () => {}
+  }
+  expect(release.main({ octokit, shell, fs }, `\n\n## [Unreleased]\n\n## [0.6.1] - 2018-05-24`, ``, { version: `0.0.1` })).resolved
+  expect(octokit.pullRequests.create).not.toHaveBeenCalled()
 })

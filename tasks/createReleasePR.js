@@ -57,11 +57,12 @@ const createPullRequest = async (octokit, { changeLog, token, tag, head }) => {
   })
 }
 
-async function main(octokit, shell) {
+async function main({ octokit, shell, fs }, changeLog, pending, packageJson) {
+  // only update if sth changed
+  if (pending.trim() === ``) return
+  
   console.log(`Making release...`)
-  const changeLog = fs.readFileSync(join(__dirname, `..`, `CHANGELOG.md`), `utf8`)
-  const pending = fs.readFileSync(join(__dirname, `..`, `PENDING.md`), `utf8`)
-  const packageJson = require(join(__dirname, `..`, `package.json`))
+  
   const oldVersion = packageJson.version
   const newVersion = bumpVersion(oldVersion)
   console.log(`New version:`, newVersion)
@@ -91,7 +92,13 @@ async function main(octokit, shell) {
 }
 
 if (require.main === module) {
-  cli({}, () => main(octokit, shell))
+  cli({}, () => {
+    const changeLog = fs.readFileSync(join(__dirname, `..`, `CHANGELOG.md`), `utf8`)
+    const pending = fs.readFileSync(join(__dirname, `..`, `PENDING.md`), `utf8`)
+    const packageJson = require(join(__dirname, `..`, `package.json`))
+
+    main({ octokit, shell, fs }, changeLog, pending, packageJson)
+  })
 }
 
 module.exports = {

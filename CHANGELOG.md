@@ -7,32 +7,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [1.0.0-beta.22] - 2019-03-12
-
-
-
-## [1.0.0-beta.21] - 2019-03-12
-
-
-
-## [1.0.0-beta.20] - 2019-03-12
-
-
-
-## [1.0.0-beta.19] - 2019-03-12
-
-
-
-## [1.0.0-beta.18] - 2019-03-12
-
-
-
-## [1.0.0-beta.17] - 2019-03-12
-
-### Changed
-
-- release PR now adds PENDING.md to CHANGELOG.md @faboweb
-
 ## [1.0.0-beta.16] - 2019-03-11
 
 ### Added
