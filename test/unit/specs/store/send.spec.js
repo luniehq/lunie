@@ -276,8 +276,8 @@ describe(`Module: Send`, () => {
           begin_redelegates: [
             {
               shares: 10,
-              validator_addr: lcdClientMock.validators[0],
-              delegator_addr: lcdClientMock.addresses[0]
+              validator_address: lcdClientMock.validators[0],
+              delegator_address: lcdClientMock.addresses[0]
             }
           ]
         }

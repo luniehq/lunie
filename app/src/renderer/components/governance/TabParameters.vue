@@ -93,25 +93,6 @@
         <div class="column">
           <dl class="info_dl">
             <dt>
-              Governance Penalty
-              <i
-                v-tooltip.top="tallyingTooltips.governance_penalty"
-                class="material-icons info-button"
-              >
-                info_outline
-              </i>
-            </dt>
-            <dd>
-              {{
-                governanceParameters.parameters.tallying.governance_penalty
-                  ? governanceParameters.parameters.tallying.governance_penalty
-                  : `--`
-              }}
-            </dd>
-          </dl>
-
-          <dl class="info_dl">
-            <dt>
               Quorum
               <i
                 v-tooltip.top="tallyingTooltips.quorum"
@@ -130,13 +111,6 @@
               }}
             </dd>
           </dl>
-        </div>
-      </div>
-    </div>
-
-    <div class="parameters__details parameters__section">
-      <div class="row">
-        <div class="column">
           <dl class="info_dl">
             <dt>
               Voting Period
@@ -156,7 +130,6 @@
             </dd>
           </dl>
         </div>
-        <div class="column" />
       </div>
     </div>
   </div>
@@ -178,7 +151,6 @@ export default {
       description: `Tally parameters for governance in the Cosmos Hub`,
       threshold: `Percentage of "Yes" votes required for proposal to pass`,
       veto: `Percentage of "No With Veto" votes required for proposal to be vetoed`,
-      governance_penalty: `Penalty for a validator who fails to vote`,
       quorum: `Percentage of tokens required to vote on a proposal to be considered valid`
     },
     votingTooltips: {
