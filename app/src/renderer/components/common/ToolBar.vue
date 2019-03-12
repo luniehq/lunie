@@ -12,7 +12,11 @@
     <router-link v-if="session.signedIn" id="settings" to="/preferences">
       <i v-tooltip.bottom="'Preferences'" class="material-icons">settings</i>
     </router-link>
-    <a v-if="session.signedIn" id="signOut-btn" @click="signOut()">
+    <a
+      v-if="session.signedIn"
+      id="signOut-btn"
+      @click="signOut()"
+    >
       <i
         v-tooltip.bottom.end="'Sign Out'"
         class="material-icons"

@@ -122,7 +122,7 @@ export default ({ node }) => {
         const signatureBuffer = state.externals.signatureImport(
           signatureByteArray
         )
-        /* 
+        /*
           NOTE: message is not hashed since Ledger needs to display it on screen
           and then internally hashes the json before signing it
         */

@@ -34,7 +34,9 @@
             <dl class="info_dl colored_dl">
               <dt>Transactions</dt>
               <dd>
-                {{ (block.block && block.block.data.txs) || `No Transactions` }}
+                {{
+                  block.block && block.block.data.txs || `No Transactions`
+                }}
               </dd>
             </dl>
           </div>
@@ -48,8 +50,7 @@
               <dt>Evidence</dt>
               <dd>
                 {{
-                  (block.block && block.block.evidence.evidence) ||
-                    `No Evidence`
+                  block.block && block.block.evidence.evidence || `No Evidence`
                 }}
               </dd>
             </dl>

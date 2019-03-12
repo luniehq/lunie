@@ -11,7 +11,10 @@ exports[`TmConnectedNetwork has a connecting state 1`] = `
   />
    
   <div
-    class="tm-connected-network__string tm-connected-network__string--connecting"
+    class="
+      tm-connected-network__string
+      tm-connected-network__string--connecting
+    "
   >
     
     Connecting to …

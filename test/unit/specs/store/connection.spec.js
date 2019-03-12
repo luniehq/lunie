@@ -57,11 +57,11 @@ describe(`Module: Connection`, () => {
       expect(state.lastHeader.height).toBe(5)
       expect(state.lastHeader.chain_id).toBe(`test-chain`)
     })
-  
+
     it(`sets nodeUrl from config.json`, () => {
       expect(state.nodeUrl).toBe(`https://voyager.lol`)
     })
-  
+
     it(`checks for new validators`, async () => {
       const dispatch = jest.fn()
       actions.setLastHeader(
@@ -80,7 +80,7 @@ describe(`Module: Connection`, () => {
         chain_id: `test-chain`
       })
     })
-  
+
     it(`sets connection state`, () => {
       expect(state.connected).toBe(false)
       mutations.setConnected(state, true)

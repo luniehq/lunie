@@ -4,7 +4,8 @@
   <tm-data-empty
     v-else-if="Object.keys(proposals.proposals).length === 0"
     title="No Governance Proposals"
-    subtitle="There are currently no governance proposals to display. Click the 'Create Proposal' button to submit a proposal."
+    subtitle="There are currently no governance proposals to display.
+    Click the 'Create Proposal' button to submit a proposal."
   />
   <table-proposals
     v-else

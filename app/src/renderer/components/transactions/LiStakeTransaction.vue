@@ -49,7 +49,10 @@
         Redelegation&nbsp;
         <b>
           {{
-            calculatePrettifiedTokens(tx.validator_src_address, tx.shares_amount)
+            calculatePrettifiedTokens(
+              tx.validator_src_address,
+              tx.shares_amount
+            )
           }}
         </b>
         <span>&nbsp;{{ bondingDenom }}s</span>
