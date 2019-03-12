@@ -101,7 +101,8 @@ exports[`ActionModal has the expected html structure when user has logged in wit
       icon="usb"
     >
       
-        Please plug in your Ledger Nano S and open the Cosmos app
+        Please plug in your Ledger Nano S and open
+               the Cosmos app
       
     </hardware-state-stub>
   </div>

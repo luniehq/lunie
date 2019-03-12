@@ -8,7 +8,10 @@ exports[`LiValidator has the expected html structure 1`] = `
     class="data-table__row__info"
   >
     <img
-      class="data-table__row__info__image data-table__row__info__image--no-img"
+      class="
+        data-table__row__info__image
+        data-table__row__info__image--no-img
+      "
       height="48"
       src="~assets/images/validator-icon.svg"
       width="48"
@@ -98,7 +101,10 @@ exports[`LiValidator works if user is not signed in 1`] = `
     class="data-table__row__info"
   >
     <img
-      class="data-table__row__info__image data-table__row__info__image--no-img"
+      class="
+        data-table__row__info__image
+        data-table__row__info__image--no-img
+      "
       height="48"
       src="~assets/images/validator-icon.svg"
       width="48"

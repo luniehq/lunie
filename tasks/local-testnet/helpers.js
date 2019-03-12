@@ -34,7 +34,9 @@ const buildLocalTestnet = async (
   )
   await nodesInitialStart(nodes, mainAccountSignInfo, options.chainId)
 
-  const { mnemonic, address } = await sendMoneyToFixedAccounts(mainAccountSignInfo, options.chainId)
+  const { mnemonic, address } = await sendMoneyToFixedAccounts(
+    mainAccountSignInfo, options.chainId
+  )
 
   console.log(`\n    🎉  SUCCESS 🎉\n`)
   console.log(
