@@ -120,69 +120,69 @@ import moment from "moment"
  */
 
 export default {
-	name: `li-stake-transaction`,
-	components: { LiTransaction },
-	props: {
-		transaction: {
-			type: Object,
-			required: true
-		},
-		validators: {
-			type: Array,
-			required: true
-		},
-		url: {
-			type: String,
-			required: true
-		},
-		bondingDenom: {
-			type: String,
-			required: true
-		},
-		unbondingTime: {
-			type: Number,
-			default: null
-		},
-		txType: {
-			type: String,
-			required: true
-		}
-	},
-	data: () => ({
-		atoms,
-		full
-	}),
-	computed: {
-		tx() {
-			return this.transaction.tx.value.msg[0].value
-		},
-		timeDiff() {
-			// only show time diff if still waiting to be terminated
-			if (this.state !== `locked`) return ``
+  name: `li-stake-transaction`,
+  components: { LiTransaction },
+  props: {
+    transaction: {
+      type: Object,
+      required: true
+    },
+    validators: {
+      type: Array,
+      required: true
+    },
+    url: {
+      type: String,
+      required: true
+    },
+    bondingDenom: {
+      type: String,
+      required: true
+    },
+    unbondingTime: {
+      type: Number,
+      default: null
+    },
+    txType: {
+      type: String,
+      required: true
+    }
+  },
+  data: () => ({
+    atoms,
+    full
+  }),
+  computed: {
+    tx() {
+      return this.transaction.tx.value.msg[0].value
+    },
+    timeDiff() {
+      // only show time diff if still waiting to be terminated
+      if (this.state !== `locked`) return ``
 
-			return `(liquid ${moment(this.unbondingTime).fromNow()})`
-		},
-		// unbonding transactions can be in the state 'locked', 'ended'
-		// the transaction needs to be enriched from the outside with `unbondingDelegation`
-		state() {
-			if (!this.unbondingTime) return `ended`
-			if (this.unbondingTime - Date.now() <= 0) return `ended`
-			return `locked`
-		}
-	},
-	methods: {
-		moniker(validatorAddr) {
-			const validator = this.validators.find(
-				c => c.operator_address === validatorAddr
-			)
-			return validator ? validator.description.moniker : validatorAddr
-		},
-		calculatePrettifiedTokens(validatorAddr, shares) {
-			const validator = this.validators.find(
-				val => val.operator_address === validatorAddr
-			)
-			return this.atoms(calculateTokens(validator, shares).toNumber())
-		}
-	}
+      return `(liquid ${moment(this.unbondingTime).fromNow()})`
+    },
+    // unbonding transactions can be in the state 'locked', 'ended'
+    // the transaction needs to be enriched from the outside with `unbondingDelegation`
+    state() {
+      if (!this.unbondingTime) return `ended`
+      if (this.unbondingTime - Date.now() <= 0) return `ended`
+      return `locked`
+    }
+  },
+  methods: {
+    moniker(validatorAddr) {
+      const validator = this.validators.find(
+        c => c.operator_address === validatorAddr
+      )
+      return validator ? validator.description.moniker : validatorAddr
+    },
+    calculatePrettifiedTokens(validatorAddr, shares) {
+      const validator = this.validators.find(
+        val => val.operator_address === validatorAddr
+      )
+      return this.atoms(calculateTokens(validator, shares).toNumber())
+    }
+  }
 }
 </script>

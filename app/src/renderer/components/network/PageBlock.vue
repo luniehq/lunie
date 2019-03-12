@@ -1,6 +1,6 @@
 <template>
   <tm-page data-title="Block">
-    <tm-data-error v-if="!connected  || !block" />
+    <tm-data-error v-if="!connected || !block" />
     <template v-else>
       <div class="page-profile__header page-profile__section block">
         <div class="row">
@@ -71,69 +71,69 @@ import TmPage from "common/TmPage"
 import LiAnyTransaction from "transactions/LiAnyTransaction"
 import DataEmptyBlock from "common/DataEmptyBlock"
 export default {
-	name: `page-block`,
-	components: {
-		TmDataError,
-		DataEmptyBlock,
-		TmPage,
-		LiAnyTransaction
-	},
-	data: () => ({
-		num,
-		moment,
-		getUnbondingTime
-	}),
-	computed: {
-		...mapGetters([
-			`connected`,
-			`block`,
-			`bondDenom`,
-			`lastHeader`,
-			`delegates`,
-			`delegation`,
-			`session`
-		]),
-		properties() {
-			return [
-				{
-					title: `Proposer`
-				},
-				{
-					title: `Time`
-				},
-				{
-					title: `Round`
-				}
-			]
-		},
-		blockTitle({ num, block } = this) {
-			if (!block.block) return `--`
-			return `#` + num.prettyInt(block.block.header.height)
-		},
-		blockTime({ moment, block } = this) {
-			if (!block.block) return `--`
-			return moment(block.block.header.time).format(`MMM Do YYYY, HH:mm:ss`)
-		}
-	},
-	watch: {
-		"$route.params.height": async function() {
-			await this.getBlock()
-		}
-	},
-	async mounted() {
-		await this.getBlock()
-	},
-	methods: {
-		async getBlock({ $store, $route, $router, lastHeader } = this) {
-			// query first for the block so we don't fail if the user started from this route and hasn't received any lastHeader yet
-			await $store.dispatch(`queryBlockInfo`, $route.params.height)
+  name: `page-block`,
+  components: {
+    TmDataError,
+    DataEmptyBlock,
+    TmPage,
+    LiAnyTransaction
+  },
+  data: () => ({
+    num,
+    moment,
+    getUnbondingTime
+  }),
+  computed: {
+    ...mapGetters([
+      `connected`,
+      `block`,
+      `bondDenom`,
+      `lastHeader`,
+      `delegates`,
+      `delegation`,
+      `session`
+    ]),
+    properties() {
+      return [
+        {
+          title: `Proposer`
+        },
+        {
+          title: `Time`
+        },
+        {
+          title: `Round`
+        }
+      ]
+    },
+    blockTitle({ num, block } = this) {
+      if (!block.block) return `--`
+      return `#` + num.prettyInt(block.block.header.height)
+    },
+    blockTime({ moment, block } = this) {
+      if (!block.block) return `--`
+      return moment(block.block.header.time).format(`MMM Do YYYY, HH:mm:ss`)
+    }
+  },
+  watch: {
+    "$route.params.height": async function() {
+      await this.getBlock()
+    }
+  },
+  async mounted() {
+    await this.getBlock()
+  },
+  methods: {
+    async getBlock({ $store, $route, $router, lastHeader } = this) {
+      // query first for the block so we don't fail if the user started from this route and hasn't received any lastHeader yet
+      await $store.dispatch(`queryBlockInfo`, $route.params.height)
 
-			if (!this.block && $route.params.height > lastHeader.height) {
-				$router.push(`/404`)
-				return
-			}
-			await $store.dispatch(`getBlockTxs`, $route.params.height)
-		}
-	}
+      if (!this.block && $route.params.height > lastHeader.height) {
+        $router.push(`/404`)
+        return
+      }
+      await $store.dispatch(`getBlockTxs`, $route.params.height)
+    }
+  }
 }
 </script>
