@@ -1,9 +1,8 @@
 <template>
   <tm-page
-    :loading="blocks.loading"
-    :loaded="blocks.loaded"
+    :loading="!lastHeader"
+    :loaded="!!lastHeader"
     :error="blocks.error"
-    :dataset="lastHeader"
     data-title="Network"
   >
     <template slot="managed-body">

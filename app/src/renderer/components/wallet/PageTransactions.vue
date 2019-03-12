@@ -3,7 +3,7 @@
     :loading="transactions.loading"
     :loaded="transactions.loaded"
     :error="transactions.error"
-    :dataset="orderedTransactions"
+    :data-empty="dataEmpty"
     :refresh="refreshTransactions"
     data-title="Transactions"
     :sign-in-required="true"
@@ -73,7 +73,10 @@ export default {
         [this.sort.property],
         [this.sort.order]
       )
-    }
+    },
+    dataEmpty() {
+      return this.orderedTransactions.length > 0  
+    },
   },
   watch: {
     lastHeader: {

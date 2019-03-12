@@ -19,13 +19,8 @@
         <tm-data-connecting v-if="!loaded && !connected" />
         <tm-data-loading v-else-if="!loaded && loading" />
         <tm-data-error v-else-if="error" />
-        <slot
-          v-else-if="
-            (!dataset || dataset.length === 0) && this.$slots['no-data']
-          "
-          name="no-data"
-        />
-        <tm-data-empty v-else-if="!dataset || dataset.length === 0" />
+        <slot v-else-if="!dataEmpty && this.$slots['no-data']" name="no-data" />
+        <tm-data-empty v-else-if="dataEmpty" />
         <slot v-else name="managed-body" />
       </template>
       <slot />
@@ -86,8 +81,8 @@ export default {
       type: Boolean,
       default: undefined
     },
-    dataset: {
-      type: [Array, Object],
+    dataEmpty: {
+      type: Boolean,
       default: undefined
     },
     refresh: {

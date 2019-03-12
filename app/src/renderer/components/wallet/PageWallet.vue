@@ -3,7 +3,7 @@
     :loading="wallet.loading"
     :loaded="wallet.loaded"
     :error="wallet.error"
-    :dataset="allBalances"
+    :data-empty="dataEmpty"
     :refresh="queryWalletBalances"
     data-title="Wallet"
     :sign-in-required="true"
@@ -72,8 +72,8 @@ export default {
       }
       return balances
     },
-    allBalances() {
-      return this.wallet.balances
+    dataEmpty() {
+      return this.wallet.balances.length > 0
     },
     filteredBalances() {
       return orderBy(
