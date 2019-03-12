@@ -52,7 +52,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [0.6.1] - 2018-05-24
 `
 
-  expect(release.updateChangeLog(previous, pending, newVersion, now)).toEqual(updated)
+  expect(
+    release.updateChangeLog(previous, pending, newVersion, now)
+  ).toEqual(updated)
 })
 
 it(`updates package.json`, () => {

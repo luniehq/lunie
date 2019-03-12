@@ -60,15 +60,20 @@ const createPullRequest = async (octokit, { changeLog, token, tag, head }) => {
 async function main({ octokit, shell, fs }, changeLog, pending, packageJson) {
   // only update if sth changed
   if (pending.trim() === ``) return
-  
+
   console.log(`Making release...`)
-  
+
   const oldVersion = packageJson.version
   const newVersion = bumpVersion(oldVersion)
   console.log(`New version:`, newVersion)
-  const newChangeLog = updateChangeLog(changeLog, pending, newVersion, new Date())
+  const newChangeLog = updateChangeLog(
+    changeLog,
+    pending,
+    newVersion,
+    new Date()
+  )
   const newPackageJson = updatePackageJson(packageJson, newVersion)
-  
+
   fs.writeFileSync(join(__dirname, `..`, `PENDING.md`), ``, `utf8`)
   fs.writeFileSync(join(__dirname, `..`, `CHANGELOG.md`), newChangeLog, `utf8`)
   fs.writeFileSync(
