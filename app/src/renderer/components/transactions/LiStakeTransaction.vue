@@ -1,7 +1,7 @@
 <template>
   <li-transaction
     color="#47AB6C"
-    :time="time"
+    :time="transaction.time"
     :block="transaction.height"
   >
     <template v-if="txType === `cosmos-sdk/MsgCreateValidator`">
@@ -165,9 +165,6 @@ export default {
       if (!this.unbondingTime) return `ended`
       if (this.unbondingTime - Date.now() <= 0) return `ended`
       return `locked`
-    },
-    time() {
-      return new Date(this.transaction.time).toISOString()
     }
   },
   methods: {

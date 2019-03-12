@@ -22,7 +22,7 @@
           :to="{ name: `block`, params: { height: block } }"
         >
           Block #{{ block }}&nbsp;
-        </router-link>@ {{ date }}
+        </router-link>{{ date !== `Invalid date` ? `@ ${date}` : `` }}
       </div>
     </div>
   </div>

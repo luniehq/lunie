@@ -30,6 +30,7 @@ export default ({ node }) => {
     setHistoryLoading(state, loading) {
       Vue.set(state, `loading`, loading)
     },
+    // TODO: this should set the time for only one tx !
     setTransactionTime(state, { blockHeight, time }) {
       [`staking`, `bank`, `governance`, `distribution`]
         .forEach(category => {
