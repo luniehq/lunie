@@ -72,3 +72,14 @@ it(`updates package.json`, () => {
 
   expect(release.updatePackageJson(previous, newVersion)).toEqual(updated)
 })
+
+it(`integration`, () => {
+  const octokit = {
+    authenticate: () => {},
+    pullRequests: {
+      create: () => {}
+    }
+  }
+  const shell = () => {}
+  expect(release.main(octokit, shell)).resolved
+})

@@ -25,7 +25,7 @@ function updateChangeLog(changeLog, pending, newVersion, now) {
 const updatePackageJson = (packageJson, version) =>
   Object.assign({}, packageJson, { version })
 
-const pushCommit = ({ token, branch }) =>
+const pushCommit = (shell, { token, branch }) =>
   shell(`
 set -o verbose
 git config --local user.name "Voyager Bot"
@@ -40,7 +40,7 @@ git push --force --tags bot HEAD:${branch}
 const recentChanges = changeLog =>
   changeLog.match(/.+?## .+?\n## .+?\n\n(.+?)\n## /s)[1]
 
-const createPullRequest = async ({ changeLog, token, tag, head }) => {
+const createPullRequest = async (octokit, { changeLog, token, tag, head }) => {
   octokit.authenticate({
     type: `token`,
     token
@@ -57,42 +57,45 @@ const createPullRequest = async ({ changeLog, token, tag, head }) => {
   })
 }
 
-if (require.main === module) {
-  cli({}, async () => {
-    console.log(`Making release...`)
-    const changeLog = fs.readFileSync(join(__dirname, `..`, `CHANGELOG.md`), `utf8`)
-    const pending = fs.readFileSync(join(__dirname, `..`, `PENDING.md`), `utf8`)
-    const packageJson = require(join(__dirname, `..`, `package.json`))
-    const oldVersion = packageJson.version
-    const newVersion = bumpVersion(oldVersion)
-    console.log(`New version:`, newVersion)
-    const newChangeLog = updateChangeLog(changeLog, pending, newVersion, new Date())
-    const newPackageJson = updatePackageJson(packageJson, newVersion)
-    
-    fs.writeFileSync(join(__dirname, `..`, `PENDING.md`), ``, `utf8`)
-    fs.writeFileSync(join(__dirname, `..`, `CHANGELOG.md`), newChangeLog, `utf8`)
-    fs.writeFileSync(
-      join(__dirname, `..`, `package.json`),
-      JSON.stringify(newPackageJson, null, 2) + `\n`,
-      `utf8`
-    )
+async function main(octokit, shell) {
+  console.log(`Making release...`)
+  const changeLog = fs.readFileSync(join(__dirname, `..`, `CHANGELOG.md`), `utf8`)
+  const pending = fs.readFileSync(join(__dirname, `..`, `PENDING.md`), `utf8`)
+  const packageJson = require(join(__dirname, `..`, `package.json`))
+  const oldVersion = packageJson.version
+  const newVersion = bumpVersion(oldVersion)
+  console.log(`New version:`, newVersion)
+  const newChangeLog = updateChangeLog(changeLog, pending, newVersion, new Date())
+  const newPackageJson = updatePackageJson(packageJson, newVersion)
+  
+  fs.writeFileSync(join(__dirname, `..`, `PENDING.md`), ``, `utf8`)
+  fs.writeFileSync(join(__dirname, `..`, `CHANGELOG.md`), newChangeLog, `utf8`)
+  fs.writeFileSync(
+    join(__dirname, `..`, `package.json`),
+    JSON.stringify(newPackageJson, null, 2) + `\n`,
+    `utf8`
+  )
 
-    console.log(`--- Committing release changes ---`)
+  console.log(`--- Committing release changes ---`)
 
-    const tag = `v${newVersion}`
-    const branch = `release-candidate/${tag}`
-    await pushCommit({ token: process.env.GIT_BOT_TOKEN, branch })
+  const tag = `v${newVersion}`
+  const branch = `release-candidate/${tag}`
+  await pushCommit(shell, { token: process.env.GIT_BOT_TOKEN, branch })
 
-    await createPullRequest({
-      changeLog: newChangeLog,
-      token: process.env.GIT_BOT_TOKEN,
-      tag,
-      head: branch
-    })
+  await createPullRequest(octokit, {
+    changeLog: newChangeLog,
+    token: process.env.GIT_BOT_TOKEN,
+    tag,
+    head: branch
   })
 }
 
+if (require.main === module) {
+  cli({}, () => main(octokit, shell))
+}
+
 module.exports = {
+  main,
   bumpVersion,
   updateChangeLog,
   updatePackageJson
