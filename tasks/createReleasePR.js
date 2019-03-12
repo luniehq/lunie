@@ -12,12 +12,13 @@ function bumpVersion(versionString) {
   return versionElements.join(`.`)
 }
 
-function updateChangeLog(changeLog, newVersion, now) {
+function updateChangeLog(changeLog, pending, newVersion, now) {
   const today = now.toISOString().slice(0, 10)
+  console.log(changeLog, pending, newVersion, today)
 
   return changeLog.replace(
     `## [Unreleased]`,
-    `## [Unreleased]\n\n## [${newVersion}] - ${today}`
+    `## [Unreleased]\n\n## [${newVersion}] - ${today}\n\n${pending}`
   )
 }
 
@@ -29,7 +30,7 @@ const pushCommit = ({ token, branch }) =>
 set -o verbose
 git config --local user.name "Voyager Bot"
 git config --local user.email "voyager_bot@tendermint.com"
-git add CHANGELOG.md package.json
+git add CHANGELOG.md PENDING.md package.json
 git commit --message="Bump version for release."
 git tag --force release-candidate
 git remote add bot https://${token}@github.com/cosmos/voyager.git
@@ -60,15 +61,16 @@ if (require.main === module) {
   cli({}, async () => {
     console.log(`Making release...`)
     const changeLog = fs.readFileSync(__dirname + `/../CHANGELOG.md`, `utf8`)
+    const pending = fs.readFileSync(__dirname + `/../PENDING.md`, `utf8`)
     const packageJson = require(__dirname + `/../package.json`)
     const oldVersion = packageJson.version
     const newVersion = bumpVersion(oldVersion)
     console.log(`New version:`, newVersion)
-    const newChangeLog = updateChangeLog(changeLog, newVersion, new Date())
+    const newChangeLog = updateChangeLog(changeLog, pending, newVersion, new Date())
     const newPackageJson = updatePackageJson(packageJson, newVersion)
-
+    
+    fs.writeFileSync(__dirname + `/../PENDING.md`, ``, `utf8`)
     fs.writeFileSync(__dirname + `/../CHANGELOG.md`, newChangeLog, `utf8`)
-
     fs.writeFileSync(
       __dirname + `/../package.json`,
       JSON.stringify(newPackageJson, null, 2) + `\n`,
