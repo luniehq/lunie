@@ -16,8 +16,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-### Added
+## [0.6.1] - 2018-05-24
 `
+
+  const pending = `### Added
+
+- xxx @faboweb
+
+### Changed
+
+- yyy @fedekunze`
 
   const newVersion = `0.6.2`
   const now = new Date(`2018-05-25`)
@@ -34,9 +42,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [0.6.2] - 2018-05-25
 
 ### Added
+
+- xxx @faboweb
+
+### Changed
+
+- yyy @fedekunze
+
+## [0.6.1] - 2018-05-24
 `
 
-  expect(release.updateChangeLog(previous, newVersion, now)).toEqual(updated)
+  expect(release.updateChangeLog(previous, pending, newVersion, now)).toEqual(updated)
 })
 
 it(`updates package.json`, () => {

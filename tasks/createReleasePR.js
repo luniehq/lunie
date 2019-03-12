@@ -14,7 +14,6 @@ function bumpVersion(versionString) {
 
 function updateChangeLog(changeLog, pending, newVersion, now) {
   const today = now.toISOString().slice(0, 10)
-  console.log(changeLog, pending, newVersion, today)
 
   return changeLog.replace(
     `## [Unreleased]`,
