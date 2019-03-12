@@ -111,10 +111,10 @@ describe(`Component: TabMyDelegations`, () => {
 
       expect(wrapper.exists(`tm-data-loading`)).toBe(true)
     })
-  
+
     it(`should show a message if not signed in`, () => {
       $store.getters.session.signedIn = false
-  
+
       expect(wrapper.exists(`card-sign-in-required`)).toBe(true)
     })
   })

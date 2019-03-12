@@ -8,6 +8,7 @@
 
 - [#\2202](https://github.com/cosmos/voyager/pull/2202) Fix circle configuration for publishing @sabau
 - [#\2211](https://github.com/cosmos/voyager/pull/2211) simplified sidebar and mobile menu, cleaned up css, fixed tests @jbibla
+- [#\2236](https://github.com/cosmos/voyager/pull/2236) ES lint no tabs @sabau
 
 ### Fixed
 

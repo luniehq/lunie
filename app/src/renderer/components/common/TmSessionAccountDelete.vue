@@ -90,9 +90,9 @@ export default {
     TmFormMsg,
     TmFormStruct
   },
-  data: () => ({ 
+  data: () => ({
     deletionPassword: ``,
-    deletionWarning: false 
+    deletionWarning: false
   }),
   mounted() {
     this.$el.querySelector(`#sign-in-password`).focus()

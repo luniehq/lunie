@@ -5,7 +5,7 @@ import validators from "../../store/json/validators.js"
 describe(`TableValidators`, () => {
   let wrapper, $store
 
-  const getters = { 
+  const getters = {
     delegation: {
       loaded: true
     },

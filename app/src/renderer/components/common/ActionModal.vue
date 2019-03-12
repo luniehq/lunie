@@ -70,11 +70,12 @@
       </div>
 
       <div v-else-if="step === `sign`" class="action-modal-form">
-        <hardware-state icon="usb" :loading="sending ? true : false">
+        <hardware-state icon="usb" :loading="!!sending">
           {{
             sending
               ? `Please verify and sign the transaction on your Ledger`
-              : `Please plug in your Ledger&nbsp;Nano&nbsp;S and open the Cosmos app`
+              : `Please plug in your Ledger&nbsp;Nano&nbsp;S and open
+                 the Cosmos app`
           }}
         </hardware-state>
       </div>
