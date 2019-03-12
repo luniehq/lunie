@@ -1,5 +1,3 @@
-## [Unreleased]
-
 ### Added
 
 - [\#2104](https://github.com/cosmos/voyager/issues/2104) fix transaction times @fedekunze
