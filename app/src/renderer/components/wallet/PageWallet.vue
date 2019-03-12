@@ -8,7 +8,11 @@
     data-title="Wallet"
     :sign-in-required="true"
   >
-    <tm-data-msg id="account_empty_msg" slot="no-data" icon="help_outline">
+    <tm-data-msg
+      id="account_empty_msg"
+      slot="no-data"
+      icon="help_outline"
+    >
       <div slot="title">
         Account empty
       </div>
@@ -73,7 +77,7 @@ export default {
       return balances
     },
     dataEmpty() {
-      return this.wallet.balances.length > 0
+      return this.wallet.balances.length === 0
     },
     filteredBalances() {
       return orderBy(

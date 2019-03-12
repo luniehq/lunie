@@ -75,8 +75,8 @@ export default {
       )
     },
     dataEmpty() {
-      return this.orderedTransactions.length > 0  
-    },
+      return this.orderedTransactions.length === 0
+    }
   },
   watch: {
     lastHeader: {
