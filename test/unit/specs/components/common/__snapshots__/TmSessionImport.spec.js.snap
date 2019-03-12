@@ -51,6 +51,7 @@ exports[`TmSessionImport has the expected html structure 1`] = `
             class="tm-form-group"
           >
             <!---->
+             
             <label
               class="tm-form-group__label"
               for="import-name"
@@ -80,6 +81,7 @@ exports[`TmSessionImport has the expected html structure 1`] = `
             class="tm-form-group"
           >
             <!---->
+             
             <label
               class="tm-form-group__label"
               for="import-password"
@@ -109,6 +111,7 @@ exports[`TmSessionImport has the expected html structure 1`] = `
             class="tm-form-group"
           >
             <!---->
+             
             <label
               class="tm-form-group__label"
               for="import-password-confirmation"
@@ -145,6 +148,7 @@ exports[`TmSessionImport has the expected html structure 1`] = `
             class="tm-form-group"
           >
             <!---->
+             
             <label
               class="tm-form-group__label"
               for="import-seed"
@@ -172,6 +176,7 @@ exports[`TmSessionImport has the expected html structure 1`] = `
             class="tm-form-group"
           >
             <!---->
+             
             <!---->
              
             <div

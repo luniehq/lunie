@@ -107,7 +107,8 @@ describe(`Module: Fee Distribution`, () => {
     describe(`getTotalRewards`, () => {
       it(`success`, async () => {
         await actions.getTotalRewards({ state, rootState, commit })
-        expect(node.getDelegatorRewards).toHaveBeenCalledWith(rootState.session.address)
+        expect(node.getDelegatorRewards)
+          .toHaveBeenCalledWith(rootState.session.address)
         expect(commit).toHaveBeenCalledWith(`setTotalRewards`, rewards)
       })
 
@@ -117,7 +118,8 @@ describe(`Module: Fee Distribution`, () => {
         await actions.getTotalRewards({ state, rootState, commit })
         expect(node.getDelegatorRewards).toHaveBeenCalledWith(null)
         expect(commit).not.toHaveBeenCalledWith(`setTotalRewards`, rewards)
-        expect(commit).toHaveBeenCalledWith(`setDistributionError`, Error(`invalid address`))
+        expect(commit)
+          .toHaveBeenCalledWith(`setDistributionError`, Error(`invalid address`))
       })
     })
 
@@ -143,7 +145,10 @@ describe(`Module: Fee Distribution`, () => {
           { operator_address: `cosmosvaloper1address1` },
           { operator_address: `cosmosvaloper1address2` },
         ]
-        await actions.getRewardsFromAllValidators({ state, dispatch }, validators)
+        await actions.getRewardsFromAllValidators(
+          { state, dispatch },
+          validators
+        )
         expect(dispatch).toBeCalledTimes(2)
         expect(dispatch).toBeCalledWith(
           `getRewardsFromValidator`,
@@ -161,7 +166,10 @@ describe(`Module: Fee Distribution`, () => {
           { operator_address: `cosmosvaloper1address2` },
         ]
         dispatch = jest.fn(async () => Promise.reject(Error(`invalid address`)))
-        await expect(actions.getRewardsFromAllValidators({ state, dispatch }, validators)).rejects.toThrowError(`invalid address`)
+        await expect(actions.getRewardsFromAllValidators(
+          { state, dispatch },
+          validators)
+        ).rejects.toThrowError(`invalid address`)
       })
 
     })
@@ -169,16 +177,27 @@ describe(`Module: Fee Distribution`, () => {
     describe(`getRewardsFromValidator`, () => {
       it(`success`, async () => {
         const validatorAddr = `cosmosvaloper1address`
-        await actions.getRewardsFromValidator({ state, rootState, commit }, validatorAddr)
-        expect(node.getDelegatorRewardsFromValidator).toHaveBeenCalledWith(rootState.session.address, validatorAddr)
+        await actions.getRewardsFromValidator(
+          { state, rootState, commit },
+          validatorAddr
+        )
+        expect(node.getDelegatorRewardsFromValidator)
+          .toHaveBeenCalledWith(rootState.session.address, validatorAddr)
         expect(commit).toHaveBeenCalledWith(`setDelegationRewards`, { validatorAddr, rewards })
       })
 
       it(`fails`, async () => {
         const validatorAddr = null
-        node.getDelegatorRewardsFromValidator = jest.fn(async () => Promise.reject(Error(`invalid validator address`)))
-        await actions.getRewardsFromValidator({ state, rootState, commit }, validatorAddr)
-        expect(node.getDelegatorRewardsFromValidator).toHaveBeenCalledWith(rootState.session.address, null)
+        node.getDelegatorRewardsFromValidator =
+          jest.fn(async () => Promise.reject(
+            Error(`invalid validator address`))
+          )
+        await actions.getRewardsFromValidator(
+          { state, rootState, commit },
+          validatorAddr
+        )
+        expect(node.getDelegatorRewardsFromValidator)
+          .toHaveBeenCalledWith(rootState.session.address, null)
         expect(commit).not.toHaveBeenCalledWith(`setDelegationRewards`, { validatorAddr, rewards })
         expect(commit).toHaveBeenCalledWith(`setDistributionError`, Error(`invalid validator address`))
       })
