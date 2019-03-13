@@ -3,12 +3,16 @@
     :loading="wallet.loading"
     :loaded="wallet.loaded"
     :error="wallet.error"
-    :dataset="allBalances"
+    :data-empty="dataEmpty"
     :refresh="queryWalletBalances"
     data-title="Wallet"
     :sign-in-required="true"
   >
-    <tm-data-msg id="account_empty_msg" slot="no-data" icon="help_outline">
+    <tm-data-msg
+      id="account_empty_msg"
+      slot="no-data"
+      icon="help_outline"
+    >
       <div slot="title">
         Account empty
       </div>
@@ -72,8 +76,8 @@ export default {
       }
       return balances
     },
-    allBalances() {
-      return this.wallet.balances
+    dataEmpty() {
+      return this.wallet.balances.length === 0
     },
     filteredBalances() {
       return orderBy(

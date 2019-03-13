@@ -5,8 +5,9 @@ const getUnbondingTime = ({ height, tx }, unbondingDelegations) => {
   if (type === `cosmos-sdk/MsgUndelegate`) {
     const validatorUnbondingDelegation =
       unbondingDelegations[value.validator_address]
-    const unbondingDelegation = validatorUnbondingDelegation
-      .find(({ creation_height }) => creation_height === String(height))
+    const unbondingDelegation = validatorUnbondingDelegation &&
+      validatorUnbondingDelegation
+        .find(({ creation_height }) => creation_height === String(height))
     if (
       unbondingDelegation
     ) {

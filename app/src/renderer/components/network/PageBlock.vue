@@ -30,30 +30,37 @@
 
       <div class="page-profile__section block">
         <div class="row">
-          <div class="column">
-            <dl class="info_dl colored_dl">
-              <dt>Transactions</dt>
-              <dd>
-                {{
-                  block.block && block.block.data.txs || `No Transactions`
-                }}
-              </dd>
-            </dl>
-          </div>
-        </div>
-      </div>
-
-      <div class="page-profile__section block">
-        <div class="row">
-          <div class="column">
-            <dl class="info_dl colored_dl">
-              <dt>Evidence</dt>
-              <dd>
-                {{
-                  block.block && block.block.evidence.evidence || `No Evidence`
-                }}
-              </dd>
-            </dl>
+          <div
+            class="column"
+          >
+            <h3>Transactions</h3>
+            <tm-data-msg
+              v-if="block.transactions && block.transactions.length === 0"
+              icon="info_outline"
+            >
+              <div slot="title">
+                No Transactions
+              </div>
+              <div slot="subtitle">
+                This block doesn't contain any transaction.
+              </div>
+            </tm-data-msg>
+            <li-any-transaction
+              v-for="tx in block.transactions"
+              :key="tx.txhash"
+              :validators="delegates.delegates"
+              validators-url="/staking/validators"
+              proposals-url="/governance"
+              :transaction="tx"
+              :address="session.address || ``"
+              :bonding-denom="bondDenom"
+              :height="block.block.header.height"
+              :time="block.block.header.time"
+              :unbonding-time="
+                getUnbondingTime(tx, delegation.unbondingDelegations)
+              "
+            />
+            <br>
           </div>
         </div>
       </div>
@@ -65,20 +72,34 @@
 import moment from "moment"
 import { mapGetters } from "vuex"
 import num from "scripts/num"
+import { getUnbondingTime } from "scripts/time"
 import TmDataError from "common/TmDataError"
 import TmPage from "common/TmPage"
+import LiAnyTransaction from "transactions/LiAnyTransaction"
+import TmDataMsg from "common/TmDataMsg"
 export default {
   name: `page-block`,
   components: {
     TmDataError,
-    TmPage
+    TmDataMsg,
+    TmPage,
+    LiAnyTransaction
   },
   data: () => ({
     num,
-    moment
+    moment,
+    getUnbondingTime
   }),
   computed: {
-    ...mapGetters([`connected`, `block`, `lastHeader`]),
+    ...mapGetters([
+      `connected`,
+      `block`,
+      `bondDenom`,
+      `lastHeader`,
+      `delegates`,
+      `delegation`,
+      `session`
+    ]),
     properties() {
       return [
         {
@@ -102,28 +123,23 @@ export default {
     }
   },
   watch: {
-    "$route.params.height": function() {
-      this.getBlock()
+    "$route.params.height": async function() {
+      await this.getBlock()
     }
   },
-  mounted() {
-    this.getBlock()
+  async mounted() {
+    await this.getBlock()
   },
   methods: {
     async getBlock({ $store, $route, $router, lastHeader } = this) {
       // query first for the block so we don't fail if the user started from this route and hasn't received any lastHeader yet
-      const blockInfo = await $store.dispatch(
-        `queryBlockInfo`,
-        $route.params.height
-      )
+      await $store.dispatch(`queryBlockInfo`, $route.params.height)
 
-      if (
-        !blockInfo &&
-        Number($route.params.height) > Number(lastHeader.height)
-      ) {
+      if (!this.block && $route.params.height > lastHeader.height) {
         $router.push(`/404`)
         return
       }
+      await $store.dispatch(`getBlockTxs`, $route.params.height)
     }
   }
 }

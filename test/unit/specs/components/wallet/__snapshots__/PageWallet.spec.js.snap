@@ -3,7 +3,6 @@
 exports[`PageWallet should display the wallet page 1`] = `
 <tm-page-stub
   data-title="Wallet"
-  dataset="[object Object],[object Object],[object Object]"
   refresh="function () { [native code] }"
   signinrequired="true"
   subtitle=""
@@ -55,7 +54,6 @@ exports[`PageWallet should display the wallet page 1`] = `
 exports[`PageWallet should not show denoms or the faucet button for a user who is not signed in 1`] = `
 <tm-page-stub
   data-title="Wallet"
-  dataset="[object Object],[object Object],[object Object]"
   refresh="function () { [native code] }"
   signinrequired="true"
   subtitle=""
@@ -104,7 +102,6 @@ exports[`PageWallet should not show denoms or the faucet button for a user who i
 exports[`PageWallet should show the sending modal 1`] = `
 <tm-page-stub
   data-title="Wallet"
-  dataset="[object Object],[object Object],[object Object]"
   refresh="function () { [native code] }"
   signinrequired="true"
   subtitle=""

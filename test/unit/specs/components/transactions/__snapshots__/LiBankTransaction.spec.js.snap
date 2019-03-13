@@ -1,10 +1,43 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`LiBankTransaction has the expected html structure 1`] = `
+exports[`LiBankTransaction should show bank transaction when user hasn't signed in 1`] = `
 <li-transaction-stub
   block="3436"
   color="#ED553B"
-  time="2042"
+  time="1970-01-01T00:00:02.042Z"
+>
+  <div>
+    
+      Sent 
+    <b>
+      1,234.0000000
+    </b>
+     
+    <span>
+       JBCOINS
+    </span>
+  </div>
+   
+  <span>
+    
+        From 
+    <short-bech32-stub
+      address="A"
+    />
+    
+        to 
+    <short-bech32-stub
+      address="B"
+    />
+  </span>
+</li-transaction-stub>
+`;
+
+exports[`LiBankTransaction should show incoming transactions 1`] = `
+<li-transaction-stub
+  block="3436"
+  color="#ED553B"
+  time="1970-01-01T00:00:02.042Z"
 >
   <div>
     
@@ -20,7 +53,10 @@ exports[`LiBankTransaction has the expected html structure 1`] = `
   </div>
    
   <span>
-    From A
+    From 
+    <short-bech32-stub
+      address="A"
+    />
   </span>
 </li-transaction-stub>
 `;
@@ -29,7 +65,7 @@ exports[`LiBankTransaction should show outgoing transactions 1`] = `
 <li-transaction-stub
   block="3438"
   color="#ED553B"
-  time="2052"
+  time="1970-01-01T00:00:02.042Z"
 >
   <div>
     
@@ -46,17 +82,19 @@ exports[`LiBankTransaction should show outgoing transactions 1`] = `
    
   <span>
     
-        To A
-      
+        To 
+    <short-bech32-stub
+      address="A"
+    />
   </span>
 </li-transaction-stub>
 `;
 
-exports[`LiBankTransaction should show transactions sent to the sender 1`] = `
+exports[`LiBankTransaction should show outgoing transactions send to herself 1`] = `
 <li-transaction-stub
   block="466"
   color="#ED553B"
-  time="1142"
+  time="1970-01-01T00:00:01.142Z"
 >
   <div>
     
