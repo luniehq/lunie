@@ -10,9 +10,7 @@
       </div>
       <div slot="details">
         From&nbsp;<router-link :to="url + '/' + tx.validator_address">
-          {{
-            moniker(tx.validator_address)
-          }}
+          {{ moniker(tx.validator_address) }}
         </router-link>
       </div>
     </template>
@@ -24,15 +22,15 @@
         To {{ tx.withdraw_address }}
       </div>
     </template>
-    <template v-else-if="txType === `cosmos-sdk/MsgWithdrawValidatorCommission`">
+    <template
+      v-else-if="txType === `cosmos-sdk/MsgWithdrawValidatorCommission`"
+    >
       <div slot="caption">
         Withdraw validator commission
       </div>
       <div slot="details">
         From&nbsp;<router-link :to="url + '/' + tx.validator_address">
-          {{
-            moniker(tx.validator_address)
-          }}
+          {{ moniker(tx.validator_address) }}
         </router-link>
       </div>
     </template>
