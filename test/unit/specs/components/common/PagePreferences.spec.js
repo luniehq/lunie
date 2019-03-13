@@ -74,31 +74,30 @@ describe(`PagePreferences`, () => {
     })
 
     it(`should set an error when user tries to set error collection on experimental mode`, async () => {
-      wrapper = shallowMount(PagePreferences, {
-        mocks: {
-          $store: {
-            dispatch: jest.fn(),
-            getters: {
-              session: {
-                address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-                errorCollection: false,
-                experimentalMode: true
-              },
-              mockedConnector: false,
-              nodeUrl: `http://localhost:9070`
-            }
-          }
-        }
-      })
+      const dispatch = jest.fn()
+      const self = {
+        $store: {
+          dispatch
+        },
+        session: {
+          address: `cosmos1address`,
+          experimentalMode: true
+        },
+        showError: false
+      }
 
       jest.useFakeTimers()
-      wrapper.vm.setErrorCollection() //old style to test timers
+      PagePreferences.methods.setErrorCollection.call(self)
 
-      expect(wrapper.vm.showError).toBe(true)
-      expect(wrapper.vm.$el.outerHTML).toContain(`Error collection is disabled during development.`)
+      expect(self.showError).toBe(true)
 
       jest.runAllTimers()
-      expect(wrapper.vm.showError).toBe(false)
+      expect(self.showError).toBe(false)
+    })
+
+    it(`should show an error when user tries to set error collection on experimental mode`, () => {
+      wrapper.vm.showError = true
+      expect(wrapper.vm.$el.outerHTML).toContain(`Error collection is disabled during development.`)
     })
   })
 })
