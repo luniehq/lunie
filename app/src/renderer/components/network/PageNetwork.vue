@@ -1,7 +1,11 @@
 <template>
-  <tm-page data-title="Network">
-    <tm-data-error v-if="!connected" />
-    <template v-else>
+  <tm-page
+    :loading="!lastHeader"
+    :loaded="!!lastHeader"
+    :error="blocks.error"
+    data-title="Network"
+  >
+    <template slot="managed-body">
       <div class="page-profile__header page-profile__section network">
         <div class="row">
           <div class="page-profile__header__info">
@@ -100,13 +104,11 @@ import moment from "moment"
 import { mapGetters } from "vuex"
 import num from "scripts/num"
 import PanelSort from "staking/PanelSort"
-import TmDataError from "common/TmDataError"
 import TmPage from "common/TmPage"
 export default {
   name: `page-network`,
   components: {
     PanelSort,
-    TmDataError,
     TmPage
   },
   data: () => ({
