@@ -15,9 +15,9 @@
             src="~assets/images/validator-icon.svg"
           >
 
-          <div class="page-profile__header__info">
+          <div class="row page-profile__header__info">
             <div>
-              <div>
+              <div class="validator-name-and-address">
                 <div class="page-profile__status-and-title">
                   <span
                     v-tooltip.top="status"
@@ -52,7 +52,7 @@
         </div>
 
         <div class="row">
-          <div class="row-unjustified">
+          <div class="row row-unjustified">
             <dl class="info_dl colored_dl">
               <dt>My Delegation</dt>
               <dd>{{ myDelegation }}</dd>
@@ -63,7 +63,7 @@
             </dl>
           </div>
 
-          <div class="row-unjustified">
+          <div class="row row-unjustified">
             <dl class="info_dl colored_dl">
               <dt>Voting Power</dt>
               <dd id="page-profile__power">
@@ -82,10 +82,7 @@
                 {{ percent(validator.commission.rate) }}
               </dd>
             </dl>
-            <dl
-              v-if="session.experimentalMode"
-              class="info_dl colored_dl"
-            >
+            <dl v-if="session.experimentalMode" class="info_dl colored_dl">
               <dt>Slashes</dt>
               <dd>--</dd>
             </dl>
@@ -177,6 +174,7 @@ import { mapGetters } from "vuex"
 import { percent, pretty, atoms, full } from "scripts/num"
 import TmBtn from "common/TmBtn"
 import TmDataError from "common/TmDataError"
+import TmDataLoading from "common/TmDataLoading"
 import { shortAddress, ratToBigNumber } from "scripts/common"
 import DelegationModal from "staking/DelegationModal"
 import UndelegationModal from "staking/UndelegationModal"
@@ -191,6 +189,7 @@ export default {
     UndelegationModal,
     TmBtn,
     TmDataError,
+    TmDataLoading,
     TmPage
   },
   data: () => ({
@@ -386,3 +385,23 @@ export default {
   }
 }
 </script>
+<style scoped>
+@media screen and (max-width: 1024px) {
+  .validator-name-and-address {
+    padding-bottom: 2rem;
+  }
+
+  .page-profile__header__info {
+    align-items: flex-start;
+  }
+
+  .page-profile__header__actions {
+    width: 100%;
+  }
+
+  .page-profile__header .avatar {
+    display: none;
+  }
+}
+</style>
+

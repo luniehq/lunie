@@ -8,7 +8,6 @@
     >
       <i v-tooltip.bottom="'Refresh'" class="material-icons">refresh</i>
     </a>
-    <slot />
     <router-link v-if="session.signedIn" id="settings" to="/preferences">
       <i v-tooltip.bottom="'Preferences'" class="material-icons">settings</i>
     </router-link>
@@ -54,7 +53,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 .tool-bar {
   display: flex;
   align-items: center;
@@ -62,14 +61,25 @@ export default {
 }
 
 .sign-in-button {
-  margin-left: 1.5rem;
+  margin-left: 1rem;
 }
 
+.tool-bar i {
+  padding: 0.5rem;
+}
+
+.tool-bar i,
 .tool-bar a {
-  padding: 0 0 0 1.5rem;
   color: var(--dim);
+  font-size: var(--lg);
   display: flex;
   align-items: center;
+}
+
+.tool-bar i:hover {
+  background: var(--app-nav);
+  padding: 0.5rem;
+  border-radius: 50%;
 }
 
 .tool-bar a:hover {

@@ -76,11 +76,8 @@ export default {
 </script>
 <style scoped>
 .header-balance {
-  align-items: baseline;
   display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  padding: 1rem 0 3rem 1rem;
+  padding: 1rem 0 2.5rem 1rem;
 }
 
 .short-bech32 {
@@ -97,15 +94,12 @@ export default {
 }
 
 .top-section {
+  border-right: var(--bc-dim) 2px solid;
+  position: relative;
   padding: 0 2rem;
 }
 
-.header-balance .top > .top-section {
-  border-right: var(--bc-dim) 1px solid;
-  position: relative;
-}
-
-.header-balance .top > div:last-of-type {
+.top-section:last-of-type {
   border-right: none;
 }
 
@@ -123,32 +117,29 @@ export default {
   line-height: 40px;
 }
 
-.header-balance .top .icon-container {
-  display: block;
-  height: 100%;
-}
-
-.header-balance .top .icon {
-  border-right: none;
-  height: 60px;
-  margin: 0 1rem 0 0;
-  padding: 0;
-  width: 60px;
-}
-
-.header-balance .top .total-rewards .group {
-  align-items: baseline;
-  display: flex;
-  flex-direction: row;
-}
-
-.header-balance .top .total-rewards .group a {
-  padding-left: 10px;
-}
-
 .withdraw-rewards {
   font-size: var(--sm);
   position: absolute;
   font-weight: 300;
+}
+
+@media screen and (max-width: 1024px) {
+  .header-balance {
+    padding: 0 0 1.5rem 1rem;
+  }
+
+  .header-balance .top {
+    flex-direction: column;
+  }
+
+  .top-section {
+    padding: 0.5rem 0 1rem;
+    border-right: none;
+  }
+
+  .top-section:nth-child(2),
+  .top-section:nth-child(3) {
+    display: none;
+  }
 }
 </style>

@@ -99,6 +99,7 @@ export default {
   user-select: none;
   display: flex;
   flex-flow: column nowrap;
+  height: 100vh;
 }
 
 .app-menu .app-menu-main {

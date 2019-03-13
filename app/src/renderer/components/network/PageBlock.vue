@@ -9,13 +9,6 @@
               <h2 class="page-profile__title">
                 Block {{ blockTitle }}
               </h2>
-              <h3 class="page-profile__subtitle">
-                {{
-                  block.block_meta && block.block_meta.block_id
-                    ? block.block_meta.block_id.hash
-                    : ""
-                }}
-              </h3>
             </div>
           </div>
         </div>

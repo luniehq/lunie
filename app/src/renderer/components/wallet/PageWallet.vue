@@ -8,7 +8,11 @@
     data-title="Wallet"
     :sign-in-required="true"
   >
-    <tm-data-msg id="account_empty_msg" slot="no-data" icon="help_outline">
+    <tm-data-msg
+      id="account_empty_msg"
+      slot="no-data"
+      icon="account_balance_wallet"
+    >
       <div slot="title">
         Account empty
       </div>

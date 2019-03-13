@@ -1,5 +1,5 @@
 <template>
-  <tm-data-msg icon="info_outline">
+  <tm-data-msg :icon="icon">
     <h4 v-if="title" slot="title">
       {{ title }}
     </h4>
@@ -29,6 +29,10 @@ export default {
     subtitle: {
       type: String,
       default: null
+    },
+    icon: {
+      type: String,
+      default: `info_outline`
     }
   }
 }

@@ -127,6 +127,7 @@ export default {
 .tm-page-main {
   flex: 1;
   position: relative;
+  padding: 1rem;
 }
 
 .tm-page-title {
@@ -262,8 +263,16 @@ export default {
 }
 
 @media screen and (max-width: 1024px) {
+  .tm-page-main {
+    padding: 1rem 0;
+  }
+
   .row {
     flex-direction: column;
+  }
+
+  .page-profile__header__actions {
+    margin-right: 0;
   }
 }
 </style>

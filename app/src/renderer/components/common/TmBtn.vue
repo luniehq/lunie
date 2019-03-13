@@ -5,19 +5,19 @@
   <a v-else-if="type === 'anchor'" class="tm-btn">
     <span :class="btnClass">
       <i v-if="icon" :class="'tm-btn__icon material-icons'" aria-hidden="true">
-        {{ icon }} </i
-      ><span v-if="value" class="tm-btn__value">{{ value }}</span>
-    </span> </a
-  ><button v-else :type="type" class="tm-btn">
+        {{ icon }}
+      </i><span v-if="value" class="tm-btn__value">{{ value }}</span>
+    </span>
+  </a><button v-else :type="type" class="tm-btn">
     <span :class="btnClass">
       <i v-if="icon" :class="'tm-btn__icon material-icons'" aria-hidden="true">
-        {{ icon }} </i
-      ><img
+        {{ icon }}
+      </i><img
         v-else-if="img"
         :src="img"
         :class="'tm-btn__img'"
         aria-hidden="true"
-      /><span v-if="value" class="tm-btn__value">{{ value }}</span>
+      ><span v-if="value" class="tm-btn__value">{{ value }}</span>
     </span>
   </button>
 </template>

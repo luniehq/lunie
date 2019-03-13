@@ -15,9 +15,11 @@
       <menu class="tm-page-header-menu">
         <slot name="menu" />
       </menu>
-      <tabs v-if="tabs" :tabs="tabs" />
-      <div v-if="$slots['header-buttons']" class="header-buttons">
-        <slot name="header-buttons" />
+      <div class="tabs-and-buttons">
+        <tabs v-if="tabs" :tabs="tabs" />
+        <div v-if="$slots['header-buttons']" class="header-buttons">
+          <slot name="header-buttons" />
+        </div>
       </div>
     </div>
   </header>
@@ -37,24 +39,35 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .header-buttons {
-  align-self: flex-start;
-  margin-left: auto;
-  position: relative;
-  bottom: 4px;
+  padding: 0 1rem 1rem 0;
+}
+
+.tabs-and-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
 }
 
 .tm-page-header-title > div {
   display: inline-block;
 }
 
+.tm-page-header-body {
+  padding: 1rem;
+}
+
 .tm-page-header-container {
   border-bottom: 1px solid var(--bc-dim);
+  background: var(--app-fg);
 }
 
 .tm-page-header-text .tm-page-header-body {
+  flex: 1;
   display: flex;
+  justify-content: space-between;
 }
 
 .tm-page-header-text .tool-bar i.material-icons {
@@ -73,18 +86,19 @@ export default {
   color: var(--bright);
 }
 
-/* @media screen and (min-width: 1024px) {
-  .tm-page-header {
-    border-bottom-color: var(--bc);
+@media screen and (max-width: 1024px) {
+  .tabs {
+    width: 100%;
   }
 
-  .tm-page-header-container {
-    display: flex;
+  .tabs-and-buttons {
+    flex-direction: column;
   }
 
-  .tm-page-header-menu {
-    display: flex;
-    align-items: flex-start;
+  .header-buttons {
+    padding: 1rem;
+    width: 100%;
+    background: var(--app-bg);
   }
-} */
+}
 </style>
