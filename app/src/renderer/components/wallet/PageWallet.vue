@@ -24,13 +24,6 @@
       class="tm-li-balance"
       @show-modal="showModal"
     />
-    <tm-btn
-      v-if="enableFaucet"
-      slot="header-buttons"
-      value="Get Tokens"
-      color="green"
-      @click.native="faucet"
-    />
     <send-modal ref="sendModal" />
   </tm-page>
 </template>
@@ -43,7 +36,6 @@ import LiCoin from "./LiCoin"
 import SendModal from "wallet/SendModal"
 import TmPage from "common/TmPage"
 import TmDataMsg from "common/TmDataMsg"
-import TmBtn from "../common/TmBtn"
 
 export default {
   name: `page-wallet`,
@@ -51,15 +43,11 @@ export default {
     TmDataMsg,
     LiCoin,
     TmPage,
-    SendModal,
-    TmBtn
+    SendModal
   },
   data: () => ({ num, showSendModal: false }),
   computed: {
     ...mapGetters([`wallet`, `connected`, `session`]),
-    enableFaucet() {
-      return !!this.wallet.externals.config.faucet && this.session.signedIn
-    },
     allDenomBalances() {
       // for denoms not in balances, add empty balance
       const balances = this.wallet.balances.slice(0)
@@ -101,11 +89,6 @@ export default {
     ...mapActions([`updateDelegates`, `queryWalletBalances`]),
     showModal(denomination) {
       this.$refs.sendModal.open(denomination)
-    },
-    async faucet() {
-      if (this.session.signedIn) {
-        await this.$store.dispatch(`getMoney`, this.session.address)
-      }
     }
   }
 }
