@@ -24,7 +24,9 @@
         To {{ tx.withdraw_address }}
       </div>
     </template>
-    <template v-else-if="txType === `cosmos-sdk/MsgWithdrawValidatorCommission`">
+    <template
+      v-else-if="txType === `cosmos-sdk/MsgWithdrawValidatorCommission`"
+    >
       <div slot="caption">
         Withdraw validator commission
       </div>

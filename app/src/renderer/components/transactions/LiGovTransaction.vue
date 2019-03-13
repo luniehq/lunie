@@ -6,7 +6,9 @@
   >
     <template v-if="txType === `cosmos-sdk/MsgSubmitProposal`">
       <div slot="caption">
-        Submit {{ tx.proposal_type.toLowerCase() }} proposal&nbsp;<b>{{ full(atoms(tx.initial_deposit[0].amount)) }}</b><span>&nbsp;{{ tx.initial_deposit[0].denom }}s</span>
+        Submit {{ tx.proposal_type.toLowerCase() }} proposal&nbsp;
+        <b>{{ full(atoms(tx.initial_deposit[0].amount)) }}</b>
+        <span>&nbsp;{{ tx.initial_deposit[0].denom }}s</span>
       </div>
       <div slot="details">
         Title:&nbsp;<i>{{ tx.title }}</i>

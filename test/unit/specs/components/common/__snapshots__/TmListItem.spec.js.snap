@@ -114,6 +114,7 @@ exports[`TmListItem should show a dd link 1`] = `
       >
         chevron_right
       </i>
+       
       <i
         class="material-icons active"
       >
@@ -162,6 +163,7 @@ exports[`TmListItem should show a description 1`] = `
       >
         chevron_right
       </i>
+       
       <i
         class="material-icons active"
       >
@@ -250,6 +252,7 @@ exports[`TmListItem should show a router-link 1`] = `
       >
         chevron_right
       </i>
+       
       <i
         class="material-icons active"
       >
@@ -302,6 +305,7 @@ exports[`TmListItem should show a subtitle router link 1`] = `
       >
         chevron_right
       </i>
+       
       <i
         class="material-icons active"
       >
@@ -350,6 +354,7 @@ exports[`TmListItem should show a thumb 1`] = `
       >
         chevron_right
       </i>
+       
       <i
         class="material-icons active"
       >

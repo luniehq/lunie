@@ -63,7 +63,9 @@ export const oldUnbondingAtoms = state => {
   return Object.values(state.delegation.unbondingDelegations).reduce(
     // unbondingDelegations can have several active undelegations per validator (key)
     (atoms, entries) => {
-      return BN(atoms).plus(entries.reduce((sum, { balance }) => sum.plus(balance), BN(0)))
+      return BN(atoms).plus(
+        entries.reduce((sum, { balance }) => sum.plus(balance), BN(0))
+      )
     },
     BN(0)
   )
