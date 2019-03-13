@@ -1,7 +1,7 @@
 export const bankTxs = [
   {
     hash: `not a real hash`,
-    time: 2042,
+    time: new Date(2042).toISOString(),
     height: `3436`,
     tx: {
       type: `8EFE47F0625DE8`,
@@ -45,7 +45,7 @@ export const bankTxs = [
   },
   {
     hash: `not a real hash2`,
-    time: 2052, // set by Voyager
+    time: new Date(2042).toISOString(), // set by Voyager
     height: `3438`,
     tx: {
       type: `8EFE47F0625DE8`,
@@ -90,7 +90,7 @@ export const bankTxs = [
   },
   {
     hash: `not a real hash3`,
-    time: 1142, // set by Voyager
+    time: new Date(1142).toISOString(), // set by Voyager
     height: `466`,
     tx: {
       type: `8EFE47F0625DE8`,
@@ -143,6 +143,7 @@ export const stakingTxs = [
     txhash: `DB8F2DAFD4791337E57921DB2D7D7838E14492323FECB391BB39D51239BA3FBF`,
     gas_wanted: `101587`,
     gas_used: `101577`,
+    time: new Date(2042).toISOString(),
     tags: [
       {
         key: `action`,
@@ -195,6 +196,7 @@ export const stakingTxs = [
     txhash: `DB8F2DAFD4791337E57921DB2D7D7838E14492323FECB391BB39D51239BA3FBF`,
     gas_wanted: `101587`,
     gas_used: `101577`,
+    time: new Date(2041).toISOString(),
     tags: [
       {
         key: `action`,
@@ -227,7 +229,7 @@ export const stakingTxs = [
   {
     hash: `not a real hash4`,
 
-    time: 42000, // set by Voyager
+    time: new Date(42000).toISOString(), // set by Voyager
     height: `568`,
     tx: {
       type: `8EFE47F0625DE8`,
@@ -274,7 +276,7 @@ export const stakingTxs = [
   {
     hash: `not a real hash5`,
 
-    time: 42000, // set by Voyager
+    time: new Date(4200).toISOString(), // set by Voyager
     height: `569`,
     tx: {
       type: `8EFE47F0625DE8`,
@@ -317,7 +319,7 @@ export const stakingTxs = [
   },
   {
     hash: `not a real hash6`,
-    time: 42000, // set by Voyager
+    time: new Date(45000).toISOString(), // set by Voyager
     height: `567`,
     tx: {
       type: `8EFE47F0625DE8`,
@@ -364,6 +366,7 @@ export const stakingTxs = [
     txhash: `DB8F2DAFD4791337E57921DB2D7D7838E14492323FECB391BB39D51239BA3FBF`,
     gas_wanted: `101587`,
     gas_used: `101577`,
+    time: new Date(20420).toISOString(),
     tags: [
       {
         key: `action`,
@@ -397,7 +400,7 @@ export const stakingTxs = [
 export const governanceTxs = [
   {
     hash: `not a real hash7`,
-    time: 42000, // set by Voyager
+    time: new Date(42540).toISOString(), // set by Voyager
     height: `56673`,
     tx: {
       type: `8EFE47F0625DE8`,
@@ -448,7 +451,7 @@ export const governanceTxs = [
   },
   {
     hash: `not a real hash9`,
-    time: 42000,
+    time: new Date(42567).toISOString(),
     height: `56675`,
     tx: {
       type: `8EFE47F0625DE8`,
@@ -497,7 +500,7 @@ export const governanceTxs = [
   },
   {
     hash: `not a real hash10`,
-    time: 42000, // set by Voyager
+    time: new Date(43300).toISOString(), // set by Voyager
     height: `56673`,
     tx: {
       type: `8EFE47F0625DE8`,
@@ -547,6 +550,7 @@ export const distributionTxs = [
     log: `[{"msg_index":"0","success":true,"log":""}]`,
     gas_wanted: `500000`,
     gas_used: `58806`,
+    time: new Date(43300).toISOString(), // set by Voyager
     tags: [
       {
         key: `action`,
@@ -568,8 +572,8 @@ export const distributionTxs = [
           {
             type: `cosmos-sdk/MsgWithdrawDelegationReward`,
             value: {
-              delegator_addr: `cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3`,
-              validator_addr: `cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz`
+              delegator_address: `cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3`,
+              validator_address: `cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz`
             }
           }
         ],
@@ -596,6 +600,7 @@ export const distributionTxs = [
     log: `[{"msg_index":"0","success":true,"log":""}]`,
     gas_wanted: `500000`,
     gas_used: `58806`,
+    time: new Date(43300).toISOString(), // set by Voyager
     tags: [
       {
         key: `action`,
@@ -644,6 +649,7 @@ export const distributionTxs = [
     log: `[{"msg_index":"0","success":true,"log":""}]`,
     gas_wanted: `500000`,
     gas_used: `58806`,
+    time: new Date(43300).toISOString(), // set by Voyager
     tags: [
       {
         key: `action`,

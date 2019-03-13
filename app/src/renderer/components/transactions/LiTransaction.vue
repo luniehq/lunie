@@ -22,7 +22,7 @@
           :to="{ name: `block`, params: { height: block } }"
         >
           Block #{{ block }}&nbsp;
-        </router-link>@ {{ date }}
+        </router-link>{{ date !== `Invalid date` ? `@ ${date}` : `` }}
       </div>
     </div>
   </div>
@@ -39,8 +39,8 @@ export default {
       default: null
     },
     time: {
-      type: Number,
-      default: null
+      type: String,
+      default: null // TODO: fails with required: true
     },
     block: {
       type: [String, Number], // for convenience we allow strings and numbers

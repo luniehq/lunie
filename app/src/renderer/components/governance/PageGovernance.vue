@@ -1,11 +1,5 @@
 <template>
-  <tm-page
-    :tabs="tabs"
-    :dataset="proposalList"
-    search="proposals"
-    class="governance"
-    data-title="Governance"
-  >
+  <tm-page :tabs="tabs" class="governance" data-title="Governance">
     <tm-btn
       v-if="session.signedIn"
       id="propose-btn"
@@ -54,9 +48,6 @@ export default {
       `connected`,
       `session`
     ]),
-    proposalList() {
-      return Object.values(this.proposals.proposals)
-    }
   },
   mounted() {
     this.ps = new PerfectScrollbar(this.$el.querySelector(`.tm-page-main`))

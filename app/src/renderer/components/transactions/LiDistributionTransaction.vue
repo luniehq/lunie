@@ -9,10 +9,8 @@
         Withdraw rewards
       </div>
       <div slot="details">
-        From&nbsp;<router-link :to="url + '/' + tx.validator_addr">
-          {{
-            moniker(tx.validator_addr)
-          }}
+        From&nbsp;<router-link :to="url + '/' + tx.validator_address">
+          {{ moniker(tx.validator_address) }}
         </router-link>
       </div>
     </template>
@@ -32,9 +30,7 @@
       </div>
       <div slot="details">
         From&nbsp;<router-link :to="url + '/' + tx.validator_address">
-          {{
-            moniker(tx.validator_address)
-          }}
+          {{ moniker(tx.validator_address) }}
         </router-link>
       </div>
     </template>

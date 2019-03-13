@@ -140,13 +140,6 @@ describe(`PageWallet`, () => {
     expect(wrapper.exists(`tm-data-loading`)).toBe(true)
   })
 
-  it(`should call getmoney`, async () => {
-    await PageWallet.methods.faucet.call({
-      $store, session: { signedIn: true, address: `cosmos1address` }
-    })
-    expect($store.dispatch).toHaveBeenCalledWith(`getMoney`, `cosmos1address`)
-  })
-
   describe(`updates balances every block`, () => {
     it(`should not update if the user hasn't signed in`, () => {
       const queryWalletBalances = jest.fn()
