@@ -28,4 +28,8 @@ describe(`number helper`, () => {
   it(`should format long decimals well`, () => {
     expect(num.prettyDecimals(1e-8)).toBe(`0.00000001`)
   })
+
+  it(`should format long decimals well if whole number`, () => {
+    expect(num.prettyDecimals(12)).toBe(`12`)
+  })
 })

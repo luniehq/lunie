@@ -33,6 +33,11 @@ function prettyDecimals(number = 0) {
     longDecimals = longDecimals.substr(0, longDecimals.length - 1)
   }
 
+  // remove decimal separator from whole numbers
+  if(Number.isNaN(Number(longDecimals.charAt(longDecimals.length - 1)))) {
+    longDecimals = longDecimals.substr(0, longDecimals.length - 1)
+  }
+
   return longDecimals
 }
 function prettyInt(number = 0) {
