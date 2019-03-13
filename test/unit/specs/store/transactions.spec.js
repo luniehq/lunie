@@ -70,7 +70,14 @@ describe(`Module: Transactions`, () => {
         blockHeight: 150,
         time: `2018-10-15T00:05:32.000Z`
       })
-      expect(state.staking).toEqual([{ height: 150, time: 1539561932000 }])
+      expect(state.staking).toEqual(
+        [
+          {
+            height: 150,
+            time: `2018-10-15T00:05:32.000Z`
+          }
+        ]
+      )
     })
   })
 

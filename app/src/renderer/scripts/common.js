@@ -40,17 +40,13 @@ module.exports.ratToBigNumber = function (rat) {
 module.exports.calculateShares = function (validator, tokens) {
   const myTokens = new BN(tokens || 0)
 
-  const totalSharesN = new BN(validator.delegator_shares.split(`/`)[0])
-  const totalSharesD = new BN(validator.delegator_shares.split(`/`)[1] || 1)
+  const totalShares = new BN(validator.delegator_shares)
+  const totalTokens = new BN(validator.tokens)
 
-  const totalTokensN = new BN(validator.tokens.split(`/`)[0])
-  const totalTokensD = new BN(validator.tokens.split(`/`)[1] || 1)
-
-  if (totalTokensN.eq(0)) return new BN(0)
+  if (totalTokens.eq(0)) return new BN(0)
   return myTokens
-    .times(totalSharesN)
-    .times(totalTokensD)
-    .div(totalSharesD.times(totalTokensN))
+    .times(totalShares)
+    .div(totalTokens)
 }
 
 module.exports.calculateTokens = function (validator, shares) {
@@ -58,16 +54,13 @@ module.exports.calculateTokens = function (validator, shares) {
   // (myShares / totalShares) * totalTokens where totalShares
   // and totalTokens are both represented as fractions
   const myShares = new BN(shares || 0)
-  const totalSharesN = new BN(validator.delegator_shares.split(`/`)[0])
-  const totalSharesD = new BN(validator.delegator_shares.split(`/`)[1] || 1)
+  const totalShares = new BN(validator.delegator_shares)
+  const totalTokens = new BN(validator.tokens)
 
-  const totalTokensN = new BN(validator.tokens.split(`/`)[0])
-  const totalTokensD = new BN(validator.tokens.split(`/`)[1] || 1)
-  if (totalSharesN.eq(0)) return new BN(0)
+  if (totalShares.eq(0)) return new BN(0)
   return myShares
-    .times(totalSharesD)
-    .times(totalTokensN)
-    .div(totalSharesN.times(totalTokensD))
+    .times(totalTokens)
+    .div(totalShares)
 }
 
 module.exports.sleep = function (amount) {
