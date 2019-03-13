@@ -572,8 +572,8 @@ export const distributionTxs = [
           {
             type: `cosmos-sdk/MsgWithdrawDelegationReward`,
             value: {
-              delegator_addr: `cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3`,
-              validator_addr: `cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz`
+              delegator_address: `cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3`,
+              validator_address: `cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz`
             }
           }
         ],
