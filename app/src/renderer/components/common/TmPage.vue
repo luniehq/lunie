@@ -261,9 +261,9 @@ export default {
   word-break: break-all;
 }
 
-@media screen and (min-width: 768px) {
-  .tm-page-main {
-    padding: 1rem;
+@media screen and (max-width: 1024px) {
+  .row {
+    flex-direction: column;
   }
 }
 </style>

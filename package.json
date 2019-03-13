@@ -1,11 +1,11 @@
 {
-  "name": "cosmos-voyager",
-  "productName": "Cosmos Voyager",
+  "name": "cosmos-wallet",
+  "productName": "Cosmos Wallet",
   "version": "1.0.0-beta.15",
-  "description": "Voyager is an electron-based user interface for the Cosmos Network.",
+  "description": "Cosmos Wallet is a web based user interface for the Cosmos Hub.",
   "author": "All In Bits, Inc <hello@tendermint.com>",
   "license": "Apache-2.0",
-  "homepage": "https://cosmos.network",
+  "homepage": "https://beta.cosmoswallet.io",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cosmos/voyager.git"

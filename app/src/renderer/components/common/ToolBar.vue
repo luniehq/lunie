@@ -13,10 +13,7 @@
       <i v-tooltip.bottom="'Preferences'" class="material-icons">settings</i>
     </router-link>
     <a v-if="session.signedIn" id="signOut-btn" @click="signOut()">
-      <i
-        v-tooltip.bottom.end="'Sign Out'"
-        class="material-icons"
-      >
+      <i v-tooltip.bottom.end="'Sign Out'" class="material-icons">
         exit_to_app
       </i>
     </a>
@@ -61,10 +58,11 @@ export default {
 .tool-bar {
   display: flex;
   align-items: center;
+  max-height: 2rem;
 }
 
 .sign-in-button {
-  padding-left: 1.5rem;
+  margin-left: 1.5rem;
 }
 
 .tool-bar a {

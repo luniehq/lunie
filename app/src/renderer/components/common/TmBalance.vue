@@ -1,9 +1,6 @@
 <template>
   <div class="header-balance">
     <div class="top">
-      <div class="icon-container">
-        <img class="icon" src="~assets/images/cosmos-logo.png">
-      </div>
       <div class="total-atoms top-section">
         <h3>Total {{ bondDenom }}</h3>
         <h2 class="total-atoms__value">
@@ -83,7 +80,15 @@ export default {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  padding: 1rem 0 2rem 2rem;
+  padding: 1rem 0 3rem 1rem;
+}
+
+.short-bech32 {
+  position: absolute;
+}
+
+.total-atoms.top-section {
+  padding-left: 0;
 }
 
 .header-balance .top {
@@ -113,7 +118,7 @@ export default {
 
 .header-balance .top h2 {
   color: var(--bright);
-  font-size: var(--h1);
+  font-size: 1.75rem;
   font-weight: 500;
   line-height: 40px;
 }

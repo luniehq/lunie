@@ -5,7 +5,7 @@
         <img
           class="icon action-modal-atom"
           src="~assets/images/cosmos-logo.png"
-        >
+        />
         <span class="action-modal-title">
           {{ session.signedIn ? title : `Sign in required` }}
         </span>
@@ -367,4 +367,12 @@ export default {
   transform: translateX(2rem);
   opacity: 0;
 }
+
+@media screen and (max-width: 1024px) {
+  .row {
+    flex-direction: column;
+  }
+}
+right: 0;
+top: 0;
 </style>

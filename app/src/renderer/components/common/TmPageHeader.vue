@@ -38,10 +38,6 @@ export default {
 </script>
 
 <style>
-.tm-page-header {
-  -webkit-app-region: drag;
-}
-
 .header-buttons {
   align-self: flex-start;
   margin-left: auto;
@@ -49,34 +45,16 @@ export default {
   bottom: 4px;
 }
 
-.tm-page-header-title {
-  font-size: var(--xl);
-}
-
 .tm-page-header-title > div {
   display: inline-block;
 }
 
 .tm-page-header-container {
-  min-height: 4.22rem;
-  flex-wrap: wrap;
   border-bottom: 1px solid var(--bc-dim);
-  display: flex;
-  padding: 0 1rem 0 1rem;
-}
-
-.tm-page-header-text {
-  flex-basis: 100%;
-  display: flex;
-  min-width: 0;
-  padding: 11px 0 0 0;
-  align-items: center;
 }
 
 .tm-page-header-text .tm-page-header-body {
-  flex: 1;
   display: flex;
-  justify-content: flex-end;
 }
 
 .tm-page-header-text .tool-bar i.material-icons {
@@ -95,7 +73,7 @@ export default {
   color: var(--bright);
 }
 
-@media screen and (min-width: 1024px) {
+/* @media screen and (min-width: 1024px) {
   .tm-page-header {
     border-bottom-color: var(--bc);
   }
@@ -107,7 +85,6 @@ export default {
   .tm-page-header-menu {
     display: flex;
     align-items: flex-start;
-    padding-top: 11px;
   }
-}
+} */
 </style>
