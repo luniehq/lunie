@@ -34,10 +34,17 @@
             class="column"
           >
             <h3>Transactions</h3>
-            <data-empty-block
+            <tm-data-msg
               v-if="block.transactions && block.transactions.length === 0"
-              slot="no-data"
-            />
+              icon="info_outline"
+            >
+              <div slot="title">
+                No Transactions
+              </div>
+              <div slot="subtitle">
+                This block doesn't contain any transaction.
+              </div>
+            </tm-data-msg>
             <li-any-transaction
               v-for="tx in block.transactions"
               :key="tx.txhash"
@@ -69,12 +76,12 @@ import { getUnbondingTime } from "scripts/time"
 import TmDataError from "common/TmDataError"
 import TmPage from "common/TmPage"
 import LiAnyTransaction from "transactions/LiAnyTransaction"
-import DataEmptyBlock from "common/DataEmptyBlock"
+import TmDataMsg from "common/TmDataMsg"
 export default {
   name: `page-block`,
   components: {
     TmDataError,
-    DataEmptyBlock,
+    TmDataMsg,
     TmPage,
     LiAnyTransaction
   },

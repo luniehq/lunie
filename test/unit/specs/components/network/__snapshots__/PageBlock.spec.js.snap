@@ -177,9 +177,21 @@ exports[`PageBlock shows the block page with no txs 1`] = `
           Transactions
         </h3>
          
-        <data-empty-block-stub
-          slot="no-data"
-        />
+        <tm-data-msg-stub
+          icon="info_outline"
+        >
+          <div>
+            
+                No Transactions
+              
+          </div>
+           
+          <div>
+            
+                This block doesn't contain any transaction.
+              
+          </div>
+        </tm-data-msg-stub>
           
         <br />
       </div>
