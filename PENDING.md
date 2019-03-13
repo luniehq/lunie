@@ -6,6 +6,7 @@
 ### Added
 
 - [\#1959](https://github.com/cosmos/voyager/issues/1959) display transactions on block page @fedekunze
+- [\#2230](https://github.com/cosmos/voyager/issues/2230) calculate fees and estimated transaction gas @fedekunze
 
 ### Changed
 - Ignore changelog check on master @faboweb
