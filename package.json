@@ -33,7 +33,7 @@
     "test:coverage": "http-server test/unit/coverage/lcov-report",
     "release": "node ./tasks/releasePullRequest.js",
     "precommit": "yarn lint:fix",
-    "prepush": "bash ./tasks/changelog-changed-check.sh && yarn lint",
+    "prepush": "bash ./tasks/pending-changed-check.sh && yarn lint",
     "postcheckout": "yarn",
     "watch": "tasks/watch.sh",
     "nodes": "node ./tasks/local-testnet/start.js",
