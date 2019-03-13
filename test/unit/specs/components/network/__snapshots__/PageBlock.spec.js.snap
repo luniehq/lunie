@@ -182,14 +182,14 @@ exports[`PageBlock shows the block page with no txs 1`] = `
         >
           <div>
             
-                No Transactions
-              
+              No Transactions
+            
           </div>
            
           <div>
             
-                This block doesn't contain any transaction.
-              
+              This block doesn't contain any transaction.
+            
           </div>
         </tm-data-msg-stub>
           
