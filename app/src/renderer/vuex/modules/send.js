@@ -87,8 +87,8 @@ export default ({ node }) => {
           denom: `stake` //TODO: this shouldn't be hardcoded
         }
       ]
-      // TODO: run gas estimations to optimize the value of the adjustment;
-      const gasAdjustment = 1.5 // deposit requires 1.5
+      // TODO: run gas estimations to optimize the value of the adjustment
+      const gasAdjustment = 1.5
 
       const requestMetaData = {
         sequence: state.nonce,
@@ -123,7 +123,7 @@ export default ({ node }) => {
       const simulationRes = await request.catch(handleSDKError)
       const adjustedGas = Number(simulationRes.gas_estimate) * gasAdjustment
       const estimatedFees =
-        Number(adjustedGas) * Number(gasPrices[0].amount)
+        Number(adjustedGas) * Number(gasPrices[0].amount) * 1e-7
 
       console.log(
         `- Estimated Gas: ${simulationRes.gas_estimate}\n` +
