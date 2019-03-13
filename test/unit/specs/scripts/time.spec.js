@@ -1,19 +1,19 @@
 import time from "renderer/scripts/time"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 const delegates = lcdClientMock.candidates
-const transaction = lcdClientMock.state.txs[0]
-const unbondingTransaction = lcdClientMock.state.txs[5]
+import { stakingTxs } from "../store/json/txs"
+const unbondingTransaction = stakingTxs[3]
 
 describe(`time helper`, () => {
   describe(`getUnbondingTime`, () => {
     it(`should return NaN with wrong transactions`, () => {
       const address = delegates[0].operator_address
       expect(
-        time.getUnbondingTime(transaction, {
-          [address]: {
+        time.getUnbondingTime(stakingTxs[1], {
+          [address]: [{
             creation_height: `170`,
-            min_time: new Date().toISOString()
-          }
+            completion_time: new Date().toISOString()
+          }]
         })
       ).toBe(NaN)
     })
@@ -22,10 +22,10 @@ describe(`time helper`, () => {
       const address = delegates[0].operator_address
       expect(
         time.getUnbondingTime(unbondingTransaction, {
-          [address]: {
+          [address]: [{
             creation_height: `171`,
-            min_time: new Date().toISOString()
-          }
+            completion_time: new Date().toISOString()
+          }]
         })
       ).toBe(NaN)
     })
@@ -34,10 +34,10 @@ describe(`time helper`, () => {
       const address = delegates[0].operator_address
       expect(
         time.getUnbondingTime(unbondingTransaction, {
-          [address]: {
-            creation_height: `170`,
-            min_time: new Date(Date.now()).toISOString()
-          }
+          [address]: [{
+            creation_height: `569`,
+            completion_time: new Date(Date.now()).toISOString()
+          }]
         })
       ).toBe(42000)
     })

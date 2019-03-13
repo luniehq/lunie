@@ -89,15 +89,15 @@ export default {
       return this.transaction.tx.value.msg[0].type
     },
     bankTx() {
-      return [`cosmos-sdk/Send`].includes(this.type)
+      return [`cosmos-sdk/MsgSend`].includes(this.type)
     },
     stakingTx() {
       return [
         `cosmos-sdk/MsgCreateValidator`,
         `cosmos-sdk/MsgEditValidator`,
         `cosmos-sdk/MsgDelegate`,
-        `cosmos-sdk/Undelegate`,
-        `cosmos-sdk/BeginRedelegate`,
+        `cosmos-sdk/MsgUndelegate`,
+        `cosmos-sdk/MsgBeginRedelegate`,
         `cosmos-sdk/MsgUnjail`
       ].includes(this.type)
     },

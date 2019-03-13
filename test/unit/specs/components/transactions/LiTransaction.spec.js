@@ -5,9 +5,10 @@ describe(`LiTransaction`, () => {
   let wrapper
   const propsData = {
     color: `#FFFFFF`,
-    time: Date.now(),
+    time: new Date(Date.now()).toISOString(),
     block: 500
   }
+  const day = 86400000
 
   beforeEach(() => {
     wrapper = mount(LiTransaction, {
@@ -25,14 +26,20 @@ describe(`LiTransaction`, () => {
   })
 
   it(`Should print the hour only if the same day`, () => {
-    expect(LiTransaction.computed.date({ time: Date.now() })).toEqual(
+    expect(
+      LiTransaction.computed.date(
+        { time: new Date(Date.now()).toISOString() }
+      )
+    ).toEqual(
       `00:00:42`
     )
   })
 
   it(`Should print the datetime if we are in a different day`, () => {
     expect(
-      LiTransaction.computed.date({ time: Date.now() + 999999999 })
-    ).toEqual(`Jan 12th 1970 13:47:21`)
+      LiTransaction.computed.date(
+        { time: new Date(Date.now() - day * 2).toISOString() }
+      )
+    ).toEqual(`Dec 30th 1969 00:00:42`)
   })
 })

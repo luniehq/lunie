@@ -3,17 +3,9 @@
         "./test/e2e/"
     ],
     "output_folder": "./output",
-    "custom_commands_path": null,
-    "custom_assertions_path": null,
-    "page_objects_path": null,
     "globals_path": "./globals.js",
     "disable_colors": false,
     "test_workers": false,
-    "webdriver": {
-        "start_process": false,
-        "host": "localhost",
-        "port": 8080
-    },
     "launch_url": "http://localhost:8081?stargate=http://localhost:8080&&rpc=http://localhost:26657",
     "test_settings": {
         "default": {
@@ -45,7 +37,6 @@
                     ]
                 }
             },
-            "disable_colors": false,
             "screenshots": {
                 "enabled": false,
                 "path": ""

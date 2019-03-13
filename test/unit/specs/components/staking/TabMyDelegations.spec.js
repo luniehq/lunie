@@ -2,7 +2,7 @@ import { shallowMount } from "@vue/test-utils"
 import TabMyDelegations from "renderer/components/staking/TabMyDelegations"
 import validators from "../../store/json/validators.js"
 
-const delegator_addr = `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+const delegator_address = `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
 
 const getters = {
   transactions: {
@@ -75,10 +75,10 @@ describe(`Component: TabMyDelegations`, () => {
           value: {
             msg: [
               {
-                type: `cosmos-sdk/Undelegate`,
+                type: `cosmos-sdk/MsgUndelegate`,
                 value: {
-                  validator_addr: validators[0].operator_address,
-                  delegator_addr,
+                  validator_address: validators[0].operator_address,
+                  delegator_address,
                   shares: `5`
                 }
               }
@@ -111,10 +111,10 @@ describe(`Component: TabMyDelegations`, () => {
 
       expect(wrapper.exists(`tm-data-loading`)).toBe(true)
     })
-  
+
     it(`should show a message if not signed in`, () => {
       $store.getters.session.signedIn = false
-  
+
       expect(wrapper.exists(`card-sign-in-required`)).toBe(true)
     })
   })
@@ -137,10 +137,10 @@ describe(`Component: TabMyDelegations`, () => {
           value: {
             msg: [
               {
-                type: `cosmos-sdk/Undelegate`,
+                type: `cosmos-sdk/MsgUndelegate`,
                 value: {
-                  validator_addr: validators[0].operator_address,
-                  delegator_addr,
+                  validator_address: validators[0].operator_address,
+                  delegator_address,
                   shares: `5`
                 }
               }

@@ -4,7 +4,6 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
 <div
   class="tm-page governance"
   data-title="Governance"
-  search="proposals"
 >
   <header
     class="tm-page-header"
@@ -131,7 +130,6 @@ exports[`PageGovernance has the expected html structure 1`] = `
 <div
   class="tm-page governance"
   data-title="Governance"
-  search="proposals"
 >
   <header
     class="tm-page-header"

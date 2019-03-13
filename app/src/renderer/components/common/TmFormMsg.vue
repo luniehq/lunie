@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import { prettyDecimals } from "../../scripts/num.js"
 export default {
   props: {
     type: {
@@ -52,7 +53,7 @@ export default {
           msg = `must contain only numerals`
           break
         case `between`:
-          msg = `must be between ${this.min} and ${this.max}`
+          msg = `must be between ${prettyDecimals(this.min)} and ${this.max}`
           break
         case `date`:
           msg = `must be a valid date`

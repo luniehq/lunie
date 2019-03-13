@@ -37,44 +37,47 @@
       </div>
       <div slot="details">
         To&nbsp;
-        <router-link :to="`${url}/${tx.validator_addr}`">
+        <router-link :to="`${url}/${tx.validator_address}`">
           {{
-            moniker(tx.validator_addr)
+            moniker(tx.validator_address)
           }}
         </router-link>
       </div>
     </template>
-    <template v-else-if="txType === `cosmos-sdk/BeginRedelegate`">
+    <template v-else-if="txType === `cosmos-sdk/MsgBeginRedelegate`">
       <div slot="caption">
         Redelegation&nbsp;
         <b>
           {{
-            calculatePrettifiedTokens(tx.validator_src_addr, tx.shares_amount)
+            calculatePrettifiedTokens(
+              tx.validator_src_address,
+              tx.shares_amount
+            )
           }}
         </b>
         <span>&nbsp;{{ bondingDenom }}s</span>
       </div>
       <div slot="details">
         From&nbsp;
-        <router-link :to="`${url}/${tx.validator_src_addr}`">
+        <router-link :to="`${url}/${tx.validator_src_address}`">
           {{
-            moniker(tx.validator_src_addr)
+            moniker(tx.validator_src_address)
           }}
         </router-link>
         &nbsp;to&nbsp;
-        <router-link :to="`${url}/${tx.validator_dst_addr}`">
+        <router-link :to="`${url}/${tx.validator_dst_address}`">
           {{
-            moniker(tx.validator_dst_addr)
+            moniker(tx.validator_dst_address)
           }}
         </router-link>
       </div>
     </template>
-    <template v-else-if="txType === `cosmos-sdk/Undelegate`">
+    <template v-else-if="txType === `cosmos-sdk/MsgUndelegate`">
       <div slot="caption">
         Undelegation&nbsp;
         <b>
           {{
-            calculatePrettifiedTokens(tx.validator_addr, tx.shares_amount)
+            calculatePrettifiedTokens(tx.validator_address, tx.shares_amount)
           }}
         </b>
         <span>&nbsp;{{ bondingDenom }}s</span>
@@ -86,9 +89,9 @@
       </div>
       <div slot="details">
         From&nbsp;
-        <router-link :to="`${url}/${tx.validator_addr}`">
+        <router-link :to="`${url}/${tx.validator_address}`">
           {{
-            moniker(tx.validator_addr)
+            moniker(tx.validator_address)
           }}
         </router-link>
       </div>
@@ -178,7 +181,7 @@ export default {
       const validator = this.validators.find(
         val => val.operator_address === validatorAddr
       )
-      return this.atoms(calculateTokens(validator, shares).toNumber())
+      return full(this.atoms(calculateTokens(validator, shares).toNumber()))
     }
   }
 }

@@ -4,39 +4,32 @@ exports[`TmDataConnecting has the expected html structure 1`] = `
 <div
   class="tm-data-msg"
 >
-  <div
+  <img
     class="tm-data-msg__icon"
-  >
-    <i
-      class="material-icons"
-    >
-      
-    </i>
-  </div>
+    src="~assets/images/loader.svg"
+  />
    
   <div
     class="tm-data-msg__text"
   >
-    <h2
+    <div
       class="tm-data-msg__title"
+      slot="title"
     >
-      <div>
-        
-    Waiting for connection
-  
-      </div>
-    </h2>
+      
+      Finding connection
+    
+    </div>
      
-    <h3
+    <div
       class="tm-data-msg__subtitle"
+      slot="subtitle"
     >
-      <div>
-        
-    You are currently not connected to a node. Voyager will load this data
-    when a connection is established.
-  
-      </div>
-    </h3>
+      
+      You are currently not connected to a node. We will load this information
+      when a connection is established.
+    
+    </div>
   </div>
 </div>
 `;

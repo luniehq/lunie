@@ -102,8 +102,12 @@ describe(`Module: Wallet`, () => {
 
       const address = `cosmos1wdhk6e2pv3j8yetnwv0yr6s6`
       const commit = jest.fn()
-      const dispatch = jest.fn()
-      await actions.initializeWallet({ commit, dispatch }, { address })
+      const dispatch = jest.fn(() => Promise.resolve())
+      state.balances = [{
+        denom: `stake`,
+        amount: `100`
+      }]
+      await actions.initializeWallet({ state, commit, dispatch }, { address })
       expect(commit).toHaveBeenCalledWith(`setWalletAddress`, address)
       expect(dispatch.mock.calls).toEqual([
         [`queryWalletBalances`],
@@ -111,6 +115,17 @@ describe(`Module: Wallet`, () => {
         [`getTotalRewards`],
         [`walletSubscribe`]
       ])
+    })
+
+    it(`should fund empty account if faucet is present`, async () => {
+      const { actions } = instance
+
+      const address = `cosmos1wdhk6e2pv3j8yetnwv0yr6s6`
+      const commit = jest.fn()
+      const dispatch = jest.fn(() => Promise.resolve())
+      state.balances = []
+      await actions.initializeWallet({ state, commit, dispatch }, { address })
+      expect(dispatch).toHaveBeenCalledWith(`getMoney`, address)
     })
 
     it(`should query wallet balances`, async () => {

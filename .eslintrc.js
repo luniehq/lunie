@@ -57,6 +57,10 @@ module.exports = {
     "array-bracket-spacing": ["error", "never"],
     "indent": ["error", 2, { "SwitchCase": 1 }],
     "no-console": "off",
-    "semi": ["error", "never"]
+    "brace-style": ["error", "1tbs"],
+    "semi": ["error", "never"],
+    "no-tabs": ["error"],
+    "max-len": ["error", { "code": 80, "ignoreStrings": true, "ignoreComments": true, "ignoreTemplateLiterals": true }],
+    "no-trailing-spaces": ["error", { "skipBlankLines": false }]
   }
 }
