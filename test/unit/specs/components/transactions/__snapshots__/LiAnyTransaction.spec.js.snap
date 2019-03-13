@@ -39,7 +39,7 @@ exports[`LiAnyTransaction shows unknown type transactions 1`] = `
 <li-transaction-stub
   block="3436"
   color="grey"
-  time="2042"
+  time="1970-01-01T00:00:02.042Z"
 >
   <span>
     Unknown Transaction Type
