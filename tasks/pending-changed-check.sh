@@ -2,13 +2,13 @@
 
 currentBranch="$(git rev-parse --abbrev-ref HEAD)"
 if [ "$currentBranch" = "master" ] || [ "$currentBranch" = "release" ] || [ "$currentBranch" = "develop" ]; then
-    echo "This branch is the develop branch. Checks on updating the changelog are omitted."
+    echo "This branch is the develop branch. Checks on updating the PENDING log are omitted."
     exit 0;
 fi
 if [ "$(git diff --name-only origin/develop | grep -c PENDING.md)" -ge 1 ]; then
-    echo "CHANGELOG updated"
+    echo "PENDING updated"
     exit 0;
 else
-    echo "!! CHANGELOG not updated !!"
+    echo "!! PENDING not updated !!"
     exit 1;
 fi
