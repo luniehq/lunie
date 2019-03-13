@@ -9,9 +9,9 @@
         Withdraw rewards
       </div>
       <div slot="details">
-        From&nbsp;<router-link :to="url + '/' + tx.validator_addr">
+        From&nbsp;<router-link :to="url + '/' + tx.validator_address">
           {{
-            moniker(tx.validator_addr)
+            moniker(tx.validator_address)
           }}
         </router-link>
       </div>
@@ -24,9 +24,7 @@
         To {{ tx.withdraw_address }}
       </div>
     </template>
-    <template
-      v-else-if="txType === `cosmos-sdk/MsgWithdrawValidatorCommission`"
-    >
+    <template v-else-if="txType === `cosmos-sdk/MsgWithdrawValidatorCommission`">
       <div slot="caption">
         Withdraw validator commission
       </div>
