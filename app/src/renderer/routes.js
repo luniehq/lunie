@@ -61,12 +61,6 @@ export default [
     component: require(`./components/staking/PageValidator`).default
   },
   {
-    path: `/preferences`,
-    name: `preferences`,
-    component: require(`./components/common/PagePreferences`).default,
-    meta: { requiresAuth: true }
-  },
-  {
     path: `/wallet`,
     name: `wallet`,
     component: require(`./components/wallet/PageWallet`).default,
