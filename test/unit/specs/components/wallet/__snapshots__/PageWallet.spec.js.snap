@@ -42,11 +42,6 @@ exports[`PageWallet should display the wallet page 1`] = `
     coin="[object Object]"
   />
    
-  <tm-btn-stub
-    color="green"
-    value="Get Tokens"
-  />
-   
   <send-modal-stub />
 </tm-page-stub>
 `;
@@ -93,8 +88,6 @@ exports[`PageWallet should not show denoms or the faucet button for a user who i
     coin="[object Object]"
   />
    
-  <!---->
-   
   <send-modal-stub />
 </tm-page-stub>
 `;
@@ -139,11 +132,6 @@ exports[`PageWallet should show the sending modal 1`] = `
   <li-coin-stub
     class="tm-li-balance"
     coin="[object Object]"
-  />
-   
-  <tm-btn-stub
-    color="green"
-    value="Get Tokens"
   />
    
   <send-modal-stub />
