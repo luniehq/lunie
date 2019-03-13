@@ -20,8 +20,7 @@ echo ${PASSWORD} | ./gaiacli keys add ${ACCOUNT} --home . > account_address.log
 echo ${PASSWORD} | ./gaiad gentx --name ${ACCOUNT} --home . --home-client .
 ./gaiad collect-gentxs --home .
 
-MINT_CONFIG='{"minter":{"inflation":"0.000000001300000000","annual_provisions":"0.000000000000000000"},"params":{"mint_denom":"stake","inflation_rate_change":"0.130000000000000000","inflation_max":"0.000000002000000000","inflation_min":"0.000000000700000000","goal_bonded":"0.000000006700000000","blocks_per_year":"6311520"}}"'
-jq '.app_state = ${MINT_CONFIG}' config/genesis.json > config/genesis.json
+sed -i .bak -e 's/\"inflation\".*$/\"inflation\":\ \"0.000000001300000000\",/' -e 's/\"inflation_max\".*$/\"inflation_max\":\ \"0.000000002000000000\"/' -e 's/\"inflation_min\".*$/\"inflation_min\":\ \"0.000000000700000000\"/' -e 's/\"goal_bonded\".*$/\"goal_bonded\":\ \"0.000000006700000000\"/' ./genesis.json
 
 # Make our genesis avaialable to the secondary nodes
 aws s3 cp config/genesis.json s3://cosmos-gaia/genesis.json
