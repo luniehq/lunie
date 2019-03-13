@@ -1,8 +1,12 @@
 <template>
-  <tm-page data-title="Validator">
-    <tm-data-loading v-if="delegates.loading" />
-    <tm-data-error v-else-if="delegates.loaded && !validator" />
-    <template v-else>
+  <tm-page
+    :loading="delegates.loading"
+    :loaded="delegates.loaded"
+    :error="delegates.error"
+    :data-empty="!validator"
+    data-title="Validator"
+  >
+    <template slot="managed-body" v-if="validator"> <!-- we need the v-if as the template somehow is rendered in any case -->
       <div class="page-profile__header page-profile__section">
         <div class="row">
           <img
@@ -176,7 +180,6 @@ import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
 import { percent, pretty, atoms, full } from "scripts/num"
 import TmBtn from "common/TmBtn"
-import TmDataError from "common/TmDataError"
 import { shortAddress, ratToBigNumber } from "scripts/common"
 import DelegationModal from "staking/DelegationModal"
 import UndelegationModal from "staking/UndelegationModal"
@@ -190,7 +193,6 @@ export default {
     DelegationModal,
     UndelegationModal,
     TmBtn,
-    TmDataError,
     TmPage
   },
   data: () => ({

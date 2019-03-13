@@ -2,6 +2,7 @@
 
 - [#\2188](https://github.com/cosmos/voyager/issues/2188) Fixed issues with the way we were loading PageNetwork @jbibla
 - [#\2246](https://github.com/cosmos/voyager/issues/2246) Fix from moniker not visible on withdraw txs @faboweb
+- Console error on page validator if loading the page from URL @faboweb
 
 ### Added
 
