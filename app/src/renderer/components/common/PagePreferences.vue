@@ -19,7 +19,7 @@
             unchecked: ' '
           }"
           :value="session.errorCollection"
-          :is-disabled="session.experimentalMode || session.insecureMode"
+          :is-disabled="session.experimentalMode"
           type="toggle"
           @click.native="setErrorCollection"
         />
