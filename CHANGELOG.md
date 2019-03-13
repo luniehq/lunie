@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.17] - 2019-03-13
+
+### Changed
+
+- [#\2210](https://github.com/cosmos/voyager/pull/2210) Faucet give money only to non-existent addresses @sabau
+- release PR now adds PENDING.md to CHANGELOG.md @faboweb
+- [#\2202](https://github.com/cosmos/voyager/pull/2202) Fix circle configuration for publishing @sabau
+- [#\2236](https://github.com/cosmos/voyager/pull/2236) ES lint no tabs @sabau
+
+
+
 ## [1.0.0-beta.16] - 2019-03-11
 
 ### Added
