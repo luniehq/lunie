@@ -9,4 +9,6 @@
 - [\#1959](https://github.com/cosmos/voyager/issues/1959) display transactions on block page @fedekunze
 
 ### Changed
+
 - Ignore changelog check on master @faboweb
+- [#\2217](https://github.com/cosmos/voyager/issues/2217) Limit inputs to max precision @faboweb
