@@ -50,9 +50,15 @@ export default ({ node }) => {
         await dispatch(`queryWalletBalances`)
       }
     },
-    async initializeWallet({ commit, dispatch }, { address }) {
+    async initializeWallet({ state, commit, dispatch }, { address }) {
       commit(`setWalletAddress`, address)
-      await dispatch(`queryWalletBalances`)
+      dispatch(`queryWalletBalances`)
+        .then(() => {
+          // if the account is empty and there is a faucet for that network, give the account some money
+          if (state.balances.length === 0 && state.externals.config.faucet) {
+            dispatch(`getMoney`, address)
+          }
+        })
       dispatch(`loadDenoms`)
       dispatch(`getTotalRewards`)
       dispatch(`walletSubscribe`)

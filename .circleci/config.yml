@@ -261,7 +261,9 @@ workflows:
       - pendingUpdated:
           filters:
             branches:
-              ignore: release
+              ignore: 
+                - release
+                - master
 
       - security:
           filters:
