@@ -36,7 +36,6 @@
 <script>
 import { mapGetters } from "vuex"
 import TmListItem from "common/TmListItem"
-import TmBtn from "common/TmBtn"
 import TmPage from "common/TmPage"
 import TmPart from "common/TmPart"
 import TmField from "common/TmField"
@@ -45,7 +44,6 @@ import TmFormMsg from "common/TmFormMsg"
 export default {
   name: `page-preferences`,
   components: {
-    TmBtn,
     TmField,
     TmFormMsg,
     TmListItem,
@@ -78,7 +76,7 @@ export default {
 <style scoped>
 /* TODO: fix style */
 .tm-form-msg {
-	display: block;
-	position: relative;
+  display: block;
+  position: relative;
 }
 </style>
