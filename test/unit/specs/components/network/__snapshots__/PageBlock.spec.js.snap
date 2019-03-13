@@ -127,14 +127,6 @@ exports[`PageBlock shows the block page with no txs 1`] = `
               Block #100
             
           </h2>
-           
-          <h3
-            class="page-profile__subtitle"
-          >
-            
-              ABCD1234
-            
-          </h3>
         </div>
       </div>
     </div>
