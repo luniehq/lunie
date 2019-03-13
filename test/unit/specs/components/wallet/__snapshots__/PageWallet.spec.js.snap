@@ -10,7 +10,7 @@ exports[`PageWallet should display the wallet page 1`] = `
   title=""
 >
   <tm-data-msg-stub
-    icon="help_outline"
+    icon="account_balance_wallet"
     id="account_empty_msg"
   >
     <div>
@@ -62,7 +62,7 @@ exports[`PageWallet should not show denoms or the faucet button for a user who i
   title=""
 >
   <tm-data-msg-stub
-    icon="help_outline"
+    icon="account_balance_wallet"
     id="account_empty_msg"
   >
     <div>
@@ -111,7 +111,7 @@ exports[`PageWallet should show the sending modal 1`] = `
   title=""
 >
   <tm-data-msg-stub
-    icon="help_outline"
+    icon="account_balance_wallet"
     id="account_empty_msg"
   >
     <div>

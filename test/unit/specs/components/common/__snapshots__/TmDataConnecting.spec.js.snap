@@ -17,7 +17,7 @@ exports[`TmDataConnecting has the expected html structure 1`] = `
   <div
     class="tm-data-msg__text"
   >
-    <div
+    <h2
       class="tm-data-msg__title"
     >
       <div>
@@ -25,9 +25,9 @@ exports[`TmDataConnecting has the expected html structure 1`] = `
     Waiting for connection
   
       </div>
-    </div>
+    </h2>
      
-    <div
+    <h3
       class="tm-data-msg__subtitle"
     >
       <div>
@@ -36,7 +36,7 @@ exports[`TmDataConnecting has the expected html structure 1`] = `
     when a connection is established.
   
       </div>
-    </div>
+    </h3>
   </div>
 </div>
 `;

@@ -5,7 +5,7 @@ exports[`ToolBar has the expected html structure 1`] = `
   class="tool-bar"
 >
   <!---->
-    
+   
   <router-link-stub
     id="settings"
     to="/preferences"

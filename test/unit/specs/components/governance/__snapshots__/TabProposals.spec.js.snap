@@ -402,14 +402,14 @@ exports[`TabProposals shows a message if there is nothing to display 1`] = `
     <i
       class="material-icons"
     >
-      info_outline
+      gavel
     </i>
   </div>
    
   <div
     class="tm-data-msg__text"
   >
-    <div
+    <h2
       class="tm-data-msg__title"
     >
       <h4>
@@ -417,9 +417,9 @@ exports[`TabProposals shows a message if there is nothing to display 1`] = `
     No Governance Proposals
   
       </h4>
-    </div>
+    </h2>
      
-    <div
+    <h3
       class="tm-data-msg__subtitle"
     >
       <h5>
@@ -427,7 +427,7 @@ exports[`TabProposals shows a message if there is nothing to display 1`] = `
     There are currently no governance proposals to display. Click the 'Create Proposal' button to submit a proposal.
   
       </h5>
-    </div>
+    </h3>
   </div>
 </div>
 `;

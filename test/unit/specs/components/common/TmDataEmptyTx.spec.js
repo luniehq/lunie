@@ -21,7 +21,7 @@ describe(`TmDataEmptyTx`, () => {
         .find(`.tm-data-msg__icon i.material-icons`)
         .text()
         .trim()
-    ).toBe(`info_outline`)
+    ).toBe(`receipt`)
   })
 
   it(`has a title`, () => {
@@ -39,6 +39,6 @@ describe(`TmDataEmptyTx`, () => {
         .find(`.tm-data-msg__subtitle div`)
         .text()
         .trim()
-    ).toContain(`Looks like you haven't sent or received any transactions yet.`)
+    ).toContain(`Looks like there are no transactions associated with this address yet.`)
   })
 })

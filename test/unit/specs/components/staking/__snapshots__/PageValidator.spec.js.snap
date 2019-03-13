@@ -18,10 +18,12 @@ exports[`PageValidator shows a validator profile information errors signing info
       />
        
       <div
-        class="page-profile__header__info"
+        class="row page-profile__header__info"
       >
         <div>
-          <div>
+          <div
+            class="validator-name-and-address"
+          >
             <div
               class="page-profile__status-and-title"
             >
@@ -66,7 +68,7 @@ exports[`PageValidator shows a validator profile information errors signing info
       class="row"
     >
       <div
-        class="row-unjustified"
+        class="row row-unjustified"
       >
         <dl
           class="info_dl colored_dl"
@@ -94,7 +96,7 @@ exports[`PageValidator shows a validator profile information errors signing info
       </div>
        
       <div
-        class="row-unjustified"
+        class="row row-unjustified"
       >
         <dl
           class="info_dl colored_dl"
@@ -342,10 +344,12 @@ exports[`PageValidator shows a validator profile information if user has signed 
       />
        
       <div
-        class="page-profile__header__info"
+        class="row page-profile__header__info"
       >
         <div>
-          <div>
+          <div
+            class="validator-name-and-address"
+          >
             <div
               class="page-profile__status-and-title"
             >
@@ -390,7 +394,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
       class="row"
     >
       <div
-        class="row-unjustified"
+        class="row row-unjustified"
       >
         <dl
           class="info_dl colored_dl"
@@ -418,7 +422,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
       </div>
        
       <div
-        class="row-unjustified"
+        class="row row-unjustified"
       >
         <dl
           class="info_dl colored_dl"
@@ -666,10 +670,12 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
       />
        
       <div
-        class="page-profile__header__info"
+        class="row page-profile__header__info"
       >
         <div>
-          <div>
+          <div
+            class="validator-name-and-address"
+          >
             <div
               class="page-profile__status-and-title"
             >
@@ -714,7 +720,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
       class="row"
     >
       <div
-        class="row-unjustified"
+        class="row row-unjustified"
       >
         <dl
           class="info_dl colored_dl"
@@ -742,7 +748,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
       </div>
        
       <div
-        class="row-unjustified"
+        class="row row-unjustified"
       >
         <dl
           class="info_dl colored_dl"
