@@ -24,4 +24,8 @@ describe(`number helper`, () => {
   it(`should format percent with decimals`, () => {
     expect(num.percent(0.2612)).toBe(`26.12%`)
   })
+
+  it(`should format long decimals well`, () => {
+    expect(num.prettyDecimals(1e-8)).toBe(`0.00000001`)
+  })
 })
