@@ -94,10 +94,11 @@ export default {
       return this.tx.to_address
     },
     total({ coins, fees, full, atoms } = this) {
+      const txAmount = atoms(coins.amount)
       if (fees && fees[coins.denom]) {
-        return full(atoms(coins.amount) + atoms(fees[coins.denom]))
+        return full(txAmount + atoms(fees[coins.denom]))
       }
-      return full(atoms(coins.amount))
+      return full(txAmount)
     }
   }
 }

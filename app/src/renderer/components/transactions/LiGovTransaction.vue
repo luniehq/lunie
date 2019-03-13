@@ -85,21 +85,18 @@ export default {
       return this.transaction.tx.value.msg[0].value
     },
     totalProposalCreation({ tx, fees, full, atoms } = this) {
+      const txAmount = atoms(tx.initial_deposit[0].amount)
       if (fees && fees[tx.initial_deposit[0].denom]) {
-        return full(
-          atoms(tx.initial_deposit[0].amount) +
-            atoms(fees[tx.initial_deposit[0].denom])
-        )
+        return full(txAmount + atoms(fees[tx.initial_deposit[0].denom]))
       }
-      return full(atoms(tx.initial_deposit[0].amount))
+      return txAmount
     },
     totalDeposit({ tx, fees, full, atoms } = this) {
+      const txAmount = atoms(tx.amount[0].amount)
       if (fees && fees[tx.amount[0].denom]) {
-        return full(
-          atoms(tx.amount[0].amount) + atoms(fees[tx.amount[0].denom])
-        )
+        return full(txAmount + atoms(fees[tx.amount[0].denom]))
       }
-      return full(atoms(tx.amount[0].amount))
+      return txAmount
     },
     totalFeesOnly({ fees, full, atoms, bondingDenom } = this) {
       if (fees && fees[bondingDenom]) {

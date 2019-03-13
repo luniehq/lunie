@@ -174,11 +174,11 @@ export default {
       return `locked`
     },
     total({ tx, fees, full, atoms } = this) {
-      const txAmount = full(atoms(tx.value.amount))
+      const txAmount = atoms(tx.value.amount)
       if (fees && fees[tx.value.denom]) {
-        return txAmount + atoms(fees[tx.value.denom])
+        return full(txAmount + atoms(fees[tx.value.denom]))
       }
-      return txAmount
+      return full(txAmount)
     },
     totalFeesOnly({ fees, full, atoms, bondingDenom } = this) {
       if (fees && fees[bondingDenom]) {
@@ -203,7 +203,7 @@ export default {
       if (fees && fees[bondingDenom]) {
         return full(txAmount + atoms(fees[bondingDenom]))
       }
-      return txAmount
+      return full(txAmount)
     }
   },
   methods: {
