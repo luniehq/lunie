@@ -4,6 +4,7 @@ exports[`LiStakeTransaction create validator 1`] = `
 <li-transaction-stub
   block="193281"
   color="#47AB6C"
+  time="1970-01-01T00:00:02.042Z"
 >
   <div>
     
@@ -37,7 +38,7 @@ exports[`LiStakeTransaction delegations should show delegations 1`] = `
 <li-transaction-stub
   block="568"
   color="#47AB6C"
-  time="42000"
+  time="1970-01-01T00:00:42.000Z"
 >
   <div>
     
@@ -71,6 +72,7 @@ exports[`LiStakeTransaction edit validator 1`] = `
 <li-transaction-stub
   block="193281"
   color="#47AB6C"
+  time="1970-01-01T00:00:02.041Z"
 >
   <div>
     
@@ -91,7 +93,7 @@ exports[`LiStakeTransaction redelegations should show redelegations and calculat
 <li-transaction-stub
   block="567"
   color="#47AB6C"
-  time="42000"
+  time="1970-01-01T00:00:45.000Z"
 >
   <div>
     
@@ -137,7 +139,7 @@ exports[`LiStakeTransaction unbonding delegations should default to ended if no 
 <li-transaction-stub
   block="569"
   color="#47AB6C"
-  time="42000"
+  time="1970-01-01T00:00:04.200Z"
 >
   <div>
     
@@ -175,7 +177,7 @@ exports[`LiStakeTransaction unbonding delegations should show unbonding delegati
 <li-transaction-stub
   block="569"
   color="#47AB6C"
-  time="42000"
+  time="1970-01-01T00:00:04.200Z"
 >
   <div>
     
@@ -213,7 +215,7 @@ exports[`LiStakeTransaction unbonding delegations should show unbondings and cal
 <li-transaction-stub
   block="569"
   color="#47AB6C"
-  time="42000"
+  time="1970-01-01T00:00:04.200Z"
 >
   <div>
     
@@ -257,6 +259,7 @@ exports[`LiStakeTransaction unjail validator 1`] = `
 <li-transaction-stub
   block="193281"
   color="#47AB6C"
+  time="1970-01-01T00:00:20.420Z"
 >
   <div>
     

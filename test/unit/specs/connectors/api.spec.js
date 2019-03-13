@@ -98,6 +98,20 @@ describe(`API`, () => {
       })
     })
 
+    it(`queries a transaction by height`, async () => {
+      axios.mockReturnValue({})
+      await client.getTxsByHeight(`2`)
+      expect(axios.mock.calls).toEqual([
+        [
+          {
+            data: undefined,
+            method: `GET`,
+            url: `http://remotehost/txs?tx.height=2`
+          }
+        ]
+      ])
+    })
+
     describe(`Staking`, () => {
       it(`queries for shares for a validator and delegate`, async () => {
         axios.mockReturnValueOnce(

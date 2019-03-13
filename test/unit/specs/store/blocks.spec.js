@@ -53,6 +53,38 @@ describe(`Module: Blocks`, () => {
     actions = module.actions
   })
 
+  describe(`getBlockTxs`, () => {
+    it(`should fetch block txs`, async () => {
+      const state = {
+        blockMetas: {
+          [`5`]: { header: { time: 100 } }
+        }
+      }
+      node.getTxsByHeight = () => Promise.resolve([{
+        hash: `abcdefghijklm`
+      }])
+      const commit = jest.fn()
+      await actions.getBlockTxs({ state, commit }, `5`)
+      expect(commit).toHaveBeenCalledWith(`setBlocksLoading`, true)
+      expect(commit).toHaveBeenCalledWith(`setBlockTransactions`, [{
+        hash: `abcdefghijklm`,
+        time: 100,
+        height: `5`
+      }])
+      expect(commit).toHaveBeenCalledWith(`setBlocksLoaded`, true)
+    })
+
+    it(`should fail if request to full node fails`, async () => {
+      node.getTxsByHeight = () => Promise.reject(Error(`error`))
+      const commit = jest.fn()
+      await actions.getBlockTxs({ state, commit }, `5`)
+      expect(commit).not.toHaveBeenCalledWith(`setBlockTransactions`, [{
+        hash: `abcdefghijklm`
+      }])
+      expect(commit).toHaveBeenCalledWith(`setBlockError`, Error(`error`))
+    })
+  })
+
   it(`should query block info`, async () => {
     state.blockMetas = {}
     node.getBlock = () => ({
@@ -109,9 +141,10 @@ describe(`Module: Blocks`, () => {
       1000
     )
     expect(commit.mock.calls).toEqual([
-      [`setLoading`, true],
-      [`setLoading`, false],
-      [`setError`, error]
+      [`setBlocksLoaded`, false],
+      [`setBlocksLoading`, true],
+      [`setBlocksLoading`, false],
+      [`setBlockError`, error]
     ])
 
     expect(output).toBe(null)
@@ -254,7 +287,7 @@ describe(`Module: Blocks`, () => {
   })
 })
 
-describe(`Module: Blocks mutations`, () => {
+describe(`Mutations`, () => {
   let module, node, mutations
 
   beforeEach(() => {
@@ -266,19 +299,28 @@ describe(`Module: Blocks mutations`, () => {
   })
 
   it(`should set the loading state`, async () => {
-    const { setLoading } = mutations
+    const { setBlocksLoading } = mutations
     const state = {}
-    setLoading(state, true)
+    setBlocksLoading(state, true)
     expect(state.loading).toEqual(true)
-    setLoading(state, false)
+    setBlocksLoading(state, false)
     expect(state.loading).toEqual(false)
   })
 
+  it(`should set the loaded state`, async () => {
+    const { setBlocksLoaded } = mutations
+    const state = {}
+    setBlocksLoaded(state, true)
+    expect(state.loaded).toEqual(true)
+    setBlocksLoaded(state, false)
+    expect(state.loaded).toEqual(false)
+  })
+
   it(`should set the error state`, async () => {
-    const { setError } = mutations
+    const { setBlockError } = mutations
     const state = {}
     const error = new Error(`just another error`)
-    setError(state, error)
+    setBlockError(state, error)
     expect(state.error).toEqual(error)
   })
 
@@ -326,6 +368,15 @@ describe(`Module: Blocks mutations`, () => {
     expect(state.block).toEqual({})
     setBlock(state, [1, 2, 3])
     expect(state.block).toEqual([1, 2, 3])
+  })
+
+  it(`should set the block's transactions`, async () => {
+    const { setBlockTransactions } = mutations
+    const state = { block: {} }
+    setBlockTransactions(state, [{ txhash: `abcdef` }])
+    expect(state.block.transactions).toEqual([{ txhash: `abcdef` }])
+    setBlockTransactions(state, [])
+    expect(state.block.transactions).toEqual([])
   })
 
   it(`should add a block the blocks`, async () => {
