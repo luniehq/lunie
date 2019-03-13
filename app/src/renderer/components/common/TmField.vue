@@ -57,7 +57,12 @@
         <div>{{ resolvedOptions.unchecked }}</div>
       </div>
       <div class="toggle-handle" />
-      <input :value="currentToggleState" type="checkbox" @change="onChange">
+      <input
+        :disabled="isDisabled"
+        :value="currentToggleState"
+        type="checkbox"
+        @change="onChange"
+      >
     </div>
   </label>
 
@@ -110,6 +115,10 @@ export default {
     keydown: {
       type: Function,
       default: null
+    },
+    isDisabled: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
@@ -153,8 +162,10 @@ export default {
   },
   methods: {
     toggle() {
-      this.currentToggleState = !this.currentToggleState
-      this.onChange(this.currentToggleState)
+      if (!this.isDisabled) {
+        this.currentToggleState = !this.currentToggleState
+        this.onChange(this.currentToggleState)
+      }
     },
     updateValue(value) {
       let formattedValue = value
@@ -181,220 +192,220 @@ export default {
 
 <style>
 .tm-field {
-  background: var(--input-bg, #fff);
-  border: 1px solid var(--input-bc, #ccc);
-  border-radius: 0;
-  color: var(--txt, #333);
-  display: block;
-  font-size: 16px;
-  line-height: 1.5rem;
-  min-width: 0;
-  padding: 0.1875rem 0.5rem;
-  width: 100%;
-  -webkit-appearance: none;
+	background: var(--input-bg, #fff);
+	border: 1px solid var(--input-bc, #ccc);
+	border-radius: 0;
+	color: var(--txt, #333);
+	display: block;
+	font-size: 16px;
+	line-height: 1.5rem;
+	min-width: 0;
+	padding: 0.1875rem 0.5rem;
+	width: 100%;
+	-webkit-appearance: none;
 }
 
 .tm-field::placeholder {
-  color: var(--dim);
+	color: var(--dim);
 }
 
 .tm-field:disabled {
-  background: var(--app-fg, #eee);
-  border: var(--app-fg, #eee);
-  box-shadow: none;
-  color: var(--dim, #666);
-  text-shadow: none;
+	background: var(--app-fg, #eee);
+	border: var(--app-fg, #eee);
+	box-shadow: none;
+	color: var(--dim, #666);
+	text-shadow: none;
 }
 
 .tm-field:focus {
-  border: 1px solid var(--link, #00f);
-  box-shadow: none;
-  outline: none;
+	border: 1px solid var(--link, #00f);
+	box-shadow: none;
+	outline: none;
 }
 
 input.tm-field {
-  height: 2rem;
+	height: 2rem;
 }
 
 textarea.tm-field {
-  height: 4rem;
-  resize: vertical;
+	height: 4rem;
+	resize: vertical;
 }
 
 .tm-toggle {
-  border: 1px solid var(--input-bc, #ccc);
-  border-radius: 1rem;
-  height: 2rem;
-  padding: 0 2px;
+	border: 1px solid var(--input-bc, #ccc);
+	border-radius: 1rem;
+	height: 2rem;
+	padding: 0 2px;
 }
 
 .tm-toggle * {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 .tm-toggle .tm-toggle-wrapper {
-  margin-left: calc((1.625rem / 2));
-  margin-right: calc((1.625rem / 2));
-  padding: 0 1.25rem;
-  transform: rotate(0deg);
+	margin-left: calc((1.625rem / 2));
+	margin-right: calc((1.625rem / 2));
+	padding: 0 1.25rem;
+	transform: rotate(0deg);
 }
 
 .tm-toggle .tm-toggle-wrapper::before,
 .tm-toggle .tm-toggle-wrapper::after {
-  content: "";
-  height: 1.625rem;
-  position: absolute;
-  top: 2px;
-  width: 1.625rem;
-  z-index: 0;
+	content: "";
+	height: 1.625rem;
+	position: absolute;
+	top: 2px;
+	width: 1.625rem;
+	z-index: 0;
 }
 
 .tm-toggle .tm-toggle-wrapper::before {
-  background: var(--success, #4acf4a);
-  border-radius: 1em 0 0 1em;
-  left: calc((-1.625rem / 2));
+	background: var(--success, #4acf4a);
+	border-radius: 1em 0 0 1em;
+	left: calc((-1.625rem / 2));
 }
 
 .tm-toggle .tm-toggle-wrapper::after {
-  background: var(--danger, #8c8fa6);
-  border-radius: 0 1em 1em 0;
-  right: calc((-1.625rem / 2));
+	background: var(--danger, #8c8fa6);
+	border-radius: 0 1em 1em 0;
+	right: calc((-1.625rem / 2));
 }
 
 .tm-toggle .tm-toggle-wrapper .toggle-option-checked,
 .tm-toggle .tm-toggle-wrapper .toggle-option-unchecked {
-  clip: rect(0, auto, auto, 0);
-  height: 1.625rem;
-  overflow: hidden;
-  position: absolute;
-  top: 2px;
-  transition: width 500ms ease;
-  z-index: 1;
+	clip: rect(0, auto, auto, 0);
+	height: 1.625rem;
+	overflow: hidden;
+	position: absolute;
+	top: 2px;
+	transition: width 500ms ease;
+	z-index: 1;
 }
 
 .tm-toggle .tm-toggle-wrapper .toggle-option-checked > div,
 .tm-toggle .tm-toggle-wrapper .toggle-option-unchecked > div {
-  left: 0;
-  position: fixed;
-  text-align: center;
-  top: 2px;
-  width: 100%;
+	left: 0;
+	position: fixed;
+	text-align: center;
+	top: 2px;
+	width: 100%;
 }
 
 .tm-toggle .tm-toggle-wrapper .toggle-option-checked {
-  background: var(--success, #4acf4a);
-  left: 0;
-  width: 100%;
+	background: var(--success, #4acf4a);
+	left: 0;
+	width: 100%;
 }
 
 .tm-toggle .tm-toggle-wrapper .toggle-option-unchecked {
-  background: var(--danger, #8c8fa6);
-  right: 0;
-  width: 0%;
+	background: var(--danger, #8c8fa6);
+	right: 0;
+	width: 0%;
 }
 
 .tm-toggle .tm-toggle-wrapper .toggle-handle::after {
-  background: var(--grey, #d4d5de);
-  border-radius: 1rem;
-  content: "";
-  height: 1.625rem;
-  left: auto;
-  position: absolute;
-  right: calc((-1.65rem / 2));
-  top: 2px;
-  transition: right 500ms ease, left 500ms ease;
-  width: 1.625rem;
-  z-index: var(--z-listItem);
+	background: var(--grey, #d4d5de);
+	border-radius: 1rem;
+	content: "";
+	height: 1.625rem;
+	left: auto;
+	position: absolute;
+	right: calc((-1.65rem / 2));
+	top: 2px;
+	transition: right 500ms ease, left 500ms ease;
+	width: 1.625rem;
+	z-index: var(--z-listItem);
 }
 
 .tm-toggle .tm-toggle-wrapper input[type="checkbox"] {
-  display: none;
+	display: none;
 }
 
 .tm-toggle.unchecked .toggle-option-checked {
-  width: 0;
+	width: 0;
 }
 
 .tm-toggle.unchecked .toggle-option-unchecked {
-  width: 100%;
+	width: 100%;
 }
 
 .tm-toggle.unchecked .toggle-handle::after {
-  right: calc(100% - 0.75rem);
+	right: calc(100% - 0.75rem);
 }
 
 .tm-select {
-  position: relative;
+	position: relative;
 }
 
 .tm-select select {
-  appearance: none;
-  background: var(--input-bg, #fff);
-  border-radius: 0;
-  color: var(--txt, #333);
-  padding-right: 2rem;
-  width: 100%;
+	appearance: none;
+	background: var(--input-bg, #fff);
+	border-radius: 0;
+	color: var(--txt, #333);
+	padding-right: 2rem;
+	width: 100%;
 }
 
 .tm-select select:invalid {
-  color: dim;
+	color: dim;
 }
 
 .tm-select select option {
-  background: var(--input-bg, #fff);
-  color: txt;
-  font-family: var(--sans);
+	background: var(--input-bg, #fff);
+	color: txt;
+	font-family: var(--sans);
 }
 
 .tm-select select option:checked {
-  background: var(--hover-bg, #ccf);
-  color: var(--bright, #000);
+	background: var(--hover-bg, #ccf);
+	color: var(--bright, #000);
 }
 
 .tm-select .tm-field-select-addon {
-  align-items: center;
-  background: var(--input-bg, #fff);
-  border-left: 1px solid var(--input-bc, #ccc);
-  box-sizing: border-box;
-  color: var(--txt, #333);
-  display: flex;
-  height: 2rem;
-  justify-content: center;
-  pointer-events: none;
-  position: absolute;
-  right: 0;
-  text-align: center;
-  top: 0;
-  width: 2rem;
+	align-items: center;
+	background: var(--input-bg, #fff);
+	border-left: 1px solid var(--input-bc, #ccc);
+	box-sizing: border-box;
+	color: var(--txt, #333);
+	display: flex;
+	height: 2rem;
+	justify-content: center;
+	pointer-events: none;
+	position: absolute;
+	right: 0;
+	text-align: center;
+	top: 0;
+	width: 2rem;
 }
 
 .input-group-addon {
-  background: var(--input-bg, #fff);
-  border: 1px solid var(--input-bc, #ccc);
-  border-left: none;
-  color: var(--txt, #333);
-  font-size: 0.75rem;
-  line-height: 1.875rem;
-  padding: 0 0.5rem;
+	background: var(--input-bg, #fff);
+	border: 1px solid var(--input-bc, #ccc);
+	border-left: none;
+	color: var(--txt, #333);
+	font-size: 0.75rem;
+	line-height: 1.875rem;
+	padding: 0 0.5rem;
 }
 
 @media screen and (min-width: 360px) {
-  .input-group-addon {
-    font-size: 1rem;
-  }
+	.input-group-addon {
+		font-size: 1rem;
+	}
 }
 
 .tm-field.tm-field-size-sm {
-  font-size: 0.75rem;
-  height: 1.5rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+	font-size: 0.75rem;
+	height: 1.5rem;
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
 }
 
 .tm-field.tm-field-size-lg {
-  font-size: 1.125rem;
-  height: 3rem;
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
+	font-size: 1.125rem;
+	height: 3rem;
+	padding-left: 0.75rem;
+	padding-right: 0.75rem;
 }
 </style>

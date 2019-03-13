@@ -17,26 +17,17 @@ exports[`PagePreferences has the expected html structure if connected 1`] = `
     </tm-list-item-stub>
      
     <tm-list-item-stub
-      title="View tutorial for Voyager"
-      type="field"
-    >
-      <tm-btn-stub
-        id="toggle-onboarding"
-        value="Launch Tutorial"
-      />
-    </tm-list-item-stub>
-     
-    <tm-list-item-stub
-      subtitle="to the Voyager development team"
+      subtitle="to the Cosmos Wallet development team"
       title="Automatically send usage statistics and crash reports"
       type="field"
     >
       <tm-field-stub
-        change="function () { [native code] }"
         options="[object Object]"
         style="margin: 1em auto 0px auto;"
         type="toggle"
       />
+       
+      <!---->
     </tm-list-item-stub>
   </tm-part-stub>
 </tm-page-stub>

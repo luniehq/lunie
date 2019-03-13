@@ -9,18 +9,8 @@
       </tm-list-item>
       <tm-list-item
         type="field"
-        title="View tutorial for Voyager"
-      >
-        <tm-btn
-          id="toggle-onboarding"
-          value="Launch Tutorial"
-          @click.native="setOnboarding()"
-        />
-      </tm-list-item>
-      <tm-list-item
-        type="field"
         title="Automatically send usage statistics and crash reports"
-        subtitle="to the Voyager development team"
+        subtitle="to the Cosmos Wallet development team"
       >
         <tm-field
           :style="{ margin: '1em auto 0 auto' }"
@@ -28,9 +18,15 @@
             checked: ' ',
             unchecked: ' '
           }"
-          :value="session.errorCollection || undefined"
-          :change="setErrorCollection.bind(null, this)"
+          :value="session.errorCollection"
+          :is-disabled="session.experimentalMode || session.insecureMode"
           type="toggle"
+          @click.native="setErrorCollection"
+        />
+        <tm-form-msg
+          v-if="showError"
+          name="Error collection is disabled during development."
+          type="custom"
         />
       </tm-list-item>
     </tm-part>
@@ -44,30 +40,45 @@ import TmBtn from "common/TmBtn"
 import TmPage from "common/TmPage"
 import TmPart from "common/TmPart"
 import TmField from "common/TmField"
+import TmFormMsg from "common/TmFormMsg"
 
 export default {
   name: `page-preferences`,
   components: {
     TmBtn,
     TmField,
+    TmFormMsg,
     TmListItem,
     TmPage,
     TmPart
   },
+  data: () => ({
+    showError: false
+  }),
   computed: {
-    ...mapGetters([`session`, `onboarding`, `nodeUrl`])
+    ...mapGetters([`session`, `nodeUrl`])
   },
   methods: {
-    setErrorCollection({ $store } = this) {
-      $store.dispatch(`setErrorCollection`, {
-        address: this.session.address,
-        optin: !this.session.errorCollection
-      })
-    },
-    setOnboarding({ $store } = this) {
-      $store.commit(`setOnboardingState`, 0)
-      $store.commit(`setOnboardingActive`, true)
+    setErrorCollection() {
+      if (this.session.experimentalMode) {
+        this.showError = true
+        setTimeout(() => {
+          this.showError = false
+        }, 5000)
+      } else {
+        this.$store.dispatch(`setErrorCollection`, {
+          address: this.session.address,
+          optin: !this.session.errorCollection
+        })
+      }
     }
   }
 }
 </script>
+<style scoped>
+/* TODO: fix style */
+.tm-form-msg {
+	display: block;
+	position: relative;
+}
+</style>

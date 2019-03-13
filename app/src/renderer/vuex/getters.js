@@ -10,7 +10,6 @@ export const lastPage = state => {
     state.session.history[state.session.history.length - 1]
   )
 }
-export const onboarding = state => state.onboarding
 
 // wallet
 export const transactions = state => state.transactions

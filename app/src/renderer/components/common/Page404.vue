@@ -9,6 +9,11 @@
       <ul>
         <li>
           <router-link to="/">
+            Network
+          </router-link>
+        </li>
+        <li>
+          <router-link to="/wallet">
             Wallet
           </router-link>
         </li>
@@ -36,36 +41,36 @@
 import TmPage from "common/TmPage"
 import TmPart from "common/TmPart"
 export default {
-  name: `page-404`,
-  components: {
-    TmPage,
-    TmPart
-  }
+	name: `page-404`,
+	components: {
+		TmPage,
+		TmPart
+	}
 }
 </script>
 
 <style>
 .four-oh-four {
-  padding: 2rem;
-  background: var(--black);
-  border-left: 1px solid var(--bc-dim);
+	padding: 2rem;
+	background: var(--black);
+	border-left: 1px solid var(--bc-dim);
 }
 
 .four-oh-four h2 {
-  color: var(--bright);
-  font-size: var(--h1);
-  font-weight: 500;
-  line-height: 3rem;
+	color: var(--bright);
+	font-size: var(--h1);
+	font-weight: 500;
+	line-height: 3rem;
 }
 
 .four-oh-four h3 {
-  color: var(--text);
-  font-size: var(--h3);
-  font-weight: 500;
-  margin-top: 0;
+	color: var(--text);
+	font-size: var(--h3);
+	font-weight: 500;
+	margin-top: 0;
 }
 
 .four-oh-four ul {
-  padding-top: 1rem;
+	padding-top: 1rem;
 }
 </style>
