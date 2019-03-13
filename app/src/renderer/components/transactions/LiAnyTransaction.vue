@@ -3,6 +3,7 @@
     v-if="bankTx"
     :transaction="transaction"
     :address="address"
+    :fees="fees"
   />
   <li-stake-transaction
     v-else-if="stakingTx"
@@ -12,6 +13,7 @@
     :unbonding-time="unbondingTime"
     :bonding-denom="bondingDenom"
     :tx-type="type"
+    :fees="fees"
   />
   <li-gov-transaction
     v-else-if="governanceTx"
@@ -19,6 +21,7 @@
     :bonding-denom="bondingDenom"
     :url="proposalsUrl"
     :tx-type="type"
+    :fees="fees"
   />
   <li-distribution-transaction
     v-else-if="distributionTx"
@@ -27,6 +30,7 @@
     :bonding-denom="bondingDenom"
     :tx-type="type"
     :validators="validators"
+    :fees="fees"
   />
   <li-transaction
     v-else
@@ -39,6 +43,7 @@
 </template>
 
 <script>
+import { coinsToObject } from "scripts/common"
 import LiBankTransaction from "./LiBankTransaction"
 import LiStakeTransaction from "./LiStakeTransaction"
 import LiGovTransaction from "./LiGovTransaction"
@@ -84,9 +89,18 @@ export default {
       default: null
     }
   },
+  data: () => ({
+    coinsToObject
+  }),
   computed: {
     type() {
       return this.transaction.tx.value.msg[0].type
+    },
+    fees() {
+      if (this.transaction.tx.value.fee.amount) {
+        return this.coinsToObject(this.transaction.tx.value.fee.amount)
+      }
+      return null
     },
     bankTx() {
       return [`cosmos-sdk/MsgSend`].includes(this.type)

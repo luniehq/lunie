@@ -7,7 +7,7 @@
     <template v-if="txType === `cosmos-sdk/MsgCreateValidator`">
       <div slot="caption">
         Create validator&nbsp;
-        <b>{{ full(atoms(tx.value.amount)) }}</b>
+        <b>{{ total }}</b>
         <span>&nbsp;{{ tx.value.denom }}s</span>
       </div>
       <div slot="details">
@@ -32,7 +32,7 @@
     <template v-else-if="txType === `cosmos-sdk/MsgDelegate`">
       <div slot="caption">
         Delegation&nbsp;
-        <b>{{ full(atoms(tx.value.amount)) }}</b>
+        <b>{{ total }}</b>
         <span>&nbsp;{{ tx.value.denom }}s</span>
       </div>
       <div slot="details">
@@ -48,12 +48,7 @@
       <div slot="caption">
         Redelegation&nbsp;
         <b>
-          {{
-            calculatePrettifiedTokens(
-              tx.validator_src_address,
-              tx.shares_amount
-            )
-          }}
+          {{ totalFeesWithShares }}
         </b>
         <span>&nbsp;{{ bondingDenom }}s</span>
       </div>
@@ -77,7 +72,7 @@
         Undelegation&nbsp;
         <b>
           {{
-            calculatePrettifiedTokens(tx.validator_address, tx.shares_amount)
+            totalFeesWithShares
           }}
         </b>
         <span>&nbsp;{{ bondingDenom }}s</span>
@@ -98,7 +93,12 @@
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgUnjail`">
       <div slot="caption">
-        Unjail&nbsp;
+        Unjail&nbsp;<template>
+          <b>{{ totalFeesOnly }}&nbsp;</b>
+          <span>{{ feeDenom }}</span>
+        </template>
+      </div>
+      <div slot="details">
         <router-link :to="`${url}/${tx.address}`">
           {{
             moniker(tx.address)
@@ -126,6 +126,10 @@ export default {
     transaction: {
       type: Object,
       required: true
+    },
+    fees: {
+      type: Object,
+      default: null
     },
     validators: {
       type: Array,
@@ -168,6 +172,38 @@ export default {
       if (!this.unbondingTime) return `ended`
       if (this.unbondingTime - Date.now() <= 0) return `ended`
       return `locked`
+    },
+    total({ tx, fees, full, atoms } = this) {
+      const txAmount = full(atoms(tx.value.amount))
+      if (fees && fees[tx.value.denom]) {
+        return txAmount + atoms(fees[tx.value.denom])
+      }
+      return txAmount
+    },
+    totalFeesOnly({ fees, full, atoms, bondingDenom } = this) {
+      if (fees && fees[bondingDenom]) {
+        return full(atoms(fees[bondingDenom]))
+      }
+      return ``
+    },
+    feeDenom({ fees } = this) {
+      if (fees) {
+        const feeDenoms = Object.keys(fees)
+        return `${feeDenoms[0]}s`
+      }
+      return ``
+    },
+    totalFeesWithShares(
+      { tx, fees, full, atoms, calculatePrettifiedTokens, bondingDenom } = this
+    ) {
+      const txAmount = calculatePrettifiedTokens(
+        tx.validator_address || tx.validator_src_address,
+        tx.shares_amount
+      )
+      if (fees && fees[bondingDenom]) {
+        return full(txAmount + atoms(fees[bondingDenom]))
+      }
+      return txAmount
     }
   },
   methods: {

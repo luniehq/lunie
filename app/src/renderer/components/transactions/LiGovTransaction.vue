@@ -7,7 +7,7 @@
     <template v-if="txType === `cosmos-sdk/MsgSubmitProposal`">
       <div slot="caption">
         Submit {{ tx.proposal_type.toLowerCase() }} proposal&nbsp;
-        <b>{{ full(atoms(tx.initial_deposit[0].amount)) }}</b>
+        <b>{{ totalProposalCreation }}</b>
         <span>&nbsp;{{ tx.initial_deposit[0].denom }}s</span>
       </div>
       <div slot="details">
@@ -18,7 +18,7 @@
       <div slot="caption">
         Deposit&nbsp;
         <template>
-          <b>{{ full(atoms(tx.amount[0].amount)) }}</b>
+          <b>{{ totalDeposit }}</b>
           <span>&nbsp;{{ tx.amount[0].denom }}s</span>
         </template>
       </div>
@@ -31,7 +31,11 @@
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgVote`">
       <div slot="caption">
-        Vote&nbsp;<b>{{ tx.option }}</b>
+        Vote&nbsp;{{ tx.option }}&nbsp;
+        <template>
+          <b>{{ totalFeesOnly }}&nbsp;</b>
+          <span>{{ feeDenom }}</span>
+        </template>
       </div>
       <div slot="details">
         On&nbsp;
@@ -55,6 +59,10 @@ export default {
       type: Object,
       required: true
     },
+    fees: {
+      type: Object,
+      default: null
+    },
     url: {
       type: String,
       required: true
@@ -75,6 +83,36 @@ export default {
   computed: {
     tx() {
       return this.transaction.tx.value.msg[0].value
+    },
+    totalProposalCreation({ tx, fees, full, atoms } = this) {
+      if (fees && fees[tx.initial_deposit[0].denom]) {
+        return full(
+          atoms(tx.initial_deposit[0].amount) +
+            atoms(fees[tx.initial_deposit[0].denom])
+        )
+      }
+      return full(atoms(tx.initial_deposit[0].amount))
+    },
+    totalDeposit({ tx, fees, full, atoms } = this) {
+      if (fees && fees[tx.amount[0].denom]) {
+        return full(
+          atoms(tx.amount[0].amount) + atoms(fees[tx.amount[0].denom])
+        )
+      }
+      return full(atoms(tx.amount[0].amount))
+    },
+    totalFeesOnly({ fees, full, atoms, bondingDenom } = this) {
+      if (fees && fees[bondingDenom]) {
+        return full(atoms(fees[bondingDenom]))
+      }
+      return ``
+    },
+    feeDenom({ fees } = this) {
+      if (fees) {
+        const feeDenoms = Object.keys(fees)
+        return `${feeDenoms[0]}s`
+      }
+      return ``
     }
   }
 }

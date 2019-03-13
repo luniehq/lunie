@@ -6,7 +6,11 @@
   >
     <template v-if="txType === `cosmos-sdk/MsgWithdrawDelegationReward`">
       <div slot="caption">
-        Withdraw rewards
+        Withdraw rewards&nbsp;
+        <template>
+          <b>{{ totalFeesOnly }}&nbsp;</b>
+          <span>{{ feeDenom }}</span>
+        </template>
       </div>
       <div slot="details">
         From&nbsp;<router-link :to="url + '/' + tx.validator_address">
@@ -16,7 +20,11 @@
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgSetWithdrawAddress`">
       <div slot="caption">
-        Update withdraw address
+        Update withdraw address&nbsp;
+        <template>
+          <b>{{ totalFeesOnly }}&nbsp;</b>
+          <span>{{ feeDenom }}</span>
+        </template>
       </div>
       <div slot="details">
         To {{ tx.withdraw_address }}
@@ -26,7 +34,11 @@
       v-else-if="txType === `cosmos-sdk/MsgWithdrawValidatorCommission`"
     >
       <div slot="caption">
-        Withdraw validator commission
+        Withdraw validator commission&nbsp;
+        <template>
+          <b>{{ totalFeesOnly }}&nbsp;</b>
+          <span>{{ feeDenom }}</span>
+        </template>
       </div>
       <div slot="details">
         From&nbsp;<router-link :to="url + '/' + tx.validator_address">
@@ -39,7 +51,7 @@
 
 <script>
 import LiTransaction from "./LiTransaction"
-import { pretty, atoms } from "../../scripts/num.js"
+import { pretty, atoms, full } from "../../scripts/num.js"
 
 export default {
   name: `li-distribution-transaction`,
@@ -48,6 +60,10 @@ export default {
     transaction: {
       type: Object,
       required: true
+    },
+    fees: {
+      type: Object,
+      default: null
     },
     url: {
       type: String,
@@ -68,11 +84,25 @@ export default {
   },
   data: () => ({
     atoms,
+    full,
     pretty
   }),
   computed: {
     tx() {
       return this.transaction.tx.value.msg[0].value
+    },
+    totalFeesOnly({ fees, full, atoms, bondingDenom } = this) {
+      if (fees && fees[bondingDenom]) {
+        return full(atoms(fees[bondingDenom]))
+      }
+      return ``
+    },
+    feeDenom({ fees } = this) {
+      if (fees) {
+        const feeDenoms = Object.keys(fees)
+        return `${feeDenoms[0]}s`
+      }
+      return ``
     }
   },
   methods: {

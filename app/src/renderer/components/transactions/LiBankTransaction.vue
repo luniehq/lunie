@@ -6,8 +6,8 @@
   >
     <template v-if="address === ''">
       <div slot="caption">
-        Sent&nbsp;<b>{{ full(atoms(coins.amount)) }}</b>
-        <span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
+        Sent&nbsp;<b>{{ total }}</b>
+        <span>&nbsp;{{ coins.denom }}</span>
       </div>
       <span slot="details">
         <template>
@@ -19,8 +19,8 @@
     <template v-else-if="sent">
       <div slot="caption">
         Sent&nbsp;
-        <b>{{ full(atoms(coins.amount)) }}</b>
-        <span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
+        <b>Ø{{ total }}</b>
+        <span>&nbsp;{{ coins.denom }}</span>
       </div>
       <span slot="details">
         <template v-if="sentSelf">
@@ -34,8 +34,8 @@
     <template v-else>
       <div slot="caption">
         Received&nbsp;
-        <b>{{ full(atoms(coins.amount)) }}</b>
-        <span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
+        <b>{{ total }}</b>
+        <span>&nbsp;{{ coins.denom }}</span>
       </div>
       <span slot="details">From <short-bech32 :address="sender" /></span>
     </template>
@@ -58,6 +58,10 @@ export default {
     transaction: {
       type: Object,
       required: true
+    },
+    fees: {
+      type: Object,
+      default: null
     },
     address: {
       type: String,
@@ -88,6 +92,12 @@ export default {
     },
     receiver() {
       return this.tx.to_address
+    },
+    total({ coins, fees, full, atoms } = this) {
+      if (fees && fees[coins.denom]) {
+        return full(atoms(coins.amount) + atoms(fees[coins.denom]))
+      }
+      return full(atoms(coins.amount))
     }
   }
 }
