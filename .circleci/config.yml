@@ -144,11 +144,11 @@ jobs:
       # - store_artifacts:
       #     path: builds/Gaia/linux_amd64/*
 
-  changelogUpdated:
+  pendingUpdated:
     executor: node
     steps:
       - checkout
-      - run: tasks/changelog-changed-check.sh
+      - run: tasks/pending-changed-check.sh
 
   lint:
     executor: node
@@ -258,7 +258,7 @@ workflows:
   build-and-deploy:
     jobs:
       # Static checks before
-      - changelogUpdated:
+      - pendingUpdated:
           filters:
             branches:
               ignore: release
@@ -313,7 +313,7 @@ workflows:
 
       - publish:
           requires:
-            - changelogUpdated
+            - pendingUpdated
             - build
             - testUnit
             - testE2e
