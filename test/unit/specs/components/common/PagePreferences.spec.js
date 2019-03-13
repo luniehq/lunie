@@ -37,7 +37,7 @@ describe(`PagePreferences`, () => {
   })
   describe(`should set error collection`, () => {
     it(`when the user is in production or insecure mode`, async () => {
-      const errorCollection = wrapper.vm.session.errorCollection
+      const errorCollection = false
       const dispatch = jest.fn()
       PagePreferences.methods.setErrorCollection.call({
         $store: {
@@ -55,8 +55,9 @@ describe(`PagePreferences`, () => {
     })
 
     it(`should show error when user is on experimental mode`, async () => {
-      const errorCollection = wrapper.vm.session.errorCollection
+      const errorCollection = false
       const dispatch = jest.fn()
+      jest.useFakeTimers()
       PagePreferences.methods.setErrorCollection.call({
         $store: {
           dispatch
