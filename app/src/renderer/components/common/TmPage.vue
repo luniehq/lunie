@@ -1,17 +1,32 @@
 <template>
   <div class="tm-page">
-    <tm-page-header v-if="!hideHeader" :tabs="tabs">
-      <h2 v-if="title" slot="title">
+    <tm-page-header
+      v-if="!hideHeader"
+      :tabs="tabs"
+    >
+      <h2
+        v-if="title"
+        slot="title"
+      >
         {{ title }}
       </h2>
-      <h3 v-if="subtitle" slot="subtitle">
+      <h3
+        v-if="subtitle"
+        slot="subtitle"
+      >
         {{ subtitle }}
       </h3>
-      <slot slot="menu-body" name="menu-body">
+      <slot
+        slot="menu-body"
+        name="menu-body"
+      >
         <tm-balance v-if="session.signedIn" />
         <tool-bar :refresh="refreshable" />
       </slot>
-      <slot slot="header-buttons" name="header-buttons" />
+      <slot
+        slot="header-buttons"
+        name="header-buttons"
+      />
     </tm-page-header>
     <main class="tm-page-main">
       <card-sign-in-required v-if="signInRequired && !session.signedIn" />
@@ -20,13 +35,14 @@
         <tm-data-loading v-else-if="!loaded && loading" />
         <tm-data-error v-else-if="error" />
         <slot
-          v-else-if="
-            (!dataset || dataset.length === 0) && this.$slots['no-data']
-          "
+          v-else-if="dataEmpty && this.$slots['no-data']"
           name="no-data"
         />
-        <tm-data-empty v-else-if="!dataset || dataset.length === 0" />
-        <slot v-else name="managed-body" />
+        <tm-data-empty v-else-if="dataEmpty" />
+        <slot
+          v-else
+          name="managed-body"
+        />
       </template>
       <slot />
     </main>
@@ -86,8 +102,8 @@ export default {
       type: Boolean,
       default: undefined
     },
-    dataset: {
-      type: Array,
+    dataEmpty: {
+      type: Boolean,
       default: undefined
     },
     refresh: {

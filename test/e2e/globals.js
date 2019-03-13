@@ -1,7 +1,6 @@
 const {
-  buildNodes,
-  startNodes
-} = require(`../../tasks/build/local/helper`)
+  buildLocalTestnet
+} = require(`../../tasks/local-testnet/helpers`)
 const {
   cliBinary,
   nodeBinary
@@ -16,11 +15,14 @@ module.exports = {
   asyncHookTimeout : 30000,
 
   async before(done) {
-    await bootLocalNetwork(testDir, {
-      chainId: `test_chain`,
-      overwrite: true,
-      moniker: `local`
-    })
+    await bootLocalNetwork(
+      testDir,
+      {
+        chainId: `test_chain`,
+        overwrite: true,
+        moniker: `local`
+      }
+    )
 
     done()
   },
@@ -54,21 +56,9 @@ const bootLocalNetwork = async (targetDir, options) => {
   console.log(`using cli binary`, cliBinary)
   console.log(`using node binary`, nodeBinary)
 
-  const { nodes, cliHomePrefix, mainAccountSignInfo } = await buildNodes(
+  await buildLocalTestnet(
     targetDir,
-    options,
     3,
-    true
+    options
   )
-
-  console.log(`Done with initialization, start the nodes`)
-
-  await startNodes(nodes, mainAccountSignInfo, options.chainId)
-
-  console.log(`Declared secondary nodes to be validators.`)
-
-  return {
-    cliHomePrefix,
-    ...nodes[1]
-  }
 }

@@ -3,7 +3,6 @@
 exports[`PageTransactions displays the transaction page if user has signed in 1`] = `
 <tm-page-stub
   data-title="Transactions"
-  dataset="[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
   loaded="true"
   refresh="function () { [native code] }"
   signinrequired="true"
@@ -76,7 +75,6 @@ exports[`PageTransactions displays the transaction page if user has signed in 1`
 exports[`PageTransactions displays the transaction page if user hasn't signed in 1`] = `
 <tm-page-stub
   data-title="Transactions"
-  dataset="[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
   loaded="true"
   refresh="function () { [native code] }"
   signinrequired="true"

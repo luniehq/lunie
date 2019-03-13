@@ -113,7 +113,13 @@ describe(`DelegationModal`, () => {
       const from = `cosmos1address`
 
       await DelegationModal.methods.submitForm.call(
-        { $store, amount: 50, session, from, submitDelegation, submitRedelegation },
+        {
+          $store,
+          amount: 50,
+          session,
+          from,
+          submitDelegation,
+          submitRedelegation },
         `local`, `1234567890`
       )
       expect(submitDelegation).toHaveBeenCalledWith(`local`, `1234567890`)
@@ -124,7 +130,15 @@ describe(`DelegationModal`, () => {
       const from = `cosmosvaloper1address`
 
       await DelegationModal.methods.submitForm.call(
-        { $store, amount: 50, session, from, submitDelegation, submitRedelegation },
+        {
+          $store,
+
+          amount: 50,
+          session,
+          from,
+          submitDelegation,
+          submitRedelegation
+        },
         `local`, `1234567890`
       )
       expect(submitDelegation).not.toHaveBeenCalledWith(`local`, `1234567890`)
@@ -149,8 +163,8 @@ describe(`DelegationModal`, () => {
 
       expect($store.dispatch).toHaveBeenCalledWith(`submitDelegation`,
         {
-          amount: `500000000.0000000`,
-          validator_addr: validator.operator_address,
+          amount: `500000000`,
+          validator_address: validator.operator_address,
           password: `1234567890`,
           submitType: `local`
         }
@@ -189,7 +203,7 @@ describe(`DelegationModal`, () => {
 
       expect($store.dispatch).toHaveBeenCalledWith(`submitRedelegation`,
         {
-          amount: `500000000.0000000`,
+          amount: `500000000`,
           validatorSrc: delegates.delegates[0],
           validatorDst: validator,
           password: `1234567890`,

@@ -50,7 +50,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import { uatoms, atoms } from "../../scripts/num.js"
+import { uatoms, atoms, SMALLEST } from "../../scripts/num.js"
 import { between, decimal } from "vuelidate/lib/validators"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
@@ -100,7 +100,7 @@ export default {
       amount: {
         required: x => !!x && x !== `0`,
         decimal,
-        between: between(0, atoms(this.balance))
+        between: between(SMALLEST, atoms(this.balance))
       }
     }
   },

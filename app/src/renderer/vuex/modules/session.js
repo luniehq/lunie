@@ -144,7 +144,8 @@ export default () => {
         default:
           // local keyStore
           state.localKeyPairName = localKeyPairName
-          accountAddress = (await state.externals.loadKeys()).find(({ name }) => name === localKeyPairName).address
+          accountAddress = (await state.externals.loadKeys())
+            .find(({ name }) => name === localKeyPairName).address
       }
       commit(`setSignIn`, true)
       dispatch(`setErrorCollection`, {

@@ -11,35 +11,42 @@ export default ({ node }) => {
   const state = {
     blockMetaInfo: { block_id: {} },
     blockHeight: null, // we remember the height so we can requery the block, if querying failed
-    subscription: false,
-    syncing: true,
     blockMetas: {},
-    subscribedRPC: null,
-    loading: false,
-    error: null,
     peers: [],
     blocks: [],
     // one block, specified by height
     block: {
-      block_meta: {}
-    }
+      block: {},
+      block_meta: {},
+      transactions: []
+    },
+    subscription: false,
+    subscribedRPC: null,
+    syncing: true,
+    loading: false,
+    loaded: false,
+    error: null
   }
 
   const mutations = {
-    setLoading: (state, loading) => (state.loading = loading),
-    setError: (state, error) => (state.error = error),
     setBlockHeight: (state, height) => (state.blockHeight = height),
     setSyncing: (state, syncing) => (state.syncing = syncing),
     setBlockMetas: (state, blockMetas) => (state.blockMetas = blockMetas),
     setPeers: (state, peers) => (state.peers = peers),
     setBlocks: (state, blocks) => (state.blocks = blocks),
     setBlock: (state, block) => (state.block = block),
+    setBlockTransactions: (state, txs) => {
+      Vue.set(state.block, `transactions`, txs)
+    },
     addBlock: (state, block) =>
       Vue.set(state, `blocks`, cache(state.blocks, block)),
     setSubscribedRPC: (state, subscribedRPC) =>
       (state.subscribedRPC = subscribedRPC),
     setSubscription: (state, subscription) =>
-      (state.subscription = subscription)
+      (state.subscription = subscription),
+    setBlocksLoading: (state, loading) => (state.loading = loading),
+    setBlocksLoaded: (state, loaded) => (state.loaded = loaded),
+    setBlockError: (state, error) => (state.error = error),
   }
 
   const actions = {
@@ -48,28 +55,49 @@ export default ({ node }) => {
       commit(`setSubscription`, false)
       dispatch(`subscribeToBlocks`)
     },
+    async getBlockTxs({ state, commit }, height) {
+      try {
+        commit(`setBlocksLoaded`, false)
+        commit(`setBlocksLoading`, true)
+        let txs = await node.getTxsByHeight(height)
+        const time = state.blockMetas[height].header.time
+        txs = txs.map(tx => Object.assign({}, tx, {
+          height,
+          time
+        }))
+        commit(`setBlockTransactions`, txs)
+        commit(`setBlocksLoaded`, true)
+      } catch (error) {
+        Sentry.captureException(error)
+        commit(`setBlockError`, error)
+      }
+      commit(`setBlocksLoading`, false)
+    },
     async queryBlockInfo({ state, commit }, height) {
       try {
+
         let blockMetaInfo = state.blockMetas[height]
         if (blockMetaInfo) {
           return blockMetaInfo
         }
-        commit(`setLoading`, true)
+        commit(`setBlocksLoaded`, false)
+        commit(`setBlocksLoading`, true)
         const block = await node.getBlock(height)
 
         blockMetaInfo = block.block_meta
-        commit(`setLoading`, false)
+        commit(`setBlocksLoading`, false)
 
         commit(`setBlockMetas`, {
           ...state.blockMetas,
           [height]: blockMetaInfo
         })
         commit(`setBlock`, block)
+        commit(`setBlocksLoaded`, true)
         return blockMetaInfo
       } catch (error) {
         Sentry.captureException(error)
-        commit(`setLoading`, false)
-        commit(`setError`, error)
+        commit(`setBlocksLoading`, false)
+        commit(`setBlockError`, error)
         return null
       }
     },

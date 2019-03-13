@@ -96,9 +96,13 @@ export default {
   }
 
   .header-buttons {
-    padding: 1rem;
     width: 100%;
+    padding: 1rem;
     background: var(--app-bg);
+  }
+
+  .header-buttons .tm-btn {
+    width: 100%;
   }
 }
 </style>

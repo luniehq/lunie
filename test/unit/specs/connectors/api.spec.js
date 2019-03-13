@@ -66,7 +66,7 @@ describe(`API`, () => {
             {
               data: { x: 1 },
               method: `POST`,
-              url: `http://remotehost/tx/broadcast`
+              url: `http://remotehost/txs`
             }
           ]
         ])
@@ -96,6 +96,20 @@ describe(`API`, () => {
           ]
         ])
       })
+    })
+
+    it(`queries a transaction by height`, async () => {
+      axios.mockReturnValue({})
+      await client.getTxsByHeight(`2`)
+      expect(axios.mock.calls).toEqual([
+        [
+          {
+            data: undefined,
+            method: `GET`,
+            url: `http://remotehost/txs?tx.height=2`
+          }
+        ]
+      ])
     })
 
     describe(`Staking`, () => {
@@ -675,7 +689,7 @@ describe(`API`, () => {
             {
               data: undefined,
               method: `GET`,
-              url: `http://remotehost/txs?action=withdraw_delegation_reward&delegator=cosmos1address`
+              url: `http://remotehost/txs?action=withdraw_delegator_reward&delegator=cosmos1address`
             }
           ],
           [

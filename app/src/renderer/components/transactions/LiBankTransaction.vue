@@ -4,33 +4,56 @@
     :time="transaction.time"
     :block="transaction.height"
   >
-    <template v-if="sent">
+    <template v-if="address === ''">
       <div slot="caption">
-        Sent&nbsp;<b>{{ full(atoms(coins.amount)) }}</b><span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
+        Sent&nbsp;<b>{{ full(atoms(coins.amount)) }}</b>
+        <span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
+      </div>
+      <span slot="details">
+        <template>
+          From <short-bech32 :address="sender" />
+          to <short-bech32 :address="receiver" />
+        </template>
+      </span>
+    </template>
+    <template v-else-if="sent">
+      <div slot="caption">
+        Sent&nbsp;
+        <b>{{ full(atoms(coins.amount)) }}</b>
+        <span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
       </div>
       <span slot="details">
         <template v-if="sentSelf">
           To yourself!
-        </template><template v-else>
-          To {{ receiver }}
+        </template>
+        <template v-else>
+          To <short-bech32 :address="receiver" />
         </template>
       </span>
-    </template><template v-else>
+    </template>
+    <template v-else>
       <div slot="caption">
-        Received&nbsp;<b>{{ full(atoms(coins.amount)) }}</b><span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
+        Received&nbsp;
+        <b>{{ full(atoms(coins.amount)) }}</b>
+        <span>&nbsp;{{ coins.denom.toUpperCase() }}</span>
       </div>
-      <span slot="details">From {{ sender }}</span>
+      <span slot="details">From <short-bech32 :address="sender" /></span>
     </template>
   </li-transaction>
 </template>
 
 <script>
+import ShortBech32 from "common/ShortBech32"
 import LiTransaction from "./LiTransaction"
 import { atoms, full } from "../../scripts/num.js"
+import { shortAddress } from "../../scripts/common"
 
 export default {
   name: `li-bank-transaction`,
-  components: { LiTransaction },
+  components: {
+    ShortBech32,
+    LiTransaction
+  },
   props: {
     transaction: {
       type: Object,
@@ -43,7 +66,8 @@ export default {
   },
   data: () => ({
     atoms,
-    full
+    full,
+    shortAddress
   }),
   computed: {
     tx() {

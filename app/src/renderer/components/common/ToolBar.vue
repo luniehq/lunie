@@ -58,6 +58,8 @@ export default {
   display: flex;
   align-items: center;
   max-height: 2rem;
+  justify-content: flex-end;
+  width: 100%;
 }
 
 .sign-in-button {
@@ -85,5 +87,12 @@ export default {
 .tool-bar a:hover {
   cursor: pointer;
   color: var(--bright);
+}
+
+@media screen and (max-width: 1024px) {
+  .sign-in-button {
+    margin: 0;
+    width: 100%;
+  }
 }
 </style>

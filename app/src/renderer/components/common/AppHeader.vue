@@ -3,7 +3,7 @@
     <div class="container">
       <div class="header-item header-item-logo">
         <router-link to="/">
-          <img src="~assets/images/cosmos-wallet-logo.svg">
+          <img src="~assets/images/cosmos-wallet-logo.svg" />
         </router-link>
         <template v-if="!desktop">
           <div v-if="open" class="close-menu" @click="close()">
@@ -85,7 +85,7 @@ export default {
 }
 
 .mobile-menu-action {
-  font-size: 1.5rem;
+  font-size: 1.5rem !important;
 }
 
 .app-header > .container {

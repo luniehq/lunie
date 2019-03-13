@@ -4,7 +4,7 @@ PASSWORD=1234567890
 ACCOUNT=operator_account
 PORT=26656
 # TODO: hardcoded temporary, this will become a parameter coming from the first ECS instance
-MAINNODEID=a93accb0af3dfda1f40063bd45857c4808ba2d9b
+MAINNODEID=03bd1fd646a9684eb53d40fd342529b5dd9accbf
 MAINNODEIP=172.31.35.89
 MAINACCOUNT=main_account
 NETWORK=testnet
@@ -24,7 +24,7 @@ aws s3 cp s3://cosmos-gaia/genesis.json config/genesis.json
 NODEID=$(./gaiad tendermint show-node-id --home .)
 
 # boot referring to the remote node
-screen -dmS gaia ./gaiad start --home . --p2p.persistent_peers="$MAINNODEID@$MAINNODEIP:$((PORT))"
+screen -dmSL gaia ./gaiad start --home . --p2p.persistent_peers="$MAINNODEID@$MAINNODEIP:$((PORT))"
 
 # get the key to make my node validator
 PUBKEY=$(./gaiad tendermint show-validator --home .)
@@ -40,11 +40,11 @@ while ${poor}
 do
     # query my account to check if I'm still poor
     ACCOUNT_INFO=$(./gaiacli query account ${ADDRESS} --chain-id ${NETWORK} --trust-node --home .)
-    if [[ ${ACCOUNT_INFO} == *"auth/Account"* ]]; then
+    if [[ ${ACCOUNT_INFO} == *"steak"* ]]; then
         echo "Address funded, thanks main node!"
         poor=false
     fi
     sleep 3s
 done
 
-echo ${PASSWORD} | ./gaiacli tx staking create-validator --home . --from ${ACCOUNT} --amount=${VALIDATOR_AMOUNT} --pubkey=${PUBKEY} --address-delegator=${ADDRESS} --moniker=${ACCOUNT} --chain-id=${NETWORK} --commission-max-change-rate=0 --commission-max-rate=0 --commission-rate=0 --min-self-delegation=1
+echo ${PASSWORD} | ./gaiacli tx staking create-validator --home . --from ${ACCOUNT} --amount=${VALIDATOR_AMOUNT} --pubkey=${PUBKEY} --moniker=${ACCOUNT} --chain-id=${NETWORK} --commission-max-change-rate=0 --commission-max-rate=0 --commission-rate=0 --min-self-delegation=1 --yes

@@ -41,6 +41,7 @@ exports[`ModalPropose component matches snapshot has the expected html structure
       class="action-modal-form-group tm-form-group"
     >
       <!---->
+       
       <label
         class="tm-form-group__label"
         for="title"
@@ -70,6 +71,7 @@ exports[`ModalPropose component matches snapshot has the expected html structure
       class="action-modal-form-group tm-form-group"
     >
       <!---->
+       
       <label
         class="tm-form-group__label"
         for="description"
@@ -98,6 +100,7 @@ exports[`ModalPropose component matches snapshot has the expected html structure
       class="action-modal-form-group tm-form-group"
     >
       <!---->
+       
       <label
         class="tm-form-group__label"
         for="amount"
@@ -132,6 +135,7 @@ exports[`ModalPropose component matches snapshot has the expected html structure
       class="action-modal-group tm-form-group"
     >
       <!---->
+       
       <label
         class="tm-form-group__label"
         for="password"
@@ -163,6 +167,7 @@ exports[`ModalPropose component matches snapshot has the expected html structure
       class="action-modal-group tm-form-group"
     >
       <!---->
+       
       <!---->
        
       <div
