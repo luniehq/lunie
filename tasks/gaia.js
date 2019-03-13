@@ -1,5 +1,5 @@
 const path = require(`path`)
-const fs = require(`fs-extra`)
+const fs = require(`fs`)
 const util = require(`util`)
 const { spawn, exec } = require(`child_process`)
 const { sleep } = require(`../test/e2e/common.js`)

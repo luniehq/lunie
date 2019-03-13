@@ -1,4 +1,4 @@
-import fs from "fs-extra"
+import fs from "fs"
 
 const testRoot = `./test/unit/tmp/test_root/`
 
