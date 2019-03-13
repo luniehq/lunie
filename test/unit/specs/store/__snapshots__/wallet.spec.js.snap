@@ -9,7 +9,7 @@ Object {
   "error": null,
   "externals": Object {
     "axios": Object {
-      "get": [Function],
+      "get": [MockFunction],
     },
     "config": Object {
       "denoms": Array [
