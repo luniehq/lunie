@@ -5,7 +5,7 @@
 
 ### Added
 
-- incidend POSTMORTEM.md @sabau
+- [\#2256](https://github.com/cosmos/voyager/pull/2256) incident `POSTMORTEM.md` @sabau
 - [\#1959](https://github.com/cosmos/voyager/issues/1959) display transactions on block page @fedekunze
 
 ### Changed
