@@ -10,5 +10,7 @@
 ### Changed
 
 - [\#2255](https://github.com/cosmos/voyager/pull/2255) removed onboarding tutorial @fedekunze
-- [\#1337](https://github.com/cosmos/voyager/issues/1337) refactor unit tests: Page404, ShortBech32, PagePreferences @fedekunze
+- [\#2259](https://github.com/cosmos/voyager/issues/2259) removed PagePreferences @fedekunze
+- [\#1337](https://github.com/cosmos/voyager/issues/1337) refactor unit tests: Page404, ShortBech32 @fedekunze
 - Ignore changelog check on master @faboweb
+- [#\2217](https://github.com/cosmos/voyager/issues/2217) Limit inputs to max precision @faboweb

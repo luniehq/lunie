@@ -94,7 +94,7 @@
 <script>
 import b32 from "scripts/b32"
 import { required, between, decimal } from "vuelidate/lib/validators"
-import { uatoms, atoms } from "../../scripts/num.js"
+import { uatoms, atoms, SMALLEST } from "../../scripts/num.js"
 import { mapActions, mapGetters } from "vuex"
 import TmFormGroup from "common/TmFormGroup"
 import TmField from "common/TmField"
@@ -186,7 +186,7 @@ export default {
       amount: {
         required: x => !!x && x !== `0`,
         decimal,
-        between: between(0, atoms(this.balance))
+        between: between(SMALLEST, atoms(this.balance))
       },
       denom: { required }
     }
