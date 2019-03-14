@@ -48,6 +48,10 @@ const Client = (axios, remoteLcdURL) => {
           // HACK, hope for: https://github.com/cosmos/cosmos-sdk/issues/3885
           let account = res.value || emptyAccount
           if (res.type === `auth/DelayedVestingAccount`) {
+            if (!account.BaseVestingAccount) {
+              console.error(`SDK format of vesting accounts responses has changed`)
+              return emptyAccount
+            }
             account = Object.assign(
               account.BaseVestingAccount.BaseAccount, res.BaseVestingAccount
             )
