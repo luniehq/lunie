@@ -34,6 +34,8 @@
             :validators="yourValidators"
             :bonding-denom="bondDenom"
             :url="validatorURL"
+            :fees="transaction.tx.value.fee.amount &&
+              transaction.tx.value.fee.amount[0]"
             :unbonding-time="
               time.getUnbondingTime(
                 transaction,
