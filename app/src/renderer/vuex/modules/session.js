@@ -10,12 +10,12 @@ export default () => {
   const ERROR_COLLECTION_KEY = `voyager_error_collection`
 
   const state = {
-    experimentalMode: config.development,
-    insecureMode: config.development,
+    experimentalMode: config.development, // development mode
+    insecureMode: config.development, // show the local signer
     signedIn: false,
     sessionType: null, // local, ledger
     accounts: [],
-    localKeyPairName: null, // used for signing with a locally stored key, TODO move into own module
+    localKeyPairName: null, // used for signing with a locally stored key; TODO: move into own module
     pauseHistory: false,
     history: [],
     address: null,
