@@ -57,7 +57,12 @@
         <div>{{ resolvedOptions.unchecked }}</div>
       </div>
       <div class="toggle-handle" />
-      <input :value="currentToggleState" type="checkbox" @change="onChange">
+      <input
+        :disabled="isDisabled"
+        :value="currentToggleState"
+        type="checkbox"
+        @change="onChange"
+      >
     </div>
   </label>
 
@@ -110,6 +115,10 @@ export default {
     keydown: {
       type: Function,
       default: null
+    },
+    isDisabled: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
@@ -153,8 +162,10 @@ export default {
   },
   methods: {
     toggle() {
-      this.currentToggleState = !this.currentToggleState
-      this.onChange(this.currentToggleState)
+      if (!this.isDisabled) {
+        this.currentToggleState = !this.currentToggleState
+        this.onChange(this.currentToggleState)
+      }
     },
     updateValue(value) {
       let formattedValue = value
