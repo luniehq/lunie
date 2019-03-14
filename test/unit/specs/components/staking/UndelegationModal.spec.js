@@ -101,7 +101,7 @@ describe(`UndelegationModal`, () => {
 
       expect($store.dispatch).toHaveBeenCalledWith(`submitUnbondingDelegation`,
         {
-          amount: -42000000,
+          amount: -4200000,
           validator,
           submitType: `local`,
           password: `1234567890`

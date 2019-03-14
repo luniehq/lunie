@@ -232,7 +232,7 @@ describe(`PageValidator`, () => {
       const rewardsString = PageValidator.computed.rewards.call(
         { session, bondDenom, distribution, validator }
       )
-      expect(rewardsString).toBe(`10.0000000 stake`)
+      expect(rewardsString).toBe(`100.0000000 stake`)
     })
 
     it(`when validator rewards are 0`, () => {

@@ -35,7 +35,7 @@ exports[`LiCoin has the expected html structure 1`] = `
         class="coin-amount"
       >
         
-        1,000.0000000
+        10,000.0000000
       
       </p>
     </div>

@@ -20,7 +20,7 @@ describe(`LiCoin`, () => {
   })
 
   it(`should calculate the full amount of the coin`, () => {
-    expect(wrapper.vm.amount).toEqual(`1,000.0000000`)
+    expect(wrapper.vm.amount).toEqual(`10,000.0000000`)
   })
 
   it(`should capitalize the coin denomination`, () => {

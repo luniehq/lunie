@@ -83,7 +83,7 @@ describe(`ModalPropose`, () => {
 
       it(`if the amount for initial deposit is higher than the user's balance`, async () => {
         wrapper.setData(inputs)
-        wrapper.setData({ amount: 25 })
+        wrapper.setData({ amount: 250 })
         await wrapper.vm.$nextTick()
         expect(wrapper.vm.validateForm()).toBe(false)
         await wrapper.vm.$nextTick()
@@ -162,7 +162,7 @@ describe(`ModalPropose`, () => {
           `submitProposal`,
           {
             description: `a valid description for the proposal`,
-            initial_deposit: [{ amount: `150000000`, denom: `stake` }],
+            initial_deposit: [{ amount: `15000000`, denom: `stake` }],
             title: `A new text proposal for Cosmos`,
             type: `Text`,
             password: `1234567890`,

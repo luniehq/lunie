@@ -29,12 +29,12 @@ function prettyDecimals(number = 0) {
   ).format(number)
 
   // remove all trailing zeros
-  while(longDecimals.charAt(longDecimals.length - 1) === `0`) {
+  while (longDecimals.charAt(longDecimals.length - 1) === `0`) {
     longDecimals = longDecimals.substr(0, longDecimals.length - 1)
   }
 
   // remove decimal separator from whole numbers
-  if(Number.isNaN(Number(longDecimals.charAt(longDecimals.length - 1)))) {
+  if (Number.isNaN(Number(longDecimals.charAt(longDecimals.length - 1)))) {
     longDecimals = longDecimals.substr(0, longDecimals.length - 1)
   }
 
@@ -53,10 +53,10 @@ function percent(number = 0) {
   ).format(Math.round(number * 10000) / 100) + `%`
 }
 function atoms(number = 0) {
-  return BigNumber(number).div(10e6).toNumber()
+  return BigNumber(number).div(1e6).toNumber()
 }
 function uatoms(number = 0) {
-  return BigNumber(number).times(10e6).toString()
+  return BigNumber(number).times(1e6).toString()
 }
 
 module.exports = {
