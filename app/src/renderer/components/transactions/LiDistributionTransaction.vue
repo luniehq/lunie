@@ -7,27 +7,27 @@
     <template v-if="txType === `cosmos-sdk/MsgWithdrawDelegationReward`">
       <div slot="caption">
         Withdraw rewards
-        <template v-if="fees">
-          &nbsp;<b>{{ totalFeesOnly }}&nbsp;</b>
-          <span>{{ feeDenom }}</span>
-        </template>
       </div>
       <div slot="details">
         From&nbsp;<router-link :to="url + '/' + tx.validator_address">
           {{ moniker(tx.validator_address) }}
         </router-link>
       </div>
+      <div slot="fees">
+        Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
+        <span>&nbsp;{{ fees ? fees.denom : bondingDenom }}s</span>
+      </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgSetWithdrawAddress`">
       <div slot="caption">
         Update withdraw address
-        <template v-if="fees">
-          &nbsp;<b>{{ totalFeesOnly }}&nbsp;</b>
-          <span>{{ feeDenom }}</span>
-        </template>
       </div>
       <div slot="details">
         To {{ tx.withdraw_address }}
+      </div>
+      <div slot="fees">
+        Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
+        <span>&nbsp;{{ fees ? fees.denom : bondingDenom }}s</span>
       </div>
     </template>
     <template
@@ -35,15 +35,15 @@
     >
       <div slot="caption">
         Withdraw validator commission
-        <template v-if="fees">
-          &nbsp;<b>{{ totalFeesOnly }}&nbsp;</b>
-          <span>{{ feeDenom }}</span>
-        </template>
       </div>
       <div slot="details">
         From&nbsp;<router-link :to="url + '/' + tx.validator_address">
           {{ moniker(tx.validator_address) }}
         </router-link>
+      </div>
+      <div slot="fees">
+        Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
+        <span>&nbsp;{{ fees ? fees.denom : bondingDenom }}s</span>
       </div>
     </template>
   </li-transaction>
@@ -90,19 +90,6 @@ export default {
   computed: {
     tx() {
       return this.transaction.tx.value.msg[0].value
-    },
-    totalFeesOnly({ fees, full, atoms, bondingDenom } = this) {
-      if (fees && fees[bondingDenom]) {
-        return full(atoms(fees[bondingDenom]))
-      }
-      return ``
-    },
-    feeDenom({ fees } = this) {
-      if (fees) {
-        const feeDenoms = Object.keys(fees)
-        return `${feeDenoms[0]}s`
-      }
-      return ``
     }
   },
   methods: {

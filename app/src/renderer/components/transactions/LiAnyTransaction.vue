@@ -2,6 +2,7 @@
   <li-bank-transaction
     v-if="bankTx"
     :transaction="transaction"
+    :bonding-denom="bondingDenom"
     :address="address"
     :fees="fees"
   />
@@ -97,10 +98,10 @@ export default {
       return this.transaction.tx.value.msg[0].type
     },
     fees() {
-      if (this.transaction.tx.value.fee.amount) {
-        return this.coinsToObject(this.transaction.tx.value.fee.amount)
-      }
-      return null
+      return (
+        this.transaction.tx.value.fee.amount &&
+        this.transaction.tx.value.fee.amount[0]
+      )
     },
     bankTx() {
       return [`cosmos-sdk/MsgSend`].includes(this.type)

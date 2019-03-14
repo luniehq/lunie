@@ -17,12 +17,17 @@
           <slot name="details" />
         </div>
       </div>
-      <div class="li-tx__content__block">
-        <router-link
-          :to="{ name: `block`, params: { height: block } }"
-        >
-          Block #{{ block }}&nbsp;
-        </router-link>{{ date !== `Invalid date` ? `@ ${date}` : `` }}
+      <div class="li-tx__content__right">
+        <p class="li-tx__content__right__fees">
+          <slot name="fees" />
+        </p>
+        <div class="li-tx__content__right__block">
+          <router-link
+            :to="{ name: `block`, params: { height: block } }"
+          >
+            Block #{{ block }}&nbsp;
+          </router-link>{{ date !== `Invalid date` ? `@ ${date}` : `` }}
+        </div>
       </div>
     </div>
   </div>
@@ -98,13 +103,10 @@ export default {
 
 .li-tx__content__left,
 .li-tx__content__action,
-.li-tx__content__block {
+.li-tx__content__right {
   display: flex;
-  flex-direction: column;
-}
-
-.li-tx__content__left {
   flex: 0.5;
+  flex-direction: column;
 }
 
 .li-tx__content__action {
@@ -118,31 +120,25 @@ export default {
   width: 9rem;
 }
 
-.li-tx__content__block {
-  flex: 0.3;
-  margin-left: auto;
-  flex-direction: row;
+.li-tx__content__right {
   align-items: flex-end;
   justify-content: flex-end;
 }
 
-.li-tx__content__caption {
+.li-tx__content__caption,
+.li-tx__content__right__fees {
   line-height: 18px;
   font-size: 18px;
   color: var(--bright);
 }
 
 .li-tx__content__information,
-.li-tx__content__block {
+.li-tx__content__right__block {
   display: flex;
   width: 100%;
   color: var(--dim);
   line-height: 14px;
   font-size: 14px;
-  align-items: baseline;
-}
-
-.li-tx__content__information {
   padding-top: 4px;
 }
 </style>

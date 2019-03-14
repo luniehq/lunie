@@ -7,18 +7,22 @@
     <template v-if="txType === `cosmos-sdk/MsgSubmitProposal`">
       <div slot="caption">
         Submit {{ tx.proposal_type.toLowerCase() }} proposal&nbsp;
-        <b>{{ totalProposalCreation }}</b>
+        <b>{{ full(atoms(tx.initial_deposit[0].amount)) }}</b>
         <span>&nbsp;{{ tx.initial_deposit[0].denom }}s</span>
       </div>
       <div slot="details">
         Title:&nbsp;<i>{{ tx.title }}</i>
+      </div>
+      <div slot="fees">
+        Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
+        <span>&nbsp;{{ fees ? fees.denom : bondingDenom }}s</span>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgDeposit`">
       <div slot="caption">
         Deposit&nbsp;
         <template>
-          <b>{{ totalDeposit }}</b>
+          <b>{{ full(atoms(tx.amount[0].amount)) }}</b>
           <span>&nbsp;{{ tx.amount[0].denom }}s</span>
         </template>
       </div>
@@ -28,20 +32,24 @@
           Proposal &#35;{{ tx.proposal_id }}
         </router-link>
       </div>
+      <div slot="fees">
+        Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
+        <span>&nbsp;{{ fees ? fees.denom : bondingDenom }}s</span>
+      </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgVote`">
       <div slot="caption">
         Vote&nbsp;{{ tx.option }}
-        <template v-if="fees">
-          &nbsp;<b>{{ totalFeesOnly }}&nbsp;</b>
-          <span>{{ feeDenom }}</span>
-        </template>
       </div>
       <div slot="details">
         On&nbsp;
         <router-link :to="`${url}/${tx.proposal_id}`">
           Proposal &#35;{{ tx.proposal_id }}
         </router-link>
+      </div>
+      <div slot="fees">
+        Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
+        <span>&nbsp;{{ fees ? fees.denom : bondingDenom }}s</span>
       </div>
     </template>
   </li-transaction>
@@ -83,33 +91,6 @@ export default {
   computed: {
     tx() {
       return this.transaction.tx.value.msg[0].value
-    },
-    totalProposalCreation({ tx, fees, full, atoms } = this) {
-      const txAmount = atoms(tx.initial_deposit[0].amount)
-      if (fees && fees[tx.initial_deposit[0].denom]) {
-        return full(txAmount + atoms(fees[tx.initial_deposit[0].denom]))
-      }
-      return txAmount
-    },
-    totalDeposit({ tx, fees, full, atoms } = this) {
-      const txAmount = atoms(tx.amount[0].amount)
-      if (fees && fees[tx.amount[0].denom]) {
-        return full(txAmount + atoms(fees[tx.amount[0].denom]))
-      }
-      return txAmount
-    },
-    totalFeesOnly({ fees, full, atoms, bondingDenom } = this) {
-      if (fees && fees[bondingDenom]) {
-        return full(atoms(fees[bondingDenom]))
-      }
-      return ``
-    },
-    feeDenom({ fees } = this) {
-      if (fees) {
-        const feeDenoms = Object.keys(fees)
-        return `${feeDenoms[0]}s`
-      }
-      return ``
     }
   }
 }

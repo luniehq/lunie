@@ -6,7 +6,8 @@ describe(`LiBankTransaction`, () => {
   let wrapper
   const propsData = {
     transaction: bankTxs[0],
-    address: ``
+    address: ``,
+    fees: { uatom: 3421 }
   }
 
   it(`should show bank transaction when user hasn't signed in`, () => {
@@ -50,4 +51,16 @@ describe(`LiBankTransaction`, () => {
     expect(wrapper.vm.sentSelf).toBe(true)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
+
+  it(`should show a bank transaction without fees`, () => {
+    propsData.transaction = bankTxs[2]
+    propsData.address = `A`
+    wrapper = shallowMount(LiBankTransaction, {
+      propsData: Object.assign({}, propsData, { fees: null }),
+      stubs: [`router-link`]
+    })
+    expect(wrapper.vm.sentSelf).toBe(true)
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
 })

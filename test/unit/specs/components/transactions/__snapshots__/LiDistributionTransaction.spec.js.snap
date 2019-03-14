@@ -1,6 +1,34 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`LiDistributionTransaction set withdraw address 1`] = `
+exports[`LiDistributionTransaction set withdraw address with fees 1`] = `
+<li-transaction-stub
+  block="1114"
+  color="#F2B134"
+  time="1970-01-01T00:00:43.300Z"
+>
+  <div>
+    
+      Update withdraw address
+      
+         
+    <b>
+      0.0003421 
+    </b>
+     
+    <span>
+      uatoms
+    </span>
+  </div>
+   
+  <div>
+    
+      To cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3
+    
+  </div>
+</li-transaction-stub>
+`;
+
+exports[`LiDistributionTransaction set withdraw address without fees 1`] = `
 <li-transaction-stub
   block="1114"
   color="#F2B134"
@@ -21,7 +49,41 @@ exports[`LiDistributionTransaction set withdraw address 1`] = `
 </li-transaction-stub>
 `;
 
-exports[`LiDistributionTransaction withdraw delegation rewards 1`] = `
+exports[`LiDistributionTransaction withdraw delegation rewards with fees 1`] = `
+<li-transaction-stub
+  block="1114"
+  color="#F2B134"
+  time="1970-01-01T00:00:43.300Z"
+>
+  <div>
+    
+      Withdraw rewards
+      
+         
+    <b>
+      0.0003421 
+    </b>
+     
+    <span>
+      uatoms
+    </span>
+  </div>
+   
+  <div>
+    
+      From 
+    <router-link-stub
+      to="/validator/cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz"
+    >
+      
+        cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz
+      
+    </router-link-stub>
+  </div>
+</li-transaction-stub>
+`;
+
+exports[`LiDistributionTransaction withdraw delegation rewards without fees 1`] = `
 <li-transaction-stub
   block="1114"
   color="#F2B134"
@@ -42,33 +104,6 @@ exports[`LiDistributionTransaction withdraw delegation rewards 1`] = `
     >
       
         cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz
-      
-    </router-link-stub>
-  </div>
-</li-transaction-stub>
-`;
-
-exports[`LiDistributionTransaction withdraw validator commission 1`] = `
-<li-transaction-stub
-  block="1114"
-  color="#F2B134"
-  time="1970-01-01T00:00:43.300Z"
->
-  <div>
-    
-      Withdraw validator commission
-      
-    <!---->
-  </div>
-   
-  <div>
-    
-      From 
-    <router-link-stub
-      to="/validator/cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3"
-    >
-      
-        cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3
       
     </router-link-stub>
   </div>
