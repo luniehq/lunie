@@ -15,7 +15,7 @@ exports[`LiGovTransaction deposits 1`] = `
     </b>
      
     <span>
-       stakes
+       uatoms
     </span>
   </div>
    
@@ -49,7 +49,7 @@ exports[`LiGovTransaction proposals 1`] = `
     </b>
      
     <span>
-       stakes
+       uatoms
     </span>
   </div>
    

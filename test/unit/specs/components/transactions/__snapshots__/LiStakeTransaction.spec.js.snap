@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`LiStakeTransaction create validator 1`] = `
+exports[`LiStakeTransaction create validator with fees 1`] = `
 <li-transaction-stub
   block="193281"
   color="#47AB6C"
@@ -11,11 +11,11 @@ exports[`LiStakeTransaction create validator 1`] = `
       Create validator 
       
     <b>
-      0.1000000
+      0.1003421
     </b>
      
     <span>
-       muons
+       uatoms
     </span>
   </div>
    
@@ -34,7 +34,41 @@ exports[`LiStakeTransaction create validator 1`] = `
 </li-transaction-stub>
 `;
 
-exports[`LiStakeTransaction delegations should show delegations 1`] = `
+exports[`LiStakeTransaction create validator without fees 1`] = `
+<li-transaction-stub
+  block="193281"
+  color="#47AB6C"
+  time="1970-01-01T00:00:02.042Z"
+>
+  <div>
+    
+      Create validator 
+      
+    <b>
+      0.1000000
+    </b>
+     
+    <span>
+       uatoms
+    </span>
+  </div>
+   
+  <div>
+    
+      Moniker: 
+      
+    <router-link-stub
+      to="/validator/cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2"
+    >
+      
+        cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2
+      
+    </router-link-stub>
+  </div>
+</li-transaction-stub>
+`;
+
+exports[`LiStakeTransaction delegations with fees 1`] = `
 <li-transaction-stub
   block="568"
   color="#47AB6C"
@@ -45,11 +79,11 @@ exports[`LiStakeTransaction delegations should show delegations 1`] = `
       Delegation 
       
     <b>
-      4,200.0000000
+      4,200.0003421
     </b>
      
     <span>
-       steaks
+       uatoms
     </span>
   </div>
    
@@ -68,7 +102,76 @@ exports[`LiStakeTransaction delegations should show delegations 1`] = `
 </li-transaction-stub>
 `;
 
-exports[`LiStakeTransaction edit validator 1`] = `
+exports[`LiStakeTransaction delegations without fees 1`] = `
+<li-transaction-stub
+  block="568"
+  color="#47AB6C"
+  time="1970-01-01T00:00:42.000Z"
+>
+  <div>
+    
+      Delegation 
+      
+    <b>
+      4,200.0000000
+    </b>
+     
+    <span>
+       uatoms
+    </span>
+  </div>
+   
+  <div>
+    
+      To 
+      
+    <router-link-stub
+      to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+    >
+      
+        mr_mounty
+      
+    </router-link-stub>
+  </div>
+</li-transaction-stub>
+`;
+
+exports[`LiStakeTransaction edit validator with fees 1`] = `
+<li-transaction-stub
+  block="193281"
+  color="#47AB6C"
+  time="1970-01-01T00:00:02.041Z"
+>
+  <div>
+    
+      Edit validator 
+      
+         
+    <b>
+      0.0003421 
+    </b>
+     
+    <span>
+      uatoms
+    </span>
+  </div>
+   
+  <div>
+    
+      Moniker: 
+      
+    <router-link-stub
+      to="/validator/cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2"
+    >
+      
+        cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2
+      
+    </router-link-stub>
+  </div>
+</li-transaction-stub>
+`;
+
+exports[`LiStakeTransaction edit validator without fees 1`] = `
 <li-transaction-stub
   block="193281"
   color="#47AB6C"
@@ -86,7 +189,7 @@ exports[`LiStakeTransaction edit validator 1`] = `
       Moniker: 
       
     <router-link-stub
-      to="/validator/undefined"
+      to="/validator/cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2"
     >
       
         cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2
@@ -96,7 +199,53 @@ exports[`LiStakeTransaction edit validator 1`] = `
 </li-transaction-stub>
 `;
 
-exports[`LiStakeTransaction redelegations should show redelegations and calculate tokens from shares 1`] = `
+exports[`LiStakeTransaction redelegations with fees 1`] = `
+<li-transaction-stub
+  block="567"
+  color="#47AB6C"
+  time="1970-01-01T00:00:45.000Z"
+>
+  <div>
+    
+      Redelegation 
+      
+    <b>
+      
+        3.0003421
+      
+    </b>
+     
+    <span>
+       uatoms
+    </span>
+  </div>
+   
+  <div>
+    
+      From 
+      
+    <router-link-stub
+      to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+    >
+      
+        mr_mounty
+      
+    </router-link-stub>
+    
+       to 
+      
+    <router-link-stub
+      to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+    >
+      
+        good_greg
+      
+    </router-link-stub>
+  </div>
+</li-transaction-stub>
+`;
+
+exports[`LiStakeTransaction redelegations without fees 1`] = `
 <li-transaction-stub
   block="567"
   color="#47AB6C"
@@ -113,7 +262,7 @@ exports[`LiStakeTransaction redelegations should show redelegations and calculat
     </b>
      
     <span>
-       stakes
+       uatoms
     </span>
   </div>
    
@@ -159,7 +308,7 @@ exports[`LiStakeTransaction unbonding delegations should default to ended if no 
     </b>
      
     <span>
-       stakes
+       uatoms
     </span>
      
     <!---->
@@ -197,7 +346,7 @@ exports[`LiStakeTransaction unbonding delegations should show unbonding delegati
     </b>
      
     <span>
-       stakes
+       uatoms
     </span>
      
     <!---->
@@ -218,7 +367,7 @@ exports[`LiStakeTransaction unbonding delegations should show unbonding delegati
 </li-transaction-stub>
 `;
 
-exports[`LiStakeTransaction unbonding delegations should show unbondings and calculate tokens from shares 1`] = `
+exports[`LiStakeTransaction unbonding delegations with fees 1`] = `
 <li-transaction-stub
   block="569"
   color="#47AB6C"
@@ -230,12 +379,12 @@ exports[`LiStakeTransaction unbonding delegations should show unbondings and cal
       
     <b>
       
-        1,000.0000000
+        1,000.0003421
       
     </b>
      
     <span>
-       stakes
+       uatoms
     </span>
      
     <span
@@ -262,7 +411,86 @@ exports[`LiStakeTransaction unbonding delegations should show unbondings and cal
 </li-transaction-stub>
 `;
 
-exports[`LiStakeTransaction unjail validator 1`] = `
+exports[`LiStakeTransaction unbonding delegations without fees 1`] = `
+<li-transaction-stub
+  block="569"
+  color="#47AB6C"
+  time="1970-01-01T00:00:04.200Z"
+>
+  <div>
+    
+      Undelegation 
+      
+    <b>
+      
+        1,000.0000000
+      
+    </b>
+     
+    <span>
+       uatoms
+    </span>
+     
+    <span
+      class="tx-unbonding__time-diff"
+    >
+      
+           (liquid in a few seconds)
+        
+    </span>
+  </div>
+   
+  <div>
+    
+      From 
+      
+    <router-link-stub
+      to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+    >
+      
+        mr_mounty
+      
+    </router-link-stub>
+  </div>
+</li-transaction-stub>
+`;
+
+exports[`LiStakeTransaction unjail with fees 1`] = `
+<li-transaction-stub
+  block="193281"
+  color="#47AB6C"
+  time="1970-01-01T00:00:20.420Z"
+>
+  <div>
+    
+      Unjail
+      
+         
+    <b>
+      0.0003421 
+    </b>
+     
+    <span>
+      uatoms
+    </span>
+  </div>
+   
+  <div>
+    
+      Moniker: 
+      
+    <router-link-stub
+      to="/validator/cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2"
+    >
+      
+        cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2
+      
+    </router-link-stub>
+  </div>
+</li-transaction-stub>
+`;
+
+exports[`LiStakeTransaction unjail without fees 1`] = `
 <li-transaction-stub
   block="193281"
   color="#47AB6C"

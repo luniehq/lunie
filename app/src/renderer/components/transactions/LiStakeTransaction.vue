@@ -29,7 +29,7 @@
       </div>
       <div slot="details">
         Moniker:&nbsp;
-        <router-link :to="`${url}/${tx.advalidator_addressdress}`">
+        <router-link :to="`${url}/${tx.validator_address}`">
           {{
             moniker(tx.validator_address)
           }}

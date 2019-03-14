@@ -1,6 +1,6 @@
 export const bankTxs = [
   {
-    hash: `not a real hash`,
+    hash: `not a real hash 0`,
     time: new Date(2042).toISOString(),
     height: `3436`,
     tx: {
@@ -17,15 +17,9 @@ export const bankTxs = [
           }
         ],
         fee: {
-          amount: [
-            {
-              denom: ``,
-              amount: `0`
-            }
-          ],
+          amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `500000`
-        },
-        gas: `500000`
+        }
       },
       result: {
         gasUsed: `3324`,
@@ -38,13 +32,12 @@ export const bankTxs = [
             key: `cmVjaXBpZW50`,
             value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
           }
-        ],
-        fee: {}
+        ]
       }
     }
   },
   {
-    hash: `not a real hash2`,
+    hash: `not a real hash 1`,
     time: new Date(2042).toISOString(), // set by Voyager
     height: `3438`,
     tx: {
@@ -62,12 +55,7 @@ export const bankTxs = [
           }
         ],
         fee: {
-          amount: [
-            {
-              denom: ``,
-              amount: `0`
-            }
-          ],
+          amount: null,
           gas: `500000`
         },
         gas: `500000`
@@ -89,7 +77,7 @@ export const bankTxs = [
     }
   },
   {
-    hash: `not a real hash3`,
+    hash: `not a real hash 2`,
     time: new Date(1142).toISOString(), // set by Voyager
     height: `466`,
     tx: {
@@ -110,15 +98,9 @@ export const bankTxs = [
           }
         ],
         fee: {
-          amount: [
-            {
-              denom: ``,
-              amount: `0`
-            }
-          ],
+          amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `500000`
-        },
-        gas: `500000`
+        }
       },
       result: {
         gasUsed: `3324`,
@@ -131,16 +113,15 @@ export const bankTxs = [
             key: `cmVjaXBpZW50`,
             value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
           }
-        ],
-        fee: {}
+        ]
       }
     }
-  },
+  }
 ]
 export const stakingTxs = [
   {
     height: `193281`,
-    txhash: `DB8F2DAFD4791337E57921DB2D7D7838E14492323FECB391BB39D51239BA3FBF`,
+    txhash: `not a real hash 3`,
     gas_wanted: `101587`,
     gas_used: `101577`,
     time: new Date(2042).toISOString(),
@@ -177,14 +158,14 @@ export const stakingTxs = [
               validator_address: `cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2`,
               pubkey: `cosmosvalconspub1zcjduepqjja8zg8ccvdd5rx50ad79faaaucq5vr98pr7eawnslqrscelwhaszhaq83`,
               value: {
-                denom: `muon`,
+                denom: `uatom`,
                 amount: `1000000`
               }
             }
           }
         ],
         fee: {
-          amount: null,
+          amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `101587`
         },
         memo: ``
@@ -193,7 +174,7 @@ export const stakingTxs = [
   },
   {
     height: `193281`,
-    txhash: `DB8F2DAFD4791337E57921DB2D7D7838E14492323FECB391BB39D51239BA3FBF`,
+    txhash: `not a real hash 4`,
     gas_wanted: `101587`,
     gas_used: `101577`,
     time: new Date(2041).toISOString(),
@@ -219,7 +200,7 @@ export const stakingTxs = [
           }
         ],
         fee: {
-          amount: null,
+          amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `101587`
         },
         memo: ``
@@ -227,7 +208,7 @@ export const stakingTxs = [
     }
   },
   {
-    hash: `not a real hash4`,
+    hash: `not a real hash 5`,
 
     time: new Date(42000).toISOString(), // set by Voyager
     height: `568`,
@@ -241,21 +222,15 @@ export const stakingTxs = [
               validator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
               value: {
                 amount: `42000000000`,
-                denom: `steak`
+                denom: `uatom`
               }
             }
           }
         ],
         fee: {
-          amount: [
-            {
-              denom: ``,
-              amount: `0`
-            }
-          ],
+          amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `500000`
-        },
-        gas: 500000,
+        }
       },
       result: {
         gasUsed: `3324`,
@@ -268,13 +243,12 @@ export const stakingTxs = [
             key: `delegator`,
             value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
           }
-        ],
-        fee: {}
+        ]
       }
     }
   },
   {
-    hash: `not a real hash5`,
+    hash: `not a real hash 6`,
 
     time: new Date(4200).toISOString(), // set by Voyager
     height: `569`,
@@ -291,15 +265,9 @@ export const stakingTxs = [
           }
         ],
         fee: {
-          amount: [
-            {
-              denom: ``,
-              amount: `0`
-            }
-          ],
+          amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `500000`
-        },
-        gas: `500000`
+        }
       },
       result: {
         gasUsed: `3324`,
@@ -312,13 +280,12 @@ export const stakingTxs = [
             key: `cmVjaXBpZW50`,
             value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
           }
-        ],
-        fee: {}
+        ]
       }
     }
   },
   {
-    hash: `not a real hash6`,
+    hash: `not a real hash 7`,
     time: new Date(45000).toISOString(), // set by Voyager
     height: `567`,
     tx: {
@@ -335,15 +302,9 @@ export const stakingTxs = [
           }
         ],
         fee: {
-          amount: [
-            {
-              denom: ``,
-              amount: `0`
-            }
-          ],
+          amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `500000`
-        },
-        gas: `500000`
+        }
       },
       result: {
         gasUsed: `3324`,
@@ -356,14 +317,13 @@ export const stakingTxs = [
             key: `cmVjaXBpZW50`,
             value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
           }
-        ],
-        fee: {}
+        ]
       }
     }
   },
   {
     height: `193281`,
-    txhash: `DB8F2DAFD4791337E57921DB2D7D7838E14492323FECB391BB39D51239BA3FBF`,
+    txhash: `not a real hash 8`,
     gas_wanted: `101587`,
     gas_used: `101577`,
     time: new Date(20420).toISOString(),
@@ -389,17 +349,17 @@ export const stakingTxs = [
           }
         ],
         fee: {
-          amount: null,
+          amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `101587`
         },
         memo: ``
       }
     }
-  },
+  }
 ]
 export const governanceTxs = [
   {
-    hash: `not a real hash7`,
+    hash: `not a real hash 9`,
     time: new Date(42540).toISOString(), // set by Voyager
     height: `56673`,
     tx: {
@@ -415,7 +375,7 @@ export const governanceTxs = [
               description: `This is a test proposal`,
               initial_deposit: [
                 {
-                  denom: `stake`,
+                  denom: `uatom`,
                   amount: `1000000000`
                 }
               ]
@@ -423,15 +383,9 @@ export const governanceTxs = [
           }
         ],
         fee: {
-          amount: [
-            {
-              denom: ``,
-              amount: `0`
-            }
-          ],
+          amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `500000`
-        },
-        gas: `500000`
+        }
       },
       result: {
         gasUsed: `3324`,
@@ -444,13 +398,12 @@ export const governanceTxs = [
             key: `cmVjaXBpZW50`,
             value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
           }
-        ],
-        fee: {}
+        ]
       }
     }
   },
   {
-    hash: `not a real hash9`,
+    hash: `not a real hash 10`,
     time: new Date(42567).toISOString(),
     height: `56675`,
     tx: {
@@ -464,7 +417,7 @@ export const governanceTxs = [
               proposal_id: `1`,
               amount: [
                 {
-                  denom: `stake`,
+                  denom: `uatom`,
                   amount: `1000000000`
                 }
               ]
@@ -472,15 +425,9 @@ export const governanceTxs = [
           }
         ],
         fee: {
-          amount: [
-            {
-              denom: ``,
-              amount: `0`
-            }
-          ],
+          amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `500000`
         },
-        gas: `500000`
       },
       result: {
         gasUsed: `3324`,
@@ -493,13 +440,12 @@ export const governanceTxs = [
             key: `cmVjaXBpZW50`,
             value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
           }
-        ],
-        fee: {}
+        ]
       }
     }
   },
   {
-    hash: `not a real hash10`,
+    hash: `not a real hash 11`,
     time: new Date(43300).toISOString(), // set by Voyager
     height: `56673`,
     tx: {
@@ -516,15 +462,9 @@ export const governanceTxs = [
           }
         ],
         fee: {
-          amount: [
-            {
-              denom: ``,
-              amount: `0`
-            }
-          ],
+          amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `500000`
-        },
-        gas: `500000`
+        }
       },
       result: {
         gasUsed: `3324`,
@@ -537,16 +477,15 @@ export const governanceTxs = [
             key: `cmVjaXBpZW50`,
             value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
           }
-        ],
-        fee: {}
+        ]
       }
     }
-  },
+  }
 ]
 export const distributionTxs = [
   {
     height: `1114`,
-    txhash: `8D817CF08F5E13E98A42057C179B84A28B714A34DEE8D42D49A3468E0A8FF8D7`,
+    txhash: `not a real hash 12`,
     log: `[{"msg_index":"0","success":true,"log":""}]`,
     gas_wanted: `500000`,
     gas_used: `58806`,
@@ -578,7 +517,7 @@ export const distributionTxs = [
           }
         ],
         fee: {
-          amount: null,
+          amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `500000`
         },
         signatures: [
@@ -596,7 +535,7 @@ export const distributionTxs = [
   },
   {
     height: `1114`,
-    txhash: `8D817CF08F5E13E98A42057C179B84A28B714A34DEE8D42D49A3468E0A8FF8D7`,
+    txhash: `not a real hash 13`,
     log: `[{"msg_index":"0","success":true,"log":""}]`,
     gas_wanted: `500000`,
     gas_used: `58806`,
@@ -627,7 +566,7 @@ export const distributionTxs = [
           }
         ],
         fee: {
-          amount: null,
+          amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `500000`
         },
         signatures: [
@@ -645,7 +584,7 @@ export const distributionTxs = [
   },
   {
     height: `1114`,
-    txhash: `8D817CF08F5E13E98A42057C179B84A28B714A34DEE8D42D49A3468E0A8FF8D7`,
+    txhash: `not a real hash 14`,
     log: `[{"msg_index":"0","success":true,"log":""}]`,
     gas_wanted: `500000`,
     gas_used: `58806`,
@@ -676,7 +615,7 @@ export const distributionTxs = [
           }
         ],
         fee: {
-          amount: null,
+          amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `500000`
         },
         memo: `Sent via Cosmos UI 🚀`

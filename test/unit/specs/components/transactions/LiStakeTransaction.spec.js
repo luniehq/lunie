@@ -11,38 +11,70 @@ describe(`LiStakeTransaction`, () => {
     txType: `cosmos-sdk/MsgCreateValidator`,
     validators,
     url: `/validator`,
-    bondingDenom: `stake`
+    bondingDenom: `uatom`,
+    fees: { uatom: 3421 }
   }
-  it(`create validator`, () => {
-    wrapper = shallowMount(LiStakeTransaction, {
-      propsData,
-      stubs: [`router-link`]
+  describe(`create validator`, () => {
+    it(`with fees`, () => {
+      wrapper = shallowMount(LiStakeTransaction, {
+        propsData,
+        stubs: [`router-link`]
+      })
+      expect(wrapper.vm.$el).toMatchSnapshot()
     })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+
+    it(`without fees`, () => {
+      wrapper = shallowMount(LiStakeTransaction, {
+        propsData: Object.assign({}, propsData, { fees: null }),
+        stubs: [`router-link`]
+      })
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
   })
 
-  it(`edit validator`, async () => {
-    propsData.transaction = stakingTxs[1]
-    propsData.txType = `cosmos-sdk/MsgEditValidator`
-
-    wrapper = shallowMount(LiStakeTransaction, {
-      propsData,
-      stubs: [`router-link`]
+  describe(`edit validator`, () => {
+    beforeEach(() => {
+      propsData.transaction = stakingTxs[1]
+      propsData.txType = `cosmos-sdk/MsgEditValidator`
     })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+
+    it(`with fees`, async () => {
+      wrapper = shallowMount(LiStakeTransaction, {
+        propsData,
+        stubs: [`router-link`]
+      })
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
+
+    it(`without fees`, () => {
+      wrapper = shallowMount(LiStakeTransaction, {
+        propsData: Object.assign({}, propsData, { fees: null }),
+        stubs: [`router-link`]
+      })
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
   })
 
   describe(`delegations`, () => {
-
-    it(`should show delegations`, () => {
+    beforeEach(() => {
       propsData.transaction = stakingTxs[2]
       propsData.txType = `cosmos-sdk/MsgDelegate`
+    })
 
+    it(`with fees`, () => {
       wrapper = shallowMount(LiStakeTransaction, {
         propsData,
         stubs: [`router-link`]
       })
 
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
+
+    it(`without fees`, () => {
+      wrapper = shallowMount(LiStakeTransaction, {
+        propsData: Object.assign({}, propsData, { fees: null }),
+        stubs: [`router-link`]
+      })
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
 
@@ -61,9 +93,12 @@ describe(`LiStakeTransaction`, () => {
   })
 
   describe(`unbonding delegations`, () => {
-    it(`should show unbondings and calculate tokens from shares`, () => {
+    beforeEach(() => {
       propsData.transaction = stakingTxs[3]
       propsData.txType = `cosmos-sdk/MsgUndelegate`
+    })
+
+    it(`with fees`, () => {
       propsData.unbondingTime = Date.now() + 1000
       wrapper = shallowMount(LiStakeTransaction, {
         propsData,
@@ -74,9 +109,15 @@ describe(`LiStakeTransaction`, () => {
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
 
+    it(`without fees`, () => {
+      wrapper = shallowMount(LiStakeTransaction, {
+        propsData: Object.assign({}, propsData, { fees: null }),
+        stubs: [`router-link`]
+      })
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
+
     it(`should show unbonding delegations as ended`, () => {
-      propsData.transaction = stakingTxs[3]
-      propsData.txType = `cosmos-sdk/MsgUndelegate`
       propsData.unbondingTime = Date.now() - 1000
       wrapper.setProps({ unbondingTime: Date.now() - 1000 })
       expect(wrapper.vm.$el).toMatchSnapshot()
@@ -89,10 +130,13 @@ describe(`LiStakeTransaction`, () => {
   })
 
   describe(`redelegations`, () => {
-    it(`should show redelegations and calculate tokens from shares`, () => {
+
+    beforeEach(() => {
       propsData.transaction = stakingTxs[4]
       propsData.txType = `cosmos-sdk/MsgBeginRedelegate`
+    })
 
+    it(`with fees`, () => {
       wrapper = shallowMount(LiStakeTransaction, {
         propsData,
         stubs: [`router-link`]
@@ -101,18 +145,40 @@ describe(`LiStakeTransaction`, () => {
       expect(wrapper.vm.$el).toMatchSnapshot()
       expect(wrapper.text()).toContain(`3`)
     })
+
+    it(`without fees`, () => {
+      wrapper = shallowMount(LiStakeTransaction, {
+        propsData: Object.assign({}, propsData, { fees: null }),
+        stubs: [`router-link`]
+      })
+
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
   })
 
-  it(`unjail validator`, () => {
-
-    propsData.transaction = stakingTxs[5]
-    propsData.txType = `cosmos-sdk/MsgUnjail`
-
-    wrapper = shallowMount(LiStakeTransaction, {
-      propsData,
-      stubs: [`router-link`]
+  describe(`unjail`, () => {
+    beforeEach(() => {
+      propsData.transaction = stakingTxs[5]
+      propsData.txType = `cosmos-sdk/MsgUnjail`
     })
 
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    it(`with fees`, () => {
+      wrapper = shallowMount(LiStakeTransaction, {
+        propsData,
+        stubs: [`router-link`]
+      })
+
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
+
+    it(`without fees`, () => {
+
+      wrapper = shallowMount(LiStakeTransaction, {
+        propsData: Object.assign({}, propsData, { fees: null }),
+        stubs: [`router-link`]
+      })
+
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
   })
 })
