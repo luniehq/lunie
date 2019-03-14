@@ -4,7 +4,7 @@
       <img
         :style="{ borderColor: color }"
         src="~assets/images/cosmos-logo.png"
-      />
+      >
     </div>
     <div class="li-tx__content">
       <div class="li-tx__content__left">
@@ -21,8 +21,8 @@
         <slot name="fees" />
         <div class="li-tx__content__block">
           <router-link :to="{ name: `block`, params: { height: block } }">
-            Block #{{ block }}&nbsp; </router-link
-          >{{ date !== `Invalid date` ? `@ ${date}` : `` }}
+            Block #{{ block }}&nbsp;
+          </router-link>{{ date !== `Invalid date` ? `@ ${date}` : `` }}
         </div>
       </div>
     </div>
