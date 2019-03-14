@@ -22,7 +22,14 @@
     <template v-else-if="txType === `cosmos-sdk/MsgEditValidator`">
       <div slot="caption">
         Edit validator&nbsp;
-        <router-link :to="`${url}/${tx.validator_address}`">
+        <template v-if="fees">
+          &nbsp;<b>{{ totalFeesOnly }}&nbsp;</b>
+          <span>{{ feeDenom }}</span>
+        </template>
+      </div>
+      <div slot="details">
+        Moniker:&nbsp;
+        <router-link :to="`${url}/${tx.advalidator_addressdress}`">
           {{
             moniker(tx.validator_address)
           }}
@@ -93,12 +100,14 @@
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgUnjail`">
       <div slot="caption">
-        Unjail&nbsp;<template>
-          <b>{{ totalFeesOnly }}&nbsp;</b>
+        Unjail
+        <template v-if="fees">
+          &nbsp;<b>{{ totalFeesOnly }}&nbsp;</b>
           <span>{{ feeDenom }}</span>
         </template>
       </div>
       <div slot="details">
+        Moniker:&nbsp;
         <router-link :to="`${url}/${tx.address}`">
           {{
             moniker(tx.address)

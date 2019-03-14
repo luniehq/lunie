@@ -19,7 +19,7 @@
     <template v-else-if="sent">
       <div slot="caption">
         Sent&nbsp;
-        <b>Ø{{ total }}</b>
+        <b>{{ total }}</b>
         <span>&nbsp;{{ coins.denom }}</span>
       </div>
       <span slot="details">

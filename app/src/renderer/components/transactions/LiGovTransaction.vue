@@ -31,9 +31,9 @@
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgVote`">
       <div slot="caption">
-        Vote&nbsp;{{ tx.option }}&nbsp;
-        <template>
-          <b>{{ totalFeesOnly }}&nbsp;</b>
+        Vote&nbsp;{{ tx.option }}
+        <template v-if="fees">
+          &nbsp;<b>{{ totalFeesOnly }}&nbsp;</b>
           <span>{{ feeDenom }}</span>
         </template>
       </div>

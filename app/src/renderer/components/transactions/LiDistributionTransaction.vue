@@ -6,9 +6,9 @@
   >
     <template v-if="txType === `cosmos-sdk/MsgWithdrawDelegationReward`">
       <div slot="caption">
-        Withdraw rewards&nbsp;
-        <template>
-          <b>{{ totalFeesOnly }}&nbsp;</b>
+        Withdraw rewards
+        <template v-if="fees">
+          &nbsp;<b>{{ totalFeesOnly }}&nbsp;</b>
           <span>{{ feeDenom }}</span>
         </template>
       </div>
@@ -20,9 +20,9 @@
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgSetWithdrawAddress`">
       <div slot="caption">
-        Update withdraw address&nbsp;
-        <template>
-          <b>{{ totalFeesOnly }}&nbsp;</b>
+        Update withdraw address
+        <template v-if="fees">
+          &nbsp;<b>{{ totalFeesOnly }}&nbsp;</b>
           <span>{{ feeDenom }}</span>
         </template>
       </div>
@@ -34,9 +34,9 @@
       v-else-if="txType === `cosmos-sdk/MsgWithdrawValidatorCommission`"
     >
       <div slot="caption">
-        Withdraw validator commission&nbsp;
-        <template>
-          <b>{{ totalFeesOnly }}&nbsp;</b>
+        Withdraw validator commission
+        <template v-if="fees">
+          &nbsp;<b>{{ totalFeesOnly }}&nbsp;</b>
           <span>{{ feeDenom }}</span>
         </template>
       </div>
