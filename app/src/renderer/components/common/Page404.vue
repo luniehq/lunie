@@ -9,6 +9,11 @@
       <ul>
         <li>
           <router-link to="/">
+            Network
+          </router-link>
+        </li>
+        <li>
+          <router-link to="/wallet">
             Wallet
           </router-link>
         </li>
