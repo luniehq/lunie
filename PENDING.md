@@ -6,7 +6,7 @@
 ### Added
 
 - [\#1959](https://github.com/cosmos/voyager/issues/1959) display transactions on block page @fedekunze
-- Added guide on how to connect via a local full node to any network @faboweb
+- [\#2263](https://github.com/cosmos/voyager/pull/2263) Added guide on how to connect via a local full node to any network @faboweb
 
 ### Changed
 
