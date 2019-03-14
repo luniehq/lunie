@@ -13,6 +13,7 @@ export default () => {
     experimentalMode: config.development,
     insecureMode: config.development,
     signedIn: false,
+    sessionType: null, // local, ledger
     accounts: [],
     localKeyPairName: null, // used for signing with a locally stored key, TODO move into own module
     pauseHistory: false,
@@ -45,6 +46,9 @@ export default () => {
   const mutations = {
     setSignIn(state, hasSignedIn) {
       state.signedIn = hasSignedIn
+    },
+    setSessionType(state, sessionType) {
+      state.sessionType = sessionType
     },
     setAccounts(state, accounts) {
       state.accounts = accounts
@@ -148,6 +152,7 @@ export default () => {
             .find(({ name }) => name === localKeyPairName).address
       }
       commit(`setSignIn`, true)
+      commit(`setSessionType`, sessionType)
       dispatch(`setErrorCollection`, {
         account: accountAddress,
         optin: errorCollection
