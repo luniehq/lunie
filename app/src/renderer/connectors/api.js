@@ -53,7 +53,9 @@ const Client = (axios, remoteLcdURL) => {
               return emptyAccount
             }
             account = Object.assign(
-              account.BaseVestingAccount.BaseAccount, res.BaseVestingAccount
+              {},
+              account.BaseVestingAccount.BaseAccount,
+              account.BaseVestingAccount
             )
             delete account.BaseAccount
             delete account.BaseVestingAccount
