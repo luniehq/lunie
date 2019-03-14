@@ -4,7 +4,7 @@
       <img
         :style="{ borderColor: color }"
         src="~assets/images/cosmos-logo.png"
-      >
+      />
     </div>
     <div class="li-tx__content">
       <div class="li-tx__content__left">
@@ -18,15 +18,11 @@
         </div>
       </div>
       <div class="li-tx__content__right">
-        <p class="li-tx__content__right__fees">
-          <slot name="fees" />
-        </p>
-        <div class="li-tx__content__right__block">
-          <router-link
-            :to="{ name: `block`, params: { height: block } }"
-          >
-            Block #{{ block }}&nbsp;
-          </router-link>{{ date !== `Invalid date` ? `@ ${date}` : `` }}
+        <slot name="fees" />
+        <div class="li-tx__content__block">
+          <router-link :to="{ name: `block`, params: { height: block } }">
+            Block #{{ block }}&nbsp; </router-link
+          >{{ date !== `Invalid date` ? `@ ${date}` : `` }}
         </div>
       </div>
     </div>
@@ -74,10 +70,6 @@ export default {
   font-weight: 300;
 }
 
-.li-tx:hover {
-  background: var(--hover-bg);
-}
-
 .li-tx b {
   font-weight: 500;
 }
@@ -96,49 +88,31 @@ export default {
 
 .li-tx__content {
   display: flex;
-  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
   padding: 1rem;
 }
 
 .li-tx__content__left,
-.li-tx__content__action,
 .li-tx__content__right {
   display: flex;
-  flex: 0.5;
   flex-direction: column;
 }
 
-.li-tx__content__action {
-  flex: 0.3;
-  justify-content: center;
-  padding: 0 1rem;
-  border-left: 1px solid var(--bc-dim);
-}
-
-.li-tx__content__action button {
-  width: 9rem;
-}
-
 .li-tx__content__right {
-  align-items: flex-end;
-  justify-content: flex-end;
-}
-
-.li-tx__content__caption,
-.li-tx__content__right__fees {
-  line-height: 18px;
-  font-size: 18px;
-  color: var(--bright);
+  text-align: right;
 }
 
 .li-tx__content__information,
-.li-tx__content__right__block {
-  display: flex;
-  width: 100%;
-  color: var(--dim);
-  line-height: 14px;
+.li-tx__content__right {
   font-size: 14px;
-  padding-top: 4px;
+  color: var(--dim);
+}
+
+.li-tx__content__caption {
+  line-height: 18px;
+  font-size: 18px;
+  color: var(--bright);
 }
 </style>

@@ -34,7 +34,7 @@ exports[`LiGovTransaction deposits 1`] = `
    
   <div>
     
-      Fee:  
+      Network Fee: 
     <b>
       0.0000000
     </b>
@@ -75,7 +75,7 @@ exports[`LiGovTransaction proposals 1`] = `
    
   <div>
     
-      Fee:  
+      Network Fee: 
     <b>
       0.0000000
     </b>
@@ -114,7 +114,7 @@ exports[`LiGovTransaction votes 1`] = `
    
   <div>
     
-      Fee:  
+      Network Fee: 
     <b>
       0.0000000
     </b>

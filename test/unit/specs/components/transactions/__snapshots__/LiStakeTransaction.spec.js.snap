@@ -34,7 +34,7 @@ exports[`LiStakeTransaction create validator with fees 1`] = `
    
   <div>
     
-      Fee: 
+      Network Fee: 
     <b>
       0.0003421
     </b>
@@ -80,7 +80,7 @@ exports[`LiStakeTransaction create validator without fees 1`] = `
    
   <div>
     
-      Fee: 
+      Network Fee: 
     <b>
       0.0000000
     </b>
@@ -132,7 +132,7 @@ exports[`LiStakeTransaction delegations with fees 1`] = `
     slot="fees"
   >
     
-      Fee:  
+      Network Fee: 
     <b>
       0.0003421
     </b>
@@ -184,7 +184,7 @@ exports[`LiStakeTransaction delegations without fees 1`] = `
     slot="fees"
   >
     
-      Fee:  
+      Network Fee: 
     <b>
       0.0000000
     </b>
@@ -229,7 +229,7 @@ exports[`LiStakeTransaction edit validator with fees 1`] = `
     slot="fees"
   >
     
-      Fee:  
+      Network Fee: 
     <b>
       0.0003421
     </b>
@@ -274,7 +274,7 @@ exports[`LiStakeTransaction edit validator without fees 1`] = `
     slot="fees"
   >
     
-      Fee:  
+      Network Fee: 
     <b>
       0.0000000
     </b>
@@ -338,7 +338,7 @@ exports[`LiStakeTransaction redelegations with fees 1`] = `
     slot="fees"
   >
     
-      Fee:  
+      Network Fee: 
     <b>
       0.0003421
     </b>
@@ -402,7 +402,7 @@ exports[`LiStakeTransaction redelegations without fees 1`] = `
     slot="fees"
   >
     
-      Fee:  
+      Network Fee: 
     <b>
       0.0000000
     </b>
@@ -458,7 +458,7 @@ exports[`LiStakeTransaction unbonding delegations should default to ended if no 
     slot="fees"
   >
     
-      Fee:  
+      Network Fee: 
     <b>
       0.0003421
     </b>
@@ -514,7 +514,7 @@ exports[`LiStakeTransaction unbonding delegations should show unbonding delegati
     slot="fees"
   >
     
-      Fee:  
+      Network Fee: 
     <b>
       0.0003421
     </b>
@@ -576,7 +576,7 @@ exports[`LiStakeTransaction unbonding delegations with fees 1`] = `
     slot="fees"
   >
     
-      Fee:  
+      Network Fee: 
     <b>
       0.0003421
     </b>
@@ -632,7 +632,7 @@ exports[`LiStakeTransaction unbonding delegations without fees 1`] = `
     slot="fees"
   >
     
-      Fee:  
+      Network Fee: 
     <b>
       0.0000000
     </b>
@@ -677,7 +677,7 @@ exports[`LiStakeTransaction unjail with fees 1`] = `
     slot="fees"
   >
     
-      Fee:  
+      Network Fee: 
     <b>
       0.0003421
     </b>
@@ -722,7 +722,7 @@ exports[`LiStakeTransaction unjail without fees 1`] = `
     slot="fees"
   >
     
-      Fee:  
+      Network Fee: 
     <b>
       0.0000000
     </b>

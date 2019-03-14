@@ -14,7 +14,7 @@
         Title:<i>{{ tx.title }}</i>
       </div>
       <div slot="fees">
-        Fee:  <b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
+        Network Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
         <span>{{ fees ? fees.denom : bondingDenom }}s</span>
       </div>
     </template>
@@ -33,7 +33,7 @@
         </router-link>
       </div>
       <div slot="fees">
-        Fee:  <b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
+        Network Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
         <span>{{ fees ? fees.denom : bondingDenom }}s</span>
       </div>
     </template>
@@ -48,7 +48,7 @@
         </router-link>
       </div>
       <div slot="fees">
-        Fee:  <b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
+        Network Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
         <span>{{ fees ? fees.denom : bondingDenom }}s</span>
       </div>
     </template>

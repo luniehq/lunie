@@ -13,13 +13,11 @@
       <div slot="details">
         Moniker:
         <router-link :to="`${url}/${tx.validator_address}`">
-          {{
-            moniker(tx.validator_address)
-          }}
+          {{ moniker(tx.validator_address) }}
         </router-link>
       </div>
       <div slot="fees">
-        Fee: <b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
+        Network Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
         <span>{{ fees ? fees.denom : bondingDenom }}s</span>
       </div>
     </template>
@@ -30,13 +28,11 @@
       <div slot="details">
         Moniker:
         <router-link :to="`${url}/${tx.validator_address}`">
-          {{
-            moniker(tx.validator_address)
-          }}
+          {{ moniker(tx.validator_address) }}
         </router-link>
       </div>
       <div slot="fees">
-        Fee:  <b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
+        Network Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
         <span>{{ fees ? fees.denom : bondingDenom }}s</span>
       </div>
     </template>
@@ -49,13 +45,11 @@
       <div slot="details">
         To
         <router-link :to="`${url}/${tx.validator_address}`">
-          {{
-            moniker(tx.validator_address)
-          }}
+          {{ moniker(tx.validator_address) }}
         </router-link>
       </div>
       <div slot="fees">
-        Fee:  <b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
+        Network Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
         <span>{{ fees ? fees.denom : bondingDenom }}s</span>
       </div>
     </template>
@@ -63,29 +57,29 @@
       <div slot="caption">
         Redelegation
         <b>
-          {{ full(calculatePrettifiedTokens(
-            tx.validator_src_address,
-            tx.shares_amount
-          )) }}
+          {{
+            full(
+              calculatePrettifiedTokens(
+                tx.validator_src_address,
+                tx.shares_amount
+              )
+            )
+          }}
         </b>
         <span>{{ bondingDenom }}s</span>
       </div>
       <div slot="details">
         From
         <router-link :to="`${url}/${tx.validator_src_address}`">
-          {{
-            moniker(tx.validator_src_address)
-          }}
+          {{ moniker(tx.validator_src_address) }}
         </router-link>
         to
         <router-link :to="`${url}/${tx.validator_dst_address}`">
-          {{
-            moniker(tx.validator_dst_address)
-          }}
+          {{ moniker(tx.validator_dst_address) }}
         </router-link>
       </div>
       <div slot="fees">
-        Fee:  <b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
+        Network Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
         <span>{{ fees ? fees.denom : bondingDenom }}s</span>
       </div>
     </template>
@@ -94,10 +88,9 @@
         Undelegation
         <b>
           {{
-            full(calculatePrettifiedTokens(
-              tx.validator_address,
-              tx.shares_amount
-            ))
+            full(
+              calculatePrettifiedTokens(tx.validator_address, tx.shares_amount)
+            )
           }}
         </b>
         <span>{{ bondingDenom }}s</span>
@@ -110,13 +103,11 @@
       <div slot="details">
         From
         <router-link :to="`${url}/${tx.validator_address}`">
-          {{
-            moniker(tx.validator_address)
-          }}
+          {{ moniker(tx.validator_address) }}
         </router-link>
       </div>
       <div slot="fees">
-        Fee:  <b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
+        Network Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
         <span>{{ fees ? fees.denom : bondingDenom }}s</span>
       </div>
     </template>
@@ -127,13 +118,11 @@
       <div slot="details">
         Moniker:
         <router-link :to="`${url}/${tx.address}`">
-          {{
-            moniker(tx.address)
-          }}
+          {{ moniker(tx.address) }}
         </router-link>
       </div>
       <div slot="fees">
-        Fee:  <b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
+        Network Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
         <span>{{ fees ? fees.denom : bondingDenom }}s</span>
       </div>
     </template>
