@@ -9,13 +9,13 @@
         Withdraw rewards
       </div>
       <div slot="details">
-        From&nbsp;<router-link :to="url + '/' + tx.validator_address">
+        From<router-link :to="url + '/' + tx.validator_address">
           {{ moniker(tx.validator_address) }}
         </router-link>
       </div>
       <div slot="fees">
-        Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
-        <span>&nbsp;{{ fees ? fees.denom : bondingDenom }}s</span>
+        Fee:  <b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
+        <span>{{ fees ? fees.denom : bondingDenom }}s</span>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgSetWithdrawAddress`">
@@ -26,8 +26,8 @@
         To {{ tx.withdraw_address }}
       </div>
       <div slot="fees">
-        Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
-        <span>&nbsp;{{ fees ? fees.denom : bondingDenom }}s</span>
+        Fee:  <b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
+        <span>{{ fees ? fees.denom : bondingDenom }}s</span>
       </div>
     </template>
     <template
@@ -37,13 +37,13 @@
         Withdraw validator commission
       </div>
       <div slot="details">
-        From&nbsp;<router-link :to="url + '/' + tx.validator_address">
+        From<router-link :to="url + '/' + tx.validator_address">
           {{ moniker(tx.validator_address) }}
         </router-link>
       </div>
       <div slot="fees">
-        Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
-        <span>&nbsp;{{ fees ? fees.denom : bondingDenom }}s</span>
+        Fee:  <b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
+        <span>{{ fees ? fees.denom : bondingDenom }}s</span>
       </div>
     </template>
   </li-transaction>

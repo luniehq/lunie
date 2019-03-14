@@ -13,7 +13,10 @@ describe(`LiDistributionTransaction`, () => {
     url: `/validator`,
     validators,
     bondingDenom: `uatom`,
-    fees: { uatom: 3421 },
+    fees: {
+      amount: `3421`,
+      denom: `uatom`
+    },
     txType: `cosmos-sdk/MsgWithdrawDelegationReward`,
   }
 

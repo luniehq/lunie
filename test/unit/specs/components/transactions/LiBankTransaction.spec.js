@@ -8,7 +8,10 @@ describe(`LiBankTransaction`, () => {
     transaction: bankTxs[0],
     bondingDenom: `uatom`,
     address: ``,
-    fees: { uatom: 3421 }
+    fees: {
+      amount: `3421`,
+      denom: `uatom`
+    }
   }
 
   it(`should show bank transaction when user hasn't signed in`, () => {

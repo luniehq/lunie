@@ -6,50 +6,50 @@
   >
     <template v-if="txType === `cosmos-sdk/MsgSubmitProposal`">
       <div slot="caption">
-        Submit {{ tx.proposal_type.toLowerCase() }} proposal&nbsp;
+        Submit {{ tx.proposal_type.toLowerCase() }} proposal
         <b>{{ full(atoms(tx.initial_deposit[0].amount)) }}</b>
-        <span>&nbsp;{{ tx.initial_deposit[0].denom }}s</span>
+        <span>{{ tx.initial_deposit[0].denom }}s</span>
       </div>
       <div slot="details">
-        Title:&nbsp;<i>{{ tx.title }}</i>
+        Title:<i>{{ tx.title }}</i>
       </div>
       <div slot="fees">
-        Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
-        <span>&nbsp;{{ fees ? fees.denom : bondingDenom }}s</span>
+        Fee:  <b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
+        <span>{{ fees ? fees.denom : bondingDenom }}s</span>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgDeposit`">
       <div slot="caption">
-        Deposit&nbsp;
+        Deposit
         <template>
           <b>{{ full(atoms(tx.amount[0].amount)) }}</b>
-          <span>&nbsp;{{ tx.amount[0].denom }}s</span>
+          <span>{{ tx.amount[0].denom }}s</span>
         </template>
       </div>
       <div slot="details">
-        On&nbsp;
+        On
         <router-link :to="`${url}/${tx.proposal_id}`">
           Proposal &#35;{{ tx.proposal_id }}
         </router-link>
       </div>
       <div slot="fees">
-        Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
-        <span>&nbsp;{{ fees ? fees.denom : bondingDenom }}s</span>
+        Fee:  <b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
+        <span>{{ fees ? fees.denom : bondingDenom }}s</span>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgVote`">
       <div slot="caption">
-        Vote&nbsp;{{ tx.option }}
+        Vote{{ tx.option }}
       </div>
       <div slot="details">
-        On&nbsp;
+        On
         <router-link :to="`${url}/${tx.proposal_id}`">
           Proposal &#35;{{ tx.proposal_id }}
         </router-link>
       </div>
       <div slot="fees">
-        Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
-        <span>&nbsp;{{ fees ? fees.denom : bondingDenom }}s</span>
+        Fee:  <b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
+        <span>{{ fees ? fees.denom : bondingDenom }}s</span>
       </div>
     </template>
   </li-transaction>

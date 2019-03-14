@@ -6,8 +6,8 @@
   >
     <template v-if="address === ''">
       <div slot="caption">
-        Sent&nbsp;<b>{{ full(atoms(coins.amount)) }}</b>
-        <span>&nbsp;{{ coins.denom }}s</span>
+        Sent<b>{{ full(atoms(coins.amount)) }}</b>
+        <span>{{ coins.denom }}s</span>
       </div>
       <span slot="details">
         <template>
@@ -16,15 +16,15 @@
         </template>
       </span>
       <div slot="fees">
-        Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
-        <span>&nbsp;{{ fees ? fees.denom : bondingDenom }}s</span>
+        Fee:  <b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
+        <span>{{ fees ? fees.denom : bondingDenom }}s</span>
       </div>
     </template>
     <template v-else-if="sent">
       <div slot="caption">
-        Sent&nbsp;
+        Sent
         <b>{{ full(atoms(coins.amount)) }}</b>
-        <span>&nbsp;{{ coins.denom }}s</span>
+        <span>{{ coins.denom }}s</span>
       </div>
       <span slot="details">
         <template v-if="sentSelf">
@@ -35,20 +35,20 @@
         </template>
       </span>
       <div slot="fees">
-        Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
-        <span>&nbsp;{{ fees ? fees.denom : bondingDenom }}s</span>
+        Fee:  <b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
+        <span>{{ fees ? fees.denom : bondingDenom }}s</span>
       </div>
     </template>
     <template v-else>
       <div slot="caption">
-        Received&nbsp;
+        Received
         <b>{{ full(atoms(coins.amount)) }}</b>
-        <span>&nbsp;{{ coins.denom }}s</span>
+        <span>{{ coins.denom }}s</span>
       </div>
       <span slot="details">From <short-bech32 :address="sender" /></span>
       <div slot="fees">
-        Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
-        <span>&nbsp;{{ fees ? fees.denom : bondingDenom }}s</span>
+        Fee:  <b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
+        <span>{{ fees ? fees.denom : bondingDenom }}s</span>
       </div>
     </template>
   </li-transaction>

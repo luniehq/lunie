@@ -8,14 +8,14 @@ exports[`LiBankTransaction should show a bank transaction without fees 1`] = `
 >
   <div>
     
-      Sent 
+      Sent
       
     <b>
       1,234.0000000
     </b>
      
     <span>
-       uatoms
+      uatoms
     </span>
   </div>
    
@@ -27,13 +27,13 @@ exports[`LiBankTransaction should show a bank transaction without fees 1`] = `
    
   <div>
     
-      Fee: 
+      Fee:  
     <b>
       0.0000000
     </b>
      
     <span>
-       uatoms
+      uatoms
     </span>
   </div>
 </li-transaction-stub>
@@ -47,13 +47,13 @@ exports[`LiBankTransaction should show bank transaction when user hasn't signed 
 >
   <div>
     
-      Sent 
+      Sent
     <b>
       1,234.0000000
     </b>
      
     <span>
-       uatoms
+      uatoms
     </span>
   </div>
    
@@ -72,13 +72,13 @@ exports[`LiBankTransaction should show bank transaction when user hasn't signed 
    
   <div>
     
-      Fee: 
+      Fee:  
     <b>
-      0.0000000
+      0.0003421
     </b>
      
     <span>
-       s
+      uatoms
     </span>
   </div>
 </li-transaction-stub>
@@ -92,14 +92,14 @@ exports[`LiBankTransaction should show incoming transactions 1`] = `
 >
   <div>
     
-      Received 
+      Received
       
     <b>
       1,234.0000000
     </b>
      
     <span>
-       uatoms
+      uatoms
     </span>
   </div>
    
@@ -112,13 +112,13 @@ exports[`LiBankTransaction should show incoming transactions 1`] = `
    
   <div>
     
-      Fee: 
+      Fee:  
     <b>
-      0.0000000
+      0.0003421
     </b>
      
     <span>
-       s
+      uatoms
     </span>
   </div>
 </li-transaction-stub>
@@ -132,14 +132,14 @@ exports[`LiBankTransaction should show outgoing transactions 1`] = `
 >
   <div>
     
-      Sent 
+      Sent
       
     <b>
       1,234.0000000
     </b>
      
     <span>
-       uatoms
+      uatoms
     </span>
   </div>
    
@@ -153,13 +153,13 @@ exports[`LiBankTransaction should show outgoing transactions 1`] = `
    
   <div>
     
-      Fee: 
+      Fee:  
     <b>
-      0.0000000
+      0.0003421
     </b>
      
     <span>
-       s
+      uatoms
     </span>
   </div>
 </li-transaction-stub>
@@ -173,14 +173,14 @@ exports[`LiBankTransaction should show outgoing transactions send to herself 1`]
 >
   <div>
     
-      Sent 
+      Sent
       
     <b>
       1,234.0000000
     </b>
      
     <span>
-       uatoms
+      uatoms
     </span>
   </div>
    
@@ -192,13 +192,13 @@ exports[`LiBankTransaction should show outgoing transactions send to herself 1`]
    
   <div>
     
-      Fee: 
+      Fee:  
     <b>
-      0.0000000
+      0.0003421
     </b>
      
     <span>
-       s
+      uatoms
     </span>
   </div>
 </li-transaction-stub>

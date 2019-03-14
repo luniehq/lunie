@@ -44,7 +44,6 @@
 </template>
 
 <script>
-import { coinsToObject } from "scripts/common"
 import LiBankTransaction from "./LiBankTransaction"
 import LiStakeTransaction from "./LiStakeTransaction"
 import LiGovTransaction from "./LiGovTransaction"
@@ -90,9 +89,6 @@ export default {
       default: null
     }
   },
-  data: () => ({
-    coinsToObject
-  }),
   computed: {
     type() {
       return this.transaction.tx.value.msg[0].type
