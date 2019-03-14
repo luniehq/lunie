@@ -33,8 +33,7 @@ module.exports = {
     `/node_modules/`,
     `/build/`,
     `/dist/`,
-    `/test/`,
-    `/app/src/config.js`
+    `/test/`
   ],
   testURL: `http://localhost`,
   setupFiles: [

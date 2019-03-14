@@ -17,7 +17,6 @@ import routes from "../routes"
 import _Node from "../connectors/node"
 import _Store from "../vuex/store"
 import * as urlHelpers from "../../helpers/url.js"
-import _config from "../../config"
 import { enableGoogleAnalytics } from "../google-analytics"
 const _enableGoogleAnalytics = enableGoogleAnalytics
 
@@ -91,7 +90,7 @@ export const startApp = async (
   console.log(`Expecting stargate at: ${stargate}`)
 
   const node = Node(axios, stargate)
-  const store = Store({ node })
+  const store = Store({ node, config })
   const router = new Router({
     scrollBehavior: () => ({ y: 0 }),
     routes
@@ -128,9 +127,9 @@ export const startApp = async (
  */
 export const main = async (
   getURLParams = urlHelpers.getURLParams,
-  start = startApp,
-  config = _config
+  start = startApp
 ) => {
   const params = getURLParams(window)
+  const config = await fetch(`./config.json`).then(res => res.json())
   await start(params, config)
 }

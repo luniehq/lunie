@@ -1,11 +1,8 @@
 import { sleep } from "scripts/common.js"
 import Vue from "vue"
-import config from "../../../config"
 
-const NODE_HALTED_TIMEOUT = config.node_halted_timeout
-
-export default function({ node }) {
-  // get tendermint RPC client from basecoin client
+export default function({ node, config }) {
+  const NODE_HALTED_TIMEOUT = config.node_halted_timeout
 
   const state = {
     stopConnecting: false,

@@ -1,9 +1,8 @@
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
-import config from "../../../config"
 import axios from "axios"
 
-export default ({ node }) => {
+export default ({ node, config }) => {
   const emptyState = {
     balances: [],
     loading: true,

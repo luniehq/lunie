@@ -6,10 +6,9 @@ import {
   createSignature
 } from "../../scripts/wallet.js"
 import { getKey } from "../../scripts/keystore"
-import config from "../../../config"
 import { signatureImport } from "secp256k1"
 
-export default ({ node }) => {
+export default ({ node, config }) => {
   const state = {
     lock: null,
     nonce: `0`,

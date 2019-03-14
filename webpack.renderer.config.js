@@ -163,7 +163,8 @@ const rendererConfig = {
   devServer: {
     contentBase: [
       path.join(__dirname, `app/dist`),
-      path.join(__dirname, `app`)
+      path.join(__dirname, `app`),
+      path.join(__dirname)
     ],
     stats: `errors-only`
   },

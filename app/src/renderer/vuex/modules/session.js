@@ -2,11 +2,10 @@ import * as Sentry from "@sentry/browser"
 import {
   track
 } from "../../google-analytics.js"
-import config from "../../../config"
 import { loadKeys, importKey, testPassword } from "../../scripts/keystore.js"
 import { generateSeed } from "../../scripts/wallet.js"
 
-export default () => {
+export default ({ config }) => {
   const ERROR_COLLECTION_KEY = `voyager_error_collection`
 
   const state = {
