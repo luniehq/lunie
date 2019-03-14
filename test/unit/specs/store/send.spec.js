@@ -63,6 +63,14 @@ describe(`Module: Send`, () => {
     }
   }
 
+  const gas_prices = [
+    {
+      amount: `0.025`, // recommended on Cosmos Docs
+      denom: `stake` //TODO: this shouldn't be hardcoded
+    }
+  ]
+  const gas_adjustment = `1.5`
+
   beforeEach(() => {
     node = {
       send: jest.fn(() =>
@@ -134,9 +142,10 @@ describe(`Module: Send`, () => {
               chain_id: `mock-chain`,
               from: `cosmos1demo`,
               gas: `42`,
-              generate_only: true,
               sequence: `0`,
-              memo: `Sent via Cosmos UI 🚀`
+              memo: `Sent via Cosmos Wallet 🚀`,
+              gas_adjustment,
+              gas_prices
             }
           })
           expect(node.postTx).toHaveBeenCalledWith({
@@ -169,9 +178,10 @@ describe(`Module: Send`, () => {
               chain_id: `mock-chain`,
               from: `cosmos1demo`,
               gas: `42`,
-              generate_only: true,
               sequence: `0`,
-              memo: `Sent via Cosmos UI 🚀`
+              memo: `Sent via Cosmos Wallet 🚀`,
+              gas_adjustment,
+              gas_prices
             }
           })
           expect(node.postTx).toHaveBeenCalledWith({
@@ -205,9 +215,10 @@ describe(`Module: Send`, () => {
               chain_id: `mock-chain`,
               from: `cosmos1demo`,
               gas: `42`,
-              generate_only: true,
-              memo: `Sent via Cosmos UI 🚀`,
-              sequence: `0`
+              memo: `Sent via Cosmos Wallet 🚀`,
+              sequence: `0`,
+              gas_adjustment,
+              gas_prices
             }
           })
           expect(node.postTx).toHaveBeenCalledWith({
@@ -250,9 +261,10 @@ describe(`Module: Send`, () => {
               chain_id: `mock-chain`,
               from: `cosmos1demo`,
               gas: `500000`,
-              generate_only: true,
               sequence: `0`,
-              memo: `Sent via Cosmos UI 🚀`
+              memo: `Sent via Cosmos Wallet 🚀`,
+              gas_prices,
+              gas_adjustment
             }
           })
           expect(node.postTx).toHaveBeenCalledWith({

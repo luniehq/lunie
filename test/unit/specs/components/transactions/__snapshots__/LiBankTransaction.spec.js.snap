@@ -14,7 +14,7 @@ exports[`LiBankTransaction should show bank transaction when user hasn't signed 
     </b>
      
     <span>
-       JBCOINS
+       jbcoins
     </span>
   </div>
    
@@ -48,7 +48,7 @@ exports[`LiBankTransaction should show incoming transactions 1`] = `
     </b>
      
     <span>
-       JBCOINS
+       jbcoins
     </span>
   </div>
    
@@ -76,7 +76,7 @@ exports[`LiBankTransaction should show outgoing transactions 1`] = `
     </b>
      
     <span>
-       JBCOINS
+       jbcoins
     </span>
   </div>
    
@@ -105,7 +105,7 @@ exports[`LiBankTransaction should show outgoing transactions send to herself 1`]
     </b>
      
     <span>
-       JBCOINS
+       jbcoins
     </span>
   </div>
    
