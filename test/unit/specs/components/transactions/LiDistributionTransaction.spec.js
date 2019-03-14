@@ -2,7 +2,7 @@ import { shallowMount } from "@vue/test-utils"
 import LiDistributionTransaction from "transactions/LiDistributionTransaction"
 import { distributionTxs } from "../../store/json/txs"
 
-describe(`LiDistrTransaction`, () => {
+describe(`LiDistributionTransaction`, () => {
   let wrapper
   const validators = [
     { operator_address: `cosmosvaloper1address1`, moniker: `david` },
@@ -13,7 +13,7 @@ describe(`LiDistrTransaction`, () => {
     url: `/validator`,
     validators,
     bondingDenom: `stake`,
-    txType: `cosmos-sdk/MsgWithdrawDelegationReward`
+    txType: `cosmos-sdk/MsgWithdrawDelegationReward`,
   }
 
   beforeEach(() => {

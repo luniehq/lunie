@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.18] - 2019-03-14
+
+### Fixed
+
+- [#\2188](https://github.com/cosmos/voyager/issues/2188) Fixed issues with the way we were loading PageNetwork @jbibla
+- [#\2246](https://github.com/cosmos/voyager/issues/2246) Fix from moniker not visible on withdraw txs @faboweb
+
+### Added
+
+- [\#1959](https://github.com/cosmos/voyager/issues/1959) display transactions on block page @fedekunze
+
+### Changed
+
+- Ignore changelog check on master @faboweb
+- [#\2217](https://github.com/cosmos/voyager/issues/2217) Limit inputs to max precision @faboweb
+
 ## [1.0.0-beta.17] - 2019-03-13
 
 ### Changed

@@ -65,6 +65,9 @@ const Client = (axios, remoteLcdURL) => {
         req(`GET`, `/txs?recipient=${addr}`)()
       ]).then(([senderTxs, recipientTxs]) => [].concat(senderTxs, recipientTxs))
     },
+    getTxsByHeight: function (height) {
+      return req(`GET`, `/txs?tx.height=${height}`)()
+    },
     tx: argReq(`GET`, `/txs`),
 
     /* ============ STAKE ============ */

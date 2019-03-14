@@ -37,7 +37,7 @@ describe(`TmPage`, () => {
       store,
       localVue,
       propsData: {
-        dataset: [1, 2, 3],
+        dataEmpty: true
       },
       mocks: {
         $route: {
