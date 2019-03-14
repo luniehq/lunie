@@ -52,6 +52,7 @@ const Client = (axios, remoteLcdURL) => {
               account.BaseVestingAccount.BaseAccount, res.BaseVestingAccount
             )
             delete account.BaseAccount
+            delete account.BaseVestingAccount
           }
           return account
         })
