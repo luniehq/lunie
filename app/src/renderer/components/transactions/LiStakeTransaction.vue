@@ -13,9 +13,7 @@
       <div slot="details">
         Moniker:&nbsp;
         <router-link :to="`${url}/${tx.validator_address}`">
-          {{
-            moniker(tx.validator_address)
-          }}
+          {{ moniker(tx.validator_address) }}
         </router-link>
       </div>
       <div slot="fees">
@@ -30,9 +28,7 @@
       <div slot="details">
         Moniker:&nbsp;
         <router-link :to="`${url}/${tx.validator_address}`">
-          {{
-            moniker(tx.validator_address)
-          }}
+          {{ moniker(tx.validator_address) }}
         </router-link>
       </div>
       <div slot="fees">
@@ -42,46 +38,44 @@
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgDelegate`">
       <div slot="caption">
-        Delegation&nbsp;
+        Delegation
         <b>{{ full(atoms(tx.value.amount)) }}</b>
-        <span>&nbsp;{{ tx.value.denom }}s</span>
+        <span>{{ tx.value.denom }}s</span>
       </div>
       <div slot="details">
         To&nbsp;
         <router-link :to="`${url}/${tx.validator_address}`">
-          {{
-            moniker(tx.validator_address)
-          }}
+          {{ moniker(tx.validator_address) }}
         </router-link>
       </div>
       <div slot="fees">
-        Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
-        <span>&nbsp;{{ fees ? fees.denom : bondingDenom }}s</span>
+        Network Fee&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
+        <span>{{ fees ? fees.denom : bondingDenom }}s</span>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgBeginRedelegate`">
       <div slot="caption">
         Redelegation&nbsp;
         <b>
-          {{ full(calculatePrettifiedTokens(
-            tx.validator_src_address,
-            tx.shares_amount
-          )) }}
+          {{
+            full(
+              calculatePrettifiedTokens(
+                tx.validator_src_address,
+                tx.shares_amount
+              )
+            )
+          }}
         </b>
         <span>&nbsp;{{ bondingDenom }}s</span>
       </div>
       <div slot="details">
         From&nbsp;
         <router-link :to="`${url}/${tx.validator_src_address}`">
-          {{
-            moniker(tx.validator_src_address)
-          }}
+          {{ moniker(tx.validator_src_address) }}
         </router-link>
         &nbsp;to&nbsp;
         <router-link :to="`${url}/${tx.validator_dst_address}`">
-          {{
-            moniker(tx.validator_dst_address)
-          }}
+          {{ moniker(tx.validator_dst_address) }}
         </router-link>
       </div>
       <div slot="fees">
@@ -94,25 +88,20 @@
         Undelegation&nbsp;
         <b>
           {{
-            full(calculatePrettifiedTokens(
-              tx.validator_address,
-              tx.shares_amount
-            ))
+            full(
+              calculatePrettifiedTokens(tx.validator_address, tx.shares_amount)
+            )
           }}
         </b>
         <span>&nbsp;{{ bondingDenom }}s</span>
         <template v-if="timeDiff">
-          <span class="tx-unbonding__time-diff">
-            &nbsp;{{ timeDiff }}
-          </span>
+          <span class="tx-unbonding__time-diff"> &nbsp;{{ timeDiff }} </span>
         </template>
       </div>
       <div slot="details">
         From&nbsp;
         <router-link :to="`${url}/${tx.validator_address}`">
-          {{
-            moniker(tx.validator_address)
-          }}
+          {{ moniker(tx.validator_address) }}
         </router-link>
       </div>
       <div slot="fees">
@@ -131,9 +120,7 @@
       <div slot="details">
         Moniker:&nbsp;
         <router-link :to="`${url}/${tx.address}`">
-          {{
-            moniker(tx.address)
-          }}
+          {{ moniker(tx.address) }}
         </router-link>
       </div>
       <div slot="fees">
