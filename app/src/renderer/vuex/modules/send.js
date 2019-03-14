@@ -95,7 +95,7 @@ export default ({ node }) => {
         from: rootState.wallet.address,
         account_number: rootState.wallet.accountNumber,
         chain_id: rootState.connection.lastHeader.chain_id,
-        gas: String(state.externals.config.default_gas),
+        gas: ``, // set after simulation
         gas_prices: gasPrices,
         gas_adjustment: String(gasAdjustment),
         simulate: true,
@@ -122,13 +122,16 @@ export default ({ node }) => {
       let request = actions.apiRequest(type, to, pathParameter, args)
       const simulationRes = await request.catch(handleSDKError)
       const adjustedGas = Number(simulationRes.gas_estimate) * gasAdjustment
-      const estimatedFees =
+      const estimatedFeesLow =
+        Number(simulationRes.gas_estimate) * Number(gasPrices[0].amount) * 1e-7
+      const estimatedFeesHigh =
         Number(adjustedGas) * Number(gasPrices[0].amount) * 1e-7
 
       console.log(
         `- Estimated Gas: ${simulationRes.gas_estimate}\n` +
         `- Adjusted Gas: ${adjustedGas}\n` +
-        `- Estimated Fees: ${estimatedFees} ${gasPrices[0].denom}s`
+        `- Estimated Fees (low): ${estimatedFeesLow} ${gasPrices[0].denom}s\n` +
+        `- Estimated Fees (high): ${estimatedFeesHigh} ${gasPrices[0].denom}s`
       )
       args.base_req.simulate = false
       args.base_req.gas = simulationRes.gas_estimate // adjusted on the SDK
