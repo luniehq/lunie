@@ -6,6 +6,7 @@ describe(`LiBankTransaction`, () => {
   let wrapper
   const propsData = {
     transaction: bankTxs[0],
+    bondingDenom: `uatom`,
     address: ``,
     fees: { uatom: 3421 }
   }

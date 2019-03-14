@@ -11,7 +11,7 @@ exports[`LiGovTransaction deposits 1`] = `
       Deposit 
       
     <b>
-      100
+      100.0000000
     </b>
      
     <span>
@@ -30,6 +30,18 @@ exports[`LiGovTransaction deposits 1`] = `
         Proposal #1
       
     </router-link-stub>
+  </div>
+   
+  <div>
+    
+      Fee: 
+    <b>
+      0.0000000
+    </b>
+     
+    <span>
+       stakes
+    </span>
   </div>
 </li-transaction-stub>
 `;
@@ -45,7 +57,7 @@ exports[`LiGovTransaction proposals 1`] = `
       Submit text proposal 
       
     <b>
-      100
+      100.0000000
     </b>
      
     <span>
@@ -60,6 +72,18 @@ exports[`LiGovTransaction proposals 1`] = `
       Test Proposal
     </i>
   </div>
+   
+  <div>
+    
+      Fee: 
+    <b>
+      0.0000000
+    </b>
+     
+    <span>
+       stakes
+    </span>
+  </div>
 </li-transaction-stub>
 `;
 
@@ -72,8 +96,7 @@ exports[`LiGovTransaction votes 1`] = `
   <div>
     
       Vote Yes
-      
-    <!---->
+    
   </div>
    
   <div>
@@ -87,6 +110,18 @@ exports[`LiGovTransaction votes 1`] = `
         Proposal #1
       
     </router-link-stub>
+  </div>
+   
+  <div>
+    
+      Fee: 
+    <b>
+      0.0000000
+    </b>
+     
+    <span>
+       stakes
+    </span>
   </div>
 </li-transaction-stub>
 `;

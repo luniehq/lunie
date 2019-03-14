@@ -11,7 +11,7 @@ exports[`LiStakeTransaction create validator with fees 1`] = `
       Create validator 
       
     <b>
-      0.1003421
+      0.1000000
     </b>
      
     <span>
@@ -30,6 +30,18 @@ exports[`LiStakeTransaction create validator with fees 1`] = `
         cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2
       
     </router-link-stub>
+  </div>
+   
+  <div>
+    
+      Fee: 
+    <b>
+      0.0000000
+    </b>
+     
+    <span>
+       s
+    </span>
   </div>
 </li-transaction-stub>
 `;
@@ -65,6 +77,18 @@ exports[`LiStakeTransaction create validator without fees 1`] = `
       
     </router-link-stub>
   </div>
+   
+  <div>
+    
+      Fee: 
+    <b>
+      0.0000000
+    </b>
+     
+    <span>
+       uatoms
+    </span>
+  </div>
 </li-transaction-stub>
 `;
 
@@ -79,7 +103,7 @@ exports[`LiStakeTransaction delegations with fees 1`] = `
       Delegation 
       
     <b>
-      4,200.0003421
+      4,200.0000000
     </b>
      
     <span>
@@ -98,6 +122,18 @@ exports[`LiStakeTransaction delegations with fees 1`] = `
         mr_mounty
       
     </router-link-stub>
+  </div>
+   
+  <div>
+    
+      Fee: 
+    <b>
+      0.0000000
+    </b>
+     
+    <span>
+       s
+    </span>
   </div>
 </li-transaction-stub>
 `;
@@ -133,6 +169,18 @@ exports[`LiStakeTransaction delegations without fees 1`] = `
       
     </router-link-stub>
   </div>
+   
+  <div>
+    
+      Fee: 
+    <b>
+      0.0000000
+    </b>
+     
+    <span>
+       uatoms
+    </span>
+  </div>
 </li-transaction-stub>
 `;
 
@@ -144,16 +192,8 @@ exports[`LiStakeTransaction edit validator with fees 1`] = `
 >
   <div>
     
-      Edit validator 
-      
-         
-    <b>
-      0.0003421 
-    </b>
-     
-    <span>
-      uatoms
-    </span>
+      Edit validator
+    
   </div>
    
   <div>
@@ -167,6 +207,18 @@ exports[`LiStakeTransaction edit validator with fees 1`] = `
         cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2
       
     </router-link-stub>
+  </div>
+   
+  <div>
+    
+      Fee: 
+    <b>
+      0.0000000
+    </b>
+     
+    <span>
+       s
+    </span>
   </div>
 </li-transaction-stub>
 `;
@@ -179,9 +231,8 @@ exports[`LiStakeTransaction edit validator without fees 1`] = `
 >
   <div>
     
-      Edit validator 
-      
-    <!---->
+      Edit validator
+    
   </div>
    
   <div>
@@ -195,6 +246,18 @@ exports[`LiStakeTransaction edit validator without fees 1`] = `
         cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2
       
     </router-link-stub>
+  </div>
+   
+  <div>
+    
+      Fee: 
+    <b>
+      0.0000000
+    </b>
+     
+    <span>
+       uatoms
+    </span>
   </div>
 </li-transaction-stub>
 `;
@@ -211,7 +274,7 @@ exports[`LiStakeTransaction redelegations with fees 1`] = `
       
     <b>
       
-        3.0003421
+        3.0000000
       
     </b>
      
@@ -241,6 +304,18 @@ exports[`LiStakeTransaction redelegations with fees 1`] = `
         good_greg
       
     </router-link-stub>
+  </div>
+   
+  <div>
+    
+      Fee: 
+    <b>
+      0.0000000
+    </b>
+     
+    <span>
+       s
+    </span>
   </div>
 </li-transaction-stub>
 `;
@@ -288,6 +363,18 @@ exports[`LiStakeTransaction redelegations without fees 1`] = `
       
     </router-link-stub>
   </div>
+   
+  <div>
+    
+      Fee: 
+    <b>
+      0.0000000
+    </b>
+     
+    <span>
+       uatoms
+    </span>
+  </div>
 </li-transaction-stub>
 `;
 
@@ -325,6 +412,18 @@ exports[`LiStakeTransaction unbonding delegations should default to ended if no 
         mr_mounty
       
     </router-link-stub>
+  </div>
+   
+  <div>
+    
+      Fee: 
+    <b>
+      0.0000000
+    </b>
+     
+    <span>
+       uatoms
+    </span>
   </div>
 </li-transaction-stub>
 `;
@@ -364,6 +463,18 @@ exports[`LiStakeTransaction unbonding delegations should show unbonding delegati
       
     </router-link-stub>
   </div>
+   
+  <div>
+    
+      Fee: 
+    <b>
+      0.0000000
+    </b>
+     
+    <span>
+       uatoms
+    </span>
+  </div>
 </li-transaction-stub>
 `;
 
@@ -379,7 +490,7 @@ exports[`LiStakeTransaction unbonding delegations with fees 1`] = `
       
     <b>
       
-        1,000.0003421
+        1,000.0000000
       
     </b>
      
@@ -407,6 +518,18 @@ exports[`LiStakeTransaction unbonding delegations with fees 1`] = `
         mr_mounty
       
     </router-link-stub>
+  </div>
+   
+  <div>
+    
+      Fee: 
+    <b>
+      0.0000000
+    </b>
+     
+    <span>
+       s
+    </span>
   </div>
 </li-transaction-stub>
 `;
@@ -452,6 +575,18 @@ exports[`LiStakeTransaction unbonding delegations without fees 1`] = `
       
     </router-link-stub>
   </div>
+   
+  <div>
+    
+      Fee: 
+    <b>
+      0.0000000
+    </b>
+     
+    <span>
+       uatoms
+    </span>
+  </div>
 </li-transaction-stub>
 `;
 
@@ -467,11 +602,11 @@ exports[`LiStakeTransaction unjail with fees 1`] = `
       
          
     <b>
-      0.0003421 
+       
     </b>
      
     <span>
-      uatoms
+      
     </span>
   </div>
    
@@ -486,6 +621,18 @@ exports[`LiStakeTransaction unjail with fees 1`] = `
         cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2
       
     </router-link-stub>
+  </div>
+   
+  <div>
+    
+      Fee: 
+    <b>
+      0.0000000
+    </b>
+     
+    <span>
+       s
+    </span>
   </div>
 </li-transaction-stub>
 `;
@@ -514,6 +661,18 @@ exports[`LiStakeTransaction unjail without fees 1`] = `
         cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2
       
     </router-link-stub>
+  </div>
+   
+  <div>
+    
+      Fee: 
+    <b>
+      0.0000000
+    </b>
+     
+    <span>
+       uatoms
+    </span>
   </div>
 </li-transaction-stub>
 `;

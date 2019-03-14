@@ -9,21 +9,25 @@ exports[`LiDistributionTransaction set withdraw address with fees 1`] = `
   <div>
     
       Update withdraw address
-      
-         
-    <b>
-      0.0003421 
-    </b>
-     
-    <span>
-      uatoms
-    </span>
+    
   </div>
    
   <div>
     
       To cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3
     
+  </div>
+   
+  <div>
+    
+      Fee: 
+    <b>
+      0.0000000
+    </b>
+     
+    <span>
+       s
+    </span>
   </div>
 </li-transaction-stub>
 `;
@@ -37,14 +41,25 @@ exports[`LiDistributionTransaction set withdraw address without fees 1`] = `
   <div>
     
       Update withdraw address
-      
-    <!---->
+    
   </div>
    
   <div>
     
       To cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3
     
+  </div>
+   
+  <div>
+    
+      Fee: 
+    <b>
+      0.0000000
+    </b>
+     
+    <span>
+       uatoms
+    </span>
   </div>
 </li-transaction-stub>
 `;
@@ -58,15 +73,7 @@ exports[`LiDistributionTransaction withdraw delegation rewards with fees 1`] = `
   <div>
     
       Withdraw rewards
-      
-         
-    <b>
-      0.0003421 
-    </b>
-     
-    <span>
-      uatoms
-    </span>
+    
   </div>
    
   <div>
@@ -79,6 +86,18 @@ exports[`LiDistributionTransaction withdraw delegation rewards with fees 1`] = `
         cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz
       
     </router-link-stub>
+  </div>
+   
+  <div>
+    
+      Fee: 
+    <b>
+      0.0000000
+    </b>
+     
+    <span>
+       s
+    </span>
   </div>
 </li-transaction-stub>
 `;
@@ -92,8 +111,7 @@ exports[`LiDistributionTransaction withdraw delegation rewards without fees 1`] 
   <div>
     
       Withdraw rewards
-      
-    <!---->
+    
   </div>
    
   <div>
@@ -106,6 +124,18 @@ exports[`LiDistributionTransaction withdraw delegation rewards without fees 1`] 
         cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz
       
     </router-link-stub>
+  </div>
+   
+  <div>
+    
+      Fee: 
+    <b>
+      0.0000000
+    </b>
+     
+    <span>
+       uatoms
+    </span>
   </div>
 </li-transaction-stub>
 `;
