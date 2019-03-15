@@ -1,11 +1,11 @@
 import Vuelidate from "vuelidate"
 import setup from "../../../helpers/vuex-setup"
-import TabGovernanceParameters from "renderer/components/governance/TabGovernanceParameters"
+import TabParameters from "renderer/components/governance/TabParameters"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 const { governanceParameters, stakingParameters } = lcdClientMock.state
 
-describe(`TabGovernanceParameters`, () => {
+describe(`TabParameters`, () => {
   let wrapper, store
   const { mount, localVue } = setup()
   localVue.use(Vuelidate)
@@ -23,7 +23,7 @@ describe(`TabGovernanceParameters`, () => {
   }
 
   beforeEach(() => {
-    const instance = mount(TabGovernanceParameters, {
+    const instance = mount(TabParameters, {
       localVue,
       doBefore: ({ store }) => {
         store.commit(`setGovParameters`, governanceParameters)
