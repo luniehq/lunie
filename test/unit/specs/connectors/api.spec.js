@@ -669,6 +669,56 @@ describe(`API`, () => {
           expect(error.response.data).toBe(`something failed`)
         }
       })
+
+      it(`returns a flat response for vesting account`, async () => {
+        axios.mockReturnValueOnce(
+          Promise.resolve({
+            data: {
+              type: `auth/DelayedVestingAccount`,
+              value: {
+                BaseVestingAccount: {
+                  BaseAccount: {
+                    coins: [{ x: 1 }],
+                    sequence: `1`,
+                    account_number: `213`
+                  },
+                  vestingProp: `Y`
+                }
+              }
+            }
+          })
+        )
+        const res = await client.getAccount(`address`)
+        expect(res).toEqual({
+          coins: [{ x: 1 }],
+          sequence: `1`,
+          account_number: `213`,
+          vestingProp: `Y`
+        })
+      })
+
+      it(`shows an error if vesting format changed`, async () => {
+        const spy = jest.spyOn(console, `error`).mockImplementationOnce(() => {})
+        axios.mockReturnValueOnce(
+          Promise.resolve({
+            data: {
+              type: `auth/DelayedVestingAccount`,
+              value: {
+                xxx: {
+                }
+              }
+            }
+          })
+        )
+        const res = await client.getAccount(`address`)
+        expect(res).toEqual({
+          coins: [],
+          sequence: `0`,
+          account_number: `0`
+        })
+        expect(spy).toHaveBeenCalled()
+        console.error.mockReset()
+      })
     })
 
     describe(`Fee Distribution`, () => {
