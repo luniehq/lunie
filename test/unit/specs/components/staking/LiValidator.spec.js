@@ -23,21 +23,17 @@ describe(`LiValidator`, () => {
     bond_height: `0`,
     bond_intra_tx_counter: 6,
     proposer_reward_pool: null,
-    commission: {
-      rate: `0.05`,
-      max_rate: `0.1`,
-      max_change_rate: `0.005`,
-      update_time: `1970-01-01T00:00:00Z`
-    },
+    commission: 5,
     prev_bonded_shares: `0`,
-    voting_power: `10`,
-    percent_of_vote: `22%`,
+    voting_power: 10,
+    percent_of_vote: 0.22,
     signing_info: {
       start_height: 0,
       index_offset: 465400,
       jailed_until: `1970-01-01T00:00:00Z`,
       missed_blocks_counter: 122
-    }
+    },
+    uptime: 0.98778883
   }
 
   beforeEach(() => {
@@ -82,7 +78,7 @@ describe(`LiValidator`, () => {
   })
 
   it(`should show the voting power`, () => {
-    expect(wrapper.html()).toContain(`22%`)
+    expect(wrapper.html()).toContain(`22.00%`)
   })
 
   it(`should show the validator status`, () => {
@@ -127,21 +123,27 @@ describe(`LiValidator`, () => {
     expect(wrapper.vm.statusColor).toBe(`yellow`)
   })
 
-  it(`should show the validator's uptime`, () => {
-    expect(wrapper.vm.uptime).toBe(`98.78%`)
-    expect(wrapper.html()).toContain(`98.78%`)
+  it(`should include uptime as type:number`, () => {
+    expect(wrapper.vm.validator.uptime).toBe(0.98778883)
+  })
 
+  it(`should display uptime as a human readable percentage`, () => {
+    expect(wrapper.html()).toContain(`98.78%`)
+  })
+
+  it(`should display uptime as double-dash`, () => {
     wrapper.setProps({
       validator: Object.assign({}, validator, {
-        signing_info: null
+        uptime: null
       })
     })
 
-    expect(wrapper.vm.uptime).toBe(`--`)
+    expect(wrapper.vm.validator.uptime).toBe(null)
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should show the validator's commission`, () => {
-    expect(wrapper.html()).toContain(wrapper.vm.validator.commission.rate)
+    expect(wrapper.html()).toContain(wrapper.vm.validator.commission)
   })
 
   it(`should show the type of the candidate`, () => {
@@ -173,16 +175,6 @@ describe(`LiValidator`, () => {
       })
     })
     expect(wrapper.vm.delegateType).toBe(`Revoked`)
-  })
-
-  it(`shows rewards`, () => {
-    $store.getters.distribution.rewards = {
-      [validator.operator_address]: {
-        stake: 1230000000
-      }
-    }
-
-    expect(wrapper.find(`.li-validator__rewards`).html()).toContain(`1,230.0000…`)
   })
 
   it(`works if user is not signed in`, () => {
