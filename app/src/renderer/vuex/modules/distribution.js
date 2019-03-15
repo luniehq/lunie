@@ -97,6 +97,7 @@ export default ({ node }) => {
       })
       await dispatch(`getTotalRewards`)
       await dispatch(`queryWalletBalances`)
+      await dispatch(`getAllTxs`)
     },
     async getRewardsFromAllValidators({ state, dispatch }, validators) {
       state.loading = true

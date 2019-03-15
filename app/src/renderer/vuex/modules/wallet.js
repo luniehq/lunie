@@ -108,6 +108,7 @@ export default ({ node }) => {
         denom,
         amount: oldBalance.amount - amount
       })
+      await dispatch(`getAllTxs`)
     },
     loadDenoms({ state, commit }) {
       commit(`setDenoms`, state.externals.config.denoms)

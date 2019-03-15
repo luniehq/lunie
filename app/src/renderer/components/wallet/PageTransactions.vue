@@ -78,14 +78,6 @@ export default {
       return this.orderedTransactions.length === 0
     }
   },
-  watch: {
-    lastHeader: {
-      immediate: true,
-      handler() {
-        this.refreshTransactions()
-      }
-    }
-  },
   mounted() {
     this.refreshTransactions()
   },

@@ -315,17 +315,6 @@ export default {
         if (!validator) return
         this.$store.dispatch(`getSelfBond`, validator)
       }
-    },
-    lastHeader: {
-      immediate: true,
-      handler() {
-        if (this.session.signedIn) {
-          this.$store.dispatch(
-            `getRewardsFromValidator`,
-            this.$route.params.validator
-          )
-        }
-      }
     }
   },
   mounted() {
