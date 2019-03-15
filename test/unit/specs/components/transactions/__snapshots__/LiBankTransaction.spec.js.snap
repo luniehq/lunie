@@ -10,7 +10,7 @@ exports[`LiBankTransaction should show bank transaction when user hasn't signed 
     
       Sent 
     <b>
-      12,340.0000000
+      12,340.000000
     </b>
      
     <span>
@@ -44,7 +44,7 @@ exports[`LiBankTransaction should show incoming transactions 1`] = `
       Received 
       
     <b>
-      12,340.0000000
+      12,340.000000
     </b>
      
     <span>
@@ -72,7 +72,7 @@ exports[`LiBankTransaction should show outgoing transactions 1`] = `
       Sent 
       
     <b>
-      12,340.0000000
+      12,340.000000
     </b>
      
     <span>
@@ -101,7 +101,7 @@ exports[`LiBankTransaction should show outgoing transactions send to herself 1`]
       Sent 
       
     <b>
-      12,340.0000000
+      12,340.000000
     </b>
      
     <span>

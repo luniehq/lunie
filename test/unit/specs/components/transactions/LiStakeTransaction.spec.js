@@ -80,7 +80,7 @@ describe(`LiStakeTransaction`, () => {
       propsData.unbondingTime = Date.now() - 1000
       wrapper.setProps({ unbondingTime: Date.now() - 1000 })
       expect(wrapper.vm.$el).toMatchSnapshot()
-      expect(wrapper.text()).toContain(`10,000.0000000`)
+      expect(wrapper.text()).toContain(`10,000.000000`)
     })
 
     it(`should default to ended if no unbonding delegation is present`, () => {

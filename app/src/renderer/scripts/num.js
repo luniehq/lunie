@@ -6,10 +6,10 @@ import BigNumber from "bignumber.js"
  * @module num
  */
 
-const SMALLEST = 1e-7
+const SMALLEST = 1e-6
 const language = window.navigator.userLanguage || window.navigator.language
 function full(number = 0) {
-  return new Intl.NumberFormat(language, { minimumFractionDigits: 7 })
+  return new Intl.NumberFormat(language, { minimumFractionDigits: 6 })
     .format(number)
 }
 function shortNumber(number = 0) {
