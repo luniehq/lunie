@@ -115,6 +115,23 @@ export default {
   watch: {
     "session.signedIn": function() {
       this.loadStakingTxs()
+    },
+    lastHeader: {
+      immediate: true,
+      handler(newHeader) {
+        const waitTenBlocks = Number(newHeader.height) % 10 === 0
+        if (
+          waitTenBlocks &&
+          this.session.signedIn &&
+          this.$route.path.includes(`/staking/`) &&
+          this.yourValidators
+        ) {
+          this.$store.dispatch(
+            `getRewardsFromAllValidators`,
+            this.yourValidators
+          )
+        }
+      }
     }
   },
   async mounted() {

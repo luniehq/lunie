@@ -48,7 +48,11 @@ export default {
     lastHeader: {
       immediate: true,
       handler() {
-        if (this.session.signedIn && this.$refs.actionModal.show) {
+        if (
+          this.session.signedIn &&
+          this.$refs.actionModal &&
+          this.$refs.actionModal.show
+        ) {
           this.$store.dispatch(`getTotalRewards`)
         }
       }

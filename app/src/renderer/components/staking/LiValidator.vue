@@ -112,15 +112,15 @@ export default {
     yourVotes() {
       return this.committedDelegations[this.validator.operator_address]
         ? BigNumber(
-          num
-            .atoms(
-              calculateTokens(
-                this.validator,
-                this.committedDelegations[this.validator.operator_address]
+            num
+              .atoms(
+                calculateTokens(
+                  this.validator,
+                  this.committedDelegations[this.validator.operator_address]
+                )
               )
-            )
-            .toString()
-        )
+              .toString()
+          )
         : BigNumber(0)
     },
     styles() {
@@ -132,8 +132,8 @@ export default {
       return this.validator.revoked
         ? `Revoked`
         : this.validator.isValidator
-          ? `Validator`
-          : `Candidate`
+        ? `Validator`
+        : `Candidate`
     },
     powerRatio() {
       return ratToBigNumber(this.validator.tokens)
@@ -170,19 +170,6 @@ export default {
       return validatorRewards
         ? num.shortNumber(num.atoms(validatorRewards[this.bondDenom]) || 0)
         : null
-    }
-  },
-  watch: {
-    lastHeader: {
-      immediate: true,
-      handler() {
-        if (this.yourVotes > 0) {
-          this.$store.dispatch(
-            `getRewardsFromValidator`,
-            this.validator.operator_address
-          )
-        }
-      }
     }
   }
 }

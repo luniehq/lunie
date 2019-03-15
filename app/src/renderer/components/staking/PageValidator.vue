@@ -315,6 +315,22 @@ export default {
         if (!validator) return
         this.$store.dispatch(`getSelfBond`, validator)
       }
+    },
+    lastHeader: {
+      immediate: true,
+      handler(newHeader) {
+        const waitTwentyBlocks = Number(newHeader.height) % 20 === 0
+        if (
+          this.session.signedIn &&
+          waitTwentyBlocks &&
+          this.$route.name === `validator`
+        ) {
+          this.$store.dispatch(
+            `getRewardsFromValidator`,
+            this.$route.params.validator
+          )
+        }
+      }
     }
   },
   mounted() {
