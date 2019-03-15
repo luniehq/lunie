@@ -11,7 +11,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
-- [\#2257](https://github.com/cosmos/voyager/pull/2257) fixed console
 - [\#2273](https://github.com/cosmos/voyager/issues/2273) fixed atoms and uatoms conversion @fedekunze
 
 ## [1.0.0-beta.19] - 2019-03-15
