@@ -182,7 +182,7 @@ describe(`LiValidator`, () => {
       }
     }
 
-    expect(wrapper.find(`.li-validator__rewards`).html()).toContain(`123.0000…`)
+    expect(wrapper.find(`.li-validator__rewards`).html()).toContain(`1,230.0000…`)
   })
 
   it(`works if user is not signed in`, () => {

@@ -9,8 +9,8 @@ describe(`ModalDeposit`, () => {
   let wrapper, store
   const { mount, localVue } = setup()
   localVue.use(Vuelidate)
-  localVue.directive(`tooltip`, () => {})
-  localVue.directive(`focus`, () => {})
+  localVue.directive(`tooltip`, () => { })
+  localVue.directive(`focus`, () => { })
 
   beforeEach(async () => {
     const coins = [
@@ -68,7 +68,7 @@ describe(`ModalDeposit`, () => {
       })
 
       it(`when the amount deposited higher than the user's balance`, async () => {
-        wrapper.setData({ amount: 25 })
+        wrapper.setData({ amount: 250 })
         expect(wrapper.vm.validateForm()).toBe(false)
         await wrapper.vm.$nextTick()
         const errorMessage = wrapper.find(`input#amount + div`)
@@ -110,7 +110,7 @@ describe(`ModalDeposit`, () => {
           {
             amount: [
               {
-                amount: `100000000`,
+                amount: `10000000`,
                 denom: `stake`
               }
             ],
