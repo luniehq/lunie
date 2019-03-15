@@ -9,9 +9,13 @@
         Withdraw rewards
       </div>
       <div slot="details">
-        From&nbsp;<router-link :to="url + '/' + tx.validator_address">
+        From<router-link :to="url + '/' + tx.validator_address">
           {{ moniker(tx.validator_address) }}
         </router-link>
+      </div>
+      <div slot="fees">
+        Network Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
+        <span>{{ fees ? fees.denom : bondingDenom }}s</span>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgSetWithdrawAddress`">
@@ -21,6 +25,10 @@
       <div slot="details">
         To {{ tx.withdraw_address }}
       </div>
+      <div slot="fees">
+        Network Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
+        <span>{{ fees ? fees.denom : bondingDenom }}s</span>
+      </div>
     </template>
     <template
       v-else-if="txType === `cosmos-sdk/MsgWithdrawValidatorCommission`"
@@ -29,9 +37,13 @@
         Withdraw validator commission
       </div>
       <div slot="details">
-        From&nbsp;<router-link :to="url + '/' + tx.validator_address">
+        From<router-link :to="url + '/' + tx.validator_address">
           {{ moniker(tx.validator_address) }}
         </router-link>
+      </div>
+      <div slot="fees">
+        Network Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
+        <span>{{ fees ? fees.denom : bondingDenom }}s</span>
       </div>
     </template>
   </li-transaction>
@@ -39,7 +51,7 @@
 
 <script>
 import LiTransaction from "./LiTransaction"
-import { pretty, atoms } from "../../scripts/num.js"
+import { pretty, atoms, full } from "../../scripts/num.js"
 
 export default {
   name: `li-distribution-transaction`,
@@ -48,6 +60,10 @@ export default {
     transaction: {
       type: Object,
       required: true
+    },
+    fees: {
+      type: Object,
+      default: null
     },
     url: {
       type: String,
@@ -68,6 +84,7 @@ export default {
   },
   data: () => ({
     atoms,
+    full,
     pretty
   }),
   computed: {

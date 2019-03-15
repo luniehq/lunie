@@ -8,20 +8,20 @@ exports[`LiGovTransaction deposits 1`] = `
 >
   <div>
     
-      Deposit 
+      Deposit
       
     <b>
       1,000.000000
     </b>
      
     <span>
-       stakes
+      uatoms
     </span>
   </div>
    
   <div>
     
-      On 
+      On
       
     <router-link-stub
       to="/proposals/1"
@@ -30,6 +30,18 @@ exports[`LiGovTransaction deposits 1`] = `
         Proposal #1
       
     </router-link-stub>
+  </div>
+   
+  <div>
+    
+      Network Fee: 
+    <b>
+      0.000000
+    </b>
+     
+    <span>
+      stakes
+    </span>
   </div>
 </li-transaction-stub>
 `;
@@ -42,23 +54,35 @@ exports[`LiGovTransaction proposals 1`] = `
 >
   <div>
     
-      Submit text proposal 
+      Submit text proposal
       
     <b>
       1,000.000000
     </b>
      
     <span>
-       stakes
+      uatoms
     </span>
   </div>
    
   <div>
     
-      Title: 
+      Title:
     <i>
       Test Proposal
     </i>
+  </div>
+   
+  <div>
+    
+      Network Fee: 
+    <b>
+      0.000000
+    </b>
+     
+    <span>
+      stakes
+    </span>
   </div>
 </li-transaction-stub>
 `;
@@ -71,15 +95,13 @@ exports[`LiGovTransaction votes 1`] = `
 >
   <div>
     
-      Vote 
-    <b>
-      Yes
-    </b>
+      VoteYes
+    
   </div>
    
   <div>
     
-      On 
+      On
       
     <router-link-stub
       to="/proposals/1"
@@ -88,6 +110,18 @@ exports[`LiGovTransaction votes 1`] = `
         Proposal #1
       
     </router-link-stub>
+  </div>
+   
+  <div>
+    
+      Network Fee: 
+    <b>
+      0.000000
+    </b>
+     
+    <span>
+      stakes
+    </span>
   </div>
 </li-transaction-stub>
 `;
