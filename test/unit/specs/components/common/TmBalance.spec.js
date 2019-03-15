@@ -19,8 +19,10 @@ describe(`TmBalance`, () => {
           totalRewards: {
             stake: 1000450000000
           }
-        }
-      }
+        },
+        lastHeader: { height: `10` }
+      },
+      dispatch: jest.fn()
     }
 
     wrapper = shallowMount(TmBalance, {

@@ -199,6 +199,7 @@ export default ({ node }) => {
         password,
         submitType
       })
+      await dispatch(`getAllTxs`)
     },
     async submitRedelegation(
       {
@@ -221,6 +222,8 @@ export default ({ node }) => {
         password,
         submitType
       })
+
+      await dispatch(`getAllTxs`)
     }
   }
 

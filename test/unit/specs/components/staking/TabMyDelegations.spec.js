@@ -20,7 +20,8 @@ const getters = {
   },
   connected: true,
   bondDenom: `stake`,
-  session: { signedIn: true }
+  session: { signedIn: true },
+  lastHeader: { height: `20` }
 }
 
 // TODO: remove this dirty addition: the real cleanup will be done in a separate PR

@@ -56,7 +56,7 @@ const getters = {
     [validator.operator_address]: 0
   },
   lastHeader: {
-    height: 500
+    height: `500`
   },
   distribution: {
     rewards: {
@@ -214,12 +214,13 @@ describe(`PageValidator`, () => {
   })
 
   describe(`rewards`, () => {
-    let bondDenom, validator, session
+    let bondDenom, validator, session, lastHeader
 
     beforeEach(() => {
       bondDenom = `stake`
       validator = { operator_address: `cosmos1address` }
       session = { signedIn: true }
+      lastHeader = { height: `20` }
     })
     it(`gets rewards from validator if it has some`, () => {
       const distribution = {
@@ -230,7 +231,7 @@ describe(`PageValidator`, () => {
         }
       }
       const rewardsString = PageValidator.computed.rewards.call(
-        { session, bondDenom, distribution, validator }
+        { session, bondDenom, distribution, validator, lastHeader }
       )
       expect(rewardsString).toBe(`100.000000 stake`)
     })
@@ -243,8 +244,9 @@ describe(`PageValidator`, () => {
           }
         }
       }
+
       const rewardsString = PageValidator.computed.rewards.call(
-        { session, bondDenom, distribution, validator }
+        { session, bondDenom, distribution, validator, lastHeader }
       )
       expect(rewardsString).toBe(`0.000000 stake`)
     })
@@ -252,7 +254,7 @@ describe(`PageValidator`, () => {
     it(`when user doesn't have any delegations`, () => {
       const distribution = { rewards: {} }
       const rewardsString = PageValidator.computed.rewards.call(
-        { session, bondDenom, distribution, validator }
+        { session, bondDenom, distribution, validator, lastHeader }
       )
       expect(rewardsString).toBeNull()
     })

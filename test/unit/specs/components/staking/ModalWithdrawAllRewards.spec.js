@@ -12,7 +12,9 @@ describe(`ModalWithdrawAllRewards`, () => {
       dispatch: jest.fn(),
       getters: {
         bondDenom: `stake`,
-        distribution: { totalRewards: { stake: 10000000 } }
+        distribution: { totalRewards: { stake: 10000000 } },
+        lastHeader: { height: `10` },
+        session: { signedIn: true }
       }
     }
     wrapper = shallowMount(ModalWithdrawAllRewards, {

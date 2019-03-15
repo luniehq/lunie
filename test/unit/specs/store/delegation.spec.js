@@ -192,7 +192,7 @@ describe(`Module: Delegations`, () => {
       { stakingTransactions }
     )
 
-    expect(dispatch.mock.calls).toMatchSnapshot()
+    expect(dispatch).toHaveBeenCalledWith(`getAllTxs`)
   })
 
   it(`submits undelegation transaction`, async () => {
@@ -217,12 +217,12 @@ describe(`Module: Delegations`, () => {
         },
         state,
         dispatch,
-        commit: () => {}
+        commit: () => { }
       },
       { stakingTransactions }
     )
 
-    expect(dispatch.mock.calls).toMatchSnapshot()
+    expect(dispatch).toHaveBeenCalledWith(`getAllTxs`)
   })
 
   describe(`queries the delegated atoms on reconnection`, () => {
@@ -339,7 +339,7 @@ describe(`Module: Delegations`, () => {
         getters: {
           liquidAtoms: 1000
         },
-        dispatch: () => {},
+        dispatch: () => { },
         commit
       },
       {
@@ -389,6 +389,7 @@ describe(`Module: Delegations`, () => {
     )
     jest.runAllTimers()
     expect(dispatch).toHaveBeenCalledWith(`updateDelegates`)
+    expect(dispatch).toHaveBeenCalledWith(`getAllTxs`)
   })
 
   it(`should store an error if failed to load delegations`, async () => {
@@ -442,11 +443,13 @@ describe(`Module: Delegations`, () => {
 
     const dispatch = jest.fn(() => [])
 
-    await actions.updateDelegates({ dispatch, rootState: {
-      session: {
-        signedIn: true
+    await actions.updateDelegates({
+      dispatch, rootState: {
+        session: {
+          signedIn: true
+        }
       }
-    } })
+    })
 
     expect(dispatch).toHaveBeenCalledWith(`getDelegates`)
     expect(dispatch).toHaveBeenCalledWith(`getBondedDelegates`, [])

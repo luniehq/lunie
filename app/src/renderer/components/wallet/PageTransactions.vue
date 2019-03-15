@@ -61,8 +61,7 @@ export default {
       `session`,
       `bondDenom`,
       `delegation`,
-      `delegates`,
-      `lastHeader`
+      `delegates`
     ]),
     orderedTransactions() {
       return orderBy(
