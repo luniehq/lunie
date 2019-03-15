@@ -7,7 +7,7 @@
         class="data-table__row__info__image"
         width="48"
         height="48"
-      >
+      />
       <img
         v-else
         class="
@@ -17,7 +17,7 @@
         src="~assets/images/validator-icon.svg"
         width="48"
         height="48"
-      >
+      />
       <div class="data-table__row__info__container">
         <span
           v-tooltip.top="status"
@@ -40,26 +40,20 @@
       </div>
     </td>
     <td class="li-validator__delegated-steak">
-      {{
-        yourVotes.isLessThan(0.01) && yourVotes.isGreaterThan(0)
-          ? num.shortNumber(0.01)
-          : num.shortNumber(yourVotes)
-      }}
-    </td>
-    <td class="li-validator__rewards data-table__row__cell__separator">
-      {{ rewards || "--" }}
+      {{ yourVotes.isGreaterThan(0) ? num.shortNumber(yourVotes) : `--` }}
     </td>
     <td class="li-validator__voting-power">
-      {{ validator.percent_of_vote ? validator.percent_of_vote : `--` }}
-    </td>
-    <td class="li-validator__uptime">
-      {{ uptime }}
+      {{
+        validator.percent_of_vote
+          ? num.percent(validator.percent_of_vote)
+          : `--`
+      }}
     </td>
     <td class="li-validator__commission">
-      {{ commission }}
+      {{ validator.commission ? num.percent(validator.commission) : `--` }}
     </td>
-    <td class="li-validator__slashes">
-      --
+    <td class="li-validator__uptime">
+      {{ validator.uptime ? num.percent(validator.uptime) : `--` }}
     </td>
   </tr>
 </template>
@@ -95,20 +89,6 @@ export default {
       `session`,
       `lastHeader`
     ]),
-    commission() {
-      return `${this.num.pretty(this.validator.commission.rate)}%`
-    },
-    uptime() {
-      const rollingWindow = 10000 // param of slashing period
-      const info = this.validator.signing_info
-      if (info) {
-        // uptime in the past 10k blocks
-        const uptimeRollingWindow =
-          (rollingWindow - info.missed_blocks_counter) / rollingWindow
-        return num.percent(uptimeRollingWindow)
-      }
-      return `--`
-    },
     yourVotes() {
       return this.committedDelegations[this.validator.operator_address]
         ? BigNumber(

@@ -14,11 +14,11 @@
             v-if="validator.keybase"
             :src="validator.keybase.avatarUrl"
             class="avatar"
-          ><img
+          /><img
             v-else
             class="avatar"
             src="~assets/images/validator-icon.svg"
-          >
+          />
 
           <div class="page-profile__header__info">
             <div>
@@ -87,10 +87,7 @@
                 {{ percent(validator.commission.rate) }}
               </dd>
             </dl>
-            <dl
-              v-if="session.experimentalMode"
-              class="info_dl colored_dl"
-            >
+            <dl v-if="session.experimentalMode" class="info_dl colored_dl">
               <dt>Slashes</dt>
               <dd>--</dd>
             </dl>

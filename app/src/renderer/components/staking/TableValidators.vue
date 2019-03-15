@@ -39,9 +39,10 @@ export default {
     num: num,
     query: ``,
     sort: {
-      property: `percent_of_vote`,
-      order: `desc`
-    }
+      property: `commission`,
+      order: `asc`
+    },
+    rollingWindow: 10000 // param of slashing period
   }),
   computed: {
     ...mapGetters([
@@ -68,19 +69,21 @@ export default {
       return this.validators.map(v =>
         Object.assign({}, v, {
           small_moniker: v.description.moniker.toLowerCase(),
-          percent_of_vote: num.percent(v.voting_power / this.vpTotal),
+          percent_of_vote: v.voting_power / this.vpTotal,
           your_votes: this.num.full(
             calculateTokens(v, this.committedDelegations[v.id])
           ),
-          keybase: this.keybase[v.description.identity]
+          commission: v.commission.rate,
+          keybase: this.keybase[v.description.identity],
+          uptime: v.signing_info ? (this.rollingWindow - v.signing_info.missed_blocks_counter) / this.rollingWindow : 0
         })
       )
     },
     sortedEnrichedDelegates() {
       return orderBy(
         this.enrichedDelegates.slice(0),
-        [this.sort.property, `small_moniker`],
-        [this.sort.order, `asc`]
+        [this.sort.property],
+        [this.sort.order]
       )
     },
     userCanDelegate() {
@@ -103,22 +106,10 @@ export default {
           class: `your-votes`
         },
         {
-          title: `Rewards`,
-          value: `your_rewards`, // TODO: use real rewards
-          tooltip: `Rewards you have earned from this validator`,
-          class: `your-rewards`
-        },
-        {
           title: `Voting Power`,
           value: `percent_of_vote`,
           tooltip: `Percentage of voting shares`,
           class: `percent_of_vote`
-        },
-        {
-          title: `Uptime`,
-          value: `uptime`,
-          tooltip: `Ratio of blocks signed within the last 10k blocks`,
-          class: `uptime`
         },
         {
           title: `Commission`,
@@ -127,11 +118,11 @@ export default {
           class: `commission`
         },
         {
-          title: `Slashes`,
-          value: `slashes`, // TODO: use real slashes
-          tooltip: `The validator's slashes`,
-          class: `slashes`
-        }
+          title: `Uptime`,
+          value: `uptime`,
+          tooltip: `Ratio of blocks signed within the last 10k blocks`,
+          class: `uptime`
+        },
       ]
     }
   },
