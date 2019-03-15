@@ -84,9 +84,18 @@ export default {
       `session`,
       `lastHeader`
     ]),
-    yourValidators({ committedDelegations, delegates: { delegates } } = this) {
-      return delegates.filter(
-        ({ operator_address }) => operator_address in committedDelegations
+    yourValidators(
+      {
+        committedDelegations,
+        delegates: { delegates },
+        session: { signedIn }
+      } = this
+    ) {
+      return (
+        signedIn &&
+        delegates.filter(
+          ({ operator_address }) => operator_address in committedDelegations
+        )
       )
     },
     unbondingTransactions: ({ transactions, delegation } = this) =>
@@ -121,7 +130,7 @@ export default {
       immediate: true,
       handler(newHeader) {
         const waitTenBlocks = Number(newHeader.height) % 20 === 0
-        if (waitTenBlocks && this.session.signedIn && this.yourValidators) {
+        if (waitTenBlocks && this.yourValidators) {
           this.$store.dispatch(
             `getRewardsFromAllValidators`,
             this.yourValidators

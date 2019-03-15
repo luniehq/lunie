@@ -55,7 +55,7 @@ export default {
       immediate: true,
       handler(newHeader) {
         const waitTenBlocks = Number(newHeader.height) % 20 === 0
-        if (waitTenBlocks && this.session.signedIn && this.yourValidators) {
+        if (waitTenBlocks && this.yourValidators) {
           this.$store.dispatch(
             `getRewardsFromAllValidators`,
             this.yourValidators
@@ -66,6 +66,9 @@ export default {
   },
   mounted() {
     this.$store.dispatch(`updateDelegates`)
+    if (this.yourValidators) {
+      this.$store.dispatch(`getRewardsFromAllValidators`, this.yourValidators)
+    }
   }
 }
 </script>

@@ -323,7 +323,8 @@ export default {
         if (
           this.session.signedIn &&
           waitTwentyBlocks &&
-          this.$route.name === `validator`
+          this.$route.name === `validator` &&
+          this.myDelegation !== `--`
         ) {
           this.$store.dispatch(
             `getRewardsFromValidator`,
@@ -334,7 +335,7 @@ export default {
     }
   },
   mounted() {
-    if (this.session.signedIn) {
+    if (this.session.signedIn && this.myDelegation !== `--`) {
       this.$store.dispatch(
         `getRewardsFromValidator`,
         this.$route.params.validator
