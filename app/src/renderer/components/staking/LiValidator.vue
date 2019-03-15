@@ -7,7 +7,7 @@
         class="data-table__row__info__image"
         width="48"
         height="48"
-      />
+      >
       <img
         v-else
         class="
@@ -17,7 +17,7 @@
         src="~assets/images/validator-icon.svg"
         width="48"
         height="48"
-      />
+      >
       <div class="data-table__row__info__container">
         <span
           v-tooltip.top="status"

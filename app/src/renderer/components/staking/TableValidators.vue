@@ -75,7 +75,9 @@ export default {
           ),
           commission: v.commission.rate,
           keybase: this.keybase[v.description.identity],
-          uptime: v.signing_info ? (this.rollingWindow - v.signing_info.missed_blocks_counter) / this.rollingWindow : 0
+          uptime: v.signing_info
+            ? (this.rollingWindow - v.signing_info.missed_blocks_counter)
+            / this.rollingWindow : 0
         })
       )
     },
