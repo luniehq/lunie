@@ -1,22 +1,24 @@
 import { shallowMount } from "@vue/test-utils"
 import TabValidators from "renderer/components/staking/TabValidators"
-
-// we don't show data of a validator in this component so we just provide stubs here
-const delegates = new Array(3).fill({})
+import validators from "../../store/json/validators.js"
 
 describe(`TabValidators`, () => {
   let wrapper, $store
 
   const getters = {
     delegates: {
-      delegates,
+      delegates: validators,
       loading: false,
       loaded: true
+    },
+    committedDelegations: {
+      [validators[0].operator_address]: 42
     },
     session: {
       signedIn: true
     },
-    connected: true
+    connected: true,
+    lastHeader: { height: 20 }
   }
 
   beforeEach(async () => {
@@ -41,14 +43,18 @@ describe(`TabValidators`, () => {
       dispatch: jest.fn(),
       getters: {
         delegates: {
-          delegates,
+          delegates: validators,
           loading: false,
           loaded: false
+        },
+        committedDelegations: {
+          [validators[0].operator_address]: 42
         },
         session: {
           signedIn: true
         },
-        connected: false
+        connected: false,
+        lastHeader: { height: 20 }
       }
     }
 
@@ -66,14 +72,18 @@ describe(`TabValidators`, () => {
       dispatch: jest.fn(),
       getters: {
         delegates: {
-          delegates,
+          delegates: validators,
           loading: true,
           loaded: false
+        },
+        committedDelegations: {
+          [validators[0].operator_address]: 42
         },
         session: {
           signedIn: true
         },
-        connected: true
+        connected: true,
+        lastHeader: { height: 20 }
       }
     }
 
@@ -95,10 +105,14 @@ describe(`TabValidators`, () => {
           loading: false,
           loaded: true
         },
+        committedDelegations: {
+          [validators[0].operator_address]: 42
+        },
         session: {
           signedIn: true
         },
-        connected: true
+        connected: true,
+        lastHeader: { height: 20 }
       }
     }
 
