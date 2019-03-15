@@ -113,9 +113,7 @@ jobs:
 
           if [ "${CIRCLE_BRANCH}" == "master" ]; then
             STARGATE=https://stargate.cosmos.network RPC=https://rpc.cosmos.network CIRCLECI=true yarn build:ui
-          elif [ "${CIRCLE_BRANCH}" == "sabau/master-to-mainnet" ]; then
-            STARGATE=https://stargate.cosmos.network RPC=https://rpc.cosmos.network CIRCLECI=true yarn build:ui
-          elif [ "${CIRCLE_BRANCH}" == "develop" ]; then
+          else
             CIRCLECI=true yarn build:ui
           fi
 
