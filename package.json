@@ -1,7 +1,7 @@
 {
   "name": "cosmos-voyager",
   "productName": "Cosmos Voyager",
-  "version": "1.0.0-beta.18",
+  "version": "1.0.0-beta.19",
   "description": "Voyager is an electron-based user interface for the Cosmos Network.",
   "author": "All In Bits, Inc <hello@tendermint.com>",
   "license": "Apache-2.0",
@@ -41,8 +41,9 @@
     "stargate": "./builds/Gaia/darwin_amd64/gaiacli rest-server --laddr 'tcp://localhost:9070' --home './builds/testnets/local-testnet/cli_home' --node 'http://localhost:26657' --chain-id 'local-testnet' --trust-node true",
     "frontend": "cross-env NODE_ENV=development FAUCET='http://localhost:8080' webpack-dev-server --hot --colors --config webpack.renderer.config.js --port 9080 --content-base app/dist --https --mode=development",
     "frontend:fixed-https": "yarn frontend --cert 'server_dev.crt' --key 'server_dev.key'",
-    "backend:new": "concurrently -k \"yarn stargate\" \"yarn proxy\" \"yarn nodes 2\"",
-    "backend": "concurrently -k \"yarn stargate\" \"yarn proxy\" \"yarn nodes 2 skip-rebuild\"",
+    "connect": "concurrently -k \"yarn stargate\" \"yarn proxy\"",
+    "backend:new": "concurrently -k \"yarn connect\" \"yarn nodes 2\"",
+    "backend": "concurrently -k \"yarn connect\" \"yarn nodes 2 skip-rebuild\"",
     "backend:fixed-https": "concurrently -k \"yarn nodes 2 skip-rebuild\" \"yarn stargate --ssl-certfile 'server_dev.crt' --ssl-keyfile 'server_dev.key'\""
   },
   "devDependencies": {

@@ -1,6 +1,7 @@
 const path = require(`path`)
 const fs = require(`fs-extra`)
 const util = require(`util`)
+const BN = require(`bignumber.js`)
 const { spawn, exec } = require(`child_process`)
 const { sleep } = require(`../test/e2e/common.js`)
 
@@ -20,6 +21,11 @@ const defaultStartPort = 26656
 const getStartPort = nodeNumber => defaultStartPort - (nodeNumber - 1) * 3
 const defaultStakePool = 2000 * 10e6
 const defaultStakedPerValidator = 10 * 10e6
+const faucet = {
+  address: `cosmos1eu3j9yu63cd5exte5nw4l3wj83eqs9kcn8zlcn`,
+  mnemonic: `used rail ancient side orange merit since ensure this tool clock balance aerobic cheese bulk iron toward model wage then engage differ desk budget`,
+  amount: 100000000000000000
+}
 
 // initialise the node config folder and genesis
 async function initNode(
@@ -57,6 +63,10 @@ async function initGenesis(
   await makeExec(
     `${nodeBinary} add-genesis-account ${address} ${defaultStakePool}stake,1000photino  --home ${nodeHomeDir}`
   )
+  // faucet, we add this to better emulate testnet behaviour on local testnets
+  await makeExec(
+    `${nodeBinary} add-genesis-account ${faucet.address} ${faucet.amount}stake  --home ${nodeHomeDir}`
+  )
 
   await makeExecWithInputs(
     `${nodeBinary} gentx --name ${keyName} --home ${nodeHomeDir} --home-client ${clientHomeDir}`,
@@ -67,7 +77,9 @@ async function initGenesis(
   await makeExec(`${nodeBinary} collect-gentxs --home ${nodeHomeDir}`)
 
   const genesisLocation = path.join(nodeHomeDir, `config/genesis.json`)
-  const genesis = require(genesisLocation)
+  let genesis = require(genesisLocation)
+  genesis = fixInflation(genesis, faucet.amount)
+  fs.writeJSONSync(genesisLocation, genesis, `utf8`)
   return genesis
 }
 
@@ -302,4 +314,30 @@ module.exports = {
 
   makeExec,
   makeExecWithInputs
+}
+
+// the default inflation with a faucet active is producing so much stake that users could take over the network pretty quick. this throttles this
+function fixInflation(genesis, faucetAmount) {
+  const inflationFactor = faucetAmount / 1000000000000 // on the actual testnet it is / 1000000000
+  const defaultMintValue = genesis.app_state.mint
+  genesis.app_state.mint = {
+    minter: {
+      inflation: BN(defaultMintValue.minter.inflation)
+        .div(inflationFactor).toFixed(18),
+      annual_provisions: `0.000000000000000000`
+    },
+    params: {
+      mint_denom: `stake`,
+      inflation_rate_change: `0.130000000000000000`,
+      inflation_max: BN(defaultMintValue.params.inflation_max)
+        .div(inflationFactor).toFixed(18),
+      inflation_min: BN(defaultMintValue.params.inflation_min)
+        .div(inflationFactor).toFixed(18),
+      goal_bonded: BN(defaultMintValue.params.goal_bonded)
+        .div(inflationFactor).toFixed(18),
+      blocks_per_year: `6311520`
+    }
+  }
+
+  return genesis
 }

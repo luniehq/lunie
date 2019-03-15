@@ -11,7 +11,7 @@ exports[`LiStakeTransaction create validator 1`] = `
       Create validator 
       
     <b>
-      0.1000000
+      1.000000
     </b>
      
     <span>
@@ -45,7 +45,7 @@ exports[`LiStakeTransaction delegations should show delegations 1`] = `
       Delegation 
       
     <b>
-      4,200.0000000
+      42,000.000000
     </b>
      
     <span>
@@ -101,7 +101,7 @@ exports[`LiStakeTransaction redelegations should show redelegations and calculat
       
     <b>
       
-        3.0000000
+        30.000000
       
     </b>
      
@@ -147,7 +147,7 @@ exports[`LiStakeTransaction unbonding delegations should default to ended if no 
       
     <b>
       
-        1,000.0000000
+        10,000.000000
       
     </b>
      
@@ -185,7 +185,7 @@ exports[`LiStakeTransaction unbonding delegations should show unbonding delegati
       
     <b>
       
-        1,000.0000000
+        10,000.000000
       
     </b>
      
@@ -223,7 +223,7 @@ exports[`LiStakeTransaction unbonding delegations should show unbondings and cal
       
     <b>
       
-        1,000.0000000
+        10,000.000000
       
     </b>
      

@@ -1,16 +1,16 @@
 import Vuelidate from "vuelidate"
 import setup from "../../../helpers/vuex-setup"
-import TabParameters from "renderer/components/governance/TabParameters"
+import TabGovernanceParameters from "renderer/components/governance/TabGovernanceParameters"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 const { governanceParameters, stakingParameters } = lcdClientMock.state
 
-describe(`TabParameters`, () => {
+describe(`TabGovernanceParameters`, () => {
   let wrapper, store
   const { mount, localVue } = setup()
   localVue.use(Vuelidate)
-  localVue.directive(`tooltip`, () => {})
-  localVue.directive(`focus`, () => {})
+  localVue.directive(`tooltip`, () => { })
+  localVue.directive(`focus`, () => { })
 
   const $store = {
     commit: jest.fn(),
@@ -23,7 +23,7 @@ describe(`TabParameters`, () => {
   }
 
   beforeEach(() => {
-    const instance = mount(TabParameters, {
+    const instance = mount(TabGovernanceParameters, {
       localVue,
       doBefore: ({ store }) => {
         store.commit(`setGovParameters`, governanceParameters)
@@ -47,7 +47,7 @@ describe(`TabParameters`, () => {
   })
 
   it(`displays the minimum deposit`, () => {
-    expect(wrapper.vm.minimumDeposit).toEqual(`10 STAKEs`)
+    expect(wrapper.vm.minimumDeposit).toEqual(`100 STAKEs`)
   })
 
   it(`displays deposit period in days`, () => {

@@ -9,9 +9,6 @@
       <i v-tooltip.bottom="'Refresh'" class="material-icons">refresh</i>
     </a>
     <slot />
-    <router-link v-if="session.signedIn" id="settings" to="/preferences">
-      <i v-tooltip.bottom="'Preferences'" class="material-icons">settings</i>
-    </router-link>
     <a
       v-if="session.signedIn"
       id="signOut-btn"

@@ -109,7 +109,7 @@ describe(`PageValidator`, () => {
     })
 
     it(`shows a default avatar`, () => {
-      expect(wrapper.html()).toContain(`validator-icon.svg`)
+      expect(wrapper.find(`.page-profile__header`).html()).toContain(`validator-icon.svg`)
     })
 
     it(`should return the self bond based on the validator`, () => {
@@ -200,7 +200,7 @@ describe(`PageValidator`, () => {
       const delegationString = PageValidator.computed.myDelegation.call(
         { bondDenom, myBond }
       )
-      expect(delegationString).toBe(`10.0000000 stake`)
+      expect(delegationString).toBe(`10.000000 stake`)
     })
 
     it(`when user doesn't have any delegations`, () => {
@@ -232,7 +232,7 @@ describe(`PageValidator`, () => {
       const rewardsString = PageValidator.computed.rewards.call(
         { session, bondDenom, distribution, validator }
       )
-      expect(rewardsString).toBe(`10.0000000 stake`)
+      expect(rewardsString).toBe(`100.000000 stake`)
     })
 
     it(`when validator rewards are 0`, () => {
@@ -246,7 +246,7 @@ describe(`PageValidator`, () => {
       const rewardsString = PageValidator.computed.rewards.call(
         { session, bondDenom, distribution, validator }
       )
-      expect(rewardsString).toBe(`0.0000000 stake`)
+      expect(rewardsString).toBe(`0.000000 stake`)
     })
 
     it(`when user doesn't have any delegations`, () => {

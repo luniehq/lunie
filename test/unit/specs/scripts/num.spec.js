@@ -2,7 +2,7 @@ import num from "renderer/scripts/num"
 
 describe(`number helper`, () => {
   it(`should format numbers showing many decimals`, () => {
-    expect(num.full(1001950.123456)).toBe(`1,001,950.1234560`)
+    expect(num.full(1001950.123456)).toBe(`1,001,950.123456`)
   })
 
   it(`should format numbers showing many decimals`, () => {
