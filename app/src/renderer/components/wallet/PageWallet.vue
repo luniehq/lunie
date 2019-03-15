@@ -20,14 +20,15 @@
         This account doesn't have anything in it yet.
       </div>
     </tm-data-msg>
-    <li-coin
-      v-for="coin in filteredBalances"
-      slot="managed-body"
-      :key="coin.denom"
-      :coin="coin"
-      class="tm-li-balance"
-      @show-modal="showModal"
-    />
+    <template slot="managed-body">
+      <li-coin
+        v-for="coin in filteredBalances"
+        :key="coin.denom"
+        :coin="coin"
+        class="tm-li-balance"
+        @show-modal="showModal"
+      />
+    </template>
     <send-modal ref="sendModal" />
   </tm-page>
 </template>
@@ -52,24 +53,12 @@ export default {
   data: () => ({ num, showSendModal: false }),
   computed: {
     ...mapGetters([`wallet`, `connected`, `session`]),
-    allDenomBalances() {
-      // for denoms not in balances, add empty balance
-      const balances = this.wallet.balances.slice(0)
-      const hasDenom = denom => {
-        return !!balances.filter(balance => balance.denom === denom)[0]
-      }
-      for (const denom of this.wallet.denoms) {
-        if (hasDenom(denom)) continue
-        balances.push({ denom, amount: 0 })
-      }
-      return balances
-    },
     dataEmpty() {
       return this.wallet.balances.length === 0
     },
     filteredBalances() {
       return orderBy(
-        this.allDenomBalances,
+        this.wallet.balances,
         [`amount`, balance => balance.denom.toLowerCase()],
         [`desc`, `asc`]
       )

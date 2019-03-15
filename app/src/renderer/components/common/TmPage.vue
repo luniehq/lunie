@@ -35,10 +35,11 @@
         <tm-data-loading v-else-if="!loaded && loading" />
         <tm-data-error v-else-if="error" />
         <slot
-          v-else-if="dataEmpty && this.$slots['no-data']"
+          v-else-if="dataEmpty"
           name="no-data"
-        />
-        <tm-data-empty v-else-if="dataEmpty" />
+        >
+          <tm-data-empty />
+        </slot>
         <slot
           v-else
           name="managed-body"
