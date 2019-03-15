@@ -11,7 +11,7 @@ exports[`LiBankTransaction should show a bank transaction without fees 1`] = `
       Sent
       
     <b>
-      1,234.0000000
+      12,340.000000
     </b>
      
     <span>
@@ -29,7 +29,7 @@ exports[`LiBankTransaction should show a bank transaction without fees 1`] = `
     
       Network Fee: 
     <b>
-      0.0000000
+      0.000000
     </b>
      
     <span>
@@ -49,7 +49,7 @@ exports[`LiBankTransaction should show bank transaction when user hasn't signed 
     
       Sent
     <b>
-      1,234.0000000
+      12,340.000000
     </b>
      
     <span>
@@ -74,7 +74,7 @@ exports[`LiBankTransaction should show bank transaction when user hasn't signed 
     
       Network Fee: 
     <b>
-      0.0003421
+      0.003421
     </b>
      
     <span>
@@ -95,7 +95,7 @@ exports[`LiBankTransaction should show incoming transactions 1`] = `
       Received
       
     <b>
-      1,234.0000000
+      12,340.000000
     </b>
      
     <span>
@@ -114,7 +114,7 @@ exports[`LiBankTransaction should show incoming transactions 1`] = `
     
       Network Fee: 
     <b>
-      0.0003421
+      0.003421
     </b>
      
     <span>
@@ -135,7 +135,7 @@ exports[`LiBankTransaction should show outgoing transactions 1`] = `
       Sent
       
     <b>
-      1,234.0000000
+      12,340.000000
     </b>
      
     <span>
@@ -155,7 +155,7 @@ exports[`LiBankTransaction should show outgoing transactions 1`] = `
     
       Network Fee: 
     <b>
-      0.0003421
+      0.003421
     </b>
      
     <span>
@@ -176,7 +176,7 @@ exports[`LiBankTransaction should show outgoing transactions send to herself 1`]
       Sent
       
     <b>
-      1,234.0000000
+      12,340.000000
     </b>
      
     <span>
@@ -194,7 +194,7 @@ exports[`LiBankTransaction should show outgoing transactions send to herself 1`]
     
       Network Fee: 
     <b>
-      0.0003421
+      0.003421
     </b>
      
     <span>

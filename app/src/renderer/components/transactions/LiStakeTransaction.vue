@@ -205,7 +205,7 @@ export default {
       const validator = this.validators.find(
         val => val.operator_address === validatorAddr
       )
-      return this.atoms(calculateTokens(validator, shares).toNumber())
+      return full(this.atoms(calculateTokens(validator, shares).toNumber()))
     }
   }
 }

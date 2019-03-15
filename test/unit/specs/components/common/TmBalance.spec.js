@@ -35,10 +35,10 @@ describe(`TmBalance`, () => {
   })
 
   it(`displays unbonded tokens`, () => {
-    expect(wrapper.vm.unbondedAtoms).toBe(`123.0000…`)
+    expect(wrapper.vm.unbondedAtoms).toBe(`1,230.0000…`)
   })
   it(`gets user rewards`, () => {
-    expect(wrapper.vm.rewards).toBe(`100,045.0000…`)
+    expect(wrapper.vm.rewards).toBe(`1,000,450.0000…`)
   })
 
   it(`shows 0 if user doesn't have rewards`, () => {

@@ -143,7 +143,7 @@ exports[`TabProposals has the expected html structure 1`] = `
           class="li-proposal__value yes"
         >
           
-    10
+    100
   
         </td>
          
@@ -151,7 +151,7 @@ exports[`TabProposals has the expected html structure 1`] = `
           class="li-proposal__value no"
         >
           
-    30
+    300
   
         </td>
          
@@ -159,7 +159,7 @@ exports[`TabProposals has the expected html structure 1`] = `
           class="li-proposal__value no_with_veto"
         >
           
-    100
+    1000
   
         </td>
          
@@ -167,7 +167,7 @@ exports[`TabProposals has the expected html structure 1`] = `
           class="li-proposal__value abstain"
         >
           
-    20
+    200
   
         </td>
       </tr>
@@ -351,7 +351,7 @@ exports[`TabProposals has the expected html structure 1`] = `
           class="li-proposal__value yes"
         >
           
-    500
+    5000
   
         </td>
          
@@ -359,7 +359,7 @@ exports[`TabProposals has the expected html structure 1`] = `
           class="li-proposal__value no"
         >
           
-    25
+    250
   
         </td>
          
@@ -367,7 +367,7 @@ exports[`TabProposals has the expected html structure 1`] = `
           class="li-proposal__value no_with_veto"
         >
           
-    10
+    100
   
         </td>
          
@@ -375,7 +375,7 @@ exports[`TabProposals has the expected html structure 1`] = `
           class="li-proposal__value abstain"
         >
           
-    56
+    560
   
         </td>
       </tr>

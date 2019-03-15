@@ -2,7 +2,7 @@ import num from "renderer/scripts/num"
 
 describe(`number helper`, () => {
   it(`should format numbers showing many decimals`, () => {
-    expect(num.full(1001950.123456)).toBe(`1,001,950.1234560`)
+    expect(num.full(1001950.123456)).toBe(`1,001,950.123456`)
   })
 
   it(`should format numbers showing many decimals`, () => {
@@ -23,5 +23,13 @@ describe(`number helper`, () => {
 
   it(`should format percent with decimals`, () => {
     expect(num.percent(0.2612)).toBe(`26.12%`)
+  })
+
+  it(`should format long decimals well`, () => {
+    expect(num.prettyDecimals(1e-8)).toBe(`0.00000001`)
+  })
+
+  it(`should format long decimals well if whole number`, () => {
+    expect(num.prettyDecimals(12)).toBe(`12`)
   })
 })

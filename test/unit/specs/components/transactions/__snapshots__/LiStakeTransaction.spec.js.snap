@@ -11,7 +11,7 @@ exports[`LiStakeTransaction create validator with fees 1`] = `
       Create validator
       
     <b>
-      0.1000000
+      1.000000
     </b>
      
     <span>
@@ -36,7 +36,7 @@ exports[`LiStakeTransaction create validator with fees 1`] = `
     
       Network Fee: 
     <b>
-      0.0003421
+      0.003421
     </b>
      
     <span>
@@ -57,7 +57,7 @@ exports[`LiStakeTransaction create validator without fees 1`] = `
       Create validator
       
     <b>
-      0.1000000
+      1.000000
     </b>
      
     <span>
@@ -82,7 +82,7 @@ exports[`LiStakeTransaction create validator without fees 1`] = `
     
       Network Fee: 
     <b>
-      0.0000000
+      0.000000
     </b>
      
     <span>
@@ -105,7 +105,7 @@ exports[`LiStakeTransaction delegations with fees 1`] = `
       Delegation
       
     <b>
-      4,200.0000000
+      42,000.000000
     </b>
      
     <span>
@@ -134,7 +134,7 @@ exports[`LiStakeTransaction delegations with fees 1`] = `
     
       Network Fee: 
     <b>
-      0.0003421
+      0.003421
     </b>
      
     <span>
@@ -157,7 +157,7 @@ exports[`LiStakeTransaction delegations without fees 1`] = `
       Delegation
       
     <b>
-      4,200.0000000
+      42,000.000000
     </b>
      
     <span>
@@ -186,7 +186,7 @@ exports[`LiStakeTransaction delegations without fees 1`] = `
     
       Network Fee: 
     <b>
-      0.0000000
+      0.000000
     </b>
      
     <span>
@@ -231,7 +231,7 @@ exports[`LiStakeTransaction edit validator with fees 1`] = `
     
       Network Fee: 
     <b>
-      0.0003421
+      0.003421
     </b>
      
     <span>
@@ -276,7 +276,7 @@ exports[`LiStakeTransaction edit validator without fees 1`] = `
     
       Network Fee: 
     <b>
-      0.0000000
+      0.000000
     </b>
      
     <span>
@@ -300,7 +300,7 @@ exports[`LiStakeTransaction redelegations with fees 1`] = `
       
     <b>
       
-        3.0000000
+        30.000000
       
     </b>
      
@@ -340,7 +340,7 @@ exports[`LiStakeTransaction redelegations with fees 1`] = `
     
       Network Fee: 
     <b>
-      0.0003421
+      0.003421
     </b>
      
     <span>
@@ -364,7 +364,7 @@ exports[`LiStakeTransaction redelegations without fees 1`] = `
       
     <b>
       
-        3.0000000
+        30.000000
       
     </b>
      
@@ -404,7 +404,7 @@ exports[`LiStakeTransaction redelegations without fees 1`] = `
     
       Network Fee: 
     <b>
-      0.0000000
+      0.000000
     </b>
      
     <span>
@@ -428,7 +428,7 @@ exports[`LiStakeTransaction unbonding delegations should default to ended if no 
       
     <b>
       
-        1,000.0000000
+        NaN
       
     </b>
      
@@ -460,7 +460,7 @@ exports[`LiStakeTransaction unbonding delegations should default to ended if no 
     
       Network Fee: 
     <b>
-      0.0003421
+      0.003421
     </b>
      
     <span>
@@ -484,7 +484,7 @@ exports[`LiStakeTransaction unbonding delegations should show unbonding delegati
       
     <b>
       
-        1,000.0000000
+        NaN
       
     </b>
      
@@ -516,7 +516,7 @@ exports[`LiStakeTransaction unbonding delegations should show unbonding delegati
     
       Network Fee: 
     <b>
-      0.0003421
+      0.003421
     </b>
      
     <span>
@@ -540,7 +540,7 @@ exports[`LiStakeTransaction unbonding delegations with fees 1`] = `
       
     <b>
       
-        1,000.0000000
+        NaN
       
     </b>
      
@@ -578,7 +578,7 @@ exports[`LiStakeTransaction unbonding delegations with fees 1`] = `
     
       Network Fee: 
     <b>
-      0.0003421
+      0.003421
     </b>
      
     <span>
@@ -602,7 +602,7 @@ exports[`LiStakeTransaction unbonding delegations without fees 1`] = `
       
     <b>
       
-        1,000.0000000
+        NaN
       
     </b>
      
@@ -634,7 +634,7 @@ exports[`LiStakeTransaction unbonding delegations without fees 1`] = `
     
       Network Fee: 
     <b>
-      0.0000000
+      0.000000
     </b>
      
     <span>
@@ -679,7 +679,7 @@ exports[`LiStakeTransaction unjail with fees 1`] = `
     
       Network Fee: 
     <b>
-      0.0003421
+      0.003421
     </b>
      
     <span>
@@ -724,7 +724,7 @@ exports[`LiStakeTransaction unjail without fees 1`] = `
     
       Network Fee: 
     <b>
-      0.0000000
+      0.000000
     </b>
      
     <span>
