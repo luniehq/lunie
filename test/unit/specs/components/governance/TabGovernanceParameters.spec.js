@@ -9,8 +9,8 @@ describe(`TabGovernanceParameters`, () => {
   let wrapper, store
   const { mount, localVue } = setup()
   localVue.use(Vuelidate)
-  localVue.directive(`tooltip`, () => {})
-  localVue.directive(`focus`, () => {})
+  localVue.directive(`tooltip`, () => { })
+  localVue.directive(`focus`, () => { })
 
   const $store = {
     commit: jest.fn(),
@@ -47,7 +47,7 @@ describe(`TabGovernanceParameters`, () => {
   })
 
   it(`displays the minimum deposit`, () => {
-    expect(wrapper.vm.minimumDeposit).toEqual(`10 STAKEs`)
+    expect(wrapper.vm.minimumDeposit).toEqual(`100 STAKEs`)
   })
 
   it(`displays deposit period in days`, () => {
