@@ -84,7 +84,7 @@ describe(`DelegationModal`, () => {
       })
 
       it(`if the user manually inputs a number greater than the balance`, () => {
-        wrapper.setData({ amount: 142 })
+        wrapper.setData({ amount: 1420 })
         expect(wrapper.vm.validateForm()).toBe(false)
       })
     })
@@ -119,7 +119,8 @@ describe(`DelegationModal`, () => {
           session,
           from,
           submitDelegation,
-          submitRedelegation },
+          submitRedelegation
+        },
         `local`, `1234567890`
       )
       expect(submitDelegation).toHaveBeenCalledWith(`local`, `1234567890`)
@@ -163,7 +164,7 @@ describe(`DelegationModal`, () => {
 
       expect($store.dispatch).toHaveBeenCalledWith(`submitDelegation`,
         {
-          amount: `500000000`,
+          amount: `50000000`,
           validator_address: validator.operator_address,
           password: `1234567890`,
           submitType: `local`
@@ -203,7 +204,7 @@ describe(`DelegationModal`, () => {
 
       expect($store.dispatch).toHaveBeenCalledWith(`submitRedelegation`,
         {
-          amount: `500000000`,
+          amount: `50000000`,
           validatorSrc: delegates.delegates[0],
           validatorDst: validator,
           password: `1234567890`,

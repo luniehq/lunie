@@ -23,7 +23,7 @@ exports[`ModalWithdrawAllRewards should show the withdraw rewards modal 1`] = `
       id="amount"
       readonly="readonly"
       type="number"
-      value="1"
+      value="10"
     />
   </tm-form-group-stub>
 </action-modal-stub>

@@ -29,7 +29,7 @@ exports[`TabGovernanceParameters has the expected html structure 1`] = `
            
           <dd>
             
-            10 STAKEs
+            100 STAKEs
           
           </dd>
         </dl>
