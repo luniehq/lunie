@@ -45,7 +45,22 @@ const Client = (axios, remoteLcdURL) => {
       }
       return req(`GET`, `/auth/accounts/${address}`)()
         .then(res => {
-          return res.value || emptyAccount
+          // HACK, hope for: https://github.com/cosmos/cosmos-sdk/issues/3885
+          let account = res.value || emptyAccount
+          if (res.type === `auth/DelayedVestingAccount`) {
+            if (!account.BaseVestingAccount) {
+              console.error(`SDK format of vesting accounts responses has changed`)
+              return emptyAccount
+            }
+            account = Object.assign(
+              {},
+              account.BaseVestingAccount.BaseAccount,
+              account.BaseVestingAccount
+            )
+            delete account.BaseAccount
+            delete account.BaseVestingAccount
+          }
+          return account
         })
         .catch(err => {
           // if account not found, return null instead of throwing
