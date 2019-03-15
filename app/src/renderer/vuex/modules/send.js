@@ -123,9 +123,9 @@ export default ({ node }) => {
       const simulationRes = await request.catch(handleSDKError)
       const adjustedGas = Number(simulationRes.gas_estimate) * gasAdjustment
       const estimatedFeesLow =
-        Number(simulationRes.gas_estimate) * Number(gasPrices[0].amount) * 1e-7
+        Number(simulationRes.gas_estimate) * Number(gasPrices[0].amount) * 1e-6
       const estimatedFeesHigh =
-        Number(adjustedGas) * Number(gasPrices[0].amount) * 1e-7
+        Number(adjustedGas) * Number(gasPrices[0].amount) * 1e-6
 
       // TODO: remove once fees are displayed on action modals
       console.log(
