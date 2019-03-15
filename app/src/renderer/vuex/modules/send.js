@@ -84,7 +84,7 @@ export default ({ node }) => {
       const gasPrices = [
         {
           amount: `0.025`, // recommended on Cosmos Docs
-          denom: `stake` //TODO: this shouldn't be hardcoded
+          denom: rootState.stakingParameters.parameters.bond_denom || `uatom`
         }
       ]
       // TODO: run gas estimations to optimize the value of the adjustment
@@ -127,6 +127,7 @@ export default ({ node }) => {
       const estimatedFeesHigh =
         Number(adjustedGas) * Number(gasPrices[0].amount) * 1e-7
 
+      // TODO: remove once fees are displayed on action modals
       console.log(
         `- Estimated Gas: ${simulationRes.gas_estimate}\n` +
         `- Adjusted Gas: ${adjustedGas}\n` +
