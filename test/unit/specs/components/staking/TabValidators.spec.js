@@ -144,4 +144,32 @@ describe(`TabValidators`, () => {
     }, true)
     expect(dispatch).toHaveBeenCalledWith(`updateDelegates`)
   })
+
+  describe(`yourValidators`, () => {
+    it(`should return validators if signed in`, () => {
+      expect(
+        TabValidators.computed.yourValidators({
+          committedDelegations: {
+            [validators[0].operator_address]: 1,
+            [validators[2].operator_address]: 2
+          },
+          delegates: { delegates: validators },
+          session: { signedIn: true }
+        })
+      ).toEqual([validators[0], validators[2]])
+    })
+
+    it(`should return false if not signed in`, () => {
+      expect(
+        TabValidators.computed.yourValidators({
+          committedDelegations: {
+            [validators[0].operator_address]: 1,
+            [validators[2].operator_address]: 2
+          },
+          delegates: { delegates: validators },
+          session: { signedIn: false }
+        })
+      ).toBe(false)
+    })
+  })
 })

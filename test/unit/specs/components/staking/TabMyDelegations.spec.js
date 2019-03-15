@@ -173,17 +173,32 @@ describe(`Component: TabMyDelegations`, () => {
       ).toHaveLength(1)
     })
 
-    it(`yourValidators`, () => {
-      expect(
-        TabMyDelegations.computed.yourValidators({
-          committedDelegations: {
-            [validators[0].operator_address]: 1,
-            [validators[2].operator_address]: 2
-          },
-          delegates: { delegates: validators }
-        })
-      ).toEqual([validators[0], validators[2]])
+    describe(`yourValidators`, () => {
+      it(`should return validators if signed in`, () => {
+        expect(
+          TabMyDelegations.computed.yourValidators({
+            committedDelegations: {
+              [validators[0].operator_address]: 1,
+              [validators[2].operator_address]: 2
+            },
+            delegates: { delegates: validators },
+            session: { signedIn: true }
+          })
+        ).toEqual([validators[0], validators[2]])
+      })
+
+      it(`should return false if not signed in`, () => {
+        expect(
+          TabMyDelegations.computed.yourValidators({
+            committedDelegations: {
+              [validators[0].operator_address]: 1,
+              [validators[2].operator_address]: 2
+            },
+            delegates: { delegates: validators },
+            session: { signedIn: false }
+          })
+        ).toBe(false)
+      })
     })
   })
-
 })
