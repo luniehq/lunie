@@ -43,7 +43,7 @@
     "frontend:fixed-https": "yarn frontend --cert 'server_dev.crt' --key 'server_dev.key'",
     "connect": "concurrently -k \"yarn stargate\" \"yarn proxy\"",
     "backend:new": "concurrently -k \"yarn connect\" \"yarn nodes 2\"",
-    "backend": "concurrently -k \"yarn yarn connect\" \"yarn nodes 2 skip-rebuild\"",
+    "backend": "concurrently -k \"yarn connect\" \"yarn nodes 2 skip-rebuild\"",
     "backend:fixed-https": "concurrently -k \"yarn nodes 2 skip-rebuild\" \"yarn stargate --ssl-certfile 'server_dev.crt' --ssl-keyfile 'server_dev.key'\""
   },
   "devDependencies": {
