@@ -81,7 +81,8 @@ export default {
       `committedDelegations`,
       `bondDenom`,
       `connected`,
-      `session`
+      `session`,
+      `lastHeader`
     ]),
     yourValidators({ committedDelegations, delegates: { delegates } } = this) {
       return delegates.filter(

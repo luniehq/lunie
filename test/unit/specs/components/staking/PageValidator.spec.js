@@ -275,7 +275,9 @@ describe(`PageValidator`, () => {
     const $store = { dispatch: jest.fn() }
     const session = { signedIn: false }
     const $route = { params: { validator: `cosmos1address` } }
-    PageValidator.watch.lastHeader.handler.call({ session, $store, $route })
+    const newHeader = { height: `20` }
+    PageValidator.watch.lastHeader.handler.call({ session, $store, $route },
+      newHeader)
     expect($store.dispatch).not.toHaveBeenCalledWith(
       `getRewardsFromValidator`,
       $route.params.validator

@@ -139,21 +139,4 @@ describe(`PageWallet`, () => {
     })
     expect(wrapper.exists(`tm-data-loading`)).toBe(true)
   })
-
-  describe(`updates balances every block`, () => {
-    it(`should not update if the user hasn't signed in`, () => {
-      const queryWalletBalances = jest.fn()
-      const session = { signedIn: false }
-      PageWallet.watch.lastHeader.handler.call({ session, queryWalletBalances })
-      expect(queryWalletBalances).not.toHaveBeenCalled()
-    })
-
-    it(`should update if the user has signed in`, () => {
-      const queryWalletBalances = jest.fn()
-      const session = { signedIn: true }
-      PageWallet.watch.lastHeader.handler.call({ session, queryWalletBalances })
-      expect(queryWalletBalances).toHaveBeenCalled()
-    })
-  })
-
 })
