@@ -21,7 +21,7 @@ export default [
       {
         path: `governance-parameters`,
         name: `Governance Parameters`,
-        component: require(`./components/governance/TabGovernanceParameters`).default
+        component: require(`./components/governance/TabParameters`).default
       }
     ]
   },

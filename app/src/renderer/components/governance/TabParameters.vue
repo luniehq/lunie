@@ -24,7 +24,7 @@
         </div>
         <div class="column">
           <dl class="info_dl">
-            <dt>
+            <dt v-tooltip.top="depositTooltips.max_deposit_period">
               Maximum Deposit Period
               <i
                 v-tooltip.top="depositTooltips.max_deposit_period"
@@ -139,7 +139,7 @@
 import { mapGetters } from "vuex"
 import { atoms } from "../../scripts/num.js"
 export default {
-  name: `tab-governance-parameters`,
+  name: `tab-staking-parameters`,
   data: () => ({
     atoms,
     depositTooltips: {
