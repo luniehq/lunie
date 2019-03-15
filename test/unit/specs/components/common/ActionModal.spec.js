@@ -14,8 +14,7 @@ describe(`ActionModal`, () => {
       dispatch: jest.fn(),
       getters: {
         connected: true,
-        ledger: { isConnected: false },
-        session: { signedIn: true }
+        session: { signedIn: true, sessionType: `local` }
       }
     }
 
@@ -43,8 +42,7 @@ describe(`ActionModal`, () => {
         $store = {
           getters: {
             connected: true,
-            ledger: { isConnected: true },
-            session: { signedIn: true }
+            session: { signedIn: true, sessionType: `ledger` }
           }
         }
         wrapper = shallowMount(ActionModal, {
@@ -63,7 +61,7 @@ describe(`ActionModal`, () => {
       })
 
       it(`with ledger and is on sign step`, async () => {
-        wrapper.vm.ledger.isConnected = true
+        wrapper.vm.session.sessionType = `ledger`
         wrapper.vm.step = `sign`
         await wrapper.vm.$nextTick()
         expect(wrapper.vm.$el).toMatchSnapshot()
@@ -149,7 +147,7 @@ describe(`ActionModal`, () => {
   describe(`runs validation and changes step`, () => {
     let self, getterValues
     beforeEach(() => {
-      getterValues = { ledger: { isConnected: false } }
+      getterValues = { session: { sessionType: `ledger` } }
       self = {
         ...getterValues,
         submit: jest.fn(),
@@ -168,7 +166,7 @@ describe(`ActionModal`, () => {
     })
 
     it(`if connected to ledger and is on 'txDetails' step`, async () => {
-      self.ledger = { isConnected: true }
+      self.session.sessionType = `ledger`
       self.selectedSignMethod = `ledger`
       await ActionModal.methods.validateChangeStep.call(self)
       expect(self.validate).toHaveBeenCalled()
@@ -177,7 +175,7 @@ describe(`ActionModal`, () => {
     })
 
     it(`if connected to ledger and is on 'sign' step`, async () => {
-      self.ledger = { isConnected: true }
+      self.session.sessionType = `ledger`
       self.selectedSignMethod = `ledger`
       self.step = `sign`
       await ActionModal.methods.validateChangeStep.call(self)
@@ -210,7 +208,7 @@ describe(`ActionModal`, () => {
     let self, getterValues
 
     beforeEach(() => {
-      getterValues = { ledger: { isConnected: false } }
+      getterValues = { session: { sessionType: `ledger` } }
       self = {
         ...getterValues,
         submit: jest.fn(
@@ -235,7 +233,7 @@ describe(`ActionModal`, () => {
     })
 
     it(`when signing with ledger`, done => {
-      self.ledger = { isConnected: true }
+      self.session.sessionType = `ledger`
       self.step = `sign`
       ActionModal.methods.validateChangeStep.call(self).then(() => {
         expect(self.sending).toBe(false)
@@ -252,7 +250,7 @@ describe(`ActionModal`, () => {
   })
 
   it(`hides password input if signing with Ledger`, async () => {
-    $store.getters.ledger.isConnected = true
+    $store.getters.session.sessionType = `ledger`
     wrapper = shallowMount(ActionModal, {
       localVue,
       propsData: {
@@ -280,7 +278,7 @@ describe(`ActionModal`, () => {
     })
 
     it(`selects ledger if device is connected`, () => {
-      $store.getters.ledger.isConnected = true
+      $store.getters.session.sessionType = `ledger`
       expect(wrapper.vm.selectedSignMethod).toBe(`ledger`)
       expect(wrapper.vm.signMethods).toEqual([
         {
