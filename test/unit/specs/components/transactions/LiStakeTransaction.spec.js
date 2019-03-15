@@ -129,7 +129,7 @@ describe(`LiStakeTransaction`, () => {
     it(`should show unbonding delegations as ended`, () => {
       wrapper.setProps({ unbondingTime: Date.now() - 1000 })
       expect(wrapper.vm.$el).toMatchSnapshot()
-      expect(wrapper.text()).toContain(`10,000.000000`)
+      expect(wrapper.text()).toContain(`0.000323`)
     })
 
     it(`should default to ended if no unbonding delegation is present`, () => {
@@ -152,7 +152,7 @@ describe(`LiStakeTransaction`, () => {
 
     it(`with fees`, () => {
       expect(wrapper.vm.$el).toMatchSnapshot()
-      expect(wrapper.text()).toContain(`3.000000`)
+      expect(wrapper.text()).toContain(`30.000000`)
     })
 
     it(`without fees`, () => {

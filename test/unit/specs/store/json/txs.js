@@ -260,7 +260,8 @@ export const stakingTxs = [
             type: `cosmos-sdk/MsgUndelegate`,
             value: {
               validator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
-              shares_amount: `10000000000`
+              shares_amount: `323.000000000000000000`,
+              delegator_address: `cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e`
             }
           }
         ],

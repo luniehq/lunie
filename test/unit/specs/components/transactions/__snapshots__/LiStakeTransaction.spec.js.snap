@@ -428,7 +428,7 @@ exports[`LiStakeTransaction unbonding delegations should default to ended if no 
       
     <b>
       
-        NaN
+        0.000323
       
     </b>
      
@@ -484,7 +484,7 @@ exports[`LiStakeTransaction unbonding delegations should show unbonding delegati
       
     <b>
       
-        NaN
+        0.000323
       
     </b>
      
@@ -540,7 +540,7 @@ exports[`LiStakeTransaction unbonding delegations with fees 1`] = `
       
     <b>
       
-        NaN
+        0.000323
       
     </b>
      
@@ -602,7 +602,7 @@ exports[`LiStakeTransaction unbonding delegations without fees 1`] = `
       
     <b>
       
-        NaN
+        0.000323
       
     </b>
      

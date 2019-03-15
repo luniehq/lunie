@@ -7,8 +7,8 @@
     <template v-if="txType === `cosmos-sdk/MsgCreateValidator`">
       <div slot="caption">
         Create validator
-        <b>{{ full(atoms(tx.value.amount)) }}</b>
-        <span>{{ tx.value.denom }}s</span>
+        <b>{{ tx.value && full(atoms(tx.value.amount)) }}</b>
+        <span>{{ tx.value && tx.value.denom }}s</span>
       </div>
       <div slot="details">
         Moniker:
@@ -39,11 +39,39 @@
     <template v-else-if="txType === `cosmos-sdk/MsgDelegate`">
       <div slot="caption">
         Delegation
-        <b>{{ full(atoms(tx.value.amount)) }}</b>
-        <span>{{ tx.value.denom }}s</span>
+        <b>{{ tx.value && full(atoms(tx.value.amount)) }}</b>
+        <span>{{ tx.value && tx.value.denom }}s</span>
       </div>
       <div slot="details">
         To
+        <router-link :to="`${url}/${tx.validator_address}`">
+          {{ moniker(tx.validator_address) }}
+        </router-link>
+      </div>
+      <div slot="fees">
+        Network Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
+        <span>{{ fees ? fees.denom : bondingDenom }}s</span>
+      </div>
+    </template>
+    <template v-else-if="txType === `cosmos-sdk/MsgUndelegate`">
+      <div slot="caption">
+        Undelegation
+        <b>
+          {{
+            full(
+              calculatePrettifiedTokens(tx.validator_address, tx.shares_amount)
+            )
+          }}
+        </b>
+        <span>{{ bondingDenom }}s</span>
+        <template v-if="timeDiff">
+          <span class="tx-unbonding__time-diff">
+            {{ timeDiff }}
+          </span>
+        </template>
+      </div>
+      <div slot="details">
+        From
         <router-link :to="`${url}/${tx.validator_address}`">
           {{ moniker(tx.validator_address) }}
         </router-link>
@@ -76,34 +104,6 @@
         to
         <router-link :to="`${url}/${tx.validator_dst_address}`">
           {{ moniker(tx.validator_dst_address) }}
-        </router-link>
-      </div>
-      <div slot="fees">
-        Network Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
-        <span>{{ fees ? fees.denom : bondingDenom }}s</span>
-      </div>
-    </template>
-    <template v-else-if="txType === `cosmos-sdk/MsgUndelegate`">
-      <div slot="caption">
-        Undelegation
-        <b>
-          {{
-            full(
-              calculatePrettifiedTokens(tx.validator_address, tx.shares_amount)
-            )
-          }}
-        </b>
-        <span>{{ bondingDenom }}s</span>
-        <template v-if="timeDiff">
-          <span class="tx-unbonding__time-diff">
-            {{ timeDiff }}
-          </span>
-        </template>
-      </div>
-      <div slot="details">
-        From
-        <router-link :to="`${url}/${tx.validator_address}`">
-          {{ moniker(tx.validator_address) }}
         </router-link>
       </div>
       <div slot="fees">
