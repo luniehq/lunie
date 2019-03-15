@@ -8,7 +8,6 @@ export default opts => ({
   delegation: require(`./delegation.js`).default(opts),
   connection: require(`./connection.js`).default(opts),
   notifications: require(`./notifications.js`).default(opts),
-  onboarding: require(`./onboarding.js`).default(opts),
   proposals: require(`./governance/proposals.js`).default(opts),
   votes: require(`./governance/votes.js`).default(opts),
   deposits: require(`./governance/deposits.js`).default(opts),

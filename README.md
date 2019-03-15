@@ -167,6 +167,17 @@ Once you've generated a local account, run Voyager on the default `local-testnet
 yarn start
 ```
 
+### Set up Cosmos Wallet on a different network
+
+Start a full node for the network that you want to connect to (See [guide](https://cosmos.network/docs/gaia/join-mainnet.html#setting-up-a-new-node)).
+
+
+Then start Cosmos Wallet without the local testnet:
+
+```bash
+yarn frontend & yarn connect
+```
+
 ## Testing
 
 If you would like to run all the tests you can run:
