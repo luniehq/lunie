@@ -110,7 +110,13 @@ jobs:
       - yarn-install
       - run: |
           mkdir -p app/dist
-          CIRCLECI=true yarn build:ui
+
+          if [ "${CIRCLE_BRANCH}" == "master" ]; then
+            STARGATE=https://stargate.cosmos.network RPC=https://rpc.cosmos.network CIRCLECI=true yarn build:ui
+          else
+            CIRCLECI=true yarn build:ui
+          fi
+
       - store_artifacts:
           path: *DIST
       - persist_to_workspace:
@@ -311,7 +317,9 @@ workflows:
             - build
           filters:
             branches:
-              ignore: release
+              ignore:
+                - release
+                - master
 
       - publish:
           requires:

@@ -2,7 +2,9 @@
   <li-bank-transaction
     v-if="bankTx"
     :transaction="transaction"
+    :bonding-denom="bondingDenom"
     :address="address"
+    :fees="fees"
   />
   <li-stake-transaction
     v-else-if="stakingTx"
@@ -12,6 +14,7 @@
     :unbonding-time="unbondingTime"
     :bonding-denom="bondingDenom"
     :tx-type="type"
+    :fees="fees"
   />
   <li-gov-transaction
     v-else-if="governanceTx"
@@ -19,6 +22,7 @@
     :bonding-denom="bondingDenom"
     :url="proposalsUrl"
     :tx-type="type"
+    :fees="fees"
   />
   <li-distribution-transaction
     v-else-if="distributionTx"
@@ -27,6 +31,7 @@
     :bonding-denom="bondingDenom"
     :tx-type="type"
     :validators="validators"
+    :fees="fees"
   />
   <li-transaction
     v-else
@@ -87,6 +92,12 @@ export default {
   computed: {
     type() {
       return this.transaction.tx.value.msg[0].type
+    },
+    fees() {
+      return (
+        this.transaction.tx.value.fee.amount &&
+        this.transaction.tx.value.fee.amount[0]
+      )
     },
     bankTx() {
       return [`cosmos-sdk/MsgSend`].includes(this.type)
