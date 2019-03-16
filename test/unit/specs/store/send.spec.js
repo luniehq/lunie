@@ -34,7 +34,8 @@ const mockRootState = {
       chain_id: `mock-chain`
     }
   },
-  ledger: { isConnected: false }
+  ledger: { isConnected: false },
+  stakingParameters: { parameters: { bond_denom: `uatom` } }
 }
 
 describe(`Module: Send`, () => {
@@ -63,18 +64,29 @@ describe(`Module: Send`, () => {
     }
   }
 
+  const gas_prices = [
+    {
+      amount: `0.025`, // recommended on Cosmos Docs
+      denom: `uatom` //TODO: this shouldn't be hardcoded
+    }
+  ]
+  const gas_adjustment = `1.5`
+
   beforeEach(() => {
     node = {
-      send: jest.fn(() =>
-        Promise.resolve({
-          msg: {}
-        })
-      ),
-      postTx: jest.fn(() =>
-        Promise.resolve({
-          height: 1,
-          txhash: `h`
-        })
+      send: jest.fn(async (...args) => {
+        const req = args[args.length - 1]
+        const simulate = req && req.base_req && req.base_req.simulate
+        if (simulate) {
+          return Promise.resolve({ gas_estimate: `123123` })
+        } else {
+          return Promise.resolve({ msg: {} })
+        }
+      }),
+      postTx: jest.fn(() => Promise.resolve({
+        height: 1,
+        txhash: `h`
+      })
       )
     }
     module = sendModule({
@@ -85,145 +97,351 @@ describe(`Module: Send`, () => {
     mutations = module.mutations
   })
 
-  // MUTATIONS
+  describe(`Mutations`, () => {
+    it(`should set wallet nonce`, () => {
+      const nonce = 959
+      mutations.setNonce(state, nonce)
+      expect(state.nonce).toBe(nonce)
+    })
 
-  it(`should set wallet nonce`, () => {
-    const nonce = 959
-    mutations.setNonce(state, nonce)
-    expect(state.nonce).toBe(nonce)
+    it(`should prevent from downgrading a wallet nonce`, () => {
+      state.nonce = 959
+      mutations.setNonce(state, 1)
+      expect(state.nonce).toBe(959)
+    })
   })
 
-  it(`should prevent from downgrading a wallet nonce`, () => {
-    state.nonce = 959
-    mutations.setNonce(state, 1)
-    expect(state.nonce).toBe(959)
-  })
+  describe(`Actions`, () => {
+    it(`should reset the nonce if session was changed`, () => {
+      state.nonce = 959
+      actions.resetSessionData({ state })
+      expect(state.nonce).toBe(`0`)
+    })
 
-  // ACTIONS
-
-  it(`should reset the nonce if session was changed`, () => {
-    state.nonce = 959
-    actions.resetSessionData({ state })
-    expect(state.nonce).toBe(`0`)
-  })
-
-  describe(`send transactions`, () => {
-    describe(`succeeds`, () => {
-      describe(`signing with local keystore`, () => {
-        it(`should send`, async () => {
-          const args = {
-            type: `send`,
-            password: `1234567890`,
-            amount: [{ denom: `mycoin`, amount: 123 }],
-            submitType: `local`
-          }
-          await actions.sendTx(
-            {
-              state,
-              dispatch: jest.fn(),
-              commit: jest.fn(),
-              rootState: mockRootState
-            },
-            args
-          )
-          expect(node.send).toHaveBeenCalledWith({
-            amount: [{ amount: 123, denom: `mycoin` }],
-            password: `1234567890`,
-            base_req: {
-              account_number: `12`,
-              chain_id: `mock-chain`,
-              from: `cosmos1demo`,
-              gas: `42`,
-              generate_only: true,
-              sequence: `0`,
-              memo: `Sent via Cosmos UI 🚀`
+    describe(`send transactions`, () => {
+      describe(`succeeds`, () => {
+        describe(`signing with local keystore`, () => {
+          it(`should send`, async () => {
+            const args = {
+              type: `send`,
+              password: `1234567890`,
+              amount: [{ denom: `uatom`, amount: 123 }],
+              submitType: `local`
             }
+            await actions.sendTx(
+              {
+                state,
+                dispatch: jest.fn(),
+                commit: jest.fn(),
+                rootState: mockRootState
+              },
+              args
+            )
+            expect(node.send).toBeCalledTimes(2)
+            expect(node.send).toHaveBeenCalledWith({
+              amount: [{ amount: 123, denom: `uatom` }],
+              password: `1234567890`,
+              base_req: {
+                account_number: `12`,
+                chain_id: `mock-chain`,
+                from: `cosmos1demo`,
+                gas: `123123`,
+                sequence: `0`,
+                memo: `Sent via Cosmos Wallet 🚀`,
+                gas_adjustment,
+                gas_prices,
+                simulate: false
+              }
+            })
+            expect(node.postTx).toHaveBeenCalledWith({
+              broadcast: `body`
+            })
           })
-          expect(node.postTx).toHaveBeenCalledWith({
-            broadcast: `body`
+
+          it(`should send using a to parameter`, async () => {
+            const args = {
+              type: `send`,
+              to: `mock_address`,
+              password: `1234567890`,
+              amount: [{ denom: `uatom`, amount: 123 }],
+              submitType: `local`
+            }
+            await actions.sendTx(
+              {
+                state,
+                dispatch: jest.fn(),
+                commit: jest.fn(),
+                rootState: mockRootState
+              },
+              args
+            )
+            expect(node.send).toBeCalledTimes(2)
+            expect(node.send).toHaveBeenCalledWith(`mock_address`,
+              {
+                amount: [{ amount: 123, denom: `uatom` }],
+                password: `1234567890`,
+                base_req: {
+                  account_number: `12`,
+                  chain_id: `mock-chain`,
+                  from: `cosmos1demo`,
+                  gas: `123123`,
+                  sequence: `0`,
+                  memo: `Sent via Cosmos Wallet 🚀`,
+                  gas_adjustment,
+                  gas_prices,
+                  simulate: false
+                }
+              })
+            expect(node.postTx).toHaveBeenCalledWith({
+              broadcast: `body`
+            })
+          })
+
+          it(`should send using a 'to' and a 'pathParameter'`, async () => {
+            const args = {
+              type: `send`,
+              to: `mock_address`,
+              pathParameter: `cosmosvaloper1address`,
+              password: `1234567890`,
+              amount: [{ denom: `uatom`, amount: 123 }],
+              submitType: `local`
+            }
+            await actions.sendTx(
+              {
+                state,
+                dispatch: jest.fn(),
+                commit: jest.fn(),
+                rootState: mockRootState
+              },
+              args
+            )
+            expect(node.send).toBeCalledTimes(2)
+            expect(node.send).toHaveBeenCalledWith(`mock_address`, `cosmosvaloper1address`, {
+              amount: [{ amount: 123, denom: `uatom` }],
+              password: `1234567890`,
+              base_req: {
+                account_number: `12`,
+                chain_id: `mock-chain`,
+                from: `cosmos1demo`,
+                gas: `123123`,
+                sequence: `0`,
+                memo: `Sent via Cosmos Wallet 🚀`,
+                gas_adjustment,
+                gas_prices,
+                simulate: false
+              }
+            })
+            expect(node.postTx).toHaveBeenCalledWith({
+              broadcast: `body`
+            })
           })
         })
 
-        it(`should send using a to parameter`, async () => {
-          const args = {
-            type: `send`,
-            to: `mock_address`,
-            password: `1234567890`,
-            amount: [{ denom: `mycoin`, amount: 123 }],
-            submitType: `local`
-          }
-          await actions.sendTx(
-            {
-              state,
-              dispatch: jest.fn(),
-              commit: jest.fn(),
-              rootState: mockRootState
-            },
-            args
-          )
-          expect(node.send).toHaveBeenCalledWith(`mock_address`, {
-            amount: [{ amount: 123, denom: `mycoin` }],
-            password: `1234567890`,
-            base_req: {
-              account_number: `12`,
-              chain_id: `mock-chain`,
-              from: `cosmos1demo`,
-              gas: `42`,
-              generate_only: true,
-              sequence: `0`,
-              memo: `Sent via Cosmos UI 🚀`
+        describe(`signing with Ledger Nano S`, () => {
+          it(`should send`, async () => {
+            const args = {
+              type: `send`,
+              password: `1234567890`,
+              amount: [{ denom: `uatom`, amount: 123 }],
+              submitType: `ledger`
             }
-          })
-          expect(node.postTx).toHaveBeenCalledWith({
-            broadcast: `body`
-          })
-        })
+            state.externals = {
+              createSignMessage: jest.fn(),
+              signatureImport: jest.fn(),
+              createSignature: jest.fn(),
+              createSignedTx: jest.fn(),
+              createBroadcastBody: jest.fn(() => ({ broadcast: `body` })),
+              config: { default_gas: `500000` }
+            }
 
-        it(`should send using a 'to' and a 'pathParameter'`, async () => {
-          const args = {
-            type: `send`,
-            to: `mock_address`,
-            pathParameter: `cosmosvaloper1address`,
-            password: `1234567890`,
-            amount: [{ denom: `mycoin`, amount: 123 }],
-            submitType: `local`
-          }
-          await actions.sendTx(
-            {
-              state,
-              dispatch: jest.fn(),
-              commit: jest.fn(),
-              rootState: mockRootState
-            },
-            args
-          )
-          expect(node.send).toHaveBeenCalledWith(`mock_address`, `cosmosvaloper1address`, {
-            amount: [{ amount: 123, denom: `mycoin` }],
-            password: `1234567890`,
-            base_req: {
-              account_number: `12`,
-              chain_id: `mock-chain`,
-              from: `cosmos1demo`,
-              gas: `42`,
-              generate_only: true,
-              memo: `Sent via Cosmos UI 🚀`,
-              sequence: `0`
-            }
-          })
-          expect(node.postTx).toHaveBeenCalledWith({
-            broadcast: `body`
+            await actions.sendTx(
+              {
+                state,
+                dispatch: jest.fn(),
+                commit: jest.fn(),
+                rootState: { ...mockRootState, ledger: { isConnected: true } }
+              },
+              args
+            )
+            expect(node.send).toBeCalledTimes(2)
+            expect(node.send).toHaveBeenCalledWith({
+              amount: [{ amount: 123, denom: `uatom` }],
+              password: `1234567890`,
+              base_req: {
+                account_number: `12`,
+                chain_id: `mock-chain`,
+                from: `cosmos1demo`,
+                gas: `123123`,
+                sequence: `0`,
+                memo: `Sent via Cosmos Wallet 🚀`,
+                gas_prices,
+                gas_adjustment,
+                simulate: false
+              }
+            })
+            expect(node.postTx).toHaveBeenCalledWith({
+              broadcast: `body`
+            })
           })
         })
       })
 
-      describe(`signing with Ledger Nano S`, () => {
-        it(`should send`, async () => {
+      describe(`fails`, () => {
+        it(`if the data has an object in message`, async () => {
+          node.updateDelegations = jest.fn(() =>
+            Promise.reject(errMsgWithObject.response.data)
+          )
+          const args = {
+            type: `updateDelegations`,
+            to: lcdClientMock.addresses[0],
+            password: `1234567890`,
+            delegations: [],
+            begin_unbondings: [],
+            begin_redelegates: [
+              {
+                shares: 10,
+                validator_address: lcdClientMock.validators[0],
+                delegator_address: lcdClientMock.addresses[0]
+              }
+            ]
+          }
+          await expect(
+            actions.sendTx(
+              {
+                state,
+                dispatch: jest.fn(),
+                commit: jest.fn(),
+                rootState: mockRootState
+              },
+              args
+            )
+          ).rejects.toEqual(new Error(`existing unbonding delegation found`))
+        })
+
+        it(`if the data has a string in 'message'`, async () => {
+          node.postTx = () => Promise.reject(errMsgNoObject.response.data)
+          const args = {
+            to: `mock_address`,
+            amount: [{ denom: `uatom`, amount: 123 }]
+          }
+          await expect(
+            actions.sendTx(
+              {
+                state,
+                dispatch: jest.fn(),
+                commit: jest.fn(),
+                rootState: mockRootState
+              },
+              args
+            )
+          ).rejects.toEqual(new Error(`unexpected error`))
+        })
+
+        it(`if the data is an object and has a 'message' property`, async () => {
+          node.postTx = () => Promise.reject(errObject.response.data)
+          const args = {
+            to: `mock_address`,
+            password: `1234567890`,
+            amount: [{ denom: `uatom`, amount: 123 }]
+          }
+          await expect(
+            actions.sendTx(
+              {
+                state,
+                dispatch: jest.fn(),
+                commit: jest.fn(),
+                rootState: mockRootState
+              },
+              args
+            )
+          ).rejects.toEqual(new Error(`invalid sequence`))
+        })
+
+        it(`should signal check tx failure`, async () => {
+          const args = {
+            to: `mock_address`,
+            password: `1234567890`,
+            amount: [{ denom: `uatom`, amount: 123 }]
+          }
+          node.postTx = async () => ({
+            check_tx: { code: 1 },
+            deliver_tx: { code: 0 }
+          })
+          await expect(
+            actions.sendTx(
+              {
+                state,
+                dispatch: jest.fn(),
+                commit: jest.fn(),
+                rootState: mockRootState
+              },
+              args
+            )
+          ).rejects.toEqual(new Error())
+        })
+
+        it(`should signal deliver tx failure`, async () => {
+          const args = {
+            to: `mock_address`,
+            password: `1234567890`,
+            amount: [{ denom: `uatom`, amount: 123 }]
+          }
+          node.postTx = async () => ({
+            check_tx: { code: 0 },
+            deliver_tx: { code: 1 }
+          })
+          await expect(
+            actions.sendTx(
+              {
+                state,
+                dispatch: jest.fn(),
+                commit: jest.fn(),
+                rootState: mockRootState
+              },
+              args
+            )
+          ).rejects.toEqual(new Error())
+        })
+
+        it(`should handle tx failure in multiple tx result`, async () => {
+          const args = {
+            to: `mock_address`,
+            password: `1234567890`,
+            amount: [{ denom: `uatom`, amount: 123 }]
+          }
+          node.postTx = async () => [
+            {
+              check_tx: { code: 0 },
+              deliver_tx: { code: 0 }
+            },
+            {
+              check_tx: { code: 0 },
+              deliver_tx: { code: 1 }
+            }
+          ]
+          await expect(
+            actions.sendTx(
+              {
+                state,
+                dispatch: jest.fn(),
+                commit: jest.fn(),
+                rootState: mockRootState
+              },
+              args
+            )
+          ).rejects.toEqual(new Error())
+        })
+
+        it(`when ledger returns a connection error`, async () => {
           const args = {
             type: `send`,
             password: `1234567890`,
-            amount: [{ denom: `mycoin`, amount: 123 }],
+            amount: [{ denom: `uatom`, amount: 123 }],
             submitType: `ledger`
           }
+          const dispatch = jest.fn(async () =>
+            Promise.reject(new Error(`No Ledger found`))
+          )
           state.externals = {
             createSignMessage: jest.fn(),
             signatureImport: jest.fn(),
@@ -232,424 +450,231 @@ describe(`Module: Send`, () => {
             createBroadcastBody: jest.fn(() => ({ broadcast: `body` })),
             config: { default_gas: `500000` }
           }
+          await expect(
+            actions.sendTx(
+              {
+                state,
+                dispatch,
+                commit: jest.fn(),
+                rootState: { ...mockRootState, ledger: { isConnected: true } }
+              },
+              args
+            )
+          ).rejects.toThrowError(`No Ledger found`)
+          expect(state.externals.createSignMessage).not.toHaveBeenCalled()
+          expect(state.externals.signatureImport).not.toHaveBeenCalled()
+          expect(state.externals.createSignature).not.toHaveBeenCalled()
+          expect(state.externals.createSignedTx).not.toHaveBeenCalled()
+          expect(state.externals.createBroadcastBody).not.toHaveBeenCalled()
+        })
+      })
 
+      it(`should interpret a returned empty array as failed delivery`, async () => {
+        const args = {
+          to: `mock_address`,
+          password: `1234567890`,
+          amount: [{ denom: `uatom`, amount: 123 }]
+        }
+        node.postTx = async () => []
+        await expect(
+          actions.sendTx(
+            {
+              state,
+              dispatch: jest.fn(),
+              commit: jest.fn(),
+              rootState: mockRootState
+            },
+            args
+          )
+        ).rejects.toEqual(new Error(`Error sending transaction`))
+      })
+
+      it(`should still send a transaction after failing to send another transaction`, async () => {
+        const send = node.postTx.bind(node)
+
+        node.postTx = () => Promise.reject(true)
+        let args = {
+          to: `mock_address`,
+          password: `1234567890`,
+          amount: [{ denom: `uatom`, amount: 123 }]
+        }
+        let error1
+        try {
           await actions.sendTx(
             {
               state,
               dispatch: jest.fn(),
               commit: jest.fn(),
-              rootState: { ...mockRootState, ledger: { isConnected: true } }
+              rootState: mockRootState
             },
             args
           )
-          expect(node.send).toHaveBeenCalledWith({
-            amount: [{ amount: 123, denom: `mycoin` }],
-            password: `1234567890`,
-            base_req: {
-              account_number: `12`,
-              chain_id: `mock-chain`,
-              from: `cosmos1demo`,
-              gas: `500000`,
-              generate_only: true,
-              sequence: `0`,
-              memo: `Sent via Cosmos UI 🚀`
-            }
-          })
-          expect(node.postTx).toHaveBeenCalledWith({
-            broadcast: `body`
-          })
-        })
-      })
-    })
+        } catch (error) {
+          error1 = error
+        }
+        expect(error1).toBeDefined()
 
-    describe(`fails`, () => {
-      it(`if the data has an object in message`, async () => {
-        node.updateDelegations = jest.fn(() =>
-          Promise.reject(errMsgWithObject.response.data)
+        node.postTx = send
+        args = {
+          to: `mock_address`,
+          password: `1234567890`,
+          amount: [{ denom: `uatom`, amount: 123 }]
+        }
+        let error2
+        try {
+          await actions.sendTx(
+            {
+              state,
+              dispatch: jest.fn(),
+              commit: jest.fn(),
+              rootState: mockRootState
+            },
+            args
+          )
+        } catch (error) {
+          error2 = error
+        }
+        expect(error2).toBeUndefined()
+      })
+
+      it(`should wait for currently sending tx to be sent`, async done => {
+        jest.useFakeTimers()
+
+        const args = {
+          to: `mock_address`,
+          password: `1234567890`,
+          amount: [{ denom: `uatom`, amount: 123 }]
+        }
+        const args2 = {
+          to: `mock_address_2`,
+          password: `1234567890`,
+          amount: [{ denom: `uatom`, amount: 123 }]
+        }
+        const dispatch = jest.fn(
+          () =>
+            new Promise(resolve => {
+              setTimeout(
+                () =>
+                  resolve({
+                    check_tx: { code: 0 },
+                    deliver_tx: { code: 0 }
+                  }),
+                10000
+              )
+            })
         )
-        const args = {
-          type: `updateDelegations`,
-          to: lcdClientMock.addresses[0],
-          password: `1234567890`,
-          delegations: [],
-          begin_unbondings: [],
-          begin_redelegates: [
+        actions
+          .queueTx(
             {
-              shares: 10,
-              validator_address: lcdClientMock.validators[0],
-              delegator_address: lcdClientMock.addresses[0]
-            }
-          ]
-        }
-        await expect(
-          actions.sendTx(
-            {
-              state,
-              dispatch: jest.fn(),
-              commit: jest.fn(),
-              rootState: mockRootState
-            },
-            args
-          )
-        ).rejects.toEqual(new Error(`existing unbonding delegation found`))
-      })
-
-      it(`if the data has a string in 'message'`, async () => {
-        node.postTx = () => Promise.reject(errMsgNoObject.response.data)
-        const args = {
-          to: `mock_address`,
-          amount: [{ denom: `mycoin`, amount: 123 }]
-        }
-        await expect(
-          actions.sendTx(
-            {
-              state,
-              dispatch: jest.fn(),
-              commit: jest.fn(),
-              rootState: mockRootState
-            },
-            args
-          )
-        ).rejects.toEqual(new Error(`unexpected error`))
-      })
-
-      it(`if the data is an object and has a 'message' property`, async () => {
-        node.postTx = () => Promise.reject(errObject.response.data)
-        const args = {
-          to: `mock_address`,
-          password: `1234567890`,
-          amount: [{ denom: `mycoin`, amount: 123 }]
-        }
-        await expect(
-          actions.sendTx(
-            {
-              state,
-              dispatch: jest.fn(),
-              commit: jest.fn(),
-              rootState: mockRootState
-            },
-            args
-          )
-        ).rejects.toEqual(new Error(`invalid sequence`))
-      })
-
-      it(`should signal check tx failure`, async () => {
-        const args = {
-          to: `mock_address`,
-          password: `1234567890`,
-          amount: [{ denom: `mycoin`, amount: 123 }]
-        }
-        node.postTx = async () => ({
-          check_tx: { code: 1 },
-          deliver_tx: { code: 0 }
-        })
-        await expect(
-          actions.sendTx(
-            {
-              state,
-              dispatch: jest.fn(),
-              commit: jest.fn(),
-              rootState: mockRootState
-            },
-            args
-          )
-        ).rejects.toEqual(new Error())
-      })
-
-      it(`should signal deliver tx failure`, async () => {
-        const args = {
-          to: `mock_address`,
-          password: `1234567890`,
-          amount: [{ denom: `mycoin`, amount: 123 }]
-        }
-        node.postTx = async () => ({
-          check_tx: { code: 0 },
-          deliver_tx: { code: 1 }
-        })
-        await expect(
-          actions.sendTx(
-            {
-              state,
-              dispatch: jest.fn(),
-              commit: jest.fn(),
-              rootState: mockRootState
-            },
-            args
-          )
-        ).rejects.toEqual(new Error())
-      })
-
-      it(`should handle tx failure in multiple tx result`, async () => {
-        const args = {
-          to: `mock_address`,
-          password: `1234567890`,
-          amount: [{ denom: `mycoin`, amount: 123 }]
-        }
-        node.postTx = async () => [
-          {
-            check_tx: { code: 0 },
-            deliver_tx: { code: 0 }
-          },
-          {
-            check_tx: { code: 0 },
-            deliver_tx: { code: 1 }
-          }
-        ]
-        await expect(
-          actions.sendTx(
-            {
-              state,
-              dispatch: jest.fn(),
-              commit: jest.fn(),
-              rootState: mockRootState
-            },
-            args
-          )
-        ).rejects.toEqual(new Error())
-      })
-
-      it(`when ledger returns a connection error`, async () => {
-        const args = {
-          type: `send`,
-          password: `1234567890`,
-          amount: [{ denom: `mycoin`, amount: 123 }],
-          submitType: `ledger`
-        }
-        const dispatch = jest.fn(async () =>
-          Promise.reject(new Error(`No Ledger found`))
-        )
-        state.externals = {
-          createSignMessage: jest.fn(),
-          signatureImport: jest.fn(),
-          createSignature: jest.fn(),
-          createSignedTx: jest.fn(),
-          createBroadcastBody: jest.fn(() => ({ broadcast: `body` })),
-          config: { default_gas: `500000` }
-        }
-        await expect(
-          actions.sendTx(
-            {
-              state,
               dispatch,
-              commit: jest.fn(),
-              rootState: { ...mockRootState, ledger: { isConnected: true } }
+              state
             },
             args
           )
-        ).rejects.toThrowError(`No Ledger found`)
-        expect(state.externals.createSignMessage).not.toHaveBeenCalled()
-        expect(state.externals.signatureImport).not.toHaveBeenCalled()
-        expect(state.externals.createSignature).not.toHaveBeenCalled()
-        expect(state.externals.createSignedTx).not.toHaveBeenCalled()
-        expect(state.externals.createBroadcastBody).not.toHaveBeenCalled()
-      })
-    })
-
-    it(`should interpret a returned empty array as failed delivery`, async () => {
-      const args = {
-        to: `mock_address`,
-        password: `1234567890`,
-        amount: [{ denom: `mycoin`, amount: 123 }]
-      }
-      node.postTx = async () => []
-      await expect(
-        actions.sendTx(
-          {
-            state,
-            dispatch: jest.fn(),
-            commit: jest.fn(),
-            rootState: mockRootState
-          },
-          args
-        )
-      ).rejects.toEqual(new Error(`Error sending transaction`))
-    })
-
-    it(`should still send a transaction after failing to send another transaction`, async () => {
-      const send = node.postTx.bind(node)
-
-      node.postTx = () => Promise.reject(true)
-      let args = {
-        to: `mock_address`,
-        password: `1234567890`,
-        amount: [{ denom: `mycoin`, amount: 123 }]
-      }
-      let error1
-      try {
-        await actions.sendTx(
-          {
-            state,
-            dispatch: jest.fn(),
-            commit: jest.fn(),
-            rootState: mockRootState
-          },
-          args
-        )
-      } catch (error) {
-        error1 = error
-      }
-      expect(error1).toBeDefined()
-
-      node.postTx = send
-      args = {
-        to: `mock_address`,
-        password: `1234567890`,
-        amount: [{ denom: `mycoin`, amount: 123 }]
-      }
-      let error2
-      try {
-        await actions.sendTx(
-          {
-            state,
-            dispatch: jest.fn(),
-            commit: jest.fn(),
-            rootState: mockRootState
-          },
-          args
-        )
-      } catch (error) {
-        error2 = error
-      }
-      expect(error2).toBeUndefined()
-    })
-
-    it(`should wait for currently sending tx to be sent`, async done => {
-      jest.useFakeTimers()
-
-      const args = {
-        to: `mock_address`,
-        password: `1234567890`,
-        amount: [{ denom: `mycoin`, amount: 123 }]
-      }
-      const args2 = {
-        to: `mock_address_2`,
-        password: `1234567890`,
-        amount: [{ denom: `mycoin`, amount: 123 }]
-      }
-      const dispatch = jest.fn(
-        () =>
-          new Promise(resolve => {
-            setTimeout(
-              () =>
-                resolve({
-                  check_tx: { code: 0 },
-                  deliver_tx: { code: 0 }
-                }),
-              10000
-            )
+          .then(() => {
+            jest.runAllTimers()
           })
-      )
-      actions
-        .queueTx(
-          {
-            dispatch,
-            state
-          },
-          args
-        )
-        .then(() => {
-          jest.runAllTimers()
-        })
-      actions
-        .queueTx(
+        actions
+          .queueTx(
+            {
+              dispatch,
+              state
+            },
+            args2
+          )
+          .then(() => {
+            expect(dispatch).toHaveBeenCalledTimes(2)
+            expect(dispatch).toHaveBeenCalledWith(`sendTx`, args2)
+
+            done()
+          })
+        expect(dispatch).toHaveBeenCalledTimes(1)
+        expect(dispatch).toHaveBeenCalledWith(`sendTx`, args)
+
+        jest.runAllTimers()
+      })
+
+      it(`should free the lock if sending a tx fails`, async () => {
+        const args = {
+          to: `mock_address`,
+          password: `1234567890`,
+          amount: [{ denom: `uatom`, amount: 123 }]
+        }
+        const args2 = {
+          to: `mock_address_2`,
+          password: `1234567890`,
+          amount: [{ denom: `uatom`, amount: 123 }]
+        }
+        const dispatch = jest
+          .fn()
+          .mockRejectedValueOnce(`Error`)
+          .mockResolvedValueOnce({})
+
+        await actions
+          .queueTx(
+            {
+              dispatch,
+              state
+            },
+            args
+          )
+          .catch(err => {
+            expect(err).toEqual(`Error`)
+          })
+        await actions.queueTx(
           {
             dispatch,
             state
           },
           args2
         )
-        .then(() => {
-          expect(dispatch).toHaveBeenCalledTimes(2)
-          expect(dispatch).toHaveBeenCalledWith(`sendTx`, args2)
+        expect(dispatch).toHaveBeenCalledTimes(2)
+      })
 
-          done()
-        })
-      expect(dispatch).toHaveBeenCalledTimes(1)
-      expect(dispatch).toHaveBeenCalledWith(`sendTx`, args)
-
-      jest.runAllTimers()
-    })
-
-    it(`should free the lock if sending a tx fails`, async () => {
-      const args = {
-        to: `mock_address`,
-        password: `1234567890`,
-        amount: [{ denom: `mycoin`, amount: 123 }]
-      }
-      const args2 = {
-        to: `mock_address_2`,
-        password: `1234567890`,
-        amount: [{ denom: `mycoin`, amount: 123 }]
-      }
-      const dispatch = jest
-        .fn()
-        .mockRejectedValueOnce(`Error`)
-        .mockResolvedValueOnce({})
-
-      await actions
-        .queueTx(
-          {
-            dispatch,
-            state
-          },
-          args
-        )
-        .catch(err => {
-          expect(err).toEqual(`Error`)
-        })
-      await actions.queueTx(
-        {
-          dispatch,
-          state
-        },
-        args2
-      )
-      expect(dispatch).toHaveBeenCalledTimes(2)
-    })
-
-    it(`should query the wallet state before sending to acquire nonce`, async () => {
-      const args = {
-        to: `mock_address`,
-        password: `1234567890`,
-        amount: [{ denom: `mycoin`, amount: 123 }]
-      }
-      const dispatch = jest.fn()
-      await actions.sendTx(
-        {
-          state,
-          dispatch,
-          commit: jest.fn(),
-          rootState: mockRootState
-        },
-        args
-      )
-      expect(dispatch).toHaveBeenCalledWith(`queryWalletBalances`)
-    })
-
-    it(`should throw an error if not connected`, async () => {
-      const args = {
-        to: `mock_address`,
-        amount: [{ denom: `mycoin`, amount: 123 }]
-      }
-      expect(
-        actions.sendTx(
+      it(`should query the wallet state before sending to acquire nonce`, async () => {
+        const args = {
+          to: `mock_address`,
+          password: `1234567890`,
+          amount: [{ denom: `uatom`, amount: 123 }]
+        }
+        const dispatch = jest.fn()
+        await actions.sendTx(
           {
             state,
-            dispatch: jest.fn(),
+            dispatch,
             commit: jest.fn(),
-            rootState: Object.assign({}, mockRootState, {
-              connection: {
-                connected: false
-              }
-            })
+            rootState: mockRootState
           },
           args
         )
-      ).rejects.toEqual(
-        new Error(
-          `Currently not connected to a secure node. Please try again when Voyager has secured a connection.`
+        expect(dispatch).toHaveBeenCalledWith(`queryWalletBalances`)
+      })
+
+      it(`should throw an error if not connected`, async () => {
+        const args = {
+          to: `mock_address`,
+          amount: [{ denom: `uatom`, amount: 123 }]
+        }
+        expect(
+          actions.sendTx(
+            {
+              state,
+              dispatch: jest.fn(),
+              commit: jest.fn(),
+              rootState: Object.assign({}, mockRootState, {
+                connection: {
+                  connected: false
+                }
+              })
+            },
+            args
+          )
+        ).rejects.toEqual(
+          new Error(
+            `Currently not connected to a secure node. Please try again when Voyager has secured a connection.`
+          )
         )
-      )
+      })
     })
   })
 })

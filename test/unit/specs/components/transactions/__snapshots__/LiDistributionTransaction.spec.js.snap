@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`LiDistributionTransaction set withdraw address 1`] = `
+exports[`LiDistributionTransaction set withdraw address with fees 1`] = `
 <li-transaction-stub
   block="1114"
   color="#F2B134"
@@ -17,10 +17,54 @@ exports[`LiDistributionTransaction set withdraw address 1`] = `
       To cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3
     
   </div>
+   
+  <div>
+    
+      Network Fee: 
+    <b>
+      0.003421
+    </b>
+     
+    <span>
+      uatoms
+    </span>
+  </div>
 </li-transaction-stub>
 `;
 
-exports[`LiDistributionTransaction withdraw delegation rewards 1`] = `
+exports[`LiDistributionTransaction set withdraw address without fees 1`] = `
+<li-transaction-stub
+  block="1114"
+  color="#F2B134"
+  time="1970-01-01T00:00:43.300Z"
+>
+  <div>
+    
+      Update withdraw address
+    
+  </div>
+   
+  <div>
+    
+      To cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3
+    
+  </div>
+   
+  <div>
+    
+      Network Fee: 
+    <b>
+      0.000000
+    </b>
+     
+    <span>
+      uatoms
+    </span>
+  </div>
+</li-transaction-stub>
+`;
+
+exports[`LiDistributionTransaction withdraw delegation rewards with fees 1`] = `
 <li-transaction-stub
   block="1114"
   color="#F2B134"
@@ -34,7 +78,7 @@ exports[`LiDistributionTransaction withdraw delegation rewards 1`] = `
    
   <div>
     
-      From 
+      From
     <router-link-stub
       to="/validator/cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz"
     >
@@ -43,10 +87,22 @@ exports[`LiDistributionTransaction withdraw delegation rewards 1`] = `
       
     </router-link-stub>
   </div>
+   
+  <div>
+    
+      Network Fee: 
+    <b>
+      0.003421
+    </b>
+     
+    <span>
+      uatoms
+    </span>
+  </div>
 </li-transaction-stub>
 `;
 
-exports[`LiDistributionTransaction withdraw validator commission 1`] = `
+exports[`LiDistributionTransaction withdraw delegation rewards without fees 1`] = `
 <li-transaction-stub
   block="1114"
   color="#F2B134"
@@ -54,20 +110,32 @@ exports[`LiDistributionTransaction withdraw validator commission 1`] = `
 >
   <div>
     
-      Withdraw validator commission
+      Withdraw rewards
     
   </div>
    
   <div>
     
-      From 
+      From
     <router-link-stub
-      to="/validator/cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3"
+      to="/validator/cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz"
     >
       
-        cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3
+        cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz
       
     </router-link-stub>
+  </div>
+   
+  <div>
+    
+      Network Fee: 
+    <b>
+      0.000000
+    </b>
+     
+    <span>
+      uatoms
+    </span>
   </div>
 </li-transaction-stub>
 `;

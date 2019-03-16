@@ -1,7 +1,7 @@
 {
   "name": "cosmos-voyager",
   "productName": "Cosmos Voyager",
-  "version": "1.0.0-beta.20",
+  "version": "1.0.0-beta.21",
   "description": "Voyager is an electron-based user interface for the Cosmos Network.",
   "author": "All In Bits, Inc <hello@tendermint.com>",
   "license": "Apache-2.0",
@@ -43,7 +43,7 @@
     "frontend:fixed-https": "yarn frontend --cert 'server_dev.crt' --key 'server_dev.key'",
     "connect": "concurrently -k \"yarn stargate\" \"yarn proxy\"",
     "backend:new": "concurrently -k \"yarn connect\" \"yarn nodes 2\"",
-    "backend": "concurrently -k \"yarn yarn connect\" \"yarn nodes 2 skip-rebuild\"",
+    "backend": "concurrently -k \"yarn connect\" \"yarn nodes 2 skip-rebuild\"",
     "backend:fixed-https": "concurrently -k \"yarn nodes 2 skip-rebuild\" \"yarn stargate --ssl-certfile 'server_dev.crt' --ssl-keyfile 'server_dev.key'\""
   },
   "devDependencies": {
