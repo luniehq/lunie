@@ -34,6 +34,48 @@
         class="action-modal-form"
       >
         <slot />
+      </div>
+      <div v-else-if="step === `fees`" class="action-modal-form">
+        <tm-form-group
+          :error="$v.gasPrice.$error && $v.gasPrice.$invalid"
+          class="action-modal-group"
+          field-id="gasPrice"
+          field-label="Gas Price"
+        >
+          <tm-field
+            id="gas-price"
+            v-model="gasPrice"
+            type="number"
+            step="0.000000001"
+            min="0"
+          />
+          <tm-form-msg
+            v-if="balance === 0"
+            :msg="`doesn't have any ${bondDenoms}s`"
+            name="Wallet"
+            type="custom"
+          />
+          <tm-form-msg
+            v-else-if="$v.gasPrice.$error && (!$v.gasPrice.required)"
+            name="Gas price"
+            type="required"
+          />
+          <tm-form-msg
+            v-else-if="$v.gasPrice.$error && !$v.gasPrice.between"
+            :max="$v.gasPrice.$params.between.max"
+            :min="0"
+            name="Gas price"
+            type="between"
+          />
+        </tm-form-group>
+        <table-invoice
+          :amounts="[]"
+          :gas-eestimate="gasEstimate"
+          :gas-price="gasPrice"
+          :denom="bondDenom"
+        />
+      </div>
+      <div v-else-if="step === `sign`" class="action-modal-form">
         <tm-form-group
           v-if="signMethods.length > 1"
           class="action-modal-form-group"
@@ -47,9 +89,20 @@
             type="select"
           />
         </tm-form-group>
-
+        <hardware-state
+          v-if="selectedSignMethod === `ledger`"
+          icon="usb"
+          :loading="!!sending"
+        >
+          {{
+            sending
+              ? `Please verify and sign the transaction on your Ledger`
+              : `Please plug in your Ledger&nbsp;Nano&nbsp;S and open
+                 the Cosmos app`
+          }}
+        </hardware-state>
         <tm-form-group
-          v-if="selectedSignMethod === `local`"
+          v-else-if="selectedSignMethod === `local`"
           :error="$v.password.$error && $v.password.$invalid"
           class="action-modal-group"
           field-id="password"
@@ -68,18 +121,6 @@
           />
         </tm-form-group>
       </div>
-
-      <div v-else-if="step === `sign`" class="action-modal-form">
-        <hardware-state icon="usb" :loading="!!sending">
-          {{
-            sending
-              ? `Please verify and sign the transaction on your Ledger`
-              : `Please plug in your Ledger&nbsp;Nano&nbsp;S and open
-                 the Cosmos app`
-          }}
-        </hardware-state>
-      </div>
-
       <div class="action-modal-footer">
         <slot name="action-modal-footer">
           <tm-form-group class="action-modal-group">
@@ -104,15 +145,7 @@
                 color="primary"
               />
               <tm-btn
-                v-else-if="
-                  selectedSignMethod === `ledger` && step === `txDetails`
-                "
-                color="primary"
-                value="Next"
-                @click.native="validateChangeStep"
-              />
-              <tm-btn
-                v-else-if="selectedSignMethod === `ledger` && step === `sign`"
+                v-else-if="step !== `sign`"
                 color="primary"
                 value="Next"
                 @click.native="validateChangeStep"
@@ -144,11 +177,14 @@ import TmBtn from "common/TmBtn"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
+import TableInvoice from "common/TableInvoice"
 import { mapGetters } from "vuex"
-import { requiredIf } from "vuelidate/lib/validators"
+import { uatoms, atoms } from "../../scripts/num.js"
+import { between, decimal, requiredIf } from "vuelidate/lib/validators"
 import { track } from "../../google-analytics.js"
 
 const defaultStep = `txDetails`
+const feeStep = `fees`
 const signStep = `sign`
 
 const signWithLedger = `ledger`
@@ -164,11 +200,16 @@ export default {
     TmBtn,
     TmField,
     TmFormGroup,
-    TmFormMsg
+    TmFormMsg,
+    TableInvoice
   },
   props: {
     title: {
       type: String,
+      required: true
+    },
+    simulateFn: {
+      type: Function,
       required: true
     },
     submitFn: {
@@ -181,7 +222,7 @@ export default {
     },
     submissionErrorPrefix: {
       type: String,
-      default: `Submitting data failed`
+      default: `Transaction failed`
     }
   },
   data: () => ({
@@ -189,12 +230,32 @@ export default {
     signMethod: null,
     password: null,
     sending: false,
+    gasEstimate: null,
+    gasPrice: 0.025 * 1e-6, // recomended default: 0.025 uatom per gas
     submissionError: null,
     show: false,
-    track
+    track,
+    atoms,
+    uatoms
   }),
   computed: {
-    ...mapGetters([`connected`, `session`]),
+    ...mapGetters([`connected`, `session`, `bondDenom`, `wallet`]),
+    balance() {
+      if (!this.wallet.balancesLoading && !!this.wallet.balances.length) {
+        const balance = this.wallet.balances.find(
+          coin => coin.denom === this.bondDenom
+        )
+        if (balance) return parseFloat(balance.amount)
+      }
+      return 0
+    },
+    isValidChildForm() {
+      // here we trigger the validation of the child form
+      if (this.validate) {
+        return this.validate()
+      }
+      return true
+    },
     selectedSignMethod() {
       if (this.session.sessionType === `ledger`) {
         return signWithLedger
@@ -239,35 +300,54 @@ export default {
       this.$store.commit(`toggleSessionModal`, true)
     },
     async validateChangeStep() {
-      this.$v.$touch()
-
       // An ActionModal is only the prototype of a parent modal
-      // here we trigger the validation of the form that this parent modal
-      const childFormValid = this.validate ? this.validate() : true
-      // const ledgerT = this.selectedSignMethod === signWithLedger &&
-      //       this.step === signStep &&
-      //       this.ledger.isConnected
-
-      if (!this.$v.$invalid && childFormValid) {
-        if (
-          this.selectedSignMethod === signWithLedger &&
-          this.step === defaultStep
-        ) {
-          // show connect Ledger view
+      switch (this.step) {
+        case defaultStep:
+          if (!this.isValidChildForm) {
+            return
+          }
+          this.sending = true
+          await this.simulate() // simulate to get gas estimation
+          this.sending = false
+          return
+        case feeStep:
+          this.$v.$touch()
+          if (this.$v.$invalid) {
+            return
+          }
           this.step = signStep
           return
-        }
-        // submit transaction
-        this.sending = true
-        await this.submit()
-        this.sending = false
+        case signStep:
+          // submit transaction
+          this.sending = true
+          await this.submit()
+          this.sending = false
+          return
+      }
+    },
+    async simulate() {
+      try {
+        const gasEstimate = await this.simulateFn()
+        this.gasEstimate = gasEstimate
+        this.step = feeStep
+      } catch ({ message }) {
+        this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
+
+        setTimeout(() => {
+          this.submissionError = null
+        }, 5000)
       }
     },
     async submit() {
       track(`event`, `submit`, this.title, this.selectedSignMethod)
 
       try {
-        await this.submitFn(this.selectedSignMethod, this.password)
+        await this.submitFn(
+          this.selectedSignMethod,
+          this.gasEstimate,
+          this.gasPrice,
+          this.password
+        )
 
         this.close()
       } catch ({ message }) {
@@ -283,8 +363,17 @@ export default {
     return {
       password: {
         required: requiredIf(
-          () => this.selectedSignMethod === signWithLocalKeystore
+          () =>
+            this.selectedSignMethod === signWithLocalKeystore &&
+            this.step === signStep
         )
+      },
+      gasPrice: {
+        required: requiredIf(() => this.step === feeStep),
+        decimal,
+        // we don't use SMALLEST as min gas price because it can be a fraction of uatom
+        // min is 0 because we support sending 0 fees
+        between: between(0, atoms(this.balance))
       }
     }
   }
