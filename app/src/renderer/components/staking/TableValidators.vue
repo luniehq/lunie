@@ -117,9 +117,13 @@ export default {
         },
       ]
     },
-    yourValidators() {
-      return this.validators.filter(
-        ({ operator_address }) => operator_address in this.committedDelegations
+    yourValidators({ committedDelegations, validators, session } = this) {
+      if (!session.signedIn) {
+        return
+      }
+
+      return validators.filter(
+        ({ operator_address }) => operator_address in committedDelegations
       )
     }
   },
@@ -131,11 +135,8 @@ export default {
       if (!validators || validators.length === 0 || !this.session.signedIn) {
         return
       }
-      const yourValidators = validators.filter(
-        ({ operator_address }) => operator_address in this.committedDelegations
-      )
 
-      this.$store.dispatch(`getRewardsFromAllValidators`, yourValidators)
+      this.$store.dispatch(`getRewardsFromAllValidators`, this.yourValidators)
     }
   },
   mounted() {

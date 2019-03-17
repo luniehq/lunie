@@ -81,16 +81,16 @@ describe(`TableValidators`, () => {
 
   xit(`updates if there are existing validators`, () => {
     const session = { signedIn: true }
-    $store = {
-      dispatch: jest.fn(),
-      getters: {
-        committedDelegations: {
-          [validators[2].operator_address]: 10
-        }
-      }
-    }
-    TableValidators.watch.validators.call({ $store, session }, validators)
-    expect($store.dispatch).toHaveBeenCalledWith(
+    TableValidators.computed.yourValidators({
+      committedDelegations: {
+        [validators[0].operator_address]: 1,
+        [validators[2].operator_address]: 2
+      },
+      validators,
+      session
+    })
+    TableValidators.watch.validators.call({ $store, session, validators })
+    expect($store.dispatch.mock.calls[2]).toEqual(
       `getRewardsFromAllValidators`,
       validators[2]
     )
@@ -121,5 +121,19 @@ describe(`TableValidators`, () => {
     expect($store.dispatch).not.toHaveBeenCalledWith(
       `getRewardsFromAllValidators`
     )
+  })
+
+  it(`should filter the validators for your delegations`, () => {
+    const session = { signedIn: true }
+    expect(
+      TableValidators.computed.yourValidators({
+        committedDelegations: {
+          [validators[0].operator_address]: 1,
+          [validators[2].operator_address]: 2
+        },
+        validators,
+        session
+      })
+    ).toEqual([validators[0], validators[2]])
   })
 })
