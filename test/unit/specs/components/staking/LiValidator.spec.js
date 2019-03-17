@@ -10,7 +10,7 @@ describe(`LiValidator`, () => {
   const validator = {
     operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
     pub_key: `cosmosvalpub1234`,
-    revoked: false,
+    jailed: false,
     tokens: `14`,
     delegator_shares: `14`,
     description: {
@@ -72,11 +72,6 @@ describe(`LiValidator`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`should calculate the validator's power ratio`, () => {
-    const ratio = wrapper.vm.validator.tokens / wrapper.vm.delegates.globalPower
-    expect(wrapper.vm.powerRatio).toBe(ratio)
-  })
-
   it(`should show the voting power`, () => {
     expect(wrapper.html()).toContain(`22.00%`)
   })
@@ -86,7 +81,7 @@ describe(`LiValidator`, () => {
     // Jailed
     wrapper.setProps({
       validator: Object.assign({}, validator, {
-        revoked: true
+        jailed: true
       })
     })
     expect(wrapper.vm.status).toBe(
@@ -95,12 +90,12 @@ describe(`LiValidator`, () => {
     // Is not a validator
     wrapper.setProps({
       validator: Object.assign({}, validator, {
-        revoked: false,
+        jailed: false,
         voting_power: 0
       })
     })
     expect(wrapper.vm.status).toBe(
-      `This validator does not have enough voting power yet and is inactive`
+      `This validator does not have enough voting power and is inactive`
     )
   })
 
@@ -109,14 +104,14 @@ describe(`LiValidator`, () => {
     // Jailed
     wrapper.setProps({
       validator: Object.assign({}, validator, {
-        revoked: true
+        jailed: true
       })
     })
     expect(wrapper.vm.statusColor).toBe(`red`)
     // Is not a validator
     wrapper.setProps({
       validator: Object.assign({}, validator, {
-        revoked: false,
+        jailed: false,
         voting_power: 0
       })
     })
@@ -144,37 +139,6 @@ describe(`LiValidator`, () => {
 
   it(`should show the validator's commission`, () => {
     expect(wrapper.html()).toContain(wrapper.vm.validator.commission)
-  })
-
-  it(`should show the type of the candidate`, () => {
-    wrapper.setProps({
-      validator: Object.assign({}, validator, {
-        revoked: false,
-        isValidator: false
-      })
-    })
-    expect(wrapper.vm.delegateType).toBe(`Candidate`)
-    wrapper.setProps({
-      validator: Object.assign({}, validator, {
-        revoked: false,
-        isValidator: true
-      })
-    })
-    expect(wrapper.vm.delegateType).toBe(`Validator`)
-    wrapper.setProps({
-      validator: Object.assign({}, validator, {
-        revoked: true,
-        isValidator: false
-      })
-    })
-    expect(wrapper.vm.delegateType).toBe(`Revoked`)
-    wrapper.setProps({
-      validator: Object.assign({}, validator, {
-        revoked: true,
-        isValidator: true
-      })
-    })
-    expect(wrapper.vm.delegateType).toBe(`Revoked`)
   })
 
   it(`works if user is not signed in`, () => {

@@ -10,7 +10,7 @@ describe(`TableValidators`, () => {
       loaded: true
     },
     committedDelegations: {
-      [validators[0].operator_address]: 0
+      [validators[2].operator_address]: 10
     },
     session: {
       address: `address1234`
@@ -21,6 +21,11 @@ describe(`TableValidators`, () => {
     keybase: {
       [validators[0].description.identity]: {
         // TODO
+      }
+    },
+    pool: {
+      pool: {
+        bonded_tokens: 500001,
       }
     }
   }
@@ -49,41 +54,15 @@ describe(`TableValidators`, () => {
     wrapper.vm.sort.order = `desc`
 
     expect(
-      wrapper.vm.sortedEnrichedDelegates.map(x => x.operator_address)
+      wrapper.vm.sortedEnrichedValidators.map(x => x.operator_address)
     ).toEqual(validators.map(x => x.operator_address))
 
     wrapper.vm.sort.property = `operator_address`
     wrapper.vm.sort.order = `asc`
 
     expect(
-      wrapper.vm.sortedEnrichedDelegates.map(x => x.operator_address)
+      wrapper.vm.sortedEnrichedValidators.map(x => x.operator_address)
     ).toEqual(validators.map(x => x.operator_address).reverse())
-  })
-
-  it(`should disallow delegation if user can't delegate`, () => {
-    let res = TableValidators.computed.userCanDelegate.call({
-      liquidAtoms: 0,
-      delegation: {
-        loaded: true
-      }
-    })
-    expect(res).toBe(false)
-
-    res = TableValidators.computed.userCanDelegate.call({
-      liquidAtoms: 1,
-      delegation: {
-        loaded: true
-      }
-    })
-    expect(res).toBe(true)
-
-    res = TableValidators.computed.userCanDelegate.call({
-      liquidAtoms: 1,
-      delegation: {
-        loaded: false
-      }
-    })
-    expect(res).toBe(false)
   })
 
   it(`queries delegations on signin`, () => {
@@ -100,101 +79,47 @@ describe(`TableValidators`, () => {
     expect($store.dispatch).not.toHaveBeenCalledWith(`updateDelegates`)
   })
 
-  describe(`update validators rewards every block`, () => {
-    it(`updates if there are existing validators`, () => {
-      const validators = [
-        {
-          operator_address: `cosmosvaloper1address`,
-          pub_key: `cosmosvalpub1234`,
-          revoked: false,
-          tokens: `14`,
-          delegator_shares: `14`,
-          description: {
-            website: `www.fede.cl`,
-            details: `Fede's validator`,
-            moniker: `fedekunze`,
-            country: `Chile`
-          },
-          status: 2,
-          bond_height: `0`,
-          bond_intra_tx_counter: 6,
-          proposer_reward_pool: null,
-          commission: {
-            rate: `0`,
-            max_rate: `0`,
-            max_change_rate: `0`,
-            update_time: `1970-01-01T00:00:00Z`
-          },
-          prev_bonded_shares: `0`
+  xit(`updates if there are existing validators`, () => {
+    const session = { signedIn: true }
+    $store = {
+      dispatch: jest.fn(),
+      getters: {
+        committedDelegations: {
+          [validators[2].operator_address]: 10
         }
-      ]
-      const session = { signedIn: true }
-      const $store = { dispatch: jest.fn() }
-      TableValidators.watch.validators.call({ $store, session }, validators)
-      expect($store.dispatch).toHaveBeenCalledWith(
-        `getRewardsFromAllValidators`,
-        validators
-      )
-    })
+      }
+    }
+    TableValidators.watch.validators.call({ $store, session }, validators)
+    expect($store.dispatch).toHaveBeenCalledWith(
+      `getRewardsFromAllValidators`,
+      validators[2]
+    )
+  })
 
-    describe(`doesn't update rewards`, () => {
-      it(`if user hasn't signed in`, () => {
-        const validators = [
-          {
-            operator_address: `cosmosvaloper1address`,
-            pub_key: `cosmosvalpub1234`,
-            revoked: false,
-            tokens: `14`,
-            delegator_shares: `14`,
-            description: {
-              website: `www.fede.cl`,
-              details: `Fede's validator`,
-              moniker: `fedekunze`,
-              country: `Chile`
-            },
-            status: 2,
-            bond_height: `0`,
-            bond_intra_tx_counter: 6,
-            proposer_reward_pool: null,
-            commission: {
-              rate: `0`,
-              max_rate: `0`,
-              max_change_rate: `0`,
-              update_time: `1970-01-01T00:00:00Z`
-            },
-            prev_bonded_shares: `0`
-          }
-        ]
-        const session = { signedIn: false }
-        const $store = { dispatch: jest.fn() }
-        TableValidators.watch.validators.call({ $store, session }, validators)
-        expect($store.dispatch).not.toHaveBeenCalledWith(
-          `getRewardsFromAllValidators`,
-          validators
-        )
-      })
+  it(`doesn't update rewards if user hasn't signed in`, () => {
+    const validators = []
+    const session = { signedIn: false }
+    TableValidators.watch.validators.call({ $store, session }, validators)
+    expect($store.dispatch).not.toHaveBeenCalledWith(
+      `getRewardsFromAllValidators`
+    )
+  })
 
-      it(`if validator set is empty`, () => {
-        const validators = []
-        const session = { signedIn: true }
-        const $store = { dispatch: jest.fn() }
-        TableValidators.watch.validators.call({ $store, session }, validators)
-        expect($store.dispatch).not.toHaveBeenCalledWith(
-          `getRewardsFromAllValidators`,
-          validators
-        )
-      })
+  it(`doesn't update rewards if validator set is empty`, () => {
+    const validators = []
+    const session = { signedIn: true }
+    TableValidators.watch.validators.call({ $store, session }, validators)
+    expect($store.dispatch).not.toHaveBeenCalledWith(
+      `getRewardsFromAllValidators`
+    )
+  })
 
-      it(`if validator set is undefined`, () => {
-        const validators = undefined
-        const session = { signedIn: true }
-        const $store = { dispatch: jest.fn() }
-        TableValidators.watch.validators.call({ $store, session }, validators)
-        expect($store.dispatch).not.toHaveBeenCalledWith(
-          `getRewardsFromAllValidators`,
-          validators
-        )
-      })
-    })
+  it(`doesn't update rewards if validator set is undefined`, () => {
+    const validators = undefined
+    const session = { signedIn: true }
+    TableValidators.watch.validators.call({ $store, session }, validators)
+    expect($store.dispatch).not.toHaveBeenCalledWith(
+      `getRewardsFromAllValidators`
+    )
   })
 })

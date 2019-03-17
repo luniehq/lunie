@@ -52,6 +52,14 @@ exports[`LiValidator has the expected html structure 1`] = `
   </td>
    
   <td
+    class="li-validator__rewards"
+  >
+    
+    --
+  
+  </td>
+   
+  <td
     class="li-validator__voting-power"
   >
     
@@ -129,6 +137,14 @@ exports[`LiValidator should display uptime as double-dash 1`] = `
   </td>
    
   <td
+    class="li-validator__rewards"
+  >
+    
+    --
+  
+  </td>
+   
+  <td
     class="li-validator__voting-power"
   >
     
@@ -199,6 +215,14 @@ exports[`LiValidator works if user is not signed in 1`] = `
    
   <td
     class="li-validator__delegated-steak"
+  >
+    
+    --
+  
+  </td>
+   
+  <td
+    class="li-validator__rewards"
   >
     
     --

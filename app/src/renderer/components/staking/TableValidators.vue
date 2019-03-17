@@ -116,12 +116,17 @@ export default {
           tooltip: `Ratio of blocks signed within the last 10k blocks`
         },
       ]
+    },
+    yourValidators() {
+      return this.validators.filter(
+        ({ operator_address }) => operator_address in this.committedDelegations
+      )
     }
   },
   watch: {
-  //   address: function() {
-  //     this.session.address && this.$store.dispatch(`updateDelegates`)
-  //   },
+    address: function() {
+      this.session.address && this.$store.dispatch(`updateDelegates`)
+    },
     validators: function(validators) {
       if (!validators || validators.length === 0 || !this.session.signedIn) {
         return
@@ -135,6 +140,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch(`getPool`)
+    this.$store.dispatch(`updateDelegates`)
   }
 }
 </script>
