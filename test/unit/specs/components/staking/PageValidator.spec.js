@@ -260,7 +260,7 @@ describe(`PageValidator`, () => {
     })
   })
 
-  it(`doesn't call user rewards if not signed in`, () => {
+  it(`shouldn't call user rewards if not signed in`, () => {
     const session = { signedIn: false }
     const $store = { dispatch: jest.fn() }
     const $route = { params: { validator: `cosmos1address` } }
@@ -271,17 +271,110 @@ describe(`PageValidator`, () => {
     )
   })
 
-  it(`updates rewards if block hasn't updated`, () => {
-    const $store = { dispatch: jest.fn() }
+  it(`shouldn't call user rewards there're no delegations`, () => {
     const session = { signedIn: false }
+    const $store = { dispatch: jest.fn() }
+    const myDelegation = `--`
     const $route = { params: { validator: `cosmos1address` } }
-    const newHeader = { height: `20` }
-    PageValidator.watch.lastHeader.handler.call({ session, $store, $route },
-      newHeader)
+    PageValidator.mounted.call({ session, $store, $route, myDelegation })
     expect($store.dispatch).not.toHaveBeenCalledWith(
       `getRewardsFromValidator`,
       $route.params.validator
     )
+  })
+
+  describe(`update rewards on new blocks`, () => {
+    describe(`shouldn't update`, () => {
+
+      it(`if user is not signed in `, () => {
+        const $store = { dispatch: jest.fn() }
+        const session = { signedIn: false }
+        const $route = {
+          params: { validator: `cosmos1address` },
+          name: `validator`
+        }
+        const myDelegation = `1 atom`
+        const newHeader = { height: `20` }
+        PageValidator.watch.lastHeader.handler.call(
+          { session, $store, $route, myDelegation },
+          newHeader)
+        expect($store.dispatch).not.toHaveBeenCalledWith(
+          `getRewardsFromValidator`,
+          $route.params.validator
+        )
+      })
+      it(`if hasn't waited for 20 blocks `, () => {
+        const $store = { dispatch: jest.fn() }
+        const session = { signedIn: true }
+        const $route = {
+          params: { validator: `cosmos1address` },
+          name: `validator`
+        }
+        const myDelegation = `1 atom`
+        const newHeader = { height: `30` }
+        PageValidator.watch.lastHeader.handler.call(
+          { session, $store, $route, myDelegation },
+          newHeader)
+        expect($store.dispatch).not.toHaveBeenCalledWith(
+          `getRewardsFromValidator`,
+          $route.params.validator
+        )
+      })
+
+      it(`if user is not watching page validator`, () => {
+        const $store = { dispatch: jest.fn() }
+        const session = { signedIn: true }
+        const $route = {
+          params: { validator: `cosmos1address` },
+          name: `my-delegations`
+        }
+        const myDelegation = `1 atom`
+        const newHeader = { height: `20` }
+        PageValidator.watch.lastHeader.handler.call(
+          { session, $store, $route, myDelegation },
+          newHeader)
+        expect($store.dispatch).not.toHaveBeenCalledWith(
+          `getRewardsFromValidator`,
+          $route.params.validator
+        )
+      })
+
+      it(`if user doesn't have any delegations `, () => {
+        const $store = { dispatch: jest.fn() }
+        const session = { signedIn: true }
+        const $route = {
+          params: { validator: `cosmos1address` },
+          name: `validator`
+        }
+        const myDelegation = `--`
+        const newHeader = { height: `30` }
+        PageValidator.watch.lastHeader.handler.call(
+          { session, $store, $route, myDelegation },
+          newHeader)
+        expect($store.dispatch).not.toHaveBeenCalledWith(
+          `getRewardsFromValidator`,
+          $route.params.validator
+        )
+      })
+    })
+
+    it(`should update rewards if waited for 20 blocks`, () => {
+      const $store = { dispatch: jest.fn() }
+      const session = { signedIn: true }
+      const $route = {
+        params: { validator: `cosmos1address` },
+        name: `validator`
+      }
+      const myDelegation = `1 atom`
+      const newHeader = { height: `20` }
+      PageValidator.watch.lastHeader.handler.call(
+        { session, $store, $route, myDelegation },
+        newHeader)
+      expect($store.dispatch).toHaveBeenCalledWith(
+        `getRewardsFromValidator`,
+        $route.params.validator
+      )
+    })
   })
 })
 

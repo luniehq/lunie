@@ -51,8 +51,7 @@ export default {
       `liquidAtoms`,
       `connected`,
       `bondDenom`,
-      `keybase`,
-      `lastHeader`
+      `keybase`
     ]),
     vpTotal() {
       return this.validators
