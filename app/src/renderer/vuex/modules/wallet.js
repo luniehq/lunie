@@ -92,13 +92,26 @@ export default ({ node }) => {
         state.error = error
       }
     },
+    async simulateSendCoins(
+      { dispatch },
+      { receiver, amount, denom }
+    ) {
+      return await dispatch(`simulateTx`, {
+        type: `send`,
+        to: receiver,
+        amount: [{ denom, amount: String(amount) }]
+      })
+    },
     async sendCoins(
       { dispatch, commit, state },
-      { receiver, amount, denom, password }
+      { receiver, amount, denom, gas, gas_prices, password, submitType }
     ) {
       await dispatch(`sendTx`, {
         type: `send`,
+        gas,
+        gas_prices,
         password,
+        submitType,
         to: receiver,
         amount: [{ denom, amount: String(amount) }]
       })
