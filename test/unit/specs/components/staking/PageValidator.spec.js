@@ -285,7 +285,6 @@ describe(`PageValidator`, () => {
 
   describe(`update rewards on new blocks`, () => {
     describe(`shouldn't update`, () => {
-
       it(`if user is not signed in `, () => {
         const $store = { dispatch: jest.fn() }
         const session = { signedIn: false }
@@ -303,6 +302,7 @@ describe(`PageValidator`, () => {
           $route.params.validator
         )
       })
+
       it(`if hasn't waited for 20 blocks `, () => {
         const $store = { dispatch: jest.fn() }
         const session = { signedIn: true }
@@ -358,22 +358,28 @@ describe(`PageValidator`, () => {
       })
     })
 
-    it(`should update rewards if waited for 20 blocks`, () => {
-      const $store = { dispatch: jest.fn() }
-      const session = { signedIn: true }
-      const $route = {
-        params: { validator: `cosmos1address` },
-        name: `validator`
-      }
-      const myDelegation = `1 atom`
-      const newHeader = { height: `20` }
-      PageValidator.watch.lastHeader.handler.call(
-        { session, $store, $route, myDelegation },
-        newHeader)
-      expect($store.dispatch).toHaveBeenCalledWith(
-        `getRewardsFromValidator`,
-        $route.params.validator
-      )
+    describe(`should update rewards `, () => {
+      it(
+        `if waited for 20 blocks, ` +
+        `user has signed in, ` +
+        `has delegations and is watching the validator page`,
+        () => {
+          const $store = { dispatch: jest.fn() }
+          const session = { signedIn: true }
+          const $route = {
+            params: { validator: `cosmos1address` },
+            name: `validator`
+          }
+          const myDelegation = `1 atom`
+          const newHeader = { height: `20` }
+          PageValidator.watch.lastHeader.handler.call(
+            { session, $store, $route, myDelegation },
+            newHeader)
+          expect($store.dispatch).toHaveBeenCalledWith(
+            `getRewardsFromValidator`,
+            $route.params.validator
+          )
+        })
     })
   })
 })

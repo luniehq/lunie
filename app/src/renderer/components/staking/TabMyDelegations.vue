@@ -130,7 +130,11 @@ export default {
       immediate: true,
       handler(newHeader) {
         const waitTenBlocks = Number(newHeader.height) % 20 === 0
-        if (waitTenBlocks && this.yourValidators) {
+        if (
+          waitTenBlocks &&
+          this.yourValidators &&
+          this.yourValidators.length > 0
+        ) {
           this.$store.dispatch(
             `getRewardsFromAllValidators`,
             this.yourValidators

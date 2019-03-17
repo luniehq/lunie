@@ -53,4 +53,43 @@ describe(`TmBalance`, () => {
     TmBalance.methods.onWithdrawal.call({ $refs })
     expect($refs.modalWithdrawAllRewards.open).toHaveBeenCalled()
   })
+
+  describe(`update balance and total rewards on new blocks`, () => {
+    describe(`shouldn't update`, () => {
+      it(`if user is not signed in `, () => {
+        const $store = { dispatch: jest.fn() }
+        const session = { signedIn: false }
+        const newHeader = { height: `10` }
+        TmBalance.watch.lastHeader.handler.call(
+          { session, $store },
+          newHeader)
+        expect($store.dispatch).not.toHaveBeenCalledWith(`getTotalRewards`)
+        expect($store.dispatch).not.toHaveBeenCalledWith(`queryWalletBalances`)
+      })
+
+      it(`if hasn't waited for 10 blocks `, () => {
+        const $store = { dispatch: jest.fn() }
+        const session = { signedIn: true }
+        const newHeader = { height: `12` }
+        TmBalance.watch.lastHeader.handler.call(
+          { session, $store },
+          newHeader)
+        expect($store.dispatch).not.toHaveBeenCalledWith(`getTotalRewards`)
+        expect($store.dispatch).not.toHaveBeenCalledWith(`queryWalletBalances`)
+      })
+    })
+
+    describe(`should update balance and rewards `, () => {
+      it(`if user is signed in and wait for 10 blocks`, () => {
+        const $store = { dispatch: jest.fn() }
+        const session = { signedIn: true }
+        const newHeader = { height: `10` }
+        TmBalance.watch.lastHeader.handler.call(
+          { session, $store },
+          newHeader)
+        expect($store.dispatch).toHaveBeenCalledWith(`getTotalRewards`)
+        expect($store.dispatch).toHaveBeenCalledWith(`queryWalletBalances`)
+      })
+    })
+  })
 })

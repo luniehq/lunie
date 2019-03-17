@@ -60,4 +60,42 @@ describe(`ModalWithdrawAllRewards`, () => {
       )
     })
   })
+
+  describe(`update total rewards on new blocks`, () => {
+    describe(`shouldn't update total `, () => {
+      it(`if user is not signed in `, () => {
+        const $store = { dispatch: jest.fn() }
+        const session = { signedIn: false }
+        const $refs = { actionModal: { show: true } }
+        ModalWithdrawAllRewards.watch.lastHeader.handler.call(
+          { session, $store, $refs })
+        expect($store.dispatch).not.toHaveBeenCalledWith(`getTotalRewards`)
+      })
+
+      it(`if user is not on watching the modal `, () => {
+        const $store = { dispatch: jest.fn() }
+        const session = { signedIn: true }
+        let $refs = {}
+        ModalWithdrawAllRewards.watch.lastHeader.handler.call(
+          { session, $store, $refs })
+        expect($store.dispatch).not.toHaveBeenCalledWith(`getTotalRewards`)
+
+        $refs = { actionModal: { show: false } }
+        ModalWithdrawAllRewards.watch.lastHeader.handler.call(
+          { session, $store, $refs })
+        expect($store.dispatch).not.toHaveBeenCalledWith(`getTotalRewards`)
+      })
+    })
+
+    describe(`should update total rewards `, () => {
+      it(`if user is signed in and is watching the modal `, () => {
+        const $store = { dispatch: jest.fn() }
+        const session = { signedIn: true }
+        const $refs = { actionModal: { show: true } }
+        ModalWithdrawAllRewards.watch.lastHeader.handler.call(
+          { session, $store, $refs })
+        expect($store.dispatch).toHaveBeenCalledWith(`getTotalRewards`)
+      })
+    })
+  })
 })
