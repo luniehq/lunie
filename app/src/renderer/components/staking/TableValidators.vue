@@ -6,10 +6,9 @@
       </thead>
       <tbody>
         <li-validator
-          v-for="i in sortedEnrichedDelegates"
-          :key="i.operator_address"
-          :disabled="!userCanDelegate"
-          :validator="i"
+          v-for="validator in sortedEnrichedValidators"
+          :key="validator.operator_address"
+          :validator="validator"
         />
       </tbody>
     </table>
@@ -19,9 +18,8 @@
 <script>
 import { mapGetters } from "vuex"
 import num from "scripts/num"
-import { orderBy } from "lodash"
+import { orderBy, isEmpty } from "lodash"
 import LiValidator from "staking/LiValidator"
-import { calculateTokens } from "scripts/common"
 import PanelSort from "staking/PanelSort"
 export default {
   name: `table-validators`,
@@ -49,96 +47,94 @@ export default {
       `delegation`,
       `committedDelegations`,
       `session`,
+      `distribution`,
       `liquidAtoms`,
-      `connected`,
       `bondDenom`,
-      `keybase`
+      `keybase`,
+      `pool`
     ]),
-    vpTotal() {
-      return this.validators
-        .slice(0)
-        .map(v => {
-          v.voting_power = v.voting_power ? Number(v.voting_power) : 0
-          return v
-        })
-        .sort((a, b) => b.voting_power - a.voting_power)
-        .slice(0, 100)
-        .reduce((sum, v) => sum + v.voting_power, 0)
-    },
-    enrichedDelegates() {
+    enrichedValidators() {
       return this.validators.map(v =>
         Object.assign({}, v, {
           small_moniker: v.description.moniker.toLowerCase(),
-          percent_of_vote: v.voting_power / this.vpTotal,
-          your_votes: this.num.full(
-            calculateTokens(v, this.committedDelegations[v.id])
-          ),
+          percent_of_vote: v.voting_power / this.pool.pool.bonded_tokens,
+          my_delegations: this.committedDelegations[v.id] > 0
+            ? this.committedDelegations[v.id]
+            : 0,
           commission: v.commission.rate,
           keybase: this.keybase[v.description.identity],
+          rewards: this.session.signedIn
+            && this.distribution.loaded && !isEmpty(this.distribution.rewards)
+            ? this.distribution.rewards[v.operator_address]
+            : 0,
           uptime: v.signing_info
             ? (this.rollingWindow - v.signing_info.missed_blocks_counter)
-            / this.rollingWindow : 0
+            / this.rollingWindow
+            : 0
         })
       )
     },
-    sortedEnrichedDelegates() {
+    sortedEnrichedValidators() {
       return orderBy(
-        this.enrichedDelegates.slice(0),
+        this.enrichedValidators.slice(0),
         [this.sort.property],
         [this.sort.order]
       )
-    },
-    userCanDelegate() {
-      return this.liquidAtoms > 0 && this.delegation.loaded
     },
     properties() {
       return [
         {
           title: `Moniker`,
           value: `small_moniker`,
-          tooltip: `The validator's moniker`,
-          class: `name`
+          tooltip: `The validator's moniker`
         },
         {
           title: `My Delegations`,
-          value: `your_votes`,
+          value: `my_delegations`,
           tooltip: `Number of ${
             this.bondDenom
-          } you have delegated to this validator`,
-          class: `your-votes`
+          } you have delegated to this validator`
+        },
+        {
+          title: `Rewards`,
+          value: `rewards`,
+          tooltip: `Rewards you have earned from this validator`
         },
         {
           title: `Voting Power`,
           value: `percent_of_vote`,
-          tooltip: `Percentage of voting shares`,
-          class: `percent_of_vote`
+          tooltip: `Percentage of voting shares`
         },
         {
           title: `Commission`,
           value: `commission`,
-          tooltip: `The validator's commission`,
-          class: `commission`
+          tooltip: `The validator's commission`
         },
         {
           title: `Uptime`,
           value: `uptime`,
-          tooltip: `Ratio of blocks signed within the last 10k blocks`,
-          class: `uptime`
+          tooltip: `Ratio of blocks signed within the last 10k blocks`
         },
       ]
     }
   },
   watch: {
-    address: function() {
-      this.session.address && this.$store.dispatch(`updateDelegates`)
-    },
+  //   address: function() {
+  //     this.session.address && this.$store.dispatch(`updateDelegates`)
+  //   },
     validators: function(validators) {
       if (!validators || validators.length === 0 || !this.session.signedIn) {
         return
       }
+      const yourValidators = validators.filter(
+        ({ operator_address }) => operator_address in this.committedDelegations
+      )
 
-      this.$store.dispatch(`getRewardsFromAllValidators`, validators)
+      this.$store.dispatch(`getRewardsFromAllValidators`, yourValidators)
     }
+  },
+  mounted() {
+    this.$store.dispatch(`getPool`)
   }
 }
 </script>

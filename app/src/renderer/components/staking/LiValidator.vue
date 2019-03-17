@@ -29,7 +29,6 @@
             name: 'validator',
             params: { validator: validator.operator_address }
           }"
-          :class="styles"
           class="data-table__row__info__container__name"
         >
           {{ validator.description.moniker }}
@@ -40,7 +39,18 @@
       </div>
     </td>
     <td class="li-validator__delegated-steak">
-      {{ yourVotes.isGreaterThan(0) ? num.shortNumber(yourVotes) : `--` }}
+      {{
+        validator.my_delegations
+          ? num.shortNumber(num.atoms(validator.my_delegations))
+          : `--`
+      }}
+    </td>
+    <td class="li-validator__rewards">
+      {{
+        validator.rewards
+          ? num.shortNumber(num.atoms(validator.rewards.uatom))
+          : `--`
+      }}
     </td>
     <td class="li-validator__voting-power">
       {{
@@ -61,9 +71,7 @@
 <script>
 import { mapGetters } from "vuex"
 import num from "scripts/num"
-import { calculateTokens, ratToBigNumber } from "scripts/common"
 import ShortBech32 from "common/ShortBech32"
-import BigNumber from "bignumber.js"
 export default {
   name: `li-validator`,
   components: {
@@ -74,67 +82,31 @@ export default {
       type: Object,
       required: true
     },
-    disabled: {
-      type: Boolean,
-      required: true
-    }
   },
   data: () => ({ num }),
   computed: {
     ...mapGetters([
       `delegates`,
-      `committedDelegations`,
       `distribution`,
       `bondDenom`,
       `session`,
       `lastHeader`
     ]),
-    yourVotes() {
-      return this.committedDelegations[this.validator.operator_address]
-        ? BigNumber(
-          num
-            .atoms(
-              calculateTokens(
-                this.validator,
-                this.committedDelegations[this.validator.operator_address]
-              )
-            )
-            .toString()
-        )
-        : BigNumber(0)
-    },
-    styles() {
-      let value = ``
-      if (this.validator.isValidator) value += `li-validator-validator `
-      return value
-    },
-    delegateType() {
-      return this.validator.revoked
-        ? `Revoked`
-        : this.validator.isValidator
-          ? `Validator`
-          : `Candidate`
-    },
-    powerRatio() {
-      return ratToBigNumber(this.validator.tokens)
-        .div(this.delegates.globalPower)
-        .toNumber()
-    },
     status() {
       // status: jailed
-      if (this.validator.revoked)
+      if (this.validator.jailed)
         return `This validator has been jailed and is not currently validating`
 
       // status: inactive
       if (parseFloat(this.validator.voting_power) === 0)
-        return `This validator does not have enough voting power yet and is inactive`
+        return `This validator does not have enough voting power and is inactive`
 
       // status: active
       return `This validator is actively validating`
     },
     statusColor() {
       // status: jailed
-      if (this.validator.revoked) return `red`
+      if (this.validator.jailed) return `red`
 
       // status: inactive
       if (parseFloat(this.validator.voting_power) === 0) return `yellow`
@@ -142,28 +114,19 @@ export default {
       // status: active
       return `green`
     },
-    rewards() {
-      if (!this.session.signedIn) return null
-      const validatorRewards = this.distribution.rewards[
-        this.validator.operator_address
-      ]
-      return validatorRewards
-        ? num.shortNumber(num.atoms(validatorRewards[this.bondDenom]) || 0)
-        : null
-    }
   },
-  watch: {
-    lastHeader: {
-      immediate: true,
-      handler() {
-        if (this.yourVotes > 0) {
-          this.$store.dispatch(
-            `getRewardsFromValidator`,
-            this.validator.operator_address
-          )
-        }
-      }
-    }
-  }
+  // watch: {
+  //   lastHeader: {
+  //     immediate: true,
+  //     handler() {
+  //       if (this.validator.my_delegations > 0) {
+  //         this.$store.dispatch(
+  //           `getRewardsFromValidator`,
+  //           this.validator.operator_address
+  //         )
+  //       }
+  //     }
+  //   }
+  // }
 }
 </script>
