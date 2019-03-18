@@ -71,7 +71,7 @@ exports[`LiValidator has the expected html structure 1`] = `
     class="li-validator__commission"
   >
     
-    500.00%
+    5.00%
   
   </td>
    
@@ -156,7 +156,7 @@ exports[`LiValidator should display uptime as double-dash 1`] = `
     class="li-validator__commission"
   >
     
-    500.00%
+    5.00%
   
   </td>
    
@@ -241,7 +241,7 @@ exports[`LiValidator works if user is not signed in 1`] = `
     class="li-validator__commission"
   >
     
-    500.00%
+    5.00%
   
   </td>
    

@@ -23,7 +23,7 @@ describe(`LiValidator`, () => {
     bond_height: `0`,
     bond_intra_tx_counter: 6,
     proposer_reward_pool: null,
-    commission: 5,
+    commission: `0.05`,
     prev_bonded_shares: `0`,
     voting_power: 10,
     percent_of_vote: 0.22,
@@ -138,7 +138,7 @@ describe(`LiValidator`, () => {
   })
 
   it(`should show the validator's commission`, () => {
-    expect(wrapper.html()).toContain(wrapper.vm.validator.commission)
+    expect(wrapper.html()).toContain(`5.00%`)
   })
 
   it(`works if user is not signed in`, () => {
