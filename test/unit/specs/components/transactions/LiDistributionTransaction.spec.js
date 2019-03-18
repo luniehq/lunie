@@ -12,7 +12,11 @@ describe(`LiDistributionTransaction`, () => {
     transaction: distributionTxs[0],
     url: `/validator`,
     validators,
-    bondingDenom: `stake`,
+    bondingDenom: `uatom`,
+    fees: {
+      amount: `3421`,
+      denom: `uatom`
+    },
     txType: `cosmos-sdk/MsgWithdrawDelegationReward`,
   }
 
@@ -20,23 +24,55 @@ describe(`LiDistributionTransaction`, () => {
     wrapper = shallowMount(LiDistributionTransaction, { propsData, stubs: [`router-link`] })
   })
 
-  it(`withdraw delegation rewards`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+  describe(`withdraw delegation rewards`, () => {
+    it(`with fees`, () => {
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
+
+    it(`without fees`, () => {
+      wrapper.setProps({
+        fees: null
+      })
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
   })
 
-  it(`set withdraw address`, () => {
-    wrapper.setProps({
-      transaction: distributionTxs[1],
-      txType: `cosmos-sdk/MsgSetWithdrawAddress`
+  describe(`set withdraw address`, () => {
+    beforeEach(() => {
+      wrapper.setProps({
+        transaction: distributionTxs[1],
+        txType: `cosmos-sdk/MsgSetWithdrawAddress`
+      })
     })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    it(`with fees`, () => {
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
+
+    it(`without fees`, () => {
+      wrapper.setProps({
+        fees: null
+      })
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
   })
 
-  it(`withdraw validator commission`, () => {
-    wrapper.setProps({
-      transaction: distributionTxs[2],
-      txType: `cosmos-sdk/MsgWithdrawValidatorCommission`
+  describe(`withdraw validator commission`, () => {
+
+    beforeEach(() => {
+      wrapper.setProps({
+        transaction: distributionTxs[2],
+        txType: `cosmos-sdk/MsgWithdrawValidatorCommission`
+      })
+      it(`with fees`, () => {
+        expect(wrapper.vm.$el).toMatchSnapshot()
+      })
+
+      it(`without fees`, () => {
+        wrapper.setProps({
+          fees: null
+        })
+        expect(wrapper.vm.$el).toMatchSnapshot()
+      })
     })
-    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 })

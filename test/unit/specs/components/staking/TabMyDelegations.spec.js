@@ -1,8 +1,7 @@
 import { shallowMount } from "@vue/test-utils"
 import TabMyDelegations from "renderer/components/staking/TabMyDelegations"
 import validators from "../../store/json/validators.js"
-
-const delegator_address = `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+import { stakingTxs } from "../../store/json/txs"
 
 // TODO: remove this dirty addition: the real cleanup will be done in a separate PR
 // the problem is mock VS real implementation have different keys: shares in mock, shares_amount in SDK
@@ -75,24 +74,7 @@ describe(`Component: TabMyDelegations`, () => {
           min_time: new Date(Date.now()).toISOString()
         }
       }
-      $store.getters.transactions.staking = [{
-        tx: {
-          value: {
-            msg: [
-              {
-                type: `cosmos-sdk/MsgUndelegate`,
-                value: {
-                  validator_address: validators[0].operator_address,
-                  delegator_address,
-                  shares: `5`
-                }
-              }
-            ]
-          }
-        },
-        hash: `A7C6FDE5CA923AF08E6088F1348047F16BABB9F48`,
-        height: 170
-      }]
+      $store.getters.transactions.staking = [stakingTxs[3]]
 
       expect(wrapper.html()).toContain(`Pending Undelegations`)
       expect(wrapper.vm.$el).toMatchSnapshot()
@@ -127,34 +109,7 @@ describe(`Component: TabMyDelegations`, () => {
   describe(`computed`, () => {
     it(`unbondingTransactions`, async () => {
       const address = validators[0].operator_address
-      const transactions = [{
-        tx: {
-          value: {
-            msg: [
-              {
-                type: `cosmos-sdk/XXX`,
-              }
-            ]
-          }
-        }
-      }, {
-        tx: {
-          value: {
-            msg: [
-              {
-                type: `cosmos-sdk/MsgUndelegate`,
-                value: {
-                  validator_address: validators[0].operator_address,
-                  delegator_address,
-                  shares: `5`
-                }
-              }
-            ]
-          }
-        },
-        hash: `A7C6FDE5CA923AF08E6088F1348047F16BABB9F48`,
-        height: 170
-      }]
+      const transactions = [stakingTxs[3]]
 
       expect(
         TabMyDelegations.computed.unbondingTransactions({

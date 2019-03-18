@@ -6,23 +6,28 @@ describe(`TableValidators`, () => {
   let wrapper, $store
 
   const getters = {
-    delegation: {
-      loaded: true
-    },
     committedDelegations: {
-      [validators[0].operator_address]: 0
+      [validators[0].operator_address]: 10
     },
     session: {
-      address: `address1234`
+      address: `address1234`,
+      signedIn: true
     },
-    liquidAtoms: 42,
-    connected: true,
-    bondDenom: `stake`,
-    keybase: {
-      [validators[0].description.identity]: {
-        // TODO
+    distribution: {
+      loaded: true,
+      rewards: {
+        cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw: {
+          stake: 1000
+        }
       }
-    }
+    },
+    bondDenom: `stake`,
+    keybase: { [validators[0].description.identity]: `keybase` },
+    pool: {
+      pool: {
+        bonded_tokens: 500001,
+      }
+    },
   }
 
   beforeEach(() => {
@@ -38,10 +43,32 @@ describe(`TableValidators`, () => {
       },
       propsData: { validators }
     })
+    wrapper.setData({ rollingWindow: 10000 })
   })
 
   it(`has the expected html structure`, async () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
+  it(`should create an enriched validator object for a signed in user`, () => {
+    expect(wrapper.vm.enrichedValidators[0].small_moniker).toBe(`mr_mounty`)
+    expect(wrapper.vm.enrichedValidators[0].percent_of_vote)
+      .toBe(0.27999944000112)
+    expect(wrapper.vm.enrichedValidators[0].my_delegations).toBe(10)
+    expect(wrapper.vm.enrichedValidators[0].commission).toBe(0)
+    expect(wrapper.vm.enrichedValidators[0].keybase).toBe(`keybase`)
+    expect(wrapper.vm.enrichedValidators[0].rewards).toBe(1000)
+    expect(wrapper.vm.enrichedValidators[0].uptime).toBe(0.9998)
+  })
+
+  it(`should create an enriched validator object for a user who is not signed in`, () => {
+    wrapper.vm.session.signedIn = false
+    expect(wrapper.vm.enrichedValidators[1].my_delegations).toBe(0)
+    expect(wrapper.vm.enrichedValidators[1].rewards).toBe(0)
+  })
+
+  it(`should have an uptime of 0 if no signing_info`, () => {
+    expect(wrapper.vm.enrichedValidators[1].uptime).toBe(0)
   })
 
   it(`should sort the delegates by selected property`, () => {
@@ -49,41 +76,15 @@ describe(`TableValidators`, () => {
     wrapper.vm.sort.order = `desc`
 
     expect(
-      wrapper.vm.sortedEnrichedDelegates.map(x => x.operator_address)
+      wrapper.vm.sortedEnrichedValidators.map(x => x.operator_address)
     ).toEqual(validators.map(x => x.operator_address))
 
     wrapper.vm.sort.property = `operator_address`
     wrapper.vm.sort.order = `asc`
 
     expect(
-      wrapper.vm.sortedEnrichedDelegates.map(x => x.operator_address)
+      wrapper.vm.sortedEnrichedValidators.map(x => x.operator_address)
     ).toEqual(validators.map(x => x.operator_address).reverse())
-  })
-
-  it(`should disallow delegation if user can't delegate`, () => {
-    let res = TableValidators.computed.userCanDelegate.call({
-      liquidAtoms: 0,
-      delegation: {
-        loaded: true
-      }
-    })
-    expect(res).toBe(false)
-
-    res = TableValidators.computed.userCanDelegate.call({
-      liquidAtoms: 1,
-      delegation: {
-        loaded: true
-      }
-    })
-    expect(res).toBe(true)
-
-    res = TableValidators.computed.userCanDelegate.call({
-      liquidAtoms: 1,
-      delegation: {
-        loaded: false
-      }
-    })
-    expect(res).toBe(false)
   })
 
   it(`queries delegations on signin`, () => {
@@ -98,5 +99,33 @@ describe(`TableValidators`, () => {
     const $store = { dispatch: jest.fn() }
     TableValidators.watch.address.call({ $store, session })
     expect($store.dispatch).not.toHaveBeenCalledWith(`updateDelegates`)
+  })
+
+  it(`should filter the validators for your delegations`, () => {
+    const session = { signedIn: true }
+    expect(
+      TableValidators.computed.yourValidators({
+        committedDelegations: {
+          [validators[0].operator_address]: 1,
+          [validators[2].operator_address]: 2
+        },
+        validators,
+        session
+      })
+    ).toEqual([validators[0], validators[2]])
+  })
+
+  it(`should not filter the validators if you're not signed in`, () => {
+    const session = { signedIn: false }
+    expect(
+      TableValidators.computed.yourValidators({
+        committedDelegations: {
+          [validators[0].operator_address]: 1,
+          [validators[2].operator_address]: 2
+        },
+        validators,
+        session
+      })
+    ).not.toBeDefined()
   })
 })

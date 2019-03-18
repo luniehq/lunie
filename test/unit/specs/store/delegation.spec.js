@@ -482,4 +482,14 @@ describe(`Module: Delegations`, () => {
     expect(dispatch).toHaveBeenCalledWith(`getDelegates`)
     expect(dispatch).toHaveBeenCalledWith(`getBondedDelegates`, [])
   })
+
+  it(`should load delegations on sign in`, async () => {
+    const { actions } = delegationModule({ node: {} })
+
+    const dispatch = jest.fn(() => [])
+
+    await actions.initializeWallet({ dispatch })
+
+    expect(dispatch).toHaveBeenCalledWith(`updateDelegates`)
+  })
 })

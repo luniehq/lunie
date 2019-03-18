@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.21] - 2019-03-16
+
+### Added
+
+- [\#2228](https://github.com/cosmos/voyager/issues/2228) display balances of vesting accounts @faboweb
+- [\#2230](https://github.com/cosmos/voyager/issues/2230) calculate fees and estimated transaction gas @fedekunze
+- [\#2291](https://github.com/cosmos/voyager/pull/2291) master built against main net full node @sabau
+
+### Fixed
+
+- [\#2269](https://github.com/cosmos/voyager/pull/2269) Persist session type if signed in with ledger @faboweb
+- [\#2273](https://github.com/cosmos/voyager/issues/2273) fixed atoms and uatoms conversion @fedekunze
+
+
 ## [1.0.0-beta.20] - 2019-03-15
 
 ### Fixed
