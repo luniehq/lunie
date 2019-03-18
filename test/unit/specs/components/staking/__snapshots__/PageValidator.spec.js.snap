@@ -20,7 +20,7 @@ exports[`PageValidator shows a validator profile information errors signing info
         />
          
         <div
-          class="row page-profile__header__info"
+          class="page-profile__header__info"
         >
           <div>
             <div
@@ -349,7 +349,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
         />
          
         <div
-          class="row page-profile__header__info"
+          class="page-profile__header__info"
         >
           <div>
             <div
@@ -678,7 +678,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
         />
          
         <div
-          class="row page-profile__header__info"
+          class="page-profile__header__info"
         >
           <div>
             <div

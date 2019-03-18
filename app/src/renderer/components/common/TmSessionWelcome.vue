@@ -1,8 +1,5 @@
 <template>
-  <div
-    id="session-welcome"
-    class="tm-session"
-  >
+  <div id="session-welcome" class="tm-session">
     <div class="tm-session-container">
       <div class="tm-session-header">
         <div class="tm-session-title">
