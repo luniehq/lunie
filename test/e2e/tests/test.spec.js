@@ -3,14 +3,18 @@ module.exports = {
   'Demo test' : function (browser) {
     browser
       .url(browser.launch_url)
+    browser
       .waitForElementVisible(`body`)
+    browser
       .waitForElementVisible(`#app-content`)
+    browser
       // demo to show that account is setup
       .execute(function() {
         return window.localStorage.getItem(`keys`)
       }, [], function(result) {
         console.log(result)
       })
+    browser
       .end()
   }
 }
