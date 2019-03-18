@@ -83,7 +83,6 @@
     "jest-localstorage-mock": "2.3.0",
     "json-loader": "0.5.7",
     "lodash": "4.17.11",
-    "markdown-it": "8.4.1",
     "moment-timezone": "0.5.16",
     "nightwatch": "1.0.19",
     "node-loader": "0.6.0",
