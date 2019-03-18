@@ -4,7 +4,7 @@ import ShortBech32 from "renderer/components/common/ShortBech32"
 
 const localVue = createLocalVue()
 localVue.directive(`clipboard`, VueClipboard)
-localVue.directive(`tooltip`, () => {})
+localVue.directive(`tooltip`, () => { })
 
 describe(`ShortBech32`, () => {
   let wrapper
@@ -19,8 +19,8 @@ describe(`ShortBech32`, () => {
     })
   })
 
-  it(`has the expected html structure`, () => {
-    expect(wrapper.html()).toMatchSnapshot()
+  it(`should show a short address`, () => {
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should return 'address not found'`, () => {
@@ -38,13 +38,15 @@ describe(`ShortBech32`, () => {
     expect(wrapper.vm.shortBech32).toBe(`cosmosaddress…asdf`)
   })
 
-  it(`should set and reset copySuccess`, () => {
-    jest.useFakeTimers()
-    wrapper.vm.onCopy()
-    expect(wrapper.vm.copySuccess).toBe(true)
+  describe(`onCopy`, () => {
+    it(`should set and reset copySuccess`, () => {
+      jest.useFakeTimers()
+      wrapper.vm.onCopy() // old test style to make timer work
+      expect(wrapper.vm.copySuccess).toBe(true)
 
-    jest.runAllTimers()
-    expect(wrapper.vm.copySuccess).toBe(false)
+      jest.runAllTimers()
+      expect(wrapper.vm.copySuccess).toBe(false)
+    })
   })
 
   // TODO: not sure how to test the v-clipboard directive events

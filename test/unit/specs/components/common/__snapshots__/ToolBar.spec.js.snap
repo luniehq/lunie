@@ -5,18 +5,7 @@ exports[`ToolBar has the expected html structure 1`] = `
   class="tool-bar"
 >
   <!---->
-   
-  <router-link-stub
-    id="settings"
-    to="/preferences"
-  >
-    <i
-      class="material-icons"
-    >
-      settings
-    </i>
-  </router-link-stub>
-   
+    
   <a
     id="signOut-btn"
   >

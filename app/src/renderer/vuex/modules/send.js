@@ -62,6 +62,16 @@ export default ({ node }) => {
     resetSessionData({ state }) {
       state.nonce = `0`
     },
+    apiRequest(type, to, pathParameter, args) {
+      // get the generated tx by querying it from the backend
+      if (to && pathParameter) {
+        return node[type](to, pathParameter, args)
+      } else if (to) {
+        return node[type](to, args)
+      } else {
+        return node[type](args)
+      }
+    },
     async sendTx({ state, dispatch, commit, rootState }, args) {
       if (!rootState.connection.connected) {
         throw Error(
@@ -71,14 +81,25 @@ export default ({ node }) => {
 
       await dispatch(`queryWalletBalances`) // the nonce was getting out of sync, this is to force a sync
 
+      const gasPrices = [
+        {
+          amount: `0.025`, // recommended on Cosmos Docs
+          denom: rootState.stakingParameters.parameters.bond_denom || `uatom`
+        }
+      ]
+      // TODO: run gas estimations to optimize the value of the adjustment
+      const gasAdjustment = 1.5
+
       const requestMetaData = {
         sequence: state.nonce,
         from: rootState.wallet.address,
         account_number: rootState.wallet.accountNumber,
         chain_id: rootState.connection.lastHeader.chain_id,
-        gas: String(state.externals.config.default_gas),
-        generate_only: true,
-        memo: `Sent via Cosmos UI 🚀`
+        gas: ``, // set after simulation
+        gas_prices: gasPrices,
+        gas_adjustment: String(gasAdjustment),
+        simulate: true,
+        memo: `Sent via Cosmos Wallet 🚀`
       }
       args.base_req = requestMetaData
 
@@ -97,18 +118,31 @@ export default ({ node }) => {
       delete args.to
       delete args.pathParameter
 
-      // get the generated tx by querying it from the backend
-      let request
-      if (to && pathParameter) {
-        request = node[type](to, pathParameter, args)
-      } else if (to) {
-        request = node[type](to, args)
-      } else {
-        request = node[type](args)
-      }
+      // simulation to get the estimated gas
+      let request = actions.apiRequest(type, to, pathParameter, args)
+      const simulationRes = await request.catch(handleSDKError)
+      const adjustedGas = Number(simulationRes.gas_estimate) * gasAdjustment
+      const estimatedFeesLow =
+        Number(simulationRes.gas_estimate) * Number(gasPrices[0].amount) * 1e-6
+      const estimatedFeesHigh =
+        Number(adjustedGas) * Number(gasPrices[0].amount) * 1e-6
+
+      // TODO: remove once fees are displayed on action modals
+      console.log(
+        `- Estimated Gas: ${simulationRes.gas_estimate}\n` +
+        `- Adjusted Gas: ${adjustedGas}\n` +
+        `- Estimated Fees (low): ${estimatedFeesLow} ${gasPrices[0].denom}s\n` +
+        `- Estimated Fees (high): ${estimatedFeesHigh} ${gasPrices[0].denom}s`
+      )
+      args.base_req.simulate = false
+      args.base_req.gas = simulationRes.gas_estimate // adjusted on the SDK
+
+      // perform request with updated gas from simulation
+      request = actions.apiRequest(type, to, pathParameter, args)
       const generationRes = await request.catch(handleSDKError)
       const tx = generationRes.value
 
+      // sign
       let signature
       if (submitType === `ledger`) {
         // TODO: move to wallet script
