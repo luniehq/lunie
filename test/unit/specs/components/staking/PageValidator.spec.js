@@ -272,7 +272,7 @@ describe(`PageValidator`, () => {
   })
 
   it(`shouldn't call user rewards there're no delegations`, () => {
-    const session = { signedIn: false }
+    const session = { signedIn: true }
     const $store = { dispatch: jest.fn() }
     const myDelegation = `--`
     const $route = { params: { validator: `cosmos1address` } }
