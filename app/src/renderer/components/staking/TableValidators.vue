@@ -18,7 +18,7 @@
 <script>
 import { mapGetters } from "vuex"
 import num from "scripts/num"
-import { orderBy, isEmpty } from "lodash"
+import { orderBy } from "lodash"
 import LiValidator from "staking/LiValidator"
 import PanelSort from "staking/PanelSort"
 export default {
@@ -71,9 +71,8 @@ export default {
           commission: v.commission.rate,
           keybase: keybase[v.description.identity],
           rewards: session.signedIn
-            && distribution.loaded
-            && !isEmpty(distribution.rewards)
-            ? distribution.rewards[v.operator_address]
+            && distribution.rewards.hasOwnProperty(v.operator_address)
+            ? distribution.rewards[v.operator_address][`uatom`]
             : 0,
           uptime: v.signing_info
             ? (rollingWindow - v.signing_info.missed_blocks_counter)

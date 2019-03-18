@@ -47,9 +47,7 @@
     </td>
     <td class="li-validator__rewards">
       {{
-        validator.rewards
-          ? num.shortNumber(num.atoms(validator.rewards.uatom))
-          : `--`
+        validator.rewards ? num.shortNumber(num.atoms(validator.rewards)) : `--`
       }}
     </td>
     <td class="li-validator__voting-power">
@@ -114,19 +112,6 @@ export default {
       // status: active
       return `green`
     },
-  },
-  // watch: {
-  //   lastHeader: {
-  //     immediate: true,
-  //     handler() {
-  //       if (this.validator.my_delegations > 0) {
-  //         this.$store.dispatch(
-  //           `getRewardsFromValidator`,
-  //           this.validator.operator_address
-  //         )
-  //       }
-  //     }
-  //   }
-  // }
+  }
 }
 </script>

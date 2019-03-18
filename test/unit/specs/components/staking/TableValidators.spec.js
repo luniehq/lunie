@@ -16,7 +16,9 @@ describe(`TableValidators`, () => {
     distribution: {
       loaded: true,
       rewards: {
-        cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw: 1000
+        cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw: {
+          uatom: 1000
+        }
       }
     },
     bondDenom: `stake`,
