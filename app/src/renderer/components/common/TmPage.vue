@@ -278,7 +278,7 @@ export default {
   word-break: break-all;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1023px) {
   .tm-page-main {
     padding: 1rem 0;
   }

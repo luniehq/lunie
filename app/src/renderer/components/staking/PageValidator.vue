@@ -387,7 +387,7 @@ export default {
 }
 </script>
 <style scoped>
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1023px) {
   .validator-name-and-address {
     padding-bottom: 2rem;
   }

@@ -381,7 +381,7 @@ export default {
   opacity: 0;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1023px) {
   .row {
     flex-direction: column;
   }

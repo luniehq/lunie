@@ -107,7 +107,7 @@ export default {
   height: 3rem;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1023px) {
   .app-header {
     position: fixed;
     top: 0;

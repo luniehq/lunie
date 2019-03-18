@@ -86,7 +86,7 @@ export default {
   color: var(--bright);
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1023px) {
   .tabs {
     width: 100%;
   }

@@ -120,7 +120,7 @@ input.tm-field {
   position: relative;
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 1023px) {
   #app {
     padding-top: 0;
     flex-flow: row nowrap;

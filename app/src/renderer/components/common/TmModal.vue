@@ -110,7 +110,7 @@ export default {
   justify-content: flex-end;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1023px) {
   .tm-modal {
     background: rgba(0, 0, 0, 1);
   }

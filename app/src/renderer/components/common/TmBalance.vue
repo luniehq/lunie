@@ -123,7 +123,7 @@ export default {
   font-weight: 300;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1023px) {
   .header-balance {
     padding: 0 0 1.5rem 1rem;
   }
