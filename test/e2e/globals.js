@@ -16,14 +16,14 @@ module.exports = {
   waitForConditionTimeout : 5000,
 
   async before(done) {
-    // await bootLocalNetwork(
-    //   testDir,
-    //   {
-    //     chainId: `test_chain`,
-    //     overwrite: true,
-    //     moniker: `local`
-    //   }
-    // )
+    await bootLocalNetwork(
+      testDir,
+      {
+        chainId: `test_chain`,
+        overwrite: true,
+        moniker: `local`
+      }
+    )
 
     done()
   },
