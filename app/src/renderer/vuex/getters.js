@@ -10,7 +10,6 @@ export const lastPage = state => {
     state.session.history[state.session.history.length - 1]
   )
 }
-export const onboarding = state => state.onboarding
 
 // wallet
 export const transactions = state => state.transactions
@@ -79,7 +78,7 @@ export const pool = state => state.pool
 export const stakingParameters = state => state.stakingParameters
 export const bondDenom = getters =>
   getters.stakingParameters.parameters &&
-  getters.stakingParameters.parameters.bond_denom || `stake`
+  getters.stakingParameters.parameters.bond_denom || `uatom`
 
 // governance
 export const proposals = state => state.proposals
@@ -90,7 +89,7 @@ export const depositDenom = getters =>
   getters.governanceParameters.loaded &&
     getters.governanceParameters.parameters.deposit.min_deposit
     ? getters.governanceParameters.parameters.deposit.min_deposit[0].denom
-    : `token`
+    : `uatom`
 
 // connection
 export const approvalRequired = state => state.connection.approvalRequired

@@ -105,7 +105,7 @@ exports[`PageNetwork should display the network page with data and the blocks ta
               id="loose_tokens"
             >
               
-              0.0000010
+              0.000010
             
             </dd>
           </dl>
@@ -125,7 +125,7 @@ exports[`PageNetwork should display the network page with data and the blocks ta
               id="bonded_tokens"
             >
               
-              0.0000125
+              0.000125
             
             </dd>
           </dl>
@@ -290,7 +290,7 @@ exports[`PageNetwork should display the network page with the blocks table in a 
               id="loose_tokens"
             >
               
-              0.0000010
+              0.000010
             
             </dd>
           </dl>
@@ -310,7 +310,7 @@ exports[`PageNetwork should display the network page with the blocks table in a 
               id="bonded_tokens"
             >
               
-              0.0000125
+              0.000125
             
             </dd>
           </dl>
