@@ -6,10 +6,9 @@
       </thead>
       <tbody>
         <li-validator
-          v-for="i in sortedEnrichedDelegates"
-          :key="i.operator_address"
-          :disabled="!userCanDelegate"
-          :validator="i"
+          v-for="validator in sortedEnrichedValidators"
+          :key="validator.operator_address"
+          :validator="validator"
         />
       </tbody>
     </table>
@@ -21,7 +20,6 @@ import { mapGetters } from "vuex"
 import num from "scripts/num"
 import { orderBy } from "lodash"
 import LiValidator from "staking/LiValidator"
-import { calculateTokens } from "scripts/common"
 import PanelSort from "staking/PanelSort"
 export default {
   name: `table-validators`,
@@ -39,100 +37,103 @@ export default {
     num: num,
     query: ``,
     sort: {
-      property: `percent_of_vote`,
-      order: `desc`
-    }
+      property: `commission`,
+      order: `asc`
+    },
+    rollingWindow: 10000 // param of slashing period
   }),
   computed: {
     ...mapGetters([
-      `delegation`,
       `committedDelegations`,
       `session`,
-      `liquidAtoms`,
-      `connected`,
+      `distribution`,
       `bondDenom`,
-      `keybase`
+      `keybase`,
+      `pool`
     ]),
-    vpTotal() {
-      return this.validators
-        .slice(0)
-        .map(v => {
-          v.voting_power = v.voting_power ? Number(v.voting_power) : 0
-          return v
-        })
-        .sort((a, b) => b.voting_power - a.voting_power)
-        .slice(0, 100)
-        .reduce((sum, v) => sum + v.voting_power, 0)
-    },
-    enrichedDelegates() {
-      return this.validators.map(v =>
+    enrichedValidators(
+      {
+        validators,
+        pool,
+        committedDelegations,
+        keybase,
+        session,
+        distribution,
+        rollingWindow
+      } = this
+    ) {
+      return validators.map(v =>
         Object.assign({}, v, {
           small_moniker: v.description.moniker.toLowerCase(),
-          percent_of_vote: num.percent(v.voting_power / this.vpTotal),
-          your_votes: this.num.full(
-            calculateTokens(v, this.committedDelegations[v.id])
-          ),
-          keybase: this.keybase[v.description.identity]
+          percent_of_vote: v.voting_power / pool.pool.bonded_tokens,
+          my_delegations:
+            session.signedIn && committedDelegations[v.id] > 0
+              ? committedDelegations[v.id]
+              : 0,
+          commission: v.commission.rate,
+          keybase: keybase[v.description.identity],
+          rewards:
+            session.signedIn && distribution.rewards[v.operator_address]
+              ? distribution.rewards[v.operator_address][this.bondDenom]
+              : 0,
+          uptime: v.signing_info
+            ? (rollingWindow - v.signing_info.missed_blocks_counter) /
+              rollingWindow
+            : 0
         })
       )
     },
-    sortedEnrichedDelegates() {
+    sortedEnrichedValidators() {
       return orderBy(
-        this.enrichedDelegates.slice(0),
-        [this.sort.property, `small_moniker`],
-        [this.sort.order, `asc`]
+        this.enrichedValidators.slice(0),
+        [this.sort.property],
+        [this.sort.order]
       )
-    },
-    userCanDelegate() {
-      return this.liquidAtoms > 0 && this.delegation.loaded
     },
     properties() {
       return [
         {
           title: `Moniker`,
           value: `small_moniker`,
-          tooltip: `The validator's moniker`,
-          class: `name`
+          tooltip: `The validator's moniker`
         },
         {
           title: `My Delegations`,
-          value: `your_votes`,
+          value: `my_delegations`,
           tooltip: `Number of ${
             this.bondDenom
-          } you have delegated to this validator`,
-          class: `your-votes`
+          } you have delegated to this validator`
         },
         {
           title: `Rewards`,
-          value: `your_rewards`, // TODO: use real rewards
-          tooltip: `Rewards you have earned from this validator`,
-          class: `your-rewards`
+          value: `rewards`,
+          tooltip: `Rewards you have earned from this validator`
         },
         {
           title: `Voting Power`,
           value: `percent_of_vote`,
-          tooltip: `Percentage of voting shares`,
-          class: `percent_of_vote`
-        },
-        {
-          title: `Uptime`,
-          value: `uptime`,
-          tooltip: `Ratio of blocks signed within the last 10k blocks`,
-          class: `uptime`
+          tooltip: `Percentage of voting shares`
         },
         {
           title: `Commission`,
           value: `commission`,
-          tooltip: `The validator's commission`,
-          class: `commission`
+          tooltip: `The validator's commission`
         },
         {
-          title: `Slashes`,
-          value: `slashes`, // TODO: use real slashes
-          tooltip: `The validator's slashes`,
-          class: `slashes`
+          title: `Uptime`,
+          value: `uptime`,
+          tooltip: `Ratio of blocks signed within the last 10k blocks`
         }
       ]
+    },
+    yourValidators({ committedDelegations, validators, session } = this) {
+      if (!session.signedIn) {
+        return
+      }
+
+      return validators.filter(
+        ({ operator_address }) => operator_address in committedDelegations
+      )
     }
   },
   watch: {
@@ -144,8 +145,12 @@ export default {
         return
       }
 
-      this.$store.dispatch(`getRewardsFromAllValidators`, validators)
+      this.$store.dispatch(`getRewardsFromAllValidators`, this.yourValidators)
     }
+  },
+  mounted() {
+    this.$store.dispatch(`getPool`)
+    this.$store.dispatch(`updateDelegates`)
   }
 }
 </script>

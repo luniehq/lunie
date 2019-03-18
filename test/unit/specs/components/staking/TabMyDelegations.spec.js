@@ -15,8 +15,7 @@ const getters = {
     },
     loaded: true
   },
-  committedDelegations: {
-  },
+  committedDelegations: {},
   connected: true,
   bondDenom: `uatom`,
   session: { signedIn: true }
