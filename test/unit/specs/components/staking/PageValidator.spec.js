@@ -260,6 +260,18 @@ describe(`PageValidator`, () => {
     })
   })
 
+  it(`should call user rewards on mount`, () => {
+    const session = { signedIn: true }
+    const $store = { dispatch: jest.fn() }
+    const myDelegation = 1
+    const $route = { params: { validator: `cosmos1address` } }
+    PageValidator.mounted.call({ session, $store, $route, myDelegation })
+    expect($store.dispatch).toHaveBeenCalledWith(
+      `getRewardsFromValidator`,
+      $route.params.validator
+    )
+  })
+
   it(`shouldn't call user rewards if not signed in`, () => {
     const session = { signedIn: false }
     const $store = { dispatch: jest.fn() }
