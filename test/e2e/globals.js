@@ -13,7 +13,7 @@ module.exports = {
   // controls the timeout time for async hooks. Expects the done() callback to be invoked within this time
   // or an error is thrown
   asyncHookTimeout : 30000,
-  waitForConditionTimeout : 5000,
+  waitForConditionTimeout : 60000,
 
   async before(done) {
     await bootLocalNetwork(
