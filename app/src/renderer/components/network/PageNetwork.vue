@@ -1,5 +1,6 @@
 <template>
   <tm-page
+    :managed="true"
     :loading="!lastHeader"
     :loaded="!!lastHeader"
     :error="blocks.error"
