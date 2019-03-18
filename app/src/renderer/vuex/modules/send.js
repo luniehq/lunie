@@ -69,7 +69,7 @@ export default ({ node }) => {
         from: rootState.wallet.address,
         account_number: rootState.wallet.accountNumber,
         chain_id: rootState.connection.lastHeader.chain_id,
-        gas: args.gas ? String(args.gas) : null,
+        gas: args.gas ? String(args.gas) : ``,
         gas_prices: args.gas_prices ? args.gas_prices : null,
         simulate: args.simulate,
         memo: `Sent via Cosmos Wallet 🚀`
@@ -165,8 +165,10 @@ export default ({ node }) => {
       await dispatch(`queryWalletBalances`)
 
       args.simulate = false
+      args.gas = String(Number(args.gas) * 1.5)
+      console.log(args.gas)
       const { requestBody, type, submitType, to, pathParameter } =
-        actions.cleanRequestArguments(args)
+        actions.cleanRequestArguments({ state, rootState }, args)
 
       // generate transaction without signatures (i.e generate_only)
       const request = actions.apiRequest(type, to, pathParameter, requestBody)
@@ -174,7 +176,10 @@ export default ({ node }) => {
       const tx = generationRes.value
 
       // sign transaction
-      const signature = actions.signTx(submitType, tx, args)
+      const signature = await actions.signTx(
+        { dispatch, state, rootState },
+        submitType, tx, args
+      )
 
       // broadcast transaction with signatures included
       const signedTx = state.externals.createSignedTx(tx, signature)

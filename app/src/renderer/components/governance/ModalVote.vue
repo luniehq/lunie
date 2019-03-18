@@ -57,6 +57,7 @@
 
 <script>
 import { required } from "vuelidate/lib/validators"
+import { uatoms } from "../../scripts/num.js"
 import ActionModal from "common/ActionModal"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
@@ -115,10 +116,17 @@ export default {
 
       this.vote = null
     },
-    async submitForm(submitType, password) {
+    async submitForm(gasEstimate, gasPrice, password, submitType) {
       await this.$store.dispatch(`submitVote`, {
         proposal_id: this.proposalId,
         option: this.vote,
+        gas: String(gasEstimate),
+        gas_prices: [
+          {
+            amount: String(uatoms(gasPrice)),
+            denom: this.denom // TODO: should always match staking denom
+          }
+        ],
         password,
         submitType
       })

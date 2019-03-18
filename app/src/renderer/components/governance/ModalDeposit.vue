@@ -3,6 +3,7 @@
     id="modal-deposit"
     ref="actionModal"
     :submit-fn="submitForm"
+    :simulate-fn="simulateForm"
     :validate="validateForm"
     title="Deposit"
     class="modal-deposit"
@@ -118,7 +119,7 @@ export default {
 
       this.amount = 0
     },
-    async submitForm(submitType, password) {
+    async submitForm(gasEstimate, gasPrice, password, submitType) {
       // TODO: support multiple coins
       await this.$store.dispatch(`submitDeposit`, {
         submitType,
@@ -128,6 +129,13 @@ export default {
           {
             amount: String(uatoms(this.amount)),
             denom: this.denom
+          }
+        ],
+        gas: String(gasEstimate),
+        gas_prices: [
+          {
+            amount: String(uatoms(gasPrice)),
+            denom: this.denom // TODO: should always match staking denom
           }
         ]
       })

@@ -149,7 +149,7 @@ export default {
       this.address = ``
       this.amount = 0
     },
-    async submitForm(submitType, password) {
+    async submitForm(gasEstimate, gasPrice, password, submitType) {
       const amount = +this.amount
       const address = this.address
       const denom = this.denom
@@ -157,6 +157,13 @@ export default {
 
       await this.sendTx({
         type,
+        gas: String(gasEstimate),
+        gas_prices: [
+          {
+            amount: String(uatoms(gasPrice)),
+            denom: this.denom // TODO: should always match staking denom
+          }
+        ],
         submitType,
         password,
         to: address,

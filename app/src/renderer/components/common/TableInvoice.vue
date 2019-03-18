@@ -1,52 +1,42 @@
 <template>
   <div>
     <table class="data-table">
-      <!-- <tr
-      v-for="(item, index) in amounts"
-      :key="index"
-      >
-        <td v-if="index === 0 && amounts.length === 1">
-          Subtotals
-        </td>
-        <td v-else-if="index === 0  && amounts.length > 1">
+      <tr>
+        <td>
           Subtotal
         </td>
-        <td v-else colspan="1" />
-        <td colspan="2"/>
         <td>
-          {{ `${item.amount}` `${item.denom}s` }}
+          <b>ø</b>{{ full(subTotal) }}
         </td>
-      </tr> -->
+      </tr>
       <tr>
         <td>
           Fees (estimated)
         </td>
-        <td colspan="2" />
         <td>
-          {{ `${estimatedFee}` `${denom}s` }}
+          <b>ø</b>{{ full(estimatedFee) }}
         </td>
-      </tr><tr>
-        <br>
-      </tr><tr>
+      </tr>
+      <tr>
         <td>
           Total
         </td>
-        <td colspan="2" />
         <td>
-          {{ `${total}` `${denom}s` }}
+          <b>ø</b>{{ full(total) }}
         </td>
       </tr>
     </table>
   </div>
 </template>
-
 <script>
+import { full } from "../../scripts/num.js"
+
 export default {
   name: `table-invoice`,
   props: {
-    amounts: {
-      type: Array,
-      default: null
+    amount: {
+      type: Number,
+      required: true
     },
     gasEstimate: {
       type: Number,
@@ -55,21 +45,20 @@ export default {
     gasPrice: {
       type: Number,
       required: true
-    },
-    denom: {
-      type: String,
-      required: true
     }
   },
+  data: () => ({
+    full
+  }),
   computed: {
     estimatedFee() {
-      return this.gasPrice * this.gasEstimate
+      return Number(this.gasPrice) * Number(this.gasEstimate) // already in atoms
+    },
+    subTotal() {
+      return Number(this.amount) // already in atoms
     },
     total() {
-      if (this.amount) {
-        return this.amount + this.estimatedFee
-      }
-      return this.estimatedFee
+      return this.estimatedFee + this.subTotal // already in atoms
     }
   }
 }

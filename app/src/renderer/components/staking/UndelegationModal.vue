@@ -3,6 +3,7 @@
     id="undelegation-modal"
     ref="actionModal"
     :submit-fn="submitForm"
+    :simulate-fn="simulateForm"
     :validate="validateForm"
     title="Undelegate"
     class="undelegation-modal"
@@ -134,10 +135,23 @@ export default {
       this.selectedIndex = 0
       this.amount = null
     },
-    async submitForm(submitType, password) {
+    async simulateForm() {
+      return await this.$store.dispatch(`simulateUnbondingDelegation`, {
+        amount: -uatoms(this.amount),
+        validator: this.validator
+      })
+    },
+    async submitForm(gasEstimate, gasPrice, submitType, password) {
       await this.$store.dispatch(`submitUnbondingDelegation`, {
         amount: -uatoms(this.amount),
         validator: this.validator,
+        gas: String(gasEstimate),
+        gas_prices: [
+          {
+            amount: String(uatoms(gasPrice)),
+            denom: this.denom // TODO: should always match staking denom
+          }
+        ],
         submitType,
         password
       })

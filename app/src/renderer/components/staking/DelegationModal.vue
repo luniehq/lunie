@@ -3,6 +3,7 @@
     id="delegation-modal"
     ref="actionModal"
     :submit-fn="submitForm"
+    :simulate-fn="simulateForm"
     :validate="validateForm"
     title="Delegate"
     class="delegation-modal"
@@ -143,12 +144,19 @@ export default {
       this.selectedIndex = 0
       this.amount = null
     },
-    async submitDelegation(submitType, password) {
+    async submitDelegation(gasEstimate, gasPrice, password, submitType) {
       await this.$store.dispatch(`submitDelegation`, {
         validator_address: this.validator.operator_address,
         amount: String(uatoms(this.amount)),
         submitType,
-        password
+        password,
+        gas: String(gasEstimate),
+        gas_prices: [
+          {
+            amount: String(uatoms(gasPrice)),
+            denom: this.denom // TODO: should always match staking denom
+          }
+        ]
       })
 
       this.$store.commit(`notify`, {
@@ -156,7 +164,7 @@ export default {
         body: `You have successfully delegated your ${this.denom}s`
       })
     },
-    async submitRedelegation(submitType, password) {
+    async submitRedelegation(gasEstimate, gasPrice, password, submitType) {
       const validatorSrc = this.delegates.delegates.find(
         v => this.from === v.operator_address
       )
@@ -165,7 +173,14 @@ export default {
         validatorDst: this.validator,
         amount: String(uatoms(this.amount)),
         submitType,
-        password
+        password,
+        gas: String(gasEstimate),
+        gas_prices: [
+          {
+            amount: String(uatoms(gasPrice)),
+            denom: this.denom // TODO: should always match staking denom
+          }
+        ]
       })
 
       this.$store.commit(`notify`, {
@@ -173,11 +188,16 @@ export default {
         body: `You have successfully redelegated your ${this.denom}s`
       })
     },
-    async submitForm(submitType, password) {
+    async submitForm(gasEstimate, gasPrice, password, submitType) {
       if (this.from === this.session.address) {
-        await this.submitDelegation(submitType, password)
+        await this.submitDelegation(gasEstimate, gasPrice, password, submitType)
       } else {
-        await this.submitRedelegation(submitType, password)
+        await this.submitRedelegation(
+          gasEstimate,
+          gasPrice,
+          password,
+          submitType
+        )
       }
     }
   },

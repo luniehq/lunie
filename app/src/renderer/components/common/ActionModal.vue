@@ -42,6 +42,7 @@
           field-id="gasPrice"
           field-label="Gas Price"
         >
+          <span class="input-suffix">{{ bondDenom }}</span>
           <tm-field
             id="gas-price"
             v-model="gasPrice"
@@ -51,12 +52,12 @@
           />
           <tm-form-msg
             v-if="balance === 0"
-            :msg="`doesn't have any ${bondDenoms}s`"
+            :msg="`doesn't have any ${bondDenom}s`"
             name="Wallet"
             type="custom"
           />
           <tm-form-msg
-            v-else-if="$v.gasPrice.$error && (!$v.gasPrice.required)"
+            v-else-if="$v.gasPrice.$error && !$v.gasPrice.required"
             name="Gas price"
             type="required"
           />
@@ -69,10 +70,9 @@
           />
         </tm-form-group>
         <table-invoice
-          :amounts="[]"
-          :gas-eestimate="gasEstimate"
-          :gas-price="gasPrice"
-          :denom="bondDenom"
+          :amount="Number(amount)"
+          :gas-estimate="Number(gasEstimate)"
+          :gas-price="Number(gasPrice)"
         />
       </div>
       <div v-else-if="step === `sign`" class="action-modal-form">
@@ -179,8 +179,8 @@ import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
 import TableInvoice from "common/TableInvoice"
 import { mapGetters } from "vuex"
-import { uatoms, atoms } from "../../scripts/num.js"
-import { between, decimal, requiredIf } from "vuelidate/lib/validators"
+import { uatoms, atoms, gasPriceFormat } from "../../scripts/num.js"
+import { between, requiredIf } from "vuelidate/lib/validators"
 import { track } from "../../google-analytics.js"
 
 const defaultStep = `txDetails`
@@ -223,6 +223,10 @@ export default {
     submissionErrorPrefix: {
       type: String,
       default: `Transaction failed`
+    },
+    amount: {
+      type: [String, Number],
+      default: `0`
     }
   },
   data: () => ({
@@ -231,12 +235,13 @@ export default {
     password: null,
     sending: false,
     gasEstimate: null,
-    gasPrice: 0.025 * 1e-6, // recomended default: 0.025 uatom per gas
+    gasPrice: (0.025 * 1e-6).toFixed(9), // recomended default: 0.025 uatom per gas
     submissionError: null,
     show: false,
     track,
     atoms,
-    uatoms
+    uatoms,
+    gasPriceFormat
   }),
   computed: {
     ...mapGetters([`connected`, `session`, `bondDenom`, `wallet`]),
@@ -311,13 +316,17 @@ export default {
           this.sending = false
           return
         case feeStep:
-          this.$v.$touch()
+          this.$v.gasPrice.$touch()
           if (this.$v.$invalid) {
             return
           }
           this.step = signStep
           return
         case signStep:
+          this.$v.password.$touch()
+          if (this.$v.$invalid) {
+            return
+          }
           // submit transaction
           this.sending = true
           await this.submit()
@@ -343,10 +352,10 @@ export default {
 
       try {
         await this.submitFn(
-          this.selectedSignMethod,
           this.gasEstimate,
           this.gasPrice,
-          this.password
+          this.password,
+          this.selectedSignMethod
         )
 
         this.close()
@@ -370,7 +379,6 @@ export default {
       },
       gasPrice: {
         required: requiredIf(() => this.step === feeStep),
-        decimal,
         // we don't use SMALLEST as min gas price because it can be a fraction of uatom
         // min is 0 because we support sending 0 fees
         between: between(0, atoms(this.balance))

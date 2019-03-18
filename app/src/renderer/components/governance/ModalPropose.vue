@@ -3,7 +3,9 @@
     id="modal-propose"
     ref="actionModal"
     :submit-fn="submitForm"
+    :simulate-fn="simulateForm"
     :validate="validateForm"
+    :amount="amount"
     title="Proposal"
     submission-error-prefix="Submitting proposal failed"
     @close="clear"
@@ -68,6 +70,7 @@
       <tm-field
         id="amount"
         v-model="amount"
+        :value="Number(amount)"
         type="number"
       />
       <tm-form-msg
@@ -138,7 +141,7 @@ export default {
     title: ``,
     description: ``,
     type: `Text`,
-    amount: 0
+    amount: `0`
   }),
   computed: {
     ...mapGetters([`wallet`]),
@@ -193,18 +196,38 @@ export default {
       this.description = ``
       this.amount = 0
     },
-    async submitForm(submitType, password) {
+    async simulateForm() {
+      return await this.$store.dispatch(`simulateProposal`, {
+        title: this.title,
+        description: this.description,
+        type: this.type,
+        initial_deposit: [
+          {
+            denom: this.denom,
+            amount: String(uatoms(this.amount))
+          }
+        ]
+      })
+    },
+    async submitForm(gasEstimate, gasPrice, password, submitType) {
       await this.$store.dispatch(`submitProposal`, {
         title: this.title,
         description: this.description,
         type: this.type,
-        submitType,
         initial_deposit: [
           {
             denom: this.denom,
             amount: String(uatoms(this.amount))
           }
         ],
+        gas: String(gasEstimate),
+        gas_prices: [
+          {
+            amount: String(uatoms(gasPrice)),
+            denom: this.denom // TODO: should always match staking denom
+          }
+        ],
+        submitType,
         password
       })
       this.$store.commit(`notify`, {
