@@ -131,9 +131,9 @@ export default {
     lastHeader: {
       immediate: true,
       handler(newHeader) {
-        const waitTenBlocks = Number(newHeader.height) % 20 === 0
+        const waitTwentyBlocks = Number(newHeader.height) % 20 === 0
         if (
-          waitTenBlocks &&
+          waitTwentyBlocks &&
           this.yourValidators &&
           this.yourValidators.length > 0
         ) {

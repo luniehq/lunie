@@ -263,9 +263,9 @@ describe(`PageValidator`, () => {
   it(`should call user rewards on mount`, () => {
     const session = { signedIn: true }
     const $store = { dispatch: jest.fn() }
-    const myDelegation = 1
+    const myBond = 1
     const $route = { params: { validator: `cosmos1address` } }
-    PageValidator.mounted.call({ session, $store, $route, myDelegation })
+    PageValidator.mounted.call({ session, $store, $route, myBond })
     expect($store.dispatch).toHaveBeenCalledWith(
       `getRewardsFromValidator`,
       $route.params.validator
@@ -286,9 +286,9 @@ describe(`PageValidator`, () => {
   it(`shouldn't call user rewards there're no delegations`, () => {
     const session = { signedIn: true }
     const $store = { dispatch: jest.fn() }
-    const myDelegation = `--`
+    const myBond = 0
     const $route = { params: { validator: `cosmos1address` } }
-    PageValidator.mounted.call({ session, $store, $route, myDelegation })
+    PageValidator.mounted.call({ session, $store, $route, myBond })
     expect($store.dispatch).not.toHaveBeenCalledWith(
       `getRewardsFromValidator`,
       $route.params.validator
@@ -304,10 +304,10 @@ describe(`PageValidator`, () => {
           params: { validator: `cosmos1address` },
           name: `validator`
         }
-        const myDelegation = `1 atom`
+        const myBond = 1
         const newHeader = { height: `20` }
         PageValidator.watch.lastHeader.handler.call(
-          { session, $store, $route, myDelegation },
+          { session, $store, $route, myBond },
           newHeader)
         expect($store.dispatch).not.toHaveBeenCalledWith(
           `getRewardsFromValidator`,
@@ -322,10 +322,10 @@ describe(`PageValidator`, () => {
           params: { validator: `cosmos1address` },
           name: `validator`
         }
-        const myDelegation = `1 atom`
+        const myBond = 1
         const newHeader = { height: `30` }
         PageValidator.watch.lastHeader.handler.call(
-          { session, $store, $route, myDelegation },
+          { session, $store, $route, myBond },
           newHeader)
         expect($store.dispatch).not.toHaveBeenCalledWith(
           `getRewardsFromValidator`,
@@ -340,10 +340,10 @@ describe(`PageValidator`, () => {
           params: { validator: `cosmos1address` },
           name: `my-delegations`
         }
-        const myDelegation = `1 atom`
+        const myBond = 1
         const newHeader = { height: `20` }
         PageValidator.watch.lastHeader.handler.call(
-          { session, $store, $route, myDelegation },
+          { session, $store, $route, myBond },
           newHeader)
         expect($store.dispatch).not.toHaveBeenCalledWith(
           `getRewardsFromValidator`,
@@ -358,10 +358,10 @@ describe(`PageValidator`, () => {
           params: { validator: `cosmos1address` },
           name: `validator`
         }
-        const myDelegation = `--`
+        const myBond = 0
         const newHeader = { height: `30` }
         PageValidator.watch.lastHeader.handler.call(
-          { session, $store, $route, myDelegation },
+          { session, $store, $route, myBond },
           newHeader)
         expect($store.dispatch).not.toHaveBeenCalledWith(
           `getRewardsFromValidator`,
@@ -382,10 +382,10 @@ describe(`PageValidator`, () => {
             params: { validator: `cosmos1address` },
             name: `validator`
           }
-          const myDelegation = `1 atom`
+          const myBond = 1
           const newHeader = { height: `20` }
           PageValidator.watch.lastHeader.handler.call(
-            { session, $store, $route, myDelegation },
+            { session, $store, $route, myBond },
             newHeader)
           expect($store.dispatch).toHaveBeenCalledWith(
             `getRewardsFromValidator`,
