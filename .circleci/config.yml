@@ -304,7 +304,7 @@ workflows:
                 - master
       - sentry:
           requires:
-            - testUnit
+            - build
           filters:
             branches:
               only:

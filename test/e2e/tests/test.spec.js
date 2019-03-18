@@ -1,6 +1,7 @@
 module.exports = {
   url: `http://localhost:8081`,
   'Demo test' : function (browser) {
+    browser.pause( 1000 )
     browser
       .url(browser.launch_url)
       .waitForElementVisible(`body`)

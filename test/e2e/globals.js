@@ -13,16 +13,17 @@ module.exports = {
   // controls the timeout time for async hooks. Expects the done() callback to be invoked within this time
   // or an error is thrown
   asyncHookTimeout : 30000,
+  waitForConditionTimeout : 5000,
 
   async before(done) {
-    await bootLocalNetwork(
-      testDir,
-      {
-        chainId: `test_chain`,
-        overwrite: true,
-        moniker: `local`
-      }
-    )
+    // await bootLocalNetwork(
+    //   testDir,
+    //   {
+    //     chainId: `test_chain`,
+    //     overwrite: true,
+    //     moniker: `local`
+    //   }
+    // )
 
     done()
   },
@@ -59,6 +60,7 @@ const bootLocalNetwork = async (targetDir, options) => {
   await buildLocalTestnet(
     targetDir,
     3,
-    options
+    options,
+    true
   )
 }

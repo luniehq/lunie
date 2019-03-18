@@ -17,7 +17,8 @@ const {
 const buildLocalTestnet = async (
   buildTestnetPath,
   numberNodes,
-  options
+  options,
+  test = false
 ) => {
   options = Object.assign({
     chainId: `default-testnet`,
@@ -30,7 +31,7 @@ const buildLocalTestnet = async (
     buildTestnetPath,
     options,
     numberNodes,
-    false
+    test
   )
   await nodesInitialStart(nodes, mainAccountSignInfo, options.chainId)
 
