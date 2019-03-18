@@ -86,7 +86,13 @@ export default {
   color: var(--bright);
 }
 
-@media screen and (max-width: 1023px) {
+@media screen and (max-width: 425px) {
+  .header-buttons .tm-btn {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 767px) {
   .tabs {
     width: 100%;
   }
@@ -99,10 +105,6 @@ export default {
     width: 100%;
     padding: 1rem;
     background: var(--app-bg);
-  }
-
-  .header-buttons .tm-btn {
-    width: 100%;
   }
 }
 </style>

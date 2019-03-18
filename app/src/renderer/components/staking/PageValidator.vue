@@ -14,13 +14,13 @@
             v-if="validator.keybase"
             :src="validator.keybase.avatarUrl"
             class="avatar"
-          ><img
+          /><img
             v-else
             class="avatar"
             src="~assets/images/validator-icon.svg"
-          >
+          />
 
-          <div class="row page-profile__header__info">
+          <div class="page-profile__header__info">
             <div>
               <div class="validator-name-and-address">
                 <div class="page-profile__status-and-title">
@@ -387,21 +387,28 @@ export default {
 }
 </script>
 <style scoped>
-@media screen and (max-width: 1023px) {
+@media screen and (max-width: 425px) {
+  .page-profile__header__actions {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .page-profile__header .avatar {
+    padding: 0;
+  }
+
   .validator-name-and-address {
     padding-bottom: 2rem;
   }
 
   .page-profile__header__info {
-    align-items: flex-start;
+    align-items: center;
+    flex-direction: column;
   }
 
-  .page-profile__header__actions {
+  .page-profile__header__info > div {
     width: 100%;
-  }
-
-  .page-profile__header .avatar {
-    display: none;
   }
 }
 </style>
