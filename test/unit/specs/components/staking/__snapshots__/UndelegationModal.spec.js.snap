@@ -4,6 +4,7 @@ exports[`UndelegationModal component matches snapshot has the expected html stru
 <action-modal-stub
   class="undelegation-modal"
   id="undelegation-modal"
+  simulatefn="function () { [native code] }"
   submissionerrorprefix="Undelegating failed"
   submitfn="function () { [native code] }"
   title="Undelegate"

@@ -35,12 +35,7 @@ exports[`ActionModal has the expected html structure when user has logged in wit
    
   <div
     class="action-modal-form"
-  >
-     
-    <!---->
-     
-    <!---->
-  </div>
+  />
    
   <div
     class="action-modal-footer"
@@ -97,6 +92,8 @@ exports[`ActionModal has the expected html structure when user has logged in wit
   <div
     class="action-modal-form"
   >
+    <!---->
+     
     <hardware-state-stub
       icon="usb"
     >
@@ -116,7 +113,7 @@ exports[`ActionModal has the expected html structure when user has logged in wit
       <div>
         <tm-btn-stub
           color="primary"
-          value="Next"
+          value="Submit"
         />
       </div>
     </tm-form-group-stub>
@@ -161,24 +158,7 @@ exports[`ActionModal has the expected html structure when user has logged in wit
    
   <div
     class="action-modal-form"
-  >
-     
-    <!---->
-     
-    <tm-form-group-stub
-      class="action-modal-group"
-      fieldid="password"
-      fieldlabel="Password"
-    >
-      <tm-field-stub
-        id="password"
-        placeholder="Password"
-        type="password"
-      />
-       
-      <!---->
-    </tm-form-group-stub>
-  </div>
+  />
    
   <div
     class="action-modal-footer"
@@ -189,7 +169,7 @@ exports[`ActionModal has the expected html structure when user has logged in wit
       <div>
         <tm-btn-stub
           color="primary"
-          value="Submit"
+          value="Next"
         />
       </div>
     </tm-form-group-stub>

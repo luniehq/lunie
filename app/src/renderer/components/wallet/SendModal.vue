@@ -3,6 +3,7 @@
     id="send-modal"
     ref="actionModal"
     :submit-fn="submitForm"
+    :simulate-fn="simulateForm"
     :validate="validateForm"
     title="Send"
     submission-error-prefix="Sending tokens failed"
@@ -148,6 +149,18 @@ export default {
 
       this.address = ``
       this.amount = 0
+    },
+    async simulateForm() {
+      const amount = +this.amount
+      const address = this.address
+      const denom = this.denom
+      const type = `send`
+
+      return await this.$store.dispatch(`simulateTx`, {
+        type,
+        to: address,
+        amount: [{ denom, amount: String(uatoms(amount)) }]
+      })
     },
     async submitForm(gasEstimate, gasPrice, password, submitType) {
       const amount = +this.amount
