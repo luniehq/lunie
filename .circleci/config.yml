@@ -199,6 +199,8 @@ jobs:
     environment:
       - BINARY_PATH: "/tmp/voyager/linux_amd64/gaiacli"
       - NODE_BINARY_PATH: "/tmp/voyager/linux_amd64/gaiad"
+      - RUN_ON_BSTACK: true
+      - BSTACK_LOCAL: true
     steps:
       - checkout
       - attach_workspace:
