@@ -44,32 +44,40 @@ export default {
   }),
   computed: {
     ...mapGetters([
-      `delegation`,
       `committedDelegations`,
       `session`,
       `distribution`,
-      `liquidAtoms`,
       `bondDenom`,
       `keybase`,
       `pool`
     ]),
-    enrichedValidators() {
-      return this.validators.map(v =>
+    enrichedValidators({
+      validators,
+      pool,
+      committedDelegations,
+      keybase,
+      session,
+      distribution,
+      rollingWindow
+    } = this) {
+      return validators.map(v =>
         Object.assign({}, v, {
           small_moniker: v.description.moniker.toLowerCase(),
-          percent_of_vote: v.voting_power / this.pool.pool.bonded_tokens,
-          my_delegations: this.committedDelegations[v.id] > 0
-            ? this.committedDelegations[v.id]
+          percent_of_vote: v.voting_power / pool.pool.bonded_tokens,
+          my_delegations: session.signedIn
+            && committedDelegations[v.id] > 0
+            ? committedDelegations[v.id]
             : 0,
           commission: v.commission.rate,
-          keybase: this.keybase[v.description.identity],
-          rewards: this.session.signedIn
-            && this.distribution.loaded && !isEmpty(this.distribution.rewards)
-            ? this.distribution.rewards[v.operator_address]
+          keybase: keybase[v.description.identity],
+          rewards: session.signedIn
+            && distribution.loaded
+            && !isEmpty(distribution.rewards)
+            ? distribution.rewards[v.operator_address]
             : 0,
           uptime: v.signing_info
-            ? (this.rollingWindow - v.signing_info.missed_blocks_counter)
-            / this.rollingWindow
+            ? (rollingWindow - v.signing_info.missed_blocks_counter)
+            / rollingWindow
             : 0
         })
       )
