@@ -3,6 +3,8 @@
 exports[`LiAnyTransaction shows bank transactions 1`] = `
 <li-bank-transaction-stub
   address="cosmos1address"
+  bondingdenom="atom"
+  fees="[object Object]"
   transaction="[object Object]"
 />
 `;
@@ -10,6 +12,7 @@ exports[`LiAnyTransaction shows bank transactions 1`] = `
 exports[`LiAnyTransaction shows distribution transactions 1`] = `
 <li-distribution-transaction-stub
   bondingdenom="atom"
+  fees="[object Object]"
   transaction="[object Object]"
   txtype="cosmos-sdk/MsgWithdrawDelegationReward"
   url="/validators"
@@ -20,6 +23,7 @@ exports[`LiAnyTransaction shows distribution transactions 1`] = `
 exports[`LiAnyTransaction shows governance transactions 1`] = `
 <li-gov-transaction-stub
   bondingdenom="atom"
+  fees="[object Object]"
   transaction="[object Object]"
   txtype="cosmos-sdk/MsgSubmitProposal"
 />
@@ -28,6 +32,7 @@ exports[`LiAnyTransaction shows governance transactions 1`] = `
 exports[`LiAnyTransaction shows staking transactions 1`] = `
 <li-stake-transaction-stub
   bondingdenom="atom"
+  fees="[object Object]"
   transaction="[object Object]"
   txtype="cosmos-sdk/MsgCreateValidator"
   url="/validators"

@@ -194,15 +194,15 @@ export default {
     track
   }),
   computed: {
-    ...mapGetters([`connected`, `ledger`, `session`]),
+    ...mapGetters([`connected`, `session`]),
     selectedSignMethod() {
-      if (this.ledger.isConnected) {
+      if (this.session.sessionType === `ledger`) {
         return signWithLedger
       }
       return signWithLocalKeystore
     },
     signMethods() {
-      if (this.ledger.isConnected) {
+      if (this.session.sessionType === `ledger`) {
         return [
           {
             key: `Ledger Nano S`,
