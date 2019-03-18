@@ -17,7 +17,7 @@ describe(`TableValidators`, () => {
       loaded: true,
       rewards: {
         cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw: {
-          uatom: 1000
+          stake: 1000
         }
       }
     },
