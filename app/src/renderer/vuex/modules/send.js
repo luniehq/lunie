@@ -69,8 +69,8 @@ export default ({ node }) => {
         from: rootState.wallet.address,
         account_number: rootState.wallet.accountNumber,
         chain_id: rootState.connection.lastHeader.chain_id,
-        gas: args.gas ? String(args.gas) : ``,
-        gas_prices: args.gas_prices ? args.gas_prices : null,
+        gas: args.gas,
+        gas_prices: args.gas_prices,
         simulate: args.simulate,
         memo: `Sent via Cosmos Wallet 🚀`
       }
@@ -165,8 +165,9 @@ export default ({ node }) => {
       await dispatch(`queryWalletBalances`)
 
       args.simulate = false
-      args.gas = String(Number(args.gas) * 1.5)
-      console.log(args.gas)
+      const gasAdjustment = 1.5 // we don't use the flag bc it only works with gas=auto
+      const adjustedGas = String(Math.floor(Number(args.gas) * gasAdjustment)) // by using floor we match the displayed expected fees
+      args.gas = adjustedGas // only suports integer or auto
       const { requestBody, type, submitType, to, pathParameter } =
         actions.cleanRequestArguments({ state, rootState }, args)
 

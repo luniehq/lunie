@@ -5,6 +5,7 @@
     :submit-fn="submitForm"
     :simulate-fn="simulateForm"
     :validate="validateForm"
+    :amount="amount"
     title="Undelegate"
     class="undelegation-modal"
     submission-error-prefix="Undelegating failed"
@@ -149,7 +150,7 @@ export default {
         gas_prices: [
           {
             amount: String(uatoms(gasPrice)),
-            denom: this.denom // TODO: should always match staking denom
+            denom: this.bondDenom
           }
         ],
         submitType,

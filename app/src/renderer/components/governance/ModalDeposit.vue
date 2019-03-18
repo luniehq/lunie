@@ -5,6 +5,7 @@
     :submit-fn="submitForm"
     :simulate-fn="simulateForm"
     :validate="validateForm"
+    :amount="amount"
     title="Deposit"
     class="modal-deposit"
     submission-error-prefix="Depositing failed"
@@ -84,7 +85,7 @@ export default {
     amount: 0
   }),
   computed: {
-    ...mapGetters([`wallet`]),
+    ...mapGetters([`wallet`, `bondDenom`]),
     balance() {
       // TODO: refactor to get the selected coin when multicoin deposit is enabled
       if (!this.wallet.loading && !!this.wallet.balances.length) {
@@ -119,6 +120,17 @@ export default {
 
       this.amount = 0
     },
+    async simulateForm() {
+      return await this.$store.dispatch(`simulateDeposit`, {
+        proposal_id: this.proposalId,
+        amount: [
+          {
+            amount: String(uatoms(this.amount)),
+            denom: this.denom
+          }
+        ]
+      })
+    },
     async submitForm(gasEstimate, gasPrice, password, submitType) {
       // TODO: support multiple coins
       await this.$store.dispatch(`submitDeposit`, {
@@ -135,7 +147,7 @@ export default {
         gas_prices: [
           {
             amount: String(uatoms(gasPrice)),
-            denom: this.denom // TODO: should always match staking denom
+            denom: this.bondDenom
           }
         ]
       })

@@ -87,7 +87,7 @@ export default ({ node }) => {
     async simulateWithdrawAllRewards(
       { rootState: { wallet }, dispatch }
     ) {
-      await dispatch(`simulateTx`, {
+      return await dispatch(`simulateTx`, {
         type: `postWithdrawDelegatorRewards`,
         to: wallet.address
       })

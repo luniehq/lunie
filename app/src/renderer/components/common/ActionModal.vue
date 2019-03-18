@@ -134,7 +134,8 @@
               />
               <tm-btn
                 v-else-if="sending"
-                :value="step === `sign` ? `Waiting for Ledger` : `Sending...`"
+                :value="step === `sign` && selectedSignMethod === `ledger`
+                  ? `Waiting for Ledger` : `Sending...`"
                 disabled="disabled"
                 color="primary"
               />
@@ -179,7 +180,7 @@ import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
 import TableInvoice from "common/TableInvoice"
 import { mapGetters } from "vuex"
-import { uatoms, atoms, gasPriceFormat } from "../../scripts/num.js"
+import { uatoms, atoms } from "../../scripts/num.js"
 import { between, requiredIf } from "vuelidate/lib/validators"
 import { track } from "../../google-analytics.js"
 
@@ -240,8 +241,7 @@ export default {
     show: false,
     track,
     atoms,
-    uatoms,
-    gasPriceFormat
+    uatoms
   }),
   computed: {
     ...mapGetters([`connected`, `session`, `bondDenom`, `wallet`]),

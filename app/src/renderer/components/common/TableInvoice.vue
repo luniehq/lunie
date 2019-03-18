@@ -52,7 +52,8 @@ export default {
   }),
   computed: {
     estimatedFee() {
-      return Number(this.gasPrice) * Number(this.gasEstimate) // already in atoms
+      const gasAdjustment = 1.5
+      return Number(this.gasPrice) * Number(this.gasEstimate) * gasAdjustment // already in atoms
     },
     subTotal() {
       return Number(this.amount) // already in atoms

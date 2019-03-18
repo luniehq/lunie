@@ -5,6 +5,7 @@
     :submit-fn="submitForm"
     :simulate-fn="simulateForm"
     :validate="validateForm"
+    :amount="amount"
     title="Delegate"
     class="delegation-modal"
     submission-error-prefix="Delegating failed"
@@ -117,7 +118,7 @@ export default {
     selectedIndex: 0
   }),
   computed: {
-    ...mapGetters([`delegates`, `session`]),
+    ...mapGetters([`delegates`, `session`, `bondDenom`]),
     balance() {
       if (!this.session.signedIn) return 0
 
@@ -144,6 +145,12 @@ export default {
       this.selectedIndex = 0
       this.amount = null
     },
+    async simulateDelegation() {
+      return await this.$store.dispatch(`simulateDelegation`, {
+        validator_address: this.validator.operator_address,
+        amount: String(uatoms(this.amount))
+      })
+    },
     async submitDelegation(gasEstimate, gasPrice, password, submitType) {
       await this.$store.dispatch(`submitDelegation`, {
         validator_address: this.validator.operator_address,
@@ -154,7 +161,7 @@ export default {
         gas_prices: [
           {
             amount: String(uatoms(gasPrice)),
-            denom: this.denom // TODO: should always match staking denom
+            denom: this.bondDenom
           }
         ]
       })
@@ -162,6 +169,16 @@ export default {
       this.$store.commit(`notify`, {
         title: `Successful delegation!`,
         body: `You have successfully delegated your ${this.denom}s`
+      })
+    },
+    async simulateRedelegation() {
+      const validatorSrc = this.delegates.delegates.find(
+        v => this.from === v.operator_address
+      )
+      return await this.$store.dispatch(`simulateRedelegation`, {
+        validatorSrc,
+        validatorDst: this.validator,
+        amount: String(uatoms(this.amount))
       })
     },
     async submitRedelegation(gasEstimate, gasPrice, password, submitType) {
@@ -178,7 +195,7 @@ export default {
         gas_prices: [
           {
             amount: String(uatoms(gasPrice)),
-            denom: this.denom // TODO: should always match staking denom
+            denom: this.bondDenom
           }
         ]
       })
@@ -187,6 +204,13 @@ export default {
         title: `Successful redelegation!`,
         body: `You have successfully redelegated your ${this.denom}s`
       })
+    },
+    async simulateForm() {
+      if (this.from === this.session.address) {
+        return await this.simulateDelegation()
+      } else {
+        return await this.simulateRedelegation()
+      }
     },
     async submitForm(gasEstimate, gasPrice, password, submitType) {
       if (this.from === this.session.address) {

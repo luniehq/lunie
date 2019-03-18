@@ -151,7 +151,7 @@ export default ({ node }) => {
         amount: String(amount)
       }
 
-      await dispatch(`simulateTx`, {
+      return await dispatch(`simulateTx`, {
         type: `postDelegation`,
         to: session.address, // TODO strange syntax
         password,

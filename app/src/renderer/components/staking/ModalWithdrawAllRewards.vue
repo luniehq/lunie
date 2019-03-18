@@ -58,7 +58,7 @@ export default {
         gas_prices: [
           {
             amount: String(uatoms(gasPrice)),
-            denom: this.denom // TODO: should always match staking denom
+            denom: this.bondDenom
           }
         ],
         submitType,
