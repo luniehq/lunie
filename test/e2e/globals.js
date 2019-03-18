@@ -28,6 +28,7 @@ module.exports = {
     done()
   },
   beforeEach(browser, done) {
+    browser.pause( 1000 )
     browser
       .url(browser.launch_url)
       .execute(function() {
