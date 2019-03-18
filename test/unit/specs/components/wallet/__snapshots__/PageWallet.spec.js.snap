@@ -3,6 +3,7 @@
 exports[`PageWallet should display the wallet page 1`] = `
 <tm-page-stub
   data-title="Wallet"
+  managed="true"
   refresh="function () { [native code] }"
   signinrequired="true"
   subtitle=""
@@ -25,18 +26,20 @@ exports[`PageWallet should display the wallet page 1`] = `
     </div>
   </tm-data-msg-stub>
    
-  <li-coin-stub
-    class="tm-li-balance"
-    coin="[object Object]"
-  />
-  <li-coin-stub
-    class="tm-li-balance"
-    coin="[object Object]"
-  />
-  <li-coin-stub
-    class="tm-li-balance"
-    coin="[object Object]"
-  />
+  <template>
+    <li-coin-stub
+      class="tm-li-balance"
+      coin="[object Object]"
+    />
+    <li-coin-stub
+      class="tm-li-balance"
+      coin="[object Object]"
+    />
+    <li-coin-stub
+      class="tm-li-balance"
+      coin="[object Object]"
+    />
+  </template>
    
   <send-modal-stub />
 </tm-page-stub>
@@ -45,6 +48,7 @@ exports[`PageWallet should display the wallet page 1`] = `
 exports[`PageWallet should not show denoms or the faucet button for a user who is not signed in 1`] = `
 <tm-page-stub
   data-title="Wallet"
+  managed="true"
   refresh="function () { [native code] }"
   signinrequired="true"
   subtitle=""
@@ -67,18 +71,20 @@ exports[`PageWallet should not show denoms or the faucet button for a user who i
     </div>
   </tm-data-msg-stub>
    
-  <li-coin-stub
-    class="tm-li-balance"
-    coin="[object Object]"
-  />
-  <li-coin-stub
-    class="tm-li-balance"
-    coin="[object Object]"
-  />
-  <li-coin-stub
-    class="tm-li-balance"
-    coin="[object Object]"
-  />
+  <template>
+    <li-coin-stub
+      class="tm-li-balance"
+      coin="[object Object]"
+    />
+    <li-coin-stub
+      class="tm-li-balance"
+      coin="[object Object]"
+    />
+    <li-coin-stub
+      class="tm-li-balance"
+      coin="[object Object]"
+    />
+  </template>
    
   <send-modal-stub />
 </tm-page-stub>
@@ -87,6 +93,7 @@ exports[`PageWallet should not show denoms or the faucet button for a user who i
 exports[`PageWallet should show the sending modal 1`] = `
 <tm-page-stub
   data-title="Wallet"
+  managed="true"
   refresh="function () { [native code] }"
   signinrequired="true"
   subtitle=""
@@ -109,18 +116,20 @@ exports[`PageWallet should show the sending modal 1`] = `
     </div>
   </tm-data-msg-stub>
    
-  <li-coin-stub
-    class="tm-li-balance"
-    coin="[object Object]"
-  />
-  <li-coin-stub
-    class="tm-li-balance"
-    coin="[object Object]"
-  />
-  <li-coin-stub
-    class="tm-li-balance"
-    coin="[object Object]"
-  />
+  <template>
+    <li-coin-stub
+      class="tm-li-balance"
+      coin="[object Object]"
+    />
+    <li-coin-stub
+      class="tm-li-balance"
+      coin="[object Object]"
+    />
+    <li-coin-stub
+      class="tm-li-balance"
+      coin="[object Object]"
+    />
+  </template>
    
   <send-modal-stub />
 </tm-page-stub>

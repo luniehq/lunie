@@ -1,5 +1,6 @@
 <template>
   <tm-page
+    :managed="true"
     :loading="wallet.loading"
     :loaded="wallet.loaded"
     :error="wallet.error"

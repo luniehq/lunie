@@ -30,7 +30,7 @@
     </tm-page-header>
     <main class="tm-page-main">
       <card-sign-in-required v-if="signInRequired && !session.signedIn" />
-      <template v-else-if="this.$slots['managed-body']">
+      <template v-else-if="managed">
         <tm-data-connecting v-if="!loaded && !connected" />
         <tm-data-loading v-else-if="!loaded && loading" />
         <tm-data-error v-else-if="error" />
@@ -86,6 +86,10 @@ export default {
     subtitle: {
       type: String,
       default: ``
+    },
+    managed: {
+      type: Boolean,
+      default: false
     },
     error: {
       type: Error,

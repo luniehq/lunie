@@ -4,6 +4,7 @@ exports[`PageNetwork should display the network page with data and the blocks ta
 <tm-page-stub
   data-title="Network"
   loaded="true"
+  managed="true"
   subtitle=""
   title=""
 >
@@ -188,6 +189,7 @@ exports[`PageNetwork should display the network page with the blocks table in a 
 <tm-page-stub
   data-title="Network"
   loaded="true"
+  managed="true"
   subtitle=""
   title=""
 >
