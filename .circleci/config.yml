@@ -288,16 +288,12 @@ workflows:
             branches:
               ignore: release
 
-      - build:
-          # no heavy lifting if other portion fails
-          requires:
-            - security
-            - lint
-
+      - build
       - buildGaia
       - deploy2s3:
           requires:
             - testUnit
+            - security
             - build
           filters:
             branches:
