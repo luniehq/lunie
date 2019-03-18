@@ -51,32 +51,34 @@ export default {
       `keybase`,
       `pool`
     ]),
-    enrichedValidators({
-      validators,
-      pool,
-      committedDelegations,
-      keybase,
-      session,
-      distribution,
-      rollingWindow
-    } = this) {
+    enrichedValidators(
+      {
+        validators,
+        pool,
+        committedDelegations,
+        keybase,
+        session,
+        distribution,
+        rollingWindow
+      } = this
+    ) {
       return validators.map(v =>
         Object.assign({}, v, {
           small_moniker: v.description.moniker.toLowerCase(),
           percent_of_vote: v.voting_power / pool.pool.bonded_tokens,
-          my_delegations: session.signedIn
-            && committedDelegations[v.id] > 0
-            ? committedDelegations[v.id]
-            : 0,
+          my_delegations:
+            session.signedIn && committedDelegations[v.id] > 0
+              ? committedDelegations[v.id]
+              : 0,
           commission: v.commission.rate,
           keybase: keybase[v.description.identity],
-          rewards: session.signedIn
-            && distribution.rewards.hasOwnProperty(v.operator_address)
-            ? distribution.rewards[v.operator_address][`uatom`]
-            : 0,
+          rewards:
+            session.signedIn && distribution.rewards[v.operator_address]
+              ? distribution.rewards[v.operator_address][this.bondDenom]
+              : 0,
           uptime: v.signing_info
-            ? (rollingWindow - v.signing_info.missed_blocks_counter)
-            / rollingWindow
+            ? (rollingWindow - v.signing_info.missed_blocks_counter) /
+              rollingWindow
             : 0
         })
       )
@@ -121,7 +123,7 @@ export default {
           title: `Uptime`,
           value: `uptime`,
           tooltip: `Ratio of blocks signed within the last 10k blocks`
-        },
+        }
       ]
     },
     yourValidators({ committedDelegations, validators, session } = this) {
