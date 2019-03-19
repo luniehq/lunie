@@ -1,5 +1,6 @@
 <template>
   <tm-page
+    :managed="true"
     :loading="delegates.loading"
     :loaded="delegates.loaded"
     :error="delegates.error"
