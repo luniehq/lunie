@@ -206,6 +206,7 @@ export default {
       `lastHeader`,
       `bondDenom`,
       `delegates`,
+      `delegation`,
       `distribution`,
       `committedDelegations`,
       `keybase`,
@@ -321,6 +322,7 @@ export default {
           this.session.signedIn &&
           waitTwentyBlocks &&
           this.$route.name === `validator` &&
+          this.delegation.loaded &&
           Number(this.myBond) > 0
         ) {
           this.$store.dispatch(
@@ -332,7 +334,11 @@ export default {
     }
   },
   mounted() {
-    if (this.session.signedIn && Number(this.myBond) > 0) {
+    if (
+      this.session.signedIn &&
+      this.delegation.loaded &&
+      Number(this.myBond) > 0
+    ) {
       this.$store.dispatch(
         `getRewardsFromValidator`,
         this.$route.params.validator
