@@ -4,6 +4,7 @@ exports[`PageValidator shows a validator profile information errors signing info
 <tm-page-stub
   data-title="Validator"
   loaded="true"
+  managed="true"
   subtitle=""
   title=""
 >
@@ -331,6 +332,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
 <tm-page-stub
   data-title="Validator"
   loaded="true"
+  managed="true"
   subtitle=""
   title=""
 >
@@ -658,6 +660,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
 <tm-page-stub
   data-title="Validator"
   loaded="true"
+  managed="true"
   subtitle=""
   title=""
 >

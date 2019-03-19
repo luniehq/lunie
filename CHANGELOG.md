@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.23] - 2019-03-19
+
+### Fixed
+
+- PageValidator isn't showing @faboweb
+
 ## [1.0.0-beta.22] - 2019-03-19
 
 ### Added
