@@ -58,9 +58,7 @@
         Undelegation
         <b>
           {{
-            full(
-              calculatePrettifiedTokens(tx.validator_address, tx.shares_amount)
-            )
+            calculatePrettifiedTokens(tx.validator_address, tx.shares_amount)
           }}
         </b>
         <span>{{ bondingDenom }}s</span>
@@ -86,11 +84,9 @@
         Redelegation
         <b>
           {{
-            full(
-              calculatePrettifiedTokens(
-                tx.validator_src_address,
-                tx.shares_amount
-              )
+            calculatePrettifiedTokens(
+              tx.validator_src_address,
+              tx.shares_amount
             )
           }}
         </b>
