@@ -1,6 +1,8 @@
 <template>
   <div class="text-block">
-    {{ content }}
+    <pre>
+      {{ content.trim() }}
+    </pre>
   </div>
 </template>
 
