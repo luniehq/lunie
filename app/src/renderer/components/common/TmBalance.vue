@@ -2,14 +2,14 @@
   <div class="header-balance">
     <div class="top">
       <div class="total-atoms top-section">
-        <h3>Total {{ bondDenom }}</h3>
+        <h3>Total {{ num.denom(bondDenom) }}</h3>
         <h2 class="total-atoms__value">
           {{ num.shortNumber(num.atoms(totalAtoms)) }}
         </h2>
         <short-bech32 :address="session.address || ''" />
       </div>
       <div v-if="unbondedAtoms" class="unbonded-atoms top-section">
-        <h3>Available {{ bondDenom }}</h3>
+        <h3>Available {{ num.denom(bondDenom) }}</h3>
         <h2>{{ unbondedAtoms }}</h2>
       </div>
       <div v-if="rewards" class="top-section">

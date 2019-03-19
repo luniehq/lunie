@@ -48,6 +48,7 @@
 </template>
 
 <script>
+import num from "scripts/num"
 import { mapGetters } from "vuex"
 import PerfectScrollbar from "perfect-scrollbar"
 import TmBarDiscrete from "common/TmBarDiscrete"
@@ -64,9 +65,11 @@ export default {
       const nodes = [
         `This is a quick tour of the primary features of Cosmos Voyager.`,
         `You can send and receive Cosmos tokens from anyone around the world.`,
-        `You can delegate your ${
+        `You can delegate your ${num.denom(
           this.bondDenom
-        } to Cosmos Validators to earn even more ${this.bondDenom}.`,
+        )} to Cosmos Validators to earn even more ${num.denom(
+          this.bondDenom
+        )}.`,
         `Through governance, you can vote on the future of the Cosmos Network.`,
         `Start using Voyager to explore the Cosmos Network!`
       ]

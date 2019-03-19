@@ -15,11 +15,11 @@
             v-if="validator.keybase"
             :src="validator.keybase.avatarUrl"
             class="avatar"
-          /><img
+          ><img
             v-else
             class="avatar"
             src="~assets/images/validator-icon.svg"
-          />
+          >
 
           <div class="page-profile__header__info">
             <div>
@@ -177,7 +177,7 @@ import BigNumber from "bignumber.js"
 import moment from "moment"
 import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
-import { percent, pretty, atoms, full } from "scripts/num"
+import num, { percent, pretty, atoms, full } from "scripts/num"
 import TmBtn from "common/TmBtn"
 import { shortAddress, ratToBigNumber } from "scripts/common"
 import DelegationModal from "staking/DelegationModal"
@@ -250,7 +250,7 @@ export default {
     myDelegation() {
       const { bondDenom, myBond } = this
       const myDelegation = full(myBond)
-      const myDelegationString = `${myDelegation} ${bondDenom}`
+      const myDelegationString = `${myDelegation} ${num.denom(bondDenom)}`
       return Number(myBond) === 0 ? `--` : myDelegationString
     },
     powerRatio() {
@@ -301,7 +301,7 @@ export default {
         : null
 
       if (amount) {
-        return `${amount} ${bondDenom}`
+        return `${amount} ${num.denom(bondDenom)}`
       }
       return null
     }

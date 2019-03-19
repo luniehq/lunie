@@ -64,7 +64,7 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix">{{ denom }}</span>
+      <span class="input-suffix">{{ num.denom(denom) }}</span>
       <tm-field
         id="amount"
         v-model="amount"
@@ -72,7 +72,7 @@
       />
       <tm-form-msg
         v-if="balance === 0"
-        :msg="`doesn't have any ${denom}s`"
+        :msg="`doesn't have any ${num.denom(denom)}s`"
         name="Wallet"
         type="custom"
       />
@@ -106,7 +106,7 @@ import {
   between,
   decimal
 } from "vuelidate/lib/validators"
-import { uatoms, atoms, SMALLEST } from "../../scripts/num.js"
+import num, { uatoms, atoms, SMALLEST } from "../../scripts/num.js"
 import { isEmpty, trim } from "lodash"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
@@ -138,7 +138,8 @@ export default {
     title: ``,
     description: ``,
     type: `Text`,
-    amount: 0
+    amount: 0,
+    num
   }),
   computed: {
     ...mapGetters([`wallet`]),

@@ -86,7 +86,6 @@ export default {
     ...mapGetters([
       `delegates`,
       `distribution`,
-      `bondDenom`,
       `session`,
       `lastHeader`
     ]),

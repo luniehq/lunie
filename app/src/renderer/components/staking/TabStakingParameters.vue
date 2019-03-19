@@ -29,7 +29,7 @@
             <dl class="info_dl">
               <dt>Current Staking Token</dt>
               <dd id="bond_denom">
-                {{ bondDenom ? bondDenom : `--` }}
+                {{ bondDenom ? num.denom(bondDenom) : `--` }}
               </dd>
             </dl>
           </div>

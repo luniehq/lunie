@@ -74,7 +74,7 @@
               {{
                 num.atoms(proposal.total_deposit[0].amount) +
                   ` ` +
-                  proposal.total_deposit[0].denom
+                  num.denom(proposal.total_deposit[0].denom)
               }}
             </dd>
           </dl>
