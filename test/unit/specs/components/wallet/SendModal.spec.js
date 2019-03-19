@@ -58,13 +58,15 @@ describe(`SendModal`, () => {
   })
 
   it(`clears on close`, () => {
-    const $v = { $reset: jest.fn() }
-    const address = `cosmos1address`
-    const amount = 10
-    SendModal.methods.clear.call($v, address, amount)
-    expect($v.$reset).toHaveBeenCalled()
-    expect(address).toBe(``)
-    expect(amount).toBe(0)
+    const self = {
+      $v: { $reset: jest.fn() },
+      address: `cosmos1address`,
+      amount: 10
+    }
+    SendModal.methods.clear.call(self)
+    expect(self.$v.$reset).toHaveBeenCalled()
+    expect(self.address).toBe(``)
+    expect(self.amount).toBe(0)
   })
 
   describe(`validation`, () => {
@@ -128,11 +130,11 @@ describe(`SendModal`, () => {
         `ledger`, ``
       )
 
-      expect(sendTx).toHaveBeenCalledWith(`submitProposal`,
+      expect(sendTx).toHaveBeenCalledWith(
         {
           type: `send`,
           to: `cosmos1address`,
-          amount: [{ amount: `15000000`, denom: `uatom` }],
+          amount: [{ amount: `10000000`, denom: `uatom` }],
           submitType: `ledger`,
           password: ``
         }
@@ -140,8 +142,8 @@ describe(`SendModal`, () => {
 
       expect($store.commit).toHaveBeenCalledWith(`notify`,
         {
-          body: `You have successfully submitted a new text proposal`,
-          title: `Successful proposal submission!`
+          body: `Successfully sent 10 uatom to cosmos1address`,
+          title: `Successful Send`
         }
       )
     })

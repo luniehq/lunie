@@ -52,18 +52,18 @@ describe(`UndelegationModal`, () => {
 
   it(`opens`, () => {
     const $refs = { actionModal: { open: jest.fn() } }
-    UndelegationModal.methods.open.call($refs)
+    UndelegationModal.methods.open.call({ $refs })
     expect($refs.actionModal.open).toHaveBeenCalled()
   })
 
   it(`clears on close`, () => {
-    const $v = { $reset: jest.fn() }
-    const selectedIndex = 1
-    const amount = 10
-    UndelegationModal.methods.clear.call($v, selectedIndex, amount)
-    expect($v.$reset).toHaveBeenCalled()
-    expect(selectedIndex).toBe(0)
-    expect(amount).toBe(null)
+    const self = {
+      $v: { $reset: jest.fn() },
+      amount: 10
+    }
+    UndelegationModal.methods.clear.call(self)
+    expect(self.$v.$reset).toHaveBeenCalled()
+    expect(self.amount).toBeNull()
   })
 
   describe(`only submits on correct form`, () => {

@@ -9,6 +9,7 @@ describe(`ModalPropose`, () => {
 
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
+  localVue.directive(`focus`, () => { })
 
   const inputs = {
     amount: 15,
@@ -24,9 +25,14 @@ describe(`ModalPropose`, () => {
       getters: {
         session: { signedIn: true },
         connection: { connected: true },
-        bondDenom: `uatom`,
-        liquidAtoms: 200000000
-      }
+        liquidAtoms: 200000000,
+        wallet: {
+          balances: [
+            { denom: `uatom`, amount: `10` }
+          ],
+          loading: false
+        }
+      },
     }
     wrapper = shallowMount(ModalPropose, {
       localVue,
@@ -34,13 +40,10 @@ describe(`ModalPropose`, () => {
         $store
       },
       propsData: {
-        denom: `stake`
+        denom: `uatom`
       },
       sync: false
     })
-
-    await wrapper.vm.$nextTick()
-    wrapper.vm.$refs.actionModal.open()
   })
 
   it(`should display proposal modal form`, () => {
@@ -49,20 +52,22 @@ describe(`ModalPropose`, () => {
 
   it(`opens`, () => {
     const $refs = { actionModal: { open: jest.fn() } }
-    ModalPropose.methods.open.call($refs)
+    ModalPropose.methods.open.call({ $refs })
     expect($refs.actionModal.open).toHaveBeenCalled()
   })
 
   it(`clears on close`, () => {
-    const $v = { $reset: jest.fn() }
-    const title = `title`
-    const description = `description`
-    const amount = 10
-    ModalPropose.methods.clear.call($v, title, description, amount)
-    expect($v.$reset).toHaveBeenCalled()
-    expect(title).toBe(``)
-    expect(description).toBe(``)
-    expect(amount).toBe(0)
+    const self = {
+      $v: { $reset: jest.fn() },
+      title: `title`,
+      description: `description`,
+      amount: 10
+    }
+    ModalPropose.methods.clear.call(self)
+    expect(self.$v.$reset).toHaveBeenCalled()
+    expect(self.title).toBe(``)
+    expect(self.description).toBe(``)
+    expect(self.amount).toBe(0)
   })
 
   describe(`validation`, () => {
@@ -146,7 +151,6 @@ describe(`ModalPropose`, () => {
         commit: jest.fn()
       }
 
-      wrapper.setData({ amount: 4.2 })
       await ModalPropose.methods.submitForm.call(
         { ...inputs, type: `Text`, denom: `uatom`, $store },
         `ledger`, ``

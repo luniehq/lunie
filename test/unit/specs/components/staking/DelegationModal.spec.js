@@ -61,18 +61,20 @@ describe(`DelegationModal`, () => {
 
   it(`opens`, () => {
     const $refs = { actionModal: { open: jest.fn() } }
-    DelegationModal.methods.open.call($refs)
+    DelegationModal.methods.open.call({ $refs })
     expect($refs.actionModal.open).toHaveBeenCalled()
   })
 
   it(`clears on close`, () => {
-    const $v = { $reset: jest.fn() }
-    const selectedIndex = 1
-    const amount = 10
-    DelegationModal.methods.clear.call($v, selectedIndex, amount)
-    expect($v.$reset).toHaveBeenCalled()
-    expect(selectedIndex).toBe(0)
-    expect(amount).toBe(null)
+    const self = {
+      $v: { $reset: jest.fn() },
+      selectedIndex: 1,
+      amount: 10
+    }
+    DelegationModal.methods.clear.call(self)
+    expect(self.$v.$reset).toHaveBeenCalled()
+    expect(self.selectedIndex).toBe(0)
+    expect(self.amount).toBeNull()
   })
 
   describe(`validation`, () => {

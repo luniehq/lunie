@@ -19,7 +19,13 @@ describe(`ModalDeposit`, () => {
         session: { signedIn: true },
         connection: { connected: true },
         bondDenom: `uatom`,
-        liquidAtoms: 1000000
+        liquidAtoms: 1000000,
+        wallet: {
+          balances: [
+            { denom: `uatom`, amount: `10` }
+          ],
+          loading: false
+        }
       }
     }
 
@@ -43,16 +49,19 @@ describe(`ModalDeposit`, () => {
 
   it(`opens`, () => {
     const $refs = { actionModal: { open: jest.fn() } }
-    ModalDeposit.methods.open.call($refs)
+    ModalDeposit.methods.open.call({ $refs })
     expect($refs.actionModal.open).toHaveBeenCalled()
   })
 
   it(`clears on close`, () => {
-    const $v = { $reset: jest.fn() }
-    const amount = 10
-    ModalDeposit.methods.clear.call($v, amount)
-    expect($v.$reset).toHaveBeenCalled()
-    expect(amount).toBe(0)
+    const self = {
+      $v: { $reset: jest.fn() },
+      amount: 10
+    }
+
+    ModalDeposit.methods.clear.call(self)
+    expect(self.$v.$reset).toHaveBeenCalled()
+    expect(self.amount).toBe(0)
   })
 
   describe(`validation`, () => {
@@ -108,18 +117,18 @@ describe(`ModalDeposit`, () => {
           amount: [
             {
               amount: `10000000`,
-              denom: `stake`
+              denom: `uatom`
             }
           ],
           proposal_id: `1`,
-          password: `1234567890`,
-          submitType: `local`
+          password: ``,
+          submitType: `ledger`
         }
       )
 
       expect($store.commit).toHaveBeenCalledWith(`notify`,
         {
-          body: `You have successfully deposited your stakes on proposal #1`,
+          body: `You have successfully deposited your uatoms on proposal #1`,
           title: `Successful deposit!`
         }
       )

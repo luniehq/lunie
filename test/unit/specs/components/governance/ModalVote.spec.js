@@ -40,22 +40,23 @@ describe(`ModalVote`, () => {
 
   it(`opens`, () => {
     const $refs = { actionModal: { open: jest.fn() } }
-    ModalVote.methods.open.call($refs)
+    ModalVote.methods.open.call({ $refs })
     expect($refs.actionModal.open).toHaveBeenCalled()
   })
 
   it(`clears on close`, () => {
-    const $v = { $reset: jest.fn() }
-    const vote = `Yes`
-    ModalVote.methods.clear.call($v, vote)
-    expect($v.$reset).toHaveBeenCalled()
-    expect(vote).toBeNull()
+    const self = {
+      $v: { $reset: jest.fn() },
+      vote: `Yes`
+    }
+
+    ModalVote.methods.clear.call(self)
+    expect(self.$v.$reset).toHaveBeenCalled()
+    expect(self.vote).toBeNull()
   })
 
   describe(`validation`, () => {
     it(`fails`, () => {
-      wrapper.vm.submitForm = jest.fn()
-
       // default values
       expect(wrapper.vm.validateForm()).toBe(false)
 
@@ -65,8 +66,6 @@ describe(`ModalVote`, () => {
     })
 
     it(`succeeds`, async () => {
-      wrapper.vm.submitForm = jest.fn()
-
       wrapper.setData({ vote: `Yes` })
       expect(wrapper.vm.validateForm()).toBe(true)
 
@@ -87,13 +86,13 @@ describe(`ModalVote`, () => {
       await wrapper.vm.$nextTick()
 
       let voteBtn = wrapper.find(`#vote-yes`)
-      expect(voteBtn.html()).not.toContain(`disabled="disabled"`)
+      expect(voteBtn.html()).not.toContain(`disabled="true"`)
       voteBtn = wrapper.find(`#vote-no`)
-      expect(voteBtn.html()).not.toContain(`disabled="disabled"`)
+      expect(voteBtn.html()).not.toContain(`disabled="true"`)
       voteBtn = wrapper.find(`#vote-veto`)
-      expect(voteBtn.html()).not.toContain(`disabled="disabled"`)
+      expect(voteBtn.html()).not.toContain(`disabled="true"`)
       voteBtn = wrapper.find(`#vote-abstain`)
-      expect(voteBtn.html()).toContain(`disabled="disabled"`)
+      expect(voteBtn.html()).toContain(`disabled="true"`)
     })
   })
 
@@ -104,7 +103,6 @@ describe(`ModalVote`, () => {
         commit: jest.fn()
       }
 
-      wrapper.setData({ amount: 4.2 })
       await ModalVote.methods.submitForm.call(
         { proposalId: `1`, vote: `Yes`, $store },
         `ledger`, ``
