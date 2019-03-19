@@ -1,53 +1,55 @@
 "use strict"
 
 import Vuelidate from "vuelidate"
-import setup from "../../../helpers/vuex-setup"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
 import ModalVote from "renderer/components/governance/ModalVote"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`ModalVote`, () => {
-  let wrapper, store
-  const { mount, localVue } = setup()
+  let wrapper, $store
+
+  const localVue = createLocalVue()
   localVue.use(Vuelidate)
-  localVue.directive(`tooltip`, () => {})
-  localVue.directive(`focus`, () => {})
 
   beforeEach(() => {
-    const instance = mount(ModalVote, {
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: {
+        session: { signedIn: true },
+        connection: { connected: true },
+        bondDenom: `uatom`,
+        liquidAtoms: 1000000
+      }
+    }
+    wrapper = shallowMount(ModalVote, {
       localVue,
       propsData: {
         proposalId: `1`,
         proposalTitle: lcdClientMock.state.proposals[`1`].title
+      },
+      mocks: {
+        $store
       }
     })
-
-    instance.store.state.connection.connected = true
-    wrapper = instance.wrapper
-    store = instance.store
-    store.commit(`setSignIn`, true)
-
-    wrapper.vm.$refs.actionModal.open()
   })
 
-  it(`has the expected html structure`, async () => {
+  it(`should display vote modal form`, async () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`opens`, () => {
-    wrapper.vm.$refs.actionModal.open = jest.fn()
-    wrapper.vm.open()
-    expect(wrapper.vm.$refs.actionModal.open).toHaveBeenCalled()
+    const $refs = { actionModal: { open: jest.fn() } }
+    ModalVote.methods.open.call($refs)
+    expect($refs.actionModal.open).toHaveBeenCalled()
   })
 
   it(`clears on close`, () => {
-    wrapper.setData({ vote: `maybe` })
-    // produce validation error as vote is invalid
-    wrapper.vm.$v.$touch()
-    expect(wrapper.vm.$v.$error).toBe(true)
-
-    wrapper.vm.clear()
-    expect(wrapper.vm.$v.$error).toBe(false)
-    expect(wrapper.vm.vote).toBe(null)
+    const $v = { $reset: jest.fn() }
+    const vote = `Yes`
+    ModalVote.methods.clear.call($v, vote)
+    expect($v.$reset).toHaveBeenCalled()
+    expect(vote).toBeNull()
   })
 
   describe(`validation`, () => {
@@ -96,34 +98,33 @@ describe(`ModalVote`, () => {
   })
 
   describe(`Vote`, () => {
-    it(`submits a vote`, async () => {
-      wrapper.vm.$store.dispatch = jest.fn()
-      wrapper.vm.$store.commit = jest.fn()
+    it(`submits a vote on a proposal`, async () => {
+      const $store = {
+        dispatch: jest.fn(),
+        commit: jest.fn()
+      }
 
-      wrapper.setData({ vote: `Yes` })
-      await wrapper.vm.submitForm(`local`, `1234567890`)
+      wrapper.setData({ amount: 4.2 })
+      await ModalVote.methods.submitForm.call(
+        { proposalId: `1`, vote: `Yes`, $store },
+        `ledger`, ``
+      )
 
-      expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
-        [
-          `submitVote`,
-          {
-            option: `Yes`,
-            proposal_id: `1`,
-            password: `1234567890`,
-            submitType: `local`
-          }
-        ]
-      ])
+      expect($store.dispatch).toHaveBeenCalledWith(`submitVote`,
+        {
+          option: `Yes`,
+          proposal_id: `1`,
+          password: ``,
+          submitType: `ledger`
+        }
+      )
 
-      expect(wrapper.vm.$store.commit.mock.calls).toEqual([
-        [
-          `notify`,
-          {
-            body: `You have successfully voted Yes on proposal #1`,
-            title: `Successful vote!`
-          }
-        ]
-      ])
+      expect($store.commit).toHaveBeenCalledWith(`notify`,
+        {
+          body: `You have successfully voted Yes on proposal #1`,
+          title: `Successful vote!`
+        }
+      )
     })
   })
 })
