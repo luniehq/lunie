@@ -43,7 +43,7 @@
         <span>{{ tx.value && tx.value.denom }}s</span>
       </div>
       <div slot="details">
-        To
+        To&nbsp;
         <router-link :to="`${url}/${tx.validator_address}`">
           {{ moniker(tx.validator_address) }}
         </router-link>
@@ -69,7 +69,7 @@
         </template>
       </div>
       <div slot="details">
-        From
+        From&nbsp;
         <router-link :to="`${url}/${tx.validator_address}`">
           {{ moniker(tx.validator_address) }}
         </router-link>
@@ -93,7 +93,7 @@
         <span>{{ bondingDenom }}s</span>
       </div>
       <div slot="details">
-        From
+        From&nbsp;
         <router-link :to="`${url}/${tx.validator_src_address}`">
           {{ moniker(tx.validator_src_address) }}
         </router-link>

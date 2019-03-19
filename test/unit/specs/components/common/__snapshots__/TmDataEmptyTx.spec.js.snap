@@ -10,14 +10,14 @@ exports[`TmDataEmptyTx has the expected html structure 1`] = `
     <i
       class="material-icons"
     >
-      info_outline
+      receipt
     </i>
   </div>
    
   <div
     class="tm-data-msg__text"
   >
-    <div
+    <h2
       class="tm-data-msg__title"
     >
       <div>
@@ -25,15 +25,16 @@ exports[`TmDataEmptyTx has the expected html structure 1`] = `
     No Transaction History
   
       </div>
-    </div>
+    </h2>
      
-    <div
+    <h3
       class="tm-data-msg__subtitle"
     >
       <div>
         
-    Looks like you haven't sent or received any transactions yet. Head over to
-    your 
+    Looks like there are no transactions associated with this address yet.
+    Head over to your
+    
         <router-link-stub
           to="[object Object]"
         >
@@ -41,11 +42,11 @@ exports[`TmDataEmptyTx has the expected html structure 1`] = `
       Wallet
     
         </router-link-stub>
-         to make
-    your first transaction!
+        
+    to make your first transaction!
   
       </div>
-    </div>
+    </h3>
   </div>
 </div>
 `;
