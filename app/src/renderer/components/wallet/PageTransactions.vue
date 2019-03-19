@@ -1,5 +1,6 @@
 <template>
   <tm-page
+    :managed="true"
     :loading="transactions.loading"
     :loaded="transactions.loaded"
     :error="transactions.error"

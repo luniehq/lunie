@@ -9,7 +9,6 @@ export default ({ node }) => {
     loading: true,
     loaded: false,
     error: null,
-    denoms: [],
     accountNumber: null,
     address: null,
     subscribedRPC: null,
@@ -38,9 +37,6 @@ export default ({ node }) => {
     },
     setAccountNumber(state, accountNumber) {
       state.accountNumber = accountNumber
-    },
-    setDenoms(state, denoms) {
-      Vue.set(state, `denoms`, denoms)
     }
   }
 
@@ -59,7 +55,6 @@ export default ({ node }) => {
             dispatch(`getMoney`, address)
           }
         })
-      dispatch(`loadDenoms`)
       dispatch(`getTotalRewards`)
       dispatch(`walletSubscribe`)
     },
@@ -109,9 +104,6 @@ export default ({ node }) => {
         amount: oldBalance.amount - amount
       })
       await dispatch(`getAllTxs`)
-    },
-    loadDenoms({ state, commit }) {
-      commit(`setDenoms`, state.externals.config.denoms)
     },
     queryWalletStateAfterHeight({ rootState, dispatch }, height) {
       return new Promise(resolve => {
