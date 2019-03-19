@@ -8,7 +8,7 @@
     <tm-data-loading v-else-if="!delegation.loaded && delegation.loading" />
     <tm-data-msg
       v-else-if="yourValidators.length === 0"
-      icon="info_outline"
+      icon="sentiment_dissatisfied"
     >
       <div slot="title">
         No Active Delegations

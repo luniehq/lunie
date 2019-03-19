@@ -117,7 +117,7 @@ exports[`LiStakeTransaction delegations with fees 1`] = `
     slot="details"
   >
     
-      To
+      To 
       
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
@@ -169,7 +169,7 @@ exports[`LiStakeTransaction delegations without fees 1`] = `
     slot="details"
   >
     
-      To
+      To 
       
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
@@ -313,7 +313,7 @@ exports[`LiStakeTransaction redelegations with fees 1`] = `
     slot="details"
   >
     
-      From
+      From 
       
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
@@ -377,7 +377,7 @@ exports[`LiStakeTransaction redelegations without fees 1`] = `
     slot="details"
   >
     
-      From
+      From 
       
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
@@ -443,7 +443,7 @@ exports[`LiStakeTransaction unbonding delegations should default to ended if no 
     slot="details"
   >
     
-      From
+      From 
       
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
@@ -499,7 +499,7 @@ exports[`LiStakeTransaction unbonding delegations should show unbonding delegati
     slot="details"
   >
     
-      From
+      From 
       
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
@@ -561,7 +561,7 @@ exports[`LiStakeTransaction unbonding delegations with fees 1`] = `
     slot="details"
   >
     
-      From
+      From 
       
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
@@ -617,7 +617,7 @@ exports[`LiStakeTransaction unbonding delegations without fees 1`] = `
     slot="details"
   >
     
-      From
+      From 
       
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"

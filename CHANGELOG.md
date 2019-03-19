@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.23] - 2019-03-19
+
+### Fixed
+
+- PageValidator isn't showing @faboweb
+
+## [1.0.0-beta.22] - 2019-03-19
+
+### Added
+
+- [\#2228](https://github.com/cosmos/voyager/issues/2228) display balances of vesting accounts @faboweb
+
+### Fixed
+
+- [\#2267](https://github.com/cosmos/voyager/issues/2267) fixed sorting on validator table @jbibla
+- [\#2278](https://github.com/cosmos/voyager/issues/2278) fixed commission calculation on validator table @jbibla
+
+
 ## [1.0.0-beta.21] - 2019-03-16
 
 ### Added

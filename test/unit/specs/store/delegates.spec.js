@@ -243,16 +243,4 @@ describe(`Module: Delegates`, () => {
     })
     expect(state.error).toBe(`Error`)
   })
-
-  it(`should store an error if failed to load validator set`, async () => {
-    const { actions, state } = instance
-    node.getValidatorSet = async () => Promise.reject(`Error`)
-    await actions.getDelegates({
-      commit: jest.fn(),
-      dispatch: jest.fn(),
-      state,
-      rootState: mockRootState
-    })
-    expect(state.error).toBe(`Error`)
-  })
 })

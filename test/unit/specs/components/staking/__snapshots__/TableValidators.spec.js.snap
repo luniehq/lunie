@@ -7,7 +7,7 @@ exports[`TableValidators has the expected html structure 1`] = `
   >
     <thead>
       <panel-sort-stub
-        properties="[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
+        properties="[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
         sort="[object Object]"
       />
     </thead>

@@ -9,13 +9,6 @@
               <h2 class="page-profile__title">
                 Block {{ blockTitle }}
               </h2>
-              <h3 class="page-profile__subtitle">
-                {{
-                  block.block_meta && block.block_meta.block_id
-                    ? block.block_meta.block_id.hash
-                    : ""
-                }}
-              </h3>
             </div>
           </div>
         </div>
@@ -30,10 +23,10 @@
 
       <div class="page-profile__section block">
         <div class="row">
-          <div
-            class="column"
-          >
-            <h3>Transactions</h3>
+          <div class="column">
+            <h3 v-if="block.transactions" class="page-profile__section-title">
+              Transactions
+            </h3>
             <tm-data-msg
               v-if="block.transactions && block.transactions.length === 0"
               icon="info_outline"

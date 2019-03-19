@@ -17,7 +17,7 @@ exports[`LiCoin has the expected html structure 1`] = `
     class="li-coin__content"
   >
     <div
-      class="li-coin__content__left__denom"
+      class="li-coin__content-left"
     >
       <p
         class="coin-denom"
@@ -26,11 +26,7 @@ exports[`LiCoin has the expected html structure 1`] = `
         Stake
       
       </p>
-    </div>
-     
-    <div
-      class="li-coin__content__left__amount"
-    >
+       
       <p
         class="coin-amount"
       >

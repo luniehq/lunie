@@ -62,6 +62,9 @@ export default ({ node }) => {
     resetSessionData({ rootState }) {
       rootState.delegation = JSON.parse(JSON.stringify(emptyState))
     },
+    async initializeWallet({ dispatch }) {
+      await dispatch(`updateDelegates`)
+    },
     // load committed delegations from LCD
     async getBondedDelegates(
       { state, rootState, commit },
