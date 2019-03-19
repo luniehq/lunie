@@ -5,7 +5,6 @@ Object {
   "accountNumber": null,
   "address": null,
   "balances": Array [],
-  "denoms": Array [],
   "error": null,
   "externals": Object {
     "axios": Object {
