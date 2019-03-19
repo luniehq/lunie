@@ -42,12 +42,7 @@ export default {
     ]
   }),
   computed: {
-    ...mapGetters([
-      `proposals`,
-      `depositDenom`,
-      `connected`,
-      `session`
-    ]),
+    ...mapGetters([`proposals`, `depositDenom`, `connected`, `session`])
   },
   mounted() {
     this.ps = new PerfectScrollbar(this.$el.querySelector(`.tm-page-main`))
