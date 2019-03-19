@@ -15,15 +15,15 @@
             v-if="validator.keybase"
             :src="validator.keybase.avatarUrl"
             class="avatar"
-          ><img
+          /><img
             v-else
             class="avatar"
             src="~assets/images/validator-icon.svg"
-          >
+          />
 
           <div class="page-profile__header__info">
             <div>
-              <div>
+              <div class="validator-name-and-address">
                 <div class="page-profile__status-and-title">
                   <span
                     v-tooltip.top="status"
@@ -58,7 +58,7 @@
         </div>
 
         <div class="row">
-          <div class="row-unjustified">
+          <div class="row row-unjustified">
             <dl class="info_dl colored_dl">
               <dt>My Delegation</dt>
               <dd>{{ myDelegation }}</dd>
@@ -69,7 +69,7 @@
             </dl>
           </div>
 
-          <div class="row-unjustified">
+          <div class="row row-unjustified">
             <dl class="info_dl colored_dl">
               <dt>Voting Power</dt>
               <dd id="page-profile__power">
@@ -387,3 +387,27 @@ export default {
   }
 }
 </script>
+<style scoped>
+@media screen and (max-width: 425px) {
+  .page-profile__header__actions {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 525px) {
+  .page-profile__header__info {
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .validator-name-and-address {
+    padding-bottom: 2rem;
+  }
+
+  .page-profile__header .avatar {
+    padding: 0;
+    margin: 1rem auto;
+  }
+}
+</style>
+

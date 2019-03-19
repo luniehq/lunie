@@ -1,14 +1,15 @@
 <template>
-  <tm-data-msg icon="info_outline">
+  <tm-data-msg icon="receipt">
     <div slot="title">
       No Transaction History
     </div>
     <div slot="subtitle">
-      Looks like you haven't sent or received any transactions yet. Head over to
-      your <router-link :to="{ name: 'wallet' }">
+      Looks like there are no transactions associated with this address yet.
+      Head over to your
+      <router-link :to="{ name: 'wallet' }">
         Wallet
-      </router-link> to make
-      your first transaction!
+      </router-link>
+      to make your first transaction!
     </div>
   </tm-data-msg>
 </template>
