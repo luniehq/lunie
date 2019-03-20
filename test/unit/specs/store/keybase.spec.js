@@ -56,7 +56,7 @@ describe(`Module: Keybase`, () => {
   describe(`actions`, () => {
     it(`should query for the keybase identity`, async () => {
       const result = await actions.getKeybaseIdentity({ state }, `abcdabcdabcdabcd`)
-      expect(state.externals.axios).toHaveBeenCalled()
+      expect(state.externals.axios).toHaveBeenCalledWith(`https://keybase.io/_/api/1.0/user/lookup.json?key_suffix=abcdabcdabcdabcd`)
       expect(result).toEqual(mockIdentity)
     })
 
