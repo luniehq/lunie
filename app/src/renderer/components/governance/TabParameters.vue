@@ -161,8 +161,10 @@ export default {
   computed: {
     ...mapGetters([`session`, `governanceParameters`]),
     minimumDeposit() {
-      const coin = this.governanceParameters.parameters.deposit.min_deposit[0]
-      return `${this.atoms(coin.amount)} ${num.denom(coin.denom)}s`
+      const coin = num.viewCoin(
+        this.governanceParameters.parameters.deposit.min_deposit[0]
+      )
+      return `${coin.amount} ${coin.denom}s`
     },
     depositPeriodInDays() {
       return (

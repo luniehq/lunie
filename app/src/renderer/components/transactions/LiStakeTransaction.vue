@@ -7,8 +7,8 @@
     <template v-if="txType === `cosmos-sdk/MsgCreateValidator`">
       <div slot="caption">
         Create validator
-        <b>{{ tx.value && full(atoms(tx.value.amount)) }}</b>
-        <span>{{ tx.value && tx.value.denom }}s</span>
+        <b>{{ value && value.amount }}</b>
+        <span>{{ value && value.denom }}s</span>
       </div>
       <div slot="details">
         Moniker:
@@ -17,8 +17,8 @@
         </router-link>
       </div>
       <div slot="fees">
-        Network Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
-        <span>{{ fees ? fees.denom : bondingDenom }}s</span>
+        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgEditValidator`">
@@ -32,15 +32,15 @@
         </router-link>
       </div>
       <div slot="fees">
-        Network Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
-        <span>{{ fees ? fees.denom : bondingDenom }}s</span>
+        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgDelegate`">
       <div slot="caption">
         Delegation
-        <b>{{ tx.value && full(atoms(tx.value.amount)) }}</b>
-        <span>{{ tx.value && tx.value.denom }}s</span>
+        <b>{{ value && value.amount }}</b>
+        <span>{{ value && value.denom }}s</span>
       </div>
       <div slot="details">
         To&nbsp;
@@ -49,8 +49,8 @@
         </router-link>
       </div>
       <div slot="fees">
-        Network Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
-        <span>{{ fees ? fees.denom : bondingDenom }}s</span>
+        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgUndelegate`">
@@ -75,8 +75,8 @@
         </router-link>
       </div>
       <div slot="fees">
-        Network Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
-        <span>{{ fees ? fees.denom : bondingDenom }}s</span>
+        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgBeginRedelegate`">
@@ -103,8 +103,8 @@
         </router-link>
       </div>
       <div slot="fees">
-        Network Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
-        <span>{{ fees ? fees.denom : bondingDenom }}s</span>
+        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgUnjail`">
@@ -118,8 +118,8 @@
         </router-link>
       </div>
       <div slot="fees">
-        Network Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
-        <span>{{ fees ? fees.denom : bondingDenom }}s</span>
+        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
       </div>
     </template>
   </li-transaction>
@@ -127,7 +127,7 @@
 
 <script>
 import LiTransaction from "./LiTransaction"
-import { atoms, full } from "../../scripts/num.js"
+import num, { atoms, full } from "../../scripts/num.js"
 import { calculateTokens } from "../../scripts/common.js"
 import moment from "moment"
 
@@ -188,6 +188,12 @@ export default {
       if (!this.unbondingTime) return `ended`
       if (this.unbondingTime - Date.now() <= 0) return `ended`
       return `locked`
+    },
+    value() {
+      return this.tx.value ? num.viewCoin(this.tx.value) : {}
+    },
+    convertedFees() {
+      return this.fees ? num.viewCoin(this.fees) : undefined
     }
   },
   methods: {

@@ -250,7 +250,7 @@ export default {
     myDelegation() {
       const { bondDenom, myBond } = this
       const myDelegation = full(myBond)
-      const myDelegationString = `${myDelegation} ${num.denom(bondDenom)}`
+      const myDelegationString = `${myDelegation} ${bondDenom}`
       return Number(myBond) === 0 ? `--` : myDelegationString
     },
     powerRatio() {
@@ -301,7 +301,7 @@ export default {
         : null
 
       if (amount) {
-        return `${amount} ${num.denom(bondDenom)}`
+        return `${amount} ${bondDenom}`
       }
       return null
     }

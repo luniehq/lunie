@@ -72,9 +72,9 @@
             <dt>Deposit Count</dt>
             <dd>
               {{
-                num.atoms(proposal.total_deposit[0].amount) +
+                totalDeposit.amount +
                   ` ` +
-                  num.denom(proposal.total_deposit[0].denom)
+                  totalDeposit.denom
               }}
             </dd>
           </dl>
@@ -250,6 +250,9 @@ export default {
           message: `There was an error determining the status of this proposal.`,
           color: `grey`
         }
+    },
+    totalDeposit() {
+      return num.viewCoin(this.proposal.total_deposit[0])
     }
   },
   async mounted({ proposals, proposalId, $store } = this) {

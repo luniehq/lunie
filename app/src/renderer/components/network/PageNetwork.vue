@@ -43,7 +43,7 @@
         <div class="row">
           <div class="column">
             <dl class="info_dl">
-              <dt>Total Liquid {{ num.denom(bondDenom) }}</dt>
+              <dt>Total Liquid {{ bondDenom }}</dt>
               <dd id="loose_tokens">
                 {{
                   pool.pool && pool.pool.not_bonded_tokens
@@ -55,7 +55,7 @@
           </div>
           <div class="column">
             <dl class="info_dl">
-              <dt>Total Delegated {{ num.denom(bondDenom) }}</dt>
+              <dt>Total Delegated {{ bondDenom }}</dt>
               <dd id="bonded_tokens">
                 {{
                   pool.pool && pool.pool.bonded_tokens

@@ -67,11 +67,19 @@ function denom(denom) {
   return denom
 }
 
+function viewCoin({ amount, denom: _denom }) {
+  return {
+    amount: full(atoms(amount)),
+    denom: denom(_denom)
+  }
+}
+
 module.exports = {
   SMALLEST,
   atoms,
   uatoms,
   denom,
+  viewCoin,
   full,
   shortNumber,
   pretty,
