@@ -58,25 +58,46 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 .tool-bar {
   display: flex;
   align-items: center;
+  max-height: 2rem;
+  justify-content: flex-end;
+  width: 100%;
 }
 
 .sign-in-button {
-  padding-left: 1.5rem;
+  margin-left: 1rem;
 }
 
+.tool-bar i {
+  padding: 0.5rem;
+}
+
+.tool-bar i,
 .tool-bar a {
-  padding: 0 0 0 1.5rem;
   color: var(--dim);
+  font-size: var(--lg);
   display: flex;
   align-items: center;
+}
+
+.tool-bar i:hover {
+  background: var(--app-nav);
+  padding: 0.5rem;
+  border-radius: 50%;
 }
 
 .tool-bar a:hover {
   cursor: pointer;
   color: var(--bright);
+}
+
+@media screen and (max-width: 1023px) {
+  .sign-in-button {
+    margin: 0;
+    width: 100%;
+  }
 }
 </style>

@@ -12,13 +12,13 @@
     <tm-data-msg
       id="account_empty_msg"
       slot="no-data"
-      icon="help_outline"
+      icon="account_balance_wallet"
     >
       <div slot="title">
         Account empty
       </div>
       <div slot="subtitle">
-        This account doesn't have anything in it yet.
+        This account doesn't have anything in it&nbsp;yet.
       </div>
     </tm-data-msg>
     <template slot="managed-body">
