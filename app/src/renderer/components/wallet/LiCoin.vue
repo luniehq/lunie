@@ -12,10 +12,12 @@
           {{ amount }}
         </p>
       </div>
+      <!-- here we use the unconverted denom, as the SendModal
+      checks for balances based on the actual denom -->
       <tm-btn
         value="Send"
         color="primary"
-        @click.native="$emit(`show-modal`, denomination)"
+        @click.native="$emit(`show-modal`, coin.denom)"
       />
     </div>
   </li>
@@ -35,13 +37,15 @@ export default {
       required: true
     }
   },
-  data: () => ({ num }),
   computed: {
+    viewCoin() {
+      return num.viewCoin(this.coin)
+    },
     amount() {
-      return num.full(num.atoms(this.coin.amount))
+      return this.viewCoin.amount
     },
     denomination() {
-      return this.coin.denom
+      return this.viewCoin.denom
     }
   }
 }

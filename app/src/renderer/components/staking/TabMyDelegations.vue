@@ -52,6 +52,7 @@
 
 <script>
 import { mapGetters } from "vuex"
+import num from "scripts/num"
 import LiStakeTransaction from "../transactions/LiStakeTransaction"
 import TmDataMsg from "common/TmDataMsg"
 import CardSignInRequired from "common/CardSignInRequired"
@@ -73,7 +74,8 @@ export default {
   data: () => ({
     unbondTransactions: `Transactions currently in the undelegation period`,
     validatorURL: `/staking/validators`,
-    time
+    time,
+    num
   }),
   computed: {
     ...mapGetters([

@@ -12,14 +12,14 @@
       <div class="page-profile__header page-profile__section">
         <div class="row">
           <img
-            v-if="validator.keybase"
+            v-if="validator.keybase && validator.keybase.avatarUrl"
             :src="validator.keybase.avatarUrl"
             class="avatar"
-          /><img
+          ><img
             v-else
             class="avatar"
             src="~assets/images/validator-icon.svg"
-          />
+          >
 
           <div class="page-profile__header__info">
             <div>
@@ -308,6 +308,17 @@ export default {
     }
   },
   watch: {
+    "session.signedIn": {
+      immediate: true,
+      handler(newSignedIn) {
+        if (newSignedIn && this.delegation.loaded && Number(this.myBond) > 0) {
+          this.$store.dispatch(
+            `getRewardsFromValidator`,
+            this.$route.params.validator
+          )
+        }
+      }
+    },
     validator: {
       immediate: true,
       handler(validator) {
@@ -332,18 +343,6 @@ export default {
           )
         }
       }
-    }
-  },
-  mounted() {
-    if (
-      this.session.signedIn &&
-      this.delegation.loaded &&
-      Number(this.myBond) > 0
-    ) {
-      this.$store.dispatch(
-        `getRewardsFromValidator`,
-        this.$route.params.validator
-      )
     }
   },
   methods: {
