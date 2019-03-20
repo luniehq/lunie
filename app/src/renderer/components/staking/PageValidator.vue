@@ -173,7 +173,6 @@
 </template>
 
 <script>
-import BigNumber from "bignumber.js"
 import moment from "moment"
 import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
@@ -239,12 +238,11 @@ export default {
       return String(uptime).substring(0, 4) + `%`
     },
     myBond() {
-      return BigNumber(
-        atoms(
-          calculateTokens(
-            this.validator,
-            this.committedDelegations[this.validator.operator_address] || 0
-          )
+      if (!this.validator) return 0
+      return atoms(
+        calculateTokens(
+          this.validator,
+          this.committedDelegations[this.validator.operator_address] || 0
         )
       )
     },
@@ -308,10 +306,9 @@ export default {
     }
   },
   watch: {
-    "session.signedIn": {
-      immediate: true,
-      handler(newSignedIn) {
-        if (newSignedIn && this.delegation.loaded && Number(this.myBond) > 0) {
+    myBond: {
+      handler(myBond) {
+        if (myBond > 0) {
           this.$store.dispatch(
             `getRewardsFromValidator`,
             this.$route.params.validator
