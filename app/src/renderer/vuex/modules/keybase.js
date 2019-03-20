@@ -11,15 +11,16 @@ export default () => {
   }
   const state = JSON.parse(JSON.stringify(emptyState))
   state.externals = {
-    axios
+    axios,
+    moment
   }
 
   const mutations = {
     setKeybaseIdentities(state, identities) {
       identities.forEach(identity => {
-        state.identities[identity.keybaseId] = identity || {}
-        state.identities[identity.keybaseId].lastUpdated =
-          new Date().toUTCString()
+        state.identities[identity.keybaseId] = Object.assign({}, identity, {
+          lastUpdated: new Date(Date.now()).toUTCString()
+        })
       })
     }
   }
@@ -29,12 +30,15 @@ export default () => {
       if (!/.{16}/.test(keybaseId)) return // the keybase id is not correct
       if (state.identities[keybaseId]) { // we already have this identity
         // check if the last check is more then 2 days ago
-        if (moment.duration(moment(state.identities[keybaseId].lastUpdated).diff(moment(), `days`)) >= 2) {
-          return state.identities[keybaseId]
+        if (state.externals.moment(state.identities[keybaseId].lastUpdated).diff(state.externals.moment(), `days`) <= -2) {
+          // as a recommendation by keybase we should prefer looking up profiles by username
+          return lookupUsername(
+            state, keybaseId,
+            state.identities[keybaseId].userName
+          )
         }
 
-        return lookupUsername(state, state.identities[keybaseId].userName)
-        // https://keybase.io/_/api/1.0/user/lookup.json?usernames=chris,max
+        return state.identities[keybaseId]
       }
 
       return lookupId(state, keybaseId)
@@ -78,6 +82,7 @@ async function lookupId(state, keybaseId) {
     const user = json.data.them[0]
     if (user && user.pictures && user.pictures.primary) {
       return {
+        keybaseId,
         avatarUrl: user.pictures.primary.url,
         userName: user.basics.username,
         profileUrl: `https://keybase.io/` + user.basics.username
@@ -86,7 +91,7 @@ async function lookupId(state, keybaseId) {
   }
 }
 
-async function lookupUsername(state, username) {
+async function lookupUsername(state, keybaseId, username) {
   const urlPrefix = `https://keybase.io/_/api/1.0/user/lookup.json?usernames=`
   const fullUrl = urlPrefix + username
   const json = await state.externals.axios(fullUrl)
@@ -94,6 +99,7 @@ async function lookupUsername(state, username) {
     const user = json.data.them[0]
     if (user && user.pictures && user.pictures.primary) {
       return {
+        keybaseId,
         avatarUrl: user.pictures.primary.url,
         userName: user.basics.username,
         profileUrl: `https://keybase.io/` + user.basics.username

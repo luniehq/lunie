@@ -28,7 +28,7 @@ describe(`Module: Keybase`, () => {
     keybaseId: `abcdabcdabcdabcd`,
     avatarUrl: `pictureUrl`,
     userName: `keybaseUser`,
-    profileUrl: `https://keybase.io/keybaseUser`
+    profileUrl: `https://keybase.io/keybaseUser`,
   }
 
   beforeEach(() => {
@@ -43,7 +43,13 @@ describe(`Module: Keybase`, () => {
   describe(`mutations`, () => {
     it(`setKeybaseIdentities`, () => {
       mutations.setKeybaseIdentities(state, [mockIdentity])
-      expect(state.identities[`abcdabcdabcdabcd`]).toEqual(mockIdentity)
+      expect(state.identities[`abcdabcdabcdabcd`]).toEqual({
+        keybaseId: `abcdabcdabcdabcd`,
+        avatarUrl: `pictureUrl`,
+        userName: `keybaseUser`,
+        profileUrl: `https://keybase.io/keybaseUser`,
+        lastUpdated: `Thu, 01 Jan 1970 00:00:42 GMT`
+      })
     })
   })
 
@@ -54,11 +60,25 @@ describe(`Module: Keybase`, () => {
       expect(result).toEqual(mockIdentity)
     })
 
-    it(`should query only if identity is unknown`, async () => {
+    it(`should query only if identity is unknown or outdated`, async () => {
       state.identities[`abcdabcdabcdabcd`] = mockIdentity
+      state.identities[`abcdabcdabcdabcd`].lastUpdated = new Date(Date.now()).toUTCString()
       const result = await actions.getKeybaseIdentity({ state }, `abcdabcdabcdabcd`)
       expect(state.externals.axios).not.toHaveBeenCalled()
       expect(result).toEqual(mockIdentity)
+    })
+
+    it(`should query by name if outdated`, async () => {
+      state.identities[`abcdabcdabcdabcd`] = mockIdentity
+      state.externals.moment = () => ({ diff: () => -5 })
+      const result = await actions.getKeybaseIdentity({ state }, `abcdabcdabcdabcd`)
+      expect(state.externals.axios).toHaveBeenCalledWith(`https://keybase.io/_/api/1.0/user/lookup.json?usernames=keybaseUser`)
+      expect(result).toEqual({
+        keybaseId: `abcdabcdabcdabcd`,
+        avatarUrl: `pictureUrl`,
+        userName: `keybaseUser`,
+        profileUrl: `https://keybase.io/keybaseUser`
+      })
     })
 
     it(`should bulk update the validators`, async () => {
