@@ -25,14 +25,6 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
               Block #100
             
           </h2>
-           
-          <h3
-            class="page-profile__subtitle"
-          >
-            
-              ABCD1234
-            
-          </h3>
         </div>
       </div>
     </div>
@@ -63,8 +55,12 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
       <div
         class="column"
       >
-        <h3>
-          Transactions
+        <h3
+          class="page-profile__section-title"
+        >
+          
+            Transactions
+          
         </h3>
          
         <!---->
@@ -135,14 +131,6 @@ exports[`PageBlock shows the block page with no txs 1`] = `
               Block #100
             
           </h2>
-           
-          <h3
-            class="page-profile__subtitle"
-          >
-            
-              ABCD1234
-            
-          </h3>
         </div>
       </div>
     </div>
@@ -173,8 +161,12 @@ exports[`PageBlock shows the block page with no txs 1`] = `
       <div
         class="column"
       >
-        <h3>
-          Transactions
+        <h3
+          class="page-profile__section-title"
+        >
+          
+            Transactions
+          
         </h3>
          
         <tm-data-msg-stub
@@ -225,14 +217,6 @@ exports[`PageBlock shows the page when the block hasn't been loaded yet 1`] = `
               Block --
             
           </h2>
-           
-          <h3
-            class="page-profile__subtitle"
-          >
-            
-              
-            
-          </h3>
         </div>
       </div>
     </div>
@@ -263,9 +247,7 @@ exports[`PageBlock shows the page when the block hasn't been loaded yet 1`] = `
       <div
         class="column"
       >
-        <h3>
-          Transactions
-        </h3>
+        <!---->
          
         <!---->
           
