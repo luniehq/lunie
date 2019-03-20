@@ -56,7 +56,7 @@ describe(`Module: Keybase`, () => {
   describe(`actions`, () => {
     it(`should query for the keybase identity`, async () => {
       const result = await actions.getKeybaseIdentity({ state }, `abcdabcdabcdabcd`)
-      expect(state.externals.axios).toHaveBeenCalledWith(`https://keybase.io/_/api/1.0/user/lookup.json?key_suffix=abcdabcdabcdabcd`)
+      expect(state.externals.axios).toHaveBeenCalledWith(`https://keybase.io/_/api/1.0/user/lookup.json?key_suffix=abcdabcdabcdabcd&fields=pictures,basics`)
       expect(result).toEqual(mockIdentity)
     })
 
@@ -72,7 +72,7 @@ describe(`Module: Keybase`, () => {
       state.identities[`abcdabcdabcdabcd`] = mockIdentity
       state.externals.moment = () => ({ diff: () => -5 })
       const result = await actions.getKeybaseIdentity({ state }, `abcdabcdabcdabcd`)
-      expect(state.externals.axios).toHaveBeenCalledWith(`https://keybase.io/_/api/1.0/user/lookup.json?usernames=keybaseUser`)
+      expect(state.externals.axios).toHaveBeenCalledWith(`https://keybase.io/_/api/1.0/user/lookup.json?usernames=keybaseUser&fields=pictures,basics`)
       expect(result).toEqual({
         keybaseId: `abcdabcdabcdabcd`,
         avatarUrl: `pictureUrl`,

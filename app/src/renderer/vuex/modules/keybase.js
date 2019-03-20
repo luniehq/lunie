@@ -74,33 +74,28 @@ export default () => {
   }
 }
 
+const baseUrl = `https://keybase.io/_/api/1.0/user/lookup.json`
+const fieldsQuery = `fields=pictures,basics`
+
 async function lookupId(state, keybaseId) {
-  const urlPrefix = `https://keybase.io/_/api/1.0/user/lookup.json?key_suffix=`
-  const fullUrl = urlPrefix + keybaseId
-  const json = await state.externals.axios(fullUrl)
-  if (json.data.status.name === `OK`) {
-    const user = json.data.them[0]
-    if (user && user.pictures && user.pictures.primary) {
-      return {
-        keybaseId,
-        avatarUrl: user.pictures.primary.url,
-        userName: user.basics.username,
-        profileUrl: `https://keybase.io/` + user.basics.username
-      }
-    }
-  }
+  const fullUrl = `${baseUrl}?key_suffix=${keybaseId}&${fieldsQuery}`
+  return query(state, fullUrl, keybaseId)
 }
 
 async function lookupUsername(state, keybaseId, username) {
-  const urlPrefix = `https://keybase.io/_/api/1.0/user/lookup.json?usernames=`
-  const fullUrl = urlPrefix + username
-  const json = await state.externals.axios(fullUrl)
+  const fullUrl = `${baseUrl}?usernames=${username}&${fieldsQuery}`
+  return query(state, fullUrl, keybaseId)
+}
+async function query(state, url, keybaseId) {
+  const json = await state.externals.axios(url)
   if (json.data.status.name === `OK`) {
     const user = json.data.them[0]
-    if (user && user.pictures && user.pictures.primary) {
+    if (user) {
       return {
         keybaseId,
-        avatarUrl: user.pictures.primary.url,
+        avatarUrl: user.pictures && user.pictures.primary
+          ? user.pictures.primary.url
+          : undefined,
         userName: user.basics.username,
         profileUrl: `https://keybase.io/` + user.basics.username
       }
