@@ -14,6 +14,7 @@ export default () => {
     axios,
     moment
   }
+  state.identities = JSON.parse(localStorage.getItem(`keybaseCache`) || `{}`)
 
   const mutations = {
     setKeybaseIdentities(state, identities) {
@@ -60,6 +61,9 @@ export default () => {
         state.loading = false
         state.loaded = true
         commit(`setKeybaseIdentities`, identities.filter(x => !!x))
+
+        // cache keybase identities even when not logged in
+        localStorage.setItem(`keybaseCache`, JSON.stringify(state.identities))
       } catch (error) {
         Sentry.captureException(error)
         state.error = error
@@ -87,18 +91,24 @@ async function lookupUsername(state, keybaseId, username) {
   return query(state, fullUrl, keybaseId)
 }
 async function query(state, url, keybaseId) {
-  const json = await state.externals.axios(url)
-  if (json.data.status.name === `OK`) {
-    const user = json.data.them[0]
-    if (user) {
-      return {
-        keybaseId,
-        avatarUrl: user.pictures && user.pictures.primary
-          ? user.pictures.primary.url
-          : undefined,
-        userName: user.basics.username,
-        profileUrl: `https://keybase.io/` + user.basics.username
+  try {
+    const json = await state.externals.axios(url)
+    if (json.data.status.name === `OK`) {
+      const user = json.data.them[0]
+      if (user) {
+        return {
+          keybaseId,
+          avatarUrl: user.pictures && user.pictures.primary
+            ? user.pictures.primary.url
+            : undefined,
+          userName: user.basics.username,
+          profileUrl: `https://keybase.io/` + user.basics.username
+        }
       }
+    }
+  } catch (error) {
+    return {
+      keybaseId
     }
   }
 }
