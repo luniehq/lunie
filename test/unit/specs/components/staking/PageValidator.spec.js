@@ -260,13 +260,12 @@ describe(`PageValidator`, () => {
     })
   })
 
-  it(`should call user rewards on signed in`, () => {
+  it(`should only call user rewards if bond is more then 0`, () => {
     const $store = { dispatch: jest.fn() }
     const myBond = 1
     const $route = { params: { validator: `cosmos1address` } }
-    const delegation = { loaded: true }
-    PageValidator.watch[`session.signedIn`].handler.call(
-      { $store, $route, myBond, delegation }, true
+    PageValidator.watch[`myBond`].handler.call(
+      { $store, $route }, myBond
     )
     expect($store.dispatch).toHaveBeenCalledWith(
       `getRewardsFromValidator`,
@@ -274,25 +273,12 @@ describe(`PageValidator`, () => {
     )
   })
 
-  it(`shouldn't call user rewards if not signed in`, () => {
-    const $store = { dispatch: jest.fn() }
-    const $route = { params: { validator: `cosmos1address` } }
-    PageValidator.watch[`session.signedIn`].handler.call(
-      { $store, $route }, false
-    )
-    expect($store.dispatch).not.toHaveBeenCalledWith(
-      `getRewardsFromValidator`,
-      $route.params.validator
-    )
-  })
-
-  it(`shouldn't call user rewards there're no delegations`, () => {
+  it(`shouldn't call user rewards if bond is 0`, () => {
     const $store = { dispatch: jest.fn() }
     const myBond = 0
     const $route = { params: { validator: `cosmos1address` } }
-    const delegation = { loaded: true }
-    PageValidator.watch[`session.signedIn`].handler.call(
-      { $store, $route, myBond, delegation }, true
+    PageValidator.watch[`myBond`].handler.call(
+      { $store, $route }, myBond
     )
     expect($store.dispatch).not.toHaveBeenCalledWith(
       `getRewardsFromValidator`,
