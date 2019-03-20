@@ -173,7 +173,6 @@
 </template>
 
 <script>
-import BigNumber from "bignumber.js"
 import moment from "moment"
 import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
@@ -207,6 +206,7 @@ export default {
       `lastHeader`,
       `bondDenom`,
       `delegates`,
+      `delegation`,
       `distribution`,
       `committedDelegations`,
       `keybase`,
@@ -238,12 +238,11 @@ export default {
       return String(uptime).substring(0, 4) + `%`
     },
     myBond() {
-      return BigNumber(
-        atoms(
-          calculateTokens(
-            this.validator,
-            this.committedDelegations[this.validator.operator_address] || 0
-          )
+      if (!this.validator) return 0
+      return atoms(
+        calculateTokens(
+          this.validator,
+          this.committedDelegations[this.validator.operator_address] || 0
         )
       )
     },
@@ -307,6 +306,16 @@ export default {
     }
   },
   watch: {
+    myBond: {
+      handler(myBond) {
+        if (myBond > 0) {
+          this.$store.dispatch(
+            `getRewardsFromValidator`,
+            this.$route.params.validator
+          )
+        }
+      }
+    },
     validator: {
       immediate: true,
       handler(validator) {
@@ -316,22 +325,21 @@ export default {
     },
     lastHeader: {
       immediate: true,
-      handler() {
-        if (this.session.signedIn) {
+      handler(newHeader) {
+        const waitTwentyBlocks = Number(newHeader.height) % 20 === 0
+        if (
+          this.session.signedIn &&
+          waitTwentyBlocks &&
+          this.$route.name === `validator` &&
+          this.delegation.loaded &&
+          Number(this.myBond) > 0
+        ) {
           this.$store.dispatch(
             `getRewardsFromValidator`,
             this.$route.params.validator
           )
         }
       }
-    }
-  },
-  mounted() {
-    if (this.session.signedIn) {
-      this.$store.dispatch(
-        `getRewardsFromValidator`,
-        this.$route.params.validator
-      )
     }
   },
   methods: {

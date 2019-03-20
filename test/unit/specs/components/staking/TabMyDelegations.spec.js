@@ -3,24 +3,6 @@ import TabMyDelegations from "renderer/components/staking/TabMyDelegations"
 import validators from "../../store/json/validators.js"
 import { stakingTxs } from "../../store/json/txs"
 
-const getters = {
-  transactions: {
-    staking: []
-  },
-  delegates: {
-    delegates: validators
-  },
-  delegation: {
-    unbondingDelegations: {
-    },
-    loaded: true
-  },
-  committedDelegations: {},
-  connected: true,
-  bondDenom: `uatom`,
-  session: { signedIn: true }
-}
-
 // TODO: remove this dirty addition: the real cleanup will be done in a separate PR
 // the problem is mock VS real implementation have different keys: shares in mock, shares_amount in SDK
 // const unbondingTransactions = lcdClientMock.state.txs.slice(5).map(t => {
@@ -29,6 +11,27 @@ const getters = {
 // })
 
 describe(`Component: TabMyDelegations`, () => {
+
+  const getters = {
+    transactions: {
+      staking: []
+    },
+    delegates: {
+      delegates: validators
+    },
+    delegation: {
+      unbondingDelegations: {
+      },
+      loaded: true
+    },
+    committedDelegations: {
+    },
+    connected: true,
+    bondDenom: `uatom`,
+    session: { signedIn: true },
+    lastHeader: { height: `20` }
+  }
+
   describe(`view`, () => {
     let wrapper, $store
 
@@ -41,7 +44,10 @@ describe(`Component: TabMyDelegations`, () => {
 
       wrapper = shallowMount(TabMyDelegations, {
         mocks: {
-          $store
+          $store,
+          $route: {
+            path: `/staking/my-delegations`
+          }
         },
         stubs: [`router-link`]
       })
@@ -122,17 +128,77 @@ describe(`Component: TabMyDelegations`, () => {
       ).toHaveLength(1)
     })
 
-    it(`yourValidators`, () => {
-      expect(
-        TabMyDelegations.computed.yourValidators({
-          committedDelegations: {
-            [validators[0].operator_address]: 1,
-            [validators[2].operator_address]: 2
-          },
-          delegates: { delegates: validators }
+    describe(`yourValidators`, () => {
+      it(`should return validators if signed in`, () => {
+        expect(
+          TabMyDelegations.computed.yourValidators({
+            committedDelegations: {
+              [validators[0].operator_address]: 1,
+              [validators[2].operator_address]: 2
+            },
+            delegates: { delegates: validators },
+            session: { signedIn: true }
+          })
+        ).toEqual([validators[0], validators[2]])
+      })
+
+      it(`should return false if not signed in`, () => {
+        expect(
+          TabMyDelegations.computed.yourValidators({
+            committedDelegations: {
+              [validators[0].operator_address]: 1,
+              [validators[2].operator_address]: 2
+            },
+            delegates: { delegates: validators },
+            session: { signedIn: false }
+          })
+        ).toBe(false)
+      })
+    })
+
+    describe(`update rewards on new blocks`, () => {
+      describe(`shouldn't update`, () => {
+        it(`if hasn't waited for 20 blocks `, () => {
+          const $store = { dispatch: jest.fn() }
+          const yourValidators = [{}]
+          const newHeader = { height: `30` }
+          TabMyDelegations.watch.lastHeader.handler.call(
+            { $store, yourValidators },
+            newHeader)
+          expect($store.dispatch).not.toHaveBeenCalledWith(
+            `getRewardsFromAllValidators`,
+            yourValidators
+          )
         })
-      ).toEqual([validators[0], validators[2]])
+
+        it(`if user doesn't have any delegations `, () => {
+          const $store = { dispatch: jest.fn() }
+          const yourValidators = []
+          const newHeader = { height: `40` }
+          TabMyDelegations.watch.lastHeader.handler.call(
+            { $store, yourValidators },
+            newHeader)
+          expect($store.dispatch).not.toHaveBeenCalledWith(
+            `getRewardsFromAllValidators`,
+            yourValidators
+          )
+        })
+
+        describe(`should update rewards `, () => {
+          it(`if has waited for 20 blocks and has delegations`, () => {
+            const $store = { dispatch: jest.fn() }
+            const yourValidators = [{}]
+            const newHeader = { height: `40` }
+            TabMyDelegations.watch.lastHeader.handler.call(
+              { $store, yourValidators },
+              newHeader)
+            expect($store.dispatch).toHaveBeenCalledWith(
+              `getRewardsFromAllValidators`,
+              yourValidators
+            )
+          })
+        })
+      })
     })
   })
-
 })

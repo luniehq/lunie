@@ -53,6 +53,7 @@ export default {
       `connected`,
       `session`,
       `liquidAtoms`,
+      `lastHeader`,
       `totalAtoms`,
       `bondDenom`,
       `distribution`
@@ -65,6 +66,18 @@ export default {
       return this.num.shortNumber(
         this.num.atoms(rewards && rewards > 10 ? rewards : 0)
       )
+    }
+  },
+  watch: {
+    lastHeader: {
+      immediate: true,
+      handler(newHeader) {
+        const waitTenBlocks = Number(newHeader.height) % 10 === 0
+        if (this.session.signedIn && waitTenBlocks) {
+          this.$store.dispatch(`getTotalRewards`)
+          this.$store.dispatch(`queryWalletBalances`)
+        }
+      }
     }
   },
   methods: {

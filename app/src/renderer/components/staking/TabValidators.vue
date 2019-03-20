@@ -25,15 +25,54 @@ export default {
     TmDataConnecting
   },
   computed: {
-    ...mapGetters([`delegates`, `connected`, `session`])
+    ...mapGetters([
+      `lastHeader`,
+      `delegates`,
+      `committedDelegations`,
+      `connected`,
+      `session`
+    ]),
+    yourValidators(
+      {
+        committedDelegations,
+        delegates: { delegates },
+        session: { signedIn }
+      } = this
+    ) {
+      return (
+        signedIn &&
+        delegates.filter(
+          ({ operator_address }) => operator_address in committedDelegations
+        )
+      )
+    }
   },
   watch: {
     "session.signedIn": function(signedIn) {
       signedIn && this.$store.dispatch(`updateDelegates`)
+    },
+    lastHeader: {
+      immediate: true,
+      handler(newHeader) {
+        const waitTwentyBlocks = Number(newHeader.height) % 20 === 0
+        if (
+          waitTwentyBlocks &&
+          this.yourValidators &&
+          this.yourValidators.length > 0
+        ) {
+          this.$store.dispatch(
+            `getRewardsFromAllValidators`,
+            this.yourValidators
+          )
+        }
+      }
     }
   },
   mounted() {
     this.$store.dispatch(`updateDelegates`)
+    if (this.yourValidators) {
+      this.$store.dispatch(`getRewardsFromAllValidators`, this.yourValidators)
+    }
   }
 }
 </script>
