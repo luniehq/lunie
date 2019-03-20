@@ -17,7 +17,8 @@
         </router-link>
       </div>
       <div slot="fees">
-        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        Network Fee:&nbsp;
+        <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
         <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
       </div>
     </template>
@@ -32,7 +33,8 @@
         </router-link>
       </div>
       <div slot="fees">
-        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        Network Fee:&nbsp;
+        <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
         <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
       </div>
     </template>
@@ -49,7 +51,8 @@
         </router-link>
       </div>
       <div slot="fees">
-        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        Network Fee:&nbsp;
+        <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
         <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
       </div>
     </template>
@@ -75,7 +78,8 @@
         </router-link>
       </div>
       <div slot="fees">
-        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        Network Fee:&nbsp;
+        <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
         <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
       </div>
     </template>
@@ -103,7 +107,8 @@
         </router-link>
       </div>
       <div slot="fees">
-        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        Network Fee:&nbsp;
+        <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
         <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
       </div>
     </template>
@@ -118,7 +123,8 @@
         </router-link>
       </div>
       <div slot="fees">
-        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        Network Fee:&nbsp;
+        <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
         <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
       </div>
     </template>

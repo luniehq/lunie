@@ -48,7 +48,6 @@
 </template>
 
 <script>
-import num from "scripts/num"
 import { mapGetters } from "vuex"
 import PerfectScrollbar from "perfect-scrollbar"
 import TmBarDiscrete from "common/TmBarDiscrete"

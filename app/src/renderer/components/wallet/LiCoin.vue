@@ -12,7 +12,8 @@
           {{ amount }}
         </p>
       </div>
-      <!-- here we use the unconverted denom, as the SendModal checks for balances based on the actual denom -->
+      <!-- here we use the unconverted denom, as the SendModal
+      checks for balances based on the actual denom -->
       <tm-btn
         value="Send"
         color="primary"
