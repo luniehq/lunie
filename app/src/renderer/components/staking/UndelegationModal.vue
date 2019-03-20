@@ -38,7 +38,9 @@
       </p>
       <tm-form-msg
         v-if="maximum === 0"
-        :msg="`don't have any ${num.viewDenom(denom)}s delegated to this validator`"
+        :msg="`don't have any ${
+          num.viewDenom(denom)
+        }s delegated to this validator`"
         name="You"
         type="custom"
       />
