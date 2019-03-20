@@ -45,29 +45,24 @@ export default () => {
       return lookupId(state, keybaseId)
     },
     async getKeybaseIdentities({ dispatch, commit, state }, validators) {
-      try {
-        state.loading = true
-        const identities = await Promise.all(
-          validators.map(async validator => {
-            if (validator.description.identity) {
-              return dispatch(
-                `getKeybaseIdentity`,
-                validator.description.identity
-              )
-            }
-          })
-        )
-        state.error = null
-        state.loading = false
-        state.loaded = true
-        commit(`setKeybaseIdentities`, identities.filter(x => !!x))
+      state.loading = true
+      const identities = await Promise.all(
+        validators.map(async validator => {
+          if (validator.description.identity) {
+            return dispatch(
+              `getKeybaseIdentity`,
+              validator.description.identity
+            )
+          }
+        })
+      )
+      state.error = null
+      state.loading = false
+      state.loaded = true
+      commit(`setKeybaseIdentities`, identities.filter(x => !!x))
 
-        // cache keybase identities even when not logged in
-        localStorage.setItem(`keybaseCache`, JSON.stringify(state.identities))
-      } catch (error) {
-        Sentry.captureException(error)
-        state.error = error
-      }
+      // cache keybase identities even when not logged in
+      localStorage.setItem(`keybaseCache`, JSON.stringify(state.identities))
     }
   }
 
@@ -90,6 +85,7 @@ async function lookupUsername(state, keybaseId, username) {
   const fullUrl = `${baseUrl}?usernames=${username}&${fieldsQuery}`
   return query(state, fullUrl, keybaseId)
 }
+
 async function query(state, url, keybaseId) {
   try {
     const json = await state.externals.axios(url)

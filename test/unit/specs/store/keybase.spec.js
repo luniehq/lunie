@@ -95,15 +95,13 @@ describe(`Module: Keybase`, () => {
       expect(commit).toHaveBeenCalledWith(`setKeybaseIdentities`, [mockIdentity])
     })
 
-    it(`should store an error if failed to load keybase info`, async () => {
-      const dispatch = async () => Promise.reject(`Error`)
+    it(`should return an empty profile if loading the keybase info fails`, async () => {
+      state.externals.axios = () => Promise.reject(`Error`)
 
-      const validators = [{ description: { identity: `abcdabcdabcdabcd` } }]
-      await actions.getKeybaseIdentities(
-        { commit: jest.fn(), dispatch, state },
-        validators
-      )
-      expect(state.error).toBe(`Error`)
+      const result = await actions.getKeybaseIdentity({ state }, `abcdabcdabcdabcd`)
+      expect(result).toEqual({
+        keybaseId: `abcdabcdabcdabcd`
+      })
     })
   })
 })
