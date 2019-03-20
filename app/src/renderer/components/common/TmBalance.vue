@@ -4,7 +4,7 @@
       <div class="total-atoms top-section">
         <h3>Total {{ bondDenom }}</h3>
         <h2 class="total-atoms__value">
-          {{ num.shortNumber(num.atoms(totalAtoms)) }}
+          {{ totalAtomsDisplay }}
         </h2>
         <short-bech32 :address="session.address || ''" />
       </div>
@@ -52,16 +52,29 @@ export default {
     ...mapGetters([
       `connected`,
       `session`,
+      `wallet`,
+      `delegation`,
       `liquidAtoms`,
       `lastHeader`,
       `totalAtoms`,
       `bondDenom`,
       `distribution`
     ]),
+    loaded() {
+      return this.wallet.loaded && this.delegation.loaded
+    },
+    totalAtomsDisplay() {
+      return this.loaded ? num.shortNumber(num.atoms(this.totalAtoms)) : `--`
+    },
     unbondedAtoms() {
-      return this.num.shortNumber(this.num.atoms(this.liquidAtoms))
+      return this.loaded
+        ? this.num.shortNumber(this.num.atoms(this.liquidAtoms))
+        : `--`
     },
     rewards() {
+      if (!this.distribution.loaded) {
+        return `--`
+      }
       const rewards = this.distribution.totalRewards[this.bondDenom]
       return this.num.shortNumber(
         this.num.atoms(rewards && rewards > 10 ? rewards : 0)

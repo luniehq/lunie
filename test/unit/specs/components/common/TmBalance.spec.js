@@ -16,9 +16,16 @@ describe(`TmBalance`, () => {
         totalAtoms: 3210000000,
         bondDenom: `stake`,
         distribution: {
+          loaded: true,
           totalRewards: {
             stake: 1000450000000
           }
+        },
+        delegation: {
+          loaded: true
+        },
+        wallet: {
+          loaded: true
         },
         lastHeader: { height: `10` }
       },
@@ -39,6 +46,19 @@ describe(`TmBalance`, () => {
   it(`displays unbonded tokens`, () => {
     expect(wrapper.vm.unbondedAtoms).toBe(`1,230.0000…`)
   })
+
+  it(`displays neither total tokens nor unbonded tokens if not completely loaded`, () => {
+    wrapper.vm.wallet.loaded = false
+    wrapper.vm.distribution.loaded = false
+    expect(wrapper.vm.totalAtomsDisplay).toBe(`--`)
+    expect(wrapper.vm.unbondedAtoms).toBe(`--`)
+  })
+
+  it(`should not display rewards if not loaded`, () => {
+    wrapper.vm.distribution.loaded = false
+    expect(wrapper.vm.rewards).toBe(`--`)
+  })
+
   it(`gets user rewards`, () => {
     expect(wrapper.vm.rewards).toBe(`1,000,450.0000…`)
   })
