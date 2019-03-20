@@ -307,6 +307,17 @@ export default {
     }
   },
   watch: {
+    "session.signedIn": {
+      immediate: true,
+      handler(newSignedIn) {
+        if (newSignedIn && this.delegation.loaded && Number(this.myBond) > 0) {
+          this.$store.dispatch(
+            `getRewardsFromValidator`,
+            this.$route.params.validator
+          )
+        }
+      }
+    },
     validator: {
       immediate: true,
       handler(validator) {
@@ -331,18 +342,6 @@ export default {
           )
         }
       }
-    }
-  },
-  mounted() {
-    if (
-      this.session.signedIn &&
-      this.delegation.loaded &&
-      Number(this.myBond) > 0
-    ) {
-      this.$store.dispatch(
-        `getRewardsFromValidator`,
-        this.$route.params.validator
-      )
     }
   },
   methods: {

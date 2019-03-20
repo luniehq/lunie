@@ -260,13 +260,14 @@ describe(`PageValidator`, () => {
     })
   })
 
-  it(`should call user rewards on mount`, () => {
-    const session = { signedIn: true }
+  it(`should call user rewards on signed in`, () => {
     const $store = { dispatch: jest.fn() }
     const myBond = 1
     const $route = { params: { validator: `cosmos1address` } }
     const delegation = { loaded: true }
-    PageValidator.mounted.call({ session, $store, $route, myBond, delegation })
+    PageValidator.watch[`session.signedIn`].handler.call(
+      { $store, $route, myBond, delegation }, true
+    )
     expect($store.dispatch).toHaveBeenCalledWith(
       `getRewardsFromValidator`,
       $route.params.validator
@@ -274,10 +275,11 @@ describe(`PageValidator`, () => {
   })
 
   it(`shouldn't call user rewards if not signed in`, () => {
-    const session = { signedIn: false }
     const $store = { dispatch: jest.fn() }
     const $route = { params: { validator: `cosmos1address` } }
-    PageValidator.mounted.call({ session, $store, $route })
+    PageValidator.watch[`session.signedIn`].handler.call(
+      { $store, $route }, false
+    )
     expect($store.dispatch).not.toHaveBeenCalledWith(
       `getRewardsFromValidator`,
       $route.params.validator
@@ -285,12 +287,13 @@ describe(`PageValidator`, () => {
   })
 
   it(`shouldn't call user rewards there're no delegations`, () => {
-    const session = { signedIn: true }
     const $store = { dispatch: jest.fn() }
     const myBond = 0
     const $route = { params: { validator: `cosmos1address` } }
     const delegation = { loaded: true }
-    PageValidator.mounted.call({ session, $store, $route, myBond, delegation })
+    PageValidator.watch[`session.signedIn`].handler.call(
+      { $store, $route, myBond, delegation }, true
+    )
     expect($store.dispatch).not.toHaveBeenCalledWith(
       `getRewardsFromValidator`,
       $route.params.validator
