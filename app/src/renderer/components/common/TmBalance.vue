@@ -1,9 +1,6 @@
 <template>
   <div class="header-balance">
     <div class="top">
-      <div class="icon-container">
-        <img class="icon" src="~assets/images/cosmos-logo.png">
-      </div>
       <div class="total-atoms top-section">
         <h3>Total {{ bondDenom }}</h3>
         <h2 class="total-atoms__value">
@@ -92,11 +89,16 @@ export default {
 </script>
 <style scoped>
 .header-balance {
-  align-items: baseline;
   display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  padding: 1rem 0 2rem 2rem;
+  padding: 1rem 0 2.5rem 1rem;
+}
+
+.short-bech32 {
+  position: absolute;
+}
+
+.total-atoms.top-section {
+  padding-left: 0;
 }
 
 .header-balance .top {
@@ -105,15 +107,12 @@ export default {
 }
 
 .top-section {
+  border-right: var(--bc-dim) 2px solid;
+  position: relative;
   padding: 0 2rem;
 }
 
-.header-balance .top > .top-section {
-  border-right: var(--bc-dim) 1px solid;
-  position: relative;
-}
-
-.header-balance .top > div:last-of-type {
+.top-section:last-of-type {
   border-right: none;
 }
 
@@ -126,37 +125,34 @@ export default {
 
 .header-balance .top h2 {
   color: var(--bright);
-  font-size: var(--h1);
+  font-size: 1.75rem;
   font-weight: 500;
   line-height: 40px;
-}
-
-.header-balance .top .icon-container {
-  display: block;
-  height: 100%;
-}
-
-.header-balance .top .icon {
-  border-right: none;
-  height: 60px;
-  margin: 0 1rem 0 0;
-  padding: 0;
-  width: 60px;
-}
-
-.header-balance .top .total-rewards .group {
-  align-items: baseline;
-  display: flex;
-  flex-direction: row;
-}
-
-.header-balance .top .total-rewards .group a {
-  padding-left: 10px;
 }
 
 .withdraw-rewards {
   font-size: var(--sm);
   position: absolute;
   font-weight: 300;
+}
+
+@media screen and (max-width: 767px) {
+  .header-balance {
+    padding: 0 0 1.5rem 0;
+  }
+
+  .header-balance .top {
+    flex-direction: column;
+  }
+
+  .top-section {
+    padding: 0.5rem 0 1rem;
+    border-right: none;
+  }
+
+  .top-section:nth-child(2),
+  .top-section:nth-child(3) {
+    display: none;
+  }
 }
 </style>

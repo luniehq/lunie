@@ -15,7 +15,7 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix">{{ denom }}</span>
+      <span class="input-suffix">{{ num.viewDenom(denom) }}</span>
       <tm-field
         id="amount"
         v-model="amount"
@@ -23,7 +23,7 @@
       />
       <tm-form-msg
         v-if="balance === 0"
-        :msg="`doesn't have any ${denom}s`"
+        :msg="`doesn't have any ${num.viewDenom(denom)}s`"
         name="Wallet"
         type="custom"
       />
@@ -50,7 +50,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import { uatoms, atoms, SMALLEST } from "../../scripts/num.js"
+import num, { uatoms, atoms, SMALLEST } from "../../scripts/num.js"
 import { between, decimal } from "vuelidate/lib/validators"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
@@ -80,6 +80,7 @@ export default {
     }
   },
   data: () => ({
+    num,
     amount: 0
   }),
   computed: {
@@ -134,9 +135,9 @@ export default {
 
       this.$store.commit(`notify`, {
         title: `Successful deposit!`,
-        body: `You have successfully deposited your ${
+        body: `You have successfully deposited your ${num.viewDenom(
           this.denom
-        }s on proposal #${this.proposalId}`
+        )}s on proposal #${this.proposalId}`
       })
     }
   }

@@ -5,7 +5,7 @@
     </div>
     <div slot="subtitle">
       This page shows data for a specific address. To access the page, please
-      <a @click="goToSession">sign in</a>.
+      <a @click="goToSession">sign&nbsp;in</a>.
     </div>
   </tm-data-msg>
 </template>

@@ -8,7 +8,7 @@
     <tm-data-loading v-else-if="!delegation.loaded && delegation.loading" />
     <tm-data-msg
       v-else-if="yourValidators.length === 0"
-      icon="info_outline"
+      icon="sentiment_dissatisfied"
     >
       <div slot="title">
         No Active Delegations
@@ -52,6 +52,7 @@
 
 <script>
 import { mapGetters } from "vuex"
+import num from "scripts/num"
 import LiStakeTransaction from "../transactions/LiStakeTransaction"
 import TmDataMsg from "common/TmDataMsg"
 import CardSignInRequired from "common/CardSignInRequired"
@@ -73,7 +74,8 @@ export default {
   data: () => ({
     unbondTransactions: `Transactions currently in the undelegation period`,
     validatorURL: `/staking/validators`,
-    time
+    time,
+    num
   }),
   computed: {
     ...mapGetters([

@@ -59,10 +59,27 @@ function uatoms(number = 0) {
   return BigNumber(number).times(1e6).toString()
 }
 
+// convert micro denoms like uatom to display denoms like atom
+function viewDenom(denom) {
+  if (denom.charAt(0) === `u`) {
+    return denom.substr(1)
+  }
+  return denom
+}
+
+function viewCoin({ amount, denom }) {
+  return {
+    amount: full(atoms(amount)),
+    denom: viewDenom(denom)
+  }
+}
+
 module.exports = {
   SMALLEST,
   atoms,
   uatoms,
+  viewDenom,
+  viewCoin,
   full,
   shortNumber,
   pretty,

@@ -42,7 +42,7 @@ a:hover {
   line-height: 1.5;
   font-family: var(--sans);
   color: var(--txt);
-  padding-top: 3rem;
+  padding-top: 56px;
   height: 100vh;
   width: 100vw;
   max-width: 100%;
@@ -78,23 +78,6 @@ input.tm-field {
   width: 29px !important;
 }
 
-.tm-part-main {
-  padding-right: 0 !important;
-}
-
-.tm-page-header-container {
-  min-height: 5.5rem;
-  background: var(--app-fg);
-}
-
-.tm-data-msg {
-  border: 1px solid var(--bc-dim);
-}
-
-.tm-page-header-body {
-  position: relative;
-}
-
 .tm-li-container {
   margin-right: 1rem;
 }
@@ -122,17 +105,22 @@ input.tm-field {
   background: red;
   text-align: center;
   height: 1.5rem;
+  font-weight: 500;
   z-index: 1000000;
   width: 100%;
   top: 0;
   position: absolute;
 }
 
+#appzi-launch-button-cf1d801a-9653-4934-8a18-cea8c9e77495 {
+  z-index: var(--z-appHeader) !important;
+}
+
 .mobile #develop-mode-warning {
   position: relative;
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 1023px) {
   #app {
     padding-top: 0;
     flex-flow: row nowrap;

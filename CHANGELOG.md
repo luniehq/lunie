@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.24] - 2019-03-20
+
+### Fixed
+
+- [\#2305](https://github.com/cosmos/voyager/issues/2305) fixed numbers showing wrong on redelegation and unbonding transactions @faboweb
+- Misc. style fixes @jbibla
+- Fixed Balance header styles and responsiveness @jbibla
+
+
+## [1.0.0-beta.23] - 2019-03-19
+
+### Fixed
+
+- PageValidator isn't showing @faboweb
+
 ## [1.0.0-beta.22] - 2019-03-19
 
 ### Added
