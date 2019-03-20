@@ -60,7 +60,7 @@ export default {
     filteredBalances() {
       return orderBy(
         this.wallet.balances,
-        [`amount`, balance => balance.denom.toLowerCase()],
+        [`amount`, balance => num.viewDenom(balance.denom).toLowerCase()],
         [`desc`, `asc`]
       )
     }

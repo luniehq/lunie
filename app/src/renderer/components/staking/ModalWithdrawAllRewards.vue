@@ -25,7 +25,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import { atoms } from "../../scripts/num.js"
+import num, { atoms } from "../../scripts/num.js"
 import ActionModal from "common/ActionModal"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
@@ -37,6 +37,9 @@ export default {
     TmField,
     TmFormGroup
   },
+  data: () => ({
+    num
+  }),
   computed: {
     ...mapGetters([`bondDenom`, `distribution`]),
     totalRewards({ bondDenom, distribution } = this) {
