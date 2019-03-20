@@ -2,7 +2,7 @@
   <tr class="data-table__row li-validator">
     <td class="data-table__row__info">
       <img
-        v-if="validator.keybase"
+        v-if="validator.keybase && validator.keybase.avatarUrl"
         :src="validator.keybase.avatarUrl"
         class="data-table__row__info__image"
         width="48"
@@ -79,7 +79,7 @@ export default {
     validator: {
       type: Object,
       required: true
-    },
+    }
   },
   data: () => ({ num }),
   computed: {
@@ -111,7 +111,7 @@ export default {
 
       // status: active
       return `green`
-    },
+    }
   }
 }
 </script>

@@ -58,8 +58,7 @@ export function storeUpdateHandler(mutation, state, pending) {
     `setProposalDeposits`,
     `setProposalVotes`,
     `setProposalTally`,
-    `setGovParameters`,
-    `setKeybaseIdentities`
+    `setGovParameters`
   ]
 
   if (updatingMutations.indexOf(mutation.type) === -1) return
@@ -98,9 +97,6 @@ function persistState(state) {
     },
     delegates: {
       delegates: state.delegates.delegates
-    },
-    keybase: {
-      identities: state.keybase.identities
     },
     stakingParameters: state.stakingParameters,
     pool: state.pool,
