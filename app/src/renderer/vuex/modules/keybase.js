@@ -1,5 +1,5 @@
 import axios from "axios"
-import * as Sentry from "@sentry/browser"
+import moment from "moment"
 
 export default () => {
   const emptyState = {
@@ -10,13 +10,17 @@ export default () => {
   }
   const state = JSON.parse(JSON.stringify(emptyState))
   state.externals = {
-    axios
+    axios,
+    moment
   }
+  state.identities = JSON.parse(localStorage.getItem(`keybaseCache`) || `{}`)
 
   const mutations = {
     setKeybaseIdentities(state, identities) {
       identities.forEach(identity => {
-        state.identities[identity.keybaseId] = identity
+        state.identities[identity.keybaseId] = Object.assign({}, identity, {
+          lastUpdated: new Date(Date.now()).toUTCString()
+        })
       })
     }
   }
@@ -24,48 +28,40 @@ export default () => {
   const actions = {
     async getKeybaseIdentity({ state }, keybaseId) {
       if (!/.{16}/.test(keybaseId)) return // the keybase id is not correct
-      if (state.identities[keybaseId]) return state.identities[keybaseId] // we already have this identity
-
-      const urlPrefix = `https://keybase.io/_/api/1.0/user/lookup.json?key_suffix=`
-      const fullUrl = urlPrefix + keybaseId
-      const json = await state.externals.axios(fullUrl)
-      if (json.data.status.name === `OK`) {
-        const user = json.data.them[0]
-        if (user && user.pictures && user.pictures.primary) {
-          return {
-            keybaseId,
-            avatarUrl: user.pictures.primary.url,
-            userName: user.basics.username,
-            profileUrl: `https://keybase.io/` + user.basics.username
-          }
+      if (state.identities[keybaseId]) { // we already have this identity
+        // check if the last check is more then 2 days ago
+        if (state.externals.moment(state.identities[keybaseId].lastUpdated).diff(state.externals.moment(), `days`) <= -2) {
+          // as a recommendation by keybase we should prefer looking up profiles by username
+          return lookupUsername(
+            state, keybaseId,
+            state.identities[keybaseId].userName
+          )
         }
+
+        return state.identities[keybaseId]
       }
+
+      return lookupId(state, keybaseId)
     },
     async getKeybaseIdentities({ dispatch, commit, state }, validators) {
-      try {
-        state.loading = true
-        const identities = await Promise.all(
-          validators.map(async validator => {
-            if (validator.description.identity) {
-              return dispatch(
-                `getKeybaseIdentity`,
-                validator.description.identity
-              )
-            }
-          })
-        )
-        state.error = null
-        state.loading = false
-        state.loaded = true
-        commit(`setKeybaseIdentities`, identities.filter(x => !!x))
-      } catch (error) {
-        commit(`notifyError`, {
-          title: `Error fetching keybase information for validators`,
-          body: error.message
+      state.loading = true
+      const identities = await Promise.all(
+        validators.map(async validator => {
+          if (validator.description.identity) {
+            return dispatch(
+              `getKeybaseIdentity`,
+              validator.description.identity
+            )
+          }
         })
-        Sentry.captureException(error)
-        state.error = error
-      }
+      )
+      state.error = null
+      state.loading = false
+      state.loaded = true
+      commit(`setKeybaseIdentities`, identities.filter(x => !!x))
+
+      // cache keybase identities even when not logged in
+      localStorage.setItem(`keybaseCache`, JSON.stringify(state.identities))
     }
   }
 
@@ -73,5 +69,41 @@ export default () => {
     state,
     actions,
     mutations
+  }
+}
+
+const baseUrl = `https://keybase.io/_/api/1.0/user/lookup.json`
+const fieldsQuery = `fields=pictures,basics`
+
+async function lookupId(state, keybaseId) {
+  const fullUrl = `${baseUrl}?key_suffix=${keybaseId}&${fieldsQuery}`
+  return query(state, fullUrl, keybaseId)
+}
+
+async function lookupUsername(state, keybaseId, username) {
+  const fullUrl = `${baseUrl}?usernames=${username}&${fieldsQuery}`
+  return query(state, fullUrl, keybaseId)
+}
+
+async function query(state, url, keybaseId) {
+  try {
+    const json = await state.externals.axios(url)
+    if (json.data.status.name === `OK`) {
+      const user = json.data.them[0]
+      if (user) {
+        return {
+          keybaseId,
+          avatarUrl: user.pictures && user.pictures.primary
+            ? user.pictures.primary.url
+            : undefined,
+          userName: user.basics.username,
+          profileUrl: `https://keybase.io/` + user.basics.username
+        }
+      }
+    }
+  } catch (error) {
+    return {
+      keybaseId
+    }
   }
 }

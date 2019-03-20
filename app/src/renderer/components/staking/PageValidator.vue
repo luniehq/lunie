@@ -12,14 +12,14 @@
       <div class="page-profile__header page-profile__section">
         <div class="row">
           <img
-            v-if="validator.keybase"
+            v-if="validator.keybase && validator.keybase.avatarUrl"
             :src="validator.keybase.avatarUrl"
             class="avatar"
-          /><img
+          ><img
             v-else
             class="avatar"
             src="~assets/images/validator-icon.svg"
-          />
+          >
 
           <div class="page-profile__header__info">
             <div>
