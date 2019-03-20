@@ -41,10 +41,24 @@ export default {
     num
   }),
   computed: {
-    ...mapGetters([`bondDenom`, `distribution`]),
+    ...mapGetters([`bondDenom`, `distribution`, `lastHeader`, `session`]),
     totalRewards({ bondDenom, distribution } = this) {
       const rewards = distribution.totalRewards[bondDenom]
       return (rewards && atoms(rewards)) || 0
+    }
+  },
+  watch: {
+    lastHeader: {
+      immediate: true,
+      handler() {
+        if (
+          this.session.signedIn &&
+          this.$refs.actionModal &&
+          this.$refs.actionModal.show
+        ) {
+          this.$store.dispatch(`getTotalRewards`)
+        }
+      }
     }
   },
   methods: {

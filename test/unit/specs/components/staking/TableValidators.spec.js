@@ -101,49 +101,6 @@ describe(`TableValidators`, () => {
     expect($store.dispatch).not.toHaveBeenCalledWith(`updateDelegates`)
   })
 
-  it(`updates if there are existing validators`, () => {
-    const session = { signedIn: true }
-    const yourValidators = {
-      cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n: 2
-    }
-    TableValidators.watch.validators.call({
-      session, $store, yourValidators
-    }, validators)
-    expect($store.dispatch.mock.calls[2]).toEqual(
-      [
-        `getRewardsFromAllValidators`,
-        { cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n: 2 }
-      ]
-    )
-  })
-
-  it(`doesn't update rewards if user hasn't signed in`, () => {
-    const validators = []
-    const session = { signedIn: false }
-    TableValidators.watch.validators.call({ $store, session }, validators)
-    expect($store.dispatch).not.toHaveBeenCalledWith(
-      `getRewardsFromAllValidators`
-    )
-  })
-
-  it(`doesn't update rewards if validator set is empty`, () => {
-    const validators = []
-    const session = { signedIn: true }
-    TableValidators.watch.validators.call({ $store, session }, validators)
-    expect($store.dispatch).not.toHaveBeenCalledWith(
-      `getRewardsFromAllValidators`
-    )
-  })
-
-  it(`doesn't update rewards if validator set is undefined`, () => {
-    const validators = undefined
-    const session = { signedIn: true }
-    TableValidators.watch.validators.call({ $store, session }, validators)
-    expect($store.dispatch).not.toHaveBeenCalledWith(
-      `getRewardsFromAllValidators`
-    )
-  })
-
   it(`should filter the validators for your delegations`, () => {
     const session = { signedIn: true }
     expect(

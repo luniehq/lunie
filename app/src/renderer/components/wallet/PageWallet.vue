@@ -65,16 +65,6 @@ export default {
       )
     }
   },
-  watch: {
-    lastHeader: {
-      immediate: true,
-      handler() {
-        if (this.session.signedIn) {
-          this.queryWalletBalances()
-        }
-      }
-    }
-  },
   async mounted() {
     this.updateDelegates()
     await this.queryWalletBalances()

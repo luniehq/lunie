@@ -139,13 +139,6 @@ export default {
   watch: {
     address: function() {
       this.session.address && this.$store.dispatch(`updateDelegates`)
-    },
-    validators: function(validators) {
-      if (!validators || validators.length === 0 || !this.session.signedIn) {
-        return
-      }
-
-      this.$store.dispatch(`getRewardsFromAllValidators`, this.yourValidators)
     }
   },
   mounted() {

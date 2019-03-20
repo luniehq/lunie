@@ -103,6 +103,7 @@ export default ({ node }) => {
         denom,
         amount: oldBalance.amount - amount
       })
+      await dispatch(`getAllTxs`)
     },
     queryWalletStateAfterHeight({ rootState, dispatch }, height) {
       return new Promise(resolve => {
