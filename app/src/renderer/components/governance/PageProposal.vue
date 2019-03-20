@@ -71,11 +71,7 @@
           <dl class="info_dl colored_dl">
             <dt>Deposit Count</dt>
             <dd>
-              {{
-                totalDeposit.amount +
-                  ` ` +
-                  totalDeposit.denom
-              }}
+              {{ `${totalDeposit.amount} ${totalDeposit.denom}` }}
             </dd>
           </dl>
           <dl
