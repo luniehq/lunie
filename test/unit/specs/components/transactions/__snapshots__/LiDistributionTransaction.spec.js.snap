@@ -26,7 +26,7 @@ exports[`LiDistributionTransaction set withdraw address with fees 1`] = `
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
 </li-transaction-stub>
@@ -96,7 +96,7 @@ exports[`LiDistributionTransaction withdraw delegation rewards with fees 1`] = `
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
 </li-transaction-stub>

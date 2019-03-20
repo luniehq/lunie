@@ -15,7 +15,7 @@ exports[`LiStakeTransaction create validator with fees 1`] = `
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
    
@@ -40,7 +40,7 @@ exports[`LiStakeTransaction create validator with fees 1`] = `
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
 </li-transaction-stub>
@@ -61,7 +61,7 @@ exports[`LiStakeTransaction create validator without fees 1`] = `
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
    
@@ -109,7 +109,7 @@ exports[`LiStakeTransaction delegations with fees 1`] = `
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
    
@@ -138,7 +138,7 @@ exports[`LiStakeTransaction delegations with fees 1`] = `
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
 </li-transaction-stub>
@@ -161,7 +161,7 @@ exports[`LiStakeTransaction delegations without fees 1`] = `
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
    
@@ -235,7 +235,7 @@ exports[`LiStakeTransaction edit validator with fees 1`] = `
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
 </li-transaction-stub>
@@ -344,7 +344,7 @@ exports[`LiStakeTransaction redelegations with fees 1`] = `
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
 </li-transaction-stub>
@@ -464,7 +464,7 @@ exports[`LiStakeTransaction unbonding delegations should default to ended if no 
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
 </li-transaction-stub>
@@ -520,7 +520,7 @@ exports[`LiStakeTransaction unbonding delegations should show unbonding delegati
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
 </li-transaction-stub>
@@ -582,7 +582,7 @@ exports[`LiStakeTransaction unbonding delegations with fees 1`] = `
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
 </li-transaction-stub>
@@ -683,7 +683,7 @@ exports[`LiStakeTransaction unjail with fees 1`] = `
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
 </li-transaction-stub>

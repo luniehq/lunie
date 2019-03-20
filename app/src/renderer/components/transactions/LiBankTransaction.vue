@@ -104,7 +104,7 @@ export default {
       return this.tx.from_address
     },
     coins() {
-      return this.tx.amount.map(num.convert)[0]
+      return this.tx.amount.map(num.viewCoin)[0]
     },
     convertedFees() {
       return this.fees ? num.viewCoin(this.fees) : undefined

@@ -15,7 +15,7 @@ exports[`LiBankTransaction should show a bank transaction without fees 1`] = `
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
    
@@ -53,7 +53,7 @@ exports[`LiBankTransaction should show bank transaction when user hasn't signed 
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
    
@@ -78,7 +78,7 @@ exports[`LiBankTransaction should show bank transaction when user hasn't signed 
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
 </li-transaction-stub>
@@ -99,7 +99,7 @@ exports[`LiBankTransaction should show incoming transactions 1`] = `
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
    
@@ -118,7 +118,7 @@ exports[`LiBankTransaction should show incoming transactions 1`] = `
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
 </li-transaction-stub>
@@ -139,7 +139,7 @@ exports[`LiBankTransaction should show outgoing transactions 1`] = `
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
    
@@ -159,7 +159,7 @@ exports[`LiBankTransaction should show outgoing transactions 1`] = `
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
 </li-transaction-stub>
@@ -180,7 +180,7 @@ exports[`LiBankTransaction should show outgoing transactions send to herself 1`]
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
    
@@ -198,7 +198,7 @@ exports[`LiBankTransaction should show outgoing transactions send to herself 1`]
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
 </li-transaction-stub>
