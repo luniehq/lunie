@@ -1,24 +1,18 @@
 <template>
-  <!-- TODO:SECURITY try to add a malicious block and see how is rendered,
-  like <script>alert('danger')</script> -->
-  <!-- eslint-disable vue/no-v-html -->
-  <div class="text-block" v-html="htmlContent" />
+  <div class="text-block">
+    <pre>
+      {{ content.trim() }}
+    </pre>
+  </div>
 </template>
 
 <script>
-import MarkdownIt from "markdown-it"
 export default {
   name: `text-block`,
   props: {
     content: {
       type: String,
       required: true
-    }
-  },
-  computed: {
-    htmlContent() {
-      const md = new MarkdownIt()
-      return md.render(this.content)
     }
   }
 }
