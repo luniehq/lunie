@@ -32,4 +32,18 @@ describe(`number helper`, () => {
   it(`should format long decimals well if whole number`, () => {
     expect(num.prettyDecimals(12)).toBe(`12`)
   })
+
+  it(`should convert utam denom to atom denom`, () => {
+    expect(num.viewDenom(`uatom`)).toBe(`atom`)
+  })
+
+  it(`should convert SDK coins to view coins`, () => {
+    expect(num.viewCoin({
+      denom: `uatom`,
+      amount: 1000000
+    })).toEqual({
+      denom: `atom`,
+      amount: `1.000000`
+    })
+  })
 })

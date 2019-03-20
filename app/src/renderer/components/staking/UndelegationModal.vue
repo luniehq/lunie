@@ -26,7 +26,7 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix">{{ num.denom(denom) }}</span>
+      <span class="input-suffix">{{ num.viewDenom(denom) }}</span>
       <tm-field
         id="amount"
         v-model="amount"
@@ -34,11 +34,11 @@
         placeholder="Amount"
       />
       <p v-if="maximum > 0">
-        {{ num.denom(denom) }}s delegated: {{ maximum }}
+        {{ num.viewDenom(denom) }}s delegated: {{ maximum }}
       </p>
       <tm-form-msg
         v-if="maximum === 0"
-        :msg="`don't have any ${num.denom(denom)}s delegated to this validator`"
+        :msg="`don't have any ${num.viewDenom(denom)}s delegated to this validator`"
         name="You"
         type="custom"
       />

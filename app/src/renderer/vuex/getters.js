@@ -80,7 +80,7 @@ export const pool = state => state.pool
 export const stakingParameters = state => state.stakingParameters
 export const bondDenom = getters =>
   getters.stakingParameters.parameters &&
-  num.denom(getters.stakingParameters.parameters.bond_denom || `uatom`)
+  num.viewDenom(getters.stakingParameters.parameters.bond_denom || `uatom`)
 
 // governance
 export const proposals = state => state.proposals

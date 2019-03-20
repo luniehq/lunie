@@ -42,7 +42,7 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix">{{ num.denom(denom) }}</span>
+      <span class="input-suffix">{{ num.viewDenom(denom) }}</span>
       <tm-field
         id="amount"
         v-model="amount"
@@ -51,7 +51,7 @@
       />
       <tm-form-msg
         v-if="balance === 0"
-        :msg="`doesn't have any ${num.denom(denom)}s`"
+        :msg="`doesn't have any ${num.viewDenom(denom)}s`"
         name="Wallet"
         type="custom"
       />
@@ -154,7 +154,9 @@ export default {
 
       this.$store.commit(`notify`, {
         title: `Successful delegation!`,
-        body: `You have successfully delegated your ${num.denom(this.denom)}s`
+        body: `You have successfully delegated your ${num.viewDenom(
+          this.denom
+        )}s`
       })
     },
     async submitRedelegation(submitType, password) {
@@ -171,7 +173,9 @@ export default {
 
       this.$store.commit(`notify`, {
         title: `Successful redelegation!`,
-        body: `You have successfully redelegated your ${num.denom(this.denom)}s`
+        body: `You have successfully redelegated your ${num.viewDenom(
+          this.denom
+        )}s`
       })
     },
     async submitForm(submitType, password) {

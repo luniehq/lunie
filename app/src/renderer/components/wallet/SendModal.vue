@@ -16,7 +16,7 @@
     >
       <tm-field
         id="send-denomination"
-        :value="num.denom($v.denom.$model)"
+        :value="num.viewDenom($v.denom.$model)"
         type="text"
         readonly
       />
@@ -66,7 +66,7 @@
       />
       <tm-form-msg
         v-if="balance === 0"
-        :msg="`doesn't have any ${num.denom(denom)}s`"
+        :msg="`doesn't have any ${num.viewDenom(denom)}s`"
         name="Wallet"
         type="custom"
       />
@@ -160,7 +160,9 @@ export default {
 
       this.$store.commit(`notify`, {
         title: `Successful Send`,
-        body: `Successfully sent ${amount} ${num.denom(denom)} to ${address}`
+        body: `Successfully sent ${amount} ${num.viewDenom(
+          denom
+        )} to ${address}`
       })
     },
     bech32Validate(param) {

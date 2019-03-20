@@ -60,17 +60,17 @@ function uatoms(number = 0) {
 }
 
 // convert micro denoms like uatom to display denoms like atom
-function denom(denom) {
+function viewDenom(denom) {
   if (denom.charAt(0) === `u`) {
     return denom.substr(1)
   }
   return denom
 }
 
-function viewCoin({ amount, denom: _denom }) {
+function viewCoin({ amount, denom }) {
   return {
     amount: full(atoms(amount)),
-    denom: denom(_denom)
+    denom: viewDenom(denom)
   }
 }
 
@@ -78,7 +78,7 @@ module.exports = {
   SMALLEST,
   atoms,
   uatoms,
-  denom,
+  viewDenom,
   viewCoin,
   full,
   shortNumber,
