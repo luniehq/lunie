@@ -23,7 +23,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#2272](https://github.com/cosmos/voyager/issues/2272) fixed showing uatoms instead of atoms @faboweb
 - [\#2289](https://github.com/cosmos/voyager/pull/2289) reduced amount of requests to full node @fedekunze
 
-
 ## [1.0.0-beta.24] - 2019-03-20
 
 ### Fixed
