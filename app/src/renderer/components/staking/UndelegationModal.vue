@@ -106,7 +106,6 @@ export default {
   },
   data: () => ({
     amount: null,
-    selectedIndex: 0,
     atoms,
     num
   }),
@@ -134,7 +133,6 @@ export default {
     clear() {
       this.$v.$reset()
 
-      this.selectedIndex = 0
       this.amount = null
     },
     async submitForm(submitType, password) {
