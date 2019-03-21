@@ -28,7 +28,7 @@ describe(`Module: Keybase`, () => {
     keybaseId: `abcdabcdabcdabcd`,
     avatarUrl: `pictureUrl`,
     userName: `keybaseUser`,
-    profileUrl: `https://keybase.io/keybaseUser`
+    profileUrl: `https://keybase.io/keybaseUser`,
   }
 
   beforeEach(() => {
@@ -43,22 +43,42 @@ describe(`Module: Keybase`, () => {
   describe(`mutations`, () => {
     it(`setKeybaseIdentities`, () => {
       mutations.setKeybaseIdentities(state, [mockIdentity])
-      expect(state.identities[`abcdabcdabcdabcd`]).toEqual(mockIdentity)
+      expect(state.identities[`abcdabcdabcdabcd`]).toEqual({
+        keybaseId: `abcdabcdabcdabcd`,
+        avatarUrl: `pictureUrl`,
+        userName: `keybaseUser`,
+        profileUrl: `https://keybase.io/keybaseUser`,
+        lastUpdated: `Thu, 01 Jan 1970 00:00:42 GMT`
+      })
     })
   })
 
   describe(`actions`, () => {
     it(`should query for the keybase identity`, async () => {
       const result = await actions.getKeybaseIdentity({ state }, `abcdabcdabcdabcd`)
-      expect(state.externals.axios).toHaveBeenCalled()
+      expect(state.externals.axios).toHaveBeenCalledWith(`https://keybase.io/_/api/1.0/user/lookup.json?key_suffix=abcdabcdabcdabcd&fields=pictures,basics`)
       expect(result).toEqual(mockIdentity)
     })
 
-    it(`should query only if identity is unknown`, async () => {
+    it(`should query only if identity is unknown or outdated`, async () => {
       state.identities[`abcdabcdabcdabcd`] = mockIdentity
+      state.identities[`abcdabcdabcdabcd`].lastUpdated = new Date(Date.now()).toUTCString()
       const result = await actions.getKeybaseIdentity({ state }, `abcdabcdabcdabcd`)
       expect(state.externals.axios).not.toHaveBeenCalled()
       expect(result).toEqual(mockIdentity)
+    })
+
+    it(`should query by name if outdated`, async () => {
+      state.identities[`abcdabcdabcdabcd`] = mockIdentity
+      state.externals.moment = () => ({ diff: () => -5 })
+      const result = await actions.getKeybaseIdentity({ state }, `abcdabcdabcdabcd`)
+      expect(state.externals.axios).toHaveBeenCalledWith(`https://keybase.io/_/api/1.0/user/lookup.json?usernames=keybaseUser&fields=pictures,basics`)
+      expect(result).toEqual({
+        keybaseId: `abcdabcdabcdabcd`,
+        avatarUrl: `pictureUrl`,
+        userName: `keybaseUser`,
+        profileUrl: `https://keybase.io/keybaseUser`
+      })
     })
 
     it(`should bulk update the validators`, async () => {
@@ -75,15 +95,13 @@ describe(`Module: Keybase`, () => {
       expect(commit).toHaveBeenCalledWith(`setKeybaseIdentities`, [mockIdentity])
     })
 
-    it(`should store an error if failed to load keybase info`, async () => {
-      const dispatch = async () => Promise.reject(`Error`)
+    it(`should return an empty profile if loading the keybase info fails`, async () => {
+      state.externals.axios = () => Promise.reject(`Error`)
 
-      const validators = [{ description: { identity: `abcdabcdabcdabcd` } }]
-      await actions.getKeybaseIdentities(
-        { commit: jest.fn(), dispatch, state },
-        validators
-      )
-      expect(state.error).toBe(`Error`)
+      const result = await actions.getKeybaseIdentity({ state }, `abcdabcdabcdabcd`)
+      expect(result).toEqual({
+        keybaseId: `abcdabcdabcdabcd`
+      })
     })
   })
 })

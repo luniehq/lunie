@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SendModal has the expected html structure 1`] = `
+exports[`SendModal should display send modal form 1`] = `
 <action-modal-stub
   amount="0"
   denom="STAKE"

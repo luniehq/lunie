@@ -62,6 +62,9 @@ export default ({ node }) => {
     resetSessionData({ rootState }) {
       rootState.delegation = JSON.parse(JSON.stringify(emptyState))
     },
+    async initializeWallet({ dispatch }) {
+      await dispatch(`updateDelegates`)
+    },
     // load committed delegations from LCD
     async getBondedDelegates(
       { state, rootState, commit },
@@ -200,6 +203,7 @@ export default ({ node }) => {
         value: state.committedDelegates[validator_address] + Number(amount)
       })
 
+      await dispatch(`getAllTxs`)
       // load delegates after delegation to get new atom distribution on validators
       dispatch(`updateDelegates`)
     },
@@ -244,6 +248,7 @@ export default ({ node }) => {
         password,
         submitType
       })
+      await dispatch(`getAllTxs`)
     },
     async simulateRedelegation(
       {
@@ -291,6 +296,8 @@ export default ({ node }) => {
         password,
         submitType
       })
+
+      await dispatch(`getAllTxs`)
     }
   }
 

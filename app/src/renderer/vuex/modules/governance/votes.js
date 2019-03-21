@@ -60,6 +60,7 @@ export default ({ node }) => {
       })
       await dispatch(`getProposalVotes`, proposal_id)
       await dispatch(`getProposal`, proposal_id)
+      await dispatch(`getAllTxs`)
     }
   }
   return {

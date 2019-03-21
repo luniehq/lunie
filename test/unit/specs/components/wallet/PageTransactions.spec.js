@@ -316,10 +316,4 @@ describe(`PageTransactions`, () => {
       1
     ])
   })
-
-  it(`updates transactions every block`, () => {
-    const refreshTransactions = jest.fn()
-    PageTransactions.watch.lastHeader.handler.call({ refreshTransactions })
-    expect(refreshTransactions).toHaveBeenCalled()
-  })
 })

@@ -4,6 +4,7 @@ exports[`PageTransactions displays the transaction page if user has signed in 1`
 <tm-page-stub
   data-title="Transactions"
   loaded="true"
+  managed="true"
   refresh="function () { [native code] }"
   signinrequired="true"
   subtitle=""
@@ -76,6 +77,7 @@ exports[`PageTransactions displays the transaction page if user hasn't signed in
 <tm-page-stub
   data-title="Transactions"
   loaded="true"
+  managed="true"
   refresh="function () { [native code] }"
   signinrequired="true"
   subtitle=""

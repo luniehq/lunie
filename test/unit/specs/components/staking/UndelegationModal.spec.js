@@ -46,28 +46,24 @@ describe(`UndelegationModal`, () => {
     })
   })
 
-  describe(`component matches snapshot`, () => {
-    it(`has the expected html structure`, () => {
-      expect(wrapper.vm.$el).toMatchSnapshot()
-    })
+  it(`should display undelegation modal form`, () => {
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`opens`, () => {
-    wrapper.vm.$refs.actionModal.open = jest.fn()
-    wrapper.vm.open()
-    expect(wrapper.vm.$refs.actionModal.open).toHaveBeenCalled()
+    const $refs = { actionModal: { open: jest.fn() } }
+    UndelegationModal.methods.open.call({ $refs })
+    expect($refs.actionModal.open).toHaveBeenCalled()
   })
 
   it(`clears on close`, () => {
-    wrapper.setData({ selectedIndex: 1, amount: 10000000000000 })
-    // produce validation error as amount is too high
-    wrapper.vm.$v.$touch()
-    expect(wrapper.vm.$v.$error).toBe(true)
-
-    wrapper.vm.clear()
-    expect(wrapper.vm.$v.$error).toBe(false)
-    expect(wrapper.vm.selectedIndex).toBe(0)
-    expect(wrapper.vm.amount).toBe(null)
+    const self = {
+      $v: { $reset: jest.fn() },
+      amount: 10
+    }
+    UndelegationModal.methods.clear.call(self)
+    expect(self.$v.$reset).toHaveBeenCalled()
+    expect(self.amount).toBeNull()
   })
 
   describe(`only submits on correct form`, () => {

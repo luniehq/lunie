@@ -477,4 +477,15 @@ export default {
   transform: translateX(2rem);
   opacity: 0;
 }
+
+@media screen and (max-width: 1023px) {
+  .row {
+    flex-direction: column;
+  }
+
+  .action-modal {
+    right: 0;
+    top: 0;
+  }
+}
 </style>

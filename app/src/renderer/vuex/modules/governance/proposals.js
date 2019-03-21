@@ -134,6 +134,7 @@ export default ({ node }) => {
       })
 
       await dispatch(`getProposals`)
+      await dispatch(`getAllTxs`)
     }
   }
   return {

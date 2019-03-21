@@ -10,11 +10,10 @@ describe(`PageWallet`, () => {
   const getters = {
     wallet: {
       loading: false,
-      denoms: [`fermion`, `gregcoin`, `mycoin`, `STAKE`],
       balances: lcdClientMock.state.accounts[lcdClientMock.addresses[0]].coins,
       externals: { config: { faucet: `yo` } },
     },
-    lastHeader: ``,
+    lastHeader: { height: `20` },
     connected: true,
     session: { signedIn: true }
   }
@@ -61,29 +60,20 @@ describe(`PageWallet`, () => {
     expect(wrapper.vm.filteredBalances.map(x => x.denom)).toEqual([
       `fermion`,
       `mycoin`,
-      `STAKE`,
-      `gregcoin`
+      `STAKE`
     ])
   })
 
-  it(`should list the denoms that are available`, () => {
-    expect(wrapper.findAll(`.tm-li-balance`).length).toBe(4)
-  })
+  it(`should not show the empty placeholder if there are denoms`, () => {
+    expect(wrapper.vm.wallet.balances.length).not.toBe(0)
+    expect(wrapper.vm.dataEmpty).toBe(false)
 
-  it(`should show the '--' placeholder if there are no denoms`, async () => {
     wrapper.setData({
       wallet: {
-        denoms: [`fermion`, `gregcoin`, `mycoin`, `STAKE`],
         balances: []
       }
     })
-
-    expect(wrapper.find(`#account_empty_msg`).exists()).toBeTruthy()
-  })
-
-  it(`should not show the '--' placeholder if there are denoms`, () => {
-    expect(wrapper.vm.allDenomBalances.length).not.toBe(0)
-    expect(wrapper.vm.$el.querySelector(`#no-balances`)).toBe(null)
+    expect(wrapper.vm.dataEmpty).toBe(true)
   })
 
   it(`should show a message when still connecting`, () => {
@@ -93,7 +83,6 @@ describe(`PageWallet`, () => {
       getters: Object.assign({}, getters, {
         wallet: {
           loaded: false,
-          denoms: [`fermion`, `gregcoin`, `mycoin`, `STAKE`],
           balances: [],
           externals: { config: {} }
         },
@@ -121,7 +110,6 @@ describe(`PageWallet`, () => {
         wallet: {
           loading: true,
           loaded: false,
-          denoms: [`fermion`, `gregcoin`, `mycoin`, `STAKE`],
           balances: [],
           externals: { config: {} }
         },
@@ -139,21 +127,4 @@ describe(`PageWallet`, () => {
     })
     expect(wrapper.exists(`tm-data-loading`)).toBe(true)
   })
-
-  describe(`updates balances every block`, () => {
-    it(`should not update if the user hasn't signed in`, () => {
-      const queryWalletBalances = jest.fn()
-      const session = { signedIn: false }
-      PageWallet.watch.lastHeader.handler.call({ session, queryWalletBalances })
-      expect(queryWalletBalances).not.toHaveBeenCalled()
-    })
-
-    it(`should update if the user has signed in`, () => {
-      const queryWalletBalances = jest.fn()
-      const session = { signedIn: true }
-      PageWallet.watch.lastHeader.handler.call({ session, queryWalletBalances })
-      expect(queryWalletBalances).toHaveBeenCalled()
-    })
-  })
-
 })

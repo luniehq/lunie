@@ -1,64 +1,67 @@
 "use strict"
 
 import Vuelidate from "vuelidate"
-import setup from "../../../helpers/vuex-setup"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
 import ModalDeposit from "renderer/components/governance/ModalDeposit"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`ModalDeposit`, () => {
-  let wrapper, store
-  const { mount, localVue } = setup()
+  let wrapper, $store
+
+  const localVue = createLocalVue()
   localVue.use(Vuelidate)
-  localVue.directive(`tooltip`, () => { })
-  localVue.directive(`focus`, () => { })
 
   beforeEach(async () => {
-    const coins = [
-      {
-        amount: `200000000`,
-        denom: `stake`
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: {
+        session: { signedIn: true },
+        connection: { connected: true },
+        bondDenom: `uatom`,
+        liquidAtoms: 1000000,
+        wallet: {
+          balances: [
+            { denom: `uatom`, amount: `10` }
+          ],
+          loading: false
+        }
       }
-    ]
-    const instance = mount(ModalDeposit, {
+    }
+
+    wrapper = shallowMount(ModalDeposit, {
       localVue,
+      mocks: {
+        $store
+      },
       propsData: {
         proposalId: `1`,
         proposalTitle: lcdClientMock.state.proposals[`1`].title,
-        denom: `stake`
+        denom: `uatom`
       },
       sync: false
     })
-    wrapper = instance.wrapper
-    store = instance.store
-    store.state.connection.connected = true
-    store.commit(`setWalletBalances`, coins)
-    store.commit(`setSignIn`, true)
-
-    await wrapper.vm.$nextTick()
-    wrapper.vm.$refs.actionModal.open()
   })
 
-  describe(`component matches snapshot`, () => {
-    it(`has the expected html structure`, async () => {
-      expect(wrapper.vm.$el).toMatchSnapshot()
-    })
+  it(`should display deposit modal form`, async () => {
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`opens`, () => {
-    wrapper.vm.$refs.actionModal.open = jest.fn()
-    wrapper.vm.open()
-    expect(wrapper.vm.$refs.actionModal.open).toHaveBeenCalled()
+    const $refs = { actionModal: { open: jest.fn() } }
+    ModalDeposit.methods.open.call({ $refs })
+    expect($refs.actionModal.open).toHaveBeenCalled()
   })
 
   it(`clears on close`, () => {
-    wrapper.setData({ amount: 100000000000 })
-    // produce validation error as amount is too high
-    wrapper.vm.$v.$touch()
-    expect(wrapper.vm.$v.$error).toBe(true)
+    const self = {
+      $v: { $reset: jest.fn() },
+      amount: 10
+    }
 
-    wrapper.vm.clear()
-    expect(wrapper.vm.$v.$error).toBe(false)
-    expect(wrapper.vm.amount).toBe(0)
+    ModalDeposit.methods.clear.call(self)
+    expect(self.$v.$reset).toHaveBeenCalled()
+    expect(self.amount).toBe(0)
   })
 
   describe(`validation`, () => {
@@ -71,8 +74,8 @@ describe(`ModalDeposit`, () => {
         wrapper.setData({ amount: 250 })
         expect(wrapper.vm.validateForm()).toBe(false)
         await wrapper.vm.$nextTick()
-        const errorMessage = wrapper.find(`input#amount + div`)
-        expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
+
+        expect(wrapper.html()).toContain(`error="true"`)
       })
 
       it(`when the user doesn't have the deposited coin`, () => {
@@ -82,7 +85,7 @@ describe(`ModalDeposit`, () => {
             denom: `otherCoin`
           }
         ]
-        store.commit(`setWalletBalances`, otherCoins)
+        wrapper.vm.wallet.balances = otherCoins
         wrapper.setData({ amount: 25 })
         expect(wrapper.vm.validateForm()).toBe(false)
       })
@@ -90,7 +93,8 @@ describe(`ModalDeposit`, () => {
 
     describe(`succeeds`, () => {
       it(`when the user has enough balance to submit a deposit`, async () => {
-        wrapper.setData({ amount: 15 })
+        wrapper.vm.wallet.balances = [{ denom: `uatom`, amount: `20000000` }]
+        wrapper.setData({ amount: 10 })
         expect(wrapper.vm.validateForm()).toBe(true)
       })
     })
@@ -98,38 +102,37 @@ describe(`ModalDeposit`, () => {
 
   describe(`Deposit`, () => {
     it(`submits a deposit`, async () => {
-      wrapper.vm.$store.dispatch = jest.fn()
-      wrapper.vm.$store.commit = jest.fn()
 
-      wrapper.setData({ amount: 10 })
-      await wrapper.vm.submitForm(`local`, `1234567890`)
+      const $store = {
+        dispatch: jest.fn(),
+        commit: jest.fn()
+      }
 
-      expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
-        [
-          `submitDeposit`,
-          {
-            amount: [
-              {
-                amount: `10000000`,
-                denom: `stake`
-              }
-            ],
-            proposal_id: `1`,
-            password: `1234567890`,
-            submitType: `local`
-          }
-        ]
-      ])
+      await ModalDeposit.methods.submitForm.call(
+        { type: `Text`, denom: `uatom`, proposalId: `1`, amount: 10, $store },
+        `ledger`, ``
+      )
 
-      expect(wrapper.vm.$store.commit.mock.calls).toEqual([
-        [
-          `notify`,
-          {
-            body: `You have successfully deposited your stakes on proposal #1`,
-            title: `Successful deposit!`
-          }
-        ]
-      ])
+      expect($store.dispatch).toHaveBeenCalledWith(`submitDeposit`,
+        {
+          amount: [
+            {
+              amount: `10000000`,
+              denom: `uatom`
+            }
+          ],
+          proposal_id: `1`,
+          password: ``,
+          submitType: `ledger`
+        }
+      )
+
+      expect($store.commit).toHaveBeenCalledWith(`notify`,
+        {
+          body: `You have successfully deposited your uatoms on proposal #1`,
+          title: `Successful deposit!`
+        }
+      )
     })
   })
 })

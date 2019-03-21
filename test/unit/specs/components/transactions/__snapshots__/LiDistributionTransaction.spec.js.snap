@@ -21,12 +21,13 @@ exports[`LiDistributionTransaction set withdraw address with fees 1`] = `
   <div>
     
       Network Fee: 
+      
     <b>
       0.003421
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
 </li-transaction-stub>
@@ -53,6 +54,7 @@ exports[`LiDistributionTransaction set withdraw address without fees 1`] = `
   <div>
     
       Network Fee: 
+      
     <b>
       0.000000
     </b>
@@ -78,7 +80,7 @@ exports[`LiDistributionTransaction withdraw delegation rewards with fees 1`] = `
    
   <div>
     
-      From
+      From 
     <router-link-stub
       to="/validator/cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz"
     >
@@ -91,12 +93,13 @@ exports[`LiDistributionTransaction withdraw delegation rewards with fees 1`] = `
   <div>
     
       Network Fee: 
+      
     <b>
       0.003421
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
 </li-transaction-stub>
@@ -116,7 +119,7 @@ exports[`LiDistributionTransaction withdraw delegation rewards without fees 1`] 
    
   <div>
     
-      From
+      From 
     <router-link-stub
       to="/validator/cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz"
     >
@@ -129,6 +132,7 @@ exports[`LiDistributionTransaction withdraw delegation rewards without fees 1`] 
   <div>
     
       Network Fee: 
+      
     <b>
       0.000000
     </b>
