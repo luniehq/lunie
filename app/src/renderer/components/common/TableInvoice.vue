@@ -11,7 +11,7 @@
       </tr>
       <tr>
         <td>
-          Fees (estimated) 
+          Fees (estimated)
           <i
             v-tooltip.top="info"
             class="material-icons info-button"
