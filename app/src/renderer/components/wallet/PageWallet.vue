@@ -1,5 +1,6 @@
 <template>
   <tm-page
+    :managed="true"
     :loading="wallet.loading"
     :loaded="wallet.loaded"
     :error="wallet.error"
@@ -11,23 +12,24 @@
     <tm-data-msg
       id="account_empty_msg"
       slot="no-data"
-      icon="help_outline"
+      icon="account_balance_wallet"
     >
       <div slot="title">
         Account empty
       </div>
       <div slot="subtitle">
-        This account doesn't have anything in it yet.
+        This account doesn't have anything in it&nbsp;yet.
       </div>
     </tm-data-msg>
-    <li-coin
-      v-for="coin in filteredBalances"
-      slot="managed-body"
-      :key="coin.denom"
-      :coin="coin"
-      class="tm-li-balance"
-      @show-modal="showModal"
-    />
+    <template slot="managed-body">
+      <li-coin
+        v-for="coin in filteredBalances"
+        :key="coin.denom"
+        :coin="coin"
+        class="tm-li-balance"
+        @show-modal="showModal"
+      />
+    </template>
     <send-modal ref="sendModal" />
   </tm-page>
 </template>
@@ -52,37 +54,15 @@ export default {
   data: () => ({ num, showSendModal: false }),
   computed: {
     ...mapGetters([`wallet`, `connected`, `session`]),
-    allDenomBalances() {
-      // for denoms not in balances, add empty balance
-      const balances = this.wallet.balances.slice(0)
-      const hasDenom = denom => {
-        return !!balances.filter(balance => balance.denom === denom)[0]
-      }
-      for (const denom of this.wallet.denoms) {
-        if (hasDenom(denom)) continue
-        balances.push({ denom, amount: 0 })
-      }
-      return balances
-    },
     dataEmpty() {
       return this.wallet.balances.length === 0
     },
     filteredBalances() {
       return orderBy(
-        this.allDenomBalances,
-        [`amount`, balance => balance.denom.toLowerCase()],
+        this.wallet.balances,
+        [`amount`, balance => num.viewDenom(balance.denom).toLowerCase()],
         [`desc`, `asc`]
       )
-    }
-  },
-  watch: {
-    lastHeader: {
-      immediate: true,
-      handler() {
-        if (this.session.signedIn) {
-          this.queryWalletBalances()
-        }
-      }
     }
   },
   async mounted() {

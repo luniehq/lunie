@@ -7,6 +7,63 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.25] - 2019-03-21
+
+### Changed
+
+- [\#2303](https://github.com/cosmos/voyager/issues/2303) Hide amounts in header until they are fully loaded @faboweb
+
+### Security
+
+- [\#2309](https://github.com/cosmos/voyager/pull/2309) remove markdown parser to reduce vulnerability of xss @faboweb
+
+### Fixed
+
+- [\#2301](https://github.com/cosmos/voyager/issues/2301) throttle requests for keybase identities @faboweb
+- [\#2272](https://github.com/cosmos/voyager/issues/2272) fixed showing uatoms instead of atoms @faboweb
+- [\#2289](https://github.com/cosmos/voyager/pull/2289) reduced amount of requests to full node @fedekunze
+
+## [1.0.0-beta.24] - 2019-03-20
+
+### Fixed
+
+- [\#2305](https://github.com/cosmos/voyager/issues/2305) fixed numbers showing wrong on redelegation and unbonding transactions @faboweb
+- Misc. style fixes @jbibla
+- Fixed Balance header styles and responsiveness @jbibla
+
+
+## [1.0.0-beta.23] - 2019-03-19
+
+### Fixed
+
+- PageValidator isn't showing @faboweb
+
+## [1.0.0-beta.22] - 2019-03-19
+
+### Added
+
+- [\#2228](https://github.com/cosmos/voyager/issues/2228) display balances of vesting accounts @faboweb
+
+### Fixed
+
+- [\#2267](https://github.com/cosmos/voyager/issues/2267) fixed sorting on validator table @jbibla
+- [\#2278](https://github.com/cosmos/voyager/issues/2278) fixed commission calculation on validator table @jbibla
+
+
+## [1.0.0-beta.21] - 2019-03-16
+
+### Added
+
+- [\#2228](https://github.com/cosmos/voyager/issues/2228) display balances of vesting accounts @faboweb
+- [\#2230](https://github.com/cosmos/voyager/issues/2230) calculate fees and estimated transaction gas @fedekunze
+- [\#2291](https://github.com/cosmos/voyager/pull/2291) master built against main net full node @sabau
+
+### Fixed
+
+- [\#2269](https://github.com/cosmos/voyager/pull/2269) Persist session type if signed in with ledger @faboweb
+- [\#2273](https://github.com/cosmos/voyager/issues/2273) fixed atoms and uatoms conversion @fedekunze
+
+
 ## [1.0.0-beta.20] - 2019-03-15
 
 ### Fixed

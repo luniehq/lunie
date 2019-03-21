@@ -105,7 +105,7 @@ export default ({ node }) => {
       })
 
       const latestId = Object.keys(state.proposals).reduce((latest, id) => {
-        return latest > Number(id) ?  latest : Number(id)
+        return latest > Number(id) ? latest : Number(id)
       }, 0)
       commit(`setProposal`, {
         proposal_id: String(latestId + 1),
@@ -115,6 +115,7 @@ export default ({ node }) => {
       })
 
       await dispatch(`getProposals`)
+      await dispatch(`getAllTxs`)
     }
   }
   return {

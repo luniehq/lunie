@@ -192,37 +192,65 @@ describe(`Module: Delegations`, () => {
       { stakingTransactions }
     )
 
-    expect(dispatch.mock.calls).toMatchSnapshot()
+    expect(dispatch).toHaveBeenCalledWith(`getAllTxs`)
   })
 
   it(`submits undelegation transaction`, async () => {
-    const stakingTransactions = {}
-    stakingTransactions.delegations = [
-      {
-        validator: lcdClientMock.state.candidates[0],
-        atoms: -113
-      },
-      {
-        validator: lcdClientMock.state.candidates[1],
-        atoms: -356
-      }
-    ]
+    const validator = lcdClientMock.state.candidates[0]
+    const amount = 10
+    const password = ``
+    const submitType = `ledger`
     const dispatch = jest.fn()
 
-    await actions.submitDelegation(
+    await actions.submitUnbondingDelegation(
       {
         rootState: mockRootState,
-        getters: {
-          liquidAtoms: 1000
-        },
         state,
-        dispatch,
-        commit: () => {}
+        dispatch
       },
-      { stakingTransactions }
+      { validator, amount, password, submitType }
     )
 
-    expect(dispatch.mock.calls).toMatchSnapshot()
+    expect(dispatch).toHaveBeenCalledWith(`sendTx`, {
+      type: `postUnbondingDelegation`,
+      to: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+      delegator_address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+      validator_address: validator.operator_address,
+      shares: `10.0000000000`,
+      password,
+      submitType
+    })
+    expect(dispatch).toHaveBeenCalledWith(`getAllTxs`)
+  })
+
+  it(`submits redelegation transaction`, async () => {
+    const validatorSrc = lcdClientMock.state.candidates[0]
+    const validatorDst = lcdClientMock.state.candidates[1]
+    const amount = 10
+    const password = ``
+    const submitType = `ledger`
+    const dispatch = jest.fn()
+
+    await actions.submitRedelegation(
+      {
+        rootState: mockRootState,
+        state,
+        dispatch
+      },
+      { validatorSrc, validatorDst, amount, password, submitType }
+    )
+
+    expect(dispatch).toHaveBeenCalledWith(`sendTx`, {
+      type: `postRedelegation`,
+      to: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+      delegator_address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+      validator_src_address: validatorSrc.operator_address,
+      validator_dst_address: validatorDst.operator_address,
+      shares: `10.0000000000`,
+      password,
+      submitType
+    })
+    expect(dispatch).toHaveBeenCalledWith(`getAllTxs`)
   })
 
   describe(`queries the delegated atoms on reconnection`, () => {
@@ -339,7 +367,7 @@ describe(`Module: Delegations`, () => {
         getters: {
           liquidAtoms: 1000
         },
-        dispatch: () => {},
+        dispatch: () => { },
         commit
       },
       {
@@ -389,6 +417,7 @@ describe(`Module: Delegations`, () => {
     )
     jest.runAllTimers()
     expect(dispatch).toHaveBeenCalledWith(`updateDelegates`)
+    expect(dispatch).toHaveBeenCalledWith(`getAllTxs`)
   })
 
   it(`should store an error if failed to load delegations`, async () => {
@@ -442,13 +471,25 @@ describe(`Module: Delegations`, () => {
 
     const dispatch = jest.fn(() => [])
 
-    await actions.updateDelegates({ dispatch, rootState: {
-      session: {
-        signedIn: true
+    await actions.updateDelegates({
+      dispatch, rootState: {
+        session: {
+          signedIn: true
+        }
       }
-    } })
+    })
 
     expect(dispatch).toHaveBeenCalledWith(`getDelegates`)
     expect(dispatch).toHaveBeenCalledWith(`getBondedDelegates`, [])
+  })
+
+  it(`should load delegations on sign in`, async () => {
+    const { actions } = delegationModule({ node: {} })
+
+    const dispatch = jest.fn(() => [])
+
+    await actions.initializeWallet({ dispatch })
+
+    expect(dispatch).toHaveBeenCalledWith(`updateDelegates`)
   })
 })

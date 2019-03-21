@@ -8,7 +8,7 @@
     <tm-data-loading v-else-if="!delegation.loaded && delegation.loading" />
     <tm-data-msg
       v-else-if="yourValidators.length === 0"
-      icon="info_outline"
+      icon="sentiment_dissatisfied"
     >
       <div slot="title">
         No Active Delegations
@@ -34,6 +34,8 @@
             :validators="yourValidators"
             :bonding-denom="bondDenom"
             :url="validatorURL"
+            :fees="transaction.tx.value.fee.amount &&
+              transaction.tx.value.fee.amount[0]"
             :unbonding-time="
               time.getUnbondingTime(
                 transaction,
@@ -50,6 +52,7 @@
 
 <script>
 import { mapGetters } from "vuex"
+import num from "scripts/num"
 import LiStakeTransaction from "../transactions/LiStakeTransaction"
 import TmDataMsg from "common/TmDataMsg"
 import CardSignInRequired from "common/CardSignInRequired"
@@ -71,7 +74,8 @@ export default {
   data: () => ({
     unbondTransactions: `Transactions currently in the undelegation period`,
     validatorURL: `/staking/validators`,
-    time
+    time,
+    num
   }),
   computed: {
     ...mapGetters([
@@ -81,11 +85,21 @@ export default {
       `committedDelegations`,
       `bondDenom`,
       `connected`,
-      `session`
+      `session`,
+      `lastHeader`
     ]),
-    yourValidators({ committedDelegations, delegates: { delegates } } = this) {
-      return delegates.filter(
-        ({ operator_address }) => operator_address in committedDelegations
+    yourValidators(
+      {
+        committedDelegations,
+        delegates: { delegates },
+        session: { signedIn }
+      } = this
+    ) {
+      return (
+        signedIn &&
+        delegates.filter(
+          ({ operator_address }) => operator_address in committedDelegations
+        )
       )
     },
     unbondingTransactions: ({ transactions, delegation } = this) =>
@@ -115,6 +129,22 @@ export default {
   watch: {
     "session.signedIn": function() {
       this.loadStakingTxs()
+    },
+    lastHeader: {
+      immediate: true,
+      handler(newHeader) {
+        const waitTwentyBlocks = Number(newHeader.height) % 20 === 0
+        if (
+          waitTwentyBlocks &&
+          this.yourValidators &&
+          this.yourValidators.length > 0
+        ) {
+          this.$store.dispatch(
+            `getRewardsFromAllValidators`,
+            this.yourValidators
+          )
+        }
+      }
     }
   },
   async mounted() {

@@ -68,13 +68,6 @@ describe(`Module: Wallet`, () => {
       expect(state.balances).toEqual([])
     })
 
-    it(`should set denoms`, () => {
-      const { state, mutations } = instance
-      const denoms = [`acoin`, `bcoin`, `ccoin`]
-      mutations.setDenoms(state, denoms)
-      expect(state.denoms).toBe(denoms)
-    })
-
     it(`should set the account number`, () => {
       const { state, mutations } = instance
       mutations.setAccountNumber(state, `0`)
@@ -111,7 +104,6 @@ describe(`Module: Wallet`, () => {
       expect(commit).toHaveBeenCalledWith(`setWalletAddress`, address)
       expect(dispatch.mock.calls).toEqual([
         [`queryWalletBalances`],
-        [`loadDenoms`],
         [`getTotalRewards`],
         [`walletSubscribe`]
       ])
@@ -161,16 +153,6 @@ describe(`Module: Wallet`, () => {
         [`setWalletBalances`, coins]
       ])
       expect(node.getAccount).toHaveBeenCalled()
-    })
-
-    it(`should load denoms`, async () => {
-      const commit = jest.fn()
-      await actions.loadDenoms({ state, commit, rootState: mockRootState })
-      expect(commit).toHaveBeenCalledWith(`setDenoms`, [
-        `mycoin`,
-        `fermion`,
-        `STAKE`
-      ])
     })
 
     describe(`queries the balances on reconnection`, () => {

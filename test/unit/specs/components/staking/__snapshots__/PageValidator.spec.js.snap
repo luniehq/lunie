@@ -4,6 +4,7 @@ exports[`PageValidator shows a validator profile information errors signing info
 <tm-page-stub
   data-title="Validator"
   loaded="true"
+  managed="true"
   subtitle=""
   title=""
 >
@@ -23,7 +24,9 @@ exports[`PageValidator shows a validator profile information errors signing info
           class="page-profile__header__info"
         >
           <div>
-            <div>
+            <div
+              class="validator-name-and-address"
+            >
               <div
                 class="page-profile__status-and-title"
               >
@@ -68,7 +71,7 @@ exports[`PageValidator shows a validator profile information errors signing info
         class="row"
       >
         <div
-          class="row-unjustified"
+          class="row row-unjustified"
         >
           <dl
             class="info_dl colored_dl"
@@ -96,7 +99,7 @@ exports[`PageValidator shows a validator profile information errors signing info
         </div>
          
         <div
-          class="row-unjustified"
+          class="row row-unjustified"
         >
           <dl
             class="info_dl colored_dl"
@@ -331,6 +334,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
 <tm-page-stub
   data-title="Validator"
   loaded="true"
+  managed="true"
   subtitle=""
   title=""
 >
@@ -350,7 +354,9 @@ exports[`PageValidator shows a validator profile information if user has signed 
           class="page-profile__header__info"
         >
           <div>
-            <div>
+            <div
+              class="validator-name-and-address"
+            >
               <div
                 class="page-profile__status-and-title"
               >
@@ -395,7 +401,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
         class="row"
       >
         <div
-          class="row-unjustified"
+          class="row row-unjustified"
         >
           <dl
             class="info_dl colored_dl"
@@ -423,7 +429,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
         </div>
          
         <div
-          class="row-unjustified"
+          class="row row-unjustified"
         >
           <dl
             class="info_dl colored_dl"
@@ -658,6 +664,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
 <tm-page-stub
   data-title="Validator"
   loaded="true"
+  managed="true"
   subtitle=""
   title=""
 >
@@ -677,7 +684,9 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
           class="page-profile__header__info"
         >
           <div>
-            <div>
+            <div
+              class="validator-name-and-address"
+            >
               <div
                 class="page-profile__status-and-title"
               >
@@ -722,7 +731,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
         class="row"
       >
         <div
-          class="row-unjustified"
+          class="row row-unjustified"
         >
           <dl
             class="info_dl colored_dl"
@@ -750,7 +759,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
         </div>
          
         <div
-          class="row-unjustified"
+          class="row row-unjustified"
         >
           <dl
             class="info_dl colored_dl"

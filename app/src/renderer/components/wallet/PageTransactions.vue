@@ -1,5 +1,6 @@
 <template>
   <tm-page
+    :managed="true"
     :loading="transactions.loading"
     :loaded="transactions.loaded"
     :error="transactions.error"
@@ -61,8 +62,7 @@ export default {
       `session`,
       `bondDenom`,
       `delegation`,
-      `delegates`,
-      `lastHeader`
+      `delegates`
     ]),
     orderedTransactions() {
       return orderBy(
@@ -76,14 +76,6 @@ export default {
     },
     dataEmpty() {
       return this.orderedTransactions.length === 0
-    }
-  },
-  watch: {
-    lastHeader: {
-      immediate: true,
-      handler() {
-        this.refreshTransactions()
-      }
     }
   },
   mounted() {

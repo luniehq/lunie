@@ -1,5 +1,45 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`LiBankTransaction should show a bank transaction without fees 1`] = `
+<li-transaction-stub
+  block="466"
+  color="#ED553B"
+  time="1970-01-01T00:00:01.142Z"
+>
+  <div>
+    
+      Sent
+      
+    <b>
+      12,340.000000
+    </b>
+     
+    <span>
+      atoms
+    </span>
+  </div>
+   
+  <span>
+    
+        To yourself!
+      
+  </span>
+   
+  <div>
+    
+      Network Fee: 
+      
+    <b>
+      0.000000
+    </b>
+     
+    <span>
+      uatoms
+    </span>
+  </div>
+</li-transaction-stub>
+`;
+
 exports[`LiBankTransaction should show bank transaction when user hasn't signed in 1`] = `
 <li-transaction-stub
   block="3436"
@@ -8,13 +48,13 @@ exports[`LiBankTransaction should show bank transaction when user hasn't signed 
 >
   <div>
     
-      Sent 
+      Sent
     <b>
       12,340.000000
     </b>
      
     <span>
-       JBCOINS
+      atoms
     </span>
   </div>
    
@@ -30,6 +70,19 @@ exports[`LiBankTransaction should show bank transaction when user hasn't signed 
       address="B"
     />
   </span>
+   
+  <div>
+    
+      Network Fee: 
+      
+    <b>
+      0.003421
+    </b>
+     
+    <span>
+      atoms
+    </span>
+  </div>
 </li-transaction-stub>
 `;
 
@@ -41,14 +94,14 @@ exports[`LiBankTransaction should show incoming transactions 1`] = `
 >
   <div>
     
-      Received 
+      Received
       
     <b>
       12,340.000000
     </b>
      
     <span>
-       JBCOINS
+      atoms
     </span>
   </div>
    
@@ -58,6 +111,19 @@ exports[`LiBankTransaction should show incoming transactions 1`] = `
       address="A"
     />
   </span>
+   
+  <div>
+    
+      Network Fee: 
+      
+    <b>
+      0.003421
+    </b>
+     
+    <span>
+      atoms
+    </span>
+  </div>
 </li-transaction-stub>
 `;
 
@@ -69,14 +135,14 @@ exports[`LiBankTransaction should show outgoing transactions 1`] = `
 >
   <div>
     
-      Sent 
+      Sent
       
     <b>
       12,340.000000
     </b>
      
     <span>
-       JBCOINS
+      atoms
     </span>
   </div>
    
@@ -87,6 +153,19 @@ exports[`LiBankTransaction should show outgoing transactions 1`] = `
       address="A"
     />
   </span>
+   
+  <div>
+    
+      Network Fee: 
+      
+    <b>
+      0.003421
+    </b>
+     
+    <span>
+      atoms
+    </span>
+  </div>
 </li-transaction-stub>
 `;
 
@@ -98,14 +177,14 @@ exports[`LiBankTransaction should show outgoing transactions send to herself 1`]
 >
   <div>
     
-      Sent 
+      Sent
       
     <b>
       12,340.000000
     </b>
      
     <span>
-       JBCOINS
+      atoms
     </span>
   </div>
    
@@ -114,5 +193,18 @@ exports[`LiBankTransaction should show outgoing transactions send to herself 1`]
         To yourself!
       
   </span>
+   
+  <div>
+    
+      Network Fee: 
+      
+    <b>
+      0.003421
+    </b>
+     
+    <span>
+      atoms
+    </span>
+  </div>
 </li-transaction-stub>
 `;

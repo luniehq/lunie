@@ -6,47 +6,86 @@
   >
     <template v-if="txType === `cosmos-sdk/MsgCreateValidator`">
       <div slot="caption">
-        Create validator&nbsp;
-        <b>{{ full(atoms(tx.value.amount)) }}</b>
-        <span>&nbsp;{{ tx.value.denom }}s</span>
+        Create validator
+        <b>{{ value && value.amount }}</b>
+        <span>{{ value && value.denom }}s</span>
       </div>
       <div slot="details">
-        Moniker:&nbsp;
+        Moniker:
         <router-link :to="`${url}/${tx.validator_address}`">
-          {{
-            moniker(tx.validator_address)
-          }}
+          {{ moniker(tx.validator_address) }}
         </router-link>
+      </div>
+      <div slot="fees">
+        Network Fee:&nbsp;
+        <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgEditValidator`">
       <div slot="caption">
-        Edit validator&nbsp;
+        Edit validator
+      </div>
+      <div slot="details">
+        Moniker:
         <router-link :to="`${url}/${tx.validator_address}`">
-          {{
-            moniker(tx.validator_address)
-          }}
+          {{ moniker(tx.validator_address) }}
         </router-link>
+      </div>
+      <div slot="fees">
+        Network Fee:&nbsp;
+        <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgDelegate`">
       <div slot="caption">
-        Delegation&nbsp;
-        <b>{{ full(atoms(tx.value.amount)) }}</b>
-        <span>&nbsp;{{ tx.value.denom }}s</span>
+        Delegation
+        <b>{{ value && value.amount }}</b>
+        <span>{{ value && value.denom }}s</span>
       </div>
       <div slot="details">
         To&nbsp;
         <router-link :to="`${url}/${tx.validator_address}`">
-          {{
-            moniker(tx.validator_address)
-          }}
+          {{ moniker(tx.validator_address) }}
         </router-link>
+      </div>
+      <div slot="fees">
+        Network Fee:&nbsp;
+        <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
+      </div>
+    </template>
+    <template v-else-if="txType === `cosmos-sdk/MsgUndelegate`">
+      <div slot="caption">
+        Undelegation
+        <b>
+          {{
+            calculatePrettifiedTokens(tx.validator_address, tx.shares_amount)
+          }}
+        </b>
+        <span>{{ bondingDenom }}s</span>
+        <template v-if="timeDiff">
+          <span class="tx-unbonding__time-diff">
+            {{ timeDiff }}
+          </span>
+        </template>
+      </div>
+      <div slot="details">
+        From&nbsp;
+        <router-link :to="`${url}/${tx.validator_address}`">
+          {{ moniker(tx.validator_address) }}
+        </router-link>
+      </div>
+      <div slot="fees">
+        Network Fee:&nbsp;
+        <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgBeginRedelegate`">
       <div slot="caption">
-        Redelegation&nbsp;
+        Redelegation
         <b>
           {{
             calculatePrettifiedTokens(
@@ -55,55 +94,38 @@
             )
           }}
         </b>
-        <span>&nbsp;{{ bondingDenom }}s</span>
+        <span>{{ bondingDenom }}s</span>
       </div>
       <div slot="details">
         From&nbsp;
         <router-link :to="`${url}/${tx.validator_src_address}`">
-          {{
-            moniker(tx.validator_src_address)
-          }}
+          {{ moniker(tx.validator_src_address) }}
         </router-link>
-        &nbsp;to&nbsp;
+        to
         <router-link :to="`${url}/${tx.validator_dst_address}`">
-          {{
-            moniker(tx.validator_dst_address)
-          }}
+          {{ moniker(tx.validator_dst_address) }}
         </router-link>
       </div>
-    </template>
-    <template v-else-if="txType === `cosmos-sdk/MsgUndelegate`">
-      <div slot="caption">
-        Undelegation&nbsp;
-        <b>
-          {{
-            calculatePrettifiedTokens(tx.validator_address, tx.shares_amount)
-          }}
-        </b>
-        <span>&nbsp;{{ bondingDenom }}s</span>
-        <template v-if="timeDiff">
-          <span class="tx-unbonding__time-diff">
-            &nbsp;{{ timeDiff }}
-          </span>
-        </template>
-      </div>
-      <div slot="details">
-        From&nbsp;
-        <router-link :to="`${url}/${tx.validator_address}`">
-          {{
-            moniker(tx.validator_address)
-          }}
-        </router-link>
+      <div slot="fees">
+        Network Fee:&nbsp;
+        <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgUnjail`">
       <div slot="caption">
-        Unjail&nbsp;
+        Unjail
+      </div>
+      <div slot="details">
+        Moniker:
         <router-link :to="`${url}/${tx.address}`">
-          {{
-            moniker(tx.address)
-          }}
+          {{ moniker(tx.address) }}
         </router-link>
+      </div>
+      <div slot="fees">
+        Network Fee:&nbsp;
+        <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
       </div>
     </template>
   </li-transaction>
@@ -111,7 +133,7 @@
 
 <script>
 import LiTransaction from "./LiTransaction"
-import { atoms, full } from "../../scripts/num.js"
+import num, { atoms, full } from "../../scripts/num.js"
 import { calculateTokens } from "../../scripts/common.js"
 import moment from "moment"
 
@@ -126,6 +148,10 @@ export default {
     transaction: {
       type: Object,
       required: true
+    },
+    fees: {
+      type: Object,
+      default: null
     },
     validators: {
       type: Array,
@@ -168,6 +194,12 @@ export default {
       if (!this.unbondingTime) return `ended`
       if (this.unbondingTime - Date.now() <= 0) return `ended`
       return `locked`
+    },
+    value() {
+      return this.tx.value ? num.viewCoin(this.tx.value) : {}
+    },
+    convertedFees() {
+      return this.fees ? num.viewCoin(this.fees) : undefined
     }
   },
   methods: {

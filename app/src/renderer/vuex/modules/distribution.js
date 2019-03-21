@@ -76,7 +76,7 @@ export default ({ node }) => {
       try {
         const rewardsArray = await node.getDelegatorRewards(session.address)
         const rewards = coinsToObject(rewardsArray)
-        commit(`setTotalRewards`, rewards)
+        commit(`setTotalRewards`, rewards || {})
         commit(`setDistributionError`, null)
         state.loaded = true
       } catch (error) {
@@ -97,6 +97,7 @@ export default ({ node }) => {
       })
       await dispatch(`getTotalRewards`)
       await dispatch(`queryWalletBalances`)
+      await dispatch(`getAllTxs`)
     },
     async getRewardsFromAllValidators({ state, dispatch }, validators) {
       state.loading = true

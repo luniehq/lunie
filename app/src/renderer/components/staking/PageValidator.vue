@@ -1,5 +1,6 @@
 <template>
   <tm-page
+    :managed="true"
     :loading="delegates.loading"
     :loaded="delegates.loaded"
     :error="delegates.error"
@@ -11,7 +12,7 @@
       <div class="page-profile__header page-profile__section">
         <div class="row">
           <img
-            v-if="validator.keybase"
+            v-if="validator.keybase && validator.keybase.avatarUrl"
             :src="validator.keybase.avatarUrl"
             class="avatar"
           ><img
@@ -22,7 +23,7 @@
 
           <div class="page-profile__header__info">
             <div>
-              <div>
+              <div class="validator-name-and-address">
                 <div class="page-profile__status-and-title">
                   <span
                     v-tooltip.top="status"
@@ -57,7 +58,7 @@
         </div>
 
         <div class="row">
-          <div class="row-unjustified">
+          <div class="row row-unjustified">
             <dl class="info_dl colored_dl">
               <dt>My Delegation</dt>
               <dd>{{ myDelegation }}</dd>
@@ -68,7 +69,7 @@
             </dl>
           </div>
 
-          <div class="row-unjustified">
+          <div class="row row-unjustified">
             <dl class="info_dl colored_dl">
               <dt>Voting Power</dt>
               <dd id="page-profile__power">
@@ -87,10 +88,7 @@
                 {{ percent(validator.commission.rate) }}
               </dd>
             </dl>
-            <dl
-              v-if="session.experimentalMode"
-              class="info_dl colored_dl"
-            >
+            <dl v-if="session.experimentalMode" class="info_dl colored_dl">
               <dt>Slashes</dt>
               <dd>--</dd>
             </dl>
@@ -175,7 +173,6 @@
 </template>
 
 <script>
-import BigNumber from "bignumber.js"
 import moment from "moment"
 import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
@@ -209,6 +206,7 @@ export default {
       `lastHeader`,
       `bondDenom`,
       `delegates`,
+      `delegation`,
       `distribution`,
       `committedDelegations`,
       `keybase`,
@@ -240,12 +238,11 @@ export default {
       return String(uptime).substring(0, 4) + `%`
     },
     myBond() {
-      return BigNumber(
-        atoms(
-          calculateTokens(
-            this.validator,
-            this.committedDelegations[this.validator.operator_address] || 0
-          )
+      if (!this.validator) return 0
+      return atoms(
+        calculateTokens(
+          this.validator,
+          this.committedDelegations[this.validator.operator_address] || 0
         )
       )
     },
@@ -309,6 +306,16 @@ export default {
     }
   },
   watch: {
+    myBond: {
+      handler(myBond) {
+        if (myBond > 0) {
+          this.$store.dispatch(
+            `getRewardsFromValidator`,
+            this.$route.params.validator
+          )
+        }
+      }
+    },
     validator: {
       immediate: true,
       handler(validator) {
@@ -318,22 +325,21 @@ export default {
     },
     lastHeader: {
       immediate: true,
-      handler() {
-        if (this.session.signedIn) {
+      handler(newHeader) {
+        const waitTwentyBlocks = Number(newHeader.height) % 20 === 0
+        if (
+          this.session.signedIn &&
+          waitTwentyBlocks &&
+          this.$route.name === `validator` &&
+          this.delegation.loaded &&
+          Number(this.myBond) > 0
+        ) {
           this.$store.dispatch(
             `getRewardsFromValidator`,
             this.$route.params.validator
           )
         }
       }
-    }
-  },
-  mounted() {
-    if (this.session.signedIn) {
-      this.$store.dispatch(
-        `getRewardsFromValidator`,
-        this.$route.params.validator
-      )
     }
   },
   methods: {
@@ -389,3 +395,27 @@ export default {
   }
 }
 </script>
+<style scoped>
+@media screen and (max-width: 425px) {
+  .page-profile__header__actions {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 525px) {
+  .page-profile__header__info {
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .validator-name-and-address {
+    padding-bottom: 2rem;
+  }
+
+  .page-profile__header .avatar {
+    padding: 0;
+    margin: 1rem auto;
+  }
+}
+</style>
+

@@ -17,12 +17,13 @@
           <slot name="details" />
         </div>
       </div>
-      <div class="li-tx__content__block">
-        <router-link
-          :to="{ name: `block`, params: { height: block } }"
-        >
-          Block #{{ block }}&nbsp;
-        </router-link>{{ date !== `Invalid date` ? `@ ${date}` : `` }}
+      <div class="li-tx__content__right">
+        <slot name="fees" />
+        <div class="li-tx__content__block">
+          <router-link :to="{ name: `block`, params: { height: block } }">
+            Block #{{ block }}&nbsp;
+          </router-link>{{ date !== `Invalid date` ? `@ ${date}` : `` }}
+        </div>
       </div>
     </div>
   </div>
@@ -69,10 +70,6 @@ export default {
   font-weight: 300;
 }
 
-.li-tx:hover {
-  background: var(--hover-bg);
-}
-
 .li-tx b {
   font-weight: 500;
 }
@@ -91,39 +88,31 @@ export default {
 
 .li-tx__content {
   display: flex;
-  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
   padding: 1rem;
 }
 
 .li-tx__content__left,
-.li-tx__content__action,
-.li-tx__content__block {
+.li-tx__content__right {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
-.li-tx__content__left {
-  flex: 0.5;
+.li-tx__content__right {
+  text-align: right;
 }
 
-.li-tx__content__action {
-  flex: 0.3;
-  justify-content: center;
-  padding: 0 1rem;
-  border-left: 1px solid var(--bc-dim);
+.li-tx__content__information > div {
+  display: flex;
 }
 
-.li-tx__content__action button {
-  width: 9rem;
-}
-
-.li-tx__content__block {
-  flex: 0.3;
-  margin-left: auto;
-  flex-direction: row;
-  align-items: flex-end;
-  justify-content: flex-end;
+.li-tx__content__information,
+.li-tx__content__right {
+  font-size: 14px;
+  color: var(--dim);
 }
 
 .li-tx__content__caption {
@@ -132,17 +121,15 @@ export default {
   color: var(--bright);
 }
 
-.li-tx__content__information,
-.li-tx__content__block {
-  display: flex;
-  width: 100%;
-  color: var(--dim);
-  line-height: 14px;
-  font-size: 14px;
-  align-items: baseline;
-}
+@media screen and (max-width: 767px) {
+  .li-tx__content {
+    flex-direction: column;
+    text-align: left;
+  }
 
-.li-tx__content__information {
-  padding-top: 4px;
+  .li-tx__content__right {
+    text-align: left;
+    padding-top: 0.5rem;
+  }
 }
 </style>

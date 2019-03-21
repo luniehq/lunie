@@ -76,17 +76,10 @@ export default ({ node }) => {
 
       try {
         let validators = await node.getValidators()
-        const { validators: validatorSet } = await node.getValidatorSet()
         state.error = null
         state.loading = false
         state.loaded = true
 
-        for (const validator of validators) {
-          validator.isValidator = false
-          if (validatorSet.find(v => v.pub_key === validator.pub_key)) {
-            validator.isValidator = true
-          }
-        }
         // the tokens and shares are currently served in a weird format that is a amino representation of a float value
         validators = validators.map(validator => {
           return Object.assign(JSON.parse(JSON.stringify(validator)), {
