@@ -16,7 +16,7 @@
     >
       <tm-field
         id="send-denomination"
-        v-model.number="$v.denom.$model"
+        :value="num.viewDenom($v.denom.$model)"
         type="text"
         readonly
       />
@@ -66,7 +66,7 @@
       />
       <tm-form-msg
         v-if="balance === 0"
-        :msg="`doesn't have any ${denom}s`"
+        :msg="`doesn't have any ${num.viewDenom(denom)}s`"
         name="Wallet"
         type="custom"
       />
@@ -94,7 +94,7 @@
 <script>
 import b32 from "scripts/b32"
 import { required, between, decimal } from "vuelidate/lib/validators"
-import { uatoms, atoms, SMALLEST } from "../../scripts/num.js"
+import num, { uatoms, atoms, SMALLEST } from "../../scripts/num.js"
 import { mapActions, mapGetters } from "vuex"
 import TmFormGroup from "common/TmFormGroup"
 import TmField from "common/TmField"
@@ -112,19 +112,14 @@ export default {
   data: () => ({
     address: ``,
     amount: null,
-    denom: ``
+    denom: ``,
+    num
   }),
   computed: {
     ...mapGetters([`wallet`]),
     balance() {
       const denom = this.wallet.balances.find(b => b.denom === this.denom)
       return (denom && denom.amount) || 0
-    },
-    denominations() {
-      return this.wallet.balances.map(i => ({
-        key: i.denom.toUpperCase(),
-        value: i.denom
-      }))
     }
   },
   mounted() {
@@ -165,7 +160,9 @@ export default {
 
       this.$store.commit(`notify`, {
         title: `Successful Send`,
-        body: `Successfully sent ${amount} ${denom} to ${address}`
+        body: `Successfully sent ${amount} ${num.viewDenom(
+          denom
+        )} to ${address}`
       })
     },
     bech32Validate(param) {

@@ -9,13 +9,14 @@
         Withdraw rewards
       </div>
       <div slot="details">
-        From<router-link :to="url + '/' + tx.validator_address">
+        From&nbsp;<router-link :to="url + '/' + tx.validator_address">
           {{ moniker(tx.validator_address) }}
         </router-link>
       </div>
       <div slot="fees">
-        Network Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
-        <span>{{ fees ? fees.denom : bondingDenom }}s</span>
+        Network Fee:&nbsp;
+        <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgSetWithdrawAddress`">
@@ -26,8 +27,9 @@
         To {{ tx.withdraw_address }}
       </div>
       <div slot="fees">
-        Network Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
-        <span>{{ fees ? fees.denom : bondingDenom }}s</span>
+        Network Fee:&nbsp;
+        <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
       </div>
     </template>
     <template
@@ -42,8 +44,9 @@
         </router-link>
       </div>
       <div slot="fees">
-        Network Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
-        <span>{{ fees ? fees.denom : bondingDenom }}s</span>
+        Network Fee:&nbsp;
+        <b>{{ convertedFees ? convertedFeesfees.amount : full(0) }}</b>
+        <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
       </div>
     </template>
   </li-transaction>
@@ -51,7 +54,7 @@
 
 <script>
 import LiTransaction from "./LiTransaction"
-import { pretty, atoms, full } from "../../scripts/num.js"
+import num, { pretty, atoms, full } from "../../scripts/num.js"
 
 export default {
   name: `li-distribution-transaction`,
@@ -90,6 +93,9 @@ export default {
   computed: {
     tx() {
       return this.transaction.tx.value.msg[0].value
+    },
+    convertedFees() {
+      return this.fees ? num.viewCoin(this.fees) : undefined
     }
   },
   methods: {

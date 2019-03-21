@@ -42,7 +42,7 @@ export default ({ node }) => {
     setUnbondingDelegations(state, unbondingDelegations) {
       state.unbondingDelegations = unbondingDelegations
         ? unbondingDelegations
-        // building a dict from the array and taking out the validators with no undelegations
+          // building a dict from the array and taking out the validators with no undelegations
           .reduce(
             (dict, { validator_address, entries }) => ({
               ...dict,
@@ -137,7 +137,7 @@ export default ({ node }) => {
     async updateDelegates({ dispatch, rootState }) {
       const candidates = await dispatch(`getDelegates`)
 
-      if(rootState.session.signedIn) {
+      if (rootState.session.signedIn) {
         dispatch(`getBondedDelegates`, candidates)
       }
     },
@@ -178,6 +178,7 @@ export default ({ node }) => {
         value: state.committedDelegates[validator_address] + Number(amount)
       })
 
+      await dispatch(`getAllTxs`)
       // load delegates after delegation to get new atom distribution on validators
       dispatch(`updateDelegates`)
     },
@@ -201,6 +202,7 @@ export default ({ node }) => {
         password,
         submitType
       })
+      await dispatch(`getAllTxs`)
     },
     async submitRedelegation(
       {
@@ -223,6 +225,8 @@ export default ({ node }) => {
         password,
         submitType
       })
+
+      await dispatch(`getAllTxs`)
     }
   }
 

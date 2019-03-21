@@ -137,7 +137,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import { atoms } from "../../scripts/num.js"
+import num, { atoms } from "../../scripts/num.js"
 export default {
   name: `tab-staking-parameters`,
   data: () => ({
@@ -161,8 +161,10 @@ export default {
   computed: {
     ...mapGetters([`session`, `governanceParameters`]),
     minimumDeposit() {
-      const coin = this.governanceParameters.parameters.deposit.min_deposit[0]
-      return `${this.atoms(coin.amount)} ${coin.denom}s`
+      const coin = num.viewCoin(
+        this.governanceParameters.parameters.deposit.min_deposit[0]
+      )
+      return `${coin.amount} ${coin.denom}s`
     },
     depositPeriodInDays() {
       return (

@@ -26,7 +26,7 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix">{{ denom }}</span>
+      <span class="input-suffix">{{ num.viewDenom(denom) }}</span>
       <tm-field
         id="amount"
         v-model="amount"
@@ -34,11 +34,13 @@
         placeholder="Amount"
       />
       <p v-if="maximum > 0">
-        {{ denom }}s delegated: {{ maximum }}
+        {{ num.viewDenom(denom) }}s delegated: {{ maximum }}
       </p>
       <tm-form-msg
         v-if="maximum === 0"
-        :msg="`don't have any ${denom}s delegated to this validator`"
+        :msg="`don't have any ${
+          num.viewDenom(denom)
+        }s delegated to this validator`"
         name="You"
         type="custom"
       />
@@ -65,7 +67,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import { uatoms, atoms, SMALLEST } from "../../scripts/num.js"
+import num, { uatoms, atoms, SMALLEST } from "../../scripts/num.js"
 import { between, decimal } from "vuelidate/lib/validators"
 import ActionModal from "common/ActionModal"
 import TmField from "common/TmField"
@@ -104,7 +106,8 @@ export default {
   },
   data: () => ({
     amount: null,
-    atoms
+    atoms,
+    num
   }),
   computed: {
     ...mapGetters([`bondDenom`, `liquidAtoms`])
