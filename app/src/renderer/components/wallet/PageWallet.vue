@@ -60,19 +60,9 @@ export default {
     filteredBalances() {
       return orderBy(
         this.wallet.balances,
-        [`amount`, balance => balance.denom.toLowerCase()],
+        [`amount`, balance => num.viewDenom(balance.denom).toLowerCase()],
         [`desc`, `asc`]
       )
-    }
-  },
-  watch: {
-    lastHeader: {
-      immediate: true,
-      handler() {
-        if (this.session.signedIn) {
-          this.queryWalletBalances()
-        }
-      }
     }
   },
   async mounted() {

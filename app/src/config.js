@@ -15,7 +15,6 @@ export default {
   name: `Cosmos Voyager`,
   development: dev,
   default_network: `${dev ? `local-` : ``}testnet`,
-  denoms: [`stake`, `photino`],
   stargate,
   rpc,
   google_analytics_uid: `UA-51029217-3`,

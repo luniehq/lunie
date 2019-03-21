@@ -4,7 +4,7 @@ import config from "../../../config"
 
 const NODE_HALTED_TIMEOUT = config.node_halted_timeout
 
-export default function({ node }) {
+export default function ({ node }) {
   // get tendermint RPC client from basecoin client
 
   const state = {
@@ -98,10 +98,6 @@ export default function({ node }) {
         },
         ({ header }) => {
           dispatch(`setLastHeader`, header)
-
-          if (rootState.session.signedIn) {
-            dispatch(`getTotalRewards`)
-          }
         }
       )
       if (rootState.session.signedIn) {

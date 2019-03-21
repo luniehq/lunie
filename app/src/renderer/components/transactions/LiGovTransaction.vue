@@ -7,23 +7,24 @@
     <template v-if="txType === `cosmos-sdk/MsgSubmitProposal`">
       <div slot="caption">
         Submit {{ tx.proposal_type.toLowerCase() }} proposal
-        <b>{{ full(atoms(tx.initial_deposit[0].amount)) }}</b>
-        <span>{{ tx.initial_deposit[0].denom }}s</span>
+        <b>{{ initialDeposit.amount }}</b>
+        <span>{{ initialDeposit.denom }}s</span>
       </div>
       <div slot="details">
         Title:<i>{{ tx.title }}</i>
       </div>
       <div slot="fees">
-        Network Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
-        <span>{{ fees ? fees.denom : bondingDenom }}s</span>
+        Network Fee:&nbsp;
+        <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgDeposit`">
       <div slot="caption">
         Deposit
         <template>
-          <b>{{ full(atoms(tx.amount[0].amount)) }}</b>
-          <span>{{ tx.amount[0].denom }}s</span>
+          <b>{{ deposit.amount }}</b>
+          <span>{{ deposit.denom }}s</span>
         </template>
       </div>
       <div slot="details">
@@ -33,8 +34,9 @@
         </router-link>
       </div>
       <div slot="fees">
-        Network Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
-        <span>{{ fees ? fees.denom : bondingDenom }}s</span>
+        Network Fee:&nbsp;
+        <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        <span>{{ fees ? convertedFees.denom : bondingDenom }}s</span>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgVote`">
@@ -48,8 +50,9 @@
         </router-link>
       </div>
       <div slot="fees">
-        Network Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
-        <span>{{ fees ? fees.denom : bondingDenom }}s</span>
+        Network Fee:&nbsp;
+        <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
       </div>
     </template>
   </li-transaction>
@@ -57,7 +60,7 @@
 
 <script>
 import LiTransaction from "./LiTransaction"
-import { full, atoms } from "../../scripts/num.js"
+import num, { full, atoms } from "../../scripts/num.js"
 
 export default {
   name: `li-gov-transaction`,
@@ -91,6 +94,15 @@ export default {
   computed: {
     tx() {
       return this.transaction.tx.value.msg[0].value
+    },
+    initialDeposit() {
+      return num.viewCoin(this.tx.initial_deposit[0])
+    },
+    deposit() {
+      return num.viewCoin(this.tx.amount[0])
+    },
+    convertedFees() {
+      return this.fees ? num.viewCoin(this.fees) : undefined
     }
   }
 }

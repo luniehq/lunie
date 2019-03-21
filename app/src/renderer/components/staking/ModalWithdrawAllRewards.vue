@@ -25,7 +25,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import { atoms } from "../../scripts/num.js"
+import num, { atoms } from "../../scripts/num.js"
 import ActionModal from "common/ActionModal"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
@@ -37,11 +37,28 @@ export default {
     TmField,
     TmFormGroup
   },
+  data: () => ({
+    num
+  }),
   computed: {
-    ...mapGetters([`bondDenom`, `distribution`]),
+    ...mapGetters([`bondDenom`, `distribution`, `lastHeader`, `session`]),
     totalRewards({ bondDenom, distribution } = this) {
       const rewards = distribution.totalRewards[bondDenom]
       return (rewards && atoms(rewards)) || 0
+    }
+  },
+  watch: {
+    lastHeader: {
+      immediate: true,
+      handler() {
+        if (
+          this.session.signedIn &&
+          this.$refs.actionModal &&
+          this.$refs.actionModal.show
+        ) {
+          this.$store.dispatch(`getTotalRewards`)
+        }
+      }
     }
   },
   methods: {
