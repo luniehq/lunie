@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.25] - 2019-03-21
+
+### Changed
+
+- [\#2303](https://github.com/cosmos/voyager/issues/2303) Hide amounts in header until they are fully loaded @faboweb
+
+### Security
+
+- [\#2309](https://github.com/cosmos/voyager/pull/2309) remove markdown parser to reduce vulnerability of xss @faboweb
+
+### Fixed
+
+- [\#2301](https://github.com/cosmos/voyager/issues/2301) throttle requests for keybase identities @faboweb
+- [\#2272](https://github.com/cosmos/voyager/issues/2272) fixed showing uatoms instead of atoms @faboweb
+- [\#2289](https://github.com/cosmos/voyager/pull/2289) reduced amount of requests to full node @fedekunze
+
+
 ## [1.0.0-beta.24] - 2019-03-20
 
 ### Fixed

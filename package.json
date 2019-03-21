@@ -1,7 +1,7 @@
 {
   "name": "cosmos-wallet",
   "productName": "Cosmos Wallet",
-  "version": "1.0.0-beta.24",
+  "version": "1.0.0-beta.25",
   "description": "Cosmos Wallet is a web based user interface for the Cosmos Hub.",
   "author": "All In Bits, Inc <hello@tendermint.com>",
   "license": "Apache-2.0",
