@@ -129,7 +129,7 @@ describe(`ModalDeposit`, () => {
 
       expect($store.commit).toHaveBeenCalledWith(`notify`,
         {
-          body: `You have successfully deposited your uatoms on proposal #1`,
+          body: `You have successfully deposited your atoms on proposal #1`,
           title: `Successful deposit!`
         }
       )
