@@ -17,7 +17,7 @@ exports[`ModalDeposit should display deposit modal form 1`] = `
     <span
       class="input-suffix"
     >
-      stake
+      uatom
     </span>
      
     <tm-field-stub
@@ -26,11 +26,7 @@ exports[`ModalDeposit should display deposit modal form 1`] = `
       value="0"
     />
      
-    <tm-form-msg-stub
-      msg="doesn't have any stakes"
-      name="Wallet"
-      type="custom"
-    />
+    <!---->
   </tm-form-group-stub>
 </action-modal-stub>
 `;

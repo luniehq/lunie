@@ -37,7 +37,7 @@ describe(`ModalDeposit`, () => {
       propsData: {
         proposalId: `1`,
         proposalTitle: lcdClientMock.state.proposals[`1`].title,
-        denom: `stake`
+        denom: `uatom`
       },
       sync: false
     })
@@ -74,8 +74,8 @@ describe(`ModalDeposit`, () => {
         wrapper.setData({ amount: 250 })
         expect(wrapper.vm.validateForm()).toBe(false)
         await wrapper.vm.$nextTick()
-        const errorMessage = wrapper.find(`input#amount + div`)
-        expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
+
+        expect(wrapper.html()).toContain(`error="true"`)
       })
 
       it(`when the user doesn't have the deposited coin`, () => {
@@ -85,7 +85,7 @@ describe(`ModalDeposit`, () => {
             denom: `otherCoin`
           }
         ]
-        $store.commit(`setWalletBalances`, otherCoins)
+        wrapper.vm.wallet.balances = otherCoins
         wrapper.setData({ amount: 25 })
         expect(wrapper.vm.validateForm()).toBe(false)
       })
@@ -93,7 +93,8 @@ describe(`ModalDeposit`, () => {
 
     describe(`succeeds`, () => {
       it(`when the user has enough balance to submit a deposit`, async () => {
-        wrapper.setData({ amount: 15 })
+        wrapper.vm.wallet.balances = [{ denom: `uatom`, amount: `20000000` }]
+        wrapper.setData({ amount: 10 })
         expect(wrapper.vm.validateForm()).toBe(true)
       })
     })

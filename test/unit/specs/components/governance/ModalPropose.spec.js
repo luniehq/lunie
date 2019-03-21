@@ -28,7 +28,7 @@ describe(`ModalPropose`, () => {
         liquidAtoms: 200000000,
         wallet: {
           balances: [
-            { denom: `uatom`, amount: `10` }
+            { denom: `uatom`, amount: `20000000` }
           ],
           loading: false
         }
@@ -77,13 +77,9 @@ describe(`ModalPropose`, () => {
       })
 
       it(`if the amount for initial deposit is higher than the user's balance`, async () => {
-        wrapper.setData(inputs)
         wrapper.setData({ amount: 250 })
         await wrapper.vm.$nextTick()
         expect(wrapper.vm.validateForm()).toBe(false)
-        await wrapper.vm.$nextTick()
-        const errorMessage = wrapper.find(`input#amount + div`)
-        expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
       })
 
       it(`if the user doesn't have the deposit coin`, async () => {
@@ -93,8 +89,8 @@ describe(`ModalPropose`, () => {
             denom: `otherCoin`
           }
         ]
+        wrapper.vm.wallet.balances = otherCoins
         wrapper.setData(inputs)
-        $store.commit(`setWalletBalances`, otherCoins)
         wrapper.setData({ amount: 25 })
         await wrapper.vm.$nextTick()
         expect(wrapper.vm.validateForm()).toBe(false)
@@ -115,18 +111,12 @@ describe(`ModalPropose`, () => {
         wrapper.setData({ title: `x`.repeat(65) })
         await wrapper.vm.$nextTick()
         expect(wrapper.vm.validateForm()).toBe(false)
-        await wrapper.vm.$nextTick()
-        const errorMessage = wrapper.find(`input#title + div`)
-        expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
       })
 
       it(`if description is too long disable submit button and show error message`, async () => {
         wrapper.setData({ description: `x`.repeat(201) })
         await wrapper.vm.$nextTick()
         expect(wrapper.vm.validateForm()).toBe(false)
-        await wrapper.vm.$nextTick()
-        const errorMessage = wrapper.find(`textarea#description + div`)
-        expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
       })
 
       it(`if proposal type is invalid`, () => {
@@ -138,7 +128,9 @@ describe(`ModalPropose`, () => {
 
     describe(`successful`, () => {
       it(`if the user has enough balance and the fields are within the length ranges`, async () => {
+        wrapper.vm.wallet.balances = [{ denom: `uatom`, amount: `20000000` }]
         wrapper.setData(inputs)
+        await wrapper.vm.$nextTick()
         expect(wrapper.vm.validateForm()).toBe(true)
       })
     })
