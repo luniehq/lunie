@@ -247,7 +247,7 @@ export default {
   computed: {
     ...mapGetters([`connected`, `session`, `bondDenom`, `wallet`]),
     balance() {
-      if (!this.wallet.balancesLoading && !!this.wallet.balances.length) {
+      if (!this.wallet.loading && !!this.wallet.balances.length) {
         const balance = this.wallet.balances.find(
           coin => coin.denom === this.bondDenom
         )

@@ -14,7 +14,14 @@ describe(`ActionModal`, () => {
       dispatch: jest.fn(),
       getters: {
         connected: true,
-        session: { signedIn: true, sessionType: `local` }
+        session: { signedIn: true, sessionType: `local` },
+        bondDenom: `uatom`,
+        wallet: {
+          loading: false,
+          balances: [
+            { denom: `uatom`, amount: `20000000` }
+          ]
+        }
       }
     }
 
@@ -23,6 +30,7 @@ describe(`ActionModal`, () => {
       propsData: {
         title: `Action Modal`,
         submitFn: jest.fn(),
+        simulateFn: jest.fn(),
         validate: jest.fn()
       },
       mocks: {
@@ -32,39 +40,47 @@ describe(`ActionModal`, () => {
     wrapper.vm.open()
   })
 
-  describe(`has the expected html structure`, () => {
+  describe(`should show the action modal`, () => {
     describe(`when user has logged in`, () => {
-      it(`with local keystore`, () => {
-        expect(wrapper.vm.$el).toMatchSnapshot()
-      })
-
-      it(`with ledger`, async () => {
-        $store = {
-          getters: {
-            connected: true,
-            session: { signedIn: true, sessionType: `ledger` }
-          }
-        }
-        wrapper = shallowMount(ActionModal, {
-          localVue,
-          propsData: {
-            title: `Action Modal`,
-            submitFn: jest.fn(),
-            validate: jest.fn()
-          },
-          mocks: {
-            $store
-          }
+      describe(`with local keystore`, () => {
+        it(`on default step`, () => {
+          expect(wrapper.vm.$el).toMatchSnapshot()
         })
-        wrapper.vm.open()
-        expect(wrapper.vm.$el).toMatchSnapshot()
+
+        it(`on fees step`, async () => {
+          wrapper.vm.step = `fees`
+          await wrapper.vm.$nextTick()
+          expect(wrapper.vm.$el).toMatchSnapshot()
+        })
+
+        it(`on sign step`, async () => {
+          wrapper.vm.step = `sign`
+          await wrapper.vm.$nextTick()
+          expect(wrapper.vm.$el).toMatchSnapshot()
+        })
+
       })
 
-      it(`with ledger and is on sign step`, async () => {
-        wrapper.vm.session.sessionType = `ledger`
-        wrapper.vm.step = `sign`
-        await wrapper.vm.$nextTick()
-        expect(wrapper.vm.$el).toMatchSnapshot()
+      describe(`with ledger`, () => {
+        it(`on default step`, async () => {
+          wrapper.vm.session.sessionType = `ledger`
+          await wrapper.vm.$nextTick()
+          expect(wrapper.vm.$el).toMatchSnapshot()
+        })
+
+        it(`on fees step`, async () => {
+          wrapper.vm.session.sessionType = `ledger`
+          wrapper.vm.step = `fees`
+          await wrapper.vm.$nextTick()
+          expect(wrapper.vm.$el).toMatchSnapshot()
+        })
+
+        it(`on sign step`, async () => {
+          wrapper.vm.session.sessionType = `ledger`
+          wrapper.vm.step = `sign`
+          await wrapper.vm.$nextTick()
+          expect(wrapper.vm.$el).toMatchSnapshot()
+        })
       })
     })
     it(`when user hasn't logged in`, async () => {
@@ -146,61 +162,80 @@ describe(`ActionModal`, () => {
 
   describe(`runs validation and changes step`, () => {
     let self, getterValues
+
     beforeEach(() => {
       getterValues = { session: { sessionType: `ledger` } }
       self = {
         ...getterValues,
         submit: jest.fn(),
-        validate: jest.fn(() => true),
+        simulate: jest.fn(),
+        isValidChildForm: true,
         $v: {
-          $touch: () => {}
+          gasPrice: {
+            $touch: () => { }
+          },
+          password: {
+            $touch: () => { }
+          },
+          $invalid: false
         },
         selectedSignMethod: `local`,
         step: `txDetails`
       }
     })
-    it(`if connected to local`, async () => {
-      await ActionModal.methods.validateChangeStep.call(self)
-      expect(self.validate).toHaveBeenCalled()
-      expect(self.submit).toHaveBeenCalled()
+
+    describe(`on tx details step`, () => {
+      it(`when using local keystore`, async () => {
+        await ActionModal.methods.validateChangeStep.call(self)
+        expect(self.simulate).toHaveBeenCalled()
+      })
+
+      it(`when using ledger`, async () => {
+        self.session.sessionType = `ledger`
+        self.selectedSignMethod = `ledger`
+
+        await ActionModal.methods.validateChangeStep.call(self)
+        expect(self.simulate).toHaveBeenCalled()
+
+      })
+
     })
 
-    it(`if connected to ledger and is on 'txDetails' step`, async () => {
-      self.session.sessionType = `ledger`
-      self.selectedSignMethod = `ledger`
-      await ActionModal.methods.validateChangeStep.call(self)
-      expect(self.validate).toHaveBeenCalled()
-      expect(self.submit).not.toHaveBeenCalled()
-      expect(self.step).toBe(`sign`)
+    describe(`on fees step`, () => {
+
     })
 
-    it(`if connected to ledger and is on 'sign' step`, async () => {
-      self.session.sessionType = `ledger`
-      self.selectedSignMethod = `ledger`
-      self.step = `sign`
-      await ActionModal.methods.validateChangeStep.call(self)
-      expect(self.validate).toHaveBeenCalled()
-      expect(self.submit).toHaveBeenCalled()
-    })
+    describe(`on sign step`, () => {
+      beforeEach(() => {
+        self.step = `sign`
+      })
 
-    it(`doesn't submit on failed validation`, async () => {
-      self.validate = jest.fn(() => false)
-      await ActionModal.methods.validateChangeStep.call(self)
-      expect(self.validate).toHaveBeenCalled()
-      expect(self.submit).not.toHaveBeenCalled()
-    })
+      it(`when using local keystore`, async () => {
+        self.password = `1234567890`
+        await ActionModal.methods.validateChangeStep.call(self)
+        expect(self.submit).toHaveBeenCalled()
+      })
 
-    it(`should default to positive validation`, async () => {
-      self.validate = undefined
-      await ActionModal.methods.validateChangeStep.call(self)
-      expect(self.submit).toHaveBeenCalled()
-    })
+      it(`fails validation if the password is missing`, async () => {
+        self.password = null
+        self.$v.$invalid = true
+        await ActionModal.methods.validateChangeStep.call(self)
+        expect(self.submit).not.toHaveBeenCalled()
+      })
 
-    it(`fails validation if the password is missing`, async () => {
-      wrapper.setData({ password: null })
-      await wrapper.vm.validateChangeStep()
-      expect(wrapper.vm.submitFn).not.toHaveBeenCalled()
-      expect(wrapper.vm.$v.$invalid).toBe(true)
+      it(`when using ledger`, async () => {
+        self.session.sessionType = `ledger`
+        self.selectedSignMethod = `ledger`
+
+        await ActionModal.methods.validateChangeStep.call(self)
+        expect(self.submit).toHaveBeenCalled()
+      })
+
+      it(`doesn't submit on failed validation`, async () => {
+        self.$v.$invalid = true
+        await ActionModal.methods.validateChangeStep.call(self)
+        expect(self.submit).not.toHaveBeenCalled()
+      })
     })
   })
 
@@ -214,9 +249,16 @@ describe(`ActionModal`, () => {
         submit: jest.fn(
           () => new Promise(resolve => setTimeout(resolve, 1000))
         ),
-        validate: jest.fn(() => true),
+        simulate: jest.fn(),
+        isValidChildForm: true,
         $v: {
-          $touch: () => {}
+          gasPrice: {
+            $touch: () => { }
+          },
+          password: {
+            $touch: () => { }
+          },
+          $invalid: false
         },
         selectedSignMethod: `local`,
         step: `txDetails`
@@ -224,6 +266,7 @@ describe(`ActionModal`, () => {
     })
 
     it(`when signing with local keystore`, done => {
+      self.isValidChildForm = true
       ActionModal.methods.validateChangeStep.call(self).then(() => {
         expect(self.sending).toBe(false)
         done()
@@ -244,25 +287,17 @@ describe(`ActionModal`, () => {
     })
   })
 
-  it(`shows a password input for local signing`, () => {
+  it(`shows a password input for local signing`, async () => {
+    wrapper.vm.step = `sign`
     expect(wrapper.vm.selectedSignMethod).toBe(`local`)
+    await wrapper.vm.$nextTick()
     expect(wrapper.find(`#password`).exists()).toBe(true)
   })
 
   it(`hides password input if signing with Ledger`, async () => {
-    $store.getters.session.sessionType = `ledger`
-    wrapper = shallowMount(ActionModal, {
-      localVue,
-      propsData: {
-        title: `Action Modal`,
-        submitFn: jest.fn(),
-        validate: jest.fn()
-      },
-      mocks: {
-        $store
-      }
-    })
-    wrapper.vm.open()
+    wrapper.vm.session.sessionType = `ledger`
+    wrapper.vm.step = `sign`
+    expect(wrapper.vm.selectedSignMethod).toBe(`ledger`)
     expect(wrapper.find(`#password`).exists()).toBe(false)
   })
 

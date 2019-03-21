@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ActionModal has the expected html structure when user has logged in with ledger 1`] = `
+exports[`ActionModal should show the action modal when user has logged in with ledger on default step 1`] = `
 <div
   class="action-modal"
   name="slide-fade"
@@ -56,7 +56,91 @@ exports[`ActionModal has the expected html structure when user has logged in wit
 </div>
 `;
 
-exports[`ActionModal has the expected html structure when user has logged in with ledger and is on sign step 1`] = `
+exports[`ActionModal should show the action modal when user has logged in with ledger on fees step 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+>
+  <div
+    class="action-modal-header"
+  >
+    <img
+      class="icon action-modal-atom"
+      src="~assets/images/cosmos-logo.png"
+    />
+     
+    <span
+      class="action-modal-title"
+    >
+      
+        Action Modal
+      
+    </span>
+     
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons"
+      >
+        close
+      </i>
+    </div>
+  </div>
+   
+  <div
+    class="action-modal-form"
+  >
+    <tm-form-group-stub
+      class="action-modal-group"
+      fieldid="gasPrice"
+      fieldlabel="Gas Price"
+    >
+      <span
+        class="input-suffix"
+      >
+        uatom
+      </span>
+       
+      <tm-field-stub
+        id="gas-price"
+        min="0"
+        step="0.000000001"
+        type="number"
+        value="0.000000025"
+      />
+       
+      <!---->
+    </tm-form-group-stub>
+     
+    <table-invoice-stub
+      amount="0"
+      gasestimate="0"
+      gasprice="2.5e-8"
+    />
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tm-form-group-stub
+      class="action-modal-group"
+    >
+      <div>
+        <tm-btn-stub
+          color="primary"
+          value="Next"
+        />
+      </div>
+    </tm-form-group-stub>
+     
+    <!---->
+  </div>
+</div>
+`;
+
+exports[`ActionModal should show the action modal when user has logged in with ledger on sign step 1`] = `
 <div
   class="action-modal"
   name="slide-fade"
@@ -123,7 +207,7 @@ exports[`ActionModal has the expected html structure when user has logged in wit
 </div>
 `;
 
-exports[`ActionModal has the expected html structure when user has logged in with local keystore 1`] = `
+exports[`ActionModal should show the action modal when user has logged in with local keystore on default step 1`] = `
 <div
   class="action-modal"
   name="slide-fade"
@@ -179,7 +263,163 @@ exports[`ActionModal has the expected html structure when user has logged in wit
 </div>
 `;
 
-exports[`ActionModal has the expected html structure when user hasn't logged in 1`] = `
+exports[`ActionModal should show the action modal when user has logged in with local keystore on fees step 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+>
+  <div
+    class="action-modal-header"
+  >
+    <img
+      class="icon action-modal-atom"
+      src="~assets/images/cosmos-logo.png"
+    />
+     
+    <span
+      class="action-modal-title"
+    >
+      
+        Action Modal
+      
+    </span>
+     
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons"
+      >
+        close
+      </i>
+    </div>
+  </div>
+   
+  <div
+    class="action-modal-form"
+  >
+    <tm-form-group-stub
+      class="action-modal-group"
+      fieldid="gasPrice"
+      fieldlabel="Gas Price"
+    >
+      <span
+        class="input-suffix"
+      >
+        uatom
+      </span>
+       
+      <tm-field-stub
+        id="gas-price"
+        min="0"
+        step="0.000000001"
+        type="number"
+        value="0.000000025"
+      />
+       
+      <!---->
+    </tm-form-group-stub>
+     
+    <table-invoice-stub
+      amount="0"
+      gasestimate="0"
+      gasprice="2.5e-8"
+    />
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tm-form-group-stub
+      class="action-modal-group"
+    >
+      <div>
+        <tm-btn-stub
+          color="primary"
+          value="Next"
+        />
+      </div>
+    </tm-form-group-stub>
+     
+    <!---->
+  </div>
+</div>
+`;
+
+exports[`ActionModal should show the action modal when user has logged in with local keystore on sign step 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+>
+  <div
+    class="action-modal-header"
+  >
+    <img
+      class="icon action-modal-atom"
+      src="~assets/images/cosmos-logo.png"
+    />
+     
+    <span
+      class="action-modal-title"
+    >
+      
+        Action Modal
+      
+    </span>
+     
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons"
+      >
+        close
+      </i>
+    </div>
+  </div>
+   
+  <div
+    class="action-modal-form"
+  >
+    <!---->
+     
+    <tm-form-group-stub
+      class="action-modal-group"
+      fieldid="password"
+      fieldlabel="Password"
+    >
+      <tm-field-stub
+        id="password"
+        placeholder="Password"
+        type="password"
+      />
+       
+      <!---->
+    </tm-form-group-stub>
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tm-form-group-stub
+      class="action-modal-group"
+    >
+      <div>
+        <tm-btn-stub
+          color="primary"
+          value="Submit"
+        />
+      </div>
+    </tm-form-group-stub>
+     
+    <!---->
+  </div>
+</div>
+`;
+
+exports[`ActionModal should show the action modal when user hasn't logged in 1`] = `
 <div
   class="action-modal"
   name="slide-fade"
