@@ -94,7 +94,7 @@ describe(`UndelegationModal`, () => {
 
       wrapper.setData({ amount: 4.2 })
       await UndelegationModal.methods.submitForm.call(
-        { $store, amount: 4.2, denom: `atom`, validator },
+        { $store, amount: 4.2, denom: `uatom`, validator },
         gas, gasPrice, `1234567890`, `local`
       )
 

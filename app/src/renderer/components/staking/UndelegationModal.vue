@@ -160,7 +160,9 @@ export default {
 
       this.$store.commit(`notify`, {
         title: `Successful undelegation!`,
-        body: `You have successfully undelegated ${this.amount} ${this.denom}s.`
+        body: `You have successfully undelegated ${this.amount} ${num.viewDenom(
+          this.denom
+        )}s.`
       })
     }
   }

@@ -85,11 +85,8 @@ export default ({ node }) => {
       // extract path parameters
       const to = args.to
       const pathParameter = args.pathParameter
-
-      delete args.submitType
-      delete args.type
-      delete args.to
-      delete args.pathParameter
+      const properties = [`submitType`, `type`, `to`, `pathParameter`, `gas`, `gas_prices`, `simulate`]
+      properties.forEach(property => delete args[property])
 
       args.base_req = requestMetaData
       return { requestBody: args, type, submitType, to, pathParameter }
