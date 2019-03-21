@@ -51,7 +51,7 @@ exports[`ModalPropose should display proposal modal form 1`] = `
     <span
       class="input-suffix"
     >
-      uatom
+      atom
     </span>
      
     <tm-field-stub
