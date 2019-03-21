@@ -162,7 +162,7 @@ export default {
         gas_prices: [
           {
             amount: String(uatoms(gasPrice)),
-            denom: this.bondDenom
+            denom: this.denom
           }
         ]
       })
@@ -198,7 +198,7 @@ export default {
         gas_prices: [
           {
             amount: String(uatoms(gasPrice)),
-            denom: this.bondDenom
+            denom: this.denom
           }
         ]
       })

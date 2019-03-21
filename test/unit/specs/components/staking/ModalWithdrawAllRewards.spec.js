@@ -40,15 +40,22 @@ describe(`ModalWithdrawAllRewards`, () => {
         dispatch: jest.fn(),
         commit: jest.fn()
       }
+
+      const gas = `1234567`
+      const gasPrice = 2.5e-8
+      const gas_prices = [{ denom: `uatom`, amount: `0.025` }]
+
       await ModalWithdrawAllRewards.methods.submitForm.call(
-        { $store },
-        `local`, `1234567890`
+        { bondDenom: `uatom`, $store },
+        gas, gasPrice, ``, `ledger`
       )
 
       expect($store.dispatch).toBeCalledWith(`withdrawAllRewards`,
         {
-          submitType: `local`,
-          password: `1234567890`
+          gas,
+          gas_prices,
+          submitType: `ledger`,
+          password: ``
         }
       )
 

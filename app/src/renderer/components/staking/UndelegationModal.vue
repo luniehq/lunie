@@ -143,7 +143,7 @@ export default {
         validator: this.validator
       })
     },
-    async submitForm(gasEstimate, gasPrice, submitType, password) {
+    async submitForm(gasEstimate, gasPrice, password, submitType) {
       await this.$store.dispatch(`submitUnbondingDelegation`, {
         amount: -uatoms(this.amount),
         validator: this.validator,
@@ -151,7 +151,7 @@ export default {
         gas_prices: [
           {
             amount: String(uatoms(gasPrice)),
-            denom: this.bondDenom
+            denom: this.denom
           }
         ],
         submitType,

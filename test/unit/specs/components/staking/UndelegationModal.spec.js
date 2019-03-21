@@ -88,17 +88,22 @@ describe(`UndelegationModal`, () => {
       const validator = {
         operator_address: `cosmosvaloper1address`,
       }
+      const gas = `1234567`
+      const gasPrice = 2.5e-8
+      const gas_prices = [{ denom: `uatom`, amount: `0.025` }]
 
       wrapper.setData({ amount: 4.2 })
       await UndelegationModal.methods.submitForm.call(
         { $store, amount: 4.2, denom: `atom`, validator },
-        `local`, `1234567890`
+        gas, gasPrice, `1234567890`, `local`
       )
 
       expect($store.dispatch).toHaveBeenCalledWith(`submitUnbondingDelegation`,
         {
           amount: -4200000,
           validator,
+          gas,
+          gas_prices,
           submitType: `local`,
           password: `1234567890`
         }

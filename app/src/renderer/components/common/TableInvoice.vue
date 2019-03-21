@@ -11,7 +11,13 @@
       </tr>
       <tr>
         <td>
-          Fees (estimated)
+          Fees (estimated) 
+          <i
+            v-tooltip.top="info"
+            class="material-icons info-button"
+          >
+            info_outline
+          </i>
         </td>
         <td>
           <b>ø</b>{{ full(estimatedFee) }}
@@ -44,11 +50,12 @@ export default {
     },
     gasPrice: {
       type: Number,
-      required: true
+      default: 2.5e-8 // 0.025 uatoms
     }
   },
   data: () => ({
-    full
+    full,
+    info: `Estimated fees required to process the transaction, based on simulation. Cosmos Wallet doesn't take any fees.`
   }),
   computed: {
     estimatedFee() {

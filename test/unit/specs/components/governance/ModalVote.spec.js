@@ -103,15 +103,21 @@ describe(`ModalVote`, () => {
         commit: jest.fn()
       }
 
+      const gas = `1234567`
+      const gasPrice = 2.5e-8
+      const gas_prices = [{ denom: `uatom`, amount: `0.025` }]
+
       await ModalVote.methods.submitForm.call(
-        { proposalId: `1`, vote: `Yes`, $store },
-        `ledger`, ``
+        { proposalId: `1`, vote: `Yes`, bondDenom: `uatom`, $store },
+        gas, gasPrice, ``, `ledger`
       )
 
       expect($store.dispatch).toHaveBeenCalledWith(`submitVote`,
         {
           option: `Yes`,
           proposal_id: `1`,
+          gas,
+          gas_prices,
           password: ``,
           submitType: `ledger`
         }

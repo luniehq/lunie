@@ -37,6 +37,7 @@
       </div>
       <div v-else-if="step === `fees`" class="action-modal-form">
         <tm-form-group
+          v-if="!session.experimentalMode"
           :error="$v.gasPrice.$error && $v.gasPrice.$invalid"
           class="action-modal-group"
           field-id="gasPrice"
@@ -378,7 +379,9 @@ export default {
         )
       },
       gasPrice: {
-        required: requiredIf(() => this.step === feeStep),
+        required: requiredIf(
+          () => this.step === feeStep && !this.session.experimentalMode
+        ),
         // we don't use SMALLEST as min gas price because it can be a fraction of uatom
         // min is 0 because we support sending 0 fees
         between: between(0, atoms(this.balance))

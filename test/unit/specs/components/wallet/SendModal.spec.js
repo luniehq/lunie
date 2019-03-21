@@ -118,16 +118,20 @@ describe(`SendModal`, () => {
     it(`submits a transfer transaction`, async () => {
       const $store = { commit: jest.fn() }
       const sendTx = jest.fn()
+      const gas = `1234567`
+      const gasPrice = 2.5e-8
+      const gas_prices = [{ denom: `uatom`, amount: `0.025` }]
 
       await SendModal.methods.submitForm.call(
         {
           amount: 10,
           address: `cosmos1address`,
           denom: `uatom`,
+          bondDenom: `uatom`,
           $store,
           sendTx
         },
-        `ledger`, ``
+        gas, gasPrice, ``, `ledger`
       )
 
       expect(sendTx).toHaveBeenCalledWith(
@@ -135,6 +139,8 @@ describe(`SendModal`, () => {
           type: `send`,
           to: `cosmos1address`,
           amount: [{ amount: `10000000`, denom: `uatom` }],
+          gas,
+          gas_prices,
           submitType: `ledger`,
           password: ``
         }

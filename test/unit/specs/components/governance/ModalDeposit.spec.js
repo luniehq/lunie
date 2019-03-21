@@ -108,9 +108,13 @@ describe(`ModalDeposit`, () => {
         commit: jest.fn()
       }
 
+      const gas = `1234567`
+      const gasPrice = 2.5e-8
+      const gas_prices = [{ denom: `uatom`, amount: `0.025` }]
+
       await ModalDeposit.methods.submitForm.call(
-        { type: `Text`, denom: `uatom`, proposalId: `1`, amount: 10, $store },
-        `ledger`, ``
+        { type: `Text`, denom: `uatom`, bondDenom: `uatom`, proposalId: `1`, amount: 10, $store },
+        gas, gasPrice, ``, `ledger`
       )
 
       expect($store.dispatch).toHaveBeenCalledWith(`submitDeposit`,
@@ -122,6 +126,8 @@ describe(`ModalDeposit`, () => {
             }
           ],
           proposal_id: `1`,
+          gas,
+          gas_prices,
           password: ``,
           submitType: `ledger`
         }
