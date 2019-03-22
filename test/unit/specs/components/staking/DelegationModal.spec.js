@@ -99,23 +99,24 @@ describe(`DelegationModal`, () => {
 
   describe(`simulateForm`, () => {
     let session, simulateDelegation, simulateRedelegation
+    const estimate = { gas_estimate: `1234567` }
     beforeEach(() => {
       session = { address: `cosmos1address` }
-      simulateDelegation = jest.fn()
-      simulateRedelegation = jest.fn()
+      simulateDelegation = jest.fn(() => estimate)
+      simulateRedelegation = jest.fn(() => estimate)
     })
 
     it(`should simulate a delegation transaction`, async () => {
       const from = `cosmos1address`
 
-      await DelegationModal.methods.simulateForm.call(
+      expect(await DelegationModal.methods.simulateForm.call(
         {
           session,
           from,
           simulateDelegation,
           simulateRedelegation
         }
-      )
+      )).toMatchObject(estimate)
       expect(simulateDelegation).toHaveBeenCalledWith()
       expect(simulateRedelegation).not.toHaveBeenCalledWith()
     })
@@ -123,14 +124,14 @@ describe(`DelegationModal`, () => {
     it(`should simulate a redelegation transaction`, async () => {
       const from = `cosmosvaloper1address`
 
-      await DelegationModal.methods.simulateForm.call(
+      expect(await DelegationModal.methods.simulateForm.call(
         {
           session,
           from,
           simulateDelegation,
           simulateRedelegation
         }
-      )
+      )).toMatchObject(estimate)
       expect(simulateDelegation).not.toHaveBeenCalledWith()
       expect(simulateRedelegation).toHaveBeenCalledWith()
     })
@@ -185,13 +186,13 @@ describe(`DelegationModal`, () => {
       const validator = { operator_address: `cosmosvaloper1address` }
       const amount = 50
       const $store = { dispatch: jest.fn(() => estimate) }
-      const res = await DelegationModal.methods.simulateDelegation.call(
+      expect(await DelegationModal.methods.simulateDelegation.call(
         {
           $store,
           amount,
           validator
         }
-      )
+      )).toMatchObject(estimate)
 
       expect($store.dispatch).toHaveBeenCalledWith(`simulateDelegation`,
         {
@@ -199,7 +200,6 @@ describe(`DelegationModal`, () => {
           validator_address: validator.operator_address
         }
       )
-      expect(res).toMatchObject(estimate)
     })
   })
 
@@ -254,7 +254,7 @@ describe(`DelegationModal`, () => {
       const from = `cosmosvaloper1address2`
       const amount = 50
       const $store = { dispatch: jest.fn(() => estimate) }
-      const res = await DelegationModal.methods.simulateRedelegation.call(
+      expect(await DelegationModal.methods.simulateRedelegation.call(
         {
           $store,
           from,
@@ -262,7 +262,7 @@ describe(`DelegationModal`, () => {
           amount,
           validator
         }
-      )
+      )).toMatchObject(estimate)
 
       expect($store.dispatch).toHaveBeenCalledWith(`simulateRedelegation`,
         {
@@ -271,7 +271,6 @@ describe(`DelegationModal`, () => {
           validatorDst: validator
         }
       )
-      expect(res).toMatchObject(estimate)
     })
   })
 
