@@ -1,11 +1,15 @@
 "use strict"
 
-import setup from "../../../helpers/vuex-setup"
+import Vuelidate from "vuelidate"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
 import ModalPropose from "renderer/components/governance/ModalPropose"
 
 describe(`ModalPropose`, () => {
-  let wrapper, store
-  const { mount } = setup()
+  let wrapper, $store
+
+  const localVue = createLocalVue()
+  localVue.use(Vuelidate)
+  localVue.directive(`focus`, () => { })
 
   const inputs = {
     amount: 15,
@@ -14,65 +18,56 @@ describe(`ModalPropose`, () => {
   }
 
   beforeEach(async () => {
-    const coins = [
-      {
-        amount: `200000000`,
-        denom: `stake`
-      }
-    ]
-    const instance = mount(ModalPropose, {
+
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: {
+        session: { signedIn: true },
+        connection: { connected: true },
+        liquidAtoms: 200000000,
+        wallet: {
+          balances: [
+            { denom: `uatom`, amount: `20000000` }
+          ],
+          loading: false
+        }
+      },
+    }
+    wrapper = shallowMount(ModalPropose, {
+      localVue,
+      mocks: {
+        $store
+      },
       propsData: {
-        denom: `stake`
+        denom: `uatom`
       },
       sync: false
     })
-    wrapper = instance.wrapper
-    store = instance.store
-    store.state.connection.connected = true
-    store.commit(`setWalletBalances`, coins)
-    store.commit(`setSignIn`, true)
-
-    await wrapper.vm.$nextTick()
-    wrapper.vm.$refs.actionModal.open()
   })
 
-  describe(`component matches snapshot`, () => {
-    it(`has the expected html structure`, async () => {
-      expect(wrapper.vm.$el).toMatchSnapshot()
-    })
+  it(`should display proposal modal form`, () => {
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`opens`, () => {
-    wrapper.vm.$refs.actionModal.open = jest.fn()
-    wrapper.vm.open()
-    expect(wrapper.vm.$refs.actionModal.open).toHaveBeenCalled()
+    const $refs = { actionModal: { open: jest.fn() } }
+    ModalPropose.methods.open.call({ $refs })
+    expect($refs.actionModal.open).toHaveBeenCalled()
   })
 
   it(`clears on close`, () => {
-    wrapper.setData({ title: `test`, description: `test`, amount: 100000000 })
-    // produce validation error as amount is too high
-    wrapper.vm.$v.$touch()
-    expect(wrapper.vm.$v.$error).toBe(true)
-
-    wrapper.vm.clear()
-    expect(wrapper.vm.$v.$error).toBe(false)
-    expect(wrapper.vm.title).toBe(``)
-    expect(wrapper.vm.description).toBe(``)
-    expect(wrapper.vm.amount).toBe(0)
-  })
-
-  describe(`default values are set correctly`, () => {
-    it(`the proposal type defaults to 'Text'`, () => {
-      expect(wrapper.vm.type).toEqual(`Text`)
-    })
-
-    it(`the proposal title defaults to the empty string`, () => {
-      expect(wrapper.vm.title).toEqual(``)
-    })
-
-    it(`the proposal type defaults to the empty string`, () => {
-      expect(wrapper.vm.description).toEqual(``)
-    })
+    const self = {
+      $v: { $reset: jest.fn() },
+      title: `title`,
+      description: `description`,
+      amount: 10
+    }
+    ModalPropose.methods.clear.call(self)
+    expect(self.$v.$reset).toHaveBeenCalled()
+    expect(self.title).toBe(``)
+    expect(self.description).toBe(``)
+    expect(self.amount).toBe(0)
   })
 
   describe(`validation`, () => {
@@ -82,13 +77,9 @@ describe(`ModalPropose`, () => {
       })
 
       it(`if the amount for initial deposit is higher than the user's balance`, async () => {
-        wrapper.setData(inputs)
         wrapper.setData({ amount: 250 })
         await wrapper.vm.$nextTick()
         expect(wrapper.vm.validateForm()).toBe(false)
-        await wrapper.vm.$nextTick()
-        const errorMessage = wrapper.find(`input#amount + div`)
-        expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
       })
 
       it(`if the user doesn't have the deposit coin`, async () => {
@@ -98,8 +89,8 @@ describe(`ModalPropose`, () => {
             denom: `otherCoin`
           }
         ]
+        wrapper.vm.wallet.balances = otherCoins
         wrapper.setData(inputs)
-        store.commit(`setWalletBalances`, otherCoins)
         wrapper.setData({ amount: 25 })
         await wrapper.vm.$nextTick()
         expect(wrapper.vm.validateForm()).toBe(false)
@@ -120,18 +111,12 @@ describe(`ModalPropose`, () => {
         wrapper.setData({ title: `x`.repeat(65) })
         await wrapper.vm.$nextTick()
         expect(wrapper.vm.validateForm()).toBe(false)
-        await wrapper.vm.$nextTick()
-        const errorMessage = wrapper.find(`input#title + div`)
-        expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
       })
 
       it(`if description is too long disable submit button and show error message`, async () => {
         wrapper.setData({ description: `x`.repeat(201) })
         await wrapper.vm.$nextTick()
         expect(wrapper.vm.validateForm()).toBe(false)
-        await wrapper.vm.$nextTick()
-        const errorMessage = wrapper.find(`textarea#description + div`)
-        expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
       })
 
       it(`if proposal type is invalid`, () => {
@@ -143,43 +128,43 @@ describe(`ModalPropose`, () => {
 
     describe(`successful`, () => {
       it(`if the user has enough balance and the fields are within the length ranges`, async () => {
+        wrapper.vm.wallet.balances = [{ denom: `uatom`, amount: `20000000` }]
         wrapper.setData(inputs)
+        await wrapper.vm.$nextTick()
         expect(wrapper.vm.validateForm()).toBe(true)
       })
     })
   })
 
-  describe(`Propose`, () => {
+  describe(`submitForm`, () => {
     it(`submits a proposal`, async () => {
-      wrapper.vm.$store.dispatch = jest.fn()
-      wrapper.vm.$store.commit = jest.fn()
+      const $store = {
+        dispatch: jest.fn(),
+        commit: jest.fn()
+      }
 
-      wrapper.setData(inputs)
-      await wrapper.vm.submitForm(`local`, `1234567890`)
+      await ModalPropose.methods.submitForm.call(
+        { ...inputs, type: `Text`, denom: `uatom`, $store },
+        `ledger`, ``
+      )
 
-      expect(wrapper.vm.$store.dispatch.mock.calls).toEqual([
-        [
-          `submitProposal`,
-          {
-            description: `a valid description for the proposal`,
-            initial_deposit: [{ amount: `15000000`, denom: `stake` }],
-            title: `A new text proposal for Cosmos`,
-            type: `Text`,
-            password: `1234567890`,
-            submitType: `local`
-          }
-        ]
-      ])
+      expect($store.dispatch).toHaveBeenCalledWith(`submitProposal`,
+        {
+          description: `a valid description for the proposal`,
+          initial_deposit: [{ amount: `15000000`, denom: `uatom` }],
+          title: `A new text proposal for Cosmos`,
+          type: `Text`,
+          submitType: `ledger`,
+          password: ``
+        }
+      )
 
-      expect(wrapper.vm.$store.commit.mock.calls).toEqual([
-        [
-          `notify`,
-          {
-            body: `You have successfully submitted a new text proposal`,
-            title: `Successful proposal submission!`
-          }
-        ]
-      ])
+      expect($store.commit).toHaveBeenCalledWith(`notify`,
+        {
+          body: `You have successfully submitted a new text proposal`,
+          title: `Successful proposal submission!`
+        }
+      )
     })
   })
 })

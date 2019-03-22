@@ -13,7 +13,7 @@
         <h2>{{ unbondedAtoms }}</h2>
       </div>
       <div v-if="rewards" class="top-section">
-        <h3>Total Rewards</h3>
+        <h3>Pending Rewards</h3>
         <h2>{{ rewards }}</h2>
         <tm-btn
           id="withdraw-btn"
