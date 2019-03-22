@@ -183,7 +183,7 @@ describe(`TabValidators`, () => {
           { $store, yourValidators },
           newHeader)
         expect($store.dispatch).not.toHaveBeenCalledWith(
-          `getRewardsFromAllValidators`,
+          `getRewardsFromMyValidators`,
           yourValidators
         )
       })
@@ -196,7 +196,7 @@ describe(`TabValidators`, () => {
           { $store, yourValidators },
           newHeader)
         expect($store.dispatch).not.toHaveBeenCalledWith(
-          `getRewardsFromAllValidators`,
+          `getRewardsFromMyValidators`,
           yourValidators
         )
       })
@@ -210,7 +210,7 @@ describe(`TabValidators`, () => {
             { $store, yourValidators },
             newHeader)
           expect($store.dispatch).toHaveBeenCalledWith(
-            `getRewardsFromAllValidators`,
+            `getRewardsFromMyValidators`,
             yourValidators
           )
         })

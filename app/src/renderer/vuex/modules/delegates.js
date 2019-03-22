@@ -11,7 +11,8 @@ export default ({ node }) => {
     globalPower: null,
     loading: false,
     loaded: false,
-    error: null
+    error: null,
+    lastDelegatesUpdate: 0
   }
   const state = JSON.parse(JSON.stringify(emptyState))
 
@@ -58,16 +59,28 @@ export default ({ node }) => {
     resetSessionData({ rootState }) {
       rootState.delegates = JSON.parse(JSON.stringify(emptyState))
     },
-    async updateSigningInfo({ commit }, validators) {
-      for (const validator of validators) {
-        if (validator.consensus_pubkey) {
-          const signing_info = await node.getValidatorSigningInfo(
-            validator.consensus_pubkey
-          )
-          if (!isEmpty(signing_info)) validator.signing_info = signing_info
+    async updateSigningInfo(
+      {
+        commit,
+        getters: { lastHeader }
+      },
+      validators
+    ) {
+      // throttle the update for validators for every 10 blocks
+      const waited10Blocks =
+        Number(lastHeader.height) - state.lastDelegatesUpdate > 10
+      if (state.lastDelegatesUpdate === 0 || waited10Blocks) {
+        state.lastDelegatesUpdate = Number(lastHeader.height)
+        for (const validator of validators) {
+          if (validator.consensus_pubkey) {
+            const signing_info = await node.getValidatorSigningInfo(
+              validator.consensus_pubkey
+            )
+            if (!isEmpty(signing_info)) validator.signing_info = signing_info
+          }
         }
+        commit(`setDelegates`, validators)
       }
-      commit(`setDelegates`, validators)
     },
     async getDelegates({ state, commit, dispatch, rootState }) {
       commit(`setDelegateLoading`, true)

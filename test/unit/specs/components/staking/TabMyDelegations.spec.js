@@ -166,7 +166,7 @@ describe(`Component: TabMyDelegations`, () => {
             { $store, yourValidators },
             newHeader)
           expect($store.dispatch).not.toHaveBeenCalledWith(
-            `getRewardsFromAllValidators`,
+            `getRewardsFromMyValidators`,
             yourValidators
           )
         })
@@ -179,7 +179,7 @@ describe(`Component: TabMyDelegations`, () => {
             { $store, yourValidators },
             newHeader)
           expect($store.dispatch).not.toHaveBeenCalledWith(
-            `getRewardsFromAllValidators`,
+            `getRewardsFromMyValidators`,
             yourValidators
           )
         })
@@ -193,7 +193,7 @@ describe(`Component: TabMyDelegations`, () => {
               { $store, yourValidators },
               newHeader)
             expect($store.dispatch).toHaveBeenCalledWith(
-              `getRewardsFromAllValidators`,
+              `getRewardsFromMyValidators`,
               yourValidators
             )
           })

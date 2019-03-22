@@ -45,7 +45,8 @@ export default {
   },
   data() {
     return {
-      num
+      num,
+      lastUpdate: 0
     }
   },
   computed: {
@@ -85,8 +86,11 @@ export default {
     lastHeader: {
       immediate: true,
       handler(newHeader) {
-        const waitTenBlocks = Number(newHeader.height) % 10 === 0
-        if (this.session.signedIn && waitTenBlocks) {
+        const height = Number(newHeader.height)
+        // run the update queries the first time and after every 10 blocks
+        const waitedTenBlocks = height - this.lastUpdate > 10
+        if (this.session.signedIn && (height === 0 || waitedTenBlocks)) {
+          this.lastUpdate = height
           this.$store.dispatch(`getTotalRewards`)
           this.$store.dispatch(`queryWalletBalances`)
         }

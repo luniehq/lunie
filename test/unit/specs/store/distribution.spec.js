@@ -139,13 +139,13 @@ describe(`Module: Fee Distribution`, () => {
       })
     })
 
-    describe(`getRewardsFromAllValidators`, () => {
+    describe(`getRewardsFromMyValidators`, () => {
       it(`success`, async () => {
         const validators = [
           { operator_address: `cosmosvaloper1address1` },
           { operator_address: `cosmosvaloper1address2` },
         ]
-        await actions.getRewardsFromAllValidators(
+        await actions.getRewardsFromMyValidators(
           { state, dispatch },
           validators
         )
@@ -166,7 +166,7 @@ describe(`Module: Fee Distribution`, () => {
           { operator_address: `cosmosvaloper1address2` },
         ]
         dispatch = jest.fn(async () => Promise.reject(Error(`invalid address`)))
-        await expect(actions.getRewardsFromAllValidators(
+        await expect(actions.getRewardsFromMyValidators(
           { state, dispatch },
           validators)
         ).rejects.toThrowError(`invalid address`)
