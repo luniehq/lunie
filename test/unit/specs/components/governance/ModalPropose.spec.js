@@ -136,6 +136,31 @@ describe(`ModalPropose`, () => {
     })
   })
 
+  describe(`simulateForm`, () => {
+    it(`should simulate transaction to estimate gas used`, async () => {
+      const estimate = { gas_estimate: `1234567` }
+      const $store = { dispatch: jest.fn(() => estimate) }
+      const res = await ModalPropose.methods.simulateForm.call(
+        {
+          $store,
+          type: `Text`,
+          denom: `uatom`,
+          ...inputs
+        }
+      )
+
+      expect($store.dispatch).toHaveBeenCalledWith(`simulateProposal`,
+        {
+          description: `a valid description for the proposal`,
+          initial_deposit: [{ amount: `15000000`, denom: `uatom` }],
+          title: `A new text proposal for Cosmos`,
+          type: `Text`,
+        }
+      )
+      expect(res).toMatchObject(estimate)
+    })
+  })
+
   describe(`submitForm`, () => {
     it(`submits a proposal`, async () => {
       const $store = {

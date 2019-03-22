@@ -114,6 +114,30 @@ describe(`SendModal`, () => {
     })
   })
 
+  describe(`simulateForm`, () => {
+    it(`should simulate transaction to estimate gas used`, async () => {
+      const estimate = { gas_estimate: `1234567` }
+      const $store = { dispatch: jest.fn(() => estimate) }
+      const res = await SendModal.methods.simulateForm.call(
+        {
+          $store,
+          amount: 10,
+          address: `cosmos1address`,
+          denom: `uatom`,
+        }
+      )
+
+      expect($store.dispatch).toHaveBeenCalledWith(`simulateTx`,
+        {
+          type: `send`,
+          to: `cosmos1address`,
+          amount: [{ amount: `10000000`, denom: `uatom` }]
+        }
+      )
+      expect(res).toMatchObject(estimate)
+    })
+  })
+
   describe(`submitForm`, () => {
     it(`submits a transfer transaction`, async () => {
       const $store = { commit: jest.fn() }

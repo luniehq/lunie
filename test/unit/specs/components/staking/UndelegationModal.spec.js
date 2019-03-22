@@ -79,15 +79,36 @@ describe(`UndelegationModal`, () => {
     })
   })
 
+  describe(`simulateForm`, () => {
+    it(`should simulate transaction to estimate gas used`, async () => {
+      const estimate = { gas_estimate: `1234567` }
+      const validator = { operator_address: `cosmosvaloper1address` }
+      const $store = { dispatch: jest.fn(() => estimate) }
+      const res = await UndelegationModal.methods.simulateForm.call(
+        {
+          $store,
+          amount: 4.2,
+          validator
+        }
+      )
+
+      expect($store.dispatch).toHaveBeenCalledWith(`simulateUnbondingDelegation`,
+        {
+          amount: -4200000,
+          validator
+        }
+      )
+      expect(res).toMatchObject(estimate)
+    })
+  })
+
   describe(`submitForm`, () => {
     it(`submits undelegation`, async () => {
       const $store = {
         dispatch: jest.fn(),
         commit: jest.fn()
       }
-      const validator = {
-        operator_address: `cosmosvaloper1address`,
-      }
+      const validator = { operator_address: `cosmosvaloper1address` }
       const gas = `1234567`
       const gasPrice = 2.5e-8
       const gas_prices = [{ denom: `uatom`, amount: `0.025` }]

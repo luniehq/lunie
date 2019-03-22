@@ -101,6 +101,33 @@ describe(`ModalDeposit`, () => {
   })
 
   describe(`Deposit`, () => {
+
+    it(`should simulate transaction to estimate gas used`, async () => {
+      const estimate = { gas_estimate: `1234567` }
+      const $store = { dispatch: jest.fn(() => estimate) }
+      const res = await ModalDeposit.methods.simulateForm.call(
+        {
+          $store,
+          type: `Text`,
+          denom: `uatom`,
+          amount: 10,
+          proposalId: `1`
+        }
+      )
+
+      expect($store.dispatch).toHaveBeenCalledWith(`simulateDeposit`,
+        {
+          amount: [
+            {
+              amount: `10000000`,
+              denom: `uatom`
+            }
+          ],
+          proposal_id: `1`,
+        }
+      )
+      expect(res).toMatchObject(estimate)
+    })
     it(`submits a deposit`, async () => {
 
       const $store = {
@@ -113,7 +140,7 @@ describe(`ModalDeposit`, () => {
       const gas_prices = [{ denom: `uatom`, amount: `0.025` }]
 
       await ModalDeposit.methods.submitForm.call(
-        { type: `Text`, denom: `uatom`, bondDenom: `uatom`, proposalId: `1`, amount: 10, $store },
+        { denom: `uatom`, bondDenom: `uatom`, proposalId: `1`, amount: 10, $store },
         gas, gasPrice, ``, `ledger`
       )
 
