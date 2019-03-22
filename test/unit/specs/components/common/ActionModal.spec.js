@@ -82,7 +82,9 @@ describe(`ActionModal`, () => {
           expect(wrapper.vm.$el).toMatchSnapshot()
         })
       })
+
     })
+
     it(`when user hasn't logged in`, async () => {
       wrapper.vm.session.signedIn = false
       await wrapper.vm.$nextTick()
@@ -129,12 +131,96 @@ describe(`ActionModal`, () => {
       wrapper.vm.close()
       expect(wrapper.vm.password).toBeNull()
     })
+
+    it(`should set the step to transaction details`, () => {
+      wrapper.vm.step = `sign`
+      wrapper.vm.close()
+      expect(wrapper.vm.step).toBe(`txDetails`)
+    })
   })
 
-  it(`should set the step to transaction details`, () => {
-    wrapper.vm.step = `sign`
-    wrapper.vm.close()
-    expect(wrapper.vm.step).toBe(`txDetails`)
+  describe(`gets bondDenom balance`, () => {
+    it(`returns 0 if wallet is loading`, () => {
+      const self = {
+        wallet: { loading: true }
+      }
+      const balance = ActionModal.computed.balance.call(self)
+      expect(balance).toBe(0)
+    })
+
+    it(`returns 0 if wallet doesn't have the bond denom`, () => {
+      const self = {
+        wallet: {
+          loading: false,
+          balances: [{ denom: `photon`, amount: `10` }]
+        },
+        bondDenom: `uatom`
+      }
+      const balance = ActionModal.computed.balance.call(self)
+      expect(balance).toBe(0)
+    })
+
+    it(`returns balance if wallet has the bond denom`, () => {
+      const self = {
+        wallet: {
+          loading: false,
+          balances: [{ denom: `uatom`, amount: `10` }]
+        },
+        bondDenom: `uatom`
+      }
+      const balance = ActionModal.computed.balance.call(self)
+      expect(balance).toBe(10)
+    })
+  })
+
+  describe(`validates child form`, () => {
+    it(`default`, () => {
+      const isValid = ActionModal.computed.isValidChildForm.call({})
+      expect(isValid).toBe(true)
+    })
+
+    it(`when validation function is present`, () => {
+      const self = {
+        validate: jest.fn(() => true)
+      }
+      const isValid = ActionModal.computed.isValidChildForm.call(self)
+      expect(isValid).toBe(true)
+      expect(self.validate).toHaveBeenCalled()
+    })
+  })
+
+  describe(`simulate`, () => {
+    it(`should simulate transaction to get estimated gas`, async () => {
+      const self = {
+        step: `txDetails`,
+        gasEstimate: null,
+        simulateFn: jest.fn(() => 123456),
+        submissionError: null,
+        submissionErrorPrefix: null
+      }
+      await ActionModal.methods.simulate.call(self)
+      expect(self.gasEstimate).toBe(123456)
+      expect(self.step).toBe(`fees`)
+      expect(self.submissionError).toBeNull()
+    })
+
+    it(`should fail simulation if request fails`, async () => {
+      const self = {
+        step: `txDetails`,
+        gasEstimate: null,
+        simulateFn: jest.fn(() => Promise.reject(Error(`invalid request`))),
+        submissionError: null,
+        submissionErrorPrefix: `Error`
+      }
+      jest.useFakeTimers()
+      await ActionModal.methods.simulate.call(self)
+      expect(self.gasEstimate).toBe(null)
+      expect(self.step).toBe(`txDetails`)
+      expect(self.submissionError).toBe(`Error: invalid request.`)
+
+      jest.runAllTimers()
+      expect(self.submissionError).toBeNull()
+    })
   })
 
   it(`should set the submissionError if the submission is rejected`, async () => {
@@ -202,6 +288,20 @@ describe(`ActionModal`, () => {
     })
 
     describe(`on fees step`, () => {
+      beforeEach(() => {
+        self.step = `fees`
+      })
+
+      it(`success`, async () => {
+        await ActionModal.methods.validateChangeStep.call(self)
+        expect(self.step).toBe(`sign`)
+      })
+
+      it(`fails if gas price is invalid`, async () => {
+        self.$v.$invalid = true
+        await ActionModal.methods.validateChangeStep.call(self)
+        expect(self.step).toBe(`fees`)
+      })
 
     })
 
