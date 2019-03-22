@@ -103,7 +103,7 @@ describe(`ModalDeposit`, () => {
   describe(`Deposit`, () => {
 
     it(`should simulate transaction to estimate gas used`, async () => {
-      const estimate = { gas_estimate: `1234567` }
+      const estimate = 1234567
       const $store = { dispatch: jest.fn(() => estimate) }
       const res = await ModalDeposit.methods.simulateForm.call(
         {
@@ -126,7 +126,7 @@ describe(`ModalDeposit`, () => {
           proposal_id: `1`,
         }
       )
-      expect(res).toMatchObject(estimate)
+      expect(res).toBe(estimate)
     })
     it(`submits a deposit`, async () => {
 

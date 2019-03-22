@@ -99,7 +99,7 @@ describe(`ModalVote`, () => {
   describe(`Vote`, () => {
 
     it(`should simulate transaction to estimate gas used`, async () => {
-      const estimate = { gas_estimate: `1234567` }
+      const estimate = 1234567
       const $store = { dispatch: jest.fn(() => estimate) }
       const res = await ModalVote.methods.simulateForm.call(
         {
@@ -115,7 +115,7 @@ describe(`ModalVote`, () => {
           proposal_id: `1`
         }
       )
-      expect(res).toMatchObject(estimate)
+      expect(res).toBe(estimate)
     })
     it(`submits a vote on a proposal`, async () => {
       const $store = {

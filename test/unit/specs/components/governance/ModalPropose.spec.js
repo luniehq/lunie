@@ -138,7 +138,7 @@ describe(`ModalPropose`, () => {
 
   describe(`simulateForm`, () => {
     it(`should simulate transaction to estimate gas used`, async () => {
-      const estimate = { gas_estimate: `1234567` }
+      const estimate = 1234567
       const $store = { dispatch: jest.fn(() => estimate) }
       const res = await ModalPropose.methods.simulateForm.call(
         {
@@ -157,7 +157,7 @@ describe(`ModalPropose`, () => {
           type: `Text`,
         }
       )
-      expect(res).toMatchObject(estimate)
+      expect(res).toBe(estimate)
     })
   })
 

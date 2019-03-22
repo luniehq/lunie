@@ -118,6 +118,46 @@ describe(`Module: Send`, () => {
       expect(state.nonce).toBe(`0`)
     })
 
+    describe(`simulate transactions`, () => {
+      describe(`succeeds`, () => {
+        it(`if node is connected`, async () => {
+          const self = {
+            state,
+            dispatch: jest.fn(),
+            rootState: mockRootState
+          }
+          const args = {
+            type: `send`,
+            amount: [{ denom: `uatom`, amount: 123 }]
+          }
+          const estimate = await actions.simulateTx(self, args)
+          expect(estimate).toBe(123123)
+        })
+      })
+
+      describe(`fails`, () => {
+        it(`when there's no connection`, async () => {
+          const self = {
+            state,
+            dispatch: jest.fn(),
+            rootState: JSON.parse(JSON.stringify(mockRootState))
+          }
+          const args = {
+            type: `send`,
+            amount: [{ denom: `uatom`, amount: 123 }]
+          }
+          self.rootState.connection.connected = false
+          try {
+            await actions.simulateTx(self, args)
+          } catch ({ message }) {
+            expect(message).toBe(
+              `Currently not connected to a secure node. Please try again when Voyager has secured a connection.`
+            )
+          }
+        })
+      })
+    })
+
     describe(`send transactions`, () => {
       describe(`succeeds`, () => {
         describe(`signing with local keystore`, () => {

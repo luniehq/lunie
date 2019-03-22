@@ -37,14 +37,14 @@ describe(`ModalWithdrawAllRewards`, () => {
   describe(`Withdraw`, () => {
 
     it(`should simulate transaction to estimate gas used`, async () => {
-      const estimate = { gas_estimate: `1234567` }
+      const estimate = 1234567
       const $store = { dispatch: jest.fn(() => estimate) }
       const res = await ModalWithdrawAllRewards.methods.simulateForm.call(
         { $store }
       )
 
       expect($store.dispatch).toHaveBeenCalledWith(`simulateWithdrawAllRewards`)
-      expect(res).toMatchObject(estimate)
+      expect(res).toBe(estimate)
     })
     it(`submits withdrawal`, async () => {
       const $store = {
