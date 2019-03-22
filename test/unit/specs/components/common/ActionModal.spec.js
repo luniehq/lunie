@@ -139,7 +139,7 @@ describe(`ActionModal`, () => {
     })
   })
 
-  describe(`gets bondDenom balance`, () => {
+  describe(`gets balance`, () => {
     it(`returns 0 if wallet is loading`, () => {
       const self = {
         wallet: { loading: true }
@@ -186,6 +186,49 @@ describe(`ActionModal`, () => {
       const isValid = ActionModal.computed.isValidChildForm.call(self)
       expect(isValid).toBe(true)
       expect(self.validate).toHaveBeenCalled()
+    })
+  })
+
+  describe(`validates password and gas price`, () => {
+
+    describe(`success`, () => {
+      it(`when password is required`, () => {
+        wrapper.vm.step = `sign`
+        wrapper.vm.session.sessionType = `localKeystore`
+        wrapper.setData({ password: `1234567890` })
+        expect(wrapper.vm.isValidInput(`password`)).toBe(true)
+      })
+
+      it(`when gas price is set on dev mode session`, () => {
+        wrapper.vm.step = `fees`
+        wrapper.vm.session.experimentalMode = true
+        wrapper.setData({ gasPrice: 2.5e-8 })
+        expect(wrapper.vm.isValidInput(`gasPrice`)).toBe(true)
+      })
+
+    })
+
+    describe(`fails`, () => {
+      it(`if password is undefined`, () => {
+        wrapper.vm.step = `sign`
+        wrapper.vm.session.sessionType = `localKeystore`
+        wrapper.setData({ password: undefined })
+        expect(wrapper.vm.isValidInput(`password`)).toBe(false)
+      })
+
+      it(`if gas price is out of range`, () => {
+        wrapper.vm.step = `fees`
+        wrapper.vm.session.experimentalMode = true
+        wrapper.setData({ gasPrice: 1500000 })
+        expect(wrapper.vm.isValidInput(`gasPrice`)).toBe(false)
+      })
+
+      it(`if gas price is undefined`, () => {
+        wrapper.vm.step = `fees`
+        wrapper.vm.session.experimentalMode = true
+        wrapper.setData({ gasPrice: undefined })
+        expect(wrapper.vm.isValidInput(`gasPrice`)).toBe(false)
+      })
     })
   })
 
@@ -256,15 +299,7 @@ describe(`ActionModal`, () => {
         submit: jest.fn(),
         simulate: jest.fn(),
         isValidChildForm: true,
-        $v: {
-          gasPrice: {
-            $touch: () => { }
-          },
-          password: {
-            $touch: () => { }
-          },
-          $invalid: false
-        },
+        isValidInput: jest.fn(() => true),
         selectedSignMethod: `local`,
         step: `txDetails`
       }
@@ -298,7 +333,7 @@ describe(`ActionModal`, () => {
       })
 
       it(`fails if gas price is invalid`, async () => {
-        self.$v.$invalid = true
+        self.isValidInput = jest.fn(() => false)
         await ActionModal.methods.validateChangeStep.call(self)
         expect(self.step).toBe(`fees`)
       })
@@ -318,7 +353,7 @@ describe(`ActionModal`, () => {
 
       it(`fails validation if the password is missing`, async () => {
         self.password = null
-        self.$v.$invalid = true
+        self.isValidInput = jest.fn(() => false)
         await ActionModal.methods.validateChangeStep.call(self)
         expect(self.submit).not.toHaveBeenCalled()
       })
@@ -332,9 +367,16 @@ describe(`ActionModal`, () => {
       })
 
       it(`doesn't submit on failed validation`, async () => {
-        self.$v.$invalid = true
+        self.isValidInput = jest.fn(() => false)
         await ActionModal.methods.validateChangeStep.call(self)
         expect(self.submit).not.toHaveBeenCalled()
+      })
+    })
+
+    describe(`invalid step`, () => {
+      it(`does anything`, async () => {
+        self.step = `other`
+        await ActionModal.methods.validateChangeStep.call(self)
       })
     })
   })
@@ -351,21 +393,14 @@ describe(`ActionModal`, () => {
         ),
         simulate: jest.fn(),
         isValidChildForm: true,
-        $v: {
-          gasPrice: {
-            $touch: () => { }
-          },
-          password: {
-            $touch: () => { }
-          },
-          $invalid: false
-        },
+        isValidInput: jest.fn(() => true),
         selectedSignMethod: `local`,
         step: `txDetails`
       }
     })
 
     it(`when signing with local keystore`, done => {
+      jest.useFakeTimers()
       self.isValidChildForm = true
       ActionModal.methods.validateChangeStep.call(self).then(() => {
         expect(self.sending).toBe(false)
@@ -378,6 +413,7 @@ describe(`ActionModal`, () => {
     it(`when signing with ledger`, done => {
       self.session.sessionType = `ledger`
       self.step = `sign`
+      jest.useFakeTimers()
       ActionModal.methods.validateChangeStep.call(self).then(() => {
         expect(self.sending).toBe(false)
         done()

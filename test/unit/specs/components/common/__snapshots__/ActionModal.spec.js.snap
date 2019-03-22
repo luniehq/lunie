@@ -92,27 +92,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
   <div
     class="action-modal-form"
   >
-    <tm-form-group-stub
-      class="action-modal-group"
-      fieldid="gasPrice"
-      fieldlabel="Gas Price"
-    >
-      <span
-        class="input-suffix"
-      >
-        uatom
-      </span>
-       
-      <tm-field-stub
-        id="gas-price"
-        min="0"
-        step="0.000000001"
-        type="number"
-        value="0.000000025"
-      />
-       
-      <!---->
-    </tm-form-group-stub>
+    <!---->
      
     <table-invoice-stub
       amount="0"
@@ -299,27 +279,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
   <div
     class="action-modal-form"
   >
-    <tm-form-group-stub
-      class="action-modal-group"
-      fieldid="gasPrice"
-      fieldlabel="Gas Price"
-    >
-      <span
-        class="input-suffix"
-      >
-        uatom
-      </span>
-       
-      <tm-field-stub
-        id="gas-price"
-        min="0"
-        step="0.000000001"
-        type="number"
-        value="0.000000025"
-      />
-       
-      <!---->
-    </tm-form-group-stub>
+    <!---->
      
     <table-invoice-stub
       amount="0"

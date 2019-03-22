@@ -37,7 +37,7 @@
       </div>
       <div v-else-if="step === `fees`" class="action-modal-form">
         <tm-form-group
-          v-if="!session.experimentalMode"
+          v-if="session.experimentalMode"
           :error="$v.gasPrice.$error && $v.gasPrice.$invalid"
           class="action-modal-group"
           field-id="gasPrice"
@@ -305,6 +305,11 @@ export default {
       this.$store.commit(`setSessionModalView`, `welcome`)
       this.$store.commit(`toggleSessionModal`, true)
     },
+    isValidInput(property) {
+      this.$v[property].$touch()
+
+      return !this.$v[property].$invalid
+    },
     async validateChangeStep() {
       // An ActionModal is only the prototype of a parent modal
       switch (this.step) {
@@ -317,21 +322,21 @@ export default {
           this.sending = false
           return
         case feeStep:
-          this.$v.gasPrice.$touch()
-          if (this.$v.$invalid) {
+          if (!this.isValidInput(`gasPrice`)) {
             return
           }
           this.step = signStep
           return
         case signStep:
-          this.$v.password.$touch()
-          if (this.$v.$invalid) {
+          if (!this.isValidInput(`password`)) {
             return
           }
           // submit transaction
           this.sending = true
           await this.submit()
           this.sending = false
+          return
+        default:
           return
       }
     },
@@ -380,7 +385,7 @@ export default {
       },
       gasPrice: {
         required: requiredIf(
-          () => this.step === feeStep && !this.session.experimentalMode
+          () => this.step === feeStep && this.session.experimentalMode
         ),
         // we don't use SMALLEST as min gas price because it can be a fraction of uatom
         // min is 0 because we support sending 0 fees
