@@ -16,14 +16,14 @@ const mockRootState = {
 }
 
 describe(`Module: Proposals`, () => {
-  let proposalsModuleInstance
+  let module
 
   beforeEach(() => {
-    proposalsModuleInstance = proposalsModule({ node: {} })
+    module = proposalsModule({ node: {} })
   })
 
   it(`should query for proposals on reconnection if was loading before`, async () => {
-    const { actions } = proposalsModuleInstance
+    const { actions } = module
     const instance = {
       state: {
         loading: true
@@ -35,13 +35,13 @@ describe(`Module: Proposals`, () => {
   })
 
   it(`adds a proposal to state`, () => {
-    const { mutations, state } = proposalsModuleInstance
+    const { mutations, state } = module
     mutations.setProposal(state, proposals[`1`])
     expect(state.proposals[`1`]).toEqual(proposals[`1`])
   })
 
   it(`adds a tally result to a proposal already in state`, () => {
-    const { mutations, state } = proposalsModuleInstance
+    const { mutations, state } = module
     mutations.setProposal(state, proposals[`2`])
     mutations.setProposalTally(state, {
       proposal_id: `2`,
@@ -51,7 +51,7 @@ describe(`Module: Proposals`, () => {
   })
 
   it(`replaces existing proposal with same id`, () => {
-    const { mutations, state } = proposalsModuleInstance
+    const { mutations, state } = module
     mutations.setProposal(state, proposals[`1`])
     const newProposal = JSON.parse(JSON.stringify(proposals[`1`]))
     newProposal.final_tally_result = {
@@ -71,7 +71,7 @@ describe(`Module: Proposals`, () => {
 
   describe(`Fetches all proposal`, () => {
     it(`when the request is successful`, async () => {
-      proposalsModuleInstance = proposalsModule({
+      module = proposalsModule({
         node: {
           getProposals: () =>
             Promise.resolve(
@@ -83,7 +83,7 @@ describe(`Module: Proposals`, () => {
         }
       })
 
-      const { actions, state } = proposalsModuleInstance
+      const { actions, state } = module
       const commit = jest.fn()
 
       await actions.getProposals({
@@ -118,15 +118,15 @@ describe(`Module: Proposals`, () => {
     })
 
     it(`throws and stores error if the request fails`, async () => {
-      proposalsModuleInstance = proposalsModule({
+      module = proposalsModule({
         node: {
           getProposals: () => Promise.reject(new Error(`Error`))
         }
       })
-      const { actions, state } = proposalsModuleInstance
+      const { actions, state } = module
       await actions.getProposals({
         state,
-        commit: () => {},
+        commit: () => { },
         rootState: mockRootState
       })
       expect(state.error.message).toBe(`Error`)
@@ -135,7 +135,7 @@ describe(`Module: Proposals`, () => {
 
   describe(`Fetch a single proposal`, () => {
     it(`when the request is successful`, async () => {
-      proposalsModuleInstance = proposalsModule({
+      module = proposalsModule({
         node: {
           getProposal: proposal_id =>
             Promise.resolve({ value: proposals[proposal_id] }),
@@ -143,7 +143,7 @@ describe(`Module: Proposals`, () => {
         }
       })
 
-      const { actions, state } = proposalsModuleInstance
+      const { actions, state } = module
       const commit = jest.fn()
 
       // not on VotingPeriod
@@ -174,13 +174,13 @@ describe(`Module: Proposals`, () => {
     })
 
     it(`throws and stores error if the request fails`, async () => {
-      proposalsModuleInstance = proposalsModule({
+      module = proposalsModule({
         node: {
           getProposal: () => Promise.reject(new Error(`Error`))
         }
       })
 
-      const { actions, state } = proposalsModuleInstance
+      const { actions, state } = module
       const commit = jest.fn()
 
       await actions.getProposal(
@@ -191,8 +191,33 @@ describe(`Module: Proposals`, () => {
     })
   })
 
+  it(`should simulate a proposal transaction`, async () => {
+    const { actions } = module
+    const self = {
+      rootState: mockRootState,
+      dispatch: jest.fn(() => 123123)
+    }
+    const proposal = proposals[`1`]
+    const res = await actions.simulateProposal(self, {
+      type: proposal.proposal_type,
+      title: proposal.title,
+      description: proposal.description,
+      initial_deposit: proposal.initial_deposit
+    })
+
+    expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {
+      type: `postProposal`,
+      proposal_type: proposal.proposal_type,
+      title: proposal.title,
+      description: proposal.description,
+      initial_deposit: proposal.initial_deposit,
+      proposer: mockRootState.wallet.address
+    })
+    expect(res).toBe(123123)
+  })
+
   it(`submits a new proposal`, async () => {
-    const { actions } = proposalsModuleInstance
+    const { actions } = module
     jest.useFakeTimers()
 
     const dispatch = jest.fn()

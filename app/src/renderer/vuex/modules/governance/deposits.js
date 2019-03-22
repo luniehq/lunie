@@ -1,3 +1,4 @@
+
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
 
@@ -35,14 +36,14 @@ export default ({ node }) => {
       rootState: { wallet },
       dispatch
     },
-    { proposal_id, amount: deposit }
+    { proposal_id, amount }
     ) {
       return await dispatch(`simulateTx`, {
         type: `postProposalDeposit`,
         to: proposal_id,
         proposal_id,
         depositor: wallet.address,
-        amount: deposit
+        amount
       })
     },
     async submitDeposit(
@@ -51,14 +52,14 @@ export default ({ node }) => {
         dispatch,
         commit
       },
-      { proposal_id, amount: deposit, gas, gas_prices, password, submitType }
+      { proposal_id, amount, gas, gas_prices, password, submitType }
     ) {
       await dispatch(`sendTx`, {
         type: `postProposalDeposit`,
         to: proposal_id,
         proposal_id,
         depositor: wallet.address,
-        amount: deposit,
+        amount,
         gas,
         gas_prices,
         password,
@@ -66,7 +67,7 @@ export default ({ node }) => {
       })
 
       // optimistic update
-      deposit.forEach(({ amount, denom }) => {
+      amount.forEach(({ amount, denom }) => {
         const oldBalance = wallet.balances
           .find(balance => balance.denom === denom)
         commit(`updateWalletBalance`, {

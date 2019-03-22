@@ -124,7 +124,23 @@ describe(`Module: Fee Distribution`, () => {
     })
 
     describe(`withdrawAllRewards`, () => {
-      it(`success`, async () => {
+
+      it(`should simulate a withdrawal transaction`, async () => {
+        const { actions } = module
+        const self = {
+          rootState,
+          dispatch: jest.fn(() => 123123)
+        }
+        const res = await actions.simulateWithdrawAllRewards(self)
+
+        expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {
+          type: `postWithdrawDelegatorRewards`,
+          to: `cosmos1address`
+        })
+        expect(res).toBe(123123)
+      })
+
+      it(`success withdrawal`, async () => {
         await actions.withdrawAllRewards(
           { rootState, dispatch },
           { password: ``, submitType: `ledger` }
