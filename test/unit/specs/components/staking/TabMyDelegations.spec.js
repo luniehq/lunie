@@ -57,19 +57,16 @@ describe(`Component: TabMyDelegations`, () => {
 
     it(`should show unbonding validators and the current committed validator`, () => {
 
-      const unbondingTime = jest.fn(() => Date.now() + 10000)
       const time = new Date(Date.now()).toISOString()
+      const height = stakingTxs[3].height
+      const address = stakingTxs[3].tx.value.msg[0].value.validator_address
       const ubds = {
-        [stakingTxs[3].tx.value.msg[0].value.validator_address]: {
-          creation_height: `170`,
-          min_time: new Date(Date.now()).toISOString()
-        }
+        [address]: [{
+          creation_height: height,
+          completion_time: time
+        }]
       }
-      wrapper.setData({
-        unbondingTime,
-        time,
-        block: 500
-      })
+
       wrapper.vm.delegation.unbondingDelegations = ubds
       wrapper.vm.transactions.staking = [stakingTxs[3]]
 
@@ -112,10 +109,12 @@ describe(`Component: TabMyDelegations`, () => {
         TabMyDelegations.computed.unbondingTransactions({
           delegation: {
             unbondingDelegations: {
-              [address]: {
-                creation_height: `170`,
-                min_time: new Date().toISOString()
-              }
+              [address]: [
+                {
+                  creation_height: stakingTxs[3].height,
+                  completion_time: new Date().toISOString()
+                }
+              ]
             }
           },
           transactions: {
