@@ -12,13 +12,13 @@
     <tm-data-msg
       id="account_empty_msg"
       slot="no-data"
-      icon="help_outline"
+      icon="account_balance_wallet"
     >
       <div slot="title">
         Account empty
       </div>
       <div slot="subtitle">
-        This account doesn't have anything in it yet.
+        This account doesn't have anything in it&nbsp;yet.
       </div>
     </tm-data-msg>
     <template slot="managed-body">
@@ -60,19 +60,9 @@ export default {
     filteredBalances() {
       return orderBy(
         this.wallet.balances,
-        [`amount`, balance => balance.denom.toLowerCase()],
+        [`amount`, balance => num.viewDenom(balance.denom).toLowerCase()],
         [`desc`, `asc`]
       )
-    }
-  },
-  watch: {
-    lastHeader: {
-      immediate: true,
-      handler() {
-        if (this.session.signedIn) {
-          this.queryWalletBalances()
-        }
-      }
     }
   },
   async mounted() {

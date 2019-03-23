@@ -55,26 +55,26 @@ describe(`DelegationModal`, () => {
     })
   })
 
-  it(`should display the delegation modal`, async () => {
+  it(`should display the delegation modal form`, async () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`opens`, () => {
-    wrapper.vm.$refs.actionModal.open = jest.fn()
-    wrapper.vm.open()
-    expect(wrapper.vm.$refs.actionModal.open).toHaveBeenCalled()
+    const $refs = { actionModal: { open: jest.fn() } }
+    DelegationModal.methods.open.call({ $refs })
+    expect($refs.actionModal.open).toHaveBeenCalled()
   })
 
   it(`clears on close`, () => {
-    wrapper.setData({ selectedIndex: 1, amount: 100000000 })
-    // produce validation error as amount is too high
-    wrapper.vm.$v.$touch()
-    expect(wrapper.vm.$v.$error).toBe(true)
-
-    wrapper.vm.clear()
-    expect(wrapper.vm.$v.$error).toBe(false)
-    expect(wrapper.vm.selectedIndex).toBe(0)
-    expect(wrapper.vm.amount).toBe(null)
+    const self = {
+      $v: { $reset: jest.fn() },
+      selectedIndex: 1,
+      amount: 10
+    }
+    DelegationModal.methods.clear.call(self)
+    expect(self.$v.$reset).toHaveBeenCalled()
+    expect(self.selectedIndex).toBe(0)
+    expect(self.amount).toBeNull()
   })
 
   describe(`validation`, () => {
@@ -98,12 +98,8 @@ describe(`DelegationModal`, () => {
   })
 
   describe(`submitForm`, () => {
-    let $store, session, submitDelegation, submitRedelegation
+    let session, submitDelegation, submitRedelegation
     beforeEach(() => {
-      $store = {
-        dispatch: jest.fn(),
-        commit: jest.fn()
-      }
       session = { address: `cosmos1address` }
       submitDelegation = jest.fn()
       submitRedelegation = jest.fn()
@@ -114,8 +110,6 @@ describe(`DelegationModal`, () => {
 
       await DelegationModal.methods.submitForm.call(
         {
-          $store,
-          amount: 50,
           session,
           from,
           submitDelegation,
@@ -132,9 +126,6 @@ describe(`DelegationModal`, () => {
 
       await DelegationModal.methods.submitForm.call(
         {
-          $store,
-
-          amount: 50,
           session,
           from,
           submitDelegation,

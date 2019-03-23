@@ -37,7 +37,7 @@ export default {
 
 .tabs .tab {
   cursor: pointer;
-  margin-right: 2rem;
+  margin-right: 1.5rem;
   font-size: 1rem;
   letter-spacing: -1px;
 }

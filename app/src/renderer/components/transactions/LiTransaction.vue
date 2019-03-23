@@ -98,10 +98,15 @@ export default {
 .li-tx__content__right {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .li-tx__content__right {
   text-align: right;
+}
+
+.li-tx__content__information > div {
+  display: flex;
 }
 
 .li-tx__content__information,
@@ -114,5 +119,17 @@ export default {
   line-height: 18px;
   font-size: 18px;
   color: var(--bright);
+}
+
+@media screen and (max-width: 767px) {
+  .li-tx__content {
+    flex-direction: column;
+    text-align: left;
+  }
+
+  .li-tx__content__right {
+    text-align: left;
+    padding-top: 0.5rem;
+  }
 }
 </style>

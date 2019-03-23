@@ -15,9 +15,11 @@
       <menu class="tm-page-header-menu">
         <slot name="menu" />
       </menu>
-      <tabs v-if="tabs" :tabs="tabs" />
-      <div v-if="$slots['header-buttons']" class="header-buttons">
-        <slot name="header-buttons" />
+      <div class="tabs-and-buttons">
+        <tabs v-if="tabs" :tabs="tabs" />
+        <div v-if="$slots['header-buttons']" class="header-buttons">
+          <slot name="header-buttons" />
+        </div>
       </div>
     </div>
   </header>
@@ -37,46 +39,35 @@ export default {
 }
 </script>
 
-<style>
-.tm-page-header {
-  -webkit-app-region: drag;
-}
-
+<style scoped>
 .header-buttons {
-  align-self: flex-start;
-  margin-left: auto;
-  position: relative;
-  bottom: 4px;
+  padding: 0 1rem 1rem 0;
 }
 
-.tm-page-header-title {
-  font-size: var(--xl);
+.tabs-and-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
 }
 
 .tm-page-header-title > div {
   display: inline-block;
 }
 
-.tm-page-header-container {
-  min-height: 4.22rem;
-  flex-wrap: wrap;
-  border-bottom: 1px solid var(--bc-dim);
-  display: flex;
-  padding: 0 1rem 0 1rem;
+.tm-page-header-body {
+  padding: 1rem;
 }
 
-.tm-page-header-text {
-  flex-basis: 100%;
-  display: flex;
-  min-width: 0;
-  padding: 11px 0 0 0;
-  align-items: center;
+.tm-page-header-container {
+  border-bottom: 1px solid var(--bc-dim);
+  background: var(--app-fg);
 }
 
 .tm-page-header-text .tm-page-header-body {
   flex: 1;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
 
 .tm-page-header-text .tool-bar i.material-icons {
@@ -95,19 +86,25 @@ export default {
   color: var(--bright);
 }
 
-@media screen and (min-width: 1024px) {
-  .tm-page-header {
-    border-bottom-color: var(--bc);
+@media screen and (max-width: 425px) {
+  .header-buttons .tm-btn {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .tabs {
+    width: 100%;
   }
 
-  .tm-page-header-container {
-    display: flex;
+  .tabs-and-buttons {
+    flex-direction: column;
   }
 
-  .tm-page-header-menu {
-    display: flex;
-    align-items: flex-start;
-    padding-top: 11px;
+  .header-buttons {
+    width: 100%;
+    padding: 1rem;
+    background: var(--app-bg);
   }
 }
 </style>

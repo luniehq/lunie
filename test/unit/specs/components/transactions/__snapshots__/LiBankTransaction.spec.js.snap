@@ -15,7 +15,7 @@ exports[`LiBankTransaction should show a bank transaction without fees 1`] = `
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
    
@@ -28,6 +28,7 @@ exports[`LiBankTransaction should show a bank transaction without fees 1`] = `
   <div>
     
       Network Fee: 
+      
     <b>
       0.000000
     </b>
@@ -53,7 +54,7 @@ exports[`LiBankTransaction should show bank transaction when user hasn't signed 
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
    
@@ -73,12 +74,13 @@ exports[`LiBankTransaction should show bank transaction when user hasn't signed 
   <div>
     
       Network Fee: 
+      
     <b>
       0.003421
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
 </li-transaction-stub>
@@ -99,7 +101,7 @@ exports[`LiBankTransaction should show incoming transactions 1`] = `
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
    
@@ -113,12 +115,13 @@ exports[`LiBankTransaction should show incoming transactions 1`] = `
   <div>
     
       Network Fee: 
+      
     <b>
       0.003421
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
 </li-transaction-stub>
@@ -139,7 +142,7 @@ exports[`LiBankTransaction should show outgoing transactions 1`] = `
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
    
@@ -154,12 +157,13 @@ exports[`LiBankTransaction should show outgoing transactions 1`] = `
   <div>
     
       Network Fee: 
+      
     <b>
       0.003421
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
 </li-transaction-stub>
@@ -180,7 +184,7 @@ exports[`LiBankTransaction should show outgoing transactions send to herself 1`]
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
    
@@ -193,12 +197,13 @@ exports[`LiBankTransaction should show outgoing transactions send to herself 1`]
   <div>
     
       Network Fee: 
+      
     <b>
       0.003421
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
 </li-transaction-stub>

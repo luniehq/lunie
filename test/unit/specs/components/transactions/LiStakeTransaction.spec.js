@@ -7,7 +7,7 @@ describe(`LiStakeTransaction`, () => {
   let wrapper
   const validators = state.candidates
   const propsData = {
-    tx: stakingTxs[0].tx.value.msg[0],
+    tx: stakingTxs[0].tx.value.msg[0].value,
     txType: `cosmos-sdk/MsgCreateValidator`,
     validators,
     url: `/validator`,

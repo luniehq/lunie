@@ -11,11 +11,11 @@ exports[`LiStakeTransaction create validator with fees 1`] = `
       Create validator
       
     <b>
-      0.000000
+      1.000000
     </b>
      
     <span>
-      s
+      atoms
     </span>
   </div>
    
@@ -24,10 +24,10 @@ exports[`LiStakeTransaction create validator with fees 1`] = `
       Moniker:
       
     <router-link-stub
-      to="/validator/undefined"
+      to="/validator/cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2"
     >
       
-        
+        cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2
       
     </router-link-stub>
   </div>
@@ -35,12 +35,13 @@ exports[`LiStakeTransaction create validator with fees 1`] = `
   <div>
     
       Network Fee: 
+      
     <b>
       0.003421
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
 </li-transaction-stub>
@@ -57,11 +58,11 @@ exports[`LiStakeTransaction create validator without fees 1`] = `
       Create validator
       
     <b>
-      0.000000
+      1.000000
     </b>
      
     <span>
-      s
+      atoms
     </span>
   </div>
    
@@ -70,10 +71,10 @@ exports[`LiStakeTransaction create validator without fees 1`] = `
       Moniker:
       
     <router-link-stub
-      to="/validator/undefined"
+      to="/validator/cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2"
     >
       
-        
+        cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2
       
     </router-link-stub>
   </div>
@@ -81,6 +82,7 @@ exports[`LiStakeTransaction create validator without fees 1`] = `
   <div>
     
       Network Fee: 
+      
     <b>
       0.000000
     </b>
@@ -107,13 +109,13 @@ exports[`LiStakeTransaction delegations with fees 1`] = `
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
    
   <div>
     
-      To
+      To 
       
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
@@ -127,12 +129,13 @@ exports[`LiStakeTransaction delegations with fees 1`] = `
   <div>
     
       Network Fee: 
+      
     <b>
       0.003421
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
 </li-transaction-stub>
@@ -153,13 +156,13 @@ exports[`LiStakeTransaction delegations without fees 1`] = `
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
    
   <div>
     
-      To
+      To 
       
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
@@ -173,6 +176,7 @@ exports[`LiStakeTransaction delegations without fees 1`] = `
   <div>
     
       Network Fee: 
+      
     <b>
       0.000000
     </b>
@@ -212,12 +216,13 @@ exports[`LiStakeTransaction edit validator with fees 1`] = `
   <div>
     
       Network Fee: 
+      
     <b>
       0.003421
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
 </li-transaction-stub>
@@ -251,6 +256,7 @@ exports[`LiStakeTransaction edit validator without fees 1`] = `
   <div>
     
       Network Fee: 
+      
     <b>
       0.000000
     </b>
@@ -285,7 +291,7 @@ exports[`LiStakeTransaction redelegations with fees 1`] = `
    
   <div>
     
-      From
+      From 
       
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
@@ -309,12 +315,13 @@ exports[`LiStakeTransaction redelegations with fees 1`] = `
   <div>
     
       Network Fee: 
+      
     <b>
       0.003421
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
 </li-transaction-stub>
@@ -343,7 +350,7 @@ exports[`LiStakeTransaction redelegations without fees 1`] = `
    
   <div>
     
-      From
+      From 
       
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
@@ -367,6 +374,7 @@ exports[`LiStakeTransaction redelegations without fees 1`] = `
   <div>
     
       Network Fee: 
+      
     <b>
       0.000000
     </b>
@@ -403,7 +411,7 @@ exports[`LiStakeTransaction unbonding delegations should default to ended if no 
    
   <div>
     
-      From
+      From 
       
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
@@ -417,12 +425,13 @@ exports[`LiStakeTransaction unbonding delegations should default to ended if no 
   <div>
     
       Network Fee: 
+      
     <b>
       0.003421
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
 </li-transaction-stub>
@@ -453,7 +462,7 @@ exports[`LiStakeTransaction unbonding delegations should show unbonding delegati
    
   <div>
     
-      From
+      From 
       
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
@@ -467,12 +476,13 @@ exports[`LiStakeTransaction unbonding delegations should show unbonding delegati
   <div>
     
       Network Fee: 
+      
     <b>
       0.003421
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
 </li-transaction-stub>
@@ -509,7 +519,7 @@ exports[`LiStakeTransaction unbonding delegations with fees 1`] = `
    
   <div>
     
-      From
+      From 
       
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
@@ -523,12 +533,13 @@ exports[`LiStakeTransaction unbonding delegations with fees 1`] = `
   <div>
     
       Network Fee: 
+      
     <b>
       0.003421
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
 </li-transaction-stub>
@@ -559,7 +570,7 @@ exports[`LiStakeTransaction unbonding delegations without fees 1`] = `
    
   <div>
     
-      From
+      From 
       
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
@@ -573,6 +584,7 @@ exports[`LiStakeTransaction unbonding delegations without fees 1`] = `
   <div>
     
       Network Fee: 
+      
     <b>
       0.000000
     </b>
@@ -612,12 +624,13 @@ exports[`LiStakeTransaction unjail with fees 1`] = `
   <div>
     
       Network Fee: 
+      
     <b>
       0.003421
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
 </li-transaction-stub>
@@ -651,6 +664,7 @@ exports[`LiStakeTransaction unjail without fees 1`] = `
   <div>
     
       Network Fee: 
+      
     <b>
       0.000000
     </b>
