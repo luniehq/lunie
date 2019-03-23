@@ -12,7 +12,7 @@ export default ({ node }) => {
     loading: false,
     loaded: false,
     error: null,
-    lastDelegatesUpdate: 0
+    lastValidatorsUpdate: 0
   }
   const state = JSON.parse(JSON.stringify(emptyState))
 
@@ -69,8 +69,8 @@ export default ({ node }) => {
       // throttle the update for validators for every 10 blocks
       const waited10Blocks =
         Number(lastHeader.height) - state.lastDelegatesUpdate > 10
-      if (state.lastDelegatesUpdate === 0 || waited10Blocks) {
-        state.lastDelegatesUpdate = Number(lastHeader.height)
+      if (state.lastValidatorsUpdate === 0 || waited10Blocks) {
+        state.lastValidatorsUpdate = Number(lastHeader.height)
         for (const validator of validators) {
           if (validator.consensus_pubkey) {
             const signing_info = await node.getValidatorSigningInfo(
