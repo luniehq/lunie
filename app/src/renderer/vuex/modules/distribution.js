@@ -106,8 +106,7 @@ export default ({ node }) => {
         state,
         dispatch,
         getters: { lastHeader, yourValidators }
-      },
-      validators
+      }
     ) {
       // throttle the update of validator rewards to every 20 blocks
       const waitedTwentyBlocks =
@@ -117,9 +116,10 @@ export default ({ node }) => {
         yourValidators &&
         yourValidators.length > 0
       ) {
+        state.lastValidatorRewardsUpdate = Number(lastHeader.height)
         state.loading = true
         await Promise.all(
-          validators.map(validator =>
+          yourValidators.map(validator =>
             dispatch(`getRewardsFromValidator`, validator.operator_address)
           )
         )
