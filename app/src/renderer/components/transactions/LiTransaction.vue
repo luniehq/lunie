@@ -44,7 +44,7 @@ export default {
       default: null // TODO: fails with required: true
     },
     block: {
-      type: [String, Number], // for convenience we allow strings and numbers
+      type: Number,
       required: true
     }
   },

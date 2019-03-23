@@ -1,8 +1,8 @@
 <template>
   <li-transaction
     :color="`#15CFCC`"
-    :time="transaction.time"
-    :block="transaction.height"
+    :time="time"
+    :block="block"
   >
     <template v-if="txType === `cosmos-sdk/MsgSubmitProposal`">
       <div slot="caption">
@@ -11,7 +11,7 @@
         <span>{{ tx.initial_deposit[0].denom }}s</span>
       </div>
       <div slot="details">
-        Title:<i>{{ tx.title }}</i>
+        Title: <i>{{ tx.title }}</i>
       </div>
       <div slot="fees">
         Network Fee:&nbsp;<b>{{ fees ? full(atoms(fees.amount)) : full(0) }}</b>
@@ -63,7 +63,7 @@ export default {
   name: `li-gov-transaction`,
   components: { LiTransaction },
   props: {
-    transaction: {
+    tx: {
       type: Object,
       required: true
     },
@@ -82,16 +82,19 @@ export default {
     txType: {
       type: String,
       required: true
+    },
+    time: {
+      type: String,
+      required: true
+    },
+    block: {
+      type: Number,
+      required: true
     }
   },
   data: () => ({
     full,
     atoms
-  }),
-  computed: {
-    tx() {
-      return this.transaction.tx.value.msg[0].value
-    }
-  }
+  })
 }
 </script>

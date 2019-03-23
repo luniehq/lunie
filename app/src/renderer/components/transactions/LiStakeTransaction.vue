@@ -1,8 +1,8 @@
 <template>
   <li-transaction
     color="#47AB6C"
-    :time="transaction.time"
-    :block="transaction.height"
+    :time="time"
+    :block="block"
   >
     <template v-if="txType === `cosmos-sdk/MsgCreateValidator`">
       <div slot="caption">
@@ -143,7 +143,7 @@ export default {
   name: `li-stake-transaction`,
   components: { LiTransaction },
   props: {
-    transaction: {
+    tx: {
       type: Object,
       required: true
     },
@@ -170,6 +170,14 @@ export default {
     txType: {
       type: String,
       required: true
+    },
+    time: {
+      type: String,
+      default: null // TODO: fails with required: true
+    },
+    block: {
+      type: Number,
+      required: true
     }
   },
   data: () => ({
@@ -177,9 +185,6 @@ export default {
     full
   }),
   computed: {
-    tx() {
-      return this.transaction.tx.value.msg[0].value
-    },
     timeDiff() {
       // only show time diff if still waiting to be terminated
       if (this.state !== `locked`) return ``

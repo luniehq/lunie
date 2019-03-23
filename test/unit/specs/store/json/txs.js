@@ -209,7 +209,6 @@ export const stakingTxs = [
   },
   {
     hash: `not a real hash 5`,
-
     time: new Date(42000).toISOString(), // set by Voyager
     height: `568`,
     tx: {

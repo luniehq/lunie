@@ -1,8 +1,8 @@
 <template>
   <li-transaction
     :color="`#F2B134`"
-    :time="transaction.time"
-    :block="transaction.height"
+    :time="time"
+    :block="block"
   >
     <template v-if="txType === `cosmos-sdk/MsgWithdrawDelegationReward`">
       <div slot="caption">
@@ -57,7 +57,7 @@ export default {
   name: `li-distribution-transaction`,
   components: { LiTransaction },
   props: {
-    transaction: {
+    tx: {
       type: Object,
       required: true
     },
@@ -80,6 +80,14 @@ export default {
     validators: {
       type: Array,
       required: true
+    },
+    time: {
+      type: String,
+      required: true
+    },
+    block: {
+      type: Number,
+      required: true
     }
   },
   data: () => ({
@@ -87,11 +95,6 @@ export default {
     full,
     pretty
   }),
-  computed: {
-    tx() {
-      return this.transaction.tx.value.msg[0].value
-    }
-  },
   methods: {
     moniker(validatorAddr) {
       const validator = this.validators.find(
