@@ -2,20 +2,20 @@
 
 exports[`LiStakeTransaction create validator with fees 1`] = `
 <li-transaction-stub
-  block="193281"
+  block="500"
   color="#47AB6C"
-  time="1970-01-01T00:00:02.042Z"
+  time="1970-01-01T00:00:42.000Z"
 >
   <div>
     
       Create validator
       
     <b>
-      1.000000
+      0.000000
     </b>
      
     <span>
-      uatoms
+      s
     </span>
   </div>
    
@@ -24,10 +24,10 @@ exports[`LiStakeTransaction create validator with fees 1`] = `
       Moniker:
       
     <router-link-stub
-      to="/validator/cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2"
+      to="/validator/undefined"
     >
       
-        cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2
+        
       
     </router-link-stub>
   </div>
@@ -48,20 +48,20 @@ exports[`LiStakeTransaction create validator with fees 1`] = `
 
 exports[`LiStakeTransaction create validator without fees 1`] = `
 <li-transaction-stub
-  block="193281"
+  block="500"
   color="#47AB6C"
-  time="1970-01-01T00:00:02.042Z"
+  time="1970-01-01T00:00:42.000Z"
 >
   <div>
     
       Create validator
       
     <b>
-      1.000000
+      0.000000
     </b>
      
     <span>
-      uatoms
+      s
     </span>
   </div>
    
@@ -70,10 +70,10 @@ exports[`LiStakeTransaction create validator without fees 1`] = `
       Moniker:
       
     <router-link-stub
-      to="/validator/cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2"
+      to="/validator/undefined"
     >
       
-        cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2
+        
       
     </router-link-stub>
   </div>
@@ -94,13 +94,11 @@ exports[`LiStakeTransaction create validator without fees 1`] = `
 
 exports[`LiStakeTransaction delegations with fees 1`] = `
 <li-transaction-stub
-  block="568"
+  block="500"
   color="#47AB6C"
   time="1970-01-01T00:00:42.000Z"
 >
-  <div
-    slot="caption"
-  >
+  <div>
     
       Delegation
       
@@ -113,9 +111,7 @@ exports[`LiStakeTransaction delegations with fees 1`] = `
     </span>
   </div>
    
-  <div
-    slot="details"
-  >
+  <div>
     
       To
       
@@ -128,9 +124,7 @@ exports[`LiStakeTransaction delegations with fees 1`] = `
     </router-link-stub>
   </div>
    
-  <div
-    slot="fees"
-  >
+  <div>
     
       Network Fee: 
     <b>
@@ -146,13 +140,11 @@ exports[`LiStakeTransaction delegations with fees 1`] = `
 
 exports[`LiStakeTransaction delegations without fees 1`] = `
 <li-transaction-stub
-  block="568"
+  block="500"
   color="#47AB6C"
   time="1970-01-01T00:00:42.000Z"
 >
-  <div
-    slot="caption"
-  >
+  <div>
     
       Delegation
       
@@ -165,9 +157,7 @@ exports[`LiStakeTransaction delegations without fees 1`] = `
     </span>
   </div>
    
-  <div
-    slot="details"
-  >
+  <div>
     
       To
       
@@ -180,9 +170,7 @@ exports[`LiStakeTransaction delegations without fees 1`] = `
     </router-link-stub>
   </div>
    
-  <div
-    slot="fees"
-  >
+  <div>
     
       Network Fee: 
     <b>
@@ -198,21 +186,17 @@ exports[`LiStakeTransaction delegations without fees 1`] = `
 
 exports[`LiStakeTransaction edit validator with fees 1`] = `
 <li-transaction-stub
-  block="193281"
+  block="500"
   color="#47AB6C"
-  time="1970-01-01T00:00:02.041Z"
+  time="1970-01-01T00:00:42.000Z"
 >
-  <div
-    slot="caption"
-  >
+  <div>
     
       Edit validator
     
   </div>
    
-  <div
-    slot="details"
-  >
+  <div>
     
       Moniker:
       
@@ -225,9 +209,7 @@ exports[`LiStakeTransaction edit validator with fees 1`] = `
     </router-link-stub>
   </div>
    
-  <div
-    slot="fees"
-  >
+  <div>
     
       Network Fee: 
     <b>
@@ -243,21 +225,17 @@ exports[`LiStakeTransaction edit validator with fees 1`] = `
 
 exports[`LiStakeTransaction edit validator without fees 1`] = `
 <li-transaction-stub
-  block="193281"
+  block="500"
   color="#47AB6C"
-  time="1970-01-01T00:00:02.041Z"
+  time="1970-01-01T00:00:42.000Z"
 >
-  <div
-    slot="caption"
-  >
+  <div>
     
       Edit validator
     
   </div>
    
-  <div
-    slot="details"
-  >
+  <div>
     
       Moniker:
       
@@ -270,9 +248,7 @@ exports[`LiStakeTransaction edit validator without fees 1`] = `
     </router-link-stub>
   </div>
    
-  <div
-    slot="fees"
-  >
+  <div>
     
       Network Fee: 
     <b>
@@ -288,13 +264,11 @@ exports[`LiStakeTransaction edit validator without fees 1`] = `
 
 exports[`LiStakeTransaction redelegations with fees 1`] = `
 <li-transaction-stub
-  block="567"
+  block="500"
   color="#47AB6C"
-  time="1970-01-01T00:00:45.000Z"
+  time="1970-01-01T00:00:42.000Z"
 >
-  <div
-    slot="caption"
-  >
+  <div>
     
       Redelegation
       
@@ -309,9 +283,7 @@ exports[`LiStakeTransaction redelegations with fees 1`] = `
     </span>
   </div>
    
-  <div
-    slot="details"
-  >
+  <div>
     
       From
       
@@ -334,9 +306,7 @@ exports[`LiStakeTransaction redelegations with fees 1`] = `
     </router-link-stub>
   </div>
    
-  <div
-    slot="fees"
-  >
+  <div>
     
       Network Fee: 
     <b>
@@ -352,13 +322,11 @@ exports[`LiStakeTransaction redelegations with fees 1`] = `
 
 exports[`LiStakeTransaction redelegations without fees 1`] = `
 <li-transaction-stub
-  block="567"
+  block="500"
   color="#47AB6C"
-  time="1970-01-01T00:00:45.000Z"
+  time="1970-01-01T00:00:42.000Z"
 >
-  <div
-    slot="caption"
-  >
+  <div>
     
       Redelegation
       
@@ -373,9 +341,7 @@ exports[`LiStakeTransaction redelegations without fees 1`] = `
     </span>
   </div>
    
-  <div
-    slot="details"
-  >
+  <div>
     
       From
       
@@ -398,9 +364,7 @@ exports[`LiStakeTransaction redelegations without fees 1`] = `
     </router-link-stub>
   </div>
    
-  <div
-    slot="fees"
-  >
+  <div>
     
       Network Fee: 
     <b>
@@ -416,13 +380,11 @@ exports[`LiStakeTransaction redelegations without fees 1`] = `
 
 exports[`LiStakeTransaction unbonding delegations should default to ended if no unbonding delegation is present 1`] = `
 <li-transaction-stub
-  block="569"
+  block="500"
   color="#47AB6C"
-  time="1970-01-01T00:00:04.200Z"
+  time="1970-01-01T00:00:42.000Z"
 >
-  <div
-    slot="caption"
-  >
+  <div>
     
       Undelegation
       
@@ -439,9 +401,7 @@ exports[`LiStakeTransaction unbonding delegations should default to ended if no 
     <!---->
   </div>
    
-  <div
-    slot="details"
-  >
+  <div>
     
       From
       
@@ -454,9 +414,7 @@ exports[`LiStakeTransaction unbonding delegations should default to ended if no 
     </router-link-stub>
   </div>
    
-  <div
-    slot="fees"
-  >
+  <div>
     
       Network Fee: 
     <b>
@@ -472,13 +430,11 @@ exports[`LiStakeTransaction unbonding delegations should default to ended if no 
 
 exports[`LiStakeTransaction unbonding delegations should show unbonding delegations as ended 1`] = `
 <li-transaction-stub
-  block="569"
+  block="500"
   color="#47AB6C"
-  time="1970-01-01T00:00:04.200Z"
+  time="1970-01-01T00:00:42.000Z"
 >
-  <div
-    slot="caption"
-  >
+  <div>
     
       Undelegation
       
@@ -495,9 +451,7 @@ exports[`LiStakeTransaction unbonding delegations should show unbonding delegati
     <!---->
   </div>
    
-  <div
-    slot="details"
-  >
+  <div>
     
       From
       
@@ -510,9 +464,7 @@ exports[`LiStakeTransaction unbonding delegations should show unbonding delegati
     </router-link-stub>
   </div>
    
-  <div
-    slot="fees"
-  >
+  <div>
     
       Network Fee: 
     <b>
@@ -528,13 +480,11 @@ exports[`LiStakeTransaction unbonding delegations should show unbonding delegati
 
 exports[`LiStakeTransaction unbonding delegations with fees 1`] = `
 <li-transaction-stub
-  block="569"
+  block="500"
   color="#47AB6C"
-  time="1970-01-01T00:00:04.200Z"
+  time="1970-01-01T00:00:42.000Z"
 >
-  <div
-    slot="caption"
-  >
+  <div>
     
       Undelegation
       
@@ -557,9 +507,7 @@ exports[`LiStakeTransaction unbonding delegations with fees 1`] = `
     </span>
   </div>
    
-  <div
-    slot="details"
-  >
+  <div>
     
       From
       
@@ -572,9 +520,7 @@ exports[`LiStakeTransaction unbonding delegations with fees 1`] = `
     </router-link-stub>
   </div>
    
-  <div
-    slot="fees"
-  >
+  <div>
     
       Network Fee: 
     <b>
@@ -590,13 +536,11 @@ exports[`LiStakeTransaction unbonding delegations with fees 1`] = `
 
 exports[`LiStakeTransaction unbonding delegations without fees 1`] = `
 <li-transaction-stub
-  block="569"
+  block="500"
   color="#47AB6C"
-  time="1970-01-01T00:00:04.200Z"
+  time="1970-01-01T00:00:42.000Z"
 >
-  <div
-    slot="caption"
-  >
+  <div>
     
       Undelegation
       
@@ -613,9 +557,7 @@ exports[`LiStakeTransaction unbonding delegations without fees 1`] = `
     <!---->
   </div>
    
-  <div
-    slot="details"
-  >
+  <div>
     
       From
       
@@ -628,9 +570,7 @@ exports[`LiStakeTransaction unbonding delegations without fees 1`] = `
     </router-link-stub>
   </div>
    
-  <div
-    slot="fees"
-  >
+  <div>
     
       Network Fee: 
     <b>
@@ -646,21 +586,17 @@ exports[`LiStakeTransaction unbonding delegations without fees 1`] = `
 
 exports[`LiStakeTransaction unjail with fees 1`] = `
 <li-transaction-stub
-  block="193281"
+  block="500"
   color="#47AB6C"
-  time="1970-01-01T00:00:20.420Z"
+  time="1970-01-01T00:00:42.000Z"
 >
-  <div
-    slot="caption"
-  >
+  <div>
     
       Unjail
     
   </div>
    
-  <div
-    slot="details"
-  >
+  <div>
     
       Moniker:
       
@@ -673,9 +609,7 @@ exports[`LiStakeTransaction unjail with fees 1`] = `
     </router-link-stub>
   </div>
    
-  <div
-    slot="fees"
-  >
+  <div>
     
       Network Fee: 
     <b>
@@ -691,21 +625,17 @@ exports[`LiStakeTransaction unjail with fees 1`] = `
 
 exports[`LiStakeTransaction unjail without fees 1`] = `
 <li-transaction-stub
-  block="193281"
+  block="500"
   color="#47AB6C"
-  time="1970-01-01T00:00:20.420Z"
+  time="1970-01-01T00:00:42.000Z"
 >
-  <div
-    slot="caption"
-  >
+  <div>
     
       Unjail
     
   </div>
    
-  <div
-    slot="details"
-  >
+  <div>
     
       Moniker:
       
@@ -718,9 +648,7 @@ exports[`LiStakeTransaction unjail without fees 1`] = `
     </router-link-stub>
   </div>
    
-  <div
-    slot="fees"
-  >
+  <div>
     
       Network Fee: 
     <b>

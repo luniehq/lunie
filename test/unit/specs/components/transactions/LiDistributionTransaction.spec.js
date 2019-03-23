@@ -9,7 +9,7 @@ describe(`LiDistributionTransaction`, () => {
     { operator_address: `cosmosvaloper1address2`, moniker: `billy` }
   ]
   const propsData = {
-    transaction: distributionTxs[0],
+    tx: distributionTxs[0].tx.value.msg[0].value,
     url: `/validator`,
     validators,
     bondingDenom: `uatom`,
@@ -18,6 +18,8 @@ describe(`LiDistributionTransaction`, () => {
       denom: `uatom`
     },
     txType: `cosmos-sdk/MsgWithdrawDelegationReward`,
+    time: new Date(Date.now()).toISOString(),
+    block: 500
   }
 
   beforeEach(() => {
@@ -40,7 +42,7 @@ describe(`LiDistributionTransaction`, () => {
   describe(`set withdraw address`, () => {
     beforeEach(() => {
       wrapper.setProps({
-        transaction: distributionTxs[1],
+        tx: distributionTxs[1].tx.value.msg[0].value,
         txType: `cosmos-sdk/MsgSetWithdrawAddress`
       })
     })
@@ -60,7 +62,7 @@ describe(`LiDistributionTransaction`, () => {
 
     beforeEach(() => {
       wrapper.setProps({
-        transaction: distributionTxs[2],
+        tx: distributionTxs[2].tx.value.msg[0].value,
         txType: `cosmos-sdk/MsgWithdrawValidatorCommission`
       })
       it(`with fees`, () => {
