@@ -28,7 +28,7 @@
       </h3>
       <div class="unbonding-transactions">
         <template v-for="transaction in unbondingTransactions">
-           <div
+          <div
             v-for="(msg, index) in transaction.tx.value.msg"
             :key="index"
           >
