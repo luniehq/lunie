@@ -28,22 +28,29 @@
       </h3>
       <div class="unbonding-transactions">
         <template v-for="transaction in unbondingTransactions">
-          <li-stake-transaction
-            :key="transaction.hash"
-            :transaction="transaction"
-            :validators="yourValidators"
-            :bonding-denom="bondDenom"
-            :url="validatorURL"
-            :fees="transaction.tx.value.fee.amount &&
-              transaction.tx.value.fee.amount[0]"
-            :unbonding-time="
-              time.getUnbondingTime(
-                transaction,
-                delegation.unbondingDelegations
-              )
-            "
-            tx-type="cosmos-sdk/MsgUndelegate"
-          />
+           <div
+            v-for="(msg, index) in transaction.tx.value.msg"
+            :key="index"
+          >
+            <li-stake-transaction
+              :key="transaction.hash"
+              :tx-type="msg.type"
+              :tx="msg.value"
+              :validators="yourValidators"
+              :bonding-denom="bondDenom"
+              :url="validatorURL"
+              :fees="transaction.tx.value.fee.amount &&
+                transaction.tx.value.fee.amount[0]"
+              :unbonding-time="
+                time.getUnbondingTime(
+                  transaction,
+                  delegation.unbondingDelegations
+                )
+              "
+              :time="transaction.time"
+              :block="Number(transaction.height)"
+            />
+          </div>
         </template>
       </div>
     </div>

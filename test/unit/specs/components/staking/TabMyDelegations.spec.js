@@ -56,19 +56,22 @@ describe(`Component: TabMyDelegations`, () => {
     })
 
     it(`should show unbonding validators and the current committed validator`, () => {
-      wrapper.setData({
-        time: {
-          // get unbonding time for an unbonding tx
-          getUnbondingTime: jest.fn(() => Date.now() + 10000)
-        }
-      })
-      $store.getters.delegation.unbondingDelegations = {
-        [validators[1].operator_address]: {
+
+      const unbondingTime = jest.fn(() => Date.now() + 10000)
+      const time = new Date(Date.now()).toISOString()
+      const ubds = {
+        [stakingTxs[3].tx.value.msg[0].value.validator_address]: {
           creation_height: `170`,
           min_time: new Date(Date.now()).toISOString()
         }
       }
-      $store.getters.transactions.staking = [stakingTxs[3]]
+      wrapper.setData({
+        unbondingTime,
+        time,
+        block: 500
+      })
+      wrapper.vm.delegation.unbondingDelegations = ubds
+      wrapper.vm.transactions.staking = [stakingTxs[3]]
 
       expect(wrapper.html()).toContain(`Pending Undelegations`)
       expect(wrapper.vm.$el).toMatchSnapshot()
@@ -102,7 +105,7 @@ describe(`Component: TabMyDelegations`, () => {
 
   describe(`computed`, () => {
     it(`unbondingTransactions`, async () => {
-      const address = validators[0].operator_address
+      const address = stakingTxs[3].tx.value.msg[0].value.validator_address
       const transactions = [stakingTxs[3]]
 
       expect(
