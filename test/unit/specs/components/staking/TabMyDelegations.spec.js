@@ -29,7 +29,8 @@ describe(`Component: TabMyDelegations`, () => {
     connected: true,
     bondDenom: `uatom`,
     session: { signedIn: true },
-    lastHeader: { height: `20` }
+    lastHeader: { height: `20` },
+    yourValidators: validators
   }
 
   describe(`view`, () => {
@@ -85,24 +86,6 @@ describe(`Component: TabMyDelegations`, () => {
 
       expect(wrapper.html()).toContain(`No Active Delegations`)
       expect(wrapper.vm.$el).toMatchSnapshot()
-    })
-
-    it(`should show a message if not still connecting to a node`, () => {
-      $store.getters.connected = false
-
-      expect(wrapper.exists(`tm-data-connecting`)).toBe(true)
-    })
-
-    it(`should show a message if not still loading delegations`, () => {
-      $store.getters.delegation.loading = true
-
-      expect(wrapper.exists(`tm-data-loading`)).toBe(true)
-    })
-
-    it(`should show a message if not signed in`, () => {
-      $store.getters.session.signedIn = false
-
-      expect(wrapper.exists(`card-sign-in-required`)).toBe(true)
     })
   })
 

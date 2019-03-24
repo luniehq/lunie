@@ -128,15 +128,13 @@ describe(`Module: Validators`, () => {
       node
     })
     const commit = jest.fn()
+    const state = {}
     await actions.getValidators({
-      state: {},
+      state,
       commit,
       rootState: { connection: { connected: true } }
     })
-    expect(commit).toHaveBeenCalledWith(`notifyError`, {
-      body: error,
-      title: `Error fetching validator set`
-    })
+    expect(state.error).toBe(`Error fetching validator set`)
   })
 
   it(`should not query validators on reconnection if not stuck in loading`, () => {
