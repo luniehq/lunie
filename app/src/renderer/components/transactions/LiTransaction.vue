@@ -3,7 +3,7 @@
     <div class="li-tx__icon">
       <img
         :style="{ borderColor: color }"
-        src="~assets/images/cosmos-logo.png"
+        :src="logoPath"
       >
     </div>
     <div class="li-tx__content">
@@ -49,6 +49,13 @@ export default {
     }
   },
   computed: {
+    logoPath() {
+      const path = `images/cosmos-logo.png`
+      if (this.$route.path.startsWith(`/staking`)) {
+        return `../${path}`
+      }
+      return path
+    },
     date({ time } = this) {
       const momentTime = moment(time)
       return momentTime.format(

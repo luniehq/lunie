@@ -94,6 +94,7 @@ export const startApp = async (
   const store = Store({ node })
   const router = new Router({
     scrollBehavior: () => ({ y: 0 }),
+    mode: `history`,
     routes
   })
 

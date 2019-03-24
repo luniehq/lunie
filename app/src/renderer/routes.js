@@ -19,7 +19,7 @@ export default [
         component: require(`./components/governance/TabProposals`).default
       },
       {
-        path: `governance-parameters`,
+        path: `parameters`,
         name: `Governance Parameters`,
         component: require(`./components/governance/TabParameters`).default
       }
@@ -49,7 +49,7 @@ export default [
         component: require(`./components/staking/TabValidators`).default
       },
       {
-        path: `staking-parameters`,
+        path: `parameters`,
         name: `Staking Parameters`,
         component: require(`./components/staking/TabStakingParameters`).default
       }
