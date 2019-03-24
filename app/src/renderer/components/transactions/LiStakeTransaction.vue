@@ -19,7 +19,13 @@
       <div slot="fees">
         Network Fee:&nbsp;
         <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
-        <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
+        <span>
+          {{
+            convertedFees
+              ? convertedFees.denom
+              : num.viewDenom(bondingDenom)
+          }}s
+        </span>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgEditValidator`">
@@ -35,7 +41,13 @@
       <div slot="fees">
         Network Fee:&nbsp;
         <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
-        <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
+        <span>
+          {{
+            convertedFees
+              ? convertedFees.denom
+              : num.viewDenom(bondingDenom)
+          }}s
+        </span>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgDelegate`">
@@ -53,7 +65,13 @@
       <div slot="fees">
         Network Fee:&nbsp;
         <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
-        <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
+        <span>
+          {{
+            convertedFees
+              ? convertedFees.denom
+              : num.viewDenom(bondingDenom)
+          }}s
+        </span>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgUndelegate`">
@@ -64,7 +82,7 @@
             calculatePrettifiedTokens(tx.validator_address, tx.shares_amount)
           }}
         </b>
-        <span>{{ bondingDenom }}s</span>
+        <span>{{ num.viewDenom(bondingDenom) }}s</span>
         <template v-if="timeDiff">
           <span class="tx-unbonding__time-diff">
             {{ timeDiff }}
@@ -80,7 +98,13 @@
       <div slot="fees">
         Network Fee:&nbsp;
         <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
-        <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
+        <span>
+          {{
+            convertedFees
+              ? convertedFees.denom
+              : num.viewDenom(bondingDenom)
+          }}s
+        </span>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgBeginRedelegate`">
@@ -94,7 +118,7 @@
             )
           }}
         </b>
-        <span>{{ bondingDenom }}s</span>
+        <span>{{ num.viewDenom(bondingDenom) }}s</span>
       </div>
       <div slot="details">
         From&nbsp;
@@ -109,7 +133,13 @@
       <div slot="fees">
         Network Fee:&nbsp;
         <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
-        <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
+        <span>
+          {{
+            convertedFees
+              ? convertedFees.denom
+              : num.viewDenom(bondingDenom)
+          }}s
+        </span>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgUnjail`">
@@ -125,7 +155,13 @@
       <div slot="fees">
         Network Fee:&nbsp;
         <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
-        <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
+        <span>
+          {{
+            convertedFees
+              ? convertedFees.denom
+              : num.viewDenom(bondingDenom)
+          }}s
+        </span>
       </div>
     </template>
   </li-transaction>
@@ -184,7 +220,8 @@ export default {
   },
   data: () => ({
     atoms,
-    full
+    full,
+    num
   }),
   computed: {
     timeDiff() {
