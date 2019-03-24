@@ -66,7 +66,7 @@ exports[`LiDistributionTransaction transaction without fees 1`] = `
     </b>
      
     <span>
-      uatoms
+      atoms
     </span>
   </div>
 </li-transaction-stub>

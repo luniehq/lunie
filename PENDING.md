@@ -6,3 +6,4 @@
 
 - [\#2330](https://github.com/cosmos/voyager/pull/2330) Fixed rewards not updating as expected @faboweb
 - [\#2330](https://github.com/cosmos/voyager/pull/2330) Fixed transactions not loading when refreshing on PageTransactions @faboweb
+- Fixed rewards not showing @faboweb
