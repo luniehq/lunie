@@ -1,5 +1,9 @@
 <template>
-  <div>
+  <data-view
+    :loaded="governanceParameters.loaded"
+    :loading="governanceParameters.loading"
+    :error="governanceParameters.error"
+  >
     <div class="parameters__details parameters__section">
       <div class="row">
         <div class="column">
@@ -132,14 +136,18 @@
         </div>
       </div>
     </div>
-  </div>
+  </data-view>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
 import num, { atoms } from "../../scripts/num.js"
+import DataView from "common/DataView"
 export default {
   name: `tab-staking-parameters`,
+  components: {
+    DataView
+  },
   data: () => ({
     atoms,
     depositTooltips: {

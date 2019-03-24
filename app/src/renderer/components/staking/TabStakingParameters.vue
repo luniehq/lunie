@@ -1,9 +1,9 @@
 <template>
-  <tm-data-connecting v-if="!connected && !stakingParameters.loaded" />
-  <tm-data-loading
-    v-else-if="!stakingParameters.loaded && stakingParameters.loading"
-  />
-  <div v-else>
+  <data-view
+    :loaded="stakingParameters.loaded"
+    :loading="stakingParameters.loading"
+    :error="stakingParameters.error"
+  >
     <div>
       <div class="parameters__details parameters__section">
         <div class="row">
@@ -48,18 +48,16 @@
         </div>
       </div>
     </div>
-  </div>
+  </data-view>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
-import TmDataConnecting from "common/TmDataConnecting"
-import TmDataLoading from "common/TmDataLoading"
+import DataView from "common/DataView"
 export default {
   name: `tab-staking-parameters`,
   components: {
-    TmDataConnecting,
-    TmDataLoading
+    DataView
   },
   data: () => ({
     paramsTooltips: {

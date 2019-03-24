@@ -9,8 +9,6 @@ const {
   initNode,
   createKey,
   initGenesis,
-  makeExec,
-  nodeBinary,
   sendTokens
 } = require(`../gaia`)
 
@@ -49,15 +47,6 @@ Import this account which owns tokens:
   address: '${address}'
   mnemonic: '${mnemonic}'
 `
-  )
-}
-
-// save the version of the currently used gaia into the newly created network config folder
-const saveVersion = nodeHome => {
-  const versionPath = join(nodeHome, `config`)
-  const versionFilePath = join(versionPath, `gaiaversion.txt`) // nodeHome/config is used to copy created config files from
-  return makeExec(
-    `mkdir -p ${versionPath} && ${nodeBinary} version > ${versionFilePath}`
   )
 }
 
@@ -109,7 +98,6 @@ const buildNodes = async (
       id: await setupLocalNode(home, options, moniker, isTest, genesis)
     })
     if (i === 1) {
-      await saveVersion(home)
       mainAccountSignInfo = {
         keyName: options.keyName,
         password: options.password,

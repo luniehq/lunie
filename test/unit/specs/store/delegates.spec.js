@@ -108,14 +108,7 @@ describe(`Module: Delegates`, () => {
       rootState: mockRootState
     })
     expect(commit.mock.calls).toEqual([
-      [`setDelegateLoading`, true],
-      [
-        `notifyError`,
-        {
-          body: `Expected`,
-          title: `Error fetching validators`
-        }
-      ]
+      [`setDelegateLoading`, true]
     ])
   })
 
@@ -234,13 +227,13 @@ describe(`Module: Delegates`, () => {
 
   it(`should store an error if failed to load delegates`, async () => {
     const { actions, state } = instance
-    node.getValidators = async () => Promise.reject(`Error`)
+    node.getValidators = async () => Promise.reject(new Error(`Error`))
     await actions.getDelegates({
       commit: jest.fn(),
       dispatch: jest.fn(),
       state,
       rootState: mockRootState
     })
-    expect(state.error).toBe(`Error`)
+    expect(state.error).toBe(`Error fetching validators: Error`)
   })
 })

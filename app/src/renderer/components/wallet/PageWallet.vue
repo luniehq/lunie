@@ -1,35 +1,36 @@
 <template>
   <tm-page
-    :managed="true"
-    :loading="wallet.loading"
-    :loaded="wallet.loaded"
-    :error="wallet.error"
-    :data-empty="dataEmpty"
     :refresh="queryWalletBalances"
     data-title="Wallet"
-    :sign-in-required="true"
   >
-    <tm-data-msg
-      id="account_empty_msg"
-      slot="no-data"
-      icon="account_balance_wallet"
+    <data-view
+      :loading="wallet.loading"
+      :loaded="wallet.loaded"
+      :error="wallet.error"
+      :data-empty="dataEmpty"
+      :sign-in-required="true"
     >
-      <div slot="title">
-        Account empty
-      </div>
-      <div slot="subtitle">
-        This account doesn't have anything in it&nbsp;yet.
-      </div>
-    </tm-data-msg>
-    <template slot="managed-body">
+      <tm-data-msg
+        id="account_empty_msg"
+        slot="no-data"
+        icon="account_balance_wallet"
+      >
+        <div slot="title">
+          Account empty
+        </div>
+        <div slot="subtitle">
+          This account doesn't have anything in it&nbsp;yet.
+        </div>
+      </tm-data-msg>
       <li-coin
         v-for="coin in filteredBalances"
+        slot="data"
         :key="coin.denom"
         :coin="coin"
         class="tm-li-balance"
         @show-modal="showModal"
       />
-    </template>
+    </data-view>
     <send-modal ref="sendModal" />
   </tm-page>
 </template>
@@ -42,6 +43,7 @@ import LiCoin from "./LiCoin"
 import SendModal from "wallet/SendModal"
 import TmPage from "common/TmPage"
 import TmDataMsg from "common/TmDataMsg"
+import DataView from "common/DataView"
 
 export default {
   name: `page-wallet`,
@@ -49,7 +51,8 @@ export default {
     TmDataMsg,
     LiCoin,
     TmPage,
-    SendModal
+    SendModal,
+    DataView
   },
   data: () => ({ num, showSendModal: false }),
   computed: {

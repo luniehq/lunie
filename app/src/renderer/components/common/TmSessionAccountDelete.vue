@@ -62,6 +62,12 @@
             type="required"
           />
         </tm-form-group>
+        <p
+          v-if="error"
+          class="tm-form-msg sm tm-form-msg--error"
+        >
+          {{ error }}
+        </p>
       </div>
       <div class="tm-session-footer">
         <tm-btn
@@ -116,10 +122,7 @@ export default {
           })
         }
       } catch (error) {
-        this.$store.commit(`notifyError`, {
-          title: `Account Deletion Failed`,
-          body: error.message
-        })
+        this.error = `Account Deletion Failed: ${error.message}`
       }
     }
   },

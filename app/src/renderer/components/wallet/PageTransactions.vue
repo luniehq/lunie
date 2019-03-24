@@ -1,31 +1,33 @@
 <template>
   <tm-page
-    :managed="true"
-    :loading="transactions.loading"
-    :loaded="transactions.loaded"
-    :error="transactions.error"
-    :data-empty="dataEmpty"
     :refresh="refreshTransactions"
     data-title="Transactions"
-    :sign-in-required="true"
   >
-    <data-empty-tx slot="no-data" />
-    <template slot="managed-body">
-      <li-any-transaction
-        v-for="tx in orderedTransactions"
-        :key="tx.txhash"
-        :validators="delegates.delegates"
-        :validators-url="validatorURL"
-        :proposals-url="governanceURL"
-        :transaction="tx"
-        :address="session.address"
-        :bonding-denom="bondDenom"
-        :unbonding-time="
-          time.getUnbondingTime(tx, delegation.unbondingDelegations)
-        "
-      />
-      <br>
-    </template>
+    <data-view
+      :loading="transactions.loading"
+      :loaded="transactions.loaded"
+      :error="transactions.error"
+      :data-empty="dataEmpty"
+      :sign-in-required="true"
+    >
+      <data-empty-tx slot="no-data" />
+      <template slot="data">
+        <li-any-transaction
+          v-for="tx in orderedTransactions"
+          :key="tx.txhash"
+          :validators="delegates.delegates"
+          :validators-url="validatorURL"
+          :proposals-url="governanceURL"
+          :transaction="tx"
+          :address="session.address"
+          :bonding-denom="bondDenom"
+          :unbonding-time="
+            time.getUnbondingTime(tx, delegation.unbondingDelegations)
+          "
+        />
+        <br>
+      </template>
+    </data-view>
   </tm-page>
 </template>
 
@@ -34,6 +36,7 @@ import shortid from "shortid"
 import { mapGetters } from "vuex"
 import { orderBy } from "lodash"
 import DataEmptyTx from "common/TmDataEmptyTx"
+import DataView from "common/DataView"
 import TmPage from "common/TmPage"
 import LiAnyTransaction from "transactions/LiAnyTransaction"
 import time from "scripts/time"
@@ -43,7 +46,8 @@ export default {
   components: {
     LiAnyTransaction,
     DataEmptyTx,
-    TmPage
+    TmPage,
+    DataView
   },
   data: () => ({
     shortid: shortid,

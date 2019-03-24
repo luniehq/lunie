@@ -1,8 +1,10 @@
 <template>
   <tm-page data-title="Proposal">
-    <tm-data-error v-if="!proposal" />
-
-    <template v-else>
+    <data-view
+      :loaded="proposals.loaded"
+      :loading="proposals.loading"
+      :error="!proposal"
+    >
       <div class="page-profile__header page-profile__section proposal">
         <div class="row">
           <h2 class="proposal-id">
@@ -134,7 +136,7 @@
         :proposal-title="proposal.title"
         :last-vote-option="lastVote && lastVote.option"
       />
-    </template>
+    </data-view>
   </tm-page>
 </template>
 
@@ -144,7 +146,7 @@ import BigNumber from "bignumber.js"
 import { mapGetters } from "vuex"
 import num from "scripts/num"
 import TmBtn from "common/TmBtn"
-import TmDataError from "common/TmDataError"
+import DataView from "common/DataView"
 import TextBlock from "common/TextBlock"
 import ModalDeposit from "./ModalDeposit"
 import ModalVote from "./ModalVote"
@@ -155,7 +157,7 @@ export default {
     TmBtn,
     ModalDeposit,
     ModalVote,
-    TmDataError,
+    DataView,
     TmPage,
     TextBlock
   },
@@ -259,7 +261,6 @@ export default {
   methods: {
     async onVote({ $refs, $store, votes, proposalId, wallet } = this) {
       $refs.modalVote.open()
-      // The error is already handled with notifyError in votes.js
       await $store.dispatch(`getProposalVotes`, proposalId)
       this.lastVote =
         votes[proposalId] &&

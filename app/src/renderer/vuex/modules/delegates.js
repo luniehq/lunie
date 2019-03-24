@@ -95,12 +95,8 @@ export default ({ node }) => {
 
         return validators
       } catch (error) {
-        commit(`notifyError`, {
-          title: `Error fetching validators`,
-          body: error.message
-        })
         Sentry.captureException(error)
-        state.error = error
+        state.error = `Error fetching validators: ${error.message}`
         return []
       }
     },

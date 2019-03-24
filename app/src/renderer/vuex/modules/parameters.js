@@ -28,12 +28,8 @@ export default ({ node }) => {
         state.loading = false
         state.loaded = true
       } catch (error) {
-        commit(`notifyError`, {
-          title: `Error fetching staking parameters`,
-          body: error.message
-        })
         Sentry.captureException(error)
-        state.error = error
+        state.error = `Error fetching staking parameters: ${error.message}`
       }
     }
   }

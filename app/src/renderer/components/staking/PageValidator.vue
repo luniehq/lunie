@@ -1,174 +1,178 @@
 <template>
   <tm-page
-    :managed="true"
-    :loading="delegates.loading"
-    :loaded="delegates.loaded"
-    :error="delegates.error"
-    :data-empty="!validator"
     data-title="Validator"
   >
-    <template v-if="validator" slot="managed-body">
-      <!-- we need the v-if as the template somehow is rendered in any case -->
-      <div class="page-profile__header page-profile__section">
-        <div class="row">
-          <img
-            v-if="validator.keybase && validator.keybase.avatarUrl"
-            :src="validator.keybase.avatarUrl"
-            class="avatar"
-          ><img
-            v-else
-            class="avatar"
-            src="~assets/images/validator-icon.svg"
-          >
+    <data-view
+      :loading="delegates.loading"
+      :loaded="delegates.loaded"
+      :error="delegates.error"
+      :data-empty="!validator"
+    >
+      <template v-if="validator" slot="data">
+        <!-- we need the v-if as the template
+        somehow is rendered in any case -->
+        <div class="page-profile__header page-profile__section">
+          <div class="row">
+            <img
+              v-if="validator.keybase && validator.keybase.avatarUrl"
+              :src="validator.keybase.avatarUrl"
+              class="avatar"
+            ><img
+              v-else
+              class="avatar"
+              src="~assets/images/validator-icon.svg"
+            >
 
-          <div class="page-profile__header__info">
-            <div>
-              <div class="validator-name-and-address">
-                <div class="page-profile__status-and-title">
-                  <span
-                    v-tooltip.top="status"
-                    :class="statusColor"
-                    class="page-profile__status"
-                  />
-                  <div class="page-profile__title">
-                    {{ validator.description.moniker }}
+            <div class="page-profile__header__info">
+              <div>
+                <div class="validator-name-and-address">
+                  <div class="page-profile__status-and-title">
+                    <span
+                      v-tooltip.top="status"
+                      :class="statusColor"
+                      class="page-profile__status"
+                    />
+                    <div class="page-profile__title">
+                      {{ validator.description.moniker }}
+                    </div>
                   </div>
+                  <short-bech32 :address="validator.operator_address" />
                 </div>
-                <short-bech32 :address="validator.operator_address" />
+              </div>
+
+              <div class="page-profile__header__actions">
+                <tm-btn
+                  id="delegation-btn"
+                  :disabled="!connected"
+                  :value="connected ? 'Delegate' : 'Connecting...'"
+                  color="primary"
+                  @click.native="onDelegation"
+                />
+                <tm-btn
+                  id="undelegation-btn"
+                  :disabled="!connected"
+                  :value="connected ? 'Undelegate' : 'Connecting...'"
+                  color="secondary"
+                  @click.native="onUndelegation"
+                />
               </div>
             </div>
+          </div>
 
-            <div class="page-profile__header__actions">
-              <tm-btn
-                id="delegation-btn"
-                :disabled="!connected"
-                :value="connected ? 'Delegate' : 'Connecting...'"
-                color="primary"
-                @click.native="onDelegation"
-              />
-              <tm-btn
-                id="undelegation-btn"
-                :disabled="!connected"
-                :value="connected ? 'Undelegate' : 'Connecting...'"
-                color="secondary"
-                @click.native="onUndelegation"
-              />
+          <div class="row">
+            <div class="row row-unjustified">
+              <dl class="info_dl colored_dl">
+                <dt>My Delegation</dt>
+                <dd>{{ myDelegation }}</dd>
+              </dl>
+              <dl class="info_dl colored_dl">
+                <dt>My Rewards</dt>
+                <dd>{{ rewards || "--" }}</dd>
+              </dl>
+            </div>
+
+            <div class="row row-unjustified">
+              <dl class="info_dl colored_dl">
+                <dt>Voting Power</dt>
+                <dd id="page-profile__power">
+                  {{ percent(powerRatio) }}
+                </dd>
+              </dl>
+              <dl class="info_dl colored_dl">
+                <dt>Uptime</dt>
+                <dd id="page-profile__uptime">
+                  {{ uptime }}
+                </dd>
+              </dl>
+              <dl class="info_dl colored_dl">
+                <dt>Commission</dt>
+                <dd id="page-profile__commission">
+                  {{ percent(validator.commission.rate) }}
+                </dd>
+              </dl>
+              <dl v-if="session.experimentalMode" class="info_dl colored_dl">
+                <dt>Slashes</dt>
+                <dd>--</dd>
+              </dl>
             </div>
           </div>
         </div>
 
-        <div class="row">
-          <div class="row row-unjustified">
-            <dl class="info_dl colored_dl">
-              <dt>My Delegation</dt>
-              <dd>{{ myDelegation }}</dd>
-            </dl>
-            <dl class="info_dl colored_dl">
-              <dt>My Rewards</dt>
-              <dd>{{ rewards || "--" }}</dd>
-            </dl>
-          </div>
-
-          <div class="row row-unjustified">
-            <dl class="info_dl colored_dl">
-              <dt>Voting Power</dt>
-              <dd id="page-profile__power">
-                {{ percent(powerRatio) }}
-              </dd>
-            </dl>
-            <dl class="info_dl colored_dl">
-              <dt>Uptime</dt>
-              <dd id="page-profile__uptime">
-                {{ uptime }}
-              </dd>
-            </dl>
-            <dl class="info_dl colored_dl">
-              <dt>Commission</dt>
-              <dd id="page-profile__commission">
-                {{ percent(validator.commission.rate) }}
-              </dd>
-            </dl>
-            <dl v-if="session.experimentalMode" class="info_dl colored_dl">
-              <dt>Slashes</dt>
-              <dd>--</dd>
-            </dl>
-          </div>
-        </div>
-      </div>
-
-      <div class="page-profile__section">
-        <div class="row">
-          <div class="column">
-            <dl class="info_dl">
-              <dt>First Seen</dt>
-              <dd>Block #{{ validator.bond_height }}</dd>
-            </dl>
-            <dl class="info_dl">
-              <dt>Full Operator Address</dt>
-              <dd>{{ validator.operator_address }}</dd>
-            </dl>
-            <dl class="info_dl">
-              <dt>Keybase ID</dt>
-              <dd>
-                {{ translateEmptyDescription(validator.description.identity) }}
-              </dd>
-            </dl>
-            <dl class="info_dl">
-              <dt>Website</dt>
-              <dd>
-                {{ translateEmptyDescription(validator.description.website) }}
-              </dd>
-            </dl>
-            <dl class="info_dl">
-              <dt>Description</dt>
-              <dd class="info_dl__text-box">
-                {{ translateEmptyDescription(validator.description.details) }}
-              </dd>
-            </dl>
-          </div>
-          <div class="column">
-            <dl class="info_dl">
-              <dt>Current Commission Rate</dt>
-              <dd>{{ percent(validator.commission.rate) }}</dd>
-            </dl>
-            <dl class="info_dl">
-              <dt>Max Commission Rate</dt>
-              <dd>{{ percent(validator.commission.max_rate) }}</dd>
-            </dl>
-            <dl class="info_dl">
-              <dt>Max Daily Commission Change</dt>
-              <dd>{{ percent(validator.commission.max_change_rate) }}</dd>
-            </dl>
-            <dl class="info_dl">
-              <dt>Last Commission Change</dt>
-              <dd>{{ lastCommissionChange }}</dd>
-            </dl>
-            <dl class="info_dl">
-              <dt>Self Delegation</dt>
-              <dd id="page-profile__self-bond">
-                {{ selfBond }}
-              </dd>
-            </dl>
+        <div class="page-profile__section">
+          <div class="row">
+            <div class="column">
+              <dl class="info_dl">
+                <dt>First Seen</dt>
+                <dd>Block #{{ validator.bond_height }}</dd>
+              </dl>
+              <dl class="info_dl">
+                <dt>Full Operator Address</dt>
+                <dd>{{ validator.operator_address }}</dd>
+              </dl>
+              <dl class="info_dl">
+                <dt>Keybase ID</dt>
+                <dd>
+                  {{ translateEmptyDescription(
+                    validator.description.identity
+                  ) }}
+                </dd>
+              </dl>
+              <dl class="info_dl">
+                <dt>Website</dt>
+                <dd>
+                  {{ translateEmptyDescription(validator.description.website) }}
+                </dd>
+              </dl>
+              <dl class="info_dl">
+                <dt>Description</dt>
+                <dd class="info_dl__text-box">
+                  {{ translateEmptyDescription(validator.description.details) }}
+                </dd>
+              </dl>
+            </div>
+            <div class="column">
+              <dl class="info_dl">
+                <dt>Current Commission Rate</dt>
+                <dd>{{ percent(validator.commission.rate) }}</dd>
+              </dl>
+              <dl class="info_dl">
+                <dt>Max Commission Rate</dt>
+                <dd>{{ percent(validator.commission.max_rate) }}</dd>
+              </dl>
+              <dl class="info_dl">
+                <dt>Max Daily Commission Change</dt>
+                <dd>{{ percent(validator.commission.max_change_rate) }}</dd>
+              </dl>
+              <dl class="info_dl">
+                <dt>Last Commission Change</dt>
+                <dd>{{ lastCommissionChange }}</dd>
+              </dl>
+              <dl class="info_dl">
+                <dt>Self Delegation</dt>
+                <dd id="page-profile__self-bond">
+                  {{ selfBond }}
+                </dd>
+              </dl>
+            </div>
           </div>
         </div>
-      </div>
-
-      <delegation-modal
-        ref="delegationModal"
-        :from-options="delegationTargetOptions()"
-        :to="validator.operator_address"
-        :validator="validator"
-        :denom="bondDenom"
-      />
-      <undelegation-modal
-        ref="undelegationModal"
-        :maximum="Number(myBond)"
-        :from-options="delegationTargetOptions()"
-        :to="session.signedIn ? session.address : ``"
-        :validator="validator"
-        :denom="bondDenom"
-      />
-    </template>
+      </template>
+    </data-view>
+    <delegation-modal
+      ref="delegationModal"
+      :from-options="delegationTargetOptions()"
+      :to="validator.operator_address"
+      :validator="validator"
+      :denom="bondDenom"
+    />
+    <undelegation-modal
+      ref="undelegationModal"
+      :maximum="Number(myBond)"
+      :from-options="delegationTargetOptions()"
+      :to="session.signedIn ? session.address : ``"
+      :validator="validator"
+      :denom="bondDenom"
+    />
   </tm-page>
 </template>
 
@@ -183,6 +187,7 @@ import DelegationModal from "staking/DelegationModal"
 import UndelegationModal from "staking/UndelegationModal"
 import ShortBech32 from "common/ShortBech32"
 import TmPage from "common/TmPage"
+import DataView from "common/DataView"
 import { isEmpty } from "lodash"
 export default {
   name: `page-validator`,
@@ -191,7 +196,8 @@ export default {
     DelegationModal,
     UndelegationModal,
     TmBtn,
-    TmPage
+    TmPage,
+    DataView
   },
   data: () => ({
     percent,
@@ -233,7 +239,7 @@ export default {
       const totalBlocks = this.lastHeader.height
       const missedBlocks = this.validator.signing_info.missed_blocks_counter
       const signedBlocks = totalBlocks - missedBlocks
-      const uptime = (signedBlocks / totalBlocks) * 100
+      const uptime = signedBlocks / totalBlocks * 100
 
       return String(uptime).substring(0, 4) + `%`
     },

@@ -51,12 +51,8 @@ export default ({ node }) => {
         state.loaded = true
         commit(`setValidators`, validators)
       } catch (error) {
-        commit(`notifyError`, {
-          title: `Error fetching validator set`,
-          body: error.message
-        })
         Sentry.captureException(error)
-        state.error = error
+        state.error = `Error fetching validator set: ${error.message}`
       }
     },
     async maybeUpdateValidators({ state, commit, dispatch }, header) {

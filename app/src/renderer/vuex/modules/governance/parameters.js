@@ -34,12 +34,8 @@ export default ({ node }) => {
         state.loaded = true
         commit(`setGovParameters`, { deposit, tallying, voting })
       } catch (error) {
-        commit(`notifyError`, {
-          title: `Error fetching governance parameters`,
-          body: error.message
-        })
         Sentry.captureException(error)
-        state.error = error
+        state.error = `Error fetching governance parameters: ${error.message}`
       }
       state.loading = false
     }

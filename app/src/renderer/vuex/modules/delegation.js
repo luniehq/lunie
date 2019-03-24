@@ -124,12 +124,8 @@ export default ({ node }) => {
 
         commit(`setUnbondingDelegations`, unbondingDelegations)
       } catch (error) {
-        commit(`notifyError`, {
-          title: `Error fetching delegations`,
-          body: error.message
-        })
         Sentry.captureException(error)
-        state.error = error
+        state.error = `Error fetching delegations: ${error.message}`
       }
 
       state.loading = false

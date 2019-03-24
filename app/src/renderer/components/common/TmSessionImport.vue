@@ -134,6 +134,12 @@
             </label>
           </div>
         </tm-form-group>
+        <p
+          v-if="error"
+          class="tm-form-msg sm tm-form-msg--error"
+        >
+          {{ error }}
+        </p>
       </div>
       <div class="tm-session-footer">
         <tm-btn v-if="connected" value="Next" size="lg" />
@@ -205,10 +211,7 @@ export default {
           body: `Your account has been successfully imported.`
         })
       } catch (error) {
-        this.$store.commit(`notifyError`, {
-          title: `Couldn't create account`,
-          body: error.message
-        })
+        this.error = `Couldn't create account: ${error.message}`
       }
     }
   },

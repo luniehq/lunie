@@ -1,13 +1,12 @@
 <template>
-  <div>
-    <card-sign-in-required v-if="!session.signedIn" />
-    <div v-else-if="delegation.loaded && yourValidators.length > 0">
-      <table-validators :validators="yourValidators" />
-    </div>
-    <tm-data-connecting v-else-if="!delegation.loaded && !connected" />
-    <tm-data-loading v-else-if="!delegation.loaded && delegation.loading" />
+  <data-view
+    :loaded="delegation.loaded"
+    :loading="delegation.loading"
+    :error="delegation.error"
+    :data-empty="yourValidators.length === 0"
+  >
     <tm-data-msg
-      v-else-if="yourValidators.length === 0"
+      slot="no-data"
       icon="sentiment_dissatisfied"
     >
       <div slot="title">
@@ -22,7 +21,8 @@
         to make your first delegation!
       </div>
     </tm-data-msg>
-    <div v-if="delegation.loaded && unbondingTransactions.length > 0">
+    <div slot="data">
+      <table-validators :validators="yourValidators" />
       <h3 class="tab-header transactions">
         Pending Undelegations
       </h3>
@@ -47,7 +47,7 @@
         </template>
       </div>
     </div>
-  </div>
+  </data-view>
 </template>
 
 <script>
@@ -55,10 +55,8 @@ import { mapGetters } from "vuex"
 import num from "scripts/num"
 import LiStakeTransaction from "../transactions/LiStakeTransaction"
 import TmDataMsg from "common/TmDataMsg"
-import CardSignInRequired from "common/CardSignInRequired"
-import TmDataLoading from "common/TmDataLoading"
+import DataView from "common/DataView"
 import TableValidators from "staking/TableValidators"
-import TmDataConnecting from "common/TmDataConnecting"
 import time from "scripts/time"
 
 export default {
@@ -66,10 +64,8 @@ export default {
   components: {
     TableValidators,
     TmDataMsg,
-    TmDataConnecting,
-    TmDataLoading,
     LiStakeTransaction,
-    CardSignInRequired
+    DataView
   },
   data: () => ({
     unbondTransactions: `Transactions currently in the undelegation period`,

@@ -150,6 +150,12 @@
             </label>
           </div>
         </tm-form-group>
+        <p
+          v-if="error"
+          class="tm-form-msg sm tm-form-msg--error"
+        >
+          {{ error }}
+        </p>
       </div>
       <div class="tm-session-footer">
         <tm-btn value="Next" size="lg" />
@@ -222,10 +228,7 @@ export default {
           localKeyPairName: this.fields.signUpName
         })
       } catch (error) {
-        this.$store.commit(`notifyError`, {
-          title: `Couldn't create account`,
-          body: error.message
-        })
+        this.error = `Couldn't create account: ${error.message}`
       }
     }
   },
