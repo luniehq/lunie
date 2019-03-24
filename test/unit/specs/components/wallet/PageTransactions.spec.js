@@ -302,6 +302,14 @@ describe(`PageTransactions`, () => {
     expect($store.dispatch).not.toHaveBeenCalledWith(`getAllTxs`)
   })
 
+  it(`should load transactions when signing in`, () => {
+    const refreshTransactions = jest.fn()
+    PageTransactions.watch[`session.signedIn`].handler.call({
+      refreshTransactions
+    })
+    expect(refreshTransactions).toHaveBeenCalled()
+  })
+
   it(`should show transactions`, async () => {
     expect(wrapper.findAll(`li-any-transaction-stub`).length).toBe(6)
   })

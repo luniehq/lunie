@@ -26,6 +26,11 @@ export const wallet = state => state.wallet
 
 // fee distribution
 export const distribution = state => state.distribution
+export const yourValidators = (state, getters) =>
+  state.session.signedIn ?
+    getters.delegates.delegates.filter(
+      ({ operator_address }) => operator_address in getters.committedDelegations
+    ) : []
 
 // staking
 export const liquidAtoms = state =>

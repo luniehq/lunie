@@ -73,7 +73,8 @@ export default {
     unbondTransactions: `Transactions currently in the undelegation period`,
     validatorURL: `/staking/validators`,
     time,
-    num
+    num,
+    lastUpdate: 0
   }),
   computed: {
     ...mapGetters([
@@ -130,18 +131,8 @@ export default {
     },
     lastHeader: {
       immediate: true,
-      handler(newHeader) {
-        const waitTwentyBlocks = Number(newHeader.height) % 20 === 0
-        if (
-          waitTwentyBlocks &&
-          this.yourValidators &&
-          this.yourValidators.length > 0
-        ) {
-          this.$store.dispatch(
-            `getRewardsFromAllValidators`,
-            this.yourValidators
-          )
-        }
+      handler() {
+        this.$store.dispatch(`getRewardsFromMyValidators`)
       }
     }
   },
