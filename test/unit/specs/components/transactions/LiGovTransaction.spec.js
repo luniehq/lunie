@@ -5,28 +5,45 @@ import { governanceTxs } from "../../store/json/txs"
 describe(`LiGovTransaction`, () => {
   let wrapper
   const propsData = {
-    transaction: governanceTxs[0],
     url: `/proposals`,
     bondingDenom: `stake`,
-    txType: `cosmos-sdk/MsgSubmitProposal`
+    fees: {
+      amount: `3421`,
+      denom: `uatom`
+    },
+    tx: {},
+    txType: ``,
+    time: new Date(Date.now()).toISOString(),
+    block: 500
   }
 
+  beforeEach(() => {
+    wrapper = shallowMount(
+      LiGovTransaction, { propsData, stubs: [`router-link`] }
+    )
+  })
+
   it(`proposals`, () => {
-    wrapper = shallowMount(LiGovTransaction, { propsData, stubs: [`router-link`] })
+    wrapper.setProps({
+      tx: governanceTxs[0].tx.value.msg[0].value,
+      txType: `cosmos-sdk/MsgSubmitProposal`
+    })
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`deposits`, () => {
-    propsData.transaction = governanceTxs[1]
-    propsData.txType = `cosmos-sdk/MsgDeposit`
-    wrapper = shallowMount(LiGovTransaction, { propsData, stubs: [`router-link`] })
+    wrapper.setProps({
+      tx: governanceTxs[1].tx.value.msg[0].value,
+      txType: `cosmos-sdk/MsgDeposit`
+    })
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`votes`, () => {
-    propsData.transaction = governanceTxs[2]
-    propsData.txType = `cosmos-sdk/MsgVote`
-    wrapper = shallowMount(LiGovTransaction, { propsData, stubs: [`router-link`] })
+    wrapper.setProps({
+      tx: governanceTxs[2].tx.value.msg[0].value,
+      txType: `cosmos-sdk/MsgVote`
+    })
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 })
