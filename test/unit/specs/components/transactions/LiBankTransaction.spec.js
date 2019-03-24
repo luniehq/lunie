@@ -5,40 +5,40 @@ import { bankTxs } from "../../store/json/txs"
 describe(`LiBankTransaction`, () => {
   let wrapper
   const propsData = {
-    transaction: bankTxs[0],
+    tx: bankTxs[0].tx.value.msg[0].value,
     bondingDenom: `uatom`,
     address: ``,
     fees: {
       amount: `3421`,
       denom: `uatom`
-    }
+    },
+    time: new Date(Date.now()).toISOString(),
+    block: 500
   }
 
-  it(`should show bank transaction when user hasn't signed in`, () => {
+  beforeEach(() => {
     wrapper = shallowMount(LiBankTransaction, {
       propsData,
       stubs: [`router-link`]
     })
+  })
+
+  it(`should show bank transaction when user hasn't signed in`, () => {
+
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should show incoming transactions`, () => {
-    propsData.address = `B`
-    wrapper = shallowMount(LiBankTransaction, {
-      propsData,
-      stubs: [`router-link`]
-    })
+    wrapper.setProps({ address: `B` })
 
     expect(wrapper.vm.sent).toBe(false)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should show outgoing transactions`, () => {
-    propsData.transaction = bankTxs[1]
-    propsData.address = bankTxs[1].tx.value.msg[0].value.from_address
-    wrapper = shallowMount(LiBankTransaction, {
-      propsData,
-      stubs: [`router-link`]
+    wrapper.setProps({
+      tx: bankTxs[1].tx.value.msg[0].value,
+      address: bankTxs[1].tx.value.msg[0].value.from_address
     })
 
     expect(wrapper.vm.sent).toBe(true)
@@ -46,22 +46,19 @@ describe(`LiBankTransaction`, () => {
   })
 
   it(`should show outgoing transactions send to herself`, () => {
-    propsData.transaction = bankTxs[2]
-    propsData.address = `A`
-    wrapper = shallowMount(LiBankTransaction, {
-      propsData,
-      stubs: [`router-link`]
+    wrapper.setProps({
+      tx: bankTxs[2].tx.value.msg[0].value,
+      address: `A`
     })
     expect(wrapper.vm.sentSelf).toBe(true)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should show a bank transaction without fees`, () => {
-    propsData.transaction = bankTxs[2]
-    propsData.address = `A`
-    wrapper = shallowMount(LiBankTransaction, {
-      propsData: Object.assign({}, propsData, { fees: null }),
-      stubs: [`router-link`]
+    wrapper.setProps({
+      tx: bankTxs[2].tx.value.msg[0].value,
+      address: `A`,
+      fees: null
     })
     expect(wrapper.vm.sentSelf).toBe(true)
     expect(wrapper.vm.$el).toMatchSnapshot()

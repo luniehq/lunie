@@ -1,15 +1,15 @@
 <template>
   <li-transaction
     :color="`#F2B134`"
-    :time="transaction.time"
-    :block="transaction.height"
+    :time="time"
+    :block="block"
   >
     <template v-if="txType === `cosmos-sdk/MsgWithdrawDelegationReward`">
       <div slot="caption">
         Withdraw rewards
       </div>
       <div slot="details">
-        From&nbsp;<router-link :to="url + '/' + tx.validator_address">
+        From&nbsp;<router-link :to="`${url}/${tx.validator_address}`">
           {{ moniker(tx.validator_address) }}
         </router-link>
       </div>
@@ -39,13 +39,13 @@
         Withdraw validator commission
       </div>
       <div slot="details">
-        From<router-link :to="url + '/' + tx.validator_address">
+        From<router-link :to="`${url}/${tx.validator_address}`">
           {{ moniker(tx.validator_address) }}
         </router-link>
       </div>
       <div slot="fees">
         Network Fee:&nbsp;
-        <b>{{ convertedFees ? convertedFeesfees.amount : full(0) }}</b>
+        <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
         <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
       </div>
     </template>
@@ -60,7 +60,7 @@ export default {
   name: `li-distribution-transaction`,
   components: { LiTransaction },
   props: {
-    transaction: {
+    tx: {
       type: Object,
       required: true
     },
@@ -83,6 +83,14 @@ export default {
     validators: {
       type: Array,
       required: true
+    },
+    time: {
+      type: String,
+      default: null
+    },
+    block: {
+      type: Number,
+      required: true
     }
   },
   data: () => ({
@@ -91,9 +99,6 @@ export default {
     pretty
   }),
   computed: {
-    tx() {
-      return this.transaction.tx.value.msg[0].value
-    },
     convertedFees() {
       return this.fees ? num.viewCoin(this.fees) : undefined
     }
