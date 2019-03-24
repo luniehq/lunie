@@ -4,4 +4,4 @@
 
 ### Changed
 
-- Show rewards in header on mobile @faboweb
+- [\#2337](https://github.com/cosmos/voyager/pull/2337) Show rewards in header on mobile @faboweb
