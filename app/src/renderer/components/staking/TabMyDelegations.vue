@@ -27,30 +27,21 @@
         Pending Undelegations
       </h3>
       <div class="unbonding-transactions">
-        <template v-for="transaction in unbondingTransactions">
-          <div
-            v-for="(msg, index) in transaction.tx.value.msg"
-            :key="index"
-          >
-            <li-stake-transaction
-              :key="transaction.hash"
-              :tx-type="msg.type"
-              :tx="msg.value"
-              :validators="yourValidators"
-              :bonding-denom="bondDenom"
-              :url="validatorURL"
-              :fees="transaction.tx.value.fee.amount &&
-                transaction.tx.value.fee.amount[0]"
-              :unbonding-time="
-                time.getUnbondingTime(
-                  transaction,
-                  delegation.unbondingDelegations
-                )
-              "
-              :time="transaction.time"
-              :block="Number(transaction.height)"
-            />
-          </div>
+        <template>
+          <li-any-transaction
+            v-for="tx in unbondingTransactions"
+            :key="tx.txhash"
+            :validators="yourValidators"
+            :validators-url="`/staking/validators`"
+            :proposals-url="`/governance`"
+            :transaction="tx"
+            :address="session.address"
+            :bonding-denom="bondDenom"
+            :unbonding-time="
+              time.getUnbondingTime(tx, delegation.unbondingDelegations)
+            "
+          />
+          <br>
         </template>
       </div>
     </div>
@@ -60,7 +51,7 @@
 <script>
 import { mapGetters } from "vuex"
 import num from "scripts/num"
-import LiStakeTransaction from "../transactions/LiStakeTransaction"
+import LiAnyTransaction from "../transactions/LiAnyTransaction"
 import TmDataMsg from "common/TmDataMsg"
 import CardSignInRequired from "common/CardSignInRequired"
 import TmDataLoading from "common/TmDataLoading"
@@ -75,7 +66,7 @@ export default {
     TmDataMsg,
     TmDataConnecting,
     TmDataLoading,
-    LiStakeTransaction,
+    LiAnyTransaction,
     CardSignInRequired
   },
   data: () => ({

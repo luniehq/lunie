@@ -9,7 +9,7 @@
         Withdraw rewards
       </div>
       <div slot="details">
-        From&nbsp;<router-link :to="url + '/' + tx.validator_address">
+        From&nbsp;<router-link :to="`${url}/${tx.validator_address}`">
           {{ moniker(tx.validator_address) }}
         </router-link>
       </div>
@@ -39,13 +39,13 @@
         Withdraw validator commission
       </div>
       <div slot="details">
-        From<router-link :to="url + '/' + tx.validator_address">
+        From<router-link :to="`${url}/${tx.validator_address}`">
           {{ moniker(tx.validator_address) }}
         </router-link>
       </div>
       <div slot="fees">
         Network Fee:&nbsp;
-        <b>{{ convertedFees ? convertedFeesfees.amount : full(0) }}</b>
+        <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
         <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
       </div>
     </template>
