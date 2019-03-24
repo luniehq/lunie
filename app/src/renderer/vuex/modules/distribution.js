@@ -110,7 +110,7 @@ export default ({ node }) => {
     ) {
       // throttle the update of validator rewards to every 20 blocks
       const waitedTwentyBlocks =
-        Number(lastHeader.height) - state.lastValidatorRewardsUpdate > 20
+        Number(lastHeader.height) - state.lastValidatorRewardsUpdate >= 20
       if (
         (state.lastValidatorRewardsUpdate === 0 || waitedTwentyBlocks) &&
         yourValidators &&

@@ -88,7 +88,7 @@ export default {
       handler(newHeader) {
         const height = Number(newHeader.height)
         // run the update queries the first time and after every 10 blocks
-        const waitedTenBlocks = height - this.lastUpdate > 10
+        const waitedTenBlocks = height - this.lastUpdate >= 10
         if (
           this.session.signedIn &&
           (this.lastUpdate === 0 || waitedTenBlocks)

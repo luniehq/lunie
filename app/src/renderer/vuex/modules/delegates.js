@@ -68,7 +68,7 @@ export default ({ node }) => {
     ) {
       // throttle the update for validators for every 10 blocks
       const waited10Blocks =
-        Number(lastHeader.height) - state.lastDelegatesUpdate > 10
+        Number(lastHeader.height) - state.lastDelegatesUpdate >= 10
       if (state.lastValidatorsUpdate === 0 || waited10Blocks) {
         state.lastValidatorsUpdate = Number(lastHeader.height)
         for (const validator of validators) {
