@@ -99,7 +99,7 @@ export default ({ node }) => {
         gas_prices: gasPrices,
         gas_adjustment: String(gasAdjustment),
         simulate: true,
-        memo: `Sent via Cosmos Wallet 🚀`
+        memo: `Sent via Lunie`
       }
       args.base_req = requestMetaData
 

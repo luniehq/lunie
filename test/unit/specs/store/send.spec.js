@@ -147,7 +147,7 @@ describe(`Module: Send`, () => {
                 from: `cosmos1demo`,
                 gas: `123123`,
                 sequence: `0`,
-                memo: `Sent via Cosmos Wallet 🚀`,
+                memo: `Sent via Lunie`,
                 gas_adjustment,
                 gas_prices,
                 simulate: false
@@ -186,7 +186,7 @@ describe(`Module: Send`, () => {
                   from: `cosmos1demo`,
                   gas: `123123`,
                   sequence: `0`,
-                  memo: `Sent via Cosmos Wallet 🚀`,
+                  memo: `Sent via Lunie`,
                   gas_adjustment,
                   gas_prices,
                   simulate: false
@@ -225,7 +225,7 @@ describe(`Module: Send`, () => {
                 from: `cosmos1demo`,
                 gas: `123123`,
                 sequence: `0`,
-                memo: `Sent via Cosmos Wallet 🚀`,
+                memo: `Sent via Lunie`,
                 gas_adjustment,
                 gas_prices,
                 simulate: false
@@ -273,7 +273,7 @@ describe(`Module: Send`, () => {
                 from: `cosmos1demo`,
                 gas: `123123`,
                 sequence: `0`,
-                memo: `Sent via Cosmos Wallet 🚀`,
+                memo: `Sent via Lunie`,
                 gas_prices,
                 gas_adjustment,
                 simulate: false
