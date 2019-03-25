@@ -3,6 +3,7 @@
     id="modal-withdraw-all-rewards"
     ref="actionModal"
     :submit-fn="submitForm"
+    :simulate-fn="simulateForm"
     title="Withdraw Rewards"
     class="modal-withdraw-rewards"
     submission-error-prefix="Withdrawal failed"
@@ -25,7 +26,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import num, { atoms } from "../../scripts/num.js"
+import num, { uatoms, atoms } from "../../scripts/num.js"
 import ActionModal from "common/ActionModal"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
@@ -65,8 +66,18 @@ export default {
     open() {
       this.$refs.actionModal.open()
     },
-    async submitForm(submitType, password) {
+    async simulateForm() {
+      return await this.$store.dispatch(`simulateWithdrawAllRewards`)
+    },
+    async submitForm(gasEstimate, gasPrice, password, submitType) {
       await this.$store.dispatch(`withdrawAllRewards`, {
+        gas: String(gasEstimate),
+        gas_prices: [
+          {
+            amount: String(uatoms(gasPrice)),
+            denom: this.bondDenom
+          }
+        ],
         submitType,
         password
       })
