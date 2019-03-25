@@ -1,4 +1,3 @@
-
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
 

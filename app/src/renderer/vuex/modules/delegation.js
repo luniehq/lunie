@@ -214,7 +214,6 @@ export default ({ node }) => {
       },
       { validator, amount }
     ) {
-      // TODO: change to 10 when available https://github.com/cosmos/cosmos-sdk/issues/2317
       const shares = String(
         Math.abs(calculateShares(validator, amount)).toFixed(10)
       )
@@ -233,7 +232,6 @@ export default ({ node }) => {
       },
       { validator, amount, gas, gas_prices, password, submitType }
     ) {
-      // TODO: change to 10 when available https://github.com/cosmos/cosmos-sdk/issues/2317
       const shares = String(
         Math.abs(calculateShares(validator, amount)).toFixed(10)
       )
