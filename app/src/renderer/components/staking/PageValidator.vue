@@ -156,23 +156,23 @@
             </div>
           </div>
         </div>
+        <delegation-modal
+          ref="delegationModal"
+          :from-options="delegationTargetOptions()"
+          :to="validator.operator_address"
+          :validator="validator"
+          :denom="bondDenom"
+        />
+        <undelegation-modal
+          ref="undelegationModal"
+          :maximum="Number(myBond)"
+          :from-options="delegationTargetOptions()"
+          :to="session.signedIn ? session.address : ``"
+          :validator="validator"
+          :denom="bondDenom"
+        />
       </template>
     </data-view>
-    <delegation-modal
-      ref="delegationModal"
-      :from-options="delegationTargetOptions()"
-      :to="validator.operator_address"
-      :validator="validator"
-      :denom="bondDenom"
-    />
-    <undelegation-modal
-      ref="undelegationModal"
-      :maximum="Number(myBond)"
-      :from-options="delegationTargetOptions()"
-      :to="session.signedIn ? session.address : ``"
-      :validator="validator"
-      :denom="bondDenom"
-    />
   </tm-page>
 </template>
 

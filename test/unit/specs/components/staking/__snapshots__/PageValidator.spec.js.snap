@@ -312,23 +312,23 @@ exports[`PageValidator shows a validator profile information errors signing info
           </div>
         </div>
       </div>
+       
+      <delegation-modal-stub
+        denom="STAKE"
+        fromoptions="[object Object]"
+        to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+        validator="[object Object]"
+      />
+       
+      <undelegation-modal-stub
+        denom="STAKE"
+        fromoptions="[object Object]"
+        maximum="0"
+        to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+        validator="[object Object]"
+      />
     </template>
   </data-view-stub>
-   
-  <delegation-modal-stub
-    denom="STAKE"
-    fromoptions="[object Object]"
-    to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
-    validator="[object Object]"
-  />
-   
-  <undelegation-modal-stub
-    denom="STAKE"
-    fromoptions="[object Object]"
-    maximum="0"
-    to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
-    validator="[object Object]"
-  />
 </tm-page-stub>
 `;
 
@@ -644,23 +644,23 @@ exports[`PageValidator shows a validator profile information if user has signed 
           </div>
         </div>
       </div>
+       
+      <delegation-modal-stub
+        denom="STAKE"
+        fromoptions="[object Object]"
+        to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+        validator="[object Object]"
+      />
+       
+      <undelegation-modal-stub
+        denom="STAKE"
+        fromoptions="[object Object]"
+        maximum="0"
+        to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+        validator="[object Object]"
+      />
     </template>
   </data-view-stub>
-   
-  <delegation-modal-stub
-    denom="STAKE"
-    fromoptions="[object Object]"
-    to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
-    validator="[object Object]"
-  />
-   
-  <undelegation-modal-stub
-    denom="STAKE"
-    fromoptions="[object Object]"
-    maximum="0"
-    to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
-    validator="[object Object]"
-  />
 </tm-page-stub>
 `;
 
@@ -976,23 +976,23 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
           </div>
         </div>
       </div>
+       
+      <delegation-modal-stub
+        denom="STAKE"
+        fromoptions=""
+        to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+        validator="[object Object]"
+      />
+       
+      <undelegation-modal-stub
+        denom="STAKE"
+        fromoptions=""
+        maximum="0"
+        to=""
+        validator="[object Object]"
+      />
     </template>
   </data-view-stub>
-   
-  <delegation-modal-stub
-    denom="STAKE"
-    fromoptions=""
-    to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
-    validator="[object Object]"
-  />
-   
-  <undelegation-modal-stub
-    denom="STAKE"
-    fromoptions=""
-    maximum="0"
-    to=""
-    validator="[object Object]"
-  />
 </tm-page-stub>
 `;
 

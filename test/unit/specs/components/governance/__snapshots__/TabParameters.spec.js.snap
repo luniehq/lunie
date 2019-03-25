@@ -1,173 +1,36 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TabParameters has the expected html structure 1`] = `
-<div>
+<div
+  class="data-view"
+>
   <div
-    class="parameters__details parameters__section"
+    class="tm-data-msg"
   >
+    <img
+      class="tm-data-msg__icon"
+      src="~assets/images/loader.svg"
+    />
+     
     <div
-      class="row"
+      class="tm-data-msg__text"
     >
       <div
-        class="column"
+        class="tm-data-msg__title"
+        slot="title"
       >
-        <dl
-          class="info_dl"
-        >
-          <dt>
-            
-            Minimum Deposit
-            
-            <i
-              class="material-icons info-button"
-            >
-              
-              info_outline
-            
-            </i>
-          </dt>
-           
-          <dd>
-            
-            100.000000 STAKEs
-          
-          </dd>
-        </dl>
+        
+      Data is loading…
+    
       </div>
        
       <div
-        class="column"
+        class="tm-data-msg__subtitle"
+        slot="subtitle"
       >
-        <dl
-          class="info_dl"
-        >
-          <dt>
-            
-            Maximum Deposit Period
-            
-            <i
-              class="material-icons info-button"
-            >
-              
-              info_outline
-            
-            </i>
-          </dt>
-           
-          <dd>
-            
-            1 days
-          
-          </dd>
-        </dl>
-      </div>
-    </div>
-  </div>
-   
-  <div
-    class="parameters__details parameters__section"
-  >
-    <div
-      class="row"
-    >
-      <div
-        class="column"
-      >
-        <dl
-          class="info_dl"
-        >
-          <dt>
-            
-            Threshold
-            
-            <i
-              class="material-icons info-button"
-            >
-              
-              info_outline
-            
-            </i>
-          </dt>
-           
-          <dd>
-            
-            50 %
-          
-          </dd>
-        </dl>
-         
-        <dl
-          class="info_dl"
-        >
-          <dt>
-            
-            Veto
-            
-            <i
-              class="material-icons info-button"
-            >
-              
-              info_outline
-            
-            </i>
-          </dt>
-           
-          <dd>
-            
-            33.4 %
-          
-          </dd>
-        </dl>
-      </div>
-       
-      <div
-        class="column"
-      >
-        <dl
-          class="info_dl"
-        >
-          <dt>
-            
-            Quorum
-            
-            <i
-              class="material-icons info-button"
-            >
-              
-              info_outline
-            
-            </i>
-          </dt>
-           
-          <dd>
-            
-            33.4 %
-          
-          </dd>
-        </dl>
-         
-        <dl
-          class="info_dl"
-        >
-          <dt>
-            
-            Voting Period
-            
-            <i
-              class="material-icons info-button"
-            >
-              
-              info_outline
-            
-            </i>
-          </dt>
-           
-          <dd>
-            
-            1 days
-          
-          </dd>
-        </dl>
+        
+      Please wait a moment.
+    
       </div>
     </div>
   </div>
