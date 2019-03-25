@@ -13,7 +13,7 @@
         <td>
           Fees (estimated)
           <i
-            v-tooltip.top="info"
+            v-tooltip.left="info"
             class="material-icons info-button"
           >
             info_outline
@@ -56,7 +56,7 @@ export default {
   },
   data: () => ({
     full,
-    info: `Estimated fees required to process the transaction, based on simulation. Cosmos Wallet doesn't take any fees.`
+    info: `Estimated fees required to process the transaction, based on simulation. Lunie doesn't take any fees.`
   }),
   computed: {
     ...mapGetters([`session`]),
@@ -76,3 +76,16 @@ export default {
   }
 }
 </script>
+<style scoped>
+.data-table {
+  border-spacing: 0 0.25rem;
+  width: 17rem;
+  padding: 0;
+  table-layout: auto;
+  float: right;
+}
+
+.data-table td:not(:first-child) {
+  text-align: right;
+}
+</style>
