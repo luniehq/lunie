@@ -12,36 +12,30 @@ export default ({ node }) => {
     governance: [],
     distribution: []
   }
+
+  const
+    TypeBank = `bank`,
+    TypeStaking = `staking`,
+    TypeGovernance = `governance`,
+    TypeDistribution = `distribution`
+
   const state = JSON.parse(JSON.stringify(emptyState))
 
   const mutations = {
     setBankTxs(state, txs) {
-      Vue.set(state, `bank`, txs)
+      state.bank = state.bank.concat(txs)
     },
     setStakingTxs(state, txs) {
-      Vue.set(state, `staking`, txs)
+      state.staking = state.staking.concat(txs)
     },
     setGovernanceTxs(state, txs) {
-      Vue.set(state, `governance`, txs)
+      state.governance = state.governance.concat(txs)
     },
     setDistributionTxs(state, txs) {
-      Vue.set(state, `distribution`, txs)
+      state.distribution = state.distribution.concat(txs)
     },
     setHistoryLoading(state, loading) {
       Vue.set(state, `loading`, loading)
-    },
-    // TODO: this should set the time for only one tx !
-    setTransactionTime(state, { blockHeight, time }) {
-      [`staking`, `bank`, `governance`, `distribution`]
-        .forEach(category => {
-          state[category].forEach(tx => {
-            if (tx.height === blockHeight && time) {
-              // time seems to be an ISO string, but we are expecting a Number type
-              time = new Date(time).toISOString()
-              Vue.set(tx, `time`, time)
-            }
-          })
-        })
     }
   }
 
@@ -62,29 +56,56 @@ export default ({ node }) => {
 
         if (!rootState.connection.connected) return
 
-        // TODO: add (push to state) only new transactions
-        const bankTxs = await dispatch(`getTx`, `bank`)
+        const bankTxs = await dispatch(`getTx`, TypeBank)
         if (bankTxs.length > state.bank.length) {
-          commit(`setBankTxs`, bankTxs)
-          await dispatch(`enrichTransactions`, bankTxs)
+          let newBankTxs = uniqBy(
+            bankTxs.concat(state.bank),
+            `txhash`
+          )
+          newBankTxs = await dispatch(`enrichTransactions`, {
+            transactions: newBankTxs,
+            txType: TypeBank
+          })
+          commit(`setBankTxs`, newBankTxs)
         }
 
-        const stakingTxs = await dispatch(`getTx`, `staking`)
+        const stakingTxs = await dispatch(`getTx`, TypeStaking)
         if (stakingTxs.length > state.staking.length) {
-          commit(`setStakingTxs`, stakingTxs)
-          await dispatch(`enrichTransactions`, stakingTxs)
+          let newStakingTxs = uniqBy(
+            stakingTxs.concat(state.staking),
+            `txhash`
+          )
+          newStakingTxs = await dispatch(`enrichTransactions`, {
+            transactions: newStakingTxs,
+            txType: TypeStaking
+          })
+          commit(`setStakingTxs`, newStakingTxs)
         }
 
-        const governanceTxs = await dispatch(`getTx`, `governance`)
+        const governanceTxs = await dispatch(`getTx`, TypeGovernance)
         if (governanceTxs.length > state.governance.length) {
-          commit(`setGovernanceTxs`, governanceTxs)
-          await dispatch(`enrichTransactions`, governanceTxs)
+          let newGovernanceTxs = uniqBy(
+            governanceTxs.concat(state.governance),
+            `txhash`
+          )
+          newGovernanceTxs = await dispatch(`enrichTransactions`, {
+            transactions: newGovernanceTxs,
+            txType: TypeGovernance
+          })
+          commit(`setGovernanceTxs`, newGovernanceTxs)
         }
 
-        const distributionTxs = await dispatch(`getTx`, `distribution`)
+        const distributionTxs = await dispatch(`getTx`, TypeDistribution)
         if (distributionTxs.length > state.distribution.length) {
-          commit(`setDistributionTxs`, distributionTxs)
-          await dispatch(`enrichTransactions`, distributionTxs)
+          let newDistributionTxs = uniqBy(
+            distributionTxs.concat(state.distribution),
+            `txhash`
+          )
+          newDistributionTxs = await dispatch(`enrichTransactions`, {
+            transactions: newDistributionTxs,
+            txType: TypeDistribution
+          })
+          commit(`setDistributionTxs`, newDistributionTxs)
         }
 
         state.error = null
@@ -99,40 +120,38 @@ export default ({ node }) => {
       let response
       const validatorAddress = address.replace(`cosmos`, `cosmosvaloper`)
       switch (type) {
-        case `staking`:
-          response = await node.getStakingTxs(address, validatorAddress)
-          break
-        case `governance`:
-          response = await node.getGovernanceTxs(address)
-          break
-        case `distribution`:
-          response = await node.getDistributionTxs(address, validatorAddress)
-          break
-        case `bank`:
+        case TypeBank:
           response = await node.txs(address)
           break
+        case TypeStaking:
+          response = await node.getStakingTxs(address, validatorAddress)
+          break
+        case TypeGovernance:
+          response = await node.getGovernanceTxs(address)
+          break
+        case TypeDistribution:
+          response = await node.getDistributionTxs(address, validatorAddress)
+          break
         default:
-          throw new Error(`Unknown transaction type`)
+          throw new Error(`Unknown transaction type: ${type}`)
       }
-      const transactionsPlusType = response.map(t => ({ ...t, type }))
-      return response ? uniqBy(transactionsPlusType, `txhash`) : []
+      if (!response) {
+        return []
+      }
+      return response
     },
-    async enrichTransactions({ dispatch }, transactions) {
-      const blockHeights = new Set(
-        transactions.map(({ height }) => parseInt(height))
+    async enrichTransactions({ dispatch }, { transactions, txType }) {
+      const enrichedTransactions = await Promise.all(
+        transactions.map(async tx => {
+          const blockMetaInfo = await dispatch(`queryBlockInfo`, tx.height)
+          const enrichedTx = Object.assign({}, tx, {
+            type: txType,
+            time: new Date(blockMetaInfo.header.time).toISOString()
+          })
+          return enrichedTx
+        })
       )
-      await Promise.all(
-        [...blockHeights].map(blockHeight =>
-          dispatch(`queryTransactionTime`, { blockHeight })
-        )
-      )
-    },
-    async queryTransactionTime({ commit, dispatch }, { blockHeight }) {
-      const blockMetaInfo = await dispatch(`queryBlockInfo`, blockHeight)
-      commit(`setTransactionTime`, {
-        blockHeight,
-        time: new Date(blockMetaInfo.header.time).toISOString()
-      })
+      return enrichedTransactions
     }
   }
 

@@ -22,7 +22,7 @@
         <div class="li-tx__content__block">
           <router-link :to="{ name: `block`, params: { height: block } }">
             Block #{{ block }}&nbsp;
-          </router-link>{{ date !== `Invalid date` ? `@ ${date}` : `` }}
+          </router-link>@&nbsp;{{ date }} 
         </div>
       </div>
     </div>
@@ -41,7 +41,7 @@ export default {
     },
     time: {
       type: String,
-      default: null // TODO: fails with required: true
+      required: true
     },
     block: {
       type: Number,
