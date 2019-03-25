@@ -1,11 +1,11 @@
 {
-  "name": "cosmos-wallet",
+  "name": "lunie",
   "productName": "lunie",
-  "version": "1.0.0-beta.26",
+  "version": "1.0.0-beta.27",
   "description": "Lunie is a web based user interface for the Cosmos Hub.",
   "author": "All In Bits, Inc <hello@tendermint.com>",
   "license": "Apache-2.0",
-  "homepage": "https://beta.cosmoswallet.io",
+  "homepage": "https://lunie.io",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cosmos/voyager.git"
