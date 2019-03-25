@@ -384,7 +384,7 @@ describe(`Module: Session`, () => {
   })
 
   it(`should store the persisted user preferences`, () => {
-    localStorage.setItem(`lunie_user_preferences`, "")
+    localStorage.setItem(`lunie_user_preferences`, ``)
     state.errorCollection = true
     state.analyticsCollection = true
 
@@ -394,7 +394,7 @@ describe(`Module: Session`, () => {
       }
     )
 
-    expect(localStorage.getItem(`lunie_user_preferences`)).toBe("{\"errorCollection\":true,\"analyticsCollection\":true}")
+    expect(localStorage.getItem(`lunie_user_preferences`)).toBe(`{"errorCollection":true,"analyticsCollection":true}`)
   })
 
   it(`should reload accounts on reconnect as this could be triggered by a switch from a mocked connection`, async () => {

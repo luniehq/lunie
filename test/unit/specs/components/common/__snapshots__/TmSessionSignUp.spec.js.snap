@@ -135,34 +135,6 @@ exports[`SessionSignUp has the expected html structure 1`] = `
          
         <!---->
       </tm-form-group-stub>
-       
-      <tm-form-group-stub
-        fieldid="error-collection"
-        fieldlabel=""
-      >
-        <div
-          class="tm-field-checkbox"
-        >
-          <div
-            class="tm-field-checkbox-input"
-          >
-            <input
-              id="error-collection"
-              type="checkbox"
-            />
-          </div>
-           
-          <label
-            class="tm-field-checkbox-label"
-            for="error-collection"
-          >
-            
-            I'd like to opt in for remote error tracking to help improve
-            Voyager.
-          
-          </label>
-        </div>
-      </tm-form-group-stub>
     </div>
      
     <div
