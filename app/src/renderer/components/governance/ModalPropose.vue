@@ -198,7 +198,7 @@ export default {
       this.amount = 0
     },
     async simulateForm() {
-      return await this.$store.dispatch(`simulateProposal`, {
+      const gasEstimate = await this.$store.dispatch(`simulateProposal`, {
         title: this.title,
         description: this.description,
         type: this.type,
@@ -209,6 +209,7 @@ export default {
           }
         ]
       })
+      return gasEstimate
     },
     async submitForm(gasEstimate, gasPrice, password, submitType) {
       await this.$store.dispatch(`submitProposal`, {
