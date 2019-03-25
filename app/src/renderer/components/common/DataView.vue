@@ -28,7 +28,7 @@ import TmDataError from "common/TmDataError"
 import TmDataConnecting from "common/TmDataConnecting"
 
 export default {
-  name: `tm-page`,
+  name: `data-view`,
   components: {
     TmDataEmpty,
     TmDataLoading,
