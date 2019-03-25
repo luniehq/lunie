@@ -41,6 +41,8 @@ export default () => {
       testPassword,
       generateSeed,
       track,
+      anonymize,
+      deanonymize,
       Sentry
     }
   }
@@ -227,10 +229,10 @@ export default () => {
       dispatch(`storeLocalPreferences`)
 
       if (state.analyticsCollection) {
-        deanonymize()
+        state.externals.deanonymize()
         console.log(`Analytics collection has been enabled`)
       } else {
-        anonymize()
+        state.externals.anonymize()
         console.log(`Analytics collection has been disabled`)
       }
     }

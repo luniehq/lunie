@@ -21,6 +21,8 @@ describe(`Module: Session`, () => {
         init: jest.fn()
       },
       track: jest.fn(),
+      anonymize: jest.fn(),
+      deanonymize: jest.fn(),
       config: {
         development: false,
         google_analytics_uid: `UA-123`,
@@ -241,10 +243,6 @@ describe(`Module: Session`, () => {
       expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, {
         address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
       })
-      expect(dispatch).toHaveBeenCalledWith(
-        `loadErrorCollection`,
-        `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
-      )
       expect(state.externals.track).toHaveBeenCalled()
     })
 
@@ -261,7 +259,6 @@ describe(`Module: Session`, () => {
       expect(commit).toHaveBeenCalledWith(`setSessionType`, `ledger`)
       expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
       expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, { address })
-      expect(dispatch).toHaveBeenCalledWith(`loadErrorCollection`, address)
       expect(state.externals.track).toHaveBeenCalled()
     })
   })
@@ -281,19 +278,17 @@ describe(`Module: Session`, () => {
   it(`should enable error collection`, async () => {
     jest.spyOn(console, `log`).mockImplementationOnce(() => { })
     const commit = jest.fn()
+    const dispatch = jest.fn()
     await actions.setErrorCollection(
       {
         state,
-        commit
+        commit,
+        dispatch
       },
-      { address: `abc`, optin: true }
+      true
     )
 
     expect(state.errorCollection).toBe(true)
-    expect(localStorage.getItem(`voyager_error_collection_abc`)).toBe(`true`)
-    expect(state.externals.track).toHaveBeenCalledWith(`pageview`, {
-      dl: `/`
-    })
     expect(state.externals.Sentry.init).toHaveBeenCalledWith({
       dsn: expect.stringMatching(`https://.*@sentry.io/.*`),
       release: `abcfdef`
@@ -303,74 +298,103 @@ describe(`Module: Session`, () => {
   it(`should disable error collection`, async () => {
     jest.spyOn(console, `log`).mockImplementationOnce(() => { })
     const commit = jest.fn()
+    const dispatch = jest.fn()
     await actions.setErrorCollection(
       {
         state,
-        commit
+        commit,
+        dispatch
       },
-      { address: `abc`, optin: false }
+      false
     )
 
     expect(state.errorCollection).toBe(false)
-    expect(localStorage.getItem(`voyager_error_collection_abc`)).toBe(`false`)
     expect(state.externals.Sentry.init).toHaveBeenCalledWith({})
   })
 
-  it(`should not set error collection if in development mode`, async () => {
+  it(`should enable analytics collection`, async () => {
     jest.spyOn(console, `log`).mockImplementationOnce(() => { })
     const commit = jest.fn()
-    state.externals.config.development = true
-    await actions.setErrorCollection(
+    const dispatch = jest.fn()
+    await actions.setAnalyticsCollection(
       {
         state,
-        commit
+        commit,
+        dispatch
       },
-      { account: `abc`, optin: true }
+      true
     )
 
-    expect(commit).toHaveBeenCalledWith(`notifyError`, {
-      title: `Couldn't switch on error collection.`,
-      body: `Error collection is disabled during development.`
-    })
-    expect(state.errorCollection).toBe(false)
-    expect(localStorage.getItem(`voyager_error_collection_abc`)).toBe(`false`)
-    expect(state.externals.Sentry.init).toHaveBeenCalledWith({})
+    expect(state.analyticsCollection).toBe(true)
+    expect(state.externals.deanonymize).toHaveBeenCalled()
   })
 
-  it(`should load the persisted error collection opt in`, () => {
-    localStorage.setItem(`voyager_error_collection_abc`, `true`)
+  it(`should disable analytics collection`, async () => {
+    jest.spyOn(console, `log`).mockImplementationOnce(() => { })
+    const commit = jest.fn()
+    const dispatch = jest.fn()
+    await actions.setAnalyticsCollection(
+      {
+        state,
+        commit,
+        dispatch
+      },
+      false
+    )
+
+    expect(state.analyticsCollection).toBe(false)
+    expect(state.externals.anonymize).toHaveBeenCalled()
+  })
+
+  it(`should load the persisted user preferences`, () => {
+    localStorage.setItem(`lunie_user_preferences`, JSON.stringify({
+      errorCollection: true,
+      analyticsCollection: true
+    }))
     state.errorCollection = false
+    state.analyticsCollection = false
 
     const dispatch = jest.fn()
-    actions.loadErrorCollection(
+    actions.loadLocalPreferences(
       {
         state,
         dispatch
-      },
-      `abc`
+      }
     )
 
-    expect(dispatch).toHaveBeenCalledWith(`setErrorCollection`, {
-      address: `abc`,
-      optin: true
-    })
+    expect(dispatch).toHaveBeenCalledWith(`setErrorCollection`, true)
 
-    localStorage.setItem(`voyager_error_collection_abc`, `false`)
+    localStorage.setItem(`lunie_user_preferences`, JSON.stringify({
+      errorCollection: false,
+      analyticsCollection: false
+    }))
     state.errorCollection = true
+    state.analyticsCollection = true
 
     dispatch.mockClear()
-    actions.loadErrorCollection(
+    actions.loadLocalPreferences(
       {
         state,
         dispatch
-      },
-      `abc`
+      }
     )
 
-    expect(dispatch).toHaveBeenCalledWith(`setErrorCollection`, {
-      address: `abc`,
-      optin: false
-    })
+    expect(dispatch).toHaveBeenCalledWith(`setErrorCollection`, false)
+    expect(dispatch).toHaveBeenCalledWith(`setAnalyticsCollection`, false)
+  })
+
+  it(`should store the persisted user preferences`, () => {
+    localStorage.setItem(`lunie_user_preferences`, "")
+    state.errorCollection = true
+    state.analyticsCollection = true
+
+    actions.storeLocalPreferences(
+      {
+        state
+      }
+    )
+
+    expect(localStorage.getItem(`lunie_user_preferences`)).toBe("{\"errorCollection\":true,\"analyticsCollection\":true}")
   })
 
   it(`should reload accounts on reconnect as this could be triggered by a switch from a mocked connection`, async () => {
