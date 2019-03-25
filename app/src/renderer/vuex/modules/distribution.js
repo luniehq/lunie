@@ -7,6 +7,7 @@ export default ({ node }) => {
     loading: false,
     loaded: false,
     error: null,
+    lastValidatorRewardsUpdate: 0, // keep track of last update so we can throttle the interval
     /* totalRewards use the following format:
         {
             denom1: amount1,
@@ -69,9 +70,7 @@ export default ({ node }) => {
     resetSessionData({ rootState }) {
       rootState.distribution = JSON.parse(JSON.stringify(emptyState))
     },
-    async getTotalRewards(
-      { state, rootState: { session }, commit }
-    ) {
+    async getTotalRewards({ state, rootState: { session }, commit }) {
       state.loading = true
       try {
         const rewardsArray = await node.getDelegatorRewards(session.address)
@@ -86,7 +85,10 @@ export default ({ node }) => {
       state.loading = false
     },
     async withdrawAllRewards(
-      { rootState: { wallet }, dispatch },
+      {
+        rootState: { wallet },
+        dispatch
+      },
       { password, submitType }
     ) {
       await dispatch(`sendTx`, {
@@ -99,16 +101,38 @@ export default ({ node }) => {
       await dispatch(`queryWalletBalances`)
       await dispatch(`getAllTxs`)
     },
-    async getRewardsFromAllValidators({ state, dispatch }, validators) {
-      state.loading = true
-      await Promise.all(validators.map(validator =>
-        dispatch(`getRewardsFromValidator`, validator.operator_address)
-      ))
-      state.loading = false
-      state.loaded = true
+    async getRewardsFromMyValidators(
+      {
+        state,
+        dispatch,
+        getters: { lastHeader, yourValidators }
+      }
+    ) {
+      // throttle the update of validator rewards to every 20 blocks
+      const waitedTwentyBlocks =
+        Number(lastHeader.height) - state.lastValidatorRewardsUpdate >= 20
+      if (
+        (state.lastValidatorRewardsUpdate === 0 || waitedTwentyBlocks) &&
+        yourValidators &&
+        yourValidators.length > 0
+      ) {
+        state.lastValidatorRewardsUpdate = Number(lastHeader.height)
+        state.loading = true
+        await Promise.all(
+          yourValidators.map(validator =>
+            dispatch(`getRewardsFromValidator`, validator.operator_address)
+          )
+        )
+        state.loading = false
+        state.loaded = true
+      }
     },
     async getRewardsFromValidator(
-      { state, rootState: { session }, commit },
+      {
+        state,
+        rootState: { session },
+        commit
+      },
       validatorAddr
     ) {
       state.loading = true

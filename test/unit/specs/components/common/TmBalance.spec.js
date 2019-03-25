@@ -100,12 +100,27 @@ describe(`TmBalance`, () => {
     })
 
     describe(`should update balance and rewards `, () => {
-      it(`if user is signed in and wait for 10 blocks`, () => {
+      it(`if user is signed in initially`, () => {
         const $store = { dispatch: jest.fn() }
         const session = { signedIn: true }
         const newHeader = { height: `10` }
         TmBalance.watch.lastHeader.handler.call(
-          { session, $store },
+          { session, $store, lastUpdate: 0 },
+          newHeader)
+        expect($store.dispatch).toHaveBeenCalledWith(`getTotalRewards`)
+        expect($store.dispatch).toHaveBeenCalledWith(`queryWalletBalances`)
+      })
+
+      it(`if user is signed in and wait for 10 blocks`, () => {
+        const $store = { dispatch: jest.fn() }
+        const session = { signedIn: true }
+        const newHeader = { height: `20` }
+        TmBalance.watch.lastHeader.handler.call(
+          { session, $store, lastUpdate: 15 },
+          newHeader)
+        expect($store.dispatch).not.toHaveBeenCalled()
+        TmBalance.watch.lastHeader.handler.call(
+          { session, $store, lastUpdate: 5 },
           newHeader)
         expect($store.dispatch).toHaveBeenCalledWith(`getTotalRewards`)
         expect($store.dispatch).toHaveBeenCalledWith(`queryWalletBalances`)

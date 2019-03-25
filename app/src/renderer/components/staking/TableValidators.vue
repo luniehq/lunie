@@ -100,9 +100,9 @@ export default {
         {
           title: `My Delegations`,
           value: `my_delegations`,
-          tooltip: `Number of ${
+          tooltip: `Number of ${num.viewDenom(
             this.bondDenom
-          } you have delegated to this validator`
+          )} you have delegated to this validator`
         },
         {
           title: `Rewards`,
