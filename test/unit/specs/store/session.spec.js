@@ -349,13 +349,7 @@ describe(`Module: Session`, () => {
   })
 
   it(`should load the persisted user preferences`, () => {
-    localStorage.setItem(`lunie_user_preferences`, JSON.stringify({
-      errorCollection: true,
-      analyticsCollection: true
-    }))
-    state.errorCollection = false
-    state.analyticsCollection = false
-
+    localStorage.setItem(`lunie_user_preferences`, undefined)
     const dispatch = jest.fn()
     actions.loadLocalPreferences(
       {
@@ -363,7 +357,22 @@ describe(`Module: Session`, () => {
         dispatch
       }
     )
+    expect(state.cookiesAccepted).toBe(false)
 
+    localStorage.setItem(`lunie_user_preferences`, JSON.stringify({
+      errorCollection: true,
+      analyticsCollection: true
+    }))
+    state.errorCollection = false
+    state.analyticsCollection = false
+
+    actions.loadLocalPreferences(
+      {
+        state,
+        dispatch
+      }
+    )
+    expect(state.cookiesAccepted).toBe(true)
     expect(dispatch).toHaveBeenCalledWith(`setErrorCollection`, true)
 
     localStorage.setItem(`lunie_user_preferences`, JSON.stringify({
