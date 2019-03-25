@@ -4,7 +4,6 @@
   ],
   "plugins": [
     "syntax-async-functions",
-    "transform-async-to-generator",
     "transform-regenerator",
     "transform-runtime"
   ]
