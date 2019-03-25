@@ -122,11 +122,10 @@ export default {
       this.vote = null
     },
     async simulateForm() {
-      const gasEstimate = await this.$store.dispatch(`simulateVote`, {
+      return await this.$store.dispatch(`simulateVote`, {
         proposal_id: this.proposalId,
         option: this.vote
       })
-      return gasEstimate
     },
     async submitForm(gasEstimate, gasPrice, password, submitType) {
       await this.$store.dispatch(`submitVote`, {

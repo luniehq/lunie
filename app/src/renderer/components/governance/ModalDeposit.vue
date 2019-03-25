@@ -122,7 +122,7 @@ export default {
       this.amount = 0
     },
     async simulateForm() {
-      const gasEstimate = await this.$store.dispatch(`simulateDeposit`, {
+      return await this.$store.dispatch(`simulateDeposit`, {
         proposal_id: this.proposalId,
         amount: [
           {
@@ -131,7 +131,6 @@ export default {
           }
         ]
       })
-      return gasEstimate
     },
     async submitForm(gasEstimate, gasPrice, password, submitType) {
       // TODO: support multiple coins

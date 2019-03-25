@@ -211,13 +211,11 @@ export default {
       })
     },
     async simulateForm() {
-      let gasEstimate
       if (this.from === this.session.address) {
-        gasEstimate = await this.simulateDelegation()
+        return await this.simulateDelegation()
       } else {
-        gasEstimate = await this.simulateRedelegation()
+        return await this.simulateRedelegation()
       }
-      return gasEstimate
     },
     async submitForm(gasEstimate, gasPrice, password, submitType) {
       if (this.from === this.session.address) {

@@ -138,14 +138,10 @@ export default {
       this.amount = null
     },
     async simulateForm() {
-      const gasEstimate = await this.$store.dispatch(
-        `simulateUnbondingDelegation`,
-        {
-          amount: -uatoms(this.amount),
-          validator: this.validator
-        }
-      )
-      return gasEstimate
+      return await this.$store.dispatch(`simulateUnbondingDelegation`, {
+        amount: -uatoms(this.amount),
+        validator: this.validator
+      })
     },
     async submitForm(gasEstimate, gasPrice, password, submitType) {
       await this.$store.dispatch(`submitUnbondingDelegation`, {

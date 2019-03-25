@@ -151,12 +151,11 @@ export default {
       const denom = this.denom
       const type = `send`
 
-      const gasEstimate = await this.$store.dispatch(`simulateTx`, {
+      return await this.$store.dispatch(`simulateTx`, {
         type,
         to: address,
         amount: [{ denom, amount: String(uatoms(amount)) }]
       })
-      return gasEstimate
     },
     async submitForm(gasEstimate, gasPrice, password, submitType) {
       const amount = +this.amount
