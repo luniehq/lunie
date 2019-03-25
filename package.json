@@ -1,11 +1,11 @@
 {
-  "name": "cosmos-wallet",
-  "productName": "Cosmos Wallet",
-  "version": "1.0.0-beta.27",
-  "description": "Cosmos Wallet is a web based user interface for the Cosmos Hub.",
+  "name": "lunie",
+  "productName": "lunie",
+  "version": "1.0.0-beta.28",
+  "description": "Lunie is a web based user interface for the Cosmos Hub.",
   "author": "All In Bits, Inc <hello@tendermint.com>",
   "license": "Apache-2.0",
-  "homepage": "https://beta.cosmoswallet.io",
+  "homepage": "https://lunie.io",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cosmos/voyager.git"
@@ -47,11 +47,14 @@
     "backend:fixed-https": "concurrently -k \"yarn nodes 2 skip-rebuild\" \"yarn stargate --ssl-certfile 'server_dev.crt' --ssl-keyfile 'server_dev.key'\""
   },
   "devDependencies": {
+    "@babel/plugin-transform-runtime": "7.4.0",
+    "@babel/preset-env": "7.4.2",
+    "@babel/runtime": "7.4.2",
     "@nodeguy/cli": "0.2.2",
     "@octokit/rest": "15.9.4",
     "@sentry/webpack-plugin": "1.6.2",
     "autoprefixer": "9.4.7",
-    "babel-core": "6.26.3",
+    "babel-core": "^7.0.0-0",
     "babel-eslint": "7.2.3",
     "babel-jest": "21.2.0",
     "babel-loader": "7.1.4",

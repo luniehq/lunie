@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.28] - 2019-03-25
+
+### Added
+
+- [\#2238](https://github.com/cosmos/voyager/issues/2238) Show estimaded fees @fedekunze
+
+### Changed
+
+- Circleci config deployment job to deploy `lunie.io` and `beta.lunie.io`
+- renamed to Lunie @faboweb
+
 ## [1.0.0-beta.27] - 2019-03-25
 
 ### Added

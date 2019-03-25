@@ -3,6 +3,7 @@
     id="modal-vote"
     ref="actionModal"
     :submit-fn="submitForm"
+    :simulate-fn="simulateForm"
     :validate="validateForm"
     title="Vote"
     class="modal-vote"
@@ -56,7 +57,9 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 import { required } from "vuelidate/lib/validators"
+import { uatoms } from "../../scripts/num.js"
 import ActionModal from "common/ActionModal"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
@@ -93,6 +96,9 @@ export default {
   data: () => ({
     vote: null
   }),
+  computed: {
+    ...mapGetters([`bondDenom`])
+  },
   validations() {
     return {
       vote: {
@@ -115,10 +121,23 @@ export default {
 
       this.vote = null
     },
-    async submitForm(submitType, password) {
+    async simulateForm() {
+      return await this.$store.dispatch(`simulateVote`, {
+        proposal_id: this.proposalId,
+        option: this.vote
+      })
+    },
+    async submitForm(gasEstimate, gasPrice, password, submitType) {
       await this.$store.dispatch(`submitVote`, {
         proposal_id: this.proposalId,
         option: this.vote,
+        gas: String(gasEstimate),
+        gas_prices: [
+          {
+            amount: String(uatoms(gasPrice)),
+            denom: this.bondDenom
+          }
+        ],
         password,
         submitType
       })

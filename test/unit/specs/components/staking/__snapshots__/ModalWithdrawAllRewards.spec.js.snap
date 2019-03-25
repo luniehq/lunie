@@ -2,8 +2,10 @@
 
 exports[`ModalWithdrawAllRewards should show the withdraw rewards modal 1`] = `
 <action-modal-stub
+  amount="0"
   class="modal-withdraw-rewards"
   id="modal-withdraw-all-rewards"
+  simulatefn="function () { [native code] }"
   submissionerrorprefix="Withdrawal failed"
   submitfn="function () { [native code] }"
   title="Withdraw Rewards"
