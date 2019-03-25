@@ -31,9 +31,21 @@ export default ({ node }) => {
         state.error = error
       }
     },
+    async simulateVote(
+      { rootState, dispatch },
+      { proposal_id, option }
+    ) {
+      return await dispatch(`simulateTx`, {
+        to: proposal_id,
+        type: `postProposalVote`,
+        proposal_id,
+        voter: rootState.wallet.address,
+        option
+      })
+    },
     async submitVote(
       { rootState, dispatch },
-      { proposal_id, option, password, submitType }
+      { proposal_id, option, gas, gas_prices, password, submitType }
     ) {
       await dispatch(`sendTx`, {
         to: proposal_id,
@@ -41,6 +53,8 @@ export default ({ node }) => {
         proposal_id,
         voter: rootState.wallet.address,
         option,
+        gas,
+        gas_prices,
         password,
         submitType
       })

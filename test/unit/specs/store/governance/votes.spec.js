@@ -51,6 +51,26 @@ describe(`Module: Votes`, () => {
     })
   })
 
+  it(`should simulate a vote transaction`, async () => {
+    const { actions } = module
+    const self = {
+      rootState: mockRootState,
+      dispatch: jest.fn(() => 123123)
+    }
+    const proposal_id = `1`
+    const res = await actions.simulateVote(self, {
+      proposal_id, option: `No`
+    })
+
+    expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {
+      type: `postProposalVote`,
+      to: `1`,
+      proposal_id,
+      option: `No`,
+      voter: mockRootState.wallet.address
+    })
+    expect(res).toBe(123123)
+  })
   it(`submits a vote on a proposal`, async () => {
     const { actions } = module
     jest.useFakeTimers()

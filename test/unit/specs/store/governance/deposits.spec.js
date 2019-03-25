@@ -50,6 +50,25 @@ describe(`Module: Deposits`, () => {
     })
   })
 
+  it(`should simulate a deposit transaction`, async () => {
+    const { actions } = module
+    const self = {
+      rootState: mockRootState,
+      dispatch: jest.fn(() => 123123)
+    }
+    const amount = [{ denom: `uatom`, amount: `10000000` }]
+    const res = await actions.simulateDeposit(self, { proposal_id: `1`, amount })
+
+    expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {
+      type: `postProposalDeposit`,
+      to: `1`,
+      proposal_id: `1`,
+      depositor: mockRootState.wallet.address,
+      amount
+    })
+    expect(res).toBe(123123)
+  })
+
   it(`submits a deposit to a proposal`, async () => {
     const { actions } = module
     jest.useFakeTimers()
