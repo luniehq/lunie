@@ -4,6 +4,7 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
 <action-modal-stub
   class="undelegation-modal"
   id="undelegation-modal"
+  simulatefn="function () { [native code] }"
   submissionerrorprefix="Undelegating failed"
   submitfn="function () { [native code] }"
   title="Undelegate"

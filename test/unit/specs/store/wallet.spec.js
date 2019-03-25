@@ -269,10 +269,28 @@ describe(`Module: Wallet`, () => {
       expect(state.error.message).toBe(`Error`)
     })
 
+    it(`should simulate a transfer transaction`, async () => {
+      const { actions } = instance
+      const self = {
+        dispatch: jest.fn(() => 123123)
+      }
+      const res = await actions.simulateSendCoins(self, {
+        receiver: `cosmos1address1`,
+        amount: 12,
+        denom: `uatom`,
+      })
+
+      expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {
+        type: `send`,
+        to: `cosmos1address1`,
+        amount: [{ denom: `uatom`, amount: `12` }]
+      })
+      expect(res).toBe(123123)
+    })
     it(`should send coins`, async () => {
       state.balances = [
         {
-          denom: `funcoin`,
+          denom: `uatom`,
           amount: 1000
         }
       ]
@@ -289,7 +307,7 @@ describe(`Module: Wallet`, () => {
         {
           receiver: `cosmos1xxx`,
           amount: 12,
-          denom: `funcoin`,
+          denom: `uatom`,
           password: `1234567890`
         }
       )
@@ -298,12 +316,12 @@ describe(`Module: Wallet`, () => {
         type: `send`,
         password: `1234567890`,
         to: `cosmos1xxx`,
-        amount: [{ denom: `funcoin`, amount: `12` }]
+        amount: [{ denom: `uatom`, amount: `12` }]
       })
 
       // should update the balance optimistically
       expect(commit).toHaveBeenCalledWith(`updateWalletBalance`, {
-        denom: `funcoin`,
+        denom: `uatom`,
         amount: 988
       })
     })
