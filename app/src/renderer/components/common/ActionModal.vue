@@ -237,7 +237,7 @@ export default {
     password: null,
     sending: false,
     gasEstimate: null,
-    gasPrice: (0.025 * 1e-6).toFixed(9), // recomended default: 0.025 uatom per gas
+    gasPrice: (2.5e-8).toFixed(9), // default: 0.025 uatom per gas
     submissionError: null,
     show: false,
     track,
@@ -288,7 +288,7 @@ export default {
   methods: {
     open() {
       this.track(`event`, `modal`, this.title)
-
+      this.gasPrice = (this.session.gasPrice || 2.5e-8).toFixed(9)
       this.show = true
     },
     close() {

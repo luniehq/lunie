@@ -6,7 +6,6 @@ import {
   createSignature
 } from "../../scripts/wallet.js"
 import { getKey } from "../../scripts/keystore"
-import config from "../../../config"
 import { signatureImport } from "secp256k1"
 
 export default ({ node }) => {
@@ -14,7 +13,6 @@ export default ({ node }) => {
     lock: null,
     nonce: `0`,
     externals: {
-      config,
       sign,
       createBroadcastBody,
       createSignMessage,
@@ -162,7 +160,7 @@ export default ({ node }) => {
       await dispatch(`queryWalletBalances`)
 
       args.simulate = false
-      const gasAdjustment = 1.5 // we don't use the flag bc it only works with gas=auto
+      const { gasAdjustment } = rootState.session // we don't use the gas_adjustment flag bc it only works with gas=auto
       const adjustedGas = String(Math.floor(Number(args.gas) * gasAdjustment)) // by using floor we match the displayed expected fees
       args.gas = adjustedGas // only suports integer or auto
       const { requestBody, type, submitType, to, pathParameter } =

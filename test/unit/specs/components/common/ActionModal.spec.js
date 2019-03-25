@@ -14,7 +14,12 @@ describe(`ActionModal`, () => {
       dispatch: jest.fn(),
       getters: {
         connected: true,
-        session: { signedIn: true, sessionType: `local` },
+        session: {
+          signedIn: true,
+          sessionType: `local`,
+          gasPrice: 2.5e-8,
+          gasAdjustment: 1.5
+        },
         bondDenom: `uatom`,
         wallet: {
           loading: false,

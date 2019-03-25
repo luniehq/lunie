@@ -36,6 +36,7 @@
 </template>
 <script>
 import { full } from "../../scripts/num.js"
+import { mapGetters } from "vuex"
 
 export default {
   name: `table-invoice`,
@@ -58,9 +59,13 @@ export default {
     info: `Estimated fees required to process the transaction, based on simulation. Cosmos Wallet doesn't take any fees.`
   }),
   computed: {
+    ...mapGetters([`session`]),
     estimatedFee() {
-      const gasAdjustment = 1.5
-      return Number(this.gasPrice) * Number(this.gasEstimate) * gasAdjustment // already in atoms
+      return (
+        Number(this.gasPrice) *
+        Number(this.gasEstimate) *
+        this.session.gasAdjustment
+      ) // already in atoms
     },
     subTotal() {
       return Number(this.amount) // already in atoms

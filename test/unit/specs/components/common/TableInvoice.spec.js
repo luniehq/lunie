@@ -6,9 +6,19 @@ describe(`TableInvoice`, () => {
   const localVue = createLocalVue()
   localVue.directive(`tooltip`, () => { })
 
+  const $store = {
+    getters: {
+      session: {
+        gasPrice: 2.5e-8,
+        gasAdjustment: 1.5
+      }
+    }
+  }
+
   beforeEach(() => {
     wrapper = shallowMount(TableInvoice, {
       localVue,
+      mocks: { $store },
       propsData: {
         amount: 1,
         gasEstimate: 1234567,
