@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.27] - 2019-03-25
+
+### Added
+
+- [\#2149](https://github.com/cosmos/voyager/issues/2149) display multi-message transactions @fedekunze
+
+### Fixed
+
+- [\#2330](https://github.com/cosmos/voyager/pull/2330) Fixed rewards not updating as expected @faboweb
+- [\#2330](https://github.com/cosmos/voyager/pull/2330) Fixed transactions not loading when refreshing on PageTransactions @faboweb
+- Fixed rewards not showing @faboweb
+
 ## [1.0.0-beta.26] - 2019-03-22
 
 ### Changed
