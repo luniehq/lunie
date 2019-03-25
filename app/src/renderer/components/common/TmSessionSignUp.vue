@@ -131,25 +131,6 @@
             type="required"
           />
         </tm-form-group>
-        <tm-form-group
-          :error="$v.fields.errorCollection.$error"
-          field-id="error-collection"
-          field-label
-        >
-          <div class="tm-field-checkbox">
-            <div class="tm-field-checkbox-input">
-              <input
-                id="error-collection"
-                v-model="fields.errorCollection"
-                type="checkbox"
-              >
-            </div>
-            <label class="tm-field-checkbox-label" for="error-collection">
-              I'd like to opt in for remote error tracking to help improve
-              Voyager.
-            </label>
-          </div>
-        </tm-form-group>
       </div>
       <div class="tm-session-footer">
         <tm-btn value="Next" size="lg" />
@@ -207,10 +188,6 @@ export default {
           seedPhrase: this.fields.signUpSeed,
           password: this.fields.signUpPassword,
           name: this.fields.signUpName
-        })
-        this.$store.dispatch(`setErrorCollection`, {
-          account: this.fields.signUpName,
-          optin: this.fields.errorCollection
         })
         this.$store.commit(`toggleSessionModal`, false)
         this.$store.commit(`notify`, {

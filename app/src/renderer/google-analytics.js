@@ -8,13 +8,22 @@ module.exports.enableGoogleAnalytics = function enableGoogleAnalytics(gaUID) {
 
   window.ga =
     window.ga ||
-    function() {
+    function () {
       (ga.q = ga.q || []).push(arguments)
     }
   ga.l = +new Date()
+  module.exports.anonymize()
+  ga(`create`, gaUID, `auto`)
+}
+
+module.exports.deanonymize = function deanonymize() {
+  ga(`set`, `allowAdFeatures`, true)
+  ga(`set`, `anonymizeIp`, false)
+}
+
+module.exports.anonymize = function anonymize() {
   ga(`set`, `allowAdFeatures`, false)
   ga(`set`, `anonymizeIp`, true)
-  ga(`create`, gaUID, `auto`)
 }
 
 module.exports.disableGoogleAnalytics = function disableGoogleAnalytics(gaUID) {

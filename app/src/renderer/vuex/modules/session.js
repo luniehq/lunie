@@ -1,13 +1,13 @@
 import * as Sentry from "@sentry/browser"
 import {
-  track
+  track, deanonymize, anonymize
 } from "../../google-analytics.js"
 import config from "../../../config"
 import { loadKeys, importKey, testPassword } from "../../scripts/keystore.js"
 import { generateSeed } from "../../scripts/wallet.js"
 
 export default () => {
-  const ERROR_COLLECTION_KEY = `voyager_error_collection`
+  const USER_PREFERENCES_KEY = `lunie_user_preferences`
 
   const state = {
     experimentalMode: config.development, // development mode
@@ -20,6 +20,8 @@ export default () => {
     history: [],
     address: null,
     errorCollection: false,
+    analyticsCollection: false,
+    cookiesAccepted: undefined,
     stateLoaded: false, // shows if the persisted state is already loaded. used to prevent overwriting the persisted state before it is loaded
     error: null,
     modals: {
@@ -138,7 +140,7 @@ export default () => {
     // TODO split into sign in with ledger and signin with local key
     async signIn(
       { state, commit, dispatch },
-      { localKeyPairName, address, sessionType = `local`, errorCollection = false }
+      { localKeyPairName, address, sessionType = `local` }
     ) {
       let accountAddress
       switch (sessionType) {
@@ -153,16 +155,11 @@ export default () => {
       }
       commit(`setSignIn`, true)
       commit(`setSessionType`, sessionType)
-      dispatch(`setErrorCollection`, {
-        account: accountAddress,
-        optin: errorCollection
-      })
       commit(`setUserAddress`, accountAddress)
       dispatch(`loadPersistedState`)
       commit(`toggleSessionModal`, false)
       await dispatch(`getStakingParameters`)
       await dispatch(`getGovParameters`)
-      dispatch(`loadErrorCollection`, accountAddress)
       await dispatch(`initializeWallet`, { address: accountAddress })
       dispatch(`persistSession`, { localKeyPairName, address: accountAddress, sessionType })
 
@@ -184,27 +181,35 @@ export default () => {
       state.localKeyPairName = null
       commit(`setUserAddress`, null)
     },
-    loadErrorCollection({ state, dispatch }, address) {
-      const errorCollection =
-        localStorage.getItem(`${ERROR_COLLECTION_KEY}_${address}`) === `true`
-      if (state.errorCollection !== errorCollection)
-        dispatch(`setErrorCollection`, { address, optin: errorCollection })
-    },
-    setErrorCollection({ state, commit }, { address, optin }) {
-      if (
-        optin &&
-        state.externals.config.development
-      ) {
-        commit(`notifyError`, {
-          title: `Couldn't switch on error collection.`,
-          body: `Error collection is disabled during development.`
-        })
+    loadLocalPreferences({ state, dispatch }) {
+      const localPreferences = localStorage.getItem(USER_PREFERENCES_KEY)
+
+      if (!localPreferences) {
+        state.cookiesAccepted = false
+        return
       }
-      state.errorCollection = state.externals.config.development ? false : optin
+      state.cookiesAccepted = true
+
+      const { errorCollection, analyticsCollection } =
+        JSON.parse(localPreferences)
+      if (state.errorCollection !== errorCollection)
+        dispatch(`setErrorCollection`, errorCollection)
+      if (state.analyticsCollection !== analyticsCollection)
+        dispatch(`setAnalyticsCollection`, analyticsCollection)
+    },
+    storeLocalPreferences({ state }) {
+      state.cookiesAccepted = true
       localStorage.setItem(
-        `${ERROR_COLLECTION_KEY}_${address}`,
-        state.errorCollection
+        USER_PREFERENCES_KEY,
+        JSON.stringify({
+          errorCollection: state.errorCollection,
+          analyticsCollection: state.analyticsCollection
+        })
       )
+    },
+    setErrorCollection({ state, dispatch }, enabled) {
+      state.errorCollection = enabled
+      dispatch(`storeLocalPreferences`)
 
       if (state.errorCollection) {
         state.externals.Sentry.init({
@@ -212,12 +217,21 @@ export default () => {
           release: state.externals.config.version
         })
         console.log(`Error collection has been enabled`)
-        state.externals.track(`pageview`, {
-          dl: window.location.pathname
-        })
       } else {
         console.log(`Error collection has been disabled`)
         state.externals.Sentry.init({})
+      }
+    },
+    setAnalyticsCollection({ state, dispatch }, enabled) {
+      state.analyticsCollection = enabled
+      dispatch(`storeLocalPreferences`)
+
+      if (state.analyticsCollection) {
+        deanonymize()
+        console.log(`Analytics collection has been enabled`)
+      } else {
+        anonymize()
+        console.log(`Analytics collection has been disabled`)
       }
     }
   }
