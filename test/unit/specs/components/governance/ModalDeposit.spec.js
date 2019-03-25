@@ -101,6 +101,33 @@ describe(`ModalDeposit`, () => {
   })
 
   describe(`Deposit`, () => {
+
+    it(`should simulate transaction to estimate gas used`, async () => {
+      const estimate = 1234567
+      const $store = { dispatch: jest.fn(() => estimate) }
+      const res = await ModalDeposit.methods.simulateForm.call(
+        {
+          $store,
+          type: `Text`,
+          denom: `uatom`,
+          amount: 10,
+          proposalId: `1`
+        }
+      )
+
+      expect($store.dispatch).toHaveBeenCalledWith(`simulateDeposit`,
+        {
+          amount: [
+            {
+              amount: `10000000`,
+              denom: `uatom`
+            }
+          ],
+          proposal_id: `1`,
+        }
+      )
+      expect(res).toBe(estimate)
+    })
     it(`submits a deposit`, async () => {
 
       const $store = {
@@ -108,9 +135,13 @@ describe(`ModalDeposit`, () => {
         commit: jest.fn()
       }
 
+      const gas = `1234567`
+      const gasPrice = 2.5e-8
+      const gas_prices = [{ denom: `uatom`, amount: `0.025` }]
+
       await ModalDeposit.methods.submitForm.call(
-        { type: `Text`, denom: `uatom`, proposalId: `1`, amount: 10, $store },
-        `ledger`, ``
+        { denom: `uatom`, bondDenom: `uatom`, proposalId: `1`, amount: 10, $store },
+        gas, gasPrice, ``, `ledger`
       )
 
       expect($store.dispatch).toHaveBeenCalledWith(`submitDeposit`,
@@ -122,6 +153,8 @@ describe(`ModalDeposit`, () => {
             }
           ],
           proposal_id: `1`,
+          gas,
+          gas_prices,
           password: ``,
           submitType: `ledger`
         }
