@@ -29,8 +29,11 @@ export default () => {
     async getKeybaseIdentity({ state }, keybaseId) {
       if (!/.{16}/.test(keybaseId)) return // the keybase id is not correct
       if (state.identities[keybaseId]) { // we already have this identity
-        // check if the last check is more then 2 days ago
-        if (state.externals.moment(state.identities[keybaseId].lastUpdated).diff(state.externals.moment(), `days`) <= -2) {
+        // check if the last check is more then 1 days ago or 2 minutes if loading failed
+        if (
+          (!state.identities[keybaseId].userName && state.externals.moment(state.identities[keybaseId].lastUpdated).diff(state.externals.moment(), `minutes`) <= -2) ||
+          (state.externals.moment(state.identities[keybaseId].lastUpdated).diff(state.externals.moment(), `days`) <= -1)
+        ) {
           // as a recommendation by keybase we should prefer looking up profiles by username
           return lookupUsername(
             state, keybaseId,
