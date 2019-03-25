@@ -18,9 +18,7 @@ export default () => {
   const mutations = {
     setKeybaseIdentities(state, identities) {
       identities.forEach(identity => {
-        state.identities[identity.keybaseId] = Object.assign({}, identity, {
-          lastUpdated: new Date(Date.now()).toUTCString()
-        })
+        state.identities[identity.keybaseId] = identity
       })
     }
   }
@@ -28,11 +26,18 @@ export default () => {
   const actions = {
     async getKeybaseIdentity({ state }, keybaseId) {
       if (!/.{16}/.test(keybaseId)) return // the keybase id is not correct
+
+      // if we don't have the identity or we have checked but didn't found it 2 minutes ago we query the identity
+      if (!state.identities[keybaseId] ||
+        (!state.identities[keybaseId].userName && state.externals.moment(state.identities[keybaseId].lastUpdated).diff(state.externals.moment(), `minutes`) <= -2)
+      ) {
+        return lookupId(state, keybaseId)
+      }
+
       if (state.identities[keybaseId]) { // we already have this identity
-        // check if the last check is more then 1 days ago or 2 minutes if loading failed
+        // check if the last check is more then 1 days ago
         if (
-          (!state.identities[keybaseId].userName && state.externals.moment(state.identities[keybaseId].lastUpdated).diff(state.externals.moment(), `minutes`) <= -2) ||
-          (state.externals.moment(state.identities[keybaseId].lastUpdated).diff(state.externals.moment(), `days`) <= -1)
+          state.externals.moment(state.identities[keybaseId].lastUpdated).diff(state.externals.moment(), `days`) <= -1
         ) {
           // as a recommendation by keybase we should prefer looking up profiles by username
           return lookupUsername(
@@ -43,8 +48,6 @@ export default () => {
 
         return state.identities[keybaseId]
       }
-
-      return lookupId(state, keybaseId)
     },
     async getKeybaseIdentities({ dispatch, commit, state }, validators) {
       state.loading = true
@@ -100,7 +103,8 @@ async function query(state, url, keybaseId) {
             ? user.pictures.primary.url
             : undefined,
           userName: user.basics.username,
-          profileUrl: `https://keybase.io/` + user.basics.username
+          profileUrl: `https://keybase.io/` + user.basics.username,
+          lastUpdated: new Date(Date.now()).toUTCString()
         }
       }
     }
