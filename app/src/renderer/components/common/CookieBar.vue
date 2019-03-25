@@ -1,13 +1,12 @@
 <template>
   <div v-if="session.cookiesAccepted !== true" class="cookieBar">
     <p>
-      We use cookies and remote error collection to give you the best
-      experience and to help improve our website. Please read our
+      We use some analytics to give you the best experience and to help
+      improve our website. Please read our
       <a href="/tos">Terms of Service</a>
-      for more information. By clicking “Accept Cookies”, you agree to
-      the storing of cookies on your device to
-      enhance site navigation and analyze site usage. If you select
-      "Error Collection" you also allow for collection of errors.
+      for more information. By clicking “Accept Analytics”, you agree to
+      the storing of cookies on your device and to remote error collection
+      if selected.
     </p>
     <div class="cb-settings">
       <span class="cb-options">
@@ -46,7 +45,7 @@
       <tm-btn
         id="cb-button-accept"
         class="cb-button accept"
-        value="Accept Cookies"
+        value="Accept Analytics"
         @click.native="accept"
       />
     </div>
@@ -173,7 +172,7 @@ form p,
   padding: 1em;
   font-size: 0.9em;
   line-height: 1.3;
-  max-width: 470px;
+  max-width: 684px;
   flex: 1 1 auto;
   margin: 0 auto;
 }
