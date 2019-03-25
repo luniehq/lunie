@@ -6,7 +6,7 @@ import { proposals, tallies } from "../../store/json/proposals"
 describe(`TableProposals`, () => {
   let wrapper, $store
   const localVue = createLocalVue()
-  localVue.directive(`tooltip`, () => {})
+  localVue.directive(`tooltip`, () => { })
 
   beforeEach(() => {
     $store = {

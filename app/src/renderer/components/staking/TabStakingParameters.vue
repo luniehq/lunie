@@ -29,7 +29,7 @@
             <dl class="info_dl">
               <dt>Current Staking Token</dt>
               <dd id="bond_denom">
-                {{ bondDenom ? bondDenom : `--` }}
+                {{ bondDenom ? num.viewDenom(bondDenom) : `--` }}
               </dd>
             </dl>
           </div>
@@ -53,6 +53,7 @@
 
 <script>
 import { mapGetters } from "vuex"
+import num from "scripts/num"
 import TmDataConnecting from "common/TmDataConnecting"
 import TmDataLoading from "common/TmDataLoading"
 export default {
@@ -62,6 +63,7 @@ export default {
     TmDataLoading
   },
   data: () => ({
+    num,
     paramsTooltips: {
       description: `Staking parameters define the high level settings for staking`,
       unbonding_time: `Time to complete an undelegation transaction and claim rewards`,

@@ -176,7 +176,7 @@
 import moment from "moment"
 import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
-import { percent, pretty, atoms, full } from "scripts/num"
+import num, { percent, pretty, atoms, full } from "scripts/num"
 import TmBtn from "common/TmBtn"
 import { shortAddress, ratToBigNumber } from "scripts/common"
 import DelegationModal from "staking/DelegationModal"
@@ -233,7 +233,7 @@ export default {
       const totalBlocks = this.lastHeader.height
       const missedBlocks = this.validator.signing_info.missed_blocks_counter
       const signedBlocks = totalBlocks - missedBlocks
-      const uptime = (signedBlocks / totalBlocks) * 100
+      const uptime = signedBlocks / totalBlocks * 100
 
       return String(uptime).substring(0, 4) + `%`
     },
@@ -249,7 +249,7 @@ export default {
     myDelegation() {
       const { bondDenom, myBond } = this
       const myDelegation = full(myBond)
-      const myDelegationString = `${myDelegation} ${bondDenom}`
+      const myDelegationString = `${myDelegation} ${num.viewDenom(bondDenom)}`
       return Number(myBond) === 0 ? `--` : myDelegationString
     },
     powerRatio() {

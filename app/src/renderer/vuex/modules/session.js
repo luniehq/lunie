@@ -12,6 +12,8 @@ export default () => {
   const state = {
     experimentalMode: config.development, // development mode
     insecureMode: config.development, // show the local signer
+    gasPrice: config.default_gas_price, // price per unit of gas
+    gasAdjustment: config.default_gas_adjustment, // default adjustment multiplier
     signedIn: false,
     sessionType: null, // local, ledger
     accounts: [],
