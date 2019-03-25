@@ -6,7 +6,6 @@ import {
   createSignature
 } from "../../scripts/wallet.js"
 import { getKey } from "../../scripts/keystore"
-import config from "../../../config"
 import { signatureImport } from "secp256k1"
 
 export default ({ node }) => {
@@ -14,7 +13,6 @@ export default ({ node }) => {
     lock: null,
     nonce: `0`,
     externals: {
-      config,
       sign,
       createBroadcastBody,
       createSignMessage,
@@ -62,6 +60,35 @@ export default ({ node }) => {
     resetSessionData({ state }) {
       state.nonce = `0`
     },
+    cleanRequestArguments({ state, rootState }, args) {
+
+      const requestMetaData = {
+        sequence: state.nonce,
+        from: rootState.wallet.address,
+        account_number: rootState.wallet.accountNumber,
+        chain_id: rootState.connection.lastHeader.chain_id,
+        gas: args.gas,
+        gas_prices: args.gas_prices,
+        simulate: args.simulate,
+        memo: `Sent via Lunie`
+      }
+
+      // extract type
+      const type = args.type
+
+      // get signing method: localkeystore or ledger
+      const submitType = args.submitType || `ledger`
+
+      // TODO: refactor to get path request parameters at once
+      // extract path parameters
+      const to = args.to
+      const pathParameter = args.pathParameter
+      const properties = [`submitType`, `type`, `to`, `pathParameter`, `gas`, `gas_prices`, `simulate`]
+      properties.forEach(property => delete args[property])
+
+      args.base_req = requestMetaData
+      return { requestBody: args, type, submitType, to, pathParameter }
+    },
     apiRequest(type, to, pathParameter, args) {
       // get the generated tx by querying it from the backend
       if (to && pathParameter) {
@@ -72,7 +99,7 @@ export default ({ node }) => {
         return node[type](args)
       }
     },
-    async sendTx({ state, dispatch, commit, rootState }, args) {
+    async simulateTx({ state, dispatch, rootState }, args) {
       if (!rootState.connection.connected) {
         throw Error(
           `Currently not connected to a secure node. Please try again when Voyager has secured a connection.`
@@ -81,75 +108,21 @@ export default ({ node }) => {
 
       await dispatch(`queryWalletBalances`) // the nonce was getting out of sync, this is to force a sync
 
-      const gasPrices = [
-        {
-          amount: `0.025`, // recommended on Cosmos Docs
-          denom: rootState.stakingParameters.parameters.bond_denom || `uatom`
-        }
-      ]
-      // TODO: run gas estimations to optimize the value of the adjustment
-      const gasAdjustment = 1.5
+      args.simulate = true
+      const { requestBody, type, to, pathParameter } =
+        await actions.cleanRequestArguments({ state, rootState }, args)
 
-      const requestMetaData = {
-        sequence: state.nonce,
-        from: rootState.wallet.address,
-        account_number: rootState.wallet.accountNumber,
-        chain_id: rootState.connection.lastHeader.chain_id,
-        gas: ``, // set after simulation
-        gas_prices: gasPrices,
-        gas_adjustment: String(gasAdjustment),
-        simulate: true,
-        memo: `Sent via Lunie`
-      }
-      args.base_req = requestMetaData
-
-      // extract type
-      const type = args.type || `send`
-      delete args.type
-
-      // get signing method: localkeystore or ledger
-      const submitType = args.submitType || `local`
-      delete args.submitType
-
-      // TODO: refactor to get path request parameters at once
-      // extract path parameters
-      const to = args.to
-      const pathParameter = args.pathParameter
-      delete args.to
-      delete args.pathParameter
-
-      // simulation to get the estimated gas
-      let request = actions.apiRequest(type, to, pathParameter, args)
-      const simulationRes = await request.catch(handleSDKError)
-      const adjustedGas = Number(simulationRes.gas_estimate) * gasAdjustment
-      const estimatedFeesLow =
-        Number(simulationRes.gas_estimate) * Number(gasPrices[0].amount) * 1e-6
-      const estimatedFeesHigh =
-        Number(adjustedGas) * Number(gasPrices[0].amount) * 1e-6
-
-      // TODO: remove once fees are displayed on action modals
-      console.log(
-        `- Estimated Gas: ${simulationRes.gas_estimate}\n` +
-        `- Adjusted Gas: ${adjustedGas}\n` +
-        `- Estimated Fees (low): ${estimatedFeesLow} ${gasPrices[0].denom}s\n` +
-        `- Estimated Fees (high): ${estimatedFeesHigh} ${gasPrices[0].denom}s`
-      )
-      args.base_req.simulate = false
-      args.base_req.gas = simulationRes.gas_estimate // adjusted on the SDK
-
-      // perform request with updated gas from simulation
-      request = actions.apiRequest(type, to, pathParameter, args)
-      const generationRes = await request.catch(handleSDKError)
-      const tx = generationRes.value
-
-      // sign
+      const request = actions.apiRequest(type, to, pathParameter, requestBody)
+      const { gas_estimate } = await request.catch(handleSDKError)
+      return Number(gas_estimate)
+    },
+    async signTx({ dispatch, state, rootState }, submitType, tx, args) {
       let signature
       if (submitType === `ledger`) {
-        // TODO: move to wallet script
         await dispatch(`pollLedgerDevice`)
         const signMessage = state.externals.createSignMessage(
           tx,
-          requestMetaData
+          args.base_req
         )
         const signatureByteArray = await dispatch(`signWithLedger`, signMessage)
         // we have to parse the signature from Ledger as it's in DER format
@@ -162,8 +135,8 @@ export default ({ node }) => {
         */
         signature = state.externals.createSignature(
           signatureBuffer,
-          requestMetaData.sequence,
-          requestMetaData.account_number,
+          args.base_req.sequence,
+          args.base_req.account_number,
           rootState.ledger.pubKey
         )
       } else {
@@ -172,13 +145,43 @@ export default ({ node }) => {
           rootState.session.localKeyPairName,
           args.password
         )
-        signature = state.externals.sign(tx, wallet, requestMetaData)
+        signature = state.externals.sign(tx, wallet, args.base_req)
       }
-      // TODO: signer app
-      // broadcast transaction
+      return signature
+    },
+    async sendTx({ state, dispatch, commit, rootState }, args) {
+      if (!rootState.connection.connected) {
+        throw Error(
+          `Currently not connected to a secure node. Please try again when Voyager has secured a connection.`
+        )
+      }
+
+      // the nonce was getting out of sync, this is to force a sync
+      await dispatch(`queryWalletBalances`)
+
+      args.simulate = false
+      const { gasAdjustment } = rootState.session // we don't use the gas_adjustment flag bc it only works with gas=auto
+      const adjustedGas = String(Math.floor(Number(args.gas) * gasAdjustment)) // by using floor we match the displayed expected fees
+      args.gas = adjustedGas // only suports integer or auto
+      const { requestBody, type, submitType, to, pathParameter } =
+        actions.cleanRequestArguments({ state, rootState }, args)
+
+      // generate transaction without signatures (i.e generate_only)
+      const request = actions.apiRequest(type, to, pathParameter, requestBody)
+      const generationRes = await request.catch(handleSDKError)
+      const tx = generationRes.value
+
+      // sign transaction
+      const signature = await actions.signTx(
+        { dispatch, state, rootState },
+        submitType, tx, args
+      )
+
+      // broadcast transaction with signatures included
       const signedTx = state.externals.createSignedTx(tx, signature)
       const body = state.externals.createBroadcastBody(signedTx)
       const res = await node.postTx(body).catch(handleSDKError)
+
       // check response code
       assertOk(res)
       commit(`setNonce`, String(parseInt(state.nonce) + 1))

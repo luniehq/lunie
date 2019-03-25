@@ -1,6 +1,5 @@
 import BN from "bignumber.js"
 import { calculateTokens } from "scripts/common"
-import num from "scripts/num"
 
 // ui
 export const filters = state => state.filters
@@ -85,7 +84,7 @@ export const pool = state => state.pool
 export const stakingParameters = state => state.stakingParameters
 export const bondDenom = getters =>
   getters.stakingParameters.parameters &&
-  num.viewDenom(getters.stakingParameters.parameters.bond_denom || `uatom`)
+  getters.stakingParameters.parameters.bond_denom || `uatom`
 
 // governance
 export const proposals = state => state.proposals

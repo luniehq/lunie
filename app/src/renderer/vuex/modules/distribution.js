@@ -82,18 +82,24 @@ export default ({ node }) => {
         Sentry.captureException(error)
         commit(`setDistributionError`, error)
       }
-      state.loading = false
+    },
+    async simulateWithdrawAllRewards(
+      { rootState: { wallet }, dispatch }
+    ) {
+      return await dispatch(`simulateTx`, {
+        type: `postWithdrawDelegatorRewards`,
+        to: wallet.address
+      })
     },
     async withdrawAllRewards(
-      {
-        rootState: { wallet },
-        dispatch
-      },
-      { password, submitType }
+      { rootState: { wallet }, dispatch },
+      { gas, gas_prices, password, submitType }
     ) {
       await dispatch(`sendTx`, {
         type: `postWithdrawDelegatorRewards`,
         to: wallet.address,
+        gas,
+        gas_prices,
         password,
         submitType
       })

@@ -9,7 +9,7 @@ const rpc =
   process.env.RPC ||
   (dev ? `localhost:26657` : `https://test.voyager.ninja:26657/`)
 
-const faucet = process.env.FAUCET !== undefined ?  process.env.FAUCET : `https://faucet.voyager.ninja`
+const faucet = process.env.FAUCET !== undefined ? process.env.FAUCET : `https://faucet.voyager.ninja`
 
 export default {
   name: `Cosmos Voyager`,
@@ -21,7 +21,8 @@ export default {
   sentry_dsn: `https://4dee9f70a7d94cc0959a265c45902d84:cbf160384aab4cdeafbe9a08dee3b961@sentry.io/288169`,
   node_halted_timeout: 120000,
   block_timeout: 10000,
-  default_gas: 500000,
+  default_gas_price: 2.5e-8, // recomended from Cosmos Docs
+  default_gas_adjustment: 1.5,
   faucet,
   version: process.env.RELEASE
 }
