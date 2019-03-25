@@ -46,7 +46,7 @@ describe(`LiAnyTransaction`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`shows distribution transactions`, () => {
+  it(`shows distribution transaction with multiple msgs`, () => {
     wrapper.setProps({
       transaction: distributionTxs[0]
     })

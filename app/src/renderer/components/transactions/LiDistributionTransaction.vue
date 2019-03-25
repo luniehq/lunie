@@ -1,22 +1,28 @@
 <template>
   <li-transaction
     :color="`#F2B134`"
-    :time="transaction.time"
-    :block="transaction.height"
+    :time="time"
+    :block="block"
   >
     <template v-if="txType === `cosmos-sdk/MsgWithdrawDelegationReward`">
       <div slot="caption">
         Withdraw rewards
       </div>
       <div slot="details">
-        From&nbsp;<router-link :to="url + '/' + tx.validator_address">
+        From&nbsp;<router-link :to="`${url}/${tx.validator_address}`">
           {{ moniker(tx.validator_address) }}
         </router-link>
       </div>
       <div slot="fees">
         Network Fee:&nbsp;
         <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
-        <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
+        <span>
+          {{
+            convertedFees
+              ? convertedFees.denom
+              : num.viewDenom(bondingDenom)
+          }}s
+        </span>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgSetWithdrawAddress`">
@@ -29,7 +35,13 @@
       <div slot="fees">
         Network Fee:&nbsp;
         <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
-        <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
+        <span>
+          {{
+            convertedFees
+              ? convertedFees.denom
+              : num.viewDenom(bondingDenom)
+          }}s
+        </span>
       </div>
     </template>
     <template
@@ -39,14 +51,20 @@
         Withdraw validator commission
       </div>
       <div slot="details">
-        From<router-link :to="url + '/' + tx.validator_address">
+        From<router-link :to="`${url}/${tx.validator_address}`">
           {{ moniker(tx.validator_address) }}
         </router-link>
       </div>
       <div slot="fees">
         Network Fee:&nbsp;
-        <b>{{ convertedFees ? convertedFeesfees.amount : full(0) }}</b>
-        <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
+        <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        <span>
+          {{
+            convertedFees
+              ? convertedFees.denom
+              : num.viewDenom(bondingDenom)
+          }}s
+        </span>
       </div>
     </template>
   </li-transaction>
@@ -60,7 +78,7 @@ export default {
   name: `li-distribution-transaction`,
   components: { LiTransaction },
   props: {
-    transaction: {
+    tx: {
       type: Object,
       required: true
     },
@@ -83,17 +101,23 @@ export default {
     validators: {
       type: Array,
       required: true
+    },
+    time: {
+      type: String,
+      default: null
+    },
+    block: {
+      type: Number,
+      required: true
     }
   },
   data: () => ({
     atoms,
     full,
-    pretty
+    pretty,
+    num
   }),
   computed: {
-    tx() {
-      return this.transaction.tx.value.msg[0].value
-    },
     convertedFees() {
       return this.fees ? num.viewCoin(this.fees) : undefined
     }

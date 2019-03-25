@@ -13,7 +13,7 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix">{{ bondDenom }}</span>
+      <span class="input-suffix">{{ num.viewDenom(bondDenom) }}</span>
       <tm-field
         id="amount"
         v-model="totalRewards"

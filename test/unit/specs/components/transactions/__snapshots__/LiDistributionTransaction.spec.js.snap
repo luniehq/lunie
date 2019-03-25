@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`LiDistributionTransaction set withdraw address with fees 1`] = `
+exports[`LiDistributionTransaction set withdraw address 1`] = `
 <li-transaction-stub
-  block="1114"
+  block="500"
   color="#F2B134"
-  time="1970-01-01T00:00:43.300Z"
+  time="1970-01-01T00:00:42.000Z"
 >
   <div>
     
@@ -27,89 +27,19 @@ exports[`LiDistributionTransaction set withdraw address with fees 1`] = `
     </b>
      
     <span>
-      atoms
+      
+        atoms
+      
     </span>
   </div>
 </li-transaction-stub>
 `;
 
-exports[`LiDistributionTransaction set withdraw address without fees 1`] = `
+exports[`LiDistributionTransaction transaction without fees 1`] = `
 <li-transaction-stub
-  block="1114"
+  block="500"
   color="#F2B134"
-  time="1970-01-01T00:00:43.300Z"
->
-  <div>
-    
-      Update withdraw address
-    
-  </div>
-   
-  <div>
-    
-      To cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3
-    
-  </div>
-   
-  <div>
-    
-      Network Fee: 
-      
-    <b>
-      0.000000
-    </b>
-     
-    <span>
-      uatoms
-    </span>
-  </div>
-</li-transaction-stub>
-`;
-
-exports[`LiDistributionTransaction withdraw delegation rewards with fees 1`] = `
-<li-transaction-stub
-  block="1114"
-  color="#F2B134"
-  time="1970-01-01T00:00:43.300Z"
->
-  <div>
-    
-      Withdraw rewards
-    
-  </div>
-   
-  <div>
-    
-      From 
-    <router-link-stub
-      to="/validator/cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz"
-    >
-      
-        cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz
-      
-    </router-link-stub>
-  </div>
-   
-  <div>
-    
-      Network Fee: 
-      
-    <b>
-      0.003421
-    </b>
-     
-    <span>
-      atoms
-    </span>
-  </div>
-</li-transaction-stub>
-`;
-
-exports[`LiDistributionTransaction withdraw delegation rewards without fees 1`] = `
-<li-transaction-stub
-  block="1114"
-  color="#F2B134"
-  time="1970-01-01T00:00:43.300Z"
+  time="1970-01-01T00:00:42.000Z"
 >
   <div>
     
@@ -138,7 +68,91 @@ exports[`LiDistributionTransaction withdraw delegation rewards without fees 1`] 
     </b>
      
     <span>
-      uatoms
+      
+        atoms
+      
+    </span>
+  </div>
+</li-transaction-stub>
+`;
+
+exports[`LiDistributionTransaction withdraw delegation rewards 1`] = `
+<li-transaction-stub
+  block="500"
+  color="#F2B134"
+  time="1970-01-01T00:00:42.000Z"
+>
+  <div>
+    
+      Withdraw rewards
+    
+  </div>
+   
+  <div>
+    
+      From 
+    <router-link-stub
+      to="/validator/cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz"
+    >
+      
+        cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz
+      
+    </router-link-stub>
+  </div>
+   
+  <div>
+    
+      Network Fee: 
+      
+    <b>
+      0.003421
+    </b>
+     
+    <span>
+      
+        atoms
+      
+    </span>
+  </div>
+</li-transaction-stub>
+`;
+
+exports[`LiDistributionTransaction withdraw validator commission 1`] = `
+<li-transaction-stub
+  block="500"
+  color="#F2B134"
+  time="1970-01-01T00:00:42.000Z"
+>
+  <div>
+    
+      Withdraw validator commission
+    
+  </div>
+   
+  <div>
+    
+      From
+    <router-link-stub
+      to="/validator/cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3"
+    >
+      
+        cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3
+      
+    </router-link-stub>
+  </div>
+   
+  <div>
+    
+      Network Fee: 
+      
+    <b>
+      0.003421
+    </b>
+     
+    <span>
+      
+        atoms
+      
     </span>
   </div>
 </li-transaction-stub>
