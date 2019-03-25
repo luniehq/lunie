@@ -16,7 +16,11 @@ describe(`TabParameters`, () => {
     commit: jest.fn(),
     dispatch: jest.fn(),
     getters: {
-      governanceParameters,
+      governanceParameters: Object(
+        {},
+        governanceParameters,
+        { loading: false, loaded: true }
+      ),
       totalAtoms: 1000000000,
       session: { atoms: 42 }
     }

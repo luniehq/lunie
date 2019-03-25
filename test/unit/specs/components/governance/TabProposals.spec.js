@@ -25,42 +25,6 @@ describe(`TabProposals`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`shows a message if still connecting`, async () => {
-    const { wrapper } = mount(TabProposals, {
-      getters: {
-        proposals: () => ({
-          loading: false,
-          loaded: false,
-          proposals: {},
-          tallies: {}
-        }),
-        connected: () => false
-      },
-      stubs: {
-        "tm-data-connecting": true
-      }
-    })
-    expect(wrapper.vm.$el).toMatchSnapshot()
-  })
-
-  it(`shows a message if still loading`, async () => {
-    const { wrapper } = mount(TabProposals, {
-      getters: {
-        proposals: () => ({
-          loading: true,
-          loaded: false,
-          proposals: {},
-          tallies: {}
-        }),
-        connected: () => true
-      },
-      stubs: {
-        "tm-data-loading": true
-      }
-    })
-    expect(wrapper.vm.$el).toMatchSnapshot()
-  })
-
   it(`shows a message if there is nothing to display`, async () => {
     const { wrapper } = mount(TabProposals, {
       getters: {
