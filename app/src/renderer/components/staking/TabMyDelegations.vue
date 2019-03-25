@@ -14,8 +14,8 @@
         No Active Delegations
       </div>
       <div slot="subtitle">
-        Looks like you haven't delegated any {{ bondDenom }}s yet. Head over to
-        the
+        Looks like you haven't delegated any {{ num.viewDenom(bondDenom) }}s
+        yet. Head over to the
         <router-link :to="{ name: 'Validators' }">
           validator list
         </router-link>
@@ -27,23 +27,21 @@
         Pending Undelegations
       </h3>
       <div class="unbonding-transactions">
-        <template v-for="transaction in unbondingTransactions">
-          <li-stake-transaction
-            :key="transaction.hash"
-            :transaction="transaction"
+        <template>
+          <li-any-transaction
+            v-for="tx in unbondingTransactions"
+            :key="tx.txhash"
             :validators="yourValidators"
+            :validators-url="`/staking/validators`"
+            :proposals-url="`/governance`"
+            :transaction="tx"
+            :address="session.address"
             :bonding-denom="bondDenom"
-            :url="validatorURL"
-            :fees="transaction.tx.value.fee.amount &&
-              transaction.tx.value.fee.amount[0]"
             :unbonding-time="
-              time.getUnbondingTime(
-                transaction,
-                delegation.unbondingDelegations
-              )
+              time.getUnbondingTime(tx, delegation.unbondingDelegations)
             "
-            tx-type="cosmos-sdk/MsgUndelegate"
           />
+          <br>
         </template>
       </div>
     </div>
@@ -53,7 +51,7 @@
 <script>
 import { mapGetters } from "vuex"
 import num from "scripts/num"
-import LiStakeTransaction from "../transactions/LiStakeTransaction"
+import LiAnyTransaction from "../transactions/LiAnyTransaction"
 import TmDataMsg from "common/TmDataMsg"
 import CardSignInRequired from "common/CardSignInRequired"
 import TmDataLoading from "common/TmDataLoading"
@@ -68,14 +66,15 @@ export default {
     TmDataMsg,
     TmDataConnecting,
     TmDataLoading,
-    LiStakeTransaction,
+    LiAnyTransaction,
     CardSignInRequired
   },
   data: () => ({
     unbondTransactions: `Transactions currently in the undelegation period`,
     validatorURL: `/staking/validators`,
     time,
-    num
+    num,
+    lastUpdate: 0
   }),
   computed: {
     ...mapGetters([
@@ -132,18 +131,8 @@ export default {
     },
     lastHeader: {
       immediate: true,
-      handler(newHeader) {
-        const waitTwentyBlocks = Number(newHeader.height) % 20 === 0
-        if (
-          waitTwentyBlocks &&
-          this.yourValidators &&
-          this.yourValidators.length > 0
-        ) {
-          this.$store.dispatch(
-            `getRewardsFromAllValidators`,
-            this.yourValidators
-          )
-        }
+      handler() {
+        this.$store.dispatch(`getRewardsFromMyValidators`)
       }
     }
   },

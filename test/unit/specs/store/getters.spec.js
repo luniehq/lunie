@@ -1,13 +1,16 @@
-import { oldBondedAtoms, liquidAtoms, totalAtoms, oldUnbondingAtoms } from "renderer/vuex/getters.js"
+import { oldBondedAtoms, liquidAtoms, totalAtoms, oldUnbondingAtoms, yourValidators } from "renderer/vuex/getters.js"
+import validators from "./json/validators.js"
 
 describe(`Store: getters`, () => {
   it(`liquidAtoms`, () => {
     const result = liquidAtoms({
       stakingParameters: { parameters: { bond_denom: `stake` } },
-      wallet: { balances: [{
-        denom: `stake`,
-        amount: 42
-      }] }
+      wallet: {
+        balances: [{
+          denom: `stake`,
+          amount: 42
+        }]
+      }
     })
 
     expect(result).toBe(42)
@@ -59,9 +62,40 @@ describe(`Store: getters`, () => {
           }, {
             balance: `12`
           }]
-        } }
+        }
+      }
     })
 
     expect(result.toNumber()).toBe(63)
+  })
+
+  describe(`yourValidators`, () => {
+    it(`should return validators if signed in`, () => {
+      expect(
+        yourValidators({
+          session: { signedIn: true }
+        }, {
+          committedDelegations: {
+            [validators[0].operator_address]: 1,
+            [validators[2].operator_address]: 2
+          },
+          delegates: { delegates: validators }
+        })
+      ).toEqual([validators[0], validators[2]])
+    })
+
+    it(`should return false if not signed in`, () => {
+      expect(
+        yourValidators({
+          session: { signedIn: false }
+        }, {
+          committedDelegations: {
+            [validators[0].operator_address]: 1,
+            [validators[2].operator_address]: 2
+          },
+          delegates: { delegates: validators }
+        })
+      ).toEqual([])
+    })
   })
 })

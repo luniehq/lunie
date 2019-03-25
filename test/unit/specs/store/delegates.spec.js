@@ -138,7 +138,6 @@ describe(`Module: Delegates`, () => {
   it(`fetches the signing information from all delegates`, async () => {
     const { actions, mutations, state } = instance
     const commit = jest.fn()
-    const dispatch = jest.fn()
     mutations.setDelegates(state, [
       {
         operator_address: `foo`,
@@ -150,13 +149,50 @@ describe(`Module: Delegates`, () => {
       expect.objectContaining({ signing_info: expect.anything() })
     )
     await actions.updateSigningInfo(
-      { state, commit, dispatch },
+      { state, commit, getters: { lastHeader: { height: `43` } } },
       state.delegates
     )
 
     expect(state.delegates).toContainEqual(
       expect.objectContaining({ signing_info: expect.anything() })
     )
+  })
+
+  it(`throttles validator fetching to every 20 blocks`, async () => {
+    node = Object.assign({}, nodeMock, {
+      getValidatorSigningInfo: jest.fn()
+    })
+    instance = delegatesModule({ node })
+    const { actions, state } = instance
+    const commit = jest.fn()
+    state.lastValidatorsUpdate = 0
+    await actions.updateSigningInfo(
+      {
+        state, commit, getters: { lastHeader: { height: `43` } }
+      },
+      [
+        {
+          operator_address: `foo`,
+          consensus_pubkey: `bar`,
+          tokens: `10`
+        }
+      ]
+    )
+    expect(state.lastValidatorsUpdate).toBe(43)
+    node.getValidatorSigningInfo.mockClear()
+    await actions.updateSigningInfo(
+      {
+        state, commit, getters: { lastHeader: { height: `44` } }
+      },
+      [
+        {
+          operator_address: `foo`,
+          consensus_pubkey: `bar`,
+          tokens: `10`
+        }
+      ]
+    )
+    expect(node.getValidatorSigningInfo).not.toHaveBeenCalled()
   })
 
   it(`should query for delegates on reconnection if was loading before`, async () => {

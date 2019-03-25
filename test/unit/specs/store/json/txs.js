@@ -209,7 +209,6 @@ export const stakingTxs = [
   },
   {
     hash: `not a real hash 5`,
-
     time: new Date(42000).toISOString(), // set by Voyager
     height: `568`,
     tx: {
@@ -515,6 +514,13 @@ export const distributionTxs = [
               delegator_address: `cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3`,
               validator_address: `cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz`
             }
+          },
+          {
+            type: `cosmos-sdk/MsgWithdrawDelegationReward`,
+            value: {
+              delegator_address: `cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3`,
+              validator_address: `cosmosvaloper137eu59pl4r40f3qkcwu5pgav7usn0af0lpt5rx`
+            }
           }
         ],
         fee: {
@@ -544,7 +550,7 @@ export const distributionTxs = [
     tags: [
       {
         key: `action`,
-        value: `withdraw_delegator_reward`
+        value: `set_withdraw_address`
       },
       {
         key: `delegator`,
@@ -593,7 +599,7 @@ export const distributionTxs = [
     tags: [
       {
         key: `action`,
-        value: `withdraw_delegator_reward`
+        value: `withdraw_validator_rewards_all`
       },
       {
         key: `delegator`,

@@ -43,7 +43,7 @@ exports[`TmBalance has the expected html structure before adding props 1`] = `
       class="top-section"
     >
       <h3>
-        Total Rewards
+        Pending Rewards
       </h3>
        
       <h2>
