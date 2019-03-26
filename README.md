@@ -66,7 +66,7 @@ Open the Docker App and build the Gaia CLI (`gaiacli`) and the full node (`gaiad
 yarn build:gaia
 ```
 
-The version built is specified in `tasks/build/Gaia/COMMIT.sh` and the programs are placed in the `builds/Gaia` directory.
+The version built is specified in `tasks/build/Gaia/VERSION` and the programs are placed in the `builds/Gaia` directory.
 
 ### Testnets
 
