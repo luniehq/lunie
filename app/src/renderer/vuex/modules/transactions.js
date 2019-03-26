@@ -23,16 +23,16 @@ export default ({ node }) => {
 
   const mutations = {
     setBankTxs(state, txs) {
-      state.bank = state.bank.concat(txs)
+      Vue.set(state, TypeBank, txs)
     },
     setStakingTxs(state, txs) {
-      state.staking = state.staking.concat(txs)
+      Vue.set(state, TypeStaking, txs)
     },
     setGovernanceTxs(state, txs) {
-      state.governance = state.governance.concat(txs)
+      Vue.set(state, TypeGovernance, txs)
     },
     setDistributionTxs(state, txs) {
-      state.distribution = state.distribution.concat(txs)
+      Vue.set(state, TypeDistribution, txs)
     },
     setHistoryLoading(state, loading) {
       Vue.set(state, `loading`, loading)
