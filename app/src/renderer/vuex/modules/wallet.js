@@ -80,7 +80,7 @@ export default ({ node }) => {
         state.loaded = true
       } catch (error) {
         Sentry.captureException(error)
-        state.error = `Error fetching balances: ${error.message}`
+        state.error = `Error fetching wallet balances: ${error.message}`
       }
     },
     async sendCoins(

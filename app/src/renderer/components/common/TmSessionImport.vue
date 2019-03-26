@@ -212,7 +212,7 @@ export default {
           body: `Your account has been successfully imported.`
         })
       } catch (error) {
-        this.error = `Couldn't create account: ${error.message}`
+        this.error = `Couldn't import account: ${error.message}`
       }
     }
   },
