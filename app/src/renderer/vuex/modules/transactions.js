@@ -50,63 +50,43 @@ export default ({ node }) => {
         await dispatch(`getAllTxs`)
       }
     },
+    async parseAndSetTxs({ commit, dispatch, state }, { txType }) {
+      const txs = await dispatch(`getTx`, txType)
+      if (txs.length > state[txType].length) {
+        let newTxs = uniqBy(
+          txs.concat(state[txType]),
+          `txhash`
+        )
+        newTxs = await dispatch(`enrichTransactions`, {
+          transactions: newTxs,
+          txType
+        })
+        switch (txType) {
+          case TypeBank:
+            commit(`setBankTxs`, newTxs)
+            break
+          case TypeStaking:
+            commit(`setStakingTxs`, newTxs)
+            break
+          case TypeGovernance:
+            commit(`setGovernanceTxs`, newTxs)
+            break
+          case TypeDistribution:
+            commit(`setDistributionTxs`, newTxs)
+            break
+          default:
+            break
+        }
+      }
+    },
     async getAllTxs({ commit, dispatch, state, rootState }) {
       try {
         commit(`setHistoryLoading`, true)
 
         if (!rootState.connection.connected) return
 
-        const bankTxs = await dispatch(`getTx`, TypeBank)
-        if (bankTxs.length > state.bank.length) {
-          let newBankTxs = uniqBy(
-            bankTxs.concat(state.bank),
-            `txhash`
-          )
-          newBankTxs = await dispatch(`enrichTransactions`, {
-            transactions: newBankTxs,
-            txType: TypeBank
-          })
-          commit(`setBankTxs`, newBankTxs)
-        }
-
-        const stakingTxs = await dispatch(`getTx`, TypeStaking)
-        if (stakingTxs.length > state.staking.length) {
-          let newStakingTxs = uniqBy(
-            stakingTxs.concat(state.staking),
-            `txhash`
-          )
-          newStakingTxs = await dispatch(`enrichTransactions`, {
-            transactions: newStakingTxs,
-            txType: TypeStaking
-          })
-          commit(`setStakingTxs`, newStakingTxs)
-        }
-
-        const governanceTxs = await dispatch(`getTx`, TypeGovernance)
-        if (governanceTxs.length > state.governance.length) {
-          let newGovernanceTxs = uniqBy(
-            governanceTxs.concat(state.governance),
-            `txhash`
-          )
-          newGovernanceTxs = await dispatch(`enrichTransactions`, {
-            transactions: newGovernanceTxs,
-            txType: TypeGovernance
-          })
-          commit(`setGovernanceTxs`, newGovernanceTxs)
-        }
-
-        const distributionTxs = await dispatch(`getTx`, TypeDistribution)
-        if (distributionTxs.length > state.distribution.length) {
-          let newDistributionTxs = uniqBy(
-            distributionTxs.concat(state.distribution),
-            `txhash`
-          )
-          newDistributionTxs = await dispatch(`enrichTransactions`, {
-            transactions: newDistributionTxs,
-            txType: TypeDistribution
-          })
-          commit(`setDistributionTxs`, newDistributionTxs)
-        }
+        [TypeBank, TypeStaking, TypeGovernance, TypeDistribution]
+          .forEach(async txType => await dispatch(`parseAndSetTxs`, { txType }))
 
         state.error = null
         commit(`setHistoryLoading`, false)
