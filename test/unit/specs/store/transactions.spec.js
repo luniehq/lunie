@@ -114,25 +114,127 @@ describe(`Module: Transactions`, () => {
     })
 
     describe(`parseAndSetTxs`, () => {
-      it(`should parse and set new txs`, async () => {
-        const commit = jest.fn()
-        const txs = [{ txhash: 3 }, { txhash: 3 }]
-        const enrichedTxs = [{ txhash: 3, time: ``, type: `governance` }]
-        const dispatch = jest
-          .fn()
-          .mockImplementationOnce(async () => await txs)
-          .mockImplementationOnce(async () => await enrichedTxs)
-        await actions.parseAndSetTxs(
-          { commit, dispatch, state },
-          { txType: `governance` }
-        )
+      describe(`should parse and set new txs`, () => {
+        it(`bank`, async () => {
+          const commit = jest.fn()
+          const txs = [{ txhash: 3 }]
+          const enrichedTxs = [
+            {
+              txhash: 3, time: `1970-01-01T00:07:00.000Z`, type: `bank`
+            }
+          ]
+          const dispatch = jest
+            .fn()
+            .mockImplementationOnce(async () => await txs)
+            .mockImplementationOnce(async () => await enrichedTxs)
+          await actions.parseAndSetTxs(
+            { commit, dispatch, state },
+            { txType: `bank` }
+          )
 
-        expect(dispatch).toHaveBeenCalledWith(`getTx`, `governance`)
-        expect(dispatch).toHaveBeenCalledWith(`enrichTransactions`,
-          { transactions: [txs[0]], txType: `governance` }
-        )
-        expect(commit).toHaveBeenCalledWith(`setGovernanceTxs`, enrichedTxs)
-        expect(state.error).toBeNull()
+          expect(dispatch).toHaveBeenCalledWith(`getTx`, `bank`)
+          expect(dispatch).toHaveBeenCalledWith(`enrichTransactions`,
+            { transactions: txs, txType: `bank` }
+          )
+          expect(commit).toHaveBeenCalledWith(`setBankTxs`, enrichedTxs)
+        })
+
+        it(`staking`, async () => {
+          const commit = jest.fn()
+          const txs = [{ txhash: 3 }]
+          const enrichedTxs = [
+            {
+              txhash: 3, time: `1970-01-01T00:07:00.000Z`, type: `staking`
+            }
+          ]
+          const dispatch = jest
+            .fn()
+            .mockImplementationOnce(async () => await txs)
+            .mockImplementationOnce(async () => await enrichedTxs)
+          await actions.parseAndSetTxs(
+            { commit, dispatch, state },
+            { txType: `staking` }
+          )
+
+          expect(dispatch).toHaveBeenCalledWith(`getTx`, `staking`)
+          expect(dispatch).toHaveBeenCalledWith(`enrichTransactions`,
+            { transactions: txs, txType: `staking` }
+          )
+          expect(commit).toHaveBeenCalledWith(`setStakingTxs`, enrichedTxs)
+        })
+
+        it(`governance`, async () => {
+          const commit = jest.fn()
+          const txs = [{ txhash: 3 }, { txhash: 3 }]
+          const enrichedTxs = [
+            {
+              txhash: 3, time: `1970-01-01T00:07:00.000Z`, type: `governance`
+            }
+          ]
+          const dispatch = jest
+            .fn()
+            .mockImplementationOnce(async () => await txs)
+            .mockImplementationOnce(async () => await enrichedTxs)
+          await actions.parseAndSetTxs(
+            { commit, dispatch, state },
+            { txType: `governance` }
+          )
+
+          expect(dispatch).toHaveBeenCalledWith(`getTx`, `governance`)
+          expect(dispatch).toHaveBeenCalledWith(`enrichTransactions`,
+            { transactions: [txs[0]], txType: `governance` }
+          )
+          expect(commit).toHaveBeenCalledWith(`setGovernanceTxs`, enrichedTxs)
+        })
+
+        it(`distribution`, async () => {
+          const commit = jest.fn()
+          const txs = [{ txhash: 3 }]
+          const enrichedTxs = [
+            {
+              txhash: 3, time: `1970-01-01T00:07:00.000Z`, type: `distribution`
+            }
+          ]
+          const dispatch = jest
+            .fn()
+            .mockImplementationOnce(async () => await txs)
+            .mockImplementationOnce(async () => await enrichedTxs)
+          await actions.parseAndSetTxs(
+            { commit, dispatch, state },
+            { txType: `distribution` }
+          )
+
+          expect(dispatch).toHaveBeenCalledWith(`getTx`, `distribution`)
+          expect(dispatch).toHaveBeenCalledWith(`enrichTransactions`,
+            { transactions: txs, txType: `distribution` }
+          )
+          expect(commit).toHaveBeenCalledWith(`setDistributionTxs`, enrichedTxs)
+        })
+
+        it(`other`, async () => {
+          const commit = jest.fn()
+          const txs = [{ txhash: 3 }]
+          const enrichedTxs = [
+            {
+              txhash: 3, time: `1970-01-01T00:07:00.000Z`, type: `other`
+            }
+          ]
+          const dispatch = jest
+            .fn()
+            .mockImplementationOnce(async () => await txs)
+            .mockImplementationOnce(async () => await enrichedTxs)
+          await actions.parseAndSetTxs(
+            { commit, dispatch, state },
+            { txType: `other` }
+          )
+
+          expect(dispatch).toHaveBeenCalledWith(`getTx`, `other`)
+          expect(dispatch).not.toHaveBeenCalledWith(`enrichTransactions`,
+            { transactions: txs, txType: `other` }
+          )
+          expect(commit).not.toHaveBeenCalled()
+        })
+
       })
 
       it(`shouldn't set txs that already exist in state`, async () => {
@@ -211,6 +313,19 @@ describe(`Module: Transactions`, () => {
           `distribution`
         )
         expect(distribution).toEqual([{ txhash: 4 }])
+      })
+
+      it(`should fetch txs with empty response`, async () => {
+        node = {
+          getDistributionTxs: () => Promise.resolve(null),
+        }
+
+        const moduleInstance = transactionsModule({ node })
+        const distribution = await moduleInstance.actions.getTx(
+          { rootState: { session: { address } } },
+          `distribution`
+        )
+        expect(distribution).toEqual([])
       })
 
       it(`should throw error`, async () => {

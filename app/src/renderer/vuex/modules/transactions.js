@@ -52,7 +52,7 @@ export default ({ node }) => {
     },
     async parseAndSetTxs({ commit, dispatch, state }, { txType }) {
       const txs = await dispatch(`getTx`, txType)
-      if (txs.length > state[txType].length) {
+      if (state[txType] && txs.length > state[txType].length) {
         let newTxs = uniqBy(
           txs.concat(state[txType]),
           `txhash`
@@ -73,8 +73,6 @@ export default ({ node }) => {
             break
           case TypeDistribution:
             commit(`setDistributionTxs`, newTxs)
-            break
-          default:
             break
         }
       }
