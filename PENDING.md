@@ -1,2 +1,2 @@
-[Fixed] Spacing on staking and governance transactions @faboweb
 [Changed] Naming of amount input to "Deposit" on ModalPropose @faboweb
+[Fixed] [\#2359](https://github.com/cosmos/lunie/pull/2359) fixed spacing on transactions @faboweb
