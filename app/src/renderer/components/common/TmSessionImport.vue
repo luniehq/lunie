@@ -179,7 +179,8 @@ export default {
       importPassword: ``,
       importPasswordConfirm: ``,
       importSeed: ``
-    }
+    },
+    error: undefined
   }),
   computed: {
     ...mapGetters([`connected`])

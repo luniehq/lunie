@@ -114,10 +114,8 @@ describe(`TmSessionImport`, () => {
       }
     })
     await wrapper.vm.onSubmit()
-    expect(store.commit).toHaveBeenCalledWith(`notifyError`, {
-      title: `Couldn't create account`,
-      body: expect.stringContaining(`Wrong password`)
-    })
+    expect(wrapper.vm.error).toBe("Couldn't create account: Wrong password")
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should show a notification if creation failed`, async () => {
@@ -131,7 +129,7 @@ describe(`TmSessionImport`, () => {
       }
     })
     await wrapper.vm.onSubmit()
-    expect(store.commit.mock.calls[0][0]).toEqual(`notifyError`)
-    expect(store.commit.mock.calls[0][1].body).toEqual(`test`)
+    expect(wrapper.vm.error).toBe("Couldn't create account: test")
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 })

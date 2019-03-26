@@ -211,10 +211,8 @@ describe(`SessionSignUp`, () => {
       }
     })
     await wrapper.vm.onSubmit()
-    expect($store.commit).toHaveBeenCalledWith(
-      `notifyError`,
-      expect.objectContaining({ body: `Account already exists` })
-    )
+    expect(wrapper.vm.error).toBe("Couldn't create account: Account already exists")
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should show a notification if creation failed`, async () => {
@@ -238,9 +236,7 @@ describe(`SessionSignUp`, () => {
       $store
     }
     await TmSessionSignUp.methods.onSubmit.call(self)
-    expect($store.commit).toHaveBeenCalledWith(`notifyError`, {
-      title: `Couldn't create account`,
-      body: expect.stringContaining(`reason`)
-    })
+    expect(wrapper.vm.error).toBe("Couldn't create account: reason")
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 })

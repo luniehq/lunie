@@ -163,6 +163,193 @@ exports[`SessionSignUp has the expected html structure 1`] = `
           </label>
         </div>
       </tm-form-group-stub>
+       
+      <!---->
+    </div>
+     
+    <div
+      class="tm-session-footer"
+    >
+      <tm-btn-stub
+        size="lg"
+        value="Next"
+      />
+    </div>
+  </tm-form-struct-stub>
+</div>
+`;
+
+exports[`SessionSignUp should not continue if creation failed 1`] = `
+<div
+  class="tm-session"
+>
+  <tm-form-struct-stub
+    class="tm-session-container"
+    submit="function () { [native code] }"
+    width=""
+  >
+    <div
+      class="tm-session-header"
+    >
+      <a>
+        <i
+          class="material-icons"
+        >
+          arrow_back
+        </i>
+      </a>
+       
+      <div
+        class="tm-session-title"
+      >
+        
+        Create Account
+      
+      </div>
+       
+      <a>
+        <i
+          class="material-icons"
+        >
+          close
+        </i>
+      </a>
+    </div>
+     
+    <div
+      class="tm-session-main"
+    >
+      <tm-form-group-stub
+        fieldid="sign-up-name"
+        fieldlabel="Account Name"
+      >
+        <tm-field-stub
+          id="sign-up-name"
+          placeholder="Must be at least 5 characters"
+          type="text"
+          value="testaccount"
+        />
+         
+        <!---->
+         
+        <!---->
+      </tm-form-group-stub>
+       
+      <tm-form-group-stub
+        fieldid="sign-up-password"
+        fieldlabel="Password"
+      >
+        <tm-field-stub
+          id="sign-up-password"
+          placeholder="Must be at least 10 characters"
+          type="password"
+          value="1234567890"
+        />
+         
+        <!---->
+         
+        <!---->
+      </tm-form-group-stub>
+       
+      <tm-form-group-stub
+        fieldid="sign-up-password-confirm"
+        fieldlabel="Confirm Password"
+      >
+        <tm-field-stub
+          id="sign-up-password-confirm"
+          placeholder="Enter password again"
+          type="password"
+          value="1234567890"
+        />
+         
+        <!---->
+      </tm-form-group-stub>
+       
+      <tm-form-group-stub
+        class="sign-up-seed-group"
+        fieldid="sign-up-seed"
+        fieldlabel="Seed Phrase"
+      >
+        <field-seed-stub
+          disabled="disabled"
+          id="sign-up-seed"
+          value="bar"
+        />
+         
+        <tm-form-msg-stub
+          class="sm"
+          msg="Please back up the seed phrase for this account.
+          This seed phrase cannot be recovered."
+          name=""
+          type="custom"
+        />
+      </tm-form-group-stub>
+       
+      <tm-form-group-stub
+        fieldid="sign-up-warning"
+        fieldlabel=""
+      >
+        <div
+          class="tm-field-checkbox"
+        >
+          <div
+            class="tm-field-checkbox-input"
+          >
+            <input
+              id="sign-up-warning"
+              type="checkbox"
+            />
+          </div>
+           
+          <label
+            class="tm-field-checkbox-label"
+            for="sign-up-warning"
+          >
+            
+            I have securely written down my seed. I understand that lost seeds
+            cannot be recovered.
+          
+          </label>
+        </div>
+         
+        <!---->
+      </tm-form-group-stub>
+       
+      <tm-form-group-stub
+        fieldid="error-collection"
+        fieldlabel=""
+      >
+        <div
+          class="tm-field-checkbox"
+        >
+          <div
+            class="tm-field-checkbox-input"
+          >
+            <input
+              id="error-collection"
+              type="checkbox"
+            />
+          </div>
+           
+          <label
+            class="tm-field-checkbox-label"
+            for="error-collection"
+          >
+            
+            I'd like to opt in for remote error tracking to help improve
+            Voyager.
+          
+          </label>
+        </div>
+      </tm-form-group-stub>
+       
+      <p
+        class="tm-form-msg sm tm-form-msg--error"
+      >
+        
+        Couldn't create account: Account already exists
+      
+      </p>
     </div>
      
     <div

@@ -191,7 +191,8 @@ export default {
       signUpPassword: ``,
       signUpPasswordConfirm: ``,
       signUpWarning: false
-    }
+    },
+    error: undefined
   }),
   mounted() {
     this.$el.querySelector(`#sign-up-name`).focus()
