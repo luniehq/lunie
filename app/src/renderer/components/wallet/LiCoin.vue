@@ -12,9 +12,17 @@
           {{ amount }}
         </p>
       </div>
+      <!-- disable send on the hub until send is enabled -->
+      <tm-btn
+        v-if="!lastHeader || lastHeader.chain_id === 'cosmoshub-1'"
+        v-tooltip.left="tooltip"
+        value="Send"
+        color="primary"
+      />
       <!-- here we use the unconverted denom, as the SendModal
       checks for balances based on the actual denom -->
       <tm-btn
+        v-else
         value="Send"
         color="primary"
         @click.native="$emit(`show-modal`, coin.denom)"
@@ -26,6 +34,7 @@
 <script>
 import num from "scripts/num"
 import TmBtn from "common/TmBtn"
+import { mapGetters } from "vuex"
 export default {
   name: `li-coin`,
   components: {
@@ -38,6 +47,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters([`lastHeader`]),
     viewCoin() {
       return num.viewCoin(this.coin)
     },
@@ -47,7 +57,10 @@ export default {
     denomination() {
       return this.viewCoin.denom
     }
-  }
+  },
+  date: () => ({
+    tooltip: `Sending tokens is currently disabled on the Cosmos Hub.`
+  })
 }
 </script>
 
