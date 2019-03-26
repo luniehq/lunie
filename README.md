@@ -2,18 +2,18 @@
 
 # Cosmos Lunie
 
-[![CircleCI](https://circleci.com/gh/cosmos/voyager.svg?style=svg)](https://circleci.com/gh/cosmos/voyager)
-[![codecov](https://codecov.io/gh/cosmos/voyager/branch/develop/graph/badge.svg)](https://codecov.io/gh/cosmos/voyager)
+[![CircleCI](https://circleci.com/gh/cosmos/lunie.svg?style=svg)](https://circleci.com/gh/cosmos/lunie)
+[![codecov](https://codecov.io/gh/cosmos/lunie/branch/develop/graph/badge.svg)](https://codecov.io/gh/cosmos/lunie)
 
 👋 Welcome to Lunie, the official wallet and UI for the [Cosmos Hub](https://cosmos.network/).
 
 ⚠️ This is still alpha-level software. **DO NOT** enter your Cosmos fundraiser seed into Lunie.
 
-<!-- 🎉 Binary releases are [available here](https://github.com/cosmos/voyager/releases). After downloading and untar/unzip-ing, navigate to the source directory and click on the `Cosmos Voyager` icon to launch Voyager. -->
+<!-- 🎉 Binary releases are [available here](https://github.com/cosmos/lunie/releases). After downloading and untar/unzip-ing, navigate to the source directory and click on the `Cosmos Lunie` icon to launch Lunie. -->
 
 ## Lunie Dependencies
 
-Install the following dependencies if you wish to run voyager on developer mode or [contribute](https://github.com/cosmos/voyager/blob/develop/CONTRIBUTING.md).
+Install the following dependencies if you wish to run lunie on developer mode or [contribute](https://github.com/cosmos/lunie/blob/develop/CONTRIBUTING.md).
 
 ### Node
 
@@ -47,8 +47,8 @@ Lunie supports sending transactions through the `Cøsmos` app for [Ledger Nano S
 With Node, Yarn and Docker installed, you're ready to check out the source code:
 
 ```bash
-git clone https://github.com/cosmos/voyager.git
-cd voyager
+git clone https://github.com/cosmos/lunie.git
+cd lunie
 yarn install
 ```
 
