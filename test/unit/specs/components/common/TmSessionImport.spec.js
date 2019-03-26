@@ -114,7 +114,7 @@ describe(`TmSessionImport`, () => {
       }
     })
     await wrapper.vm.onSubmit()
-    expect(wrapper.vm.error).toBe("Couldn't create account: Wrong password")
+    expect(wrapper.vm.error).toBe(`Couldn't create account: Wrong password`)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -129,7 +129,7 @@ describe(`TmSessionImport`, () => {
       }
     })
     await wrapper.vm.onSubmit()
-    expect(wrapper.vm.error).toBe("Couldn't create account: test")
+    expect(wrapper.vm.error).toBe(`Couldn't create account: test`)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 })

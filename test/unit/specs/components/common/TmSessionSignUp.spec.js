@@ -211,7 +211,7 @@ describe(`SessionSignUp`, () => {
       }
     })
     await wrapper.vm.onSubmit()
-    expect(wrapper.vm.error).toBe("Couldn't create account: Account already exists")
+    expect(wrapper.vm.error).toBe(`Couldn't create account: Account already exists`)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -236,7 +236,7 @@ describe(`SessionSignUp`, () => {
       $store
     }
     await TmSessionSignUp.methods.onSubmit.call(self)
-    expect(wrapper.vm.error).toBe("Couldn't create account: reason")
+    expect(wrapper.vm.error).toBe(`Couldn't create account: reason`)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 })
