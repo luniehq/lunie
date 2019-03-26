@@ -128,7 +128,7 @@ export function getStorageKey(state) {
  * @param commit
  */
 export async function loadPersistedState({ state, commit, dispatch }) {
-  if (!state.connection.lastHeader.chain_id) {
+  if (!state.connection.lastHeader || !state.connection.lastHeader.chain_id) {
     await new Promise(resolve => setTimeout(resolve, 500))
     dispatch(`loadPersistedState`)
     return
