@@ -88,7 +88,10 @@
             >
               <td>
                 <router-link
-                  :to="{ name: `block`, params: { height: block.header.height } }"
+                  :to="{ name: `block`, params: { 
+                      height: block.header.height 
+                    }
+                  }"
                 >
                   {{ `#` + num.prettyInt(block.header.height) }}
                 </router-link>
