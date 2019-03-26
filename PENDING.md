@@ -1,1 +1,1 @@
-[Fixed] Spacing on staking transactions @faboweb
+[Fixed] Spacing on staking and governance transactions @faboweb
