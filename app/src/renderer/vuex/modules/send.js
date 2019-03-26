@@ -70,7 +70,7 @@ export default ({ node }) => {
         gas: args.gas,
         gas_prices: args.gas_prices,
         simulate: args.simulate,
-        memo: `Sent via Cosmos Wallet 🚀`
+        memo: `Sent via Lunie`
       }
 
       // extract type
