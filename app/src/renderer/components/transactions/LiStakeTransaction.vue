@@ -125,7 +125,7 @@
         <router-link :to="`${url}/${tx.validator_src_address}`">
           {{ moniker(tx.validator_src_address) }}
         </router-link>
-        to
+        &nbsp;to&nbsp;
         <router-link :to="`${url}/${tx.validator_dst_address}`">
           {{ moniker(tx.validator_dst_address) }}
         </router-link>
