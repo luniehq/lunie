@@ -58,7 +58,7 @@ export default {
       return this.viewCoin.denom
     }
   },
-  date: () => ({
+  data: () => ({
     tooltip: `Sending tokens is currently disabled on the Cosmos Hub.`
   })
 }
