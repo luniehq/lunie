@@ -36,19 +36,7 @@ export default ({ node }) => {
           validator.voting_power / state.globalPower
         )
 
-        // incrementally add the validators to the list or update them
-        const oldValidatorIndex = state.delegates.findIndex((oldValidator) =>
-          oldValidator.operator_address === validator.operator_address
-        )
-        if (oldValidatorIndex === -1) {
-          state.delegates.push(validator)
-          return
-        }
-        Vue.set(
-          state.delegates,
-          oldValidatorIndex,
-          merge(state.delegates[oldValidatorIndex], validator)
-        )
+        upsertValidator(state, validator)
       })
     },
     setSelfBond(
@@ -90,7 +78,12 @@ export default ({ node }) => {
             const signing_info = await node.getValidatorSigningInfo(
               validator.consensus_pubkey
             )
-            if (!isEmpty(signing_info)) validator.signing_info = signing_info
+            if (!isEmpty(signing_info)) {
+              upsertValidator(
+                state,
+                Object.assign({},validator, { signing_info })
+              )
+            }
           }
         }
         commit(`setDelegates`, validators)
@@ -155,4 +148,21 @@ export default ({ node }) => {
     mutations,
     actions
   }
+}
+
+// incrementally add the validator to the list or update it in place
+// "upsert": (computing, databases) An operation that inserts rows into a database table if they do not already exist, or updates them if they do.
+function upsertValidator(state, validator) {
+  const oldValidatorIndex = state.delegates.findIndex((oldValidator) =>
+    oldValidator.operator_address === validator.operator_address
+  )
+  if (oldValidatorIndex === -1) {
+    state.delegates.push(validator)
+    return
+  }
+  Vue.set(
+    state.delegates,
+    oldValidatorIndex,
+    merge(state.delegates[oldValidatorIndex], validator)
+  )
 }
