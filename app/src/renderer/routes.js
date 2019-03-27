@@ -67,13 +67,6 @@ export default [
     meta: { requiresAuth: true }
   },
   {
-    path: `/wallet/send/:denom?`,
-    name: `send`,
-    props: true,
-    component: require(`./components/wallet/SendModal`).default,
-    meta: { requiresAuth: true }
-  },
-  {
     path: `/transactions`,
     name: `transactions`,
     component: require(`./components/wallet/PageTransactions`).default,

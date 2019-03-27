@@ -1,3 +1,2 @@
-### Added
-
-- [\#2149](https://github.com/cosmos/voyager/issues/2149) display multi-message transactions @fedekunze
+[Changed] [\#2360](https://github.com/cosmos/lunie/issues/2360) disabled token sending on the cosmos hub @faboweb
+[Changed] Reduced keybase caching timeouts @faboweb

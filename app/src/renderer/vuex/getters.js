@@ -1,6 +1,5 @@
 import BN from "bignumber.js"
 import { calculateTokens } from "scripts/common"
-import num from "scripts/num"
 
 // ui
 export const filters = state => state.filters
@@ -16,16 +15,22 @@ export const lastPage = state => {
 // wallet
 export const transactions = state => state.transactions
 export const allTransactions = state =>
-  state.transactions.bank.concat(
-    state.transactions.staking,
-    state.transactions.governance,
-    state.transactions.distribution
-  )
+  state.transactions.bank
+    .concat(
+      state.transactions.staking,
+      state.transactions.governance,
+      state.transactions.distribution
+    )
 export const ledger = state => state.ledger
 export const wallet = state => state.wallet
 
 // fee distribution
 export const distribution = state => state.distribution
+export const yourValidators = (state, getters) =>
+  state.session.signedIn ?
+    getters.delegates.delegates.filter(
+      ({ operator_address }) => operator_address in getters.committedDelegations
+    ) : []
 
 // staking
 export const liquidAtoms = state =>
@@ -80,7 +85,7 @@ export const pool = state => state.pool
 export const stakingParameters = state => state.stakingParameters
 export const bondDenom = getters =>
   getters.stakingParameters.parameters &&
-  num.viewDenom(getters.stakingParameters.parameters.bond_denom || `uatom`)
+  getters.stakingParameters.parameters.bond_denom || `uatom`
 
 // governance
 export const proposals = state => state.proposals

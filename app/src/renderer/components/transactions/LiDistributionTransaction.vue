@@ -16,7 +16,13 @@
       <div slot="fees">
         Network Fee:&nbsp;
         <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
-        <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
+        <span>
+          {{
+            convertedFees
+              ? convertedFees.denom
+              : num.viewDenom(bondingDenom)
+          }}s
+        </span>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgSetWithdrawAddress`">
@@ -29,7 +35,13 @@
       <div slot="fees">
         Network Fee:&nbsp;
         <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
-        <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
+        <span>
+          {{
+            convertedFees
+              ? convertedFees.denom
+              : num.viewDenom(bondingDenom)
+          }}s
+        </span>
       </div>
     </template>
     <template
@@ -46,7 +58,13 @@
       <div slot="fees">
         Network Fee:&nbsp;
         <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
-        <span>{{ convertedFees ? convertedFees.denom : bondingDenom }}s</span>
+        <span>
+          {{
+            convertedFees
+              ? convertedFees.denom
+              : num.viewDenom(bondingDenom)
+          }}s
+        </span>
       </div>
     </template>
   </li-transaction>
@@ -96,7 +114,8 @@ export default {
   data: () => ({
     atoms,
     full,
-    pretty
+    pretty,
+    num
   }),
   computed: {
     convertedFees() {

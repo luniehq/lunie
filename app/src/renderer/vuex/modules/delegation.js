@@ -141,13 +141,10 @@ export default ({ node }) => {
         dispatch(`getBondedDelegates`, candidates)
       }
     },
-    async submitDelegation(
+    async simulateDelegation(
       {
         rootState: { stakingParameters, session },
-        getters: { liquidAtoms },
-        state,
         dispatch,
-        commit
       },
       { validator_address, amount, password, submitType }
     ) {
@@ -157,9 +154,37 @@ export default ({ node }) => {
         amount: String(amount)
       }
 
-      await dispatch(`sendTx`, {
+      return await dispatch(`simulateTx`, {
         type: `postDelegation`,
         to: session.address, // TODO strange syntax
+        password,
+        submitType,
+        delegator_address: session.address,
+        validator_address,
+        delegation
+      })
+    },
+    async submitDelegation(
+      {
+        rootState: { stakingParameters, session },
+        getters: { liquidAtoms },
+        state,
+        dispatch,
+        commit
+      },
+      { validator_address, amount, gas, gas_prices, password, submitType }
+    ) {
+      const denom = stakingParameters.parameters.bond_denom
+      const delegation = {
+        denom,
+        amount: String(amount)
+      }
+
+      await dispatch(`sendTx`, {
+        type: `postDelegation`,
+        to: session.address,
+        gas,
+        gas_prices,
         password,
         submitType,
         delegator_address: session.address,
@@ -182,14 +207,31 @@ export default ({ node }) => {
       // load delegates after delegation to get new atom distribution on validators
       dispatch(`updateDelegates`)
     },
+    async simulateUnbondingDelegation(
+      {
+        rootState: { session },
+        dispatch
+      },
+      { validator, amount }
+    ) {
+      const shares = String(
+        Math.abs(calculateShares(validator, amount)).toFixed(10)
+      )
+      return await dispatch(`simulateTx`, {
+        type: `postUnbondingDelegation`,
+        to: session.address,
+        delegator_address: session.address,
+        validator_address: validator.operator_address,
+        shares
+      })
+    },
     async submitUnbondingDelegation(
       {
         rootState: { session },
         dispatch
       },
-      { validator, amount, password, submitType }
+      { validator, amount, gas, gas_prices, password, submitType }
     ) {
-      // TODO: change to 10 when available https://github.com/cosmos/cosmos-sdk/issues/2317
       const shares = String(
         Math.abs(calculateShares(validator, amount)).toFixed(10)
       )
@@ -199,17 +241,42 @@ export default ({ node }) => {
         delegator_address: session.address,
         validator_address: validator.operator_address,
         shares,
+        gas,
+        gas_prices,
         password,
         submitType
       })
       await dispatch(`getAllTxs`)
+    },
+    async simulateRedelegation(
+      {
+        rootState: { session },
+        dispatch
+      },
+      { validatorSrc, validatorDst, amount }
+    ) {
+      const shares = String(
+        Math.abs(calculateShares(validatorSrc, amount)).toFixed(10)
+      )
+
+      return await dispatch(`simulateTx`, {
+        type: `postRedelegation`,
+        to: session.address,
+        delegator_address: session.address,
+        validator_src_address: validatorSrc.operator_address,
+        validator_dst_address: validatorDst.operator_address,
+        shares
+      })
     },
     async submitRedelegation(
       {
         rootState: { session },
         dispatch
       },
-      { validatorSrc, validatorDst, amount, password, submitType }
+      {
+        validatorSrc, validatorDst, amount, gas,
+        gas_prices, password, submitType
+      }
     ) {
       const shares = String(
         Math.abs(calculateShares(validatorSrc, amount)).toFixed(10)
@@ -222,6 +289,8 @@ export default ({ node }) => {
         validator_src_address: validatorSrc.operator_address,
         validator_dst_address: validatorDst.operator_address,
         shares,
+        gas,
+        gas_prices,
         password,
         submitType
       })

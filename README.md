@@ -1,23 +1,23 @@
-![Cosmos Voyager logo — spaceship blasting off](/app/static/icons/png/128x128.png)
+![Cosmos Lunie logo — spaceship blasting off](/app/static/icons/png/128x128.png)
 
-# Cosmos Voyager
+# Cosmos Lunie
 
-[![CircleCI](https://circleci.com/gh/cosmos/voyager.svg?style=svg)](https://circleci.com/gh/cosmos/voyager)
-[![codecov](https://codecov.io/gh/cosmos/voyager/branch/develop/graph/badge.svg)](https://codecov.io/gh/cosmos/voyager)
+[![CircleCI](https://circleci.com/gh/cosmos/lunie.svg?style=svg)](https://circleci.com/gh/cosmos/lunie)
+[![codecov](https://codecov.io/gh/cosmos/lunie/branch/develop/graph/badge.svg)](https://codecov.io/gh/cosmos/lunie)
 
-👋 Welcome to Voyager, the official wallet and UI for the [Cosmos Hub](https://cosmos.network/).
+👋 Welcome to Lunie, the official wallet and UI for the [Cosmos Hub](https://cosmos.network/).
 
-⚠️ This is still alpha-level software. **DO NOT** enter your Cosmos fundraiser seed into Voyager.
+⚠️ This is still alpha-level software. **DO NOT** enter your Cosmos fundraiser seed into Lunie.
 
-<!-- 🎉 Binary releases are [available here](https://github.com/cosmos/voyager/releases). After downloading and untar/unzip-ing, navigate to the source directory and click on the `Cosmos Voyager` icon to launch Voyager. -->
+<!-- 🎉 Binary releases are [available here](https://github.com/cosmos/lunie/releases). After downloading and untar/unzip-ing, navigate to the source directory and click on the `Cosmos Lunie` icon to launch Lunie. -->
 
-## Voyager Dependencies
+## Lunie Dependencies
 
-Install the following dependencies if you wish to run voyager on developer mode or [contribute](https://github.com/cosmos/voyager/blob/develop/CONTRIBUTING.md).
+Install the following dependencies if you wish to run lunie on developer mode or [contribute](https://github.com/cosmos/lunie/blob/develop/CONTRIBUTING.md).
 
 ### Node
 
-Voyager requires Node.js `>=10.13.0`. If you have a different version of Node.js installed, you can use `n` to install the correct version. The following command will use `n` to install it alongside your current version of Node.js.
+Lunie requires Node.js `>=10.13.0`. If you have a different version of Node.js installed, you can use `n` to install the correct version. The following command will use `n` to install it alongside your current version of Node.js.
 
 ```bash
 npm i -g n && n 10.13.0
@@ -25,40 +25,40 @@ npm i -g n && n 10.13.0
 
 ### Yarn
 
-Yarn is a JS package manager we use to manage Voyager's dependencies. Download it [here](https://yarnpkg.com/lang/en/docs/install).
+Yarn is a JS package manager we use to manage Lunie's dependencies. Download it [here](https://yarnpkg.com/lang/en/docs/install).
 
 ### Docker
 
-Building Voyager and its dependencies requires [Docker](https://www.docker.com/) installed. You can download it [here](https://www.docker.com/get-docker).
+Building Lunie and its dependencies requires [Docker](https://www.docker.com/) installed. You can download it [here](https://www.docker.com/get-docker).
 
 ### Ledger Cosmos App
 
 > **IMPORTANT:** Only use Ledger devices that you **bought factory new** or **trust fully**.
 
-Voyager supports sending transactions through the `Cøsmos` app for [Ledger Nano S](https://www.ledger.com/products/ledger-nano-s) hardware wallet. To install the `Cøsmos` app on your device you'll have to:
+Lunie supports sending transactions through the `Cøsmos` app for [Ledger Nano S](https://www.ledger.com/products/ledger-nano-s) hardware wallet. To install the `Cøsmos` app on your device you'll have to:
 
 1. Download the Ledger Live app [here](https://www.ledger.com/pages/ledger-live)
 2. Connect your Ledger via USB and update to the latest firmware
 3. Go to the Ledger Live App Store, and download the `Cøsmos` application (this can take a while). **Note:** You may have to enable `Dev Mode` in the Ledger Live Settings to be able to download the `Cøsmos` application
 4. Navigate to the `Cøsmos` app on your Ledger device
 
-### Check out Voyager
+### Check out Lunie
 
 With Node, Yarn and Docker installed, you're ready to check out the source code:
 
 ```bash
-git clone https://github.com/cosmos/voyager.git
-cd voyager
+git clone https://github.com/cosmos/lunie.git
+cd lunie
 yarn install
 ```
 
 ---
 
-## Voyager Development
+## Lunie Development
 
 ### Gaia (Cosmos SDK)
 
-Since Voyager runs on top of the Cosmos Hub blockchain, we also need to install Gaia (the Cosmos Hub application) and download the supported testnets.
+Since Lunie runs on top of the Cosmos Hub blockchain, we also need to install Gaia (the Cosmos Hub application) and download the supported testnets.
 
 Open the Docker App and build the Gaia CLI (`gaiacli`) and the full node (`gaiad`), which are part of the Cosmos SDK, with the following command:
 
@@ -70,7 +70,7 @@ The version built is specified in `tasks/build/Gaia/COMMIT.sh` and the programs 
 
 ### Testnets
 
-To connect to a testnet, Voyager needs the configuration files of those networks in the folder `app/networks/{network_name}`. Gaia has a Git repository that holds the configuration files. Voyager has script to download those configurations for you:
+To connect to a testnet, Lunie needs the configuration files of those networks in the folder `app/networks/{network_name}`. Gaia has a Git repository that holds the configuration files. Lunie has script to download those configurations for you:
 
 ```bash
 yarn build:testnets
@@ -90,7 +90,7 @@ Sometimes you may want to run a local node, i.e. in the case there is no availab
 
 ### Generate SSL certificates
 
-If you want to have a predictable environment for Voyager please generate some ssl certificates:
+If you want to have a predictable environment for Lunie please generate some ssl certificates:
 
 ```bash
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
@@ -121,7 +121,7 @@ yarn frontend:fixed-https
 
 ### Deploy
 
-Create the bundle to deploy Voyager you can run:
+Create the bundle to deploy Lunie you can run:
 
 ```bash
 yarn build:ui
@@ -137,7 +137,7 @@ STARGATE=<https://StargateAddress:port> RPC=<https://RPCAddress:port> yarn build
 
 #### Run and create local account
 
-You can create a local account to run Voyager's local-testnet on development mode by using:
+You can create a local account to run Lunie's local-testnet on development mode by using:
 
 ```bash
 yarn start:new
@@ -155,24 +155,24 @@ Created Account: {
   }
 ```
 
-To import the account to Voyager, go to the `Import with seed` option on the `Sign in`, and paste the `mnemonic` value from above on the `Seed Phrase` field.
+To import the account to Lunie, go to the `Import with seed` option on the `Sign in`, and paste the `mnemonic` value from above on the `Seed Phrase` field.
 
 **Note:** Running `yarn start:new` overwrites all previously generated local accounts, meaning that you will have to import the account every time ! Use `yarn start` if you want to keep your account.
 
 #### Run with already generated accounts
 
-Once you've generated a local account, run Voyager on the default `local-testnet`:
+Once you've generated a local account, run Lunie on the default `local-testnet`:
 
 ```bash
 yarn start
 ```
 
-### Set up Cosmos Wallet on a different network
+### Set up Lunie on a different network
 
 Start a full node for the network that you want to connect to (See [guide](https://cosmos.network/docs/gaia/join-mainnet.html#setting-up-a-new-node)).
 
 
-Then start Cosmos Wallet without the local testnet:
+Then start Lunie without the local testnet:
 
 ```bash
 yarn frontend & yarn connect
@@ -188,7 +188,7 @@ yarn test
 
 ### Unit tests
 
-Voyager uses [Jest](https://facebook.github.io/jest) to run unit tests. You can run _all_ the unit tests with the following command:
+Lunie uses [Jest](https://facebook.github.io/jest) to run unit tests. You can run _all_ the unit tests with the following command:
 
 ```bash
 yarn test:unit
@@ -234,28 +234,6 @@ A list of all environment variables and their purpose:
 | `NODE_ENV`             | `production`, `development` |         |                                                                                                                                                                   |
 | `CI`                   | `true`, `false`             | `false` | Adds better structured output, makes a screenshot and adds logs to files (used on CircleCI).                                                                      |
 | `ALLOW_CONSOLE`        | `true`, `false`             | `false` | Unit tests fail if they use `console.error` or `console.warn`. To see the initial use/occurences of those callings, you can escape this behavior using this flag. |
-
-## FAQ
-
-- If you have trouble installing dependencies, remove all the lockfiles and try installing again.
-
-```bash
-rm -rf app/yarn.lock
-rm -rf app/package-lock.json
-rm -rf yarn.lock
-rm -rf package-lock.json
-```
-
-- If your components are not found using a short path, check if the path resolution is applied for Webpack (`webpack.renderer.js > rendererConfig.resolve.alias`) and Jest (`package.json > jest.moduleNameMapper`).
-
-- If starting the development server fails with the error: `Error: listen EADDRINUSE 127.0.0.1:9080`, you have still a development server process running. Kill it with `kill $(lsof -t -i:9080)` on Unix systems. On Windows Powershell first look for the processes with `netstat -a -o -n | Select-String -Pattern "9080"` then kill them with `taskkill /F /PID {PID}`.
-
-- If `yarn test:e2e` outputs an error about ChromeDriver timeout, remove your `node_modules` folder and reinstall all dependencies with `yarn`.
-
-- The version mismatch (`The network you are trying to connect to requires gaia X, but the version Voyager is using is Y.`) is testing the gaia version in `/builds/Gaia/...` against the one specified in the config dir `~/.cosmos-voyager[-dev]/{NETWORK}/gaiaversion.txt`. If you know that you have the correct version, change it in `gaiaversion.txt`.
-
-- You get `The network configuration for the network you want to connect to doesn't exist. Have you run "yarn build:testnets" to download the latest configurations?` but you have run `yarn build:testnets`.
-  The symlink between `app/networks` and `builds/testnets` is broken. Try readding the symlink with `cd app && ln -s ../builds/testnets networks`.
 
 ## Thanks
 
