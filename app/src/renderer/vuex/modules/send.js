@@ -70,7 +70,8 @@ export default ({ node }) => {
         gas: args.gas,
         gas_prices: args.gas_prices,
         simulate: args.simulate,
-        memo: `Sent via Lunie`
+        memo: `Sent via Lunie`,
+        mode: `sync` // return after CheckTx (the validity is confirmed)
       }
 
       // extract type
@@ -184,7 +185,29 @@ export default ({ node }) => {
 
       // check response code
       assertOk(res)
-      commit(`setNonce`, String(parseInt(state.nonce) + 1))
+
+      delete res.height
+      // sync success
+      if (res.height) {
+        commit(`setNonce`, String(parseInt(state.nonce) + 1))
+        return
+      }
+
+      // wait for inclusion in block
+      let success = false
+      let iterations = 30 // 30 * 2s = 60s max waiting time
+      while (!success && iterations-- > 0) {
+        await new Promise(resolve => setTimeout(resolve, 2000))
+        try {
+          await node.tx(res.txhash)
+          success = true
+        } catch (err) {
+          // tx wasn't included in a block yet
+        }
+      }
+      if (iterations === 0) {
+        throw new Error(`The transaction was still not included in a block. We can't say for certain it will be included in the future.`)
+      }
     }
   }
 
