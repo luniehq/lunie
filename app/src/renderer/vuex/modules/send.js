@@ -186,7 +186,6 @@ export default ({ node }) => {
       // check response code
       assertOk(res)
 
-      delete res.height
       // sync success
       if (res.height) {
         commit(`setNonce`, String(parseInt(state.nonce) + 1))

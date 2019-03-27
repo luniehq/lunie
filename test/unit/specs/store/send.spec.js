@@ -88,7 +88,7 @@ describe(`Module: Send`, () => {
         }
       }),
       postTx: jest.fn(() => Promise.resolve({
-        height: 1,
+        height: `1`,
         txhash: `h`
       })
       )
@@ -194,7 +194,8 @@ describe(`Module: Send`, () => {
                 sequence: `0`,
                 memo: `Sent via Lunie`,
                 gas_prices,
-                simulate: false
+                simulate: false,
+                mode: `sync`
               }
             })
             expect(node.postTx).toHaveBeenCalledWith({
@@ -234,7 +235,8 @@ describe(`Module: Send`, () => {
                   sequence: `0`,
                   memo: `Sent via Lunie`,
                   gas_prices,
-                  simulate: false
+                  simulate: false,
+                  mode: `sync`
                 }
               })
             expect(node.postTx).toHaveBeenCalledWith({
@@ -274,7 +276,8 @@ describe(`Module: Send`, () => {
                 sequence: `0`,
                 memo: `Sent via Lunie`,
                 gas_prices,
-                simulate: false
+                simulate: false,
+                mode: `sync`,
               }
             })
             expect(node.postTx).toHaveBeenCalledWith({
@@ -323,7 +326,8 @@ describe(`Module: Send`, () => {
                 sequence: `0`,
                 memo: `Sent via Lunie`,
                 gas_prices,
-                simulate: false
+                simulate: false,
+                mode: `sync`,
               }
             })
             expect(node.postTx).toHaveBeenCalledWith({
