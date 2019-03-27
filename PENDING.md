@@ -2,3 +2,4 @@
 [Fixed] [\#2370](https://github.com/cosmos/lunie/pull/2370) Pages now scroll back to the top on tab changes @faboweb
 [Changed] [\#2360](https://github.com/cosmos/lunie/issues/2360) disabled token sending on the cosmos hub @faboweb
 [Changed] Reduced keybase caching timeouts @faboweb
+[Fixed] [\#2375](https://github.com/cosmos/lunie/pull/2375) fixed predictable randomness on key generation @fedekunze
