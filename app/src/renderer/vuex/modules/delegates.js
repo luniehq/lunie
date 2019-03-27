@@ -2,8 +2,9 @@ import * as Sentry from "@sentry/browser"
 import BN from "bignumber.js"
 import { ratToBigNumber } from "scripts/common"
 import num from "scripts/num"
-import { isEmpty } from "lodash"
+import { isEmpty, merge } from "lodash"
 import b32 from "scripts/b32"
+import Vue from "vue"
 
 export default ({ node }) => {
   const emptyState = {
@@ -34,8 +35,21 @@ export default ({ node }) => {
         validator.percent_of_vote = num.percent(
           validator.voting_power / state.globalPower
         )
+
+        // incrementally add the validators to the list or update them
+        const oldValidatorIndex = state.delegates.findIndex((oldValidator) =>
+          oldValidator.operator_address === validator.operator_address
+        )
+        if (oldValidatorIndex === -1) {
+          state.delegates.push(validator)
+          return
+        }
+        Vue.set(
+          state.delegates,
+          oldValidatorIndex,
+          merge(state.delegates[oldValidatorIndex], validator)
+        )
       })
-      state.delegates = validators
     },
     setSelfBond(
       state,
