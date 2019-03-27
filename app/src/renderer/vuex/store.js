@@ -58,7 +58,10 @@ export function storeUpdateHandler(mutation, state, pending) {
     `setProposalDeposits`,
     `setProposalVotes`,
     `setProposalTally`,
-    `setGovParameters`
+    `setGovParameters`,
+    `setTotalRewards`,
+    `setDelegationRewards`,
+    `setDistributionParameters`
   ]
 
   if (updatingMutations.indexOf(mutation.type) === -1) return
@@ -153,6 +156,14 @@ export async function loadPersistedState({ state, commit, dispatch }) {
         loading: false
       },
       delegates: {
+        loaded: true,
+        loading: false
+      },
+      delegation: {
+        loaded: true,
+        loading: false
+      },
+      distribution: {
         loaded: true,
         loading: false
       },
