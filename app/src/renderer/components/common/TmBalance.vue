@@ -161,17 +161,16 @@ export default {
     padding: 0 0 1.5rem 0;
   }
 
-  .header-balance .top {
-    flex-direction: column;
-  }
-
   .top-section {
     padding: 0.5rem 0 1rem;
     border-right: none;
   }
 
-  .top-section:nth-child(2),
-  .top-section:nth-child(3) {
+  .top-section:not(:first-child) {
+    margin-left: 2rem;
+  }
+
+  .top-section:nth-child(2) {
     display: none;
   }
 }
