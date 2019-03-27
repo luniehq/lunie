@@ -25,10 +25,11 @@ describe(`Module: Keybase`, () => {
 
   // this is an internal format not the return value from the keybase API
   const mockIdentity = {
-    keybaseId: `abcdabcdabcdabcd`,
     avatarUrl: `pictureUrl`,
-    userName: `keybaseUser`,
+    keybaseId: `abcdabcdabcdabcd`,
+    lastUpdated: `Thu, 01 Jan 1970 00:00:42 GMT`,
     profileUrl: `https://keybase.io/keybaseUser`,
+    userName: `keybaseUser`,
   }
 
   beforeEach(() => {
@@ -73,12 +74,15 @@ describe(`Module: Keybase`, () => {
       state.externals.moment = () => ({ diff: () => -5 })
       const result = await actions.getKeybaseIdentity({ state }, `abcdabcdabcdabcd`)
       expect(state.externals.axios).toHaveBeenCalledWith(`https://keybase.io/_/api/1.0/user/lookup.json?usernames=keybaseUser&fields=pictures,basics`)
-      expect(result).toEqual({
-        keybaseId: `abcdabcdabcdabcd`,
-        avatarUrl: `pictureUrl`,
-        userName: `keybaseUser`,
-        profileUrl: `https://keybase.io/keybaseUser`
-      })
+      expect(result).toEqual(mockIdentity)
+    })
+
+    it(`should requery if wasn't found after 2 minutes`, async () => {
+      state.identities[`abcdabcdabcdabcd`] = {}
+      state.externals.moment = () => ({ diff: () => -3 })
+      const result = await actions.getKeybaseIdentity({ state }, `abcdabcdabcdabcd`)
+      expect(state.externals.axios).toHaveBeenCalledWith(`https://keybase.io/_/api/1.0/user/lookup.json?key_suffix=abcdabcdabcdabcd&fields=pictures,basics`)
+      expect(result).toEqual(mockIdentity)
     })
 
     it(`should bulk update the validators`, async () => {
