@@ -546,6 +546,34 @@ describe(`Module: Send`, () => {
         ).rejects.toEqual(new Error(`Error sending transaction`))
       })
 
+      it(`should interpret a returned empty array as failed delivery`, async () => {
+        const args = {
+          type: `send`,
+          to: `mock_address`,
+          password: `1234567890`,
+          amount: [{ denom: `uatom`, amount: 123 }]
+        }
+        node.postTx = async () => ({
+          txhash: `acbdefghi`
+        })
+        node.tx = jest.fn()
+          .mockImplementationOnce(() => Promise.reject(new Error(`404`)))
+          .mockImplementationOnce(() => Promise.resolve({}))
+        actions.signTx = () => ``
+        await actions.sendTx(
+          {
+            state,
+            dispatch: jest.fn(),
+            commit: jest.fn(),
+            rootState: mockRootState
+          },
+          args
+        )
+
+        expect(node.tx).toHaveBeenCalledTimes(2)
+        expect(node.tx).toHaveBeenCalledWith(`acbdefghi`)
+      })
+
       it(`should still send a transaction after failing to send another transaction`, async () => {
         const send = node.postTx.bind(node)
 
