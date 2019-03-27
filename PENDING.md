@@ -1,0 +1,1 @@
+[Fixed] Better inplace updates to validators so the information (like signing info) never hides again once it was once loaded @faboweb
