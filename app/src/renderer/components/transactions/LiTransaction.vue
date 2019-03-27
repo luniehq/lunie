@@ -51,7 +51,7 @@ export default {
   computed: {
     logoPath() {
       const path = `images/cosmos-logo.png`
-      if (this.$route.path.startsWith(`/staking`)) {
+      if (this.$route.path.lastIndexOf(`/`) > 0) {
         return `../${path}`
       }
       return path

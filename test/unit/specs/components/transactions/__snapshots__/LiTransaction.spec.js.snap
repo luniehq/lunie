@@ -8,7 +8,7 @@ exports[`LiTransaction should show a transaction item 1`] = `
     class="li-tx__icon"
   >
     <img
-      src="~assets/images/cosmos-logo.png"
+      src="images/cosmos-logo.png"
       style="border-color: #ffffff;"
     />
   </div>

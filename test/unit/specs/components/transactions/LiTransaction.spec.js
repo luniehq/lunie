@@ -13,6 +13,11 @@ describe(`LiTransaction`, () => {
   beforeEach(() => {
     wrapper = mount(LiTransaction, {
       propsData,
+      mocks: {
+        $route: {
+          path: `/transactions`
+        }
+      },
       slots: {
         caption: `<span>Some Caption</span>`,
         details: `<span>Some Details</span>`
@@ -23,6 +28,16 @@ describe(`LiTransaction`, () => {
 
   it(`should show a transaction item`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
+  it(`should show logo based on path`, () => {
+    const $route = { path: `/transactions` }
+    let path = LiTransaction.computed.logoPath.call({ $route })
+    expect(path).toBe(`images/cosmos-logo.png`)
+
+    $route.path = `/staking/my-delegations`
+    path = LiTransaction.computed.logoPath.call({ $route })
+    expect(path).toBe(`../images/cosmos-logo.png`)
   })
 
   it(`Should print the hour only if the same day`, () => {

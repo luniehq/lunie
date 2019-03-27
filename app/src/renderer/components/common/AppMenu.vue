@@ -2,32 +2,6 @@
   <menu class="app-menu">
     <div class="app-menu-main">
       <router-link
-        id="app-menu__wallet"
-        class="app-menu-item"
-        to="/wallet"
-        exact="exact"
-        title="Wallet"
-        @click.native="close"
-      >
-        <h2 class="app-menu-title">
-          Wallet
-        </h2>
-        <i class="material-icons">chevron_right</i>
-      </router-link>
-      <router-link
-        id="app-menu__transactions"
-        class="app-menu-item"
-        to="/transactions"
-        exact="exact"
-        title="Transactions"
-        @click.native="close"
-      >
-        <h2 class="app-menu-title">
-          Transactions
-        </h2>
-        <i class="material-icons">chevron_right</i>
-      </router-link>
-      <router-link
         id="app-menu__staking"
         class="app-menu-item"
         to="/staking"
@@ -56,11 +30,37 @@
         class="app-menu-item"
         to="/"
         exact="exact"
-        title="Network"
+        title="Explorer"
         @click.native="close"
       >
         <h2 class="app-menu-title">
-          Network
+          Explorer
+        </h2>
+        <i class="material-icons">chevron_right</i>
+      </router-link>
+      <router-link
+        id="app-menu__wallet"
+        class="app-menu-item"
+        to="/wallet"
+        exact="exact"
+        title="Wallet"
+        @click.native="close"
+      >
+        <h2 class="app-menu-title">
+          Wallet
+        </h2>
+        <i class="material-icons">chevron_right</i>
+      </router-link>
+      <router-link
+        id="app-menu__transactions"
+        class="app-menu-item"
+        to="/transactions"
+        exact="exact"
+        title="Transactions"
+        @click.native="close"
+      >
+        <h2 class="app-menu-title">
+          Transactions
         </h2>
         <i class="material-icons">chevron_right</i>
       </router-link>

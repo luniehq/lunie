@@ -74,7 +74,7 @@ export default [
   },
   {
     path: `/`,
-    name: `network`,
+    name: `explorer`,
     component: require(`./components/network/PageNetwork`).default
   },
   {

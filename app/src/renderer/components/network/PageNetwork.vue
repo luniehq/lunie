@@ -4,7 +4,7 @@
     :loading="!lastHeader"
     :loaded="!!lastHeader"
     :error="blocks.error"
-    data-title="Network"
+    data-title="Explorer"
   >
     <template slot="managed-body">
       <div class="page-profile__header page-profile__section network">

@@ -2,7 +2,7 @@
 
 exports[`PageNetwork should display the network page with data and the blocks table 1`] = `
 <tm-page-stub
-  data-title="Network"
+  data-title="Explorer"
   loaded="true"
   managed="true"
   subtitle=""
@@ -187,7 +187,7 @@ exports[`PageNetwork should display the network page with data and the blocks ta
 
 exports[`PageNetwork should display the network page with the blocks table in a loading state 1`] = `
 <tm-page-stub
-  data-title="Network"
+  data-title="Explorer"
   loaded="true"
   managed="true"
   subtitle=""
