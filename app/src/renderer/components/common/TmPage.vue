@@ -114,9 +114,14 @@ export default {
       return refresh ? { connected, refresh } : undefined
     }
   },
+  watch: {
+    $route() {
+      this.scrollContainer.scrollTop = 0
+    }
+  },
   async mounted() {
-    const container = this.$el.querySelector(`.tm-page-main`)
-    this.perfectScrollbar = new PerfectScrollbar(container)
+    this.scrollContainer = this.$el.querySelector(`.tm-page-main`)
+    this.perfectScrollbar = new PerfectScrollbar(this.scrollContainer)
   }
 }
 </script>
