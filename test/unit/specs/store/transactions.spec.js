@@ -9,7 +9,6 @@ import {
 describe(`Module: Transactions`, () => {
   let module, state, actions, mutations, node
   const address = `cosmos1address`
-  const dispatch = jest.fn()
   const commit = jest.fn()
   const mockRootState = {
     connection: {
@@ -41,43 +40,27 @@ describe(`Module: Transactions`, () => {
   describe(`Mutations`, () => {
     it(`should set bank transactions `, () => {
       mutations.setBankTxs(state, bankTxs)
-      expect(state.bank).toBe(bankTxs)
+      expect(state.bank).toEqual(bankTxs)
     })
 
     it(`should set staking transactions `, () => {
       mutations.setStakingTxs(state, stakingTxs)
-      expect(state.staking).toBe(stakingTxs)
+      expect(state.staking).toEqual(stakingTxs)
     })
 
     it(`should set governance transactions `, () => {
       mutations.setGovernanceTxs(state, governanceTxs)
-      expect(state.governance).toBe(governanceTxs)
+      expect(state.governance).toEqual(governanceTxs)
     })
 
     it(`should set distribution transactions `, () => {
       mutations.setDistributionTxs(state, distributionTxs)
-      expect(state.distribution).toBe(distributionTxs)
+      expect(state.distribution).toEqual(distributionTxs)
     })
 
     it(`should set history loading`, () => {
       mutations.setHistoryLoading(state, false)
       expect(state.loading).toEqual(false)
-    })
-
-    it(`should set transaction time`, () => {
-      state.staking = [{ height: 150 }]
-      mutations.setTransactionTime(state, {
-        blockHeight: 150,
-        time: `2018-10-15T00:05:32.000Z`
-      })
-      expect(state.staking).toEqual(
-        [
-          {
-            height: 150,
-            time: `2018-10-15T00:05:32.000Z`
-          }
-        ]
-      )
     })
   })
 
@@ -130,87 +113,159 @@ describe(`Module: Transactions`, () => {
       })
     })
 
-    describe(`getAllTxs`, () => {
-      it(`should get and set new txs`, async () => {
-        const dispatch = jest
-          .fn()
-          .mockImplementationOnce(async () => await bankTxs)
-          .mockImplementationOnce()
-          .mockImplementationOnce(async () => await stakingTxs)
-          .mockImplementationOnce()
-          .mockImplementationOnce(async () => await governanceTxs)
-          .mockImplementationOnce()
-          .mockImplementationOnce(async () => await distributionTxs)
-        await actions.getAllTxs({
-          commit,
-          dispatch,
-          state,
-          rootState: mockRootState
+    describe(`parseAndSetTxs`, () => {
+      describe(`should parse and set new txs`, () => {
+        it(`bank`, async () => {
+          const commit = jest.fn()
+          const txs = [{ txhash: 3 }]
+          const enrichedTxs = [
+            {
+              txhash: 3, time: `1970-01-01T00:07:00.000Z`, type: `bank`
+            }
+          ]
+          const dispatch = jest
+            .fn()
+            .mockImplementationOnce(async () => await txs)
+            .mockImplementationOnce(async () => await enrichedTxs)
+          await actions.parseAndSetTxs(
+            { commit, dispatch, state },
+            { txType: `bank` }
+          )
+
+          expect(dispatch).toHaveBeenCalledWith(`getTx`, `bank`)
+          expect(dispatch).toHaveBeenCalledWith(`enrichTransactions`,
+            { transactions: txs, txType: `bank` }
+          )
+          expect(commit).toHaveBeenCalledWith(`setBankTxs`, enrichedTxs)
         })
 
-        expect(dispatch).toHaveBeenCalledWith(`getTx`, `bank`)
-        expect(dispatch).toHaveBeenCalledWith(`getTx`, `staking`)
-        expect(dispatch).toHaveBeenCalledWith(`getTx`, `governance`)
-        expect(dispatch).toHaveBeenCalledWith(`getTx`, `distribution`)
+        it(`staking`, async () => {
+          const commit = jest.fn()
+          const txs = [{ txhash: 3 }]
+          const enrichedTxs = [
+            {
+              txhash: 3, time: `1970-01-01T00:07:00.000Z`, type: `staking`
+            }
+          ]
+          const dispatch = jest
+            .fn()
+            .mockImplementationOnce(async () => await txs)
+            .mockImplementationOnce(async () => await enrichedTxs)
+          await actions.parseAndSetTxs(
+            { commit, dispatch, state },
+            { txType: `staking` }
+          )
 
-        expect(dispatch).toHaveBeenCalledWith(`enrichTransactions`, bankTxs)
-        expect(dispatch).toHaveBeenCalledWith(`enrichTransactions`, stakingTxs)
-        expect(dispatch).toHaveBeenCalledWith(`enrichTransactions`, governanceTxs)
-        expect(dispatch).toHaveBeenCalledWith(`enrichTransactions`, distributionTxs)
+          expect(dispatch).toHaveBeenCalledWith(`getTx`, `staking`)
+          expect(dispatch).toHaveBeenCalledWith(`enrichTransactions`,
+            { transactions: txs, txType: `staking` }
+          )
+          expect(commit).toHaveBeenCalledWith(`setStakingTxs`, enrichedTxs)
+        })
 
-        expect(commit).toHaveBeenCalledWith(`setBankTxs`, bankTxs)
-        expect(commit).toHaveBeenCalledWith(`setStakingTxs`, stakingTxs)
-        expect(commit).toHaveBeenCalledWith(`setGovernanceTxs`, governanceTxs)
-        expect(commit).toHaveBeenCalledWith(`setDistributionTxs`, distributionTxs)
-        expect(state.error).toBeNull()
+        it(`governance`, async () => {
+          const commit = jest.fn()
+          const txs = [{ txhash: 3 }, { txhash: 3 }]
+          const enrichedTxs = [
+            {
+              txhash: 3, time: `1970-01-01T00:07:00.000Z`, type: `governance`
+            }
+          ]
+          const dispatch = jest
+            .fn()
+            .mockImplementationOnce(async () => await txs)
+            .mockImplementationOnce(async () => await enrichedTxs)
+          await actions.parseAndSetTxs(
+            { commit, dispatch, state },
+            { txType: `governance` }
+          )
+
+          expect(dispatch).toHaveBeenCalledWith(`getTx`, `governance`)
+          expect(dispatch).toHaveBeenCalledWith(`enrichTransactions`,
+            { transactions: [txs[0]], txType: `governance` }
+          )
+          expect(commit).toHaveBeenCalledWith(`setGovernanceTxs`, enrichedTxs)
+        })
+
+        it(`distribution`, async () => {
+          const commit = jest.fn()
+          const txs = [{ txhash: 3 }]
+          const enrichedTxs = [
+            {
+              txhash: 3, time: `1970-01-01T00:07:00.000Z`, type: `distribution`
+            }
+          ]
+          const dispatch = jest
+            .fn()
+            .mockImplementationOnce(async () => await txs)
+            .mockImplementationOnce(async () => await enrichedTxs)
+          await actions.parseAndSetTxs(
+            { commit, dispatch, state },
+            { txType: `distribution` }
+          )
+
+          expect(dispatch).toHaveBeenCalledWith(`getTx`, `distribution`)
+          expect(dispatch).toHaveBeenCalledWith(`enrichTransactions`,
+            { transactions: txs, txType: `distribution` }
+          )
+          expect(commit).toHaveBeenCalledWith(`setDistributionTxs`, enrichedTxs)
+        })
+
+        it(`other`, async () => {
+          const commit = jest.fn()
+          const txs = [{ txhash: 3 }]
+          const enrichedTxs = [
+            {
+              txhash: 3, time: `1970-01-01T00:07:00.000Z`, type: `other`
+            }
+          ]
+          const dispatch = jest
+            .fn()
+            .mockImplementationOnce(async () => await txs)
+            .mockImplementationOnce(async () => await enrichedTxs)
+          await actions.parseAndSetTxs(
+            { commit, dispatch, state },
+            { txType: `other` }
+          )
+
+          expect(dispatch).toHaveBeenCalledWith(`getTx`, `other`)
+          expect(dispatch).not.toHaveBeenCalledWith(`enrichTransactions`,
+            { transactions: txs, txType: `other` }
+          )
+          expect(commit).not.toHaveBeenCalled()
+        })
+
       })
 
-      it(`shouldn't set existing txs`, async () => {
+      it(`shouldn't set txs that already exist in state`, async () => {
         state = {
           loading: false,
           loaded: false,
           error: null,
           bank: bankTxs,
-          staking: stakingTxs,
-          governance: governanceTxs,
-          distribution: distributionTxs
         }
         const commit = jest.fn()
         const dispatch = jest
           .fn()
-          .mockImplementationOnce(async () => await bankTxs)
-          .mockImplementationOnce(async () => await stakingTxs)
-          .mockImplementationOnce(async () => await governanceTxs)
-          .mockImplementationOnce(async () => await distributionTxs)
-        await actions.getAllTxs({
-          commit,
-          dispatch,
-          state,
-          rootState: mockRootState
-        })
+          .mockImplementation(async () => await bankTxs)
+        await actions.parseAndSetTxs(
+          { commit, dispatch, state },
+          { txType: `bank` }
+        )
 
         expect(dispatch).toHaveBeenCalledWith(`getTx`, `bank`)
-        expect(dispatch).toHaveBeenCalledWith(`getTx`, `staking`)
-        expect(dispatch).toHaveBeenCalledWith(`getTx`, `governance`)
-        expect(dispatch).toHaveBeenCalledWith(`getTx`, `distribution`)
-
-        expect(dispatch).not.toHaveBeenCalledWith(`enrichTransactions`, bankTxs)
-        expect(dispatch).not.toHaveBeenCalledWith(`enrichTransactions`, stakingTxs)
-        expect(dispatch).not.toHaveBeenCalledWith(`enrichTransactions`, governanceTxs)
-        expect(dispatch).not.toHaveBeenCalledWith(`enrichTransactions`, distributionTxs)
+        expect(dispatch).not.toHaveBeenCalledWith(`enrichTransactions`,
+          { transactions: bankTxs, txType: `bank` }
+        )
 
         expect(commit).not.toHaveBeenCalledWith(`setBankTxs`, bankTxs)
-        expect(commit).not.toHaveBeenCalledWith(`setStakingTxs`, stakingTxs)
-        expect(commit).not.toHaveBeenCalledWith(`setGovernanceTxs`, governanceTxs)
-        expect(commit).not.toHaveBeenCalledWith(`setDistributionTxs`, distributionTxs)
         expect(state.error).toBeNull()
       })
+    })
 
-      it(`should throw if if one of the dispatches fail`, async () => {
-        const error = new Error(`unexpected error`)
-        const dispatch = jest.fn(() => {
-          throw error
-        })
+    describe(`getAllTxs`, () => {
+      it(`should get all types of txs`, async () => {
+        const dispatch = jest.fn()
         await actions.getAllTxs({
           commit,
           dispatch,
@@ -218,7 +273,12 @@ describe(`Module: Transactions`, () => {
           rootState: mockRootState
         })
 
-        expect(state.error).toBe(error)
+        expect(dispatch).toHaveBeenCalledTimes(4)
+        expect(dispatch).toHaveBeenCalledWith(`parseAndSetTxs`, { txType: `bank` })
+        expect(dispatch).toHaveBeenCalledWith(`parseAndSetTxs`, { txType: `staking` })
+        expect(dispatch).toHaveBeenCalledWith(`parseAndSetTxs`, { txType: `governance` })
+        expect(dispatch).toHaveBeenCalledWith(`parseAndSetTxs`, { txType: `distribution` })
+        expect(state.error).toBeNull()
       })
     })
 
@@ -228,7 +288,7 @@ describe(`Module: Transactions`, () => {
           { rootState: { session: { address } } },
           `staking`
         )
-        expect(staking).toEqual([{ txhash: 1, type: `staking` }])
+        expect(staking).toEqual([{ txhash: 1 }])
       })
 
       it(`should fetch governance txs`, async () => {
@@ -236,7 +296,7 @@ describe(`Module: Transactions`, () => {
           { rootState: { session: { address } } },
           `governance`
         )
-        expect(governance).toEqual([{ txhash: 3, type: `governance` }])
+        expect(governance).toEqual([{ txhash: 3 }, { txhash: 3 }])
       })
 
       it(`should fetch bank txs`, async () => {
@@ -244,7 +304,7 @@ describe(`Module: Transactions`, () => {
           { rootState: { session: { address } } },
           `bank`
         )
-        expect(bank).toEqual([{ txhash: 2, type: `bank` }])
+        expect(bank).toEqual([{ txhash: 2 }])
       })
 
       it(`should fetch distribution txs`, async () => {
@@ -252,7 +312,20 @@ describe(`Module: Transactions`, () => {
           { rootState: { session: { address } } },
           `distribution`
         )
-        expect(distribution).toEqual([{ txhash: 4, type: `distribution` }])
+        expect(distribution).toEqual([{ txhash: 4 }])
+      })
+
+      it(`should fetch txs with empty response`, async () => {
+        node = {
+          getDistributionTxs: () => Promise.resolve(null),
+        }
+
+        const moduleInstance = transactionsModule({ node })
+        const distribution = await moduleInstance.actions.getTx(
+          { rootState: { session: { address } } },
+          `distribution`
+        )
+        expect(distribution).toEqual([])
       })
 
       it(`should throw error`, async () => {
@@ -262,7 +335,7 @@ describe(`Module: Transactions`, () => {
             { rootState: { session: { address } } },
             `zero-knowledge`)
         } catch (error) {
-          expect(error.message).toBe(`Unknown transaction type`)
+          expect(error.message).toBe(`Unknown transaction type: zero-knowledge`)
         }
       })
     })
@@ -270,29 +343,21 @@ describe(`Module: Transactions`, () => {
     describe(`enrichTransactions`, () => {
       it(`should add add time and block height`, async () => {
         const txs = [{ height: 1 }, { height: 2 }]
-        await actions.enrichTransactions({ dispatch }, txs)
-        expect(dispatch).toHaveBeenCalledWith(`queryTransactionTime`, {
-          blockHeight: 1
+        const dispatch = jest.fn()
+          .mockResolvedValue({ header: { time: 420000 } })
+        const enreichedTxs = await actions.enrichTransactions({ dispatch }, {
+          transactions: txs,
+          txType: `bank`
         })
-        expect(dispatch).toHaveBeenCalledWith(`queryTransactionTime`, {
-          blockHeight: 2
-        })
-      })
-    })
 
-    describe(`queryTransactionTime`, () => {
-      it(`should add add time and block height`, async () => {
-        const blockMetaInfo = { header: { time: `2018-10-15T00:05:32.000Z` } }
-        const dispatch = jest.fn(async () => await blockMetaInfo)
-        await actions.queryTransactionTime(
-          { commit, dispatch },
-          { blockHeight: 1 }
-        )
+        expect(dispatch).toBeCalledTimes(txs.length)
         expect(dispatch).toHaveBeenCalledWith(`queryBlockInfo`, 1)
-        expect(commit).toHaveBeenCalledWith(`setTransactionTime`, {
-          blockHeight: 1,
-          time: `2018-10-15T00:05:32.000Z`
-        })
+        expect(dispatch).toHaveBeenCalledWith(`queryBlockInfo`, 2)
+
+        expect(enreichedTxs).toEqual([
+          { height: 1, time: `1970-01-01T00:07:00.000Z`, type: `bank` },
+          { height: 2, time: `1970-01-01T00:07:00.000Z`, type: `bank` }
+        ])
       })
     })
   })
