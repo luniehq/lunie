@@ -131,8 +131,6 @@ jobs:
       - checkout
       - restore_cache:
           key: v8-gaia-{{ checksum "tasks/build/Gaia/VERSION" }}
-
-      # If Gaia isn't in the cache then build it.
       - run: |
           if [ ! -d /tmp/gaia ]; then
             cd tasks/build/Gaia
@@ -146,8 +144,8 @@ jobs:
           root: *GAIA
           paths:
             - "*"
-       - store_artifacts:
-           path: builds/Gaia/linux_amd64/*
+      - store_artifacts:
+          path: builds/Gaia/linux_amd64/*
 
   pendingUpdated:
     executor: node
