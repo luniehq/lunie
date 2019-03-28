@@ -11,6 +11,15 @@ describe(`LiCoin`, () => {
           denom: `Stake`,
           amount: `10000000000`
         }
+      },
+      mocks: {
+        $store: {
+          getters: {
+            lastHeader: {
+              chain_id: `testnet`
+            }
+          }
+        }
       }
     })
   })

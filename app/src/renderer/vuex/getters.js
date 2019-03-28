@@ -15,11 +15,12 @@ export const lastPage = state => {
 // wallet
 export const transactions = state => state.transactions
 export const allTransactions = state =>
-  state.transactions.bank.concat(
-    state.transactions.staking,
-    state.transactions.governance,
-    state.transactions.distribution
-  )
+  state.transactions.bank
+    .concat(
+      state.transactions.staking,
+      state.transactions.governance,
+      state.transactions.distribution
+    )
 export const ledger = state => state.ledger
 export const wallet = state => state.wallet
 

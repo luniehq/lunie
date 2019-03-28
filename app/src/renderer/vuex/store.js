@@ -58,7 +58,10 @@ export function storeUpdateHandler(mutation, state, pending) {
     `setProposalDeposits`,
     `setProposalVotes`,
     `setProposalTally`,
-    `setGovParameters`
+    `setGovParameters`,
+    `setTotalRewards`,
+    `setDelegationRewards`,
+    `setDistributionParameters`
   ]
 
   if (updatingMutations.indexOf(mutation.type) === -1) return
@@ -91,7 +94,6 @@ function persistState(state) {
       balances: state.wallet.balances
     },
     delegation: {
-      loaded: state.delegation.loaded,
       committedDelegates: state.delegation.committedDelegates,
       unbondingDelegations: state.delegation.unbondingDelegations
     },
@@ -128,7 +130,12 @@ export function getStorageKey(state) {
  * @param state
  * @param commit
  */
-export function loadPersistedState({ state, commit }) {
+export async function loadPersistedState({ state, commit, dispatch }) {
+  if (!state.connection.lastHeader || !state.connection.lastHeader.chain_id) {
+    await new Promise(resolve => setTimeout(resolve, 500))
+    dispatch(`loadPersistedState`)
+    return
+  }
   const storageKey = getStorageKey(state)
   let cachedState
   try {
@@ -149,6 +156,14 @@ export function loadPersistedState({ state, commit }) {
         loading: false
       },
       delegates: {
+        loaded: true,
+        loading: false
+      },
+      delegation: {
+        loaded: true,
+        loading: false
+      },
+      distribution: {
         loaded: true,
         loading: false
       },

@@ -61,4 +61,14 @@ describe(`TmPage`, () => {
     expect(wrapper.vm.refreshable).toEqual({ connected: true, refresh })
   })
 
+  it(`scrolls back to the top on a route change`, () => {
+    const self = {
+      scrollContainer: {
+        scrollTop: 100
+      }
+    }
+    TmPage.watch.$route.call(self)
+    expect(self.scrollContainer.scrollTop).toBe(0)
+  })
+
 })
