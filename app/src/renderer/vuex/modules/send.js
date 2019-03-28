@@ -176,7 +176,13 @@ export default ({ node }) => {
         actions.cleanRequestArguments({ state, rootState }, args)
 
       // generate transaction without signatures (i.e generate_only)
-      const request = actions.apiRequest(state.node, type, to, pathParameter, requestBody)
+      const request = actions.apiRequest(
+        state.node,
+        type,
+        to,
+        pathParameter,
+        requestBody
+      )
       const generationRes = await request.catch(handleSDKError)
       const tx = generationRes.value
 
