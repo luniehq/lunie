@@ -194,8 +194,7 @@ describe(`Module: Send`, () => {
                 sequence: `0`,
                 memo: `Sent via Lunie`,
                 gas_prices,
-                simulate: false,
-                mode: `sync`
+                simulate: false
               }
             })
             expect(node.postTx).toHaveBeenCalledWith({
@@ -235,8 +234,7 @@ describe(`Module: Send`, () => {
                   sequence: `0`,
                   memo: `Sent via Lunie`,
                   gas_prices,
-                  simulate: false,
-                  mode: `sync`
+                  simulate: false
                 }
               })
             expect(node.postTx).toHaveBeenCalledWith({
@@ -276,8 +274,7 @@ describe(`Module: Send`, () => {
                 sequence: `0`,
                 memo: `Sent via Lunie`,
                 gas_prices,
-                simulate: false,
-                mode: `sync`,
+                simulate: false
               }
             })
             expect(node.postTx).toHaveBeenCalledWith({
@@ -326,8 +323,7 @@ describe(`Module: Send`, () => {
                 sequence: `0`,
                 memo: `Sent via Lunie`,
                 gas_prices,
-                simulate: false,
-                mode: `sync`,
+                simulate: false
               }
             })
             expect(node.postTx).toHaveBeenCalledWith({
@@ -546,7 +542,7 @@ describe(`Module: Send`, () => {
         ).rejects.toEqual(new Error(`Error sending transaction`))
       })
 
-      it(`should interpret a returned empty array as failed delivery`, async () => {
+      it(`should handle txs not being integrated into a block right away`, async () => {
         const args = {
           type: `send`,
           to: `mock_address`,
@@ -554,23 +550,38 @@ describe(`Module: Send`, () => {
           amount: [{ denom: `uatom`, amount: 123 }]
         }
         node.postTx = async () => ({
+          height: `0`,
           txhash: `acbdefghi`
         })
-        node.tx = jest.fn()
-          .mockImplementationOnce(() => Promise.reject(new Error(`404`)))
-          .mockImplementationOnce(() => Promise.resolve({}))
         actions.signTx = () => ``
+        const dispatch = jest.fn()
         await actions.sendTx(
           {
             state,
-            dispatch: jest.fn(),
+            dispatch,
             commit: jest.fn(),
             rootState: mockRootState
           },
           args
         )
 
-        expect(node.tx).toHaveBeenCalledTimes(2)
+        expect(dispatch).toHaveBeenCalledWith(`queryTxInclusion`, `acbdefghi`)
+      })
+
+      it(`should throw an error if txs are not integrated in a block for a long time`, async () => {
+        node.tx = jest.fn(() => Promise.reject(new Error(`404`)))
+
+        await expect(actions.queryTxInclusion(
+          {
+            state: {
+              txQueryIterations: 1,
+              txQueryTimeout: 0
+            }
+          },
+          `acbdefghi`
+        )).rejects.toThrowError(`The transaction was still not included in a block. We can't say for certain it will be included in the future.`)
+
+        expect(node.tx).toHaveBeenCalledTimes(1)
         expect(node.tx).toHaveBeenCalledWith(`acbdefghi`)
       })
 

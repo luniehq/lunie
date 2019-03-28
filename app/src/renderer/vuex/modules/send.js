@@ -20,7 +20,9 @@ export default ({ node }) => {
       createSignature,
       getKey,
       signatureImport
-    }
+    },
+    txQueryIterations: 30,
+    txQueryTimeout: 2000
   }
 
   const mutations = {
@@ -70,8 +72,7 @@ export default ({ node }) => {
         gas: args.gas,
         gas_prices: args.gas_prices,
         simulate: args.simulate,
-        memo: `Sent via Lunie`,
-        mode: `sync` // return after CheckTx (the validity is confirmed)
+        memo: `Sent via Lunie`
       }
 
       // extract type
@@ -180,31 +181,35 @@ export default ({ node }) => {
 
       // broadcast transaction with signatures included
       const signedTx = state.externals.createSignedTx(tx, signature)
-      const body = state.externals.createBroadcastBody(signedTx)
+      const body = state.externals.createBroadcastBody(signedTx, `sync`)
+
       const res = await node.postTx(body).catch(handleSDKError)
 
       // check response code
       assertOk(res)
 
       // sync success
-      if (res.height) {
+      if (res.height !== `0`) {
         commit(`setNonce`, String(parseInt(state.nonce) + 1))
         return
       }
 
-      // wait for inclusion in block
+      return dispatch(`queryTxInclusion`, res.txhash)
+    },
+    // wait for inclusion of a tx in a block
+    async queryTxInclusion({ state }, txHash) {
       let success = false
-      let iterations = 30 // 30 * 2s = 60s max waiting time
+      let iterations = state.txQueryIterations // 30 * 2s = 60s max waiting time
       while (!success && iterations-- > 0) {
-        await new Promise(resolve => setTimeout(resolve, 2000))
+        await new Promise(resolve => setTimeout(resolve, state.txQueryTimeout))
         try {
-          await node.tx(res.txhash)
+          await node.tx(txHash)
           success = true
         } catch (err) {
           // tx wasn't included in a block yet
         }
       }
-      if (iterations === 0) {
+      if (iterations <= 0) {
         throw new Error(`The transaction was still not included in a block. We can't say for certain it will be included in the future.`)
       }
     }
