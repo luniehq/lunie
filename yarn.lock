@@ -7369,8 +7369,8 @@ lcid@^2.0.0:
     invert-kv "^2.0.0"
 
 "ledger-cosmos-js@https://github.com/cosmos/ledger-cosmos-js":
-  version "0.0.1"
-  resolved "https://github.com/cosmos/ledger-cosmos-js#f14cc8c81c8782361d5577daca827a9c2b980d72"
+  version "1.0.0"
+  resolved "https://github.com/cosmos/ledger-cosmos-js#70623cd2b4313ed7c4ff56edb15092e541785c63"
   dependencies:
     chai "^4.2.0"
     mocha "^5.0.1"

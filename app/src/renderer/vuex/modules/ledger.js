@@ -10,6 +10,7 @@ HD wallet derivation path (BIP44)
 DerivationPath{44, 118, account, 0, index}
 */
 const HDPATH = [44, 118, 0, 0, 0]
+const BECH32PREFIX = `cosmos`
 
 export default () => {
   const emptyState = {
@@ -50,7 +51,7 @@ export default () => {
     },
     async pollLedgerDevice({ state }) {
       // poll device with low timeout to check if the device is connected
-      const secondsTimeout = 3 // a lower value always timeouts
+      const secondsTimeout = 5 // a lower value always timeouts
       const communicationMethod = await state.externals.comm_u2f.create_async(
         secondsTimeout,
         true
@@ -58,20 +59,26 @@ export default () => {
       const cosmosLedgerApp = new state.externals.App(communicationMethod)
 
       // check if the device is connected or on screensaver mode
-      const response = await cosmosLedgerApp.publicKey(HDPATH)
+      const response = await cosmosLedgerApp.appInfo()
+      const { error_message, appName, appVersion } = response
+      console.log(response)
 
-      switch (response.error_message) {
+      switch (error_message) {
         case `U2F: Timeout`:
           throw new Error(`No Ledger found`)
         case `Cosmos app does not seem to be open`:
           throw new Error(`Cosmos app is not open`)
-        case `Unknown error code`: // TODO: create error for screensaver mode
-          throw new Error(`Ledger's screensaver mode is on`)
         case `No errors`:
           // do nothing
           break
         default:
           throw new Error(response.error_message)
+      }
+
+      if (appName === `Cosmos` && appVersion !== `1.3.1`) {
+        throw new Error(`Outdated version: please update Cosmos app v1.3.1`)
+      } else if (appName !== `Cosmos`) {
+        throw new Error(`Close ${appName} and open the Cosmos app`)
       }
     },
     async createLedgerAppInstance({ commit, state }) {
@@ -82,14 +89,12 @@ export default () => {
       const cosmosLedgerApp = new state.externals.App(communicationMethod)
       commit(`setCosmosApp`, cosmosLedgerApp)
     },
-    async connectLedgerApp({ commit, dispatch, state }) {
+    async connectLedgerApp({ commit, dispatch }) {
       try {
         await dispatch(`pollLedgerDevice`)
         await dispatch(`createLedgerAppInstance`)
         await dispatch(`getLedgerCosmosVersion`)
-        await dispatch(`getLedgerPubKey`)
-        const address = state.externals.createCosmosAddress(state.pubKey)
-        await dispatch(`signIn`, { sessionType: `ledger`, address })
+        await dispatch(`getLedgerAddressAndPubKey`)
         commit(`setLedgerConnection`, true)
       } catch (error) {
         Sentry.captureException(error)
@@ -101,6 +106,7 @@ export default () => {
       let response
       try {
         response = await state.cosmosApp.get_version()
+        console.log(response)
         actions.checkLedgerErrors(response)
         const { major, minor, patch, test_mode } = response
         const version = { major, minor, patch, test_mode }
@@ -110,12 +116,19 @@ export default () => {
         commit(`setLedgerError`, error)
       }
     },
-    async getLedgerPubKey({ commit, state }) {
+    async getLedgerAddressAndPubKey({ commit, dispatch, state }) {
       let response
       try {
-        response = await state.cosmosApp.publicKey(HDPATH)
+        response = await state.cosmosApp
+          .getAddressAndPubKey(BECH32PREFIX, HDPATH)
+        console.log(response)
+
         actions.checkLedgerErrors(response)
-        commit(`setLedgerPubKey`, response.compressed_pk)
+        const { bech32_address, compressed_pk } = response
+        commit(`setLedgerPubKey`, compressed_pk)
+        await dispatch(`signIn`,
+          { sessionType: `ledger`, address: bech32_address }
+        )
       } catch (error) {
         Sentry.captureException(error)
         commit(`setLedgerError`, error)
@@ -132,11 +145,23 @@ export default () => {
         throw error
       }
     },
-    checkLedgerErrors(response) {
+    checkLedgerErrors({ rootState }, response) {
       if (response && response.error_message === `Command not allowed`) {
         throw new Error(`Transaction rejected`)
       } else if (response && response.error_message !== `No errors`) {
         throw new Error(response.error_message)
+      }
+      if (response && response.device_locked) {
+        throw new Error(`Ledger's screensaver mode is on`)
+      }
+      if (
+        response &&
+        response.test_mode &&
+        rootState.connection &&
+        rootState.connection.lastHeader &&
+        rootState.connection.lastHeader.chain_id.startsWith(`cosmoshub`)
+      ) {
+        throw new Error(`WARNING: Ledger apps on test mode shouldn't be used on mainnet!`)
       }
     }
   }

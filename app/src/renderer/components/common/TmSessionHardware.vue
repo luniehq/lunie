@@ -14,7 +14,8 @@
       </div>
       <div class="tm-session-main">
         <hardware-state :loading="status === `detect` ? true : false">
-          Please plug in your Ledger&nbsp;Nano&nbsp;S and open the Cosmos app
+          Please plug in your Ledger&nbsp;Nano&nbsp;S and
+          open the Cosmos app to confirm your address
           <p v-if="connectionError" class="error-message">
             {{ connectionError }}
           </p>
@@ -31,7 +32,11 @@
             here
           </a>.
         </p>
-        <tm-btn value="Sign In" @click.native="connectLedger()" />
+        <tm-btn
+          :value="status === `connect` ? `Sign In` : `Waiting for Ledger`"
+          :disabled="status === `detect` ? `disabled` : false"
+          @click.native="connectLedger()"
+        />
       </div>
     </div>
   </div>
