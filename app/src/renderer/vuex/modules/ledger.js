@@ -1,6 +1,5 @@
 import * as Sentry from "@sentry/browser"
 import { App, comm_u2f } from "ledger-cosmos-js"
-import { createCosmosAddress } from "../../scripts/wallet.js"
 
 // TODO: discuss TIMEOUT value
 const TIMEOUT = 50 // seconds to wait for user action on Ledger
@@ -9,6 +8,7 @@ const TIMEOUT = 50 // seconds to wait for user action on Ledger
 HD wallet derivation path (BIP44)
 DerivationPath{44, 118, account, 0, index}
 */
+// TODO: change when HD wallet is supported on UI
 const HDPATH = [44, 118, 0, 0, 0]
 const BECH32PREFIX = `cosmos`
 
@@ -22,7 +22,7 @@ export default () => {
   }
   const state = {
     ...emptyState,
-    externals: { createCosmosAddress, App, comm_u2f } // for testing
+    externals: { App, comm_u2f } // for testing
   }
   const mutations = {
     setCosmosApp(state, app) {
@@ -51,7 +51,7 @@ export default () => {
     },
     async pollLedgerDevice({ state }) {
       // poll device with low timeout to check if the device is connected
-      const secondsTimeout = 5 // a lower value always timeouts
+      const secondsTimeout = 3 // a lower value always timeouts
       const communicationMethod = await state.externals.comm_u2f.create_async(
         secondsTimeout,
         true
@@ -60,21 +60,8 @@ export default () => {
 
       // check if the device is connected or on screensaver mode
       const response = await cosmosLedgerApp.appInfo()
-      const { error_message, appName, appVersion } = response
-      console.log(response)
-
-      switch (error_message) {
-        case `U2F: Timeout`:
-          throw new Error(`No Ledger found`)
-        case `Cosmos app does not seem to be open`:
-          throw new Error(`Cosmos app is not open`)
-        case `No errors`:
-          // do nothing
-          break
-        default:
-          throw new Error(response.error_message)
-      }
-
+      actions.checkLedgerErrors(response)
+      const { appName, appVersion } = response
       if (appName === `Cosmos` && appVersion !== `1.3.1`) {
         throw new Error(`Outdated version: please update Cosmos app v1.3.1`)
       } else if (appName !== `Cosmos`) {
@@ -102,33 +89,28 @@ export default () => {
         throw error
       }
     },
-    async getLedgerCosmosVersion({ commit, state }) {
-      let response
-      try {
-        response = await state.cosmosApp.get_version()
-        console.log(response)
-        actions.checkLedgerErrors(response)
-        const { major, minor, patch, test_mode } = response
-        const version = { major, minor, patch, test_mode }
-        commit(`setCosmosAppVersion`, version)
-      } catch (error) {
-        Sentry.captureException(error)
-        commit(`setLedgerError`, error)
-      }
+    async getLedgerCosmosVersion({ commit, state, rootState }) {
+      const response = await state.cosmosApp.get_version()
+      actions.checkLedgerErrors(response)
+      actions.checkAppMode(response, rootState)
+      const { major, minor, patch, test_mode } = response
+      const version = { major, minor, patch, test_mode }
+      commit(`setCosmosAppVersion`, version)
     },
     async getLedgerAddressAndPubKey({ commit, dispatch, state }) {
-      let response
+      const response = await state.cosmosApp
+        .getAddressAndPubKey(BECH32PREFIX, HDPATH)
+      actions.checkLedgerErrors(response)
+      const { bech32_address, compressed_pk } = response
+      commit(`setLedgerPubKey`, compressed_pk)
+      await dispatch(`signIn`,
+        { sessionType: `ledger`, address: bech32_address }
+      )
+    },
+    async showAddressOnLedger({ commit }) {
       try {
-        response = await state.cosmosApp
-          .getAddressAndPubKey(BECH32PREFIX, HDPATH)
-        console.log(response)
-
+        const response = await state.cosmosApp.showAddress(BECH32PREFIX, HDPATH)
         actions.checkLedgerErrors(response)
-        const { bech32_address, compressed_pk } = response
-        commit(`setLedgerPubKey`, compressed_pk)
-        await dispatch(`signIn`,
-          { sessionType: `ledger`, address: bech32_address }
-        )
       } catch (error) {
         Sentry.captureException(error)
         commit(`setLedgerError`, error)
@@ -145,23 +127,34 @@ export default () => {
         throw error
       }
     },
-    checkLedgerErrors({ rootState }, response) {
-      if (response && response.error_message === `Command not allowed`) {
-        throw new Error(`Transaction rejected`)
-      } else if (response && response.error_message !== `No errors`) {
-        throw new Error(response.error_message)
+    checkLedgerErrors({ error_message }) {
+      switch (error_message) {
+        case `U2F: Timeout`:
+          throw new Error(`No Ledger found`)
+        case `Cosmos app does not seem to be open`:
+          throw new Error(`Cosmos app is not open`)
+        case `Command not allowed`:
+          throw new Error(`Transaction rejected`)
+        case `Unknown error code`:
+          throw new Error(`Ledger's screensaver mode is on`)
+        case `No errors`:
+          // do nothing
+          break
+        default:
+          throw new Error(error_message)
       }
-      if (response && response.device_locked) {
+    },
+    checkAppMode({ device_locked, test_mode }, rootState) {
+      if (device_locked) {
         throw new Error(`Ledger's screensaver mode is on`)
-      }
-      if (
-        response &&
-        response.test_mode &&
+      } else if (
+        test_mode &&
+        rootState &&
         rootState.connection &&
         rootState.connection.lastHeader &&
         rootState.connection.lastHeader.chain_id.startsWith(`cosmoshub`)
       ) {
-        throw new Error(`WARNING: Ledger apps on test mode shouldn't be used on mainnet!`)
+        throw new Error(`WARNING: Cosmos app on test mode shouldn't be used on mainnet!`)
       }
     }
   }

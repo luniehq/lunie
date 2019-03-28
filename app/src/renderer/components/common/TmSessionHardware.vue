@@ -61,6 +61,10 @@ export default {
     },
     setConnectionError(error) {
       this.connectionError = error
+
+      setTimeout(() => {
+        this.connectionError = null
+      }, 7500)
     },
     async connectLedger() {
       this.setStatus(`detect`)
