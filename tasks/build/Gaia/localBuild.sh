@@ -1,6 +1,6 @@
 #!/bin/sh
 
-TAG=`cat ./VERSION`
+export TAG=`cat ./VERSION`
 version="$(pwd)/../../../builds/GaiaVersions/$TAG"
 source="$(pwd)/../../../builds/Gaia"
 mkdir -p "$version"
