@@ -12,6 +12,7 @@ export default ({ node }) => {
   const state = {
     lock: null,
     nonce: `0`,
+    node,
     externals: {
       sign,
       createBroadcastBody,
@@ -91,7 +92,7 @@ export default ({ node }) => {
       args.base_req = requestMetaData
       return { requestBody: args, type, submitType, to, pathParameter }
     },
-    apiRequest(type, to, pathParameter, args) {
+    apiRequest(node, type, to, pathParameter, args) {
       // get the generated tx by querying it from the backend
       if (to && pathParameter) {
         return node[type](to, pathParameter, args)
@@ -114,7 +115,13 @@ export default ({ node }) => {
       const { requestBody, type, to, pathParameter } =
         await actions.cleanRequestArguments({ state, rootState }, args)
 
-      const request = actions.apiRequest(type, to, pathParameter, requestBody)
+      const request = actions.apiRequest(
+        state.node,
+        type,
+        to,
+        pathParameter,
+        requestBody
+      )
       const { gas_estimate } = await request.catch(handleSDKError)
       return Number(gas_estimate)
     },
@@ -169,7 +176,7 @@ export default ({ node }) => {
         actions.cleanRequestArguments({ state, rootState }, args)
 
       // generate transaction without signatures (i.e generate_only)
-      const request = actions.apiRequest(type, to, pathParameter, requestBody)
+      const request = actions.apiRequest(state.node, type, to, pathParameter, requestBody)
       const generationRes = await request.catch(handleSDKError)
       const tx = generationRes.value
 
@@ -183,7 +190,7 @@ export default ({ node }) => {
       const signedTx = state.externals.createSignedTx(tx, signature)
       const body = state.externals.createBroadcastBody(signedTx, `sync`)
 
-      const res = await node.postTx(body).catch(handleSDKError)
+      const res = await state.node.postTx(body).catch(handleSDKError)
 
       // check response code
       assertOk(res)
@@ -203,7 +210,7 @@ export default ({ node }) => {
       while (!success && iterations-- > 0) {
         await new Promise(resolve => setTimeout(resolve, state.txQueryTimeout))
         try {
-          await node.tx(txHash)
+          await state.node.tx(txHash)
           success = true
         } catch (err) {
           // tx wasn't included in a block yet
