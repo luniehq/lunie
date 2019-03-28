@@ -129,6 +129,8 @@ jobs:
     executor: go
     steps:
       - checkout
+      - restore_cache:
+          key: v8-Gaia-{{ checksum "tasks/build/Gaia/VERSION" }}
 
       # If Gaia isn't in the cache then build it.
       - run: |
