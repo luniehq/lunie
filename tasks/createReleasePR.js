@@ -13,14 +13,14 @@ function bumpVersion(versionString) {
   return versionElements.join(`.`)
 }
 
-function collectPending() {
+async function collectPending() {
   let allChanges = ``
-  const changesPath = join(__dirname, `changes`)
-  fs.readdir(changesPath, function (err, files) {
-    files.forEach(file => {
-      const content = fs.readFileSync(file, `utf8`)
-      allChanges += content
-    })
+  const changesPath = join(__dirname, `../changes`)
+  const files = await fs.readdirSync(changesPath)
+  files.forEach(file => {
+    const content = fs.readFileSync(join(changesPath, file), `utf8`)
+    console.log(join(changesPath, file), content)
+    allChanges += content
   })
 
   return allChanges
@@ -111,12 +111,15 @@ async function main({ octokit, shell, fs }, changeLog, pending, packageJson) {
 
 if (require.main === module) {
   /* istanbul ignore next */
-  cli({}, () => {
+  cli({}, async () => {
     const changeLog = fs.readFileSync(join(__dirname, `..`, `CHANGELOG.md`), `utf8`)
-    const pending = collectPending()
+    const pending = await collectPending()
     const packageJson = require(join(__dirname, `..`, `package.json`))
 
     main({ octokit, shell, fs }, changeLog, pending, packageJson)
+
+    fs.rmdirSync(join(__dirname, `..`, `changelog`))
+    fs.mkdirSync(join(__dirname, `..`, `changelog`))
   })
 }
 
