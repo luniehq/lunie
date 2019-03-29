@@ -76,10 +76,15 @@ async function main() {
   const branch = (await exec(`git rev-parse --abbrev-ref HEAD`)).stdout.trim()
     .replace(/\//g, `_`)
 
-  if (!fs.existsSync(join(__dirname, `../changes`))) {
-    fs.mkdirSync(join(__dirname, `../changes`))
+  const changesFolderPath = join(__dirname, `../changes`)
+  if (!fs.existsSync(changesFolderPath)) {
+    fs.mkdirSync(changesFolderPath)
   }
-  fs.writeFileSync(join(__dirname, `../changes`, branch), changelog.trim(), {
+  const changeFileName = join(changesFolderPath, branch)
+  if (fs.existsSync(changeFileName)) {
+    fs.unlinkSync(changeFileName)
+  }
+  fs.writeFileSync(changeFileName, changelog.trim(), {
     flag: `wx`,
     encoding: `utf8`
   })
