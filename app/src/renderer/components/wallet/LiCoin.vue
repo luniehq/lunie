@@ -46,6 +46,9 @@ export default {
       required: true
     }
   },
+  data: () => ({
+    tooltip: `Sending tokens is currently disabled on the Cosmos Hub.`
+  }),
   computed: {
     ...mapGetters([`lastHeader`]),
     viewCoin() {
@@ -57,10 +60,7 @@ export default {
     denomination() {
       return this.viewCoin.denom
     }
-  },
-  data: () => ({
-    tooltip: `Sending tokens is currently disabled on the Cosmos Hub.`
-  })
+  }
 }
 </script>
 

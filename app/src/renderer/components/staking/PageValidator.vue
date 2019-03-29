@@ -116,7 +116,15 @@
             <dl class="info_dl">
               <dt>Website</dt>
               <dd>
-                {{ translateEmptyDescription(validator.description.website) }}
+                <a
+                  id="validator-website"
+                  :href="validator.description.website ?
+                    validator.description.website : null"
+                  target="_blank"
+                  rel="nofollow noreferrer noopener"
+                >
+                  {{ translateEmptyDescription(validator.description.website) }}
+                </a>
               </dd>
             </dl>
             <dl class="info_dl">
@@ -233,7 +241,7 @@ export default {
       const totalBlocks = this.lastHeader.height
       const missedBlocks = this.validator.signing_info.missed_blocks_counter
       const signedBlocks = totalBlocks - missedBlocks
-      const uptime = signedBlocks / totalBlocks * 100
+      const uptime = (signedBlocks / totalBlocks) * 100
 
       return String(uptime).substring(0, 4) + `%`
     },
