@@ -6,6 +6,8 @@ const { join } = require(`path`)
 const _ = require(`lodash`)
 const octokit = require(`@octokit/rest`)()
 
+const changesPath = join(__dirname, `../changes`)
+
 function bumpVersion(versionString) {
   const versionElements = versionString.split(`.`)
   const patchVersionPosition = versionElements.length - 1
@@ -17,7 +19,6 @@ function bumpVersion(versionString) {
 // collect all changes from files and merge into one
 async function collectPending() {
   let allChanges = ``
-  const changesPath = join(__dirname, `../changes`)
   const files = await fs.readdirSync(changesPath)
   files.forEach(file => {
     const content = fs.readFileSync(join(changesPath, file), `utf8`)
@@ -29,11 +30,13 @@ async function collectPending() {
 }
 
 function addCategory(output, category, groupedLines) {
-  if (groupedLines[category].length > 0) {
+  if (groupedLines[category]) {
     output += `### ${category}\n\n`
     groupedLines[category].forEach(line => output += `- ${line}\n`)
     output += `\n`
   }
+
+  return output
 }
 function beautifyChanges(changes) {
   const lines = changes.split(`\n`)
@@ -53,6 +56,8 @@ function beautifyChanges(changes) {
   output = addCategory(output, `Fixed`, grouped)
   output = addCategory(output, `Security`, grouped)
   output = addCategory(output, `Deprecated`, grouped)
+
+  console.log(output)
 
   return output
 }
@@ -149,8 +154,11 @@ if (require.main === module) {
 
     main({ octokit, shell, fs }, changeLog, pending, packageJson)
 
-    fs.rmdirSync(join(__dirname, `..`, `changelog`))
-    fs.mkdirSync(join(__dirname, `..`, `changelog`))
+    // cleanup
+    const files = await fs.readdirSync(changesPath)
+    files.forEach(file => {
+      fs.unlinkSync(join(changesPath, file))
+    })
   })
 }
 
