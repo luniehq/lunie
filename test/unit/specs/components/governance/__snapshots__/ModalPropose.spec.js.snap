@@ -48,7 +48,7 @@ exports[`ModalPropose should display proposal modal form 1`] = `
   <tm-form-group-stub
     class="action-modal-form-group"
     fieldid="amount"
-    fieldlabel="Amount"
+    fieldlabel="Deposit"
   >
     <span
       class="input-suffix"

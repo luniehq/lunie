@@ -21,7 +21,7 @@ exports[`LiGovTransaction deposits 1`] = `
    
   <div>
     
-      On
+      On 
       
     <router-link-stub
       to="/proposals/1"
@@ -68,7 +68,7 @@ exports[`LiGovTransaction proposals 1`] = `
    
   <div>
     
-      Title: 
+      Title: 
     <i>
       Test Proposal
     </i>
@@ -97,13 +97,13 @@ exports[`LiGovTransaction votes 1`] = `
 >
   <div>
     
-      VoteYes
+      Vote Yes
     
   </div>
    
   <div>
     
-      On
+      On 
       
     <router-link-stub
       to="/proposals/1"
