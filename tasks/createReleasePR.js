@@ -32,7 +32,7 @@ async function collectPending() {
 function addCategory(output, category, groupedLines) {
   if (groupedLines[category]) {
     output += `### ${category}\n\n`
-    groupedLines[category].forEach(line => output += `- ${line}\n`)
+    groupedLines[category].forEach(({ content }) => output += `- ${content}\n`)
     output += `\n`
   }
 
@@ -57,9 +57,7 @@ function beautifyChanges(changes) {
   output = addCategory(output, `Security`, grouped)
   output = addCategory(output, `Deprecated`, grouped)
 
-  console.log(output)
-
-  return output
+  return output.trim()
 }
 
 function updateChangeLog(changeLog, pending, newVersion, now) {
@@ -79,7 +77,7 @@ const pushCommit = (shell, { token, branch }) =>
 set -o verbose
 git config --local user.name "Voyager Bot"
 git config --local user.email "voyager_bot@tendermint.com"
-git add CHANGELOG.md PENDING.md package.json
+git add CHANGELOG.md changes/* package.json
 git commit --message="Bump version for release."
 git tag --force release-candidate
 git remote add bot https://${token}@github.com/cosmos/voyager.git
