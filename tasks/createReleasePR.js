@@ -3,6 +3,7 @@
 const { cli, shell } = require(`@nodeguy/cli`)
 const fs = require(`fs`)
 const { join } = require(`path`)
+const _ = require(`lodash`)
 const octokit = require(`@octokit/rest`)()
 
 function bumpVersion(versionString) {
@@ -13,6 +14,7 @@ function bumpVersion(versionString) {
   return versionElements.join(`.`)
 }
 
+// collect all changes from files and merge into one
 async function collectPending() {
   let allChanges = ``
   const changesPath = join(__dirname, `../changes`)
@@ -24,6 +26,35 @@ async function collectPending() {
   })
 
   return allChanges
+}
+
+function addCategory(output, category, groupedLines) {
+  if (groupedLines[category].length > 0) {
+    output += `### ${category}\n\n`
+    groupedLines[category].forEach(line => output += `- ${line}\n`)
+    output += `\n`
+  }
+}
+function beautifyChanges(changes) {
+  const lines = changes.split(`\n`)
+
+  const categorized = lines.map(line => {
+    const matches = /\[(\w+)\] (.+)/.exec(line)
+    return {
+      type: matches[1],
+      content: matches[2]
+    }
+  })
+  const grouped = _.groupBy(categorized, `type`)
+
+  let output = ``
+  output = addCategory(output, `Added`, grouped)
+  output = addCategory(output, `Changed`, grouped)
+  output = addCategory(output, `Fixed`, grouped)
+  output = addCategory(output, `Security`, grouped)
+  output = addCategory(output, `Deprecated`, grouped)
+
+  return output
 }
 
 function updateChangeLog(changeLog, pending, newVersion, now) {
@@ -113,7 +144,7 @@ if (require.main === module) {
   /* istanbul ignore next */
   cli({}, async () => {
     const changeLog = fs.readFileSync(join(__dirname, `..`, `CHANGELOG.md`), `utf8`)
-    const pending = await collectPending()
+    const pending = beautifyChanges(await collectPending())
     const packageJson = require(join(__dirname, `..`, `package.json`))
 
     main({ octokit, shell, fs }, changeLog, pending, packageJson)
