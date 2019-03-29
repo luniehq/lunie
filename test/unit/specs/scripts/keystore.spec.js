@@ -7,6 +7,9 @@ import {
   getKey
 } from "renderer/scripts/keystore.js"
 
+// to test Web API Crypto
+import crypto from "crypto"
+
 const wallet = {
   cosmosAddress: `cosmos1r5v5srda7xfth3hn2s26txvrcrntldjumt8mhl`,
   mnemonic: `abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon art`,
@@ -44,7 +47,7 @@ describe(`Keystore`, () => {
   })
 
   it(`adds a new key encrypted to localstorage`, () => {
-    addNewKey(accountName, password)
+    addNewKey(accountName, password, crypto.randomBytes)
     const keys = loadKeys()
     expect(keys).toEqual([
       {
@@ -56,25 +59,25 @@ describe(`Keystore`, () => {
   })
 
   it(`tests if a password is correct for a locally stored key`, () => {
-    addNewKey(accountName, password)
+    addNewKey(accountName, password, crypto.randomBytes)
     expect(testPassword(accountName, password)).toBeTruthy()
     expect(testPassword(accountName, `false`)).toBeFalsy()
   })
 
   it(`Prevents you from overriding existing key names`, () => {
-    addNewKey(accountName, password)
+    addNewKey(accountName, password, crypto.randomBytes)
     expect(() => addNewKey(accountName, password)).toThrow()
   })
 
   it(`loads and decrypts a required key`, () => {
-    addNewKey(accountName, password)
+    addNewKey(accountName, password, crypto.randomBytes)
     const wallet = getKey(accountName, password)
     expect(wallet).toHaveProperty(`privateKey`)
     expect(wallet).toHaveProperty(`publicKey`)
   })
 
   it(`fails correctly if password is incorrect `, () => {
-    addNewKey(accountName, password)
+    addNewKey(accountName, password, crypto.randomBytes)
     expect(getKey.bind(null, accountName, `1`)).toThrow()
   })
 })
