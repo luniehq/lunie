@@ -115,15 +115,18 @@
             </dl>
             <dl class="info_dl">
               <dt>Website</dt>
-              <dd>
+              <dd v-if="website !== `--`">
                 <a
                   id="validator-website"
-                  :href="validator.description.website"
+                  :href="website"
                   target="_blank"
                   rel="nofollow noreferrer noopener"
                 >
-                  {{ translateEmptyDescription(validator.description.website) }}
+                  {{ website }}
                 </a>
+              </dd>
+              <dd v-else>
+                {{ website }}
               </dd>
             </dl>
             <dl class="info_dl">
@@ -295,6 +298,11 @@ export default {
       // status: active
       return `green`
     },
+    // empty descriptions have a strange '[do-not-modify]' value which we don't want to show
+    website() {
+      const url = this.validator.description.website
+      return this.translateEmptyDescription(url)
+    },
     rewards() {
       const { session, bondDenom, distribution, validator } = this
       if (!session.signedIn) {
@@ -394,7 +402,6 @@ export default {
         })
       return myWallet.concat(redelegationOptions)
     },
-    // empty descriptions have a strange '[do-not-modify]' value which we don't want to show
     translateEmptyDescription(value) {
       if (!value || value === `[do-not-modify]`) return `--`
       return value
