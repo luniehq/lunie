@@ -23,6 +23,7 @@ export default {
   block_timeout: 10000,
   default_gas_price: 2.5e-8, // recomended from Cosmos Docs
   default_gas_adjustment: 1.5,
+  leastLedgerSupportedVersion: { major: 1, minor: 1, patch: 1, full: `v1.1.1` },
   faucet,
   version: process.env.RELEASE
 }

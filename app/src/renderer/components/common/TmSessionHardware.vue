@@ -70,9 +70,16 @@ export default {
       this.setStatus(`detect`)
       try {
         await this.$store.dispatch(`connectLedgerApp`)
-      } catch (error) {
+      } catch ({ message }) {
         this.setStatus(`connect`)
-        this.setConnectionError(error.message)
+        switch (message) {
+          case `Transaction rejected`:
+            this.setConnectionError(`Account address rejected`)
+            break
+          default:
+            this.setConnectionError(message)
+            break
+        }
       }
     }
   }
