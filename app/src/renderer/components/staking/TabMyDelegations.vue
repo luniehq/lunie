@@ -143,8 +143,7 @@ export default {
   methods: {
     async loadStakingTxs() {
       if (this.session.signedIn) {
-        const stakingTxs = await this.$store.dispatch(`getTx`, `staking`)
-        this.$store.commit(`setStakingTxs`, stakingTxs)
+        await this.$store.dispatch(`getAllTxs`)
       }
     }
   }

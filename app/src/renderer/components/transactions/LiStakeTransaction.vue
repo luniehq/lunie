@@ -211,7 +211,7 @@ export default {
     },
     time: {
       type: String,
-      default: null // TODO: fails with required: true
+      required: true
     },
     block: {
       type: Number,

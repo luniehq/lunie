@@ -2,8 +2,9 @@ import * as Sentry from "@sentry/browser"
 import BN from "bignumber.js"
 import { ratToBigNumber } from "scripts/common"
 import num from "scripts/num"
-import { isEmpty } from "lodash"
+import { isEmpty, merge } from "lodash"
 import b32 from "scripts/b32"
+import Vue from "vue"
 
 export default ({ node }) => {
   const emptyState = {
@@ -34,8 +35,9 @@ export default ({ node }) => {
         validator.percent_of_vote = num.percent(
           validator.voting_power / state.globalPower
         )
+
+        upsertValidator(state, validator)
       })
-      state.delegates = validators
     },
     setSelfBond(
       state,
@@ -76,7 +78,12 @@ export default ({ node }) => {
             const signing_info = await node.getValidatorSigningInfo(
               validator.consensus_pubkey
             )
-            if (!isEmpty(signing_info)) validator.signing_info = signing_info
+            if (!isEmpty(signing_info)) {
+              upsertValidator(
+                state,
+                Object.assign({},validator, { signing_info })
+              )
+            }
           }
         }
         commit(`setDelegates`, validators)
@@ -141,4 +148,21 @@ export default ({ node }) => {
     mutations,
     actions
   }
+}
+
+// incrementally add the validator to the list or update it in place
+// "upsert": (computing, databases) An operation that inserts rows into a database table if they do not already exist, or updates them if they do.
+function upsertValidator(state, validator) {
+  const oldValidatorIndex = state.delegates.findIndex((oldValidator) =>
+    oldValidator.operator_address === validator.operator_address
+  )
+  if (oldValidatorIndex === -1) {
+    state.delegates.push(validator)
+    return
+  }
+  Vue.set(
+    state.delegates,
+    oldValidatorIndex,
+    merge(state.delegates[oldValidatorIndex], validator)
+  )
 }
