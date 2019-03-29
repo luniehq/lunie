@@ -13,6 +13,19 @@ function bumpVersion(versionString) {
   return versionElements.join(`.`)
 }
 
+function collectPending() {
+  let allChanges = ``
+  const changesPath = join(__dirname, `changes`)
+  fs.readdir(changesPath, function (err, files) {
+    files.forEach(file => {
+      const content = fs.readFileSync(file, `utf8`)
+      allChanges += content
+    })
+  })
+
+  return allChanges
+}
+
 function updateChangeLog(changeLog, pending, newVersion, now) {
   const today = now.toISOString().slice(0, 10)
 
@@ -100,7 +113,7 @@ if (require.main === module) {
   /* istanbul ignore next */
   cli({}, () => {
     const changeLog = fs.readFileSync(join(__dirname, `..`, `CHANGELOG.md`), `utf8`)
-    const pending = fs.readFileSync(join(__dirname, `..`, `PENDING.md`), `utf8`)
+    const pending = collectPending()
     const packageJson = require(join(__dirname, `..`, `package.json`))
 
     main({ octokit, shell, fs }, changeLog, pending, packageJson)
