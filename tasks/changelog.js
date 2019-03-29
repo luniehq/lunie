@@ -76,7 +76,10 @@ async function main() {
   const branch = (await exec(`git rev-parse --abbrev-ref HEAD`)).stdout.trim()
     .replace(/\//g, `_`)
 
-  fs.writeFileSync(join(`../changes`, branch), changelog.trim(), {
+  if (!fs.existsSync(join(__dirname, `../changes`))) {
+    fs.mkdirSync(join(__dirname, `../changes`))
+  }
+  fs.writeFileSync(join(__dirname, `../changes`, branch), changelog.trim(), {
     flag: `wx`,
     encoding: `utf8`
   })
