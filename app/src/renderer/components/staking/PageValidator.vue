@@ -118,8 +118,7 @@
               <dd>
                 <a
                   id="validator-website"
-                  :href="validator.description.website ?
-                    validator.description.website : null"
+                  :href="validator.description.website"
                   target="_blank"
                   rel="nofollow noreferrer noopener"
                 >
