@@ -17,12 +17,12 @@ function bumpVersion(versionString) {
 }
 
 // collect all changes from files and merge into one
+/* istanbul ignore next */ // only touches filesystem
 async function collectPending() {
   let allChanges = ``
   const files = await fs.readdirSync(changesPath)
   files.forEach(file => {
     const content = fs.readFileSync(join(changesPath, file), `utf8`)
-    console.log(join(changesPath, file), content)
     allChanges += content
   })
 
@@ -164,5 +164,6 @@ module.exports = {
   main,
   bumpVersion,
   updateChangeLog,
-  updatePackageJson
+  updatePackageJson,
+  beautifyChanges
 }
