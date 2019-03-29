@@ -211,15 +211,16 @@ export default ({ node }) => {
     },
     // wait for inclusion of a tx in a block
     async queryTxInclusion({ state }, txHash) {
-      let success = false
       let iterations = state.txQueryIterations // 30 * 2s = 60s max waiting time
-      while (!success && iterations-- > 0) {
-        await new Promise(resolve => setTimeout(resolve, state.txQueryTimeout))
+      while (iterations-- > 0) {
         try {
           await state.node.tx(txHash)
-          success = true
+          break
         } catch (err) {
           // tx wasn't included in a block yet
+          await new Promise(resolve =>
+            setTimeout(resolve, state.txQueryTimeout)
+          )
         }
       }
       if (iterations <= 0) {
