@@ -195,7 +195,6 @@ export default ({ node }) => {
       // broadcast transaction with signatures included
       const signedTx = state.externals.createSignedTx(tx, signature)
       const body = state.externals.createBroadcastBody(signedTx, `sync`)
-
       const res = await state.node.postTx(body).catch(handleSDKError)
 
       // check response code
