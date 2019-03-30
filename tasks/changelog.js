@@ -37,9 +37,28 @@ const ask = async () => {
         }
       },
       {
+        type: `list`,
+        name: `referenceType`,
+        message: `(mandatory) Which GitHub reference has this?`,
+        choices: [
+          { name: `Issue`,
+            value: `issues` },
+          { name: `Pull Request`,
+            value: `pull` }
+        ]
+      },
+      {
         type: `input`,
-        name: `issue`,
-        message: `(optional) Which GitHub issue is discussing this change?`
+        name: `referenceId`,
+        message: `What is the id of the reference issue/PR on GitHub?`,
+        validate: function(value) {
+          if (value) return true
+
+          return `You need to specify the GitHub reference.`
+        },
+        transformer(input) {
+          return input.replace(`#`, ``)
+        }
       },
       {
         type: `input`,
@@ -68,9 +87,18 @@ async function main() {
   await ask()
 
   const changelog = changes
-    .reduce((changelog, { type, content, issue, author }) =>
+    .reduce((changelog, {
+      type,
+      content,
+      author,
+      referenceType,
+      referenceId
+    }) => {
+      const referenceLink = `https://github.com/cosmos/lunie/${referenceType}/${referenceId}`
       // eslint-disable-next-line no-useless-escape
-      changelog += `[${type}] ${issue ? `[\#${issue}](https://github.com/cosmos/lunie/issues/${issue}) ` : ``}${content} @${author}\n`
+      changelog += `[${type}] [\#${referenceId}](${referenceLink}) ${content} @${author}\n`
+      return changelog
+    }
     , ``)
 
   const branch = (await exec(`git rev-parse --abbrev-ref HEAD`)).stdout.trim()
