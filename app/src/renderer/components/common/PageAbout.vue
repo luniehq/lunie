@@ -69,10 +69,12 @@ h1 {
   font-size: var(--xl);
   margin-bottom: 1rem;
 }
+
 b {
   font-weight: 700;
   color: var(--link);
 }
+
 .card {
   background: var(--app-fg);
   padding: 4rem;
