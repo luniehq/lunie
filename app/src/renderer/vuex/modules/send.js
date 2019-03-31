@@ -12,6 +12,7 @@ export default ({ node }) => {
   const state = {
     lock: null,
     nonce: `0`,
+    node,
     externals: {
       sign,
       createBroadcastBody,
@@ -20,7 +21,9 @@ export default ({ node }) => {
       createSignature,
       getKey,
       signatureImport
-    }
+    },
+    txQueryIterations: 30,
+    txQueryTimeout: 2000
   }
 
   const mutations = {
@@ -89,7 +92,7 @@ export default ({ node }) => {
       args.base_req = requestMetaData
       return { requestBody: args, type, submitType, to, pathParameter }
     },
-    apiRequest(type, to, pathParameter, args) {
+    apiRequest(node, type, to, pathParameter, args) {
       // get the generated tx by querying it from the backend
       if (to && pathParameter) {
         return node[type](to, pathParameter, args)
@@ -112,7 +115,13 @@ export default ({ node }) => {
       const { requestBody, type, to, pathParameter } =
         await actions.cleanRequestArguments({ state, rootState }, args)
 
-      const request = actions.apiRequest(type, to, pathParameter, requestBody)
+      const request = actions.apiRequest(
+        state.node,
+        type,
+        to,
+        pathParameter,
+        requestBody
+      )
       const { gas_estimate } = await request.catch(handleSDKError)
       return Number(gas_estimate)
     },
@@ -167,7 +176,13 @@ export default ({ node }) => {
         actions.cleanRequestArguments({ state, rootState }, args)
 
       // generate transaction without signatures (i.e generate_only)
-      const request = actions.apiRequest(type, to, pathParameter, requestBody)
+      const request = actions.apiRequest(
+        state.node,
+        type,
+        to,
+        pathParameter,
+        requestBody
+      )
       const generationRes = await request.catch(handleSDKError)
       const tx = generationRes.value
 
@@ -179,12 +194,37 @@ export default ({ node }) => {
 
       // broadcast transaction with signatures included
       const signedTx = state.externals.createSignedTx(tx, signature)
-      const body = state.externals.createBroadcastBody(signedTx)
-      const res = await node.postTx(body).catch(handleSDKError)
+      const body = state.externals.createBroadcastBody(signedTx, `sync`)
+      const res = await state.node.postTx(body).catch(handleSDKError)
 
       // check response code
       assertOk(res)
-      commit(`setNonce`, String(parseInt(state.nonce) + 1))
+
+      // sync success
+      if (res.height !== `0`) {
+        commit(`setNonce`, String(parseInt(state.nonce) + 1))
+        return
+      }
+
+      return dispatch(`queryTxInclusion`, res.txhash)
+    },
+    // wait for inclusion of a tx in a block
+    async queryTxInclusion({ state }, txHash) {
+      let iterations = state.txQueryIterations // 30 * 2s = 60s max waiting time
+      while (iterations-- > 0) {
+        try {
+          await state.node.tx(txHash)
+          break
+        } catch (err) {
+          // tx wasn't included in a block yet
+          await new Promise(resolve =>
+            setTimeout(resolve, state.txQueryTimeout)
+          )
+        }
+      }
+      if (iterations <= 0) {
+        throw new Error(`The transaction was still not included in a block. We can't say for certain it will be included in the future.`)
+      }
     }
   }
 

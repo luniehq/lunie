@@ -173,9 +173,10 @@ export function createSignedTx(tx, signature) {
 }
 
 // the broadcast body consists of the signed tx and a return type
-export function createBroadcastBody(signedTx) {
+// returnType can be block (inclusion in block), async (right away), sync (after checkTx has passed)
+export function createBroadcastBody(signedTx, returnType = `block`) {
   return JSON.stringify({
     tx: signedTx,
-    return: `block`
+    return: returnType
   })
 }
