@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.33] - 2019-03-31
+
+[Changed] [\#2288](https://github.com/cosmos/voyager/issues/2288) Poll for tx to be included in a block if it isn't right away @faboweb
+
+
 ## [1.0.0-beta.32] - 2019-03-30
 
 [Changed] Naming of amount input to "Deposit" on ModalPropose @faboweb
