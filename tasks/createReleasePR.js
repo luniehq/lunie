@@ -3,7 +3,10 @@
 const { cli, shell } = require(`@nodeguy/cli`)
 const fs = require(`fs`)
 const { join } = require(`path`)
+const _ = require(`lodash`)
 const octokit = require(`@octokit/rest`)()
+
+const changesPath = join(__dirname, `../changes`)
 
 function bumpVersion(versionString) {
   const versionElements = versionString.split(`.`)
@@ -11,6 +14,50 @@ function bumpVersion(versionString) {
   versionElements[patchVersionPosition] =
     parseInt(versionElements[patchVersionPosition]) + 1
   return versionElements.join(`.`)
+}
+
+// collect all changes from files and merge into one
+/* istanbul ignore next */ // only touches filesystem
+async function collectPending() {
+  let allChanges = ``
+  const files = await fs.readdirSync(changesPath)
+  files.forEach(file => {
+    const content = fs.readFileSync(join(changesPath, file), `utf8`)
+    allChanges += content
+  })
+
+  return allChanges
+}
+
+function addCategory(output, category, groupedLines) {
+  if (groupedLines[category]) {
+    output += `### ${category}\n\n`
+    groupedLines[category].forEach(({ content }) => output += `- ${content}\n`)
+    output += `\n`
+  }
+
+  return output
+}
+function beautifyChanges(changes) {
+  const lines = changes.split(`\n`)
+
+  const categorized = lines.map(line => {
+    const matches = /\[(\w+)\] (.+)/.exec(line)
+    return {
+      type: matches[1],
+      content: matches[2]
+    }
+  })
+  const grouped = _.groupBy(categorized, `type`)
+
+  let output = ``
+  output = addCategory(output, `Added`, grouped)
+  output = addCategory(output, `Changed`, grouped)
+  output = addCategory(output, `Fixed`, grouped)
+  output = addCategory(output, `Security`, grouped)
+  output = addCategory(output, `Deprecated`, grouped)
+
+  return output.trim()
 }
 
 function updateChangeLog(changeLog, pending, newVersion, now) {
@@ -30,7 +77,7 @@ const pushCommit = (shell, { token, branch }) =>
 set -o verbose
 git config --local user.name "Voyager Bot"
 git config --local user.email "voyager_bot@tendermint.com"
-git add CHANGELOG.md PENDING.md package.json
+git add CHANGELOG.md changes/* package.json
 git commit --message="Bump version for release."
 git tag --force release-candidate
 git remote add bot https://${token}@github.com/cosmos/voyager.git
@@ -98,12 +145,18 @@ async function main({ octokit, shell, fs }, changeLog, pending, packageJson) {
 
 if (require.main === module) {
   /* istanbul ignore next */
-  cli({}, () => {
+  cli({}, async () => {
     const changeLog = fs.readFileSync(join(__dirname, `..`, `CHANGELOG.md`), `utf8`)
-    const pending = fs.readFileSync(join(__dirname, `..`, `PENDING.md`), `utf8`)
+    const pending = beautifyChanges(await collectPending())
     const packageJson = require(join(__dirname, `..`, `package.json`))
 
     main({ octokit, shell, fs }, changeLog, pending, packageJson)
+
+    // cleanup
+    const files = await fs.readdirSync(changesPath)
+    files.forEach(file => {
+      fs.unlinkSync(join(changesPath, file))
+    })
   })
 }
 
@@ -111,5 +164,6 @@ module.exports = {
   main,
   bumpVersion,
   updateChangeLog,
-  updatePackageJson
+  updatePackageJson,
+  beautifyChanges
 }

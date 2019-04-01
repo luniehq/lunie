@@ -5,11 +5,11 @@ mkdir --parents $GOPATH/src/github.com/cosmos
 cd $GOPATH/src/github.com/cosmos
 git clone https://github.com/cosmos/cosmos-sdk
 cd cosmos-sdk
-git checkout $TAG
+git checkout $COMMIT
 echo ###############################################################################
 echo Installing development tools.
 echo ###############################################################################
-make tools
+make devtools
 
 # Build Gaia for each platform.
 
@@ -20,6 +20,7 @@ for GOOS in $platforms; do
   echo ###############################################################################
   echo Building Cosmos SDK for $GOOS platform.
   echo ###############################################################################
+  make get_vendor_deps
   make install
 
   if [ "$GOOS" = "linux" ]; then

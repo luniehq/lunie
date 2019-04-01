@@ -1,7 +1,7 @@
 #!/bin/sh
 
-export TAG=`cat ./VERSION`
-version="$(pwd)/../../../builds/GaiaVersions/$TAG"
+. ./COMMIT.sh
+version="$(pwd)/../../../builds/GaiaVersions/$COMMIT"
 source="$(pwd)/../../../builds/Gaia"
 mkdir -p "$version"
 rm -rf "$source"
@@ -15,15 +15,15 @@ case "${unameOut}" in
 esac
 
 if [[ -f "$version/${PLATFORM}_amd64/gaiad" ]]; then
-    echo "Already built $TAG for $PLATFORM"
+    echo "Already built $COMMIT for $PLATFORM"
 else
-    echo "Building new version: $TAG for $PLATFORM "
+    echo "Building new version: $COMMIT for $PLATFORM "
 
     export TARGET=/mnt
 
     docker run \
       --interactive \
-      --env TAG \
+      --env COMMIT \
       --env TARGET \
       --env PLATFORM \
       --mount type=bind,source="$version",target="$TARGET" \

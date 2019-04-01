@@ -1,0 +1,1 @@
+[Changed] [\#2331](https://github.com/cosmos/lunie/issues/2331) change format proposal tally @fedekunze
