@@ -8,7 +8,7 @@ const path = require(`path`)
 const untildify = require(`untildify`)
 
 const optionsSpecification = {
-  commit: [`commit from which to build`],
+  tag: [`git tag from which to build`],
   network: [`name of the default network to use`]
 }
 
@@ -26,7 +26,7 @@ cli(optionsSpecification, async options => {
     execSync(`yarn run build:gaia`)
   }
 
-  const { commit } = options
+  const { tag } = options
 
   // Build the container that we'll use to build Voyager.
   execSync(`docker build --tag cosmos/voyager-builder .`, {
@@ -53,7 +53,7 @@ cli(optionsSpecification, async options => {
 
   execSync(
     `docker run \
-      --env COMMIT=${commit} \
+      --env TAG=${tag} \
       --interactive \
       --mount type=bind,readonly,source=${resolved.git},target=/mnt/.git \
       --mount type=bind,source=${resolved.builds},target=/mnt/builds \
