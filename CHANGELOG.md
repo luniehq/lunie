@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.33] - 2019-03-31
+
+[Changed] [\#2288](https://github.com/cosmos/voyager/issues/2288) Poll for tx to be included in a block if it isn't right away @faboweb
+
+
+## [1.0.0-beta.32] - 2019-03-30
+
+[Changed] Naming of amount input to "Deposit" on ModalPropose @faboweb
+[Fixed] [\#2359](https://github.com/cosmos/lunie/pull/2359) fixed spacing on transactions @faboweb
+[Fixed] [\#2323](https://github.com/cosmos/lunie/issues/2323) fixed and added anchor to validator's website @fedekunze
+
+## [1.0.0-beta.31] - 2019-03-29
+
+[Fixed] [\#2375](https://github.com/cosmos/lunie/pull/2375) fixed predictable randomness on key generation @fedekunze
+
 ## [1.0.0-beta.30] - 2019-03-28
 
 [Fixed] [\#2370](https://github.com/cosmos/lunie/pull/2370) Better inplace updates to validators so the information (like signing info) never hides again once it was once loaded @faboweb

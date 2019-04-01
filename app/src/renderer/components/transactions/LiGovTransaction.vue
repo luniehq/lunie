@@ -11,7 +11,7 @@
         <span>{{ initialDeposit.denom }}s</span>
       </div>
       <div slot="details">
-        Title: <i>{{ tx.title }}</i>
+        Title:&nbsp;<i>{{ tx.title }}</i>
       </div>
       <div slot="fees">
         Network Fee:&nbsp;
@@ -28,7 +28,7 @@
         </template>
       </div>
       <div slot="details">
-        On
+        On&nbsp;
         <router-link :to="`${url}/${tx.proposal_id}`">
           Proposal &#35;{{ tx.proposal_id }}
         </router-link>
@@ -41,10 +41,10 @@
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgVote`">
       <div slot="caption">
-        Vote{{ tx.option }}
+        Vote&nbsp;{{ tx.option }}
       </div>
       <div slot="details">
-        On
+        On&nbsp;
         <router-link :to="`${url}/${tx.proposal_id}`">
           Proposal &#35;{{ tx.proposal_id }}
         </router-link>

@@ -64,7 +64,7 @@
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
-      field-label="Amount"
+      field-label="Deposit"
     >
       <span class="input-suffix">{{ num.viewDenom(denom) }}</span>
       <tm-field
@@ -81,19 +81,19 @@
       />
       <tm-form-msg
         v-else-if="$v.amount.$error && (!$v.amount.required || amount === 0)"
-        name="Amount"
+        name="Deposit"
         type="required"
       />
       <tm-form-msg
         v-else-if="$v.amount.$error && !$v.amount.decimal"
-        name="Amount"
+        name="Deposit"
         type="numberic"
       />
       <tm-form-msg
         v-else-if="$v.amount.$error && !$v.amount.between"
         :max="$v.amount.$params.between.max"
         :min="$v.amount.$params.between.min"
-        name="Amount"
+        name="Deposit"
         type="between"
       />
     </tm-form-group>

@@ -219,9 +219,16 @@ exports[`PageValidator shows a validator profile information errors signing info
             </dt>
              
             <dd>
+              <a
+                href="www.monty.ca"
+                id="validator-website"
+                rel="nofollow noreferrer noopener"
+                target="_blank"
+              >
+                
+                www.monty.ca
               
-              www.monty.ca
-            
+              </a>
             </dd>
           </dl>
            
@@ -549,9 +556,16 @@ exports[`PageValidator shows a validator profile information if user has signed 
             </dt>
              
             <dd>
+              <a
+                href="www.monty.ca"
+                id="validator-website"
+                rel="nofollow noreferrer noopener"
+                target="_blank"
+              >
+                
+                www.monty.ca
               
-              www.monty.ca
-            
+              </a>
             </dd>
           </dl>
            
@@ -879,9 +893,16 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
             </dt>
              
             <dd>
+              <a
+                href="www.monty.ca"
+                id="validator-website"
+                rel="nofollow noreferrer noopener"
+                target="_blank"
+              >
+                
+                www.monty.ca
               
-              www.monty.ca
-            
+              </a>
             </dd>
           </dl>
            
