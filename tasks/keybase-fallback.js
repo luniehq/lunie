@@ -16,7 +16,7 @@ async function main() {
         if (identity) {
           cache[identity.keybaseId] = identity
         }
-        console.log(`got ${Object.keys(cache).length} of ${validators.length}`)
+        console.log(`got ${Object.keys(cache).length} of ${validators.length} keybase identities`)
         break
       } catch (err) {
         await new Promise(resolve => setTimeout(resolve, 2000))
