@@ -134,7 +134,8 @@ jobs:
       - run: |
           if [ ! -d /tmp/gaia ]; then
             cd tasks/build/Gaia
-           TAG=`cat ./VERSION` TARGET=/tmp/gaia PLATFORM=linux ./build.sh
+            TAG=`cat ./VERSION` TARGET=/tmp/gaia PLATFORM=linux ./build.sh
+          fi
       - save_cache:
           key: v8-gaia-{{ checksum "tasks/build/Gaia/VERSION" }}
           paths:
