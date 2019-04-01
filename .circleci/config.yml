@@ -130,15 +130,11 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: v8-Gaia-{{ checksum "tasks/build/Gaia/VERSION" }}
-
-      # If Gaia isn't in the cache then build it.
+          key: v8-gaia-{{ checksum "tasks/build/Gaia/VERSION" }}
       - run: |
           if [ ! -d /tmp/gaia ]; then
             cd tasks/build/Gaia
-            . ./VERSION
-            TARGET=/tmp/gaia PLATFORM=linux ./build.sh
-          fi
+           TAG=`cat ./VERSION` TARGET=/tmp/gaia PLATFORM=linux ./build.sh
       - save_cache:
           key: v8-gaia-{{ checksum "tasks/build/Gaia/VERSION" }}
           paths:
