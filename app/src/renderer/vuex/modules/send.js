@@ -200,6 +200,11 @@ export default ({ node }) => {
       // check response code
       assertOk(res)
 
+      // Sometimes we get back failed transactions, which shows only by them having a `code` property
+      if (res.code) {
+        throw new Error(`Something went wrong while sending the transaction.`)
+      }
+
       // sync success
       if (res.height !== `0`) {
         commit(`setNonce`, String(parseInt(state.nonce) + 1))
