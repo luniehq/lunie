@@ -104,16 +104,3 @@ it(`don't create PR if nothing changed`, () => {
   expect(release.main({ octokit, shell, fs }, `\n\n## [Unreleased]\n\n## [0.6.1] - 2018-05-24`, ``, { version: `0.0.1` })).resolved
   expect(octokit.pullRequests.create).not.toHaveBeenCalled()
 })
-
-it(`beautifys changes`, () => {
-  const pending = `[Added] xxx @faboweb\n[Changed] yyy @fedekunze`
-  const expected =
-`### Added
-
-- xxx @faboweb
-
-### Changed
-
-- yyy @fedekunze`
-  expect(release.beautifyChanges(pending)).toBe(expected)
-})
