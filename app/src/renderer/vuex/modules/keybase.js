@@ -92,7 +92,7 @@ export default () => {
 const baseUrl = `https://keybase.io/_/api/1.0/user/lookup.json`
 const fieldsQuery = `fields=pictures,basics`
 
-async function lookupId(state, keybaseId) {
+export async function lookupId(state, keybaseId) {
   const fullUrl = `${baseUrl}?key_suffix=${keybaseId}&${fieldsQuery}`
   return query(state, fullUrl, keybaseId)
 }
