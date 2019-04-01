@@ -13,7 +13,9 @@ export default () => {
     axios,
     moment
   }
-  state.identities = JSON.parse(localStorage.getItem(`keybaseCache`) || `{}`)
+  const cache = require(`../../keybase-cache.json`)
+  const localCache = localStorage.getItem(`keybaseCache`)
+  state.identities = localCache ? JSON.parse(localCache) : cache
 
   const mutations = {
     setKeybaseIdentities(state, identities) {
