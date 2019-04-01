@@ -58,7 +58,7 @@ describe(`PageProposal`, () => {
     wrapper = shallowMount(PageProposal, args)
   })
 
-  describe(`has the expected html structure`, () => {
+  describe(`should display proposal page`, () => {
     it(`if user has signed in`, async () => {
       wrapper = shallowMount(PageProposal, args)
       expect(wrapper.vm.$el).toMatchSnapshot()
