@@ -590,7 +590,7 @@ describe(`Module: Send`, () => {
             rootState: mockRootState
           },
           args
-        )).rejects.toEqual(new Error(`Something went wrong while sending the transaction.`))
+        )).rejects.toEqual(new Error(`Error sending: unauthorized`))
       })
 
       it(`should poll txs block inclusion`, async () => {
