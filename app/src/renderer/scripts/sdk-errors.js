@@ -1,5 +1,5 @@
+/* istanbul ignore file */ //ignoring to not cover every code
 // convert an SDK error code into a meaningful text message
-/* istanbul ignore next */ //ignoring to not cover every code
 export function getErrorMessage(code) {
   switch (code) {
     case 1:
