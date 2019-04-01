@@ -124,31 +124,31 @@ jobs:
           paths:
             - app/dist
 
-  # Build Gaia from the SDK source code specified by tasks/build/Gaia/COMMIT.sh.
+  # Build Gaia from the SDK source code specified by tasks/build/Gaia/VERSION
   buildGaia:
     executor: go
     steps:
       - checkout
       - restore_cache:
-          key: v8-Gaia-{{ checksum "tasks/build/Gaia/COMMIT.sh" }}
+          key: v8-Gaia-{{ checksum "tasks/build/Gaia/VERSION" }}
 
       # If Gaia isn't in the cache then build it.
       - run: |
           if [ ! -d /tmp/gaia ]; then
             cd tasks/build/Gaia
-            . ./COMMIT.sh
+            . ./VERSION
             TARGET=/tmp/gaia PLATFORM=linux ./build.sh
           fi
       - save_cache:
-          key: v8-Gaia-{{ checksum "tasks/build/Gaia/COMMIT.sh" }}
+          key: v8-gaia-{{ checksum "tasks/build/Gaia/VERSION" }}
           paths:
             - *GAIA
       - persist_to_workspace:
           root: *GAIA
           paths:
             - "*"
-      # - store_artifacts:
-      #     path: builds/Gaia/linux_amd64/*
+      - store_artifacts:
+          path: builds/Gaia/linux_amd64/*
 
   pendingUpdated:
     executor: node
