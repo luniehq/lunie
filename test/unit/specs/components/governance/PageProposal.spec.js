@@ -33,8 +33,8 @@ describe(`PageProposal`, () => {
     const localVue = createLocalVue()
     localVue.use(Vuex)
     localVue.use(Vuelidate)
-    localVue.directive(`tooltip`, () => {})
-    localVue.directive(`focus`, () => {})
+    localVue.directive(`tooltip`, () => { })
+    localVue.directive(`focus`, () => { })
 
     $store = {
       commit: jest.fn(),
@@ -61,6 +61,11 @@ describe(`PageProposal`, () => {
   describe(`has the expected html structure`, () => {
     it(`if user has signed in`, async () => {
       wrapper = shallowMount(PageProposal, args)
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
+
+    it(`should default tally to 0 if it's not yet present `, () => {
+      wrapper.vm.proposals.tallies = {}
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
   })
@@ -157,7 +162,7 @@ describe(`PageProposal`, () => {
       $store = { dispatch: jest.fn() }
 
       const thisIs = {
-        $refs: { modalVote: { open: () => {} } },
+        $refs: { modalVote: { open: () => { } } },
         $store,
         votes: {},
         proposalId: `2`,
@@ -177,12 +182,14 @@ describe(`PageProposal`, () => {
       $store = { dispatch: jest.fn() }
 
       const thisIs = {
-        $refs: { modalVote: { open: () => {} } },
+        $refs: { modalVote: { open: () => { } } },
         $store,
-        votes: { 2: [{
-          voter: `X`,
-          vote: `yes`
-        }] },
+        votes: {
+          2: [{
+            voter: `X`,
+            vote: `yes`
+          }]
+        },
         proposalId: `2`,
         lastVote: undefined,
         wallet: { address: `X` }
