@@ -7,6 +7,7 @@ import {
 } from "../../scripts/wallet.js"
 import { getKey } from "../../scripts/keystore"
 import { signatureImport } from "secp256k1"
+import { getErrorMessage } from "../../scripts/sdk-errors"
 
 export default ({ node }) => {
   const state = {
@@ -199,6 +200,12 @@ export default ({ node }) => {
 
       // check response code
       assertOk(res)
+
+      // Sometimes we get back failed transactions, which shows only by them having a `code` property
+      if (res.code) {
+        // TODO get message from SDK: https://github.com/cosmos/cosmos-sdk/issues/4013
+        throw new Error(`Error sending: ${getErrorMessage(Number(res.code))}`)
+      }
 
       // sync success
       if (res.height !== `0`) {

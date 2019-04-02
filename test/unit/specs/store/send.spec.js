@@ -568,6 +568,31 @@ describe(`Module: Send`, () => {
         expect(dispatch).toHaveBeenCalledWith(`queryTxInclusion`, `acbdefghi`)
       })
 
+      it(`should handle failed checkTx on sync tx posting`, async () => {
+        const args = {
+          type: `send`,
+          to: `mock_address`,
+          password: `1234567890`,
+          amount: [{ denom: `uatom`, amount: 123 }]
+        }
+        node.postTx = async () => ({
+          code: `4`,
+          height: `0`,
+          txhash: `acbdefghi`
+        })
+        actions.signTx = () => ``
+        const dispatch = jest.fn()
+        await expect(actions.sendTx(
+          {
+            state,
+            dispatch,
+            commit: jest.fn(),
+            rootState: mockRootState
+          },
+          args
+        )).rejects.toEqual(new Error(`Error sending: unauthorized`))
+      })
+
       it(`should poll txs block inclusion`, async () => {
         jest.useRealTimers()
 
@@ -604,7 +629,7 @@ describe(`Module: Send`, () => {
             }
           },
           `acbdefghi`
-        )).rejects.toThrowError(`The transaction was still not included in a block. We can't say for certain it will be included in the future.`)
+        )).rejects.toEqual(new Error(`The transaction was still not included in a block. We can't say for certain it will be included in the future.`))
 
         expect(node.tx).toHaveBeenCalledTimes(1)
         expect(node.tx).toHaveBeenCalledWith(`acbdefghi`)
