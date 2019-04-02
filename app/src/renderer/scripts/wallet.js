@@ -8,7 +8,20 @@ import CryptoJS from "crypto-js"
 
 const hdPathAtom = `m/44'/118'/0'/0/0` // key controlling ATOM allocation
 
-const standardRandomBytesFunc = x => String(window.crypto.getRandomValues(x))
+const standardRandomBytesFunc = size => {
+  if (window.crypto) {
+    let key = ``
+    let keyContainer = new Uint32Array(size/4)
+    keyContainer = window.crypto.getRandomValues(keyContainer)
+    for (let keySegment = 0; keySegment < keyContainer.length; keySegment++) {
+      key += keyContainer[keySegment].toString(16) // Convert int to hex
+    }
+    console.log(key)
+    return key
+  } else {
+    return CryptoJS.lib.WordArray.random(size).toString()
+  }
+}
 
 export function generateWalletFromSeed(mnemonic) {
   const masterKey = deriveMasterKey(mnemonic)
