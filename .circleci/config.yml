@@ -174,7 +174,7 @@ jobs:
             ./cc-test-reporter before-build
             yarn run test:unit
             # upload test report to Code Climate using `after-build`
-            ./cc-test-reporter after-build --coverage-input-type lcov --exit-code $?
+            ./cc-test-reporter after-build --coverage-input-type lcov --prefix ./test/unit/ --exit-code $?
           no_output_timeout: 120
 
   security:
