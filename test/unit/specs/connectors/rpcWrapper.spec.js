@@ -3,7 +3,7 @@ describe(`RPC Connector`, () => {
 
   function newConnector() {
     jest.resetModules()
-    const RpcWrapper = require(`renderer/connectors/rpcWrapper`)
+    const RpcWrapper = require(`renderer/connectors/rpcWrapper`).default
 
     connector = {}
     const newRpcClient = RpcWrapper(connector)
@@ -12,13 +12,11 @@ describe(`RPC Connector`, () => {
   }
 
   beforeEach(() => {
-    jest.mock(`tendermint`, () => ({
-      RpcClient: () => ({
-        on() {},
-        removeAllListeners() {},
-        ws: { destroy() {} },
-        health: () => ({})
-      })
+    jest.mock(`renderer/connectors/tendermint-ws.js`, () => () => ({
+      on() {},
+      removeAllListeners() {},
+      ws: { destroy() {} },
+      health: () => ({})
     }))
 
     newConnector()
@@ -31,15 +29,13 @@ describe(`RPC Connector`, () => {
   })
 
   it(`should remember if it could not connect via rpc`, async () => {
-    jest.mock(`tendermint`, () => ({
-      RpcClient: () => ({
-        on(value, cb) {
-          if (value === `error`) {
-            cb({ code: `ECONNREFUSED` })
-          }
-        },
-        health: () => ({})
-      })
+    jest.mock(`renderer/connectors/tendermint-ws.js`, () => () => ({
+      on(value, cb) {
+        if (value === `error`) {
+          cb({ code: `ECONNREFUSED` })
+        }
+      },
+      health: () => ({})
     }))
     newConnector()
     await expect(connector.rpcConnect(`localhost`)).rejects.toThrow()
