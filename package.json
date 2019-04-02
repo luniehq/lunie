@@ -1,7 +1,7 @@
 {
   "name": "lunie",
   "productName": "lunie",
-  "version": "1.0.0-beta.33",
+  "version": "1.0.0-beta.34",
   "description": "Lunie is a web based user interface for the Cosmos Hub.",
   "author": "All In Bits, Inc <hello@tendermint.com>",
   "license": "Apache-2.0",
@@ -44,7 +44,8 @@
     "connect": "concurrently -k \"yarn stargate\" \"yarn proxy\"",
     "backend:new": "concurrently -k \"yarn connect\" \"yarn nodes 2\"",
     "backend": "concurrently -k \"yarn connect\" \"yarn nodes 2 skip-rebuild\"",
-    "backend:fixed-https": "concurrently -k \"yarn nodes 2 skip-rebuild\" \"yarn stargate --ssl-certfile 'server_dev.crt' --ssl-keyfile 'server_dev.key'\""
+    "backend:fixed-https": "concurrently -k \"yarn nodes 2 skip-rebuild\" \"yarn stargate --ssl-certfile 'server_dev.crt' --ssl-keyfile 'server_dev.key'\"",
+    "changelog": "node tasks/changelog.js"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "7.4.0",
@@ -82,6 +83,7 @@
     "html-webpack-plugin": "3.2.0",
     "http-server": "0.11.1",
     "husky": "0.14.3",
+    "inquirer": "6.2.2",
     "jest": "24.1.0",
     "jest-localstorage-mock": "2.3.0",
     "json-loader": "0.5.7",
