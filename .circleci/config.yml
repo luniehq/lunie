@@ -39,44 +39,40 @@ commands:
           command: |
             cd && touch $BASH_ENV
 
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              echo 'export INFRA_PATH=iac/conf/websites/prod/lunie.io' >> $BASH_ENV
-              echo 'export DEPLOYMENT_ENV=lunie.io' >> $BASH_ENV
-              echo 'export GIT_BRANCH=${CIRCLE_BRANCH}' >> $BASH_ENV
+            if [ "${CIRCLE_BRANCH}" = "master" ]; then
+              echo 'export DISTRIBUTION_ID=E3NNXI2PHNC362' >> $BASH_ENV
+              echo 'export DIST_ID_TESTNET=E27N83VZ9QZFET' >> $BASH_ENV
+
+              echo 'export BUCKET_NAME=lunie.io' >> $BASH_ENV
+              echo 'export BUCKET_NAME_TESTNET=test.lunie.io ' >> $BASH_ENV
             else
-              echo 'export INFRA_PATH=iac/conf/websites/dev/beta.lunie.io' >> $BASH_ENV
-              echo 'export DEPLOYMENT_ENV=beta.lunie.io' >> $BASH_ENV
-              echo 'export GIT_BRANCH=${CIRCLE_BRANCH}' >> $BASH_ENV
+              echo 'export DISTRIBUTION_ID=E1KBKFOGFYCD32' >> $BASH_ENV
+              echo 'export BUCKET_NAME=staging.lunie.io' >> $BASH_ENV
             fi
-      - run:
-          name: Set the terragrunt iam role
-          command: |
-            source $BASH_ENV
-            echo "role_arn = `chamber read $DEPLOYMENT_ENV terragrunt_iam_role -q`" >> /root/.aws/config
-      - run:
-          name: Run terraform plan
-          command: |
-            source $BASH_ENV
-            git clone git@github.com:tendermint/devops.git && cd devops
-            git checkout $GIT_BRANCH
-            cd $INFRA_PATH
-            terragrunt plan
-            terragrunt output -json > ~/project/terraform_output
       - run:
           name: Sync dist folder to s3 bucket
           command: |
-            export BUCKET_NAME=`cat terraform_output | jq --raw-output '.website_s3_bucket.value'`
+            source $BASH_ENV
             cd << parameters.dist_path >>
+
             echo "deployment job ID = $CIRCLE_BUILD_NUM<br>" >> version.html
             echo "deployment job URL = $CIRCLE_BUILD_URL<br>" >> version.html
-            chamber exec $DEPLOYMENT_ENV -- aws s3 sync . s3://$BUCKET_NAME --profile terraform --delete
+
+            aws s3 sync . s3://$BUCKET_NAME --delete
+
+            if [[ ! -z "${BUCKET_NAME_TESTNET}" ]]; then
+              aws s3 sync . s3://$BUCKET_NAME_TESTNET --delete
+            fi
       - run:
           name: Invalidate the cloudfront distribution
           command: |
-            export DISTRIBUTION_ID=`cat terraform_output | jq --raw-output '.distribution_id.value'`
-            chamber exec $DEPLOYMENT_ENV -- aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID \
-                                                                               --profile terraform \
-                                                                               --path "/*"
+            source $BASH_ENV
+
+            aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --path "/*"
+
+            if [[ ! -z "$DIST_ID_TESTNET" ]]; then
+              aws cloudfront create-invalidation --distribution-id $DIST_ID_TESTNET --path "/*"
+            fi
 
 # a reusable executor
 executors:
@@ -111,7 +107,7 @@ jobs:
       - run: |
           mkdir -p app/dist
 
-          if [ "${CIRCLE_BRANCH}" == "master" ]; then
+          if [ "${CIRCLE_BRANCH}" = "master" ]; then
             STARGATE=https://stargate.cosmos.network RPC=https://rpc.cosmos.network CIRCLECI=true yarn build:ui
           else
             CIRCLECI=true yarn build:ui
