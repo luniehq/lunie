@@ -64,6 +64,17 @@
         </h2>
         <i class="material-icons">chevron_right</i>
       </router-link>
+      <router-link
+        class="app-menu-item app-menu-item--link"
+        to="/about"
+        exact="exact"
+        title="About"
+        @click.native="close"
+      >
+        <h2>
+          About
+        </h2>
+      </router-link>
     </div>
     <connected-network />
   </menu>
@@ -118,9 +129,13 @@ export default {
   border-radius: 0.25rem;
 }
 
-.app-menu .app-menu-item:hover {
+.app-menu .app-menu-item:not(.app-menu-item--link):hover {
   color: var(--bright);
   background: var(--app-fg);
+}
+
+.app-menu .app-menu-item.app-menu-item--link {
+  color: var(--link);
 }
 
 .app-menu .router-link-active {

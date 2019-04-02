@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.34] - 2019-04-02
+
+### Added
+
+- [#2385](https://github.com/cosmos/lunie/pull/2385) Added a tool to handle changelog conflicts @faboweb
+
 ## [1.0.0-beta.33] - 2019-03-31
 
 [Changed] [\#2288](https://github.com/cosmos/voyager/issues/2288) Poll for tx to be included in a block if it isn't right away @faboweb
