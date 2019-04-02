@@ -31,16 +31,16 @@
     </td>
     <td>{{ `#` + proposal.proposal_id }}</td>
     <td class="li-proposal__value yes">
-      {{ yesPercentage || `--` }}
+      {{ yesPercentage }}
     </td>
     <td class="li-proposal__value no">
-      {{ noPercentage || `--` }}
+      {{ noPercentage }}
     </td>
     <td class="li-proposal__value no_with_veto">
-      {{ noWithVetoPercentage || `--` }}
+      {{ noWithVetoPercentage }}
     </td>
     <td class="li-proposal__value abstain">
-      {{ abstainPercentage || `--` }}
+      {{ abstainPercentage }}
     </td>
   </tr>
 </template>
