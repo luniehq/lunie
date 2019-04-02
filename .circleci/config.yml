@@ -108,9 +108,9 @@ jobs:
           mkdir -p app/dist
 
           if [ "${CIRCLE_BRANCH}" = "master" ]; then
-            STARGATE=https://stargate.cosmos.network RPC=https://rpc.cosmos.network CIRCLECI=true yarn build:ui
+            STARGATE=https://stargate.cosmos.network RPC=https://rpc.cosmos.network CIRCLECI=true yarn build
           else
-            CIRCLECI=true yarn build:ui
+            CIRCLECI=true yarn build
           fi
 
       - store_artifacts:
