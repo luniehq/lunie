@@ -1,42 +1,23 @@
 /* istanbul ignore file */ //ignoring to not cover every code
 // convert an SDK error code into a meaningful text message
 export function getErrorMessage(code) {
-  switch (code) {
-    case 1:
-      return `internal error`
-    case 2:
-      return `tx parse error`
-    case 3:
-      return `invalid sequence`
-    case 4:
-      return `unauthorized`
-    case 5:
-      return `insufficient funds`
-    case 6:
-      return `unknown request`
-    case 7:
-      return `invalid address`
-    case 8:
-      return `invalid pubkey`
-    case 9:
-      return `unknown address`
-    case 10:
-      return `insufficient coins`
-    case 11:
-      return `invalid coins`
-    case 12:
-      return `out of gas`
-    case 13:
-      return `memo too large`
-    case 14:
-      return `insufficient fee`
-    case 15:
-      return `maximum number of signatures exceeded`
-    case 16:
-      return `amount of gas exceeded maximum allowed size`
-    case 17:
-      return `no signatures supplied`
-    default:
-      return `unknown error`
-  }
+  return {
+    "1": `internal error`,
+    "2": `tx parse error`,
+    "3": `invalid sequence`,
+    "4": `unauthorized`,
+    "5": `insufficient funds`,
+    "6": `unknown request`,
+    "7": `invalid address`,
+    "8": `invalid pubkey`,
+    "9": `unknown address`,
+    "10": `insufficient coins`,
+    "11": `invalid coins`,
+    "12": `out of gas`,
+    "13": `memo too large`,
+    "14": `insufficient fee`,
+    "15": `maximum number of signatures exceeded`,
+    "16": `amount of gas exceeded maximum allowed size`,
+    "17": `no signatures supplied`
+  }[code] || `unknown error`
 }
