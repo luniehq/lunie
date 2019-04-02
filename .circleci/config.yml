@@ -173,8 +173,9 @@ jobs:
             # notify Code Climate of a pending test report using `before-build`
             ./cc-test-reporter before-build
             yarn run test:unit
-            # upload test report to Code Climate using `after-build`
-            ./cc-test-reporter after-build --coverage-input-type lcov --prefix ./test/unit/ --exit-code $?
+            # upload test report to Code Climate
+            ./cc-test-reporter format-coverage -t lcov ./test/unit/coverage/lcov.info
+            ./cc-test-reporter upload-coverage
           no_output_timeout: 120
 
   security:
