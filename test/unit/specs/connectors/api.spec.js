@@ -9,7 +9,7 @@
 // think it's running in a browser, causing some network requests below to fail
 // with only the message "Network Error".
 
-const api = require(`renderer/connectors/api.js`)
+const api = require(`renderer/connectors/api.js`).default
 const lcdClientMock = require(`renderer/connectors/lcdClientMock.js`)
 const { proposals, deposits, votes } = lcdClientMock.state
 
