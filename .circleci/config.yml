@@ -162,11 +162,21 @@ jobs:
       - checkout
       - yarn-install
       - run:
-          name: Test
-          command: yarn run test:unit
-          no_output_timeout: 120
+          name: Setup Code Climate test-reporter
+          command: |
+            # download test reporter as a static binary
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
       - run:
-          command: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+          name: Test
+          command: |
+            # notify Code Climate of a pending test report using `before-build`
+            ./cc-test-reporter before-build
+            yarn run test:unit
+            # upload test report to Code Climate
+            ./cc-test-reporter format-coverage -t lcov ./test/unit/coverage/lcov.info
+            ./cc-test-reporter upload-coverage
+          no_output_timeout: 120
 
   security:
     executor: web
