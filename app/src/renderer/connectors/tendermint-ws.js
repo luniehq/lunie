@@ -12,8 +12,7 @@ const websocket = require(`websocket-stream`)
 const ndjson = require(`ndjson`)
 const pumpify = require(`pumpify`).obj
 
-function convertWsArgs (args) {
-  args = args || {}
+function convertWsArgs (args = {}) {
   for (const k in args) {
     const v = args[k]
     if (typeof v === `number`) {
