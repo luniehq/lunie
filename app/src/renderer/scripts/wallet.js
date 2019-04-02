@@ -8,8 +8,8 @@ import CryptoJS from "crypto-js"
 
 const hdPathAtom = `m/44'/118'/0'/0/0` // key controlling ATOM allocation
 
-/* istanbul ignore next: not testable on node */
 export function standardRandomBytesFunc (size) {
+  /* istanbul ignore if: not testable on node */
   if (window.crypto) {
     let key = ``
     let keyContainer = new Uint32Array(size/4)
