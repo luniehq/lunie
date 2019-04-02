@@ -1,1 +1,0 @@
-[Fixed] Catching potential error while sending transactions @faboweb
