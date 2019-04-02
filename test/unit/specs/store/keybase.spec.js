@@ -3,6 +3,8 @@ import keybaseModule from "renderer/vuex/modules/keybase.js"
 describe(`Module: Keybase`, () => {
   let state, actions, mutations
 
+  jest.mock(`renderer/keybase-cache.json`, () => [])
+
   async function mockKeybaseLookup() {
     return {
       data: {
@@ -56,6 +58,7 @@ describe(`Module: Keybase`, () => {
 
   describe(`actions`, () => {
     it(`should query for the keybase identity`, async () => {
+      state.identities = []
       const result = await actions.getKeybaseIdentity({ state }, `abcdabcdabcdabcd`)
       expect(state.externals.axios).toHaveBeenCalledWith(`https://keybase.io/_/api/1.0/user/lookup.json?key_suffix=abcdabcdabcdabcd&fields=pictures,basics`)
       expect(result).toEqual(mockIdentity)
