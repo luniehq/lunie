@@ -229,11 +229,11 @@ yarn test:coverage
 
 A list of all environment variables and their purpose:
 
-| Variable               | Values                      | default | Purpose                                                                                                                                                           |
-|------------------------|-----------------------------|---------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `NODE_ENV`             | `production`, `development` |         |                                                                                                                                                                   |
-| `CI`                   | `true`, `false`             | `false` | Adds better structured output, makes a screenshot and adds logs to files (used on CircleCI).                                                                      |
-| `ALLOW_CONSOLE`        | `true`, `false`             | `false` | Unit tests fail if they use `console.error` or `console.warn`. To see the initial use/occurences of those callings, you can escape this behavior using this flag. |
+| Variable        | Values                      | default | Purpose                                                                                                                                                           |
+|-----------------|-----------------------------|---------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `NODE_ENV`      | `production`, `development` |         |                                                                                                                                                                   |
+| `CI`            | `true`, `false`             | `false` | Adds better structured output, makes a screenshot and adds logs to files (used on CircleCI).                                                                      |
+| `ALLOW_CONSOLE` | `true`, `false`             | `false` | Unit tests fail if they use `console.error` or `console.warn`. To see the initial use/occurences of those callings, you can escape this behavior using this flag. |
 
 ## Thanks
 
