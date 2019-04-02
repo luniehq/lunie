@@ -7,7 +7,8 @@ import {
   generateSeed,
   generateWallet,
   createSignedTx,
-  createBroadcastBody
+  createBroadcastBody,
+  standardRandomBytesFunc
 } from "renderer/scripts/wallet.js"
 
 describe(`Key Generation`, () => {
@@ -243,5 +244,11 @@ describe(`Signing`, () => {
         return: `block`
       })
     )
+  })
+
+  it(`creates random bytes`, () => {
+    const randomHex = standardRandomBytesFunc(32)
+    const randomBytes = Buffer.from(randomHex, `hex`)
+    expect(randomBytes).toHaveLength(32)
   })
 })
