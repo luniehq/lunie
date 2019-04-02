@@ -25,7 +25,7 @@ const commitHash = require(`child_process`)
   .trim()
 
 const devPlugins = process.env.CIRCLECI ? [] : [
-  new CleanWebpackPlugin([buildPath]),
+  new CleanWebpackPlugin(),
   new BundleAnalyzerPlugin({
     analyzerMode: `static`,
     openAnalyzer: false

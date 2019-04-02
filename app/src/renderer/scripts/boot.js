@@ -51,7 +51,12 @@ export const startApp = async (
   enableGoogleAnalytics = _enableGoogleAnalytics
 ) => {
   Vue.use(Router)
-  Vue.use(Tooltip, { delay: 1 })
+  Vue.use(Tooltip, {
+    delay: 500,
+    placement: `bottom`,
+    triggers: [`hover`],
+    offset: 0
+  })
   Vue.use(Vuelidate)
   Vue.use(VueClipboard)
 

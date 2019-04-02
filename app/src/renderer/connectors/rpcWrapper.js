@@ -1,8 +1,8 @@
 "use strict"
 
-const { RpcClient } = require(`tendermint`)
+import RpcClient from "./tendermint-ws.js"
 
-module.exports = function setRpcWrapper(container) {
+export default function setRpcWrapper(container) {
   const rpcWrapper = {
     // RPC
     rpcInfo: {
