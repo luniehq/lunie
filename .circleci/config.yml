@@ -6,6 +6,7 @@ aliases:
   - &GAIA /tmp/gaia
   - &WORKSPACE /tmp/voyager
   - &DIST /tmp/voyager/app/dist
+  - &DIST_TESTNET /tmp/voyager/app/dist_testnet
   # Pick docker versions here only, then use the aliases in the executors definition
   - &docker-node tendermintdev/voyager_node
   - &docker-browsers tendermintdev/voyager_node_browser
@@ -32,6 +33,8 @@ commands:
   sync:
     parameters:
       dist_path:
+        type: string
+      dist_path_testnet:
         type: string
     steps:
       - run:
@@ -60,7 +63,7 @@ commands:
 
             aws s3 sync . s3://$BUCKET_NAME --delete
 
-            if [[ ! -z "${BUCKET_NAME_TESTNET}" ]]; then
+            if [[ ! -z "$BUCKET_NAME_TESTNET" ]]; then
               aws s3 sync . s3://$BUCKET_NAME_TESTNET --delete
             fi
       - run:
@@ -107,14 +110,18 @@ jobs:
       - run: |
           mkdir -p app/dist
 
+          yarn build:keybase-cache
           if [ "${CIRCLE_BRANCH}" = "master" ]; then
-            STARGATE=https://stargate.cosmos.network RPC=https://rpc.cosmos.network CIRCLECI=true yarn build
+            yarn build:ui --output-path $DIST_TESTNET
+            STARGATE=https://stargate.cosmos.network RPC=https://rpc.cosmos.network CIRCLECI=true yarn build:ui
           else
             CIRCLECI=true yarn build
           fi
 
       - store_artifacts:
           path: *DIST
+      - store_artifacts:
+          path: *DIST_TESTNET
       - persist_to_workspace:
           root: *WORKSPACE
           paths:
@@ -222,6 +229,7 @@ jobs:
           at: *WORKSPACE
       - sync:
           dist_path: *DIST
+          dist_path_testnet: *DIST_TESTNET
 
   # Release code and sourcemaps to Sentry
   sentry:
