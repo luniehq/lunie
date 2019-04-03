@@ -4,59 +4,79 @@ import RpcClient from "./tendermint-ws.js"
 
 export default function setRpcWrapper(container) {
   const rpcWrapper = {
-    // RPC
     rpcInfo: {
       connecting: false,
       connected: true
     },
     rpcDisconnect() {
-      if (!container.rpc || !container.rpc.ws) return
-
-      console.log(`removing old websocket`)
-
-      // ignore disconnect error
-      container.rpc.removeAllListeners(`error`)
-      container.rpc.on(`error`, () => {})
-
-      container.rpc.ws.destroy()
-
+      rpcDisconnect(container.rpc)
       rpcWrapper.rpcInfo.connected = false
     },
     async rpcConnect(rpcURL) {
-      const rpcHost =
-        rpcURL.startsWith(`http`) && rpcURL.indexOf(`//`) !== -1
-          ? rpcURL.split(`//`)[1]
-          : rpcURL
-
-      const https = rpcURL.startsWith(`https`)
-
+      // if we have an existing connection, first disconnect that one
       if (container.rpc) {
-        rpcWrapper.rpcDisconnect()
-      }
-
-      console.log(`init rpc with ` + rpcURL)
-      const newRpc = new RpcClient(`${https ? `wss` : `ws`}://${rpcHost}`)
-      rpcWrapper.rpcInfo.connected = true
-      // we need to check immediately if the connection fails. later we will not be able to check this error
-
-      const connectionAttempt = await Promise.race([
-        new Promise(resolve => {
-          newRpc.on(`error`, err => {
-            resolve({ error: err })
-          })
-        }),
-        newRpc.health()
-      ])
-      rpcWrapper.rpcInfo.connecting = false
-
-      if (connectionAttempt.error) {
+        rpcDisconnect(container.rpc)
         rpcWrapper.rpcInfo.connected = false
-        throw new Error(`WS connection failed`)
       }
 
+      const newRpc = await rpcConnect(rpcURL)
+      .catch(err => {
+        rpcWrapper.rpcInfo.connected = false
+        throw err
+      })
       container.rpc = newRpc
+      rpcWrapper.rpcInfo.connected = true
     }
   }
 
   return rpcWrapper
+}
+
+function rpcDisconnect(rpc) {
+  if (!rpc || !rpc.ws) return
+
+  console.log(`removing old websocket`)
+
+  // ignore disconnect error
+  rpc.removeAllListeners(`error`)
+  rpc.on(`error`, () => {})
+
+  rpc.ws.destroy()
+}
+
+async function rpcConnect(rpcURL) {
+  const rpcHost = getHost(rpcURL)
+  const https = rpcURL.startsWith(`https`)
+
+  console.log(`init rpc with ` + rpcURL)
+  const newRpc = new RpcClient(`${https ? `wss` : `ws`}://${rpcHost}`)
+
+  // we need to check immediately if the connection fails. later we will not be able to check this error
+  const connected = await checkConnection(newRpc)
+
+  if (!connected) {
+    throw new Error(`WS connection failed`)
+  }
+
+  return newRpc
+}
+
+function getHost(url) {
+  return url.startsWith(`http`) && url.indexOf(`//`) !== -1
+  ? url.split(`//`)[1]
+  : url
+}
+
+// check if the rpc connection was established
+async function checkConnection(rpc) {
+  const connectionAttempt = await Promise.race([
+    new Promise(resolve => {
+      rpc.on(`error`, err => {
+        resolve({ error: err })
+      })
+    }),
+    rpc.health()
+  ])
+
+  return !connectionAttempt.error
 }

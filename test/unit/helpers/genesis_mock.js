@@ -1,4 +1,4 @@
-import fs from "fs-extra"
+import fs from "fs"
 
 const testRoot = `./test/unit/tmp/test_root/`
 
@@ -7,7 +7,9 @@ function mockGenesis() {
   process.env.GAIA_VERSION = `1.2.3`
   process.env.VOYAGER_VERSION = `3.6.9`
   process.env.COSMOS_HOME = testRoot
-  fs.ensureFileSync(testRoot + `genesis.json`)
+  try {
+    fs.unlink(testRoot + `genesis.json`)
+  } catch (err) {}
   fs.writeFileSync(
     testRoot + `genesis.json`,
     JSON.stringify({

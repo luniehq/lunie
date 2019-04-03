@@ -1,9 +1,5 @@
 <template>
-  <li-transaction
-    :color="`#ED553B`"
-    :time="time"
-    :block="block"
-  >
+  <li-transaction :color="`#ED553B`" :time="time" :block="block">
     <template v-if="address === ''">
       <div slot="caption">
         Sent<b>{{ coins.amount }}</b>
@@ -11,8 +7,8 @@
       </div>
       <span slot="details">
         <template>
-          From <short-bech32 :address="sender" />
-          to <short-bech32 :address="receiver" />
+          From <short-bech32 :address="sender" /> to
+          <short-bech32 :address="receiver" />
         </template>
       </span>
       <div slot="fees">
@@ -47,7 +43,7 @@
         <b>{{ coins.amount }}</b>
         <span>{{ coins.denom }}s</span>
       </div>
-      <span slot="details">From <short-bech32 :address="sender" /></span>
+      <span slot="details">From <short-bech32 :address="sender"/></span>
       <div slot="fees">
         Network Fee:&nbsp;
         <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
@@ -61,7 +57,6 @@
 import ShortBech32 from "common/ShortBech32"
 import LiTransaction from "./LiTransaction"
 import num, { atoms, full } from "../../scripts/num.js"
-import { shortAddress } from "../../scripts/common"
 
 export default {
   name: `li-bank-transaction`,
@@ -97,8 +92,7 @@ export default {
   },
   data: () => ({
     atoms,
-    full,
-    shortAddress
+    full
   }),
   computed: {
     // TODO: sum relevant inputs/outputs
