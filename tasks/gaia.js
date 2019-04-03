@@ -1,5 +1,5 @@
 const path = require(`path`)
-const fs = require(`fs`)
+const fs = require(`fs-extra`)
 const util = require(`util`)
 const BN = require(`bignumber.js`)
 const { spawn, exec } = require(`child_process`)

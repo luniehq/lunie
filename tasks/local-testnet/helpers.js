@@ -1,6 +1,6 @@
 "use strict"
 
-const fs = require(`fs`)
+const fs = require(`fs-extra`)
 const { join } = require(`path`)
 const {
   startLocalNode,
@@ -90,7 +90,6 @@ const buildNodes = async (
   const nodeHomePrefix = join(targetDir, `node_home`)
 
   fs.removeSync(targetDir)
-  // fs.removeSync(`${os.home}/.cosmos-voyager-dev/${network}`)
 
   // create address to delegate staking tokens to 2nd and 3rd validator
   let mainAccountSignInfo = undefined
