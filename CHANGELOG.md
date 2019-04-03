@@ -9,13 +9,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [1.0.0-beta.35] - 2019-04-03
 
+### Added
+- [#2405](https://github.com/cosmos/lunie/pull/2405) Deploy master with testnet endpoints to the testnet bucket @faboweb
+- [#2394](https://github.com/cosmos/lunie/pull/2394) Bundle keybase profiles to provide a fallback to users in case of API throttling @faboweb 
+
 ### Changed
 
-- [#2331](https://github.com/cosmos/lunie/issues/2331) change format proposal tally @fedekunze[Changed] [#2395](https://github.com/cosmos/lunie/pull/2395) Deployment configuration @mircea-c
+- [#2331](https://github.com/cosmos/lunie/issues/2331) change format proposal tally @fedekunze
+- [#2395](https://github.com/cosmos/lunie/pull/2395) Deployment configuration @mircea-c
+- [#2398](https://github.com/cosmos/lunie/pull/2398) Switch to code climate for coverage reports
+- [#2399](https://github.com/cosmos/lunie/pull/2399) Moved Sentry to own org @faboweb
+- [#2287](https://github.com/cosmos/lunie/pull/2287) Use tags instead of commit hash @sabau
 
 ### Fixed
 
-- [#2391](https://github.com/cosmos/lunie/pull/2391) Catching potential error while sending transactions @faboweb[Changed] [#2398](https://github.com/cosmos/lunie/pull/2398) Switch to code climate for coverage reports @faboweb[Added] [#2405](https://github.com/cosmos/lunie/pull/2405) Deploy master with testnet endpoints to the testnet bucket @faboweb[Fixed] [#2400](https://github.com/cosmos/lunie/pull/2400) Fixed account creation with native crypto @faboweb[Fixed] [#xxx](https://github.com/cosmos/lunie/pull/xxx) Fix createReleasePR test @faboweb[Added] [#2394](https://github.com/cosmos/lunie/pull/2394) Bundle keybase profiles to provide a fallback to users in case of API throttling @faboweb[Changed] [#2399](https://github.com/cosmos/lunie/pull/2399) Moved Sentry to own org @faboweb[Changed] [#2287](https://github.com/cosmos/lunie/pull/2287) Use tags instead of commit hash @sabau
+- [#2391](https://github.com/cosmos/lunie/pull/2391) Catching potential error while sending transactions @faboweb  @faboweb
+- [#2400](https://github.com/cosmos/lunie/pull/2400) Fixed account creation with native crypto @faboweb
+- [#2404](https://github.com/cosmos/lunie/pull/2404) Fix createReleasePR test @faboweb 
 
 ## [1.0.0-beta.34] - 2019-04-02
 
