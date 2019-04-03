@@ -8,7 +8,7 @@ describe(`TmSessionLoading`, () => {
     wrapper = shallowMount(TmSessionLoading, {
       data: () => ({
         session: {
-          default_network: `mock-net`
+          network: `mock-net`
         }
       })
     })
