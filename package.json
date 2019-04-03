@@ -1,7 +1,7 @@
 {
   "name": "lunie",
   "productName": "lunie",
-  "version": "1.0.0-beta.34",
+  "version": "1.0.0-beta.36",
   "description": "Lunie is a web based user interface for the Cosmos Hub.",
   "author": "All In Bits, Inc <hello@tendermint.com>",
   "license": "Apache-2.0",
@@ -19,7 +19,7 @@
     "build:gaia": "cd tasks/build/Gaia && ./localBuild.sh",
     "build:local": "node tasks/build/local/build",
     "build:keybase-cache": "babel-node --presets @babel/env tasks/keybase-fallback.js",
-    "build:ui": "cross-env NODE_ENV=production webpack --colors --config webpack.renderer.config.js --mode=production --profile --json > app/dist/build.stats.json",
+    "build:ui": "cross-env NODE_ENV=production webpack --colors --config webpack.renderer.config.js --mode=production",
     "start": "concurrently -k \"yarn frontend\" \"yarn backend\"",
     "start:new": "concurrently -k \"yarn frontend\" \"yarn backend:new\"",
     "serve": "http-server -p 8081 ./app/dist",

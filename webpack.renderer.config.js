@@ -8,8 +8,8 @@ const fs = require(`fs`)
 
 const HtmlWebpackPlugin = require(`html-webpack-plugin`)
 const VueLoaderPlugin = require(`vue-loader/lib/plugin`)
-const BundleAnalyzerPlugin = require(`webpack-bundle-analyzer`)
-  .BundleAnalyzerPlugin
+// const BundleAnalyzerPlugin = require(`webpack-bundle-analyzer`)
+// .BundleAnalyzerPlugin
 const CleanWebpackPlugin = require(`clean-webpack-plugin`)
 const SentryPlugin = require(`@sentry/webpack-plugin`)
 
@@ -26,10 +26,10 @@ const commitHash = require(`child_process`)
 
 const devPlugins = process.env.CIRCLECI ? [] : [
   new CleanWebpackPlugin(),
-  new BundleAnalyzerPlugin({
-    analyzerMode: `static`,
-    openAnalyzer: false
-  })
+  // new BundleAnalyzerPlugin({
+  //   analyzerMode: `static`,
+  //   openAnalyzer: false
+  // })
 ]
 
 const rendererConfig = {

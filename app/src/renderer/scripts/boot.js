@@ -107,9 +107,6 @@ export const startApp = async (
   if (urlParams.experimental) {
     store.commit(`setExperimentalMode`)
   }
-  if (urlParams.insecure) {
-    store.commit(`setInsecureMode`)
-  }
   if (urlParams.rpc) {
     store.commit(`setRpcUrl`, urlParams.rpc)
   }

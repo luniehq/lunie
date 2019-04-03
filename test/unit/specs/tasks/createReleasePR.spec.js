@@ -2,6 +2,13 @@
 
 const release = require(`../../../../tasks/createReleasePR`)
 
+jest.mock(`@octokit/rest`, () => () => ({
+  authenticate: () => {},
+  pullRequests: {
+    create: () => {}
+  }
+}))
+
 it(`bumps version`, () => {
   expect(release.bumpVersion(`0.6.1`)).toEqual(`0.6.2`)
 })

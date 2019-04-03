@@ -186,13 +186,6 @@ describe(`App Start`, () => {
 
       expect(store.commit).toHaveBeenCalledWith(`setExperimentalMode`)
     })
-    it(`should set insecure mode`, async () => {
-      const { store } = await start({
-        insecure: true
-      })
-
-      expect(store.commit).toHaveBeenCalledWith(`setInsecureMode`)
-    })
 
     it(`should set rpc url`, async () => {
       const { store } = await start({
