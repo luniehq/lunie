@@ -194,12 +194,12 @@ describe(`Module: Connection`, () => {
           network: `testnet`
         }
       })
-      const commit = jest.fn()
-      await actions.rpcSubscribe({
-        rootState: { session: { signedIn: true } },
-        commit,
-        dispatch: jest.fn()
-      })
+    const commit = jest.fn()
+    await actions.rpcSubscribe({
+      rootState: { session: { signedIn: true } },
+      commit,
+      dispatch: jest.fn()
+    })
 
     expect(commit).toHaveBeenCalledWith(`setInsecureMode`)
   })
