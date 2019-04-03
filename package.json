@@ -1,7 +1,7 @@
 {
   "name": "lunie",
   "productName": "lunie",
-  "version": "1.0.0-beta.34",
+  "version": "1.0.0-beta.35",
   "description": "Lunie is a web based user interface for the Cosmos Hub.",
   "author": "All In Bits, Inc <hello@tendermint.com>",
   "license": "Apache-2.0",
@@ -14,11 +14,12 @@
     "node": ">=10.13.0"
   },
   "scripts": {
-    "build": "node tasks/build/localBuild",
+    "build": "yarn build:keybase-cache && yarn build:ui",
     "build:testnets": "cd tasks/build/testnets && ./localBuild.sh",
     "build:gaia": "cd tasks/build/Gaia && ./localBuild.sh",
     "build:local": "node tasks/build/local/build",
-    "build:ui": "cross-env NODE_ENV=production webpack --colors --config webpack.renderer.config.js --mode=production --profile --json > app/dist/build.stats.json",
+    "build:keybase-cache": "babel-node --presets @babel/env tasks/keybase-fallback.js",
+    "build:ui": "cross-env NODE_ENV=production webpack --colors --config webpack.renderer.config.js --mode=production --profile --json",
     "start": "concurrently -k \"yarn frontend\" \"yarn backend\"",
     "start:new": "concurrently -k \"yarn frontend\" \"yarn backend:new\"",
     "serve": "http-server -p 8081 ./app/dist",
@@ -48,6 +49,7 @@
     "changelog": "node tasks/changelog.js"
   },
   "devDependencies": {
+    "@babel/node": "7.2.2",
     "@babel/plugin-transform-runtime": "7.4.0",
     "@babel/preset-env": "7.4.2",
     "@babel/runtime": "7.4.2",

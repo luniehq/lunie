@@ -215,10 +215,10 @@ export default {
       const { yes, no, abstain, no_with_veto } =
         proposals.tallies[proposalId] || {}
       return {
-        yes: yes,
-        no: no,
-        abstain: abstain,
-        no_with_veto: no_with_veto
+        yes: yes || BigNumber(0),
+        no: no || BigNumber(0),
+        abstain: abstain || BigNumber(0),
+        no_with_veto: no_with_veto || BigNumber(0)
       }
     },
     status({ proposal } = this) {

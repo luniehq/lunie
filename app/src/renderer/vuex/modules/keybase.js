@@ -13,7 +13,12 @@ export default () => {
     axios,
     moment
   }
-  state.identities = JSON.parse(localStorage.getItem(`keybaseCache`) || `{}`)
+  // prepopulating the keybase cache. The cache is build on every build.
+  // This mitigates the problem of the keybase API rate limiting users and therefor
+  // users not being able to see profile pictures.
+  const cache = require(`../../keybase-cache.json`)
+  const localCache = localStorage.getItem(`keybaseCache`)
+  state.identities = localCache ? JSON.parse(localCache) : cache
 
   const mutations = {
     setKeybaseIdentities(state, identities) {
@@ -90,7 +95,7 @@ export default () => {
 const baseUrl = `https://keybase.io/_/api/1.0/user/lookup.json`
 const fieldsQuery = `fields=pictures,basics`
 
-async function lookupId(state, keybaseId) {
+export async function lookupId(state, keybaseId) {
   const fullUrl = `${baseUrl}?key_suffix=${keybaseId}&${fieldsQuery}`
   return query(state, fullUrl, keybaseId)
 }
