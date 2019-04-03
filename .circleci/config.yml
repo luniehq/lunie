@@ -130,6 +130,7 @@ jobs:
           root: *WORKSPACE
           paths:
             - app/dist
+            - app/dist_testnet
 
   # Build Gaia from the SDK source code specified by tasks/build/Gaia/VERSION
   buildGaia:
