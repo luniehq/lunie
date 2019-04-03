@@ -46,9 +46,11 @@
     "backend:fixed-https": "concurrently -k \"yarn nodes 2 skip-rebuild\" \"yarn stargate --ssl-certfile 'server_dev.crt' --ssl-keyfile 'server_dev.key'\""
   },
   "devDependencies": {
+    "@babel/runtime": "7.4.3",
     "@nodeguy/cli": "0.2.2",
     "@octokit/rest": "15.9.4",
     "@sentry/webpack-plugin": "1.6.2",
+    "@vue/test-utils": "1.0.0-beta.27",
     "autoprefixer": "9.4.7",
     "babel-core": "6.26.3",
     "babel-eslint": "7.2.3",
@@ -108,7 +110,6 @@
     "webpack": "4.28.3",
     "webpack-bundle-analyzer": "3.0.3",
     "webpack-cli": "3.2.0",
-    "@vue/test-utils": "1.0.0-beta.27",
     "webpack-dev-server": "3.1.14"
   },
   "dependencies": {

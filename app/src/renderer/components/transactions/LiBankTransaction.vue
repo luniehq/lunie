@@ -46,7 +46,6 @@
 import ShortBech32 from "common/ShortBech32"
 import LiTransaction from "./LiTransaction"
 import { atoms, full } from "../../scripts/num.js"
-import { shortAddress } from "../../scripts/common"
 
 export default {
   name: `li-bank-transaction`,
@@ -66,8 +65,7 @@ export default {
   },
   data: () => ({
     atoms,
-    full,
-    shortAddress
+    full
   }),
   computed: {
     tx() {
