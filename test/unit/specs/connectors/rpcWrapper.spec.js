@@ -53,5 +53,19 @@ describe(`RPC Connector`, () => {
 
     expect(spyListeners).toHaveBeenCalledWith(`error`)
     expect(spyDestroy).toHaveBeenCalled()
+    expect(connector.rpcInfo.connected).toBe(true)
+  })
+
+  it(`should disconnect`, async () => {
+    await connector.rpcConnect(`localhost`)
+
+    const spyListeners = jest.spyOn(connector.rpc, `removeAllListeners`)
+    const spyDestroy = jest.spyOn(connector.rpc.ws, `destroy`)
+
+    await connector.rpcDisconnect()
+
+    expect(spyListeners).toHaveBeenCalledWith(`error`)
+    expect(spyDestroy).toHaveBeenCalled()
+    expect(connector.rpcInfo.connected).toBe(false)
   })
 })
