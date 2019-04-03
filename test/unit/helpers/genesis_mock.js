@@ -9,7 +9,9 @@ function mockGenesis() {
   process.env.COSMOS_HOME = testRoot
   try {
     fs.unlink(testRoot + `genesis.json`)
-  } catch (err) {}
+  } catch (err) {
+    // just ignore if doesn't exist
+  }
   fs.writeFileSync(
     testRoot + `genesis.json`,
     JSON.stringify({

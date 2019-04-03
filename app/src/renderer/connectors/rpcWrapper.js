@@ -20,10 +20,10 @@ export default function setRpcWrapper(container) {
       }
 
       const newRpc = await rpcConnect(rpcURL)
-      .catch(err => {
-        rpcWrapper.rpcInfo.connected = false
-        throw err
-      })
+        .catch(err => {
+          rpcWrapper.rpcInfo.connected = false
+          throw err
+        })
       container.rpc = newRpc
       rpcWrapper.rpcInfo.connected = true
     }
@@ -63,8 +63,8 @@ async function rpcConnect(rpcURL) {
 
 function getHost(url) {
   return url.startsWith(`http`) && url.indexOf(`//`) !== -1
-  ? url.split(`//`)[1]
-  : url
+    ? url.split(`//`)[1]
+    : url
 }
 
 // check if the rpc connection was established
