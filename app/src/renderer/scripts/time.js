@@ -1,14 +1,17 @@
 "use strict"
 
 const getUnbondingTime = ({ height, tx }, unbondingDelegations) => {
-  let { type, value } = tx.value.msg[0]
-  if (type === `cosmos-sdk/BeginUnbonding`) {
-    let unbondingDelegation = unbondingDelegations[value.validator_addr]
+  const { type, value } = tx.value && tx.value.msg && tx.value.msg[0]
+  if (type === `cosmos-sdk/MsgUndelegate`) {
+    const validatorUnbondingDelegation =
+      unbondingDelegations[value.validator_address]
+    const unbondingDelegation = validatorUnbondingDelegation &&
+      validatorUnbondingDelegation
+        .find(({ creation_height }) => creation_height === String(height))
     if (
-      unbondingDelegation &&
-      unbondingDelegation.creation_height === String(height)
+      unbondingDelegation
     ) {
-      return new Date(unbondingDelegation.min_time).getTime()
+      return new Date(unbondingDelegation.completion_time).getTime()
     }
   }
   return NaN

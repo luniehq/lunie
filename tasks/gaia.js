@@ -1,23 +1,31 @@
 const path = require(`path`)
 const fs = require(`fs-extra`)
 const util = require(`util`)
+const BN = require(`bignumber.js`)
 const { spawn, exec } = require(`child_process`)
-let { sleep } = require(`../test/e2e/common.js`)
+const { sleep } = require(`../test/e2e/common.js`)
 
 const osFolderName = {
   win32: `windows_amd64`,
   darwin: `darwin_amd64`,
   linux: `linux_amd64`
 }[process.platform]
-let cliBinary =
+const cliBinary =
   process.env.BINARY_PATH ||
   path.join(__dirname, `../builds/Gaia/`, osFolderName, `gaiacli`)
 
-let nodeBinary =
+const nodeBinary =
   process.env.NODE_BINARY_PATH ||
   path.join(__dirname, `../builds/Gaia/`, osFolderName, `gaiad`)
 const defaultStartPort = 26656
 const getStartPort = nodeNumber => defaultStartPort - (nodeNumber - 1) * 3
+const defaultStakePool = 2000 * 10e6
+const defaultStakedPerValidator = 10 * 10e6
+const faucet = {
+  address: `cosmos1eu3j9yu63cd5exte5nw4l3wj83eqs9kcn8zlcn`,
+  mnemonic: `used rail ancient side orange merit since ensure this tool clock balance aerobic cheese bulk iron toward model wage then engage differ desk budget`,
+  amount: 100000000000000000
+}
 
 // initialise the node config folder and genesis
 async function initNode(
@@ -27,7 +35,7 @@ async function initNode(
   password = `1234567890`,
   overwrite = false
 ) {
-  let command = `${nodeBinary} init --home ${homeDir} --moniker ${moniker} --chain-id ${chainId}`
+  let command = `${nodeBinary} init ${moniker} --home ${homeDir} --chain-id ${chainId}`
   if (overwrite) {
     command += ` -o`
   }
@@ -35,13 +43,13 @@ async function initNode(
 }
 
 async function createKey({ keyName, password, clientHomeDir }) {
-  let command = `${cliBinary} keys add ${keyName} --home ${clientHomeDir} -o json`
+  const command = `${cliBinary} keys add ${keyName} --home ${clientHomeDir} -o json`
   return makeExecWithInputs(command, [password, password])
 }
 
 async function getKeys(clientHomeDir) {
-  let command = `${cliBinary} keys list --home ${clientHomeDir} -o json`
-  let accounts = await makeExec(command)
+  const command = `${cliBinary} keys list --home ${clientHomeDir} -o json`
+  const accounts = await makeExec(command)
   return JSON.parse(accounts)
 }
 
@@ -52,26 +60,13 @@ async function initGenesis(
   address, // this address will have funds after initialization
   nodeHomeDir
 ) {
-  const genesisLocation = path.join(nodeHomeDir, `config/genesis.json`)
-  let genesis = require(genesisLocation)
-  console.log(
-    `Adding tokens to genesis at ${genesisLocation} for address ${address}`
+  await makeExec(
+    `${nodeBinary} add-genesis-account ${address} ${defaultStakePool}stake,1000photino  --home ${nodeHomeDir}`
   )
-  genesis.app_state.accounts = genesis.app_state.accounts || []
-  genesis.app_state.accounts.push({
-    address,
-    coins: [
-      {
-        denom: `STAKE`,
-        amount: `150`
-      },
-      {
-        denom: `localcoin`,
-        amount: `1000`
-      }
-    ]
-  })
-  fs.writeJSONSync(genesisLocation, genesis)
+  // faucet, we add this to better emulate testnet behaviour on local testnets
+  await makeExec(
+    `${nodeBinary} add-genesis-account ${faucet.address} ${faucet.amount}stake  --home ${nodeHomeDir}`
+  )
 
   await makeExecWithInputs(
     `${nodeBinary} gentx --name ${keyName} --home ${nodeHomeDir} --home-client ${clientHomeDir}`,
@@ -81,7 +76,10 @@ async function initGenesis(
 
   await makeExec(`${nodeBinary} collect-gentxs --home ${nodeHomeDir}`)
 
-  genesis = fs.readJSONSync(genesisLocation)
+  const genesisLocation = path.join(nodeHomeDir, `config/genesis.json`)
+  let genesis = require(genesisLocation)
+  genesis = fixInflation(genesis, faucet.amount)
+  fs.writeJSONSync(genesisLocation, genesis, `utf8`)
   return genesis
 }
 
@@ -100,21 +98,28 @@ async function makeValidator(
   moniker,
   chainId,
   operatorSignInfo = {
-    keyName: `local`,
+    keyName: `${moniker}-operator`,
     password: `1234567890`,
     clientHomeDir: cliHome
   }
 ) {
-  let valPubKey = await getValPubKey(nodeHome)
-  let { address } = await createKey(operatorSignInfo)
-  await sendTokens(mainSignInfo, `10STAKE`, address, chainId)
-  while (true) {
-    console.log(`Waiting for funds to delegate`)
+  const valPubKey = await getValPubKey(nodeHome)
+  const account = await createKey(operatorSignInfo)
+
+  const address = account.address
+  await sendTokens(
+    mainSignInfo,
+    `${defaultStakedPerValidator}stake`,
+    address,
+    chainId
+  )
+  console.log(`Waiting for funds to delegate`)
+  const forever = true
+  while (forever) {
     try {
       await sleep(1000)
       await getBalance(cliHome, address)
     } catch (error) {
-      console.error(error) // kept in here to see if something unexpected fails
       continue
     }
     break
@@ -129,15 +134,15 @@ async function makeValidator(
 }
 
 async function getValPubKey(node_home) {
-  let command = `${nodeBinary} tendermint show-validator --home ${node_home}`
+  const command = `${nodeBinary} tendermint show-validator --home ${node_home}`
   return await makeExec(command)
 }
 async function getNodeId(node_home) {
-  let command = `${nodeBinary} tendermint show-node-id --home ${node_home}`
+  const command = `${nodeBinary} tendermint show-node-id --home ${node_home}`
   return await makeExec(command)
 }
 async function getBalance(cliHome, address) {
-  let command = `${cliBinary} query account ${address} --home ${cliHome} --output "json" --trust-node`
+  const command = `${cliBinary} query account ${address} --home ${cliHome} --output "json" --trust-node`
   return JSON.parse(await makeExec(command))
 }
 
@@ -149,21 +154,21 @@ async function declareValidator(
   operatorAddress,
   chainId
 ) {
-  let command =
-    `${cliBinary} tx stake create-validator` +
+  const command =
+    `${cliBinary} tx staking create-validator` +
     ` --home ${clientHomeDir}` +
     ` --from ${keyName}` +
-    ` --amount=10STAKE` +
+    ` --amount=${defaultStakedPerValidator}stake` +
     ` --pubkey=${valPubKey}` +
-    ` --address-delegator=${operatorAddress}` +
     ` --moniker=${moniker}` +
     ` --chain-id=${chainId}` +
     ` --commission-max-change-rate=0` +
     ` --commission-max-rate=0` +
     ` --commission-rate=0` +
-    ` --json`
+    ` --min-self-delegation=1` +
+    ` --output=json`
 
-  return makeExecWithInputs(command, [password])
+  return makeExecWithInputs(command, [`Y`, password])
 }
 
 async function sendTokens(
@@ -172,14 +177,15 @@ async function sendTokens(
   toAddress,
   chainId
 ) {
-  let command =
+  await sleep(500)
+  const command =
     `${cliBinary} tx send` +
+    ` ${toAddress}` +
+    ` ${tokenString}` +
     ` --home ${clientHomeDir}` +
     ` --from ${keyName}` +
-    ` --amount=${tokenString}` +
-    ` --to=${toAddress}` +
     ` --chain-id=${chainId}`
-  return makeExecWithInputs(command, [password], false)
+  return makeExecWithInputs(command, [`Y`, password], false)
 }
 
 // start a node and connect it to nodeOne
@@ -191,7 +197,7 @@ function startLocalNode(
   nodeOneId = ``
 ) {
   return new Promise((resolve, reject) => {
-    let command = `${nodeBinary} start --home ${nodeHome}` // TODO add --minimum_fees 1STAKE here
+    let command = `${nodeBinary} start --home ${nodeHome}` // TODO add --minimum_fees 1stake here
     if (number > 1) {
       const port = getStartPort(number)
       // setup different ports
@@ -200,14 +206,16 @@ function startLocalNode(
       // set the first node as a persistent peer
       command += ` --p2p.persistent_peers="${nodeOneId}@localhost:${defaultStartPort}"`
     }
-    console.log(command)
+    if (process.env.VERBOSE) {
+      console.log(`$ ` + command)
+    }
     const localnodeProcess = spawn(command, { shell: true })
 
     // log output for debugging
     const logPath = path.join(nodeHome, `process.log`)
     console.log(`Redirecting node ` + number + ` output to ` + logPath)
     fs.createFileSync(logPath)
-    let logStream = fs.createWriteStream(logPath, { flags: `a` })
+    const logStream = fs.createWriteStream(logPath, { flags: `a` })
     localnodeProcess.stdout.pipe(logStream)
 
     localnodeProcess.stderr.pipe(process.stderr)
@@ -219,7 +227,7 @@ function startLocalNode(
 
     // wait for a message about a block being produced
     function listener(data) {
-      let msg = data.toString()
+      const msg = data.toString()
 
       if (msg.includes(`Executed block`)) {
         localnodeProcess.stdout.removeListener(`data`, listener)
@@ -238,7 +246,10 @@ function startLocalNode(
 
 // execute command and return stdout
 function makeExec(command) {
-  console.log(`$ ` + command)
+  if (process.env.VERBOSE) {
+    console.log(`$ ` + command)
+  }
+
   return util
     .promisify(exec)(command)
     .then(({ stdout }) => stdout.trim())
@@ -246,10 +257,12 @@ function makeExec(command) {
 
 // execute command, write all inputs followed by enter to stdin and return stdout
 function makeExecWithInputs(command, inputs = [], json = true) {
-  console.log(`$ ` + command)
+  if (process.env.VERBOSE) {
+    console.log(`$ ` + command)
+  }
 
-  let binary = command.split(` `)[0]
-  let args = command.split(` `).slice(1)
+  const binary = command.split(` `)[0]
+  const args = command.split(` `).slice(1)
   return new Promise((resolve, reject) => {
     const child = spawn(binary, args)
 
@@ -258,8 +271,10 @@ function makeExecWithInputs(command, inputs = [], json = true) {
     child.stdout.on(`error`, console.error)
     child.stdin.on(`error`, console.error)
 
-    child.stderr.pipe(process.stderr)
-    child.stdout.pipe(process.stdout)
+    if (process.env.VERBOSE) {
+      child.stderr.pipe(process.stderr)
+      child.stdout.pipe(process.stdout)
+    }
     inputs.forEach(input => {
       child.stdin.write(`${input}\n`)
     })
@@ -272,6 +287,9 @@ function makeExecWithInputs(command, inputs = [], json = true) {
     })
 
     child.once(`exit`, code => {
+      if (process.env.VERBOSE) {
+        console.log(`EXIT:`, code)
+      }
       if (resolved) return
       resolved = true
       code === 0 ? resolve() : reject(`Process exited with code ${code}`)
@@ -288,6 +306,7 @@ module.exports = {
   startLocalNode,
   makeValidator,
   getNodeId,
+  sendTokens,
 
   cliBinary,
   nodeBinary,
@@ -295,4 +314,30 @@ module.exports = {
 
   makeExec,
   makeExecWithInputs
+}
+
+// the default inflation with a faucet active is producing so much stake that users could take over the network pretty quick. this throttles this
+function fixInflation(genesis, faucetAmount) {
+  const inflationFactor = faucetAmount / 1000000000000 // on the actual testnet it is / 1000000000
+  const defaultMintValue = genesis.app_state.mint
+  genesis.app_state.mint = {
+    minter: {
+      inflation: BN(defaultMintValue.minter.inflation)
+        .div(inflationFactor).toFixed(18),
+      annual_provisions: `0.000000000000000000`
+    },
+    params: {
+      mint_denom: `stake`,
+      inflation_rate_change: `0.130000000000000000`,
+      inflation_max: BN(defaultMintValue.params.inflation_max)
+        .div(inflationFactor).toFixed(18),
+      inflation_min: BN(defaultMintValue.params.inflation_min)
+        .div(inflationFactor).toFixed(18),
+      goal_bonded: BN(defaultMintValue.params.goal_bonded)
+        .div(inflationFactor).toFixed(18),
+      blocks_per_year: `6311520`
+    }
+  }
+
+  return genesis
 }

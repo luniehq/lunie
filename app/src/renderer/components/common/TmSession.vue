@@ -1,20 +1,24 @@
 <template>
-  <div class="tm-session-wrapper">
-    <img class="tm-session-backdrop" src="~assets/images/cosmos-logo.png" />
-    <session-loading v-if="config.modals.session.state == 'loading'" />
-    <session-welcome v-if="config.modals.session.state == 'welcome'" />
-    <session-sign-up v-if="config.modals.session.state == 'sign-up'" />
-    <session-sign-in v-if="config.modals.session.state == 'sign-in'" />
-    <session-account-delete v-if="config.modals.session.state == 'delete'" />
-    <session-hardware v-if="config.modals.session.state == 'hardware'" />
-    <session-import v-if="config.modals.session.state == 'import'" />
+  <modal v-if="active" :close="close">
+    <div slot="main">
+      <session-welcome v-if="session.modals.session.state == 'welcome'" />
+      <session-sign-up v-else-if="session.modals.session.state == 'sign-up'" />
+      <session-sign-in v-else-if="session.modals.session.state == 'sign-in'" />
+      <session-account-delete
+        v-else-if="session.modals.session.state == 'delete'"
+      />
+      <session-hardware
+        v-else-if="session.modals.session.state == 'hardware'"
+      />
+      <session-import v-else-if="session.modals.session.state == 'import'" />
+    </div>
     <connected-network />
-  </div>
+  </modal>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
-import SessionLoading from "common/TmSessionLoading"
+import Modal from "common/TmModal"
 import SessionWelcome from "common/TmSessionWelcome"
 import SessionSignUp from "common/TmSessionSignUp"
 import SessionSignIn from "common/TmSessionSignIn"
@@ -22,10 +26,11 @@ import SessionHardware from "common/TmSessionHardware"
 import SessionImport from "common/TmSessionImport"
 import SessionAccountDelete from "common/TmSessionAccountDelete"
 import ConnectedNetwork from "common/TmConnectedNetwork"
+
 export default {
   name: `tm-session`,
   components: {
-    SessionLoading,
+    Modal,
     SessionWelcome,
     SessionSignUp,
     SessionSignIn,
@@ -34,22 +39,23 @@ export default {
     SessionAccountDelete,
     ConnectedNetwork
   },
-  computed: { ...mapGetters([`config`]) }
+  computed: {
+    ...mapGetters([`session`]),
+    active() {
+      return this.session.modals.session.active
+    }
+  },
+  methods: {
+    close() {
+      this.$store.commit(`toggleSessionModal`, false)
+    }
+  }
 }
 </script>
-
 <style>
 .tm-session-wrapper {
   position: relative;
   z-index: var(--z-modal);
-}
-
-.tm-session-wrapper .tm-session-backdrop {
-  position: absolute;
-  top: -10vw;
-  left: -10vw;
-  width: 50vw;
-  opacity: 0.25;
 }
 
 .tm-field-checkbox {
@@ -86,7 +92,6 @@ export default {
   top: 0;
   left: 0;
   z-index: var(--z-default);
-  background: var(--app-fg);
 }
 
 .tm-session-container:not(.tm-form) {
@@ -108,8 +113,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   margin-top: 1.5rem;
-  padding: 1rem 2rem;
-  border-bottom: 0.125rem solid var(--bc-dim);
+  padding: 0.5rem;
 }
 
 .tm-session-header a {
@@ -117,15 +121,11 @@ export default {
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  padding: 0.5rem;
 }
 
 .tm-session-header a i {
-  color: var(--dim);
   font-size: var(--lg);
-}
-
-.tm-session-header a:hover i {
-  color: var(--txt);
 }
 
 .tm-session-header .tm-session-title {
@@ -141,25 +141,12 @@ export default {
   background: var(--app-fg);
   overflow-y: auto;
   position: relative;
+  border-radius: 2px;
+  padding: 1rem;
 }
 
 .tm-session-main .tm-bar-discrete {
   margin: 1rem auto;
-}
-
-.tm-session-main img {
-  margin: 0 auto;
-  max-width: 300px;
-  display: block;
-}
-
-.tm-session-main .ps-scrollbar-y-rail {
-  display: none;
-}
-
-.tm-session-main > p {
-  padding: 1rem;
-  border-bottom: px solid var(--bc);
 }
 
 .tm-session-label {
@@ -190,6 +177,7 @@ export default {
   color: var(--dim);
   font-size: var(--sm);
   line-height: var(--xl);
+  display: inline;
 }
 
 .tm-session-footer > div {
@@ -226,18 +214,8 @@ export default {
     margin-top: 0;
   }
 
-  .tm-session-main {
-    padding: 3rem 1rem;
-  }
-
   .tm-session-main .tm-form-group {
-    display: block !important;
+    display: block;
   }
-}
-
-.tm-connected-network {
-  position: absolute;
-  bottom: 0;
-  left: 0;
 }
 </style>

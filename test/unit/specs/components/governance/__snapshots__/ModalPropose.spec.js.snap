@@ -1,169 +1,68 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ModalPropose component matches snapshot has the expected html structure 1`] = `
-<div
-  class="modal-propose"
+exports[`ModalPropose should display proposal modal form 1`] = `
+<action-modal-stub
+  amount="0"
   id="modal-propose"
+  simulatefn="function () { [native code] }"
+  submissionerrorprefix="Submitting proposal failed"
+  submitfn="function () { [native code] }"
+  title="Proposal"
+  validate="function () { [native code] }"
 >
-  <div
-    class="modal-propose-header"
+  <tm-form-group-stub
+    class="action-modal-form-group"
+    fieldid="title"
+    fieldlabel="Title"
   >
-    <img
-      class="icon modal-propose-atom"
-      src="~assets/images/cosmos-logo.png"
+    <tm-field-stub
+      id="title"
+      placeholder="Proposal title"
+      type="text"
+      value=""
     />
+     
+    <!---->
+     
+    <!---->
+  </tm-form-group-stub>
+   
+  <tm-form-group-stub
+    class="action-modal-form-group"
+    fieldid="description"
+    fieldlabel="Description"
+  >
+    <tm-field-stub
+      class="textarea-large"
+      id="description"
+      placeholder="Write your proposal here..."
+      type="textarea"
+      value=""
+    />
+     
+    <!---->
+     
+    <!---->
+  </tm-form-group-stub>
+   
+  <tm-form-group-stub
+    class="action-modal-form-group"
+    fieldid="amount"
+    fieldlabel="Deposit"
+  >
     <span
-      class="tm-modal-title"
+      class="input-suffix"
     >
-      Create Proposal
+      atom
     </span>
      
-    <div
-      class="tm-modal-icon tm-modal-close"
-      id="closeBtn"
-    >
-      <i
-        class="material-icons"
-      >
-        close
-      </i>
-    </div>
-  </div>
-   
-  <div
-    class="page-proposal-form-group tm-form-group"
-  >
-    <!---->
-    <!---->
+    <tm-field-stub
+      id="amount"
+      type="number"
+      value="0"
+    />
      
-    <div
-      class="tm-form-group__field"
-    >
-      <span>
-        Title
-      </span>
-       
-      <input
-        class="tm-field"
-        id="title"
-        placeholder="Proposal title"
-        type="text"
-      />
-       
-      <!---->
-    </div>
-  </div>
-   
-  <div
-    class="page-proposal-form-group tm-form-group"
-  >
     <!---->
-    <!---->
-     
-    <div
-      class="tm-form-group__field"
-    >
-      <span>
-        Description
-      </span>
-       
-      <textarea
-        class="tm-field"
-        id="description"
-        placeholder="Write your proposal here..."
-      />
-       
-      <!---->
-    </div>
-  </div>
-   
-  <div
-    class="modal-propose-form-group tm-form-group"
-  >
-    <!---->
-    <!---->
-     
-    <div
-      class="tm-form-group__field"
-    >
-      <span>
-        Deposit amount
-      </span>
-       
-      <input
-        class="tm-field"
-        id="denom"
-        placeholder="stake"
-        readonly="readonly"
-        tabindex="-1"
-        type="text"
-      />
-       
-      <input
-        class="tm-field"
-        id="amount"
-        min="0"
-        type="number"
-      />
-       
-      <!---->
-       
-      <hr />
-    </div>
-  </div>
-   
-  <div
-    class="modal-propose-form-group tm-form-group"
-  >
-    <!---->
-    <!---->
-     
-    <div
-      class="tm-form-group__field"
-    >
-      <span>
-        Account password
-      </span>
-       
-      <input
-        class="tm-field"
-        id="password"
-        placeholder="password..."
-        type="password"
-      />
-       
-      <input
-        id="showPasswordCheckbox"
-        type="checkbox"
-      />
-       
-      <label
-        for="showPasswordCheckbox"
-      >
-        Show password
-      </label>
-    </div>
-  </div>
-   
-  <div
-    class="modal-propose-footer"
-  >
-    <button
-      class="tm-btn"
-      disabled="disabled"
-      id="submit-proposal"
-    >
-      <span
-        class="tm-btn__container tm-btn--size-lg tm-btn--primary"
-      >
-        <!---->
-        <span
-          class="tm-btn__value"
-        >
-          Submit proposal
-        </span>
-      </span>
-    </button>
-  </div>
-</div>
+  </tm-form-group-stub>
+</action-modal-stub>
 `;

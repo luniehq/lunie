@@ -10,57 +10,93 @@ exports[`TabProposals has the expected html structure 1`] = `
         class="panel-sort-container"
       >
         <th
-          class="sort-by proposal_title"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
           >
-            Title
+            
+      Title
+            <i
+              class="material-icons"
+            >
+              arrow_drop_up
+            </i>
           </a>
         </th>
         <th
-          class="sort-by proposal_id"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
           >
-            Proposal id
+            
+      Proposal Id
+            <i
+              class="material-icons"
+            >
+              arrow_drop_up
+            </i>
           </a>
         </th>
         <th
-          class="sort-by yes_votes"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
           >
-            Yes
+            
+      Yes
+            <i
+              class="material-icons"
+            >
+              arrow_drop_up
+            </i>
           </a>
         </th>
         <th
-          class="sort-by no_votes"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
           >
-            No
+            
+      No
+            <i
+              class="material-icons"
+            >
+              arrow_drop_up
+            </i>
           </a>
         </th>
         <th
-          class="sort-by no_veto_votes"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
           >
-            No with Veto
+            
+      No with Veto
+            <i
+              class="material-icons"
+            >
+              arrow_drop_up
+            </i>
           </a>
         </th>
         <th
-          class="sort-by abstain_votes"
+          class="panel-sort-table-header sort-by"
         >
           <a
             class="sort-by-link"
           >
-            Abstain
+            
+      Abstain
+            <i
+              class="material-icons"
+            >
+              arrow_drop_up
+            </i>
           </a>
         </th>
       </tr>
@@ -84,7 +120,9 @@ exports[`TabProposals has the expected html structure 1`] = `
               class="data-table__row__info__container__name"
               to="[object Object]"
             >
-              Rejected proposal
+              
+        Rejected proposal
+      
             </router-link-stub>
              
             <p
@@ -104,25 +142,33 @@ exports[`TabProposals has the expected html structure 1`] = `
         <td
           class="li-proposal__value yes"
         >
-          10
+          
+    6%
+  
         </td>
          
         <td
           class="li-proposal__value no"
         >
-          30
+          
+    19%
+  
         </td>
          
         <td
           class="li-proposal__value no_with_veto"
         >
-          100
+          
+    63%
+  
         </td>
          
         <td
           class="li-proposal__value abstain"
         >
-          20
+          
+    13%
+  
         </td>
       </tr>
       <tr
@@ -142,7 +188,9 @@ exports[`TabProposals has the expected html structure 1`] = `
               class="data-table__row__info__container__name"
               to="[object Object]"
             >
-              Custom text proposal
+              
+        Custom text proposal
+      
             </router-link-stub>
              
             <p
@@ -162,25 +210,33 @@ exports[`TabProposals has the expected html structure 1`] = `
         <td
           class="li-proposal__value yes"
         >
-          0
+          
+    --
+  
         </td>
          
         <td
           class="li-proposal__value no"
         >
-          0
+          
+    --
+  
         </td>
          
         <td
           class="li-proposal__value no_with_veto"
         >
-          0
+          
+    --
+  
         </td>
          
         <td
           class="li-proposal__value abstain"
         >
-          0
+          
+    --
+  
         </td>
       </tr>
       <tr
@@ -200,7 +256,9 @@ exports[`TabProposals has the expected html structure 1`] = `
               class="data-table__row__info__container__name"
               to="[object Object]"
             >
-              VotingPeriod proposal
+              
+        VotingPeriod proposal
+      
             </router-link-stub>
              
             <p
@@ -220,25 +278,33 @@ exports[`TabProposals has the expected html structure 1`] = `
         <td
           class="li-proposal__value yes"
         >
-          0
+          
+    0%
+  
         </td>
          
         <td
           class="li-proposal__value no"
         >
-          0
+          
+    0%
+  
         </td>
          
         <td
           class="li-proposal__value no_with_veto"
         >
-          0
+          
+    0%
+  
         </td>
          
         <td
           class="li-proposal__value abstain"
         >
-          0
+          
+    0%
+  
         </td>
       </tr>
       <tr
@@ -253,14 +319,18 @@ exports[`TabProposals has the expected html structure 1`] = `
             <span
               class="data-table__row__info__container__status material-icons"
             >
-              checkmark
+              
+        checkmark
+      
             </span>
              
             <router-link-stub
               class="data-table__row__info__container__name"
               to="[object Object]"
             >
-              Proposal Title
+              
+        Proposal Title
+      
             </router-link-stub>
              
             <p
@@ -280,25 +350,33 @@ exports[`TabProposals has the expected html structure 1`] = `
         <td
           class="li-proposal__value yes"
         >
-          500
+          
+    85%
+  
         </td>
          
         <td
           class="li-proposal__value no"
         >
-          25
+          
+    4%
+  
         </td>
          
         <td
           class="li-proposal__value no_with_veto"
         >
-          10
+          
+    2%
+  
         </td>
          
         <td
           class="li-proposal__value abstain"
         >
-          56
+          
+    9%
+  
         </td>
       </tr>
     </tbody>
@@ -324,28 +402,33 @@ exports[`TabProposals shows a message if there is nothing to display 1`] = `
     <i
       class="material-icons"
     >
-      info_outline
+      gavel
     </i>
   </div>
    
   <div
     class="tm-data-msg__text"
   >
-    <div
+    <h2
       class="tm-data-msg__title"
     >
       <h4>
-        No Governance Proposals
+        
+    No Governance Proposals
+  
       </h4>
-    </div>
+    </h2>
      
-    <div
+    <h3
       class="tm-data-msg__subtitle"
     >
       <h5>
-        There are currently no governance proposals on the Cosmos Hub. Submit a new one by clicking the 'Create Proposal' button above.
+        
+    There are currently no governance proposals to display.
+  Click the 'Create Proposal' button to submit a proposal.
+  
       </h5>
-    </div>
+    </h3>
   </div>
 </div>
 `;

@@ -1,6 +1,6 @@
-let test = require(`tape-promise/tape`)
-let { getApp, restart } = require(`./launch.js`)
-let {
+const test = require(`tape-promise/tape`)
+const { getApp, restart } = require(`./launch.js`)
+const {
   navigate,
   login,
   sleep,
@@ -11,8 +11,8 @@ let {
  * NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
  */
 
-test(`delegation`, async function(t) {
-  let { app } = await getApp(t)
+test(`delegation`, async function (t) {
+  const { app } = await getApp(t)
   // app.env.COSMOS_MOCKED = false
   await restart(app)
 
@@ -20,11 +20,11 @@ test(`delegation`, async function(t) {
   await navigate(app, `Staking`)
 
   // default values from e2e mounted node
-  let bondedStake = 100
+  const bondedStake = 100
 
-  t.test(`Validators`, async function(t) {
+  t.test(`Validators`, async function (t) {
     // Select the Validators tab.
-    await app.client.click(`//a[. = 'Validators']`)
+    await app.client.click(`//a[normalize-space() = 'Validators']`)
 
     t.equal(
       (await app.client.$$(`.li-validator`)).length,
@@ -60,17 +60,17 @@ test(`delegation`, async function(t) {
   })
 
   t.test(`Stake`, async t => {
-    let totalAtoms = (await app.client
+    const totalAtoms = (await app.client
       .$(`.header-balance .total-atoms h2`)
       .getText()).split(`.`)[0] // 130.000...
-    let unbondedAtoms = (await app.client
+    const unbondedAtoms = (await app.client
       .$(`.header-balance .unbonded-atoms h2`)
       .getText()).split(`.`)[0] // 30.000...
 
     await t.equal(totalAtoms, `130`, `i have 130 Atoms`)
     await t.equal(unbondedAtoms, `30`, `i have 30 unbounded Atoms`)
     // Select the second validator.
-    await app.client.click(`//*[. = 'local_2']`)
+    await app.client.click(`//*[normalize-space() = 'local_2']`)
 
     // For some reason we need to sleep at this point in order to prevent the
     // following error:
@@ -82,11 +82,11 @@ test(`delegation`, async function(t) {
     await sleep(500)
 
     await app.client
-      .click(`//button/*[. = 'Delegate']`)
+      .click(`//button/*[normalize-space() = 'Delegate']`)
       .setValue(`#amount`, 10)
       .setValue(`#password`, `1234567890`)
       .click(
-        `//*[@id = 'delegation-modal']//button//*[. = 'Confirm Delegation']`
+        `//*[@id = 'delegation-modal']//button//*[normalize-space() = 'Submit']`
       )
       .waitForVisible(
         `//*[. = 'You have successfully delegated your STAKEs']`,
@@ -94,12 +94,12 @@ test(`delegation`, async function(t) {
       )
 
       // Go back to Staking page.
-      .click(`//a//*[. = 'Staking']`)
+      .click(`//a//*[normalize-space() = 'Staking']`)
 
     console.log(`Testing total balance`)
     await waitForText(
       () => app.client.$(`.header-balance .total-atoms h2`),
-      `${parseInt(totalAtoms) - 10}.0000…`,
+      `${parseInt(totalAtoms)}.0000…`,
       10 * 1000
     )
     console.log(`Testing unbonded balance`)
@@ -117,11 +117,12 @@ test(`delegation`, async function(t) {
 
   t.test(`Undelegate`, async t => {
     await app.client
+      .waitForVisible(`//a[normalize-space() = 'Validators']`)
       // Select the Validators tab.
-      .click(`//a[. = 'Validators']`)
+      .click(`//a[normalize-space() = 'Validators']`)
 
       // Select the second validator.
-      .click(`//*[. = 'local_1']`)
+      .click(`//*[normalize-space() = 'local_1']`)
 
     // For some reason we need to sleep at this point in order to prevent the
     // following error:
@@ -133,17 +134,19 @@ test(`delegation`, async function(t) {
     await sleep(500)
 
     await app.client
-      .click(`//button/*[. = 'Undelegate']`)
+      .click(`//button/*[normalize-space() = 'Undelegate']`)
       .setValue(`#amount`, 5)
       .setValue(`#password`, `1234567890`)
-      .click(`//*[@id = 'undelegation-modal']//button//*[. = 'Undelegate']`)
+      .click(
+        `//*[@id = 'undelegation-modal']//button//*[normalize-space() = 'Submit']`
+      )
       .waitForVisible(
         `//*[. = 'You have successfully undelegated 5 STAKEs.']`,
         5 * 1000
       )
 
       // Go back to Staking page.
-      .click(`//a//*[. = 'Staking']`)
+      .click(`//a//*[normalize-space() = 'Staking']`)
     await closeNotifications(app)
 
     // Shouldn't be necessary but see
@@ -151,7 +154,7 @@ test(`delegation`, async function(t) {
     t.end()
   })
 
-  t.test(`showing transactions`, async function(t) {
+  t.test(`showing transactions`, async function (t) {
     await navigate(app, `Transactions`)
 
     // delegated
@@ -170,9 +173,9 @@ test(`delegation`, async function(t) {
     t.end()
   })
 
-  t.test(`Parameters`, async function(t) {
+  t.test(`Parameters`, async function (t) {
     await navigate(app, `Staking`)
-    await app.client.click(`//a[. = 'Parameters']`)
+    await app.client.click(`//a[normalize-space() = 'Parameters']`)
     await t.ok(
       await app.client.waitForVisible(
         `//h3[contains(text(), "Staking Pool")]`,
@@ -188,7 +191,7 @@ test(`delegation`, async function(t) {
       `Shows staking parameters`
     )
     await t.ok(
-      !(await app.client.isExisting(`//dd[contains(text(), "n/a")]`)),
+      !(await app.client.isExisting(`//dd[contains(text(), "--")]`)),
       `all parameters and pool fields are defined`
     )
     await t.ok(

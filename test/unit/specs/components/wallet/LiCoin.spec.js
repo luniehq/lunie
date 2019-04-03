@@ -1,21 +1,27 @@
-import setup from "../../../helpers/vuex-setup"
-import num from "scripts/num"
+import { shallowMount } from "@vue/test-utils"
 import LiCoin from "renderer/components/wallet/LiCoin"
 
 describe(`LiCoin`, () => {
   let wrapper
-  let { mount } = setup()
 
   beforeEach(() => {
-    let instance = mount(LiCoin, {
+    wrapper = shallowMount(LiCoin, {
       propsData: {
         coin: {
-          denom: `stake`,
-          amount: `1000`
+          denom: `Stake`,
+          amount: `10000000000`
+        }
+      },
+      mocks: {
+        $store: {
+          getters: {
+            lastHeader: {
+              chain_id: `testnet`
+            }
+          }
         }
       }
     })
-    wrapper = instance.wrapper
   })
 
   it(`has the expected html structure`, () => {
@@ -23,8 +29,7 @@ describe(`LiCoin`, () => {
   })
 
   it(`should calculate the full amount of the coin`, () => {
-    let fullAmount = num.full(wrapper.vm.coin.amount)
-    expect(wrapper.vm.amount).toEqual(fullAmount)
+    expect(wrapper.vm.amount).toEqual(`10,000.000000`)
   })
 
   it(`should capitalize the coin denomination`, () => {

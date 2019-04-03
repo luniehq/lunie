@@ -1,31 +1,43 @@
 "use strict"
 
-import setup from "../../../helpers/vuex-setup"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
 import DelegationModal from "staking/DelegationModal"
 import Vuelidate from "vuelidate"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`DelegationModal`, () => {
-  let wrapper, store
-  let { stakingParameters } = lcdClientMock.state
-  let { mount, localVue } = setup()
+  let wrapper
+  const { stakingParameters } = lcdClientMock.state
+  const localVue = createLocalVue()
   localVue.use(Vuelidate)
-  localVue.directive(`tooltip`, () => {})
-  localVue.directive(`focus`, () => {})
+
+  const getters = {
+    connection: { connected: true },
+    session: {
+      signedIn: true,
+      address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+    },
+    delegates: { delegates: lcdClientMock.state.candidates },
+    stakingParameters: { parameters: stakingParameters }
+  }
 
   beforeEach(() => {
-    let instance = mount(DelegationModal, {
+    wrapper = shallowMount(DelegationModal, {
       localVue,
+      mocks: {
+        $store: { getters }
+      },
       propsData: {
+        validator: lcdClientMock.state.candidates[0],
         fromOptions: [
           {
             address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
             key: `My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9`,
-            maximum: 100,
+            maximum: 1000000000,
             value: 0
           },
           {
-            address: `cosmos126ayk3hse5zvk9gxfmpsjr9565ef72pv9g20yx`,
+            address: lcdClientMock.state.candidates[0].operator_address,
             key: `Billy the Bill - cosmos…psjr9565ef72pv9g20yx`,
             maximum: 23.0484375481,
             value: 1
@@ -41,118 +53,273 @@ describe(`DelegationModal`, () => {
         denom: stakingParameters.parameters.bond_denom
       }
     })
-    wrapper = instance.wrapper
-    store = instance.store
-    store.commit(`setStakingParameters`, stakingParameters.parameters)
   })
 
-  describe(`component matches snapshot`, () => {
-    it(`has the expected html structure`, async () => {
-      expect(wrapper.vm.$el).toMatchSnapshot()
-    })
+  it(`should display the delegation modal form`, async () => {
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  describe(`default values are set correctly`, () => {
-    it(`the 'amount' defaults to 0`, () => {
-      expect(wrapper.vm.amount).toEqual(0)
-    })
-
-    it(`displays the user's wallet address as the default`, () => {
-      let toField = wrapper.find(`#to`)
-      expect(toField).toBeDefined()
-      expect(toField.element.value).toEqual(
-        `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`
-      )
-    })
-
-    it(`account password defaults to an empty string`, () => {
-      expect(wrapper.vm.password).toEqual(``)
-    })
-
-    it(`password is hidden by default`, () => {
-      expect(wrapper.vm.showPassword).toBe(false)
-    })
+  it(`opens`, () => {
+    const $refs = { actionModal: { open: jest.fn() } }
+    DelegationModal.methods.open.call({ $refs })
+    expect($refs.actionModal.open).toHaveBeenCalled()
   })
 
-  describe(`Password display`, () => {
-    it(`toggles the password between text and password`, () => {
-      wrapper.vm.togglePassword()
-      expect(wrapper.vm.showPassword).toBe(true)
-      wrapper.vm.togglePassword()
-      expect(wrapper.vm.showPassword).toBe(false)
-    })
+  it(`clears on close`, () => {
+    const self = {
+      $v: { $reset: jest.fn() },
+      selectedIndex: 1,
+      amount: 10
+    }
+    DelegationModal.methods.clear.call(self)
+    expect(self.$v.$reset).toHaveBeenCalled()
+    expect(self.selectedIndex).toBe(0)
+    expect(self.amount).toBeNull()
   })
 
-  describe(`enables or disables the Delegation button correctly`, () => {
-    describe(`disables the 'Delegation' button`, () => {
+  describe(`validation`, () => {
+    describe(`fails`, () => {
       it(`with default values`, () => {
-        let delegationBtn = wrapper.find(`#submit-delegation`)
-        expect(delegationBtn.html()).toContain(`disabled="disabled"`)
+        expect(wrapper.vm.validateForm()).toBe(false)
       })
 
       it(`if the user manually inputs a number greater than the balance`, () => {
-        wrapper.setData({ amount: 142, password: `1234567890` })
-        let amountField = wrapper.find(`#amount`)
-
-        let delegationBtn = wrapper.find(`#submit-delegation`)
-        expect(delegationBtn.html()).toContain(`disabled="disabled"`)
-        let errorMessage = wrapper.find(`input#amount + div`)
-        expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
-
-        amountField.trigger(`input`)
-        expect(amountField.element.value).toBe(`100`)
-      })
-
-      it(`if the password field is empty`, () => {
-        wrapper.setData({ amount: 10, password: `` })
-        let delegationBtn = wrapper.find(`#submit-delegation`)
-        expect(delegationBtn.html()).toContain(`disabled="disabled"`)
+        wrapper.setData({ amount: 1420 })
+        expect(wrapper.vm.validateForm()).toBe(false)
       })
     })
 
-    describe(`enables the 'Delegation' button`, () => {
-      it(`if the amout is positive and the user has enough balance`, () => {
-        wrapper.setData({ amount: 50, password: `1234567890` })
-
-        let delegationBtn = wrapper.find(`#submit-delegation`)
-        expect(delegationBtn.html()).not.toContain(`disabled="disabled"`)
+    describe(`succeeds`, () => {
+      it(`if the amount is positive and the user has enough balance`, () => {
+        wrapper.setData({ amount: 50 })
+        expect(wrapper.vm.validateForm()).toBe(true)
       })
     })
   })
 
-  describe(`(Re)delegate`, () => {
-    it(`Delegation button submits a (re)delegation and closes modal`, () => {
-      wrapper.setData({ amount: 50, password: `1234567890` })
-      wrapper.vm.onDelegation()
+  describe(`simulateForm`, () => {
+    let session, simulateDelegation, simulateRedelegation, estimate
+    beforeEach(() => {
+      session = { address: `cosmos1address` }
+      simulateDelegation = jest.fn(() => estimate)
+      simulateRedelegation = jest.fn(() => estimate)
+    })
 
-      expect(wrapper.emittedByOrder()).toEqual([
+    it(`should simulate a delegation transaction`, async () => {
+      const from = `cosmos1address`
+
+      const res = await DelegationModal.methods.simulateForm.call(
         {
-          name: `submitDelegation`,
-          args: [
-            {
-              amount: 50,
-              from: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-              password: `1234567890`
-            }
-          ]
+          session,
+          from,
+          simulateDelegation,
+          simulateRedelegation
+        }
+      )
+      expect(simulateDelegation).toHaveBeenCalledWith()
+      expect(simulateRedelegation).not.toHaveBeenCalledWith()
+      expect(res).toBe(estimate)
+    })
+
+    it(`should simulate a redelegation transaction`, async () => {
+      const from = `cosmosvaloper1address`
+
+      const res = await DelegationModal.methods.simulateForm.call(
+        {
+          session,
+          from,
+          simulateDelegation,
+          simulateRedelegation
+        }
+      )
+      expect(simulateDelegation).not.toHaveBeenCalledWith()
+      expect(simulateRedelegation).toHaveBeenCalledWith()
+      expect(res).toBe(estimate)
+    })
+  })
+
+  describe(`submitForm`, () => {
+    let session, submitDelegation, submitRedelegation, gas, gasPrice
+    beforeEach(() => {
+      session = { address: `cosmos1address` }
+      submitDelegation = jest.fn()
+      submitRedelegation = jest.fn()
+      gas = `1234567`
+      gasPrice = 2.5e-8
+    })
+
+    it(`should submit a delegation`, async () => {
+      const from = `cosmos1address`
+
+      await DelegationModal.methods.submitForm.call(
+        {
+          session,
+          from,
+          submitDelegation,
+          submitRedelegation
         },
+        gas, gasPrice, `1234567890`, `local`
+      )
+      expect(submitDelegation).toHaveBeenCalledWith(gas, gasPrice, `1234567890`, `local`)
+      expect(submitRedelegation).not.toHaveBeenCalledWith(gas, gasPrice, `1234567890`, `local`)
+    })
+
+    it(`should submit a redelegation`, async () => {
+      const from = `cosmosvaloper1address`
+
+      await DelegationModal.methods.submitForm.call(
         {
-          name: `update:showDelegationModal`,
-          args: [false]
-        }
-      ])
+          session,
+          from,
+          submitDelegation,
+          submitRedelegation
+        },
+        gas, gasPrice, `1234567890`, `local`
+      )
+      expect(submitDelegation).not.toHaveBeenCalledWith(gas, gasPrice, `1234567890`, `local`)
+      expect(submitRedelegation).toHaveBeenCalledWith(gas, gasPrice, `1234567890`, `local`)
     })
   })
 
-  describe(`closes modal correctly`, () => {
-    it(`X button emits close signal`, () => {
-      wrapper.vm.close()
-      expect(wrapper.emittedByOrder()).toEqual([
+  describe(`simulateDelegation`, () => {
+    it(`should simulate transaction to estimate gas used`, async () => {
+      const estimate = 1234567
+      const validator = { operator_address: `cosmosvaloper1address` }
+      const amount = 50
+      const $store = { dispatch: jest.fn(() => estimate) }
+      const res = await DelegationModal.methods.simulateDelegation.call(
         {
-          name: `update:showDelegationModal`,
-          args: [false]
+          $store,
+          amount,
+          validator
         }
-      ])
+      )
+
+      expect($store.dispatch).toHaveBeenCalledWith(`simulateDelegation`,
+        {
+          amount: `50000000`,
+          validator_address: validator.operator_address
+        }
+      )
+      expect(res).toBe(estimate)
+    })
+  })
+
+  describe(`submitDelegation`, () => {
+    it(`should delegate`, async () => {
+
+      const $store = {
+        dispatch: jest.fn(),
+        commit: jest.fn()
+      }
+      const validator = { operator_address: `cosmosvaloper1address` }
+      const amount = 50
+      const gas = `1234567`
+      const gasPrice = 2.5e-8
+      const gas_prices = [{ denom: `uatom`, amount: `0.025` }]
+
+      await DelegationModal.methods.submitDelegation.call(
+        { $store, amount, validator, denom: `uatom` },
+        gas, gasPrice, `1234567890`, `local`
+      )
+
+      expect($store.dispatch).toHaveBeenCalledWith(`submitDelegation`,
+        {
+          amount: `50000000`,
+          validator_address: validator.operator_address,
+          gas,
+          gas_prices,
+          password: `1234567890`,
+          submitType: `local`
+        }
+      )
+
+      expect($store.commit).toHaveBeenCalledWith(`notify`,
+        {
+          body: `You have successfully delegated your atoms`,
+          title: `Successful delegation!`
+        }
+      )
+    })
+  })
+
+  describe(`simulateDelegation`, () => {
+    it(`should simulate transaction to estimate gas used`, async () => {
+      const estimate = 1234567
+      const validator = { operator_address: `cosmosvaloper1address` }
+      const delegates = {
+        delegates:
+          [
+            { operator_address: `cosmosvaloper1address2` }
+          ]
+      }
+      const from = `cosmosvaloper1address2`
+      const amount = 50
+      const $store = { dispatch: jest.fn(() => estimate) }
+      const res = await DelegationModal.methods.simulateRedelegation.call(
+        {
+          $store,
+          from,
+          delegates,
+          amount,
+          validator
+        }
+      )
+
+      expect($store.dispatch).toHaveBeenCalledWith(`simulateRedelegation`,
+        {
+          amount: `50000000`,
+          validatorSrc: delegates.delegates[0],
+          validatorDst: validator
+        }
+      )
+      expect(res).toBe(estimate)
+    })
+  })
+
+  describe(`submitRedelegation`, () => {
+    it(`should redelegate`, async () => {
+
+      const $store = {
+        dispatch: jest.fn(),
+        commit: jest.fn()
+      }
+      const validator = { operator_address: `cosmosvaloper1address` }
+      const delegates = {
+        delegates:
+          [
+            { operator_address: `cosmosvaloper1address2` }
+          ]
+      }
+      const from = `cosmosvaloper1address2`
+      const amount = 50
+      const gas = `1234567`
+      const gasPrice = 2.5e-8
+      const gas_prices = [{ denom: `uatom`, amount: `0.025` }]
+
+      await DelegationModal.methods.submitRedelegation.call(
+        { $store, amount, validator, delegates, from, denom: `uatom` },
+        gas, gasPrice, `1234567890`, `local`
+      )
+
+      expect($store.dispatch).toHaveBeenCalledWith(`submitRedelegation`,
+        {
+          amount: `50000000`,
+          validatorSrc: delegates.delegates[0],
+          validatorDst: validator,
+          gas,
+          gas_prices,
+          password: `1234567890`,
+          submitType: `local`
+        }
+      )
+
+      expect($store.commit).toHaveBeenCalledWith(`notify`,
+        {
+          body: `You have successfully redelegated your atoms`,
+          title: `Successful redelegation!`
+        }
+      )
     })
   })
 })

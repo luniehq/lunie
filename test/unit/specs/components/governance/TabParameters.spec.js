@@ -3,27 +3,27 @@ import setup from "../../../helpers/vuex-setup"
 import TabParameters from "renderer/components/governance/TabParameters"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
-let { governanceParameters, stakingParameters } = lcdClientMock.state
+const { governanceParameters, stakingParameters } = lcdClientMock.state
 
 describe(`TabParameters`, () => {
   let wrapper, store
-  let { mount, localVue } = setup()
+  const { mount, localVue } = setup()
   localVue.use(Vuelidate)
-  localVue.directive(`tooltip`, () => {})
-  localVue.directive(`focus`, () => {})
+  localVue.directive(`tooltip`, () => { })
+  localVue.directive(`focus`, () => { })
 
   const $store = {
     commit: jest.fn(),
     dispatch: jest.fn(),
     getters: {
       governanceParameters,
-      totalAtoms: 100,
-      user: { atoms: 42 }
+      totalAtoms: 1000000000,
+      session: { atoms: 42 }
     }
   }
 
   beforeEach(() => {
-    let instance = mount(TabParameters, {
+    const instance = mount(TabParameters, {
       localVue,
       doBefore: ({ store }) => {
         store.commit(`setGovParameters`, governanceParameters)
@@ -47,8 +47,7 @@ describe(`TabParameters`, () => {
   })
 
   it(`displays the minimum deposit`, () => {
-    let coin = governanceParameters.deposit.min_deposit[0]
-    expect(wrapper.vm.minimumDeposit).toEqual(`${coin.amount} ${coin.denom}s`)
+    expect(wrapper.vm.minimumDeposit).toEqual(`100.000000 STAKEs`)
   })
 
   it(`displays deposit period in days`, () => {

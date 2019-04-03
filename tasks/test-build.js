@@ -16,7 +16,7 @@ function test(executablePath) {
       child.stdout.pipe(process.stdout)
 
       child.stdout.on(`data`, async data => {
-        let msg = Buffer.from(data, `utf-8`).toString()
+        const msg = Buffer.from(data, `utf-8`).toString()
         if (msg.indexOf(`[START SUCCESS]`) !== -1) {
           clearTimeout(wait)
           await cleanExitChild(child)
@@ -24,7 +24,7 @@ function test(executablePath) {
         }
       })
 
-      let wait = setTimeout(async () => {
+      const wait = setTimeout(async () => {
         await cleanExitChild(child)
         reject()
       }, 5000)
@@ -37,7 +37,7 @@ function test(executablePath) {
 }
 
 async function main() {
-  let executablePath = process.argv[2]
+  const executablePath = process.argv[2]
 
   if (!executablePath) {
     console.error(

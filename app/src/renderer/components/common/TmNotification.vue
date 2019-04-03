@@ -4,13 +4,19 @@
       <div v-if="icon" class="icon">
         <i class="material-icons">{{ icon }}</i>
       </div>
-      <div v-if="title" class="title">{{ title }}</div>
+      <div v-if="title" class="title">
+        {{ title }}
+      </div>
       <menu>
-        <div v-if="time" class="time">{{ fromNow }}</div>
+        <div v-if="time" class="time">
+          {{ fromNow }}
+        </div>
         <i class="close material-icons">close</i>
       </menu>
     </header>
-    <div class="body">{{ body }}</div>
+    <div class="body">
+      {{ body }}
+    </div>
   </div>
 </template>
 
@@ -68,7 +74,7 @@ export default {
     setDeactivation() {
       if (!this.layout || this.layout === `banner`) {
         // notification active duration is 5 seconds - (time since creation)
-        let activeDuration = this.duration - (Date.now() - this.time)
+        const activeDuration = this.duration - (Date.now() - this.time)
 
         // disable visibility if it's an old notification
         if (activeDuration < 0) {
@@ -86,20 +92,13 @@ export default {
 
 <style>
 .tm-notification {
-  background: var(--app-fg);
+  background: var(--app-nav);
   font-size: 0.75rem;
   cursor: pointer;
   user-select: none;
   margin: 0.5rem 0.5rem 0;
   border-radius: 0.25rem;
-}
-
-.tm-notification.tm-notification-warning header {
-  background: var(--warning);
-}
-
-.tm-notification.tm-notification-error header {
-  background: var(--danger);
+  border: 1px solid var(--bc-dim);
 }
 
 .tm-notification header {
@@ -109,6 +108,14 @@ export default {
   height: 2em;
   border-radius: 0.25rem 0.25rem 0 0;
   background: var(--success);
+}
+
+.tm-notification.tm-notification-warning header {
+  background: var(--warning);
+}
+
+.tm-notification.tm-notification-error header {
+  background: var(--danger);
 }
 
 .tm-notification header .icon,
@@ -152,6 +159,7 @@ export default {
 
 .tm-notification:hover menu .close {
   display: block;
+  cursor: pointer;
 }
 
 @media screen and (min-width: 360px) {

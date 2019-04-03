@@ -1,547 +1,632 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PageProposal has the expected html structure 1`] = `
-<div
-  class="tm-page page-profile"
+exports[`PageProposal renders votes in HTML when voting is open 1`] = `
+<tm-page-stub
   data-title="Proposal"
+  subtitle=""
+  title=""
 >
-  <header
-    class="tm-page-header"
+  <div
+    class="page-profile__header page-profile__section proposal"
   >
     <div
-      class="tm-page-header-container"
+      class="row"
     >
-      <div
-        class="tm-page-header-text"
+      <h2
+        class="proposal-id"
       >
-        <!---->
-         
-        <!---->
-         
-        <div
-          class="tm-page-header-body"
-        >
-          <div
-            class="header-balance"
-          >
-            <div
-              class="top"
-            >
-              <div
-                class="icon-container"
-              >
-                <img
-                  class="icon"
-                  src="~assets/images/cosmos-logo.png"
-                />
-              </div>
-               
-              <div
-                class="total-atoms top-section"
-              >
-                <h3>
-                  Total STAKE
-                </h3>
-                 
-                <h2
-                  class="total-atoms__value"
-                >
-                  0.0000…
-                </h2>
-              </div>
-               
-              <div
-                class="unbonded-atoms top-section"
-              >
-                <h3>
-                  Available STAKE
-                </h3>
-                 
-                <h2>
-                  0.0000…
-                </h2>
-              </div>
-            </div>
-             
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    Address Not Found
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
-             
-            <div
-              class="tabs"
-            />
-             
-          </div>
-        </div>
-      </div>
+        
+          #2
+        
+      </h2>
        
-      <menu
-        class="tm-page-header-menu"
-      >
-        <div>
-          <div>
-            <div
-              class="tm-tool-bar"
-            >
-              <a
-                class="back"
-                disabled="disabled"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </a>
-               
-              <router-link-stub
-                exact="exact"
-                to="/governance"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </router-link-stub>
-              <a
-                class="help"
-              >
-                <i
-                  class="material-icons"
-                >
-                  help_outline
-                </i>
-              </a>
-               
-              <router-link-stub
-                id="settings"
-                to="/preferences"
-              >
-                <i
-                  class="material-icons"
-                >
-                  settings
-                </i>
-              </router-link-stub>
-              <a
-                id="signOut-btn"
-              >
-                <i
-                  class="material-icons"
-                >
-                  exit_to_app
-                </i>
-              </a>
-            </div>
-          </div>
-        </div>
-      </menu>
-    </div>
-  </header>
-   
-  <main
-    class="tm-page-main"
-  >
-      
-    <div
-      class="page-profile__header page-profile__section proposal"
-    >
       <div
-        class="column page-profile__header__info"
+        class="page-profile__header__info"
       >
         <div
-          class="row page-profile__header__name"
+          class="page-profile__status-and-title"
         >
-          <div
-            class="top column"
-          >
-            <div
-              class="page-profile__status-and-title"
-            >
-              <span
-                class="page-profile__status green"
-              />
-               
-              <div
-                class="page-profile__header__name__title"
-              >
-                
-                VotingPeriod proposal (#2)
-              
-              </div>
-            </div>
-          </div>
-           
-          <div
-            class="column page-profile__header__actions"
-          >
-            <button
-              class="tm-btn"
-              id="vote-btn"
-            >
-              <span
-                class="tm-btn__container tm-btn--primary"
-              >
-                <!---->
-                <span
-                  class="tm-btn__value"
-                >
-                  Vote
-                </span>
-              </span>
-            </button>
-             
-            <!---->
-             
-            <!---->
-          </div>
-        </div>
-         
-        <div
-          class="row description"
-        >
-          <p>
-            
-            Submitted a few seconds ago.
-            Voting started a few seconds ago
-          
-          </p>
-        </div>
-         
-        <div
-          class="row page-profile__header__data votes"
-        >
-          <dl
-            class="colored_dl"
-          >
-            <dt>
-              Deposit
-            </dt>
-             
-            <dd>
-              
-              200 STAKE
-            
-            </dd>
-          </dl>
-           
-          <div
-            class="page-profile__header__data__break"
+          <span
+            class="page-profile__status green"
           />
            
-          <dl
-            class="colored_dl"
+          <h2
+            class="page-profile__title"
           >
-            <dt>
-              Yes
-            </dt>
-             
-            <dd>
-              0 / 0%
-            </dd>
-          </dl>
+            
+              VotingPeriod proposal
+            
+          </h2>
+        </div>
+         
+        <div
+          class="page-profile__header__actions"
+        >
+          <tm-btn-stub
+            color="primary"
+            id="vote-btn"
+            value="Vote"
+          />
            
-          <dl
-            class="colored_dl"
-          >
-            <dt>
-              No
-            </dt>
-             
-            <dd>
-              0 / 0%
-            </dd>
-          </dl>
+          <!---->
            
-          <dl
-            class="colored_dl"
-          >
-            <dt>
-              No with Veto
-            </dt>
-             
-            <dd>
-              0 / 0%
-            </dd>
-          </dl>
+          <!---->
            
-          <dl
-            class="colored_dl"
-          >
-            <dt>
-              Abstain
-            </dt>
-             
-            <dd>
-              0 / 0%
-            </dd>
-          </dl>
+          <!---->
         </div>
       </div>
     </div>
      
     <div
-      class="page-profile__details page-profile__section"
+      class="row"
+    >
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
+          Submitted
+        </dt>
+         
+        <dd>
+          a few seconds ago
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
+          Proposal Status
+        </dt>
+         
+        <dd>
+          
+            Voting started in 2 days.
+          
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
+          Deposit Count
+        </dt>
+         
+        <dd>
+          
+            2,000.000000 stake
+          
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
+          Vote Count
+        </dt>
+         
+        <dd>
+          10000
+        </dd>
+      </dl>
+    </div>
+  </div>
+   
+  <div
+    class="page-profile__section"
+  >
+    <div
+      class="row"
+    >
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
+          Yes
+        </dt>
+         
+        <dd>
+          1000 / 10%
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
+          No
+        </dt>
+         
+        <dd>
+          2000 / 20%
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
+          No with Veto
+        </dt>
+         
+        <dd>
+          
+            3000 / 30%
+          
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
+          Abstain
+        </dt>
+         
+        <dd>
+          4000 / 40%
+        </dd>
+      </dl>
+    </div>
+     
+    <div
+      class="row"
     >
       <div
         class="column"
       >
-        <div
-          class="row"
+        <dl
+          class="info_dl colored_dl"
         >
-          <div
-            class="text-block"
-          >
-            <p>
-              custom text proposal description
-            </p>
-            
+          <dt>
+            Description
+          </dt>
+           
+          <dd>
+            <text-block-stub
+              content="custom text proposal description"
+            />
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+   
+  <modal-deposit-stub
+    denom="STAKE"
+    proposalid="2"
+    proposaltitle="VotingPeriod proposal"
+  />
+   
+  <modal-vote-stub
+    proposalid="2"
+    proposaltitle="VotingPeriod proposal"
+  />
+</tm-page-stub>
+`;
 
-          </div>
+exports[`PageProposal should display proposal page if user has signed in 1`] = `
+<tm-page-stub
+  data-title="Proposal"
+  subtitle=""
+  title=""
+>
+  <div
+    class="page-profile__header page-profile__section proposal"
+  >
+    <div
+      class="row"
+    >
+      <h2
+        class="proposal-id"
+      >
+        
+          #2
+        
+      </h2>
+       
+      <div
+        class="page-profile__header__info"
+      >
+        <div
+          class="page-profile__status-and-title"
+        >
+          <span
+            class="page-profile__status green"
+          />
+           
+          <h2
+            class="page-profile__title"
+          >
+            
+              VotingPeriod proposal
+            
+          </h2>
+        </div>
+         
+        <div
+          class="page-profile__header__actions"
+        >
+          <tm-btn-stub
+            color="primary"
+            id="vote-btn"
+            value="Vote"
+          />
+           
+          <!---->
+           
+          <!---->
+           
+          <!---->
         </div>
       </div>
     </div>
      
-    <!---->
+    <div
+      class="row"
+    >
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
+          Submitted
+        </dt>
+         
+        <dd>
+          a few seconds ago
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
+          Proposal Status
+        </dt>
+         
+        <dd>
+          
+            Voting started in 2 days.
+          
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
+          Deposit Count
+        </dt>
+         
+        <dd>
+          
+            2,000.000000 stake
+          
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
+          Vote Count
+        </dt>
+         
+        <dd>
+          0
+        </dd>
+      </dl>
+    </div>
+  </div>
+   
+  <div
+    class="page-profile__section"
+  >
+    <div
+      class="row"
+    >
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
+          Yes
+        </dt>
+         
+        <dd>
+          0 / 0%
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
+          No
+        </dt>
+         
+        <dd>
+          0 / 0%
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
+          No with Veto
+        </dt>
+         
+        <dd>
+          
+            0 / 0%
+          
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
+          Abstain
+        </dt>
+         
+        <dd>
+          0 / 0%
+        </dd>
+      </dl>
+    </div>
      
-    <!---->
-  </main>
-</div>
+    <div
+      class="row"
+    >
+      <div
+        class="column"
+      >
+        <dl
+          class="info_dl colored_dl"
+        >
+          <dt>
+            Description
+          </dt>
+           
+          <dd>
+            <text-block-stub
+              content="custom text proposal description"
+            />
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+   
+  <modal-deposit-stub
+    denom="STAKE"
+    proposalid="2"
+    proposaltitle="VotingPeriod proposal"
+  />
+   
+  <modal-vote-stub
+    proposalid="2"
+    proposaltitle="VotingPeriod proposal"
+  />
+</tm-page-stub>
+`;
+
+exports[`PageProposal should display proposal page should default tally to 0 if it's not yet present  1`] = `
+<tm-page-stub
+  data-title="Proposal"
+  subtitle=""
+  title=""
+>
+  <div
+    class="page-profile__header page-profile__section proposal"
+  >
+    <div
+      class="row"
+    >
+      <h2
+        class="proposal-id"
+      >
+        
+          #2
+        
+      </h2>
+       
+      <div
+        class="page-profile__header__info"
+      >
+        <div
+          class="page-profile__status-and-title"
+        >
+          <span
+            class="page-profile__status green"
+          />
+           
+          <h2
+            class="page-profile__title"
+          >
+            
+              VotingPeriod proposal
+            
+          </h2>
+        </div>
+         
+        <div
+          class="page-profile__header__actions"
+        >
+          <tm-btn-stub
+            color="primary"
+            id="vote-btn"
+            value="Vote"
+          />
+           
+          <!---->
+           
+          <!---->
+           
+          <!---->
+        </div>
+      </div>
+    </div>
+     
+    <div
+      class="row"
+    >
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
+          Submitted
+        </dt>
+         
+        <dd>
+          a few seconds ago
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
+          Proposal Status
+        </dt>
+         
+        <dd>
+          
+            Voting started in 2 days.
+          
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
+          Deposit Count
+        </dt>
+         
+        <dd>
+          
+            2,000.000000 stake
+          
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
+          Vote Count
+        </dt>
+         
+        <dd>
+          0
+        </dd>
+      </dl>
+    </div>
+  </div>
+   
+  <div
+    class="page-profile__section"
+  >
+    <div
+      class="row"
+    >
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
+          Yes
+        </dt>
+         
+        <dd>
+          0 / 0%
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
+          No
+        </dt>
+         
+        <dd>
+          0 / 0%
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
+          No with Veto
+        </dt>
+         
+        <dd>
+          
+            0 / 0%
+          
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
+          Abstain
+        </dt>
+         
+        <dd>
+          0 / 0%
+        </dd>
+      </dl>
+    </div>
+     
+    <div
+      class="row"
+    >
+      <div
+        class="column"
+      >
+        <dl
+          class="info_dl colored_dl"
+        >
+          <dt>
+            Description
+          </dt>
+           
+          <dd>
+            <text-block-stub
+              content="custom text proposal description"
+            />
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+   
+  <modal-deposit-stub
+    denom="STAKE"
+    proposalid="2"
+    proposaltitle="VotingPeriod proposal"
+  />
+   
+  <modal-vote-stub
+    proposalid="2"
+    proposaltitle="VotingPeriod proposal"
+  />
+</tm-page-stub>
 `;
 
 exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
-<div
-  class="tm-page page-profile"
+<tm-page-stub
   data-title="Proposal"
+  subtitle=""
+  title=""
 >
-  <header
-    class="tm-page-header"
-  >
-    <div
-      class="tm-page-header-container"
-    >
-      <div
-        class="tm-page-header-text"
-      >
-        <!---->
-         
-        <!---->
-         
-        <div
-          class="tm-page-header-body"
-        >
-          <div
-            class="header-balance"
-          >
-            <div
-              class="top"
-            >
-              <div
-                class="icon-container"
-              >
-                <img
-                  class="icon"
-                  src="~assets/images/cosmos-logo.png"
-                />
-              </div>
-               
-              <div
-                class="total-atoms top-section"
-              >
-                <h3>
-                  Total STAKE
-                </h3>
-                 
-                <h2
-                  class="total-atoms__value"
-                >
-                  0.0000…
-                </h2>
-              </div>
-               
-              <div
-                class="unbonded-atoms top-section"
-              >
-                <h3>
-                  Available STAKE
-                </h3>
-                 
-                <h2>
-                  0.0000…
-                </h2>
-              </div>
-            </div>
-             
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    Address Not Found
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
-             
-            <div
-              class="tabs"
-            />
-             
-          </div>
-        </div>
-      </div>
-       
-      <menu
-        class="tm-page-header-menu"
-      >
-        <div>
-          <div>
-            <div
-              class="tm-tool-bar"
-            >
-              <a
-                class="back"
-                disabled="disabled"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </a>
-               
-              <router-link-stub
-                exact="exact"
-                to="/governance"
-              >
-                <i
-                  class="material-icons"
-                >
-                  arrow_back
-                </i>
-              </router-link-stub>
-              <a
-                class="help"
-              >
-                <i
-                  class="material-icons"
-                >
-                  help_outline
-                </i>
-              </a>
-               
-              <router-link-stub
-                id="settings"
-                to="/preferences"
-              >
-                <i
-                  class="material-icons"
-                >
-                  settings
-                </i>
-              </router-link-stub>
-              <a
-                id="signOut-btn"
-              >
-                <i
-                  class="material-icons"
-                >
-                  exit_to_app
-                </i>
-              </a>
-            </div>
-          </div>
-        </div>
-      </menu>
-    </div>
-  </header>
-   
-  <main
-    class="tm-page-main"
-  >
-      
-    <div
-      class="tm-data-msg"
-    >
-      <div
-        class="tm-data-msg__icon"
-      >
-        <i
-          class="material-icons"
-        >
-          sentiment_very_dissatisfied
-        </i>
-      </div>
-       
-      <div
-        class="tm-data-msg__text"
-      >
-        <div
-          class="tm-data-msg__title"
-        >
-          <div>
-            Aw shucks!
-          </div>
-        </div>
-         
-        <div
-          class="tm-data-msg__subtitle"
-        >
-          <div>
-            
-    Even though you're connected a full node, we can't display this data for
-    you right now. Please try again later or
-    
-            <a
-              href="https://github.com/cosmos/voyager/issues"
-            >
-              file a bug report
-            </a>
-            .
-    Apologies!
-  
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
-</div>
+  <tm-data-error-stub />
+</tm-page-stub>
 `;

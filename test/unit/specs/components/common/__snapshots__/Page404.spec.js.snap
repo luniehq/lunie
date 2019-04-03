@@ -1,158 +1,81 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Page404 has the expected html structure 1`] = `
-<div
-  class="tm-page"
+exports[`Page404 should show the 404 page 1`] = `
+<tm-page-stub
+  class="four-oh-four"
   data-title="404"
+  hideheader="true"
+  subtitle=""
+  title=""
 >
-  <header
-    class="tm-page-header"
+  <tm-part-stub
+    class="four-oh-four-top"
   >
-    <div
-      class="tm-page-header-container"
-    >
-      <div
-        class="tm-page-header-text"
-      >
-        <!---->
-         
-        <!---->
-         
-        <!---->
-      </div>
-       
-      <menu
-        class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
-    </div>
-  </header>
+    <h2>
+      Oops! We can't find the page you're looking for.
+    </h2>
+     
+    <h3>
+      Error code: 404
+    </h3>
+  </tm-part-stub>
    
-  <main
-    class="tm-page-main"
-  >
-    <section
-      class="tm-part"
-    >
-      <div
-        class="tm-part-container"
-      >
-        <header
-          class="tm-part-header"
+  <tm-part-stub>
+    <p>
+      Here are some helpful links to get you out of here:
+    </p>
+     
+    <ul>
+      <li>
+        <router-link-stub
+          to="/"
         >
-          <div
-            class="tm-part-header-container"
-          >
-            <div
-              class="tm-part-title h5"
-            >
-              Try another page...
-            </div>
-             
-            <menu
-              class="tm-part-menu"
-            />
-          </div>
-        </header>
-         
-        <main
-          class="tm-part-main"
+          
+          Network
+        
+        </router-link-stub>
+      </li>
+       
+      <li>
+        <router-link-stub
+          to="/wallet"
         >
-          <router-link-stub
-            class="tm-li tm-li-link"
-            to="/"
-          >
-            <div
-              class="tm-li-container"
-            >
-              <div
-                class="tm-li-thumb"
-              >
-                <!---->
-              </div>
-               
-              <div
-                class="tm-li-label"
-              >
-                <div
-                  class="tm-li-title"
-                >
-                  Wallet
-                </div>
-                 
-                <div
-                  class="tm-li-subtitle"
-                >
-                  
-                </div>
-              </div>
-               
-              <div
-                class="tm-li-icon"
-              >
-                <i
-                  class="material-icons inactive"
-                >
-                  chevron_right
-                </i>
-                <i
-                  class="material-icons active"
-                >
-                  my_location
-                </i>
-              </div>
-            </div>
-          </router-link-stub>
-           
-          <router-link-stub
-            class="tm-li tm-li-link"
-            to="/staking"
-          >
-            <div
-              class="tm-li-container"
-            >
-              <div
-                class="tm-li-thumb"
-              >
-                <!---->
-              </div>
-               
-              <div
-                class="tm-li-label"
-              >
-                <div
-                  class="tm-li-title"
-                >
-                  Staking
-                </div>
-                 
-                <div
-                  class="tm-li-subtitle"
-                >
-                  
-                </div>
-              </div>
-               
-              <div
-                class="tm-li-icon"
-              >
-                <i
-                  class="material-icons inactive"
-                >
-                  chevron_right
-                </i>
-                <i
-                  class="material-icons active"
-                >
-                  my_location
-                </i>
-              </div>
-            </div>
-          </router-link-stub>
-        </main>
-      </div>
-    </section>
-  </main>
-</div>
+          
+          Wallet
+        
+        </router-link-stub>
+      </li>
+       
+      <li>
+        <router-link-stub
+          to="/transactions"
+        >
+          
+          Transactions
+        
+        </router-link-stub>
+      </li>
+       
+      <li>
+        <router-link-stub
+          to="/staking"
+        >
+          
+          Staking
+        
+        </router-link-stub>
+      </li>
+       
+      <li>
+        <router-link-stub
+          to="/governance"
+        >
+          
+          Governance
+        
+        </router-link-stub>
+      </li>
+    </ul>
+  </tm-part-stub>
+</tm-page-stub>
 `;

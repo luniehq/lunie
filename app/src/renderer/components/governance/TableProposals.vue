@@ -1,9 +1,11 @@
 <template>
   <div>
-    <data-empty-search v-if="filteredProposals.length === 0" />
-    <table v-else class="data-table">
+    <table class="data-table">
       <thead>
-        <panel-sort :sort="sort" :properties="properties" />
+        <panel-sort
+          :sort="sort"
+          :properties="properties"
+        />
       </thead>
       <tbody>
         <li-proposal
@@ -18,21 +20,14 @@
 
 <script>
 import { mapGetters } from "vuex"
-import Mousetrap from "mousetrap"
-import { includes, orderBy } from "lodash"
+import { orderBy } from "lodash"
 import LiProposal from "./LiProposal"
-import ModalSearch from "common/TmModalSearch"
-import DataEmptySearch from "common/TmDataEmptySearch"
 import PanelSort from "staking/PanelSort"
-import ToolBar from "common/ToolBar"
 export default {
   name: `table-proposals`,
   components: {
     LiProposal,
-    DataEmptySearch,
-    ModalSearch,
-    PanelSort,
-    ToolBar
+    PanelSort
   },
   props: {
     proposals: {
@@ -43,29 +38,27 @@ export default {
   data: () => ({
     query: ``,
     sort: {
-      property: `proposal_id`,
+      property: `id`,
       order: `desc`
     }
   }),
   computed: {
-    ...mapGetters([`filters`, `config`]),
-    somethingToSearch() {
-      return Object.keys(this.proposals).length > 0
+    ...mapGetters([`session`]),
+    enrichedProposals() {
+      const copy = JSON.parse(JSON.stringify(this.proposals))
+      Object.keys(copy).forEach(proposal_id => {
+        copy[proposal_id].id = Number(proposal_id)
+      })
+      return copy
     },
     filteredProposals() {
-      let query = this.filters.proposals.search.query || ``
-      let proposals = orderBy(
-        this.proposals,
+      const proposals = orderBy(
+        this.enrichedProposals,
         [this.sort.property],
         [this.sort.order]
       )
-      if (this.filters.proposals.search.visible) {
-        return proposals.filter(p =>
-          includes(p.title.toLowerCase(), query.toLowerCase())
-        )
-      } else {
-        return proposals
-      }
+
+      return proposals
     },
     properties() {
       return [
@@ -76,8 +69,8 @@ export default {
           class: `proposal_title`
         },
         {
-          title: `Proposal id`,
-          value: `proposal_id`,
+          title: `Proposal Id`,
+          value: `id`,
           tooltip: `Id of the proposal`,
           class: `proposal_id`
         },
@@ -109,17 +102,7 @@ export default {
     }
   },
   mounted() {
-    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch())
-    Mousetrap.bind(`esc`, () => this.setSearch())
     this.$store.dispatch(`getProposals`)
-  },
-  methods: {
-    setSearch() {
-      if (this.somethingToSearch) {
-        let toggle = !this.filters[`proposals`].search.visible
-        this.$store.commit(`setSearchVisible`, [`proposals`, toggle])
-      }
-    }
   }
 }
 </script>

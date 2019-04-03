@@ -1,424 +1,147 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PageTransactions has the expected html structure 1`] = `
-<div
-  class="tm-page"
+exports[`PageTransactions displays the transaction page if user has signed in 1`] = `
+<tm-page-stub
   data-title="Transactions"
+  loaded="true"
+  managed="true"
+  refresh="function () { [native code] }"
+  signinrequired="true"
+  subtitle=""
+  title=""
 >
-  <header
-    class="tm-page-header"
-  >
-    <div
-      class="tm-page-header-container"
-    >
-      <div
-        class="tm-page-header-text"
-      >
-        <!---->
-         
-        <!---->
-         
-        <div
-          class="tm-page-header-body"
-        >
-          <div
-            class="header-balance"
-          >
-            <div
-              class="top"
-            >
-              <div
-                class="icon-container"
-              >
-                <img
-                  class="icon"
-                  src="~assets/images/cosmos-logo.png"
-                />
-              </div>
-               
-              <div
-                class="total-atoms top-section"
-              >
-                <h3>
-                  Total STAKE
-                </h3>
-                 
-                <h2
-                  class="total-atoms__value"
-                >
-                  0.0000…
-                </h2>
-              </div>
-               
-              <div
-                class="unbonded-atoms top-section"
-              >
-                <h3>
-                  Available STAKE
-                </h3>
-                 
-                <h2>
-                  0.0000…
-                </h2>
-              </div>
-            </div>
-             
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    Address Not Found
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
-             
-            <div
-              class="tabs"
-            />
-             
-          </div>
-           
-          <div
-            class="tm-tool-bar"
-          >
-            <a
-              class="back"
-              disabled="disabled"
-            >
-              <i
-                class="material-icons"
-              >
-                arrow_back
-              </i>
-            </a>
-             
-            <a
-              class="refresh-button"
-            >
-              <i
-                class="material-icons"
-              >
-                refresh
-              </i>
-            </a>
-            <a
-              class="search-button"
-            >
-              <i
-                class="material-icons"
-              >
-                search
-              </i>
-            </a>
-            <a
-              class="help"
-            >
-              <i
-                class="material-icons"
-              >
-                help_outline
-              </i>
-            </a>
-             
-            <router-link-stub
-              id="settings"
-              to="/preferences"
-            >
-              <i
-                class="material-icons"
-              >
-                settings
-              </i>
-            </router-link-stub>
-            <a
-              id="signOut-btn"
-            >
-              <i
-                class="material-icons"
-              >
-                exit_to_app
-              </i>
-            </a>
-          </div>
-        </div>
-      </div>
-       
-      <menu
-        class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
-    </div>
-  </header>
+  <data-empty-tx-stub />
    
-  <main
-    class="tm-page-main"
-  >
+  <template>
+    <li-any-transaction-stub
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      bondingdenom="STAKE"
+      proposalsurl="/governance"
+      transaction="[object Object]"
+      unbondingtime="NaN"
+      validators="[object Object],[object Object],[object Object]"
+      validatorsurl="/staking/validators"
+    />
+    <li-any-transaction-stub
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      bondingdenom="STAKE"
+      proposalsurl="/governance"
+      transaction="[object Object]"
+      unbondingtime="NaN"
+      validators="[object Object],[object Object],[object Object]"
+      validatorsurl="/staking/validators"
+    />
+    <li-any-transaction-stub
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      bondingdenom="STAKE"
+      proposalsurl="/governance"
+      transaction="[object Object]"
+      unbondingtime="NaN"
+      validators="[object Object],[object Object],[object Object]"
+      validatorsurl="/staking/validators"
+    />
+    <li-any-transaction-stub
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      bondingdenom="STAKE"
+      proposalsurl="/governance"
+      transaction="[object Object]"
+      unbondingtime="NaN"
+      validators="[object Object],[object Object],[object Object]"
+      validatorsurl="/staking/validators"
+    />
+    <li-any-transaction-stub
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      bondingdenom="STAKE"
+      proposalsurl="/governance"
+      transaction="[object Object]"
+      unbondingtime="NaN"
+      validators="[object Object],[object Object],[object Object]"
+      validatorsurl="/staking/validators"
+    />
+    <li-any-transaction-stub
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      bondingdenom="STAKE"
+      proposalsurl="/governance"
+      transaction="[object Object]"
+      unbondingtime="NaN"
+      validators="[object Object],[object Object],[object Object]"
+      validatorsurl="/staking/validators"
+    />
      
-    <modal-search-stub
-      type="transactions"
-    />
-     
-    <tm-li-any-transaction-stub
-      address="tb1d4u5zerywfjhxuc9nudvw"
-      bondingdenom="STAKE"
-      proposalsurl="/governance"
-      transaction="[object Object]"
-      unbondingtime="NaN"
-      validators=""
-      validatorsurl="/staking/validators"
-    />
-    <tm-li-any-transaction-stub
-      address="tb1d4u5zerywfjhxuc9nudvw"
-      bondingdenom="STAKE"
-      proposalsurl="/governance"
-      transaction="[object Object]"
-      unbondingtime="NaN"
-      validators=""
-      validatorsurl="/staking/validators"
-    />
-    <tm-li-any-transaction-stub
-      address="tb1d4u5zerywfjhxuc9nudvw"
-      bondingdenom="STAKE"
-      proposalsurl="/governance"
-      transaction="[object Object]"
-      unbondingtime="NaN"
-      validators=""
-      validatorsurl="/staking/validators"
-    />
-    <tm-li-any-transaction-stub
-      address="tb1d4u5zerywfjhxuc9nudvw"
-      bondingdenom="STAKE"
-      proposalsurl="/governance"
-      transaction="[object Object]"
-      unbondingtime="NaN"
-      validators=""
-      validatorsurl="/staking/validators"
-    />
-    <tm-li-any-transaction-stub
-      address="tb1d4u5zerywfjhxuc9nudvw"
-      bondingdenom="STAKE"
-      proposalsurl="/governance"
-      transaction="[object Object]"
-      unbondingtime="NaN"
-      validators=""
-      validatorsurl="/staking/validators"
-    />
-    <tm-li-any-transaction-stub
-      address="tb1d4u5zerywfjhxuc9nudvw"
-      bondingdenom="STAKE"
-      proposalsurl="/governance"
-      transaction="[object Object]"
-      unbondingtime="NaN"
-      validators=""
-      validatorsurl="/staking/validators"
-    />
-  </main>
-</div>
+    <br />
+  </template>
+</tm-page-stub>
 `;
 
-exports[`PageTransactions should filter the transactions 1`] = `
-<div
-  class="tm-page"
+exports[`PageTransactions displays the transaction page if user hasn't signed in 1`] = `
+<tm-page-stub
   data-title="Transactions"
+  loaded="true"
+  managed="true"
+  refresh="function () { [native code] }"
+  signinrequired="true"
+  subtitle=""
+  title=""
 >
-  <header
-    class="tm-page-header"
-  >
-    <div
-      class="tm-page-header-container"
-    >
-      <div
-        class="tm-page-header-text"
-      >
-        <!---->
-         
-        <!---->
-         
-        <div
-          class="tm-page-header-body"
-        >
-          <div
-            class="header-balance"
-          >
-            <div
-              class="top"
-            >
-              <div
-                class="icon-container"
-              >
-                <img
-                  class="icon"
-                  src="~assets/images/cosmos-logo.png"
-                />
-              </div>
-               
-              <div
-                class="total-atoms top-section"
-              >
-                <h3>
-                  Total STAKE
-                </h3>
-                 
-                <h2
-                  class="total-atoms__value"
-                >
-                  0.0000…
-                </h2>
-              </div>
-               
-              <div
-                class="unbonded-atoms top-section"
-              >
-                <h3>
-                  Available STAKE
-                </h3>
-                 
-                <h2>
-                  0.0000…
-                </h2>
-              </div>
-            </div>
-             
-            <div
-              class="short-bech32"
-            >
-              <div
-                class="address"
-                id="address"
-              >
-                
-    Address Not Found
-  
-              </div>
-               
-              <div
-                class="copied"
-              >
-                <i
-                  class="material-icons"
-                >
-                  check
-                </i>
-                <span>
-                  Copied
-                </span>
-              </div>
-            </div>
-             
-            <div
-              class="tabs"
-            />
-             
-          </div>
-           
-          <div
-            class="tm-tool-bar"
-          >
-            <a
-              class="back"
-              disabled="disabled"
-            >
-              <i
-                class="material-icons"
-              >
-                arrow_back
-              </i>
-            </a>
-             
-            <a
-              class="refresh-button"
-            >
-              <i
-                class="material-icons"
-              >
-                refresh
-              </i>
-            </a>
-            <a
-              class="search-button"
-            >
-              <i
-                class="material-icons"
-              >
-                search
-              </i>
-            </a>
-            <a
-              class="help"
-            >
-              <i
-                class="material-icons"
-              >
-                help_outline
-              </i>
-            </a>
-             
-            <router-link-stub
-              id="settings"
-              to="/preferences"
-            >
-              <i
-                class="material-icons"
-              >
-                settings
-              </i>
-            </router-link-stub>
-            <a
-              id="signOut-btn"
-            >
-              <i
-                class="material-icons"
-              >
-                exit_to_app
-              </i>
-            </a>
-          </div>
-        </div>
-      </div>
-       
-      <menu
-        class="tm-page-header-menu"
-      >
-        <div />
-      </menu>
-    </div>
-  </header>
+  <data-empty-tx-stub />
    
-  <main
-    class="tm-page-main"
-  >
-     
-    <modal-search-stub
-      type="transactions"
-    />
-     
-    <tm-li-any-transaction-stub
-      address="tb1d4u5zerywfjhxuc9nudvw"
+  <template>
+    <li-any-transaction-stub
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
       transaction="[object Object]"
       unbondingtime="NaN"
-      validators=""
+      validators="[object Object],[object Object],[object Object]"
       validatorsurl="/staking/validators"
     />
-  </main>
-</div>
+    <li-any-transaction-stub
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      bondingdenom="STAKE"
+      proposalsurl="/governance"
+      transaction="[object Object]"
+      unbondingtime="NaN"
+      validators="[object Object],[object Object],[object Object]"
+      validatorsurl="/staking/validators"
+    />
+    <li-any-transaction-stub
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      bondingdenom="STAKE"
+      proposalsurl="/governance"
+      transaction="[object Object]"
+      unbondingtime="NaN"
+      validators="[object Object],[object Object],[object Object]"
+      validatorsurl="/staking/validators"
+    />
+    <li-any-transaction-stub
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      bondingdenom="STAKE"
+      proposalsurl="/governance"
+      transaction="[object Object]"
+      unbondingtime="NaN"
+      validators="[object Object],[object Object],[object Object]"
+      validatorsurl="/staking/validators"
+    />
+    <li-any-transaction-stub
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      bondingdenom="STAKE"
+      proposalsurl="/governance"
+      transaction="[object Object]"
+      unbondingtime="NaN"
+      validators="[object Object],[object Object],[object Object]"
+      validatorsurl="/staking/validators"
+    />
+    <li-any-transaction-stub
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      bondingdenom="STAKE"
+      proposalsurl="/governance"
+      transaction="[object Object]"
+      unbondingtime="NaN"
+      validators="[object Object],[object Object],[object Object]"
+      validatorsurl="/staking/validators"
+    />
+     
+    <br />
+  </template>
+</tm-page-stub>
 `;

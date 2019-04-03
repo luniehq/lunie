@@ -11,52 +11,141 @@ exports[`LiProposal has the expected html structure 1`] = `
       class="data-table__row__info__container"
     >
       <span
-        class="data-table__row__info__container__status green"
-      />
+        class="data-table__row__info__container__status material-icons"
+      >
+        
+        checkmark
+      
+      </span>
        
       <router-link-stub
         class="data-table__row__info__container__name"
         to="[object Object]"
       >
-        VotingPeriod proposal
+        
+        Proposal Title
+      
       </router-link-stub>
        
       <p
         class="data-table__row__info__container__description"
       >
         
-        custom text proposal description
+        Proposal description
       
       </p>
     </div>
   </td>
    
   <td>
-    #2
+    #1
   </td>
    
   <td
     class="li-proposal__value yes"
   >
-    0
+    
+    85%
+  
   </td>
    
   <td
     class="li-proposal__value no"
   >
-    0
+    
+    4%
+  
   </td>
    
   <td
     class="li-proposal__value no_with_veto"
   >
-    0
+    
+    2%
+  
   </td>
    
   <td
     class="li-proposal__value abstain"
   >
-    0
+    
+    9%
+  
+  </td>
+</tr>
+`;
+
+exports[`LiProposal should survive the tally result not being present yet 1`] = `
+<tr
+  class="data-table__row li-proposal"
+>
+  <td
+    class="data-table__row__info"
+  >
+    <div
+      class="data-table__row__info__container"
+    >
+      <span
+        class="data-table__row__info__container__status material-icons"
+      >
+        
+        checkmark
+      
+      </span>
+       
+      <router-link-stub
+        class="data-table__row__info__container__name"
+        to="[object Object]"
+      >
+        
+        Proposal Title
+      
+      </router-link-stub>
+       
+      <p
+        class="data-table__row__info__container__description"
+      >
+        
+        Proposal description
+      
+      </p>
+    </div>
+  </td>
+   
+  <td>
+    #1
+  </td>
+   
+  <td
+    class="li-proposal__value yes"
+  >
+    
+    0%
+  
+  </td>
+   
+  <td
+    class="li-proposal__value no"
+  >
+    
+    0%
+  
+  </td>
+   
+  <td
+    class="li-proposal__value no_with_veto"
+  >
+    
+    0%
+  
+  </td>
+   
+  <td
+    class="li-proposal__value abstain"
+  >
+    
+    0%
+  
   </td>
 </tr>
 `;

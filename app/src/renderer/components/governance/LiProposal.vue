@@ -3,14 +3,15 @@
     <td class="data-table__row__info">
       <div class="data-table__row__info__container">
         <span
-          v-tooltip.top="status.message"
           v-if="proposal.proposal_status === `Passed`"
+          v-tooltip.top="status.message"
           :class="status.color"
           class="data-table__row__info__container__status material-icons"
-          >checkmark</span
-        ><span
-          v-tooltip.top="status.message"
+        >
+          checkmark
+        </span><span
           v-else
+          v-tooltip.top="status.message"
           :class="status.color"
           class="data-table__row__info__container__status"
         />
@@ -20,23 +21,34 @@
             params: { proposalId: proposal.proposal_id }
           }"
           class="data-table__row__info__container__name"
-          >{{ proposal.title }}</router-link
         >
+          {{ proposal.title }}
+        </router-link>
         <p class="data-table__row__info__container__description">
           {{ description }}
         </p>
       </div>
     </td>
     <td>{{ `#` + proposal.proposal_id }}</td>
-    <td class="li-proposal__value yes">{{ tally.yes }}</td>
-    <td class="li-proposal__value no">{{ tally.no }}</td>
-    <td class="li-proposal__value no_with_veto">{{ tally.no_with_veto }}</td>
-    <td class="li-proposal__value abstain">{{ tally.abstain }}</td>
+    <td class="li-proposal__value yes">
+      {{ yesPercentage }}
+    </td>
+    <td class="li-proposal__value no">
+      {{ noPercentage }}
+    </td>
+    <td class="li-proposal__value no_with_veto">
+      {{ noWithVetoPercentage }}
+    </td>
+    <td class="li-proposal__value abstain">
+      {{ abstainPercentage }}
+    </td>
   </tr>
 </template>
 
 <script>
+import BigNumber from "bignumber.js"
 import { mapGetters } from "vuex"
+import { percentInt } from "../../scripts/num.js"
 export default {
   name: `li-proposal`,
   props: {
@@ -48,15 +60,45 @@ export default {
   computed: {
     ...mapGetters([`proposals`]),
     tally() {
-      let proposalTally
-      proposalTally = this.proposals.tallies[this.proposal.proposal_id] || {}
-      proposalTally.yes = Math.round(parseFloat(proposalTally.yes))
-      proposalTally.no = Math.round(parseFloat(proposalTally.no))
-      proposalTally.no_with_veto = Math.round(
-        parseFloat(proposalTally.no_with_veto)
-      )
-      proposalTally.abstain = Math.round(parseFloat(proposalTally.abstain))
-      return proposalTally
+      const { yes, no, abstain, no_with_veto } =
+        this.proposals.tallies[this.proposal.proposal_id] || {}
+      return {
+        yes: yes || BigNumber(0),
+        no: no || BigNumber(0),
+        abstain: abstain || BigNumber(0),
+        no_with_veto: no_with_veto || BigNumber(0)
+      }
+    },
+    totalVotes({ tally: { yes, no, no_with_veto, abstain } } = this) {
+      return BigNumber(yes)
+        .plus(no)
+        .plus(no_with_veto)
+        .plus(abstain)
+        .toNumber()
+    },
+    yesPercentage({ tally, totalVotes } = this) {
+      if (this.proposal.proposal_status === `DepositPeriod`) {
+        return `--`
+      }
+      return percentInt(totalVotes === 0 ? 0 : tally.yes / totalVotes)
+    },
+    noPercentage({ tally, totalVotes } = this) {
+      if (this.proposal.proposal_status === `DepositPeriod`) {
+        return `--`
+      }
+      return percentInt(totalVotes === 0 ? 0 : tally.no / totalVotes)
+    },
+    noWithVetoPercentage({ tally, totalVotes } = this) {
+      if (this.proposal.proposal_status === `DepositPeriod`) {
+        return `--`
+      }
+      return percentInt(totalVotes === 0 ? 0 : tally.no_with_veto / totalVotes)
+    },
+    abstainPercentage({ tally, totalVotes } = this) {
+      if (this.proposal.proposal_status === `DepositPeriod`) {
+        return `--`
+      }
+      return percentInt(totalVotes === 0 ? 0 : tally.abstain / totalVotes)
     },
     status() {
       if (this.proposal.proposal_status === `Passed`) {
@@ -95,9 +137,6 @@ export default {
 </script>
 
 <style>
-.li-proposal__value.no_with_veto {
-  min-width: 8rem;
-}
 .data-table__row__info__container__status.material-icons {
   width: 1rem;
   height: 1rem;

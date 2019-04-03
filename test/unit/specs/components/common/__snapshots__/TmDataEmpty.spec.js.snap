@@ -17,21 +17,25 @@ exports[`TmDataEmpty has the expected html structure 1`] = `
   <div
     class="tm-data-msg__text"
   >
-    <div
+    <h2
       class="tm-data-msg__title"
     >
       <h4>
-        N/A
+        
+    N/A
+  
       </h4>
-    </div>
+    </h2>
      
-    <div
+    <h3
       class="tm-data-msg__subtitle"
     >
       <h5>
-        No data available yet.
+        
+    No data available yet.
+  
       </h5>
-    </div>
+    </h3>
   </div>
 </div>
 `;

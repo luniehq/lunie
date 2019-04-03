@@ -26,14 +26,16 @@ exports[`TmSessionLoading has the expected html structure 1`] = `
         src="~assets/images/loader.svg"
       />
       <br />
-      HALLO WORLD  
+        
     
     </div>
      
     <div
       class="tm-session-footer"
     >
+      
        
+    
     </div>
   </div>
 </div>

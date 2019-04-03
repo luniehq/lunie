@@ -4,12 +4,14 @@
       <router-link
         id="app-menu__wallet"
         class="app-menu-item"
-        to="/"
+        to="/wallet"
         exact="exact"
         title="Wallet"
         @click.native="close"
       >
-        <h2 class="app-menu-title">Wallet</h2>
+        <h2 class="app-menu-title">
+          Wallet
+        </h2>
         <i class="material-icons">chevron_right</i>
       </router-link>
       <router-link
@@ -20,7 +22,9 @@
         title="Transactions"
         @click.native="close"
       >
-        <h2 class="app-menu-title">Transactions</h2>
+        <h2 class="app-menu-title">
+          Transactions
+        </h2>
         <i class="material-icons">chevron_right</i>
       </router-link>
       <router-link
@@ -30,7 +34,9 @@
         title="Staking"
         @click.native="close"
       >
-        <h2 class="app-menu-title">Staking</h2>
+        <h2 class="app-menu-title">
+          Staking
+        </h2>
         <i class="material-icons">chevron_right</i>
       </router-link>
       <router-link
@@ -40,8 +46,34 @@
         title="Governance"
         @click.native="close"
       >
-        <h2 class="app-menu-title">Governance</h2>
+        <h2 class="app-menu-title">
+          Governance
+        </h2>
         <i class="material-icons">chevron_right</i>
+      </router-link>
+      <router-link
+        id="app-menu__network"
+        class="app-menu-item"
+        to="/"
+        exact="exact"
+        title="Network"
+        @click.native="close"
+      >
+        <h2 class="app-menu-title">
+          Network
+        </h2>
+        <i class="material-icons">chevron_right</i>
+      </router-link>
+      <router-link
+        class="app-menu-item app-menu-item--link"
+        to="/about"
+        exact="exact"
+        title="About"
+        @click.native="close"
+      >
+        <h2>
+          About
+        </h2>
       </router-link>
     </div>
     <connected-network />
@@ -49,29 +81,23 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
 import PerfectScrollbar from "perfect-scrollbar"
 import noScroll from "no-scroll"
 import ConnectedNetwork from "common/TmConnectedNetwork"
-import TmListItem from "common/TmListItem"
 export default {
   name: `app-menu`,
   components: {
-    ConnectedNetwork,
-    TmListItem
+    ConnectedNetwork
   },
   data: () => ({
     ps: {}
   }),
-  computed: {
-    ...mapGetters([`validators`, `config`, `lastHeader`])
-  },
   mounted() {
     this.ps = new PerfectScrollbar(this.$el.querySelector(`.app-menu-main`))
   },
   methods: {
     close() {
-      this.$store.commit(`setActiveMenu`, ``)
+      this.$emit(`close`)
       noScroll.off()
     }
   }
@@ -80,50 +106,66 @@ export default {
 
 <style>
 .app-menu {
-  background: var(--app-nav);
   z-index: var(--z-appMenu);
   user-select: none;
   display: flex;
   flex-flow: column nowrap;
+  height: 100vh;
 }
+
 .app-menu .app-menu-main {
   flex: 1;
   position: relative;
 }
+
 .app-menu .app-menu-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid var(--bc-dim);
-  padding: 1rem;
-  color: var(--dim);
+  padding: 0.5rem 0.75rem;
+  margin: 0.5rem;
+  font-weight: 400;
+  color: var(--text);
+  border-radius: 0.25rem;
 }
-.app-menu .app-menu-item:hover {
+
+.app-menu .app-menu-item:not(.app-menu-item--link):hover {
   color: var(--bright);
-  background: var(--hover-bg);
+  background: var(--app-fg);
 }
+
+.app-menu .app-menu-item.app-menu-item--link {
+  color: var(--link);
+}
+
 .app-menu .router-link-active {
-  background: var(--hover-bg);
+  background: var(--app-fg);
 }
+
 .app-menu .router-link-active i {
   color: var(--tertiary);
 }
+
 .app-menu .router-link-active h2 {
   color: var(--bright);
   font-weight: 500;
 }
+
 @media screen and (max-width: 1023px) {
   .app-menu {
-    position: fixed;
-    top: 3rem;
-    left: 0;
-    bottom: 0;
-    width: 100vw;
     background: var(--app-bg);
-    user-select: none;
+  }
+
+  .app-menu .app-menu-item {
+    padding: 0.75rem;
+  }
+
+  .app-menu-title {
+    font-size: 1.5rem;
   }
 }
-@media screen and (min-width: 1024px) {
+
+@media screen and (min-width: 1023px) {
   .app-menu {
     flex: 1;
   }

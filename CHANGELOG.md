@@ -7,7 +7,412 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [0.10003.2] - 2019-01-16
+## [1.0.0-beta.34] - 2019-04-02
+
+### Added
+
+- [#2385](https://github.com/cosmos/lunie/pull/2385) Added a tool to handle changelog conflicts @faboweb
+
+## [1.0.0-beta.33] - 2019-03-31
+
+[Changed] [\#2288](https://github.com/cosmos/voyager/issues/2288) Poll for tx to be included in a block if it isn't right away @faboweb
+
+
+## [1.0.0-beta.32] - 2019-03-30
+
+[Changed] Naming of amount input to "Deposit" on ModalPropose @faboweb
+[Fixed] [\#2359](https://github.com/cosmos/lunie/pull/2359) fixed spacing on transactions @faboweb
+[Fixed] [\#2323](https://github.com/cosmos/lunie/issues/2323) fixed and added anchor to validator's website @fedekunze
+
+## [1.0.0-beta.31] - 2019-03-29
+
+[Fixed] [\#2375](https://github.com/cosmos/lunie/pull/2375) fixed predictable randomness on key generation @fedekunze
+
+## [1.0.0-beta.30] - 2019-03-28
+
+[Fixed] [\#2370](https://github.com/cosmos/lunie/pull/2370) Better inplace updates to validators so the information (like signing info) never hides again once it was once loaded @faboweb
+[Fixed] [\#2370](https://github.com/cosmos/lunie/pull/2370) Pages now scroll back to the top on tab changes @faboweb
+[Changed] [\#2360](https://github.com/cosmos/lunie/issues/2360) disabled token sending on the cosmos hub @faboweb
+[Changed] Reduced keybase caching timeouts @faboweb
+
+## [1.0.0-beta.29] - 2019-03-27
+
+[Changed] [\#2337](https://github.com/cosmos/voyager/pull/2337) Show rewards in header on mobile @faboweb
+[Changed] [\#2361](https://github.com/cosmos/lunie/pull/2361) Complete renaming of README to Lunie @sabau
+[Fixed] [\#2358](https://github.com/cosmos/lunie/pull/2358) Fixed store cache retrieval on sign in @faboweb
+[Fixed] [\#2250](https://github.com/cosmos/lunie/issues/2250) Fixed staking transactions invalid date @fedekunze
+
+
+## [1.0.0-beta.28] - 2019-03-25
+
+### Added
+
+- [\#2238](https://github.com/cosmos/voyager/issues/2238) Show estimaded fees @fedekunze
+
+### Changed
+
+- Circleci config deployment job to deploy `lunie.io` and `beta.lunie.io`
+- renamed to Lunie @faboweb
+
+## [1.0.0-beta.27] - 2019-03-25
+
+### Added
+
+- [\#2149](https://github.com/cosmos/voyager/issues/2149) display multi-message transactions @fedekunze
+
+### Fixed
+
+- [\#2330](https://github.com/cosmos/voyager/pull/2330) Fixed rewards not updating as expected @faboweb
+- [\#2330](https://github.com/cosmos/voyager/pull/2330) Fixed transactions not loading when refreshing on PageTransactions @faboweb
+- Fixed rewards not showing @faboweb
+
+## [1.0.0-beta.26] - 2019-03-22
+
+### Changed
+
+- [\#1337](https://github.com/cosmos/voyager/issues/1337) Updated modals tests acording to standard @fedekunze
+- [\#2328](https://github.com/cosmos/voyager/pull/2328) Changed "Total Rewards" to "Pending Rewards" in the balance header @faboweb
+
+
+## [1.0.0-beta.25] - 2019-03-21
+
+### Changed
+
+- [\#2303](https://github.com/cosmos/voyager/issues/2303) Hide amounts in header until they are fully loaded @faboweb
+
+### Security
+
+- [\#2309](https://github.com/cosmos/voyager/pull/2309) remove markdown parser to reduce vulnerability of xss @faboweb
+
+### Fixed
+
+- [\#2301](https://github.com/cosmos/voyager/issues/2301) throttle requests for keybase identities @faboweb
+- [\#2272](https://github.com/cosmos/voyager/issues/2272) fixed showing uatoms instead of atoms @faboweb
+- [\#2289](https://github.com/cosmos/voyager/pull/2289) reduced amount of requests to full node @fedekunze
+
+## [1.0.0-beta.24] - 2019-03-20
+
+### Fixed
+
+- [\#2305](https://github.com/cosmos/voyager/issues/2305) fixed numbers showing wrong on redelegation and unbonding transactions @faboweb
+- Misc. style fixes @jbibla
+- Fixed Balance header styles and responsiveness @jbibla
+
+
+## [1.0.0-beta.23] - 2019-03-19
+
+### Fixed
+
+- PageValidator isn't showing @faboweb
+
+## [1.0.0-beta.22] - 2019-03-19
+
+### Added
+
+- [\#2228](https://github.com/cosmos/voyager/issues/2228) display balances of vesting accounts @faboweb
+
+### Fixed
+
+- [\#2267](https://github.com/cosmos/voyager/issues/2267) fixed sorting on validator table @jbibla
+- [\#2278](https://github.com/cosmos/voyager/issues/2278) fixed commission calculation on validator table @jbibla
+
+
+## [1.0.0-beta.21] - 2019-03-16
+
+### Added
+
+- [\#2228](https://github.com/cosmos/voyager/issues/2228) display balances of vesting accounts @faboweb
+- [\#2230](https://github.com/cosmos/voyager/issues/2230) calculate fees and estimated transaction gas @fedekunze
+- [\#2291](https://github.com/cosmos/voyager/pull/2291) master built against main net full node @sabau
+
+### Fixed
+
+- [\#2269](https://github.com/cosmos/voyager/pull/2269) Persist session type if signed in with ledger @faboweb
+- [\#2273](https://github.com/cosmos/voyager/issues/2273) fixed atoms and uatoms conversion @fedekunze
+
+
+## [1.0.0-beta.20] - 2019-03-15
+
+### Fixed
+
+- [\#2273](https://github.com/cosmos/voyager/issues/2273) fixed atoms and uatoms conversion @fedekunze
+
+## [1.0.0-beta.19] - 2019-03-15
+
+### Added
+
+- [\#2263](https://github.com/cosmos/voyager/pull/2263) Added guide on how to connect via a local full node to any network @faboweb
+
+### Changed
+
+- [\#1337](https://github.com/cosmos/voyager/issues/1337) refactor unit tests: Page404, ShortBech32 @fedekunze
+- [\#2255](https://github.com/cosmos/voyager/pull/2255) removed onboarding tutorial @fedekunze
+- [\#2259](https://github.com/cosmos/voyager/issues/2259) removed PagePreferences @fedekunze
+
+### Fixed
+
+- Fix for inflation on our testnet
+- [\#2257](https://github.com/cosmos/voyager/pull/2257) fixed console error on page validator if loading the page from URL @faboweb
+
+
+## [1.0.0-beta.18] - 2019-03-14
+
+### Fixed
+
+- [#\2188](https://github.com/cosmos/voyager/issues/2188) Fixed issues with the way we were loading PageNetwork @jbibla
+- [#\2246](https://github.com/cosmos/voyager/issues/2246) Fix from moniker not visible on withdraw txs @faboweb
+
+### Added
+
+- [\#1959](https://github.com/cosmos/voyager/issues/1959) display transactions on block page @fedekunze
+
+### Changed
+
+- Ignore changelog check on master @faboweb
+- [#\2217](https://github.com/cosmos/voyager/issues/2217) Limit inputs to max precision @faboweb
+
+## [1.0.0-beta.17] - 2019-03-13
+
+### Changed
+
+- [#\2210](https://github.com/cosmos/voyager/pull/2210) Faucet give money only to non-existent addresses @sabau
+- release PR now adds PENDING.md to CHANGELOG.md @faboweb
+- [#\2202](https://github.com/cosmos/voyager/pull/2202) Fix circle configuration for publishing @sabau
+- [#\2236](https://github.com/cosmos/voyager/pull/2236) ES lint no tabs @sabau
+
+
+
+## [1.0.0-beta.16] - 2019-03-11
+
+### Added
+
+- [\#2104](https://github.com/cosmos/voyager/issues/2104) fix transaction times @fedekunze
+- [\#1805](https://github.com/cosmos/voyager/issues/1805) support all transaction types @fedekunze
+- [#\2225](https://github.com/cosmos/voyager/pull/2225) local testnets now always have the same account with funds @faboweb
+- [\#2224](https://github.com/cosmos/voyager/issues/2224) persist the signed in address @faboweb
+
+### Changed
+
+- [#\2202](https://github.com/cosmos/voyager/pull/2202) Fix circle configuration for publishing @sabau
+- [#\2211](https://github.com/cosmos/voyager/pull/2211) simplified sidebar and mobile menu, cleaned up css, fixed tests @jbibla
+- [#\2225](https://github.com/cosmos/voyager/pull/2225) Moved to SDK version 0.33.0 @faboweb
+- [#\2154](https://github.com/cosmos/voyager/pull/2154) Added ledger button and style updates @jbibla
+
+### Fixed
+
+- [#\2202](https://github.com/cosmos/voyager/issues/2202) Fix number conversions @faboweb
+- Misc. style fixes @jbibla
+- [\#2104](https://github.com/cosmos/voyager/issues/2103) fix undelegation format changes @faboweb 
+- [\#2192](https://github.com/cosmos/voyager/pull/2192) hide tm-balance on PageProposal and PagePreferences if signed out @faboweb
+
+## [1.0.0-beta.15] - 2019-03-07
+
+### Changed
+
+- [\#2043](https://github.com/cosmos/voyager/issues/2043) removed no-balance modals on staking page @fedekunze
+- [\#2161](https://github.com/cosmos/voyager/pull/2161) fixed status dot position @jbibla
+- [\#2193](https://github.com/cosmos/voyager/issues/2193) hide seed import @faboweb
+- [\#195](https://github.com/tendermint/devops/issues/195) updated Circle config with new wallet domain name
+
+### Fixed
+
+- [\#2195](https://github.com/cosmos/voyager/issues/2195) undelegation modal showing wrong amount @faboweb
+
+## [1.0.0-beta.14] - 2019-03-06
+
+### Fixed
+
+- [\#2138](https://github.com/cosmos/voyager/issues/2138) Non breaking space not renderer correctly on hardware state indicator @faboweb
+- [\#1211](https://github.com/cosmos/voyager/issues/1211) Fixed thrown error on page validator when validator wasn't loaded yet @faboweb
+- [\#2128](https://github.com/cosmos/voyager/pull/2128) remove loading status on validator page when disconnected from the network @fedekunze
+
+### Added
+
+- [\#1306](https://github.com/cosmos/voyager/issues/1306) Withdraw fee distribution rewards @fedekunze
+- [\#1875](https://github.com/cosmos/voyager/issues/1875) optimistic updates for proposal creation @faboweb
+- [\#1876](https://github.com/cosmos/voyager/issues/1876) optimistic updates for depositing on proposals @faboweb
+
+- [\#2183](https://github.com/cosmos/voyager/issues/2183) Loading block to network block loader @jbibla
+- [\#1875](https://github.com/cosmos/voyager/issues/1875) optimistic updates for proposal creation @faboweb
+- [\#1876](https://github.com/cosmos/voyager/issues/1876) optimistic updates for depositing on proposals @faboweb
+
+### Changed
+
+- [\#2128](https://github.com/cosmos/voyager/pull/2128) remove loading status on validator page when disconnected from the network @fedekunze
+- [\#2170](https://github.com/cosmos/voyager/pull/2170) bug with card-signed-in and explorer mode @jbibla
+- [\#2167](https://github.com/cosmos/voyager/pull/2167) fixed votes showing wrong tally @faboweb
+- [\#2167](https://github.com/cosmos/voyager/pull/2167) fixed not being able to deposit less then 1 atom not possible @faboweb
+- [\#2167](https://github.com/cosmos/voyager/pull/2167) fixed sorting of proposals @faboweb
+- [\#1897](https://github.com/cosmos/voyager/issues/1897) made action modals smaller @jbibla
+- [\#2179](https://github.com/cosmos/voyager/issues/2179) removed "to" field from undelegation action modal @jbibla
+
+## [1.0.0-beta.13] - 2019-03-05
+
+### Added
+
+- [\#2148](https://github.com/cosmos/voyager/pull/2148) readded insecure mode @faboweb
+- [\#2151](https://github.com/cosmos/voyager/pull/2151) A "You need to sign in" card component @faboweb
+- [\#2152](https://github.com/cosmos/voyager/pull/2152) Feedback button to collect feedback from users on the page @faboweb
+
+### Fixed
+
+- [\#1982](https://github.com/cosmos/voyager/issues/1982) Session screens are proper modals @jbibla
+- [\#2050](https://github.com/cosmos/voyager/pull/2050) forward to /404 on a not found block @faboweb
+- Security issue with lodash dependency @faboweb
+
+## [1.0.0-beta.12] - 2019-03-04
+
+## [1.0.0-beta.11] - 2019-03-02
+
+### Changed
+
+- [\#1887](https://github.com/cosmos/voyager/issues/1887) Activating Google Analytics anonymized by default @faboweb
+- [\#2098](https://github.com/cosmos/voyager/issues/2098) rename devMode url flag to insecure @faboweb
+- [\#1884](https://github.com/cosmos/voyager/issues/1884) Readded the possibility of e2e tests @faboweb
+
+### Fixed
+
+- [\#2087](https://github.com/cosmos/voyager/issues/2087) More resilient scripts on Ec2 instances, added validators @sabau
+
+## [1.0.0-beta.10] - 2019-03-01
+
+### Added
+
+- [\#135](https://github.com/cosmos/voyager/issues/135) Show fee distribution rewards @fedekunze @faboweb
+
+### Changed 
+
+- [\#2044](https://github.com/cosmos/voyager/issues/2044) convert uatoms to atoms @faboweb
+- Refactored tests: LiProposal @jbibla
+
+## [1.0.0-beta.9] - 2019-02-28
+
+### Fixed
+
+- querying delegations was caught in a loop @faboweb
+- resetting forms when action modal closes @faboweb
+
+### Changed
+
+- [\#1982](https://github.com/cosmos/voyager/issues/1982) Session screens are proper modals @jbibla
+
+- [\#1337](https://github.com/cosmos/voyager/issues/1337) Refactor tests: PageValidator @faboweb
+
+## [1.0.0-beta.8] - 2019-02-27
+
+### Added
+
+- [\#1032](https://github.com/cosmos/voyager/issues/1032) added several events to google analytics @faboweb
+- [\#1630](https://github.com/cosmos/voyager/issues/1630) added memo "Sent via Cosmos UI" to distinguish txs sent via UI @faboweb
+- [\#2035](https://github.com/cosmos/voyager/issues/2035) Distribution vuex module @fedekunze
+- [\#2088](https://github.com/cosmos/voyager/issues/2088) Faucet button @sabau
+
+### Fixed
+
+- Fixed delegations not loaded on validator lists @faboweb
+- [\#2015](https://github.com/cosmos/voyager/issues/2015) fixed error that showed wrong message when Ledger's screensaver mode was on @fedekunze
+- Reconnected event was not triggered after reconnection @faboweb
+- [\#2094](https://github.com/cosmos/voyager/pull/2094) fix Toolbar @faboweb
+- Fix Webpack Env variables @sabau
+
+### Changed
+
+- [\#1337](https://github.com/cosmos/voyager/issues/1337) Refactor tests: TableValidators, TabMyDelegations @jbibla @faboweb
+- [\#1337](https://github.com/cosmos/voyager/issues/1337) Refactor tests: pool-module @jbibla
+- [\#2023](https://github.com/cosmos/voyager/issues/2023) remove jsdoc @sabau
+- [\#1944](https://github.com/cosmos/voyager/issues/1944) Updated `README` @fedekunze
+
+## [1.0.0-beta.7] - 2019-02-26
+
+### Changed
+
+- disabled TmOnboarding by default @jbibla
+- [\#1337](https://github.com/cosmos/voyager/issues/1337) Refactor tests: ToolBar, TmModalHelp, LiCoin, PageTransactions, UndelegationModal, TmOnboarding, TmSessionAccountDelete, TabValidators, keybase-module @jbibla @faboweb
+
+## [1.0.0-beta.6] - 2019-02-23
+
+### Added
+
+- Enable dev mode from url param @faboweb
+
+### Fixed
+
+- Refactored tests: PageStaking, PanelSort, TabStakingParameters @faboweb
+- Sign in with local key @faboweb
+- [\#2024](https://github.com/cosmos/voyager/issues/2024) Fixed feature setting the rpc from url param @faboweb
+
+## [1.0.0-beta.5] - 2019-02-22
+
+### Changed
+
+- Removed Vue error handling to bubble errors to the console, this doesn't effect users @faboweb
+- Removed unused packages @sabau
+- [\#1337](https://github.com/cosmos/voyager/issues/1337) Removed search bar @jbibla
+
+### Fixed
+
+- Validator page shows now correctly by avoiding async errors @faboweb
+- Stylelint configuration and scripts work as expected (no longer in webpack) @jbibla
+- page for /governance/:proposalId @sabau
+
+## [1.0.0-beta.4] - 2019-02-21
+
+### Added
+
+- [\#1997](https://github.com/cosmos/voyager/issues/1997) clicking on the top left logo goes to root @faboweb
+
+### Changed
+
+- Refactored user and session modules @faboweb
+- Made app header and menu states local @faboweb
+- [\#1993](https://github.com/cosmos/voyager/issues/1993) disabled web wallet in production @faboweb
+- [\#2031](https://github.com/cosmos/voyager/issues/2031) voyager now depends from cosmos/ledger-cosmos-js
+
+### Fixed
+
+- [\#1999](https://github.com/cosmos/voyager/issues/1999) fixed signing of governance txs due to upstream SDK fix @faboweb
+- [\#2028](https://github.com/cosmos/voyager/issues/2028) fixed giant image on onboarding screen @jbibla
+
+## [1.0.0-beta.3] - 2019-02-20
+
+### Added
+
+- [\#1920](https://github.com/cosmos/voyager/issues/1920) Add link to install Cosmos Ledger App @fedekunze
+- [\#2000](https://github.com/cosmos/voyager/issues/2000) Add distribution endpoints support @fedekunze
+
+### Changed
+
+- [\#1936](https://github.com/cosmos/voyager/issues/1936) remove `prettier` to avoid overriding `eslint:vue` rules @sabau
+
+### Fixed
+
+- [\#1910](https://github.com/cosmos/voyager/issues/1910) clipboard works in all browsers @jbibla
+- [\#1917](https://github.com/cosmos/voyager/issues/1917) Handle ledger disconnection before signing @fedekunze
+- [\#1978](https://github.com/cosmos/voyager/issues/1978) Don't display error notifications after timeout on ledger session page @fedekunze
+- [\#2016](https://github.com/cosmos/voyager/issues/2016) Display correct error message when rejecting a transaction with ledger @fedekunze
+
+## [1.0.0-beta.2] - 2019-02-19
+
+### Added
+
+### Changed
+
+- [\#1729](https://github.com/cosmos/voyager/issues/1729) Rename endpoint functions @fedekunze
+- [\#1790](https://github.com/cosmos/voyager/issues/1790) Rename `lcdClient.js` to `api.js` @fedekunze
+- [\#2002](https://github.com/cosmos/voyager/pull/2002) Fix boot process for remote nodes @sabau
+
+### Fixed
+
+- [\#1879](https://github.com/cosmos/voyager/issues/1879) Align tx props with new format from SDK @sabau
+
+## [1.0.0-beta.1] - 2019-02-18
+
+### Fixed
+
+- [\#1958](https://github.com/cosmos/voyager/issues/1958) Kill all processes if one dies to not have dangling processes in development setups @faboweb
+- Fix development warning overlaying the UI too much @faboweb
+
+## [0.10003.4] - 2019-02-17
 
 ### Added
 
@@ -58,6 +463,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1660](https://github.com/cosmos/voyager/issues/1660) Add parameters and pool to store @fedekunze
 - [\#1739](https://github.com/cosmos/voyager/issues/1739) Init jsDoc into project @sabau
 - [\#1674](https://github.com/cosmos/voyager/issues/1674) Add PageProfile component with shared styles for validator and proposal profiles @jbibla
+- [\#1806](https://github.com/cosmos/voyager/issues/1806) CircleCI security check in dependencies with yarn audit @sabau
+- [\#1804](https://github.com/cosmos/voyager/issues/1804) Moved Voyager to the web @faboweb
+- [\#1835](https://github.com/cosmos/voyager/issues/1835) allow user to use different signing methods @faboweb
+- [\#1833](https://github.com/cosmos/voyager/issues/1833) Prerequisites to allow continuous integration @sabau
+- [\#1338](https://github.com/cosmos/voyager/issues/1338) Add Ledger Nano S support for signing transactions @fedekunze
+- [\#1869](https://github.com/cosmos/voyager/issues/1869) Added PageNetwork @jbibla
+- [\#1894](https://github.com/cosmos/voyager/issues/1894) Added favicons for all the browsers and devices @jbibla
+- [\#1865](https://github.com/cosmos/voyager/issues/1865) Added Vuex blocks module @sabau
+- [\#1928](https://github.com/cosmos/voyager/issues/1928) Added Browserstack reference to README @sabau
+- [\#1918](https://github.com/cosmos/voyager/issues/1918) added message to log in when sending transactions and the user is not authenticated @fedekunze
+- [\#1866](https://github.com/cosmos/voyager/issues/1866) Added blocks to network page and a page for viewing individual blocks @jbibla
+- [\#1911](https://github.com/cosmos/voyager/issues/1911) Upload code to Sentry for remote error analyzer @faboweb
+- Added development mode warning @faboweb
+- [\#1972](https://github.com/cosmos/voyager/pull/1972) Add auto PR cron job to circle ci @sabau
+- [\#1990](https://github.com/cosmos/voyager/pull/1990) Added postcss plugins and enabled css linter @jbibla
 
 ### Changed
 
@@ -100,6 +520,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1379](https://github.com/cosmos/voyager/issues/1379) Changed some tests so they don't display errors on the console to better identify real errors @faboweb
 - [\#1792](https://github.com/cosmos/voyager/pull/1792) removed mocked demo mode @fedekunze
 - [\#1720](https://github.com/cosmos/voyager/issues/1720) Time format from 12 to 24h @sabau
+- [\#1802](https://github.com/cosmos/voyager/issues/1802) Enable prefer-const eslint rule @sabau
+- [\#1688](https://github.com/cosmos/voyager/issues/1688) Moved from every page to TmPage the connected, loading, empty data and search features @sabau
+- [\#1588](https://github.com/cosmos/voyager/issues/1588) 404 page updates @jbibla
+- [\#1737](https://github.com/cosmos/voyager/issues/1737) Updates to validator and proposal pages @jbibla
+- [\#1846](https://github.com/cosmos/voyager/issues/1846) Allow node endpoints to be set from the URL @faboweb
+- [\#1221](https://github.com/cosmos/voyager/issues/1221) individual linter check on GitHub @faboweb
+- [\#1855](https://github.com/cosmos/voyager/issues/1855) skip gaia build if already built that hash @sabau
+- [\#1922](https://github.com/cosmos/voyager/issues/1922) removed font awesome @jbibla
+- [\#1916](https://github.com/cosmos/voyager/pull/1916) redirect to session modal when user hasn't logged in @fedekunze
+- [\#1836](https://github.com/cosmos/voyager/issues/1836) remove back button @fedekunze
+- [\#1718](https://github.com/cosmos/voyager/issues/1718) Remove session as default @fedekunze
+- [\#1948](https://github.com/cosmos/voyager/pull/1948) changed PR template @fedekunze
+- [\#1946](https://github.com/cosmos/voyager/pull/1946) removed proposer_address raw hex @jbibla
+- [\#1967](https://github.com/cosmos/voyager/pull/1967) bundle analyzer changed from dynamic to static report @sabau
+- always upload coverage to prevent PRs not being able to be merged if a not required check doesn't pass @faboweb
 
 ### Fixed
 
@@ -144,8 +579,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1617](https://github.com/cosmos/voyager/pull/1617) Fixed send buttons not clickable @faboweb
 - [\#1303](https://github.com/cosmos/voyager/issues/1303) Fixed spamming of setSubscription @faboweb
 - [\#1603](https://github.com/cosmos/voyager/issues/1603) Fixed inactive sidebar links @jbibla
-- [\#1614](https://github.com/cosmos/voyager/issues/1614) Fixed an error that prevented a proposal to be updated optimisticaly after a successful deposit or vote @fedekunze
-- [\#1386](https://github.com/cosmos/voyager/issues/1386) Cleaned up onboarding @jbibla
+- [\#1614](https://github.com/cosmos/voyager/issues/1614) Fixed an error that prevented a proposal to be updated optimistically after a successful deposit or vote @fedekunze
+- [\#1386](https://github.com/cosmos/voyager/issues/1386) Cleaned up on-boarding @jbibla
 - [\#1640](https://github.com/cosmos/voyager/issues/1640) Hide the table proposals when there are no available ones @fedekunze
 - [\#1640](https://github.com/cosmos/voyager/issues/1640) Fixed an error that prevented the search bar to be displayed using `Ctrl+F` @fedekunze
 - Fixed testnet config build script @faboweb
@@ -153,7 +588,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1687](https://github.com/cosmos/voyager/issues/1687) Removing cached state if decrypting fails. @faboweb
 - [\#1662](https://github.com/cosmos/voyager/issues/1662) Fixed wrong node version in readme @faboweb
   [\#1642](https://github.com/cosmos/voyager/issues/1642) Refactor table styles and fixed bad aligned headers @faboweb
-- [\#1677](https://github.com/cosmos/voyager/issues/1677) Fixed inconstistent status colors on proposals @fedekunze
+- [\#1677](https://github.com/cosmos/voyager/issues/1677) Fixed inconsistent status colors on proposals @fedekunze
 - [\#1696](https://github.com/cosmos/voyager/issues/1696) Fixed broken css variables @jbibla
 - [\#1687](https://github.com/cosmos/voyager/issues/1687) Removing cached state if decrypting fails. @faboweb
 - [\#1662](https://github.com/cosmos/voyager/issues/1662) Fixed wrong node version in readme @faboweb
@@ -164,10 +599,35 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [\#1572](https://github.com/cosmos/voyager/issues/1572) Fixed scroll bug when switching between tabs @jbibla
 - [\#1749](https://github.com/cosmos/voyager/issues/1749) Fixed proposal tally update after voting @fedekunze
 - [\#1765](https://github.com/cosmos/voyager/pull/1765) Fixed proposal deposit update after submitting a deposit @fedekunze
+- [\#1791](https://github.com/cosmos/voyager/issue/1791) Fixed a problem with initializing the Voyager config dir @faboweb
+- [\#1815](https://github.com/cosmos/voyager/issue/1815) Fixed getters for proposals denominator, reverted to 945803d586b83d65547cd16f4cd5994eac2957ea until interfaces are ready @sabau
+- [\#1809](https://github.com/cosmos/voyager/issue/1809) Fixed optimistically updating the header on sending @faboweb
 - [\#1791](https://github.com/cosmos/voyager/pull/1791) Fixed a problem with initializing the Voyager config dir @faboweb
+- [\#1754](https://github.com/cosmos/voyager/pull/1754) Fixed form UX, UI and other miscellaneous styling issues @jbibla
 - [\#1707](https://github.com/cosmos/voyager/issues/1707) Governance txs are now disabled if the user doesn't hold any min_deposit token @fedekunze
 - [\#1815](https://github.com/cosmos/voyager/pull/1815) Fixed getters for proposals denominator, reverted to 945803d586b83d65547cd16f4cd5994eac2957ea until interfaces are ready @sabau
 - Fixed build process @ƒaboweb
+- [\#1818](https://github.com/cosmos/voyager/issues/1818) Fixed error on validator loading showing as no validators @faboweb
+- Fixed error locations sucked up by Sentry @faboweb
+- [\#1815](https://github.com/cosmos/voyager/pull/1785) Fixed small bug on preferences page @jbibla
+- [\#1831](https://github.com/cosmos/voyager/issues/1831) Fixed websocket reconnection @faboweb
+- [\#1850](https://github.com/cosmos/voyager/pull/1850) Snapshots aligned for unit tests @sabau
+- [\#1859](https://github.com/cosmos/voyager/pull/1859) Fix security check in circleci @sabau
+- [\#1892](https://github.com/cosmos/voyager/issues/1892) Fix TmSessionImport form validation @faboweb
+- Fixed signing issues related to https://github.com/cosmos/cosmos-sdk/issues/3336 @faboweb
+- [\#1896](https://github.com/cosmos/voyager/issues/1896) Correctly update balances if account is empty @faboweb
+- Fix actionmodal validation @faboweb
+- [\#1934](https://github.com/cosmos/voyager/pull/1934) Fix boot process @sabau
+- [\#961](https://github.com/cosmos/voyager/issues/961) Mock timezone and keep moment as it is @sabau
+- [\#961](https://github.com/cosmos/voyager/issues/961) Mock only the `now` function from Date module @sabau
+- Fixed `yarn start` @ƒaboweb
+- [\#1955](https://github.com/cosmos/voyager/issues/1955) Fixed local testnet setup @faboweb
+- HOT FIX: unit tests failed due to merge @faboweb
+- HOT FIX: we fixed develop (replaced contenthash with hash) @jbibla
+- Bring back devMode @faboweb
+- [\#1945](https://github.com/cosmos/voyager/issues/1945) Fixed governance parameters quorum description @fedekunze
+- [\#1978](https://github.com/cosmos/voyager/pull/1978) Fixed dependency for security audit @sabau
+- [\#1977](https://github.com/cosmos/voyager/issues/1977) Fixed ledger notification errors @fedekunze
 
 ## [0.10.7] - 2018-10-10
 

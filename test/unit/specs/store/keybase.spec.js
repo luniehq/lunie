@@ -1,79 +1,114 @@
-import setup from "../../helpers/vuex-setup"
 import keybaseModule from "renderer/vuex/modules/keybase.js"
 
-let instance = setup()
-
 describe(`Module: Keybase`, () => {
-  let store, module
+  let state, actions, mutations
 
-  beforeEach(() => {
-    let test = instance.shallow()
-    store = test.store
-    module = keybaseModule({ node: test.node })
-  })
+  jest.mock(`renderer/keybase-cache.json`, () => [])
 
-  function mockKeybaseLookup(axios) {
-    axios.get = jest.fn(() =>
-      Promise.resolve({
-        data: {
-          status: { name: `OK` },
-          them: [
-            {
-              basics: {
-                username: `keybaseUser`
-              },
-              pictures: {
-                primary: {
-                  url: `pictureUrl`
-                }
+  async function mockKeybaseLookup() {
+    return {
+      data: {
+        status: { name: `OK` },
+        them: [
+          {
+            basics: {
+              username: `keybaseUser`
+            },
+            pictures: {
+              primary: {
+                url: `pictureUrl`
               }
             }
-          ]
-        }
-      })
-    )
+          }
+        ]
+      }
+    }
   }
 
-  it(`should query for the keybase identity`, async () => {
-    let axios = require(`axios`)
-    mockKeybaseLookup(axios)
+  // this is an internal format not the return value from the keybase API
+  const mockIdentity = {
+    avatarUrl: `pictureUrl`,
+    keybaseId: `abcdabcdabcdabcd`,
+    lastUpdated: `Thu, 01 Jan 1970 00:00:42 GMT`,
+    profileUrl: `https://keybase.io/keybaseUser`,
+    userName: `keybaseUser`,
+  }
 
-    await store.dispatch(`getKeybaseIdentity`, `abcdabcdabcdabcd`)
-    expect(axios.get).toHaveBeenCalledTimes(1)
-    expect(axios.get.mock.calls).toMatchSnapshot()
+  beforeEach(() => {
+    const module = keybaseModule({ node: {} })
+    state = module.state
+    actions = module.actions
+    mutations = module.mutations
+
+    state.externals.axios = jest.fn(mockKeybaseLookup)
   })
 
-  it(`should bulk update the validators`, async () => {
-    let axios = require(`axios`)
-    mockKeybaseLookup(axios)
-
-    let validators = [{ description: { identity: `abcdabcdabcdabcd` } }]
-
-    await store.dispatch(`getKeybaseIdentities`, validators)
-    expect(store.state.keybase.identities.abcdabcdabcdabcd).toBeTruthy()
+  describe(`mutations`, () => {
+    it(`setKeybaseIdentities`, () => {
+      mutations.setKeybaseIdentities(state, [mockIdentity])
+      expect(state.identities[`abcdabcdabcdabcd`]).toEqual({
+        keybaseId: `abcdabcdabcdabcd`,
+        avatarUrl: `pictureUrl`,
+        userName: `keybaseUser`,
+        profileUrl: `https://keybase.io/keybaseUser`,
+        lastUpdated: `Thu, 01 Jan 1970 00:00:42 GMT`
+      })
+    })
   })
 
-  it(`should query only once for the keybase identity`, async () => {
-    let axios = require(`axios`)
-    mockKeybaseLookup(axios)
+  describe(`actions`, () => {
+    it(`should query for the keybase identity`, async () => {
+      state.identities = []
+      const result = await actions.getKeybaseIdentity({ state }, `abcdabcdabcdabcd`)
+      expect(state.externals.axios).toHaveBeenCalledWith(`https://keybase.io/_/api/1.0/user/lookup.json?key_suffix=abcdabcdabcdabcd&fields=pictures,basics`)
+      expect(result).toEqual(mockIdentity)
+    })
 
-    let validators = [{ description: { identity: `abcdabcdabcdabcd` } }]
+    it(`should query only if identity is unknown or outdated`, async () => {
+      state.identities[`abcdabcdabcdabcd`] = mockIdentity
+      state.identities[`abcdabcdabcdabcd`].lastUpdated = new Date(Date.now()).toUTCString()
+      const result = await actions.getKeybaseIdentity({ state }, `abcdabcdabcdabcd`)
+      expect(state.externals.axios).not.toHaveBeenCalled()
+      expect(result).toEqual(mockIdentity)
+    })
 
-    await store.dispatch(`getKeybaseIdentities`, validators)
-    await store.dispatch(`getKeybaseIdentities`, validators)
-    expect(axios.get).toHaveBeenCalledTimes(1)
-    expect(axios.get.mock.calls).toMatchSnapshot()
-  })
+    it(`should query by name if outdated`, async () => {
+      state.identities[`abcdabcdabcdabcd`] = mockIdentity
+      state.externals.moment = () => ({ diff: () => -5 })
+      const result = await actions.getKeybaseIdentity({ state }, `abcdabcdabcdabcd`)
+      expect(state.externals.axios).toHaveBeenCalledWith(`https://keybase.io/_/api/1.0/user/lookup.json?usernames=keybaseUser&fields=pictures,basics`)
+      expect(result).toEqual(mockIdentity)
+    })
 
-  it(`should store an error if failed to load keybase info`, async () => {
-    let dispatch = async () => Promise.reject(`Error`)
+    it(`should requery if wasn't found after 2 minutes`, async () => {
+      state.identities[`abcdabcdabcdabcd`] = {}
+      state.externals.moment = () => ({ diff: () => -3 })
+      const result = await actions.getKeybaseIdentity({ state }, `abcdabcdabcdabcd`)
+      expect(state.externals.axios).toHaveBeenCalledWith(`https://keybase.io/_/api/1.0/user/lookup.json?key_suffix=abcdabcdabcdabcd&fields=pictures,basics`)
+      expect(result).toEqual(mockIdentity)
+    })
 
-    let { actions, state } = module
-    let validators = [{ description: { identity: `abcdabcdabcdabcd` } }]
-    await actions.getKeybaseIdentities(
-      { commit: jest.fn(), dispatch, state },
-      validators
-    )
-    expect(state.error).toBe(`Error`)
+    it(`should bulk update the validators`, async () => {
+      const dispatch = jest.fn()
+        .mockReturnValueOnce(mockIdentity)
+        .mockReturnValueOnce(null) // mocking a unknown_keybase_identity result
+      const commit = jest.fn()
+
+      const validators = [{ description: { identity: `abcdabcdabcdabcd` } },
+        { description: { identity: `unknown_keybase_identity` } }]
+      await actions
+        .getKeybaseIdentities({ dispatch, commit, state }, validators)
+      expect(dispatch).toHaveBeenCalledTimes(2)
+      expect(commit).toHaveBeenCalledWith(`setKeybaseIdentities`, [mockIdentity])
+    })
+
+    it(`should return an empty profile if loading the keybase info fails`, async () => {
+      state.externals.axios = () => Promise.reject(`Error`)
+
+      const result = await actions.getKeybaseIdentity({ state }, `abcdabcdabcdabcd`)
+      expect(result).toEqual({
+        keybaseId: `abcdabcdabcdabcd`
+      })
+    })
   })
 })

@@ -1,0 +1,705 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LiStakeTransaction create validator with fees 1`] = `
+<li-transaction-stub
+  block="500"
+  color="#47AB6C"
+  time="1970-01-01T00:00:42.000Z"
+>
+  <div>
+    
+      Create validator
+      
+    <b>
+      1.000000
+    </b>
+     
+    <span>
+      atoms
+    </span>
+  </div>
+   
+  <div>
+    
+      Moniker:
+      
+    <router-link-stub
+      to="/validator/cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2"
+    >
+      
+        cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2
+      
+    </router-link-stub>
+  </div>
+   
+  <div>
+    
+      Network Fee: 
+      
+    <b>
+      0.003421
+    </b>
+     
+    <span>
+      
+        atoms
+      
+    </span>
+  </div>
+</li-transaction-stub>
+`;
+
+exports[`LiStakeTransaction create validator without fees 1`] = `
+<li-transaction-stub
+  block="500"
+  color="#47AB6C"
+  time="1970-01-01T00:00:42.000Z"
+>
+  <div>
+    
+      Create validator
+      
+    <b>
+      1.000000
+    </b>
+     
+    <span>
+      atoms
+    </span>
+  </div>
+   
+  <div>
+    
+      Moniker:
+      
+    <router-link-stub
+      to="/validator/cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2"
+    >
+      
+        cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2
+      
+    </router-link-stub>
+  </div>
+   
+  <div>
+    
+      Network Fee: 
+      
+    <b>
+      0.000000
+    </b>
+     
+    <span>
+      
+        atoms
+      
+    </span>
+  </div>
+</li-transaction-stub>
+`;
+
+exports[`LiStakeTransaction delegations with fees 1`] = `
+<li-transaction-stub
+  block="500"
+  color="#47AB6C"
+  time="1970-01-01T00:00:42.000Z"
+>
+  <div>
+    
+      Delegation
+      
+    <b>
+      42,000.000000
+    </b>
+     
+    <span>
+      atoms
+    </span>
+  </div>
+   
+  <div>
+    
+      To 
+      
+    <router-link-stub
+      to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+    >
+      
+        mr_mounty
+      
+    </router-link-stub>
+  </div>
+   
+  <div>
+    
+      Network Fee: 
+      
+    <b>
+      0.003421
+    </b>
+     
+    <span>
+      
+        atoms
+      
+    </span>
+  </div>
+</li-transaction-stub>
+`;
+
+exports[`LiStakeTransaction delegations without fees 1`] = `
+<li-transaction-stub
+  block="500"
+  color="#47AB6C"
+  time="1970-01-01T00:00:42.000Z"
+>
+  <div>
+    
+      Delegation
+      
+    <b>
+      42,000.000000
+    </b>
+     
+    <span>
+      atoms
+    </span>
+  </div>
+   
+  <div>
+    
+      To 
+      
+    <router-link-stub
+      to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+    >
+      
+        mr_mounty
+      
+    </router-link-stub>
+  </div>
+   
+  <div>
+    
+      Network Fee: 
+      
+    <b>
+      0.000000
+    </b>
+     
+    <span>
+      
+        atoms
+      
+    </span>
+  </div>
+</li-transaction-stub>
+`;
+
+exports[`LiStakeTransaction edit validator with fees 1`] = `
+<li-transaction-stub
+  block="500"
+  color="#47AB6C"
+  time="1970-01-01T00:00:42.000Z"
+>
+  <div>
+    
+      Edit validator
+    
+  </div>
+   
+  <div>
+    
+      Moniker:
+      
+    <router-link-stub
+      to="/validator/cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2"
+    >
+      
+        cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2
+      
+    </router-link-stub>
+  </div>
+   
+  <div>
+    
+      Network Fee: 
+      
+    <b>
+      0.003421
+    </b>
+     
+    <span>
+      
+        atoms
+      
+    </span>
+  </div>
+</li-transaction-stub>
+`;
+
+exports[`LiStakeTransaction edit validator without fees 1`] = `
+<li-transaction-stub
+  block="500"
+  color="#47AB6C"
+  time="1970-01-01T00:00:42.000Z"
+>
+  <div>
+    
+      Edit validator
+    
+  </div>
+   
+  <div>
+    
+      Moniker:
+      
+    <router-link-stub
+      to="/validator/cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2"
+    >
+      
+        cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2
+      
+    </router-link-stub>
+  </div>
+   
+  <div>
+    
+      Network Fee: 
+      
+    <b>
+      0.000000
+    </b>
+     
+    <span>
+      
+        atoms
+      
+    </span>
+  </div>
+</li-transaction-stub>
+`;
+
+exports[`LiStakeTransaction redelegations with fees 1`] = `
+<li-transaction-stub
+  block="500"
+  color="#47AB6C"
+  time="1970-01-01T00:00:42.000Z"
+>
+  <div>
+    
+      Redelegation
+      
+    <b>
+      
+        30.000000
+      
+    </b>
+     
+    <span>
+      atoms
+    </span>
+  </div>
+   
+  <div>
+    
+      From 
+      
+    <router-link-stub
+      to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+    >
+      
+        mr_mounty
+      
+    </router-link-stub>
+    
+       to 
+      
+    <router-link-stub
+      to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+    >
+      
+        good_greg
+      
+    </router-link-stub>
+  </div>
+   
+  <div>
+    
+      Network Fee: 
+      
+    <b>
+      0.003421
+    </b>
+     
+    <span>
+      
+        atoms
+      
+    </span>
+  </div>
+</li-transaction-stub>
+`;
+
+exports[`LiStakeTransaction redelegations without fees 1`] = `
+<li-transaction-stub
+  block="500"
+  color="#47AB6C"
+  time="1970-01-01T00:00:42.000Z"
+>
+  <div>
+    
+      Redelegation
+      
+    <b>
+      
+        30.000000
+      
+    </b>
+     
+    <span>
+      atoms
+    </span>
+  </div>
+   
+  <div>
+    
+      From 
+      
+    <router-link-stub
+      to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+    >
+      
+        mr_mounty
+      
+    </router-link-stub>
+    
+       to 
+      
+    <router-link-stub
+      to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+    >
+      
+        good_greg
+      
+    </router-link-stub>
+  </div>
+   
+  <div>
+    
+      Network Fee: 
+      
+    <b>
+      0.000000
+    </b>
+     
+    <span>
+      
+        atoms
+      
+    </span>
+  </div>
+</li-transaction-stub>
+`;
+
+exports[`LiStakeTransaction unbonding delegations should default to ended if no unbonding delegation is present 1`] = `
+<li-transaction-stub
+  block="500"
+  color="#47AB6C"
+  time="1970-01-01T00:00:42.000Z"
+>
+  <div>
+    
+      Undelegation
+      
+    <b>
+      
+        0.000323
+      
+    </b>
+     
+    <span>
+      atoms
+    </span>
+     
+    <!---->
+  </div>
+   
+  <div>
+    
+      From 
+      
+    <router-link-stub
+      to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+    >
+      
+        mr_mounty
+      
+    </router-link-stub>
+  </div>
+   
+  <div>
+    
+      Network Fee: 
+      
+    <b>
+      0.003421
+    </b>
+     
+    <span>
+      
+        atoms
+      
+    </span>
+  </div>
+</li-transaction-stub>
+`;
+
+exports[`LiStakeTransaction unbonding delegations should show unbonding delegations as ended 1`] = `
+<li-transaction-stub
+  block="500"
+  color="#47AB6C"
+  time="1970-01-01T00:00:42.000Z"
+>
+  <div>
+    
+      Undelegation
+      
+    <b>
+      
+        0.000323
+      
+    </b>
+     
+    <span>
+      atoms
+    </span>
+     
+    <!---->
+  </div>
+   
+  <div>
+    
+      From 
+      
+    <router-link-stub
+      to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+    >
+      
+        mr_mounty
+      
+    </router-link-stub>
+  </div>
+   
+  <div>
+    
+      Network Fee: 
+      
+    <b>
+      0.003421
+    </b>
+     
+    <span>
+      
+        atoms
+      
+    </span>
+  </div>
+</li-transaction-stub>
+`;
+
+exports[`LiStakeTransaction unbonding delegations with fees 1`] = `
+<li-transaction-stub
+  block="500"
+  color="#47AB6C"
+  time="1970-01-01T00:00:42.000Z"
+>
+  <div>
+    
+      Undelegation
+      
+    <b>
+      
+        0.000323
+      
+    </b>
+     
+    <span>
+      atoms
+    </span>
+     
+    <span
+      class="tx-unbonding__time-diff"
+    >
+      
+          (liquid in a few seconds)
+        
+    </span>
+  </div>
+   
+  <div>
+    
+      From 
+      
+    <router-link-stub
+      to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+    >
+      
+        mr_mounty
+      
+    </router-link-stub>
+  </div>
+   
+  <div>
+    
+      Network Fee: 
+      
+    <b>
+      0.003421
+    </b>
+     
+    <span>
+      
+        atoms
+      
+    </span>
+  </div>
+</li-transaction-stub>
+`;
+
+exports[`LiStakeTransaction unbonding delegations without fees 1`] = `
+<li-transaction-stub
+  block="500"
+  color="#47AB6C"
+  time="1970-01-01T00:00:42.000Z"
+>
+  <div>
+    
+      Undelegation
+      
+    <b>
+      
+        0.000323
+      
+    </b>
+     
+    <span>
+      atoms
+    </span>
+     
+    <!---->
+  </div>
+   
+  <div>
+    
+      From 
+      
+    <router-link-stub
+      to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+    >
+      
+        mr_mounty
+      
+    </router-link-stub>
+  </div>
+   
+  <div>
+    
+      Network Fee: 
+      
+    <b>
+      0.000000
+    </b>
+     
+    <span>
+      
+        atoms
+      
+    </span>
+  </div>
+</li-transaction-stub>
+`;
+
+exports[`LiStakeTransaction unjail with fees 1`] = `
+<li-transaction-stub
+  block="500"
+  color="#47AB6C"
+  time="1970-01-01T00:00:42.000Z"
+>
+  <div>
+    
+      Unjail
+    
+  </div>
+   
+  <div>
+    
+      Moniker:
+      
+    <router-link-stub
+      to="/validator/cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2"
+    >
+      
+        cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2
+      
+    </router-link-stub>
+  </div>
+   
+  <div>
+    
+      Network Fee: 
+      
+    <b>
+      0.003421
+    </b>
+     
+    <span>
+      
+        atoms
+      
+    </span>
+  </div>
+</li-transaction-stub>
+`;
+
+exports[`LiStakeTransaction unjail without fees 1`] = `
+<li-transaction-stub
+  block="500"
+  color="#47AB6C"
+  time="1970-01-01T00:00:42.000Z"
+>
+  <div>
+    
+      Unjail
+    
+  </div>
+   
+  <div>
+    
+      Moniker:
+      
+    <router-link-stub
+      to="/validator/cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2"
+    >
+      
+        cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2
+      
+    </router-link-stub>
+  </div>
+   
+  <div>
+    
+      Network Fee: 
+      
+    <b>
+      0.000000
+    </b>
+     
+    <span>
+      
+        atoms
+      
+    </span>
+  </div>
+</li-transaction-stub>
+`;

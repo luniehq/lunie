@@ -2,23 +2,27 @@
   <div v-if="connected" id="tm-connected-network" class="tm-connected-network">
     <div class="tm-connected-network__connection">
       <div id="tm-connected-network__icon" class="tm-connected-network__icon">
-        <i class="material-icons">lock</i>
+        <span
+          v-tooltip.top="`Network is up and running`"
+          class="page-profile__status green"
+        />
       </div>
       <div
         id="tm-connected-network__string"
         class="tm-connected-network__string"
       >
-        <span v-tooltip.top="networkTooltip" class="chain-id">{{
-          lastHeader.chain_id
-        }}</span>
+        <span v-tooltip.top="networkTooltip" class="chain-id">
+          {{ lastHeader.chain_id }}
+        </span>
       </div>
     </div>
     <div id="tm-connected-network__block" class="tm-connected-network__string">
-      <a
-        v-tooltip.top="'View block details on the Cosmos explorer.'"
-        :href="explorerLink"
-        >{{ blockHeight }}<i class="material-icons exit">exit_to_app</i></a
+      <router-link
+        v-tooltip.top="'Block Height'"
+        :to="{ name: `block`, params: { height: lastHeader.height } }"
       >
+        {{ blockHeight }}
+      </router-link>
     </div>
   </div>
   <div
@@ -26,10 +30,13 @@
     id="tm-disconnected-network"
     class="tm-connected-network tm-disconnected-network"
   >
-    <img class="tm-connected-network-loader" src="~assets/images/loader.svg" />
+    <img class="tm-connected-network-loader" src="~assets/images/loader.svg">
     <div
       v-tooltip.top="networkTooltip"
-      class="tm-connected-network__string tm-connected-network__string--connecting"
+      class="
+        tm-connected-network__string
+        tm-connected-network__string--connecting
+      "
     >
       Connecting to {{ lastHeader.chain_id }}…
     </div>
@@ -38,33 +45,26 @@
 <script>
 import { mapGetters } from "vuex"
 import num from "scripts/num"
+
 export default {
   name: `tm-connected-network`,
   data: () => ({
-    num: num
+    num
   }),
   computed: {
-    ...mapGetters([`lastHeader`, `nodeURL`, `connected`]),
-    networkTooltip({ connected, nodeURL } = this) {
+    ...mapGetters([`lastHeader`, `nodeUrl`, `connected`]),
+    networkTooltip({ connected, nodeUrl, lastHeader } = this) {
       if (connected) {
-        return `You\'re connected to the ${
-          this.lastHeader.chain_id
-        } testnet via node ${nodeURL}.`
+        return `You're connected to the ${
+          lastHeader.chain_id
+        } testnet via node ${nodeUrl}.`
       }
-      return `We\'re pinging nodes to try to connect you to ${
-        this.lastHeader.chain_id
+      return `We're pinging nodes to try to connect you to ${
+        lastHeader.chain_id
       }.`
     },
-    blockHeight() {
-      return `#` + num.prettyInt(this.lastHeader.height)
-    },
-    explorerLink() {
-      return `https://explorecosmos.network/blocks/` + this.lastHeader.height
-    }
-  },
-  methods: {
-    closeMenu() {
-      this.$store.commit(`setActiveMenu`, ``)
+    blockHeight({ num, lastHeader } = this) {
+      return `#` + num.prettyInt(lastHeader.height)
     }
   }
 }
@@ -81,11 +81,17 @@ export default {
   justify-content: space-between;
   margin: 0.5rem;
   padding: 0.5rem;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-width: 208px; /* sidebar width minus margin */
 }
 
 .tm-connected-network .chain-id {
   font-weight: 500;
   padding-right: 1rem;
+  background: none !important;
 }
 
 .tm-connected-network .exit {

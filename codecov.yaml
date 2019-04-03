@@ -5,7 +5,7 @@ coverage:
 
   status:
     project:
-      default: on
+      default: off
     patch:
       default: on
     changes:
@@ -22,4 +22,3 @@ ignore:
   - "tasks/releasePullRequest.js"
   - "tasks/publish.js"
   - "app/src/renderer/components/govern/*"
-  - "app/src/main/menu.js" # a test for this file would only test electron code

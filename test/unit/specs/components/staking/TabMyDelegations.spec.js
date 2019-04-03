@@ -1,168 +1,191 @@
-import setup from "../../../helpers/vuex-setup"
-import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+import { shallowMount } from "@vue/test-utils"
 import TabMyDelegations from "renderer/components/staking/TabMyDelegations"
-
-const delegates = lcdClientMock.candidates
+import validators from "../../store/json/validators.js"
+import { stakingTxs } from "../../store/json/txs"
 
 // TODO: remove this dirty addition: the real cleanup will be done in a separate PR
 // the problem is mock VS real implementation have different keys: shares in mock, shares_amount in SDK
-const unbondingTransactions = lcdClientMock.state.txs.slice(5).map(t => {
-  t.tx.value.msg[0].value.shares_amount = t.tx.value.msg[0].value.shares
-  return t
-})
+// const unbondingTransactions = lcdClientMock.state.txs.slice(5).map(t => {
+//   t.tx.value.msg[0].value.shares_amount = t.tx.value.msg[0].value.shares
+//   return t
+// })
 
 describe(`Component: TabMyDelegations`, () => {
-  let { mount } = setup()
 
-  const { stakingParameters } = lcdClientMock.state
-  it(`should show committed validators`, () => {
-    let instance = mount(TabMyDelegations, {
-      getters: {
-        committedDelegations: () => ({
-          [delegates[0].operator_address]: 42
-        }),
-        delegates: () => ({
-          delegates
-        }),
-        delegation: () => ({
-          unbondingDelegations: {
-            [delegates[1].operator_address]: 1,
-            [delegates[2].operator_address]: 2
-          },
-          loaded: true
-        }),
-        bondDenom: () => stakingParameters.parameters.bond_denom,
-        connected: () => true
-      }
-    })
-
-    expect(instance.wrapper.vm.$el).toMatchSnapshot()
-  })
-
-  it(`should show unbonding validators and the current committed validator`, () => {
-    const address = delegates[0].operator_address
-    let instance = mount(TabMyDelegations, {
-      getters: {
-        // We decided that is should not be possible to undelegate from something that is not committed
-        committedDelegations: () => ({
-          [address]: 1
-        }),
-        delegates: () => ({
-          delegates
-        }),
-        delegation: () => ({
-          unbondingDelegations: {
-            [address]: {
-              creation_height: `170`,
-              min_time: new Date().toISOString()
-            }
-          },
-          loaded: true
-        }),
-        bondDenom: () => stakingParameters.parameters.bond_denom,
-        connected: () => true,
-        allTransactions: () => unbondingTransactions
-      }
-    })
-
-    expect(instance.wrapper.html()).toContain(`Unbonding transactions`)
-    expect(instance.wrapper.vm.$el).toMatchSnapshot()
-  })
-
-  it(`should show a message if not staked yet to any validator`, () => {
-    let instance = mount(TabMyDelegations, {
-      getters: {
-        committedDelegations: () => ({}),
-        delegates: () => ({
-          delegates
-        }),
-        delegation: () => ({
-          unbondingDelegations: {}
-        }),
-        bondDenom: () => stakingParameters.parameters.bond_denom,
-        connected: () => true
-      }
-    })
-
-    expect(instance.wrapper.html()).toContain(`No Active Delegations`)
-    expect(instance.wrapper.vm.$el).toMatchSnapshot()
-  })
-
-  it(`should show a message if not still connecting to a node`, () => {
-    let instance = mount(TabMyDelegations, {
-      getters: {
-        committedDelegations: () => ({}),
-        delegates: () => ({
-          delegates
-        }),
-        delegation: () => ({
-          unbondingDelegations: {},
-          loaded: false
-        }),
-        bondDenom: () => stakingParameters.parameters.bond_denom,
-        connected: () => false
+  const getters = {
+    transactions: {
+      staking: []
+    },
+    delegates: {
+      delegates: validators
+    },
+    delegation: {
+      unbondingDelegations: {
       },
-      stubs: {
-        "tm-data-connecting": true
+      loaded: true
+    },
+    committedDelegations: {
+    },
+    connected: true,
+    bondDenom: `uatom`,
+    session: { signedIn: true },
+    lastHeader: { height: `20` }
+  }
+
+  describe(`view`, () => {
+    let wrapper, $store
+
+    beforeEach(() => {
+      $store = {
+        commit: jest.fn(),
+        dispatch: jest.fn(),
+        getters: JSON.parse(JSON.stringify(getters)) // clone so we don't overwrite by accident
       }
-    })
 
-    expect(instance.wrapper.exists(`tm-data-connecting`)).toBe(true)
-  })
-
-  it(`should show a message if not still loading delegations`, () => {
-    let instance = mount(TabMyDelegations, {
-      getters: {
-        committedDelegations: () => ({}),
-        delegates: () => ({
-          delegates
-        }),
-        delegation: () => ({
-          unbondingDelegations: {},
-          loaded: true,
-          loading: true
-        }),
-        bondDenom: () => stakingParameters.parameters.bond_denom,
-        connected: () => false
-      },
-      stubs: {
-        "tm-data-loading": true
-      }
-    })
-
-    expect(instance.wrapper.exists(`tm-data-loading`)).toBe(true)
-  })
-
-  it(`unbondingTransactions`, async () => {
-    const address = delegates[0].operator_address
-    const transactions = await lcdClientMock.getDelegatorTxs(
-      lcdClientMock.addresses[0]
-    )
-
-    expect(
-      TabMyDelegations.computed.unbondingTransactions({
-        delegation: {
-          unbondingDelegations: {
-            [address]: {
-              creation_height: `170`,
-              min_time: new Date().toISOString()
-            }
+      wrapper = shallowMount(TabMyDelegations, {
+        mocks: {
+          $store,
+          $route: {
+            path: `/staking/my-delegations`
           }
         },
-        allTransactions: transactions
+        stubs: [`router-link`]
       })
-    ).toHaveLength(1)
+    })
+
+    it(`should show committed validators`, () => {
+      $store.getters.committedDelegations = {
+        [validators[0].operator_address]: 42
+      }
+
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
+
+    it(`should show unbonding validators and the current committed validator`, () => {
+
+      const time = new Date(Date.now()).toISOString()
+      const height = stakingTxs[3].height
+      const address = stakingTxs[3].tx.value.msg[0].value.validator_address
+      const ubds = {
+        [address]: [{
+          creation_height: height,
+          completion_time: time
+        }]
+      }
+
+      wrapper.vm.delegation.unbondingDelegations = ubds
+      wrapper.vm.transactions.staking = [stakingTxs[3]]
+
+      expect(wrapper.html()).toContain(`Pending Undelegations`)
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
+
+    it(`should show a message if not staked yet to any validator`, () => {
+      $store.getters.committedDelegations = {}
+
+      expect(wrapper.html()).toContain(`No Active Delegations`)
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
+
+    it(`should show a message if not still connecting to a node`, () => {
+      $store.getters.connected = false
+
+      expect(wrapper.exists(`tm-data-connecting`)).toBe(true)
+    })
+
+    it(`should show a message if not still loading delegations`, () => {
+      $store.getters.delegation.loading = true
+
+      expect(wrapper.exists(`tm-data-loading`)).toBe(true)
+    })
+
+    it(`should show a message if not signed in`, () => {
+      $store.getters.session.signedIn = false
+
+      expect(wrapper.exists(`card-sign-in-required`)).toBe(true)
+    })
   })
 
-  it(`yourValidators`, () => {
-    expect(
-      TabMyDelegations.computed.yourValidators({
-        committedDelegations: {
-          [delegates[0].operator_address]: 1,
-          [delegates[2].operator_address]: 2
-        },
-        delegates: { delegates }
+  describe(`computed`, () => {
+    it(`unbondingTransactions`, async () => {
+      const address = stakingTxs[3].tx.value.msg[0].value.validator_address
+      const transactions = [stakingTxs[3]]
+
+      expect(
+        TabMyDelegations.computed.unbondingTransactions({
+          delegation: {
+            unbondingDelegations: {
+              [address]: [
+                {
+                  creation_height: stakingTxs[3].height,
+                  completion_time: new Date().toISOString()
+                }
+              ]
+            }
+          },
+          transactions: {
+            staking: transactions
+          }
+        })
+      ).toHaveLength(1)
+    })
+
+    describe(`yourValidators`, () => {
+      it(`should return validators if signed in`, () => {
+        expect(
+          TabMyDelegations.computed.yourValidators({
+            committedDelegations: {
+              [validators[0].operator_address]: 1,
+              [validators[2].operator_address]: 2
+            },
+            delegates: { delegates: validators },
+            session: { signedIn: true }
+          })
+        ).toEqual([validators[0], validators[2]])
       })
-    ).toEqual([delegates[0], delegates[2]])
+
+      it(`should return false if not signed in`, () => {
+        expect(
+          TabMyDelegations.computed.yourValidators({
+            committedDelegations: {
+              [validators[0].operator_address]: 1,
+              [validators[2].operator_address]: 2
+            },
+            delegates: { delegates: validators },
+            session: { signedIn: false }
+          })
+        ).toBe(false)
+      })
+    })
+
+    describe(`update rewards on new blocks`, () => {
+      describe(`shouldn't update`, () => {
+        it(`if hasn't waited for 20 blocks `, () => {
+          const $store = { dispatch: jest.fn() }
+          const yourValidators = [{}]
+          const newHeader = { height: `30` }
+          TabMyDelegations.watch.lastHeader.handler.call(
+            { $store, yourValidators },
+            newHeader)
+          expect($store.dispatch).not.toHaveBeenCalledWith(
+            `getRewardsFromMyValidators`,
+            yourValidators
+          )
+        })
+
+        it(`if user doesn't have any delegations `, () => {
+          const $store = { dispatch: jest.fn() }
+          const yourValidators = []
+          const newHeader = { height: `40` }
+          TabMyDelegations.watch.lastHeader.handler.call(
+            { $store, yourValidators },
+            newHeader)
+          expect($store.dispatch).not.toHaveBeenCalledWith(
+            `getRewardsFromMyValidators`,
+            yourValidators
+          )
+        })
+      })
+    })
   })
 })

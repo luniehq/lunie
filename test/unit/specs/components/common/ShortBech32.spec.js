@@ -1,19 +1,26 @@
-import setup from "../../../helpers/vuex-setup"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
+import VueClipboard from "vue-clipboard2"
 import ShortBech32 from "renderer/components/common/ShortBech32"
+
+const localVue = createLocalVue()
+localVue.directive(`clipboard`, VueClipboard)
+localVue.directive(`tooltip`, () => { })
 
 describe(`ShortBech32`, () => {
   let wrapper
-  let instance = setup()
 
   beforeEach(() => {
-    let test = instance.mount(ShortBech32, {
-      propsData: { address: `cosmosftw123456789` }
+    wrapper = shallowMount(ShortBech32, {
+      localVue,
+      propsData: { address: `cosmosftw123456789` },
+      data: () => ({
+        copySuccess: false
+      })
     })
-    wrapper = test.wrapper
   })
 
-  it(`has the expected html structure`, () => {
-    expect(wrapper.html()).toMatchSnapshot()
+  it(`should show a short address`, () => {
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should return 'address not found'`, () => {
@@ -31,7 +38,19 @@ describe(`ShortBech32`, () => {
     expect(wrapper.vm.shortBech32).toBe(`cosmosaddress…asdf`)
   })
 
-  it(`clicking copy copies the address`, () => {
+  describe(`onCopy`, () => {
+    it(`should set and reset copySuccess`, () => {
+      jest.useFakeTimers()
+      wrapper.vm.onCopy() // old test style to make timer work
+      expect(wrapper.vm.copySuccess).toBe(true)
+
+      jest.runAllTimers()
+      expect(wrapper.vm.copySuccess).toBe(false)
+    })
+  })
+
+  // TODO: not sure how to test the v-clipboard directive events
+  xit(`clicking copy copies the address`, () => {
     jest.useFakeTimers()
     expect(
       wrapper
@@ -47,6 +66,7 @@ describe(`ShortBech32`, () => {
         .classes()
         .includes(`active`)
     ).toBe(true)
+
     jest.runAllTimers()
     expect(
       wrapper

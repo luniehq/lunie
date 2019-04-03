@@ -1,101 +1,71 @@
 <template>
-  <div v-click-outside="close" id="modal-deposit" class="modal-deposit">
-    <div class="modal-deposit-header">
-      <img
-        class="icon modal-deposit-atom"
-        src="~assets/images/cosmos-logo.png"
-      /><span class="tm-modal-title">Deposit</span>
-      <div id="closeBtn" class="tm-modal-icon tm-modal-close" @click="close()">
-        <i class="material-icons">close</i>
-      </div>
-    </div>
-    <div>
-      <h2>Title: {{ proposalTitle }}</h2>
-      <h3>Proposal ID: {{ `#` + proposalId }}</h3>
-    </div>
+  <action-modal
+    id="modal-deposit"
+    ref="actionModal"
+    :submit-fn="submitForm"
+    :simulate-fn="simulateForm"
+    :validate="validateForm"
+    :amount="amount"
+    title="Deposit"
+    class="modal-deposit"
+    submission-error-prefix="Depositing failed"
+    @close="clear"
+  >
     <tm-form-group
-      :error="$v.amount.$invalid && (amount > 0 || balance === 0)"
-      class="modal-deposit-form-group"
+      :error="$v.amount.$error && $v.amount.$invalid"
+      class="action-modal-form-group"
       field-id="amount"
       field-label="Amount"
     >
+      <span class="input-suffix">{{ num.viewDenom(denom) }}</span>
       <tm-field
-        id="denom"
-        :placeholder="denom"
-        type="text"
-        readonly="readonly"
+        id="amount"
+        v-model="amount"
+        type="number"
       />
-      <tm-field v-focus id="amount" :min="0" v-model="amount" type="number" />
       <tm-form-msg
-        v-if="!$v.amount.between && amount > 0 && balance > 0"
+        v-if="balance === 0"
+        :msg="`doesn't have any ${num.viewDenom(denom)}s`"
+        name="Wallet"
+        type="custom"
+      />
+      <tm-form-msg
+        v-else-if="$v.amount.$error && (!$v.amount.required || amount === 0)"
+        name="Amount"
+        type="required"
+      />
+      <tm-form-msg
+        v-else-if="$v.amount.$error && !$v.amount.decimal"
+        name="Amount"
+        type="numeric"
+      />
+      <tm-form-msg
+        v-else-if="$v.amount.$error && !$v.amount.between"
         :max="$v.amount.$params.between.max"
         :min="$v.amount.$params.between.min"
         name="Amount"
         type="between"
       />
-      <tm-form-msg
-        v-else-if="balance === 0"
-        :msg="`doesn't hold any ${denom}s`"
-        name="Wallet"
-        type="custom"
-      />
-      <hr />
     </tm-form-group>
-    <tm-form-group
-      class="modal-deposit-form-group"
-      field-id="password"
-      field-label="Account password"
-    >
-      <tm-field
-        id="password"
-        v-model="password"
-        :type="showPassword ? `text` : `password`"
-        placeholder="password..."
-      />
-      <input
-        id="showPasswordCheckbox"
-        v-model="showPassword"
-        type="checkbox"
-        @input="togglePassword"
-      />
-      <label for="showPasswordCheckbox">Show password</label>
-    </tm-form-group>
-    <div class="modal-deposit-footer">
-      <tm-btn
-        id="submit-deposit"
-        :disabled="$v.$invalid"
-        color="primary"
-        value="Deposit"
-        size="lg"
-        @click.native="onDeposit"
-      />
-    </div>
-  </div>
+  </action-modal>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
-import ClickOutside from "vue-click-outside"
-import { required, between } from "vuelidate/lib/validators"
-import Modal from "common/TmModal"
-import TmBtn from "common/TmBtn"
+import num, { uatoms, atoms, SMALLEST } from "../../scripts/num.js"
+import { between, decimal } from "vuelidate/lib/validators"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
-
-const isInteger = amount => Number.isInteger(amount)
+import ActionModal from "common/ActionModal"
 
 export default {
   name: `modal-deposit`,
   components: {
-    Modal,
-    TmBtn,
+    ActionModal,
     TmField,
     TmFormGroup,
     TmFormMsg
-  },
-  directives: {
-    ClickOutside
   },
   props: {
     proposalId: {
@@ -112,16 +82,15 @@ export default {
     }
   },
   data: () => ({
-    amount: 0,
-    password: ``,
-    showPassword: false
+    num,
+    amount: 0
   }),
   computed: {
-    ...mapGetters([`wallet`]),
+    ...mapGetters([`wallet`, `bondDenom`]),
     balance() {
       // TODO: refactor to get the selected coin when multicoin deposit is enabled
       if (!this.wallet.loading && !!this.wallet.balances.length) {
-        let balance = this.wallet.balances.find(
+        const balance = this.wallet.balances.find(
           coin => coin.denom === this.denom
         )
         if (balance) return parseFloat(balance.amount)
@@ -132,83 +101,65 @@ export default {
   validations() {
     return {
       amount: {
-        required,
-        isInteger,
-        between: between(1, this.balance)
-      },
-      password: {
-        required
+        required: x => !!x && x !== `0`,
+        decimal,
+        between: between(SMALLEST, atoms(this.balance))
       }
     }
   },
   methods: {
-    close() {
-      this.$emit(`update:showModalDeposit`, false)
+    open() {
+      this.$refs.actionModal.open()
     },
-    togglePassword() {
-      this.showPassword = !this.showPassword
+    validateForm() {
+      this.$v.$touch()
+
+      return !this.$v.$invalid
     },
-    onDeposit() {
-      let amount = [
-        {
-          denom: this.denom,
-          amount: String(this.amount)
-        }
-      ]
-      this.$emit(`submitDeposit`, { amount, password: this.password })
-      this.close()
+    clear() {
+      this.$v.$reset()
+
+      this.amount = 0
+    },
+    async simulateForm() {
+      return await this.$store.dispatch(`simulateDeposit`, {
+        proposal_id: this.proposalId,
+        amount: [
+          {
+            amount: String(uatoms(this.amount)),
+            denom: this.denom
+          }
+        ]
+      })
+    },
+    async submitForm(gasEstimate, gasPrice, password, submitType) {
+      // TODO: support multiple coins
+      await this.$store.dispatch(`submitDeposit`, {
+        submitType,
+        password,
+        proposal_id: this.proposalId,
+        amount: [
+          {
+            amount: String(uatoms(this.amount)),
+            denom: this.denom
+          }
+        ],
+        gas: String(gasEstimate),
+        gas_prices: [
+          {
+            amount: String(uatoms(gasPrice)),
+            denom: this.bondDenom
+          }
+        ]
+      })
+
+      this.$store.commit(`notify`, {
+        title: `Successful deposit!`,
+        body: `You have successfully deposited your ${num.viewDenom(
+          this.denom
+        )}s on proposal #${this.proposalId}`
+      })
     }
   }
 }
 </script>
-
-<style>
-.modal-deposit {
-  background: var(--app-nav);
-  display: flex;
-  flex-direction: column;
-  height: 50%;
-  justify-content: space-between;
-  left: 50%;
-  padding: 2rem;
-  position: fixed;
-  top: 50%;
-  width: 40%;
-  z-index: var(--z-modal);
-}
-
-.modal-deposit-header {
-  align-items: center;
-  display: flex;
-}
-
-.modal-deposit-atom {
-  height: 4rem;
-  width: 4rem;
-}
-
-.modal-deposit-form-group {
-  display: block;
-  padding: 0;
-}
-
-.modal-deposit #amount {
-  margin-top: -32px;
-}
-
-.modal-deposit #denom {
-  border: none;
-  margin-left: 80%;
-  text-align: right;
-  width: 72px;
-}
-
-.modal-deposit-footer {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.modal-deposit-footer button {
-  margin-left: 1rem;
-}
-</style>

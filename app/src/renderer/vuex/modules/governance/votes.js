@@ -14,41 +14,53 @@ export default ({ node }) => {
       Vue.set(state.votes, proposalId, votes)
     }
   }
-  let actions = {
+  const actions = {
     async getProposalVotes({ state, commit, rootState }, proposalId) {
       state.loading = true
 
       if (!rootState.connection.connected) return
 
       try {
-        let votes = await node.queryProposalVotes(proposalId)
+        const votes = await node.getProposalVotes(proposalId)
         commit(`setProposalVotes`, { proposalId, votes })
         state.error = null
         state.loading = false
         state.loaded = true
       } catch (error) {
-        commit(`notifyError`, {
-          title: `Error fetching votes`,
-          body: error.message
-        })
         Sentry.captureException(error)
         state.error = error
       }
     },
+    async simulateVote(
+      { rootState, dispatch },
+      { proposal_id, option }
+    ) {
+      return await dispatch(`simulateTx`, {
+        to: proposal_id,
+        type: `postProposalVote`,
+        proposal_id,
+        voter: rootState.wallet.address,
+        option
+      })
+    },
     async submitVote(
       { rootState, dispatch },
-      { proposal_id, option, password }
+      { proposal_id, option, gas, gas_prices, password, submitType }
     ) {
       await dispatch(`sendTx`, {
         to: proposal_id,
-        type: `submitProposalVote`,
+        type: `postProposalVote`,
         proposal_id,
         voter: rootState.wallet.address,
         option,
-        password
+        gas,
+        gas_prices,
+        password,
+        submitType
       })
       await dispatch(`getProposalVotes`, proposal_id)
       await dispatch(`getProposal`, proposal_id)
+      await dispatch(`getAllTxs`)
     }
   }
   return {

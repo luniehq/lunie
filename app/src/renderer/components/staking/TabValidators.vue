@@ -24,8 +24,35 @@ export default {
     TmDataLoading,
     TmDataConnecting
   },
+  data: () => ({
+    lastUpdate: 0
+  }),
   computed: {
-    ...mapGetters([`delegates`, `connected`])
+    ...mapGetters([
+      `lastHeader`,
+      `delegates`,
+      `committedDelegations`,
+      `connected`,
+      `session`,
+      `yourValidators`
+    ])
+  },
+  watch: {
+    "session.signedIn": function(signedIn) {
+      signedIn && this.$store.dispatch(`updateDelegates`)
+    },
+    lastHeader: {
+      immediate: true,
+      handler() {
+        this.$store.dispatch(`getRewardsFromMyValidators`)
+      }
+    }
+  },
+  mounted() {
+    this.$store.dispatch(`updateDelegates`)
+    if (this.yourValidators) {
+      this.$store.dispatch(`getRewardsFromMyValidators`, this.yourValidators)
+    }
   }
 }
 </script>

@@ -1,11 +1,15 @@
 import depositsModule from "renderer/vuex/modules/governance/deposits.js"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
-let { proposals, deposits } = lcdClientMock.state
-let addresses = lcdClientMock.addresses
+const { proposals, deposits } = lcdClientMock.state
+const addresses = lcdClientMock.addresses
 
-let mockRootState = {
+const mockRootState = {
   wallet: {
-    address: addresses[0]
+    address: addresses[0],
+    balances: [{
+      denom: `stake`,
+      amount: 100
+    }]
   },
   connection: {
     connected: true
@@ -20,7 +24,7 @@ describe(`Module: Deposits`, () => {
   })
 
   it(`adds deposits to state`, () => {
-    let { mutations, state } = module
+    const { mutations, state } = module
     mutations.setProposalDeposits(state, `1`, deposits)
     expect(state.deposits[`1`]).toEqual(deposits)
   })
@@ -28,12 +32,11 @@ describe(`Module: Deposits`, () => {
   it(`fetches all deposits from a proposal`, async () => {
     module = depositsModule({
       node: {
-        queryProposalDeposits: proposalId =>
-          Promise.resolve(deposits[proposalId])
+        getProposalDeposits: proposalId => Promise.resolve(deposits[proposalId])
       }
     })
-    let { actions, state } = module
-    let commit = jest.fn()
+    const { actions, state } = module
+    const commit = jest.fn()
     Object.keys(proposals).forEach(async (proposal_id, i) => {
       await actions.getProposalDeposits(
         { state, commit, rootState: mockRootState },
@@ -47,11 +50,31 @@ describe(`Module: Deposits`, () => {
     })
   })
 
+  it(`should simulate a deposit transaction`, async () => {
+    const { actions } = module
+    const self = {
+      rootState: mockRootState,
+      dispatch: jest.fn(() => 123123)
+    }
+    const amount = [{ denom: `uatom`, amount: `10000000` }]
+    const res = await actions.simulateDeposit(self, { proposal_id: `1`, amount })
+
+    expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {
+      type: `postProposalDeposit`,
+      to: `1`,
+      proposal_id: `1`,
+      depositor: mockRootState.wallet.address,
+      amount
+    })
+    expect(res).toBe(123123)
+  })
+
   it(`submits a deposit to a proposal`, async () => {
-    let { actions } = module
+    const { actions } = module
     jest.useFakeTimers()
 
-    let dispatch = jest.fn()
+    const dispatch = jest.fn()
+    const commit = jest.fn()
     const amount = [
       {
         denom: `stake`,
@@ -62,14 +85,14 @@ describe(`Module: Deposits`, () => {
     const proposalIds = Object.keys(proposals)
     proposalIds.forEach(async (proposal_id, i) => {
       await actions.submitDeposit(
-        { rootState: mockRootState, dispatch },
+        { rootState: mockRootState, dispatch, commit },
         { proposal_id, amount }
       )
 
       expect(dispatch.mock.calls[i]).toEqual([
         `sendTx`,
         {
-          type: `submitProposalDeposit`,
+          type: `postProposalDeposit`,
           to: proposal_id,
           proposal_id,
           depositor: addresses[0],
@@ -82,16 +105,20 @@ describe(`Module: Deposits`, () => {
         `getProposalDeposits`,
         proposal_id
       ])
+      expect(commit).toHaveBeenCalledWith(`updateWalletBalance`, {
+        denom: `stake`,
+        amount: 85
+      })
     })
   })
 
   it(`should store an error if failed to load deposits`, async () => {
     module = depositsModule({
       node: {
-        queryProposalDeposits: () => Promise.reject(new Error(`Error`))
+        getProposalDeposits: () => Promise.reject(new Error(`Error`))
       }
     })
-    let { actions, state } = module
+    const { actions, state } = module
     await actions.getProposalDeposits({
       state,
       rootState: mockRootState,

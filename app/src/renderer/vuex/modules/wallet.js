@@ -1,53 +1,67 @@
 import * as Sentry from "@sentry/browser"
-import fs from "fs-extra"
-import { join } from "path"
-import { remote } from "electron"
-import { sleep } from "scripts/common.js"
-const root = remote.getGlobal(`root`)
+import Vue from "vue"
+import config from "../../../config"
+import axios from "axios"
 
 export default ({ node }) => {
-  let emptyState = {
+  const emptyState = {
     balances: [],
     loading: true,
     loaded: false,
     error: null,
-    denoms: [],
+    accountNumber: null,
     address: null,
-    subscribedRPC: null
+    subscribedRPC: null,
+    externals: { config }
   }
-  let state = JSON.parse(JSON.stringify(emptyState))
+  const state = JSON.parse(JSON.stringify(emptyState))
+  state.externals.axios = axios
 
-  let mutations = {
+  const mutations = {
     setWalletBalances(state, balances) {
-      state.balances = balances
-      state.loading = false
+      Vue.set(state, `balances`, balances)
+      Vue.set(state, `loading`, false)
+    },
+    updateWalletBalance(state, balance) {
+      const findBalanceIndex = state.balances.findIndex(
+        ({ denom }) => balance.denom === denom
+      )
+      if (findBalanceIndex === -1) {
+        state.balances.push(balance)
+        return
+      }
+      Vue.set(state.balances, findBalanceIndex, balance)
     },
     setWalletAddress(state, address) {
       state.address = address
     },
     setAccountNumber(state, accountNumber) {
       state.accountNumber = accountNumber
-    },
-    setDenoms(state, denoms) {
-      state.denoms = denoms
     }
   }
 
-  let actions = {
-    reconnected({ state, dispatch }) {
-      if (state.loading && state.address) {
-        dispatch(`queryWalletBalances`)
+  const actions = {
+    async reconnected({ rootState, state, dispatch }) {
+      if (state.loading && state.address && rootState.session.signedIn) {
+        await dispatch(`queryWalletBalances`)
       }
     },
-    initializeWallet({ commit, dispatch }, address) {
+    async initializeWallet({ state, commit, dispatch }, { address }) {
       commit(`setWalletAddress`, address)
       dispatch(`queryWalletBalances`)
-      dispatch(`loadDenoms`)
+        .then(() => {
+          // if the account is empty and there is a faucet for that network, give the account some money
+          if (state.balances.length === 0 && state.externals.config.faucet) {
+            dispatch(`getMoney`, address)
+          }
+        })
+      dispatch(`getTotalRewards`)
       dispatch(`walletSubscribe`)
     },
     resetSessionData({ rootState }) {
       // clear previous account state
       rootState.wallet = JSON.parse(JSON.stringify(emptyState))
+      rootState.wallet.externals.axios = axios
     },
     async queryWalletBalances({ state, rootState, commit }) {
       if (!state.address) return
@@ -56,25 +70,12 @@ export default ({ node }) => {
       if (!rootState.connection.connected) return
 
       try {
-        let res = await node.queryAccount(state.address)
-        if (!res) {
-          state.loading = false
-          state.loaded = true
-          return
-        }
+        const res = await node.getAccount(state.address)
         state.error = null
-        let coins = res.coins || []
-        commit(`setNonce`, res.sequence)
-        commit(`setAccountNumber`, res.account_number)
-        commit(`setWalletBalances`, coins)
-        for (let coin of coins) {
-          if (
-            coin.denom === rootState.stakingParameters.parameters.bond_denom
-          ) {
-            commit(`setAtoms`, parseFloat(coin.amount))
-            break
-          }
-        }
+        const { coins, sequence, account_number } = res || {}
+        commit(`setNonce`, sequence)
+        commit(`setAccountNumber`, account_number)
+        commit(`setWalletBalances`, coins || [])
         state.loading = false
         state.loaded = true
       } catch (error) {
@@ -86,47 +87,41 @@ export default ({ node }) => {
         state.error = error
       }
     },
-    async loadDenoms({ commit, state }, maxIterations = 10) {
-      // read genesis.json to get default denoms
+    async simulateSendCoins(
+      { dispatch },
+      { receiver, amount, denom }
+    ) {
+      return await dispatch(`simulateTx`, {
+        type: `send`,
+        to: receiver,
+        amount: [{ denom, amount: String(amount) }]
+      })
+    },
+    async sendCoins(
+      { dispatch, commit, state },
+      { receiver, amount, denom, gas, gas_prices, password, submitType }
+    ) {
+      await dispatch(`sendTx`, {
+        type: `send`,
+        gas,
+        gas_prices,
+        password,
+        submitType,
+        to: receiver,
+        amount: [{ denom, amount: String(amount) }]
+      })
 
-      // wait for genesis.json to exist
-      let genesisPath = join(root, `genesis.json`)
-
-      // wait for the genesis and load it
-      // at some point give up and throw an error
-      while (maxIterations) {
-        try {
-          await fs.pathExists(genesisPath)
-          break
-        } catch (error) {
-          console.log(`waiting for genesis`, error, genesisPath)
-          maxIterations--
-          await sleep(500)
-        }
-      }
-      if (maxIterations === 0) {
-        const error = new Error(`Couldn't load genesis at path ${genesisPath}`)
-        Sentry.captureException(error)
-        state.error = error
-        return
-      }
-
-      let genesis = await fs.readJson(genesisPath)
-      let denoms = []
-      for (let account of genesis.app_state.accounts) {
-        if (account.coins) {
-          for (let { denom } of account.coins) {
-            denoms.push(denom)
-          }
-        }
-      }
-
-      commit(`setDenoms`, denoms)
+      const oldBalance = state.balances.find(balance => balance.denom === denom)
+      commit(`updateWalletBalance`, {
+        denom,
+        amount: oldBalance.amount - amount
+      })
+      await dispatch(`getAllTxs`)
     },
     queryWalletStateAfterHeight({ rootState, dispatch }, height) {
       return new Promise(resolve => {
         // wait until height is >= `height`
-        let interval = setInterval(() => {
+        const interval = setInterval(() => {
           if (rootState.connection.lastHeader.height < height) return
           clearInterval(interval)
           dispatch(`queryWalletBalances`)
@@ -143,16 +138,8 @@ export default ({ node }) => {
 
       state.subscribedRPC = node.rpc
 
-      function onTx(error, event) {
-        if (error) {
-          Sentry.captureException(error)
-          console.error(`error subscribing to transactions`, error)
-          return
-        }
-        dispatch(
-          `queryWalletStateAfterHeight`,
-          event.data.value.TxResult.height + 1
-        )
+      function onTx(data) {
+        dispatch(`queryWalletStateAfterHeight`, data.TxResult.height + 1)
       }
 
       const queries = [
@@ -172,7 +159,10 @@ export default ({ node }) => {
           onTx
         )
       })
-    }
+    },
+    async getMoney({ state }, address) {
+      return state.externals.axios.get(`${state.externals.config.faucet}/${address}`)
+    },
   }
 
   return {

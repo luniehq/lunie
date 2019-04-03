@@ -9,8 +9,7 @@
       :layout="notification.layout"
       :title="notification.title"
       :time="notification.time"
-      :theme="theme"
-    ></tm-notification>
+    />
   </div>
 </template>
 
@@ -25,10 +24,6 @@ export default {
     notifications: {
       type: Array,
       required: true
-    },
-    theme: {
-      type: String,
-      default: null
     }
   }
 }

@@ -1,128 +1,135 @@
-import fp from "lodash/fp"
 import { uniqBy } from "lodash"
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
+
 export default ({ node }) => {
-  let emptyState = {
+  const emptyState = {
     loading: false,
     loaded: false,
     error: null,
-    wallet: [], // {height, result: { gas, tags }, tx: { type, value: { fee: { amount: [{denom, amount}], gas}, msg: {type, inputs, outputs}}, signatures} }}
+    bank: [], // {height, result: { gas, tags }, tx: { type, value: { fee: { amount: [{denom, amount}], gas}, msg: {type, inputs, outputs}}, signatures} }}
     staking: [],
-    governance: []
+    governance: [],
+    distribution: []
   }
-  let state = JSON.parse(JSON.stringify(emptyState))
 
-  // properties under which txs of different categories are stored
-  const txCategories = [`staking`, `wallet`, `governance`]
+  const
+    TypeBank = `bank`,
+    TypeStaking = `staking`,
+    TypeGovernance = `governance`,
+    TypeDistribution = `distribution`
 
-  let mutations = {
-    setWalletTxs(state, txs) {
-      state.wallet = txs
+  const state = JSON.parse(JSON.stringify(emptyState))
+
+  const mutations = {
+    setBankTxs(state, txs) {
+      Vue.set(state, TypeBank, txs)
     },
     setStakingTxs(state, txs) {
-      state.staking = txs
+      Vue.set(state, TypeStaking, txs)
     },
     setGovernanceTxs(state, txs) {
-      state.governance = txs
+      Vue.set(state, TypeGovernance, txs)
+    },
+    setDistributionTxs(state, txs) {
+      Vue.set(state, TypeDistribution, txs)
     },
     setHistoryLoading(state, loading) {
-      state.loading = loading
-    },
-    setTransactionTime(state, { blockHeight, blockMetaInfo }) {
-      txCategories.forEach(category => {
-        state[category].forEach(t => {
-          if (t.height === blockHeight && blockMetaInfo) {
-            // time seems to be an ISO string, but we are expecting a Number type
-            Vue.set(t, `time`, new Date(blockMetaInfo.header.time).getTime())
-          }
-        })
-      })
+      Vue.set(state, `loading`, loading)
     }
   }
 
-  let actions = {
+  const actions = {
     resetSessionData({ rootState }) {
       // clear previous account state
       rootState.transactions = JSON.parse(JSON.stringify(emptyState))
     },
-    async reconnected({ dispatch }) {
-      if (state.loading) {
+    async reconnected({ state, dispatch, rootState }) {
+      // TODO: remove signedIn check when we support the option for setting a custom address for txs page
+      if (state.loading && rootState.session.signedIn) {
         await dispatch(`getAllTxs`)
+      }
+    },
+    async parseAndSetTxs({ commit, dispatch, state }, { txType }) {
+      const txs = await dispatch(`getTx`, txType)
+      if (state[txType] && txs.length > state[txType].length) {
+        let newTxs = uniqBy(
+          txs.concat(state[txType]),
+          `txhash`
+        )
+        newTxs = await dispatch(`enrichTransactions`, {
+          transactions: newTxs,
+          txType
+        })
+        switch (txType) {
+          case TypeBank:
+            commit(`setBankTxs`, newTxs)
+            break
+          case TypeStaking:
+            commit(`setStakingTxs`, newTxs)
+            break
+          case TypeGovernance:
+            commit(`setGovernanceTxs`, newTxs)
+            break
+          case TypeDistribution:
+            commit(`setDistributionTxs`, newTxs)
+            break
+        }
       }
     },
     async getAllTxs({ commit, dispatch, state, rootState }) {
       try {
-        state.loading = true
+        commit(`setHistoryLoading`, true)
 
         if (!rootState.connection.connected) return
 
-        const stakingTxs = await dispatch(`getTx`, `staking`)
-        commit(`setStakingTxs`, stakingTxs)
+        [TypeBank, TypeStaking, TypeGovernance, TypeDistribution]
+          .forEach(async txType => await dispatch(`parseAndSetTxs`, { txType }))
 
-        const governanceTxs = await dispatch(`getTx`, `governance`)
-        commit(`setGovernanceTxs`, governanceTxs)
-
-        const walletTxs = await dispatch(`getTx`, `wallet`)
-        commit(`setWalletTxs`, walletTxs)
-
-        const allTxs = stakingTxs.concat(governanceTxs.concat(walletTxs))
-        await dispatch(`enrichTransactions`, {
-          transactions: allTxs
-        })
         state.error = null
-        state.loading = false
+        commit(`setHistoryLoading`, false)
         state.loaded = true
       } catch (error) {
-        commit(`notifyError`, {
-          title: `Error getting transactions`,
-          body: error.message
-        })
         Sentry.captureException(error)
         state.error = error
       }
     },
-    async getTx(
-      {
-        rootState: {
-          user: { address }
-        }
-      },
-      type
-    ) {
+    async getTx({ rootState: { session: { address } } }, type) {
       let response
+      const validatorAddress = address.replace(`cosmos`, `cosmosvaloper`)
       switch (type) {
-        case `staking`:
-          response = await node.getDelegatorTxs(address)
-          break
-        case `governance`:
-          response = await node.getGovernanceTxs(address)
-          break
-        case `wallet`:
+        case TypeBank:
           response = await node.txs(address)
           break
+        case TypeStaking:
+          response = await node.getStakingTxs(address, validatorAddress)
+          break
+        case TypeGovernance:
+          response = await node.getGovernanceTxs(address)
+          break
+        case TypeDistribution:
+          response = await node.getDistributionTxs(address, validatorAddress)
+          break
         default:
-          throw new Error(`Unknown transaction type`)
+          throw new Error(`Unknown transaction type: ${type}`)
       }
-      const transactionsPlusType = response.map(fp.set(`type`, type))
-      return response ? uniqBy(transactionsPlusType, `hash`) : []
+      if (!response) {
+        return []
+      }
+      return response
     },
-    async enrichTransactions({ dispatch }, { transactions }) {
-      const blockHeights = new Set(
-        transactions.map(({ height }) => parseInt(height))
+    async enrichTransactions({ dispatch }, { transactions, txType }) {
+      const enrichedTransactions = await Promise.all(
+        transactions.map(async tx => {
+          const blockMetaInfo = await dispatch(`queryBlockInfo`, tx.height)
+          const enrichedTx = Object.assign({}, tx, {
+            type: txType,
+            time: new Date(blockMetaInfo.header.time).toISOString()
+          })
+          return enrichedTx
+        })
       )
-      await Promise.all(
-        [...blockHeights].map(blockHeight =>
-          dispatch(`queryTransactionTime`, { blockHeight })
-        )
-      )
-    },
-    async queryTransactionTime({ commit, dispatch }, { blockHeight }) {
-      let blockMetaInfo = await dispatch(`queryBlockInfo`, blockHeight)
-      commit(`setTransactionTime`, {
-        blockHeight,
-        blockMetaInfo
-      })
+      return enrichedTransactions
     }
   }
 

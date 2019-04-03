@@ -1,13 +1,18 @@
 <template>
   <div :class="cssClass">
-    <span v-if="subLabel" class="tm-form-group__sub-label">{{ subLabel }}</span
-    ><label
+    <span v-if="subLabel" class="tm-form-group__sub-label">
+      {{ subLabel }}
+    </span>
+    <label
       v-if="fieldId && fieldLabel"
       :for="fieldId"
       class="tm-form-group__label"
-      >{{ fieldLabel }}</label
     >
-    <div class="tm-form-group__field"><slot></slot></div>
+      {{ fieldLabel }}
+    </label>
+    <div class="tm-form-group__field">
+      <slot />
+    </div>
   </div>
 </template>
 
@@ -19,15 +24,15 @@ export default {
       type: Boolean,
       default: false
     },
-    "field-id": {
+    fieldId: {
       type: String,
       default: null
     },
-    "field-label": {
+    fieldLabel: {
       type: String,
       default: null
     },
-    "sub-label": {
+    subLabel: {
       type: String,
       default: null
     }
@@ -56,16 +61,20 @@ export default {
   width: 100%;
 }
 
-.tm-form-group .tm-form-msg--error {
-  display: none;
-}
-
 .tm-form-group__sub-label {
   position: absolute;
   bottom: 0.5rem;
   left: 1rem;
   font-size: var(--xs);
   color: var(--dim);
+}
+
+.tm-form-group__label {
+  display: block;
+  line-height: 2rem;
+  color: var(--txt);
+  text-align: left;
+  font-weight: 500;
 }
 
 .tm-form-group__sub-label ~ .tm-form-group__label {
@@ -75,17 +84,6 @@ export default {
 .tm-form-group--error .tm-field,
 .tm-form-group--error .tm-select {
   border-color: var(--danger);
-}
-
-.tm-form-group--error .tm-form-msg--error {
-  display: flex;
-}
-
-.tm-form-group__label {
-  display: block;
-  line-height: 2rem;
-  color: var(--txt);
-  text-align: left;
 }
 
 @media (min-width: 768px) {
@@ -99,6 +97,7 @@ export default {
 
   .tm-form-group__field {
     flex: 1;
+    position: relative;
   }
 
   .tm-form-group__field > .tm-field,

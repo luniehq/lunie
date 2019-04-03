@@ -1,14 +1,17 @@
 <template>
   <div id="onboarding" class="tm-session-wrapper">
-    <img class="tm-session-backdrop" src="~assets/images/cosmos-logo.png" />
     <div class="tm-session">
       <div class="tm-session-container">
         <div class="tm-session-header">
-          <div class="tm-session-title">Welcome to Voyager</div>
+          <div class="tm-session-title">
+            Welcome to Voyager
+          </div>
         </div>
         <div class="tm-session-main">
-          <div class="tm-session-label">{{ activeValue }}</div>
-          <img :src="activeImg" />
+          <div class="tm-session-label">
+            {{ activeValue }}
+          </div>
+          <img :src="activeImg">
           <tm-bar-discrete
             :nodes="nodes"
             :click-fn="go"
@@ -46,6 +49,7 @@
 
 <script>
 import { mapGetters } from "vuex"
+import num from "scripts/num"
 import PerfectScrollbar from "perfect-scrollbar"
 import TmBarDiscrete from "common/TmBarDiscrete"
 import TmBtn from "common/TmBtn"
@@ -61,9 +65,11 @@ export default {
       const nodes = [
         `This is a quick tour of the primary features of Cosmos Voyager.`,
         `You can send and receive Cosmos tokens from anyone around the world.`,
-        `You can delegate your ${
+        `You can delegate your ${num.viewDenom(
           this.bondDenom
-        } to Cosmos Validators to earn even more ${this.bondDenom}.`,
+        )} to Cosmos Validators to earn even more ${num.viewDenom(
+          this.bondDenom
+        )}.`,
         `Through governance, you can vote on the future of the Cosmos Network.`,
         `Start using Voyager to explore the Cosmos Network!`
       ]
@@ -86,7 +92,7 @@ export default {
       this.$store.commit(`setOnboardingState`, state)
     },
     next() {
-      let nextState = this.onboarding.state + 1
+      const nextState = this.onboarding.state + 1
       this.$store.commit(`setOnboardingState`, nextState)
     },
     restart() {
@@ -104,15 +110,19 @@ export default {
 #onboarding .tm-session-main {
   position: relative;
 }
+
 #onboarding .tm-session-main img {
   height: 300px;
 }
+
 #onboarding .tm-session-main .tm-session-footer {
   justify-content: center;
 }
+
 #onboarding .tm-session-main .tm-bar-discrete__node--active {
   border-color: var(--tertiary);
 }
+
 #onboarding .tm-session-main .tm-bar-discrete__node:hover {
   border-color: var(--link) !important;
 }

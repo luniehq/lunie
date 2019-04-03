@@ -1,78 +1,49 @@
 <template>
-  <tm-page data-title="Transactions"
-    ><template slot="menu-body">
-      <tm-balance />
-      <tool-bar
-        ><a
-          v-tooltip.bottom="'Refresh'"
-          :disabled="!connected"
-          class="refresh-button"
-          @click="connected && refreshTransactions()"
-          ><i class="material-icons">refresh</i></a
-        ><a
-          v-tooltip.bottom="'Search'"
-          :disabled="!somethingToSearch"
-          class="search-button"
-          @click="setSearch()"
-          ><i class="material-icons">search</i></a
-        ></tool-bar
-      >
-    </template>
-    <modal-search v-if="somethingToSearch" type="transactions" />
-    <tm-data-connecting v-if="!transactions.loaded && !connected" />
-    <tm-data-loading v-else-if="!transactions.loaded && transactions.loading" />
-    <tm-data-error v-else-if="transactions.error" />
-    <data-empty-tx v-else-if="allTransactions.length === 0" />
-    <data-empty-search v-else-if="filteredTransactions.length === 0" /><template
-      v-for="tx in filteredTransactions"
-      v-else
-    >
-      <tm-li-any-transaction
+  <tm-page
+    :managed="true"
+    :loading="transactions.loading"
+    :loaded="transactions.loaded"
+    :error="transactions.error"
+    :data-empty="dataEmpty"
+    :refresh="refreshTransactions"
+    data-title="Transactions"
+    :sign-in-required="true"
+  >
+    <data-empty-tx slot="no-data" />
+    <template slot="managed-body">
+      <li-any-transaction
+        v-for="tx in orderedTransactions"
+        :key="tx.txhash"
         :validators="delegates.delegates"
         :validators-url="validatorURL"
-        :proposals-url="proposalsURL"
-        :key="tx.hash"
+        :proposals-url="governanceURL"
         :transaction="tx"
-        :address="wallet.address"
+        :address="session.address"
         :bonding-denom="bondDenom"
         :unbonding-time="
           time.getUnbondingTime(tx, delegation.unbondingDelegations)
         "
       />
+      <br>
     </template>
   </tm-page>
 </template>
 
 <script>
 import shortid from "shortid"
-import { mapGetters, mapState } from "vuex"
-import { includes, orderBy } from "lodash"
-import Mousetrap from "mousetrap"
-import DataEmptySearch from "common/TmDataEmptySearch"
+import { mapGetters } from "vuex"
+import { orderBy } from "lodash"
 import DataEmptyTx from "common/TmDataEmptyTx"
-import ModalSearch from "common/TmModalSearch"
-import TmBalance from "common/TmBalance"
-import TmDataError from "common/TmDataError"
-import TmDataConnecting from "common/TmDataConnecting"
 import TmPage from "common/TmPage"
-import TmDataLoading from "common/TmDataLoading"
-import TmLiAnyTransaction from "transactions/TmLiAnyTransaction"
-import ToolBar from "common/ToolBar"
+import LiAnyTransaction from "transactions/LiAnyTransaction"
 import time from "scripts/time"
 
 export default {
   name: `page-transactions`,
   components: {
-    TmBalance,
-    TmLiAnyTransaction,
-    TmDataLoading,
-    TmDataError,
-    TmDataConnecting,
-    DataEmptySearch,
+    LiAnyTransaction,
     DataEmptyTx,
-    ModalSearch,
-    TmPage,
-    ToolBar
+    TmPage
   },
   data: () => ({
     shortid: shortid,
@@ -81,23 +52,18 @@ export default {
       order: `desc`
     },
     validatorURL: `/staking/validators`,
-    proposalsURL: `/governance`,
+    governanceURL: `/governance`,
     time
   }),
   computed: {
-    ...mapState([`transactions`]),
     ...mapGetters([
-      `filters`,
+      `transactions`,
       `allTransactions`,
-      `wallet`,
+      `session`,
       `bondDenom`,
       `delegation`,
-      `delegates`,
-      `connected`
+      `delegates`
     ]),
-    somethingToSearch() {
-      return !this.transactions.loading && !!this.allTransactions.length
-    },
     orderedTransactions() {
       return orderBy(
         this.allTransactions.map(t => {
@@ -108,30 +74,23 @@ export default {
         [this.sort.order]
       )
     },
-    filteredTransactions() {
-      let query = this.filters.transactions.search.query
-      if (this.filters.transactions.search.visible) {
-        // doing a full text comparison on the transaction data
-        return this.orderedTransactions.filter(t =>
-          includes(JSON.stringify(t).toLowerCase(), query)
-        )
-      } else {
-        return this.orderedTransactions
+    dataEmpty() {
+      return this.orderedTransactions.length === 0
+    }
+  },
+  watch: {
+    "session.signedIn": {
+      immediate: true,
+      handler() {
+        this.refreshTransactions()
       }
     }
   },
-  mounted() {
-    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
-    Mousetrap.bind(`esc`, () => this.setSearch(false))
-    this.refreshTransactions()
-  },
   methods: {
-    refreshTransactions() {
-      this.$store.dispatch(`getAllTxs`)
-    },
-    setSearch(bool = !this.filters[`transactions`].search.visible) {
-      if (!this.somethingToSearch) return false
-      this.$store.commit(`setSearchVisible`, [`transactions`, bool])
+    async refreshTransactions({ $store, session } = this) {
+      if (session.signedIn) {
+        await $store.dispatch(`getAllTxs`)
+      }
     }
   }
 }

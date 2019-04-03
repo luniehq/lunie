@@ -1,62 +1,90 @@
 "use strict"
+import BigNumber from "bignumber.js"
+
 /**
  * Defines all numerical methods
  * @module num
  */
 
-const numeral = require(`numeral`)
-function usd(num) {
-  return numeral(num).format(`$0,0.00`)
+const SMALLEST = 1e-6
+const language = window.navigator.userLanguage || window.navigator.language
+function full(number = 0) {
+  return new Intl.NumberFormat(language, { minimumFractionDigits: 6 })
+    .format(number)
 }
-function usdInt(num) {
-  return numeral(num).format(`$0,0`)
+function shortNumber(number = 0) {
+  return new Intl.NumberFormat(language, { minimumFractionDigits: 4 }).format(number) + `…`
 }
-function full(num) {
-  return numeral(num).format(`0,0.0000000000`)
+function pretty(number = 0) {
+  return new Intl.NumberFormat(
+    language,
+    { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+  ).format(Math.round(number * 100) / 100)
 }
-function shortNumber(num) {
-  return numeral(num).format(`0,0.0000`) + `…`
-}
-function pretty(num) {
-  return numeral(num).format(`0,0.00`)
-}
-function prettyInt(num) {
-  return numeral(num).format(`0,0`)
-}
-function short(num) {
-  if (num >= 1000000000) {
-    return pretty(num / 1000000000) + `B`
+// pretty print long decimals not in scientific notation
+function prettyDecimals(number = 0) {
+  let longDecimals = new Intl.NumberFormat(
+    language,
+    { minimumFractionDigits: 20, maximumFractionDigits: 20 }
+  ).format(number)
+
+  // remove all trailing zeros
+  while (longDecimals.charAt(longDecimals.length - 1) === `0`) {
+    longDecimals = longDecimals.substr(0, longDecimals.length - 1)
   }
-  if (num >= 1000000) {
-    return pretty(num / 1000000) + `M`
+
+  // remove decimal separator from whole numbers
+  if (Number.isNaN(Number(longDecimals.charAt(longDecimals.length - 1)))) {
+    longDecimals = longDecimals.substr(0, longDecimals.length - 1)
   }
-  if (num >= 1000) {
-    return pretty(num / 1000) + `K`
+
+  return longDecimals
+}
+function prettyInt(number = 0) {
+  return new Intl.NumberFormat(language).format(Math.round(number))
+}
+function percentInt(number = 0) {
+  return new Intl.NumberFormat(language).format(Math.round(number * 100)) + `%`
+}
+function percent(number = 0) {
+  return new Intl.NumberFormat(
+    language,
+    { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+  ).format(Math.round(number * 10000) / 100) + `%`
+}
+function atoms(number = 0) {
+  return BigNumber(number).div(1e6).toNumber()
+}
+function uatoms(number = 0) {
+  return BigNumber(number).times(1e6).toString()
+}
+
+// convert micro denoms like uatom to display denoms like atom
+function viewDenom(denom) {
+  if (denom.charAt(0) === `u`) {
+    return denom.substr(1)
   }
-  return numeral(num).format(`0.00`)
+  return denom
 }
-function shortInt(num) {
-  if (num > 1000) {
-    return short(num)
+
+function viewCoin({ amount, denom }) {
+  return {
+    amount: full(atoms(amount)),
+    denom: viewDenom(denom)
   }
-  return prettyInt(num)
-}
-function percentInt(x) {
-  return numeral(x).format(`0%`)
-}
-function percent(x) {
-  return numeral(x).format(`0.00%`)
 }
 
 module.exports = {
-  usd,
-  usdInt,
+  SMALLEST,
+  atoms,
+  uatoms,
+  viewDenom,
+  viewCoin,
   full,
   shortNumber,
   pretty,
   prettyInt,
-  short,
-  shortInt,
   percent,
-  percentInt
+  percentInt,
+  prettyDecimals
 }

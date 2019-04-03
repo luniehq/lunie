@@ -1,22 +1,27 @@
-import setup from "../../../helpers/vuex-setup"
+import { createLocalVue, shallowMount } from "@vue/test-utils"
 import Vuelidate from "vuelidate"
 import TmSessionSignUp from "common/TmSessionSignUp"
-jest.mock(`renderer/google-analytics.js`, () => () => {})
 
-let instance = setup()
-instance.localVue.use(Vuelidate)
+describe(`SessionSignUp`, () => {
+  const localVue = createLocalVue()
+  localVue.use(Vuelidate)
 
-describe(`NISessionSignUp`, () => {
-  let wrapper, store
+  let wrapper, $store
 
   beforeEach(() => {
-    let test = instance.mount(TmSessionSignUp, {
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(() => Promise.resolve(`seed`))
+    }
+    wrapper = shallowMount(TmSessionSignUp, {
+      localVue,
       getters: {
         connected: () => true
+      },
+      mocks: {
+        $store
       }
     })
-    store = test.store
-    wrapper = test.wrapper
   })
 
   it(`has the expected html structure`, () => {
@@ -28,27 +33,18 @@ describe(`NISessionSignUp`, () => {
       .findAll(`.tm-session-header a`)
       .at(0)
       .trigger(`click`)
-    expect(store.commit.mock.calls[0][0]).toBe(`setModalSessionState`)
-    expect(store.commit.mock.calls[0][1]).toBe(`welcome`)
-  })
-
-  it(`should open the help modal on click`, () => {
-    wrapper
-      .findAll(`.tm-session-header a`)
-      .at(1)
-      .trigger(`click`)
-    expect(store.commit.mock.calls[0]).toEqual([`setModalHelp`, true])
+    expect($store.commit).toHaveBeenCalledWith(`setSessionModalView`, `welcome`)
   })
 
   it(`should close the modal on successful login`, async () => {
     const commit = jest.fn()
-    await wrapper.vm.onSubmit({
+    await TmSessionSignUp.methods.onSubmit.call({
       $store: {
         commit,
-        dispatch: jest.fn(() => `key`)
+        dispatch: jest.fn()
       },
       $v: {
-        $touch: () => {},
+        $touch: () => { },
         $error: false
       },
       fields: {
@@ -59,19 +55,19 @@ describe(`NISessionSignUp`, () => {
         signUpWarning: true
       }
     })
-    expect(commit).toHaveBeenCalledWith(`setModalSession`, false)
+    expect(commit).toHaveBeenCalledWith(`toggleSessionModal`, false)
   })
 
   it(`should signal signedin state on successful login`, async () => {
     const commit = jest.fn()
-    const dispatch = jest.fn(() => `key`)
-    await wrapper.vm.onSubmit({
+    const dispatch = jest.fn()
+    await TmSessionSignUp.methods.onSubmit.call({
       $store: {
         commit,
         dispatch
       },
       $v: {
-        $touch: () => {},
+        $touch: () => { },
         $error: false
       },
       fields: {
@@ -85,20 +81,20 @@ describe(`NISessionSignUp`, () => {
     expect(commit).toHaveBeenCalledWith(`notify`, expect.any(Object))
     expect(dispatch).toHaveBeenCalledWith(`signIn`, {
       password: `1234567890`,
-      account: `testaccount`
+      localKeyPairName: `testaccount`
     })
   })
 
   it(`should set error collection opt in state`, async () => {
     const commit = jest.fn()
-    const dispatch = jest.fn(() => `key`)
-    await wrapper.vm.onSubmit({
+    const dispatch = jest.fn()
+    await TmSessionSignUp.methods.onSubmit.call({
       $store: {
         commit,
         dispatch
       },
       $v: {
-        $touch: () => {},
+        $touch: () => { },
         $error: false
       },
       fields: {
@@ -117,13 +113,13 @@ describe(`NISessionSignUp`, () => {
 
     dispatch.mockClear()
 
-    await wrapper.vm.onSubmit({
+    await TmSessionSignUp.methods.onSubmit.call({
       $store: {
         commit,
         dispatch
       },
       $v: {
-        $touch: () => {},
+        $touch: () => { },
         $error: false
       },
       fields: {
@@ -152,7 +148,7 @@ describe(`NISessionSignUp`, () => {
       }
     })
     wrapper.vm.onSubmit()
-    expect(store.commit).not.toHaveBeenCalled()
+    expect($store.commit).not.toHaveBeenCalled()
     expect(wrapper.find(`.tm-form-msg-error`)).toBeDefined()
   })
 
@@ -167,7 +163,7 @@ describe(`NISessionSignUp`, () => {
       }
     })
     await wrapper.vm.onSubmit()
-    expect(store.commit.mock.calls[0]).toBeUndefined()
+    expect($store.commit.mock.calls[0]).toBeUndefined()
     expect(wrapper.find(`.tm-form-msg-error`)).toBeDefined()
   })
 
@@ -182,7 +178,7 @@ describe(`NISessionSignUp`, () => {
       }
     })
     await wrapper.vm.onSubmit()
-    expect(store.commit.mock.calls[0]).toBeUndefined()
+    expect($store.commit.mock.calls[0]).toBeUndefined()
     expect(wrapper.find(`.tm-form-msg-error`)).toBeDefined()
   })
 
@@ -197,12 +193,14 @@ describe(`NISessionSignUp`, () => {
       }
     })
     await wrapper.vm.onSubmit()
-    expect(store.commit.mock.calls[0]).toBeUndefined()
+    expect($store.commit.mock.calls[0]).toBeUndefined()
     expect(wrapper.find(`.tm-form-msg-error`)).toBeDefined()
   })
 
   it(`should not continue if creation failed`, async () => {
-    store.dispatch = jest.fn(() => Promise.resolve(null))
+    $store.dispatch = jest.fn(() =>
+      Promise.reject(new Error(`Account already exists`))
+    )
     wrapper.setData({
       fields: {
         signUpPassword: `1234567890`,
@@ -213,16 +211,19 @@ describe(`NISessionSignUp`, () => {
       }
     })
     await wrapper.vm.onSubmit()
-    expect(store.commit).not.toHaveBeenCalled()
+    expect($store.commit).toHaveBeenCalledWith(
+      `notifyError`,
+      expect.objectContaining({ body: `Account already exists` })
+    )
   })
 
   it(`should show a notification if creation failed`, async () => {
-    let $store = {
+    const $store = {
       commit: jest.fn(),
       dispatch: jest.fn(() => Promise.reject({ message: `reason` }))
     }
 
-    let self = {
+    const self = {
       fields: {
         signUpPassword: `1234567890`,
         signUpPasswordConfirm: `1234567890`,
@@ -231,7 +232,7 @@ describe(`NISessionSignUp`, () => {
         signUpWarning: true
       },
       $v: {
-        $touch: () => {},
+        $touch: () => { },
         $error: false
       },
       $store

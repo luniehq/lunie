@@ -3,7 +3,7 @@ import TmFormMsg from "common/TmFormMsg"
 
 describe(`TmFormMsg`, () => {
   let wrapper
-  let propsData = [
+  const propsData = [
     {
       type: `length`,
       name: `Password`,
@@ -82,9 +82,24 @@ describe(`TmFormMsg`, () => {
       error: `Asdf must be a valid URL (http:// required)`
     },
     {
-      type: `asdf`,
+      type: `default`,
       name: `Asdf`,
       error: `Asdf must be valid`
+    },
+    {
+      type: `bech32`,
+      name: `Address`,
+      error: `Address is invalid bech32`
+    },
+    {
+      type: `integer`,
+      name: `Number`,
+      error: `Number must be an integer`
+    },
+    {
+      type: `custom`,
+      msg: `HALLO WORLD`,
+      error: `HALLO WORLD`
     }
   ]
 
@@ -102,8 +117,8 @@ describe(`TmFormMsg`, () => {
 
   for (let i = 0; i < propsData.length; i++) {
     it(`shows correct message for ` + propsData[i].type, () => {
-      let { type, name, min, max, length } = propsData[i]
-      wrapper.setProps({ type, name, min, max, length })
+      const { type, name, min, max, length, msg } = propsData[i]
+      wrapper.setProps({ type, name, min, max, length, msg })
       expect(
         wrapper
           .find(`.tm-form-msg`)

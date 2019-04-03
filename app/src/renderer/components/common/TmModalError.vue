@@ -4,8 +4,12 @@
       <div class="tm-modal-error__icon">
         <i class="material-icons">{{ icon }}</i>
       </div>
-      <div class="tm-modal-error__title">{{ title }}</div>
-      <div class="tm-modal-error__body">{{ body }}</div>
+      <div class="tm-modal-error__title">
+        {{ title }}
+      </div>
+      <div class="tm-modal-error__body">
+        {{ body }}
+      </div>
       <div class="tm-modal-error__footer">
         <tm-btn
           id="tm-modal-error__btn-issue"
@@ -16,20 +20,12 @@
           value="Create an issue"
           type="anchor"
         />
-        <tm-btn
-          id="tm-modal-error__btn-logs"
-          size="lg"
-          icon="info_outline"
-          value="View app logs"
-          @click.native="viewLogs"
-        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { remote, shell } from "electron"
 import { mapGetters } from "vuex"
 import TmBtn from "common/TmBtn"
 export default {
@@ -54,15 +50,7 @@ export default {
     issueUrl: `https://github.com/cosmos/voyager/issues`
   }),
   computed: {
-    ...mapGetters([`config`, `lastHeader`])
-  },
-  mounted() {
-    this.logPath = remote.getGlobal(`root`) + `/main.log`
-  },
-  methods: {
-    viewLogs() {
-      shell.openItem(this.logPath)
-    }
+    ...mapGetters([`session`, `lastHeader`])
   }
 }
 </script>

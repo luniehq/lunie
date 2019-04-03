@@ -1,79 +1,81 @@
 "use strict"
 
 import Vuelidate from "vuelidate"
-import setup from "../../../helpers/vuex-setup"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
 import ModalDeposit from "renderer/components/governance/ModalDeposit"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`ModalDeposit`, () => {
-  let wrapper, store
-  let { mount, localVue } = setup()
-  localVue.use(Vuelidate)
-  localVue.directive(`tooltip`, () => {})
-  localVue.directive(`focus`, () => {})
+  let wrapper, $store
 
-  beforeEach(() => {
-    const coins = [
-      {
-        amount: `20`,
-        denom: `stake`
+  const localVue = createLocalVue()
+  localVue.use(Vuelidate)
+
+  beforeEach(async () => {
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: {
+        session: { signedIn: true },
+        connection: { connected: true },
+        bondDenom: `uatom`,
+        liquidAtoms: 1000000,
+        wallet: {
+          balances: [
+            { denom: `uatom`, amount: `10` }
+          ],
+          loading: false
+        }
       }
-    ]
-    let instance = mount(ModalDeposit, {
+    }
+
+    wrapper = shallowMount(ModalDeposit, {
       localVue,
+      mocks: {
+        $store
+      },
       propsData: {
         proposalId: `1`,
         proposalTitle: lcdClientMock.state.proposals[`1`].title,
-        denom: `stake`
-      }
-    })
-    wrapper = instance.wrapper
-    store = instance.store
-    store.commit(`setWalletBalances`, coins)
-  })
-
-  describe(`component matches snapshot`, () => {
-    it(`has the expected html structure`, async () => {
-      expect(wrapper.vm.$el).toMatchSnapshot()
+        denom: `uatom`
+      },
+      sync: false
     })
   })
 
-  describe(`default values are set correctly`, () => {
-    it(`the 'amount' defaults to 0`, () => {
-      expect(wrapper.vm.amount).toEqual(0)
-    })
-
-    it(`account password defaults to an empty string`, () => {
-      expect(wrapper.vm.password).toEqual(``)
-    })
-
-    it(`password is hidden by default`, () => {
-      expect(wrapper.vm.showPassword).toBe(false)
-    })
+  it(`should display deposit modal form`, async () => {
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  describe(`Password display`, () => {
-    it(`toggles the password between text and password`, () => {
-      wrapper.vm.togglePassword()
-      expect(wrapper.vm.showPassword).toBe(true)
-      wrapper.vm.togglePassword()
-      expect(wrapper.vm.showPassword).toBe(false)
-    })
+  it(`opens`, () => {
+    const $refs = { actionModal: { open: jest.fn() } }
+    ModalDeposit.methods.open.call({ $refs })
+    expect($refs.actionModal.open).toHaveBeenCalled()
   })
 
-  describe(`enables or disables 'Deposit' button correctly`, () => {
-    describe(`disables the 'Deposit' button`, () => {
+  it(`clears on close`, () => {
+    const self = {
+      $v: { $reset: jest.fn() },
+      amount: 10
+    }
+
+    ModalDeposit.methods.clear.call(self)
+    expect(self.$v.$reset).toHaveBeenCalled()
+    expect(self.amount).toBe(0)
+  })
+
+  describe(`validation`, () => {
+    describe(`fails`, () => {
       it(`with default values`, () => {
-        let depositBtn = wrapper.find(`#submit-deposit`)
-        expect(depositBtn.html()).toContain(`disabled="disabled"`)
+        expect(wrapper.vm.validateForm()).toBe(false)
       })
 
-      it(`when the amount deposited higher than the user's balance`, () => {
-        wrapper.setData({ amount: 25, password: `1234567890` })
-        let depositBtn = wrapper.find(`#submit-deposit`)
-        expect(depositBtn.html()).toContain(`disabled="disabled"`)
-        let errorMessage = wrapper.find(`input#amount + div`)
-        expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
+      it(`when the amount deposited higher than the user's balance`, async () => {
+        wrapper.setData({ amount: 250 })
+        expect(wrapper.vm.validateForm()).toBe(false)
+        await wrapper.vm.$nextTick()
+
+        expect(wrapper.html()).toContain(`error="true"`)
       })
 
       it(`when the user doesn't have the deposited coin`, () => {
@@ -83,65 +85,87 @@ describe(`ModalDeposit`, () => {
             denom: `otherCoin`
           }
         ]
-        store.commit(`setWalletBalances`, otherCoins)
-        wrapper.setData({ amount: 25, password: `1234567890` })
-        let depositBtn = wrapper.find(`#submit-deposit`)
-        expect(depositBtn.html()).toContain(`disabled="disabled"`)
-      })
-
-      it(`when the password field is empty`, () => {
-        wrapper.setData({ amount: 10, password: `` })
-        let depositBtn = wrapper.find(`#submit-deposit`)
-        expect(depositBtn.html()).toContain(`disabled="disabled"`)
+        wrapper.vm.wallet.balances = otherCoins
+        wrapper.setData({ amount: 25 })
+        expect(wrapper.vm.validateForm()).toBe(false)
       })
     })
 
-    describe(`enables the 'Deposit' button`, () => {
-      it(`when the user has enough balance to submit a deposit`, () => {
-        wrapper.setData({ amount: 15, password: `1234567890` })
-        let submitButton = wrapper.find(`#submit-deposit`)
-        expect(submitButton.html()).not.toContain(`disabled="disabled"`)
+    describe(`succeeds`, () => {
+      it(`when the user has enough balance to submit a deposit`, async () => {
+        wrapper.vm.wallet.balances = [{ denom: `uatom`, amount: `20000000` }]
+        wrapper.setData({ amount: 10 })
+        expect(wrapper.vm.validateForm()).toBe(true)
       })
-    })
-  })
-
-  describe(`closes modal correctly`, () => {
-    it(`X button emits close signal`, () => {
-      wrapper.vm.close()
-      expect(wrapper.emittedByOrder()).toEqual([
-        {
-          name: `update:showModalDeposit`,
-          args: [false]
-        }
-      ])
     })
   })
 
   describe(`Deposit`, () => {
-    it(`Deposit button casts a deposit and closes modal`, () => {
-      wrapper.setData({ amount: 10 })
-      wrapper.vm.onDeposit()
 
-      expect(wrapper.emittedByOrder()).toEqual([
+    it(`should simulate transaction to estimate gas used`, async () => {
+      const estimate = 1234567
+      const $store = { dispatch: jest.fn(() => estimate) }
+      const res = await ModalDeposit.methods.simulateForm.call(
         {
-          name: `submitDeposit`,
-          args: [
-            {
-              amount: [
-                {
-                  amount: `10`,
-                  denom: `stake`
-                }
-              ],
-              password: ``
-            }
-          ]
-        },
-        {
-          name: `update:showModalDeposit`,
-          args: [false]
+          $store,
+          type: `Text`,
+          denom: `uatom`,
+          amount: 10,
+          proposalId: `1`
         }
-      ])
+      )
+
+      expect($store.dispatch).toHaveBeenCalledWith(`simulateDeposit`,
+        {
+          amount: [
+            {
+              amount: `10000000`,
+              denom: `uatom`
+            }
+          ],
+          proposal_id: `1`,
+        }
+      )
+      expect(res).toBe(estimate)
+    })
+    it(`submits a deposit`, async () => {
+
+      const $store = {
+        dispatch: jest.fn(),
+        commit: jest.fn()
+      }
+
+      const gas = `1234567`
+      const gasPrice = 2.5e-8
+      const gas_prices = [{ denom: `uatom`, amount: `0.025` }]
+
+      await ModalDeposit.methods.submitForm.call(
+        { denom: `uatom`, bondDenom: `uatom`, proposalId: `1`, amount: 10, $store },
+        gas, gasPrice, ``, `ledger`
+      )
+
+      expect($store.dispatch).toHaveBeenCalledWith(`submitDeposit`,
+        {
+          amount: [
+            {
+              amount: `10000000`,
+              denom: `uatom`
+            }
+          ],
+          proposal_id: `1`,
+          gas,
+          gas_prices,
+          password: ``,
+          submitType: `ledger`
+        }
+      )
+
+      expect($store.commit).toHaveBeenCalledWith(`notify`,
+        {
+          body: `You have successfully deposited your atoms on proposal #1`,
+          title: `Successful deposit!`
+        }
+      )
     })
   })
 })

@@ -1,18 +1,18 @@
 <template>
   <div :class="cssClass">
-    <template v-if="name"
-      >{{ name }} {{ error }}</template
-    >
-    <slot v-else=""></slot>
+    <template>
+      {{ name }} {{ error }}
+    </template>
   </div>
 </template>
 
 <script>
+import { prettyDecimals } from "../../scripts/num.js"
 export default {
   props: {
     type: {
       type: String,
-      default: null
+      required: true
     },
     name: {
       type: String,
@@ -40,8 +40,6 @@ export default {
       let value = `tm-form-msg sm`
       if (this.type) {
         value += ` tm-form-msg--error`
-      } else {
-        value += ` tm-form-msg--desc`
       }
       return value
     },
@@ -55,7 +53,7 @@ export default {
           msg = `must contain only numerals`
           break
         case `between`:
-          msg = `must be between ${this.min} and ${this.max}`
+          msg = `must be between ${prettyDecimals(this.min)} and ${this.max}`
           break
         case `date`:
           msg = `must be a valid date`
@@ -93,6 +91,9 @@ export default {
         case `bech32`:
           msg = `is invalid bech32`
           break
+        case `integer`:
+          msg = `must be an integer`
+          break
         case `custom`:
           msg = this.msg
           break
@@ -117,26 +118,35 @@ export default {
   font-size: var(--sm);
 }
 
-.tm-form-msg:before {
+.tm-form-msg::before {
   content: "";
+  /* stylelint-disable */
   font-family: "Material Icons";
   padding-right: 0.35rem;
 }
 
-.tm-form-msg.tm-form-msg--error {
-  color: var(--danger);
+.tm-form-msg--error {
+  display: flex;
 }
 
-.tm-form-msg.tm-form-msg--error:before {
+.tm-form-msg.tm-form-msg--error {
+  color: var(--danger);
+  font-style: italic;
+  font-weight: 500;
+  position: absolute;
+}
+
+.tm-form-msg.tm-form-msg--error::before {
   content: "error";
   color: var(--danger);
+  font-style: normal;
 }
 
 .tm-form-msg.tm-form-msg--desc {
   color: var(--warning);
 }
 
-.tm-form-msg.tm-form-msg--desc:before {
+.tm-form-msg.tm-form-msg--desc::before {
   content: "priority_high";
   color: var(--warning);
 }

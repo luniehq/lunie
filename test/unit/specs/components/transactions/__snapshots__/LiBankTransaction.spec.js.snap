@@ -1,0 +1,210 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LiBankTransaction should show a bank transaction without fees 1`] = `
+<li-transaction-stub
+  block="500"
+  color="#ED553B"
+  time="1970-01-01T00:00:42.000Z"
+>
+  <div>
+    
+      Sent
+      
+    <b>
+      12,340.000000
+    </b>
+     
+    <span>
+      atoms
+    </span>
+  </div>
+   
+  <span>
+    
+        To yourself!
+      
+  </span>
+   
+  <div>
+    
+      Network Fee: 
+      
+    <b>
+      0.000000
+    </b>
+     
+    <span>
+      uatoms
+    </span>
+  </div>
+</li-transaction-stub>
+`;
+
+exports[`LiBankTransaction should show bank transaction when user hasn't signed in 1`] = `
+<li-transaction-stub
+  block="500"
+  color="#ED553B"
+  time="1970-01-01T00:00:42.000Z"
+>
+  <div>
+    
+      Sent
+    <b>
+      12,340.000000
+    </b>
+     
+    <span>
+      atoms
+    </span>
+  </div>
+   
+  <span>
+    
+        From 
+    <short-bech32-stub
+      address="A"
+    />
+    
+        to 
+    <short-bech32-stub
+      address="B"
+    />
+  </span>
+   
+  <div>
+    
+      Network Fee: 
+      
+    <b>
+      0.003421
+    </b>
+     
+    <span>
+      atoms
+    </span>
+  </div>
+</li-transaction-stub>
+`;
+
+exports[`LiBankTransaction should show incoming transactions 1`] = `
+<li-transaction-stub
+  block="500"
+  color="#ED553B"
+  time="1970-01-01T00:00:42.000Z"
+>
+  <div>
+    
+      Received
+      
+    <b>
+      12,340.000000
+    </b>
+     
+    <span>
+      atoms
+    </span>
+  </div>
+   
+  <span>
+    From 
+    <short-bech32-stub
+      address="A"
+    />
+  </span>
+   
+  <div>
+    
+      Network Fee: 
+      
+    <b>
+      0.003421
+    </b>
+     
+    <span>
+      atoms
+    </span>
+  </div>
+</li-transaction-stub>
+`;
+
+exports[`LiBankTransaction should show outgoing transactions 1`] = `
+<li-transaction-stub
+  block="500"
+  color="#ED553B"
+  time="1970-01-01T00:00:42.000Z"
+>
+  <div>
+    
+      Sent
+      
+    <b>
+      12,340.000000
+    </b>
+     
+    <span>
+      atoms
+    </span>
+  </div>
+   
+  <span>
+    
+        To 
+    <short-bech32-stub
+      address="A"
+    />
+  </span>
+   
+  <div>
+    
+      Network Fee: 
+      
+    <b>
+      0.003421
+    </b>
+     
+    <span>
+      atoms
+    </span>
+  </div>
+</li-transaction-stub>
+`;
+
+exports[`LiBankTransaction should show outgoing transactions send to herself 1`] = `
+<li-transaction-stub
+  block="500"
+  color="#ED553B"
+  time="1970-01-01T00:00:42.000Z"
+>
+  <div>
+    
+      Sent
+      
+    <b>
+      12,340.000000
+    </b>
+     
+    <span>
+      atoms
+    </span>
+  </div>
+   
+  <span>
+    
+        To yourself!
+      
+  </span>
+   
+  <div>
+    
+      Network Fee: 
+      
+    <b>
+      0.003421
+    </b>
+     
+    <span>
+      atoms
+    </span>
+  </div>
+</li-transaction-stub>
+`;

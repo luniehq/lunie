@@ -1,216 +1,212 @@
-/* mocking electron differently in one file apparently didn't work so I had to split the App tests in 2 files */
+import { startApp, main, routeGuard } from "renderer/scripts/boot"
 
-jest.mock(
-  `renderer/connectors/node.js`,
-  () => jest.fn(() => require(`../helpers/node_mock`)) // using jest.fn to be able to spy on the constructor call
-)
+async function start(urlParams, environment) {
+  const node = {
+    rpcConnect: jest.fn(),
+    lcdConnected: jest.fn()
+  }
+  const Node = jest.fn(() => node)
+  const store = {
+    state: {},
+    commit: jest.fn(),
+    dispatch: jest.fn(() => Promise.resolve())
+  }
+  const Store = () => store
+  const $mount = jest.fn()
+  class Vue {
+    constructor() {
+      this.$mount = $mount
+    }
+  }
+  Vue.config = {}
+  Vue.use = jest.fn()
+  Vue.directive = jest.fn()
+  const Sentry = {
+    init: jest.fn()
+  }
+  const enableGoogleAnalytics = jest.fn()
+
+  await startApp(
+    urlParams || {},
+    {
+      stargate: `http://localhost:12344`,
+      google_analytics_uid: `GUID`
+    },
+    Node,
+    Store,
+    environment || {
+      NODE_ENV: `production`
+    },
+    Sentry,
+    Vue,
+    enableGoogleAnalytics
+  )
+
+  return { store, Vue, enableGoogleAnalytics, Sentry, Node }
+}
 
 describe(`App Start`, () => {
-  jest.mock(`../../../app/src/config`, () => ({
-    google_analytics_uid: `123`
-  }))
-  jest.mock(`renderer/google-analytics.js`, () => () => {})
   // popper.js is used by tooltips and causes some errors if
   // not mocked because it requires a real DOM
-  jest.mock(`popper.js`, () => () => {})
-  jest.mock(`electron`, () => ({
-    remote: {
-      getGlobal: () => ({
-        mocked: false,
-        node_lcd: `https://awesomenode.de:12345`
-      }),
-      app: {
-        getPath: () => {
-          return `$HOME`
-        }
-      }
-    },
-    ipcRenderer: {
-      on: () => {},
-      send: () => {}
-    }
-  }))
+  jest.mock(`popper.js`, () => () => { })
 
   beforeEach(() => {
-    window.history.pushState(
-      {},
-      `Mock Voyager`,
-      `/?node=localhost&lcd_port=8080`
-    )
     document.body.innerHTML = `<div id="app"></div>`
     jest.resetModules()
   })
 
-  it(`has all dependencies`, async () => {
-    await require(`renderer/main.js`)
+  it(`waits for the node have connected to init subscription`, async () => {
+    const { store } = await start()
+
+    expect(store.dispatch).toHaveBeenCalledWith(`connect`)
   })
 
-  it(`uses a mocked connector implementation if set in config`, async () => {
-    let electron = require(`electron`)
-    electron.remote.getGlobal = () => ({
-      env: { NODE_ENV: `test` },
-      mocked: true,
-      node_lcd: `https://awesomenode.de:12345`,
-      development: false,
-      lcd_port_prod: `8080`
-    })
-    let Node = require(`renderer/connectors/node.js`)
-    require(`renderer/main.js`)
-    expect(Node).toHaveBeenCalledWith(
-      expect.any(Function),
-      `https://localhost:8080`, // axios or axios proxy
-      `https://awesomenode.de:12345`,
-      true
-    )
-    jest.resetModules()
+  it(`checks for persisted sessions`, async () => {
+    const { store } = await start()
+
+    expect(store.dispatch).toHaveBeenCalledWith(`checkForPersistedSession`)
   })
 
-  it(`does not activate google analytics if analytics is disabled`, async mockDone => {
-    jest.mock(`renderer/google-analytics.js`, () => () => {
-      mockDone.fail()
-    })
-    await require(`renderer/main.js`)
-    mockDone()
-  })
-
-  it(`does not set Sentry dsn if analytics is disabled`, mockDone => {
-    jest.mock(`@sentry/browser`, () => ({
-      init: config => {
-        expect(config).toEqual({})
-        mockDone()
-      },
-      configureScope: () => {},
-      captureException: () => {}
+  it(`gathers url parameters to overwrite the app config before starting the app`, () => {
+    const getURLParams = jest.fn(() => ({
+      x: 1
     }))
-    require(`renderer/main.js`)
+    const startApp = jest.fn()
+    main(getURLParams, startApp, {
+      config: `value`
+    })
+    expect(getURLParams).toHaveBeenCalled()
+    expect(startApp).toHaveBeenCalledWith({
+      x: 1
+    }, {
+      config: `value`
+    })
   })
 
-  it(`opens error modal`, async () => {
-    jest.resetModules()
-    const { ipcRenderer } = require(`electron`)
-    ipcRenderer.on = (type, cb) => {
-      if (type === `error`) {
-        cb(null, new Error(`Expected`))
+  it(`Check the calls on VUE`, async () => {
+    const { Vue } = await start()
+
+    expect(Vue.directive).toHaveBeenCalledTimes(1)
+    expect(Vue.use).toHaveBeenCalledTimes(4)
+  })
+
+  describe(`Route guard`, () => {
+    it(`Check the route guard`, async () => {
+      const commit = jest.fn()
+      const store = {
+        commit,
+        state: { session: { pauseHistory: true, signedIn: false } },
+        getters: { session: { pauseHistory: true, signedIn: false } }
       }
-    }
-
-    const { store } = require(`renderer/main.js`)
-    expect(store.state.config.modals.error.active).toBe(true)
-    expect(store.state.config.modals.error.message).toBe(`Expected`)
-  })
-
-  it(`triggers the approval flow on IPC message`, async () => {
-    jest.resetModules()
-    const { ipcRenderer } = require(`electron`)
-    ipcRenderer.on = (type, cb) => {
-      if (type === `approve-hash`) {
-        cb(null, `THISISSOMEHASH`)
+      const next = jest.fn()
+      const guard = routeGuard(store)
+      const to = {
+        redirectedFrom: `/`,
+        fullPath: `/`,
+        path: `/`,
+        matched: [{ meta: { requiresAuth: false } }]
       }
-    }
-
-    const { store } = require(`renderer/main.js`)
-    expect(store.state.connection.approvalRequired).toBe(`THISISSOMEHASH`)
-  })
-
-  it(`sends a message to the main thread, that the app has loaded`, () => {
-    const { ipcRenderer } = require(`electron`)
-    ipcRenderer.send = jest.fn()
-
-    require(`renderer/main.js`)
-
-    expect(ipcRenderer.send).toHaveBeenCalledWith(`booted`)
-  })
-
-  it(`sends a message to the main thread, that the app sucessfully connected to a node and is usable`, async () => {
-    jest.resetModules()
-    const { ipcRenderer } = require(`electron`)
-    ipcRenderer.send = jest.fn()
-    let connectedCB
-    ipcRenderer.on = (type, cb) => {
-      if (type === `connected`) {
-        connectedCB = cb
-      }
-    }
-
-    require(`renderer/main.js`)
-    await connectedCB(null, `localhost`)
-
-    expect(ipcRenderer.send.mock.calls).toEqual([
-      [`booted`],
-      [`successful-launch`]
-    ])
-  })
-
-  it(`show that there are no nodes available to connect to`, async () => {
-    jest.resetModules()
-    const { ipcRenderer } = require(`electron`)
-    ipcRenderer.send = jest.fn()
-    let connectedCB
-    ipcRenderer.on = (type, cb) => {
-      if (type === `error`) {
-        connectedCB = cb
-      }
-    }
-
-    let { store } = require(`renderer/main.js`)
-    await connectedCB(null, {
-      code: `NO_NODES_AVAILABLE`,
-      message: `message`
+      // from.fullPath !== to.fullPath && !store.getters.user.pauseHistory
+      guard(to, { fullPath: `b` }, next)
+      expect(commit).not.toHaveBeenCalled()
+      expect(next).toHaveBeenCalled()
     })
 
-    expect(store.state.config.modals.noNodes.active).toBe(true)
+    it(`Check the route guard with no pause in history`, async () => {
+      const commit = jest.fn()
+      const store = {
+        commit,
+        state: { session: { pauseHistory: false, signedIn: false } },
+        getters: { session: { pauseHistory: false, signedIn: false } }
+      }
+      const next = jest.fn()
+      const guard = routeGuard(store)
+      const to = {
+        redirectedFrom: `/`,
+        fullPath: `/`,
+        path: `/`,
+        matched: [{ meta: { requiresAuth: false } }]
+      }
+      // from.fullPath !== to.fullPath && !store.getters.user.pauseHistory
+      guard(to, { fullPath: `b` }, next)
+      expect(commit).toHaveBeenCalledWith(`addHistory`, `b`)
+      expect(next).toHaveBeenCalled()
+    })
+
+    it(`Check the route guard when routes does not change`, async () => {
+      const commit = jest.fn()
+      const store = {
+        commit,
+        state: { session: { pauseHistory: false, signedIn: true } },
+        getters: { session: { pauseHistory: false, signedIn: true } }
+      }
+      const next = jest.fn()
+      const guard = routeGuard(store)
+      // from.fullPath !== to.fullPath && !store.getters.user.pauseHistory
+      guard({ fullPath: `a` }, { fullPath: `a` }, next)
+      expect(commit).not.toHaveBeenCalled()
+      expect(next).toHaveBeenCalled()
+    })
+
+    it(`redirects to my validators`, async () => {
+      const commit = jest.fn()
+      const store = {
+        commit,
+        state: { session: { pauseHistory: false, signedIn: true } },
+        getters: { session: { pauseHistory: false, signedIn: true } }
+      }
+      const to = {
+        redirectedFrom: `/staking`,
+        fullPath: `/staking/validators`,
+        path: `/staking/validators`,
+        name: `Validators`
+      }
+      const next = jest.fn()
+      const guard = routeGuard(store)
+      // from.fullPath !== to.fullPath && !store.getters.user.pauseHistory
+      guard(to, { fullPath: `/` }, next)
+      expect(next).toHaveBeenCalledWith(`/staking/my-delegations`)
+    })
   })
 
-  it(`sends a successful-launch only on first start`, async () => {
-    jest.resetModules()
-    const { ipcRenderer } = require(`electron`)
-    ipcRenderer.send = jest.fn()
-    let connectedCB
-    ipcRenderer.on = (type, cb) => {
-      if (type === `connected`) {
-        connectedCB = cb
-      }
-    }
+  it(`activates analytics`, async () => {
+    const { enableGoogleAnalytics, Sentry } = await start()
 
-    require(`renderer/main.js`)
-    connectedCB(null, `localhost`)
-    await connectedCB(null, `localhost`)
+    expect(enableGoogleAnalytics).toHaveBeenCalledWith(`GUID`)
 
-    expect(ipcRenderer.send.mock.calls).toEqual([
-      [`booted`],
-      [`successful-launch`]
-    ])
+    // does init in a way that user errors are not tracked by default
+    expect(Sentry.init).toHaveBeenCalledWith({})
   })
 
-  it(`does not send a successful-launch if can not connect to node`, async () => {
-    jest.resetModules()
-    const { ipcRenderer } = require(`electron`)
-    jest.doMock(`renderer/connectors/node`, () => () => ({
-      rpcInfo: { connected: true },
-      rpc: {
-        subscribe: () => {},
-        on: () => {},
-        status: () => {}
-      },
-      rpcConnect: () => {},
-      rpcReconnect: () => {},
-      lcdConnected: () => Promise.resolve(false),
-      keys: {
-        values: () => []
-      }
-    }))
+  describe(`url parameters`, () => {
+    it(`should set development mode`, async () => {
+      const { store } = await start({
+        experimental: true
+      })
 
-    ipcRenderer.send = jest.fn()
-    let connectedCB
-    ipcRenderer.on = (type, cb) => {
-      if (type === `connected`) {
-        connectedCB = cb
-      }
-    }
+      expect(store.commit).toHaveBeenCalledWith(`setExperimentalMode`)
+    })
+    it(`should set insecure mode`, async () => {
+      const { store } = await start({
+        insecure: true
+      })
 
-    await require(`renderer/main.js`)
-    await connectedCB(null, `localhost`)
+      expect(store.commit).toHaveBeenCalledWith(`setInsecureMode`)
+    })
 
-    expect(ipcRenderer.send.mock.calls).toEqual([[`booted`]])
+    it(`should set rpc url`, async () => {
+      const { store } = await start({
+        rpc: `http://rpcurl.com`
+      })
+
+      expect(store.commit).toHaveBeenCalledWith(`setRpcUrl`, `http://rpcurl.com`)
+    })
+    it(`should set stargate url`, async () => {
+      const { Node } = await start({
+        stargate: `http://stargateurl.com`
+      })
+
+      expect(Node).toHaveBeenCalledWith(expect.objectContaining({}), `http://stargateurl.com`)
+    })
   })
 })

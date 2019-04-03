@@ -1,21 +1,24 @@
 <template>
   <div class="short-bech32">
     <div
-      v-tooltip.top="address"
       id="address"
+      v-tooltip.top="address"
+      v-clipboard:copy="address"
+      v-clipboard:success="() => onCopy()"
       class="address"
-      @click.prevent.stop="copy"
     >
       {{ shortBech32 }}
     </div>
-    <div :class="{ active: showSuccess }" class="copied">
+    <div
+      :class="{ active: copySuccess }"
+      class="copied"
+    >
       <i class="material-icons">check</i><span>Copied</span>
     </div>
   </div>
 </template>
 
 <script>
-import { clipboard } from "electron"
 export default {
   name: `short-bech32`,
   props: {
@@ -25,7 +28,7 @@ export default {
     }
   },
   data: () => ({
-    showSuccess: false
+    copySuccess: false
   }),
   computed: {
     shortBech32({ address } = this, length = 4) {
@@ -38,12 +41,11 @@ export default {
     }
   },
   methods: {
-    copy() {
-      clipboard.writeText(this.address)
-      this.showSuccess = true
+    onCopy() {
+      this.copySuccess = true
       setTimeout(() => {
-        this.showSuccess = false
-      }, 3000)
+        this.copySuccess = false
+      }, 2500)
     }
   }
 }
@@ -57,14 +59,15 @@ export default {
 }
 
 .short-bech32 .address {
-  color: var(--dim);
+  color: var(--link);
   cursor: pointer;
-  font-size: 14px;
-  line-height: 14px;
+  font-size: var(--sm);
+  font-weight: 300;
+  white-space: nowrap;
 }
 
 .short-bech32 .address:hover {
-  color: var(--link);
+  color: var(--link-hover);
 }
 
 .short-bech32 .copied {
@@ -74,8 +77,6 @@ export default {
   opacity: 0;
   padding-left: 10px;
   transition: opacity 500ms ease;
-  position: relative;
-  top: -2px;
 }
 
 .short-bech32 .copied.active {

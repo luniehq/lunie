@@ -1,8 +1,12 @@
+/* istanbul ignore file */
+
 "use strict"
 
 const moment = require(`moment`)
 const b32 = require(`../scripts/b32.js`)
 const { getHeight } = require(`./rpcWrapperMock.js`)
+
+const day = 86400000
 
 const botAddress = `cosmos1p6zajjw6xged056andyhn62lm7axwzyspkzjq0`
 const addresses = [
@@ -15,7 +19,7 @@ const validators = [
   `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
   `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n`
 ]
-let state = {
+const state = {
   keys: [
     {
       name: `default`,
@@ -28,15 +32,15 @@ let state = {
       coins: [
         {
           denom: `mycoin`,
-          amount: `1000`
+          amount: `10000000000`
         },
         {
           denom: `fermion`,
-          amount: `2300`
+          amount: `23000000000`
         },
         {
           denom: `STAKE`,
-          amount: `1000`
+          amount: `10000000000`
         }
       ],
       sequence: `1`,
@@ -50,30 +54,11 @@ let state = {
         value: {
           msg: [
             {
-              type: `cosmos-sdk/Send`,
+              type: `cosmos-sdk/MsgSend`,
               value: {
-                inputs: [
-                  {
-                    coins: [
-                      {
-                        denom: `jbcoins`,
-                        amount: `1234`
-                      }
-                    ],
-                    address: addresses[1]
-                  }
-                ],
-                outputs: [
-                  {
-                    coins: [
-                      {
-                        denom: `jbcoins`,
-                        amount: `1234`
-                      }
-                    ],
-                    address: addresses[0]
-                  }
-                ]
+                from_address: addresses[1],
+                to_address: addresses[0],
+                amount: [{ denom: `jbcoins`, amount: `12340000000` }]
               }
             }
           ]
@@ -87,30 +72,11 @@ let state = {
         value: {
           msg: [
             {
-              type: `cosmos-sdk/Send`,
+              type: `cosmos-sdk/MsgSend`,
               value: {
-                inputs: [
-                  {
-                    coins: [
-                      {
-                        denom: `fabocoins`,
-                        amount: `1234`
-                      }
-                    ],
-                    address: addresses[0]
-                  }
-                ],
-                outputs: [
-                  {
-                    coins: [
-                      {
-                        denom: `fabocoins`,
-                        amount: `1234`
-                      }
-                    ],
-                    address: addresses[1]
-                  }
-                ]
+                from_address: addresses[0],
+                to_address: addresses[1],
+                amount: [{ denom: `fabocoins`, amount: `12340000000` }]
               }
             }
           ]
@@ -136,7 +102,7 @@ let state = {
                 initial_deposit: [
                   {
                     denom: `STAKE`,
-                    amount: `100`
+                    amount: `1000000000`
                   }
                 ]
               }
@@ -160,7 +126,7 @@ let state = {
                 amount: [
                   {
                     denom: `STAKE`,
-                    amount: `100`
+                    amount: `1000000000`
                   }
                 ]
               }
@@ -176,10 +142,10 @@ let state = {
             {
               type: `cosmos-sdk/MsgDelegate`,
               value: {
-                validator_addr: validators[0],
-                delegator_addr: addresses[0],
+                validator_address: validators[0],
+                delegator_address: addresses[0],
                 delegation: {
-                  amount: `24`,
+                  amount: `240000000`,
                   denom: `STAKE`
                 }
               }
@@ -195,11 +161,11 @@ let state = {
         value: {
           msg: [
             {
-              type: `cosmos-sdk/BeginUnbonding`,
+              type: `cosmos-sdk/MsgUndelegate`,
               value: {
-                validator_addr: validators[0],
-                delegator_addr: addresses[0],
-                shares: `5`
+                validator_address: validators[0],
+                delegator_address: addresses[0],
+                shares: `500000000`
               }
             }
           ]
@@ -213,8 +179,8 @@ let state = {
     [addresses[0]]: {
       delegations: [
         {
-          delegator_addr: addresses[0],
-          validator_addr: validators[0],
+          delegator_address: addresses[0],
+          validator_address: validators[0],
           shares: `14`,
           height: 123
         }
@@ -228,8 +194,8 @@ let state = {
       operator_address: validators[0],
       pub_key: `cosmosvalpub1234`,
       revoked: false,
-      tokens: `14`,
-      delegator_shares: `14`,
+      tokens: `140000000`,
+      delegator_shares: `140000000`,
       description: {
         website: `www.monty.ca`,
         details: `Mr Mounty`,
@@ -268,15 +234,15 @@ let state = {
         rate: `0`,
         max_rate: `0`,
         max_change_rate: `0`,
-        update_time: `1970-01-01T00:00:00Z`
+        update_time: new Date(Date.now()).toISOString()
       },
       prev_bonded_shares: `0`
     },
     {
       operator_address: validators[2],
       pub_key: `cosmosvalpub8910`,
-      tokens: `19`,
-      delegator_shares: `19`,
+      tokens: `190000000`,
+      delegator_shares: `190000000`,
       description: {
         details: `Herr Schmidt`,
         website: `www.schmidt.de`,
@@ -292,18 +258,18 @@ let state = {
         rate: `0`,
         max_rate: `0`,
         max_change_rate: `0`,
-        update_time: `1970-01-01T00:00:00Z`
+        update_time: new Date(Date.now()).toISOString()
       },
       prev_bonded_shares: `0`
     }
   ],
   pool: {
-    loose_tokens: `100.0000000000`,
-    bonded_tokens: `50.0000000000`
+    loose_tokens: `1000000000.00000000000`,
+    bonded_tokens: `500000000.00000000000`
   },
   stakingParameters: {
     parameters: {
-      unbonding_time: `259200000000000`,
+      unbonding_time: `2592000000000000`,
       max_validators: 100,
       bond_denom: `STAKE`
     }
@@ -313,15 +279,15 @@ let state = {
       min_deposit: [
         {
           denom: `STAKE`,
-          amount: `10.0000000000`
+          amount: `100000000.00000000000`
         }
       ],
       max_deposit_period: `86400000000000`
     },
     tallying: {
-      threshold: `0.5000000000`,
-      veto: `0.3340000000`,
-      governance_penalty: `0.0100000000`
+      threshold: `0.50000000000`,
+      veto: `0.33400000000`,
+      quorum: `0.33400000000`,
     },
     voting: {
       voting_period: `86400000000000`
@@ -331,11 +297,11 @@ let state = {
   signing_info: {
     start_height: 2,
     index_offset: 1,
-    jailed_until: `1970-01-01T00:00:00Z`,
-    signed_blocks_counter: 1
+    jailed_until: new Date(Date.now()).toISOString(),
+    missed_blocks_counter: 1
   },
   proposals: {
-    "1": {
+    1: {
       proposal_id: `1`,
       proposal_type: `Text`,
       title: `Proposal Title`,
@@ -343,28 +309,28 @@ let state = {
       initial_deposit: [
         {
           denom: `STAKE`,
-          amount: `100`
+          amount: `1000000000`
         }
       ],
       total_deposit: [
         {
           denom: `STAKE`,
-          amount: `100`
+          amount: `1000000000`
         }
       ],
-      submit_time: `2018-11-21T13:29:24.66404Z`,
-      deposit_end_time: `2018-11-23T13:29:24.66404Z`,
-      voting_start_time: `2018-11-23T13:29:24.66404Z`,
-      voting_end_time: `2018-11-25T13:29:24.66404Z`,
+      submit_time: new Date(Date.now()).toISOString(),
+      deposit_end_time: new Date(Date.now() + day * 2).toISOString(),
+      voting_start_time: new Date(Date.now() + day * 2).toISOString(),
+      voting_end_time: new Date(Date.now() + day * 4).toISOString(),
       proposal_status: `Passed`,
-      tally_result: {
-        yes: `500`,
-        no: `25`,
-        no_with_veto: `10`,
-        abstain: `56`
+      final_tally_result: {
+        yes: `5000000000`,
+        no: `250000000`,
+        no_with_veto: `100000000`,
+        abstain: `560000000`
       }
     },
-    "2": {
+    2: {
       proposal_id: `2`,
       proposal_type: `Text`,
       title: `VotingPeriod proposal`,
@@ -372,28 +338,28 @@ let state = {
       initial_deposit: [
         {
           denom: `STAKE`,
-          amount: `200`
+          amount: `2000000000`
         }
       ],
       total_deposit: [
         {
           denom: `STAKE`,
-          amount: `200`
+          amount: `2000000000`
         }
       ],
-      submit_time: `2018-11-21T13:29:24.66404Z`,
-      deposit_end_time: `2018-11-23T13:29:24.66404Z`,
-      voting_start_time: `2018-11-23T13:29:24.66404Z`,
-      voting_end_time: `2018-11-25T13:29:24.66404Z`,
+      submit_time: new Date(Date.now()).toISOString(),
+      deposit_end_time: new Date(Date.now() + day * 2).toISOString(),
+      voting_start_time: new Date(Date.now() + day * 2).toISOString(),
+      voting_end_time: new Date(Date.now() + day * 4).toISOString(),
       proposal_status: `VotingPeriod`,
-      tally_result: {
+      final_tally_result: {
         yes: `0`,
         no: `0`,
         no_with_veto: `0`,
         abstain: `0`
       }
     },
-    "5": {
+    5: {
       proposal_id: `5`,
       proposal_type: `Text`,
       title: `Custom text proposal`,
@@ -401,28 +367,28 @@ let state = {
       initial_deposit: [
         {
           denom: `STAKE`,
-          amount: `20`
+          amount: `200000000`
         }
       ],
       total_deposit: [
         {
           denom: `STAKE`,
-          amount: `170`
+          amount: `1700000000`
         }
       ],
-      submit_time: `2018-11-21T13:29:24.66404Z`,
-      deposit_end_time: `2018-11-23T13:29:24.66404Z`,
+      submit_time: new Date(Date.now()).toISOString(),
+      deposit_end_time: new Date(Date.now() + day * 2).toISOString(),
       voting_start_time: `0001-01-01T00:00:00Z`,
       voting_end_time: `0001-01-01T00:00:00Z`,
       proposal_status: `DepositPeriod`,
-      tally_result: {
+      final_tally_result: {
         yes: `0`,
         no: `0`,
         no_with_veto: `0`,
         abstain: `0`
       }
     },
-    "6": {
+    6: {
       proposal_id: `6`,
       proposal_type: `Text`,
       title: `Rejected proposal`,
@@ -430,56 +396,56 @@ let state = {
       initial_deposit: [
         {
           denom: `STAKE`,
-          amount: `100`
+          amount: `1000000000`
         }
       ],
       total_deposit: [
         {
           denom: `STAKE`,
-          amount: `100`
+          amount: `1000000000`
         }
       ],
-      submit_time: `2018-11-21T13:29:24.66404Z`,
-      deposit_end_time: `2018-11-23T13:29:24.66404Z`,
-      voting_start_time: `2018-11-23T13:29:24.66404Z`,
-      voting_end_time: `2018-11-25T13:29:24.66404Z`,
+      submit_time: new Date(Date.now()).toISOString(),
+      deposit_end_time: new Date(Date.now() + day * 2).toISOString(),
+      voting_start_time: new Date(Date.now() + day * 2).toISOString(),
+      voting_end_time: new Date(Date.now() + day * 4).toISOString(),
       proposal_status: `Rejected`,
-      tally_result: {
-        yes: `10`,
-        no: `30`,
-        no_with_veto: `100`,
-        abstain: `20`
+      final_tally_result: {
+        yes: `100000000`,
+        no: `300000000`,
+        no_with_veto: `1000000000`,
+        abstain: `200000000`
       }
     }
   },
   tallies: {
-    "1": {
-      yes: `500`,
-      no: `25`,
-      no_with_veto: `10`,
-      abstain: `56`
+    1: {
+      yes: `5000000000`,
+      no: `250000000`,
+      no_with_veto: `100000000`,
+      abstain: `560000000`
     },
-    "2": {
+    2: {
       yes: `0`,
       no: `0`,
       no_with_veto: `0`,
       abstain: `0`
     },
-    "5": {
+    5: {
       yes: `0`,
       no: `0`,
       no_with_veto: `0`,
       abstain: `0`
     },
-    "6": {
-      yes: `10`,
-      no: `30`,
-      no_with_veto: `100`,
-      abstain: `20`
+    6: {
+      yes: `100000000`,
+      no: `300000000`,
+      no_with_veto: `1000000000`,
+      abstain: `200000000`
     }
   },
   votes: {
-    "1": [
+    1: [
       {
         proposal_id: `1`,
         voter: validators[0],
@@ -491,8 +457,8 @@ let state = {
         option: `NoWithVeto`
       }
     ],
-    "2": [],
-    "5": [
+    2: [],
+    5: [
       {
         proposal_id: `5`,
         voter: validators[0],
@@ -504,7 +470,7 @@ let state = {
         option: `Abstain`
       }
     ],
-    "6": [
+    6: [
       {
         proposal_id: `6`,
         voter: validators[0],
@@ -518,18 +484,18 @@ let state = {
     ]
   },
   deposits: {
-    "1": [
+    1: [
       {
         proposal_id: `1`,
         depositor: validators[0],
         amount: [
           {
             denom: `STAKE`,
-            amount: `15`
+            amount: `150000000`
           },
           {
             denom: `STAKE`,
-            amount: `5`
+            amount: `50000000`
           }
         ]
       },
@@ -539,31 +505,31 @@ let state = {
         amount: [
           {
             denom: `STAKE`,
-            amount: `5`
+            amount: `50000000`
           }
         ]
       }
     ],
-    "2": [
+    2: [
       {
         proposal_id: `2`,
         depositor: validators[0],
         amount: [
           {
             denom: `STAKE`,
-            amount: `200`
+            amount: `2000000000`
           }
         ]
       }
     ],
-    "5": [
+    5: [
       {
         proposal_id: `5`,
         depositor: validators[0],
         amount: [
           {
             denom: `STAKE`,
-            amount: `20`
+            amount: `200000000`
           }
         ]
       },
@@ -573,19 +539,19 @@ let state = {
         amount: [
           {
             denom: `STAKE`,
-            amount: `150`
+            amount: `1500000000`
           }
         ]
       }
     ],
-    "6": [
+    6: [
       {
         proposal_id: `6`,
         depositor: validators[0],
         amount: [
           {
             denom: `STAKE`,
-            amount: `100`
+            amount: `1000000000`
           }
         ]
       }
@@ -595,7 +561,7 @@ let state = {
 
 const keys = {
   add: async ({ name, password, seed }) => {
-    let key = {
+    const key = {
       name,
       password,
       address: makeHash()
@@ -605,7 +571,7 @@ const keys = {
   },
 
   delete: async (account, { name, password }) => {
-    let key = state.keys.find(k => k.name === name)
+    const key = state.keys.find(k => k.name === name)
     if (key.password !== password) {
       throw new Error(`Passwords do not match`)
     }
@@ -619,7 +585,7 @@ const keys = {
 
   set: async (account, { name, old_password, new_password }) => {
     // eslint-disable-line camelcase
-    let key = state.keys.find(k => k.name === name)
+    const key = state.keys.find(k => k.name === name)
     if (key.password !== old_password) {
       // eslint-disable-line camelcase
       throw new Error(`Passwords do not match`)
@@ -643,31 +609,25 @@ module.exports = {
   keys,
 
   // coins
-  async queryAccount(address) {
+  async getAccount(address) {
     return state.accounts[address]
   },
   async txs(address) {
     // filter the txs for the ones for this account
     return state.txs.filter(tx => {
-      let type = tx.tx.value.msg[0].type
-      if (type === `cosmos-sdk/Send`) {
-        return (
-          tx.tx.value.msg[0].value.inputs.find(
-            input => input.address === address
-          ) ||
-          tx.tx.value.msg[0].value.outputs.find(
-            output => output.address === address
-          )
-        )
-      }
-      return false // only return bank transactions
+      const type = tx.tx.value.msg[0].type
+      return (
+        type === `cosmos-sdk/MsgSend` &&
+        (tx.tx.value.msg[0].value.from_address === address ||
+          tx.tx.value.msg[0].value.to_address === address)
+      )
     })
   },
   async tx(hash) {
     return state.txs.find(tx => tx.hash === hash)
   },
   async send(to, req) {
-    let fromKey = state.keys.find(a => a.name === req.base_req.name)
+    const fromKey = state.keys.find(a => a.name === req.base_req.name)
     if (!fromKey)
       throw Error(
         `Key you want to send from does not exist in the lcd connection mock`
@@ -685,8 +645,8 @@ module.exports = {
       delegation
     }
   ) {
-    let fromKey = state.keys.find(a => a.name === name)
-    let fromAccount = state.accounts[fromKey.address]
+    const fromKey = state.keys.find(a => a.name === name)
+    const fromAccount = state.accounts[fromKey.address]
     let delegator = state.stake[fromKey.address]
     if (delegator_addr !== fromKey.address) {
       return txResult(1, `Must use own delegator account`)
@@ -708,8 +668,8 @@ module.exports = {
         `Expected sequence "${fromAccount.sequence}", got "${sequence}"`
       )
     }
-    let denom = state.stakingParameters.parameters.bond_denom
-    let amount = parseInt(delegation.amount)
+    const denom = state.stakingParameters.parameters.bond_denom
+    const amount = parseInt(delegation.amount)
     if (amount < 0) {
       return txResult(1, `Amount cannot be negative`)
     }
@@ -721,22 +681,22 @@ module.exports = {
     fromAccount.coins.find(c => c.denom === denom).amount -= amount
 
     // update stake
-    let existingDelegation = delegator.delegations.find(
+    const existingDelegation = delegator.delegations.find(
       d => d.validator_addr === validator_addr
     )
     if (!existingDelegation) {
       delegation = {
-        delegator_addr: fromKey.address,
-        validator_addr: validator_addr,
+        delegator_address: fromKey.address,
+        validator_address: validator_addr,
         shares: `0`,
         height: 0
       }
       delegator.delegations.push(delegation)
     }
 
-    let shares = parseInt(delegation.shares)
+    const shares = parseInt(delegation.shares)
     delegation.shares = (shares + amount).toString()
-    let candidate = state.candidates.find(
+    const candidate = state.candidates.find(
       c => c.operator_address === validator_addr
     )
     // TODO: Update error msg
@@ -771,8 +731,8 @@ Msg Traces:
       shares
     }
   ) {
-    let fromKey = state.keys.find(a => a.name === name)
-    let fromAccount = state.accounts[fromKey.address]
+    const fromKey = state.keys.find(a => a.name === name)
+    const fromAccount = state.accounts[fromKey.address]
     let delegator = state.stake[fromKey.address]
     if (!delegator) {
       state.stake[fromKey.address] = {
@@ -793,10 +753,10 @@ Msg Traces:
     }
     incrementSequence(fromAccount)
 
-    let amount = parseInt(shares)
+    const amount = parseInt(shares)
 
     // update stake
-    let delegation = delegator.delegations.find(
+    const delegation = delegator.delegations.find(
       d => d.validator_addr === validator_addr
     )
     if (!delegation) {
@@ -804,13 +764,13 @@ Msg Traces:
     }
 
     // update sender balance
-    let coinBalance = fromAccount.coins.find(
+    const coinBalance = fromAccount.coins.find(
       c => c.denom === state.stakingParameters.parameters.bond_denom
     )
 
     coinBalance.amount = String(parseInt(coinBalance.amount) + amount)
 
-    let delegationShares = parseInt(delegation.shares)
+    const delegationShares = parseInt(delegation.shares)
     delegation.shares = (+delegationShares - amount).toString()
 
     updateValidatorShares(state, validator_addr, amount)
@@ -825,7 +785,7 @@ Msg Traces:
       )
     )
 
-    storeTx(`cosmos-sdk/BeginUnbonding`, {
+    storeTx(`cosmos-sdk/MsgUndelegate`, {
       validator_addr,
       delegator_addr,
       shares
@@ -842,8 +802,8 @@ Msg Traces:
       shares
     }
   ) {
-    let fromKey = state.keys.find(a => a.name === name)
-    let fromAccount = state.accounts[fromKey.address]
+    const fromKey = state.keys.find(a => a.name === name)
+    const fromAccount = state.accounts[fromKey.address]
     let delegator = state.stake[fromKey.address]
     if (!delegator) {
       state.stake[fromKey.address] = {
@@ -865,7 +825,7 @@ Msg Traces:
     incrementSequence(fromAccount)
 
     // check if source validator exist
-    let srcValidator = state.candidates.find(
+    const srcValidator = state.candidates.find(
       c => c.operator_address === validator_src_addr
     )
 
@@ -874,7 +834,7 @@ Msg Traces:
     }
 
     // check if dest validator exist
-    let dstValidator = state.candidates.find(
+    const dstValidator = state.candidates.find(
       c => c.operator_address === validator_dst_addr
     )
 
@@ -897,7 +857,7 @@ Msg Traces:
     }
 
     // check if delegation exists
-    let srcDelegation = delegator.delegations.find(
+    const srcDelegation = delegator.delegations.find(
       d => d.validator_addr === validator_src_addr
     )
     if (!srcDelegation) {
@@ -905,7 +865,7 @@ Msg Traces:
     }
 
     // check if there's an existing redelegation
-    let redelegations = this.getRedelegations(delegator_addr)
+    const redelegations = this.getRedelegations(delegator_addr)
     let red = redelegations.find(
       red =>
         red.validator_src_addr === validator_src_addr &&
@@ -916,7 +876,7 @@ Msg Traces:
       return txResult(3, `conflicting redelegation`)
     }
 
-    let height = getHeight()
+    const height = getHeight()
 
     // check if amount of shares redelegated is valid
     if (Number(srcDelegation.shares) < shares) {
@@ -930,26 +890,26 @@ Msg Traces:
     srcDelegation.height = height
 
     // delegate to dst validator
-    let dstDelegation = delegator.delegations.find(
+    const dstDelegation = delegator.delegations.find(
       d => d.validator_addr === validator_dst_addr
     )
     if (dstDelegation) {
       dstDelegation.shares = String(Number(dstDelegation.shares) + shares)
     } else {
       delegator.delegations.push({
-        delegator_addr: delegator_addr,
-        validator_addr: validator_dst_addr,
+        delegator_address: delegator_addr,
+        validator_address: validator_dst_addr,
         shares: shares,
         height
       })
     }
 
     // add redelegation object
-    let coins = {
+    const coins = {
       amount: shares, // in mock mode we assume 1 share = 1 token
       denom: state.stakingParameters.parameters.bond_denom
     }
-    let minTime = Date.now()
+    const minTime = Date.now()
     red = {
       delegator_addr,
       validator_src_addr,
@@ -967,7 +927,7 @@ Msg Traces:
     updateValidatorShares(state, validator_src_addr, -shares)
     updateValidatorShares(state, validator_dst_addr, shares)
 
-    storeTx(`cosmos-sdk/BeginRedelegate`, {
+    storeTx(`cosmos-sdk/MsgBeginRedelegate`, {
       delegator_addr,
       validator_src_addr,
       validator_dst_addr,
@@ -975,8 +935,8 @@ Msg Traces:
     })
     return txResult(0)
   },
-  async queryDelegation(delegatorAddress, validatorAddress) {
-    let delegator = state.stake[delegatorAddress]
+  async getDelegation(delegatorAddress, validatorAddress) {
+    const delegator = state.stake[delegatorAddress]
     if (!delegator)
       return {
         shares: `0`
@@ -985,8 +945,8 @@ Msg Traces:
       ({ validator_addr }) => validator_addr === validatorAddress
     )
   },
-  async queryUnbonding(delegatorAddress, validatorAddress) {
-    let delegator = state.stake[delegatorAddress]
+  async getUnbondingDelegation(delegatorAddress, validatorAddress) {
+    const delegator = state.stake[delegatorAddress]
     if (!delegator) return
     return delegator.unbonding_delegations.find(
       d => d.validator_addr === validatorAddress
@@ -994,25 +954,25 @@ Msg Traces:
   },
   // Get all delegations information from a delegator
   getDelegations(delegatorAddress) {
-    let delegator = state.stake[delegatorAddress] || {}
+    const delegator = state.stake[delegatorAddress] || {}
     return delegator.delegations || []
   },
   getUndelegations(delegatorAddress) {
-    let delegator = state.stake[delegatorAddress] || {}
+    const delegator = state.stake[delegatorAddress] || {}
     return delegator.unbonding_delegations || []
   },
   getRedelegations(delegatorAddress) {
-    let delegator = state.stake[delegatorAddress] || {}
+    const delegator = state.stake[delegatorAddress] || {}
     return delegator.redelegations || []
   },
   async getDelegatorTxs(addr, types = []) {
     // filter for transactions belonging to that delegator and are staking
-    let delegatorTxs = state.txs.filter(tx => {
-      let type = tx.tx.value.msg[0].type
+    const delegatorTxs = state.txs.filter(tx => {
+      const type = tx.tx.value.msg[0].type
       if (
         type === `cosmos-sdk/MsgDelegate` ||
-        type === `cosmos-sdk/BeginRedelegate` ||
-        type === `cosmos-sdk/BeginUnbonding`
+        type === `cosmos-sdk/MsgBeginRedelegate` ||
+        type === `cosmos-sdk/MsgUndelegate`
       ) {
         return tx.tx.value.msg[0].value.delegator_addr === addr
       }
@@ -1023,15 +983,15 @@ Msg Traces:
     if (types.length === 0) types = [`bonding`, `unbonding`, `redelegate`]
     types = types.map(type => {
       if (type === `bonding`) return `cosmos-sdk/MsgDelegate`
-      if (type === `unbonding`) return `cosmos-sdk/BeginUnbonding`
-      if (type === `redelegate`) return `cosmos-sdk/BeginRedelegate`
+      if (type === `unbonding`) return `cosmos-sdk/MsgUndelegate`
+      if (type === `redelegate`) return `cosmos-sdk/MsgBeginRedelegate`
     })
 
     return delegatorTxs.filter(
       tx => types.indexOf(tx.tx.value.msg[0].type) !== -1
     )
   },
-  async getCandidates() {
+  async getValidators() {
     return state.candidates
   },
   async getValidatorSet() {
@@ -1040,11 +1000,11 @@ Msg Traces:
       validators: state.candidates
     }
   },
-  async getCandidate(addr) {
+  async getValidator(addr) {
     return state.candidates.find(c => c.operator_address === addr)
   },
   // TODO query with bech32 pubKey
-  async queryValidatorSigningInfo() {
+  async getValidatorSigningInfo() {
     return state.signing_info
   },
   async getPool() {
@@ -1053,10 +1013,7 @@ Msg Traces:
   async getStakingParameters() {
     return state.stakingParameters.parameters
   },
-  async getProposals() {
-    return state.proposals || []
-  },
-  async submitProposal({
+  async postProposal({
     base_req,
     title,
     description,
@@ -1085,24 +1042,24 @@ Msg Traces:
       return results
     }
 
-    let tally_result = {
+    const final_tally_result = {
       yes: `0`,
       no: `0`,
       no_with_veto: `0`,
       abstain: `0`
     }
-    let submit_time = Date.now()
-    let deposit_end_time = moment(submit_time)
+    const submit_time = Date.now()
+    const deposit_end_time = moment(submit_time)
       .add(86400000, `ms`)
       .toDate()
 
-    let proposal = {
+    const proposal = {
       proposal_id,
       title,
       description,
       proposal_type,
       proposal_status: `DepositPeriod`,
-      tally_result,
+      final_tally_result,
       submit_time,
       deposit_end_time,
       voting_start_time: undefined,
@@ -1112,7 +1069,7 @@ Msg Traces:
 
     // we add the proposal to the state to make it available for the submitProposalDeposit function
     state.proposals[proposal.proposal_id] = proposal
-    results = await this.submitProposalDeposit({
+    results = await this.postProposalDeposit({
       base_req,
       proposal_id,
       depositor: proposer,
@@ -1128,8 +1085,8 @@ Msg Traces:
     return state.proposals[proposalId]
   },
   async getProposalTally(proposalId) {
-    let proposal = await this.getProposal(proposalId)
-    return proposal.tally_result
+    const proposal = await this.getProposal(proposalId)
+    return proposal.final_tally_result
   },
   async getProposalDeposits(proposalId) {
     return state.deposits[proposalId] || []
@@ -1139,15 +1096,15 @@ Msg Traces:
       deposit => deposit.depositor === address
     )
   },
-  async submitProposalDeposit({
+  async postProposalDeposit({
     proposal_id,
     base_req: { name, sequence },
     depositor,
     amount
   }) {
-    let results = []
-    let fromKey = state.keys.find(a => a.name === name)
-    let fromAccount = state.accounts[fromKey.address]
+    const results = []
+    const fromKey = state.keys.find(a => a.name === name)
+    const fromAccount = state.accounts[fromKey.address]
     if (fromAccount == null) {
       results.push(txResult(1, `Nonexistent account`))
       return results
@@ -1163,7 +1120,7 @@ Msg Traces:
       return results
     }
 
-    let proposal = await this.getProposal(proposal_id)
+    const proposal = await this.getProposal(proposal_id)
     if (!proposal) {
       results.push(txResult(3, `Nonexistent proposal`))
       return results
@@ -1176,7 +1133,7 @@ Msg Traces:
     }
 
     let coin
-    let submittedDeposit = {
+    const submittedDeposit = {
       proposal_id,
       depositor,
       amount
@@ -1185,8 +1142,8 @@ Msg Traces:
     // javascript's forEach doesn't support break, so using classic for loop...
     for (let i = 0; i < amount.length; i++) {
       coin = amount[i]
-      let depositCoinAmt = parseInt(coin.amount)
-      let coinBalance = fromAccount.coins.find(c => c.denom === coin.denom)
+      const depositCoinAmt = parseInt(coin.amount)
+      const coinBalance = fromAccount.coins.find(c => c.denom === coin.denom)
 
       if (depositCoinAmt < 0) {
         results.push(txResult(1, `Amount of ${coin.denom}s cannot be negative`))
@@ -1201,7 +1158,7 @@ Msg Traces:
 
       // ============= TOTAL PROPOSAL's DEPOSIT =============
       // Increment total deposit of the proposal
-      let deposit = proposal.total_deposit.find(
+      const deposit = proposal.total_deposit.find(
         deposit => deposit.denom === coin.denom
       )
       if (!deposit) {
@@ -1209,13 +1166,13 @@ Msg Traces:
         proposal.total_deposit.push(coin)
       } else {
         // if there's an existing deposit with that denom we add the submited deposit amount to it
-        let newAmt = String(parseInt(deposit.amount) + parseInt(coin.amount))
+        const newAmt = String(parseInt(deposit.amount) + parseInt(coin.amount))
         deposit.amount = newAmt
       }
 
       // ============= USER'S DEPOSITS =============
       // check if there's an existing deposit by the depositor
-      let prevDeposit =
+      const prevDeposit =
         state.deposits[proposal_id] &&
         state.deposits[proposal_id].find(
           deposit => deposit.depositor === depositor
@@ -1229,14 +1186,14 @@ Msg Traces:
       } else {
         // ============= USER'S DEPOSITS WITH SAME COIN DENOM =============
         // if there's a prev deposit, add the new amount to the corresponding coin
-        let prevDepCoin = prevDeposit.amount.find(prevDepCoin => {
+        const prevDepCoin = prevDeposit.amount.find(prevDepCoin => {
           return prevDepCoin.denom === coin.denom
         })
         if (!prevDepCoin) {
           prevDeposit.amount.push(coin)
         } else {
           // there's a previous deposit from the depositor with the same coin
-          let newAmt = parseInt(prevDepCoin.amount) + parseInt(coin.amount)
+          const newAmt = parseInt(prevDepCoin.amount) + parseInt(coin.amount)
           prevDepCoin.amount = String(newAmt)
         }
       }
@@ -1247,11 +1204,11 @@ Msg Traces:
     // check if the propoposal is now active
     if (proposal.proposal_status === `DepositPeriod`) {
       // TODO: get min deposit denom from gov params instead of stake params
-      let depositCoinAmt = proposal.total_deposit.find(coin => {
+      const depositCoinAmt = proposal.total_deposit.find(coin => {
         return coin.denom === `STAKE`
       }).amount
 
-      let minDepositCoin = state.governanceParameters.deposit.min_deposit[0]
+      const minDepositCoin = state.governanceParameters.deposit.min_deposit[0]
       if (parseInt(depositCoinAmt) >= parseInt(minDepositCoin.amount)) {
         proposal.proposal_status = `VotingPeriod`
         proposal.voting_start_time = Date.now()
@@ -1264,21 +1221,21 @@ Msg Traces:
     results.push(txResult(0))
     return results
   },
-  async queryProposalVotes(proposalId) {
+  async getProposalVotes(proposalId) {
     return (
       state.votes[proposalId] ||
       Promise.reject({ message: `Invalid proposalId #${proposalId}` })
     )
   },
-  async submitProposalVote({
+  async postProposalVote({
     proposal_id,
     base_req: { name, sequence },
     option,
     voter
   }) {
-    let results = []
-    let fromKey = state.keys.find(a => a.name === name)
-    let fromAccount = state.accounts[fromKey.address]
+    const results = []
+    const fromKey = state.keys.find(a => a.name === name)
+    const fromAccount = state.accounts[fromKey.address]
 
     if (fromAccount == null) {
       results.push(txResult(1, `Nonexistent account`))
@@ -1295,7 +1252,7 @@ Msg Traces:
       return results
     }
 
-    let proposal = await this.getProposal(proposal_id)
+    const proposal = await this.getProposal(proposal_id)
 
     if (!proposal) {
       results.push(txResult(3, `Nonexistent proposal`))
@@ -1313,15 +1270,15 @@ Msg Traces:
       return results
     }
 
-    let vote = {
+    const vote = {
       proposal_id,
       option,
       voter
     }
 
     state.votes[proposal_id].push(vote)
-    let intTallyResult = parseInt(proposal.tally_result[option])
-    proposal.tally_result[option] = String(intTallyResult + 1)
+    const intTallyResult = parseInt(proposal.final_tally_result[option])
+    proposal.final_tally_result[option] = String(intTallyResult + 1)
 
     storeTx(`cosmos-sdk/MsgVote`, vote)
     results.push(txResult(0))
@@ -1330,9 +1287,9 @@ Msg Traces:
   async getProposalVote(proposal_id, address) {
     return state.votes[proposal_id].find(vote => vote.voter === address)
   },
-  async queryProposals() {
+  async getProposals() {
     // TODO: return only value of the `value` property when https://github.com/cosmos/cosmos-sdk/issues/2507 is solved
-    let proposals = state.proposals
+    const proposals = state.proposals
     return Object.keys(proposals).map(key => {
       return {
         value: JSON.parse(JSON.stringify(proposals[key])),
@@ -1343,7 +1300,7 @@ Msg Traces:
   async getGovernanceTxs(addr) {
     return (
       state.txs.filter(tx => {
-        let type = tx.tx.value.msg[0].type
+        const type = tx.tx.value.msg[0].type
 
         if (type === `cosmos-sdk/MsgSubmitProposal`) {
           return tx.tx.value.msg[0].value.proposer === addr
@@ -1380,17 +1337,17 @@ function makeHash() {
   return b32.encode(text)
 }
 
-function send(to, from, req) {
-  let fromAccount = state.accounts[from]
+function send(to_address, from_address, req) {
+  const fromAccount = state.accounts[from_address]
   if (fromAccount == null) {
     return txResult(1, `Nonexistent account`)
   }
 
-  for (let { denom, amount } of req.amount) {
+  for (const { denom, amount } of req.amount) {
     if (parseInt(amount) < 0) {
       return txResult(1, `Amount cannot be negative`)
     }
-    let coins = fromAccount.coins.find(c => c.denom === denom)
+    const coins = fromAccount.coins.find(c => c.denom === denom)
     if (!coins || coins.amount < parseInt(amount)) {
       return txResult(1, `Not enough coins in your account`)
     }
@@ -1408,22 +1365,22 @@ function send(to, from, req) {
   incrementSequence(fromAccount)
 
   // update sender balances
-  for (let { denom, amount } of req.amount) {
-    let senderBalance = fromAccount.coins.find(c => c.denom === denom)
+  for (const { denom, amount } of req.amount) {
+    const senderBalance = fromAccount.coins.find(c => c.denom === denom)
     senderBalance.amount = String(
       parseInt(senderBalance.amount) - parseInt(amount)
     )
   }
 
   // update receiver balances
-  let receiverAccount = state.accounts[to]
+  let receiverAccount = state.accounts[to_address]
   if (!receiverAccount) {
-    receiverAccount = state.accounts[to] = {
+    receiverAccount = state.accounts[to_address] = {
       coins: [],
       sequence: `0`
     }
   }
-  for (let { denom, amount } of req.amount) {
+  for (const { denom, amount } of req.amount) {
     let receiverBalance = receiverAccount.coins.find(c => c.denom === denom)
     if (!receiverBalance) {
       receiverBalance = { amount: `0`, denom }
@@ -1435,24 +1392,15 @@ function send(to, from, req) {
   }
 
   // log tx
-  storeTx(`cosmos-sdk/Send`, {
-    inputs: [
-      {
-        coins: req.amount,
-        address: from
-      }
-    ],
-    outputs: [
-      {
-        coins: req.amount,
-        address: to
-      }
-    ]
+  storeTx(`cosmos-sdk/MsgSend`, {
+    from_address,
+    to_address,
+    amount: req.amount
   })
 
   // if receiver is bot address, send money back
-  if (to === botAddress) {
-    send(from, botAddress, {
+  if (to_address === botAddress) {
+    send(from_address, botAddress, {
       amount: req.amount,
       sequence: state.accounts[botAddress].sequence
     })
@@ -1504,10 +1452,10 @@ function incrementSequence(account) {
 }
 
 function updateValidatorShares(state, operator_address, amount) {
-  let candidate = state.candidates.find(
+  const candidate = state.candidates.find(
     c => c.operator_address === operator_address
   )
-  let shares = parseInt(candidate.tokens)
+  const shares = parseInt(candidate.tokens)
   candidate.tokens = (+shares - amount).toString()
   candidate.delegator_shares = (+shares - amount).toString()
 }

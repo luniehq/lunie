@@ -1,137 +1,139 @@
 "use strict"
 
-import setup from "../../../helpers/vuex-setup"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
 import UndelegationModal from "staking/UndelegationModal"
 import Vuelidate from "vuelidate"
-import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`UndelegationModal`, () => {
-  let wrapper, store
-  let { stakingParameters } = lcdClientMock.state
-  let { mount, localVue } = setup()
+  let wrapper, $store
+  const stakingParameters = {
+    unbonding_time: `259200000000000`,
+    max_validators: 100,
+    bond_denom: `STAKE`
+  }
+  const validator = {
+    operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`
+    // we don't need other props in this component
+  }
+  const localVue = createLocalVue()
   localVue.use(Vuelidate)
-  localVue.directive(`tooltip`, () => {})
-  localVue.directive(`focus`, () => {})
 
   beforeEach(() => {
-    let instance = mount(UndelegationModal, {
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: {
+        bondDenom: `stake`,
+        liquidAtoms: 1000042
+      }
+    }
+    wrapper = shallowMount(UndelegationModal, {
       localVue,
+      mocks: {
+        $store
+      },
       propsData: {
-        maximum: 100,
+        maximum: 1000000000,
+        validator,
         to: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
-        denom: stakingParameters.parameters.bond_denom
+        denom: stakingParameters.bond_denom,
+        fromOptions: [
+          {
+            address: `cosmosval1234`
+          }
+        ]
       }
     })
-    wrapper = instance.wrapper
-    store = instance.store
-    store.commit(`setStakingParameters`, stakingParameters.parameters)
   })
 
-  describe(`component matches snapshot`, () => {
-    it(`has the expected html structure`, async () => {
-      expect(wrapper.vm.$el).toMatchSnapshot()
+  it(`should display undelegation modal form`, () => {
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
+  it(`opens`, () => {
+    const $refs = { actionModal: { open: jest.fn() } }
+    UndelegationModal.methods.open.call({ $refs })
+    expect($refs.actionModal.open).toHaveBeenCalled()
+  })
+
+  it(`clears on close`, () => {
+    const self = {
+      $v: { $reset: jest.fn() },
+      amount: 10
+    }
+    UndelegationModal.methods.clear.call(self)
+    expect(self.$v.$reset).toHaveBeenCalled()
+    expect(self.amount).toBeNull()
+  })
+
+  describe(`only submits on correct form`, () => {
+    describe(`validates`, () => {
+      it(`to false with default values`, () => {
+        expect(wrapper.vm.validateForm()).toBe(false)
+      })
+
+      it(`to true if the amount is positive and the user has enough liquid atoms`, () => {
+        wrapper.setData({ amount: 50 })
+        expect(wrapper.vm.validateForm()).toBe(true)
+      })
     })
   })
 
-  describe(`default values are set correctly`, () => {
-    it(`the 'amount' defaults to 0`, () => {
-      expect(wrapper.vm.amount).toEqual(0)
-    })
+  describe(`simulateForm`, () => {
+    it(`should simulate transaction to estimate gas used`, async () => {
+      const estimate = 1234567
+      const validator = { operator_address: `cosmosvaloper1address` }
+      const self = {
+        $store: { dispatch: jest.fn(() => estimate) },
+        amount: 4.2,
+        validator
+      }
+      const res = await UndelegationModal.methods.simulateForm.call(self)
 
-    it(`displays the user's wallet address as the default`, () => {
-      let toField = wrapper.find(`#to`)
-      expect(toField).toBeDefined()
-      expect(toField.element.value).toEqual(
-        `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`
+      expect(self.$store.dispatch).toHaveBeenCalledWith(`simulateUnbondingDelegation`,
+        {
+          amount: -4200000,
+          validator
+        }
       )
-    })
-
-    it(`account password defaults to an empty string`, () => {
-      expect(wrapper.vm.password).toEqual(``)
-    })
-
-    it(`password is hidden by default`, () => {
-      expect(wrapper.vm.showPassword).toBe(false)
+      expect(res).toBe(estimate)
     })
   })
 
-  describe(`Password display`, () => {
-    it(`toggles the password between text and password`, () => {
-      wrapper.vm.togglePassword()
-      expect(wrapper.vm.showPassword).toBe(true)
-      wrapper.vm.togglePassword()
-      expect(wrapper.vm.showPassword).toBe(false)
-    })
-  })
+  describe(`submitForm`, () => {
+    it(`submits undelegation`, async () => {
+      const $store = {
+        dispatch: jest.fn(),
+        commit: jest.fn()
+      }
+      const validator = { operator_address: `cosmosvaloper1address` }
+      const gas = `1234567`
+      const gasPrice = 2.5e-8
+      const gas_prices = [{ denom: `uatom`, amount: `0.025` }]
 
-  describe(`enables or disables the Delegation button correctly`, () => {
-    describe(`disables the 'Delegation' button`, () => {
-      it(`with default values`, () => {
-        let undelegationBtn = wrapper.find(`#submit-undelegation`)
-        expect(undelegationBtn.html()).toContain(`disabled="disabled"`)
-      })
+      wrapper.setData({ amount: 4.2 })
+      await UndelegationModal.methods.submitForm.call(
+        { $store, amount: 4.2, denom: `uatom`, validator },
+        gas, gasPrice, `1234567890`, `local`
+      )
 
-      it(`if the user manually inputs a number greater than the balance`, () => {
-        wrapper.setData({ amount: 142, password: `1234567890` })
-        let amountField = wrapper.find(`#amount`)
-        let undelegationBtn = wrapper.find(`#submit-undelegation`)
-        expect(undelegationBtn.html()).toContain(`disabled="disabled"`)
-        let errorMessage = wrapper.find(`input#amount + div`)
-        expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
-
-        amountField.trigger(`input`)
-        expect(amountField.element.value).toBe(`100`)
-      })
-
-      it(`if the password field is empty`, () => {
-        wrapper.setData({ amount: 10, password: `` })
-        let undelegationBtn = wrapper.find(`#submit-undelegation`)
-        expect(undelegationBtn.html()).toContain(`disabled="disabled"`)
-      })
-    })
-
-    describe(`enables the 'Delegation' button`, () => {
-      it(`if the amout is positive and the user has enough balance`, () => {
-        wrapper.setData({ amount: 50, password: `1234567890` })
-
-        let undelegationBtn = wrapper.find(`#submit-undelegation`)
-        expect(undelegationBtn.html()).not.toContain(`disabled="disabled"`)
-      })
-    })
-  })
-
-  describe(`Undelegate`, () => {
-    it(`Undelegation button submits an unbonding delegation and closes modal`, () => {
-      wrapper.setData({ amount: 4.2, password: `1234567890` })
-      wrapper.vm.onUndelegate()
-
-      expect(wrapper.emittedByOrder()).toEqual([
+      expect($store.dispatch).toHaveBeenCalledWith(`submitUnbondingDelegation`,
         {
-          name: `submitUndelegation`,
-          args: [
-            {
-              amount: 4.2,
-              password: `1234567890`
-            }
-          ]
-        },
-        {
-          name: `update:showUndelegationModal`,
-          args: [false]
+          amount: -4200000,
+          validator,
+          gas,
+          gas_prices,
+          submitType: `local`,
+          password: `1234567890`
         }
-      ])
-    })
-  })
+      )
 
-  describe(`closes modal correctly`, () => {
-    it(`X button emits close signal`, () => {
-      wrapper.vm.close()
-      expect(wrapper.emittedByOrder()).toEqual([
+      expect($store.commit).toHaveBeenCalledWith(`notify`,
         {
-          name: `update:showUndelegationModal`,
-          args: [false]
+          body: `You have successfully undelegated 4.2 atoms.`,
+          title: `Successful undelegation!`
         }
-      ])
+      )
     })
   })
 })

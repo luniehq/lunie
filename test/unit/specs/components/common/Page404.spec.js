@@ -1,20 +1,20 @@
-import setup from "../../../helpers/vuex-setup"
+import { shallowMount } from "@vue/test-utils"
 import Page404 from "renderer/components/common/Page404"
 
 describe(`Page404`, () => {
-  let instance = setup()
   let wrapper
 
   beforeEach(() => {
-    let test = instance.mount(Page404)
-    wrapper = test.wrapper
+    wrapper = shallowMount(Page404, {
+      stubs: [`router-link`]
+    })
   })
 
-  it(`has the expected html structure`, async () => {
+  it(`should show the 404 page`, async () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should show links to other pages`, () => {
-    expect(wrapper.findAll(`.tm-li`).length > 0).toBe(true)
+    expect(wrapper.findAll(`router-link-stub`).length > 0).toBe(true)
   })
 })

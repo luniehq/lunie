@@ -19,13 +19,17 @@ exports[`TmListItem has the expected html structure 1`] = `
       <div
         class="tm-li-dt"
       >
+        
         not null
+      
       </div>
        
       <div
         class="tm-li-dd"
       >
         
+        
+      
       </div>
     </div>
   </div>
@@ -55,13 +59,17 @@ exports[`TmListItem should append the fa-spin class 1`] = `
       <div
         class="tm-li-dt"
       >
+        
         not null
+      
       </div>
        
       <div
         class="tm-li-dd"
       >
         
+        
+      
       </div>
     </div>
   </div>
@@ -106,6 +114,7 @@ exports[`TmListItem should show a dd link 1`] = `
       >
         chevron_right
       </i>
+       
       <i
         class="material-icons active"
       >
@@ -154,6 +163,7 @@ exports[`TmListItem should show a description 1`] = `
       >
         chevron_right
       </i>
+       
       <i
         class="material-icons active"
       >
@@ -183,13 +193,17 @@ exports[`TmListItem should show a label 1`] = `
       <div
         class="tm-li-title"
       >
+        
         Title
+      
       </div>
        
       <div
         class="tm-li-subtitle"
       >
+        
         Subtitle
+      
       </div>
     </div>
   </div>
@@ -216,13 +230,17 @@ exports[`TmListItem should show a router-link 1`] = `
       <div
         class="tm-li-dt"
       >
+        
         Link
+      
       </div>
        
       <div
         class="tm-li-dd"
       >
         
+        
+      
       </div>
     </div>
      
@@ -234,6 +252,7 @@ exports[`TmListItem should show a router-link 1`] = `
       >
         chevron_right
       </i>
+       
       <i
         class="material-icons active"
       >
@@ -264,13 +283,17 @@ exports[`TmListItem should show a subtitle router link 1`] = `
       <div
         class="tm-li-dt"
       >
+        
         not null
+      
       </div>
        
       <div
         class="tm-li-dd"
       >
         
+        
+      
       </div>
     </div>
      
@@ -282,6 +305,7 @@ exports[`TmListItem should show a subtitle router link 1`] = `
       >
         chevron_right
       </i>
+       
       <i
         class="material-icons active"
       >
@@ -330,6 +354,7 @@ exports[`TmListItem should show a thumb 1`] = `
       >
         chevron_right
       </i>
+       
       <i
         class="material-icons active"
       >
@@ -359,13 +384,17 @@ exports[`TmListItem should show as dd text 1`] = `
       <div
         class="tm-li-dt"
       >
+        
         Link
+      
       </div>
        
       <div
         class="tm-li-dd"
       >
         
+        
+      
       </div>
     </div>
   </div>
@@ -391,13 +420,17 @@ exports[`TmListItem should show as text 1`] = `
       <div
         class="tm-li-dt"
       >
+        
         not null
+      
       </div>
        
       <div
         class="tm-li-dd"
       >
         
+        
+      
       </div>
     </div>
   </div>
@@ -423,13 +456,17 @@ exports[`TmListItem should show as text link 1`] = `
       <div
         class="tm-li-dt"
       >
+        
         Link
+      
       </div>
        
       <div
         class="tm-li-dd"
       >
         
+        
+      
       </div>
     </div>
   </div>

@@ -1,26 +1,69 @@
 <template>
   <div class="tm-page">
-    <tm-page-header>
-      <h2 v-if="title" slot="title">{{ title }}</h2>
-      <h3 v-if="subtitle" slot="subtitle">{{ subtitle }}</h3>
-      <template slot="menu-body">
-        <slot name="menu-body"></slot>
-      </template>
-      <div slot="menu"><slot name="menu"></slot></div>
+    <tm-page-header v-if="!hideHeader" :tabs="tabs">
+      <h2 v-if="title" slot="title">
+        {{ title }}
+      </h2>
+      <h3 v-if="subtitle" slot="subtitle">
+        {{ subtitle }}
+      </h3>
+      <slot slot="menu-body" name="menu-body">
+        <tm-balance v-if="session.signedIn" />
+        <tool-bar :refresh="refreshable" />
+      </slot>
+      <slot slot="header-buttons" name="header-buttons" />
     </tm-page-header>
-    <main class="tm-page-main"><slot></slot></main>
+    <main class="tm-page-main">
+      <card-sign-in-required v-if="signInRequired && !session.signedIn" />
+      <template v-else-if="managed">
+        <tm-data-connecting v-if="!loaded && !connected" />
+        <tm-data-loading v-else-if="!loaded && loading" />
+        <tm-data-error v-else-if="error" />
+        <slot
+          v-else-if="dataEmpty"
+          name="no-data"
+        >
+          <tm-data-empty />
+        </slot>
+        <slot
+          v-else
+          name="managed-body"
+        />
+      </template>
+      <slot />
+    </main>
   </div>
 </template>
 
 <script>
 import PerfectScrollbar from "perfect-scrollbar"
 import TmPageHeader from "./TmPageHeader.vue"
+import TmDataLoading from "common/TmDataLoading"
+import TmDataEmpty from "common/TmDataEmpty"
+import CardSignInRequired from "common/CardSignInRequired"
+import { mapGetters } from "vuex"
+import TmDataError from "common/TmDataError"
+import TmDataConnecting from "common/TmDataConnecting"
+import TmBalance from "common/TmBalance"
+import ToolBar from "common/ToolBar"
+
 export default {
   name: `tm-page`,
   components: {
-    TmPageHeader
+    TmBalance,
+    ToolBar,
+    TmPageHeader,
+    TmDataEmpty,
+    TmDataLoading,
+    TmDataError,
+    TmDataConnecting,
+    CardSignInRequired
   },
   props: {
+    hideHeader: {
+      type: Boolean,
+      default: false
+    },
     title: {
       type: String,
       default: ``
@@ -29,16 +72,56 @@ export default {
       type: String,
       default: ``
     },
-    "menu-body": {
-      type: String,
-      default: ``
+    managed: {
+      type: Boolean,
+      default: false
+    },
+    error: {
+      type: Error,
+      default: undefined
+    },
+    tabs: {
+      type: Array,
+      default: undefined
+    },
+    loading: {
+      type: Boolean,
+      default: false
+    },
+    loaded: {
+      type: Boolean,
+      default: undefined
+    },
+    dataEmpty: {
+      type: Boolean,
+      default: undefined
+    },
+    refresh: {
+      type: Function,
+      default: undefined
+    },
+    signInRequired: {
+      type: Boolean,
+      default: false
     }
   },
-  data: () => ({ ps: `` }),
+  data: () => ({
+    perfectScrollbar: ``
+  }),
+  computed: {
+    ...mapGetters([`session`, `connected`]),
+    refreshable({ connected, refresh } = this) {
+      return refresh ? { connected, refresh } : undefined
+    }
+  },
+  watch: {
+    $route() {
+      this.scrollContainer.scrollTop = 0
+    }
+  },
   async mounted() {
-    await this.$nextTick()
-    const container = this.$el.querySelector(`.tm-page-main`)
-    this.ps = new PerfectScrollbar(container)
+    this.scrollContainer = this.$el.querySelector(`.tm-page-main`)
+    this.perfectScrollbar = new PerfectScrollbar(this.scrollContainer)
   }
 }
 </script>
@@ -55,11 +138,12 @@ export default {
 .tm-page-main {
   flex: 1;
   position: relative;
+  padding: 1rem;
 }
 
 .tm-page-title {
   color: var(--bright);
-  font-size: h2;
+  font-size: var(--h2);
   padding: 0.5rem 1rem 1rem;
 }
 
@@ -68,9 +152,144 @@ export default {
   font-size: var(--sm);
 }
 
-@media screen and (min-width: 768px) {
+.column {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.row-unjustified {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.page-profile__section {
+  margin-bottom: 1rem;
+}
+
+.page-profile__section-title {
+  margin: 0 0 0.25rem 1rem;
+  color: var(--dim);
+  font-size: var(--sm);
+  font-weight: 500;
+}
+
+.page-profile__section--between > .row {
+  justify-content: space-between;
+}
+
+.page-profile__header {
+  background-color: var(--app-fg);
+}
+
+.page-profile__header .row:first-child {
+  border: 1px solid var(--bc-dim);
+}
+
+.page-profile__header .avatar {
+  background: var(--app-nav);
+  height: 8rem;
+  width: 8rem;
+  margin: 1rem;
+  padding: 1rem;
+}
+
+.page-profile__header__info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 1rem;
+}
+
+.page-profile__status-and-title {
+  display: flex;
+  align-items: center;
+}
+
+.page-profile__status {
+  border-radius: 50%;
+  display: inline-block;
+  height: 0.5rem;
+  width: 0.5rem;
+}
+
+.page-profile__title {
+  color: #fff;
+  display: inline-block;
+  font-size: var(--h1);
+  font-weight: 400;
+  padding: 0 0.5rem;
+}
+
+.page-profile__header__actions {
+  display: flex;
+  flex-direction: column;
+}
+
+.page-profile__header__actions button:first-child {
+  margin-bottom: 0.5rem;
+}
+
+.page-profile__status.red {
+  background: var(--danger);
+}
+
+.page-profile__status.yellow {
+  background: var(--warning);
+}
+
+.page-profile__status.green {
+  background: var(--success);
+}
+
+.page-profile__status.blue {
+  background: var(--primary);
+}
+
+.colored_dl {
+  width: 100%;
+}
+
+.info_dl {
+  padding: 1rem;
+  border: 1px solid var(--bc-dim);
+  background-color: var(--app-fg);
+}
+
+.info_dl dt {
+  color: var(--dim);
+  font-size: var(--sm);
+  margin-bottom: 2px;
+  font-weight: 500;
+}
+
+.info_dl dd {
+  font-size: 1rem;
+  line-height: 1.25rem;
+  color: var(--bright);
+  word-break: break-all;
+}
+
+@media screen and (max-width: 767px) {
   .tm-page-main {
-    padding: 1rem;
+    padding: 1rem 0;
+  }
+
+  .row {
+    flex-direction: column;
+  }
+
+  .page-profile__header__actions {
+    margin-right: 0;
   }
 }
 </style>

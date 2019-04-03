@@ -1,18 +1,14 @@
 <template>
   <div>
-    <data-empty-search
-      v-if="!delegates.loading && sortedFilteredEnrichedDelegates.length === 0"
-    />
-    <table v-else class="data-table">
+    <table class="data-table">
       <thead>
         <panel-sort :sort="sort" :properties="properties" />
       </thead>
       <tbody>
         <li-validator
-          v-for="i in sortedFilteredEnrichedDelegates"
-          :disabled="!userCanDelegate"
-          :key="i.id"
-          :validator="i"
+          v-for="validator in sortedEnrichedValidators"
+          :key="validator.operator_address"
+          :validator="validator"
         />
       </tbody>
     </table>
@@ -22,22 +18,14 @@
 <script>
 import { mapGetters } from "vuex"
 import num from "scripts/num"
-import { includes, orderBy } from "lodash"
-import Mousetrap from "mousetrap"
+import { orderBy } from "lodash"
 import LiValidator from "staking/LiValidator"
-import DataEmptySearch from "common/TmDataEmptySearch"
-import { calculateTokens } from "scripts/common"
-import ModalSearch from "common/TmModalSearch"
 import PanelSort from "staking/PanelSort"
-import ToolBar from "common/ToolBar"
 export default {
   name: `table-validators`,
   components: {
     LiValidator,
-    DataEmptySearch,
-    ModalSearch,
-    PanelSort,
-    ToolBar
+    PanelSort
   },
   props: {
     validators: {
@@ -49,146 +37,113 @@ export default {
     num: num,
     query: ``,
     sort: {
-      property: `percent_of_vote`,
-      order: `desc`
-    }
+      property: `commission`,
+      order: `asc`
+    },
+    rollingWindow: 10000 // param of slashing period
   }),
   computed: {
     ...mapGetters([
-      `delegates`,
-      `delegation`,
-      `filters`,
       `committedDelegations`,
-      `config`,
-      `user`,
-      `connected`,
+      `session`,
+      `distribution`,
       `bondDenom`,
-      `keybase`
+      `keybase`,
+      `pool`
     ]),
-    address() {
-      return this.user.address
-    },
-    somethingToSearch() {
-      return !!this.validators.length
-    },
-    vpTotal() {
-      return this.validators
-        .slice(0)
-        .map(v => {
-          v.voting_power = v.voting_power ? Number(v.voting_power) : 0
-          return v
-        })
-        .sort((a, b) => b.voting_power - a.voting_power)
-        .slice(0, 100)
-        .reduce((sum, v) => sum + v.voting_power, 0)
-    },
-    enrichedDelegates() {
-      return this.validators.map(v =>
+    enrichedValidators(
+      {
+        validators,
+        pool,
+        committedDelegations,
+        keybase,
+        session,
+        distribution,
+        rollingWindow
+      } = this
+    ) {
+      return validators.map(v =>
         Object.assign({}, v, {
           small_moniker: v.description.moniker.toLowerCase(),
-          percent_of_vote: num.percent(v.voting_power / this.vpTotal),
-          your_votes: this.num.full(
-            calculateTokens(v, this.committedDelegations[v.id])
-          ),
-          keybase: this.keybase[v.description.identity]
+          percent_of_vote: v.voting_power / pool.pool.bonded_tokens,
+          my_delegations:
+            session.signedIn && committedDelegations[v.id] > 0
+              ? committedDelegations[v.id]
+              : 0,
+          commission: v.commission.rate,
+          keybase: keybase[v.description.identity],
+          rewards:
+            session.signedIn && distribution.rewards[v.operator_address]
+              ? distribution.rewards[v.operator_address][this.bondDenom]
+              : 0,
+          uptime: v.signing_info
+            ? (rollingWindow - v.signing_info.missed_blocks_counter) /
+              rollingWindow
+            : 0
         })
       )
     },
-    sortedFilteredEnrichedDelegates() {
-      let query = this.filters.delegates.search.query || ``
-      let sortedEnrichedDelegates = orderBy(
-        this.enrichedDelegates.slice(0),
-        [this.sort.property, `small_moniker`],
-        [this.sort.order, `asc`]
+    sortedEnrichedValidators() {
+      return orderBy(
+        this.enrichedValidators.slice(0),
+        [this.sort.property],
+        [this.sort.order]
       )
-      if (this.filters.delegates.search.visible) {
-        return sortedEnrichedDelegates.filter(i =>
-          includes(JSON.stringify(i).toLowerCase(), query.toLowerCase())
-        )
-      } else {
-        return sortedEnrichedDelegates
-      }
-    },
-    userCanDelegate() {
-      return this.user.atoms > 0 && this.delegation.loaded
     },
     properties() {
       return [
         {
           title: `Moniker`,
           value: `small_moniker`,
-          tooltip: `The validator's moniker`,
-          class: `name`
+          tooltip: `The validator's moniker`
         },
         {
-          title: `Delegated ${this.bondDenom}`,
-          value: `your_votes`,
-          tooltip: `Number of ${
+          title: `My Delegations`,
+          value: `my_delegations`,
+          tooltip: `Number of ${num.viewDenom(
             this.bondDenom
-          } you have delegated to the validator`,
-          class: `your-votes`
+          )} you have delegated to this validator`
         },
         {
           title: `Rewards`,
-          value: `your_rewards`, // TODO: use real rewards
-          tooltip: `Rewards of ${
-            this.bondDenom
-          } you have gained from the validator`,
-          class: `your-rewards` // TODO: use real rewards
+          value: `rewards`,
+          tooltip: `Rewards you have earned from this validator`
         },
         {
           title: `Voting Power`,
           value: `percent_of_vote`,
-          tooltip: `Percentage of ${
-            this.bondDenom
-          } the validator has on The Cosmos Hub`,
-          class: `percent_of_vote`
-        },
-        {
-          title: `Uptime`,
-          value: `uptime`,
-          tooltip: `Ratio of blocks signed within the last 10k blocks`,
-          class: `uptime`
+          tooltip: `Percentage of voting shares`
         },
         {
           title: `Commission`,
           value: `commission`,
-          tooltip: `The validator's commission`,
-          class: `commission`
+          tooltip: `The validator's commission`
         },
         {
-          title: `Slashes`,
-          value: `slashes`, // TODO: use real slashes
-          tooltip: `The validator's slashes`,
-          class: `slashes`
+          title: `Uptime`,
+          value: `uptime`,
+          tooltip: `Ratio of blocks signed within the last 10k blocks`
         }
       ]
+    },
+    yourValidators({ committedDelegations, validators, session } = this) {
+      if (!session.signedIn) {
+        return
+      }
+
+      return validators.filter(
+        ({ operator_address }) => operator_address in committedDelegations
+      )
     }
   },
   watch: {
-    address: function(address) {
-      address && this.updateDelegates()
+    address: function() {
+      this.session.address && this.$store.dispatch(`updateDelegates`)
     }
   },
-  async mounted() {
-    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
-    Mousetrap.bind(`esc`, () => this.setSearch(false))
-
-    // XXX temporary because querying the shares shows old shares after bonding
-    // this.updateDelegates()
-  },
-  methods: {
-    updateDelegates() {
-      this.$store.dispatch(`updateDelegates`)
-    },
-    setSearch(
-      bool = !this.filters[`delegates`].search.visible,
-      { somethingToSearch, $store } = this
-    ) {
-      if (somethingToSearch) {
-        $store.commit(`setSearchVisible`, [`delegates`, bool])
-      }
-    }
+  mounted() {
+    this.$store.dispatch(`getPool`)
+    this.$store.dispatch(`updateDelegates`)
   }
 }
 </script>

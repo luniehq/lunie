@@ -4,26 +4,19 @@ import TmHardwareState from "common/TmHardwareState"
 describe(`TmHardwareState`, () => {
   let wrapper
 
-  let propsData = {
+  const propsData = {
     icon: `rotate_right`,
-    spin: true,
-    value: `Detecting your Ledger Wallet`
+    loading: true
   }
 
   beforeEach(() => {
-    wrapper = mount(TmHardwareState, { propsData })
-  })
-
-  it(`has an icon from props`, () => {
-    expect(wrapper.vm.icon).toBe(`rotate_right`)
+    wrapper = mount(TmHardwareState, { propsData, slots: {
+      default: `Detecting your Ledger Wallet`
+    } })
   })
 
   it(`has the expected html structure`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
-  })
-
-  it(`has a spinning icon`, () => {
-    expect(wrapper.contains(`i.material-icons.fa-spin`)).toBe(true)
   })
 
   it(`has a label`, () => {

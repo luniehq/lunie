@@ -2,13 +2,13 @@ import Vuex from "vuex"
 import Vuelidate from "vuelidate"
 import { mount, createLocalVue } from "@vue/test-utils"
 import TmSessionImport from "common/TmSessionImport"
-jest.mock(`renderer/google-analytics.js`, () => () => {})
+jest.mock(`renderer/google-analytics.js`, () => () => { })
 const seed = `goose toward escape engine wheel board help torch avocado educate rose rebel rigid side aspect abandon grace admit inherit female grant pledge shine inquiry`
 const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.use(Vuelidate)
-localVue.directive(`tooltip`, () => {})
-localVue.directive(`focus`, () => {})
+localVue.directive(`tooltip`, () => { })
+localVue.directive(`focus`, () => { })
 
 describe(`TmSessionImport`, () => {
   let wrapper, store
@@ -36,34 +36,17 @@ describe(`TmSessionImport`, () => {
       .findAll(`.tm-session-header a`)
       .at(0)
       .trigger(`click`)
-    expect(store.commit.mock.calls[0][0]).toBe(`setModalSessionState`)
+    expect(store.commit.mock.calls[0][0]).toBe(`setSessionModalView`)
     expect(store.commit.mock.calls[0][1]).toBe(`welcome`)
   })
 
-  it(`should open the help modal on click`, () => {
+  it(`should close the session modal`, () => {
     wrapper
       .findAll(`.tm-session-header a`)
       .at(1)
       .trigger(`click`)
-    expect(store.commit.mock.calls[0]).toEqual([`setModalHelp`, true])
-  })
-
-  it(`should close the modal on successful login`, async () => {
-    wrapper.setData({
-      fields: {
-        importName: `foo123`,
-        importPassword: `1234567890`,
-        importPasswordConfirm: `1234567890`,
-        importSeed: seed
-      }
-    })
-    await wrapper.vm.onSubmit()
-
-    expect(
-      store.commit.mock.calls.find(
-        ([action]) => action === `setModalSession`
-      )[1]
-    ).toBe(false)
+    expect(store.commit.mock.calls[0][0]).toBe(`toggleSessionModal`)
+    expect(store.commit.mock.calls[0][1]).toBe(false)
   })
 
   it(`should signal signed in state on successful login`, async () => {
@@ -76,55 +59,15 @@ describe(`TmSessionImport`, () => {
       }
     })
     await wrapper.vm.onSubmit()
-    expect(
-      store.commit.mock.calls
-        .find(([action]) => action === `notify`)[1]
-        .title.toLowerCase()
-    ).toContain(`welcome back!`)
+    expect(store.commit).toHaveBeenCalledWith(`notify`, {
+      body: `Your account has been successfully imported.`,
+      title: `Welcome back!`
+    })
     expect(store.dispatch).toHaveBeenCalledWith(`signIn`, {
-      account: `foo123`,
+      errorCollection: undefined,
+      sessionType: `local`,
+      localKeyPairName: `foo123`,
       password: `1234567890`
-    })
-  })
-
-  it(`should set error collection opt in state`, async () => {
-    wrapper.setData({
-      fields: {
-        importName: `foo123`,
-        importPassword: `1234567890`,
-        importPasswordConfirm: `1234567890`,
-        importSeed: seed,
-        errorCollection: true
-      }
-    })
-    await wrapper.vm.onSubmit()
-    expect(
-      store.dispatch.mock.calls.find(
-        ([action]) => action === `setErrorCollection`
-      )[1]
-    ).toMatchObject({
-      account: `foo123`,
-      optin: true
-    })
-
-    wrapper.setData({
-      fields: {
-        importName: `foo123`,
-        importPassword: `1234567890`,
-        importPasswordConfirm: `1234567890`,
-        importSeed: seed,
-        errorCollection: false
-      }
-    })
-    store.dispatch.mockClear()
-    await wrapper.vm.onSubmit()
-    expect(
-      store.dispatch.mock.calls.find(
-        ([action]) => action === `setErrorCollection`
-      )[1]
-    ).toMatchObject({
-      account: `foo123`,
-      optin: false
     })
   })
 
@@ -161,7 +104,7 @@ describe(`TmSessionImport`, () => {
   })
 
   it(`should not continue if creation failed`, async () => {
-    store.dispatch = jest.fn(() => Promise.resolve(null))
+    store.dispatch = jest.fn(() => Promise.reject(new Error(`Wrong password`)))
     wrapper.setData({
       fields: {
         importName: `foo123`,
@@ -171,7 +114,10 @@ describe(`TmSessionImport`, () => {
       }
     })
     await wrapper.vm.onSubmit()
-    expect(store.commit).not.toHaveBeenCalled()
+    expect(store.commit).toHaveBeenCalledWith(`notifyError`, {
+      title: `Couldn't create account`,
+      body: expect.stringContaining(`Wrong password`)
+    })
   })
 
   it(`should show a notification if creation failed`, async () => {

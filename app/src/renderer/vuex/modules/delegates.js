@@ -2,8 +2,9 @@ import * as Sentry from "@sentry/browser"
 import BN from "bignumber.js"
 import { ratToBigNumber } from "scripts/common"
 import num from "scripts/num"
-import { isEmpty } from "lodash"
+import { isEmpty, merge } from "lodash"
 import b32 from "scripts/b32"
+import Vue from "vue"
 
 export default ({ node }) => {
   const emptyState = {
@@ -11,7 +12,8 @@ export default ({ node }) => {
     globalPower: null,
     loading: false,
     loaded: false,
-    error: null
+    error: null,
+    lastValidatorsUpdate: 0
   }
   const state = JSON.parse(JSON.stringify(emptyState))
 
@@ -33,8 +35,9 @@ export default ({ node }) => {
         validator.percent_of_vote = num.percent(
           validator.voting_power / state.globalPower
         )
+
+        upsertValidator(state, validator)
       })
-      state.delegates = validators
     },
     setSelfBond(
       state,
@@ -50,43 +53,53 @@ export default ({ node }) => {
   }
 
   const actions = {
-    async reconnected({ state, dispatch }) {
+    reconnected({ state, dispatch }) {
       if (state.loading) {
-        await dispatch(`getDelegates`)
+        dispatch(`getDelegates`)
       }
     },
     resetSessionData({ rootState }) {
       rootState.delegates = JSON.parse(JSON.stringify(emptyState))
     },
-    async updateSigningInfo({ commit }, validators) {
-      for (let validator of validators) {
-        if (validator.consensus_pubkey) {
-          let signing_info = await node.queryValidatorSigningInfo(
-            validator.consensus_pubkey
-          )
-          if (!isEmpty(signing_info)) validator.signing_info = signing_info
+    async updateSigningInfo(
+      {
+        commit,
+        getters: { lastHeader }
+      },
+      validators
+    ) {
+      // throttle the update for validators for every 10 blocks
+      const waited10Blocks =
+        Number(lastHeader.height) - state.lastDelegatesUpdate >= 10
+      if (state.lastValidatorsUpdate === 0 || waited10Blocks) {
+        state.lastValidatorsUpdate = Number(lastHeader.height)
+        for (const validator of validators) {
+          if (validator.consensus_pubkey) {
+            const signing_info = await node.getValidatorSigningInfo(
+              validator.consensus_pubkey
+            )
+            if (!isEmpty(signing_info)) {
+              upsertValidator(
+                state,
+                Object.assign({},validator, { signing_info })
+              )
+            }
+          }
         }
+        commit(`setDelegates`, validators)
       }
-      commit(`setDelegates`, validators)
     },
-    async getDelegates({ commit, dispatch, rootState }) {
+    async getDelegates({ state, commit, dispatch, rootState }) {
       commit(`setDelegateLoading`, true)
 
       if (!rootState.connection.connected) return
 
       try {
-        let validators = await node.getCandidates()
-        let { validators: validatorSet } = await node.getValidatorSet()
+        let validators = await node.getValidators()
         state.error = null
         state.loading = false
         state.loaded = true
 
-        for (let validator of validators) {
-          validator.isValidator = false
-          if (validatorSet.find(v => v.pub_key === validator.pub_key)) {
-            validator.isValidator = true
-          }
-        }
         // the tokens and shares are currently served in a weird format that is a amino representation of a float value
         validators = validators.map(validator => {
           return Object.assign(JSON.parse(JSON.stringify(validator)), {
@@ -107,7 +120,6 @@ export default ({ node }) => {
           body: error.message
         })
         Sentry.captureException(error)
-        commit(`setDelegateLoading`, false)
         state.error = error
         return []
       }
@@ -115,13 +127,13 @@ export default ({ node }) => {
     async getSelfBond({ commit }, validator) {
       if (validator.selfBond) return validator.selfBond
       else {
-        let hexAddr = b32.decode(validator.operator_address)
-        let operatorCosmosAddr = b32.encode(hexAddr, `cosmos`)
-        let delegation = await node.queryDelegation(
+        const hexAddr = b32.decode(validator.operator_address)
+        const operatorCosmosAddr = b32.encode(hexAddr, `cosmos`)
+        const delegation = await node.getDelegation(
           operatorCosmosAddr,
           validator.operator_address
         )
-        let ratio = new BN(delegation.shares).div(
+        const ratio = new BN(delegation.shares).div(
           ratToBigNumber(validator.delegator_shares)
         )
 
@@ -136,4 +148,21 @@ export default ({ node }) => {
     mutations,
     actions
   }
+}
+
+// incrementally add the validator to the list or update it in place
+// "upsert": (computing, databases) An operation that inserts rows into a database table if they do not already exist, or updates them if they do.
+function upsertValidator(state, validator) {
+  const oldValidatorIndex = state.delegates.findIndex((oldValidator) =>
+    oldValidator.operator_address === validator.operator_address
+  )
+  if (oldValidatorIndex === -1) {
+    state.delegates.push(validator)
+    return
+  }
+  Vue.set(
+    state.delegates,
+    oldValidatorIndex,
+    merge(state.delegates[oldValidatorIndex], validator)
+  )
 }

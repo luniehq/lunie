@@ -1,155 +1,154 @@
 "use strict"
 
 import Vuelidate from "vuelidate"
-import setup from "../../../helpers/vuex-setup"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
 import ModalVote from "renderer/components/governance/ModalVote"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`ModalVote`, () => {
-  let wrapper
-  let { mount, localVue } = setup()
+  let wrapper, $store
+
+  const localVue = createLocalVue()
   localVue.use(Vuelidate)
-  localVue.directive(`tooltip`, () => {})
-  localVue.directive(`focus`, () => {})
 
   beforeEach(() => {
-    let instance = mount(ModalVote, {
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: {
+        session: { signedIn: true },
+        connection: { connected: true },
+        bondDenom: `uatom`,
+        liquidAtoms: 1000000
+      }
+    }
+    wrapper = shallowMount(ModalVote, {
       localVue,
       propsData: {
         proposalId: `1`,
         proposalTitle: lcdClientMock.state.proposals[`1`].title
+      },
+      mocks: {
+        $store
       }
     })
-    wrapper = instance.wrapper
   })
 
-  describe(`component matches snapshot`, () => {
-    it(`has the expected html structure`, async () => {
-      expect(wrapper.vm.$el).toMatchSnapshot()
-    })
+  it(`should display vote modal form`, async () => {
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  describe(`default values are set correctly`, () => {
-    it(`the 'option' defaults to an empty string`, () => {
-      expect(wrapper.vm.option).toEqual(``)
-    })
-
-    it(`account password defaults to an empty string`, () => {
-      expect(wrapper.vm.password).toEqual(``)
-    })
-
-    it(`password is hidden by default`, () => {
-      expect(wrapper.vm.showPassword).toBe(false)
-    })
+  it(`opens`, () => {
+    const $refs = { actionModal: { open: jest.fn() } }
+    ModalVote.methods.open.call({ $refs })
+    expect($refs.actionModal.open).toHaveBeenCalled()
   })
 
-  describe(`Password display`, () => {
-    it(`toggles the password between text and password`, () => {
-      wrapper.vm.togglePassword()
-      expect(wrapper.vm.showPassword).toBe(true)
-      wrapper.vm.togglePassword()
-      expect(wrapper.vm.showPassword).toBe(false)
-    })
+  it(`clears on close`, () => {
+    const self = {
+      $v: { $reset: jest.fn() },
+      vote: `Yes`
+    }
+
+    ModalVote.methods.clear.call(self)
+    expect(self.$v.$reset).toHaveBeenCalled()
+    expect(self.vote).toBeNull()
   })
 
-  describe(`enables or disables Vote correctly`, () => {
-    it(`disables the 'Vote' button`, () => {
+  describe(`validation`, () => {
+    it(`fails`, () => {
       // default values
-      let voteBtn = wrapper.find(`#cast-vote`)
-      expect(voteBtn.html()).toContain(`disabled="disabled"`)
+      expect(wrapper.vm.validateForm()).toBe(false)
 
       // non valid option value
-      wrapper.setData({ option: `other`, password: `1234567890` })
-      expect(voteBtn.html()).toContain(`disabled="disabled"`)
-
-      // no password
-      wrapper.setData({ option: `No`, password: `` })
-      expect(voteBtn.html()).toContain(`disabled="disabled"`)
+      wrapper.setData({ vote: `other` })
+      expect(wrapper.vm.validateForm()).toBe(false)
     })
 
-    it(`enables the 'Vote' button if the user selected a valid option`, () => {
-      wrapper.setData({ option: `Yes`, password: `1234567890` })
-      let voteBtn = wrapper.find(`#vote-yes`)
-      let submitButton = wrapper.find(`#cast-vote`)
-      expect(voteBtn.html()).toContain(`active`)
-      expect(submitButton.html()).not.toContain(`disabled="disabled"`)
+    it(`succeeds`, async () => {
+      wrapper.setData({ vote: `Yes` })
+      expect(wrapper.vm.validateForm()).toBe(true)
 
-      wrapper.setData({ option: `No` })
-      voteBtn = wrapper.find(`#vote-no`)
-      expect(voteBtn.html()).toContain(`active`)
-      expect(submitButton.html()).not.toContain(`disabled="disabled"`)
+      wrapper.setData({ vote: `No` })
+      expect(wrapper.vm.validateForm()).toBe(true)
 
-      wrapper.setData({ option: `NoWithVeto` })
-      voteBtn = wrapper.find(`#vote-veto`)
-      expect(voteBtn.html()).toContain(`active`)
-      expect(submitButton.html()).not.toContain(`disabled="disabled"`)
+      wrapper.setData({ vote: `NoWithVeto` })
+      expect(wrapper.vm.validateForm()).toBe(true)
 
-      wrapper.setData({ option: `Abstain` })
-      voteBtn = wrapper.find(`#vote-abstain`)
-      expect(voteBtn.html()).toContain(`active`)
-      expect(submitButton.html()).not.toContain(`disabled="disabled"`)
+      wrapper.setData({ vote: `Abstain` })
+      expect(wrapper.vm.validateForm()).toBe(true)
     })
   })
 
   describe(`Disable already voted options`, () => {
-    it(`disable button if equals the last vote: Abstain`, () => {
+    it(`disable button if equals the last vote: Abstain`, async () => {
       wrapper.setProps({ lastVoteOption: `Abstain` })
+      await wrapper.vm.$nextTick()
+
       let voteBtn = wrapper.find(`#vote-yes`)
-      expect(voteBtn.html()).not.toContain(`disabled="disabled"`)
+      expect(voteBtn.html()).not.toContain(`disabled="true"`)
       voteBtn = wrapper.find(`#vote-no`)
-      expect(voteBtn.html()).not.toContain(`disabled="disabled"`)
+      expect(voteBtn.html()).not.toContain(`disabled="true"`)
       voteBtn = wrapper.find(`#vote-veto`)
-      expect(voteBtn.html()).not.toContain(`disabled="disabled"`)
+      expect(voteBtn.html()).not.toContain(`disabled="true"`)
       voteBtn = wrapper.find(`#vote-abstain`)
-      expect(voteBtn.html()).toContain(`disabled="disabled"`)
-    })
-  })
-
-  describe(`closes modal correctly`, () => {
-    it(`X button emits close signal`, () => {
-      wrapper.vm.close()
-
-      expect(wrapper.emittedByOrder()).toEqual([
-        {
-          name: `update:showModalVote`,
-          args: [false]
-        }
-      ])
+      expect(voteBtn.html()).toContain(`disabled="true"`)
     })
   })
 
   describe(`Vote`, () => {
-    it(`updates the selected option on click`, () => {
-      wrapper.vm.vote(`Yes`)
-      expect(wrapper.vm.option).toEqual(`Yes`)
 
-      wrapper.vm.vote(`No`)
-      expect(wrapper.vm.option).toEqual(`No`)
-
-      wrapper.vm.vote(`NoWithVeto`)
-      expect(wrapper.vm.option).toEqual(`NoWithVeto`)
-
-      wrapper.vm.vote(`Abstain`)
-      expect(wrapper.vm.option).toEqual(`Abstain`)
-
-      wrapper.vm.vote(`Abstain`)
-      expect(wrapper.vm.option).toEqual(``)
-    })
-
-    it(`Vote button casts a vote and closes modal`, () => {
-      wrapper.setData({ option: `Yes`, password: `1234567890` })
-      wrapper.vm.onVote()
-
-      expect(wrapper.emittedByOrder()).toEqual([
+    it(`should simulate transaction to estimate gas used`, async () => {
+      const estimate = 1234567
+      const $store = { dispatch: jest.fn(() => estimate) }
+      const res = await ModalVote.methods.simulateForm.call(
         {
-          name: `castVote`,
-          args: [{ option: `Yes`, password: `1234567890` }]
-        },
-        {
-          name: `update:showModalVote`,
-          args: [false]
+          $store,
+          vote: `Yes`,
+          proposalId: `1`,
         }
-      ])
+      )
+
+      expect($store.dispatch).toHaveBeenCalledWith(`simulateVote`,
+        {
+          option: `Yes`,
+          proposal_id: `1`
+        }
+      )
+      expect(res).toBe(estimate)
+    })
+    it(`submits a vote on a proposal`, async () => {
+      const $store = {
+        dispatch: jest.fn(),
+        commit: jest.fn()
+      }
+
+      const gas = `1234567`
+      const gasPrice = 2.5e-8
+      const gas_prices = [{ denom: `uatom`, amount: `0.025` }]
+
+      await ModalVote.methods.submitForm.call(
+        { proposalId: `1`, vote: `Yes`, bondDenom: `uatom`, $store },
+        gas, gasPrice, ``, `ledger`
+      )
+
+      expect($store.dispatch).toHaveBeenCalledWith(`submitVote`,
+        {
+          option: `Yes`,
+          proposal_id: `1`,
+          gas,
+          gas_prices,
+          password: ``,
+          submitType: `ledger`
+        }
+      )
+
+      expect($store.commit).toHaveBeenCalledWith(`notify`,
+        {
+          body: `You have successfully voted Yes on proposal #1`,
+          title: `Successful vote!`
+        }
+      )
     })
   })
 })

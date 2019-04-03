@@ -1,64 +1,78 @@
-import setup from "../../helpers/vuex-setup"
-import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 import poolModule from "renderer/vuex/modules/pool.js"
 
-let instance = setup()
-
-const mockPool = lcdClientMock.state.pool
-const mockRootState = {
-  connection: {
-    connected: true
-  }
-}
-
 describe(`Module: Pool`, () => {
-  let store
+  let moduleInstance, state, actions, mutations
+  const pool = {
+    loose_tokens: `100.0000000000`,
+    bonded_tokens: `50.0000000000`
+  }
+  const rootState = {
+    connection: {
+      connected: true
+    }
+  }
 
   beforeEach(() => {
-    let test = instance.shallow(null)
-    store = test.store
-
-    store.commit(`setConnected`, true)
+    moduleInstance = poolModule({
+      node: {
+        getPool: jest.fn().mockResolvedValue(pool)
+      }
+    })
+    state = moduleInstance.state
+    actions = moduleInstance.actions
+    mutations = moduleInstance.mutations
   })
 
-  it(`should have no pool by default`, () => {
-    expect(store.state.pool.pool).toEqual({})
-  })
-
-  it(`should query pool`, async () => {
-    await store.dispatch(`getPool`)
-    expect(store.state.pool.pool).toEqual(mockPool)
+  it(`should have correct defaults`, () => {
+    expect(state.pool).toEqual({})
+    expect(state.loading).toEqual(false)
+    expect(state.loaded).toEqual(false)
+    expect(state.error).toEqual(null)
   })
 
   it(`should set pool`, () => {
-    store.commit(`setPool`, mockPool)
-    expect(store.state.pool.pool).toEqual(mockPool)
+    mutations.setPool(state, pool)
+    expect(state.pool).toBe(pool)
+  })
+
+  it(`should not query the pool if not connected`, async () => {
+    const commit = jest.fn()
+    const rootState = {
+      connection: {
+        connected: false
+      }
+    }
+
+    await actions.getPool({ state, commit, rootState })
+    expect(commit).not.toHaveBeenCalled()
+  })
+
+  it(`should query pool`, async () => {
+    const commit = jest.fn()
+
+    await actions.getPool({ state, commit, rootState })
+    expect(commit).toHaveBeenCalledWith(`setPool`, pool)
+    expect(state.error).toBe(null)
+    expect(state.loading).toBe(false)
+    expect(state.loaded).toBe(true)
   })
 
   it(`should store an error if failed to load pool information`, async () => {
-    const node = lcdClientMock
-    const { state, actions } = poolModule({ node })
-    jest
-      .spyOn(node, `getPool`)
-      .mockImplementationOnce(async () => Promise.reject(`Error`))
-    await actions.getPool({
-      state,
-      commit: jest.fn(),
-      rootState: mockRootState
+    moduleInstance = poolModule({
+      node: {
+        getPool: jest.fn().mockRejectedValue(`node.getPool failed`)
+      }
     })
-    expect(state.error).toBe(`Error`)
-  })
+    state = moduleInstance.state
+    actions = moduleInstance.actions
+    mutations = moduleInstance.mutations
 
-  it(`should load pool data on reconnection`, async () => {
-    const node = lcdClientMock
-    const { actions } = poolModule({ node })
-    let dispatch = jest.fn()
+    const commit = jest.fn()
 
-    await actions.reconnected({
-      state: { loading: true },
-      dispatch,
-      rootState: mockRootState
-    })
-    expect(dispatch).toHaveBeenCalledWith(`getPool`)
+    await actions.getPool({ state, commit, rootState })
+    expect(commit).not.toHaveBeenCalled()
+    expect(state.error).toBe(`node.getPool failed`)
+    expect(state.loading).toBe(false)
+    expect(state.loaded).toBe(false)
   })
 })

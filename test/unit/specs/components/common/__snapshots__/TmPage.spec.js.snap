@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmPage should show links to other pages 1`] = `
+<div
+  class="tm-page"
+>
+  <tm-page-header-stub
+    tabs=""
+  >
+    <!---->
+     
+    <!---->
+     
+    <template>
+      <!---->
+       
+      <tool-bar-stub />
+    </template>
+     
+    <template />
+  </tm-page-header-stub>
+   
+  <main
+    class="tm-page-main"
+  >
+    <!---->
+     
+  </main>
+</div>
+`;
+
+exports[`TmPage shows a page skeleton 1`] = `
+<div
+  class="tm-page"
+>
+  <tm-page-header-stub
+    tabs=""
+  >
+    <!---->
+     
+    <!---->
+     
+    <template>
+      <!---->
+       
+      <tool-bar-stub />
+    </template>
+     
+    <template />
+  </tm-page-header-stub>
+   
+  <main
+    class="tm-page-main"
+  >
+    <!---->
+     
+  </main>
+</div>
+`;

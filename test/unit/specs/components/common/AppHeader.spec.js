@@ -1,88 +1,94 @@
 import AppHeader from "common/AppHeader"
-import setup from "../../../helpers/vuex-setup"
+import { shallowMount } from "@vue/test-utils"
 
 describe(`AppHeader`, () => {
-  let wrapper, store, instance
-  let { mount } = setup()
+  let wrapper, $store
 
   beforeEach(() => {
-    instance = mount(AppHeader, {
-      stubs: { "app-menu": true }
+    $store = {
+      getters: {
+        session: {
+          experimentalMode: false,
+          insecureMode: true
+        }
+      }
+    }
+
+    wrapper = shallowMount(AppHeader, {
+      mocks: {
+        $store
+      },
+      methods: {
+        watchWindowSize: () => {} // overwriting to not cause side effects when setting the data in tests
+      },
+      stubs: [`router-link`]
     })
-    wrapper = instance.wrapper
-    store = instance.store
   })
 
-  it(`has the expected html structure 1`, () => {
-    store.commit(`setConfigDesktop`, true)
-    store.commit(`setActiveMenu`, `app`)
+  it(`should display the sidebar on desktop`, () => {
+    wrapper.setData({
+      desktop: true,
+      open: true
+    })
 
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`has the expected html structure 2`, () => {
-    store.commit(`setConfigDesktop`, false)
-    store.commit(`setActiveMenu`, `app`)
+  it(`should show the sidebar as a menu on mobile`, () => {
+    wrapper.setData({
+      desktop: false,
+      open: true
+    })
 
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`has the expected html structure 3`, () => {
-    store.commit(`setConfigDesktop`, true)
-    store.commit(`setActiveMenu`, ``)
+  it(`should open the menu on click`, () => {
+    wrapper.vm.close()
 
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    wrapper.find(`.open-menu`).trigger(`click`)
+    expect(wrapper.vm.open).toBe(true)
   })
 
-  it(`has the expected html structure 4`, () => {
-    store.commit(`setConfigDesktop`, false)
-    store.commit(`setActiveMenu`, ``)
+  it(`should close menu on click`, () => {
+    wrapper.vm.show()
 
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    wrapper.find(`.close-menu`).trigger(`click`)
+    expect(wrapper.vm.open).toBe(false)
   })
 
-  it(`should close the app menu`, () => {
-    store.commit(`setConfigDesktop`, false)
-    store.commit(`setActiveMenu`, `app`)
+  describe(`watchWindowSize`, () => {
+    beforeEach(() => {
+      wrapper = shallowMount(AppHeader, {
+        mocks: {
+          $store
+        },
+        stubs: [`router-link`]
+      })
+    })
 
-    wrapper
-      .findAll(`.header-item`)
-      .at(2)
-      .trigger(`click`)
-    expect(store.commit).toHaveBeenCalledWith(`setActiveMenu`, ``)
-  })
+    it(`should set desktop status to false`, () => {
+      global.innerWidth = 1023
+      global.dispatchEvent(new Event(`resize`))
 
-  it(`should open the app menu on mobile`, () => {
-    store.commit(`setConfigDesktop`, false)
-    store.commit(`setActiveMenu`, `notapp`)
+      expect(wrapper.vm.desktop).toBe(false)
+    })
 
-    wrapper
-      .findAll(`.header-item`)
-      .at(2)
-      .trigger(`click`)
-    expect(store.commit).toHaveBeenCalledWith(`setActiveMenu`, `app`)
-  })
+    it(`should set desktop status to true`, () => {
+      global.innerWidth = 1025
+      global.dispatchEvent(new Event(`resize`))
 
-  it(`should commit desktop status to true`, () => {
-    global.innerWidth = 1025
-    global.dispatchEvent(new Event(`resize`))
+      expect(wrapper.vm.desktop).toBe(true)
+    })
 
-    expect(store.commit).toHaveBeenCalledWith(`setConfigDesktop`, true)
-  })
-
-  it(`should commit desktop status to false`, () => {
-    global.innerWidth = 1023
-    global.dispatchEvent(new Event(`resize`))
-
-    expect(store.commit).toHaveBeenCalledWith(`setConfigDesktop`, false)
-  })
-
-  it(`handles dark theme`, () => {
-    expect(wrapper.find(`#logo-white`).exists()).toBeTruthy()
-  })
-
-  it(`handles light theme`, () => {
-    store.commit(`setTheme`, `light`)
-    expect(wrapper.find(`#logo-black`).exists()).toBeTruthy()
+    it(`should watch window size on update`, () => {
+      const window = { onresize: undefined }
+      const self = {
+        watchWindowSize: jest.fn(),
+        window
+      }
+      AppHeader.updated.call(self)
+      expect(self.watchWindowSize).toHaveBeenCalled()
+    })
   })
 })

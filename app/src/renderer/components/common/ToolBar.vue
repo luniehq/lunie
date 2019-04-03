@@ -1,68 +1,103 @@
 <template>
-  <div class="tm-tool-bar">
+  <div class="tool-bar">
     <a
-      v-tooltip.bottom="'Back'"
-      :disabled="user.history.length === 0"
-      class="back"
-      @click="back"
-      ><i class="material-icons">arrow_back</i></a
+      v-if="!!refresh"
+      :disabled="!refresh.connected"
+      class="refresh-button"
+      @click="refresh.connected && refresh.refresh()"
     >
-    <slot /><a v-tooltip.bottom="'Help'" class="help" @click="enableModalHelp"
-      ><i class="material-icons">help_outline</i></a
+      <i v-tooltip.bottom="'Refresh'" class="material-icons">refresh</i>
+    </a>
+    <slot />
+    <a
+      v-if="session.signedIn"
+      id="signOut-btn"
+      @click="signOut()"
     >
-    <router-link
-      v-tooltip.bottom="'Preferences'"
-      id="settings"
-      to="/preferences"
-      ><i class="material-icons">settings</i></router-link
-    ><a v-tooltip.bottom.end="'Sign Out'" id="signOut-btn" @click="signOut"
-      ><i class="material-icons">exit_to_app</i></a
-    >
+      <i
+        v-tooltip.bottom.end="'Sign Out'"
+        class="material-icons"
+      >
+        exit_to_app
+      </i>
+    </a>
+    <tm-btn
+      v-if="!session.signedIn"
+      class="sign-in-button"
+      value="Sign In"
+      color="primary"
+      @click.native="signIn()"
+    />
   </div>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex"
+import { mapGetters } from "vuex"
+import TmBtn from "common/TmBtn"
 export default {
-  // the name needs to be different from TmToolBar (tm-tool-bar) or else recursive rendering takes place
   name: `tool-bar`,
+  components: { TmBtn },
+  props: {
+    refresh: {
+      type: Object,
+      default: undefined
+    }
+  },
   computed: {
-    ...mapGetters([`user`, `lastPage`])
+    ...mapGetters([`session`])
   },
   methods: {
-    ...mapMutations([`pauseHistory`, `popHistory`]),
-    back() {
-      if (!this.lastPage) return
-      this.pauseHistory(true)
-      this.$router.push(this.lastPage, () => {
-        this.popHistory()
-        this.pauseHistory(false)
-      })
-    },
-    enableModalHelp() {
-      this.$store.commit(`setModalHelp`, true)
+    signIn() {
+      this.$store.commit(`setSessionModalView`, `welcome`)
+      this.$store.commit(`toggleSessionModal`, true)
     },
     signOut() {
       this.$store.dispatch(`signOut`)
+      this.$router.push(`/`)
     }
   }
 }
 </script>
-<style>
-.tm-page-header-text {
-  padding-right: 1rem;
+<style scoped>
+.tool-bar {
+  display: flex;
+  align-items: center;
+  max-height: 2rem;
+  justify-content: flex-end;
+  width: 100%;
 }
 
-.tm-page-header-text i {
-  padding: 1rem;
+.sign-in-button {
+  margin-left: 1rem;
+}
+
+.tool-bar i {
+  padding: 0.5rem;
+}
+
+.tool-bar i,
+.tool-bar a {
   color: var(--dim);
+  font-size: var(--lg);
+  display: flex;
+  align-items: center;
 }
 
-.tm-page-header-text i:hover {
+.tool-bar i:hover {
+  background: var(--app-nav);
+  padding: 0.5rem;
+  border-radius: 50%;
+}
+
+.tool-bar a:hover {
   cursor: pointer;
+  color: var(--bright);
 }
 
-.tm-page-header-text i:hover {
-  color: var(--bright);
+@media screen and (max-width: 1023px) {
+  .sign-in-button {
+    margin: 0;
+    width: 100%;
+  }
 }
 </style>

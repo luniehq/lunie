@@ -2,38 +2,41 @@
   <div class="tm-session">
     <tm-form-struct :submit="onSubmit" class="tm-session-container">
       <div class="tm-session-header">
-        <a @click="setState('sign-in')"
-          ><i class="material-icons">arrow_back</i></a
+        <a
+          @click="setState('sign-in')"
         >
-        <div class="tm-session-title">Remove Account</div>
-        <a @click="help"><i class="material-icons">help_outline</i></a>
+          <i class="material-icons">arrow_back</i>
+        </a>
+        <div class="tm-session-title">
+          Remove Account
+        </div>
       </div>
       <div class="tm-session-main">
         <tm-form-group
-          :error="$v.fields.deletionPassword.$error"
+          :error="$v.deletionPassword.$error"
           field-id="sign-in-password"
           field-label="Password"
         >
           <tm-field
             id="sign-in-password"
-            v-model="fields.deletionPassword"
+            v-model="deletionPassword"
             type="password"
             placeholder="Enter your password"
           />
           <tm-form-msg
-            v-if="!$v.fields.deletionPassword.required"
+            v-if="!$v.deletionPassword.required"
             name="Password"
             type="required"
           />
           <tm-form-msg
-            v-if="!$v.fields.deletionPassword.minLength"
+            v-if="!$v.deletionPassword.minLength"
             name="Password"
             type="minLength"
             min="10"
           />
         </tm-form-group>
         <tm-form-group
-          :error="$v.fields.deletionWarning.$error"
+          :error="$v.deletionWarning.$error"
           field-id="sign-up-warning"
           field-label=" "
         >
@@ -41,17 +44,20 @@
             <div class="tm-field-checkbox-input">
               <input
                 id="sign-up-warning"
-                v-model="fields.deletionWarning"
+                v-model="deletionWarning"
                 type="checkbox"
-              />
+              >
             </div>
-            <label class="tm-field-checkbox-label" for="sign-up-warning"
-              >I understand that Cosmos cannot recover deleted accounts without
-              the passphrase.</label
+            <label
+              class="tm-field-checkbox-label"
+              for="sign-up-warning"
             >
+              I understand that Cosmos cannot recover deleted accounts without
+              the passphrase.
+            </label>
           </div>
           <tm-form-msg
-            v-if="!$v.fields.deletionWarning.required"
+            v-if="!$v.deletionWarning.required"
             name="Deletion confirmation"
             type="required"
           />
@@ -69,7 +75,7 @@
 </template>
 
 <script>
-import { required, minLength } from "vuelidate/lib/validators"
+import { required, minLength, sameAs } from "vuelidate/lib/validators"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormStruct from "common/TmFormStruct"
@@ -84,23 +90,23 @@ export default {
     TmFormMsg,
     TmFormStruct
   },
-  data: () => ({ fields: { deletionPassword: `` } }),
+  data: () => ({
+    deletionPassword: ``,
+    deletionWarning: false
+  }),
   mounted() {
     this.$el.querySelector(`#sign-in-password`).focus()
   },
   methods: {
-    help() {
-      this.$store.commit(`setModalHelp`, true)
-    },
     setState(value) {
-      this.$store.commit(`setModalSessionState`, value)
+      this.$store.commit(`setSessionModalView`, value)
     },
     async onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return
       try {
-        let success = await this.$store.dispatch(`deleteKey`, {
-          password: this.fields.deletionPassword
+        const success = await this.$store.dispatch(`deleteKey`, {
+          password: this.deletionPassword
         })
         if (success) {
           this.setState(`welcome`)
@@ -118,10 +124,8 @@ export default {
     }
   },
   validations: () => ({
-    fields: {
-      deletionPassword: { required, minLength: minLength(10) },
-      deletionWarning: { required }
-    }
+    deletionPassword: { required, minLength: minLength(10) },
+    deletionWarning: { required: sameAs(() => true) }
   })
 }
 </script>

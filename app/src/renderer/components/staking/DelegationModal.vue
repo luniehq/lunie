@@ -1,117 +1,99 @@
 <template>
-  <div v-click-outside="close" id="delegation-modal" class="delegation-modal">
-    <div class="delegation-modal-header">
-      <img
-        class="icon delegation-modal-atom"
-        src="~assets/images/cosmos-logo.png"
-      /><span class="tm-modal-title">Delegation</span>
-      <div id="closeBtn" class="tm-modal-icon tm-modal-close" @click="close()">
-        <i class="material-icons">close</i>
-      </div>
-    </div>
+  <action-modal
+    id="delegation-modal"
+    ref="actionModal"
+    :submit-fn="submitForm"
+    :simulate-fn="simulateForm"
+    :validate="validateForm"
+    :amount="amount"
+    title="Delegate"
+    class="delegation-modal"
+    submission-error-prefix="Delegating failed"
+    @close="clear"
+  >
     <tm-form-group
-      :error="$v.amount.$invalid"
-      class="delegation-modal-form-group"
-      field-id="amount"
-      field-label="Amount"
-    >
-      <tm-field
-        id="denom"
-        :placeholder="denom"
-        type="text"
-        readonly="readonly"
-      />
-      <tm-field
-        v-focus
-        id="amount"
-        :max="fromOptions[selectedIndex].maximum"
-        :min="0"
-        v-model="amount"
-        type="number"
-      />
-      <tm-form-msg
-        v-if="!$v.amount.between && amount > 0"
-        :max="$v.amount.$params.between.max"
-        :min="$v.amount.$params.between.min"
-        name="Amount"
-        type="between"
-      />
-    </tm-form-group>
-    <tm-form-group
-      class="delegation-modal-form-group"
+      class="action-modal-form-group"
       field-id="to"
       field-label="To"
     >
-      <tm-field id="to" v-model="to" readonly="readonly" />
+      <tm-field
+        id="to"
+        v-model="to"
+        type="text"
+        readonly
+      />
     </tm-form-group>
+
     <tm-form-group
-      class="delegation-modal-form-group"
+      v-if="fromOptions.length > 1"
+      class="action-modal-form-group"
       field-id="from"
       field-label="From"
     >
       <tm-field
         id="from"
         v-model="selectedIndex"
-        :title="fromOptions[selectedIndex].address"
+        :title="from"
         :options="fromOptions"
         type="select"
       />
-      <hr />
     </tm-form-group>
     <tm-form-group
-      class="delegation-modal-form-group"
-      field-id="password"
-      field-label="Account password"
+      :error="$v.amount.$error && $v.amount.$invalid"
+      class="action-modal-form-group"
+      field-id="amount"
+      field-label="Amount"
     >
+      <span class="input-suffix">{{ num.viewDenom(denom) }}</span>
       <tm-field
-        id="password"
-        v-model="password"
-        :type="showPassword ? `text` : `password`"
-        placeholder="password..."
+        id="amount"
+        v-model="amount"
+        type="number"
+        placeholder="Amount"
       />
-      <input
-        id="showPasswordCheckbox"
-        v-model="showPassword"
-        type="checkbox"
-        @input="togglePassword"
+      <tm-form-msg
+        v-if="balance === 0"
+        :msg="`doesn't have any ${num.viewDenom(denom)}s`"
+        name="Wallet"
+        type="custom"
       />
-      <label for="showPasswordCheckbox">Show password</label>
+      <tm-form-msg
+        v-else-if="$v.amount.$error && !$v.amount.decimal"
+        name="Amount"
+        type="numeric"
+      />
+      <tm-form-msg
+        v-else-if="$v.amount.$error && (!$v.amount.required || amount === 0)"
+        name="Amount"
+        type="required"
+      />
+      <tm-form-msg
+        v-else-if="$v.amount.$error && !$v.amount.between"
+        :max="$v.amount.$params.between.max"
+        :min="$v.amount.$params.between.min"
+        name="Amount"
+        type="between"
+      />
     </tm-form-group>
-    <div class="delegation-modal-footer">
-      <tm-btn
-        id="submit-delegation"
-        :disabled="$v.$invalid"
-        color="primary"
-        value="Confirm Delegation"
-        size="lg"
-        @click.native="onDelegation"
-      />
-    </div>
-  </div>
+  </action-modal>
 </template>
 
 <script>
-import ClickOutside from "vue-click-outside"
-import { required, between } from "vuelidate/lib/validators"
-import Modal from "common/TmModal"
-import TmBtn from "common/TmBtn"
+import { mapGetters } from "vuex"
+import { between, decimal } from "vuelidate/lib/validators"
+import num, { uatoms, atoms, SMALLEST } from "../../scripts/num.js"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
-
-const isInteger = amount => Number.isInteger(amount)
+import ActionModal from "common/ActionModal"
 
 export default {
   name: `delegation-modal`,
-  directives: {
-    ClickOutside
-  },
   components: {
-    Modal,
-    TmBtn,
     TmField,
     TmFormGroup,
-    TmFormMsg
+    TmFormMsg,
+    ActionModal
   },
   props: {
     fromOptions: {
@@ -122,95 +104,140 @@ export default {
       type: String,
       required: true
     },
+    validator: {
+      type: Object,
+      required: true
+    },
     denom: {
       type: String,
       required: true
     }
   },
   data: () => ({
-    amount: 0,
+    amount: null,
     selectedIndex: 0,
-    password: ``,
-    showPassword: false
+    num
   }),
-  validations() {
-    return {
-      amount: {
-        required,
-        isInteger,
-        between: between(1, this.fromOptions[this.selectedIndex].maximum)
-      },
-      password: {
-        required
-      }
+  computed: {
+    ...mapGetters([`delegates`, `session`, `bondDenom`]),
+    balance() {
+      if (!this.session.signedIn) return 0
+
+      return this.fromOptions[this.selectedIndex].maximum
+    },
+    from() {
+      if (!this.session.signedIn) return ``
+
+      return this.fromOptions[this.selectedIndex].address
     }
   },
   methods: {
-    close() {
-      this.$emit(`update:showDelegationModal`, false)
+    open() {
+      this.$refs.actionModal.open()
     },
-    togglePassword() {
-      this.showPassword = !this.showPassword
+    validateForm() {
+      this.$v.$touch()
+
+      return !this.$v.$invalid
     },
-    onDelegation() {
-      this.$emit(`submitDelegation`, {
-        amount: this.amount,
-        from: this.fromOptions[this.selectedIndex].address,
-        password: this.password
+    clear() {
+      this.$v.$reset()
+
+      this.selectedIndex = 0
+      this.amount = null
+    },
+    async simulateDelegation() {
+      return await this.$store.dispatch(`simulateDelegation`, {
+        validator_address: this.validator.operator_address,
+        amount: String(uatoms(this.amount))
       })
-      this.close()
+    },
+    async submitDelegation(gasEstimate, gasPrice, password, submitType) {
+      await this.$store.dispatch(`submitDelegation`, {
+        validator_address: this.validator.operator_address,
+        amount: String(uatoms(this.amount)),
+        submitType,
+        password,
+        gas: String(gasEstimate),
+        gas_prices: [
+          {
+            amount: String(uatoms(gasPrice)),
+            denom: this.denom
+          }
+        ]
+      })
+
+      this.$store.commit(`notify`, {
+        title: `Successful delegation!`,
+        body: `You have successfully delegated your ${num.viewDenom(
+          this.denom
+        )}s`
+      })
+    },
+    async simulateRedelegation() {
+      const validatorSrc = this.delegates.delegates.find(
+        v => this.from === v.operator_address
+      )
+      return await this.$store.dispatch(`simulateRedelegation`, {
+        validatorSrc,
+        validatorDst: this.validator,
+        amount: String(uatoms(this.amount))
+      })
+    },
+    async submitRedelegation(gasEstimate, gasPrice, password, submitType) {
+      const validatorSrc = this.delegates.delegates.find(
+        v => this.from === v.operator_address
+      )
+      await this.$store.dispatch(`submitRedelegation`, {
+        validatorSrc,
+        validatorDst: this.validator,
+        amount: String(uatoms(this.amount)),
+        submitType,
+        password,
+        gas: String(gasEstimate),
+        gas_prices: [
+          {
+            amount: String(uatoms(gasPrice)),
+            denom: this.denom
+          }
+        ]
+      })
+
+      this.$store.commit(`notify`, {
+        title: `Successful redelegation!`,
+        body: `You have successfully redelegated your ${num.viewDenom(
+          this.denom
+        )}s`
+      })
+    },
+    async simulateForm() {
+      if (this.from === this.session.address) {
+        return await this.simulateDelegation()
+      } else {
+        return await this.simulateRedelegation()
+      }
+    },
+    async submitForm(gasEstimate, gasPrice, password, submitType) {
+      if (this.from === this.session.address) {
+        await this.submitDelegation(gasEstimate, gasPrice, password, submitType)
+      } else {
+        await this.submitRedelegation(
+          gasEstimate,
+          gasPrice,
+          password,
+          submitType
+        )
+      }
+    }
+  },
+  validations() {
+    return {
+      amount: {
+        required: x => !!x && x !== `0`,
+        decimal,
+        between: between(SMALLEST, atoms(this.balance))
+      }
     }
   }
 }
 </script>
-
-<style>
-.delegation-modal {
-  background: var(--app-nav);
-  display: flex;
-  flex-direction: column;
-  height: 50%;
-  justify-content: space-between;
-  left: 50%;
-  padding: 2rem;
-  position: fixed;
-  top: 50%;
-  width: 40%;
-  z-index: var(--z-modal);
-}
-
-.delegation-modal-header {
-  align-items: center;
-  display: flex;
-}
-
-.delegation-modal-atom {
-  height: 4rem;
-  width: 4rem;
-}
-
-.delegation-modal-form-group {
-  display: block;
-  padding: 0;
-}
-
-.delegation-modal #amount {
-  margin-top: -32px;
-}
-
-.delegation-modal #denom {
-  border: none;
-  margin-left: 80%;
-  text-align: right;
-  width: 72px;
-}
-
-.delegation-modal-footer {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.delegation-modal-footer button {
-  margin-left: 1rem;
-}
-</style>

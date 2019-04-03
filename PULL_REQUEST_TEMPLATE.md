@@ -1,17 +1,20 @@
 Closes #ISSUE
 
-_Description:_
+**Description:**
 
 <!-- Briefly describe what you're adding or fixing with this PR -->
 
-❤️ Thank you!
+Thank you! 🚀
 
 ---
 
-<!-- < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < < ☺
-v                    Thanks for creating a PR!
-v    Before smashing the submit button please review the checkboxes
-☺ > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > >  -->
+For contributor:
 
-- [ ] Added entries in `CHANGELOG.md` with issue # and GitHub username
+- [ ] Added entries in `PENDING.md` with issue # and GitHub username
 - [ ] Reviewed `Files changed` in the github PR explorer
+- [ ] Attach screenshots of the UI components on the PR description (if applicable)
+- [ ] Scope of work approved for big PRs
+
+For reviewer:
+
+- [ ] Manually tested the changes on the UI

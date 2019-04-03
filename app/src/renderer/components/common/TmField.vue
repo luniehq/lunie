@@ -13,15 +13,17 @@
         disabled="disabled"
         selected="selected"
         hidden="hidden"
-        >{{ selectPlaceholder }}</option
       >
+        {{ selectPlaceholder }}
+      </option>
       <template>
         <option
           v-for="(option, index) in resolvedOptions"
           :key="index"
           :value="option.value"
-          >{{ option.key }}</option
         >
+          {{ option.key }}
+        </option>
       </template>
     </select>
     <div class="tm-field-select-addon">
@@ -38,21 +40,29 @@
     @keyup="onKeyup"
     @keydown="onKeydown"
     @input="updateValue($event.target.value)"
-  ></textarea>
+  />
 
   <label v-else-if="type === 'toggle'" :class="toggleClass" class="tm-toggle">
     <div class="tm-toggle-wrapper" @click.prevent="toggle">
-      <span>{{
-        currentToggleState ? resolvedOptions.checked : resolvedOptions.unchecked
-      }}</span>
+      <span>
+        {{
+          currentToggleState ?
+            resolvedOptions.checked : resolvedOptions.unchecked
+        }}
+      </span>
       <div class="toggle-option-checked">
         <div>{{ resolvedOptions.checked }}</div>
       </div>
       <div class="toggle-option-unchecked">
         <div>{{ resolvedOptions.unchecked }}</div>
       </div>
-      <div class="toggle-handle"></div>
-      <input :value="currentToggleState" type="checkbox" @change="onChange" />
+      <div class="toggle-handle" />
+      <input
+        :disabled="isDisabled"
+        :value="currentToggleState"
+        type="checkbox"
+        @change="onChange"
+      >
     </div>
   </label>
 
@@ -63,13 +73,11 @@
     :class="css"
     :placeholder="placeholder"
     :value="value"
-    :max="max"
-    :min="min"
     @change="onChange"
     @keyup="onKeyup"
     @keydown="onKeydown"
     @input="updateValue($event.target.value)"
-  />
+  >
 </template>
 
 <script>
@@ -81,7 +89,7 @@ export default {
       default: `text`
     },
     value: {
-      type: [String, Number],
+      type: [String, Number, Boolean],
       default: null
     },
     placeholder: {
@@ -89,10 +97,6 @@ export default {
       default: null
     },
     size: {
-      type: String,
-      default: null
-    },
-    theme: {
       type: String,
       default: null
     },
@@ -112,13 +116,9 @@ export default {
       type: Function,
       default: null
     },
-    max: {
-      type: [String, Number], // for convenience you can provide a string
-      default: null
-    },
-    min: {
-      type: [String, Number], // for convenience you can provide a string
-      default: null
+    isDisabled: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
@@ -134,12 +134,7 @@ export default {
       if (this.type === `select`) {
         value += ` tm-field-select`
       }
-      // not used and screws with css when used
-      // if (this.type === `toggle`) {
-      //   value += ` tm-field-toggle`
-      // }
       if (this.size) value += ` tm-field-size-${this.size}`
-      if (this.theme) value += ` tm-field-theme-${this.theme}`
       return value
     },
     toggleClass() {
@@ -167,13 +162,18 @@ export default {
   },
   methods: {
     toggle() {
-      this.currentToggleState = !this.currentToggleState
+      if (!this.isDisabled) {
+        this.currentToggleState = !this.currentToggleState
+        this.onChange(this.currentToggleState)
+      }
     },
     updateValue(value) {
       let formattedValue = value
-      if (this.type == `number`) {
-        formattedValue = this.forceMinMax(value)
+
+      if (this.type === `number`) {
+        formattedValue = value.trim()
       }
+
       // Emit the number value through the input event
       this.$emit(`input`, formattedValue)
     },
@@ -185,15 +185,6 @@ export default {
     },
     onKeydown(...args) {
       if (this.keydown) return this.keydown(...args)
-    },
-    forceMinMax(value) {
-      value = typeof value === `string` ? Number(value.trim()) : value
-      if (this.max && value > this.max) {
-        value = Number(this.max)
-      } else if (this.min && value && value < this.min) {
-        value = Number(this.min)
-      }
-      return value
     }
   }
 }
@@ -210,9 +201,12 @@ export default {
   line-height: 1.5rem;
   min-width: 0;
   padding: 0.1875rem 0.5rem;
-  vertical-align: top;
   width: 100%;
   -webkit-appearance: none;
+}
+
+.tm-field::placeholder {
+  color: var(--dim);
 }
 
 .tm-field:disabled {
@@ -256,8 +250,8 @@ textarea.tm-field {
   transform: rotate(0deg);
 }
 
-.tm-toggle .tm-toggle-wrapper:before,
-.tm-toggle .tm-toggle-wrapper:after {
+.tm-toggle .tm-toggle-wrapper::before,
+.tm-toggle .tm-toggle-wrapper::after {
   content: "";
   height: 1.625rem;
   position: absolute;
@@ -266,13 +260,13 @@ textarea.tm-field {
   z-index: 0;
 }
 
-.tm-toggle .tm-toggle-wrapper:before {
+.tm-toggle .tm-toggle-wrapper::before {
   background: var(--success, #4acf4a);
   border-radius: 1em 0 0 1em;
   left: calc((-1.625rem / 2));
 }
 
-.tm-toggle .tm-toggle-wrapper:after {
+.tm-toggle .tm-toggle-wrapper::after {
   background: var(--danger, #8c8fa6);
   border-radius: 0 1em 1em 0;
   right: calc((-1.625rem / 2));
@@ -310,7 +304,7 @@ textarea.tm-field {
   width: 0%;
 }
 
-.tm-toggle .tm-toggle-wrapper .toggle-handle:after {
+.tm-toggle .tm-toggle-wrapper .toggle-handle::after {
   background: var(--grey, #d4d5de);
   border-radius: 1rem;
   content: "";
@@ -336,7 +330,7 @@ textarea.tm-field {
   width: 100%;
 }
 
-.tm-toggle.unchecked .toggle-handle:after {
+.tm-toggle.unchecked .toggle-handle::after {
   right: calc(100% - 0.75rem);
 }
 
@@ -385,31 +379,6 @@ textarea.tm-field {
   width: 2rem;
 }
 
-/* ============================================================================== */
-.tm-datetime {
-  position: relative;
-}
-
-.tm-datetime:after {
-  align-items: center;
-  background: var(--app-bg, #fff);
-  border: 1px solid var(--input-bc, #ccc);
-  box-sizing: border-box;
-  color: var(--bright);
-  content: "\f073";
-  display: flex;
-  font-family: FontAwesome;
-  height: 2rem;
-  justify-content: center;
-  pointer-events: none;
-  position: absolute;
-  right: 0;
-  text-align: center;
-  top: 0;
-  width: 2rem;
-}
-
-/* ============================================================================== */
 .input-group-addon {
   background: var(--input-bg, #fff);
   border: 1px solid var(--input-bc, #ccc);
@@ -426,36 +395,6 @@ textarea.tm-field {
   }
 }
 
-/* ============================================================================== */
-/* WebKit, Blink, Edge */
-.tm-field::-webkit-input-placeholder {
-  color: var(--dim, #666);
-}
-
-/* Mozilla Firefox 4 to 18 */
-.tm-field:-moz-placeholder {
-  color: var(--dim, #666);
-  opacity: 1;
-}
-
-/* Mozilla Firefox 19+ */
-.tm-field::-moz-placeholder {
-  color: var(--dim, #666);
-  opacity: 1;
-}
-
-/* Internet Explorer 10-11 */
-.tm-field:-ms-input-placeholder {
-  color: var(--dim, #666);
-}
-
-/* Standard (https//drafts.csswg.org/selectors-4/#placeholder) */
-.tm-field:placeholder-shown {
-  color: var(--dim, #666);
-}
-
-/* ============================================================================== */
-/* sizes */
 .tm-field.tm-field-size-sm {
   font-size: 0.75rem;
   height: 1.5rem;
@@ -468,43 +407,5 @@ textarea.tm-field {
   height: 3rem;
   padding-left: 0.75rem;
   padding-right: 0.75rem;
-}
-
-/* ============================================================================== */
-/* tendermint styles */
-.tm-field.tm-field-theme-tendermint {
-  background: #0e2e4e;
-  border-color: #1d61a5;
-  color: #fff;
-}
-
-.tm-field.tm-field-theme-tendermint:focus {
-  border-color: #216eba;
-}
-
-.tm-field.tm-field-theme-tendermint::-webkit-input-placeholder {
-  color: #7db2e8;
-}
-
-/* Mozilla Firefox 4 to 18 */
-.tm-field.tm-field-theme-tendermint:-moz-placeholder {
-  color: #7db2e8;
-  opacity: 1;
-}
-
-/* Mozilla Firefox 19+ */
-.tm-field.tm-field-theme-tendermint::-moz-placeholder {
-  color: #7db2e8;
-  opacity: 1;
-}
-
-/* Internet Explorer 10-11 */
-.tm-field.tm-field-theme-tendermint:-ms-input-placeholder {
-  color: #7db2e8;
-}
-
-/* Standard (https//drafts.csswg.org/selectors-4/#placeholder) */
-.tm-field.tm-field-theme-tendermint:placeholder-shown {
-  color: #7db2e8;
 }
 </style>

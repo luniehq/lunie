@@ -1,58 +1,321 @@
-import setup from "../../../helpers/vuex-setup"
 import PageTransactions from "renderer/components/wallet/PageTransactions"
-import mockTransactions from "../../store/json/txs.js"
-import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+import { createLocalVue, shallowMount } from "@vue/test-utils"
 
 describe(`PageTransactions`, () => {
-  let wrapper, store
-  let { stakingParameters, txs } = lcdClientMock.state
+  const localVue = createLocalVue()
+  localVue.directive(`tooltip`, () => { })
 
-  let { mount } = setup()
-  beforeEach(async () => {
-    let instance = mount(PageTransactions, {
-      stubs: {
-        "tm-li-any-transaction": true,
-        "data-empty-tx": true,
-        "data-empty-search": true,
-        "tm-data-error": true,
-        "modal-search": true
+  const addresses = [
+    `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+    `cosmos1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem546`
+  ]
+  const validatorAddresses = [
+    `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+    `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
+    `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n`
+  ]
+  const allTransactions = [
+    {
+      tx: {
+        value: {
+          msg: [
+            {
+              type: `cosmos-sdk/MsgSend`,
+              value: {
+                from_address: addresses[1],
+                to_address: addresses[0],
+                amount: [{ denom: `jbcoins`, amount: `1234` }]
+              }
+            }
+          ]
+        }
       },
-      methods: {
-        refreshTransactions: jest.fn() // we don't want to call getAllTxs on mount
+      hash: `999ADECC2DE8C3AC2FD4F45E5E1081747BBE504A`,
+      height: 1
+    },
+    {
+      tx: {
+        value: {
+          msg: [
+            {
+              type: `cosmos-sdk/MsgSend`,
+              value: {
+                from_address: addresses[0],
+                to_address: addresses[1],
+                amount: [{ denom: `fabocoins`, amount: `1234` }]
+              }
+            }
+          ]
+        }
+      },
+      hash: `A7C6DE5CA923AF08E6088F1348047F16BABB9F48`,
+      height: 150
+    },
+    {
+      hash: `QSDFGE5CA923AF08E6088F1348047F16BAHH8K31`,
+      height: 56673,
+      tx: {
+        type: `8EFE47F0625DE8`,
+        value: {
+          msg: [
+            {
+              type: `cosmos-sdk/MsgSubmitProposal`,
+              value: {
+                proposer: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+                proposal_type: `Text`,
+                title: `Test Proposal`,
+                description: `This is a test proposal`,
+                initial_deposit: [
+                  {
+                    denom: `STAKE`,
+                    amount: `100`
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      hash: `QASDE5CA923AF08EEE38F1348047F16BAHH8K31`,
+      height: 213,
+      tx: {
+        type: `8EFE47F0625DE8`,
+        value: {
+          msg: [
+            {
+              type: `cosmos-sdk/MsgDeposit`,
+              value: {
+                depositor: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+                proposal_id: `1`,
+                amount: [
+                  {
+                    denom: `STAKE`,
+                    amount: `100`
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      tx: {
+        value: {
+          msg: [
+            {
+              type: `cosmos-sdk/MsgDelegate`,
+              value: {
+                validator_address: validatorAddresses[0],
+                delegator_address: addresses[0],
+                delegation: {
+                  amount: `24`,
+                  denom: `STAKE`
+                }
+              }
+            }
+          ]
+        }
+      },
+      hash: `A7C6DE5CB923AF08E6088F1348047F16BABB9F48`,
+      height: 160
+    },
+    {
+      tx: {
+        value: {
+          msg: [
+            {
+              type: `cosmos-sdk/BeginUnbonding`,
+              value: {
+                validator_address: validatorAddresses[0],
+                delegator_address: addresses[0],
+                shares: `5`
+              }
+            }
+          ]
+        }
+      },
+      hash: `A7C6FDE5CA923AF08E6088F1348047F16BABB9F48`,
+      height: 170
+    }
+  ]
+  const validators = [
+    {
+      operator_address: validatorAddresses[0],
+      pub_key: `cosmosvalpub1234`,
+      revoked: false,
+      tokens: `14`,
+      delegator_shares: `14`,
+      description: {
+        website: `www.monty.ca`,
+        details: `Mr Mounty`,
+        moniker: `mr_mounty`,
+        country: `Canada`
+      },
+      status: 2,
+      bond_height: `0`,
+      bond_intra_tx_counter: 6,
+      proposer_reward_pool: null,
+      commission: {
+        rate: `0`,
+        max_rate: `0`,
+        max_change_rate: `0`,
+        update_time: `1970-01-01T00:00:00Z`
+      },
+      prev_bonded_shares: `0`
+    },
+    {
+      operator_address: validatorAddresses[1],
+      pub_key: `cosmosvalpub5678`,
+      revoked: false,
+      tokens: `0`,
+      delegator_shares: `0`,
+      description: {
+        website: `www.greg.com`,
+        details: `Good Guy Greg`,
+        moniker: `good_greg`,
+        country: `USA`
+      },
+      status: 2,
+      bond_height: `0`,
+      bond_intra_tx_counter: 6,
+      proposer_reward_pool: null,
+      commission: {
+        rate: `0`,
+        max_rate: `0`,
+        max_change_rate: `0`,
+        update_time: new Date(Date.now()).toISOString()
+      },
+      prev_bonded_shares: `0`
+    },
+    {
+      operator_address: validatorAddresses[2],
+      pub_key: `cosmosvalpub8910`,
+      tokens: `19`,
+      delegator_shares: `19`,
+      description: {
+        details: `Herr Schmidt`,
+        website: `www.schmidt.de`,
+        moniker: `herr_schmidt_revoked`,
+        country: `DE`
+      },
+      revoked: true,
+      status: 2,
+      bond_height: `0`,
+      bond_intra_tx_counter: 6,
+      proposer_reward_pool: null,
+      commission: {
+        rate: `0`,
+        max_rate: `0`,
+        max_change_rate: `0`,
+        update_time: new Date(Date.now()).toISOString()
+      },
+      prev_bonded_shares: `0`
+    }
+  ]
+
+  let wrapper, $store
+
+  const getters = {
+    filters: {
+      transactions: {
+        search: {
+          query: ``,
+          visible: false
+        }
+      }
+    },
+    bondDenom: `STAKE`,
+    session: {
+      address: addresses[0]
+    },
+    transactions: {
+      loading: false,
+      loaded: true,
+      error: undefined
+    },
+    delegation: {
+      unbondingDelegations: {} // TODO: add some
+    },
+    delegates: {
+      delegates: validators
+    },
+    allTransactions,
+    connected: true,
+    lastHeader: ``
+  }
+
+  beforeEach(() => {
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: JSON.parse(JSON.stringify(getters)) // clone so we don't overwrite by accident
+    }
+
+    wrapper = shallowMount(PageTransactions, {
+      localVue,
+      mocks: {
+        $store
       }
     })
-    wrapper = instance.wrapper
-    store = instance.store
-
-    store.commit(`setConnected`, true)
-    store.commit(`setWalletAddress`, `tb1d4u5zerywfjhxuc9nudvw`)
-    store.commit(`setStakingParameters`, stakingParameters.parameters)
-    store.commit(`setWalletTxs`, txs.slice(0, 2))
-    store.commit(`setStakingTxs`, txs.slice(4))
-    store.commit(`setGovernanceTxs`, txs.slice(2, 4))
   })
 
-  it(`has the expected html structure`, async () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+  describe(`displays the transaction page`, () => {
+    it(`if user has signed in`, async () => {
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
+
+    it(`if user hasn't signed in`, async () => {
+      $store.getters.session.address = undefined
+      $store = {
+        commit: jest.fn(),
+        dispatch: jest.fn(),
+        getters
+      }
+
+      wrapper = shallowMount(PageTransactions, {
+        localVue,
+        mocks: {
+          $store
+        }
+      })
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
   })
 
-  it(`should show the search on click`, () => {
-    wrapper.find(`.search-button`).trigger(`click`)
-    expect(wrapper.contains(`modal-search-stub`)).toBe(true)
+  it(`should refresh the transaction history`, async () => {
+    await PageTransactions.methods.refreshTransactions.call({
+      $store, session: {
+        signedIn: true
+      }
+    })
+    expect($store.dispatch).toHaveBeenCalledWith(`getAllTxs`)
+
+    $store.dispatch.mockClear()
+    await PageTransactions.methods.refreshTransactions.call({
+      $store, session: {
+        signedIn: false
+      }
+    })
+    expect($store.dispatch).not.toHaveBeenCalledWith(`getAllTxs`)
   })
 
-  it(`should refresh the transaction history`, () => {
-    wrapper.vm.refreshTransactions = jest.fn()
-    wrapper.find(`.refresh-button`).trigger(`click`)
-    expect(wrapper.vm.refreshTransactions).toHaveBeenCalled()
+  it(`should load transactions when signing in`, () => {
+    const refreshTransactions = jest.fn()
+    PageTransactions.watch[`session.signedIn`].handler.call({
+      refreshTransactions
+    })
+    expect(refreshTransactions).toHaveBeenCalled()
   })
 
-  it(`should show transactions`, () => {
-    expect(wrapper.findAll(`tm-li-any-transaction-stub`).length).toBe(6)
+  it(`should show transactions`, async () => {
+    expect(wrapper.findAll(`li-any-transaction-stub`).length).toBe(6)
   })
 
   it(`should sort the transaction by time`, () => {
-    expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual([
+    expect(wrapper.vm.orderedTransactions.map(x => x.height)).toEqual([
       56673,
       213,
       170,
@@ -60,43 +323,5 @@ describe(`PageTransactions`, () => {
       150,
       1
     ])
-  })
-
-  it(`should filter the transactions`, () => {
-    store.commit(`setSearchVisible`, [`transactions`, true])
-    store.commit(`setSearchQuery`, [`transactions`, `fabo`])
-    expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual([150])
-    // reflects the filter in the view
-    expect(wrapper.vm.$el).toMatchSnapshot()
-    store.commit(`setSearchQuery`, [`transactions`, `jb`])
-    expect(wrapper.vm.filteredTransactions.map(x => x.height)).toEqual([1])
-  })
-
-  it(`should update 'somethingToSearch' when there's nothing to search`, () => {
-    expect(wrapper.vm.somethingToSearch).toBe(true)
-    store.commit(`setWalletTxs`, [])
-    store.commit(`setStakingTxs`, [])
-    store.commit(`setGovernanceTxs`, [])
-    expect(wrapper.vm.somethingToSearch).toBe(false)
-    store.commit(`setWalletTxs`, mockTransactions)
-    expect(wrapper.vm.somethingToSearch).toBe(true)
-    store.commit(`setHistoryLoading`, true)
-    expect(wrapper.vm.somethingToSearch).toBe(false)
-  })
-
-  it(`should show an error if there are no transactions`, () => {
-    store.commit(`setWalletTxs`, [])
-    store.commit(`setStakingTxs`, [])
-    store.commit(`setGovernanceTxs`, [])
-    expect(wrapper.contains(`data-empty-tx-stub`)).toBe(true)
-    expect(wrapper.contains(`data-empty-search-stub`)).toBe(false)
-  })
-
-  it(`should not show search when there is nothing to search`, () => {
-    store.commit(`setWalletTxs`, [])
-    store.commit(`setStakingTxs`, [])
-    store.commit(`setGovernanceTxs`, [])
-    wrapper.find(`.search-button`).trigger(`click`)
-    expect(wrapper.contains(`modal-search-stub`)).toBe(false)
   })
 })

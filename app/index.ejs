@@ -4,16 +4,27 @@
 <head>
   <meta name=viewport content="width=device-width, user-scalable=no">
   <meta charset="utf-8">
-  <title>Cosmos Voyager</title>
-  <% if (htmlWebpackPlugin.options.appModules) { %>
-    <!-- Add `app/node_modules` to global paths so `require` works properly in development -->
-    <script>
-      require('module').globalPaths.push('<%= htmlWebpackPlugin.options.appModules.replace(/\\/g, '\\\\') %>')
-    </script>
-    <% } %>
+  <meta name="msapplication-TileColor" content="#603cba">
+  <meta name="theme-color" content="#ffffff">
+  <title>Lunie</title>
 
-      <body style="background: #15182d">
-        <div id="app" style="background: #15182d"></div>
-      </body>
+  <link rel="apple-touch-icon" sizes="180x180" href="static/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="static/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="static/icons/favicon-16x16.png">
+  <link rel="manifest" href="static/icons/site.webmanifest">
+  <link rel="mask-icon" href="static/icons/safari-pinned-tab.svg" color="#5bbad5">
+
+  <% if (htmlWebpackPlugin.options.appModules) { %>
+    <% } %>
+</head>
+
+<body style="background: #15182d">
+  <script async src='https://www.google-analytics.com/analytics.js'></script>
+  <!-- Appzi: Capture Insightful Feedback -->
+  <script async src="https://app.appzi.io/bootstrap/bundle.js?token=LWNp0"></script>
+  <!-- End Appzi -->
+
+  <div id="app" style="background: #15182d"></div>
+</body>
 
 </html>

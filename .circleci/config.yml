@@ -1,138 +1,260 @@
-version: 2
+version: 2.1
 
-jobs:
-  # Build Gaia from the SDK source code specified by tasks/build/Gaia/COMMIT.sh.
-  buildGaia:
-    docker:
-      - image: circleci/golang
+# Here we define all the paths and versions of images we want to play with
+aliases:
+  # Define paths and never think about them again
+  - &GAIA /tmp/gaia
+  - &WORKSPACE /tmp/voyager
+  - &DIST /tmp/voyager/app/dist
+  - &DIST_TESTNET /tmp/voyager/app/dist_testnet
+  # Pick docker versions here only, then use the aliases in the executors definition
+  - &docker-node tendermintdev/voyager_node
+  - &docker-browsers tendermintdev/voyager_node_browser
+  - &docker-go circleci/golang:1.11
+  - &docker-deploy tendermintdev/website_deployment
 
+# reusable commands
+commands:
+  yarn-install:
+    description: "[YARN] update and install"
     steps:
-      - checkout
-
-      - restore_cache:
-          key: v7-Gaia-{{ checksum "tasks/build/Gaia/COMMIT.sh" }}
-
-      # If Gaia isn't in the cache then build it.
-      - run: |
-          if [ ! -d ~/target ]; then
-            cd tasks/build/Gaia
-            . COMMIT.sh
-            TARGET=~/target ./build.sh
-          fi
-
-      - save_cache:
-          key: v7-Gaia-{{ checksum "tasks/build/Gaia/COMMIT.sh" }}
-          paths:
-            - ~/target
-
-      - persist_to_workspace:
-          root: ~/target
-          paths:
-            - "*"
-
-  changelogUpdated:
-    docker:
-      - image: circleci/node:10.13.0-browsers
-
-    steps:
-      - checkout
-
-      - run: tasks/changelog-changed-check.sh
-
-  testUnit:
-    docker:
-      - image: circleci/node:10.13.0-browsers
-
-    steps:
-      - checkout
-
       - restore_cache:
           keys:
             - v3-dependencies-root-{{ checksum "package.json" }}
             - v3-dependencies-root-
 
       - run: yarn install
-
       - save_cache:
           paths:
             - yarn.lock
             - node_modules
           key: v3-dependencies-root-{{ checksum "package.json" }}
 
-      - run: yarn run lint
-
+  sync:
+    parameters:
+      dist_path:
+        type: string
+      dist_path_testnet:
+        type: string
+    steps:
       - run:
-          name: Test
-          command: yarn run test:unit
-          no_output_timeout: 120
+          name: Set default environment variables
+          command: |
+            cd && touch $BASH_ENV
 
+            if [ "${CIRCLE_BRANCH}" = "master" ]; then
+              echo 'export DISTRIBUTION_ID=E3NNXI2PHNC362' >> $BASH_ENV
+              echo 'export DIST_ID_TESTNET=E27N83VZ9QZFET' >> $BASH_ENV
+
+              echo 'export BUCKET_NAME=lunie.io' >> $BASH_ENV
+              echo 'export BUCKET_NAME_TESTNET=test.lunie.io ' >> $BASH_ENV
+            else
+              echo 'export DISTRIBUTION_ID=E1KBKFOGFYCD32' >> $BASH_ENV
+              echo 'export BUCKET_NAME=staging.lunie.io' >> $BASH_ENV
+            fi
       - run:
-          command: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
-          when: on_success
+          name: Sync dist folder to s3 bucket
+          command: |
+            source $BASH_ENV
+            cd << parameters.dist_path >>
 
-  testE2e:
+            echo "deployment job ID = $CIRCLE_BUILD_NUM<br>" >> version.html
+            echo "deployment job URL = $CIRCLE_BUILD_URL<br>" >> version.html
+
+            aws s3 sync . s3://$BUCKET_NAME --delete
+
+            if [[ ! -z "$BUCKET_NAME_TESTNET" ]]; then
+              aws s3 sync . s3://$BUCKET_NAME_TESTNET --delete
+            fi
+      - run:
+          name: Invalidate the cloudfront distribution
+          command: |
+            source $BASH_ENV
+
+            aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --path "/*"
+
+            if [[ ! -z "$DIST_ID_TESTNET" ]]; then
+              aws cloudfront create-invalidation --distribution-id $DIST_ID_TESTNET --path "/*"
+            fi
+
+# a reusable executor
+executors:
+  web:
     docker:
-      - image: circleci/node:10.13.0-browsers
+      - image: *docker-browsers
+    working_directory: *WORKSPACE
 
+  node:
+    docker:
+      - image: *docker-node
+    working_directory: *WORKSPACE
+
+  go:
+    docker:
+      - image: *docker-go
+    working_directory: *WORKSPACE
+
+  web_deploy:
+    docker:
+      - image: *docker-deploy
     environment:
-      - BINARY_PATH: "/home/circleci/project/builds/Gaia/linux_amd64/gaiacli"
-      - NODE_BINARY_PATH: "/home/circleci/project/builds/Gaia/linux_amd64/gaiad"
+      BASH_ENV: /root/.bashrc
+      AWS_REGION: us-east-1
 
+jobs:
+  build:
+    executor: web
     steps:
       - checkout
+      - yarn-install
+      - run: |
+          mkdir -p app/dist
 
-      - attach_workspace:
-          at: builds/Gaia
+          yarn build:keybase-cache
+          if [ "${CIRCLE_BRANCH}" = "master" ]; then
+            yarn build:ui --output-path $DIST_TESTNET
+            STARGATE=https://stargate.cosmos.network RPC=https://rpc.cosmos.network CIRCLECI=true yarn build:ui
+          else
+            CIRCLECI=true yarn build
+          fi
 
-      - restore_cache:
-          keys:
-            - v2-dependencies-root-{{ checksum "package.json" }}
-            - v2-dependencies-root-
-
-      - run: yarn install
-
-      - save_cache:
+      - store_artifacts:
+          path: *DIST
+      - store_artifacts:
+          path: *DIST_TESTNET
+      - persist_to_workspace:
+          root: *WORKSPACE
           paths:
-            - yarn.lock
-            - node_modules
-          key: v2-dependencies-root-{{ checksum "package.json" }}
+            - app/dist
 
+  # Build Gaia from the SDK source code specified by tasks/build/Gaia/VERSION
+  buildGaia:
+    executor: go
+    steps:
+      - checkout
+      - restore_cache:
+          key: v8-gaia-{{ checksum "tasks/build/Gaia/VERSION" }}
+      - run: |
+          if [ ! -d /tmp/gaia ]; then
+            cd tasks/build/Gaia
+            TAG=`cat ./VERSION` TARGET=/tmp/gaia PLATFORM=linux ./build.sh
+          fi
+      - save_cache:
+          key: v8-gaia-{{ checksum "tasks/build/Gaia/VERSION" }}
+          paths:
+            - *GAIA
+      - persist_to_workspace:
+          root: *GAIA
+          paths:
+            - "*"
+      - store_artifacts:
+          path: builds/Gaia/linux_amd64/*
+
+  pendingUpdated:
+    executor: node
+    steps:
+      - checkout
+      - run: tasks/pending-changed-check.sh
+
+  lint:
+    executor: node
+    steps:
+      - checkout
+      - yarn-install
+      - run: yarn run lint
+
+  testUnit:
+    executor: web
+    steps:
+      - checkout
+      - yarn-install
+      - run:
+          name: Setup Code Climate test-reporter
+          command: |
+            # download test reporter as a static binary
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
       - run:
           name: Test
-          command: yarn run test:e2e
+          command: |
+            # notify Code Climate of a pending test report using `before-build`
+            ./cc-test-reporter before-build
+            yarn run test:unit
+            # upload test report to Code Climate
+            ./cc-test-reporter format-coverage -t lcov ./test/unit/coverage/lcov.info
+            ./cc-test-reporter upload-coverage
           no_output_timeout: 120
 
+  security:
+    executor: web
+    steps:
+      - checkout
+      - run:
+          name: Audit
+          command: |
+            set +e
+
+            SUMMARY="$(yarn audit | grep Severity)"
+            VULNERABILITIES=".*(High|Critical).*"
+
+            if [[ $SUMMARY =~ $VULNERABILITIES ]]; then
+              echo "Unsafe dependencies found: $SUMMARY" >&2
+              exit 1
+            fi
+            echo "Your dependencies are secure enough: $SUMMARY"
+            exit 0
+
+  testE2e:
+    executor: web
+    environment:
+      - BINARY_PATH: "/tmp/voyager/linux_amd64/gaiacli"
+      - NODE_BINARY_PATH: "/tmp/voyager/linux_amd64/gaiad"
+    steps:
+      - checkout
+      - attach_workspace:
+          at: *WORKSPACE
+      - yarn-install
+      - run:
+          name: Test
+          command: yarn serve & yarn run test:e2e
+          no_output_timeout: 120
       - store_artifacts:
           path: testArtifacts
           when: on_fail
 
-  # Create release.
-  release:
-    docker:
-      - image: circleci/node:10.13.0
+  deploy2s3:
+    executor: web_deploy
+    steps:
+      - attach_workspace:
+          at: *WORKSPACE
+      - sync:
+          dist_path: *DIST
+          dist_path_testnet: *DIST_TESTNET
 
+  # Release code and sourcemaps to Sentry
+  sentry:
+    executor: web
     steps:
       - checkout
+      - yarn-install
+      - run: |
+          mkdir -p app/dist
+          CIRCLECI=true RELEASE=true yarn build:ui
 
-      - restore_cache:
-          keys:
-            - v2-dependencies-root-{{ checksum "package.json" }}
-            - v2-dependencies-root-
-
-      - run: yarn install
+  # Create release.
+  release:
+    executor: node
+    steps:
+      - checkout
+      - yarn-install
       - run: node tasks/createReleasePR.js
 
   # Publish the release to GitHub.
   publish:
-    docker:
-      - image: circleci/node:10.13.0
-
+    executor: node
     steps:
       - checkout
-
-      - attach_workspace:
-          at: builds/Gaia
-
+      - yarn-install
       - run:
           command: |
             mostRecentTag=$(git describe --abbrev=0 --tags)
@@ -145,34 +267,27 @@ jobs:
               git tag -d release-candidate
               git push --delete bot release-candidate
 
-              sudo tasks/build/installWine.sh
-              yarn install
-
-              # download network configs
-              # skip as this will overwrite game of stakes
-              # tasks/build/testnets/build.sh
-
-              # build Voyager
-              node tasks/build/build.js
-
-              # test linux build
-              tar -zxvf ./builds/Voyager/Cosmos_Voyager-*-Linux.tar.gz
-              yarn test:exe "./Cosmos Voyager"
-
               node tasks/publish.js
             fi
 
 workflows:
   version: 2
-
-  gaia-test-and-publish:
+  build-and-deploy:
     jobs:
-      - changelogUpdated:
+      # Static checks before
+      - pendingUpdated:
+          filters:
+            branches:
+              ignore: 
+                - release
+                - master
+
+      - security:
           filters:
             branches:
               ignore: release
 
-      - buildGaia:
+      - lint:
           filters:
             branches:
               ignore: release
@@ -182,26 +297,66 @@ workflows:
             branches:
               ignore: release
 
+      - build:
+          # no heavy lifting if other portion fails
+          requires:
+            - security
+            - lint
+
+      - buildGaia
+      - deploy2s3:
+          requires:
+            - testUnit
+            - build
+          filters:
+            branches:
+              only:
+                - develop
+                - master
+      - sentry:
+          requires:
+            - testUnit
+          filters:
+            branches:
+              only:
+                - develop
+                - master
+
       - testE2e:
           requires:
             - buildGaia
+            - build
           filters:
             branches:
-              ignore: release
+              ignore:
+                - release
+                - master
 
       - publish:
           requires:
-            - changelogUpdated
-            - buildGaia
+            - pendingUpdated
+            - build
             - testUnit
             - testE2e
           filters:
             branches:
               only: develop
 
+  # Every UTC midnight we go on develop and release
   release:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                - develop
+    jobs:
+      - release
+  releaseManually:
     jobs:
       - release:
           filters:
             branches:
-              only: release
+              only:
+                - release
