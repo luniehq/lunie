@@ -63,7 +63,7 @@ commands:
 
             aws s3 sync . s3://$BUCKET_NAME --delete
 
-            if [[ ! -z "$BUCKET_NAME_TESTNET" ]]; then
+            if [[ ! -z "${BUCKET_NAME_TESTNET}" ]]; then
               aws s3 sync . s3://$BUCKET_NAME_TESTNET --delete
             fi
       - run:
@@ -73,7 +73,7 @@ commands:
 
             aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --path "/*"
 
-            if [[ ! -z "$DIST_ID_TESTNET" ]]; then
+            if [[ ! -z "${DIST_ID_TESTNET}" ]]; then
               aws cloudfront create-invalidation --distribution-id $DIST_ID_TESTNET --path "/*"
             fi
 
@@ -112,7 +112,7 @@ jobs:
 
           yarn build:keybase-cache
           if [ "${CIRCLE_BRANCH}" = "master" ]; then
-            yarn build:ui --output-path $DIST_TESTNET
+            yarn build:ui --output-path ${DIST_TESTNET}
             STARGATE=https://stargate.cosmos.network RPC=https://rpc.cosmos.network CIRCLECI=true yarn build:ui
           else
             CIRCLECI=true yarn build
