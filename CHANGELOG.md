@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.35] - 2019-04-03
+
+### Added
+- [#2405](https://github.com/cosmos/lunie/pull/2405) Deploy master with testnet endpoints to the testnet bucket @faboweb
+- [#2394](https://github.com/cosmos/lunie/pull/2394) Bundle keybase profiles to provide a fallback to users in case of API throttling @faboweb 
+
+### Changed
+
+- [#2331](https://github.com/cosmos/lunie/issues/2331) change format proposal tally @fedekunze
+- [#2395](https://github.com/cosmos/lunie/pull/2395) Deployment configuration @mircea-c
+- [#2398](https://github.com/cosmos/lunie/pull/2398) Switch to code climate for coverage reports
+- [#2399](https://github.com/cosmos/lunie/pull/2399) Moved Sentry to own org @faboweb
+- [#2287](https://github.com/cosmos/lunie/pull/2287) Use tags instead of commit hash @sabau
+
+### Fixed
+
+- [#2391](https://github.com/cosmos/lunie/pull/2391) Catching potential error while sending transactions @faboweb  @faboweb
+- [#2400](https://github.com/cosmos/lunie/pull/2400) Fixed account creation with native crypto @faboweb
+- [#2404](https://github.com/cosmos/lunie/pull/2404) Fix createReleasePR test @faboweb 
+
 ## [1.0.0-beta.34] - 2019-04-02
 
 ### Added
@@ -538,6 +558,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+* Fixed gaia binary not be found on linux and windows in development @faboweb
+* [\#1419](https://github.com/cosmos/voyager/issues/1419) Restored "Amount" label to delegation modal. @NodeGuy
+* Fixed upstream cross compilation issue from SDK @faboweb
+* [\#1446](https://github.com/cosmos/voyager/issues/1446) and [\#1445](https://github.com/cosmos/voyager/issues/1445) Fixed sorting in validator tables. @NodeGuy
+* [\#1487](https://github.com/cosmos/voyager/issues/1487) Fixed running of local testnet. @NodeGuy
+* [\#1480](https://github.com/cosmos/voyager/issues/1480) Fixed "duplicate CONN" errors in E2E tests. @NodeGuy
+* [\#1480](https://github.com/cosmos/voyager/issues/1480) Fixed false detection of node crash in e2e test start. @faboweb
+* [\#1451](https://github.com/cosmos/voyager/issues/1451) Provide better sourcemaps to make debugging easier. @faboweb
+* [\#1409](https://github.com/cosmos/voyager/issues/1409) Fixed disabled unbond and redelegation button when delegation amount was less than 1 @fedekunze
+* [\#1500](https://github.com/cosmos/voyager/issues/1500) Fixed wrong optimistic updates to the atom balance after staking @faboweb @fedekunze
+* [\#1517](https://github.com/cosmos/voyager/issues/1517) Fixed wrong account format used for querying selfBond @faboweb
+* [\#1503](https://github.com/cosmos/voyager/issues/1503) Added e2e test for balance updates after delegation @faboweb
+* [\#1131](https://github.com/cosmos/voyager/issues/1131) Display only error message on notifications @fedekunze
+* [\#1440](https://github.com/cosmos/voyager/issues/1440) Fixed an error that prevented disconnecting from the RPC websocket if it wasn't defined @fedekunze
+* [\#1460](https://github.com/cosmos/voyager/issues/1460) Removing release-candidate tag when publishing @faboweb
 - Fixed gaia binary not be found on linux and windows in development @faboweb
 - [\#1419](https://github.com/cosmos/voyager/issues/1419) Restored "Amount" label to delegation modal. @NodeGuy
 - Fixed upstream cross compilation issue from SDK @faboweb
