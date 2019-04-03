@@ -64,6 +64,8 @@ commands:
             aws s3 sync . s3://$BUCKET_NAME --delete
 
             if [[ ! -z "${BUCKET_NAME_TESTNET}" ]]; then
+              cd ..
+              cd << parameters.dist_path_testnet >>
               aws s3 sync . s3://$BUCKET_NAME_TESTNET --delete
             fi
       - run:
