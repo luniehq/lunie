@@ -33,7 +33,7 @@
             @click.native="setState('sign-up')"
           />
           <li-session
-            v-if="session.experimentalMode"
+            v-if="session.developmentMode"
             id="import-seed"
             icon="settings_backup_restore"
             title="Import with seed"

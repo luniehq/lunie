@@ -14,12 +14,6 @@
           </div>
         </template>
       </div>
-      <div
-        v-if="!session.experimentalMode && session.insecureMode"
-        id="develop-mode-warning"
-      >
-        INSECURE MODE
-      </div>
       <app-menu v-if="open || desktop" @close="close" />
     </div>
   </nav>
