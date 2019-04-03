@@ -2,6 +2,7 @@
 
 /*
 * Extracted from https://github.com/nomic-io/js-tendermint
+* TODO missing tests
 */
 
 const EventEmitter = require(`events`)
