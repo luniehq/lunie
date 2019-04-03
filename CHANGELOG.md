@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.36] - 2019-04-03
+
+### Changed
+
+- [#2409](https://github.com/cosmos/lunie/pull/2409) Enable web accounts per default on a testnet @faboweb
+
 ## [1.0.0-beta.35] - 2019-04-03
 
 ### Added
