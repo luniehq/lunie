@@ -171,11 +171,10 @@ describe(`Module: Connection`, () => {
           network: `test-net`
         }
       })
-    const commit = jest.fn()
     const dispatch = jest.fn()
     await actions.rpcSubscribe({
       rootState: { session: { signedIn: true } },
-      commit,
+      commit: jest.fn(),
       dispatch
     })
 
@@ -183,6 +182,26 @@ describe(`Module: Connection`, () => {
       height: 42,
       chain_id: `test-net`
     })
+  })
+
+  it(`should set insecure mode on testnet`, async () => {
+    node.rpc.status = () =>
+      Promise.resolve({
+        sync_info: {
+          latest_block_height: 42
+        },
+        node_info: {
+          network: `testnet`
+        }
+      })
+    const commit = jest.fn()
+    await actions.rpcSubscribe({
+      rootState: { session: { signedIn: true } },
+      commit,
+      dispatch: jest.fn()
+    })
+
+    expect(commit).toHaveBeenCalledWith(`setInsecureMode`)
   })
 
   it(`should react to status updates`, async () => {
